@@ -26,25 +26,9 @@
 
 <br/>
 
-## :book: Documentation
+# :warning: NOTICE: !!!!! vue-i18n is WIP !!!!!
 
-See [here](http://kazupon.github.io/vue-i18n/)
-
-
-## :scroll: Changelog
-
-Detailed changes for each release are documented in the [CHANGELOG.md](https://github.com/kazupon/vue-i18n/blob/dev/CHANGELOG.md).
-
-
-## :exclamation: Issues
-
-Please make sure to read the [Issue Reporting Checklist](https://github.com/kazupon/vue-i18n/blob/dev/CONTRIBUTING.md#issue-reporting-guidelines) before opening an issue. Issues not conforming to the guidelines may be closed immediately.
-
-
-## :muscle: Contribution
-
-Please make sure to read the [Contributing Guide](https://github.com/kazupon/vue-i18n/blob/dev/CONTRIBUTING.md) before making a pull request.
-
+if you use currently vue-i18n version, see this [repository](https://github.com/kazupon/vue-i18n)
 
 ## :copyright: License
 
