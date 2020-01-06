@@ -1,3 +1,4 @@
+const { promisify } = require('util')
 const path = require('path')
 const fs = require('fs')
 const zlib = require('zlib')
@@ -32,23 +33,24 @@ function loadPackage (context) {
 }
 
 function write (dest, code, zip) {
-  return new Promise((resolve, reject) => {
+  const writeFile = promisify(fs.writeFile)
+  const gzip = promisify(zlib.gzip)
+  return new Promise(async (resolve, reject) => {
     const report = extra => {
       console.log(`📦  ${chalk.blue.bold(path.relative(process.cwd(), dest))} ${getSize(code) + (extra || '')}`)
-      resolve()
     }
-
-    fs.writeFile(dest, code, err => {
-      if (err) { return reject(err) }
+    try {
+      await writeFile(dest, code)
       if (zip) {
-        zlib.gzip(code, (err, zipped) => {
-          if (err) { return reject(err) }
-          report(` (gzipped: ${getSize(zipped)})`)
-        })
+        const zipped = await gzip(code)
+        report(` (gzipped: ${getSize(zipped)})`)
       } else {
         report()
       }
-    })
+      resolve()
+    } catch (e) {
+      reject(e)
+    }
   })
 }
 
