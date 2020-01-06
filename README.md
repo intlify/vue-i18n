@@ -26,7 +26,7 @@
 
 <br/>
 
-# :warning: NOTICE: !!!!! vue-i18n is WIP !!!!!
+# :warning: NOTICE: !!!!! vue-i18n is WIP for Vue 3 !!!!!
 
 if you use currently vue-i18n version, see this [repository](https://github.com/kazupon/vue-i18n)
 
