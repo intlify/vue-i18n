@@ -1,4 +1,5 @@
-import { parse } from '../src/path'
+import { parse, resolveValue } from '../src/path'
+
 test('parse', () => {
   expect(parse('a')).toEqual(['a'])
   expect(parse('A')).toEqual(['A'])
@@ -84,4 +85,31 @@ test('parse', () => {
   expect(parse('👨‍👩‍👧‍👦')).toEqual(['👨‍👩‍👧‍👦'])
   expect(parse('💁🏽‍♀️')).toEqual(['💁🏽‍♀️'])
   expect(parse('🌐.🌐')).toEqual(['🌐', '🌐'])
+})
+
+test('resolveValue', () => {
+  // primitive
+  expect(resolveValue({ a: { b: 1 } }, 'a.b')).toEqual(1)
+  // whitespace
+  expect(resolveValue({ 'a c': 1 }, 'a c')).toEqual(1)
+  expect(resolveValue({ 'a\tc': 1 }, 'a\tc')).toEqual(null)
+  // object
+  expect(resolveValue({ a: { b: 1 } }, 'a')).toEqual({ b: 1 })
+  expect(resolveValue({ a: { 'b c d': 1 } }, 'a.b c d')).toEqual(1)
+  // number key in object
+  expect(resolveValue({ errors: { '1': 'error number 1' } }, 'errors[1]')).toEqual('error number 1')
+  // array index path
+  expect(resolveValue({ errors: ['error number 0'] }, 'errors[0]')).toEqual('error number 0')
+  // array path
+  expect(resolveValue({ errors: ['error number 0'] }, 'errors')).toEqual(['error number 0'])
+  // not found
+  expect(resolveValue({}, 'a.b')).toEqual(null)
+  // object primitive
+  expect(resolveValue(10, 'a.b')).toEqual(null)
+  // object null
+  expect(resolveValue(null, 'a.b')).toEqual(null)
+  // blanket term
+  expect(resolveValue({}, 'a.b.c[]')).toEqual(null)
+  // blanket middle
+  expect(resolveValue({}, 'a.b.c[]d')).toEqual(null)
 })

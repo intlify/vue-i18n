@@ -60,14 +60,12 @@ pathStateMachine[States.IN_PATH] = {
 pathStateMachine[States.BEFORE_IDENT] = {
   [PathCharTypes.WORKSPACE]: [States.BEFORE_IDENT],
   [PathCharTypes.IDENT]: [States.IN_IDENT, Actions.APPEND],
-  [PathCharTypes.ZERO]: [States.IN_IDENT, Actions.APPEND],
-  //'number': [States.IN_IDENT, Actions.APPEND]
+  [PathCharTypes.ZERO]: [States.IN_IDENT, Actions.APPEND]
 }
 
 pathStateMachine[States.IN_IDENT] = {
   [PathCharTypes.IDENT]: [States.IN_IDENT, Actions.APPEND],
   [PathCharTypes.ZERO]: [States.IN_IDENT, Actions.APPEND],
-  //'number': [States.IN_IDENT, Actions.APPEND],
   [PathCharTypes.WORKSPACE]: [States.IN_PATH, Actions.PUSH],
   [PathCharTypes.DOT]: [States.BEFORE_IDENT, Actions.PUSH],
   [PathCharTypes.LEFT_BRACKET]: [States.IN_SUB_PATH, Actions.PUSH],
@@ -156,7 +154,7 @@ function getPathCharType (ch?: string): string {
 function formatSubPath (path: string): boolean | string {
   const trimmed = path.trim()
   // invalid leading 0
-  if (path.charAt(0) === '0' && isNaN(path)) { return false }
+  if (path.charAt(0) === '0' && isNaN(parseInt(path))) { return false }
 
   return isLiteral(trimmed)
     ? stripQuotes(trimmed)
@@ -261,4 +259,47 @@ export function parse (path: Path): string[] | undefined {
       return keys
     }
   }
+}
+
+export type PathValue = 
+  | string
+  | number
+  | boolean
+  | null
+  | { [key: string]: PathValue }
+  | PathValue[]
+
+// path token cache
+const cache = new Map<Path, string[]>()
+
+export function resolveValue (obj: unknown, path: Path): PathValue {
+  // check object
+  if (!isObject(obj)) { return null }
+
+  // parse path
+  let hit = cache.get(path)
+  if (!hit) {
+    hit = parse(path)
+    if (hit) {
+      cache.set(path, hit)
+    }
+  }
+
+  // check hit
+  if (!hit) { return null }
+  
+  // resolve path value
+  const len = hit.length
+  let last = obj
+  let i = 0
+  while (i < len) {
+    const val = last[hit[i]]
+    if (val === undefined) {
+      return null
+    }
+    last = val
+    i++
+  }
+
+  return last
 }
