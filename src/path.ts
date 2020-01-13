@@ -38,7 +38,7 @@ const enum PathCharTypes {
   DOUBLE_QUOTE = '"'
 }
 
-type PathState = StateAction | States.ERROR 
+type PathState = StateAction | States.ERROR
 type PathStateMachine = Record<string, PathState>
 
 export const pathStateMachine = [] as PathStateMachine[]
@@ -116,35 +116,35 @@ function stripQuotes (str: string): string {
  * Determine the type of a character in a keypath.
  */
 function getPathCharType (ch?: string): string {
-    if (ch === undefined || ch === null) { return PathCharTypes.END_OF_FAIL }
-  
-    const code = ch.charCodeAt(0)
-  
-    switch (code) {
-      case 0x5B: // [
-      case 0x5D: // ]
-      case 0x2E: // .
-      case 0x22: // "
-      case 0x27: // '
-        return ch
-  
-      case 0x5F: // _
-      case 0x24: // $
-      case 0x2D: // -
-        return PathCharTypes.IDENT
-  
-      case 0x09: // Tab
-      case 0x0A: // Newline
-      case 0x0D: // Return
-      case 0xA0:  // No-break space
-      case 0xFEFF:  // Byte Order Mark
-      case 0x2028:  // Line Separator
-      case 0x2029:  // Paragraph Separator
-        return PathCharTypes.WORKSPACE
-    }
-  
-    return PathCharTypes.IDENT
+  if (ch === undefined || ch === null) { return PathCharTypes.END_OF_FAIL }
+
+  const code = ch.charCodeAt(0)
+
+  switch (code) {
+    case 0x5B: // [
+    case 0x5D: // ]
+    case 0x2E: // .
+    case 0x22: // "
+    case 0x27: // '
+      return ch
+
+    case 0x5F: // _
+    case 0x24: // $
+    case 0x2D: // -
+      return PathCharTypes.IDENT
+
+    case 0x09: // Tab
+    case 0x0A: // Newline
+    case 0x0D: // Return
+    case 0xA0:  // No-break space
+    case 0xFEFF:  // Byte Order Mark
+    case 0x2028:  // Line Separator
+    case 0x2029:  // Paragraph Separator
+      return PathCharTypes.WORKSPACE
   }
+
+  return PathCharTypes.IDENT
+}
 
 /**
  * Format a subPath, return its plain form if it is
@@ -170,7 +170,7 @@ export function parse (path: Path): string[] | undefined {
   let mode = States.BEFORE_PATH
   let subPathDepth = 0
   let c: string | undefined
-  let key: any
+  let key: any // eslint-disable-line
   let newChar: string
   let type: string
   let transition: PathState
@@ -253,7 +253,7 @@ export function parse (path: Path): string[] | undefined {
         }
       }
     }
-    
+
     // check parse finish
     if (mode === States.AFTER_PATH) {
       return keys
@@ -261,7 +261,7 @@ export function parse (path: Path): string[] | undefined {
   }
 }
 
-export type PathValue = 
+export type PathValue =
   | string
   | number
   | boolean
@@ -287,7 +287,7 @@ export function resolveValue (obj: unknown, path: Path): PathValue {
 
   // check hit
   if (!hit) { return null }
-  
+
   // resolve path value
   const len = hit.length
   let last = obj

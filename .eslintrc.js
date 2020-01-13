@@ -20,5 +20,7 @@ module.exports = {
     sourceType: 'module'
   },
   rules: {
+    'object-curly-spacing': 'off',
+    '@typescript-eslint/explicit-function-return-type': 'off'
   }
 }
