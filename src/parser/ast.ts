@@ -42,7 +42,7 @@ type MultiPartNode = PluralNode
 
 export interface ResourceNode extends Node {
   type: NodeTypes.RESOURCE
-  body: SinglePartNode[] | MultiPartNode[]
+  body: SinglePartNode[] | MultiPartNode
 }
 
 export interface LiteralNode extends Node {
