@@ -1,92 +1,70 @@
 type Scanner = Readonly<{
-  index: number
-  buf: string
-  peekOffset: number
+  index: () => number
+  peekOffset: () => number
   charAt: (offset: number) => string
   currentChar: () => string
   currentPeek: () => string
   next: () => string
   peek: () => string
-  resetPeek: (offset: number) => void
+  reset: () => void
+  resetPeek: (offset?: number) => void
   skipToPeek: () => void
 }>
 
 export function createScanner (str: string): Scanner {
-  const buf = str
-  let index = 0
-  let peekOffset = 0
+  const _buf = str
+  let _index = 0
+  let _peekOffset = 0
+
+  const index = () => _index
+  const peekOffset = () => _peekOffset
 
   function charAt (offset: number) {
-    if (buf[offset] === '\r' &&
-        buf[offset + 1] === '\n') {
+    if (_buf[offset] === '\r' &&
+        _buf[offset + 1] === '\n') {
       return '\n'
     }
-    return buf[offset]
+    return _buf[offset]
   }
 
-  function currentChar () {
-    return charAt(index)
-  }
-
-  function currentPeek () {
-    return charAt(index + peekOffset)
-  }
+  const currentChar = () => charAt(_index)
+  const currentPeek = () => charAt(_index + _peekOffset)
 
   function next () {
-    peekOffset = 0
-    if (buf[index] === '\r' &&
-        buf[index + 1] === '\n') {
-      index++
+    _peekOffset = 0
+    if (_buf[_index] === '\r' &&
+        _buf[_index + 1] === '\n') {
+      _index++
     }
-    index++
-    return buf[index]
+    _index++
+    return _buf[_index]
   }
 
   function peek () {
-    if (buf[index + peekOffset] === '\r' &&
-        buf[index + peekOffset + 1] === '\n') {
-      peekOffset++
+    if (_buf[_index + _peekOffset] === '\r' &&
+        _buf[_index + _peekOffset + 1] === '\n') {
+      _peekOffset++
     }
-    peekOffset++
-    return buf[index + peekOffset]
+    _peekOffset++
+    return _buf[_index + _peekOffset]
+  }
+
+  function reset () {
+    _index = 0
+    _peekOffset = 0
   }
 
   function resetPeek (offset = 0) {
-    peekOffset = offset
+    _peekOffset = offset
   }
 
   function skipToPeek () {
-    index += peekOffset
-    peekOffset = 0
+    _index += _peekOffset
+    _peekOffset = 0
   }
 
-  const scanner = {
-    charAt, currentChar, currentPeek,
-    next, peek, resetPeek, skipToPeek
-  }
-
-  const getters: { [key: string]: () => unknown } = {
-    index () { return index },
-    buf () { return buf },
-    peekOffset () { return peekOffset }
-  }
-  const props = Object.keys(getters)
-
-  const handler: ProxyHandler<Scanner> = {
-    set (/* target, prop, value, receiver */) {
-      throw new TypeError(`prop setter is not allowed`)
-    },
-    get (target, prop/* , receiver*/) {
-      if (typeof prop !== 'string') {
-        throw new TypeError('invalid prop getter')
-      }
-      if (props.includes(prop)) {
-        return getters[prop]()
-      } else {
-        throw new TypeError(`'${prop}' prop getting is not allowed`)
-      }
-    }
-  }
-
-  return new Proxy<Scanner>(scanner as Scanner, handler)
+  return Object.freeze({
+    index, peekOffset, charAt, currentChar, currentPeek,
+    next, peek, reset, resetPeek, skipToPeek
+  })
 }
