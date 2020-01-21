@@ -13,7 +13,7 @@ export type Identifier = string
 
 export interface Node {
   type: NodeTypes
-  loc: SourceLocation
+  loc?: SourceLocation
 }
 
 // The node's range.
@@ -22,7 +22,7 @@ export interface Node {
 export interface SourceLocation {
   start: Position
   end: Position
-  source: string
+  source?: string
 }
 
 export interface Position {
