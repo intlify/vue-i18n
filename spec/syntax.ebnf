@@ -1,0 +1,41 @@
+(* 
+ * Inltify message syntax v0.1
+ * (vue-i18n compatible)
+ *
+ *)
+
+(* main *)
+Resource ::= Mesasge | Plural;
+
+(* main structure *)
+Plural ::= Message "|" (Mesasge "|"?)+;
+Mesasge ::= MessageElement+;
+
+(* elements *)
+MessageElement ::= (Text | NamedElement | ListElement | LinkedElement)+;
+NamedElement ::= (Text | Named)+;
+ListElement ::= (Text | List)+;
+LinkedElement ::= (Text | Linked)+;
+
+(* primitive *)
+Text ::= TextChar+;
+Key ::= AnyChar+;
+Named ::= "%"? "{" Space? (Identifier) Space? "}";
+List ::= "{" Space? (Digits) Space? "}";
+Linked ::= "@:" (Key | (Named | List)+ );
+
+(* character *)
+AnyChar ::= [#x0-#xD7FF] | [#xE000-#xFFFD] | [#x10000-#x10FFFF];  (* Unicode character *)
+SpecialChar ::= "{" | "}" | "|";
+TextChar ::= AnyChar - SpecialChar - LineEnd;
+
+(* number *)
+Digits ::= [0-9]+;
+
+(* identifier *)
+Identifier ::= [a-zA-Z_$] [a-zA-Z0-9_$]*;
+
+(* whitespace *)
+SpaceInline ::= #x0020; (* "\u0020"+ *)
+LineEnd ::= #x000D#x000A | #x000A; (* "\u000D\u000A" | "\u000A" *)
+Space ::= (SpaceInline | LineEnd)+;
