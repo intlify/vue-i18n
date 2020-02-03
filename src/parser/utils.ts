@@ -1,3 +1,7 @@
+/**
+ * line breaks
+ * \u000D\u000A | \u000A | \u2028 | \u2029
+ */
 export const RE_LINE_BREAK = /\r\n?|\n|\u2028|\u2029/
 export const RE_LINE_BREAK_GLOBAL = new RegExp(RE_LINE_BREAK.source, 'g')
 

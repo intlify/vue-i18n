@@ -21,6 +21,7 @@ module.exports = {
   },
   rules: {
     'object-curly-spacing': 'off',
-    '@typescript-eslint/explicit-function-return-type': 'off'
+    '@typescript-eslint/explicit-function-return-type': 'off',
+    '@typescript-eslint/member-delimiter-style': 'off'
   }
 }

@@ -133,13 +133,13 @@ function getPathCharType (ch?: string): string {
     case 0x2D: // -
       return PathCharTypes.IDENT
 
-    case 0x09: // Tab
-    case 0x0A: // Newline
-    case 0x0D: // Return
-    case 0xA0:  // No-break space
-    case 0xFEFF:  // Byte Order Mark
-    case 0x2028:  // Line Separator
-    case 0x2029:  // Paragraph Separator
+    case 0x09: // Tab (HT)
+    case 0x0A: // Newline (LF)
+    case 0x0D: // Return (CR)
+    case 0xA0:  // No-break space (NBSP)
+    case 0xFEFF:  // Byte Order Mark (BOM)
+    case 0x2028:  // Line Separator (LS)
+    case 0x2029:  // Paragraph Separator (PS)
       return PathCharTypes.WORKSPACE
   }
 
