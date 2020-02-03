@@ -33,9 +33,10 @@ TextChar ::= AnyChar - SpecialChar - LineEnd;
 Digits ::= [0-9]+;
 
 (* identifier *)
-Identifier ::= [a-zA-Z_$] [a-zA-Z0-9_$]*;
+Identifier ::= [a-zA-Z_] [a-zA-Z0-9_$]*;
 
 (* whitespace *)
-SpaceInline ::= #x0020; (* "\u0020"+ *)
+SpaceInline ::= #x0020; (* "\u0020" *)
+Tab ::= #x0009; (* \n0009 *)
 LineEnd ::= #x000D#x000A | #x000A; (* "\u000D\u000A" | "\u000A" *)
-Space ::= (SpaceInline | LineEnd)+;
+Space ::= (Tab | SpaceInline | LineEnd)+;
