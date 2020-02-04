@@ -1,6 +1,7 @@
 type Scanner = Readonly<{
   index: () => number
   line: () => number
+  column: () => number
   peekOffset: () => number
   charAt: (offset: number) => string
   currentChar: () => string
@@ -21,7 +22,7 @@ export function createScanner (str: string): Scanner {
   const _buf = str
   let _index = 0
   let _line = 1
-  let _lineStart = _index
+  let _column = 1
   let _peekOffset = 0
 
   const isCRLF = (index: number) => _buf[index] === CHAR_CR && _buf[index + 1] === CHAR_LF
@@ -32,10 +33,11 @@ export function createScanner (str: string): Scanner {
 
   const index = () => _index
   const line = () => _line
+  const column = () => _column
   const peekOffset = () => _peekOffset
 
   function charAt (offset: number) {
-    if (isCRLF(offset)) {
+    if (isCRLF(offset) || isPS(offset) || isLS(offset)) {
       return CHAR_LF
     }
     return _buf[offset]
@@ -46,10 +48,15 @@ export function createScanner (str: string): Scanner {
 
   function next () {
     _peekOffset = 0
+    if (isLineEnd(_index)) {
+      _line++
+      _column = 0
+    }
     if (isCRLF(_index)) {
       _index++
     }
     _index++
+    _column++
     return _buf[_index]
   }
 
@@ -63,6 +70,8 @@ export function createScanner (str: string): Scanner {
 
   function reset () {
     _index = 0
+    _line = 1
+    _column = 1
     _peekOffset = 0
   }
 
@@ -71,12 +80,15 @@ export function createScanner (str: string): Scanner {
   }
 
   function skipToPeek () {
-    _index += _peekOffset
+    const target = _index + _peekOffset
+    while (target !== _index) {
+      next()
+    }
     _peekOffset = 0
   }
 
   return Object.freeze({
-    index, line, peekOffset, charAt, currentChar, currentPeek,
+    index, line, column, peekOffset, charAt, currentChar, currentPeek,
     next, peek, reset, resetPeek, skipToPeek
   })
 }

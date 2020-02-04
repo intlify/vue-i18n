@@ -1,26 +1,36 @@
-import { createScanner } from '../../src/parser/scanner'
+import { createScanner } from '../../../src/parser/scanner'
 
 test('next', () => {
   const s = createScanner('abcd')
 
   expect(s.currentChar()).toBe('a')
   expect(s.index()).toBe(0)
+  expect(s.line()).toBe(1)
+  expect(s.column()).toBe(1)
 
   expect(s.next()).toBe('b')
   expect(s.currentChar()).toBe('b')
   expect(s.index()).toBe(1)
+  expect(s.line()).toBe(1)
+  expect(s.column()).toBe(2)
 
   expect(s.next()).toBe('c')
   expect(s.currentChar()).toBe('c')
   expect(s.index()).toBe(2)
+  expect(s.line()).toBe(1)
+  expect(s.column()).toBe(3)
 
   expect(s.next()).toBe('d')
   expect(s.currentChar()).toBe('d')
   expect(s.index()).toBe(3)
+  expect(s.line()).toBe(1)
+  expect(s.column()).toBe(4)
 
   expect(s.next()).toBeUndefined()
   expect(s.currentChar()).toBeUndefined()
   expect(s.index()).toBe(4)
+  expect(s.line()).toBe(1)
+  expect(s.column()).toBe(5)
 })
 
 test('peek', () => {
@@ -28,22 +38,37 @@ test('peek', () => {
 
   expect(s.currentPeek()).toBe('a')
   expect(s.peekOffset()).toBe(0)
+  expect(s.index()).toBe(0)
+  expect(s.line()).toBe(1)
+  expect(s.column()).toBe(1)
 
   expect(s.peek()).toBe('b')
   expect(s.currentPeek()).toBe('b')
   expect(s.peekOffset()).toBe(1)
+  expect(s.index()).toBe(0)
+  expect(s.line()).toBe(1)
+  expect(s.column()).toBe(1)
 
   expect(s.peek()).toBe('c')
   expect(s.currentPeek()).toBe('c')
   expect(s.peekOffset()).toBe(2)
+  expect(s.index()).toBe(0)
+  expect(s.line()).toBe(1)
+  expect(s.column()).toBe(1)
 
   expect(s.peek()).toBe('d')
   expect(s.currentPeek()).toBe('d')
   expect(s.peekOffset()).toBe(3)
+  expect(s.index()).toBe(0)
+  expect(s.line()).toBe(1)
+  expect(s.column()).toBe(1)
 
   expect(s.peek()).toBeUndefined()
   expect(s.currentPeek()).toBeUndefined()
   expect(s.peekOffset()).toBe(4)
+  expect(s.index()).toBe(0)
+  expect(s.line()).toBe(1)
+  expect(s.column()).toBe(1)
 })
 
 test('skip to peek', () => {
@@ -57,6 +82,8 @@ test('skip to peek', () => {
   expect(s.currentPeek()).toBe('c')
   expect(s.peekOffset()).toBe(0)
   expect(s.index()).toBe(2)
+  expect(s.line()).toBe(1)
+  expect(s.column()).toBe(3)
 
   s.peek()
 
@@ -64,6 +91,8 @@ test('skip to peek', () => {
   expect(s.currentPeek()).toBe('d')
   expect(s.peekOffset()).toBe(1)
   expect(s.index()).toBe(2)
+  expect(s.line()).toBe(1)
+  expect(s.column()).toBe(3)
 
   s.next()
 
@@ -71,6 +100,8 @@ test('skip to peek', () => {
   expect(s.currentPeek()).toBe('d')
   expect(s.peekOffset()).toBe(0)
   expect(s.index()).toBe(3)
+  expect(s.line()).toBe(1)
+  expect(s.column()).toBe(4)
 })
 
 test('reset peek', () => {
@@ -85,6 +116,8 @@ test('reset peek', () => {
   expect(s.currentPeek()).toBe('b')
   expect(s.peekOffset()).toBe(0)
   expect(s.index()).toBe(1)
+  expect(s.line()).toBe(1)
+  expect(s.column()).toBe(2)
 
   s.peek()
 
@@ -92,6 +125,8 @@ test('reset peek', () => {
   expect(s.currentPeek()).toBe('c')
   expect(s.peekOffset()).toBe(1)
   expect(s.index()).toBe(1)
+  expect(s.line()).toBe(1)
+  expect(s.column()).toBe(2)
 
   s.peek()
   s.peek()
@@ -102,15 +137,21 @@ test('reset peek', () => {
   expect(s.currentPeek()).toBe('b')
   expect(s.peekOffset()).toBe(0)
   expect(s.index()).toBe(1)
+  expect(s.line()).toBe(1)
+  expect(s.column()).toBe(2)
 
   expect(s.peek()).toBe('c')
   expect(s.currentChar()).toBe('b')
   expect(s.currentPeek()).toBe('c')
   expect(s.peekOffset()).toBe(1)
   expect(s.index()).toBe(1)
+  expect(s.line()).toBe(1)
+  expect(s.column()).toBe(2)
 
   expect(s.peek()).toBe('d')
   expect(s.peek()).toBeUndefined()
+  expect(s.line()).toBe(1)
+  expect(s.column()).toBe(2)
 })
 
 test('none ascii', () => {
@@ -120,18 +161,24 @@ test('none ascii', () => {
   expect(s.currentPeek()).toBe('あ')
   expect(s.index()).toBe(0)
   expect(s.peekOffset()).toBe(0)
+  expect(s.line()).toBe(1)
+  expect(s.column()).toBe(1)
 
   expect(s.next()).toBe('い')
   expect(s.currentChar()).toBe('い')
   expect(s.currentPeek()).toBe('い')
   expect(s.index()).toBe(1)
   expect(s.peekOffset()).toBe(0)
+  expect(s.line()).toBe(1)
+  expect(s.column()).toBe(2)
 
   expect(s.peek()).toBe('う')
   expect(s.currentChar()).toBe('い')
   expect(s.currentPeek()).toBe('う')
   expect(s.index()).toBe(1)
   expect(s.peekOffset()).toBe(1)
+  expect(s.line()).toBe(1)
+  expect(s.column()).toBe(2)
 
   s.skipToPeek()
 
@@ -139,6 +186,8 @@ test('none ascii', () => {
   expect(s.currentPeek()).toBe('う')
   expect(s.index()).toBe(2)
   expect(s.peekOffset()).toBe(0)
+  expect(s.line()).toBe(1)
+  expect(s.column()).toBe(3)
 
   s.peek()
   s.peek()
@@ -147,12 +196,16 @@ test('none ascii', () => {
   expect(s.currentPeek()).toBe('お')
   expect(s.index()).toBe(2)
   expect(s.peekOffset()).toBe(2)
+  expect(s.line()).toBe(1)
+  expect(s.column()).toBe(3)
 
   expect(s.peek()).toBeUndefined()
   expect(s.currentChar()).toBe('う')
   expect(s.currentPeek()).toBeUndefined()
   expect(s.index()).toBe(2)
   expect(s.peekOffset()).toBe(3)
+  expect(s.line()).toBe(1)
+  expect(s.column()).toBe(3)
 
   s.resetPeek()
 
@@ -160,41 +213,6 @@ test('none ascii', () => {
   expect(s.currentPeek()).toBe('う')
   expect(s.index()).toBe(2)
   expect(s.peekOffset()).toBe(0)
-})
-
-test('line breaking', () => {
-  const s = createScanner(`hello!
-こんにちは！`)
-
-  expect(s.currentChar()).toBe('h')
-  expect(s.currentPeek()).toBe('h')
-  expect(s.index()).toBe(0)
-  expect(s.peekOffset()).toBe(0)
-
-  s.next() // h
-  s.next() // e
-  s.next() // l
-  s.next() // l
-  s.next() // o
-  s.next() // !
-  s.next() // ignore line break code, こ
-
-  expect(s.currentChar()).toBe('こ')
-  expect(s.currentPeek()).toBe('こ')
-  expect(s.index()).toBe(7)
-  expect(s.peekOffset()).toBe(0)
-
-  s.reset()
-  s.peek() // h
-  s.peek() // e
-  s.peek() // l
-  s.peek() // l
-  s.peek() // o
-  s.peek() // !
-  s.peek() // ignore line break code, こ
-
-  expect(s.currentChar()).toBe('h')
-  expect(s.currentPeek()).toBe('こ')
-  expect(s.index()).toBe(0)
-  expect(s.peekOffset()).toBe(7)
+  expect(s.line()).toBe(1)
+  expect(s.column()).toBe(3)
 })
