@@ -4,10 +4,10 @@
  *)
 
 (* main *)
-Resource ::= Mesasge | Plural;
+Resource ::= Plural | Mesasge;
 
 (* main structure *)
-Plural ::= Message "|" (Mesasge "|"?)+;
+Plural ::= Message Space* "|" Space* (Mesasge (Space* "|" Space*)?)+;
 Mesasge ::= MessageElement+;
 
 (* elements *)

@@ -1,4 +1,4 @@
-type Scanner = Readonly<{
+export type Scanner = Readonly<{
   index: () => number
   line: () => number
   column: () => number
