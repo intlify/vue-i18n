@@ -12,16 +12,17 @@ Mesasge ::= MessageElement+;
 
 (* elements *)
 MessageElement ::= (Text | NamedElement | ListElement | LinkedElement)+;
-NamedElement ::= (Text | Named)+;
-ListElement ::= (Text | List)+;
-LinkedElement ::= (Text | Linked)+;
+NamedElement ::= (Text? Named Text?)+;
+ListElement ::= (Text? List Text?)+;
+LinkedElement ::= (Text? Linked Text?)+;
 
 (* primitives *)
 Text ::= TextChar+;
 Key ::= AnyChar+;
 Named ::= "%"? "{" Space? (Identifier) Space? "}";
 List ::= "{" Space? (Digits) Space? "}";
-Linked ::= "@:" (Key | (Named | List)+ );
+Linked ::= "@" (LinkedModifier?) ":" "("? (Key | (Named | List)+) ")"?;
+LinkedModifier ::= "." Identifier;
 
 (* characters *)
 AnyChar ::= [#x0-#xD7FF] | [#xE000-#xFFFD] | [#x10000-#x10FFFF];  (* Unicode character *)
