@@ -1,4 +1,4 @@
-import { createScanner } from '../../../src/parser/scanner'
+import { createScanner } from '../../../src/message/scanner'
 
 test('next', () => {
   const s = createScanner('abcd')

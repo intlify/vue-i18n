@@ -1,4 +1,5 @@
 import { SourceLocation } from './location'
+import {createTokenizer, Tokenizer } from './tokenizer'
 
 export const enum NodeTypes {
   RESOURCE,
@@ -62,4 +63,21 @@ export interface FunctionNode extends Node {
   name: Identifier
   key: Identifier
   args?: Identifier[]
+}
+
+type Parser = Readonly<{
+  parse: (source: string) => Node[]
+}>
+
+export function createParser (): Parser {
+  function parse (source: string): Node[] {
+    const tokenizer = createTokenizer(source)
+    const tokens = tokenizer.parse(source)
+    console.log(tokens)
+    return []
+  }
+
+  return Object.freeze({
+    parse
+  })
 }

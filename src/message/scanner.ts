@@ -13,10 +13,11 @@ export type Scanner = Readonly<{
   skipToPeek: () => void
 }>
 
-const CHAR_CR = '\r'
-const CHAR_LF = '\n'
-const CHAR_LS = String.fromCharCode(0x2028)
-const CHAR_PS = String.fromCharCode(0x2029)
+export const CHAR_SP = ' '
+export const CHAR_CR = '\r'
+export const CHAR_LF = '\n'
+export const CHAR_LS = String.fromCharCode(0x2028)
+export const CHAR_PS = String.fromCharCode(0x2029)
 
 export function createScanner (str: string): Scanner {
   const _buf = str

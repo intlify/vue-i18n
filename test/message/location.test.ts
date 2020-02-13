@@ -1,4 +1,4 @@
-import { getLineInfo } from '../../src/parser/location'
+import { getLineInfo } from '../../src/message/location'
 
 test('getLineInfo', () => {
   const source = 'foo\nbar\r\nbuz\u2028foo\u2029bar'
