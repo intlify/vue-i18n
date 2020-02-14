@@ -1,4 +1,4 @@
-(* 
+(*
  * Inltify message syntax v0.1
  * (vue-i18n compatible)
  *)
@@ -16,12 +16,13 @@ Named ::= "%"? "{" Space? (Identifier) Space? "}";
 List ::= "{" Space? (Digits) Space? "}";
 Linked ::= "@" LinkedModifier? ":" LinkedRefer;
 LinkedRefer ::= "("? (LinkedKey | Named | List) ")"?;
-LinkedModifier ::= "." Identifier;
-LinkedKey ::= AnyChar+;
+LinkedModifier ::= "." LinkedArg;
+LinkedKey ::= TextChar+;
+LinkedArg ::= Identifier;
 
 (* characters *)
 AnyChar ::= [#x0-#xD7FF] | [#xE000-#xFFFD] | [#x10000-#x10FFFF];  (* Unicode character *)
-SpecialChar ::= "{" | "}" | "|";
+SpecialChar ::= "{" | "}" | "|" | "@";
 TextChar ::= AnyChar - SpecialChar - LineEnd;
 
 (* number *)

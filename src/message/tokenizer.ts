@@ -21,7 +21,9 @@ export const enum TokenTypes {
   LinkedAlias,
   LinkedModifier,
   LinkedDelimiter,
-  ParenLeft, // 10
+  LinkedKey, // 10
+  LinkedArg,
+  ParenLeft,
   ParenRight,
   EOF
 }
@@ -91,7 +93,7 @@ export function createTokenizer (source: string): Tokenizer {
     _scnr.skipToPeek()
   }
 
-  const isCharIdStart = (ch: string): boolean => {
+  const isIdentifierStart = (ch: string): boolean => {
     if (!ch) { return false }
     const cc = ch.charCodeAt(0)
     return (cc >= 97 && cc <= 122) || // a-z
@@ -109,7 +111,7 @@ export function createTokenizer (source: string): Tokenizer {
   const isNamedIdentifier = (): boolean => {
     if (_currentType !== TokenTypes.BraceLeft) { return false }
     peekSpaces()
-    const ret = isCharIdStart(_scnr.currentPeek())
+    const ret = isIdentifierStart(_scnr.currentPeek())
     _scnr.resetPeek()
     return ret
   }
@@ -125,10 +127,46 @@ export function createTokenizer (source: string): Tokenizer {
     return ret
   }
 
+  const isLinkedModifier = (): boolean => {
+    if (_currentType !== TokenTypes.LinkedModifier) { return false }
+    const ret = isIdentifierStart(_scnr.currentPeek())
+    _scnr.resetPeek()
+    return ret
+  }
+
+  const isLinkedIdentifier = (): boolean => {
+    if (!(_currentType === TokenTypes.LinkedDelimiter ||
+          _currentType === TokenTypes.ParenLeft)) {
+      return false
+    }
+    const fn = (): boolean => {
+      const ch = _scnr.currentPeek()
+      if (ch === TokenChars.BraceLeft) {
+        return isIdentifierStart(_scnr.peek())
+      } else if ((ch === TokenChars.LinkedAlias ||
+        ch === TokenChars.Modulo ||
+        ch === TokenChars.Pipe ||
+        ch === TokenChars.LinkedDelimiter ||
+        ch === TokenChars.LinkedModifier ||
+        ch === SPACE || !ch)) {
+        return false
+      } else if (ch === NEW_LINE) {
+        return fn()
+      } else { // other charactors
+        return isIdentifierStart(ch)
+      }
+    }
+    const ret = fn()
+    _scnr.resetPeek()
+    return ret
+  }
+
   const isTextStart = (): boolean => {
     if (_currentType === TokenTypes.BraceLeft ||
         _currentType === TokenTypes.Pipe ||
-        _currentType === TokenTypes.LinkedAlias) {
+        _currentType === TokenTypes.ParenLeft ||
+        _currentType === TokenTypes.LinkedModifier ||
+        _currentType === TokenTypes.LinkedDelimiter) {
       return false
     }
 
@@ -247,6 +285,45 @@ export function createTokenizer (source: string): Tokenizer {
     return parseInt(value, 10)
   }
 
+  const readLinkedModifierArg = (): string => {
+    let ch: string | undefined | null = ''
+    let name = ''
+    while ((ch = takeNamedIdentifierChar())) {
+      name += ch
+    }
+    return name
+  }
+
+  const readLinkedIdentifier = (): string => {
+    const fn = (detect = false, useParentLeft = false, buf: string): string => {
+      const ch = _scnr.currentChar()
+      if ((ch === TokenChars.BraceLeft ||
+        ch === TokenChars.Modulo ||
+        ch === TokenChars.LinkedAlias ||
+        ch === TokenChars.ParenRight ||
+        ch === TokenChars.Pipe || !ch)) {
+        return buf
+      } else if (ch === SPACE) {
+        if (useParentLeft) {
+          buf += ch
+          _scnr.next()
+          return fn(detect, useParentLeft, buf)
+        } else {
+          return buf
+        }
+      } else if (ch === NEW_LINE) {
+        buf += ch
+        _scnr.next()
+        return fn(detect, useParentLeft, buf)
+      } else {
+        buf += ch
+        _scnr.next()
+        return fn(true, useParentLeft, buf)
+      }
+    }
+    return fn(false, _currentType === TokenTypes.ParenLeft, '')
+  }
+
   const readToken = (): Token => {
     let token = { type: TokenTypes.EOF }
     const ch = _scnr.currentChar()
@@ -259,6 +336,26 @@ export function createTokenizer (source: string): Tokenizer {
         _scnr.next()
         token = getToken(TokenTypes.BraceRight, TokenChars.BraceRight)
         break
+      case TokenChars.LinkedAlias:
+        _scnr.next()
+        token = getToken(TokenTypes.LinkedAlias, TokenChars.LinkedAlias)
+        break
+      case TokenChars.LinkedModifier:
+        _scnr.next()
+        token = getToken(TokenTypes.LinkedModifier, TokenChars.LinkedModifier)
+        break
+      case TokenChars.LinkedDelimiter:
+        _scnr.next()
+        token = getToken(TokenTypes.LinkedDelimiter, TokenChars.LinkedDelimiter)
+        break
+      case TokenChars.ParenLeft:
+        _scnr.next()
+        token = getToken(TokenTypes.ParenLeft, TokenChars.ParenLeft)
+        break
+      case TokenChars.ParenRight:
+        _scnr.next()
+        token = getToken(TokenTypes.ParenRight, TokenChars.ParenRight)
+        break
       default:
         if (isTextStart()) {
           token = getToken(TokenTypes.Text, readText())
@@ -266,6 +363,15 @@ export function createTokenizer (source: string): Tokenizer {
           token = getToken(TokenTypes.Named, readNamedIdentifier())
         } else if (isListIdentifier()) {
           token = getToken(TokenTypes.List, readListIdentifier())
+        } else if (isLinkedModifier()) {
+          token = getToken(TokenTypes.LinkedArg, readLinkedModifierArg())
+        } else if (isLinkedIdentifier()) {
+          if (ch === TokenChars.BraceLeft) {
+            _scnr.next()
+            token = getToken(TokenTypes.BraceLeft, TokenChars.BraceLeft)
+          } else {
+            token = getToken(TokenTypes.LinkedKey, readLinkedIdentifier())
+          }
         }
         break
     }
