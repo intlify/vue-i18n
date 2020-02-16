@@ -63,7 +63,6 @@ export function createTokenizer (source: string): Tokenizer {
   }
 
   let _currentType = TokenTypes.EOF
-  let _prevType = -1
   let _currentValue: string | number | undefined | null = null
   let _startLoc = currentPosition()
   let _endLoc = _startLoc
@@ -72,14 +71,9 @@ export function createTokenizer (source: string): Tokenizer {
 
   const getToken = (type: TokenTypes, value?: string | number): Token => {
     _endLoc = currentPosition()
-    _prevType = _currentType
     _currentType = type
     _currentValue = value
-    return {
-      type,
-      value,
-      loc: createLocation(_startLoc, _endLoc)
-    }
+    return { type, value, loc: createLocation(_startLoc, _endLoc) }
   }
 
   const peekSpaces = (): void => {
@@ -204,7 +198,7 @@ export function createTokenizer (source: string): Tokenizer {
     return null
   }
 
-  const takeNamedIdentifierChar = (): string | undefined | null => {
+  const takeIdentifierChar = (): string | undefined | null => {
     const closure = (ch: string) => {
       const cc = ch.charCodeAt(0)
       return ((cc >= 97 && cc <= 122) || // a-z
@@ -265,7 +259,7 @@ export function createTokenizer (source: string): Tokenizer {
     skipSpaces()
     let ch: string | undefined | null = ''
     let name = ''
-    while ((ch = takeNamedIdentifierChar())) {
+    while ((ch = takeIdentifierChar())) {
       name += ch
     }
     skipSpaces()
@@ -288,7 +282,7 @@ export function createTokenizer (source: string): Tokenizer {
   const readLinkedModifierArg = (): string => {
     let ch: string | undefined | null = ''
     let name = ''
-    while ((ch = takeNamedIdentifierChar())) {
+    while ((ch = takeIdentifierChar())) {
       name += ch
     }
     return name
@@ -356,6 +350,10 @@ export function createTokenizer (source: string): Tokenizer {
         _scnr.next()
         token = getToken(TokenTypes.ParenRight, TokenChars.ParenRight)
         break
+      case TokenChars.Modulo:
+        _scnr.next()
+        token = getToken(TokenTypes.Modulo, TokenChars.Modulo)
+        break
       default:
         if (isTextStart()) {
           token = getToken(TokenTypes.Text, readText())
@@ -391,8 +389,7 @@ export function createTokenizer (source: string): Tokenizer {
   }
 
   return Object.freeze({
-    nextToken,
-    currentPosition
+    nextToken, currentPosition
   })
 }
 

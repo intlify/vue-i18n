@@ -299,3 +299,62 @@ test('new line', () => {
     }
   })
 })
+
+test('with modulo', () => {
+  const tokenizer = createTokenizer('hi %{0} !')
+  expect(tokenizer.nextToken()).toEqual({
+    type: TokenTypes.Text,
+    value: 'hi ',
+    loc: {
+      start: { line: 1, column: 1, offset: 0 },
+      end: { line: 1, column: 4, offset: 3 }
+    }
+  })
+  expect(tokenizer.nextToken()).toEqual({
+    type: TokenTypes.Modulo,
+    value: '%',
+    loc: {
+      start: { line: 1, column: 4, offset: 3 },
+      end: { line: 1, column: 5, offset: 4 }
+    }
+  })
+  expect(tokenizer.nextToken()).toEqual({
+    type: TokenTypes.BraceLeft,
+    value: '{',
+    loc: {
+      start: { line: 1, column: 5, offset: 4 },
+      end: { line: 1, column: 6, offset: 5 }
+    }
+  })
+  expect(tokenizer.nextToken()).toEqual({
+    type: TokenTypes.List,
+    value: 0,
+    loc: {
+      start: { line: 1, column: 6, offset: 5 },
+      end: { line: 1, column: 7, offset: 6 }
+    }
+  })
+  expect(tokenizer.nextToken()).toEqual({
+    type: TokenTypes.BraceRight,
+    value: '}',
+    loc: {
+      start: { line: 1, column: 7, offset: 6 },
+      end: { line: 1, column: 8, offset: 7 }
+    }
+  })
+  expect(tokenizer.nextToken()).toEqual({
+    type: TokenTypes.Text,
+    value: ' !',
+    loc: {
+      start: { line: 1, column: 8, offset: 7 },
+      end: { line: 1, column: 10, offset: 9 }
+    }
+  })
+  expect(tokenizer.nextToken()).toEqual({
+    type: TokenTypes.EOF,
+    loc: {
+      start: { line: 1, column: 10, offset: 9 },
+      end: { line: 1, column: 10, offset: 9 }
+    }
+  })
+})
