@@ -61,6 +61,317 @@ Array [
 ]
 `;
 
+exports[`parse: "@.lower:(no apples) | {1} apple | {count}　apples" 1`] = `
+Array [
+  Object {
+    "loc": Object {
+      "end": Object {
+        "column": 2,
+        "line": 1,
+        "offset": 1,
+      },
+      "source": undefined,
+      "start": Object {
+        "column": 1,
+        "line": 1,
+        "offset": 0,
+      },
+    },
+    "type": 7,
+    "value": "@",
+  },
+  Object {
+    "loc": Object {
+      "end": Object {
+        "column": 3,
+        "line": 1,
+        "offset": 2,
+      },
+      "source": undefined,
+      "start": Object {
+        "column": 2,
+        "line": 1,
+        "offset": 1,
+      },
+    },
+    "type": 8,
+    "value": ".",
+  },
+  Object {
+    "loc": Object {
+      "end": Object {
+        "column": 8,
+        "line": 1,
+        "offset": 7,
+      },
+      "source": undefined,
+      "start": Object {
+        "column": 3,
+        "line": 1,
+        "offset": 2,
+      },
+    },
+    "type": 11,
+    "value": "lower",
+  },
+  Object {
+    "loc": Object {
+      "end": Object {
+        "column": 9,
+        "line": 1,
+        "offset": 8,
+      },
+      "source": undefined,
+      "start": Object {
+        "column": 8,
+        "line": 1,
+        "offset": 7,
+      },
+    },
+    "type": 9,
+    "value": ":",
+  },
+  Object {
+    "loc": Object {
+      "end": Object {
+        "column": 10,
+        "line": 1,
+        "offset": 9,
+      },
+      "source": undefined,
+      "start": Object {
+        "column": 9,
+        "line": 1,
+        "offset": 8,
+      },
+    },
+    "type": 12,
+    "value": "(",
+  },
+  Object {
+    "loc": Object {
+      "end": Object {
+        "column": 19,
+        "line": 1,
+        "offset": 18,
+      },
+      "source": undefined,
+      "start": Object {
+        "column": 10,
+        "line": 1,
+        "offset": 9,
+      },
+    },
+    "type": 10,
+    "value": "no apples",
+  },
+  Object {
+    "loc": Object {
+      "end": Object {
+        "column": 20,
+        "line": 1,
+        "offset": 19,
+      },
+      "source": undefined,
+      "start": Object {
+        "column": 19,
+        "line": 1,
+        "offset": 18,
+      },
+    },
+    "type": 13,
+    "value": ")",
+  },
+  Object {
+    "loc": Object {
+      "end": Object {
+        "column": 23,
+        "line": 1,
+        "offset": 22,
+      },
+      "source": undefined,
+      "start": Object {
+        "column": 20,
+        "line": 1,
+        "offset": 19,
+      },
+    },
+    "type": 1,
+    "value": "|",
+  },
+  Object {
+    "loc": Object {
+      "end": Object {
+        "column": 24,
+        "line": 1,
+        "offset": 23,
+      },
+      "source": undefined,
+      "start": Object {
+        "column": 23,
+        "line": 1,
+        "offset": 22,
+      },
+    },
+    "type": 2,
+    "value": "{",
+  },
+  Object {
+    "loc": Object {
+      "end": Object {
+        "column": 25,
+        "line": 1,
+        "offset": 24,
+      },
+      "source": undefined,
+      "start": Object {
+        "column": 24,
+        "line": 1,
+        "offset": 23,
+      },
+    },
+    "type": 6,
+    "value": 1,
+  },
+  Object {
+    "loc": Object {
+      "end": Object {
+        "column": 26,
+        "line": 1,
+        "offset": 25,
+      },
+      "source": undefined,
+      "start": Object {
+        "column": 25,
+        "line": 1,
+        "offset": 24,
+      },
+    },
+    "type": 3,
+    "value": "}",
+  },
+  Object {
+    "loc": Object {
+      "end": Object {
+        "column": 32,
+        "line": 1,
+        "offset": 31,
+      },
+      "source": undefined,
+      "start": Object {
+        "column": 26,
+        "line": 1,
+        "offset": 25,
+      },
+    },
+    "type": 0,
+    "value": " apple",
+  },
+  Object {
+    "loc": Object {
+      "end": Object {
+        "column": 35,
+        "line": 1,
+        "offset": 34,
+      },
+      "source": undefined,
+      "start": Object {
+        "column": 32,
+        "line": 1,
+        "offset": 31,
+      },
+    },
+    "type": 1,
+    "value": "|",
+  },
+  Object {
+    "loc": Object {
+      "end": Object {
+        "column": 36,
+        "line": 1,
+        "offset": 35,
+      },
+      "source": undefined,
+      "start": Object {
+        "column": 35,
+        "line": 1,
+        "offset": 34,
+      },
+    },
+    "type": 2,
+    "value": "{",
+  },
+  Object {
+    "loc": Object {
+      "end": Object {
+        "column": 41,
+        "line": 1,
+        "offset": 40,
+      },
+      "source": undefined,
+      "start": Object {
+        "column": 36,
+        "line": 1,
+        "offset": 35,
+      },
+    },
+    "type": 5,
+    "value": "count",
+  },
+  Object {
+    "loc": Object {
+      "end": Object {
+        "column": 42,
+        "line": 1,
+        "offset": 41,
+      },
+      "source": undefined,
+      "start": Object {
+        "column": 41,
+        "line": 1,
+        "offset": 40,
+      },
+    },
+    "type": 3,
+    "value": "}",
+  },
+  Object {
+    "loc": Object {
+      "end": Object {
+        "column": 49,
+        "line": 1,
+        "offset": 48,
+      },
+      "source": undefined,
+      "start": Object {
+        "column": 42,
+        "line": 1,
+        "offset": 41,
+      },
+    },
+    "type": 0,
+    "value": "　apples",
+  },
+  Object {
+    "loc": Object {
+      "end": Object {
+        "column": 49,
+        "line": 1,
+        "offset": 48,
+      },
+      "source": undefined,
+      "start": Object {
+        "column": 49,
+        "line": 1,
+        "offset": 48,
+      },
+    },
+    "type": 14,
+    "value": undefined,
+  },
+]
+`;
+
 exports[`parse: "{0} {1}　{2}" 1`] = `
 Array [
   Object {
@@ -980,6 +1291,780 @@ world",
 ]
 `;
 
+exports[`parse: "hi @.upper:name !" 1`] = `
+Array [
+  Object {
+    "loc": Object {
+      "end": Object {
+        "column": 4,
+        "line": 1,
+        "offset": 3,
+      },
+      "source": undefined,
+      "start": Object {
+        "column": 1,
+        "line": 1,
+        "offset": 0,
+      },
+    },
+    "type": 0,
+    "value": "hi ",
+  },
+  Object {
+    "loc": Object {
+      "end": Object {
+        "column": 5,
+        "line": 1,
+        "offset": 4,
+      },
+      "source": undefined,
+      "start": Object {
+        "column": 4,
+        "line": 1,
+        "offset": 3,
+      },
+    },
+    "type": 7,
+    "value": "@",
+  },
+  Object {
+    "loc": Object {
+      "end": Object {
+        "column": 6,
+        "line": 1,
+        "offset": 5,
+      },
+      "source": undefined,
+      "start": Object {
+        "column": 5,
+        "line": 1,
+        "offset": 4,
+      },
+    },
+    "type": 8,
+    "value": ".",
+  },
+  Object {
+    "loc": Object {
+      "end": Object {
+        "column": 11,
+        "line": 1,
+        "offset": 10,
+      },
+      "source": undefined,
+      "start": Object {
+        "column": 6,
+        "line": 1,
+        "offset": 5,
+      },
+    },
+    "type": 11,
+    "value": "upper",
+  },
+  Object {
+    "loc": Object {
+      "end": Object {
+        "column": 12,
+        "line": 1,
+        "offset": 11,
+      },
+      "source": undefined,
+      "start": Object {
+        "column": 11,
+        "line": 1,
+        "offset": 10,
+      },
+    },
+    "type": 9,
+    "value": ":",
+  },
+  Object {
+    "loc": Object {
+      "end": Object {
+        "column": 16,
+        "line": 1,
+        "offset": 15,
+      },
+      "source": undefined,
+      "start": Object {
+        "column": 12,
+        "line": 1,
+        "offset": 11,
+      },
+    },
+    "type": 10,
+    "value": "name",
+  },
+  Object {
+    "loc": Object {
+      "end": Object {
+        "column": 18,
+        "line": 1,
+        "offset": 17,
+      },
+      "source": undefined,
+      "start": Object {
+        "column": 16,
+        "line": 1,
+        "offset": 15,
+      },
+    },
+    "type": 0,
+    "value": " !",
+  },
+  Object {
+    "loc": Object {
+      "end": Object {
+        "column": 18,
+        "line": 1,
+        "offset": 17,
+      },
+      "source": undefined,
+      "start": Object {
+        "column": 18,
+        "line": 1,
+        "offset": 17,
+      },
+    },
+    "type": 14,
+    "value": undefined,
+  },
+]
+`;
+
+exports[`parse: "hi @:(hello world) !" 1`] = `
+Array [
+  Object {
+    "loc": Object {
+      "end": Object {
+        "column": 4,
+        "line": 1,
+        "offset": 3,
+      },
+      "source": undefined,
+      "start": Object {
+        "column": 1,
+        "line": 1,
+        "offset": 0,
+      },
+    },
+    "type": 0,
+    "value": "hi ",
+  },
+  Object {
+    "loc": Object {
+      "end": Object {
+        "column": 5,
+        "line": 1,
+        "offset": 4,
+      },
+      "source": undefined,
+      "start": Object {
+        "column": 4,
+        "line": 1,
+        "offset": 3,
+      },
+    },
+    "type": 7,
+    "value": "@",
+  },
+  Object {
+    "loc": Object {
+      "end": Object {
+        "column": 6,
+        "line": 1,
+        "offset": 5,
+      },
+      "source": undefined,
+      "start": Object {
+        "column": 5,
+        "line": 1,
+        "offset": 4,
+      },
+    },
+    "type": 9,
+    "value": ":",
+  },
+  Object {
+    "loc": Object {
+      "end": Object {
+        "column": 7,
+        "line": 1,
+        "offset": 6,
+      },
+      "source": undefined,
+      "start": Object {
+        "column": 6,
+        "line": 1,
+        "offset": 5,
+      },
+    },
+    "type": 12,
+    "value": "(",
+  },
+  Object {
+    "loc": Object {
+      "end": Object {
+        "column": 18,
+        "line": 1,
+        "offset": 17,
+      },
+      "source": undefined,
+      "start": Object {
+        "column": 7,
+        "line": 1,
+        "offset": 6,
+      },
+    },
+    "type": 10,
+    "value": "hello world",
+  },
+  Object {
+    "loc": Object {
+      "end": Object {
+        "column": 19,
+        "line": 1,
+        "offset": 18,
+      },
+      "source": undefined,
+      "start": Object {
+        "column": 18,
+        "line": 1,
+        "offset": 17,
+      },
+    },
+    "type": 13,
+    "value": ")",
+  },
+  Object {
+    "loc": Object {
+      "end": Object {
+        "column": 21,
+        "line": 1,
+        "offset": 20,
+      },
+      "source": undefined,
+      "start": Object {
+        "column": 19,
+        "line": 1,
+        "offset": 18,
+      },
+    },
+    "type": 0,
+    "value": " !",
+  },
+  Object {
+    "loc": Object {
+      "end": Object {
+        "column": 21,
+        "line": 1,
+        "offset": 20,
+      },
+      "source": undefined,
+      "start": Object {
+        "column": 21,
+        "line": 1,
+        "offset": 20,
+      },
+    },
+    "type": 14,
+    "value": undefined,
+  },
+]
+`;
+
+exports[`parse: "hi @:{name} @:{0}!" 1`] = `
+Array [
+  Object {
+    "loc": Object {
+      "end": Object {
+        "column": 4,
+        "line": 1,
+        "offset": 3,
+      },
+      "source": undefined,
+      "start": Object {
+        "column": 1,
+        "line": 1,
+        "offset": 0,
+      },
+    },
+    "type": 0,
+    "value": "hi ",
+  },
+  Object {
+    "loc": Object {
+      "end": Object {
+        "column": 5,
+        "line": 1,
+        "offset": 4,
+      },
+      "source": undefined,
+      "start": Object {
+        "column": 4,
+        "line": 1,
+        "offset": 3,
+      },
+    },
+    "type": 7,
+    "value": "@",
+  },
+  Object {
+    "loc": Object {
+      "end": Object {
+        "column": 6,
+        "line": 1,
+        "offset": 5,
+      },
+      "source": undefined,
+      "start": Object {
+        "column": 5,
+        "line": 1,
+        "offset": 4,
+      },
+    },
+    "type": 9,
+    "value": ":",
+  },
+  Object {
+    "loc": Object {
+      "end": Object {
+        "column": 7,
+        "line": 1,
+        "offset": 6,
+      },
+      "source": undefined,
+      "start": Object {
+        "column": 6,
+        "line": 1,
+        "offset": 5,
+      },
+    },
+    "type": 2,
+    "value": "{",
+  },
+  Object {
+    "loc": Object {
+      "end": Object {
+        "column": 11,
+        "line": 1,
+        "offset": 10,
+      },
+      "source": undefined,
+      "start": Object {
+        "column": 7,
+        "line": 1,
+        "offset": 6,
+      },
+    },
+    "type": 5,
+    "value": "name",
+  },
+  Object {
+    "loc": Object {
+      "end": Object {
+        "column": 12,
+        "line": 1,
+        "offset": 11,
+      },
+      "source": undefined,
+      "start": Object {
+        "column": 11,
+        "line": 1,
+        "offset": 10,
+      },
+    },
+    "type": 3,
+    "value": "}",
+  },
+  Object {
+    "loc": Object {
+      "end": Object {
+        "column": 13,
+        "line": 1,
+        "offset": 12,
+      },
+      "source": undefined,
+      "start": Object {
+        "column": 12,
+        "line": 1,
+        "offset": 11,
+      },
+    },
+    "type": 0,
+    "value": " ",
+  },
+  Object {
+    "loc": Object {
+      "end": Object {
+        "column": 14,
+        "line": 1,
+        "offset": 13,
+      },
+      "source": undefined,
+      "start": Object {
+        "column": 13,
+        "line": 1,
+        "offset": 12,
+      },
+    },
+    "type": 7,
+    "value": "@",
+  },
+  Object {
+    "loc": Object {
+      "end": Object {
+        "column": 15,
+        "line": 1,
+        "offset": 14,
+      },
+      "source": undefined,
+      "start": Object {
+        "column": 14,
+        "line": 1,
+        "offset": 13,
+      },
+    },
+    "type": 9,
+    "value": ":",
+  },
+  Object {
+    "loc": Object {
+      "end": Object {
+        "column": 16,
+        "line": 1,
+        "offset": 15,
+      },
+      "source": undefined,
+      "start": Object {
+        "column": 15,
+        "line": 1,
+        "offset": 14,
+      },
+    },
+    "type": 2,
+    "value": "{",
+  },
+  Object {
+    "loc": Object {
+      "end": Object {
+        "column": 17,
+        "line": 1,
+        "offset": 16,
+      },
+      "source": undefined,
+      "start": Object {
+        "column": 16,
+        "line": 1,
+        "offset": 15,
+      },
+    },
+    "type": 6,
+    "value": 0,
+  },
+  Object {
+    "loc": Object {
+      "end": Object {
+        "column": 18,
+        "line": 1,
+        "offset": 17,
+      },
+      "source": undefined,
+      "start": Object {
+        "column": 17,
+        "line": 1,
+        "offset": 16,
+      },
+    },
+    "type": 3,
+    "value": "}",
+  },
+  Object {
+    "loc": Object {
+      "end": Object {
+        "column": 19,
+        "line": 1,
+        "offset": 18,
+      },
+      "source": undefined,
+      "start": Object {
+        "column": 18,
+        "line": 1,
+        "offset": 17,
+      },
+    },
+    "type": 0,
+    "value": "!",
+  },
+  Object {
+    "loc": Object {
+      "end": Object {
+        "column": 19,
+        "line": 1,
+        "offset": 18,
+      },
+      "source": undefined,
+      "start": Object {
+        "column": 19,
+        "line": 1,
+        "offset": 18,
+      },
+    },
+    "type": 14,
+    "value": undefined,
+  },
+]
+`;
+
+exports[`parse: "hi @:{name}\\n !" 1`] = `
+Array [
+  Object {
+    "loc": Object {
+      "end": Object {
+        "column": 4,
+        "line": 1,
+        "offset": 3,
+      },
+      "source": undefined,
+      "start": Object {
+        "column": 1,
+        "line": 1,
+        "offset": 0,
+      },
+    },
+    "type": 0,
+    "value": "hi ",
+  },
+  Object {
+    "loc": Object {
+      "end": Object {
+        "column": 5,
+        "line": 1,
+        "offset": 4,
+      },
+      "source": undefined,
+      "start": Object {
+        "column": 4,
+        "line": 1,
+        "offset": 3,
+      },
+    },
+    "type": 7,
+    "value": "@",
+  },
+  Object {
+    "loc": Object {
+      "end": Object {
+        "column": 6,
+        "line": 1,
+        "offset": 5,
+      },
+      "source": undefined,
+      "start": Object {
+        "column": 5,
+        "line": 1,
+        "offset": 4,
+      },
+    },
+    "type": 9,
+    "value": ":",
+  },
+  Object {
+    "loc": Object {
+      "end": Object {
+        "column": 7,
+        "line": 1,
+        "offset": 6,
+      },
+      "source": undefined,
+      "start": Object {
+        "column": 6,
+        "line": 1,
+        "offset": 5,
+      },
+    },
+    "type": 2,
+    "value": "{",
+  },
+  Object {
+    "loc": Object {
+      "end": Object {
+        "column": 11,
+        "line": 1,
+        "offset": 10,
+      },
+      "source": undefined,
+      "start": Object {
+        "column": 7,
+        "line": 1,
+        "offset": 6,
+      },
+    },
+    "type": 5,
+    "value": "name",
+  },
+  Object {
+    "loc": Object {
+      "end": Object {
+        "column": 12,
+        "line": 1,
+        "offset": 11,
+      },
+      "source": undefined,
+      "start": Object {
+        "column": 11,
+        "line": 1,
+        "offset": 10,
+      },
+    },
+    "type": 3,
+    "value": "}",
+  },
+  Object {
+    "loc": Object {
+      "end": Object {
+        "column": 3,
+        "line": 2,
+        "offset": 14,
+      },
+      "source": undefined,
+      "start": Object {
+        "column": 12,
+        "line": 1,
+        "offset": 11,
+      },
+    },
+    "type": 0,
+    "value": "
+ !",
+  },
+  Object {
+    "loc": Object {
+      "end": Object {
+        "column": 3,
+        "line": 2,
+        "offset": 14,
+      },
+      "source": undefined,
+      "start": Object {
+        "column": 3,
+        "line": 2,
+        "offset": 14,
+      },
+    },
+    "type": 14,
+    "value": undefined,
+  },
+]
+`;
+
+exports[`parse: "hi @:name !" 1`] = `
+Array [
+  Object {
+    "loc": Object {
+      "end": Object {
+        "column": 4,
+        "line": 1,
+        "offset": 3,
+      },
+      "source": undefined,
+      "start": Object {
+        "column": 1,
+        "line": 1,
+        "offset": 0,
+      },
+    },
+    "type": 0,
+    "value": "hi ",
+  },
+  Object {
+    "loc": Object {
+      "end": Object {
+        "column": 5,
+        "line": 1,
+        "offset": 4,
+      },
+      "source": undefined,
+      "start": Object {
+        "column": 4,
+        "line": 1,
+        "offset": 3,
+      },
+    },
+    "type": 7,
+    "value": "@",
+  },
+  Object {
+    "loc": Object {
+      "end": Object {
+        "column": 6,
+        "line": 1,
+        "offset": 5,
+      },
+      "source": undefined,
+      "start": Object {
+        "column": 5,
+        "line": 1,
+        "offset": 4,
+      },
+    },
+    "type": 9,
+    "value": ":",
+  },
+  Object {
+    "loc": Object {
+      "end": Object {
+        "column": 10,
+        "line": 1,
+        "offset": 9,
+      },
+      "source": undefined,
+      "start": Object {
+        "column": 6,
+        "line": 1,
+        "offset": 5,
+      },
+    },
+    "type": 10,
+    "value": "name",
+  },
+  Object {
+    "loc": Object {
+      "end": Object {
+        "column": 12,
+        "line": 1,
+        "offset": 11,
+      },
+      "source": undefined,
+      "start": Object {
+        "column": 10,
+        "line": 1,
+        "offset": 9,
+      },
+    },
+    "type": 0,
+    "value": " !",
+  },
+  Object {
+    "loc": Object {
+      "end": Object {
+        "column": 12,
+        "line": 1,
+        "offset": 11,
+      },
+      "source": undefined,
+      "start": Object {
+        "column": 12,
+        "line": 1,
+        "offset": 11,
+      },
+    },
+    "type": 14,
+    "value": undefined,
+  },
+]
+`;
+
 exports[`parse: "hi {  -1 } !" 1`] = `
 Array [
   Object {
@@ -1400,6 +2485,220 @@ Array [
         "column": 12,
         "line": 1,
         "offset": 11,
+      },
+    },
+    "type": 14,
+    "value": undefined,
+  },
+]
+`;
+
+exports[`parse: "no apples | one apple  |  too much apples  " 1`] = `
+Array [
+  Object {
+    "loc": Object {
+      "end": Object {
+        "column": 10,
+        "line": 1,
+        "offset": 9,
+      },
+      "source": undefined,
+      "start": Object {
+        "column": 1,
+        "line": 1,
+        "offset": 0,
+      },
+    },
+    "type": 0,
+    "value": "no apples",
+  },
+  Object {
+    "loc": Object {
+      "end": Object {
+        "column": 13,
+        "line": 1,
+        "offset": 12,
+      },
+      "source": undefined,
+      "start": Object {
+        "column": 10,
+        "line": 1,
+        "offset": 9,
+      },
+    },
+    "type": 1,
+    "value": "|",
+  },
+  Object {
+    "loc": Object {
+      "end": Object {
+        "column": 22,
+        "line": 1,
+        "offset": 21,
+      },
+      "source": undefined,
+      "start": Object {
+        "column": 13,
+        "line": 1,
+        "offset": 12,
+      },
+    },
+    "type": 0,
+    "value": "one apple",
+  },
+  Object {
+    "loc": Object {
+      "end": Object {
+        "column": 27,
+        "line": 1,
+        "offset": 26,
+      },
+      "source": undefined,
+      "start": Object {
+        "column": 22,
+        "line": 1,
+        "offset": 21,
+      },
+    },
+    "type": 1,
+    "value": "|",
+  },
+  Object {
+    "loc": Object {
+      "end": Object {
+        "column": 44,
+        "line": 1,
+        "offset": 43,
+      },
+      "source": undefined,
+      "start": Object {
+        "column": 27,
+        "line": 1,
+        "offset": 26,
+      },
+    },
+    "type": 0,
+    "value": "too much apples  ",
+  },
+  Object {
+    "loc": Object {
+      "end": Object {
+        "column": 44,
+        "line": 1,
+        "offset": 43,
+      },
+      "source": undefined,
+      "start": Object {
+        "column": 44,
+        "line": 1,
+        "offset": 43,
+      },
+    },
+    "type": 14,
+    "value": undefined,
+  },
+]
+`;
+
+exports[`parse: "no apples |\\n one apple  |\\n  too much apples  " 1`] = `
+Array [
+  Object {
+    "loc": Object {
+      "end": Object {
+        "column": 10,
+        "line": 1,
+        "offset": 9,
+      },
+      "source": undefined,
+      "start": Object {
+        "column": 1,
+        "line": 1,
+        "offset": 0,
+      },
+    },
+    "type": 0,
+    "value": "no apples",
+  },
+  Object {
+    "loc": Object {
+      "end": Object {
+        "column": 2,
+        "line": 2,
+        "offset": 13,
+      },
+      "source": undefined,
+      "start": Object {
+        "column": 10,
+        "line": 1,
+        "offset": 9,
+      },
+    },
+    "type": 1,
+    "value": "|",
+  },
+  Object {
+    "loc": Object {
+      "end": Object {
+        "column": 11,
+        "line": 2,
+        "offset": 22,
+      },
+      "source": undefined,
+      "start": Object {
+        "column": 2,
+        "line": 2,
+        "offset": 13,
+      },
+    },
+    "type": 0,
+    "value": "one apple",
+  },
+  Object {
+    "loc": Object {
+      "end": Object {
+        "column": 3,
+        "line": 3,
+        "offset": 28,
+      },
+      "source": undefined,
+      "start": Object {
+        "column": 11,
+        "line": 2,
+        "offset": 22,
+      },
+    },
+    "type": 1,
+    "value": "|",
+  },
+  Object {
+    "loc": Object {
+      "end": Object {
+        "column": 20,
+        "line": 3,
+        "offset": 45,
+      },
+      "source": undefined,
+      "start": Object {
+        "column": 3,
+        "line": 3,
+        "offset": 28,
+      },
+    },
+    "type": 0,
+    "value": "too much apples  ",
+  },
+  Object {
+    "loc": Object {
+      "end": Object {
+        "column": 20,
+        "line": 3,
+        "offset": 45,
+      },
+      "source": undefined,
+      "start": Object {
+        "column": 20,
+        "line": 3,
+        "offset": 45,
       },
     },
     "type": 14,
