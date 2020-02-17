@@ -19,10 +19,10 @@ export const enum TokenTypes {
   Named, // 5
   List,
   LinkedAlias,
-  LinkedModifier,
+  LinkedDot,
   LinkedDelimiter,
   LinkedKey, // 10
-  LinkedArg,
+  LinkedModifier,
   ParenLeft,
   ParenRight,
   EOF
@@ -34,7 +34,7 @@ const enum TokenChars {
   BraceRight = '}',
   Modulo = '%',
   LinkedAlias = '@',
-  LinkedModifier = '.',
+  LinkedDot = '.',
   LinkedDelimiter = ':',
   ParenLeft = '(',
   ParenRight = ')'
@@ -55,7 +55,6 @@ export type Tokenizer = Readonly<{
 }>
 
 export function createTokenizer (source: string): Tokenizer {
-  const _source = source
   const _scnr = createScanner(source)
 
   const currentPosition = (): Position => {
@@ -122,7 +121,7 @@ export function createTokenizer (source: string): Tokenizer {
   }
 
   const isLinkedModifier = (): boolean => {
-    if (_currentType !== TokenTypes.LinkedModifier) { return false }
+    if (_currentType !== TokenTypes.LinkedDot) { return false }
     const ret = isIdentifierStart(_scnr.currentPeek())
     _scnr.resetPeek()
     return ret
@@ -141,7 +140,7 @@ export function createTokenizer (source: string): Tokenizer {
         ch === TokenChars.Modulo ||
         ch === TokenChars.Pipe ||
         ch === TokenChars.LinkedDelimiter ||
-        ch === TokenChars.LinkedModifier ||
+        ch === TokenChars.LinkedDot ||
         ch === SPACE || !ch)) {
         return false
       } else if (ch === NEW_LINE) {
@@ -155,11 +154,17 @@ export function createTokenizer (source: string): Tokenizer {
     return ret
   }
 
+  const isPluralStart = (): boolean => {
+    peekSpaces()
+    const ret = _scnr.currentPeek() === TokenChars.Pipe
+    _scnr.resetPeek()
+    return ret
+  }
+
   const isTextStart = (): boolean => {
     if (_currentType === TokenTypes.BraceLeft ||
-        _currentType === TokenTypes.Pipe ||
         _currentType === TokenTypes.ParenLeft ||
-        _currentType === TokenTypes.LinkedModifier ||
+        _currentType === TokenTypes.LinkedDot ||
         _currentType === TokenTypes.LinkedDelimiter) {
       return false
     }
@@ -230,29 +235,27 @@ export function createTokenizer (source: string): Tokenizer {
   }
 
   const readText = (): string => {
-    const fn = (detect = false, buf: string): string => {
+    const fn = (buf: string): string => {
       const ch = _scnr.currentChar()
       if ((ch === TokenChars.BraceLeft ||
         ch === TokenChars.Modulo ||
         ch === TokenChars.LinkedAlias || !ch)) {
         return buf
-      } else if (ch === TokenChars.Pipe) {
-        return buf
-      } else if (ch === SPACE) {
-        buf += ch
-        _scnr.next()
-        return fn(detect, buf)
-      } else if (ch === NEW_LINE) {
-        buf += ch
-        _scnr.next()
-        return fn(detect, buf)
+      } else if (ch === SPACE || ch === NEW_LINE) {
+        if (isPluralStart()) {
+          return buf
+        } else {
+          buf += ch
+          _scnr.next()
+          return fn(buf)
+        }
       } else {
         buf += ch
         _scnr.next()
-        return fn(true, buf)
+        return fn(buf)
       }
     }
-    return fn(false, '')
+    return fn('')
   }
 
   const readNamedIdentifier = (): string => {
@@ -318,6 +321,14 @@ export function createTokenizer (source: string): Tokenizer {
     return fn(false, _currentType === TokenTypes.ParenLeft, '')
   }
 
+  const readPlural = (): string => {
+    skipSpaces()
+    const plural = _scnr.currentChar()
+    _scnr.next()
+    skipSpaces()
+    return plural
+  }
+
   const readToken = (): Token => {
     let token = { type: TokenTypes.EOF }
     const ch = _scnr.currentChar()
@@ -334,9 +345,9 @@ export function createTokenizer (source: string): Tokenizer {
         _scnr.next()
         token = getToken(TokenTypes.LinkedAlias, TokenChars.LinkedAlias)
         break
-      case TokenChars.LinkedModifier:
+      case TokenChars.LinkedDot:
         _scnr.next()
-        token = getToken(TokenTypes.LinkedModifier, TokenChars.LinkedModifier)
+        token = getToken(TokenTypes.LinkedDot, TokenChars.LinkedDot)
         break
       case TokenChars.LinkedDelimiter:
         _scnr.next()
@@ -355,14 +366,16 @@ export function createTokenizer (source: string): Tokenizer {
         token = getToken(TokenTypes.Modulo, TokenChars.Modulo)
         break
       default:
-        if (isTextStart()) {
+        if (isPluralStart()) {
+          token = getToken(TokenTypes.Pipe, readPlural())
+        } else if (isTextStart()) {
           token = getToken(TokenTypes.Text, readText())
         } else if (isNamedIdentifier()) {
           token = getToken(TokenTypes.Named, readNamedIdentifier())
         } else if (isListIdentifier()) {
           token = getToken(TokenTypes.List, readListIdentifier())
         } else if (isLinkedModifier()) {
-          token = getToken(TokenTypes.LinkedArg, readLinkedModifierArg())
+          token = getToken(TokenTypes.LinkedModifier, readLinkedModifierArg())
         } else if (isLinkedIdentifier()) {
           if (ch === TokenChars.BraceLeft) {
             _scnr.next()

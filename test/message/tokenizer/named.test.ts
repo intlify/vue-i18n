@@ -358,15 +358,3 @@ test('with modulo', () => {
     }
   })
 })
-
-/*
-test('plural', () => {
-  const tokenizer = createTokenizer()
-
-  const tokens1 = tokenizer.parse('no apples | one apple  |  too much apples  ')
-  expect(tokens1).toMatchSnapshot('basic')
-
-  const tokens2 = tokenizer.parse('no apples |\n one apple |\n too much apples')
-  expect(tokens2).toMatchSnapshot('multiline')
-})
-*/

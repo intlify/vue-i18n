@@ -1,5 +1,5 @@
 import { SourceLocation } from './location'
-import {createTokenizer, Tokenizer } from './tokenizer'
+import { createTokenizer } from './tokenizer'
 
 export const enum NodeTypes {
   RESOURCE,

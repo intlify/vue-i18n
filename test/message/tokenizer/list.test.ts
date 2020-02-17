@@ -201,7 +201,7 @@ test('space', () => {
   })
 })
 
-test('new line', () => {
+test('multi lines', () => {
   const tokenizer = createTokenizer('{0}\n{1}\r\n{2}')
   expect(tokenizer.nextToken()).toEqual({
     type: TokenTypes.BraceLeft,

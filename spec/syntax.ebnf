@@ -16,9 +16,9 @@ Named ::= "%"? "{" Space? (Identifier) Space? "}";
 List ::= "{" Space? (Digits) Space? "}";
 Linked ::= "@" LinkedModifier? ":" LinkedRefer;
 LinkedRefer ::= "("? (LinkedKey | Named | List) ")"?;
-LinkedModifier ::= "." LinkedArg;
+LinkedDot ::= "." LinkedArg;
 LinkedKey ::= TextChar+;
-LinkedArg ::= Identifier;
+LinkedModifier ::= Identifier;
 
 (* characters *)
 AnyChar ::= [#x0-#xD7FF] | [#xE000-#xFFFD] | [#x10000-#x10FFFF];  (* Unicode character *)

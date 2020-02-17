@@ -204,7 +204,7 @@ test('linked modifier', () => {
     }
   })
   expect(tokenizer.nextToken()).toEqual({
-    type: TokenTypes.LinkedModifier,
+    type: TokenTypes.LinkedDot,
     value: '.',
     loc: {
       start: { line: 1, column: 5, offset: 4 },
@@ -212,7 +212,7 @@ test('linked modifier', () => {
     }
   })
   expect(tokenizer.nextToken()).toEqual({
-    type: TokenTypes.LinkedArg,
+    type: TokenTypes.LinkedModifier,
     value: 'upper',
     loc: {
       start: { line: 1, column: 6, offset: 5 },

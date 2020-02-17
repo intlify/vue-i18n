@@ -19,7 +19,7 @@ test('basic', () => {
   })
 })
 
-test('new line', () => {
+test('multi lines', () => {
   const tokenizer = createTokenizer('hello\nworld')
   expect(tokenizer.nextToken()).toEqual({
     type: TokenTypes.Text,
