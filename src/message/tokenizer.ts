@@ -53,10 +53,12 @@ export type Token = {
 export type TokenizeContext = {
   currentType: TokenTypes
   currentValue: string | number | undefined | null
+  offset: number
   startLoc: Position
   endLoc: Position
-  lastStartLoc: Position | null
-  lastEndLoc: Position | null
+  lastOffset: number
+  lastStartLoc: Position
+  lastEndLoc: Position
 }
 
 export type Tokenizer = Readonly<{
@@ -70,18 +72,22 @@ export function createTokenizer (source: string): Tokenizer {
   const _scnr = createScanner(source)
 
   const currentOffset = (): number => _scnr.index()
+
   const currentPosition = (): Position => {
     return createPosition(_scnr.line(), _scnr.column(), _scnr.index())
   }
 
-  const initLoc = currentPosition()
+  const _initLoc = currentPosition()
+  const _initOffset = currentOffset()
   const _context: TokenizeContext = {
     currentType: TokenTypes.EOF,
     currentValue: null,
-    startLoc: initLoc,
-    endLoc: initLoc,
-    lastStartLoc: null,
-    lastEndLoc: null
+    offset: _initOffset,
+    startLoc: _initLoc,
+    endLoc: _initLoc,
+    lastOffset: _initOffset,
+    lastStartLoc: _initLoc,
+    lastEndLoc: _initLoc
   }
 
   const context = (): TokenizeContext => _context
@@ -411,9 +417,11 @@ export function createTokenizer (source: string): Tokenizer {
   }
 
   const nextToken = (): Token => {
-    const { startLoc, endLoc } = _context
+    const { offset, startLoc, endLoc } = _context
+    _context.lastOffset = offset
     _context.lastStartLoc = startLoc
     _context.lastEndLoc = endLoc
+    _context.offset = currentOffset()
     _context.startLoc = currentPosition()
 
     if (!_scnr.currentChar()) {
