@@ -80,8 +80,12 @@ type Parser = Readonly<{
 }>
 
 export function createParser (): Parser {
-  const startNode = (context: TokenizeContext, type: NodeTypes): Node => {
-    const { lastOffset, lastStartLoc } = context
+  const startNode = (context: TokenizeContext, type: NodeTypes, init?: { offset: number, loc: Position }): Node => {
+    let { lastOffset, lastStartLoc } = context
+    if (init) {
+      lastOffset = init.offset
+      lastStartLoc = init.loc
+    }
     return {
       type,
       start: lastOffset,
@@ -112,6 +116,8 @@ export function createParser (): Parser {
     const context = tokenizer.context()
     const node = startNode(context, NodeTypes.List) as ListNode
     node.index = index
+    // skip brach right
+    tokenizer.nextToken()
     endNode(tokenizer, node)
     return node
   }
@@ -120,6 +126,8 @@ export function createParser (): Parser {
     const context = tokenizer.context()
     const node = startNode(context, NodeTypes.Named) as NamedNode
     node.key = key
+    // skip brach right
+    tokenizer.nextToken()
     endNode(tokenizer, node)
     return node
   }
@@ -248,7 +256,7 @@ export function createParser (): Parser {
   const parsePlural = (tokenizer: Tokenizer, offset: number, loc: Position, msgNode: MessageNode): PluralNode => {
     const context = tokenizer.context()
 
-    const node = startNode(context, NodeTypes.Plural) as PluralNode
+    const node = startNode(context, NodeTypes.Plural, { offset, loc }) as PluralNode
     node.cases = []
     node.cases.push(msgNode)
 
@@ -263,14 +271,13 @@ export function createParser (): Parser {
 
   const parseResource = (tokenizer: Tokenizer): MessageNode | PluralNode => {
     const context = tokenizer.context()
-    const startOffset = tokenizer.currentOffset()
-    const { startLoc } = context
+    const { offset, startLoc } = context
 
     const msgNode = parseMessage(tokenizer)
     if (context.currentType === TokenTypes.EOF) {
       return msgNode
     } else {
-      return parsePlural(tokenizer, startOffset, startLoc, msgNode)
+      return parsePlural(tokenizer, offset, startLoc, msgNode)
     }
   }
 
