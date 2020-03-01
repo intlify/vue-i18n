@@ -73,12 +73,12 @@ Object {
               "offset": 8,
             },
             "start": Object {
-              "column": 2,
+              "column": 3,
               "line": 1,
-              "offset": 1,
+              "offset": 2,
             },
           },
-          "start": 1,
+          "start": 2,
           "type": 7,
           "value": "apples",
         },
@@ -137,15 +137,15 @@ Object {
     "end": 11,
     "items": Array [
       Object {
-        "end": 10,
+        "end": 11,
         "key": Object {
-          "end": 10,
+          "end": 11,
           "index": 0,
           "loc": Object {
             "end": Object {
-              "column": 11,
+              "column": 12,
               "line": 1,
-              "offset": 10,
+              "offset": 11,
             },
             "start": Object {
               "column": 9,
@@ -158,9 +158,9 @@ Object {
         },
         "loc": Object {
           "end": Object {
-            "column": 11,
+            "column": 12,
             "line": 1,
-            "offset": 10,
+            "offset": 11,
           },
           "start": Object {
             "column": 1,
@@ -247,13 +247,13 @@ Object {
         "value": "hello ",
       },
       Object {
-        "end": 11,
+        "end": 12,
         "key": "name",
         "loc": Object {
           "end": Object {
-            "column": 12,
+            "column": 13,
             "line": 1,
-            "offset": 11,
+            "offset": 12,
           },
           "start": Object {
             "column": 7,
@@ -273,12 +273,12 @@ Object {
             "offset": 14,
           },
           "start": Object {
-            "column": 12,
+            "column": 13,
             "line": 1,
-            "offset": 11,
+            "offset": 12,
           },
         },
-        "start": 11,
+        "start": 12,
         "type": 3,
         "value": " !",
       },
@@ -321,7 +321,7 @@ Object {
   "body": Object {
     "cases": Array [
       Object {
-        "end": 12,
+        "end": 0,
         "items": Array [
           Object {
             "end": 9,
@@ -344,9 +344,9 @@ Object {
         ],
         "loc": Object {
           "end": Object {
-            "column": 13,
+            "column": 10,
             "line": 1,
-            "offset": 12,
+            "offset": 9,
           },
           "start": Object {
             "column": 1,
@@ -358,7 +358,7 @@ Object {
         "type": 2,
       },
       Object {
-        "end": 26,
+        "end": 12,
         "items": Array [
           Object {
             "end": 21,
@@ -369,29 +369,29 @@ Object {
                 "offset": 21,
               },
               "start": Object {
-                "column": 10,
+                "column": 13,
                 "line": 1,
-                "offset": 9,
+                "offset": 12,
               },
             },
-            "start": 9,
+            "start": 12,
             "type": 3,
             "value": "one apple",
           },
         ],
         "loc": Object {
           "end": Object {
-            "column": 27,
+            "column": 22,
             "line": 1,
-            "offset": 26,
+            "offset": 21,
           },
           "start": Object {
-            "column": 1,
+            "column": 13,
             "line": 1,
-            "offset": 0,
+            "offset": 12,
           },
         },
-        "start": 0,
+        "start": 12,
         "type": 2,
       },
       Object {
@@ -406,12 +406,12 @@ Object {
                 "offset": 43,
               },
               "start": Object {
-                "column": 22,
+                "column": 27,
                 "line": 1,
-                "offset": 21,
+                "offset": 26,
               },
             },
-            "start": 21,
+            "start": 26,
             "type": 3,
             "value": "too much apples  ",
           },
@@ -423,12 +423,12 @@ Object {
             "offset": 43,
           },
           "start": Object {
-            "column": 13,
+            "column": 27,
             "line": 1,
-            "offset": 12,
+            "offset": 26,
           },
         },
-        "start": 12,
+        "start": 26,
         "type": 2,
       },
     ],
@@ -454,6 +454,227 @@ Object {
       "column": 44,
       "line": 1,
       "offset": 43,
+    },
+    "start": Object {
+      "column": 1,
+      "line": 1,
+      "offset": 0,
+    },
+  },
+  "start": 0,
+  "type": 0,
+}
+`;
+
+exports[`parse: pural complex 1`] = `
+Object {
+  "body": Object {
+    "cases": Array [
+      Object {
+        "end": 18,
+        "items": Array [
+          Object {
+            "end": 19,
+            "key": Object {
+              "end": 18,
+              "loc": Object {
+                "end": Object {
+                  "column": 19,
+                  "line": 1,
+                  "offset": 18,
+                },
+                "start": Object {
+                  "column": 10,
+                  "line": 1,
+                  "offset": 9,
+                },
+              },
+              "start": 9,
+              "type": 7,
+              "value": "no apples",
+            },
+            "loc": Object {
+              "end": Object {
+                "column": 20,
+                "line": 1,
+                "offset": 19,
+              },
+              "start": Object {
+                "column": 1,
+                "line": 1,
+                "offset": 0,
+              },
+            },
+            "modifier": Object {
+              "end": 7,
+              "loc": Object {
+                "end": Object {
+                  "column": 8,
+                  "line": 1,
+                  "offset": 7,
+                },
+                "start": Object {
+                  "column": 2,
+                  "line": 1,
+                  "offset": 1,
+                },
+              },
+              "start": 1,
+              "type": 8,
+              "value": "lower",
+            },
+            "start": 0,
+            "type": 6,
+          },
+        ],
+        "loc": Object {
+          "end": Object {
+            "column": 20,
+            "line": 1,
+            "offset": 19,
+          },
+          "start": Object {
+            "column": 1,
+            "line": 1,
+            "offset": 0,
+          },
+        },
+        "start": 0,
+        "type": 2,
+      },
+      Object {
+        "end": 25,
+        "items": Array [
+          Object {
+            "end": 25,
+            "index": 1,
+            "loc": Object {
+              "end": Object {
+                "column": 26,
+                "line": 1,
+                "offset": 25,
+              },
+              "start": Object {
+                "column": 23,
+                "line": 1,
+                "offset": 22,
+              },
+            },
+            "start": 22,
+            "type": 5,
+          },
+          Object {
+            "end": 31,
+            "loc": Object {
+              "end": Object {
+                "column": 32,
+                "line": 1,
+                "offset": 31,
+              },
+              "start": Object {
+                "column": 26,
+                "line": 1,
+                "offset": 25,
+              },
+            },
+            "start": 25,
+            "type": 3,
+            "value": " apple",
+          },
+        ],
+        "loc": Object {
+          "end": Object {
+            "column": 32,
+            "line": 1,
+            "offset": 31,
+          },
+          "start": Object {
+            "column": 23,
+            "line": 1,
+            "offset": 22,
+          },
+        },
+        "start": 22,
+        "type": 2,
+      },
+      Object {
+        "end": 48,
+        "items": Array [
+          Object {
+            "end": 41,
+            "key": "count",
+            "loc": Object {
+              "end": Object {
+                "column": 42,
+                "line": 1,
+                "offset": 41,
+              },
+              "start": Object {
+                "column": 35,
+                "line": 1,
+                "offset": 34,
+              },
+            },
+            "start": 34,
+            "type": 4,
+          },
+          Object {
+            "end": 48,
+            "loc": Object {
+              "end": Object {
+                "column": 49,
+                "line": 1,
+                "offset": 48,
+              },
+              "start": Object {
+                "column": 42,
+                "line": 1,
+                "offset": 41,
+              },
+            },
+            "start": 41,
+            "type": 3,
+            "value": "　apples",
+          },
+        ],
+        "loc": Object {
+          "end": Object {
+            "column": 49,
+            "line": 1,
+            "offset": 48,
+          },
+          "start": Object {
+            "column": 35,
+            "line": 1,
+            "offset": 34,
+          },
+        },
+        "start": 34,
+        "type": 2,
+      },
+    ],
+    "end": 48,
+    "loc": Object {
+      "end": Object {
+        "column": 49,
+        "line": 1,
+        "offset": 48,
+      },
+      "start": Object {
+        "column": 1,
+        "line": 1,
+        "offset": 0,
+      },
+    },
+    "start": 0,
+    "type": 1,
+  },
+  "end": 48,
+  "loc": Object {
+    "end": Object {
+      "column": 49,
+      "line": 1,
+      "offset": 48,
     },
     "start": Object {
       "column": 1,
