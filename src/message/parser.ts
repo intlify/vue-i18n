@@ -75,7 +75,7 @@ export interface LinkedModitierNode extends Node {
   value: Identifier
 }
 
-type Parser = Readonly<{
+export type Parser = Readonly<{
   parse: (source: string) => ResourceNode
 }>
 

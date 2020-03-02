@@ -316,7 +316,7 @@ Object {
 }
 `;
 
-exports[`parse: pural 1`] = `
+exports[`parse: plural 1`] = `
 Object {
   "body": Object {
     "cases": Array [
@@ -466,7 +466,7 @@ Object {
 }
 `;
 
-exports[`parse: pural complex 1`] = `
+exports[`parse: plural complex 1`] = `
 Object {
   "body": Object {
     "cases": Array [
