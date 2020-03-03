@@ -1,11 +1,31 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`linked 1`] = `""`;
+exports[`linked 1`] = `
+"function __msg__ (ctx) {
+  return ''
+}"
+`;
 
-exports[`list 1`] = `""`;
+exports[`list 1`] = `
+"function __msg__ (ctx) {
+  return ''
+}"
+`;
 
-exports[`named 1`] = `""`;
+exports[`named 1`] = `
+"function __msg__ (ctx) {
+  return ''
+}"
+`;
 
-exports[`plural 1`] = `""`;
+exports[`plural 1`] = `
+"function __msg__ (ctx) {
+  return ''
+}"
+`;
 
-exports[`text 1`] = `""`;
+exports[`text 1`] = `
+"function __msg__ (ctx) {
+  return ''
+}"
+`;
