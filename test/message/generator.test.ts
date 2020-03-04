@@ -42,7 +42,7 @@ test('plural', () => {
   const code = generate(ast)
   expect(code).toMatch(`return [`)
   expect(code).toMatch(`"no apples", "one apple", "too much apples  ", ""`)
-  expect(code).toMatch(`].join("")`)
+  expect(code).toMatch(`[ctx.plural.rule(ctx.plural.index, 3)]`)
   expect(code).toMatchSnapshot()
 })
 

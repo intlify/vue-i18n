@@ -84,7 +84,7 @@ function generatePluralNode (generator: CodeGenerator, node: PluralNode): void {
     }
     generator.push('""')
     generator.deindent()
-    generator.push('].join("")')
+    generator.push(`][ctx.plural.rule(ctx.plural.index, ${node.cases.length})]`)
   }
 }
 

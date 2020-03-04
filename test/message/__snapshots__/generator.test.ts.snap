@@ -22,7 +22,7 @@ exports[`plural 1`] = `
 "function __msg__ (ctx) {
   return [
     \\"no apples\\", \\"one apple\\", \\"too much apples  \\", \\"\\"
-  ].join(\\"\\")
+  ][ctx.plural.rule(ctx.plural.index, 3)]
 }"
 `;
 
