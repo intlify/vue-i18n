@@ -1,4 +1,4 @@
-import { ResourceNode, Node, NodeTypes, PluralNode, MessageNode, LinkedNode, LinkedModitierNode, LinkedKeyNode, ListNode } from './parser'
+import { ResourceNode, Node, NodeTypes, PluralNode, MessageNode, LinkedNode } from './parser'
 
 // TODO: if we offer custom transform for uses, should be defined TransformOptions type to here
 // ex.
