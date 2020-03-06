@@ -1,4 +1,4 @@
-import { ResourceNode, Node, NodeTypes, PluralNode, MessageNode, LinkedNode, LinkedModitierNode, LinkedKeyNode } from './parser'
+import { ResourceNode, Node, NodeTypes, PluralNode, MessageNode, LinkedNode, LinkedModitierNode, LinkedKeyNode, ListNode } from './parser'
 
 // TODO: if we offer custom transform for uses, should be defined TransformOptions type to here
 // ex.
@@ -7,8 +7,6 @@ import { ResourceNode, Node, NodeTypes, PluralNode, MessageNode, LinkedNode, Lin
 
 type TransformContext = {
   ast: ResourceNode
-  modifiers: Set<string>
-  refers: Set<string>
   needInterpolate: boolean
 }
 
@@ -19,8 +17,6 @@ type Transformer = Readonly<{
 function createTransformer (ast: ResourceNode/*, options: TransformOptions */): Transformer {
   const _context = {
     ast,
-    modifiers: new Set(),
-    refers: new Set(),
     needInterpolate: false
   } as TransformContext
 
@@ -54,14 +50,6 @@ function traverseNode (node: Node, transformer: Transformer): void {
       linked.modifier && traverseNode(linked.modifier, transformer)
       traverseNode(linked.key, transformer)
       break
-    case NodeTypes.LinkedModifier:
-      const modifier = node as LinkedModitierNode
-      context.modifiers.add(modifier.value)
-      break
-    case NodeTypes.LinkedKey:
-      const key = node as LinkedKeyNode
-      context.refers.add(key.value)
-      break
     case NodeTypes.List:
     case NodeTypes.Named:
       context.needInterpolate = true
@@ -81,7 +69,5 @@ export function transform (ast: ResourceNode/*, options: TransformOptions */): v
   ast.body && traverseNode(ast.body, transformer)
   // set meta information
   const context = transformer.context()
-  ast.modifiers = [...context.modifiers]
-  ast.refers = [...context.refers]
   ast.needInterpolate = context.needInterpolate
 }

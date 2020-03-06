@@ -1,4 +1,16 @@
-import { ResourceNode, Node, NodeTypes, PluralNode, MessageNode, TextNode, ListNode, NamedNode } from './parser'
+import {
+  ResourceNode,
+  Node,
+  NodeTypes,
+  PluralNode,
+  MessageNode,
+  TextNode,
+  ListNode,
+  NamedNode,
+  LinkedNode,
+  LinkedKeyNode,
+  LinkedModitierNode
+} from './parser'
 
 export const INTERPOLATE_CODE = `const interpolate = val => { return val == null ? "" : Array.isArray(val) || ((Object.prototype.toString.call(val) === "[object Object]") && val.toString === Object.prototype.toString) ? JSON.stringify(val, null, 2) : String(val) }`
 
@@ -58,6 +70,20 @@ function createCodeGenerator (source?: string): CodeGenerator {
   })
 }
 
+function generateLinkedNode (generator: CodeGenerator, node: LinkedNode): void {
+  if (node.modifier) {
+    generator.push('ctx._resolveModifier(')
+    generateNode(generator, node.modifier)
+    generator.push(')(')
+  }
+  generator.push('ctx._resolveMsg(')
+  generateNode(generator, node.key)
+  generator.push(')(ctx)')
+  if (node.modifier) {
+    generator.push(')')
+  }
+}
+
 function generateMessageNode (generator: CodeGenerator, node: MessageNode): void {
   if (node.items.length > 1) {
     generator.push('[')
@@ -107,6 +133,15 @@ function generateNode (generator: CodeGenerator, node: Node): void {
     case NodeTypes.Message:
       generateMessageNode(generator, (node as MessageNode))
       break
+    case NodeTypes.Linked:
+      generateLinkedNode(generator, (node as LinkedNode))
+      break
+    case NodeTypes.LinkedModifier:
+      generator.push(JSON.stringify((node as LinkedModitierNode).value))
+      break
+    case NodeTypes.LinkedKey:
+      generator.push(JSON.stringify((node as LinkedKeyNode).value))
+      break
     case NodeTypes.List:
       generator.push(`interpolate(ctx.list[${(node as ListNode).index}])`)
       break
@@ -122,14 +157,18 @@ function generateNode (generator: CodeGenerator, node: Node): void {
   }
 }
 
+function generateInterpolate (generator: CodeGenerator): void {
+  generator.push(INTERPOLATE_CODE)
+  generator.newline()
+}
+
 // generate code from AST
 export const generate = (ast: ResourceNode): string => {
   const generator = createCodeGenerator(ast.loc && ast.loc.source)
   generator.push(`function __msg__ (ctx) {`)
   generator.indent()
   if (ast.needInterpolate) {
-    generator.push(INTERPOLATE_CODE)
-    generator.newline()
+    generateInterpolate(generator)
   }
   generator.push(`return `)
   generateNode(generator, ast)

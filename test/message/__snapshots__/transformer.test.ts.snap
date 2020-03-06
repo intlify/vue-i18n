@@ -216,13 +216,7 @@ Object {
       "offset": 0,
     },
   },
-  "modifiers": Array [
-    "upper",
-  ],
   "needInterpolate": true,
-  "refers": Array [
-    "no apples",
-  ],
   "start": 0,
   "type": 0,
 }
