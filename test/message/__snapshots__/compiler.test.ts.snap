@@ -1,0 +1,235 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`compile: ast 1`] = `
+Object {
+  "body": Object {
+    "cases": Array [
+      Object {
+        "end": 17,
+        "items": Array [
+          Object {
+            "end": 18,
+            "key": Object {
+              "end": 17,
+              "loc": Object {
+                "end": Object {
+                  "column": 18,
+                  "line": 1,
+                  "offset": 17,
+                },
+                "start": Object {
+                  "column": 9,
+                  "line": 1,
+                  "offset": 8,
+                },
+              },
+              "start": 8,
+              "type": 7,
+              "value": "no apples",
+            },
+            "loc": Object {
+              "end": Object {
+                "column": 19,
+                "line": 1,
+                "offset": 18,
+              },
+              "start": Object {
+                "column": 1,
+                "line": 1,
+                "offset": 0,
+              },
+            },
+            "modifier": Object {
+              "end": 6,
+              "loc": Object {
+                "end": Object {
+                  "column": 7,
+                  "line": 1,
+                  "offset": 6,
+                },
+                "start": Object {
+                  "column": 2,
+                  "line": 1,
+                  "offset": 1,
+                },
+              },
+              "start": 1,
+              "type": 8,
+              "value": "caml",
+            },
+            "start": 0,
+            "type": 6,
+          },
+        ],
+        "loc": Object {
+          "end": Object {
+            "column": 19,
+            "line": 1,
+            "offset": 18,
+          },
+          "start": Object {
+            "column": 1,
+            "line": 1,
+            "offset": 0,
+          },
+        },
+        "start": 0,
+        "type": 2,
+      },
+      Object {
+        "end": 24,
+        "items": Array [
+          Object {
+            "end": 24,
+            "index": 0,
+            "loc": Object {
+              "end": Object {
+                "column": 25,
+                "line": 1,
+                "offset": 24,
+              },
+              "start": Object {
+                "column": 22,
+                "line": 1,
+                "offset": 21,
+              },
+            },
+            "start": 21,
+            "type": 5,
+          },
+          Object {
+            "end": 30,
+            "loc": Object {
+              "end": Object {
+                "column": 31,
+                "line": 1,
+                "offset": 30,
+              },
+              "start": Object {
+                "column": 25,
+                "line": 1,
+                "offset": 24,
+              },
+            },
+            "start": 24,
+            "type": 3,
+            "value": " apple",
+          },
+        ],
+        "loc": Object {
+          "end": Object {
+            "column": 31,
+            "line": 1,
+            "offset": 30,
+          },
+          "start": Object {
+            "column": 22,
+            "line": 1,
+            "offset": 21,
+          },
+        },
+        "start": 21,
+        "type": 2,
+      },
+      Object {
+        "end": 43,
+        "items": Array [
+          Object {
+            "end": 36,
+            "key": "n",
+            "loc": Object {
+              "end": Object {
+                "column": 37,
+                "line": 1,
+                "offset": 36,
+              },
+              "start": Object {
+                "column": 34,
+                "line": 1,
+                "offset": 33,
+              },
+            },
+            "start": 33,
+            "type": 4,
+          },
+          Object {
+            "end": 43,
+            "loc": Object {
+              "end": Object {
+                "column": 44,
+                "line": 1,
+                "offset": 43,
+              },
+              "start": Object {
+                "column": 37,
+                "line": 1,
+                "offset": 36,
+              },
+            },
+            "start": 36,
+            "type": 3,
+            "value": "　apples",
+          },
+        ],
+        "loc": Object {
+          "end": Object {
+            "column": 44,
+            "line": 1,
+            "offset": 43,
+          },
+          "start": Object {
+            "column": 34,
+            "line": 1,
+            "offset": 33,
+          },
+        },
+        "start": 33,
+        "type": 2,
+      },
+    ],
+    "end": 43,
+    "loc": Object {
+      "end": Object {
+        "column": 44,
+        "line": 1,
+        "offset": 43,
+      },
+      "start": Object {
+        "column": 1,
+        "line": 1,
+        "offset": 0,
+      },
+    },
+    "start": 0,
+    "type": 1,
+  },
+  "end": 43,
+  "loc": Object {
+    "end": Object {
+      "column": 44,
+      "line": 1,
+      "offset": 43,
+    },
+    "start": Object {
+      "column": 1,
+      "line": 1,
+      "offset": 0,
+    },
+  },
+  "needInterpolate": true,
+  "start": 0,
+  "type": 0,
+}
+`;
+
+exports[`compile: code 1`] = `
+"function __msg__ (ctx) {
+  return [
+    ctx._resolveModifier(\\"caml\\")(ctx._resolveMsg(\\"no apples\\")(ctx)), [
+      ctx._interpolate(ctx.list[0]), \\" apple\\", \\"\\"
+    ].join(\\"\\"), [
+      ctx._interpolate(ctx.named[\\"n\\"]), \\"　apples\\", \\"\\"
+    ].join(\\"\\"), \\"\\"
+  ][ctx.plural.rule(ctx.plural.index, 3)]
+}"
+`;
