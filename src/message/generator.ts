@@ -143,10 +143,10 @@ function generateNode (generator: CodeGenerator, node: Node): void {
       generator.push(JSON.stringify((node as LinkedKeyNode).value))
       break
     case NodeTypes.List:
-      generator.push(`interpolate(ctx.list[${(node as ListNode).index}])`)
+      generator.push(`ctx._interpolate(ctx.list[${(node as ListNode).index}])`)
       break
     case NodeTypes.Named:
-      generator.push(`interpolate(ctx.named.${(node as NamedNode).key})`)
+      generator.push(`ctx._interpolate(ctx.named.${(node as NamedNode).key})`)
       break
     case NodeTypes.Text:
       generator.push(JSON.stringify((node as TextNode).value))
@@ -157,19 +157,11 @@ function generateNode (generator: CodeGenerator, node: Node): void {
   }
 }
 
-function generateInterpolate (generator: CodeGenerator): void {
-  generator.push(INTERPOLATE_CODE)
-  generator.newline()
-}
-
 // generate code from AST
 export const generate = (ast: ResourceNode): string => {
   const generator = createCodeGenerator(ast.loc && ast.loc.source)
   generator.push(`function __msg__ (ctx) {`)
   generator.indent()
-  if (ast.needInterpolate) {
-    generateInterpolate(generator)
-  }
   generator.push(`return `)
   generateNode(generator, ast)
   generator.deindent()

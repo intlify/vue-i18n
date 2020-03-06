@@ -1,6 +1,6 @@
 import { createParser } from '../../src/message/parser'
 import { transform } from '../../src/message/transformer'
-import { generate, INTERPOLATE_CODE } from '../../src/message/generator'
+import { generate } from '../../src/message/generator'
 
 describe('text', () => {
   test('basic', () => {
@@ -28,9 +28,8 @@ describe('list', () => {
     const ast = parser.parse('hi {0} !')
     transform(ast)
     const code = generate(ast)
-    expect(code).toMatch(`${INTERPOLATE_CODE}`)
     expect(code).toMatch(`return [`)
-    expect(code).toMatch(`"hi ", interpolate(ctx.list[0]), " !", ""`)
+    expect(code).toMatch(`"hi ", ctx._interpolate(ctx.list[0]), " !", ""`)
     expect(code).toMatch(`].join("")`)
     expect(code).toMatchSnapshot()
   })
@@ -40,9 +39,8 @@ describe('list', () => {
     const ast = parser.parse('{0} {1} !')
     transform(ast)
     const code = generate(ast)
-    expect(code).toMatch(`${INTERPOLATE_CODE}`)
     expect(code).toMatch(`return [`)
-    expect(code).toMatch(`interpolate(ctx.list[0]), " ", interpolate(ctx.list[1]), " !", ""`)
+    expect(code).toMatch(`ctx._interpolate(ctx.list[0]), " ", ctx._interpolate(ctx.list[1]), " !", ""`)
     expect(code).toMatch(`].join("")`)
     expect(code).toMatchSnapshot()
   })
@@ -54,9 +52,8 @@ describe('named', () => {
     const ast = parser.parse('hi {name} !')
     transform(ast)
     const code = generate(ast)
-    expect(code).toMatch(`${INTERPOLATE_CODE}`)
     expect(code).toMatch(`return [`)
-    expect(code).toMatch(`"hi ", interpolate(ctx.named.name), " !", ""`)
+    expect(code).toMatch(`"hi ", ctx._interpolate(ctx.named.name), " !", ""`)
     expect(code).toMatch(`].join("")`)
     expect(code).toMatchSnapshot()
   })
@@ -66,9 +63,8 @@ describe('named', () => {
     const ast = parser.parse('{greeting} {name} !')
     transform(ast)
     const code = generate(ast)
-    expect(code).toMatch(`${INTERPOLATE_CODE}`)
     expect(code).toMatch(`return [`)
-    expect(code).toMatch(`interpolate(ctx.named.greeting), " ", interpolate(ctx.named.name), " !", ""`)
+    expect(code).toMatch(`ctx._interpolate(ctx.named.greeting), " ", ctx._interpolate(ctx.named.name), " !", ""`)
     expect(code).toMatch(`].join("")`)
     expect(code).toMatchSnapshot()
   })
@@ -91,9 +87,8 @@ describe('linked', () => {
     const ast = parser.parse('hi @:{0} !')
     transform(ast)
     const code = generate(ast)
-    expect(code).toMatch(`${INTERPOLATE_CODE}`)
     expect(code).toMatch(`return [`)
-    expect(code).toMatch(`"hi ", ctx._resolveMsg(interpolate(ctx.list[0]))(ctx), " !", ""`)
+    expect(code).toMatch(`"hi ", ctx._resolveMsg(ctx._interpolate(ctx.list[0]))(ctx), " !", ""`)
     expect(code).toMatch(`].join("")`)
     expect(code).toMatchSnapshot()
   })
@@ -103,9 +98,8 @@ describe('linked', () => {
     const ast = parser.parse('hi @:{name} !')
     transform(ast)
     const code = generate(ast)
-    expect(code).toMatch(`${INTERPOLATE_CODE}`)
     expect(code).toMatch(`return [`)
-    expect(code).toMatch(`"hi ", ctx._resolveMsg(interpolate(ctx.named.name))(ctx), " !", ""`)
+    expect(code).toMatch(`"hi ", ctx._resolveMsg(ctx._interpolate(ctx.named.name))(ctx), " !", ""`)
     expect(code).toMatch(`].join("")`)
     expect(code).toMatchSnapshot()
   })

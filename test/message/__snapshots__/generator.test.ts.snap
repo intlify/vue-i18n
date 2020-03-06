@@ -10,9 +10,8 @@ exports[`linked key 1`] = `
 
 exports[`linked list 1`] = `
 "function __msg__ (ctx) {
-  const interpolate = val => { return val == null ? \\"\\" : Array.isArray(val) || ((Object.prototype.toString.call(val) === \\"[object Object]\\") && val.toString === Object.prototype.toString) ? JSON.stringify(val, null, 2) : String(val) }
   return [
-    \\"hi \\", ctx._resolveMsg(interpolate(ctx.list[0]))(ctx), \\" !\\", \\"\\"
+    \\"hi \\", ctx._resolveMsg(ctx._interpolate(ctx.list[0]))(ctx), \\" !\\", \\"\\"
   ].join(\\"\\")
 }"
 `;
@@ -27,45 +26,40 @@ exports[`linked modifier 1`] = `
 
 exports[`linked named 1`] = `
 "function __msg__ (ctx) {
-  const interpolate = val => { return val == null ? \\"\\" : Array.isArray(val) || ((Object.prototype.toString.call(val) === \\"[object Object]\\") && val.toString === Object.prototype.toString) ? JSON.stringify(val, null, 2) : String(val) }
   return [
-    \\"hi \\", ctx._resolveMsg(interpolate(ctx.named.name))(ctx), \\" !\\", \\"\\"
+    \\"hi \\", ctx._resolveMsg(ctx._interpolate(ctx.named.name))(ctx), \\" !\\", \\"\\"
   ].join(\\"\\")
 }"
 `;
 
 exports[`list basic 1`] = `
 "function __msg__ (ctx) {
-  const interpolate = val => { return val == null ? \\"\\" : Array.isArray(val) || ((Object.prototype.toString.call(val) === \\"[object Object]\\") && val.toString === Object.prototype.toString) ? JSON.stringify(val, null, 2) : String(val) }
   return [
-    \\"hi \\", interpolate(ctx.list[0]), \\" !\\", \\"\\"
+    \\"hi \\", ctx._interpolate(ctx.list[0]), \\" !\\", \\"\\"
   ].join(\\"\\")
 }"
 `;
 
 exports[`list multiple 1`] = `
 "function __msg__ (ctx) {
-  const interpolate = val => { return val == null ? \\"\\" : Array.isArray(val) || ((Object.prototype.toString.call(val) === \\"[object Object]\\") && val.toString === Object.prototype.toString) ? JSON.stringify(val, null, 2) : String(val) }
   return [
-    interpolate(ctx.list[0]), \\" \\", interpolate(ctx.list[1]), \\" !\\", \\"\\"
+    ctx._interpolate(ctx.list[0]), \\" \\", ctx._interpolate(ctx.list[1]), \\" !\\", \\"\\"
   ].join(\\"\\")
 }"
 `;
 
 exports[`named basic 1`] = `
 "function __msg__ (ctx) {
-  const interpolate = val => { return val == null ? \\"\\" : Array.isArray(val) || ((Object.prototype.toString.call(val) === \\"[object Object]\\") && val.toString === Object.prototype.toString) ? JSON.stringify(val, null, 2) : String(val) }
   return [
-    \\"hi \\", interpolate(ctx.named.name), \\" !\\", \\"\\"
+    \\"hi \\", ctx._interpolate(ctx.named.name), \\" !\\", \\"\\"
   ].join(\\"\\")
 }"
 `;
 
 exports[`named multiple 1`] = `
 "function __msg__ (ctx) {
-  const interpolate = val => { return val == null ? \\"\\" : Array.isArray(val) || ((Object.prototype.toString.call(val) === \\"[object Object]\\") && val.toString === Object.prototype.toString) ? JSON.stringify(val, null, 2) : String(val) }
   return [
-    interpolate(ctx.named.greeting), \\" \\", interpolate(ctx.named.name), \\" !\\", \\"\\"
+    ctx._interpolate(ctx.named.greeting), \\" \\", ctx._interpolate(ctx.named.name), \\" !\\", \\"\\"
   ].join(\\"\\")
 }"
 `;
