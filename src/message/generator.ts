@@ -146,7 +146,7 @@ function generateNode (generator: CodeGenerator, node: Node): void {
       generator.push(`ctx._interpolate(ctx.list[${(node as ListNode).index}])`)
       break
     case NodeTypes.Named:
-      generator.push(`ctx._interpolate(ctx.named.${(node as NamedNode).key})`)
+      generator.push(`ctx._interpolate(ctx.named[${JSON.stringify((node as NamedNode).key)}])`)
       break
     case NodeTypes.Text:
       generator.push(JSON.stringify((node as TextNode).value))

@@ -53,7 +53,7 @@ describe('named', () => {
     transform(ast)
     const code = generate(ast)
     expect(code).toMatch(`return [`)
-    expect(code).toMatch(`"hi ", ctx._interpolate(ctx.named.name), " !", ""`)
+    expect(code).toMatch(`"hi ", ctx._interpolate(ctx.named["name"]), " !", ""`)
     expect(code).toMatch(`].join("")`)
     expect(code).toMatchSnapshot()
   })
@@ -64,7 +64,7 @@ describe('named', () => {
     transform(ast)
     const code = generate(ast)
     expect(code).toMatch(`return [`)
-    expect(code).toMatch(`ctx._interpolate(ctx.named.greeting), " ", ctx._interpolate(ctx.named.name), " !", ""`)
+    expect(code).toMatch(`ctx._interpolate(ctx.named["greeting"]), " ", ctx._interpolate(ctx.named["name"]), " !", ""`)
     expect(code).toMatch(`].join("")`)
     expect(code).toMatchSnapshot()
   })
@@ -99,7 +99,7 @@ describe('linked', () => {
     transform(ast)
     const code = generate(ast)
     expect(code).toMatch(`return [`)
-    expect(code).toMatch(`"hi ", ctx._resolveMsg(ctx._interpolate(ctx.named.name))(ctx), " !", ""`)
+    expect(code).toMatch(`"hi ", ctx._resolveMsg(ctx._interpolate(ctx.named["name"]))(ctx), " !", ""`)
     expect(code).toMatch(`].join("")`)
     expect(code).toMatchSnapshot()
   })
@@ -116,34 +116,28 @@ describe('linked', () => {
   })
 })
 
-test('plural', () => {
-  const parser = createParser()
-  const ast = parser.parse('no apples | one apple  |  too much apples  ')
-  transform(ast)
-  const code = generate(ast)
-  expect(code).toMatch(`return [`)
-  expect(code).toMatch(`"no apples", "one apple", "too much apples  ", ""`)
-  expect(code).toMatch(`[ctx.plural.rule(ctx.plural.index, 3)]`)
-  expect(code).toMatchSnapshot()
-})
+describe('plural', () => {
+  test('simple', () => {
+    const parser = createParser()
+    const ast = parser.parse('no apples | one apple  |  too much apples  ')
+    transform(ast)
+    const code = generate(ast)
+    expect(code).toMatch(`return [`)
+    expect(code).toMatch(`"no apples", "one apple", "too much apples  ", ""`)
+    expect(code).toMatch(`[ctx.plural.rule(ctx.plural.index, 3)]`)
+    expect(code).toMatchSnapshot()
+  })
 
-/*
-test('linked', () => {
-  const compiler = createCompiler()
-  const { code } = compiler.compile('hi @.upper:your_name !')
-  expect(code).toMatchSnapshot()
+  test('complex', () => {
+    const parser = createParser()
+    const ast = parser.parse('@.caml:(no apples) | {0} apple | {n}　apples')
+    transform(ast)
+    const code = generate(ast)
+    expect(code).toMatch(`return [`)
+    expect(code).toMatch(`ctx._resolveModifier("caml")(ctx._resolveMsg("no apples")(ctx)), [`)
+    expect(code).toMatch(`ctx._interpolate(ctx.list[0]), " apple", ""`)
+    expect(code).toMatch(`ctx._interpolate(ctx.named["n"]), "　apples", ""`) // eslint-disable-line
+    expect(code).toMatch(`[ctx.plural.rule(ctx.plural.index, 3)]`)
+    expect(code).toMatchSnapshot()
+  })
 })
-
-test('plural', () => {
-  const compiler = createCompiler()
-  const { code } = compiler.compile('@:(no apples) | {0} apple | {n}　apples')
-  expect(code).toMatchSnapshot()
-})
-
-test('empty', () => {
-  const compiler = createCompiler()
-  const { code } = compiler.compile('')
-  // expect(code).toMatch(`return null`)
-  expect(code).toMatchSnapshot()
-})
-*/

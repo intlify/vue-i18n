@@ -27,7 +27,7 @@ exports[`linked modifier 1`] = `
 exports[`linked named 1`] = `
 "function __msg__ (ctx) {
   return [
-    \\"hi \\", ctx._resolveMsg(ctx._interpolate(ctx.named.name))(ctx), \\" !\\", \\"\\"
+    \\"hi \\", ctx._resolveMsg(ctx._interpolate(ctx.named[\\"name\\"]))(ctx), \\" !\\", \\"\\"
   ].join(\\"\\")
 }"
 `;
@@ -51,7 +51,7 @@ exports[`list multiple 1`] = `
 exports[`named basic 1`] = `
 "function __msg__ (ctx) {
   return [
-    \\"hi \\", ctx._interpolate(ctx.named.name), \\" !\\", \\"\\"
+    \\"hi \\", ctx._interpolate(ctx.named[\\"name\\"]), \\" !\\", \\"\\"
   ].join(\\"\\")
 }"
 `;
@@ -59,12 +59,24 @@ exports[`named basic 1`] = `
 exports[`named multiple 1`] = `
 "function __msg__ (ctx) {
   return [
-    ctx._interpolate(ctx.named.greeting), \\" \\", ctx._interpolate(ctx.named.name), \\" !\\", \\"\\"
+    ctx._interpolate(ctx.named[\\"greeting\\"]), \\" \\", ctx._interpolate(ctx.named[\\"name\\"]), \\" !\\", \\"\\"
   ].join(\\"\\")
 }"
 `;
 
-exports[`plural 1`] = `
+exports[`plural complex 1`] = `
+"function __msg__ (ctx) {
+  return [
+    ctx._resolveModifier(\\"caml\\")(ctx._resolveMsg(\\"no apples\\")(ctx)), [
+      ctx._interpolate(ctx.list[0]), \\" apple\\", \\"\\"
+    ].join(\\"\\"), [
+      ctx._interpolate(ctx.named[\\"n\\"]), \\"　apples\\", \\"\\"
+    ].join(\\"\\"), \\"\\"
+  ][ctx.plural.rule(ctx.plural.index, 3)]
+}"
+`;
+
+exports[`plural simple 1`] = `
 "function __msg__ (ctx) {
   return [
     \\"no apples\\", \\"one apple\\", \\"too much apples  \\", \\"\\"
