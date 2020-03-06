@@ -1,6 +1,8 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`compile: ast 1`] = `
+exports[`compile 1`] = `"hello world"`;
+
+exports[`createCompiler: ast 1`] = `
 Object {
   "body": Object {
     "cases": Array [
@@ -222,7 +224,7 @@ Object {
 }
 `;
 
-exports[`compile: code 1`] = `
+exports[`createCompiler: code 1`] = `
 "function __msg__ (ctx) {
   return [
     ctx._resolveModifier(\\"caml\\")(ctx._resolveMsg(\\"no apples\\")(ctx)), [
