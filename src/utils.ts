@@ -5,7 +5,7 @@ export const isSymbol = (val: unknown): val is symbol => typeof val === 'symbol'
 export const isObject = (val: unknown): val is Record<any, any> => // eslint-disable-line
   val !== null && typeof val === 'object'
 
-export const isPromise = <T = any>(val: unknown): val is Promise<T> => {
+export const isPromise = <T = any>(val: unknown): val is Promise<T> => { // eslint-disable-line
   return isObject(val) && isFunction(val.then) && isFunction(val.catch)
 }
 

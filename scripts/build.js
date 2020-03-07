@@ -4,6 +4,8 @@ const fs = require('fs')
 const zlib = require('zlib')
 const chalk = require('chalk')
 const { rollup } = require('rollup')
+const nodeResolve = require('@rollup/plugin-node-resolve')
+const commonjs = require('@rollup/plugin-commonjs')
 const replace = require('@rollup/plugin-replace')
 const typescript = require('rollup-plugin-typescript2')
 const { terser } = require('rollup-plugin-terser')
@@ -104,7 +106,8 @@ function makeEntries (entryPath, destPath, moduleName, packageName, banner) {
   }
 }
 
-function setupPlugins (target, version, env, plugins = []) {
+function setupPlugins (target, version, env, format, plugins = []) {
+  plugins.push(nodeResolve(), commonjs())
   plugins.push(
     typescript({
       tsconfig: path.resolve(target, 'tsconfig.json'),
@@ -130,14 +133,17 @@ function setupPlugins (target, version, env, plugins = []) {
 }
 
 function generateConfig (target, options, moduleName, version) {
-  const plugins = setupPlugins(target, version, options.env)
+  const plugins = setupPlugins(target, version, options.env, options.format)
   return {
     input: options.entry,
     output: {
       file: options.dest,
       name: moduleName,
       format: options.format,
-      banner: options.banner
+      banner: options.banner,
+      globals: {
+        vue: 'Vue'
+      }
       // TODO: sourcemap: 'inline'
     },
     // https://github.com/rollup/rollup/issues/1514#issuecomment-320438924
