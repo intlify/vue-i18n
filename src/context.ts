@@ -7,7 +7,7 @@ export type LinkedModify = (str: string) => string
 export type LinkedModifiers = { [key: string]: LinkedModify }
 export type MessageFunction = (ctx: MessageContext) => string
 export type MessageFucntions = { [key: string]: MessageFunction }
-export type NamedValue <T = {}> = T & { [prop: string]: unknown }
+export type NamedValue<T = {}> = T & { [prop: string]: unknown }
 
 export type MessageContextOptions<L extends unknown[], N = {}> = {
   parent?: MessageContext
@@ -29,6 +29,9 @@ export type MessageContext = {
   interpolate: (val: unknown) => string
 }
 
+const DEFAULT_MODIFIER = (str: string): string => str
+const DEFAULT_MESSAGE = (ctx: MessageContext): string => '' // eslint-disable-line
+
 function pluralDefault (choice: number, choicesLength: number): number {
   choice = Math.abs(choice)
   if (choicesLength === 2) {
@@ -41,7 +44,7 @@ function pluralDefault (choice: number, choicesLength: number): number {
   return choice ? Math.min(choice, 2) : 0
 }
 
-export function createMessageContext <L extends unknown[], N = {}> (
+export function createMessageContext<L extends unknown[], N = {}> (
   options: MessageContextOptions<L, N> = {}
 ): MessageContext {
   // TODO: should be remove any ...
@@ -59,14 +62,14 @@ export function createMessageContext <L extends unknown[], N = {}> (
   // TODO: should be implemented warning message
   const modifier = (name: string): LinkedModify => options.modifiers
     ? options.modifiers[name]
-    : (str: string): string => str
+    : DEFAULT_MODIFIER
 
   const message = (name: string): MessageFunction => {
     const msg = options.messages !== undefined && options.messages[name]
     return !msg
       ? options.parent
         ? options.parent.message(name) // resolve from parent messages
-        : (ctx: MessageContext): string => '' // eslint-disable-line
+        : DEFAULT_MESSAGE
       : msg
   }
 
