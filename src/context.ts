@@ -1,18 +1,82 @@
-export type Locale = string
+import { toDisplayString } from './utils'
 
-export type MessageContextOptions = {
-  locale?: Locale
-  fallbackLocales?: Locale[]
+export type Locale = string
+export type PluralizationRule = (choice: number, choicesLength: number) => number
+export type PluralizationRulesMap = { [locale: string]: PluralizationRule }
+export type LinkedModify = (str: string) => string
+export type LinkedModifiers = { [key: string]: LinkedModify }
+export type MessageFunction = (ctx: MessageContext) => string
+export type MessageFucntions = { [key: string]: MessageFunction }
+export type NamedValue <T = {}> = T & { [prop: string]: unknown }
+
+export type MessageContextOptions<L extends unknown[], N = {}> = {
+  parent?: MessageContext
+  list?: L
+  named?: NamedValue<N>
+  modifiers?: LinkedModifiers
+  pluralIndex?: number
+  pluralRule?: PluralizationRule
+  messages?: MessageFucntions
 }
 
 export type MessageContext = {
-  locale: Locale
-  fallbackLocales: Locale[]
+  list: (index: number) => unknown
+  named: (key: string) => unknown
+  pluralIndex: number
+  pluralRule: PluralizationRule
+  modifier: (name: string) => LinkedModify
+  message: (name: string) => MessageFunction
+  interpolate: (val: unknown) => string
 }
 
-export function createMessageContext (options: MessageContextOptions = {}): MessageContext {
+function pluralDefault (choice: number, choicesLength: number): number {
+  choice = Math.abs(choice)
+  if (choicesLength === 2) {
+    return choice
+      ? choice > 1
+        ? 1
+        : 0
+      : 1
+  }
+  return choice ? Math.min(choice, 2) : 0
+}
+
+export function createMessageContext <L extends unknown[], N = {}> (
+  options: MessageContextOptions<L, N> = {}
+): MessageContext {
+  // TODO: should be remove any ...
+  const list = (index: number): unknown => (options.list || [])[index]
+
+  // TODO: should be remove any ...
+  const named = (key: string): unknown => (options.named || {} as any)[key]
+
+  // TODO: should be implemented warning message
+  const pluralIndex = options.pluralIndex || -1
+
+  // TODO: should be implemented warning message
+  const pluralRule = options.pluralRule || pluralDefault
+
+  // TODO: should be implemented warning message
+  const modifier = (name: string): LinkedModify => options.modifiers
+    ? options.modifiers[name]
+    : (str: string): string => str
+
+  const message = (name: string): MessageFunction => {
+    const msg = options.messages !== undefined && options.messages[name]
+    return !msg
+      ? options.parent
+        ? options.parent.message(name) // resolve from parent messages
+        : (ctx: MessageContext): string => '' // eslint-disable-line
+      : msg
+  }
+
   return {
-    locale: options.locale || 'en',
-    fallbackLocales: options.fallbackLocales || []
+    list,
+    named,
+    pluralIndex,
+    pluralRule,
+    modifier,
+    message,
+    interpolate: toDisplayString
   }
 }
