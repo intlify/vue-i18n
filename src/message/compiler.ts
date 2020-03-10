@@ -23,7 +23,7 @@ export type Compiler = Readonly<{
   compile: (source: string, options?: CompileOptions) => CompileResult
 }>
 
-export type MessageFunction = () => string
+export type MessageFunction = (ctx: unknown) => string
 
 export function createCompiler (): Compiler {
   const _parser = createParser()

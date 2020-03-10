@@ -72,11 +72,11 @@ function createCodeGenerator (source?: string): CodeGenerator {
 
 function generateLinkedNode (generator: CodeGenerator, node: LinkedNode): void {
   if (node.modifier) {
-    generator.push('ctx._resolveModifier(')
+    generator.push('ctx.modifier(')
     generateNode(generator, node.modifier)
     generator.push(')(')
   }
-  generator.push('ctx._resolveMsg(')
+  generator.push('ctx.message(')
   generateNode(generator, node.key)
   generator.push(')(ctx)')
   if (node.modifier) {
@@ -110,7 +110,7 @@ function generatePluralNode (generator: CodeGenerator, node: PluralNode): void {
     }
     generator.push('""')
     generator.deindent()
-    generator.push(`][ctx.plural.rule(ctx.plural.index, ${node.cases.length})]`)
+    generator.push(`][ctx.pluralRule(ctx.pluralIndex, ${node.cases.length})]`)
   }
 }
 
@@ -143,10 +143,10 @@ function generateNode (generator: CodeGenerator, node: Node): void {
       generator.push(JSON.stringify((node as LinkedKeyNode).value))
       break
     case NodeTypes.List:
-      generator.push(`ctx._interpolate(ctx.list[${(node as ListNode).index}])`)
+      generator.push(`ctx.interpolate(ctx.list(${(node as ListNode).index}))`)
       break
     case NodeTypes.Named:
-      generator.push(`ctx._interpolate(ctx.named[${JSON.stringify((node as NamedNode).key)}])`)
+      generator.push(`ctx.interpolate(ctx.named(${JSON.stringify((node as NamedNode).key)}))`)
       break
     case NodeTypes.Text:
       generator.push(JSON.stringify((node as TextNode).value))

@@ -227,11 +227,11 @@ Object {
 exports[`createCompiler: code 1`] = `
 "function __msg__ (ctx) {
   return [
-    ctx._resolveModifier(\\"caml\\")(ctx._resolveMsg(\\"no apples\\")(ctx)), [
-      ctx._interpolate(ctx.list[0]), \\" apple\\", \\"\\"
+    ctx.modifier(\\"caml\\")(ctx.message(\\"no apples\\")(ctx)), [
+      ctx.interpolate(ctx.list(0)), \\" apple\\", \\"\\"
     ].join(\\"\\"), [
-      ctx._interpolate(ctx.named[\\"n\\"]), \\"　apples\\", \\"\\"
+      ctx.interpolate(ctx.named(\\"n\\")), \\"　apples\\", \\"\\"
     ].join(\\"\\"), \\"\\"
-  ][ctx.plural.rule(ctx.plural.index, 3)]
+  ][ctx.pluralRule(ctx.pluralIndex, 3)]
 }"
 `;
