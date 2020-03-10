@@ -228,9 +228,9 @@ exports[`createCompiler: code 1`] = `
 "function __msg__ (ctx) {
   return [
     ctx.modifier(\\"caml\\")(ctx.message(\\"no apples\\")(ctx)), [
-      ctx.interpolate(ctx.list(0)), \\" apple\\", \\"\\"
+      ctx.interpolate(ctx.list(0)), \\" apple\\"
     ].join(\\"\\"), [
-      ctx.interpolate(ctx.named(\\"n\\")), \\"　apples\\", \\"\\"
+      ctx.interpolate(ctx.named(\\"n\\")), \\"　apples\\"
     ].join(\\"\\"), \\"\\"
   ][ctx.pluralRule(ctx.pluralIndex, 3)]
 }"

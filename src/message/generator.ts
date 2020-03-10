@@ -90,9 +90,9 @@ function generateMessageNode (generator: CodeGenerator, node: MessageNode): void
     generator.indent()
     for (let i = 0; i < node.items.length; i++) {
       generateNode(generator, node.items[i])
+      if (i === node.items.length - 1) { break }
       generator.push(', ')
     }
-    generator.push('""')
     generator.deindent()
     generator.push('].join("")')
   } else {
