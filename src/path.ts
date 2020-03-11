@@ -1,5 +1,6 @@
 import { isObject } from './utils'
-import { Path } from '../types'
+
+export type Path = string
 
 // actions
 const enum Actions {

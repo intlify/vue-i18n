@@ -111,8 +111,9 @@ function setupPlugins (target, version, env, format, plugins = []) {
   plugins.push(
     typescript({
       tsconfig: path.resolve(target, 'tsconfig.json'),
-      cacheRoot: path.resolve(target, 'node_modules/.rts2_cache'),
+      cacheRoot: path.resolve(target, 'node_modules/.rpt2_cache'),
       clean: true
+      // verbosity: 4,
     })
   )
 

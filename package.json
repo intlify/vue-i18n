@@ -35,7 +35,8 @@
     "typescript-eslint-language-service": "^2.0.3"
   },
   "files": [
-    "dist"
+    "dist",
+    "types"
   ],
   "homepage": "https://github.com/intlify/vue-i18n#readme",
   "keywords": [
@@ -54,9 +55,12 @@
     "url": "git+https://github.com/intlify/vue-i18n.git"
   },
   "scripts": {
-    "build": "node ./scripts/build.js",
+    "build": "npm run build:type && npm run build:transpile",
+    "build:transpile": "node ./scripts/build.js",
+    "build:type": "tsc -p . --declaration --emitDeclarationOnly --declarationDir ./types",
     "build:watch": "tsc -p . --watch",
-    "clean": "npm run clean:dist && npm run clean:cache && npm run clean:coverage",
+    "clean": "npm run clean:dist && npm run clean:type && npm run clean:cache && npm run clean:coverage",
+    "clean:type": "rm -rf ./types/**",
     "clean:dist": "rm -rf ./dist/**",
     "clean:cache": "rm -rf ./node_modules/.rts2_cache",
     "clean:coverage": "rm -rf ./coverage",
@@ -64,7 +68,7 @@
     "lint": "eslint ./src ./test --ext .ts",
     "test": "npm run lint && npm run test:cover",
     "test:cover": "npm run test:unit -- --coverage",
-    "test:type": "tsc -p .",
+    "test:type": "tsc -p . --noEmit",
     "test:unit": "jest --env node",
     "test:watch": "jest --env node --watch"
   },
