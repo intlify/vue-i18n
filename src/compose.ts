@@ -4,28 +4,27 @@ import { Runtime, RuntimeOptions, createRuntime } from './runtime'
 export const VueI18nSymbol: InjectionKey<Runtime> = Symbol.for('vue-i18n')
 const providers: Map<ComponentInternalInstance, InjectionKey<Runtime>> = new Map()
 
-function getProvider (ctx: ComponentInternalInstance): InjectionKey<Runtime> {
-  let current = ctx
-  let s = providers.get(current)
-  while (!s) {
+function getProvider (instance: ComponentInternalInstance): InjectionKey<Runtime> {
+  let current = instance
+  let symbol = providers.get(current)
+  while (!symbol) {
     if (!current.parent) {
-      s = VueI18nSymbol
+      symbol = VueI18nSymbol
       break
     } else {
       current = current.parent
-      s = providers.get(current)
-      if (s) {
+      symbol = providers.get(current)
+      if (symbol) {
         break
       }
     }
   }
-  return s
+  return symbol
 }
 
 // for composition API
 export function useI18n (options: RuntimeOptions = {}): Runtime {
-  const ctx = getCurrentInstance()
-  const ps = !ctx ? VueI18nSymbol : getProvider(ctx)
-  const runtime = inject(ps, createRuntime(options))
-  return runtime
+  const instance = getCurrentInstance()
+  const symbol = !instance ? VueI18nSymbol : getProvider(instance)
+  return inject(symbol) || createRuntime(options)
 }

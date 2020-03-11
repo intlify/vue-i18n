@@ -3,21 +3,30 @@ import { Runtime, Locale, TranslateResult, DateTimeFormatResult, NumberFormatRes
 import { VueI18nSymbol } from './compose'
 import { Path } from './path'
 
-export function applyPlugin (app: App, i18n: Runtime): void {
+export type LegacyAttachedI18n<T extends unknown[]> = {
+  $i18n: Runtime
+  $t: (key: Path, ...values: T) => TranslateResult
+  $tc: (key: Path, ...values: T) => TranslateResult
+  $te: (key: Path, locale?: Locale) => boolean
+  $d: (value: number | Date, ...args: T) => DateTimeFormatResult
+  $n: (value: number, ...args: T) => NumberFormatResult
+}
+
+export function applyPlugin<T extends unknown[]> (app: App, i18n: Runtime): void {
   app.provide(VueI18nSymbol, i18n)
 
   // supports compatibility for option style API
   app.mixin({
-    beforeCreate () {
+    beforeCreate (this: LegacyAttachedI18n<T>) {
       // TODO:
       this.$i18n = i18n
 
-      this.$t = (key: Path, ...values: unknown[]): TranslateResult => {
+      this.$t = (key: Path, ...values: T): TranslateResult => {
         // TODO:
         return key
       }
 
-      this.$tc = (key: Path, choice?: number): TranslateResult => {
+      this.$tc = (key: Path, ...values: T): TranslateResult => {
         // TODO:
         return key
       }
@@ -27,12 +36,12 @@ export function applyPlugin (app: App, i18n: Runtime): void {
         return true
       }
 
-      this.$d = (value: number | Date, ...args: unknown[]): DateTimeFormatResult => {
+      this.$d = (value: number | Date, ...args: T): DateTimeFormatResult => {
         // TODO:
         return {} as DateTimeFormatResult
       }
 
-      this.$n = (value: number, ...args: unknown[]): NumberFormatResult => {
+      this.$n = (value: number, ...args: T): NumberFormatResult => {
         // TODO:
         return {} as NumberFormatResult
       }
