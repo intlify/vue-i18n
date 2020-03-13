@@ -7,9 +7,9 @@ export type MessageFunction = (ctx: MessageContext) => string
 export type MessageFucntions = { [key: string]: MessageFunction }
 export type NamedValue<T = {}> = T & { [prop: string]: unknown }
 
-export type MessageContextOptions<L extends unknown[], N = {}> = {
+export type MessageContextOptions<N = {}> = {
   parent?: MessageContext
-  list?: L
+  list?: unknown[]
   named?: NamedValue<N>
   modifiers?: LinkedModifiers
   pluralIndex?: number
@@ -42,8 +42,8 @@ function pluralDefault (choice: number, choicesLength: number): number {
   return choice ? Math.min(choice, 2) : 0
 }
 
-export function createMessageContext<L extends unknown[], N = {}> (
-  options: MessageContextOptions<L, N> = {}
+export function createMessageContext<N = {}> (
+  options: MessageContextOptions<N> = {}
 ): MessageContext {
   // TODO: should be remove any ...
   const list = (index: number): unknown => (options.list || [])[index]
