@@ -10,20 +10,10 @@ export type LocaleMessage =
   | LocaleMessage[]
 
 export type LocaleMessages = Record<Locale, LocaleMessage>
-
 export type TranslateResult =
   | string
-  | null
-  | LocaleMessageDictionary
   | LocaleMessage
 
-export type DateTimeFormatResult = {
-  // TODO:
-}
-
-export type NumberFormatResult = {
-  // TODO:
-}
 
 // TODO: should implement more runtime !!
 export type RuntimeOptions = {

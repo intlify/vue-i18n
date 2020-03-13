@@ -1,7 +1,6 @@
 import { toDisplayString } from './utils'
 
 export type PluralizationRule = (choice: number, choicesLength: number) => number
-export type PluralizationRulesMap = { [locale: string]: PluralizationRule }
 export type LinkedModify = (str: string) => string
 export type LinkedModifiers = { [key: string]: LinkedModify }
 export type MessageFunction = (ctx: MessageContext) => string
