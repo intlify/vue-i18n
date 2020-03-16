@@ -1,3 +1,5 @@
+import { compile, MessageFunction } from './message/compiler'
+import { createMessageContext } from './context'
 import { Path } from './path'
 
 export type Locale = string
@@ -6,6 +8,7 @@ export type LocaleMessageDictionary = {
 }
 export type LocaleMessage =
   | string
+  | MessageFunction
   | LocaleMessageDictionary
   | LocaleMessage[]
 
@@ -14,12 +17,16 @@ export type TranslateResult =
   | string
   | LocaleMessage
 
-
 // TODO: should implement more runtime !!
 export type RuntimeOptions = {
   locale?: Locale
   fallbackLocales?: Locale[]
   // ...
+}
+
+export type RuntimeContext = {
+  locale: Locale
+  fallbackLocales: Locale[]
 }
 
 // TODO: should implement more runtime !!

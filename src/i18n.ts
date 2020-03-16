@@ -3,7 +3,7 @@ import { applyPlugin } from './plugin'
 import { Path } from './path'
 import { PluralizationRule, LinkedModifiers } from './context'
 import { I18nComposerOptions, createI18nComposer } from './composition'
-import { Locale, TranslateResult, LocaleMessages, LocaleMessageDictionary } from './runtime'
+import { Locale, TranslateResult, LocaleMessages, LocaleMessageDictionary, LocaleMessage } from './runtime'
 
 export type Choice = number
 export type LocaleMessageObject = LocaleMessageDictionary
@@ -100,22 +100,24 @@ export type VueI18nOptions = {
 } & I18nComposerOptions
 
 export type VueI18n = {
-  /*
   // properties
   locale: Locale
   fallbackLocale: Locale
   readonly messages: LocaleMessages
   readonly dateTimeFormats: DateTimeFormats
   readonly numberFormats: NumberFormats
+  /*
   missing: MissingHandler
   silentTranslationWarn: boolean | RegExp
   silentFallbackWarn: boolean | RegExp
   preserveDirectiveContent: boolean
   warnHtmlInMessage: WarnHtmlInMessageLevel
+  */
 
   // methods
   t (key: Path, ...values: unknown[]): TranslateResult
   t (key: Path, locale: Locale, ...values: unknown[]): TranslateResult
+  /*
   tc (key: Path, ...values: unknown[]): string
   tc (key: Path, choice?: Choice, locale?: Locale, ...values: unknown[]): string
   te (key: Path, locale?: Locale): boolean
@@ -151,6 +153,8 @@ export function createI18n (options: VueI18nOptions = {}): VueI18n {
   const composer = createI18nComposer(options)
 
   const i18n = {
+    get locale (): Locale { return '' },
+    set locale (val: Locale) { },
     install (app: App): void {
       applyPlugin(app, i18n, composer)
     }
