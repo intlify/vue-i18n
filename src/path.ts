@@ -42,7 +42,7 @@ const enum PathCharTypes {
 type PathState = StateAction | States.ERROR
 type PathStateMachine = Record<string, PathState>
 
-export const pathStateMachine = [] as PathStateMachine[]
+const pathStateMachine = [] as PathStateMachine[]
 
 pathStateMachine[States.BEFORE_PATH] = {
   [PathCharTypes.WORKSPACE]: [States.BEFORE_PATH],
@@ -266,6 +266,7 @@ export type PathValue =
   | string
   | number
   | boolean
+  | Function
   | null
   | { [key: string]: PathValue }
   | PathValue[]

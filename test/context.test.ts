@@ -124,6 +124,14 @@ describe('linked', () => {
     expect(msg(ctx)).toMatch(`hi kazupon !`)
   })
 
+  test('resolve from function', () => {
+    const msg = compile('hi @:name !')
+    const ctx = createMessageContext({
+      messages: str => ctx => 'kazupon' // eslint-disable-line
+    })
+    expect(msg(ctx)).toMatch(`hi kazupon !`)
+  })
+
   test('reoslve from parent', () => {
     const parentMsg = compile('kazupon')
     const parent = createMessageContext({

@@ -1,10 +1,11 @@
-import { isNumber, toDisplayString } from './utils'
+import { isNumber, isFunction, toDisplayString, isObject } from './utils'
 
 export type PluralizationRule = (choice: number, choicesLength: number) => number
 export type LinkedModify = (str: string) => string
 export type LinkedModifiers = { [key: string]: LinkedModify }
 export type MessageFunction = (ctx: MessageContext) => string
 export type MessageFucntions = { [key: string]: MessageFunction }
+export type MessageResolveFunction = (key: string) => MessageFunction
 export type NamedValue<T = {}> = T & { [prop: string]: unknown }
 
 export type MessageContextOptions<N = {}> = {
@@ -14,7 +15,7 @@ export type MessageContextOptions<N = {}> = {
   modifiers?: LinkedModifiers
   pluralIndex?: number
   pluralRule?: PluralizationRule
-  messages?: MessageFucntions
+  messages?: MessageFucntions | MessageResolveFunction // TODO: need to design resolve message function?
 }
 
 export type MessageContext = {
@@ -88,7 +89,12 @@ export function createMessageContext<N = {}> (
     : DEFAULT_MODIFIER
 
   const message = (name: string): MessageFunction => {
-    const msg = options.messages !== undefined && options.messages[name]
+    // TODO: need to design resolve message function?
+    const msg = isFunction(options.messages)
+      ? options.messages(name)
+      : isObject(options.messages)
+        ? options.messages[name]
+        : false
     return !msg
       ? options.parent
         ? options.parent.message(name) // resolve from parent messages
