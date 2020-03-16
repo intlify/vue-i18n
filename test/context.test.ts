@@ -149,12 +149,27 @@ describe('linked', () => {
 })
 
 describe('plural', () => {
-  test('simple', () => {
+  test('basic', () => {
     const msg = compile('no apples | one apple  |  too much apples  ')
-    const ctx = createMessageContext({
-      pluralIndex: 1
+    const ctx0 = createMessageContext({ pluralIndex: 0 })
+    const ctx1 = createMessageContext({ pluralIndex: 1 })
+    const ctx2 = createMessageContext({ pluralIndex: 2 })
+    expect(msg(ctx0)).toMatch(`no apples`)
+    expect(msg(ctx1)).toMatch(`one apple`)
+    expect(msg(ctx2)).toMatch(`too much apples`)
+  })
+
+  test('pre-defined', () => {
+    const msg = compile('no apples | one apple | {count} apples')
+    const ctxPreDefined = createMessageContext({ pluralIndex: 10 })
+    const ctxNamed = createMessageContext({
+      pluralIndex: 10,
+      named: {
+        count: 20
+      }
     })
-    expect(msg(ctx)).toMatch(`one apple`)
+    expect(msg(ctxPreDefined)).toMatch(`10 apples`)
+    expect(msg(ctxNamed)).toMatch(`20 apples`)
   })
 
   test('complex', () => {

@@ -1,4 +1,4 @@
-import { toDisplayString } from './utils'
+import { isNumber, toDisplayString } from './utils'
 
 export type PluralizationRule = (choice: number, choicesLength: number) => number
 export type LinkedModify = (str: string) => string
@@ -42,20 +42,45 @@ function pluralDefault (choice: number, choicesLength: number): number {
   return choice ? Math.min(choice, 2) : 0
 }
 
+function getPluralIndex (options: MessageContextOptions): number {
+  const index = isNumber(options.pluralIndex)
+    ? options.pluralIndex
+    : -1
+  return options.named && (isNumber(options.named.count) || isNumber(options.named.n))
+    ? isNumber(options.named.count)
+      ? options.named.count
+      : isNumber(options.named.n)
+        ? options.named.n
+        : index
+    : index
+}
+
+function normalizeNamed (pluralIndex: number, named: any): void {
+  if (!named.count) {
+    named.count = pluralIndex
+  }
+  if (!named.n) {
+    named.n = pluralIndex
+  }
+}
+
 export function createMessageContext<N = {}> (
   options: MessageContextOptions<N> = {}
 ): MessageContext {
-  // TODO: should be remove any ...
-  const list = (index: number): unknown => (options.list || [])[index]
-
-  // TODO: should be remove any ...
-  const named = (key: string): unknown => (options.named || {} as any)[key]
-
   // TODO: should be implemented warning message
-  const pluralIndex = options.pluralIndex || -1
+  const pluralIndex = getPluralIndex(options)
 
   // TODO: should be implemented warning message
   const pluralRule = options.pluralRule || pluralDefault
+
+  const _list = options.list || []
+  // TODO: should be implemented warning message
+  const list = (index: number): unknown => _list[index]
+
+  const _named = options.named || {} as any
+  isNumber(options.pluralIndex) && normalizeNamed(pluralIndex, _named)
+  // TODO: should be implemented warning message
+  const named = (key: string): unknown => _named[key]
 
   // TODO: should be implemented warning message
   const modifier = (name: string): LinkedModify => options.modifiers
