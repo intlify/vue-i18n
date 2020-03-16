@@ -89,8 +89,7 @@ export function applyPlugin (app: App, legacyI18n: VueI18n, composer: I18nCompos
       }
 
       this.$t = (key: Path, ...values: unknown[]): TranslateResult => {
-        // TODO:
-        return key
+        return this.$i18n.t(key, values)
       }
 
       this.$tc = (key: Path, ...values: unknown[]): TranslateResult => {

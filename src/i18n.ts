@@ -3,7 +3,8 @@ import { applyPlugin } from './plugin'
 import { Path } from './path'
 import { PluralizationRule, LinkedModifiers } from './context'
 import { I18nComposerOptions, createI18nComposer } from './composition'
-import { Locale, TranslateResult, LocaleMessages, LocaleMessageDictionary, LocaleMessage } from './runtime'
+import { Locale, TranslateResult, LocaleMessages, LocaleMessageDictionary } from './runtime'
+import { isString, isArray, isObject } from './utils'
 
 export type Choice = number
 export type LocaleMessageObject = LocaleMessageDictionary
@@ -102,10 +103,10 @@ export type VueI18nOptions = {
 export type VueI18n = {
   // properties
   locale: Locale
-  fallbackLocale: Locale
-  readonly messages: LocaleMessages
-  readonly dateTimeFormats: DateTimeFormats
-  readonly numberFormats: NumberFormats
+  // fallbackLocale: Locale
+  // readonly messages: LocaleMessages
+  // readonly dateTimeFormats: DateTimeFormats
+  // readonly numberFormats: NumberFormats
   /*
   missing: MissingHandler
   silentTranslationWarn: boolean | RegExp
@@ -115,8 +116,8 @@ export type VueI18n = {
   */
 
   // methods
-  t (key: Path, ...values: unknown[]): TranslateResult
-  t (key: Path, locale: Locale, ...values: unknown[]): TranslateResult
+  t (key: Path, ...values: unknown[]): string
+  // t (key: Path, locale: Locale, ...values: unknown[]): TranslateResult
   /*
   tc (key: Path, ...values: unknown[]): string
   tc (key: Path, choice?: Choice, locale?: Locale, ...values: unknown[]): string
@@ -153,10 +154,35 @@ export function createI18n (options: VueI18nOptions = {}): VueI18n {
   const composer = createI18nComposer(options)
 
   const i18n = {
-    get locale (): Locale { return '' },
-    set locale (val: Locale) { },
+    get locale (): Locale { return composer.locale },
+    set locale (val: Locale) { composer.locale = val },
+    t (key: Path, ...values: unknown[]): TranslateResult {
+      let args = values
+      if (values.length === 1) {
+        if (isString(values[0])) {
+          args = [{ locale: values[0] }]
+        } else if (isArray(values[0])) {
+          args = [{ list: values[0] }]
+        } else if (isObject(values[0])) {
+          args = [{ named: values[0] }]
+        } else {
+          // TODO:
+        }
+      } else if (values.length === 2) {
+        if (isString(values[0]) && isArray(values[1])) {
+          args = [{ locale: values[0], list: values[1] }]
+        } else if (isString(values[0]) && isObject(values[1])) {
+          args = [{ locale: values[0], named: values[1] }]
+        } else {
+          // TODO:
+        }
+      } else {
+        // TODO:
+      }
+      return composer.t(key, args)
+    },
     install (app: App): void {
-      applyPlugin(app, i18n, composer)
+      applyPlugin(app, i18n as VueI18n, composer)
     }
   }
 

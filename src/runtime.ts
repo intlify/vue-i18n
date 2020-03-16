@@ -6,7 +6,7 @@
  */
 
 import { compile, MessageFunction } from './message/compiler'
-import { createMessageContext, LinkedModifiers, MessageContextOptions, MessageResolveFunction, MessageContext } from './context'
+import { createMessageContext, LinkedModifiers, MessageContextOptions, MessageResolveFunction } from './context'
 import { Path, resolveValue } from './path'
 import { isObject, isString, isNumber, isFunction } from './utils'
 
@@ -21,9 +21,7 @@ export type LocaleMessage =
   | LocaleMessage[]
 
 export type LocaleMessages = Record<Locale, LocaleMessage>
-export type TranslateResult =
-  | string
-  | LocaleMessage
+export type TranslateResult = string
 
 // TODO: should implement more runtime !!
 export type RuntimeOptions = {
@@ -41,15 +39,6 @@ export type RuntimeContext = {
   messages: LocaleMessages
   modifiers: LinkedModifiers
   compileCache: Record<string, MessageFunction>
-}
-
-// TODO: should implement more runtime !!
-export type Runtime = {
-  locale: Locale
-  fallbackLocales: Locale[]
-  // ...
-  t: (key: Path, ...args: unknown[]) => unknown
-  // ...
 }
 
 const DEFAULT_LINKDED_MODIFIERS: LinkedModifiers = {
@@ -170,24 +159,4 @@ export function localize (context: RuntimeContext, key: Path, ...args: unknown[]
   const msg = compileCache[value] || (compileCache[value] = compile(value))
   const msgContext = createMessageContext(options)
   return msg(msgContext)
-}
-
-// vue-i18n new API with Runtime
-export function createRuntime (options: RuntimeOptions = {}): Runtime {
-  // ...
-
-  const t = (key: Path, ...args: unknown[]): unknown => {
-    // TOOD
-    return key
-  }
-
-  // ...
-
-  return {
-    locale: options.locale || 'en',
-    fallbackLocales: options.fallbackLocales || [],
-    // ...
-    t
-    // ...
-  }
 }
