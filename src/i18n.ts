@@ -157,29 +157,30 @@ export function createI18n (options: VueI18nOptions = {}): VueI18n {
     get locale (): Locale { return composer.locale },
     set locale (val: Locale) { composer.locale = val },
     t (key: Path, ...values: unknown[]): TranslateResult {
+      const [arg1, arg2] = values
       let args = values
-      if (values.length === 1) {
-        if (isString(values[0])) {
-          args = [{ locale: values[0] }]
-        } else if (isArray(values[0])) {
-          args = [{ list: values[0] }]
-        } else if (isObject(values[0])) {
-          args = [{ named: values[0] }]
+      if (arg1 && !arg2) {
+        if (isString(arg1)) {
+          args = [{ locale: arg1 }]
+        } else if (isArray(arg1)) {
+          args = [{ list: arg1 }]
+        } else if (isObject(arg1)) {
+          args = [{ named: arg1 }]
         } else {
           // TODO:
         }
-      } else if (values.length === 2) {
-        if (isString(values[0]) && isArray(values[1])) {
-          args = [{ locale: values[0], list: values[1] }]
-        } else if (isString(values[0]) && isObject(values[1])) {
-          args = [{ locale: values[0], named: values[1] }]
+      } else if (arg1 && arg2) {
+        if (isString(arg1) && isArray(arg2)) {
+          args = [{ locale: arg1, list: arg2 }]
+        } else if (isString(arg1) && isObject(arg2)) {
+          args = [{ locale: arg1, named: arg2 }]
         } else {
           // TODO:
         }
       } else {
         // TODO:
       }
-      return composer.t(key, args)
+      return composer.t(key, ...args)
     },
     install (app: App): void {
       applyPlugin(app, i18n as VueI18n, composer)

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>getting started</title>
+    <script src="../../node_modules/vue/dist/vue.global.js"></script>
+    <script src="../../dist/vue-i18n.iife.js"></script>
+  </head>
+  <body>
+    <div id="app">
+      <p>{{ $t("message.hello") }}</p>
+    </div>
+    <script>
+      const { createApp } = Vue
+      const { createI18n } = VueI18n
+
+      const i18n = createI18n({
+        locale: 'ja',
+        messages: {
+          en: {
+            message: {
+              hello: 'hello world!'
+            }
+          },
+          ja: {
+            message: {
+              hello: 'こんにちは、世界！'
+            }
+          }
+        }
+      })
+
+      const app = createApp({})
+      app.use(i18n)
+      app.mount('#app')
+    </script>
+  </body>
+</html>
