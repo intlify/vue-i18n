@@ -5,7 +5,8 @@
  * This module is offered composable i18n API for Vue 3
  */
 
-import { InjectionKey, inject, getCurrentInstance, ComponentInternalInstance, reactive } from 'vue'
+import { InjectionKey, inject, getCurrentInstance, ComponentInternalInstance, ref, reactive, computed } from 'vue'
+import { WritableComputedRef } from '@vue/reactivity'
 import { Path } from './path'
 import { LinkedModifiers } from './context'
 import { Locale, LocaleMessages, createRuntimeContext, localize, RuntimeContext } from './runtime'
@@ -25,7 +26,7 @@ export type I18nComposerOptions = {
 export type I18nComposer = {
   // TODO:
   // properties
-  locale: Locale
+  locale: WritableComputedRef<Locale>
   fallbackLocales: Locale[]
   readonly messages: LocaleMessages
   // methods
@@ -33,35 +34,37 @@ export type I18nComposer = {
 }
 
 export function createI18nComposer (options: I18nComposerOptions = {}): I18nComposer {
-  const _locale: Locale = options.locale || 'en-US'
-  const _fallbackLocales: Locale[] = options.fallbackLocales || [_locale]
+  // locale
+  const _locale = ref<Locale>(options.locale || 'en-US')
+  const locale = computed({
+    get: () => _locale.value,
+    set: val => { _locale.value = val }
+  })
+
+  const _fallbackLocales: Locale[] = options.fallbackLocales || [_locale.value]
   const _data = reactive({
-    locale: _locale,
+    locale: _locale.value,
     fallbackLocales: _fallbackLocales,
-    messages: options.messages || { [_locale]: {} }
+    messages: options.messages || { [_locale.value]: {} }
   })
 
   const getRuntimeContext = (): RuntimeContext => {
     return createRuntimeContext({
-      locale: _data.locale,
+      locale: _locale.value,
       fallbackLocales: _data.fallbackLocales,
       messages: _data.messages
     })
   }
   let _context = getRuntimeContext()
 
+  // t
   const t = (key: Path, ...args: unknown[]): string => {
     return localize(_context, key, ...args)
   }
 
   return {
     /* properties */
-    // locale
-    get locale (): Locale { return _data.locale },
-    set locale (val: Locale) {
-      _data.locale = val
-      _context = getRuntimeContext()
-    },
+    locale,
     // fallbackLocales
     get fallbackLocales (): Locale[] { return _data.fallbackLocales },
     set fallbackLocales (val: Locale[]) {
