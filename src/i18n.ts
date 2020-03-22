@@ -3,9 +3,10 @@ import { applyPlugin } from './plugin'
 import { Path } from './path'
 import { PluralizationRule, LinkedModifiers } from './context'
 import { I18nComposerOptions, createI18nComposer } from './composition'
-import { Locale, TranslateResult, LocaleMessages, LocaleMessageDictionary, MissingHandler } from './runtime'
+import { Locale, TranslateResult, LocaleMessages, LocaleMessageDictionary } from './runtime'
 import { isString, isArray, isObject } from './utils'
 
+export type MissingHandler = (locale: Locale, key: Path, vm?: any) => string | void // eslint-disable-line @typescript-eslint/no-explicit-any
 export type Choice = number
 export type LocaleMessageObject = LocaleMessageDictionary
 export type LocaleMatcher = 'lookup' | 'best-fit'

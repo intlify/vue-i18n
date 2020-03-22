@@ -22,7 +22,7 @@ export type LocaleMessage =
 
 export type LocaleMessages = Record<Locale, LocaleMessage>
 export type TranslateResult = string
-export type MissingHandler = (
+export type RuntimeMissingHandler = (
   context: RuntimeContext, locale: Locale, key: Path, ...values: unknown[]
 ) => string | void
 
@@ -32,7 +32,7 @@ export type RuntimeOptions = {
   fallbackLocales?: Locale[]
   messages?: LocaleMessages
   modifiers?: LinkedModifiers
-  missing?: MissingHandler
+  missing?: RuntimeMissingHandler
   preCompile?: false // TODO: we need this option?
   missingWarn?: boolean | RegExp
   fallbackWarn?: boolean | RegExp
@@ -44,7 +44,7 @@ export type RuntimeContext = {
   fallbackLocales: Locale[]
   messages: LocaleMessages
   modifiers: LinkedModifiers
-  missing: MissingHandler | null
+  missing: RuntimeMissingHandler | null
   compileCache: Record<string, MessageFunction>
   missingWarn: boolean | RegExp
   fallbackWarn: boolean | RegExp
