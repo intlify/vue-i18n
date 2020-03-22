@@ -62,7 +62,9 @@ module.exports = {
   globals: {
     'ts-jest': {
       diagnostics: false
-    }
+    },
+    __DEV__: true,
+    __VERSION__: require('./package.json').version
   },
 
   // The maximum amount of workers used to run your tests. Can be specified as % or a number. E.g. maxWorkers: 10% will use 10% of your CPU amount + 1 as the maximum worker number. maxWorkers: 2 will use a maximum of 2 workers.

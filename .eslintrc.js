@@ -2,6 +2,9 @@
 
 module.exports = {
   root: true,
+  globals: {
+    __DEV__: true
+  },
   env: {
     node: true,
     jest: true

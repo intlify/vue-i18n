@@ -106,7 +106,10 @@ function makeEntries (entryPath, destPath, moduleName, packageName, banner) {
   }
 }
 
-function setupPlugins (target, version, env, format, plugins = []) {
+function setupPlugins (target, name, version, env, format, plugins = []) {
+  const isBundlerESMBuild = /esmBundler/.test(name)
+  const isProductionBuild = process.env.__DEV__ === 'false' || env === 'production'
+
   plugins.push(nodeResolve(), commonjs())
   plugins.push(
     typescript({
@@ -122,7 +125,10 @@ function setupPlugins (target, version, env, format, plugins = []) {
   }
 
   const replaceOptions = {
-    '__VERSION__': version
+    '__VERSION__': version,
+    '__DEV__': isBundlerESMBuild
+      ? `(process.env.NODE_ENV !== 'production')` // preserve to be handled by bundlers
+      : !isProductionBuild // hard coded dev/prod builds
   }
 
   if (env) {
@@ -133,8 +139,8 @@ function setupPlugins (target, version, env, format, plugins = []) {
   return plugins
 }
 
-function generateConfig (target, options, moduleName, version) {
-  const plugins = setupPlugins(target, version, options.env, options.format)
+function generateConfig (target, name, options, moduleName, version) {
+  const plugins = setupPlugins(target, name, version, options.env, options.format)
   return {
     input: options.entry,
     output: {
@@ -157,7 +163,7 @@ function getAllEntries ({ name, version }, { entry, dest }, banner) {
   const moduleName = classify(name)
   const entries = makeEntries(entry, dest, moduleName, name, banner)
   return Object.keys(entries)
-    .map(name => generateConfig(dest, entries[name], moduleName, version))
+    .map(name => generateConfig(dest, name, entries[name], moduleName, version))
 }
 
 function bundleEntry (config) {

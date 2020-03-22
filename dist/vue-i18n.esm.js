@@ -3,12 +3,13 @@
  * (c) 2020 kazuya kawaguchi
  * Released under the MIT License.
  */
-import { reactive, getCurrentInstance, inject } from 'vue';
+import { ref, computed, reactive, getCurrentInstance, inject } from 'vue';
 
 const isArray = Array.isArray;
 const isNumber = (val) => ((typeof val === 'number') && (isFinite(val)));
 const isFunction = (val) => typeof val === 'function';
 const isString = (val) => typeof val === 'string';
+const isBoolean = (val) => typeof val === 'boolean';
 const isSymbol = (val) => typeof val === 'symbol';
 const isObject = (val) => // eslint-disable-line
  val !== null && typeof val === 'object';
@@ -26,6 +27,15 @@ const toDisplayString = (val) => {
             ? JSON.stringify(val, null, 2)
             : String(val);
 };
+function warn(msg, err) {
+    if (typeof console !== 'undefined') {
+        console.warn('[vue-i18n] ' + msg);
+        /* istanbul ignore if */
+        if (err) {
+            console.warn(err.stack);
+        }
+    }
+}
 
 const CHAR_SP = ' ';
 const CHAR_CR = '\r';
@@ -1210,17 +1220,38 @@ const DEFAULT_LINKDED_MODIFIERS = {
 const NOOP_MESSAGE_FUNCTION = () => '';
 function createRuntimeContext(options = {}) {
     const locale = options.locale || 'en-US';
-    const fallbackLocales = options.fallbackLocales || [locale];
+    const fallbackLocales = options.fallbackLocales || [];
     const messages = options.messages || { [locale]: {} };
     const compileCache = Object.create(null);
     const modifiers = Object.assign({}, options.modifiers || {}, DEFAULT_LINKDED_MODIFIERS);
+    const missing = options.missing || null;
+    const missingWarn = options.missingWarn === undefined
+        ? true
+        : options.missingWarn;
+    const fallbackWarn = options.fallbackWarn === undefined
+        ? fallbackLocales.length > 0
+        : options.fallbackWarn;
     return {
         locale,
         fallbackLocales,
         messages,
         modifiers,
-        compileCache
+        missing,
+        compileCache,
+        missingWarn,
+        fallbackWarn
     };
+}
+function isLocalizeMissingWarn(missing, key) {
+    return missing instanceof RegExp ? missing.test(key) : missing;
+}
+function isLocalizeFallbackWarn(fallback, key, stack) {
+    if (stack !== undefined && stack.length === 0) {
+        return false;
+    }
+    else {
+        return fallback instanceof RegExp ? fallback.test(key) : fallback;
+    }
 }
 /*
  * localize
@@ -1232,47 +1263,59 @@ function createRuntimeContext(options = {}) {
  *    localize(context, 'foo.bar')
  *
  *    // list argument
- *    localize(context, 'foo.bar', ['kazupon'])
  *    localize(context, 'foo.bar', { list: ['kazupon'] })
  *
  *    // named argument
  *    localize(context, 'foo.bar', { named: { name: 'kazupon' } })
  *
  *    // plural choice number
- *    localize(context, 'foo.bar', 2)
  *    localize(context, 'foo.bar', { plural: 2 })
  *
  *    // plural choice number with name argument
- *    localize(context, 'foo.bar', { named: { name: 'kazupon' } }, 2)
  *    localize(context, 'foo.bar', { named: { name: 'kazupon' }, plural: 2 })
  *
  *    // default message argument
- *    localize(context, 'foo.bar', 'this is default message')
  *    localize(context, 'foo.bar', { default: 'this is default message' })
  *
  *    // default message with named argument
- *    localize(context, 'foo.bar', { named: { name; 'kazupon' } }, 'Hello {name} !')
  *    localize(context, 'foo.bar', { named: { name: 'kazupon' }, default: 'Hello {name} !' })
  *
  *    // use key as default message
- *    localize(context, 'hi {0} !', { list: ['kazupon'] }, true)
  *    localize(context, 'hi {0} !', { list: ['kazupon'], default: true })
  *
- *    // locale
+ *    // locale option, override context.locale
  *    localize(context, 'foo.bar', { locale: 'ja' })
  *
- *    // missing warning option
- *    localize(context, 'foo.bar', { missing: true })
+ *    // suppress localize miss warning option, override context.missingWarn
+ *    localize(context, 'foo.bar', { missingWarn: false })
+ *
+ *    // suppress localize fallback warning option, override context.fallbackWarn
+ *    localize(context, 'foo.bar', { fallbackWarn: false })
  */
 function localize(context, key, ...args) {
-    const { locale, messages, compileCache, modifiers } = context;
+    const { messages, compileCache, modifiers, missing, _fallbackLocaleStack } = context;
+    let missingWarn = context.missingWarn;
+    if (isObject(args[0]) && isBoolean(args[0].missingWarn)) {
+        missingWarn = args[0].missingWarn;
+    }
+    let fallbackWarn = context.fallbackWarn;
+    if (isObject(args[0]) && isBoolean(args[0].fallbackWarn)) {
+        fallbackWarn = args[0].fallbackWarn;
+    }
+    let locale = context.locale;
+    if (isObject(args[0]) && isString(args[0].locale)) {
+        locale = args[0].locale;
+    }
+    // override with fallback locales
+    if (fallbackWarn && isArray(_fallbackLocaleStack) && _fallbackLocaleStack.length > 0) {
+        locale = _fallbackLocaleStack.shift() || locale;
+    }
+    let defaultMsgOrKey = false;
+    if (isObject(args[0]) && (isString(args[0].default) || isBoolean(args[0].default))) {
+        defaultMsgOrKey = args[0].default;
+    }
     const message = messages[locale];
     if (!isObject(message)) {
-        // TODO: should be more designed default
-        return key;
-    }
-    const value = resolveValue(message, key);
-    if (!isString(value)) {
         // TODO: should be more designed default
         return key;
     }
@@ -1299,7 +1342,7 @@ function localize(context, key, ...args) {
         messages: resolveMessage
     };
     if (isObject(args[0])) {
-        const obj = args[0];
+        const obj = args[0]; // eslint-disable-line @typescript-eslint/no-explicit-any
         if (obj.list) {
             options.list = obj.list;
         }
@@ -1310,7 +1353,45 @@ function localize(context, key, ...args) {
             options.pluralIndex = obj.plural;
         }
     }
-    const msg = compileCache[value] || (compileCache[value] = compile(value));
+    let format = resolveValue(message, key);
+    // set default message
+    if (defaultMsgOrKey !== false) {
+        if (isString(defaultMsgOrKey)) {
+            format = defaultMsgOrKey;
+        }
+        else { // true
+            format = key;
+        }
+    }
+    if (!isString(format)) {
+        // missing ...
+        let ret = null;
+        if (missing !== null) {
+            ret = missing(context, locale, key) || key;
+        }
+        else {
+            if ( isLocalizeMissingWarn(missingWarn, key)) {
+                warn(`Cannot localize the value of '${key}'. Use the value of key as default.`);
+            }
+            ret = key;
+        }
+        // falbacking ...
+        if ( isLocalizeFallbackWarn(fallbackWarn, key, _fallbackLocaleStack)) {
+            if (!context._fallbackLocaleStack) {
+                context._fallbackLocaleStack = [...context.fallbackLocales];
+            }
+            warn(`Fall back to localize '${key}' with '${context._fallbackLocaleStack.join(',')}' locale.`);
+            ret = localize(context, key, ...args);
+            if (context._fallbackLocaleStack && context._fallbackLocaleStack.length === 0) {
+                context._fallbackLocaleStack = undefined;
+            }
+            return ret;
+        }
+        else {
+            return ret;
+        }
+    }
+    const msg = compileCache[format] || (compileCache[format] = compile(format));
     const msgContext = createMessageContext(options);
     return msg(msgContext);
 }
@@ -1324,32 +1405,33 @@ function localize(context, key, ...args) {
 const GlobalI18nSymbol = Symbol.for('vue-i18n');
 const providers = new Map();
 function createI18nComposer(options = {}) {
-    const _locale = options.locale || 'en-US';
-    const _fallbackLocales = options.fallbackLocales || [_locale];
+    // locale
+    const _locale = ref(options.locale || 'en-US');
+    const locale = computed({
+        get: () => _locale.value,
+        set: val => { _locale.value = val; }
+    });
+    const _fallbackLocales = options.fallbackLocales || [_locale.value];
     const _data = reactive({
-        locale: _locale,
+        locale: _locale.value,
         fallbackLocales: _fallbackLocales,
-        messages: options.messages || { [_locale]: {} }
+        messages: options.messages || { [_locale.value]: {} }
     });
     const getRuntimeContext = () => {
         return createRuntimeContext({
-            locale: _data.locale,
+            locale: _locale.value,
             fallbackLocales: _data.fallbackLocales,
             messages: _data.messages
         });
     };
     let _context = getRuntimeContext();
+    // t
     const t = (key, ...args) => {
         return localize(_context, key, ...args);
     };
     return {
         /* properties */
-        // locale
-        get locale() { return _data.locale; },
-        set locale(val) {
-            _data.locale = val;
-            _context = getRuntimeContext();
-        },
+        locale,
         // fallbackLocales
         get fallbackLocales() { return _data.fallbackLocales; },
         set fallbackLocales(val) {
@@ -1475,7 +1557,7 @@ function applyPlugin(app, legacyI18n, composer) {
                 this.$i18n = legacyI18n;
             }
             this.$t = (key, ...values) => {
-                return this.$i18n.t(key, values);
+                return this.$i18n.t(key, ...values);
             };
             this.$tc = (key, ...values) => {
                 // TODO:
@@ -1507,30 +1589,31 @@ const availabilities = {
 function createI18n(options = {}) {
     const composer = createI18nComposer(options);
     const i18n = {
-        get locale() { return composer.locale; },
-        set locale(val) { composer.locale = val; },
+        get locale() { return composer.locale.value; },
+        set locale(val) { composer.locale.value = val; },
         t(key, ...values) {
+            const [arg1, arg2] = values;
             let args = values;
-            if (values.length === 1) {
-                if (isString(values[0])) {
-                    args = [{ locale: values[0] }];
+            if (arg1 && !arg2) {
+                if (isString(arg1)) {
+                    args = [{ locale: arg1 }];
                 }
-                else if (isArray(values[0])) {
-                    args = [{ list: values[0] }];
+                else if (isArray(arg1)) {
+                    args = [{ list: arg1 }];
                 }
-                else if (isObject(values[0])) {
-                    args = [{ named: values[0] }];
-                }
-            }
-            else if (values.length === 2) {
-                if (isString(values[0]) && isArray(values[1])) {
-                    args = [{ locale: values[0], list: values[1] }];
-                }
-                else if (isString(values[0]) && isObject(values[1])) {
-                    args = [{ locale: values[0], named: values[1] }];
+                else if (isObject(arg1)) {
+                    args = [{ named: arg1 }];
                 }
             }
-            return composer.t(key, args);
+            else if (arg1 && arg2) {
+                if (isString(arg1) && isArray(arg2)) {
+                    args = [{ locale: arg1, list: arg2 }];
+                }
+                else if (isString(arg1) && isObject(arg2)) {
+                    args = [{ locale: arg1, named: arg2 }];
+                }
+            }
+            return composer.t(key, ...args);
         },
         install(app) {
             applyPlugin(app, i18n, composer);
@@ -1539,4 +1622,4 @@ function createI18n(options = {}) {
     return i18n;
 }
 
-export { GlobalI18nSymbol, availabilities, compile, createCompiler, createI18n, createI18nComposer, createParser, createRuntimeContext, createTokenizer, isArray, isFunction, isNumber, isObject, isPlainObject, isPromise, isString, isSymbol, localize, objectToString, parse, toDisplayString, toTypeString, useI18n };
+export { GlobalI18nSymbol, availabilities, compile, createCompiler, createI18n, createI18nComposer, createParser, createRuntimeContext, createTokenizer, isArray, isBoolean, isFunction, isNumber, isObject, isPlainObject, isPromise, isString, isSymbol, localize, objectToString, parse, toDisplayString, toTypeString, useI18n, warn };

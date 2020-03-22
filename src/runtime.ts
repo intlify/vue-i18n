@@ -6,9 +6,9 @@
  */
 
 import { compile, MessageFunction } from './message/compiler'
-import { createMessageContext, LinkedModifiers, MessageContextOptions, MessageResolveFunction } from './context'
+import { createMessageContext, LinkedModifiers, MessageContextOptions } from './context'
 import { Path, resolveValue } from './path'
-import { isObject, isString, isNumber, isFunction } from './utils'
+import { isObject, isString, isNumber, isFunction, warn, isBoolean, isArray } from './utils'
 
 export type Locale = string
 export type LocaleMessageDictionary = {
@@ -22,6 +22,9 @@ export type LocaleMessage =
 
 export type LocaleMessages = Record<Locale, LocaleMessage>
 export type TranslateResult = string
+export type MissingHandler = (
+  context: RuntimeContext, locale: Locale, key: Path, ...values: unknown[]
+) => string | void
 
 // TODO: should implement more runtime !!
 export type RuntimeOptions = {
@@ -29,7 +32,10 @@ export type RuntimeOptions = {
   fallbackLocales?: Locale[]
   messages?: LocaleMessages
   modifiers?: LinkedModifiers
+  missing?: MissingHandler
   preCompile?: false // TODO: we need this option?
+  missingWarn?: boolean | RegExp
+  fallbackWarn?: boolean | RegExp
   // ...
 }
 
@@ -38,7 +44,11 @@ export type RuntimeContext = {
   fallbackLocales: Locale[]
   messages: LocaleMessages
   modifiers: LinkedModifiers
+  missing: MissingHandler | null
   compileCache: Record<string, MessageFunction>
+  missingWarn: boolean | RegExp
+  fallbackWarn: boolean | RegExp
+  _fallbackLocaleStack?: Locale[]
 }
 
 const DEFAULT_LINKDED_MODIFIERS: LinkedModifiers = {
@@ -51,17 +61,39 @@ const NOOP_MESSAGE_FUNCTION = () => ''
 
 export function createRuntimeContext (options: RuntimeOptions = {}): RuntimeContext {
   const locale = options.locale || 'en-US'
-  const fallbackLocales = options.fallbackLocales || [locale]
+  const fallbackLocales = options.fallbackLocales || []
   const messages = options.messages || { [locale]: {} }
   const compileCache: Record<string, MessageFunction> = Object.create(null)
   const modifiers = Object.assign({} as LinkedModifiers, options.modifiers || {}, DEFAULT_LINKDED_MODIFIERS)
+  const missing = options.missing || null
+  const missingWarn = options.missingWarn === undefined
+    ? true
+    : options.missingWarn
+  const fallbackWarn = options.fallbackWarn === undefined
+    ? fallbackLocales.length > 0
+    : options.fallbackWarn
 
   return {
     locale,
     fallbackLocales,
     messages,
     modifiers,
-    compileCache
+    missing,
+    compileCache,
+    missingWarn,
+    fallbackWarn
+  }
+}
+
+function isLocalizeMissingWarn (missing: boolean | RegExp, key: Path): boolean {
+  return missing instanceof RegExp ? missing.test(key) : missing
+}
+
+function isLocalizeFallbackWarn (fallback: boolean | RegExp, key: Path, stack?: Locale[]): boolean {
+  if (stack !== undefined && stack.length === 0) {
+    return false
+  } else {
+    return fallback instanceof RegExp ? fallback.test(key) : fallback
   }
 }
 
@@ -75,41 +107,63 @@ export function createRuntimeContext (options: RuntimeOptions = {}): RuntimeCont
  *    localize(context, 'foo.bar')
  *
  *    // list argument
- *    localize(context, 'foo.bar', ['kazupon'])
  *    localize(context, 'foo.bar', { list: ['kazupon'] })
  *
  *    // named argument
  *    localize(context, 'foo.bar', { named: { name: 'kazupon' } })
  *
  *    // plural choice number
- *    localize(context, 'foo.bar', 2)
  *    localize(context, 'foo.bar', { plural: 2 })
  *
  *    // plural choice number with name argument
- *    localize(context, 'foo.bar', { named: { name: 'kazupon' } }, 2)
  *    localize(context, 'foo.bar', { named: { name: 'kazupon' }, plural: 2 })
  *
  *    // default message argument
- *    localize(context, 'foo.bar', 'this is default message')
  *    localize(context, 'foo.bar', { default: 'this is default message' })
  *
  *    // default message with named argument
- *    localize(context, 'foo.bar', { named: { name; 'kazupon' } }, 'Hello {name} !')
  *    localize(context, 'foo.bar', { named: { name: 'kazupon' }, default: 'Hello {name} !' })
  *
  *    // use key as default message
- *    localize(context, 'hi {0} !', { list: ['kazupon'] }, true)
  *    localize(context, 'hi {0} !', { list: ['kazupon'], default: true })
  *
- *    // locale
+ *    // locale option, override context.locale
  *    localize(context, 'foo.bar', { locale: 'ja' })
  *
- *    // missing warning option
- *    localize(context, 'foo.bar', { missing: true })
+ *    // suppress localize miss warning option, override context.missingWarn
+ *    localize(context, 'foo.bar', { missingWarn: false })
+ *
+ *    // suppress localize fallback warning option, override context.fallbackWarn
+ *    localize(context, 'foo.bar', { fallbackWarn: false })
  */
 
 export function localize (context: RuntimeContext, key: Path, ...args: unknown[]): string {
-  const { locale, messages, compileCache, modifiers } = context
+  const { messages, compileCache, modifiers, missing, _fallbackLocaleStack } = context
+
+  let missingWarn = context.missingWarn
+  if (isObject(args[0]) && isBoolean(args[0].missingWarn)) {
+    missingWarn = args[0].missingWarn
+  }
+
+  let fallbackWarn = context.fallbackWarn
+  if (isObject(args[0]) && isBoolean(args[0].fallbackWarn)) {
+    fallbackWarn = args[0].fallbackWarn
+  }
+
+  let locale = context.locale
+  if (isObject(args[0]) && isString(args[0].locale)) {
+    locale = args[0].locale
+  }
+
+  // override with fallback locales
+  if (fallbackWarn && isArray(_fallbackLocaleStack) && _fallbackLocaleStack.length > 0) {
+    locale = _fallbackLocaleStack.shift() || locale
+  }
+
+  let defaultMsgOrKey: string | boolean = false
+  if (isObject(args[0]) && (isString(args[0].default) || isBoolean(args[0].default))) {
+    defaultMsgOrKey = args[0].default
+  }
 
   const message = messages[locale]
   if (!isObject(message)) {
@@ -117,14 +171,8 @@ export function localize (context: RuntimeContext, key: Path, ...args: unknown[]
     return key
   }
 
-  const value = resolveValue(message, key)
-  if (!isString(value)) {
-    // TODO: should be more designed default
-    return key
-  }
-
   // TODO: need to design resolve message function?
-  const resolveMessage: MessageResolveFunction = (key: string): MessageFunction => {
+  const resolveMessage = (key: string): MessageFunction => {
     const fn = compileCache[key]
     if (fn) { return fn }
     const val = resolveValue(message, key)
@@ -144,7 +192,7 @@ export function localize (context: RuntimeContext, key: Path, ...args: unknown[]
   }
 
   if (isObject(args[0])) {
-    const obj = args[0] as Record<any, any>
+    const obj = args[0] as Record<any, any> // eslint-disable-line @typescript-eslint/no-explicit-any
     if (obj.list) {
       options.list = obj.list
     }
@@ -156,7 +204,46 @@ export function localize (context: RuntimeContext, key: Path, ...args: unknown[]
     }
   }
 
-  const msg = compileCache[value] || (compileCache[value] = compile(value))
+  let format = resolveValue(message, key)
+
+  // set default message
+  if (defaultMsgOrKey !== false) {
+    if (isString(defaultMsgOrKey)) {
+      format = defaultMsgOrKey
+    } else { // true
+      format = key
+    }
+  }
+
+  if (!isString(format)) {
+    // missing ...
+    let ret: string | null = null
+    if (missing !== null) {
+      ret = missing(context, locale, key) || key
+    } else {
+      if (__DEV__ && isLocalizeMissingWarn(missingWarn, key)) {
+        warn(`Cannot localize the value of '${key}'. Use the value of key as default.`)
+      }
+      ret = key
+    }
+
+    // falbacking ...
+    if (__DEV__ && isLocalizeFallbackWarn(fallbackWarn, key, _fallbackLocaleStack)) {
+      if (!context._fallbackLocaleStack) {
+        context._fallbackLocaleStack = [...context.fallbackLocales]
+      }
+      warn(`Fall back to localize '${key}' with '${context._fallbackLocaleStack.join(',')}' locale.`)
+      ret = localize(context, key, ...args)
+      if (context._fallbackLocaleStack && context._fallbackLocaleStack.length === 0) {
+        context._fallbackLocaleStack = undefined
+      }
+      return ret
+    } else {
+      return ret
+    }
+  }
+
+  const msg = compileCache[format] || (compileCache[format] = compile(format))
   const msgContext = createMessageContext(options)
   return msg(msgContext)
 }

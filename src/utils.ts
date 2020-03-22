@@ -2,6 +2,7 @@ export const isArray = Array.isArray
 export const isNumber = (val: unknown): val is number => ((typeof val === 'number') && (isFinite(val)))
 export const isFunction = (val: unknown): val is Function => typeof val === 'function'
 export const isString = (val: unknown): val is string => typeof val === 'string'
+export const isBoolean = (val: unknown): val is boolean => typeof val === 'boolean'
 export const isSymbol = (val: unknown): val is symbol => typeof val === 'symbol'
 
 export const isObject = (val: unknown): val is Record<any, any> => // eslint-disable-line
@@ -25,4 +26,14 @@ export const toDisplayString = (val: unknown): string => {
     : isArray(val) || (isPlainObject(val) && val.toString === objectToString)
       ? JSON.stringify(val, null, 2)
       : String(val)
+}
+
+export function warn (msg: string, err?: Error): void {
+  if (typeof console !== 'undefined') {
+    console.warn('[vue-i18n] ' + msg)
+    /* istanbul ignore if */
+    if (err) {
+      console.warn(err.stack)
+    }
+  }
 }

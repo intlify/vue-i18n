@@ -3,7 +3,7 @@ import { applyPlugin } from './plugin'
 import { Path } from './path'
 import { PluralizationRule, LinkedModifiers } from './context'
 import { I18nComposerOptions, createI18nComposer } from './composition'
-import { Locale, TranslateResult, LocaleMessages, LocaleMessageDictionary } from './runtime'
+import { Locale, TranslateResult, LocaleMessages, LocaleMessageDictionary, MissingHandler } from './runtime'
 import { isString, isArray, isObject } from './utils'
 
 export type Choice = number
@@ -76,7 +76,6 @@ export type NumberFormatToPartsResult = { [index: number]: FormattedNumberPart }
 
 export type PluralizationRulesMap = { [locale: string]: PluralizationRule }
 export type WarnHtmlInMessageLevel = 'off' | 'warn' | 'error'
-export type MissingHandler = (locale: Locale, key: Path, vm: any | null, ...values: unknown[]) => string | void
 
 export type IntlAvailability = {
   dateTimeFormat: boolean
@@ -154,8 +153,8 @@ export function createI18n (options: VueI18nOptions = {}): VueI18n {
   const composer = createI18nComposer(options)
 
   const i18n = {
-    get locale (): Locale { return composer.locale },
-    set locale (val: Locale) { composer.locale = val },
+    get locale (): Locale { return composer.locale.value },
+    set locale (val: Locale) { composer.locale.value = val },
     t (key: Path, ...values: unknown[]): TranslateResult {
       const [arg1, arg2] = values
       let args = values
