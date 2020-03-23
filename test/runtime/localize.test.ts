@@ -5,7 +5,7 @@ jest.mock('../../src/utils', () => ({
 }))
 import { warn } from '../../src/utils'
 
-import { createRuntimeContext as context, localize } from '../../src/runtime'
+import { createRuntimeContext as context, translate } from '../../src/runtime'
 
 describe('features', () => {
   it('simple text', () => {
@@ -15,7 +15,7 @@ describe('features', () => {
         en: { hi: 'hi kazupon !' }
       }
     })
-    expect(localize(ctx, 'hi')).toEqual('hi kazupon !')
+    expect(translate(ctx, 'hi')).toEqual('hi kazupon !')
   })
 
   it('list', () => {
@@ -25,7 +25,7 @@ describe('features', () => {
         en: { hi: 'hi {0} !' }
       }
     })
-    expect(localize(ctx, 'hi', { list: ['kazupon']})).toEqual('hi kazupon !')
+    expect(translate(ctx, 'hi', { list: ['kazupon']})).toEqual('hi kazupon !')
   })
 
   it('named', () => {
@@ -35,7 +35,7 @@ describe('features', () => {
         en: { hi: 'hi {name} !' }
       }
     })
-    expect(localize(ctx, 'hi', { named: { name: 'kazupon' } })).toEqual('hi kazupon !')
+    expect(translate(ctx, 'hi', { named: { name: 'kazupon' } })).toEqual('hi kazupon !')
   })
 
   it('linked', () => {
@@ -48,7 +48,7 @@ describe('features', () => {
         }
       }
     })
-    expect(localize(ctx, 'hi')).toEqual('hi KAZUPON !')
+    expect(translate(ctx, 'hi')).toEqual('hi KAZUPON !')
   })
 
   it('plural', () => {
@@ -58,10 +58,10 @@ describe('features', () => {
         en: { apple: 'no apples | one apple | {count} apples' }
       }
     })
-    expect(localize(ctx, 'apple', { plural: 0 })).toEqual('no apples')
-    expect(localize(ctx, 'apple', { plural: 1 })).toEqual('one apple')
-    expect(localize(ctx, 'apple', { plural: 10 })).toEqual('10 apples')
-    expect(localize(ctx, 'apple', { plural: 10, named: { count: 20 } })).toEqual('20 apples')
+    expect(translate(ctx, 'apple', { plural: 0 })).toEqual('no apples')
+    expect(translate(ctx, 'apple', { plural: 1 })).toEqual('one apple')
+    expect(translate(ctx, 'apple', { plural: 10 })).toEqual('10 apples')
+    expect(translate(ctx, 'apple', { plural: 10, named: { count: 20 } })).toEqual('20 apples')
   })
 })
 
@@ -74,7 +74,7 @@ describe('locale', () => {
         ja: { hi: 'こんにちは　かずぽん！'}
       }
     })
-    expect(localize(ctx, 'hi', { locale: 'ja' })).toEqual('こんにちは　かずぽん！')
+    expect(translate(ctx, 'hi', { locale: 'ja' })).toEqual('こんにちは　かずぽん！')
   })
 })
 
@@ -87,7 +87,7 @@ describe('default message', () => {
       }
     })
     expect(
-      localize(ctx, 'hello', { default: 'hello, default message!' })
+      translate(ctx, 'hello', { default: 'hello, default message!' })
     ).toEqual(
       'hello, default message!'
     )
@@ -101,7 +101,7 @@ describe('default message', () => {
       }
     })
     expect(
-      localize(ctx, 'hi {name}!', {
+      translate(ctx, 'hi {name}!', {
         named: { name: 'kazupon' },
         default: true
       })
@@ -123,9 +123,9 @@ describe('missing', () => {
       }
     })
 
-    expect(localize(ctx, 'hello')).toEqual('hello')
+    expect(translate(ctx, 'hello')).toEqual('hello')
     expect(mockWarn.mock.calls[0][0])
-      .toEqual(`Cannot localize the value of 'hello'. Use the value of key as default.`)
+      .toEqual(`Cannot translate the value of 'hello'. Use the value of key as default.`)
   })
 
   it('missing handler', () => {
@@ -141,7 +141,7 @@ describe('missing', () => {
         en: {}
       }
     })
-    expect(localize(ctx, 'hello')).toEqual('HELLO')
+    expect(translate(ctx, 'hello')).toEqual('HELLO')
   })
 })
 
@@ -158,7 +158,7 @@ describe('missingWarn', () => {
       }
     })
 
-    expect(localize(ctx, 'hello')).toEqual('hello')
+    expect(translate(ctx, 'hello')).toEqual('hello')
     expect(mockWarn).not.toHaveBeenCalled()
   })
 
@@ -174,8 +174,8 @@ describe('missingWarn', () => {
       }
     })
 
-    expect(localize(ctx, 'hi kazupon!')).toEqual('hi kazupon!')
-    expect(localize(ctx, 'hello')).toEqual('hello')
+    expect(translate(ctx, 'hi kazupon!')).toEqual('hi kazupon!')
+    expect(translate(ctx, 'hello')).toEqual('hello')
     expect(mockWarn).toHaveBeenCalledTimes(1)
   })
 
@@ -190,7 +190,7 @@ describe('missingWarn', () => {
       }
     })
 
-    expect(localize(ctx, 'hello', { missingWarn: false })).toEqual('hello')
+    expect(translate(ctx, 'hello', { missingWarn: false })).toEqual('hello')
     expect(mockWarn).not.toHaveBeenCalled()
   })
 })
@@ -208,7 +208,7 @@ describe('fallbackWarn', () => {
       }
     })
 
-    expect(localize(ctx, 'hello')).toEqual('hello')
+    expect(translate(ctx, 'hello')).toEqual('hello')
     expect(mockWarn).not.toHaveBeenCalled()
   })
 
@@ -228,10 +228,10 @@ describe('fallbackWarn', () => {
       }
     })
 
-    expect(localize(ctx, 'hello')).toEqual('こんにちは！')
+    expect(translate(ctx, 'hello')).toEqual('こんにちは！')
     expect(mockWarn).toHaveBeenCalled()
     expect(mockWarn.mock.calls[0][0])
-      .toEqual(`Fall back to localize 'hello' with 'ja' locale.`)
+      .toEqual(`Fall back to translate 'hello' with 'ja' locale.`)
   })
 
   it('not found fallback message', () => {
@@ -248,12 +248,12 @@ describe('fallbackWarn', () => {
       }
     })
 
-    expect(localize(ctx, 'hello.world')).toEqual('hello.world')
+    expect(translate(ctx, 'hello.world')).toEqual('hello.world')
     expect(mockWarn).toHaveBeenCalledTimes(2)
     expect(mockWarn.mock.calls[0][0])
-      .toEqual(`Fall back to localize 'hello.world' with 'ja,fr' locale.`)
+      .toEqual(`Fall back to translate 'hello.world' with 'ja,fr' locale.`)
     expect(mockWarn.mock.calls[1][0])
-      .toEqual(`Fall back to localize 'hello.world' with 'fr' locale.`)
+      .toEqual(`Fall back to translate 'hello.world' with 'fr' locale.`)
   })
 
   it('false', () => {
@@ -271,7 +271,7 @@ describe('fallbackWarn', () => {
       }
     })
 
-    expect(localize(ctx, 'hello.world')).toEqual('hello.world')
+    expect(translate(ctx, 'hello.world')).toEqual('hello.world')
     expect(mockWarn).toHaveBeenCalledTimes(0)
   })
 
@@ -290,7 +290,7 @@ describe('fallbackWarn', () => {
       }
     })
 
-    expect(localize(ctx, 'hello.world')).toEqual('hello.world')
+    expect(translate(ctx, 'hello.world')).toEqual('hello.world')
     expect(mockWarn).toHaveBeenCalledTimes(2)
   })
 
@@ -310,8 +310,8 @@ describe('fallbackWarn', () => {
       }
     })
 
-    expect(localize(ctx, 'hello')).toEqual('こんにちは！')
-    expect(localize(ctx, 'hi', { fallbackWarn: false })).toEqual('hi')
+    expect(translate(ctx, 'hello')).toEqual('こんにちは！')
+    expect(translate(ctx, 'hi', { fallbackWarn: false })).toEqual('hi')
     expect(mockWarn).toHaveBeenCalledTimes(1)
   })
 })

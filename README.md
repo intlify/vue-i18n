@@ -37,10 +37,10 @@ if you use currently vue-i18n version, see this [repository](https://github.com/
   - [ ] error handling
   - [ ] more unit tests!
 - Intlify core runtime
-  - [x] localize function
+  - [x] translate function
   - [ ] datetime function
   - [ ] number function
-  - [ ] improve localize `args` typing
+  - [ ] improve translate `args` typing
   - [ ] improve locale messages typing: `LocaleMessages` / `LocaleMessage` / `LocaleMessageDictiory`
 - composable API: I18n Composer
   - properties
@@ -48,6 +48,7 @@ if you use currently vue-i18n version, see this [repository](https://github.com/
     - [x] fallbackLocales
     - [x] missingWarn
     - [x] fallbackWarn
+    - [x] messages
   - methods
     - [ ] t
     - [ ] d
@@ -62,7 +63,7 @@ if you use currently vue-i18n version, see this [repository](https://github.com/
     - [ ] dateTimeFormats
     - [ ] numberFormats
     - [ ] availableLocales
-    - [ ] locale
+    - [x] locale
     - [ ] fallbackLocale
     - [ ] missing
     - [ ] formatter
@@ -72,7 +73,7 @@ if you use currently vue-i18n version, see this [repository](https://github.com/
     - [ ] preserveDirectiveContent
     - [ ] pluralizationRules
     - [ ] warnHtmlInMessage
-    - [ ] t
+    - [x] t
     - [ ] tc
     - [ ] te
     - [ ] d
@@ -89,7 +90,7 @@ if you use currently vue-i18n version, see this [repository](https://github.com/
     - [ ] getChoiceIndex
   - Inejctted in Vue Prototype API
     - [ ] $i18n
-    - [ ] $t
+    - [x] $t
     - [ ] $tc
     - [ ] $te
     - [ ] $d

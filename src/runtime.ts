@@ -87,11 +87,11 @@ export function createRuntimeContext (options: RuntimeOptions = {}): RuntimeCont
   }
 }
 
-function isLocalizeMissingWarn (missing: boolean | RegExp, key: Path): boolean {
+function isTranslateMissingWarn (missing: boolean | RegExp, key: Path): boolean {
   return missing instanceof RegExp ? missing.test(key) : missing
 }
 
-function isLocalizeFallbackWarn (fallback: boolean | RegExp, key: Path, stack?: Locale[]): boolean {
+function isTrarnslateFallbackWarn (fallback: boolean | RegExp, key: Path, stack?: Locale[]): boolean {
   if (stack !== undefined && stack.length === 0) {
     return false
   } else {
@@ -100,47 +100,47 @@ function isLocalizeFallbackWarn (fallback: boolean | RegExp, key: Path, stack?: 
 }
 
 /*
- * localize
+ * translate
  *
- * use cases
+ * usages:
  *    'foo.bar' path -> 'hi {0} !' or 'hi {name} !'
  *
  *    // no argument, context & path only
- *    localize(context, 'foo.bar')
+ *    translate(context, 'foo.bar')
  *
  *    // list argument
- *    localize(context, 'foo.bar', { list: ['kazupon'] })
+ *    translate(context, 'foo.bar', { list: ['kazupon'] })
  *
  *    // named argument
- *    localize(context, 'foo.bar', { named: { name: 'kazupon' } })
+ *    translate(context, 'foo.bar', { named: { name: 'kazupon' } })
  *
  *    // plural choice number
- *    localize(context, 'foo.bar', { plural: 2 })
+ *    translate(context, 'foo.bar', { plural: 2 })
  *
  *    // plural choice number with name argument
- *    localize(context, 'foo.bar', { named: { name: 'kazupon' }, plural: 2 })
+ *    translate(context, 'foo.bar', { named: { name: 'kazupon' }, plural: 2 })
  *
  *    // default message argument
- *    localize(context, 'foo.bar', { default: 'this is default message' })
+ *    translate(context, 'foo.bar', { default: 'this is default message' })
  *
  *    // default message with named argument
- *    localize(context, 'foo.bar', { named: { name: 'kazupon' }, default: 'Hello {name} !' })
+ *    translate(context, 'foo.bar', { named: { name: 'kazupon' }, default: 'Hello {name} !' })
  *
  *    // use key as default message
- *    localize(context, 'hi {0} !', { list: ['kazupon'], default: true })
+ *    translate(context, 'hi {0} !', { list: ['kazupon'], default: true })
  *
  *    // locale option, override context.locale
- *    localize(context, 'foo.bar', { locale: 'ja' })
+ *    translate(context, 'foo.bar', { locale: 'ja' })
  *
  *    // suppress localize miss warning option, override context.missingWarn
- *    localize(context, 'foo.bar', { missingWarn: false })
+ *    translate(context, 'foo.bar', { missingWarn: false })
  *
  *    // suppress localize fallback warning option, override context.fallbackWarn
- *    localize(context, 'foo.bar', { fallbackWarn: false })
+ *    translate(context, 'foo.bar', { fallbackWarn: false })
  */
 
  // TODO: should design `args` it's useful typing ...
-export function localize (context: RuntimeContext, key: Path, ...args: unknown[]): string {
+export function translate (context: RuntimeContext, key: Path, ...args: unknown[]): string {
   const { messages, compileCache, modifiers, missing, _fallbackLocaleStack } = context
 
   let missingWarn = context.missingWarn
@@ -224,19 +224,19 @@ export function localize (context: RuntimeContext, key: Path, ...args: unknown[]
     if (missing !== null) {
       ret = missing(context, locale, key) || key
     } else {
-      if (__DEV__ && isLocalizeMissingWarn(missingWarn, key)) {
-        warn(`Cannot localize the value of '${key}'. Use the value of key as default.`)
+      if (__DEV__ && isTranslateMissingWarn(missingWarn, key)) {
+        warn(`Cannot translate the value of '${key}'. Use the value of key as default.`)
       }
       ret = key
     }
 
     // falbacking ...
-    if (__DEV__ && isLocalizeFallbackWarn(fallbackWarn, key, _fallbackLocaleStack)) {
+    if (__DEV__ && isTrarnslateFallbackWarn(fallbackWarn, key, _fallbackLocaleStack)) {
       if (!context._fallbackLocaleStack) {
         context._fallbackLocaleStack = [...context.fallbackLocales]
       }
-      warn(`Fall back to localize '${key}' with '${context._fallbackLocaleStack.join(',')}' locale.`)
-      ret = localize(context, key, ...args)
+      warn(`Fall back to translate '${key}' with '${context._fallbackLocaleStack.join(',')}' locale.`)
+      ret = translate(context, key, ...args)
       if (context._fallbackLocaleStack && context._fallbackLocaleStack.length === 0) {
         context._fallbackLocaleStack = undefined
       }
