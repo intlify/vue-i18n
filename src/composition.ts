@@ -99,24 +99,6 @@ export function createI18nComposer (options: I18nComposerOptions = {}): I18nComp
     }
   })
 
-  // missingWarn
-  const missingWarn = {
-    get missingWarn (): boolean | RegExp { return _missingWarn },
-    set missingWarn (val: boolean| RegExp) {
-      _missingWarn = val
-      _context = getRuntimeContext()
-    }
-  }
-
-  // fallbackWarn
-  const fallbackWarn = {
-    get fallbackWarn (): boolean | RegExp { return _fallbackWarn },
-    set fallbackWarn (val: boolean| RegExp) {
-      _fallbackWarn = val
-      _context = getRuntimeContext()
-    }
-  }
-
   // messages
   const messages = readonly(_messages)
 
@@ -140,8 +122,16 @@ export function createI18nComposer (options: I18nComposerOptions = {}): I18nComp
     locale,
     fallbackLocales,
     messages,
-    ...missingWarn,
-    ...fallbackWarn,
+    get missingWarn (): boolean | RegExp { return _missingWarn },
+    set missingWarn (val: boolean| RegExp) {
+      _missingWarn = val
+      _context = getRuntimeContext()
+    },
+    get fallbackWarn (): boolean | RegExp { return _fallbackWarn },
+    set fallbackWarn (val: boolean| RegExp) {
+      _fallbackWarn = val
+      _context = getRuntimeContext()
+    },
     /* methods */
     t,
     getMissingHandler,
