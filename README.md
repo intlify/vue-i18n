@@ -40,7 +40,7 @@ if you use currently vue-i18n version, see this [repository](https://github.com/
   - [x] localize function
   - [ ] datetime function
   - [ ] number function
-  - [ ] localize `args` typing
+  - [ ] improve localize `args` typing
   - [ ] improve locale messages typing: `LocaleMessages` / `LocaleMessage` / `LocaleMessageDictiory`
 - composable API: I18n Composer
   - properties
@@ -49,7 +49,7 @@ if you use currently vue-i18n version, see this [repository](https://github.com/
     - [x] missingWarn
     - [x] fallbackWarn
   - methods
-    - [-] t
+    - [ ] t
     - [ ] d
     - [ ] n
     - [x] getMissingHandler
@@ -94,12 +94,17 @@ if you use currently vue-i18n version, see this [repository](https://github.com/
     - [ ] $te
     - [ ] $d
     - [ ] $n
-  - [-] plugin install & mixin
+  - Component options
+    - [ ] messages
+    - [ ] dateTimeFormats
+    - [ ] numberFormats
+    - [ ] sharedMessages
+  - [ ] plugin install & mixin
   - [ ] version
   - [x] IntlAvailability availabilities
 - Components
   - [ ] Interpolocation `<i18n>`
-  - [ ] Number `<i18n-n>`
+  - [ ] NumberFormat `<i18n-n>`
 - Directive
   - [ ] `v-t`
 - Tool Chains
@@ -108,6 +113,8 @@ if you use currently vue-i18n version, see this [repository](https://github.com/
   - [ ] rollup-plugin-vue-i18n
   - [ ] vue-cli-plugin-i18n
   - [ ] eslint-plugin-vue-i18n
+- Others
+  - [ ] fallback localization (bubble up)
 
 ## :copyright: License
 
