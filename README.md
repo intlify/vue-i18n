@@ -30,6 +30,85 @@
 
 if you use currently vue-i18n version, see this [repository](https://github.com/kazupon/vue-i18n)
 
+## TODO:
+- Intlify message format compiler
+  - [x] vue-i18n message format
+  - [ ] sourcemap
+  - [ ] error handling
+  - [ ] more unit tests!
+- Intlify core runtime
+  - [x] localize function
+  - [ ] datetime function
+  - [ ] number function
+  - [ ] localize `args` typing
+  - [ ] improve locale messages typing: `LocaleMessages` / `LocaleMessage` / `LocaleMessageDictiory`
+- composable API: I18n Composer
+  - properties
+    - [x] locale
+    - [x] fallbackLocales
+    - [x] missingWarn
+    - [x] fallbackWarn
+  - methods
+    - [-] t
+    - [ ] d
+    - [ ] n
+    - [x] getMissingHandler
+    - [x] setMissingHandler
+    - [ ] getLocaleMessages
+    - [ ] setLocaleMessages
+- legacy API compatible supporting
+  - VueI18n
+    - [ ] messages
+    - [ ] dateTimeFormats
+    - [ ] numberFormats
+    - [ ] availableLocales
+    - [ ] locale
+    - [ ] fallbackLocale
+    - [ ] missing
+    - [ ] formatter
+    - [ ] formatFallbackMessages
+    - [ ] silentTranslationWarn
+    - [ ] silentFallbackWarn
+    - [ ] preserveDirectiveContent
+    - [ ] pluralizationRules
+    - [ ] warnHtmlInMessage
+    - [ ] t
+    - [ ] tc
+    - [ ] te
+    - [ ] d
+    - [ ] n
+    - [ ] getLocaleMessage
+    - [ ] setLocaleMessage
+    - [ ] mergeLocaleMessage
+    - [ ] getDateTimeFormat
+    - [ ] setDateTimeFormat
+    - [ ] mergeDateTimeFormat
+    - [ ] getNumberFormat
+    - [ ] setNumberFormat
+    - [ ] mergeNumberFormat
+    - [ ] getChoiceIndex
+  - Inejctted in Vue Prototype API
+    - [ ] $i18n
+    - [ ] $t
+    - [ ] $tc
+    - [ ] $te
+    - [ ] $d
+    - [ ] $n
+  - [-] plugin install & mixin
+  - [ ] version
+  - [x] IntlAvailability availabilities
+- Components
+  - [ ] Interpolocation `<i18n>`
+  - [ ] Number `<i18n-n>`
+- Directive
+  - [ ] `v-t`
+- Tool Chains
+  - [ ] vue-i18n-extensions
+  - [ ] vue-i18n-loader
+  - [ ] rollup-plugin-vue-i18n
+  - [ ] vue-cli-plugin-i18n
+  - [ ] eslint-plugin-vue-i18n
+
 ## :copyright: License
 
 [MIT](http://opensource.org/licenses/MIT)
