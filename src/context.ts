@@ -56,6 +56,7 @@ function getPluralIndex (options: MessageContextOptions): number {
     : index
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function normalizeNamed (pluralIndex: number, named: any): void {
   if (!named.count) {
     named.count = pluralIndex
@@ -78,6 +79,7 @@ export function createMessageContext<N = {}> (
   // TODO: should be implemented warning message
   const list = (index: number): unknown => _list[index]
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const _named = options.named || {} as any
   isNumber(options.pluralIndex) && normalizeNamed(pluralIndex, _named)
   // TODO: should be implemented warning message

@@ -30,6 +30,7 @@ export function applyPlugin (app: App, legacyI18n: VueI18n, composer: I18nCompos
   app.mixin({
     beforeCreate (this: ComponentPublicInstance<LegacyVueI18n>) {
       // TODO: should resolve type inference
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const options: any = this.$options
 
       if (options.i18n) { // component local i18n
@@ -78,10 +79,12 @@ export function applyPlugin (app: App, legacyI18n: VueI18n, composer: I18nCompos
         this.$i18n = createI18n(optionsI18n)
       } else if (this.$root && this.$root.proxy) { // root i18n
         // TODO: should resolve type inference
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const instance: any = this.$root.proxy
         this.$i18n = instance.$i18n || legacyI18n
       } else if (this.$parent && this.$parent.proxy) { // parent i18n
         // TODO: should resolve type inference
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const instance: any = this.$parent.proxy
         this.$i18n = instance.$i18n || legacyI18n
       } else {
