@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>getting started</title>
+    <script src="../../node_modules/vue/dist/vue.global.js"></script>
+    <script src="../../dist/vue-i18n.iife.js"></script>
+  </head>
+  <body>
+    <div id="app">
+      <h1>Root</h1>
+      <form>
+        <label>{{ t('message.language') }}</label>
+        <select v-model="locale">
+          <option value="en">en</option>
+          <option value="ja">ja</option>
+        </select>
+      </form>
+      <p>{{ t("message.hello") }}</p>
+      <Child />
+    </div>
+    <script>
+      const { createApp } = Vue
+      const { createI18nComposer, useI18n, GlobalI18nSymbol } = VueI18n
+
+      const Child = {
+        template: `
+          <div class="child">
+            <h1>Child</h1>
+            <p>{{ t("message.hi") }}</p>
+          </div>
+        `,
+        setup () {
+          const { t } = useI18n()
+          return { t }
+        }
+      }
+
+      const i18n = createI18nComposer({
+        locale: 'ja',
+        messages: {
+          en: {
+            message: {
+              language: 'Language',
+              hello: 'hello world!',
+              hi: 'Hi !'
+            }
+          },
+          ja: {
+            message: {
+              language: '言語',
+              hello: 'こんにちは、世界！',
+              hi: 'こんにちは！'
+            }
+          }
+        }
+      })
+
+      const app = createApp({
+        components: { Child },
+        setup () { return useI18n() }
+      })
+      app.provide(GlobalI18nSymbol, i18n)
+      app.mount('#app')
+    </script>
+  </body>
+</html>

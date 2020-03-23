@@ -6,7 +6,7 @@
  */
 
 import { InjectionKey, inject, getCurrentInstance, ComponentInternalInstance, ref, computed, readonly } from 'vue'
-import { WritableComputedRef, WritableComputedOptions } from '@vue/reactivity'
+import { WritableComputedRef } from '@vue/reactivity'
 import { Path } from './path'
 import { LinkedModifiers } from './context'
 import { Locale, LocaleMessages, createRuntimeContext, localize, RuntimeContext, RuntimeMissingHandler } from './runtime'
@@ -36,9 +36,9 @@ export type I18nComposer = {
   missingWarn: boolean | RegExp
   fallbackWarn: boolean | RegExp
   // methods
+  t (key: Path, ...args: unknown[]): string
   getMissingHandler (): MissingHandler | undefined
   setMissingHandler (handler: MissingHandler): void
-  t (key: Path, ...args: unknown[]): string
 }
 
 function defineRuntimeMissingHandler (missing: MissingHandler): RuntimeMissingHandler {
@@ -132,7 +132,7 @@ export function createI18nComposer (options: I18nComposerOptions = {}): I18nComp
 
   // t
   const t = (key: Path, ...args: unknown[]): string => {
-    return localize(_context, key, ...args)
+    return computed(() => localize(getRuntimeContext(), key, ...args)).value
   }
 
   return {
@@ -143,15 +143,16 @@ export function createI18nComposer (options: I18nComposerOptions = {}): I18nComp
     ...missingWarn,
     ...fallbackWarn,
     /* methods */
+    t,
     getMissingHandler,
-    setMissingHandler,
-    t
+    setMissingHandler
   }
 }
 
 function getProvider (instance: ComponentInternalInstance): InjectionKey<I18nComposer> {
   let current = instance
   let symbol = providers.get(current)
+  console.log('getProvider symbol', symbol)
   while (!symbol) {
     if (!current.parent) {
       symbol = GlobalI18nSymbol
@@ -170,6 +171,9 @@ function getProvider (instance: ComponentInternalInstance): InjectionKey<I18nCom
 // exports vue-i18n composable API
 export function useI18n (options: I18nComposerOptions = {}): I18nComposer {
   const instance = getCurrentInstance()
+  console.log('useI18n instance', instance)
   const symbol = !instance ? GlobalI18nSymbol : getProvider(instance)
-  return inject(symbol) || createI18nComposer(options)
+  console.log('getProvider return symbol', symbol)
+  const composer = inject(symbol) || createI18nComposer(options)
+  return composer
 }
