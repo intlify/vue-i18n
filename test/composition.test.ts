@@ -1,16 +1,118 @@
-import { createI18nComposer } from '../src/composition'
+import { createI18nComposer, MissingHandler } from '../src/composition'
 import { watch } from 'vue'
 
 describe('locale', () => {
-  it('computed prop', done => {
+  it('default value', () => {
     const { locale } = createI18nComposer({})
     expect(locale.value).toEqual('en-US')
+  })
 
+  it('initialize at composer creating', () => {
+    const { locale } = createI18nComposer({ locale: 'ja' })
+    expect(locale.value).toEqual('ja')
+  })
+
+  it('reactivity', done => {
+    const { locale } = createI18nComposer({})
     watch(locale, () => {
       expect(locale.value).toEqual('en')
       done()
     })
     locale.value = 'en'
+  })
+})
+
+describe('fallbackLocales', () => {
+  it('default value', () => {
+    const { fallbackLocales } = createI18nComposer({})
+    expect(fallbackLocales.value).toEqual([])
+  })
+
+  it('initialize at composer creating', () => {
+    const { fallbackLocales } = createI18nComposer({ fallbackLocales: ['ja'] })
+    expect(fallbackLocales.value).toEqual(['ja'])
+  })
+})
+
+describe('messages', () => {
+  it('default value', () => {
+    const { messages } = createI18nComposer({})
+    expect(messages.value).toEqual({
+      'en-US': {}
+    })
+  })
+
+  it('initialize at composer creating', () => {
+    const { messages } = createI18nComposer({
+      messages: {
+        en: { hello: 'Hello,world!' },
+        ja: {
+          hello: 'こんにちは、世界！',
+          nest: {
+            foo: {
+              bar: 'ばー'
+            }
+          }
+        }
+      }
+    })
+    expect(messages.value).toEqual({
+      en: { hello: 'Hello,world!' },
+      ja: {
+        hello: 'こんにちは、世界！',
+        nest: {
+          foo: {
+            bar: 'ばー'
+          }
+        }
+      }
+    })
+  })
+})
+
+describe('missingWarn', () => {
+  it('default', () => {
+    const { missingWarn } = createI18nComposer({})
+    expect(missingWarn).toEqual(true)
+  })
+
+  it('initialize at composer creating', () => {
+    const { missingWarn } = createI18nComposer({ missingWarn: false })
+    expect(missingWarn).toEqual(false)
+  })
+})
+
+describe('fallbackWarn', () => {
+  it('default: none fallbackLocales', () => {
+    const { fallbackWarn } = createI18nComposer({})
+    expect(fallbackWarn).toEqual(false)
+  })
+
+  it('default: have fallbackLocales', () => {
+    const { fallbackWarn } = createI18nComposer({ fallbackLocales: ['ja'] })
+    expect(fallbackWarn).toEqual(true)
+  })
+
+  it('initialize at composer creating', () => {
+    const { fallbackWarn } = createI18nComposer({ fallbackWarn: /^hi.*!$/ })
+    expect(fallbackWarn).toEqual(/^hi.*!$/)
+  })
+})
+
+describe('getMissingHandler / setMissingHandler', () => {
+  it('default', () => {
+    const { getMissingHandler, setMissingHandler } = createI18nComposer({})
+    expect(getMissingHandler()).toBeUndefined()
+
+    const missing = () => {}
+    setMissingHandler(missing as MissingHandler)
+    expect(getMissingHandler()).toEqual(missing)
+  })
+
+  it('initialize at composer creating', () => {
+    const missing = () => {}
+    const { getMissingHandler } = createI18nComposer({ missing })
+    expect(getMissingHandler()).toEqual(missing)
   })
 })
 

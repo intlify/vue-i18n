@@ -11,6 +11,8 @@ import { Path, resolveValue } from './path'
 import { isObject, isString, isNumber, isFunction, warn, isBoolean, isArray } from './utils'
 
 export type Locale = string
+
+// TODO: should more design it's useful typing ...
 export type LocaleMessageDictionary = {
   [property: string]: LocaleMessage
 }
@@ -19,8 +21,8 @@ export type LocaleMessage =
   | MessageFunction
   | LocaleMessageDictionary
   | LocaleMessage[]
-
 export type LocaleMessages = Record<Locale, LocaleMessage>
+
 export type TranslateResult = string
 export type RuntimeMissingHandler = (
   context: RuntimeContext, locale: Locale, key: Path, ...values: unknown[]
@@ -137,6 +139,7 @@ function isLocalizeFallbackWarn (fallback: boolean | RegExp, key: Path, stack?: 
  *    localize(context, 'foo.bar', { fallbackWarn: false })
  */
 
+ // TODO: should design `args` it's useful typing ...
 export function localize (context: RuntimeContext, key: Path, ...args: unknown[]): string {
   const { messages, compileCache, modifiers, missing, _fallbackLocaleStack } = context
 
