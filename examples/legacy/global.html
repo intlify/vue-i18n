@@ -10,33 +10,29 @@
     <div id="app">
       <h1>Root</h1>
       <form>
-        <label>{{ t('message.language') }}</label>
-        <select v-model="locale">
+        <label>{{ $t('message.language') }}</label>
+        <select v-model="$i18n.locale">
           <option value="en">en</option>
           <option value="ja">ja</option>
         </select>
       </form>
-      <p>{{ t("message.hello") }}</p>
+      <p>{{ $t("message.hello") }}</p>
       <Child />
     </div>
     <script>
       const { createApp } = Vue
-      const { createI18nComposer, useI18n, GlobalI18nSymbol } = VueI18n
+      const { createI18n } = VueI18n
 
       const Child = {
         template: `
           <div class="child">
             <h1>Child</h1>
-            <p>{{ t("message.hi") }}</p>
+            <p>{{ $t("message.hi") }}</p>
           </div>
-        `,
-        setup () {
-          const { t } = useI18n()
-          return { t }
-        }
+        `
       }
 
-      const i18n = createI18nComposer({
+      const i18n = createI18n({
         locale: 'ja',
         messages: {
           en: {
@@ -57,10 +53,9 @@
       })
 
       const app = createApp({
-        components: { Child },
-        setup () { return useI18n() }
+        components: { Child }
       })
-      app.provide(GlobalI18nSymbol, i18n)
+      app.use(i18n)
       app.mount('#app')
     </script>
   </body>
