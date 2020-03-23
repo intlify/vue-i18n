@@ -5,7 +5,7 @@ jest.mock('../../src/utils', () => ({
 }))
 import { warn } from '../../src/utils'
 
-import { createRuntimeContext as context, translate } from '../../src/runtime'
+import { createRuntimeContext as context, translate, TRANSLATE_NOT_REOSLVED } from '../../src/runtime'
 
 describe('features', () => {
   it('simple text', () => {
@@ -313,5 +313,37 @@ describe('fallbackWarn', () => {
     expect(translate(ctx, 'hello')).toEqual('こんにちは！')
     expect(translate(ctx, 'hi', { fallbackWarn: false })).toEqual('hi')
     expect(mockWarn).toHaveBeenCalledTimes(1)
+  })
+})
+
+describe('unresolving', () => {
+  it('fallbackWarn is true', () => {
+    const ctx = context({
+      locale: 'en',
+      fallbackLocales: ['ja', 'fr'],
+      missingWarn: false,
+      fallbackWarn: /^hello/,
+      unresolving: true,
+      messages: {
+        en: {},
+        ja: {}
+      }
+    })
+    expect(translate(ctx, 'hello.world')).toEqual(TRANSLATE_NOT_REOSLVED)
+  })
+
+  it('fallbackWarn is false', () => {
+    const ctx = context({
+      locale: 'en',
+      fallbackLocales: ['ja', 'fr'],
+      missingWarn: false,
+      fallbackWarn: false,
+      unresolving: true,
+      messages: {
+        en: {},
+        ja: {}
+      }
+    })
+    expect(translate(ctx, 'hello.world')).toEqual(TRANSLATE_NOT_REOSLVED)
   })
 })

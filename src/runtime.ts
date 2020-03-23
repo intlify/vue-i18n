@@ -28,7 +28,6 @@ export type RuntimeMissingHandler = (
   context: RuntimeContext, locale: Locale, key: Path, ...values: unknown[]
 ) => string | void
 
-// TODO: should implement more runtime !!
 export type RuntimeOptions = {
   locale?: Locale
   fallbackLocales?: Locale[]
@@ -38,7 +37,7 @@ export type RuntimeOptions = {
   preCompile?: false // TODO: we need this option?
   missingWarn?: boolean | RegExp
   fallbackWarn?: boolean | RegExp
-  // ...
+  unresolving?: boolean
 }
 
 export type RuntimeContext = {
@@ -50,6 +49,7 @@ export type RuntimeContext = {
   compileCache: Record<string, MessageFunction>
   missingWarn: boolean | RegExp
   fallbackWarn: boolean | RegExp
+  unresolving: boolean
   _fallbackLocaleStack?: Locale[]
 }
 
@@ -60,6 +60,8 @@ const DEFAULT_LINKDED_MODIFIERS: LinkedModifiers = {
 }
 
 const NOOP_MESSAGE_FUNCTION = () => ''
+
+export const TRANSLATE_NOT_REOSLVED = -1
 
 export function createRuntimeContext (options: RuntimeOptions = {}): RuntimeContext {
   const locale = options.locale || 'en-US'
@@ -74,6 +76,9 @@ export function createRuntimeContext (options: RuntimeOptions = {}): RuntimeCont
   const fallbackWarn = options.fallbackWarn === undefined
     ? fallbackLocales.length > 0
     : options.fallbackWarn
+  const unresolving = options.unresolving === undefined
+    ? false
+    : options.unresolving
 
   return {
     locale,
@@ -83,7 +88,8 @@ export function createRuntimeContext (options: RuntimeOptions = {}): RuntimeCont
     missing,
     compileCache,
     missingWarn,
-    fallbackWarn
+    fallbackWarn,
+    unresolving
   }
 }
 
@@ -139,9 +145,9 @@ function isTrarnslateFallbackWarn (fallback: boolean | RegExp, key: Path, stack?
  *    translate(context, 'foo.bar', { fallbackWarn: false })
  */
 
- // TODO: should design `args` it's useful typing ...
-export function translate (context: RuntimeContext, key: Path, ...args: unknown[]): string {
-  const { messages, compileCache, modifiers, missing, _fallbackLocaleStack } = context
+// TODO: should design `args` it's useful typing ...
+export function translate (context: RuntimeContext, key: Path, ...args: unknown[]): string | number {
+  const { messages, compileCache, modifiers, missing, _fallbackLocaleStack, unresolving } = context
 
   let missingWarn = context.missingWarn
   if (isObject(args[0]) && isBoolean(args[0].missingWarn)) {
@@ -220,7 +226,7 @@ export function translate (context: RuntimeContext, key: Path, ...args: unknown[
 
   if (!isString(format)) {
     // missing ...
-    let ret: string | null = null
+    let ret: string | number | null = null
     if (missing !== null) {
       ret = missing(context, locale, key) || key
     } else {
@@ -239,10 +245,13 @@ export function translate (context: RuntimeContext, key: Path, ...args: unknown[
       ret = translate(context, key, ...args)
       if (context._fallbackLocaleStack && context._fallbackLocaleStack.length === 0) {
         context._fallbackLocaleStack = undefined
+        if (unresolving) {
+          ret = TRANSLATE_NOT_REOSLVED
+        }
       }
       return ret
     } else {
-      return ret
+      return !unresolving ? ret : TRANSLATE_NOT_REOSLVED
     }
   }
 
