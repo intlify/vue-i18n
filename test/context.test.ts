@@ -197,4 +197,27 @@ describe('plural', () => {
     })
     expect(msg(ctx)).toMatch(`1 apple`)
   })
+
+  test('custom choice rule', () => {
+    const pluralRule = (choice: number, choicesLength: number): number => {
+      if (choice === 0) { return 0 }
+      const teen = choice > 10 && choice < 20
+      const endsWithOne = choice % 10 === 1
+      if (!teen && endsWithOne) { return 1 }
+      if (!teen && choice % 10 >= 2 && choice % 10 <= 4) { return 2 }
+
+      return (choicesLength < 4) ? 2 : 3
+    }
+    const msg = compile('0 машин | {n} машина | {n} машины | {n} машин')
+    const ctx1 = createMessageContext({ pluralIndex: 1, pluralRule })
+    const ctx2 = createMessageContext({ pluralIndex: 2, pluralRule })
+    const ctx3 = createMessageContext({ pluralIndex: 4, pluralRule })
+    const ctx4 = createMessageContext({ pluralIndex: 12, pluralRule })
+    const ctx5 = createMessageContext({ pluralIndex: 21, pluralRule })
+    expect(msg(ctx1)).toMatch(`1 машина`)
+    expect(msg(ctx2)).toMatch(`2 машины`)
+    expect(msg(ctx3)).toMatch(`4 машины`)
+    expect(msg(ctx4)).toMatch(`12 машин`)
+    expect(msg(ctx5)).toMatch(`21 машина`)
+  })
 })
