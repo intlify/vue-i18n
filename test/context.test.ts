@@ -13,6 +13,12 @@ describe('text', () => {
     const ctx = createMessageContext()
     expect(JSON.stringify(msg(ctx))).toMatch(`hello\\n world`)
   })
+
+  test('&nbsp;', () => {
+    const msg = compile('&nbsp;')
+    const ctx = createMessageContext()
+    expect(msg(ctx)).toMatch(`&nbsp;`)
+  })
 })
 
 describe('list', () => {
