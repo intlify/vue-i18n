@@ -35,48 +35,7 @@ export function applyPlugin (app: App, legacyI18n: VueI18n, composer: I18nCompos
 
       if (options.i18n) { // component local i18n
         const optionsI18n = options.i18n as VueI18nOptions
-
-        // TODO: should be inherited parent options here !
-        // e.g optionsI18n.fallbackLocale = this.$root.proxy.$i18n.fallbackLocale
-        /*
-        if (this.$root && this.$root.proxy && this.$root.proxy.$i18n) {
-          options.i18n.root = this.$root
-          options.i18n.formatter = this.$root.$i18n.formatter
-          options.i18n.fallbackLocale = this.$root.$i18n.fallbackLocale
-          options.i18n.formatFallbackMessages = this.$root.$i18n.formatFallbackMessages
-          options.i18n.silentTranslationWarn = this.$root.$i18n.silentTranslationWarn
-          options.i18n.silentFallbackWarn = this.$root.$i18n.silentFallbackWarn
-          options.i18n.pluralizationRules = this.$root.$i18n.pluralizationRules
-          options.i18n.preserveDirectiveContent = this.$root.$i18n.preserveDirectiveContent
-        }
-        */
-
-        // TODO: should be merged locale messages from custom blocks
-        /*
-        // init locale messages via custom blocks
-        if (options.__i18n) {
-          try {
-            let localeMessages = {}
-            options.__i18n.forEach(resource => {
-              localeMessages = merge(localeMessages, JSON.parse(resource))
-            })
-            options.i18n.messages = localeMessages
-          } catch (e) {
-            if (process.env.NODE_ENV !== 'production') {
-              warn(`Cannot parse locale messages via custom blocks.`, e)
-            }
-          }
-        }
-        */
-
-        // TODO: should be merged sharedMessages
-        /*
-        const { sharedMessages } = options.i18n
-        if (sharedMessages && isPlainObject(sharedMessages)) {
-          options.i18n.messages = merge(options.i18n.messages, sharedMessages)
-        }
-        */
-        this.$i18n = createI18n(optionsI18n)
+        this.$i18n = createI18n(optionsI18n, composer)
       } else if (this.$root && this.$root.proxy) { // root i18n
         // TODO: should resolve type inference
         // eslint-disable-next-line @typescript-eslint/no-explicit-any

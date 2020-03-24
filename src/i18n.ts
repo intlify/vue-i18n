@@ -2,7 +2,7 @@ import { App } from 'vue'
 import { applyPlugin } from './plugin'
 import { Path } from './path'
 import { PluralizationRule, LinkedModifiers } from './context'
-import { MissingHandler, I18nComposerOptions, createI18nComposer } from './composition'
+import { MissingHandler, I18nComposer, I18nComposerOptions, createI18nComposer } from './composition'
 import { Locale, TranslateResult, LocaleMessages, LocaleMessageDictionary } from './runtime'
 import { isString, isArray, isObject } from './utils'
 
@@ -97,7 +97,9 @@ export type VueI18nOptions = {
   silentFallbackWarn?: boolean | RegExp
   preserveDirectiveContent?: boolean
   warnHtmlInMessage?: WarnHtmlInMessageLevel
-} & I18nComposerOptions
+  sharedMessages?: LocaleMessages
+  __i18n?: LocaleMessages // for custom blocks
+}
 
 export type VueI18n = {
   // properties
@@ -149,8 +151,46 @@ export const availabilities = {
   numberFormat: intlDefined && typeof Intl.NumberFormat !== 'undefined'
 } as IntlAvailability
 
-export function createI18n (options: VueI18nOptions = {}): VueI18n {
-  const composer = createI18nComposer(options)
+function convertI18nComposerOptions (options: VueI18nOptions): I18nComposerOptions {
+  const locale = options.locale
+  const fallbackLocales = options.fallbackLocale ? [options.fallbackLocale] : []
+  const missing = options.missing
+  const missingWarn = options.silentTranslationWarn === undefined
+    ? true
+    : !options.silentTranslationWarn
+  const fallbackWarn = options.silentFallbackWarn === undefined
+    ? true
+    : !options.silentFallbackWarn
+  const fallbackRoot = options.fallbackRoot
+
+  let messages = options.messages
+
+  // TODO: should be merged locale messages of custom block
+  //
+
+  if (isObject(options.sharedMessages)) {
+    const sharedMessages = options.sharedMessages
+    const locales: Locale[] = Object.keys(sharedMessages)
+    messages = locales.reduce((messages, locale) => {
+      const message = messages[locale] || { [locale]: {} }
+      Object.assign(message, sharedMessages[locale])
+      return messages
+    }, messages || {})
+  }
+
+  return {
+    locale,
+    fallbackLocales,
+    messages,
+    missing,
+    missingWarn,
+    fallbackWarn,
+    fallbackRoot
+  }
+}
+
+export function createI18n (options: VueI18nOptions = {}, root?: I18nComposer): VueI18n {
+  const composer = createI18nComposer(convertI18nComposerOptions(options), root)
 
   const i18n = {
     get locale (): Locale { return composer.locale.value },
