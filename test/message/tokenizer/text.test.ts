@@ -67,3 +67,23 @@ test('spaces', () => {
     }
   })
 })
+
+test('&nbsp;', () => {
+  // https://github.com/kazupon/vue-i18n/issues/318
+  const tokenizer = createTokenizer('&nbsp;')
+  expect(tokenizer.nextToken()).toEqual({
+    type: TokenTypes.Text,
+    value: '&nbsp;',
+    loc: {
+      start: { line: 1, column: 1, offset: 0 },
+      end: { line: 1, column: 7, offset: 6 }
+    }
+  })
+  expect(tokenizer.nextToken()).toEqual({
+    type: TokenTypes.EOF,
+    loc: {
+      start: { line: 1, column: 7, offset: 6 },
+      end: { line: 1, column: 7, offset: 6 }
+    }
+  })
+})
