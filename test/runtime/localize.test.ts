@@ -347,3 +347,17 @@ describe('unresolving', () => {
     expect(translate(ctx, 'hello.world')).toEqual(TRANSLATE_NOT_REOSLVED)
   })
 })
+
+describe('edge cases', () => {
+  it('multi bytes key', () => {
+    const ctx = context({
+      locale: 'ja',
+      messages: {
+        ja: {
+          'こんにちは': 'こんにちは！'
+        }
+      }
+    })
+    expect(translate(ctx, 'こんにちは')).toEqual('こんにちは！')
+  })
+})
