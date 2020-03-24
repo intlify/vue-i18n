@@ -48,9 +48,10 @@ if you use currently vue-i18n version, see this [repository](https://github.com/
     - [x] fallbackLocales
     - [x] missingWarn
     - [x] fallbackWarn
+    - [x] fallbackRoot
     - [x] messages
   - methods
-    - [ ] t
+    - [x] t
     - [ ] d
     - [ ] n
     - [x] getMissingHandler
@@ -89,18 +90,18 @@ if you use currently vue-i18n version, see this [repository](https://github.com/
     - [ ] mergeNumberFormat
     - [ ] getChoiceIndex
   - Inejctted in Vue Prototype API
-    - [ ] $i18n
+    - [x] $i18n
     - [x] $t
     - [ ] $tc
     - [ ] $te
     - [ ] $d
     - [ ] $n
   - Component options
-    - [ ] messages
+    - [x] messages
     - [ ] dateTimeFormats
     - [ ] numberFormats
-    - [ ] sharedMessages
-  - [ ] plugin install & mixin
+    - [x] sharedMessages
+  - [x] plugin install & mixin
   - [ ] version
   - [x] IntlAvailability availabilities
 - Components
@@ -115,7 +116,7 @@ if you use currently vue-i18n version, see this [repository](https://github.com/
   - [ ] vue-cli-plugin-i18n
   - [ ] eslint-plugin-vue-i18n
 - Others
-  - [ ] fallback localization (bubble up)
+  - [x] fallback localization (bubble up)
 
 ## :copyright: License
 
