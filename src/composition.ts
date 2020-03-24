@@ -5,12 +5,12 @@
  * This module is offered composable i18n API for Vue 3
  */
 
-import { InjectionKey, inject, getCurrentInstance, ComponentInternalInstance, ref, computed, readonly } from 'vue'
+import { InjectionKey, provide, inject, getCurrentInstance, ComponentInternalInstance, ref, computed, readonly } from 'vue'
 import { WritableComputedRef } from '@vue/reactivity'
 import { Path } from './path'
 import { LinkedModifiers } from './context'
-import { Locale, LocaleMessages, createRuntimeContext, translate, RuntimeContext, RuntimeMissingHandler } from './runtime'
-import { isFunction } from './utils'
+import { Locale, LocaleMessages, createRuntimeContext, translate, RuntimeContext, RuntimeMissingHandler, TRANSLATE_NOT_REOSLVED } from './runtime'
+import { warn, isFunction, isNumber, isString } from './utils'
 
 export const GlobalI18nSymbol: InjectionKey<I18nComposer> = Symbol.for('vue-i18n')
 const providers: Map<ComponentInternalInstance, InjectionKey<I18nComposer>> = new Map()
@@ -25,6 +25,7 @@ export type I18nComposerOptions = {
   missing?: MissingHandler
   missingWarn?: boolean | RegExp
   fallbackWarn?: boolean | RegExp
+  fallbackRoot?: boolean
 }
 
 export type I18nComposer = {
@@ -35,6 +36,7 @@ export type I18nComposer = {
   readonly messages: LocaleMessages
   missingWarn: boolean | RegExp
   fallbackWarn: boolean | RegExp
+  fallbackRoot: boolean
   // methods
   t (key: Path, ...args: unknown[]): string
   getMissingHandler (): MissingHandler | undefined
@@ -47,23 +49,30 @@ function defineRuntimeMissingHandler (missing: MissingHandler): RuntimeMissingHa
   }
 }
 
-export function createI18nComposer (options: I18nComposerOptions = {}): I18nComposer {
+export function createI18nComposer (options: I18nComposerOptions = {}, root?: I18nComposer): I18nComposer {
   // reactivity states
-  const _locale = ref<Locale>(options.locale || 'en-US')
-  const _fallbackLocales = ref<Locale[]>(options.fallbackLocales || [])
+  const _locale = ref<Locale>(root ? root.locale.value : options.locale || 'en-US')
+  const _fallbackLocales = ref<Locale[]>(root ? root.fallbackLocales.value : options.fallbackLocales || [])
   const _messages = ref<LocaleMessages>(options.messages || { [_locale.value]: {} })
 
   // warning supress options
-  let _missingWarn = options.missingWarn === undefined
+  let _missingWarn = root
+    ? root.missingWarn
+    : options.missingWarn === undefined
+      ? true
+      : options.missingWarn
+  let _fallbackWarn = root
+    ? root.fallbackWarn
+    : options.fallbackWarn === undefined
+      ? _fallbackLocales.value.length > 0
+      : options.fallbackWarn
+  let _fallbackRoot = options.fallbackRoot === undefined
     ? true
-    : options.missingWarn
-  let _fallbackWarn = options.fallbackWarn === undefined
-    ? _fallbackLocales.value.length > 0
-    : options.fallbackWarn
+    : !!options.fallbackRoot
 
   // setup runtime missing
   let _missing = options.missing
-  let _runtimeMissing: RuntimeMissingHandler | undefined = undefined
+  let _runtimeMissing: RuntimeMissingHandler | undefined
   if (isFunction(_missing)) {
     _runtimeMissing = defineRuntimeMissingHandler(_missing)
   }
@@ -76,7 +85,8 @@ export function createI18nComposer (options: I18nComposerOptions = {}): I18nComp
       messages: _messages.value,
       missing: _runtimeMissing,
       missingWarn: _missingWarn,
-      fallbackWarn: _fallbackWarn
+      fallbackWarn: _fallbackWarn,
+      unresolving: true
     })
   }
   let _context = getRuntimeContext()
@@ -114,7 +124,21 @@ export function createI18nComposer (options: I18nComposerOptions = {}): I18nComp
 
   // t
   const t = (key: Path, ...args: unknown[]): string => {
-    return computed(() => translate(getRuntimeContext(), key, ...args)).value
+    return computed<string>((): string => {
+      const ret = translate(getRuntimeContext(), key, ...args)
+      if (isNumber(ret) && ret === TRANSLATE_NOT_REOSLVED) {
+        if (__DEV__ && _fallbackRoot && root) {
+          warn(`Fall back to translate '${key}' with root locale.`)
+        }
+        return _fallbackRoot && root
+          ? root.t(key, ...args)
+          : key
+      } else if (isString(ret)) {
+        return ret
+      } else {
+        throw new Error('TODO:') // TODO
+      }
+    }).value
   }
 
   return {
@@ -123,13 +147,18 @@ export function createI18nComposer (options: I18nComposerOptions = {}): I18nComp
     fallbackLocales,
     messages,
     get missingWarn (): boolean | RegExp { return _missingWarn },
-    set missingWarn (val: boolean| RegExp) {
+    set missingWarn (val: boolean | RegExp) {
       _missingWarn = val
       _context = getRuntimeContext()
     },
     get fallbackWarn (): boolean | RegExp { return _fallbackWarn },
-    set fallbackWarn (val: boolean| RegExp) {
+    set fallbackWarn (val: boolean | RegExp) {
       _fallbackWarn = val
+      _context = getRuntimeContext()
+    },
+    get fallbackRoot (): boolean { return _fallbackRoot },
+    set fallbackRoot (val: boolean) {
+      _fallbackRoot = val
       _context = getRuntimeContext()
     },
     /* methods */
@@ -139,31 +168,26 @@ export function createI18nComposer (options: I18nComposerOptions = {}): I18nComp
   }
 }
 
-function getProvider (instance: ComponentInternalInstance): InjectionKey<I18nComposer> {
-  let current = instance
-  let symbol = providers.get(current)
-  console.log('getProvider symbol', symbol)
-  while (!symbol) {
-    if (!current.parent) {
-      symbol = GlobalI18nSymbol
-      break
-    } else {
-      current = current.parent
-      symbol = providers.get(current)
-      if (symbol) {
-        break
-      }
-    }
-  }
-  return symbol
-}
+const generateSymbolID = (): string => `vue-i18n-${new Date().getUTCMilliseconds().toString()}`
 
 // exports vue-i18n composable API
-export function useI18n (options: I18nComposerOptions = {}): I18nComposer {
+export function useI18n (options?: I18nComposerOptions): I18nComposer {
+  const globalComposer = inject(GlobalI18nSymbol)
+  if (!globalComposer) throw new Error('TODO') // TODO:
+
   const instance = getCurrentInstance()
-  console.log('useI18n instance', instance)
-  const symbol = !instance ? GlobalI18nSymbol : getProvider(instance)
-  console.log('getProvider return symbol', symbol)
-  const composer = inject(symbol) || createI18nComposer(options)
-  return composer
+  if (instance === null || !options) { return globalComposer }
+
+  const symbol = providers.get(instance)
+  if (!symbol) {
+    const composer = createI18nComposer(options, globalComposer)
+    const sym: InjectionKey<I18nComposer> = Symbol.for(generateSymbolID())
+    providers.set(instance, sym)
+    provide(sym, composer)
+    return composer
+  } else {
+    const composer = inject(symbol) || globalComposer
+    if (!composer) throw new Error('TODO') // TODO:
+    return composer
+  }
 }

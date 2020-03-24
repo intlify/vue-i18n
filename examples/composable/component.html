@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Component based localization</title>
+    <script src="../../node_modules/vue/dist/vue.global.js"></script>
+    <script src="../../dist/vue-i18n.iife.js"></script>
+    <style>
+      #app { border: red solid; }
+      #component { border: blue solid; }
+    </style>
+  </head>
+  <body>
+    <div id="app">
+      <h1>Root</h1>
+      <p>{{ t("message.hello") }}</p>
+      <Component1 />
+    </div>
+    <script>
+      const { createApp } = Vue
+      const { createI18nComposer, useI18n, GlobalI18nSymbol } = VueI18n
+
+      const i18n = createI18nComposer({
+        locale: 'ja',
+        messages: {
+          en: {
+            message: {
+              hello: 'hello world',
+              greeting: 'good morning, world!'
+            }
+          },
+          ja: {
+            message: {
+              hello: 'こんにちは、世界',
+              greeting: 'おはよう、世界！'
+            }
+          }
+        }
+      })
+
+      const Component1 = {
+        template: `
+          <div id="component">
+            <h1>Component1</h1>
+            <p>Component1 locale messages: {{ t("message.hello") }}</p>
+            <p>Fallback global locale messages: {{ t("message.greeting") }}</p>
+          </div>
+        `,
+        setup () {
+          return useI18n({
+            messages: {
+              en: { message: { hello: 'hello component1' } },
+              ja: { message: { hello: 'こんにちは、component1' } }
+            }
+          })
+        }
+      }
+
+      const app = createApp({
+        components: { Component1 },
+        setup () { return useI18n() }
+      })
+      app.provide(GlobalI18nSymbol, i18n)
+      app.mount('#app')
+    </script>
+  </body>
+</html>
