@@ -104,13 +104,13 @@ describe('getMissingHandler / setMissingHandler', () => {
     const { getMissingHandler, setMissingHandler } = createI18nComposer({})
     expect(getMissingHandler()).toBeUndefined()
 
-    const missing = () => {}
+    const missing = () => {} // eslint-disable-line @typescript-eslint/no-empty-function
     setMissingHandler(missing as MissingHandler)
     expect(getMissingHandler()).toEqual(missing)
   })
 
   it('initialize at composer creating', () => {
-    const missing = () => {}
+    const missing = () => {} // eslint-disable-line @typescript-eslint/no-empty-function
     const { getMissingHandler } = createI18nComposer({ missing })
     expect(getMissingHandler()).toEqual(missing)
   })
