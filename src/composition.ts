@@ -22,6 +22,7 @@ export type I18nComposerOptions = {
   locale?: Locale
   fallbackLocales?: Locale[]
   messages?: LocaleMessages
+  modifiers?: LinkedModifiers
   missing?: MissingHandler
   missingWarn?: boolean | RegExp
   fallbackWarn?: boolean | RegExp
@@ -34,6 +35,7 @@ export type I18nComposer = {
   locale: WritableComputedRef<Locale>
   fallbackLocales: WritableComputedRef<Locale[]>
   readonly messages: LocaleMessages
+  readonly modifiers: LinkedModifiers
   missingWarn: boolean | RegExp
   fallbackWarn: boolean | RegExp
   fallbackRoot: boolean
@@ -70,12 +72,19 @@ export function createI18nComposer (options: I18nComposerOptions = {}, root?: I1
     ? true
     : !!options.fallbackRoot
 
-  // setup runtime missing
+  // runtime missing
   let _missing = options.missing
   let _runtimeMissing: RuntimeMissingHandler | undefined
   if (isFunction(_missing)) {
     _runtimeMissing = defineRuntimeMissingHandler(_missing)
   }
+
+  // custom linked modifiers
+  const _modifiers = root
+    ? root.modifiers
+    : options.modifiers === undefined
+      ? {}
+      : options.modifiers
 
   // TODO: should get ready function for runtime context updating ... object creating cost expensive ...
   const getRuntimeContext = (): RuntimeContext => {
@@ -83,6 +92,7 @@ export function createI18nComposer (options: I18nComposerOptions = {}, root?: I1
       locale: _locale.value,
       fallbackLocales: _fallbackLocales.value,
       messages: _messages.value,
+      modifiers: _modifiers,
       missing: _runtimeMissing,
       missingWarn: _missingWarn,
       fallbackWarn: _fallbackWarn,
@@ -146,6 +156,7 @@ export function createI18nComposer (options: I18nComposerOptions = {}, root?: I1
     locale,
     fallbackLocales,
     messages,
+    get modifiers (): LinkedModifiers { return _modifiers },
     get missingWarn (): boolean | RegExp { return _missingWarn },
     set missingWarn (val: boolean | RegExp) {
       _missingWarn = val

@@ -70,6 +70,31 @@ describe('messages', () => {
   })
 })
 
+describe('modifiers', () => {
+  it('default', () => {
+    const { modifiers } = createI18nComposer({})
+    expect(modifiers).toEqual({})
+  })
+
+  it('initialize at composer creating', () => {
+    const _modifiers = {
+      kebab: (str: string) => str.replace(/\s+/g, '-').toLowerCase()
+    }
+    const { modifiers, t } = createI18nComposer({
+      locale: 'en',
+      messages: {
+        en: {
+          hello: 'hello world',
+          hi: 'hi @.kebab:hello'
+        }
+      },
+      modifiers: _modifiers
+    })
+    expect(modifiers).toEqual(_modifiers)
+    expect(t('hi')).toEqual('hi hello-world')
+  })
+})
+
 describe('missingWarn', () => {
   it('default', () => {
     const { missingWarn } = createI18nComposer({})
