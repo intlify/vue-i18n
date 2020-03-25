@@ -124,6 +124,18 @@ describe('fallbackWarn', () => {
   })
 })
 
+describe('fallbackFormat', () => {
+  it('default', () => {
+    const { fallbackFormat } = createI18nComposer({})
+    expect(fallbackFormat).toEqual(false)
+  })
+
+  it('initialize at composer creating', () => {
+    const { fallbackFormat } = createI18nComposer({ fallbackFormat: true })
+    expect(fallbackFormat).toEqual(true)
+  })
+})
+
 describe('getMissingHandler / setMissingHandler', () => {
   it('default', () => {
     const { getMissingHandler, setMissingHandler } = createI18nComposer({})

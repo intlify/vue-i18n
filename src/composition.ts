@@ -27,6 +27,7 @@ export type I18nComposerOptions = {
   missingWarn?: boolean | RegExp
   fallbackWarn?: boolean | RegExp
   fallbackRoot?: boolean
+  fallbackFormat?: boolean
 }
 
 export type I18nComposer = {
@@ -39,6 +40,7 @@ export type I18nComposer = {
   missingWarn: boolean | RegExp
   fallbackWarn: boolean | RegExp
   fallbackRoot: boolean
+  fallbackFormat: boolean
   // methods
   t (key: Path, ...args: unknown[]): string
   getMissingHandler (): MissingHandler | undefined
@@ -71,6 +73,9 @@ export function createI18nComposer (options: I18nComposerOptions = {}, root?: I1
   let _fallbackRoot = options.fallbackRoot === undefined
     ? true
     : !!options.fallbackRoot
+  let _fallbackFormat = options.fallbackFormat === undefined
+    ? false
+    : !!options.fallbackFormat
 
   // runtime missing
   let _missing = options.missing
@@ -96,6 +101,7 @@ export function createI18nComposer (options: I18nComposerOptions = {}, root?: I1
       missing: _runtimeMissing,
       missingWarn: _missingWarn,
       fallbackWarn: _fallbackWarn,
+      fallbackFormat: _fallbackFormat,
       unresolving: true
     })
   }
@@ -170,6 +176,11 @@ export function createI18nComposer (options: I18nComposerOptions = {}, root?: I1
     get fallbackRoot (): boolean { return _fallbackRoot },
     set fallbackRoot (val: boolean) {
       _fallbackRoot = val
+      _context = getRuntimeContext()
+    },
+    get fallbackFormat (): boolean { return _fallbackFormat },
+    set fallbackFormat (val: boolean) {
+      _fallbackFormat = val
       _context = getRuntimeContext()
     },
     /* methods */

@@ -40,6 +40,7 @@ if you use currently vue-i18n version, see this [repository](https://github.com/
   - [x] translate function
   - [ ] datetime function
   - [ ] number function
+  - [ ] warnHtmlInMessage
   - [ ] improve translate `args` typing
   - [ ] improve locale messages typing: `LocaleMessages` / `LocaleMessage` / `LocaleMessageDictiory`
 - composable API: I18n Composer
@@ -49,6 +50,7 @@ if you use currently vue-i18n version, see this [repository](https://github.com/
     - [x] missingWarn
     - [x] fallbackWarn
     - [x] fallbackRoot
+    - [x] fallbackFormat
     - [x] messages
   - methods
     - [x] t
