@@ -6,7 +6,7 @@
  */
 
 import { compile, MessageFunction } from './message/compiler'
-import { createMessageContext, LinkedModifiers, MessageContextOptions } from './context'
+import { createMessageContext, NamedValue, LinkedModifiers, MessageContextOptions } from './context'
 import { Path, resolveValue } from './path'
 import { isObject, isString, isNumber, isFunction, warn, isBoolean, isArray } from './utils'
 
@@ -151,7 +151,16 @@ function isTrarnslateFallbackWarn (fallback: boolean | RegExp, key: Path, stack?
  *    translate(context, 'foo.bar', { fallbackWarn: false })
  */
 
-// TODO: should design `args` it's useful typing ...
+export type TranslateOptions = {
+  list?: unknown[]
+  named?: NamedValue
+  plural?: number
+  default?: string | boolean
+  locale?: Locale
+  missingWarn?: boolean
+  fallbackWarn?: boolean
+}
+
 export function translate (context: RuntimeContext, key: Path, ...args: unknown[]): string | number {
   const {
     messages,
@@ -162,26 +171,30 @@ export function translate (context: RuntimeContext, key: Path, ...args: unknown[
     unresolving,
     _fallbackLocaleStack
   } = context
+  const options: TranslateOptions = isObject(args[0]) ? args[0] : {}
 
-  let missingWarn = context.missingWarn
-  if (isObject(args[0]) && isBoolean(args[0].missingWarn)) {
-    missingWarn = args[0].missingWarn
-  }
+  const missingWarn = isBoolean(options.missingWarn)
+    ? options.missingWarn
+    : context.missingWarn
 
-  let fallbackWarn = context.fallbackWarn
-  if (isObject(args[0]) && isBoolean(args[0].fallbackWarn)) {
-    fallbackWarn = args[0].fallbackWarn
-  }
+  const fallbackWarn = isBoolean(options.fallbackWarn)
+    ? options.fallbackWarn
+    : context.fallbackWarn
 
-  let locale = context.locale
-  if (isObject(args[0]) && isString(args[0].locale)) {
-    locale = args[0].locale
-  }
-
+  let locale = isString(options.locale)
+    ? options.locale
+    : context.locale
   // override with fallback locales
   if (fallbackWarn && isArray(_fallbackLocaleStack) && _fallbackLocaleStack.length > 0) {
     locale = _fallbackLocaleStack.shift() || locale
   }
+
+  const defaultMsgOrKey: string | boolean = (isString(options.default) || isBoolean(options.default))
+    ? options.default
+    : fallbackFormat
+      ? key
+      : false
+  const enableDefaultMsg = (fallbackFormat || defaultMsgOrKey !== false)
 
   const message = messages[locale]
   if (!isObject(message)) {
@@ -204,33 +217,24 @@ export function translate (context: RuntimeContext, key: Path, ...args: unknown[
     }
   }
 
-  const options: MessageContextOptions = {
+  const ctxOptions: MessageContextOptions = {
     modifiers,
     messages: resolveMessage
   }
 
-  if (isObject(args[0])) {
-    const obj = args[0] as Record<any, any> // eslint-disable-line @typescript-eslint/no-explicit-any
-    if (obj.list) {
-      options.list = obj.list
-    }
-    if (obj.named) {
-      options.named = obj.named
-    }
-    if (isNumber(obj.plural)) {
-      options.pluralIndex = obj.plural
-    }
+  if (options.list) {
+    ctxOptions.list = options.list
+  }
+  if (options.named) {
+    ctxOptions.named = options.named
+  }
+  if (isNumber(options.plural)) {
+    ctxOptions.pluralIndex = options.plural
   }
 
   let format = resolveValue(message, key)
-
-  let defaultMsgOrKey: string | boolean = fallbackFormat ? key : false
-  if (isObject(args[0]) && (isString(args[0].default) || isBoolean(args[0].default))) {
-    defaultMsgOrKey = args[0].default
-  }
-
-  // set default message
-  if (defaultMsgOrKey !== false) {
+  if (!isString(format) && enableDefaultMsg) {
+    // set default message
     if (isString(defaultMsgOrKey)) {
       format = defaultMsgOrKey
     } else { // true
@@ -270,6 +274,6 @@ export function translate (context: RuntimeContext, key: Path, ...args: unknown[
   }
 
   const msg = compileCache[format] || (compileCache[format] = compile(format))
-  const msgContext = createMessageContext(options)
+  const msgContext = createMessageContext(ctxOptions)
   return msg(msgContext)
 }
