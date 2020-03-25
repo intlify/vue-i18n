@@ -1,5 +1,5 @@
-import { compile } from '../src/message/compiler'
-import { createMessageContext } from '../src/context'
+import { compile } from '../../src/message/compiler'
+import { createMessageContext } from '../../src/message/context'
 
 describe('text', () => {
   test('basic', () => {

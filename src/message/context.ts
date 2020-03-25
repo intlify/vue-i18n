@@ -1,4 +1,4 @@
-import { isNumber, isFunction, toDisplayString, isObject } from './utils'
+import { isNumber, isFunction, toDisplayString, isObject } from '../utils'
 
 export type PluralizationRule = (choice: number, choicesLength: number, locale?: string, orgRule?: PluralizationRule) => number
 export type LinkedModify = (str: string) => string

@@ -1,7 +1,7 @@
 import { App } from 'vue'
 import { applyPlugin } from './plugin'
 import { Path } from './path'
-import { PluralizationRule, LinkedModifiers } from './context'
+import { PluralizationRule, LinkedModifiers } from './message/context'
 import { Locale, LocaleMessages, LocaleMessageDictionary } from './runtime/context'
 import { TranslateOptions } from './runtime/localize'
 import { DateTimeFormats } from './runtime/datetime'

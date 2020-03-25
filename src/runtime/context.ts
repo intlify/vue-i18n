@@ -1,5 +1,5 @@
 import { MessageFunction } from '../message/compiler'
-import { LinkedModifiers, PluralizationRule } from '../context'
+import { LinkedModifiers, PluralizationRule } from '../message/context'
 import { Path } from '../path'
 
 export type Locale = string

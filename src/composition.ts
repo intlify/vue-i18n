@@ -8,7 +8,7 @@
 import { InjectionKey, provide, inject, getCurrentInstance, ComponentInternalInstance, ref, computed, readonly } from 'vue'
 import { WritableComputedRef } from '@vue/reactivity'
 import { Path } from './path'
-import { LinkedModifiers, PluralizationRule } from './context'
+import { LinkedModifiers, PluralizationRule } from './message/context'
 import { Locale, LocaleMessages, createRuntimeContext, RuntimeContext, RuntimeMissingHandler } from './runtime/context'
 import { translate, TRANSLATE_NOT_REOSLVED } from './runtime/localize'
 import { warn, isFunction, isNumber, isString } from './utils'
