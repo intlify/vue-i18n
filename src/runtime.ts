@@ -37,6 +37,7 @@ export type RuntimeOptions = {
   preCompile?: false // TODO: we need this option?
   missingWarn?: boolean | RegExp
   fallbackWarn?: boolean | RegExp
+  fallbackFormat?: boolean
   unresolving?: boolean
 }
 
@@ -49,6 +50,7 @@ export type RuntimeContext = {
   compileCache: Record<string, MessageFunction>
   missingWarn: boolean | RegExp
   fallbackWarn: boolean | RegExp
+  fallbackFormat: boolean
   unresolving: boolean
   _fallbackLocaleStack?: Locale[]
 }
@@ -76,6 +78,9 @@ export function createRuntimeContext (options: RuntimeOptions = {}): RuntimeCont
   const fallbackWarn = options.fallbackWarn === undefined
     ? fallbackLocales.length > 0
     : options.fallbackWarn
+  const fallbackFormat = options.fallbackFormat === undefined
+    ? false
+    : !!options.fallbackFormat
   const unresolving = options.unresolving === undefined
     ? false
     : options.unresolving
@@ -89,6 +94,7 @@ export function createRuntimeContext (options: RuntimeOptions = {}): RuntimeCont
     compileCache,
     missingWarn,
     fallbackWarn,
+    fallbackFormat,
     unresolving
   }
 }
@@ -147,7 +153,15 @@ function isTrarnslateFallbackWarn (fallback: boolean | RegExp, key: Path, stack?
 
 // TODO: should design `args` it's useful typing ...
 export function translate (context: RuntimeContext, key: Path, ...args: unknown[]): string | number {
-  const { messages, compileCache, modifiers, missing, _fallbackLocaleStack, unresolving } = context
+  const {
+    messages,
+    compileCache,
+    modifiers,
+    missing,
+    fallbackFormat,
+    unresolving,
+    _fallbackLocaleStack
+  } = context
 
   let missingWarn = context.missingWarn
   if (isObject(args[0]) && isBoolean(args[0].missingWarn)) {
@@ -167,11 +181,6 @@ export function translate (context: RuntimeContext, key: Path, ...args: unknown[
   // override with fallback locales
   if (fallbackWarn && isArray(_fallbackLocaleStack) && _fallbackLocaleStack.length > 0) {
     locale = _fallbackLocaleStack.shift() || locale
-  }
-
-  let defaultMsgOrKey: string | boolean = false
-  if (isObject(args[0]) && (isString(args[0].default) || isBoolean(args[0].default))) {
-    defaultMsgOrKey = args[0].default
   }
 
   const message = messages[locale]
@@ -214,6 +223,11 @@ export function translate (context: RuntimeContext, key: Path, ...args: unknown[
   }
 
   let format = resolveValue(message, key)
+
+  let defaultMsgOrKey: string | boolean = fallbackFormat ? key : false
+  if (isObject(args[0]) && (isString(args[0].default) || isBoolean(args[0].default))) {
+    defaultMsgOrKey = args[0].default
+  }
 
   // set default message
   if (defaultMsgOrKey !== false) {

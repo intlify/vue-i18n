@@ -316,6 +316,45 @@ describe('fallbackWarn', () => {
   })
 })
 
+describe('fallbackFormat', () => {
+  it('specify true', () => {
+    const mockWarn = warn as jest.MockedFunction<typeof warn>
+    mockWarn.mockImplementation(() => {}) // eslint-disable-line @typescript-eslint/no-empty-function
+
+    const ctx = context({
+      locale: 'en',
+      fallbackFormat: true,
+      messages: {
+        en: {}
+      }
+    })
+
+    expect(translate(ctx, 'hi, {name}!', { named: { name: 'kazupon' } })).toEqual('hi, kazupon!')
+    expect(mockWarn).not.toHaveBeenCalled()
+  })
+
+  it('overrided with default option', () => {
+    const mockWarn = warn as jest.MockedFunction<typeof warn>
+    mockWarn.mockImplementation(() => {}) // eslint-disable-line @typescript-eslint/no-empty-function
+
+    const ctx = context({
+      locale: 'en',
+      fallbackFormat: true,
+      messages: {
+        en: {}
+      }
+    })
+
+    expect(
+      translate(
+        ctx,
+        'hi, {name}!',
+        { named: { name: 'kazupon' }, default: 'hello, {name}!' })
+    ).toEqual('hello, kazupon!')
+    expect(mockWarn).not.toHaveBeenCalled()
+  })
+})
+
 describe('unresolving', () => {
   it('fallbackWarn is true', () => {
     const ctx = context({
