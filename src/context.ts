@@ -1,6 +1,6 @@
 import { isNumber, isFunction, toDisplayString, isObject } from './utils'
 
-export type PluralizationRule = (choice: number, choicesLength: number) => number
+export type PluralizationRule = (choice: number, choicesLength: number, locale?: string, orgRule?: PluralizationRule) => number
 export type LinkedModify = (str: string) => string
 export type LinkedModifiers = { [key: string]: LinkedModify }
 export type MessageFunction = (ctx: MessageContext) => string
@@ -10,6 +10,7 @@ export type NamedValue<T = {}> = T & { [prop: string]: unknown }
 
 export type MessageContextOptions<N = {}> = {
   parent?: MessageContext
+  locale?: string
   list?: unknown[]
   named?: NamedValue<N>
   modifiers?: LinkedModifiers
@@ -19,10 +20,12 @@ export type MessageContextOptions<N = {}> = {
 }
 
 export type MessageContext = {
+  locale?: string
   list: (index: number) => unknown
   named: (key: string) => unknown
   pluralIndex: number
   pluralRule: PluralizationRule
+  orgPluralRule?: PluralizationRule
   modifier: (name: string) => LinkedModify
   message: (name: string) => MessageFunction
   interpolate: (val: unknown) => string
@@ -69,11 +72,17 @@ function normalizeNamed (pluralIndex: number, named: any): void {
 export function createMessageContext<N = {}> (
   options: MessageContextOptions<N> = {}
 ): MessageContext {
+  const locale = options.locale
   // TODO: should be implemented warning message
   const pluralIndex = getPluralIndex(options)
 
   // TODO: should be implemented warning message
-  const pluralRule = options.pluralRule || pluralDefault
+  const pluralRule = isFunction(options.pluralRule)
+    ? options.pluralRule
+    : pluralDefault
+  const orgPluralRule = isFunction(options.pluralRule)
+    ? pluralDefault
+    : undefined
 
   const _list = options.list || []
   // TODO: should be implemented warning message
@@ -105,10 +114,12 @@ export function createMessageContext<N = {}> (
   }
 
   return {
+    locale,
     list,
     named,
     pluralIndex,
     pluralRule,
+    orgPluralRule,
     modifier,
     message,
     interpolate: toDisplayString

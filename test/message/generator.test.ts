@@ -124,7 +124,7 @@ describe('plural', () => {
     const code = generate(ast)
     expect(code).toMatch(`return [`)
     expect(code).toMatch(`"no apples", "one apple", "too much apples  "`)
-    expect(code).toMatch(`[ctx.pluralRule(ctx.pluralIndex, 3)]`)
+    expect(code).toMatch(`[ctx.pluralRule(ctx.pluralIndex, 3, ctx.locale, ctx.orgPluralRule)]`)
     expect(code).toMatchSnapshot()
   })
 
@@ -137,7 +137,7 @@ describe('plural', () => {
     expect(code).toMatch(`ctx.modifier("caml")(ctx.message("no apples")(ctx)), [`)
     expect(code).toMatch(`ctx.interpolate(ctx.list(0)), " apple"`)
     expect(code).toMatch(`ctx.interpolate(ctx.named("n")), "　apples"`) // eslint-disable-line
-    expect(code).toMatch(`[ctx.pluralRule(ctx.pluralIndex, 3)]`)
+    expect(code).toMatch(`[ctx.pluralRule(ctx.pluralIndex, 3, ctx.locale, ctx.orgPluralRule)]`)
     expect(code).toMatchSnapshot()
   })
 })

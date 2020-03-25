@@ -3,10 +3,11 @@ import { applyPlugin } from './plugin'
 import { Path } from './path'
 import { PluralizationRule, LinkedModifiers } from './context'
 import { Locale, LocaleMessages, LocaleMessageDictionary } from './runtime/context'
+import { TranslateOptions } from './runtime/localize'
 import { DateTimeFormats } from './runtime/datetime'
 import { NumberFormats } from './runtime/number'
 import { MissingHandler, I18nComposer, I18nComposerOptions, createI18nComposer } from './composition'
-import { isString, isArray, isObject } from './utils'
+import { isString, isArray, isObject, isNumber } from './utils'
 
 export type TranslateResult = string
 export type Choice = number
@@ -32,6 +33,7 @@ export type VueI18nOptions = {
   preserveDirectiveContent?: boolean
   warnHtmlInMessage?: WarnHtmlInMessageLevel
   sharedMessages?: LocaleMessages
+  pluralRule?: PluralizationRule // breaking change for Vue 3
   __i18n?: LocaleMessages // for custom blocks
 }
 
@@ -51,11 +53,9 @@ export type VueI18n = {
   */
 
   // methods
-  t (key: Path, ...values: unknown[]): string
-  // t (key: Path, locale: Locale, ...values: unknown[]): TranslateResult
+  t (key: Path, ...values: unknown[]): TranslateResult // return value is breaking change for Vue 3
+  tc (key: Path, ...values: unknown[]): TranslateResult // return value is breaking change for Vue 3
   /*
-  tc (key: Path, ...values: unknown[]): string
-  tc (key: Path, choice?: Choice, locale?: Locale, ...values: unknown[]): string
   te (key: Path, locale?: Locale): boolean
   d (value: number | Date, key?: Path, locale?: Locale): DateTimeFormatResult
   d (value: number | Date, ...args: unknown[]): DateTimeFormatResult
@@ -90,6 +90,7 @@ function convertI18nComposerOptions (options: VueI18nOptions): I18nComposerOptio
     ? true
     : !options.silentFallbackWarn
   const fallbackRoot = options.fallbackRoot
+  const pluralRule = options.pluralRule
 
   let messages = options.messages
 
@@ -113,7 +114,8 @@ function convertI18nComposerOptions (options: VueI18nOptions): I18nComposerOptio
     missing,
     missingWarn,
     fallbackWarn,
-    fallbackRoot
+    fallbackRoot,
+    pluralRule
   }
 }
 
@@ -124,6 +126,7 @@ export function createI18n (options: VueI18nOptions = {}, root?: I18nComposer): 
     get locale (): Locale { return composer.locale.value },
     set locale (val: Locale) { composer.locale.value = val },
     t (key: Path, ...values: unknown[]): TranslateResult {
+      // TODO: should be more refactored ...
       const [arg1, arg2] = values
       let args = values
       if (arg1 && !arg2) {
@@ -148,6 +151,30 @@ export function createI18n (options: VueI18nOptions = {}, root?: I18nComposer): 
         // TODO:
       }
       return composer.t(key, ...args)
+    },
+    tc (key: Path, ...values: unknown[]): TranslateResult {
+      const [arg1, arg2, arg3] = values
+      const options = {} as TranslateOptions
+
+      if (isNumber(arg1)) {
+        options.plural = arg1
+      }
+
+      if (isString(arg2)) {
+        options.locale = arg2
+      } else if (isArray(arg2)) {
+        options.list = arg2
+      } else if (isObject(arg2)) {
+        options.named = arg2
+      }
+
+      if (isArray(arg3)) {
+        options.list = arg3
+      } else if (isObject(arg3)) {
+        options.named = arg3
+      }
+
+      return composer.t(key, ...(values.length > 0 ? [options] : []))
     },
     install (app: App): void {
       applyPlugin(app, i18n as VueI18n, composer)

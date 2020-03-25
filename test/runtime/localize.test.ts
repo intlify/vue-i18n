@@ -387,6 +387,36 @@ describe('unresolving', () => {
   })
 })
 
+describe('pluralRule', () => {
+  it('basic', () => {
+    const pluralRule = (choice, choicesLength, locale, orgRule) => {
+      if (locale !== 'ru') { return orgRule(choice, choicesLength) }
+      if (choice === 0) { return 0 }
+
+      const teen = choice > 10 && choice < 20
+      const endsWithOne = choice % 10 === 1
+      if (!teen && endsWithOne) { return 1 }
+      if (!teen && choice % 10 >= 2 && choice % 10 <= 4) { return 2 }
+
+      return (choicesLength < 4) ? 2 : 3
+    }
+    const ctx = context({
+      locale: 'ru',
+      pluralRule,
+      messages: {
+        ru: {
+          car: '0 машин | {n} машина | {n} машины | {n} машин'
+        }
+      }
+    })
+    expect(translate(ctx, 'car', { plural: 1 })).toEqual('1 машина')
+    expect(translate(ctx, 'car', { plural: 2 })).toEqual('2 машины')
+    expect(translate(ctx, 'car', { plural: 4 })).toEqual('4 машины')
+    expect(translate(ctx, 'car', { plural: 12 })).toEqual('12 машин')
+    expect(translate(ctx, 'car', { plural: 21 })).toEqual('21 машина')
+  })
+})
+
 describe('edge cases', () => {
   it('multi bytes key', () => {
     const ctx = context({

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>plural basic usage examples</title>
+    <script src="../../../node_modules/vue/dist/vue.global.js"></script>
+    <script src="../../../dist/vue-i18n.iife.js"></script>
+  </head>
+  <body>
+    <div id="app">
+      <h2>Car:</h2>
+      <p>{{ t('car', { plural: 1 }) }}</p>
+      <p>{{ t('car', { plural: 2 }) }}</p>
+      <h3>Apple:</h3>
+      <p>{{ t('apple', { plural: 0 }) }}</p>
+      <p>{{ t('apple', { plural: 1 }) }}</p>
+      <p>{{ t('apple', { plural: 10, named: { count: 10 } }) }}</p>
+      <p>{{ t('apple', { plural: 10 }) }}</p>
+      <h3>Banana: </h3>
+      <p>{{ t('banana', { plural: 1, named: { n: 1 } }) }}</p>
+      <p>{{ t('banana', { plural: 1 }) }}</p>
+      <p>{{ t('banana', { plural: 100, named: { n: 'too many' } }) }}</p>
+    </div>
+    <script>
+      const { createApp } = Vue
+      const { createI18nComposer, useI18n, GlobalI18nSymbol } = VueI18n
+
+      const i18n = createI18nComposer({
+        locale: 'en',
+        messages: {
+          en: {
+            car: 'car | cars',
+            apple: 'no apples | one apple | {count} apples',
+            banana: 'no bananas | {n} banana | {n} bananas'
+          }
+        }
+      })
+
+      const app = createApp({
+        setup () { return useI18n() }
+      })
+      app.provide(GlobalI18nSymbol, i18n)
+      app.mount('#app')
+    </script>
+  </body>
+</html>

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>plural custom rule usage examples</title>
+    <script src="../../../node_modules/vue/dist/vue.global.js"></script>
+    <script src="../../../dist/vue-i18n.iife.js"></script>
+  </head>
+  <body>
+    <div id="app">
+      <h2>Car:</h2>
+      <p>{{ t('car', { plural: 1 }) }}</p>
+      <p>{{ t('car', { plural: 2 }) }}</p>
+      <p>{{ t('car', { plural: 4 }) }}</p>
+      <p>{{ t('car', { plural: 12 }) }}</p>
+      <p>{{ t('car', { plural: 21 }) }}</p>
+
+      <h3>Banana: </h3>
+      <p>{{ t('banana', { plural: 0 }) }}</p>
+      <p>{{ t('banana', { plural: 4 }) }}</p>
+      <p>{{ t('banana', { plural: 11 }) }}</p>
+      <p>{{ t('banana', { plural: 31 }) }}</p>
+    </div>
+    <script>
+      const { createApp } = Vue
+      const { createI18nComposer, useI18n, GlobalI18nSymbol } = VueI18n
+
+      function customRule (choice, choicesLength, locale, orgRule) {
+        if (locale !== 'ru') { return orgRule(choice, choicesLength) }
+        if (choice === 0) { return 0 }
+
+        const teen = choice > 10 && choice < 20
+        const endsWithOne = choice % 10 === 1
+        if (!teen && endsWithOne) { return 1 }
+        if (!teen && choice % 10 >= 2 && choice % 10 <= 4) { return 2 }
+
+        return (choicesLength < 4) ? 2 : 3
+      }
+
+      const i18n = createI18nComposer({
+        locale: 'ru',
+        pluralRule: customRule,
+        messages: {
+          ru: {
+            car: '0 машин | {n} машина | {n} машины | {n} машин',
+            banana: 'нет бананов | {n} банан | {n} банана | {n} бананов'
+          }
+        }
+      })
+
+      const app = createApp({
+        setup () { return useI18n() }
+      })
+      app.provide(GlobalI18nSymbol, i18n)
+      app.mount('#app')
+    </script>
+  </body>
+</html>

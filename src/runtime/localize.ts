@@ -1,5 +1,5 @@
 import { compile, MessageFunction } from '../message/compiler'
-import { createMessageContext, NamedValue, MessageContextOptions } from '../context'
+import { createMessageContext, NamedValue, MessageContextOptions, PluralizationRule } from '../context'
 import { Path, resolveValue } from '../path'
 import { isObject, isString, isNumber, isFunction, warn, isBoolean, isArray } from '../utils'
 import { Locale, RuntimeContext } from './context'
@@ -74,6 +74,7 @@ export function translate (context: RuntimeContext, key: Path, ...args: unknown[
     messages,
     compileCache,
     modifiers,
+    pluralRule,
     missing,
     fallbackFormat,
     unresolving,
@@ -126,7 +127,9 @@ export function translate (context: RuntimeContext, key: Path, ...args: unknown[
   }
 
   const ctxOptions: MessageContextOptions = {
+    locale,
     modifiers,
+    pluralRule,
     messages: resolveMessage
   }
 

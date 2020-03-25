@@ -51,6 +51,7 @@ if you use currently vue-i18n version, see this [repository](https://github.com/
     - [x] fallbackWarn
     - [x] fallbackRoot
     - [x] fallbackFormat
+    - [x] pluralRule
     - [x] messages
   - methods
     - [x] t
@@ -67,6 +68,7 @@ if you use currently vue-i18n version, see this [repository](https://github.com/
     - [ ] numberFormats
     - [ ] availableLocales
     - [x] locale
+    - [x] pluralRule
     - [ ] fallbackLocale
     - [ ] missing
     - [ ] formatter
@@ -77,7 +79,7 @@ if you use currently vue-i18n version, see this [repository](https://github.com/
     - [ ] pluralizationRules
     - [ ] warnHtmlInMessage
     - [x] t
-    - [ ] tc
+    - [x] tc
     - [ ] te
     - [ ] d
     - [ ] n
@@ -94,12 +96,13 @@ if you use currently vue-i18n version, see this [repository](https://github.com/
   - Inejctted in Vue Prototype API
     - [x] $i18n
     - [x] $t
-    - [ ] $tc
+    - [x] $tc
     - [ ] $te
     - [ ] $d
     - [ ] $n
   - Component options
     - [x] messages
+    - [x] pluralRule
     - [ ] dateTimeFormats
     - [ ] numberFormats
     - [x] sharedMessages
