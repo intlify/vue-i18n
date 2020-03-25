@@ -2,78 +2,14 @@ import { App } from 'vue'
 import { applyPlugin } from './plugin'
 import { Path } from './path'
 import { PluralizationRule, LinkedModifiers } from './context'
-import { MissingHandler, I18nComposer, I18nComposerOptions, createI18nComposer } from './composition'
 import { Locale, TranslateResult, LocaleMessages, LocaleMessageDictionary } from './runtime/context'
+import { DateTimeFormats } from './runtime/datetime'
+import { NumberFormats } from './runtime/number'
+import { MissingHandler, I18nComposer, I18nComposerOptions, createI18nComposer } from './composition'
 import { isString, isArray, isObject } from './utils'
 
 export type Choice = number
 export type LocaleMessageObject = LocaleMessageDictionary
-export type LocaleMatcher = 'lookup' | 'best-fit'
-export type FormatMatcher = 'basic' | 'best-fit'
-export type DateTimeHumanReadable = 'long' | 'short' | 'narrow'
-export type DateTimeDigital = 'numeric' | '2-digit'
-
-export interface SpecificDateTimeFormatOptions extends Intl.DateTimeFormatOptions {
-  year?: DateTimeDigital
-  month?: DateTimeDigital | DateTimeHumanReadable
-  day?: DateTimeDigital
-  hour?: DateTimeDigital
-  minute?: DateTimeDigital
-  second?: DateTimeDigital
-  weekday?: DateTimeHumanReadable
-  era?: DateTimeHumanReadable
-  timeZoneName?: 'long' | 'short'
-  localeMatcher?: LocaleMatcher
-  formatMatcher?: FormatMatcher
-}
-export type DateTimeFormatOptions = Intl.DateTimeFormatOptions | SpecificDateTimeFormatOptions
-export type DateTimeFormat = { [key: string]: DateTimeFormatOptions }
-export type DateTimeFormats = { [locale: string]: DateTimeFormat }
-export type DateTimeFormatResult = string
-export type CurrencyDisplay = 'symbol' | 'code' | 'name'
-
-export interface SpecificNumberFormatOptions extends Intl.NumberFormatOptions {
-  style?: 'decimal' | 'percent'
-  currency?: string
-  currencyDisplay?: CurrencyDisplay
-  localeMatcher?: LocaleMatcher
-  formatMatcher?: FormatMatcher
-}
-
-export interface CurrencyNumberFormatOptions extends Intl.NumberFormatOptions {
-  style: 'currency'
-  currency: string // Obligatory if style is 'currency'
-  currencyDisplay?: CurrencyDisplay
-  localeMatcher?: LocaleMatcher
-  formatMatcher?: FormatMatcher
-}
-
-export type NumberFormatOptions =
-  | Intl.NumberFormatOptions
-  | SpecificNumberFormatOptions
-  | CurrencyNumberFormatOptions
-export type NumberFormat = { [key: string]: NumberFormatOptions }
-export type NumberFormats = { [locale: string]: NumberFormat }
-export type NumberFormatResult = string
-export type FormattedNumberPartType =
-  | 'currency'
-  | 'decimal'
-  | 'fraction'
-  | 'group'
-  | 'infinity'
-  | 'integer'
-  | 'literal'
-  | 'minusSign'
-  | 'nan'
-  | 'plusSign'
-  | 'percentSign'
-
-export type FormattedNumberPart = {
-  type: FormattedNumberPartType
-  value: string
-}
-export type NumberFormatToPartsResult = { [index: number]: FormattedNumberPart }
-
 export type PluralizationRulesMap = { [locale: string]: PluralizationRule }
 export type WarnHtmlInMessageLevel = 'off' | 'warn' | 'error'
 

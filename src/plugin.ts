@@ -1,8 +1,10 @@
 import { App, ComponentPublicInstance, FunctionDirective } from 'vue'
 import { Path } from './path'
-import { Locale, TranslateResult } from './runtime'
+import { Locale, TranslateResult } from './runtime/context'
+import { NumberFormatResult } from './runtime/number'
+import { DateTimeFormatResult } from './runtime/datetime'
 import { GlobalI18nSymbol, I18nComposer } from './composition'
-import { VueI18n, createI18n, VueI18nOptions, DateTimeFormatResult, NumberFormatResult } from './i18n'
+import { VueI18n, createI18n, VueI18nOptions } from './i18n'
 import { Interpolate, Number } from './components'
 import { hook as vT } from './directive'
 
