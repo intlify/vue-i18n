@@ -110,7 +110,7 @@ export function createI18nComposer (options: I18nComposerOptions = {}, root?: I1
       unresolving: true
     })
   }
-  let _context = getRuntimeContext()
+  let _context = getRuntimeContext() // eslint-disable-line
 
   // locale
   const locale = computed({

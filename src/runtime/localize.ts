@@ -1,5 +1,5 @@
 import { compile, MessageFunction } from '../message/compiler'
-import { createMessageContext, NamedValue, MessageContextOptions, PluralizationRule } from '../context'
+import { createMessageContext, NamedValue, MessageContextOptions } from '../context'
 import { Path, resolveValue } from '../path'
 import { isObject, isString, isNumber, isFunction, warn, isBoolean, isArray } from '../utils'
 import { Locale, RuntimeContext } from './context'
