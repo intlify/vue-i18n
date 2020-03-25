@@ -8,7 +8,7 @@
 import { InjectionKey, provide, inject, getCurrentInstance, ComponentInternalInstance, ref, computed, readonly } from 'vue'
 import { WritableComputedRef } from '@vue/reactivity'
 import { Path } from './path'
-import { LinkedModifiers, PluralizationRule } from './message/context'
+import { LinkedModifiers, PluralizationRules } from './message/context'
 import { Locale, LocaleMessages, createRuntimeContext, RuntimeContext, RuntimeMissingHandler } from './runtime/context'
 import { translate, TRANSLATE_NOT_REOSLVED } from './runtime/localize'
 import { warn, isFunction, isNumber, isString } from './utils'
@@ -24,7 +24,7 @@ export type I18nComposerOptions = {
   fallbackLocales?: Locale[]
   messages?: LocaleMessages
   modifiers?: LinkedModifiers
-  pluralRule?: PluralizationRule
+  pluralRules?: PluralizationRules
   missing?: MissingHandler
   missingWarn?: boolean | RegExp
   fallbackWarn?: boolean | RegExp
@@ -93,7 +93,7 @@ export function createI18nComposer (options: I18nComposerOptions = {}, root?: I1
       ? {}
       : options.modifiers
 
-  const _pluralRule = options.pluralRule
+  const _pluralRules = options.pluralRules
 
   // TODO: should get ready function for runtime context updating ... object creating cost expensive ...
   const getRuntimeContext = (): RuntimeContext => {
@@ -102,7 +102,7 @@ export function createI18nComposer (options: I18nComposerOptions = {}, root?: I1
       fallbackLocales: _fallbackLocales.value,
       messages: _messages.value,
       modifiers: _modifiers,
-      pluralRule: _pluralRule,
+      pluralRules: _pluralRules,
       missing: _runtimeMissing,
       missingWarn: _missingWarn,
       fallbackWarn: _fallbackWarn,

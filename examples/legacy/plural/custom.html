@@ -25,8 +25,7 @@
       const { createApp } = Vue
       const { createI18n } = VueI18n
 
-      function customRule (choice, choicesLength, locale, orgRule) {
-        if (locale !== 'ru') { return orgRule(choice, choicesLength) }
+      function customRule (choice, choicesLength, orgRule) {
         if (choice === 0) { return 0 }
 
         const teen = choice > 10 && choice < 20
@@ -39,7 +38,9 @@
 
       const i18n = createI18n({
         locale: 'ru',
-        pluralRule: customRule,
+        pluralizationRules: {
+          ru: customRule
+        },
         messages: {
           ru: {
             car: '0 машин | {n} машина | {n} машины | {n} машин',

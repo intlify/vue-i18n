@@ -1,6 +1,7 @@
-import { isNumber, isFunction, toDisplayString, isObject } from '../utils'
+import { isNumber, isFunction, toDisplayString, isObject, isString } from '../utils'
 
-export type PluralizationRule = (choice: number, choicesLength: number, locale?: string, orgRule?: PluralizationRule) => number
+export type PluralizationRule = (choice: number, choicesLength: number, orgRule?: PluralizationRule) => number
+export type PluralizationRules = { [locale: string]: PluralizationRule }
 export type LinkedModify = (str: string) => string
 export type LinkedModifiers = { [key: string]: LinkedModify }
 export type MessageFunction = (ctx: MessageContext) => string
@@ -15,12 +16,11 @@ export type MessageContextOptions<N = {}> = {
   named?: NamedValue<N>
   modifiers?: LinkedModifiers
   pluralIndex?: number
-  pluralRule?: PluralizationRule
+  pluralRules?: PluralizationRules
   messages?: MessageFucntions | MessageResolveFunction // TODO: need to design resolve message function?
 }
 
 export type MessageContext = {
-  locale?: string
   list: (index: number) => unknown
   named: (key: string) => unknown
   pluralIndex: number
@@ -77,10 +77,10 @@ export function createMessageContext<N = {}> (
   const pluralIndex = getPluralIndex(options)
 
   // TODO: should be implemented warning message
-  const pluralRule = isFunction(options.pluralRule)
-    ? options.pluralRule
+  const pluralRule = isObject(options.pluralRules) && isString(locale) && isFunction(options.pluralRules[locale])
+    ? options.pluralRules[locale]
     : pluralDefault
-  const orgPluralRule = isFunction(options.pluralRule)
+  const orgPluralRule = isObject(options.pluralRules) && isString(locale) && isFunction(options.pluralRules[locale])
     ? pluralDefault
     : undefined
 
@@ -114,7 +114,6 @@ export function createMessageContext<N = {}> (
   }
 
   return {
-    locale,
     list,
     named,
     pluralIndex,

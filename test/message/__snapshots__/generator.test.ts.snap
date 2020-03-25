@@ -72,7 +72,7 @@ exports[`plural complex 1`] = `
     ].join(\\"\\"), [
       ctx.interpolate(ctx.named(\\"n\\")), \\"　apples\\"
     ].join(\\"\\"), \\"\\"
-  ][ctx.pluralRule(ctx.pluralIndex, 3, ctx.locale, ctx.orgPluralRule)]
+  ][ctx.pluralRule(ctx.pluralIndex, 3, ctx.orgPluralRule)]
 }"
 `;
 
@@ -80,7 +80,7 @@ exports[`plural simple 1`] = `
 "function __msg__ (ctx) {
   return [
     \\"no apples\\", \\"one apple\\", \\"too much apples  \\", \\"\\"
-  ][ctx.pluralRule(ctx.pluralIndex, 3, ctx.locale, ctx.orgPluralRule)]
+  ][ctx.pluralRule(ctx.pluralIndex, 3, ctx.orgPluralRule)]
 }"
 `;
 

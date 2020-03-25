@@ -1,7 +1,7 @@
 import { App } from 'vue'
 import { applyPlugin } from './plugin'
 import { Path } from './path'
-import { PluralizationRule, LinkedModifiers } from './message/context'
+import { PluralizationRule, PluralizationRules, LinkedModifiers } from './message/context'
 import { Locale, LocaleMessages, LocaleMessageDictionary } from './runtime/context'
 import { TranslateOptions } from './runtime/localize'
 import { DateTimeFormats } from './runtime/datetime'
@@ -33,7 +33,7 @@ export type VueI18nOptions = {
   preserveDirectiveContent?: boolean
   warnHtmlInMessage?: WarnHtmlInMessageLevel
   sharedMessages?: LocaleMessages
-  pluralRule?: PluralizationRule // breaking change for Vue 3
+  pluralizationRules?: PluralizationRules // breaking change for Vue 3
   __i18n?: LocaleMessages // for custom blocks
 }
 
@@ -90,7 +90,7 @@ function convertI18nComposerOptions (options: VueI18nOptions): I18nComposerOptio
     ? true
     : !options.silentFallbackWarn
   const fallbackRoot = options.fallbackRoot
-  const pluralRule = options.pluralRule
+  const pluralizationRules = options.pluralizationRules
 
   let messages = options.messages
 
@@ -115,7 +115,7 @@ function convertI18nComposerOptions (options: VueI18nOptions): I18nComposerOptio
     missingWarn,
     fallbackWarn,
     fallbackRoot,
-    pluralRule
+    pluralRules: pluralizationRules
   }
 }
 

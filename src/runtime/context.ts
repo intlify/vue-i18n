@@ -1,5 +1,5 @@
 import { MessageFunction } from '../message/compiler'
-import { LinkedModifiers, PluralizationRule } from '../message/context'
+import { LinkedModifiers, PluralizationRules } from '../message/context'
 import { Path } from '../path'
 
 export type Locale = string
@@ -24,7 +24,7 @@ export type RuntimeOptions = {
   fallbackLocales?: Locale[]
   messages?: LocaleMessages
   modifiers?: LinkedModifiers
-  pluralRule?: PluralizationRule
+  pluralRules?: PluralizationRules
   missing?: RuntimeMissingHandler
   preCompile?: false // TODO: we need this option?
   missingWarn?: boolean | RegExp
@@ -38,7 +38,7 @@ export type RuntimeContext = {
   fallbackLocales: Locale[]
   messages: LocaleMessages
   modifiers: LinkedModifiers
-  pluralRule?: PluralizationRule
+  pluralRules?: PluralizationRules
   missing: RuntimeMissingHandler | null
   compileCache: Record<string, MessageFunction>
   missingWarn: boolean | RegExp
@@ -60,7 +60,7 @@ export function createRuntimeContext (options: RuntimeOptions = {}): RuntimeCont
   const messages = options.messages || { [locale]: {} }
   const compileCache: Record<string, MessageFunction> = Object.create(null)
   const modifiers = Object.assign({} as LinkedModifiers, options.modifiers || {}, DEFAULT_LINKDED_MODIFIERS)
-  const pluralRule = options.pluralRule
+  const pluralRules = options.pluralRules || {}
   const missing = options.missing || null
   const missingWarn = options.missingWarn === undefined
     ? true
@@ -80,7 +80,7 @@ export function createRuntimeContext (options: RuntimeOptions = {}): RuntimeCont
     fallbackLocales,
     messages,
     modifiers,
-    pluralRule,
+    pluralRules,
     missing,
     compileCache,
     missingWarn,

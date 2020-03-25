@@ -74,7 +74,7 @@ export function translate (context: RuntimeContext, key: Path, ...args: unknown[
     messages,
     compileCache,
     modifiers,
-    pluralRule,
+    pluralRules,
     missing,
     fallbackFormat,
     unresolving,
@@ -129,7 +129,7 @@ export function translate (context: RuntimeContext, key: Path, ...args: unknown[
   const ctxOptions: MessageContextOptions = {
     locale,
     modifiers,
-    pluralRule,
+    pluralRules,
     messages: resolveMessage
   }
 

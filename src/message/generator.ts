@@ -110,7 +110,7 @@ function generatePluralNode (generator: CodeGenerator, node: PluralNode): void {
     }
     generator.push('""')
     generator.deindent()
-    generator.push(`][ctx.pluralRule(ctx.pluralIndex, ${node.cases.length}, ctx.locale, ctx.orgPluralRule)]`)
+    generator.push(`][ctx.pluralRule(ctx.pluralIndex, ${node.cases.length}, ctx.orgPluralRule)]`)
   }
 }
 
