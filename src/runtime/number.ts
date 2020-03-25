@@ -24,7 +24,25 @@ export type NumberFormatOptions =
   | CurrencyNumberFormatOptions
 export type NumberFormat = { [key: string]: NumberFormatOptions }
 export type NumberFormats = { [locale: string]: NumberFormat }
-export type NumberFormatResult = string
+
+export type FormattedNumberPartType =
+  | 'currency'
+  | 'decimal'
+  | 'fraction'
+  | 'group'
+  | 'infinity'
+  | 'integer'
+  | 'literal'
+  | 'minusSign'
+  | 'nan'
+  | 'plusSign'
+  | 'percentSign'
+
+export type FormattedNumberPart = {
+  type: FormattedNumberPartType
+  value: string
+}
+export type NumberFormatToPartsResult = { [index: number]: FormattedNumberPart }
 
 /*
  * number

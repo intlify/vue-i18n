@@ -15,7 +15,6 @@ export type LocaleMessage =
   | LocaleMessage[]
 export type LocaleMessages = Record<Locale, LocaleMessage>
 
-export type TranslateResult = string
 export type RuntimeMissingHandler = (
   context: RuntimeContext, locale: Locale, key: Path, ...values: unknown[]
 ) => string | void

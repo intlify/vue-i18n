@@ -2,16 +2,19 @@ import { App } from 'vue'
 import { applyPlugin } from './plugin'
 import { Path } from './path'
 import { PluralizationRule, LinkedModifiers } from './context'
-import { Locale, TranslateResult, LocaleMessages, LocaleMessageDictionary } from './runtime/context'
+import { Locale, LocaleMessages, LocaleMessageDictionary } from './runtime/context'
 import { DateTimeFormats } from './runtime/datetime'
 import { NumberFormats } from './runtime/number'
 import { MissingHandler, I18nComposer, I18nComposerOptions, createI18nComposer } from './composition'
 import { isString, isArray, isObject } from './utils'
 
+export type TranslateResult = string
 export type Choice = number
 export type LocaleMessageObject = LocaleMessageDictionary
 export type PluralizationRulesMap = { [locale: string]: PluralizationRule }
 export type WarnHtmlInMessageLevel = 'off' | 'warn' | 'error'
+export type DateTimeFormatResult = string
+export type NumberFormatResult = string
 
 export type VueI18nOptions = {
   locale?: Locale

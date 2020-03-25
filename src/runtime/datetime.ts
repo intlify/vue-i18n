@@ -24,25 +24,6 @@ export interface SpecificDateTimeFormatOptions extends Intl.DateTimeFormatOption
 export type DateTimeFormatOptions = Intl.DateTimeFormatOptions | SpecificDateTimeFormatOptions
 export type DateTimeFormat = { [key: string]: DateTimeFormatOptions }
 export type DateTimeFormats = { [locale: string]: DateTimeFormat }
-export type DateTimeFormatResult = string
-export type FormattedNumberPartType =
-  | 'currency'
-  | 'decimal'
-  | 'fraction'
-  | 'group'
-  | 'infinity'
-  | 'integer'
-  | 'literal'
-  | 'minusSign'
-  | 'nan'
-  | 'plusSign'
-  | 'percentSign'
-
-export type FormattedNumberPart = {
-  type: FormattedNumberPartType
-  value: string
-}
-export type NumberFormatToPartsResult = { [index: number]: FormattedNumberPart }
 
 const intlDefined = typeof Intl !== 'undefined'
 export const Availabilities = {
