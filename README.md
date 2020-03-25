@@ -41,9 +41,9 @@ if you use currently vue-i18n version, see this [repository](https://github.com/
   - [ ] datetime function
   - [ ] number function
   - [ ] warnHtmlInMessage
-  - [ ] improve translate `args` typing
+  - [x] improve translate `args` typing
   - [ ] improve locale messages typing: `LocaleMessages` / `LocaleMessage` / `LocaleMessageDictiory`
-- composable API: I18n Composer
+- Composable API: I18n Composer
   - properties
     - [x] locale
     - [x] fallbackLocales
@@ -60,7 +60,7 @@ if you use currently vue-i18n version, see this [repository](https://github.com/
     - [x] setMissingHandler
     - [ ] getLocaleMessages
     - [ ] setLocaleMessages
-- legacy API compatible supporting
+- Legacy API compatible supporting
   - VueI18n
     - [ ] messages
     - [ ] dateTimeFormats

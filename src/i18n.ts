@@ -3,7 +3,7 @@ import { applyPlugin } from './plugin'
 import { Path } from './path'
 import { PluralizationRule, LinkedModifiers } from './context'
 import { MissingHandler, I18nComposer, I18nComposerOptions, createI18nComposer } from './composition'
-import { Locale, TranslateResult, LocaleMessages, LocaleMessageDictionary } from './runtime'
+import { Locale, TranslateResult, LocaleMessages, LocaleMessageDictionary } from './runtime/context'
 import { isString, isArray, isObject } from './utils'
 
 export type Choice = number
@@ -77,11 +77,6 @@ export type NumberFormatToPartsResult = { [index: number]: FormattedNumberPart }
 export type PluralizationRulesMap = { [locale: string]: PluralizationRule }
 export type WarnHtmlInMessageLevel = 'off' | 'warn' | 'error'
 
-export type IntlAvailability = {
-  dateTimeFormat: boolean
-  numberFormat: boolean
-}
-
 export type VueI18nOptions = {
   locale?: Locale
   fallbackLocale?: Locale
@@ -144,12 +139,6 @@ export type VueI18n = {
 
 // NOTE: disable (occured build error when use rollup build ...)
 // export const version = __VERSION__ // eslint-disable-line
-
-const intlDefined = typeof Intl !== 'undefined'
-export const availabilities = {
-  dateTimeFormat: intlDefined && typeof Intl.DateTimeFormat !== 'undefined',
-  numberFormat: intlDefined && typeof Intl.NumberFormat !== 'undefined'
-} as IntlAvailability
 
 function convertI18nComposerOptions (options: VueI18nOptions): I18nComposerOptions {
   const locale = options.locale

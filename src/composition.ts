@@ -9,7 +9,8 @@ import { InjectionKey, provide, inject, getCurrentInstance, ComponentInternalIns
 import { WritableComputedRef } from '@vue/reactivity'
 import { Path } from './path'
 import { LinkedModifiers } from './context'
-import { Locale, LocaleMessages, createRuntimeContext, translate, RuntimeContext, RuntimeMissingHandler, TRANSLATE_NOT_REOSLVED } from './runtime'
+import { Locale, LocaleMessages, createRuntimeContext, RuntimeContext, RuntimeMissingHandler } from './runtime/context'
+import { translate, TRANSLATE_NOT_REOSLVED } from './runtime/localize'
 import { warn, isFunction, isNumber, isString } from './utils'
 
 export const GlobalI18nSymbol: InjectionKey<I18nComposer> = Symbol.for('vue-i18n')
