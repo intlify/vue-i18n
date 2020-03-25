@@ -51,7 +51,7 @@ if you use currently vue-i18n version, see this [repository](https://github.com/
     - [x] fallbackWarn
     - [x] fallbackRoot
     - [x] fallbackFormat
-    - [x] pluralRule
+    - [x] pluralRules
     - [x] messages
   - methods
     - [x] t
@@ -68,7 +68,6 @@ if you use currently vue-i18n version, see this [repository](https://github.com/
     - [ ] numberFormats
     - [ ] availableLocales
     - [x] locale
-    - [x] pluralRule
     - [ ] fallbackLocale
     - [ ] missing
     - [ ] formatter
@@ -76,7 +75,7 @@ if you use currently vue-i18n version, see this [repository](https://github.com/
     - [ ] silentTranslationWarn
     - [ ] silentFallbackWarn
     - [ ] preserveDirectiveContent
-    - [ ] pluralizationRules
+    - [x] pluralizationRules
     - [ ] warnHtmlInMessage
     - [x] t
     - [x] tc
