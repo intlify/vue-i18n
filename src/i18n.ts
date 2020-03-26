@@ -7,7 +7,7 @@ import { TranslateOptions } from './runtime/localize'
 import { DateTimeFormats } from './runtime/datetime'
 import { NumberFormats } from './runtime/number'
 import { MissingHandler, I18nComposer, I18nComposerOptions, createI18nComposer } from './composition'
-import { isString, isArray, isObject, isNumber } from './utils'
+import { isString, isArray, isObject, isNumber, warn, isBoolean } from './utils'
 
 export type TranslateResult = string
 export type Choice = number
@@ -16,6 +16,10 @@ export type PluralizationRulesMap = { [locale: string]: PluralizationRule }
 export type WarnHtmlInMessageLevel = 'off' | 'warn' | 'error'
 export type DateTimeFormatResult = string
 export type NumberFormatResult = string
+export interface Formatter {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  interpolate (message: string, values: any, path: string): (Array<any> | null)
+}
 
 export type VueI18nOptions = {
   locale?: Locale
@@ -25,11 +29,13 @@ export type VueI18nOptions = {
   numberFormats?: NumberFormats
   availableLocales?: Locale[]
   modifiers?: LinkedModifiers
+  formatter?: Formatter
   missing?: MissingHandler
   fallbackRoot?: boolean
   sync?: boolean
   silentTranslationWarn?: boolean | RegExp
   silentFallbackWarn?: boolean | RegExp
+  formatFallbackMessages?: boolean
   preserveDirectiveContent?: boolean
   warnHtmlInMessage?: WarnHtmlInMessageLevel
   sharedMessages?: LocaleMessages
@@ -40,14 +46,17 @@ export type VueI18nOptions = {
 export type VueI18n = {
   // properties
   locale: Locale
-  // fallbackLocale: Locale
-  // readonly messages: LocaleMessages
+  fallbackLocale: Locale
+  readonly availableLocales: Locale[]
+  readonly messages: LocaleMessages
+  formatter: Formatter
+  missing?: MissingHandler
+  silentTranslationWarn: boolean | RegExp
+  silentFallbackWarn: boolean | RegExp
+  formatFallbackMessages: boolean
   // readonly dateTimeFormats: DateTimeFormats
   // readonly numberFormats: NumberFormats
   /*
-  missing: MissingHandler
-  silentTranslationWarn: boolean | RegExp
-  silentFallbackWarn: boolean | RegExp
   preserveDirectiveContent: boolean
   warnHtmlInMessage: WarnHtmlInMessageLevel
   */
@@ -80,8 +89,8 @@ export type VueI18n = {
 // export const version = __VERSION__ // eslint-disable-line
 
 function convertI18nComposerOptions (options: VueI18nOptions): I18nComposerOptions {
-  const locale = options.locale
-  const fallbackLocales = options.fallbackLocale ? [options.fallbackLocale] : []
+  const locale = options.locale || 'en-US'
+  const fallbackLocales = options.fallbackLocale ? [options.fallbackLocale] : [locale]
   const missing = options.missing
   const missingWarn = options.silentTranslationWarn === undefined
     ? true
@@ -90,7 +99,14 @@ function convertI18nComposerOptions (options: VueI18nOptions): I18nComposerOptio
     ? true
     : !options.silentFallbackWarn
   const fallbackRoot = options.fallbackRoot
+  const fallbackFormat = options.formatFallbackMessages === undefined
+    ? false
+    : !!options.formatFallbackMessages
   const pluralizationRules = options.pluralizationRules
+
+  if (__DEV__ && options.formatter) {
+    warn(`not supportted 'formatter' option`)
+  }
 
   let messages = options.messages
 
@@ -115,6 +131,7 @@ function convertI18nComposerOptions (options: VueI18nOptions): I18nComposerOptio
     missingWarn,
     fallbackWarn,
     fallbackRoot,
+    fallbackFormat,
     pluralRules: pluralizationRules
   }
 }
@@ -123,8 +140,46 @@ export function createI18n (options: VueI18nOptions = {}, root?: I18nComposer): 
   const composer = createI18nComposer(convertI18nComposerOptions(options), root)
 
   const i18n = {
+    /* properties */
+    // locale
     get locale (): Locale { return composer.locale.value },
     set locale (val: Locale) { composer.locale.value = val },
+    // fallbackLocale
+    get fallbackLocale (): Locale { return composer.fallbackLocales.value[0] },
+    set fallbackLocale (val: Locale) { composer.fallbackLocales.value = [val] },
+    // messages
+    get messages (): LocaleMessages { return composer.messages.value },
+    // availableLocales
+    get availableLocales (): Locale[] { return composer.availableLocales },
+    // formatter
+    get formatter (): Formatter {
+      __DEV__ && warn(`not support 'formatter' property`)
+      return { interpolate () { return [] } }
+    },
+    set formatter (val: Formatter) {
+      __DEV__ && warn(`not support 'formatter' property`)
+    },
+    // missing
+    get missing (): MissingHandler | undefined { return composer.getMissingHandler() },
+    set missing (val: MissingHandler | undefined) { val && composer.setMissingHandler(val) },
+    // silentTranslationWarn
+    get silentTranslationWarn (): boolean | RegExp {
+      return isBoolean(composer.missingWarn)
+        ? !composer.missingWarn
+        : composer.missingWarn
+    },
+    set silentTranslationWarn (val: boolean | RegExp) { composer.missingWarn = isBoolean(val) ? !val : val },
+    // silentFallbackWarn
+    get silentFallbackWarn (): boolean | RegExp {
+      return isBoolean(composer.fallbackWarn)
+        ? !composer.fallbackWarn
+        : composer.fallbackWarn
+    },
+    set silentFallbackWarn (val: boolean | RegExp) { composer.fallbackWarn = isBoolean(val) ? !val : val },
+    // formatFallbackMessages
+    get formatFallbackMessages (): boolean { return composer.fallbackFormat },
+    set formatFallbackMessages (val: boolean) { composer.fallbackFormat = val },
+    /* methods */
     t (key: Path, ...values: unknown[]): TranslateResult {
       const [arg1, arg2] = values
       const options = {} as TranslateOptions

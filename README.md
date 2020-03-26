@@ -75,34 +75,34 @@ if you use currently vue-i18n version, see this [repository](https://github.com/
 - Legacy API compatible supporting
   - VueI18n
     - [x] locale
-    - [ ] fallbackLocale
-    - [ ] availableLocales
-    - [ ] messages
+    - [x] fallbackLocale
+    - [x] availableLocales
+    - [x] messages
     - [x] pluralizationRules
     - [ ] dateTimeFormats
     - [ ] numberFormats
-    - [ ] formatter
-    - [ ] missing
-    - [ ] silentTranslationWarn
-    - [ ] silentFallbackWarn
-    - [ ] formatFallbackMessages
+    - [x] formatter
+    - [x] missing
+    - [x] silentTranslationWarn
+    - [x] silentFallbackWarn
+    - [x] formatFallbackMessages
     - [ ] preserveDirectiveContent
     - [ ] warnHtmlInMessage
     - [x] t
     - [x] tc
     - [ ] te
-    - [ ] d
-    - [ ] n
     - [ ] getLocaleMessage
     - [ ] setLocaleMessage
     - [ ] mergeLocaleMessage
+    - [ ] d
     - [ ] getDateTimeFormat
     - [ ] setDateTimeFormat
     - [ ] mergeDateTimeFormat
+    - [ ] n
     - [ ] getNumberFormat
     - [ ] setNumberFormat
     - [ ] mergeNumberFormat
-    - ~~getChoiceIndex~~
+    - [ ] getChoiceIndex
   - Inejctted in Vue Prototype API
     - [x] $i18n
     - [x] $t

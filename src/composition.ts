@@ -5,11 +5,11 @@
  * This module is offered composable i18n API for Vue 3
  */
 
-import { InjectionKey, provide, inject, getCurrentInstance, ComponentInternalInstance, ref, computed, readonly } from 'vue'
-import { WritableComputedRef } from '@vue/reactivity'
+import { InjectionKey, provide, inject, getCurrentInstance, ComponentInternalInstance, ref, computed } from 'vue'
+import { WritableComputedRef, ComputedRef } from '@vue/reactivity'
 import { Path } from './path'
 import { LinkedModifiers, PluralizationRules } from './message/context'
-import { Locale, LocaleMessages, createRuntimeContext, RuntimeContext, RuntimeMissingHandler, LocaleMessage, LocaleMessageDictionary } from './runtime/context'
+import { Locale, LocaleMessages, createRuntimeContext, RuntimeContext, RuntimeMissingHandler, LocaleMessage } from './runtime/context'
 import { translate, TRANSLATE_NOT_REOSLVED } from './runtime/localize'
 import { warn, isFunction, isNumber, isString } from './utils'
 
@@ -34,18 +34,18 @@ export type I18nComposerOptions = {
 
 export type I18nComposer = {
   // TODO:
-  // properties
+  /* properties */
   locale: WritableComputedRef<Locale>
   fallbackLocales: WritableComputedRef<Locale[]>
   readonly availableLocales: Locale[]
-  readonly messages: LocaleMessages
+  readonly messages: ComputedRef<LocaleMessages>
   readonly modifiers: LinkedModifiers
   readonly pluralRules?: PluralizationRules
   missingWarn: boolean | RegExp
   fallbackWarn: boolean | RegExp
   fallbackRoot: boolean
   fallbackFormat: boolean
-  // methods
+  /* methods */
   t (key: Path, ...args: unknown[]): string
   getLocaleMessage (locale: Locale): LocaleMessage
   setLocaleMessage (locale: Locale, message: LocaleMessage): void
@@ -136,7 +136,7 @@ export function createI18nComposer (options: I18nComposerOptions = {}, root?: I1
   })
 
   // messages
-  const messages = readonly(_messages)
+  const messages = computed(() => _messages.value)
 
   // getMissingHandler
   const getMissingHandler = (): MissingHandler | undefined => _missing
