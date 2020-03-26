@@ -91,3 +91,21 @@ test('messages', () => {
     'en-US': {}
   })
 })
+
+test('getLocaleMessage / setLocaleMessage / mergeLocaleMessage', () => {
+  const i18n = createI18n({
+    messages: {
+      en: { hello: 'Hello!' }
+    }
+  })
+  expect(i18n.getLocaleMessage('en')).toEqual({ hello: 'Hello!' })
+
+  i18n.setLocaleMessage('en', { hi: 'Hi!'})
+  expect(i18n.getLocaleMessage('en')).toEqual({ hi: 'Hi!' })
+
+  i18n.mergeLocaleMessage('en', { hello: 'Hello!' })
+  expect(i18n.getLocaleMessage('en')).toEqual({
+    hello: 'Hello!',
+    hi: 'Hi!'
+  })
+})

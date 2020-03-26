@@ -2,7 +2,7 @@ import { App } from 'vue'
 import { applyPlugin } from './plugin'
 import { Path } from './path'
 import { PluralizationRule, PluralizationRules, LinkedModifiers } from './message/context'
-import { Locale, LocaleMessages, LocaleMessageDictionary } from './runtime/context'
+import { Locale, LocaleMessages, LocaleMessage, LocaleMessageDictionary } from './runtime/context'
 import { TranslateOptions } from './runtime/localize'
 import { DateTimeFormats } from './runtime/datetime'
 import { NumberFormats } from './runtime/number'
@@ -64,15 +64,15 @@ export type VueI18n = {
   // methods
   t (key: Path, ...values: unknown[]): TranslateResult // return value is breaking change for Vue 3
   tc (key: Path, ...values: unknown[]): TranslateResult // return value is breaking change for Vue 3
+  getLocaleMessage (locale: Locale): LocaleMessage
+  setLocaleMessage (locale: Locale, message: LocaleMessage): void
+  mergeLocaleMessage (locale: Locale, message: LocaleMessage): void
   /*
   te (key: Path, locale?: Locale): boolean
   d (value: number | Date, key?: Path, locale?: Locale): DateTimeFormatResult
   d (value: number | Date, ...args: unknown[]): DateTimeFormatResult
   n (value: number, key?: Path, locale?: Locale): NumberFormatResult
   n (value: number, ...args: unknown[]): NumberFormatResult
-  getLocaleMessage (locale: Locale): LocaleMessageObject
-  setLocaleMessage (locale: Locale, message: LocaleMessageObject): void
-  mergeLocaleMessage (locale: Locale, message: LocaleMessageObject): void
   getDateTimeFormat (locale: Locale): DateTimeFormat
   setDateTimeFormat (locale: Locale, format: DateTimeFormat): void
   mergeDateTimeFormat (locale: Locale, format: DateTimeFormat): void
@@ -223,6 +223,13 @@ export function createI18n (options: VueI18nOptions = {}, root?: I18nComposer): 
       }
 
       return composer.t(key, ...(values.length > 0 ? [options] : []))
+    },
+    getLocaleMessage (locale: Locale): LocaleMessage { return composer.getLocaleMessage(locale) },
+    setLocaleMessage (locale: Locale, message: LocaleMessage): void {
+      composer.setLocaleMessage(locale, message)
+    },
+    mergeLocaleMessage (locale: Locale, message: LocaleMessage): void {
+      composer.mergeLocaleMessage(locale, message)
     },
     install (app: App): void {
       applyPlugin(app, i18n as VueI18n, composer)

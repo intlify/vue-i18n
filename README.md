@@ -91,9 +91,9 @@ if you use currently vue-i18n version, see this [repository](https://github.com/
     - [x] t
     - [x] tc
     - [ ] te
-    - [ ] getLocaleMessage
-    - [ ] setLocaleMessage
-    - [ ] mergeLocaleMessage
+    - [x] getLocaleMessage
+    - [x] setLocaleMessage
+    - [x] mergeLocaleMessage
     - [ ] d
     - [ ] getDateTimeFormat
     - [ ] setDateTimeFormat
