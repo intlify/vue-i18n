@@ -1,5 +1,6 @@
 import { createI18nComposer, MissingHandler } from '../src/composition'
 import { watch } from 'vue'
+import { PluralizationRules } from '../src/message/context'
 
 describe('locale', () => {
   test('default value', () => {
@@ -111,6 +112,23 @@ describe('modifiers', () => {
     })
     expect(modifiers).toEqual(_modifiers)
     expect(t('hi')).toEqual('hi hello-world')
+  })
+})
+
+describe('pluralRules', () => {
+  test('default', () => {
+    const { pluralRules } = createI18nComposer({})
+    expect(pluralRules).toBeUndefined()
+  })
+
+  test('initialize at composer creating', () => {
+    const _pluralRules = {
+      en: () => { return 0 }
+    }
+    const { pluralRules } = createI18nComposer({
+      pluralRules: _pluralRules
+    })
+    expect(pluralRules).toEqual(_pluralRules)
   })
 })
 

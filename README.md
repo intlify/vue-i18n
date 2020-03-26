@@ -48,35 +48,45 @@ if you use currently vue-i18n version, see this [repository](https://github.com/
     - [x] locale
     - [x] fallbackLocales
     - [x] availableLocales
+    - [x] messages
+    - [x] modifiers
+    - [x] pluralRules
     - [x] missingWarn
     - [x] fallbackWarn
     - [x] fallbackRoot
     - [x] fallbackFormat
-    - [x] pluralRules
-    - [x] messages
-  - methods
-    - [x] t
-    - [ ] d
-    - [ ] n
-    - [x] getMissingHandler
-    - [x] setMissingHandler
-    - [ ] getLocaleMessages
-    - [ ] setLocaleMessages
-- Legacy API compatible supporting
-  - VueI18n
-    - [ ] messages
     - [ ] dateTimeFormats
     - [ ] numberFormats
-    - [ ] availableLocales
+  - methods
+    - [x] t
+    - [ ] getLocaleMessages
+    - [ ] setLocaleMessages
+    - [ ] mergeLocaleMessages
+    - [ ] d
+    - [ ] getDateTimeFormat
+    - [ ] setDateTimeFormat
+    - [ ] mergeDateTimeFormat
+    - [ ] n
+    - [ ] getNumberFormat
+    - [ ] setNumberFormat
+    - [ ] mergeNumberFormat
+    - [x] getMissingHandler
+    - [x] setMissingHandler
+- Legacy API compatible supporting
+  - VueI18n
     - [x] locale
     - [ ] fallbackLocale
-    - [ ] missing
+    - [ ] availableLocales
+    - [ ] messages
+    - [x] pluralizationRules
+    - [ ] dateTimeFormats
+    - [ ] numberFormats
     - [ ] formatter
-    - [ ] formatFallbackMessages
+    - [ ] missing
     - [ ] silentTranslationWarn
     - [ ] silentFallbackWarn
+    - [ ] formatFallbackMessages
     - [ ] preserveDirectiveContent
-    - [x] pluralizationRules
     - [ ] warnHtmlInMessage
     - [x] t
     - [x] tc
@@ -92,7 +102,7 @@ if you use currently vue-i18n version, see this [repository](https://github.com/
     - [ ] getNumberFormat
     - [ ] setNumberFormat
     - [ ] mergeNumberFormat
-    - [ ] getChoiceIndex
+    - ~~getChoiceIndex~~
   - Inejctted in Vue Prototype API
     - [x] $i18n
     - [x] $t
@@ -122,6 +132,7 @@ if you use currently vue-i18n version, see this [repository](https://github.com/
   - [ ] eslint-plugin-vue-i18n
 - Others
   - [x] fallback localization (bubble up)
+  - [ ] SSR
 
 ## :copyright: License
 

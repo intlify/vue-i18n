@@ -40,6 +40,7 @@ export type I18nComposer = {
   readonly availableLocales: Locale[]
   readonly messages: LocaleMessages
   readonly modifiers: LinkedModifiers
+  readonly pluralRules?: PluralizationRules
   missingWarn: boolean | RegExp
   fallbackWarn: boolean | RegExp
   fallbackRoot: boolean
@@ -170,6 +171,7 @@ export function createI18nComposer (options: I18nComposerOptions = {}, root?: I1
     get availableLocales (): Locale[] { return Object.keys(_messages.value).sort() },
     messages,
     get modifiers (): LinkedModifiers { return _modifiers },
+    get pluralRules (): PluralizationRules | undefined { return _pluralRules },
     get missingWarn (): boolean | RegExp { return _missingWarn },
     set missingWarn (val: boolean | RegExp) {
       _missingWarn = val
