@@ -47,6 +47,7 @@ if you use currently vue-i18n version, see this [repository](https://github.com/
   - properties
     - [x] locale
     - [x] fallbackLocales
+    - [x] availableLocales
     - [x] missingWarn
     - [x] fallbackWarn
     - [x] fallbackRoot

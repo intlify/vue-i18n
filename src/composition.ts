@@ -37,6 +37,7 @@ export type I18nComposer = {
   // properties
   locale: WritableComputedRef<Locale>
   fallbackLocales: WritableComputedRef<Locale[]>
+  readonly availableLocales: Locale[]
   readonly messages: LocaleMessages
   readonly modifiers: LinkedModifiers
   missingWarn: boolean | RegExp
@@ -166,6 +167,7 @@ export function createI18nComposer (options: I18nComposerOptions = {}, root?: I1
     /* properties */
     locale,
     fallbackLocales,
+    get availableLocales (): Locale[] { return Object.keys(_messages.value).sort() },
     messages,
     get modifiers (): LinkedModifiers { return _modifiers },
     get missingWarn (): boolean | RegExp { return _missingWarn },

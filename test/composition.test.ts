@@ -34,6 +34,25 @@ describe('fallbackLocales', () => {
   })
 })
 
+describe('availableLocales', () => {
+  test('not initialize messages at composer creating', () => {
+    const { availableLocales } = createI18nComposer({})
+    expect(availableLocales).toEqual(['en-US'])
+  })
+
+  test('initialize messages at composer creating', () => {
+    const { availableLocales } = createI18nComposer({
+      messages: {
+        en: {},
+        ja: {},
+        ru: {},
+        fr: {}
+      }
+    })
+    expect(availableLocales).toEqual(['en', 'ja', 'ru', 'fr'].sort())
+  })
+})
+
 describe('messages', () => {
   test('default value', () => {
     const { messages } = createI18nComposer({})
