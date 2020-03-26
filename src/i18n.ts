@@ -126,31 +126,24 @@ export function createI18n (options: VueI18nOptions = {}, root?: I18nComposer): 
     get locale (): Locale { return composer.locale.value },
     set locale (val: Locale) { composer.locale.value = val },
     t (key: Path, ...values: unknown[]): TranslateResult {
-      // TODO: should be more refactored ...
       const [arg1, arg2] = values
-      let args = values
-      if (arg1 && !arg2) {
-        if (isString(arg1)) {
-          args = [{ locale: arg1 }]
-        } else if (isArray(arg1)) {
-          args = [{ list: arg1 }]
-        } else if (isObject(arg1)) {
-          args = [{ named: arg1 }]
-        } else {
-          // TODO:
-        }
-      } else if (arg1 && arg2) {
-        if (isString(arg1) && isArray(arg2)) {
-          args = [{ locale: arg1, list: arg2 }]
-        } else if (isString(arg1) && isObject(arg2)) {
-          args = [{ locale: arg1, named: arg2 }]
-        } else {
-          // TODO:
-        }
-      } else {
-        // TODO:
+      const options = {} as TranslateOptions
+
+      if (isString(arg1)) {
+        options.locale = arg1
+      } else if (isArray(arg1)) {
+        options.list = arg1
+      } else if (isObject(arg1)) {
+        options.named = arg1
       }
-      return composer.t(key, ...args)
+
+      if (isArray(arg2)) {
+        options.list = arg2
+      } else if (isObject(arg2)) {
+        options.named = arg2
+      }
+
+      return composer.t(key, ...(values.length > 0 ? [options] : []))
     },
     tc (key: Path, ...values: unknown[]): TranslateResult {
       const [arg1, arg2, arg3] = values
