@@ -1,6 +1,5 @@
 import { createI18nComposer, MissingHandler } from '../src/composition'
 import { watch } from 'vue'
-import { PluralizationRules } from '../src/message/context'
 
 describe('locale', () => {
   test('default value', () => {
@@ -245,5 +244,25 @@ describe('t', () => {
     expect(t('apple', { plural: 1 })).toEqual('one apple')
     expect(t('apple', { plural: 10 })).toEqual('10 apples')
     expect(t('apple', { plural: 10, named: { count: 20 } })).toEqual('20 apples')
+  })
+})
+
+describe('getLocaleMessage / setLocaleMessage / mergeLocaleMessage', () => {
+  test('basic', () => {
+    const { getLocaleMessage, setLocaleMessage, mergeLocaleMessage } = createI18nComposer({
+      messages: {
+        en: { hello: 'Hello!' }
+      }
+    })
+    expect(getLocaleMessage('en')).toEqual({ hello: 'Hello!' })
+
+    setLocaleMessage('en', { hi: 'Hi!'})
+    expect(getLocaleMessage('en')).toEqual({ hi: 'Hi!' })
+
+    mergeLocaleMessage('en', { hello: 'Hello!' })
+    expect(getLocaleMessage('en')).toEqual({
+      hello: 'Hello!',
+      hi: 'Hi!'
+    })
   })
 })

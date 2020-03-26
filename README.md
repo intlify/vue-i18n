@@ -59,9 +59,9 @@ if you use currently vue-i18n version, see this [repository](https://github.com/
     - [ ] numberFormats
   - methods
     - [x] t
-    - [ ] getLocaleMessages
-    - [ ] setLocaleMessages
-    - [ ] mergeLocaleMessages
+    - [x] getLocaleMessages
+    - [x] setLocaleMessages
+    - [x] mergeLocaleMessages
     - [ ] d
     - [ ] getDateTimeFormat
     - [ ] setDateTimeFormat

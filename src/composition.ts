@@ -9,7 +9,7 @@ import { InjectionKey, provide, inject, getCurrentInstance, ComponentInternalIns
 import { WritableComputedRef } from '@vue/reactivity'
 import { Path } from './path'
 import { LinkedModifiers, PluralizationRules } from './message/context'
-import { Locale, LocaleMessages, createRuntimeContext, RuntimeContext, RuntimeMissingHandler } from './runtime/context'
+import { Locale, LocaleMessages, createRuntimeContext, RuntimeContext, RuntimeMissingHandler, LocaleMessage, LocaleMessageDictionary } from './runtime/context'
 import { translate, TRANSLATE_NOT_REOSLVED } from './runtime/localize'
 import { warn, isFunction, isNumber, isString } from './utils'
 
@@ -47,6 +47,9 @@ export type I18nComposer = {
   fallbackFormat: boolean
   // methods
   t (key: Path, ...args: unknown[]): string
+  getLocaleMessage (locale: Locale): LocaleMessage
+  setLocaleMessage (locale: Locale, message: LocaleMessage): void
+  mergeLocaleMessage (locale: Locale, message: LocaleMessage): void
   getMissingHandler (): MissingHandler | undefined
   setMissingHandler (handler: MissingHandler): void
 }
@@ -164,6 +167,19 @@ export function createI18nComposer (options: I18nComposerOptions = {}, root?: I1
     }).value
   }
 
+  // getLocaleMessage
+  const getLocaleMessage = (locale: Locale): LocaleMessage => _messages.value[locale] || {}
+
+  // setLocaleMessage
+  const setLocaleMessage = (locale: Locale, message: LocaleMessage): void => {
+    _messages.value[locale] = message
+  }
+
+  // mergeLocaleMessage
+  const mergeLocaleMessage = (locale: Locale, message: LocaleMessage): void => {
+    _messages.value[locale] = Object.assign(_messages.value[locale] || {}, message)
+  }
+
   return {
     /* properties */
     locale,
@@ -194,6 +210,9 @@ export function createI18nComposer (options: I18nComposerOptions = {}, root?: I1
     },
     /* methods */
     t,
+    getLocaleMessage,
+    setLocaleMessage,
+    mergeLocaleMessage,
     getMissingHandler,
     setMissingHandler
   }
