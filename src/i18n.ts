@@ -13,7 +13,7 @@ import { TranslateOptions } from './runtime/localize'
 import { DateTimeFormats } from './runtime/datetime'
 import { NumberFormats } from './runtime/number'
 import { MissingHandler, I18nComposer, I18nComposerOptions, createI18nComposer } from './composition'
-import { isString, isArray, isObject, isNumber, warn, isBoolean, isFunction } from './utils'
+import { isString, isArray, isObject, isNumber, warn, isBoolean, isFunction, isRegExp } from './utils'
 
 export type TranslateResult = string
 export type Choice = number
@@ -97,19 +97,19 @@ export type VueI18n = {
 // export const version = __VERSION__ // eslint-disable-line
 
 function convertI18nComposerOptions (options: VueI18nOptions): I18nComposerOptions {
-  const locale = options.locale || 'en-US'
-  const fallbackLocales = options.fallbackLocale ? [options.fallbackLocale] : []
+  const locale = isString(options.locale) ? options.locale : 'en-US'
+  const fallbackLocales = isString(options.fallbackLocale) ? [options.fallbackLocale] : []
   const missing = options.missing
-  const missingWarn = options.silentTranslationWarn === undefined
-    ? true
-    : !options.silentTranslationWarn
-  const fallbackWarn = options.silentFallbackWarn === undefined
-    ? true
-    : !options.silentFallbackWarn
-  const fallbackRoot = options.fallbackRoot
-  const fallbackFormat = options.formatFallbackMessages === undefined
-    ? false
-    : !!options.formatFallbackMessages
+  const missingWarn = isBoolean(options.silentTranslationWarn) || isRegExp(options.silentTranslationWarn)
+    ? options.silentTranslationWarn
+    : true
+  const fallbackWarn = isBoolean(options.silentFallbackWarn) || isRegExp(options.silentFallbackWarn)
+    ? options.silentFallbackWarn
+    : true
+  const fallbackRoot = isBoolean(options.fallbackRoot) ? options.fallbackRoot : true
+  const fallbackFormat = isBoolean(options.formatFallbackMessages)
+    ? options.formatFallbackMessages
+    : false
   const pluralizationRules = options.pluralizationRules
   const postTranslation = isFunction(options.postTranslation) ? options.postTranslation : undefined
 
