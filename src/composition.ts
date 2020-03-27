@@ -9,7 +9,15 @@ import { InjectionKey, provide, inject, getCurrentInstance, ComponentInternalIns
 import { WritableComputedRef, ComputedRef } from '@vue/reactivity'
 import { Path } from './path'
 import { LinkedModifiers, PluralizationRules } from './message/context'
-import { Locale, LocaleMessages, createRuntimeContext, RuntimeContext, RuntimeMissingHandler, LocaleMessage } from './runtime/context'
+import {
+  Locale,
+  LocaleMessages,
+  createRuntimeContext,
+  RuntimeContext,
+  RuntimeMissingHandler,
+  LocaleMessage,
+  PostTranslationHandler
+} from './runtime/context'
 import { translate, TRANSLATE_NOT_REOSLVED } from './runtime/localize'
 import { warn, isFunction, isNumber, isString, isRegExp, isBoolean } from './utils'
 
@@ -30,6 +38,7 @@ export type I18nComposerOptions = {
   fallbackWarn?: boolean | RegExp
   fallbackRoot?: boolean
   fallbackFormat?: boolean
+  postTranslation?: PostTranslationHandler
 }
 
 export type I18nComposer = {
@@ -50,6 +59,8 @@ export type I18nComposer = {
   getLocaleMessage (locale: Locale): LocaleMessage
   setLocaleMessage (locale: Locale, message: LocaleMessage): void
   mergeLocaleMessage (locale: Locale, message: LocaleMessage): void
+  getPostTranslationHandler (): PostTranslationHandler | null
+  setPostTranslationHandler (handler: PostTranslationHandler | null): void
   getMissingHandler (): MissingHandler | undefined
   setMissingHandler (handler: MissingHandler): void
 }
@@ -89,6 +100,9 @@ export function createI18nComposer (options: I18nComposerOptions = {}, root?: I1
     _runtimeMissing = defineRuntimeMissingHandler(_missing)
   }
 
+  // postTranslation handler
+  let _postTranslation = isFunction(options.postTranslation) ? options.postTranslation : null
+
   // custom linked modifiers
   const _modifiers = root
     ? root.modifiers
@@ -110,7 +124,8 @@ export function createI18nComposer (options: I18nComposerOptions = {}, root?: I1
       missingWarn: _missingWarn,
       fallbackWarn: _fallbackWarn,
       fallbackFormat: _fallbackFormat,
-      unresolving: true
+      unresolving: true,
+      postTranslation: _postTranslation === null ? undefined : _postTranslation
     })
   }
   let _context = getRuntimeContext() // eslint-disable-line
@@ -135,6 +150,16 @@ export function createI18nComposer (options: I18nComposerOptions = {}, root?: I1
 
   // messages
   const messages = computed(() => _messages.value)
+
+  // getPostTranslationHandler
+  const getPostTranslationHandler =
+    (): PostTranslationHandler | null => isFunction(_postTranslation) ? _postTranslation : null
+
+  // setPostTranslationHandler
+  const setPostTranslationHandler = (handler: PostTranslationHandler | null): void => {
+    _postTranslation = handler
+    _context = getRuntimeContext()
+  }
 
   // getMissingHandler
   const getMissingHandler = (): MissingHandler | undefined => _missing
@@ -211,6 +236,8 @@ export function createI18nComposer (options: I18nComposerOptions = {}, root?: I1
     getLocaleMessage,
     setLocaleMessage,
     mergeLocaleMessage,
+    getPostTranslationHandler,
+    setPostTranslationHandler,
     getMissingHandler,
     setMissingHandler
   }

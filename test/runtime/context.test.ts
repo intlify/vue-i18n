@@ -139,3 +139,16 @@ describe('unresolving', () => {
     expect(ctx.unresolving).toEqual(true)
   })
 })
+
+describe('postTranslation', () => {
+  test('default', () => {
+    const ctx = context({})
+    expect(ctx.postTranslation).toEqual(null)
+  })
+
+  test('specify', () => {
+    const hook = str => str
+    const ctx = context({ postTranslation: hook })
+    expect(ctx.postTranslation).toEqual(hook)
+  })
+})

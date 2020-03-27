@@ -421,6 +421,22 @@ describe('context pluralRule option', () => {
   })
 })
 
+describe('context postTranslation option', () => {
+  test('basic', () => {
+    const postTranslation = (str: string) => str.trim()
+    const ctx = context({
+      locale: 'en',
+      postTranslation,
+      messages: {
+        en: {
+          hello: ' hello world! '
+        }
+      }
+    })
+    expect(translate(ctx, 'hello')).toEqual('hello world!')
+  }) 
+})
+
 describe('edge cases', () => {
   test('multi bytes key', () => {
     const ctx = context({

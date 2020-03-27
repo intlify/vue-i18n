@@ -79,6 +79,7 @@ export function translate (context: RuntimeContext, key: Path, ...args: unknown[
     fallbackFormat,
     unresolving,
     fallbackLocales,
+    postTranslation,
     _fallbackLocaleStack
   } = context
   const options: TranslateOptions = isObject(args[0]) ? args[0] : {}
@@ -187,5 +188,6 @@ export function translate (context: RuntimeContext, key: Path, ...args: unknown[
 
   const msg = compileCache[format] || (compileCache[format] = compile(format))
   const msgContext = createMessageContext(ctxOptions)
-  return msg(msgContext)
+  const ret = msg(msgContext)
+  return postTranslation ? postTranslation(ret) : ret
 }

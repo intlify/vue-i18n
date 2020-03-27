@@ -1,7 +1,7 @@
 import { MessageFunction } from '../message/compiler'
 import { LinkedModifiers, PluralizationRules } from '../message/context'
 import { Path } from '../path'
-import { isBoolean, isRegExp } from '../utils'
+import { isBoolean, isRegExp, isFunction } from '../utils'
 
 export type Locale = string
 
@@ -19,6 +19,7 @@ export type LocaleMessages = Record<Locale, LocaleMessage>
 export type RuntimeMissingHandler = (
   context: RuntimeContext, locale: Locale, key: Path, ...values: unknown[]
 ) => string | void
+export type PostTranslationHandler = (translated: string) => string
 
 export type RuntimeOptions = {
   locale?: Locale
@@ -32,6 +33,7 @@ export type RuntimeOptions = {
   fallbackWarn?: boolean | RegExp
   fallbackFormat?: boolean
   unresolving?: boolean
+  postTranslation?: PostTranslationHandler
 }
 
 export type RuntimeContext = {
@@ -46,6 +48,7 @@ export type RuntimeContext = {
   fallbackWarn: boolean | RegExp
   fallbackFormat: boolean
   unresolving: boolean
+  postTranslation: PostTranslationHandler | null
   _fallbackLocaleStack?: Locale[]
 }
 
@@ -71,6 +74,7 @@ export function createRuntimeContext (options: RuntimeOptions = {}): RuntimeCont
     : true
   const fallbackFormat = isBoolean(options.fallbackFormat) ? options.fallbackFormat : false
   const unresolving = isBoolean(options.unresolving) ? options.unresolving : false
+  const postTranslation = isFunction(options.postTranslation) ? options.postTranslation : null
 
   return {
     locale,
@@ -83,6 +87,7 @@ export function createRuntimeContext (options: RuntimeOptions = {}): RuntimeCont
     missingWarn,
     fallbackWarn,
     fallbackFormat,
-    unresolving
+    unresolving,
+    postTranslation
   }
 }

@@ -2,12 +2,18 @@ import { App } from 'vue'
 import { applyPlugin } from './plugin'
 import { Path } from './path'
 import { PluralizationRule, PluralizationRules, LinkedModifiers } from './message/context'
-import { Locale, LocaleMessages, LocaleMessage, LocaleMessageDictionary } from './runtime/context'
+import {
+  Locale,
+  LocaleMessages,
+  LocaleMessage,
+  LocaleMessageDictionary,
+  PostTranslationHandler
+} from './runtime/context'
 import { TranslateOptions } from './runtime/localize'
 import { DateTimeFormats } from './runtime/datetime'
 import { NumberFormats } from './runtime/number'
 import { MissingHandler, I18nComposer, I18nComposerOptions, createI18nComposer } from './composition'
-import { isString, isArray, isObject, isNumber, warn, isBoolean } from './utils'
+import { isString, isArray, isObject, isNumber, warn, isBoolean, isFunction } from './utils'
 
 export type TranslateResult = string
 export type Choice = number
@@ -40,6 +46,7 @@ export type VueI18nOptions = {
   warnHtmlInMessage?: WarnHtmlInMessageLevel
   sharedMessages?: LocaleMessages
   pluralizationRules?: PluralizationRules // breaking change for Vue 3
+  postTranslation?: PostTranslationHandler
   __i18n?: LocaleMessages // for custom blocks
 }
 
@@ -51,6 +58,7 @@ export type VueI18n = {
   readonly messages: LocaleMessages
   formatter: Formatter
   missing?: MissingHandler
+  postTranslation: PostTranslationHandler | null
   silentTranslationWarn: boolean | RegExp
   silentFallbackWarn: boolean | RegExp
   formatFallbackMessages: boolean
@@ -103,6 +111,7 @@ function convertI18nComposerOptions (options: VueI18nOptions): I18nComposerOptio
     ? false
     : !!options.formatFallbackMessages
   const pluralizationRules = options.pluralizationRules
+  const postTranslation = isFunction(options.postTranslation) ? options.postTranslation : undefined
 
   if (__DEV__ && options.formatter) {
     warn(`not supportted 'formatter' option`)
@@ -132,7 +141,8 @@ function convertI18nComposerOptions (options: VueI18nOptions): I18nComposerOptio
     fallbackWarn,
     fallbackRoot,
     fallbackFormat,
-    pluralRules: pluralizationRules
+    pluralRules: pluralizationRules,
+    postTranslation
   }
 }
 
@@ -183,6 +193,9 @@ export function createI18n (options: VueI18nOptions = {}, root?: I18nComposer): 
     // formatFallbackMessages
     get formatFallbackMessages (): boolean { return composer.fallbackFormat },
     set formatFallbackMessages (val: boolean) { composer.fallbackFormat = val },
+    // postTranslation
+    get postTranslation (): PostTranslationHandler | null { return composer.getPostTranslationHandler() },
+    set postTranslation (handler: PostTranslationHandler | null) { composer.setPostTranslationHandler(handler) },
     /* methods */
     t (key: Path, ...values: unknown[]): TranslateResult {
       const [arg1, arg2] = values

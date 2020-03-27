@@ -177,6 +177,36 @@ describe('fallbackFormat', () => {
   })
 })
 
+describe('postTranslation', () => {
+  test('default', () => {
+    const { getPostTranslationHandler, setPostTranslationHandler, t } = createI18nComposer({
+      locale: 'en',
+      messages: {
+        en: { hello: ' hello world! ' }
+      }
+    })
+    expect(getPostTranslationHandler()).toEqual(null)
+
+    const handler = (str: string) => str.trim()
+    setPostTranslationHandler(handler)
+    expect(t('hello')).toEqual('hello world!')
+    expect(getPostTranslationHandler()).toEqual(handler)
+  })
+
+  test('initialize at composer creating', () => {
+    const handler = (str: string) => str.trim()
+    const { getPostTranslationHandler, t } = createI18nComposer({
+      locale: 'en',
+      messages: {
+        en: { hello: ' hello world! ' }
+      },
+      postTranslation: handler
+    })
+    expect(t('hello')).toEqual('hello world!')
+    expect(getPostTranslationHandler()).toEqual(handler)
+  })
+})
+
 describe('getMissingHandler / setMissingHandler', () => {
   test('default', () => {
     const { getMissingHandler, setMissingHandler } = createI18nComposer({})

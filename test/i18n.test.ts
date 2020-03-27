@@ -85,6 +85,14 @@ test('formatFallbackMessages', () => {
   expect(i18n.formatFallbackMessages).toEqual(true)
 })
 
+test('postTranslation', () => {
+  const i18n = createI18n()
+  expect(i18n.postTranslation).toEqual(null)
+  const postTranslation = (str: string) => str.trim()
+  i18n.postTranslation = postTranslation
+  expect(i18n.postTranslation).toEqual(postTranslation)
+})
+
 test('messages', () => {
   const i18n = createI18n()
   expect(i18n.messages).toEqual({

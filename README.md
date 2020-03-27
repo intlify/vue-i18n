@@ -56,7 +56,6 @@ if you use currently vue-i18n version, see this [repository](https://github.com/
     - [x] fallbackWarn
     - [x] fallbackRoot
     - [x] fallbackFormat
-    - [ ] postTranslation
     - [ ] dateTimeFormats
     - [ ] numberFormats
   - methods
@@ -72,6 +71,8 @@ if you use currently vue-i18n version, see this [repository](https://github.com/
     - [ ] getNumberFormat
     - [ ] setNumberFormat
     - [ ] mergeNumberFormat
+    - [x] getPostTranslationHandler
+    - [x] setPostTranslationHandler
     - [x] getMissingHandler
     - [x] setMissingHandler
 - Legacy API compatible supporting
@@ -90,7 +91,7 @@ if you use currently vue-i18n version, see this [repository](https://github.com/
     - [x] formatFallbackMessages
     - [ ] preserveDirectiveContent
     - [ ] warnHtmlInMessage
-    - [ ] postTranslation
+    - [x] postTranslation
     - [x] t
     - [x] tc
     - [ ] te
