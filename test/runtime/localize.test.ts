@@ -434,7 +434,7 @@ describe('context postTranslation option', () => {
       }
     })
     expect(translate(ctx, 'hello')).toEqual('hello world!')
-  }) 
+  })
 })
 
 describe('edge cases', () => {

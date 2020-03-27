@@ -19,7 +19,7 @@ import {
   PostTranslationHandler
 } from './runtime/context'
 import { translate, TRANSLATE_NOT_REOSLVED } from './runtime/localize'
-import { warn, isFunction, isNumber, isString, isRegExp, isBoolean } from './utils'
+import { warn, isArray, isFunction, isNumber, isString, isRegExp, isBoolean } from './utils'
 
 export const GlobalI18nSymbol: InjectionKey<I18nComposer> = Symbol.for('vue-i18n')
 const providers: Map<ComponentInternalInstance, InjectionKey<I18nComposer>> = new Map()
@@ -73,8 +73,20 @@ function defineRuntimeMissingHandler (missing: MissingHandler): RuntimeMissingHa
 
 export function createI18nComposer (options: I18nComposerOptions = {}, root?: I18nComposer): I18nComposer {
   // reactivity states
-  const _locale = ref<Locale>(root ? root.locale.value : options.locale || 'en-US')
-  const _fallbackLocales = ref<Locale[]>(root ? root.fallbackLocales.value : options.fallbackLocales || [])
+  const _locale = ref<Locale>(
+    root
+      ? root.locale.value
+      : isString(options.locale)
+        ? options.locale
+        : 'en-US'
+  )
+  const _fallbackLocales = ref<Locale[]>(
+    root
+      ? root.fallbackLocales.value
+      : isArray(options.fallbackLocales)
+        ? options.fallbackLocales
+        : []
+  )
   const _messages = ref<LocaleMessages>(options.messages || { [_locale.value]: {} })
 
   // warning supress options

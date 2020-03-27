@@ -1,7 +1,7 @@
 import { MessageFunction } from '../message/compiler'
 import { LinkedModifiers, PluralizationRules } from '../message/context'
 import { Path } from '../path'
-import { isBoolean, isRegExp, isFunction } from '../utils'
+import { isString, isArray, isBoolean, isRegExp, isFunction } from '../utils'
 
 export type Locale = string
 
@@ -59,8 +59,8 @@ const DEFAULT_LINKDED_MODIFIERS: LinkedModifiers = {
 }
 
 export function createRuntimeContext (options: RuntimeOptions = {}): RuntimeContext {
-  const locale = options.locale || 'en-US'
-  const fallbackLocales = options.fallbackLocales || []
+  const locale = isString(options.locale) ? options.locale : 'en-US'
+  const fallbackLocales = isArray(options.fallbackLocales) ? options.fallbackLocales : []
   const messages = options.messages || { [locale]: {} }
   const compileCache: Record<string, MessageFunction> = Object.create(null)
   const modifiers = Object.assign({} as LinkedModifiers, options.modifiers || {}, DEFAULT_LINKDED_MODIFIERS)
