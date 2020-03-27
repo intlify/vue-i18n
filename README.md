@@ -43,6 +43,7 @@ if you use currently vue-i18n version, see this [repository](https://github.com/
   - [ ] warnHtmlInMessage
   - [x] improve translate `args` typing
   - [ ] improve locale messages typing: `LocaleMessages` / `LocaleMessage` / `LocaleMessageDictiory`
+  - [ ] postTranslation context option
 - Composable API: I18n Composer
   - properties
     - [x] locale
@@ -55,6 +56,7 @@ if you use currently vue-i18n version, see this [repository](https://github.com/
     - [x] fallbackWarn
     - [x] fallbackRoot
     - [x] fallbackFormat
+    - [ ] postTranslation
     - [ ] dateTimeFormats
     - [ ] numberFormats
   - methods
@@ -88,6 +90,7 @@ if you use currently vue-i18n version, see this [repository](https://github.com/
     - [x] formatFallbackMessages
     - [ ] preserveDirectiveContent
     - [ ] warnHtmlInMessage
+    - [ ] postTranslation
     - [x] t
     - [x] tc
     - [ ] te
