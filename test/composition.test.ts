@@ -137,26 +137,31 @@ describe('missingWarn', () => {
     expect(missingWarn).toEqual(true)
   })
 
-  test('initialize at composer creating', () => {
+  test('initialize at composer creating: boolean', () => {
     const { missingWarn } = createI18nComposer({ missingWarn: false })
     expect(missingWarn).toEqual(false)
+  })
+
+  test('initialize at composer creating: regexp', () => {
+    const { missingWarn } = createI18nComposer({ missingWarn: /^(hi|hello)/ })
+    expect(missingWarn).toEqual(/^(hi|hello)/)
   })
 })
 
 describe('fallbackWarn', () => {
-  test('default: none fallbackLocales', () => {
+  test('default', () => {
     const { fallbackWarn } = createI18nComposer({})
-    expect(fallbackWarn).toEqual(false)
-  })
-
-  test('default: have fallbackLocales', () => {
-    const { fallbackWarn } = createI18nComposer({ fallbackLocales: ['ja'] })
     expect(fallbackWarn).toEqual(true)
   })
 
-  test('initialize at composer creating', () => {
-    const { fallbackWarn } = createI18nComposer({ fallbackWarn: /^hi.*!$/ })
-    expect(fallbackWarn).toEqual(/^hi.*!$/)
+  test('initialize at composer creating: boolean', () => {
+    const { fallbackWarn } = createI18nComposer({ fallbackWarn: false })
+    expect(fallbackWarn).toEqual(false)
+  })
+
+  test('initialize at composer creating: regexp', () => {
+    const { fallbackWarn } = createI18nComposer({ fallbackWarn: /^(hi|hello)/ })
+    expect(fallbackWarn).toEqual(/^(hi|hello)/)
   })
 })
 

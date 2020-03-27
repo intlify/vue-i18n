@@ -65,8 +65,8 @@ describe('features', () => {
   })
 })
 
-describe('locale', () => {
-  test('option', () => {
+describe('locale option', () => {
+  test('specify', () => {
     const ctx = context({
       locale: 'en',
       messages: {
@@ -78,8 +78,8 @@ describe('locale', () => {
   })
 })
 
-describe('default message', () => {
-  test('string message option', () => {
+describe('default option', () => {
+  test('string message', () => {
     const ctx = context({
       locale: 'en',
       messages: {
@@ -93,7 +93,7 @@ describe('default message', () => {
     )
   })
 
-  test('true option', () => {
+  test('boolean true', () => {
     const ctx = context({
       locale: 'en',
       messages: {
@@ -111,7 +111,7 @@ describe('default message', () => {
   })
 })
 
-describe('missing', () => {
+describe('context missing option', () => {
   test('none missing handler', () => {
     const mockWarn = warn as jest.MockedFunction<typeof warn>
     mockWarn.mockImplementation(() => {}) // eslint-disable-line @typescript-eslint/no-empty-function
@@ -145,13 +145,14 @@ describe('missing', () => {
   })
 })
 
-describe('missingWarn', () => {
+describe('context missingWarn option', () => {
   test('false', () => {
     const mockWarn = warn as jest.MockedFunction<typeof warn>
     mockWarn.mockImplementation(() => {}) // eslint-disable-line @typescript-eslint/no-empty-function
 
     const ctx = context({
       locale: 'en',
+      fallbackWarn: false,
       missingWarn: false,
       messages: {
         en: {}
@@ -168,6 +169,7 @@ describe('missingWarn', () => {
 
     const ctx = context({
       locale: 'en',
+      fallbackWarn: false,
       missingWarn: /^hi/,
       messages: {
         en: {}
@@ -185,6 +187,7 @@ describe('missingWarn', () => {
 
     const ctx = context({
       locale: 'en',
+      fallbackWarn: false,
       messages: {
         en: {}
       }
@@ -195,7 +198,7 @@ describe('missingWarn', () => {
   })
 })
 
-describe('fallbackWarn', () => {
+describe('context fallbackWarn option', () => {
   test('not specify fallbackLocales', () => {
     const mockWarn = warn as jest.MockedFunction<typeof warn>
     mockWarn.mockImplementation(() => {}) // eslint-disable-line @typescript-eslint/no-empty-function
@@ -256,7 +259,7 @@ describe('fallbackWarn', () => {
       .toEqual(`Fall back to translate 'hello.world' with 'fr' locale.`)
   })
 
-  test('false', () => {
+  test('context option: false', () => {
     const mockWarn = warn as jest.MockedFunction<typeof warn>
     mockWarn.mockImplementation(() => {}) // eslint-disable-line @typescript-eslint/no-empty-function
 
@@ -275,7 +278,7 @@ describe('fallbackWarn', () => {
     expect(mockWarn).toHaveBeenCalledTimes(0)
   })
 
-  test('regex', () => {
+  test('context option: regex', () => {
     const mockWarn = warn as jest.MockedFunction<typeof warn>
     mockWarn.mockImplementation(() => {}) // eslint-disable-line @typescript-eslint/no-empty-function
 
@@ -294,7 +297,7 @@ describe('fallbackWarn', () => {
     expect(mockWarn).toHaveBeenCalledTimes(2)
   })
 
-  test('fallbackWarn option', () => {
+  test('specify fallbackWarn option to localize function', () => {
     const mockWarn = warn as jest.MockedFunction<typeof warn>
     mockWarn.mockImplementation(() => {}) // eslint-disable-line @typescript-eslint/no-empty-function
 
@@ -316,7 +319,7 @@ describe('fallbackWarn', () => {
   })
 })
 
-describe('fallbackFormat', () => {
+describe('context fallbackFormat option', () => {
   test('specify true', () => {
     const mockWarn = warn as jest.MockedFunction<typeof warn>
     mockWarn.mockImplementation(() => {}) // eslint-disable-line @typescript-eslint/no-empty-function
@@ -355,8 +358,8 @@ describe('fallbackFormat', () => {
   })
 })
 
-describe('unresolving', () => {
-  test('fallbackWarn is true', () => {
+describe('context unresolving option', () => {
+  test('fallbackWarn is truth', () => {
     const ctx = context({
       locale: 'en',
       fallbackLocales: ['ja', 'fr'],
@@ -387,7 +390,7 @@ describe('unresolving', () => {
   })
 })
 
-describe('pluralRule', () => {
+describe('context pluralRule option', () => {
   test('basic', () => {
     const pluralRules = {
       ru: (choice, choicesLength, orgRule) => {

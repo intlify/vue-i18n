@@ -11,7 +11,7 @@ import { Path } from './path'
 import { LinkedModifiers, PluralizationRules } from './message/context'
 import { Locale, LocaleMessages, createRuntimeContext, RuntimeContext, RuntimeMissingHandler, LocaleMessage } from './runtime/context'
 import { translate, TRANSLATE_NOT_REOSLVED } from './runtime/localize'
-import { warn, isFunction, isNumber, isString } from './utils'
+import { warn, isFunction, isNumber, isString, isRegExp, isBoolean } from './utils'
 
 export const GlobalI18nSymbol: InjectionKey<I18nComposer> = Symbol.for('vue-i18n')
 const providers: Map<ComponentInternalInstance, InjectionKey<I18nComposer>> = new Map()
@@ -69,20 +69,18 @@ export function createI18nComposer (options: I18nComposerOptions = {}, root?: I1
   // warning supress options
   let _missingWarn = root
     ? root.missingWarn
-    : options.missingWarn === undefined
-      ? true
-      : options.missingWarn
+    : isBoolean(options.missingWarn) || isRegExp(options.missingWarn)
+      ? options.missingWarn
+      : true
   let _fallbackWarn = root
     ? root.fallbackWarn
-    : options.fallbackWarn === undefined
-      ? _fallbackLocales.value.length > 0
-      : options.fallbackWarn
-  let _fallbackRoot = options.fallbackRoot === undefined
-    ? true
-    : !!options.fallbackRoot
-  let _fallbackFormat = options.fallbackFormat === undefined
-    ? false
-    : !!options.fallbackFormat
+    : isBoolean(options.fallbackWarn) || isRegExp(options.fallbackWarn)
+      ? options.fallbackWarn
+      : true
+  let _fallbackRoot = isBoolean(options.fallbackRoot) ? options.fallbackRoot : true
+
+  // configure fall bakck to root
+  let _fallbackFormat = isBoolean(options.fallbackFormat) ? options.fallbackFormat : false
 
   // runtime missing
   let _missing = options.missing

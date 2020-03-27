@@ -90,7 +90,7 @@ export type VueI18n = {
 
 function convertI18nComposerOptions (options: VueI18nOptions): I18nComposerOptions {
   const locale = options.locale || 'en-US'
-  const fallbackLocales = options.fallbackLocale ? [options.fallbackLocale] : [locale]
+  const fallbackLocales = options.fallbackLocale ? [options.fallbackLocale] : []
   const missing = options.missing
   const missingWarn = options.silentTranslationWarn === undefined
     ? true
@@ -145,7 +145,11 @@ export function createI18n (options: VueI18nOptions = {}, root?: I18nComposer): 
     get locale (): Locale { return composer.locale.value },
     set locale (val: Locale) { composer.locale.value = val },
     // fallbackLocale
-    get fallbackLocale (): Locale { return composer.fallbackLocales.value[0] },
+    get fallbackLocale (): Locale {
+      return composer.fallbackLocales.value.length === 0
+        ? 'en-US' // compatible for vue-i18n legay style
+        : composer.fallbackLocales.value[0]
+    },
     set fallbackLocale (val: Locale) { composer.fallbackLocales.value = [val] },
     // messages
     get messages (): LocaleMessages { return composer.messages.value },

@@ -4,13 +4,15 @@ export const isFunction = (val: unknown): val is Function => typeof val === 'fun
 export const isString = (val: unknown): val is string => typeof val === 'string'
 export const isBoolean = (val: unknown): val is boolean => typeof val === 'boolean'
 export const isSymbol = (val: unknown): val is symbol => typeof val === 'symbol'
-
 export const isObject = (val: unknown): val is Record<any, any> => // eslint-disable-line
   val !== null && typeof val === 'object'
 
 export const isPromise = <T = any>(val: unknown): val is Promise<T> => { // eslint-disable-line
   return isObject(val) && isFunction(val.then) && isFunction(val.catch)
 }
+
+export const isRegExp = (val: unknown): val is RegExp =>
+  objectToString.call(val) === '[object RegExp]'
 
 export const objectToString = Object.prototype.toString
 export const toTypeString = (value: unknown): string =>

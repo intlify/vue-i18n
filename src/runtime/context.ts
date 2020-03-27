@@ -1,6 +1,7 @@
 import { MessageFunction } from '../message/compiler'
 import { LinkedModifiers, PluralizationRules } from '../message/context'
 import { Path } from '../path'
+import { isBoolean, isRegExp } from '../utils'
 
 export type Locale = string
 
@@ -62,18 +63,14 @@ export function createRuntimeContext (options: RuntimeOptions = {}): RuntimeCont
   const modifiers = Object.assign({} as LinkedModifiers, options.modifiers || {}, DEFAULT_LINKDED_MODIFIERS)
   const pluralRules = options.pluralRules || {}
   const missing = options.missing || null
-  const missingWarn = options.missingWarn === undefined
-    ? true
-    : options.missingWarn
-  const fallbackWarn = options.fallbackWarn === undefined
-    ? fallbackLocales.length > 0
-    : options.fallbackWarn
-  const fallbackFormat = options.fallbackFormat === undefined
-    ? false
-    : !!options.fallbackFormat
-  const unresolving = options.unresolving === undefined
-    ? false
-    : options.unresolving
+  const missingWarn = isBoolean(options.missingWarn) || isRegExp(options.missingWarn)
+    ? options.missingWarn
+    : true
+  const fallbackWarn = isBoolean(options.fallbackWarn) || isRegExp(options.fallbackWarn)
+    ? options.fallbackWarn
+    : true
+  const fallbackFormat = isBoolean(options.fallbackFormat) ? options.fallbackFormat : false
+  const unresolving = isBoolean(options.unresolving) ? options.unresolving : false
 
   return {
     locale,

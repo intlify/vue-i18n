@@ -78,6 +78,7 @@ export function translate (context: RuntimeContext, key: Path, ...args: unknown[
     missing,
     fallbackFormat,
     unresolving,
+    fallbackLocales,
     _fallbackLocaleStack
   } = context
   const options: TranslateOptions = isObject(args[0]) ? args[0] : {}
@@ -166,7 +167,7 @@ export function translate (context: RuntimeContext, key: Path, ...args: unknown[
     }
 
     // falbacking ...
-    if (__DEV__ && isTrarnslateFallbackWarn(fallbackWarn, key, _fallbackLocaleStack)) {
+    if (__DEV__ && fallbackLocales.length > 0 && isTrarnslateFallbackWarn(fallbackWarn, key, _fallbackLocaleStack)) {
       if (!context._fallbackLocaleStack) {
         context._fallbackLocaleStack = [...context.fallbackLocales]
       }
