@@ -210,7 +210,7 @@ describe('postTranslation', () => {
 describe('getMissingHandler / setMissingHandler', () => {
   test('default', () => {
     const { getMissingHandler, setMissingHandler } = createI18nComposer({})
-    expect(getMissingHandler()).toBeUndefined()
+    expect(getMissingHandler()).toEqual(null)
 
     const missing = () => {} // eslint-disable-line @typescript-eslint/no-empty-function
     setMissingHandler(missing as MissingHandler)

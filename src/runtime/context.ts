@@ -65,7 +65,7 @@ export function createRuntimeContext (options: RuntimeOptions = {}): RuntimeCont
   const compileCache: Record<string, MessageFunction> = Object.create(null)
   const modifiers = Object.assign({} as LinkedModifiers, options.modifiers || {}, DEFAULT_LINKDED_MODIFIERS)
   const pluralRules = options.pluralRules || {}
-  const missing = options.missing || null
+  const missing = isFunction(options.missing) ? options.missing : null
   const missingWarn = isBoolean(options.missingWarn) || isRegExp(options.missingWarn)
     ? options.missingWarn
     : true

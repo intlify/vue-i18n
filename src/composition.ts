@@ -61,8 +61,8 @@ export type I18nComposer = {
   mergeLocaleMessage (locale: Locale, message: LocaleMessage): void
   getPostTranslationHandler (): PostTranslationHandler | null
   setPostTranslationHandler (handler: PostTranslationHandler | null): void
-  getMissingHandler (): MissingHandler | undefined
-  setMissingHandler (handler: MissingHandler): void
+  getMissingHandler (): MissingHandler | null
+  setMissingHandler (handler: MissingHandler | null): void
 }
 
 function defineRuntimeMissingHandler (missing: MissingHandler): RuntimeMissingHandler {
@@ -106,11 +106,8 @@ export function createI18nComposer (options: I18nComposerOptions = {}, root?: I1
   let _fallbackFormat = isBoolean(options.fallbackFormat) ? options.fallbackFormat : false
 
   // runtime missing
-  let _missing = options.missing
-  let _runtimeMissing: RuntimeMissingHandler | undefined
-  if (isFunction(_missing)) {
-    _runtimeMissing = defineRuntimeMissingHandler(_missing)
-  }
+  let _missing = isFunction(options.missing) ? options.missing : null
+  let _runtimeMissing = isFunction(options.missing) ? defineRuntimeMissingHandler(options.missing) : null
 
   // postTranslation handler
   let _postTranslation = isFunction(options.postTranslation) ? options.postTranslation : null
@@ -132,7 +129,7 @@ export function createI18nComposer (options: I18nComposerOptions = {}, root?: I1
       messages: _messages.value,
       modifiers: _modifiers,
       pluralRules: _pluralRules,
-      missing: _runtimeMissing,
+      missing: _runtimeMissing === null ? undefined : _runtimeMissing,
       missingWarn: _missingWarn,
       fallbackWarn: _fallbackWarn,
       fallbackFormat: _fallbackFormat,
@@ -174,11 +171,13 @@ export function createI18nComposer (options: I18nComposerOptions = {}, root?: I1
   }
 
   // getMissingHandler
-  const getMissingHandler = (): MissingHandler | undefined => _missing
+  const getMissingHandler = (): MissingHandler | null => _missing
 
   // setMissingHandler
-  const setMissingHandler = (handler: MissingHandler): void => {
-    _runtimeMissing = defineRuntimeMissingHandler(handler)
+  const setMissingHandler = (handler: MissingHandler | null): void => {
+    if (handler !== null) {
+      _runtimeMissing = defineRuntimeMissingHandler(handler)
+    }
     _missing = handler
     _context = getRuntimeContext()
   }

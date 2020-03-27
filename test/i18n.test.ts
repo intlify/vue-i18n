@@ -54,7 +54,7 @@ test('formatter', () => {
 
 test('missing', () => {
   const i18n = createI18n()
-  expect(i18n.missing).toBeUndefined()
+  expect(i18n.missing).toEqual(null)
   const handler = () => { return '' }
   i18n.missing = handler
   expect(i18n.missing).toEqual(handler)

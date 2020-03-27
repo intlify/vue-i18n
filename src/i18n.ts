@@ -57,7 +57,7 @@ export type VueI18n = {
   readonly availableLocales: Locale[]
   readonly messages: LocaleMessages
   formatter: Formatter
-  missing?: MissingHandler
+  missing: MissingHandler | null
   postTranslation: PostTranslationHandler | null
   silentTranslationWarn: boolean | RegExp
   silentFallbackWarn: boolean | RegExp
@@ -99,7 +99,7 @@ export type VueI18n = {
 function convertI18nComposerOptions (options: VueI18nOptions): I18nComposerOptions {
   const locale = isString(options.locale) ? options.locale : 'en-US'
   const fallbackLocales = isString(options.fallbackLocale) ? [options.fallbackLocale] : []
-  const missing = options.missing
+  const missing = isFunction(options.missing) ? options.missing : undefined
   const missingWarn = isBoolean(options.silentTranslationWarn) || isRegExp(options.silentTranslationWarn)
     ? options.silentTranslationWarn
     : true
@@ -174,8 +174,8 @@ export function createI18n (options: VueI18nOptions = {}, root?: I18nComposer): 
       __DEV__ && warn(`not support 'formatter' property`)
     },
     // missing
-    get missing (): MissingHandler | undefined { return composer.getMissingHandler() },
-    set missing (val: MissingHandler | undefined) { val && composer.setMissingHandler(val) },
+    get missing (): MissingHandler | null { return composer.getMissingHandler() },
+    set missing (handler: MissingHandler | null) { composer.setMissingHandler(handler) },
     // silentTranslationWarn
     get silentTranslationWarn (): boolean | RegExp {
       return isBoolean(composer.missingWarn)

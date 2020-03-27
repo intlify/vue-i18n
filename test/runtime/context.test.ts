@@ -75,8 +75,7 @@ describe('missing', () => {
   })
 
   test('specify', () => {
-    // eslint-disable-next-line @typescript-eslint/no-empty-function
-    const missing = () => {}
+    const missing = () => ''
     const ctx = context({ missing })
     expect(ctx.missing).toEqual(missing)
   })
