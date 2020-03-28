@@ -100,6 +100,39 @@ test('messages', () => {
   })
 })
 
+test('t', () => {
+  const i18n = createI18n({
+    locale: 'en',
+    messages: {
+      en: {
+        name: 'kazupon',
+        hello: 'Hello!',
+        hi: 'hi {name}!',
+        morning: 'good morning {0}',
+        linked: 'hi @.upper:name'
+      }
+    }
+  })
+
+  expect(i18n.t('hello')).toEqual('Hello!')
+  expect(i18n.t('hi', { name: 'kazupon' })).toEqual('hi kazupon!')
+  expect(i18n.t('morning', ['kazupon'])).toEqual('good morning kazupon')
+  expect(i18n.t('linked')).toEqual('hi KAZUPON')
+})
+
+test('tc', () => {
+  const i18n = createI18n({
+    locale: 'en',
+    messages: {
+      en: {
+        apple: 'no apples | one apple | {count} apples'
+      }
+    }
+  })
+
+  expect(i18n.tc('apple', 4)).toEqual('4 apples')
+})
+
 test('getLocaleMessage / setLocaleMessage / mergeLocaleMessage', () => {
   const i18n = createI18n({
     messages: {

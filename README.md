@@ -43,7 +43,7 @@ if you use currently vue-i18n version, see this [repository](https://github.com/
   - [ ] warnHtmlInMessage
   - [x] improve translate `args` typing
   - [ ] improve locale messages typing: `LocaleMessages` / `LocaleMessage` / `LocaleMessageDictiory`
-  - [ ] postTranslation context option
+  - [x] postTranslation context option
 - Composable API: I18n Composer
   - properties
     - [x] locale
