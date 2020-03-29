@@ -10,10 +10,19 @@ import {
   PostTranslationHandler
 } from './runtime/context'
 import { TranslateOptions } from './runtime/localize'
-import { DateTimeFormats } from './runtime/datetime'
-import { NumberFormats } from './runtime/number'
+import { DateTimeFormats, NumberFormats, DateTimeFormat, NumberFormat } from './runtime/types'
 import { MissingHandler, I18nComposer, I18nComposerOptions, createI18nComposer } from './composition'
-import { isString, isArray, isObject, isNumber, warn, isBoolean, isFunction, isRegExp } from './utils'
+import {
+  isString,
+  isArray,
+  isObject,
+  isPlainObject,
+  isNumber,
+  isBoolean,
+  isFunction,
+  isRegExp,
+  warn
+} from './utils'
 
 export type TranslateResult = string
 export type Choice = number
@@ -31,7 +40,7 @@ export type VueI18nOptions = {
   locale?: Locale
   fallbackLocale?: Locale
   messages?: LocaleMessages
-  dateTimeFormats?: DateTimeFormats
+  datetimeFormats?: DateTimeFormats
   numberFormats?: NumberFormats
   availableLocales?: Locale[]
   modifiers?: LinkedModifiers
@@ -56,6 +65,8 @@ export type VueI18n = {
   fallbackLocale: Locale
   readonly availableLocales: Locale[]
   readonly messages: LocaleMessages
+  readonly datetimeFormats: DateTimeFormats
+  readonly numberFormats: NumberFormats
   formatter: Formatter
   missing: MissingHandler | null
   postTranslation: PostTranslationHandler | null
@@ -76,17 +87,17 @@ export type VueI18n = {
   getLocaleMessage (locale: Locale): LocaleMessage
   setLocaleMessage (locale: Locale, message: LocaleMessage): void
   mergeLocaleMessage (locale: Locale, message: LocaleMessage): void
-  /*
-  d (value: number | Date, key?: Path, locale?: Locale): DateTimeFormatResult
-  d (value: number | Date, ...args: unknown[]): DateTimeFormatResult
-  n (value: number, key?: Path, locale?: Locale): NumberFormatResult
-  n (value: number, ...args: unknown[]): NumberFormatResult
   getDateTimeFormat (locale: Locale): DateTimeFormat
   setDateTimeFormat (locale: Locale, format: DateTimeFormat): void
   mergeDateTimeFormat (locale: Locale, format: DateTimeFormat): void
   getNumberFormat (locale: Locale): NumberFormat
   setNumberFormat (locale: Locale, format: NumberFormat): void
   mergeNumberFormat (locale: Locale, format: NumberFormat): void
+  /*
+  d (value: number | Date, key?: Path, locale?: Locale): DateTimeFormatResult
+  d (value: number | Date, ...args: unknown[]): DateTimeFormatResult
+  n (value: number, key?: Path, locale?: Locale): NumberFormatResult
+  n (value: number, ...args: unknown[]): NumberFormatResult
   // TODO:
   getChoiceIndex: (choice: Choice, choicesLength: number) => number
   */
@@ -122,7 +133,7 @@ function convertI18nComposerOptions (options: VueI18nOptions): I18nComposerOptio
   // TODO: should be merged locale messages of custom block
   //
 
-  if (isObject(options.sharedMessages)) {
+  if (isPlainObject(options.sharedMessages)) {
     const sharedMessages = options.sharedMessages
     const locales: Locale[] = Object.keys(sharedMessages)
     messages = locales.reduce((messages, locale) => {
@@ -132,10 +143,15 @@ function convertI18nComposerOptions (options: VueI18nOptions): I18nComposerOptio
     }, messages || {})
   }
 
+  const datetimeFormats = options.datetimeFormats
+  const numberFormats = options.numberFormats
+
   return {
     locale,
     fallbackLocales,
     messages,
+    datetimeFormats,
+    numberFormats,
     missing,
     missingWarn,
     fallbackWarn,
@@ -163,6 +179,10 @@ export function createI18n (options: VueI18nOptions = {}, root?: I18nComposer): 
     set fallbackLocale (val: Locale) { composer.fallbackLocales.value = [val] },
     // messages
     get messages (): LocaleMessages { return composer.messages.value },
+    // datetimeFormats
+    get datetimeFormats (): DateTimeFormats { return composer.datetimeFormats.value },
+    // numberFormats
+    get numberFormats (): NumberFormats { return composer.numberFormats.value },
     // availableLocales
     get availableLocales (): Locale[] { return composer.availableLocales },
     // formatter
@@ -252,6 +272,20 @@ export function createI18n (options: VueI18nOptions = {}, root?: I18nComposer): 
     },
     mergeLocaleMessage (locale: Locale, message: LocaleMessage): void {
       composer.mergeLocaleMessage(locale, message)
+    },
+    getDateTimeFormat (locale: Locale): DateTimeFormat { return composer.getDateTimeFormat(locale) },
+    setDateTimeFormat (locale: Locale, format: DateTimeFormat): void {
+      composer.setDateTimeFormat(locale, format)
+    },
+    mergeDateTimeFormat (locale: Locale, format: DateTimeFormat): void {
+      composer.mergeDateTimeFormat(locale, format)
+    },
+    getNumberFormat (locale: Locale): NumberFormat { return composer.getNumberFormat(locale) },
+    setNumberFormat (locale: Locale, format: NumberFormat): void {
+      composer.setNumberFormat(locale, format)
+    },
+    mergeNumberFormat (locale: Locale, format: NumberFormat): void {
+      composer.mergeNumberFormat(locale, format)
     },
     install (app: App): void {
       applyPlugin(app, i18n as VueI18n, composer)

@@ -100,6 +100,20 @@ test('messages', () => {
   })
 })
 
+test('datetimeFormats', () => {
+  const i18n = createI18n()
+  expect(i18n.datetimeFormats).toEqual({
+    'en-US': {}
+  })
+})
+
+test('numberFormats', () => {
+  const i18n = createI18n()
+  expect(i18n.numberFormats).toEqual({
+    'en-US': {}
+  })
+})
+
 test('t', () => {
   const i18n = createI18n({
     locale: 'en',
@@ -165,5 +179,96 @@ test('getLocaleMessage / setLocaleMessage / mergeLocaleMessage', () => {
   expect(i18n.getLocaleMessage('en')).toEqual({
     hello: 'Hello!',
     hi: 'Hi!'
+  })
+})
+
+test('getDateTimeFormat / setDateTimeFormat / mergeDateTimeFormat', () => {
+  const i18n = createI18n({
+    datetimeFormats: {
+      'en-US': {
+        short: {
+          year: 'numeric', month: '2-digit', day: '2-digit',
+          hour: '2-digit', minute: '2-digit'
+        }
+      }
+    }
+  })
+  expect(i18n.getDateTimeFormat('en-US')).toEqual({
+    short: {
+      year: 'numeric', month: '2-digit', day: '2-digit',
+      hour: '2-digit', minute: '2-digit'
+    }
+  })
+
+  i18n.setDateTimeFormat('en-US', {
+    long: {
+      year: 'numeric', month: '2-digit', day: '2-digit',
+      hour: '2-digit', minute: '2-digit', second: '2-digit'
+    }
+  })
+  expect(i18n.getDateTimeFormat('en-US')).toEqual({
+    long: {
+      year: 'numeric', month: '2-digit', day: '2-digit',
+      hour: '2-digit', minute: '2-digit', second: '2-digit'
+    }
+  })
+
+  i18n.mergeDateTimeFormat('en-US', {
+    short: {
+      year: 'numeric', month: '2-digit', day: '2-digit',
+      hour: '2-digit', minute: '2-digit'
+    }
+  })
+  expect(i18n.getDateTimeFormat('en-US')).toEqual({
+    short: {
+      year: 'numeric', month: '2-digit', day: '2-digit',
+      hour: '2-digit', minute: '2-digit'
+    },
+    long: {
+      year: 'numeric', month: '2-digit', day: '2-digit',
+      hour: '2-digit', minute: '2-digit', second: '2-digit'
+    }
+  })
+})
+
+test('getNumberFormat / setNumberFormat / mergeNumberFormat', () => {
+  const i18n = createI18n({
+    numberFormats: {
+      'en-US': {
+        currency: {
+          style: 'currency', currency: 'USD', currencyDisplay: 'symbol'
+        }
+      }
+    }
+  })
+  expect(i18n.getNumberFormat('en-US')).toEqual({
+    currency: {
+      style: 'currency', currency: 'USD', currencyDisplay: 'symbol'
+    }
+  })
+
+  i18n.setNumberFormat('en-US', {
+    decimal: {
+      style: 'decimal', useGrouping: false
+    }
+  })
+  expect(i18n.getNumberFormat('en-US')).toEqual({
+    decimal: {
+      style: 'decimal', useGrouping: false
+    }
+  })
+
+  i18n.mergeNumberFormat('en-US', {
+    currency: {
+      style: 'currency', currency: 'USD', currencyDisplay: 'symbol'
+    }
+  })
+  expect(i18n.getNumberFormat('en-US')).toEqual({
+    currency: {
+      style: 'currency', currency: 'USD', currencyDisplay: 'symbol'
+    },
+    decimal: {
+      style: 'decimal', useGrouping: false
+    }
   })
 })

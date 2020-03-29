@@ -5,9 +5,18 @@
  * This module is offered composable i18n API for Vue 3
  */
 
-import { InjectionKey, provide, inject, getCurrentInstance, ComponentInternalInstance, ref, computed } from 'vue'
+import {
+  ref,
+  computed,
+  provide,
+  inject,
+  InjectionKey,
+  getCurrentInstance,
+  ComponentInternalInstance
+} from 'vue'
 import { WritableComputedRef, ComputedRef } from '@vue/reactivity'
 import { Path } from './path'
+import { DateTimeFormats, NumberFormats, DateTimeFormat, NumberFormat } from './runtime/types'
 import { LinkedModifiers, PluralizationRules } from './message/context'
 import {
   Locale,
@@ -19,7 +28,16 @@ import {
   PostTranslationHandler
 } from './runtime/context'
 import { translate, TRANSLATE_NOT_REOSLVED } from './runtime/localize'
-import { warn, isArray, isFunction, isNumber, isString, isRegExp, isBoolean } from './utils'
+import {
+  warn,
+  isArray,
+  isFunction,
+  isNumber,
+  isString,
+  isRegExp,
+  isBoolean,
+  isPlainObject
+} from './utils'
 
 export const GlobalI18nSymbol: InjectionKey<I18nComposer> = Symbol.for('vue-i18n')
 const providers: Map<ComponentInternalInstance, InjectionKey<I18nComposer>> = new Map()
@@ -31,6 +49,8 @@ export type I18nComposerOptions = {
   locale?: Locale
   fallbackLocales?: Locale[]
   messages?: LocaleMessages
+  datetimeFormats?: DateTimeFormats
+  numberFormats?: NumberFormats
   modifiers?: LinkedModifiers
   pluralRules?: PluralizationRules
   missing?: MissingHandler
@@ -48,6 +68,8 @@ export type I18nComposer = {
   fallbackLocales: WritableComputedRef<Locale[]>
   readonly availableLocales: Locale[]
   readonly messages: ComputedRef<LocaleMessages>
+  readonly datetimeFormats: ComputedRef<DateTimeFormats>
+  readonly numberFormats: ComputedRef<NumberFormats>
   readonly modifiers: LinkedModifiers
   readonly pluralRules?: PluralizationRules
   missingWarn: boolean | RegExp
@@ -59,6 +81,12 @@ export type I18nComposer = {
   getLocaleMessage (locale: Locale): LocaleMessage
   setLocaleMessage (locale: Locale, message: LocaleMessage): void
   mergeLocaleMessage (locale: Locale, message: LocaleMessage): void
+  getDateTimeFormat (locale: Locale): DateTimeFormat
+  setDateTimeFormat (locale: Locale, format: DateTimeFormat): void
+  mergeDateTimeFormat (locale: Locale, format: DateTimeFormat): void
+  getNumberFormat (locale: Locale): NumberFormat
+  setNumberFormat (locale: Locale, format: NumberFormat): void
+  mergeNumberFormat (locale: Locale, format: NumberFormat): void
   getPostTranslationHandler (): PostTranslationHandler | null
   setPostTranslationHandler (handler: PostTranslationHandler | null): void
   getMissingHandler (): MissingHandler | null
@@ -71,7 +99,10 @@ function defineRuntimeMissingHandler (missing: MissingHandler): RuntimeMissingHa
   }
 }
 
-export function createI18nComposer (options: I18nComposerOptions = {}, root?: I18nComposer): I18nComposer {
+export function createI18nComposer (
+  options: I18nComposerOptions = {},
+  root?: I18nComposer
+): I18nComposer {
   // reactivity states
   const _locale = ref<Locale>(
     root
@@ -87,7 +118,21 @@ export function createI18nComposer (options: I18nComposerOptions = {}, root?: I1
         ? options.fallbackLocales
         : []
   )
-  const _messages = ref<LocaleMessages>(options.messages || { [_locale.value]: {} })
+  const _messages = ref<LocaleMessages>(
+    isPlainObject(options.messages)
+      ? options.messages
+      : { [_locale.value]: {} }
+  )
+  const _datetimeFormats = ref<DateTimeFormats>(
+    isPlainObject(options.datetimeFormats)
+      ? options.datetimeFormats
+      : { [_locale.value]: {} }
+  )
+  const _numberFormats = ref<NumberFormats>(
+    isPlainObject(options.numberFormats)
+      ? options.numberFormats
+      : { [_locale.value]: {} }
+  )
 
   // warning supress options
   let _missingWarn = root
@@ -107,7 +152,9 @@ export function createI18nComposer (options: I18nComposerOptions = {}, root?: I1
 
   // runtime missing
   let _missing = isFunction(options.missing) ? options.missing : null
-  let _runtimeMissing = isFunction(options.missing) ? defineRuntimeMissingHandler(options.missing) : null
+  let _runtimeMissing = isFunction(options.missing)
+    ? defineRuntimeMissingHandler(options.missing)
+    : null
 
   // postTranslation handler
   let _postTranslation = isFunction(options.postTranslation) ? options.postTranslation : null
@@ -115,19 +162,23 @@ export function createI18nComposer (options: I18nComposerOptions = {}, root?: I1
   // custom linked modifiers
   const _modifiers = root
     ? root.modifiers
-    : options.modifiers === undefined
-      ? {}
-      : options.modifiers
+    : isPlainObject(options.modifiers)
+      ? options.modifiers
+      : {}
 
   const _pluralRules = options.pluralRules
 
   // TODO: should get ready function for runtime context updating ... object creating cost expensive ...
+  let _context: RuntimeContext
   const getRuntimeContext = (): RuntimeContext => {
     return createRuntimeContext({
       locale: _locale.value,
       fallbackLocales: _fallbackLocales.value,
       messages: _messages.value,
+      datetimeFormats: _datetimeFormats.value,
+      numberFormats: _numberFormats.value,
       modifiers: _modifiers,
+      compileCache: isPlainObject(_context) ? _context.compileCache : undefined,
       pluralRules: _pluralRules,
       missing: _runtimeMissing === null ? undefined : _runtimeMissing,
       missingWarn: _missingWarn,
@@ -137,7 +188,7 @@ export function createI18nComposer (options: I18nComposerOptions = {}, root?: I1
       postTranslation: _postTranslation === null ? undefined : _postTranslation
     })
   }
-  let _context = getRuntimeContext() // eslint-disable-line
+  _context = getRuntimeContext()
 
   // locale
   const locale = computed({
@@ -159,6 +210,12 @@ export function createI18nComposer (options: I18nComposerOptions = {}, root?: I1
 
   // messages
   const messages = computed(() => _messages.value)
+
+  // datetimeFormats
+  const datetimeFormats = computed(() => _datetimeFormats.value)
+
+  // numberFormats
+  const numberFormats = computed(() => _numberFormats.value)
 
   // getPostTranslationHandler
   const getPostTranslationHandler =
@@ -214,12 +271,40 @@ export function createI18nComposer (options: I18nComposerOptions = {}, root?: I1
     _messages.value[locale] = Object.assign(_messages.value[locale] || {}, message)
   }
 
+  // getDateTimeFormat
+  const getDateTimeFormat = (locale: Locale): DateTimeFormat => _datetimeFormats.value[locale] || {}
+
+  // setDateTimeFormat
+  const setDateTimeFormat = (locale: Locale, format: DateTimeFormat): void => {
+    _datetimeFormats.value[locale] = format
+  }
+
+  // mergeDateTimeFormat
+  const mergeDateTimeFormat = (locale: Locale, format: DateTimeFormat): void => {
+    _datetimeFormats.value[locale] = Object.assign(_datetimeFormats.value[locale] || {}, format)
+  }
+
+  // getNumberFormat
+  const getNumberFormat = (locale: Locale): NumberFormat => _numberFormats.value[locale] || {}
+
+  // setNumberFormat
+  const setNumberFormat = (locale: Locale, format: NumberFormat): void => {
+    _numberFormats.value[locale] = format
+  }
+
+  // mergeNumberFormat
+  const mergeNumberFormat = (locale: Locale, format: NumberFormat): void => {
+    _numberFormats.value[locale] = Object.assign(_numberFormats.value[locale] || {}, format)
+  }
+
   return {
     /* properties */
     locale,
     fallbackLocales,
     get availableLocales (): Locale[] { return Object.keys(_messages.value).sort() },
     messages,
+    datetimeFormats,
+    numberFormats,
     get modifiers (): LinkedModifiers { return _modifiers },
     get pluralRules (): PluralizationRules | undefined { return _pluralRules },
     get missingWarn (): boolean | RegExp { return _missingWarn },
@@ -247,6 +332,12 @@ export function createI18nComposer (options: I18nComposerOptions = {}, root?: I1
     getLocaleMessage,
     setLocaleMessage,
     mergeLocaleMessage,
+    getDateTimeFormat,
+    setDateTimeFormat,
+    mergeDateTimeFormat,
+    getNumberFormat,
+    setNumberFormat,
+    mergeNumberFormat,
     getPostTranslationHandler,
     setPostTranslationHandler,
     getMissingHandler,

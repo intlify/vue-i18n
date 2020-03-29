@@ -56,21 +56,21 @@ if you use currently vue-i18n version, see this [repository](https://github.com/
     - [x] fallbackWarn
     - [x] fallbackRoot
     - [x] fallbackFormat
-    - [ ] dateTimeFormats
-    - [ ] numberFormats
+    - [x] dateTimeFormats
+    - [x] numberFormats
   - methods
     - [x] t
     - [x] getLocaleMessages
     - [x] setLocaleMessages
     - [x] mergeLocaleMessages
     - [ ] d
-    - [ ] getDateTimeFormat
-    - [ ] setDateTimeFormat
-    - [ ] mergeDateTimeFormat
+    - [x] getDateTimeFormat
+    - [x] setDateTimeFormat
+    - [x] mergeDateTimeFormat
     - [ ] n
-    - [ ] getNumberFormat
-    - [ ] setNumberFormat
-    - [ ] mergeNumberFormat
+    - [x] getNumberFormat
+    - [x] setNumberFormat
+    - [x] mergeNumberFormat
     - [x] getPostTranslationHandler
     - [x] setPostTranslationHandler
     - [x] getMissingHandler
@@ -82,8 +82,8 @@ if you use currently vue-i18n version, see this [repository](https://github.com/
     - [x] availableLocales
     - [x] messages
     - [x] pluralizationRules
-    - [ ] dateTimeFormats
-    - [ ] numberFormats
+    - [x] dateTimeFormats
+    - [x] numberFormats
     - [x] formatter
     - [x] missing
     - [x] silentTranslationWarn
@@ -94,31 +94,31 @@ if you use currently vue-i18n version, see this [repository](https://github.com/
     - [x] postTranslation
     - [x] t
     - [x] tc
-    - [ ] te
+    - [x] te
     - [x] getLocaleMessage
     - [x] setLocaleMessage
     - [x] mergeLocaleMessage
     - [ ] d
-    - [ ] getDateTimeFormat
-    - [ ] setDateTimeFormat
-    - [ ] mergeDateTimeFormat
+    - [x] getDateTimeFormat
+    - [x] setDateTimeFormat
+    - [x] mergeDateTimeFormat
     - [ ] n
-    - [ ] getNumberFormat
-    - [ ] setNumberFormat
-    - [ ] mergeNumberFormat
+    - [x] getNumberFormat
+    - [x] setNumberFormat
+    - [x] mergeNumberFormat
     - [ ] getChoiceIndex
   - Inejctted in Vue Prototype API
     - [x] $i18n
     - [x] $t
     - [x] $tc
-    - [ ] $te
+    - [x] $te
     - [ ] $d
     - [ ] $n
   - Component options
     - [x] messages
     - [x] pluralRule
-    - [ ] dateTimeFormats
-    - [ ] numberFormats
+    - [x] dateTimeFormats
+    - [x] numberFormats
     - [x] sharedMessages
   - [x] plugin install & mixin
   - [ ] version

@@ -89,6 +89,86 @@ describe('messages', () => {
   })
 })
 
+describe('datetimeFormats', () => {
+  test('default value', () => {
+    const { datetimeFormats } = createI18nComposer({})
+    expect(datetimeFormats.value).toEqual({
+      'en-US': {}
+    })
+  })
+
+  test('initialize at composer creating', () => {
+    const { datetimeFormats } = createI18nComposer({
+      datetimeFormats: {
+        'en-US': {
+          short: {
+            year: 'numeric', month: '2-digit', day: '2-digit',
+            hour: '2-digit', minute: '2-digit'
+          }
+        },
+        'ja-JP': {
+          short: {
+            year: 'numeric', month: '2-digit', day: '2-digit',
+            hour: '2-digit', minute: '2-digit'
+          }
+        }
+      }
+    })
+    expect(datetimeFormats.value).toEqual({
+      'en-US': {
+        short: {
+          year: 'numeric', month: '2-digit', day: '2-digit',
+          hour: '2-digit', minute: '2-digit'
+        }
+      },
+      'ja-JP': {
+        short: {
+          year: 'numeric', month: '2-digit', day: '2-digit',
+          hour: '2-digit', minute: '2-digit'
+        }
+      }
+    })
+  })
+})
+
+describe('numberFormats', () => {
+  test('default value', () => {
+    const { numberFormats } = createI18nComposer({})
+    expect(numberFormats.value).toEqual({
+      'en-US': {}
+    })
+  })
+
+  test('initialize at composer creating', () => {
+    const { numberFormats } = createI18nComposer({
+      numberFormats: {
+        'en-US': {
+          currency: {
+            style: 'currency', currency: 'USD', currencyDisplay: 'symbol'
+          }
+        },
+        'ja-JP': {
+          currency: {
+            style: 'currency', currency: 'JPY', currencyDisplay: 'symbol'
+          }
+        }
+      }
+    })
+    expect(numberFormats.value).toEqual({
+      'en-US': {
+        currency: {
+          style: 'currency', currency: 'USD', currencyDisplay: 'symbol'
+        }
+      },
+      'ja-JP': {
+        currency: {
+          style: 'currency', currency: 'JPY', currencyDisplay: 'symbol'
+        }
+      }
+    })
+  })
+})
+
 describe('modifiers', () => {
   test('default', () => {
     const { modifiers } = createI18nComposer({})
@@ -298,6 +378,101 @@ describe('getLocaleMessage / setLocaleMessage / mergeLocaleMessage', () => {
     expect(getLocaleMessage('en')).toEqual({
       hello: 'Hello!',
       hi: 'Hi!'
+    })
+  })
+})
+
+describe('getDateTimeFormat / setDateTimeFormat / mergeDateTimeFormat', () => {
+  test('basci', () => {
+    const { getDateTimeFormat, setDateTimeFormat, mergeDateTimeFormat } = createI18nComposer({
+      datetimeFormats: {
+        'en-US': {
+          short: {
+            year: 'numeric', month: '2-digit', day: '2-digit',
+            hour: '2-digit', minute: '2-digit'
+          }
+        }
+      }
+    })
+    expect(getDateTimeFormat('en-US')).toEqual({
+      short: {
+        year: 'numeric', month: '2-digit', day: '2-digit',
+        hour: '2-digit', minute: '2-digit'
+      }
+    })
+
+    setDateTimeFormat('en-US', {
+      long: {
+        year: 'numeric', month: '2-digit', day: '2-digit',
+        hour: '2-digit', minute: '2-digit', second: '2-digit'
+      }
+    })
+    expect(getDateTimeFormat('en-US')).toEqual({
+      long: {
+        year: 'numeric', month: '2-digit', day: '2-digit',
+        hour: '2-digit', minute: '2-digit', second: '2-digit'
+      }
+    })
+
+    mergeDateTimeFormat('en-US', {
+      short: {
+        year: 'numeric', month: '2-digit', day: '2-digit',
+        hour: '2-digit', minute: '2-digit'
+      }
+    })
+    expect(getDateTimeFormat('en-US')).toEqual({
+      short: {
+        year: 'numeric', month: '2-digit', day: '2-digit',
+        hour: '2-digit', minute: '2-digit'
+      },
+      long: {
+        year: 'numeric', month: '2-digit', day: '2-digit',
+        hour: '2-digit', minute: '2-digit', second: '2-digit'
+      }
+    })
+  })
+})
+
+describe('getNumberFormat / setNumberFormat / mergeNumberFormat', () => {
+  test('basic', () => {
+    const { getNumberFormat, setNumberFormat, mergeNumberFormat } = createI18nComposer({
+      numberFormats: {
+        'en-US': {
+          currency: {
+            style: 'currency', currency: 'USD', currencyDisplay: 'symbol'
+          }
+        }
+      }
+    })
+    expect(getNumberFormat('en-US')).toEqual({
+      currency: {
+        style: 'currency', currency: 'USD', currencyDisplay: 'symbol'
+      }
+    })
+
+    setNumberFormat('en-US', {
+      decimal: {
+        style: 'decimal', useGrouping: false
+      }
+    })
+    expect(getNumberFormat('en-US')).toEqual({
+      decimal: {
+        style: 'decimal', useGrouping: false
+      }
+    })
+
+    mergeNumberFormat('en-US', {
+      currency: {
+        style: 'currency', currency: 'USD', currencyDisplay: 'symbol'
+      }
+    })
+    expect(getNumberFormat('en-US')).toEqual({
+      currency: {
+        style: 'currency', currency: 'USD', currencyDisplay: 'symbol'
+      },
+      decimal: {
+        style: 'decimal', useGrouping: false
+      }
     })
   })
 })
