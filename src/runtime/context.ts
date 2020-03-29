@@ -28,7 +28,6 @@ export type RuntimeOptions = {
   modifiers?: LinkedModifiers
   pluralRules?: PluralizationRules
   missing?: RuntimeMissingHandler
-  preCompile?: false // TODO: we need this option?
   missingWarn?: boolean | RegExp
   fallbackWarn?: boolean | RegExp
   fallbackFormat?: boolean
