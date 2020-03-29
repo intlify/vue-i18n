@@ -12,7 +12,7 @@ export const isPromise = <T = any>(val: unknown): val is Promise<T> => { // esli
 }
 
 export const isRegExp = (val: unknown): val is RegExp =>
-  objectToString.call(val) === '[object RegExp]'
+  toTypeString(val) === '[object RegExp]'
 
 export const objectToString = Object.prototype.toString
 export const toTypeString = (value: unknown): string =>
