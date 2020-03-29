@@ -133,6 +133,23 @@ test('tc', () => {
   expect(i18n.tc('apple', 4)).toEqual('4 apples')
 })
 
+test('te', () => {
+  const i18n = createI18n({
+    locale: 'en',
+    messages: {
+      en: {
+        message: {
+          hello: 'Hello!'
+        }
+      }
+    }
+  })
+
+  expect(i18n.te('message.hello')).toEqual(true)
+  expect(i18n.te('message.hallo')).toEqual(false)
+  expect(i18n.te('message.hallo', 'ja')).toEqual(false)
+})
+
 test('getLocaleMessage / setLocaleMessage / mergeLocaleMessage', () => {
   const i18n = createI18n({
     messages: {

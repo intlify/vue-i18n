@@ -1,6 +1,6 @@
 import { App } from 'vue'
 import { applyPlugin } from './plugin'
-import { Path } from './path'
+import { Path, resolveValue } from './path'
 import { PluralizationRule, PluralizationRules, LinkedModifiers } from './message/context'
 import {
   Locale,
@@ -72,11 +72,11 @@ export type VueI18n = {
   // methods
   t (key: Path, ...values: unknown[]): TranslateResult // return value is breaking change for Vue 3
   tc (key: Path, ...values: unknown[]): TranslateResult // return value is breaking change for Vue 3
+  te (key: Path, locale?: Locale): boolean
   getLocaleMessage (locale: Locale): LocaleMessage
   setLocaleMessage (locale: Locale, message: LocaleMessage): void
   mergeLocaleMessage (locale: Locale, message: LocaleMessage): void
   /*
-  te (key: Path, locale?: Locale): boolean
   d (value: number | Date, key?: Path, locale?: Locale): DateTimeFormatResult
   d (value: number | Date, ...args: unknown[]): DateTimeFormatResult
   n (value: number, key?: Path, locale?: Locale): NumberFormatResult
@@ -240,6 +240,11 @@ export function createI18n (options: VueI18nOptions = {}, root?: I18nComposer): 
       }
 
       return composer.t(key, ...(values.length > 0 ? [options] : []))
+    },
+    te (key: Path, locale?: Locale): boolean {
+      const targetLocale = isString(locale) ? locale : composer.locale.value
+      const message = composer.getLocaleMessage(targetLocale)
+      return resolveValue(message, key) !== null
     },
     getLocaleMessage (locale: Locale): LocaleMessage { return composer.getLocaleMessage(locale) },
     setLocaleMessage (locale: Locale, message: LocaleMessage): void {
