@@ -35,6 +35,9 @@
     "typescript": "^3.8.3",
     "typescript-eslint-language-service": "^2.0.3"
   },
+  "engines": {
+    "node": ">= 10"
+  },
   "files": [
     "dist",
     "types"
@@ -61,10 +64,10 @@
     "build:type": "tsc -p . --declaration --emitDeclarationOnly --declarationDir ./types",
     "build:watch": "tsc -p . --watch",
     "clean": "npm run clean:dist && npm run clean:type && npm run clean:cache && npm run clean:coverage",
-    "clean:type": "rm -rf ./types/**",
-    "clean:dist": "rm -rf ./dist/**",
     "clean:cache": "rm -rf ./node_modules/.rts2_cache",
     "clean:coverage": "rm -rf ./coverage",
+    "clean:dist": "rm -rf ./dist/**",
+    "clean:type": "rm -rf ./types/**",
     "coverage": "opener coverage/lcov-report/index.html",
     "lint": "eslint ./src ./test --ext .ts",
     "test": "npm run lint && npm run test:cover",
