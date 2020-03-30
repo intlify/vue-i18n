@@ -1,8 +1,12 @@
 import { Availabilities, DateTimeFormat } from './types'
-import { RuntimeContext, Locale, isTrarnslateFallbackWarn, NOT_REOSLVED } from './context'
+import {
+  RuntimeContext,
+  Locale,
+  isTrarnslateFallbackWarn,
+  MISSING_RESOLVE_VALUE,
+  NOT_REOSLVED
+} from './context'
 import { warn, isString, isArray, isBoolean, isPlainObject } from '../utils'
-
-export const MISSING_RESOLVE_VALUE = ''
 
 /*
  * datetime
@@ -47,7 +51,7 @@ export function datetime (
     return MISSING_RESOLVE_VALUE
   }
 
-  const options = parseArgs(...args)
+  const options = parseDateTimeArgs(...args)
   const { key } = options
   const fallbackWarn = isBoolean(options.fallbackWarn)
     ? options.fallbackWarn
@@ -58,7 +62,7 @@ export function datetime (
     locale = _fallbackLocaleStack.shift() || locale
   }
 
-  const fallback = (contxt: RuntimeContext, key: string, fallbackWarn: boolean | RegExp): string | number => {
+  const fallback = (context: RuntimeContext, key: string, fallbackWarn: boolean | RegExp): string | number => {
     let ret: string | number = context.unresolving ? NOT_REOSLVED : MISSING_RESOLVE_VALUE
     if (context.fallbackLocales.length === 0) { return ret }
     if (context._fallbackLocaleStack && context._fallbackLocaleStack.length === 0) { return ret }
@@ -102,7 +106,7 @@ export function datetime (
   return formatter.format(value)
 }
 
-export function parseArgs (...args: unknown[]): DateTimeOptions {
+export function parseDateTimeArgs (...args: unknown[]): DateTimeOptions {
   const [arg1, arg2] = args
   let options = {} as DateTimeOptions
 

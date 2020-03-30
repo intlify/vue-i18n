@@ -25,15 +25,20 @@ import {
   RuntimeContext,
   RuntimeMissingHandler,
   LocaleMessage,
-  PostTranslationHandler
+  PostTranslationHandler,
+  MISSING_RESOLVE_VALUE
 } from './runtime/context'
 import { translate } from './runtime/localize'
 import {
   datetime,
-  parseArgs as parseDateTimeArgs,
-  clearDateTimeFormat,
-  MISSING_RESOLVE_VALUE
+  parseDateTimeArgs,
+  clearDateTimeFormat
 } from './runtime/datetime'
+import {
+  number,
+  parseNumberArgs,
+  clearNumberFormat
+} from './runtime/number'
 import { NOT_REOSLVED } from './runtime/context'
 import {
   warn,
@@ -86,6 +91,7 @@ export type I18nComposer = {
   /* methods */
   t (key: Path, ...args: unknown[]): string
   d (value: number | Date, ...args: unknown[]): string
+  n (value: number, ...args: unknown[]): string
   getLocaleMessage (locale: Locale): LocaleMessage
   setLocaleMessage (locale: Locale, message: LocaleMessage): void
   mergeLocaleMessage (locale: Locale, message: LocaleMessage): void
@@ -198,6 +204,9 @@ export function createI18nComposer (
         : undefined,
       _datetimeFormatters: isPlainObject(_context)
         ? _context._datetimeFormatters
+        : undefined,
+      _numberFormatters: isPlainObject(_context)
+        ? _context._numberFormatters
         : undefined
     })
   }
@@ -292,6 +301,27 @@ export function createI18nComposer (
     }).value
   }
 
+  // n
+  const n = (value: number, ...args: unknown[]): string => {
+    return computed<string>((): string => {
+      const ret = number(getRuntimeContext(), value, ...args)
+      if (isNumber(ret) && ret === NOT_REOSLVED) {
+        if (__DEV__ && _fallbackRoot && root) {
+          const options = parseNumberArgs(...args)
+          const key = isString(options.key) ? options.key : ''
+          warn(`Fall back to number format '${key}' with root locale.`)
+        }
+        return _fallbackRoot && root
+          ? root.d(value, ...args)
+          : MISSING_RESOLVE_VALUE
+      } else if (isString(ret)) {
+        return ret
+      } else {
+        throw new Error('TODO:') // TODO
+      }
+    }).value
+  }
+
   // getLocaleMessage
   const getLocaleMessage = (locale: Locale): LocaleMessage => _messages.value[locale] || {}
 
@@ -331,12 +361,14 @@ export function createI18nComposer (
   const setNumberFormat = (locale: Locale, format: NumberFormat): void => {
     _numberFormats.value[locale] = format
     _context = getRuntimeContext()
+    clearNumberFormat(_context, locale, format)
   }
 
   // mergeNumberFormat
   const mergeNumberFormat = (locale: Locale, format: NumberFormat): void => {
     _numberFormats.value[locale] = Object.assign(_numberFormats.value[locale] || {}, format)
     _context = getRuntimeContext()
+    clearNumberFormat(_context, locale, format)
   }
 
   return {
@@ -372,6 +404,7 @@ export function createI18nComposer (
     /* methods */
     t,
     d,
+    n,
     getLocaleMessage,
     setLocaleMessage,
     mergeLocaleMessage,

@@ -206,7 +206,36 @@ test('d', () => {
     }
   })
   const dt = new Date(Date.UTC(2012, 11, 20, 3, 0, 0))
-  expect(i18n.d(dt, 'short', 'ja-JP')).toEqual('2012-12-20 12:00')
+  expect(i18n.d(dt, 'short', 'ja-JP')).toEqual('2012/12/20 12:00')
+})
+
+test('n', () => {
+  const i18n = createI18n({
+    locale: 'en-US',
+    fallbackLocale: 'ja-JP',
+    numberFormats: {
+      'en-US': {
+        currency: {
+          style: 'currency', currency: 'USD', currencyDisplay: 'symbol'
+        },
+        decimal: {
+          style: 'decimal', useGrouping: false
+        }
+      },
+      'ja-JP': {
+        currency: {
+          style: 'currency', currency: 'JPY'/*, currencyDisplay: 'symbol'*/
+        },
+        numeric: {
+          style: 'decimal', useGrouping: false
+        },
+        percent: {
+          style: 'percent', useGrouping: false
+        }
+      }
+    }
+  })
+  expect(i18n.n(0.99, 'percent', 'ja-JP')).toEqual('99%')
 })
 
 test('getDateTimeFormat / setDateTimeFormat / mergeDateTimeFormat', () => {

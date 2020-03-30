@@ -73,8 +73,6 @@ export type VueI18n = {
   silentTranslationWarn: boolean | RegExp
   silentFallbackWarn: boolean | RegExp
   formatFallbackMessages: boolean
-  // readonly dateTimeFormats: DateTimeFormats
-  // readonly numberFormats: NumberFormats
   /*
   preserveDirectiveContent: boolean
   warnHtmlInMessage: WarnHtmlInMessageLevel
@@ -91,12 +89,11 @@ export type VueI18n = {
   getDateTimeFormat (locale: Locale): DateTimeFormat
   setDateTimeFormat (locale: Locale, format: DateTimeFormat): void
   mergeDateTimeFormat (locale: Locale, format: DateTimeFormat): void
+  n (value: number, ...args: unknown[]): NumberFormatResult
   getNumberFormat (locale: Locale): NumberFormat
   setNumberFormat (locale: Locale, format: NumberFormat): void
   mergeNumberFormat (locale: Locale, format: NumberFormat): void
   /*
-  n (value: number, key?: Path, locale?: Locale): NumberFormatResult
-  n (value: number, ...args: unknown[]): NumberFormatResult
   // TODO:
   getChoiceIndex: (choice: Choice, choicesLength: number) => number
   */
@@ -281,6 +278,9 @@ export function createI18n (options: VueI18nOptions = {}, root?: I18nComposer): 
     },
     mergeDateTimeFormat (locale: Locale, format: DateTimeFormat): void {
       composer.mergeDateTimeFormat(locale, format)
+    },
+    n (value: number, ...args: unknown[]): NumberFormatResult {
+      return composer.n(value, ...args)
     },
     getNumberFormat (locale: Locale): NumberFormat { return composer.getNumberFormat(locale) },
     setNumberFormat (locale: Locale, format: NumberFormat): void {

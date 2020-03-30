@@ -55,10 +55,7 @@ export function applyPlugin (app: App, legacyI18n: VueI18n, composer: I18nCompos
       this.$tc = (key: Path, ...values: unknown[]): TranslateResult => this.$i18n.tc(key, ...values)
       this.$te = (key: Path, locale?: Locale): boolean => this.$i18n.te(key, locale)
       this.$d = (value: number | Date, ...args: unknown[]): DateTimeFormatResult => this.$i18n.d(value, ...args)
-      this.$n = (value: number, ...args: unknown[]): NumberFormatResult => {
-        // TODO:
-        throw new Error('Not implementation')
-      }
+      this.$n = (value: number, ...args: unknown[]): NumberFormatResult => this.$i18n.n(value, ...args)
     }
   })
 }

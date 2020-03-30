@@ -39,7 +39,7 @@ if you use currently vue-i18n version, see this [repository](https://github.com/
 - Intlify core runtime
   - [x] translate function
   - [x] datetime function
-  - [ ] number function
+  - [x] number function
   - [ ] warnHtmlInMessage
   - [x] improve translate `args` typing
   - [ ] improve locale messages typing: `LocaleMessages` / `LocaleMessage` / `LocaleMessageDictiory`
@@ -67,7 +67,7 @@ if you use currently vue-i18n version, see this [repository](https://github.com/
     - [x] getDateTimeFormat
     - [x] setDateTimeFormat
     - [x] mergeDateTimeFormat
-    - [ ] n
+    - [x] n
     - [x] getNumberFormat
     - [x] setNumberFormat
     - [x] mergeNumberFormat
@@ -102,7 +102,7 @@ if you use currently vue-i18n version, see this [repository](https://github.com/
     - [x] getDateTimeFormat
     - [x] setDateTimeFormat
     - [x] mergeDateTimeFormat
-    - [ ] n
+    - [x] n
     - [x] getNumberFormat
     - [x] setNumberFormat
     - [x] mergeNumberFormat
@@ -113,7 +113,7 @@ if you use currently vue-i18n version, see this [repository](https://github.com/
     - [x] $tc
     - [x] $te
     - [x] $d
-    - [ ] $n
+    - [x] $n
   - Component options
     - [x] messages
     - [x] pluralRule

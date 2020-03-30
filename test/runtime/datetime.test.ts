@@ -85,7 +85,7 @@ test('locale argument', () => {
     datetimeFormats
   })
 
-  expect(datetime(ctx, dt, 'short', 'ja-JP')).toEqual('2012-12-20 12:00')
+  expect(datetime(ctx, dt, 'short', 'ja-JP')).toEqual('2012/12/20 12:00')
 })
 
 test('with object argument', () => {
@@ -98,7 +98,7 @@ test('with object argument', () => {
     datetimeFormats
   })
 
-  expect(datetime(ctx, dt, { key: 'short', locale: 'ja-JP' })).toEqual('2012-12-20 12:00')
+  expect(datetime(ctx, dt, { key: 'short', locale: 'ja-JP' })).toEqual('2012/12/20 12:00')
 })
 
 test('fallback', () => {
@@ -113,7 +113,7 @@ test('fallback', () => {
     datetimeFormats
   })
 
-  expect(datetime(ctx, dt, 'long')).toEqual('2012-12-20 12:00:00')
+  expect(datetime(ctx, dt, 'long')).toEqual('2012/12/20 12:00:00')
   expect(mockWarn.mock.calls[0][0])
     .toEqual(`Fall back to datetime format 'long' key with 'ja-JP' locale.`)
 })
@@ -131,7 +131,7 @@ test(`context fallbackWarn 'false' option`, () => {
     datetimeFormats
   })
 
-  expect(datetime(ctx, dt, 'long')).toEqual('2012-12-20 12:00:00')
+  expect(datetime(ctx, dt, 'long')).toEqual('2012/12/20 12:00:00')
   expect(mockWarn).not.toHaveBeenCalled()
 })
 
@@ -147,7 +147,7 @@ test(`datetime function fallbackWarn 'false' option`, () => {
     datetimeFormats
   })
 
-  expect(datetime(ctx, dt, { key: 'long', fallbackWarn: false })).toEqual('2012-12-20 12:00:00')
+  expect(datetime(ctx, dt, { key: 'long', fallbackWarn: false })).toEqual('2012/12/20 12:00:00')
   expect(mockWarn).not.toHaveBeenCalled()
 })
 

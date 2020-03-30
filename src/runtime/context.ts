@@ -38,6 +38,7 @@ export type RuntimeOptions = {
   postTranslation?: PostTranslationHandler
   _compileCache?: Map<string, MessageFunction>
   _datetimeFormatters?: Map<string, Intl.DateTimeFormat>
+  _numberFormatters?: Map<string, Intl.NumberFormat>
 }
 
 export type RuntimeContext = {
@@ -56,6 +57,7 @@ export type RuntimeContext = {
   postTranslation: PostTranslationHandler | null
   _compileCache: Map<string, MessageFunction>
   _datetimeFormatters: Map<string, Intl.DateTimeFormat>
+  _numberFormatters: Map<string, Intl.NumberFormat>
   _fallbackLocaleStack?: Locale[]
 }
 
@@ -66,6 +68,7 @@ const DEFAULT_LINKDED_MODIFIERS: LinkedModifiers = {
 }
 
 export const NOT_REOSLVED = -1
+export const MISSING_RESOLVE_VALUE = ''
 
 export function createRuntimeContext (options: RuntimeOptions = {}): RuntimeContext {
   const locale = isString(options.locale) ? options.locale : 'en-US'
@@ -111,6 +114,9 @@ export function createRuntimeContext (options: RuntimeOptions = {}): RuntimeCont
   const _datetimeFormatters = isObject(options._datetimeFormatters)
     ? options._datetimeFormatters
     : new Map<string, Intl.DateTimeFormat>()
+  const _numberFormatters = isObject(options._numberFormatters)
+    ? options._numberFormatters
+    : new Map<string, Intl.NumberFormat>()
 
   return {
     locale,
@@ -127,7 +133,8 @@ export function createRuntimeContext (options: RuntimeOptions = {}): RuntimeCont
     unresolving,
     postTranslation,
     _compileCache,
-    _datetimeFormatters
+    _datetimeFormatters,
+    _numberFormatters
   }
 }
 

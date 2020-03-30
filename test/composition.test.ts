@@ -386,7 +386,36 @@ test('d', () => {
     }
   })
   const dt = new Date(Date.UTC(2012, 11, 20, 3, 0, 0))
-  expect(d(dt, { key: 'long', fallbackWarn: false })).toEqual('2012-12-20 12:00:00')
+  expect(d(dt, { key: 'long', fallbackWarn: false })).toEqual('2012/12/20 12:00:00')
+})
+
+test('n', () => {
+  const { n } = createI18nComposer({
+    locale: 'en-US',
+    fallbackLocales: ['ja-JP'],
+    numberFormats: {
+      'en-US': {
+        currency: {
+          style: 'currency', currency: 'USD', currencyDisplay: 'symbol'
+        },
+        decimal: {
+          style: 'decimal', useGrouping: false
+        }
+      },
+      'ja-JP': {
+        currency: {
+          style: 'currency', currency: 'JPY'/*, currencyDisplay: 'symbol'*/
+        },
+        numeric: {
+          style: 'decimal', useGrouping: false
+        },
+        percent: {
+          style: 'percent', useGrouping: false
+        }
+      }
+    }
+  })
+  expect(n(0.99, { key: 'percent', fallbackWarn: false })).toEqual('99%')
 })
 
 describe('getLocaleMessage / setLocaleMessage / mergeLocaleMessage', () => {

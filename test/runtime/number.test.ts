@@ -5,6 +5,190 @@ jest.mock('../../src/utils', () => ({
 }))
 import { warn } from '../../src/utils'
 
-import { createRuntimeContext as context, number } from '../../src/runtime'
+// runtime/types
+jest.mock('../../src/runtime/types', () => ({
+  ...jest.requireActual('../../src/runtime/types'),
+  Availabilities: jest.fn()
+}))
+import { Availabilities } from '../../src/runtime/types'
 
-test.todo('datetime')
+import { createRuntimeContext as context, NOT_REOSLVED } from '../../src/runtime/context'
+import { number } from '../../src/runtime/number'
+
+const numberFormats = {
+  'en-US': {
+    currency: {
+      style: 'currency', currency: 'USD', currencyDisplay: 'symbol'
+    },
+    decimal: {
+      style: 'decimal', useGrouping: false
+    }
+  },
+  'ja-JP': {
+    currency: {
+      style: 'currency', currency: 'JPY'/*, currencyDisplay: 'symbol'*/
+    },
+    numeric: {
+      style: 'decimal', useGrouping: false
+    },
+    percent: {
+      style: 'percent', useGrouping: false
+    }
+  }
+}
+
+test('value argument only', () => {
+  const mockAvailabilities = Availabilities as jest.Mocked<typeof Availabilities>
+  mockAvailabilities.numberFormat = true
+
+  const ctx = context({
+    locale: 'en-US',
+    fallbackLocales: ['ja-JP'],
+    numberFormats
+  })
+
+  expect(number(ctx, 10100)).toEqual('10,100')
+})
+
+test('key argument', () => {
+  const mockAvailabilities = Availabilities as jest.Mocked<typeof Availabilities>
+  mockAvailabilities.numberFormat = true
+
+  const ctx = context({
+    locale: 'en-US',
+    fallbackLocales: ['ja-JP'],
+    numberFormats
+  })
+
+  expect(number(ctx, 10100, 'currency')).toEqual('$10,100.00')
+})
+
+test('locale argument', () => {
+  const mockAvailabilities = Availabilities as jest.Mocked<typeof Availabilities>
+  mockAvailabilities.numberFormat = true
+
+  const ctx = context({
+    locale: 'en-US',
+    fallbackLocales: ['ja-JP'],
+    numberFormats
+  })
+
+  expect(number(ctx, 10100, 'currency', 'ja-JP')).toEqual('￥10,100')
+})
+
+test('with object argument', () => {
+  const mockAvailabilities = Availabilities as jest.Mocked<typeof Availabilities>
+  mockAvailabilities.numberFormat = true
+
+  const ctx = context({
+    locale: 'en-US',
+    fallbackLocales: ['ja-JP'],
+    numberFormats
+  })
+
+  expect(number(ctx, 10100, { key: 'currency', locale: 'ja-JP' })).toEqual('￥10,100')
+})
+
+test('fallback', () => {
+  const mockWarn = warn as jest.MockedFunction<typeof warn>
+  mockWarn.mockImplementation(() => {}) // eslint-disable-line @typescript-eslint/no-empty-function
+  const mockAvailabilities = Availabilities as jest.Mocked<typeof Availabilities>
+  mockAvailabilities.numberFormat = true
+
+  const ctx = context({
+    locale: 'en-US',
+    fallbackLocales: ['ja-JP'],
+    numberFormats
+  })
+
+  expect(number(ctx, 0.99, 'percent')).toEqual('99%')
+  expect(mockWarn.mock.calls[0][0])
+    .toEqual(`Fall back to number format 'percent' key with 'ja-JP' locale.`)
+})
+
+test(`context fallbackWarn 'false' option`, () => {
+  const mockWarn = warn as jest.MockedFunction<typeof warn>
+  mockWarn.mockImplementation(() => {}) // eslint-disable-line @typescript-eslint/no-empty-function
+  const mockAvailabilities = Availabilities as jest.Mocked<typeof Availabilities>
+  mockAvailabilities.numberFormat = true
+
+  const ctx = context({
+    locale: 'en-US',
+    fallbackLocales: ['ja-JP'],
+    fallbackWarn: false,
+    numberFormats
+  })
+
+  expect(number(ctx, 0.99, 'percent')).toEqual('99%')
+  expect(mockWarn).not.toHaveBeenCalled()
+})
+
+test(`number function fallbackWarn 'false' option`, () => {
+  const mockWarn = warn as jest.MockedFunction<typeof warn>
+  mockWarn.mockImplementation(() => {}) // eslint-disable-line @typescript-eslint/no-empty-function
+  const mockAvailabilities = Availabilities as jest.Mocked<typeof Availabilities>
+  mockAvailabilities.numberFormat = true
+
+  const ctx = context({
+    locale: 'en-US',
+    fallbackLocales: ['ja-JP'],
+    numberFormats
+  })
+
+  expect(number(ctx, 0.99, { key: 'percent', fallbackWarn: false })).toEqual('99%')
+  expect(mockWarn).not.toHaveBeenCalled()
+})
+
+describe('context unresolving option', () => {
+  test('not specify fallbackLocales', () => {
+    const mockWarn = warn as jest.MockedFunction<typeof warn>
+    mockWarn.mockImplementation(() => {}) // eslint-disable-line @typescript-eslint/no-empty-function
+    const mockAvailabilities = Availabilities as jest.Mocked<typeof Availabilities>
+    mockAvailabilities.numberFormat = true
+
+    const ctx = context({
+      locale: 'en-US',
+      fallbackWarn: false,
+      unresolving: true,
+      numberFormats
+    })
+
+    expect(number(ctx, 0.99, 'percent')).toEqual(NOT_REOSLVED)
+    expect(mockWarn).not.toHaveBeenCalled()
+  })
+
+  test('not found key in fallbackLocales', () => {
+    const mockWarn = warn as jest.MockedFunction<typeof warn>
+    mockWarn.mockImplementation(() => {}) // eslint-disable-line @typescript-eslint/no-empty-function
+    const mockAvailabilities = Availabilities as jest.Mocked<typeof Availabilities>
+    mockAvailabilities.numberFormat = true
+
+    const ctx = context({
+      locale: 'en-US',
+      fallbackLocales: ['ja-JP'],
+      fallbackWarn: false,
+      unresolving: true,
+      numberFormats
+    })
+
+    expect(number(ctx, 123456789, 'custom')).toEqual(NOT_REOSLVED)
+    expect(mockWarn).not.toHaveBeenCalled()
+  })
+})
+
+test('not available Intl API', () => {
+  const mockWarn = warn as jest.MockedFunction<typeof warn>
+  mockWarn.mockImplementation(() => {}) // eslint-disable-line @typescript-eslint/no-empty-function
+  const mockAvailabilities = Availabilities as jest.Mocked<typeof Availabilities>
+  mockAvailabilities.numberFormat = false
+
+  const ctx = context({
+    locale: 'en-US',
+    fallbackLocales: ['ja-JP'],
+    numberFormats
+  })
+
+  expect(number(ctx, 100, 'currency')).toEqual('')
+  expect(mockWarn.mock.calls[0][0])
+    .toEqual(`Cannot format a Date value due to not supported Intl.NumberFormat.`)
+})
