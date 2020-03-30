@@ -71,7 +71,6 @@ export type TranslateOptions = {
 export function translate (context: RuntimeContext, key: Path, ...args: unknown[]): string | number {
   const {
     messages,
-    compileCache,
     modifiers,
     pluralRules,
     missing,
@@ -79,6 +78,7 @@ export function translate (context: RuntimeContext, key: Path, ...args: unknown[
     unresolving,
     fallbackLocales,
     postTranslation,
+    _compileCache,
     _fallbackLocaleStack
   } = context
   const options: TranslateOptions = isObject(args[0]) ? args[0] : {}
@@ -114,11 +114,13 @@ export function translate (context: RuntimeContext, key: Path, ...args: unknown[
 
   // TODO: need to design resolve message function?
   const resolveMessage = (key: string): MessageFunction => {
-    const fn = compileCache[key]
+    const fn = _compileCache.get(key)
     if (fn) { return fn }
     const val = resolveValue(message, key)
     if (isString(val)) {
-      return (compileCache[val] = compile(val))
+      const msg = compile(val)
+      _compileCache.set(val, msg)
+      return msg
     } else if (isFunction(val)) {
       return val as MessageFunction
     } else {
@@ -185,7 +187,11 @@ export function translate (context: RuntimeContext, key: Path, ...args: unknown[
     }
   }
 
-  const msg = compileCache[format] || (compileCache[format] = compile(format))
+  let msg = _compileCache.get(format)
+  if (!msg) {
+    msg = compile(format)
+    _compileCache.set(format, msg)
+  }
   const msgContext = createMessageContext(ctxOptions)
   const ret = msg(msgContext)
   return postTranslation ? postTranslation(ret) : ret

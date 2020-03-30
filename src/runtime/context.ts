@@ -1,7 +1,7 @@
 import { MessageFunction } from '../message/compiler'
 import { LinkedModifiers, PluralizationRules } from '../message/context'
 import { Path } from '../path'
-import { isString, isArray, isBoolean, isRegExp, isFunction, isPlainObject } from '../utils'
+import { isString, isArray, isBoolean, isRegExp, isFunction, isPlainObject, isObject } from '../utils'
 import { DateTimeFormats, NumberFormats } from './types'
 
 export type Locale = string
@@ -31,12 +31,13 @@ export type RuntimeOptions = {
   modifiers?: LinkedModifiers
   pluralRules?: PluralizationRules
   missing?: RuntimeMissingHandler
-  compileCache?: Record<string, MessageFunction>
   missingWarn?: boolean | RegExp
   fallbackWarn?: boolean | RegExp
   fallbackFormat?: boolean
   unresolving?: boolean
   postTranslation?: PostTranslationHandler
+  _compileCache?: Map<string, MessageFunction>
+  _datetimeFormatters?: Map<string, Intl.DateTimeFormat>
 }
 
 export type RuntimeContext = {
@@ -48,12 +49,13 @@ export type RuntimeContext = {
   modifiers: LinkedModifiers
   pluralRules?: PluralizationRules
   missing: RuntimeMissingHandler | null
-  compileCache: Record<string, MessageFunction>
   missingWarn: boolean | RegExp
   fallbackWarn: boolean | RegExp
   fallbackFormat: boolean
   unresolving: boolean
   postTranslation: PostTranslationHandler | null
+  _compileCache: Map<string, MessageFunction>
+  _datetimeFormatters: Map<string, Intl.DateTimeFormat>
   _fallbackLocaleStack?: Locale[]
 }
 
@@ -67,23 +69,48 @@ export const NOT_REOSLVED = -1
 
 export function createRuntimeContext (options: RuntimeOptions = {}): RuntimeContext {
   const locale = isString(options.locale) ? options.locale : 'en-US'
-  const fallbackLocales = isArray(options.fallbackLocales) ? options.fallbackLocales : []
-  const messages = isPlainObject(options.messages) ? options.messages : { [locale]: {} }
-  const datetimeFormats = isPlainObject(options.datetimeFormats) ? options.datetimeFormats : { [locale]: {} }
-  const numberFormats = isPlainObject(options.numberFormats) ? options.numberFormats : { [locale]: {} }
-  const compileCache = isPlainObject(options.compileCache) ? options.compileCache : Object.create(null)
-  const modifiers = Object.assign({} as LinkedModifiers, options.modifiers || {}, DEFAULT_LINKDED_MODIFIERS)
+  const fallbackLocales = isArray(options.fallbackLocales)
+    ? options.fallbackLocales
+    : []
+  const messages = isPlainObject(options.messages)
+    ? options.messages
+    : { [locale]: {} }
+  const datetimeFormats = isPlainObject(options.datetimeFormats)
+    ? options.datetimeFormats
+    : { [locale]: {} }
+  const numberFormats = isPlainObject(options.numberFormats)
+    ? options.numberFormats
+    : { [locale]: {} }
+  const _compileCache = isObject(options._compileCache)
+    ? options._compileCache
+    : new Map<string, MessageFunction>()
+  const modifiers = Object.assign(
+    {} as LinkedModifiers,
+    options.modifiers || {},
+    DEFAULT_LINKDED_MODIFIERS
+  )
   const pluralRules = options.pluralRules || {}
   const missing = isFunction(options.missing) ? options.missing : null
-  const missingWarn = isBoolean(options.missingWarn) || isRegExp(options.missingWarn)
-    ? options.missingWarn
-    : true
-  const fallbackWarn = isBoolean(options.fallbackWarn) || isRegExp(options.fallbackWarn)
-    ? options.fallbackWarn
-    : true
-  const fallbackFormat = isBoolean(options.fallbackFormat) ? options.fallbackFormat : false
-  const unresolving = isBoolean(options.unresolving) ? options.unresolving : false
-  const postTranslation = isFunction(options.postTranslation) ? options.postTranslation : null
+  const missingWarn =
+    isBoolean(options.missingWarn) || isRegExp(options.missingWarn)
+      ? options.missingWarn
+      : true
+  const fallbackWarn =
+    isBoolean(options.fallbackWarn) || isRegExp(options.fallbackWarn)
+      ? options.fallbackWarn
+      : true
+  const fallbackFormat = isBoolean(options.fallbackFormat)
+    ? options.fallbackFormat
+    : false
+  const unresolving = isBoolean(options.unresolving)
+    ? options.unresolving
+    : false
+  const postTranslation = isFunction(options.postTranslation)
+    ? options.postTranslation
+    : null
+  const _datetimeFormatters = isObject(options._datetimeFormatters)
+    ? options._datetimeFormatters
+    : new Map<string, Intl.DateTimeFormat>()
 
   return {
     locale,
@@ -94,12 +121,13 @@ export function createRuntimeContext (options: RuntimeOptions = {}): RuntimeCont
     modifiers,
     pluralRules,
     missing,
-    compileCache,
     missingWarn,
     fallbackWarn,
     fallbackFormat,
     unresolving,
-    postTranslation
+    postTranslation,
+    _compileCache,
+    _datetimeFormatters
   }
 }
 

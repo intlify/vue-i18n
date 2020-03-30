@@ -28,7 +28,12 @@ import {
   PostTranslationHandler
 } from './runtime/context'
 import { translate } from './runtime/localize'
-import { datetime, parseArgs as parseDateTimeArgs, MISSING_RESOLVE_VALUE } from './runtime/datetime'
+import {
+  datetime,
+  parseArgs as parseDateTimeArgs,
+  clearDateTimeFormat,
+  MISSING_RESOLVE_VALUE
+} from './runtime/datetime'
 import { NOT_REOSLVED } from './runtime/context'
 import {
   warn,
@@ -181,14 +186,19 @@ export function createI18nComposer (
       datetimeFormats: _datetimeFormats.value,
       numberFormats: _numberFormats.value,
       modifiers: _modifiers,
-      compileCache: isPlainObject(_context) ? _context.compileCache : undefined,
       pluralRules: _pluralRules,
       missing: _runtimeMissing === null ? undefined : _runtimeMissing,
       missingWarn: _missingWarn,
       fallbackWarn: _fallbackWarn,
       fallbackFormat: _fallbackFormat,
       unresolving: true,
-      postTranslation: _postTranslation === null ? undefined : _postTranslation
+      postTranslation: _postTranslation === null ? undefined : _postTranslation,
+      _compileCache: isPlainObject(_context)
+        ? _context._compileCache
+        : undefined,
+      _datetimeFormatters: isPlainObject(_context)
+        ? _context._datetimeFormatters
+        : undefined
     })
   }
   _context = getRuntimeContext()
@@ -288,11 +298,13 @@ export function createI18nComposer (
   // setLocaleMessage
   const setLocaleMessage = (locale: Locale, message: LocaleMessage): void => {
     _messages.value[locale] = message
+    _context = getRuntimeContext()
   }
 
   // mergeLocaleMessage
   const mergeLocaleMessage = (locale: Locale, message: LocaleMessage): void => {
     _messages.value[locale] = Object.assign(_messages.value[locale] || {}, message)
+    _context = getRuntimeContext()
   }
 
   // getDateTimeFormat
@@ -301,11 +313,15 @@ export function createI18nComposer (
   // setDateTimeFormat
   const setDateTimeFormat = (locale: Locale, format: DateTimeFormat): void => {
     _datetimeFormats.value[locale] = format
+    _context = getRuntimeContext()
+    clearDateTimeFormat(_context, locale, format)
   }
 
   // mergeDateTimeFormat
   const mergeDateTimeFormat = (locale: Locale, format: DateTimeFormat): void => {
     _datetimeFormats.value[locale] = Object.assign(_datetimeFormats.value[locale] || {}, format)
+    _context = getRuntimeContext()
+    clearDateTimeFormat(_context, locale, format)
   }
 
   // getNumberFormat
@@ -314,11 +330,13 @@ export function createI18nComposer (
   // setNumberFormat
   const setNumberFormat = (locale: Locale, format: NumberFormat): void => {
     _numberFormats.value[locale] = format
+    _context = getRuntimeContext()
   }
 
   // mergeNumberFormat
   const mergeNumberFormat = (locale: Locale, format: NumberFormat): void => {
     _numberFormats.value[locale] = Object.assign(_numberFormats.value[locale] || {}, format)
+    _context = getRuntimeContext()
   }
 
   return {

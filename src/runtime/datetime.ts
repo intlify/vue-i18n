@@ -1,9 +1,8 @@
-import { Availabilities } from './types'
+import { Availabilities, DateTimeFormat } from './types'
 import { RuntimeContext, Locale, isTrarnslateFallbackWarn, NOT_REOSLVED } from './context'
 import { warn, isString, isArray, isBoolean, isPlainObject } from '../utils'
 
 export const MISSING_RESOLVE_VALUE = ''
-const datetimeFormatters: Record<string, Intl.DateTimeFormat> = Object.create(null)
 
 /*
  * datetime
@@ -41,7 +40,7 @@ export function datetime (
   value: number | Date,
   ...args: unknown[]
 ): string | number {
-  const { datetimeFormats, _fallbackLocaleStack } = context
+  const { datetimeFormats, _datetimeFormatters, _fallbackLocaleStack } = context
 
   if (__DEV__ && !Availabilities.dateTimeFormat) {
     warn(`Cannot format a Date value due to not supported Intl.DateTimeFormat.`)
@@ -95,7 +94,11 @@ export function datetime (
   }
 
   const id = `${locale}__${key}`
-  const formatter = datetimeFormatters[id] || (datetimeFormatters[id] = new Intl.DateTimeFormat(locale, format))
+  let formatter = _datetimeFormatters.get(id)
+  if (!formatter) {
+    formatter = new Intl.DateTimeFormat(locale, format)
+    _datetimeFormatters.set(id, formatter)
+  }
   return formatter.format(value)
 }
 
@@ -114,4 +117,14 @@ export function parseArgs (...args: unknown[]): DateTimeOptions {
   }
 
   return options
+}
+
+export function clearDateTimeFormat (context: RuntimeContext, locale: Locale, format: DateTimeFormat): void {
+  for (const key in format) {
+    const id = `${locale}__${key}`
+    if (!context._datetimeFormatters.has(id)) {
+      continue
+    }
+    context._datetimeFormatters.delete(id)
+  }
 }
