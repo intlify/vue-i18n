@@ -1,5 +1,10 @@
 import { Availabilities, NumberFormat } from './types'
-import { RuntimeContext, Locale, isTrarnslateFallbackWarn, NOT_REOSLVED, MISSING_RESOLVE_VALUE } from './context'
+import {
+  RuntimeContext,
+  Locale,
+  fallback,
+  MISSING_RESOLVE_VALUE
+} from './context'
 import { warn, isString, isBoolean, isArray, isPlainObject } from '../utils'
 
 /*
@@ -51,39 +56,30 @@ export function number (context: RuntimeContext, value: number, ...args: unknown
     locale = _fallbackLocaleStack.shift() || locale
   }
 
-  const fallback = (context: RuntimeContext, key: string, fallbackWarn: boolean | RegExp): string | number => {
-    let ret: string | number = context.unresolving ? NOT_REOSLVED : MISSING_RESOLVE_VALUE
-    if (context.fallbackLocales.length === 0) { return ret }
-    if (context._fallbackLocaleStack && context._fallbackLocaleStack.length === 0) { return ret }
-    if (!context._fallbackLocaleStack) {
-      context._fallbackLocaleStack = [...context.fallbackLocales]
-    }
-    if (__DEV__ &&
-      isTrarnslateFallbackWarn(fallbackWarn, key)) {
-      warn(`Fall back to number format '${key}' key with '${context._fallbackLocaleStack.join(',')}' locale.`)
-    }
-    ret = number(context, value, ...args)
-    if (context._fallbackLocaleStack && context._fallbackLocaleStack.length === 0) {
-      context._fallbackLocaleStack = undefined
-      if (ret === MISSING_RESOLVE_VALUE && context.unresolving) {
-        ret = NOT_REOSLVED
-      }
-    }
-    return ret
-  }
-
   if (!isString(key)) {
     return new Intl.NumberFormat(locale).format(value)
   }
 
   const numberFormat = numberFormats[locale]
   if (!numberFormat) {
-    return fallback(context, key, fallbackWarn)
+    return fallback(
+      context,
+      key,
+      fallbackWarn,
+      'number format',
+      (context: RuntimeContext): string | number => number(context, value, ...args)
+    )
   }
 
   const format = numberFormat[key]
   if (!format) {
-    return fallback(context, key, fallbackWarn)
+    return fallback(
+      context,
+      key,
+      fallbackWarn,
+      'number format',
+      (context: RuntimeContext): string | number => number(context, value, ...args)
+    )
   }
 
   const id = `${locale}__${key}`

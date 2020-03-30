@@ -1,7 +1,16 @@
 import { MessageFunction } from '../message/compiler'
 import { LinkedModifiers, PluralizationRules } from '../message/context'
 import { Path } from '../path'
-import { isString, isArray, isBoolean, isRegExp, isFunction, isPlainObject, isObject } from '../utils'
+import {
+  warn,
+  isString,
+  isArray,
+  isBoolean,
+  isRegExp,
+  isFunction,
+  isPlainObject,
+  isObject
+} from '../utils'
 import { DateTimeFormats, NumberFormats } from './types'
 
 export type Locale = string
@@ -142,4 +151,31 @@ export function isTrarnslateFallbackWarn (fallback: boolean | RegExp, key: strin
   return fallback instanceof RegExp
     ? fallback.test(key)
     : fallback
+}
+
+export function fallback (
+  context: RuntimeContext,
+  key: string,
+  fallbackWarn: boolean | RegExp,
+  type: string,
+  fn: Function
+): string | number {
+  let ret: string | number = context.unresolving ? NOT_REOSLVED : MISSING_RESOLVE_VALUE
+  if (context.fallbackLocales.length === 0) { return ret }
+  if (context._fallbackLocaleStack && context._fallbackLocaleStack.length === 0) { return ret }
+  if (!context._fallbackLocaleStack) {
+    context._fallbackLocaleStack = [...context.fallbackLocales]
+  }
+  if (__DEV__ &&
+    isTrarnslateFallbackWarn(fallbackWarn, key)) {
+    warn(`Fall back to ${type} '${key}' key with '${context._fallbackLocaleStack.join(',')}' locale.`)
+  }
+  ret = fn(context)
+  if (context._fallbackLocaleStack && context._fallbackLocaleStack.length === 0) {
+    context._fallbackLocaleStack = undefined
+    if (ret === MISSING_RESOLVE_VALUE && context.unresolving) {
+      ret = NOT_REOSLVED
+    }
+  }
+  return ret
 }

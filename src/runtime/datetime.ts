@@ -2,9 +2,8 @@ import { Availabilities, DateTimeFormat } from './types'
 import {
   RuntimeContext,
   Locale,
-  isTrarnslateFallbackWarn,
-  MISSING_RESOLVE_VALUE,
-  NOT_REOSLVED
+  fallback,
+  MISSING_RESOLVE_VALUE
 } from './context'
 import { warn, isString, isArray, isBoolean, isPlainObject } from '../utils'
 
@@ -62,6 +61,7 @@ export function datetime (
     locale = _fallbackLocaleStack.shift() || locale
   }
 
+  /*
   const fallback = (context: RuntimeContext, key: string, fallbackWarn: boolean | RegExp): string | number => {
     let ret: string | number = context.unresolving ? NOT_REOSLVED : MISSING_RESOLVE_VALUE
     if (context.fallbackLocales.length === 0) { return ret }
@@ -82,6 +82,7 @@ export function datetime (
     }
     return ret
   }
+  o*/
 
   if (!isString(key)) {
     return new Intl.DateTimeFormat(locale).format(value)
@@ -89,12 +90,22 @@ export function datetime (
 
   const datetimeFormat = datetimeFormats[locale]
   if (!datetimeFormat) {
-    return fallback(context, key, fallbackWarn)
+    return fallback(
+      context,
+      key,
+      fallbackWarn, 'datetime format',
+      (context: RuntimeContext): string | number => datetime(context, value, ...args)
+    )
   }
 
   const format = datetimeFormat[key]
   if (!format) {
-    return fallback(context, key, fallbackWarn)
+    return fallback(
+      context,
+      key,
+      fallbackWarn, 'datetime format',
+      (context: RuntimeContext): string | number => datetime(context, value, ...args)
+    )
   }
 
   const id = `${locale}__${key}`
