@@ -1,11 +1,17 @@
 /**
- *  datetime format
+ *  datetime
  */
 
 export type IntlAvailability = {
   dateTimeFormat: boolean
   numberFormat: boolean
 }
+
+const intlDefined = typeof Intl !== 'undefined'
+export const Availabilities = {
+  dateTimeFormat: intlDefined && typeof Intl.DateTimeFormat !== 'undefined',
+  numberFormat: intlDefined && typeof Intl.NumberFormat !== 'undefined'
+} as IntlAvailability
 
 export type DateTimeHumanReadable = 'long' | 'short' | 'narrow'
 export type DateTimeDigital = 'numeric' | '2-digit'
@@ -28,7 +34,7 @@ export type DateTimeFormat = { [key: string]: DateTimeFormatOptions }
 export type DateTimeFormats = { [locale: string]: DateTimeFormat }
 
 /**
- *  number format
+ *  number
  */
 
 export type CurrencyDisplay = 'symbol' | 'code' | 'name'

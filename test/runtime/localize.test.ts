@@ -5,7 +5,8 @@ jest.mock('../../src/utils', () => ({
 }))
 import { warn } from '../../src/utils'
 
-import { createRuntimeContext as context, translate, TRANSLATE_NOT_REOSLVED } from '../../src/runtime'
+import { createRuntimeContext as context, NOT_REOSLVED } from '../../src/runtime/context'
+import { translate } from '../../src/runtime/localize'
 
 describe('features', () => {
   test('simple text', () => {
@@ -371,7 +372,7 @@ describe('context unresolving option', () => {
         ja: {}
       }
     })
-    expect(translate(ctx, 'hello.world')).toEqual(TRANSLATE_NOT_REOSLVED)
+    expect(translate(ctx, 'hello.world')).toEqual(NOT_REOSLVED)
   })
 
   test('fallbackWarn is false', () => {
@@ -386,7 +387,7 @@ describe('context unresolving option', () => {
         ja: {}
       }
     })
-    expect(translate(ctx, 'hello.world')).toEqual(TRANSLATE_NOT_REOSLVED)
+    expect(translate(ctx, 'hello.world')).toEqual(NOT_REOSLVED)
   })
 })
 

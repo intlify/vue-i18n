@@ -2,10 +2,9 @@ import { compile, MessageFunction } from '../message/compiler'
 import { createMessageContext, NamedValue, MessageContextOptions } from '../message/context'
 import { Path, resolveValue } from '../path'
 import { isObject, isString, isNumber, isFunction, warn, isBoolean, isArray } from '../utils'
-import { Locale, RuntimeContext } from './context'
+import { Locale, RuntimeContext, NOT_REOSLVED } from './context'
 
 const NOOP_MESSAGE_FUNCTION = () => ''
-export const TRANSLATE_NOT_REOSLVED = -1
 
 function isTranslateMissingWarn (missing: boolean | RegExp, key: Path): boolean {
   return missing instanceof RegExp ? missing.test(key) : missing
@@ -177,12 +176,12 @@ export function translate (context: RuntimeContext, key: Path, ...args: unknown[
       if (context._fallbackLocaleStack && context._fallbackLocaleStack.length === 0) {
         context._fallbackLocaleStack = undefined
         if (unresolving) {
-          ret = TRANSLATE_NOT_REOSLVED
+          ret = NOT_REOSLVED
         }
       }
       return ret
     } else {
-      return !unresolving ? ret : TRANSLATE_NOT_REOSLVED
+      return !unresolving ? ret : NOT_REOSLVED
     }
   }
 

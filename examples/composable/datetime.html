@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Datetime localization</title>
+    <script src="../../node_modules/vue/dist/vue.global.js"></script>
+    <script src="../../dist/vue-i18n.iife.js"></script>
+  </head>
+  <body>
+    <div id="app">
+      <h1>DateTime Localization with Composable API</h1>
+      <form>
+        <label>{{ t('language') }}</label>
+        <select v-model="locale">
+          <option value="en-US">en-US</option>
+          <option value="ja-JP">ja-JP</option>
+        </select>
+      </form>
+      <p>{{ t('current') }}: {{ d(now, 'long') }}</p>
+    </div>
+    <script>
+      const { createApp } = Vue
+      const { createI18nComposer, useI18n, GlobalI18nSymbol } = VueI18n
+
+      const i18n = createI18nComposer({
+        locale: 'ja-JP',
+        messages: {
+          'en-US': {
+            language: 'Language',
+            current: 'Current Datetime'
+          },
+          'ja-JP': {
+            language: '言語',
+            current: '現在の日時'
+          }
+        },
+        datetimeFormats: {
+          'en-US': {
+            long: {
+              year: 'numeric', month: '2-digit', day: '2-digit',
+              hour: '2-digit', minute: '2-digit', second: '2-digit'
+            }
+          },
+          'ja-JP': {
+            long: {
+              year: 'numeric', month: '2-digit', day: '2-digit',
+              hour: '2-digit', minute: '2-digit', second: '2-digit',
+              hour12: true,
+            }
+          }
+        }
+      })
+
+      const app = createApp({
+        data: () => ({ now: new Date() }),
+        setup () { return useI18n() }
+      })
+      app.provide(GlobalI18nSymbol, i18n)
+      app.mount('#app')
+    </script>
+  </body>
+</html>

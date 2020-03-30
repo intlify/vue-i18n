@@ -362,6 +362,33 @@ describe('t', () => {
   })
 })
 
+test('d', () => {
+  const { d } = createI18nComposer({
+    locale: 'en-US',
+    fallbackLocales: ['ja-JP'],
+    datetimeFormats: {
+      'en-US': {
+        short: {
+          year: 'numeric', month: '2-digit', day: '2-digit',
+          hour: '2-digit', minute: '2-digit', timeZone: 'America/New_York'
+        }
+      },
+      'ja-JP': {
+        long: {
+          year: 'numeric', month: '2-digit', day: '2-digit',
+          hour: '2-digit', minute: '2-digit', second: '2-digit', timeZone: 'Asia/Tokyo'
+        },
+        short: {
+          year: 'numeric', month: '2-digit', day: '2-digit',
+          hour: '2-digit', minute: '2-digit', timeZone: 'Asia/Tokyo'
+        }
+      }
+    }
+  })
+  const dt = new Date(Date.UTC(2012, 11, 20, 3, 0, 0))
+  expect(d(dt, { key: 'long', fallbackWarn: false })).toEqual('2012-12-20 12:00:00')
+})
+
 describe('getLocaleMessage / setLocaleMessage / mergeLocaleMessage', () => {
   test('basic', () => {
     const { getLocaleMessage, setLocaleMessage, mergeLocaleMessage } = createI18nComposer({

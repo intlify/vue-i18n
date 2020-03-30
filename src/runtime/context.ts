@@ -63,6 +63,8 @@ const DEFAULT_LINKDED_MODIFIERS: LinkedModifiers = {
   capitalize: (str: string): string => `${str.charAt(0).toLocaleUpperCase()}${str.substr(1)}`
 }
 
+export const NOT_REOSLVED = -1
+
 export function createRuntimeContext (options: RuntimeOptions = {}): RuntimeContext {
   const locale = isString(options.locale) ? options.locale : 'en-US'
   const fallbackLocales = isArray(options.fallbackLocales) ? options.fallbackLocales : []
@@ -99,4 +101,10 @@ export function createRuntimeContext (options: RuntimeOptions = {}): RuntimeCont
     unresolving,
     postTranslation
   }
+}
+
+export function isTrarnslateFallbackWarn (fallback: boolean | RegExp, key: string): boolean {
+  return fallback instanceof RegExp
+    ? fallback.test(key)
+    : fallback
 }

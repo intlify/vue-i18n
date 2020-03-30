@@ -26,7 +26,7 @@ export function applyPlugin (app: App, legacyI18n: VueI18n, composer: I18nCompos
   // setup global provider
   app.provide(GlobalI18nSymbol, composer)
 
-  // supports compatibility for vue-i18n old style API
+  // supports compatibility for vue-i18n legacy APIs
   app.mixin({
     beforeCreate (this: ComponentPublicInstance<LegacyVueI18n>) {
       // TODO: should resolve type inference
@@ -50,17 +50,11 @@ export function applyPlugin (app: App, legacyI18n: VueI18n, composer: I18nCompos
         this.$i18n = legacyI18n
       }
 
+      // define vue-i18n legacy APIs
       this.$t = (key: Path, ...values: unknown[]): TranslateResult => this.$i18n.t(key, ...values)
-
       this.$tc = (key: Path, ...values: unknown[]): TranslateResult => this.$i18n.tc(key, ...values)
-
       this.$te = (key: Path, locale?: Locale): boolean => this.$i18n.te(key, locale)
-
-      this.$d = (value: number | Date, ...args: unknown[]): DateTimeFormatResult => {
-        // TODO:
-        throw new Error('Not implementation')
-      }
-
+      this.$d = (value: number | Date, ...args: unknown[]): DateTimeFormatResult => this.$i18n.d(value, ...args)
       this.$n = (value: number, ...args: unknown[]): NumberFormatResult => {
         // TODO:
         throw new Error('Not implementation')

@@ -27,7 +27,9 @@ import {
   LocaleMessage,
   PostTranslationHandler
 } from './runtime/context'
-import { translate, TRANSLATE_NOT_REOSLVED } from './runtime/localize'
+import { translate } from './runtime/localize'
+import { datetime, parseArgs as parseDateTimeArgs, MISSING_RESOLVE_VALUE } from './runtime/datetime'
+import { NOT_REOSLVED } from './runtime/context'
 import {
   warn,
   isArray,
@@ -78,6 +80,7 @@ export type I18nComposer = {
   fallbackFormat: boolean
   /* methods */
   t (key: Path, ...args: unknown[]): string
+  d (value: number | Date, ...args: unknown[]): string
   getLocaleMessage (locale: Locale): LocaleMessage
   setLocaleMessage (locale: Locale, message: LocaleMessage): void
   mergeLocaleMessage (locale: Locale, message: LocaleMessage): void
@@ -243,13 +246,34 @@ export function createI18nComposer (
   const t = (key: Path, ...args: unknown[]): string => {
     return computed<string>((): string => {
       const ret = translate(getRuntimeContext(), key, ...args)
-      if (isNumber(ret) && ret === TRANSLATE_NOT_REOSLVED) {
+      if (isNumber(ret) && ret === NOT_REOSLVED) {
         if (__DEV__ && _fallbackRoot && root) {
           warn(`Fall back to translate '${key}' with root locale.`)
         }
         return _fallbackRoot && root
           ? root.t(key, ...args)
           : key
+      } else if (isString(ret)) {
+        return ret
+      } else {
+        throw new Error('TODO:') // TODO
+      }
+    }).value
+  }
+
+  // d
+  const d = (value: number | Date, ...args: unknown[]): string => {
+    return computed<string>((): string => {
+      const ret = datetime(getRuntimeContext(), value, ...args)
+      if (isNumber(ret) && ret === NOT_REOSLVED) {
+        if (__DEV__ && _fallbackRoot && root) {
+          const options = parseDateTimeArgs(...args)
+          const key = isString(options.key) ? options.key : ''
+          warn(`Fall back to datetime format '${key}' with root locale.`)
+        }
+        return _fallbackRoot && root
+          ? root.d(value, ...args)
+          : MISSING_RESOLVE_VALUE
       } else if (isString(ret)) {
         return ret
       } else {
@@ -329,6 +353,7 @@ export function createI18nComposer (
     },
     /* methods */
     t,
+    d,
     getLocaleMessage,
     setLocaleMessage,
     mergeLocaleMessage,

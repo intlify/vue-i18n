@@ -182,6 +182,33 @@ test('getLocaleMessage / setLocaleMessage / mergeLocaleMessage', () => {
   })
 })
 
+test('d', () => {
+  const i18n = createI18n({
+    locale: 'en-US',
+    fallbackLocale: 'ja-JP',
+    datetimeFormats: {
+      'en-US': {
+        short: {
+          year: 'numeric', month: '2-digit', day: '2-digit',
+          hour: '2-digit', minute: '2-digit', timeZone: 'America/New_York'
+        }
+      },
+      'ja-JP': {
+        long: {
+          year: 'numeric', month: '2-digit', day: '2-digit',
+          hour: '2-digit', minute: '2-digit', second: '2-digit', timeZone: 'Asia/Tokyo'
+        },
+        short: {
+          year: 'numeric', month: '2-digit', day: '2-digit',
+          hour: '2-digit', minute: '2-digit', timeZone: 'Asia/Tokyo'
+        }
+      }
+    }
+  })
+  const dt = new Date(Date.UTC(2012, 11, 20, 3, 0, 0))
+  expect(i18n.d(dt, 'short', 'ja-JP')).toEqual('2012-12-20 12:00')
+})
+
 test('getDateTimeFormat / setDateTimeFormat / mergeDateTimeFormat', () => {
   const i18n = createI18n({
     datetimeFormats: {
