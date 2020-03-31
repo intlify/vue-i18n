@@ -241,7 +241,7 @@ describe('context fallbackWarn option', () => {
     expect(translate(ctx, 'hello')).toEqual('こんにちは！')
     expect(mockWarn).toHaveBeenCalled()
     expect(mockWarn.mock.calls[0][0]).toEqual(
-      `Fall back to translate 'hello' with 'ja' locale.`
+      `Fall back to translate 'hello' key with 'ja' locale.`
     )
   })
 
@@ -262,10 +262,10 @@ describe('context fallbackWarn option', () => {
     expect(translate(ctx, 'hello.world')).toEqual('hello.world')
     expect(mockWarn).toHaveBeenCalledTimes(2)
     expect(mockWarn.mock.calls[0][0]).toEqual(
-      `Fall back to translate 'hello.world' with 'ja,fr' locale.`
+      `Fall back to translate 'hello.world' key with 'ja,fr' locale.`
     )
     expect(mockWarn.mock.calls[1][0]).toEqual(
-      `Fall back to translate 'hello.world' with 'fr' locale.`
+      `Fall back to translate 'hello.world' key with 'fr' locale.`
     )
   })
 

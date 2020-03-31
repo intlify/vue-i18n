@@ -1,10 +1,11 @@
+import { Path, resolveValue } from '../path'
 import { compile, MessageFunction } from '../message/compiler'
 import {
   createMessageContext,
   NamedValue,
   MessageContextOptions
 } from '../message/context'
-import { Path, resolveValue } from '../path'
+import { Locale, RuntimeContext, fallback } from './context'
 import {
   isObject,
   isString,
@@ -14,31 +15,15 @@ import {
   isBoolean,
   isArray
 } from '../utils'
-import { Locale, RuntimeContext, NOT_REOSLVED } from './context'
 
 const NOOP_MESSAGE_FUNCTION = () => ''
 
-function isTranslateMissingWarn(missing: boolean | RegExp, key: Path): boolean {
-  return missing instanceof RegExp ? missing.test(key) : missing
-}
-
-function isTrarnslateFallbackWarn(
-  fallback: boolean | RegExp,
-  key: Path,
-  stack?: Locale[]
-): boolean {
-  if (stack !== undefined && stack.length === 0) {
-    return false
-  } else {
-    return fallback instanceof RegExp ? fallback.test(key) : fallback
-  }
-}
-
-/*
- * translate
+/**
+ *  # translate
  *
- * usages:
- *    'foo.bar' path -> 'hi {0} !' or 'hi {name} !'
+ *  ## usages:
+ *    // for example, locale messages key
+ *    { 'foo.bar': 'hi {0} !' or 'hi {name} !' }
  *
  *    // no argument, context & path only
  *    translate(context, 'foo.bar')
@@ -84,6 +69,9 @@ export type TranslateOptions = {
   fallbackWarn?: boolean
 }
 
+// `translate` function overloads
+
+// implementationo of `translate` function
 export function translate(
   context: RuntimeContext,
   key: Path,
@@ -93,10 +81,7 @@ export function translate(
     messages,
     modifiers,
     pluralRules,
-    missing,
     fallbackFormat,
-    unresolving,
-    fallbackLocales,
     postTranslation,
     _compileCache,
     _fallbackLocaleStack
@@ -113,26 +98,33 @@ export function translate(
 
   let locale = isString(options.locale) ? options.locale : context.locale
   // override with fallback locales
-  if (
-    fallbackWarn &&
-    isArray(_fallbackLocaleStack) &&
-    _fallbackLocaleStack.length > 0
-  ) {
+  if (isArray(_fallbackLocaleStack) && _fallbackLocaleStack.length > 0) {
     locale = _fallbackLocaleStack.shift() || locale
   }
 
+  // prettier-ignore
   const defaultMsgOrKey: string | boolean =
     isString(options.default) || isBoolean(options.default)
       ? options.default
       : fallbackFormat
-      ? key
-      : false
+        ? key
+        : false
   const enableDefaultMsg = fallbackFormat || defaultMsgOrKey !== false
 
   const message = messages[locale]
   if (!isObject(message)) {
-    // TODO: should be more designed default
-    return key
+    // missing ...
+    const ret = handleMissing(context, key, locale, missingWarn)
+    // falbacking ...
+    return fallback(
+      context,
+      key,
+      fallbackWarn,
+      'translate',
+      (context: RuntimeContext): string | number =>
+        translate(context, key, ...args),
+      ret
+    )
   }
 
   // TODO: need to design resolve message function?
@@ -184,46 +176,17 @@ export function translate(
 
   if (!isString(format)) {
     // missing ...
-    let ret: string | number | null = null
-    if (missing !== null) {
-      ret = missing(context, locale, key) || key
-    } else {
-      if (__DEV__ && isTranslateMissingWarn(missingWarn, key)) {
-        warn(
-          `Cannot translate the value of '${key}'. Use the value of key as default.`
-        )
-      }
-      ret = key
-    }
-
+    const ret = handleMissing(context, key, locale, missingWarn)
     // falbacking ...
-    if (
-      __DEV__ &&
-      fallbackLocales.length > 0 &&
-      isTrarnslateFallbackWarn(fallbackWarn, key, _fallbackLocaleStack)
-    ) {
-      if (!context._fallbackLocaleStack) {
-        context._fallbackLocaleStack = [...context.fallbackLocales]
-      }
-      warn(
-        `Fall back to translate '${key}' with '${context._fallbackLocaleStack.join(
-          ','
-        )}' locale.`
-      )
-      ret = translate(context, key, ...args)
-      if (
-        context._fallbackLocaleStack &&
-        context._fallbackLocaleStack.length === 0
-      ) {
-        context._fallbackLocaleStack = undefined
-        if (unresolving) {
-          ret = NOT_REOSLVED
-        }
-      }
-      return ret
-    } else {
-      return !unresolving ? ret : NOT_REOSLVED
-    }
+    return fallback(
+      context,
+      key,
+      fallbackWarn,
+      'translate',
+      (context: RuntimeContext): string | number =>
+        translate(context, key, ...args),
+      ret
+    )
   }
 
   let msg = _compileCache.get(format)
@@ -234,4 +197,33 @@ export function translate(
   const msgContext = createMessageContext(ctxOptions)
   const ret = msg(msgContext)
   return postTranslation ? postTranslation(ret) : ret
+}
+
+export function parseLocalizeArgs(...args: unknown[]): TranslateOptions {
+  const options = {} as TranslateOptions
+
+  return options
+}
+
+function isTranslateMissingWarn(missing: boolean | RegExp, key: Path): boolean {
+  return missing instanceof RegExp ? missing.test(key) : missing
+}
+
+function handleMissing(
+  context: RuntimeContext,
+  key: Path,
+  locale: Locale,
+  missingWarn: boolean | RegExp
+): string {
+  const { missing } = context
+  if (missing !== null) {
+    return missing(context, locale, key) || key
+  } else {
+    if (__DEV__ && isTranslateMissingWarn(missingWarn, key)) {
+      warn(
+        `Cannot translate the value of '${key}'. Use the value of key as default.`
+      )
+    }
+    return key
+  }
 }

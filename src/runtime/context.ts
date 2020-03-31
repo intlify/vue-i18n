@@ -165,11 +165,15 @@ export function fallback(
   key: string,
   fallbackWarn: boolean | RegExp,
   type: string,
-  fn: Function
+  fn: Function,
+  defaultReturn?: string
 ): string | number {
+  // prettier-ignore
   let ret: string | number = context.unresolving
     ? NOT_REOSLVED
-    : MISSING_RESOLVE_VALUE
+    : isString(defaultReturn)
+      ? defaultReturn
+      : MISSING_RESOLVE_VALUE
   if (context.fallbackLocales.length === 0) {
     return ret
   }
@@ -195,7 +199,7 @@ export function fallback(
     context._fallbackLocaleStack.length === 0
   ) {
     context._fallbackLocaleStack = undefined
-    if (ret === MISSING_RESOLVE_VALUE && context.unresolving) {
+    if ((ret === MISSING_RESOLVE_VALUE || ret === key) && context.unresolving) {
       ret = NOT_REOSLVED
     }
   }
