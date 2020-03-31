@@ -1,0 +1,5 @@
+dist
+examples
+types
+coverage
+tsconfig.json
