@@ -10,28 +10,28 @@
     "url": "https://github.com/inlitify/vue-i18n/issues"
   },
   "dependencies": {
-    "vue": "^3.0.0-alpha.7"
+    "vue": "^3.0.0-alpha.10"
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^11.0.2",
     "@rollup/plugin-node-resolve": "^7.1.1",
     "@rollup/plugin-replace": "^2.3.0",
     "@types/jest": "^25.0.0",
-    "@typescript-eslint/eslint-plugin": "^2.14.0",
-    "@typescript-eslint/parser": "^2.14.0",
-    "@typescript-eslint/typescript-estree": "^2.14.0",
+    "@typescript-eslint/eslint-plugin": "^2.26.0",
+    "@typescript-eslint/parser": "^2.26.0",
+    "@typescript-eslint/typescript-estree": "^2.26.0",
     "chalk": "^3.0.0",
     "eslint": "^6.8.0",
     "eslint-plugin-vue": "^7.0.0-alpha.0",
     "eslint-plugin-vue-libs": "^4.0.0",
-    "jest": "^25.0.0",
+    "jest": "^25.2.4",
     "jest-watch-typeahead": "^0.4.2",
     "opener": "^1.5.1",
-    "prettier": "^1.19.1",
+    "prettier": "^2.0.0",
     "rollup": "^1.32.0",
     "rollup-plugin-terser": "^5.2.0",
     "rollup-plugin-typescript2": "^0.26.0",
-    "ts-jest": "^25.0.0",
+    "ts-jest": "^25.3.0",
     "typescript": "^3.8.3",
     "typescript-eslint-language-service": "^2.0.3"
   },
