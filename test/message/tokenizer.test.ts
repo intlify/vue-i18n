@@ -1,7 +1,7 @@
 import { parse } from '../../src/message/tokenizer'
 
 test('parse', () => {
-  [
+  ;[
     'hello world',
     'hello\nworld',
     '',

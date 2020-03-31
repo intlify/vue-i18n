@@ -69,11 +69,12 @@ export type Tokenizer = Readonly<{
   nextToken: () => Token
 }>
 
-export function createTokenizer (source: string): Tokenizer {
+export function createTokenizer(source: string): Tokenizer {
   const _scnr = createScanner(source)
 
   const currentOffset = (): number => _scnr.index()
-  const currentPosition = (): Position => createPosition(_scnr.line(), _scnr.column(), _scnr.index())
+  const currentPosition = (): Position =>
+    createPosition(_scnr.line(), _scnr.column(), _scnr.index())
 
   const _initLoc = currentPosition()
   const _initOffset = currentOffset()
@@ -91,11 +92,19 @@ export function createTokenizer (source: string): Tokenizer {
 
   const context = (): TokenizeContext => _context
 
-  const getToken = (context: TokenizeContext, type: TokenTypes, value?: string | number): Token => {
+  const getToken = (
+    context: TokenizeContext,
+    type: TokenTypes,
+    value?: string | number
+  ): Token => {
     context.endLoc = currentPosition()
     context.currentType = type
     context.currentValue = value
-    return { type, value, loc: createLocation(context.startLoc, context.endLoc) }
+    return {
+      type,
+      value,
+      loc: createLocation(context.startLoc, context.endLoc)
+    }
   }
 
   const peekSpaces = (scnr: Scanner): void => {
@@ -110,67 +119,97 @@ export function createTokenizer (source: string): Tokenizer {
   }
 
   const isIdentifierStart = (ch: string): boolean => {
-    if (!ch) { return false }
+    if (!ch) {
+      return false
+    }
     const cc = ch.charCodeAt(0)
-    return (cc >= 97 && cc <= 122) || // a-z
-           (cc >= 65 && cc <= 90) // A-Z
+    return (
+      (cc >= 97 && cc <= 122) || // a-z
+      (cc >= 65 && cc <= 90)
+    ) // A-Z
   }
 
   const isNumberStart = (ch: string): boolean => {
-    if (!ch) { return false }
+    if (!ch) {
+      return false
+    }
     const cc = ch.charCodeAt(0)
     return cc >= 48 && cc <= 57 // 0-9
   }
 
-  const isNamedIdentifier = (scnr: Scanner, context: TokenizeContext): boolean => {
+  const isNamedIdentifier = (
+    scnr: Scanner,
+    context: TokenizeContext
+  ): boolean => {
     const { currentType } = context
-    if (currentType !== TokenTypes.BraceLeft) { return false }
+    if (currentType !== TokenTypes.BraceLeft) {
+      return false
+    }
     peekSpaces(scnr)
     const ret = isIdentifierStart(scnr.currentPeek())
     scnr.resetPeek()
     return ret
   }
 
-  const isListIdentifier = (scnr: Scanner, context: TokenizeContext): boolean => {
+  const isListIdentifier = (
+    scnr: Scanner,
+    context: TokenizeContext
+  ): boolean => {
     const { currentType } = context
-    if (currentType !== TokenTypes.BraceLeft) { return false }
+    if (currentType !== TokenTypes.BraceLeft) {
+      return false
+    }
     peekSpaces(scnr)
-    const ch = scnr.currentPeek() === '-'
-      ? scnr.peek()
-      : scnr.currentPeek()
+    const ch = scnr.currentPeek() === '-' ? scnr.peek() : scnr.currentPeek()
     const ret = isNumberStart(ch)
     scnr.resetPeek()
     return ret
   }
 
-  const isLinkedModifier = (scnr: Scanner, context: TokenizeContext): boolean => {
+  const isLinkedModifier = (
+    scnr: Scanner,
+    context: TokenizeContext
+  ): boolean => {
     const { currentType } = context
-    if (currentType !== TokenTypes.LinkedDot) { return false }
+    if (currentType !== TokenTypes.LinkedDot) {
+      return false
+    }
     const ret = isIdentifierStart(scnr.currentPeek())
     scnr.resetPeek()
     return ret
   }
 
-  const isLinkedIdentifier = (scnr: Scanner, context: TokenizeContext): boolean => {
+  const isLinkedIdentifier = (
+    scnr: Scanner,
+    context: TokenizeContext
+  ): boolean => {
     const { currentType } = context
-    if (!(currentType === TokenTypes.LinkedDelimiter ||
-          currentType === TokenTypes.ParenLeft)) {
+    if (
+      !(
+        currentType === TokenTypes.LinkedDelimiter ||
+        currentType === TokenTypes.ParenLeft
+      )
+    ) {
       return false
     }
     const fn = (): boolean => {
       const ch = scnr.currentPeek()
       if (ch === TokenChars.BraceLeft) {
         return isIdentifierStart(scnr.peek())
-      } else if ((ch === TokenChars.LinkedAlias ||
+      } else if (
+        ch === TokenChars.LinkedAlias ||
         ch === TokenChars.Modulo ||
         ch === TokenChars.Pipe ||
         ch === TokenChars.LinkedDelimiter ||
         ch === TokenChars.LinkedDot ||
-        ch === SPACE || !ch)) {
+        ch === SPACE ||
+        !ch
+      ) {
         return false
       } else if (ch === NEW_LINE) {
         return fn()
-      } else { // other charactors
+      } else {
+        // other charactors
         return isIdentifierStart(ch)
       }
     }
@@ -188,18 +227,23 @@ export function createTokenizer (source: string): Tokenizer {
 
   const isTextStart = (scnr: Scanner, context: TokenizeContext): boolean => {
     const { currentType } = context
-    if (currentType === TokenTypes.BraceLeft ||
-        currentType === TokenTypes.ParenLeft ||
-        currentType === TokenTypes.LinkedDot ||
-        currentType === TokenTypes.LinkedDelimiter) {
+    if (
+      currentType === TokenTypes.BraceLeft ||
+      currentType === TokenTypes.ParenLeft ||
+      currentType === TokenTypes.LinkedDot ||
+      currentType === TokenTypes.LinkedDelimiter
+    ) {
       return false
     }
 
     const fn = (hasSpace = false): boolean => {
       const ch = scnr.currentPeek()
-      if ((ch === TokenChars.BraceLeft ||
+      if (
+        ch === TokenChars.BraceLeft ||
         ch === TokenChars.Modulo ||
-        ch === TokenChars.LinkedAlias || !ch)) {
+        ch === TokenChars.LinkedAlias ||
+        !ch
+      ) {
         return hasSpace
       } else if (ch === TokenChars.Pipe) {
         return false
@@ -221,7 +265,9 @@ export function createTokenizer (source: string): Tokenizer {
 
   const takeChar = (scnr: Scanner, fn: Function): string | undefined | null => {
     const ch = scnr.currentChar()
-    if (ch === EOF) { return EOF }
+    if (ch === EOF) {
+      return EOF
+    }
     if (fn(ch)) {
       scnr.next()
       return ch
@@ -232,10 +278,13 @@ export function createTokenizer (source: string): Tokenizer {
   const takeIdentifierChar = (scnr: Scanner): string | undefined | null => {
     const closure = (ch: string) => {
       const cc = ch.charCodeAt(0)
-      return ((cc >= 97 && cc <= 122) || // a-z
-              (cc >= 65 && cc <= 90) || // A-Z
-              (cc >= 48 && cc <= 57) || // 0-9
-               cc === 95 || cc === 36) // _ $
+      return (
+        (cc >= 97 && cc <= 122) || // a-z
+        (cc >= 65 && cc <= 90) || // A-Z
+        (cc >= 48 && cc <= 57) || // 0-9
+        cc === 95 ||
+        cc === 36
+      ) // _ $
     }
     return takeChar(scnr, closure)
   }
@@ -243,7 +292,7 @@ export function createTokenizer (source: string): Tokenizer {
   const takeDigit = (scnr: Scanner): string | undefined | null => {
     const closure = (ch: string) => {
       const cc = ch.charCodeAt(0)
-      return (cc >= 48 && cc <= 57) // 0-9
+      return cc >= 48 && cc <= 57 // 0-9
     }
     return takeChar(scnr, closure)
   }
@@ -263,9 +312,12 @@ export function createTokenizer (source: string): Tokenizer {
   const readText = (scnr: Scanner): string => {
     const fn = (buf: string): string => {
       const ch = scnr.currentChar()
-      if ((ch === TokenChars.BraceLeft ||
+      if (
+        ch === TokenChars.BraceLeft ||
         ch === TokenChars.Modulo ||
-        ch === TokenChars.LinkedAlias || !ch)) {
+        ch === TokenChars.LinkedAlias ||
+        !ch
+      ) {
         return buf
       } else if (ch === SPACE || ch === NEW_LINE) {
         if (isPluralStart(scnr)) {
@@ -317,14 +369,20 @@ export function createTokenizer (source: string): Tokenizer {
     return name
   }
 
-  const readLinkedIdentifier = (scnr: Scanner, context: TokenizeContext): string => {
+  const readLinkedIdentifier = (
+    scnr: Scanner,
+    context: TokenizeContext
+  ): string => {
     const fn = (detect = false, useParentLeft = false, buf: string): string => {
       const ch = scnr.currentChar()
-      if ((ch === TokenChars.BraceLeft ||
+      if (
+        ch === TokenChars.BraceLeft ||
         ch === TokenChars.Modulo ||
         ch === TokenChars.LinkedAlias ||
         ch === TokenChars.ParenRight ||
-        ch === TokenChars.Pipe || !ch)) {
+        ch === TokenChars.Pipe ||
+        !ch
+      ) {
         return buf
       } else if (ch === SPACE) {
         if (useParentLeft) {
@@ -369,7 +427,11 @@ export function createTokenizer (source: string): Tokenizer {
         break
       case TokenChars.LinkedAlias:
         scnr.next()
-        token = getToken(context, TokenTypes.LinkedAlias, TokenChars.LinkedAlias)
+        token = getToken(
+          context,
+          TokenTypes.LinkedAlias,
+          TokenChars.LinkedAlias
+        )
         break
       case TokenChars.LinkedDot:
         scnr.next()
@@ -377,7 +439,11 @@ export function createTokenizer (source: string): Tokenizer {
         break
       case TokenChars.LinkedDelimiter:
         scnr.next()
-        token = getToken(context, TokenTypes.LinkedDelimiter, TokenChars.LinkedDelimiter)
+        token = getToken(
+          context,
+          TokenTypes.LinkedDelimiter,
+          TokenChars.LinkedDelimiter
+        )
         break
       case TokenChars.ParenLeft:
         scnr.next()
@@ -401,13 +467,25 @@ export function createTokenizer (source: string): Tokenizer {
         } else if (isListIdentifier(scnr, context)) {
           token = getToken(context, TokenTypes.List, readListIdentifier(scnr))
         } else if (isLinkedModifier(scnr, context)) {
-          token = getToken(context, TokenTypes.LinkedModifier, readLinkedModifierArg(scnr))
+          token = getToken(
+            context,
+            TokenTypes.LinkedModifier,
+            readLinkedModifierArg(scnr)
+          )
         } else if (isLinkedIdentifier(scnr, context)) {
           if (ch === TokenChars.BraceLeft) {
             scnr.next()
-            token = getToken(context, TokenTypes.BraceLeft, TokenChars.BraceLeft)
+            token = getToken(
+              context,
+              TokenTypes.BraceLeft,
+              TokenChars.BraceLeft
+            )
           } else {
-            token = getToken(context, TokenTypes.LinkedKey, readLinkedIdentifier(scnr, context))
+            token = getToken(
+              context,
+              TokenTypes.LinkedKey,
+              readLinkedIdentifier(scnr, context)
+            )
           }
         }
         break
@@ -432,11 +510,14 @@ export function createTokenizer (source: string): Tokenizer {
   }
 
   return Object.freeze({
-    nextToken, currentOffset, currentPosition, context
+    nextToken,
+    currentOffset,
+    currentPosition,
+    context
   })
 }
 
-export function parse (source: string): Token[] {
+export function parse(source: string): Token[] {
   const tokens = [] as Token[]
   const tokenizer = createTokenizer(source)
   let token: Token | null = null

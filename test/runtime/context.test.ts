@@ -43,15 +43,17 @@ describe('messages', () => {
 describe('modifiers', () => {
   test('default', () => {
     const ctx = context({})
-    expect(Object.keys(ctx.modifiers).sort())
-      .toEqual(['upper', 'lower', 'capitalize'].sort())
+    expect(Object.keys(ctx.modifiers).sort()).toEqual(
+      ['upper', 'lower', 'capitalize'].sort()
+    )
   })
 
   test('specify', () => {
     const modifiers = { custom: str => str }
     const ctx = context({ modifiers })
-    expect(Object.keys(ctx.modifiers).sort())
-      .toEqual(['upper', 'lower', 'capitalize', 'custom'].sort())
+    expect(Object.keys(ctx.modifiers).sort()).toEqual(
+      ['upper', 'lower', 'capitalize', 'custom'].sort()
+    )
   })
 })
 

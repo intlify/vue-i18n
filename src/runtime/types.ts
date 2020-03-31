@@ -16,7 +16,8 @@ export const Availabilities = {
 export type DateTimeHumanReadable = 'long' | 'short' | 'narrow'
 export type DateTimeDigital = 'numeric' | '2-digit'
 
-export interface SpecificDateTimeFormatOptions extends Intl.DateTimeFormatOptions {
+export interface SpecificDateTimeFormatOptions
+  extends Intl.DateTimeFormatOptions {
   year?: DateTimeDigital
   month?: DateTimeDigital | DateTimeHumanReadable
   day?: DateTimeDigital
@@ -29,7 +30,9 @@ export interface SpecificDateTimeFormatOptions extends Intl.DateTimeFormatOption
   localeMatcher?: 'lookup' | 'best-fit'
   formatMatcher?: 'basic' | 'best-fit'
 }
-export type DateTimeFormatOptions = Intl.DateTimeFormatOptions | SpecificDateTimeFormatOptions
+export type DateTimeFormatOptions =
+  | Intl.DateTimeFormatOptions
+  | SpecificDateTimeFormatOptions
 export type DateTimeFormat = { [key: string]: DateTimeFormatOptions }
 export type DateTimeFormats = { [locale: string]: DateTimeFormat }
 

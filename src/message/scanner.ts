@@ -19,25 +19,27 @@ export const CHAR_LF = '\n'
 export const CHAR_LS = String.fromCharCode(0x2028)
 export const CHAR_PS = String.fromCharCode(0x2029)
 
-export function createScanner (str: string): Scanner {
+export function createScanner(str: string): Scanner {
   const _buf = str
   let _index = 0
   let _line = 1
   let _column = 1
   let _peekOffset = 0
 
-  const isCRLF = (index: number) => _buf[index] === CHAR_CR && _buf[index + 1] === CHAR_LF
+  const isCRLF = (index: number) =>
+    _buf[index] === CHAR_CR && _buf[index + 1] === CHAR_LF
   const isLF = (index: number) => _buf[index] === CHAR_LF
   const isPS = (index: number) => _buf[index] === CHAR_PS
   const isLS = (index: number) => _buf[index] === CHAR_LS
-  const isLineEnd = (index: number) => isCRLF(index) || isLF(index) || isPS(index) || isLS(index)
+  const isLineEnd = (index: number) =>
+    isCRLF(index) || isLF(index) || isPS(index) || isLS(index)
 
   const index = () => _index
   const line = () => _line
   const column = () => _column
   const peekOffset = () => _peekOffset
 
-  function charAt (offset: number) {
+  function charAt(offset: number) {
     if (isCRLF(offset) || isPS(offset) || isLS(offset)) {
       return CHAR_LF
     }
@@ -47,7 +49,7 @@ export function createScanner (str: string): Scanner {
   const currentChar = () => charAt(_index)
   const currentPeek = () => charAt(_index + _peekOffset)
 
-  function next () {
+  function next() {
     _peekOffset = 0
     if (isLineEnd(_index)) {
       _line++
@@ -61,7 +63,7 @@ export function createScanner (str: string): Scanner {
     return _buf[_index]
   }
 
-  function peek () {
+  function peek() {
     if (isCRLF(_index + _peekOffset)) {
       _peekOffset++
     }
@@ -69,18 +71,18 @@ export function createScanner (str: string): Scanner {
     return _buf[_index + _peekOffset]
   }
 
-  function reset () {
+  function reset() {
     _index = 0
     _line = 1
     _column = 1
     _peekOffset = 0
   }
 
-  function resetPeek (offset = 0) {
+  function resetPeek(offset = 0) {
     _peekOffset = offset
   }
 
-  function skipToPeek () {
+  function skipToPeek() {
     const target = _index + _peekOffset
     while (target !== _index) {
       next()
@@ -89,7 +91,17 @@ export function createScanner (str: string): Scanner {
   }
 
   return Object.freeze({
-    index, line, column, peekOffset, charAt, currentChar, currentPeek,
-    next, peek, reset, resetPeek, skipToPeek
+    index,
+    line,
+    column,
+    peekOffset,
+    charAt,
+    currentChar,
+    currentPeek,
+    next,
+    peek,
+    reset,
+    resetPeek,
+    skipToPeek
   })
 }

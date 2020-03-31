@@ -38,24 +38,31 @@ test('formatter', () => {
   mockWarn.mockImplementation(() => {}) // eslint-disable-line @typescript-eslint/no-empty-function
 
   const i18n = createI18n({
-    formatter: { interpolate () { return [] } }
+    formatter: {
+      interpolate() {
+        return []
+      }
+    }
   })
 
   expect(i18n.formatter).not.toBeUndefined()
-  i18n.formatter = { interpolate () { return [] } }
+  i18n.formatter = {
+    interpolate() {
+      return []
+    }
+  }
   expect(mockWarn).toHaveBeenCalledTimes(3)
-  expect(mockWarn.mock.calls[0][0])
-    .toEqual(`not supportted 'formatter' option`)
-  expect(mockWarn.mock.calls[1][0])
-    .toEqual(`not support 'formatter' property`)
-  expect(mockWarn.mock.calls[2][0])
-    .toEqual(`not support 'formatter' property`)
+  expect(mockWarn.mock.calls[0][0]).toEqual(`not supportted 'formatter' option`)
+  expect(mockWarn.mock.calls[1][0]).toEqual(`not support 'formatter' property`)
+  expect(mockWarn.mock.calls[2][0]).toEqual(`not support 'formatter' property`)
 })
 
 test('missing', () => {
   const i18n = createI18n()
   expect(i18n.missing).toEqual(null)
-  const handler = () => { return '' }
+  const handler = () => {
+    return ''
+  }
   i18n.missing = handler
   expect(i18n.missing).toEqual(handler)
 })
@@ -172,7 +179,7 @@ test('getLocaleMessage / setLocaleMessage / mergeLocaleMessage', () => {
   })
   expect(i18n.getLocaleMessage('en')).toEqual({ hello: 'Hello!' })
 
-  i18n.setLocaleMessage('en', { hi: 'Hi!'})
+  i18n.setLocaleMessage('en', { hi: 'Hi!' })
   expect(i18n.getLocaleMessage('en')).toEqual({ hi: 'Hi!' })
 
   i18n.mergeLocaleMessage('en', { hello: 'Hello!' })
@@ -189,18 +196,31 @@ test('d', () => {
     datetimeFormats: {
       'en-US': {
         short: {
-          year: 'numeric', month: '2-digit', day: '2-digit',
-          hour: '2-digit', minute: '2-digit', timeZone: 'America/New_York'
+          year: 'numeric',
+          month: '2-digit',
+          day: '2-digit',
+          hour: '2-digit',
+          minute: '2-digit',
+          timeZone: 'America/New_York'
         }
       },
       'ja-JP': {
         long: {
-          year: 'numeric', month: '2-digit', day: '2-digit',
-          hour: '2-digit', minute: '2-digit', second: '2-digit', timeZone: 'Asia/Tokyo'
+          year: 'numeric',
+          month: '2-digit',
+          day: '2-digit',
+          hour: '2-digit',
+          minute: '2-digit',
+          second: '2-digit',
+          timeZone: 'Asia/Tokyo'
         },
         short: {
-          year: 'numeric', month: '2-digit', day: '2-digit',
-          hour: '2-digit', minute: '2-digit', timeZone: 'Asia/Tokyo'
+          year: 'numeric',
+          month: '2-digit',
+          day: '2-digit',
+          hour: '2-digit',
+          minute: '2-digit',
+          timeZone: 'Asia/Tokyo'
         }
       }
     }
@@ -216,21 +236,27 @@ test('n', () => {
     numberFormats: {
       'en-US': {
         currency: {
-          style: 'currency', currency: 'USD', currencyDisplay: 'symbol'
+          style: 'currency',
+          currency: 'USD',
+          currencyDisplay: 'symbol'
         },
         decimal: {
-          style: 'decimal', useGrouping: false
+          style: 'decimal',
+          useGrouping: false
         }
       },
       'ja-JP': {
         currency: {
-          style: 'currency', currency: 'JPY'/*, currencyDisplay: 'symbol'*/
+          style: 'currency',
+          currency: 'JPY' /*, currencyDisplay: 'symbol'*/
         },
         numeric: {
-          style: 'decimal', useGrouping: false
+          style: 'decimal',
+          useGrouping: false
         },
         percent: {
-          style: 'percent', useGrouping: false
+          style: 'percent',
+          useGrouping: false
         }
       }
     }
@@ -243,46 +269,70 @@ test('getDateTimeFormat / setDateTimeFormat / mergeDateTimeFormat', () => {
     datetimeFormats: {
       'en-US': {
         short: {
-          year: 'numeric', month: '2-digit', day: '2-digit',
-          hour: '2-digit', minute: '2-digit'
+          year: 'numeric',
+          month: '2-digit',
+          day: '2-digit',
+          hour: '2-digit',
+          minute: '2-digit'
         }
       }
     }
   })
   expect(i18n.getDateTimeFormat('en-US')).toEqual({
     short: {
-      year: 'numeric', month: '2-digit', day: '2-digit',
-      hour: '2-digit', minute: '2-digit'
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+      hour: '2-digit',
+      minute: '2-digit'
     }
   })
 
   i18n.setDateTimeFormat('en-US', {
     long: {
-      year: 'numeric', month: '2-digit', day: '2-digit',
-      hour: '2-digit', minute: '2-digit', second: '2-digit'
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit'
     }
   })
   expect(i18n.getDateTimeFormat('en-US')).toEqual({
     long: {
-      year: 'numeric', month: '2-digit', day: '2-digit',
-      hour: '2-digit', minute: '2-digit', second: '2-digit'
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit'
     }
   })
 
   i18n.mergeDateTimeFormat('en-US', {
     short: {
-      year: 'numeric', month: '2-digit', day: '2-digit',
-      hour: '2-digit', minute: '2-digit'
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+      hour: '2-digit',
+      minute: '2-digit'
     }
   })
   expect(i18n.getDateTimeFormat('en-US')).toEqual({
     short: {
-      year: 'numeric', month: '2-digit', day: '2-digit',
-      hour: '2-digit', minute: '2-digit'
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+      hour: '2-digit',
+      minute: '2-digit'
     },
     long: {
-      year: 'numeric', month: '2-digit', day: '2-digit',
-      hour: '2-digit', minute: '2-digit', second: '2-digit'
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit'
     }
   })
 })
@@ -292,39 +342,50 @@ test('getNumberFormat / setNumberFormat / mergeNumberFormat', () => {
     numberFormats: {
       'en-US': {
         currency: {
-          style: 'currency', currency: 'USD', currencyDisplay: 'symbol'
+          style: 'currency',
+          currency: 'USD',
+          currencyDisplay: 'symbol'
         }
       }
     }
   })
   expect(i18n.getNumberFormat('en-US')).toEqual({
     currency: {
-      style: 'currency', currency: 'USD', currencyDisplay: 'symbol'
+      style: 'currency',
+      currency: 'USD',
+      currencyDisplay: 'symbol'
     }
   })
 
   i18n.setNumberFormat('en-US', {
     decimal: {
-      style: 'decimal', useGrouping: false
+      style: 'decimal',
+      useGrouping: false
     }
   })
   expect(i18n.getNumberFormat('en-US')).toEqual({
     decimal: {
-      style: 'decimal', useGrouping: false
+      style: 'decimal',
+      useGrouping: false
     }
   })
 
   i18n.mergeNumberFormat('en-US', {
     currency: {
-      style: 'currency', currency: 'USD', currencyDisplay: 'symbol'
+      style: 'currency',
+      currency: 'USD',
+      currencyDisplay: 'symbol'
     }
   })
   expect(i18n.getNumberFormat('en-US')).toEqual({
     currency: {
-      style: 'currency', currency: 'USD', currencyDisplay: 'symbol'
+      style: 'currency',
+      currency: 'USD',
+      currencyDisplay: 'symbol'
     },
     decimal: {
-      style: 'decimal', useGrouping: false
+      style: 'decimal',
+      useGrouping: false
     }
   })
 })

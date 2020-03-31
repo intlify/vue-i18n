@@ -185,7 +185,11 @@ test('LF', () => {
 })
 
 test('LS PS', () => {
-  const s = createScanner(`hello!${String.fromCharCode(0x2028)}こんにちは！${String.fromCharCode(0x2029)}Hi!`)
+  const s = createScanner(
+    `hello!${String.fromCharCode(0x2028)}こんにちは！${String.fromCharCode(
+      0x2029
+    )}Hi!`
+  )
 
   expect(s.currentChar()).toBe('h')
   expect(s.currentPeek()).toBe('h')

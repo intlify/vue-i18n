@@ -5,7 +5,10 @@ jest.mock('../../src/utils', () => ({
 }))
 import { warn } from '../../src/utils'
 
-import { createRuntimeContext as context, NOT_REOSLVED } from '../../src/runtime/context'
+import {
+  createRuntimeContext as context,
+  NOT_REOSLVED
+} from '../../src/runtime/context'
 import { translate } from '../../src/runtime/localize'
 
 describe('features', () => {
@@ -26,7 +29,7 @@ describe('features', () => {
         en: { hi: 'hi {0} !' }
       }
     })
-    expect(translate(ctx, 'hi', { list: ['kazupon']})).toEqual('hi kazupon !')
+    expect(translate(ctx, 'hi', { list: ['kazupon'] })).toEqual('hi kazupon !')
   })
 
   test('named', () => {
@@ -36,7 +39,9 @@ describe('features', () => {
         en: { hi: 'hi {name} !' }
       }
     })
-    expect(translate(ctx, 'hi', { named: { name: 'kazupon' } })).toEqual('hi kazupon !')
+    expect(translate(ctx, 'hi', { named: { name: 'kazupon' } })).toEqual(
+      'hi kazupon !'
+    )
   })
 
   test('linked', () => {
@@ -62,7 +67,9 @@ describe('features', () => {
     expect(translate(ctx, 'apple', { plural: 0 })).toEqual('no apples')
     expect(translate(ctx, 'apple', { plural: 1 })).toEqual('one apple')
     expect(translate(ctx, 'apple', { plural: 10 })).toEqual('10 apples')
-    expect(translate(ctx, 'apple', { plural: 10, named: { count: 20 } })).toEqual('20 apples')
+    expect(
+      translate(ctx, 'apple', { plural: 10, named: { count: 20 } })
+    ).toEqual('20 apples')
   })
 })
 
@@ -72,10 +79,12 @@ describe('locale option', () => {
       locale: 'en',
       messages: {
         en: { hi: 'hi kazupon !' },
-        ja: { hi: 'こんにちは　かずぽん！'}
+        ja: { hi: 'こんにちは　かずぽん！' }
       }
     })
-    expect(translate(ctx, 'hi', { locale: 'ja' })).toEqual('こんにちは　かずぽん！')
+    expect(translate(ctx, 'hi', { locale: 'ja' })).toEqual(
+      'こんにちは　かずぽん！'
+    )
   })
 })
 
@@ -89,9 +98,7 @@ describe('default option', () => {
     })
     expect(
       translate(ctx, 'hello', { default: 'hello, default message!' })
-    ).toEqual(
-      'hello, default message!'
-    )
+    ).toEqual('hello, default message!')
   })
 
   test('boolean true', () => {
@@ -106,9 +113,7 @@ describe('default option', () => {
         named: { name: 'kazupon' },
         default: true
       })
-    ).toEqual(
-      'hi kazupon!'
-    )
+    ).toEqual('hi kazupon!')
   })
 })
 
@@ -125,8 +130,9 @@ describe('context missing option', () => {
     })
 
     expect(translate(ctx, 'hello')).toEqual('hello')
-    expect(mockWarn.mock.calls[0][0])
-      .toEqual(`Cannot translate the value of 'hello'. Use the value of key as default.`)
+    expect(mockWarn.mock.calls[0][0]).toEqual(
+      `Cannot translate the value of 'hello'. Use the value of key as default.`
+    )
   })
 
   test('missing handler', () => {
@@ -234,8 +240,9 @@ describe('context fallbackWarn option', () => {
 
     expect(translate(ctx, 'hello')).toEqual('こんにちは！')
     expect(mockWarn).toHaveBeenCalled()
-    expect(mockWarn.mock.calls[0][0])
-      .toEqual(`Fall back to translate 'hello' with 'ja' locale.`)
+    expect(mockWarn.mock.calls[0][0]).toEqual(
+      `Fall back to translate 'hello' with 'ja' locale.`
+    )
   })
 
   test('not found fallback message', () => {
@@ -254,10 +261,12 @@ describe('context fallbackWarn option', () => {
 
     expect(translate(ctx, 'hello.world')).toEqual('hello.world')
     expect(mockWarn).toHaveBeenCalledTimes(2)
-    expect(mockWarn.mock.calls[0][0])
-      .toEqual(`Fall back to translate 'hello.world' with 'ja,fr' locale.`)
-    expect(mockWarn.mock.calls[1][0])
-      .toEqual(`Fall back to translate 'hello.world' with 'fr' locale.`)
+    expect(mockWarn.mock.calls[0][0]).toEqual(
+      `Fall back to translate 'hello.world' with 'ja,fr' locale.`
+    )
+    expect(mockWarn.mock.calls[1][0]).toEqual(
+      `Fall back to translate 'hello.world' with 'fr' locale.`
+    )
   })
 
   test('context option: false', () => {
@@ -333,7 +342,9 @@ describe('context fallbackFormat option', () => {
       }
     })
 
-    expect(translate(ctx, 'hi, {name}!', { named: { name: 'kazupon' } })).toEqual('hi, kazupon!')
+    expect(
+      translate(ctx, 'hi, {name}!', { named: { name: 'kazupon' } })
+    ).toEqual('hi, kazupon!')
     expect(mockWarn).not.toHaveBeenCalled()
   })
 
@@ -350,10 +361,10 @@ describe('context fallbackFormat option', () => {
     })
 
     expect(
-      translate(
-        ctx,
-        'hi, {name}!',
-        { named: { name: 'kazupon' }, default: 'hello, {name}!' })
+      translate(ctx, 'hi, {name}!', {
+        named: { name: 'kazupon' },
+        default: 'hello, {name}!'
+      })
     ).toEqual('hello, kazupon!')
     expect(mockWarn).not.toHaveBeenCalled()
   })
@@ -395,14 +406,20 @@ describe('context pluralRule option', () => {
   test('basic', () => {
     const pluralRules = {
       ru: (choice, choicesLength, orgRule) => {
-        if (choice === 0) { return 0 }
+        if (choice === 0) {
+          return 0
+        }
 
         const teen = choice > 10 && choice < 20
         const endsWithOne = choice % 10 === 1
-        if (!teen && endsWithOne) { return 1 }
-        if (!teen && choice % 10 >= 2 && choice % 10 <= 4) { return 2 }
+        if (!teen && endsWithOne) {
+          return 1
+        }
+        if (!teen && choice % 10 >= 2 && choice % 10 <= 4) {
+          return 2
+        }
 
-        return (choicesLength < 4) ? 2 : 3
+        return choicesLength < 4 ? 2 : 3
       }
     }
     const ctx = context({
@@ -444,7 +461,7 @@ describe('edge cases', () => {
       locale: 'ja',
       messages: {
         ja: {
-          'こんにちは': 'こんにちは！'
+          こんにちは: 'こんにちは！'
         }
       }
     })

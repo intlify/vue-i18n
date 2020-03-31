@@ -57,7 +57,9 @@ test('parse', () => {
   expect(parse('{}')).toEqual(['{}'])
   expect(parse('{0}')).toEqual(['{0}'])
   expect(parse('${name}')).toEqual(['${name}'])
-  expect(parse('tag`Hello ${ a + b } world ${ a * b}`')).toEqual(['tag`Hello ${ a + b } world ${ a * b}`'])
+  expect(parse('tag`Hello ${ a + b } world ${ a * b}`')).toEqual([
+    'tag`Hello ${ a + b } world ${ a * b}`'
+  ])
   expect(parse('a-b')).toEqual(['a-b'])
   expect(parse('a+b')).toEqual(['a+b'])
   expect(parse('a_b')).toEqual(['a_b'])
@@ -97,11 +99,17 @@ test('resolveValue', () => {
   expect(resolveValue({ a: { b: 1 } }, 'a')).toEqual({ b: 1 })
   expect(resolveValue({ a: { 'b c d': 1 } }, 'a.b c d')).toEqual(1)
   // number key in object
-  expect(resolveValue({ errors: { '1': 'error number 1' } }, 'errors[1]')).toEqual('error number 1')
+  expect(
+    resolveValue({ errors: { '1': 'error number 1' } }, 'errors[1]')
+  ).toEqual('error number 1')
   // array index path
-  expect(resolveValue({ errors: ['error number 0'] }, 'errors[0]')).toEqual('error number 0')
+  expect(resolveValue({ errors: ['error number 0'] }, 'errors[0]')).toEqual(
+    'error number 0'
+  )
   // array path
-  expect(resolveValue({ errors: ['error number 0'] }, 'errors')).toEqual(['error number 0'])
+  expect(resolveValue({ errors: ['error number 0'] }, 'errors')).toEqual([
+    'error number 0'
+  ])
   // not found
   expect(resolveValue({}, 'a.b')).toEqual(null)
   // object primitive

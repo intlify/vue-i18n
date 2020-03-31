@@ -76,7 +76,10 @@ pathStateMachine[States.IN_IDENT] = {
 pathStateMachine[States.IN_SUB_PATH] = {
   [PathCharTypes.SINGLE_QUOTE]: [States.IN_SINGLE_QUOTE, Actions.APPEND],
   [PathCharTypes.DOUBLE_QUOTE]: [States.IN_DOUBLE_QUOTE, Actions.APPEND],
-  [PathCharTypes.LEFT_BRACKET]: [States.IN_SUB_PATH, Actions.INC_SUB_PATH_DEPTH],
+  [PathCharTypes.LEFT_BRACKET]: [
+    States.IN_SUB_PATH,
+    Actions.INC_SUB_PATH_DEPTH
+  ],
   [PathCharTypes.RIGHT_BRACKET]: [States.IN_PATH, Actions.PUSH_SUB_PATH],
   [PathCharTypes.END_OF_FAIL]: States.ERROR,
   [PathCharTypes.ELSE]: [States.IN_SUB_PATH, Actions.APPEND]
@@ -98,49 +101,49 @@ pathStateMachine[States.IN_DOUBLE_QUOTE] = {
  * Check if an expression is a literal value.
  */
 const literalValueRE = /^\s?(?:true|false|-?[\d.]+|'[^']*'|"[^"]*")\s?$/
-function isLiteral (exp: string): boolean {
+function isLiteral(exp: string): boolean {
   return literalValueRE.test(exp)
 }
 
 /**
  * Strip quotes from a string
  */
-function stripQuotes (str: string): string {
+function stripQuotes(str: string): string {
   const a = str.charCodeAt(0)
   const b = str.charCodeAt(str.length - 1)
-  return a === b && (a === 0x22 || a === 0x27)
-    ? str.slice(1, -1)
-    : str
+  return a === b && (a === 0x22 || a === 0x27) ? str.slice(1, -1) : str
 }
 
 /**
  * Determine the type of a character in a keypath.
  */
-function getPathCharType (ch?: string): string {
-  if (ch === undefined || ch === null) { return PathCharTypes.END_OF_FAIL }
+function getPathCharType(ch?: string): string {
+  if (ch === undefined || ch === null) {
+    return PathCharTypes.END_OF_FAIL
+  }
 
   const code = ch.charCodeAt(0)
 
   switch (code) {
-    case 0x5B: // [
-    case 0x5D: // ]
-    case 0x2E: // .
+    case 0x5b: // [
+    case 0x5d: // ]
+    case 0x2e: // .
     case 0x22: // "
     case 0x27: // '
       return ch
 
-    case 0x5F: // _
+    case 0x5f: // _
     case 0x24: // $
-    case 0x2D: // -
+    case 0x2d: // -
       return PathCharTypes.IDENT
 
     case 0x09: // Tab (HT)
-    case 0x0A: // Newline (LF)
-    case 0x0D: // Return (CR)
-    case 0xA0:  // No-break space (NBSP)
-    case 0xFEFF:  // Byte Order Mark (BOM)
-    case 0x2028:  // Line Separator (LS)
-    case 0x2029:  // Paragraph Separator (PS)
+    case 0x0a: // Newline (LF)
+    case 0x0d: // Return (CR)
+    case 0xa0: // No-break space (NBSP)
+    case 0xfeff: // Byte Order Mark (BOM)
+    case 0x2028: // Line Separator (LS)
+    case 0x2029: // Paragraph Separator (PS)
       return PathCharTypes.WORKSPACE
   }
 
@@ -152,10 +155,12 @@ function getPathCharType (ch?: string): string {
  * a literal string or number. Otherwise prepend the
  * dynamic indicator (*).
  */
-function formatSubPath (path: string): boolean | string {
+function formatSubPath(path: string): boolean | string {
   const trimmed = path.trim()
   // invalid leading 0
-  if (path.charAt(0) === '0' && isNaN(parseInt(path))) { return false }
+  if (path.charAt(0) === '0' && isNaN(parseInt(path))) {
+    return false
+  }
 
   return isLiteral(trimmed)
     ? stripQuotes(trimmed)
@@ -165,7 +170,7 @@ function formatSubPath (path: string): boolean | string {
 /**
  * Parse a string path into an array of segments
  */
-export function parse (path: Path): string[] | undefined {
+export function parse(path: Path): string[] | undefined {
   const keys = [] as string[]
   let index = -1
   let mode = States.BEFORE_PATH
@@ -206,7 +211,9 @@ export function parse (path: Path): string[] | undefined {
       actions[Actions.APPEND]()
     } else {
       subPathDepth = 0
-      if (key === undefined) { return false }
+      if (key === undefined) {
+        return false
+      }
       key = formatSubPath(key)
       if (key === false) {
         return false
@@ -216,10 +223,14 @@ export function parse (path: Path): string[] | undefined {
     }
   }
 
-  function maybeUnescapeQuote () {
+  function maybeUnescapeQuote() {
     const nextChar = path[index + 1]
-    if ((mode === States.IN_SINGLE_QUOTE && nextChar === PathCharTypes.SINGLE_QUOTE) ||
-      (mode === States.IN_DOUBLE_QUOTE && nextChar === PathCharTypes.DOUBLE_QUOTE)) {
+    if (
+      (mode === States.IN_SINGLE_QUOTE &&
+        nextChar === PathCharTypes.SINGLE_QUOTE) ||
+      (mode === States.IN_DOUBLE_QUOTE &&
+        nextChar === PathCharTypes.DOUBLE_QUOTE)
+    ) {
       index++
       newChar = '\\' + nextChar
       actions[Actions.APPEND]()
@@ -274,9 +285,11 @@ export type PathValue =
 // path token cache
 const cache = new Map<Path, string[]>()
 
-export function resolveValue (obj: unknown, path: Path): PathValue {
+export function resolveValue(obj: unknown, path: Path): PathValue {
   // check object
-  if (!isObject(obj)) { return null }
+  if (!isObject(obj)) {
+    return null
+  }
 
   // parse path
   let hit = cache.get(path)
@@ -288,7 +301,9 @@ export function resolveValue (obj: unknown, path: Path): PathValue {
   }
 
   // check hit
-  if (!hit) { return null }
+  if (!hit) {
+    return null
+  }
 
   // resolve path value
   const len = hit.length

@@ -12,24 +12,43 @@ jest.mock('../../src/runtime/types', () => ({
 }))
 import { Availabilities } from '../../src/runtime/types'
 
-import { createRuntimeContext as context, NOT_REOSLVED } from '../../src/runtime/context'
+import {
+  createRuntimeContext as context,
+  NOT_REOSLVED
+} from '../../src/runtime/context'
 import { datetime } from '../../src/runtime/datetime'
 
 const datetimeFormats = {
   'en-US': {
-    short: { // DD/MM/YYYY, hh:mm (AM|PM)
-      year: 'numeric', month: '2-digit', day: '2-digit',
-      hour: '2-digit', minute: '2-digit', timeZone: 'America/New_York'
+    short: {
+      // DD/MM/YYYY, hh:mm (AM|PM)
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+      hour: '2-digit',
+      minute: '2-digit',
+      timeZone: 'America/New_York'
     }
   },
   'ja-JP': {
-    long: { // YYYY/MM/DD hh:mm:ss
-      year: 'numeric', month: '2-digit', day: '2-digit',
-      hour: '2-digit', minute: '2-digit', second: '2-digit', timeZone: 'Asia/Tokyo'
+    long: {
+      // YYYY/MM/DD hh:mm:ss
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit',
+      timeZone: 'Asia/Tokyo'
     },
-    short: { // YYYY/MM/DD hh:mm
-      year: 'numeric', month: '2-digit', day: '2-digit',
-      hour: '2-digit', minute: '2-digit', timeZone: 'Asia/Tokyo'
+    short: {
+      // YYYY/MM/DD hh:mm
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+      hour: '2-digit',
+      minute: '2-digit',
+      timeZone: 'Asia/Tokyo'
     }
   }
 }
@@ -37,7 +56,9 @@ const datetimeFormats = {
 const dt = new Date(Date.UTC(2012, 11, 20, 3, 0, 0))
 
 test('datetime value', () => {
-  const mockAvailabilities = Availabilities as jest.Mocked<typeof Availabilities>
+  const mockAvailabilities = Availabilities as jest.Mocked<
+    typeof Availabilities
+  >
   mockAvailabilities.dateTimeFormat = true
 
   const ctx = context({
@@ -50,7 +71,9 @@ test('datetime value', () => {
 })
 
 test('number value', () => {
-  const mockAvailabilities = Availabilities as jest.Mocked<typeof Availabilities>
+  const mockAvailabilities = Availabilities as jest.Mocked<
+    typeof Availabilities
+  >
   mockAvailabilities.dateTimeFormat = true
 
   const ctx = context({
@@ -63,7 +86,9 @@ test('number value', () => {
 })
 
 test('key argument', () => {
-  const mockAvailabilities = Availabilities as jest.Mocked<typeof Availabilities>
+  const mockAvailabilities = Availabilities as jest.Mocked<
+    typeof Availabilities
+  >
   mockAvailabilities.dateTimeFormat = true
 
   const ctx = context({
@@ -76,7 +101,9 @@ test('key argument', () => {
 })
 
 test('locale argument', () => {
-  const mockAvailabilities = Availabilities as jest.Mocked<typeof Availabilities>
+  const mockAvailabilities = Availabilities as jest.Mocked<
+    typeof Availabilities
+  >
   mockAvailabilities.dateTimeFormat = true
 
   const ctx = context({
@@ -89,7 +116,9 @@ test('locale argument', () => {
 })
 
 test('with object argument', () => {
-  const mockAvailabilities = Availabilities as jest.Mocked<typeof Availabilities>
+  const mockAvailabilities = Availabilities as jest.Mocked<
+    typeof Availabilities
+  >
   mockAvailabilities.dateTimeFormat = true
 
   const ctx = context({
@@ -98,13 +127,17 @@ test('with object argument', () => {
     datetimeFormats
   })
 
-  expect(datetime(ctx, dt, { key: 'short', locale: 'ja-JP' })).toEqual('2012/12/20 12:00')
+  expect(datetime(ctx, dt, { key: 'short', locale: 'ja-JP' })).toEqual(
+    '2012/12/20 12:00'
+  )
 })
 
 test('fallback', () => {
   const mockWarn = warn as jest.MockedFunction<typeof warn>
   mockWarn.mockImplementation(() => {}) // eslint-disable-line @typescript-eslint/no-empty-function
-  const mockAvailabilities = Availabilities as jest.Mocked<typeof Availabilities>
+  const mockAvailabilities = Availabilities as jest.Mocked<
+    typeof Availabilities
+  >
   mockAvailabilities.dateTimeFormat = true
 
   const ctx = context({
@@ -114,14 +147,17 @@ test('fallback', () => {
   })
 
   expect(datetime(ctx, dt, 'long')).toEqual('2012/12/20 12:00:00')
-  expect(mockWarn.mock.calls[0][0])
-    .toEqual(`Fall back to datetime format 'long' key with 'ja-JP' locale.`)
+  expect(mockWarn.mock.calls[0][0]).toEqual(
+    `Fall back to datetime format 'long' key with 'ja-JP' locale.`
+  )
 })
 
 test(`context fallbackWarn 'false' option`, () => {
   const mockWarn = warn as jest.MockedFunction<typeof warn>
   mockWarn.mockImplementation(() => {}) // eslint-disable-line @typescript-eslint/no-empty-function
-  const mockAvailabilities = Availabilities as jest.Mocked<typeof Availabilities>
+  const mockAvailabilities = Availabilities as jest.Mocked<
+    typeof Availabilities
+  >
   mockAvailabilities.dateTimeFormat = true
 
   const ctx = context({
@@ -138,7 +174,9 @@ test(`context fallbackWarn 'false' option`, () => {
 test(`datetime function fallbackWarn 'false' option`, () => {
   const mockWarn = warn as jest.MockedFunction<typeof warn>
   mockWarn.mockImplementation(() => {}) // eslint-disable-line @typescript-eslint/no-empty-function
-  const mockAvailabilities = Availabilities as jest.Mocked<typeof Availabilities>
+  const mockAvailabilities = Availabilities as jest.Mocked<
+    typeof Availabilities
+  >
   mockAvailabilities.dateTimeFormat = true
 
   const ctx = context({
@@ -147,7 +185,9 @@ test(`datetime function fallbackWarn 'false' option`, () => {
     datetimeFormats
   })
 
-  expect(datetime(ctx, dt, { key: 'long', fallbackWarn: false })).toEqual('2012/12/20 12:00:00')
+  expect(datetime(ctx, dt, { key: 'long', fallbackWarn: false })).toEqual(
+    '2012/12/20 12:00:00'
+  )
   expect(mockWarn).not.toHaveBeenCalled()
 })
 
@@ -155,7 +195,9 @@ describe('context unresolving option', () => {
   test('not specify fallbackLocales', () => {
     const mockWarn = warn as jest.MockedFunction<typeof warn>
     mockWarn.mockImplementation(() => {}) // eslint-disable-line @typescript-eslint/no-empty-function
-    const mockAvailabilities = Availabilities as jest.Mocked<typeof Availabilities>
+    const mockAvailabilities = Availabilities as jest.Mocked<
+      typeof Availabilities
+    >
     mockAvailabilities.dateTimeFormat = true
 
     const ctx = context({
@@ -172,7 +214,9 @@ describe('context unresolving option', () => {
   test('not found key in fallbackLocales', () => {
     const mockWarn = warn as jest.MockedFunction<typeof warn>
     mockWarn.mockImplementation(() => {}) // eslint-disable-line @typescript-eslint/no-empty-function
-    const mockAvailabilities = Availabilities as jest.Mocked<typeof Availabilities>
+    const mockAvailabilities = Availabilities as jest.Mocked<
+      typeof Availabilities
+    >
     mockAvailabilities.dateTimeFormat = true
 
     const ctx = context({
@@ -191,7 +235,9 @@ describe('context unresolving option', () => {
 test('not available Intl API', () => {
   const mockWarn = warn as jest.MockedFunction<typeof warn>
   mockWarn.mockImplementation(() => {}) // eslint-disable-line @typescript-eslint/no-empty-function
-  const mockAvailabilities = Availabilities as jest.Mocked<typeof Availabilities>
+  const mockAvailabilities = Availabilities as jest.Mocked<
+    typeof Availabilities
+  >
   mockAvailabilities.dateTimeFormat = false
 
   const ctx = context({
@@ -201,6 +247,7 @@ test('not available Intl API', () => {
   })
 
   expect(datetime(ctx, dt, 'short')).toEqual('')
-  expect(mockWarn.mock.calls[0][0])
-    .toEqual(`Cannot format a Date value due to not supported Intl.DateTimeFormat.`)
+  expect(mockWarn.mock.calls[0][0]).toEqual(
+    `Cannot format a Date value due to not supported Intl.DateTimeFormat.`
+  )
 })

@@ -1,16 +1,32 @@
 import { compile, MessageFunction } from '../message/compiler'
-import { createMessageContext, NamedValue, MessageContextOptions } from '../message/context'
+import {
+  createMessageContext,
+  NamedValue,
+  MessageContextOptions
+} from '../message/context'
 import { Path, resolveValue } from '../path'
-import { isObject, isString, isNumber, isFunction, warn, isBoolean, isArray } from '../utils'
+import {
+  isObject,
+  isString,
+  isNumber,
+  isFunction,
+  warn,
+  isBoolean,
+  isArray
+} from '../utils'
 import { Locale, RuntimeContext, NOT_REOSLVED } from './context'
 
 const NOOP_MESSAGE_FUNCTION = () => ''
 
-function isTranslateMissingWarn (missing: boolean | RegExp, key: Path): boolean {
+function isTranslateMissingWarn(missing: boolean | RegExp, key: Path): boolean {
   return missing instanceof RegExp ? missing.test(key) : missing
 }
 
-function isTrarnslateFallbackWarn (fallback: boolean | RegExp, key: Path, stack?: Locale[]): boolean {
+function isTrarnslateFallbackWarn(
+  fallback: boolean | RegExp,
+  key: Path,
+  stack?: Locale[]
+): boolean {
   if (stack !== undefined && stack.length === 0) {
     return false
   } else {
@@ -68,7 +84,11 @@ export type TranslateOptions = {
   fallbackWarn?: boolean
 }
 
-export function translate (context: RuntimeContext, key: Path, ...args: unknown[]): string | number {
+export function translate(
+  context: RuntimeContext,
+  key: Path,
+  ...args: unknown[]
+): string | number {
   const {
     messages,
     modifiers,
@@ -91,20 +111,23 @@ export function translate (context: RuntimeContext, key: Path, ...args: unknown[
     ? options.fallbackWarn
     : context.fallbackWarn
 
-  let locale = isString(options.locale)
-    ? options.locale
-    : context.locale
+  let locale = isString(options.locale) ? options.locale : context.locale
   // override with fallback locales
-  if (fallbackWarn && isArray(_fallbackLocaleStack) && _fallbackLocaleStack.length > 0) {
+  if (
+    fallbackWarn &&
+    isArray(_fallbackLocaleStack) &&
+    _fallbackLocaleStack.length > 0
+  ) {
     locale = _fallbackLocaleStack.shift() || locale
   }
 
-  const defaultMsgOrKey: string | boolean = (isString(options.default) || isBoolean(options.default))
-    ? options.default
-    : fallbackFormat
+  const defaultMsgOrKey: string | boolean =
+    isString(options.default) || isBoolean(options.default)
+      ? options.default
+      : fallbackFormat
       ? key
       : false
-  const enableDefaultMsg = (fallbackFormat || defaultMsgOrKey !== false)
+  const enableDefaultMsg = fallbackFormat || defaultMsgOrKey !== false
 
   const message = messages[locale]
   if (!isObject(message)) {
@@ -115,7 +138,9 @@ export function translate (context: RuntimeContext, key: Path, ...args: unknown[
   // TODO: need to design resolve message function?
   const resolveMessage = (key: string): MessageFunction => {
     const fn = _compileCache.get(key)
-    if (fn) { return fn }
+    if (fn) {
+      return fn
+    }
     const val = resolveValue(message, key)
     if (isString(val)) {
       const msg = compile(val)
@@ -151,7 +176,8 @@ export function translate (context: RuntimeContext, key: Path, ...args: unknown[
     // set default message
     if (isString(defaultMsgOrKey)) {
       format = defaultMsgOrKey
-    } else { // true
+    } else {
+      // true
       format = key
     }
   }
@@ -163,19 +189,32 @@ export function translate (context: RuntimeContext, key: Path, ...args: unknown[
       ret = missing(context, locale, key) || key
     } else {
       if (__DEV__ && isTranslateMissingWarn(missingWarn, key)) {
-        warn(`Cannot translate the value of '${key}'. Use the value of key as default.`)
+        warn(
+          `Cannot translate the value of '${key}'. Use the value of key as default.`
+        )
       }
       ret = key
     }
 
     // falbacking ...
-    if (__DEV__ && fallbackLocales.length > 0 && isTrarnslateFallbackWarn(fallbackWarn, key, _fallbackLocaleStack)) {
+    if (
+      __DEV__ &&
+      fallbackLocales.length > 0 &&
+      isTrarnslateFallbackWarn(fallbackWarn, key, _fallbackLocaleStack)
+    ) {
       if (!context._fallbackLocaleStack) {
         context._fallbackLocaleStack = [...context.fallbackLocales]
       }
-      warn(`Fall back to translate '${key}' with '${context._fallbackLocaleStack.join(',')}' locale.`)
+      warn(
+        `Fall back to translate '${key}' with '${context._fallbackLocaleStack.join(
+          ','
+        )}' locale.`
+      )
       ret = translate(context, key, ...args)
-      if (context._fallbackLocaleStack && context._fallbackLocaleStack.length === 0) {
+      if (
+        context._fallbackLocaleStack &&
+        context._fallbackLocaleStack.length === 0
+      ) {
         context._fallbackLocaleStack = undefined
         if (unresolving) {
           ret = NOT_REOSLVED

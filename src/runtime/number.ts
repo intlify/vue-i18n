@@ -44,18 +44,34 @@ import {
 
 export type NumberOptions = {
   key?: string
-  locale?: Locale,
+  locale?: Locale
   fallbackWarn?: boolean
 }
 
 // `number` function overloads
-export function number (context: RuntimeContext, value: number): string | number
-export function number (context: RuntimeContext, value: number, key: string): string | number
-export function number (context: RuntimeContext, value: number, key: string, locale: Locale): string | number
-export function number (context: RuntimeContext, value: number, options: NumberOptions): string | number
+export function number(context: RuntimeContext, value: number): string | number
+export function number(
+  context: RuntimeContext,
+  value: number,
+  key: string
+): string | number
+export function number(
+  context: RuntimeContext,
+  value: number,
+  key: string,
+  locale: Locale
+): string | number
+export function number(
+  context: RuntimeContext,
+  value: number,
+  options: NumberOptions
+): string | number
 
 // implementationo of `number` function
-export function number (context: RuntimeContext, ...args: unknown[]): string | number {
+export function number(
+  context: RuntimeContext,
+  ...args: unknown[]
+): string | number {
   const { numberFormats, _numberFormatters, _fallbackLocaleStack } = context
 
   if (__DEV__ && !Availabilities.numberFormat) {
@@ -85,7 +101,8 @@ export function number (context: RuntimeContext, ...args: unknown[]): string | n
       key,
       fallbackWarn,
       'number format',
-      (context: RuntimeContext): string | number => number(context, value, options)
+      (context: RuntimeContext): string | number =>
+        number(context, value, options)
     )
   }
 
@@ -96,7 +113,8 @@ export function number (context: RuntimeContext, ...args: unknown[]): string | n
       key,
       fallbackWarn,
       'number format',
-      (context: RuntimeContext): string | number => number(context, value, options)
+      (context: RuntimeContext): string | number =>
+        number(context, value, options)
     )
   }
 
@@ -109,7 +127,7 @@ export function number (context: RuntimeContext, ...args: unknown[]): string | n
   return formatter.format(value)
 }
 
-export function parseNumberArgs (...args: unknown[]): [number, NumberOptions] {
+export function parseNumberArgs(...args: unknown[]): [number, NumberOptions] {
   const [arg1, arg2, arg3] = args
   let options = {} as NumberOptions
 
@@ -131,7 +149,11 @@ export function parseNumberArgs (...args: unknown[]): [number, NumberOptions] {
   return [value, options]
 }
 
-export function clearNumberFormat (context: RuntimeContext, locale: Locale, format: NumberFormat): void {
+export function clearNumberFormat(
+  context: RuntimeContext,
+  locale: Locale,
+  format: NumberFormat
+): void {
   for (const key in format) {
     const id = `${locale}__${key}`
     if (!context._numberFormatters.has(id)) {

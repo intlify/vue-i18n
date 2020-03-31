@@ -102,14 +102,20 @@ describe('datetimeFormats', () => {
       datetimeFormats: {
         'en-US': {
           short: {
-            year: 'numeric', month: '2-digit', day: '2-digit',
-            hour: '2-digit', minute: '2-digit'
+            year: 'numeric',
+            month: '2-digit',
+            day: '2-digit',
+            hour: '2-digit',
+            minute: '2-digit'
           }
         },
         'ja-JP': {
           short: {
-            year: 'numeric', month: '2-digit', day: '2-digit',
-            hour: '2-digit', minute: '2-digit'
+            year: 'numeric',
+            month: '2-digit',
+            day: '2-digit',
+            hour: '2-digit',
+            minute: '2-digit'
           }
         }
       }
@@ -117,14 +123,20 @@ describe('datetimeFormats', () => {
     expect(datetimeFormats.value).toEqual({
       'en-US': {
         short: {
-          year: 'numeric', month: '2-digit', day: '2-digit',
-          hour: '2-digit', minute: '2-digit'
+          year: 'numeric',
+          month: '2-digit',
+          day: '2-digit',
+          hour: '2-digit',
+          minute: '2-digit'
         }
       },
       'ja-JP': {
         short: {
-          year: 'numeric', month: '2-digit', day: '2-digit',
-          hour: '2-digit', minute: '2-digit'
+          year: 'numeric',
+          month: '2-digit',
+          day: '2-digit',
+          hour: '2-digit',
+          minute: '2-digit'
         }
       }
     })
@@ -144,12 +156,16 @@ describe('numberFormats', () => {
       numberFormats: {
         'en-US': {
           currency: {
-            style: 'currency', currency: 'USD', currencyDisplay: 'symbol'
+            style: 'currency',
+            currency: 'USD',
+            currencyDisplay: 'symbol'
           }
         },
         'ja-JP': {
           currency: {
-            style: 'currency', currency: 'JPY', currencyDisplay: 'symbol'
+            style: 'currency',
+            currency: 'JPY',
+            currencyDisplay: 'symbol'
           }
         }
       }
@@ -157,12 +173,16 @@ describe('numberFormats', () => {
     expect(numberFormats.value).toEqual({
       'en-US': {
         currency: {
-          style: 'currency', currency: 'USD', currencyDisplay: 'symbol'
+          style: 'currency',
+          currency: 'USD',
+          currencyDisplay: 'symbol'
         }
       },
       'ja-JP': {
         currency: {
-          style: 'currency', currency: 'JPY', currencyDisplay: 'symbol'
+          style: 'currency',
+          currency: 'JPY',
+          currencyDisplay: 'symbol'
         }
       }
     })
@@ -202,7 +222,9 @@ describe('pluralRules', () => {
 
   test('initialize at composer creating', () => {
     const _pluralRules = {
-      en: () => { return 0 }
+      en: () => {
+        return 0
+      }
     }
     const { pluralRules } = createI18nComposer({
       pluralRules: _pluralRules
@@ -259,7 +281,11 @@ describe('fallbackFormat', () => {
 
 describe('postTranslation', () => {
   test('default', () => {
-    const { getPostTranslationHandler, setPostTranslationHandler, t } = createI18nComposer({
+    const {
+      getPostTranslationHandler,
+      setPostTranslationHandler,
+      t
+    } = createI18nComposer({
       locale: 'en',
       messages: {
         en: { hello: ' hello world! ' }
@@ -322,7 +348,7 @@ describe('t', () => {
         en: { hi: 'hi {0} !' }
       }
     })
-    expect(t('hi', { list: ['kazupon']})).toEqual('hi kazupon !')
+    expect(t('hi', { list: ['kazupon'] })).toEqual('hi kazupon !')
   })
 
   test('named', () => {
@@ -358,7 +384,9 @@ describe('t', () => {
     expect(t('apple', { plural: 0 })).toEqual('no apples')
     expect(t('apple', { plural: 1 })).toEqual('one apple')
     expect(t('apple', { plural: 10 })).toEqual('10 apples')
-    expect(t('apple', { plural: 10, named: { count: 20 } })).toEqual('20 apples')
+    expect(t('apple', { plural: 10, named: { count: 20 } })).toEqual(
+      '20 apples'
+    )
   })
 })
 
@@ -369,24 +397,39 @@ test('d', () => {
     datetimeFormats: {
       'en-US': {
         short: {
-          year: 'numeric', month: '2-digit', day: '2-digit',
-          hour: '2-digit', minute: '2-digit', timeZone: 'America/New_York'
+          year: 'numeric',
+          month: '2-digit',
+          day: '2-digit',
+          hour: '2-digit',
+          minute: '2-digit',
+          timeZone: 'America/New_York'
         }
       },
       'ja-JP': {
         long: {
-          year: 'numeric', month: '2-digit', day: '2-digit',
-          hour: '2-digit', minute: '2-digit', second: '2-digit', timeZone: 'Asia/Tokyo'
+          year: 'numeric',
+          month: '2-digit',
+          day: '2-digit',
+          hour: '2-digit',
+          minute: '2-digit',
+          second: '2-digit',
+          timeZone: 'Asia/Tokyo'
         },
         short: {
-          year: 'numeric', month: '2-digit', day: '2-digit',
-          hour: '2-digit', minute: '2-digit', timeZone: 'Asia/Tokyo'
+          year: 'numeric',
+          month: '2-digit',
+          day: '2-digit',
+          hour: '2-digit',
+          minute: '2-digit',
+          timeZone: 'Asia/Tokyo'
         }
       }
     }
   })
   const dt = new Date(Date.UTC(2012, 11, 20, 3, 0, 0))
-  expect(d(dt, { key: 'long', fallbackWarn: false })).toEqual('2012/12/20 12:00:00')
+  expect(d(dt, { key: 'long', fallbackWarn: false })).toEqual(
+    '2012/12/20 12:00:00'
+  )
 })
 
 test('n', () => {
@@ -396,21 +439,27 @@ test('n', () => {
     numberFormats: {
       'en-US': {
         currency: {
-          style: 'currency', currency: 'USD', currencyDisplay: 'symbol'
+          style: 'currency',
+          currency: 'USD',
+          currencyDisplay: 'symbol'
         },
         decimal: {
-          style: 'decimal', useGrouping: false
+          style: 'decimal',
+          useGrouping: false
         }
       },
       'ja-JP': {
         currency: {
-          style: 'currency', currency: 'JPY'/*, currencyDisplay: 'symbol'*/
+          style: 'currency',
+          currency: 'JPY' /*, currencyDisplay: 'symbol'*/
         },
         numeric: {
-          style: 'decimal', useGrouping: false
+          style: 'decimal',
+          useGrouping: false
         },
         percent: {
-          style: 'percent', useGrouping: false
+          style: 'percent',
+          useGrouping: false
         }
       }
     }
@@ -420,14 +469,18 @@ test('n', () => {
 
 describe('getLocaleMessage / setLocaleMessage / mergeLocaleMessage', () => {
   test('basic', () => {
-    const { getLocaleMessage, setLocaleMessage, mergeLocaleMessage } = createI18nComposer({
+    const {
+      getLocaleMessage,
+      setLocaleMessage,
+      mergeLocaleMessage
+    } = createI18nComposer({
       messages: {
         en: { hello: 'Hello!' }
       }
     })
     expect(getLocaleMessage('en')).toEqual({ hello: 'Hello!' })
 
-    setLocaleMessage('en', { hi: 'Hi!'})
+    setLocaleMessage('en', { hi: 'Hi!' })
     expect(getLocaleMessage('en')).toEqual({ hi: 'Hi!' })
 
     mergeLocaleMessage('en', { hello: 'Hello!' })
@@ -440,50 +493,78 @@ describe('getLocaleMessage / setLocaleMessage / mergeLocaleMessage', () => {
 
 describe('getDateTimeFormat / setDateTimeFormat / mergeDateTimeFormat', () => {
   test('basci', () => {
-    const { getDateTimeFormat, setDateTimeFormat, mergeDateTimeFormat } = createI18nComposer({
+    const {
+      getDateTimeFormat,
+      setDateTimeFormat,
+      mergeDateTimeFormat
+    } = createI18nComposer({
       datetimeFormats: {
         'en-US': {
           short: {
-            year: 'numeric', month: '2-digit', day: '2-digit',
-            hour: '2-digit', minute: '2-digit'
+            year: 'numeric',
+            month: '2-digit',
+            day: '2-digit',
+            hour: '2-digit',
+            minute: '2-digit'
           }
         }
       }
     })
     expect(getDateTimeFormat('en-US')).toEqual({
       short: {
-        year: 'numeric', month: '2-digit', day: '2-digit',
-        hour: '2-digit', minute: '2-digit'
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+        hour: '2-digit',
+        minute: '2-digit'
       }
     })
 
     setDateTimeFormat('en-US', {
       long: {
-        year: 'numeric', month: '2-digit', day: '2-digit',
-        hour: '2-digit', minute: '2-digit', second: '2-digit'
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit'
       }
     })
     expect(getDateTimeFormat('en-US')).toEqual({
       long: {
-        year: 'numeric', month: '2-digit', day: '2-digit',
-        hour: '2-digit', minute: '2-digit', second: '2-digit'
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit'
       }
     })
 
     mergeDateTimeFormat('en-US', {
       short: {
-        year: 'numeric', month: '2-digit', day: '2-digit',
-        hour: '2-digit', minute: '2-digit'
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+        hour: '2-digit',
+        minute: '2-digit'
       }
     })
     expect(getDateTimeFormat('en-US')).toEqual({
       short: {
-        year: 'numeric', month: '2-digit', day: '2-digit',
-        hour: '2-digit', minute: '2-digit'
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+        hour: '2-digit',
+        minute: '2-digit'
       },
       long: {
-        year: 'numeric', month: '2-digit', day: '2-digit',
-        hour: '2-digit', minute: '2-digit', second: '2-digit'
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit'
       }
     })
   })
@@ -491,43 +572,58 @@ describe('getDateTimeFormat / setDateTimeFormat / mergeDateTimeFormat', () => {
 
 describe('getNumberFormat / setNumberFormat / mergeNumberFormat', () => {
   test('basic', () => {
-    const { getNumberFormat, setNumberFormat, mergeNumberFormat } = createI18nComposer({
+    const {
+      getNumberFormat,
+      setNumberFormat,
+      mergeNumberFormat
+    } = createI18nComposer({
       numberFormats: {
         'en-US': {
           currency: {
-            style: 'currency', currency: 'USD', currencyDisplay: 'symbol'
+            style: 'currency',
+            currency: 'USD',
+            currencyDisplay: 'symbol'
           }
         }
       }
     })
     expect(getNumberFormat('en-US')).toEqual({
       currency: {
-        style: 'currency', currency: 'USD', currencyDisplay: 'symbol'
+        style: 'currency',
+        currency: 'USD',
+        currencyDisplay: 'symbol'
       }
     })
 
     setNumberFormat('en-US', {
       decimal: {
-        style: 'decimal', useGrouping: false
+        style: 'decimal',
+        useGrouping: false
       }
     })
     expect(getNumberFormat('en-US')).toEqual({
       decimal: {
-        style: 'decimal', useGrouping: false
+        style: 'decimal',
+        useGrouping: false
       }
     })
 
     mergeNumberFormat('en-US', {
       currency: {
-        style: 'currency', currency: 'USD', currencyDisplay: 'symbol'
+        style: 'currency',
+        currency: 'USD',
+        currencyDisplay: 'symbol'
       }
     })
     expect(getNumberFormat('en-US')).toEqual({
       currency: {
-        style: 'currency', currency: 'USD', currencyDisplay: 'symbol'
+        style: 'currency',
+        currency: 'USD',
+        currencyDisplay: 'symbol'
       },
       decimal: {
-        style: 'decimal', useGrouping: false
+        style: 'decimal',
+        useGrouping: false
       }
     })
   })

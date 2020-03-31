@@ -5,7 +5,15 @@ import {
   fallback,
   MISSING_RESOLVE_VALUE
 } from './context'
-import { warn, isString, isArray, isBoolean, isPlainObject, isDate, isNumber } from '../utils'
+import {
+  warn,
+  isString,
+  isArray,
+  isBoolean,
+  isPlainObject,
+  isDate,
+  isNumber
+} from '../utils'
 
 /**
  *  # datetime
@@ -38,18 +46,34 @@ import { warn, isString, isArray, isBoolean, isPlainObject, isDate, isNumber } f
 
 export type DateTimeOptions = {
   key?: string
-  locale?: Locale,
+  locale?: Locale
   fallbackWarn?: boolean
 }
 
 // `datetime` function overloads
-export function datetime (context: RuntimeContext, value: number | Date): string | number
-export function datetime (context: RuntimeContext, value: number | Date, key: string): string | number
-export function datetime (context: RuntimeContext, value: number | Date, key: string, locale: Locale): string | number
-export function datetime (context: RuntimeContext, value: number | Date, options: DateTimeOptions): string | number
+export function datetime(
+  context: RuntimeContext,
+  value: number | Date
+): string | number
+export function datetime(
+  context: RuntimeContext,
+  value: number | Date,
+  key: string
+): string | number
+export function datetime(
+  context: RuntimeContext,
+  value: number | Date,
+  key: string,
+  locale: Locale
+): string | number
+export function datetime(
+  context: RuntimeContext,
+  value: number | Date,
+  options: DateTimeOptions
+): string | number
 
 // implementationo of `datetime` function
-export function datetime (
+export function datetime(
   context: RuntimeContext,
   ...args: unknown[]
 ): string | number {
@@ -80,8 +104,10 @@ export function datetime (
     return fallback(
       context,
       key,
-      fallbackWarn, 'datetime format',
-      (context: RuntimeContext): string | number => datetime(context, value, options)
+      fallbackWarn,
+      'datetime format',
+      (context: RuntimeContext): string | number =>
+        datetime(context, value, options)
     )
   }
 
@@ -90,8 +116,10 @@ export function datetime (
     return fallback(
       context,
       key,
-      fallbackWarn, 'datetime format',
-      (context: RuntimeContext): string | number => datetime(context, value, options)
+      fallbackWarn,
+      'datetime format',
+      (context: RuntimeContext): string | number =>
+        datetime(context, value, options)
     )
   }
 
@@ -104,7 +132,9 @@ export function datetime (
   return formatter.format(value)
 }
 
-export function parseDateTimeArgs (...args: unknown[]): [number | Date, DateTimeOptions] {
+export function parseDateTimeArgs(
+  ...args: unknown[]
+): [number | Date, DateTimeOptions] {
   const [arg1, arg2, arg3] = args
   let options = {} as DateTimeOptions
 
@@ -126,7 +156,11 @@ export function parseDateTimeArgs (...args: unknown[]): [number | Date, DateTime
   return [value, options]
 }
 
-export function clearDateTimeFormat (context: RuntimeContext, locale: Locale, format: DateTimeFormat): void {
+export function clearDateTimeFormat(
+  context: RuntimeContext,
+  locale: Locale,
+  format: DateTimeFormat
+): void {
   for (const key in format) {
     const id = `${locale}__${key}`
     if (!context._datetimeFormatters.has(id)) {

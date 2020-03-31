@@ -16,7 +16,12 @@ import {
 } from 'vue'
 import { WritableComputedRef, ComputedRef } from '@vue/reactivity'
 import { Path } from './path'
-import { DateTimeFormats, NumberFormats, DateTimeFormat, NumberFormat } from './runtime/types'
+import {
+  DateTimeFormats,
+  NumberFormats,
+  DateTimeFormat,
+  NumberFormat
+} from './runtime/types'
 import { LinkedModifiers, PluralizationRules } from './message/context'
 import {
   Locale,
@@ -53,10 +58,19 @@ import {
   isPlainObject
 } from './utils'
 
-export const GlobalI18nSymbol: InjectionKey<I18nComposer> = Symbol.for('vue-i18n')
-const providers: Map<ComponentInternalInstance, InjectionKey<I18nComposer>> = new Map()
+export const GlobalI18nSymbol: InjectionKey<I18nComposer> = Symbol.for(
+  'vue-i18n'
+)
+const providers: Map<
+  ComponentInternalInstance,
+  InjectionKey<I18nComposer>
+> = new Map()
 
-export type MissingHandler = (locale: Locale, key: Path, insttance?: ComponentInternalInstance) => string | void
+export type MissingHandler = (
+  locale: Locale,
+  key: Path,
+  insttance?: ComponentInternalInstance
+) => string | void
 
 export type I18nComposerOptions = {
   // TODO:
@@ -91,42 +105,50 @@ export type I18nComposer = {
   fallbackRoot: boolean
   fallbackFormat: boolean
   /* methods */
-  t (key: Path, ...args: unknown[]): string
-  d (value: number | Date): string
-  d (value: number | Date, key: string): string
-  d (value: number | Date, key: string, locale: Locale): string
-  d (value: number | Date, options: DateTimeOptions): string
-  n (value: number): string
-  n (value: number, key: string): string
-  n (value: number, key: string, locale: Locale): string
-  n (value: number, options: NumberOptions): string
-  getLocaleMessage (locale: Locale): LocaleMessage
-  setLocaleMessage (locale: Locale, message: LocaleMessage): void
-  mergeLocaleMessage (locale: Locale, message: LocaleMessage): void
-  getDateTimeFormat (locale: Locale): DateTimeFormat
-  setDateTimeFormat (locale: Locale, format: DateTimeFormat): void
-  mergeDateTimeFormat (locale: Locale, format: DateTimeFormat): void
-  getNumberFormat (locale: Locale): NumberFormat
-  setNumberFormat (locale: Locale, format: NumberFormat): void
-  mergeNumberFormat (locale: Locale, format: NumberFormat): void
-  getPostTranslationHandler (): PostTranslationHandler | null
-  setPostTranslationHandler (handler: PostTranslationHandler | null): void
-  getMissingHandler (): MissingHandler | null
-  setMissingHandler (handler: MissingHandler | null): void
+  t(key: Path, ...args: unknown[]): string
+  d(value: number | Date): string
+  d(value: number | Date, key: string): string
+  d(value: number | Date, key: string, locale: Locale): string
+  d(value: number | Date, options: DateTimeOptions): string
+  n(value: number): string
+  n(value: number, key: string): string
+  n(value: number, key: string, locale: Locale): string
+  n(value: number, options: NumberOptions): string
+  getLocaleMessage(locale: Locale): LocaleMessage
+  setLocaleMessage(locale: Locale, message: LocaleMessage): void
+  mergeLocaleMessage(locale: Locale, message: LocaleMessage): void
+  getDateTimeFormat(locale: Locale): DateTimeFormat
+  setDateTimeFormat(locale: Locale, format: DateTimeFormat): void
+  mergeDateTimeFormat(locale: Locale, format: DateTimeFormat): void
+  getNumberFormat(locale: Locale): NumberFormat
+  setNumberFormat(locale: Locale, format: NumberFormat): void
+  mergeNumberFormat(locale: Locale, format: NumberFormat): void
+  getPostTranslationHandler(): PostTranslationHandler | null
+  setPostTranslationHandler(handler: PostTranslationHandler | null): void
+  getMissingHandler(): MissingHandler | null
+  setMissingHandler(handler: MissingHandler | null): void
 }
 
-function defineRuntimeMissingHandler (missing: MissingHandler): RuntimeMissingHandler {
-  return (ctx: RuntimeContext, locale: Locale, key: Path, ...values: unknown[]): string | void => {
+function defineRuntimeMissingHandler(
+  missing: MissingHandler
+): RuntimeMissingHandler {
+  return (
+    ctx: RuntimeContext,
+    locale: Locale,
+    key: Path,
+    ...values: unknown[]
+  ): string | void => {
     return missing(locale, key, getCurrentInstance() || undefined)
   }
 }
 
-export function createI18nComposer (
+export function createI18nComposer(
   options: I18nComposerOptions = {},
   root?: I18nComposer
 ): I18nComposer {
   // reactivity states
   const _locale = ref<Locale>(
+    // prettier-ignore
     root
       ? root.locale.value
       : isString(options.locale)
@@ -134,6 +156,7 @@ export function createI18nComposer (
         : 'en-US'
   )
   const _fallbackLocales = ref<Locale[]>(
+    // prettier-ignore
     root
       ? root.fallbackLocales.value
       : isArray(options.fallbackLocales)
@@ -141,9 +164,7 @@ export function createI18nComposer (
         : []
   )
   const _messages = ref<LocaleMessages>(
-    isPlainObject(options.messages)
-      ? options.messages
-      : { [_locale.value]: {} }
+    isPlainObject(options.messages) ? options.messages : { [_locale.value]: {} }
   )
   const _datetimeFormats = ref<DateTimeFormats>(
     isPlainObject(options.datetimeFormats)
@@ -157,20 +178,26 @@ export function createI18nComposer (
   )
 
   // warning supress options
+  // prettier-ignore
   let _missingWarn = root
     ? root.missingWarn
     : isBoolean(options.missingWarn) || isRegExp(options.missingWarn)
       ? options.missingWarn
       : true
+  // prettier-ignore
   let _fallbackWarn = root
     ? root.fallbackWarn
     : isBoolean(options.fallbackWarn) || isRegExp(options.fallbackWarn)
       ? options.fallbackWarn
       : true
-  let _fallbackRoot = isBoolean(options.fallbackRoot) ? options.fallbackRoot : true
+  let _fallbackRoot = isBoolean(options.fallbackRoot)
+    ? options.fallbackRoot
+    : true
 
   // configure fall bakck to root
-  let _fallbackFormat = isBoolean(options.fallbackFormat) ? options.fallbackFormat : false
+  let _fallbackFormat = isBoolean(options.fallbackFormat)
+    ? options.fallbackFormat
+    : false
 
   // runtime missing
   let _missing = isFunction(options.missing) ? options.missing : null
@@ -179,9 +206,12 @@ export function createI18nComposer (
     : null
 
   // postTranslation handler
-  let _postTranslation = isFunction(options.postTranslation) ? options.postTranslation : null
+  let _postTranslation = isFunction(options.postTranslation)
+    ? options.postTranslation
+    : null
 
   // custom linked modifiers
+  // prettier-ignore
   const _modifiers = root
     ? root.modifiers
     : isPlainObject(options.modifiers)
@@ -248,11 +278,13 @@ export function createI18nComposer (
   const numberFormats = computed(() => _numberFormats.value)
 
   // getPostTranslationHandler
-  const getPostTranslationHandler =
-    (): PostTranslationHandler | null => isFunction(_postTranslation) ? _postTranslation : null
+  const getPostTranslationHandler = (): PostTranslationHandler | null =>
+    isFunction(_postTranslation) ? _postTranslation : null
 
   // setPostTranslationHandler
-  const setPostTranslationHandler = (handler: PostTranslationHandler | null): void => {
+  const setPostTranslationHandler = (
+    handler: PostTranslationHandler | null
+  ): void => {
     _postTranslation = handler
     _context = getRuntimeContext()
   }
@@ -277,9 +309,7 @@ export function createI18nComposer (
         if (__DEV__ && _fallbackRoot && root) {
           warn(`Fall back to translate '${key}' with root locale.`)
         }
-        return _fallbackRoot && root
-          ? root.t(key, ...args)
-          : key
+        return _fallbackRoot && root ? root.t(key, ...args) : key
       } else if (isString(ret)) {
         return ret
       } else {
@@ -331,7 +361,8 @@ export function createI18nComposer (
   }
 
   // getLocaleMessage
-  const getLocaleMessage = (locale: Locale): LocaleMessage => _messages.value[locale] || {}
+  const getLocaleMessage = (locale: Locale): LocaleMessage =>
+    _messages.value[locale] || {}
 
   // setLocaleMessage
   const setLocaleMessage = (locale: Locale, message: LocaleMessage): void => {
@@ -341,12 +372,16 @@ export function createI18nComposer (
 
   // mergeLocaleMessage
   const mergeLocaleMessage = (locale: Locale, message: LocaleMessage): void => {
-    _messages.value[locale] = Object.assign(_messages.value[locale] || {}, message)
+    _messages.value[locale] = Object.assign(
+      _messages.value[locale] || {},
+      message
+    )
     _context = getRuntimeContext()
   }
 
   // getDateTimeFormat
-  const getDateTimeFormat = (locale: Locale): DateTimeFormat => _datetimeFormats.value[locale] || {}
+  const getDateTimeFormat = (locale: Locale): DateTimeFormat =>
+    _datetimeFormats.value[locale] || {}
 
   // setDateTimeFormat
   const setDateTimeFormat = (locale: Locale, format: DateTimeFormat): void => {
@@ -356,14 +391,21 @@ export function createI18nComposer (
   }
 
   // mergeDateTimeFormat
-  const mergeDateTimeFormat = (locale: Locale, format: DateTimeFormat): void => {
-    _datetimeFormats.value[locale] = Object.assign(_datetimeFormats.value[locale] || {}, format)
+  const mergeDateTimeFormat = (
+    locale: Locale,
+    format: DateTimeFormat
+  ): void => {
+    _datetimeFormats.value[locale] = Object.assign(
+      _datetimeFormats.value[locale] || {},
+      format
+    )
     _context = getRuntimeContext()
     clearDateTimeFormat(_context, locale, format)
   }
 
   // getNumberFormat
-  const getNumberFormat = (locale: Locale): NumberFormat => _numberFormats.value[locale] || {}
+  const getNumberFormat = (locale: Locale): NumberFormat =>
+    _numberFormats.value[locale] || {}
 
   // setNumberFormat
   const setNumberFormat = (locale: Locale, format: NumberFormat): void => {
@@ -374,7 +416,10 @@ export function createI18nComposer (
 
   // mergeNumberFormat
   const mergeNumberFormat = (locale: Locale, format: NumberFormat): void => {
-    _numberFormats.value[locale] = Object.assign(_numberFormats.value[locale] || {}, format)
+    _numberFormats.value[locale] = Object.assign(
+      _numberFormats.value[locale] || {},
+      format
+    )
     _context = getRuntimeContext()
     clearNumberFormat(_context, locale, format)
   }
@@ -383,29 +428,43 @@ export function createI18nComposer (
     /* properties */
     locale,
     fallbackLocales,
-    get availableLocales (): Locale[] { return Object.keys(_messages.value).sort() },
+    get availableLocales(): Locale[] {
+      return Object.keys(_messages.value).sort()
+    },
     messages,
     datetimeFormats,
     numberFormats,
-    get modifiers (): LinkedModifiers { return _modifiers },
-    get pluralRules (): PluralizationRules | undefined { return _pluralRules },
-    get missingWarn (): boolean | RegExp { return _missingWarn },
-    set missingWarn (val: boolean | RegExp) {
+    get modifiers(): LinkedModifiers {
+      return _modifiers
+    },
+    get pluralRules(): PluralizationRules | undefined {
+      return _pluralRules
+    },
+    get missingWarn(): boolean | RegExp {
+      return _missingWarn
+    },
+    set missingWarn(val: boolean | RegExp) {
       _missingWarn = val
       _context = getRuntimeContext()
     },
-    get fallbackWarn (): boolean | RegExp { return _fallbackWarn },
-    set fallbackWarn (val: boolean | RegExp) {
+    get fallbackWarn(): boolean | RegExp {
+      return _fallbackWarn
+    },
+    set fallbackWarn(val: boolean | RegExp) {
       _fallbackWarn = val
       _context = getRuntimeContext()
     },
-    get fallbackRoot (): boolean { return _fallbackRoot },
-    set fallbackRoot (val: boolean) {
+    get fallbackRoot(): boolean {
+      return _fallbackRoot
+    },
+    set fallbackRoot(val: boolean) {
       _fallbackRoot = val
       _context = getRuntimeContext()
     },
-    get fallbackFormat (): boolean { return _fallbackFormat },
-    set fallbackFormat (val: boolean) {
+    get fallbackFormat(): boolean {
+      return _fallbackFormat
+    },
+    set fallbackFormat(val: boolean) {
       _fallbackFormat = val
       _context = getRuntimeContext()
     },
@@ -429,15 +488,18 @@ export function createI18nComposer (
   }
 }
 
-const generateSymbolID = (): string => `vue-i18n-${new Date().getUTCMilliseconds().toString()}`
+const generateSymbolID = (): string =>
+  `vue-i18n-${new Date().getUTCMilliseconds().toString()}`
 
 // exports vue-i18n composable API
-export function useI18n (options?: I18nComposerOptions): I18nComposer {
+export function useI18n(options?: I18nComposerOptions): I18nComposer {
   const globalComposer = inject(GlobalI18nSymbol)
   if (!globalComposer) throw new Error('TODO') // TODO:
 
   const instance = getCurrentInstance()
-  if (instance === null || !options) { return globalComposer }
+  if (instance === null || !options) {
+    return globalComposer
+  }
 
   const symbol = providers.get(instance)
   if (!symbol) {

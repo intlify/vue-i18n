@@ -1,7 +1,11 @@
 import { App } from 'vue'
 import { applyPlugin } from './plugin'
 import { Path, resolveValue } from './path'
-import { PluralizationRule, PluralizationRules, LinkedModifiers } from './message/context'
+import {
+  PluralizationRule,
+  PluralizationRules,
+  LinkedModifiers
+} from './message/context'
 import {
   Locale,
   LocaleMessages,
@@ -12,8 +16,18 @@ import {
 import { TranslateOptions } from './runtime/localize'
 import { parseDateTimeArgs } from './runtime/datetime'
 import { parseNumberArgs } from './runtime/number'
-import { DateTimeFormats, NumberFormats, DateTimeFormat, NumberFormat } from './runtime/types'
-import { MissingHandler, I18nComposer, I18nComposerOptions, createI18nComposer } from './composition'
+import {
+  DateTimeFormats,
+  NumberFormats,
+  DateTimeFormat,
+  NumberFormat
+} from './runtime/types'
+import {
+  MissingHandler,
+  I18nComposer,
+  I18nComposerOptions,
+  createI18nComposer
+} from './composition'
 import {
   isString,
   isArray,
@@ -35,7 +49,7 @@ export type DateTimeFormatResult = string
 export type NumberFormatResult = string
 export interface Formatter {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  interpolate (message: string, values: any, path: string): (Array<any> | null)
+  interpolate(message: string, values: any, path: string): Array<any> | null
 }
 
 export type VueI18nOptions = {
@@ -81,54 +95,66 @@ export type VueI18n = {
   */
 
   // methods
-  t (key: Path, ...values: unknown[]): TranslateResult // return value is breaking change for Vue 3
-  tc (key: Path, ...values: unknown[]): TranslateResult // return value is breaking change for Vue 3
-  te (key: Path, locale?: Locale): boolean
-  getLocaleMessage (locale: Locale): LocaleMessage
-  setLocaleMessage (locale: Locale, message: LocaleMessage): void
-  mergeLocaleMessage (locale: Locale, message: LocaleMessage): void
-  d (value: number | Date): DateTimeFormatResult
-  d (value: number | Date, key: string): DateTimeFormatResult
-  d (value: number | Date, key: string, locale: Locale): DateTimeFormatResult
-  d (value: number | Date, args: { [key: string]: string }): DateTimeFormatResult
-  d (...args: unknown[]): DateTimeFormatResult // for $d
-  getDateTimeFormat (locale: Locale): DateTimeFormat
-  setDateTimeFormat (locale: Locale, format: DateTimeFormat): void
-  mergeDateTimeFormat (locale: Locale, format: DateTimeFormat): void
-  n (value: number): NumberFormatResult
-  n (value: number, key: string): NumberFormatResult
-  n (value: number, key: string, locale: Locale): NumberFormatResult
-  n (value: number, args: { [key: string]: string }): NumberFormatResult
-  n (...args: unknown[]): NumberFormatResult // for $n
-  getNumberFormat (locale: Locale): NumberFormat
-  setNumberFormat (locale: Locale, format: NumberFormat): void
-  mergeNumberFormat (locale: Locale, format: NumberFormat): void
+  t(key: Path, ...values: unknown[]): TranslateResult // return value is breaking change for Vue 3
+  tc(key: Path, ...values: unknown[]): TranslateResult // return value is breaking change for Vue 3
+  te(key: Path, locale?: Locale): boolean
+  getLocaleMessage(locale: Locale): LocaleMessage
+  setLocaleMessage(locale: Locale, message: LocaleMessage): void
+  mergeLocaleMessage(locale: Locale, message: LocaleMessage): void
+  d(value: number | Date): DateTimeFormatResult
+  d(value: number | Date, key: string): DateTimeFormatResult
+  d(value: number | Date, key: string, locale: Locale): DateTimeFormatResult
+  d(value: number | Date, args: { [key: string]: string }): DateTimeFormatResult
+  d(...args: unknown[]): DateTimeFormatResult // for $d
+  getDateTimeFormat(locale: Locale): DateTimeFormat
+  setDateTimeFormat(locale: Locale, format: DateTimeFormat): void
+  mergeDateTimeFormat(locale: Locale, format: DateTimeFormat): void
+  n(value: number): NumberFormatResult
+  n(value: number, key: string): NumberFormatResult
+  n(value: number, key: string, locale: Locale): NumberFormatResult
+  n(value: number, args: { [key: string]: string }): NumberFormatResult
+  n(...args: unknown[]): NumberFormatResult // for $n
+  getNumberFormat(locale: Locale): NumberFormat
+  setNumberFormat(locale: Locale, format: NumberFormat): void
+  mergeNumberFormat(locale: Locale, format: NumberFormat): void
   /*
   // TODO:
   getChoiceIndex: (choice: Choice, choicesLength: number) => number
   */
-  install (app: App): void
+  install(app: App): void
 }
 
 // NOTE: disable (occured build error when use rollup build ...)
 // export const version = __VERSION__ // eslint-disable-line
 
-function convertI18nComposerOptions (options: VueI18nOptions): I18nComposerOptions {
+function convertI18nComposerOptions(
+  options: VueI18nOptions
+): I18nComposerOptions {
   const locale = isString(options.locale) ? options.locale : 'en-US'
-  const fallbackLocales = isString(options.fallbackLocale) ? [options.fallbackLocale] : []
+  const fallbackLocales = isString(options.fallbackLocale)
+    ? [options.fallbackLocale]
+    : []
   const missing = isFunction(options.missing) ? options.missing : undefined
-  const missingWarn = isBoolean(options.silentTranslationWarn) || isRegExp(options.silentTranslationWarn)
-    ? options.silentTranslationWarn
+  const missingWarn =
+    isBoolean(options.silentTranslationWarn) ||
+    isRegExp(options.silentTranslationWarn)
+      ? options.silentTranslationWarn
+      : true
+  const fallbackWarn =
+    isBoolean(options.silentFallbackWarn) ||
+    isRegExp(options.silentFallbackWarn)
+      ? options.silentFallbackWarn
+      : true
+  const fallbackRoot = isBoolean(options.fallbackRoot)
+    ? options.fallbackRoot
     : true
-  const fallbackWarn = isBoolean(options.silentFallbackWarn) || isRegExp(options.silentFallbackWarn)
-    ? options.silentFallbackWarn
-    : true
-  const fallbackRoot = isBoolean(options.fallbackRoot) ? options.fallbackRoot : true
   const fallbackFormat = isBoolean(options.formatFallbackMessages)
     ? options.formatFallbackMessages
     : false
   const pluralizationRules = options.pluralizationRules
-  const postTranslation = isFunction(options.postTranslation) ? options.postTranslation : undefined
+  const postTranslation = isFunction(options.postTranslation)
+    ? options.postTranslation
+    : undefined
 
   if (__DEV__ && options.formatter) {
     warn(`not supportted 'formatter' option`)
@@ -168,62 +194,99 @@ function convertI18nComposerOptions (options: VueI18nOptions): I18nComposerOptio
   }
 }
 
-export function createI18n (options: VueI18nOptions = {}, root?: I18nComposer): VueI18n {
+export function createI18n(
+  options: VueI18nOptions = {},
+  root?: I18nComposer
+): VueI18n {
   const composer = createI18nComposer(convertI18nComposerOptions(options), root)
 
   const i18n = {
     /* properties */
     // locale
-    get locale (): Locale { return composer.locale.value },
-    set locale (val: Locale) { composer.locale.value = val },
+    get locale(): Locale {
+      return composer.locale.value
+    },
+    set locale(val: Locale) {
+      composer.locale.value = val
+    },
     // fallbackLocale
-    get fallbackLocale (): Locale {
+    get fallbackLocale(): Locale {
       return composer.fallbackLocales.value.length === 0
         ? 'en-US' // compatible for vue-i18n legay style
         : composer.fallbackLocales.value[0]
     },
-    set fallbackLocale (val: Locale) { composer.fallbackLocales.value = [val] },
-    // messages
-    get messages (): LocaleMessages { return composer.messages.value },
-    // datetimeFormats
-    get datetimeFormats (): DateTimeFormats { return composer.datetimeFormats.value },
-    // numberFormats
-    get numberFormats (): NumberFormats { return composer.numberFormats.value },
-    // availableLocales
-    get availableLocales (): Locale[] { return composer.availableLocales },
-    // formatter
-    get formatter (): Formatter {
-      __DEV__ && warn(`not support 'formatter' property`)
-      return { interpolate () { return [] } }
+    set fallbackLocale(val: Locale) {
+      composer.fallbackLocales.value = [val]
     },
-    set formatter (val: Formatter) {
+    // messages
+    get messages(): LocaleMessages {
+      return composer.messages.value
+    },
+    // datetimeFormats
+    get datetimeFormats(): DateTimeFormats {
+      return composer.datetimeFormats.value
+    },
+    // numberFormats
+    get numberFormats(): NumberFormats {
+      return composer.numberFormats.value
+    },
+    // availableLocales
+    get availableLocales(): Locale[] {
+      return composer.availableLocales
+    },
+    // formatter
+    get formatter(): Formatter {
+      __DEV__ && warn(`not support 'formatter' property`)
+      return {
+        interpolate() {
+          return []
+        }
+      }
+    },
+    set formatter(val: Formatter) {
       __DEV__ && warn(`not support 'formatter' property`)
     },
     // missing
-    get missing (): MissingHandler | null { return composer.getMissingHandler() },
-    set missing (handler: MissingHandler | null) { composer.setMissingHandler(handler) },
+    get missing(): MissingHandler | null {
+      return composer.getMissingHandler()
+    },
+    set missing(handler: MissingHandler | null) {
+      composer.setMissingHandler(handler)
+    },
     // silentTranslationWarn
-    get silentTranslationWarn (): boolean | RegExp {
+    get silentTranslationWarn(): boolean | RegExp {
       return isBoolean(composer.missingWarn)
         ? !composer.missingWarn
         : composer.missingWarn
     },
-    set silentTranslationWarn (val: boolean | RegExp) { composer.missingWarn = isBoolean(val) ? !val : val },
+    set silentTranslationWarn(val: boolean | RegExp) {
+      composer.missingWarn = isBoolean(val) ? !val : val
+    },
     // silentFallbackWarn
-    get silentFallbackWarn (): boolean | RegExp {
+    get silentFallbackWarn(): boolean | RegExp {
       return isBoolean(composer.fallbackWarn)
         ? !composer.fallbackWarn
         : composer.fallbackWarn
     },
-    set silentFallbackWarn (val: boolean | RegExp) { composer.fallbackWarn = isBoolean(val) ? !val : val },
+    set silentFallbackWarn(val: boolean | RegExp) {
+      composer.fallbackWarn = isBoolean(val) ? !val : val
+    },
     // formatFallbackMessages
-    get formatFallbackMessages (): boolean { return composer.fallbackFormat },
-    set formatFallbackMessages (val: boolean) { composer.fallbackFormat = val },
+    get formatFallbackMessages(): boolean {
+      return composer.fallbackFormat
+    },
+    set formatFallbackMessages(val: boolean) {
+      composer.fallbackFormat = val
+    },
     // postTranslation
-    get postTranslation (): PostTranslationHandler | null { return composer.getPostTranslationHandler() },
-    set postTranslation (handler: PostTranslationHandler | null) { composer.setPostTranslationHandler(handler) },
+    get postTranslation(): PostTranslationHandler | null {
+      return composer.getPostTranslationHandler()
+    },
+    set postTranslation(handler: PostTranslationHandler | null) {
+      composer.setPostTranslationHandler(handler)
+    },
     /* methods */
-    t (key: Path, ...values: unknown[]): TranslateResult {
+    t(key: Path, ...values: unknown[]): TranslateResult {
       const [arg1, arg2] = values
       const options = {} as TranslateOptions
 
@@ -243,7 +306,7 @@ export function createI18n (options: VueI18nOptions = {}, root?: I18nComposer): 
 
       return composer.t(key, ...(values.length > 0 ? [options] : []))
     },
-    tc (key: Path, ...values: unknown[]): TranslateResult {
+    tc(key: Path, ...values: unknown[]): TranslateResult {
       const [arg1, arg2, arg3] = values
       const options = {} as TranslateOptions
 
@@ -267,39 +330,45 @@ export function createI18n (options: VueI18nOptions = {}, root?: I18nComposer): 
 
       return composer.t(key, ...(values.length > 0 ? [options] : []))
     },
-    te (key: Path, locale?: Locale): boolean {
+    te(key: Path, locale?: Locale): boolean {
       const targetLocale = isString(locale) ? locale : composer.locale.value
       const message = composer.getLocaleMessage(targetLocale)
       return resolveValue(message, key) !== null
     },
-    getLocaleMessage (locale: Locale): LocaleMessage { return composer.getLocaleMessage(locale) },
-    setLocaleMessage (locale: Locale, message: LocaleMessage): void {
+    getLocaleMessage(locale: Locale): LocaleMessage {
+      return composer.getLocaleMessage(locale)
+    },
+    setLocaleMessage(locale: Locale, message: LocaleMessage): void {
       composer.setLocaleMessage(locale, message)
     },
-    mergeLocaleMessage (locale: Locale, message: LocaleMessage): void {
+    mergeLocaleMessage(locale: Locale, message: LocaleMessage): void {
       composer.mergeLocaleMessage(locale, message)
     },
-    d (...args: unknown[]): DateTimeFormatResult {
+    d(...args: unknown[]): DateTimeFormatResult {
       return composer.d(...parseDateTimeArgs(...args))
     },
-    getDateTimeFormat (locale: Locale): DateTimeFormat { return composer.getDateTimeFormat(locale) },
-    setDateTimeFormat (locale: Locale, format: DateTimeFormat): void {
+    getDateTimeFormat(locale: Locale): DateTimeFormat {
+      return composer.getDateTimeFormat(locale)
+    },
+    setDateTimeFormat(locale: Locale, format: DateTimeFormat): void {
       composer.setDateTimeFormat(locale, format)
     },
-    mergeDateTimeFormat (locale: Locale, format: DateTimeFormat): void {
+    mergeDateTimeFormat(locale: Locale, format: DateTimeFormat): void {
       composer.mergeDateTimeFormat(locale, format)
     },
-    n (...args: unknown[]): NumberFormatResult {
+    n(...args: unknown[]): NumberFormatResult {
       return composer.n(...parseNumberArgs(...args))
     },
-    getNumberFormat (locale: Locale): NumberFormat { return composer.getNumberFormat(locale) },
-    setNumberFormat (locale: Locale, format: NumberFormat): void {
+    getNumberFormat(locale: Locale): NumberFormat {
+      return composer.getNumberFormat(locale)
+    },
+    setNumberFormat(locale: Locale, format: NumberFormat): void {
       composer.setNumberFormat(locale, format)
     },
-    mergeNumberFormat (locale: Locale, format: NumberFormat): void {
+    mergeNumberFormat(locale: Locale, format: NumberFormat): void {
       composer.mergeNumberFormat(locale, format)
     },
-    install (app: App): void {
+    install(app: App): void {
       applyPlugin(app, i18n as VueI18n, composer)
     }
   }

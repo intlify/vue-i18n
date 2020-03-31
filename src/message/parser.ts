@@ -39,11 +39,7 @@ export interface MessageNode extends Node {
   items: MessageElementNode[]
 }
 
-type MessageElementNode =
-  | TextNode
-  | NamedNode
-  | ListNode
-  | LinkedNode
+type MessageElementNode = TextNode | NamedNode | ListNode | LinkedNode
 
 export interface TextNode extends Node {
   type: NodeTypes.Text
@@ -80,7 +76,7 @@ export type Parser = Readonly<{
   parse: (source: string) => ResourceNode
 }>
 
-export function createParser (): Parser {
+export function createParser(): Parser {
   const startNode = (type: NodeTypes, offset: number, loc: Position): Node => {
     return {
       type,
@@ -90,7 +86,12 @@ export function createParser (): Parser {
     }
   }
 
-  const endNode = (node: Node, offset: number, loc: Position, type?: NodeTypes): void => {
+  const endNode = (
+    node: Node,
+    offset: number,
+    loc: Position,
+    type?: NodeTypes
+  ): void => {
     node.end = offset
     if (type) {
       node.type = type
@@ -102,7 +103,11 @@ export function createParser (): Parser {
 
   const parseText = (tokenizer: Tokenizer, value: string): TextNode => {
     const context = tokenizer.context()
-    const node = startNode(NodeTypes.Text, context.offset, context.startLoc) as TextNode
+    const node = startNode(
+      NodeTypes.Text,
+      context.offset,
+      context.startLoc
+    ) as TextNode
     node.value = value
     endNode(node, tokenizer.currentOffset(), tokenizer.currentPosition())
     return node
@@ -137,15 +142,26 @@ export function createParser (): Parser {
     }
     const context = tokenizer.context()
     const { lastOffset: offset, lastStartLoc: loc } = context // get linked dot loc
-    const node = startNode(NodeTypes.LinkedModifier, offset, loc) as LinkedModitierNode
+    const node = startNode(
+      NodeTypes.LinkedModifier,
+      offset,
+      loc
+    ) as LinkedModitierNode
     node.value = token.value
     endNode(node, tokenizer.currentOffset(), tokenizer.currentPosition())
     return node
   }
 
-  const parseLinkedKey = (tokenizer: Tokenizer, value: string): LinkedKeyNode => {
+  const parseLinkedKey = (
+    tokenizer: Tokenizer,
+    value: string
+  ): LinkedKeyNode => {
     const context = tokenizer.context()
-    const node = startNode(NodeTypes.LinkedKey, context.offset, context.startLoc) as LinkedKeyNode
+    const node = startNode(
+      NodeTypes.LinkedKey,
+      context.offset,
+      context.startLoc
+    ) as LinkedKeyNode
     node.value = value
     endNode(node, tokenizer.currentOffset(), tokenizer.currentPosition())
     return node
@@ -153,7 +169,11 @@ export function createParser (): Parser {
 
   const parseLinked = (tokenizer: Tokenizer): LinkedNode => {
     const context = tokenizer.context()
-    const linkedNode = startNode(NodeTypes.Linked, context.offset, context.startLoc) as LinkedNode
+    const linkedNode = startNode(
+      NodeTypes.Linked,
+      context.offset,
+      context.startLoc
+    ) as LinkedNode
 
     let token = tokenizer.nextToken()
     if (token.type === TokenTypes.LinkedDot) {
@@ -218,13 +238,19 @@ export function createParser (): Parser {
 
   const parseMessage = (tokenizer: Tokenizer): MessageNode => {
     const context = tokenizer.context()
-    const startOffset = context.currentType === TokenTypes.Pipe
-      ? tokenizer.currentOffset()
-      : context.offset
-    const startLoc = context.currentType === TokenTypes.Pipe
-      ? context.endLoc
-      : context.startLoc
-    const node = startNode(NodeTypes.Message, startOffset, startLoc) as MessageNode
+    const startOffset =
+      context.currentType === TokenTypes.Pipe
+        ? tokenizer.currentOffset()
+        : context.offset
+    const startLoc =
+      context.currentType === TokenTypes.Pipe
+        ? context.endLoc
+        : context.startLoc
+    const node = startNode(
+      NodeTypes.Message,
+      startOffset,
+      startLoc
+    ) as MessageNode
     node.items = []
 
     do {
@@ -257,21 +283,31 @@ export function createParser (): Parser {
         default:
           break
       }
-    } while (context.currentType !== TokenTypes.EOF && context.currentType !== TokenTypes.Pipe)
+    } while (
+      context.currentType !== TokenTypes.EOF &&
+      context.currentType !== TokenTypes.Pipe
+    )
 
     // adjust message node loc
-    const endOffset = context.currentType === TokenTypes.Pipe
-      ? context.lastOffset
-      : tokenizer.currentOffset()
-    const endLoc = context.currentType === TokenTypes.Pipe
-      ? context.lastEndLoc
-      : tokenizer.currentPosition()
+    const endOffset =
+      context.currentType === TokenTypes.Pipe
+        ? context.lastOffset
+        : tokenizer.currentOffset()
+    const endLoc =
+      context.currentType === TokenTypes.Pipe
+        ? context.lastEndLoc
+        : tokenizer.currentPosition()
 
     endNode(node, endOffset, endLoc)
     return node
   }
 
-  const parsePlural = (tokenizer: Tokenizer, offset: number, loc: Position, msgNode: MessageNode): PluralNode => {
+  const parsePlural = (
+    tokenizer: Tokenizer,
+    offset: number,
+    loc: Position,
+    msgNode: MessageNode
+  ): PluralNode => {
     const context = tokenizer.context()
 
     const node = startNode(NodeTypes.Plural, offset, loc) as PluralNode
@@ -299,11 +335,15 @@ export function createParser (): Parser {
     }
   }
 
-  function parse (source: string): ResourceNode {
+  function parse(source: string): ResourceNode {
     const tokenizer = createTokenizer(source)
     const context = tokenizer.context()
 
-    const node = startNode(NodeTypes.Resource, context.offset, context.startLoc) as ResourceNode
+    const node = startNode(
+      NodeTypes.Resource,
+      context.offset,
+      context.startLoc
+    ) as ResourceNode
     node.body = parseResource(tokenizer)
 
     // assert wheather achieved to EOF

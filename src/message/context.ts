@@ -1,6 +1,16 @@
-import { isNumber, isFunction, toDisplayString, isObject, isString } from '../utils'
+import {
+  isNumber,
+  isFunction,
+  toDisplayString,
+  isObject,
+  isString
+} from '../utils'
 
-export type PluralizationRule = (choice: number, choicesLength: number, orgRule?: PluralizationRule) => number
+export type PluralizationRule = (
+  choice: number,
+  choicesLength: number,
+  orgRule?: PluralizationRule
+) => number
 export type PluralizationRules = { [locale: string]: PluralizationRule }
 export type LinkedModify = (str: string) => string
 export type LinkedModifiers = { [key: string]: LinkedModify }
@@ -34,9 +44,10 @@ export type MessageContext = {
 const DEFAULT_MODIFIER = (str: string): string => str
 const DEFAULT_MESSAGE = (ctx: MessageContext): string => '' // eslint-disable-line
 
-function pluralDefault (choice: number, choicesLength: number): number {
+function pluralDefault(choice: number, choicesLength: number): number {
   choice = Math.abs(choice)
   if (choicesLength === 2) {
+    // prettier-ignore
     return choice
       ? choice > 1
         ? 1
@@ -46,10 +57,12 @@ function pluralDefault (choice: number, choicesLength: number): number {
   return choice ? Math.min(choice, 2) : 0
 }
 
-function getPluralIndex (options: MessageContextOptions): number {
+function getPluralIndex(options: MessageContextOptions): number {
+  // prettier-ignore
   const index = isNumber(options.pluralIndex)
     ? options.pluralIndex
     : -1
+  // prettier-ignore
   return options.named && (isNumber(options.named.count) || isNumber(options.named.n))
     ? isNumber(options.named.count)
       ? options.named.count
@@ -60,7 +73,7 @@ function getPluralIndex (options: MessageContextOptions): number {
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-function normalizeNamed (pluralIndex: number, named: any): void {
+function normalizeNamed(pluralIndex: number, named: any): void {
   if (!named.count) {
     named.count = pluralIndex
   }
@@ -69,7 +82,7 @@ function normalizeNamed (pluralIndex: number, named: any): void {
   }
 }
 
-export function createMessageContext<N = {}> (
+export function createMessageContext<N = {}>(
   options: MessageContextOptions<N> = {}
 ): MessageContext {
   const locale = options.locale
@@ -77,30 +90,36 @@ export function createMessageContext<N = {}> (
   const pluralIndex = getPluralIndex(options)
 
   // TODO: should be implemented warning message
-  const pluralRule = isObject(options.pluralRules) && isString(locale) && isFunction(options.pluralRules[locale])
-    ? options.pluralRules[locale]
-    : pluralDefault
-  const orgPluralRule = isObject(options.pluralRules) && isString(locale) && isFunction(options.pluralRules[locale])
-    ? pluralDefault
-    : undefined
+  const pluralRule =
+    isObject(options.pluralRules) &&
+    isString(locale) &&
+    isFunction(options.pluralRules[locale])
+      ? options.pluralRules[locale]
+      : pluralDefault
+  const orgPluralRule =
+    isObject(options.pluralRules) &&
+    isString(locale) &&
+    isFunction(options.pluralRules[locale])
+      ? pluralDefault
+      : undefined
 
   const _list = options.list || []
   // TODO: should be implemented warning message
   const list = (index: number): unknown => _list[index]
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const _named = options.named || {} as any
+  const _named = options.named || ({} as any)
   isNumber(options.pluralIndex) && normalizeNamed(pluralIndex, _named)
   // TODO: should be implemented warning message
   const named = (key: string): unknown => _named[key]
 
   // TODO: should be implemented warning message
-  const modifier = (name: string): LinkedModify => options.modifiers
-    ? options.modifiers[name]
-    : DEFAULT_MODIFIER
+  const modifier = (name: string): LinkedModify =>
+    options.modifiers ? options.modifiers[name] : DEFAULT_MODIFIER
 
   const message = (name: string): MessageFunction => {
     // TODO: need to design resolve message function?
+    // prettier-ignore
     const msg = isFunction(options.messages)
       ? options.messages(name)
       : isObject(options.messages)

@@ -69,7 +69,7 @@
     "clean:dist": "rm -rf ./dist/**",
     "clean:type": "rm -rf ./types/**",
     "coverage": "opener coverage/lcov-report/index.html",
-    "format": "prettier --config .prettierrc --ignore-path .prettierignore --write '**/*.{js,json,ts,tsx}'",
+    "format": "eslint ./src ./test --ext .ts --fix",
     "lint": "eslint ./src ./test --ext .ts",
     "test": "npm run lint && npm run test:cover",
     "test:cover": "npm run test:unit -- --coverage",

@@ -27,7 +27,10 @@ export type LocaleMessage =
 export type LocaleMessages = Record<Locale, LocaleMessage>
 
 export type RuntimeMissingHandler = (
-  context: RuntimeContext, locale: Locale, key: Path, ...values: unknown[]
+  context: RuntimeContext,
+  locale: Locale,
+  key: Path,
+  ...values: unknown[]
 ) => string | void
 export type PostTranslationHandler = (translated: string) => string
 
@@ -73,13 +76,16 @@ export type RuntimeContext = {
 const DEFAULT_LINKDED_MODIFIERS: LinkedModifiers = {
   upper: (str: string): string => str.toUpperCase(),
   lower: (str: string): string => str.toLowerCase(),
-  capitalize: (str: string): string => `${str.charAt(0).toLocaleUpperCase()}${str.substr(1)}`
+  capitalize: (str: string): string =>
+    `${str.charAt(0).toLocaleUpperCase()}${str.substr(1)}`
 }
 
 export const NOT_REOSLVED = -1
 export const MISSING_RESOLVE_VALUE = ''
 
-export function createRuntimeContext (options: RuntimeOptions = {}): RuntimeContext {
+export function createRuntimeContext(
+  options: RuntimeOptions = {}
+): RuntimeContext {
   const locale = isString(options.locale) ? options.locale : 'en-US'
   const fallbackLocales = isArray(options.fallbackLocales)
     ? options.fallbackLocales
@@ -147,31 +153,47 @@ export function createRuntimeContext (options: RuntimeOptions = {}): RuntimeCont
   }
 }
 
-export function isTrarnslateFallbackWarn (fallback: boolean | RegExp, key: string): boolean {
-  return fallback instanceof RegExp
-    ? fallback.test(key)
-    : fallback
+export function isTrarnslateFallbackWarn(
+  fallback: boolean | RegExp,
+  key: string
+): boolean {
+  return fallback instanceof RegExp ? fallback.test(key) : fallback
 }
 
-export function fallback (
+export function fallback(
   context: RuntimeContext,
   key: string,
   fallbackWarn: boolean | RegExp,
   type: string,
   fn: Function
 ): string | number {
-  let ret: string | number = context.unresolving ? NOT_REOSLVED : MISSING_RESOLVE_VALUE
-  if (context.fallbackLocales.length === 0) { return ret }
-  if (context._fallbackLocaleStack && context._fallbackLocaleStack.length === 0) { return ret }
+  let ret: string | number = context.unresolving
+    ? NOT_REOSLVED
+    : MISSING_RESOLVE_VALUE
+  if (context.fallbackLocales.length === 0) {
+    return ret
+  }
+  if (
+    context._fallbackLocaleStack &&
+    context._fallbackLocaleStack.length === 0
+  ) {
+    return ret
+  }
   if (!context._fallbackLocaleStack) {
     context._fallbackLocaleStack = [...context.fallbackLocales]
   }
-  if (__DEV__ &&
-    isTrarnslateFallbackWarn(fallbackWarn, key)) {
-    warn(`Fall back to ${type} '${key}' key with '${context._fallbackLocaleStack.join(',')}' locale.`)
+  if (__DEV__ && isTrarnslateFallbackWarn(fallbackWarn, key)) {
+    warn(
+      `Fall back to ${type} '${key}' key with '${context._fallbackLocaleStack.join(
+        ','
+      )}' locale.`
+    )
   }
   ret = fn(context)
-  if (context._fallbackLocaleStack && context._fallbackLocaleStack.length === 0) {
+  if (
+    context._fallbackLocaleStack &&
+    context._fallbackLocaleStack.length === 0
+  ) {
     context._fallbackLocaleStack = undefined
     if (ret === MISSING_RESOLVE_VALUE && context.unresolving) {
       ret = NOT_REOSLVED

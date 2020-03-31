@@ -1,4 +1,11 @@
-import { ResourceNode, Node, NodeTypes, PluralNode, MessageNode, LinkedNode } from './parser'
+import {
+  ResourceNode,
+  Node,
+  NodeTypes,
+  PluralNode,
+  MessageNode,
+  LinkedNode
+} from './parser'
 
 // TODO: if we offer custom transform for uses, should be defined TransformOptions type to here
 // ex.
@@ -14,7 +21,9 @@ type Transformer = Readonly<{
   context: () => TransformContext
 }>
 
-function createTransformer (ast: ResourceNode/*, options: TransformOptions */): Transformer {
+function createTransformer(
+  ast: ResourceNode /*, options: TransformOptions */
+): Transformer {
   const _context = {
     ast,
     needInterpolate: false
@@ -27,13 +36,13 @@ function createTransformer (ast: ResourceNode/*, options: TransformOptions */): 
   })
 }
 
-function traverseNodes (nodes: Node[], transformer: Transformer): void {
+function traverseNodes(nodes: Node[], transformer: Transformer): void {
   for (let i = 0; i < nodes.length; i++) {
     traverseNode(nodes[i], transformer)
   }
 }
 
-function traverseNode (node: Node, transformer: Transformer): void {
+function traverseNode(node: Node, transformer: Transformer): void {
   const context = transformer.context()
 
   // TODO: if we need pre-hook of transform, should be implemeted to here
@@ -63,7 +72,9 @@ function traverseNode (node: Node, transformer: Transformer): void {
 }
 
 // transform AST
-export function transform (ast: ResourceNode/*, options: TransformOptions */): void {
+export function transform(
+  ast: ResourceNode /*, options: TransformOptions */
+): void {
   const transformer = createTransformer(ast)
   // traverse
   ast.body && traverseNode(ast.body, transformer)

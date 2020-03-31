@@ -25,10 +25,13 @@ export type Compiler = Readonly<{
 
 export type MessageFunction = (ctx: unknown) => string
 
-export function createCompiler (): Compiler {
+export function createCompiler(): Compiler {
   const _parser = createParser()
 
-  const compile = (source: string, options: CompileOptions = {}): CompileResult => {
+  const compile = (
+    source: string,
+    options: CompileOptions = {}
+  ): CompileResult => {
     const ast = _parser.parse(source)
     transform(ast)
     const code = generate(ast)
@@ -43,7 +46,10 @@ export function createCompiler (): Compiler {
 const compileCache: Record<string, MessageFunction> = Object.create(null)
 const compiler = createCompiler()
 
-export function compile (source: string, options: CompileOptions = {}): MessageFunction {
+export function compile(
+  source: string,
+  options: CompileOptions = {}
+): MessageFunction {
   const { code } = compiler.compile(source, options)
   const msg = new Function(`return ${code}`)() as MessageFunction
   return (compileCache[source] = msg)

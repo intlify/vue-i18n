@@ -1,7 +1,9 @@
 import { createTokenizer, TokenTypes } from '../../../src/message/tokenizer'
 
 test('basic', () => {
-  const tokenizer = createTokenizer('no apples | one apple  |  too much apples  ')
+  const tokenizer = createTokenizer(
+    'no apples | one apple  |  too much apples  '
+  )
   expect(tokenizer.nextToken()).toEqual({
     type: TokenTypes.Text,
     value: 'no apples',
@@ -45,7 +47,9 @@ test('basic', () => {
 })
 
 test('multi lines', () => {
-  const tokenizer = createTokenizer('no apples |\n one apple  |\n  too much apples  ')
+  const tokenizer = createTokenizer(
+    'no apples |\n one apple  |\n  too much apples  '
+  )
   expect(tokenizer.nextToken()).toEqual({
     type: TokenTypes.Text,
     value: 'no apples',
@@ -96,7 +100,9 @@ test('multi lines', () => {
 })
 
 test('complex', () => {
-  const tokenizer = createTokenizer('@.lower:(no apples) | {1} apple | {count}　apples')
+  const tokenizer = createTokenizer(
+    '@.lower:(no apples) | {1} apple | {count}　apples'
+  )
   expect(tokenizer.nextToken()).toEqual({
     type: TokenTypes.LinkedAlias,
     value: '@',

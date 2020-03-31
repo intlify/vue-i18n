@@ -32,7 +32,7 @@ type CodeGenerator = Readonly<{
   newline: () => void
 }>
 
-function createCodeGenerator (source?: string): CodeGenerator {
+function createCodeGenerator(source?: string): CodeGenerator {
   const _context = {
     source,
     code: '',
@@ -66,11 +66,15 @@ function createCodeGenerator (source?: string): CodeGenerator {
   }
 
   return Object.freeze({
-    context, push, indent, deindent, newline
+    context,
+    push,
+    indent,
+    deindent,
+    newline
   })
 }
 
-function generateLinkedNode (generator: CodeGenerator, node: LinkedNode): void {
+function generateLinkedNode(generator: CodeGenerator, node: LinkedNode): void {
   if (node.modifier) {
     generator.push('ctx.modifier(')
     generateNode(generator, node.modifier)
@@ -84,13 +88,18 @@ function generateLinkedNode (generator: CodeGenerator, node: LinkedNode): void {
   }
 }
 
-function generateMessageNode (generator: CodeGenerator, node: MessageNode): void {
+function generateMessageNode(
+  generator: CodeGenerator,
+  node: MessageNode
+): void {
   if (node.items.length > 1) {
     generator.push('[')
     generator.indent()
     for (let i = 0; i < node.items.length; i++) {
       generateNode(generator, node.items[i])
-      if (i === node.items.length - 1) { break }
+      if (i === node.items.length - 1) {
+        break
+      }
       generator.push(', ')
     }
     generator.deindent()
@@ -100,7 +109,7 @@ function generateMessageNode (generator: CodeGenerator, node: MessageNode): void
   }
 }
 
-function generatePluralNode (generator: CodeGenerator, node: PluralNode): void {
+function generatePluralNode(generator: CodeGenerator, node: PluralNode): void {
   if (node.cases.length > 1) {
     generator.push('[')
     generator.indent()
@@ -110,11 +119,13 @@ function generatePluralNode (generator: CodeGenerator, node: PluralNode): void {
     }
     generator.push('""')
     generator.deindent()
-    generator.push(`][ctx.pluralRule(ctx.pluralIndex, ${node.cases.length}, ctx.orgPluralRule)]`)
+    generator.push(
+      `][ctx.pluralRule(ctx.pluralIndex, ${node.cases.length}, ctx.orgPluralRule)]`
+    )
   }
 }
 
-function generateResource (generator: CodeGenerator, node: ResourceNode): void {
+function generateResource(generator: CodeGenerator, node: ResourceNode): void {
   if (node.body) {
     generateNode(generator, node.body)
   } else {
@@ -122,19 +133,19 @@ function generateResource (generator: CodeGenerator, node: ResourceNode): void {
   }
 }
 
-function generateNode (generator: CodeGenerator, node: Node): void {
+function generateNode(generator: CodeGenerator, node: Node): void {
   switch (node.type) {
     case NodeTypes.Resource:
-      generateResource(generator, (node as ResourceNode))
+      generateResource(generator, node as ResourceNode)
       break
     case NodeTypes.Plural:
-      generatePluralNode(generator, (node as PluralNode))
+      generatePluralNode(generator, node as PluralNode)
       break
     case NodeTypes.Message:
-      generateMessageNode(generator, (node as MessageNode))
+      generateMessageNode(generator, node as MessageNode)
       break
     case NodeTypes.Linked:
-      generateLinkedNode(generator, (node as LinkedNode))
+      generateLinkedNode(generator, node as LinkedNode)
       break
     case NodeTypes.LinkedModifier:
       generator.push(JSON.stringify((node as LinkedModitierNode).value))
@@ -146,7 +157,9 @@ function generateNode (generator: CodeGenerator, node: Node): void {
       generator.push(`ctx.interpolate(ctx.list(${(node as ListNode).index}))`)
       break
     case NodeTypes.Named:
-      generator.push(`ctx.interpolate(ctx.named(${JSON.stringify((node as NamedNode).key)}))`)
+      generator.push(
+        `ctx.interpolate(ctx.named(${JSON.stringify((node as NamedNode).key)}))`
+      )
       break
     case NodeTypes.Text:
       generator.push(JSON.stringify((node as TextNode).value))

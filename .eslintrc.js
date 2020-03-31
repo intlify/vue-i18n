@@ -10,10 +10,12 @@ module.exports = {
     jest: true
   },
   extends: [
+    'plugin:vue-libs/recommended',
+    'plugin:vue/vue3-recommended',
     'plugin:@typescript-eslint/recommended',
     'plugin:@typescript-eslint/eslint-recommended',
-    'plugin:vue-libs/recommended',
-    'plugin:vue/vue3-recommended'
+    'prettier/@typescript-eslint',
+    'plugin:prettier/recommended'
   ],
   plugins: [
     '@typescript-eslint'
