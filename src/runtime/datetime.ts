@@ -5,16 +5,20 @@ import {
   fallback,
   MISSING_RESOLVE_VALUE
 } from './context'
-import { warn, isString, isArray, isBoolean, isPlainObject } from '../utils'
+import { warn, isString, isArray, isBoolean, isPlainObject, isDate, isNumber } from '../utils'
 
-/*
- * datetime
+/**
+ *  # datetime
  *
- * usages:
- *    'short': {
- *      year: 'numeric', month: '2-digit', day: '2-digit',
- *      hour: '2-digit', minute: '2-digit'
- *    }
+ *  ## usages:
+ *    // for example `context.datetimeFormats` below
+ *    'en-US': {
+ *      short: {
+ *        year: 'numeric', month: '2-digit', day: '2-digit',
+ *        hour: '2-digit', minute: '2-digit'
+ *      }
+ *    },
+ *    'ja-JP': { ... }
  *
  *    // datetimeable value only
  *    datetime(context, value)
@@ -38,9 +42,15 @@ export type DateTimeOptions = {
   fallbackWarn?: boolean
 }
 
+// `datetime` function overloads
+export function datetime (context: RuntimeContext, value: number | Date): string | number
+export function datetime (context: RuntimeContext, value: number | Date, key: string): string | number
+export function datetime (context: RuntimeContext, value: number | Date, key: string, locale: Locale): string | number
+export function datetime (context: RuntimeContext, value: number | Date, options: DateTimeOptions): string | number
+
+// implementationo of `datetime` function
 export function datetime (
   context: RuntimeContext,
-  value: number | Date,
   ...args: unknown[]
 ): string | number {
   const { datetimeFormats, _datetimeFormatters, _fallbackLocaleStack } = context
@@ -50,7 +60,7 @@ export function datetime (
     return MISSING_RESOLVE_VALUE
   }
 
-  const options = parseDateTimeArgs(...args)
+  const [value, options] = parseDateTimeArgs(...args)
   const { key } = options
   const fallbackWarn = isBoolean(options.fallbackWarn)
     ? options.fallbackWarn
@@ -60,29 +70,6 @@ export function datetime (
   if (isArray(_fallbackLocaleStack) && _fallbackLocaleStack.length > 0) {
     locale = _fallbackLocaleStack.shift() || locale
   }
-
-  /*
-  const fallback = (context: RuntimeContext, key: string, fallbackWarn: boolean | RegExp): string | number => {
-    let ret: string | number = context.unresolving ? NOT_REOSLVED : MISSING_RESOLVE_VALUE
-    if (context.fallbackLocales.length === 0) { return ret }
-    if (context._fallbackLocaleStack && context._fallbackLocaleStack.length === 0) { return ret }
-    if (!context._fallbackLocaleStack) {
-      context._fallbackLocaleStack = [...context.fallbackLocales]
-    }
-    if (__DEV__ &&
-      isTrarnslateFallbackWarn(fallbackWarn, key)) {
-      warn(`Fall back to datetime format '${key}' key with '${context._fallbackLocaleStack.join(',')}' locale.`)
-    }
-    ret = datetime(context, value, ...args)
-    if (context._fallbackLocaleStack && context._fallbackLocaleStack.length === 0) {
-      context._fallbackLocaleStack = undefined
-      if (ret === MISSING_RESOLVE_VALUE && context.unresolving) {
-        ret = NOT_REOSLVED
-      }
-    }
-    return ret
-  }
-  o*/
 
   if (!isString(key)) {
     return new Intl.DateTimeFormat(locale).format(value)
@@ -94,7 +81,7 @@ export function datetime (
       context,
       key,
       fallbackWarn, 'datetime format',
-      (context: RuntimeContext): string | number => datetime(context, value, ...args)
+      (context: RuntimeContext): string | number => datetime(context, value, options)
     )
   }
 
@@ -104,7 +91,7 @@ export function datetime (
       context,
       key,
       fallbackWarn, 'datetime format',
-      (context: RuntimeContext): string | number => datetime(context, value, ...args)
+      (context: RuntimeContext): string | number => datetime(context, value, options)
     )
   }
 
@@ -117,21 +104,26 @@ export function datetime (
   return formatter.format(value)
 }
 
-export function parseDateTimeArgs (...args: unknown[]): DateTimeOptions {
-  const [arg1, arg2] = args
+export function parseDateTimeArgs (...args: unknown[]): [number | Date, DateTimeOptions] {
+  const [arg1, arg2, arg3] = args
   let options = {} as DateTimeOptions
 
-  if (isString(arg1)) {
-    options.key = arg1
-  } else if (isPlainObject(arg1)) {
-    options = arg1
+  if (!(isNumber(arg1) || isDate(arg1))) {
+    throw new Error('TODO')
   }
+  const value = arg1
 
   if (isString(arg2)) {
-    options.locale = arg2
+    options.key = arg2
+  } else if (isPlainObject(arg2)) {
+    options = arg2
   }
 
-  return options
+  if (isString(arg3)) {
+    options.locale = arg3
+  }
+
+  return [value, options]
 }
 
 export function clearDateTimeFormat (context: RuntimeContext, locale: Locale, format: DateTimeFormat): void {

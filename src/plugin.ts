@@ -8,11 +8,17 @@ import { hook as vT } from './directive'
 
 export type LegacyVueI18n = {
   $i18n: VueI18n
-  $t: (key: Path, ...values: unknown[]) => TranslateResult
-  $tc: (key: Path, ...values: unknown[]) => TranslateResult
-  $te: (key: Path, locale?: Locale) => boolean
-  $d: (value: number | Date, ...args: unknown[]) => DateTimeFormatResult
-  $n: (value: number, ...args: unknown[]) => NumberFormatResult
+  $t (key: Path, ...values: unknown[]): TranslateResult
+  $tc (key: Path, ...values: unknown[]): TranslateResult
+  $te (key: Path, locale?: Locale): boolean
+  $d (value: number | Date): DateTimeFormatResult
+  $d (value: number | Date, key: string): DateTimeFormatResult
+  $d (value: number | Date, key: string, locale: Locale): DateTimeFormatResult
+  $d (value: number | Date, args: { [key: string]: string }): DateTimeFormatResult
+  $n (value: number): NumberFormatResult
+  $n (value: number, key: string): NumberFormatResult
+  $n (value: number, key: string, locale: Locale): NumberFormatResult
+  $n (value: number, args: { [key: string]: string }): NumberFormatResult
 }
 
 export function applyPlugin (app: App, legacyI18n: VueI18n, composer: I18nComposer): void {
@@ -54,8 +60,8 @@ export function applyPlugin (app: App, legacyI18n: VueI18n, composer: I18nCompos
       this.$t = (key: Path, ...values: unknown[]): TranslateResult => this.$i18n.t(key, ...values)
       this.$tc = (key: Path, ...values: unknown[]): TranslateResult => this.$i18n.tc(key, ...values)
       this.$te = (key: Path, locale?: Locale): boolean => this.$i18n.te(key, locale)
-      this.$d = (value: number | Date, ...args: unknown[]): DateTimeFormatResult => this.$i18n.d(value, ...args)
-      this.$n = (value: number, ...args: unknown[]): NumberFormatResult => this.$i18n.n(value, ...args)
+      this.$d = (...args: unknown[]): DateTimeFormatResult => this.$i18n.d(...args)
+      this.$n = (...args: unknown[]): NumberFormatResult => this.$i18n.n(...args)
     }
   })
 }

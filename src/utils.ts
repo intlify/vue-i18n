@@ -1,5 +1,5 @@
 export const isArray = Array.isArray
-export const isNumber = (val: unknown): val is number => ((typeof val === 'number') && (isFinite(val)))
+export const isNumber = (val: unknown): val is number =>((typeof val === 'number') && (isFinite(val)))
 export const isFunction = (val: unknown): val is Function => typeof val === 'function'
 export const isString = (val: unknown): val is string => typeof val === 'string'
 export const isBoolean = (val: unknown): val is boolean => typeof val === 'boolean'
@@ -10,6 +10,9 @@ export const isObject = (val: unknown): val is Record<any, any> => // eslint-dis
 export const isPromise = <T = any>(val: unknown): val is Promise<T> => { // eslint-disable-line
   return isObject(val) && isFunction(val.then) && isFunction(val.catch)
 }
+
+export const isDate = (val: unknown): val is Date =>
+  toTypeString(val) === '[object Date]'
 
 export const isRegExp = (val: unknown): val is RegExp =>
   toTypeString(val) === '[object RegExp]'

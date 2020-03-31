@@ -10,6 +10,8 @@ import {
   PostTranslationHandler
 } from './runtime/context'
 import { TranslateOptions } from './runtime/localize'
+import { parseDateTimeArgs } from './runtime/datetime'
+import { parseNumberArgs } from './runtime/number'
 import { DateTimeFormats, NumberFormats, DateTimeFormat, NumberFormat } from './runtime/types'
 import { MissingHandler, I18nComposer, I18nComposerOptions, createI18nComposer } from './composition'
 import {
@@ -85,11 +87,19 @@ export type VueI18n = {
   getLocaleMessage (locale: Locale): LocaleMessage
   setLocaleMessage (locale: Locale, message: LocaleMessage): void
   mergeLocaleMessage (locale: Locale, message: LocaleMessage): void
-  d (value: number | Date, ...args: unknown[]): DateTimeFormatResult
+  d (value: number | Date): DateTimeFormatResult
+  d (value: number | Date, key: string): DateTimeFormatResult
+  d (value: number | Date, key: string, locale: Locale): DateTimeFormatResult
+  d (value: number | Date, args: { [key: string]: string }): DateTimeFormatResult
+  d (...args: unknown[]): DateTimeFormatResult // for $d
   getDateTimeFormat (locale: Locale): DateTimeFormat
   setDateTimeFormat (locale: Locale, format: DateTimeFormat): void
   mergeDateTimeFormat (locale: Locale, format: DateTimeFormat): void
-  n (value: number, ...args: unknown[]): NumberFormatResult
+  n (value: number): NumberFormatResult
+  n (value: number, key: string): NumberFormatResult
+  n (value: number, key: string, locale: Locale): NumberFormatResult
+  n (value: number, args: { [key: string]: string }): NumberFormatResult
+  n (...args: unknown[]): NumberFormatResult // for $n
   getNumberFormat (locale: Locale): NumberFormat
   setNumberFormat (locale: Locale, format: NumberFormat): void
   mergeNumberFormat (locale: Locale, format: NumberFormat): void
@@ -269,8 +279,8 @@ export function createI18n (options: VueI18nOptions = {}, root?: I18nComposer): 
     mergeLocaleMessage (locale: Locale, message: LocaleMessage): void {
       composer.mergeLocaleMessage(locale, message)
     },
-    d (value: number | Date, ...args: unknown[]): DateTimeFormatResult {
-      return composer.d(value, ...args)
+    d (...args: unknown[]): DateTimeFormatResult {
+      return composer.d(...parseDateTimeArgs(...args))
     },
     getDateTimeFormat (locale: Locale): DateTimeFormat { return composer.getDateTimeFormat(locale) },
     setDateTimeFormat (locale: Locale, format: DateTimeFormat): void {
@@ -279,8 +289,8 @@ export function createI18n (options: VueI18nOptions = {}, root?: I18nComposer): 
     mergeDateTimeFormat (locale: Locale, format: DateTimeFormat): void {
       composer.mergeDateTimeFormat(locale, format)
     },
-    n (value: number, ...args: unknown[]): NumberFormatResult {
-      return composer.n(value, ...args)
+    n (...args: unknown[]): NumberFormatResult {
+      return composer.n(...parseNumberArgs(...args))
     },
     getNumberFormat (locale: Locale): NumberFormat { return composer.getNumberFormat(locale) },
     setNumberFormat (locale: Locale, format: NumberFormat): void {

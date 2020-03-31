@@ -5,15 +5,26 @@ import {
   fallback,
   MISSING_RESOLVE_VALUE
 } from './context'
-import { warn, isString, isBoolean, isArray, isPlainObject } from '../utils'
+import {
+  warn,
+  isString,
+  isBoolean,
+  isArray,
+  isPlainObject,
+  isNumber
+} from '../utils'
 
-/*
- * number
+/**
+ *  # number
  *
- * usages:
- *    'currency': {
- *      style: 'currency', currency: 'USD', currencyDisplay: 'symbol'
- *    }
+ *  ## usages
+ *    // for example `context.numberFormats` below
+ *    'en-US': {
+ *      'currency': {
+ *        style: 'currency', currency: 'USD', currencyDisplay: 'symbol'
+ *      }
+ *    },
+ *    'ja-JP: { ... }
  *
  *    // value only
  *    number(context, value)
@@ -37,7 +48,14 @@ export type NumberOptions = {
   fallbackWarn?: boolean
 }
 
-export function number (context: RuntimeContext, value: number, ...args: unknown[]): string | number {
+// `number` function overloads
+export function number (context: RuntimeContext, value: number): string | number
+export function number (context: RuntimeContext, value: number, key: string): string | number
+export function number (context: RuntimeContext, value: number, key: string, locale: Locale): string | number
+export function number (context: RuntimeContext, value: number, options: NumberOptions): string | number
+
+// implementationo of `number` function
+export function number (context: RuntimeContext, ...args: unknown[]): string | number {
   const { numberFormats, _numberFormatters, _fallbackLocaleStack } = context
 
   if (__DEV__ && !Availabilities.numberFormat) {
@@ -45,7 +63,7 @@ export function number (context: RuntimeContext, value: number, ...args: unknown
     return MISSING_RESOLVE_VALUE
   }
 
-  const options = parseNumberArgs(...args)
+  const [value, options] = parseNumberArgs(...args)
   const { key } = options
   const fallbackWarn = isBoolean(options.fallbackWarn)
     ? options.fallbackWarn
@@ -67,7 +85,7 @@ export function number (context: RuntimeContext, value: number, ...args: unknown
       key,
       fallbackWarn,
       'number format',
-      (context: RuntimeContext): string | number => number(context, value, ...args)
+      (context: RuntimeContext): string | number => number(context, value, options)
     )
   }
 
@@ -78,7 +96,7 @@ export function number (context: RuntimeContext, value: number, ...args: unknown
       key,
       fallbackWarn,
       'number format',
-      (context: RuntimeContext): string | number => number(context, value, ...args)
+      (context: RuntimeContext): string | number => number(context, value, options)
     )
   }
 
@@ -91,21 +109,26 @@ export function number (context: RuntimeContext, value: number, ...args: unknown
   return formatter.format(value)
 }
 
-export function parseNumberArgs (...args: unknown[]): NumberOptions {
-  const [arg1, arg2] = args
+export function parseNumberArgs (...args: unknown[]): [number, NumberOptions] {
+  const [arg1, arg2, arg3] = args
   let options = {} as NumberOptions
 
-  if (isString(arg1)) {
-    options.key = arg1
-  } else if (isPlainObject(arg1)) {
-    options = arg1
+  if (!isNumber(arg1)) {
+    throw new Error('TODO')
   }
+  const value = arg1
 
   if (isString(arg2)) {
-    options.locale = arg2
+    options.key = arg2
+  } else if (isPlainObject(arg2)) {
+    options = arg2
   }
 
-  return options
+  if (isString(arg3)) {
+    options.locale = arg3
+  }
+
+  return [value, options]
 }
 
 export function clearNumberFormat (context: RuntimeContext, locale: Locale, format: NumberFormat): void {
