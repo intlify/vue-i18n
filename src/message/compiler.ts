@@ -29,8 +29,8 @@ export function createCompiler(): Compiler {
   const _parser = createParser()
 
   const compile = (
-    source: string,
-    options: CompileOptions = {}
+    source: string /*,
+    options: CompileOptions = {}*/
   ): CompileResult => {
     const ast = _parser.parse(source)
     transform(ast)

@@ -405,7 +405,7 @@ describe('context unresolving option', () => {
 describe('context pluralRule option', () => {
   test('basic', () => {
     const pluralRules = {
-      ru: (choice, choicesLength, orgRule) => {
+      ru: (choice, choicesLength) => {
         if (choice === 0) {
           return 0
         }

@@ -151,12 +151,7 @@ export type I18nComposer = {
 function defineRuntimeMissingHandler(
   missing: MissingHandler
 ): RuntimeMissingHandler {
-  return (
-    ctx: RuntimeContext,
-    locale: Locale,
-    key: Path,
-    ...values: unknown[]
-  ): string | void => {
+  return (ctx: RuntimeContext, locale: Locale, key: Path): string | void => {
     return missing(locale, key, getCurrentInstance() || undefined)
   }
 }
