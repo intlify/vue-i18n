@@ -2,19 +2,19 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <title>getting started</title>
+    <title>Getting Started</title>
     <script src="../../node_modules/vue/dist/vue.global.js"></script>
     <script src="../../dist/vue-i18n.iife.js"></script>
   </head>
   <body>
     <div id="app">
-      <p>{{ $t("message.hello") }}</p>
+      <p>{{ t("message.hello") }}</p>
     </div>
     <script>
       const { createApp } = Vue
-      const { createI18n } = VueI18n
+      const { createI18nComposer, useI18n, GlobalI18nSymbol } = VueI18n
 
-      const i18n = createI18n({
+      const i18n = createI18nComposer({
         locale: 'ja',
         messages: {
           en: {
@@ -30,8 +30,13 @@
         }
       })
 
-      const app = createApp({})
-      app.use(i18n)
+      const app = createApp({
+        setup () {
+          const { t } = useI18n()
+          return { t }
+        }
+      })
+      app.provide(GlobalI18nSymbol, i18n)
       app.mount('#app')
     </script>
   </body>
