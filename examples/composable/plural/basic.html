@@ -9,17 +9,17 @@
   <body>
     <div id="app">
       <h2>Car:</h2>
-      <p>{{ t('car', { plural: 1 }) }}</p>
-      <p>{{ t('car', { plural: 2 }) }}</p>
-      <h3>Apple:</h3>
-      <p>{{ t('apple', { plural: 0 }) }}</p>
-      <p>{{ t('apple', { plural: 1 }) }}</p>
-      <p>{{ t('apple', { plural: 10, named: { count: 10 } }) }}</p>
-      <p>{{ t('apple', { plural: 10 }) }}</p>
-      <h3>Banana: </h3>
-      <p>{{ t('banana', { plural: 1, named: { n: 1 } }) }}</p>
-      <p>{{ t('banana', { plural: 1 }) }}</p>
-      <p>{{ t('banana', { plural: 100, named: { n: 'too many' } }) }}</p>
+      <p>{{ t('car', 1) }}</p>
+      <p>{{ t('car', 2) }}</p>
+      <h2>Apple:</h2>
+      <p>{{ t('apple', 0) }}</p>
+      <p>{{ t('apple', 1) }}</p>
+      <p>{{ t('apple', { count: 10 }, 10) }}</p>
+      <p>{{ t('apple', 10) }}</p>
+      <h2>Banana:</h2>
+      <p>{{ t('banana', { n: 1 }, 1) }}</p>
+      <p>{{ t('banana', 1) }}</p>
+      <p>{{ t('banana', { n: 'too many' }, 100) }}</p>
     </div>
     <script>
       const { createApp } = Vue

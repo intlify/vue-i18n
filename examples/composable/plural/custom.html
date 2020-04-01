@@ -9,17 +9,17 @@
   <body>
     <div id="app">
       <h2>Car:</h2>
-      <p>{{ t('car', { plural: 1 }) }}</p>
-      <p>{{ t('car', { plural: 2 }) }}</p>
-      <p>{{ t('car', { plural: 4 }) }}</p>
-      <p>{{ t('car', { plural: 12 }) }}</p>
-      <p>{{ t('car', { plural: 21 }) }}</p>
+      <p>{{ t('car', 1) }}</p>
+      <p>{{ t('car', 2) }}</p>
+      <p>{{ t('car', 4) }}</p>
+      <p>{{ t('car', 12) }}</p>
+      <p>{{ t('car', 21) }}</p>
 
-      <h3>Banana: </h3>
-      <p>{{ t('banana', { plural: 0 }) }}</p>
-      <p>{{ t('banana', { plural: 4 }) }}</p>
-      <p>{{ t('banana', { plural: 11 }) }}</p>
-      <p>{{ t('banana', { plural: 31 }) }}</p>
+      <h2>Banana:</h2>
+      <p>{{ t('banana', 0) }}</p>
+      <p>{{ t('banana', 4) }}</p>
+      <p>{{ t('banana', 11) }}</p>
+      <p>{{ t('banana', 31) }}</p>
     </div>
     <script>
       const { createApp } = Vue
@@ -38,7 +38,7 @@
 
       const i18n = createI18nComposer({
         locale: 'ru',
-        pluralRule: {
+        pluralRules: {
           ru: customRule
         },
         messages: {

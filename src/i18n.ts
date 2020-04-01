@@ -4,7 +4,8 @@ import { Path, resolveValue } from './path'
 import {
   PluralizationRule,
   PluralizationRules,
-  LinkedModifiers
+  LinkedModifiers,
+  NamedValue
 } from './message/context'
 import {
   Locale,
@@ -31,7 +32,6 @@ import {
 import {
   isString,
   isArray,
-  isObject,
   isPlainObject,
   isNumber,
   isBoolean,
@@ -76,7 +76,9 @@ export type VueI18nOptions = {
 }
 
 export type VueI18n = {
-  // properties
+  /**
+   * properties
+   */
   locale: Locale
   fallbackLocale: Locale
   readonly availableLocales: Locale[]
@@ -94,9 +96,27 @@ export type VueI18n = {
   warnHtmlInMessage: WarnHtmlInMessageLevel
   */
 
-  // methods
-  t(key: Path, ...values: unknown[]): TranslateResult // return value is breaking change for Vue 3
-  tc(key: Path, ...values: unknown[]): TranslateResult // return value is breaking change for Vue 3
+  /**
+   * methods
+   */
+  // return value is breaking change for Vue 3
+  t(key: Path): TranslateResult
+  t(key: Path, locale: Locale): TranslateResult
+  t(key: Path, locale: Locale, list: unknown[]): TranslateResult
+  t(key: Path, locale: Locale, named: object): TranslateResult
+  t(key: Path, list: unknown[]): TranslateResult
+  t(key: Path, named: object): TranslateResult
+  t(...args: unknown[]): TranslateResult // for $t
+  // return value is breaking change for Vue 3
+  tc(key: Path): TranslateResult
+  tc(key: Path, locale: Locale): TranslateResult
+  tc(key: Path, list: unknown[]): TranslateResult
+  tc(key: Path, named: object): TranslateResult
+  tc(key: Path, choice: number): TranslateResult
+  tc(key: Path, choice: number, locale: Locale): TranslateResult
+  tc(key: Path, choice: number, list: unknown[]): TranslateResult
+  tc(key: Path, choice: number, named: object): TranslateResult
+  tc(...args: unknown[]): TranslateResult // for $tc
   te(key: Path, locale?: Locale): boolean
   getLocaleMessage(locale: Locale): LocaleMessage
   setLocaleMessage(locale: Locale, message: LocaleMessage): void
@@ -201,7 +221,9 @@ export function createI18n(
   const composer = createI18nComposer(convertI18nComposerOptions(options), root)
 
   const i18n = {
-    /* properties */
+    /**
+     * properties
+     */
     // locale
     get locale(): Locale {
       return composer.locale.value
@@ -285,50 +307,62 @@ export function createI18n(
     set postTranslation(handler: PostTranslationHandler | null) {
       composer.setPostTranslationHandler(handler)
     },
-    /* methods */
-    t(key: Path, ...values: unknown[]): TranslateResult {
-      const [arg1, arg2] = values
+    /**
+     * methods
+     */
+    t(...args: unknown[]): TranslateResult {
+      const [arg1, arg2, arg3] = args
       const options = {} as TranslateOptions
 
-      if (isString(arg1)) {
-        options.locale = arg1
-      } else if (isArray(arg1)) {
-        options.list = arg1
-      } else if (isObject(arg1)) {
-        options.named = arg1
+      if (!isString(arg1)) {
+        throw new Error('TODO')
       }
-
-      if (isArray(arg2)) {
-        options.list = arg2
-      } else if (isObject(arg2)) {
-        options.named = arg2
-      }
-
-      return composer.t(key, ...(values.length > 0 ? [options] : []))
-    },
-    tc(key: Path, ...values: unknown[]): TranslateResult {
-      const [arg1, arg2, arg3] = values
-      const options = {} as TranslateOptions
-
-      if (isNumber(arg1)) {
-        options.plural = arg1
-      }
+      const key = arg1
 
       if (isString(arg2)) {
         options.locale = arg2
       } else if (isArray(arg2)) {
         options.list = arg2
-      } else if (isObject(arg2)) {
-        options.named = arg2
+      } else if (isPlainObject(arg2)) {
+        options.named = arg2 as NamedValue
       }
 
       if (isArray(arg3)) {
         options.list = arg3
-      } else if (isObject(arg3)) {
-        options.named = arg3
+      } else if (isPlainObject(arg3)) {
+        options.named = arg3 as NamedValue
       }
 
-      return composer.t(key, ...(values.length > 0 ? [options] : []))
+      return composer.t(key, options)
+    },
+    tc(...args: unknown[]): TranslateResult {
+      const [arg1, arg2, arg3] = args
+      const options = { plural: 1 } as TranslateOptions
+
+      if (!isString(arg1)) {
+        throw new Error('TODO')
+      }
+      const key = arg1
+
+      if (isString(arg2)) {
+        options.locale = arg2
+      } else if (isNumber(arg2)) {
+        options.plural = arg2
+      } else if (isArray(arg2)) {
+        options.list = arg2
+      } else if (isPlainObject(arg2)) {
+        options.named = arg2 as NamedValue
+      }
+
+      if (isString(arg3)) {
+        options.locale = arg3
+      } else if (isArray(arg3)) {
+        options.list = arg3
+      } else if (isPlainObject(arg3)) {
+        options.named = arg3 as NamedValue
+      }
+
+      return composer.t(key, options)
     },
     te(key: Path, locale?: Locale): boolean {
       const targetLocale = isString(locale) ? locale : composer.locale.value

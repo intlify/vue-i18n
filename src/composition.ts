@@ -22,7 +22,11 @@ import {
   DateTimeFormat,
   NumberFormat
 } from './runtime/types'
-import { LinkedModifiers, PluralizationRules } from './message/context'
+import {
+  LinkedModifiers,
+  PluralizationRules,
+  NamedValue
+} from './message/context'
 import {
   Locale,
   LocaleMessages,
@@ -33,7 +37,11 @@ import {
   PostTranslationHandler,
   MISSING_RESOLVE_VALUE
 } from './runtime/context'
-import { translate } from './runtime/localize'
+import {
+  translate,
+  parseTranslateArgs,
+  TranslateOptions
+} from './runtime/localize'
 import {
   datetime,
   parseDateTimeArgs,
@@ -105,7 +113,18 @@ export type I18nComposer = {
   fallbackRoot: boolean
   fallbackFormat: boolean
   /* methods */
-  t(key: Path, ...args: unknown[]): string
+  t(key: Path): string
+  t(key: Path, plural: number): string
+  t(key: Path, defaultMsg: string): string
+  t(key: Path, options: TranslateOptions): string
+  t(key: Path, list: unknown[]): string
+  t(key: Path, list: unknown[], plural: number): string
+  t(key: Path, list: unknown[], defaultMsg: string): string
+  t(key: Path, list: unknown[], options: TranslateOptions): string
+  t(key: Path, named: NamedValue): string
+  t(key: Path, named: NamedValue, plural: number): string
+  t(key: Path, named: NamedValue, defaultMsg: string): string
+  t(key: Path, named: NamedValue, options: TranslateOptions): string
   d(value: number | Date): string
   d(value: number | Date, key: string): string
   d(value: number | Date, key: string, locale: Locale): string
@@ -302,14 +321,15 @@ export function createI18nComposer(
   }
 
   // t
-  const t = (key: Path, ...args: unknown[]): string => {
+  const t = (...args: unknown[]): string => {
     return computed<string>((): string => {
-      const ret = translate(getRuntimeContext(), key, ...args)
+      const [key, options] = parseTranslateArgs(...args)
+      const ret = translate(getRuntimeContext(), key, options)
       if (isNumber(ret) && ret === NOT_REOSLVED) {
         if (__DEV__ && _fallbackRoot && root) {
           warn(`Fall back to translate '${key}' with root locale.`)
         }
-        return _fallbackRoot && root ? root.t(key, ...args) : key
+        return _fallbackRoot && root ? root.t(key, options) : key
       } else if (isString(ret)) {
         return ret
       } else {

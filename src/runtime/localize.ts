@@ -13,7 +13,8 @@ import {
   isFunction,
   warn,
   isBoolean,
-  isArray
+  isArray,
+  isPlainObject
 } from '../utils'
 
 const NOOP_MESSAGE_FUNCTION = () => ''
@@ -70,11 +71,72 @@ export type TranslateOptions = {
 }
 
 // `translate` function overloads
+export function translate(context: RuntimeContext, key: Path): string | number
+export function translate(
+  context: RuntimeContext,
+  key: Path,
+  plural: number
+): string | number
+export function translate(
+  context: RuntimeContext,
+  key: Path,
+  defaultMsg: string
+): string | number
+export function translate(
+  context: RuntimeContext,
+  key: Path,
+  options: TranslateOptions
+): string | number
+export function translate(
+  context: RuntimeContext,
+  key: Path,
+  list: unknown[]
+): string | number
+export function translate(
+  context: RuntimeContext,
+  key: Path,
+  list: unknown[],
+  plural: number
+): string | number
+export function translate(
+  context: RuntimeContext,
+  key: Path,
+  list: unknown[],
+  defaultMsg: string
+): string | number
+export function translate(
+  context: RuntimeContext,
+  key: Path,
+  list: unknown[],
+  options: TranslateOptions
+): string | number
+export function translate(
+  context: RuntimeContext,
+  key: Path,
+  named: NamedValue
+): string | number
+export function translate(
+  context: RuntimeContext,
+  key: Path,
+  named: NamedValue,
+  plural: number
+): string | number
+export function translate(
+  context: RuntimeContext,
+  key: Path,
+  named: NamedValue,
+  defaultMsg: string
+): string | number
+export function translate(
+  context: RuntimeContext,
+  key: Path,
+  named: NamedValue,
+  options: TranslateOptions
+): string | number
 
 // implementationo of `translate` function
 export function translate(
   context: RuntimeContext,
-  key: Path,
   ...args: unknown[]
 ): string | number {
   const {
@@ -86,7 +148,7 @@ export function translate(
     _compileCache,
     _fallbackLocaleStack
   } = context
-  const options: TranslateOptions = isObject(args[0]) ? args[0] : {}
+  const [key, options] = parseTranslateArgs(...args)
 
   const missingWarn = isBoolean(options.missingWarn)
     ? options.missingWarn
@@ -122,7 +184,7 @@ export function translate(
       fallbackWarn,
       'translate',
       (context: RuntimeContext): string | number =>
-        translate(context, key, ...args),
+        translate(context, key, options),
       ret
     )
   }
@@ -184,7 +246,7 @@ export function translate(
       fallbackWarn,
       'translate',
       (context: RuntimeContext): string | number =>
-        translate(context, key, ...args),
+        translate(context, key, options),
       ret
     )
   }
@@ -199,10 +261,39 @@ export function translate(
   return postTranslation ? postTranslation(ret) : ret
 }
 
-export function parseLocalizeArgs(...args: unknown[]): TranslateOptions {
+export function parseTranslateArgs(
+  ...args: unknown[]
+): [Path, TranslateOptions] {
+  const [arg1, arg2, arg3] = args
   const options = {} as TranslateOptions
 
-  return options
+  if (!isString(arg1)) {
+    throw new Error('TODO')
+  }
+  const key = arg1
+
+  if (isNumber(arg2)) {
+    options.plural = arg2
+  } else if (isString(arg2)) {
+    options.default = arg2
+  } else if (isPlainObject(arg2) && arg3 === undefined) {
+    const sourceOptions = arg2 as TranslateOptions
+    Object.assign(options, sourceOptions)
+  } else if (isArray(arg2)) {
+    options.list = arg2
+  } else if (isPlainObject(arg2)) {
+    options.named = arg2 as NamedValue
+  }
+
+  if (isNumber(arg3)) {
+    options.plural = arg3
+  } else if (isString(arg3)) {
+    options.default = arg3
+  } else if (isPlainObject(arg3)) {
+    Object.assign(options, arg3)
+  }
+
+  return [key, options]
 }
 
 function isTranslateMissingWarn(missing: boolean | RegExp, key: Path): boolean {
