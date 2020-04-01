@@ -313,6 +313,8 @@ export function createI18n(
     t(...args: unknown[]): TranslateResult {
       const [arg1, arg2, arg3] = args
       const options = {} as TranslateOptions
+      let list: unknown[] | null = null
+      let named: NamedValue | null = null
 
       if (!isString(arg1)) {
         throw new Error('TODO')
@@ -322,22 +324,24 @@ export function createI18n(
       if (isString(arg2)) {
         options.locale = arg2
       } else if (isArray(arg2)) {
-        options.list = arg2
+        list = arg2
       } else if (isPlainObject(arg2)) {
-        options.named = arg2 as NamedValue
+        named = arg2 as NamedValue
       }
 
       if (isArray(arg3)) {
-        options.list = arg3
+        list = arg3
       } else if (isPlainObject(arg3)) {
-        options.named = arg3 as NamedValue
+        named = arg3 as NamedValue
       }
 
-      return composer.t(key, options)
+      return composer.t(key, list || named || {}, options)
     },
     tc(...args: unknown[]): TranslateResult {
       const [arg1, arg2, arg3] = args
       const options = { plural: 1 } as TranslateOptions
+      let list: unknown[] | null = null
+      let named: NamedValue | null = null
 
       if (!isString(arg1)) {
         throw new Error('TODO')
@@ -349,20 +353,20 @@ export function createI18n(
       } else if (isNumber(arg2)) {
         options.plural = arg2
       } else if (isArray(arg2)) {
-        options.list = arg2
+        list = arg2
       } else if (isPlainObject(arg2)) {
-        options.named = arg2 as NamedValue
+        named = arg2 as NamedValue
       }
 
       if (isString(arg3)) {
         options.locale = arg3
       } else if (isArray(arg3)) {
-        options.list = arg3
+        list = arg3
       } else if (isPlainObject(arg3)) {
-        options.named = arg3 as NamedValue
+        named = arg3 as NamedValue
       }
 
-      return composer.t(key, options)
+      return composer.t(key, list || named || {}, options)
     },
     te(key: Path, locale?: Locale): boolean {
       const targetLocale = isString(locale) ? locale : composer.locale.value

@@ -348,7 +348,7 @@ describe('t', () => {
         en: { hi: 'hi {0} !' }
       }
     })
-    expect(t('hi', { list: ['kazupon'] })).toEqual('hi kazupon !')
+    expect(t('hi', ['kazupon'])).toEqual('hi kazupon !')
   })
 
   test('named', () => {
@@ -358,7 +358,7 @@ describe('t', () => {
         en: { hi: 'hi {name} !' }
       }
     })
-    expect(t('hi', { named: { name: 'kazupon' } })).toEqual('hi kazupon !')
+    expect(t('hi', { name: 'kazupon' })).toEqual('hi kazupon !')
   })
 
   test('linked', () => {
@@ -381,12 +381,10 @@ describe('t', () => {
         en: { apple: 'no apples | one apple | {count} apples' }
       }
     })
-    expect(t('apple', { plural: 0 })).toEqual('no apples')
-    expect(t('apple', { plural: 1 })).toEqual('one apple')
-    expect(t('apple', { plural: 10 })).toEqual('10 apples')
-    expect(t('apple', { plural: 10, named: { count: 20 } })).toEqual(
-      '20 apples'
-    )
+    expect(t('apple', 0)).toEqual('no apples')
+    expect(t('apple', 1)).toEqual('one apple')
+    expect(t('apple', 10)).toEqual('10 apples')
+    expect(t('apple', { count: 20 }, 10)).toEqual('20 apples')
   })
 })
 

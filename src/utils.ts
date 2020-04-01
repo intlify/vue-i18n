@@ -27,6 +27,9 @@ export const toTypeString = (value: unknown): string =>
 export const isPlainObject = (val: unknown): val is object =>
   toTypeString(val) === '[object Object]'
 
+export const isEmptyObject = (val: unknown): val is boolean =>
+  isPlainObject(val) && Object.keys(val).length === 0
+
 // for converting list and named values to displayed strings.
 export const toDisplayString = (val: unknown): string => {
   return val == null

@@ -29,7 +29,7 @@ describe('features', () => {
         en: { hi: 'hi {0} !' }
       }
     })
-    expect(translate(ctx, 'hi', { list: ['kazupon'] })).toEqual('hi kazupon !')
+    expect(translate(ctx, 'hi', ['kazupon'])).toEqual('hi kazupon !')
   })
 
   test('named', () => {
@@ -39,9 +39,7 @@ describe('features', () => {
         en: { hi: 'hi {name} !' }
       }
     })
-    expect(translate(ctx, 'hi', { named: { name: 'kazupon' } })).toEqual(
-      'hi kazupon !'
-    )
+    expect(translate(ctx, 'hi', { name: 'kazupon' })).toEqual('hi kazupon !')
   })
 
   test('linked', () => {
@@ -64,12 +62,10 @@ describe('features', () => {
         en: { apple: 'no apples | one apple | {count} apples' }
       }
     })
-    expect(translate(ctx, 'apple', { plural: 0 })).toEqual('no apples')
-    expect(translate(ctx, 'apple', { plural: 1 })).toEqual('one apple')
-    expect(translate(ctx, 'apple', { plural: 10 })).toEqual('10 apples')
-    expect(
-      translate(ctx, 'apple', { plural: 10, named: { count: 20 } })
-    ).toEqual('20 apples')
+    expect(translate(ctx, 'apple', 0)).toEqual('no apples')
+    expect(translate(ctx, 'apple', 1)).toEqual('one apple')
+    expect(translate(ctx, 'apple', 10)).toEqual('10 apples')
+    expect(translate(ctx, 'apple', { count: 20 }, 10)).toEqual('20 apples')
   })
 })
 
@@ -82,7 +78,7 @@ describe('locale option', () => {
         ja: { hi: 'こんにちは　かずぽん！' }
       }
     })
-    expect(translate(ctx, 'hi', { locale: 'ja' })).toEqual(
+    expect(translate(ctx, 'hi', {}, { locale: 'ja' })).toEqual(
       'こんにちは　かずぽん！'
     )
   })
@@ -96,9 +92,9 @@ describe('default option', () => {
         en: {}
       }
     })
-    expect(
-      translate(ctx, 'hello', { default: 'hello, default message!' })
-    ).toEqual('hello, default message!')
+    expect(translate(ctx, 'hello', 'hello, default message!')).toEqual(
+      'hello, default message!'
+    )
   })
 
   test('boolean true', () => {
@@ -109,10 +105,7 @@ describe('default option', () => {
       }
     })
     expect(
-      translate(ctx, 'hi {name}!', {
-        named: { name: 'kazupon' },
-        default: true
-      })
+      translate(ctx, 'hi {name}!', { name: 'kazupon' }, { default: true })
     ).toEqual('hi kazupon!')
   })
 })
@@ -200,7 +193,7 @@ describe('context missingWarn option', () => {
       }
     })
 
-    expect(translate(ctx, 'hello', { missingWarn: false })).toEqual('hello')
+    expect(translate(ctx, 'hello', {}, { missingWarn: false })).toEqual('hello')
     expect(mockWarn).not.toHaveBeenCalled()
   })
 })
@@ -324,7 +317,7 @@ describe('context fallbackWarn option', () => {
     })
 
     expect(translate(ctx, 'hello')).toEqual('こんにちは！')
-    expect(translate(ctx, 'hi', { fallbackWarn: false })).toEqual('hi')
+    expect(translate(ctx, 'hi', {}, { fallbackWarn: false })).toEqual('hi')
     expect(mockWarn).toHaveBeenCalledTimes(1)
   })
 })
@@ -342,9 +335,9 @@ describe('context fallbackFormat option', () => {
       }
     })
 
-    expect(
-      translate(ctx, 'hi, {name}!', { named: { name: 'kazupon' } })
-    ).toEqual('hi, kazupon!')
+    expect(translate(ctx, 'hi, {name}!', { name: 'kazupon' })).toEqual(
+      'hi, kazupon!'
+    )
     expect(mockWarn).not.toHaveBeenCalled()
   })
 
@@ -361,10 +354,7 @@ describe('context fallbackFormat option', () => {
     })
 
     expect(
-      translate(ctx, 'hi, {name}!', {
-        named: { name: 'kazupon' },
-        default: 'hello, {name}!'
-      })
+      translate(ctx, 'hi, {name}!', { name: 'kazupon' }, 'hello, {name}!')
     ).toEqual('hello, kazupon!')
     expect(mockWarn).not.toHaveBeenCalled()
   })
@@ -431,11 +421,11 @@ describe('context pluralRule option', () => {
         }
       }
     })
-    expect(translate(ctx, 'car', { plural: 1 })).toEqual('1 машина')
-    expect(translate(ctx, 'car', { plural: 2 })).toEqual('2 машины')
-    expect(translate(ctx, 'car', { plural: 4 })).toEqual('4 машины')
-    expect(translate(ctx, 'car', { plural: 12 })).toEqual('12 машин')
-    expect(translate(ctx, 'car', { plural: 21 })).toEqual('21 машина')
+    expect(translate(ctx, 'car', 1)).toEqual('1 машина')
+    expect(translate(ctx, 'car', 2)).toEqual('2 машины')
+    expect(translate(ctx, 'car', 4)).toEqual('4 машины')
+    expect(translate(ctx, 'car', 12)).toEqual('12 машин')
+    expect(translate(ctx, 'car', 21)).toEqual('21 машина')
   })
 })
 

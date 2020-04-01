@@ -14,7 +14,8 @@ import {
   warn,
   isBoolean,
   isArray,
-  isPlainObject
+  isPlainObject,
+  isEmptyObject
 } from '../utils'
 
 const NOOP_MESSAGE_FUNCTION = () => ''
@@ -74,8 +75,18 @@ export type TranslateOptions = {
 export function translate(context: RuntimeContext, key: Path): string | number
 export function translate(
   context: RuntimeContext,
+  ...args: unknown[]
+): string | number // for internal
+export function translate(
+  context: RuntimeContext,
   key: Path,
   plural: number
+): string | number
+export function translate(
+  context: RuntimeContext,
+  key: Path,
+  plural: number,
+  options: TranslateOptions
 ): string | number
 export function translate(
   context: RuntimeContext,
@@ -85,6 +96,7 @@ export function translate(
 export function translate(
   context: RuntimeContext,
   key: Path,
+  defaultMsg: string,
   options: TranslateOptions
 ): string | number
 export function translate(
@@ -276,13 +288,10 @@ export function parseTranslateArgs(
     options.plural = arg2
   } else if (isString(arg2)) {
     options.default = arg2
-  } else if (isPlainObject(arg2) && arg3 === undefined) {
-    const sourceOptions = arg2 as TranslateOptions
-    Object.assign(options, sourceOptions)
+  } else if (isPlainObject(arg2) && !isEmptyObject(arg2)) {
+    options.named = arg2 as NamedValue
   } else if (isArray(arg2)) {
     options.list = arg2
-  } else if (isPlainObject(arg2)) {
-    options.named = arg2 as NamedValue
   }
 
   if (isNumber(arg3)) {

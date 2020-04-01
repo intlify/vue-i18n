@@ -99,7 +99,9 @@ export type I18nComposerOptions = {
 
 export type I18nComposer = {
   // TODO:
-  /* properties */
+  /**
+   * properties
+   */
   locale: WritableComputedRef<Locale>
   fallbackLocales: WritableComputedRef<Locale[]>
   readonly availableLocales: Locale[]
@@ -112,11 +114,14 @@ export type I18nComposer = {
   fallbackWarn: boolean | RegExp
   fallbackRoot: boolean
   fallbackFormat: boolean
-  /* methods */
+  /**
+   * methods
+   */
   t(key: Path): string
   t(key: Path, plural: number): string
+  t(key: Path, plural: number, options: TranslateOptions): string
   t(key: Path, defaultMsg: string): string
-  t(key: Path, options: TranslateOptions): string
+  t(key: Path, defaultMsg: string, options: TranslateOptions): string
   t(key: Path, list: unknown[]): string
   t(key: Path, list: unknown[], plural: number): string
   t(key: Path, list: unknown[], defaultMsg: string): string
@@ -125,6 +130,7 @@ export type I18nComposer = {
   t(key: Path, named: NamedValue, plural: number): string
   t(key: Path, named: NamedValue, defaultMsg: string): string
   t(key: Path, named: NamedValue, options: TranslateOptions): string
+  t(...args: unknown[]): string // for internal
   d(value: number | Date): string
   d(value: number | Date, key: string): string
   d(value: number | Date, key: string, locale: Locale): string
@@ -318,13 +324,13 @@ export function createI18nComposer(
   // t
   const t = (...args: unknown[]): string => {
     return computed<string>((): string => {
-      const [key, options] = parseTranslateArgs(...args)
-      const ret = translate(getRuntimeContext(), key, options)
+      const [key] = parseTranslateArgs(...args)
+      const ret = translate(getRuntimeContext(), ...args)
       if (isNumber(ret) && ret === NOT_REOSLVED) {
         if (__DEV__ && _fallbackRoot && root) {
           warn(`Fall back to translate '${key}' with root locale.`)
         }
-        return _fallbackRoot && root ? root.t(key, options) : key
+        return _fallbackRoot && root ? root.t(...args) : key
       } else if (isString(ret)) {
         return ret
       } else {
