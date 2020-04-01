@@ -3,7 +3,11 @@
 module.exports = {
   root: true,
   globals: {
-    __DEV__: true
+    __DEV__: true,
+    page: true,
+    browser: true,
+    context: true,
+    jestPuppeteer: true
   },
   env: {
     node: true,
