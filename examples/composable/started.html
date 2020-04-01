@@ -31,10 +31,7 @@
       })
 
       const app = createApp({
-        setup () {
-          const { t } = useI18n()
-          return { t }
-        }
+        setup () { return useI18n() }
       })
       app.provide(GlobalI18nSymbol, i18n)
       app.mount('#app')
