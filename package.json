@@ -86,7 +86,7 @@
     "test": "npm run lint && npm run test:cover && npm run test:e2e",
     "test:cover": "npm run test:unit -- --coverage",
     "test:type": "tsc -p . --noEmit",
-    "test:unit": "cross-env NODE_ICU_DATA=node_modules/full-icu jest --env node",
+    "test:unit": "cross-env NODE_ICU_DATA=./node_modules/full-icu jest --env node",
     "test:e2e": "npm run build && jest --runInBand --config ./jest.e2e.config.js",
     "test:watch": "jest --env node --watch"
   },
