@@ -8,6 +8,13 @@
   </head>
   <body>
     <div id="app">
+      <form>
+        <label>{{ t('message.language') }}</label>
+        <select v-model="locale">
+          <option value="en">en</option>
+          <option value="ja">ja</option>
+        </select>
+      </form>
       <p>{{ t("message.hello") }}</p>
     </div>
     <script>
@@ -19,11 +26,13 @@
         messages: {
           en: {
             message: {
+              language: 'Language',
               hello: 'hello world!'
             }
           },
           ja: {
             message: {
+              language: '言語',
               hello: 'こんにちは、世界！'
             }
           }

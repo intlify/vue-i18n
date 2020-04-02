@@ -3,7 +3,7 @@ module.exports = {
     command: 'node ./scripts/serve.js'
   },
   launch: {
-    dumpio: true,
+    dumpio: false,
     headless: process.env.HEADLESS !== 'false'
   },
   browser: 'chromium',
