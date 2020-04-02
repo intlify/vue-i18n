@@ -1,6 +1,7 @@
 .*
 *.log
 *.swp
-*.yml
 coverage
 test
+e2e
+scripts

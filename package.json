@@ -45,7 +45,10 @@
   },
   "files": [
     "dist",
-    "types"
+    "types",
+    "CHANGELOG.md",
+    "README.md",
+    "LICENSE"
   ],
   "homepage": "https://github.com/intlify/vue-i18n#readme",
   "keywords": [
