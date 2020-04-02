@@ -1,8 +1,9 @@
-name: test
+name: Test
 on:
   push:
     branches-ignore:
       - gh-pages
+      - v8.x
   pull_request:
 env:
   CI: true
