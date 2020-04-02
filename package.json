@@ -35,7 +35,7 @@
     "opener": "^1.5.1",
     "prettier": "^2.0.0",
     "puppeteer": "^2.1.1",
-    "rollup": "^1.32.0",
+    "rollup": "^2.0.0",
     "rollup-plugin-terser": "^5.2.0",
     "rollup-plugin-typescript2": "^0.27.0",
     "ts-jest": "^25.3.0",
