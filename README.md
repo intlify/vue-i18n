@@ -59,7 +59,7 @@ The examples are offered that use the following two API styles:
   - `VueI18n.version` -> `import { version } from 'vue-i18n'`
   - `VueI18n.availabilities` -> `import { availabilities } from 'vue-i18n'`
 
-#### :zap: Improvements
+### :zap: Improvements
 
 - See the [vue-i18n issues](https://github.com/kazupon/vue-i18n/issues?q=is%3Aissue+is%3Aopen+label%3A%22Status%3A+Ready%22) that labeld with `Status: Ready`
 
