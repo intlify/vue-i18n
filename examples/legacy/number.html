@@ -1,13 +1,17 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <meta charset="utf-8">
+    <meta charset="utf-8" />
     <title>Number localization</title>
     <script src="../../node_modules/vue/dist/vue.global.js"></script>
     <script src="../../dist/vue-i18n.iife.js"></script>
     <style>
-      #app { margin-left: 40px; }
-      p { font-weight: bold; }
+      #app {
+        margin-left: 40px;
+      }
+      p {
+        font-weight: bold;
+      }
     </style>
   </head>
   <body>
@@ -41,12 +45,15 @@
         numberFormats: {
           'en-US': {
             currency: {
-              style: 'currency', currency: 'USD'
+              style: 'currency',
+              currency: 'USD'
             }
           },
           'ja-JP': {
             currency: {
-              style: 'currency', currency: 'JPY', currencyDisplay: 'symbol'
+              style: 'currency',
+              currency: 'JPY',
+              currencyDisplay: 'symbol'
             }
           }
         }

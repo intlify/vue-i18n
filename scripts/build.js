@@ -13,18 +13,20 @@ const { terser } = require('rollup-plugin-terser')
 // require.main cannot be used because this process is run externally (from vue-cli-service)
 const { dependencies } = require(path.resolve(process.cwd(), 'package.json'))
 const classifyRE = /(?:^|[-_\/])(\w)/g
-const toUpper = (_, c) => c ? c.toUpperCase() : ''
+const toUpper = (_, c) => (c ? c.toUpperCase() : '')
 const classify = str => str.replace(classifyRE, toUpper)
 const getSize = code => (code.length / 1024).toFixed(2) + 'kb'
 const banner = ({ name, version, year, author, license }) => {
-  return '/*!\n' +
-  ` * ${name} v${version} \n` +
-  ` * (c) ${year} ${author}\n` +
-  ` * Released under the ${license} License.\n` +
-  ' */'
+  return (
+    '/*!\n' +
+    ` * ${name} v${version} \n` +
+    ` * (c) ${year} ${author}\n` +
+    ` * Released under the ${license} License.\n` +
+    ' */'
+  )
 }
 
-function loadPackage (context) {
+function loadPackage(context) {
   let pkg = {}
   try {
     pkg = require(path.resolve(context, 'package.json'))
@@ -34,12 +36,16 @@ function loadPackage (context) {
   return pkg
 }
 
-function write (dest, code, zip) {
+function write(dest, code, zip) {
   const writeFile = promisify(fs.writeFile)
   const gzip = promisify(zlib.gzip)
   return new Promise(async (resolve, reject) => {
     const report = extra => {
-      console.log(`📦  ${chalk.blue.bold(path.relative(process.cwd(), dest))} ${getSize(code) + (extra || '')}`)
+      console.log(
+        `📦  ${chalk.blue.bold(path.relative(process.cwd(), dest))} ${
+          getSize(code) + (extra || '')
+        }`
+      )
     }
     try {
       await writeFile(dest, code)
@@ -56,7 +62,7 @@ function write (dest, code, zip) {
   })
 }
 
-function makeEntries (entryPath, destPath, moduleName, packageName, banner) {
+function makeEntries(entryPath, destPath, moduleName, packageName, banner) {
   const resolve = _path => path.resolve(destPath, _path)
   return {
     cjs: {
@@ -106,9 +112,10 @@ function makeEntries (entryPath, destPath, moduleName, packageName, banner) {
   }
 }
 
-function setupPlugins (target, name, version, env, format, plugins = []) {
+function setupPlugins(target, name, version, env, format, plugins = []) {
   const isBundlerESMBuild = /esmBundler/.test(name)
-  const isProductionBuild = process.env.__DEV__ === 'false' || env === 'production'
+  const isProductionBuild =
+    process.env.__DEV__ === 'false' || env === 'production'
 
   plugins.push(nodeResolve(), commonjs())
   plugins.push(
@@ -125,8 +132,8 @@ function setupPlugins (target, name, version, env, format, plugins = []) {
   }
 
   const replaceOptions = {
-    '__VERSION__': version,
-    '__DEV__': isBundlerESMBuild
+    __VERSION__: version,
+    __DEV__: isBundlerESMBuild
       ? `(process.env.NODE_ENV !== 'production')` // preserve to be handled by bundlers
       : !isProductionBuild // hard coded dev/prod builds
   }
@@ -139,8 +146,14 @@ function setupPlugins (target, name, version, env, format, plugins = []) {
   return plugins
 }
 
-function generateConfig (target, name, options, moduleName, version) {
-  const plugins = setupPlugins(target, name, version, options.env, options.format)
+function generateConfig(target, name, options, moduleName, version) {
+  const plugins = setupPlugins(
+    target,
+    name,
+    version,
+    options.env,
+    options.format
+  )
   return {
     input: options.entry,
     output: {
@@ -159,14 +172,15 @@ function generateConfig (target, name, options, moduleName, version) {
   }
 }
 
-function getAllEntries ({ name, version }, { entry, dest }, banner) {
+function getAllEntries({ name, version }, { entry, dest }, banner) {
   const moduleName = classify(name)
   const entries = makeEntries(entry, dest, moduleName, name, banner)
-  return Object.keys(entries)
-    .map(name => generateConfig(dest, name, entries[name], moduleName, version))
+  return Object.keys(entries).map(name =>
+    generateConfig(dest, name, entries[name], moduleName, version)
+  )
 }
 
-function bundleEntry (config) {
+function bundleEntry(config) {
   const output = config.output
   const { file } = output
   const isProd = /min\.js$/.test(file)
@@ -175,7 +189,7 @@ function bundleEntry (config) {
     .then(({ output: [{ code }] }) => write(file, code, isProd))
 }
 
-async function bundle (entries) {
+async function bundle(entries) {
   console.log('Building for production mode as plugin ...')
 
   for (let i = 0; i < entries.length; i++) {
@@ -187,10 +201,14 @@ async function bundle (entries) {
   }
 
   console.log()
-  console.log(`✅  Build complete. The ${chalk.cyan('dist')} directory is ready to be deployed.`)
+  console.log(
+    `✅  Build complete. The ${chalk.cyan(
+      'dist'
+    )} directory is ready to be deployed.`
+  )
 }
 
-function run () {
+function run() {
   const target = process.cwd()
   const { name, license, version, author } = loadPackage(target)
 

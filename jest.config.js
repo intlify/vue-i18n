@@ -27,10 +27,7 @@ module.exports = {
   coverageDirectory: 'coverage',
 
   // An array of regexp pattern strings used to skip coverage collection
-  coveragePathIgnorePatterns: [
-    '/node_modules/',
-    '<rootDir>/test/*.*'
-  ],
+  coveragePathIgnorePatterns: ['/node_modules/', '<rootDir>/test/*.*'],
 
   // A list of reporter names that Jest uses when writing coverage reports
   // coverageReporters: [
@@ -148,9 +145,7 @@ module.exports = {
   // testLocationInResults: false,
 
   // The glob patterns Jest uses to detect test files
-  testMatch: [
-    '<rootDir>/test/**/?(*.)+(spec|test).[tj]s?(x)'
-  ],
+  testMatch: ['<rootDir>/test/**/?(*.)+(spec|test).[tj]s?(x)'],
 
   // An array of regexp pattern strings that are matched against all test paths, matched tests are skipped
   // testPathIgnorePatterns: [
@@ -192,5 +187,8 @@ module.exports = {
   // Whether to use watchman for file crawling
   // watchman: true,
 
-  watchPlugins: ['jest-watch-typeahead/filename', 'jest-watch-typeahead/testname']
+  watchPlugins: [
+    'jest-watch-typeahead/filename',
+    'jest-watch-typeahead/testname'
+  ]
 }
