@@ -1,24 +1,16 @@
-<p align="center"><img width="128px" height="112px" src="./assets/vue-i18n-logo.png" alt="Vue I18n logo"></p>
-<h1 align="center">vue-i18n</h1>
-<p align="center">
-  <a href="https://circleci.com/gh/kazupon/vue-i18n/tree/dev"><img src="https://circleci.com/gh/kazupon/vue-i18n/tree/dev.svg?style=shield" alt="Build Status"></a>
-  <a href="https://codecov.io/gh/kazupon/vue-i18n"><img src="https://codecov.io/gh/kazupon/vue-i18n/branch/dev/graph/badge.svg" alt="Coverage Status"></a>
-  <a href="http://badge.fury.io/js/vue-i18n"><img src="https://badge.fury.io/js/vue-i18n.svg" alt="NPM version"></a>
-  <a href="https://discord.gg/4yCnk2m"><img src="https://img.shields.io/badge/Discord-join%20chat-738bd7.svg" alt="vue-i18n channel on Discord"></a>
-  <a href="https://devtoken.rocks/package/vue-i18n"><img src="https://badge.devtoken.rocks/vue-i18n" alt="vue-i18n Dev Token"></a>
-</p>
+# vue-i18n-next
 
-<p align="center">Internationalization plugin for Vue.js</p>
+Internationalization plugin for Vue.js
 
-<h3 align="center">Silver Sponsors</h3>
+<h3>Silver Sponsors</h3>
 
-<p align="center">
+<p>
   <a href="https://www.codeandweb.com/babeledit?utm_campaign=vue-i18n-2019-01" target="_blank">
     <img src="https://raw.githubusercontent.com/kazupon/vue-i18n/dev/vuepress/.vuepress/public/patrons/babeledit.png">
   </a>
 </p>
 
-<p align="center">
+<p>
   <a href="https://www.patreon.com/kazupon" target="_blank">
     <img src="https://c5.patreon.com/external/logo/become_a_patron_button.png" alt="Become a Patreon">
   </a>
@@ -26,11 +18,73 @@
 
 <br/>
 
-# :warning: NOTICE: !!!!! vue-i18n is WIP for Vue 3 !!!!!
 
-if you use currently vue-i18n version, see this [repository](https://github.com/kazupon/vue-i18n)
+## Status: WIP ![Test](https://github.com/intlify/vue-i18n-next/workflows/Test/badge.svg)
 
-## TODO:
+The current codebase has most of the existing features on Vue I18n v8.x and is usable.
+
+Since the library is still unstable **and because we want feedback** on bugs and missing features, **it will probably go through a few breaking changes**.
+
+If you use stable Vue I18n version, see this [repository](https://github.com/kazupon/vue-i18n)
+
+
+## :star: New Features
+
+- Offer new APIs as called `Composable API`  Composition API
+
+
+## :lollipop: Examples
+
+See the [`examples`](https://github.com/intlify/vue-i18n-next/tree/master/examples) directory.
+
+The examples are offered that use the following two API styles:
+
+- composable: new Vue I18n API optimized for composition API
+- legacy: Vue I18n API almost compatible with vue-i18n@8.x
+
+
+## :heavy_exclamation_mark: Known issues
+
+### :boom: Breaking changes compared to vue-i18n@8.x
+
+- API
+  - The return value of `$t` and `t` methods is **string** only. object and array values ​​are no longer returned.
+  - The return value of `$tc` and `tc` methods is **string** only. object and array values ​​are no longer returned.
+  - `VueI18n` class cannot used with `new`. It can only be used via the `$i18n` property of Vue instance.
+    - In vue-i18n-next, by replacing `new VueI18n` with `createI18n`, you can use existing `VueI18n` options as they are.
+    - See the `examples/legacy` directory.
+  - `VueI18n.prototype.getChoiceIndex`
+    - -> Legacy API style: `pluralizationRules` option of `createI18n` factory function (like `new VueI18n(...)`)
+    - -> Compsable API style: `pluralRules` option of `createI18nComposer` facatory function
+  - `VueI18n.version` -> `import { version } from 'vue-i18n'`
+  - `VueI18n.availabilities` -> `import { availabilities } from 'vue-i18n'`
+
+#### :zap: Improvements
+
+- See the [vue-i18n issues](https://github.com/kazupon/vue-i18n/issues?q=is%3Aissue+is%3Aopen+label%3A%22Status%3A+Ready%22) that labeld with `Status: Ready`
+
+
+### :hammer: Missing features
+
+- `<18n>` custom block supporting for SFC
+- `v-t` directive
+- `preserveDirectiveContent` option (depend on `v-t`)
+- Compoonent interpolation with `<i18n>` component
+- Number custom formatting with `<i18n-n>` component
+- HTML format suppression with `warnHtmlInMessage` option
+- SSR
+- Custom formatting
+- Tooling
+  - `vue-cli-plugin-i18n`
+  - `@intlify/vue-i18n-loader`
+  - `@intlify/rollup-plugin-vue-i18n`
+  - `@intlify/vue-i18n-extensions`
+  - `@intlify/eslint-plugin-vue-i18n`
+
+
+## :white_check_mark: TODOs
+<details>
+
 - Intlify message format compiler
   - [x] vue-i18n message format
   - [ ] sourcemap
@@ -137,6 +191,9 @@ if you use currently vue-i18n version, see this [repository](https://github.com/
 - Others
   - [x] fallback localization (bubble up)
   - [ ] SSR
+
+</details>
+
 
 ## :copyright: License
 
