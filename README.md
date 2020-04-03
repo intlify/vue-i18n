@@ -30,7 +30,7 @@ If you use stable Vue I18n version, see this [repository](https://github.com/kaz
 
 ## :star: New Features
 
-- Offer new APIs as called `Composable API`  Composition API
+- Offer new APIs as called `Composable API`
 
 
 ## :lollipop: Examples
