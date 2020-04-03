@@ -88,7 +88,8 @@
     "test:type": "tsc -p . --noEmit",
     "test:unit": "cross-env NODE_ICU_DATA=./node_modules/full-icu jest --env node",
     "test:e2e": "npm run build && jest --runInBand --config ./jest.e2e.config.js",
-    "test:watch": "jest --env node --watch"
+    "dev:e2e": "jest --runInBand --config ./jest.e2e.config.js",
+    "test:watch": "cross-env NODE_ICU_DATA=./node_modules/full-icu jest --env node --watch"
   },
   "sideEffects": false,
   "types": "types/index.d.ts",
