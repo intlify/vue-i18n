@@ -9,7 +9,7 @@ import {
   createRuntimeContext as context,
   NOT_REOSLVED
 } from '../../src/runtime/context'
-import { translate } from '../../src/runtime/localize'
+import { translate } from '../../src/runtime/translate'
 
 describe('features', () => {
   test('simple text', () => {

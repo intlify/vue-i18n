@@ -14,7 +14,7 @@ import {
   LocaleMessageDictionary,
   PostTranslationHandler
 } from './runtime/context'
-import { TranslateOptions } from './runtime/localize'
+import { TranslateOptions } from './runtime/translate'
 import { parseDateTimeArgs } from './runtime/datetime'
 import { parseNumberArgs } from './runtime/number'
 import {

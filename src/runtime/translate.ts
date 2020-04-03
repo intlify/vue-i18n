@@ -31,34 +31,34 @@ const NOOP_MESSAGE_FUNCTION = () => ''
  *    translate(context, 'foo.bar')
  *
  *    // list argument
- *    translate(context, 'foo.bar', { list: ['kazupon'] })
+ *    translate(context, 'foo.bar', ['kazupon'])
  *
  *    // named argument
- *    translate(context, 'foo.bar', { named: { name: 'kazupon' } })
+ *    translate(context, 'foo.bar', { name: 'kazupon' })
  *
  *    // plural choice number
- *    translate(context, 'foo.bar', { plural: 2 })
+ *    translate(context, 'foo.bar', 2)
  *
  *    // plural choice number with name argument
- *    translate(context, 'foo.bar', { named: { name: 'kazupon' }, plural: 2 })
+ *    translate(context, 'foo.bar', { name: 'kazupon' }, 2)
  *
  *    // default message argument
- *    translate(context, 'foo.bar', { default: 'this is default message' })
+ *    translate(context, 'foo.bar', 'this is default message')
  *
  *    // default message with named argument
- *    translate(context, 'foo.bar', { named: { name: 'kazupon' }, default: 'Hello {name} !' })
+ *    translate(context, 'foo.bar', { name: 'kazupon' }, 'Hello {name} !')
  *
  *    // use key as default message
- *    translate(context, 'hi {0} !', { list: ['kazupon'], default: true })
+ *    translate(context, 'hi {0} !', ['kazupon'], { default: true })
  *
  *    // locale option, override context.locale
- *    translate(context, 'foo.bar', { locale: 'ja' })
+ *    translate(context, 'foo.bar', { name: 'kazupon' }, { locale: 'ja' })
  *
  *    // suppress localize miss warning option, override context.missingWarn
- *    translate(context, 'foo.bar', { missingWarn: false })
+ *    translate(context, 'foo.bar', { name: 'kazupon' }, { missingWarn: false })
  *
  *    // suppress localize fallback warning option, override context.fallbackWarn
- *    translate(context, 'foo.bar', { fallbackWarn: false })
+ *    translate(context, 'foo.bar', { name: 'kazupon' }, { fallbackWarn: false })
  */
 
 export type TranslateOptions = {
@@ -195,8 +195,7 @@ export function translate(
       key,
       fallbackWarn,
       'translate',
-      (context: RuntimeContext): string | number =>
-        translate(context, key, options),
+      (context: RuntimeContext): string | number => translate(context, ...args),
       ret
     )
   }
@@ -257,8 +256,7 @@ export function translate(
       key,
       fallbackWarn,
       'translate',
-      (context: RuntimeContext): string | number =>
-        translate(context, key, options),
+      (context: RuntimeContext): string | number => translate(context, ...args),
       ret
     )
   }

@@ -41,7 +41,7 @@ import {
   translate,
   parseTranslateArgs,
   TranslateOptions
-} from './runtime/localize'
+} from './runtime/translate'
 import {
   datetime,
   parseDateTimeArgs,
