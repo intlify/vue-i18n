@@ -68,28 +68,43 @@ test('missing', () => {
 })
 
 test('silentTranslationWarn', () => {
+  // default
   const i18n = createI18n()
   expect(i18n.silentTranslationWarn).toEqual(false)
   i18n.silentTranslationWarn = true
   expect(i18n.silentTranslationWarn).toEqual(true)
   i18n.silentTranslationWarn = /^hi.*$/
   expect(i18n.silentTranslationWarn).toEqual(/^hi.*$/)
+
+  // with option
+  const i18nWithOption = createI18n({ silentTranslationWarn: true })
+  expect(i18nWithOption.silentTranslationWarn).toEqual(true)
 })
 
 test('silentFallbackWarn', () => {
+  // default
   const i18n = createI18n()
   expect(i18n.silentFallbackWarn).toEqual(false)
   i18n.silentFallbackWarn = true
   expect(i18n.silentFallbackWarn).toEqual(true)
   i18n.silentFallbackWarn = /^hi.*$/
   expect(i18n.silentFallbackWarn).toEqual(/^hi.*$/)
+
+  // with option
+  const i18nWithOption = createI18n({ silentFallbackWarn: true })
+  expect(i18nWithOption.silentFallbackWarn).toEqual(true)
 })
 
 test('formatFallbackMessages', () => {
+  // default
   const i18n = createI18n()
   expect(i18n.formatFallbackMessages).toEqual(false)
   i18n.formatFallbackMessages = true
   expect(i18n.formatFallbackMessages).toEqual(true)
+
+  // withOption
+  const i18nWithOption = createI18n({ formatFallbackMessages: true })
+  expect(i18nWithOption.formatFallbackMessages).toEqual(true)
 })
 
 test('postTranslation', () => {

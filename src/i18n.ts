@@ -158,12 +158,12 @@ function convertI18nComposerOptions(
   const missingWarn =
     isBoolean(options.silentTranslationWarn) ||
     isRegExp(options.silentTranslationWarn)
-      ? options.silentTranslationWarn
+      ? !options.silentTranslationWarn
       : true
   const fallbackWarn =
     isBoolean(options.silentFallbackWarn) ||
     isRegExp(options.silentFallbackWarn)
-      ? options.silentFallbackWarn
+      ? !options.silentFallbackWarn
       : true
   const fallbackRoot = isBoolean(options.fallbackRoot)
     ? options.fallbackRoot
