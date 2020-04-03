@@ -1,3 +1,10 @@
+// utils
+jest.mock('../src/utils', () => ({
+  ...jest.requireActual('../src/utils'),
+  warn: jest.fn()
+}))
+import { warn } from '../src/utils'
+
 import { createI18nComposer, MissingHandler } from '../src/composition'
 import { watch } from 'vue'
 
@@ -276,6 +283,25 @@ describe('fallbackFormat', () => {
   test('initialize at composer creating', () => {
     const { fallbackFormat } = createI18nComposer({ fallbackFormat: true })
     expect(fallbackFormat).toEqual(true)
+  })
+
+  test('interpolation', () => {
+    const mockWarn = warn as jest.MockedFunction<typeof warn>
+    mockWarn.mockImplementation(() => {}) // eslint-disable-line @typescript-eslint/no-empty-function
+
+    const { t } = createI18nComposer({
+      locale: 'en',
+      fallbackLocales: ['ja', 'fr'],
+      fallbackFormat: true,
+      messages: {
+        en: {},
+        ja: {},
+        fr: {}
+      }
+    })
+
+    expect(t('hi, {name}!', { name: 'kazupon' })).toEqual('hi, kazupon!')
+    expect(mockWarn).toHaveBeenCalledTimes(5)
   })
 })
 

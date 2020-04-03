@@ -166,11 +166,14 @@ export function fallback(
   fallbackWarn: boolean | RegExp,
   type: string,
   fn: Function,
+  fallbackFormat?: boolean,
   defaultReturn?: string
 ): string | number {
   // prettier-ignore
   let ret: string | number = context.unresolving
-    ? NOT_REOSLVED
+    ? isBoolean(fallbackFormat) && fallbackFormat && isString(defaultReturn)
+      ? defaultReturn
+      : NOT_REOSLVED
     : isString(defaultReturn)
       ? defaultReturn
       : MISSING_RESOLVE_VALUE

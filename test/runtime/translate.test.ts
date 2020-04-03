@@ -111,7 +111,7 @@ describe('default option', () => {
 })
 
 describe('context missing option', () => {
-  test('none missing handler', () => {
+  test('missing handler is nothing', () => {
     const mockWarn = warn as jest.MockedFunction<typeof warn>
     mockWarn.mockImplementation(() => {}) // eslint-disable-line @typescript-eslint/no-empty-function
 
@@ -124,11 +124,11 @@ describe('context missing option', () => {
 
     expect(translate(ctx, 'hello')).toEqual('hello')
     expect(mockWarn.mock.calls[0][0]).toEqual(
-      `Cannot translate the value of 'hello'. Use the value of key as default.`
+      `Not found 'hello' key in 'en' locale messages.`
     )
   })
 
-  test('missing handler', () => {
+  test('missing handler that return string value', () => {
     const ctx = context({
       locale: 'en',
       missing: (c, locale, key) => {
@@ -142,6 +142,37 @@ describe('context missing option', () => {
       }
     })
     expect(translate(ctx, 'hello')).toEqual('HELLO')
+  })
+
+  test('missing handler that return not string value', () => {
+    const ctx = context({
+      locale: 'en',
+      missing: (c, locale, key) => {
+        expect(c).toEqual(ctx)
+        expect(locale).toEqual('en')
+        expect(key).toEqual('hello')
+        return {} as string
+      },
+      messages: {
+        en: {}
+      }
+    })
+    expect(translate(ctx, 'hello')).toEqual('hello')
+  })
+
+  test('missing handler that not return value', () => {
+    const ctx = context({
+      locale: 'en',
+      missing: (c, locale, key) => {
+        expect(c).toEqual(ctx)
+        expect(locale).toEqual('en')
+        expect(key).toEqual('hello')
+      },
+      messages: {
+        en: {}
+      }
+    })
+    expect(translate(ctx, 'hello')).toEqual('hello')
   })
 })
 
@@ -300,7 +331,7 @@ describe('context fallbackWarn option', () => {
     expect(mockWarn).toHaveBeenCalledTimes(2)
   })
 
-  test('specify fallbackWarn option to localize function', () => {
+  test('specify fallbackWarn option to translate function', () => {
     const mockWarn = warn as jest.MockedFunction<typeof warn>
     mockWarn.mockImplementation(() => {}) // eslint-disable-line @typescript-eslint/no-empty-function
 
@@ -329,19 +360,73 @@ describe('context fallbackFormat option', () => {
 
     const ctx = context({
       locale: 'en',
+      fallbackLocales: ['ja', 'fr'],
       fallbackFormat: true,
       messages: {
-        en: {}
+        en: {},
+        ja: {},
+        fr: {}
       }
     })
 
     expect(translate(ctx, 'hi, {name}!', { name: 'kazupon' })).toEqual(
       'hi, kazupon!'
     )
-    expect(mockWarn).not.toHaveBeenCalled()
+    expect(mockWarn).toHaveBeenCalledTimes(5)
+    expect(mockWarn.mock.calls[0][0]).toEqual(
+      `Not found 'hi, {name}!' key in 'en' locale messages.`
+    )
+    expect(mockWarn.mock.calls[1][0]).toEqual(
+      `Fall back to translate 'hi, {name}!' key with 'ja,fr' locale.`
+    )
+    expect(mockWarn.mock.calls[2][0]).toEqual(
+      `Not found 'hi, {name}!' key in 'ja' locale messages.`
+    )
+    expect(mockWarn.mock.calls[3][0]).toEqual(
+      `Fall back to translate 'hi, {name}!' key with 'fr' locale.`
+    )
+    expect(mockWarn.mock.calls[4][0]).toEqual(
+      `Not found 'hi, {name}!' key in 'fr' locale messages.`
+    )
   })
 
   test('overrided with default option', () => {
+    const mockWarn = warn as jest.MockedFunction<typeof warn>
+    mockWarn.mockImplementation(() => {}) // eslint-disable-line @typescript-eslint/no-empty-function
+
+    const ctx = context({
+      locale: 'en',
+      fallbackLocales: ['ja', 'fr'],
+      fallbackFormat: true,
+      messages: {
+        en: {},
+        ja: {},
+        fr: {}
+      }
+    })
+
+    expect(
+      translate(ctx, 'hi, {name}!', { name: 'kazupon' }, 'hello, {name}!')
+    ).toEqual('hello, kazupon!')
+    expect(mockWarn).toHaveBeenCalledTimes(5)
+    expect(mockWarn.mock.calls[0][0]).toEqual(
+      `Not found 'hi, {name}!' key in 'en' locale messages.`
+    )
+    expect(mockWarn.mock.calls[1][0]).toEqual(
+      `Fall back to translate 'hi, {name}!' key with 'ja,fr' locale.`
+    )
+    expect(mockWarn.mock.calls[2][0]).toEqual(
+      `Not found 'hi, {name}!' key in 'ja' locale messages.`
+    )
+    expect(mockWarn.mock.calls[3][0]).toEqual(
+      `Fall back to translate 'hi, {name}!' key with 'fr' locale.`
+    )
+    expect(mockWarn.mock.calls[4][0]).toEqual(
+      `Not found 'hi, {name}!' key in 'fr' locale messages.`
+    )
+  })
+
+  test('fallbackLocales is nothing', () => {
     const mockWarn = warn as jest.MockedFunction<typeof warn>
     mockWarn.mockImplementation(() => {}) // eslint-disable-line @typescript-eslint/no-empty-function
 
@@ -356,7 +441,10 @@ describe('context fallbackFormat option', () => {
     expect(
       translate(ctx, 'hi, {name}!', { name: 'kazupon' }, 'hello, {name}!')
     ).toEqual('hello, kazupon!')
-    expect(mockWarn).not.toHaveBeenCalled()
+    expect(mockWarn).toHaveBeenCalledTimes(1)
+    expect(mockWarn.mock.calls[0][0]).toEqual(
+      `Not found 'hi, {name}!' key in 'en' locale messages.`
+    )
   })
 })
 
@@ -389,6 +477,25 @@ describe('context unresolving option', () => {
       }
     })
     expect(translate(ctx, 'hello.world')).toEqual(NOT_REOSLVED)
+  })
+
+  test('fallbackFormat is true', () => {
+    const mockWarn = warn as jest.MockedFunction<typeof warn>
+    mockWarn.mockImplementation(() => {}) // eslint-disable-line @typescript-eslint/no-empty-function
+
+    const ctx = context({
+      locale: 'en',
+      fallbackLocales: ['ja', 'fr'],
+      fallbackFormat: true,
+      unresolving: true,
+      messages: {
+        en: {},
+        ja: {}
+      }
+    })
+    expect(translate(ctx, 'hi, {name}!', { name: 'kazupon' })).toEqual(
+      'hi, kazupon!'
+    )
   })
 })
 

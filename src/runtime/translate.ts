@@ -7,7 +7,6 @@ import {
 } from '../message/context'
 import { Locale, RuntimeContext, fallback } from './context'
 import {
-  isObject,
   isString,
   isNumber,
   isFunction,
@@ -177,28 +176,18 @@ export function translate(
   }
 
   // prettier-ignore
-  const defaultMsgOrKey: string | boolean =
+  const defaultMsgOrKey: string =
     isString(options.default) || isBoolean(options.default)
-      ? options.default
+      ? !isBoolean(options.default)
+        ? options.default
+        : key
       : fallbackFormat
         ? key
-        : false
-  const enableDefaultMsg = fallbackFormat || defaultMsgOrKey !== false
+        : ''
+  const enableDefaultMsg = fallbackFormat || defaultMsgOrKey !== ''
+  // console.log('defaultMsgOrKey', defaultMsgOrKey, enableDefaultMsg)
 
-  const message = messages[locale]
-  if (!isObject(message)) {
-    // missing ...
-    const ret = handleMissing(context, key, locale, missingWarn)
-    // falbacking ...
-    return fallback(
-      context,
-      key,
-      fallbackWarn,
-      'translate',
-      (context: RuntimeContext): string | number => translate(context, ...args),
-      ret
-    )
-  }
+  const message = messages[locale] || {}
 
   // TODO: need to design resolve message function?
   const resolveMessage = (key: string): MessageFunction => {
@@ -237,28 +226,25 @@ export function translate(
   }
 
   let format = resolveValue(message, key)
-  if (!isString(format) && enableDefaultMsg) {
-    // set default message
-    if (isString(defaultMsgOrKey)) {
-      format = defaultMsgOrKey
-    } else {
-      // true
-      format = key
-    }
-  }
-
   if (!isString(format)) {
     // missing ...
-    const ret = handleMissing(context, key, locale, missingWarn)
+    let ret: string | number = handleMissing(context, key, locale, missingWarn)
     // falbacking ...
-    return fallback(
+    ret = fallback(
       context,
       key,
       fallbackWarn,
       'translate',
       (context: RuntimeContext): string | number => translate(context, ...args),
+      enableDefaultMsg,
       ret
     )
+    // check enable default message
+    if (enableDefaultMsg) {
+      format = defaultMsgOrKey
+    } else {
+      return ret
+    }
   }
 
   let msg = _compileCache.get(format)
@@ -315,12 +301,11 @@ function handleMissing(
 ): string {
   const { missing } = context
   if (missing !== null) {
-    return missing(context, locale, key) || key
+    const ret = missing(context, locale, key)
+    return isString(ret) ? ret : key
   } else {
     if (__DEV__ && isTranslateMissingWarn(missingWarn, key)) {
-      warn(
-        `Cannot translate the value of '${key}'. Use the value of key as default.`
-      )
+      warn(`Not found '${key}' key in '${locale}' locale messages.`)
     }
     return key
   }
