@@ -6,6 +6,6 @@
  */
 
 export * from './context'
-export * from './localize'
+export * from './translate'
 export * from './datetime'
 export * from './number'
