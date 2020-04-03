@@ -66,8 +66,12 @@ export function number(
   value: number,
   options: NumberOptions
 ): string | number
+export function number(
+  context: RuntimeContext,
+  ...args: unknown[]
+): string | number // for internal
 
-// implementationo of `number` function
+// implementation of `number` function
 export function number(
   context: RuntimeContext,
   ...args: unknown[]

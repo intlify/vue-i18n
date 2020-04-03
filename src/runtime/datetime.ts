@@ -71,8 +71,12 @@ export function datetime(
   value: number | Date,
   options: DateTimeOptions
 ): string | number
+export function datetime(
+  context: RuntimeContext,
+  ...args: unknown[]
+): string | number // for internal
 
-// implementationo of `datetime` function
+// implementation of `datetime` function
 export function datetime(
   context: RuntimeContext,
   ...args: unknown[]

@@ -74,10 +74,6 @@ export type TranslateOptions = {
 export function translate(context: RuntimeContext, key: Path): string | number
 export function translate(
   context: RuntimeContext,
-  ...args: unknown[]
-): string | number // for internal
-export function translate(
-  context: RuntimeContext,
   key: Path,
   plural: number
 ): string | number
@@ -144,6 +140,10 @@ export function translate(
   named: NamedValue,
   options: TranslateOptions
 ): string | number
+export function translate(
+  context: RuntimeContext,
+  ...args: unknown[]
+): string | number // for internal
 
 // implementationo of `translate` function
 export function translate(

@@ -135,10 +135,12 @@ export type I18nComposer = {
   d(value: number | Date, key: string): string
   d(value: number | Date, key: string, locale: Locale): string
   d(value: number | Date, options: DateTimeOptions): string
+  d(...args: unknown[]): string // for internal
   n(value: number): string
   n(value: number, key: string): string
   n(value: number, key: string, locale: Locale): string
   n(value: number, options: NumberOptions): string
+  n(...args: unknown[]): string // for internal
   getLocaleMessage(locale: Locale): LocaleMessage
   setLocaleMessage(locale: Locale, message: LocaleMessage): void
   mergeLocaleMessage(locale: Locale, message: LocaleMessage): void
@@ -342,16 +344,14 @@ export function createI18nComposer(
   // d
   const d = (...args: unknown[]): string => {
     return computed<string>((): string => {
-      const [value, options] = parseDateTimeArgs(...args)
-      const ret = datetime(getRuntimeContext(), value, options)
+      const [, options] = parseDateTimeArgs(...args)
+      const ret = datetime(getRuntimeContext(), ...args)
       if (isNumber(ret) && ret === NOT_REOSLVED) {
         if (__DEV__ && _fallbackRoot && root) {
           const key = isString(options.key) ? options.key : ''
           warn(`Fall back to datetime format '${key}' with root locale.`)
         }
-        return _fallbackRoot && root
-          ? root.d(value, options)
-          : MISSING_RESOLVE_VALUE
+        return _fallbackRoot && root ? root.d(...args) : MISSING_RESOLVE_VALUE
       } else if (isString(ret)) {
         return ret
       } else {
@@ -363,16 +363,14 @@ export function createI18nComposer(
   // n
   const n = (...args: unknown[]): string => {
     return computed<string>((): string => {
-      const [value, options] = parseNumberArgs(...args)
-      const ret = number(getRuntimeContext(), value, options)
+      const [, options] = parseNumberArgs(...args)
+      const ret = number(getRuntimeContext(), ...args)
       if (isNumber(ret) && ret === NOT_REOSLVED) {
         if (__DEV__ && _fallbackRoot && root) {
           const key = isString(options.key) ? options.key : ''
           warn(`Fall back to number format '${key}' with root locale.`)
         }
-        return _fallbackRoot && root
-          ? root.d(value, options)
-          : MISSING_RESOLVE_VALUE
+        return _fallbackRoot && root ? root.d(...args) : MISSING_RESOLVE_VALUE
       } else if (isString(ret)) {
         return ret
       } else {
