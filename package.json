@@ -9,6 +9,20 @@
   "bugs": {
     "url": "https://github.com/inlitify/vue-i18n/issues"
   },
+  "changelog": {
+    "labels": {
+      "Type: Feature": ":star: Features",
+      "Type: Bug": ":bug: Bug Fixes",
+      "Type: Security": ":lock: Security Fixes",
+      "Type: Performance": ":chart_with_upwards_trend: Performance Fixes",
+      "Type: Improvement": ":zap: Improvement Features",
+      "Type: Breaking": ":boom: Breaking Change",
+      "Type: Deprecated": ":warning: Deprecated Features",
+      "Type: I18n": ":globe_with_meridians: Internationalization",
+      "Type: A11y": ":wheelchair: Accessibility",
+      "Type: Documentation": ":pencil: Documentation"
+    }
+  },
   "dependencies": {
     "vue": "^3.0.0-alpha.10"
   },
@@ -32,12 +46,14 @@
     "jest": "^25.2.4",
     "jest-puppeteer": "^4.4.0",
     "jest-watch-typeahead": "^0.5.0",
+    "lerna-changelog": "^1.0.1",
     "opener": "^1.5.1",
     "prettier": "^2.0.0",
     "puppeteer": "^2.1.1",
     "rollup": "^2.0.0",
     "rollup-plugin-terser": "^5.2.0",
     "rollup-plugin-typescript2": "^0.27.0",
+    "shipjs": "^0.18.1",
     "ts-jest": "^25.3.0",
     "typescript": "^3.8.3",
     "typescript-eslint-language-service": "^2.0.3"
@@ -79,16 +95,18 @@
     "clean:dist": "rm -rf ./dist/**",
     "clean:type": "rm -rf ./types/**",
     "coverage": "opener coverage/lcov-report/index.html",
+    "dev:e2e": "jest --runInBand --config ./jest.e2e.config.js",
     "format": "prettier --config .prettierrc --ignore-path .prettierignore '**/*.{js,json,html}'",
     "format:fix": "npm run format -- --write",
     "lint": "eslint ./src ./test ./e2e --ext .js,.ts",
     "lint:fix": "npm run lint -- --fix",
+    "release:prepare": "shipjs prepare",
+    "release:trigger": "shipjs trigger",
     "test": "npm run lint && npm run test:cover && npm run test:e2e",
     "test:cover": "npm run test:unit -- --coverage",
+    "test:e2e": "npm run build && jest --runInBand --config ./jest.e2e.config.js",
     "test:type": "tsc -p . --noEmit",
     "test:unit": "cross-env NODE_ICU_DATA=./node_modules/full-icu jest --env node",
-    "test:e2e": "npm run build && jest --runInBand --config ./jest.e2e.config.js",
-    "dev:e2e": "jest --runInBand --config ./jest.e2e.config.js",
     "test:watch": "cross-env NODE_ICU_DATA=./node_modules/full-icu jest --env node --watch"
   },
   "sideEffects": false,
