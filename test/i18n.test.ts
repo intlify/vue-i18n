@@ -411,5 +411,7 @@ test('getChoiceIndex', () => {
 
   const i18n = createI18n({})
   i18n.getChoiceIndex(1, 2)
-  expect(mockWarn.mock.calls[0][0]).toEqual(`not supportted 'getChoiceIndex' method.`)
+  expect(mockWarn.mock.calls[0][0]).toEqual(
+    `not supportted 'getChoiceIndex' method.`
+  )
 })
