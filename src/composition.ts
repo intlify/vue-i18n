@@ -1,8 +1,8 @@
 /**
- * Composition
+ *  Composition
  *
- * Composition is composable API for vue-i18n
- * This module is offered composable i18n API for Vue 3
+ *  Composition is composable API for vue-i18n
+ *  This module is offered composable i18n API for Vue 3
  */
 
 import {
@@ -114,6 +114,7 @@ export type I18nComposer = {
   fallbackWarn: boolean | RegExp
   fallbackRoot: boolean
   fallbackFormat: boolean
+
   /**
    * methods
    */
@@ -166,21 +167,21 @@ function defineRuntimeMissingHandler(
 
 export function createI18nComposer(
   options: I18nComposerOptions = {},
-  root?: I18nComposer
+  _root?: I18nComposer // for internal
 ): I18nComposer {
   // reactivity states
   const _locale = ref<Locale>(
     // prettier-ignore
-    root
-      ? root.locale.value
+    _root
+      ? _root.locale.value
       : isString(options.locale)
         ? options.locale
         : 'en-US'
   )
   const _fallbackLocales = ref<Locale[]>(
     // prettier-ignore
-    root
-      ? root.fallbackLocales.value
+    _root
+      ? _root.fallbackLocales.value
       : isArray(options.fallbackLocales)
         ? options.fallbackLocales
         : []
@@ -201,14 +202,14 @@ export function createI18nComposer(
 
   // warning supress options
   // prettier-ignore
-  let _missingWarn = root
-    ? root.missingWarn
+  let _missingWarn = _root
+    ? _root.missingWarn
     : isBoolean(options.missingWarn) || isRegExp(options.missingWarn)
       ? options.missingWarn
       : true
   // prettier-ignore
-  let _fallbackWarn = root
-    ? root.fallbackWarn
+  let _fallbackWarn = _root
+    ? _root.fallbackWarn
     : isBoolean(options.fallbackWarn) || isRegExp(options.fallbackWarn)
       ? options.fallbackWarn
       : true
@@ -234,8 +235,8 @@ export function createI18nComposer(
 
   // custom linked modifiers
   // prettier-ignore
-  const _modifiers = root
-    ? root.modifiers
+  const _modifiers = _root
+    ? _root.modifiers
     : isPlainObject(options.modifiers)
       ? options.modifiers
       : {}
@@ -329,10 +330,10 @@ export function createI18nComposer(
       const [key] = parseTranslateArgs(...args)
       const ret = translate(getRuntimeContext(), ...args)
       if (isNumber(ret) && ret === NOT_REOSLVED) {
-        if (__DEV__ && _fallbackRoot && root) {
+        if (__DEV__ && _fallbackRoot && _root) {
           warn(`Fall back to translate '${key}' with root locale.`)
         }
-        return _fallbackRoot && root ? root.t(...args) : key
+        return _fallbackRoot && _root ? _root.t(...args) : key
       } else if (isString(ret)) {
         return ret
       } else {
@@ -347,11 +348,11 @@ export function createI18nComposer(
       const [, options] = parseDateTimeArgs(...args)
       const ret = datetime(getRuntimeContext(), ...args)
       if (isNumber(ret) && ret === NOT_REOSLVED) {
-        if (__DEV__ && _fallbackRoot && root) {
+        if (__DEV__ && _fallbackRoot && _root) {
           const key = isString(options.key) ? options.key : ''
           warn(`Fall back to datetime format '${key}' with root locale.`)
         }
-        return _fallbackRoot && root ? root.d(...args) : MISSING_RESOLVE_VALUE
+        return _fallbackRoot && _root ? _root.d(...args) : MISSING_RESOLVE_VALUE
       } else if (isString(ret)) {
         return ret
       } else {
@@ -366,11 +367,11 @@ export function createI18nComposer(
       const [, options] = parseNumberArgs(...args)
       const ret = number(getRuntimeContext(), ...args)
       if (isNumber(ret) && ret === NOT_REOSLVED) {
-        if (__DEV__ && _fallbackRoot && root) {
+        if (__DEV__ && _fallbackRoot && _root) {
           const key = isString(options.key) ? options.key : ''
           warn(`Fall back to number format '${key}' with root locale.`)
         }
-        return _fallbackRoot && root ? root.d(...args) : MISSING_RESOLVE_VALUE
+        return _fallbackRoot && _root ? _root.d(...args) : MISSING_RESOLVE_VALUE
       } else if (isString(ret)) {
         return ret
       } else {
@@ -443,8 +444,11 @@ export function createI18nComposer(
     clearNumberFormat(_context, locale, format)
   }
 
+  // export composable APIs!
   return {
-    /* properties */
+    /**
+     *  properties
+     */
     locale,
     fallbackLocales,
     get availableLocales(): Locale[] {
@@ -487,7 +491,10 @@ export function createI18nComposer(
       _fallbackFormat = val
       _context = getRuntimeContext()
     },
-    /* methods */
+
+    /**
+     * methods
+     */
     t,
     d,
     n,
@@ -510,7 +517,7 @@ export function createI18nComposer(
 const generateSymbolID = (): string =>
   `vue-i18n-${new Date().getUTCMilliseconds().toString()}`
 
-// exports vue-i18n composable API
+// vue-i18n composer entry point
 export function useI18n(options?: I18nComposerOptions): I18nComposer {
   const globalComposer = inject(GlobalI18nSymbol)
   if (!globalComposer) throw new Error('TODO') // TODO:
