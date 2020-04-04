@@ -7,7 +7,7 @@
     "email": "kawakazu80@gmail.com"
   },
   "bugs": {
-    "url": "https://github.com/inlitify/vue-i18n/issues"
+    "url": "https://github.com/inlitify/vue-i18n-next/issues"
   },
   "changelog": {
     "labels": {
@@ -68,7 +68,7 @@
     "README.md",
     "LICENSE"
   ],
-  "homepage": "https://github.com/intlify/vue-i18n#readme",
+  "homepage": "https://github.com/intlify/vue-i18n-next#readme",
   "keywords": [
     "i18n",
     "internationalization",
@@ -82,7 +82,7 @@
   "private": true,
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/intlify/vue-i18n.git"
+    "url": "git+https://github.com/intlify/vue-i18n-next.git"
   },
   "scripts": {
     "build": "npm run build:type && npm run build:transpile",
