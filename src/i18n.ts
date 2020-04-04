@@ -145,10 +145,7 @@ export type VueI18n = {
   getNumberFormat(locale: Locale): NumberFormat
   setNumberFormat(locale: Locale, format: NumberFormat): void
   mergeNumberFormat(locale: Locale, format: NumberFormat): void
-  /*
-  // TODO:
   getChoiceIndex: (choice: Choice, choicesLength: number) => number
-  */
   install(app: App): void
 }
 
@@ -464,6 +461,13 @@ export function createI18n(
     // mergeNumberFormat
     mergeNumberFormat(locale: Locale, format: NumberFormat): void {
       composer.mergeNumberFormat(locale, format)
+    },
+
+    // getChoiceIndex
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    getChoiceIndex(choice: Choice, choicesLength: number): number {
+      __DEV__ && warn(`not supportted 'getChoiceIndex' method.`)
+      return -1
     },
 
     // install

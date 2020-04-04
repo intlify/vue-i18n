@@ -160,7 +160,7 @@ The examples are offered that use the following two API styles:
     - [x] getNumberFormat
     - [x] setNumberFormat
     - [x] mergeNumberFormat
-    - [ ] getChoiceIndex
+    - [x] getChoiceIndex
   - Inejctted in Vue Prototype API
     - [x] $i18n
     - [x] $t
