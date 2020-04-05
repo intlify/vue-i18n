@@ -10,7 +10,7 @@
     })
 
     test('change locale', async () => {
-      await page.select('#app select', 'en')
+      await page.select('#app select', 'en-US')
       await expect(page).toMatch('Money')
       await expect(page).toMatch('$1,000.00')
     })

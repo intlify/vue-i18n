@@ -12,7 +12,7 @@
     })
 
     test('change locale', async () => {
-      await page.select('#app select', 'en')
+      await page.select('#app select', 'en-US')
       await expect(page).toMatch('Current Datetime')
       await expect(page).toMatch(
         /(0[1-9]|1[0-2])\/(0[1-9]|[12]\d|3[01])\/([12]\d{3}), (0[0-9]|1[0-2]):([0-5][0-9]):([0-5][0-9]) (AM|PM)/
