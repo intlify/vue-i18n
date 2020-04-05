@@ -327,9 +327,9 @@ export function createI18nComposer(
   // t
   const t = (...args: unknown[]): string => {
     return computed<string>((): string => {
-      const [key] = parseTranslateArgs(...args)
       const ret = translate(getRuntimeContext(), ...args)
       if (isNumber(ret) && ret === NOT_REOSLVED) {
+        const [key] = parseTranslateArgs(...args)
         if (__DEV__ && _fallbackRoot && _root) {
           warn(`Fall back to translate '${key}' with root locale.`)
         }
@@ -345,9 +345,9 @@ export function createI18nComposer(
   // d
   const d = (...args: unknown[]): string => {
     return computed<string>((): string => {
-      const [, options] = parseDateTimeArgs(...args)
       const ret = datetime(getRuntimeContext(), ...args)
       if (isNumber(ret) && ret === NOT_REOSLVED) {
+        const [, options] = parseDateTimeArgs(...args)
         if (__DEV__ && _fallbackRoot && _root) {
           const key = isString(options.key) ? options.key : ''
           warn(`Fall back to datetime format '${key}' with root locale.`)
@@ -364,9 +364,9 @@ export function createI18nComposer(
   // n
   const n = (...args: unknown[]): string => {
     return computed<string>((): string => {
-      const [, options] = parseNumberArgs(...args)
       const ret = number(getRuntimeContext(), ...args)
       if (isNumber(ret) && ret === NOT_REOSLVED) {
+        const [, options] = parseNumberArgs(...args)
         if (__DEV__ && _fallbackRoot && _root) {
           const key = isString(options.key) ? options.key : ''
           warn(`Fall back to number format '${key}' with root locale.`)
