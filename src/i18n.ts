@@ -15,8 +15,6 @@ import {
   PostTranslationHandler
 } from './runtime/context'
 import { TranslateOptions } from './runtime/translate'
-import { parseDateTimeArgs } from './runtime/datetime'
-import { parseNumberArgs } from './runtime/number'
 import {
   DateTimeFormats,
   NumberFormats,
@@ -425,7 +423,7 @@ export function createI18n(
 
     // d
     d(...args: unknown[]): DateTimeFormatResult {
-      return composer.d(...parseDateTimeArgs(...args))
+      return composer.d(...args)
     },
 
     // getDateTimeFormat
@@ -445,7 +443,7 @@ export function createI18n(
 
     // n
     n(...args: unknown[]): NumberFormatResult {
-      return composer.n(...parseNumberArgs(...args))
+      return composer.n(...args)
     },
 
     // getNumberFormat

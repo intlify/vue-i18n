@@ -81,7 +81,6 @@ export type MissingHandler = (
 ) => string | void
 
 export type I18nComposerOptions = {
-  // TODO:
   locale?: Locale
   fallbackLocales?: Locale[]
   messages?: LocaleMessages
@@ -98,7 +97,6 @@ export type I18nComposerOptions = {
 }
 
 export type I18nComposer = {
-  // TODO:
   /**
    * properties
    */
@@ -243,7 +241,7 @@ export function createI18nComposer(
 
   const _pluralRules = options.pluralRules
 
-  // TODO: should get ready function for runtime context updating ... object creating cost expensive ...
+  // eslint-disable-next-line prefer-const
   let _context: RuntimeContext
   const getRuntimeContext = (): RuntimeContext => {
     return createRuntimeContext({
@@ -278,7 +276,7 @@ export function createI18nComposer(
     get: () => _locale.value,
     set: val => {
       _locale.value = val
-      _context = getRuntimeContext()
+      _context.locale = _locale.value
     }
   })
 
@@ -287,7 +285,7 @@ export function createI18nComposer(
     get: () => _fallbackLocales.value,
     set: val => {
       _fallbackLocales.value = val
-      _context = getRuntimeContext()
+      _context.fallbackLocales = _fallbackLocales.value
     }
   })
 
@@ -309,7 +307,7 @@ export function createI18nComposer(
     handler: PostTranslationHandler | null
   ): void => {
     _postTranslation = handler
-    _context = getRuntimeContext()
+    _context.postTranslation = handler
   }
 
   // getMissingHandler
@@ -321,13 +319,13 @@ export function createI18nComposer(
       _runtimeMissing = defineRuntimeMissingHandler(handler)
     }
     _missing = handler
-    _context = getRuntimeContext()
+    _context.missing = _runtimeMissing
   }
 
   // t
   const t = (...args: unknown[]): string => {
     return computed<string>((): string => {
-      const ret = translate(getRuntimeContext(), ...args)
+      const ret = translate(_context, ...args)
       if (isNumber(ret) && ret === NOT_REOSLVED) {
         const [key] = parseTranslateArgs(...args)
         if (__DEV__ && _fallbackRoot && _root) {
@@ -345,7 +343,7 @@ export function createI18nComposer(
   // d
   const d = (...args: unknown[]): string => {
     return computed<string>((): string => {
-      const ret = datetime(getRuntimeContext(), ...args)
+      const ret = datetime(_context, ...args)
       if (isNumber(ret) && ret === NOT_REOSLVED) {
         const [, options] = parseDateTimeArgs(...args)
         if (__DEV__ && _fallbackRoot && _root) {
@@ -364,7 +362,7 @@ export function createI18nComposer(
   // n
   const n = (...args: unknown[]): string => {
     return computed<string>((): string => {
-      const ret = number(getRuntimeContext(), ...args)
+      const ret = number(_context, ...args)
       if (isNumber(ret) && ret === NOT_REOSLVED) {
         const [, options] = parseNumberArgs(...args)
         if (__DEV__ && _fallbackRoot && _root) {
@@ -387,7 +385,7 @@ export function createI18nComposer(
   // setLocaleMessage
   const setLocaleMessage = (locale: Locale, message: LocaleMessage): void => {
     _messages.value[locale] = message
-    _context = getRuntimeContext()
+    _context.messages = _messages.value
   }
 
   // mergeLocaleMessage
@@ -396,7 +394,7 @@ export function createI18nComposer(
       _messages.value[locale] || {},
       message
     )
-    _context = getRuntimeContext()
+    _context.messages = _messages.value
   }
 
   // getDateTimeFormat
@@ -406,7 +404,7 @@ export function createI18nComposer(
   // setDateTimeFormat
   const setDateTimeFormat = (locale: Locale, format: DateTimeFormat): void => {
     _datetimeFormats.value[locale] = format
-    _context = getRuntimeContext()
+    _context.datetimeFormats = _datetimeFormats.value
     clearDateTimeFormat(_context, locale, format)
   }
 
@@ -419,7 +417,7 @@ export function createI18nComposer(
       _datetimeFormats.value[locale] || {},
       format
     )
-    _context = getRuntimeContext()
+    _context.datetimeFormats = _datetimeFormats.value
     clearDateTimeFormat(_context, locale, format)
   }
 
@@ -430,7 +428,7 @@ export function createI18nComposer(
   // setNumberFormat
   const setNumberFormat = (locale: Locale, format: NumberFormat): void => {
     _numberFormats.value[locale] = format
-    _context = getRuntimeContext()
+    _context.numberFormats = _numberFormats.value
     clearNumberFormat(_context, locale, format)
   }
 
@@ -440,7 +438,7 @@ export function createI18nComposer(
       _numberFormats.value[locale] || {},
       format
     )
-    _context = getRuntimeContext()
+    _context.numberFormats = _numberFormats.value
     clearNumberFormat(_context, locale, format)
   }
 
@@ -468,28 +466,27 @@ export function createI18nComposer(
     },
     set missingWarn(val: boolean | RegExp) {
       _missingWarn = val
-      _context = getRuntimeContext()
+      _context.missingWarn = _missingWarn
     },
     get fallbackWarn(): boolean | RegExp {
       return _fallbackWarn
     },
     set fallbackWarn(val: boolean | RegExp) {
       _fallbackWarn = val
-      _context = getRuntimeContext()
+      _context.fallbackWarn = _fallbackWarn
     },
     get fallbackRoot(): boolean {
       return _fallbackRoot
     },
     set fallbackRoot(val: boolean) {
       _fallbackRoot = val
-      _context = getRuntimeContext()
     },
     get fallbackFormat(): boolean {
       return _fallbackFormat
     },
     set fallbackFormat(val: boolean) {
       _fallbackFormat = val
-      _context = getRuntimeContext()
+      _context.fallbackFormat = _fallbackFormat
     },
 
     /**
