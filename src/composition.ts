@@ -1,8 +1,8 @@
 /**
- *  Composition
+ *  I18n Composer
  *
- *  Composition is composable API for vue-i18n
- *  This module is offered composable i18n API for Vue 3
+ *  I18n Composer is offered composable API for Vue 3
+ *  This module is offered new style vue-i18n API
  */
 
 import {
@@ -80,6 +80,9 @@ export type MissingHandler = (
   insttance?: ComponentInternalInstance
 ) => string | void
 
+/**
+ *  I18n Composer Options
+ */
 export type I18nComposerOptions = {
   locale?: Locale
   fallbackLocales?: Locale[]
@@ -96,6 +99,9 @@ export type I18nComposerOptions = {
   postTranslation?: PostTranslationHandler
 }
 
+/**
+ *  I18n Composer Interfaces
+ */
 export type I18nComposer = {
   /**
    * properties
@@ -163,6 +169,9 @@ function defineRuntimeMissingHandler(
   }
 }
 
+/**
+ *  I18n Composer factory
+ */
 export function createI18nComposer(
   options: I18nComposerOptions = {},
   _root?: I18nComposer // for internal
@@ -442,7 +451,7 @@ export function createI18nComposer(
     clearNumberFormat(_context, locale, format)
   }
 
-  // export composable APIs!
+  // export composable API!
   return {
     /**
      *  properties
@@ -514,7 +523,7 @@ export function createI18nComposer(
 const generateSymbolID = (): string =>
   `vue-i18n-${new Date().getUTCMilliseconds().toString()}`
 
-// vue-i18n composer entry point
+// enable composable API via I18n Composer
 export function useI18n(options?: I18nComposerOptions): I18nComposer {
   const globalComposer = inject(GlobalI18nSymbol)
   if (!globalComposer) throw new Error('TODO') // TODO:

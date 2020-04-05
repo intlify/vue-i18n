@@ -1,3 +1,9 @@
+/**
+ *  VueI18n
+ *
+ *  This module provides legacy vue-i18n API compatibility
+ */
+
 import { App } from 'vue'
 import { applyPlugin } from './plugin'
 import { Path, resolveValue } from './path'
@@ -51,9 +57,9 @@ export interface Formatter {
 }
 
 /**
- *  VueI18nOptions type
+ *  VueI18n Options
  *
- *  This option type is compatible with the constructor options of VueI18n class (offered with vue-i18n@8.x).
+ *  This option type is compatible with the constructor options of `VueI18n` class (offered with vue-i18n@8.x).
  */
 export type VueI18nOptions = {
   locale?: Locale
@@ -73,15 +79,15 @@ export type VueI18nOptions = {
   preserveDirectiveContent?: boolean
   warnHtmlInMessage?: WarnHtmlInMessageLevel
   sharedMessages?: LocaleMessages
-  pluralizationRules?: PluralizationRules // breaking change for Vue 3
+  pluralizationRules?: PluralizationRules
   postTranslation?: PostTranslationHandler
   __i18n?: LocaleMessages // for custom blocks
 }
 
 /**
- *  VueI18n type
+ *  VueI18n Interfaces
  *
- *  This type is  compatible with interface of VueI18n class (offered with vue-i18n@8.x).
+ *  This type is compatible with interface of `VueI18n` class (offered with vue-i18n@8.x).
  */
 export type VueI18n = {
   /**
@@ -150,6 +156,9 @@ export type VueI18n = {
 // NOTE: disable (occured build error when use rollup build ...)
 // export const version = __VERSION__ // eslint-disable-line
 
+/**
+ *  Convert to I18n Composer Options from VueI18n Options
+ */
 function convertI18nComposerOptions(
   options: VueI18nOptions
 ): I18nComposerOptions {
@@ -220,7 +229,7 @@ function convertI18nComposerOptions(
 /**
  *  createI18n factory
  *
- *  This function is  compatible with constructor of VueI18n class (offered with vue-i18n@8.x) like `new VueI18n(...)`.
+ *  This function is  compatible with constructor of `VueI18n` class (offered with vue-i18n@8.x) like `new VueI18n(...)`.
  */
 export function createI18n(
   options: VueI18nOptions = {},
