@@ -5,7 +5,7 @@ jest.mock('../src/utils', () => ({
 }))
 import { warn } from '../src/utils'
 
-import { createI18nComposer, MissingHandler } from '../src/composition'
+import { createI18nComposer, MissingHandler } from '../src/composer'
 import { watch } from 'vue'
 
 describe('locale', () => {

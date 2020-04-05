@@ -32,7 +32,7 @@ import {
   I18nComposer,
   I18nComposerOptions,
   createI18nComposer
-} from './composition'
+} from './composer'
 import {
   isString,
   isArray,
