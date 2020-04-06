@@ -31,6 +31,12 @@ If you use stable Vue I18n version, see this [repository](https://github.com/kaz
 ## :star: New Features
 
 - `Composable API`: new style API for Vue 3
+   - See the following docs:
+   - [createI18n](https://github.com/intlify/vue-i18n-next/blob/master/docs/vue-i18n.createi18ncomposer.md)
+   - [I18nComposerOptions](https://github.com/intlify/vue-i18n-next/blob/master/docs/vue-i18n.i18ncomposeroptions.md)
+   - [I18nComposer](https://github.com/intlify/vue-i18n-next/blob/master/docs/vue-i18n.i18ncomposer.md)
+   - [useI18n](https://github.com/intlify/vue-i18n-next/blob/master/docs/vue-i18n.usei18n.md)
+
 
 
 ## :lollipop: Examples
@@ -40,7 +46,7 @@ See the [`examples`](https://github.com/intlify/vue-i18n-next/tree/master/exampl
 The examples are offered that use the following two API styles:
 
 - composable
-  - new vue-i18n API optimized for Vue 3. details about API, see the [here](https://github.com/intlify/vue-i18n-next/blob/master/src/composer.ts)
+  - new vue-i18n API optimized for Vue 3. details about API
 - legacy
   - vue-i18n API almost compatible with vue-i18n@8.x
 
@@ -60,6 +66,7 @@ The examples are offered that use the following two API styles:
     - -> Compsable API style: `pluralRules` option of `createI18nComposer` facatory function
   - `VueI18n.version` -> `import { VERSION } from 'vue-i18n'`
   - `VueI18n.availabilities` -> `import { availabilities } from 'vue-i18n'`
+  - See the details [here](https://github.com/intlify/vue-i18n-next/blob/master/docs/vue-i18n.md)
 
 ### :zap: Improvements
 
