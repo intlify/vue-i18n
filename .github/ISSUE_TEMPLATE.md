@@ -5,19 +5,15 @@ Got a question?
 ===============
 The issue list of this repo is **exclusively** for bug reports and feature requests. For simple questions, please use the following resources:
 
-- Read the docs: https://github.com/kazupon/vue-i18n/blob/dev/README.md
-- Ask on the forums: http://forum.vuejs.org/
-- Look for/ask questions on stack overflow: https://stackoverflow.com/questions/ask?tags=vue-i18n
+- Read the docs: https://github.com/intlify/vue-i18n/blob/master/README.md
 
 Reporting a bug?
 ================
 - Try to search for your issue, it may have already been answered or even fixed in the development branch.
 
-- Check if the issue is reproducible with the latest stable version of Vue. If you are using a pre-release, please indicate the specific version you are using.
+- Check if the issue is reproducible with the latest version of Vue 3. If you are using a pre-release, please indicate the specific version you are using.
 
-- It is recommended that you make a JSFiddle/JSBin/Codepen to demonstrate your issue. You could start with [this template](https://jsfiddle.net/kazupon/rn724baz/3/) that already includes the latest version of Vue & Vue-i18n.
-
-- For bugs that involves build setups, you can create a reproduction repository with steps in the README.
+- For bugs that involves build setups, you can create a reproduction repository with steps in the .github/CONTRIBUTING.md
 
 - If your issue is resolved but still open, don’t hesitate to close it. In case you found a solution by yourself, it could be helpful to explain how you fixed it.
 
@@ -28,7 +24,9 @@ Remove the template from below and provide thoughtful commentary *and code sampl
 
 <!-- BUG REPORT TEMPLATE -->
 ### vue & vue-i18n version
-ex: 2.1.0, 5.0
+ex:
+- vue: 3.0.0-alpha.10
+- vue-i18n: 9.0.0-alpha.0
 
 ### Reproduction Link
 <!-- A minimal JSBin, JSFiddle, Codepen, or a GitHub reprository that can reproduce the bug. -->
