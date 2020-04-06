@@ -1,4 +1,6 @@
 ./dist
 ./jest.config.js
+./jest.e2e.config.js
+./api-extractor.json
 ./test/fixtures
 ./types

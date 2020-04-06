@@ -1,256 +1,125 @@
-const { promisify } = require('util')
+const fs = require('fs-extra')
 const path = require('path')
-const fs = require('fs')
-const zlib = require('zlib')
 const chalk = require('chalk')
-const { rollup } = require('rollup')
-const nodeResolve = require('@rollup/plugin-node-resolve')
-const commonjs = require('@rollup/plugin-commonjs')
-const replace = require('@rollup/plugin-replace')
-const typescript = require('rollup-plugin-typescript2')
-const { terser } = require('rollup-plugin-terser')
+const execa = require('execa')
+const { gzipSync } = require('zlib')
+const { compress } = require('brotli')
 
-// require.main cannot be used because this process is run externally (from vue-cli-service)
-const { dependencies } = require(path.resolve(process.cwd(), 'package.json'))
-const classifyRE = /(?:^|[-_\/])(\w)/g
-const toUpper = (_, c) => (c ? c.toUpperCase() : '')
-const classify = str => str.replace(classifyRE, toUpper)
-const getSize = code => (code.length / 1024).toFixed(2) + 'kb'
-const banner = ({ name, version, year, author, license }) => {
-  return (
-    '/*!\n' +
-    ` * ${name} v${version} \n` +
-    ` * (c) ${year} ${author}\n` +
-    ` * Released under the ${license} License.\n` +
-    ' */'
-  )
+const args = require('minimist')(process.argv.slice(2))
+const devOnly = args.devOnly || args.d
+const prodOnly = !devOnly && (args.prodOnly || args.p)
+const sourceMap = args.sourcemap || args.s
+const buildTypes = args.t || args.types
+
+run()
+
+async function run() {
+  await build()
+  await checkSize()
 }
 
-function loadPackage(context) {
-  let pkg = {}
-  try {
-    pkg = require(path.resolve(context, 'package.json'))
-  } catch (e) {
-    console.error('loadPackage error', e.message)
-  }
-  return pkg
-}
-
-function write(dest, code, zip) {
-  const writeFile = promisify(fs.writeFile)
-  const gzip = promisify(zlib.gzip)
-  return new Promise(async (resolve, reject) => {
-    const report = extra => {
-      console.log(
-        `📦  ${chalk.blue.bold(path.relative(process.cwd(), dest))} ${
-          getSize(code) + (extra || '')
-        }`
-      )
-    }
-    try {
-      await writeFile(dest, code)
-      if (zip) {
-        const zipped = await gzip(code)
-        report(` (gzipped: ${getSize(zipped)})`)
-      } else {
-        report()
-      }
-      resolve()
-    } catch (e) {
-      reject(e)
-    }
-  })
-}
-
-function makeEntries(entryPath, destPath, moduleName, packageName, banner) {
-  const resolve = _path => path.resolve(destPath, _path)
-  return {
-    cjs: {
-      entry: resolve(entryPath),
-      dest: resolve(`dist/${packageName}.cjs.js`),
-      format: 'cjs',
-      banner
-    },
-    esmBundler: {
-      entry: resolve(entryPath),
-      dest: resolve(`dist/${packageName}.esm.bundler.js`),
-      format: 'es',
-      banner
-    },
-    iifeProduction: {
-      entry: resolve(entryPath),
-      dest: resolve(`dist/${packageName}.iife.min.js`),
-      format: 'iife',
-      env: 'production',
-      moduleName,
-      banner
-    },
-    iifeDevelopment: {
-      entry: resolve(entryPath),
-      dest: resolve(`dist/${packageName}.iife.js`),
-      format: 'iife',
-      env: 'development',
-      moduleName,
-      banner
-    },
-    esmDevelopment: {
-      entry: resolve(entryPath),
-      dest: resolve(`dist/${packageName}.esm.js`),
-      format: 'es',
-      env: 'development',
-      moduleName,
-      banner
-    },
-    esmProduction: {
-      entry: resolve(entryPath),
-      dest: resolve(`dist/${packageName}.esm.min.js`),
-      format: 'es',
-      env: 'production',
-      moduleName,
-      banner
-    }
-  }
-}
-
-function setupPlugins(target, name, version, env, format, options = {}, plugins = []) {
-  const isBundlerESMBuild = /esmBundler/.test(name)
-  const isProductionBuild =
-    process.env.__DEV__ === 'false' || env === 'production'
-  const sourcemap = !!options.sourceMap
-
-  plugins.push(nodeResolve(), commonjs())
-  plugins.push(
-    typescript({
-      // check: process.env.NODE_ENV === 'production',
-      tsconfig: path.resolve(target, 'tsconfig.json'),
-      cacheRoot: path.resolve(target, 'node_modules/.rts2_cache'),
-      clean: true,
-      // verbosity: 4,
-      tsconfigOverride: {
-        compilerOptions: {
-          sourceMap: sourcemap
-        }
-      }
-    })
-  )
-
-  if (env === 'production') {
-    plugins.push(terser())
-  }
-
-  const replaceOptions = {
-    __VERSION__: `'${version}'`,
-    __DEV__: isBundlerESMBuild
-      ? `(process.env.NODE_ENV !== 'production')` // preserve to be handled by bundlers
-      : !isProductionBuild // hard coded dev/prod builds
-  }
-
-  if (env) {
-    replaceOptions['process.env.NODE_ENV'] = JSON.stringify(env)
-  }
-  plugins.push(replace(replaceOptions))
-
-  return plugins
-}
-
-function generateConfig(target, name, options, moduleName, version, argOptions) {
-  const plugins = setupPlugins(
-    target,
-    name,
-    version,
-    options.env,
-    options.format,
-    argOptions
-  )
-  return {
-    input: options.entry,
-    output: {
-      file: options.dest,
-      name: moduleName,
-      format: options.format,
-      banner: options.banner,
-      sourcemap: !!argOptions.sourceMap,
-      globals: {
-        vue: 'Vue'
-      }
-    },
-    // https://github.com/rollup/rollup/issues/1514#issuecomment-320438924
-    external: Object.keys(dependencies),
-    plugins,
-    onwarn: (msg, warn) => {
-      if (!/Circular/.test(msg)) {
-        warn(msg)
-      }
-    }
-  }
-}
-
-function getAllEntries({ name, version }, { entry, dest }, banner, options) {
-  const moduleName = classify(name)
-  const entries = makeEntries(entry, dest, moduleName, name, banner)
-  return Object.keys(entries).map(name =>
-    generateConfig(dest, name, entries[name], moduleName, version, options)
-  )
-}
-
-function bundleEntry(config) {
-  const output = config.output
-  const { file } = output
-  const isProd = /min\.js$/.test(file)
-  return rollup(config)
-    .then(bundle => bundle.generate(output))
-    .then(({ output: [{ code }] }) => write(file, code, isProd))
-}
-
-async function bundle(entries) {
-  console.log('Building for production mode as plugin ...')
-
-  for (let i = 0; i < entries.length; i++) {
-    try {
-      await bundleEntry(entries[i])
-    } catch (e) {
-      console.error(e)
-    }
-  }
-
-  console.log()
-  console.log(
-    `✅  Build complete. The ${chalk.cyan(
-      'dist'
-    )} directory is ready to be deployed.`
-  )
-}
-
-function run() {
-  const target = process.cwd()
-  const args = require('minimist')(process.argv.slice(2))
-  const sourceMap = args.sourcemap || args.s
-
-  const { name, license, version, author } = loadPackage(target)
+async function build() {
+  const pkgDir = path.resolve('./')
+  const pkg = require(`${pkgDir}/package.json`)
 
   if (!fs.existsSync('dist')) {
     fs.mkdirSync('dist')
   }
 
-  const inOut = {
-    entry: 'src/index.ts',
-    dest: target
-  }
-  const entries = getAllEntries(
-    { name, version },
-    inOut,
-    banner({
-      name,
-      version,
-      author: author.name,
-      year: new Date().getFullYear(),
-      license
-    }),
-    { sourceMap }
+  const env = devOnly ? 'development' : 'production'
+  console.log(chalk.bold(chalk.yellow(`Building for ${env} mode as plugin ...`)))
+
+  await execa(
+    'rollup',
+    [
+      '-c',
+      '--environment',
+      [
+        `NODE_ENV:${env}`,
+        buildTypes ? `TYPES:true` : ``,
+        prodOnly ? `PROD_ONLY:true` : ``,
+        sourceMap ? `SOURCE_MAP:true` : ``
+      ]
+        .filter(Boolean)
+        .join(',')
+    ],
+    { stdio: 'inherit' }
   )
 
-  return bundle(entries)
+  console.log()
+  console.log(
+    chalk.bold(chalk.green(`✅  Build complete. The ${chalk.cyan(
+      'dist'
+    )} directory is ready to be deployed.`))
+  )
+  console.log()
+
+  if (buildTypes && pkg.types) {
+    console.log(chalk.bold(chalk.yellow(`Rolling up type definitions ...`)))
+    console.log()
+
+    // build types
+    const { Extractor, ExtractorConfig } = require('@microsoft/api-extractor')
+
+    const extractorConfigPath = path.resolve(pkgDir, `api-extractor.json`)
+    const extractorConfig = ExtractorConfig.loadFileAndPrepare(
+      extractorConfigPath
+    )
+    const result = Extractor.invoke(extractorConfig, {
+      localBuild: true,
+      showVerboseMessages: true
+    })
+
+    if (result.succeeded) {
+      // concat additional d.ts to rolled-up dts (mostly for JSX)
+      if (pkg.buildOptions && pkg.buildOptions.dts) {
+        const dtsPath = path.resolve(pkgDir, pkg.types)
+        const existing = await fs.readFile(dtsPath, 'utf-8')
+        const toAdd = await Promise.all(
+          pkg.buildOptions.dts.map(file => {
+            return fs.readFile(path.resolve(pkgDir, file), 'utf-8')
+          })
+        )
+        await fs.writeFile(dtsPath, existing + '\n' + toAdd.join('\n'))
+      }
+      console.log()
+      console.log(
+        chalk.bold(chalk.green(`✅  API Extractor completed successfully.`))
+      )
+      console.log()
+    } else {
+      console.log()
+      console.error(
+        `API Extractor completed with ${result.errorCount} errors` +
+          ` and ${result.warningCount} warnings`
+      )
+      process.exitCode = 1
+    }
+    // await fs.remove(`${pkgDir}/dist/packages`)
+  }
 }
 
-// run the buiulding!
-run()
+function checkSize() {
+  if (devOnly) {
+    return
+  }
+  console.log(chalk.bold(chalk.yellow(`Checking file size ...`)))
+  console.log()
+
+  const pkgDir = path.resolve('./')
+  const esmProdBuild = `${pkgDir}/dist/vue-i18n.global.prod.js`
+  if (fs.existsSync(esmProdBuild)) {
+    const file = fs.readFileSync(esmProdBuild)
+    const minSize = (file.length / 1024).toFixed(2) + 'kb'
+    const gzipped = gzipSync(file)
+    const gzippedSize = (gzipped.length / 1024).toFixed(2) + 'kb'
+    const compressed = compress(file)
+    const compressedSize = (compressed.length / 1024).toFixed(2) + 'kb'
+    console.log(
+      `✅  ${chalk.gray(
+        chalk.bold('vue-i18n')
+      )} min:${minSize} / gzip:${gzippedSize} / brotli:${compressedSize}`
+    )
+    console.log()
+  }
+}

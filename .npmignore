@@ -4,4 +4,7 @@
 coverage
 test
 e2e
+temp
+docs
+types
 scripts
