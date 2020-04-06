@@ -4,16 +4,21 @@
     <meta charset="utf-8" />
     <title>Fallback with default example</title>
     <script src="../../../node_modules/vue/dist/vue.global.js"></script>
-    <script src="../../../dist/vue-i18n.iife.js"></script>
+    <script src="../../../dist/vue-i18n.global.js"></script>
   </head>
   <body>
     <div id="app">
       <!-- string argument -->
       <p>{{ t("messages.hello", { name: 'kazupon' }, 'hello, {name}!') }}</p>
       <!-- `default` option (string) -->
-      <p>{{ t("messages.hello", { name: 'kazupon' }, { default: 'hi, {name}!' }) }}</p>
+      <p>
+        {{ t("messages.hello", { name: 'kazupon' }, { default: 'hi, {name}!' })
+        }}
+      </p>
       <!-- `default` option (true) -->
-      <p>{{ t("good morning, {name}!", { name: 'kazupon' }, { default: true }) }}</p>
+      <p>
+        {{ t("good morning, {name}!", { name: 'kazupon' }, { default: true }) }}
+      </p>
     </div>
     <script>
       const { createApp } = Vue
@@ -23,10 +28,8 @@
         locale: 'ja',
         fallbackLocales: ['en'],
         messages: {
-          en: {
-          },
-          ja: {
-          }
+          en: {},
+          ja: {}
         }
       })
 

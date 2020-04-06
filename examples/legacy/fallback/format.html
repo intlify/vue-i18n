@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
     <title>Fallback format example</title>
     <script src="../../../node_modules/vue/dist/vue.global.js"></script>
-    <script src="../../../dist/vue-i18n.iife.js"></script>
+    <script src="../../../dist/vue-i18n.global.js"></script>
   </head>
   <body>
     <div id="app">
@@ -17,11 +17,10 @@
       const i18n = createI18n({
         locale: 'ja',
         formatFallbackMessages: true, // enable, fallback to locale message key
-        messages: { // `hello, {name}` key is nothing in `messages` option
-          en: {
-          },
-          ja: {
-          }
+        messages: {
+          // `hello, {name}` key is nothing in `messages` option
+          en: {},
+          ja: {}
         }
       })
 
