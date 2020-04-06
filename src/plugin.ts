@@ -61,14 +61,17 @@ export function applyPlugin(
   // supports compatibility for vue-i18n legacy APIs
   app.mixin({
     beforeCreate(this: ComponentPublicInstance<LegacyVueI18n>) {
-      // TODO: should resolve type inference
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const options: any = this.$options
+      const options = this.$options
 
       if (options.i18n) {
         // component local i18n
         const optionsI18n = options.i18n as VueI18nOptions
+        if (options.__i18n) {
+          optionsI18n.__i18n = options.__i18n
+        }
         this.$i18n = createI18n(optionsI18n, composer)
+      } else if (options.__i18n) {
+        this.$i18n = createI18n({ __i18n: options.__i18n }, composer)
       } else if (this.$root && this.$root.proxy) {
         // root i18n
         // TODO: should resolve type inference

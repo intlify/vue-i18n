@@ -29,6 +29,7 @@ import {
 } from './runtime/types'
 import {
   MissingHandler,
+  CustomBlocks,
   I18nComposer,
   I18nComposerOptions,
   createI18nComposer
@@ -81,7 +82,7 @@ export type VueI18nOptions = {
   sharedMessages?: LocaleMessages
   pluralizationRules?: PluralizationRules
   postTranslation?: PostTranslationHandler
-  __i18n?: LocaleMessages // for custom blocks
+  __i18n?: CustomBlocks // for custom blocks
 }
 
 /**
@@ -193,10 +194,6 @@ function convertI18nComposerOptions(
   }
 
   let messages = options.messages
-
-  // TODO: should be merged locale messages of custom block
-  //
-
   if (isPlainObject(options.sharedMessages)) {
     const sharedMessages = options.sharedMessages
     const locales: Locale[] = Object.keys(sharedMessages)
@@ -206,6 +203,7 @@ function convertI18nComposerOptions(
       return messages
     }, messages || {})
   }
+  const __i18n = options.__i18n
 
   const datetimeFormats = options.datetimeFormats
   const numberFormats = options.numberFormats
@@ -222,7 +220,8 @@ function convertI18nComposerOptions(
     fallbackRoot,
     fallbackFormat,
     pluralRules: pluralizationRules,
-    postTranslation
+    postTranslation,
+    __i18n
   }
 }
 

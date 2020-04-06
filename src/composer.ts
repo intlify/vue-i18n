@@ -12,7 +12,8 @@ import {
   inject,
   InjectionKey,
   getCurrentInstance,
-  ComponentInternalInstance
+  ComponentInternalInstance,
+  ComponentOptions
 } from 'vue'
 import { WritableComputedRef, ComputedRef } from '@vue/reactivity'
 import { Path } from './path'
@@ -79,6 +80,7 @@ export type MissingHandler = (
   key: Path,
   insttance?: ComponentInternalInstance
 ) => string | void
+export type CustomBlocks = string[]
 
 /**
  *  I18n Composer Options
@@ -97,6 +99,7 @@ export type I18nComposerOptions = {
   fallbackRoot?: boolean
   fallbackFormat?: boolean
   postTranslation?: PostTranslationHandler
+  __i18n?: CustomBlocks // for custom blocks, and internal
 }
 
 /**
@@ -169,6 +172,26 @@ function defineRuntimeMissingHandler(
   }
 }
 
+function getLocaleMessages(
+  options: I18nComposerOptions,
+  locale: Locale
+): LocaleMessages {
+  const { messages, __i18n } = options
+  // prettier-ignore
+  let ret = isPlainObject(messages)
+    ? messages
+    : isArray(__i18n)
+      ? {}
+      : { [locale]: {} }
+  // merge locale messages of i18n custom block
+  if (isArray(__i18n)) {
+    __i18n.forEach(raw => {
+      ret = Object.assign(ret, JSON.parse(raw))
+    })
+  }
+  return ret
+}
+
 /**
  *  I18n Composer factory
  */
@@ -194,7 +217,7 @@ export function createI18nComposer(
         : []
   )
   const _messages = ref<LocaleMessages>(
-    isPlainObject(options.messages) ? options.messages : { [_locale.value]: {} }
+    getLocaleMessages(options, _locale.value)
   )
   const _datetimeFormats = ref<DateTimeFormats>(
     isPlainObject(options.datetimeFormats)
@@ -248,10 +271,11 @@ export function createI18nComposer(
       ? options.modifiers
       : {}
 
+  // pluralRules
   const _pluralRules = options.pluralRules
 
-  // eslint-disable-next-line prefer-const
-  let _context: RuntimeContext
+  // runtime context
+  let _context: RuntimeContext // eslint-disable-line prefer-const
   const getRuntimeContext = (): RuntimeContext => {
     return createRuntimeContext({
       locale: _locale.value,
@@ -535,6 +559,10 @@ export function useI18n(options?: I18nComposerOptions): I18nComposer {
 
   const symbol = providers.get(instance)
   if (!symbol) {
+    const type = instance.type as ComponentOptions
+    if (type.__i18n) {
+      options.__i18n = type.__i18n
+    }
     const composer = createI18nComposer(options, globalComposer)
     const sym: InjectionKey<I18nComposer> = Symbol.for(generateSymbolID())
     providers.set(instance, sym)

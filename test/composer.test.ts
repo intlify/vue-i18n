@@ -652,3 +652,34 @@ describe('getNumberFormat / setNumberFormat / mergeNumberFormat', () => {
     })
   })
 })
+
+describe('__i18n', () => {
+  test('default value', () => {
+    const { messages } = createI18nComposer({
+      __i18n: [
+        JSON.stringify({ en: { hello: 'Hello,world!' } }),
+        JSON.stringify({
+          ja: {
+            hello: 'こんにちは、世界！',
+            nest: {
+              foo: {
+                bar: 'ばー'
+              }
+            }
+          }
+        })
+      ]
+    })
+    expect(messages.value).toEqual({
+      en: { hello: 'Hello,world!' },
+      ja: {
+        hello: 'こんにちは、世界！',
+        nest: {
+          foo: {
+            bar: 'ばー'
+          }
+        }
+      }
+    })
+  })
+})
