@@ -5,7 +5,7 @@ const path = require('path')
 const read = promisify(fs.readFile)
 const write = fs.writeFileSync
 
-function extractSpecificChangelog (changelog, version) {
+function extractSpecificChangelog(changelog, version) {
   if (!changelog) {
     return null
   }
@@ -18,8 +18,12 @@ function extractSpecificChangelog (changelog, version) {
   return matches ? matches[1] : null
 }
 
-async function commitChangelog (current, next) {
-  const { stdout } = await execa('npx', ['lerna-changelog', '--next-version', `v${next}`])
+async function commitChangelog(current, next) {
+  const { stdout } = await execa('npx', [
+    'lerna-changelog',
+    '--next-version',
+    `v${next}`
+  ])
   const escapedVersion = next.replace(/\./g, '\\.')
   const regex = new RegExp(
     `(#+?\\s\\[?v?${escapedVersion}\\]?[\\s\\S]*?)(#+?\\s\\[?v?\\d\\.\\d\\.\\d\\]?)`,
@@ -41,16 +45,10 @@ module.exports = {
       commitChangelog(pkg.version, nextVersion).then(resolve)
     })
   },
-  formatCommitMessage: ({
-    version,
-    releaseType,
-    mergeStrategy,
-    baseBranch
-  }) => `${releaseType} release v${version}`,
-  formatPullRequestTitle: ({
-    version,
-    releaseType
-  }) => `${releaseType} release v${version}`,
+  formatCommitMessage: ({ version, releaseType, mergeStrategy, baseBranch }) =>
+    `${releaseType} release v${version}`,
+  formatPullRequestTitle: ({ version, releaseType }) =>
+    `${releaseType} release v${version}`,
   shouldRelease: () => true,
   releases: {
     extractChangelog: ({ version, dir }) => {

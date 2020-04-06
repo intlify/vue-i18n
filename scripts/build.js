@@ -27,7 +27,9 @@ async function build() {
   }
 
   const env = devOnly ? 'development' : 'production'
-  console.log(chalk.bold(chalk.yellow(`Building for ${env} mode as plugin ...`)))
+  console.log(
+    chalk.bold(chalk.yellow(`Building for ${env} mode as plugin ...`))
+  )
 
   await execa(
     'rollup',
@@ -48,9 +50,13 @@ async function build() {
 
   console.log()
   console.log(
-    chalk.bold(chalk.green(`✅  Build complete. The ${chalk.cyan(
-      'dist'
-    )} directory is ready to be deployed.`))
+    chalk.bold(
+      chalk.green(
+        `✅  Build complete. The ${chalk.cyan(
+          'dist'
+        )} directory is ready to be deployed.`
+      )
+    )
   )
   console.log()
 
