@@ -112,18 +112,25 @@ function makeEntries(entryPath, destPath, moduleName, packageName, banner) {
   }
 }
 
-function setupPlugins(target, name, version, env, format, plugins = []) {
+function setupPlugins(target, name, version, env, format, options = {}, plugins = []) {
   const isBundlerESMBuild = /esmBundler/.test(name)
   const isProductionBuild =
     process.env.__DEV__ === 'false' || env === 'production'
+  const sourcemap = !!options.sourceMap
 
   plugins.push(nodeResolve(), commonjs())
   plugins.push(
     typescript({
+      // check: process.env.NODE_ENV === 'production',
       tsconfig: path.resolve(target, 'tsconfig.json'),
-      cacheRoot: path.resolve(target, 'node_modules/.rpt2_cache'),
-      clean: true
+      cacheRoot: path.resolve(target, 'node_modules/.rts2_cache'),
+      clean: true,
       // verbosity: 4,
+      tsconfigOverride: {
+        compilerOptions: {
+          sourceMap: sourcemap
+        }
+      }
     })
   )
 
@@ -146,13 +153,14 @@ function setupPlugins(target, name, version, env, format, plugins = []) {
   return plugins
 }
 
-function generateConfig(target, name, options, moduleName, version) {
+function generateConfig(target, name, options, moduleName, version, argOptions) {
   const plugins = setupPlugins(
     target,
     name,
     version,
     options.env,
-    options.format
+    options.format,
+    argOptions
   )
   return {
     input: options.entry,
@@ -161,22 +169,27 @@ function generateConfig(target, name, options, moduleName, version) {
       name: moduleName,
       format: options.format,
       banner: options.banner,
+      sourcemap: !!argOptions.sourceMap,
       globals: {
         vue: 'Vue'
       }
-      // TODO: sourcemap: 'inline'
     },
     // https://github.com/rollup/rollup/issues/1514#issuecomment-320438924
     external: Object.keys(dependencies),
-    plugins
+    plugins,
+    onwarn: (msg, warn) => {
+      if (!/Circular/.test(msg)) {
+        warn(msg)
+      }
+    }
   }
 }
 
-function getAllEntries({ name, version }, { entry, dest }, banner) {
+function getAllEntries({ name, version }, { entry, dest }, banner, options) {
   const moduleName = classify(name)
   const entries = makeEntries(entry, dest, moduleName, name, banner)
   return Object.keys(entries).map(name =>
-    generateConfig(dest, name, entries[name], moduleName, version)
+    generateConfig(dest, name, entries[name], moduleName, version, options)
   )
 }
 
@@ -210,6 +223,9 @@ async function bundle(entries) {
 
 function run() {
   const target = process.cwd()
+  const args = require('minimist')(process.argv.slice(2))
+  const sourceMap = args.sourcemap || args.s
+
   const { name, license, version, author } = loadPackage(target)
 
   if (!fs.existsSync('dist')) {
@@ -229,7 +245,8 @@ function run() {
       author: author.name,
       year: new Date().getFullYear(),
       license
-    })
+    }),
+    { sourceMap }
   )
 
   return bundle(entries)
