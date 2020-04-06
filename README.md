@@ -39,8 +39,10 @@ See the [`examples`](https://github.com/intlify/vue-i18n-next/tree/master/exampl
 
 The examples are offered that use the following two API styles:
 
-- composable: new Vue I18n API optimized for composition API
-- legacy: Vue I18n API almost compatible with vue-i18n@8.x
+- composable
+  - new vue-i18n API optimized for Vue 3, see the [here](https://github.com/intlify/vue-i18n-next/blob/master/src/composer.ts)
+- legacy
+  - vue-i18n API almost compatible with vue-i18n@8.x
 
 
 ## :heavy_exclamation_mark: Known issues
@@ -129,7 +131,7 @@ The examples are offered that use the following two API styles:
     - [x] setPostTranslationHandler
     - [x] getMissingHandler
     - [x] setMissingHandler
-- Legacy API compatible supporting
+- Legacy API: compatible supporting
   - VueI18n
     - [x] locale
     - [x] fallbackLocale
