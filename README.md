@@ -76,7 +76,7 @@ The examples are offered that use the following two API styles:
 ### :hammer: Missing features
 
 - imporve `fallbackLocale` or `fallbackLocales` (related vue-i18n [issue](https://github.com/kazupon/vue-i18n/pull/829))
-- `<18n>` custom block supporting for SFC
+- `<i18n>` custom block supporting for SFC
 - `v-t` directive
 - `preserveDirectiveContent` option (depend on `v-t`)
 - Compoonent interpolation with `<i18n>` component
