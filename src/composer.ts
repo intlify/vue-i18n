@@ -8,12 +8,8 @@
 import {
   ref,
   computed,
-  provide,
-  inject,
-  InjectionKey,
   getCurrentInstance,
-  ComponentInternalInstance,
-  ComponentOptions
+  ComponentInternalInstance
 } from 'vue'
 import { WritableComputedRef, ComputedRef } from '@vue/reactivity'
 import { Path } from './path'
@@ -66,14 +62,6 @@ import {
   isBoolean,
   isPlainObject
 } from './utils'
-
-export const GlobalI18nSymbol: InjectionKey<I18nComposer> = Symbol.for(
-  'vue-i18n'
-)
-const providers: Map<
-  ComponentInternalInstance,
-  InjectionKey<I18nComposer>
-> = new Map()
 
 export type MissingHandler = (
   locale: Locale,
@@ -541,36 +529,5 @@ export function createI18nComposer(
     setPostTranslationHandler,
     getMissingHandler,
     setMissingHandler
-  }
-}
-
-const generateSymbolID = (): string =>
-  `vue-i18n-${new Date().getUTCMilliseconds().toString()}`
-
-// enable composable API via I18n Composer
-export function useI18n(options?: I18nComposerOptions): I18nComposer {
-  const globalComposer = inject(GlobalI18nSymbol)
-  if (!globalComposer) throw new Error('TODO') // TODO:
-
-  const instance = getCurrentInstance()
-  if (instance === null || !options) {
-    return globalComposer
-  }
-
-  const symbol = providers.get(instance)
-  if (!symbol) {
-    const type = instance.type as ComponentOptions
-    if (type.__i18n) {
-      options.__i18n = type.__i18n
-    }
-    const composer = createI18nComposer(options, globalComposer)
-    const sym: InjectionKey<I18nComposer> = Symbol.for(generateSymbolID())
-    providers.set(instance, sym)
-    provide(sym, composer)
-    return composer
-  } else {
-    const composer = inject(symbol) || globalComposer
-    if (!composer) throw new Error('TODO') // TODO:
-    return composer
   }
 }

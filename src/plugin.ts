@@ -1,7 +1,8 @@
 import { App, ComponentPublicInstance, FunctionDirective } from 'vue'
 import { Path } from './path'
 import { Locale } from './runtime/context'
-import { GlobalI18nSymbol, I18nComposer } from './composer'
+import { I18nComposer } from './composer'
+import { GlobalI18nSymbol } from './use'
 import {
   VueI18n,
   createI18n,
