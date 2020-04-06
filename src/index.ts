@@ -1,3 +1,4 @@
+export const VERSION = __VERSION__
 export * from './utils'
 export { Path, PathValue } from './path'
 export * from './message/tokenizer'

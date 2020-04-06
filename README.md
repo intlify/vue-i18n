@@ -56,7 +56,7 @@ The examples are offered that use the following two API styles:
   - `VueI18n.prototype.getChoiceIndex`
     - -> Legacy API style: `pluralizationRules` option of `createI18n` factory function (like `new VueI18n(...)`)
     - -> Compsable API style: `pluralRules` option of `createI18nComposer` facatory function
-  - `VueI18n.version` -> `import { version } from 'vue-i18n'`
+  - `VueI18n.version` -> `import { VERSION } from 'vue-i18n'`
   - `VueI18n.availabilities` -> `import { availabilities } from 'vue-i18n'`
 
 ### :zap: Improvements
@@ -175,7 +175,7 @@ The examples are offered that use the following two API styles:
     - [x] numberFormats
     - [x] sharedMessages
   - [x] plugin install & mixin
-  - [ ] version
+  - [x] version
   - [x] IntlAvailability availabilities
 - Components
   - [ ] Interpolocation `<i18n>`
@@ -189,6 +189,7 @@ The examples are offered that use the following two API styles:
   - [ ] vue-cli-plugin-i18n
   - [ ] eslint-plugin-vue-i18n
 - Others
+  - [ ] documentation
   - [x] fallback localization (bubble up)
   - [ ] SSR
 

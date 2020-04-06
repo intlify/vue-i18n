@@ -154,9 +154,6 @@ export type VueI18n = {
   install(app: App): void
 }
 
-// NOTE: disable (occured build error when use rollup build ...)
-// export const version = __VERSION__ // eslint-disable-line
-
 /**
  *  Convert to I18n Composer Options from VueI18n Options
  */
@@ -228,7 +225,7 @@ function convertI18nComposerOptions(
 /**
  *  createI18n factory
  *
- *  This function is  compatible with constructor of `VueI18n` class (offered with vue-i18n@8.x) like `new VueI18n(...)`.
+ *  This function is compatible with constructor of `VueI18n` class (offered with vue-i18n@8.x) like `new VueI18n(...)`.
  */
 export function createI18n(
   options: VueI18nOptions = {},

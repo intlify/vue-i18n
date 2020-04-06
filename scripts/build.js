@@ -132,7 +132,7 @@ function setupPlugins(target, name, version, env, format, plugins = []) {
   }
 
   const replaceOptions = {
-    __VERSION__: version,
+    __VERSION__: `'${version}'`,
     __DEV__: isBundlerESMBuild
       ? `(process.env.NODE_ENV !== 'production')` // preserve to be handled by bundlers
       : !isProductionBuild // hard coded dev/prod builds
