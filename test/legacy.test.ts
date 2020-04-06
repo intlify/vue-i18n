@@ -5,7 +5,7 @@ jest.mock('../src/utils', () => ({
 }))
 import { warn } from '../src/utils'
 
-import { createI18n } from '../src/i18n'
+import { createI18n } from '../src/legacy'
 
 test('locale', () => {
   const i18n = createI18n()

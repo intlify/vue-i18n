@@ -1,7 +1,7 @@
 /**
- *  VueI18n
+ *  Legacy
  *
- *  This module provides legacy vue-i18n API compatibility
+ *  This module is offered legacy vue-i18n API compatibility
  */
 
 import { App } from 'vue'

@@ -9,7 +9,7 @@ import {
   TranslateResult,
   DateTimeFormatResult,
   NumberFormatResult
-} from './i18n'
+} from './legacy'
 import { Interpolate, Number } from './components'
 import { hook as vT } from './directive'
 
