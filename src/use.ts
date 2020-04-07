@@ -23,7 +23,43 @@ const providers: Map<
 const generateSymbolID = (): string =>
   `vue-i18n-${new Date().getUTCMilliseconds().toString()}`
 
-// enable composable API via I18n Composer
+/**
+ * Enable vue-i18n composable API
+ *
+ * @example
+ * case: Component resource base localization
+ * ```html
+ * <template>
+ *   <form>
+ *     <label>{{ t('language') }}</label>
+ *     <select v-model="locale">
+ *       <option value="en">en</option>
+ *       <option value="ja">ja</option>
+ *     </select>
+ *   </form>
+ *   <p>message: {{ t('hello') }}</p>
+ * </template>
+ *
+ * <script>
+ * import { useI18n } from 'vue-i18n'
+ *
+ * export default {
+ *  setup() {
+ *    const { t, locale } = useI18n({
+ *      locale: 'ja',
+ *      messages: {
+ *        en: { ... },
+ *        ja: { ... }
+ *      }
+ *    })
+ *    // Something to do ...
+ *
+ *    return { ..., t, locale }
+ *  }
+ * }
+ * </script>
+ * ```
+ */
 export function useI18n(options?: I18nComposerOptions): I18nComposer {
   const globalComposer = inject(GlobalI18nSymbol)
   if (!globalComposer) throw new Error('TODO') // TODO:

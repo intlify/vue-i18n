@@ -10,7 +10,7 @@
 |  --- | --- |
 |  [createI18n(options)](./vue-i18n.createi18n.md) | createI18n factory<!-- -->This function is compatible with constructor of <code>VueI18n</code> class (offered with vue-i18n<!-- -->@<!-- -->8.x) like <code>new VueI18n(...)</code>. |
 |  [createI18nComposer(options)](./vue-i18n.createi18ncomposer.md) | I18n Composer factory |
-|  [useI18n(options)](./vue-i18n.usei18n.md) |  |
+|  [useI18n(options)](./vue-i18n.usei18n.md) | Enable vue-i18n composable API |
 
 ## Interfaces
 

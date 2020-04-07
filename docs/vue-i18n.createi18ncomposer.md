@@ -22,3 +22,30 @@ export declare function createI18nComposer(options?: I18nComposerOptions): I18nC
 
 `I18nComposer`
 
+## Example
+
+case: Global resource base localization
+
+```js
+import { createApp } from 'vue'
+import { createI18nComposer, useI18n } 'vue-i18n'
+
+const i18n = createI18nComposer({
+  locale: 'ja',
+  messages: {
+    en: { ... }
+    ja: { ... }
+  }
+})
+
+const app = createApp({
+  setup() {
+    return useI18n()
+  }
+})
+
+app.use(i18n)
+app.mount('#app')
+
+```
+

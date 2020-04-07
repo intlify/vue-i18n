@@ -30,13 +30,14 @@ If you use stable Vue I18n version, see this [repository](https://github.com/kaz
 
 ## :star: New Features
 
-- `Composable API`: new style API for Vue 3
-   - See the following docs:
-   - [createI18n](https://github.com/intlify/vue-i18n-next/blob/master/docs/vue-i18n.createi18ncomposer.md)
-   - [I18nComposerOptions](https://github.com/intlify/vue-i18n-next/blob/master/docs/vue-i18n.i18ncomposeroptions.md)
-   - [I18nComposer](https://github.com/intlify/vue-i18n-next/blob/master/docs/vue-i18n.i18ncomposer.md)
-   - [useI18n](https://github.com/intlify/vue-i18n-next/blob/master/docs/vue-i18n.usei18n.md)
+### Composable API
 
+New style API for Vue 3. See the following docs:
+
+- [createI18nComposer](https://github.com/intlify/vue-i18n-next/blob/master/docs/vue-i18n.createi18ncomposer.md)
+- [I18nComposerOptions](https://github.com/intlify/vue-i18n-next/blob/master/docs/vue-i18n.i18ncomposeroptions.md)
+- [I18nComposer](https://github.com/intlify/vue-i18n-next/blob/master/docs/vue-i18n.i18ncomposer.md)
+- [useI18n](https://github.com/intlify/vue-i18n-next/blob/master/docs/vue-i18n.usei18n.md)
 
 
 ## :lollipop: Examples
@@ -48,12 +49,12 @@ The examples are offered that use the following two API styles:
 - composable
   - new vue-i18n API optimized for Vue 3. details about API
 - legacy
-  - vue-i18n API almost compatible with vue-i18n@8.x
+  - vue-i18n API almost compatible with vue-i18n v8.x
 
 
 ## :heavy_exclamation_mark: Known issues
 
-### :boom: Breaking changes compared to vue-i18n@8.x
+### :boom: Breaking changes compared to vue-i18n v8.x
 
 - API
   - The return value of `$t` and `t` methods is **string** only. object and array values ​​are no longer returned.
