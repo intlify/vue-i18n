@@ -20,7 +20,7 @@
     </div>
     <script>
       const { createApp } = Vue
-      const { createI18nComposer, useI18n, GlobalI18nSymbol } = VueI18n
+      const { createI18nComposer, useI18n } = VueI18n
 
       const i18n = createI18nComposer({
         locale: 'ja-JP',
@@ -65,7 +65,7 @@
           return useI18n()
         }
       })
-      app.provide(GlobalI18nSymbol, i18n)
+      app.use(i18n)
       app.mount('#app')
     </script>
   </body>
