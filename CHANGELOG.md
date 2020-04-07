@@ -1,3 +1,8 @@
+## v9.0.0-alpha.0 (2020-04-07)
+
+#### Committers: 1
+- kazuya kawaguchi ([@kazupon](https://github.com/kazupon))
+
 <a name="8.15.3"></a>
 ## [8.15.3](https://github.com/kazupon/vue-i18n/compare/v8.15.2...v8.15.3) (2019-12-18)
 
