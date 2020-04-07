@@ -103,6 +103,7 @@
     "clean:docs": "rm -rf ./docs",
     "coverage": "opener coverage/lcov-report/index.html",
     "dev:e2e": "jest --runInBand --config ./jest.e2e.config.js",
+    "dev:docs": "yarn build:type && yarn docs:api",
     "docs:api": "api-documenter markdown -i ./temp -o docs",
     "format": "prettier --config .prettierrc --ignore-path .prettierignore '**/*.{js,json,html}'",
     "format:fix": "yarn format --write",

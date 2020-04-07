@@ -82,7 +82,8 @@ export type VueI18nOptions = {
   sharedMessages?: LocaleMessages
   pluralizationRules?: PluralizationRules
   postTranslation?: PostTranslationHandler
-  __i18n?: CustomBlocks // for custom blocks
+  __i18n?: CustomBlocks // for custom blocks, and internal
+  _root?: I18nComposer // for internal
 }
 
 /**
@@ -200,7 +201,7 @@ function convertI18nComposerOptions(
       return messages
     }, messages || {})
   }
-  const __i18n = options.__i18n
+  const { __i18n, _root } = options
 
   const datetimeFormats = options.datetimeFormats
   const numberFormats = options.numberFormats
@@ -218,7 +219,8 @@ function convertI18nComposerOptions(
     fallbackFormat,
     pluralRules: pluralizationRules,
     postTranslation,
-    __i18n
+    __i18n,
+    _root
   }
 }
 
@@ -227,14 +229,8 @@ function convertI18nComposerOptions(
  *
  *  This function is compatible with constructor of `VueI18n` class (offered with vue-i18n@8.x) like `new VueI18n(...)`.
  */
-export function createI18n(
-  options: VueI18nOptions = {},
-  _root?: I18nComposer // for internal option
-): VueI18n {
-  const composer = createI18nComposer(
-    convertI18nComposerOptions(options),
-    _root
-  )
+export function createI18n(options: VueI18nOptions = {}): VueI18n {
+  const composer = createI18nComposer(convertI18nComposerOptions(options))
 
   // defines VueI18n
   const i18n = {

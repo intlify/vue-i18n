@@ -39,7 +39,10 @@ export function useI18n(options?: I18nComposerOptions): I18nComposer {
     if (type.__i18n) {
       options.__i18n = type.__i18n
     }
-    const composer = createI18nComposer(options, globalComposer)
+    if (globalComposer) {
+      options._root = globalComposer
+    }
+    const composer = createI18nComposer(options)
     const sym: InjectionKey<I18nComposer> = Symbol.for(generateSymbolID())
     providers.set(instance, sym)
     provide(sym, composer)

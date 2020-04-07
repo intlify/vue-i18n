@@ -88,6 +88,7 @@ export type I18nComposerOptions = {
   fallbackFormat?: boolean
   postTranslation?: PostTranslationHandler
   __i18n?: CustomBlocks // for custom blocks, and internal
+  _root?: I18nComposer // for internal
 }
 
 /**
@@ -184,9 +185,10 @@ function getLocaleMessages(
  *  I18n Composer factory
  */
 export function createI18nComposer(
-  options: I18nComposerOptions = {},
-  _root?: I18nComposer // for internal
+  options: I18nComposerOptions = {}
 ): I18nComposer {
+  const { _root } = options
+
   // reactivity states
   const _locale = ref<Locale>(
     // prettier-ignore

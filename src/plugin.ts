@@ -70,9 +70,10 @@ export function applyPlugin(
         if (options.__i18n) {
           optionsI18n.__i18n = options.__i18n
         }
-        this.$i18n = createI18n(optionsI18n, composer)
+        optionsI18n._root = composer
+        this.$i18n = createI18n(optionsI18n)
       } else if (options.__i18n) {
-        this.$i18n = createI18n({ __i18n: options.__i18n }, composer)
+        this.$i18n = createI18n({ __i18n: options.__i18n, _root: composer })
       } else if (this.$root && this.$root.proxy) {
         // root i18n
         // TODO: should resolve type inference

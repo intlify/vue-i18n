@@ -8,8 +8,24 @@ export {
   PostTranslationHandler
 } from './runtime'
 export * from './runtime/types'
-export * from './composer'
+export {
+  MissingHandler,
+  I18nComposerOptions,
+  I18nComposer,
+  createI18nComposer
+} from './composer'
 export * from './use'
-export * from './legacy'
+export {
+  TranslateResult,
+  Choice,
+  LocaleMessageObject,
+  PluralizationRulesMap,
+  WarnHtmlInMessageLevel,
+  DateTimeFormatResult,
+  NumberFormatResult,
+  Formatter,
+  VueI18nOptions,
+  VueI18n,
+  createI18n
+} from './legacy'
 export { LegacyVueI18n } from './plugin'
-
