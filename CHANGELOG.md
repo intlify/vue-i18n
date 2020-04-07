@@ -1,3 +1,74 @@
+## v9.0.0-alpha.1 (2020-04-07)
+
+### :star: New Features
+
+#### Composable API
+
+New style API for Vue 3. See the following docs:
+
+- [createI18nComposer](https://github.com/intlify/vue-i18n-next/blob/master/docs/vue-i18n.createi18ncomposer.md)
+- [I18nComposerOptions](https://github.com/intlify/vue-i18n-next/blob/master/docs/vue-i18n.i18ncomposeroptions.md)
+- [I18nComposer](https://github.com/intlify/vue-i18n-next/blob/master/docs/vue-i18n.i18ncomposer.md)
+- [useI18n](https://github.com/intlify/vue-i18n-next/blob/master/docs/vue-i18n.usei18n.md)
+
+
+### :lollipop: Examples
+
+See the [`examples`](https://github.com/intlify/vue-i18n-next/tree/master/examples) directory.
+
+The examples are offered that use the following two API styles:
+
+- composable
+  - new vue-i18n API optimized for Vue 3. details about API
+- legacy
+  - vue-i18n API almost compatible with vue-i18n v8.x
+
+
+### :heavy_exclamation_mark: Known issues
+
+#### :boom: Breaking changes compared to vue-i18n v8.x
+
+- API
+  - The return value of `$t` and `t` methods is **string** only. object and array values ​​are no longer returned.
+  - The return value of `$tc` and `tc` methods is **string** only. object and array values ​​are no longer returned.
+  - `VueI18n` class cannot used with `new`. It can only be used via the `$i18n` property of Vue instance.
+    - In vue-i18n-next, by replacing `new VueI18n` with `createI18n`, you can use existing `VueI18n` options as they are.
+    - See the `examples/legacy` directory.
+  - `VueI18n.prototype.getChoiceIndex`
+    - -> Legacy API style: `pluralizationRules` option of `createI18n` factory function (like `new VueI18n(...)`)
+    - -> Compsable API style: `pluralRules` option of `createI18nComposer` facatory function
+  - `VueI18n.version` -> `import { VERSION } from 'vue-i18n'`
+  - `VueI18n.availabilities` -> `import { availabilities } from 'vue-i18n'`
+  - See the details [here](https://github.com/intlify/vue-i18n-next/blob/master/docs/vue-i18n.md)
+
+#### :zap: Improvements
+
+- See the [vue-i18n issues](https://github.com/kazupon/vue-i18n/issues?q=is%3Aissue+is%3Aopen+label%3A%22Status%3A+Ready%22) that labeld with `Status: Ready`
+
+
+#### :hammer: Missing features
+
+- imporve `fallbackLocale` or `fallbackLocales` (related vue-i18n [issue](https://github.com/kazupon/vue-i18n/pull/829))
+- `<i18n>` custom block supporting for SFC
+- `v-t` directive
+- `preserveDirectiveContent` option (depend on `v-t`)
+- Compoonent interpolation with `<i18n>` component
+- Number custom formatting with `<i18n-n>` component
+- HTML format suppression with `warnHtmlInMessage` option
+- SSR
+- Custom formatting
+- Tooling
+  - `vue-cli-plugin-i18n`
+  - `@intlify/vue-i18n-loader`
+  - `@intlify/rollup-plugin-vue-i18n`
+  - `@intlify/vue-i18n-extensions`
+  - `@intlify/eslint-plugin-vue-i18n`
+
+
+#### Committers: 1
+- kazuya kawaguchi ([@kazupon](https://github.com/kazupon))
+
+
 ## v9.0.0-alpha.0 (2020-04-07)
 
 #### Committers: 1
