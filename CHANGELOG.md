@@ -65,6 +65,19 @@ The examples are offered that use the following two API styles:
   - `@intlify/eslint-plugin-vue-i18n`
 
 
+### :cd: Installation
+
+#### npm
+
+```bash
+npm install --save vue-i18n@next
+```
+
+#### yarn
+```bash
+yarn add vue-i18n@next
+```
+
 #### Committers: 1
 - kazuya kawaguchi ([@kazupon](https://github.com/kazupon))
 

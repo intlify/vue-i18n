@@ -27,7 +27,6 @@ Since the library is still unstable **and because we want feedback** on bugs and
 
 If you use stable Vue I18n version, see this [repository](https://github.com/kazupon/vue-i18n)
 
-
 ## :star: New Features
 
 ### Composable API
@@ -91,6 +90,20 @@ The examples are offered that use the following two API styles:
   - `@intlify/rollup-plugin-vue-i18n`
   - `@intlify/vue-i18n-extensions`
   - `@intlify/eslint-plugin-vue-i18n`
+
+
+## :cd: Installation
+
+### npm
+
+```bash
+npm install --save vue-i18n@next
+```
+
+### yarn
+```bash
+yarn add vue-i18n@next
+```
 
 
 ## :white_check_mark: TODOs
