@@ -65,6 +65,6 @@ export declare type VueI18n = {
     setNumberFormat(locale: Locale, format: NumberFormat): void;
     mergeNumberFormat(locale: Locale, format: NumberFormat): void;
     getChoiceIndex: (choice: Choice, choicesLength: number) => number;
-    install(app: App): void;
+    install: Plugin;
 };
 ```

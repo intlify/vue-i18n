@@ -59,5 +59,6 @@ export declare type I18nComposer = {
     setPostTranslationHandler(handler: PostTranslationHandler | null): void;
     getMissingHandler(): MissingHandler | null;
     setMissingHandler(handler: MissingHandler | null): void;
+    install: Plugin;
 };
 ```

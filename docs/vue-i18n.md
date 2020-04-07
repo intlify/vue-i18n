@@ -26,7 +26,6 @@
 |  Variable | Description |
 |  --- | --- |
 |  [Availabilities](./vue-i18n.availabilities.md) |  |
-|  [GlobalI18nSymbol](./vue-i18n.globali18nsymbol.md) |  |
 |  [VERSION](./vue-i18n.version.md) |  |
 
 ## Type Aliases
@@ -46,7 +45,6 @@
 |  [I18nComposer](./vue-i18n.i18ncomposer.md) | I18n Composer Interfaces |
 |  [I18nComposerOptions](./vue-i18n.i18ncomposeroptions.md) | I18n Composer Options |
 |  [IntlAvailability](./vue-i18n.intlavailability.md) | datetime |
-|  [LegacyVueI18n](./vue-i18n.legacyvuei18n.md) |  |
 |  [Locale](./vue-i18n.locale.md) |  |
 |  [LocaleMessage](./vue-i18n.localemessage.md) |  |
 |  [LocaleMessageDictionary](./vue-i18n.localemessagedictionary.md) |  |
