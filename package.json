@@ -85,7 +85,6 @@
   "license": "MIT",
   "main": "dist/vue-i18n.cjs.js",
   "module": "dist/vue-i18n.esm-bundler.js",
-  "private": true,
   "repository": {
     "type": "git",
     "url": "git+https://github.com/intlify/vue-i18n-next.git"
