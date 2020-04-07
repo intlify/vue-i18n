@@ -4,8 +4,9 @@
  *  This module is offered legacy vue-i18n API compatibility
  */
 
-import { App } from 'vue'
-import { applyPlugin } from './plugin'
+import { App, Plugin } from 'vue'
+import { apply } from './plugin'
+import { getMixin } from './mixin'
 import { Path, resolveValue } from './path'
 import {
   PluralizationRule,
@@ -152,7 +153,7 @@ export type VueI18n = {
   setNumberFormat(locale: Locale, format: NumberFormat): void
   mergeNumberFormat(locale: Locale, format: NumberFormat): void
   getChoiceIndex: (choice: Choice, choicesLength: number) => number
-  install(app: App): void
+  install: Plugin
 }
 
 /**
@@ -471,7 +472,8 @@ export function createI18n(options: VueI18nOptions = {}): VueI18n {
 
     // install
     install(app: App): void {
-      applyPlugin(app, i18n as VueI18n, composer)
+      apply(app, composer)
+      app.mixin(getMixin(i18n, composer))
     }
   }
 

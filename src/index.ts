@@ -14,7 +14,7 @@ export {
   I18nComposer,
   createI18nComposer
 } from './composer'
-export * from './use'
+export { useI18n } from './use'
 export {
   TranslateResult,
   Choice,
@@ -28,4 +28,3 @@ export {
   VueI18n,
   createI18n
 } from './legacy'
-export { LegacyVueI18n } from './plugin'

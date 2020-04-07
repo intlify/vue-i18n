@@ -9,9 +9,12 @@ import {
   ref,
   computed,
   getCurrentInstance,
+  App,
+  Plugin,
   ComponentInternalInstance
 } from 'vue'
 import { WritableComputedRef, ComputedRef } from '@vue/reactivity'
+import { apply } from './plugin'
 import { Path } from './path'
 import {
   DateTimeFormats,
@@ -151,6 +154,7 @@ export type I18nComposer = {
   setPostTranslationHandler(handler: PostTranslationHandler | null): void
   getMissingHandler(): MissingHandler | null
   setMissingHandler(handler: MissingHandler | null): void
+  install: Plugin
 }
 
 function defineRuntimeMissingHandler(
@@ -466,7 +470,7 @@ export function createI18nComposer(
   }
 
   // export composable API!
-  return {
+  const composer = {
     /**
      *  properties
      */
@@ -530,6 +534,11 @@ export function createI18nComposer(
     getPostTranslationHandler,
     setPostTranslationHandler,
     getMissingHandler,
-    setMissingHandler
+    setMissingHandler,
+    install(app: App): void {
+      apply(app, composer)
+    }
   }
+
+  return composer
 }
