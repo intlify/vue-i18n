@@ -19,7 +19,7 @@ Internationalization plugin for Vue.js
 <br/>
 
 
-## Status: WIP ![Test](https://github.com/intlify/vue-i18n-next/workflows/Test/badge.svg)
+## Status: Alpha ![Test](https://github.com/intlify/vue-i18n-next/workflows/Test/badge.svg)
 
 The current codebase has most of the existing features on Vue I18n v8.x and is usable.
 
