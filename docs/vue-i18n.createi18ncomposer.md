@@ -9,7 +9,7 @@ I18n Composer factory
 <b>Signature:</b>
 
 ```typescript
-export declare function createI18nComposer(options?: I18nComposerOptions, _root?: I18nComposer): I18nComposer;
+export declare function createI18nComposer(options?: I18nComposerOptions): I18nComposer;
 ```
 
 ## Parameters
@@ -17,7 +17,6 @@ export declare function createI18nComposer(options?: I18nComposerOptions, _root?
 |  Parameter | Type | Description |
 |  --- | --- | --- |
 |  options | <code>I18nComposerOptions</code> |  |
-|  \_root | <code>I18nComposer</code> |  |
 
 <b>Returns:</b>
 

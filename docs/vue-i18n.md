@@ -8,8 +8,8 @@
 
 |  Function | Description |
 |  --- | --- |
-|  [createI18n(options, \_root)](./vue-i18n.createi18n.md) | createI18n factory<!-- -->This function is compatible with constructor of <code>VueI18n</code> class (offered with vue-i18n<!-- -->@<!-- -->8.x) like <code>new VueI18n(...)</code>. |
-|  [createI18nComposer(options, \_root)](./vue-i18n.createi18ncomposer.md) | I18n Composer factory |
+|  [createI18n(options)](./vue-i18n.createi18n.md) | createI18n factory<!-- -->This function is compatible with constructor of <code>VueI18n</code> class (offered with vue-i18n<!-- -->@<!-- -->8.x) like <code>new VueI18n(...)</code>. |
+|  [createI18nComposer(options)](./vue-i18n.createi18ncomposer.md) | I18n Composer factory |
 |  [useI18n(options)](./vue-i18n.usei18n.md) |  |
 
 ## Interfaces
@@ -35,7 +35,6 @@
 |  --- | --- |
 |  [Choice](./vue-i18n.choice.md) |  |
 |  [CurrencyDisplay](./vue-i18n.currencydisplay.md) | number |
-|  [CustomBlocks](./vue-i18n.customblocks.md) |  |
 |  [DateTimeDigital](./vue-i18n.datetimedigital.md) |  |
 |  [DateTimeFormat](./vue-i18n.datetimeformat.md) |  |
 |  [DateTimeFormatOptions](./vue-i18n.datetimeformatoptions.md) |  |
@@ -47,6 +46,7 @@
 |  [I18nComposer](./vue-i18n.i18ncomposer.md) | I18n Composer Interfaces |
 |  [I18nComposerOptions](./vue-i18n.i18ncomposeroptions.md) | I18n Composer Options |
 |  [IntlAvailability](./vue-i18n.intlavailability.md) | datetime |
+|  [LegacyVueI18n](./vue-i18n.legacyvuei18n.md) |  |
 |  [Locale](./vue-i18n.locale.md) |  |
 |  [LocaleMessage](./vue-i18n.localemessage.md) |  |
 |  [LocaleMessageDictionary](./vue-i18n.localemessagedictionary.md) |  |

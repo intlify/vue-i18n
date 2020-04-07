@@ -32,5 +32,6 @@ export declare type VueI18nOptions = {
     pluralizationRules?: PluralizationRules;
     postTranslation?: PostTranslationHandler;
     __i18n?: CustomBlocks;
+    _root?: I18nComposer;
 };
 ```

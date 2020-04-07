@@ -11,7 +11,7 @@ This function is compatible with constructor of `VueI18n` class (offered with vu
 <b>Signature:</b>
 
 ```typescript
-export declare function createI18n(options?: VueI18nOptions, _root?: I18nComposer): VueI18n;
+export declare function createI18n(options?: VueI18nOptions): VueI18n;
 ```
 
 ## Parameters
@@ -19,7 +19,6 @@ export declare function createI18n(options?: VueI18nOptions, _root?: I18nCompose
 |  Parameter | Type | Description |
 |  --- | --- | --- |
 |  options | <code>VueI18nOptions</code> |  |
-|  \_root | <code>I18nComposer</code> |  |
 
 <b>Returns:</b>
 

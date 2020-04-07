@@ -24,5 +24,6 @@ export declare type I18nComposerOptions = {
     fallbackFormat?: boolean;
     postTranslation?: PostTranslationHandler;
     __i18n?: CustomBlocks;
+    _root?: I18nComposer;
 };
 ```
