@@ -2,7 +2,7 @@
 
 exports[`linked key: hi @:name ! 1`] = `
 "function __msg__ (ctx) {
-  return ctx.process([
+  return ctx.normalize([
     \\"hi \\", ctx.message(\\"name\\")(ctx), \\" !\\"
   ])
 }"
@@ -10,7 +10,7 @@ exports[`linked key: hi @:name ! 1`] = `
 
 exports[`linked list: hi @:{0} ! 1`] = `
 "function __msg__ (ctx) {
-  return ctx.process([
+  return ctx.normalize([
     \\"hi \\", ctx.message(ctx.interpolate(ctx.list(0)))(ctx), \\" !\\"
   ])
 }"
@@ -18,15 +18,15 @@ exports[`linked list: hi @:{0} ! 1`] = `
 
 exports[`linked modifier: hi @.upper:(name) ! 1`] = `
 "function __msg__ (ctx) {
-  return ctx.process([
-    \\"hi \\", ctx.modifier(\\"upper\\")(ctx.message(\\"name\\")(ctx)), \\" !\\"
+  return ctx.normalize([
+    \\"hi \\", ctx.modifier(\\"upper\\")(ctx.message(\\"name\\")(ctx), ctx.type), \\" !\\"
   ])
 }"
 `;
 
 exports[`linked named: hi @:{name} ! 1`] = `
 "function __msg__ (ctx) {
-  return ctx.process([
+  return ctx.normalize([
     \\"hi \\", ctx.message(ctx.interpolate(ctx.named(\\"name\\")))(ctx), \\" !\\"
   ])
 }"
@@ -34,7 +34,7 @@ exports[`linked named: hi @:{name} ! 1`] = `
 
 exports[`list basic: hi {0} ! 1`] = `
 "function __msg__ (ctx) {
-  return ctx.process([
+  return ctx.normalize([
     \\"hi \\", ctx.interpolate(ctx.list(0)), \\" !\\"
   ])
 }"
@@ -42,7 +42,7 @@ exports[`list basic: hi {0} ! 1`] = `
 
 exports[`list multiple: {0} {1} ! 1`] = `
 "function __msg__ (ctx) {
-  return ctx.process([
+  return ctx.normalize([
     ctx.interpolate(ctx.list(0)), \\" \\", ctx.interpolate(ctx.list(1)), \\" !\\"
   ])
 }"
@@ -50,7 +50,7 @@ exports[`list multiple: {0} {1} ! 1`] = `
 
 exports[`named basic: hi {name} ! 1`] = `
 "function __msg__ (ctx) {
-  return ctx.process([
+  return ctx.normalize([
     \\"hi \\", ctx.interpolate(ctx.named(\\"name\\")), \\" !\\"
   ])
 }"
@@ -58,7 +58,7 @@ exports[`named basic: hi {name} ! 1`] = `
 
 exports[`named multiple: {greeting} {name} ! 1`] = `
 "function __msg__ (ctx) {
-  return ctx.process([
+  return ctx.normalize([
     ctx.interpolate(ctx.named(\\"greeting\\")), \\" \\", ctx.interpolate(ctx.named(\\"name\\")), \\" !\\"
   ])
 }"
@@ -67,11 +67,11 @@ exports[`named multiple: {greeting} {name} ! 1`] = `
 exports[`plural complex: @.caml:(no apples) | {0} apple | {n}　apples 1`] = `
 "function __msg__ (ctx) {
   return [
-    ctx.process([
-      ctx.modifier(\\"caml\\")(ctx.message(\\"no apples\\")(ctx))
-    ]), ctx.process([
+    ctx.normalize([
+      ctx.modifier(\\"caml\\")(ctx.message(\\"no apples\\")(ctx), ctx.type)
+    ]), ctx.normalize([
       ctx.interpolate(ctx.list(0)), \\" apple\\"
-    ]), ctx.process([
+    ]), ctx.normalize([
       ctx.interpolate(ctx.named(\\"n\\")), \\"　apples\\"
     ])
   ][ctx.pluralRule(ctx.pluralIndex, 3, ctx.orgPluralRule)]
@@ -81,11 +81,11 @@ exports[`plural complex: @.caml:(no apples) | {0} apple | {n}　apples 1`] = `
 exports[`plural simple: no apples | one apple  |  too much apples   1`] = `
 "function __msg__ (ctx) {
   return [
-    ctx.process([
+    ctx.normalize([
       \\"no apples\\"
-    ]), ctx.process([
+    ]), ctx.normalize([
       \\"one apple\\"
-    ]), ctx.process([
+    ]), ctx.normalize([
       \\"too much apples  \\"
     ])
   ][ctx.pluralRule(ctx.pluralIndex, 3, ctx.orgPluralRule)]
@@ -94,7 +94,7 @@ exports[`plural simple: no apples | one apple  |  too much apples   1`] = `
 
 exports[`text basic: hello world 1`] = `
 "function __msg__ (ctx) {
-  return ctx.process([
+  return ctx.normalize([
     \\"hello world\\"
   ])
 }"
@@ -103,7 +103,7 @@ exports[`text basic: hello world 1`] = `
 exports[`text multline: hello
  world 1`] = `
 "function __msg__ (ctx) {
-  return ctx.process([
+  return ctx.normalize([
     \\"hello\\\\n world\\"
   ])
 }"

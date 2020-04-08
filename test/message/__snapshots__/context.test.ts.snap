@@ -1,0 +1,65 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`custom process linked 1`] = `
+Array [
+  Object {
+    "text": "hi ",
+  },
+  Object {
+    "text": "vnode:KAZUPON",
+  },
+  Object {
+    "text": " !",
+  },
+]
+`;
+
+exports[`custom process list 1`] = `
+Array [
+  Object {
+    "text": "hi, ",
+  },
+  Object {
+    "text": "kazupon",
+  },
+  Object {
+    "text": "!",
+  },
+]
+`;
+
+exports[`custom process named 1`] = `
+Array [
+  Object {
+    "text": "hi ",
+  },
+  Object {
+    "text": "kazupon",
+  },
+  Object {
+    "text": " !",
+  },
+]
+`;
+
+exports[`custom process plural 1`] = `
+Array [
+  Object {
+    "text": "1",
+  },
+  Object {
+    "text": " ",
+  },
+  Object {
+    "text": "vnode:apple",
+  },
+]
+`;
+
+exports[`custom process simple text 1`] = `
+Array [
+  Object {
+    "text": "hello",
+  },
+]
+`;

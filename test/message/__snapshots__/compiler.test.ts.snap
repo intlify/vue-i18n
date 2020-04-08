@@ -225,11 +225,11 @@ Object {
 exports[`createCompiler: code 1`] = `
 "function __msg__ (ctx) {
   return [
-    ctx.process([
-      ctx.modifier(\\"caml\\")(ctx.message(\\"no apples\\")(ctx))
-    ]), ctx.process([
+    ctx.normalize([
+      ctx.modifier(\\"caml\\")(ctx.message(\\"no apples\\")(ctx), ctx.type)
+    ]), ctx.normalize([
       ctx.interpolate(ctx.list(0)), \\" apple\\"
-    ]), ctx.process([
+    ]), ctx.normalize([
       ctx.interpolate(ctx.named(\\"n\\")), \\"　apples\\"
     ])
   ][ctx.pluralRule(ctx.pluralIndex, 3, ctx.orgPluralRule)]

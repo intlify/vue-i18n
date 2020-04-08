@@ -3,7 +3,8 @@ import {
   isFunction,
   toDisplayString,
   isObject,
-  isString
+  isString,
+  isPlainObject
 } from '../utils'
 
 export type PluralizationRule = (
@@ -11,13 +12,22 @@ export type PluralizationRule = (
   choicesLength: number,
   orgRule?: PluralizationRule
 ) => number
+
 export type PluralizationRules = { [locale: string]: PluralizationRule }
-export type LinkedModify = (str: string) => string
+export type LinkedModify = (value: unknown) => unknown
 export type LinkedModifiers = { [key: string]: LinkedModify }
-export type MessageFunction = (ctx: MessageContext) => string
+export type MessageFunction = (ctx: MessageContext) => unknown
 export type MessageFucntions = { [key: string]: MessageFunction }
 export type MessageResolveFunction = (key: string) => MessageFunction
 export type NamedValue<T = {}> = T & { [prop: string]: unknown }
+export type MessageNormalize = (values: unknown[]) => unknown
+export type MessageInterpolate = (val: unknown) => unknown
+
+export interface MessageProcessor {
+  type?: string
+  interpolate?: MessageInterpolate
+  normalize?: MessageNormalize
+}
 
 export type MessageContextOptions<N = {}> = {
   parent?: MessageContext
@@ -28,6 +38,7 @@ export type MessageContextOptions<N = {}> = {
   pluralIndex?: number
   pluralRules?: PluralizationRules
   messages?: MessageFucntions | MessageResolveFunction // TODO: need to design resolve message function?
+  processor?: MessageProcessor
 }
 
 export type MessageContext = {
@@ -38,12 +49,17 @@ export type MessageContext = {
   orgPluralRule?: PluralizationRule
   modifier: (name: string) => LinkedModify
   message: (name: string) => MessageFunction
-  interpolate: (val: unknown) => string
-  process: (values: unknown[]) => unknown
+  type: string
+  interpolate: MessageInterpolate
+  normalize: MessageNormalize
 }
 
-const DEFAULT_MODIFIER = (str: string): string => str
-const DEFAULT_MESSAGE = (ctx: MessageContext): string => '' // eslint-disable-line
+const DEFAULT_MODIFIER = (str: unknown): unknown => str
+const DEFAULT_MESSAGE = (ctx: MessageContext): unknown => '' // eslint-disable-line
+const DEFAULT_TYPE = 'text'
+const DEFAULT_NORMALIZE = (values: unknown[]): unknown =>
+  values.length === 0 ? values[0] : values.join('')
+const DEFAULT_INTERPOLATE = toDisplayString
 
 function pluralDefault(choice: number, choicesLength: number): number {
   choice = Math.abs(choice)
@@ -133,8 +149,21 @@ export function createMessageContext<N = {}>(
       : msg
   }
 
-  const process = (values: unknown[]): unknown =>
-    values.length === 0 ? values[0] : values.join('')
+  const type =
+    isPlainObject(options.processor) && isString(options.processor.type)
+      ? options.processor.type
+      : DEFAULT_TYPE
+
+  const normalize =
+    isPlainObject(options.processor) && isFunction(options.processor.normalize)
+      ? options.processor.normalize
+      : DEFAULT_NORMALIZE
+
+  const interpolate =
+    isPlainObject(options.processor) &&
+    isFunction(options.processor.interpolate)
+      ? options.processor.interpolate
+      : DEFAULT_INTERPOLATE
 
   return {
     list,
@@ -144,7 +173,8 @@ export function createMessageContext<N = {}>(
     orgPluralRule,
     modifier,
     message,
-    interpolate: toDisplayString,
-    process
+    type,
+    interpolate,
+    normalize
   }
 }

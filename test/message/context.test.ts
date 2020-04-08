@@ -1,5 +1,6 @@
 import { compile } from '../../src/message/compiler'
 import { createMessageContext } from '../../src/message/context'
+import { isString } from '../../src/utils'
 
 describe('text', () => {
   test('basic', () => {
@@ -260,5 +261,90 @@ describe('plural', () => {
     expect(msg(ctx4)).toMatch(`12 машин`)
     expect(msg(ctx5)).toMatch(`21 машина`)
     expect(msg(ctx6)).toMatch(`21 машин`)
+  })
+})
+
+describe('custom process', () => {
+  const createVNode = (text: string) => ({ text })
+  const normalize = (values: unknown[]): unknown =>
+    values.map(val => (isString(val) ? createVNode(val) : val))
+  const interpolate = (val: unknown): unknown => val
+
+  test('simple text', () => {
+    const msg = compile('hello')
+    const ctx = createMessageContext({
+      processor: {
+        normalize,
+        interpolate
+      }
+    })
+    expect(msg(ctx)).toMatchSnapshot()
+  })
+
+  test('list', () => {
+    const msg = compile('hi, {0}!')
+    const ctx = createMessageContext({
+      list: [createVNode('kazupon')],
+      processor: {
+        normalize,
+        interpolate
+      }
+    })
+    expect(msg(ctx)).toMatchSnapshot()
+  })
+
+  test('named', () => {
+    const msg = compile('hi {name} !')
+    const ctx = createMessageContext({
+      named: { name: createVNode('kazupon') },
+      processor: {
+        normalize,
+        interpolate
+      }
+    })
+    expect(msg(ctx)).toMatchSnapshot()
+  })
+
+  test('linked', () => {
+    const msg = compile('hi @.upper:(name) !')
+    const ctx = createMessageContext({
+      processor: {
+        normalize,
+        interpolate,
+        type: 'vnode'
+      },
+      modifiers: {
+        upper: (val: unknown, type: string): unknown =>
+          `${type}:${(val as { text: string }).text.toUpperCase()}`
+      },
+      messages: {
+        name: ctx => createVNode('kazupon') // eslint-disable-line
+      }
+    })
+    expect(msg(ctx)).toMatchSnapshot()
+  })
+
+  test('plural', () => {
+    const msg = compile('no apples | {n} @.lower:{unit} | {n}　apples')
+    const ctx = createMessageContext({
+      processor: {
+        normalize,
+        interpolate,
+        type: 'vnode'
+      },
+      modifiers: {
+        lower: (val: unknown, type: string): unknown =>
+          `${type}:${(val as { text: string }).text.toLowerCase()}`
+      },
+      named: {
+        unit: 'apple',
+        n: '1'
+      },
+      messages: {
+        'apple': ctx => createVNode('APPLE') // eslint-disable-line
+      },
+      pluralIndex: 1
+    })
+    expect(msg(ctx)).toMatchSnapshot()
   })
 })
