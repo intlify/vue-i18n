@@ -224,11 +224,11 @@ function convertComposerOptions(options: VueI18nOptions): ComposerOptions {
 }
 
 /**
- *  createI18n factory
+ *  createVueI18n factory
  *
  *  This function is compatible with constructor of `VueI18n` class (offered with vue-i18n@8.x) like `new VueI18n(...)`.
  */
-export function createI18n(options: VueI18nOptions = {}): VueI18n {
+export function createVueI18n(options: VueI18nOptions = {}): VueI18n {
   const composer = createComposer(convertComposerOptions(options))
 
   // defines VueI18n

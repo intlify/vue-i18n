@@ -7,6 +7,8 @@ import {
   ComponentOptions
 } from 'vue'
 import { Composer, ComposerOptions, createComposer } from './composer'
+import { createVueI18n, VueI18n, VueI18nOptions } from './legacy'
+import { isBoolean, generateSymbolID } from './utils'
 
 export const GlobalI18nSymbol: InjectionKey<Composer> = Symbol.for('vue-i18n')
 const providers: Map<
@@ -14,8 +16,79 @@ const providers: Map<
   InjectionKey<Composer>
 > = new Map()
 
-const generateSymbolID = (): string =>
-  `vue-i18n-${new Date().getUTCMilliseconds().toString()}`
+/**
+ *  I18n Options
+ *
+ *  This option is `createI18n` factory option
+ */
+export type I18nOptions = {
+  legacy?: boolean
+} & (ComposerOptions | VueI18nOptions)
+
+/**
+ * I18n factory
+ *
+ * @example
+ * case: for Composable API
+ * ```js
+ * import { createApp } from 'vue'
+ * import { createI18n, useI18n } from 'vue-i18n'
+ *
+ * // call with I18n option
+ * const i18n = createI18n({
+ *   locale: 'ja',
+ *   messages: {
+ *     en: { ... },
+ *     ja: { ... }
+ *   }
+ * })
+ *
+ * const App = {
+ *   setup() {
+ *     // ...
+ *     const { t } = useI18n({ ... })
+ *     return { ... , t }
+ *   }
+ * }
+ *
+ * const app = createApp(App)
+ *
+ * // install!
+ * app.use(i18n)
+ * app.mount('#app')
+ * ```
+ *
+ * @example
+ * case: for Legacy API
+ * ```js
+ * import { createApp } from 'vue'
+ * import { createI18n } from 'vue-i18n'
+ *
+ * // call with I18n option
+ * const i18n = createI18n({
+ *   legacy: true, // you must specify 'lagacy' option
+ *   locale: 'ja',
+ *   messages: {
+ *     en: { ... },
+ *     ja: { ... }
+ *   }
+ * })
+ *
+ * const App = {
+ *   // ...
+ * }
+ *
+ * const app = createApp(App)
+ *
+ * // install!
+ * app.use(i18n)
+ * app.mount('#app')
+ * ```
+ */
+export function createI18n(options: I18nOptions = {}): Composer | VueI18n {
+  const legacyMode = isBoolean(options.legacy) ? options.legacy : false
+  return legacyMode ? createVueI18n(options) : createComposer(options)
+}
 
 /**
  * Enable vue-i18n composable API

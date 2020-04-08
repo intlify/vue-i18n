@@ -1,6 +1,6 @@
 import { App, FunctionDirective } from 'vue'
 import { Composer } from './composer'
-import { GlobalI18nSymbol } from './use'
+import { GlobalI18nSymbol } from './i18n'
 import { Interpolate, Number } from './components'
 import { hook as vT } from './directive'
 
