@@ -22,9 +22,9 @@
     </div>
     <script>
       const { createApp } = Vue
-      const { createComposer, useI18n } = VueI18n
+      const { createI18n, useI18n } = VueI18n
 
-      const i18n = createComposer({
+      const i18n = createI18n({
         locale: 'ja',
         fallbackLocales: ['en'],
         messages: {
