@@ -39,6 +39,7 @@ export type MessageContext = {
   modifier: (name: string) => LinkedModify
   message: (name: string) => MessageFunction
   interpolate: (val: unknown) => string
+  process: (values: unknown[]) => unknown
 }
 
 const DEFAULT_MODIFIER = (str: string): string => str
@@ -132,6 +133,9 @@ export function createMessageContext<N = {}>(
       : msg
   }
 
+  const process = (values: unknown[]): unknown =>
+    values.length === 0 ? values[0] : values.join('')
+
   return {
     list,
     named,
@@ -140,6 +144,7 @@ export function createMessageContext<N = {}>(
     orgPluralRule,
     modifier,
     message,
-    interpolate: toDisplayString
+    interpolate: toDisplayString,
+    process
   }
 }

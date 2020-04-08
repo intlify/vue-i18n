@@ -92,22 +92,18 @@ function generateMessageNode(
   generator: CodeGenerator,
   node: MessageNode
 ): void {
-  if (node.items.length > 1) {
-    generator.push('[')
-    generator.indent()
-    const length = node.items.length
-    for (let i = 0; i < length; i++) {
-      generateNode(generator, node.items[i])
-      if (i === length - 1) {
-        break
-      }
-      generator.push(', ')
+  generator.push('ctx.process([')
+  generator.indent()
+  const length = node.items.length
+  for (let i = 0; i < length; i++) {
+    generateNode(generator, node.items[i])
+    if (i === length - 1) {
+      break
     }
-    generator.deindent()
-    generator.push('].join("")')
-  } else {
-    generateNode(generator, node.items[0])
+    generator.push(', ')
   }
+  generator.deindent()
+  generator.push('])')
 }
 
 function generatePluralNode(generator: CodeGenerator, node: PluralNode): void {

@@ -8,8 +8,3 @@ test('createCompiler', () => {
   expect(code).toMatchSnapshot('code')
   expect(ast).toMatchSnapshot('ast')
 })
-
-test('compile', () => {
-  const msg = compile('hello world')
-  expect(msg()).toMatchSnapshot()
-})

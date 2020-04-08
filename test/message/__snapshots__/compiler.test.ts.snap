@@ -1,7 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`compile 1`] = `"hello world"`;
-
 exports[`createCompiler: ast 1`] = `
 Object {
   "body": Object {
@@ -227,11 +225,13 @@ Object {
 exports[`createCompiler: code 1`] = `
 "function __msg__ (ctx) {
   return [
-    ctx.modifier(\\"caml\\")(ctx.message(\\"no apples\\")(ctx)), [
+    ctx.process([
+      ctx.modifier(\\"caml\\")(ctx.message(\\"no apples\\")(ctx))
+    ]), ctx.process([
       ctx.interpolate(ctx.list(0)), \\" apple\\"
-    ].join(\\"\\"), [
+    ]), ctx.process([
       ctx.interpolate(ctx.named(\\"n\\")), \\"　apples\\"
-    ].join(\\"\\")
+    ])
   ][ctx.pluralRule(ctx.pluralIndex, 3, ctx.orgPluralRule)]
 }"
 `;
