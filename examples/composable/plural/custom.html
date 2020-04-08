@@ -23,7 +23,7 @@
     </div>
     <script>
       const { createApp } = Vue
-      const { createI18nComposer, useI18n } = VueI18n
+      const { createComposer, useI18n } = VueI18n
 
       function customRule(choice, choicesLength, orgRule) {
         if (choice === 0) {
@@ -42,7 +42,7 @@
         return choicesLength < 4 ? 2 : 3
       }
 
-      const i18n = createI18nComposer({
+      const i18n = createComposer({
         locale: 'ru',
         pluralRules: {
           ru: customRule

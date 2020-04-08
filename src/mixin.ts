@@ -1,7 +1,7 @@
 import { ComponentPublicInstance, ComponentOptions } from 'vue'
 import { Path } from './path'
 import { Locale } from './runtime/context'
-import { I18nComposer } from './composer'
+import { Composer } from './composer'
 import {
   VueI18n,
   createI18n,
@@ -44,7 +44,7 @@ type LegacyMixin = {
 // supports compatibility for vue-i18n legacy mixin
 export function getMixin(
   legacy: VueI18n,
-  composer: I18nComposer
+  composer: Composer
 ): ComponentOptions {
   return {
     beforeCreate(this: ComponentPublicInstance<LegacyMixin>) {

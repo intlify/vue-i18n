@@ -5,22 +5,22 @@ jest.mock('../src/utils', () => ({
 }))
 import { warn } from '../src/utils'
 
-import { createI18nComposer, MissingHandler } from '../src/composer'
+import { createComposer, MissingHandler } from '../src/composer'
 import { watch } from 'vue'
 
 describe('locale', () => {
   test('default value', () => {
-    const { locale } = createI18nComposer({})
+    const { locale } = createComposer({})
     expect(locale.value).toEqual('en-US')
   })
 
   test('initialize at composer creating', () => {
-    const { locale } = createI18nComposer({ locale: 'ja' })
+    const { locale } = createComposer({ locale: 'ja' })
     expect(locale.value).toEqual('ja')
   })
 
   test('reactivity', done => {
-    const { locale } = createI18nComposer({})
+    const { locale } = createComposer({})
     watch(locale, () => {
       expect(locale.value).toEqual('en')
       done()
@@ -31,24 +31,24 @@ describe('locale', () => {
 
 describe('fallbackLocales', () => {
   test('default value', () => {
-    const { fallbackLocales } = createI18nComposer({})
+    const { fallbackLocales } = createComposer({})
     expect(fallbackLocales.value).toEqual([])
   })
 
   test('initialize at composer creating', () => {
-    const { fallbackLocales } = createI18nComposer({ fallbackLocales: ['ja'] })
+    const { fallbackLocales } = createComposer({ fallbackLocales: ['ja'] })
     expect(fallbackLocales.value).toEqual(['ja'])
   })
 })
 
 describe('availableLocales', () => {
   test('not initialize messages at composer creating', () => {
-    const { availableLocales } = createI18nComposer({})
+    const { availableLocales } = createComposer({})
     expect(availableLocales).toEqual(['en-US'])
   })
 
   test('initialize messages at composer creating', () => {
-    const { availableLocales } = createI18nComposer({
+    const { availableLocales } = createComposer({
       messages: {
         en: {},
         ja: {},
@@ -62,14 +62,14 @@ describe('availableLocales', () => {
 
 describe('messages', () => {
   test('default value', () => {
-    const { messages } = createI18nComposer({})
+    const { messages } = createComposer({})
     expect(messages.value).toEqual({
       'en-US': {}
     })
   })
 
   test('initialize at composer creating', () => {
-    const { messages } = createI18nComposer({
+    const { messages } = createComposer({
       messages: {
         en: { hello: 'Hello,world!' },
         ja: {
@@ -98,14 +98,14 @@ describe('messages', () => {
 
 describe('datetimeFormats', () => {
   test('default value', () => {
-    const { datetimeFormats } = createI18nComposer({})
+    const { datetimeFormats } = createComposer({})
     expect(datetimeFormats.value).toEqual({
       'en-US': {}
     })
   })
 
   test('initialize at composer creating', () => {
-    const { datetimeFormats } = createI18nComposer({
+    const { datetimeFormats } = createComposer({
       datetimeFormats: {
         'en-US': {
           short: {
@@ -152,14 +152,14 @@ describe('datetimeFormats', () => {
 
 describe('numberFormats', () => {
   test('default value', () => {
-    const { numberFormats } = createI18nComposer({})
+    const { numberFormats } = createComposer({})
     expect(numberFormats.value).toEqual({
       'en-US': {}
     })
   })
 
   test('initialize at composer creating', () => {
-    const { numberFormats } = createI18nComposer({
+    const { numberFormats } = createComposer({
       numberFormats: {
         'en-US': {
           currency: {
@@ -198,7 +198,7 @@ describe('numberFormats', () => {
 
 describe('modifiers', () => {
   test('default', () => {
-    const { modifiers } = createI18nComposer({})
+    const { modifiers } = createComposer({})
     expect(modifiers).toEqual({})
   })
 
@@ -206,7 +206,7 @@ describe('modifiers', () => {
     const _modifiers = {
       kebab: (str: string) => str.replace(/\s+/g, '-').toLowerCase()
     }
-    const { modifiers, t } = createI18nComposer({
+    const { modifiers, t } = createComposer({
       locale: 'en',
       messages: {
         en: {
@@ -223,7 +223,7 @@ describe('modifiers', () => {
 
 describe('pluralRules', () => {
   test('default', () => {
-    const { pluralRules } = createI18nComposer({})
+    const { pluralRules } = createComposer({})
     expect(pluralRules).toBeUndefined()
   })
 
@@ -233,7 +233,7 @@ describe('pluralRules', () => {
         return 0
       }
     }
-    const { pluralRules } = createI18nComposer({
+    const { pluralRules } = createComposer({
       pluralRules: _pluralRules
     })
     expect(pluralRules).toEqual(_pluralRules)
@@ -242,46 +242,46 @@ describe('pluralRules', () => {
 
 describe('missingWarn', () => {
   test('default', () => {
-    const { missingWarn } = createI18nComposer({})
+    const { missingWarn } = createComposer({})
     expect(missingWarn).toEqual(true)
   })
 
   test('initialize at composer creating: boolean', () => {
-    const { missingWarn } = createI18nComposer({ missingWarn: false })
+    const { missingWarn } = createComposer({ missingWarn: false })
     expect(missingWarn).toEqual(false)
   })
 
   test('initialize at composer creating: regexp', () => {
-    const { missingWarn } = createI18nComposer({ missingWarn: /^(hi|hello)/ })
+    const { missingWarn } = createComposer({ missingWarn: /^(hi|hello)/ })
     expect(missingWarn).toEqual(/^(hi|hello)/)
   })
 })
 
 describe('fallbackWarn', () => {
   test('default', () => {
-    const { fallbackWarn } = createI18nComposer({})
+    const { fallbackWarn } = createComposer({})
     expect(fallbackWarn).toEqual(true)
   })
 
   test('initialize at composer creating: boolean', () => {
-    const { fallbackWarn } = createI18nComposer({ fallbackWarn: false })
+    const { fallbackWarn } = createComposer({ fallbackWarn: false })
     expect(fallbackWarn).toEqual(false)
   })
 
   test('initialize at composer creating: regexp', () => {
-    const { fallbackWarn } = createI18nComposer({ fallbackWarn: /^(hi|hello)/ })
+    const { fallbackWarn } = createComposer({ fallbackWarn: /^(hi|hello)/ })
     expect(fallbackWarn).toEqual(/^(hi|hello)/)
   })
 })
 
 describe('fallbackFormat', () => {
   test('default', () => {
-    const { fallbackFormat } = createI18nComposer({})
+    const { fallbackFormat } = createComposer({})
     expect(fallbackFormat).toEqual(false)
   })
 
   test('initialize at composer creating', () => {
-    const { fallbackFormat } = createI18nComposer({ fallbackFormat: true })
+    const { fallbackFormat } = createComposer({ fallbackFormat: true })
     expect(fallbackFormat).toEqual(true)
   })
 
@@ -289,7 +289,7 @@ describe('fallbackFormat', () => {
     const mockWarn = warn as jest.MockedFunction<typeof warn>
     mockWarn.mockImplementation(() => {}) // eslint-disable-line @typescript-eslint/no-empty-function
 
-    const { t } = createI18nComposer({
+    const { t } = createComposer({
       locale: 'en',
       fallbackLocales: ['ja', 'fr'],
       fallbackFormat: true,
@@ -311,7 +311,7 @@ describe('postTranslation', () => {
       getPostTranslationHandler,
       setPostTranslationHandler,
       t
-    } = createI18nComposer({
+    } = createComposer({
       locale: 'en',
       messages: {
         en: { hello: ' hello world! ' }
@@ -327,7 +327,7 @@ describe('postTranslation', () => {
 
   test('initialize at composer creating', () => {
     const handler = (str: string) => str.trim()
-    const { getPostTranslationHandler, t } = createI18nComposer({
+    const { getPostTranslationHandler, t } = createComposer({
       locale: 'en',
       messages: {
         en: { hello: ' hello world! ' }
@@ -341,7 +341,7 @@ describe('postTranslation', () => {
 
 describe('getMissingHandler / setMissingHandler', () => {
   test('default', () => {
-    const { getMissingHandler, setMissingHandler } = createI18nComposer({})
+    const { getMissingHandler, setMissingHandler } = createComposer({})
     expect(getMissingHandler()).toEqual(null)
 
     const missing = () => {} // eslint-disable-line @typescript-eslint/no-empty-function
@@ -351,14 +351,14 @@ describe('getMissingHandler / setMissingHandler', () => {
 
   test('initialize at composer creating', () => {
     const missing = () => {} // eslint-disable-line @typescript-eslint/no-empty-function
-    const { getMissingHandler } = createI18nComposer({ missing })
+    const { getMissingHandler } = createComposer({ missing })
     expect(getMissingHandler()).toEqual(missing)
   })
 })
 
 describe('t', () => {
   test('basic', () => {
-    const { t } = createI18nComposer({
+    const { t } = createComposer({
       locale: 'en',
       messages: {
         en: { hi: 'hi kazupon !' }
@@ -368,7 +368,7 @@ describe('t', () => {
   })
 
   test('list', () => {
-    const { t } = createI18nComposer({
+    const { t } = createComposer({
       locale: 'en',
       messages: {
         en: { hi: 'hi {0} !' }
@@ -378,7 +378,7 @@ describe('t', () => {
   })
 
   test('named', () => {
-    const { t } = createI18nComposer({
+    const { t } = createComposer({
       locale: 'en',
       messages: {
         en: { hi: 'hi {name} !' }
@@ -388,7 +388,7 @@ describe('t', () => {
   })
 
   test('linked', () => {
-    const { t } = createI18nComposer({
+    const { t } = createComposer({
       locale: 'en',
       messages: {
         en: {
@@ -401,7 +401,7 @@ describe('t', () => {
   })
 
   test('plural', () => {
-    const { t } = createI18nComposer({
+    const { t } = createComposer({
       locale: 'en',
       messages: {
         en: { apple: 'no apples | one apple | {count} apples' }
@@ -415,7 +415,7 @@ describe('t', () => {
 })
 
 test('d', () => {
-  const { d } = createI18nComposer({
+  const { d } = createComposer({
     locale: 'en-US',
     fallbackLocales: ['ja-JP'],
     datetimeFormats: {
@@ -457,7 +457,7 @@ test('d', () => {
 })
 
 test('n', () => {
-  const { n } = createI18nComposer({
+  const { n } = createComposer({
     locale: 'en-US',
     fallbackLocales: ['ja-JP'],
     numberFormats: {
@@ -497,7 +497,7 @@ describe('getLocaleMessage / setLocaleMessage / mergeLocaleMessage', () => {
       getLocaleMessage,
       setLocaleMessage,
       mergeLocaleMessage
-    } = createI18nComposer({
+    } = createComposer({
       messages: {
         en: { hello: 'Hello!' }
       }
@@ -521,7 +521,7 @@ describe('getDateTimeFormat / setDateTimeFormat / mergeDateTimeFormat', () => {
       getDateTimeFormat,
       setDateTimeFormat,
       mergeDateTimeFormat
-    } = createI18nComposer({
+    } = createComposer({
       datetimeFormats: {
         'en-US': {
           short: {
@@ -600,7 +600,7 @@ describe('getNumberFormat / setNumberFormat / mergeNumberFormat', () => {
       getNumberFormat,
       setNumberFormat,
       mergeNumberFormat
-    } = createI18nComposer({
+    } = createComposer({
       numberFormats: {
         'en-US': {
           currency: {
@@ -655,7 +655,7 @@ describe('getNumberFormat / setNumberFormat / mergeNumberFormat', () => {
 
 describe('__i18n', () => {
   test('default value', () => {
-    const { messages } = createI18nComposer({
+    const { messages } = createComposer({
       __i18n: [
         JSON.stringify({ en: { hello: 'Hello,world!' } }),
         JSON.stringify({

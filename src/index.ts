@@ -10,9 +10,9 @@ export {
 export * from './runtime/types'
 export {
   MissingHandler,
-  I18nComposerOptions,
-  I18nComposer,
-  createI18nComposer
+  ComposerOptions,
+  Composer,
+  createComposer
 } from './composer'
 export { useI18n } from './use'
 export {

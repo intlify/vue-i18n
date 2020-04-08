@@ -21,7 +21,7 @@
     </div>
     <script>
       const { createApp } = Vue
-      const { createI18nComposer, useI18n } = VueI18n
+      const { createComposer, useI18n } = VueI18n
 
       const Child = {
         template: `
@@ -35,7 +35,7 @@
         }
       }
 
-      const i18n = createI18nComposer({
+      const i18n = createComposer({
         locale: 'ja',
         messages: {
           en: {

@@ -31,9 +31,9 @@ import {
 import {
   MissingHandler,
   CustomBlocks,
-  I18nComposer,
-  I18nComposerOptions,
-  createI18nComposer
+  Composer,
+  ComposerOptions,
+  createComposer
 } from './composer'
 import {
   isString,
@@ -84,7 +84,7 @@ export type VueI18nOptions = {
   pluralizationRules?: PluralizationRules
   postTranslation?: PostTranslationHandler
   __i18n?: CustomBlocks // for custom blocks, and internal
-  _root?: I18nComposer // for internal
+  _root?: Composer // for internal
 }
 
 /**
@@ -159,9 +159,7 @@ export type VueI18n = {
 /**
  *  Convert to I18n Composer Options from VueI18n Options
  */
-function convertI18nComposerOptions(
-  options: VueI18nOptions
-): I18nComposerOptions {
+function convertComposerOptions(options: VueI18nOptions): ComposerOptions {
   const locale = isString(options.locale) ? options.locale : 'en-US'
   const fallbackLocales = isString(options.fallbackLocale)
     ? [options.fallbackLocale]
@@ -231,7 +229,7 @@ function convertI18nComposerOptions(
  *  This function is compatible with constructor of `VueI18n` class (offered with vue-i18n@8.x) like `new VueI18n(...)`.
  */
 export function createI18n(options: VueI18nOptions = {}): VueI18n {
-  const composer = createI18nComposer(convertI18nComposerOptions(options))
+  const composer = createComposer(convertComposerOptions(options))
 
   // defines VueI18n
   const i18n = {

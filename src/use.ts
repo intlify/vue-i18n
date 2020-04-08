@@ -6,18 +6,12 @@ import {
   ComponentInternalInstance,
   ComponentOptions
 } from 'vue'
-import {
-  I18nComposer,
-  I18nComposerOptions,
-  createI18nComposer
-} from './composer'
+import { Composer, ComposerOptions, createComposer } from './composer'
 
-export const GlobalI18nSymbol: InjectionKey<I18nComposer> = Symbol.for(
-  'vue-i18n'
-)
+export const GlobalI18nSymbol: InjectionKey<Composer> = Symbol.for('vue-i18n')
 const providers: Map<
   ComponentInternalInstance,
-  InjectionKey<I18nComposer>
+  InjectionKey<Composer>
 > = new Map()
 
 const generateSymbolID = (): string =>
@@ -60,7 +54,7 @@ const generateSymbolID = (): string =>
  * </script>
  * ```
  */
-export function useI18n(options?: I18nComposerOptions): I18nComposer {
+export function useI18n(options?: ComposerOptions): Composer {
   const globalComposer = inject(GlobalI18nSymbol)
   if (!globalComposer) throw new Error('TODO') // TODO:
 
@@ -78,8 +72,8 @@ export function useI18n(options?: I18nComposerOptions): I18nComposer {
     if (globalComposer) {
       options._root = globalComposer
     }
-    const composer = createI18nComposer(options)
-    const sym: InjectionKey<I18nComposer> = Symbol.for(generateSymbolID())
+    const composer = createComposer(options)
+    const sym: InjectionKey<Composer> = Symbol.for(generateSymbolID())
     providers.set(instance, sym)
     provide(sym, composer)
     return composer
