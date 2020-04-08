@@ -39,6 +39,9 @@ export const toDisplayString = (val: unknown): string => {
     : String(val)
 }
 
+export const generateSymbolID = (): string =>
+  `vue-i18n-${new Date().getUTCMilliseconds().toString()}`
+
 export function warn(msg: string, err?: Error): void {
   if (typeof console !== 'undefined') {
     console.warn('[vue-i18n] ' + msg)

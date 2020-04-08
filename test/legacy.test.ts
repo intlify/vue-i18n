@@ -5,24 +5,24 @@ jest.mock('../src/utils', () => ({
 }))
 import { warn } from '../src/utils'
 
-import { createI18n } from '../src/legacy'
+import { createVueI18n } from '../src/legacy'
 
 test('locale', () => {
-  const i18n = createI18n()
+  const i18n = createVueI18n()
   expect(i18n.locale).toEqual('en-US')
   i18n.locale = 'ja'
   expect(i18n.locale).toEqual('ja')
 })
 
 test('fallbackLocale', () => {
-  const i18n = createI18n()
+  const i18n = createVueI18n()
   expect(i18n.fallbackLocale).toEqual('en-US')
   i18n.fallbackLocale = 'ja'
   expect(i18n.fallbackLocale).toEqual('ja')
 })
 
 test('availableLocales', () => {
-  const i18n = createI18n({
+  const i18n = createVueI18n({
     messages: {
       en: {},
       ja: {},
@@ -37,7 +37,7 @@ test('formatter', () => {
   const mockWarn = warn as jest.MockedFunction<typeof warn>
   mockWarn.mockImplementation(() => {}) // eslint-disable-line @typescript-eslint/no-empty-function
 
-  const i18n = createI18n({
+  const i18n = createVueI18n({
     formatter: {
       interpolate() {
         return []
@@ -58,7 +58,7 @@ test('formatter', () => {
 })
 
 test('missing', () => {
-  const i18n = createI18n()
+  const i18n = createVueI18n()
   expect(i18n.missing).toEqual(null)
   const handler = () => {
     return ''
@@ -69,7 +69,7 @@ test('missing', () => {
 
 test('silentTranslationWarn', () => {
   // default
-  const i18n = createI18n()
+  const i18n = createVueI18n()
   expect(i18n.silentTranslationWarn).toEqual(false)
   i18n.silentTranslationWarn = true
   expect(i18n.silentTranslationWarn).toEqual(true)
@@ -77,13 +77,13 @@ test('silentTranslationWarn', () => {
   expect(i18n.silentTranslationWarn).toEqual(/^hi.*$/)
 
   // with option
-  const i18nWithOption = createI18n({ silentTranslationWarn: true })
+  const i18nWithOption = createVueI18n({ silentTranslationWarn: true })
   expect(i18nWithOption.silentTranslationWarn).toEqual(true)
 })
 
 test('silentFallbackWarn', () => {
   // default
-  const i18n = createI18n()
+  const i18n = createVueI18n()
   expect(i18n.silentFallbackWarn).toEqual(false)
   i18n.silentFallbackWarn = true
   expect(i18n.silentFallbackWarn).toEqual(true)
@@ -91,24 +91,24 @@ test('silentFallbackWarn', () => {
   expect(i18n.silentFallbackWarn).toEqual(/^hi.*$/)
 
   // with option
-  const i18nWithOption = createI18n({ silentFallbackWarn: true })
+  const i18nWithOption = createVueI18n({ silentFallbackWarn: true })
   expect(i18nWithOption.silentFallbackWarn).toEqual(true)
 })
 
 test('formatFallbackMessages', () => {
   // default
-  const i18n = createI18n()
+  const i18n = createVueI18n()
   expect(i18n.formatFallbackMessages).toEqual(false)
   i18n.formatFallbackMessages = true
   expect(i18n.formatFallbackMessages).toEqual(true)
 
   // withOption
-  const i18nWithOption = createI18n({ formatFallbackMessages: true })
+  const i18nWithOption = createVueI18n({ formatFallbackMessages: true })
   expect(i18nWithOption.formatFallbackMessages).toEqual(true)
 })
 
 test('postTranslation', () => {
-  const i18n = createI18n()
+  const i18n = createVueI18n()
   expect(i18n.postTranslation).toEqual(null)
   const postTranslation = (str: string) => str.trim()
   i18n.postTranslation = postTranslation
@@ -116,28 +116,28 @@ test('postTranslation', () => {
 })
 
 test('messages', () => {
-  const i18n = createI18n()
+  const i18n = createVueI18n()
   expect(i18n.messages).toEqual({
     'en-US': {}
   })
 })
 
 test('datetimeFormats', () => {
-  const i18n = createI18n()
+  const i18n = createVueI18n()
   expect(i18n.datetimeFormats).toEqual({
     'en-US': {}
   })
 })
 
 test('numberFormats', () => {
-  const i18n = createI18n()
+  const i18n = createVueI18n()
   expect(i18n.numberFormats).toEqual({
     'en-US': {}
   })
 })
 
 test('t', () => {
-  const i18n = createI18n({
+  const i18n = createVueI18n({
     locale: 'en',
     messages: {
       en: {
@@ -157,7 +157,7 @@ test('t', () => {
 })
 
 test('tc', () => {
-  const i18n = createI18n({
+  const i18n = createVueI18n({
     locale: 'en',
     messages: {
       en: {
@@ -170,7 +170,7 @@ test('tc', () => {
 })
 
 test('te', () => {
-  const i18n = createI18n({
+  const i18n = createVueI18n({
     locale: 'en',
     messages: {
       en: {
@@ -187,7 +187,7 @@ test('te', () => {
 })
 
 test('getLocaleMessage / setLocaleMessage / mergeLocaleMessage', () => {
-  const i18n = createI18n({
+  const i18n = createVueI18n({
     messages: {
       en: { hello: 'Hello!' }
     }
@@ -205,7 +205,7 @@ test('getLocaleMessage / setLocaleMessage / mergeLocaleMessage', () => {
 })
 
 test('d', () => {
-  const i18n = createI18n({
+  const i18n = createVueI18n({
     locale: 'en-US',
     fallbackLocale: 'ja-JP',
     datetimeFormats: {
@@ -245,7 +245,7 @@ test('d', () => {
 })
 
 test('n', () => {
-  const i18n = createI18n({
+  const i18n = createVueI18n({
     locale: 'en-US',
     fallbackLocale: 'ja-JP',
     numberFormats: {
@@ -280,7 +280,7 @@ test('n', () => {
 })
 
 test('getDateTimeFormat / setDateTimeFormat / mergeDateTimeFormat', () => {
-  const i18n = createI18n({
+  const i18n = createVueI18n({
     datetimeFormats: {
       'en-US': {
         short: {
@@ -353,7 +353,7 @@ test('getDateTimeFormat / setDateTimeFormat / mergeDateTimeFormat', () => {
 })
 
 test('getNumberFormat / setNumberFormat / mergeNumberFormat', () => {
-  const i18n = createI18n({
+  const i18n = createVueI18n({
     numberFormats: {
       'en-US': {
         currency: {
@@ -409,7 +409,7 @@ test('getChoiceIndex', () => {
   const mockWarn = warn as jest.MockedFunction<typeof warn>
   mockWarn.mockImplementation(() => {}) // eslint-disable-line @typescript-eslint/no-empty-function
 
-  const i18n = createI18n({})
+  const i18n = createVueI18n({})
   i18n.getChoiceIndex(1, 2)
   expect(mockWarn.mock.calls[0][0]).toEqual(
     `not supportted 'getChoiceIndex' method.`

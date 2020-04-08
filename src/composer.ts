@@ -1,7 +1,7 @@
 /**
- *  I18n Composer
+ *  Composer
  *
- *  I18n Composer is offered composable API for Vue 3
+ *  Composer is offered composable API for Vue 3
  *  This module is offered new style vue-i18n API
  */
 
@@ -74,9 +74,9 @@ export type MissingHandler = (
 export type CustomBlocks = string[]
 
 /**
- *  I18n Composer Options
+ *  Composer Options
  */
-export type I18nComposerOptions = {
+export type ComposerOptions = {
   locale?: Locale
   fallbackLocales?: Locale[]
   messages?: LocaleMessages
@@ -91,13 +91,13 @@ export type I18nComposerOptions = {
   fallbackFormat?: boolean
   postTranslation?: PostTranslationHandler
   __i18n?: CustomBlocks // for custom blocks, and internal
-  _root?: I18nComposer // for internal
+  _root?: Composer // for internal
 }
 
 /**
- *  I18n Composer Interfaces
+ *  Composer Interfaces
  */
-export type I18nComposer = {
+export type Composer = {
   /**
    * properties
    */
@@ -166,7 +166,7 @@ function defineRuntimeMissingHandler(
 }
 
 function getLocaleMessages(
-  options: I18nComposerOptions,
+  options: ComposerOptions,
   locale: Locale
 ): LocaleMessages {
   const { messages, __i18n } = options
@@ -186,18 +186,18 @@ function getLocaleMessages(
 }
 
 /**
- * I18n Composer factory
+ * Composer
  *
  * @example
  * case: Global resource base localization
  * ```js
  * import { createApp } from 'vue'
- * import { createI18nComposer, useI18n } 'vue-i18n'
+ * import { createComposer, useI18n } 'vue-i18n'
  *
- * const i18n = createI18nComposer({
+ * const i18n = createComposer({
  *   locale: 'ja',
  *   messages: {
- *     en: { ... }
+ *     en: { ... },
  *     ja: { ... }
  *   }
  * })
@@ -212,9 +212,7 @@ function getLocaleMessages(
  * app.mount('#app')
  * ```
  */
-export function createI18nComposer(
-  options: I18nComposerOptions = {}
-): I18nComposer {
+export function createComposer(options: ComposerOptions = {}): Composer {
   const { _root } = options
 
   // reactivity states

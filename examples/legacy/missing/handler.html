@@ -15,6 +15,7 @@
       const { createI18n } = VueI18n
 
       const i18n = createI18n({
+        legacy: true,
         locale: 'ja',
         fallbackLocale: 'en',
         missing: (locale, key, instance) => {
