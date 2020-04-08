@@ -74,10 +74,15 @@ export type RuntimeContext = {
 }
 
 const DEFAULT_LINKDED_MODIFIERS: LinkedModifiers = {
-  upper: (str: string): string => str.toUpperCase(),
-  lower: (str: string): string => str.toLowerCase(),
-  capitalize: (str: string): string =>
-    `${str.charAt(0).toLocaleUpperCase()}${str.substr(1)}`
+  upper: (val: unknown, type: string): unknown =>
+    type === 'text' ? (val as string).toUpperCase() : val,
+  lower: (val: unknown, type: string): unknown =>
+    type === 'text' ? (val as string).toLowerCase() : val,
+  // prettier-ignore
+  capitalize: (val: unknown, type: string): unknown =>
+    type === 'text'
+      ? `${(val as string).charAt(0).toLocaleUpperCase()}${(val as string).substr(1)}`
+      : val
 }
 
 export const NOT_REOSLVED = -1

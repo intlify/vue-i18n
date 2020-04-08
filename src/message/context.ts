@@ -14,7 +14,7 @@ export type PluralizationRule = (
 ) => number
 
 export type PluralizationRules = { [locale: string]: PluralizationRule }
-export type LinkedModify = (value: unknown) => unknown
+export type LinkedModify = (value: unknown, type: string) => unknown
 export type LinkedModifiers = { [key: string]: LinkedModify }
 export type MessageFunction = (ctx: MessageContext) => unknown
 export type MessageFucntions = { [key: string]: MessageFunction }
