@@ -231,7 +231,7 @@ exports[`createCompiler: code 1`] = `
       ctx.interpolate(ctx.list(0)), \\" apple\\"
     ].join(\\"\\"), [
       ctx.interpolate(ctx.named(\\"n\\")), \\"　apples\\"
-    ].join(\\"\\"), \\"\\"
+    ].join(\\"\\")
   ][ctx.pluralRule(ctx.pluralIndex, 3, ctx.orgPluralRule)]
 }"
 `;

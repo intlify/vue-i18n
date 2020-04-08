@@ -95,9 +95,10 @@ function generateMessageNode(
   if (node.items.length > 1) {
     generator.push('[')
     generator.indent()
-    for (let i = 0; i < node.items.length; i++) {
+    const length = node.items.length
+    for (let i = 0; i < length; i++) {
       generateNode(generator, node.items[i])
-      if (i === node.items.length - 1) {
+      if (i === length - 1) {
         break
       }
       generator.push(', ')
@@ -113,14 +114,17 @@ function generatePluralNode(generator: CodeGenerator, node: PluralNode): void {
   if (node.cases.length > 1) {
     generator.push('[')
     generator.indent()
-    for (let i = 0; i < node.cases.length; i++) {
+    const length = node.cases.length
+    for (let i = 0; i < length; i++) {
       generateNode(generator, node.cases[i])
+      if (i === length - 1) {
+        break
+      }
       generator.push(', ')
     }
-    generator.push('""')
     generator.deindent()
     generator.push(
-      `][ctx.pluralRule(ctx.pluralIndex, ${node.cases.length}, ctx.orgPluralRule)]`
+      `][ctx.pluralRule(ctx.pluralIndex, ${length}, ctx.orgPluralRule)]`
     )
   }
 }
