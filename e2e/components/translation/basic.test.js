@@ -9,6 +9,7 @@
     test('rendering', async () => {
       await expect(page).toMatch('こんにちは、kazupon！')
       await expect(page).toMatch('hello, English!')
+      await expect(page).toMatch('こんにちは、かずぽん！ ごきげんいかが？')
     })
   })
 })

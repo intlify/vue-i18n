@@ -19,6 +19,12 @@
       <i18n-t keypath="message.list" locale="en">
         <span class="lang">{{ t('message.language', {}, { locale: 'en' }) }}</span>
       </i18n-t>
+      <h2>localize with using linked:</h2>
+      <i18n-t keypath="message.linked">
+        <template #name>
+          <span>かずぽん</span>
+        </template>
+      </i18n-t>
     </div>
     <script>
       const { createApp } = Vue
@@ -31,14 +37,16 @@
             message: {
               language: 'English',
               list: 'hello, {0}!',
-              named: 'hello, {name}!'
+              named: 'hello, {name}!',
+              linked: '@:message.named How are you?'
             }
           },
           ja: {
             message: {
               language: '日本語',
               list: 'こんにちは、{0}！',
-              named: 'こんにちは、{name}！'
+              named: 'こんにちは、{name}！',
+              linked: '@:message.named ごきげんいかが？'
             }
           }
         }
