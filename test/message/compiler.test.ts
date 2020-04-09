@@ -1,4 +1,4 @@
-import { createCompiler, compile } from '../../src/message/compiler'
+import { createCompiler } from '../../src/message/compiler'
 
 test('createCompiler', () => {
   const compiler = createCompiler()

@@ -84,7 +84,7 @@ function generateLinkedNode(generator: CodeGenerator, node: LinkedNode): void {
   generateNode(generator, node.key)
   generator.push(')(ctx)')
   if (node.modifier) {
-    generator.push(')')
+    generator.push(', ctx.type)')
   }
 }
 
@@ -92,7 +92,7 @@ function generateMessageNode(
   generator: CodeGenerator,
   node: MessageNode
 ): void {
-  generator.push('ctx.process([')
+  generator.push('ctx.normalize([')
   generator.indent()
   const length = node.items.length
   for (let i = 0; i < length; i++) {

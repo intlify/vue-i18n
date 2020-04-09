@@ -71,85 +71,82 @@ export type TranslateOptions = {
 }
 
 // `translate` function overloads
-export function translate(context: RuntimeContext, key: Path): string | number
+export function translate(context: RuntimeContext, key: Path): unknown
 export function translate(
   context: RuntimeContext,
   key: Path,
   plural: number
-): string | number
+): unknown
 export function translate(
   context: RuntimeContext,
   key: Path,
   plural: number,
   options: TranslateOptions
-): string | number
+): unknown
 export function translate(
   context: RuntimeContext,
   key: Path,
   defaultMsg: string
-): string | number
+): unknown
 export function translate(
   context: RuntimeContext,
   key: Path,
   defaultMsg: string,
   options: TranslateOptions
-): string | number
+): unknown
 export function translate(
   context: RuntimeContext,
   key: Path,
   list: unknown[]
-): string | number
+): unknown
 export function translate(
   context: RuntimeContext,
   key: Path,
   list: unknown[],
   plural: number
-): string | number
+): unknown
 export function translate(
   context: RuntimeContext,
   key: Path,
   list: unknown[],
   defaultMsg: string
-): string | number
+): unknown
 export function translate(
   context: RuntimeContext,
   key: Path,
   list: unknown[],
   options: TranslateOptions
-): string | number
+): unknown
 export function translate(
   context: RuntimeContext,
   key: Path,
   named: NamedValue
-): string | number
+): unknown
 export function translate(
   context: RuntimeContext,
   key: Path,
   named: NamedValue,
   plural: number
-): string | number
+): unknown
 export function translate(
   context: RuntimeContext,
   key: Path,
   named: NamedValue,
   defaultMsg: string
-): string | number
+): unknown
 export function translate(
   context: RuntimeContext,
   key: Path,
   named: NamedValue,
   options: TranslateOptions
-): string | number
-export function translate(
-  context: RuntimeContext,
-  ...args: unknown[]
-): string | number // for internal
+): unknown
+export function translate(context: RuntimeContext, ...args: unknown[]): unknown // for internal
 
 // implementationo of `translate` function
 export function translate(
   context: RuntimeContext,
   ...args: unknown[]
-): string | number {
+): unknown {
   const {
     messages,
     modifiers,
@@ -215,6 +212,9 @@ export function translate(
     messages: resolveMessage
   }
 
+  if (context.processor) {
+    ctxOptions.processor = context.processor
+  }
   if (options.list) {
     ctxOptions.list = options.list
   }
@@ -228,14 +228,14 @@ export function translate(
   let format = resolveValue(message, key)
   if (!isString(format)) {
     // missing ...
-    let ret: string | number = handleMissing(context, key, locale, missingWarn)
+    let ret: unknown = handleMissing(context, key, locale, missingWarn)
     // falbacking ...
     ret = fallback(
       context,
       key,
       fallbackWarn,
       'translate',
-      (context: RuntimeContext): string | number => translate(context, ...args),
+      (context: RuntimeContext): unknown => translate(context, ...args),
       enableDefaultMsg,
       ret
     )
@@ -298,7 +298,7 @@ function handleMissing(
   key: Path,
   locale: Locale,
   missingWarn: boolean | RegExp
-): string {
+): unknown {
   const { missing } = context
   if (missing !== null) {
     const ret = missing(context, locale, key)

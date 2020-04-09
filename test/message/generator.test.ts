@@ -10,7 +10,7 @@ describe('text', () => {
     transform(ast)
     const code = generate(ast)
     expect(code).toMatchSnapshot(msg)
-    expect(code).toMatch(`return ctx.process([`)
+    expect(code).toMatch(`return ctx.normalize([`)
     expect(code).toMatch(`"hello world"`)
     expect(code).toMatch(`])`)
   })
@@ -22,7 +22,7 @@ describe('text', () => {
     transform(ast)
     const code = generate(ast)
     expect(code).toMatchSnapshot(msg)
-    expect(code).toMatch(`return ctx.process([`)
+    expect(code).toMatch(`return ctx.normalize([`)
     expect(code).toMatch(`"hello\\n world"`)
     expect(code).toMatch(`])`)
   })
@@ -36,7 +36,7 @@ describe('list', () => {
     transform(ast)
     const code = generate(ast)
     expect(code).toMatchSnapshot(msg)
-    expect(code).toMatch(`return ctx.process([`)
+    expect(code).toMatch(`return ctx.normalize([`)
     expect(code).toMatch(`"hi ", ctx.interpolate(ctx.list(0)), " !"`)
     expect(code).toMatch(`])`)
   })
@@ -48,7 +48,7 @@ describe('list', () => {
     transform(ast)
     const code = generate(ast)
     expect(code).toMatchSnapshot(msg)
-    expect(code).toMatch(`return ctx.process([`)
+    expect(code).toMatch(`return ctx.normalize([`)
     expect(code).toMatch(
       `ctx.interpolate(ctx.list(0)), " ", ctx.interpolate(ctx.list(1)), " !"`
     )
@@ -64,7 +64,7 @@ describe('named', () => {
     transform(ast)
     const code = generate(ast)
     expect(code).toMatchSnapshot(msg)
-    expect(code).toMatch(`return ctx.process([`)
+    expect(code).toMatch(`return ctx.normalize([`)
     expect(code).toMatch(`"hi ", ctx.interpolate(ctx.named("name")), " !"`)
     expect(code).toMatch(`])`)
   })
@@ -76,7 +76,7 @@ describe('named', () => {
     transform(ast)
     const code = generate(ast)
     expect(code).toMatchSnapshot(msg)
-    expect(code).toMatch(`return ctx.process([`)
+    expect(code).toMatch(`return ctx.normalize([`)
     expect(code).toMatch(
       `ctx.interpolate(ctx.named("greeting")), " ", ctx.interpolate(ctx.named("name")), " !"`
     )
@@ -92,7 +92,7 @@ describe('linked', () => {
     transform(ast)
     const code = generate(ast)
     expect(code).toMatchSnapshot(msg)
-    expect(code).toMatch(`return ctx.process([`)
+    expect(code).toMatch(`return ctx.normalize([`)
     expect(code).toMatch(`"hi ", ctx.message("name")(ctx), " !"`)
     expect(code).toMatch(`])`)
   })
@@ -104,7 +104,7 @@ describe('linked', () => {
     transform(ast)
     const code = generate(ast)
     expect(code).toMatchSnapshot(msg)
-    expect(code).toMatch(`return ctx.process([`)
+    expect(code).toMatch(`return ctx.normalize([`)
     expect(code).toMatch(
       `"hi ", ctx.message(ctx.interpolate(ctx.list(0)))(ctx), " !"`
     )
@@ -118,7 +118,7 @@ describe('linked', () => {
     transform(ast)
     const code = generate(ast)
     expect(code).toMatchSnapshot(msg)
-    expect(code).toMatch(`return ctx.process([`)
+    expect(code).toMatch(`return ctx.normalize([`)
     expect(code).toMatch(
       `"hi ", ctx.message(ctx.interpolate(ctx.named("name")))(ctx), " !"`
     )
@@ -132,9 +132,9 @@ describe('linked', () => {
     transform(ast)
     const code = generate(ast)
     expect(code).toMatchSnapshot(msg)
-    expect(code).toMatch(`return ctx.process([`)
+    expect(code).toMatch(`return ctx.normalize([`)
     expect(code).toMatch(
-      `"hi ", ctx.modifier("upper")(ctx.message("name")(ctx)), " !"`
+      `"hi ", ctx.modifier("upper")(ctx.message("name")(ctx), ctx.type), " !"`
     )
     expect(code).toMatch(`])`)
   })
@@ -149,11 +149,11 @@ describe('plural', () => {
     const code = generate(ast)
     expect(code).toMatchSnapshot(msg)
     expect(code).toMatch(`return [`)
-    expect(code).toMatch(`ctx.process([`)
+    expect(code).toMatch(`ctx.normalize([`)
     expect(code).toMatch(`"no apples"`)
-    expect(code).toMatch(` ]), ctx.process([`)
+    expect(code).toMatch(` ]), ctx.normalize([`)
     expect(code).toMatch(`"one apple"`)
-    expect(code).toMatch(` ]), ctx.process([`)
+    expect(code).toMatch(` ]), ctx.normalize([`)
     expect(code).toMatch(`"too much apples  "`)
     expect(code).toMatch(` ])`)
     expect(code).toMatch(
@@ -169,11 +169,13 @@ describe('plural', () => {
     const code = generate(ast)
     expect(code).toMatchSnapshot(msg)
     expect(code).toMatch(`return [`)
-    expect(code).toMatch(`ctx.process([`)
-    expect(code).toMatch(`ctx.modifier("caml")(ctx.message("no apples")(ctx))`)
-    expect(code).toMatch(` ]), ctx.process([`)
+    expect(code).toMatch(`ctx.normalize([`)
+    expect(code).toMatch(
+      `ctx.modifier("caml")(ctx.message("no apples")(ctx), ctx.type)`
+    )
+    expect(code).toMatch(` ]), ctx.normalize([`)
     expect(code).toMatch(`ctx.interpolate(ctx.list(0)), " apple"`)
-    expect(code).toMatch(` ]), ctx.process([`)
+    expect(code).toMatch(` ]), ctx.normalize([`)
     expect(code).toMatch(`ctx.interpolate(ctx.named("n")), "　apples"`) // eslint-disable-line
     expect(code).toMatch(` ])`)
     expect(code).toMatch(

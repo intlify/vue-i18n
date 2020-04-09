@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Translation component example</title>
+    <script src="../../../node_modules/vue/dist/vue.global.js"></script>
+    <script src="../../../dist/vue-i18n.global.js"></script>
+  </head>
+  <body>
+    <h1>Translation component example</h1>
+
+    <div id="app">
+      <h2>localize with slot contents:</h2>
+      <i18n-t tag="p" class="name" keypath="message.named">
+        <template #name>
+          <span>kazupon</span>
+        </template>
+      </i18n-t>
+
+      <h2>localize with DOM contents:</h2>
+      <i18n-t keypath="message.list" locale="en">
+        <span class="lang">{{ t('message.language', {}, { locale: 'en' }) }}</span>
+      </i18n-t>
+
+      <h2>localize with using linked:</h2>
+      <i18n-t keypath="message.linked">
+        <template #name>
+          <span>かずぽん</span>
+        </template>
+      </i18n-t>
+
+      <h2>localize with using plural:</h2>
+      <i18n-t keypath="message.plural" locale="en" :plural="count">
+        <template #n>
+          <b>{{ count }}</b>
+        </template>
+      </i18n-t>
+    </div>
+    <script>
+      const { createApp, ref } = Vue
+      const { createI18n, useI18n } = VueI18n
+
+      const i18n = createI18n({
+        locale: 'ja',
+        messages: {
+          en: {
+            message: {
+              language: 'English',
+              quantity: 'Quantity',
+              list: 'hello, {0}!',
+              named: 'hello, {name}!',
+              linked: '@:message.named How are you?',
+              plural: 'no bananas | {n} banana | {n} bananas'
+            }
+          },
+          ja: {
+            message: {
+              language: '日本語',
+              list: 'こんにちは、{0}！',
+              named: 'こんにちは、{name}！',
+              linked: '@:message.named ごきげんいかが？'
+            }
+          }
+        }
+      })
+
+      const app = createApp({
+        setup() {
+          const count = ref(2)
+          return { count, ...useI18n() }
+        }
+      })
+      app.use(i18n)
+      app.mount('#app')
+    </script>
+  </body>
+</html>

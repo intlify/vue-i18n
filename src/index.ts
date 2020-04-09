@@ -21,4 +21,5 @@ export {
   VueI18n
 } from './legacy'
 export { createI18n, useI18n } from './i18n'
+export { I18nPluginOptions } from './plugin'
 export const VERSION = __VERSION__
