@@ -202,8 +202,8 @@ yarn add vue-i18n@next
   - [x] version
   - [x] IntlAvailability availabilities
 - Components
-  - [ ] Interpolocation `<i18n>`
-  - [ ] NumberFormat `<i18n-n>`
+  - [x] Translation `<i18n-t>`
+  - [ ] Numberization `<i18n-n>`
 - Directive
   - [ ] `v-t`
 - Tool Chains
