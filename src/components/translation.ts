@@ -53,7 +53,7 @@ export const Translation = defineComponent({
     const arg = getInterpolateArg(context, keys)
 
     return () => {
-      const children = i18n._transrateVNode(
+      const children = i18n.__transrateVNode(
         props.keypath,
         arg,
         options

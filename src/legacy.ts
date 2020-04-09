@@ -84,7 +84,7 @@ export type VueI18nOptions = {
   pluralizationRules?: PluralizationRules
   postTranslation?: PostTranslationHandler
   __i18n?: CustomBlocks // for custom blocks, and internal
-  _root?: Composer // for internal
+  __root?: Composer // for internal
 }
 
 /**
@@ -200,7 +200,7 @@ function convertComposerOptions(options: VueI18nOptions): ComposerOptions {
       return messages
     }, messages || {})
   }
-  const { __i18n, _root } = options
+  const { __i18n, __root } = options
 
   const datetimeFormats = options.datetimeFormats
   const numberFormats = options.numberFormats
@@ -219,7 +219,7 @@ function convertComposerOptions(options: VueI18nOptions): ComposerOptions {
     pluralRules: pluralizationRules,
     postTranslation,
     __i18n,
-    _root
+    __root
   }
 }
 
@@ -232,7 +232,7 @@ export function createVueI18n(options: VueI18nOptions = {}): VueI18n {
   const composer = createComposer(convertComposerOptions(options))
 
   // defines VueI18n
-  const i18n = {
+  const vueI18n = {
     /**
      * properties
      */
@@ -472,9 +472,9 @@ export function createVueI18n(options: VueI18nOptions = {}): VueI18n {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     install(app: App, ...options: any[]): void {
       apply(app, composer, ...options)
-      app.mixin(getMixin(i18n, composer))
+      app.mixin(getMixin(vueI18n, composer))
     }
   }
 
-  return i18n
+  return vueI18n
 }

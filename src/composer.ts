@@ -93,7 +93,7 @@ export type ComposerOptions = {
   fallbackFormat?: boolean
   postTranslation?: PostTranslationHandler
   __i18n?: CustomBlocks // for custom blocks, and internal
-  _root?: Composer // for internal
+  __root?: Composer // for internal
 }
 
 /**
@@ -115,6 +115,7 @@ export type Composer = {
   fallbackWarn: boolean | RegExp
   fallbackRoot: boolean
   fallbackFormat: boolean
+  __id: number // for internal
 
   /**
    * methods
@@ -157,8 +158,10 @@ export type Composer = {
   getMissingHandler(): MissingHandler | null
   setMissingHandler(handler: MissingHandler | null): void
   install: Plugin
-  _transrateVNode(...args: unknown[]): unknown // for internal
+  __transrateVNode(...args: unknown[]): unknown // for internal
 }
+
+let composerID = 0
 
 function defineRuntimeMissingHandler(
   missing: MissingHandler
@@ -216,21 +219,21 @@ function getLocaleMessages(
  * ```
  */
 export function createComposer(options: ComposerOptions = {}): Composer {
-  const { _root } = options
+  const { __root } = options
 
   // reactivity states
   const _locale = ref<Locale>(
     // prettier-ignore
-    _root
-      ? _root.locale.value
+    __root
+      ? __root.locale.value
       : isString(options.locale)
         ? options.locale
         : 'en-US'
   )
   const _fallbackLocales = ref<Locale[]>(
     // prettier-ignore
-    _root
-      ? _root.fallbackLocales.value
+    __root
+      ? __root.fallbackLocales.value
       : isArray(options.fallbackLocales)
         ? options.fallbackLocales
         : []
@@ -251,14 +254,14 @@ export function createComposer(options: ComposerOptions = {}): Composer {
 
   // warning supress options
   // prettier-ignore
-  let _missingWarn = _root
-    ? _root.missingWarn
+  let _missingWarn = __root
+    ? __root.missingWarn
     : isBoolean(options.missingWarn) || isRegExp(options.missingWarn)
       ? options.missingWarn
       : true
   // prettier-ignore
-  let _fallbackWarn = _root
-    ? _root.fallbackWarn
+  let _fallbackWarn = __root
+    ? __root.fallbackWarn
     : isBoolean(options.fallbackWarn) || isRegExp(options.fallbackWarn)
       ? options.fallbackWarn
       : true
@@ -284,8 +287,8 @@ export function createComposer(options: ComposerOptions = {}): Composer {
 
   // custom linked modifiers
   // prettier-ignore
-  const _modifiers = _root
-    ? _root.modifiers
+  const _modifiers = __root
+    ? __root.modifiers
     : isPlainObject(options.modifiers)
       ? options.modifiers
       : {}
@@ -380,10 +383,10 @@ export function createComposer(options: ComposerOptions = {}): Composer {
       const ret = translate(_context, ...args)
       if (isNumber(ret) && ret === NOT_REOSLVED) {
         const [key] = parseTranslateArgs(...args)
-        if (__DEV__ && _fallbackRoot && _root) {
+        if (__DEV__ && _fallbackRoot && __root) {
           warn(`Fall back to translate '${key}' with root locale.`)
         }
-        return _fallbackRoot && _root ? _root.t(...args) : key
+        return _fallbackRoot && __root ? __root.t(...args) : key
       } else if (isString(ret)) {
         return ret
       } else {
@@ -398,11 +401,13 @@ export function createComposer(options: ComposerOptions = {}): Composer {
       const ret = datetime(_context, ...args)
       if (isNumber(ret) && ret === NOT_REOSLVED) {
         const [, options] = parseDateTimeArgs(...args)
-        if (__DEV__ && _fallbackRoot && _root) {
+        if (__DEV__ && _fallbackRoot && __root) {
           const key = isString(options.key) ? options.key : ''
           warn(`Fall back to datetime format '${key}' with root locale.`)
         }
-        return _fallbackRoot && _root ? _root.d(...args) : MISSING_RESOLVE_VALUE
+        return _fallbackRoot && __root
+          ? __root.d(...args)
+          : MISSING_RESOLVE_VALUE
       } else if (isString(ret)) {
         return ret
       } else {
@@ -417,11 +422,13 @@ export function createComposer(options: ComposerOptions = {}): Composer {
       const ret = number(_context, ...args)
       if (isNumber(ret) && ret === NOT_REOSLVED) {
         const [, options] = parseNumberArgs(...args)
-        if (__DEV__ && _fallbackRoot && _root) {
+        if (__DEV__ && _fallbackRoot && __root) {
           const key = isString(options.key) ? options.key : ''
           warn(`Fall back to number format '${key}' with root locale.`)
         }
-        return _fallbackRoot && _root ? _root.d(...args) : MISSING_RESOLVE_VALUE
+        return _fallbackRoot && __root
+          ? __root.d(...args)
+          : MISSING_RESOLVE_VALUE
       } else if (isString(ret)) {
         return ret
       } else {
@@ -442,7 +449,7 @@ export function createComposer(options: ComposerOptions = {}): Composer {
   } as MessageProcessor
 
   // _transrateVNode, using for `i18n-t` component
-  const _transrateVNode = (...args: unknown[]): unknown => {
+  const __transrateVNode = (...args: unknown[]): unknown => {
     return computed<unknown>((): unknown => {
       let ret: unknown
       try {
@@ -454,10 +461,10 @@ export function createComposer(options: ComposerOptions = {}): Composer {
       }
       if (isNumber(ret) && ret === NOT_REOSLVED) {
         const [key] = parseTranslateArgs(...args)
-        if (__DEV__ && _fallbackRoot && _root) {
+        if (__DEV__ && _fallbackRoot && __root) {
           warn(`Fall back to translate '${key}' with root locale.`)
         }
-        return _fallbackRoot && _root ? _root._transrateVNode(...args) : key
+        return _fallbackRoot && __root ? __root.__transrateVNode(...args) : key
       } else if (isArray(ret)) {
         return ret
       } else {
@@ -530,6 +537,9 @@ export function createComposer(options: ComposerOptions = {}): Composer {
     clearNumberFormat(_context, locale, format)
   }
 
+  // for debug
+  composerID++
+
   // export composable API!
   const composer = {
     /**
@@ -576,6 +586,7 @@ export function createComposer(options: ComposerOptions = {}): Composer {
       _fallbackFormat = val
       _context.fallbackFormat = _fallbackFormat
     },
+    __id: composerID,
 
     /**
      * methods
@@ -600,7 +611,7 @@ export function createComposer(options: ComposerOptions = {}): Composer {
     install(app: App, ...options: any[]): void {
       apply(app, composer, ...options)
     },
-    _transrateVNode
+    __transrateVNode
   }
 
   return composer

@@ -43,7 +43,7 @@ type LegacyMixin = {
 
 // supports compatibility for vue-i18n legacy mixin
 export function getMixin(
-  legacy: VueI18n,
+  vueI18n: VueI18n,
   composer: Composer
 ): ComponentOptions {
   return {
@@ -56,24 +56,24 @@ export function getMixin(
         if (options.__i18n) {
           optionsI18n.__i18n = options.__i18n
         }
-        optionsI18n._root = composer
+        optionsI18n.__root = composer
         this.$i18n = createVueI18n(optionsI18n)
       } else if (options.__i18n) {
-        this.$i18n = createVueI18n({ __i18n: options.__i18n, _root: composer })
+        this.$i18n = createVueI18n({ __i18n: options.__i18n, __root: composer })
       } else if (this.$root && this.$root.proxy) {
         // root i18n
         // TODO: should resolve type inference
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const instance: any = this.$root.proxy
-        this.$i18n = instance.$i18n || legacy
+        this.$i18n = instance.$i18n || vueI18n
       } else if (this.$parent && this.$parent.proxy) {
         // parent i18n
         // TODO: should resolve type inference
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const instance: any = this.$parent.proxy
-        this.$i18n = instance.$i18n || legacy
+        this.$i18n = instance.$i18n || vueI18n
       } else {
-        this.$i18n = legacy
+        this.$i18n = vueI18n
       }
 
       // define vue-i18n legacy APIs

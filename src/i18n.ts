@@ -16,6 +16,14 @@ const providers: Map<
   InjectionKey<Composer>
 > = new Map()
 
+export function enumProviders(): void {
+  if (__DEV__) {
+    providers.forEach((sym, instance) => {
+      console.log('provider:', instance, sym)
+    })
+  }
+}
+
 /**
  *  I18n Options
  *
@@ -143,7 +151,7 @@ export function useI18n(options?: ComposerOptions): Composer {
       options.__i18n = type.__i18n
     }
     if (globalComposer) {
-      options._root = globalComposer
+      options.__root = globalComposer
     }
     const composer = createComposer(options)
     const sym: InjectionKey<Composer> = Symbol.for(generateSymbolID())
