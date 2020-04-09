@@ -1,4 +1,4 @@
-import Interpolate from './interpolation'
+import { Translation } from './translation'
 import Number from './number'
 
-export { Interpolate, Number }
+export { Translation, Number }
