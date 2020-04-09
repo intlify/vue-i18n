@@ -41,18 +41,16 @@ export const Translation = defineComponent({
     const i18n = useI18n()
     const keys = Object.keys(slots).filter(key => key !== '_')
 
-    const options = {} as TranslateOptions
-    if (props.locale) {
-      options.locale = props.locale
-    }
-    if (props.plural !== undefined) {
-      options.plural = isString(props.plural)
-        ? Number(props.locale)
-        : props.plural
-    }
-    const arg = getInterpolateArg(context, keys)
-
     return () => {
+      const options = {} as TranslateOptions
+      if (props.locale) {
+        options.locale = props.locale
+      }
+      if (props.plural !== undefined) {
+        options.plural = isString(props.plural) ? +props.plural : props.plural
+      }
+      const arg = getInterpolateArg(context, keys)
+
       const children = i18n.__transrateVNode(
         props.keypath,
         arg,
@@ -82,5 +80,4 @@ function getInterpolateArg(
       return arg
     }, {} as NamedValue)
   }
-  return []
 }

@@ -32,6 +32,14 @@
       </i18n-t>
 
       <h2>localize with using plural:</h2>
+      <form>
+        <label>{{ t('message.quantity', {}, { locale: 'en' }) }}</label>
+        <select v-model="count">
+          <option value="0">0</option>
+          <option value="1">1</option>
+          <option value="2">2</option>
+        </select>
+      </form>
       <i18n-t keypath="message.plural" locale="en" :plural="count">
         <template #n>
           <b>{{ count }}</b>
@@ -68,7 +76,7 @@
 
       const app = createApp({
         setup() {
-          const count = ref(2)
+          const count = ref(0)
           return { count, ...useI18n() }
         }
       })
