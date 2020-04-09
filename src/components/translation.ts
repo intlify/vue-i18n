@@ -6,8 +6,16 @@ import {
   VNodeArrayChildren
 } from 'vue'
 import { useI18n } from '../i18n'
-import { TranslateOptions } from '../runtime/translate'
+import { TranslateOptions, Locale } from '../runtime'
 import { NamedValue } from '../message/context'
+import { isNumber, isString } from '../utils'
+
+export type TranslationProps = {
+  tag?: string
+  keypath: string
+  locale?: Locale
+  plural?: number | string
+}
 
 export const Translation = defineComponent({
   name: 'i18n-t',
@@ -21,28 +29,37 @@ export const Translation = defineComponent({
     },
     locale: {
       type: String
+    },
+    plural: {
+      type: [Number, String],
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      validator: (val: any): boolean => isNumber(val) || !isNaN(val)
     }
   },
-  setup(props, context: SetupContext) {
+  setup(props: TranslationProps, context: SetupContext) {
     const { slots, attrs } = context
     const i18n = useI18n()
-    const { tag, keypath, locale } = props
     const keys = Object.keys(slots).filter(key => key !== '_')
 
     const options = {} as TranslateOptions
-    if (locale) {
-      options.locale = locale
+    if (props.locale) {
+      options.locale = props.locale
+    }
+    if (props.plural !== undefined) {
+      options.plural = isString(props.plural)
+        ? Number(props.locale)
+        : props.plural
     }
     const arg = getInterpolateArg(context, keys)
 
     return () => {
       const children = i18n._transrateVNode(
-        keypath,
+        props.keypath,
         arg,
         options
       ) as VNodeArrayChildren
-      return tag
-        ? h(tag, { ...attrs }, children)
+      return props.tag
+        ? h(props.tag, { ...attrs }, children)
         : h(Fragment, { ...attrs }, children)
     }
   }
