@@ -11,7 +11,8 @@ import {
   getCurrentInstance,
   App,
   Plugin,
-  ComponentInternalInstance
+  ComponentInternalInstance,
+  createTextVNode
 } from 'vue'
 import { WritableComputedRef, ComputedRef } from '@vue/reactivity'
 import { apply } from './plugin'
@@ -25,7 +26,8 @@ import {
 import {
   LinkedModifiers,
   PluralizationRules,
-  NamedValue
+  NamedValue,
+  MessageProcessor
 } from './message/context'
 import {
   Locale,
@@ -155,6 +157,7 @@ export type Composer = {
   getMissingHandler(): MissingHandler | null
   setMissingHandler(handler: MissingHandler | null): void
   install: Plugin
+  _transrateVNode(...args: unknown[]): unknown // for internal
 }
 
 function defineRuntimeMissingHandler(
@@ -427,6 +430,42 @@ export function createComposer(options: ComposerOptions = {}): Composer {
     }).value
   }
 
+  // for custom processor
+  const normalize = (values: unknown[]): unknown => {
+    return values.map(val => (isString(val) ? createTextVNode(val) : val))
+  }
+  const interpolate = (val: unknown): unknown => val
+  const processor = {
+    type: 'vnode',
+    normalize,
+    interpolate
+  } as MessageProcessor
+
+  // _transrateVNode, using for `i18n-t` component
+  const _transrateVNode = (...args: unknown[]): unknown => {
+    return computed<unknown>((): unknown => {
+      let ret: unknown
+      try {
+        // translate with custom processor
+        _context.processor = processor
+        ret = translate(_context, ...args)
+      } finally {
+        _context.processor = null
+      }
+      if (isNumber(ret) && ret === NOT_REOSLVED) {
+        const [key] = parseTranslateArgs(...args)
+        if (__DEV__ && _fallbackRoot && _root) {
+          warn(`Fall back to translate '${key}' with root locale.`)
+        }
+        return _fallbackRoot && _root ? _root._transrateVNode(...args) : key
+      } else if (isArray(ret)) {
+        return ret
+      } else {
+        throw new Error('TODO:') // TODO
+      }
+    }).value
+  }
+
   // getLocaleMessage
   const getLocaleMessage = (locale: Locale): LocaleMessage =>
     _messages.value[locale] || {}
@@ -557,9 +596,11 @@ export function createComposer(options: ComposerOptions = {}): Composer {
     setPostTranslationHandler,
     getMissingHandler,
     setMissingHandler,
-    install(app: App): void {
-      apply(app, composer)
-    }
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    install(app: App, ...options: any[]): void {
+      apply(app, composer, ...options)
+    },
+    _transrateVNode
   }
 
   return composer

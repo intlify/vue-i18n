@@ -1,5 +1,9 @@
 import { MessageFunction } from '../message/compiler'
-import { LinkedModifiers, PluralizationRules } from '../message/context'
+import {
+  LinkedModifiers,
+  PluralizationRules,
+  MessageProcessor
+} from '../message/context'
 import { Path } from '../path'
 import {
   warn,
@@ -32,7 +36,7 @@ export type RuntimeMissingHandler = (
   key: Path,
   ...values: unknown[]
 ) => string | void
-export type PostTranslationHandler = (translated: string) => string
+export type PostTranslationHandler = (translated: unknown) => unknown
 
 export type RuntimeOptions = {
   locale?: Locale
@@ -48,6 +52,7 @@ export type RuntimeOptions = {
   fallbackFormat?: boolean
   unresolving?: boolean
   postTranslation?: PostTranslationHandler
+  processor?: MessageProcessor
   _compileCache?: Map<string, MessageFunction>
   _datetimeFormatters?: Map<string, Intl.DateTimeFormat>
   _numberFormatters?: Map<string, Intl.NumberFormat>
@@ -67,6 +72,7 @@ export type RuntimeContext = {
   fallbackFormat: boolean
   unresolving: boolean
   postTranslation: PostTranslationHandler | null
+  processor: MessageProcessor | null
   _compileCache: Map<string, MessageFunction>
   _datetimeFormatters: Map<string, Intl.DateTimeFormat>
   _numberFormatters: Map<string, Intl.NumberFormat>
@@ -131,6 +137,7 @@ export function createRuntimeContext(
   const postTranslation = isFunction(options.postTranslation)
     ? options.postTranslation
     : null
+  const processor = isPlainObject(options.processor) ? options.processor : null
   const _datetimeFormatters = isObject(options._datetimeFormatters)
     ? options._datetimeFormatters
     : new Map<string, Intl.DateTimeFormat>()
@@ -152,6 +159,7 @@ export function createRuntimeContext(
     fallbackFormat,
     unresolving,
     postTranslation,
+    processor,
     _compileCache,
     _datetimeFormatters,
     _numberFormatters
@@ -172,7 +180,7 @@ export function fallback(
   type: string,
   fn: Function,
   fallbackFormat?: boolean,
-  defaultReturn?: string
+  defaultReturn?: unknown
 ): string | number {
   // prettier-ignore
   let ret: string | number = context.unresolving

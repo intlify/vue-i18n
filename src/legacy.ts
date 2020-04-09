@@ -469,8 +469,9 @@ export function createVueI18n(options: VueI18nOptions = {}): VueI18n {
     },
 
     // install
-    install(app: App): void {
-      apply(app, composer)
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    install(app: App, ...options: any[]): void {
+      apply(app, composer, ...options)
       app.mixin(getMixin(i18n, composer))
     }
   }
