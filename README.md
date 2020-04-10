@@ -125,7 +125,7 @@ yarn add vue-i18n@next
 - Composable API: I18n Composer
   - properties
     - [x] locale
-    - [x] fallbackLocales
+    - [x] fallbackLocale
     - [x] availableLocales
     - [x] messages
     - [x] modifiers
