@@ -172,6 +172,10 @@ describe('getLocaleChain', () => {
       expect(getLocaleChain(ctx, false, 'en-GB')).toEqual(['en-GB', 'en'])
     })
 
+    test('en-GB!', () => {
+      expect(getLocaleChain(ctx, false, 'en-GB!')).toEqual(['en-GB'])
+    })
+
     test('de-DE-bavarian', () => {
       expect(getLocaleChain(ctx, false, 'de-DE-bavarian')).toEqual([
         'de-DE-bavarian',
@@ -188,6 +192,10 @@ describe('getLocaleChain', () => {
 
     test('en-GB', () => {
       expect(getLocaleChain(ctx, 'en', 'en-GB')).toEqual(['en-GB', 'en'])
+    })
+
+    test('en-GB!', () => {
+      expect(getLocaleChain(ctx, 'en', 'en-GB!')).toEqual(['en-GB', 'en'])
     })
 
     test('de-DE-bavarian', () => {
@@ -215,6 +223,14 @@ describe('getLocaleChain', () => {
 
     test('en-GB', () => {
       expect(getLocaleChain(ctx, ['en', 'ja'], 'en-GB')).toEqual([
+        'en-GB',
+        'en',
+        'ja'
+      ])
+    })
+
+    test('en-GB!', () => {
+      expect(getLocaleChain(ctx, ['en', 'ja'], 'en-GB!')).toEqual([
         'en-GB',
         'en',
         'ja'
