@@ -1,7 +1,7 @@
 import { App, FunctionDirective } from 'vue'
 import { Composer } from './composer'
 import { GlobalI18nSymbol } from './i18n'
-import { Translation, Number } from './components'
+import { Translation, NumberFormat } from './components'
 import { hook as vT } from './directive'
 import { isPlainObject, isString, warn } from './utils'
 

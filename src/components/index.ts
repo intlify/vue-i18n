@@ -1,4 +1,2 @@
-import { Translation } from './Translation'
-import Number from './number'
-
-export { Translation, Number }
+export { Translation } from './Translation'
+export { NumberFormat } from './NumberFormat'
