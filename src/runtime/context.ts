@@ -19,6 +19,12 @@ import { DateTimeFormats, NumberFormats } from './types'
 
 export type Locale = string
 
+export type FallbackLocale =
+  | Locale
+  | Locale[]
+  | { [locale in string]: Locale[] }
+  | false
+
 // TODO: should more design it's useful typing ...
 export type LocaleMessageDictionary = {
   [property: string]: LocaleMessage
@@ -77,6 +83,7 @@ export type RuntimeContext = {
   _datetimeFormatters: Map<string, Intl.DateTimeFormat>
   _numberFormatters: Map<string, Intl.NumberFormat>
   _fallbackLocaleStack?: Locale[]
+  _localeChainCache?: Map<Locale, Locale[]>
 }
 
 const DEFAULT_LINKDED_MODIFIERS: LinkedModifiers = {
@@ -220,4 +227,101 @@ export function fallback(
     }
   }
   return ret
+}
+
+export function getLocaleChain(
+  context: RuntimeContext,
+  fallback: FallbackLocale,
+  start: Locale = ''
+): Locale[] {
+  if (start === '') {
+    return []
+  }
+
+  if (!context._localeChainCache) {
+    context._localeChainCache = new Map()
+  }
+
+  let chain = context._localeChainCache.get(start)
+  if (!chain) {
+    chain = []
+
+    // first block defined by start
+    let block: unknown = [start]
+
+    // while any intervening block found
+    while (isArray(block)) {
+      block = appendBlockToChain(chain, block, fallback)
+    }
+
+    // prettier-ignore
+    // last block defined by default
+    const defaults = isArray(fallback)
+      ? fallback
+      : isPlainObject(fallback)
+        ? fallback['default']
+          ? fallback['default']
+          : null
+        : fallback
+
+    // convert defaults to array
+    block = isString(defaults) ? [defaults] : defaults
+    if (isArray(block)) {
+      appendBlockToChain(chain, block, false)
+    }
+    context._localeChainCache.set(start, chain)
+  }
+
+  return chain
+}
+
+function appendBlockToChain(
+  chain: Locale[],
+  block: Locale[],
+  blocks: FallbackLocale
+): unknown {
+  let follow: unknown = true
+  for (let i = 0; i < block.length && isBoolean(follow); i++) {
+    follow = appendLocaleToChain(chain, block[i], blocks)
+  }
+  return follow
+}
+
+function appendLocaleToChain(
+  chain: Locale[],
+  locale: Locale,
+  blocks: FallbackLocale
+): unknown {
+  let follow: unknown
+  const tokens = locale.split('-')
+  do {
+    const target = tokens.join('-')
+    follow = appendItemToChain(chain, target, blocks)
+    tokens.splice(-1, 1)
+  } while (tokens.length && follow === true)
+  return follow
+}
+
+function appendItemToChain(
+  chain: Locale[],
+  target: Locale,
+  blocks: FallbackLocale
+): unknown {
+  let follow: unknown = false
+  if (!chain.includes(target)) {
+    follow = true
+    if (target) {
+      follow = !target.endsWith('!')
+      const locale = target.replace(/!/g, '')
+      chain.push(locale)
+      if (
+        (isArray(blocks) || isPlainObject(blocks)) &&
+        (blocks as any)[locale] // eslint-disable-line @typescript-eslint/no-explicit-any
+      ) {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        follow = (blocks as any)[locale]
+      }
+    }
+  }
+  return follow
 }
