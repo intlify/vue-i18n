@@ -40,13 +40,14 @@ export type RuntimeMissingHandler = (
   context: RuntimeContext,
   locale: Locale,
   key: Path,
+  type: string,
   ...values: unknown[]
 ) => string | void
 export type PostTranslationHandler = (translated: unknown) => unknown
 
 export type RuntimeOptions = {
   locale?: Locale
-  fallbackLocales?: Locale[]
+  fallbackLocale?: FallbackLocale
   messages?: LocaleMessages
   datetimeFormats?: DateTimeFormats
   numberFormats?: NumberFormats
@@ -66,7 +67,7 @@ export type RuntimeOptions = {
 
 export type RuntimeContext = {
   locale: Locale
-  fallbackLocales: Locale[]
+  fallbackLocale: FallbackLocale
   messages: LocaleMessages
   datetimeFormats: DateTimeFormats
   numberFormats: NumberFormats
@@ -105,9 +106,12 @@ export function createRuntimeContext(
   options: RuntimeOptions = {}
 ): RuntimeContext {
   const locale = isString(options.locale) ? options.locale : 'en-US'
-  const fallbackLocales = isArray(options.fallbackLocales)
-    ? options.fallbackLocales
-    : []
+  const fallbackLocale =
+    isArray(options.fallbackLocale) ||
+    isPlainObject(options.fallbackLocale) ||
+    options.fallbackLocale === false
+      ? options.fallbackLocale
+      : locale
   const messages = isPlainObject(options.messages)
     ? options.messages
     : { [locale]: {} }
@@ -154,7 +158,7 @@ export function createRuntimeContext(
 
   return {
     locale,
-    fallbackLocales,
+    fallbackLocale,
     messages,
     datetimeFormats,
     numberFormats,
@@ -180,53 +184,30 @@ export function isTrarnslateFallbackWarn(
   return fallback instanceof RegExp ? fallback.test(key) : fallback
 }
 
-export function fallback(
+export function isTranslateMissingWarn(
+  missing: boolean | RegExp,
+  key: Path
+): boolean {
+  return missing instanceof RegExp ? missing.test(key) : missing
+}
+
+export function handleMissing(
   context: RuntimeContext,
-  key: string,
-  fallbackWarn: boolean | RegExp,
-  type: string,
-  fn: Function,
-  fallbackFormat?: boolean,
-  defaultReturn?: unknown
-): string | number {
-  // prettier-ignore
-  let ret: string | number = context.unresolving
-    ? isBoolean(fallbackFormat) && fallbackFormat && isString(defaultReturn)
-      ? defaultReturn
-      : NOT_REOSLVED
-    : isString(defaultReturn)
-      ? defaultReturn
-      : MISSING_RESOLVE_VALUE
-  if (context.fallbackLocales.length === 0) {
-    return ret
-  }
-  if (
-    context._fallbackLocaleStack &&
-    context._fallbackLocaleStack.length === 0
-  ) {
-    return ret
-  }
-  if (!context._fallbackLocaleStack) {
-    context._fallbackLocaleStack = [...context.fallbackLocales]
-  }
-  if (__DEV__ && isTrarnslateFallbackWarn(fallbackWarn, key)) {
-    warn(
-      `Fall back to ${type} '${key}' key with '${context._fallbackLocaleStack.join(
-        ','
-      )}' locale.`
-    )
-  }
-  ret = fn(context)
-  if (
-    context._fallbackLocaleStack &&
-    context._fallbackLocaleStack.length === 0
-  ) {
-    context._fallbackLocaleStack = undefined
-    if ((ret === MISSING_RESOLVE_VALUE || ret === key) && context.unresolving) {
-      ret = NOT_REOSLVED
+  key: Path,
+  locale: Locale,
+  missingWarn: boolean | RegExp,
+  type: string
+): unknown {
+  const { missing } = context
+  if (missing !== null) {
+    const ret = missing(context, locale, key, type)
+    return isString(ret) ? ret : key
+  } else {
+    if (__DEV__ && isTranslateMissingWarn(missingWarn, key)) {
+      warn(`Not found '${key}' key in '${locale}' locale messages.`)
     }
+    return key
   }
-  return ret
 }
 
 export function getLocaleChain(
@@ -324,4 +305,13 @@ function appendItemToChain(
     }
   }
   return follow
+}
+
+export function updateFallbackLocale(
+  context: RuntimeContext,
+  locale: Locale,
+  fallback: FallbackLocale
+): void {
+  context._localeChainCache = new Map()
+  getLocaleChain(context, fallback, locale)
 }

@@ -29,15 +29,15 @@ describe('locale', () => {
   })
 })
 
-describe('fallbackLocales', () => {
+describe('fallbackLocale', () => {
   test('default value', () => {
-    const { fallbackLocales } = createComposer({})
-    expect(fallbackLocales.value).toEqual([])
+    const { fallbackLocale } = createComposer({})
+    expect(fallbackLocale.value).toEqual('en-US')
   })
 
   test('initialize at composer creating', () => {
-    const { fallbackLocales } = createComposer({ fallbackLocales: ['ja'] })
-    expect(fallbackLocales.value).toEqual(['ja'])
+    const { fallbackLocale } = createComposer({ fallbackLocale: ['ja'] })
+    expect(fallbackLocale.value).toEqual(['ja'])
   })
 })
 
@@ -291,7 +291,7 @@ describe('fallbackFormat', () => {
 
     const { t } = createComposer({
       locale: 'en',
-      fallbackLocales: ['ja', 'fr'],
+      fallbackLocale: ['ja', 'fr'],
       fallbackFormat: true,
       messages: {
         en: {},
@@ -417,7 +417,7 @@ describe('t', () => {
 test('d', () => {
   const { d } = createComposer({
     locale: 'en-US',
-    fallbackLocales: ['ja-JP'],
+    fallbackLocale: ['ja-JP'],
     datetimeFormats: {
       'en-US': {
         short: {
@@ -459,7 +459,7 @@ test('d', () => {
 test('n', () => {
   const { n } = createComposer({
     locale: 'en-US',
-    fallbackLocales: ['ja-JP'],
+    fallbackLocale: ['ja-JP'],
     numberFormats: {
       'en-US': {
         currency: {

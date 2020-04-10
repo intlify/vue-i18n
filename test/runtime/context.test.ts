@@ -15,15 +15,20 @@ describe('locale', () => {
   })
 })
 
-describe('fallbackLocales', () => {
+describe('fallbackLocale', () => {
   test('default', () => {
     const ctx = context({})
-    expect(ctx.fallbackLocales).toEqual([])
+    expect(ctx.fallbackLocale).toEqual('en-US')
   })
 
-  test('specify', () => {
-    const ctx = context({ locale: 'en', fallbackLocales: ['ja'] })
-    expect(ctx.fallbackLocales).toEqual(['ja'])
+  test('default with locale', () => {
+    const ctx = context({ locale: 'en' })
+    expect(ctx.fallbackLocale).toEqual('en')
+  })
+
+  test('specify: fallbackLocale only', () => {
+    const ctx = context({ fallbackLocale: ['ja'] })
+    expect(ctx.fallbackLocale).toEqual(['ja'])
   })
 })
 
@@ -188,6 +193,10 @@ describe('getLocaleChain', () => {
   describe(`simple: 'en'`, () => {
     test('en', () => {
       expect(getLocaleChain(ctx, 'en', 'en')).toEqual(['en'])
+    })
+
+    test('ja', () => {
+      expect(getLocaleChain(ctx, 'en', 'ja')).toEqual(['ja', 'en'])
     })
 
     test('en-GB', () => {

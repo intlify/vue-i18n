@@ -63,7 +63,7 @@ test('datetime value', () => {
 
   const ctx = context({
     locale: 'en-US',
-    fallbackLocales: ['ja-JP'],
+    fallbackLocale: ['ja-JP'],
     datetimeFormats
   })
 
@@ -78,7 +78,7 @@ test('number value', () => {
 
   const ctx = context({
     locale: 'en-US',
-    fallbackLocales: ['ja-JP'],
+    fallbackLocale: ['ja-JP'],
     datetimeFormats
   })
 
@@ -93,7 +93,7 @@ test('key argument', () => {
 
   const ctx = context({
     locale: 'en-US',
-    fallbackLocales: ['ja-JP'],
+    fallbackLocale: ['ja-JP'],
     datetimeFormats
   })
 
@@ -108,7 +108,7 @@ test('locale argument', () => {
 
   const ctx = context({
     locale: 'en-US',
-    fallbackLocales: ['ja-JP'],
+    fallbackLocale: ['ja-JP'],
     datetimeFormats
   })
 
@@ -123,7 +123,7 @@ test('with object argument', () => {
 
   const ctx = context({
     locale: 'en-US',
-    fallbackLocales: ['ja-JP'],
+    fallbackLocale: ['ja-JP'],
     datetimeFormats
   })
 
@@ -142,12 +142,17 @@ test('fallback', () => {
 
   const ctx = context({
     locale: 'en-US',
-    fallbackLocales: ['ja-JP'],
+    fallbackLocale: ['ja-JP'],
+    missingWarn: false,
     datetimeFormats
   })
 
   expect(datetime(ctx, dt, 'long')).toEqual('2012/12/20 12:00:00')
+  expect(mockWarn).toHaveBeenCalledTimes(2)
   expect(mockWarn.mock.calls[0][0]).toEqual(
+    `Fall back to datetime format 'long' key with 'en' locale.`
+  )
+  expect(mockWarn.mock.calls[1][0]).toEqual(
     `Fall back to datetime format 'long' key with 'ja-JP' locale.`
   )
 })
@@ -162,8 +167,9 @@ test(`context fallbackWarn 'false' option`, () => {
 
   const ctx = context({
     locale: 'en-US',
-    fallbackLocales: ['ja-JP'],
+    fallbackLocale: ['ja-JP'],
     fallbackWarn: false,
+    missingWarn: false,
     datetimeFormats
   })
 
@@ -181,7 +187,8 @@ test(`datetime function fallbackWarn 'false' option`, () => {
 
   const ctx = context({
     locale: 'en-US',
-    fallbackLocales: ['ja-JP'],
+    fallbackLocale: ['ja-JP'],
+    missingWarn: false,
     datetimeFormats
   })
 
@@ -203,6 +210,7 @@ describe('context unresolving option', () => {
     const ctx = context({
       locale: 'en-US',
       fallbackWarn: false,
+      missingWarn: false,
       unresolving: true,
       datetimeFormats
     })
@@ -221,8 +229,9 @@ describe('context unresolving option', () => {
 
     const ctx = context({
       locale: 'en-US',
-      fallbackLocales: ['ja-JP'],
+      fallbackLocale: ['ja-JP'],
       fallbackWarn: false,
+      missingWarn: false,
       unresolving: true,
       datetimeFormats
     })
@@ -242,7 +251,7 @@ test('not available Intl API', () => {
 
   const ctx = context({
     locale: 'en-US',
-    fallbackLocales: ['ja-JP'],
+    fallbackLocale: ['ja-JP'],
     datetimeFormats
   })
 

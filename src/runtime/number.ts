@@ -1,18 +1,14 @@
-import { Availabilities, NumberFormat } from './types'
+import { Availabilities, NumberFormat, NumberFormatOptions } from './types'
 import {
   RuntimeContext,
   Locale,
-  fallback,
+  getLocaleChain,
+  handleMissing,
+  isTrarnslateFallbackWarn,
+  NOT_REOSLVED,
   MISSING_RESOLVE_VALUE
 } from './context'
-import {
-  warn,
-  isString,
-  isBoolean,
-  isArray,
-  isPlainObject,
-  isNumber
-} from '../utils'
+import { warn, isString, isBoolean, isPlainObject, isNumber } from '../utils'
 
 /**
  *  # number
@@ -38,6 +34,9 @@ import {
  *    // object sytle argument
  *    number(context, value, { key: 'currency', locale: 'ja-JP' })
  *
+ *    // suppress localize miss warning option, override context.missingWarn
+ *    number(context, value, { key: 'currency', locale: 'ja-JP', missingWarn: false })
+ *
  *    // suppress localize fallback warning option, override context.fallbackWarn
  *    number(context, value, { key: 'currency', locale: 'ja-JP', fallbackWarn: false })
  */
@@ -45,6 +44,7 @@ import {
 export type NumberOptions = {
   key?: string
   locale?: Locale
+  missingWarn?: boolean
   fallbackWarn?: boolean
 }
 
@@ -76,7 +76,12 @@ export function number(
   context: RuntimeContext,
   ...args: unknown[]
 ): string | number {
-  const { numberFormats, _numberFormatters, _fallbackLocaleStack } = context
+  const {
+    numberFormats,
+    unresolving,
+    fallbackLocale,
+    _numberFormatters
+  } = context
 
   if (__DEV__ && !Availabilities.numberFormat) {
     warn(`Cannot format a Date value due to not supported Intl.NumberFormat.`)
@@ -85,47 +90,49 @@ export function number(
 
   const [value, options] = parseNumberArgs(...args)
   const { key } = options
+  const missingWarn = isBoolean(options.missingWarn)
+    ? options.missingWarn
+    : context.missingWarn
   const fallbackWarn = isBoolean(options.fallbackWarn)
     ? options.fallbackWarn
     : context.fallbackWarn
-  let locale = isString(options.locale) ? options.locale : context.locale
-  // override with fallback locales
-  if (isArray(_fallbackLocaleStack) && _fallbackLocaleStack.length > 0) {
-    locale = _fallbackLocaleStack.shift() || locale
-  }
+  const locale = isString(options.locale) ? options.locale : context.locale
+  const locales = getLocaleChain(context, fallbackLocale, locale)
 
   if (!isString(key)) {
     return new Intl.NumberFormat(locale).format(value)
   }
 
-  const numberFormat = numberFormats[locale]
-  if (!numberFormat) {
-    return fallback(
-      context,
-      key,
-      fallbackWarn,
-      'number format',
-      (context: RuntimeContext): string | number =>
-        number(context, value, options)
-    )
+  // resolve format
+  let numberFormat: NumberFormat = {}
+  let targetLocale: Locale | undefined
+  let format: NumberFormatOptions | null = null
+  for (let i = 0; i < locales.length; i++) {
+    targetLocale = locales[i]
+    if (
+      __DEV__ &&
+      locale !== targetLocale &&
+      isTrarnslateFallbackWarn(fallbackWarn, key)
+    ) {
+      warn(
+        `Fall back to number format '${key}' key with '${targetLocale}' locale.`
+      )
+    }
+    numberFormat = numberFormats[targetLocale] || {}
+    format = numberFormat[key]
+    if (isPlainObject(format)) break
+    handleMissing(context, key, targetLocale, missingWarn, 'number')
   }
 
-  const format = numberFormat[key]
-  if (!format) {
-    return fallback(
-      context,
-      key,
-      fallbackWarn,
-      'number format',
-      (context: RuntimeContext): string | number =>
-        number(context, value, options)
-    )
+  // checking format and target locale
+  if (!isPlainObject(format) || !isString(targetLocale)) {
+    return unresolving ? NOT_REOSLVED : key
   }
 
-  const id = `${locale}__${key}`
+  const id = `${targetLocale}__${key}`
   let formatter = _numberFormatters.get(id)
   if (!formatter) {
-    formatter = new Intl.NumberFormat(locale, format)
+    formatter = new Intl.NumberFormat(targetLocale, format)
     _numberFormatters.set(id, formatter)
   }
   return formatter.format(value)

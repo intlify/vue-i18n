@@ -1,14 +1,16 @@
-import { Availabilities, DateTimeFormat } from './types'
+import { Availabilities, DateTimeFormat, DateTimeFormatOptions } from './types'
 import {
   RuntimeContext,
   Locale,
-  fallback,
+  getLocaleChain,
+  handleMissing,
+  isTrarnslateFallbackWarn,
+  NOT_REOSLVED,
   MISSING_RESOLVE_VALUE
 } from './context'
 import {
   warn,
   isString,
-  isArray,
   isBoolean,
   isPlainObject,
   isDate,
@@ -40,6 +42,9 @@ import {
  *    // object sytle argument
  *    datetime(context, value, { key: 'short', locale: 'ja-JP' })
  *
+ *    // suppress localize miss warning option, override context.missingWarn
+ *    datetime(context, value, { key: 'short', locale: 'ja-JP', missingWarn: false })
+ *
  *    // suppress localize fallback warning option, override context.fallbackWarn
  *    datetime(context, value, { key: 'short', locale: 'ja-JP', fallbackWarn: false })
  */
@@ -47,6 +52,7 @@ import {
 export type DateTimeOptions = {
   key?: string
   locale?: Locale
+  missingWarn?: boolean
   fallbackWarn?: boolean
 }
 
@@ -81,7 +87,12 @@ export function datetime(
   context: RuntimeContext,
   ...args: unknown[]
 ): string | number {
-  const { datetimeFormats, _datetimeFormatters, _fallbackLocaleStack } = context
+  const {
+    datetimeFormats,
+    unresolving,
+    fallbackLocale,
+    _datetimeFormatters
+  } = context
 
   if (__DEV__ && !Availabilities.dateTimeFormat) {
     warn(`Cannot format a Date value due to not supported Intl.DateTimeFormat.`)
@@ -90,47 +101,49 @@ export function datetime(
 
   const [value, options] = parseDateTimeArgs(...args)
   const { key } = options
+  const missingWarn = isBoolean(options.missingWarn)
+    ? options.missingWarn
+    : context.missingWarn
   const fallbackWarn = isBoolean(options.fallbackWarn)
     ? options.fallbackWarn
     : context.fallbackWarn
-  let locale = isString(options.locale) ? options.locale : context.locale
-  // override with fallback locales
-  if (isArray(_fallbackLocaleStack) && _fallbackLocaleStack.length > 0) {
-    locale = _fallbackLocaleStack.shift() || locale
-  }
+  const locale = isString(options.locale) ? options.locale : context.locale
+  const locales = getLocaleChain(context, fallbackLocale, locale)
 
   if (!isString(key)) {
     return new Intl.DateTimeFormat(locale).format(value)
   }
 
-  const datetimeFormat = datetimeFormats[locale]
-  if (!datetimeFormat) {
-    return fallback(
-      context,
-      key,
-      fallbackWarn,
-      'datetime format',
-      (context: RuntimeContext): string | number =>
-        datetime(context, value, options)
-    )
+  // resolve format
+  let datetimeFormat: DateTimeFormat = {}
+  let targetLocale: Locale | undefined
+  let format: DateTimeFormatOptions | null = null
+  for (let i = 0; i < locales.length; i++) {
+    targetLocale = locales[i]
+    if (
+      __DEV__ &&
+      locale !== targetLocale &&
+      isTrarnslateFallbackWarn(fallbackWarn, key)
+    ) {
+      warn(
+        `Fall back to datetime format '${key}' key with '${targetLocale}' locale.`
+      )
+    }
+    datetimeFormat = datetimeFormats[targetLocale] || {}
+    format = datetimeFormat[key]
+    if (isPlainObject(format)) break
+    handleMissing(context, key, targetLocale, missingWarn, 'datetime')
   }
 
-  const format = datetimeFormat[key]
-  if (!format) {
-    return fallback(
-      context,
-      key,
-      fallbackWarn,
-      'datetime format',
-      (context: RuntimeContext): string | number =>
-        datetime(context, value, options)
-    )
+  // checking format and target locale
+  if (!isPlainObject(format) || !isString(targetLocale)) {
+    return unresolving ? NOT_REOSLVED : key
   }
 
-  const id = `${locale}__${key}`
+  const id = `${targetLocale}__${key}`
   let formatter = _datetimeFormatters.get(id)
   if (!formatter) {
-    formatter = new Intl.DateTimeFormat(locale, format)
+    formatter = new Intl.DateTimeFormat(targetLocale, format)
     _datetimeFormatters.set(id, formatter)
   }
   return formatter.format(value)

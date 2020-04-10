@@ -19,7 +19,8 @@ import {
   LocaleMessages,
   LocaleMessage,
   LocaleMessageDictionary,
-  PostTranslationHandler
+  PostTranslationHandler,
+  FallbackLocale
 } from './runtime/context'
 import { TranslateOptions } from './runtime/translate'
 import {
@@ -65,7 +66,7 @@ export interface Formatter {
  */
 export type VueI18nOptions = {
   locale?: Locale
-  fallbackLocale?: Locale
+  fallbackLocale?: FallbackLocale
   messages?: LocaleMessages
   datetimeFormats?: DateTimeFormats
   numberFormats?: NumberFormats
@@ -97,7 +98,7 @@ export type VueI18n = {
    * properties
    */
   locale: Locale
-  fallbackLocale: Locale
+  fallbackLocale: FallbackLocale
   readonly availableLocales: Locale[]
   readonly messages: LocaleMessages
   readonly datetimeFormats: DateTimeFormats
@@ -161,9 +162,13 @@ export type VueI18n = {
  */
 function convertComposerOptions(options: VueI18nOptions): ComposerOptions {
   const locale = isString(options.locale) ? options.locale : 'en-US'
-  const fallbackLocales = isString(options.fallbackLocale)
-    ? [options.fallbackLocale]
-    : []
+  const fallbackLocale =
+    isString(options.fallbackLocale) ||
+    isArray(options.fallbackLocale) ||
+    isPlainObject(options.fallbackLocale) ||
+    options.fallbackLocale === false
+      ? options.fallbackLocale
+      : locale
   const missing = isFunction(options.missing) ? options.missing : undefined
   const missingWarn =
     isBoolean(options.silentTranslationWarn) ||
@@ -207,7 +212,7 @@ function convertComposerOptions(options: VueI18nOptions): ComposerOptions {
 
   return {
     locale,
-    fallbackLocales,
+    fallbackLocale,
     messages,
     datetimeFormats,
     numberFormats,
@@ -246,13 +251,11 @@ export function createVueI18n(options: VueI18nOptions = {}): VueI18n {
     },
 
     // fallbackLocale
-    get fallbackLocale(): Locale {
-      return composer.fallbackLocales.value.length === 0
-        ? 'en-US' // compatible for vue-i18n legay style
-        : composer.fallbackLocales.value[0]
+    get fallbackLocale(): FallbackLocale {
+      return composer.fallbackLocale.value
     },
-    set fallbackLocale(val: Locale) {
-      composer.fallbackLocales.value = [val]
+    set fallbackLocale(val: FallbackLocale) {
+      composer.fallbackLocale.value = val
     },
 
     // messages
