@@ -241,6 +241,32 @@ describe('context unresolving option', () => {
   })
 })
 
+test('part', () => {
+  const mockAvailabilities = Availabilities as jest.Mocked<
+    typeof Availabilities
+  >
+  mockAvailabilities.dateTimeFormat = true
+
+  const ctx = context({
+    locale: 'en-US',
+    datetimeFormats
+  })
+
+  expect(
+    datetime(ctx, dt, { key: 'short', locale: 'ja-JP', part: true })
+  ).toEqual([
+    { type: 'year', value: '2012' },
+    { type: 'literal', value: '/' },
+    { type: 'month', value: '12' },
+    { type: 'literal', value: '/' },
+    { type: 'day', value: '20' },
+    { type: 'literal', value: ' ' },
+    { type: 'hour', value: '12' },
+    { type: 'literal', value: ':' },
+    { type: 'minute', value: '00' }
+  ])
+})
+
 test('not available Intl API', () => {
   const mockWarn = warn as jest.MockedFunction<typeof warn>
   mockWarn.mockImplementation(() => {}) // eslint-disable-line @typescript-eslint/no-empty-function

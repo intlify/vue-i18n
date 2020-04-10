@@ -47,6 +47,9 @@ import {
  *
  *    // suppress localize fallback warning option, override context.fallbackWarn
  *    datetime(context, value, { key: 'short', locale: 'ja-JP', fallbackWarn: false })
+ *
+ *    // if you specify `part` options, you can get an array of objects containing the formatted datetime in parts
+ *    datetime(context, value, { key: 'short', part: true })
  */
 
 export type DateTimeOptions = {
@@ -54,39 +57,40 @@ export type DateTimeOptions = {
   locale?: Locale
   missingWarn?: boolean
   fallbackWarn?: boolean
+  part?: boolean
 }
 
 // `datetime` function overloads
 export function datetime(
   context: RuntimeContext,
   value: number | Date
-): string | number
+): string | number | Intl.DateTimeFormatPart[]
 export function datetime(
   context: RuntimeContext,
   value: number | Date,
   key: string
-): string | number
+): string | number | Intl.DateTimeFormatPart[]
 export function datetime(
   context: RuntimeContext,
   value: number | Date,
   key: string,
   locale: Locale
-): string | number
+): string | number | Intl.DateTimeFormatPart[]
 export function datetime(
   context: RuntimeContext,
   value: number | Date,
   options: DateTimeOptions
-): string | number
+): string | number | Intl.DateTimeFormatPart[]
 export function datetime(
   context: RuntimeContext,
   ...args: unknown[]
-): string | number // for internal
+): string | number | Intl.DateTimeFormatPart[] // for internal
 
 // implementation of `datetime` function
 export function datetime(
   context: RuntimeContext,
   ...args: unknown[]
-): string | number {
+): string | number | Intl.DateTimeFormatPart[] {
   const {
     datetimeFormats,
     unresolving,
@@ -107,6 +111,7 @@ export function datetime(
   const fallbackWarn = isBoolean(options.fallbackWarn)
     ? options.fallbackWarn
     : context.fallbackWarn
+  const part = isBoolean(options.part) ? options.part : false
   const locale = isString(options.locale) ? options.locale : context.locale
   const locales = getLocaleChain(context, fallbackLocale, locale)
 
@@ -146,7 +151,7 @@ export function datetime(
     formatter = new Intl.DateTimeFormat(targetLocale, format)
     _datetimeFormatters.set(id, formatter)
   }
-  return formatter.format(value)
+  return !part ? formatter.format(value) : formatter.formatToParts(value)
 }
 
 export function parseDateTimeArgs(

@@ -39,6 +39,9 @@ import { warn, isString, isBoolean, isPlainObject, isNumber } from '../utils'
  *
  *    // suppress localize fallback warning option, override context.fallbackWarn
  *    number(context, value, { key: 'currency', locale: 'ja-JP', fallbackWarn: false })
+ *
+ *    // if you specify `part` options, you can get an array of objects containing the formatted number in parts
+ *    number(context, value, { key: 'currenty', part: true })
  */
 
 export type NumberOptions = {
@@ -46,36 +49,40 @@ export type NumberOptions = {
   locale?: Locale
   missingWarn?: boolean
   fallbackWarn?: boolean
+  part?: boolean
 }
 
 // `number` function overloads
-export function number(context: RuntimeContext, value: number): string | number
+export function number(
+  context: RuntimeContext,
+  value: number
+): string | number | Intl.NumberFormatPart[]
 export function number(
   context: RuntimeContext,
   value: number,
   key: string
-): string | number
+): string | number | Intl.NumberFormatPart[]
 export function number(
   context: RuntimeContext,
   value: number,
   key: string,
   locale: Locale
-): string | number
+): string | number | Intl.NumberFormatPart[]
 export function number(
   context: RuntimeContext,
   value: number,
   options: NumberOptions
-): string | number
+): string | number | Intl.NumberFormatPart[]
 export function number(
   context: RuntimeContext,
   ...args: unknown[]
-): string | number // for internal
+): string | number | Intl.NumberFormatPart[] // for internal
 
 // implementation of `number` function
 export function number(
   context: RuntimeContext,
   ...args: unknown[]
-): string | number {
+): string | number | Intl.NumberFormatPart[] {
   const {
     numberFormats,
     unresolving,
@@ -96,6 +103,7 @@ export function number(
   const fallbackWarn = isBoolean(options.fallbackWarn)
     ? options.fallbackWarn
     : context.fallbackWarn
+  const part = isBoolean(options.part) ? options.part : false
   const locale = isString(options.locale) ? options.locale : context.locale
   const locales = getLocaleChain(context, fallbackLocale, locale)
 
@@ -135,7 +143,7 @@ export function number(
     formatter = new Intl.NumberFormat(targetLocale, format)
     _numberFormatters.set(id, formatter)
   }
-  return formatter.format(value)
+  return !part ? formatter.format(value) : formatter.formatToParts(value)
 }
 
 export function parseNumberArgs(...args: unknown[]): [number, NumberOptions] {

@@ -54,7 +54,7 @@ test('value argument only', () => {
 
   const ctx = context({
     locale: 'en-US',
-    fallbackLocales: ['ja-JP'],
+    fallbackLocale: ['ja-JP'],
     numberFormats
   })
 
@@ -69,7 +69,7 @@ test('key argument', () => {
 
   const ctx = context({
     locale: 'en-US',
-    fallbackLocales: ['ja-JP'],
+    fallbackLocale: ['ja-JP'],
     numberFormats
   })
 
@@ -84,7 +84,7 @@ test('locale argument', () => {
 
   const ctx = context({
     locale: 'en-US',
-    fallbackLocales: ['ja-JP'],
+    fallbackLocale: ['ja-JP'],
     numberFormats
   })
 
@@ -99,7 +99,7 @@ test('with object argument', () => {
 
   const ctx = context({
     locale: 'en-US',
-    fallbackLocales: ['ja-JP'],
+    fallbackLocale: ['ja-JP'],
     numberFormats
   })
 
@@ -215,6 +215,27 @@ describe('context unresolving option', () => {
     expect(number(ctx, 123456789, 'custom')).toEqual(NOT_REOSLVED)
     expect(mockWarn).not.toHaveBeenCalled()
   })
+})
+
+test('part', () => {
+  const mockAvailabilities = Availabilities as jest.Mocked<
+    typeof Availabilities
+  >
+  mockAvailabilities.numberFormat = true
+
+  const ctx = context({
+    locale: 'en-US',
+    numberFormats
+  })
+
+  expect(
+    number(ctx, 10100, { key: 'currency', locale: 'ja-JP', part: true })
+  ).toEqual([
+    { type: 'currency', value: '￥' },
+    { type: 'integer', value: '10' },
+    { type: 'group', value: ',' },
+    { type: 'integer', value: '100' }
+  ])
 })
 
 test('not available Intl API', () => {
