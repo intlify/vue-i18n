@@ -1,11 +1,19 @@
-import { Path, resolveValue } from '../path'
+import { Path, resolveValue, PathValue } from '../path'
 import { compile, MessageFunction } from '../message/compiler'
 import {
   createMessageContext,
   NamedValue,
   MessageContextOptions
 } from '../message/context'
-import { Locale, RuntimeContext, fallback } from './context'
+import {
+  Locale,
+  RuntimeContext,
+  isTrarnslateFallbackWarn,
+  handleMissing,
+  LocaleMessage,
+  getLocaleChain,
+  NOT_REOSLVED
+} from './context'
 import {
   isString,
   isNumber,
@@ -149,12 +157,11 @@ export function translate(
 ): unknown {
   const {
     messages,
-    modifiers,
-    pluralRules,
     fallbackFormat,
     postTranslation,
-    _compileCache,
-    _fallbackLocaleStack
+    unresolving,
+    fallbackLocale,
+    _compileCache
   } = context
   const [key, options] = parseTranslateArgs(...args)
 
@@ -166,25 +173,110 @@ export function translate(
     ? options.fallbackWarn
     : context.fallbackWarn
 
-  let locale = isString(options.locale) ? options.locale : context.locale
-  // override with fallback locales
-  if (isArray(_fallbackLocaleStack) && _fallbackLocaleStack.length > 0) {
-    locale = _fallbackLocaleStack.shift() || locale
-  }
-
   // prettier-ignore
   const defaultMsgOrKey: string =
-    isString(options.default) || isBoolean(options.default)
+    isString(options.default) || isBoolean(options.default) // default by function option
       ? !isBoolean(options.default)
         ? options.default
         : key
-      : fallbackFormat
+      : fallbackFormat // default by `fallbackFormat` option
         ? key
         : ''
   const enableDefaultMsg = fallbackFormat || defaultMsgOrKey !== ''
-  // console.log('defaultMsgOrKey', defaultMsgOrKey, enableDefaultMsg)
 
-  const message = messages[locale] || {}
+  const locale = isString(options.locale) ? options.locale : context.locale
+  const locales = getLocaleChain(context, fallbackLocale, locale)
+
+  // resolve format
+  let message: LocaleMessage = {}
+  let targetLocale: Locale | undefined
+  let format: PathValue = null
+  for (let i = 0; i < locales.length; i++) {
+    targetLocale = locales[i]
+    if (
+      __DEV__ &&
+      locale !== targetLocale &&
+      isTrarnslateFallbackWarn(fallbackWarn, key)
+    ) {
+      warn(`Fall back to translate '${key}' key with '${targetLocale}' locale.`)
+    }
+    message = messages[targetLocale] || {}
+    format = resolveValue(message, key)
+    if (isString(format)) break
+    handleMissing(context, key, targetLocale, missingWarn, 'translate')
+  }
+
+  // if you use default message, set it as format!
+  if (!isString(format) && enableDefaultMsg) {
+    format = defaultMsgOrKey
+  }
+
+  // checking format and target locale
+  if (!isString(format) || !isString(targetLocale)) {
+    return unresolving ? NOT_REOSLVED : key
+  }
+
+  // compile format
+  let msg = _compileCache.get(format)
+  if (!msg) {
+    msg = compile(format)
+    _compileCache.set(format, msg)
+  }
+  // console.log('msg', msg.toString())
+
+  // evaluate message with context
+  const ctxOptions = getMessageContextOptions(
+    context,
+    targetLocale,
+    message,
+    options
+  )
+  const msgContext = createMessageContext(ctxOptions)
+  const messaged = msg(msgContext)
+
+  // if use post translation option, procee it with handler
+  return postTranslation ? postTranslation(messaged) : messaged
+}
+
+export function parseTranslateArgs(
+  ...args: unknown[]
+): [Path, TranslateOptions] {
+  const [arg1, arg2, arg3] = args
+  const options = {} as TranslateOptions
+
+  if (!isString(arg1)) {
+    throw new Error('TODO')
+  }
+  const key = arg1
+
+  if (isNumber(arg2)) {
+    options.plural = arg2
+  } else if (isString(arg2)) {
+    options.default = arg2
+  } else if (isPlainObject(arg2) && !isEmptyObject(arg2)) {
+    options.named = arg2 as NamedValue
+  } else if (isArray(arg2)) {
+    options.list = arg2
+  }
+
+  if (isNumber(arg3)) {
+    options.plural = arg3
+  } else if (isString(arg3)) {
+    options.default = arg3
+  } else if (isPlainObject(arg3)) {
+    Object.assign(options, arg3)
+  }
+
+  return [key, options]
+}
+
+function getMessageContextOptions(
+  context: RuntimeContext,
+  locale: Locale,
+  message: LocaleMessage,
+  options: TranslateOptions
+): MessageContextOptions {
+  const { modifiers, pluralRules, _compileCache } = context
 
   // TODO: need to design resolve message function?
   const resolveMessage = (key: string): MessageFunction => {
@@ -225,88 +317,5 @@ export function translate(
     ctxOptions.pluralIndex = options.plural
   }
 
-  let format = resolveValue(message, key)
-  if (!isString(format)) {
-    // missing ...
-    let ret: unknown = handleMissing(context, key, locale, missingWarn)
-    // falbacking ...
-    ret = fallback(
-      context,
-      key,
-      fallbackWarn,
-      'translate',
-      (context: RuntimeContext): unknown => translate(context, ...args),
-      enableDefaultMsg,
-      ret
-    )
-    // check enable default message
-    if (enableDefaultMsg) {
-      format = defaultMsgOrKey
-    } else {
-      return ret
-    }
-  }
-
-  let msg = _compileCache.get(format)
-  if (!msg) {
-    msg = compile(format)
-    _compileCache.set(format, msg)
-  }
-  const msgContext = createMessageContext(ctxOptions)
-  const ret = msg(msgContext)
-  return postTranslation ? postTranslation(ret) : ret
-}
-
-export function parseTranslateArgs(
-  ...args: unknown[]
-): [Path, TranslateOptions] {
-  const [arg1, arg2, arg3] = args
-  const options = {} as TranslateOptions
-
-  if (!isString(arg1)) {
-    throw new Error('TODO')
-  }
-  const key = arg1
-
-  if (isNumber(arg2)) {
-    options.plural = arg2
-  } else if (isString(arg2)) {
-    options.default = arg2
-  } else if (isPlainObject(arg2) && !isEmptyObject(arg2)) {
-    options.named = arg2 as NamedValue
-  } else if (isArray(arg2)) {
-    options.list = arg2
-  }
-
-  if (isNumber(arg3)) {
-    options.plural = arg3
-  } else if (isString(arg3)) {
-    options.default = arg3
-  } else if (isPlainObject(arg3)) {
-    Object.assign(options, arg3)
-  }
-
-  return [key, options]
-}
-
-function isTranslateMissingWarn(missing: boolean | RegExp, key: Path): boolean {
-  return missing instanceof RegExp ? missing.test(key) : missing
-}
-
-function handleMissing(
-  context: RuntimeContext,
-  key: Path,
-  locale: Locale,
-  missingWarn: boolean | RegExp
-): unknown {
-  const { missing } = context
-  if (missing !== null) {
-    const ret = missing(context, locale, key)
-    return isString(ret) ? ret : key
-  } else {
-    if (__DEV__ && isTranslateMissingWarn(missingWarn, key)) {
-      warn(`Not found '${key}' key in '${locale}' locale messages.`)
-    }
-    return key
-  }
+  return ctxOptions
 }

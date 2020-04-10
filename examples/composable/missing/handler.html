@@ -16,7 +16,7 @@
 
       const i18n = createI18n({
         locale: 'ja',
-        fallbackLocales: ['en'],
+        fallbackLocale: ['en'],
         missing: (locale, key, instance) => {
           // something to do ...
           console.warn(`detect '${key}' key missing in '${locale}'`)

@@ -37,7 +37,9 @@ import {
   RuntimeMissingHandler,
   LocaleMessage,
   PostTranslationHandler,
-  MISSING_RESOLVE_VALUE
+  MISSING_RESOLVE_VALUE,
+  updateFallbackLocale,
+  FallbackLocale
 } from './runtime/context'
 import {
   translate,
@@ -71,7 +73,8 @@ import {
 export type MissingHandler = (
   locale: Locale,
   key: Path,
-  insttance?: ComponentInternalInstance
+  insttance?: ComponentInternalInstance,
+  type?: string
 ) => string | void
 export type CustomBlocks = string[]
 
@@ -80,7 +83,7 @@ export type CustomBlocks = string[]
  */
 export type ComposerOptions = {
   locale?: Locale
-  fallbackLocales?: Locale[]
+  fallbackLocale?: FallbackLocale
   messages?: LocaleMessages
   datetimeFormats?: DateTimeFormats
   numberFormats?: NumberFormats
@@ -104,7 +107,7 @@ export type Composer = {
    * properties
    */
   locale: WritableComputedRef<Locale>
-  fallbackLocales: WritableComputedRef<Locale[]>
+  fallbackLocale: WritableComputedRef<FallbackLocale>
   readonly availableLocales: Locale[]
   readonly messages: ComputedRef<LocaleMessages>
   readonly datetimeFormats: ComputedRef<DateTimeFormats>
@@ -166,8 +169,13 @@ let composerID = 0
 function defineRuntimeMissingHandler(
   missing: MissingHandler
 ): RuntimeMissingHandler {
-  return (ctx: RuntimeContext, locale: Locale, key: Path): string | void => {
-    return missing(locale, key, getCurrentInstance() || undefined)
+  return (
+    ctx: RuntimeContext,
+    locale: Locale,
+    key: Path,
+    type: string
+  ): string | void => {
+    return missing(locale, key, getCurrentInstance() || undefined, type)
   }
 }
 
@@ -230,13 +238,13 @@ export function createComposer(options: ComposerOptions = {}): Composer {
         ? options.locale
         : 'en-US'
   )
-  const _fallbackLocales = ref<Locale[]>(
+  const _fallbackLocale = ref<FallbackLocale>(
     // prettier-ignore
     __root
-      ? __root.fallbackLocales.value
-      : isArray(options.fallbackLocales)
-        ? options.fallbackLocales
-        : []
+      ? __root.fallbackLocale.value
+      : isString(options.fallbackLocale) || isArray(options.fallbackLocale) || isPlainObject(options.fallbackLocale) || options.fallbackLocale === false
+        ? options.fallbackLocale
+        : _locale.value
   )
   const _messages = ref<LocaleMessages>(
     getLocaleMessages(options, _locale.value)
@@ -301,7 +309,7 @@ export function createComposer(options: ComposerOptions = {}): Composer {
   const getRuntimeContext = (): RuntimeContext => {
     return createRuntimeContext({
       locale: _locale.value,
-      fallbackLocales: _fallbackLocales.value,
+      fallbackLocale: _fallbackLocale.value,
       messages: _messages.value,
       datetimeFormats: _datetimeFormats.value,
       numberFormats: _numberFormats.value,
@@ -325,6 +333,7 @@ export function createComposer(options: ComposerOptions = {}): Composer {
     })
   }
   _context = getRuntimeContext()
+  updateFallbackLocale(_context, _locale.value, _fallbackLocale.value)
 
   // locale
   const locale = computed({
@@ -335,12 +344,13 @@ export function createComposer(options: ComposerOptions = {}): Composer {
     }
   })
 
-  // fallbackLocales
-  const fallbackLocales = computed({
-    get: () => _fallbackLocales.value,
+  // fallbackLocale
+  const fallbackLocale = computed({
+    get: () => _fallbackLocale.value,
     set: val => {
-      _fallbackLocales.value = val
-      _context.fallbackLocales = _fallbackLocales.value
+      _fallbackLocale.value = val
+      _context.fallbackLocale = _fallbackLocale.value
+      updateFallbackLocale(_context, _locale.value, val)
     }
   })
 
@@ -546,7 +556,7 @@ export function createComposer(options: ComposerOptions = {}): Composer {
      *  properties
      */
     locale,
-    fallbackLocales,
+    fallbackLocale,
     get availableLocales(): Locale[] {
       return Object.keys(_messages.value).sort()
     },

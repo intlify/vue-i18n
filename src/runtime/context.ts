@@ -19,6 +19,12 @@ import { DateTimeFormats, NumberFormats } from './types'
 
 export type Locale = string
 
+export type FallbackLocale =
+  | Locale
+  | Locale[]
+  | { [locale in string]: Locale[] }
+  | false
+
 // TODO: should more design it's useful typing ...
 export type LocaleMessageDictionary = {
   [property: string]: LocaleMessage
@@ -34,13 +40,14 @@ export type RuntimeMissingHandler = (
   context: RuntimeContext,
   locale: Locale,
   key: Path,
+  type: string,
   ...values: unknown[]
 ) => string | void
 export type PostTranslationHandler = (translated: unknown) => unknown
 
 export type RuntimeOptions = {
   locale?: Locale
-  fallbackLocales?: Locale[]
+  fallbackLocale?: FallbackLocale
   messages?: LocaleMessages
   datetimeFormats?: DateTimeFormats
   numberFormats?: NumberFormats
@@ -60,7 +67,7 @@ export type RuntimeOptions = {
 
 export type RuntimeContext = {
   locale: Locale
-  fallbackLocales: Locale[]
+  fallbackLocale: FallbackLocale
   messages: LocaleMessages
   datetimeFormats: DateTimeFormats
   numberFormats: NumberFormats
@@ -77,6 +84,7 @@ export type RuntimeContext = {
   _datetimeFormatters: Map<string, Intl.DateTimeFormat>
   _numberFormatters: Map<string, Intl.NumberFormat>
   _fallbackLocaleStack?: Locale[]
+  _localeChainCache?: Map<Locale, Locale[]>
 }
 
 const DEFAULT_LINKDED_MODIFIERS: LinkedModifiers = {
@@ -98,9 +106,12 @@ export function createRuntimeContext(
   options: RuntimeOptions = {}
 ): RuntimeContext {
   const locale = isString(options.locale) ? options.locale : 'en-US'
-  const fallbackLocales = isArray(options.fallbackLocales)
-    ? options.fallbackLocales
-    : []
+  const fallbackLocale =
+    isArray(options.fallbackLocale) ||
+    isPlainObject(options.fallbackLocale) ||
+    options.fallbackLocale === false
+      ? options.fallbackLocale
+      : locale
   const messages = isPlainObject(options.messages)
     ? options.messages
     : { [locale]: {} }
@@ -147,7 +158,7 @@ export function createRuntimeContext(
 
   return {
     locale,
-    fallbackLocales,
+    fallbackLocale,
     messages,
     datetimeFormats,
     numberFormats,
@@ -173,51 +184,134 @@ export function isTrarnslateFallbackWarn(
   return fallback instanceof RegExp ? fallback.test(key) : fallback
 }
 
-export function fallback(
+export function isTranslateMissingWarn(
+  missing: boolean | RegExp,
+  key: Path
+): boolean {
+  return missing instanceof RegExp ? missing.test(key) : missing
+}
+
+export function handleMissing(
   context: RuntimeContext,
-  key: string,
-  fallbackWarn: boolean | RegExp,
-  type: string,
-  fn: Function,
-  fallbackFormat?: boolean,
-  defaultReturn?: unknown
-): string | number {
-  // prettier-ignore
-  let ret: string | number = context.unresolving
-    ? isBoolean(fallbackFormat) && fallbackFormat && isString(defaultReturn)
-      ? defaultReturn
-      : NOT_REOSLVED
-    : isString(defaultReturn)
-      ? defaultReturn
-      : MISSING_RESOLVE_VALUE
-  if (context.fallbackLocales.length === 0) {
-    return ret
+  key: Path,
+  locale: Locale,
+  missingWarn: boolean | RegExp,
+  type: string
+): unknown {
+  const { missing } = context
+  if (missing !== null) {
+    const ret = missing(context, locale, key, type)
+    return isString(ret) ? ret : key
+  } else {
+    if (__DEV__ && isTranslateMissingWarn(missingWarn, key)) {
+      warn(`Not found '${key}' key in '${locale}' locale messages.`)
+    }
+    return key
   }
-  if (
-    context._fallbackLocaleStack &&
-    context._fallbackLocaleStack.length === 0
-  ) {
-    return ret
+}
+
+export function getLocaleChain(
+  context: RuntimeContext,
+  fallback: FallbackLocale,
+  start: Locale = ''
+): Locale[] {
+  if (start === '') {
+    return []
   }
-  if (!context._fallbackLocaleStack) {
-    context._fallbackLocaleStack = [...context.fallbackLocales]
+
+  if (!context._localeChainCache) {
+    context._localeChainCache = new Map()
   }
-  if (__DEV__ && isTrarnslateFallbackWarn(fallbackWarn, key)) {
-    warn(
-      `Fall back to ${type} '${key}' key with '${context._fallbackLocaleStack.join(
-        ','
-      )}' locale.`
-    )
+
+  let chain = context._localeChainCache.get(start)
+  if (!chain) {
+    chain = []
+
+    // first block defined by start
+    let block: unknown = [start]
+
+    // while any intervening block found
+    while (isArray(block)) {
+      block = appendBlockToChain(chain, block, fallback)
+    }
+
+    // prettier-ignore
+    // last block defined by default
+    const defaults = isArray(fallback)
+      ? fallback
+      : isPlainObject(fallback)
+        ? fallback['default']
+          ? fallback['default']
+          : null
+        : fallback
+
+    // convert defaults to array
+    block = isString(defaults) ? [defaults] : defaults
+    if (isArray(block)) {
+      appendBlockToChain(chain, block, false)
+    }
+    context._localeChainCache.set(start, chain)
   }
-  ret = fn(context)
-  if (
-    context._fallbackLocaleStack &&
-    context._fallbackLocaleStack.length === 0
-  ) {
-    context._fallbackLocaleStack = undefined
-    if ((ret === MISSING_RESOLVE_VALUE || ret === key) && context.unresolving) {
-      ret = NOT_REOSLVED
+
+  return chain
+}
+
+function appendBlockToChain(
+  chain: Locale[],
+  block: Locale[],
+  blocks: FallbackLocale
+): unknown {
+  let follow: unknown = true
+  for (let i = 0; i < block.length && isBoolean(follow); i++) {
+    follow = appendLocaleToChain(chain, block[i], blocks)
+  }
+  return follow
+}
+
+function appendLocaleToChain(
+  chain: Locale[],
+  locale: Locale,
+  blocks: FallbackLocale
+): unknown {
+  let follow: unknown
+  const tokens = locale.split('-')
+  do {
+    const target = tokens.join('-')
+    follow = appendItemToChain(chain, target, blocks)
+    tokens.splice(-1, 1)
+  } while (tokens.length && follow === true)
+  return follow
+}
+
+function appendItemToChain(
+  chain: Locale[],
+  target: Locale,
+  blocks: FallbackLocale
+): unknown {
+  let follow: unknown = false
+  if (!chain.includes(target)) {
+    follow = true
+    if (target) {
+      follow = !target.endsWith('!')
+      const locale = target.replace(/!/g, '')
+      chain.push(locale)
+      if (
+        (isArray(blocks) || isPlainObject(blocks)) &&
+        (blocks as any)[locale] // eslint-disable-line @typescript-eslint/no-explicit-any
+      ) {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        follow = (blocks as any)[locale]
+      }
     }
   }
-  return ret
+  return follow
+}
+
+export function updateFallbackLocale(
+  context: RuntimeContext,
+  locale: Locale,
+  fallback: FallbackLocale
+): void {
+  context._localeChainCache = new Map()
+  getLocaleChain(context, fallback, locale)
 }

@@ -111,7 +111,7 @@ describe('default option', () => {
 })
 
 describe('context missing option', () => {
-  test('missing handler is nothing', () => {
+  test('not specified missing handler', () => {
     const mockWarn = warn as jest.MockedFunction<typeof warn>
     mockWarn.mockImplementation(() => {}) // eslint-disable-line @typescript-eslint/no-empty-function
 
@@ -128,39 +128,10 @@ describe('context missing option', () => {
     )
   })
 
-  test('missing handler that return string value', () => {
-    const ctx = context({
-      locale: 'en',
-      missing: (c, locale, key) => {
-        expect(c).toEqual(ctx)
-        expect(locale).toEqual('en')
-        expect(key).toEqual('hello')
-        return 'HELLO'
-      },
-      messages: {
-        en: {}
-      }
-    })
-    expect(translate(ctx, 'hello')).toEqual('HELLO')
-  })
+  test('specified missing handler', () => {
+    const mockWarn = warn as jest.MockedFunction<typeof warn>
+    mockWarn.mockImplementation(() => {}) // eslint-disable-line @typescript-eslint/no-empty-function
 
-  test('missing handler that return not string value', () => {
-    const ctx = context({
-      locale: 'en',
-      missing: (c, locale, key) => {
-        expect(c).toEqual(ctx)
-        expect(locale).toEqual('en')
-        expect(key).toEqual('hello')
-        return {} as string
-      },
-      messages: {
-        en: {}
-      }
-    })
-    expect(translate(ctx, 'hello')).toEqual('hello')
-  })
-
-  test('missing handler that not return value', () => {
     const ctx = context({
       locale: 'en',
       missing: (c, locale, key) => {
@@ -173,6 +144,7 @@ describe('context missing option', () => {
       }
     })
     expect(translate(ctx, 'hello')).toEqual('hello')
+    expect(mockWarn).not.toHaveBeenCalled()
   })
 })
 
@@ -210,6 +182,9 @@ describe('context missingWarn option', () => {
     expect(translate(ctx, 'hi kazupon!')).toEqual('hi kazupon!')
     expect(translate(ctx, 'hello')).toEqual('hello')
     expect(mockWarn).toHaveBeenCalledTimes(1)
+    expect(mockWarn.mock.calls[0][0]).not.toEqual(
+      `Not found 'hello' key in 'en' locale messages.`
+    )
   })
 
   test('missingWarn option', () => {
@@ -230,7 +205,7 @@ describe('context missingWarn option', () => {
 })
 
 describe('context fallbackWarn option', () => {
-  test('not specify fallbackLocales', () => {
+  test('not specify fallbackLocale', () => {
     const mockWarn = warn as jest.MockedFunction<typeof warn>
     mockWarn.mockImplementation(() => {}) // eslint-disable-line @typescript-eslint/no-empty-function
 
@@ -246,13 +221,13 @@ describe('context fallbackWarn option', () => {
     expect(mockWarn).not.toHaveBeenCalled()
   })
 
-  test('specify fallbackLocales', () => {
+  test('specify fallbackLocale', () => {
     const mockWarn = warn as jest.MockedFunction<typeof warn>
     mockWarn.mockImplementation(() => {}) // eslint-disable-line @typescript-eslint/no-empty-function
 
     const ctx = context({
       locale: 'en',
-      fallbackLocales: ['ja'],
+      fallbackLocale: ['ja'],
       missingWarn: false,
       messages: {
         en: {},
@@ -275,7 +250,7 @@ describe('context fallbackWarn option', () => {
 
     const ctx = context({
       locale: 'en',
-      fallbackLocales: ['ja', 'fr'],
+      fallbackLocale: ['ja', 'fr'],
       missingWarn: false,
       messages: {
         en: {},
@@ -286,7 +261,7 @@ describe('context fallbackWarn option', () => {
     expect(translate(ctx, 'hello.world')).toEqual('hello.world')
     expect(mockWarn).toHaveBeenCalledTimes(2)
     expect(mockWarn.mock.calls[0][0]).toEqual(
-      `Fall back to translate 'hello.world' key with 'ja,fr' locale.`
+      `Fall back to translate 'hello.world' key with 'ja' locale.`
     )
     expect(mockWarn.mock.calls[1][0]).toEqual(
       `Fall back to translate 'hello.world' key with 'fr' locale.`
@@ -299,7 +274,7 @@ describe('context fallbackWarn option', () => {
 
     const ctx = context({
       locale: 'en',
-      fallbackLocales: ['ja', 'fr'],
+      fallbackLocale: ['ja', 'fr'],
       missingWarn: false,
       fallbackWarn: false,
       messages: {
@@ -318,7 +293,7 @@ describe('context fallbackWarn option', () => {
 
     const ctx = context({
       locale: 'en',
-      fallbackLocales: ['ja', 'fr'],
+      fallbackLocale: ['ja', 'fr'],
       missingWarn: false,
       fallbackWarn: /^hello/,
       messages: {
@@ -337,7 +312,7 @@ describe('context fallbackWarn option', () => {
 
     const ctx = context({
       locale: 'en',
-      fallbackLocales: ['ja'],
+      fallbackLocale: ['ja'],
       missingWarn: false,
       messages: {
         en: {},
@@ -360,7 +335,7 @@ describe('context fallbackFormat option', () => {
 
     const ctx = context({
       locale: 'en',
-      fallbackLocales: ['ja', 'fr'],
+      fallbackLocale: ['ja', 'fr'],
       fallbackFormat: true,
       messages: {
         en: {},
@@ -377,7 +352,7 @@ describe('context fallbackFormat option', () => {
       `Not found 'hi, {name}!' key in 'en' locale messages.`
     )
     expect(mockWarn.mock.calls[1][0]).toEqual(
-      `Fall back to translate 'hi, {name}!' key with 'ja,fr' locale.`
+      `Fall back to translate 'hi, {name}!' key with 'ja' locale.`
     )
     expect(mockWarn.mock.calls[2][0]).toEqual(
       `Not found 'hi, {name}!' key in 'ja' locale messages.`
@@ -396,7 +371,7 @@ describe('context fallbackFormat option', () => {
 
     const ctx = context({
       locale: 'en',
-      fallbackLocales: ['ja', 'fr'],
+      fallbackLocale: ['ja', 'fr'],
       fallbackFormat: true,
       messages: {
         en: {},
@@ -413,7 +388,7 @@ describe('context fallbackFormat option', () => {
       `Not found 'hi, {name}!' key in 'en' locale messages.`
     )
     expect(mockWarn.mock.calls[1][0]).toEqual(
-      `Fall back to translate 'hi, {name}!' key with 'ja,fr' locale.`
+      `Fall back to translate 'hi, {name}!' key with 'ja' locale.`
     )
     expect(mockWarn.mock.calls[2][0]).toEqual(
       `Not found 'hi, {name}!' key in 'ja' locale messages.`
@@ -452,7 +427,7 @@ describe('context unresolving option', () => {
   test('fallbackWarn is truth', () => {
     const ctx = context({
       locale: 'en',
-      fallbackLocales: ['ja', 'fr'],
+      fallbackLocale: ['ja', 'fr'],
       missingWarn: false,
       fallbackWarn: /^hello/,
       unresolving: true,
@@ -467,7 +442,7 @@ describe('context unresolving option', () => {
   test('fallbackWarn is false', () => {
     const ctx = context({
       locale: 'en',
-      fallbackLocales: ['ja', 'fr'],
+      fallbackLocale: ['ja', 'fr'],
       missingWarn: false,
       fallbackWarn: false,
       unresolving: true,
@@ -485,7 +460,7 @@ describe('context unresolving option', () => {
 
     const ctx = context({
       locale: 'en',
-      fallbackLocales: ['ja', 'fr'],
+      fallbackLocale: ['ja', 'fr'],
       fallbackFormat: true,
       unresolving: true,
       messages: {

@@ -118,12 +118,17 @@ test('fallback', () => {
 
   const ctx = context({
     locale: 'en-US',
-    fallbackLocales: ['ja-JP'],
+    fallbackLocale: ['ja-JP'],
+    missingWarn: false,
     numberFormats
   })
 
   expect(number(ctx, 0.99, 'percent')).toEqual('99%')
+  expect(mockWarn).toHaveBeenCalledTimes(2)
   expect(mockWarn.mock.calls[0][0]).toEqual(
+    `Fall back to number format 'percent' key with 'en' locale.`
+  )
+  expect(mockWarn.mock.calls[1][0]).toEqual(
     `Fall back to number format 'percent' key with 'ja-JP' locale.`
   )
 })
@@ -138,7 +143,8 @@ test(`context fallbackWarn 'false' option`, () => {
 
   const ctx = context({
     locale: 'en-US',
-    fallbackLocales: ['ja-JP'],
+    fallbackLocale: ['ja-JP'],
+    missingWarn: false,
     fallbackWarn: false,
     numberFormats
   })
@@ -157,7 +163,8 @@ test(`number function fallbackWarn 'false' option`, () => {
 
   const ctx = context({
     locale: 'en-US',
-    fallbackLocales: ['ja-JP'],
+    fallbackLocale: ['ja-JP'],
+    missingWarn: false,
     numberFormats
   })
 
@@ -178,6 +185,7 @@ describe('context unresolving option', () => {
 
     const ctx = context({
       locale: 'en-US',
+      missingWarn: false,
       fallbackWarn: false,
       unresolving: true,
       numberFormats
@@ -197,7 +205,8 @@ describe('context unresolving option', () => {
 
     const ctx = context({
       locale: 'en-US',
-      fallbackLocales: ['ja-JP'],
+      fallbackLocale: ['ja-JP'],
+      missingWarn: false,
       fallbackWarn: false,
       unresolving: true,
       numberFormats
@@ -218,7 +227,7 @@ test('not available Intl API', () => {
 
   const ctx = context({
     locale: 'en-US',
-    fallbackLocales: ['ja-JP'],
+    fallbackLocale: ['ja-JP'],
     numberFormats
   })
 
