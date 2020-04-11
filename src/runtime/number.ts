@@ -8,7 +8,14 @@ import {
   NOT_REOSLVED,
   MISSING_RESOLVE_VALUE
 } from './context'
-import { warn, isString, isBoolean, isPlainObject, isNumber } from '../utils'
+import {
+  warn,
+  isString,
+  isBoolean,
+  isPlainObject,
+  isNumber,
+  isEmptyObject
+} from '../utils'
 
 /**
  *  # number
@@ -44,9 +51,9 @@ import { warn, isString, isBoolean, isPlainObject, isNumber } from '../utils'
  *    number(context, value, { key: 'currenty', part: true })
  *
  *    // orverride context.numberFormats[locale] options with functino options
- *    number(cnotext, value, 'currency', { currency: 'EUR' })
- *    number(cnotext, value, 'currency', 'ja-JP', { currency: 'EUR' })
- *    number(context, value, { key: 'currenty', part: true }, { currency: 'EUR'})
+ *    number(cnotext, value, 'currency', { year: '2-digit' })
+ *    number(cnotext, value, 'currency', 'ja-JP', { year: '2-digit' })
+ *    number(context, value, { key: 'currenty', part: true }, { year: '2-digit'})
  */
 
 export type NumberOptions = {
@@ -142,7 +149,11 @@ export function number(
     return unresolving ? NOT_REOSLVED : key
   }
 
-  const id = `${targetLocale}__${key}__${JSON.stringify(orverrides)}`
+  let id = `${targetLocale}__${key}`
+  if (!isEmptyObject(orverrides)) {
+    id = `${id}__${JSON.stringify(orverrides)}`
+  }
+
   let formatter = _numberFormatters.get(id)
   if (!formatter) {
     formatter = new Intl.NumberFormat(
