@@ -42,6 +42,11 @@ import { warn, isString, isBoolean, isPlainObject, isNumber } from '../utils'
  *
  *    // if you specify `part` options, you can get an array of objects containing the formatted number in parts
  *    number(context, value, { key: 'currenty', part: true })
+ *
+ *    // orverride context.numberFormats[locale] options with functino options
+ *    number(cnotext, value, 'currency', { currency: 'EUR' })
+ *    number(cnotext, value, 'currency', 'ja-JP', { currency: 'EUR' })
+ *    number(context, value, { key: 'currenty', part: true }, { currency: 'EUR'})
  */
 
 export type NumberOptions = {
@@ -95,7 +100,7 @@ export function number(
     return MISSING_RESOLVE_VALUE
   }
 
-  const [value, options] = parseNumberArgs(...args)
+  const [value, options, orverrides] = parseNumberArgs(...args)
   const { key } = options
   const missingWarn = isBoolean(options.missingWarn)
     ? options.missingWarn
@@ -137,18 +142,24 @@ export function number(
     return unresolving ? NOT_REOSLVED : key
   }
 
-  const id = `${targetLocale}__${key}`
+  const id = `${targetLocale}__${key}__${JSON.stringify(orverrides)}`
   let formatter = _numberFormatters.get(id)
   if (!formatter) {
-    formatter = new Intl.NumberFormat(targetLocale, format)
+    formatter = new Intl.NumberFormat(
+      targetLocale,
+      Object.assign({}, format, orverrides)
+    )
     _numberFormatters.set(id, formatter)
   }
   return !part ? formatter.format(value) : formatter.formatToParts(value)
 }
 
-export function parseNumberArgs(...args: unknown[]): [number, NumberOptions] {
-  const [arg1, arg2, arg3] = args
+export function parseNumberArgs(
+  ...args: unknown[]
+): [number, NumberOptions, Intl.NumberFormatOptions] {
+  const [arg1, arg2, arg3, arg4] = args
   let options = {} as NumberOptions
+  let orverrides = {} as Intl.NumberFormatOptions
 
   if (!isNumber(arg1)) {
     throw new Error('TODO')
@@ -163,9 +174,15 @@ export function parseNumberArgs(...args: unknown[]): [number, NumberOptions] {
 
   if (isString(arg3)) {
     options.locale = arg3
+  } else if (isPlainObject(arg3)) {
+    orverrides = arg3
   }
 
-  return [value, options]
+  if (isPlainObject(arg4)) {
+    orverrides = arg4
+  }
+
+  return [value, options, orverrides]
 }
 
 export function clearNumberFormat(

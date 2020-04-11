@@ -108,6 +108,34 @@ test('with object argument', () => {
   )
 })
 
+test('override format options with number function options', () => {
+  const mockAvailabilities = Availabilities as jest.Mocked<
+    typeof Availabilities
+  >
+  mockAvailabilities.numberFormat = true
+
+  const ctx = context({
+    locale: 'en-US',
+    fallbackLocale: ['ja-JP'],
+    numberFormats
+  })
+
+  expect(number(ctx, 10100, 'currency', { currency: 'EUR' })).toEqual(
+    '€10,100.00'
+  )
+  expect(number(ctx, 10100, 'currency', 'ja-JP', { currency: 'EUR' })).toEqual(
+    '€10,100.00'
+  )
+  expect(
+    number(
+      ctx,
+      10100,
+      { key: 'currency', locale: 'ja-JP' },
+      { currency: 'EUR' }
+    )
+  ).toEqual('€10,100.00')
+})
+
 test('fallback', () => {
   const mockWarn = warn as jest.MockedFunction<typeof warn>
   mockWarn.mockImplementation(() => {}) // eslint-disable-line @typescript-eslint/no-empty-function
