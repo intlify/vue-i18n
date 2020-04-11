@@ -132,6 +132,29 @@ test('with object argument', () => {
   )
 })
 
+test('override format options with number function options', () => {
+  const mockAvailabilities = Availabilities as jest.Mocked<
+    typeof Availabilities
+  >
+  mockAvailabilities.numberFormat = true
+
+  const ctx = context({
+    locale: 'en-US',
+    fallbackLocale: ['ja-JP'],
+    datetimeFormats
+  })
+
+  expect(datetime(ctx, dt, 'short', { year: '2-digit' })).toEqual(
+    '12/19/12, 10:00 PM'
+  )
+  expect(datetime(ctx, dt, 'short', 'ja-JP', { year: '2-digit' })).toEqual(
+    '12/12/20 12:00'
+  )
+  expect(
+    datetime(ctx, dt, { key: 'short', locale: 'ja-JP' }, { year: '2-digit' })
+  ).toEqual('12/12/20 12:00')
+})
+
 test('fallback', () => {
   const mockWarn = warn as jest.MockedFunction<typeof warn>
   mockWarn.mockImplementation(() => {}) // eslint-disable-line @typescript-eslint/no-empty-function

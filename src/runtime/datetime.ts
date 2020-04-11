@@ -14,7 +14,8 @@ import {
   isBoolean,
   isPlainObject,
   isDate,
-  isNumber
+  isNumber,
+  isEmptyObject
 } from '../utils'
 
 /**
@@ -50,6 +51,11 @@ import {
  *
  *    // if you specify `part` options, you can get an array of objects containing the formatted datetime in parts
  *    datetime(context, value, { key: 'short', part: true })
+ *
+ *    // orverride context.datetimeFormats[locale] options with functino options
+ *    datetime(cnotext, value, 'short', { currency: 'EUR' })
+ *    datetime(cnotext, value, 'short', 'ja-JP', { currency: 'EUR' })
+ *    datetime(context, value, { key: 'short', part: true }, { currency: 'EUR'})
  */
 
 export type DateTimeOptions = {
@@ -103,7 +109,7 @@ export function datetime(
     return MISSING_RESOLVE_VALUE
   }
 
-  const [value, options] = parseDateTimeArgs(...args)
+  const [value, options, orverrides] = parseDateTimeArgs(...args)
   const { key } = options
   const missingWarn = isBoolean(options.missingWarn)
     ? options.missingWarn
@@ -145,10 +151,17 @@ export function datetime(
     return unresolving ? NOT_REOSLVED : key
   }
 
-  const id = `${targetLocale}__${key}`
+  let id = `${targetLocale}__${key}`
+  if (!isEmptyObject(orverrides)) {
+    id = `${id}__${JSON.stringify(orverrides)}`
+  }
+
   let formatter = _datetimeFormatters.get(id)
   if (!formatter) {
-    formatter = new Intl.DateTimeFormat(targetLocale, format)
+    formatter = new Intl.DateTimeFormat(
+      targetLocale,
+      Object.assign({}, format, orverrides)
+    )
     _datetimeFormatters.set(id, formatter)
   }
   return !part ? formatter.format(value) : formatter.formatToParts(value)
@@ -156,9 +169,10 @@ export function datetime(
 
 export function parseDateTimeArgs(
   ...args: unknown[]
-): [number | Date, DateTimeOptions] {
-  const [arg1, arg2, arg3] = args
+): [number | Date, DateTimeOptions, Intl.DateTimeFormatOptions] {
+  const [arg1, arg2, arg3, arg4] = args
   let options = {} as DateTimeOptions
+  let orverrides = {} as Intl.DateTimeFormatOptions
 
   if (!(isNumber(arg1) || isDate(arg1))) {
     throw new Error('TODO')
@@ -173,9 +187,15 @@ export function parseDateTimeArgs(
 
   if (isString(arg3)) {
     options.locale = arg3
+  } else if (isPlainObject(arg3)) {
+    orverrides = arg3
   }
 
-  return [value, options]
+  if (isPlainObject(arg4)) {
+    orverrides = arg4
+  }
+
+  return [value, options, orverrides]
 }
 
 export function clearDateTimeFormat(
