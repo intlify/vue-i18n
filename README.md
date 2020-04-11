@@ -203,7 +203,7 @@ yarn add vue-i18n@next
   - [x] IntlAvailability availabilities
 - Components
   - [x] Translation `<i18n-t>`
-  - [ ] Numberization `<i18n-n>`
+  - [x] Numberization `<i18n-n>`
 - Directive
   - [ ] `v-t`
 - Tool Chains
