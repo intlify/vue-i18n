@@ -162,6 +162,7 @@ export type Composer = {
   setMissingHandler(handler: MissingHandler | null): void
   install: Plugin
   __transrateVNode(...args: unknown[]): unknown // for internal
+  __numberParts(...args: unknown[]): string | Intl.NumberFormatPart[] // for internal
 }
 
 let composerID = 0
@@ -242,7 +243,10 @@ export function createComposer(options: ComposerOptions = {}): Composer {
     // prettier-ignore
     __root
       ? __root.fallbackLocale.value
-      : isString(options.fallbackLocale) || isArray(options.fallbackLocale) || isPlainObject(options.fallbackLocale) || options.fallbackLocale === false
+      : isString(options.fallbackLocale) ||
+        isArray(options.fallbackLocale) ||
+        isPlainObject(options.fallbackLocale) ||
+        options.fallbackLocale === false
         ? options.fallbackLocale
         : _locale.value
   )
@@ -458,7 +462,7 @@ export function createComposer(options: ComposerOptions = {}): Composer {
     interpolate
   } as MessageProcessor
 
-  // _transrateVNode, using for `i18n-t` component
+  // __transrateVNode, using for `i18n-t` component
   const __transrateVNode = (...args: unknown[]): unknown => {
     return computed<unknown>((): unknown => {
       let ret: unknown
@@ -476,6 +480,29 @@ export function createComposer(options: ComposerOptions = {}): Composer {
         }
         return _fallbackRoot && __root ? __root.__transrateVNode(...args) : key
       } else if (isArray(ret)) {
+        return ret
+      } else {
+        throw new Error('TODO:') // TODO
+      }
+    }).value
+  }
+
+  // __numberParts, using for `i18n-n` component
+  const __numberParts = (
+    ...args: unknown[]
+  ): string | Intl.NumberFormatPart[] => {
+    return computed<string | Intl.NumberFormatPart[]>(():
+      | string
+      | Intl.NumberFormatPart[] => {
+      const ret = number(_context, ...args)
+      if (isNumber(ret) && ret === NOT_REOSLVED) {
+        const [, options] = parseNumberArgs(...args)
+        if (__DEV__ && _fallbackRoot && __root) {
+          const key = isString(options.key) ? options.key : ''
+          warn(`Fall back to number format '${key}' with root locale.`)
+        }
+        return _fallbackRoot && __root ? __root.__numberParts(...args) : []
+      } else if (isString(ret) || isArray(ret)) {
         return ret
       } else {
         throw new Error('TODO:') // TODO
@@ -621,7 +648,8 @@ export function createComposer(options: ComposerOptions = {}): Composer {
     install(app: App, ...options: any[]): void {
       apply(app, composer, ...options)
     },
-    __transrateVNode
+    __transrateVNode,
+    __numberParts
   }
 
   return composer
