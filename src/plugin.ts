@@ -21,7 +21,7 @@ export function apply(app: App, composer: Composer, ...options: any[]): void {
 
   // install components
   app.component(pluginOptions['i18n-t'] || Translation.name, Translation)
-  app.component(Number.name, Number)
+  app.component(NumberFormat.name, NumberFormat)
 
   // install directive
   app.directive('t', vT as FunctionDirective) // TODO:
