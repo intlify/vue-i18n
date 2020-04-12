@@ -163,6 +163,7 @@ export type Composer = {
   install: Plugin
   __transrateVNode(...args: unknown[]): unknown // for internal
   __numberParts(...args: unknown[]): string | Intl.NumberFormatPart[] // for internal
+  __datetimeParts(...args: unknown[]): string | Intl.DateTimeFormatPart[] // for internal
 }
 
 let composerID = 0
@@ -510,6 +511,29 @@ export function createComposer(options: ComposerOptions = {}): Composer {
     }).value
   }
 
+  // __datetimeParts, using for `i18n-d` component
+  const __datetimeParts = (
+    ...args: unknown[]
+  ): string | Intl.DateTimeFormatPart[] => {
+    return computed<string | Intl.DateTimeFormatPart[]>(():
+      | string
+      | Intl.DateTimeFormatPart[] => {
+      const ret = datetime(_context, ...args)
+      if (isNumber(ret) && ret === NOT_REOSLVED) {
+        const [, options] = parseDateTimeArgs(...args)
+        if (__DEV__ && _fallbackRoot && __root) {
+          const key = isString(options.key) ? options.key : ''
+          warn(`Fall back to datetime format '${key}' with root locale.`)
+        }
+        return _fallbackRoot && __root ? __root.__datetimeParts(...args) : []
+      } else if (isString(ret) || isArray(ret)) {
+        return ret
+      } else {
+        throw new Error('TODO:') // TODO
+      }
+    }).value
+  }
+
   // getLocaleMessage
   const getLocaleMessage = (locale: Locale): LocaleMessage =>
     _messages.value[locale] || {}
@@ -649,7 +673,8 @@ export function createComposer(options: ComposerOptions = {}): Composer {
       apply(app, composer, ...options)
     },
     __transrateVNode,
-    __numberParts
+    __numberParts,
+    __datetimeParts
   }
 
   return composer
