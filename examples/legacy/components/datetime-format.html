@@ -13,11 +13,22 @@
       <h2>basic usages:</h2>
       <i18n-d tag="p" :value="new Date()"></i18n-d>
       <i18n-d tag="p" :value="new Date()" format="long"></i18n-d>
-      <i18n-d tag="p" :value="new Date()" format="long" locale="ja-JP-u-ca-japanese"></i18n-d>
+      <i18n-d
+        tag="p"
+        :value="new Date()"
+        format="long"
+        locale="ja-JP-u-ca-japanese"
+      ></i18n-d>
 
       <h2>slot usages:</h2>
-      <i18n-d :value="new Date()" locale="ja-JP-u-ca-japanese" :format="{ key: 'long', era: 'narrow' }">
-        <template #era="props"><span style="color: green">{{ props.era }}</span></template>
+      <i18n-d
+        :value="new Date()"
+        locale="ja-JP-u-ca-japanese"
+        :format="{ key: 'long', era: 'narrow' }"
+      >
+        <template #era="props"
+          ><span style="color: green;">{{ props.era }}</span></template
+        >
       </i18n-d>
     </div>
     <script>

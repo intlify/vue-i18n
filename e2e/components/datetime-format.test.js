@@ -1,7 +1,9 @@
 ;['composable', 'legacy'].forEach(pattern => {
   describe(`${pattern}`, () => {
     beforeAll(async () => {
-      await page.goto(`http://localhost:8080/examples/${pattern}/components/datetime-format.html`)
+      await page.goto(
+        `http://localhost:8080/examples/${pattern}/components/datetime-format.html`
+      )
     })
 
     test('rendering', async () => {
