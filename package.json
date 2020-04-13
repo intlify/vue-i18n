@@ -107,6 +107,7 @@
     "docs:api": "api-documenter markdown -i ./temp -o docs",
     "format": "prettier --config .prettierrc --ignore-path .prettierignore '**/*.{js,json,html}'",
     "format:fix": "yarn format --write",
+    "fix": "yarn lint:fix && yarn format:fix",
     "lint": "eslint ./src ./test ./e2e --ext .js,.ts",
     "lint:fix": "yarn lint --fix",
     "release:prepare": "shipjs prepare",
