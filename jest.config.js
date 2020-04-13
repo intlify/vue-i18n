@@ -51,6 +51,7 @@ module.exports = {
 
   // A path to a module which exports an async function that is triggered once before all test suites
   // globalSetup: null,
+  globalSetup: require('set-tz')('UTC'),
 
   // A path to a module which exports an async function that is triggered once after all test suites
   // globalTeardown: null,
