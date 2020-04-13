@@ -7,6 +7,7 @@
     })
 
     test('rendering', async () => {
+      console.log(await page.content())
       await expect(page).toMatch(
         /([1-9]|1[0-2])\/([1-9]|[12]\d|3[01])\/([12]\d{3})/
       )
