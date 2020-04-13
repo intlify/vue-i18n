@@ -1,7 +1,7 @@
-import { h, defineComponent, SetupContext, VNodeArrayChildren } from 'vue'
+import { defineComponent, SetupContext } from 'vue'
 import { useI18n } from '../i18n'
 import { NumberOptions } from '../runtime'
-import { isString, isPlainObject, isArray } from '../utils'
+import { renderFormatter, FormattableProps } from './formatRenderer'
 
 const NUMBER_FORMAT_KEYS = [
   'localeMatcher',
@@ -28,7 +28,7 @@ export const NumberFormat = defineComponent({
       type: String
     },
     value: {
-      type: [Number, Date],
+      type: Number,
       required: true
     },
     format: {
@@ -39,49 +39,16 @@ export const NumberFormat = defineComponent({
     }
   },
   setup(props, context: SetupContext) {
-    const { slots, attrs } = context
     const i18n = useI18n()
 
-    return () => {
-      const options = { part: true } as NumberOptions
-      let orverrides = {} as Intl.NumberFormatOptions
-
-      if (props.locale) {
-        options.locale = props.locale
-      }
-
-      if (isString(props.format)) {
-        options.key = props.format
-      } else if (isPlainObject(props.format)) {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        if (isString((props.format as any).key)) {
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          options.key = (props.format as any).key
-        }
-        // Filter out number format options only
-        orverrides = Object.keys(props.format).reduce((options, prop) => {
-          return NUMBER_FORMAT_KEYS.includes(prop)
-            ? Object.assign({}, options, { [prop]: props.format[prop] })
-            : options
-        }, {})
-      }
-
-      const parts = i18n.__numberParts(...[props.value, options, orverrides])
-      let children = [options.key] as VNodeArrayChildren
-      if (isArray(parts)) {
-        children = parts.map((part, index) => {
-          const slot = slots[part.type]
-          return slot
-            ? slot({ [part.type]: part.value, index, parts })
-            : [part.value]
-        })
-      } else if (isString(parts)) {
-        children = [parts]
-      }
-
-      return props.tag
-        ? h(props.tag, { ...attrs }, children)
-        : h('span', { ...attrs }, children)
-    }
+    return renderFormatter<
+      FormattableProps<number, Intl.NumberFormatOptions>,
+      number,
+      Intl.NumberFormatOptions,
+      NumberOptions,
+      Intl.NumberFormatPart
+    >(props, context, NUMBER_FORMAT_KEYS, (...args: unknown[]) =>
+      i18n.__numberParts(...args)
+    )
   }
 })
