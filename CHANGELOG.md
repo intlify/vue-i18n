@@ -1,3 +1,18 @@
+
+## v9.0.0-alpha.2 (2020-04-13)
+
+#### :star: Features
+* [#10](https://github.com/intlify/vue-i18n-next/pull/10) support datetime format component ([@kazupon](https://github.com/kazupon))
+* [#9](https://github.com/intlify/vue-i18n-next/pull/9) number format component: `i18n-n` ([@kazupon](https://github.com/kazupon))
+
+#### :boom: Breaking Change
+* [#8](https://github.com/intlify/vue-i18n-next/pull/8) enhancement locale fallbacking ([@kazupon](https://github.com/kazupon))
+* [#7](https://github.com/intlify/vue-i18n-next/pull/7) Translation component `i18n-t` (In v8.x, it was called `i18n` component as Component interpolation feature) ([@kazupon](https://github.com/kazupon))
+* [#6](https://github.com/intlify/vue-i18n-next/pull/6) breaking: factory improvements ([@kazupon](https://github.com/kazupon))
+
+#### Committers: 1
+- kazuya kawaguchi ([@kazupon](https://github.com/kazupon))
+
 ## v9.0.0-alpha.1 (2020-04-07)
 
 ### :star: New Features
