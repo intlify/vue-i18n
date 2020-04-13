@@ -8,9 +8,8 @@
 
 |  Function | Description |
 |  --- | --- |
-|  [createI18n(options)](./vue-i18n.createi18n.md) | createI18n factory<!-- -->This function is compatible with constructor of <code>VueI18n</code> class (offered with vue-i18n<!-- -->@<!-- -->8.x) like <code>new VueI18n(...)</code>. |
-|  [createI18nComposer(options)](./vue-i18n.createi18ncomposer.md) | I18n Composer factory |
-|  [useI18n(options)](./vue-i18n.usei18n.md) | Enable vue-i18n composable API |
+|  [createI18n(options)](./vue-i18n.createi18n.md) | I18n factory |
+|  [useI18n(options)](./vue-i18n.usei18n.md) | Use Composable API |
 
 ## Interfaces
 
@@ -33,6 +32,8 @@
 |  Type Alias | Description |
 |  --- | --- |
 |  [Choice](./vue-i18n.choice.md) |  |
+|  [Composer](./vue-i18n.composer.md) | Composer Interfaces |
+|  [ComposerOptions](./vue-i18n.composeroptions.md) | Composer Options |
 |  [CurrencyDisplay](./vue-i18n.currencydisplay.md) | number |
 |  [DateTimeDigital](./vue-i18n.datetimedigital.md) |  |
 |  [DateTimeFormat](./vue-i18n.datetimeformat.md) |  |
@@ -40,11 +41,13 @@
 |  [DateTimeFormatResult](./vue-i18n.datetimeformatresult.md) |  |
 |  [DateTimeFormats](./vue-i18n.datetimeformats.md) |  |
 |  [DateTimeHumanReadable](./vue-i18n.datetimehumanreadable.md) |  |
+|  [FallbackLocale](./vue-i18n.fallbacklocale.md) |  |
 |  [FormattedNumberPart](./vue-i18n.formattednumberpart.md) |  |
 |  [FormattedNumberPartType](./vue-i18n.formattednumberparttype.md) |  |
-|  [I18nComposer](./vue-i18n.i18ncomposer.md) | I18n Composer Interfaces |
-|  [I18nComposerOptions](./vue-i18n.i18ncomposeroptions.md) | I18n Composer Options |
+|  [I18nOptions](./vue-i18n.i18noptions.md) | I18n Options[createI18n()](./vue-i18n.createi18n.md) factory option. |
+|  [I18nPluginOptions](./vue-i18n.i18npluginoptions.md) |  |
 |  [IntlAvailability](./vue-i18n.intlavailability.md) | datetime |
+|  [LinkedModifiers](./vue-i18n.linkedmodifiers.md) |  |
 |  [Locale](./vue-i18n.locale.md) |  |
 |  [LocaleMessage](./vue-i18n.localemessage.md) |  |
 |  [LocaleMessageDictionary](./vue-i18n.localemessagedictionary.md) |  |
@@ -58,6 +61,7 @@
 |  [NumberFormatToPartsResult](./vue-i18n.numberformattopartsresult.md) |  |
 |  [Path](./vue-i18n.path.md) |  |
 |  [PathValue](./vue-i18n.pathvalue.md) |  |
+|  [PluralizationRule](./vue-i18n.pluralizationrule.md) |  |
 |  [PluralizationRulesMap](./vue-i18n.pluralizationrulesmap.md) |  |
 |  [PostTranslationHandler](./vue-i18n.posttranslationhandler.md) |  |
 |  [TranslateResult](./vue-i18n.translateresult.md) |  |

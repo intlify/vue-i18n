@@ -7,5 +7,5 @@
 <b>Signature:</b>
 
 ```typescript
-export declare type MissingHandler = (locale: Locale, key: Path, insttance?: ComponentInternalInstance) => string | void;
+export declare type MissingHandler = (locale: Locale, key: Path, insttance?: ComponentInternalInstance, type?: string) => string | void;
 ```

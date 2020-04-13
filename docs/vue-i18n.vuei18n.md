@@ -13,7 +13,7 @@ This type is compatible with interface of `VueI18n` class (offered with vue-i18n
 ```typescript
 export declare type VueI18n = {
     locale: Locale;
-    fallbackLocale: Locale;
+    fallbackLocale: FallbackLocale;
     readonly availableLocales: Locale[];
     readonly messages: LocaleMessages;
     readonly datetimeFormats: DateTimeFormats;

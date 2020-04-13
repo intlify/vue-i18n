@@ -33,10 +33,30 @@ If you use stable Vue I18n version, see this [repository](https://github.com/kaz
 
 New style API for Vue 3. See the following docs:
 
-- [createI18nComposer](https://github.com/intlify/vue-i18n-next/blob/master/docs/vue-i18n.createi18ncomposer.md)
-- [I18nComposerOptions](https://github.com/intlify/vue-i18n-next/blob/master/docs/vue-i18n.i18ncomposeroptions.md)
-- [I18nComposer](https://github.com/intlify/vue-i18n-next/blob/master/docs/vue-i18n.i18ncomposer.md)
+- [createI18n](https://github.com/intlify/vue-i18n-next/blob/master/docs/vue-i18n.createi18n.md)
+  - [I18nOptions](https://github.com/intlify/vue-i18n-next/blob/master/docs/vue-i18n.i18noptions.md)
+  - [ComposerOptions](https://github.com/intlify/vue-i18n-next/blob/master/docs/vue-i18n.composeroptions.md)
+  - [VueI18nOptions](https://github.com/intlify/vue-i18n-next/blob/master/docs/vue-i18n.vuei18noptions.md)
 - [useI18n](https://github.com/intlify/vue-i18n-next/blob/master/docs/vue-i18n.usei18n.md)
+  - [ComposerOptions](https://github.com/intlify/vue-i18n-next/blob/master/docs/vue-i18n.composeroptions.md)
+- [Composer](https://github.com/intlify/vue-i18n-next/blob/master/docs/vue-i18n.composer.md)
+- [VueI18n](https://github.com/intlify/vue-i18n-next/blob/master/docs/vue-i18n.vuei18n.md)
+
+### `<i18n-t>` Component (formerly called `<i18n>` component)
+
+You can use pluralalization on the component. See the blow examples:
+
+- [Example with using Composable API](https://github.com/intlify/vue-i18n-next/blob/master/examples/composable/components/translation.html)
+- [Example with using Legacy API](https://github.com/intlify/vue-i18n-next/blob/master/examples/legacy/components/translation.html)
+
+### `<i18n-d>` Component
+
+You can use datetime format on the component, like `<i18n-n>` component.
+
+See the below examples:
+
+- [Example with using Composable API](https://github.com/intlify/vue-i18n-next/blob/master/examples/composable/components/datetime-format.html)
+- [Example with using Legacy API](https://github.com/intlify/vue-i18n-next/blob/master/examples/legacy/components/datetime-format.html)
 
 
 ## :lollipop: Examples
@@ -46,27 +66,35 @@ See the [`examples`](https://github.com/intlify/vue-i18n-next/tree/master/exampl
 The examples are offered that use the following two API styles:
 
 - composable
-  - new vue-i18n API optimized for Vue 3. details about API
+  - Examples with using new vue-i18n API optimized for Vue 3
 - legacy
-  - vue-i18n API almost compatible with vue-i18n v8.x
+  - Examples with using vue-i18n API that almost compatible with vue-i18n v8.x
 
 
 ## :heavy_exclamation_mark: Known issues
 
 ### :boom: Breaking changes compared to vue-i18n v8.x
 
-- API
-  - The return value of `$t` and `t` methods is **string** only. object and array values ​​are no longer returned.
-  - The return value of `$tc` and `tc` methods is **string** only. object and array values ​​are no longer returned.
-  - `VueI18n` class cannot used with `new`. It can only be used via the `$i18n` property of Vue instance.
-    - In vue-i18n-next, by replacing `new VueI18n` with `createI18n`, you can use existing `VueI18n` options as they are.
-    - See the `examples/legacy` directory.
-  - `VueI18n.prototype.getChoiceIndex`
-    - -> Legacy API style: `pluralizationRules` option of `createI18n` factory function (like `new VueI18n(...)`)
-    - -> Compsable API style: `pluralRules` option of `createI18nComposer` facatory function
-  - `VueI18n.version` -> `import { VERSION } from 'vue-i18n'`
-  - `VueI18n.availabilities` -> `import { availabilities } from 'vue-i18n'`
-  - See the details [here](https://github.com/intlify/vue-i18n-next/blob/master/docs/vue-i18n.md)
+#### APIs
+- The return value of `$t` and `t` methods is **string** only. object and array values ​​are no longer returned.
+- The return value of `$tc` and `tc` methods is **string** only. object and array values ​​are no longer returned.
+- `VueI18n` class cannot used with `new`. It can only be used via the `$i18n` property of Vue instance.
+  - In vue-i18n-next, by replacing `new VueI18n` with `createI18n`, you can use existing `VueI18n` options as they are.
+  - See the `examples/legacy` directory.
+- `VueI18n.prototype.getChoiceIndex`
+  - -> Legacy API style: `pluralizationRules` option of `createI18n` factory function (like `new VueI18n(...)`)
+  - -> Compsable API style: `pluralRules` option of `createI18nComposer` facatory function
+- `VueI18n.version` -> `import { VERSION } from 'vue-i18n'`
+- `VueI18n.availabilities` -> `import { availabilities } from 'vue-i18n'`
+- See the details [here](https://github.com/intlify/vue-i18n-next/blob/master/docs/vue-i18n.md)
+
+#### Components
+- `<i18n>` component
+  - Renamte to `<i18n-t>` component
+  - Remove the below props:
+    - `place` prop
+    - `places` prop
+    - `path` prop (Rename to `keypath` prop)
 
 ### :zap: Improvements
 
@@ -75,18 +103,13 @@ The examples are offered that use the following two API styles:
 
 ### :hammer: Missing features
 
-- imporve `fallbackLocale` or `fallbackLocales` (related vue-i18n [issue](https://github.com/kazupon/vue-i18n/pull/829))
-- `<i18n>` custom block supporting for SFC
 - `v-t` directive
 - `preserveDirectiveContent` option (depend on `v-t`)
-- Compoonent interpolation with `<i18n>` component
-- Number custom formatting with `<i18n-n>` component
 - HTML format suppression with `warnHtmlInMessage` option
 - SSR
 - Custom formatting
 - Tooling
   - `vue-cli-plugin-i18n`
-  - `@intlify/vue-i18n-loader`
   - `@intlify/rollup-plugin-vue-i18n`
   - `@intlify/vue-i18n-extensions`
   - `@intlify/eslint-plugin-vue-i18n`
@@ -203,7 +226,8 @@ yarn add vue-i18n@next
   - [x] IntlAvailability availabilities
 - Components
   - [x] Translation `<i18n-t>`
-  - [x] Numberization `<i18n-n>`
+  - [x] NumberFormat `<i18n-n>`
+  - [x] DatetimeFormat `<i18n-d>`
 - Directive
   - [ ] `v-t`
 - Tool Chains

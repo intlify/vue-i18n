@@ -154,6 +154,7 @@ export type VueI18n = {
   setNumberFormat(locale: Locale, format: NumberFormat): void
   mergeNumberFormat(locale: Locale, format: NumberFormat): void
   getChoiceIndex: (choice: Choice, choicesLength: number) => number
+  /* @internal */
   install: Plugin
 }
 

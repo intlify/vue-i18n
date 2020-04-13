@@ -13,7 +13,7 @@ This option type is compatible with the constructor options of `VueI18n` class (
 ```typescript
 export declare type VueI18nOptions = {
     locale?: Locale;
-    fallbackLocale?: Locale;
+    fallbackLocale?: FallbackLocale;
     messages?: LocaleMessages;
     datetimeFormats?: DateTimeFormats;
     numberFormats?: NumberFormats;
@@ -32,6 +32,6 @@ export declare type VueI18nOptions = {
     pluralizationRules?: PluralizationRules;
     postTranslation?: PostTranslationHandler;
     __i18n?: CustomBlocks;
-    _root?: I18nComposer;
+    __root?: Composer;
 };
 ```

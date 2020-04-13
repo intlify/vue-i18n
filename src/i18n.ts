@@ -16,6 +16,7 @@ const providers: Map<
   InjectionKey<Composer>
 > = new Map()
 
+// TODO: if we don't need the below, should be removed!
 export function enumProviders(): void {
   if (__DEV__) {
     providers.forEach((sym, instance) => {
@@ -25,16 +26,30 @@ export function enumProviders(): void {
 }
 
 /**
- *  I18n Options
+ * I18n Options
  *
- *  This option is `createI18n` factory option
+ * {@link createI18n} factory option.
+ *
+ * @remarks
+ * `I18nOptions` is union type of {@link ComposerOptions} and {@link VueI18nOptions}, so you can specify these options.
+ *
  */
 export type I18nOptions = {
+  /**
+   * @defaultValue `false`
+   */
   legacy?: boolean
 } & (ComposerOptions | VueI18nOptions)
 
 /**
  * I18n factory
+ *
+ * @param options - see the {@link I18nOptions}
+ * @returns {@link Composer} object, or {@link VueI18n} object
+ *
+ * @remarks
+ * When you use Composable API, you need to specify options of {@link ComposerOptions}.
+ * When you use Legacy API, you need toto specify options of {@link VueI18nOptions} and `legacy: true`.
  *
  * @example
  * case: for Composable API
@@ -74,7 +89,7 @@ export type I18nOptions = {
  *
  * // call with I18n option
  * const i18n = createI18n({
- *   legacy: true, // you must specify 'lagacy' option
+ *   legacy: true, // you must specify 'lagacy: true' option
  *   locale: 'ja',
  *   messages: {
  *     en: { ... },
@@ -99,7 +114,15 @@ export function createI18n(options: I18nOptions = {}): Composer | VueI18n {
 }
 
 /**
- * Enable vue-i18n composable API
+ * Use Composable API
+ *
+ * @param options - See the {@link ComponentOptions}
+ * @returns {@link Composer} object
+ *
+ * @remarks
+ * This function is mainly used by `setup`.
+ * If options are specified Composer object is created for each component, and you can be localized on the component.
+ * If options are not specified, you can be localized using the global Composer.
  *
  * @example
  * case: Component resource base localization
