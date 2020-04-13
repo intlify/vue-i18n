@@ -109,8 +109,7 @@ export function datetime(
     return MISSING_RESOLVE_VALUE
   }
 
-  const [value, options, orverrides] = parseDateTimeArgs(...args)
-  const { key } = options
+  const [key, value, options, orverrides] = parseDateTimeArgs(...args)
   const missingWarn = isBoolean(options.missingWarn)
     ? options.missingWarn
     : context.missingWarn
@@ -121,7 +120,7 @@ export function datetime(
   const locale = isString(options.locale) ? options.locale : context.locale
   const locales = getLocaleChain(context, fallbackLocale, locale)
 
-  if (!isString(key)) {
+  if (!isString(key) || key === '') {
     return new Intl.DateTimeFormat(locale).format(value)
   }
 
@@ -169,7 +168,7 @@ export function datetime(
 
 export function parseDateTimeArgs(
   ...args: unknown[]
-): [number | Date, DateTimeOptions, Intl.DateTimeFormatOptions] {
+): [string, number | Date, DateTimeOptions, Intl.DateTimeFormatOptions] {
   const [arg1, arg2, arg3, arg4] = args
   let options = {} as DateTimeOptions
   let orverrides = {} as Intl.DateTimeFormatOptions
@@ -195,7 +194,7 @@ export function parseDateTimeArgs(
     orverrides = arg4
   }
 
-  return [value, options, orverrides]
+  return [options.key || '', value, options, orverrides]
 }
 
 export function clearDateTimeFormat(

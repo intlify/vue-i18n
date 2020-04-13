@@ -107,8 +107,7 @@ export function number(
     return MISSING_RESOLVE_VALUE
   }
 
-  const [value, options, orverrides] = parseNumberArgs(...args)
-  const { key } = options
+  const [key, value, options, orverrides] = parseNumberArgs(...args)
   const missingWarn = isBoolean(options.missingWarn)
     ? options.missingWarn
     : context.missingWarn
@@ -119,7 +118,7 @@ export function number(
   const locale = isString(options.locale) ? options.locale : context.locale
   const locales = getLocaleChain(context, fallbackLocale, locale)
 
-  if (!isString(key)) {
+  if (!isString(key) || key === '') {
     return new Intl.NumberFormat(locale).format(value)
   }
 
@@ -167,7 +166,7 @@ export function number(
 
 export function parseNumberArgs(
   ...args: unknown[]
-): [number, NumberOptions, Intl.NumberFormatOptions] {
+): [string, number, NumberOptions, Intl.NumberFormatOptions] {
   const [arg1, arg2, arg3, arg4] = args
   let options = {} as NumberOptions
   let orverrides = {} as Intl.NumberFormatOptions
@@ -193,7 +192,7 @@ export function parseNumberArgs(
     orverrides = arg4
   }
 
-  return [value, options, orverrides]
+  return [options.key || '', value, options, orverrides]
 }
 
 export function clearNumberFormat(

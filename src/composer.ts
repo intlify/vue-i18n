@@ -392,64 +392,68 @@ export function createComposer(options: ComposerOptions = {}): Composer {
     _context.missing = _runtimeMissing
   }
 
+  const defineComputed = <T>(
+    fn: (context: RuntimeContext) => unknown,
+    argumentParser: () => string,
+    warnType: string,
+    fallbackSuccess: (root: Composer) => T,
+    fallbackFail: (key: string) => T,
+    successCondition: (val: unknown) => boolean
+  ): ComputedRef<T> => {
+    return computed<T>(
+      (): T => {
+        const ret = fn(_context)
+        if (isNumber(ret) && ret === NOT_REOSLVED) {
+          const key = argumentParser()
+          if (__DEV__ && _fallbackRoot && __root) {
+            warn(`Fall back to ${warnType} '${key}' with root locale.`)
+          }
+          return _fallbackRoot && __root
+            ? fallbackSuccess(__root)
+            : fallbackFail(key)
+        } else if (successCondition(ret)) {
+          return ret as T
+        } else {
+          throw new Error('TODO:') // TODO
+        }
+      }
+    )
+  }
+
   // t
   const t = (...args: unknown[]): string => {
-    return computed<string>((): string => {
-      const ret = translate(_context, ...args)
-      if (isNumber(ret) && ret === NOT_REOSLVED) {
-        const [key] = parseTranslateArgs(...args)
-        if (__DEV__ && _fallbackRoot && __root) {
-          warn(`Fall back to translate '${key}' with root locale.`)
-        }
-        return _fallbackRoot && __root ? __root.t(...args) : key
-      } else if (isString(ret)) {
-        return ret
-      } else {
-        throw new Error('TODO:') // TODO
-      }
-    }).value
+    return defineComputed<string>(
+      context => translate(context, ...args),
+      () => parseTranslateArgs(...args)[0],
+      'translate',
+      root => root.t(...args),
+      key => key,
+      val => isString(val)
+    ).value
   }
 
   // d
   const d = (...args: unknown[]): string => {
-    return computed<string>((): string => {
-      const ret = datetime(_context, ...args)
-      if (isNumber(ret) && ret === NOT_REOSLVED) {
-        const [, options] = parseDateTimeArgs(...args)
-        if (__DEV__ && _fallbackRoot && __root) {
-          const key = isString(options.key) ? options.key : ''
-          warn(`Fall back to datetime format '${key}' with root locale.`)
-        }
-        return _fallbackRoot && __root
-          ? __root.d(...args)
-          : MISSING_RESOLVE_VALUE
-      } else if (isString(ret)) {
-        return ret
-      } else {
-        throw new Error('TODO:') // TODO
-      }
-    }).value
+    return defineComputed<string>(
+      context => datetime(context, ...args),
+      () => parseDateTimeArgs(...args)[0],
+      'datetime format',
+      root => root.d(...args),
+      () => MISSING_RESOLVE_VALUE,
+      val => isString(val)
+    ).value
   }
 
   // n
   const n = (...args: unknown[]): string => {
-    return computed<string>((): string => {
-      const ret = number(_context, ...args)
-      if (isNumber(ret) && ret === NOT_REOSLVED) {
-        const [, options] = parseNumberArgs(...args)
-        if (__DEV__ && _fallbackRoot && __root) {
-          const key = isString(options.key) ? options.key : ''
-          warn(`Fall back to number format '${key}' with root locale.`)
-        }
-        return _fallbackRoot && __root
-          ? __root.d(...args)
-          : MISSING_RESOLVE_VALUE
-      } else if (isString(ret)) {
-        return ret
-      } else {
-        throw new Error('TODO:') // TODO
-      }
-    }).value
+    return defineComputed<string>(
+      context => number(context, ...args),
+      () => parseNumberArgs(...args)[0],
+      'number format',
+      root => root.n(...args),
+      () => MISSING_RESOLVE_VALUE,
+      val => isString(val)
+    ).value
   }
 
   // for custom processor
@@ -465,73 +469,51 @@ export function createComposer(options: ComposerOptions = {}): Composer {
 
   // __transrateVNode, using for `i18n-t` component
   const __transrateVNode = (...args: unknown[]): unknown => {
-    return computed<unknown>((): unknown => {
-      let ret: unknown
-      try {
-        // translate with custom processor
-        _context.processor = processor
-        ret = translate(_context, ...args)
-      } finally {
-        _context.processor = null
-      }
-      if (isNumber(ret) && ret === NOT_REOSLVED) {
-        const [key] = parseTranslateArgs(...args)
-        if (__DEV__ && _fallbackRoot && __root) {
-          warn(`Fall back to translate '${key}' with root locale.`)
+    return defineComputed<unknown>(
+      context => {
+        let ret: unknown
+        try {
+          context.processor = processor
+          ret = translate(context, ...args)
+        } finally {
+          context.processor = null
         }
-        return _fallbackRoot && __root ? __root.__transrateVNode(...args) : key
-      } else if (isArray(ret)) {
         return ret
-      } else {
-        throw new Error('TODO:') // TODO
-      }
-    }).value
+      },
+      () => parseTranslateArgs(...args)[0],
+      'translate',
+      root => root.__transrateVNode(...args),
+      key => key,
+      val => isArray(val)
+    ).value
   }
 
   // __numberParts, using for `i18n-n` component
   const __numberParts = (
     ...args: unknown[]
   ): string | Intl.NumberFormatPart[] => {
-    return computed<string | Intl.NumberFormatPart[]>(():
-      | string
-      | Intl.NumberFormatPart[] => {
-      const ret = number(_context, ...args)
-      if (isNumber(ret) && ret === NOT_REOSLVED) {
-        const [, options] = parseNumberArgs(...args)
-        if (__DEV__ && _fallbackRoot && __root) {
-          const key = isString(options.key) ? options.key : ''
-          warn(`Fall back to number format '${key}' with root locale.`)
-        }
-        return _fallbackRoot && __root ? __root.__numberParts(...args) : []
-      } else if (isString(ret) || isArray(ret)) {
-        return ret
-      } else {
-        throw new Error('TODO:') // TODO
-      }
-    }).value
+    return defineComputed<string | Intl.NumberFormatPart[]>(
+      context => number(context, ...args),
+      () => parseNumberArgs(...args)[0],
+      'number format',
+      root => root.__numberParts(...args),
+      () => [],
+      val => isString(val) || isArray(val)
+    ).value
   }
 
   // __datetimeParts, using for `i18n-d` component
   const __datetimeParts = (
     ...args: unknown[]
   ): string | Intl.DateTimeFormatPart[] => {
-    return computed<string | Intl.DateTimeFormatPart[]>(():
-      | string
-      | Intl.DateTimeFormatPart[] => {
-      const ret = datetime(_context, ...args)
-      if (isNumber(ret) && ret === NOT_REOSLVED) {
-        const [, options] = parseDateTimeArgs(...args)
-        if (__DEV__ && _fallbackRoot && __root) {
-          const key = isString(options.key) ? options.key : ''
-          warn(`Fall back to datetime format '${key}' with root locale.`)
-        }
-        return _fallbackRoot && __root ? __root.__datetimeParts(...args) : []
-      } else if (isString(ret) || isArray(ret)) {
-        return ret
-      } else {
-        throw new Error('TODO:') // TODO
-      }
-    }).value
+    return defineComputed<string | Intl.DateTimeFormatPart[]>(
+      context => datetime(context, ...args),
+      () => parseDateTimeArgs(...args)[0],
+      'datetime format',
+      root => root.__datetimeParts(...args),
+      () => [],
+      val => isString(val) || isArray(val)
+    ).value
   }
 
   // getLocaleMessage
