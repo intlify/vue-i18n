@@ -56,7 +56,7 @@ export type MessageContext = {
 
 const DEFAULT_MODIFIER = (str: unknown): unknown => str
 const DEFAULT_MESSAGE = (ctx: MessageContext): unknown => '' // eslint-disable-line
-const DEFAULT_TYPE = 'text'
+export const DEFAULT_MESSAGE_DATA_TYPE = 'text'
 const DEFAULT_NORMALIZE = (values: unknown[]): unknown =>
   values.length === 0 ? values[0] : values.join('')
 const DEFAULT_INTERPOLATE = toDisplayString
@@ -152,7 +152,7 @@ export function createMessageContext<N = {}>(
   const type =
     isPlainObject(options.processor) && isString(options.processor.type)
       ? options.processor.type
-      : DEFAULT_TYPE
+      : DEFAULT_MESSAGE_DATA_TYPE
 
   const normalize =
     isPlainObject(options.processor) && isFunction(options.processor.normalize)

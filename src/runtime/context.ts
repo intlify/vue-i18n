@@ -2,7 +2,8 @@ import { MessageFunction } from '../message/compiler'
 import {
   LinkedModifiers,
   PluralizationRules,
-  MessageProcessor
+  MessageProcessor,
+  DEFAULT_MESSAGE_DATA_TYPE
 } from '../message/context'
 import { Path } from '../path'
 import {
@@ -89,12 +90,12 @@ export type RuntimeContext = {
 
 const DEFAULT_LINKDED_MODIFIERS: LinkedModifiers = {
   upper: (val: unknown, type: string): unknown =>
-    type === 'text' ? (val as string).toUpperCase() : val,
+    type === DEFAULT_MESSAGE_DATA_TYPE ? (val as string).toUpperCase() : val,
   lower: (val: unknown, type: string): unknown =>
-    type === 'text' ? (val as string).toLowerCase() : val,
+    type === DEFAULT_MESSAGE_DATA_TYPE ? (val as string).toLowerCase() : val,
   // prettier-ignore
   capitalize: (val: unknown, type: string): unknown =>
-    type === 'text'
+    type === DEFAULT_MESSAGE_DATA_TYPE
       ? `${(val as string).charAt(0).toLocaleUpperCase()}${(val as string).substr(1)}`
       : val
 }
