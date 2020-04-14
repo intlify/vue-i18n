@@ -26,6 +26,10 @@ import {
 } from '../utils'
 
 const NOOP_MESSAGE_FUNCTION = () => ''
+const isMessageFunction = (val: unknown): val is MessageFunction =>
+  isFunction(val)
+const generateCacheKey = (locale: Locale, key: string): string =>
+  `${locale}__${key}`
 
 /**
  *  # translate
@@ -187,7 +191,7 @@ export function translate(
   const locale = isString(options.locale) ? options.locale : context.locale
   const locales = getLocaleChain(context, fallbackLocale, locale)
 
-  // resolve format
+  // resolve message format
   let message: LocaleMessage = {}
   let targetLocale: Locale | undefined
   let format: PathValue = null
@@ -202,27 +206,35 @@ export function translate(
     }
     message = messages[targetLocale] || {}
     format = resolveValue(message, key)
-    if (isString(format)) break
+    if (isString(format) || isFunction(format)) break
     handleMissing(context, key, targetLocale, missingWarn, 'translate')
   }
 
-  // if you use default message, set it as format!
-  if (!isString(format) && enableDefaultMsg) {
-    format = defaultMsgOrKey
+  let cacheBaseKey = key
+
+  // if you use default message, set it as message format!
+  if (!(isString(format) || isMessageFunction(format))) {
+    if (enableDefaultMsg) {
+      format = defaultMsgOrKey
+      cacheBaseKey = format
+    }
   }
 
-  // checking format and target locale
-  if (!isString(format) || !isString(targetLocale)) {
+  // checking message format and target locale
+  if (
+    !(isString(format) || isMessageFunction(format)) ||
+    !isString(targetLocale)
+  ) {
     return unresolving ? NOT_REOSLVED : key
   }
 
-  // compile format
-  let msg = _compileCache.get(format)
+  // compile message format
+  const cacheKey = generateCacheKey(targetLocale, cacheBaseKey)
+  let msg = _compileCache.get(cacheKey)
   if (!msg) {
-    msg = compile(format)
-    _compileCache.set(format, msg)
+    msg = isString(format) ? compile(format) : format
+    _compileCache.set(cacheKey, msg)
   }
-  // console.log('msg', msg.toString())
 
   // evaluate message with context
   const ctxOptions = getMessageContextOptions(
@@ -278,19 +290,20 @@ function getMessageContextOptions(
 ): MessageContextOptions {
   const { modifiers, pluralRules, _compileCache } = context
 
-  // TODO: need to design resolve message function?
   const resolveMessage = (key: string): MessageFunction => {
-    const fn = _compileCache.get(key)
+    const cacheKey = generateCacheKey(locale, key)
+    const fn = _compileCache.get(cacheKey)
     if (fn) {
       return fn
     }
     const val = resolveValue(message, key)
     if (isString(val)) {
       const msg = compile(val)
-      _compileCache.set(val, msg)
+      _compileCache.set(cacheKey, msg)
       return msg
-    } else if (isFunction(val)) {
-      return val as MessageFunction
+    } else if (isMessageFunction(val)) {
+      _compileCache.set(cacheKey, val)
+      return val
     } else {
       // TODO: should be implemented warning message
       return NOOP_MESSAGE_FUNCTION
