@@ -38,9 +38,7 @@ export function createCompiler(): Compiler {
     return { code, ast }
   }
 
-  return Object.freeze({
-    compile
-  })
+  return { compile }
 }
 
 const compileCache: Record<string, MessageFunction> = Object.create(null)

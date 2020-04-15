@@ -90,7 +90,7 @@ export function createScanner(str: string): Scanner {
     _peekOffset = 0
   }
 
-  return Object.freeze({
+  return {
     index,
     line,
     column,
@@ -103,5 +103,5 @@ export function createScanner(str: string): Scanner {
     reset,
     resetPeek,
     skipToPeek
-  })
+  }
 }

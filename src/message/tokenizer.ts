@@ -509,12 +509,12 @@ export function createTokenizer(source: string): Tokenizer {
     return readToken(_scnr, _context)
   }
 
-  return Object.freeze({
+  return {
     nextToken,
     currentOffset,
     currentPosition,
     context
-  })
+  }
 }
 
 export function parse(source: string): Token[] {

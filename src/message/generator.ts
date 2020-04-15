@@ -65,13 +65,13 @@ function createCodeGenerator(source?: string): CodeGenerator {
     _newline(_context.indentLevel)
   }
 
-  return Object.freeze({
+  return {
     context,
     push,
     indent,
     deindent,
     newline
-  })
+  }
 }
 
 function generateLinkedNode(generator: CodeGenerator, node: LinkedNode): void {

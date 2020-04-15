@@ -356,7 +356,5 @@ export function createParser(): Parser {
     return node
   }
 
-  return Object.freeze({
-    parse
-  })
+  return { parse }
 }

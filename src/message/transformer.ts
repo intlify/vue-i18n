@@ -31,9 +31,7 @@ function createTransformer(
 
   const context = (): TransformContext => _context
 
-  return Object.freeze({
-    context
-  })
+  return { context }
 }
 
 function traverseNodes(nodes: Node[], transformer: Transformer): void {
