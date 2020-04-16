@@ -293,7 +293,7 @@ function appendItemToChain(
   if (!chain.includes(target)) {
     follow = true
     if (target) {
-      follow = !target.endsWith('!')
+      follow = target[target.length - 1] !== '!'
       const locale = target.replace(/!/g, '')
       chain.push(locale)
       if (
