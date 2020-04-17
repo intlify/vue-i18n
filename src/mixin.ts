@@ -2,7 +2,6 @@ import {
   App,
   getCurrentInstance,
   ComponentInternalInstance,
-  ComponentPublicInstance,
   ComponentOptions
 } from 'vue'
 import { Path } from './path'
@@ -16,36 +15,6 @@ import {
   DateTimeFormatResult,
   NumberFormatResult
 } from './legacy'
-
-type LegacyMixin = {
-  $i18n: VueI18n
-  $t(key: Path): TranslateResult
-  $t(key: Path, locale: Locale): TranslateResult
-  $t(key: Path, locale: Locale, list: unknown[]): TranslateResult
-  $t(key: Path, locale: Locale, named: object): TranslateResult
-  $t(key: Path, list: unknown[]): TranslateResult
-  $t(key: Path, named: object): TranslateResult
-  $tc(key: Path): TranslateResult
-  $tc(key: Path, locale: Locale): TranslateResult
-  $tc(key: Path, list: unknown[]): TranslateResult
-  $tc(key: Path, named: object): TranslateResult
-  $tc(key: Path, choice: number): TranslateResult
-  $tc(key: Path, choice: number, locale: Locale): TranslateResult
-  $tc(key: Path, choice: number, list: unknown[]): TranslateResult
-  $tc(key: Path, choice: number, named: object): TranslateResult
-  $te(key: Path, locale?: Locale): boolean
-  $d(value: number | Date): DateTimeFormatResult
-  $d(value: number | Date, key: string): DateTimeFormatResult
-  $d(value: number | Date, key: string, locale: Locale): DateTimeFormatResult
-  $d(
-    value: number | Date,
-    args: { [key: string]: string }
-  ): DateTimeFormatResult
-  $n(value: number): NumberFormatResult
-  $n(value: number, key: string): NumberFormatResult
-  $n(value: number, key: string, locale: Locale): NumberFormatResult
-  $n(value: number, args: { [key: string]: string }): NumberFormatResult
-}
 
 const legacyInstances = new Map<ComponentInternalInstance, VueI18n>()
 
@@ -108,7 +77,7 @@ export function defineMixin(
   })
 
   return {
-    beforeCreate(this: ComponentPublicInstance<LegacyMixin>) {
+    beforeCreate() {
       const options = this.$options
 
       if (options.i18n) {
