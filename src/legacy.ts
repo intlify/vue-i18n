@@ -6,7 +6,7 @@
 
 import { App, Plugin } from 'vue'
 import { apply } from './plugin'
-import { getMixin } from './mixin'
+import { defineMixin } from './mixin'
 import { Path, resolveValue } from './path'
 import {
   PluralizationRule,
@@ -476,7 +476,7 @@ export function createVueI18n(options: VueI18nOptions = {}): VueI18n {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     install(app: App, ...options: any[]): void {
       apply(app, composer, ...options)
-      app.mixin(getMixin(vueI18n, composer))
+      app.mixin(defineMixin(app, vueI18n, composer))
     }
   }
 
