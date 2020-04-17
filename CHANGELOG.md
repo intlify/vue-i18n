@@ -1,4 +1,13 @@
 
+## v9.0.0-alpha.3 (2020-04-17)
+
+#### :zap: Improvement Features
+* [#13](https://github.com/intlify/vue-i18n-next/pull/13) support vue3 beta ([@kazupon](https://github.com/kazupon))
+
+#### Committers: 1
+- kazuya kawaguchi ([@kazupon](https://github.com/kazupon))
+
+
 ## v9.0.0-alpha.2 (2020-04-13)
 
 #### :star: Features
