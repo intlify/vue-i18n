@@ -56,13 +56,13 @@ function getLegacyInstance(
   return key ? legacyInstances.get(key) || legacyDefault : legacyDefault
 }
 
-// supports compatibility for vue-i18n legacy mixin
+// supports compatibility for legacy vue-i18n APIs
 export function defineMixin(
   app: App,
   legacyGlobal: VueI18n,
   composer: Composer
 ): ComponentOptions {
-  // inject Legacy APIs for globally
+  // inject Legacy APIs
   Object.defineProperty(app.config.globalProperties, '$i18n', {
     get: () => {
       const instance = getCurrentInstance()
