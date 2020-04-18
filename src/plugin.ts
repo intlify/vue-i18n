@@ -9,8 +9,12 @@ export type I18nPluginOptions = {
   'i18n-t'?: string
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export function apply(app: App, composer: Composer, ...options: any[]): void {
+export function apply(
+  app: App,
+  composer: Composer,
+  mode: boolean,
+  ...options: any[] // eslint-disable-line @typescript-eslint/no-explicit-any
+): void {
   const pluginOptions = parseOptions(...options)
 
   if (__DEV__ && isString(pluginOptions['i18n-t'])) {

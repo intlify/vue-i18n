@@ -76,6 +76,7 @@ export type MissingHandler = (
   insttance?: ComponentInternalInstance,
   type?: string
 ) => string | void
+
 export type CustomBlocks = string[]
 
 /**
@@ -231,7 +232,6 @@ function getLocaleMessages(
 export function createComposer(options: ComposerOptions = {}): Composer {
   const { __root } = options
 
-  // reactivity states
   const _locale = ref<Locale>(
     // prettier-ignore
     __root
@@ -240,6 +240,7 @@ export function createComposer(options: ComposerOptions = {}): Composer {
         ? options.locale
         : 'en-US'
   )
+
   const _fallbackLocale = ref<FallbackLocale>(
     // prettier-ignore
     __root
@@ -251,14 +252,17 @@ export function createComposer(options: ComposerOptions = {}): Composer {
         ? options.fallbackLocale
         : _locale.value
   )
+
   const _messages = ref<LocaleMessages>(
     getLocaleMessages(options, _locale.value)
   )
+
   const _datetimeFormats = ref<DateTimeFormats>(
     isPlainObject(options.datetimeFormats)
       ? options.datetimeFormats
       : { [_locale.value]: {} }
   )
+
   const _numberFormats = ref<NumberFormats>(
     isPlainObject(options.numberFormats)
       ? options.numberFormats
@@ -272,12 +276,14 @@ export function createComposer(options: ComposerOptions = {}): Composer {
     : isBoolean(options.missingWarn) || isRegExp(options.missingWarn)
       ? options.missingWarn
       : true
+
   // prettier-ignore
   let _fallbackWarn = __root
     ? __root.fallbackWarn
     : isBoolean(options.fallbackWarn) || isRegExp(options.fallbackWarn)
       ? options.fallbackWarn
       : true
+
   let _fallbackRoot = isBoolean(options.fallbackRoot)
     ? options.fallbackRoot
     : true
@@ -340,6 +346,10 @@ export function createComposer(options: ComposerOptions = {}): Composer {
   _context = getRuntimeContext()
   updateFallbackLocale(_context, _locale.value, _fallbackLocale.value)
 
+  //
+  // define properties
+  //
+
   // locale
   const locale = computed({
     get: () => _locale.value,
@@ -367,6 +377,10 @@ export function createComposer(options: ComposerOptions = {}): Composer {
 
   // numberFormats
   const numberFormats = computed(() => _numberFormats.value)
+
+  //
+  // define methods
+  //
 
   // getPostTranslationHandler
   const getPostTranslationHandler = (): PostTranslationHandler | null =>
@@ -400,6 +414,13 @@ export function createComposer(options: ComposerOptions = {}): Composer {
     fallbackFail: (key: string) => T,
     successCondition: (val: unknown) => boolean
   ): ComputedRef<T> => {
+    // NOTE:
+    // if this composer is global (__root is `undefined`), add dependency trakcing!
+    // by containing this, we can reactively notify components that reference the global composer.
+    if (!__root) {
+      _locale.value
+    }
+
     return computed<T>(
       (): T => {
         const ret = fn(_context)
@@ -652,7 +673,7 @@ export function createComposer(options: ComposerOptions = {}): Composer {
     setMissingHandler,
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     install(app: App, ...options: any[]): void {
-      apply(app, composer, ...options)
+      apply(app, composer, false, ...options)
     },
     __transrateVNode,
     __numberParts,

@@ -75,7 +75,6 @@ export type VueI18nOptions = {
   formatter?: Formatter
   missing?: MissingHandler
   fallbackRoot?: boolean
-  sync?: boolean
   silentTranslationWarn?: boolean | RegExp
   silentFallbackWarn?: boolean | RegExp
   formatFallbackMessages?: boolean
@@ -84,6 +83,7 @@ export type VueI18nOptions = {
   sharedMessages?: LocaleMessages
   pluralizationRules?: PluralizationRules
   postTranslation?: PostTranslationHandler
+  sync?: boolean
   __i18n?: CustomBlocks // for custom blocks, and internal
   __root?: Composer // for internal
 }
@@ -109,6 +109,8 @@ export type VueI18n = {
   silentTranslationWarn: boolean | RegExp
   silentFallbackWarn: boolean | RegExp
   formatFallbackMessages: boolean
+  sync: boolean
+  __id: number
   /*
   preserveDirectiveContent: boolean
   warnHtmlInMessage: WarnHtmlInMessageLevel
@@ -337,6 +339,16 @@ export function createVueI18n(options: VueI18nOptions = {}): VueI18n {
       composer.setPostTranslationHandler(handler)
     },
 
+    get sync(): boolean {
+      return isBoolean(options.sync) ? options.sync : false
+    },
+    set sync(val: boolean) {
+      options.sync = val
+    },
+
+    // for debug
+    __id: composer.__id,
+
     /**
      * methods
      */
@@ -475,8 +487,8 @@ export function createVueI18n(options: VueI18nOptions = {}): VueI18n {
     // install
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     install(app: App, ...options: any[]): void {
-      apply(app, composer, ...options)
-      app.mixin(defineMixin(app, vueI18n, composer))
+      apply(app, composer, true, ...options)
+      app.mixin(defineMixin(vueI18n, composer))
     }
   }
 

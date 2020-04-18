@@ -8,9 +8,10 @@ import {
 } from 'vue'
 import { Composer, ComposerOptions, createComposer } from './composer'
 import { createVueI18n, VueI18n, VueI18nOptions } from './legacy'
-import { isBoolean, generateSymbolID } from './utils'
+import { isBoolean, isEmptyObject, generateSymbolID } from './utils'
 
 export const GlobalI18nSymbol: InjectionKey<Composer> = Symbol.for('vue-i18n')
+
 const providers: Map<
   ComponentInternalInstance,
   InjectionKey<Composer>
@@ -158,12 +159,12 @@ export function createI18n(options: I18nOptions = {}): Composer | VueI18n {
  * </script>
  * ```
  */
-export function useI18n(options?: ComposerOptions): Composer {
+export function useI18n(options: ComposerOptions = {}): Composer {
   const globalComposer = inject(GlobalI18nSymbol)
   if (!globalComposer) throw new Error('TODO') // TODO:
 
   const instance = getCurrentInstance()
-  if (instance === null || !options) {
+  if (instance === null || isEmptyObject(options)) {
     return globalComposer
   }
 
