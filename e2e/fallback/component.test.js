@@ -2,7 +2,7 @@
   describe(`${pattern}`, () => {
     beforeAll(async () => {
       await page.goto(
-        `http://localhost:8080/examples/${pattern}/component.html`
+        `http://localhost:8080/examples/${pattern}/fallback/component.html`
       )
     })
 
