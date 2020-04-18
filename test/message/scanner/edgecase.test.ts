@@ -62,7 +62,7 @@ test('hello😺!\nこんにちは！', () => {
   expect(s.column()).toBe(6)
 
   s.peek() // emoji first code
-  s.peek() // eomji last code (😺 is 2 length)
+  s.peek() // emoji last code (😺 is 2 length)
   s.peek() // !
   s.peek() // new line
 
