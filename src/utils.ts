@@ -1,4 +1,5 @@
 export const isArray = Array.isArray
+export const isUnDef = (val: unknown): val is undefined => val === undefined
 export const isNumber = (val: unknown): val is number =>
   typeof val === 'number' && isFinite(val)
 export const isFunction = (val: unknown): val is Function =>

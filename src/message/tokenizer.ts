@@ -53,10 +53,12 @@ export type Token = {
 export type TokenizeContext = {
   currentType: TokenTypes
   currentValue: string | number | undefined | null // TODO: if dont' use, should be removed
+  currentToken: Token | null
   offset: number
   startLoc: Position
   endLoc: Position
   lastType: TokenTypes
+  lastToken: Token | null
   lastOffset: number
   lastStartLoc: Position
   lastEndLoc: Position
@@ -81,10 +83,12 @@ export function createTokenizer(source: string): Tokenizer {
   const _context: TokenizeContext = {
     currentType: TokenTypes.EOF,
     currentValue: null,
+    currentToken: null,
     offset: _initOffset,
     startLoc: _initLoc,
     endLoc: _initLoc,
     lastType: TokenTypes.EOF,
+    lastToken: null,
     lastOffset: _initOffset,
     lastStartLoc: _initLoc,
     lastEndLoc: _initLoc
@@ -107,15 +111,19 @@ export function createTokenizer(source: string): Tokenizer {
     }
   }
 
-  const peekSpaces = (scnr: Scanner): void => {
+  const peekSpaces = (scnr: Scanner): string => {
+    let buf = ''
     while (scnr.currentPeek() === SPACE || scnr.currentPeek() === NEW_LINE) {
+      buf += scnr.currentPeek()
       scnr.peek()
     }
+    return buf
   }
 
-  const skipSpaces = (scnr: Scanner): void => {
-    peekSpaces(scnr)
+  const skipSpaces = (scnr: Scanner): string => {
+    const buf = peekSpaces(scnr)
     scnr.skipToPeek()
+    return buf
   }
 
   const isIdentifierStart = (ch: string): boolean => {
@@ -494,8 +502,9 @@ export function createTokenizer(source: string): Tokenizer {
   }
 
   const nextToken = (): Token => {
-    const { currentType, offset, startLoc, endLoc } = _context
+    const { currentType, currentToken, offset, startLoc, endLoc } = _context
     _context.lastType = currentType
+    _context.lastToken = currentToken
     _context.lastOffset = offset
     _context.lastStartLoc = startLoc
     _context.lastEndLoc = endLoc
@@ -503,10 +512,10 @@ export function createTokenizer(source: string): Tokenizer {
     _context.startLoc = currentPosition()
 
     if (!_scnr.currentChar()) {
-      return getToken(_context, TokenTypes.EOF)
+      return (_context.currentToken = getToken(_context, TokenTypes.EOF))
     }
 
-    return readToken(_scnr, _context)
+    return (_context.currentToken = readToken(_scnr, _context))
   }
 
   return {
