@@ -8,16 +8,17 @@ Resource ::= Plural | Mesasge;
 
 (* main structure *)
 Plural ::= Message Space* "|" Space* (Message (Space* "|" Space*)?)+;
-Message ::= (Text? (Named | List | Linked)? Text?)+;
+Message ::= (Text? (Placeholder | Linked)? Text?)+;
 
 (* primitives *)
 Text ::= TextChar+;
+Placeholder ::= Named | List;
 Named ::= "%"? "{" Space? (Identifier) Space? "}";
 List ::= "{" Space? (Digits) Space? "}";
-Linked ::= "@" LinkedModifier? ":" LinkedRefer;
-LinkedRefer ::= "("? (LinkedKey | Named | List) ")"?;
-LinkedDot ::= "." LinkedArg;
+Linked ::= "@" (LinkedDot LinkedModifier)? ":" LinkedRefer;
+LinkedRefer ::= "("? (LinkedKey | Placeholder) ")"?;
 LinkedKey ::= TextChar+;
+LinkedDot ::= ".";
 LinkedModifier ::= Identifier;
 
 (* characters *)
