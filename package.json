@@ -24,9 +24,6 @@
       "Type: Documentation": ":pencil: Documentation"
     }
   },
-  "dependencies": {
-    "vue": "^3.0.0-beta.2"
-  },
   "devDependencies": {
     "@microsoft/api-documenter": "^7.7.17",
     "@microsoft/api-extractor": "^7.7.12",
@@ -64,7 +61,8 @@
     "shipjs": "^0.18.1",
     "ts-jest": "^25.3.0",
     "typescript": "^3.8.3",
-    "typescript-eslint-language-service": "^2.0.3"
+    "typescript-eslint-language-service": "^2.0.3",
+    "vue": "^3.0.0-beta.2"
   },
   "engines": {
     "node": ">= 10"
@@ -86,6 +84,9 @@
   "license": "MIT",
   "main": "dist/vue-i18n.cjs.js",
   "module": "dist/vue-i18n.esm-bundler.js",
+  "peerDependencies": {
+    "vue": "^3.0.0-beta.2"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/intlify/vue-i18n-next.git"
@@ -99,15 +100,15 @@
     "clean:cache": "rm -rf ./node_modules/.rts2_cache",
     "clean:coverage": "rm -rf ./coverage",
     "clean:dist": "rm -rf ./dist/**",
-    "clean:type": "rm -rf ./types/** ./temp ./dist/vue-i18n.d.ts",
     "clean:docs": "rm -rf ./docs",
+    "clean:type": "rm -rf ./types/** ./temp ./dist/vue-i18n.d.ts",
     "coverage": "opener coverage/lcov-report/index.html",
-    "dev:e2e": "jest --runInBand --config ./jest.e2e.config.js",
     "dev:docs": "yarn build:type && yarn docs:api",
+    "dev:e2e": "jest --runInBand --config ./jest.e2e.config.js",
     "docs:api": "api-documenter markdown -i ./temp -o docs",
+    "fix": "yarn lint:fix && yarn format:fix",
     "format": "prettier --config .prettierrc --ignore-path .prettierignore '**/*.{js,json,html}'",
     "format:fix": "yarn format --write",
-    "fix": "yarn lint:fix && yarn format:fix",
     "lint": "eslint ./src ./test ./e2e --ext .js,.ts",
     "lint:fix": "yarn lint --fix",
     "release:prepare": "shipjs prepare",

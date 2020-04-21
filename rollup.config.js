@@ -23,6 +23,10 @@ const outputConfigs = {
     file: pkg.module,
     format: 'es'
   },
+  'esm-browser': {
+    file: pkg.browser,
+    format: 'es'
+  },
   cjs: {
     file: pkg.main,
     format: 'cjs'
@@ -30,10 +34,6 @@ const outputConfigs = {
   global: {
     file: pkg.unpkg,
     format: 'iife'
-  },
-  esm: {
-    file: pkg.browser,
-    format: 'es'
   }
 }
 
@@ -48,7 +48,7 @@ packageFormats.forEach(format => {
   if (format === 'cjs') {
     packageConfigs.push(createProductionConfig(format))
   }
-  if (format === 'global' || format === 'esm') {
+  if (format === 'global' || format === 'esm-browser') {
     packageConfigs.push(createMinifiedConfig(format))
   }
 })
@@ -68,10 +68,10 @@ function createConfig(format, output, plugins = []) {
 
   const isProductionBuild =
     process.env.__DEV__ === 'false' || /\.prod\.js$/.test(output.file)
-  const isGlobalBuild = format === 'global'
-  // const isRawESMBuild = format === 'esm'
-  // const isNodeBuild = format === 'cjs'
   const isBundlerESMBuild = /esm-bundler/.test(format)
+  const isBrowserESMBuild = /esm-browser/.test(format)
+  const isNodeBuild = format === 'cjs'
+  const isGlobalBuild = format === 'global'
 
   if (isGlobalBuild) {
     output.name = 'VueI18n'
@@ -100,9 +100,19 @@ function createConfig(format, output, plugins = []) {
   // during a single build.
   hasTSChecked = true
 
-  // const external =
-  //  isGlobalBuild || isRawESMBuild ? [] : Object.keys(pkg.dependencies || {})
-  const external = Object.keys(pkg.dependencies)
+  /*
+  const external =
+    isGlobalBuild || isBrowserESMBuild
+      ? []
+      : [
+          ...Object.keys(pkg.dependencies || {}),
+          ...Object.keys(pkg.peerDependencies || {})
+        ]
+  */
+  const external = [
+    ...Object.keys(pkg.dependencies || {}),
+    ...Object.keys(pkg.peerDependencies || {})
+  ]
   const nodePlugins = [resolve(), commonjs()]
 
   return {
@@ -112,7 +122,14 @@ function createConfig(format, output, plugins = []) {
     external,
     plugins: [
       tsPlugin,
-      createReplacePlugin(isProductionBuild, isBundlerESMBuild),
+      createReplacePlugin(
+        isProductionBuild,
+        isBundlerESMBuild,
+        isBrowserESMBuild,
+        isGlobalBuild || isBrowserESMBuild || isBundlerESMBuild,
+        isGlobalBuild,
+        isNodeBuild
+      ),
       ...nodePlugins,
       ...plugins
     ],
@@ -125,14 +142,29 @@ function createConfig(format, output, plugins = []) {
   }
 }
 
-function createReplacePlugin(isProduction, isBundlerESMBuild) {
+function createReplacePlugin(
+  isProduction,
+  isBundlerESMBuild,
+  isBrowserESMBuild,
+  isBrowserBuild,
+  isGlobalBuild,
+  isNodeBuild
+) {
   const replacements = {
     __VERSION__: `"${pkg.version}"`,
     __DEV__: isBundlerESMBuild
       ? // preserve to be handled by bundlers
         `(process.env.NODE_ENV !== 'production')`
       : // hard coded dev/prod builds
-        !isProduction
+        !isProduction,
+    // this is only used during Vue's internal tests
+    __TEST__: false,
+    // If the build is expected to run directly in the browser (global / esm builds)
+    __BROWSER__: isBrowserBuild,
+    __GLOBAL__: isGlobalBuild,
+    __ESM_BUNDLER__: isBundlerESMBuild,
+    __ESM_BROWSER__: isBrowserESMBuild,
+    __NODE_JS__: isNodeBuild
   }
   Object.keys(replacements).forEach(key => {
     if (key in process.env) {
