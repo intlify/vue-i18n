@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`token analysis: " hello world " 1`] = `
+exports[`parse: " hello world " 1`] = `
 Array [
   Object {
     "loc": Object {
@@ -37,7 +37,7 @@ Array [
 ]
 `;
 
-exports[`token analysis: "" 1`] = `
+exports[`parse: "" 1`] = `
 Array [
   Object {
     "loc": Object {
@@ -58,7 +58,7 @@ Array [
 ]
 `;
 
-exports[`token analysis: "@.lower:(no apples) | {1} apple | {count}　apples" 1`] = `
+exports[`parse: "@.lower:(no apples) | {1} apple | {count}　apples" 1`] = `
 Array [
   Object {
     "loc": Object {
@@ -351,7 +351,7 @@ Array [
 ]
 `;
 
-exports[`token analysis: "{0} {1}　{2}" 1`] = `
+exports[`parse: "{0} {1}　{2}" 1`] = `
 Array [
   Object {
     "loc": Object {
@@ -548,7 +548,7 @@ Array [
 ]
 `;
 
-exports[`token analysis: "{0}\\n{1}\\r\\n{2}" 1`] = `
+exports[`parse: "{0}\\n{1}\\r\\n{2}" 1`] = `
 Array [
   Object {
     "loc": Object {
@@ -747,7 +747,7 @@ Array [
 ]
 `;
 
-exports[`token analysis: "{first} {middle}　{last}" 1`] = `
+exports[`parse: "{first} {middle}　{last}" 1`] = `
 Array [
   Object {
     "loc": Object {
@@ -944,7 +944,7 @@ Array [
 ]
 `;
 
-exports[`token analysis: "{first}\\n{middle}\\r\\n{last}" 1`] = `
+exports[`parse: "{first}\\n{middle}\\r\\n{last}" 1`] = `
 Array [
   Object {
     "loc": Object {
@@ -1143,7 +1143,7 @@ Array [
 ]
 `;
 
-exports[`token analysis: "hello world" 1`] = `
+exports[`parse: "hello world" 1`] = `
 Array [
   Object {
     "loc": Object {
@@ -1180,7 +1180,7 @@ Array [
 ]
 `;
 
-exports[`token analysis: "hello\\nworld" 1`] = `
+exports[`parse: "hello\\nworld" 1`] = `
 Array [
   Object {
     "loc": Object {
@@ -1218,7 +1218,7 @@ world",
 ]
 `;
 
-exports[`token analysis: "hi @.upper:name !" 1`] = `
+exports[`parse: "hi @.upper:name !" 1`] = `
 Array [
   Object {
     "loc": Object {
@@ -1351,7 +1351,7 @@ Array [
 ]
 `;
 
-exports[`token analysis: "hi @:(hello world) !" 1`] = `
+exports[`parse: "hi @:(hello world) !" 1`] = `
 Array [
   Object {
     "loc": Object {
@@ -1484,7 +1484,7 @@ Array [
 ]
 `;
 
-exports[`token analysis: "hi @:{name} @:{0}!" 1`] = `
+exports[`parse: "hi @:{name} @:{0}!" 1`] = `
 Array [
   Object {
     "loc": Object {
@@ -1713,7 +1713,7 @@ Array [
 ]
 `;
 
-exports[`token analysis: "hi @:{name}\\n !" 1`] = `
+exports[`parse: "hi @:{name}\\n !" 1`] = `
 Array [
   Object {
     "loc": Object {
@@ -1847,7 +1847,7 @@ Array [
 ]
 `;
 
-exports[`token analysis: "hi @:name !" 1`] = `
+exports[`parse: "hi @:name !" 1`] = `
 Array [
   Object {
     "loc": Object {
@@ -1948,7 +1948,7 @@ Array [
 ]
 `;
 
-exports[`token analysis: "hi {  -1 } !" 1`] = `
+exports[`parse: "hi {  -1 } !" 1`] = `
 Array [
   Object {
     "loc": Object {
@@ -2049,7 +2049,7 @@ Array [
 ]
 `;
 
-exports[`token analysis: "hi {  name } !" 1`] = `
+exports[`parse: "hi {  name } !" 1`] = `
 Array [
   Object {
     "loc": Object {
@@ -2150,7 +2150,7 @@ Array [
 ]
 `;
 
-exports[`token analysis: "hi {0} !" 1`] = `
+exports[`parse: "hi {0} !" 1`] = `
 Array [
   Object {
     "loc": Object {
@@ -2251,7 +2251,7 @@ Array [
 ]
 `;
 
-exports[`token analysis: "hi {name} !" 1`] = `
+exports[`parse: "hi {name} !" 1`] = `
 Array [
   Object {
     "loc": Object {
@@ -2352,7 +2352,7 @@ Array [
 ]
 `;
 
-exports[`token analysis: "no apples | one apple  |  too much apples  " 1`] = `
+exports[`parse: "no apples | one apple  |  too much apples  " 1`] = `
 Array [
   Object {
     "loc": Object {
@@ -2453,7 +2453,7 @@ Array [
 ]
 `;
 
-exports[`token analysis: "no apples |\\n one apple  |\\n  too much apples  " 1`] = `
+exports[`parse: "no apples |\\n one apple  |\\n  too much apples  " 1`] = `
 Array [
   Object {
     "loc": Object {
@@ -2546,80 +2546,6 @@ Array [
         "column": 20,
         "line": 3,
         "offset": 45,
-      },
-    },
-    "type": 14,
-    "value": undefined,
-  },
-]
-`;
-
-exports[`token analysis: "こんにちは、世界" 1`] = `
-Array [
-  Object {
-    "loc": Object {
-      "end": Object {
-        "column": 9,
-        "line": 1,
-        "offset": 8,
-      },
-      "start": Object {
-        "column": 1,
-        "line": 1,
-        "offset": 0,
-      },
-    },
-    "type": 0,
-    "value": "こんにちは、世界",
-  },
-  Object {
-    "loc": Object {
-      "end": Object {
-        "column": 9,
-        "line": 1,
-        "offset": 8,
-      },
-      "start": Object {
-        "column": 9,
-        "line": 1,
-        "offset": 8,
-      },
-    },
-    "type": 14,
-    "value": undefined,
-  },
-]
-`;
-
-exports[`token analysis: "😺" 1`] = `
-Array [
-  Object {
-    "loc": Object {
-      "end": Object {
-        "column": 3,
-        "line": 1,
-        "offset": 2,
-      },
-      "start": Object {
-        "column": 1,
-        "line": 1,
-        "offset": 0,
-      },
-    },
-    "type": 0,
-    "value": "😺",
-  },
-  Object {
-    "loc": Object {
-      "end": Object {
-        "column": 3,
-        "line": 1,
-        "offset": 2,
-      },
-      "start": Object {
-        "column": 3,
-        "line": 1,
-        "offset": 2,
       },
     },
     "type": 14,
