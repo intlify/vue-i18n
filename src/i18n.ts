@@ -11,6 +11,7 @@ import { createVueI18n, VueI18n, VueI18nOptions } from './legacy'
 import { isBoolean, isEmptyObject, generateSymbolID } from './utils'
 
 export const GlobalI18nSymbol: InjectionKey<Composer> = Symbol.for('vue-i18n')
+let globalInstance: VueI18n | Composer | null = null
 
 const providers: Map<
   ComponentInternalInstance,
@@ -110,8 +111,14 @@ export type I18nOptions = {
  * ```
  */
 export function createI18n(options: I18nOptions = {}): Composer | VueI18n {
+  if (globalInstance !== null) {
+    return globalInstance
+  }
+
   const legacyMode = isBoolean(options.legacy) ? options.legacy : false
-  return legacyMode ? createVueI18n(options) : createComposer(options)
+  return (globalInstance = legacyMode
+    ? createVueI18n(options)
+    : createComposer(options))
 }
 
 /**
@@ -160,8 +167,10 @@ export function createI18n(options: I18nOptions = {}): Composer | VueI18n {
  * ```
  */
 export function useI18n(options: ComposerOptions = {}): Composer {
-  const globalComposer = inject(GlobalI18nSymbol)
-  if (!globalComposer) throw new Error('TODO') // TODO:
+  if (globalInstance === null) throw new Error('TODO') // TODO:
+
+  const globalComposer =
+    '__composer' in globalInstance ? globalInstance.__composer : globalInstance
 
   const instance = getCurrentInstance()
   if (instance === null || isEmptyObject(options)) {

@@ -111,6 +111,7 @@ export type VueI18n = {
   formatFallbackMessages: boolean
   sync: boolean
   __id: number
+  __composer: Composer
   /*
   preserveDirectiveContent: boolean
   warnHtmlInMessage: WarnHtmlInMessageLevel
@@ -346,8 +347,9 @@ export function createVueI18n(options: VueI18nOptions = {}): VueI18n {
       options.sync = val
     },
 
-    // for debug
+    // for internal
     __id: composer.__id,
+    __composer: composer,
 
     /**
      * methods
