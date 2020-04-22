@@ -205,7 +205,10 @@ export function translate(
       warn(`Fall back to translate '${key}' key with '${targetLocale}' locale.`)
     }
     message = messages[targetLocale] || {}
-    format = resolveValue(message, key)
+    if ((format = resolveValue(message, key)) === null) {
+      // if null, resolve with object key path
+      format = (message as any)[key] // eslint-disable-line @typescript-eslint/no-explicit-any
+    }
     if (isString(format) || isFunction(format)) break
     handleMissing(context, key, targetLocale, missingWarn, 'translate')
   }

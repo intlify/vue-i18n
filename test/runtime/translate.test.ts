@@ -539,4 +539,16 @@ describe('edge cases', () => {
     })
     expect(translate(ctx, 'こんにちは')).toEqual('こんにちは！')
   })
+
+  test('object path key', () => {
+    const ctx = context({
+      locale: 'en',
+      messages: {
+        en: {
+          'side.left': 'Left'
+        }
+      }
+    })
+    expect(translate(ctx, 'side.left')).toEqual('Left')
+  })
 })
