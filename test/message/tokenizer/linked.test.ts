@@ -379,7 +379,7 @@ test('multiple', () => {
   })
   expect(tokenizer.nextToken()).toEqual({
     type: TokenTypes.List,
-    value: 0,
+    value: '0',
     loc: {
       start: { line: 1, column: 16, offset: 15 },
       end: { line: 1, column: 17, offset: 16 }

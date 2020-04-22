@@ -172,8 +172,8 @@ test('space', () => {
     type: TokenTypes.Named,
     value: 'name',
     loc: {
-      start: { line: 1, column: 5, offset: 4 },
-      end: { line: 1, column: 12, offset: 11 }
+      start: { line: 1, column: 7, offset: 6 },
+      end: { line: 1, column: 11, offset: 10 }
     }
   })
   expect(tokenizer.nextToken()).toEqual({

@@ -177,7 +177,7 @@ test('complex', () => {
   })
   expect(tokenizer.nextToken()).toEqual({
     type: TokenTypes.List,
-    value: 1,
+    value: '1',
     loc: {
       start: { line: 1, column: 24, offset: 23 },
       end: { line: 1, column: 25, offset: 24 }

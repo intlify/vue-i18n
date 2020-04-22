@@ -10,6 +10,7 @@ import {
   createPosition,
   Position
 } from './location'
+import { isUnDef } from '../utils'
 
 export const enum TokenTypes {
   Text, // 0
@@ -26,6 +27,7 @@ export const enum TokenTypes {
   LinkedModifier,
   ParenLeft,
   ParenRight,
+  InvalidPlace,
   EOF
 }
 
@@ -46,13 +48,13 @@ const EOF = undefined
 
 export type Token = {
   type: TokenTypes
-  value?: string | number
+  value?: string
   loc?: SourceLocation
 }
 
 export type TokenizeContext = {
   currentType: TokenTypes
-  currentValue: string | number | undefined | null // TODO: if dont' use, should be removed
+  currentValue: string | undefined | null // TODO: if dont' use, should be removed
   currentToken: Token | null
   offset: number
   startLoc: Position
@@ -62,6 +64,7 @@ export type TokenizeContext = {
   lastOffset: number
   lastStartLoc: Position
   lastEndLoc: Position
+  braceNest: number
 }
 
 export type Tokenizer = Readonly<{
@@ -91,7 +94,8 @@ export function createTokenizer(source: string): Tokenizer {
     lastToken: null,
     lastOffset: _initOffset,
     lastStartLoc: _initLoc,
-    lastEndLoc: _initLoc
+    lastEndLoc: _initLoc,
+    braceNest: 0
   }
 
   const context = (): TokenizeContext => _context
@@ -99,16 +103,20 @@ export function createTokenizer(source: string): Tokenizer {
   const getToken = (
     context: TokenizeContext,
     type: TokenTypes,
-    value?: string | number
+    value?: string
   ): Token => {
     context.endLoc = currentPosition()
     context.currentType = type
     context.currentValue = value
-    return {
+    const token = {
       type,
-      value,
       loc: createLocation(context.startLoc, context.endLoc)
+    } as Token
+
+    if (!isUnDef(value)) {
+      token.value = value
     }
+    return token
   }
 
   const peekSpaces = (scnr: Scanner): string => {
@@ -145,7 +153,7 @@ export function createTokenizer(source: string): Tokenizer {
     return cc >= 48 && cc <= 57 // 0-9
   }
 
-  const isNamedIdentifier = (
+  const isNamedIdentifierStart = (
     scnr: Scanner,
     context: TokenizeContext
   ): boolean => {
@@ -159,7 +167,7 @@ export function createTokenizer(source: string): Tokenizer {
     return ret
   }
 
-  const isListIdentifier = (
+  const isListIdentifierStart = (
     scnr: Scanner,
     context: TokenizeContext
   ): boolean => {
@@ -351,11 +359,10 @@ export function createTokenizer(source: string): Tokenizer {
     while ((ch = takeIdentifierChar(scnr))) {
       name += ch
     }
-    skipSpaces(scnr)
     return name
   }
 
-  const readListIdentifier = (scnr: Scanner): number => {
+  const readListIdentifier = (scnr: Scanner): string => {
     skipSpaces(scnr)
     let value = ''
     if (scnr.currentChar() === '-') {
@@ -364,8 +371,18 @@ export function createTokenizer(source: string): Tokenizer {
     } else {
       value += getDigits(scnr)
     }
+    return value
+  }
+
+  const readInvalidIdentifier = (scnr: Scanner): string => {
     skipSpaces(scnr)
-    return parseInt(value, 10)
+    let ch: string | undefined | null = ''
+    let identifiers = ''
+    const closure = (ch: string) => (ch !== TokenChars.BraceLeft && ch !== TokenChars.BraceRight)
+    while ((ch = takeChar(scnr, closure))) {
+      identifiers += ch
+    }
+    return identifiers
   }
 
   const readLinkedModifierArg = (scnr: Scanner): string => {
@@ -428,10 +445,14 @@ export function createTokenizer(source: string): Tokenizer {
       case TokenChars.BraceLeft:
         scnr.next()
         token = getToken(context, TokenTypes.BraceLeft, TokenChars.BraceLeft)
+        skipSpaces(scnr)
+        context.braceNest++
         break
       case TokenChars.BraceRight:
         scnr.next()
         token = getToken(context, TokenTypes.BraceRight, TokenChars.BraceRight)
+        context.braceNest--
+        context.braceNest > 0 && skipSpaces(scnr)
         break
       case TokenChars.LinkedAlias:
         scnr.next()
@@ -466,14 +487,30 @@ export function createTokenizer(source: string): Tokenizer {
         token = getToken(context, TokenTypes.Modulo, TokenChars.Modulo)
         break
       default:
+        let validNamedIdentifier = true
+        let validListIdentifier = true
         if (isPluralStart(scnr)) {
           token = getToken(context, TokenTypes.Pipe, readPlural(scnr))
+          context.braceNest = 0 // reset
         } else if (isTextStart(scnr, context)) {
           token = getToken(context, TokenTypes.Text, readText(scnr))
-        } else if (isNamedIdentifier(scnr, context)) {
+        } else if (
+          (validNamedIdentifier = isNamedIdentifierStart(scnr, context))
+        ) {
           token = getToken(context, TokenTypes.Named, readNamedIdentifier(scnr))
-        } else if (isListIdentifier(scnr, context)) {
+          skipSpaces(scnr)
+        } else if (
+          (validListIdentifier = isListIdentifierStart(scnr, context))
+        ) {
           token = getToken(context, TokenTypes.List, readListIdentifier(scnr))
+          skipSpaces(scnr)
+        // } else if (!validNamedIdentifier && !validListIdentifier) {
+        //   token = getToken(
+        //     context,
+        //     TokenTypes.InvalidPlace,
+        //     readInvalidIdentifier(scnr)
+        //   )
+        //   skipSpaces(scnr)
         } else if (isLinkedModifier(scnr, context)) {
           token = getToken(
             context,

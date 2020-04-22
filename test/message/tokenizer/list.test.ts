@@ -20,7 +20,7 @@ test('basic', () => {
   })
   expect(tokenizer.nextToken()).toEqual({
     type: TokenTypes.List,
-    value: 0,
+    value: '0',
     loc: {
       start: { line: 1, column: 5, offset: 4 },
       end: { line: 1, column: 6, offset: 5 }
@@ -63,7 +63,7 @@ test('multiple', () => {
   })
   expect(tokenizer.nextToken()).toEqual({
     type: TokenTypes.List,
-    value: 0,
+    value: '0',
     loc: {
       start: { line: 1, column: 2, offset: 1 },
       end: { line: 1, column: 3, offset: 2 }
@@ -95,7 +95,7 @@ test('multiple', () => {
   })
   expect(tokenizer.nextToken()).toEqual({
     type: TokenTypes.List,
-    value: 1,
+    value: '1',
     loc: {
       start: { line: 1, column: 6, offset: 5 },
       end: { line: 1, column: 7, offset: 6 }
@@ -127,7 +127,7 @@ test('multiple', () => {
   })
   expect(tokenizer.nextToken()).toEqual({
     type: TokenTypes.List,
-    value: 2,
+    value: '2',
     loc: {
       start: { line: 1, column: 10, offset: 9 },
       end: { line: 1, column: 11, offset: 10 }
@@ -170,10 +170,10 @@ test('space', () => {
   })
   expect(tokenizer.nextToken()).toEqual({
     type: TokenTypes.List,
-    value: -1,
+    value: '-1',
     loc: {
-      start: { line: 1, column: 5, offset: 4 },
-      end: { line: 1, column: 10, offset: 9 }
+      start: { line: 1, column: 7, offset: 6 },
+      end: { line: 1, column: 9, offset: 8 }
     }
   })
   expect(tokenizer.nextToken()).toEqual({
@@ -213,7 +213,7 @@ test('multi lines', () => {
   })
   expect(tokenizer.nextToken()).toEqual({
     type: TokenTypes.List,
-    value: 0,
+    value: '0',
     loc: {
       start: { line: 1, column: 2, offset: 1 },
       end: { line: 1, column: 3, offset: 2 }
@@ -245,7 +245,7 @@ test('multi lines', () => {
   })
   expect(tokenizer.nextToken()).toEqual({
     type: TokenTypes.List,
-    value: 1,
+    value: '1',
     loc: {
       start: { line: 2, column: 2, offset: 5 },
       end: { line: 2, column: 3, offset: 6 }
@@ -277,7 +277,7 @@ test('multi lines', () => {
   })
   expect(tokenizer.nextToken()).toEqual({
     type: TokenTypes.List,
-    value: 2,
+    value: '2',
     loc: {
       start: { line: 3, column: 2, offset: 10 },
       end: { line: 3, column: 3, offset: 11 }
@@ -328,7 +328,7 @@ test('with modulo', () => {
   })
   expect(tokenizer.nextToken()).toEqual({
     type: TokenTypes.List,
-    value: 0,
+    value: '0',
     loc: {
       start: { line: 1, column: 6, offset: 5 },
       end: { line: 1, column: 7, offset: 6 }
