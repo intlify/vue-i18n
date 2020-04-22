@@ -10,9 +10,11 @@ Internationalization plugin for Vue.js
   </a>
 </p>
 
+<h3>Bronze Sponsors</h3>
+
 <p>
-  <a href="https://www.patreon.com/kazupon" target="_blank">
-    <img src="https://c5.patreon.com/external/logo/become_a_patron_button.png" alt="Become a Patreon">
+  <a href="https://zenarchitects.co.jp/" target="_blank">
+    <img src="https://raw.githubusercontent.com/kazupon/vue-i18n/v8.x/vuepress/.vuepress/public/patrons/zenarchitects.png">
   </a>
 </p>
 
