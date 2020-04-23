@@ -45,6 +45,15 @@ export function defineMixin(
         this.$i18n.d(...args)
       this.$n = (...args: unknown[]): NumberFormatResult =>
         this.$i18n.n(...args)
+    },
+
+    mounted() {
+      this.$el.__intlify__ = this.$i18n.__composer
+    },
+
+    beforeDestroy() {
+      this.$el.__intlify__ = undefined
+      delete this.$el.__intlify__
     }
   }
 }

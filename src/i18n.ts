@@ -1,6 +1,8 @@
 import {
   provide,
   inject,
+  onMounted,
+  onUnmounted,
   InjectionKey,
   getCurrentInstance,
   ComponentInternalInstance,
@@ -187,6 +189,7 @@ export function useI18n(options: ComposerOptions = {}): Composer {
       options.__root = globalComposer
     }
     const composer = createComposer(options)
+    setupLifeCycle(instance, composer)
     const sym: InjectionKey<Composer> = Symbol.for(generateSymbolID())
     providers.set(instance, sym)
     provide(sym, composer)
@@ -196,4 +199,29 @@ export function useI18n(options: ComposerOptions = {}): Composer {
     if (!composer) throw new Error('TODO') // TODO:
     return composer
   }
+}
+
+function setupLifeCycle(
+  instance: ComponentInternalInstance | null,
+  composer: Composer
+): void {
+  onMounted(() => {
+    // inject composer instance to DOM for intlify-devtools
+    if (instance) {
+      if (instance.proxy) {
+        instance.proxy.$el.__intlify__ = composer
+      }
+    }
+  })
+
+  onUnmounted(() => {
+    // remove composer instance from DOM for intlify-devtools
+    const instance = getCurrentInstance()
+    if (instance) {
+      if (instance.proxy && instance.proxy.$el.__intlify__) {
+        instance.proxy.$el.__intlify__ = undefined
+        delete instance.proxy.$el.__intlify__
+      }
+    }
+  })
 }
