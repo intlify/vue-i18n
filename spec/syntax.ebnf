@@ -13,13 +13,15 @@ Message ::= (Text? (Placeholder | Linked)? Text?)+;
 (* primitives *)
 Text ::= TextChar+;
 Placeholder ::= Named | List;
-Named ::= "%"? "{" Space? (Identifier) Space? "}";
+Modulo ::= "%";
+Named ::= Modulo? "{" Space? (Identifier) Space? "}";
 List ::= "{" Space? (Digits) Space? "}";
-Linked ::= "@" (LinkedDot LinkedModifier)? ":" LinkedRefer;
+Linked ::= "@" (LinkedModifier)? LinkedDelimiter LinkedRefer;
 LinkedRefer ::= "("? (LinkedKey | Placeholder) ")"?;
 LinkedKey ::= TextChar+;
+LinkedModifier ::= LinkedDot Identifier;
+LinkedDelimiter ::= ":";
 LinkedDot ::= ".";
-LinkedModifier ::= Identifier;
 
 (* characters *)
 AnyChar ::= [#x0-#xD7FF] | [#xE000-#xFFFD] | [#x10000-#x10FFFF];  (* Unicode character *)
