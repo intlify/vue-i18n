@@ -32,7 +32,6 @@ export function apply(
   app.directive('t', vT as FunctionDirective) // TODO:
 
   // setup global provider
-  console.log('provide', GlobalI18nSymbol, composer)
   app.provide(GlobalI18nSymbol, composer)
 }
 

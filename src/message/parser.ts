@@ -1,7 +1,7 @@
 import {
-  CompilerErrorCodes,
-  CompilerError,
-  createCompilerError
+  // CompilerErrorCodes,
+  // createCompilerError
+  CompilerError
 } from './errors'
 import { SourceLocation, Position } from './location'
 import { createTokenizer, Tokenizer, TokenTypes } from './tokenizer'
