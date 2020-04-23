@@ -1,4 +1,18 @@
 
+## v9.0.0-alpha.4 (2020-04-23)
+
+#### :bug: Bug Fixes
+* [#18](https://github.com/intlify/vue-i18n-next/pull/18) fix tokenizer ([@kazupon](https://github.com/kazupon))
+* [#16](https://github.com/intlify/vue-i18n-next/pull/16) fix: cannot resolve object path ([@kazupon](https://github.com/kazupon))
+
+#### :pencil: Documentation
+* [#17](https://github.com/intlify/vue-i18n-next/pull/17) Minor typo fixes ([@sharpshark28](https://github.com/sharpshark28))
+
+#### Committers: 2
+- Ava Gaiety Wroten ([@sharpshark28](https://github.com/sharpshark28))
+- kazuya kawaguchi ([@kazupon](https://github.com/kazupon))
+
+
 ## v9.0.0-alpha.3 (2020-04-17)
 
 #### :zap: Improvement Features
