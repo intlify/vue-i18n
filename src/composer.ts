@@ -12,7 +12,9 @@ import {
   App,
   Plugin,
   ComponentInternalInstance,
-  createTextVNode
+  createTextVNode,
+  onMounted,
+  onUnmounted
 } from 'vue'
 import { WritableComputedRef, ComputedRef } from '@vue/reactivity'
 import { apply } from './plugin'
@@ -679,6 +681,27 @@ export function createComposer(options: ComposerOptions = {}): Composer {
     __numberParts,
     __datetimeParts
   }
+
+  onMounted(() => {
+    // inject composer instance to DOM for intlify-devtools
+    const instance = getCurrentInstance()
+    if (instance) {
+      if (instance.proxy) {
+        instance.proxy.$el.__intlify__ = composer
+      }
+    }
+  })
+
+  onUnmounted(() => {
+    // remove composer instance from DOM for intlify-devtools
+    const instance = getCurrentInstance()
+    if (instance) {
+      if (instance.proxy && instance.proxy.$el.__intlify__) {
+        instance.proxy.$el.__intlify__ = undefined
+        delete instance.proxy.$el.__intlify__
+      }
+    }
+  })
 
   return composer
 }
