@@ -1,5 +1,11 @@
+import {
+  CompilerErrorCodes,
+  CompilerError,
+  createCompilerError
+} from './errors'
 import { SourceLocation, Position } from './location'
 import { createTokenizer, Tokenizer, TokenTypes } from './tokenizer'
+import { isUnDef } from '../utils'
 
 export const enum NodeTypes {
   Resource, // 0
@@ -72,11 +78,40 @@ export interface LinkedModitierNode extends Node {
   value: Identifier
 }
 
+export type ParserOptions = {
+  onError?: (error: CompilerError) => void
+}
+
 export type Parser = Readonly<{
   parse: (source: string) => ResourceNode
 }>
 
-export function createParser(): Parser {
+export function createParser(/* options: ParserOptions = {} */): Parser {
+  // TODO:
+  /*
+  const { onError } = options
+
+  const emitError = (
+    code: CompilerErrorCodes,
+    loc: Position,
+    offset?: number
+  ): void => {
+    if (offset) {
+      loc.offset += offset
+      loc.column += offset
+    }
+    if (onError) {
+      onError(
+        createCompilerError(code, {
+          start: loc,
+          end: loc,
+          source: ''
+        })
+      )
+    }
+  }
+  */
+
   const startNode = (type: NodeTypes, offset: number, loc: Position): Node => {
     return {
       type,
@@ -113,11 +148,11 @@ export function createParser(): Parser {
     return node
   }
 
-  const parseList = (tokenizer: Tokenizer, index: number): ListNode => {
+  const parseList = (tokenizer: Tokenizer, index: string): ListNode => {
     const context = tokenizer.context()
     const { lastOffset: offset, lastStartLoc: loc } = context // get brace left loc
     const node = startNode(NodeTypes.List, offset, loc) as ListNode
-    node.index = index
+    node.index = parseInt(index, 10)
     tokenizer.nextToken() // skip brach right
     endNode(node, tokenizer.currentOffset(), tokenizer.currentPosition())
     return node
@@ -202,21 +237,21 @@ export function createParser(): Parser {
 
     switch (token.type) {
       case TokenTypes.LinkedKey:
-        if (!token.value || typeof token.value !== 'string') {
+        if (isUnDef(token.value)) {
           // TODO: should be thrown syntax error
           throw new Error()
         }
         linkedNode.key = parseLinkedKey(tokenizer, token.value)
         break
       case TokenTypes.Named:
-        if (!token.value || typeof token.value === 'number') {
+        if (isUnDef(token.value)) {
           // TODO: should be thrown syntax error
           throw new Error()
         }
         linkedNode.key = parseNamed(tokenizer, token.value)
         break
       case TokenTypes.List:
-        if (token.value === undefined || typeof token.value === 'string') {
+        if (isUnDef(token.value)) {
           // TODO: should be thrown syntax error
           throw new Error()
         }
@@ -257,21 +292,21 @@ export function createParser(): Parser {
       const token = tokenizer.nextToken()
       switch (token.type) {
         case TokenTypes.Text:
-          if (!token.value || typeof token.value === 'number') {
+          if (isUnDef(token.value)) {
             // TODO: should be thrown syntax error
             throw new Error()
           }
           node.items.push(parseText(tokenizer, token.value))
           break
         case TokenTypes.List:
-          if (token.value === undefined || typeof token.value === 'string') {
+          if (isUnDef(token.value)) {
             // TODO: should be thrown syntax error
             throw new Error()
           }
           node.items.push(parseList(tokenizer, token.value))
           break
         case TokenTypes.Named:
-          if (!token.value || typeof token.value === 'number') {
+          if (isUnDef(token.value)) {
             // TODO: should be thrown syntax error
             throw new Error()
           }
