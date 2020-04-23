@@ -85,14 +85,14 @@ The examples are offered that use the following two API styles:
   - See the `examples/legacy` directory.
 - `VueI18n.prototype.getChoiceIndex`
   - -> Legacy API style: `pluralizationRules` option of `createI18n` factory function (like `new VueI18n(...)`)
-  - -> Compsable API style: `pluralRules` option of `createI18nComposer` facatory function
+  - -> Compsable API style: `pluralRules` option of `createI18nComposer` factory function
 - `VueI18n.version` -> `import { VERSION } from 'vue-i18n'`
 - `VueI18n.availabilities` -> `import { availabilities } from 'vue-i18n'`
 - See the details [here](https://github.com/intlify/vue-i18n-next/blob/master/docs/vue-i18n.md)
 
 #### Components
 - `<i18n>` component
-  - Renamte to `<i18n-t>` component
+  - Rename to `<i18n-t>` component
   - Remove the below props:
     - `place` prop
     - `places` prop
