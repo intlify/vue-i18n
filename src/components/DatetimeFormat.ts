@@ -1,4 +1,9 @@
-import { getCurrentInstance, defineComponent, SetupContext, PropType } from 'vue'
+import {
+  getCurrentInstance,
+  defineComponent,
+  SetupContext,
+  PropType
+} from 'vue'
 import { useI18n, getComposer } from '../i18n'
 import { DateTimeOptions } from '../runtime'
 import { renderFormatter, FormattableProps } from './formatRenderer'
