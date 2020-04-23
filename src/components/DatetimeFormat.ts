@@ -27,6 +27,7 @@ const DATETIME_FORMAT_KEYS = [
 ]
 
 export const DatetimeFormat = defineComponent({
+  /* eslint-disable */
   name: 'i18n-d',
   props: {
     tag: {
@@ -43,6 +44,7 @@ export const DatetimeFormat = defineComponent({
       type: String
     }
   },
+  /* eslint-enable */
   setup(props, context: SetupContext) {
     const i18n = useI18n()
 

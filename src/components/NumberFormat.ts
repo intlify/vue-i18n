@@ -22,6 +22,7 @@ const NUMBER_FORMAT_KEYS = [
 ]
 
 export const NumberFormat = defineComponent({
+  /* eslint-disable */
   name: 'i18n-n',
   props: {
     tag: {
@@ -38,6 +39,7 @@ export const NumberFormat = defineComponent({
       type: String
     }
   },
+  /* eslint-enable */
   setup(props, context: SetupContext) {
     const i18n = useI18n()
 

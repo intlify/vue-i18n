@@ -18,6 +18,7 @@ export type TranslationProps = {
 }
 
 export const Translation = defineComponent({
+  /* eslint-disable */
   name: 'i18n-t',
   props: {
     tag: {
@@ -36,6 +37,7 @@ export const Translation = defineComponent({
       validator: (val: any): boolean => isNumber(val) || !isNaN(val)
     }
   },
+  /* eslint-enable */
   setup(props: TranslationProps, context: SetupContext) {
     const { slots, attrs } = context
     const i18n = useI18n()
