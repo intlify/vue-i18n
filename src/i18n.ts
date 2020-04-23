@@ -20,6 +20,13 @@ const providers: Map<
   InjectionKey<Composer>
 > = new Map()
 
+const getGlobalComposer = (): Composer => {
+  if (globalInstance === null) throw new Error('TODO') // TODO:
+  return '__composer' in globalInstance
+    ? globalInstance.__composer
+    : globalInstance
+}
+
 // TODO: if we don't need the below, should be removed!
 export function enumProviders(): void {
   if (__DEV__) {
@@ -27,6 +34,16 @@ export function enumProviders(): void {
       console.log('provider:', instance, sym)
     })
   }
+}
+
+export function getComposer(
+  instance: ComponentInternalInstance | null
+): Composer {
+  if (!instance) {
+    return getGlobalComposer()
+  }
+  const symbol = providers.get(instance)
+  return symbol ? inject(symbol, getGlobalComposer()) : getGlobalComposer()
 }
 
 /**
@@ -169,10 +186,7 @@ export function createI18n(options: I18nOptions = {}): Composer | VueI18n {
  * ```
  */
 export function useI18n(options: ComposerOptions = {}): Composer {
-  if (globalInstance === null) throw new Error('TODO') // TODO:
-
-  const globalComposer =
-    '__composer' in globalInstance ? globalInstance.__composer : globalInstance
+  const globalComposer = getGlobalComposer()
 
   const instance = getCurrentInstance()
   if (instance === null || isEmptyObject(options)) {
@@ -185,14 +199,18 @@ export function useI18n(options: ComposerOptions = {}): Composer {
     if (type.__i18n) {
       options.__i18n = type.__i18n
     }
+
     if (globalComposer) {
       options.__root = globalComposer
     }
+
     const composer = createComposer(options)
     setupLifeCycle(instance, composer)
+
     const sym: InjectionKey<Composer> = Symbol.for(generateSymbolID())
     providers.set(instance, sym)
     provide(sym, composer)
+
     return composer
   } else {
     const composer = inject(symbol) || globalComposer

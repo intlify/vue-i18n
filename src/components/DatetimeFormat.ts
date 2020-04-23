@@ -1,5 +1,5 @@
-import { defineComponent, SetupContext, PropType } from 'vue'
-import { useI18n } from '../i18n'
+import { getCurrentInstance, defineComponent, SetupContext, PropType } from 'vue'
+import { useI18n, getComposer } from '../i18n'
 import { DateTimeOptions } from '../runtime'
 import { renderFormatter, FormattableProps } from './formatRenderer'
 
@@ -46,7 +46,13 @@ export const DatetimeFormat = defineComponent({
   },
   /* eslint-enable */
   setup(props, context: SetupContext) {
-    const i18n = useI18n()
+    const instance = getCurrentInstance()
+    const i18n =
+      instance !== null
+        ? instance.parent !== null
+          ? getComposer(instance.parent)
+          : useI18n()
+        : useI18n()
 
     return renderFormatter<
       FormattableProps<number | Date, Intl.DateTimeFormatOptions>,
