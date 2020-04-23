@@ -223,6 +223,99 @@ Object {
 }
 `;
 
+exports[`parse: list 1`] = `
+Object {
+  "body": Object {
+    "end": 11,
+    "items": Array [
+      Object {
+        "end": 6,
+        "loc": Object {
+          "end": Object {
+            "column": 7,
+            "line": 1,
+            "offset": 6,
+          },
+          "start": Object {
+            "column": 1,
+            "line": 1,
+            "offset": 0,
+          },
+        },
+        "start": 0,
+        "type": 3,
+        "value": "hello ",
+      },
+      Object {
+        "end": 9,
+        "index": 0,
+        "loc": Object {
+          "end": Object {
+            "column": 10,
+            "line": 1,
+            "offset": 9,
+          },
+          "start": Object {
+            "column": 7,
+            "line": 1,
+            "offset": 6,
+          },
+        },
+        "start": 6,
+        "type": 5,
+      },
+      Object {
+        "end": 11,
+        "loc": Object {
+          "end": Object {
+            "column": 12,
+            "line": 1,
+            "offset": 11,
+          },
+          "start": Object {
+            "column": 10,
+            "line": 1,
+            "offset": 9,
+          },
+        },
+        "start": 9,
+        "type": 3,
+        "value": " !",
+      },
+    ],
+    "loc": Object {
+      "end": Object {
+        "column": 12,
+        "line": 1,
+        "offset": 11,
+      },
+      "start": Object {
+        "column": 1,
+        "line": 1,
+        "offset": 0,
+      },
+    },
+    "start": 0,
+    "type": 2,
+  },
+  "end": 11,
+  "loc": Object {
+    "end": Object {
+      "column": 12,
+      "line": 1,
+      "offset": 11,
+    },
+    "start": Object {
+      "column": 1,
+      "line": 1,
+      "offset": 0,
+    },
+  },
+  "start": 0,
+  "type": 0,
+}
+`;
+
 exports[`parse: named 1`] = `
 Object {
   "body": Object {
