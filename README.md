@@ -138,7 +138,8 @@ yarn add vue-i18n@next
   - [x] vue-i18n message format
   - [ ] sourcemap
   - [ ] error handling
-  - [ ] more unit tests!
+  - [ ] more unit (fuzzing) tests
+  - [ ] performance tests (benchmark)
 - Intlify core runtime
   - [x] translate function
   - [x] datetime function
@@ -233,6 +234,7 @@ yarn add vue-i18n@next
 - Directive
   - [ ] `v-t`
 - Tool Chains
+  - [ ] intlify devtools
   - [ ] vue-i18n-extensions
   - [x] vue-i18n-loader
   - [ ] rollup-plugin-vue-i18n
