@@ -211,7 +211,7 @@ export function createTokenizer(
       return false
     }
     peekSpaces(scnr)
-    const ret = scnr.currentPeek() === '"'
+    const ret = scnr.currentPeek() === "'"
     scnr.resetPeek()
     return ret
   }
@@ -427,7 +427,7 @@ export function createTokenizer(
 
     let ch: string | undefined | null = ''
     let literal = ''
-    const fn = (x: string) => x !== '"' && x !== NEW_LINE
+    const fn = (x: string) => x !== "'" && x !== NEW_LINE
     while ((ch = takeChar(scnr, fn))) {
       if (ch === '\\') {
         literal += readEscapeSequence(scnr)
@@ -450,7 +450,7 @@ export function createTokenizer(
     const ch = scnr.currentChar()
     switch (ch) {
       case '\\':
-      case `\"`:
+      case `\'`:
         scnr.next()
         return `\\${ch}`
       case 'u':

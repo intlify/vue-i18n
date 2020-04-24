@@ -87,7 +87,7 @@ describe('named', () => {
 describe('literal', () => {
   test('ascii', () => {
     const parser = createParser()
-    const msg = `hi {"kazupon"} !`
+    const msg = `hi {'kazupon'} !`
     const ast = parser.parse(msg)
     transform(ast)
     const code = generate(ast)
@@ -96,7 +96,7 @@ describe('literal', () => {
 
   test('multibytes', () => {
     const parser = createParser()
-    const msg = `hi {"かずぽん"} !`
+    const msg = `hi {'かずぽん'} !`
     const ast = parser.parse(msg)
     transform(ast)
     const code = generate(ast)
@@ -105,7 +105,7 @@ describe('literal', () => {
 
   test('emoji', () => {
     const parser = createParser()
-    const msg = `hi {"😺"} !`
+    const msg = `hi {'😺'} !`
     const ast = parser.parse(msg)
     transform(ast)
     const code = generate(ast)
@@ -114,16 +114,16 @@ describe('literal', () => {
 
   test('{}', () => {
     const parser = createParser()
-    const msg = `{"{}"}`
+    const msg = `{'{}'}`
     const ast = parser.parse(msg)
     transform(ast)
     const code = generate(ast)
     expect(code).toMatchSnapshot(msg)
   })
 
-  test("!#%^&*()-_+=[]:;?.<>'`", () => {
+  test('!#%^&*()-_+=[]:;?.<>"`', () => {
     const parser = createParser()
-    const msg = `hi {"${"!#%^&*()-_+=[]:;?.<>'`"}"} !`
+    const msg = `hi {'${'!#%^&*()-_+=[]:;?.<>"`'}'} !`
     const ast = parser.parse(msg)
     transform(ast)
     const code = generate(ast)
@@ -132,16 +132,16 @@ describe('literal', () => {
 
   test('escaped single quote', () => {
     const parser = createParser()
-    const msg = `hi {"\\""} !`
+    const msg = `hi {'\\''} !`
     const ast = parser.parse(msg)
     transform(ast)
     const code = generate(ast)
     expect(code).toMatchSnapshot(msg)
   })
 
-  test('escaped double slash', () => {
+  test('escaped slash', () => {
     const parser = createParser()
-    const msg = `hi {"\\\\"} !`
+    const msg = `hi {'\\\\'} !`
     const ast = parser.parse(msg)
     transform(ast)
     const code = generate(ast)
@@ -150,7 +150,7 @@ describe('literal', () => {
 
   test('unicode 4 digits', () => {
     const parser = createParser()
-    const msg = `hi {"${'\u0041'}"} !`
+    const msg = `hi {'${'\u0041'}'} !`
     const ast = parser.parse(msg)
     transform(ast)
     const code = generate(ast)
@@ -159,7 +159,7 @@ describe('literal', () => {
 
   test('escaped unicode 4 digits', () => {
     const parser = createParser()
-    const msg = `hi {"\\\\u0041"} !`
+    const msg = `hi {'\\\\u0041'} !`
     const ast = parser.parse(msg)
     transform(ast)
     const code = generate(ast)
@@ -168,7 +168,7 @@ describe('literal', () => {
 
   test('unicode 6 digits', () => {
     const parser = createParser()
-    const msg = `hi {"${'U01F602'}"} !`
+    const msg = `hi {'${'U01F602'}'} !`
     const ast = parser.parse(msg)
     transform(ast)
     const code = generate(ast)
@@ -177,7 +177,7 @@ describe('literal', () => {
 
   test('escaped unicode 6 digits', () => {
     const parser = createParser()
-    const msg = `hi {"\\\\U01F602"} !`
+    const msg = `hi {'\\\\U01F602'} !`
     const ast = parser.parse(msg)
     transform(ast)
     const code = generate(ast)

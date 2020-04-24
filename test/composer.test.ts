@@ -392,24 +392,24 @@ describe('t', () => {
       locale: 'en',
       messages: {
         en: {
-          ascii: `hi {"kazupon"} !`,
-          multibytes: `hi {"かずぽん"} !`,
-          emoji: `hi {"😺"} !`,
-          specials: `hi {"${"!#%^&*()-_+=[]:;?.<>'`"}"} !`,
-          escapedSingleQuote: `hi {"\\""} !`,
-          escapedSlash: `hi {"\\\\"} !`,
-          unicode4digits: `hi {"${'\u0041'}"} !`,
-          escapedUnicode4digits: `hi {"\\\\u0041"} !`,
-          unicode6digits: `hi {"${'U01F602'}"} !`,
-          escapedUnicode6digits: `hi {"\\\\U01F602"} !`
+          ascii: `hi {'kazupon'} !`,
+          multibytes: `hi {'かずぽん'} !`,
+          emoji: `hi {'😺'} !`,
+          specials: `hi {'${'!#%^&*()-_+=[]:;?.<>"`'}'} !`,
+          escapedSingleQuote: `hi {'\\''} !`,
+          escapedSlash: `hi {'\\\\'} !`,
+          unicode4digits: `hi {'${'\u0041'}'} !`,
+          escapedUnicode4digits: `hi {'\\\\u0041'} !`,
+          unicode6digits: `hi {'${'U01F602'}'} !`,
+          escapedUnicode6digits: `hi {'\\\\U01F602'} !`
         }
       }
     })
     expect(t('ascii')).toEqual('hi kazupon !')
     expect(t('multibytes')).toEqual('hi かずぽん !')
     expect(t('emoji')).toEqual('hi 😺 !')
-    expect(t('specials')).toEqual(`hi ${"!#%^&*()-_+=[]:;?.<>'`"} !`)
-    expect(t('escapedSingleQuote')).toEqual(`hi \\\" !`)
+    expect(t('specials')).toEqual(`hi ${'!#%^&*()-_+=[]:;?.<>"`'} !`)
+    expect(t('escapedSingleQuote')).toEqual(`hi \\\' !`)
     expect(t('escapedSlash')).toEqual('hi \\\\ !')
     expect(t('unicode4digits')).toEqual('hi A !')
     expect(t('escapedUnicode4digits')).toEqual(`hi \\\\u0041 !`)

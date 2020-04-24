@@ -2,7 +2,7 @@ import { createTokenizer, TokenTypes } from '../../../src/message/tokenizer'
 
 describe('string', () => {
   test('ascii', () => {
-    const tokenizer = createTokenizer(`hi { "kazuya kawaguchi" }`)
+    const tokenizer = createTokenizer(`hi { 'kazuya kawaguchi' }`)
     expect(tokenizer.nextToken()).toEqual({
       type: TokenTypes.Text,
       value: 'hi ',
@@ -45,7 +45,7 @@ describe('string', () => {
   })
 
   test('multi bytes', () => {
-    const tokenizer = createTokenizer(`こんにちは、{ "かずぽん" }`)
+    const tokenizer = createTokenizer(`こんにちは、{ 'かずぽん' }`)
     expect(tokenizer.nextToken()).toEqual({
       type: TokenTypes.Text,
       value: 'こんにちは、',
@@ -88,7 +88,7 @@ describe('string', () => {
   })
 
   test('emoji', () => {
-    const tokenizer = createTokenizer(`hi { "😺" }`)
+    const tokenizer = createTokenizer(`hi { '😺' }`)
     expect(tokenizer.nextToken()).toEqual({
       type: TokenTypes.Text,
       value: 'hi ',
@@ -133,7 +133,7 @@ describe('string', () => {
 
 describe('unicode', () => {
   test('4 digits', () => {
-    const tokenizer = createTokenizer(`{ "\u0041" }`)
+    const tokenizer = createTokenizer(`{ '\u0041' }`)
     expect(tokenizer.nextToken()).toEqual({
       type: TokenTypes.BraceLeft,
       value: '{',
@@ -168,7 +168,7 @@ describe('unicode', () => {
   })
 
   test('6 digits', () => {
-    const tokenizer = createTokenizer(`{ "\U01F602" }`)
+    const tokenizer = createTokenizer(`{ '\U01F602' }`)
     expect(tokenizer.nextToken()).toEqual({
       type: TokenTypes.BraceLeft,
       value: '{',
@@ -205,7 +205,7 @@ describe('unicode', () => {
 
 describe('special chracters', () => {
   test('{', () => {
-    const tokenizer = createTokenizer(`open blace: {"{"}`)
+    const tokenizer = createTokenizer(`open blace: {'{'}`)
     expect(tokenizer.nextToken()).toEqual({
       type: TokenTypes.Text,
       value: 'open blace: ',
@@ -248,7 +248,7 @@ describe('special chracters', () => {
   })
 
   test('}', () => {
-    const tokenizer = createTokenizer(`end blace: { "}" }`)
+    const tokenizer = createTokenizer(`end blace: { '}' }`)
     expect(tokenizer.nextToken()).toEqual({
       type: TokenTypes.Text,
       value: 'end blace: ',
@@ -291,7 +291,7 @@ describe('special chracters', () => {
   })
 
   test('|', () => {
-    const tokenizer = createTokenizer(`{ "|" } = pipe`)
+    const tokenizer = createTokenizer(`{ '|' } = pipe`)
     expect(tokenizer.nextToken()).toEqual({
       type: TokenTypes.BraceLeft,
       value: '{',
@@ -334,7 +334,7 @@ describe('special chracters', () => {
   })
 
   test('@', () => {
-    const tokenizer = createTokenizer(`foo{"@"}bar.com`)
+    const tokenizer = createTokenizer(`foo{'@'}bar.com`)
     expect(tokenizer.nextToken()).toEqual({
       type: TokenTypes.Text,
       value: 'foo',
@@ -385,7 +385,7 @@ describe('special chracters', () => {
   })
 
   test('$', () => {
-    const tokenizer = createTokenizer(`{"$query"}`)
+    const tokenizer = createTokenizer(`{'$query'}`)
     expect(tokenizer.nextToken()).toEqual({
       type: TokenTypes.BraceLeft,
       value: '{',
@@ -419,8 +419,8 @@ describe('special chracters', () => {
     })
   })
 
-  test("!#%^&*()-_+=[]:;?.<>'`", () => {
-    const tokenizer = createTokenizer('{"!#%^&*()-_+=[]:;?.<>\'`"}')
+  test('!#%^&*()-_+=[]:;?.<>"`', () => {
+    const tokenizer = createTokenizer("{'!#%^&*()-_+=[]:;?.<>\"`'}")
     expect(tokenizer.nextToken()).toEqual({
       type: TokenTypes.BraceLeft,
       value: '{',
@@ -431,7 +431,7 @@ describe('special chracters', () => {
     })
     expect(tokenizer.nextToken()).toEqual({
       type: TokenTypes.Literal,
-      value: "!#%^&*()-_+=[]:;?.<>'`",
+      value: '!#%^&*()-_+=[]:;?.<>"`',
       loc: {
         start: { line: 1, column: 2, offset: 1 },
         end: { line: 1, column: 26, offset: 25 }
@@ -457,7 +457,7 @@ describe('special chracters', () => {
 
 describe('escapes', () => {
   test(`\\\"`, () => {
-    const tokenizer = createTokenizer(`{"\\""}`) // {"\""}
+    const tokenizer = createTokenizer(`{'\\''}`) // {'\''}
     expect(tokenizer.nextToken()).toEqual({
       type: TokenTypes.BraceLeft,
       value: '{',
@@ -468,7 +468,7 @@ describe('escapes', () => {
     })
     expect(tokenizer.nextToken()).toEqual({
       type: TokenTypes.Literal,
-      value: `\\\"`,
+      value: `\\\'`,
       loc: {
         start: { line: 1, column: 2, offset: 1 },
         end: { line: 1, column: 6, offset: 5 }
@@ -492,7 +492,7 @@ describe('escapes', () => {
   })
 
   test(`\\\\`, () => {
-    const tokenizer = createTokenizer(`{"\\\\"}`) // {"\\""}
+    const tokenizer = createTokenizer(`{'\\\\'}`) // {'\\''}
     expect(tokenizer.nextToken()).toEqual({
       type: TokenTypes.BraceLeft,
       value: '{',
@@ -527,7 +527,7 @@ describe('escapes', () => {
   })
 
   test(`\\\\u0041`, () => {
-    const tokenizer = createTokenizer(`{"\\\\u0041"}`) // {"\\u0041"}
+    const tokenizer = createTokenizer(`{'\\\\u0041'}`) // {'\\u0041'}
     expect(tokenizer.nextToken()).toEqual({
       type: TokenTypes.BraceLeft,
       value: '{',
@@ -562,7 +562,7 @@ describe('escapes', () => {
   })
 
   test(`\\\\U01F602`, () => {
-    const tokenizer = createTokenizer(`{"\\\\U01F602"}`) // {"\\U01F602"}
+    const tokenizer = createTokenizer(`{'\\\\U01F602'}`) // {'\\U01F602'}
     expect(tokenizer.nextToken()).toEqual({
       type: TokenTypes.BraceLeft,
       value: '{',
