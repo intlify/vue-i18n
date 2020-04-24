@@ -316,6 +316,99 @@ Object {
 }
 `;
 
+exports[`parse: literal 1`] = `
+Object {
+  "body": Object {
+    "end": 19,
+    "items": Array [
+      Object {
+        "end": 6,
+        "loc": Object {
+          "end": Object {
+            "column": 7,
+            "line": 1,
+            "offset": 6,
+          },
+          "start": Object {
+            "column": 1,
+            "line": 1,
+            "offset": 0,
+          },
+        },
+        "start": 0,
+        "type": 3,
+        "value": "hello ",
+      },
+      Object {
+        "end": 17,
+        "loc": Object {
+          "end": Object {
+            "column": 18,
+            "line": 1,
+            "offset": 17,
+          },
+          "start": Object {
+            "column": 7,
+            "line": 1,
+            "offset": 6,
+          },
+        },
+        "start": 6,
+        "type": 9,
+        "value": "kazupon",
+      },
+      Object {
+        "end": 19,
+        "loc": Object {
+          "end": Object {
+            "column": 20,
+            "line": 1,
+            "offset": 19,
+          },
+          "start": Object {
+            "column": 18,
+            "line": 1,
+            "offset": 17,
+          },
+        },
+        "start": 17,
+        "type": 3,
+        "value": " !",
+      },
+    ],
+    "loc": Object {
+      "end": Object {
+        "column": 20,
+        "line": 1,
+        "offset": 19,
+      },
+      "start": Object {
+        "column": 1,
+        "line": 1,
+        "offset": 0,
+      },
+    },
+    "start": 0,
+    "type": 2,
+  },
+  "end": 19,
+  "loc": Object {
+    "end": Object {
+      "column": 20,
+      "line": 1,
+      "offset": 19,
+    },
+    "start": Object {
+      "column": 1,
+      "line": 1,
+      "offset": 0,
+    },
+  },
+  "start": 0,
+  "type": 0,
+}
+`;
+
 exports[`parse: named 1`] = `
 Object {
   "body": Object {

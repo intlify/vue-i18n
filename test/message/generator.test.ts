@@ -84,6 +84,107 @@ describe('named', () => {
   })
 })
 
+describe('literal', () => {
+  test('ascii', () => {
+    const parser = createParser()
+    const msg = `hi {"kazupon"} !`
+    const ast = parser.parse(msg)
+    transform(ast)
+    const code = generate(ast)
+    expect(code).toMatchSnapshot(msg)
+  })
+
+  test('multibytes', () => {
+    const parser = createParser()
+    const msg = `hi {"かずぽん"} !`
+    const ast = parser.parse(msg)
+    transform(ast)
+    const code = generate(ast)
+    expect(code).toMatchSnapshot(msg)
+  })
+
+  test('emoji', () => {
+    const parser = createParser()
+    const msg = `hi {"😺"} !`
+    const ast = parser.parse(msg)
+    transform(ast)
+    const code = generate(ast)
+    expect(code).toMatchSnapshot(msg)
+  })
+
+  test('{}', () => {
+    const parser = createParser()
+    const msg = `{"{}"}`
+    const ast = parser.parse(msg)
+    transform(ast)
+    const code = generate(ast)
+    expect(code).toMatchSnapshot(msg)
+  })
+
+  test("!#%^&*()-_+=[]:;?.<>'`", () => {
+    const parser = createParser()
+    const msg = `hi {"${"!#%^&*()-_+=[]:;?.<>'`"}"} !`
+    const ast = parser.parse(msg)
+    transform(ast)
+    const code = generate(ast)
+    expect(code).toMatchSnapshot(msg)
+  })
+
+  test('escaped single quote', () => {
+    const parser = createParser()
+    const msg = `hi {"\\""} !`
+    const ast = parser.parse(msg)
+    transform(ast)
+    const code = generate(ast)
+    expect(code).toMatchSnapshot(msg)
+  })
+
+  test('escaped double slash', () => {
+    const parser = createParser()
+    const msg = `hi {"\\\\"} !`
+    const ast = parser.parse(msg)
+    transform(ast)
+    const code = generate(ast)
+    expect(code).toMatchSnapshot(msg)
+  })
+
+  test('unicode 4 digits', () => {
+    const parser = createParser()
+    const msg = `hi {"${'\u0041'}"} !`
+    const ast = parser.parse(msg)
+    transform(ast)
+    const code = generate(ast)
+    expect(code).toMatchSnapshot(msg)
+  })
+
+  test('escaped unicode 4 digits', () => {
+    const parser = createParser()
+    const msg = `hi {"\\\\u0041"} !`
+    const ast = parser.parse(msg)
+    transform(ast)
+    const code = generate(ast)
+    expect(code).toMatchSnapshot(msg)
+  })
+
+  test('unicode 6 digits', () => {
+    const parser = createParser()
+    const msg = `hi {"${'U01F602'}"} !`
+    const ast = parser.parse(msg)
+    transform(ast)
+    const code = generate(ast)
+    expect(code).toMatchSnapshot(msg)
+  })
+
+  test('escaped unicode 6 digits', () => {
+    const parser = createParser()
+    const msg = `hi {"\\\\U01F602"} !`
+    const ast = parser.parse(msg)
+    transform(ast)
+    const code = generate(ast)
+    expect(code).toMatchSnapshot(msg)
+  })
+})
+
 describe('linked', () => {
   test('key', () => {
     const parser = createParser()
