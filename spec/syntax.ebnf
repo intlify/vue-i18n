@@ -1,5 +1,5 @@
 (*
- * Inltify message syntax v0.1
+ * Inltify message syntax v0.2
  * (vue-i18n compatible)
  *)
 
@@ -12,10 +12,10 @@ Message ::= (Text? (Placeholder | Linked)? Text?)+;
 
 (* primitives *)
 Text ::= TextChar+;
-Placeholder ::= Named | List;
+Placeholder ::= Named | List | StringLiteral;
 Modulo ::= "%";
 Named ::= Modulo? "{" Space? (Identifier) Space? "}";
-List ::= "{" Space? (Digits) Space? "}";
+List ::= "{" Space? (NumberLiteral) Space? "}";
 Linked ::= "@" (LinkedModifier)? LinkedDelimiter LinkedRefer;
 LinkedRefer ::= "("? (LinkedKey | Placeholder) ")"?;
 LinkedKey ::= TextChar+;
@@ -27,6 +27,14 @@ LinkedDot ::= ".";
 AnyChar ::= [#x0-#xD7FF] | [#xE000-#xFFFD] | [#x10000-#x10FFFF];  (* Unicode character *)
 SpecialChar ::= "{" | "}" | "|" | "@";
 TextChar ::= AnyChar - SpecialChar - LineEnd;
+
+(* literals *)
+StringLiteral ::= "\'" QuotedChar* "\'";
+NumberLiteral ::= "-"? Digits;
+SpecialQuotedChar ::= "\'" | "\\";
+SpecialEscape ::= "\\" SpecialQuotedChar;
+UnicodeEscape ::= ("\\u" /[0-9a-fA-F]{4}/) | ("\\U" /[0-9a-fA-F]{6}/);
+QuotedChar ::= (AnyChar - SpecialQuotedChar - LineEnd) | SpecialEscape | UnicodeEscape;
 
 (* number *)
 Digits ::= [0-9]+;
