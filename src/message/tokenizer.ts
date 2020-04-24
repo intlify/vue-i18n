@@ -10,7 +10,8 @@ import {
   createPosition,
   Position
 } from './location'
-import { isUnDef } from '../utils'
+import { TokenizeOptions } from './options'
+import { isUnDef, isBoolean } from '../utils'
 
 export const enum TokenTypes {
   Text, // 0
@@ -28,7 +29,7 @@ export const enum TokenTypes {
   ParenLeft,
   ParenRight,
   InvalidPlace,
-  EOF
+  EOF // 15
 }
 
 const enum TokenChars {
@@ -76,7 +77,9 @@ export type Tokenizer = Readonly<{
   nextToken: () => Token
 }>
 
-export function createTokenizer(source: string): Tokenizer {
+export function createTokenizer(source: string, options: TokenizeOptions = {}): Tokenizer {
+  const location = isBoolean(options.location) ? options.location : true
+
   const _scnr = createScanner(source)
 
   const currentOffset = (): number => _scnr.index()
@@ -112,14 +115,15 @@ export function createTokenizer(source: string): Tokenizer {
     context.endLoc = currentPosition()
     context.currentType = type
     context.currentValue = value
-    const token = {
-      type,
-      loc: createLocation(context.startLoc, context.endLoc)
-    } as Token
 
+    const token = { type } as Token
+    if (location) {
+      token.loc = createLocation(context.startLoc, context.endLoc)
+    }
     if (!isUnDef(value)) {
       token.value = value
     }
+
     return token
   }
 
