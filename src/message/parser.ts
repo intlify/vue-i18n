@@ -1,8 +1,3 @@
-import {
-  // CompilerErrorCodes,
-  // createCompilerError
-  CompilerError
-} from './errors'
 import { SourceLocation, Position } from './location'
 import { createTokenizer, Tokenizer, TokenTypes } from './tokenizer'
 import { isUnDef } from '../utils'
@@ -76,10 +71,6 @@ export interface LinkedKeyNode extends Node {
 export interface LinkedModitierNode extends Node {
   type: NodeTypes.LinkedModifier
   value: Identifier
-}
-
-export type ParserOptions = {
-  onError?: (error: CompilerError) => void
 }
 
 export type Parser = Readonly<{
