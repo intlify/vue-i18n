@@ -1,11 +1,19 @@
 import { SourceLocation } from './location'
 
-export interface CompilerError extends SyntaxError {
-  code: CompilerErrorCodes
+export type CompileDomain =
+  | 'tokenizer'
+  | 'parser'
+  | 'generator'
+  | 'transformer'
+  | 'compiler'
+
+export interface CompileError extends SyntaxError {
+  code: CompileErrorCodes
+  domain?: CompileDomain
   loc?: SourceLocation
 }
 
-export const enum CompilerErrorCodes {
+export const enum CompileErrorCodes {
   MISSING_END_BRACE,
   MISSING_END_PAREN,
   // Special value for higher-order compilers to pick up the last code
@@ -16,16 +24,16 @@ export const enum CompilerErrorCodes {
 
 export const errorMessages: { [code: number]: string } = {
   // TODO:
-  [CompilerErrorCodes.MISSING_END_BRACE]: 'foo'
+  [CompileErrorCodes.MISSING_END_BRACE]: 'foo'
 }
 
 export function createCompilerError(
-  code: CompilerErrorCodes,
+  code: CompileErrorCodes,
   loc?: SourceLocation,
   messages?: { [code: number]: string }
-): CompilerError {
+): CompileError {
   const msg = __DEV__ ? (messages || errorMessages)[code] : code
-  const error = new SyntaxError(String(msg)) as CompilerError
+  const error = new SyntaxError(String(msg)) as CompileError
   error.code = code
   error.loc = loc
   return error

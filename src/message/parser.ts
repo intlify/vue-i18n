@@ -1,8 +1,3 @@
-import {
-  // CompilerErrorCodes,
-  // createCompilerError
-  CompilerError
-} from './errors'
 import { SourceLocation, Position } from './location'
 import { createTokenizer, Tokenizer, TokenTypes } from './tokenizer'
 import { isUnDef } from '../utils'
@@ -16,7 +11,8 @@ export const enum NodeTypes {
   List, // 5
   Linked,
   LinkedKey,
-  LinkedModifier
+  LinkedModifier,
+  Literal
 }
 
 // not containing whitespace or control characters
@@ -45,7 +41,12 @@ export interface MessageNode extends Node {
   items: MessageElementNode[]
 }
 
-type MessageElementNode = TextNode | NamedNode | ListNode | LinkedNode
+type MessageElementNode =
+  | TextNode
+  | NamedNode
+  | ListNode
+  | LiteralNode
+  | LinkedNode
 
 export interface TextNode extends Node {
   type: NodeTypes.Text
@@ -62,6 +63,11 @@ export interface ListNode extends Node {
   index: number
 }
 
+export interface LiteralNode extends Node {
+  type: NodeTypes.Literal
+  value: string
+}
+
 export interface LinkedNode extends Node {
   type: NodeTypes.Linked
   modifier?: LinkedModitierNode
@@ -76,10 +82,6 @@ export interface LinkedKeyNode extends Node {
 export interface LinkedModitierNode extends Node {
   type: NodeTypes.LinkedModifier
   value: Identifier
-}
-
-export type ParserOptions = {
-  onError?: (error: CompilerError) => void
 }
 
 export type Parser = Readonly<{
@@ -163,6 +165,16 @@ export function createParser(/* options: ParserOptions = {} */): Parser {
     const { lastOffset: offset, lastStartLoc: loc } = context // get brace left loc
     const node = startNode(NodeTypes.Named, offset, loc) as NamedNode
     node.key = key
+    tokenizer.nextToken() // skip brach right
+    endNode(node, tokenizer.currentOffset(), tokenizer.currentPosition())
+    return node
+  }
+
+  const parseLiteral = (tokenizer: Tokenizer, value: string): LiteralNode => {
+    const context = tokenizer.context()
+    const { lastOffset: offset, lastStartLoc: loc } = context // get brace left loc
+    const node = startNode(NodeTypes.Literal, offset, loc) as LiteralNode
+    node.value = value
     tokenizer.nextToken() // skip brach right
     endNode(node, tokenizer.currentOffset(), tokenizer.currentPosition())
     return node
@@ -311,6 +323,13 @@ export function createParser(/* options: ParserOptions = {} */): Parser {
             throw new Error()
           }
           node.items.push(parseNamed(tokenizer, token.value))
+          break
+        case TokenTypes.Literal:
+          if (isUnDef(token.value)) {
+            // TODO: should be thrown syntax error
+            throw new Error()
+          }
+          node.items.push(parseLiteral(tokenizer, token.value))
           break
         case TokenTypes.LinkedAlias:
           node.items.push(parseLinked(tokenizer))

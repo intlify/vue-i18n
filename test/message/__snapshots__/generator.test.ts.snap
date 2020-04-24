@@ -48,6 +48,94 @@ exports[`list multiple: {0} {1} ! 1`] = `
 }"
 `;
 
+exports[`literal !#%^&*()-_+=[]:;?.<>"\`: hi {'!#%^&*()-_+=[]:;?.<>"\`'} ! 1`] = `
+"function __msg__ (ctx) {
+  return ctx.normalize([
+    \\"hi \\", \\"!#%^&*()-_+=[]:;?.<>\\\\\\"\`\\", \\" !\\"
+  ])
+}"
+`;
+
+exports[`literal {}: {'{}'} 1`] = `
+"function __msg__ (ctx) {
+  return ctx.normalize([
+    \\"{}\\"
+  ])
+}"
+`;
+
+exports[`literal ascii: hi {'kazupon'} ! 1`] = `
+"function __msg__ (ctx) {
+  return ctx.normalize([
+    \\"hi \\", \\"kazupon\\", \\" !\\"
+  ])
+}"
+`;
+
+exports[`literal emoji: hi {'😺'} ! 1`] = `
+"function __msg__ (ctx) {
+  return ctx.normalize([
+    \\"hi \\", \\"😺\\", \\" !\\"
+  ])
+}"
+`;
+
+exports[`literal escaped single quote: hi {'\\''} ! 1`] = `
+"function __msg__ (ctx) {
+  return ctx.normalize([
+    \\"hi \\", \\"\\\\\\\\'\\", \\" !\\"
+  ])
+}"
+`;
+
+exports[`literal escaped slash: hi {'\\\\'} ! 1`] = `
+"function __msg__ (ctx) {
+  return ctx.normalize([
+    \\"hi \\", \\"\\\\\\\\\\\\\\\\\\", \\" !\\"
+  ])
+}"
+`;
+
+exports[`literal escaped unicode 4 digits: hi {'\\\\u0041'} ! 1`] = `
+"function __msg__ (ctx) {
+  return ctx.normalize([
+    \\"hi \\", \\"\\\\\\\\\\\\\\\\u0041\\", \\" !\\"
+  ])
+}"
+`;
+
+exports[`literal escaped unicode 6 digits: hi {'\\\\U01F602'} ! 1`] = `
+"function __msg__ (ctx) {
+  return ctx.normalize([
+    \\"hi \\", \\"\\\\\\\\\\\\\\\\U01F602\\", \\" !\\"
+  ])
+}"
+`;
+
+exports[`literal multibytes: hi {'かずぽん'} ! 1`] = `
+"function __msg__ (ctx) {
+  return ctx.normalize([
+    \\"hi \\", \\"かずぽん\\", \\" !\\"
+  ])
+}"
+`;
+
+exports[`literal unicode 4 digits: hi {'A'} ! 1`] = `
+"function __msg__ (ctx) {
+  return ctx.normalize([
+    \\"hi \\", \\"A\\", \\" !\\"
+  ])
+}"
+`;
+
+exports[`literal unicode 6 digits: hi {'U01F602'} ! 1`] = `
+"function __msg__ (ctx) {
+  return ctx.normalize([
+    \\"hi \\", \\"U01F602\\", \\" !\\"
+  ])
+}"
+`;
+
 exports[`named basic: hi {name} ! 1`] = `
 "function __msg__ (ctx) {
   return ctx.normalize([

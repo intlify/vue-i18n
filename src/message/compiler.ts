@@ -1,16 +1,7 @@
+import { CompileOptions } from './options'
 import { createParser, ResourceNode } from './parser'
 import { transform } from './transformer'
 import { generate } from './generator'
-
-export type CompileOptions = {
-  // TODO: should be defined some options
-  // Generate source map?
-  // - Default: false
-  // sourceMap?: boolean
-  // Filename for source map generation.
-  // - Default: `message.intl`
-  // filename?: string
-}
 
 export type CompileResult = {
   code: string

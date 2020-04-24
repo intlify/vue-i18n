@@ -10,6 +10,7 @@ import {
   createPosition,
   Position
 } from './location'
+import { TokenizeOptions } from './options'
 import { isUnDef } from '../utils'
 
 export const enum TokenTypes {
@@ -28,6 +29,7 @@ export const enum TokenTypes {
   ParenLeft,
   ParenRight,
   InvalidPlace,
+  Literal, // 15
   EOF
 }
 
@@ -76,7 +78,12 @@ export type Tokenizer = Readonly<{
   nextToken: () => Token
 }>
 
-export function createTokenizer(source: string): Tokenizer {
+export function createTokenizer(
+  source: string,
+  options: TokenizeOptions = {}
+): Tokenizer {
+  const location = !options.location
+
   const _scnr = createScanner(source)
 
   const currentOffset = (): number => _scnr.index()
@@ -112,14 +119,15 @@ export function createTokenizer(source: string): Tokenizer {
     context.endLoc = currentPosition()
     context.currentType = type
     context.currentValue = value
-    const token = {
-      type,
-      loc: createLocation(context.startLoc, context.endLoc)
-    } as Token
 
+    const token = { type } as Token
+    if (location) {
+      token.loc = createLocation(context.startLoc, context.endLoc)
+    }
     if (!isUnDef(value)) {
       token.value = value
     }
+
     return token
   }
 
@@ -193,6 +201,17 @@ export function createTokenizer(source: string): Tokenizer {
     peekSpaces(scnr)
     const ch = scnr.currentPeek() === '-' ? scnr.peek() : scnr.currentPeek()
     const ret = isNumberStart(ch)
+    scnr.resetPeek()
+    return ret
+  }
+
+  const isLiteralStart = (scnr: Scanner, context: TokenizeContext): boolean => {
+    const { currentType } = context
+    if (currentType !== TokenTypes.BraceLeft) {
+      return false
+    }
+    peekSpaces(scnr)
+    const ret = scnr.currentPeek() === "'"
     scnr.resetPeek()
     return ret
   }
@@ -327,6 +346,18 @@ export function createTokenizer(source: string): Tokenizer {
     return takeChar(scnr, closure)
   }
 
+  const takeHexDigit = (scnr: Scanner): string | undefined | null => {
+    const closure = (ch: string) => {
+      const cc = ch.charCodeAt(0)
+      return (
+        (cc >= 48 && cc <= 57) || // 0-9
+        (cc >= 65 && cc <= 70) || // A-F
+        (cc >= 97 && cc <= 102)
+      ) // a-f
+    }
+    return takeChar(scnr, closure)
+  }
+
   const getDigits = (scnr: Scanner): string => {
     let ch: string | undefined | null = ''
     let num = ''
@@ -386,6 +417,71 @@ export function createTokenizer(source: string): Tokenizer {
       value += getDigits(scnr)
     }
     return value
+  }
+
+  const readLiteral = (scnr: Scanner): string => {
+    skipSpaces(scnr)
+
+    // TODO: if current char is not "'", emit error here!
+    scnr.next()
+
+    let ch: string | undefined | null = ''
+    let literal = ''
+    const fn = (x: string) => x !== "'" && x !== NEW_LINE
+    while ((ch = takeChar(scnr, fn))) {
+      if (ch === '\\') {
+        literal += readEscapeSequence(scnr)
+      } else {
+        literal += ch
+      }
+    }
+
+    if (scnr.currentChar() === NEW_LINE) {
+      // TODO: if current char is NEW_LINE, emit error here!
+    }
+
+    // TODO: if current char is not "'", emit error here!
+    scnr.next()
+
+    return literal
+  }
+
+  const readEscapeSequence = (scnr: Scanner): string => {
+    const ch = scnr.currentChar()
+    switch (ch) {
+      case '\\':
+      case `\'`:
+        scnr.next()
+        return `\\${ch}`
+      case 'u':
+        return readUnicodeEscapeSequence(scnr, ch, 4)
+      case 'U':
+        return readUnicodeEscapeSequence(scnr, ch, 6)
+      default:
+        // TODO: emit error here!
+        return ''
+    }
+  }
+
+  const readUnicodeEscapeSequence = (
+    scnr: Scanner,
+    unicode: string,
+    digits: number
+  ): string => {
+    // TODO: if current char is not 'u' or 'U', emit error here!
+    scnr.next()
+
+    let sequence = ''
+    for (let i = 0; i < digits; i++) {
+      const ch = takeHexDigit(scnr)
+      if (!ch) {
+        // TODO: emit error here!
+        // `\\${ch}${sequence}${scnr.currentChar()}`
+      }
+      sequence += ch
+    }
+
+    return `\\${unicode}${sequence}`
   }
 
   const readInvalidIdentifier = (scnr: Scanner): string => {
@@ -478,6 +574,7 @@ export function createTokenizer(source: string): Tokenizer {
       default:
         let validNamedIdentifier = true
         let validListIdentifier = true
+        let validLeteral = true
         if (isPluralStart(scnr)) {
           token = getToken(context, TokenTypes.Pipe, readPlural(scnr))
           // reset
@@ -494,7 +591,14 @@ export function createTokenizer(source: string): Tokenizer {
         ) {
           token = getToken(context, TokenTypes.List, readListIdentifier(scnr))
           skipSpaces(scnr)
-        } else if (!validNamedIdentifier && !validListIdentifier) {
+        } else if ((validLeteral = isLiteralStart(scnr, context))) {
+          token = getToken(context, TokenTypes.Literal, readLiteral(scnr))
+          skipSpaces(scnr)
+        } else if (
+          !validNamedIdentifier &&
+          !validListIdentifier &&
+          !validLeteral
+        ) {
           token = getToken(
             context,
             TokenTypes.InvalidPlace,

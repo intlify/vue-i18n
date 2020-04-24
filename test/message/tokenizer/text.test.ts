@@ -87,3 +87,8 @@ test('&nbsp;', () => {
     }
   })
 })
+
+test.todo(`backslash: Value with \ a backslash`)
+test.todo(`double backslash: Value with \\ a backslash`)
+test.todo(`unicode: \u0041`)
+test.todo(`unicode with backslash: \\u0041`)

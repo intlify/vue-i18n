@@ -9,7 +9,8 @@ import {
   NamedNode,
   LinkedNode,
   LinkedKeyNode,
-  LinkedModitierNode
+  LinkedModitierNode,
+  LiteralNode
 } from './parser'
 
 export const INTERPOLATE_CODE = `const interpolate = val => { return val == null ? "" : Array.isArray(val) || ((Object.prototype.toString.call(val) === "[object Object]") && val.toString === Object.prototype.toString) ? JSON.stringify(val, null, 2) : String(val) }`
@@ -160,6 +161,10 @@ function generateNode(generator: CodeGenerator, node: Node): void {
       generator.push(
         `ctx.interpolate(ctx.named(${JSON.stringify((node as NamedNode).key)}))`
       )
+      break
+    case NodeTypes.Literal:
+      // TODO: more improvement for escape sequence ...
+      generator.push(JSON.stringify((node as LiteralNode).value))
       break
     case NodeTypes.Text:
       generator.push(JSON.stringify((node as TextNode).value))
