@@ -1,5 +1,6 @@
 export { Path, PathValue } from './path'
-export { createCompiler, Compiler, CompileOptions } from './message/compiler'
+export { createCompiler, Compiler } from './message/compiler'
+export { CompileOptions } from './message/options'
 export { PluralizationRule, LinkedModifiers } from './message/context'
 export {
   Locale,
