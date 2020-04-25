@@ -17,13 +17,13 @@ test('token analysis', () => {
     `hi {  -1 } !`,
     `{0}\n{1}\r\n{2}`,
     `hi @:name !`,
-    `hi @:(hello world) !`,
+    `hi @:{'hello world'} !`,
     `hi @:{name}\n !`,
     `hi @.upper:name !`,
     `hi @:{name} @:{0}!`,
     `no apples | one apple  |  too much apples `,
     `no apples |\n one apple  |\n  too much apples  `,
-    `@.lower:(no apples) | {1} apple | {count}　apples`, // eslint-disable-line no-irregular-whitespace
+    `@.lower:{'no apples'} | {1} apple | {count}　apples`, // eslint-disable-line no-irregular-whitespace
     `hello\\nworld`,
     `hi, :-}`,
     `hi, :-)`,
@@ -55,11 +55,11 @@ test('token analysis', () => {
     `hi @. {name} !`,
     `hi @.upper {name} !`,
     `hi \n@\n.\nupper\n:\n{ name }\n !`,
-    `hi @\n.\nupper\n:\n(name)\n !`,
+    `hi @\n.\nupper\n:\n{'name'}\n !`,
     `hi @ .lower : {name} !`,
-    `hi @:( name ) !`, // TODO: This is fixed!!
-    `hi @: (name) !`,
-    `@.lower: (no apples) | {1 apple | @:{count　apples` // eslint-disable-line no-irregular-whitespace
+    `hi @:{ 'name' } !`,
+    `hi @: {'name'} !`,
+    `@.lower: {'no apples'} | {1 apple | @:{count　apples` // eslint-disable-line no-irregular-whitespace
   ].forEach(p => {
     expect(parse(p)).toMatchSnapshot(JSON.stringify(p))
   })

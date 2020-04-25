@@ -12,7 +12,7 @@ test('parse', () => {
     parser.parse('no apples | one apple  |  too much apples  ')
   ).toMatchSnapshot('plural')
   expect(
-    parser.parse('@.lower:(no apples) | {1} apple | {count}　apples')
+    parser.parse(`@.lower:{'no apples'} | {1} apple | {count}　apples`) // eslint-disable-line no-irregular-whitespace
   ).toMatchSnapshot('plural complex')
 })
 

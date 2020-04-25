@@ -109,7 +109,7 @@ describe('linked', () => {
   })
 
   test('modifier', () => {
-    const msg = compile('hi @.upper:(name) !')
+    const msg = compile(`hi @.upper:{'name'} !`)
     const ctx = createMessageContext({
       modifiers: {
         upper: (str: string): string => str.toUpperCase()
@@ -122,7 +122,7 @@ describe('linked', () => {
   })
 
   test('no modifier', () => {
-    const msg = compile('hi @.upper:(name) !')
+    const msg = compile(`hi @.upper:{'name'} !`)
     const ctx = createMessageContext({
       messages: {
         name: ctx => 'kazupon' // eslint-disable-line
@@ -306,7 +306,7 @@ describe('custom process', () => {
   })
 
   test('linked', () => {
-    const msg = compile('hi @.upper:(name) !')
+    const msg = compile(`hi @.upper:{'name'} !`)
     const ctx = createMessageContext({
       processor: {
         normalize,

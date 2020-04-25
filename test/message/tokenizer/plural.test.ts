@@ -101,7 +101,7 @@ test('multi lines', () => {
 
 test('complex', () => {
   const tokenizer = createTokenizer(
-    '@.lower:(no apples) | {1} apple | {count}　apples'
+    `@.lower:{'no apples'} | {1} apple | {count}　apples` // eslint-disable-line no-irregular-whitespace
   )
   expect(tokenizer.nextToken()).toEqual({
     type: TokenTypes.LinkedAlias,
@@ -136,114 +136,114 @@ test('complex', () => {
     }
   })
   expect(tokenizer.nextToken()).toEqual({
-    type: TokenTypes.ParenLeft,
-    value: '(',
+    type: TokenTypes.BraceLeft,
+    value: '{',
     loc: {
       start: { line: 1, column: 9, offset: 8 },
       end: { line: 1, column: 10, offset: 9 }
     }
   })
   expect(tokenizer.nextToken()).toEqual({
-    type: TokenTypes.LinkedKey,
+    type: TokenTypes.Literal,
     value: 'no apples',
     loc: {
       start: { line: 1, column: 10, offset: 9 },
-      end: { line: 1, column: 19, offset: 18 }
+      end: { line: 1, column: 21, offset: 20 }
     }
   })
   expect(tokenizer.nextToken()).toEqual({
-    type: TokenTypes.ParenRight,
-    value: ')',
+    type: TokenTypes.BraceRight,
+    value: '}',
     loc: {
-      start: { line: 1, column: 19, offset: 18 },
-      end: { line: 1, column: 20, offset: 19 }
+      start: { line: 1, column: 21, offset: 20 },
+      end: { line: 1, column: 22, offset: 21 }
     }
   })
   expect(tokenizer.nextToken()).toEqual({
     type: TokenTypes.Pipe,
     value: '|',
     loc: {
-      start: { line: 1, column: 20, offset: 19 },
-      end: { line: 1, column: 23, offset: 22 }
+      start: { line: 1, column: 22, offset: 21 },
+      end: { line: 1, column: 25, offset: 24 }
     }
   })
   expect(tokenizer.nextToken()).toEqual({
     type: TokenTypes.BraceLeft,
     value: '{',
-    loc: {
-      start: { line: 1, column: 23, offset: 22 },
-      end: { line: 1, column: 24, offset: 23 }
-    }
-  })
-  expect(tokenizer.nextToken()).toEqual({
-    type: TokenTypes.List,
-    value: '1',
-    loc: {
-      start: { line: 1, column: 24, offset: 23 },
-      end: { line: 1, column: 25, offset: 24 }
-    }
-  })
-  expect(tokenizer.nextToken()).toEqual({
-    type: TokenTypes.BraceRight,
-    value: '}',
     loc: {
       start: { line: 1, column: 25, offset: 24 },
       end: { line: 1, column: 26, offset: 25 }
     }
   })
   expect(tokenizer.nextToken()).toEqual({
-    type: TokenTypes.Text,
-    value: ' apple',
+    type: TokenTypes.List,
+    value: '1',
     loc: {
       start: { line: 1, column: 26, offset: 25 },
-      end: { line: 1, column: 32, offset: 31 }
-    }
-  })
-  expect(tokenizer.nextToken()).toEqual({
-    type: TokenTypes.Pipe,
-    value: '|',
-    loc: {
-      start: { line: 1, column: 32, offset: 31 },
-      end: { line: 1, column: 35, offset: 34 }
-    }
-  })
-  expect(tokenizer.nextToken()).toEqual({
-    type: TokenTypes.BraceLeft,
-    value: '{',
-    loc: {
-      start: { line: 1, column: 35, offset: 34 },
-      end: { line: 1, column: 36, offset: 35 }
-    }
-  })
-  expect(tokenizer.nextToken()).toEqual({
-    type: TokenTypes.Named,
-    value: 'count',
-    loc: {
-      start: { line: 1, column: 36, offset: 35 },
-      end: { line: 1, column: 41, offset: 40 }
+      end: { line: 1, column: 27, offset: 26 }
     }
   })
   expect(tokenizer.nextToken()).toEqual({
     type: TokenTypes.BraceRight,
     value: '}',
     loc: {
-      start: { line: 1, column: 41, offset: 40 },
-      end: { line: 1, column: 42, offset: 41 }
+      start: { line: 1, column: 27, offset: 26 },
+      end: { line: 1, column: 28, offset: 27 }
+    }
+  })
+  expect(tokenizer.nextToken()).toEqual({
+    type: TokenTypes.Text,
+    value: ' apple',
+    loc: {
+      start: { line: 1, column: 28, offset: 27 },
+      end: { line: 1, column: 34, offset: 33 }
+    }
+  })
+  expect(tokenizer.nextToken()).toEqual({
+    type: TokenTypes.Pipe,
+    value: '|',
+    loc: {
+      start: { line: 1, column: 34, offset: 33 },
+      end: { line: 1, column: 37, offset: 36 }
+    }
+  })
+  expect(tokenizer.nextToken()).toEqual({
+    type: TokenTypes.BraceLeft,
+    value: '{',
+    loc: {
+      start: { line: 1, column: 37, offset: 36 },
+      end: { line: 1, column: 38, offset: 37 }
+    }
+  })
+  expect(tokenizer.nextToken()).toEqual({
+    type: TokenTypes.Named,
+    value: 'count',
+    loc: {
+      start: { line: 1, column: 38, offset: 37 },
+      end: { line: 1, column: 43, offset: 42 }
+    }
+  })
+  expect(tokenizer.nextToken()).toEqual({
+    type: TokenTypes.BraceRight,
+    value: '}',
+    loc: {
+      start: { line: 1, column: 43, offset: 42 },
+      end: { line: 1, column: 44, offset: 43 }
     }
   })
   expect(tokenizer.nextToken()).toEqual({
     type: TokenTypes.Text,
     value: '　apples',
     loc: {
-      start: { line: 1, column: 42, offset: 41 },
-      end: { line: 1, column: 49, offset: 48 }
+      start: { line: 1, column: 44, offset: 43 },
+      end: { line: 1, column: 51, offset: 50 }
     }
   })
   expect(tokenizer.nextToken()).toEqual({
     type: TokenTypes.EOF,
     loc: {
-      start: { line: 1, column: 49, offset: 48 },
-      end: { line: 1, column: 49, offset: 48 }
+      start: { line: 1, column: 51, offset: 50 },
+      end: { line: 1, column: 51, offset: 50 }
     }
   })
 })

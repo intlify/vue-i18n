@@ -51,8 +51,8 @@ test('linked key', () => {
   })
 })
 
-test('linked key with parent', () => {
-  const tokenizer = createTokenizer('hi @:(hello world) !')
+test('linked key with literal', () => {
+  const tokenizer = createTokenizer(`hi @:{'hello world'} !`)
   expect(tokenizer.nextToken()).toEqual({
     type: TokenTypes.Text,
     value: 'hi ',
@@ -78,42 +78,42 @@ test('linked key with parent', () => {
     }
   })
   expect(tokenizer.nextToken()).toEqual({
-    type: TokenTypes.ParenLeft,
-    value: '(',
+    type: TokenTypes.BraceLeft,
+    value: '{',
     loc: {
       start: { line: 1, column: 6, offset: 5 },
       end: { line: 1, column: 7, offset: 6 }
     }
   })
   expect(tokenizer.nextToken()).toEqual({
-    type: TokenTypes.LinkedKey,
+    type: TokenTypes.Literal,
     value: 'hello world',
     loc: {
       start: { line: 1, column: 7, offset: 6 },
-      end: { line: 1, column: 18, offset: 17 }
+      end: { line: 1, column: 20, offset: 19 }
     }
   })
   expect(tokenizer.nextToken()).toEqual({
-    type: TokenTypes.ParenRight,
-    value: ')',
+    type: TokenTypes.BraceRight,
+    value: '}',
     loc: {
-      start: { line: 1, column: 18, offset: 17 },
-      end: { line: 1, column: 19, offset: 18 }
+      start: { line: 1, column: 20, offset: 19 },
+      end: { line: 1, column: 21, offset: 20 }
     }
   })
   expect(tokenizer.nextToken()).toEqual({
     type: TokenTypes.Text,
     value: ' !',
     loc: {
-      start: { line: 1, column: 19, offset: 18 },
-      end: { line: 1, column: 21, offset: 20 }
+      start: { line: 1, column: 21, offset: 20 },
+      end: { line: 1, column: 23, offset: 22 }
     }
   })
   expect(tokenizer.nextToken()).toEqual({
     type: TokenTypes.EOF,
     loc: {
-      start: { line: 1, column: 21, offset: 20 },
-      end: { line: 1, column: 21, offset: 20 }
+      start: { line: 1, column: 23, offset: 22 },
+      end: { line: 1, column: 23, offset: 22 }
     }
   })
 })
