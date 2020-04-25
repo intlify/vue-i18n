@@ -228,7 +228,7 @@ describe('linked', () => {
 
   test('modifier', () => {
     const parser = createParser()
-    const msg = 'hi @.upper:(name) !'
+    const msg = `hi @.upper:{'name'} !`
     const ast = parser.parse(msg)
     transform(ast)
     const code = generate(ast)
@@ -264,7 +264,7 @@ describe('plural', () => {
 
   test('complex', () => {
     const parser = createParser()
-    const msg = '@.caml:(no apples) | {0} apple | {n}　apples'
+    const msg = `@.caml:{'no apples'} | {0} apple | {n}　apples` // eslint-disable-line no-irregular-whitespace
     const ast = parser.parse(msg)
     transform(ast)
     const code = generate(ast)
@@ -277,7 +277,7 @@ describe('plural', () => {
     expect(code).toMatch(` ]), ctx.normalize([`)
     expect(code).toMatch(`ctx.interpolate(ctx.list(0)), " apple"`)
     expect(code).toMatch(` ]), ctx.normalize([`)
-    expect(code).toMatch(`ctx.interpolate(ctx.named("n")), "　apples"`) // eslint-disable-line
+    expect(code).toMatch(`ctx.interpolate(ctx.named("n")), "　apples"`) // eslint-disable-line no-irregular-whitespace
     expect(code).toMatch(` ])`)
     expect(code).toMatch(
       `][ctx.pluralRule(ctx.pluralIndex, 3, ctx.orgPluralRule)]`

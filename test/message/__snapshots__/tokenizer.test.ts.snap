@@ -31,7 +31,7 @@ Array [
         "offset": 13,
       },
     },
-    "type": 16,
+    "type": 14,
   },
 ]
 `;
@@ -51,12 +51,12 @@ Array [
         "offset": 0,
       },
     },
-    "type": 16,
+    "type": 14,
   },
 ]
 `;
 
-exports[`token analysis: "@.lower: (no apples) | {1 apple | @:{count　apples" 1`] = `
+exports[`token analysis: "@.lower: {'no apples'} | {1 apple | @:{count　apples" 1`] = `
 Array [
   Object {
     "loc": Object {
@@ -71,7 +71,7 @@ Array [
         "offset": 0,
       },
     },
-    "type": 7,
+    "type": 8,
     "value": "@",
   },
   Object {
@@ -87,7 +87,7 @@ Array [
         "offset": 1,
       },
     },
-    "type": 8,
+    "type": 9,
     "value": ".",
   },
   Object {
@@ -103,7 +103,7 @@ Array [
         "offset": 2,
       },
     },
-    "type": 11,
+    "type": 12,
     "value": "lower",
   },
   Object {
@@ -119,15 +119,15 @@ Array [
         "offset": 7,
       },
     },
-    "type": 9,
+    "type": 10,
     "value": ":",
   },
   Object {
     "loc": Object {
       "end": Object {
-        "column": 21,
+        "column": 10,
         "line": 1,
-        "offset": 20,
+        "offset": 9,
       },
       "start": Object {
         "column": 9,
@@ -136,39 +136,55 @@ Array [
       },
     },
     "type": 0,
-    "value": " (no apples)",
+    "value": " ",
   },
   Object {
     "loc": Object {
       "end": Object {
-        "column": 24,
+        "column": 11,
         "line": 1,
-        "offset": 23,
+        "offset": 10,
       },
       "start": Object {
-        "column": 21,
+        "column": 10,
         "line": 1,
-        "offset": 20,
-      },
-    },
-    "type": 1,
-    "value": "|",
-  },
-  Object {
-    "loc": Object {
-      "end": Object {
-        "column": 25,
-        "line": 1,
-        "offset": 24,
-      },
-      "start": Object {
-        "column": 24,
-        "line": 1,
-        "offset": 23,
+        "offset": 9,
       },
     },
     "type": 2,
     "value": "{",
+  },
+  Object {
+    "loc": Object {
+      "end": Object {
+        "column": 22,
+        "line": 1,
+        "offset": 21,
+      },
+      "start": Object {
+        "column": 11,
+        "line": 1,
+        "offset": 10,
+      },
+    },
+    "type": 7,
+    "value": "no apples",
+  },
+  Object {
+    "loc": Object {
+      "end": Object {
+        "column": 23,
+        "line": 1,
+        "offset": 22,
+      },
+      "start": Object {
+        "column": 22,
+        "line": 1,
+        "offset": 21,
+      },
+    },
+    "type": 3,
+    "value": "}",
   },
   Object {
     "loc": Object {
@@ -178,41 +194,9 @@ Array [
         "offset": 25,
       },
       "start": Object {
-        "column": 25,
+        "column": 23,
         "line": 1,
-        "offset": 24,
-      },
-    },
-    "type": 6,
-    "value": "1",
-  },
-  Object {
-    "loc": Object {
-      "end": Object {
-        "column": 32,
-        "line": 1,
-        "offset": 31,
-      },
-      "start": Object {
-        "column": 27,
-        "line": 1,
-        "offset": 26,
-      },
-    },
-    "type": 14,
-    "value": "apple",
-  },
-  Object {
-    "loc": Object {
-      "end": Object {
-        "column": 35,
-        "line": 1,
-        "offset": 34,
-      },
-      "start": Object {
-        "column": 33,
-        "line": 1,
-        "offset": 32,
+        "offset": 22,
       },
     },
     "type": 1,
@@ -221,46 +205,14 @@ Array [
   Object {
     "loc": Object {
       "end": Object {
-        "column": 36,
+        "column": 27,
         "line": 1,
-        "offset": 35,
+        "offset": 26,
       },
       "start": Object {
-        "column": 35,
+        "column": 26,
         "line": 1,
-        "offset": 34,
-      },
-    },
-    "type": 7,
-    "value": "@",
-  },
-  Object {
-    "loc": Object {
-      "end": Object {
-        "column": 37,
-        "line": 1,
-        "offset": 36,
-      },
-      "start": Object {
-        "column": 36,
-        "line": 1,
-        "offset": 35,
-      },
-    },
-    "type": 9,
-    "value": ":",
-  },
-  Object {
-    "loc": Object {
-      "end": Object {
-        "column": 38,
-        "line": 1,
-        "offset": 37,
-      },
-      "start": Object {
-        "column": 37,
-        "line": 1,
-        "offset": 36,
+        "offset": 25,
       },
     },
     "type": 2,
@@ -269,14 +221,110 @@ Array [
   Object {
     "loc": Object {
       "end": Object {
-        "column": 43,
+        "column": 28,
         "line": 1,
-        "offset": 42,
+        "offset": 27,
+      },
+      "start": Object {
+        "column": 27,
+        "line": 1,
+        "offset": 26,
+      },
+    },
+    "type": 6,
+    "value": "1",
+  },
+  Object {
+    "loc": Object {
+      "end": Object {
+        "column": 34,
+        "line": 1,
+        "offset": 33,
+      },
+      "start": Object {
+        "column": 29,
+        "line": 1,
+        "offset": 28,
+      },
+    },
+    "type": 13,
+    "value": "apple",
+  },
+  Object {
+    "loc": Object {
+      "end": Object {
+        "column": 37,
+        "line": 1,
+        "offset": 36,
+      },
+      "start": Object {
+        "column": 35,
+        "line": 1,
+        "offset": 34,
+      },
+    },
+    "type": 1,
+    "value": "|",
+  },
+  Object {
+    "loc": Object {
+      "end": Object {
+        "column": 38,
+        "line": 1,
+        "offset": 37,
+      },
+      "start": Object {
+        "column": 37,
+        "line": 1,
+        "offset": 36,
+      },
+    },
+    "type": 8,
+    "value": "@",
+  },
+  Object {
+    "loc": Object {
+      "end": Object {
+        "column": 39,
+        "line": 1,
+        "offset": 38,
       },
       "start": Object {
         "column": 38,
         "line": 1,
         "offset": 37,
+      },
+    },
+    "type": 10,
+    "value": ":",
+  },
+  Object {
+    "loc": Object {
+      "end": Object {
+        "column": 40,
+        "line": 1,
+        "offset": 39,
+      },
+      "start": Object {
+        "column": 39,
+        "line": 1,
+        "offset": 38,
+      },
+    },
+    "type": 2,
+    "value": "{",
+  },
+  Object {
+    "loc": Object {
+      "end": Object {
+        "column": 45,
+        "line": 1,
+        "offset": 44,
+      },
+      "start": Object {
+        "column": 40,
+        "line": 1,
+        "offset": 39,
       },
     },
     "type": 5,
@@ -285,38 +333,38 @@ Array [
   Object {
     "loc": Object {
       "end": Object {
-        "column": 50,
+        "column": 52,
         "line": 1,
-        "offset": 49,
+        "offset": 51,
       },
       "start": Object {
-        "column": 43,
+        "column": 45,
         "line": 1,
-        "offset": 42,
+        "offset": 44,
       },
     },
-    "type": 14,
+    "type": 13,
     "value": "　apples",
   },
   Object {
     "loc": Object {
       "end": Object {
-        "column": 50,
+        "column": 52,
         "line": 1,
-        "offset": 49,
+        "offset": 51,
       },
       "start": Object {
-        "column": 50,
+        "column": 52,
         "line": 1,
-        "offset": 49,
+        "offset": 51,
       },
     },
-    "type": 16,
+    "type": 14,
   },
 ]
 `;
 
-exports[`token analysis: "@.lower:(no apples) | {1} apple | {count}　apples" 1`] = `
+exports[`token analysis: "@.lower:{'no apples'} | {1} apple | {count}　apples" 1`] = `
 Array [
   Object {
     "loc": Object {
@@ -331,7 +379,7 @@ Array [
         "offset": 0,
       },
     },
-    "type": 7,
+    "type": 8,
     "value": "@",
   },
   Object {
@@ -347,7 +395,7 @@ Array [
         "offset": 1,
       },
     },
-    "type": 8,
+    "type": 9,
     "value": ".",
   },
   Object {
@@ -363,7 +411,7 @@ Array [
         "offset": 2,
       },
     },
-    "type": 11,
+    "type": 12,
     "value": "lower",
   },
   Object {
@@ -379,7 +427,7 @@ Array [
         "offset": 7,
       },
     },
-    "type": 9,
+    "type": 10,
     "value": ":",
   },
   Object {
@@ -395,15 +443,15 @@ Array [
         "offset": 8,
       },
     },
-    "type": 12,
-    "value": "(",
+    "type": 2,
+    "value": "{",
   },
   Object {
     "loc": Object {
       "end": Object {
-        "column": 19,
+        "column": 21,
         "line": 1,
-        "offset": 18,
+        "offset": 20,
       },
       "start": Object {
         "column": 10,
@@ -411,84 +459,20 @@ Array [
         "offset": 9,
       },
     },
-    "type": 10,
+    "type": 7,
     "value": "no apples",
   },
   Object {
     "loc": Object {
       "end": Object {
-        "column": 20,
+        "column": 22,
         "line": 1,
-        "offset": 19,
+        "offset": 21,
       },
       "start": Object {
-        "column": 19,
+        "column": 21,
         "line": 1,
-        "offset": 18,
-      },
-    },
-    "type": 13,
-    "value": ")",
-  },
-  Object {
-    "loc": Object {
-      "end": Object {
-        "column": 23,
-        "line": 1,
-        "offset": 22,
-      },
-      "start": Object {
-        "column": 20,
-        "line": 1,
-        "offset": 19,
-      },
-    },
-    "type": 1,
-    "value": "|",
-  },
-  Object {
-    "loc": Object {
-      "end": Object {
-        "column": 24,
-        "line": 1,
-        "offset": 23,
-      },
-      "start": Object {
-        "column": 23,
-        "line": 1,
-        "offset": 22,
-      },
-    },
-    "type": 2,
-    "value": "{",
-  },
-  Object {
-    "loc": Object {
-      "end": Object {
-        "column": 25,
-        "line": 1,
-        "offset": 24,
-      },
-      "start": Object {
-        "column": 24,
-        "line": 1,
-        "offset": 23,
-      },
-    },
-    "type": 6,
-    "value": "1",
-  },
-  Object {
-    "loc": Object {
-      "end": Object {
-        "column": 26,
-        "line": 1,
-        "offset": 25,
-      },
-      "start": Object {
-        "column": 25,
-        "line": 1,
-        "offset": 24,
+        "offset": 20,
       },
     },
     "type": 3,
@@ -497,14 +481,78 @@ Array [
   Object {
     "loc": Object {
       "end": Object {
-        "column": 32,
+        "column": 25,
         "line": 1,
-        "offset": 31,
+        "offset": 24,
+      },
+      "start": Object {
+        "column": 22,
+        "line": 1,
+        "offset": 21,
+      },
+    },
+    "type": 1,
+    "value": "|",
+  },
+  Object {
+    "loc": Object {
+      "end": Object {
+        "column": 26,
+        "line": 1,
+        "offset": 25,
+      },
+      "start": Object {
+        "column": 25,
+        "line": 1,
+        "offset": 24,
+      },
+    },
+    "type": 2,
+    "value": "{",
+  },
+  Object {
+    "loc": Object {
+      "end": Object {
+        "column": 27,
+        "line": 1,
+        "offset": 26,
       },
       "start": Object {
         "column": 26,
         "line": 1,
         "offset": 25,
+      },
+    },
+    "type": 6,
+    "value": "1",
+  },
+  Object {
+    "loc": Object {
+      "end": Object {
+        "column": 28,
+        "line": 1,
+        "offset": 27,
+      },
+      "start": Object {
+        "column": 27,
+        "line": 1,
+        "offset": 26,
+      },
+    },
+    "type": 3,
+    "value": "}",
+  },
+  Object {
+    "loc": Object {
+      "end": Object {
+        "column": 34,
+        "line": 1,
+        "offset": 33,
+      },
+      "start": Object {
+        "column": 28,
+        "line": 1,
+        "offset": 27,
       },
     },
     "type": 0,
@@ -513,14 +561,14 @@ Array [
   Object {
     "loc": Object {
       "end": Object {
-        "column": 35,
+        "column": 37,
         "line": 1,
-        "offset": 34,
+        "offset": 36,
       },
       "start": Object {
-        "column": 32,
+        "column": 34,
         "line": 1,
-        "offset": 31,
+        "offset": 33,
       },
     },
     "type": 1,
@@ -529,14 +577,14 @@ Array [
   Object {
     "loc": Object {
       "end": Object {
-        "column": 36,
+        "column": 38,
         "line": 1,
-        "offset": 35,
+        "offset": 37,
       },
       "start": Object {
-        "column": 35,
+        "column": 37,
         "line": 1,
-        "offset": 34,
+        "offset": 36,
       },
     },
     "type": 2,
@@ -545,14 +593,14 @@ Array [
   Object {
     "loc": Object {
       "end": Object {
-        "column": 41,
+        "column": 43,
         "line": 1,
-        "offset": 40,
+        "offset": 42,
       },
       "start": Object {
-        "column": 36,
+        "column": 38,
         "line": 1,
-        "offset": 35,
+        "offset": 37,
       },
     },
     "type": 5,
@@ -561,14 +609,14 @@ Array [
   Object {
     "loc": Object {
       "end": Object {
-        "column": 42,
+        "column": 44,
         "line": 1,
-        "offset": 41,
+        "offset": 43,
       },
       "start": Object {
-        "column": 41,
+        "column": 43,
         "line": 1,
-        "offset": 40,
+        "offset": 42,
       },
     },
     "type": 3,
@@ -577,14 +625,14 @@ Array [
   Object {
     "loc": Object {
       "end": Object {
-        "column": 49,
+        "column": 51,
         "line": 1,
-        "offset": 48,
+        "offset": 50,
       },
       "start": Object {
-        "column": 42,
+        "column": 44,
         "line": 1,
-        "offset": 41,
+        "offset": 43,
       },
     },
     "type": 0,
@@ -593,17 +641,17 @@ Array [
   Object {
     "loc": Object {
       "end": Object {
-        "column": 49,
+        "column": 51,
         "line": 1,
-        "offset": 48,
+        "offset": 50,
       },
       "start": Object {
-        "column": 49,
+        "column": 51,
         "line": 1,
-        "offset": 48,
+        "offset": 50,
       },
     },
-    "type": 16,
+    "type": 14,
   },
 ]
 `;
@@ -799,7 +847,7 @@ Array [
         "offset": 11,
       },
     },
-    "type": 16,
+    "type": 14,
   },
 ]
 `;
@@ -997,7 +1045,7 @@ Array [
         "offset": 12,
       },
     },
-    "type": 16,
+    "type": 14,
   },
 ]
 `;
@@ -1193,7 +1241,7 @@ Array [
         "offset": 23,
       },
     },
-    "type": 16,
+    "type": 14,
   },
 ]
 `;
@@ -1391,7 +1439,7 @@ Array [
         "offset": 24,
       },
     },
-    "type": 16,
+    "type": 14,
   },
 ]
 `;
@@ -1427,7 +1475,7 @@ Array [
         "offset": 3,
       },
     },
-    "type": 7,
+    "type": 8,
     "value": "@",
   },
   Object {
@@ -1459,7 +1507,7 @@ Array [
         "offset": 11,
       },
     },
-    "type": 16,
+    "type": 14,
   },
 ]
 `;
@@ -1495,7 +1543,7 @@ Array [
         "offset": 11,
       },
     },
-    "type": 16,
+    "type": 14,
   },
 ]
 `;
@@ -1531,7 +1579,7 @@ Array [
         "offset": 12,
       },
     },
-    "type": 16,
+    "type": 14,
   },
 ]
 `;
@@ -1568,7 +1616,7 @@ world",
         "offset": 11,
       },
     },
-    "type": 16,
+    "type": 14,
   },
 ]
 `;
@@ -1604,7 +1652,7 @@ Array [
         "offset": 3,
       },
     },
-    "type": 7,
+    "type": 8,
     "value": "@",
   },
   Object {
@@ -1700,7 +1748,7 @@ Array [
         "offset": 22,
       },
     },
-    "type": 16,
+    "type": 14,
   },
 ]
 `;
@@ -1736,7 +1784,7 @@ Array [
         "offset": 3,
       },
     },
-    "type": 7,
+    "type": 8,
     "value": "@",
   },
   Object {
@@ -1768,7 +1816,7 @@ Array [
         "offset": 12,
       },
     },
-    "type": 16,
+    "type": 14,
   },
 ]
 `;
@@ -1804,7 +1852,7 @@ Array [
         "offset": 3,
       },
     },
-    "type": 7,
+    "type": 8,
     "value": "@",
   },
   Object {
@@ -1820,7 +1868,7 @@ Array [
         "offset": 4,
       },
     },
-    "type": 8,
+    "type": 9,
     "value": ".",
   },
   Object {
@@ -1916,7 +1964,7 @@ Array [
         "offset": 14,
       },
     },
-    "type": 16,
+    "type": 14,
   },
 ]
 `;
@@ -1952,7 +2000,7 @@ Array [
         "offset": 3,
       },
     },
-    "type": 7,
+    "type": 8,
     "value": "@",
   },
   Object {
@@ -1968,7 +2016,7 @@ Array [
         "offset": 4,
       },
     },
-    "type": 8,
+    "type": 9,
     "value": ".",
   },
   Object {
@@ -1984,7 +2032,7 @@ Array [
         "offset": 5,
       },
     },
-    "type": 11,
+    "type": 12,
     "value": "upper",
   },
   Object {
@@ -2080,7 +2128,7 @@ Array [
         "offset": 19,
       },
     },
-    "type": 16,
+    "type": 14,
   },
 ]
 `;
@@ -2116,7 +2164,7 @@ Array [
         "offset": 3,
       },
     },
-    "type": 7,
+    "type": 8,
     "value": "@",
   },
   Object {
@@ -2132,7 +2180,7 @@ Array [
         "offset": 4,
       },
     },
-    "type": 8,
+    "type": 9,
     "value": ".",
   },
   Object {
@@ -2148,7 +2196,7 @@ Array [
         "offset": 5,
       },
     },
-    "type": 11,
+    "type": 12,
     "value": "upper",
   },
   Object {
@@ -2164,7 +2212,7 @@ Array [
         "offset": 10,
       },
     },
-    "type": 9,
+    "type": 10,
     "value": ":",
   },
   Object {
@@ -2180,7 +2228,7 @@ Array [
         "offset": 11,
       },
     },
-    "type": 10,
+    "type": 11,
     "value": "name",
   },
   Object {
@@ -2212,12 +2260,12 @@ Array [
         "offset": 17,
       },
     },
-    "type": 16,
+    "type": 14,
   },
 ]
 `;
 
-exports[`token analysis: "hi @: (name) !" 1`] = `
+exports[`token analysis: "hi @: {'name'} !" 1`] = `
 Array [
   Object {
     "loc": Object {
@@ -2248,7 +2296,7 @@ Array [
         "offset": 3,
       },
     },
-    "type": 7,
+    "type": 8,
     "value": "@",
   },
   Object {
@@ -2264,15 +2312,15 @@ Array [
         "offset": 4,
       },
     },
-    "type": 9,
+    "type": 10,
     "value": ":",
   },
   Object {
     "loc": Object {
       "end": Object {
-        "column": 15,
+        "column": 7,
         "line": 1,
-        "offset": 14,
+        "offset": 6,
       },
       "start": Object {
         "column": 6,
@@ -2281,7 +2329,39 @@ Array [
       },
     },
     "type": 0,
-    "value": " (name) !",
+    "value": " ",
+  },
+  Object {
+    "loc": Object {
+      "end": Object {
+        "column": 8,
+        "line": 1,
+        "offset": 7,
+      },
+      "start": Object {
+        "column": 7,
+        "line": 1,
+        "offset": 6,
+      },
+    },
+    "type": 2,
+    "value": "{",
+  },
+  Object {
+    "loc": Object {
+      "end": Object {
+        "column": 14,
+        "line": 1,
+        "offset": 13,
+      },
+      "start": Object {
+        "column": 8,
+        "line": 1,
+        "offset": 7,
+      },
+    },
+    "type": 7,
+    "value": "name",
   },
   Object {
     "loc": Object {
@@ -2291,12 +2371,44 @@ Array [
         "offset": 14,
       },
       "start": Object {
+        "column": 14,
+        "line": 1,
+        "offset": 13,
+      },
+    },
+    "type": 3,
+    "value": "}",
+  },
+  Object {
+    "loc": Object {
+      "end": Object {
+        "column": 17,
+        "line": 1,
+        "offset": 16,
+      },
+      "start": Object {
         "column": 15,
         "line": 1,
         "offset": 14,
       },
     },
-    "type": 16,
+    "type": 0,
+    "value": " !",
+  },
+  Object {
+    "loc": Object {
+      "end": Object {
+        "column": 17,
+        "line": 1,
+        "offset": 16,
+      },
+      "start": Object {
+        "column": 17,
+        "line": 1,
+        "offset": 16,
+      },
+    },
+    "type": 14,
   },
 ]
 `;
@@ -2332,7 +2444,7 @@ Array [
         "offset": 3,
       },
     },
-    "type": 7,
+    "type": 8,
     "value": "@",
   },
   Object {
@@ -2348,7 +2460,7 @@ Array [
         "offset": 4,
       },
     },
-    "type": 9,
+    "type": 10,
     "value": ":",
   },
   Object {
@@ -2444,271 +2556,7 @@ Array [
         "offset": 14,
       },
     },
-    "type": 16,
-  },
-]
-`;
-
-exports[`token analysis: "hi @:( name ) !" 1`] = `
-Array [
-  Object {
-    "loc": Object {
-      "end": Object {
-        "column": 4,
-        "line": 1,
-        "offset": 3,
-      },
-      "start": Object {
-        "column": 1,
-        "line": 1,
-        "offset": 0,
-      },
-    },
-    "type": 0,
-    "value": "hi ",
-  },
-  Object {
-    "loc": Object {
-      "end": Object {
-        "column": 5,
-        "line": 1,
-        "offset": 4,
-      },
-      "start": Object {
-        "column": 4,
-        "line": 1,
-        "offset": 3,
-      },
-    },
-    "type": 7,
-    "value": "@",
-  },
-  Object {
-    "loc": Object {
-      "end": Object {
-        "column": 6,
-        "line": 1,
-        "offset": 5,
-      },
-      "start": Object {
-        "column": 5,
-        "line": 1,
-        "offset": 4,
-      },
-    },
-    "type": 9,
-    "value": ":",
-  },
-  Object {
-    "loc": Object {
-      "end": Object {
-        "column": 7,
-        "line": 1,
-        "offset": 6,
-      },
-      "start": Object {
-        "column": 6,
-        "line": 1,
-        "offset": 5,
-      },
-    },
-    "type": 12,
-    "value": "(",
-  },
-  Object {
-    "loc": Object {
-      "end": Object {
-        "column": 13,
-        "line": 1,
-        "offset": 12,
-      },
-      "start": Object {
-        "column": 8,
-        "line": 1,
-        "offset": 7,
-      },
-    },
-    "type": 10,
-    "value": "name ",
-  },
-  Object {
-    "loc": Object {
-      "end": Object {
-        "column": 14,
-        "line": 1,
-        "offset": 13,
-      },
-      "start": Object {
-        "column": 13,
-        "line": 1,
-        "offset": 12,
-      },
-    },
-    "type": 13,
-    "value": ")",
-  },
-  Object {
-    "loc": Object {
-      "end": Object {
-        "column": 16,
-        "line": 1,
-        "offset": 15,
-      },
-      "start": Object {
-        "column": 14,
-        "line": 1,
-        "offset": 13,
-      },
-    },
-    "type": 0,
-    "value": " !",
-  },
-  Object {
-    "loc": Object {
-      "end": Object {
-        "column": 16,
-        "line": 1,
-        "offset": 15,
-      },
-      "start": Object {
-        "column": 16,
-        "line": 1,
-        "offset": 15,
-      },
-    },
-    "type": 16,
-  },
-]
-`;
-
-exports[`token analysis: "hi @:(hello world) !" 1`] = `
-Array [
-  Object {
-    "loc": Object {
-      "end": Object {
-        "column": 4,
-        "line": 1,
-        "offset": 3,
-      },
-      "start": Object {
-        "column": 1,
-        "line": 1,
-        "offset": 0,
-      },
-    },
-    "type": 0,
-    "value": "hi ",
-  },
-  Object {
-    "loc": Object {
-      "end": Object {
-        "column": 5,
-        "line": 1,
-        "offset": 4,
-      },
-      "start": Object {
-        "column": 4,
-        "line": 1,
-        "offset": 3,
-      },
-    },
-    "type": 7,
-    "value": "@",
-  },
-  Object {
-    "loc": Object {
-      "end": Object {
-        "column": 6,
-        "line": 1,
-        "offset": 5,
-      },
-      "start": Object {
-        "column": 5,
-        "line": 1,
-        "offset": 4,
-      },
-    },
-    "type": 9,
-    "value": ":",
-  },
-  Object {
-    "loc": Object {
-      "end": Object {
-        "column": 7,
-        "line": 1,
-        "offset": 6,
-      },
-      "start": Object {
-        "column": 6,
-        "line": 1,
-        "offset": 5,
-      },
-    },
-    "type": 12,
-    "value": "(",
-  },
-  Object {
-    "loc": Object {
-      "end": Object {
-        "column": 18,
-        "line": 1,
-        "offset": 17,
-      },
-      "start": Object {
-        "column": 7,
-        "line": 1,
-        "offset": 6,
-      },
-    },
-    "type": 10,
-    "value": "hello world",
-  },
-  Object {
-    "loc": Object {
-      "end": Object {
-        "column": 19,
-        "line": 1,
-        "offset": 18,
-      },
-      "start": Object {
-        "column": 18,
-        "line": 1,
-        "offset": 17,
-      },
-    },
-    "type": 13,
-    "value": ")",
-  },
-  Object {
-    "loc": Object {
-      "end": Object {
-        "column": 21,
-        "line": 1,
-        "offset": 20,
-      },
-      "start": Object {
-        "column": 19,
-        "line": 1,
-        "offset": 18,
-      },
-    },
-    "type": 0,
-    "value": " !",
-  },
-  Object {
-    "loc": Object {
-      "end": Object {
-        "column": 21,
-        "line": 1,
-        "offset": 20,
-      },
-      "start": Object {
-        "column": 21,
-        "line": 1,
-        "offset": 20,
-      },
-    },
-    "type": 16,
+    "type": 14,
   },
 ]
 `;
@@ -2744,7 +2592,7 @@ Array [
         "offset": 3,
       },
     },
-    "type": 7,
+    "type": 8,
     "value": "@",
   },
   Object {
@@ -2760,7 +2608,7 @@ Array [
         "offset": 4,
       },
     },
-    "type": 9,
+    "type": 10,
     "value": ":",
   },
   Object {
@@ -2776,7 +2624,7 @@ Array [
         "offset": 6,
       },
     },
-    "type": 10,
+    "type": 11,
     "value": "name",
   },
   Object {
@@ -2808,7 +2656,139 @@ Array [
         "offset": 12,
       },
     },
-    "type": 16,
+    "type": 14,
+  },
+]
+`;
+
+exports[`token analysis: "hi @:{ 'name' } !" 1`] = `
+Array [
+  Object {
+    "loc": Object {
+      "end": Object {
+        "column": 4,
+        "line": 1,
+        "offset": 3,
+      },
+      "start": Object {
+        "column": 1,
+        "line": 1,
+        "offset": 0,
+      },
+    },
+    "type": 0,
+    "value": "hi ",
+  },
+  Object {
+    "loc": Object {
+      "end": Object {
+        "column": 5,
+        "line": 1,
+        "offset": 4,
+      },
+      "start": Object {
+        "column": 4,
+        "line": 1,
+        "offset": 3,
+      },
+    },
+    "type": 8,
+    "value": "@",
+  },
+  Object {
+    "loc": Object {
+      "end": Object {
+        "column": 6,
+        "line": 1,
+        "offset": 5,
+      },
+      "start": Object {
+        "column": 5,
+        "line": 1,
+        "offset": 4,
+      },
+    },
+    "type": 10,
+    "value": ":",
+  },
+  Object {
+    "loc": Object {
+      "end": Object {
+        "column": 7,
+        "line": 1,
+        "offset": 6,
+      },
+      "start": Object {
+        "column": 6,
+        "line": 1,
+        "offset": 5,
+      },
+    },
+    "type": 2,
+    "value": "{",
+  },
+  Object {
+    "loc": Object {
+      "end": Object {
+        "column": 14,
+        "line": 1,
+        "offset": 13,
+      },
+      "start": Object {
+        "column": 8,
+        "line": 1,
+        "offset": 7,
+      },
+    },
+    "type": 7,
+    "value": "name",
+  },
+  Object {
+    "loc": Object {
+      "end": Object {
+        "column": 16,
+        "line": 1,
+        "offset": 15,
+      },
+      "start": Object {
+        "column": 15,
+        "line": 1,
+        "offset": 14,
+      },
+    },
+    "type": 3,
+    "value": "}",
+  },
+  Object {
+    "loc": Object {
+      "end": Object {
+        "column": 18,
+        "line": 1,
+        "offset": 17,
+      },
+      "start": Object {
+        "column": 16,
+        "line": 1,
+        "offset": 15,
+      },
+    },
+    "type": 0,
+    "value": " !",
+  },
+  Object {
+    "loc": Object {
+      "end": Object {
+        "column": 18,
+        "line": 1,
+        "offset": 17,
+      },
+      "start": Object {
+        "column": 18,
+        "line": 1,
+        "offset": 17,
+      },
+    },
+    "type": 14,
   },
 ]
 `;
@@ -2844,7 +2824,7 @@ Array [
         "offset": 3,
       },
     },
-    "type": 7,
+    "type": 8,
     "value": "@",
   },
   Object {
@@ -2860,7 +2840,7 @@ Array [
         "offset": 4,
       },
     },
-    "type": 9,
+    "type": 10,
     "value": ":",
   },
   Object {
@@ -2972,7 +2952,7 @@ Array [
         "offset": 17,
       },
     },
-    "type": 16,
+    "type": 14,
   },
 ]
 `;
@@ -3008,7 +2988,7 @@ Array [
         "offset": 3,
       },
     },
-    "type": 7,
+    "type": 8,
     "value": "@",
   },
   Object {
@@ -3024,7 +3004,7 @@ Array [
         "offset": 4,
       },
     },
-    "type": 9,
+    "type": 10,
     "value": ":",
   },
   Object {
@@ -3104,7 +3084,139 @@ Array [
         "offset": 15,
       },
     },
-    "type": 16,
+    "type": 14,
+  },
+]
+`;
+
+exports[`token analysis: "hi @:{'hello world'} !" 1`] = `
+Array [
+  Object {
+    "loc": Object {
+      "end": Object {
+        "column": 4,
+        "line": 1,
+        "offset": 3,
+      },
+      "start": Object {
+        "column": 1,
+        "line": 1,
+        "offset": 0,
+      },
+    },
+    "type": 0,
+    "value": "hi ",
+  },
+  Object {
+    "loc": Object {
+      "end": Object {
+        "column": 5,
+        "line": 1,
+        "offset": 4,
+      },
+      "start": Object {
+        "column": 4,
+        "line": 1,
+        "offset": 3,
+      },
+    },
+    "type": 8,
+    "value": "@",
+  },
+  Object {
+    "loc": Object {
+      "end": Object {
+        "column": 6,
+        "line": 1,
+        "offset": 5,
+      },
+      "start": Object {
+        "column": 5,
+        "line": 1,
+        "offset": 4,
+      },
+    },
+    "type": 10,
+    "value": ":",
+  },
+  Object {
+    "loc": Object {
+      "end": Object {
+        "column": 7,
+        "line": 1,
+        "offset": 6,
+      },
+      "start": Object {
+        "column": 6,
+        "line": 1,
+        "offset": 5,
+      },
+    },
+    "type": 2,
+    "value": "{",
+  },
+  Object {
+    "loc": Object {
+      "end": Object {
+        "column": 20,
+        "line": 1,
+        "offset": 19,
+      },
+      "start": Object {
+        "column": 7,
+        "line": 1,
+        "offset": 6,
+      },
+    },
+    "type": 7,
+    "value": "hello world",
+  },
+  Object {
+    "loc": Object {
+      "end": Object {
+        "column": 21,
+        "line": 1,
+        "offset": 20,
+      },
+      "start": Object {
+        "column": 20,
+        "line": 1,
+        "offset": 19,
+      },
+    },
+    "type": 3,
+    "value": "}",
+  },
+  Object {
+    "loc": Object {
+      "end": Object {
+        "column": 23,
+        "line": 1,
+        "offset": 22,
+      },
+      "start": Object {
+        "column": 21,
+        "line": 1,
+        "offset": 20,
+      },
+    },
+    "type": 0,
+    "value": " !",
+  },
+  Object {
+    "loc": Object {
+      "end": Object {
+        "column": 23,
+        "line": 1,
+        "offset": 22,
+      },
+      "start": Object {
+        "column": 23,
+        "line": 1,
+        "offset": 22,
+      },
+    },
+    "type": 14,
   },
 ]
 `;
@@ -3140,7 +3252,7 @@ Array [
         "offset": 3,
       },
     },
-    "type": 7,
+    "type": 8,
     "value": "@",
   },
   Object {
@@ -3156,7 +3268,7 @@ Array [
         "offset": 4,
       },
     },
-    "type": 9,
+    "type": 10,
     "value": ":",
   },
   Object {
@@ -3236,7 +3348,7 @@ Array [
         "offset": 12,
       },
     },
-    "type": 7,
+    "type": 8,
     "value": "@",
   },
   Object {
@@ -3252,7 +3364,7 @@ Array [
         "offset": 13,
       },
     },
-    "type": 9,
+    "type": 10,
     "value": ":",
   },
   Object {
@@ -3332,7 +3444,7 @@ Array [
         "offset": 18,
       },
     },
-    "type": 16,
+    "type": 14,
   },
 ]
 `;
@@ -3368,7 +3480,7 @@ Array [
         "offset": 3,
       },
     },
-    "type": 7,
+    "type": 8,
     "value": "@",
   },
   Object {
@@ -3384,7 +3496,7 @@ Array [
         "offset": 4,
       },
     },
-    "type": 9,
+    "type": 10,
     "value": ":",
   },
   Object {
@@ -3465,7 +3577,7 @@ Array [
         "offset": 14,
       },
     },
-    "type": 16,
+    "type": 14,
   },
 ]
 `;
@@ -3501,7 +3613,7 @@ Array [
         "offset": 3,
       },
     },
-    "type": 7,
+    "type": 8,
     "value": "@",
   },
   Object {
@@ -3517,7 +3629,7 @@ Array [
         "offset": 4,
       },
     },
-    "type": 9,
+    "type": 10,
     "value": ":",
   },
   Object {
@@ -3533,7 +3645,7 @@ Array [
         "offset": 5,
       },
     },
-    "type": 10,
+    "type": 11,
     "value": "name",
   },
   Object {
@@ -3565,12 +3677,12 @@ Array [
         "offset": 11,
       },
     },
-    "type": 16,
+    "type": 14,
   },
 ]
 `;
 
-exports[`token analysis: "hi @\\n.\\nupper\\n:\\n(name)\\n !" 1`] = `
+exports[`token analysis: "hi @\\n.\\nupper\\n:\\n{'name'}\\n !" 1`] = `
 Array [
   Object {
     "loc": Object {
@@ -3601,7 +3713,7 @@ Array [
         "offset": 3,
       },
     },
-    "type": 7,
+    "type": 8,
     "value": "@",
   },
   Object {
@@ -3617,7 +3729,7 @@ Array [
         "offset": 5,
       },
     },
-    "type": 8,
+    "type": 9,
     "value": ".",
   },
   Object {
@@ -3633,7 +3745,7 @@ Array [
         "offset": 7,
       },
     },
-    "type": 11,
+    "type": 12,
     "value": "upper",
   },
   Object {
@@ -3649,7 +3761,7 @@ Array [
         "offset": 13,
       },
     },
-    "type": 9,
+    "type": 10,
     "value": ":",
   },
   Object {
@@ -3665,15 +3777,15 @@ Array [
         "offset": 15,
       },
     },
-    "type": 12,
-    "value": "(",
+    "type": 2,
+    "value": "{",
   },
   Object {
     "loc": Object {
       "end": Object {
-        "column": 6,
+        "column": 8,
         "line": 5,
-        "offset": 20,
+        "offset": 22,
       },
       "start": Object {
         "column": 2,
@@ -3681,36 +3793,36 @@ Array [
         "offset": 16,
       },
     },
-    "type": 10,
+    "type": 7,
     "value": "name",
   },
   Object {
     "loc": Object {
       "end": Object {
-        "column": 7,
+        "column": 9,
         "line": 5,
-        "offset": 21,
+        "offset": 23,
       },
       "start": Object {
-        "column": 6,
+        "column": 8,
         "line": 5,
-        "offset": 20,
+        "offset": 22,
       },
     },
-    "type": 13,
-    "value": ")",
+    "type": 3,
+    "value": "}",
   },
   Object {
     "loc": Object {
       "end": Object {
         "column": 3,
         "line": 6,
-        "offset": 24,
+        "offset": 26,
       },
       "start": Object {
-        "column": 7,
+        "column": 9,
         "line": 5,
-        "offset": 21,
+        "offset": 23,
       },
     },
     "type": 0,
@@ -3722,15 +3834,15 @@ Array [
       "end": Object {
         "column": 3,
         "line": 6,
-        "offset": 24,
+        "offset": 26,
       },
       "start": Object {
         "column": 3,
         "line": 6,
-        "offset": 24,
+        "offset": 26,
       },
     },
-    "type": 16,
+    "type": 14,
   },
 ]
 `;
@@ -3767,7 +3879,7 @@ Array [
         "offset": 4,
       },
     },
-    "type": 7,
+    "type": 8,
     "value": "@",
   },
   Object {
@@ -3783,7 +3895,7 @@ Array [
         "offset": 6,
       },
     },
-    "type": 8,
+    "type": 9,
     "value": ".",
   },
   Object {
@@ -3799,7 +3911,7 @@ Array [
         "offset": 8,
       },
     },
-    "type": 11,
+    "type": 12,
     "value": "upper",
   },
   Object {
@@ -3815,7 +3927,7 @@ Array [
         "offset": 14,
       },
     },
-    "type": 9,
+    "type": 10,
     "value": ":",
   },
   Object {
@@ -3896,7 +4008,7 @@ Array [
         "offset": 27,
       },
     },
-    "type": 16,
+    "type": 14,
   },
 ]
 `;
@@ -4044,7 +4156,7 @@ Array [
         "offset": 22,
       },
     },
-    "type": 16,
+    "type": 14,
   },
 ]
 `;
@@ -4128,7 +4240,7 @@ Array [
         "offset": 9,
       },
     },
-    "type": 16,
+    "type": 14,
   },
 ]
 `;
@@ -4228,7 +4340,7 @@ Array [
         "offset": 12,
       },
     },
-    "type": 16,
+    "type": 14,
   },
 ]
 `;
@@ -4296,7 +4408,7 @@ Array [
         "offset": 8,
       },
     },
-    "type": 14,
+    "type": 13,
     "value": "!",
   },
   Object {
@@ -4312,7 +4424,7 @@ Array [
         "offset": 9,
       },
     },
-    "type": 16,
+    "type": 14,
   },
 ]
 `;
@@ -4380,7 +4492,7 @@ Array [
         "offset": 11,
       },
     },
-    "type": 14,
+    "type": 13,
     "value": "!",
   },
   Object {
@@ -4396,7 +4508,7 @@ Array [
         "offset": 12,
       },
     },
-    "type": 16,
+    "type": 14,
   },
 ]
 `;
@@ -4496,7 +4608,7 @@ Array [
         "offset": 14,
       },
     },
-    "type": 16,
+    "type": 14,
   },
 ]
 `;
@@ -4548,7 +4660,7 @@ Array [
         "offset": 5,
       },
     },
-    "type": 14,
+    "type": 13,
     "value": "@:name",
   },
   Object {
@@ -4660,7 +4772,7 @@ Array [
         "offset": 29,
       },
     },
-    "type": 16,
+    "type": 14,
   },
 ]
 `;
@@ -4712,7 +4824,7 @@ Array [
         "offset": 5,
       },
     },
-    "type": 14,
+    "type": 13,
     "value": "@:name",
   },
   Object {
@@ -4728,7 +4840,7 @@ Array [
         "offset": 12,
       },
     },
-    "type": 14,
+    "type": 13,
     "value": "!",
   },
   Object {
@@ -4744,7 +4856,7 @@ Array [
         "offset": 13,
       },
     },
-    "type": 16,
+    "type": 14,
   },
 ]
 `;
@@ -4876,7 +4988,7 @@ Array [
         "offset": 14,
       },
     },
-    "type": 16,
+    "type": 14,
   },
 ]
 `;
@@ -5008,7 +5120,7 @@ Array [
         "offset": 17,
       },
     },
-    "type": 16,
+    "type": 14,
   },
 ]
 `;
@@ -5076,7 +5188,7 @@ Array [
         "offset": 10,
       },
     },
-    "type": 14,
+    "type": 13,
     "value": "!",
   },
   Object {
@@ -5092,7 +5204,7 @@ Array [
         "offset": 11,
       },
     },
-    "type": 16,
+    "type": 14,
   },
 ]
 `;
@@ -5144,7 +5256,7 @@ Array [
         "offset": 4,
       },
     },
-    "type": 14,
+    "type": 13,
     "value": "$",
   },
   Object {
@@ -5192,7 +5304,7 @@ Array [
         "offset": 8,
       },
     },
-    "type": 16,
+    "type": 14,
   },
 ]
 `;
@@ -5244,7 +5356,7 @@ Array [
         "offset": 4,
       },
     },
-    "type": 14,
+    "type": 13,
     "value": "@.lower:name",
   },
   Object {
@@ -5260,7 +5372,7 @@ Array [
         "offset": 17,
       },
     },
-    "type": 14,
+    "type": 13,
     "value": "!",
   },
   Object {
@@ -5276,7 +5388,7 @@ Array [
         "offset": 18,
       },
     },
-    "type": 16,
+    "type": 14,
   },
 ]
 `;
@@ -5376,7 +5488,7 @@ Array [
         "offset": 13,
       },
     },
-    "type": 16,
+    "type": 14,
   },
 ]
 `;
@@ -5492,7 +5604,7 @@ Array [
         "offset": 9,
       },
     },
-    "type": 16,
+    "type": 14,
   },
 ]
 `;
@@ -5624,7 +5736,7 @@ Array [
         "offset": 10,
       },
     },
-    "type": 16,
+    "type": 14,
   },
 ]
 `;
@@ -5756,7 +5868,7 @@ Array [
         "offset": 13,
       },
     },
-    "type": 16,
+    "type": 14,
   },
 ]
 `;
@@ -5840,7 +5952,7 @@ Array [
         "offset": 7,
       },
     },
-    "type": 16,
+    "type": 14,
   },
 ]
 `;
@@ -5892,7 +6004,7 @@ Array [
         "offset": 4,
       },
     },
-    "type": 14,
+    "type": 13,
     "value": "-",
   },
   Object {
@@ -5940,7 +6052,7 @@ Array [
         "offset": 8,
       },
     },
-    "type": 16,
+    "type": 14,
   },
 ]
 `;
@@ -6008,7 +6120,7 @@ Array [
         "offset": 6,
       },
     },
-    "type": 14,
+    "type": 13,
     "value": "!",
   },
   Object {
@@ -6024,7 +6136,7 @@ Array [
         "offset": 7,
       },
     },
-    "type": 16,
+    "type": 14,
   },
 ]
 `;
@@ -6124,7 +6236,7 @@ Array [
         "offset": 8,
       },
     },
-    "type": 16,
+    "type": 14,
   },
 ]
 `;
@@ -6192,7 +6304,7 @@ Array [
         "offset": 9,
       },
     },
-    "type": 14,
+    "type": 13,
     "value": "!",
   },
   Object {
@@ -6208,7 +6320,7 @@ Array [
         "offset": 10,
       },
     },
-    "type": 16,
+    "type": 14,
   },
 ]
 `;
@@ -6308,7 +6420,7 @@ Array [
         "offset": 11,
       },
     },
-    "type": 16,
+    "type": 14,
   },
 ]
 `;
@@ -6344,7 +6456,7 @@ Array [
         "offset": 7,
       },
     },
-    "type": 16,
+    "type": 14,
   },
 ]
 `;
@@ -6380,7 +6492,7 @@ Array [
         "offset": 7,
       },
     },
-    "type": 16,
+    "type": 14,
   },
 ]
 `;
@@ -6480,7 +6592,7 @@ Array [
         "offset": 42,
       },
     },
-    "type": 16,
+    "type": 14,
   },
 ]
 `;
@@ -6580,7 +6692,7 @@ Array [
         "offset": 45,
       },
     },
-    "type": 16,
+    "type": 14,
   },
 ]
 `;
@@ -6616,7 +6728,7 @@ Array [
         "offset": 8,
       },
     },
-    "type": 16,
+    "type": 14,
   },
 ]
 `;
@@ -6652,7 +6764,7 @@ Array [
         "offset": 2,
       },
     },
-    "type": 16,
+    "type": 14,
   },
 ]
 `;

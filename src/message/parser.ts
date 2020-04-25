@@ -71,7 +71,7 @@ export interface LiteralNode extends Node {
 export interface LinkedNode extends Node {
   type: NodeTypes.Linked
   modifier?: LinkedModitierNode
-  key: LinkedKeyNode | NamedNode | ListNode
+  key: LinkedKeyNode | NamedNode | ListNode | LiteralNode
 }
 
 export interface LinkedKeyNode extends Node {
@@ -235,13 +235,6 @@ export function createParser(/* options: ParserOptions = {} */): Parser {
     }
     token = tokenizer.nextToken()
 
-    // skip paren left
-    let hasParen = false
-    if (token.type === TokenTypes.ParenLeft) {
-      token = tokenizer.nextToken()
-      hasParen = true
-    }
-
     // skip brace left
     if (token.type === TokenTypes.BraceLeft) {
       token = tokenizer.nextToken()
@@ -269,14 +262,16 @@ export function createParser(/* options: ParserOptions = {} */): Parser {
         }
         linkedNode.key = parseList(tokenizer, token.value)
         break
+      case TokenTypes.Literal:
+        if (isUnDef(token.value)) {
+          // TODO: should be thrown syntax error
+          throw new Error()
+        }
+        linkedNode.key = parseLiteral(tokenizer, token.value)
+        break
       default:
         // TODO: should be thrown syntax error
         throw new Error()
-    }
-
-    // skip paren right
-    if (hasParen) {
-      token = tokenizer.nextToken()
     }
 
     endNode(linkedNode, tokenizer.currentOffset(), tokenizer.currentPosition())

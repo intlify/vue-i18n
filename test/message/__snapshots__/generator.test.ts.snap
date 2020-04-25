@@ -16,7 +16,7 @@ exports[`linked list: hi @:{0} ! 1`] = `
 }"
 `;
 
-exports[`linked modifier: hi @.upper:(name) ! 1`] = `
+exports[`linked modifier: hi @.upper:{'name'} ! 1`] = `
 "function __msg__ (ctx) {
   return ctx.normalize([
     \\"hi \\", ctx.modifier(\\"upper\\")(ctx.message(\\"name\\")(ctx), ctx.type), \\" !\\"
@@ -152,7 +152,7 @@ exports[`named multiple: {greeting} {name} ! 1`] = `
 }"
 `;
 
-exports[`plural complex: @.caml:(no apples) | {0} apple | {n}　apples 1`] = `
+exports[`plural complex: @.caml:{'no apples'} | {0} apple | {n}　apples 1`] = `
 "function __msg__ (ctx) {
   return [
     ctx.normalize([
