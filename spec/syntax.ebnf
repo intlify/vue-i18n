@@ -29,7 +29,7 @@ SpecialChar ::= "{" | "}" | "|" | "@";
 TextChar ::= AnyChar - SpecialChar - LineEnd;
 
 (* literals *)
-StringLiteral ::= "\'" QuotedChar* "\'";
+StringLiteral ::= "'" QuotedChar* "'";
 NumberLiteral ::= "-"? Digits;
 SpecialQuotedChar ::= "\'" | "\\";
 SpecialEscape ::= "\\" SpecialQuotedChar;
