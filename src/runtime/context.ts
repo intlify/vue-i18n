@@ -140,12 +140,8 @@ export function createRuntimeContext(
     isBoolean(options.fallbackWarn) || isRegExp(options.fallbackWarn)
       ? options.fallbackWarn
       : true
-  const fallbackFormat = isBoolean(options.fallbackFormat)
-    ? options.fallbackFormat
-    : false
-  const unresolving = isBoolean(options.unresolving)
-    ? options.unresolving
-    : false
+  const fallbackFormat = !!options.fallbackFormat
+  const unresolving = !!options.unresolving
   const postTranslation = isFunction(options.postTranslation)
     ? options.postTranslation
     : null

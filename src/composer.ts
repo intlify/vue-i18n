@@ -289,9 +289,7 @@ export function createComposer(options: ComposerOptions = {}): Composer {
     : true
 
   // configure fall bakck to root
-  let _fallbackFormat = isBoolean(options.fallbackFormat)
-    ? options.fallbackFormat
-    : false
+  let _fallbackFormat = !!options.fallbackFormat
 
   // runtime missing
   let _missing = isFunction(options.missing) ? options.missing : null

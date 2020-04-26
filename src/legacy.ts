@@ -187,9 +187,7 @@ function convertComposerOptions(options: VueI18nOptions): ComposerOptions {
   const fallbackRoot = isBoolean(options.fallbackRoot)
     ? options.fallbackRoot
     : true
-  const fallbackFormat = isBoolean(options.formatFallbackMessages)
-    ? options.formatFallbackMessages
-    : false
+  const fallbackFormat = !!options.formatFallbackMessages
   const pluralizationRules = options.pluralizationRules
   const postTranslation = isFunction(options.postTranslation)
     ? options.postTranslation

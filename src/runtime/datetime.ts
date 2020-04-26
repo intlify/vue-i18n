@@ -116,7 +116,7 @@ export function datetime(
   const fallbackWarn = isBoolean(options.fallbackWarn)
     ? options.fallbackWarn
     : context.fallbackWarn
-  const part = isBoolean(options.part) ? options.part : false
+  const part = !!options.part
   const locale = isString(options.locale) ? options.locale : context.locale
   const locales = getLocaleChain(context, fallbackLocale, locale)
 
