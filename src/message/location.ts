@@ -1,5 +1,3 @@
-import { isUnDef } from '../utils'
-
 // The source range.
 // The `start` is inclusive and `end` is exclusive.
 // [start, end)
@@ -25,7 +23,7 @@ export function createLocation(
   source?: string
 ) {
   const loc = { start, end } as SourceLocation
-  if (!isUnDef(source)) {
+  if (source != null) {
     loc.source = source
   }
   return loc

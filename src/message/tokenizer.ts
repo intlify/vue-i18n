@@ -11,7 +11,6 @@ import {
   Position
 } from './location'
 import { TokenizeOptions } from './options'
-import { isUnDef } from '../utils'
 
 export const enum TokenTypes {
   Text, // 0
@@ -118,7 +117,7 @@ export function createTokenizer(
     if (location) {
       token.loc = createLocation(context.startLoc, context.endLoc)
     }
-    if (!isUnDef(value)) {
+    if (value != null) {
       token.value = value
     }
 

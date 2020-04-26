@@ -1,6 +1,5 @@
 import { SourceLocation, Position } from './location'
 import { createTokenizer, Tokenizer, TokenTypes } from './tokenizer'
-import { isUnDef } from '../utils'
 
 export const enum NodeTypes {
   Resource, // 0
@@ -242,28 +241,28 @@ export function createParser(/* options: ParserOptions = {} */): Parser {
 
     switch (token.type) {
       case TokenTypes.LinkedKey:
-        if (isUnDef(token.value)) {
+        if (token.value == null) {
           // TODO: should be thrown syntax error
           throw new Error()
         }
         linkedNode.key = parseLinkedKey(tokenizer, token.value)
         break
       case TokenTypes.Named:
-        if (isUnDef(token.value)) {
+        if (token.value == null) {
           // TODO: should be thrown syntax error
           throw new Error()
         }
         linkedNode.key = parseNamed(tokenizer, token.value)
         break
       case TokenTypes.List:
-        if (isUnDef(token.value)) {
+        if (token.value == null) {
           // TODO: should be thrown syntax error
           throw new Error()
         }
         linkedNode.key = parseList(tokenizer, token.value)
         break
       case TokenTypes.Literal:
-        if (isUnDef(token.value)) {
+        if (token.value == null) {
           // TODO: should be thrown syntax error
           throw new Error()
         }
@@ -299,28 +298,28 @@ export function createParser(/* options: ParserOptions = {} */): Parser {
       const token = tokenizer.nextToken()
       switch (token.type) {
         case TokenTypes.Text:
-          if (isUnDef(token.value)) {
+          if (token.value == null) {
             // TODO: should be thrown syntax error
             throw new Error()
           }
           node.items.push(parseText(tokenizer, token.value))
           break
         case TokenTypes.List:
-          if (isUnDef(token.value)) {
+          if (token.value == null) {
             // TODO: should be thrown syntax error
             throw new Error()
           }
           node.items.push(parseList(tokenizer, token.value))
           break
         case TokenTypes.Named:
-          if (isUnDef(token.value)) {
+          if (token.value == null) {
             // TODO: should be thrown syntax error
             throw new Error()
           }
           node.items.push(parseNamed(tokenizer, token.value))
           break
         case TokenTypes.Literal:
-          if (isUnDef(token.value)) {
+          if (token.value == null) {
             // TODO: should be thrown syntax error
             throw new Error()
           }
