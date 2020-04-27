@@ -1,5 +1,5 @@
 export { Path, PathValue } from './path'
-export { createCompiler, Compiler } from './message/compiler'
+export { createParser, Parser } from './message/parser'
 export { CompileOptions } from './message/options'
 export { PluralizationRule, LinkedModifiers } from './message/context'
 export {
