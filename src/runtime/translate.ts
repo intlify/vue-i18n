@@ -1,4 +1,6 @@
 import { Path, resolveValue, PathValue } from '../path'
+import { CompileOptions } from '../message/options'
+import { CompileError } from '../message/errors'
 import { compile, MessageFunction } from '../message/compiler'
 import {
   createMessageContext,
@@ -22,14 +24,13 @@ import {
   isBoolean,
   isArray,
   isPlainObject,
-  isEmptyObject
+  isEmptyObject,
+  generateCodeFrame
 } from '../utils'
 
 const NOOP_MESSAGE_FUNCTION = () => ''
 const isMessageFunction = (val: unknown): val is MessageFunction =>
   isFunction(val)
-const generateCacheKey = (locale: Locale, key: string): string =>
-  `${locale}__${key}`
 
 /**
  *  # translate
@@ -164,8 +165,7 @@ export function translate(
     fallbackFormat,
     postTranslation,
     unresolving,
-    fallbackLocale,
-    _compileCache
+    fallbackLocale
   } = context
   const [key, options] = parseTranslateArgs(...args)
 
@@ -232,12 +232,9 @@ export function translate(
   }
 
   // compile message format
-  const cacheKey = generateCacheKey(targetLocale, cacheBaseKey)
-  let msg = _compileCache.get(cacheKey)
-  if (!msg) {
-    msg = isString(format) ? compile(format) : format
-    _compileCache.set(cacheKey, msg)
-  }
+  const msg = isMessageFunction(format)
+    ? format
+    : compile(format, getCompileOptions(targetLocale, cacheBaseKey, format))
 
   // evaluate message with context
   const ctxOptions = getMessageContextOptions(
@@ -285,27 +282,44 @@ export function parseTranslateArgs(
   return [key, options]
 }
 
+function getCompileOptions(
+  locale: Locale,
+  key: string,
+  source: string
+): CompileOptions {
+  return {
+    onError: (err: CompileError): void => {
+      if (__DEV__) {
+        const message = `Message compilation error: ${err.message}`
+        const codeFrame =
+          err.location &&
+          generateCodeFrame(
+            source,
+            err.location.start.offset,
+            err.location.end.offset
+          )
+        warn(codeFrame ? `${message}\n${codeFrame}` : message)
+      } else {
+        throw err
+      }
+    },
+    onCacheKey: (source: string): string => `{${locale}}{${key}}{${source}}`
+  } as CompileOptions
+}
+
 function getMessageContextOptions(
   context: RuntimeContext,
   locale: Locale,
   message: LocaleMessage,
   options: TranslateOptions
 ): MessageContextOptions {
-  const { modifiers, pluralRules, _compileCache } = context
+  const { modifiers, pluralRules } = context
 
   const resolveMessage = (key: string): MessageFunction => {
-    const cacheKey = generateCacheKey(locale, key)
-    const fn = _compileCache.get(cacheKey)
-    if (fn) {
-      return fn
-    }
     const val = resolveValue(message, key)
     if (isString(val)) {
-      const msg = compile(val)
-      _compileCache.set(cacheKey, msg)
-      return msg
+      return compile(val, getCompileOptions(locale, key, val))
     } else if (isMessageFunction(val)) {
-      _compileCache.set(cacheKey, val)
       return val
     } else {
       // TODO: should be implemented warning message

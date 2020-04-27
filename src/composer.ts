@@ -330,9 +330,6 @@ export function createComposer(options: ComposerOptions = {}): Composer {
       fallbackFormat: _fallbackFormat,
       unresolving: true,
       postTranslation: _postTranslation === null ? undefined : _postTranslation,
-      _compileCache: isPlainObject(_context)
-        ? _context._compileCache
-        : undefined,
       _datetimeFormatters: isPlainObject(_context)
         ? _context._datetimeFormatters
         : undefined,
