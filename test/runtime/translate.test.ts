@@ -552,3 +552,18 @@ describe('edge cases', () => {
     expect(translate(ctx, 'side.left')).toEqual('Left')
   })
 })
+
+/*
+test('compile error', () => {
+  const ctx = context({
+    locale: 'en',
+    messages: {
+      en: {
+        hello: `hi, { 'foo }`
+      }
+    }
+  })
+
+  expect(translate(ctx, 'hello')).toThrowError(SyntaxError)
+})
+*/

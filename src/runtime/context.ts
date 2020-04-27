@@ -61,7 +61,6 @@ export type RuntimeOptions = {
   unresolving?: boolean
   postTranslation?: PostTranslationHandler
   processor?: MessageProcessor
-  _compileCache?: Map<string, MessageFunction>
   _datetimeFormatters?: Map<string, Intl.DateTimeFormat>
   _numberFormatters?: Map<string, Intl.NumberFormat>
 }
@@ -81,7 +80,6 @@ export type RuntimeContext = {
   unresolving: boolean
   postTranslation: PostTranslationHandler | null
   processor: MessageProcessor | null
-  _compileCache: Map<string, MessageFunction>
   _datetimeFormatters: Map<string, Intl.DateTimeFormat>
   _numberFormatters: Map<string, Intl.NumberFormat>
   _fallbackLocaleStack?: Locale[]
@@ -122,9 +120,6 @@ export function createRuntimeContext(
   const numberFormats = isPlainObject(options.numberFormats)
     ? options.numberFormats
     : { [locale]: {} }
-  const _compileCache = isObject(options._compileCache)
-    ? options._compileCache
-    : new Map<string, MessageFunction>()
   const modifiers = Object.assign(
     {} as LinkedModifiers,
     options.modifiers || {},
@@ -168,7 +163,6 @@ export function createRuntimeContext(
     unresolving,
     postTranslation,
     processor,
-    _compileCache,
     _datetimeFormatters,
     _numberFormatters
   }
