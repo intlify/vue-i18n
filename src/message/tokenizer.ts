@@ -119,7 +119,10 @@ export function createTokenizer(
     pos.offset += offset
     if (onError) {
       const loc = createLocation(ctx.startLoc, pos)
-      const err = createCompileError(code, loc, { domain: ERROR_DOMAIN_TOKENIZE, args })
+      const err = createCompileError(code, loc, {
+        domain: ERROR_DOMAIN_TOKENIZE,
+        args
+      })
       onError(err)
     }
   }
