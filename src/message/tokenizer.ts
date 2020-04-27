@@ -11,6 +11,7 @@ import {
   Position
 } from './location'
 import { TokenizeOptions } from './options'
+import { createCompileError, CompileErrorCodes } from './errors'
 
 export const enum TokenTypes {
   Text, // 0
@@ -42,6 +43,8 @@ const enum TokenChars {
 
 // TODO: should be move to utils
 const EOF = undefined
+const LITERAL_DELIMITER = "'"
+export const ERROR_DOMAIN_TOKENIZE = 'tokenizer'
 
 export type Token = {
   type: TokenTypes
@@ -101,8 +104,25 @@ export function createTokenizer(
     braceNest: 0,
     inLinked: false
   }
-
   const context = (): TokenizeContext => _context
+
+  const { onError } = options
+  // TODO: This code should be removed with using rollup (`/*#__PURE__*/`)
+  const emitError = (
+    code: CompileErrorCodes,
+    pos: Position,
+    offset: number,
+    ...args: unknown[]
+  ): void => {
+    const ctx = context()
+    pos.column += offset
+    pos.offset += offset
+    if (onError) {
+      const loc = createLocation(ctx.startLoc, pos)
+      const err = createCompileError(code, loc, { domain: ERROR_DOMAIN_TOKENIZE, args })
+      onError(err)
+    }
+  }
 
   const getToken = (
     context: TokenizeContext,
@@ -122,6 +142,17 @@ export function createTokenizer(
     }
 
     return token
+  }
+
+  const eat = (scnr: Scanner, ch: string): string => {
+    if (scnr.currentChar() === ch) {
+      scnr.next()
+      return ch
+    } else {
+      // TODO: This code should be removed with using rollup (`/*#__PURE__*/`)
+      emitError(CompileErrorCodes.T_EXPECTED_TOKEN, currentPosition(), 0, ch)
+      return ''
+    }
   }
 
   const peekNewLines = (scnr: Scanner): void => {
@@ -204,7 +235,7 @@ export function createTokenizer(
       return false
     }
     peekSpaces(scnr)
-    const ret = scnr.currentPeek() === "'"
+    const ret = scnr.currentPeek() === LITERAL_DELIMITER
     scnr.resetPeek()
     return ret
   }
@@ -407,12 +438,11 @@ export function createTokenizer(
   const readLiteral = (scnr: Scanner): string => {
     skipSpaces(scnr)
 
-    // TODO: if current char is not "'", emit error here!
-    scnr.next()
+    eat(scnr, LITERAL_DELIMITER)
 
     let ch: string | undefined | null = ''
     let literal = ''
-    const fn = (x: string) => x !== "'" && x !== NEW_LINE
+    const fn = (x: string) => x !== LITERAL_DELIMITER && x !== NEW_LINE
     while ((ch = takeChar(scnr, fn))) {
       if (ch === '\\') {
         literal += readEscapeSequence(scnr)
@@ -421,12 +451,18 @@ export function createTokenizer(
       }
     }
 
-    if (scnr.currentChar() === NEW_LINE) {
-      // TODO: if current char is NEW_LINE, emit error here!
+    const current = scnr.currentChar()
+    if (current === NEW_LINE || current === EOF) {
+      // TODO: This code should be removed with using rollup (`/*#__PURE__*/`)
+      emitError(
+        CompileErrorCodes.T_UNTERMINATED_SINGLE_QUOTE_IN_PLACEHOLDER,
+        currentPosition(),
+        0
+      )
+      return literal
     }
 
-    // TODO: if current char is not "'", emit error here!
-    scnr.next()
+    eat(scnr, LITERAL_DELIMITER)
 
     return literal
   }
@@ -443,7 +479,13 @@ export function createTokenizer(
       case 'U':
         return readUnicodeEscapeSequence(scnr, ch, 6)
       default:
-        // TODO: emit error here!
+        // TODO: This code should be removed with using rollup (`/*#__PURE__*/`)
+        emitError(
+          CompileErrorCodes.T_UNKNOWN_ESCAPE_SEQUENCE,
+          currentPosition(),
+          0,
+          ch
+        )
         return ''
     }
   }
@@ -453,15 +495,20 @@ export function createTokenizer(
     unicode: string,
     digits: number
   ): string => {
-    // TODO: if current char is not 'u' or 'U', emit error here!
-    scnr.next()
+    eat(scnr, unicode)
 
     let sequence = ''
     for (let i = 0; i < digits; i++) {
       const ch = takeHexDigit(scnr)
       if (!ch) {
-        // TODO: emit error here!
-        // `\\${ch}${sequence}${scnr.currentChar()}`
+        // TODO: This code should be removed with using rollup (`/*#__PURE__*/`)
+        emitError(
+          CompileErrorCodes.T_INVALID_UNICODE_ESCAPE_SEQUENCE,
+          currentPosition(),
+          0,
+          `\\${unicode}${sequence}${scnr.currentChar()}`
+        )
+        break
       }
       sequence += ch
     }
@@ -521,8 +568,7 @@ export function createTokenizer(
 
   const readPlural = (scnr: Scanner): string => {
     skipSpaces(scnr)
-    const plural = scnr.currentChar()
-    scnr.next()
+    const plural = eat(scnr, TokenChars.Pipe)
     skipSpaces(scnr)
     return plural
   }
@@ -576,6 +622,9 @@ export function createTokenizer(
           !validListIdentifier &&
           !validLeteral
         ) {
+          // TODO:
+          //  we should be more refactor to handle token invalid cases ...
+          //  we should be emitted errors
           token = getToken(
             context,
             TokenTypes.InvalidPlace,
@@ -717,9 +766,9 @@ export function createTokenizer(
   }
 }
 
-export function parse(source: string): Token[] {
+export function parse(source: string, options: TokenizeOptions = {}): Token[] {
   const tokens = [] as Token[]
-  const tokenizer = createTokenizer(source)
+  const tokenizer = createTokenizer(source, options)
   let token: Token | null = null
   do {
     token = tokenizer.nextToken()

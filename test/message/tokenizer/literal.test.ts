@@ -1,4 +1,11 @@
-import { createTokenizer, TokenTypes } from '../../../src/message/tokenizer'
+import { TokenizeOptions } from '../../../src/message/options'
+import { CompileErrorCodes, CompileError } from '../../../src/message/errors'
+import {
+  createTokenizer,
+  TokenTypes,
+  parse,
+  ERROR_DOMAIN_TOKENIZE
+} from '../../../src/message/tokenizer'
 
 describe('string', () => {
   test('ascii', () => {
@@ -597,11 +604,113 @@ describe('escapes', () => {
   })
 })
 
+describe('errors', () => {
+  let errors: CompileError[], options
+  beforeEach(() => {
+    errors = []
+    options = {
+      onError: err => {
+        errors.push({ ...err, message: err.message })
+      }
+    } as TokenizeOptions
+  })
+
+  test(`not closed single quote`, () => {
+    parse(`hi { 'foo }`, options)
+    expect(errors).toEqual([
+      {
+        code: CompileErrorCodes.T_UNTERMINATED_SINGLE_QUOTE_IN_PLACEHOLDER,
+        domain: ERROR_DOMAIN_TOKENIZE,
+        message: `Unterminated single quote in placeholder`,
+        location: {
+          start: {
+            line: 1,
+            offset: 5,
+            column: 6
+          },
+          end: {
+            line: 1,
+            offset: 11,
+            column: 12
+          }
+        }
+      }
+    ] as CompileError[])
+  })
+
+  test.todo(`mismatched quote: '\\''`)
+
+  test(`unknown escape: '\\x41'`, () => {
+    parse(`hi { '\\x41' }`, options)
+    expect(errors).toEqual([
+      {
+        code: CompileErrorCodes.T_UNKNOWN_ESCAPE_SEQUENCE,
+        domain: ERROR_DOMAIN_TOKENIZE,
+        message: `Unknown escape sequence: \\x`,
+        location: {
+          start: {
+            line: 1,
+            offset: 5,
+            column: 6
+          },
+          end: {
+            line: 1,
+            offset: 7,
+            column: 8
+          }
+        }
+      }
+    ] as CompileError[])
+  })
+
+  test('invalid unicode escape', () => {
+    parse(`hi { '\\uwxyz' }`, options)
+    expect(errors).toEqual([
+      {
+        code: CompileErrorCodes.T_INVALID_UNICODE_ESCAPE_SEQUENCE,
+        domain: ERROR_DOMAIN_TOKENIZE,
+        message: `Invalid unicode escape sequence: \\uw`,
+        location: {
+          start: {
+            line: 1,
+            offset: 5,
+            column: 6
+          },
+          end: {
+            line: 1,
+            offset: 8,
+            column: 9
+          }
+        }
+      }
+    ] as CompileError[])
+  })
+
+  test('multiline', () => {
+    parse(`hi { 'foo\n' }`, options)
+    expect(errors).toEqual([
+      {
+        code: CompileErrorCodes.T_UNTERMINATED_SINGLE_QUOTE_IN_PLACEHOLDER,
+        domain: ERROR_DOMAIN_TOKENIZE,
+        message: `Unterminated single quote in placeholder`,
+        location: {
+          start: {
+            line: 1,
+            offset: 5,
+            column: 6
+          },
+          end: {
+            line: 1,
+            offset: 9,
+            column: 10
+          }
+        }
+      }
+    ] as CompileError[])
+  })
+})
+
 describe('edge cases', () => {
-  test.todo(`Mismatched quote: '\\''`)
-  test.todo(`Unknown escape: '\\x'`)
-  test.todo(`Multiline code: '\n'`)
-  test.todo(`Multiline literal: [NEW_LINE]`)
-  test.todo(`Too few hex digits after: '\\u41'`)
-  test.todo(`Too few hex digits after: '\U1F602'`)
+  test.todo(`too few hex digits after: '\\u41'`)
+  test.todo(`too few hex digits after: '\U1F602'`)
 })

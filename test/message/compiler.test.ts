@@ -1,10 +1,8 @@
-import { createCompiler } from '../../src/message/compiler'
+import { compile } from '../../src/message/compiler'
 
-test('createCompiler', () => {
-  const compiler = createCompiler()
-  const { code, ast } = compiler.compile(
+test('compile', () => {
+  const code = compile(
     `@.caml:{'no apples'} | {0} apple | {n}　apples` // eslint-disable-line no-irregular-whitespace
   )
-  expect(code).toMatchSnapshot('code')
-  expect(ast).toMatchSnapshot('ast')
+  expect(code.toString()).toMatchSnapshot('code')
 })

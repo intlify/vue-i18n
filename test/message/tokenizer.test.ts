@@ -1,4 +1,5 @@
 import { parse } from '../../src/message/tokenizer'
+import { TokenizeOptions } from '../../src/message/options'
 
 test('token analysis', () => {
   ;[
@@ -46,6 +47,11 @@ test('token analysis', () => {
     `hi { @:name !`,
     `hi {  | hello {name} !`,
     `hi { @:name  | hello {name} !`,
+    `hi { 'foo`,
+    `hi { 'foo }`,
+    `hi { 'foo\n' }`,
+    `hi { '\\x41' }`,
+    `hi { '\\uw' }`,
     `foo@bar.com`,
     `hi @:\nname !`,
     `hi @ :name !`,
@@ -61,6 +67,16 @@ test('token analysis', () => {
     `hi @: {'name'} !`,
     `@.lower: {'no apples'} | {1 apple | @:{count　apples` // eslint-disable-line no-irregular-whitespace
   ].forEach(p => {
-    expect(parse(p)).toMatchSnapshot(JSON.stringify(p))
+    const errors = []
+    const options: TokenizeOptions = {
+      onError: err => {
+        errors.push({ ...err, message: err.message })
+      }
+    }
+    const tokens = parse(p, options)
+    expect(tokens).toMatchSnapshot(`${JSON.stringify(p)} tokens`)
+    if (errors.length) {
+      expect(errors).toMatchSnapshot(`${JSON.stringify(p)} errors`)
+    }
   })
 })

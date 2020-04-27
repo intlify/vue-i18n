@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`token analysis: " hello world " 1`] = `
+exports[`token analysis: " hello world " tokens 1`] = `
 Array [
   Object {
     "loc": Object {
@@ -36,7 +36,7 @@ Array [
 ]
 `;
 
-exports[`token analysis: "" 1`] = `
+exports[`token analysis: "" tokens 1`] = `
 Array [
   Object {
     "loc": Object {
@@ -56,7 +56,7 @@ Array [
 ]
 `;
 
-exports[`token analysis: "@.lower: {'no apples'} | {1 apple | @:{count　apples" 1`] = `
+exports[`token analysis: "@.lower: {'no apples'} | {1 apple | @:{count　apples" tokens 1`] = `
 Array [
   Object {
     "loc": Object {
@@ -364,7 +364,7 @@ Array [
 ]
 `;
 
-exports[`token analysis: "@.lower:{'no apples'} | {1} apple | {count}　apples" 1`] = `
+exports[`token analysis: "@.lower:{'no apples'} | {1} apple | {count}　apples" tokens 1`] = `
 Array [
   Object {
     "loc": Object {
@@ -656,7 +656,7 @@ Array [
 ]
 `;
 
-exports[`token analysis: "{0} {1}　{2}" 1`] = `
+exports[`token analysis: "{0} {1}　{2}" tokens 1`] = `
 Array [
   Object {
     "loc": Object {
@@ -852,7 +852,7 @@ Array [
 ]
 `;
 
-exports[`token analysis: "{0}\\n{1}\\r\\n{2}" 1`] = `
+exports[`token analysis: "{0}\\n{1}\\r\\n{2}" tokens 1`] = `
 Array [
   Object {
     "loc": Object {
@@ -1050,7 +1050,7 @@ Array [
 ]
 `;
 
-exports[`token analysis: "{first} {middle}　{last}" 1`] = `
+exports[`token analysis: "{first} {middle}　{last}" tokens 1`] = `
 Array [
   Object {
     "loc": Object {
@@ -1246,7 +1246,7 @@ Array [
 ]
 `;
 
-exports[`token analysis: "{first}\\n{middle}\\r\\n{last}" 1`] = `
+exports[`token analysis: "{first}\\n{middle}\\r\\n{last}" tokens 1`] = `
 Array [
   Object {
     "loc": Object {
@@ -1444,7 +1444,7 @@ Array [
 ]
 `;
 
-exports[`token analysis: "foo@bar.com" 1`] = `
+exports[`token analysis: "foo@bar.com" tokens 1`] = `
 Array [
   Object {
     "loc": Object {
@@ -1512,7 +1512,7 @@ Array [
 ]
 `;
 
-exports[`token analysis: "hello world" 1`] = `
+exports[`token analysis: "hello world" tokens 1`] = `
 Array [
   Object {
     "loc": Object {
@@ -1548,7 +1548,7 @@ Array [
 ]
 `;
 
-exports[`token analysis: "hello\\\\nworld" 1`] = `
+exports[`token analysis: "hello\\\\nworld" tokens 1`] = `
 Array [
   Object {
     "loc": Object {
@@ -1584,7 +1584,7 @@ Array [
 ]
 `;
 
-exports[`token analysis: "hello\\nworld" 1`] = `
+exports[`token analysis: "hello\\nworld" tokens 1`] = `
 Array [
   Object {
     "loc": Object {
@@ -1621,7 +1621,7 @@ world",
 ]
 `;
 
-exports[`token analysis: "hi @ .lower : {name} !" 1`] = `
+exports[`token analysis: "hi @ .lower : {name} !" tokens 1`] = `
 Array [
   Object {
     "loc": Object {
@@ -1753,7 +1753,7 @@ Array [
 ]
 `;
 
-exports[`token analysis: "hi @ :name !" 1`] = `
+exports[`token analysis: "hi @ :name !" tokens 1`] = `
 Array [
   Object {
     "loc": Object {
@@ -1821,7 +1821,7 @@ Array [
 ]
 `;
 
-exports[`token analysis: "hi @. {name} !" 1`] = `
+exports[`token analysis: "hi @. {name} !" tokens 1`] = `
 Array [
   Object {
     "loc": Object {
@@ -1969,7 +1969,7 @@ Array [
 ]
 `;
 
-exports[`token analysis: "hi @.upper {name} !" 1`] = `
+exports[`token analysis: "hi @.upper {name} !" tokens 1`] = `
 Array [
   Object {
     "loc": Object {
@@ -2133,7 +2133,7 @@ Array [
 ]
 `;
 
-exports[`token analysis: "hi @.upper:name !" 1`] = `
+exports[`token analysis: "hi @.upper:name !" tokens 1`] = `
 Array [
   Object {
     "loc": Object {
@@ -2265,7 +2265,7 @@ Array [
 ]
 `;
 
-exports[`token analysis: "hi @: {'name'} !" 1`] = `
+exports[`token analysis: "hi @: {'name'} !" tokens 1`] = `
 Array [
   Object {
     "loc": Object {
@@ -2413,7 +2413,7 @@ Array [
 ]
 `;
 
-exports[`token analysis: "hi @: {name} !" 1`] = `
+exports[`token analysis: "hi @: {name} !" tokens 1`] = `
 Array [
   Object {
     "loc": Object {
@@ -2561,7 +2561,7 @@ Array [
 ]
 `;
 
-exports[`token analysis: "hi @:\\nname !" 1`] = `
+exports[`token analysis: "hi @:\\nname !" tokens 1`] = `
 Array [
   Object {
     "loc": Object {
@@ -2661,7 +2661,7 @@ Array [
 ]
 `;
 
-exports[`token analysis: "hi @:{ 'name' } !" 1`] = `
+exports[`token analysis: "hi @:{ 'name' } !" tokens 1`] = `
 Array [
   Object {
     "loc": Object {
@@ -2793,7 +2793,7 @@ Array [
 ]
 `;
 
-exports[`token analysis: "hi @:{ {name} } !" 1`] = `
+exports[`token analysis: "hi @:{ {name} } !" tokens 1`] = `
 Array [
   Object {
     "loc": Object {
@@ -2957,7 +2957,7 @@ Array [
 ]
 `;
 
-exports[`token analysis: "hi @:{ name } !" 1`] = `
+exports[`token analysis: "hi @:{ name } !" tokens 1`] = `
 Array [
   Object {
     "loc": Object {
@@ -3089,7 +3089,7 @@ Array [
 ]
 `;
 
-exports[`token analysis: "hi @:{'hello world'} !" 1`] = `
+exports[`token analysis: "hi @:{'hello world'} !" tokens 1`] = `
 Array [
   Object {
     "loc": Object {
@@ -3221,7 +3221,7 @@ Array [
 ]
 `;
 
-exports[`token analysis: "hi @:{name} @:{0}!" 1`] = `
+exports[`token analysis: "hi @:{name} @:{0}!" tokens 1`] = `
 Array [
   Object {
     "loc": Object {
@@ -3449,7 +3449,7 @@ Array [
 ]
 `;
 
-exports[`token analysis: "hi @:{name}\\n !" 1`] = `
+exports[`token analysis: "hi @:{name}\\n !" tokens 1`] = `
 Array [
   Object {
     "loc": Object {
@@ -3582,7 +3582,7 @@ Array [
 ]
 `;
 
-exports[`token analysis: "hi @:name !" 1`] = `
+exports[`token analysis: "hi @:name !" tokens 1`] = `
 Array [
   Object {
     "loc": Object {
@@ -3682,7 +3682,7 @@ Array [
 ]
 `;
 
-exports[`token analysis: "hi @\\n.\\nupper\\n:\\n{'name'}\\n !" 1`] = `
+exports[`token analysis: "hi @\\n.\\nupper\\n:\\n{'name'}\\n !" tokens 1`] = `
 Array [
   Object {
     "loc": Object {
@@ -3847,7 +3847,7 @@ Array [
 ]
 `;
 
-exports[`token analysis: "hi \\n@\\n.\\nupper\\n:\\n{ name }\\n !" 1`] = `
+exports[`token analysis: "hi \\n@\\n.\\nupper\\n:\\n{ name }\\n !" tokens 1`] = `
 Array [
   Object {
     "loc": Object {
@@ -4013,7 +4013,7 @@ Array [
 ]
 `;
 
-exports[`token analysis: "hi {  | hello {name} !" 1`] = `
+exports[`token analysis: "hi {  | hello {name} !" tokens 1`] = `
 Array [
   Object {
     "loc": Object {
@@ -4161,7 +4161,7 @@ Array [
 ]
 `;
 
-exports[`token analysis: "hi {  } !" 1`] = `
+exports[`token analysis: "hi {  } !" tokens 1`] = `
 Array [
   Object {
     "loc": Object {
@@ -4245,7 +4245,7 @@ Array [
 ]
 `;
 
-exports[`token analysis: "hi {  -1 } !" 1`] = `
+exports[`token analysis: "hi {  -1 } !" tokens 1`] = `
 Array [
   Object {
     "loc": Object {
@@ -4345,7 +4345,7 @@ Array [
 ]
 `;
 
-exports[`token analysis: "hi {  0 !" 1`] = `
+exports[`token analysis: "hi {  0 !" tokens 1`] = `
 Array [
   Object {
     "loc": Object {
@@ -4429,7 +4429,7 @@ Array [
 ]
 `;
 
-exports[`token analysis: "hi {  name !" 1`] = `
+exports[`token analysis: "hi {  name !" tokens 1`] = `
 Array [
   Object {
     "loc": Object {
@@ -4513,7 +4513,7 @@ Array [
 ]
 `;
 
-exports[`token analysis: "hi {  name } !" 1`] = `
+exports[`token analysis: "hi {  name } !" tokens 1`] = `
 Array [
   Object {
     "loc": Object {
@@ -4613,7 +4613,521 @@ Array [
 ]
 `;
 
-exports[`token analysis: "hi { @:name  | hello {name} !" 1`] = `
+exports[`token analysis: "hi { '\\\\uw' }" errors 1`] = `
+Array [
+  Object {
+    "code": 4,
+    "domain": "tokenizer",
+    "location": Object {
+      "end": Object {
+        "column": 9,
+        "line": 1,
+        "offset": 8,
+      },
+      "start": Object {
+        "column": 6,
+        "line": 1,
+        "offset": 5,
+      },
+    },
+    "message": "Invalid unicode escape sequence: \\\\uw",
+  },
+]
+`;
+
+exports[`token analysis: "hi { '\\\\uw' }" tokens 1`] = `
+Array [
+  Object {
+    "loc": Object {
+      "end": Object {
+        "column": 4,
+        "line": 1,
+        "offset": 3,
+      },
+      "start": Object {
+        "column": 1,
+        "line": 1,
+        "offset": 0,
+      },
+    },
+    "type": 0,
+    "value": "hi ",
+  },
+  Object {
+    "loc": Object {
+      "end": Object {
+        "column": 5,
+        "line": 1,
+        "offset": 4,
+      },
+      "start": Object {
+        "column": 4,
+        "line": 1,
+        "offset": 3,
+      },
+    },
+    "type": 2,
+    "value": "{",
+  },
+  Object {
+    "loc": Object {
+      "end": Object {
+        "column": 11,
+        "line": 1,
+        "offset": 10,
+      },
+      "start": Object {
+        "column": 6,
+        "line": 1,
+        "offset": 5,
+      },
+    },
+    "type": 7,
+    "value": "\\\\uw",
+  },
+  Object {
+    "loc": Object {
+      "end": Object {
+        "column": 13,
+        "line": 1,
+        "offset": 12,
+      },
+      "start": Object {
+        "column": 12,
+        "line": 1,
+        "offset": 11,
+      },
+    },
+    "type": 3,
+    "value": "}",
+  },
+  Object {
+    "loc": Object {
+      "end": Object {
+        "column": 13,
+        "line": 1,
+        "offset": 12,
+      },
+      "start": Object {
+        "column": 13,
+        "line": 1,
+        "offset": 12,
+      },
+    },
+    "type": 14,
+  },
+]
+`;
+
+exports[`token analysis: "hi { '\\\\x41' }" errors 1`] = `
+Array [
+  Object {
+    "code": 3,
+    "domain": "tokenizer",
+    "location": Object {
+      "end": Object {
+        "column": 8,
+        "line": 1,
+        "offset": 7,
+      },
+      "start": Object {
+        "column": 6,
+        "line": 1,
+        "offset": 5,
+      },
+    },
+    "message": "Unknown escape sequence: \\\\x",
+  },
+]
+`;
+
+exports[`token analysis: "hi { '\\\\x41' }" tokens 1`] = `
+Array [
+  Object {
+    "loc": Object {
+      "end": Object {
+        "column": 4,
+        "line": 1,
+        "offset": 3,
+      },
+      "start": Object {
+        "column": 1,
+        "line": 1,
+        "offset": 0,
+      },
+    },
+    "type": 0,
+    "value": "hi ",
+  },
+  Object {
+    "loc": Object {
+      "end": Object {
+        "column": 5,
+        "line": 1,
+        "offset": 4,
+      },
+      "start": Object {
+        "column": 4,
+        "line": 1,
+        "offset": 3,
+      },
+    },
+    "type": 2,
+    "value": "{",
+  },
+  Object {
+    "loc": Object {
+      "end": Object {
+        "column": 12,
+        "line": 1,
+        "offset": 11,
+      },
+      "start": Object {
+        "column": 6,
+        "line": 1,
+        "offset": 5,
+      },
+    },
+    "type": 7,
+    "value": "x41",
+  },
+  Object {
+    "loc": Object {
+      "end": Object {
+        "column": 14,
+        "line": 1,
+        "offset": 13,
+      },
+      "start": Object {
+        "column": 13,
+        "line": 1,
+        "offset": 12,
+      },
+    },
+    "type": 3,
+    "value": "}",
+  },
+  Object {
+    "loc": Object {
+      "end": Object {
+        "column": 14,
+        "line": 1,
+        "offset": 13,
+      },
+      "start": Object {
+        "column": 14,
+        "line": 1,
+        "offset": 13,
+      },
+    },
+    "type": 14,
+  },
+]
+`;
+
+exports[`token analysis: "hi { 'foo }" errors 1`] = `
+Array [
+  Object {
+    "code": 2,
+    "domain": "tokenizer",
+    "location": Object {
+      "end": Object {
+        "column": 12,
+        "line": 1,
+        "offset": 11,
+      },
+      "start": Object {
+        "column": 6,
+        "line": 1,
+        "offset": 5,
+      },
+    },
+    "message": "Unterminated single quote in placeholder",
+  },
+]
+`;
+
+exports[`token analysis: "hi { 'foo }" tokens 1`] = `
+Array [
+  Object {
+    "loc": Object {
+      "end": Object {
+        "column": 4,
+        "line": 1,
+        "offset": 3,
+      },
+      "start": Object {
+        "column": 1,
+        "line": 1,
+        "offset": 0,
+      },
+    },
+    "type": 0,
+    "value": "hi ",
+  },
+  Object {
+    "loc": Object {
+      "end": Object {
+        "column": 5,
+        "line": 1,
+        "offset": 4,
+      },
+      "start": Object {
+        "column": 4,
+        "line": 1,
+        "offset": 3,
+      },
+    },
+    "type": 2,
+    "value": "{",
+  },
+  Object {
+    "loc": Object {
+      "end": Object {
+        "column": 12,
+        "line": 1,
+        "offset": 11,
+      },
+      "start": Object {
+        "column": 6,
+        "line": 1,
+        "offset": 5,
+      },
+    },
+    "type": 7,
+    "value": "foo }",
+  },
+  Object {
+    "loc": Object {
+      "end": Object {
+        "column": 12,
+        "line": 1,
+        "offset": 11,
+      },
+      "start": Object {
+        "column": 12,
+        "line": 1,
+        "offset": 11,
+      },
+    },
+    "type": 14,
+  },
+]
+`;
+
+exports[`token analysis: "hi { 'foo" errors 1`] = `
+Array [
+  Object {
+    "code": 2,
+    "domain": "tokenizer",
+    "location": Object {
+      "end": Object {
+        "column": 10,
+        "line": 1,
+        "offset": 9,
+      },
+      "start": Object {
+        "column": 6,
+        "line": 1,
+        "offset": 5,
+      },
+    },
+    "message": "Unterminated single quote in placeholder",
+  },
+]
+`;
+
+exports[`token analysis: "hi { 'foo" tokens 1`] = `
+Array [
+  Object {
+    "loc": Object {
+      "end": Object {
+        "column": 4,
+        "line": 1,
+        "offset": 3,
+      },
+      "start": Object {
+        "column": 1,
+        "line": 1,
+        "offset": 0,
+      },
+    },
+    "type": 0,
+    "value": "hi ",
+  },
+  Object {
+    "loc": Object {
+      "end": Object {
+        "column": 5,
+        "line": 1,
+        "offset": 4,
+      },
+      "start": Object {
+        "column": 4,
+        "line": 1,
+        "offset": 3,
+      },
+    },
+    "type": 2,
+    "value": "{",
+  },
+  Object {
+    "loc": Object {
+      "end": Object {
+        "column": 10,
+        "line": 1,
+        "offset": 9,
+      },
+      "start": Object {
+        "column": 6,
+        "line": 1,
+        "offset": 5,
+      },
+    },
+    "type": 7,
+    "value": "foo",
+  },
+  Object {
+    "loc": Object {
+      "end": Object {
+        "column": 10,
+        "line": 1,
+        "offset": 9,
+      },
+      "start": Object {
+        "column": 10,
+        "line": 1,
+        "offset": 9,
+      },
+    },
+    "type": 14,
+  },
+]
+`;
+
+exports[`token analysis: "hi { 'foo\\n' }" errors 1`] = `
+Array [
+  Object {
+    "code": 2,
+    "domain": "tokenizer",
+    "location": Object {
+      "end": Object {
+        "column": 10,
+        "line": 1,
+        "offset": 9,
+      },
+      "start": Object {
+        "column": 6,
+        "line": 1,
+        "offset": 5,
+      },
+    },
+    "message": "Unterminated single quote in placeholder",
+  },
+]
+`;
+
+exports[`token analysis: "hi { 'foo\\n' }" tokens 1`] = `
+Array [
+  Object {
+    "loc": Object {
+      "end": Object {
+        "column": 4,
+        "line": 1,
+        "offset": 3,
+      },
+      "start": Object {
+        "column": 1,
+        "line": 1,
+        "offset": 0,
+      },
+    },
+    "type": 0,
+    "value": "hi ",
+  },
+  Object {
+    "loc": Object {
+      "end": Object {
+        "column": 5,
+        "line": 1,
+        "offset": 4,
+      },
+      "start": Object {
+        "column": 4,
+        "line": 1,
+        "offset": 3,
+      },
+    },
+    "type": 2,
+    "value": "{",
+  },
+  Object {
+    "loc": Object {
+      "end": Object {
+        "column": 10,
+        "line": 1,
+        "offset": 9,
+      },
+      "start": Object {
+        "column": 6,
+        "line": 1,
+        "offset": 5,
+      },
+    },
+    "type": 7,
+    "value": "foo",
+  },
+  Object {
+    "loc": Object {
+      "end": Object {
+        "column": 2,
+        "line": 2,
+        "offset": 11,
+      },
+      "start": Object {
+        "column": 1,
+        "line": 2,
+        "offset": 10,
+      },
+    },
+    "type": 13,
+    "value": "'",
+  },
+  Object {
+    "loc": Object {
+      "end": Object {
+        "column": 4,
+        "line": 2,
+        "offset": 13,
+      },
+      "start": Object {
+        "column": 3,
+        "line": 2,
+        "offset": 12,
+      },
+    },
+    "type": 3,
+    "value": "}",
+  },
+  Object {
+    "loc": Object {
+      "end": Object {
+        "column": 4,
+        "line": 2,
+        "offset": 13,
+      },
+      "start": Object {
+        "column": 4,
+        "line": 2,
+        "offset": 13,
+      },
+    },
+    "type": 14,
+  },
+]
+`;
+
+exports[`token analysis: "hi { @:name  | hello {name} !" tokens 1`] = `
 Array [
   Object {
     "loc": Object {
@@ -4777,7 +5291,7 @@ Array [
 ]
 `;
 
-exports[`token analysis: "hi { @:name !" 1`] = `
+exports[`token analysis: "hi { @:name !" tokens 1`] = `
 Array [
   Object {
     "loc": Object {
@@ -4861,7 +5375,7 @@ Array [
 ]
 `;
 
-exports[`token analysis: "hi { { 0 } } !" 1`] = `
+exports[`token analysis: "hi { { 0 } } !" tokens 1`] = `
 Array [
   Object {
     "loc": Object {
@@ -4993,7 +5507,7 @@ Array [
 ]
 `;
 
-exports[`token analysis: "hi { { name } } !" 1`] = `
+exports[`token analysis: "hi { { name } } !" tokens 1`] = `
 Array [
   Object {
     "loc": Object {
@@ -5125,7 +5639,7 @@ Array [
 ]
 `;
 
-exports[`token analysis: "hi { name !" 1`] = `
+exports[`token analysis: "hi { name !" tokens 1`] = `
 Array [
   Object {
     "loc": Object {
@@ -5209,7 +5723,7 @@ Array [
 ]
 `;
 
-exports[`token analysis: "hi {$} !" 1`] = `
+exports[`token analysis: "hi {$} !" tokens 1`] = `
 Array [
   Object {
     "loc": Object {
@@ -5309,7 +5823,7 @@ Array [
 ]
 `;
 
-exports[`token analysis: "hi {@.lower:name !" 1`] = `
+exports[`token analysis: "hi {@.lower:name !" tokens 1`] = `
 Array [
   Object {
     "loc": Object {
@@ -5393,7 +5907,7 @@ Array [
 ]
 `;
 
-exports[`token analysis: "hi {\\nname\\n} !" 1`] = `
+exports[`token analysis: "hi {\\nname\\n} !" tokens 1`] = `
 Array [
   Object {
     "loc": Object {
@@ -5493,7 +6007,7 @@ Array [
 ]
 `;
 
-exports[`token analysis: "hi {{}} !" 1`] = `
+exports[`token analysis: "hi {{}} !" tokens 1`] = `
 Array [
   Object {
     "loc": Object {
@@ -5609,7 +6123,7 @@ Array [
 ]
 `;
 
-exports[`token analysis: "hi {{0}} !" 1`] = `
+exports[`token analysis: "hi {{0}} !" tokens 1`] = `
 Array [
   Object {
     "loc": Object {
@@ -5741,7 +6255,7 @@ Array [
 ]
 `;
 
-exports[`token analysis: "hi {{name}} !" 1`] = `
+exports[`token analysis: "hi {{name}} !" tokens 1`] = `
 Array [
   Object {
     "loc": Object {
@@ -5873,7 +6387,7 @@ Array [
 ]
 `;
 
-exports[`token analysis: "hi {} !" 1`] = `
+exports[`token analysis: "hi {} !" tokens 1`] = `
 Array [
   Object {
     "loc": Object {
@@ -5957,7 +6471,7 @@ Array [
 ]
 `;
 
-exports[`token analysis: "hi {-} !" 1`] = `
+exports[`token analysis: "hi {-} !" tokens 1`] = `
 Array [
   Object {
     "loc": Object {
@@ -6057,7 +6571,7 @@ Array [
 ]
 `;
 
-exports[`token analysis: "hi {0 !" 1`] = `
+exports[`token analysis: "hi {0 !" tokens 1`] = `
 Array [
   Object {
     "loc": Object {
@@ -6141,7 +6655,7 @@ Array [
 ]
 `;
 
-exports[`token analysis: "hi {0} !" 1`] = `
+exports[`token analysis: "hi {0} !" tokens 1`] = `
 Array [
   Object {
     "loc": Object {
@@ -6241,7 +6755,7 @@ Array [
 ]
 `;
 
-exports[`token analysis: "hi {name !" 1`] = `
+exports[`token analysis: "hi {name !" tokens 1`] = `
 Array [
   Object {
     "loc": Object {
@@ -6325,7 +6839,7 @@ Array [
 ]
 `;
 
-exports[`token analysis: "hi {name} !" 1`] = `
+exports[`token analysis: "hi {name} !" tokens 1`] = `
 Array [
   Object {
     "loc": Object {
@@ -6425,7 +6939,7 @@ Array [
 ]
 `;
 
-exports[`token analysis: "hi, :-)" 1`] = `
+exports[`token analysis: "hi, :-)" tokens 1`] = `
 Array [
   Object {
     "loc": Object {
@@ -6461,7 +6975,7 @@ Array [
 ]
 `;
 
-exports[`token analysis: "hi, :-}" 1`] = `
+exports[`token analysis: "hi, :-}" tokens 1`] = `
 Array [
   Object {
     "loc": Object {
@@ -6497,7 +7011,7 @@ Array [
 ]
 `;
 
-exports[`token analysis: "no apples | one apple  |  too much apples " 1`] = `
+exports[`token analysis: "no apples | one apple  |  too much apples " tokens 1`] = `
 Array [
   Object {
     "loc": Object {
@@ -6597,7 +7111,7 @@ Array [
 ]
 `;
 
-exports[`token analysis: "no apples |\\n one apple  |\\n  too much apples  " 1`] = `
+exports[`token analysis: "no apples |\\n one apple  |\\n  too much apples  " tokens 1`] = `
 Array [
   Object {
     "loc": Object {
@@ -6697,7 +7211,7 @@ Array [
 ]
 `;
 
-exports[`token analysis: "こんにちは、世界" 1`] = `
+exports[`token analysis: "こんにちは、世界" tokens 1`] = `
 Array [
   Object {
     "loc": Object {
@@ -6733,7 +7247,7 @@ Array [
 ]
 `;
 
-exports[`token analysis: "😺" 1`] = `
+exports[`token analysis: "😺" tokens 1`] = `
 Array [
   Object {
     "loc": Object {
