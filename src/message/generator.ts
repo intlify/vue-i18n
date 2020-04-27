@@ -12,6 +12,7 @@ import {
   LinkedModitierNode,
   LiteralNode
 } from './parser'
+import { CodeGenOptions } from './options'
 
 export const INTERPOLATE_CODE = `const interpolate = val => { return val == null ? "" : Array.isArray(val) || ((Object.prototype.toString.call(val) === "[object Object]") && val.toString === Object.prototype.toString) ? JSON.stringify(val, null, 2) : String(val) }`
 
@@ -176,7 +177,10 @@ function generateNode(generator: CodeGenerator, node: Node): void {
 }
 
 // generate code from AST
-export const generate = (ast: ResourceNode): string => {
+export const generate = (
+  ast: ResourceNode,
+  options: CodeGenOptions = {}
+): string => {
   const generator = createCodeGenerator(ast.loc && ast.loc.source)
   generator.push(`function __msg__ (ctx) {`)
   generator.indent()

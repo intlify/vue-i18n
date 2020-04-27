@@ -1,6 +1,7 @@
 import { CompileError } from './errors'
 
 export type CompileErrorHandler = (error: CompileError) => void
+export type CompileCacheKeyHandler = (source: string) => string
 
 export type TokenizeOptions = {
   // TODO: other options
@@ -16,21 +17,23 @@ export type ParserOptions = {
   // Filename for source map generation.
   // - Default: `message.intl`
   // filename?: string
-  location?: boolean
-  onError?: CompileErrorHandler
+  // location?: boolean
+  // onError?: CompileErrorHandler
 }
 
 export type TransformOptions = {
   // TODO: other options
-  onError?: CompileErrorHandler
+  // onError?: CompileErrorHandler
 }
 
 export type CodeGenOptions = {
   // TODO: other options
-  onError?: CompileErrorHandler
+  // onError?: CompileErrorHandler
 }
 
-export type CompileOptions = TransformOptions &
+export type CompileOptions = {
+  onCacheKey?: CompileCacheKeyHandler
+} & TransformOptions &
   CodeGenOptions &
   ParserOptions &
   TokenizeOptions

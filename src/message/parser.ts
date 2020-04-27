@@ -1,4 +1,5 @@
 import { SourceLocation, Position } from './location'
+import { ParserOptions } from './options'
 import { createTokenizer, Tokenizer, TokenTypes } from './tokenizer'
 
 export const enum NodeTypes {
@@ -87,7 +88,7 @@ export type Parser = Readonly<{
   parse: (source: string) => ResourceNode
 }>
 
-export function createParser(/* options: ParserOptions = {} */): Parser {
+export function createParser(options: ParserOptions = {}): Parser {
   // TODO:
   /*
   const { onError } = options
@@ -384,7 +385,7 @@ export function createParser(/* options: ParserOptions = {} */): Parser {
   }
 
   function parse(source: string): ResourceNode {
-    const tokenizer = createTokenizer(source)
+    const tokenizer = createTokenizer(source, { ...options })
     const context = tokenizer.context()
 
     const node = startNode(

@@ -6,6 +6,7 @@ import {
   MessageNode,
   LinkedNode
 } from './parser'
+import { TransformOptions } from './options'
 
 // TODO: if we offer custom transform for uses, should be defined TransformOptions type to here
 // ex.
@@ -71,7 +72,8 @@ function traverseNode(node: Node, transformer: Transformer): void {
 
 // transform AST
 export function transform(
-  ast: ResourceNode /*, options: TransformOptions */
+  ast: ResourceNode,
+  options: TransformOptions = {}
 ): void {
   const transformer = createTransformer(ast)
   // traverse
