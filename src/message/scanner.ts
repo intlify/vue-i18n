@@ -26,30 +26,30 @@ export function createScanner(str: string): Scanner {
   let _column = 1
   let _peekOffset = 0
 
-  const isCRLF = (index: number) =>
+  const isCRLF = (index: number): boolean =>
     _buf[index] === CHAR_CR && _buf[index + 1] === CHAR_LF
-  const isLF = (index: number) => _buf[index] === CHAR_LF
-  const isPS = (index: number) => _buf[index] === CHAR_PS
-  const isLS = (index: number) => _buf[index] === CHAR_LS
-  const isLineEnd = (index: number) =>
+  const isLF = (index: number): boolean => _buf[index] === CHAR_LF
+  const isPS = (index: number): boolean => _buf[index] === CHAR_PS
+  const isLS = (index: number): boolean => _buf[index] === CHAR_LS
+  const isLineEnd = (index: number): boolean =>
     isCRLF(index) || isLF(index) || isPS(index) || isLS(index)
 
-  const index = () => _index
-  const line = () => _line
-  const column = () => _column
-  const peekOffset = () => _peekOffset
+  const index = (): number => _index
+  const line = (): number => _line
+  const column = (): number => _column
+  const peekOffset = (): number => _peekOffset
 
-  function charAt(offset: number) {
+  function charAt(offset: number): string {
     if (isCRLF(offset) || isPS(offset) || isLS(offset)) {
       return CHAR_LF
     }
     return _buf[offset]
   }
 
-  const currentChar = () => charAt(_index)
-  const currentPeek = () => charAt(_index + _peekOffset)
+  const currentChar = (): string => charAt(_index)
+  const currentPeek = (): string => charAt(_index + _peekOffset)
 
-  function next() {
+  function next(): string {
     _peekOffset = 0
     if (isLineEnd(_index)) {
       _line++
@@ -63,7 +63,7 @@ export function createScanner(str: string): Scanner {
     return _buf[_index]
   }
 
-  function peek() {
+  function peek(): string {
     if (isCRLF(_index + _peekOffset)) {
       _peekOffset++
     }
@@ -71,18 +71,18 @@ export function createScanner(str: string): Scanner {
     return _buf[_index + _peekOffset]
   }
 
-  function reset() {
+  function reset(): void {
     _index = 0
     _line = 1
     _column = 1
     _peekOffset = 0
   }
 
-  function resetPeek(offset = 0) {
+  function resetPeek(offset = 0): void {
     _peekOffset = offset
   }
 
-  function skipToPeek() {
+  function skipToPeek(): void {
     const target = _index + _peekOffset
     while (target !== _index) {
       next()
