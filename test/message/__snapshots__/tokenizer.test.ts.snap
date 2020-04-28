@@ -56,6 +56,78 @@ Array [
 ]
 `;
 
+exports[`token analysis: "'single-quote'" tokens 1`] = `
+Array [
+  Object {
+    "loc": Object {
+      "end": Object {
+        "column": 15,
+        "line": 1,
+        "offset": 14,
+      },
+      "start": Object {
+        "column": 1,
+        "line": 1,
+        "offset": 0,
+      },
+    },
+    "type": 0,
+    "value": "'single-quote'",
+  },
+  Object {
+    "loc": Object {
+      "end": Object {
+        "column": 15,
+        "line": 1,
+        "offset": 14,
+      },
+      "start": Object {
+        "column": 15,
+        "line": 1,
+        "offset": 14,
+      },
+    },
+    "type": 14,
+  },
+]
+`;
+
+exports[`token analysis: "..." tokens 1`] = `
+Array [
+  Object {
+    "loc": Object {
+      "end": Object {
+        "column": 4,
+        "line": 1,
+        "offset": 3,
+      },
+      "start": Object {
+        "column": 1,
+        "line": 1,
+        "offset": 0,
+      },
+    },
+    "type": 0,
+    "value": "...",
+  },
+  Object {
+    "loc": Object {
+      "end": Object {
+        "column": 4,
+        "line": 1,
+        "offset": 3,
+      },
+      "start": Object {
+        "column": 4,
+        "line": 1,
+        "offset": 3,
+      },
+    },
+    "type": 14,
+  },
+]
+`;
+
 exports[`token analysis: "@.lower: {'no apples'} | {1 apple | @:{count　apples" tokens 1`] = `
 Array [
   Object {
@@ -649,6 +721,42 @@ Array [
         "column": 51,
         "line": 1,
         "offset": 50,
+      },
+    },
+    "type": 14,
+  },
+]
+`;
+
+exports[`token analysis: "\\"double-qoute\\"" tokens 1`] = `
+Array [
+  Object {
+    "loc": Object {
+      "end": Object {
+        "column": 15,
+        "line": 1,
+        "offset": 14,
+      },
+      "start": Object {
+        "column": 1,
+        "line": 1,
+        "offset": 0,
+      },
+    },
+    "type": 0,
+    "value": "\\"double-qoute\\"",
+  },
+  Object {
+    "loc": Object {
+      "end": Object {
+        "column": 15,
+        "line": 1,
+        "offset": 14,
+      },
+      "start": Object {
+        "column": 15,
+        "line": 1,
+        "offset": 14,
       },
     },
     "type": 14,
@@ -1444,6 +1552,42 @@ Array [
 ]
 `;
 
+exports[`token analysis: "1 + 1" tokens 1`] = `
+Array [
+  Object {
+    "loc": Object {
+      "end": Object {
+        "column": 6,
+        "line": 1,
+        "offset": 5,
+      },
+      "start": Object {
+        "column": 1,
+        "line": 1,
+        "offset": 0,
+      },
+    },
+    "type": 0,
+    "value": "1 + 1",
+  },
+  Object {
+    "loc": Object {
+      "end": Object {
+        "column": 6,
+        "line": 1,
+        "offset": 5,
+      },
+      "start": Object {
+        "column": 6,
+        "line": 1,
+        "offset": 5,
+      },
+    },
+    "type": 14,
+  },
+]
+`;
+
 exports[`token analysis: "foo@bar.com" tokens 1`] = `
 Array [
   Object {
@@ -1541,6 +1685,42 @@ Array [
         "column": 12,
         "line": 1,
         "offset": 11,
+      },
+    },
+    "type": 14,
+  },
+]
+`;
+
+exports[`token analysis: "hello:" tokens 1`] = `
+Array [
+  Object {
+    "loc": Object {
+      "end": Object {
+        "column": 7,
+        "line": 1,
+        "offset": 6,
+      },
+      "start": Object {
+        "column": 1,
+        "line": 1,
+        "offset": 0,
+      },
+    },
+    "type": 0,
+    "value": "hello:",
+  },
+  Object {
+    "loc": Object {
+      "end": Object {
+        "column": 7,
+        "line": 1,
+        "offset": 6,
+      },
+      "start": Object {
+        "column": 7,
+        "line": 1,
+        "offset": 6,
       },
     },
     "type": 14,
@@ -6839,6 +7019,106 @@ Array [
 ]
 `;
 
+exports[`token analysis: "hi {name$} !" tokens 1`] = `
+Array [
+  Object {
+    "loc": Object {
+      "end": Object {
+        "column": 4,
+        "line": 1,
+        "offset": 3,
+      },
+      "start": Object {
+        "column": 1,
+        "line": 1,
+        "offset": 0,
+      },
+    },
+    "type": 0,
+    "value": "hi ",
+  },
+  Object {
+    "loc": Object {
+      "end": Object {
+        "column": 5,
+        "line": 1,
+        "offset": 4,
+      },
+      "start": Object {
+        "column": 4,
+        "line": 1,
+        "offset": 3,
+      },
+    },
+    "type": 2,
+    "value": "{",
+  },
+  Object {
+    "loc": Object {
+      "end": Object {
+        "column": 10,
+        "line": 1,
+        "offset": 9,
+      },
+      "start": Object {
+        "column": 5,
+        "line": 1,
+        "offset": 4,
+      },
+    },
+    "type": 5,
+    "value": "name$",
+  },
+  Object {
+    "loc": Object {
+      "end": Object {
+        "column": 11,
+        "line": 1,
+        "offset": 10,
+      },
+      "start": Object {
+        "column": 10,
+        "line": 1,
+        "offset": 9,
+      },
+    },
+    "type": 3,
+    "value": "}",
+  },
+  Object {
+    "loc": Object {
+      "end": Object {
+        "column": 13,
+        "line": 1,
+        "offset": 12,
+      },
+      "start": Object {
+        "column": 11,
+        "line": 1,
+        "offset": 10,
+      },
+    },
+    "type": 0,
+    "value": " !",
+  },
+  Object {
+    "loc": Object {
+      "end": Object {
+        "column": 13,
+        "line": 1,
+        "offset": 12,
+      },
+      "start": Object {
+        "column": 13,
+        "line": 1,
+        "offset": 12,
+      },
+    },
+    "type": 14,
+  },
+]
+`;
+
 exports[`token analysis: "hi {name} !" tokens 1`] = `
 Array [
   Object {
@@ -6939,6 +7219,106 @@ Array [
 ]
 `;
 
+exports[`token analysis: "hi {snake_case} !" tokens 1`] = `
+Array [
+  Object {
+    "loc": Object {
+      "end": Object {
+        "column": 4,
+        "line": 1,
+        "offset": 3,
+      },
+      "start": Object {
+        "column": 1,
+        "line": 1,
+        "offset": 0,
+      },
+    },
+    "type": 0,
+    "value": "hi ",
+  },
+  Object {
+    "loc": Object {
+      "end": Object {
+        "column": 5,
+        "line": 1,
+        "offset": 4,
+      },
+      "start": Object {
+        "column": 4,
+        "line": 1,
+        "offset": 3,
+      },
+    },
+    "type": 2,
+    "value": "{",
+  },
+  Object {
+    "loc": Object {
+      "end": Object {
+        "column": 15,
+        "line": 1,
+        "offset": 14,
+      },
+      "start": Object {
+        "column": 5,
+        "line": 1,
+        "offset": 4,
+      },
+    },
+    "type": 5,
+    "value": "snake_case",
+  },
+  Object {
+    "loc": Object {
+      "end": Object {
+        "column": 16,
+        "line": 1,
+        "offset": 15,
+      },
+      "start": Object {
+        "column": 15,
+        "line": 1,
+        "offset": 14,
+      },
+    },
+    "type": 3,
+    "value": "}",
+  },
+  Object {
+    "loc": Object {
+      "end": Object {
+        "column": 18,
+        "line": 1,
+        "offset": 17,
+      },
+      "start": Object {
+        "column": 16,
+        "line": 1,
+        "offset": 15,
+      },
+    },
+    "type": 0,
+    "value": " !",
+  },
+  Object {
+    "loc": Object {
+      "end": Object {
+        "column": 18,
+        "line": 1,
+        "offset": 17,
+      },
+      "start": Object {
+        "column": 18,
+        "line": 1,
+        "offset": 17,
+      },
+    },
+    "type": 14,
+  },
+]
+`;
+
 exports[`token analysis: "hi, :-)" tokens 1`] = `
 Array [
   Object {
@@ -7004,6 +7384,78 @@ Array [
         "column": 8,
         "line": 1,
         "offset": 7,
+      },
+    },
+    "type": 14,
+  },
+]
+`;
+
+exports[`token analysis: "hypen-nate" tokens 1`] = `
+Array [
+  Object {
+    "loc": Object {
+      "end": Object {
+        "column": 11,
+        "line": 1,
+        "offset": 10,
+      },
+      "start": Object {
+        "column": 1,
+        "line": 1,
+        "offset": 0,
+      },
+    },
+    "type": 0,
+    "value": "hypen-nate",
+  },
+  Object {
+    "loc": Object {
+      "end": Object {
+        "column": 11,
+        "line": 1,
+        "offset": 10,
+      },
+      "start": Object {
+        "column": 11,
+        "line": 1,
+        "offset": 10,
+      },
+    },
+    "type": 14,
+  },
+]
+`;
+
+exports[`token analysis: "name = foo" tokens 1`] = `
+Array [
+  Object {
+    "loc": Object {
+      "end": Object {
+        "column": 11,
+        "line": 1,
+        "offset": 10,
+      },
+      "start": Object {
+        "column": 1,
+        "line": 1,
+        "offset": 0,
+      },
+    },
+    "type": 0,
+    "value": "name = foo",
+  },
+  Object {
+    "loc": Object {
+      "end": Object {
+        "column": 11,
+        "line": 1,
+        "offset": 10,
+      },
+      "start": Object {
+        "column": 11,
+        "line": 1,
+        "offset": 10,
       },
     },
     "type": 14,
