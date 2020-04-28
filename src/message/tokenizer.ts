@@ -104,6 +104,7 @@ export function createTokenizer(
     braceNest: 0,
     inLinked: false
   }
+
   const context = (): TokenizeContext => _context
 
   const { onError } = options
@@ -115,8 +116,10 @@ export function createTokenizer(
     ...args: unknown[]
   ): void => {
     const ctx = context()
+
     pos.column += offset
     pos.offset += offset
+
     if (onError) {
       const loc = createLocation(ctx.startLoc, pos)
       const err = createCompileError(code, loc, {
@@ -211,9 +214,12 @@ export function createTokenizer(
     if (currentType !== TokenTypes.BraceLeft) {
       return false
     }
+
     peekSpaces(scnr)
+
     const ret = isIdentifierStart(scnr.currentPeek())
     scnr.resetPeek()
+
     return ret
   }
 
@@ -225,10 +231,13 @@ export function createTokenizer(
     if (currentType !== TokenTypes.BraceLeft) {
       return false
     }
+
     peekSpaces(scnr)
+
     const ch = scnr.currentPeek() === '-' ? scnr.peek() : scnr.currentPeek()
     const ret = isNumberStart(ch)
     scnr.resetPeek()
+
     return ret
   }
 
@@ -237,9 +246,12 @@ export function createTokenizer(
     if (currentType !== TokenTypes.BraceLeft) {
       return false
     }
+
     peekSpaces(scnr)
+
     const ret = scnr.currentPeek() === LITERAL_DELIMITER
     scnr.resetPeek()
+
     return ret
   }
 
@@ -251,8 +263,10 @@ export function createTokenizer(
     if (currentType !== TokenTypes.LinkedDot) {
       return false
     }
+
     const ret = isIdentifierStart(scnr.currentPeek())
     scnr.resetPeek()
+
     return ret
   }
 
@@ -264,6 +278,7 @@ export function createTokenizer(
     if (!(currentType === TokenTypes.LinkedDelimiter)) {
       return false
     }
+
     const fn = (): boolean => {
       const ch = scnr.currentPeek()
       if (ch === TokenChars.BraceLeft) {
@@ -286,8 +301,10 @@ export function createTokenizer(
         return isIdentifierStart(ch)
       }
     }
+
     const ret = fn()
     scnr.resetPeek()
+
     return ret
   }
 
@@ -328,6 +345,7 @@ export function createTokenizer(
 
     const ret = fn()
     scnr.resetPeek()
+
     return ret
   }
 
@@ -336,10 +354,12 @@ export function createTokenizer(
     if (ch === EOF) {
       return EOF
     }
+
     if (fn(ch)) {
       scnr.next()
       return ch
     }
+
     return null
   }
 
@@ -383,9 +403,11 @@ export function createTokenizer(
     while ((ch = takeDigit(scnr))) {
       num += ch
     }
+
     if (num.length === 0) {
       // TODO: parse errror
     }
+
     return num
   }
 
@@ -413,21 +435,25 @@ export function createTokenizer(
         return fn(buf)
       }
     }
+
     return fn('')
   }
 
   const readNamedIdentifier = (scnr: Scanner): string => {
     skipSpaces(scnr)
+
     let ch: string | undefined | null = ''
     let name = ''
     while ((ch = takeIdentifierChar(scnr))) {
       name += ch
     }
+
     return name
   }
 
   const readListIdentifier = (scnr: Scanner): string => {
     skipSpaces(scnr)
+
     let value = ''
     if (scnr.currentChar() === '-') {
       scnr.next()
@@ -435,6 +461,7 @@ export function createTokenizer(
     } else {
       value += getDigits(scnr)
     }
+
     return value
   }
 
@@ -521,6 +548,7 @@ export function createTokenizer(
 
   const readInvalidIdentifier = (scnr: Scanner): string => {
     skipSpaces(scnr)
+
     let ch: string | undefined | null = ''
     let identifiers = ''
     const closure = (ch: string) =>
@@ -531,6 +559,7 @@ export function createTokenizer(
     while ((ch = takeChar(scnr, closure))) {
       identifiers += ch
     }
+
     return identifiers
   }
 
@@ -540,6 +569,7 @@ export function createTokenizer(
     while ((ch = takeIdentifierChar(scnr))) {
       name += ch
     }
+
     return name
   }
 
@@ -566,6 +596,7 @@ export function createTokenizer(
         return fn(true, buf)
       }
     }
+
     return fn(false, '')
   }
 
@@ -581,6 +612,7 @@ export function createTokenizer(
     context: TokenizeContext
   ): Token | null => {
     let token = null
+
     const ch = scnr.currentChar()
     switch (ch) {
       case TokenChars.BraceLeft:
@@ -637,6 +669,7 @@ export function createTokenizer(
         }
         break
     }
+
     return token
   }
 
@@ -645,6 +678,7 @@ export function createTokenizer(
     context: TokenizeContext
   ): Token | null => {
     let token = null
+
     const ch = scnr.currentChar()
     switch (ch) {
       case TokenChars.LinkedAlias:
@@ -702,17 +736,18 @@ export function createTokenizer(
         }
         break
     }
+
     return token
   }
 
   const readToken = (scnr: Scanner, context: TokenizeContext): Token => {
     let token = { type: TokenTypes.EOF }
-    const ch = scnr.currentChar()
 
     if (context.braceNest > 0) {
       return readTokenInPlaceholder(scnr, context) || token
     }
 
+    const ch = scnr.currentChar()
     switch (ch) {
       case TokenChars.BraceLeft:
         token = readTokenInPlaceholder(scnr, context) || token
@@ -741,6 +776,7 @@ export function createTokenizer(
         }
         break
     }
+
     return token
   }
 
@@ -772,10 +808,12 @@ export function createTokenizer(
 export function parse(source: string, options: TokenizeOptions = {}): Token[] {
   const tokens = [] as Token[]
   const tokenizer = createTokenizer(source, options)
+
   let token: Token | null = null
   do {
     token = tokenizer.nextToken()
     tokens.push(token)
   } while (token.type !== TokenTypes.EOF)
+
   return tokens
 }
