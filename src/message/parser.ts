@@ -89,6 +89,8 @@ export type Parser = Readonly<{
 }>
 
 export function createParser(options: ParserOptions = {}): Parser {
+  const location = !options.location
+
   // TODO:
   /*
   const { onError } = options
@@ -115,26 +117,33 @@ export function createParser(options: ParserOptions = {}): Parser {
   */
 
   const startNode = (type: NodeTypes, offset: number, loc: Position): Node => {
-    return {
+    const node = {
       type,
       start: offset,
-      end: offset,
-      loc: { start: loc, end: loc }
+      end: offset
+    } as Node
+
+    if (location) {
+      node.loc = { start: loc, end: loc }
     }
+
+    return node
   }
 
   const endNode = (
     node: Node,
     offset: number,
-    loc: Position,
+    pos: Position,
     type?: NodeTypes
   ): void => {
     node.end = offset
+
     if (type) {
       node.type = type
     }
-    if (node.loc) {
-      node.loc.end = loc
+
+    if (location && node.loc) {
+      node.loc.end = pos
     }
   }
 

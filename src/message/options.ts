@@ -17,8 +17,8 @@ export type ParserOptions = {
   // Filename for source map generation.
   // - Default: `message.intl`
   // filename?: string
-  // location?: boolean
-  // onError?: CompileErrorHandler
+  location?: boolean
+  onError?: CompileErrorHandler
 }
 
 export type TransformOptions = {
