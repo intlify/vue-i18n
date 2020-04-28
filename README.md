@@ -46,7 +46,7 @@ New style API for Vue 3. See the following docs:
 
 ### `<i18n-t>` Component (formerly called `<i18n>` component)
 
-You can use pluralalization on the component. See the blow examples:
+You can use pluralization on the component. See the blow examples:
 
 - [Example with using Composable API](https://github.com/intlify/vue-i18n-next/blob/master/examples/composable/components/translation.html)
 - [Example with using Legacy API](https://github.com/intlify/vue-i18n-next/blob/master/examples/legacy/components/translation.html)
