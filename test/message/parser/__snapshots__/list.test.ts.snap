@@ -227,7 +227,7 @@ exports[`new lines in placeholder {0}
 {2} 1`] = `
 Object {
   "body": Object {
-    "end": 12,
+    "end": 11,
     "items": Array [
       Object {
         "end": 3,
@@ -285,12 +285,12 @@ Object {
         "type": 5,
       },
       Object {
-        "end": 9,
+        "end": 8,
         "loc": Object {
           "end": Object {
             "column": 1,
             "line": 3,
-            "offset": 9,
+            "offset": 8,
           },
           "start": Object {
             "column": 4,
@@ -304,21 +304,21 @@ Object {
 ",
       },
       Object {
-        "end": 12,
+        "end": 11,
         "index": 2,
         "loc": Object {
           "end": Object {
             "column": 4,
             "line": 3,
-            "offset": 12,
+            "offset": 11,
           },
           "start": Object {
             "column": 1,
             "line": 3,
-            "offset": 9,
+            "offset": 8,
           },
         },
-        "start": 9,
+        "start": 8,
         "type": 5,
       },
     ],
@@ -326,7 +326,7 @@ Object {
       "end": Object {
         "column": 4,
         "line": 3,
-        "offset": 12,
+        "offset": 11,
       },
       "start": Object {
         "column": 1,
@@ -337,12 +337,12 @@ Object {
     "start": 0,
     "type": 2,
   },
-  "end": 12,
+  "end": 11,
   "loc": Object {
     "end": Object {
       "column": 4,
       "line": 3,
-      "offset": 12,
+      "offset": 11,
     },
     "start": Object {
       "column": 1,

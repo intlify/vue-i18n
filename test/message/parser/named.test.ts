@@ -110,8 +110,8 @@ describe('whitespaces in placeholder', () => {
 })
 
 describe('new lines in placeholder', () => {
-  test(`{first}\n{middle}\r\n{last}`, () => {
-    const text = `{first}\n{middle}\r\n{last}`
+  test(`{first}\n{middle}\n{last}`, () => {
+    const text = `{first}\n{middle}\n{last}`
     const parser = createParser({ onError: spy })
     const ast = parser.parse(text)
 
