@@ -110,8 +110,8 @@ describe('whitespaces in placeholder', () => {
 })
 
 describe('new lines in placeholder', () => {
-  test(`{0}\n{1}\r\n{2}`, () => {
-    const text = `{0}\n{1}\r\n{2}`
+  test(`{0}\n{1}\n{2}`, () => {
+    const text = `{0}\n{1}\n{2}`
     const parser = createParser({ onError: spy })
     const ast = parser.parse(text)
 

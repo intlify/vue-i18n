@@ -1,5 +1,6 @@
-import { SourceLocation, Position } from './location'
+import { createLocation, SourceLocation, Position } from './location'
 import { ParserOptions } from './options'
+import { createCompileError, CompileErrorCodes } from './errors'
 import { createTokenizer, Tokenizer, TokenTypes } from './tokenizer'
 
 export const enum NodeTypes {
@@ -88,33 +89,32 @@ export type Parser = Readonly<{
   parse: (source: string) => ResourceNode
 }>
 
+export const ERROR_DOMAIN = 'parser'
+
 export function createParser(options: ParserOptions = {}): Parser {
   const location = !options.location
 
-  // TODO:
-  /*
   const { onError } = options
-
+  // TODO: This code should be removed with using rollup (`/*#__PURE__*/`)
   const emitError = (
-    code: CompilerErrorCodes,
-    loc: Position,
-    offset?: number
+    tokenzer: Tokenizer,
+    code: CompileErrorCodes,
+    start: Position,
+    offset: number,
+    ...args: unknown[]
   ): void => {
-    if (offset) {
-      loc.offset += offset
-      loc.column += offset
-    }
+    const end = tokenzer.currentPosition()
+    end.offset += offset
+    end.column += offset
     if (onError) {
-      onError(
-        createCompilerError(code, {
-          start: loc,
-          end: loc,
-          source: ''
-        })
-      )
+      const loc = createLocation(start, end)
+      const err = createCompileError(code, loc, {
+        domain: ERROR_DOMAIN,
+        args
+      })
+      onError(err)
     }
   }
-  */
 
   const startNode = (type: NodeTypes, offset: number, loc: Position): Node => {
     const node = {
@@ -367,6 +367,7 @@ export function createParser(options: ParserOptions = {}): Parser {
     msgNode: MessageNode
   ): PluralNode => {
     const context = tokenizer.context()
+    let hasEmptyMessage = msgNode.items.length === 0
 
     const node = startNode(NodeTypes.Plural, offset, loc) as PluralNode
     node.cases = []
@@ -374,8 +375,20 @@ export function createParser(options: ParserOptions = {}): Parser {
 
     do {
       const msg = parseMessage(tokenizer)
+      if (!hasEmptyMessage) {
+        hasEmptyMessage = msg.items.length === 0
+      }
       node.cases.push(msg)
     } while (context.currentType !== TokenTypes.EOF)
+
+    if (hasEmptyMessage) {
+      emitError(
+        tokenizer,
+        CompileErrorCodes.P_MUST_HAVE_MESSAGES_IN_PLURAL,
+        loc,
+        0
+      )
+    }
 
     endNode(node, tokenizer.currentOffset(), tokenizer.currentPosition())
     return node
