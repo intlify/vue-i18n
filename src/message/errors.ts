@@ -20,6 +20,10 @@ export const enum CompileErrorCodes {
   T_UNTERMINATED_SINGLE_QUOTE_IN_PLACEHOLDER,
   T_UNKNOWN_ESCAPE_SEQUENCE,
   T_INVALID_UNICODE_ESCAPE_SEQUENCE,
+
+  // parser error codes
+  P_MUST_HAVE_MESSAGES_IN_PLURAL,
+  // Plural must have a message.
   MISSING_END_BRACE,
   MISSING_END_PAREN,
   // Special value for higher-order compilers to pick up the last code
@@ -35,13 +39,15 @@ export type CreateCompileErrorOptions = {
 }
 
 // TODO: This code should be removed with using rollup (`/*#__PURE__*/`)
-const errorMessages: { [code: number]: string } = {
+export const errorMessages: { [code: number]: string } = {
   // tokenizer error messages
   [CompileErrorCodes.T_EXPECTED_TOKEN]: `Expected token: '{0}'`,
   [CompileErrorCodes.T_INVALID_TOKEN_IN_PLACEHOLDER]: `Invalid token in placeholder: '{0}'`, // TODO: if we don't need this error, should be removed it!
   [CompileErrorCodes.T_UNTERMINATED_SINGLE_QUOTE_IN_PLACEHOLDER]: `Unterminated single quote in placeholder`,
   [CompileErrorCodes.T_UNKNOWN_ESCAPE_SEQUENCE]: `Unknown escape sequence: \\{0}`,
-  [CompileErrorCodes.T_INVALID_UNICODE_ESCAPE_SEQUENCE]: `Invalid unicode escape sequence: {0}`
+  [CompileErrorCodes.T_INVALID_UNICODE_ESCAPE_SEQUENCE]: `Invalid unicode escape sequence: {0}`,
+  // parser error messages
+  [CompileErrorCodes.P_MUST_HAVE_MESSAGES_IN_PLURAL]: `Plural must have messages`
 }
 
 // TODO: This code should be removed with using rollup (`/*#__PURE__*/`)

@@ -355,6 +355,139 @@ Object {
 }
 `;
 
+exports[`new lines in placeholder {first}
+{middle}
+{last} 1`] = `
+Object {
+  "body": Object {
+    "end": 24,
+    "items": Array [
+      Object {
+        "end": 7,
+        "key": "first",
+        "loc": Object {
+          "end": Object {
+            "column": 8,
+            "line": 1,
+            "offset": 7,
+          },
+          "start": Object {
+            "column": 1,
+            "line": 1,
+            "offset": 0,
+          },
+        },
+        "start": 0,
+        "type": 4,
+      },
+      Object {
+        "end": 8,
+        "loc": Object {
+          "end": Object {
+            "column": 1,
+            "line": 2,
+            "offset": 8,
+          },
+          "start": Object {
+            "column": 8,
+            "line": 1,
+            "offset": 7,
+          },
+        },
+        "start": 7,
+        "type": 3,
+        "value": "
+",
+      },
+      Object {
+        "end": 16,
+        "key": "middle",
+        "loc": Object {
+          "end": Object {
+            "column": 9,
+            "line": 2,
+            "offset": 16,
+          },
+          "start": Object {
+            "column": 1,
+            "line": 2,
+            "offset": 8,
+          },
+        },
+        "start": 8,
+        "type": 4,
+      },
+      Object {
+        "end": 18,
+        "loc": Object {
+          "end": Object {
+            "column": 1,
+            "line": 3,
+            "offset": 18,
+          },
+          "start": Object {
+            "column": 9,
+            "line": 2,
+            "offset": 16,
+          },
+        },
+        "start": 16,
+        "type": 3,
+        "value": "
+",
+      },
+      Object {
+        "end": 24,
+        "key": "last",
+        "loc": Object {
+          "end": Object {
+            "column": 7,
+            "line": 3,
+            "offset": 24,
+          },
+          "start": Object {
+            "column": 1,
+            "line": 3,
+            "offset": 18,
+          },
+        },
+        "start": 18,
+        "type": 4,
+      },
+    ],
+    "loc": Object {
+      "end": Object {
+        "column": 7,
+        "line": 3,
+        "offset": 24,
+      },
+      "start": Object {
+        "column": 1,
+        "line": 1,
+        "offset": 0,
+      },
+    },
+    "start": 0,
+    "type": 2,
+  },
+  "end": 24,
+  "loc": Object {
+    "end": Object {
+      "column": 7,
+      "line": 3,
+      "offset": 24,
+    },
+    "start": Object {
+      "column": 1,
+      "line": 1,
+      "offset": 0,
+    },
+  },
+  "start": 0,
+  "type": 0,
+}
+`;
+
 exports[`whitespaces in placeholder hi {  name } ! 1`] = `
 Object {
   "body": Object {

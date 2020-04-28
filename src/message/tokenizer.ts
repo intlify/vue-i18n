@@ -44,7 +44,7 @@ const enum TokenChars {
 // TODO: should be move to utils
 const EOF = undefined
 const LITERAL_DELIMITER = "'"
-export const ERROR_DOMAIN_TOKENIZE = 'tokenizer'
+export const ERROR_DOMAIN = 'tokenizer'
 
 export type Token = {
   type: TokenTypes
@@ -120,7 +120,7 @@ export function createTokenizer(
     if (onError) {
       const loc = createLocation(ctx.startLoc, pos)
       const err = createCompileError(code, loc, {
-        domain: ERROR_DOMAIN_TOKENIZE,
+        domain: ERROR_DOMAIN,
         args
       })
       onError(err)

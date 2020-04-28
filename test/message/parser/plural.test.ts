@@ -1,8 +1,10 @@
 import {
   createParser,
   NodeTypes,
-  PluralNode
+  PluralNode,
+  ERROR_DOMAIN
 } from '../../../src/message/parser'
+import { CompileErrorCodes, errorMessages } from '../../../src/message/errors'
 
 let spy
 beforeEach(() => {
@@ -161,6 +163,131 @@ describe('complex usage', () => {
   })
 })
 
-test.todo(` | | |`)
-test.todo(` foo | | bar`)
+describe('empty message', () => {
+  test(` | | |`, () => {
+    const text = ` | | |`
+    const parser = createParser({ onError: spy })
+    const ast = parser.parse(text)
+
+    expect(ast).toMatchSnapshot()
+    expect(spy).toHaveBeenCalled()
+    expect(
+      spy.mock.calls.map(([err]) => ({ ...err, message: err.message }))
+    ).toEqual([
+      {
+        domain: ERROR_DOMAIN,
+        code: CompileErrorCodes.P_MUST_HAVE_MESSAGES_IN_PLURAL,
+        message:
+          errorMessages[CompileErrorCodes.P_MUST_HAVE_MESSAGES_IN_PLURAL],
+        location: {
+          start: {
+            line: 1,
+            offset: 0,
+            column: 1
+          },
+          end: {
+            line: 1,
+            offset: 6,
+            column: 7
+          }
+        }
+      }
+    ])
+
+    expect(ast.type).toEqual(NodeTypes.Resource)
+    expect(ast.body.type).toEqual(NodeTypes.Plural)
+    const plural = ast.body as PluralNode
+    expect(plural.cases).toHaveLength(4)
+    expect(plural.cases).toMatchObject([
+      {
+        type: NodeTypes.Message,
+        items: []
+      },
+      {
+        type: NodeTypes.Message,
+        items: []
+      },
+      {
+        type: NodeTypes.Message,
+        items: []
+      },
+      {
+        type: NodeTypes.Message,
+        items: []
+      }
+    ])
+  })
+})
+
+describe('one empty message', () => {
+  test(` foo | | bar | buz`, () => {
+    const text = ` foo | | bar | buz`
+    const parser = createParser({ onError: spy })
+    const ast = parser.parse(text)
+
+    expect(ast).toMatchSnapshot()
+    expect(spy).toHaveBeenCalled()
+    expect(
+      spy.mock.calls.map(([err]) => ({ ...err, message: err.message }))
+    ).toEqual([
+      {
+        domain: ERROR_DOMAIN,
+        code: CompileErrorCodes.P_MUST_HAVE_MESSAGES_IN_PLURAL,
+        message:
+          errorMessages[CompileErrorCodes.P_MUST_HAVE_MESSAGES_IN_PLURAL],
+        location: {
+          start: {
+            line: 1,
+            offset: 0,
+            column: 1
+          },
+          end: {
+            line: 1,
+            offset: 18,
+            column: 19
+          }
+        }
+      }
+    ])
+
+    expect(ast.type).toEqual(NodeTypes.Resource)
+    expect(ast.body.type).toEqual(NodeTypes.Plural)
+    const plural = ast.body as PluralNode
+    expect(plural.cases).toHaveLength(4)
+    expect(plural.cases).toMatchObject([
+      {
+        type: NodeTypes.Message,
+        items: [
+          {
+            type: NodeTypes.Text,
+            value: ' foo'
+          }
+        ]
+      },
+      {
+        type: NodeTypes.Message,
+        items: []
+      },
+      {
+        type: NodeTypes.Message,
+        items: [
+          {
+            type: NodeTypes.Text,
+            value: 'bar'
+          }
+        ]
+      },
+      {
+        type: NodeTypes.Message,
+        items: [
+          {
+            type: NodeTypes.Text,
+            value: 'buz'
+          }
+        ]
+      }
+    ])
+  })
+})
+
 test.todo(`@.lower: {'no apples'} | {1 apple | @:{count　apples`) // eslint-disable-line no-irregular-whitespace

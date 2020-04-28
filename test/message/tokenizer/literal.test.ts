@@ -4,7 +4,7 @@ import {
   createTokenizer,
   TokenTypes,
   parse,
-  ERROR_DOMAIN_TOKENIZE
+  ERROR_DOMAIN as ERROR_DOMAIN_TOKENIZE
 } from '../../../src/message/tokenizer'
 
 describe('string', () => {
