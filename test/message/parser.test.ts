@@ -15,33 +15,3 @@ test('parse', () => {
     parser.parse(`@.lower:{'no apples'} | {1} apple | {count}　apples`) // eslint-disable-line no-irregular-whitespace
   ).toMatchSnapshot('plural complex')
 })
-
-/*
-describe('Text', () => {
-  test('simple', () => {
-    const parser = createParser()
-    expect(parser.parse('hello world')).toMatchSnapshot()
-  })
-
-  test('included end brace', () => {
-    const spy = jest.fn()
-    const parser = createParser({ onError: spy })
-    expect(parser.parse('hello :-}')).toMatchSnapshot()
-    expect(spy).not.toHaveBeenCalled()
-  })
-
-  test('included end paren', () => {
-    const spy = jest.fn()
-    const parser = createParser({ onError: spy })
-    expect(parser.parse('hello :-)')).toMatchSnapshot()
-    expect(spy).not.toHaveBeenCalled()
-  })
-
-  test('include at sign', () => {
-    const spy = jest.fn()
-    const parser = createParser({ onError: spy })
-    expect(parser.parse('foo@bar.com')).toMatchSnapshot()
-    expect(spy).not.toHaveBeenCalled()
-  })
-})
-*/

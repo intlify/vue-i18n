@@ -1,0 +1,383 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`emoji 😺 1`] = `
+Object {
+  "body": Object {
+    "end": 2,
+    "items": Array [
+      Object {
+        "end": 2,
+        "loc": Object {
+          "end": Object {
+            "column": 3,
+            "line": 1,
+            "offset": 2,
+          },
+          "start": Object {
+            "column": 1,
+            "line": 1,
+            "offset": 0,
+          },
+        },
+        "start": 0,
+        "type": 3,
+        "value": "😺",
+      },
+    ],
+    "loc": Object {
+      "end": Object {
+        "column": 3,
+        "line": 1,
+        "offset": 2,
+      },
+      "start": Object {
+        "column": 1,
+        "line": 1,
+        "offset": 0,
+      },
+    },
+    "start": 0,
+    "type": 2,
+  },
+  "end": 2,
+  "loc": Object {
+    "end": Object {
+      "column": 3,
+      "line": 1,
+      "offset": 2,
+    },
+    "start": Object {
+      "column": 1,
+      "line": 1,
+      "offset": 0,
+    },
+  },
+  "start": 0,
+  "type": 0,
+}
+`;
+
+exports[`empty string '' 1`] = `
+Object {
+  "body": Object {
+    "end": 0,
+    "items": Array [],
+    "loc": Object {
+      "end": Object {
+        "column": 1,
+        "line": 1,
+        "offset": 0,
+      },
+      "start": Object {
+        "column": 1,
+        "line": 1,
+        "offset": 0,
+      },
+    },
+    "start": 0,
+    "type": 2,
+  },
+  "end": 0,
+  "loc": Object {
+    "end": Object {
+      "column": 1,
+      "line": 1,
+      "offset": 0,
+    },
+    "start": Object {
+      "column": 1,
+      "line": 1,
+      "offset": 0,
+    },
+  },
+  "start": 0,
+  "type": 0,
+}
+`;
+
+exports[`include new line hello
+world 1`] = `
+Object {
+  "body": Object {
+    "end": 11,
+    "items": Array [
+      Object {
+        "end": 11,
+        "loc": Object {
+          "end": Object {
+            "column": 6,
+            "line": 2,
+            "offset": 11,
+          },
+          "start": Object {
+            "column": 1,
+            "line": 1,
+            "offset": 0,
+          },
+        },
+        "start": 0,
+        "type": 3,
+        "value": "hello
+world",
+      },
+    ],
+    "loc": Object {
+      "end": Object {
+        "column": 6,
+        "line": 2,
+        "offset": 11,
+      },
+      "start": Object {
+        "column": 1,
+        "line": 1,
+        "offset": 0,
+      },
+    },
+    "start": 0,
+    "type": 2,
+  },
+  "end": 11,
+  "loc": Object {
+    "end": Object {
+      "column": 6,
+      "line": 2,
+      "offset": 11,
+    },
+    "start": Object {
+      "column": 1,
+      "line": 1,
+      "offset": 0,
+    },
+  },
+  "start": 0,
+  "type": 0,
+}
+`;
+
+exports[`included end brace hello :-} 1`] = `
+Object {
+  "body": Object {
+    "end": 9,
+    "items": Array [
+      Object {
+        "end": 9,
+        "loc": Object {
+          "end": Object {
+            "column": 10,
+            "line": 1,
+            "offset": 9,
+          },
+          "start": Object {
+            "column": 1,
+            "line": 1,
+            "offset": 0,
+          },
+        },
+        "start": 0,
+        "type": 3,
+        "value": "hello :-}",
+      },
+    ],
+    "loc": Object {
+      "end": Object {
+        "column": 10,
+        "line": 1,
+        "offset": 9,
+      },
+      "start": Object {
+        "column": 1,
+        "line": 1,
+        "offset": 0,
+      },
+    },
+    "start": 0,
+    "type": 2,
+  },
+  "end": 9,
+  "loc": Object {
+    "end": Object {
+      "column": 10,
+      "line": 1,
+      "offset": 9,
+    },
+    "start": Object {
+      "column": 1,
+      "line": 1,
+      "offset": 0,
+    },
+  },
+  "start": 0,
+  "type": 0,
+}
+`;
+
+exports[`included end paren hello :-) 1`] = `
+Object {
+  "body": Object {
+    "end": 9,
+    "items": Array [
+      Object {
+        "end": 9,
+        "loc": Object {
+          "end": Object {
+            "column": 10,
+            "line": 1,
+            "offset": 9,
+          },
+          "start": Object {
+            "column": 1,
+            "line": 1,
+            "offset": 0,
+          },
+        },
+        "start": 0,
+        "type": 3,
+        "value": "hello :-)",
+      },
+    ],
+    "loc": Object {
+      "end": Object {
+        "column": 10,
+        "line": 1,
+        "offset": 9,
+      },
+      "start": Object {
+        "column": 1,
+        "line": 1,
+        "offset": 0,
+      },
+    },
+    "start": 0,
+    "type": 2,
+  },
+  "end": 9,
+  "loc": Object {
+    "end": Object {
+      "column": 10,
+      "line": 1,
+      "offset": 9,
+    },
+    "start": Object {
+      "column": 1,
+      "line": 1,
+      "offset": 0,
+    },
+  },
+  "start": 0,
+  "type": 0,
+}
+`;
+
+exports[`multi bytes こんにちは、世界 1`] = `
+Object {
+  "body": Object {
+    "end": 8,
+    "items": Array [
+      Object {
+        "end": 8,
+        "loc": Object {
+          "end": Object {
+            "column": 9,
+            "line": 1,
+            "offset": 8,
+          },
+          "start": Object {
+            "column": 1,
+            "line": 1,
+            "offset": 0,
+          },
+        },
+        "start": 0,
+        "type": 3,
+        "value": "こんにちは、世界",
+      },
+    ],
+    "loc": Object {
+      "end": Object {
+        "column": 9,
+        "line": 1,
+        "offset": 8,
+      },
+      "start": Object {
+        "column": 1,
+        "line": 1,
+        "offset": 0,
+      },
+    },
+    "start": 0,
+    "type": 2,
+  },
+  "end": 8,
+  "loc": Object {
+    "end": Object {
+      "column": 9,
+      "line": 1,
+      "offset": 8,
+    },
+    "start": Object {
+      "column": 1,
+      "line": 1,
+      "offset": 0,
+    },
+  },
+  "start": 0,
+  "type": 0,
+}
+`;
+
+exports[`simple hello,world 1`] = `
+Object {
+  "body": Object {
+    "end": 11,
+    "items": Array [
+      Object {
+        "end": 11,
+        "loc": Object {
+          "end": Object {
+            "column": 12,
+            "line": 1,
+            "offset": 11,
+          },
+          "start": Object {
+            "column": 1,
+            "line": 1,
+            "offset": 0,
+          },
+        },
+        "start": 0,
+        "type": 3,
+        "value": "hello,world",
+      },
+    ],
+    "loc": Object {
+      "end": Object {
+        "column": 12,
+        "line": 1,
+        "offset": 11,
+      },
+      "start": Object {
+        "column": 1,
+        "line": 1,
+        "offset": 0,
+      },
+    },
+    "start": 0,
+    "type": 2,
+  },
+  "end": 11,
+  "loc": Object {
+    "end": Object {
+      "column": 12,
+      "line": 1,
+      "offset": 11,
+    },
+    "start": Object {
+      "column": 1,
+      "line": 1,
+      "offset": 0,
+    },
+  },
+  "start": 0,
+  "type": 0,
+}
+`;

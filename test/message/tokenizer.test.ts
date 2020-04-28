@@ -4,6 +4,23 @@ import { TokenizeOptions } from '../../src/message/options'
 test('token analysis', () => {
   ;[
     `hello world`,
+    `hi {name} !`,
+    `{first} {middle}　{last}`, // eslint-disable-line no-irregular-whitespace
+    `hi {  name } !`,
+    `{first}\n{middle}\r\n{last}`,
+    `hi {0} !`,
+    `{0} {1}　{2}`, // eslint-disable-line no-irregular-whitespace
+    `hi {  -1 } !`,
+    `{0}\n{1}\r\n{2}`,
+    `hi {'kazupon'} !`,
+    `hi @:name !`,
+    `hi @:{'hello world'} !`,
+    `hi @:{name}\n !`,
+    `hi @.upper:name !`,
+    `hi @:{name} @:{0}!`,
+    `no apples | one apple  |  too much apples `,
+    `no apples |\n one apple  |\n  too much apples  `,
+    `@.lower:{'no apples'} | {1} apple | {count}　apples`, // eslint-disable-line no-irregular-whitespace
     `hello\nworld`,
     `こんにちは、世界`,
     `😺`,
@@ -16,30 +33,14 @@ test('token analysis', () => {
     `'single-quote'`,
     `"double-qoute"`,
     ` hello world `,
-    `hi {name} !`,
-    `hi {name$} !`,
-    `hi {snake_case} !`,
-    `{first} {middle}　{last}`, // eslint-disable-line no-irregular-whitespace
-    `hi {  name } !`,
-    `{first}\n{middle}\r\n{last}`,
-    `hi {0} !`,
-    `{0} {1}　{2}`, // eslint-disable-line no-irregular-whitespace
-    `hi {  -1 } !`,
-    `{0}\n{1}\r\n{2}`,
-    `hi @:name !`,
-    `hi @:{'hello world'} !`,
-    `hi @:{name}\n !`,
-    `hi @.upper:name !`,
-    `hi @:{name} @:{0}!`,
-    `no apples | one apple  |  too much apples `,
-    `no apples |\n one apple  |\n  too much apples  `,
-    `@.lower:{'no apples'} | {1} apple | {count}　apples`, // eslint-disable-line no-irregular-whitespace
     `hello\\nworld`,
     `hi, :-}`,
     `hi, :-)`,
     `hi {} !`,
     `hi {{}} !`,
     `hi {  } !`,
+    `hi {name$} !`,
+    `hi {snake_case} !`,
     `hi {\nname\n} !`,
     `hi {{name}} !`,
     `hi { { name } } !`,
@@ -50,8 +51,6 @@ test('token analysis', () => {
     `hi { { 0 } } !`,
     `hi {0 !`,
     `hi {  0 !`,
-    `hi {$} !`,
-    `hi {-} !`,
     `hi {@.lower:name !`,
     `hi { @:name !`,
     `hi {  | hello {name} !`,
@@ -61,6 +60,8 @@ test('token analysis', () => {
     `hi { 'foo\n' }`,
     `hi { '\\x41' }`,
     `hi { '\\uw' }`,
+    `hi {$} !`,
+    `hi {-} !`,
     `foo@bar.com`,
     `hi @:\nname !`,
     `hi @ :name !`,
@@ -74,6 +75,8 @@ test('token analysis', () => {
     `hi @ .lower : {name} !`,
     `hi @:{ 'name' } !`,
     `hi @: {'name'} !`,
+    ` | | |`,
+    ` foo | | bar`,
     `@.lower: {'no apples'} | {1 apple | @:{count　apples` // eslint-disable-line no-irregular-whitespace
   ].forEach(p => {
     const errors = []
