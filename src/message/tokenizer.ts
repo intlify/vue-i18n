@@ -185,7 +185,7 @@ export function createTokenizer(
   }
 
   const isIdentifierStart = (ch: string): boolean => {
-    if (!ch) {
+    if (ch === EOF) {
       return false
     }
     const cc = ch.charCodeAt(0)
@@ -196,7 +196,7 @@ export function createTokenizer(
   }
 
   const isNumberStart = (ch: string): boolean => {
-    if (!ch) {
+    if (ch === EOF) {
       return false
     }
     const cc = ch.charCodeAt(0)
