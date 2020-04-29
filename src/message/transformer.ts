@@ -73,7 +73,7 @@ function traverseNode(node: Node, transformer: Transformer): void {
 // transform AST
 export function transform(
   ast: ResourceNode,
-  options: TransformOptions = {}
+  options: TransformOptions = {} // eslint-disable-line
 ): void {
   const transformer = createTransformer(ast)
   // traverse

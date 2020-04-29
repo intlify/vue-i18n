@@ -2,6 +2,7 @@ import { CompileOptions } from './options'
 import { createParser, ResourceNode } from './parser'
 import { transform } from './transformer'
 import { generate } from './generator'
+import { CompileError, defaultOnError } from './errors'
 
 export type CompileResult = {
   code: string
@@ -24,7 +25,6 @@ export function compile(
   source: string,
   options: CompileOptions = {}
 ): MessageFunction {
-  // const onError = options.onError || defaultOnError
   const onCacheKey = options.onCacheKey || defaultOnCacheKey
 
   // check caches
@@ -32,6 +32,13 @@ export function compile(
   const cached = compileCache[key]
   if (cached) {
     return cached
+  }
+
+  let occured = false
+  const onError = options.onError || defaultOnError
+  options.onError = (err: CompileError): void => {
+    occured = true
+    onError(err)
   }
 
   // parse source codes
@@ -45,5 +52,7 @@ export function compile(
   const code = generate(ast, { ...options })
 
   const msg = new Function(`return ${code}`)() as MessageFunction
-  return (compileCache[key] = msg)
+
+  // if occured compile error, don't cache
+  return !occured ? (compileCache[key] = msg) : msg
 }

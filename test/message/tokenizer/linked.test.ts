@@ -1,4 +1,15 @@
-import { createTokenizer, TokenTypes } from '../../../src/message/tokenizer'
+import { TokenizeOptions } from '../../../src/message/options'
+import {
+  CompileErrorCodes,
+  CompileError,
+  errorMessages
+} from '../../../src/message/errors'
+import {
+  createTokenizer,
+  TokenTypes,
+  ERROR_DOMAIN,
+  parse
+} from '../../../src/message/tokenizer'
 
 test('linked key', () => {
   const tokenizer = createTokenizer('hi @:name !')
@@ -407,5 +418,224 @@ test('multiple', () => {
       start: { line: 1, column: 19, offset: 18 },
       end: { line: 1, column: 19, offset: 18 }
     }
+  })
+})
+
+describe('errors', () => {
+  let errors: CompileError[], options
+  beforeEach(() => {
+    errors = []
+    options = {
+      onError: err => {
+        errors.push({ ...err, message: err.message })
+      }
+    } as TokenizeOptions
+  })
+
+  test('invalid letter before dot', () => {
+    parse(`foo@bar.com`, options)
+    expect(errors).toEqual([
+      {
+        code: CompileErrorCodes.INVALID_LINKED_FORMAT,
+        domain: ERROR_DOMAIN,
+        message: errorMessages[CompileErrorCodes.INVALID_LINKED_FORMAT],
+        location: {
+          start: {
+            line: 1,
+            offset: 4,
+            column: 5
+          },
+          end: {
+            line: 1,
+            offset: 4,
+            column: 5
+          }
+        }
+      }
+    ] as CompileError[])
+  })
+
+  test('new line after @', () => {
+    parse(`hi @\n:name !`, options)
+    expect(errors).toEqual([
+      {
+        code: CompileErrorCodes.INVALID_LINKED_FORMAT,
+        domain: ERROR_DOMAIN,
+        message: errorMessages[CompileErrorCodes.INVALID_LINKED_FORMAT],
+        location: {
+          start: {
+            line: 1,
+            offset: 4,
+            column: 5
+          },
+          end: {
+            line: 1,
+            offset: 4,
+            column: 5
+          }
+        }
+      }
+    ] as CompileError[])
+  })
+
+  test('space after @', () => {
+    parse(`hi @ :name !`, options)
+    expect(errors).toEqual([
+      {
+        code: CompileErrorCodes.INVALID_LINKED_FORMAT,
+        domain: ERROR_DOMAIN,
+        message: errorMessages[CompileErrorCodes.INVALID_LINKED_FORMAT],
+        location: {
+          start: {
+            line: 1,
+            offset: 4,
+            column: 5
+          },
+          end: {
+            line: 1,
+            offset: 4,
+            column: 5
+          }
+        }
+      }
+    ] as CompileError[])
+  })
+
+  test('new line after dot', () => {
+    parse(`hi @.\n{name} !`, options)
+    expect(errors).toEqual([
+      {
+        code: CompileErrorCodes.INVALID_LINKED_FORMAT,
+        domain: ERROR_DOMAIN,
+        message: errorMessages[CompileErrorCodes.INVALID_LINKED_FORMAT],
+        location: {
+          start: {
+            line: 1,
+            offset: 5,
+            column: 6
+          },
+          end: {
+            line: 1,
+            offset: 5,
+            column: 6
+          }
+        }
+      }
+    ] as CompileError[])
+  })
+
+  test('space after dot', () => {
+    parse(`hi @. {name} !`, options)
+    expect(errors).toEqual([
+      {
+        code: CompileErrorCodes.INVALID_LINKED_FORMAT,
+        domain: ERROR_DOMAIN,
+        message: errorMessages[CompileErrorCodes.INVALID_LINKED_FORMAT],
+        location: {
+          start: {
+            line: 1,
+            offset: 5,
+            column: 6
+          },
+          end: {
+            line: 1,
+            offset: 5,
+            column: 6
+          }
+        }
+      }
+    ] as CompileError[])
+  })
+
+  test('new line after modifier', () => {
+    parse(`hi @.upper\n{name} !`, options)
+    expect(errors).toEqual([
+      {
+        code: CompileErrorCodes.INVALID_LINKED_FORMAT,
+        domain: ERROR_DOMAIN,
+        message: errorMessages[CompileErrorCodes.INVALID_LINKED_FORMAT],
+        location: {
+          start: {
+            line: 1,
+            offset: 10,
+            column: 11
+          },
+          end: {
+            line: 1,
+            offset: 10,
+            column: 11
+          }
+        }
+      }
+    ] as CompileError[])
+  })
+
+  test('space after modifier', () => {
+    parse(`hi @.upper\n{name} !`, options)
+    expect(errors).toEqual([
+      {
+        code: CompileErrorCodes.INVALID_LINKED_FORMAT,
+        domain: ERROR_DOMAIN,
+        message: errorMessages[CompileErrorCodes.INVALID_LINKED_FORMAT],
+        location: {
+          start: {
+            line: 1,
+            offset: 10,
+            column: 11
+          },
+          end: {
+            line: 1,
+            offset: 10,
+            column: 11
+          }
+        }
+      }
+    ] as CompileError[])
+  })
+
+  test('new line after delimiter', () => {
+    parse(`hi @:\nname !`, options)
+    expect(errors).toEqual([
+      {
+        code: CompileErrorCodes.INVALID_LINKED_FORMAT,
+        domain: ERROR_DOMAIN,
+        message: errorMessages[CompileErrorCodes.INVALID_LINKED_FORMAT],
+        location: {
+          start: {
+            line: 1,
+            offset: 5,
+            column: 6
+          },
+          end: {
+            line: 1,
+            offset: 5,
+            column: 6
+          }
+        }
+      }
+    ] as CompileError[])
+  })
+
+  test('space after delimiter', () => {
+    parse(`hi @: {'name'} !`, options)
+    expect(errors).toEqual([
+      {
+        code: CompileErrorCodes.INVALID_LINKED_FORMAT,
+        domain: ERROR_DOMAIN,
+        message: errorMessages[CompileErrorCodes.INVALID_LINKED_FORMAT],
+        location: {
+          start: {
+            line: 1,
+            offset: 5,
+            column: 6
+          },
+          end: {
+            line: 1,
+            offset: 5,
+            column: 6
+          }
+        }
+      }
+    ] as CompileError[])
   })
 })

@@ -176,9 +176,8 @@ describe('empty message', () => {
     ).toEqual([
       {
         domain: ERROR_DOMAIN,
-        code: CompileErrorCodes.P_MUST_HAVE_MESSAGES_IN_PLURAL,
-        message:
-          errorMessages[CompileErrorCodes.P_MUST_HAVE_MESSAGES_IN_PLURAL],
+        code: CompileErrorCodes.MUST_HAVE_MESSAGES_IN_PLURAL,
+        message: errorMessages[CompileErrorCodes.MUST_HAVE_MESSAGES_IN_PLURAL],
         location: {
           start: {
             line: 1,
@@ -232,9 +231,8 @@ describe('one empty message', () => {
     ).toEqual([
       {
         domain: ERROR_DOMAIN,
-        code: CompileErrorCodes.P_MUST_HAVE_MESSAGES_IN_PLURAL,
-        message:
-          errorMessages[CompileErrorCodes.P_MUST_HAVE_MESSAGES_IN_PLURAL],
+        code: CompileErrorCodes.MUST_HAVE_MESSAGES_IN_PLURAL,
+        message: errorMessages[CompileErrorCodes.MUST_HAVE_MESSAGES_IN_PLURAL],
         location: {
           start: {
             line: 1,
