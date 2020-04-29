@@ -149,7 +149,7 @@ yarn add vue-i18n@next
   - [x] translate function
   - [x] datetime function
   - [x] number function
-  - [ ] warnHtmlMessage
+  - [x] warnHtmlMessage
   - [x] improve translate `args` typing
   - [ ] improve locale messages typing: `LocaleMessages` / `LocaleMessage` / `LocaleMessageDictiory`
   - [x] postTranslation context option
