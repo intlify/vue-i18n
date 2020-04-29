@@ -1,4 +1,27 @@
 
+## v9.0.0-alpha.5 (2020-04-29)
+
+#### :star: Features
+* [#20](https://github.com/intlify/vue-i18n-next/pull/20) feature placeholder literal ([@kazupon](https://github.com/kazupon))
+
+#### :bug: Bug Fixes
+* [#28](https://github.com/intlify/vue-i18n-next/pull/28) fix: plural compiler bug ([@kazupon](https://github.com/kazupon))
+
+#### :zap: Improvement Features
+* [#27](https://github.com/intlify/vue-i18n-next/pull/27) fix: add invalid token errors in placeholder ([@kazupon](https://github.com/kazupon))
+* [#26](https://github.com/intlify/vue-i18n-next/pull/26) compile error improvements ([@kazupon](https://github.com/kazupon))
+* [#25](https://github.com/intlify/vue-i18n-next/pull/25) fix: plural syntax error with parser ([@kazupon](https://github.com/kazupon))
+* [#24](https://github.com/intlify/vue-i18n-next/pull/24) fix: compilation error handling ([@kazupon](https://github.com/kazupon))
+* [#23](https://github.com/intlify/vue-i18n-next/pull/23) fix: improve literal compilation error ([@kazupon](https://github.com/kazupon))
+
+#### :boom: Breaking Change
+* [#29](https://github.com/intlify/vue-i18n-next/pull/29) breaking: HTML message warning ([@kazupon](https://github.com/kazupon))
+* [#22](https://github.com/intlify/vue-i18n-next/pull/22) deprecated linked key with using paren token ([@kazupon](https://github.com/kazupon))
+
+#### Committers: 1
+- kazuya kawaguchi ([@kazupon](https://github.com/kazupon))
+
+
 ## v9.0.0-alpha.4 (2020-04-23)
 
 #### :bug: Bug Fixes
