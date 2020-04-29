@@ -111,10 +111,10 @@ The examples are offered that use the following two API styles:
 
 - `v-t` directive
 - `preserveDirectiveContent` option (depend on `v-t`)
-- HTML format suppression with `warnHtmlInMessage` option
 - SSR
 - Custom formatting
 - Tooling
+  - `@intlify/devtools`
   - `vue-cli-plugin-i18n`
   - `@intlify/rollup-plugin-vue-i18n`
   - `@intlify/vue-i18n-extensions`
