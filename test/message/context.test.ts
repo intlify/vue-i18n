@@ -14,12 +14,6 @@ describe('text', () => {
     const ctx = createMessageContext()
     expect(JSON.stringify(msg(ctx))).toMatch(`hello\\n world`)
   })
-
-  test('&nbsp;', () => {
-    const msg = compile('&nbsp;')
-    const ctx = createMessageContext()
-    expect(msg(ctx)).toMatch(`&nbsp;`)
-  })
 })
 
 describe('list', () => {
@@ -346,5 +340,23 @@ describe('custom process', () => {
       pluralIndex: 1
     })
     expect(msg(ctx)).toMatchSnapshot()
+  })
+})
+
+describe('edge cases', () => {
+  test(`text: '&nbsp;'`, () => {
+    const msg = compile('&nbsp;')
+    const ctx = createMessageContext()
+    expect(msg(ctx)).toMatch(`&nbsp;`)
+  })
+
+  test(`plural: ' | foo | '`, () => {
+    const msg = compile(` | foo | `, {
+      onError(error) {
+        expect({ ...error, message: error.message }).toMatchSnapshot('error')
+      }
+    })
+    const ctx = createMessageContext()
+    expect(msg(ctx)).toMatch('')
   })
 })

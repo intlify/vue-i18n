@@ -63,3 +63,23 @@ Array [
   },
 ]
 `;
+
+exports[`edge cases plural: ' | foo | ': error 1`] = `
+Object {
+  "code": 10,
+  "domain": "parser",
+  "location": Object {
+    "end": Object {
+      "column": 10,
+      "line": 1,
+      "offset": 9,
+    },
+    "start": Object {
+      "column": 1,
+      "line": 1,
+      "offset": 0,
+    },
+  },
+  "message": "Plural must have messages",
+}
+`;
