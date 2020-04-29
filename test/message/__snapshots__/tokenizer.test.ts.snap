@@ -6734,6 +6734,28 @@ Array [
 ]
 `;
 
+exports[`token analysis: "hi {$} !" errors 1`] = `
+Array [
+  Object {
+    "code": 1,
+    "domain": "tokenizer",
+    "location": Object {
+      "end": Object {
+        "column": 6,
+        "line": 1,
+        "offset": 5,
+      },
+      "start": Object {
+        "column": 5,
+        "line": 1,
+        "offset": 4,
+      },
+    },
+    "message": "Invalid token in placeholder: '$'",
+  },
+]
+`;
+
 exports[`token analysis: "hi {$} !" tokens 1`] = `
 Array [
   Object {
@@ -7222,6 +7244,23 @@ Array [
       },
     },
     "message": "Not allowed nest placeholder",
+  },
+  Object {
+    "code": 1,
+    "domain": "tokenizer",
+    "location": Object {
+      "end": Object {
+        "column": 8,
+        "line": 1,
+        "offset": 7,
+      },
+      "start": Object {
+        "column": 7,
+        "line": 1,
+        "offset": 6,
+      },
+    },
+    "message": "Invalid token in placeholder: '!'",
   },
 ]
 `;
@@ -7875,6 +7914,28 @@ Array [
       },
     },
     "type": 14,
+  },
+]
+`;
+
+exports[`token analysis: "hi {-} !" errors 1`] = `
+Array [
+  Object {
+    "code": 1,
+    "domain": "tokenizer",
+    "location": Object {
+      "end": Object {
+        "column": 6,
+        "line": 1,
+        "offset": 5,
+      },
+      "start": Object {
+        "column": 5,
+        "line": 1,
+        "offset": 4,
+      },
+    },
+    "message": "Invalid token in placeholder: '-'",
   },
 ]
 `;

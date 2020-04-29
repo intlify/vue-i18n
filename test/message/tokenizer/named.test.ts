@@ -2,6 +2,7 @@ import { TokenizeOptions } from '../../../src/message/options'
 import {
   CompileErrorCodes,
   CompileError,
+  format,
   errorMessages
 } from '../../../src/message/errors'
 import {
@@ -405,7 +406,7 @@ describe('errors', () => {
   })
 
   test('nest placeholder', () => {
-    parse(`hi, {{ !`, options)
+    parse(`hi, {{ kazupon`, options)
     expect(errors).toEqual([
       {
         code: CompileErrorCodes.NOT_ALLOW_NEST_PLACEHOLDER,
@@ -421,6 +422,23 @@ describe('errors', () => {
             line: 1,
             offset: 5,
             column: 6
+          }
+        }
+      },
+      {
+        code: CompileErrorCodes.UNTERMINATED_CLOSING_BRACE,
+        domain: ERROR_DOMAIN,
+        message: errorMessages[CompileErrorCodes.UNTERMINATED_CLOSING_BRACE],
+        location: {
+          start: {
+            line: 1,
+            offset: 7,
+            column: 8
+          },
+          end: {
+            line: 1,
+            offset: 14,
+            column: 15
           }
         }
       }
@@ -540,5 +558,32 @@ describe('errors', () => {
         }
       }
     ] as CompileError[])
+  })
+  ;[`$`, `-`, `_`].forEach(ch => {
+    test(`invalid '${ch}' in placeholder`, () => {
+      parse(`hi {${ch}} !`, options)
+      expect(errors).toEqual([
+        {
+          code: CompileErrorCodes.INVALID_TOKEN_IN_PLACEHOLDER,
+          domain: ERROR_DOMAIN,
+          message: format(
+            errorMessages[CompileErrorCodes.INVALID_TOKEN_IN_PLACEHOLDER],
+            ch
+          ),
+          location: {
+            start: {
+              line: 1,
+              offset: 4,
+              column: 5
+            },
+            end: {
+              line: 1,
+              offset: 5,
+              column: 6
+            }
+          }
+        }
+      ] as CompileError[])
+    })
   })
 })
