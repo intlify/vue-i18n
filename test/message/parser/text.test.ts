@@ -71,7 +71,33 @@ describe('emoji', () => {
   })
 })
 
-describe('edge cases', () => {
+describe('unicode', () => {
+  ;[
+    { desc: `'\\u0041'`, data: '\u0041' },
+    { desc: `'\\u{0041}'`, data: '\u{0041}' },
+    { desc: `surrogate pair: '\\uD83C\\uDF4E'`, data: '\uD83C\uDF4E' }
+  ].forEach(target => {
+    test(`${target.desc}`, () => {
+      const text = target.data
+      const parser = createParser({ onError: spy })
+      const ast = parser.parse(text)
+
+      expect(ast).toMatchSnapshot()
+      expect(spy).not.toHaveBeenCalled()
+      expect(ast.type).toEqual(NodeTypes.Resource)
+      expect(ast.body.type).toEqual(NodeTypes.Message)
+      const message = ast.body as MessageNode
+      expect(message.items).toHaveLength(1)
+      const item = message.items[0] as TextNode
+      expect(item).toMatchObject({
+        type: NodeTypes.Text,
+        value: text
+      })
+    })
+  })
+})
+
+describe('special characters', () => {
   ;[
     { desc: `include new line '\\n'`, case: `hello\\nworld` },
     { desc: `include space ' '`, case: `hello nworld` },
@@ -96,7 +122,10 @@ describe('edge cases', () => {
     { desc: `include less than '<'`, case: `a < b` },
     { desc: `include greater than '>'`, case: `a > b` },
     { desc: `include open braket '['`, case: `land [ bridge` },
-    { desc: `include close braket ']'`, case: `land ] bridge` }
+    { desc: `include close braket ']'`, case: `land ] bridge` },
+    { desc: `include escase '\\'`, case: `escase \\ escape !` },
+    { desc: `include grave '\`'`, case: `\`happy!!\`` },
+    { desc: `include tilde '~'`, case: `~~kazupon~~` }
   ].forEach(target => {
     test(`${target.desc}: '${target.case}'`, () => {
       const text = target.case
@@ -117,7 +146,7 @@ describe('edge cases', () => {
     })
   })
 
-  test(`empty string: "''"`, () => {
+  test(`empty string: ''`, () => {
     const text = ''
     const parser = createParser({ onError: spy })
     const ast = parser.parse(text)
