@@ -58,7 +58,7 @@ const DEFAULT_MODIFIER = (str: unknown): unknown => str
 const DEFAULT_MESSAGE = (ctx: MessageContext): unknown => '' // eslint-disable-line
 export const DEFAULT_MESSAGE_DATA_TYPE = 'text'
 const DEFAULT_NORMALIZE = (values: unknown[]): unknown =>
-  values.length === 0 ? values[0] : values.join('')
+  values.length === 0 ? '' : values.join('')
 const DEFAULT_INTERPOLATE = toDisplayString
 
 function pluralDefault(choice: number, choicesLength: number): number {

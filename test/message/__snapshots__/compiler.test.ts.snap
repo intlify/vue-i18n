@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`compile: code 1`] = `
+exports[`@.caml:{'no apples'} | {0} apple | {n}　apples: code 1`] = `
 "function __msg__ (ctx) {
   return [
     ctx.normalize([
@@ -12,4 +12,40 @@ exports[`compile: code 1`] = `
     ])
   ][ctx.pluralRule(ctx.pluralIndex, 3, ctx.orgPluralRule)]
 }"
+`;
+
+exports[`edge cases  | | | : code 1`] = `
+"function __msg__ (ctx) {
+  return [
+    ctx.normalize([
+      
+    ]), ctx.normalize([
+      
+    ]), ctx.normalize([
+      
+    ]), ctx.normalize([
+      
+    ])
+  ][ctx.pluralRule(ctx.pluralIndex, 4, ctx.orgPluralRule)]
+}"
+`;
+
+exports[`edge cases  | | | : error 1`] = `
+Object {
+  "code": 10,
+  "domain": "parser",
+  "location": Object {
+    "end": Object {
+      "column": 8,
+      "line": 1,
+      "offset": 7,
+    },
+    "start": Object {
+      "column": 1,
+      "line": 1,
+      "offset": 0,
+    },
+  },
+  "message": "Plural must have messages",
+}
 `;
