@@ -98,8 +98,8 @@ describe('emoji', () => {
 })
 
 describe('unicode', () => {
-  test('4 digits', () => {
-    const text = `hi, {'\u0041'} !`
+  test(`4 digits: '\\u0041'`, () => {
+    const text = `hi, {'\\u0041'} !`
     const parser = createParser({ onError: spy })
     const ast = parser.parse(text)
 
@@ -116,7 +116,7 @@ describe('unicode', () => {
       },
       {
         type: NodeTypes.Literal,
-        value: '\u0041'
+        value: 'A'
       },
       {
         type: NodeTypes.Text,
@@ -125,8 +125,8 @@ describe('unicode', () => {
     ])
   })
 
-  test('6 digits', () => {
-    const text = `hi, {'\U01F602'} !`
+  test(`6 digits: \\U01F602'`, () => {
+    const text = `hi, {'\\U01F602'} !`
     const parser = createParser({ onError: spy })
     const ast = parser.parse(text)
 
@@ -143,7 +143,7 @@ describe('unicode', () => {
       },
       {
         type: NodeTypes.Literal,
-        value: 'U01F602'
+        value: '😂'
       },
       {
         type: NodeTypes.Text,
@@ -214,7 +214,7 @@ describe('other special characters', () => {
 })
 
 describe('escapes', () => {
-  test(`\\'`, () => {
+  test(`backslash quote: '\\''`, () => {
     const text = `hi, {'\\''} !`
     const parser = createParser({ onError: spy })
     const ast = parser.parse(text)
@@ -232,7 +232,7 @@ describe('escapes', () => {
       },
       {
         type: NodeTypes.Literal,
-        value: `\\'`
+        value: `'`
       },
       {
         type: NodeTypes.Text,
@@ -241,7 +241,7 @@ describe('escapes', () => {
     ])
   })
 
-  test(`\\\\`, () => {
+  test(`backslash baackslash: '\\\\'`, () => {
     const text = `hi, {'\\\\'} !`
     const parser = createParser({ onError: spy })
     const ast = parser.parse(text)
@@ -259,7 +259,7 @@ describe('escapes', () => {
       },
       {
         type: NodeTypes.Literal,
-        value: `\\\\`
+        value: `\\`
       },
       {
         type: NodeTypes.Text,
@@ -268,8 +268,8 @@ describe('escapes', () => {
     ])
   })
 
-  test(`\\u0041`, () => {
-    const text = `hi, {'\\u0041'} !`
+  test(`unicode 4 digits: '\\\\u0041'`, () => {
+    const text = `hi, {'\\\\u0041'} !`
     const parser = createParser({ onError: spy })
     const ast = parser.parse(text)
 
@@ -295,8 +295,8 @@ describe('escapes', () => {
     ])
   })
 
-  test(`\\U01F602`, () => {
-    const text = `hi, {'\\U01F602'} !`
+  test(`unicode 6 digits: '\\\\U01F602'`, () => {
+    const text = `hi, {'\\\\U01F602'} !`
     const parser = createParser({ onError: spy })
     const ast = parser.parse(text)
 
@@ -323,8 +323,49 @@ describe('escapes', () => {
   })
 })
 
-test.todo(`hi { 'foo`)
-test.todo(`hi { 'foo }`)
-test.todo(`hi { 'foo\n' }`)
-test.todo(`hi { '\\x41' }`)
-test.todo(`hi { '\\uw' }`)
+describe('errors', () => {
+  test(`unknown escape: '\\x41'`, () => {
+    const text = `hi, {'\\x41'} !`
+    const parser = createParser({ onError: spy })
+    const ast = parser.parse(text)
+
+    expect(ast).toMatchSnapshot()
+    expect(spy).toHaveBeenCalled()
+  })
+
+  test(`invalid unicode escape: hi { '\\uw' }`, () => {
+    const text = `hi, {'\\uw'} !`
+    const parser = createParser({ onError: spy })
+    const ast = parser.parse(text)
+
+    expect(ast).toMatchSnapshot()
+    expect(spy).toHaveBeenCalled()
+  })
+
+  test(`not close single quote at EOF: hi { 'foo`, () => {
+    const text = `hi, {'foo`
+    const parser = createParser({ onError: spy })
+    const ast = parser.parse(text)
+
+    expect(ast).toMatchSnapshot()
+    expect(spy).toHaveBeenCalled()
+  })
+
+  test(`not close single quote: hi { 'foo }`, () => {
+    const text = `hi, { 'foo }`
+    const parser = createParser({ onError: spy })
+    const ast = parser.parse(text)
+
+    expect(ast).toMatchSnapshot()
+    expect(spy).toHaveBeenCalled()
+  })
+
+  test(`include new line: hi { 'foo\\n' }`, () => {
+    const text = `hi, { 'foo\n' }`
+    const parser = createParser({ onError: spy })
+    const ast = parser.parse(text)
+
+    expect(ast).toMatchSnapshot()
+    expect(spy).toHaveBeenCalled()
+  })
+})

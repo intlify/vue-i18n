@@ -8,7 +8,7 @@ import {
 } from '../../../src/message/tokenizer'
 
 describe('string', () => {
-  test('ascii', () => {
+  test(`ascii: 'kazuya kawaguchi'`, () => {
     const tokenizer = createTokenizer(`hi { 'kazuya kawaguchi' }`)
     expect(tokenizer.nextToken()).toEqual({
       type: TokenTypes.Text,
@@ -51,7 +51,7 @@ describe('string', () => {
     })
   })
 
-  test('multi bytes', () => {
+  test(`multi bytes: 'かずぽん'`, () => {
     const tokenizer = createTokenizer(`こんにちは、{ 'かずぽん' }`)
     expect(tokenizer.nextToken()).toEqual({
       type: TokenTypes.Text,
@@ -94,7 +94,7 @@ describe('string', () => {
     })
   })
 
-  test('emoji', () => {
+  test(`emoji: '😺'`, () => {
     const tokenizer = createTokenizer(`hi { '😺' }`)
     expect(tokenizer.nextToken()).toEqual({
       type: TokenTypes.Text,
@@ -139,8 +139,8 @@ describe('string', () => {
 })
 
 describe('unicode', () => {
-  test('4 digits', () => {
-    const tokenizer = createTokenizer(`{ '\u0041' }`)
+  test(`4 digits: '\\u0041'`, () => {
+    const tokenizer = createTokenizer(`{ '\\u0041' }`) // { '\u0041' }
     expect(tokenizer.nextToken()).toEqual({
       type: TokenTypes.BraceLeft,
       value: '{',
@@ -151,31 +151,31 @@ describe('unicode', () => {
     })
     expect(tokenizer.nextToken()).toEqual({
       type: TokenTypes.Literal,
-      value: '\u0041',
+      value: '\\u0041',
       loc: {
         start: { line: 1, column: 3, offset: 2 },
-        end: { line: 1, column: 6, offset: 5 }
+        end: { line: 1, column: 11, offset: 10 }
       }
     })
     expect(tokenizer.nextToken()).toEqual({
       type: TokenTypes.BraceRight,
       value: '}',
       loc: {
-        start: { line: 1, column: 7, offset: 6 },
-        end: { line: 1, column: 8, offset: 7 }
+        start: { line: 1, column: 12, offset: 11 },
+        end: { line: 1, column: 13, offset: 12 }
       }
     })
     expect(tokenizer.nextToken()).toEqual({
       type: TokenTypes.EOF,
       loc: {
-        start: { line: 1, column: 8, offset: 7 },
-        end: { line: 1, column: 8, offset: 7 }
+        start: { line: 1, column: 13, offset: 12 },
+        end: { line: 1, column: 13, offset: 12 }
       }
     })
   })
 
-  test('6 digits', () => {
-    const tokenizer = createTokenizer(`{ '\U01F602' }`)
+  test(`6 digits: '\\U01F602'`, () => {
+    const tokenizer = createTokenizer(`{ '\\U01F602' }`) // { '\U01F602' }
     expect(tokenizer.nextToken()).toEqual({
       type: TokenTypes.BraceLeft,
       value: '{',
@@ -186,32 +186,32 @@ describe('unicode', () => {
     })
     expect(tokenizer.nextToken()).toEqual({
       type: TokenTypes.Literal,
-      value: 'U01F602',
+      value: '\\U01F602',
       loc: {
         start: { line: 1, column: 3, offset: 2 },
-        end: { line: 1, column: 12, offset: 11 }
+        end: { line: 1, column: 13, offset: 12 }
       }
     })
     expect(tokenizer.nextToken()).toEqual({
       type: TokenTypes.BraceRight,
       value: '}',
       loc: {
-        start: { line: 1, column: 13, offset: 12 },
-        end: { line: 1, column: 14, offset: 13 }
+        start: { line: 1, column: 14, offset: 13 },
+        end: { line: 1, column: 15, offset: 14 }
       }
     })
     expect(tokenizer.nextToken()).toEqual({
       type: TokenTypes.EOF,
       loc: {
-        start: { line: 1, column: 14, offset: 13 },
-        end: { line: 1, column: 14, offset: 13 }
+        start: { line: 1, column: 15, offset: 14 },
+        end: { line: 1, column: 15, offset: 14 }
       }
     })
   })
 })
 
 describe('special chracters', () => {
-  test('{', () => {
+  test(`'{'`, () => {
     const tokenizer = createTokenizer(`open blace: {'{'}`)
     expect(tokenizer.nextToken()).toEqual({
       type: TokenTypes.Text,
@@ -254,7 +254,7 @@ describe('special chracters', () => {
     })
   })
 
-  test('}', () => {
+  test(`'}'`, () => {
     const tokenizer = createTokenizer(`end blace: { '}' }`)
     expect(tokenizer.nextToken()).toEqual({
       type: TokenTypes.Text,
@@ -297,7 +297,7 @@ describe('special chracters', () => {
     })
   })
 
-  test('|', () => {
+  test(`'|'`, () => {
     const tokenizer = createTokenizer(`{ '|' } = pipe`)
     expect(tokenizer.nextToken()).toEqual({
       type: TokenTypes.BraceLeft,
@@ -340,7 +340,7 @@ describe('special chracters', () => {
     })
   })
 
-  test('@', () => {
+  test(`'@'`, () => {
     const tokenizer = createTokenizer(`foo{'@'}bar.com`)
     expect(tokenizer.nextToken()).toEqual({
       type: TokenTypes.Text,
@@ -391,7 +391,7 @@ describe('special chracters', () => {
     })
   })
 
-  test('$', () => {
+  test(`'$'`, () => {
     const tokenizer = createTokenizer(`{'$query'}`)
     expect(tokenizer.nextToken()).toEqual({
       type: TokenTypes.BraceLeft,
@@ -426,7 +426,7 @@ describe('special chracters', () => {
     })
   })
 
-  test('!#%^&*()-_+=[]:;?.<>"`', () => {
+  test(`'!#%^&*()-_+=[]:;?.<>"\``, () => {
     const tokenizer = createTokenizer("{'!#%^&*()-_+=[]:;?.<>\"`'}")
     expect(tokenizer.nextToken()).toEqual({
       type: TokenTypes.BraceLeft,
@@ -463,7 +463,7 @@ describe('special chracters', () => {
 })
 
 describe('escapes', () => {
-  test(`\\\"`, () => {
+  test(`backslash quote: '\\''`, () => {
     const tokenizer = createTokenizer(`{'\\''}`) // {'\''}
     expect(tokenizer.nextToken()).toEqual({
       type: TokenTypes.BraceLeft,
@@ -498,7 +498,7 @@ describe('escapes', () => {
     })
   })
 
-  test(`\\\\`, () => {
+  test(`backslash backslash: '\\\\'`, () => {
     const tokenizer = createTokenizer(`{'\\\\'}`) // {'\\''}
     expect(tokenizer.nextToken()).toEqual({
       type: TokenTypes.BraceLeft,
@@ -533,7 +533,7 @@ describe('escapes', () => {
     })
   })
 
-  test(`\\\\u0041`, () => {
+  test(`unicode 4 digits: '\\\\u0041'`, () => {
     const tokenizer = createTokenizer(`{'\\\\u0041'}`) // {'\\u0041'}
     expect(tokenizer.nextToken()).toEqual({
       type: TokenTypes.BraceLeft,
@@ -568,7 +568,7 @@ describe('escapes', () => {
     })
   })
 
-  test(`\\\\U01F602`, () => {
+  test(`unicode 6 digits: '\\\\U01F602'`, () => {
     const tokenizer = createTokenizer(`{'\\\\U01F602'}`) // {'\\U01F602'}
     expect(tokenizer.nextToken()).toEqual({
       type: TokenTypes.BraceLeft,
@@ -615,11 +615,11 @@ describe('errors', () => {
     } as TokenizeOptions
   })
 
-  test(`not closed single quote`, () => {
+  test(`not closed single quote: hi { 'foo }`, () => {
     parse(`hi { 'foo }`, options)
     expect(errors).toEqual([
       {
-        code: CompileErrorCodes.T_UNTERMINATED_SINGLE_QUOTE_IN_PLACEHOLDER,
+        code: CompileErrorCodes.UNTERMINATED_SINGLE_QUOTE_IN_PLACEHOLDER,
         domain: ERROR_DOMAIN_TOKENIZE,
         message: `Unterminated single quote in placeholder`,
         location: {
@@ -638,13 +638,17 @@ describe('errors', () => {
     ] as CompileError[])
   })
 
-  test.todo(`mismatched quote: '\\''`)
+  test(`mismatched quote: hi { '\\\\'' }`, () => {
+    parse(`hi { '\\\\'' }`, options) // { '\\'' }
+    // TODO:
+    expect(errors).toHaveLength(2)
+  })
 
-  test(`unknown escape: '\\x41'`, () => {
+  test(`unknown escape: hi { '\\x41' }`, () => {
     parse(`hi { '\\x41' }`, options)
     expect(errors).toEqual([
       {
-        code: CompileErrorCodes.T_UNKNOWN_ESCAPE_SEQUENCE,
+        code: CompileErrorCodes.UNKNOWN_ESCAPE_SEQUENCE,
         domain: ERROR_DOMAIN_TOKENIZE,
         message: `Unknown escape sequence: \\x`,
         location: {
@@ -663,11 +667,11 @@ describe('errors', () => {
     ] as CompileError[])
   })
 
-  test('invalid unicode escape', () => {
+  test(`invalid unicode escape: hi { '\\uwxyz' }`, () => {
     parse(`hi { '\\uwxyz' }`, options)
     expect(errors).toEqual([
       {
-        code: CompileErrorCodes.T_INVALID_UNICODE_ESCAPE_SEQUENCE,
+        code: CompileErrorCodes.INVALID_UNICODE_ESCAPE_SEQUENCE,
         domain: ERROR_DOMAIN_TOKENIZE,
         message: `Invalid unicode escape sequence: \\uw`,
         location: {
@@ -686,11 +690,11 @@ describe('errors', () => {
     ] as CompileError[])
   })
 
-  test('multiline', () => {
+  test(`multiline: hi { 'foo\\n' }`, () => {
     parse(`hi { 'foo\n' }`, options)
     expect(errors).toEqual([
       {
-        code: CompileErrorCodes.T_UNTERMINATED_SINGLE_QUOTE_IN_PLACEHOLDER,
+        code: CompileErrorCodes.UNTERMINATED_SINGLE_QUOTE_IN_PLACEHOLDER,
         domain: ERROR_DOMAIN_TOKENIZE,
         message: `Unterminated single quote in placeholder`,
         location: {
@@ -711,6 +715,73 @@ describe('errors', () => {
 })
 
 describe('edge cases', () => {
-  test.todo(`too few hex digits after: '\\u41'`)
-  test.todo(`too few hex digits after: '\U1F602'`)
+  test(`too few hex digits after: '\\u41'`, () => {
+    const tokenizer = createTokenizer(`{ '\\u41' }`) // { '\u41' }
+    expect(tokenizer.nextToken()).toEqual({
+      type: TokenTypes.BraceLeft,
+      value: '{',
+      loc: {
+        start: { line: 1, column: 1, offset: 0 },
+        end: { line: 1, column: 2, offset: 1 }
+      }
+    })
+    expect(tokenizer.nextToken()).toEqual({
+      type: TokenTypes.Literal,
+      value: '\\u41',
+      loc: {
+        start: { line: 1, column: 3, offset: 2 },
+        end: { line: 1, column: 9, offset: 8 }
+      }
+    })
+    expect(tokenizer.nextToken()).toEqual({
+      type: TokenTypes.BraceRight,
+      value: '}',
+      loc: {
+        start: { line: 1, column: 10, offset: 9 },
+        end: { line: 1, column: 11, offset: 10 }
+      }
+    })
+    expect(tokenizer.nextToken()).toEqual({
+      type: TokenTypes.EOF,
+      loc: {
+        start: { line: 1, column: 11, offset: 10 },
+        end: { line: 1, column: 11, offset: 10 }
+      }
+    })
+  })
+
+  test(`too few hex digits after: '\\U1F60200'`, () => {
+    const tokenizer = createTokenizer(`{ '\\U01F60200' }`) // { '\U01F60200' }
+    expect(tokenizer.nextToken()).toEqual({
+      type: TokenTypes.BraceLeft,
+      value: '{',
+      loc: {
+        start: { line: 1, column: 1, offset: 0 },
+        end: { line: 1, column: 2, offset: 1 }
+      }
+    })
+    expect(tokenizer.nextToken()).toEqual({
+      type: TokenTypes.Literal,
+      value: '\\U01F60200',
+      loc: {
+        start: { line: 1, column: 3, offset: 2 },
+        end: { line: 1, column: 15, offset: 14 }
+      }
+    })
+    expect(tokenizer.nextToken()).toEqual({
+      type: TokenTypes.BraceRight,
+      value: '}',
+      loc: {
+        start: { line: 1, column: 16, offset: 15 },
+        end: { line: 1, column: 17, offset: 16 }
+      }
+    })
+    expect(tokenizer.nextToken()).toEqual({
+      type: TokenTypes.EOF,
+      loc: {
+        start: { line: 1, column: 17, offset: 16 },
+        end: { line: 1, column: 17, offset: 16 }
+      }
+    })
+  })
 })

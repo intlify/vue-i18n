@@ -1,10 +1,7 @@
 import {
   createParser,
   NodeTypes,
-  MessageNode,
-  LinkedNode,
-  LinkedKeyNode,
-  LinkedModitierNode
+  MessageNode
 } from '../../../src/message/parser'
 
 let spy
@@ -193,17 +190,18 @@ describe('multiple', () => {
 })
 
 describe('edge cases', () => {
+  test.todo(`hi @:{ name } !`)
+  test.todo(`hi @:{ 'name' } !`)
+  test.todo(`hi @:{ {name} } !`)
   test.todo(`foo@bar.com`)
   test.todo(`hi @:\nname !`)
   test.todo(`hi @ :name !`)
-  test.todo(`hi @:{ name } !`)
-  test.todo(`hi @:{ {name} } !`)
-  test.todo(`hi @: {name} !`)
   test.todo(`hi @. {name} !`)
+  test.todo(`hi @.\n{name} !`)
+  test.todo(`hi @.upper\n{name} !`)
   test.todo(`hi @.upper {name} !`)
-  test.todo(`hi \n@\n.\nupper\n:\n{ name }\n !`)
-  test.todo(`hi @\n.\nupper\n:\n{'name'}\n !`)
-  test.todo(`hi @ .lower : {name} !`)
-  test.todo(`hi @:{ 'name' } !`)
+  test.todo(`hi @:\n{name} !`)
   test.todo(`hi @: {'name'} !`)
+  test.todo(`hi @. {name} !`)
+  test.todo(`hi @\. upper\n: {'name'}\n !`)
 })

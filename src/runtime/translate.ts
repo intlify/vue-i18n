@@ -232,9 +232,21 @@ export function translate(
   }
 
   // compile message format
+  let occured = false
+  const errorDetector = () => {
+    occured = true
+  }
   const msg = isMessageFunction(format)
     ? format
-    : compile(format, getCompileOptions(targetLocale, cacheBaseKey, format))
+    : compile(
+        format,
+        getCompileOptions(targetLocale, cacheBaseKey, format, errorDetector)
+      )
+
+  // if occured compile error, return the message format
+  if (occured) {
+    return format
+  }
 
   // evaluate message with context
   const ctxOptions = getMessageContextOptions(
@@ -285,10 +297,12 @@ export function parseTranslateArgs(
 function getCompileOptions(
   locale: Locale,
   key: string,
-  source: string
+  source: string,
+  errorDetector?: Function
 ): CompileOptions {
   return {
     onError: (err: CompileError): void => {
+      errorDetector && errorDetector(err)
       if (__DEV__) {
         const message = `Message compilation error: ${err.message}`
         const codeFrame =
@@ -318,7 +332,15 @@ function getMessageContextOptions(
   const resolveMessage = (key: string): MessageFunction => {
     const val = resolveValue(message, key)
     if (isString(val)) {
-      return compile(val, getCompileOptions(locale, key, val))
+      let occured = false
+      const errorDetector = () => {
+        occured = true
+      }
+      const msg = compile(
+        val,
+        getCompileOptions(locale, key, val, errorDetector)
+      )
+      return !occured ? msg : NOOP_MESSAGE_FUNCTION
     } else if (isMessageFunction(val)) {
       return val
     } else {

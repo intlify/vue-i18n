@@ -91,6 +91,31 @@ export type Parser = Readonly<{
 
 export const ERROR_DOMAIN = 'parser'
 
+// Backslash backslash, backslash quote, uHHHH, UHHHHHH.
+const KNOWN_ESCAPES = /(?:\\\\|\\'|\\u([0-9a-fA-F]{4})|\\U([0-9a-fA-F]{6}))/g
+
+function fromEscapeSequence(
+  match: string,
+  codePoint4: string,
+  codePoint6: string
+): string {
+  switch (match) {
+    case `\\\\`:
+      return `\\`
+    case `\\\'`:
+      return `\'`
+    default: {
+      const codePoint = parseInt(codePoint4 || codePoint6, 16)
+      if (codePoint <= 0xd7ff || codePoint >= 0xe000) {
+        return String.fromCodePoint(codePoint)
+      }
+      // invalid ...
+      // Replace them with U+FFFD REPLACEMENT CHARACTER.
+      return '�'
+    }
+  }
+}
+
 export function createParser(options: ParserOptions = {}): Parser {
   const location = !options.location
 
@@ -183,7 +208,7 @@ export function createParser(options: ParserOptions = {}): Parser {
     const context = tokenizer.context()
     const { lastOffset: offset, lastStartLoc: loc } = context // get brace left loc
     const node = startNode(NodeTypes.Literal, offset, loc) as LiteralNode
-    node.value = value
+    node.value = value.replace(KNOWN_ESCAPES, fromEscapeSequence)
     tokenizer.nextToken() // skip brach right
     endNode(node, tokenizer.currentOffset(), tokenizer.currentPosition())
     return node
@@ -384,7 +409,7 @@ export function createParser(options: ParserOptions = {}): Parser {
     if (hasEmptyMessage) {
       emitError(
         tokenizer,
-        CompileErrorCodes.P_MUST_HAVE_MESSAGES_IN_PLURAL,
+        CompileErrorCodes.MUST_HAVE_MESSAGES_IN_PLURAL,
         loc,
         0
       )

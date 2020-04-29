@@ -409,12 +409,12 @@ describe('t', () => {
     expect(t('multibytes')).toEqual('hi かずぽん !')
     expect(t('emoji')).toEqual('hi 😺 !')
     expect(t('specials')).toEqual(`hi ${'!#%^&*()-_+=[]:;?.<>"`'} !`)
-    expect(t('escapedSingleQuote')).toEqual(`hi \\\' !`)
-    expect(t('escapedSlash')).toEqual('hi \\\\ !')
+    expect(t('escapedSingleQuote')).toEqual(`hi ' !`)
+    expect(t('escapedSlash')).toEqual('hi \\ !')
     expect(t('unicode4digits')).toEqual('hi A !')
-    expect(t('escapedUnicode4digits')).toEqual(`hi \\\\u0041 !`)
+    expect(t('escapedUnicode4digits')).toEqual(`hi \\u0041 !`)
     expect(t('unicode6digits')).toEqual('hi U01F602 !')
-    expect(t('escapedUnicode6digits')).toEqual(`hi \\\\U01F602 !`)
+    expect(t('escapedUnicode6digits')).toEqual(`hi \\U01F602 !`)
   })
 
   test('linked', () => {

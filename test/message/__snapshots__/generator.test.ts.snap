@@ -83,7 +83,7 @@ exports[`literal emoji: hi {'😺'} ! 1`] = `
 exports[`literal escaped single quote: hi {'\\''} ! 1`] = `
 "function __msg__ (ctx) {
   return ctx.normalize([
-    \\"hi \\", \\"\\\\\\\\'\\", \\" !\\"
+    \\"hi \\", \\"'\\", \\" !\\"
   ])
 }"
 `;
@@ -91,7 +91,7 @@ exports[`literal escaped single quote: hi {'\\''} ! 1`] = `
 exports[`literal escaped slash: hi {'\\\\'} ! 1`] = `
 "function __msg__ (ctx) {
   return ctx.normalize([
-    \\"hi \\", \\"\\\\\\\\\\\\\\\\\\", \\" !\\"
+    \\"hi \\", \\"\\\\\\\\\\", \\" !\\"
   ])
 }"
 `;
@@ -99,7 +99,7 @@ exports[`literal escaped slash: hi {'\\\\'} ! 1`] = `
 exports[`literal escaped unicode 4 digits: hi {'\\\\u0041'} ! 1`] = `
 "function __msg__ (ctx) {
   return ctx.normalize([
-    \\"hi \\", \\"\\\\\\\\\\\\\\\\u0041\\", \\" !\\"
+    \\"hi \\", \\"\\\\\\\\u0041\\", \\" !\\"
   ])
 }"
 `;
@@ -107,7 +107,7 @@ exports[`literal escaped unicode 4 digits: hi {'\\\\u0041'} ! 1`] = `
 exports[`literal escaped unicode 6 digits: hi {'\\\\U01F602'} ! 1`] = `
 "function __msg__ (ctx) {
   return ctx.normalize([
-    \\"hi \\", \\"\\\\\\\\\\\\\\\\U01F602\\", \\" !\\"
+    \\"hi \\", \\"\\\\\\\\U01F602\\", \\" !\\"
   ])
 }"
 `;

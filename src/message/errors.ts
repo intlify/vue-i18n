@@ -15,17 +15,20 @@ export interface CompileError extends SyntaxError {
 
 export const enum CompileErrorCodes {
   // tokenizer error codes
-  T_EXPECTED_TOKEN,
-  T_INVALID_TOKEN_IN_PLACEHOLDER,
-  T_UNTERMINATED_SINGLE_QUOTE_IN_PLACEHOLDER,
-  T_UNKNOWN_ESCAPE_SEQUENCE,
-  T_INVALID_UNICODE_ESCAPE_SEQUENCE,
+  EXPECTED_TOKEN,
+  INVALID_TOKEN_IN_PLACEHOLDER,
+  UNTERMINATED_SINGLE_QUOTE_IN_PLACEHOLDER,
+  UNKNOWN_ESCAPE_SEQUENCE,
+  INVALID_UNICODE_ESCAPE_SEQUENCE,
+  UNBALANCED_CLOSING_BRACE,
+  UNTERMINATED_CLOSING_BRACE,
+  EMPTY_PLACEHOLDER,
+  NOT_ALLOW_NEST_PLACEHOLDER,
+  INVALID_LINKED_FORMAT,
 
   // parser error codes
-  P_MUST_HAVE_MESSAGES_IN_PLURAL,
-  // Plural must have a message.
-  MISSING_END_BRACE,
-  MISSING_END_PAREN,
+  MUST_HAVE_MESSAGES_IN_PLURAL,
+
   // Special value for higher-order compilers to pick up the last code
   // to avoid collision of error codes. This should always be kept as the last
   // item.
@@ -41,19 +44,24 @@ export type CreateCompileErrorOptions = {
 // TODO: This code should be removed with using rollup (`/*#__PURE__*/`)
 export const errorMessages: { [code: number]: string } = {
   // tokenizer error messages
-  [CompileErrorCodes.T_EXPECTED_TOKEN]: `Expected token: '{0}'`,
-  [CompileErrorCodes.T_INVALID_TOKEN_IN_PLACEHOLDER]: `Invalid token in placeholder: '{0}'`, // TODO: if we don't need this error, should be removed it!
-  [CompileErrorCodes.T_UNTERMINATED_SINGLE_QUOTE_IN_PLACEHOLDER]: `Unterminated single quote in placeholder`,
-  [CompileErrorCodes.T_UNKNOWN_ESCAPE_SEQUENCE]: `Unknown escape sequence: \\{0}`,
-  [CompileErrorCodes.T_INVALID_UNICODE_ESCAPE_SEQUENCE]: `Invalid unicode escape sequence: {0}`,
+  [CompileErrorCodes.EXPECTED_TOKEN]: `Expected token: '{0}'`,
+  [CompileErrorCodes.INVALID_TOKEN_IN_PLACEHOLDER]: `Invalid token in placeholder: '{0}'`, // TODO: if we don't need this error, should be removed it!
+  [CompileErrorCodes.UNTERMINATED_SINGLE_QUOTE_IN_PLACEHOLDER]: `Unterminated single quote in placeholder`,
+  [CompileErrorCodes.UNKNOWN_ESCAPE_SEQUENCE]: `Unknown escape sequence: \\{0}`,
+  [CompileErrorCodes.INVALID_UNICODE_ESCAPE_SEQUENCE]: `Invalid unicode escape sequence: {0}`,
+  [CompileErrorCodes.UNBALANCED_CLOSING_BRACE]: `Unbalanced closing brace`,
+  [CompileErrorCodes.UNTERMINATED_CLOSING_BRACE]: `Unterminated closing brace`,
+  [CompileErrorCodes.EMPTY_PLACEHOLDER]: `Empty placeholder`,
+  [CompileErrorCodes.NOT_ALLOW_NEST_PLACEHOLDER]: `Not allowed nest placeholder`,
+  [CompileErrorCodes.INVALID_LINKED_FORMAT]: `Invalid linked format`,
   // parser error messages
-  [CompileErrorCodes.P_MUST_HAVE_MESSAGES_IN_PLURAL]: `Plural must have messages`
+  [CompileErrorCodes.MUST_HAVE_MESSAGES_IN_PLURAL]: `Plural must have messages`
 }
 
 // TODO: This code should be removed with using rollup (`/*#__PURE__*/`)
 const RE_ARGS = /\{([0-9]+)\}/g
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
+/* eslint-disable @typescript-eslint/no-explicit-any */
 // TODO: This code should be removed with using rollup (`/*#__PURE__*/`)
 export function format(message: string, ...args: any[]): string {
   return message.replace(RE_ARGS, (match: string, ...replaceArgs): string => {
@@ -61,6 +69,7 @@ export function format(message: string, ...args: any[]): string {
     return args[index] || ''
   })
 }
+/* eslint-enable @typescript-eslint/no-explicit-any */
 
 // TODO: This code should be removed with using rollup (`/*#__PURE__*/`)
 export function createCompileError(

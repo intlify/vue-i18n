@@ -1,4 +1,15 @@
-import { createTokenizer, TokenTypes } from '../../../src/message/tokenizer'
+import { TokenizeOptions } from '../../../src/message/options'
+import {
+  CompileErrorCodes,
+  CompileError,
+  errorMessages
+} from '../../../src/message/errors'
+import {
+  createTokenizer,
+  TokenTypes,
+  ERROR_DOMAIN,
+  parse
+} from '../../../src/message/tokenizer'
 
 test('basic', () => {
   const tokenizer = createTokenizer('hi {name} !')
@@ -356,5 +367,178 @@ test('with modulo', () => {
       start: { line: 1, column: 13, offset: 12 },
       end: { line: 1, column: 13, offset: 12 }
     }
+  })
+})
+
+describe('errors', () => {
+  let errors: CompileError[], options
+  beforeEach(() => {
+    errors = []
+    options = {
+      onError: err => {
+        errors.push({ ...err, message: err.message })
+      }
+    } as TokenizeOptions
+  })
+
+  test('empty placeholder', () => {
+    parse(`hi, {} !`, options)
+    expect(errors).toEqual([
+      {
+        code: CompileErrorCodes.EMPTY_PLACEHOLDER,
+        domain: ERROR_DOMAIN,
+        message: errorMessages[CompileErrorCodes.EMPTY_PLACEHOLDER],
+        location: {
+          start: {
+            line: 1,
+            offset: 5,
+            column: 6
+          },
+          end: {
+            line: 1,
+            offset: 5,
+            column: 6
+          }
+        }
+      }
+    ] as CompileError[])
+  })
+
+  test('nest placeholder', () => {
+    parse(`hi, {{ !`, options)
+    expect(errors).toEqual([
+      {
+        code: CompileErrorCodes.NOT_ALLOW_NEST_PLACEHOLDER,
+        domain: ERROR_DOMAIN,
+        message: errorMessages[CompileErrorCodes.NOT_ALLOW_NEST_PLACEHOLDER],
+        location: {
+          start: {
+            line: 1,
+            offset: 5,
+            column: 6
+          },
+          end: {
+            line: 1,
+            offset: 5,
+            column: 6
+          }
+        }
+      }
+    ] as CompileError[])
+  })
+
+  test('close brace only', () => {
+    parse(`hi, :-} !`, options)
+    expect(errors).toEqual([
+      {
+        code: CompileErrorCodes.UNBALANCED_CLOSING_BRACE,
+        domain: ERROR_DOMAIN,
+        message: errorMessages[CompileErrorCodes.UNBALANCED_CLOSING_BRACE],
+        location: {
+          start: {
+            line: 1,
+            offset: 6,
+            column: 7
+          },
+          end: {
+            line: 1,
+            offset: 6,
+            column: 7
+          }
+        }
+      }
+    ] as CompileError[])
+  })
+
+  test('not close brace at sentence', () => {
+    parse(`hi { name !`, options)
+    expect(errors).toEqual([
+      {
+        code: CompileErrorCodes.UNTERMINATED_CLOSING_BRACE,
+        domain: ERROR_DOMAIN,
+        message: errorMessages[CompileErrorCodes.UNTERMINATED_CLOSING_BRACE],
+        location: {
+          start: {
+            line: 1,
+            offset: 10,
+            column: 11
+          },
+          end: {
+            line: 1,
+            offset: 10,
+            column: 11
+          }
+        }
+      }
+    ] as CompileError[])
+  })
+
+  test('not close brace at EOF', () => {
+    parse(`hi {name`, options)
+    expect(errors).toEqual([
+      {
+        code: CompileErrorCodes.UNTERMINATED_CLOSING_BRACE,
+        domain: ERROR_DOMAIN,
+        message: errorMessages[CompileErrorCodes.UNTERMINATED_CLOSING_BRACE],
+        location: {
+          start: {
+            line: 1,
+            offset: 4,
+            column: 5
+          },
+          end: {
+            line: 1,
+            offset: 8,
+            column: 9
+          }
+        }
+      }
+    ] as CompileError[])
+  })
+
+  test('not close brace in plural message', () => {
+    parse(`hi {  | hello {name} !`, options)
+    expect(errors).toEqual([
+      {
+        code: CompileErrorCodes.UNTERMINATED_CLOSING_BRACE,
+        domain: ERROR_DOMAIN,
+        message: errorMessages[CompileErrorCodes.UNTERMINATED_CLOSING_BRACE],
+        location: {
+          start: {
+            line: 1,
+            offset: 6,
+            column: 7
+          },
+          end: {
+            line: 1,
+            offset: 6,
+            column: 7
+          }
+        }
+      }
+    ] as CompileError[])
+  })
+
+  test('not close brace with linked', () => {
+    parse(`hi { @:name !`, options)
+    expect(errors).toEqual([
+      {
+        code: CompileErrorCodes.UNTERMINATED_CLOSING_BRACE,
+        domain: ERROR_DOMAIN,
+        message: errorMessages[CompileErrorCodes.UNTERMINATED_CLOSING_BRACE],
+        location: {
+          start: {
+            line: 1,
+            offset: 5,
+            column: 6
+          },
+          end: {
+            line: 1,
+            offset: 5,
+            column: 6
+          }
+        }
+      }
+    ] as CompileError[])
   })
 })

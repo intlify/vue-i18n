@@ -6,6 +6,8 @@ node_modules
 .DS_Store
 .idea
 .vscode
+# jest dump files
+report*.json
 *.log
 *.swp
 *~

@@ -24,11 +24,13 @@ export type ParserOptions = {
 export type TransformOptions = {
   // TODO: other options
   // onError?: CompileErrorHandler
+  onError?: CompileErrorHandler
 }
 
 export type CodeGenOptions = {
   // TODO: other options
   // onError?: CompileErrorHandler
+  onError?: CompileErrorHandler
 }
 
 export type CompileOptions = {

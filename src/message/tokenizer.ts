@@ -41,7 +41,6 @@ const enum TokenChars {
   LinkedDelimiter = ':'
 }
 
-// TODO: should be move to utils
 const EOF = undefined
 const LITERAL_DELIMITER = "'"
 export const ERROR_DOMAIN = 'tokenizer'
@@ -150,26 +149,18 @@ export function createTokenizer(
     return token
   }
 
+  const getEndToken = (context: TokenizeContext): Token =>
+    getToken(context, TokenTypes.EOF)
+
   const eat = (scnr: Scanner, ch: string): string => {
     if (scnr.currentChar() === ch) {
       scnr.next()
       return ch
     } else {
       // TODO: This code should be removed with using rollup (`/*#__PURE__*/`)
-      emitError(CompileErrorCodes.T_EXPECTED_TOKEN, currentPosition(), 0, ch)
+      emitError(CompileErrorCodes.EXPECTED_TOKEN, currentPosition(), 0, ch)
       return ''
     }
-  }
-
-  const peekNewLines = (scnr: Scanner): void => {
-    while (scnr.currentPeek() === NEW_LINE) {
-      scnr.peek()
-    }
-  }
-
-  const skipNewLines = (scnr: Scanner): void => {
-    peekNewLines(scnr)
-    scnr.skipToPeek()
   }
 
   const peekSpaces = (scnr: Scanner): string => {
@@ -211,6 +202,7 @@ export function createTokenizer(
     context: TokenizeContext
   ): boolean => {
     const { currentType } = context
+
     if (currentType !== TokenTypes.BraceLeft) {
       return false
     }
@@ -228,6 +220,7 @@ export function createTokenizer(
     context: TokenizeContext
   ): boolean => {
     const { currentType } = context
+
     if (currentType !== TokenTypes.BraceLeft) {
       return false
     }
@@ -243,6 +236,7 @@ export function createTokenizer(
 
   const isLiteralStart = (scnr: Scanner, context: TokenizeContext): boolean => {
     const { currentType } = context
+
     if (currentType !== TokenTypes.BraceLeft) {
       return false
     }
@@ -255,16 +249,57 @@ export function createTokenizer(
     return ret
   }
 
+  const isLinkedDotStart = (
+    scnr: Scanner,
+    context: TokenizeContext
+  ): boolean => {
+    const { currentType } = context
+
+    if (currentType !== TokenTypes.LinkedAlias) {
+      return false
+    }
+
+    peekSpaces(scnr)
+    const ret = scnr.currentPeek() === TokenChars.LinkedDot
+    scnr.resetPeek()
+
+    return ret
+  }
+
   const isLinkedModifierStart = (
     scnr: Scanner,
     context: TokenizeContext
   ): boolean => {
     const { currentType } = context
+
     if (currentType !== TokenTypes.LinkedDot) {
       return false
     }
 
+    peekSpaces(scnr)
     const ret = isIdentifierStart(scnr.currentPeek())
+    scnr.resetPeek()
+
+    return ret
+  }
+
+  const isLinkedDelimiterStart = (
+    scnr: Scanner,
+    context: TokenizeContext
+  ): boolean => {
+    const { currentType } = context
+
+    if (
+      !(
+        currentType === TokenTypes.LinkedAlias ||
+        currentType === TokenTypes.LinkedModifier
+      )
+    ) {
+      return false
+    }
+
+    peekSpaces(scnr)
+    const ret = scnr.currentPeek() === TokenChars.LinkedDelimiter
     scnr.resetPeek()
 
     return ret
@@ -275,7 +310,8 @@ export function createTokenizer(
     context: TokenizeContext
   ): boolean => {
     const { currentType } = context
-    if (!(currentType === TokenTypes.LinkedDelimiter)) {
+
+    if (currentType !== TokenTypes.LinkedDelimiter) {
       return false
     }
 
@@ -310,21 +346,19 @@ export function createTokenizer(
 
   const isPluralStart = (scnr: Scanner): boolean => {
     peekSpaces(scnr)
+
     const ret = scnr.currentPeek() === TokenChars.Pipe
     scnr.resetPeek()
+
     return ret
   }
 
-  const isTextStart = (scnr: Scanner, context: TokenizeContext): boolean => {
-    const { currentType } = context
-    if (currentType === TokenTypes.BraceLeft) {
-      return false
-    }
-
+  const isTextStart = (scnr: Scanner): boolean => {
     const fn = (hasSpace = false): boolean => {
       const ch = scnr.currentPeek()
       if (
         ch === TokenChars.BraceLeft ||
+        ch === TokenChars.BraceRight ||
         ch === TokenChars.Modulo ||
         ch === TokenChars.LinkedAlias ||
         !ch
@@ -351,6 +385,7 @@ export function createTokenizer(
 
   const takeChar = (scnr: Scanner, fn: Function): string | undefined | null => {
     const ch = scnr.currentChar()
+
     if (ch === EOF) {
       return EOF
     }
@@ -416,9 +451,10 @@ export function createTokenizer(
       const ch = scnr.currentChar()
       if (
         ch === TokenChars.BraceLeft ||
+        ch === TokenChars.BraceRight ||
         ch === TokenChars.Modulo ||
         ch === TokenChars.LinkedAlias ||
-        !ch
+        ch === EOF
       ) {
         return buf
       } else if (ch === SPACE || ch === NEW_LINE) {
@@ -448,6 +484,15 @@ export function createTokenizer(
       name += ch
     }
 
+    if (scnr.currentChar() === EOF) {
+      // TODO: This code should be removed with using rollup (`/*#__PURE__*/`)
+      emitError(
+        CompileErrorCodes.UNTERMINATED_CLOSING_BRACE,
+        currentPosition(),
+        0
+      )
+    }
+
     return name
   }
 
@@ -462,13 +507,22 @@ export function createTokenizer(
       value += getDigits(scnr)
     }
 
+    if (scnr.currentChar() === EOF) {
+      // TODO: This code should be removed with using rollup (`/*#__PURE__*/`)
+      emitError(
+        CompileErrorCodes.UNTERMINATED_CLOSING_BRACE,
+        currentPosition(),
+        0
+      )
+    }
+
     return value
   }
 
   const readLiteral = (scnr: Scanner): string => {
     skipSpaces(scnr)
 
-    eat(scnr, LITERAL_DELIMITER)
+    eat(scnr, `\'`)
 
     let ch: string | undefined | null = ''
     let literal = ''
@@ -485,14 +539,19 @@ export function createTokenizer(
     if (current === NEW_LINE || current === EOF) {
       // TODO: This code should be removed with using rollup (`/*#__PURE__*/`)
       emitError(
-        CompileErrorCodes.T_UNTERMINATED_SINGLE_QUOTE_IN_PLACEHOLDER,
+        CompileErrorCodes.UNTERMINATED_SINGLE_QUOTE_IN_PLACEHOLDER,
         currentPosition(),
         0
       )
+      // TODO: Is it correct really?
+      if (current === NEW_LINE) {
+        scnr.next()
+        eat(scnr, `\'`)
+      }
       return literal
     }
 
-    eat(scnr, LITERAL_DELIMITER)
+    eat(scnr, `\'`)
 
     return literal
   }
@@ -511,7 +570,7 @@ export function createTokenizer(
       default:
         // TODO: This code should be removed with using rollup (`/*#__PURE__*/`)
         emitError(
-          CompileErrorCodes.T_UNKNOWN_ESCAPE_SEQUENCE,
+          CompileErrorCodes.UNKNOWN_ESCAPE_SEQUENCE,
           currentPosition(),
           0,
           ch
@@ -533,7 +592,7 @@ export function createTokenizer(
       if (!ch) {
         // TODO: This code should be removed with using rollup (`/*#__PURE__*/`)
         emitError(
-          CompileErrorCodes.T_INVALID_UNICODE_ESCAPE_SEQUENCE,
+          CompileErrorCodes.INVALID_UNICODE_ESCAPE_SEQUENCE,
           currentPosition(),
           0,
           `\\${unicode}${sequence}${scnr.currentChar()}`
@@ -607,6 +666,7 @@ export function createTokenizer(
     return plural
   }
 
+  // TODO: We need refactoring of token parsing ...
   const readTokenInPlaceholder = (
     scnr: Scanner,
     context: TokenizeContext
@@ -616,47 +676,119 @@ export function createTokenizer(
     const ch = scnr.currentChar()
     switch (ch) {
       case TokenChars.BraceLeft:
+        if (context.braceNest >= 1) {
+          // TODO: This code should be removed with using rollup (`/*#__PURE__*/`)
+          emitError(
+            CompileErrorCodes.NOT_ALLOW_NEST_PLACEHOLDER,
+            currentPosition(),
+            0
+          )
+        }
+
         scnr.next()
         token = getToken(context, TokenTypes.BraceLeft, TokenChars.BraceLeft)
+
         skipSpaces(scnr)
+
         context.braceNest++
-        break
+        return token
+
       case TokenChars.BraceRight:
+        if (
+          context.braceNest > 0 &&
+          context.currentType === TokenTypes.BraceLeft
+        ) {
+          // TODO: This code should be removed with using rollup (`/*#__PURE__*/`)
+          emitError(CompileErrorCodes.EMPTY_PLACEHOLDER, currentPosition(), 0)
+        }
+
         scnr.next()
         token = getToken(context, TokenTypes.BraceRight, TokenChars.BraceRight)
+
         context.braceNest--
         context.braceNest > 0 && skipSpaces(scnr)
         if (context.inLinked && context.braceNest === 0) {
           context.inLinked = false
         }
-        break
+        return token
+
+      case TokenChars.LinkedAlias:
+        if (context.braceNest > 0) {
+          // TODO: This code should be removed with using rollup (`/*#__PURE__*/`)
+          emitError(
+            CompileErrorCodes.UNTERMINATED_CLOSING_BRACE,
+            currentPosition(),
+            0
+          )
+        }
+
+        token = readTokenInLinked(scnr, context) || getEndToken(context)
+
+        context.braceNest = 0
+        return token
+
       default:
         let validNamedIdentifier = true
         let validListIdentifier = true
         let validLeteral = true
+
         if (isPluralStart(scnr)) {
+          if (context.braceNest > 0) {
+            // TODO: This code should be removed with using rollup (`/*#__PURE__*/`)
+            emitError(
+              CompileErrorCodes.UNTERMINATED_CLOSING_BRACE,
+              currentPosition(),
+              0
+            )
+          }
+
           token = getToken(context, TokenTypes.Pipe, readPlural(scnr))
+
           // reset
           context.braceNest = 0
           context.inLinked = false
-        } else if (
-          (validNamedIdentifier = isNamedIdentifierStart(scnr, context))
+          return token
+        }
+
+        if (
+          context.braceNest > 0 &&
+          (context.currentType === TokenTypes.Named ||
+            context.currentType === TokenTypes.List ||
+            context.currentType === TokenTypes.Literal)
         ) {
+          // TODO: This code should be removed with using rollup (`/*#__PURE__*/`)
+          emitError(
+            CompileErrorCodes.UNTERMINATED_CLOSING_BRACE,
+            currentPosition(),
+            0
+          )
+
+          context.braceNest = 0
+          return readToken(scnr, context)
+        }
+
+        if ((validNamedIdentifier = isNamedIdentifierStart(scnr, context))) {
           token = getToken(context, TokenTypes.Named, readNamedIdentifier(scnr))
+
           skipSpaces(scnr)
-        } else if (
-          (validListIdentifier = isListIdentifierStart(scnr, context))
-        ) {
+          return token
+        }
+
+        if ((validListIdentifier = isListIdentifierStart(scnr, context))) {
           token = getToken(context, TokenTypes.List, readListIdentifier(scnr))
+
           skipSpaces(scnr)
-        } else if ((validLeteral = isLiteralStart(scnr, context))) {
+          return token
+        }
+
+        if ((validLeteral = isLiteralStart(scnr, context))) {
           token = getToken(context, TokenTypes.Literal, readLiteral(scnr))
+
           skipSpaces(scnr)
-        } else if (
-          !validNamedIdentifier &&
-          !validListIdentifier &&
-          !validLeteral
-        ) {
+          return token
+        }
+
+        if (!validNamedIdentifier && !validListIdentifier && !validLeteral) {
           // TODO:
           //  we should be more refactor to handle token invalid cases ...
           //  we should be emitted errors
@@ -665,21 +797,37 @@ export function createTokenizer(
             TokenTypes.InvalidPlace,
             readInvalidIdentifier(scnr)
           )
+
           skipSpaces(scnr)
+          return token
         }
+
         break
     }
 
     return token
   }
 
+  // TODO: We need refactoring of token parsing ...
   const readTokenInLinked = (
     scnr: Scanner,
     context: TokenizeContext
   ): Token | null => {
+    const { currentType } = context
     let token = null
 
     const ch = scnr.currentChar()
+    if (
+      (currentType === TokenTypes.LinkedAlias ||
+        currentType === TokenTypes.LinkedDot ||
+        currentType === TokenTypes.LinkedModifier ||
+        currentType === TokenTypes.LinkedDelimiter) &&
+      (ch === NEW_LINE || ch === SPACE)
+    ) {
+      // TODO: This code should be removed with using rollup (`/*#__PURE__*/`)
+      emitError(CompileErrorCodes.INVALID_LINKED_FORMAT, currentPosition(), 0)
+    }
+
     switch (ch) {
       case TokenChars.LinkedAlias:
         scnr.next()
@@ -688,92 +836,131 @@ export function createTokenizer(
           TokenTypes.LinkedAlias,
           TokenChars.LinkedAlias
         )
+
         context.inLinked = true
-        skipNewLines(scnr)
-        break
+        return token
+
       case TokenChars.LinkedDot:
+        skipSpaces(scnr)
+
         scnr.next()
-        token = getToken(context, TokenTypes.LinkedDot, TokenChars.LinkedDot)
-        skipNewLines(scnr)
-        break
+        return getToken(context, TokenTypes.LinkedDot, TokenChars.LinkedDot)
+
       case TokenChars.LinkedDelimiter:
+        skipSpaces(scnr)
+
         scnr.next()
-        token = getToken(
+        return getToken(
           context,
           TokenTypes.LinkedDelimiter,
           TokenChars.LinkedDelimiter
         )
-        skipNewLines(scnr)
-        break
+
       default:
         if (isPluralStart(scnr)) {
           token = getToken(context, TokenTypes.Pipe, readPlural(scnr))
           // reset
           context.braceNest = 0
           context.inLinked = false
-        } else if (isLinkedModifierStart(scnr, context)) {
-          token = getToken(
+          return token
+        }
+
+        if (
+          isLinkedDotStart(scnr, context) ||
+          isLinkedDelimiterStart(scnr, context)
+        ) {
+          skipSpaces(scnr)
+          return readTokenInLinked(scnr, context)
+        }
+
+        if (isLinkedModifierStart(scnr, context)) {
+          skipSpaces(scnr)
+          return getToken(
             context,
             TokenTypes.LinkedModifier,
             readLinkedModifier(scnr)
           )
-          skipNewLines(scnr)
-        } else if (isLinkedReferStart(scnr, context)) {
+        }
+
+        if (isLinkedReferStart(scnr, context)) {
+          skipSpaces(scnr)
           if (ch === TokenChars.BraceLeft) {
             // scan the placeholder
-            token = readTokenInPlaceholder(scnr, context) || token
+            return readTokenInPlaceholder(scnr, context) || token
           } else {
-            token = getToken(
+            return getToken(
               context,
               TokenTypes.LinkedKey,
               readLinkedRefer(scnr)
             )
           }
-        } else {
-          context.braceNest = 0
-          context.inLinked = false
-          token = readToken(scnr, context)
         }
-        break
+
+        if (currentType === TokenTypes.LinkedAlias) {
+          // TODO: This code should be removed with using rollup (`/*#__PURE__*/`)
+          emitError(
+            CompileErrorCodes.INVALID_LINKED_FORMAT,
+            currentPosition(),
+            0
+          )
+        }
+
+        context.braceNest = 0
+        context.inLinked = false
+        return readToken(scnr, context)
     }
 
     return token
   }
 
+  // TODO: We need refactoring of token parsing ...
   const readToken = (scnr: Scanner, context: TokenizeContext): Token => {
     let token = { type: TokenTypes.EOF }
 
     if (context.braceNest > 0) {
-      return readTokenInPlaceholder(scnr, context) || token
+      return readTokenInPlaceholder(scnr, context) || getEndToken(context)
+    }
+
+    if (context.inLinked) {
+      return readTokenInLinked(scnr, context) || getEndToken(context)
     }
 
     const ch = scnr.currentChar()
     switch (ch) {
       case TokenChars.BraceLeft:
-        token = readTokenInPlaceholder(scnr, context) || token
-        break
+        return readTokenInPlaceholder(scnr, context) || getEndToken(context)
+
+      case TokenChars.BraceRight:
+        // TODO: This code should be removed with using rollup (`/*#__PURE__*/`)
+        emitError(
+          CompileErrorCodes.UNBALANCED_CLOSING_BRACE,
+          currentPosition(),
+          0
+        )
+
+        scnr.next()
+        return getToken(context, TokenTypes.BraceRight, TokenChars.BraceRight)
+
       case TokenChars.LinkedAlias:
-        token = readTokenInLinked(scnr, context) || token
-        break
+        return readTokenInLinked(scnr, context) || getEndToken(context)
+
       case TokenChars.Modulo:
         scnr.next()
-        token = getToken(context, TokenTypes.Modulo, TokenChars.Modulo)
-        break
+        return getToken(context, TokenTypes.Modulo, TokenChars.Modulo)
+
       default:
         if (isPluralStart(scnr)) {
           token = getToken(context, TokenTypes.Pipe, readPlural(scnr))
           // reset
           context.braceNest = 0
           context.inLinked = false
-        } else if (context.braceNest > 0) {
-          // scan the placeholder
-          token = readTokenInPlaceholder(scnr, context) || token
-        } else if (context.inLinked) {
-          // scan the linked
-          token = readTokenInLinked(scnr, context) || token
-        } else if (isTextStart(scnr, context)) {
-          token = getToken(context, TokenTypes.Text, readText(scnr))
+          return token
         }
+
+        if (isTextStart(scnr)) {
+          return getToken(context, TokenTypes.Text, readText(scnr))
+        }
+
         break
     }
 
@@ -790,7 +977,7 @@ export function createTokenizer(
     _context.offset = currentOffset()
     _context.startLoc = currentPosition()
 
-    if (!_scnr.currentChar()) {
+    if (_scnr.currentChar() === EOF) {
       return (_context.currentToken = getToken(_context, TokenTypes.EOF))
     }
 

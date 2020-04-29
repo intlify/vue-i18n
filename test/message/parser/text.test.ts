@@ -71,26 +71,6 @@ describe('emoji', () => {
   })
 })
 
-describe('included end brace', () => {
-  test('hello :-}', () => {
-    const text = 'hello :-}'
-    const parser = createParser({ onError: spy })
-    const ast = parser.parse(text)
-
-    expect(ast).toMatchSnapshot()
-    expect(spy).not.toHaveBeenCalled()
-    expect(ast.type).toEqual(NodeTypes.Resource)
-    expect(ast.body.type).toEqual(NodeTypes.Message)
-    const message = ast.body as MessageNode
-    expect(message.items).toHaveLength(1)
-    const item = message.items[0] as TextNode
-    expect(item).toMatchObject({
-      type: NodeTypes.Text,
-      value: text
-    })
-  })
-})
-
 describe('included end paren', () => {
   test('hello :-)', () => {
     const text = 'hello :-)'

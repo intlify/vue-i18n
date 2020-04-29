@@ -154,63 +154,6 @@ world",
 }
 `;
 
-exports[`included end brace hello :-} 1`] = `
-Object {
-  "body": Object {
-    "end": 9,
-    "items": Array [
-      Object {
-        "end": 9,
-        "loc": Object {
-          "end": Object {
-            "column": 10,
-            "line": 1,
-            "offset": 9,
-          },
-          "start": Object {
-            "column": 1,
-            "line": 1,
-            "offset": 0,
-          },
-        },
-        "start": 0,
-        "type": 3,
-        "value": "hello :-}",
-      },
-    ],
-    "loc": Object {
-      "end": Object {
-        "column": 10,
-        "line": 1,
-        "offset": 9,
-      },
-      "start": Object {
-        "column": 1,
-        "line": 1,
-        "offset": 0,
-      },
-    },
-    "start": 0,
-    "type": 2,
-  },
-  "end": 9,
-  "loc": Object {
-    "end": Object {
-      "column": 10,
-      "line": 1,
-      "offset": 9,
-    },
-    "start": Object {
-      "column": 1,
-      "line": 1,
-      "offset": 0,
-    },
-  },
-  "start": 0,
-  "type": 0,
-}
-`;
-
 exports[`included end paren hello :-) 1`] = `
 Object {
   "body": Object {

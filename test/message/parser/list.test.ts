@@ -149,5 +149,6 @@ describe('new lines in placeholder', () => {
 
 test.todo(`hi {{0}} !`)
 test.todo(`hi { { 0 } } !`)
+test.todo(`hi {0`)
 test.todo(`hi {0 !`)
 test.todo(`hi {  0 !`)

@@ -179,7 +179,7 @@ function generateNode(generator: CodeGenerator, node: Node): void {
 // generate code from AST
 export const generate = (
   ast: ResourceNode,
-  options: CodeGenOptions = {}
+  options: CodeGenOptions = {} // eslint-disable-line
 ): string => {
   const generator = createCodeGenerator(ast.loc && ast.loc.source)
   generator.push(`function __msg__ (ctx) {`)
