@@ -147,8 +147,21 @@ describe('new lines in placeholder', () => {
   })
 })
 
-test.todo(`hi {{0}} !`)
-test.todo(`hi { { 0 } } !`)
-test.todo(`hi {0`)
-test.todo(`hi {0 !`)
-test.todo(`hi {  0 !`)
+describe('errors', () => {
+  ;[
+    { desc: `nest placeholder`, case: `hi {{0}} !` },
+    { desc: `space in nest placeholder`, case: `hi { { 0 } } !` },
+    { desc: `not close brace with EOF`, case: `hi {0` },
+    { desc: `not close brace`, case: `hi {0 !` },
+    { desc: `not close brace included spaces`, case: `hi {  0 !` }
+  ].forEach(target => {
+    test(`${target.desc}: '${target.case}'`, () => {
+      const text = target.case
+      const parser = createParser({ onError: spy })
+      const ast = parser.parse(text)
+
+      expect(ast).toMatchSnapshot()
+      expect(spy).toHaveBeenCalled()
+    })
+  })
+})
