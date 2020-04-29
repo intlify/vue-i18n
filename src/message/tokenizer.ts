@@ -789,13 +789,18 @@ export function createTokenizer(
         }
 
         if (!validNamedIdentifier && !validListIdentifier && !validLeteral) {
-          // TODO:
-          //  we should be more refactor to handle token invalid cases ...
-          //  we should be emitted errors
+          // TODO: we should be re-designed invalid cases, when we will extend message syntax near the future ...
           token = getToken(
             context,
             TokenTypes.InvalidPlace,
             readInvalidIdentifier(scnr)
+          )
+          // TODO: This code should be removed with using rollup (`/*#__PURE__*/`)
+          emitError(
+            CompileErrorCodes.INVALID_TOKEN_IN_PLACEHOLDER,
+            currentPosition(),
+            0,
+            token.value
           )
 
           skipSpaces(scnr)
