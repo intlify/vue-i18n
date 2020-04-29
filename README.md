@@ -86,6 +86,10 @@ The examples are offered that use the following two API styles:
 - `VueI18n.prototype.getChoiceIndex`
   - -> Legacy API style: `pluralizationRules` option of `createI18n` factory function (like `new VueI18n(...)`)
   - -> Compsable API style: `pluralRules` option of `createI18nComposer` factory function
+- `warnHtmlInMessage` option:
+  - Composable API: `warnHtmlMessage` boolean option, default `true`.
+  - For development mode, warning is default.
+  - For production mode, HTML message detect is not check due to performance.
 - `VueI18n.version` -> `import { VERSION } from 'vue-i18n'`
 - `VueI18n.availabilities` -> `import { availabilities } from 'vue-i18n'`
 - See the details [here](https://github.com/intlify/vue-i18n-next/blob/master/docs/vue-i18n.md)
@@ -137,7 +141,7 @@ yarn add vue-i18n@next
 - Intlify message format compiler
   - [x] vue-i18n message format
   - [ ] sourcemap
-  - [ ] HTML format handling
+  - [x] HTML format handling
   - [x] error handling
   - [ ] more unit (fuzzing) tests
   - [ ] performance tests (benchmark)
@@ -145,7 +149,7 @@ yarn add vue-i18n@next
   - [x] translate function
   - [x] datetime function
   - [x] number function
-  - [ ] warnHtmlInMessage
+  - [x] warnHtmlMessage
   - [x] improve translate `args` typing
   - [ ] improve locale messages typing: `LocaleMessages` / `LocaleMessage` / `LocaleMessageDictiory`
   - [x] postTranslation context option
@@ -163,6 +167,7 @@ yarn add vue-i18n@next
     - [x] fallbackFormat
     - [x] dateTimeFormats
     - [x] numberFormats
+    - [x] warnHtmlMessage
   - methods
     - [x] t
     - [x] getLocaleMessages
@@ -195,7 +200,7 @@ yarn add vue-i18n@next
     - [x] silentFallbackWarn
     - [x] formatFallbackMessages
     - [ ] preserveDirectiveContent
-    - [ ] warnHtmlInMessage
+    - [x] warnHtmlInMessage
     - [x] postTranslation
     - [x] t
     - [x] tc

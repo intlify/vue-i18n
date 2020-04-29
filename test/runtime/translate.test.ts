@@ -527,6 +527,25 @@ describe('context postTranslation option', () => {
   })
 })
 
+describe('warnHtmlMessage', () => {
+  test('default', () => {
+    const mockWarn = warn as jest.MockedFunction<typeof warn>
+    mockWarn.mockImplementation(() => {}) // eslint-disable-line @typescript-eslint/no-empty-function
+
+    const ctx = context({
+      locale: 'en',
+      messages: {
+        en: {
+          hello: '<p>hello</p>'
+        }
+      }
+    })
+
+    expect(translate(ctx, 'hello')).toEqual('<p>hello</p>')
+    expect(mockWarn).toHaveBeenCalled()
+  })
+})
+
 describe('edge cases', () => {
   test('multi bytes key', () => {
     const ctx = context({
@@ -552,18 +571,3 @@ describe('edge cases', () => {
     expect(translate(ctx, 'side.left')).toEqual('Left')
   })
 })
-
-/*
-test('compile error', () => {
-  const ctx = context({
-    locale: 'en',
-    messages: {
-      en: {
-        hello: `hi, { 'foo }`
-      }
-    }
-  })
-
-  expect(translate(ctx, 'hello')).toThrowError(SyntaxError)
-})
-*/

@@ -96,6 +96,7 @@ export type ComposerOptions = {
   fallbackRoot?: boolean
   fallbackFormat?: boolean
   postTranslation?: PostTranslationHandler
+  warnHtmlMessage?: boolean
   __i18n?: CustomBlocks // for custom blocks, and internal
   __root?: Composer // for internal
 }
@@ -119,6 +120,7 @@ export type Composer = {
   fallbackWarn: boolean | RegExp
   fallbackRoot: boolean
   fallbackFormat: boolean
+  warnHtmlMessage: boolean
   __id: number // for internal
 
   /**
@@ -302,6 +304,10 @@ export function createComposer(options: ComposerOptions = {}): Composer {
     ? options.postTranslation
     : null
 
+  let _warnHtmlMessage = isBoolean(options.warnHtmlMessage)
+    ? options.warnHtmlMessage
+    : true
+
   // custom linked modifiers
   // prettier-ignore
   const _modifiers = __root
@@ -330,6 +336,7 @@ export function createComposer(options: ComposerOptions = {}): Composer {
       fallbackFormat: _fallbackFormat,
       unresolving: true,
       postTranslation: _postTranslation === null ? undefined : _postTranslation,
+      warnHtmlMessage: _warnHtmlMessage,
       _datetimeFormatters: isPlainObject(_context)
         ? _context._datetimeFormatters
         : undefined,
@@ -644,6 +651,13 @@ export function createComposer(options: ComposerOptions = {}): Composer {
     set fallbackFormat(val: boolean) {
       _fallbackFormat = val
       _context.fallbackFormat = _fallbackFormat
+    },
+    get warnHtmlMessage(): boolean {
+      return _warnHtmlMessage
+    },
+    set warnHtmlMessage(val: boolean) {
+      _warnHtmlMessage = val
+      _context.warnHtmlMessage = val
     },
     __id: composerID,
 

@@ -49,3 +49,19 @@ Object {
   "message": "Plural must have messages",
 }
 `;
+
+exports[`warnHtmlMessage default: code 1`] = `
+"function __msg__ (ctx) {
+  return ctx.normalize([
+    \\"<p>hello</p>\\"
+  ])
+}"
+`;
+
+exports[`warnHtmlMessage false: code 1`] = `
+"function __msg__ (ctx) {
+  return ctx.normalize([
+    \\"<p>hello</p>\\"
+  ])
+}"
+`;
