@@ -415,3 +415,26 @@ test('getChoiceIndex', () => {
     `not supportted 'getChoiceIndex' method.`
   )
 })
+
+test('warnHtmlInMessage', () => {
+  const mockWarn = warn as jest.MockedFunction<typeof warn>
+  mockWarn.mockImplementation(() => {}) // eslint-disable-line @typescript-eslint/no-empty-function
+
+  const i18n = createVueI18n({
+    locale: 'en',
+    messages: {
+      en: {
+        hello: '<p>hello</p>'
+      }
+    }
+  })
+
+  expect(i18n.t('hello')).toEqual('<p>hello</p>')
+
+  i18n.warnHtmlInMessage = 'off'
+  expect(i18n.t('hello')).toEqual('<p>hello</p>')
+
+  i18n.warnHtmlInMessage = 'error'
+  expect(i18n.t('hello')).toEqual('<p>hello</p>')
+  expect(mockWarn).toHaveBeenCalledTimes(2)
+})

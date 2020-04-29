@@ -110,11 +110,11 @@ export type VueI18n = {
   silentFallbackWarn: boolean | RegExp
   formatFallbackMessages: boolean
   sync: boolean
+  warnHtmlInMessage: WarnHtmlInMessageLevel
   __id: number
   __composer: Composer
   /*
   preserveDirectiveContent: boolean
-  warnHtmlInMessage: WarnHtmlInMessageLevel
   */
 
   /**
@@ -192,6 +192,9 @@ function convertComposerOptions(options: VueI18nOptions): ComposerOptions {
   const postTranslation = isFunction(options.postTranslation)
     ? options.postTranslation
     : undefined
+  const warnHtmlMessage = isString(options.warnHtmlInMessage)
+    ? options.warnHtmlInMessage !== 'off'
+    : true
 
   if (__DEV__ && options.formatter) {
     warn(`not supportted 'formatter' option`)
@@ -225,6 +228,7 @@ function convertComposerOptions(options: VueI18nOptions): ComposerOptions {
     fallbackFormat,
     pluralRules: pluralizationRules,
     postTranslation,
+    warnHtmlMessage,
     __i18n,
     __root
   }
@@ -343,6 +347,14 @@ export function createVueI18n(options: VueI18nOptions = {}): VueI18n {
     },
     set sync(val: boolean) {
       options.sync = val
+    },
+
+    // warnInHtmlMessage
+    get warnHtmlInMessage(): WarnHtmlInMessageLevel {
+      return composer.warnHtmlMessage ? 'warn' : 'off'
+    },
+    set warnHtmlInMessage(val: WarnHtmlInMessageLevel) {
+      composer.warnHtmlMessage = val !== 'off'
     },
 
     // for internal

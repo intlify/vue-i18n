@@ -165,7 +165,8 @@ export function translate(
     fallbackFormat,
     postTranslation,
     unresolving,
-    fallbackLocale
+    fallbackLocale,
+    warnHtmlMessage
   } = context
   const [key, options] = parseTranslateArgs(...args)
 
@@ -240,7 +241,13 @@ export function translate(
     ? format
     : compile(
         format,
-        getCompileOptions(targetLocale, cacheBaseKey, format, errorDetector)
+        getCompileOptions(
+          targetLocale,
+          cacheBaseKey,
+          format,
+          warnHtmlMessage,
+          errorDetector
+        )
       )
 
   // if occured compile error, return the message format
@@ -298,9 +305,11 @@ function getCompileOptions(
   locale: Locale,
   key: string,
   source: string,
+  warnHtmlMessage: boolean,
   errorDetector?: Function
 ): CompileOptions {
   return {
+    warnHtmlMessage,
     onError: (err: CompileError): void => {
       errorDetector && errorDetector(err)
       if (__DEV__) {
@@ -338,7 +347,13 @@ function getMessageContextOptions(
       }
       const msg = compile(
         val,
-        getCompileOptions(locale, key, val, errorDetector)
+        getCompileOptions(
+          locale,
+          key,
+          val,
+          context.warnHtmlMessage,
+          errorDetector
+        )
       )
       return !occured ? msg : NOOP_MESSAGE_FUNCTION
     } else if (isMessageFunction(val)) {
