@@ -137,7 +137,8 @@ yarn add vue-i18n@next
 - Intlify message format compiler
   - [x] vue-i18n message format
   - [ ] sourcemap
-  - [ ] error handling
+  - [ ] HTML format handling
+  - [x] error handling
   - [ ] more unit (fuzzing) tests
   - [ ] performance tests (benchmark)
 - Intlify core runtime
