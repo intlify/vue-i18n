@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-empty-function */
+
 // utils
 jest.mock('../src/utils', () => ({
   ...jest.requireActual('../src/utils'),
@@ -35,7 +37,7 @@ test('availableLocales', () => {
 
 test('formatter', () => {
   const mockWarn = warn as jest.MockedFunction<typeof warn>
-  mockWarn.mockImplementation(() => {}) // eslint-disable-line @typescript-eslint/no-empty-function
+  mockWarn.mockImplementation(() => {})
 
   const i18n = createVueI18n({
     formatter: {
@@ -407,7 +409,7 @@ test('getNumberFormat / setNumberFormat / mergeNumberFormat', () => {
 
 test('getChoiceIndex', () => {
   const mockWarn = warn as jest.MockedFunction<typeof warn>
-  mockWarn.mockImplementation(() => {}) // eslint-disable-line @typescript-eslint/no-empty-function
+  mockWarn.mockImplementation(() => {})
 
   const i18n = createVueI18n({})
   i18n.getChoiceIndex(1, 2)
@@ -418,7 +420,7 @@ test('getChoiceIndex', () => {
 
 test('warnHtmlInMessage', () => {
   const mockWarn = warn as jest.MockedFunction<typeof warn>
-  mockWarn.mockImplementation(() => {}) // eslint-disable-line @typescript-eslint/no-empty-function
+  mockWarn.mockImplementation(() => {})
 
   const i18n = createVueI18n({
     locale: 'en',
@@ -438,3 +440,5 @@ test('warnHtmlInMessage', () => {
   expect(i18n.t('hello')).toEqual('<p>hello</p>')
   expect(mockWarn).toHaveBeenCalledTimes(2)
 })
+
+/* eslint-enable @typescript-eslint/no-empty-function */

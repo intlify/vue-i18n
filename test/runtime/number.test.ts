@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-empty-function */
+
 // utils
 jest.mock('../../src/utils', () => ({
   ...jest.requireActual('../../src/utils'),
@@ -138,7 +140,7 @@ test('override format options with number function options', () => {
 
 test('fallback', () => {
   const mockWarn = warn as jest.MockedFunction<typeof warn>
-  mockWarn.mockImplementation(() => {}) // eslint-disable-line @typescript-eslint/no-empty-function
+  mockWarn.mockImplementation(() => {})
   const mockAvailabilities = Availabilities as jest.Mocked<
     typeof Availabilities
   >
@@ -163,7 +165,7 @@ test('fallback', () => {
 
 test(`context fallbackWarn 'false' option`, () => {
   const mockWarn = warn as jest.MockedFunction<typeof warn>
-  mockWarn.mockImplementation(() => {}) // eslint-disable-line @typescript-eslint/no-empty-function
+  mockWarn.mockImplementation(() => {})
   const mockAvailabilities = Availabilities as jest.Mocked<
     typeof Availabilities
   >
@@ -183,7 +185,7 @@ test(`context fallbackWarn 'false' option`, () => {
 
 test(`number function fallbackWarn 'false' option`, () => {
   const mockWarn = warn as jest.MockedFunction<typeof warn>
-  mockWarn.mockImplementation(() => {}) // eslint-disable-line @typescript-eslint/no-empty-function
+  mockWarn.mockImplementation(() => {})
   const mockAvailabilities = Availabilities as jest.Mocked<
     typeof Availabilities
   >
@@ -205,7 +207,7 @@ test(`number function fallbackWarn 'false' option`, () => {
 describe('context unresolving option', () => {
   test('not specify fallbackLocales', () => {
     const mockWarn = warn as jest.MockedFunction<typeof warn>
-    mockWarn.mockImplementation(() => {}) // eslint-disable-line @typescript-eslint/no-empty-function
+    mockWarn.mockImplementation(() => {})
     const mockAvailabilities = Availabilities as jest.Mocked<
       typeof Availabilities
     >
@@ -225,7 +227,7 @@ describe('context unresolving option', () => {
 
   test('not found key in fallbackLocales', () => {
     const mockWarn = warn as jest.MockedFunction<typeof warn>
-    mockWarn.mockImplementation(() => {}) // eslint-disable-line @typescript-eslint/no-empty-function
+    mockWarn.mockImplementation(() => {})
     const mockAvailabilities = Availabilities as jest.Mocked<
       typeof Availabilities
     >
@@ -268,7 +270,7 @@ test('part', () => {
 
 test('not available Intl API', () => {
   const mockWarn = warn as jest.MockedFunction<typeof warn>
-  mockWarn.mockImplementation(() => {}) // eslint-disable-line @typescript-eslint/no-empty-function
+  mockWarn.mockImplementation(() => {})
   const mockAvailabilities = Availabilities as jest.Mocked<
     typeof Availabilities
   >
@@ -285,3 +287,5 @@ test('not available Intl API', () => {
     `Cannot format a Date value due to not supported Intl.NumberFormat.`
   )
 })
+
+/* eslint-enable @typescript-eslint/no-empty-function */

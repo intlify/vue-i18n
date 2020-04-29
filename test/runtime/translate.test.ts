@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-empty-function */
+
 // utils
 jest.mock('../../src/utils', () => ({
   ...jest.requireActual('../../src/utils'),
@@ -113,7 +115,7 @@ describe('default option', () => {
 describe('context missing option', () => {
   test('not specified missing handler', () => {
     const mockWarn = warn as jest.MockedFunction<typeof warn>
-    mockWarn.mockImplementation(() => {}) // eslint-disable-line @typescript-eslint/no-empty-function
+    mockWarn.mockImplementation(() => {})
 
     const ctx = context({
       locale: 'en',
@@ -130,7 +132,7 @@ describe('context missing option', () => {
 
   test('specified missing handler', () => {
     const mockWarn = warn as jest.MockedFunction<typeof warn>
-    mockWarn.mockImplementation(() => {}) // eslint-disable-line @typescript-eslint/no-empty-function
+    mockWarn.mockImplementation(() => {})
 
     const ctx = context({
       locale: 'en',
@@ -151,7 +153,7 @@ describe('context missing option', () => {
 describe('context missingWarn option', () => {
   test('false', () => {
     const mockWarn = warn as jest.MockedFunction<typeof warn>
-    mockWarn.mockImplementation(() => {}) // eslint-disable-line @typescript-eslint/no-empty-function
+    mockWarn.mockImplementation(() => {})
 
     const ctx = context({
       locale: 'en',
@@ -168,7 +170,7 @@ describe('context missingWarn option', () => {
 
   test('regex', () => {
     const mockWarn = warn as jest.MockedFunction<typeof warn>
-    mockWarn.mockImplementation(() => {}) // eslint-disable-line @typescript-eslint/no-empty-function
+    mockWarn.mockImplementation(() => {})
 
     const ctx = context({
       locale: 'en',
@@ -189,7 +191,7 @@ describe('context missingWarn option', () => {
 
   test('missingWarn option', () => {
     const mockWarn = warn as jest.MockedFunction<typeof warn>
-    mockWarn.mockImplementation(() => {}) // eslint-disable-line @typescript-eslint/no-empty-function
+    mockWarn.mockImplementation(() => {})
 
     const ctx = context({
       locale: 'en',
@@ -207,7 +209,7 @@ describe('context missingWarn option', () => {
 describe('context fallbackWarn option', () => {
   test('not specify fallbackLocale', () => {
     const mockWarn = warn as jest.MockedFunction<typeof warn>
-    mockWarn.mockImplementation(() => {}) // eslint-disable-line @typescript-eslint/no-empty-function
+    mockWarn.mockImplementation(() => {})
 
     const ctx = context({
       locale: 'en',
@@ -223,7 +225,7 @@ describe('context fallbackWarn option', () => {
 
   test('specify fallbackLocale', () => {
     const mockWarn = warn as jest.MockedFunction<typeof warn>
-    mockWarn.mockImplementation(() => {}) // eslint-disable-line @typescript-eslint/no-empty-function
+    mockWarn.mockImplementation(() => {})
 
     const ctx = context({
       locale: 'en',
@@ -246,7 +248,7 @@ describe('context fallbackWarn option', () => {
 
   test('not found fallback message', () => {
     const mockWarn = warn as jest.MockedFunction<typeof warn>
-    mockWarn.mockImplementation(() => {}) // eslint-disable-line @typescript-eslint/no-empty-function
+    mockWarn.mockImplementation(() => {})
 
     const ctx = context({
       locale: 'en',
@@ -270,7 +272,7 @@ describe('context fallbackWarn option', () => {
 
   test('context option: false', () => {
     const mockWarn = warn as jest.MockedFunction<typeof warn>
-    mockWarn.mockImplementation(() => {}) // eslint-disable-line @typescript-eslint/no-empty-function
+    mockWarn.mockImplementation(() => {})
 
     const ctx = context({
       locale: 'en',
@@ -289,7 +291,7 @@ describe('context fallbackWarn option', () => {
 
   test('context option: regex', () => {
     const mockWarn = warn as jest.MockedFunction<typeof warn>
-    mockWarn.mockImplementation(() => {}) // eslint-disable-line @typescript-eslint/no-empty-function
+    mockWarn.mockImplementation(() => {})
 
     const ctx = context({
       locale: 'en',
@@ -308,7 +310,7 @@ describe('context fallbackWarn option', () => {
 
   test('specify fallbackWarn option to translate function', () => {
     const mockWarn = warn as jest.MockedFunction<typeof warn>
-    mockWarn.mockImplementation(() => {}) // eslint-disable-line @typescript-eslint/no-empty-function
+    mockWarn.mockImplementation(() => {})
 
     const ctx = context({
       locale: 'en',
@@ -331,7 +333,7 @@ describe('context fallbackWarn option', () => {
 describe('context fallbackFormat option', () => {
   test('specify true', () => {
     const mockWarn = warn as jest.MockedFunction<typeof warn>
-    mockWarn.mockImplementation(() => {}) // eslint-disable-line @typescript-eslint/no-empty-function
+    mockWarn.mockImplementation(() => {})
 
     const ctx = context({
       locale: 'en',
@@ -367,7 +369,7 @@ describe('context fallbackFormat option', () => {
 
   test('overrided with default option', () => {
     const mockWarn = warn as jest.MockedFunction<typeof warn>
-    mockWarn.mockImplementation(() => {}) // eslint-disable-line @typescript-eslint/no-empty-function
+    mockWarn.mockImplementation(() => {})
 
     const ctx = context({
       locale: 'en',
@@ -403,7 +405,7 @@ describe('context fallbackFormat option', () => {
 
   test('fallbackLocales is nothing', () => {
     const mockWarn = warn as jest.MockedFunction<typeof warn>
-    mockWarn.mockImplementation(() => {}) // eslint-disable-line @typescript-eslint/no-empty-function
+    mockWarn.mockImplementation(() => {})
 
     const ctx = context({
       locale: 'en',
@@ -456,7 +458,7 @@ describe('context unresolving option', () => {
 
   test('fallbackFormat is true', () => {
     const mockWarn = warn as jest.MockedFunction<typeof warn>
-    mockWarn.mockImplementation(() => {}) // eslint-disable-line @typescript-eslint/no-empty-function
+    mockWarn.mockImplementation(() => {})
 
     const ctx = context({
       locale: 'en',
@@ -530,7 +532,7 @@ describe('context postTranslation option', () => {
 describe('warnHtmlMessage', () => {
   test('default', () => {
     const mockWarn = warn as jest.MockedFunction<typeof warn>
-    mockWarn.mockImplementation(() => {}) // eslint-disable-line @typescript-eslint/no-empty-function
+    mockWarn.mockImplementation(() => {})
 
     const ctx = context({
       locale: 'en',
@@ -571,3 +573,5 @@ describe('edge cases', () => {
     expect(translate(ctx, 'side.left')).toEqual('Left')
   })
 })
+
+/* eslint-enable @typescript-eslint/no-empty-function */

@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-empty-function */
+
 // utils
 jest.mock('../src/utils', () => ({
   ...jest.requireActual('../src/utils'),
@@ -287,7 +289,7 @@ describe('fallbackFormat', () => {
 
   test('interpolation', () => {
     const mockWarn = warn as jest.MockedFunction<typeof warn>
-    mockWarn.mockImplementation(() => {}) // eslint-disable-line @typescript-eslint/no-empty-function
+    mockWarn.mockImplementation(() => {})
 
     const { t } = createComposer({
       locale: 'en',
@@ -344,13 +346,13 @@ describe('getMissingHandler / setMissingHandler', () => {
     const { getMissingHandler, setMissingHandler } = createComposer({})
     expect(getMissingHandler()).toEqual(null)
 
-    const missing = () => {} // eslint-disable-line @typescript-eslint/no-empty-function
+    const missing = () => {}
     setMissingHandler(missing as MissingHandler)
     expect(getMissingHandler()).toEqual(missing)
   })
 
   test('initialize at composer creating', () => {
-    const missing = () => {} // eslint-disable-line @typescript-eslint/no-empty-function
+    const missing = () => {}
     const { getMissingHandler } = createComposer({ missing })
     expect(getMissingHandler()).toEqual(missing)
   })
@@ -713,3 +715,5 @@ describe('__i18n', () => {
     })
   })
 })
+
+/* eslint-enable @typescript-eslint/no-empty-function */
