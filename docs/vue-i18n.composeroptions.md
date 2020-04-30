@@ -23,6 +23,7 @@ export declare type ComposerOptions = {
     fallbackRoot?: boolean;
     fallbackFormat?: boolean;
     postTranslation?: PostTranslationHandler;
+    warnHtmlMessage?: boolean;
     __i18n?: CustomBlocks;
     __root?: Composer;
 };

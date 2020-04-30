@@ -9,6 +9,7 @@
 |  Function | Description |
 |  --- | --- |
 |  [createI18n(options)](./vue-i18n.createi18n.md) | I18n factory |
+|  [createParser(options)](./vue-i18n.createparser.md) |  |
 |  [useI18n(options)](./vue-i18n.usei18n.md) | Use Composable API |
 
 ## Interfaces
@@ -32,6 +33,7 @@
 |  Type Alias | Description |
 |  --- | --- |
 |  [Choice](./vue-i18n.choice.md) |  |
+|  [CompileOptions](./vue-i18n.compileoptions.md) |  |
 |  [Composer](./vue-i18n.composer.md) | Composer Interfaces |
 |  [ComposerOptions](./vue-i18n.composeroptions.md) | Composer Options |
 |  [CurrencyDisplay](./vue-i18n.currencydisplay.md) | number |
@@ -59,6 +61,7 @@
 |  [NumberFormatResult](./vue-i18n.numberformatresult.md) |  |
 |  [NumberFormats](./vue-i18n.numberformats.md) |  |
 |  [NumberFormatToPartsResult](./vue-i18n.numberformattopartsresult.md) |  |
+|  [Parser](./vue-i18n.parser.md) |  |
 |  [Path](./vue-i18n.path.md) |  |
 |  [PathValue](./vue-i18n.pathvalue.md) |  |
 |  [PluralizationRule](./vue-i18n.pluralizationrule.md) |  |

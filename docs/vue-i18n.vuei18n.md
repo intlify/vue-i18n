@@ -24,6 +24,10 @@ export declare type VueI18n = {
     silentTranslationWarn: boolean | RegExp;
     silentFallbackWarn: boolean | RegExp;
     formatFallbackMessages: boolean;
+    sync: boolean;
+    warnHtmlInMessage: WarnHtmlInMessageLevel;
+    __id: number;
+    __composer: Composer;
     t(key: Path): TranslateResult;
     t(key: Path, locale: Locale): TranslateResult;
     t(key: Path, locale: Locale, list: unknown[]): TranslateResult;

@@ -22,6 +22,7 @@ export declare type Composer = {
     fallbackWarn: boolean | RegExp;
     fallbackRoot: boolean;
     fallbackFormat: boolean;
+    warnHtmlMessage: boolean;
     __id: number;
     t(key: Path): string;
     t(key: Path, plural: number): string;

@@ -22,7 +22,6 @@ export declare type VueI18nOptions = {
     formatter?: Formatter;
     missing?: MissingHandler;
     fallbackRoot?: boolean;
-    sync?: boolean;
     silentTranslationWarn?: boolean | RegExp;
     silentFallbackWarn?: boolean | RegExp;
     formatFallbackMessages?: boolean;
@@ -31,6 +30,7 @@ export declare type VueI18nOptions = {
     sharedMessages?: LocaleMessages;
     pluralizationRules?: PluralizationRules;
     postTranslation?: PostTranslationHandler;
+    sync?: boolean;
     __i18n?: CustomBlocks;
     __root?: Composer;
 };
