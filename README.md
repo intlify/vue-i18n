@@ -87,7 +87,8 @@ The examples are offered that use the following two API styles:
   - -> Legacy API style: `pluralizationRules` option of `createI18n` factory function (like `new VueI18n(...)`)
   - -> Compsable API style: `pluralRules` option of `createI18nComposer` factory function
 - `warnHtmlInMessage` option:
-  - Composable API: `warnHtmlMessage` boolean option, default `true`.
+  - Composable API: `warnHtmlMessage` boolean property, default `true`.
+  - Legacy API: `warnHtmlInMessage` property.
   - For development mode, warning is default.
   - For production mode, HTML message detect is not check due to performance.
 - `VueI18n.version` -> `import { VERSION } from 'vue-i18n'`
