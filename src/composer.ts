@@ -22,13 +22,13 @@ import {
   NumberFormats,
   DateTimeFormat,
   NumberFormat
-} from './runtime/types'
+} from './core/types'
 import {
   LinkedModifiers,
   PluralizationRules,
   NamedValue,
   MessageProcessor
-} from './message/context'
+} from './message/runtime'
 import {
   Locale,
   LocaleMessages,
@@ -40,25 +40,25 @@ import {
   MISSING_RESOLVE_VALUE,
   updateFallbackLocale,
   FallbackLocale
-} from './runtime/context'
+} from './core/context'
 import {
   translate,
   parseTranslateArgs,
   TranslateOptions
-} from './runtime/translate'
+} from './core/translate'
 import {
   datetime,
   parseDateTimeArgs,
   clearDateTimeFormat,
   DateTimeOptions
-} from './runtime/datetime'
+} from './core/datetime'
 import {
   number,
   parseNumberArgs,
   clearNumberFormat,
   NumberOptions
-} from './runtime/number'
-import { NOT_REOSLVED } from './runtime/context'
+} from './core/number'
+import { NOT_REOSLVED } from './core/context'
 import {
   warn,
   isArray,

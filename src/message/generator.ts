@@ -13,7 +13,7 @@ import {
   LiteralNode
 } from './parser'
 import { CodeGenOptions } from './options'
-import { HelperNameMap } from './context'
+import { HelperNameMap } from './runtime'
 import { isString } from '../utils'
 
 type CodeGenContext = {

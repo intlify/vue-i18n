@@ -6,7 +6,7 @@ import {
   createMessageContext,
   NamedValue,
   MessageContextOptions
-} from '../message/context'
+} from '../message/runtime'
 import {
   Locale,
   RuntimeContext,

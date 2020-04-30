@@ -1,6 +1,6 @@
 import { ComponentOptions } from 'vue'
 import { Path } from './path'
-import { Locale } from './runtime/context'
+import { Locale } from './core/context'
 import { Composer } from './composer'
 import {
   VueI18n,

@@ -13,7 +13,7 @@ import {
   PluralizationRules,
   LinkedModifiers,
   NamedValue
-} from './message/context'
+} from './message/runtime'
 import {
   Locale,
   LocaleMessages,
@@ -21,14 +21,14 @@ import {
   LocaleMessageDictionary,
   PostTranslationHandler,
   FallbackLocale
-} from './runtime/context'
-import { TranslateOptions } from './runtime/translate'
+} from './core/context'
+import { TranslateOptions } from './core/translate'
 import {
   DateTimeFormats,
   NumberFormats,
   DateTimeFormat,
   NumberFormat
-} from './runtime/types'
+} from './core/types'
 import {
   MissingHandler,
   CustomBlocks,

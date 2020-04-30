@@ -4,7 +4,7 @@ import {
   PluralizationRules,
   MessageProcessor,
   DEFAULT_MESSAGE_DATA_TYPE
-} from '../message/context'
+} from '../message/runtime'
 import { Path } from '../path'
 import {
   warn,

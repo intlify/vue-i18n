@@ -1,7 +1,7 @@
 import {
   createRuntimeContext as context,
   getLocaleChain
-} from '../../src/runtime/context'
+} from '../../src/core/context'
 
 describe('locale', () => {
   test('default', () => {

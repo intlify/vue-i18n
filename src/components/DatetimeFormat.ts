@@ -5,7 +5,7 @@ import {
   PropType
 } from 'vue'
 import { useI18n, getComposer } from '../i18n'
-import { DateTimeOptions } from '../runtime'
+import { DateTimeOptions } from '../core'
 import { renderFormatter, FormattableProps } from './formatRenderer'
 
 const DATETIME_FORMAT_KEYS = [

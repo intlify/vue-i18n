@@ -1,5 +1,5 @@
 import { compile } from '../../src/message/compiler'
-import { createMessageContext } from '../../src/message/context'
+import { createMessageContext } from '../../src/message/runtime'
 import { isString } from '../../src/utils'
 
 describe('text', () => {

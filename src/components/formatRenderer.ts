@@ -1,5 +1,5 @@
 import { h, RenderFunction, SetupContext, VNodeArrayChildren } from 'vue'
-import { Locale, NumberOptions, DateTimeOptions } from '../runtime'
+import { Locale, NumberOptions, DateTimeOptions } from '../core'
 import { isString, isPlainObject, isArray } from '../utils'
 
 export type FormattableProps<Value, Format> = {

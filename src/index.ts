@@ -1,7 +1,7 @@
 export { Path, PathValue } from './path'
 export { createParser, Parser } from './message/parser'
 export { CompileOptions } from './message/options'
-export { PluralizationRule, LinkedModifiers } from './message/context'
+export { PluralizationRule, LinkedModifiers } from './message/runtime'
 export {
   Locale,
   FallbackLocale,
@@ -9,8 +9,8 @@ export {
   LocaleMessage,
   LocaleMessages,
   PostTranslationHandler
-} from './runtime'
-export * from './runtime/types'
+} from './core'
+export * from './core/types'
 export { MissingHandler, ComposerOptions, Composer } from './composer'
 export {
   TranslateResult,

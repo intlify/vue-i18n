@@ -10,8 +10,8 @@ import { warn } from '../../src/utils'
 import {
   createRuntimeContext as context,
   NOT_REOSLVED
-} from '../../src/runtime/context'
-import { translate } from '../../src/runtime/translate'
+} from '../../src/core/context'
+import { translate } from '../../src/core/translate'
 
 describe('features', () => {
   test('simple text', () => {

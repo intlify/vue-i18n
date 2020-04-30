@@ -7,8 +7,8 @@ import {
   getCurrentInstance
 } from 'vue'
 import { useI18n, getComposer } from '../i18n'
-import { TranslateOptions, Locale } from '../runtime'
-import { NamedValue } from '../message/context'
+import { TranslateOptions, Locale } from '../core'
+import { NamedValue } from '../message/runtime'
 import { isNumber, isString } from '../utils'
 
 export type TranslationProps = {

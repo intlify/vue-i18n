@@ -1,6 +1,6 @@
 import { getCurrentInstance, defineComponent, SetupContext } from 'vue'
 import { useI18n, getComposer } from '../i18n'
-import { NumberOptions } from '../runtime'
+import { NumberOptions } from '../core'
 import { renderFormatter, FormattableProps } from './formatRenderer'
 
 const NUMBER_FORMAT_KEYS = [
