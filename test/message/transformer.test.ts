@@ -7,6 +7,6 @@ test('transform', () => {
     `@.upper:{'no apples'} | {0} apple | {count}　apples` // eslint-disable-line no-irregular-whitespace
   ) // eslint-disable-line no-irregular-whitespace
   transform(ast)
-  expect(ast.needInterpolate).toEqual(true)
-  expect(ast).toMatchSnapshot(ast)
+  expect(ast.helpers).toMatchSnapshot('helpers')
+  expect(ast).toMatchSnapshot('ast')
 })

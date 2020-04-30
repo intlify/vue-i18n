@@ -41,6 +41,19 @@ export type MessageContextOptions<N = {}> = {
   processor?: MessageProcessor
 }
 
+export const enum HelperNameMap {
+  LIST = 'list',
+  NAMED = 'named',
+  PLURAL_INDEX = 'pluralIndex',
+  PLURAL_RULE = 'pluralRule',
+  ORG_PLURAL_RULE = 'orgPluralRule',
+  MODIFIER = 'modifier',
+  MESSAGE = 'message',
+  TYPE = 'type',
+  INTERPOLATE = 'interpolate',
+  NORMALIZE = 'normalize'
+}
+
 export type MessageContext = {
   list: (index: number) => unknown
   named: (key: string) => unknown
@@ -166,15 +179,15 @@ export function createMessageContext<N = {}>(
       : DEFAULT_INTERPOLATE
 
   return {
-    list,
-    named,
-    pluralIndex,
-    pluralRule,
-    orgPluralRule,
-    modifier,
-    message,
-    type,
-    interpolate,
-    normalize
+    [HelperNameMap.LIST]: list,
+    [HelperNameMap.NAMED]: named,
+    [HelperNameMap.PLURAL_INDEX]: pluralIndex,
+    [HelperNameMap.PLURAL_RULE]: pluralRule,
+    [HelperNameMap.ORG_PLURAL_RULE]: orgPluralRule,
+    [HelperNameMap.MODIFIER]: modifier,
+    [HelperNameMap.MESSAGE]: message,
+    [HelperNameMap.TYPE]: type,
+    [HelperNameMap.INTERPOLATE]: interpolate,
+    [HelperNameMap.NORMALIZE]: normalize
   }
 }

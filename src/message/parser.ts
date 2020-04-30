@@ -29,7 +29,7 @@ export interface Node {
 export interface ResourceNode extends Node {
   type: NodeTypes.Resource
   body: MessageNode | PluralNode
-  needInterpolate?: boolean
+  helpers?: string[]
 }
 
 export interface PluralNode extends Node {

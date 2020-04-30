@@ -28,8 +28,7 @@ export type TransformOptions = {
 }
 
 export type CodeGenOptions = {
-  // TODO: other options
-  // onError?: CompileErrorHandler
+  mode?: 'normal' | 'arrow' // default normal
   onError?: CompileErrorHandler
 }
 

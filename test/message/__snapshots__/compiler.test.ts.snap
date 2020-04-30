@@ -2,31 +2,33 @@
 
 exports[`@.caml:{'no apples'} | {0} apple | {n}　apples: code 1`] = `
 "function __msg__ (ctx) {
+  const { normalize: _normalize, modifier: _modifier, type: _type, message: _message, interpolate: _interpolate, list: _list, named: _named, pluralIndex: _pluralIndex, pluralRule: _pluralRule, orgPluralRule: _orgPluralRule } = ctx
   return [
-    ctx.normalize([
-      ctx.modifier(\\"caml\\")(ctx.message(\\"no apples\\")(ctx), ctx.type)
-    ]), ctx.normalize([
-      ctx.interpolate(ctx.list(0)), \\" apple\\"
-    ]), ctx.normalize([
-      ctx.interpolate(ctx.named(\\"n\\")), \\"　apples\\"
+    _normalize([
+      _modifier(\\"caml\\")(_message(\\"no apples\\")(ctx), _type)
+    ]), _normalize([
+      _interpolate(_list(0)), \\" apple\\"
+    ]), _normalize([
+      _interpolate(_named(\\"n\\")), \\"　apples\\"
     ])
-  ][ctx.pluralRule(ctx.pluralIndex, 3, ctx.orgPluralRule)]
+  ][_pluralRule(_pluralIndex, 3, _orgPluralRule)]
 }"
 `;
 
 exports[`edge cases  | | | : code 1`] = `
 "function __msg__ (ctx) {
+  const { normalize: _normalize, pluralIndex: _pluralIndex, pluralRule: _pluralRule, orgPluralRule: _orgPluralRule } = ctx
   return [
-    ctx.normalize([
+    _normalize([
       
-    ]), ctx.normalize([
+    ]), _normalize([
       
-    ]), ctx.normalize([
+    ]), _normalize([
       
-    ]), ctx.normalize([
+    ]), _normalize([
       
     ])
-  ][ctx.pluralRule(ctx.pluralIndex, 4, ctx.orgPluralRule)]
+  ][_pluralRule(_pluralIndex, 4, _orgPluralRule)]
 }"
 `;
 
@@ -52,7 +54,8 @@ Object {
 
 exports[`warnHtmlMessage default: code 1`] = `
 "function __msg__ (ctx) {
-  return ctx.normalize([
+  const { normalize: _normalize } = ctx
+  return _normalize([
     \\"<p>hello</p>\\"
   ])
 }"
@@ -60,7 +63,8 @@ exports[`warnHtmlMessage default: code 1`] = `
 
 exports[`warnHtmlMessage false: code 1`] = `
 "function __msg__ (ctx) {
-  return ctx.normalize([
+  const { normalize: _normalize } = ctx
+  return _normalize([
     \\"<p>hello</p>\\"
   ])
 }"

@@ -7,6 +7,7 @@ import {
   LinkedNode
 } from './parser'
 import { TransformOptions } from './options'
+import { HelperNameMap } from './context'
 
 // TODO: if we offer custom transform for uses, should be defined TransformOptions type to here
 // ex.
@@ -15,11 +16,12 @@ import { TransformOptions } from './options'
 
 type TransformContext = {
   ast: ResourceNode
-  needInterpolate: boolean
+  helpers: Set<string>
 }
 
 type Transformer = Readonly<{
   context: () => TransformContext
+  helper: (name: string) => string
 }>
 
 function createTransformer(
@@ -27,12 +29,16 @@ function createTransformer(
 ): Transformer {
   const _context = {
     ast,
-    needInterpolate: false
+    helpers: new Set()
   } as TransformContext
 
   const context = (): TransformContext => _context
+  const helper = (name: string): string => {
+    _context.helpers.add(name)
+    return name
+  }
 
-  return { context }
+  return { context, helper }
 }
 
 function traverseNodes(nodes: Node[], transformer: Transformer): void {
@@ -42,25 +48,35 @@ function traverseNodes(nodes: Node[], transformer: Transformer): void {
 }
 
 function traverseNode(node: Node, transformer: Transformer): void {
-  const context = transformer.context()
-
   // TODO: if we need pre-hook of transform, should be implemeted to here
 
   switch (node.type) {
     case NodeTypes.Plural:
       traverseNodes((node as PluralNode).cases, transformer)
+      transformer.helper(HelperNameMap.PLURAL_INDEX)
+      transformer.helper(HelperNameMap.PLURAL_RULE)
+      transformer.helper(HelperNameMap.ORG_PLURAL_RULE)
       break
     case NodeTypes.Message:
       traverseNodes((node as MessageNode).items, transformer)
       break
     case NodeTypes.Linked:
       const linked = node as LinkedNode
-      linked.modifier && traverseNode(linked.modifier, transformer)
+      if (linked.modifier) {
+        traverseNode(linked.modifier, transformer)
+        transformer.helper(HelperNameMap.MODIFIER)
+        transformer.helper(HelperNameMap.TYPE)
+      }
       traverseNode(linked.key, transformer)
+      transformer.helper(HelperNameMap.MESSAGE)
       break
     case NodeTypes.List:
+      transformer.helper(HelperNameMap.INTERPOLATE)
+      transformer.helper(HelperNameMap.LIST)
+      break
     case NodeTypes.Named:
-      context.needInterpolate = true
+      transformer.helper(HelperNameMap.INTERPOLATE)
+      transformer.helper(HelperNameMap.NAMED)
       break
     default:
       // TODO:
@@ -76,9 +92,12 @@ export function transform(
   options: TransformOptions = {} // eslint-disable-line
 ): void {
   const transformer = createTransformer(ast)
+  transformer.helper(HelperNameMap.NORMALIZE)
+
   // traverse
   ast.body && traverseNode(ast.body, transformer)
+
   // set meta information
   const context = transformer.context()
-  ast.needInterpolate = context.needInterpolate
+  ast.helpers = [...context.helpers]
 }
