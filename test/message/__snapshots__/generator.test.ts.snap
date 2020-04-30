@@ -2,55 +2,62 @@
 
 exports[`linked key: hi @:name ! 1`] = `
 "function __msg__ (ctx) {
-  return ctx.normalize([
-    \\"hi \\", ctx.message(\\"name\\")(ctx), \\" !\\"
+  const { normalize: _normalize, message: _message } = ctx
+  return _normalize([
+    \\"hi \\", _message(\\"name\\")(ctx), \\" !\\"
   ])
 }"
 `;
 
 exports[`linked list: hi @:{0} ! 1`] = `
 "function __msg__ (ctx) {
-  return ctx.normalize([
-    \\"hi \\", ctx.message(ctx.interpolate(ctx.list(0)))(ctx), \\" !\\"
+  const { normalize: _normalize, interpolate: _interpolate, list: _list, message: _message } = ctx
+  return _normalize([
+    \\"hi \\", _message(_interpolate(_list(0)))(ctx), \\" !\\"
   ])
 }"
 `;
 
 exports[`linked modifier: hi @.upper:{'name'} ! 1`] = `
 "function __msg__ (ctx) {
-  return ctx.normalize([
-    \\"hi \\", ctx.modifier(\\"upper\\")(ctx.message(\\"name\\")(ctx), ctx.type), \\" !\\"
+  const { normalize: _normalize, modifier: _modifier, type: _type, message: _message } = ctx
+  return _normalize([
+    \\"hi \\", _modifier(\\"upper\\")(_message(\\"name\\")(ctx), _type), \\" !\\"
   ])
 }"
 `;
 
 exports[`linked named: hi @:{name} ! 1`] = `
 "function __msg__ (ctx) {
-  return ctx.normalize([
-    \\"hi \\", ctx.message(ctx.interpolate(ctx.named(\\"name\\")))(ctx), \\" !\\"
+  const { normalize: _normalize, interpolate: _interpolate, named: _named, message: _message } = ctx
+  return _normalize([
+    \\"hi \\", _message(_interpolate(_named(\\"name\\")))(ctx), \\" !\\"
   ])
 }"
 `;
 
 exports[`list basic: hi {0} ! 1`] = `
 "function __msg__ (ctx) {
-  return ctx.normalize([
-    \\"hi \\", ctx.interpolate(ctx.list(0)), \\" !\\"
+  const { normalize: _normalize, interpolate: _interpolate, list: _list } = ctx
+  return _normalize([
+    \\"hi \\", _interpolate(_list(0)), \\" !\\"
   ])
 }"
 `;
 
 exports[`list multiple: {0} {1} ! 1`] = `
 "function __msg__ (ctx) {
-  return ctx.normalize([
-    ctx.interpolate(ctx.list(0)), \\" \\", ctx.interpolate(ctx.list(1)), \\" !\\"
+  const { normalize: _normalize, interpolate: _interpolate, list: _list } = ctx
+  return _normalize([
+    _interpolate(_list(0)), \\" \\", _interpolate(_list(1)), \\" !\\"
   ])
 }"
 `;
 
 exports[`literal !#%^&*()-_+=[]:;?.<>"\`: hi {'!#%^&*()-_+=[]:;?.<>"\`'} ! 1`] = `
 "function __msg__ (ctx) {
-  return ctx.normalize([
+  const { normalize: _normalize } = ctx
+  return _normalize([
     \\"hi \\", \\"!#%^&*()-_+=[]:;?.<>\\\\\\"\`\\", \\" !\\"
   ])
 }"
@@ -58,7 +65,8 @@ exports[`literal !#%^&*()-_+=[]:;?.<>"\`: hi {'!#%^&*()-_+=[]:;?.<>"\`'} ! 1`] =
 
 exports[`literal {}: {'{}'} 1`] = `
 "function __msg__ (ctx) {
-  return ctx.normalize([
+  const { normalize: _normalize } = ctx
+  return _normalize([
     \\"{}\\"
   ])
 }"
@@ -66,7 +74,8 @@ exports[`literal {}: {'{}'} 1`] = `
 
 exports[`literal ascii: hi {'kazupon'} ! 1`] = `
 "function __msg__ (ctx) {
-  return ctx.normalize([
+  const { normalize: _normalize } = ctx
+  return _normalize([
     \\"hi \\", \\"kazupon\\", \\" !\\"
   ])
 }"
@@ -74,7 +83,8 @@ exports[`literal ascii: hi {'kazupon'} ! 1`] = `
 
 exports[`literal emoji: hi {'😺'} ! 1`] = `
 "function __msg__ (ctx) {
-  return ctx.normalize([
+  const { normalize: _normalize } = ctx
+  return _normalize([
     \\"hi \\", \\"😺\\", \\" !\\"
   ])
 }"
@@ -82,7 +92,8 @@ exports[`literal emoji: hi {'😺'} ! 1`] = `
 
 exports[`literal escaped single quote: hi {'\\''} ! 1`] = `
 "function __msg__ (ctx) {
-  return ctx.normalize([
+  const { normalize: _normalize } = ctx
+  return _normalize([
     \\"hi \\", \\"'\\", \\" !\\"
   ])
 }"
@@ -90,7 +101,8 @@ exports[`literal escaped single quote: hi {'\\''} ! 1`] = `
 
 exports[`literal escaped slash: hi {'\\\\'} ! 1`] = `
 "function __msg__ (ctx) {
-  return ctx.normalize([
+  const { normalize: _normalize } = ctx
+  return _normalize([
     \\"hi \\", \\"\\\\\\\\\\", \\" !\\"
   ])
 }"
@@ -98,7 +110,8 @@ exports[`literal escaped slash: hi {'\\\\'} ! 1`] = `
 
 exports[`literal escaped unicode 4 digits: hi {'\\\\u0041'} ! 1`] = `
 "function __msg__ (ctx) {
-  return ctx.normalize([
+  const { normalize: _normalize } = ctx
+  return _normalize([
     \\"hi \\", \\"\\\\\\\\u0041\\", \\" !\\"
   ])
 }"
@@ -106,7 +119,8 @@ exports[`literal escaped unicode 4 digits: hi {'\\\\u0041'} ! 1`] = `
 
 exports[`literal escaped unicode 6 digits: hi {'\\\\U01F602'} ! 1`] = `
 "function __msg__ (ctx) {
-  return ctx.normalize([
+  const { normalize: _normalize } = ctx
+  return _normalize([
     \\"hi \\", \\"\\\\\\\\U01F602\\", \\" !\\"
   ])
 }"
@@ -114,7 +128,8 @@ exports[`literal escaped unicode 6 digits: hi {'\\\\U01F602'} ! 1`] = `
 
 exports[`literal multibytes: hi {'かずぽん'} ! 1`] = `
 "function __msg__ (ctx) {
-  return ctx.normalize([
+  const { normalize: _normalize } = ctx
+  return _normalize([
     \\"hi \\", \\"かずぽん\\", \\" !\\"
   ])
 }"
@@ -122,7 +137,8 @@ exports[`literal multibytes: hi {'かずぽん'} ! 1`] = `
 
 exports[`literal unicode 4 digits: hi {'A'} ! 1`] = `
 "function __msg__ (ctx) {
-  return ctx.normalize([
+  const { normalize: _normalize } = ctx
+  return _normalize([
     \\"hi \\", \\"A\\", \\" !\\"
   ])
 }"
@@ -130,59 +146,80 @@ exports[`literal unicode 4 digits: hi {'A'} ! 1`] = `
 
 exports[`literal unicode 6 digits: hi {'U01F602'} ! 1`] = `
 "function __msg__ (ctx) {
-  return ctx.normalize([
+  const { normalize: _normalize } = ctx
+  return _normalize([
     \\"hi \\", \\"U01F602\\", \\" !\\"
   ])
 }"
 `;
 
+exports[`mode arrow: @.caml:{'no apples'} | {0} apple | {n}　apples 1`] = `
+"(ctx) => {
+  const { normalize: _normalize, modifier: _modifier, type: _type, message: _message, interpolate: _interpolate, list: _list, named: _named, pluralIndex: _pluralIndex, pluralRule: _pluralRule, orgPluralRule: _orgPluralRule } = ctx
+  return [
+    _normalize([
+      _modifier(\\"caml\\")(_message(\\"no apples\\")(ctx), _type)
+    ]), _normalize([
+      _interpolate(_list(0)), \\" apple\\"
+    ]), _normalize([
+      _interpolate(_named(\\"n\\")), \\"　apples\\"
+    ])
+  ][_pluralRule(_pluralIndex, 3, _orgPluralRule)]
+}"
+`;
+
 exports[`named basic: hi {name} ! 1`] = `
 "function __msg__ (ctx) {
-  return ctx.normalize([
-    \\"hi \\", ctx.interpolate(ctx.named(\\"name\\")), \\" !\\"
+  const { normalize: _normalize, interpolate: _interpolate, named: _named } = ctx
+  return _normalize([
+    \\"hi \\", _interpolate(_named(\\"name\\")), \\" !\\"
   ])
 }"
 `;
 
 exports[`named multiple: {greeting} {name} ! 1`] = `
 "function __msg__ (ctx) {
-  return ctx.normalize([
-    ctx.interpolate(ctx.named(\\"greeting\\")), \\" \\", ctx.interpolate(ctx.named(\\"name\\")), \\" !\\"
+  const { normalize: _normalize, interpolate: _interpolate, named: _named } = ctx
+  return _normalize([
+    _interpolate(_named(\\"greeting\\")), \\" \\", _interpolate(_named(\\"name\\")), \\" !\\"
   ])
 }"
 `;
 
 exports[`plural complex: @.caml:{'no apples'} | {0} apple | {n}　apples 1`] = `
 "function __msg__ (ctx) {
+  const { normalize: _normalize, modifier: _modifier, type: _type, message: _message, interpolate: _interpolate, list: _list, named: _named, pluralIndex: _pluralIndex, pluralRule: _pluralRule, orgPluralRule: _orgPluralRule } = ctx
   return [
-    ctx.normalize([
-      ctx.modifier(\\"caml\\")(ctx.message(\\"no apples\\")(ctx), ctx.type)
-    ]), ctx.normalize([
-      ctx.interpolate(ctx.list(0)), \\" apple\\"
-    ]), ctx.normalize([
-      ctx.interpolate(ctx.named(\\"n\\")), \\"　apples\\"
+    _normalize([
+      _modifier(\\"caml\\")(_message(\\"no apples\\")(ctx), _type)
+    ]), _normalize([
+      _interpolate(_list(0)), \\" apple\\"
+    ]), _normalize([
+      _interpolate(_named(\\"n\\")), \\"　apples\\"
     ])
-  ][ctx.pluralRule(ctx.pluralIndex, 3, ctx.orgPluralRule)]
+  ][_pluralRule(_pluralIndex, 3, _orgPluralRule)]
 }"
 `;
 
 exports[`plural simple: no apples | one apple  |  too much apples   1`] = `
 "function __msg__ (ctx) {
+  const { normalize: _normalize, pluralIndex: _pluralIndex, pluralRule: _pluralRule, orgPluralRule: _orgPluralRule } = ctx
   return [
-    ctx.normalize([
+    _normalize([
       \\"no apples\\"
-    ]), ctx.normalize([
+    ]), _normalize([
       \\"one apple\\"
-    ]), ctx.normalize([
+    ]), _normalize([
       \\"too much apples  \\"
     ])
-  ][ctx.pluralRule(ctx.pluralIndex, 3, ctx.orgPluralRule)]
+  ][_pluralRule(_pluralIndex, 3, _orgPluralRule)]
 }"
 `;
 
 exports[`text basic: hello world 1`] = `
 "function __msg__ (ctx) {
-  return ctx.normalize([
+  const { normalize: _normalize } = ctx
+  return _normalize([
     \\"hello world\\"
   ])
 }"
@@ -191,7 +228,8 @@ exports[`text basic: hello world 1`] = `
 exports[`text multline: hello
  world 1`] = `
 "function __msg__ (ctx) {
-  return ctx.normalize([
+  const { normalize: _normalize } = ctx
+  return _normalize([
     \\"hello\\\\n world\\"
   ])
 }"

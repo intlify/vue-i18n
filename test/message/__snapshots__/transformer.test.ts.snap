@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`transform 1`] = `
+exports[`transform: ast 1`] = `
 Object {
   "body": Object {
     "cases": Array [
@@ -204,6 +204,18 @@ Object {
     "type": 1,
   },
   "end": 50,
+  "helpers": Array [
+    "normalize",
+    "modifier",
+    "type",
+    "message",
+    "interpolate",
+    "list",
+    "named",
+    "pluralIndex",
+    "pluralRule",
+    "orgPluralRule",
+  ],
   "loc": Object {
     "end": Object {
       "column": 51,
@@ -216,8 +228,22 @@ Object {
       "offset": 0,
     },
   },
-  "needInterpolate": true,
   "start": 0,
   "type": 0,
 }
+`;
+
+exports[`transform: helpers 1`] = `
+Array [
+  "normalize",
+  "modifier",
+  "type",
+  "message",
+  "interpolate",
+  "list",
+  "named",
+  "pluralIndex",
+  "pluralRule",
+  "orgPluralRule",
+]
 `;

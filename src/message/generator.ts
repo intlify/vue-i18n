@@ -13,8 +13,8 @@ import {
   LiteralNode
 } from './parser'
 import { CodeGenOptions } from './options'
-
-export const INTERPOLATE_CODE = `const interpolate = val => { return val == null ? "" : Array.isArray(val) || ((Object.prototype.toString.call(val) === "[object Object]") && val.toString === Object.prototype.toString) ? JSON.stringify(val, null, 2) : String(val) }`
+import { HelperNameMap } from './context'
+import { isString } from '../utils'
 
 type CodeGenContext = {
   source?: string
@@ -32,6 +32,7 @@ type CodeGenerator = Readonly<{
   indent: () => void
   deindent: (withoutNewLine?: boolean) => void
   newline: () => void
+  helper: (key: string) => string
 }>
 
 function createCodeGenerator(source?: string): CodeGenerator {
@@ -67,26 +68,30 @@ function createCodeGenerator(source?: string): CodeGenerator {
     _newline(_context.indentLevel)
   }
 
+  const helper = (key: string): string => `_${key}`
+
   return {
     context,
     push,
     indent,
     deindent,
-    newline
+    newline,
+    helper
   }
 }
 
 function generateLinkedNode(generator: CodeGenerator, node: LinkedNode): void {
+  const { helper } = generator
   if (node.modifier) {
-    generator.push('ctx.modifier(')
+    generator.push(`${helper(HelperNameMap.MODIFIER)}(`)
     generateNode(generator, node.modifier)
     generator.push(')(')
   }
-  generator.push('ctx.message(')
+  generator.push(`${helper(HelperNameMap.MESSAGE)}(`)
   generateNode(generator, node.key)
   generator.push(')(ctx)')
   if (node.modifier) {
-    generator.push(', ctx.type)')
+    generator.push(`, ${helper(HelperNameMap.TYPE)})`)
   }
 }
 
@@ -94,7 +99,8 @@ function generateMessageNode(
   generator: CodeGenerator,
   node: MessageNode
 ): void {
-  generator.push('ctx.normalize([')
+  const { helper } = generator
+  generator.push(`${helper(HelperNameMap.NORMALIZE)}([`)
   generator.indent()
   const length = node.items.length
   for (let i = 0; i < length; i++) {
@@ -109,6 +115,7 @@ function generateMessageNode(
 }
 
 function generatePluralNode(generator: CodeGenerator, node: PluralNode): void {
+  const { helper } = generator
   if (node.cases.length > 1) {
     generator.push('[')
     generator.indent()
@@ -122,7 +129,9 @@ function generatePluralNode(generator: CodeGenerator, node: PluralNode): void {
     }
     generator.deindent()
     generator.push(
-      `][ctx.pluralRule(ctx.pluralIndex, ${length}, ctx.orgPluralRule)]`
+      `][${helper(HelperNameMap.PLURAL_RULE)}(${helper(
+        HelperNameMap.PLURAL_INDEX
+      )}, ${length}, ${helper(HelperNameMap.ORG_PLURAL_RULE)})]`
     )
   }
 }
@@ -136,6 +145,7 @@ function generateResource(generator: CodeGenerator, node: ResourceNode): void {
 }
 
 function generateNode(generator: CodeGenerator, node: Node): void {
+  const { helper } = generator
   switch (node.type) {
     case NodeTypes.Resource:
       generateResource(generator, node as ResourceNode)
@@ -156,11 +166,17 @@ function generateNode(generator: CodeGenerator, node: Node): void {
       generator.push(JSON.stringify((node as LinkedKeyNode).value))
       break
     case NodeTypes.List:
-      generator.push(`ctx.interpolate(ctx.list(${(node as ListNode).index}))`)
+      generator.push(
+        `${helper(HelperNameMap.INTERPOLATE)}(${helper(HelperNameMap.LIST)}(${
+          (node as ListNode).index
+        }))`
+      )
       break
     case NodeTypes.Named:
       generator.push(
-        `ctx.interpolate(ctx.named(${JSON.stringify((node as NamedNode).key)}))`
+        `${helper(HelperNameMap.INTERPOLATE)}(${helper(
+          HelperNameMap.NAMED
+        )}(${JSON.stringify((node as NamedNode).key)}))`
       )
       break
     case NodeTypes.Literal:
@@ -181,12 +197,24 @@ export const generate = (
   ast: ResourceNode,
   options: CodeGenOptions = {} // eslint-disable-line
 ): string => {
+  const mode = isString(options.mode) ? options.mode : 'normal'
+  const helpers = ast.helpers || []
   const generator = createCodeGenerator(ast.loc && ast.loc.source)
-  generator.push(`function __msg__ (ctx) {`)
+
+  generator.push(mode === 'normal' ? `function __msg__ (ctx) {` : `(ctx) => {`)
   generator.indent()
+
+  if (helpers.length > 0) {
+    generator.push(
+      `const { ${helpers.map(s => `${s}: _${s}`).join(', ')} } = ctx`
+    )
+    generator.newline()
+  }
+
   generator.push(`return `)
   generateNode(generator, ast)
   generator.deindent()
   generator.push(`}`)
+
   return generator.context().code
 }

@@ -1,3 +1,5 @@
+/* eslint-disable no-irregular-whitespace */
+
 import { createParser } from '../../src/message/parser'
 import { transform } from '../../src/message/transformer'
 import { generate } from '../../src/message/generator'
@@ -10,7 +12,7 @@ describe('text', () => {
     transform(ast)
     const code = generate(ast)
     expect(code).toMatchSnapshot(msg)
-    expect(code).toMatch(`return ctx.normalize([`)
+    expect(code).toMatch(`return _normalize([`)
     expect(code).toMatch(`"hello world"`)
     expect(code).toMatch(`])`)
   })
@@ -22,7 +24,7 @@ describe('text', () => {
     transform(ast)
     const code = generate(ast)
     expect(code).toMatchSnapshot(msg)
-    expect(code).toMatch(`return ctx.normalize([`)
+    expect(code).toMatch(`return _normalize([`)
     expect(code).toMatch(`"hello\\n world"`)
     expect(code).toMatch(`])`)
   })
@@ -36,8 +38,8 @@ describe('list', () => {
     transform(ast)
     const code = generate(ast)
     expect(code).toMatchSnapshot(msg)
-    expect(code).toMatch(`return ctx.normalize([`)
-    expect(code).toMatch(`"hi ", ctx.interpolate(ctx.list(0)), " !"`)
+    expect(code).toMatch(`return _normalize([`)
+    expect(code).toMatch(`"hi ", _interpolate(_list(0)), " !"`)
     expect(code).toMatch(`])`)
   })
 
@@ -48,9 +50,9 @@ describe('list', () => {
     transform(ast)
     const code = generate(ast)
     expect(code).toMatchSnapshot(msg)
-    expect(code).toMatch(`return ctx.normalize([`)
+    expect(code).toMatch(`return _normalize([`)
     expect(code).toMatch(
-      `ctx.interpolate(ctx.list(0)), " ", ctx.interpolate(ctx.list(1)), " !"`
+      `_interpolate(_list(0)), " ", _interpolate(_list(1)), " !"`
     )
     expect(code).toMatch(`])`)
   })
@@ -64,8 +66,8 @@ describe('named', () => {
     transform(ast)
     const code = generate(ast)
     expect(code).toMatchSnapshot(msg)
-    expect(code).toMatch(`return ctx.normalize([`)
-    expect(code).toMatch(`"hi ", ctx.interpolate(ctx.named("name")), " !"`)
+    expect(code).toMatch(`return _normalize([`)
+    expect(code).toMatch(`"hi ", _interpolate(_named("name")), " !"`)
     expect(code).toMatch(`])`)
   })
 
@@ -76,9 +78,9 @@ describe('named', () => {
     transform(ast)
     const code = generate(ast)
     expect(code).toMatchSnapshot(msg)
-    expect(code).toMatch(`return ctx.normalize([`)
+    expect(code).toMatch(`return _normalize([`)
     expect(code).toMatch(
-      `ctx.interpolate(ctx.named("greeting")), " ", ctx.interpolate(ctx.named("name")), " !"`
+      `_interpolate(_named("greeting")), " ", _interpolate(_named("name")), " !"`
     )
     expect(code).toMatch(`])`)
   })
@@ -193,8 +195,8 @@ describe('linked', () => {
     transform(ast)
     const code = generate(ast)
     expect(code).toMatchSnapshot(msg)
-    expect(code).toMatch(`return ctx.normalize([`)
-    expect(code).toMatch(`"hi ", ctx.message("name")(ctx), " !"`)
+    expect(code).toMatch(`return _normalize([`)
+    expect(code).toMatch(`"hi ", _message("name")(ctx), " !"`)
     expect(code).toMatch(`])`)
   })
 
@@ -205,10 +207,8 @@ describe('linked', () => {
     transform(ast)
     const code = generate(ast)
     expect(code).toMatchSnapshot(msg)
-    expect(code).toMatch(`return ctx.normalize([`)
-    expect(code).toMatch(
-      `"hi ", ctx.message(ctx.interpolate(ctx.list(0)))(ctx), " !"`
-    )
+    expect(code).toMatch(`return _normalize([`)
+    expect(code).toMatch(`"hi ", _message(_interpolate(_list(0)))(ctx), " !"`)
     expect(code).toMatch(`])`)
   })
 
@@ -219,9 +219,9 @@ describe('linked', () => {
     transform(ast)
     const code = generate(ast)
     expect(code).toMatchSnapshot(msg)
-    expect(code).toMatch(`return ctx.normalize([`)
+    expect(code).toMatch(`return _normalize([`)
     expect(code).toMatch(
-      `"hi ", ctx.message(ctx.interpolate(ctx.named("name")))(ctx), " !"`
+      `"hi ", _message(_interpolate(_named("name")))(ctx), " !"`
     )
     expect(code).toMatch(`])`)
   })
@@ -233,9 +233,9 @@ describe('linked', () => {
     transform(ast)
     const code = generate(ast)
     expect(code).toMatchSnapshot(msg)
-    expect(code).toMatch(`return ctx.normalize([`)
+    expect(code).toMatch(`return _normalize([`)
     expect(code).toMatch(
-      `"hi ", ctx.modifier("upper")(ctx.message("name")(ctx), ctx.type), " !"`
+      `"hi ", _modifier("upper")(_message("name")(ctx), _type), " !"`
     )
     expect(code).toMatch(`])`)
   })
@@ -250,37 +250,45 @@ describe('plural', () => {
     const code = generate(ast)
     expect(code).toMatchSnapshot(msg)
     expect(code).toMatch(`return [`)
-    expect(code).toMatch(`ctx.normalize([`)
+    expect(code).toMatch(`_normalize([`)
     expect(code).toMatch(`"no apples"`)
-    expect(code).toMatch(` ]), ctx.normalize([`)
+    expect(code).toMatch(` ]), _normalize([`)
     expect(code).toMatch(`"one apple"`)
-    expect(code).toMatch(` ]), ctx.normalize([`)
+    expect(code).toMatch(` ]), _normalize([`)
     expect(code).toMatch(`"too much apples  "`)
     expect(code).toMatch(` ])`)
-    expect(code).toMatch(
-      `][ctx.pluralRule(ctx.pluralIndex, 3, ctx.orgPluralRule)]`
-    )
+    expect(code).toMatch(`][_pluralRule(_pluralIndex, 3, _orgPluralRule)]`)
   })
 
   test('complex', () => {
     const parser = createParser()
-    const msg = `@.caml:{'no apples'} | {0} apple | {n}　apples` // eslint-disable-line no-irregular-whitespace
+    const msg = `@.caml:{'no apples'} | {0} apple | {n}　apples`
     const ast = parser.parse(msg)
     transform(ast)
     const code = generate(ast)
     expect(code).toMatchSnapshot(msg)
     expect(code).toMatch(`return [`)
-    expect(code).toMatch(`ctx.normalize([`)
-    expect(code).toMatch(
-      `ctx.modifier("caml")(ctx.message("no apples")(ctx), ctx.type)`
-    )
-    expect(code).toMatch(` ]), ctx.normalize([`)
-    expect(code).toMatch(`ctx.interpolate(ctx.list(0)), " apple"`)
-    expect(code).toMatch(` ]), ctx.normalize([`)
-    expect(code).toMatch(`ctx.interpolate(ctx.named("n")), "　apples"`) // eslint-disable-line no-irregular-whitespace
+    expect(code).toMatch(`_normalize([`)
+    expect(code).toMatch(`_modifier("caml")(_message("no apples")(ctx), _type)`)
+    expect(code).toMatch(` ]), _normalize([`)
+    expect(code).toMatch(`_interpolate(_list(0)), " apple"`)
+    expect(code).toMatch(` ]), _normalize([`)
+    expect(code).toMatch(`_interpolate(_named("n")), "　apples"`)
     expect(code).toMatch(` ])`)
-    expect(code).toMatch(
-      `][ctx.pluralRule(ctx.pluralIndex, 3, ctx.orgPluralRule)]`
-    )
+    expect(code).toMatch(`][_pluralRule(_pluralIndex, 3, _orgPluralRule)]`)
   })
 })
+
+describe('mode', () => {
+  test('arrow', () => {
+    const parser = createParser()
+    const msg = `@.caml:{'no apples'} | {0} apple | {n}　apples`
+    const ast = parser.parse(msg)
+    transform(ast)
+    const code = generate(ast, { mode: 'arrow' })
+    expect(code).toMatchSnapshot(msg)
+    expect(code).toMatch(`(ctx) => {`)
+  })
+})
+
+/* eslint-enable no-irregular-whitespace */
