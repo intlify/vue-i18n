@@ -3,6 +3,7 @@ import { createParser, ResourceNode } from './parser'
 import { transform } from './transformer'
 import { generate } from './generator'
 import { CompileError, defaultOnError } from './errors'
+import { MessageFunction, MessageFunctions } from './runtime'
 import { warn, isBoolean } from '../utils'
 
 export type CompileResult = {
@@ -16,8 +17,6 @@ export type CompileResult = {
 export type Compiler = Readonly<{
   compile: (source: string, options?: CompileOptions) => CompileResult
 }>
-
-export type MessageFunction = (ctx: unknown) => unknown
 
 // TODO: This code should be removed with using rollup (`/*#__PURE__*/`)
 const RE_HTML_TAG = /<\/?[\w\s="/.':;#-\/]+>/
@@ -33,7 +32,24 @@ function checkHtmlMessage(source: string, options: CompileOptions): void {
 }
 
 const defaultOnCacheKey = (source: string): string => source
-const compileCache: Record<string, MessageFunction> = Object.create(null)
+const compileCache: MessageFunctions = Object.create(null)
+
+export function baseCompile(
+  source: string,
+  options: CompileOptions = {}
+): CompileResult {
+  // parse source codes
+  const parser = createParser({ ...options })
+  const ast = parser.parse(source)
+
+  // transform ASTs
+  transform(ast, { ...options })
+
+  // generate javascript codes
+  const code = generate(ast, { ...options })
+
+  return { ast, code }
+}
 
 export function compile(
   source: string,
@@ -58,16 +74,10 @@ export function compile(
     onError(err)
   }
 
-  // parse source codes
-  const parser = createParser({ ...options })
-  const ast = parser.parse(source)
+  // compile
+  const { code } = baseCompile(source, options)
 
-  // transform ASTs
-  transform(ast, { ...options })
-
-  // generate javascript codes
-  const code = generate(ast, { ...options })
-
+  // evaluate function
   const msg = new Function(`return ${code}`)() as MessageFunction
 
   // if occured compile error, don't cache

@@ -1,7 +1,19 @@
+export { generateFormatCacheKey, friendlyJSONstringify } from './utils'
 export { Path, PathValue } from './path'
 export { createParser, Parser } from './message/parser'
-export { CompileOptions } from './message/options'
-export { PluralizationRule, LinkedModifiers } from './message/runtime'
+export {
+  CompileError,
+  CompileDomain,
+  CompileErrorCodes
+} from './message/errors'
+export { CompileOptions, CompileErrorHandler } from './message/options'
+export { baseCompile, compile } from './message/compiler'
+export {
+  MessageFunction,
+  MessageFunctions,
+  PluralizationRule,
+  LinkedModifiers
+} from './message/runtime'
 export {
   Locale,
   FallbackLocale,

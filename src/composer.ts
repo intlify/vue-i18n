@@ -16,7 +16,7 @@ import {
 } from 'vue'
 import { WritableComputedRef, ComputedRef } from '@vue/reactivity'
 import { apply } from './plugin'
-import { Path } from './path'
+import { Path, parse as parsePath } from './path'
 import {
   DateTimeFormats,
   NumberFormats,
@@ -27,6 +27,7 @@ import {
   LinkedModifiers,
   PluralizationRules,
   NamedValue,
+  MessageFunctions,
   MessageProcessor
 } from './message/runtime'
 import {
@@ -77,7 +78,11 @@ export type MissingHandler = (
   type?: string
 ) => string | void
 
-export type CustomBlocks = string[]
+export type PreCompileHandler = () => {
+  messages: LocaleMessages
+  functions: MessageFunctions
+}
+export type CustomBlocks = string[] | PreCompileHandler
 
 /**
  *  Composer Options
@@ -189,19 +194,56 @@ function getLocaleMessages(
   locale: Locale
 ): LocaleMessages {
   const { messages, __i18n } = options
+
   // prettier-ignore
   let ret = isPlainObject(messages)
     ? messages
     : isArray(__i18n)
       ? {}
       : { [locale]: {} }
+
   // merge locale messages of i18n custom block
   if (isArray(__i18n)) {
     __i18n.forEach(raw => {
       ret = Object.assign(ret, JSON.parse(raw))
     })
+    return ret
   }
+
+  if (isFunction(__i18n)) {
+    const { functions } = __i18n()
+    addPreCompileMessages(ret, functions)
+  }
+
   return ret
+}
+
+function addPreCompileMessages(
+  messages: LocaleMessages,
+  functions: MessageFunctions
+): void {
+  const keys = Object.keys(functions)
+  keys.forEach(key => {
+    const compiled = functions[key]
+    const { l, k } = JSON.parse(key)
+    const targetLocaleMessage = (messages[l] = messages[l] || {})
+    const paths = parsePath(k)
+    if (paths != null) {
+      const len = paths.length
+      let last = targetLocaleMessage as any // eslint-disable-line @typescript-eslint/no-explicit-any
+      let i = 0
+      while (i < len) {
+        const path = paths[i]
+        const val = last[path]
+        if (val != null) {
+          last[path] = {}
+        }
+        last = val
+        i++
+      }
+      last = compiled
+    }
+  })
 }
 
 /**
