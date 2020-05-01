@@ -16,8 +16,13 @@ export type PluralizationRule = (
 export type PluralizationRules = { [locale: string]: PluralizationRule }
 export type LinkedModify = (value: unknown, type: string) => unknown
 export type LinkedModifiers = { [key: string]: LinkedModify }
-export type MessageFunction = (ctx: MessageContext) => unknown
-export type MessageFucntions = { [key: string]: MessageFunction }
+export type MessageFunction = {
+  (ctx: MessageContext): unknown
+  key?: string
+  locale?: string
+  source?: string
+}
+export type MessageFunctions = Record<string, MessageFunction>
 export type MessageResolveFunction = (key: string) => MessageFunction
 export type NamedValue<T = {}> = T & { [prop: string]: unknown }
 export type MessageNormalize = (values: unknown[]) => unknown
@@ -37,7 +42,7 @@ export type MessageContextOptions<N = {}> = {
   modifiers?: LinkedModifiers
   pluralIndex?: number
   pluralRules?: PluralizationRules
-  messages?: MessageFucntions | MessageResolveFunction // TODO: need to design resolve message function?
+  messages?: MessageFunctions | MessageResolveFunction // TODO: need to design resolve message function?
   processor?: MessageProcessor
 }
 

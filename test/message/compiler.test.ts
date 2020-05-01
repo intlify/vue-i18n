@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-empty-function */
+/* eslint-disable @typescript-eslint/no-empty-function, no-irregular-whitespace */
 
 // utils
 jest.mock('../../src/utils', () => ({
@@ -9,12 +9,10 @@ import { warn } from '../../src/utils'
 
 import { compile } from '../../src/message/compiler'
 
-/* eslint-disable no-irregular-whitespace */
 test(`@.caml:{'no apples'} | {0} apple | {n}　apples`, () => {
   const code = compile(`@.caml:{'no apples'} | {0} apple | {n}　apples`)
   expect(code.toString()).toMatchSnapshot('code')
 })
-/* eslint-enable no-irregular-whitespace */
 
 describe('warnHtmlMessage', () => {
   test('default', () => {
@@ -50,4 +48,4 @@ describe('edge cases', () => {
   })
 })
 
-/* eslint-enable @typescript-eslint/no-empty-function */
+/* eslint-enable @typescript-eslint/no-empty-function, no-irregular-whitespace  */

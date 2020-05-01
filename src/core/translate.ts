@@ -1,10 +1,11 @@
 import { Path, resolveValue, PathValue } from '../path'
 import { CompileOptions } from '../message/options'
 import { CompileError } from '../message/errors'
-import { compile, MessageFunction } from '../message/compiler'
+import { compile } from '../message/compiler'
 import {
   createMessageContext,
   NamedValue,
+  MessageFunction,
   MessageContextOptions
 } from '../message/runtime'
 import {
@@ -25,6 +26,7 @@ import {
   isArray,
   isPlainObject,
   isEmptyObject,
+  generateFormatCacheKey,
   generateCodeFrame
 } from '../utils'
 
@@ -232,23 +234,33 @@ export function translate(
     return unresolving ? NOT_REOSLVED : key
   }
 
-  // compile message format
+  // setup compile error detecting
   let occured = false
   const errorDetector = () => {
     occured = true
   }
-  const msg = isMessageFunction(format)
-    ? format
-    : compile(
+
+  // compile message format
+  let msg
+  if (!isMessageFunction(format)) {
+    msg = compile(
+      format,
+      getCompileOptions(
+        targetLocale,
+        cacheBaseKey,
         format,
-        getCompileOptions(
-          targetLocale,
-          cacheBaseKey,
-          format,
-          warnHtmlMessage,
-          errorDetector
-        )
+        warnHtmlMessage,
+        errorDetector
       )
+    )
+    msg.locale = targetLocale
+    msg.key = key
+    msg.source = format
+  } else {
+    msg = format
+    msg.locale = msg.locale || targetLocale
+    msg.key = msg.key || key
+  }
 
   // if occured compile error, return the message format
   if (occured) {
@@ -326,7 +338,8 @@ function getCompileOptions(
         throw err
       }
     },
-    onCacheKey: (source: string): string => `{${locale}}{${key}}{${source}}`
+    onCacheKey: (source: string): string =>
+      generateFormatCacheKey(locale, key, source)
   } as CompileOptions
 }
 

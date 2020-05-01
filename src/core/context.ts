@@ -1,4 +1,4 @@
-import { MessageFunction } from '../message/compiler'
+import { MessageFunction } from '../message/runtime'
 import {
   LinkedModifiers,
   PluralizationRules,

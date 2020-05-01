@@ -6,6 +6,18 @@
 export const generateSymbolID = (): string =>
   `vue-i18n-${new Date().getUTCMilliseconds().toString()}`
 
+export const generateFormatCacheKey = (
+  locale: string,
+  key: string,
+  source: string
+): string => friendlyJSONstringify({ l: locale, k: key, s: source })
+
+export const friendlyJSONstringify = (json: unknown): string =>
+  JSON.stringify(json)
+    .replace(/\u2028/g, '\\u2028')
+    .replace(/\u2029/g, '\\u2029')
+    .replace(/\u0027/g, '\\u0027')
+
 export const isDate = (val: unknown): val is Date =>
   toTypeString(val) === '[object Date]'
 
