@@ -53,7 +53,7 @@
     "minimist": "^1.2.5",
     "opener": "^1.5.1",
     "prettier": "^2.0.0",
-    "puppeteer": "^2.1.1",
+    "puppeteer": "^3.0.0",
     "rollup": "^2.3.0",
     "rollup-plugin-terser": "^5.2.0",
     "rollup-plugin-typescript2": "^0.27.0",
