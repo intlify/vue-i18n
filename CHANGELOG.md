@@ -1,4 +1,13 @@
 
+## v9.0.0-alpha.7 (2020-05-02)
+
+#### :bug: Bug Fixes
+* [#34](https://github.com/intlify/vue-i18n-next/pull/34) fix: pre-compile locale messages registration bug ([@kazupon](https://github.com/kazupon))
+
+#### Committers: 1
+- kazuya kawaguchi ([@kazupon](https://github.com/kazupon))
+
+
 ## v9.0.0-alpha.6 (2020-05-02)
 
 #### :star: Features
