@@ -1,4 +1,14 @@
 
+## v9.0.0-alpha.6 (2020-05-02)
+
+#### :star: Features
+* [#32](https://github.com/intlify/vue-i18n-next/pull/32) feat: support pre-compile locale messages ([@kazupon](https://github.com/kazupon))
+* [#31](https://github.com/intlify/vue-i18n-next/pull/31) feat: generator mode ([@kazupon](https://github.com/kazupon))
+
+#### Committers: 1
+- kazuya kawaguchi ([@kazupon](https://github.com/kazupon))
+
+
 ## v9.0.0-alpha.5 (2020-04-29)
 
 #### :star: Features
