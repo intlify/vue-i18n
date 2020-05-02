@@ -218,7 +218,7 @@ function getLocaleMessages(
   return ret
 }
 
-function addPreCompileMessages(
+export function addPreCompileMessages(
   messages: LocaleMessages,
   functions: MessageFunctions
 ): void {
@@ -226,7 +226,10 @@ function addPreCompileMessages(
   keys.forEach(key => {
     const compiled = functions[key]
     const { l, k } = JSON.parse(key)
-    const targetLocaleMessage = (messages[l] = messages[l] || {})
+    if (!messages[l]) {
+      messages[l] = {}
+    }
+    const targetLocaleMessage = messages[l]
     const paths = parsePath(k)
     if (paths != null) {
       const len = paths.length
@@ -234,14 +237,18 @@ function addPreCompileMessages(
       let i = 0
       while (i < len) {
         const path = paths[i]
-        const val = last[path]
-        if (val != null) {
-          last[path] = {}
+        if (i === len - 1) {
+          last[path] = compiled
+          break
+        } else {
+          let val = last[path]
+          if (!val) {
+            last[path] = val = {}
+          }
+          last = val
+          i++
         }
-        last = val
-        i++
       }
-      last = compiled
     }
   })
 }
