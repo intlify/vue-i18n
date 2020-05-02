@@ -7,7 +7,11 @@ jest.mock('../src/utils', () => ({
 }))
 import { warn } from '../src/utils'
 
-import { createComposer, MissingHandler, addPreCompileMessages } from '../src/composer'
+import {
+  createComposer,
+  MissingHandler,
+  addPreCompileMessages
+} from '../src/composer'
 import { generateFormatCacheKey } from '../src/utils'
 import { watch } from 'vue'
 
@@ -723,7 +727,9 @@ test('addPreCompileMessages', () => {
   const msg1 = () => {}
   const msg2 = () => {}
   functions[generateFormatCacheKey('en', 'hello', 'hello,world')] = msg1
-  functions[generateFormatCacheKey('ja', 'foo.bar.hello', 'こんにちは、世界')] = msg2
+  functions[
+    generateFormatCacheKey('ja', 'foo.bar.hello', 'こんにちは、世界')
+  ] = msg2
   addPreCompileMessages(messages, functions)
   expect(messages['en']).toMatchObject({
     hello: msg1
@@ -734,6 +740,7 @@ test('addPreCompileMessages', () => {
         hello: msg2
       }
     }
+  })
 })
 
 /* eslint-enable @typescript-eslint/no-empty-function */
