@@ -10,7 +10,6 @@ import {
   computed,
   getCurrentInstance,
   App,
-  Plugin,
   ComponentInternalInstance,
   createTextVNode
 } from 'vue'
@@ -167,7 +166,7 @@ export type Composer = {
   setPostTranslationHandler(handler: PostTranslationHandler | null): void
   getMissingHandler(): MissingHandler | null
   setMissingHandler(handler: MissingHandler | null): void
-  install: Plugin
+  install(app: App, ...options: unknown[]): void
   __transrateVNode(...args: unknown[]): unknown // for internal
   __numberParts(...args: unknown[]): string | Intl.NumberFormatPart[] // for internal
   __datetimeParts(...args: unknown[]): string | Intl.DateTimeFormatPart[] // for internal
@@ -700,9 +699,8 @@ export function createComposer(options: ComposerOptions = {}): Composer {
     setPostTranslationHandler,
     getMissingHandler,
     setMissingHandler,
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    install(app: App, ...options: any[]): void {
-      apply(app, composer, false, ...options)
+    install(app: App, ...options: unknown[]): void {
+      apply(app, composer, ...options)
     },
     __transrateVNode,
     __numberParts,

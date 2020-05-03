@@ -4,8 +4,7 @@
  *  This module is offered legacy vue-i18n API compatibility
  */
 
-import { App, Plugin } from 'vue'
-import { apply } from './plugin'
+import { App } from 'vue'
 import { defineMixin } from './mixin'
 import { Path, resolveValue } from './path'
 import {
@@ -94,7 +93,7 @@ export type VueI18nOptions = {
  *  This type is compatible with interface of `VueI18n` class (offered with vue-i18n@8.x).
  */
 export type VueI18n = {
-  /**
+  /*!
    * properties
    */
   locale: Locale
@@ -117,7 +116,7 @@ export type VueI18n = {
   preserveDirectiveContent: boolean
   */
 
-  /**
+  /*!
    * methods
    */
   t(key: Path): TranslateResult
@@ -157,8 +156,7 @@ export type VueI18n = {
   setNumberFormat(locale: Locale, format: NumberFormat): void
   mergeNumberFormat(locale: Locale, format: NumberFormat): void
   getChoiceIndex: (choice: Choice, choicesLength: number) => number
-  /* @internal */
-  install: Plugin
+  install(app: App, ...options: unknown[]): void
 }
 
 /**
@@ -497,9 +495,8 @@ export function createVueI18n(options: VueI18nOptions = {}): VueI18n {
     },
 
     // install
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    install(app: App, ...options: any[]): void {
-      apply(app, composer, true, ...options)
+    install(app: App, ...options: unknown[]): void {
+      composer.install(app, ...options)
       app.mixin(defineMixin(vueI18n, composer))
     }
   }

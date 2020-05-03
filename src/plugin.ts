@@ -12,8 +12,7 @@ export type I18nPluginOptions = {
 export function apply(
   app: App,
   composer: Composer,
-  mode: boolean,
-  ...options: any[] // eslint-disable-line @typescript-eslint/no-explicit-any
+  ...options: unknown[]
 ): void {
   const pluginOptions = parseOptions(...options)
 
@@ -35,8 +34,7 @@ export function apply(
   app.provide(GlobalI18nSymbol, composer)
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-function parseOptions(...options: any[]): I18nPluginOptions {
+function parseOptions(...options: unknown[]): I18nPluginOptions {
   const [arg] = options
   const ret = {} as I18nPluginOptions
 
