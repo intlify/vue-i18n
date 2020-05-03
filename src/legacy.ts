@@ -242,7 +242,7 @@ export function createVueI18n(options: VueI18nOptions = {}): VueI18n {
 
   // defines VueI18n
   const vueI18n = {
-    /**
+    /*!
      * properties
      */
 

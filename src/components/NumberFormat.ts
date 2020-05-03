@@ -42,6 +42,7 @@ export const NumberFormat = defineComponent({
   /* eslint-enable */
   setup(props, context: SetupContext) {
     const instance = getCurrentInstance()
+    // TODO: should be raise unexpected error, if `instance` is null
     const i18n =
       instance !== null
         ? instance.parent !== null

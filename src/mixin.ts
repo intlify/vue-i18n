@@ -13,7 +13,7 @@ import {
 
 // supports compatibility for legacy vue-i18n APIs
 export function defineMixin(
-  legacyGlobal: VueI18n,
+  legacy: VueI18n,
   composer: Composer
 ): ComponentOptions {
   return {
@@ -33,7 +33,7 @@ export function defineMixin(
           __root: composer
         })
       } else {
-        this.$i18n = legacyGlobal
+        this.$i18n = legacy
       }
 
       // defines vue-i18n legacy APIs

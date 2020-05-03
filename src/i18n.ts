@@ -10,7 +10,7 @@ import {
 } from 'vue'
 import { Composer, ComposerOptions, createComposer } from './composer'
 import { createVueI18n, VueI18n, VueI18nOptions } from './legacy'
-import { isBoolean, isEmptyObject } from './utils'
+import { isEmptyObject } from './utils'
 
 const generateSymbolID = (): string =>
   `vue-i18n-${new Date().getUTCMilliseconds().toString()}`
@@ -31,6 +31,7 @@ const getGlobalComposer = (): Composer => {
 }
 
 // TODO: if we don't need the below, should be removed!
+//       This code should be removed with using rollup (`/*#__PURE__*/`)
 export function enumProviders(): void {
   if (__DEV__) {
     providers.forEach((sym, instance) => {
@@ -137,7 +138,7 @@ export function createI18n(options: I18nOptions = {}): Composer | VueI18n {
     return globalInstance
   }
 
-  const legacyMode = isBoolean(options.legacy) ? options.legacy : false
+  const legacyMode = !!options.legacy
   return (globalInstance = legacyMode
     ? createVueI18n(options)
     : createComposer(options))

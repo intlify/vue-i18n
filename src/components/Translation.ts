@@ -42,6 +42,7 @@ export const Translation = defineComponent({
   setup(props: TranslationProps, context: SetupContext) {
     const { slots, attrs } = context
     const instance = getCurrentInstance()
+    // TODO: should be raise unexpected error, if `instance` is null
     const i18n =
       instance !== null
         ? instance.parent !== null
