@@ -3,9 +3,6 @@
  * written by kazuya kawaguchi
  */
 
-export const generateSymbolID = (): string =>
-  `vue-i18n-${new Date().getUTCMilliseconds().toString()}`
-
 export const generateFormatCacheKey = (
   locale: string,
   key: string,

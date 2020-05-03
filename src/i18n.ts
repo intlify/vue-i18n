@@ -10,7 +10,10 @@ import {
 } from 'vue'
 import { Composer, ComposerOptions, createComposer } from './composer'
 import { createVueI18n, VueI18n, VueI18nOptions } from './legacy'
-import { isBoolean, isEmptyObject, generateSymbolID } from './utils'
+import { isBoolean, isEmptyObject } from './utils'
+
+const generateSymbolID = (): string =>
+  `vue-i18n-${new Date().getUTCMilliseconds().toString()}`
 
 export const GlobalI18nSymbol: InjectionKey<Composer> = Symbol.for('vue-i18n')
 let globalInstance: VueI18n | Composer | null = null
