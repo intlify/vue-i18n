@@ -1,4 +1,4 @@
-/**
+/*!
  *  Legacy
  *
  *  This module is offered legacy vue-i18n API compatibility
@@ -59,7 +59,7 @@ export interface Formatter {
   interpolate(message: string, values: any, path: string): Array<any> | null
 }
 
-/**
+/*!
  *  VueI18n Options
  *
  *  This option type is compatible with the constructor options of `VueI18n` class (offered with vue-i18n@8.x).
@@ -88,7 +88,7 @@ export type VueI18nOptions = {
   __root?: Composer // for internal
 }
 
-/**
+/*!
  *  VueI18n Interfaces
  *
  *  This type is compatible with interface of `VueI18n` class (offered with vue-i18n@8.x).
@@ -234,7 +234,7 @@ function convertComposerOptions(options: VueI18nOptions): ComposerOptions {
   }
 }
 
-/**
+/*!
  *  createVueI18n factory
  *
  *  This function is compatible with constructor of `VueI18n` class (offered with vue-i18n@8.x) like `new VueI18n(...)`.

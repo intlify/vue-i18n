@@ -46,7 +46,7 @@ export function getComposer(
   return symbol ? inject(symbol, getGlobalComposer()) : getGlobalComposer()
 }
 
-/**
+/*!
  * I18n Options
  *
  * {@link createI18n} factory option.
@@ -62,7 +62,7 @@ export type I18nOptions = {
   legacy?: boolean
 } & (ComposerOptions | VueI18nOptions)
 
-/**
+/*!
  * I18n factory
  *
  * @param options - see the {@link I18nOptions}
@@ -140,7 +140,7 @@ export function createI18n(options: I18nOptions = {}): Composer | VueI18n {
     : createComposer(options))
 }
 
-/**
+/*!
  * Use Composable API
  *
  * @param options - See the {@link ComponentOptions}

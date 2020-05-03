@@ -1,4 +1,4 @@
-/**
+/*!
  *  Composer
  *
  *  Composer is offered composable API for Vue 3
@@ -84,7 +84,7 @@ export type PreCompileHandler = () => {
 }
 export type CustomBlocks = string[] | PreCompileHandler
 
-/**
+/*!
  *  Composer Options
  */
 export type ComposerOptions = {
@@ -106,11 +106,11 @@ export type ComposerOptions = {
   __root?: Composer // for internal
 }
 
-/**
+/*!
  *  Composer Interfaces
  */
 export type Composer = {
-  /**
+  /*!
    * properties
    */
   locale: WritableComputedRef<Locale>
@@ -127,8 +127,7 @@ export type Composer = {
   fallbackFormat: boolean
   warnHtmlMessage: boolean
   __id: number // for internal
-
-  /**
+  /*!
    * methods
    */
   t(key: Path): string
@@ -253,33 +252,6 @@ export function addPreCompileMessages(
   })
 }
 
-/**
- * Composer
- *
- * @example
- * case: Global resource base localization
- * ```js
- * import { createApp } from 'vue'
- * import { createComposer, useI18n } 'vue-i18n'
- *
- * const i18n = createComposer({
- *   locale: 'ja',
- *   messages: {
- *     en: { ... },
- *     ja: { ... }
- *   }
- * })
- *
- * const app = createApp({
- *   setup() {
- *     return useI18n()
- *   }
- * })
- *
- * app.use(i18n)
- * app.mount('#app')
- * ```
- */
 export function createComposer(options: ComposerOptions = {}): Composer {
   const { __root } = options
 
@@ -397,9 +369,9 @@ export function createComposer(options: ComposerOptions = {}): Composer {
   _context = getRuntimeContext()
   updateFallbackLocale(_context, _locale.value, _fallbackLocale.value)
 
-  //
-  // define properties
-  //
+  /*!
+   * define properties
+   */
 
   // locale
   const locale = computed({
@@ -429,9 +401,9 @@ export function createComposer(options: ComposerOptions = {}): Composer {
   // numberFormats
   const numberFormats = computed(() => _numberFormats.value)
 
-  //
-  // define methods
-  //
+  /*!
+   * define methods
+   */
 
   // getPostTranslationHandler
   const getPostTranslationHandler = (): PostTranslationHandler | null =>
@@ -657,7 +629,7 @@ export function createComposer(options: ComposerOptions = {}): Composer {
 
   // export composable API!
   const composer = {
-    /**
+    /*!
      *  properties
      */
     locale,
@@ -709,8 +681,7 @@ export function createComposer(options: ComposerOptions = {}): Composer {
       _context.warnHtmlMessage = val
     },
     __id: composerID,
-
-    /**
+    /*!
      * methods
      */
     t,
