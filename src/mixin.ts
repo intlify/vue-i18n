@@ -52,7 +52,6 @@ export function defineMixin(
     },
 
     beforeDestroy() {
-      this.$el.__intlify__ = undefined
       delete this.$el.__intlify__
     }
   }

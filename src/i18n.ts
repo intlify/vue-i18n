@@ -241,7 +241,6 @@ function setupLifeCycle(
     const instance = getCurrentInstance()
     if (instance) {
       if (instance.proxy && instance.proxy.$el.__intlify__) {
-        instance.proxy.$el.__intlify__ = undefined
         delete instance.proxy.$el.__intlify__
       }
     }
