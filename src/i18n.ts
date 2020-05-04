@@ -11,7 +11,7 @@ import {
 import {
   Composer,
   ComposerOptions,
-  ComposerOptionsInternal,
+  ComposerInternalOptions,
   createComposer
 } from './composer'
 import { createVueI18n, VueI18n, VueI18nOptions } from './legacy'
@@ -304,7 +304,7 @@ export function useI18n(options: UseI18nOptions = {}): Composer {
   let composer = i18n._getComposer(instance)
   if (composer == null) {
     const type = instance.type as ComponentOptions
-    const composerOptions: ComposerOptions & ComposerOptionsInternal = {
+    const composerOptions: ComposerOptions & ComposerInternalOptions = {
       ...options
     }
     if (type.__i18n) {

@@ -30,7 +30,7 @@ import {
   MissingHandler,
   Composer,
   ComposerOptions,
-  ComposerOptionsInternal,
+  ComposerInternalOptions,
   createComposer
 } from './composer'
 import {
@@ -159,8 +159,8 @@ export type VueI18n = {
  * @internal
  */
 function convertComposerOptions(
-  options: VueI18nOptions & ComposerOptionsInternal
-): ComposerOptions & ComposerOptionsInternal {
+  options: VueI18nOptions & ComposerInternalOptions
+): ComposerOptions & ComposerInternalOptions {
   const locale = isString(options.locale) ? options.locale : 'en-US'
   const fallbackLocale =
     isString(options.fallbackLocale) ||
@@ -237,7 +237,7 @@ function convertComposerOptions(
  * @internal
  */
 export function createVueI18n(
-  options: VueI18nOptions & ComposerOptionsInternal = {}
+  options: VueI18nOptions & ComposerInternalOptions = {}
 ): VueI18n {
   const composer = createComposer(convertComposerOptions(options))
 

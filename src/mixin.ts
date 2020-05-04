@@ -1,7 +1,7 @@
 import { ComponentOptions, getCurrentInstance } from 'vue'
 import { Path } from './path'
 import { Locale } from './core/context'
-import { Composer, ComposerOptionsInternal } from './composer'
+import { Composer, ComposerInternalOptions } from './composer'
 import {
   VueI18n,
   createVueI18n,
@@ -29,7 +29,7 @@ export function defineMixin(
       const options = this.$options
       if (options.i18n) {
         const optionsI18n = options.i18n as VueI18nOptions &
-          ComposerOptionsInternal
+          ComposerInternalOptions
         if (options.__i18n) {
           optionsI18n.__i18n = options.__i18n
         }

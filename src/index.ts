@@ -40,7 +40,7 @@ export {
   createI18n,
   useI18n,
   I18nOptions,
-  I18nAddtionalOptions,
+  I18nAdditionalOptions,
   I18n,
   I18nMode,
   I18nScope,

@@ -109,7 +109,7 @@ export interface ComposerOptions {
 /**
  * @internal
  */
-export interface ComposerOptionsInternal {
+export interface ComposerInternalOptions {
   __i18n?: CustomBlocks
   __root?: Composer
 }
@@ -200,7 +200,7 @@ function defineRuntimeMissingHandler(
 }
 
 function getLocaleMessages(
-  options: ComposerOptions & ComposerOptionsInternal,
+  options: ComposerOptions & ComposerInternalOptions,
   locale: Locale
 ): LocaleMessages {
   const { messages, __i18n } = options
@@ -268,7 +268,7 @@ export function addPreCompileMessages(
  * @internal
  */
 export function createComposer(
-  options: ComposerOptions & ComposerOptionsInternal = {}
+  options: ComposerOptions & ComposerInternalOptions = {}
 ): Composer {
   const { __root } = options
   const _isGlobal = __root === undefined
