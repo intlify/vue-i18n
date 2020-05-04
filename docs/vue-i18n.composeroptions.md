@@ -6,12 +6,15 @@
 
 Composer Options
 
+This is options to create composer.
+
 <b>Signature:</b>
 
 ```typescript
 export declare type ComposerOptions = {
     locale?: Locale;
     fallbackLocale?: FallbackLocale;
+    inheritLocale?: boolean;
     messages?: LocaleMessages;
     datetimeFormats?: DateTimeFormats;
     numberFormats?: NumberFormats;

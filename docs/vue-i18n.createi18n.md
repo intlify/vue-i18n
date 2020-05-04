@@ -4,12 +4,12 @@
 
 ## createI18n() function
 
-I18n factory
+I18n factory function
 
 <b>Signature:</b>
 
 ```typescript
-export declare function createI18n(options?: I18nOptions): Composer | VueI18n;
+export declare function createI18n(options?: I18nOptions): I18n;
 ```
 
 ## Parameters
@@ -20,9 +20,9 @@ export declare function createI18n(options?: I18nOptions): Composer | VueI18n;
 
 <b>Returns:</b>
 
-`Composer | VueI18n`
+`I18n`
 
-[Composer](./vue-i18n.composer.md) object, or [VueI18n](./vue-i18n.vuei18n.md) object
+[I18n](./vue-i18n.i18n.md) object
 
 ## Remarks
 

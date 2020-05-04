@@ -4,18 +4,27 @@
 
 ## vue-i18n package
 
+## Enumerations
+
+|  Enumeration | Description |
+|  --- | --- |
+|  [CompileErrorCodes](./vue-i18n.compileerrorcodes.md) |  |
+
 ## Functions
 
 |  Function | Description |
 |  --- | --- |
-|  [createI18n(options)](./vue-i18n.createi18n.md) | I18n factory |
+|  [baseCompile(source, options)](./vue-i18n.basecompile.md) |  |
+|  [compile(source, options)](./vue-i18n.compile.md) |  |
+|  [createI18n(options)](./vue-i18n.createi18n.md) | I18n factory function |
 |  [createParser(options)](./vue-i18n.createparser.md) |  |
-|  [useI18n(options)](./vue-i18n.usei18n.md) | Use Composable API |
+|  [useI18n(options)](./vue-i18n.usei18n.md) | Use Composable API starting function |
 
 ## Interfaces
 
 |  Interface | Description |
 |  --- | --- |
+|  [CompileError](./vue-i18n.compileerror.md) |  |
 |  [CurrencyNumberFormatOptions](./vue-i18n.currencynumberformatoptions.md) |  |
 |  [Formatter](./vue-i18n.formatter.md) |  |
 |  [SpecificDateTimeFormatOptions](./vue-i18n.specificdatetimeformatoptions.md) |  |
@@ -26,6 +35,8 @@
 |  Variable | Description |
 |  --- | --- |
 |  [Availabilities](./vue-i18n.availabilities.md) |  |
+|  [friendlyJSONstringify](./vue-i18n.friendlyjsonstringify.md) |  |
+|  [generateFormatCacheKey](./vue-i18n.generateformatcachekey.md) |  |
 |  [VERSION](./vue-i18n.version.md) |  |
 
 ## Type Aliases
@@ -33,9 +44,11 @@
 |  Type Alias | Description |
 |  --- | --- |
 |  [Choice](./vue-i18n.choice.md) |  |
+|  [CompileDomain](./vue-i18n.compiledomain.md) |  |
+|  [CompileErrorHandler](./vue-i18n.compileerrorhandler.md) |  |
 |  [CompileOptions](./vue-i18n.compileoptions.md) |  |
-|  [Composer](./vue-i18n.composer.md) | Composer Interfaces |
-|  [ComposerOptions](./vue-i18n.composeroptions.md) | Composer Options |
+|  [Composer](./vue-i18n.composer.md) | Composer Interfaces<!-- -->This is the interface for being used for Vue 3 Composition API. |
+|  [ComposerOptions](./vue-i18n.composeroptions.md) | Composer Options<!-- -->This is options to create composer. |
 |  [CurrencyDisplay](./vue-i18n.currencydisplay.md) | number |
 |  [DateTimeDigital](./vue-i18n.datetimedigital.md) |  |
 |  [DateTimeFormat](./vue-i18n.datetimeformat.md) |  |
@@ -46,8 +59,11 @@
 |  [FallbackLocale](./vue-i18n.fallbacklocale.md) |  |
 |  [FormattedNumberPart](./vue-i18n.formattednumberpart.md) |  |
 |  [FormattedNumberPartType](./vue-i18n.formattednumberparttype.md) |  |
-|  [I18nOptions](./vue-i18n.i18noptions.md) | I18n Options[createI18n()](./vue-i18n.createi18n.md) factory option. |
+|  [I18n](./vue-i18n.i18n.md) | I18n interface |
+|  [I18nMode](./vue-i18n.i18nmode.md) | I18n API mode |
+|  [I18nOptions](./vue-i18n.i18noptions.md) | I18n Options |
 |  [I18nPluginOptions](./vue-i18n.i18npluginoptions.md) |  |
+|  [I18nScope](./vue-i18n.i18nscope.md) | I18n Scope |
 |  [IntlAvailability](./vue-i18n.intlavailability.md) | datetime |
 |  [LinkedModifiers](./vue-i18n.linkedmodifiers.md) |  |
 |  [Locale](./vue-i18n.locale.md) |  |
@@ -55,6 +71,8 @@
 |  [LocaleMessageDictionary](./vue-i18n.localemessagedictionary.md) |  |
 |  [LocaleMessageObject](./vue-i18n.localemessageobject.md) |  |
 |  [LocaleMessages](./vue-i18n.localemessages.md) |  |
+|  [MessageFunction](./vue-i18n.messagefunction.md) |  |
+|  [MessageFunctions](./vue-i18n.messagefunctions.md) |  |
 |  [MissingHandler](./vue-i18n.missinghandler.md) |  |
 |  [NumberFormat](./vue-i18n.numberformat.md) |  |
 |  [NumberFormatOptions](./vue-i18n.numberformatoptions.md) |  |
@@ -68,7 +86,8 @@
 |  [PluralizationRulesMap](./vue-i18n.pluralizationrulesmap.md) |  |
 |  [PostTranslationHandler](./vue-i18n.posttranslationhandler.md) |  |
 |  [TranslateResult](./vue-i18n.translateresult.md) |  |
-|  [VueI18n](./vue-i18n.vuei18n.md) | VueI18n Interfaces<!-- -->This type is compatible with interface of <code>VueI18n</code> class (offered with vue-i18n<!-- -->@<!-- -->8.x). |
-|  [VueI18nOptions](./vue-i18n.vuei18noptions.md) | VueI18n Options<!-- -->This option type is compatible with the constructor options of <code>VueI18n</code> class (offered with vue-i18n<!-- -->@<!-- -->8.x). |
+|  [UseI18nOptions](./vue-i18n.usei18noptions.md) | <code>useI18n</code> options |
+|  [VueI18n](./vue-i18n.vuei18n.md) | VueI18n Interfaces<!-- -->This interface is compatible with interface of <code>VueI18n</code> class (offered with vue-i18n<!-- -->@<!-- -->8.x). |
+|  [VueI18nOptions](./vue-i18n.vuei18noptions.md) | VueI18n Options<!-- -->This option is compatible with the constructor options of <code>VueI18n</code> class (offered with vue-i18n<!-- -->@<!-- -->8.x). |
 |  [WarnHtmlInMessageLevel](./vue-i18n.warnhtmlinmessagelevel.md) |  |
 

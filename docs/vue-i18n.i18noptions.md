@@ -6,8 +6,6 @@
 
 I18n Options
 
-[createI18n()](./vue-i18n.createi18n.md) factory option.
-
 <b>Signature:</b>
 
 ```typescript
@@ -18,5 +16,5 @@ export declare type I18nOptions = {
 
 ## Remarks
 
-`I18nOptions` is union type of [ComposerOptions](./vue-i18n.composeroptions.md) and [VueI18nOptions](./vue-i18n.vuei18noptions.md)<!-- -->, so you can specify these options.
+`I18nOptions` is inherited [ComposerOptions](./vue-i18n.composeroptions.md) and [VueI18nOptions](./vue-i18n.vuei18noptions.md)<!-- -->, so you can specify these options.
 

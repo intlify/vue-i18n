@@ -4,19 +4,19 @@
 
 ## useI18n() function
 
-Use Composable API
+Use Composable API starting function
 
 <b>Signature:</b>
 
 ```typescript
-export declare function useI18n(options?: ComposerOptions): Composer;
+export declare function useI18n(options?: UseI18nOptions): Composer;
 ```
 
 ## Parameters
 
 |  Parameter | Type | Description |
 |  --- | --- | --- |
-|  options | <code>ComposerOptions</code> | See the  |
+|  options | <code>UseI18nOptions</code> | See [UseI18nOptions](./vue-i18n.usei18noptions.md) |
 
 <b>Returns:</b>
 
@@ -26,7 +26,7 @@ export declare function useI18n(options?: ComposerOptions): Composer;
 
 ## Remarks
 
-This function is mainly used by `setup`<!-- -->. If options are specified Composer object is created for each component, and you can be localized on the component. If options are not specified, you can be localized using the global Composer.
+This function is mainly used by `setup`<!-- -->. If options are specified, Composer object is created for each component and you can be localized on the component. If options are not specified, you can be localized using the global Composer.
 
 ## Example
 

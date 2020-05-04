@@ -6,7 +6,7 @@
 
 VueI18n Options
 
-This option type is compatible with the constructor options of `VueI18n` class (offered with vue-i18n<!-- -->@<!-- -->8.x).
+This option is compatible with the constructor options of `VueI18n` class (offered with vue-i18n<!-- -->@<!-- -->8.x).
 
 <b>Signature:</b>
 

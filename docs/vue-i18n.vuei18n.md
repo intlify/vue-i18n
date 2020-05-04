@@ -6,12 +6,15 @@
 
 VueI18n Interfaces
 
-This type is compatible with interface of `VueI18n` class (offered with vue-i18n<!-- -->@<!-- -->8.x).
+This interface is compatible with interface of `VueI18n` class (offered with vue-i18n<!-- -->@<!-- -->8.x).
 
 <b>Signature:</b>
 
 ```typescript
 export declare type VueI18n = {
+    /*!
+     * properties
+     */
     locale: Locale;
     fallbackLocale: FallbackLocale;
     readonly availableLocales: Locale[];
@@ -28,6 +31,9 @@ export declare type VueI18n = {
     warnHtmlInMessage: WarnHtmlInMessageLevel;
     __id: number;
     __composer: Composer;
+    /*!
+     * methods
+     */
     t(key: Path): TranslateResult;
     t(key: Path, locale: Locale): TranslateResult;
     t(key: Path, locale: Locale, list: unknown[]): TranslateResult;
@@ -69,6 +75,5 @@ export declare type VueI18n = {
     setNumberFormat(locale: Locale, format: NumberFormat): void;
     mergeNumberFormat(locale: Locale, format: NumberFormat): void;
     getChoiceIndex: (choice: Choice, choicesLength: number) => number;
-    install: Plugin;
 };
 ```

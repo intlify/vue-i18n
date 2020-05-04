@@ -6,24 +6,34 @@
 
 Composer Interfaces
 
+This is the interface for being used for Vue 3 Composition API.
+
 <b>Signature:</b>
 
 ```typescript
 export declare type Composer = {
+    /*!
+     * properties
+     */
     locale: WritableComputedRef<Locale>;
     fallbackLocale: WritableComputedRef<FallbackLocale>;
+    inheritLocale: boolean;
     readonly availableLocales: Locale[];
     readonly messages: ComputedRef<LocaleMessages>;
     readonly datetimeFormats: ComputedRef<DateTimeFormats>;
     readonly numberFormats: ComputedRef<NumberFormats>;
     readonly modifiers: LinkedModifiers;
     readonly pluralRules?: PluralizationRules;
+    readonly isGlobal: boolean;
     missingWarn: boolean | RegExp;
     fallbackWarn: boolean | RegExp;
     fallbackRoot: boolean;
     fallbackFormat: boolean;
     warnHtmlMessage: boolean;
     __id: number;
+    /*!
+     * methods
+     */
     t(key: Path): string;
     t(key: Path, plural: number): string;
     t(key: Path, plural: number, options: TranslateOptions): string;
@@ -61,7 +71,6 @@ export declare type Composer = {
     setPostTranslationHandler(handler: PostTranslationHandler | null): void;
     getMissingHandler(): MissingHandler | null;
     setMissingHandler(handler: MissingHandler | null): void;
-    install: Plugin;
     __transrateVNode(...args: unknown[]): unknown;
     __numberParts(...args: unknown[]): string | Intl.NumberFormatPart[];
     __datetimeParts(...args: unknown[]): string | Intl.DateTimeFormatPart[];
