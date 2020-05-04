@@ -26,7 +26,7 @@ import { isEmptyObject } from './utils'
  * `I18nOptions` is inherited {@link ComposerOptions} and {@link VueI18nOptions}, so you can specify these options.
  *
  */
-export interface I18nAddtionalOptions {
+export interface I18nAdditionalOptions {
   /**
    * Whether vue-i18n legacy API use on your Vue App.
    * @defaultValue `false`
@@ -34,7 +34,7 @@ export interface I18nAddtionalOptions {
   legacy?: boolean
 }
 
-export type I18nOptions = I18nAddtionalOptions &
+export type I18nOptions = I18nAdditionalOptions &
   (ComposerOptions | VueI18nOptions)
 
 /**
