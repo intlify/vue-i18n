@@ -3,10 +3,9 @@ import {
   Fragment,
   defineComponent,
   SetupContext,
-  VNodeArrayChildren,
-  getCurrentInstance
+  VNodeArrayChildren
 } from 'vue'
-import { useI18n, getComposer } from '../i18n'
+import { useI18n } from '../i18n'
 import { TranslateOptions, Locale } from '../core'
 import { NamedValue } from '../message/runtime'
 import { isNumber, isString } from '../utils'
@@ -41,14 +40,7 @@ export const Translation = defineComponent({
   /* eslint-enable */
   setup(props: TranslationProps, context: SetupContext) {
     const { slots, attrs } = context
-    const instance = getCurrentInstance()
-    // TODO: should be raise unexpected error, if `instance` is null
-    const i18n =
-      instance !== null
-        ? instance.parent !== null
-          ? getComposer(instance.parent)
-          : useI18n()
-        : useI18n()
+    const i18n = useI18n({ useScope: 'parent' })
     const keys = Object.keys(slots).filter(key => key !== '_')
 
     return () => {

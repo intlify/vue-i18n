@@ -91,6 +91,8 @@ The examples are offered that use the following two API styles:
   - Legacy API: `warnHtmlInMessage` property.
   - For development mode, warning is default.
   - For production mode, HTML message detect is not check due to performance.
+- Legacy API `sync` option:
+  - default: change to `false` from `true`
 - `VueI18n.version` -> `import { VERSION } from 'vue-i18n'`
 - `VueI18n.availabilities` -> `import { availabilities } from 'vue-i18n'`
 - See the details [here](https://github.com/intlify/vue-i18n-next/blob/master/docs/vue-i18n.md)
@@ -158,6 +160,7 @@ yarn add vue-i18n@next
   - properties
     - [x] locale
     - [x] fallbackLocale
+    - [x] inheritLocale
     - [x] availableLocales
     - [x] messages
     - [x] modifiers
@@ -190,6 +193,7 @@ yarn add vue-i18n@next
   - VueI18n
     - [x] locale
     - [x] fallbackLocale
+    - [x] sync
     - [x] availableLocales
     - [x] messages
     - [x] pluralizationRules

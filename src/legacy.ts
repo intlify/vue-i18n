@@ -4,8 +4,6 @@
  *  This module is offered legacy vue-i18n API compatibility
  */
 
-import { App } from 'vue'
-import { defineMixin } from './mixin'
 import { Path, resolveValue } from './path'
 import {
   PluralizationRule,
@@ -58,10 +56,10 @@ export interface Formatter {
   interpolate(message: string, values: any, path: string): Array<any> | null
 }
 
-/*!
+/**
  *  VueI18n Options
  *
- *  This option type is compatible with the constructor options of `VueI18n` class (offered with vue-i18n@8.x).
+ *  This option is compatible with the constructor options of `VueI18n` class (offered with vue-i18n@8.x).
  */
 export type VueI18nOptions = {
   locale?: Locale
@@ -83,14 +81,14 @@ export type VueI18nOptions = {
   pluralizationRules?: PluralizationRules
   postTranslation?: PostTranslationHandler
   sync?: boolean
-  __i18n?: CustomBlocks // for custom blocks, and internal
-  __root?: Composer // for internal
+  __i18n?: CustomBlocks
+  __root?: Composer
 }
 
-/*!
+/**
  *  VueI18n Interfaces
  *
- *  This type is compatible with interface of `VueI18n` class (offered with vue-i18n@8.x).
+ *  This interface is compatible with interface of `VueI18n` class (offered with vue-i18n@8.x).
  */
 export type VueI18n = {
   /*!
@@ -156,11 +154,11 @@ export type VueI18n = {
   setNumberFormat(locale: Locale, format: NumberFormat): void
   mergeNumberFormat(locale: Locale, format: NumberFormat): void
   getChoiceIndex: (choice: Choice, choicesLength: number) => number
-  install(app: App, ...options: unknown[]): void
 }
 
 /**
- *  Convert to I18n Composer Options from VueI18n Options
+ * Convert to I18n Composer Options from VueI18n Options
+ * @internal
  */
 function convertComposerOptions(options: VueI18nOptions): ComposerOptions {
   const locale = isString(options.locale) ? options.locale : 'en-US'
@@ -193,6 +191,7 @@ function convertComposerOptions(options: VueI18nOptions): ComposerOptions {
   const warnHtmlMessage = isString(options.warnHtmlInMessage)
     ? options.warnHtmlInMessage !== 'off'
     : true
+  const inheritLocale = !!options.sync
 
   if (__DEV__ && options.formatter) {
     warn(`not supportted 'formatter' option`)
@@ -227,15 +226,15 @@ function convertComposerOptions(options: VueI18nOptions): ComposerOptions {
     pluralRules: pluralizationRules,
     postTranslation,
     warnHtmlMessage,
+    inheritLocale,
     __i18n,
     __root
   }
 }
 
-/*!
- *  createVueI18n factory
- *
- *  This function is compatible with constructor of `VueI18n` class (offered with vue-i18n@8.x) like `new VueI18n(...)`.
+/**
+ * create VueI18n interface factory
+ * @internal
  */
 export function createVueI18n(options: VueI18nOptions = {}): VueI18n {
   const composer = createComposer(convertComposerOptions(options))
@@ -340,11 +339,12 @@ export function createVueI18n(options: VueI18nOptions = {}): VueI18n {
       composer.setPostTranslationHandler(handler)
     },
 
+    // sync
     get sync(): boolean {
-      return isBoolean(options.sync) ? options.sync : false
+      return composer.inheritLocale
     },
     set sync(val: boolean) {
-      options.sync = val
+      composer.inheritLocale = val
     },
 
     // warnInHtmlMessage
@@ -492,12 +492,6 @@ export function createVueI18n(options: VueI18nOptions = {}): VueI18n {
     getChoiceIndex(choice: Choice, choicesLength: number): number {
       __DEV__ && warn(`not supportted 'getChoiceIndex' method.`)
       return -1
-    },
-
-    // install
-    install(app: App, ...options: unknown[]): void {
-      composer.install(app, ...options)
-      app.mixin(defineMixin(vueI18n, composer))
     }
   }
 
