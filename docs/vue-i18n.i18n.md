@@ -2,15 +2,25 @@
 
 [Home](./index.md) &gt; [vue-i18n](./vue-i18n.md) &gt; [I18n](./vue-i18n.i18n.md)
 
-## I18n type
+## I18n interface
 
 I18n interface
 
 <b>Signature:</b>
 
 ```typescript
-export declare type I18n = {
-    readonly mode: I18nMode;
-    install(app: App, ...options: unknown[]): void;
-};
+export interface I18n 
 ```
+
+## Properties
+
+|  Property | Type | Description |
+|  --- | --- | --- |
+|  [mode](./vue-i18n.i18n.mode.md) | <code>I18nMode</code> |  |
+
+## Methods
+
+|  Method | Description |
+|  --- | --- |
+|  [install(app, options)](./vue-i18n.i18n.install.md) |  |
+

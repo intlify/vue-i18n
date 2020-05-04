@@ -80,6 +80,7 @@ export type PreCompileHandler = () => {
   messages: LocaleMessages
   functions: MessageFunctions
 }
+
 export type CustomBlocks = string[] | PreCompileHandler
 
 /**
@@ -87,7 +88,7 @@ export type CustomBlocks = string[] | PreCompileHandler
  *
  * This is options to create composer.
  */
-export type ComposerOptions = {
+export interface ComposerOptions {
   locale?: Locale
   fallbackLocale?: FallbackLocale
   inheritLocale?: boolean
@@ -103,6 +104,12 @@ export type ComposerOptions = {
   fallbackFormat?: boolean
   postTranslation?: PostTranslationHandler
   warnHtmlMessage?: boolean
+}
+
+/**
+ * @internal
+ */
+export interface ComposerOptionsInternal {
   __i18n?: CustomBlocks
   __root?: Composer
 }
@@ -193,7 +200,7 @@ function defineRuntimeMissingHandler(
 }
 
 function getLocaleMessages(
-  options: ComposerOptions,
+  options: ComposerOptions & ComposerOptionsInternal,
   locale: Locale
 ): LocaleMessages {
   const { messages, __i18n } = options
@@ -260,7 +267,9 @@ export function addPreCompileMessages(
  * Create composer interface factory
  * @internal
  */
-export function createComposer(options: ComposerOptions = {}): Composer {
+export function createComposer(
+  options: ComposerOptions & ComposerOptionsInternal = {}
+): Composer {
   const { __root } = options
   const _isGlobal = __root === undefined
 

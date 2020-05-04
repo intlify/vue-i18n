@@ -4,7 +4,7 @@ import { Translation, NumberFormat, DatetimeFormat } from './components'
 import { hook as vT } from './directive'
 import { isPlainObject, isString, warn } from './utils'
 
-export type I18nPluginOptions = {
+export interface I18nPluginOptions {
   'i18n-t'?: string
 }
 

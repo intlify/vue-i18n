@@ -4,17 +4,8 @@
 
 ## I18nOptions type
 
-I18n Options
-
 <b>Signature:</b>
 
 ```typescript
-export declare type I18nOptions = {
-    legacy?: boolean;
-} & (ComposerOptions | VueI18nOptions);
+export declare type I18nOptions = I18nAddtionalOptions & (ComposerOptions | VueI18nOptions);
 ```
-
-## Remarks
-
-`I18nOptions` is inherited [ComposerOptions](./vue-i18n.composeroptions.md) and [VueI18nOptions](./vue-i18n.vuei18noptions.md)<!-- -->, so you can specify these options.
-

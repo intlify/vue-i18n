@@ -28,9 +28,9 @@ import {
 } from './core/types'
 import {
   MissingHandler,
-  CustomBlocks,
   Composer,
   ComposerOptions,
+  ComposerOptionsInternal,
   createComposer
 } from './composer'
 import {
@@ -61,7 +61,7 @@ export interface Formatter {
  *
  *  This option is compatible with the constructor options of `VueI18n` class (offered with vue-i18n@8.x).
  */
-export type VueI18nOptions = {
+export interface VueI18nOptions {
   locale?: Locale
   fallbackLocale?: FallbackLocale
   messages?: LocaleMessages
@@ -81,8 +81,6 @@ export type VueI18nOptions = {
   pluralizationRules?: PluralizationRules
   postTranslation?: PostTranslationHandler
   sync?: boolean
-  __i18n?: CustomBlocks
-  __root?: Composer
 }
 
 /**
@@ -160,7 +158,9 @@ export type VueI18n = {
  * Convert to I18n Composer Options from VueI18n Options
  * @internal
  */
-function convertComposerOptions(options: VueI18nOptions): ComposerOptions {
+function convertComposerOptions(
+  options: VueI18nOptions & ComposerOptionsInternal
+): ComposerOptions & ComposerOptionsInternal {
   const locale = isString(options.locale) ? options.locale : 'en-US'
   const fallbackLocale =
     isString(options.fallbackLocale) ||
@@ -236,7 +236,9 @@ function convertComposerOptions(options: VueI18nOptions): ComposerOptions {
  * create VueI18n interface factory
  * @internal
  */
-export function createVueI18n(options: VueI18nOptions = {}): VueI18n {
+export function createVueI18n(
+  options: VueI18nOptions & ComposerOptionsInternal = {}
+): VueI18n {
   const composer = createComposer(convertComposerOptions(options))
 
   // defines VueI18n

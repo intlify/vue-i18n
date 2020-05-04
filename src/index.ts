@@ -40,9 +40,11 @@ export {
   createI18n,
   useI18n,
   I18nOptions,
+  I18nAddtionalOptions,
   I18n,
   I18nMode,
   I18nScope,
+  ComposerAdditionalOptions,
   UseI18nOptions
 } from './i18n'
 export { I18nPluginOptions } from './plugin'

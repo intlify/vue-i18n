@@ -2,7 +2,7 @@
 
 [Home](./index.md) &gt; [vue-i18n](./vue-i18n.md) &gt; [VueI18nOptions](./vue-i18n.vuei18noptions.md)
 
-## VueI18nOptions type
+## VueI18nOptions interface
 
 VueI18n Options
 
@@ -11,27 +11,30 @@ This option is compatible with the constructor options of `VueI18n` class (offer
 <b>Signature:</b>
 
 ```typescript
-export declare type VueI18nOptions = {
-    locale?: Locale;
-    fallbackLocale?: FallbackLocale;
-    messages?: LocaleMessages;
-    datetimeFormats?: DateTimeFormats;
-    numberFormats?: NumberFormats;
-    availableLocales?: Locale[];
-    modifiers?: LinkedModifiers;
-    formatter?: Formatter;
-    missing?: MissingHandler;
-    fallbackRoot?: boolean;
-    silentTranslationWarn?: boolean | RegExp;
-    silentFallbackWarn?: boolean | RegExp;
-    formatFallbackMessages?: boolean;
-    preserveDirectiveContent?: boolean;
-    warnHtmlInMessage?: WarnHtmlInMessageLevel;
-    sharedMessages?: LocaleMessages;
-    pluralizationRules?: PluralizationRules;
-    postTranslation?: PostTranslationHandler;
-    sync?: boolean;
-    __i18n?: CustomBlocks;
-    __root?: Composer;
-};
+export interface VueI18nOptions 
 ```
+
+## Properties
+
+|  Property | Type | Description |
+|  --- | --- | --- |
+|  [availableLocales](./vue-i18n.vuei18noptions.availablelocales.md) | <code>Locale[]</code> |  |
+|  [datetimeFormats](./vue-i18n.vuei18noptions.datetimeformats.md) | <code>DateTimeFormats</code> |  |
+|  [fallbackLocale](./vue-i18n.vuei18noptions.fallbacklocale.md) | <code>FallbackLocale</code> |  |
+|  [fallbackRoot](./vue-i18n.vuei18noptions.fallbackroot.md) | <code>boolean</code> |  |
+|  [formatFallbackMessages](./vue-i18n.vuei18noptions.formatfallbackmessages.md) | <code>boolean</code> |  |
+|  [formatter](./vue-i18n.vuei18noptions.formatter.md) | <code>Formatter</code> |  |
+|  [locale](./vue-i18n.vuei18noptions.locale.md) | <code>Locale</code> |  |
+|  [messages](./vue-i18n.vuei18noptions.messages.md) | <code>LocaleMessages</code> |  |
+|  [missing](./vue-i18n.vuei18noptions.missing.md) | <code>MissingHandler</code> |  |
+|  [modifiers](./vue-i18n.vuei18noptions.modifiers.md) | <code>LinkedModifiers</code> |  |
+|  [numberFormats](./vue-i18n.vuei18noptions.numberformats.md) | <code>NumberFormats</code> |  |
+|  [pluralizationRules](./vue-i18n.vuei18noptions.pluralizationrules.md) | <code>PluralizationRules</code> |  |
+|  [postTranslation](./vue-i18n.vuei18noptions.posttranslation.md) | <code>PostTranslationHandler</code> |  |
+|  [preserveDirectiveContent](./vue-i18n.vuei18noptions.preservedirectivecontent.md) | <code>boolean</code> |  |
+|  [sharedMessages](./vue-i18n.vuei18noptions.sharedmessages.md) | <code>LocaleMessages</code> |  |
+|  [silentFallbackWarn](./vue-i18n.vuei18noptions.silentfallbackwarn.md) | <code>boolean &#124; RegExp</code> |  |
+|  [silentTranslationWarn](./vue-i18n.vuei18noptions.silenttranslationwarn.md) | <code>boolean &#124; RegExp</code> |  |
+|  [sync](./vue-i18n.vuei18noptions.sync.md) | <code>boolean</code> |  |
+|  [warnHtmlInMessage](./vue-i18n.vuei18noptions.warnhtmlinmessage.md) | <code>WarnHtmlInMessageLevel</code> |  |
+

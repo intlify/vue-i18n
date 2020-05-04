@@ -4,17 +4,8 @@
 
 ## UseI18nOptions type
 
-`useI18n` options
-
 <b>Signature:</b>
 
 ```typescript
-export declare type UseI18nOptions = {
-    useScope?: I18nScope;
-} & ComposerOptions;
+export declare type UseI18nOptions = ComposerAdditionalOptions & ComposerOptions;
 ```
-
-## Remarks
-
-`UseI18nOptions` is inherited [ComposerOptions](./vue-i18n.composeroptions.md)<!-- -->, so you can specify these options.
-

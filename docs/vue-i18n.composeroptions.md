@@ -2,7 +2,7 @@
 
 [Home](./index.md) &gt; [vue-i18n](./vue-i18n.md) &gt; [ComposerOptions](./vue-i18n.composeroptions.md)
 
-## ComposerOptions type
+## ComposerOptions interface
 
 Composer Options
 
@@ -11,23 +11,26 @@ This is options to create composer.
 <b>Signature:</b>
 
 ```typescript
-export declare type ComposerOptions = {
-    locale?: Locale;
-    fallbackLocale?: FallbackLocale;
-    inheritLocale?: boolean;
-    messages?: LocaleMessages;
-    datetimeFormats?: DateTimeFormats;
-    numberFormats?: NumberFormats;
-    modifiers?: LinkedModifiers;
-    pluralRules?: PluralizationRules;
-    missing?: MissingHandler;
-    missingWarn?: boolean | RegExp;
-    fallbackWarn?: boolean | RegExp;
-    fallbackRoot?: boolean;
-    fallbackFormat?: boolean;
-    postTranslation?: PostTranslationHandler;
-    warnHtmlMessage?: boolean;
-    __i18n?: CustomBlocks;
-    __root?: Composer;
-};
+export interface ComposerOptions 
 ```
+
+## Properties
+
+|  Property | Type | Description |
+|  --- | --- | --- |
+|  [datetimeFormats](./vue-i18n.composeroptions.datetimeformats.md) | <code>DateTimeFormats</code> |  |
+|  [fallbackFormat](./vue-i18n.composeroptions.fallbackformat.md) | <code>boolean</code> |  |
+|  [fallbackLocale](./vue-i18n.composeroptions.fallbacklocale.md) | <code>FallbackLocale</code> |  |
+|  [fallbackRoot](./vue-i18n.composeroptions.fallbackroot.md) | <code>boolean</code> |  |
+|  [fallbackWarn](./vue-i18n.composeroptions.fallbackwarn.md) | <code>boolean &#124; RegExp</code> |  |
+|  [inheritLocale](./vue-i18n.composeroptions.inheritlocale.md) | <code>boolean</code> |  |
+|  [locale](./vue-i18n.composeroptions.locale.md) | <code>Locale</code> |  |
+|  [messages](./vue-i18n.composeroptions.messages.md) | <code>LocaleMessages</code> |  |
+|  [missing](./vue-i18n.composeroptions.missing.md) | <code>MissingHandler</code> |  |
+|  [missingWarn](./vue-i18n.composeroptions.missingwarn.md) | <code>boolean &#124; RegExp</code> |  |
+|  [modifiers](./vue-i18n.composeroptions.modifiers.md) | <code>LinkedModifiers</code> |  |
+|  [numberFormats](./vue-i18n.composeroptions.numberformats.md) | <code>NumberFormats</code> |  |
+|  [pluralRules](./vue-i18n.composeroptions.pluralrules.md) | <code>PluralizationRules</code> |  |
+|  [postTranslation](./vue-i18n.composeroptions.posttranslation.md) | <code>PostTranslationHandler</code> |  |
+|  [warnHtmlMessage](./vue-i18n.composeroptions.warnhtmlmessage.md) | <code>boolean</code> |  |
+

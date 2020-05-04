@@ -2,12 +2,17 @@
 
 [Home](./index.md) &gt; [vue-i18n](./vue-i18n.md) &gt; [I18nPluginOptions](./vue-i18n.i18npluginoptions.md)
 
-## I18nPluginOptions type
+## I18nPluginOptions interface
 
 <b>Signature:</b>
 
 ```typescript
-export declare type I18nPluginOptions = {
-    'i18n-t'?: string;
-};
+export interface I18nPluginOptions 
 ```
+
+## Properties
+
+|  Property | Type | Description |
+|  --- | --- | --- |
+|  ["i18n-t"](./vue-i18n.i18npluginoptions._i18n-t_.md) | <code>string</code> |  |
+

@@ -8,7 +8,12 @@ import {
   ComponentOptions,
   App
 } from 'vue'
-import { Composer, ComposerOptions, createComposer } from './composer'
+import {
+  Composer,
+  ComposerOptions,
+  ComposerOptionsInternal,
+  createComposer
+} from './composer'
 import { createVueI18n, VueI18n, VueI18nOptions } from './legacy'
 import { apply } from './plugin'
 import { defineMixin } from './mixin'
@@ -21,13 +26,16 @@ import { isEmptyObject } from './utils'
  * `I18nOptions` is inherited {@link ComposerOptions} and {@link VueI18nOptions}, so you can specify these options.
  *
  */
-export type I18nOptions = {
+export interface I18nAddtionalOptions {
   /**
    * Whether vue-i18n legacy API use on your Vue App.
    * @defaultValue `false`
    */
   legacy?: boolean
-} & (ComposerOptions | VueI18nOptions)
+}
+
+export type I18nOptions = I18nAddtionalOptions &
+  (ComposerOptions | VueI18nOptions)
 
 /**
  * I18n API mode
@@ -37,7 +45,7 @@ export type I18nMode = 'legacy' | 'composable'
 /**
  * I18n interface
  */
-export type I18n = {
+export interface I18n {
   readonly mode: I18nMode
   install(app: App, ...options: unknown[]): void
 }
@@ -46,7 +54,7 @@ export type I18n = {
  * I18n interface for internal usage
  * @internal
  */
-export type I18nInternal = {
+export interface I18nInternal {
   readonly _global: Composer
   _getComposer(instance: ComponentInternalInstance): Composer | null
   _setComposer(instance: ComponentInternalInstance, composer: Composer): void
@@ -62,14 +70,16 @@ export type I18nInternal = {
 export type I18nScope = 'local' | 'parent' | 'global'
 
 /**
- * `useI18n` options
+ * Composer additional options
  *
  *  @remarks
- * `UseI18nOptions` is inherited {@link ComposerOptions}, so you can specify these options.
+ * `ComposerAdditionalOptions` is extend for {@link ComposerOptions}, so you can specify these options.
  */
-export type UseI18nOptions = {
+export interface ComposerAdditionalOptions {
   useScope?: I18nScope // default 'global'
-} & ComposerOptions
+}
+
+export type UseI18nOptions = ComposerAdditionalOptions & ComposerOptions
 
 /**
  * I18n instance injectin key
@@ -294,15 +304,18 @@ export function useI18n(options: UseI18nOptions = {}): Composer {
   let composer = i18n._getComposer(instance)
   if (composer == null) {
     const type = instance.type as ComponentOptions
+    const composerOptions: ComposerOptions & ComposerOptionsInternal = {
+      ...options
+    }
     if (type.__i18n) {
-      options.__i18n = type.__i18n
+      composerOptions.__i18n = type.__i18n
     }
 
     if (global) {
-      options.__root = global
+      composerOptions.__root = global
     }
 
-    composer = createComposer(options)
+    composer = createComposer(composerOptions)
     setupLifeCycle(i18n, instance, composer)
 
     i18n._setComposer(instance, composer)
