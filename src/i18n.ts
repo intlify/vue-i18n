@@ -1,76 +1,89 @@
 import {
-  provide,
   inject,
   onMounted,
   onUnmounted,
   InjectionKey,
   getCurrentInstance,
   ComponentInternalInstance,
-  ComponentOptions
+  ComponentOptions,
+  App
 } from 'vue'
 import { Composer, ComposerOptions, createComposer } from './composer'
 import { createVueI18n, VueI18n, VueI18nOptions } from './legacy'
+import { apply } from './plugin'
+import { defineMixin } from './mixin'
 import { isEmptyObject } from './utils'
 
-const generateSymbolID = (): string =>
-  `vue-i18n-${new Date().getUTCMilliseconds().toString()}`
-
-export const GlobalI18nSymbol: InjectionKey<Composer> = Symbol.for('vue-i18n')
-let globalInstance: VueI18n | Composer | null = null
-
-const providers: Map<
-  ComponentInternalInstance,
-  InjectionKey<Composer>
-> = new Map()
-
-const getGlobalComposer = (): Composer => {
-  if (globalInstance === null) throw new Error('TODO') // TODO:
-  return '__composer' in globalInstance
-    ? globalInstance.__composer
-    : globalInstance
-}
-
-// TODO: if we don't need the below, should be removed!
-//       This code should be removed with using rollup (`/*#__PURE__*/`)
-export function enumProviders(): void {
-  if (__DEV__) {
-    providers.forEach((sym, instance) => {
-      console.log('provider:', instance, sym)
-    })
-  }
-}
-
-export function getComposer(
-  instance: ComponentInternalInstance | null
-): Composer {
-  if (!instance) {
-    return getGlobalComposer()
-  }
-  const symbol = providers.get(instance)
-  return symbol ? inject(symbol, getGlobalComposer()) : getGlobalComposer()
-}
-
-/*!
+/**
  * I18n Options
  *
- * {@link createI18n} factory option.
- *
  * @remarks
- * `I18nOptions` is union type of {@link ComposerOptions} and {@link VueI18nOptions}, so you can specify these options.
+ * `I18nOptions` is inherited {@link ComposerOptions} and {@link VueI18nOptions}, so you can specify these options.
  *
  */
 export type I18nOptions = {
   /**
+   * Whether vue-i18n legacy API use on your Vue App.
    * @defaultValue `false`
    */
   legacy?: boolean
 } & (ComposerOptions | VueI18nOptions)
 
-/*!
- * I18n factory
+/**
+ * I18n API mode
+ */
+export type I18nMode = 'legacy' | 'composable'
+
+/**
+ * I18n interface
+ */
+export type I18n = {
+  readonly mode: I18nMode
+  install(app: App, ...options: unknown[]): void
+}
+
+/**
+ * I18n interface for internal usage
+ * @internal
+ */
+export type I18nInternal = {
+  readonly _global: Composer
+  _getComposer(instance: ComponentInternalInstance): Composer | null
+  _setComposer(instance: ComponentInternalInstance, composer: Composer): void
+  _deleteComposer(instance: ComponentInternalInstance): void
+  _getLegacy(instance: ComponentInternalInstance): VueI18n | null
+  _setLegacy(instance: ComponentInternalInstance, legacy: VueI18n): void
+  _deleteLegacy(instance: ComponentInternalInstance): void
+}
+
+/**
+ * I18n Scope
+ */
+export type I18nScope = 'local' | 'parent' | 'global'
+
+/**
+ * `useI18n` options
+ *
+ *  @remarks
+ * `UseI18nOptions` is inherited {@link ComposerOptions}, so you can specify these options.
+ */
+export type UseI18nOptions = {
+  useScope?: I18nScope // default 'global'
+} & ComposerOptions
+
+/**
+ * I18n instance injectin key
+ * @internal
+ */
+export const I18nSymbol: InjectionKey<I18n & I18nInternal> = Symbol.for(
+  'vue-i18n'
+)
+
+/**
+ * I18n factory function
  *
  * @param options - see the {@link I18nOptions}
- * @returns {@link Composer} object, or {@link VueI18n} object
+ * @returns {@link I18n} object
  *
  * @remarks
  * When you use Composable API, you need to specify options of {@link ComposerOptions}.
@@ -133,26 +146,71 @@ export type I18nOptions = {
  * app.mount('#app')
  * ```
  */
-export function createI18n(options: I18nOptions = {}): Composer | VueI18n {
-  if (globalInstance !== null) {
-    return globalInstance
+export function createI18n(options: I18nOptions = {}): I18n {
+  const __legacyMode = !!options.legacy
+  const __composers = new Map<ComponentInternalInstance, Composer>()
+  const __legaceis = new Map<ComponentInternalInstance, VueI18n>()
+  const __global = __legacyMode
+    ? createVueI18n(options)
+    : createComposer(options)
+
+  const i18n = {
+    // mode
+    get mode(): I18nMode {
+      return __legacyMode ? 'legacy' : 'composable'
+    },
+    install(app: App, ...options: unknown[]): void {
+      apply(app, i18n, ...options)
+      if (__legacyMode) {
+        app.mixin(
+          defineMixin(
+            __global as VueI18n,
+            (__global as VueI18n).__composer,
+            i18n
+          )
+        )
+      }
+    },
+    get _global(): Composer {
+      return __legacyMode
+        ? (__global as VueI18n).__composer
+        : (__global as Composer)
+    },
+    _getComposer(instance: ComponentInternalInstance): Composer | null {
+      return __composers.get(instance) || null
+    },
+    _setComposer(
+      instance: ComponentInternalInstance,
+      composer: Composer
+    ): void {
+      __composers.set(instance, composer)
+    },
+    _deleteComposer(instance: ComponentInternalInstance): void {
+      __composers.delete(instance)
+    },
+    _getLegacy(instance: ComponentInternalInstance): VueI18n | null {
+      return __legaceis.get(instance) || null
+    },
+    _setLegacy(instance: ComponentInternalInstance, legacy: VueI18n): void {
+      __legaceis.set(instance, legacy)
+    },
+    _deleteLegacy(instance: ComponentInternalInstance): void {
+      __legaceis.delete(instance)
+    }
   }
 
-  const legacyMode = !!options.legacy
-  return (globalInstance = legacyMode
-    ? createVueI18n(options)
-    : createComposer(options))
+  return i18n
 }
 
-/*!
- * Use Composable API
+/**
+ * Use Composable API starting function
  *
- * @param options - See the {@link ComponentOptions}
+ * @param options - See {@link UseI18nOptions}
  * @returns {@link Composer} object
  *
  * @remarks
  * This function is mainly used by `setup`.
- * If options are specified Composer object is created for each component, and you can be localized on the component.
+ * If options are specified, Composer object is created for each component and you can be localized on the component.
  * If options are not specified, you can be localized using the global Composer.
  *
  * @example
@@ -189,61 +247,114 @@ export function createI18n(options: I18nOptions = {}): Composer | VueI18n {
  * </script>
  * ```
  */
-export function useI18n(options: ComposerOptions = {}): Composer {
-  const globalComposer = getGlobalComposer()
-
-  const instance = getCurrentInstance()
-  if (instance === null || isEmptyObject(options)) {
-    return globalComposer
+export function useI18n(options: UseI18nOptions = {}): Composer {
+  const i18n = inject(I18nSymbol)
+  // TODO: should be error
+  if (!i18n) {
+    throw new Error('TODO')
   }
 
-  const symbol = providers.get(instance)
-  if (!symbol) {
+  const global = i18n._global
+
+  let emptyOption = false
+  // prettier-ignore
+  const scope: I18nScope = (emptyOption = isEmptyObject(options)) // eslint-disable-line no-cond-assign
+    ? 'global'
+    : !options.useScope
+      ? 'local'
+      : options.useScope
+
+  if (emptyOption) {
+    return global
+  }
+
+  // TODO: should be unexpected error (vue runtime error!)
+  const instance = getCurrentInstance()
+  if (instance == null) {
+    throw new Error('TODO')
+  }
+
+  if (scope === 'parent') {
+    let composer = getComposer(i18n, instance)
+    if (composer == null) {
+      // TODO: warning!
+      composer = global
+    }
+    return composer
+  } else if (scope === 'global') {
+    return global
+  }
+
+  // scope 'local' case
+  if (i18n.mode === 'legacy') {
+    // TODO:
+    throw new Error('TODO')
+  }
+
+  let composer = i18n._getComposer(instance)
+  if (composer == null) {
     const type = instance.type as ComponentOptions
     if (type.__i18n) {
       options.__i18n = type.__i18n
     }
 
-    if (globalComposer) {
-      options.__root = globalComposer
+    if (global) {
+      options.__root = global
     }
 
-    const composer = createComposer(options)
-    setupLifeCycle(instance, composer)
+    composer = createComposer(options)
+    setupLifeCycle(i18n, instance, composer)
 
-    const sym: InjectionKey<Composer> = Symbol.for(generateSymbolID())
-    providers.set(instance, sym)
-    provide(sym, composer)
-
-    return composer
-  } else {
-    const composer = inject(symbol) || globalComposer
-    if (!composer) throw new Error('TODO') // TODO:
-    return composer
+    i18n._setComposer(instance, composer)
   }
+
+  return composer
+}
+
+function getComposer(
+  i18n: I18n & I18nInternal,
+  target: ComponentInternalInstance
+): Composer | null {
+  let composer: Composer | null = null
+  const root = target.root
+  let current: ComponentInternalInstance | null = target.parent
+  while (current != null) {
+    if (i18n.mode === 'composable') {
+      composer = i18n._getComposer(current)
+    } else {
+      const vueI18n = i18n._getLegacy(current)
+      if (vueI18n != null) {
+        composer = vueI18n.__composer
+      }
+    }
+    if (composer != null) {
+      break
+    }
+    if (root === current) {
+      break
+    }
+    current = current.parent
+  }
+  return composer
 }
 
 function setupLifeCycle(
-  instance: ComponentInternalInstance | null,
+  i18n: I18nInternal,
+  target: ComponentInternalInstance,
   composer: Composer
 ): void {
   onMounted(() => {
     // inject composer instance to DOM for intlify-devtools
-    if (instance) {
-      if (instance.proxy) {
-        instance.proxy.$el.__intlify__ = composer
-      }
+    if (target.proxy) {
+      target.proxy.$el.__intlify__ = composer
     }
-  })
+  }, target)
 
   onUnmounted(() => {
     // remove composer instance from DOM for intlify-devtools
-    const instance = getCurrentInstance()
-    if (instance) {
-      if (instance.proxy && instance.proxy.$el.__intlify__) {
-        instance.proxy.$el.__intlify__ = undefined
-        delete instance.proxy.$el.__intlify__
-      }
+    if (target.proxy && target.proxy.$el.__intlify__) {
+      delete target.proxy.$el.__intlify__
     }
-  })
+    i18n._deleteComposer(target)
+  }, target)
 }

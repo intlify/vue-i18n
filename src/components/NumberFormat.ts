@@ -1,5 +1,5 @@
-import { getCurrentInstance, defineComponent, SetupContext } from 'vue'
-import { useI18n, getComposer } from '../i18n'
+import { defineComponent, SetupContext } from 'vue'
+import { useI18n } from '../i18n'
 import { NumberOptions } from '../core'
 import { renderFormatter, FormattableProps } from './formatRenderer'
 
@@ -41,14 +41,7 @@ export const NumberFormat = defineComponent({
   },
   /* eslint-enable */
   setup(props, context: SetupContext) {
-    const instance = getCurrentInstance()
-    // TODO: should be raise unexpected error, if `instance` is null
-    const i18n =
-      instance !== null
-        ? instance.parent !== null
-          ? getComposer(instance.parent)
-          : useI18n()
-        : useI18n()
+    const i18n = useI18n({ useScope: 'parent' })
 
     return renderFormatter<
       FormattableProps<number, Intl.NumberFormatOptions>,

@@ -13,7 +13,7 @@ import {
   addPreCompileMessages
 } from '../src/composer'
 import { generateFormatCacheKey } from '../src/utils'
-import { watch } from 'vue'
+import { watch, nextTick } from 'vue'
 
 describe('locale', () => {
   test('default value', () => {
@@ -45,6 +45,69 @@ describe('fallbackLocale', () => {
   test('initialize at composer creating', () => {
     const { fallbackLocale } = createComposer({ fallbackLocale: ['ja'] })
     expect(fallbackLocale.value).toEqual(['ja'])
+  })
+})
+
+describe('inheritLocale', () => {
+  test('default value', () => {
+    const root = createComposer({ locale: 'en' })
+    const { inheritLocale, locale } = createComposer({
+      locale: 'ja',
+      __root: root
+    })
+    expect(inheritLocale).toEqual(false)
+    expect(locale.value).toEqual('ja')
+  })
+
+  test('initialize with composer option', () => {
+    const root = createComposer({ locale: 'en' })
+    const { inheritLocale, locale } = createComposer({
+      locale: 'ja',
+      inheritLocale: true,
+      __root: root
+    })
+    expect(inheritLocale).toEqual(true)
+    expect(locale.value).toEqual('en')
+  })
+
+  test('sync root locale, fallbackLocale', async () => {
+    const root = createComposer({
+      locale: 'en',
+      fallbackLocale: ['ja', 'fr']
+    })
+    const composer = createComposer({
+      locale: 'ja',
+      fallbackLocale: ['zh', 'de'],
+      inheritLocale: true,
+      __root: root
+    })
+    await nextTick()
+
+    expect(composer.locale.value).toEqual('en')
+    expect(composer.fallbackLocale.value).toEqual(['ja', 'fr'])
+
+    root.locale.value = 'ja'
+    root.fallbackLocale.value = ['zh', 'de']
+    await nextTick()
+
+    expect(composer.locale.value).toEqual('ja')
+    expect(composer.fallbackLocale.value).toEqual(['zh', 'de'])
+
+    composer.inheritLocale = false
+    await nextTick()
+
+    root.locale.value = 'en'
+    root.fallbackLocale.value = ['ja', 'fr']
+    await nextTick()
+
+    expect(composer.locale.value).toEqual('ja')
+    expect(composer.fallbackLocale.value).toEqual(['zh', 'de'])
+
+    composer.inheritLocale = true
+    await nextTick()
+
+    expect(composer.locale.value).toEqual('en')
+    expect(composer.fallbackLocale.value).toEqual(['ja', 'fr'])
   })
 })
 

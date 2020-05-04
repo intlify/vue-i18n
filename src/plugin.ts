@@ -1,6 +1,5 @@
 import { App, FunctionDirective } from 'vue'
-import { Composer } from './composer'
-import { GlobalI18nSymbol } from './i18n'
+import { I18nSymbol, I18n } from './i18n'
 import { Translation, NumberFormat, DatetimeFormat } from './components'
 import { hook as vT } from './directive'
 import { isPlainObject, isString, warn } from './utils'
@@ -9,11 +8,7 @@ export type I18nPluginOptions = {
   'i18n-t'?: string
 }
 
-export function apply(
-  app: App,
-  composer: Composer,
-  ...options: unknown[]
-): void {
+export function apply(app: App, i18n: I18n, ...options: unknown[]): void {
   const pluginOptions = parseOptions(...options)
 
   if (__DEV__ && isString(pluginOptions['i18n-t'])) {
@@ -31,7 +26,7 @@ export function apply(
   app.directive('t', vT as FunctionDirective) // TODO:
 
   // setup global provider
-  app.provide(GlobalI18nSymbol, composer)
+  app.provide(I18nSymbol, i18n)
 }
 
 function parseOptions(...options: unknown[]): I18nPluginOptions {
