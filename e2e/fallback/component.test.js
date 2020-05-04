@@ -8,9 +8,7 @@
 
     test('initial rendering', async () => {
       await expect(page).toMatch('こんにちは、世界')
-      await expect(page).toMatch(
-        'Component1 locale messages: こんにちは、component1'
-      )
+      await expect(page).toMatch('Component1 locale messages: hello component1')
       await expect(page).toMatch(
         'Fallback global locale messages: おはよう、世界！'
       )

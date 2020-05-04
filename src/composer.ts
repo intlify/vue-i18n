@@ -9,12 +9,11 @@ import {
   ref,
   computed,
   getCurrentInstance,
-  App,
   ComponentInternalInstance,
-  createTextVNode
+  createTextVNode,
+  watch
 } from 'vue'
 import { WritableComputedRef, ComputedRef } from '@vue/reactivity'
-import { apply } from './plugin'
 import { Path, parse as parsePath } from './path'
 import {
   DateTimeFormats,
@@ -83,12 +82,15 @@ export type PreCompileHandler = () => {
 }
 export type CustomBlocks = string[] | PreCompileHandler
 
-/*!
- *  Composer Options
+/**
+ * Composer Options
+ *
+ * This is options to create composer.
  */
 export type ComposerOptions = {
   locale?: Locale
   fallbackLocale?: FallbackLocale
+  inheritLocale?: boolean
   messages?: LocaleMessages
   datetimeFormats?: DateTimeFormats
   numberFormats?: NumberFormats
@@ -101,12 +103,14 @@ export type ComposerOptions = {
   fallbackFormat?: boolean
   postTranslation?: PostTranslationHandler
   warnHtmlMessage?: boolean
-  __i18n?: CustomBlocks // for custom blocks, and internal
-  __root?: Composer // for internal
+  __i18n?: CustomBlocks
+  __root?: Composer
 }
 
-/*!
- *  Composer Interfaces
+/**
+ * Composer Interfaces
+ *
+ * This is the interface for being used for Vue 3 Composition API.
  */
 export type Composer = {
   /*!
@@ -114,12 +118,14 @@ export type Composer = {
    */
   locale: WritableComputedRef<Locale>
   fallbackLocale: WritableComputedRef<FallbackLocale>
+  inheritLocale: boolean
   readonly availableLocales: Locale[]
   readonly messages: ComputedRef<LocaleMessages>
   readonly datetimeFormats: ComputedRef<DateTimeFormats>
   readonly numberFormats: ComputedRef<NumberFormats>
   readonly modifiers: LinkedModifiers
   readonly pluralRules?: PluralizationRules
+  readonly isGlobal: boolean
   missingWarn: boolean | RegExp
   fallbackWarn: boolean | RegExp
   fallbackRoot: boolean
@@ -166,7 +172,6 @@ export type Composer = {
   setPostTranslationHandler(handler: PostTranslationHandler | null): void
   getMissingHandler(): MissingHandler | null
   setMissingHandler(handler: MissingHandler | null): void
-  install(app: App, ...options: unknown[]): void
   __transrateVNode(...args: unknown[]): unknown // for internal
   __numberParts(...args: unknown[]): string | Intl.NumberFormatPart[] // for internal
   __datetimeParts(...args: unknown[]): string | Intl.DateTimeFormatPart[] // for internal
@@ -251,12 +256,19 @@ export function addPreCompileMessages(
   })
 }
 
+/**
+ * Create composer interface factory
+ * @internal
+ */
 export function createComposer(options: ComposerOptions = {}): Composer {
   const { __root } = options
+  const _isGlobal = __root === undefined
+
+  let _inheritLocale = !!options.inheritLocale
 
   const _locale = ref<Locale>(
     // prettier-ignore
-    __root
+    __root && _inheritLocale
       ? __root.locale.value
       : isString(options.locale)
         ? options.locale
@@ -265,7 +277,7 @@ export function createComposer(options: ComposerOptions = {}): Composer {
 
   const _fallbackLocale = ref<FallbackLocale>(
     // prettier-ignore
-    __root
+    __root && _inheritLocale
       ? __root.fallbackLocale.value
       : isString(options.fallbackLocale) ||
         isArray(options.fallbackLocale) ||
@@ -439,7 +451,7 @@ export function createComposer(options: ComposerOptions = {}): Composer {
     // NOTE:
     // if this composer is global (__root is `undefined`), add dependency trakcing!
     // by containing this, we can reactively notify components that reference the global composer.
-    if (!__root) {
+    if (!_isGlobal) {
       _locale.value
     }
 
@@ -626,6 +638,24 @@ export function createComposer(options: ComposerOptions = {}): Composer {
   // for debug
   composerID++
 
+  // watch root locale & fallbackLocale
+  if (__root) {
+    watch(__root.locale, (val: Locale) => {
+      if (_inheritLocale) {
+        _locale.value = val
+        _context.locale = val
+        updateFallbackLocale(_context, _locale.value, _fallbackLocale.value)
+      }
+    })
+    watch(__root.fallbackLocale, (val: FallbackLocale) => {
+      if (_inheritLocale) {
+        _fallbackLocale.value = val
+        _context.fallbackLocale = val
+        updateFallbackLocale(_context, _locale.value, _fallbackLocale.value)
+      }
+    })
+  }
+
   // export composable API!
   const composer = {
     /*!
@@ -633,6 +663,17 @@ export function createComposer(options: ComposerOptions = {}): Composer {
      */
     locale,
     fallbackLocale,
+    get inheritLocale(): boolean {
+      return _inheritLocale
+    },
+    set inheritLocale(val: boolean) {
+      _inheritLocale = val
+      if (val && __root) {
+        _locale.value = __root.locale.value
+        _fallbackLocale.value = __root.fallbackLocale.value
+        updateFallbackLocale(_context, _locale.value, _fallbackLocale.value)
+      }
+    },
     get availableLocales(): Locale[] {
       return Object.keys(_messages.value).sort()
     },
@@ -644,6 +685,9 @@ export function createComposer(options: ComposerOptions = {}): Composer {
     },
     get pluralRules(): PluralizationRules | undefined {
       return _pluralRules
+    },
+    get isGlobal(): boolean {
+      return _isGlobal
     },
     get missingWarn(): boolean | RegExp {
       return _missingWarn
@@ -699,9 +743,6 @@ export function createComposer(options: ComposerOptions = {}): Composer {
     setPostTranslationHandler,
     getMissingHandler,
     setMissingHandler,
-    install(app: App, ...options: unknown[]): void {
-      apply(app, composer, ...options)
-    },
     __transrateVNode,
     __numberParts,
     __datetimeParts
