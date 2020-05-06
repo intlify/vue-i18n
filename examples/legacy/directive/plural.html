@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>v-t directive plural usage</title>
+    <script src="../../../node_modules/vue/dist/vue.global.js"></script>
+    <script src="../../../dist/vue-i18n.global.js"></script>
+  </head>
+  <body>
+    <div id="app">
+      <p v-t="{ path: 'banana', choice: 2 }"></p>
+    </div>
+    <script>
+      const { createApp } = Vue
+      const { createI18n, useI18n } = VueI18n
+
+      const i18n = createI18n({
+        legacy: true,
+        locale: 'en',
+        messages: {
+          en: {
+            banana: 'no bananas | {n} banana | {n} bananas'
+          }
+        }
+      })
+
+      const app = createApp({})
+      app.use(i18n)
+      app.mount('#app')
+    </script>
+  </body>
+</html>
