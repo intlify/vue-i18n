@@ -7,6 +7,11 @@ const setupWarningConsole = (page, messages) => {
   })
 }
 
+async function sleep(delay) {
+  return new Promise(resolve => setTimeout(resolve, delay))
+}
+
 module.exports = {
-  setupWarningConsole
+  setupWarningConsole,
+  sleep
 }

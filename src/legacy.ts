@@ -106,11 +106,9 @@ export type VueI18n = {
   formatFallbackMessages: boolean
   sync: boolean
   warnHtmlInMessage: WarnHtmlInMessageLevel
+  preserveDirectiveContent: boolean
   __id: number
   __composer: Composer
-  /*
-  preserveDirectiveContent: boolean
-  */
 
   /*!
    * methods
@@ -195,6 +193,10 @@ function convertComposerOptions(
 
   if (__DEV__ && options.formatter) {
     warn(`not supportted 'formatter' option`)
+  }
+
+  if (__DEV__ && options.preserveDirectiveContent) {
+    warn(`not supportted 'preserveDirectiveContent' option`)
   }
 
   let messages = options.messages
@@ -355,6 +357,17 @@ export function createVueI18n(
     },
     set warnHtmlInMessage(val: WarnHtmlInMessageLevel) {
       composer.warnHtmlMessage = val !== 'off'
+    },
+
+    // preserveDirectiveContent
+    get preserveDirectiveContent(): boolean {
+      __DEV__ &&
+        warn(`not supportted 'preserveDirectiveContent' getter property.`)
+      return true
+    },
+    set preserveDirectiveContent(val: boolean) {
+      __DEV__ &&
+        warn(`not supportted 'preserveDirectiveContent' setter property.`)
     },
 
     // for internal

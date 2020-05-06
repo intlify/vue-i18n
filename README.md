@@ -93,6 +93,9 @@ The examples are offered that use the following two API styles:
   - For production mode, HTML message detect is not check due to performance.
 - Legacy API `sync` option:
   - default: change to `false` from `true`
+- `v-t` directive
+  - `preserve` modifier deprecated, keep Element content
+  - Legacy API `preserveDirectiveContent` option, and property deprecated
 - `VueI18n.version` -> `import { VERSION } from 'vue-i18n'`
 - `VueI18n.availabilities` -> `import { availabilities } from 'vue-i18n'`
 - See the details [here](https://github.com/intlify/vue-i18n-next/blob/master/docs/vue-i18n.md)
@@ -112,8 +115,6 @@ The examples are offered that use the following two API styles:
 
 ### :hammer: Missing features
 
-- `v-t` directive
-- `preserveDirectiveContent` option (depend on `v-t`)
 - SSR
 - Custom formatting
 - Tooling
@@ -145,7 +146,6 @@ yarn add vue-i18n@next
   - [x] vue-i18n message format
   - [ ] sourcemap
   - [x] HTML format handling
-  - [x] error handling
   - [ ] more unit (fuzzing) tests
   - [ ] performance tests (benchmark)
 - Intlify core runtime
@@ -157,6 +157,7 @@ yarn add vue-i18n@next
   - [ ] improve locale messages typing: `LocaleMessages` / `LocaleMessage` / `LocaleMessageDictiory`
   - [x] postTranslation context option
 - Composable API: I18n Composer
+  - [ ] error handlings
   - properties
     - [x] locale
     - [x] fallbackLocale
@@ -204,7 +205,7 @@ yarn add vue-i18n@next
     - [x] silentTranslationWarn
     - [x] silentFallbackWarn
     - [x] formatFallbackMessages
-    - [ ] preserveDirectiveContent
+    - [x] preserveDirectiveContent
     - [x] warnHtmlInMessage
     - [x] postTranslation
     - [x] t
@@ -243,7 +244,7 @@ yarn add vue-i18n@next
   - [x] NumberFormat `<i18n-n>`
   - [x] DatetimeFormat `<i18n-d>`
 - Directive
-  - [ ] `v-t`
+  - [x] `v-t`
 - Tool Chains
   - [ ] intlify devtools
   - [ ] vue-i18n-extensions
@@ -255,6 +256,9 @@ yarn add vue-i18n@next
   - [ ] documentation
   - [x] fallback localization (bubble up)
   - [ ] SSR
+- General tasks
+  - [ ] error handlings
+  - [ ] unit testings with @vue/test-utils@next
 
 </details>
 
