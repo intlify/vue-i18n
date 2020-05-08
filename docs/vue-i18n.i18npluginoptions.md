@@ -4,11 +4,17 @@
 
 ## I18nPluginOptions interface
 
+I18n plugin options
+
 <b>Signature:</b>
 
 ```typescript
 export interface I18nPluginOptions 
 ```
+
+## Remarks
+
+An options specified when installing vue-i18n as Vue plugin with using `app.use`<!-- -->.
 
 ## Properties
 

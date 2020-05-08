@@ -6,8 +6,6 @@
 
 VueI18n Interfaces
 
-This interface is compatible with interface of `VueI18n` class (offered with vue-i18n<!-- -->@<!-- -->8.x).
-
 <b>Signature:</b>
 
 ```typescript
@@ -29,6 +27,7 @@ export declare type VueI18n = {
     formatFallbackMessages: boolean;
     sync: boolean;
     warnHtmlInMessage: WarnHtmlInMessageLevel;
+    preserveDirectiveContent: boolean;
     __id: number;
     __composer: Composer;
     /*!
@@ -77,3 +76,8 @@ export declare type VueI18n = {
     getChoiceIndex: (choice: Choice, choicesLength: number) => number;
 };
 ```
+
+## Remarks
+
+This interface is compatible with interface of `VueI18n` class (offered with vue-i18n<!-- -->@<!-- -->8.x).
+

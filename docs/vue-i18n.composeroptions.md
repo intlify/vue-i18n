@@ -6,13 +6,15 @@
 
 Composer Options
 
-This is options to create composer.
-
 <b>Signature:</b>
 
 ```typescript
 export interface ComposerOptions 
 ```
+
+## Remarks
+
+This is options to create composer.
 
 ## Properties
 

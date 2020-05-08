@@ -4,7 +4,7 @@
 
 ## ComposerAdditionalOptions interface
 
-Composer additional options
+Composer additional options for `useI18n`
 
 <b>Signature:</b>
 

@@ -6,13 +6,15 @@
 
 VueI18n Options
 
-This option is compatible with the constructor options of `VueI18n` class (offered with vue-i18n<!-- -->@<!-- -->8.x).
-
 <b>Signature:</b>
 
 ```typescript
 export interface VueI18nOptions 
 ```
+
+## Remarks
+
+This option is compatible with the constructor options of `VueI18n` class (offered with vue-i18n<!-- -->@<!-- -->8.x).
 
 ## Properties
 

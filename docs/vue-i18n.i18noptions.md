@@ -4,8 +4,15 @@
 
 ## I18nOptions type
 
+I18n Options for `createI18n`
+
 <b>Signature:</b>
 
 ```typescript
-export declare type I18nOptions = I18nAddtionalOptions & (ComposerOptions | VueI18nOptions);
+export declare type I18nOptions = I18nAdditionalOptions & (ComposerOptions | VueI18nOptions);
 ```
+
+## Remarks
+
+`I18nOptions` is inherited [I18nAdditionalOptions](./vue-i18n.i18nadditionaloptions.md)<!-- -->, [ComposerOptions](./vue-i18n.composeroptions.md) and [VueI18nOptions](./vue-i18n.vuei18noptions.md)<!-- -->, so you can specify these options.
+

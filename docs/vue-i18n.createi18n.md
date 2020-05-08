@@ -26,7 +26,7 @@ export declare function createI18n(options?: I18nOptions): I18n;
 
 ## Remarks
 
-When you use Composable API, you need to specify options of [ComposerOptions](./vue-i18n.composeroptions.md)<!-- -->. When you use Legacy API, you need toto specify options of [VueI18nOptions](./vue-i18n.vuei18noptions.md) and `legacy: true`<!-- -->.
+When you use Composable API, you need to specify options of [ComposerOptions](./vue-i18n.composeroptions.md)<!-- -->. When you use Legacy API, you need toto specify options of [VueI18nOptions](./vue-i18n.vuei18noptions.md) and `legacy: true` option.
 
 ## Example 1
 

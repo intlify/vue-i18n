@@ -6,8 +6,6 @@
 
 Composer Interfaces
 
-This is the interface for being used for Vue 3 Composition API.
-
 <b>Signature:</b>
 
 ```typescript
@@ -76,3 +74,8 @@ export declare type Composer = {
     __datetimeParts(...args: unknown[]): string | Intl.DateTimeFormatPart[];
 };
 ```
+
+## Remarks
+
+This is the interface for being used for Vue 3 Composition API.
+

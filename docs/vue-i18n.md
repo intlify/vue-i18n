@@ -25,16 +25,16 @@
 |  Interface | Description |
 |  --- | --- |
 |  [CompileError](./vue-i18n.compileerror.md) |  |
-|  [ComposerAdditionalOptions](./vue-i18n.composeradditionaloptions.md) | Composer additional options |
-|  [ComposerOptions](./vue-i18n.composeroptions.md) | Composer Options<!-- -->This is options to create composer. |
+|  [ComposerAdditionalOptions](./vue-i18n.composeradditionaloptions.md) | Composer additional options for <code>useI18n</code> |
+|  [ComposerOptions](./vue-i18n.composeroptions.md) | Composer Options |
 |  [CurrencyNumberFormatOptions](./vue-i18n.currencynumberformatoptions.md) |  |
 |  [Formatter](./vue-i18n.formatter.md) |  |
 |  [I18n](./vue-i18n.i18n.md) | I18n interface |
-|  [I18nAddtionalOptions](./vue-i18n.i18naddtionaloptions.md) | I18n Options |
-|  [I18nPluginOptions](./vue-i18n.i18npluginoptions.md) |  |
+|  [I18nAdditionalOptions](./vue-i18n.i18nadditionaloptions.md) | I18n Additional Options for <code>createI18n</code> |
+|  [I18nPluginOptions](./vue-i18n.i18npluginoptions.md) | I18n plugin options |
 |  [SpecificDateTimeFormatOptions](./vue-i18n.specificdatetimeformatoptions.md) |  |
 |  [SpecificNumberFormatOptions](./vue-i18n.specificnumberformatoptions.md) |  |
-|  [VueI18nOptions](./vue-i18n.vuei18noptions.md) | VueI18n Options<!-- -->This option is compatible with the constructor options of <code>VueI18n</code> class (offered with vue-i18n<!-- -->@<!-- -->8.x). |
+|  [VueI18nOptions](./vue-i18n.vuei18noptions.md) | VueI18n Options |
 
 ## Variables
 
@@ -43,7 +43,7 @@
 |  [Availabilities](./vue-i18n.availabilities.md) |  |
 |  [friendlyJSONstringify](./vue-i18n.friendlyjsonstringify.md) |  |
 |  [generateFormatCacheKey](./vue-i18n.generateformatcachekey.md) |  |
-|  [VERSION](./vue-i18n.version.md) |  |
+|  [VERSION](./vue-i18n.version.md) | vue-i18n version |
 
 ## Type Aliases
 
@@ -53,7 +53,7 @@
 |  [CompileDomain](./vue-i18n.compiledomain.md) |  |
 |  [CompileErrorHandler](./vue-i18n.compileerrorhandler.md) |  |
 |  [CompileOptions](./vue-i18n.compileoptions.md) |  |
-|  [Composer](./vue-i18n.composer.md) | Composer Interfaces<!-- -->This is the interface for being used for Vue 3 Composition API. |
+|  [Composer](./vue-i18n.composer.md) | Composer Interfaces |
 |  [CurrencyDisplay](./vue-i18n.currencydisplay.md) | number |
 |  [DateTimeDigital](./vue-i18n.datetimedigital.md) |  |
 |  [DateTimeFormat](./vue-i18n.datetimeformat.md) |  |
@@ -65,7 +65,7 @@
 |  [FormattedNumberPart](./vue-i18n.formattednumberpart.md) |  |
 |  [FormattedNumberPartType](./vue-i18n.formattednumberparttype.md) |  |
 |  [I18nMode](./vue-i18n.i18nmode.md) | I18n API mode |
-|  [I18nOptions](./vue-i18n.i18noptions.md) |  |
+|  [I18nOptions](./vue-i18n.i18noptions.md) | I18n Options for <code>createI18n</code> |
 |  [I18nScope](./vue-i18n.i18nscope.md) | I18n Scope |
 |  [IntlAvailability](./vue-i18n.intlavailability.md) | datetime |
 |  [LinkedModifiers](./vue-i18n.linkedmodifiers.md) |  |
@@ -89,7 +89,7 @@
 |  [PluralizationRulesMap](./vue-i18n.pluralizationrulesmap.md) |  |
 |  [PostTranslationHandler](./vue-i18n.posttranslationhandler.md) |  |
 |  [TranslateResult](./vue-i18n.translateresult.md) |  |
-|  [UseI18nOptions](./vue-i18n.usei18noptions.md) |  |
-|  [VueI18n](./vue-i18n.vuei18n.md) | VueI18n Interfaces<!-- -->This interface is compatible with interface of <code>VueI18n</code> class (offered with vue-i18n<!-- -->@<!-- -->8.x). |
+|  [UseI18nOptions](./vue-i18n.usei18noptions.md) | I18n Options for <code>useI18n</code> |
+|  [VueI18n](./vue-i18n.vuei18n.md) | VueI18n Interfaces |
 |  [WarnHtmlInMessageLevel](./vue-i18n.warnhtmlinmessagelevel.md) |  |
 

@@ -16,11 +16,6 @@ export interface I18n
 
 |  Property | Type | Description |
 |  --- | --- | --- |
-|  [mode](./vue-i18n.i18n.mode.md) | <code>I18nMode</code> |  |
-
-## Methods
-
-|  Method | Description |
-|  --- | --- |
-|  [install(app, options)](./vue-i18n.i18n.install.md) |  |
+|  [global](./vue-i18n.i18n.global.md) | <code>Composer</code> | Global composer |
+|  [mode](./vue-i18n.i18n.mode.md) | <code>I18nMode</code> | I18n API mode |
 
