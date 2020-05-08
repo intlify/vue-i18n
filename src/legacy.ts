@@ -59,6 +59,7 @@ export interface Formatter {
 /**
  *  VueI18n Options
  *
+ *  @remarks
  *  This option is compatible with the constructor options of `VueI18n` class (offered with vue-i18n@8.x).
  */
 export interface VueI18nOptions {
@@ -86,6 +87,7 @@ export interface VueI18nOptions {
 /**
  *  VueI18n Interfaces
  *
+ *  @remarks
  *  This interface is compatible with interface of `VueI18n` class (offered with vue-i18n@8.x).
  */
 export type VueI18n = {
@@ -154,6 +156,7 @@ export type VueI18n = {
 
 /**
  * Convert to I18n Composer Options from VueI18n Options
+ *
  * @internal
  */
 function convertComposerOptions(
@@ -236,6 +239,7 @@ function convertComposerOptions(
 
 /**
  * create VueI18n interface factory
+ *
  * @internal
  */
 export function createVueI18n(

@@ -48,4 +48,8 @@ export {
   UseI18nOptions
 } from './i18n'
 export { I18nPluginOptions } from './plugin'
+
+/**
+ * vue-i18n version
+ */
 export const VERSION = __VERSION__

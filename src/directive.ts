@@ -21,10 +21,10 @@ function getComposer(
   instance: ComponentInternalInstance
 ): Composer | null {
   if (i18n.mode === 'composable') {
-    return i18n._getComposer(instance) || i18n._global
+    return i18n._getComposer(instance) || i18n.global
   } else {
     const vueI18n = i18n._getLegacy(instance)
-    return vueI18n != null ? vueI18n.__composer : i18n._global
+    return vueI18n != null ? vueI18n.__composer : i18n.global
   }
 }
 

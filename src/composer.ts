@@ -86,6 +86,7 @@ export type CustomBlocks = string[] | PreCompileHandler
 /**
  * Composer Options
  *
+ * @remarks
  * This is options to create composer.
  */
 export interface ComposerOptions {
@@ -117,6 +118,7 @@ export interface ComposerInternalOptions {
 /**
  * Composer Interfaces
  *
+ * @remarks
  * This is the interface for being used for Vue 3 Composition API.
  */
 export type Composer = {
@@ -265,6 +267,7 @@ export function addPreCompileMessages(
 
 /**
  * Create composer interface factory
+ *
  * @internal
  */
 export function createComposer(

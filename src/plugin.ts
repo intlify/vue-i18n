@@ -4,7 +4,14 @@ import { Translation, NumberFormat, DatetimeFormat } from './components'
 import { vTDirective } from './directive'
 import { isPlainObject, isString, warn } from './utils'
 
+/**
+ * I18n plugin options
+ *
+ * @remarks
+ * An options specified when installing vue-i18n as Vue plugin with using `app.use`.
+ */
 export interface I18nPluginOptions {
+  // TODO: should be more redisigned, we should change to `boolean` option
   'i18n-t'?: string
 }
 

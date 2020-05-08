@@ -20,22 +20,27 @@ import { defineMixin } from './mixin'
 import { isEmptyObject } from './utils'
 
 /**
- * I18n Options
+ * I18n Options for `createI18n`
  *
  * @remarks
- * `I18nOptions` is inherited {@link ComposerOptions} and {@link VueI18nOptions}, so you can specify these options.
+ * `I18nOptions` is inherited {@link I18nAdditionalOptions}, {@link ComposerOptions} and {@link VueI18nOptions},
+ * so you can specify these options.
  *
+ */
+export type I18nOptions = I18nAdditionalOptions &
+  (ComposerOptions | VueI18nOptions)
+
+/**
+ * I18n Additional Options for `createI18n`
  */
 export interface I18nAdditionalOptions {
   /**
    * Whether vue-i18n legacy API use on your Vue App.
+   *
    * @defaultValue `false`
    */
   legacy?: boolean
 }
-
-export type I18nOptions = I18nAdditionalOptions &
-  (ComposerOptions | VueI18nOptions)
 
 /**
  * I18n API mode
@@ -46,16 +51,32 @@ export type I18nMode = 'legacy' | 'composable'
  * I18n interface
  */
 export interface I18n {
+  /**
+   * I18n API mode
+   *
+   * @remarks
+   * if you specified `legacy: true` option in `createI18n`, return `legacy`,
+   * else `composable`
+   *
+   * @defaultValue `composable`
+   */
   readonly mode: I18nMode
+  /**
+   * Global composer
+   */
+  readonly global: Composer
+  /**
+   * @internal
+   */
   install(app: App, ...options: unknown[]): void
 }
 
 /**
  * I18n interface for internal usage
+ *
  * @internal
  */
 export interface I18nInternal {
-  readonly _global: Composer
   _getComposer(instance: ComponentInternalInstance): Composer | null
   _setComposer(instance: ComponentInternalInstance, composer: Composer): void
   _deleteComposer(instance: ComponentInternalInstance): void
@@ -70,16 +91,23 @@ export interface I18nInternal {
 export type I18nScope = 'local' | 'parent' | 'global'
 
 /**
- * Composer additional options
+ * I18n Options for `useI18n`
  *
- *  @remarks
+ * @remarks
+ * `UseI18nOptions` is inherited {@link ComposerAdditionalOptions} and {@link ComposerOptions},
+ * so you can specify these options.
+ */
+export type UseI18nOptions = ComposerAdditionalOptions & ComposerOptions
+
+/**
+ * Composer additional options for `useI18n`
+ *
+ * @remarks
  * `ComposerAdditionalOptions` is extend for {@link ComposerOptions}, so you can specify these options.
  */
 export interface ComposerAdditionalOptions {
-  useScope?: I18nScope // default 'global'
+  useScope?: I18nScope
 }
-
-export type UseI18nOptions = ComposerAdditionalOptions & ComposerOptions
 
 /**
  * I18n instance injectin key
@@ -97,7 +125,7 @@ export const I18nSymbol: InjectionKey<I18n & I18nInternal> = Symbol.for(
  *
  * @remarks
  * When you use Composable API, you need to specify options of {@link ComposerOptions}.
- * When you use Legacy API, you need toto specify options of {@link VueI18nOptions} and `legacy: true`.
+ * When you use Legacy API, you need toto specify options of {@link VueI18nOptions} and `legacy: true` option.
  *
  * @example
  * case: for Composable API
@@ -181,7 +209,7 @@ export function createI18n(options: I18nOptions = {}): I18n {
         )
       }
     },
-    get _global(): Composer {
+    get global(): Composer {
       return __legacyMode
         ? (__global as VueI18n).__composer
         : (__global as Composer)
@@ -264,7 +292,7 @@ export function useI18n(options: UseI18nOptions = {}): Composer {
     throw new Error('TODO')
   }
 
-  const global = i18n._global
+  const global = i18n.global
 
   let emptyOption = false
   // prettier-ignore
