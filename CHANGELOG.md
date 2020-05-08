@@ -1,4 +1,14 @@
 
+## v9.0.0-alpha.8 (2020-05-08)
+
+#### :boom: Breaking Change
+* [#39](https://github.com/intlify/vue-i18n-next/pull/39) breaking: v-t directive ([@kazupon](https://github.com/kazupon))
+* [#36](https://github.com/intlify/vue-i18n-next/pull/36) Breaking: inherit locale ([@kazupon](https://github.com/kazupon))
+
+#### Committers: 1
+- kazuya kawaguchi ([@kazupon](https://github.com/kazupon))
+
+
 ## v9.0.0-alpha.7 (2020-05-02)
 
 #### :bug: Bug Fixes
