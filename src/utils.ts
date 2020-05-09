@@ -15,6 +15,9 @@ export const friendlyJSONstringify = (json: unknown): string =>
     .replace(/\u2029/g, '\\u2029')
     .replace(/\u0027/g, '\\u0027')
 
+export const isNumber = (val: unknown): val is number =>
+  typeof val === 'number' && isFinite(val)
+
 export const isDate = (val: unknown): val is Date =>
   toTypeString(val) === '[object Date]'
 
@@ -43,8 +46,6 @@ export function warn(msg: string, err?: Error): void {
  */
 
 export const isArray = Array.isArray
-export const isNumber = (val: unknown): val is number =>
-  typeof val === 'number' && isFinite(val)
 export const isFunction = (val: unknown): val is Function =>
   typeof val === 'function'
 export const isString = (val: unknown): val is string => typeof val === 'string'
