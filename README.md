@@ -247,7 +247,7 @@ yarn add vue-i18n@next
   - [x] `v-t`
 - Tool Chains
   - [ ] intlify devtools
-  - [ ] vue-i18n-extensions
+  - [x] vue-i18n-extensions
   - [x] vue-i18n-loader
   - [ ] rollup-plugin-vue-i18n
   - [ ] vue-cli-plugin-i18n
