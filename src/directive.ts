@@ -4,6 +4,7 @@ import {
   ComponentInternalInstance
 } from 'vue'
 import { I18n, I18nInternal } from './i18n'
+import { VueI18n, VueI18nInternal } from './legacy'
 import { Composer } from './composer'
 import { Locale, TranslateOptions } from './core'
 import { NamedValue } from './message/runtime'
@@ -24,7 +25,9 @@ function getComposer(
     return i18n._getComposer(instance) || i18n.global
   } else {
     const vueI18n = i18n._getLegacy(instance)
-    return vueI18n != null ? vueI18n.__composer : i18n.global
+    return vueI18n != null
+      ? (vueI18n as VueI18n & VueI18nInternal).__composer
+      : i18n.global
   }
 }
 
