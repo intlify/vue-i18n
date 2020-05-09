@@ -10,11 +10,17 @@ import {
 } from 'vue'
 import {
   Composer,
+  ComposerInternal,
   ComposerOptions,
   ComposerInternalOptions,
   createComposer
 } from './composer'
-import { createVueI18n, VueI18n, VueI18nOptions } from './legacy'
+import {
+  createVueI18n,
+  VueI18n,
+  VueI18nOptions,
+  VueI18nInternal
+} from './legacy'
 import { apply } from './plugin'
 import { defineMixin } from './mixin'
 import { isEmptyObject } from './utils'
@@ -202,8 +208,8 @@ export function createI18n(options: I18nOptions = {}): I18n {
       if (__legacyMode) {
         app.mixin(
           defineMixin(
-            __global as VueI18n,
-            (__global as VueI18n).__composer,
+            __global as VueI18n & VueI18nInternal,
+            (__global as VueI18n & VueI18nInternal).__composer,
             i18n
           )
         )
@@ -211,7 +217,7 @@ export function createI18n(options: I18nOptions = {}): I18n {
     },
     get global(): Composer {
       return __legacyMode
-        ? (__global as VueI18n).__composer
+        ? (__global as VueI18n & VueI18nInternal).__composer
         : (__global as Composer)
     },
     _getComposer(instance: ComponentInternalInstance): Composer | null {
@@ -349,7 +355,7 @@ export function useI18n(options: UseI18nOptions = {}): Composer {
     i18n._setComposer(instance, composer)
   }
 
-  return composer
+  return composer as Composer & ComposerInternal
 }
 
 function getComposer(
@@ -365,7 +371,7 @@ function getComposer(
     } else {
       const vueI18n = i18n._getLegacy(current)
       if (vueI18n != null) {
-        composer = vueI18n.__composer
+        composer = (vueI18n as VueI18n & VueI18nInternal).__composer
       }
     }
     if (composer != null) {

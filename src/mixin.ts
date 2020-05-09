@@ -4,6 +4,7 @@ import { Locale } from './core/context'
 import { Composer, ComposerInternalOptions } from './composer'
 import {
   VueI18n,
+  VueI18nInternal,
   createVueI18n,
   VueI18nOptions,
   TranslateResult,
@@ -14,7 +15,7 @@ import { I18nInternal } from './i18n'
 
 // supports compatibility for legacy vue-i18n APIs
 export function defineMixin(
-  legacy: VueI18n,
+  legacy: VueI18n & VueI18nInternal,
   composer: Composer,
   i18n: I18nInternal
 ): ComponentOptions {

@@ -31,7 +31,8 @@ import {
   Composer,
   ComposerOptions,
   ComposerInternalOptions,
-  createComposer
+  createComposer,
+  ComposerInternal
 } from './composer'
 import {
   isString,
@@ -90,7 +91,7 @@ export interface VueI18nOptions {
  *  @remarks
  *  This interface is compatible with interface of `VueI18n` class (offered with vue-i18n@8.x).
  */
-export type VueI18n = {
+export interface VueI18n {
   /*!
    * properties
    */
@@ -109,8 +110,6 @@ export type VueI18n = {
   sync: boolean
   warnHtmlInMessage: WarnHtmlInMessageLevel
   preserveDirectiveContent: boolean
-  __id: number
-  __composer: Composer
 
   /*!
    * methods
@@ -152,6 +151,14 @@ export type VueI18n = {
   setNumberFormat(locale: Locale, format: NumberFormat): void
   mergeNumberFormat(locale: Locale, format: NumberFormat): void
   getChoiceIndex: (choice: Choice, choicesLength: number) => number
+}
+
+/**
+ * @internal
+ */
+export interface VueI18nInternal {
+  __id: number
+  __composer: Composer
 }
 
 /**
@@ -375,7 +382,7 @@ export function createVueI18n(
     },
 
     // for internal
-    __id: composer.__id,
+    __id: (composer as Composer & ComposerInternal).__id,
     __composer: composer,
 
     /**

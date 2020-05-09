@@ -1,6 +1,7 @@
 import { defineComponent, SetupContext, PropType } from 'vue'
 import { useI18n } from '../i18n'
 import { DateTimeOptions } from '../core'
+import { Composer, ComposerInternal } from '../composer'
 import { renderFormatter, FormattableProps } from './formatRenderer'
 
 const DATETIME_FORMAT_KEYS = [
@@ -46,7 +47,7 @@ export const DatetimeFormat = defineComponent({
   },
   /* eslint-enable */
   setup(props, context: SetupContext) {
-    const i18n = useI18n({ useScope: 'parent' })
+    const i18n = useI18n({ useScope: 'parent' }) as Composer & ComposerInternal
 
     return renderFormatter<
       FormattableProps<number | Date, Intl.DateTimeFormatOptions>,

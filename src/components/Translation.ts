@@ -5,6 +5,7 @@ import {
   SetupContext,
   VNodeArrayChildren
 } from 'vue'
+import { Composer, ComposerInternal } from '../composer'
 import { useI18n } from '../i18n'
 import { TranslateOptions, Locale } from '../core'
 import { NamedValue } from '../message/runtime'
@@ -40,7 +41,7 @@ export const Translation = defineComponent({
   /* eslint-enable */
   setup(props: TranslationProps, context: SetupContext) {
     const { slots, attrs } = context
-    const i18n = useI18n({ useScope: 'parent' })
+    const i18n = useI18n({ useScope: 'parent' }) as Composer & ComposerInternal
     const keys = Object.keys(slots).filter(key => key !== '_')
 
     return () => {

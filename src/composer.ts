@@ -121,7 +121,7 @@ export interface ComposerInternalOptions {
  * @remarks
  * This is the interface for being used for Vue 3 Composition API.
  */
-export type Composer = {
+export interface Composer {
   /*!
    * properties
    */
@@ -140,7 +140,6 @@ export type Composer = {
   fallbackRoot: boolean
   fallbackFormat: boolean
   warnHtmlMessage: boolean
-  __id: number // for internal
   /*!
    * methods
    */
@@ -181,9 +180,16 @@ export type Composer = {
   setPostTranslationHandler(handler: PostTranslationHandler | null): void
   getMissingHandler(): MissingHandler | null
   setMissingHandler(handler: MissingHandler | null): void
-  __transrateVNode(...args: unknown[]): unknown // for internal
-  __numberParts(...args: unknown[]): string | Intl.NumberFormatPart[] // for internal
-  __datetimeParts(...args: unknown[]): string | Intl.DateTimeFormatPart[] // for internal
+}
+
+/**
+ * @internal
+ */
+export interface ComposerInternal {
+  __id: number
+  __transrateVNode(...args: unknown[]): unknown
+  __numberParts(...args: unknown[]): string | Intl.NumberFormatPart[]
+  __datetimeParts(...args: unknown[]): string | Intl.DateTimeFormatPart[]
 }
 
 let composerID = 0
@@ -456,7 +462,7 @@ export function createComposer(
     fn: (context: RuntimeContext) => unknown,
     argumentParser: () => string,
     warnType: string,
-    fallbackSuccess: (root: Composer) => T,
+    fallbackSuccess: (root: Composer & ComposerInternal) => T,
     fallbackFail: (key: string) => T,
     successCondition: (val: unknown) => boolean
   ): ComputedRef<T> => {
@@ -476,7 +482,7 @@ export function createComposer(
             warn(`Fall back to ${warnType} '${key}' with root locale.`)
           }
           return _fallbackRoot && __root
-            ? fallbackSuccess(__root)
+            ? fallbackSuccess(__root as Composer & ComposerInternal)
             : fallbackFail(key)
         } else if (successCondition(ret)) {
           return ret as T

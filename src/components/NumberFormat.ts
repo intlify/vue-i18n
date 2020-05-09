@@ -1,6 +1,7 @@
 import { defineComponent, SetupContext } from 'vue'
 import { useI18n } from '../i18n'
 import { NumberOptions } from '../core'
+import { Composer, ComposerInternal } from '../composer'
 import { renderFormatter, FormattableProps } from './formatRenderer'
 
 const NUMBER_FORMAT_KEYS = [
@@ -41,7 +42,7 @@ export const NumberFormat = defineComponent({
   },
   /* eslint-enable */
   setup(props, context: SetupContext) {
-    const i18n = useI18n({ useScope: 'parent' })
+    const i18n = useI18n({ useScope: 'parent' }) as Composer & ComposerInternal
 
     return renderFormatter<
       FormattableProps<number, Intl.NumberFormatOptions>,
