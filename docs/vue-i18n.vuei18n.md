@@ -2,82 +2,79 @@
 
 [Home](./index.md) &gt; [vue-i18n](./vue-i18n.md) &gt; [VueI18n](./vue-i18n.vuei18n.md)
 
-## VueI18n type
+## VueI18n interface
 
 VueI18n Interfaces
 
 <b>Signature:</b>
 
 ```typescript
-export declare type VueI18n = {
-    /*!
-     * properties
-     */
-    locale: Locale;
-    fallbackLocale: FallbackLocale;
-    readonly availableLocales: Locale[];
-    readonly messages: LocaleMessages;
-    readonly datetimeFormats: DateTimeFormats;
-    readonly numberFormats: NumberFormats;
-    formatter: Formatter;
-    missing: MissingHandler | null;
-    postTranslation: PostTranslationHandler | null;
-    silentTranslationWarn: boolean | RegExp;
-    silentFallbackWarn: boolean | RegExp;
-    formatFallbackMessages: boolean;
-    sync: boolean;
-    warnHtmlInMessage: WarnHtmlInMessageLevel;
-    preserveDirectiveContent: boolean;
-    __id: number;
-    __composer: Composer;
-    /*!
-     * methods
-     */
-    t(key: Path): TranslateResult;
-    t(key: Path, locale: Locale): TranslateResult;
-    t(key: Path, locale: Locale, list: unknown[]): TranslateResult;
-    t(key: Path, locale: Locale, named: object): TranslateResult;
-    t(key: Path, list: unknown[]): TranslateResult;
-    t(key: Path, named: object): TranslateResult;
-    t(...args: unknown[]): TranslateResult;
-    tc(key: Path): TranslateResult;
-    tc(key: Path, locale: Locale): TranslateResult;
-    tc(key: Path, list: unknown[]): TranslateResult;
-    tc(key: Path, named: object): TranslateResult;
-    tc(key: Path, choice: number): TranslateResult;
-    tc(key: Path, choice: number, locale: Locale): TranslateResult;
-    tc(key: Path, choice: number, list: unknown[]): TranslateResult;
-    tc(key: Path, choice: number, named: object): TranslateResult;
-    tc(...args: unknown[]): TranslateResult;
-    te(key: Path, locale?: Locale): boolean;
-    getLocaleMessage(locale: Locale): LocaleMessage;
-    setLocaleMessage(locale: Locale, message: LocaleMessage): void;
-    mergeLocaleMessage(locale: Locale, message: LocaleMessage): void;
-    d(value: number | Date): DateTimeFormatResult;
-    d(value: number | Date, key: string): DateTimeFormatResult;
-    d(value: number | Date, key: string, locale: Locale): DateTimeFormatResult;
-    d(value: number | Date, args: {
-        [key: string]: string;
-    }): DateTimeFormatResult;
-    d(...args: unknown[]): DateTimeFormatResult;
-    getDateTimeFormat(locale: Locale): DateTimeFormat;
-    setDateTimeFormat(locale: Locale, format: DateTimeFormat): void;
-    mergeDateTimeFormat(locale: Locale, format: DateTimeFormat): void;
-    n(value: number): NumberFormatResult;
-    n(value: number, key: string): NumberFormatResult;
-    n(value: number, key: string, locale: Locale): NumberFormatResult;
-    n(value: number, args: {
-        [key: string]: string;
-    }): NumberFormatResult;
-    n(...args: unknown[]): NumberFormatResult;
-    getNumberFormat(locale: Locale): NumberFormat;
-    setNumberFormat(locale: Locale, format: NumberFormat): void;
-    mergeNumberFormat(locale: Locale, format: NumberFormat): void;
-    getChoiceIndex: (choice: Choice, choicesLength: number) => number;
-};
+export interface VueI18n 
 ```
 
 ## Remarks
 
 This interface is compatible with interface of `VueI18n` class (offered with vue-i18n<!-- -->@<!-- -->8.x).
+
+## Properties
+
+|  Property | Type | Description |
+|  --- | --- | --- |
+|  [availableLocales](./vue-i18n.vuei18n.availablelocales.md) | <code>Locale[]</code> |  |
+|  [datetimeFormats](./vue-i18n.vuei18n.datetimeformats.md) | <code>DateTimeFormats</code> |  |
+|  [fallbackLocale](./vue-i18n.vuei18n.fallbacklocale.md) | <code>FallbackLocale</code> |  |
+|  [formatFallbackMessages](./vue-i18n.vuei18n.formatfallbackmessages.md) | <code>boolean</code> |  |
+|  [formatter](./vue-i18n.vuei18n.formatter.md) | <code>Formatter</code> |  |
+|  [getChoiceIndex](./vue-i18n.vuei18n.getchoiceindex.md) | <code>(choice: Choice, choicesLength: number) =&gt; number</code> |  |
+|  [locale](./vue-i18n.vuei18n.locale.md) | <code>Locale</code> |  |
+|  [messages](./vue-i18n.vuei18n.messages.md) | <code>LocaleMessages</code> |  |
+|  [missing](./vue-i18n.vuei18n.missing.md) | <code>MissingHandler &#124; null</code> |  |
+|  [numberFormats](./vue-i18n.vuei18n.numberformats.md) | <code>NumberFormats</code> |  |
+|  [postTranslation](./vue-i18n.vuei18n.posttranslation.md) | <code>PostTranslationHandler &#124; null</code> |  |
+|  [preserveDirectiveContent](./vue-i18n.vuei18n.preservedirectivecontent.md) | <code>boolean</code> |  |
+|  [silentFallbackWarn](./vue-i18n.vuei18n.silentfallbackwarn.md) | <code>boolean &#124; RegExp</code> |  |
+|  [silentTranslationWarn](./vue-i18n.vuei18n.silenttranslationwarn.md) | <code>boolean &#124; RegExp</code> |  |
+|  [sync](./vue-i18n.vuei18n.sync.md) | <code>boolean</code> |  |
+|  [warnHtmlInMessage](./vue-i18n.vuei18n.warnhtmlinmessage.md) | <code>WarnHtmlInMessageLevel</code> |  |
+
+## Methods
+
+|  Method | Description |
+|  --- | --- |
+|  [d(value)](./vue-i18n.vuei18n.d.md) |  |
+|  [d(value, key)](./vue-i18n.vuei18n.d_1.md) |  |
+|  [d(value, key, locale)](./vue-i18n.vuei18n.d_2.md) |  |
+|  [d(value, args)](./vue-i18n.vuei18n.d_3.md) |  |
+|  [d(args)](./vue-i18n.vuei18n.d_4.md) |  |
+|  [getDateTimeFormat(locale)](./vue-i18n.vuei18n.getdatetimeformat.md) |  |
+|  [getLocaleMessage(locale)](./vue-i18n.vuei18n.getlocalemessage.md) |  |
+|  [getNumberFormat(locale)](./vue-i18n.vuei18n.getnumberformat.md) |  |
+|  [mergeDateTimeFormat(locale, format)](./vue-i18n.vuei18n.mergedatetimeformat.md) |  |
+|  [mergeLocaleMessage(locale, message)](./vue-i18n.vuei18n.mergelocalemessage.md) |  |
+|  [mergeNumberFormat(locale, format)](./vue-i18n.vuei18n.mergenumberformat.md) |  |
+|  [n(value)](./vue-i18n.vuei18n.n.md) |  |
+|  [n(value, key)](./vue-i18n.vuei18n.n_1.md) |  |
+|  [n(value, key, locale)](./vue-i18n.vuei18n.n_2.md) |  |
+|  [n(value, args)](./vue-i18n.vuei18n.n_3.md) |  |
+|  [n(args)](./vue-i18n.vuei18n.n_4.md) |  |
+|  [setDateTimeFormat(locale, format)](./vue-i18n.vuei18n.setdatetimeformat.md) |  |
+|  [setLocaleMessage(locale, message)](./vue-i18n.vuei18n.setlocalemessage.md) |  |
+|  [setNumberFormat(locale, format)](./vue-i18n.vuei18n.setnumberformat.md) |  |
+|  [t(key)](./vue-i18n.vuei18n.t.md) |  |
+|  [t(key, locale)](./vue-i18n.vuei18n.t_1.md) |  |
+|  [t(key, locale, list)](./vue-i18n.vuei18n.t_2.md) |  |
+|  [t(key, locale, named)](./vue-i18n.vuei18n.t_3.md) |  |
+|  [t(key, list)](./vue-i18n.vuei18n.t_4.md) |  |
+|  [t(key, named)](./vue-i18n.vuei18n.t_5.md) |  |
+|  [t(args)](./vue-i18n.vuei18n.t_6.md) |  |
+|  [tc(key)](./vue-i18n.vuei18n.tc.md) |  |
+|  [tc(key, locale)](./vue-i18n.vuei18n.tc_1.md) |  |
+|  [tc(key, list)](./vue-i18n.vuei18n.tc_2.md) |  |
+|  [tc(key, named)](./vue-i18n.vuei18n.tc_3.md) |  |
+|  [tc(key, choice)](./vue-i18n.vuei18n.tc_4.md) |  |
+|  [tc(key, choice, locale)](./vue-i18n.vuei18n.tc_5.md) |  |
+|  [tc(key, choice, list)](./vue-i18n.vuei18n.tc_6.md) |  |
+|  [tc(key, choice, named)](./vue-i18n.vuei18n.tc_7.md) |  |
+|  [tc(args)](./vue-i18n.vuei18n.tc_8.md) |  |
+|  [te(key, locale)](./vue-i18n.vuei18n.te.md) |  |
 

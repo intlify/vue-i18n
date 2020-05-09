@@ -2,80 +2,79 @@
 
 [Home](./index.md) &gt; [vue-i18n](./vue-i18n.md) &gt; [Composer](./vue-i18n.composer.md)
 
-## Composer type
+## Composer interface
 
 Composer Interfaces
 
 <b>Signature:</b>
 
 ```typescript
-export declare type Composer = {
-    /*!
-     * properties
-     */
-    locale: WritableComputedRef<Locale>;
-    fallbackLocale: WritableComputedRef<FallbackLocale>;
-    inheritLocale: boolean;
-    readonly availableLocales: Locale[];
-    readonly messages: ComputedRef<LocaleMessages>;
-    readonly datetimeFormats: ComputedRef<DateTimeFormats>;
-    readonly numberFormats: ComputedRef<NumberFormats>;
-    readonly modifiers: LinkedModifiers;
-    readonly pluralRules?: PluralizationRules;
-    readonly isGlobal: boolean;
-    missingWarn: boolean | RegExp;
-    fallbackWarn: boolean | RegExp;
-    fallbackRoot: boolean;
-    fallbackFormat: boolean;
-    warnHtmlMessage: boolean;
-    __id: number;
-    /*!
-     * methods
-     */
-    t(key: Path): string;
-    t(key: Path, plural: number): string;
-    t(key: Path, plural: number, options: TranslateOptions): string;
-    t(key: Path, defaultMsg: string): string;
-    t(key: Path, defaultMsg: string, options: TranslateOptions): string;
-    t(key: Path, list: unknown[]): string;
-    t(key: Path, list: unknown[], plural: number): string;
-    t(key: Path, list: unknown[], defaultMsg: string): string;
-    t(key: Path, list: unknown[], options: TranslateOptions): string;
-    t(key: Path, named: NamedValue): string;
-    t(key: Path, named: NamedValue, plural: number): string;
-    t(key: Path, named: NamedValue, defaultMsg: string): string;
-    t(key: Path, named: NamedValue, options: TranslateOptions): string;
-    t(...args: unknown[]): string;
-    d(value: number | Date): string;
-    d(value: number | Date, key: string): string;
-    d(value: number | Date, key: string, locale: Locale): string;
-    d(value: number | Date, options: DateTimeOptions): string;
-    d(...args: unknown[]): string;
-    n(value: number): string;
-    n(value: number, key: string): string;
-    n(value: number, key: string, locale: Locale): string;
-    n(value: number, options: NumberOptions): string;
-    n(...args: unknown[]): string;
-    getLocaleMessage(locale: Locale): LocaleMessage;
-    setLocaleMessage(locale: Locale, message: LocaleMessage): void;
-    mergeLocaleMessage(locale: Locale, message: LocaleMessage): void;
-    getDateTimeFormat(locale: Locale): DateTimeFormat;
-    setDateTimeFormat(locale: Locale, format: DateTimeFormat): void;
-    mergeDateTimeFormat(locale: Locale, format: DateTimeFormat): void;
-    getNumberFormat(locale: Locale): NumberFormat;
-    setNumberFormat(locale: Locale, format: NumberFormat): void;
-    mergeNumberFormat(locale: Locale, format: NumberFormat): void;
-    getPostTranslationHandler(): PostTranslationHandler | null;
-    setPostTranslationHandler(handler: PostTranslationHandler | null): void;
-    getMissingHandler(): MissingHandler | null;
-    setMissingHandler(handler: MissingHandler | null): void;
-    __transrateVNode(...args: unknown[]): unknown;
-    __numberParts(...args: unknown[]): string | Intl.NumberFormatPart[];
-    __datetimeParts(...args: unknown[]): string | Intl.DateTimeFormatPart[];
-};
+export interface Composer 
 ```
 
 ## Remarks
 
 This is the interface for being used for Vue 3 Composition API.
+
+## Properties
+
+|  Property | Type | Description |
+|  --- | --- | --- |
+|  [availableLocales](./vue-i18n.composer.availablelocales.md) | <code>Locale[]</code> |  |
+|  [datetimeFormats](./vue-i18n.composer.datetimeformats.md) | <code>ComputedRef&lt;DateTimeFormats&gt;</code> |  |
+|  [fallbackFormat](./vue-i18n.composer.fallbackformat.md) | <code>boolean</code> |  |
+|  [fallbackLocale](./vue-i18n.composer.fallbacklocale.md) | <code>WritableComputedRef&lt;FallbackLocale&gt;</code> |  |
+|  [fallbackRoot](./vue-i18n.composer.fallbackroot.md) | <code>boolean</code> |  |
+|  [fallbackWarn](./vue-i18n.composer.fallbackwarn.md) | <code>boolean &#124; RegExp</code> |  |
+|  [inheritLocale](./vue-i18n.composer.inheritlocale.md) | <code>boolean</code> |  |
+|  [isGlobal](./vue-i18n.composer.isglobal.md) | <code>boolean</code> |  |
+|  [locale](./vue-i18n.composer.locale.md) | <code>WritableComputedRef&lt;Locale&gt;</code> |  |
+|  [messages](./vue-i18n.composer.messages.md) | <code>ComputedRef&lt;LocaleMessages&gt;</code> |  |
+|  [missingWarn](./vue-i18n.composer.missingwarn.md) | <code>boolean &#124; RegExp</code> |  |
+|  [modifiers](./vue-i18n.composer.modifiers.md) | <code>LinkedModifiers</code> |  |
+|  [numberFormats](./vue-i18n.composer.numberformats.md) | <code>ComputedRef&lt;NumberFormats&gt;</code> |  |
+|  [pluralRules](./vue-i18n.composer.pluralrules.md) | <code>PluralizationRules</code> |  |
+|  [warnHtmlMessage](./vue-i18n.composer.warnhtmlmessage.md) | <code>boolean</code> |  |
+
+## Methods
+
+|  Method | Description |
+|  --- | --- |
+|  [d(value)](./vue-i18n.composer.d.md) |  |
+|  [d(value, key)](./vue-i18n.composer.d_1.md) |  |
+|  [d(value, key, locale)](./vue-i18n.composer.d_2.md) |  |
+|  [d(value, options)](./vue-i18n.composer.d_3.md) |  |
+|  [d(args)](./vue-i18n.composer.d_4.md) |  |
+|  [getDateTimeFormat(locale)](./vue-i18n.composer.getdatetimeformat.md) |  |
+|  [getLocaleMessage(locale)](./vue-i18n.composer.getlocalemessage.md) |  |
+|  [getMissingHandler()](./vue-i18n.composer.getmissinghandler.md) |  |
+|  [getNumberFormat(locale)](./vue-i18n.composer.getnumberformat.md) |  |
+|  [getPostTranslationHandler()](./vue-i18n.composer.getposttranslationhandler.md) |  |
+|  [mergeDateTimeFormat(locale, format)](./vue-i18n.composer.mergedatetimeformat.md) |  |
+|  [mergeLocaleMessage(locale, message)](./vue-i18n.composer.mergelocalemessage.md) |  |
+|  [mergeNumberFormat(locale, format)](./vue-i18n.composer.mergenumberformat.md) |  |
+|  [n(value)](./vue-i18n.composer.n.md) |  |
+|  [n(value, key)](./vue-i18n.composer.n_1.md) |  |
+|  [n(value, key, locale)](./vue-i18n.composer.n_2.md) |  |
+|  [n(value, options)](./vue-i18n.composer.n_3.md) |  |
+|  [n(args)](./vue-i18n.composer.n_4.md) |  |
+|  [setDateTimeFormat(locale, format)](./vue-i18n.composer.setdatetimeformat.md) |  |
+|  [setLocaleMessage(locale, message)](./vue-i18n.composer.setlocalemessage.md) |  |
+|  [setMissingHandler(handler)](./vue-i18n.composer.setmissinghandler.md) |  |
+|  [setNumberFormat(locale, format)](./vue-i18n.composer.setnumberformat.md) |  |
+|  [setPostTranslationHandler(handler)](./vue-i18n.composer.setposttranslationhandler.md) |  |
+|  [t(key)](./vue-i18n.composer.t.md) |  |
+|  [t(key, named)](./vue-i18n.composer.t_9.md) |  |
+|  [t(key, named, plural)](./vue-i18n.composer.t_10.md) |  |
+|  [t(key, named, defaultMsg)](./vue-i18n.composer.t_11.md) |  |
+|  [t(key, named, options)](./vue-i18n.composer.t_12.md) |  |
+|  [t(args)](./vue-i18n.composer.t_13.md) |  |
+|  [t(key, plural)](./vue-i18n.composer.t_1.md) |  |
+|  [t(key, plural, options)](./vue-i18n.composer.t_2.md) |  |
+|  [t(key, defaultMsg)](./vue-i18n.composer.t_3.md) |  |
+|  [t(key, defaultMsg, options)](./vue-i18n.composer.t_4.md) |  |
+|  [t(key, list)](./vue-i18n.composer.t_5.md) |  |
+|  [t(key, list, plural)](./vue-i18n.composer.t_6.md) |  |
+|  [t(key, list, defaultMsg)](./vue-i18n.composer.t_7.md) |  |
+|  [t(key, list, options)](./vue-i18n.composer.t_8.md) |  |
 

@@ -25,6 +25,7 @@
 |  Interface | Description |
 |  --- | --- |
 |  [CompileError](./vue-i18n.compileerror.md) |  |
+|  [Composer](./vue-i18n.composer.md) | Composer Interfaces |
 |  [ComposerAdditionalOptions](./vue-i18n.composeradditionaloptions.md) | Composer additional options for <code>useI18n</code> |
 |  [ComposerOptions](./vue-i18n.composeroptions.md) | Composer Options |
 |  [CurrencyNumberFormatOptions](./vue-i18n.currencynumberformatoptions.md) |  |
@@ -34,6 +35,7 @@
 |  [I18nPluginOptions](./vue-i18n.i18npluginoptions.md) | I18n plugin options |
 |  [SpecificDateTimeFormatOptions](./vue-i18n.specificdatetimeformatoptions.md) |  |
 |  [SpecificNumberFormatOptions](./vue-i18n.specificnumberformatoptions.md) |  |
+|  [VueI18n](./vue-i18n.vuei18n.md) | VueI18n Interfaces |
 |  [VueI18nOptions](./vue-i18n.vuei18noptions.md) | VueI18n Options |
 
 ## Variables
@@ -53,7 +55,6 @@
 |  [CompileDomain](./vue-i18n.compiledomain.md) |  |
 |  [CompileErrorHandler](./vue-i18n.compileerrorhandler.md) |  |
 |  [CompileOptions](./vue-i18n.compileoptions.md) |  |
-|  [Composer](./vue-i18n.composer.md) | Composer Interfaces |
 |  [CurrencyDisplay](./vue-i18n.currencydisplay.md) | number |
 |  [DateTimeDigital](./vue-i18n.datetimedigital.md) |  |
 |  [DateTimeFormat](./vue-i18n.datetimeformat.md) |  |
@@ -90,6 +91,5 @@
 |  [PostTranslationHandler](./vue-i18n.posttranslationhandler.md) |  |
 |  [TranslateResult](./vue-i18n.translateresult.md) |  |
 |  [UseI18nOptions](./vue-i18n.usei18noptions.md) | I18n Options for <code>useI18n</code> |
-|  [VueI18n](./vue-i18n.vuei18n.md) | VueI18n Interfaces |
 |  [WarnHtmlInMessageLevel](./vue-i18n.warnhtmlinmessagelevel.md) |  |
 
