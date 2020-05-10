@@ -260,7 +260,10 @@ function appendBlockToChain(
 ): unknown {
   let follow: unknown = true
   for (let i = 0; i < block.length && isBoolean(follow); i++) {
-    follow = appendLocaleToChain(chain, block[i], blocks)
+    const locale = block[i]
+    if (isString(locale)) {
+      follow = appendLocaleToChain(chain, block[i], blocks)
+    }
   }
   return follow
 }
