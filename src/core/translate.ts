@@ -1,7 +1,6 @@
 import { Path, resolveValue, PathValue } from '../path'
 import { CompileOptions } from '../message/options'
 import { CompileError } from '../message/errors'
-import { compile } from '../message/compiler'
 import {
   createMessageContext,
   NamedValue,
@@ -168,7 +167,8 @@ export function translate(
     postTranslation,
     unresolving,
     fallbackLocale,
-    warnHtmlMessage
+    warnHtmlMessage,
+    messageCompiler
   } = context
   const [key, options] = parseTranslateArgs(...args)
 
@@ -243,7 +243,7 @@ export function translate(
   // compile message format
   let msg
   if (!isMessageFunction(format)) {
-    msg = compile(
+    msg = messageCompiler(
       format,
       getCompileOptions(
         targetLocale,
@@ -349,7 +349,7 @@ function getMessageContextOptions(
   message: LocaleMessage,
   options: TranslateOptions
 ): MessageContextOptions {
-  const { modifiers, pluralRules } = context
+  const { modifiers, pluralRules, messageCompiler } = context
 
   const resolveMessage = (key: string): MessageFunction => {
     const val = resolveValue(message, key)
@@ -358,7 +358,7 @@ function getMessageContextOptions(
       const errorDetector = () => {
         occured = true
       }
-      const msg = compile(
+      const msg = messageCompiler(
         val,
         getCompileOptions(
           locale,

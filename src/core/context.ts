@@ -1,4 +1,6 @@
 import { MessageFunction } from '../message/runtime'
+import { CompileOptions } from '../message/options'
+import { compile } from '../message/compiler'
 import {
   LinkedModifiers,
   PluralizationRules,
@@ -46,6 +48,11 @@ export type RuntimeMissingHandler = (
 ) => string | void
 export type PostTranslationHandler = (translated: unknown) => unknown
 
+export type MessageCompiler = (
+  source: string,
+  options?: CompileOptions
+) => MessageFunction
+
 export type RuntimeOptions = {
   locale?: Locale
   fallbackLocale?: FallbackLocale
@@ -62,6 +69,7 @@ export type RuntimeOptions = {
   postTranslation?: PostTranslationHandler
   processor?: MessageProcessor
   warnHtmlMessage?: boolean
+  messageCompiler?: MessageCompiler
   _datetimeFormatters?: Map<string, Intl.DateTimeFormat>
   _numberFormatters?: Map<string, Intl.NumberFormat>
 }
@@ -82,6 +90,7 @@ export type RuntimeContext = {
   postTranslation: PostTranslationHandler | null
   processor: MessageProcessor | null
   warnHtmlMessage: boolean
+  messageCompiler: MessageCompiler
   _datetimeFormatters: Map<string, Intl.DateTimeFormat>
   _numberFormatters: Map<string, Intl.NumberFormat>
   _fallbackLocaleStack?: Locale[]
@@ -146,6 +155,9 @@ export function createRuntimeContext(
   const warnHtmlMessage = isBoolean(options.warnHtmlMessage)
     ? options.warnHtmlMessage
     : true
+  const messageCompiler = isFunction(options.messageCompiler)
+    ? options.messageCompiler
+    : compile
   const _datetimeFormatters = isObject(options._datetimeFormatters)
     ? options._datetimeFormatters
     : new Map<string, Intl.DateTimeFormat>()
@@ -169,6 +181,7 @@ export function createRuntimeContext(
     postTranslation,
     processor,
     warnHtmlMessage,
+    messageCompiler,
     _datetimeFormatters,
     _numberFormatters
   }

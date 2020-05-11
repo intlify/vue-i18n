@@ -20,7 +20,8 @@ export {
   LocaleMessageDictionary,
   LocaleMessage,
   LocaleMessages,
-  PostTranslationHandler
+  PostTranslationHandler,
+  MessageCompiler
 } from './core'
 export * from './core/types'
 export {

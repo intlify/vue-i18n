@@ -13,11 +13,6 @@ export type CompileResult = {
   // map?: RawSourceMap
 }
 
-// TODO: should be removed!
-export type Compiler = Readonly<{
-  compile: (source: string, options?: CompileOptions) => CompileResult
-}>
-
 // TODO: This code should be removed with using rollup (`/*#__PURE__*/`)
 const RE_HTML_TAG = /<\/?[\w\s="/.':;#-\/]+>/
 function checkHtmlMessage(source: string, options: CompileOptions): void {
