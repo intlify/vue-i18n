@@ -23,7 +23,12 @@ export {
   PostTranslationHandler
 } from './core'
 export * from './core/types'
-export { MissingHandler, ComposerOptions, Composer } from './composer'
+export {
+  MissingHandler,
+  ComposerOptions,
+  Composer,
+  CustomBlocks
+} from './composer'
 export {
   TranslateResult,
   Choice,
