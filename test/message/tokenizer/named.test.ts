@@ -1,8 +1,8 @@
+import { format } from '../../../src/utils'
 import { TokenizeOptions } from '../../../src/message/options'
 import {
   CompileErrorCodes,
   CompileError,
-  format,
   errorMessages
 } from '../../../src/message/errors'
 import {

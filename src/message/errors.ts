@@ -1,5 +1,5 @@
 import { SourceLocation } from './location'
-import { isObject } from '../utils'
+import { format } from '../utils'
 
 export type CompileDomain =
   | 'tokenizer'
@@ -57,25 +57,6 @@ export const errorMessages: { [code: number]: string } = {
   // parser error messages
   [CompileErrorCodes.MUST_HAVE_MESSAGES_IN_PLURAL]: `Plural must have messages`
 }
-
-const RE_ARGS = /\{([0-9a-zA-Z]+)\}/g
-
-/* eslint-disable @typescript-eslint/no-explicit-any */
-export function format(message: string, ...args: any): string {
-  if (args.length === 1 && isObject(args[0])) {
-    args = args[0]
-  }
-  if (!args || !args.hasOwnProperty) {
-    args = {}
-  }
-  return message.replace(
-    RE_ARGS,
-    (match: string, identifier: string): string => {
-      return args.hasOwnProperty(identifier) ? args[identifier] : ''
-    }
-  )
-}
-/* eslint-enable @typescript-eslint/no-explicit-any */
 
 export function createCompileError(
   code: CompileErrorCodes,
