@@ -1,4 +1,5 @@
 import { SourceLocation } from './location'
+import { isObject } from '../utils'
 
 export type CompileDomain =
   | 'tokenizer'
@@ -41,11 +42,10 @@ export type CreateCompileErrorOptions = {
   args?: unknown[]
 }
 
-// TODO: This code should be removed with using rollup (`/*#__PURE__*/`)
 export const errorMessages: { [code: number]: string } = {
   // tokenizer error messages
   [CompileErrorCodes.EXPECTED_TOKEN]: `Expected token: '{0}'`,
-  [CompileErrorCodes.INVALID_TOKEN_IN_PLACEHOLDER]: `Invalid token in placeholder: '{0}'`, // TODO: if we don't need this error, should be removed it!
+  [CompileErrorCodes.INVALID_TOKEN_IN_PLACEHOLDER]: `Invalid token in placeholder: '{0}'`,
   [CompileErrorCodes.UNTERMINATED_SINGLE_QUOTE_IN_PLACEHOLDER]: `Unterminated single quote in placeholder`,
   [CompileErrorCodes.UNKNOWN_ESCAPE_SEQUENCE]: `Unknown escape sequence: \\{0}`,
   [CompileErrorCodes.INVALID_UNICODE_ESCAPE_SEQUENCE]: `Invalid unicode escape sequence: {0}`,
@@ -58,20 +58,25 @@ export const errorMessages: { [code: number]: string } = {
   [CompileErrorCodes.MUST_HAVE_MESSAGES_IN_PLURAL]: `Plural must have messages`
 }
 
-// TODO: This code should be removed with using rollup (`/*#__PURE__*/`)
-const RE_ARGS = /\{([0-9]+)\}/g
+const RE_ARGS = /\{([0-9a-zA-Z]+)\}/g
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
-// TODO: This code should be removed with using rollup (`/*#__PURE__*/`)
-export function format(message: string, ...args: any[]): string {
-  return message.replace(RE_ARGS, (match: string, ...replaceArgs): string => {
-    const [index] = replaceArgs
-    return args[index] || ''
-  })
+export function format(message: string, ...args: any): string {
+  if (args.length === 1 && isObject(args[0])) {
+    args = args[0]
+  }
+  if (!args || !args.hasOwnProperty) {
+    args = {}
+  }
+  return message.replace(
+    RE_ARGS,
+    (match: string, identifier: string): string => {
+      return args.hasOwnProperty(identifier) ? args[identifier] : ''
+    }
+  )
 }
 /* eslint-enable @typescript-eslint/no-explicit-any */
 
-// TODO: This code should be removed with using rollup (`/*#__PURE__*/`)
 export function createCompileError(
   code: CompileErrorCodes,
   loc: SourceLocation,
