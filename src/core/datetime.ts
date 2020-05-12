@@ -8,8 +8,8 @@ import {
   NOT_REOSLVED,
   MISSING_RESOLVE_VALUE
 } from './context'
+import { CoreWarnCodes, getWarnMessage } from './warnings'
 import {
-  warn,
   isString,
   isBoolean,
   isPlainObject,
@@ -101,11 +101,12 @@ export function datetime(
     datetimeFormats,
     unresolving,
     fallbackLocale,
+    onWarn,
     _datetimeFormatters
   } = context
 
   if (__DEV__ && !Availabilities.dateTimeFormat) {
-    warn(`Cannot format a Date value due to not supported Intl.DateTimeFormat.`)
+    onWarn(getWarnMessage(CoreWarnCodes.CANNOT_FORMAT_DATE))
     return MISSING_RESOLVE_VALUE
   }
 
@@ -135,8 +136,11 @@ export function datetime(
       locale !== targetLocale &&
       isTrarnslateFallbackWarn(fallbackWarn, key)
     ) {
-      warn(
-        `Fall back to datetime format '${key}' key with '${targetLocale}' locale.`
+      onWarn(
+        getWarnMessage(CoreWarnCodes.FALLBACK_TO_DATE_FORMAT, {
+          key,
+          target: targetLocale
+        })
       )
     }
     datetimeFormat = datetimeFormats[targetLocale] || {}

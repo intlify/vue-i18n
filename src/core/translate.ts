@@ -16,11 +16,11 @@ import {
   getLocaleChain,
   NOT_REOSLVED
 } from './context'
+import { CoreWarnCodes, getWarnMessage } from './warnings'
 import {
   isString,
   isNumber,
   isFunction,
-  warn,
   isBoolean,
   isArray,
   isPlainObject,
@@ -168,7 +168,8 @@ export function translate(
     unresolving,
     fallbackLocale,
     warnHtmlMessage,
-    messageCompiler
+    messageCompiler,
+    onWarn
   } = context
   const [key, options] = parseTranslateArgs(...args)
 
@@ -205,7 +206,12 @@ export function translate(
       locale !== targetLocale &&
       isTrarnslateFallbackWarn(fallbackWarn, key)
     ) {
-      warn(`Fall back to translate '${key}' key with '${targetLocale}' locale.`)
+      onWarn(
+        getWarnMessage(CoreWarnCodes.FALLBACK_TO_TRANSLATE, {
+          key,
+          target: targetLocale
+        })
+      )
     }
     message = messages[targetLocale] || {}
     if ((format = resolveValue(message, key)) === null) {
@@ -333,7 +339,7 @@ function getCompileOptions(
             err.location.start.offset,
             err.location.end.offset
           )
-        warn(codeFrame ? `${message}\n${codeFrame}` : message)
+        console.error(codeFrame ? `${message}\n${codeFrame}` : message)
       } else {
         throw err
       }

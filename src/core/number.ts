@@ -8,8 +8,8 @@ import {
   NOT_REOSLVED,
   MISSING_RESOLVE_VALUE
 } from './context'
+import { CoreWarnCodes, getWarnMessage } from './warnings'
 import {
-  warn,
   isString,
   isBoolean,
   isPlainObject,
@@ -99,11 +99,12 @@ export function number(
     numberFormats,
     unresolving,
     fallbackLocale,
+    onWarn,
     _numberFormatters
   } = context
 
   if (__DEV__ && !Availabilities.numberFormat) {
-    warn(`Cannot format a Date value due to not supported Intl.NumberFormat.`)
+    onWarn(getWarnMessage(CoreWarnCodes.CANNOT_FORMAT_NUMBER))
     return MISSING_RESOLVE_VALUE
   }
 
@@ -133,8 +134,11 @@ export function number(
       locale !== targetLocale &&
       isTrarnslateFallbackWarn(fallbackWarn, key)
     ) {
-      warn(
-        `Fall back to number format '${key}' key with '${targetLocale}' locale.`
+      onWarn(
+        getWarnMessage(CoreWarnCodes.FALLBACK_TO_NUMBER_FORMAT, {
+          key,
+          target: targetLocale
+        })
       )
     }
     numberFormat = numberFormats[targetLocale] || {}

@@ -34,6 +34,7 @@ import {
   createComposer,
   ComposerInternal
 } from './composer'
+import { VueI18nWarnCodes, getWarnMessage } from './warnings'
 import {
   isString,
   isArray,
@@ -202,11 +203,11 @@ function convertComposerOptions(
   const inheritLocale = !!options.sync
 
   if (__DEV__ && options.formatter) {
-    warn(`not supportted 'formatter' option`)
+    warn(getWarnMessage(VueI18nWarnCodes.NOT_SUPPORTED_FORMATTER))
   }
 
   if (__DEV__ && options.preserveDirectiveContent) {
-    warn(`not supportted 'preserveDirectiveContent' option`)
+    warn(getWarnMessage(VueI18nWarnCodes.NOT_SUPPORTED_PRESERVE_DIRECTIVE))
   }
 
   let messages = options.messages
@@ -298,7 +299,7 @@ export function createVueI18n(
 
     // formatter
     get formatter(): Formatter {
-      __DEV__ && warn(`not support 'formatter' property`)
+      __DEV__ && warn(getWarnMessage(VueI18nWarnCodes.NOT_SUPPORTED_FORMATTER))
       // dummy
       return {
         interpolate() {
@@ -307,7 +308,7 @@ export function createVueI18n(
       }
     },
     set formatter(val: Formatter) {
-      __DEV__ && warn(`not support 'formatter' property`)
+      __DEV__ && warn(getWarnMessage(VueI18nWarnCodes.NOT_SUPPORTED_FORMATTER))
     },
 
     // missing
@@ -373,12 +374,12 @@ export function createVueI18n(
     // preserveDirectiveContent
     get preserveDirectiveContent(): boolean {
       __DEV__ &&
-        warn(`not supportted 'preserveDirectiveContent' getter property.`)
+        warn(getWarnMessage(VueI18nWarnCodes.NOT_SUPPORTED_PRESERVE_DIRECTIVE))
       return true
     },
     set preserveDirectiveContent(val: boolean) {
       __DEV__ &&
-        warn(`not supportted 'preserveDirectiveContent' setter property.`)
+        warn(getWarnMessage(VueI18nWarnCodes.NOT_SUPPORTED_PRESERVE_DIRECTIVE))
     },
 
     // for internal
@@ -516,7 +517,8 @@ export function createVueI18n(
     // getChoiceIndex
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     getChoiceIndex(choice: Choice, choicesLength: number): number {
-      __DEV__ && warn(`not supportted 'getChoiceIndex' method.`)
+      __DEV__ &&
+        warn(getWarnMessage(VueI18nWarnCodes.NOT_SUPPORTED_GET_CHOICE_INDEX))
       return -1
     }
   }

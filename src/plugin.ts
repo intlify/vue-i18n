@@ -2,6 +2,7 @@ import { App } from 'vue'
 import { I18nSymbol, I18n, I18nInternal } from './i18n'
 import { Translation, NumberFormat, DatetimeFormat } from './components'
 import { vTDirective } from './directive'
+import { VueI18nWarnCodes, getWarnMessage } from './warnings'
 import { isPlainObject, warn } from './utils'
 
 /**
@@ -25,7 +26,11 @@ export function apply(
   const useI18nComponentName = !!pluginOptions.useI18nComponentName
 
   if (__DEV__ && useI18nComponentName) {
-    warn(`component name legacy compatible: '${Translation.name}' -> 'i18n'`)
+    warn(
+      getWarnMessage(VueI18nWarnCodes.COMPONENT_NAME_LEGACY_COMPATIBLE, {
+        name: Translation.name
+      })
+    )
   }
 
   // install components

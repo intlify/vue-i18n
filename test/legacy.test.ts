@@ -54,9 +54,9 @@ test('formatter', () => {
     }
   }
   expect(mockWarn).toHaveBeenCalledTimes(3)
-  expect(mockWarn.mock.calls[0][0]).toEqual(`not supportted 'formatter' option`)
-  expect(mockWarn.mock.calls[1][0]).toEqual(`not support 'formatter' property`)
-  expect(mockWarn.mock.calls[2][0]).toEqual(`not support 'formatter' property`)
+  expect(mockWarn.mock.calls[0][0]).toEqual(`not supportted 'formatter'.`)
+  expect(mockWarn.mock.calls[1][0]).toEqual(`not supportted 'formatter'.`)
+  expect(mockWarn.mock.calls[2][0]).toEqual(`not supportted 'formatter'.`)
 })
 
 test('missing', () => {
@@ -413,9 +413,7 @@ test('getChoiceIndex', () => {
 
   const i18n = createVueI18n({})
   i18n.getChoiceIndex(1, 2)
-  expect(mockWarn.mock.calls[0][0]).toEqual(
-    `not supportted 'getChoiceIndex' method.`
-  )
+  expect(mockWarn.mock.calls[0][0]).toEqual(`not supportted 'getChoiceIndex'.`)
 })
 
 test('warnHtmlInMessage', () => {

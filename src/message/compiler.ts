@@ -4,7 +4,7 @@ import { transform } from './transformer'
 import { generate } from './generator'
 import { CompileError, defaultOnError } from './errors'
 import { MessageFunction, MessageFunctions } from './runtime'
-import { warn, isBoolean } from '../utils'
+import { warn, format, isBoolean } from '../utils'
 
 export type CompileResult = {
   code: string
@@ -13,16 +13,15 @@ export type CompileResult = {
   // map?: RawSourceMap
 }
 
-// TODO: This code should be removed with using rollup (`/*#__PURE__*/`)
 const RE_HTML_TAG = /<\/?[\w\s="/.':;#-\/]+>/
+const WARN_MESSAGE = `Detected HTML in '{source}' message. Recommend not using HTML messages to avoid XSS.`
+
 function checkHtmlMessage(source: string, options: CompileOptions): void {
   const warnHtmlMessage = isBoolean(options.warnHtmlMessage)
     ? options.warnHtmlMessage
     : true
   if (warnHtmlMessage && RE_HTML_TAG.test(source)) {
-    warn(
-      `Detected HTML in '${source}' message. Recommend not using HTML messages to avoid XSS.`
-    )
+    warn(format(WARN_MESSAGE, { source }))
   }
 }
 

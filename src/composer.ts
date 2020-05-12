@@ -58,6 +58,7 @@ import {
   NumberOptions
 } from './core/number'
 import { NOT_REOSLVED } from './core/context'
+import { VueI18nWarnCodes, getWarnMessage } from './warnings'
 import {
   warn,
   isArray,
@@ -479,7 +480,12 @@ export function createComposer(
         if (isNumber(ret) && ret === NOT_REOSLVED) {
           const key = argumentParser()
           if (__DEV__ && _fallbackRoot && __root) {
-            warn(`Fall back to ${warnType} '${key}' with root locale.`)
+            warn(
+              getWarnMessage(VueI18nWarnCodes.FALLBACK_TO_ROOT, {
+                key,
+                type: warnType
+              })
+            )
           }
           return _fallbackRoot && __root
             ? fallbackSuccess(__root as Composer & ComposerInternal)

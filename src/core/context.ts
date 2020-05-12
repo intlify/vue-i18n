@@ -7,6 +7,7 @@ import {
   MessageProcessor,
   DEFAULT_MESSAGE_DATA_TYPE
 } from '../message/runtime'
+import { CoreWarnCodes, getWarnMessage } from './warnings'
 import { Path } from '../path'
 import {
   warn,
@@ -70,6 +71,7 @@ export type RuntimeOptions = {
   processor?: MessageProcessor
   warnHtmlMessage?: boolean
   messageCompiler?: MessageCompiler
+  onWarn?: (msg: string, err?: Error) => void
   _datetimeFormatters?: Map<string, Intl.DateTimeFormat>
   _numberFormatters?: Map<string, Intl.NumberFormat>
 }
@@ -91,6 +93,7 @@ export type RuntimeContext = {
   processor: MessageProcessor | null
   warnHtmlMessage: boolean
   messageCompiler: MessageCompiler
+  onWarn: (msg: string, err?: Error) => void
   _datetimeFormatters: Map<string, Intl.DateTimeFormat>
   _numberFormatters: Map<string, Intl.NumberFormat>
   _fallbackLocaleStack?: Locale[]
@@ -158,6 +161,7 @@ export function createRuntimeContext(
   const messageCompiler = isFunction(options.messageCompiler)
     ? options.messageCompiler
     : compile
+  const onWarn = isFunction(options.onWarn) ? options.onWarn : warn
   const _datetimeFormatters = isObject(options._datetimeFormatters)
     ? options._datetimeFormatters
     : new Map<string, Intl.DateTimeFormat>()
@@ -182,6 +186,7 @@ export function createRuntimeContext(
     processor,
     warnHtmlMessage,
     messageCompiler,
+    onWarn,
     _datetimeFormatters,
     _numberFormatters
   }
@@ -208,13 +213,13 @@ export function handleMissing(
   missingWarn: boolean | RegExp,
   type: string
 ): unknown {
-  const { missing } = context
+  const { missing, onWarn } = context
   if (missing !== null) {
     const ret = missing(context, locale, key, type)
     return isString(ret) ? ret : key
   } else {
     if (__DEV__ && isTranslateMissingWarn(missingWarn, key)) {
-      warn(`Not found '${key}' key in '${locale}' locale messages.`)
+      onWarn(getWarnMessage(CoreWarnCodes.NOT_FOUND_KEY, { key, locale }))
     }
     return key
   }

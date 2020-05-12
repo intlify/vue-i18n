@@ -308,7 +308,7 @@ test('not available Intl API', () => {
 
   expect(datetime(ctx, dt, 'short')).toEqual('')
   expect(mockWarn.mock.calls[0][0]).toEqual(
-    `Cannot format a Date value due to not supported Intl.DateTimeFormat.`
+    `Cannot format a date value due to not supported Intl.DateTimeFormat.`
   )
 })
 

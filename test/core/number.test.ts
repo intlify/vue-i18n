@@ -284,7 +284,7 @@ test('not available Intl API', () => {
 
   expect(number(ctx, 100, 'currency')).toEqual('')
   expect(mockWarn.mock.calls[0][0]).toEqual(
-    `Cannot format a Date value due to not supported Intl.NumberFormat.`
+    `Cannot format a number value due to not supported Intl.NumberFormat.`
   )
 })
 
