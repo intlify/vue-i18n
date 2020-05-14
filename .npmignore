@@ -3,6 +3,7 @@
 *.swp
 coverage
 test
+benchmark
 e2e
 temp
 docs

@@ -36,6 +36,7 @@
     "@typescript-eslint/typescript-estree": "^2.26.0",
     "brotli": "^1.3.2",
     "chalk": "^4.0.0",
+    "convert-hrtime": "^3.0.0",
     "cross-env": "^7.0.2",
     "eslint": "^7.0.0",
     "eslint-config-prettier": "^6.11.0",
@@ -92,6 +93,7 @@
     "url": "git+https://github.com/intlify/vue-i18n-next.git"
   },
   "scripts": {
+    "benchmark": "yarn build && node ./benchmark/index.js",
     "build": "node ./scripts/build.js",
     "build:sourcemap": "yarn build --sourcemap",
     "build:type": "yarn build --types",
@@ -109,7 +111,7 @@
     "fix": "yarn lint:fix && yarn format:fix",
     "format": "prettier --config .prettierrc --ignore-path .prettierignore '**/*.{js,json,html}'",
     "format:fix": "yarn format --write",
-    "lint": "eslint ./src ./test ./e2e --ext .js,.ts",
+    "lint": "eslint ./src ./test ./e2e ./benchmark --ext .js,.ts",
     "lint:fix": "yarn lint --fix",
     "release:prepare": "shipjs prepare",
     "release:trigger": "shipjs trigger",

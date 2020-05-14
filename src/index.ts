@@ -7,23 +7,14 @@ export {
   CompileErrorCodes
 } from './message/errors'
 export { CompileOptions, CompileErrorHandler } from './message/options'
-export { baseCompile, compile } from './message/compiler'
+export { baseCompile, compile, clearCompileCache } from './message/compiler'
 export {
   MessageFunction,
   MessageFunctions,
   PluralizationRule,
   LinkedModifiers
 } from './message/runtime'
-export {
-  Locale,
-  FallbackLocale,
-  LocaleMessageDictionary,
-  LocaleMessage,
-  LocaleMessages,
-  PostTranslationHandler,
-  MessageCompiler
-} from './core'
-export * from './core/types'
+export * from './core'
 export {
   MissingHandler,
   ComposerOptions,
