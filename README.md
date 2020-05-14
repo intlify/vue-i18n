@@ -147,7 +147,7 @@ yarn add vue-i18n@next
   - [ ] sourcemap
   - [x] HTML format handling
   - [ ] more unit (fuzzing) tests
-  - [ ] performance tests (benchmark)
+  - [x] performance tests (benchmark)
 - Intlify core runtime
   - [x] translate function
   - [x] datetime function
