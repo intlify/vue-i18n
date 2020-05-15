@@ -39,17 +39,12 @@ export function createScanner(str: string): Scanner {
   const column = (): number => _column
   const peekOffset = (): number => _peekOffset
 
-  function charAt(offset: number): string {
-    if (isCRLF(offset) || isPS(offset) || isLS(offset)) {
-      return CHAR_LF
-    }
-    return _buf[offset]
-  }
-
+  const charAt = (offset: number): string =>
+    isCRLF(offset) || isPS(offset) || isLS(offset) ? CHAR_LF : _buf[offset]
   const currentChar = (): string => charAt(_index)
   const currentPeek = (): string => charAt(_index + _peekOffset)
 
-  function next(): string {
+  const next = (): string => {
     _peekOffset = 0
     if (isLineEnd(_index)) {
       _line++
@@ -63,7 +58,7 @@ export function createScanner(str: string): Scanner {
     return _buf[_index]
   }
 
-  function peek(): string {
+  const peek = (): string => {
     if (isCRLF(_index + _peekOffset)) {
       _peekOffset++
     }
@@ -71,19 +66,20 @@ export function createScanner(str: string): Scanner {
     return _buf[_index + _peekOffset]
   }
 
-  function reset(): void {
+  const reset = (): void => {
     _index = 0
     _line = 1
     _column = 1
     _peekOffset = 0
   }
 
-  function resetPeek(offset = 0): void {
+  const resetPeek = (offset = 0): void => {
     _peekOffset = offset
   }
 
-  function skipToPeek(): void {
+  const skipToPeek = (): void => {
     const target = _index + _peekOffset
+    // eslint-disable-next-line no-unmodified-loop-condition
     while (target !== _index) {
       next()
     }
