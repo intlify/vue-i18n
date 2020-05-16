@@ -19,6 +19,7 @@ import {
   NOT_REOSLVED
 } from '../../src/core/context'
 import { number } from '../../src/core/number'
+import { CoreErrorCodes, errorMessages } from '../../src/core/errors'
 
 const numberFormats = {
   'en-US': {
@@ -286,6 +287,24 @@ test('not available Intl API', () => {
   expect(mockWarn.mock.calls[0][0]).toEqual(
     `Cannot format a number value due to not supported Intl.NumberFormat.`
   )
+})
+
+describe('error', () => {
+  test(errorMessages[CoreErrorCodes.INVALID_ARGUMENT], () => {
+    const mockWarn = warn as jest.MockedFunction<typeof warn>
+    mockWarn.mockImplementation(() => {})
+    const mockAvailabilities = Availabilities as jest.Mocked<
+      typeof Availabilities
+    >
+    mockAvailabilities.numberFormat = true
+    const ctx = context({
+      locale: 'en-US',
+      numberFormats
+    })
+    expect(() => {
+      number(ctx, '111')
+    }).toThrowError(errorMessages[CoreErrorCodes.INVALID_ARGUMENT])
+  })
 })
 
 /* eslint-enable @typescript-eslint/no-empty-function */

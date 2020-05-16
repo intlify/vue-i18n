@@ -19,6 +19,7 @@ import {
   NOT_REOSLVED
 } from '../../src/core/context'
 import { datetime } from '../../src/core/datetime'
+import { CoreErrorCodes, errorMessages } from '../../src/core/errors'
 
 const datetimeFormats = {
   'en-US': {
@@ -310,6 +311,24 @@ test('not available Intl API', () => {
   expect(mockWarn.mock.calls[0][0]).toEqual(
     `Cannot format a date value due to not supported Intl.DateTimeFormat.`
   )
+})
+
+describe('error', () => {
+  test(errorMessages[CoreErrorCodes.INVALID_ARGUMENT], () => {
+    const mockWarn = warn as jest.MockedFunction<typeof warn>
+    mockWarn.mockImplementation(() => {})
+    const mockAvailabilities = Availabilities as jest.Mocked<
+      typeof Availabilities
+    >
+    mockAvailabilities.dateTimeFormat = true
+    const ctx = context({
+      locale: 'en-US',
+      datetimeFormats
+    })
+    expect(() => {
+      datetime(ctx, '111')
+    }).toThrowError(errorMessages[CoreErrorCodes.INVALID_ARGUMENT])
+  })
 })
 
 /* eslint-eable @typescript-eslint/no-empty-function */

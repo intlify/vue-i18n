@@ -12,6 +12,7 @@ import {
   NOT_REOSLVED
 } from '../../src/core/context'
 import { translate } from '../../src/core/translate'
+import { CoreErrorCodes, errorMessages } from '../../src/core/errors'
 
 describe('features', () => {
   test('simple text', () => {
@@ -545,6 +546,20 @@ describe('warnHtmlMessage', () => {
 
     expect(translate(ctx, 'hello')).toEqual('<p>hello</p>')
     expect(mockWarn).toHaveBeenCalled()
+  })
+})
+
+describe('error', () => {
+  test(errorMessages[CoreErrorCodes.INVALID_ARGUMENT], () => {
+    const ctx = context({
+      locale: 'ja',
+      messages: {
+        ja: {}
+      }
+    })
+    expect(() => {
+      translate(ctx, 1)
+    }).toThrowError(errorMessages[CoreErrorCodes.INVALID_ARGUMENT])
   })
 })
 

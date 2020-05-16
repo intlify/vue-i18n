@@ -9,6 +9,7 @@ import {
   MISSING_RESOLVE_VALUE
 } from './context'
 import { CoreWarnCodes, getWarnMessage } from './warnings'
+import { CoreErrorCodes, createCoreError } from './errors'
 import {
   isString,
   isBoolean,
@@ -176,7 +177,7 @@ export function parseNumberArgs(
   let orverrides = {} as Intl.NumberFormatOptions
 
   if (!isNumber(arg1)) {
-    throw new Error('TODO')
+    throw createCoreError(CoreErrorCodes.INVALID_ARGUMENT)
   }
   const value = arg1
 

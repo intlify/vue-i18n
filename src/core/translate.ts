@@ -17,6 +17,7 @@ import {
   NOT_REOSLVED
 } from './context'
 import { CoreWarnCodes, getWarnMessage } from './warnings'
+import { CoreErrorCodes, createCoreError } from './errors'
 import {
   isString,
   isNumber,
@@ -294,7 +295,7 @@ export function parseTranslateArgs(
   const options = {} as TranslateOptions
 
   if (!isString(arg1)) {
-    throw new Error('TODO')
+    throw createCoreError(CoreErrorCodes.INVALID_ARGUMENT)
   }
   const key = arg1
 
