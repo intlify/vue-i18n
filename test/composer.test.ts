@@ -865,7 +865,11 @@ describe('__transrateVNode', () => {
       (composer as Composer & ComposerInternal).__transrateVNode('hello', {
         name: createTextVNode('kazupon')
       })
-    ).toMatchSnapshot()
+    ).toMatchObject([
+      { children: 'hello, ' },
+      { children: 'kazupon' },
+      { children: '!' }
+    ])
   })
 
   test('missing', () => {
@@ -901,7 +905,10 @@ describe('__numberParts', () => {
         key: 'percent',
         part: true
       })
-    ).toMatchSnapshot()
+    ).toMatchObject([
+      { value: '99' },
+      { value: '%' }
+    ])
   })
 
   test('missing', () => {
@@ -943,7 +950,19 @@ describe('__datetimeParts', () => {
         key: 'short',
         part: true
       })
-    ).toMatchSnapshot()
+    ).toMatchObject([
+      { value: '12' },
+      { value: '/' },
+      { value: '19' },
+      { value: '/' },
+      { value: '2012' },
+      { value: ', ' },
+      { value: '10' },
+      { value: ':' },
+      { value: '00' },
+      { value: ' ' },
+      { value: 'PM' }
+    ])
   })
 
   test('missing', () => {
