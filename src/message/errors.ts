@@ -9,9 +9,15 @@ export type CompileDomain =
   | 'compiler'
 
 export interface CompileError extends SyntaxError {
-  code: CompileErrorCodes
+  code: number
   domain?: CompileDomain
   location?: SourceLocation
+}
+
+export type CreateCompileErrorOptions = {
+  domain?: CompileDomain
+  messages?: { [code: number]: string }
+  args?: unknown[]
 }
 
 export const enum CompileErrorCodes {
@@ -37,12 +43,6 @@ export const enum CompileErrorCodes {
   __EXTEND_POINT__
 }
 
-export type CreateCompileErrorOptions = {
-  domain?: CompileDomain
-  messages?: { [code: number]: string }
-  args?: unknown[]
-}
-
 export const errorMessages: { [code: number]: string } = {
   // tokenizer error messages
   [CompileErrorCodes.EXPECTED_TOKEN]: `Expected token: '{0}'`,
@@ -60,9 +60,9 @@ export const errorMessages: { [code: number]: string } = {
   [CompileErrorCodes.UNEXPECTED_LEXICAL_ANALYSIS]: `Unexpected lexical analysis in token: '{0}'`
 }
 
-export function createCompileError(
-  code: CompileErrorCodes,
-  loc: SourceLocation,
+export function createCompileError<T extends number>(
+  code: T,
+  loc: SourceLocation | null,
   optinos: CreateCompileErrorOptions = {}
 ): CompileError {
   const { domain, messages, args } = optinos
@@ -71,7 +71,9 @@ export function createCompileError(
     : code
   const error = new SyntaxError(String(msg)) as CompileError
   error.code = code
-  error.location = loc
+  if (loc) {
+    error.location = loc
+  }
   error.domain = domain
   return error
 }

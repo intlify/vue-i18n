@@ -10,10 +10,12 @@ import { warn } from '../src/utils'
 import {
   createComposer,
   MissingHandler,
-  addPreCompileMessages
+  addPreCompileMessages,
+  Composer,
+  ComposerInternal
 } from '../src/composer'
 import { generateFormatCacheKey } from '../src/utils'
-import { watch, nextTick } from 'vue'
+import { watch, nextTick, createTextVNode } from 'vue'
 
 describe('locale', () => {
   test('default value', () => {
@@ -375,6 +377,34 @@ describe('fallbackFormat', () => {
   })
 })
 
+describe('fallbackRoot', () => {
+  test('default', () => {
+    const { fallbackRoot } = createComposer({})
+    expect(fallbackRoot).toEqual(true)
+  })
+
+  test('initialize at composer creating', () => {
+    const composer = createComposer({ fallbackRoot: false })
+    expect(composer.fallbackRoot).toEqual(false)
+    composer.fallbackRoot = true
+    expect(composer.fallbackRoot).toEqual(true)
+  })
+})
+
+describe('warnHtmlMessage', () => {
+  test('default', () => {
+    const { warnHtmlMessage } = createComposer({})
+    expect(warnHtmlMessage).toEqual(true)
+  })
+
+  test('initialize at composer creating', () => {
+    const composer = createComposer({ warnHtmlMessage: false })
+    expect(composer.warnHtmlMessage).toEqual(false)
+    composer.warnHtmlMessage = true
+    expect(composer.warnHtmlMessage).toEqual(true)
+  })
+})
+
 describe('postTranslation', () => {
   test('default', () => {
     const {
@@ -512,83 +542,120 @@ describe('t', () => {
     expect(t('apple', 10)).toEqual('10 apples')
     expect(t('apple', { count: 20 }, 10)).toEqual('20 apples')
   })
+
+  test('missing', () => {
+    const missing = () => {}
+    const { t } = createComposer({
+      locale: 'en',
+      missing,
+      messages: {
+        en: {}
+      }
+    })
+    expect(t('foo.bar.buz')).toEqual('foo.bar.buz')
+  })
 })
 
-test('d', () => {
-  const { d } = createComposer({
-    locale: 'en-US',
-    fallbackLocale: ['ja-JP'],
-    datetimeFormats: {
-      'en-US': {
-        short: {
-          year: 'numeric',
-          month: '2-digit',
-          day: '2-digit',
-          hour: '2-digit',
-          minute: '2-digit',
-          timeZone: 'America/New_York'
-        }
-      },
-      'ja-JP': {
-        long: {
-          year: 'numeric',
-          month: '2-digit',
-          day: '2-digit',
-          hour: '2-digit',
-          minute: '2-digit',
-          second: '2-digit',
-          timeZone: 'Asia/Tokyo'
+describe('d', () => {
+  test('basic', () => {
+    const { d } = createComposer({
+      locale: 'en-US',
+      fallbackLocale: ['ja-JP'],
+      datetimeFormats: {
+        'en-US': {
+          short: {
+            year: 'numeric',
+            month: '2-digit',
+            day: '2-digit',
+            hour: '2-digit',
+            minute: '2-digit',
+            timeZone: 'America/New_York'
+          }
         },
-        short: {
-          year: 'numeric',
-          month: '2-digit',
-          day: '2-digit',
-          hour: '2-digit',
-          minute: '2-digit',
-          timeZone: 'Asia/Tokyo'
+        'ja-JP': {
+          long: {
+            year: 'numeric',
+            month: '2-digit',
+            day: '2-digit',
+            hour: '2-digit',
+            minute: '2-digit',
+            second: '2-digit',
+            timeZone: 'Asia/Tokyo'
+          },
+          short: {
+            year: 'numeric',
+            month: '2-digit',
+            day: '2-digit',
+            hour: '2-digit',
+            minute: '2-digit',
+            timeZone: 'Asia/Tokyo'
+          }
         }
       }
-    }
+    })
+    const dt = new Date(Date.UTC(2012, 11, 20, 3, 0, 0))
+    expect(d(dt, { key: 'long', fallbackWarn: false })).toEqual(
+      '2012/12/20 12:00:00'
+    )
   })
-  const dt = new Date(Date.UTC(2012, 11, 20, 3, 0, 0))
-  expect(d(dt, { key: 'long', fallbackWarn: false })).toEqual(
-    '2012/12/20 12:00:00'
-  )
+
+  test('missing', () => {
+    const { d } = createComposer({
+      locale: 'en-US',
+      datetimeFormats: {
+        'en-US': {}
+      }
+    })
+    const dt = new Date(Date.UTC(2012, 11, 20, 3, 0, 0))
+    expect(d(dt, { key: 'long' })).toEqual('')
+  })
 })
 
-test('n', () => {
-  const { n } = createComposer({
-    locale: 'en-US',
-    fallbackLocale: ['ja-JP'],
-    numberFormats: {
-      'en-US': {
-        currency: {
-          style: 'currency',
-          currency: 'USD',
-          currencyDisplay: 'symbol'
+describe('n', () => {
+  test('basic', () => {
+    const { n } = createComposer({
+      locale: 'en-US',
+      fallbackLocale: ['ja-JP'],
+      numberFormats: {
+        'en-US': {
+          currency: {
+            style: 'currency',
+            currency: 'USD',
+            currencyDisplay: 'symbol'
+          },
+          decimal: {
+            style: 'decimal',
+            useGrouping: false
+          }
         },
-        decimal: {
-          style: 'decimal',
-          useGrouping: false
-        }
-      },
-      'ja-JP': {
-        currency: {
-          style: 'currency',
-          currency: 'JPY' /*, currencyDisplay: 'symbol'*/
-        },
-        numeric: {
-          style: 'decimal',
-          useGrouping: false
-        },
-        percent: {
-          style: 'percent',
-          useGrouping: false
+        'ja-JP': {
+          currency: {
+            style: 'currency',
+            currency: 'JPY' /*, currencyDisplay: 'symbol'*/
+          },
+          numeric: {
+            style: 'decimal',
+            useGrouping: false
+          },
+          percent: {
+            style: 'percent',
+            useGrouping: false
+          }
         }
       }
-    }
+    })
+    expect(n(0.99, { key: 'percent', fallbackWarn: false })).toEqual('99%')
   })
-  expect(n(0.99, { key: 'percent', fallbackWarn: false })).toEqual('99%')
+
+  test('missing', () => {
+    const { n } = createComposer({
+      locale: 'en-US',
+      numberFormats: {
+        'en-US': {}
+      }
+    })
+    expect(n(0.99, { key: 'percent' })).toEqual('')
+  })
 })
 
 describe('getLocaleMessage / setLocaleMessage / mergeLocaleMessage', () => {
@@ -784,6 +851,118 @@ describe('__i18n', () => {
   })
 })
 
+describe('__transrateVNode', () => {
+  test('basic', () => {
+    const composer = createComposer({
+      locale: 'en',
+      messages: {
+        en: {
+          hello: 'hello, {name}!'
+        }
+      }
+    })
+    expect(
+      (composer as Composer & ComposerInternal).__transrateVNode('hello', {
+        name: createTextVNode('kazupon')
+      })
+    ).toMatchSnapshot()
+  })
+
+  test('missing', () => {
+    const composer = createComposer({
+      locale: 'en',
+      messages: {
+        en: {}
+      }
+    })
+    expect(
+      (composer as Composer & ComposerInternal).__transrateVNode('hello', {
+        name: createTextVNode('kazupon')
+      })
+    ).toEqual('hello')
+  })
+})
+
+describe('__numberParts', () => {
+  test('basic', () => {
+    const composer = createComposer({
+      locale: 'en-US',
+      numberFormats: {
+        'en-US': {
+          percent: {
+            style: 'percent',
+            useGrouping: false
+          }
+        }
+      }
+    })
+    expect(
+      (composer as Composer & ComposerInternal).__numberParts(0.99, {
+        key: 'percent',
+        part: true
+      })
+    ).toMatchSnapshot()
+  })
+
+  test('missing', () => {
+    const composer = createComposer({
+      locale: 'en-US',
+      numberFormats: {
+        'en-US': {}
+      }
+    })
+    expect(
+      (composer as Composer & ComposerInternal).__numberParts(0.99, {
+        key: 'percent',
+        part: true
+      })
+    ).toEqual([])
+  })
+})
+
+describe('__datetimeParts', () => {
+  test('basic', () => {
+    const composer = createComposer({
+      locale: 'en-US',
+      datetimeFormats: {
+        'en-US': {
+          short: {
+            year: 'numeric',
+            month: '2-digit',
+            day: '2-digit',
+            hour: '2-digit',
+            minute: '2-digit',
+            timeZone: 'America/New_York'
+          }
+        }
+      }
+    })
+    const dt = new Date(Date.UTC(2012, 11, 20, 3, 0, 0))
+    expect(
+      (composer as Composer & ComposerInternal).__datetimeParts(dt, {
+        key: 'short',
+        part: true
+      })
+    ).toMatchSnapshot()
+  })
+
+  test('missing', () => {
+    const composer = createComposer({
+      locale: 'en-US',
+      datetimeFormats: {
+        'en-US': {}
+      }
+    })
+    const dt = new Date(Date.UTC(2012, 11, 20, 3, 0, 0))
+    expect(
+      (composer as Composer & ComposerInternal).__datetimeParts(dt, {
+        key: 'short',
+        part: true
+      })
+    ).toEqual([])
+  })
+})
+
 test('addPreCompileMessages', () => {
   const messages = {}
   const functions = Object.create(null)
@@ -803,6 +982,96 @@ test('addPreCompileMessages', () => {
         hello: msg2
       }
     }
+  })
+})
+
+describe('root', () => {
+  test('global', () => {
+    const __root = createComposer({
+      locale: 'en'
+    })
+
+    const composer = createComposer({
+      locale: 'en',
+      __root
+    })
+
+    expect(__root.isGlobal).toBe(true)
+    expect(composer.isGlobal).toBe(false)
+  })
+
+  test('t', () => {
+    const __root = createComposer({
+      locale: 'en',
+      messages: {
+        en: {
+          hello: 'hello!'
+        }
+      }
+    })
+
+    const { t } = createComposer({
+      locale: 'en',
+      messages: {
+        en: {}
+      },
+      __root
+    })
+
+    expect(t('hello')).toEqual('hello!')
+  })
+
+  test('d', () => {
+    const __root = createComposer({
+      locale: 'en-US',
+      datetimeFormats: {
+        'en-US': {
+          short: {
+            year: 'numeric',
+            month: '2-digit',
+            day: '2-digit',
+            hour: '2-digit',
+            minute: '2-digit',
+            timeZone: 'America/New_York'
+          }
+        }
+      }
+    })
+
+    const { d } = createComposer({
+      locale: 'en-US',
+      datetimeFormats: {
+        'en-US': {}
+      },
+      __root
+    })
+
+    const dt = new Date(Date.UTC(2012, 11, 20, 3, 0, 0))
+    expect(d(dt, { key: 'short' })).toEqual('12/19/2012, 10:00 PM')
+  })
+
+  test('n', () => {
+    const __root = createComposer({
+      locale: 'en-US',
+      numberFormats: {
+        'en-US': {
+          percent: {
+            style: 'percent',
+            useGrouping: false
+          }
+        }
+      }
+    })
+
+    const { n } = createComposer({
+      locale: 'en-US',
+      numberFormats: {
+        'en-US': {}
+      },
+      __root
+    })
+
+    expect(n(0.99, { key: 'percent' })).toEqual('99%')
   })
 })
 

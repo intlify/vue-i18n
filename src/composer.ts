@@ -59,6 +59,7 @@ import {
 } from './core/number'
 import { NOT_REOSLVED } from './core/context'
 import { VueI18nWarnCodes, getWarnMessage } from './warnings'
+import { I18nErrorCodes, createI18nError } from './errors'
 import {
   warn,
   isArray,
@@ -493,7 +494,8 @@ export function createComposer(
         } else if (successCondition(ret)) {
           return ret as T
         } else {
-          throw new Error('TODO:') // TODO
+          /* istanbul ignore next */
+          throw createI18nError(I18nErrorCodes.I18N_UNEXPECTED_RETURN_TYPE)
         }
       }
     )
