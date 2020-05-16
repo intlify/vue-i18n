@@ -121,10 +121,8 @@ export function createMessageContext<N = {}>(
   options: MessageContextOptions<N> = {}
 ): MessageContext {
   const locale = options.locale
-  // TODO: should be implemented warning message
   const pluralIndex = getPluralIndex(options)
 
-  // TODO: should be implemented warning message
   const pluralRule =
     isObject(options.pluralRules) &&
     isString(locale) &&
@@ -139,16 +137,13 @@ export function createMessageContext<N = {}>(
       : undefined
 
   const _list = options.list || []
-  // TODO: should be implemented warning message
   const list = (index: number): unknown => _list[index]
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const _named = options.named || ({} as any)
   isNumber(options.pluralIndex) && normalizeNamed(pluralIndex, _named)
-  // TODO: should be implemented warning message
   const named = (key: string): unknown => _named[key]
 
-  // TODO: should be implemented warning message
   const modifier = (name: string): LinkedModify =>
     options.modifiers ? options.modifiers[name] : DEFAULT_MODIFIER
 

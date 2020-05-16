@@ -25,7 +25,7 @@ type Transformer = Readonly<{
 }>
 
 function createTransformer(
-  ast: ResourceNode /*, options: TransformOptions */
+  ast: ResourceNode, options: TransformOptions = {} // eslint-disable-line
 ): Transformer {
   const _context = {
     ast,
@@ -77,9 +77,6 @@ function traverseNode(node: Node, transformer: Transformer): void {
     case NodeTypes.Named:
       transformer.helper(HelperNameMap.INTERPOLATE)
       transformer.helper(HelperNameMap.NAMED)
-      break
-    default:
-      // TODO:
       break
   }
 

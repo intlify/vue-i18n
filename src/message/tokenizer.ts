@@ -53,13 +53,10 @@ export type Token = {
 
 export type TokenizeContext = {
   currentType: TokenTypes
-  currentValue: string | undefined | null // TODO: if don't use, should be removed
-  currentToken: Token | null
   offset: number
   startLoc: Position
   endLoc: Position
   lastType: TokenTypes
-  lastToken: Token | null
   lastOffset: number
   lastStartLoc: Position
   lastEndLoc: Position
@@ -90,13 +87,10 @@ export function createTokenizer(
   const _initOffset = currentOffset()
   const _context: TokenizeContext = {
     currentType: TokenTypes.EOF,
-    currentValue: null,
-    currentToken: null,
     offset: _initOffset,
     startLoc: _initLoc,
     endLoc: _initLoc,
     lastType: TokenTypes.EOF,
-    lastToken: null,
     lastOffset: _initOffset,
     lastStartLoc: _initLoc,
     lastEndLoc: _initLoc,
@@ -107,7 +101,6 @@ export function createTokenizer(
   const context = (): TokenizeContext => _context
 
   const { onError } = options
-  // TODO: This code should be removed with using rollup (`/*#__PURE__*/`)
   const emitError = (
     code: CompileErrorCodes,
     pos: Position,
@@ -136,7 +129,6 @@ export function createTokenizer(
   ): Token => {
     context.endLoc = currentPosition()
     context.currentType = type
-    context.currentValue = value
 
     const token = { type } as Token
     if (location) {
@@ -157,7 +149,6 @@ export function createTokenizer(
       scnr.next()
       return ch
     } else {
-      // TODO: This code should be removed with using rollup (`/*#__PURE__*/`)
       emitError(CompileErrorCodes.EXPECTED_TOKEN, currentPosition(), 0, ch)
       return ''
     }
@@ -439,10 +430,6 @@ export function createTokenizer(
       num += ch
     }
 
-    if (num.length === 0) {
-      // TODO: parse errror
-    }
-
     return num
   }
 
@@ -485,7 +472,6 @@ export function createTokenizer(
     }
 
     if (scnr.currentChar() === EOF) {
-      // TODO: This code should be removed with using rollup (`/*#__PURE__*/`)
       emitError(
         CompileErrorCodes.UNTERMINATED_CLOSING_BRACE,
         currentPosition(),
@@ -508,7 +494,6 @@ export function createTokenizer(
     }
 
     if (scnr.currentChar() === EOF) {
-      // TODO: This code should be removed with using rollup (`/*#__PURE__*/`)
       emitError(
         CompileErrorCodes.UNTERMINATED_CLOSING_BRACE,
         currentPosition(),
@@ -537,7 +522,6 @@ export function createTokenizer(
 
     const current = scnr.currentChar()
     if (current === NEW_LINE || current === EOF) {
-      // TODO: This code should be removed with using rollup (`/*#__PURE__*/`)
       emitError(
         CompileErrorCodes.UNTERMINATED_SINGLE_QUOTE_IN_PLACEHOLDER,
         currentPosition(),
@@ -568,7 +552,6 @@ export function createTokenizer(
       case 'U':
         return readUnicodeEscapeSequence(scnr, ch, 6)
       default:
-        // TODO: This code should be removed with using rollup (`/*#__PURE__*/`)
         emitError(
           CompileErrorCodes.UNKNOWN_ESCAPE_SEQUENCE,
           currentPosition(),
@@ -590,7 +573,6 @@ export function createTokenizer(
     for (let i = 0; i < digits; i++) {
       const ch = takeHexDigit(scnr)
       if (!ch) {
-        // TODO: This code should be removed with using rollup (`/*#__PURE__*/`)
         emitError(
           CompileErrorCodes.INVALID_UNICODE_ESCAPE_SEQUENCE,
           currentPosition(),
@@ -677,7 +659,6 @@ export function createTokenizer(
     switch (ch) {
       case TokenChars.BraceLeft:
         if (context.braceNest >= 1) {
-          // TODO: This code should be removed with using rollup (`/*#__PURE__*/`)
           emitError(
             CompileErrorCodes.NOT_ALLOW_NEST_PLACEHOLDER,
             currentPosition(),
@@ -698,7 +679,6 @@ export function createTokenizer(
           context.braceNest > 0 &&
           context.currentType === TokenTypes.BraceLeft
         ) {
-          // TODO: This code should be removed with using rollup (`/*#__PURE__*/`)
           emitError(CompileErrorCodes.EMPTY_PLACEHOLDER, currentPosition(), 0)
         }
 
@@ -714,7 +694,6 @@ export function createTokenizer(
 
       case TokenChars.LinkedAlias:
         if (context.braceNest > 0) {
-          // TODO: This code should be removed with using rollup (`/*#__PURE__*/`)
           emitError(
             CompileErrorCodes.UNTERMINATED_CLOSING_BRACE,
             currentPosition(),
@@ -734,7 +713,6 @@ export function createTokenizer(
 
         if (isPluralStart(scnr)) {
           if (context.braceNest > 0) {
-            // TODO: This code should be removed with using rollup (`/*#__PURE__*/`)
             emitError(
               CompileErrorCodes.UNTERMINATED_CLOSING_BRACE,
               currentPosition(),
@@ -756,7 +734,6 @@ export function createTokenizer(
             context.currentType === TokenTypes.List ||
             context.currentType === TokenTypes.Literal)
         ) {
-          // TODO: This code should be removed with using rollup (`/*#__PURE__*/`)
           emitError(
             CompileErrorCodes.UNTERMINATED_CLOSING_BRACE,
             currentPosition(),
@@ -795,7 +772,6 @@ export function createTokenizer(
             TokenTypes.InvalidPlace,
             readInvalidIdentifier(scnr)
           )
-          // TODO: This code should be removed with using rollup (`/*#__PURE__*/`)
           emitError(
             CompileErrorCodes.INVALID_TOKEN_IN_PLACEHOLDER,
             currentPosition(),
@@ -829,7 +805,6 @@ export function createTokenizer(
         currentType === TokenTypes.LinkedDelimiter) &&
       (ch === NEW_LINE || ch === SPACE)
     ) {
-      // TODO: This code should be removed with using rollup (`/*#__PURE__*/`)
       emitError(CompileErrorCodes.INVALID_LINKED_FORMAT, currentPosition(), 0)
     }
 
@@ -902,7 +877,6 @@ export function createTokenizer(
         }
 
         if (currentType === TokenTypes.LinkedAlias) {
-          // TODO: This code should be removed with using rollup (`/*#__PURE__*/`)
           emitError(
             CompileErrorCodes.INVALID_LINKED_FORMAT,
             currentPosition(),
@@ -914,8 +888,6 @@ export function createTokenizer(
         context.inLinked = false
         return readToken(scnr, context)
     }
-
-    return token
   }
 
   // TODO: We need refactoring of token parsing ...
@@ -936,7 +908,6 @@ export function createTokenizer(
         return readTokenInPlaceholder(scnr, context) || getEndToken(context)
 
       case TokenChars.BraceRight:
-        // TODO: This code should be removed with using rollup (`/*#__PURE__*/`)
         emitError(
           CompileErrorCodes.UNBALANCED_CLOSING_BRACE,
           currentPosition(),
@@ -973,9 +944,8 @@ export function createTokenizer(
   }
 
   const nextToken = (): Token => {
-    const { currentType, currentToken, offset, startLoc, endLoc } = _context
+    const { currentType, offset, startLoc, endLoc } = _context
     _context.lastType = currentType
-    _context.lastToken = currentToken
     _context.lastOffset = offset
     _context.lastStartLoc = startLoc
     _context.lastEndLoc = endLoc
@@ -983,10 +953,10 @@ export function createTokenizer(
     _context.startLoc = currentPosition()
 
     if (_scnr.currentChar() === EOF) {
-      return (_context.currentToken = getToken(_context, TokenTypes.EOF))
+      return getToken(_context, TokenTypes.EOF)
     }
 
-    return (_context.currentToken = readToken(_scnr, _context))
+    return readToken(_scnr, _context)
   }
 
   return {

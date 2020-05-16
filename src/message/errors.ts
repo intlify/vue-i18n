@@ -29,6 +29,7 @@ export const enum CompileErrorCodes {
 
   // parser error codes
   MUST_HAVE_MESSAGES_IN_PLURAL,
+  UNEXPECTED_LEXICAL_ANALYSIS,
 
   // Special value for higher-order compilers to pick up the last code
   // to avoid collision of error codes. This should always be kept as the last
@@ -55,7 +56,8 @@ export const errorMessages: { [code: number]: string } = {
   [CompileErrorCodes.NOT_ALLOW_NEST_PLACEHOLDER]: `Not allowed nest placeholder`,
   [CompileErrorCodes.INVALID_LINKED_FORMAT]: `Invalid linked format`,
   // parser error messages
-  [CompileErrorCodes.MUST_HAVE_MESSAGES_IN_PLURAL]: `Plural must have messages`
+  [CompileErrorCodes.MUST_HAVE_MESSAGES_IN_PLURAL]: `Plural must have messages`,
+  [CompileErrorCodes.UNEXPECTED_LEXICAL_ANALYSIS]: `Unexpected lexical analysis in token: '{0}'`
 }
 
 export function createCompileError(

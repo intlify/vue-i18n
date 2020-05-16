@@ -180,15 +180,15 @@ function generateNode(generator: CodeGenerator, node: Node): void {
       )
       break
     case NodeTypes.Literal:
-      // TODO: more improvement for escape sequence ...
       generator.push(JSON.stringify((node as LiteralNode).value))
       break
     case NodeTypes.Text:
       generator.push(JSON.stringify((node as TextNode).value))
       break
     default:
-      // TODO: should be handled with error
-      throw new Error(`unhandled codegen node type: ${node.type}`)
+      if (__DEV__) {
+        throw new Error(`unhandled codegen node type: ${node.type}`)
+      }
   }
 }
 

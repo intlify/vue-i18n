@@ -4,13 +4,11 @@ export type CompileErrorHandler = (error: CompileError) => void
 export type CompileCacheKeyHandler = (source: string) => string
 
 export type TokenizeOptions = {
-  // TODO: other options
   location?: boolean
   onError?: CompileErrorHandler
 }
 
 export type ParserOptions = {
-  // TODO: other options
   // Generate source map?
   // - Default: false
   // sourceMap?: boolean
@@ -22,8 +20,6 @@ export type ParserOptions = {
 }
 
 export type TransformOptions = {
-  // TODO: other options
-  // onError?: CompileErrorHandler
   onError?: CompileErrorHandler
 }
 

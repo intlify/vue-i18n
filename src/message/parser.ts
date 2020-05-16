@@ -2,6 +2,7 @@ import { createLocation, SourceLocation, Position } from './location'
 import { ParserOptions } from './options'
 import { createCompileError, CompileErrorCodes } from './errors'
 import { createTokenizer, Tokenizer, TokenTypes } from './tokenizer'
+import { isNumber } from '../utils'
 
 export const enum NodeTypes {
   Resource, // 0
@@ -120,7 +121,6 @@ export function createParser(options: ParserOptions = {}): Parser {
   const location = !options.location
 
   const { onError } = options
-  // TODO: This code should be removed with using rollup (`/*#__PURE__*/`)
   const emitError = (
     tokenzer: Tokenizer,
     code: CompileErrorCodes,
@@ -216,19 +216,24 @@ export function createParser(options: ParserOptions = {}): Parser {
 
   const parseLinkedModifier = (tokenizer: Tokenizer): LinkedModitierNode => {
     const token = tokenizer.nextToken()
-    // check token
-    if (!token.value || typeof token.value === 'number') {
-      // TODO: should be thrown syntax error
-      throw new Error()
-    }
     const context = tokenizer.context()
+    // check token
+    if (token.value == null) {
+      emitError(
+        tokenizer,
+        CompileErrorCodes.UNEXPECTED_LEXICAL_ANALYSIS,
+        context.lastStartLoc,
+        0,
+        token.type
+      )
+    }
     const { lastOffset: offset, lastStartLoc: loc } = context // get linked dot loc
     const node = startNode(
       NodeTypes.LinkedModifier,
       offset,
       loc
     ) as LinkedModitierNode
-    node.value = token.value
+    node.value = token.value || ''
     endNode(node, tokenizer.currentOffset(), tokenizer.currentPosition())
     return node
   }
@@ -264,8 +269,13 @@ export function createParser(options: ParserOptions = {}): Parser {
 
     // asset check token
     if (token.type !== TokenTypes.LinkedDelimiter) {
-      // TODO: should be thrown syntax error
-      throw new Error()
+      emitError(
+        tokenizer,
+        CompileErrorCodes.UNEXPECTED_LEXICAL_ANALYSIS,
+        context.lastStartLoc,
+        0,
+        token.type
+      )
     }
     token = tokenizer.nextToken()
 
@@ -277,35 +287,52 @@ export function createParser(options: ParserOptions = {}): Parser {
     switch (token.type) {
       case TokenTypes.LinkedKey:
         if (token.value == null) {
-          // TODO: should be thrown syntax error
-          throw new Error()
+          emitError(
+            tokenizer,
+            CompileErrorCodes.UNEXPECTED_LEXICAL_ANALYSIS,
+            context.lastStartLoc,
+            0,
+            token.type
+          )
         }
-        linkedNode.key = parseLinkedKey(tokenizer, token.value)
+        linkedNode.key = parseLinkedKey(tokenizer, token.value || '')
         break
       case TokenTypes.Named:
         if (token.value == null) {
-          // TODO: should be thrown syntax error
-          throw new Error()
+          emitError(
+            tokenizer,
+            CompileErrorCodes.UNEXPECTED_LEXICAL_ANALYSIS,
+            context.lastStartLoc,
+            0,
+            token.type
+          )
         }
-        linkedNode.key = parseNamed(tokenizer, token.value)
+        linkedNode.key = parseNamed(tokenizer, token.value || '')
         break
       case TokenTypes.List:
         if (token.value == null) {
-          // TODO: should be thrown syntax error
-          throw new Error()
+          emitError(
+            tokenizer,
+            CompileErrorCodes.UNEXPECTED_LEXICAL_ANALYSIS,
+            context.lastStartLoc,
+            0,
+            token.type
+          )
         }
-        linkedNode.key = parseList(tokenizer, token.value)
+        linkedNode.key = parseList(tokenizer, token.value || '')
         break
       case TokenTypes.Literal:
         if (token.value == null) {
-          // TODO: should be thrown syntax error
-          throw new Error()
+          emitError(
+            tokenizer,
+            CompileErrorCodes.UNEXPECTED_LEXICAL_ANALYSIS,
+            context.lastStartLoc,
+            0,
+            token.type
+          )
         }
-        linkedNode.key = parseLiteral(tokenizer, token.value)
+        linkedNode.key = parseLiteral(tokenizer, token.value || '')
         break
-      default:
-        // TODO: should be thrown syntax error
-        throw new Error()
     }
 
     endNode(linkedNode, tokenizer.currentOffset(), tokenizer.currentPosition())
@@ -334,36 +361,54 @@ export function createParser(options: ParserOptions = {}): Parser {
       switch (token.type) {
         case TokenTypes.Text:
           if (token.value == null) {
-            // TODO: should be thrown syntax error
-            throw new Error()
+            emitError(
+              tokenizer,
+              CompileErrorCodes.UNEXPECTED_LEXICAL_ANALYSIS,
+              context.lastStartLoc,
+              0,
+              token.type
+            )
           }
-          node.items.push(parseText(tokenizer, token.value))
+          node.items.push(parseText(tokenizer, token.value || ''))
           break
         case TokenTypes.List:
           if (token.value == null) {
-            // TODO: should be thrown syntax error
-            throw new Error()
+            emitError(
+              tokenizer,
+              CompileErrorCodes.UNEXPECTED_LEXICAL_ANALYSIS,
+              context.lastStartLoc,
+              0,
+              token.type
+            )
           }
-          node.items.push(parseList(tokenizer, token.value))
+          node.items.push(parseList(tokenizer, token.value || ''))
           break
         case TokenTypes.Named:
           if (token.value == null) {
-            // TODO: should be thrown syntax error
-            throw new Error()
+            emitError(
+              tokenizer,
+              CompileErrorCodes.UNEXPECTED_LEXICAL_ANALYSIS,
+              context.lastStartLoc,
+              0,
+              token.type
+            )
           }
-          node.items.push(parseNamed(tokenizer, token.value))
+          node.items.push(parseNamed(tokenizer, token.value || ''))
           break
         case TokenTypes.Literal:
           if (token.value == null) {
-            // TODO: should be thrown syntax error
-            throw new Error()
+            emitError(
+              tokenizer,
+              CompileErrorCodes.UNEXPECTED_LEXICAL_ANALYSIS,
+              context.lastStartLoc,
+              0,
+              token.type
+            )
           }
-          node.items.push(parseLiteral(tokenizer, token.value))
+          node.items.push(parseLiteral(tokenizer, token.value || ''))
           break
         case TokenTypes.LinkedAlias:
           node.items.push(parseLinked(tokenizer))
-          break
-        default:
           break
       }
     } while (
@@ -444,8 +489,13 @@ export function createParser(options: ParserOptions = {}): Parser {
 
     // assert wheather achieved to EOF
     if (context.currentType !== TokenTypes.EOF) {
-      // TODO: should be thrown syntax error
-      throw new Error()
+      emitError(
+        tokenizer,
+        CompileErrorCodes.UNEXPECTED_LEXICAL_ANALYSIS,
+        context.lastStartLoc,
+        0,
+        context.currentType
+      )
     }
 
     endNode(node, tokenizer.currentOffset(), tokenizer.currentPosition())
