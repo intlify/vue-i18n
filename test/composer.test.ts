@@ -905,10 +905,7 @@ describe('__numberParts', () => {
         key: 'percent',
         part: true
       })
-    ).toMatchObject([
-      { value: '99' },
-      { value: '%' }
-    ])
+    ).toMatchObject([{ value: '99' }, { value: '%' }])
   })
 
   test('missing', () => {
