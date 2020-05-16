@@ -138,6 +138,9 @@ function createConfig(format, output, plugins = []) {
       if (!/Circular/.test(msg)) {
         warn(msg)
       }
+    },
+    treeshake: {
+      moduleSideEffects: false
     }
   }
 }
@@ -164,7 +167,13 @@ function createReplacePlugin(
     __GLOBAL__: isGlobalBuild,
     __ESM_BUNDLER__: isBundlerESMBuild,
     __ESM_BROWSER__: isBrowserESMBuild,
-    __NODE_JS__: isNodeBuild
+    __NODE_JS__: isNodeBuild,
+    ...(isProduction && isBrowserBuild
+      ? {
+          'emitError(': `/*#__PURE__*/ emitError(`,
+          'createCompileError(': `/*#__PURE__*/ createCompileError(`
+        }
+      : {})
   }
   Object.keys(replacements).forEach(key => {
     if (key in process.env) {
