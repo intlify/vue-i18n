@@ -2,7 +2,6 @@ import { createLocation, SourceLocation, Position } from './location'
 import { ParserOptions } from './options'
 import { createCompileError, CompileErrorCodes } from './errors'
 import { createTokenizer, Tokenizer, TokenTypes } from './tokenizer'
-import { isNumber } from '../utils'
 
 export const enum NodeTypes {
   Resource, // 0
