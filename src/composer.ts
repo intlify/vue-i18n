@@ -10,7 +10,8 @@ import {
   computed,
   getCurrentInstance,
   ComponentInternalInstance,
-  createTextVNode,
+  Text,
+  createVNode,
   watch
 } from 'vue'
 import { WritableComputedRef, ComputedRef } from '@vue/reactivity'
@@ -539,7 +540,9 @@ export function createComposer(
 
   // for custom processor
   const normalize = (values: unknown[]): unknown => {
-    return values.map(val => (isString(val) ? createTextVNode(val) : val))
+    return values.map(val =>
+      isString(val) ? createVNode(Text, null, val, 0) : val
+    )
   }
   const interpolate = (val: unknown): unknown => val
   const processor = {
