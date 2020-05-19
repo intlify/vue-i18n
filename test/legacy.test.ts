@@ -8,6 +8,7 @@ jest.mock('../src/utils', () => ({
 import { warn } from '../src/utils'
 
 import { createVueI18n } from '../src/legacy'
+import { errorMessages, I18nErrorCodes } from '../src/errors'
 
 test('locale', () => {
   const i18n = createVueI18n()
@@ -138,37 +139,75 @@ test('numberFormats', () => {
   })
 })
 
-test('t', () => {
-  const i18n = createVueI18n({
-    locale: 'en',
-    messages: {
-      en: {
-        name: 'kazupon',
-        hello: 'Hello!',
-        hi: 'hi {name}!',
-        morning: 'good morning {0}',
-        linked: 'hi @.upper:name'
+describe('t', () => {
+  test('basic', () => {
+    const i18n = createVueI18n({
+      locale: 'en',
+      messages: {
+        en: {
+          name: 'kazupon',
+          hello: 'Hello!',
+          hi: 'hi {name}!',
+          morning: 'good morning {0}',
+          linked: 'hi @.upper:name'
+        }
       }
-    }
+    })
+
+    expect(i18n.t('hello')).toEqual('Hello!')
+    expect(i18n.t('hi', { name: 'kazupon' })).toEqual('hi kazupon!')
+    expect(i18n.t('morning', ['kazupon'])).toEqual('good morning kazupon')
+    expect(i18n.t('linked')).toEqual('hi KAZUPON')
   })
 
-  expect(i18n.t('hello')).toEqual('Hello!')
-  expect(i18n.t('hi', { name: 'kazupon' })).toEqual('hi kazupon!')
-  expect(i18n.t('morning', ['kazupon'])).toEqual('good morning kazupon')
-  expect(i18n.t('linked')).toEqual('hi KAZUPON')
+  test(errorMessages[I18nErrorCodes.I18N_INVALID_ARGUMENT], () => {
+    const i18n = createVueI18n({
+      locale: 'en',
+      messages: {
+        en: {
+          name: 'kazupon',
+          hello: 'Hello!',
+          hi: 'hi {name}!',
+          morning: 'good morning {0}',
+          linked: 'hi @.upper:name'
+        }
+      }
+    })
+
+    expect(() => {
+      i18n.t(4 as unknown)
+    }).toThrowError(errorMessages[I18nErrorCodes.I18N_INVALID_ARGUMENT])
+  })
 })
 
-test('tc', () => {
-  const i18n = createVueI18n({
-    locale: 'en',
-    messages: {
-      en: {
-        apple: 'no apples | one apple | {count} apples'
+describe('tc', () => {
+  test('basic', () => {
+    const i18n = createVueI18n({
+      locale: 'en',
+      messages: {
+        en: {
+          apple: 'no apples | one apple | {count} apples'
+        }
       }
-    }
+    })
+
+    expect(i18n.tc('apple', 4)).toEqual('4 apples')
   })
 
-  expect(i18n.tc('apple', 4)).toEqual('4 apples')
+  test(errorMessages[I18nErrorCodes.I18N_INVALID_ARGUMENT], () => {
+    const i18n = createVueI18n({
+      locale: 'en',
+      messages: {
+        en: {
+          apple: 'no apples | one apple | {count} apples'
+        }
+      }
+    })
+
+    expect(() => {
+      i18n.tc(4 as unknown, 4)
+    }).toThrowError(errorMessages[I18nErrorCodes.I18N_INVALID_ARGUMENT])
+  })
 })
 
 test('te', () => {

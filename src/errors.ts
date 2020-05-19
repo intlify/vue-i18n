@@ -11,6 +11,8 @@ export interface I18nError extends CompileError {
 export const enum I18nErrorCodes {
   // composer errors
   I18N_UNEXPECTED_RETURN_TYPE = CompileErrorCodes.__EXTEND_POINT__,
+  // legacy errors
+  I18N_INVALID_ARGUMENT,
   // for enhancement
   __EXTEND_POINT__
 }
@@ -25,5 +27,6 @@ export function createI18nError(code: I18nErrorCodes): I18nError {
 
 export const errorMessages: { [code: number]: string } = {
   [I18nErrorCodes.I18N_UNEXPECTED_RETURN_TYPE]:
-    'Unexpected return type in composer'
+    'Unexpected return type in composer',
+  [I18nErrorCodes.I18N_INVALID_ARGUMENT]: 'Invalid argument'
 }

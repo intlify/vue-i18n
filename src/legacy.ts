@@ -35,6 +35,7 @@ import {
   ComposerInternal
 } from './composer'
 import { VueI18nWarnCodes, getWarnMessage } from './warnings'
+import { createI18nError, I18nErrorCodes } from './errors'
 import {
   isString,
   isArray,
@@ -398,7 +399,7 @@ export function createVueI18n(
       let named: NamedValue | null = null
 
       if (!isString(arg1)) {
-        throw new Error('TODO')
+        throw createI18nError(I18nErrorCodes.I18N_INVALID_ARGUMENT)
       }
       const key = arg1
 
@@ -427,7 +428,7 @@ export function createVueI18n(
       let named: NamedValue | null = null
 
       if (!isString(arg1)) {
-        throw new Error('TODO')
+        throw createI18nError(I18nErrorCodes.I18N_INVALID_ARGUMENT)
       }
       const key = arg1
 
