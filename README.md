@@ -103,10 +103,15 @@ The examples are offered that use the following two API styles:
 #### Components
 - `<i18n>` component
   - Rename to `<i18n-t>` component
+  - Remove `Boolean` type from `tag` prop
+  - if `tag` prop is not specified, return the children vnode
   - Remove the below props:
     - `place` prop
     - `places` prop
     - `path` prop (Rename to `keypath` prop)
+- `<i18n-n>` component
+  - Remove `Boolean` type from `tag` prop
+  - if `tag` prop is not specified, return the children vnode
 
 ### :zap: Improvements
 
