@@ -1,4 +1,10 @@
-import { h, RenderFunction, SetupContext, VNodeArrayChildren } from 'vue'
+import {
+  h,
+  RenderFunction,
+  Fragment,
+  SetupContext,
+  VNodeArrayChildren
+} from 'vue'
 import { Locale, NumberOptions, DateTimeOptions } from '../core'
 import { isString, isPlainObject, isArray } from '../utils'
 
@@ -68,6 +74,6 @@ export function renderFormatter<
 
     return props.tag
       ? h(props.tag, { ...attrs }, children)
-      : h('span', { ...attrs }, children)
+      : h(Fragment, { ...attrs }, children)
   }
 }
