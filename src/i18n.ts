@@ -21,7 +21,7 @@ import {
   VueI18nOptions,
   VueI18nInternal
 } from './legacy'
-import { VueI18nWarnCodes, getWarnMessage } from './warnings
+import { I18nWarnCodes, getWarnMessage } from './warnings'
 import { I18nErrorCodes, createI18nError } from './errors'
 import { apply } from './plugin'
 import { defineMixin } from './mixin'
@@ -323,7 +323,7 @@ export function useI18n(options: UseI18nOptions = {}): Composer {
     let composer = getComposer(i18n, instance)
     if (composer == null) {
       if (__DEV__) {
-        warn(getWarnMessage(VueI18nWarnCodes.NOT_FOUND_PARENT_COMPOSER))
+        warn(getWarnMessage(I18nWarnCodes.NOT_FOUND_PARENT_COMPOSER))
       }
       composer = global
     }

@@ -59,7 +59,7 @@ import {
   NumberOptions
 } from './core/number'
 import { NOT_REOSLVED } from './core/context'
-import { VueI18nWarnCodes, getWarnMessage } from './warnings'
+import { I18nWarnCodes, getWarnMessage } from './warnings'
 import { I18nErrorCodes, createI18nError } from './errors'
 import {
   warn,
@@ -483,7 +483,7 @@ export function createComposer(
           const key = argumentParser()
           if (__DEV__ && _fallbackRoot && __root) {
             warn(
-              getWarnMessage(VueI18nWarnCodes.FALLBACK_TO_ROOT, {
+              getWarnMessage(I18nWarnCodes.FALLBACK_TO_ROOT, {
                 key,
                 type: warnType
               })

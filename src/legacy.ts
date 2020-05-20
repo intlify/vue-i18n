@@ -34,7 +34,7 @@ import {
   createComposer,
   ComposerInternal
 } from './composer'
-import { VueI18nWarnCodes, getWarnMessage } from './warnings'
+import { I18nWarnCodes, getWarnMessage } from './warnings'
 import { createI18nError, I18nErrorCodes } from './errors'
 import {
   isString,
@@ -204,11 +204,11 @@ function convertComposerOptions(
   const inheritLocale = !!options.sync
 
   if (__DEV__ && options.formatter) {
-    warn(getWarnMessage(VueI18nWarnCodes.NOT_SUPPORTED_FORMATTER))
+    warn(getWarnMessage(I18nWarnCodes.NOT_SUPPORTED_FORMATTER))
   }
 
   if (__DEV__ && options.preserveDirectiveContent) {
-    warn(getWarnMessage(VueI18nWarnCodes.NOT_SUPPORTED_PRESERVE_DIRECTIVE))
+    warn(getWarnMessage(I18nWarnCodes.NOT_SUPPORTED_PRESERVE_DIRECTIVE))
   }
 
   let messages = options.messages
@@ -300,7 +300,7 @@ export function createVueI18n(
 
     // formatter
     get formatter(): Formatter {
-      __DEV__ && warn(getWarnMessage(VueI18nWarnCodes.NOT_SUPPORTED_FORMATTER))
+      __DEV__ && warn(getWarnMessage(I18nWarnCodes.NOT_SUPPORTED_FORMATTER))
       // dummy
       return {
         interpolate() {
@@ -309,7 +309,7 @@ export function createVueI18n(
       }
     },
     set formatter(val: Formatter) {
-      __DEV__ && warn(getWarnMessage(VueI18nWarnCodes.NOT_SUPPORTED_FORMATTER))
+      __DEV__ && warn(getWarnMessage(I18nWarnCodes.NOT_SUPPORTED_FORMATTER))
     },
 
     // missing
@@ -375,12 +375,12 @@ export function createVueI18n(
     // preserveDirectiveContent
     get preserveDirectiveContent(): boolean {
       __DEV__ &&
-        warn(getWarnMessage(VueI18nWarnCodes.NOT_SUPPORTED_PRESERVE_DIRECTIVE))
+        warn(getWarnMessage(I18nWarnCodes.NOT_SUPPORTED_PRESERVE_DIRECTIVE))
       return true
     },
     set preserveDirectiveContent(val: boolean) {
       __DEV__ &&
-        warn(getWarnMessage(VueI18nWarnCodes.NOT_SUPPORTED_PRESERVE_DIRECTIVE))
+        warn(getWarnMessage(I18nWarnCodes.NOT_SUPPORTED_PRESERVE_DIRECTIVE))
     },
 
     // for internal
@@ -519,7 +519,7 @@ export function createVueI18n(
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     getChoiceIndex(choice: Choice, choicesLength: number): number {
       __DEV__ &&
-        warn(getWarnMessage(VueI18nWarnCodes.NOT_SUPPORTED_GET_CHOICE_INDEX))
+        warn(getWarnMessage(I18nWarnCodes.NOT_SUPPORTED_GET_CHOICE_INDEX))
       return -1
     }
   }

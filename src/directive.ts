@@ -8,7 +8,7 @@ import { VueI18n, VueI18nInternal } from './legacy'
 import { Composer } from './composer'
 import { Locale, TranslateOptions } from './core'
 import { NamedValue } from './message/runtime'
-import { VueI18nWarnCodes, getWarnMessage } from './warnings'
+import { I18nWarnCodes, getWarnMessage } from './warnings'
 import { isString, isPlainObject, isNumber, warn } from './utils'
 
 type VTDirectiveValue = {
@@ -51,7 +51,7 @@ export function vTDirective(
     }
 
     if (__DEV__ && modifiers.preserve) {
-      warn(getWarnMessage(VueI18nWarnCodes.NOT_SUPPORTED_PRESERVE))
+      warn(getWarnMessage(I18nWarnCodes.NOT_SUPPORTED_PRESERVE))
     }
 
     const parsedValue = parseValue(value)
