@@ -160,7 +160,7 @@ describe('t', () => {
     expect(i18n.t('linked')).toEqual('hi KAZUPON')
   })
 
-  test(errorMessages[I18nErrorCodes.I18N_INVALID_ARGUMENT], () => {
+  test(errorMessages[I18nErrorCodes.INVALID_ARGUMENT], () => {
     const i18n = createVueI18n({
       locale: 'en',
       messages: {
@@ -176,7 +176,7 @@ describe('t', () => {
 
     expect(() => {
       i18n.t(4 as unknown)
-    }).toThrowError(errorMessages[I18nErrorCodes.I18N_INVALID_ARGUMENT])
+    }).toThrowError(errorMessages[I18nErrorCodes.INVALID_ARGUMENT])
   })
 })
 
@@ -194,7 +194,7 @@ describe('tc', () => {
     expect(i18n.tc('apple', 4)).toEqual('4 apples')
   })
 
-  test(errorMessages[I18nErrorCodes.I18N_INVALID_ARGUMENT], () => {
+  test(errorMessages[I18nErrorCodes.INVALID_ARGUMENT], () => {
     const i18n = createVueI18n({
       locale: 'en',
       messages: {
@@ -206,7 +206,7 @@ describe('tc', () => {
 
     expect(() => {
       i18n.tc(4 as unknown, 4)
-    }).toThrowError(errorMessages[I18nErrorCodes.I18N_INVALID_ARGUMENT])
+    }).toThrowError(errorMessages[I18nErrorCodes.INVALID_ARGUMENT])
   })
 })
 

@@ -10,13 +10,13 @@ export interface I18nError extends CompileError {
 
 export const enum I18nErrorCodes {
   // composer module errors
-  I18N_UNEXPECTED_RETURN_TYPE = CompileErrorCodes.__EXTEND_POINT__,
+  UNEXPECTED_RETURN_TYPE = CompileErrorCodes.__EXTEND_POINT__,
   // legacy module errors
-  I18N_INVALID_ARGUMENT,
+  INVALID_ARGUMENT,
   // i18n module errors
-  I18N_NOT_INSLALLED,
-  I18N_UNEXPECTED_ERROR,
-  I18N_NOT_AVAILABLE_IN_LEGACY_MODE,
+  NOT_INSLALLED,
+  UNEXPECTED_ERROR,
+  NOT_AVAILABLE_IN_LEGACY_MODE,
   // for enhancement
   __EXTEND_POINT__
 }
@@ -30,11 +30,9 @@ export function createI18nError(code: I18nErrorCodes): I18nError {
 }
 
 export const errorMessages: { [code: number]: string } = {
-  [I18nErrorCodes.I18N_UNEXPECTED_RETURN_TYPE]:
-    'Unexpected return type in composer',
-  [I18nErrorCodes.I18N_INVALID_ARGUMENT]: 'Invalid argument',
-  [I18nErrorCodes.I18N_NOT_INSLALLED]: 'Need to install with use function',
-  [I18nErrorCodes.I18N_UNEXPECTED_ERROR]: 'Unexpeced error in useI18n',
-  [I18nErrorCodes.I18N_NOT_AVAILABLE_IN_LEGACY_MODE]:
-    'Not available in legacy mode'
+  [I18nErrorCodes.UNEXPECTED_RETURN_TYPE]: 'Unexpected return type in composer',
+  [I18nErrorCodes.INVALID_ARGUMENT]: 'Invalid argument',
+  [I18nErrorCodes.NOT_INSLALLED]: 'Need to install with use function',
+  [I18nErrorCodes.UNEXPECTED_ERROR]: 'Unexpeced error in useI18n',
+  [I18nErrorCodes.NOT_AVAILABLE_IN_LEGACY_MODE]: 'Not available in legacy mode'
 }

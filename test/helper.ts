@@ -6,7 +6,6 @@ import {
   ComponentPublicInstance,
   reactive,
   nextTick,
-  onMounted,
   ComponentObjectPropsOptions,
   App,
   VNode,
@@ -71,11 +70,13 @@ export function mount(
       )
     )
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     function setProps(partialProps: Record<string, any>) {
       Object.assign(propsData, partialProps)
       return nextTick()
     }
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const slots: Record<string, (propsData: any) => VNode> = {}
 
     const Wrapper = defineComponent({
@@ -108,6 +109,7 @@ export function mount(
       const keys = getKeys(options.provide)
 
       for (const key of keys) {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         app.provide(key, options.provide[key as any])
       }
     }

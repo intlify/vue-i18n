@@ -496,7 +496,7 @@ export function createComposer(
           return ret as T
         } else {
           /* istanbul ignore next */
-          throw createI18nError(I18nErrorCodes.I18N_UNEXPECTED_RETURN_TYPE)
+          throw createI18nError(I18nErrorCodes.UNEXPECTED_RETURN_TYPE)
         }
       }
     )

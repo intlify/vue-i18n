@@ -399,7 +399,7 @@ export function createVueI18n(
       let named: NamedValue | null = null
 
       if (!isString(arg1)) {
-        throw createI18nError(I18nErrorCodes.I18N_INVALID_ARGUMENT)
+        throw createI18nError(I18nErrorCodes.INVALID_ARGUMENT)
       }
       const key = arg1
 
@@ -428,7 +428,7 @@ export function createVueI18n(
       let named: NamedValue | null = null
 
       if (!isString(arg1)) {
-        throw createI18nError(I18nErrorCodes.I18N_INVALID_ARGUMENT)
+        throw createI18nError(I18nErrorCodes.INVALID_ARGUMENT)
       }
       const key = arg1
 

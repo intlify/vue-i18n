@@ -24,10 +24,6 @@ describe('createI18n', () => {
 })
 
 describe('useI18n', () => {
-  test.todo('basic')
-  test.todo('global scope')
-  test.todo('parent scope')
-
   let org
   beforeEach(() => {
     org = console.warn
@@ -37,48 +33,49 @@ describe('useI18n', () => {
     console.warn = org
   })
 
-  test(errorMessages[I18nErrorCodes.I18N_NOT_INSLALLED], () => {
+  test.todo('basic')
+  test.todo('global scope')
+  test.todo('parent scope')
+
+  test(errorMessages[I18nErrorCodes.NOT_INSLALLED], () => {
     expect(() => {
       useI18n()
-    }).toThrowError(errorMessages[I18nErrorCodes.I18N_NOT_INSLALLED])
+    }).toThrowError(errorMessages[I18nErrorCodes.NOT_INSLALLED])
   })
 
-  test(
-    errorMessages[I18nErrorCodes.I18N_NOT_AVAILABLE_IN_LEGACY_MODE],
-    async () => {
-      const i18n = createI18n({
-        legacy: true,
-        locale: 'ja',
-        messages: {
-          en: {
-            hello: 'hello!'
-          }
+  test(errorMessages[I18nErrorCodes.NOT_AVAILABLE_IN_LEGACY_MODE], async () => {
+    const i18n = createI18n({
+      legacy: true,
+      locale: 'ja',
+      messages: {
+        en: {
+          hello: 'hello!'
         }
-      })
+      }
+    })
 
-      let error = ''
-      const App = defineComponent({
-        template: `<p>foo</p>`,
-        setup() {
-          try {
-            useI18n({
-              locale: 'en',
-              messages: {
-                en: {
-                  hello: 'hello!'
-                }
+    let error = ''
+    const App = defineComponent({
+      template: `<p>foo</p>`,
+      setup() {
+        try {
+          useI18n({
+            locale: 'en',
+            messages: {
+              en: {
+                hello: 'hello!'
               }
-            })
-          } catch (e) {
-            error = e.message
-          }
-          return {}
+            }
+          })
+        } catch (e) {
+          error = e.message
         }
-      })
-      await mount(App, i18n)
-      expect(error).toEqual(
-        errorMessages[I18nErrorCodes.I18N_NOT_AVAILABLE_IN_LEGACY_MODE]
-      )
-    }
-  )
+        return {}
+      }
+    })
+    await mount(App, i18n)
+    expect(error).toEqual(
+      errorMessages[I18nErrorCodes.NOT_AVAILABLE_IN_LEGACY_MODE]
+    )
+  })
 })
