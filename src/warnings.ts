@@ -7,7 +7,8 @@ export const enum VueI18nWarnCodes {
   NOT_SUPPORTED_FORMATTER,
   NOT_SUPPORTED_PRESERVE_DIRECTIVE,
   NOT_SUPPORTED_GET_CHOICE_INDEX,
-  COMPONENT_NAME_LEGACY_COMPATIBLE
+  COMPONENT_NAME_LEGACY_COMPATIBLE,
+  NOT_FOUND_PARENT_COMPOSER
 }
 
 export const warnMessages: { [code: number]: string } = {
@@ -16,7 +17,8 @@ export const warnMessages: { [code: number]: string } = {
   [VueI18nWarnCodes.NOT_SUPPORTED_FORMATTER]: `not supportted 'formatter'.`,
   [VueI18nWarnCodes.NOT_SUPPORTED_PRESERVE_DIRECTIVE]: `not supportted 'preserveDirectiveContent'.`,
   [VueI18nWarnCodes.NOT_SUPPORTED_GET_CHOICE_INDEX]: `not supportted 'getChoiceIndex'.`,
-  [VueI18nWarnCodes.COMPONENT_NAME_LEGACY_COMPATIBLE]: `component name legacy compatible: '{name}' -> 'i18n'`
+  [VueI18nWarnCodes.COMPONENT_NAME_LEGACY_COMPATIBLE]: `component name legacy compatible: '{name}' -> 'i18n'`,
+  [VueI18nWarnCodes.NOT_FOUND_PARENT_COMPOSER]: `not found parent composer. use the global composer`
 }
 
 export function getWarnMessage(

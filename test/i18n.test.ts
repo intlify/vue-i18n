@@ -6,6 +6,7 @@ import { defineComponent } from 'vue'
 import { mount } from './helper'
 import { createI18n, useI18n } from '../src/i18n'
 import { errorMessages, I18nErrorCodes } from '../src/errors'
+import { Composer } from '../src/composer'
 
 describe('createI18n', () => {
   test('legay mode', () => {
@@ -24,18 +25,169 @@ describe('createI18n', () => {
 })
 
 describe('useI18n', () => {
-  let org
+  let org, spy
   beforeEach(() => {
     org = console.warn
-    console.warn = () => {} // eslint-disable-line @typescript-eslint/no-empty-function
+    spy = jest.fn()
+    console.warn = spy
   })
   afterEach(() => {
     console.warn = org
   })
 
-  test.todo('basic')
-  test.todo('global scope')
-  test.todo('parent scope')
+  test('basic', async () => {
+    const i18n = createI18n({
+      locale: 'ja',
+      messages: {
+        en: {
+          hello: 'hello!'
+        }
+      }
+    })
+
+    let composer: Composer | null = null
+    const App = defineComponent({
+      template: `<p>foo</p>`,
+      setup() {
+        composer = useI18n({
+          locale: 'en',
+          messages: {
+            en: {
+              hello: 'hello!'
+            }
+          }
+        })
+        return {}
+      }
+    })
+    await mount(App, i18n)
+
+    expect(i18n.global !== composer).toEqual(true)
+    expect(composer.locale.value).toEqual('en')
+  })
+
+  test('global scope', async () => {
+    const i18n = createI18n({
+      locale: 'ja',
+      messages: {
+        en: {
+          hello: 'hello!'
+        }
+      }
+    })
+
+    let composer: Composer | null = null
+    const App = defineComponent({
+      template: `<p>foo</p>`,
+      setup() {
+        composer = useI18n({ useScope: 'global' })
+        return {}
+      }
+    })
+    await mount(App, i18n)
+
+    expect(i18n.global === composer).toEqual(true)
+    expect(composer.locale.value).toEqual('ja')
+  })
+
+  test('parent scope', async () => {
+    const i18n = createI18n({
+      locale: 'ja',
+      messages: {
+        en: {
+          hello: 'hello!'
+        }
+      }
+    })
+
+    let leaf: Composer | null = null
+    let parent: Composer | null = null
+    const App = defineComponent({
+      components: {
+        Leaf: {
+          template: '<p>local</p>',
+          setup() {
+            leaf = useI18n({ useScope: 'parent' })
+            return {}
+          }
+        }
+      },
+      template: `<div>parent</div><Leaf />`,
+      setup() {
+        parent = useI18n({
+          locale: 'en',
+          messages: {
+            en: {
+              hello: 'hello!'
+            }
+          }
+        })
+        return {}
+      }
+    })
+    await mount(App, i18n)
+
+    expect(i18n.global !== leaf).toEqual(true)
+    expect(i18n.global !== parent).toEqual(true)
+    expect(parent === leaf).toEqual(true)
+    expect(leaf.locale.value).toEqual('en')
+  })
+
+  test('not found parent composer with parent scope', async () => {
+    const i18n = createI18n({
+      locale: 'ja',
+      messages: {
+        en: {
+          hello: 'hello!'
+        }
+      }
+    })
+
+    let composer: Composer | null = null
+    const App = defineComponent({
+      components: {
+        Leaf: {
+          template: '<p>local</p>',
+          setup() {
+            composer = useI18n({ useScope: 'parent' })
+            return {}
+          }
+        }
+      },
+      template: `<div>parent</div><Leaf />`,
+      setup() {
+        return {}
+      }
+    })
+    await mount(App, i18n)
+
+    expect(i18n.global === composer).toEqual(true)
+    expect(composer.locale.value).toEqual('ja')
+  })
+
+  test('empty options', async () => {
+    const i18n = createI18n({
+      locale: 'ja',
+      messages: {
+        en: {
+          hello: 'hello!'
+        }
+      }
+    })
+
+    let composer: Composer | null = null
+    const App = defineComponent({
+      template: `<p>foo</p>`,
+      setup() {
+        composer = useI18n()
+        return {}
+      }
+    })
+    await mount(App, i18n)
+
+    expect(i18n.global === composer).toEqual(true)
+    expect(composer.locale.value).toEqual('ja')
+  })
 
   test(errorMessages[I18nErrorCodes.NOT_INSLALLED], () => {
     expect(() => {
