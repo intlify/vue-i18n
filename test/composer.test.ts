@@ -15,7 +15,7 @@ import {
   ComposerInternal
 } from '../src/composer'
 import { generateFormatCacheKey } from '../src/utils'
-import { watch, nextTick, createTextVNode } from 'vue'
+import { watch, nextTick, Text, createVNode } from 'vue'
 
 describe('locale', () => {
   test('default value', () => {
@@ -863,7 +863,7 @@ describe('__transrateVNode', () => {
     })
     expect(
       (composer as Composer & ComposerInternal).__transrateVNode('hello', {
-        name: createTextVNode('kazupon')
+        name: createVNode(Text, null, 'kazupon', 0)
       })
     ).toMatchObject([
       { children: 'hello, ' },
@@ -881,7 +881,7 @@ describe('__transrateVNode', () => {
     })
     expect(
       (composer as Composer & ComposerInternal).__transrateVNode('hello', {
-        name: createTextVNode('kazupon')
+        name: createVNode(Text, null, 'kazupon', 0)
       })
     ).toEqual('hello')
   })

@@ -21,6 +21,7 @@ import {
   VueI18nOptions,
   VueI18nInternal
 } from './legacy'
+import { I18nErrorCodes, createI18nError } from './errors'
 import { apply } from './plugin'
 import { defineMixin } from './mixin'
 import { isEmptyObject } from './utils'
@@ -293,9 +294,8 @@ export function createI18n(options: I18nOptions = {}): I18n {
  */
 export function useI18n(options: UseI18nOptions = {}): Composer {
   const i18n = inject(I18nSymbol)
-  // TODO: should be error
   if (!i18n) {
-    throw new Error('TODO')
+    throw createI18nError(I18nErrorCodes.I18N_NOT_INSLALLED)
   }
 
   const global = i18n.global
@@ -312,10 +312,10 @@ export function useI18n(options: UseI18nOptions = {}): Composer {
     return global
   }
 
-  // TODO: should be unexpected error (vue runtime error!)
   const instance = getCurrentInstance()
+  /* istanbul ignore if */
   if (instance == null) {
-    throw new Error('TODO')
+    throw createI18nError(I18nErrorCodes.I18N_UNEXPECTED_ERROR)
   }
 
   if (scope === 'parent') {
@@ -331,8 +331,7 @@ export function useI18n(options: UseI18nOptions = {}): Composer {
 
   // scope 'local' case
   if (i18n.mode === 'legacy') {
-    // TODO:
-    throw new Error('TODO')
+    throw createI18nError(I18nErrorCodes.I18N_NOT_AVAILABLE_IN_LEGACY_MODE)
   }
 
   let composer = i18n._getComposer(instance)
