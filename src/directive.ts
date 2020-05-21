@@ -10,6 +10,7 @@ import { Locale, TranslateOptions } from './core'
 import { NamedValue } from './message/runtime'
 import { I18nWarnCodes, getWarnMessage } from './warnings'
 import { isString, isPlainObject, isNumber, warn } from './utils'
+import { createI18nError, I18nErrorCodes } from './errors'
 
 type VTDirectiveValue = {
   path: string
@@ -39,15 +40,14 @@ export function vTDirective(
     el: HTMLElement,
     { instance, value, modifiers }: DirectiveBinding
   ): void => {
+    /* istanbul ignore if */
     if (!instance || !instance.$) {
-      // TODO: should be raise Vue error
-      throw new Error('TODO')
+      throw createI18nError(I18nErrorCodes.UNEXPECTED_ERROR)
     }
 
     const composer = getComposer(i18n, instance.$)
     if (!composer) {
-      // TODO: should be error
-      throw new Error('TODO')
+      throw createI18nError(I18nErrorCodes.NOT_FOUND_COMPOSER)
     }
 
     if (__DEV__ && modifiers.preserve) {
@@ -55,7 +55,7 @@ export function vTDirective(
     }
 
     const parsedValue = parseValue(value)
-    el.innerText = composer.t(...makeParams(parsedValue))
+    el.textContent = composer.t(...makeParams(parsedValue))
   }
 
   return {
@@ -69,11 +69,11 @@ function parseValue(value: unknown): VTDirectiveValue {
     return { path: value }
   } else if (isPlainObject(value)) {
     if (!('path' in value)) {
-      throw new Error('TODO')
+      throw createI18nError(I18nErrorCodes.REQUIRED_VALUE, 'path')
     }
     return value as VTDirectiveValue
   } else {
-    throw new Error('TODO')
+    throw createI18nError(I18nErrorCodes.INVALID_VALUE)
   }
 }
 

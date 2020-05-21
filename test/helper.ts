@@ -10,6 +10,7 @@ import {
   App,
   VNode,
   shallowRef,
+  onErrorCaptured,
   ComponentOptions
 } from 'vue'
 import { compile } from '@vue/compiler-dom'
@@ -61,7 +62,7 @@ export function mount(
   options: Partial<MountOptions> = {}
 ): Promise<Wrapper> {
   const TargetComponent = targetComponent as Component
-  return new Promise(resolve => {
+  return new Promise((resolve, reject) => {
     // NOTE: only supports props as an object
     const propsData = reactive(
       Object.assign(
@@ -82,7 +83,10 @@ export function mount(
     const Wrapper = defineComponent({
       setup(_props, { emit }) {
         const componentInstanceRef = shallowRef<ComponentPublicInstance>()
-
+        onErrorCaptured(err => {
+          reject(err)
+          return true
+        })
         return () => {
           return h(
             TargetComponent,
@@ -126,8 +130,16 @@ export function mount(
       }
     }
 
+    app.use(i18n)
+
     const rootEl = document.createElement('div')
     document.body.appendChild(rootEl)
+
+    try {
+      app.mount(rootEl)
+    } catch (e) {
+      return reject(e)
+    }
 
     function html() {
       return rootEl.innerHTML
@@ -136,10 +148,6 @@ export function mount(
     function find(selector: string) {
       return rootEl.querySelector(selector)
     }
-
-    app.use(i18n)
-
-    app.mount(rootEl)
 
     activeWrapperRemovers.push(() => {
       app.unmount(rootEl)
