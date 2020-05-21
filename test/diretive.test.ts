@@ -145,7 +145,7 @@ test('preserve modifier', async () => {
       }
     }
   })
-  const wrapper = await mount(App, i18n)
+  await mount(App, i18n)
 
   expect(mockWarn).toHaveBeenCalledTimes(1)
   expect(mockWarn.mock.calls[0][0]).toEqual(
