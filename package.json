@@ -27,7 +27,7 @@
   "devDependencies": {
     "@microsoft/api-documenter": "^7.7.17",
     "@microsoft/api-extractor": "^7.7.12",
-    "@rollup/plugin-commonjs": "^11.0.2",
+    "@rollup/plugin-commonjs": "^12.0.0",
     "@rollup/plugin-node-resolve": "^7.1.1",
     "@rollup/plugin-replace": "^2.3.0",
     "@types/jest": "^25.0.0",
