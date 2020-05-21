@@ -88,7 +88,9 @@ test('object literal', async () => {
       const name = ref('kazupon')
       const t = resolveDirective('t')
       return () => {
-        return withDirectives(h('p'), [[t, { path: 'hello', locale: 'ja', args: { name: name.value } }]])
+        return withDirectives(h('p'), [
+          [t, { path: 'hello', locale: 'ja', args: { name: name.value } }]
+        ])
       }
     }
   })
@@ -146,7 +148,9 @@ test('preserve modifier', async () => {
   const wrapper = await mount(App, i18n)
 
   expect(mockWarn).toHaveBeenCalledTimes(1)
-  expect(mockWarn.mock.calls[0][0]).toEqual(getWarnMessage(I18nWarnCodes.NOT_SUPPORTED_PRESERVE))
+  expect(mockWarn.mock.calls[0][0]).toEqual(
+    getWarnMessage(I18nWarnCodes.NOT_SUPPORTED_PRESERVE)
+  )
 })
 
 test('legacy mode', async () => {
@@ -202,7 +206,9 @@ describe('errors', () => {
     } catch (e) {
       error = e
     }
-    expect(error.message).toEqual(errorMessages[I18nErrorCodes.NOT_FOUND_COMPOSER])
+    expect(error.message).toEqual(
+      errorMessages[I18nErrorCodes.NOT_FOUND_COMPOSER]
+    )
   })
 
   test(errorMessages[I18nErrorCodes.REQUIRED_VALUE], async () => {
@@ -231,7 +237,9 @@ describe('errors', () => {
     } catch (e) {
       error = e
     }
-    expect(error.message).toEqual(format(errorMessages[I18nErrorCodes.REQUIRED_VALUE], 'path'))
+    expect(error.message).toEqual(
+      format(errorMessages[I18nErrorCodes.REQUIRED_VALUE], 'path')
+    )
   })
 
   test(errorMessages[I18nErrorCodes.INVALID_VALUE], async () => {

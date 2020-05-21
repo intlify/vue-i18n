@@ -13,6 +13,7 @@ import { warn } from '../src/utils'
 import { createApp } from 'vue'
 import { I18n, I18nInternal } from '../src/i18n'
 import { apply } from '../src/plugin'
+import { getWarnMessage, I18nWarnCodes } from '../src/warnings'
 
 describe('useI18nComponentName option', () => {
   test('default', () => {
@@ -36,7 +37,9 @@ describe('useI18nComponentName option', () => {
     apply(app, i18n, { useI18nComponentName: true })
     expect(mockWarn).toHaveBeenCalled()
     expect(mockWarn.mock.calls[0][0]).toEqual(
-      `component name legacy compatible: 'i18n-t' -> 'i18n'`
+      getWarnMessage(I18nWarnCodes.COMPONENT_NAME_LEGACY_COMPATIBLE, {
+        name: 'i18n-t'
+      })
     )
   })
 })

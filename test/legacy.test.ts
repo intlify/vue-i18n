@@ -9,6 +9,7 @@ import { warn } from '../src/utils'
 
 import { createVueI18n } from '../src/legacy'
 import { errorMessages, I18nErrorCodes } from '../src/errors'
+import { getWarnMessage, I18nWarnCodes } from '../src/warnings'
 
 test('locale', () => {
   const i18n = createVueI18n()
@@ -55,9 +56,15 @@ test('formatter', () => {
     }
   }
   expect(mockWarn).toHaveBeenCalledTimes(3)
-  expect(mockWarn.mock.calls[0][0]).toEqual(`not supportted 'formatter'.`)
-  expect(mockWarn.mock.calls[1][0]).toEqual(`not supportted 'formatter'.`)
-  expect(mockWarn.mock.calls[2][0]).toEqual(`not supportted 'formatter'.`)
+  expect(mockWarn.mock.calls[0][0]).toEqual(
+    getWarnMessage(I18nWarnCodes.NOT_SUPPORTED_FORMATTER)
+  )
+  expect(mockWarn.mock.calls[1][0]).toEqual(
+    getWarnMessage(I18nWarnCodes.NOT_SUPPORTED_FORMATTER)
+  )
+  expect(mockWarn.mock.calls[2][0]).toEqual(
+    getWarnMessage(I18nWarnCodes.NOT_SUPPORTED_FORMATTER)
+  )
 })
 
 test('missing', () => {
@@ -452,7 +459,9 @@ test('getChoiceIndex', () => {
 
   const i18n = createVueI18n({})
   i18n.getChoiceIndex(1, 2)
-  expect(mockWarn.mock.calls[0][0]).toEqual(`not supportted 'getChoiceIndex'.`)
+  expect(mockWarn.mock.calls[0][0]).toEqual(
+    getWarnMessage(I18nWarnCodes.NOT_SUPPORTED_GET_CHOICE_INDEX)
+  )
 })
 
 test('warnHtmlInMessage', () => {

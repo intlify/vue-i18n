@@ -25,7 +25,10 @@ export const enum I18nErrorCodes {
   __EXTEND_POINT__
 }
 
-export function createI18nError(code: I18nErrorCodes, ...args: unknown[]): I18nError {
+export function createI18nError(
+  code: I18nErrorCodes,
+  ...args: unknown[]
+): I18nError {
   return createCompileError(
     code,
     null,

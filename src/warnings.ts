@@ -13,12 +13,12 @@ export const enum I18nWarnCodes {
 
 export const warnMessages: { [code: number]: string } = {
   [I18nWarnCodes.FALLBACK_TO_ROOT]: `Fall back to {type} '{key}' with root locale.`,
-  [I18nWarnCodes.NOT_SUPPORTED_PRESERVE]: `not supportted 'preserve'.`,
-  [I18nWarnCodes.NOT_SUPPORTED_FORMATTER]: `not supportted 'formatter'.`,
-  [I18nWarnCodes.NOT_SUPPORTED_PRESERVE_DIRECTIVE]: `not supportted 'preserveDirectiveContent'.`,
-  [I18nWarnCodes.NOT_SUPPORTED_GET_CHOICE_INDEX]: `not supportted 'getChoiceIndex'.`,
-  [I18nWarnCodes.COMPONENT_NAME_LEGACY_COMPATIBLE]: `component name legacy compatible: '{name}' -> 'i18n'`,
-  [I18nWarnCodes.NOT_FOUND_PARENT_COMPOSER]: `not found parent composer. use the global composer`
+  [I18nWarnCodes.NOT_SUPPORTED_PRESERVE]: `Not supportted 'preserve'.`,
+  [I18nWarnCodes.NOT_SUPPORTED_FORMATTER]: `Not supportted 'formatter'.`,
+  [I18nWarnCodes.NOT_SUPPORTED_PRESERVE_DIRECTIVE]: `Not supportted 'preserveDirectiveContent'.`,
+  [I18nWarnCodes.NOT_SUPPORTED_GET_CHOICE_INDEX]: `Not supportted 'getChoiceIndex'.`,
+  [I18nWarnCodes.COMPONENT_NAME_LEGACY_COMPATIBLE]: `Component name legacy compatible: '{name}' -> 'i18n'`,
+  [I18nWarnCodes.NOT_FOUND_PARENT_COMPOSER]: `Not found parent composer. use the global composer.`
 }
 
 export function getWarnMessage(
