@@ -10,20 +10,24 @@
       await expect(page).toMatchElement('#app p', {
         text: 'こんにちは、世界！'
       })
-      await expect(page).toMatchElement('#app div.child p', { text: 'Hi !' })
+      await expect(page).toMatchElement('#app div.child p', {
+        text: 'Hi there!'
+      })
     })
 
     test('change locale', async () => {
       // root
       await expect(page).toSelect('#app select', 'en')
       await expect(page).toMatchElement('#app p', { text: 'hello world!' })
-      await expect(page).toMatchElement('#app div.child p', { text: 'Hi !' })
+      await expect(page).toMatchElement('#app div.child p', {
+        text: 'Hi there!'
+      })
 
       // Child
       await expect(page).toSelect('#app div.child select', 'ja')
       await expect(page).toMatchElement('#app p', { text: 'hello world!' })
       await expect(page).toMatchElement('#app div.child p', {
-        text: 'こんにちは！'
+        text: 'やあ！'
       })
     })
   })
