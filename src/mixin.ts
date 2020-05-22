@@ -12,6 +12,7 @@ import {
   NumberFormatResult
 } from './legacy'
 import { I18nInternal } from './i18n'
+import { createI18nError, I18nErrorCodes } from './errors'
 
 declare module '@vue/runtime-core' {
   interface ComponentCustomOptions {
@@ -145,9 +146,9 @@ export function defineMixin(
   return {
     beforeCreate() {
       const instance = getCurrentInstance()
+      /* istanbul ignore if */
       if (!instance) {
-        // TODO:
-        throw new Error('TODO')
+        throw createI18nError(I18nErrorCodes.UNEXPECTED_ERROR)
       }
 
       const options = this.$options
@@ -190,9 +191,9 @@ export function defineMixin(
 
     beforeDestroy() {
       const instance = getCurrentInstance()
+      /* istanbul ignore if */
       if (!instance) {
-        // TODO:
-        throw new Error('TODO')
+        throw createI18nError(I18nErrorCodes.UNEXPECTED_ERROR)
       }
 
       delete this.$el.__intlify__
