@@ -7,14 +7,13 @@ import {
 } from 'vue'
 import { Composer, ComposerInternal } from '../composer'
 import { useI18n } from '../i18n'
-import { TranslateOptions, Locale } from '../core'
+import { TranslateOptions } from '../core'
 import { NamedValue } from '../message/runtime'
 import { isNumber, isString } from '../utils'
+import { baseFormatProps, BaseFormatProps } from './base'
 
-export type TranslationProps = {
-  tag?: string
+export interface TranslationProps extends BaseFormatProps {
   keypath: string
-  locale?: Locale
   plural?: number | string
 }
 
@@ -22,15 +21,10 @@ export const Translation = defineComponent({
   /* eslint-disable */
   name: 'i18n-t',
   props: {
-    tag: {
-      type: String
-    },
+    ...baseFormatProps,
     keypath: {
       type: String,
       required: true
-    },
-    locale: {
-      type: String
     },
     plural: {
       type: [Number, String],
@@ -41,7 +35,8 @@ export const Translation = defineComponent({
   /* eslint-enable */
   setup(props: TranslationProps, context: SetupContext) {
     const { slots, attrs } = context
-    const i18n = useI18n({ useScope: 'parent' }) as Composer & ComposerInternal
+    const i18n = useI18n({ useScope: props.scope }) as Composer &
+      ComposerInternal
     const keys = Object.keys(slots).filter(key => key !== '_')
 
     return () => {
