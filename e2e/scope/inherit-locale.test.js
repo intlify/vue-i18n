@@ -11,7 +11,7 @@
         text: 'こんにちは、世界！'
       })
       await expect(page).toMatchElement('#app div.child p', {
-        text: 'こんにちは！'
+        text: 'やあ！'
       })
       await expect(page).toMatchElement('#app label[for=checkbox]', {
         text: 'root から locale を継承する'
@@ -22,7 +22,7 @@
       // root
       await expect(page).toSelect('#app select', 'en')
       await expect(page).toMatchElement('#app p', { text: 'hello world!' })
-      await expect(page).toMatchElement('#app div.child p', { text: 'Hi !' })
+      await expect(page).toMatchElement('#app div.child p', { text: 'Hi there!' })
       await expect(page).toMatchElement('#app label[for=checkbox]', {
         text: 'Inherit locale from root'
       })
@@ -31,7 +31,7 @@
       await expect(page).toSelect('#app div.child select', 'ja')
       await expect(page).toMatchElement('#app p', { text: 'hello world!' })
       await expect(page).toMatchElement('#app div.child p', {
-        text: 'こんにちは！'
+        text: 'やあ！'
       })
       await expect(page).toMatchElement('#app label[for=checkbox]', {
         text: 'root から locale を継承する'
@@ -43,7 +43,7 @@
       await expect(page).toSelect('#app select', 'en')
       await expect(page).toMatchElement('#app p', { text: 'hello world!' })
       await expect(page).toMatchElement('#app div.child p', {
-        text: 'こんにちは！'
+        text: 'やあ！'
       })
       await expect(page).toMatchElement('#app label[for=checkbox]', {
         text: 'root から locale を継承する'
@@ -54,7 +54,7 @@
       await expect(page).toSelect('#app select', 'ja')
       await expect(page).toSelect('#app select', 'en')
       await expect(page).toMatchElement('#app p', { text: 'hello world!' })
-      await expect(page).toMatchElement('#app div.child p', { text: 'Hi !' })
+      await expect(page).toMatchElement('#app div.child p', { text: 'Hi there!' })
       await expect(page).toMatchElement('#app label[for=checkbox]', {
         text: 'Inherit locale from root'
       })
