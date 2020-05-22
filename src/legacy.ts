@@ -121,16 +121,16 @@ export interface VueI18n {
   t(key: Path, locale: Locale, list: unknown[]): TranslateResult
   t(key: Path, locale: Locale, named: object): TranslateResult
   t(key: Path, list: unknown[]): TranslateResult
-  t(key: Path, named: object): TranslateResult
+  t(key: Path, named: Record<string, unknown>): TranslateResult
   t(...args: unknown[]): TranslateResult // for $t
   tc(key: Path): TranslateResult
   tc(key: Path, locale: Locale): TranslateResult
   tc(key: Path, list: unknown[]): TranslateResult
-  tc(key: Path, named: object): TranslateResult
+  tc(key: Path, named: Record<string, unknown>): TranslateResult
   tc(key: Path, choice: number): TranslateResult
   tc(key: Path, choice: number, locale: Locale): TranslateResult
   tc(key: Path, choice: number, list: unknown[]): TranslateResult
-  tc(key: Path, choice: number, named: object): TranslateResult
+  tc(key: Path, choice: number, named: Record<string, unknown>): TranslateResult
   tc(...args: unknown[]): TranslateResult // for $tc
   te(key: Path, locale?: Locale): boolean
   getLocaleMessage(locale: Locale): LocaleMessage

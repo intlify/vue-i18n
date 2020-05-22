@@ -29,6 +29,9 @@ module.exports = {
   },
   rules: {
     'object-curly-spacing': 'off',
+    '@typescript-eslint/ban-types': 'off',
+    '@typescript-eslint/ban-ts-ignore': 'off',
+    '@typescript-eslint/ban-ts-comment': 'off',
     '@typescript-eslint/explicit-function-return-type': 'off',
     '@typescript-eslint/member-delimiter-style': 'off',
     '@typescript-eslint/no-use-before-define': 'off',

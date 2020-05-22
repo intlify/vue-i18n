@@ -144,7 +144,7 @@ export function defineMixin(
   i18n: I18nInternal
 ): ComponentOptions {
   return {
-    beforeCreate() {
+    beforeCreate(): void {
       const instance = getCurrentInstance()
       /* istanbul ignore if */
       if (!instance) {
@@ -185,11 +185,11 @@ export function defineMixin(
         this.$i18n.n(...args)
     },
 
-    mounted() {
+    mounted(): void {
       this.$el.__intlify__ = this.$i18n.__composer
     },
 
-    beforeDestroy() {
+    beforeDestroy(): void {
       const instance = getCurrentInstance()
       /* istanbul ignore if */
       if (!instance) {

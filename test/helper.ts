@@ -38,10 +38,8 @@ function initialProps<P>(propsOption: ComponentObjectPropsOptions<P>) {
 
   for (const key in propsOption) {
     const prop = propsOption[key]
-    // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
     // @ts-ignore
     if (!prop.required && prop.default)
-      // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
       // @ts-ignore
       copy[key] = prop.default
   }

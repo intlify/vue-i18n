@@ -3,6 +3,7 @@ import {
   Fragment,
   defineComponent,
   SetupContext,
+  VNodeChild,
   VNodeArrayChildren
 } from 'vue'
 import { Composer, ComposerInternal } from '../composer'
@@ -39,7 +40,7 @@ export const Translation = defineComponent({
       ComposerInternal
     const keys = Object.keys(slots).filter(key => key !== '_')
 
-    return () => {
+    return (): VNodeChild => {
       const options = {} as TranslateOptions
       if (props.locale) {
         options.locale = props.locale

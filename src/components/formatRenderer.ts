@@ -3,6 +3,7 @@ import {
   RenderFunction,
   Fragment,
   SetupContext,
+  VNodeChild,
   VNodeArrayChildren
 } from 'vue'
 import { NumberOptions, DateTimeOptions } from '../core'
@@ -34,7 +35,7 @@ export function renderFormatter<
 ): RenderFunction {
   const { slots, attrs } = context
 
-  return () => {
+  return (): VNodeChild => {
     const options = { part: true } as Arg
     let orverrides = {} as FormatOverrideOptions
 

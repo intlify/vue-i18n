@@ -78,6 +78,6 @@ export function createCompileError<T extends number>(
   return error
 }
 
-export function defaultOnError(error: CompileError) {
+export function defaultOnError(error: CompileError): never {
   throw error
 }

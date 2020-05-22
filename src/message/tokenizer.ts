@@ -374,7 +374,10 @@ export function createTokenizer(
     return ret
   }
 
-  const takeChar = (scnr: Scanner, fn: Function): string | undefined | null => {
+  const takeChar = (
+    scnr: Scanner,
+    fn: (ch: string) => boolean
+  ): string | undefined | null => {
     const ch = scnr.currentChar()
 
     if (ch === EOF) {

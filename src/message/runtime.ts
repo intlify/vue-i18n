@@ -24,7 +24,7 @@ export type MessageFunction = {
 }
 export type MessageFunctions = Record<string, MessageFunction>
 export type MessageResolveFunction = (key: string) => MessageFunction
-export type NamedValue<T = {}> = T & { [prop: string]: unknown }
+export type NamedValue<T = {}> = T & Record<string, unknown>
 export type MessageNormalize = (values: unknown[]) => unknown
 export type MessageInterpolate = (val: unknown) => unknown
 
