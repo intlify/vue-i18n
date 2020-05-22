@@ -162,7 +162,6 @@ yarn add vue-i18n@next
   - [ ] improve locale messages typing: `LocaleMessages` / `LocaleMessage` / `LocaleMessageDictiory`
   - [x] postTranslation context option
 - Composable API: I18n Composer
-  - [ ] error handlings
   - properties
     - [x] locale
     - [x] fallbackLocale
@@ -262,8 +261,7 @@ yarn add vue-i18n@next
   - [x] fallback localization (bubble up)
   - [ ] SSR
 - General tasks
-  - [ ] error handlings
-  - [ ] unit testings with @vue/test-utils@next
+  - [x] error handlings
 
 </details>
 
