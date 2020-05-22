@@ -22,7 +22,9 @@
       // root
       await expect(page).toSelect('#app select', 'en')
       await expect(page).toMatchElement('#app p', { text: 'hello world!' })
-      await expect(page).toMatchElement('#app div.child p', { text: 'Hi there!' })
+      await expect(page).toMatchElement('#app div.child p', {
+        text: 'Hi there!'
+      })
       await expect(page).toMatchElement('#app label[for=checkbox]', {
         text: 'Inherit locale from root'
       })
@@ -54,7 +56,9 @@
       await expect(page).toSelect('#app select', 'ja')
       await expect(page).toSelect('#app select', 'en')
       await expect(page).toMatchElement('#app p', { text: 'hello world!' })
-      await expect(page).toMatchElement('#app div.child p', { text: 'Hi there!' })
+      await expect(page).toMatchElement('#app div.child p', {
+        text: 'Hi there!'
+      })
       await expect(page).toMatchElement('#app label[for=checkbox]', {
         text: 'Inherit locale from root'
       })
