@@ -62,6 +62,7 @@ test('basic usage', async () => {
 `
   })
   const wrapper = await mount(App, i18n)
+  console.log('html', wrapper.html())
 
   expect(wrapper.html()).toMatch(
     /([1-9]|1[0-2])\/([1-9]|[12]\d|3[01])\/([12]\d{3})/
@@ -94,6 +95,7 @@ test('slots', async () => {
 `
   })
   const wrapper = await mount(App, i18n)
+  console.log('html', wrapper.html())
 
   expect(wrapper.html()).toMatch(`<span style="color: green;">R</span>`)
   expect(wrapper.html()).toMatch(
