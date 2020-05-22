@@ -3,6 +3,12 @@ import { useI18n } from '../i18n'
 import { DateTimeOptions } from '../core'
 import { Composer, ComposerInternal } from '../composer'
 import { renderFormatter, FormattableProps } from './formatRenderer'
+import { baseFormatProps } from './base'
+
+export type DatetimeFormatProps = FormattableProps<
+  number | Date,
+  Intl.DateTimeFormatOptions
+>
 
 const DATETIME_FORMAT_KEYS = [
   'dateStyle',
@@ -31,18 +37,13 @@ export const DatetimeFormat = defineComponent({
   /* eslint-disable */
   name: 'i18n-d',
   props: {
-    tag: {
-      type: String
-    },
+    ...baseFormatProps,
     value: {
       type: [Number, Date] as PropType<number | Date>,
       required: true
     },
     format: {
-      type: [String, Object]
-    },
-    locale: {
-      type: String
+      type: [String, Object] as PropType<Intl.DateTimeFormatOptions>
     }
   },
   /* eslint-enable */

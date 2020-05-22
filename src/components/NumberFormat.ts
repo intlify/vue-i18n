@@ -1,8 +1,14 @@
-import { defineComponent, SetupContext } from 'vue'
+import { defineComponent, SetupContext, PropType } from 'vue'
 import { useI18n } from '../i18n'
 import { NumberOptions } from '../core'
 import { Composer, ComposerInternal } from '../composer'
 import { renderFormatter, FormattableProps } from './formatRenderer'
+import { baseFormatProps } from './base'
+
+export type NumberFormatProps = FormattableProps<
+  number,
+  Intl.NumberFormatOptions
+>
 
 const NUMBER_FORMAT_KEYS = [
   'localeMatcher',
@@ -26,18 +32,13 @@ export const NumberFormat = defineComponent({
   /* eslint-disable */
   name: 'i18n-n',
   props: {
-    tag: {
-      type: String
-    },
+    ...baseFormatProps,
     value: {
       type: Number,
       required: true
     },
     format: {
-      type: [String, Object]
-    },
-    locale: {
-      type: String
+      type: [String, Object] as PropType<Intl.NumberFormatOptions>
     }
   },
   /* eslint-enable */

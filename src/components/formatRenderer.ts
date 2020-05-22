@@ -5,14 +5,13 @@ import {
   SetupContext,
   VNodeArrayChildren
 } from 'vue'
-import { Locale, NumberOptions, DateTimeOptions } from '../core'
+import { NumberOptions, DateTimeOptions } from '../core'
 import { isString, isPlainObject, isArray } from '../utils'
+import { BaseFormatProps } from './base'
 
-export type FormattableProps<Value, Format> = {
-  tag?: string
+export interface FormattableProps<Value, Format> extends BaseFormatProps {
   value: Value
   format?: string | Format
-  locale?: Locale
 }
 
 type FormatOptions = NumberOptions | DateTimeOptions

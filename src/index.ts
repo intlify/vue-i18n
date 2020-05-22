@@ -44,6 +44,14 @@ export {
   ComposerAdditionalOptions,
   UseI18nOptions
 } from './i18n'
+export {
+  TranslationProps,
+  NumberFormatProps,
+  DatetimeFormatProps,
+  FormattableProps,
+  BaseFormatProps,
+  ComponetI18nScope
+} from './components'
 export { I18nPluginOptions } from './plugin'
 
 /**
