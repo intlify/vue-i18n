@@ -325,7 +325,7 @@ function getCompileOptions(
   key: string,
   source: string,
   warnHtmlMessage: boolean,
-  errorDetector?: Function // eslint-disable-line @typescript-eslint/ban-types
+  errorDetector?: (err: CompileError) => void
 ): CompileOptions {
   return {
     warnHtmlMessage,
