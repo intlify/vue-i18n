@@ -120,13 +120,13 @@ export function createParser(options: ParserOptions = {}): Parser {
   const location = !options.location
 
   const { onError } = options
-  const emitError = (
+  function emitError(
     tokenzer: Tokenizer,
     code: CompileErrorCodes,
     start: Position,
     offset: number,
     ...args: unknown[]
-  ): void => {
+  ): void {
     const end = tokenzer.currentPosition()
     end.offset += offset
     end.column += offset
@@ -140,7 +140,7 @@ export function createParser(options: ParserOptions = {}): Parser {
     }
   }
 
-  const startNode = (type: NodeTypes, offset: number, loc: Position): Node => {
+  function startNode(type: NodeTypes, offset: number, loc: Position): Node {
     const node = {
       type,
       start: offset,
@@ -154,12 +154,12 @@ export function createParser(options: ParserOptions = {}): Parser {
     return node
   }
 
-  const endNode = (
+  function endNode(
     node: Node,
     offset: number,
     pos: Position,
     type?: NodeTypes
-  ): void => {
+  ): void {
     node.end = offset
 
     if (type) {
@@ -171,7 +171,7 @@ export function createParser(options: ParserOptions = {}): Parser {
     }
   }
 
-  const parseText = (tokenizer: Tokenizer, value: string): TextNode => {
+  function parseText(tokenizer: Tokenizer, value: string): TextNode {
     const context = tokenizer.context()
     const node = startNode(
       NodeTypes.Text,
@@ -183,7 +183,7 @@ export function createParser(options: ParserOptions = {}): Parser {
     return node
   }
 
-  const parseList = (tokenizer: Tokenizer, index: string): ListNode => {
+  function parseList(tokenizer: Tokenizer, index: string): ListNode {
     const context = tokenizer.context()
     const { lastOffset: offset, lastStartLoc: loc } = context // get brace left loc
     const node = startNode(NodeTypes.List, offset, loc) as ListNode
@@ -193,7 +193,7 @@ export function createParser(options: ParserOptions = {}): Parser {
     return node
   }
 
-  const parseNamed = (tokenizer: Tokenizer, key: string): NamedNode => {
+  function parseNamed(tokenizer: Tokenizer, key: string): NamedNode {
     const context = tokenizer.context()
     const { lastOffset: offset, lastStartLoc: loc } = context // get brace left loc
     const node = startNode(NodeTypes.Named, offset, loc) as NamedNode
@@ -203,7 +203,7 @@ export function createParser(options: ParserOptions = {}): Parser {
     return node
   }
 
-  const parseLiteral = (tokenizer: Tokenizer, value: string): LiteralNode => {
+  function parseLiteral(tokenizer: Tokenizer, value: string): LiteralNode {
     const context = tokenizer.context()
     const { lastOffset: offset, lastStartLoc: loc } = context // get brace left loc
     const node = startNode(NodeTypes.Literal, offset, loc) as LiteralNode
@@ -213,7 +213,7 @@ export function createParser(options: ParserOptions = {}): Parser {
     return node
   }
 
-  const parseLinkedModifier = (tokenizer: Tokenizer): LinkedModitierNode => {
+  function parseLinkedModifier(tokenizer: Tokenizer): LinkedModitierNode {
     const token = tokenizer.nextToken()
     const context = tokenizer.context()
     // check token
@@ -237,10 +237,7 @@ export function createParser(options: ParserOptions = {}): Parser {
     return node
   }
 
-  const parseLinkedKey = (
-    tokenizer: Tokenizer,
-    value: string
-  ): LinkedKeyNode => {
+  function parseLinkedKey(tokenizer: Tokenizer, value: string): LinkedKeyNode {
     const context = tokenizer.context()
     const node = startNode(
       NodeTypes.LinkedKey,
@@ -252,7 +249,7 @@ export function createParser(options: ParserOptions = {}): Parser {
     return node
   }
 
-  const parseLinked = (tokenizer: Tokenizer): LinkedNode => {
+  function parseLinked(tokenizer: Tokenizer): LinkedNode {
     const context = tokenizer.context()
     const linkedNode = startNode(
       NodeTypes.Linked,
@@ -338,7 +335,7 @@ export function createParser(options: ParserOptions = {}): Parser {
     return linkedNode
   }
 
-  const parseMessage = (tokenizer: Tokenizer): MessageNode => {
+  function parseMessage(tokenizer: Tokenizer): MessageNode {
     const context = tokenizer.context()
     const startOffset =
       context.currentType === TokenTypes.Pipe
@@ -429,12 +426,12 @@ export function createParser(options: ParserOptions = {}): Parser {
     return node
   }
 
-  const parsePlural = (
+  function parsePlural(
     tokenizer: Tokenizer,
     offset: number,
     loc: Position,
     msgNode: MessageNode
-  ): PluralNode => {
+  ): PluralNode {
     const context = tokenizer.context()
     let hasEmptyMessage = msgNode.items.length === 0
 
@@ -463,7 +460,7 @@ export function createParser(options: ParserOptions = {}): Parser {
     return node
   }
 
-  const parseResource = (tokenizer: Tokenizer): MessageNode | PluralNode => {
+  function parseResource(tokenizer: Tokenizer): MessageNode | PluralNode {
     const context = tokenizer.context()
     const { offset, startLoc } = context
 

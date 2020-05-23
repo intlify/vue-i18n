@@ -101,12 +101,12 @@ export function createTokenizer(
   const context = (): TokenizeContext => _context
 
   const { onError } = options
-  const emitError = (
+  function emitError(
     code: CompileErrorCodes,
     pos: Position,
     offset: number,
     ...args: unknown[]
-  ): void => {
+  ): void {
     const ctx = context()
 
     pos.column += offset
@@ -122,11 +122,11 @@ export function createTokenizer(
     }
   }
 
-  const getToken = (
+  function getToken(
     context: TokenizeContext,
     type: TokenTypes,
     value?: string
-  ): Token => {
+  ): Token {
     context.endLoc = currentPosition()
     context.currentType = type
 
@@ -144,7 +144,7 @@ export function createTokenizer(
   const getEndToken = (context: TokenizeContext): Token =>
     getToken(context, TokenTypes.EOF)
 
-  const eat = (scnr: Scanner, ch: string): string => {
+  function eat(scnr: Scanner, ch: string): string {
     if (scnr.currentChar() === ch) {
       scnr.next()
       return ch
@@ -154,7 +154,7 @@ export function createTokenizer(
     }
   }
 
-  const peekSpaces = (scnr: Scanner): string => {
+  function peekSpaces(scnr: Scanner): string {
     let buf = ''
     while (scnr.currentPeek() === SPACE || scnr.currentPeek() === NEW_LINE) {
       buf += scnr.currentPeek()
@@ -163,13 +163,13 @@ export function createTokenizer(
     return buf
   }
 
-  const skipSpaces = (scnr: Scanner): string => {
+  function skipSpaces(scnr: Scanner): string {
     const buf = peekSpaces(scnr)
     scnr.skipToPeek()
     return buf
   }
 
-  const isIdentifierStart = (ch: string): boolean => {
+  function isIdentifierStart(ch: string): boolean {
     if (ch === EOF) {
       return false
     }
@@ -180,7 +180,7 @@ export function createTokenizer(
     ) // A-Z
   }
 
-  const isNumberStart = (ch: string): boolean => {
+  function isNumberStart(ch: string): boolean {
     if (ch === EOF) {
       return false
     }
@@ -188,10 +188,10 @@ export function createTokenizer(
     return cc >= 48 && cc <= 57 // 0-9
   }
 
-  const isNamedIdentifierStart = (
+  function isNamedIdentifierStart(
     scnr: Scanner,
     context: TokenizeContext
-  ): boolean => {
+  ): boolean {
     const { currentType } = context
 
     if (currentType !== TokenTypes.BraceLeft) {
@@ -206,10 +206,10 @@ export function createTokenizer(
     return ret
   }
 
-  const isListIdentifierStart = (
+  function isListIdentifierStart(
     scnr: Scanner,
     context: TokenizeContext
-  ): boolean => {
+  ): boolean {
     const { currentType } = context
 
     if (currentType !== TokenTypes.BraceLeft) {
@@ -225,7 +225,7 @@ export function createTokenizer(
     return ret
   }
 
-  const isLiteralStart = (scnr: Scanner, context: TokenizeContext): boolean => {
+  function isLiteralStart(scnr: Scanner, context: TokenizeContext): boolean {
     const { currentType } = context
 
     if (currentType !== TokenTypes.BraceLeft) {
@@ -240,10 +240,7 @@ export function createTokenizer(
     return ret
   }
 
-  const isLinkedDotStart = (
-    scnr: Scanner,
-    context: TokenizeContext
-  ): boolean => {
+  function isLinkedDotStart(scnr: Scanner, context: TokenizeContext): boolean {
     const { currentType } = context
 
     if (currentType !== TokenTypes.LinkedAlias) {
@@ -257,10 +254,10 @@ export function createTokenizer(
     return ret
   }
 
-  const isLinkedModifierStart = (
+  function isLinkedModifierStart(
     scnr: Scanner,
     context: TokenizeContext
-  ): boolean => {
+  ): boolean {
     const { currentType } = context
 
     if (currentType !== TokenTypes.LinkedDot) {
@@ -274,10 +271,10 @@ export function createTokenizer(
     return ret
   }
 
-  const isLinkedDelimiterStart = (
+  function isLinkedDelimiterStart(
     scnr: Scanner,
     context: TokenizeContext
-  ): boolean => {
+  ): boolean {
     const { currentType } = context
 
     if (
@@ -296,10 +293,10 @@ export function createTokenizer(
     return ret
   }
 
-  const isLinkedReferStart = (
+  function isLinkedReferStart(
     scnr: Scanner,
     context: TokenizeContext
-  ): boolean => {
+  ): boolean {
     const { currentType } = context
 
     if (currentType !== TokenTypes.LinkedDelimiter) {
@@ -335,7 +332,7 @@ export function createTokenizer(
     return ret
   }
 
-  const isPluralStart = (scnr: Scanner): boolean => {
+  function isPluralStart(scnr: Scanner): boolean {
     peekSpaces(scnr)
 
     const ret = scnr.currentPeek() === TokenChars.Pipe
@@ -344,7 +341,7 @@ export function createTokenizer(
     return ret
   }
 
-  const isTextStart = (scnr: Scanner): boolean => {
+  function isTextStart(scnr: Scanner): boolean {
     const fn = (hasSpace = false): boolean => {
       const ch = scnr.currentPeek()
       if (
@@ -374,10 +371,10 @@ export function createTokenizer(
     return ret
   }
 
-  const takeChar = (
+  function takeChar(
     scnr: Scanner,
     fn: (ch: string) => boolean
-  ): string | undefined | null => {
+  ): string | undefined | null {
     const ch = scnr.currentChar()
 
     if (ch === EOF) {
@@ -392,7 +389,7 @@ export function createTokenizer(
     return null
   }
 
-  const takeIdentifierChar = (scnr: Scanner): string | undefined | null => {
+  function takeIdentifierChar(scnr: Scanner): string | undefined | null {
     const closure = (ch: string) => {
       const cc = ch.charCodeAt(0)
       return (
@@ -406,7 +403,7 @@ export function createTokenizer(
     return takeChar(scnr, closure)
   }
 
-  const takeDigit = (scnr: Scanner): string | undefined | null => {
+  function takeDigit(scnr: Scanner): string | undefined | null {
     const closure = (ch: string) => {
       const cc = ch.charCodeAt(0)
       return cc >= 48 && cc <= 57 // 0-9
@@ -414,7 +411,7 @@ export function createTokenizer(
     return takeChar(scnr, closure)
   }
 
-  const takeHexDigit = (scnr: Scanner): string | undefined | null => {
+  function takeHexDigit(scnr: Scanner): string | undefined | null {
     const closure = (ch: string) => {
       const cc = ch.charCodeAt(0)
       return (
@@ -426,7 +423,7 @@ export function createTokenizer(
     return takeChar(scnr, closure)
   }
 
-  const getDigits = (scnr: Scanner): string => {
+  function getDigits(scnr: Scanner): string {
     let ch: string | undefined | null = ''
     let num = ''
     while ((ch = takeDigit(scnr))) {
@@ -436,7 +433,7 @@ export function createTokenizer(
     return num
   }
 
-  const readText = (scnr: Scanner): string => {
+  function readText(scnr: Scanner): string {
     const fn = (buf: string): string => {
       const ch = scnr.currentChar()
       if (
@@ -465,7 +462,7 @@ export function createTokenizer(
     return fn('')
   }
 
-  const readNamedIdentifier = (scnr: Scanner): string => {
+  function readNamedIdentifier(scnr: Scanner): string {
     skipSpaces(scnr)
 
     let ch: string | undefined | null = ''
@@ -485,7 +482,7 @@ export function createTokenizer(
     return name
   }
 
-  const readListIdentifier = (scnr: Scanner): string => {
+  function readListIdentifier(scnr: Scanner): string {
     skipSpaces(scnr)
 
     let value = ''
@@ -507,7 +504,7 @@ export function createTokenizer(
     return value
   }
 
-  const readLiteral = (scnr: Scanner): string => {
+  function readLiteral(scnr: Scanner): string {
     skipSpaces(scnr)
 
     eat(scnr, `\'`)
@@ -543,7 +540,7 @@ export function createTokenizer(
     return literal
   }
 
-  const readEscapeSequence = (scnr: Scanner): string => {
+  function readEscapeSequence(scnr: Scanner): string {
     const ch = scnr.currentChar()
     switch (ch) {
       case '\\':
@@ -565,11 +562,11 @@ export function createTokenizer(
     }
   }
 
-  const readUnicodeEscapeSequence = (
+  function readUnicodeEscapeSequence(
     scnr: Scanner,
     unicode: string,
     digits: number
-  ): string => {
+  ): string {
     eat(scnr, unicode)
 
     let sequence = ''
@@ -590,7 +587,7 @@ export function createTokenizer(
     return `\\${unicode}${sequence}`
   }
 
-  const readInvalidIdentifier = (scnr: Scanner): string => {
+  function readInvalidIdentifier(scnr: Scanner): string {
     skipSpaces(scnr)
 
     let ch: string | undefined | null = ''
@@ -607,7 +604,7 @@ export function createTokenizer(
     return identifiers
   }
 
-  const readLinkedModifier = (scnr: Scanner): string => {
+  function readLinkedModifier(scnr: Scanner): string {
     let ch: string | undefined | null = ''
     let name = ''
     while ((ch = takeIdentifierChar(scnr))) {
@@ -617,7 +614,7 @@ export function createTokenizer(
     return name
   }
 
-  const readLinkedRefer = (scnr: Scanner): string => {
+  function readLinkedRefer(scnr: Scanner): string {
     const fn = (detect = false, buf: string): string => {
       const ch = scnr.currentChar()
       if (
@@ -644,7 +641,7 @@ export function createTokenizer(
     return fn(false, '')
   }
 
-  const readPlural = (scnr: Scanner): string => {
+  function readPlural(scnr: Scanner): string {
     skipSpaces(scnr)
     const plural = eat(scnr, TokenChars.Pipe)
     skipSpaces(scnr)
@@ -652,10 +649,10 @@ export function createTokenizer(
   }
 
   // TODO: We need refactoring of token parsing ...
-  const readTokenInPlaceholder = (
+  function readTokenInPlaceholder(
     scnr: Scanner,
     context: TokenizeContext
-  ): Token | null => {
+  ): Token | null {
     let token = null
 
     const ch = scnr.currentChar()
@@ -793,10 +790,10 @@ export function createTokenizer(
   }
 
   // TODO: We need refactoring of token parsing ...
-  const readTokenInLinked = (
+  function readTokenInLinked(
     scnr: Scanner,
     context: TokenizeContext
-  ): Token | null => {
+  ): Token | null {
     const { currentType } = context
     let token = null
 
@@ -894,7 +891,7 @@ export function createTokenizer(
   }
 
   // TODO: We need refactoring of token parsing ...
-  const readToken = (scnr: Scanner, context: TokenizeContext): Token => {
+  function readToken(scnr: Scanner, context: TokenizeContext): Token {
     let token = { type: TokenTypes.EOF }
 
     if (context.braceNest > 0) {
@@ -946,7 +943,7 @@ export function createTokenizer(
     return token
   }
 
-  const nextToken = (): Token => {
+  function nextToken(): Token {
     const { currentType, offset, startLoc, endLoc } = _context
     _context.lastType = currentType
     _context.lastOffset = offset

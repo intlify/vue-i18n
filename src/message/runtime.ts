@@ -147,7 +147,7 @@ export function createMessageContext<N = {}>(
   const modifier = (name: string): LinkedModify =>
     options.modifiers ? options.modifiers[name] : DEFAULT_MODIFIER
 
-  const message = (name: string): MessageFunction => {
+  function message(name: string): MessageFunction {
     // TODO: need to design resolve message function?
     // prettier-ignore
     const msg = isFunction(options.messages)

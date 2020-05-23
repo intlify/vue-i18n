@@ -374,7 +374,7 @@ export function createComposer(
 
   // runtime context
   let _context: RuntimeContext // eslint-disable-line prefer-const
-  const getRuntimeContext = (): RuntimeContext => {
+  function getRuntimeContext(): RuntimeContext {
     return createRuntimeContext({
       locale: _locale.value,
       fallbackLocale: _fallbackLocale.value,
@@ -442,9 +442,9 @@ export function createComposer(
     isFunction(_postTranslation) ? _postTranslation : null
 
   // setPostTranslationHandler
-  const setPostTranslationHandler = (
+  function setPostTranslationHandler(
     handler: PostTranslationHandler | null
-  ): void => {
+  ): void {
     _postTranslation = handler
     _context.postTranslation = handler
   }
@@ -453,7 +453,7 @@ export function createComposer(
   const getMissingHandler = (): MissingHandler | null => _missing
 
   // setMissingHandler
-  const setMissingHandler = (handler: MissingHandler | null): void => {
+  function setMissingHandler(handler: MissingHandler | null): void {
     if (handler !== null) {
       _runtimeMissing = defineRuntimeMissingHandler(handler)
     }
@@ -461,14 +461,14 @@ export function createComposer(
     _context.missing = _runtimeMissing
   }
 
-  const defineComputed = <T>(
+  function defineComputed<T>(
     fn: (context: RuntimeContext) => unknown,
     argumentParser: () => string,
     warnType: string,
     fallbackSuccess: (root: Composer & ComposerInternal) => T,
     fallbackFail: (key: string) => T,
     successCondition: (val: unknown) => boolean
-  ): ComputedRef<T> => {
+  ): ComputedRef<T> {
     // NOTE:
     // if this composer is global (__root is `undefined`), add dependency trakcing!
     // by containing this, we can reactively notify components that reference the global composer.
@@ -503,7 +503,7 @@ export function createComposer(
   }
 
   // t
-  const t = (...args: unknown[]): string => {
+  function t(...args: unknown[]): string {
     return defineComputed<string>(
       context => translate(context, ...args),
       () => parseTranslateArgs(...args)[0],
@@ -515,7 +515,7 @@ export function createComposer(
   }
 
   // d
-  const d = (...args: unknown[]): string => {
+  function d(...args: unknown[]): string {
     return defineComputed<string>(
       context => datetime(context, ...args),
       () => parseDateTimeArgs(...args)[0],
@@ -527,7 +527,7 @@ export function createComposer(
   }
 
   // n
-  const n = (...args: unknown[]): string => {
+  function n(...args: unknown[]): string {
     return defineComputed<string>(
       context => number(context, ...args),
       () => parseNumberArgs(...args)[0],
@@ -539,7 +539,7 @@ export function createComposer(
   }
 
   // for custom processor
-  const normalize = (values: unknown[]): unknown => {
+  function normalize(values: unknown[]): unknown {
     return values.map(val =>
       isString(val) ? createVNode(Text, null, val, 0) : val
     )
@@ -552,7 +552,7 @@ export function createComposer(
   } as MessageProcessor
 
   // __transrateVNode, using for `i18n-t` component
-  const __transrateVNode = (...args: unknown[]): unknown => {
+  function __transrateVNode(...args: unknown[]): unknown {
     return defineComputed<unknown>(
       context => {
         let ret: unknown
@@ -573,9 +573,7 @@ export function createComposer(
   }
 
   // __numberParts, using for `i18n-n` component
-  const __numberParts = (
-    ...args: unknown[]
-  ): string | Intl.NumberFormatPart[] => {
+  function __numberParts(...args: unknown[]): string | Intl.NumberFormatPart[] {
     return defineComputed<string | Intl.NumberFormatPart[]>(
       context => number(context, ...args),
       () => parseNumberArgs(...args)[0],
@@ -587,9 +585,9 @@ export function createComposer(
   }
 
   // __datetimeParts, using for `i18n-d` component
-  const __datetimeParts = (
+  function __datetimeParts(
     ...args: unknown[]
-  ): string | Intl.DateTimeFormatPart[] => {
+  ): string | Intl.DateTimeFormatPart[] {
     return defineComputed<string | Intl.DateTimeFormatPart[]>(
       context => datetime(context, ...args),
       () => parseDateTimeArgs(...args)[0],
@@ -605,13 +603,13 @@ export function createComposer(
     _messages.value[locale] || {}
 
   // setLocaleMessage
-  const setLocaleMessage = (locale: Locale, message: LocaleMessage): void => {
+  function setLocaleMessage(locale: Locale, message: LocaleMessage): void {
     _messages.value[locale] = message
     _context.messages = _messages.value
   }
 
   // mergeLocaleMessage
-  const mergeLocaleMessage = (locale: Locale, message: LocaleMessage): void => {
+  function mergeLocaleMessage(locale: Locale, message: LocaleMessage): void {
     _messages.value[locale] = Object.assign(
       _messages.value[locale] || {},
       message
@@ -624,17 +622,14 @@ export function createComposer(
     _datetimeFormats.value[locale] || {}
 
   // setDateTimeFormat
-  const setDateTimeFormat = (locale: Locale, format: DateTimeFormat): void => {
+  function setDateTimeFormat(locale: Locale, format: DateTimeFormat): void {
     _datetimeFormats.value[locale] = format
     _context.datetimeFormats = _datetimeFormats.value
     clearDateTimeFormat(_context, locale, format)
   }
 
   // mergeDateTimeFormat
-  const mergeDateTimeFormat = (
-    locale: Locale,
-    format: DateTimeFormat
-  ): void => {
+  function mergeDateTimeFormat(locale: Locale, format: DateTimeFormat): void {
     _datetimeFormats.value[locale] = Object.assign(
       _datetimeFormats.value[locale] || {},
       format
@@ -648,14 +643,14 @@ export function createComposer(
     _numberFormats.value[locale] || {}
 
   // setNumberFormat
-  const setNumberFormat = (locale: Locale, format: NumberFormat): void => {
+  function setNumberFormat(locale: Locale, format: NumberFormat): void {
     _numberFormats.value[locale] = format
     _context.numberFormats = _numberFormats.value
     clearNumberFormat(_context, locale, format)
   }
 
   // mergeNumberFormat
-  const mergeNumberFormat = (locale: Locale, format: NumberFormat): void => {
+  function mergeNumberFormat(locale: Locale, format: NumberFormat): void {
     _numberFormats.value[locale] = Object.assign(
       _numberFormats.value[locale] || {},
       format

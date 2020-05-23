@@ -44,19 +44,19 @@ function createCodeGenerator(source?: string): CodeGenerator {
 
   const context = (): CodeGenContext => _context
 
-  const push = (code: string): void => {
+  function push(code: string): void {
     _context.code += code
   }
 
-  const _newline = (n: number): void => {
+  function _newline(n: number): void {
     push('\n' + `  `.repeat(n))
   }
 
-  const indent = (): void => {
+  function indent(): void {
     _newline(++_context.indentLevel)
   }
 
-  const deindent = (withoutNewLine?: boolean): void => {
+  function deindent(withoutNewLine?: boolean): void {
     if (withoutNewLine) {
       --_context.indentLevel
     } else {
@@ -64,7 +64,7 @@ function createCodeGenerator(source?: string): CodeGenerator {
     }
   }
 
-  const newline = (): void => {
+  function newline(): void {
     _newline(_context.indentLevel)
   }
 
