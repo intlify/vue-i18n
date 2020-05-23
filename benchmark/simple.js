@@ -35,7 +35,6 @@ for (const [key] of Object.entries(simpleData)) {
   translate(ctx, key)
 }
 end = convertHrtime(process.hrtime())
-console.log(`sec: ${end.seconds - start.seconds}`)
 console.log(`ms: ${end.milliseconds - start.milliseconds}`)
 
 clearCompileCache()
@@ -53,5 +52,4 @@ for (const [key] of Object.entries(simpleData)) {
   i18n.global.t(key)
 }
 end = convertHrtime(process.hrtime())
-console.log(`sec: ${end.seconds - start.seconds}`)
 console.log(`ms: ${end.milliseconds - start.milliseconds}`)

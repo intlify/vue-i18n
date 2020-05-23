@@ -18,7 +18,6 @@ for (const [, source] of Object.entries(data)) {
   baseCompile(source)
 }
 let end = convertHrtime(process.hrtime())
-console.log(`sec: ${end.seconds - start.seconds}`)
 console.log(`ms: ${end.milliseconds - start.milliseconds}`)
 
 console.log()
@@ -59,5 +58,4 @@ for (const [key] of Object.entries(data)) {
   i18n.global.t(key, 2)
 }
 end = convertHrtime(process.hrtime())
-console.log(`sec: ${end.seconds - start.seconds}`)
 console.log(`ms: ${end.milliseconds - start.milliseconds}`)
