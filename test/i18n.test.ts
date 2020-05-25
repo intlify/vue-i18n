@@ -50,6 +50,7 @@ describe('useI18n', () => {
       template: `<p>foo</p>`,
       setup() {
         composer = useI18n({
+          inheritLocale: false,
           locale: 'en',
           messages: {
             en: {
@@ -115,6 +116,7 @@ describe('useI18n', () => {
       template: `<div>parent</div><Leaf />`,
       setup() {
         parent = useI18n({
+          inheritLocale: false,
           locale: 'en',
           messages: {
             en: {
