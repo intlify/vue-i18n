@@ -1,4 +1,21 @@
 
+## v9.0.0-alpha.9 (2020-05-25)
+
+#### :star: Features
+* [#51](https://github.com/intlify/vue-i18n-next/pull/51) feature: scope prop ([@kazupon](https://github.com/kazupon))
+* [#44](https://github.com/intlify/vue-i18n-next/pull/44) feat: legacy typings ([@kazupon](https://github.com/kazupon))
+
+#### :bug: Bug Fixes
+* [#53](https://github.com/intlify/vue-i18n-next/pull/53) fix: sync & inherit locale ([@kazupon](https://github.com/kazupon))
+
+#### :boom: Breaking Change
+* [#47](https://github.com/intlify/vue-i18n-next/pull/47) breaking: change default of tag prop at i18n-n and i18n-d components ([@kazupon](https://github.com/kazupon))
+* [#43](https://github.com/intlify/vue-i18n-next/pull/43) breaking: rename plugin option name ([@kazupon](https://github.com/kazupon))
+
+#### Committers: 1
+- kazuya kawaguchi ([@kazupon](https://github.com/kazupon))
+
+
 ## v9.0.0-alpha.8 (2020-05-08)
 
 #### :boom: Breaking Change
