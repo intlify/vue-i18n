@@ -11,7 +11,7 @@
         text: 'こんにちは、世界！'
       })
       await expect(page).toMatchElement('#app div.child p', {
-        text: 'Hi there!'
+        text: 'やあ！'
       })
     })
 

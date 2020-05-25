@@ -201,7 +201,7 @@ function convertComposerOptions(
   const warnHtmlMessage = isString(options.warnHtmlInMessage)
     ? options.warnHtmlInMessage !== 'off'
     : true
-  const inheritLocale = !!options.sync
+  const inheritLocale = isBoolean(options.sync) ? options.sync : true
 
   if (__DEV__ && options.formatter) {
     warn(getWarnMessage(I18nWarnCodes.NOT_SUPPORTED_FORMATTER))

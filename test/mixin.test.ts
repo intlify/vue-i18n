@@ -23,6 +23,7 @@ describe('beforeCreate', () => {
       template: `<p>{{ $t('bye') }}</p>`,
       i18n: {
         locale: 'ja',
+        sync: false,
         messages: {
           ja: {
             bye: 'さようなら'
@@ -47,7 +48,7 @@ describe('beforeCreate', () => {
     })
 
     const messages = {
-      'en-US': {
+      en: {
         bye: 'good bye!'
       }
     }

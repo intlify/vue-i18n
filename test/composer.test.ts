@@ -57,19 +57,19 @@ describe('inheritLocale', () => {
       locale: 'ja',
       __root: root
     })
-    expect(inheritLocale).toEqual(false)
-    expect(locale.value).toEqual('ja')
+    expect(inheritLocale).toEqual(true)
+    expect(locale.value).toEqual('en')
   })
 
   test('initialize with composer option', () => {
     const root = createComposer({ locale: 'en' })
     const { inheritLocale, locale } = createComposer({
       locale: 'ja',
-      inheritLocale: true,
+      inheritLocale: false,
       __root: root
     })
-    expect(inheritLocale).toEqual(true)
-    expect(locale.value).toEqual('en')
+    expect(inheritLocale).toEqual(false)
+    expect(locale.value).toEqual('ja')
   })
 
   test('sync root locale, fallbackLocale', async () => {

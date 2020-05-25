@@ -285,7 +285,9 @@ export function createComposer(
   const { __root } = options
   const _isGlobal = __root === undefined
 
-  let _inheritLocale = !!options.inheritLocale
+  let _inheritLocale = isBoolean(options.inheritLocale)
+    ? options.inheritLocale
+    : true
 
   const _locale = ref<Locale>(
     // prettier-ignore
