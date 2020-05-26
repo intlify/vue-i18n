@@ -39,7 +39,10 @@ export function apply(
 
   if (globalInstall) {
     // install components
-    app.component(!useI18nComponentName ? Translation.name : 'i18n', Translation)
+    app.component(
+      !useI18nComponentName ? Translation.name : 'i18n',
+      Translation
+    )
     app.component(NumberFormat.name, NumberFormat)
     app.component(DatetimeFormat.name, DatetimeFormat)
   }
