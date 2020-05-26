@@ -1,4 +1,4 @@
-/*!
+/**
  * Original Utilities
  * written by kazuya kawaguchi
  */
@@ -56,14 +56,13 @@ export function warn(msg: string, err?: Error): void {
   }
 }
 
-/*!
+/**
  * Useful Utilites By Evan you
  * Modified by kazuya kawaguchi
  * MIT License
  * https://github.com/vuejs/vue-next/blob/master/packages/shared/src/index.ts
  * https://github.com/vuejs/vue-next/blob/master/packages/shared/src/codeframe.ts
  */
-
 export const isArray = Array.isArray
 export const isFunction = (val: unknown): val is Function =>
   typeof val === 'function'

@@ -1,4 +1,4 @@
-/*!
+/**
  *  Composer
  *
  *  Composer is offered composable API for Vue 3
@@ -125,9 +125,7 @@ export interface ComposerInternalOptions {
  * This is the interface for being used for Vue 3 Composition API.
  */
 export interface Composer {
-  /*!
-   * properties
-   */
+  // properties
   locale: WritableComputedRef<Locale>
   fallbackLocale: WritableComputedRef<FallbackLocale>
   inheritLocale: boolean
@@ -143,9 +141,7 @@ export interface Composer {
   fallbackRoot: boolean
   fallbackFormat: boolean
   warnHtmlMessage: boolean
-  /*!
-   * methods
-   */
+  // methods
   t(key: Path): string
   t(key: Path, plural: number): string
   t(key: Path, plural: number, options: TranslateOptions): string
@@ -435,7 +431,7 @@ export function createComposer(
   // numberFormats
   const numberFormats = computed(() => _numberFormats.value)
 
-  /*!
+  /**
    * define methods
    */
 
@@ -684,9 +680,7 @@ export function createComposer(
 
   // export composable API!
   const composer = {
-    /*!
-     *  properties
-     */
+    // properties
     locale,
     fallbackLocale,
     get inheritLocale(): boolean {
@@ -750,9 +744,7 @@ export function createComposer(
       _context.warnHtmlMessage = val
     },
     __id: composerID,
-    /*!
-     * methods
-     */
+    // methods
     t,
     d,
     n,

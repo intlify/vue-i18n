@@ -1,4 +1,4 @@
-/*!
+/**
  *  Legacy
  *
  *  This module is offered legacy vue-i18n API compatibility
@@ -94,9 +94,7 @@ export interface VueI18nOptions {
  *  This interface is compatible with interface of `VueI18n` class (offered with vue-i18n@8.x).
  */
 export interface VueI18n {
-  /*!
-   * properties
-   */
+  // properties
   locale: Locale
   fallbackLocale: FallbackLocale
   readonly availableLocales: Locale[]
@@ -112,10 +110,7 @@ export interface VueI18n {
   sync: boolean
   warnHtmlInMessage: WarnHtmlInMessageLevel
   preserveDirectiveContent: boolean
-
-  /*!
-   * methods
-   */
+  // methods
   t(key: Path): TranslateResult
   t(key: Path, locale: Locale): TranslateResult
   t(key: Path, locale: Locale, list: unknown[]): TranslateResult
