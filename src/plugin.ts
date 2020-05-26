@@ -3,7 +3,7 @@ import { I18nSymbol, I18n, I18nInternal } from './i18n'
 import { Translation, NumberFormat, DatetimeFormat } from './components'
 import { vTDirective } from './directive'
 import { I18nWarnCodes, getWarnMessage } from './warnings'
-import { isPlainObject, warn } from './utils'
+import { isPlainObject, warn, isBoolean } from './utils'
 
 /**
  * I18n plugin options
@@ -13,6 +13,7 @@ import { isPlainObject, warn } from './utils'
  */
 export interface I18nPluginOptions {
   useI18nComponentName?: boolean
+  globalInstall?: boolean
 }
 
 export function apply(
@@ -24,8 +25,11 @@ export function apply(
     ? (options[0] as I18nPluginOptions)
     : {}
   const useI18nComponentName = !!pluginOptions.useI18nComponentName
+  const globalInstall = isBoolean(pluginOptions.globalInstall)
+    ? pluginOptions.globalInstall
+    : true
 
-  if (__DEV__ && useI18nComponentName) {
+  if (__DEV__ && globalInstall && useI18nComponentName) {
     warn(
       getWarnMessage(I18nWarnCodes.COMPONENT_NAME_LEGACY_COMPATIBLE, {
         name: Translation.name
@@ -33,10 +37,15 @@ export function apply(
     )
   }
 
-  // install components
-  app.component(!useI18nComponentName ? Translation.name : 'i18n', Translation)
-  app.component(NumberFormat.name, NumberFormat)
-  app.component(DatetimeFormat.name, DatetimeFormat)
+  if (globalInstall) {
+    // install components
+    app.component(
+      !useI18nComponentName ? Translation.name : 'i18n',
+      Translation
+    )
+    app.component(NumberFormat.name, NumberFormat)
+    app.component(DatetimeFormat.name, DatetimeFormat)
+  }
 
   // install directive
   app.directive('t', vTDirective(i18n))
