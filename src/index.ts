@@ -45,8 +45,11 @@ export {
   UseI18nOptions
 } from './i18n'
 export {
+  Translation,
   TranslationProps,
+  NumberFormat,
   NumberFormatProps,
+  DatetimeFormat,
   DatetimeFormatProps,
   FormattableProps,
   BaseFormatProps,

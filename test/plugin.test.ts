@@ -44,4 +44,24 @@ describe('useI18nComponentName option', () => {
   })
 })
 
+describe('globalInstall option', () => {
+  test('default', () => {
+    const app = createApp({})
+    const i18n = {} as I18n & I18nInternal
+    const spy = jest.spyOn(app, 'component')
+
+    apply(app, i18n)
+    expect(spy).toHaveBeenCalledTimes(3)
+  })
+
+  test('false', () => {
+    const app = createApp({})
+    const i18n = {} as I18n & I18nInternal
+    const spy = jest.spyOn(app, 'component')
+
+    apply(app, i18n, { globalInstall: false })
+    expect(spy).not.toHaveBeenCalled()
+  })
+})
+
 /* eslint-enable @typescript-eslint/no-empty-function */
