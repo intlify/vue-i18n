@@ -1,4 +1,17 @@
 
+## v9.0.0-alpha.10 (2020-06-03)
+
+#### :star: Features
+* [#58](https://github.com/intlify/vue-i18n-next/pull/58) feat: componentInstanceCreatedListener option ([@kazupon](https://github.com/kazupon))
+* [#55](https://github.com/intlify/vue-i18n-next/pull/55) feat: support components maually instalation ([@kazupon](https://github.com/kazupon))
+
+#### :zap: Improvement Features
+* [#57](https://github.com/intlify/vue-i18n-next/pull/57) improve: accept object resource custom block ([@kazupon](https://github.com/kazupon))
+
+#### Committers: 1
+- kazuya kawaguchi ([@kazupon](https://github.com/kazupon))
+
+
 ## v9.0.0-alpha.9 (2020-05-25)
 
 #### :star: Features
