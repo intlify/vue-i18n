@@ -58,7 +58,10 @@ export interface Formatter {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   interpolate(message: string, values: any, path: string): Array<any> | null
 }
-export type ComponentInstanceCreatedListener = (target: VueI18n, global: VueI18n) => void
+export type ComponentInstanceCreatedListener = (
+  target: VueI18n,
+  global: VueI18n
+) => void
 
 /**
  *  VueI18n Options
