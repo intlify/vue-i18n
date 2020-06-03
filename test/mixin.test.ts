@@ -176,6 +176,25 @@ test('$i18n', async () => {
   expect(vm.$i18n.t('hello')).toEqual('hello!')
 })
 
+test('VueI18n componentInstanceCreatedListener option', async () => {
+  const componentInstanceCreatedListener = jest.fn()
+  const i18n = createI18n({
+    legacy: true,
+    locale: 'en',
+    componentInstanceCreatedListener
+  })
+
+  const App = defineComponent({
+    template: '<br/>',
+    i18n: {
+      locale: 'ja'
+    }
+  })
+  await mount(App, i18n)
+
+  expect(componentInstanceCreatedListener).toHaveBeenCalled()
+})
+
 test.skip('beforeDestroy', async () => {
   const i18n = createI18n({
     legacy: true,

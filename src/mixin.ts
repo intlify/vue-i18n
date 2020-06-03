@@ -160,6 +160,7 @@ export function defineMixin(
         }
         optionsI18n.__root = composer
         this.$i18n = createVueI18n(optionsI18n)
+        legacy.__onComponentInstanceCreated(this.$i18n)
 
         i18n._setLegacy(instance, this.$i18n)
       } else if (options.__i18n) {
@@ -167,6 +168,7 @@ export function defineMixin(
           __i18n: options.__i18n,
           __root: composer
         })
+        legacy.__onComponentInstanceCreated(this.$i18n)
 
         i18n._setLegacy(instance, this.$i18n)
       } else {

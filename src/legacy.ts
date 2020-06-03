@@ -58,6 +58,10 @@ export interface Formatter {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   interpolate(message: string, values: any, path: string): Array<any> | null
 }
+export type ComponentInstanceCreatedListener = (
+  target: VueI18n,
+  global: VueI18n
+) => void
 
 /**
  *  VueI18n Options
@@ -85,6 +89,7 @@ export interface VueI18nOptions {
   pluralizationRules?: PluralizationRules
   postTranslation?: PostTranslationHandler
   sync?: boolean
+  componentInstanceCreatedListener?: ComponentInstanceCreatedListener
 }
 
 /**
@@ -156,6 +161,7 @@ export interface VueI18n {
 export interface VueI18nInternal {
   __id: number
   __composer: Composer
+  __onComponentInstanceCreated(target: VueI18n): void
 }
 
 /**
@@ -253,7 +259,7 @@ export function createVueI18n(
 
   // defines VueI18n
   const vueI18n = {
-    /*!
+    /**
      * properties
      */
 
@@ -516,6 +522,14 @@ export function createVueI18n(
       __DEV__ &&
         warn(getWarnMessage(I18nWarnCodes.NOT_SUPPORTED_GET_CHOICE_INDEX))
       return -1
+    },
+
+    // for internal
+    __onComponentInstanceCreated(target: VueI18n): void {
+      const { componentInstanceCreatedListener } = options
+      if (componentInstanceCreatedListener) {
+        componentInstanceCreatedListener(target, vueI18n)
+      }
     }
   }
 
