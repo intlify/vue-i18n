@@ -849,6 +849,35 @@ describe('__i18n', () => {
       }
     })
   })
+
+  test('locale messages object', () => {
+    const { messages } = createComposer({
+      __i18n: [
+        { en: { hello: 'Hello,world!' } },
+        {
+          ja: {
+            hello: 'こんにちは、世界！',
+            nest: {
+              foo: {
+                bar: 'ばー'
+              }
+            }
+          }
+        }
+      ]
+    })
+    expect(messages.value).toEqual({
+      en: { hello: 'Hello,world!' },
+      ja: {
+        hello: 'こんにちは、世界！',
+        nest: {
+          foo: {
+            bar: 'ばー'
+          }
+        }
+      }
+    })
+  })
 })
 
 describe('__transrateVNode', () => {

@@ -84,7 +84,7 @@ export type PreCompileHandler = () => {
   functions: MessageFunctions
 }
 
-export type CustomBlocks = string[] | PreCompileHandler
+export type CustomBlocks = Array<string | LocaleMessages> | PreCompileHandler
 
 /**
  * Composer Options
@@ -222,7 +222,7 @@ function getLocaleMessages(
   // merge locale messages of i18n custom block
   if (isArray(__i18n)) {
     __i18n.forEach(raw => {
-      ret = Object.assign(ret, JSON.parse(raw))
+      ret = Object.assign(ret, isString(raw) ? JSON.parse(raw) : raw)
     })
     return ret
   }
