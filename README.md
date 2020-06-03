@@ -212,6 +212,7 @@ yarn add vue-i18n@next
     - [x] preserveDirectiveContent
     - [x] warnHtmlInMessage
     - [x] postTranslation
+    - [x] componentInstanceCreatedListener
     - [x] t
     - [x] tc
     - [x] te

@@ -7,9 +7,10 @@ jest.mock('../src/utils', () => ({
 }))
 import { warn } from '../src/utils'
 
-import { createVueI18n } from '../src/legacy'
+import { createVueI18n, ComponentInstanceCreatedListener } from '../src/legacy'
 import { errorMessages, I18nErrorCodes } from '../src/errors'
 import { getWarnMessage, I18nWarnCodes } from '../src/warnings'
+import { JsxEmit } from 'typescript'
 
 test('locale', () => {
   const i18n = createVueI18n()
