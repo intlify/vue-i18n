@@ -254,7 +254,8 @@ yarn add vue-i18n@next
   - [ ] intlify devtools
   - [x] vue-i18n-extensions
   - [x] vue-i18n-loader
-  - [ ] rollup-plugin-vue-i18n
+  - [x] rollup-plugin-vue-i18n
+  - [ ] vite-plugin-vue-i18n
   - [ ] vue-cli-plugin-i18n
   - [ ] eslint-plugin-vue-i18n
 - Others
