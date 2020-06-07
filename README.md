@@ -125,8 +125,6 @@ The examples are offered that use the following two API styles:
 - Tooling
   - `@intlify/devtools`
   - `vue-cli-plugin-i18n`
-  - `@intlify/rollup-plugin-vue-i18n`
-  - `@intlify/vue-i18n-extensions`
   - `@intlify/eslint-plugin-vue-i18n`
 
 
@@ -255,7 +253,7 @@ yarn add vue-i18n@next
   - [x] vue-i18n-extensions
   - [x] vue-i18n-loader
   - [x] rollup-plugin-vue-i18n
-  - [ ] vite-plugin-vue-i18n
+  - [x] vite-plugin-vue-i18n
   - [ ] vue-cli-plugin-i18n
   - [ ] eslint-plugin-vue-i18n
 - Others
