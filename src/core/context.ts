@@ -122,6 +122,7 @@ export function createRuntimeContext(
   const fallbackLocale =
     isArray(options.fallbackLocale) ||
     isPlainObject(options.fallbackLocale) ||
+    isString(options.fallbackLocale) ||
     options.fallbackLocale === false
       ? options.fallbackLocale
       : locale
