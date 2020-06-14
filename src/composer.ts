@@ -467,13 +467,6 @@ export function createComposer(
     fallbackFail: (key: string) => T,
     successCondition: (val: unknown) => boolean
   ): ComputedRef<T> {
-    // NOTE:
-    // if this composer is global (__root is `undefined`), add dependency trakcing!
-    // by containing this, we can reactively notify components that reference the global composer.
-    // if (!_isGlobal) {
-    //   _locale.value
-    // }
-
     return computed<T>(
       (): T => {
         const ret = fn(getRuntimeContext())
