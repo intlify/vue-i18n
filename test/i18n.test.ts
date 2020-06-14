@@ -2,7 +2,7 @@
  * @jest-environment jsdom
  */
 
-import { defineComponent } from 'vue'
+import { defineComponent, nextTick } from 'vue'
 import { mount } from './helper'
 import { createI18n, useI18n } from '../src/i18n'
 import { errorMessages, I18nErrorCodes } from '../src/errors'
@@ -231,5 +231,195 @@ describe('useI18n', () => {
     expect(error).toEqual(
       errorMessages[I18nErrorCodes.NOT_AVAILABLE_IN_LEGACY_MODE]
     )
+  })
+})
+
+describe('slot reactivity', () => {
+  let org, spy
+  beforeEach(() => {
+    org = console.warn
+    spy = jest.fn()
+    console.warn = spy
+  })
+  afterEach(() => {
+    console.warn = org
+  })
+
+  test('legacy', async () => {
+    const i18n = createI18n({
+      legacy: true,
+      locale: 'ja',
+      fallbackLocale: ['en'],
+      messages: {
+        en: {
+          hello: 'hello!'
+        },
+        ja: {
+          hello: 'こんにちは！'
+        }
+      }
+    })
+
+    const SlotChild = {
+      template: `<p><slot/></p>`
+    }
+
+    const SubChild = {
+      template: `
+        <div class="sub-child">
+          <h1>Sub Child</h1>
+          <form>
+            <select v-model="$i18n.locale">
+              <option value="en">en</option>
+              <option value="ja">ja</option>
+            </select>
+          </form>
+          <p>{{ $t('hello') }}</p>
+        </div>
+      `
+    }
+
+    const Child = {
+      components: {
+        SubChild,
+        SlotChild
+      },
+      template: `
+        <div class="child">
+          <h1>Child</h1>
+          <form>
+            <select v-model="$i18n.locale">
+              <option value="en">en</option>
+              <option value="ja">ja</option>
+            </select>
+          </form>
+          <p>{{ $t('hello') }}</p>
+          <SubChild />
+          $t inside of slot
+          <SlotChild>
+            {{ $t('hello') }}
+          </SlotChild>
+          i18n-t inside of slot
+          <SlotChild>
+            <i18n-t keypath='hello'/>
+          </SlotChild>
+        </div>
+      `
+    }
+
+    const App = defineComponent({
+      components: {
+        Child
+      },
+      template: `
+        <h1>Root</h1>
+          <form>
+            <select v-model="$i18n.locale">
+              <option value="en">en</option>
+              <option value="ja">ja</option>
+            </select>
+          </form>
+          <p>{{ $t('hello') }}</p>
+        <Child />
+      `
+    })
+    const { html } = await mount(App, i18n)
+    expect(html()).toMatchSnapshot('ja')
+    i18n.global.locale.value = 'en'
+    await nextTick()
+    expect(html()).toMatchSnapshot('en')
+  })
+
+  test('compsable', async () => {
+    const i18n = createI18n({
+      locale: 'ja',
+      fallbackLocale: ['en'],
+      messages: {
+        en: {
+          hello: 'hello!'
+        },
+        ja: {
+          hello: 'こんにちは！'
+        }
+      }
+    })
+
+    const SlotChild = {
+      template: `<p><slot/></p>`
+    }
+
+    const SubChild = {
+      template: `
+        <div class="sub-child">
+          <h1>Sub Child</h1>
+          <form>
+            <select v-model="locale">
+              <option value="en">en</option>
+              <option value="ja">ja</option>
+            </select>
+          </form>
+          <p>{{ t('hello') }}</p>
+        </div>
+      `,
+      setup() {
+        return useI18n()
+      }
+    }
+
+    const Child = {
+      components: {
+        SubChild,
+        SlotChild
+      },
+      template: `
+        <div class="child">
+          <h1>Child</h1>
+          <form>
+            <select v-model="locale">
+              <option value="en">en</option>
+              <option value="ja">ja</option>
+            </select>
+          </form>
+          <p>{{ t('hello') }}</p>
+          <SubChild />
+          t inside of slot
+          <SlotChild>
+            {{ t('hello') }}
+          </SlotChild>
+          i18n-t inside of slot
+          <SlotChild>
+            <i18n-t keypath='hello'/>
+          </SlotChild>
+        </div>
+      `,
+      setup() {
+        return useI18n()
+      }
+    }
+
+    const App = defineComponent({
+      components: {
+        Child
+      },
+      template: `
+        <h1>Root</h1>
+          <form>
+            <select v-model="locale">
+              <option value="en">en</option>
+              <option value="ja">ja</option>
+            </select>
+          </form>
+          <p>{{ t('hello') }}</p>
+        <Child />
+      `,
+      setup() {
+        return useI18n()
+      }
+    })
+    const { html } = await mount(App, i18n)
+    expect(html()).toMatchSnapshot('ja')
+    i18n.global.locale.value = 'en'
+    await nextTick()
+    expect(html()).toMatchSnapshot('en')
   })
 })

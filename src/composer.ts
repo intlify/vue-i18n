@@ -470,13 +470,13 @@ export function createComposer(
     // NOTE:
     // if this composer is global (__root is `undefined`), add dependency trakcing!
     // by containing this, we can reactively notify components that reference the global composer.
-    if (!_isGlobal) {
-      _locale.value
-    }
+    // if (!_isGlobal) {
+    //   _locale.value
+    // }
 
     return computed<T>(
       (): T => {
-        const ret = fn(_context)
+        const ret = fn(getRuntimeContext())
         if (isNumber(ret) && ret === NOT_REOSLVED) {
           const key = argumentParser()
           if (__DEV__ && _fallbackRoot && __root) {

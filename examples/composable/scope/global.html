@@ -23,6 +23,12 @@
       const { createApp } = Vue
       const { createI18n, useI18n } = VueI18n
 
+      const SlotChild = {
+        template: `
+          <p><slot/></p>
+        `
+      }
+
       const SubChild = {
         template: `
           <div class="sub-child">
@@ -44,7 +50,8 @@
 
       const Child = {
         components: {
-          SubChild
+          SubChild,
+          SlotChild
         },
         template: `
           <div class="child">
@@ -58,6 +65,14 @@
             </form>
             <p>{{ t('message.hi') }}</p>
             <SubChild />
+            t inside of slot
+            <SlotChild>
+              {{ t('message.hi') }}
+            </SlotChild>
+            i18n-t inside of slot
+            <SlotChild>
+              <i18n-t keypath='message.hi'/>
+            </SlotChild>
           </div>
         `,
         setup() {
