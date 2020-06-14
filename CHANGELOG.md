@@ -1,4 +1,14 @@
 
+## v9.0.0-alpha.11 (2020-06-14)
+
+#### :bug: Bug Fixes
+* [#64](https://github.com/intlify/vue-i18n-next/pull/64) fix: fallback locale bug ([@kazupon](https://github.com/kazupon))
+* [#63](https://github.com/intlify/vue-i18n-next/pull/63) fix: message update in slot ([@kazupon](https://github.com/kazupon))
+
+#### Committers: 1
+- kazuya kawaguchi ([@kazupon](https://github.com/kazupon))
+
+
 ## v9.0.0-alpha.10 (2020-06-03)
 
 #### :star: Features
