@@ -62,7 +62,7 @@
     "set-tz": "^0.2.0",
     "shipjs": "^0.19.0",
     "ts-jest": "^26.0.0",
-    "typescript": "^3.8.3",
+    "typescript": "^3.9.3",
     "typescript-eslint-language-service": "^3.0.0",
     "vue": "^3.0.0-beta.15"
   },
@@ -122,8 +122,8 @@
     "test:cover": "yarn test:unit --coverage",
     "test:e2e": "yarn build && jest --runInBand --config ./jest.e2e.config.js",
     "test:type": "tsc -p . --noEmit",
-    "test:unit": "cross-env NODE_ICU_DATA=./node_modules/full-icu jest --env node",
-    "test:watch": "cross-env NODE_ICU_DATA=./node_modules/full-icu jest --env node --watch"
+    "test:unit": "yarn clean:cache:jest && cross-env NODE_ICU_DATA=./node_modules/full-icu jest --env node",
+    "test:watch": "yarn clean:cache:jest && cross-env NODE_ICU_DATA=./node_modules/full-icu jest --env node --watch"
   },
   "sideEffects": false,
   "types": "dist/vue-i18n.d.ts",

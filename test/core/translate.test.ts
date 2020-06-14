@@ -113,6 +113,68 @@ describe('default option', () => {
   })
 })
 
+describe('context fallbackLocale option', () => {
+  test('false', () => {
+    const mockWarn = warn as jest.MockedFunction<typeof warn>
+    mockWarn.mockImplementation(() => {})
+
+    const ctx = context({
+      locale: 'en',
+      fallbackLocale: false,
+      messages: {
+        en: {}
+      }
+    })
+
+    expect(translate(ctx, 'hello')).toEqual('hello')
+    expect(mockWarn.mock.calls[0][0]).toEqual(
+      `Not found 'hello' key in 'en' locale messages.`
+    )
+  })
+
+  test('string', () => {
+    const mockWarn = warn as jest.MockedFunction<typeof warn>
+    mockWarn.mockImplementation(() => {})
+
+    const ctx = context({
+      locale: 'en',
+      fallbackLocale: 'ja',
+      messages: {
+        en: {},
+        ja: {
+          hello: 'こんにちは！'
+        }
+      }
+    })
+
+    expect(translate(ctx, 'hello')).toEqual('こんにちは！')
+    expect(mockWarn.mock.calls[0][0]).toEqual(
+      `Not found 'hello' key in 'en' locale messages.`
+    )
+  })
+
+  test('array', () => {
+    const mockWarn = warn as jest.MockedFunction<typeof warn>
+    mockWarn.mockImplementation(() => {})
+
+    const ctx = context({
+      locale: 'en',
+      fallbackLocale: ['ja'],
+      messages: {
+        en: {},
+        ja: {
+          hello: 'こんにちは！'
+        }
+      }
+    })
+
+    expect(translate(ctx, 'hello')).toEqual('こんにちは！')
+    expect(mockWarn.mock.calls[0][0]).toEqual(
+      `Not found 'hello' key in 'en' locale messages.`
+    )
+  })
+})
+
 describe('context missing option', () => {
   test('not specified missing handler', () => {
     const mockWarn = warn as jest.MockedFunction<typeof warn>
