@@ -60,7 +60,7 @@
     "rollup-plugin-terser": "^6.0.0",
     "rollup-plugin-typescript2": "^0.27.0",
     "set-tz": "^0.2.0",
-    "shipjs": "^0.19.0",
+    "shipjs": "^0.20.0",
     "ts-jest": "^26.0.0",
     "typescript": "^3.9.3",
     "typescript-eslint-language-service": "^3.0.0",
