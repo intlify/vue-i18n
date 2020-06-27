@@ -1,4 +1,13 @@
 
+## v9.0.0-alpha.12 (2020-06-27)
+
+#### :bug: Bug Fixes
+* [#68](https://github.com/intlify/vue-i18n-next/pull/68) fix: export types ([@kazupon](https://github.com/kazupon))
+
+#### Committers: 1
+- kazuya kawaguchi ([@kazupon](https://github.com/kazupon))
+
+
 ## v9.0.0-alpha.11 (2020-06-14)
 
 #### :bug: Bug Fixes
