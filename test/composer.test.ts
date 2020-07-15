@@ -527,12 +527,18 @@ describe('t', () => {
           actions: {
             photo: 'added {count} @:photo'
           },
-          photo: 'photo | photos'
+          photo: 'photo | photos',
+          collection: 'Collection | Collections',
+          file: 'File | Files',
+          collection_name: '@:collection @:name',
+          file_name: '@:file @:name'
         }
       }
     })
     expect(t('hi')).toEqual('hi KAZUPON !')
     expect(t('actions.photo', { count: 2 })).toEqual('added 2 photos') // linked pluralization
+    expect(t('collection_name', { count: 2 })).toEqual('Collections kazupon')
+    expect(t('file_name', { count: 1 })).toEqual('File kazupon')
   })
 
   test('plural', () => {
