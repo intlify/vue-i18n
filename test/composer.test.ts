@@ -523,11 +523,16 @@ describe('t', () => {
       messages: {
         en: {
           name: 'kazupon',
-          hi: 'hi @.upper:name !'
+          hi: 'hi @.upper:name !',
+          actions: {
+            photo: 'added {count} @:photo'
+          },
+          photo: 'photo | photos'
         }
       }
     })
     expect(t('hi')).toEqual('hi KAZUPON !')
+    expect(t('actions.photo', { count: 2 })).toEqual('added 2 photos') // linked pluralization
   })
 
   test('plural', () => {
