@@ -14,7 +14,7 @@ export interface CompileError extends SyntaxError {
   location?: SourceLocation
 }
 
-export type CreateCompileErrorOptions = {
+export interface CreateCompileErrorOptions {
   domain?: CompileDomain
   messages?: { [code: number]: string }
   args?: unknown[]

@@ -34,7 +34,7 @@ export interface MessageProcessor {
   normalize?: MessageNormalize
 }
 
-export type MessageContextOptions<N = {}> = {
+export interface MessageContextOptions<N = {}> {
   parent?: MessageContext
   locale?: string
   list?: unknown[]
@@ -59,7 +59,7 @@ export const enum HelperNameMap {
   NORMALIZE = 'normalize'
 }
 
-export type MessageContext = {
+export interface MessageContext {
   list: (index: number) => unknown
   named: (key: string) => unknown
   pluralIndex: number

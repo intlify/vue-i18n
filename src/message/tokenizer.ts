@@ -1,14 +1,14 @@
 import {
+  Scanner,
   createScanner,
   CHAR_SP as SPACE,
-  CHAR_LF as NEW_LINE,
-  Scanner
+  CHAR_LF as NEW_LINE
 } from './scanner'
 import {
   SourceLocation,
+  Position,
   createLocation,
-  createPosition,
-  Position
+  createPosition
 } from './location'
 import { TokenizeOptions } from './options'
 import { createCompileError, CompileErrorCodes } from './errors'
@@ -45,13 +45,13 @@ const EOF = undefined
 const LITERAL_DELIMITER = "'"
 export const ERROR_DOMAIN = 'tokenizer'
 
-export type Token = {
+export interface Token {
   type: TokenTypes
   value?: string
   loc?: SourceLocation
 }
 
-export type TokenizeContext = {
+export interface TokenizeContext {
   currentType: TokenTypes
   offset: number
   startLoc: Position
@@ -64,12 +64,12 @@ export type TokenizeContext = {
   inLinked: boolean
 }
 
-export type Tokenizer = Readonly<{
-  currentPosition: () => Position
-  currentOffset: () => number
-  context: () => TokenizeContext
-  nextToken: () => Token
-}>
+export interface Tokenizer {
+  currentPosition(): Position
+  currentOffset(): number
+  context(): TokenizeContext
+  nextToken(): Token
+}
 
 export function createTokenizer(
   source: string,

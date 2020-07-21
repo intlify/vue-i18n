@@ -1,7 +1,7 @@
-import { createLocation, SourceLocation, Position } from './location'
+import { Position, createLocation, SourceLocation } from './location'
 import { ParserOptions } from './options'
 import { createCompileError, CompileErrorCodes } from './errors'
-import { createTokenizer, Tokenizer, TokenTypes } from './tokenizer'
+import { Tokenizer, createTokenizer, TokenTypes } from './tokenizer'
 
 export const enum NodeTypes {
   Resource, // 0
@@ -85,9 +85,9 @@ export interface LinkedModitierNode extends Node {
   value: Identifier
 }
 
-export type Parser = Readonly<{
-  parse: (source: string) => ResourceNode
-}>
+export interface Parser {
+  parse(source: string): ResourceNode
+}
 
 export const ERROR_DOMAIN = 'parser'
 

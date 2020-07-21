@@ -1,12 +1,12 @@
 import { CompileOptions } from './options'
-import { createParser, ResourceNode } from './parser'
+import { ResourceNode, createParser } from './parser'
 import { transform } from './transformer'
 import { generate } from './generator'
 import { CompileError, defaultOnError } from './errors'
 import { MessageFunction, MessageFunctions } from './runtime'
 import { warn, format, isBoolean } from '../utils'
 
-export type CompileResult = {
+export interface CompileResult {
   code: string
   ast: ResourceNode
   // TODO: should be implemetend sourcemap

@@ -54,7 +54,7 @@ export type MessageCompiler = (
   options?: CompileOptions
 ) => MessageFunction
 
-export type RuntimeOptions = {
+export interface RuntimeOptions {
   locale?: Locale
   fallbackLocale?: FallbackLocale
   messages?: LocaleMessages
@@ -76,7 +76,7 @@ export type RuntimeOptions = {
   _numberFormatters?: Map<string, Intl.NumberFormat>
 }
 
-export type RuntimeContext = {
+export interface RuntimeContext {
   locale: Locale
   fallbackLocale: FallbackLocale
   messages: LocaleMessages

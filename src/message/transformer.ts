@@ -20,8 +20,8 @@ type TransformContext = {
 }
 
 type Transformer = Readonly<{
-  context: () => TransformContext
-  helper: (name: string) => string
+  context(): TransformContext
+  helper(name: string): string
 }>
 
 function createTransformer(
