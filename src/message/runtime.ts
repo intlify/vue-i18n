@@ -14,6 +14,10 @@ export type PluralizationRule = (
 ) => number
 
 export type PluralizationRules = { [locale: string]: PluralizationRule }
+export type PluralizationProps = {
+  n?: number
+  count?: number
+}
 export type LinkedModify = (value: unknown, type: string) => unknown
 export type LinkedModifiers = { [key: string]: LinkedModify }
 export type MessageFunction = {
@@ -107,13 +111,12 @@ function getPluralIndex(options: MessageContextOptions): number {
     : index
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-function normalizeNamed(pluralIndex: number, named: any): void {
-  if (!named.count) {
-    named.count = pluralIndex
+function normalizeNamed(pluralIndex: number, props: PluralizationProps): void {
+  if (!props.count) {
+    props.count = pluralIndex
   }
-  if (!named.n) {
-    named.n = pluralIndex
+  if (!props.n) {
+    props.n = pluralIndex
   }
 }
 
