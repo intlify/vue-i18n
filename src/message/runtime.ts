@@ -64,13 +64,13 @@ export const enum HelperNameMap {
 }
 
 export interface MessageContext {
-  list: (index: number) => unknown
-  named: (key: string) => unknown
+  list(index: number): unknown
+  named(key: string): unknown
   pluralIndex: number
   pluralRule: PluralizationRule
   orgPluralRule?: PluralizationRule
-  modifier: (name: string) => LinkedModify
-  message: (name: string) => MessageFunction
+  modifier(name: string): LinkedModify
+  message(name: string): MessageFunction
   type: string
   interpolate: MessageInterpolate
   normalize: MessageNormalize

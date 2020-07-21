@@ -93,7 +93,7 @@ export interface RuntimeContext {
   processor: MessageProcessor | null
   warnHtmlMessage: boolean
   messageCompiler: MessageCompiler
-  onWarn: (msg: string, err?: Error) => void
+  onWarn(msg: string, err?: Error): void
   _datetimeFormatters: Map<string, Intl.DateTimeFormat>
   _numberFormatters: Map<string, Intl.NumberFormat>
   _fallbackLocaleStack?: Locale[]

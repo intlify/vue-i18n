@@ -45,7 +45,7 @@ export interface I18nAdditionalOptions {
   /**
    * Whether vue-i18n legacy API use on your Vue App.
    *
-   * @defaultValue `false`
+   * @default false
    */
   legacy?: boolean
 }
@@ -66,7 +66,7 @@ export interface I18n {
    * if you specified `legacy: true` option in `createI18n`, return `legacy`,
    * else `composable`
    *
-   * @defaultValue `composable`
+   * @default composable
    */
   readonly mode: I18nMode
   /**
