@@ -58,14 +58,12 @@ export type PluralizationProps = {
   count?: number
 }
 
-export type LinkedModify<T = string> = (
-  value: T,
-  type?: string
-) => MessageType<T>
+export type LinkedModify<T = string> = (value: T) => MessageType<T>
 export type LinkedModifiers<T = string> = { [key: string]: LinkedModify<T> }
 
 export type NamedValue<T = {}> = T & Record<string, unknown>
 
+// TODO: list and named type definition more improvements
 export interface MessageContextOptions<T = string, N = {}> {
   parent?: MessageContext<T>
   locale?: string
@@ -86,11 +84,12 @@ export const enum HelperNameMap {
   ORG_PLURAL_RULE = 'orgPluralRule',
   MODIFIER = 'modifier',
   MESSAGE = 'message',
-  TYPE = 'type',
+  TYPE = 'type', // TODO: should be removed!
   INTERPOLATE = 'interpolate',
   NORMALIZE = 'normalize'
 }
 
+// TODO: list and named type definition more improvements
 export interface MessageContext<T = string> {
   list(index: number): unknown
   named(key: string): unknown
@@ -99,7 +98,7 @@ export interface MessageContext<T = string> {
   orgPluralRule?: PluralizationRule
   modifier(name: string): LinkedModify<T>
   message(name: string): MessageFunction<T>
-  type: string
+  type?: string // TODO: should be removed!
   interpolate: MessageInterpolate<T>
   normalize: MessageNormalize<T>
 }
@@ -195,6 +194,7 @@ export function createMessageContext<T = string, N = {}>(
       : msg
   }
 
+  // TODO: should be removed!
   const type =
     isPlainObject(options.processor) && isString(options.processor.type)
       ? options.processor.type
@@ -219,7 +219,7 @@ export function createMessageContext<T = string, N = {}>(
     [HelperNameMap.ORG_PLURAL_RULE]: orgPluralRule,
     [HelperNameMap.MODIFIER]: modifier,
     [HelperNameMap.MESSAGE]: message,
-    [HelperNameMap.TYPE]: type,
+    [HelperNameMap.TYPE]: type, // TODO: should be removed!
     [HelperNameMap.INTERPOLATE]: interpolate,
     [HelperNameMap.NORMALIZE]: normalize
   }

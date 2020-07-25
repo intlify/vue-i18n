@@ -537,7 +537,6 @@ export function createComposer(
   }
   const interpolate = (val: unknown): unknown => val
   const processor = {
-    type: 'vnode',
     normalize,
     interpolate
   } as MessageProcessor

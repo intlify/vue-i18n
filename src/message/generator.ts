@@ -91,6 +91,7 @@ function generateLinkedNode(generator: CodeGenerator, node: LinkedNode): void {
   generateNode(generator, node.key)
   generator.push(')(ctx)')
   if (node.modifier) {
+    // TODO: should be refactorerd! (remove TYPE!)
     generator.push(`, ${helper(HelperNameMap.TYPE)})`)
   }
 }

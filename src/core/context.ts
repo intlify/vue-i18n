@@ -1,11 +1,11 @@
-import { MessageFunction } from '../message/runtime'
 import { CompileOptions } from '../message/options'
 import { compile } from '../message/compiler'
 import {
   LinkedModifiers,
   PluralizationRules,
   MessageProcessor,
-  DEFAULT_MESSAGE_DATA_TYPE
+  MessageFunction,
+  MessageType
 } from '../message/runtime'
 import { CoreWarnCodes, getWarnMessage } from './warnings'
 import { Path } from '../path'
@@ -40,59 +40,62 @@ export type LocaleMessage =
   | LocaleMessage[]
 export type LocaleMessages = Record<Locale, LocaleMessage>
 
-export type RuntimeMissingHandler = (
-  context: RuntimeContext,
+export type RuntimeMissingType = 'translate' | 'datetime' | 'number'
+export type RuntimeMissingHandler<T = string> = (
+  context: RuntimeContext<T>,
   locale: Locale,
   key: Path,
-  type: string,
+  type: RuntimeMissingType,
   ...values: unknown[]
 ) => string | void
-export type PostTranslationHandler = (translated: unknown) => unknown
+export type PostTranslationHandler<T = string> = (
+  translated: MessageType<T>
+) => MessageType<T>
 
-export type MessageCompiler = (
+export type MessageCompiler<T = string> = (
   source: string,
   options?: CompileOptions
-) => MessageFunction
+) => MessageFunction<T>
 
-export interface RuntimeOptions {
+export interface RuntimeOptions<T = string> {
   locale?: Locale
   fallbackLocale?: FallbackLocale
   messages?: LocaleMessages
   datetimeFormats?: DateTimeFormats
   numberFormats?: NumberFormats
-  modifiers?: LinkedModifiers
+  modifiers?: LinkedModifiers<T>
   pluralRules?: PluralizationRules
-  missing?: RuntimeMissingHandler
+  missing?: RuntimeMissingHandler<T>
   missingWarn?: boolean | RegExp
   fallbackWarn?: boolean | RegExp
   fallbackFormat?: boolean
   unresolving?: boolean
-  postTranslation?: PostTranslationHandler
-  processor?: MessageProcessor
+  postTranslation?: PostTranslationHandler<T>
+  processor?: MessageProcessor<T>
   warnHtmlMessage?: boolean
-  messageCompiler?: MessageCompiler
+  messageCompiler?: MessageCompiler<T>
   onWarn?: (msg: string, err?: Error) => void
   _datetimeFormatters?: Map<string, Intl.DateTimeFormat>
   _numberFormatters?: Map<string, Intl.NumberFormat>
 }
 
-export interface RuntimeContext {
+export interface RuntimeContext<T = string> {
   locale: Locale
   fallbackLocale: FallbackLocale
   messages: LocaleMessages
   datetimeFormats: DateTimeFormats
   numberFormats: NumberFormats
-  modifiers: LinkedModifiers
+  modifiers: LinkedModifiers<T>
   pluralRules?: PluralizationRules
-  missing: RuntimeMissingHandler | null
+  missing: RuntimeMissingHandler<T> | null
   missingWarn: boolean | RegExp
   fallbackWarn: boolean | RegExp
   fallbackFormat: boolean
   unresolving: boolean
-  postTranslation: PostTranslationHandler | null
-  processor: MessageProcessor | null
+  postTranslation: PostTranslationHandler<T> | null
+  processor: MessageProcessor<T> | null
   warnHtmlMessage: boolean
-  messageCompiler: MessageCompiler
+  messageCompiler: MessageCompiler<T>
   onWarn(msg: string, err?: Error): void
   _datetimeFormatters: Map<string, Intl.DateTimeFormat>
   _numberFormatters: Map<string, Intl.NumberFormat>
@@ -100,24 +103,26 @@ export interface RuntimeContext {
   _localeChainCache?: Map<Locale, Locale[]>
 }
 
-const DEFAULT_LINKDED_MODIFIERS: LinkedModifiers = {
-  upper: (val: unknown, type: string): unknown =>
-    type === DEFAULT_MESSAGE_DATA_TYPE ? (val as string).toUpperCase() : val,
-  lower: (val: unknown, type: string): unknown =>
-    type === DEFAULT_MESSAGE_DATA_TYPE ? (val as string).toLowerCase() : val,
-  // prettier-ignore
-  capitalize: (val: unknown, type: string): unknown =>
-    type === DEFAULT_MESSAGE_DATA_TYPE
-      ? `${(val as string).charAt(0).toLocaleUpperCase()}${(val as string).substr(1)}`
-      : val
-}
-
 export const NOT_REOSLVED = -1
 export const MISSING_RESOLVE_VALUE = ''
 
-export function createRuntimeContext(
-  options: RuntimeOptions = {}
-): RuntimeContext {
+function getDefaultLinkedModifiers<T = string>(): LinkedModifiers<T> {
+  return {
+    upper: (val: T): MessageType<T> =>
+      (isString(val) ? val.toUpperCase() : val) as MessageType<T>,
+    lower: (val: T): MessageType<T> =>
+      (isString(val) ? val.toLowerCase() : val) as MessageType<T>,
+    // prettier-ignore
+    capitalize: (val: T): MessageType<T> =>
+      (isString(val)
+        ? `${val.charAt(0).toLocaleUpperCase()}${val.substr(1)}`
+        : val) as MessageType<T>
+  }
+}
+
+export function createRuntimeContext<T = string>(
+  options: RuntimeOptions<T> = {}
+): RuntimeContext<T> {
   const locale = isString(options.locale) ? options.locale : 'en-US'
   const fallbackLocale =
     isArray(options.fallbackLocale) ||
@@ -138,7 +143,7 @@ export function createRuntimeContext(
   const modifiers = Object.assign(
     {} as LinkedModifiers,
     options.modifiers || {},
-    DEFAULT_LINKDED_MODIFIERS
+    getDefaultLinkedModifiers<T>()
   )
   const pluralRules = options.pluralRules || {}
   const missing = isFunction(options.missing) ? options.missing : null
@@ -195,7 +200,7 @@ export function createRuntimeContext(
 
 export function isTrarnslateFallbackWarn(
   fallback: boolean | RegExp,
-  key: string
+  key: Path
 ): boolean {
   return fallback instanceof RegExp ? fallback.test(key) : fallback
 }
@@ -212,7 +217,7 @@ export function handleMissing(
   key: Path,
   locale: Locale,
   missingWarn: boolean | RegExp,
-  type: string
+  type: RuntimeMissingType
 ): unknown {
   const { missing, onWarn } = context
   if (missing !== null) {
