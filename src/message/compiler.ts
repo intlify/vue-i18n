@@ -26,7 +26,7 @@ function checkHtmlMessage(source: string, options: CompileOptions): void {
 }
 
 const defaultOnCacheKey = (source: string): string => source
-let compileCache: MessageFunctions = Object.create(null)
+let compileCache: unknown = Object.create(null)
 
 export function clearCompileCache(): void {
   compileCache = Object.create(null)
@@ -49,17 +49,17 @@ export function baseCompile(
   return { ast, code }
 }
 
-export function compile(
+export function compile<T = string>(
   source: string,
   options: CompileOptions = {}
-): MessageFunction {
+): MessageFunction<T> {
   // check HTML message
   __DEV__ && checkHtmlMessage(source, options)
 
   // check caches
   const onCacheKey = options.onCacheKey || defaultOnCacheKey
   const key = onCacheKey(source)
-  const cached = compileCache[key]
+  const cached = (compileCache as MessageFunctions<T>)[key]
   if (cached) {
     return cached
   }
@@ -76,8 +76,8 @@ export function compile(
   const { code } = baseCompile(source, options)
 
   // evaluate function
-  const msg = new Function(`return ${code}`)() as MessageFunction
+  const msg = new Function(`return ${code}`)() as MessageFunction<T>
 
   // if occured compile error, don't cache
-  return !occured ? (compileCache[key] = msg) : msg
+  return !occured ? ((compileCache as MessageFunctions<T>)[key] = msg) : msg
 }

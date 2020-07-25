@@ -1,6 +1,15 @@
 import { compile } from '../../src/message/compiler'
-import { createMessageContext, NamedValue, MessageContextOptions } from '../../src/message/runtime'
+import {
+  createMessageContext,
+  MessageType,
+  MessageContext
+} from '../../src/message/runtime'
 import { isString } from '../../src/utils'
+
+type MockVNode = {
+  text: string
+  toString: () => string
+}
 
 describe('text', () => {
   test('basic', () => {
@@ -72,7 +81,7 @@ describe('linked', () => {
     const msg = compile('hi @:name !')
     const ctx = createMessageContext({
       messages: {
-        name: ctx => 'kazupon' // eslint-disable-line
+        name: (ctx: MessageContext): string => 'kazupon' // eslint-disable-line
       }
     })
     expect(msg(ctx)).toMatch(`hi kazupon !`)
@@ -259,14 +268,16 @@ describe('plural', () => {
 })
 
 describe('custom process', () => {
-  const createVNode = (text: string) => ({ text })
-  const normalize = (values: unknown[]): unknown =>
-    values.map(val => (isString(val) ? createVNode(val) : val))
-  const interpolate = (val: unknown): unknown => val
+  const createVNode = (text: string): MockVNode => ({ text })
+  const normalize = (
+    values: MessageType<string | MockVNode>[]
+  ): MessageType<MockVNode[]> =>
+    values.map(val => (isString(val) ? createVNode(val) : val)) as MockVNode[]
+  const interpolate = (val: unknown): MockVNode => val as MockVNode
 
   test('simple text', () => {
-    const msg = compile('hello')
-    const ctx = createMessageContext({
+    const msg = compile<string | MockVNode>('hello')
+    const ctx = createMessageContext<string | MockVNode>({
       processor: {
         normalize,
         interpolate
@@ -276,8 +287,8 @@ describe('custom process', () => {
   })
 
   test('list', () => {
-    const msg = compile('hi, {0}!')
-    const ctx = createMessageContext({
+    const msg = compile<string | MockVNode>('hi, {0}!')
+    const ctx = createMessageContext<string | MockVNode>({
       list: [createVNode('kazupon')],
       processor: {
         normalize,
@@ -288,8 +299,8 @@ describe('custom process', () => {
   })
 
   test('named', () => {
-    const msg = compile('hi {name} !')
-    const ctx = createMessageContext({
+    const msg = compile<string | MockVNode>('hi {name} !')
+    const ctx = createMessageContext<string | MockVNode>({
       named: { name: createVNode('kazupon') },
       processor: {
         normalize,
@@ -300,16 +311,16 @@ describe('custom process', () => {
   })
 
   test('linked', () => {
-    const msg = compile(`hi @.upper:{'name'} !`)
-    const ctx = createMessageContext({
+    const msg = compile<string | MockVNode>(`hi @.upper:{'name'} !`)
+    const ctx = createMessageContext<string | MockVNode>({
       processor: {
         normalize,
         interpolate,
         type: 'vnode'
       },
       modifiers: {
-        upper: (val: unknown, type: string): unknown =>
-          `${type}:${(val as { text: string }).text.toUpperCase()}`
+        upper: (val: string | MockVNode, type: string): string | MockVNode =>
+          `${type}:${(val as MockVNode).text.toUpperCase()}`
       },
       messages: {
         name: ctx => createVNode('kazupon') // eslint-disable-line
@@ -319,16 +330,18 @@ describe('custom process', () => {
   })
 
   test('plural', () => {
-    const msg = compile('no apples | {n} @.lower:{unit} | {n}　apples')
-    const ctx = createMessageContext({
+    const msg = compile<string | MockVNode>(
+      'no apples | {n} @.lower:{unit} | {n}　apples'
+    )
+    const ctx = createMessageContext<string | MockVNode>({
       processor: {
         normalize,
         interpolate,
         type: 'vnode'
       },
       modifiers: {
-        lower: (val: unknown, type: string): unknown =>
-          `${type}:${(val as { text: string }).text.toLowerCase()}`
+        lower: (val: string | MockVNode, type: string): string | MockVNode =>
+          `${type}:${(val as MockVNode).text.toLowerCase()}`
       },
       named: {
         unit: 'apple',
