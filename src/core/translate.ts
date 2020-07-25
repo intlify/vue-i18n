@@ -5,6 +5,7 @@ import {
   createMessageContext,
   NamedValue,
   MessageFunction,
+  MessageFunctionInternal,
   MessageContextOptions
 } from '../message/runtime'
 import {
@@ -259,12 +260,12 @@ export function translate(
         warnHtmlMessage,
         errorDetector
       )
-    )
+    ) as MessageFunctionInternal
     msg.locale = targetLocale
     msg.key = key
     msg.source = format
   } else {
-    msg = format
+    msg = format as MessageFunctionInternal
     msg.locale = msg.locale || targetLocale
     msg.key = msg.key || key
   }
