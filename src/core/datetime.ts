@@ -68,34 +68,34 @@ export type DateTimeOptions = {
 }
 
 // `datetime` function overloads
-export function datetime(
-  context: RuntimeContext,
+export function datetime<T = string>(
+  context: RuntimeContext<T>,
   value: number | Date
 ): string | number | Intl.DateTimeFormatPart[]
-export function datetime(
-  context: RuntimeContext,
+export function datetime<T = string>(
+  context: RuntimeContext<T>,
   value: number | Date,
   key: string
 ): string | number | Intl.DateTimeFormatPart[]
-export function datetime(
-  context: RuntimeContext,
+export function datetime<T = string>(
+  context: RuntimeContext<T>,
   value: number | Date,
   key: string,
   locale: Locale
 ): string | number | Intl.DateTimeFormatPart[]
-export function datetime(
-  context: RuntimeContext,
+export function datetime<T = string>(
+  context: RuntimeContext<T>,
   value: number | Date,
   options: DateTimeOptions
 ): string | number | Intl.DateTimeFormatPart[]
-export function datetime(
-  context: RuntimeContext,
+export function datetime<T = string>(
+  context: RuntimeContext<T>,
   ...args: unknown[]
 ): string | number | Intl.DateTimeFormatPart[] // for internal
 
 // implementation of `datetime` function
-export function datetime(
-  context: RuntimeContext,
+export function datetime<T = string>(
+  context: RuntimeContext<T>,
   ...args: unknown[]
 ): string | number | Intl.DateTimeFormatPart[] {
   const {

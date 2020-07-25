@@ -66,34 +66,34 @@ export type NumberOptions = {
 }
 
 // `number` function overloads
-export function number(
-  context: RuntimeContext,
+export function number<T = string>(
+  context: RuntimeContext<T>,
   value: number
 ): string | number | Intl.NumberFormatPart[]
-export function number(
-  context: RuntimeContext,
+export function number<T = string>(
+  context: RuntimeContext<T>,
   value: number,
   key: string
 ): string | number | Intl.NumberFormatPart[]
-export function number(
-  context: RuntimeContext,
+export function number<T = string>(
+  context: RuntimeContext<T>,
   value: number,
   key: string,
   locale: Locale
 ): string | number | Intl.NumberFormatPart[]
-export function number(
-  context: RuntimeContext,
+export function number<T = string>(
+  context: RuntimeContext<T>,
   value: number,
   options: NumberOptions
 ): string | number | Intl.NumberFormatPart[]
-export function number(
-  context: RuntimeContext,
+export function number<T = string>(
+  context: RuntimeContext<T>,
   ...args: unknown[]
 ): string | number | Intl.NumberFormatPart[] // for internal
 
 // implementation of `number` function
-export function number(
-  context: RuntimeContext,
+export function number<T = string>(
+  context: RuntimeContext<T>,
   ...args: unknown[]
 ): string | number | Intl.NumberFormatPart[] {
   const {

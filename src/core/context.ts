@@ -212,8 +212,8 @@ export function isTranslateMissingWarn(
   return missing instanceof RegExp ? missing.test(key) : missing
 }
 
-export function handleMissing(
-  context: RuntimeContext,
+export function handleMissing<T = string>(
+  context: RuntimeContext<T>,
   key: Path,
   locale: Locale,
   missingWarn: boolean | RegExp,
@@ -231,8 +231,8 @@ export function handleMissing(
   }
 }
 
-export function getLocaleChain(
-  context: RuntimeContext,
+export function getLocaleChain<T = string>(
+  context: RuntimeContext<T>,
   fallback: FallbackLocale,
   start: Locale = ''
 ): Locale[] {

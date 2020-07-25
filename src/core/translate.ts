@@ -6,7 +6,8 @@ import {
   NamedValue,
   MessageFunction,
   MessageFunctionInternal,
-  MessageContextOptions
+  MessageContextOptions,
+  MessageType
 } from '../message/runtime'
 import {
   Locale,
@@ -32,7 +33,7 @@ import {
 } from '../utils'
 
 const NOOP_MESSAGE_FUNCTION = () => ''
-const isMessageFunction = (val: unknown): val is MessageFunction =>
+const isMessageFunction = <T>(val: unknown): val is MessageFunction<T> =>
   isFunction(val)
 
 /**
@@ -87,82 +88,88 @@ export type TranslateOptions = {
 }
 
 // `translate` function overloads
-export function translate(context: RuntimeContext, key: Path): unknown
-export function translate(
-  context: RuntimeContext,
+export function translate<T = string>(
+  context: RuntimeContext<T>,
+  key: Path
+): MessageType<T> | number
+export function translate<T = string>(
+  context: RuntimeContext<T>,
   key: Path,
   plural: number
-): unknown
-export function translate(
-  context: RuntimeContext,
+): MessageType<T> | number
+export function translate<T = string>(
+  context: RuntimeContext<T>,
   key: Path,
   plural: number,
   options: TranslateOptions
-): unknown
-export function translate(
-  context: RuntimeContext,
+): MessageType<T> | number
+export function translate<T = string>(
+  context: RuntimeContext<T>,
   key: Path,
   defaultMsg: string
-): unknown
-export function translate(
-  context: RuntimeContext,
+): MessageType<T> | number
+export function translate<T = string>(
+  context: RuntimeContext<T>,
   key: Path,
   defaultMsg: string,
   options: TranslateOptions
-): unknown
-export function translate(
-  context: RuntimeContext,
+): MessageType<T> | number
+export function translate<T = string>(
+  context: RuntimeContext<T>,
   key: Path,
   list: unknown[]
-): unknown
-export function translate(
-  context: RuntimeContext,
+): MessageType<T> | number
+export function translate<T = string>(
+  context: RuntimeContext<T>,
   key: Path,
   list: unknown[],
   plural: number
-): unknown
-export function translate(
-  context: RuntimeContext,
+): MessageType<T> | number
+export function translate<T = string>(
+  context: RuntimeContext<T>,
   key: Path,
   list: unknown[],
   defaultMsg: string
-): unknown
-export function translate(
-  context: RuntimeContext,
+): MessageType<T> | number
+export function translate<T = string>(
+  context: RuntimeContext<T>,
   key: Path,
   list: unknown[],
   options: TranslateOptions
-): unknown
-export function translate(
-  context: RuntimeContext,
+): MessageType<T> | number
+export function translate<T = string>(
+  context: RuntimeContext<T>,
   key: Path,
   named: NamedValue
-): unknown
-export function translate(
-  context: RuntimeContext,
+): MessageType<T> | number
+export function translate<T = string>(
+  context: RuntimeContext<T>,
   key: Path,
   named: NamedValue,
   plural: number
-): unknown
-export function translate(
-  context: RuntimeContext,
+): MessageType<T> | number
+export function translate<T = string>(
+  context: RuntimeContext<T>,
   key: Path,
   named: NamedValue,
   defaultMsg: string
-): unknown
-export function translate(
-  context: RuntimeContext,
+): MessageType<T> | number
+export function translate<T = string>(
+  context: RuntimeContext<T>,
   key: Path,
   named: NamedValue,
   options: TranslateOptions
-): unknown
-export function translate(context: RuntimeContext, ...args: unknown[]): unknown // for internal
+): MessageType<T> | number
+export function translate<T = string>(
+  context: RuntimeContext<T>,
+  ...args: unknown[]
+): MessageType<T> | number // for internal
 
 // implementationo of `translate` function
-export function translate(
-  context: RuntimeContext,
+export function translate<T = string>(
+  context: RuntimeContext<T>,
   ...args: unknown[]
-): unknown {
+): MessageType<T> | number {
   const {
     messages,
     fallbackFormat,
@@ -227,7 +234,7 @@ export function translate(
   let cacheBaseKey = key
 
   // if you use default message, set it as message format!
-  if (!(isString(format) || isMessageFunction(format))) {
+  if (!(isString(format) || isMessageFunction<T>(format))) {
     if (enableDefaultMsg) {
       format = defaultMsgOrKey
       cacheBaseKey = format
@@ -236,10 +243,10 @@ export function translate(
 
   // checking message format and target locale
   if (
-    !(isString(format) || isMessageFunction(format)) ||
+    !(isString(format) || isMessageFunction<T>(format)) ||
     !isString(targetLocale)
   ) {
-    return unresolving ? NOT_REOSLVED : key
+    return unresolving ? NOT_REOSLVED : (key as MessageType<T>)
   }
 
   // setup compile error detecting
@@ -250,7 +257,7 @@ export function translate(
 
   // compile message format
   let msg
-  if (!isMessageFunction(format)) {
+  if (!isMessageFunction<T>(format)) {
     msg = messageCompiler(
       format,
       getCompileOptions(
@@ -272,7 +279,7 @@ export function translate(
 
   // if occured compile error, return the message format
   if (occured) {
-    return format
+    return format as MessageType<T>
   }
 
   // evaluate message with context
@@ -283,7 +290,7 @@ export function translate(
     options
   )
   const msgContext = createMessageContext(ctxOptions)
-  const messaged = msg(msgContext)
+  const messaged = (msg as MessageFunction<T>)(msgContext)
 
   // if use post translation option, procee it with handler
   return postTranslation ? postTranslation(messaged) : messaged
@@ -351,15 +358,15 @@ function getCompileOptions(
   } as CompileOptions
 }
 
-function getMessageContextOptions(
-  context: RuntimeContext,
+function getMessageContextOptions<T = string>(
+  context: RuntimeContext<T>,
   locale: Locale,
   message: LocaleMessage,
   options: TranslateOptions
-): MessageContextOptions {
+): MessageContextOptions<T> {
   const { modifiers, pluralRules, messageCompiler } = context
 
-  const resolveMessage = (key: string): MessageFunction => {
+  const resolveMessage = (key: string): MessageFunction<T> => {
     const val = resolveValue(message, key)
     if (isString(val)) {
       let occured = false
@@ -376,16 +383,16 @@ function getMessageContextOptions(
           errorDetector
         )
       )
-      return !occured ? msg : NOOP_MESSAGE_FUNCTION
-    } else if (isMessageFunction(val)) {
+      return !occured ? msg : (NOOP_MESSAGE_FUNCTION as MessageFunction<T>)
+    } else if (isMessageFunction<T>(val)) {
       return val
     } else {
       // TODO: should be implemented warning message
-      return NOOP_MESSAGE_FUNCTION
+      return NOOP_MESSAGE_FUNCTION as MessageFunction<T>
     }
   }
 
-  const ctxOptions: MessageContextOptions = {
+  const ctxOptions: MessageContextOptions<T> = {
     locale,
     modifiers,
     pluralRules,
