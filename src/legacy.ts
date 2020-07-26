@@ -27,6 +27,7 @@ import {
   NumberFormat
 } from './core/types'
 import {
+  VueMessageType,
   MissingHandler,
   Composer,
   ComposerOptions,
@@ -76,7 +77,7 @@ export interface VueI18nOptions {
   datetimeFormats?: DateTimeFormats
   numberFormats?: NumberFormats
   availableLocales?: Locale[]
-  modifiers?: LinkedModifiers
+  modifiers?: LinkedModifiers<VueMessageType>
   formatter?: Formatter
   missing?: MissingHandler
   fallbackRoot?: boolean
@@ -87,7 +88,7 @@ export interface VueI18nOptions {
   warnHtmlInMessage?: WarnHtmlInMessageLevel
   sharedMessages?: LocaleMessages
   pluralizationRules?: PluralizationRules
-  postTranslation?: PostTranslationHandler
+  postTranslation?: PostTranslationHandler<VueMessageType>
   sync?: boolean
   componentInstanceCreatedListener?: ComponentInstanceCreatedListener
 }
@@ -108,7 +109,7 @@ export interface VueI18n {
   readonly numberFormats: NumberFormats
   formatter: Formatter
   missing: MissingHandler | null
-  postTranslation: PostTranslationHandler | null
+  postTranslation: PostTranslationHandler<VueMessageType> | null
   silentTranslationWarn: boolean | RegExp
   silentFallbackWarn: boolean | RegExp
   formatFallbackMessages: boolean
@@ -170,7 +171,7 @@ export interface VueI18nInternal {
  * @internal
  */
 function convertComposerOptions(
-  options: VueI18nOptions & ComposerInternalOptions
+  options: VueI18nOptions & ComposerInternalOptions<VueMessageType>
 ): ComposerOptions & ComposerInternalOptions {
   const locale = isString(options.locale) ? options.locale : 'en-US'
   const fallbackLocale =
@@ -350,10 +351,12 @@ export function createVueI18n(
     },
 
     // postTranslation
-    get postTranslation(): PostTranslationHandler | null {
+    get postTranslation(): PostTranslationHandler<VueMessageType> | null {
       return composer.getPostTranslationHandler()
     },
-    set postTranslation(handler: PostTranslationHandler | null) {
+    set postTranslation(
+      handler: PostTranslationHandler<VueMessageType> | null
+    ) {
       composer.setPostTranslationHandler(handler)
     },
 

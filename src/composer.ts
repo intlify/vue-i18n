@@ -475,7 +475,7 @@ export function createComposer<T = VueMessageType>(
   }
 
   function defineComputed<T, U = T>(
-    fn: (context: RuntimeContext<T>) => unknown,
+    fn: (context: unknown) => unknown,
     argumentParser: () => string,
     warnType: ComposerWarnType,
     fallbackSuccess: (root: Composer<T> & ComposerInternal) => U,
@@ -484,7 +484,7 @@ export function createComposer<T = VueMessageType>(
   ): ComputedRef<U> {
     return computed<U>(
       (): U => {
-        const ret = fn(getRuntimeContext<T>())
+        const ret = fn(getRuntimeContext())
         if (isNumber(ret) && ret === NOT_REOSLVED) {
           const key = argumentParser()
           if (__DEV__ && _fallbackRoot && __root) {
@@ -513,7 +513,7 @@ export function createComposer<T = VueMessageType>(
   // t
   function t(...args: unknown[]): string {
     return defineComputed<string>(
-      context => translate<string>(context, ...args),
+      context => translate<string>(context as RuntimeContext<string>, ...args),
       () => parseTranslateArgs(...args)[0],
       'translate',
       root => root.t(...args),
@@ -525,7 +525,7 @@ export function createComposer<T = VueMessageType>(
   // d
   function d(...args: unknown[]): string {
     return defineComputed<string>(
-      context => datetime<string>(context, ...args),
+      context => datetime<string>(context as RuntimeContext<string>, ...args),
       () => parseDateTimeArgs(...args)[0],
       'datetime format',
       root => root.d(...args),
@@ -537,7 +537,7 @@ export function createComposer<T = VueMessageType>(
   // n
   function n(...args: unknown[]): string {
     return defineComputed<string>(
-      context => number<string>(context, ...args),
+      context => number<string>(context as RuntimeContext<string>, ...args),
       () => parseNumberArgs(...args)[0],
       'number format',
       root => root.n(...args),
@@ -566,10 +566,11 @@ export function createComposer<T = VueMessageType>(
       context => {
         let ret: unknown
         try {
-          context.processor = processor
-          ret = translate<VNode>(context, ...args)
+          const _context = context as RuntimeContext<VNode>
+          _context.processor = processor
+          ret = translate<VNode>(_context, ...args)
         } finally {
-          context.processor = null
+          _context.processor = null
         }
         return ret
       },
@@ -584,7 +585,7 @@ export function createComposer<T = VueMessageType>(
   // __numberParts, using for `i18n-n` component
   function __numberParts(...args: unknown[]): string | Intl.NumberFormatPart[] {
     return defineComputed<string | Intl.NumberFormatPart[]>(
-      context => number(context, ...args),
+      context => number(context as RuntimeContext<string>, ...args),
       () => parseNumberArgs(...args)[0],
       'number format',
       root => root.__numberParts(...args),
@@ -598,7 +599,7 @@ export function createComposer<T = VueMessageType>(
     ...args: unknown[]
   ): string | Intl.DateTimeFormatPart[] {
     return defineComputed<string | Intl.DateTimeFormatPart[]>(
-      context => datetime(context, ...args),
+      context => datetime(context as RuntimeContext<string>, ...args),
       () => parseDateTimeArgs(...args)[0],
       'datetime format',
       root => root.__datetimeParts(...args),
