@@ -923,7 +923,7 @@ describe('__transrateVNode', () => {
       (composer as Composer & ComposerInternal).__transrateVNode('hello', {
         name: createVNode(Text, null, 'kazupon', 0)
       })
-    ).toEqual('hello')
+    ).toMatchSnapshot()
   })
 })
 

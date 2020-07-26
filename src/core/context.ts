@@ -20,6 +20,7 @@ import {
   isObject
 } from '../utils'
 import { DateTimeFormats, NumberFormats } from './types'
+import { LinkedKeyNode } from '../message/parser'
 
 export type Locale = string
 
@@ -141,8 +142,8 @@ export function createRuntimeContext<T = string>(
     ? options.numberFormats
     : { [locale]: {} }
   const modifiers = Object.assign(
-    {} as LinkedModifiers,
-    options.modifiers || {},
+    {} as LinkedModifiers<T>,
+    options.modifiers || ({} as LinkedModifiers<T>),
     getDefaultLinkedModifiers<T>()
   )
   const pluralRules = options.pluralRules || {}
@@ -331,11 +332,11 @@ function appendItemToChain(
   return follow
 }
 
-export function updateFallbackLocale(
-  context: RuntimeContext,
+export function updateFallbackLocale<T = string>(
+  context: RuntimeContext<T>,
   locale: Locale,
   fallback: FallbackLocale
 ): void {
   context._localeChainCache = new Map()
-  getLocaleChain(context, fallback, locale)
+  getLocaleChain<T>(context, fallback, locale)
 }

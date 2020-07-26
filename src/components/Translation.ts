@@ -49,12 +49,7 @@ export const Translation = defineComponent({
         options.plural = isString(props.plural) ? +props.plural : props.plural
       }
       const arg = getInterpolateArg(context, keys)
-
-      const children = i18n.__transrateVNode(
-        props.keypath,
-        arg,
-        options
-      ) as VNodeArrayChildren
+      const children = i18n.__transrateVNode(props.keypath, arg, options)
       return props.tag
         ? h(props.tag, { ...attrs }, children)
         : h(Fragment, { ...attrs }, children)

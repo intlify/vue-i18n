@@ -319,8 +319,8 @@ describe('custom process', () => {
         type: 'vnode'
       },
       modifiers: {
-        upper: (val: string | MockVNode, type: string): string | MockVNode =>
-          `${type}:${(val as MockVNode).text.toUpperCase()}`
+        upper: (val: string | MockVNode): string | MockVNode =>
+          `${(val as MockVNode).text.toUpperCase()}`
       },
       messages: {
         name: ctx => createVNode('kazupon') // eslint-disable-line
@@ -340,8 +340,8 @@ describe('custom process', () => {
         type: 'vnode'
       },
       modifiers: {
-        lower: (val: string | MockVNode, type: string): string | MockVNode =>
-          `${type}:${(val as MockVNode).text.toLowerCase()}`
+        lower: (val: string | MockVNode): string | MockVNode =>
+          `${(val as MockVNode).text.toLowerCase()}`
       },
       named: {
         unit: 'apple',

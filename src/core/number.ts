@@ -200,8 +200,8 @@ export function parseNumberArgs(
   return [options.key || '', value, options, orverrides]
 }
 
-export function clearNumberFormat(
-  context: RuntimeContext,
+export function clearNumberFormat<T = string>(
+  context: RuntimeContext<T>,
   locale: Locale,
   format: NumberFormat
 ): void {

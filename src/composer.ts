@@ -12,7 +12,9 @@ import {
   ComponentInternalInstance,
   Text,
   createVNode,
-  watch
+  watch,
+  VNode,
+  VNodeArrayChildren
 } from 'vue'
 import { WritableComputedRef, ComputedRef } from '@vue/reactivity'
 import { Path, parse as parsePath } from './path'
@@ -27,7 +29,8 @@ import {
   PluralizationRules,
   NamedValue,
   MessageFunctions,
-  MessageProcessor
+  MessageProcessor,
+  MessageType
 } from './message/runtime'
 import {
   Locale,
@@ -72,6 +75,14 @@ import {
   isPlainObject
 } from './utils'
 
+// extend VNode interface
+declare module '@vue/runtime-core' {
+  interface VNode<HostNode = RendererNode, HostElement = RendererElement> {
+    toString: () => string // mark for vue-i18n message runtime
+  }
+}
+
+export type VueMessageType = string | VNode
 export type MissingHandler = (
   locale: Locale,
   key: Path,
@@ -79,12 +90,14 @@ export type MissingHandler = (
   type?: string
 ) => string | void
 
-export type PreCompileHandler = () => {
+export type PreCompileHandler<T = VueMessageType> = () => {
   messages: LocaleMessages
-  functions: MessageFunctions
+  functions: MessageFunctions<T>
 }
 
-export type CustomBlocks = Array<string | LocaleMessages> | PreCompileHandler
+export type CustomBlocks<T = VueMessageType> =
+  | Array<string | LocaleMessages>
+  | PreCompileHandler<T>
 
 /**
  * Composer Options
@@ -92,30 +105,30 @@ export type CustomBlocks = Array<string | LocaleMessages> | PreCompileHandler
  * @remarks
  * This is options to create composer.
  */
-export interface ComposerOptions {
+export interface ComposerOptions<T = VueMessageType> {
   locale?: Locale
   fallbackLocale?: FallbackLocale
   inheritLocale?: boolean
   messages?: LocaleMessages
   datetimeFormats?: DateTimeFormats
   numberFormats?: NumberFormats
-  modifiers?: LinkedModifiers
+  modifiers?: LinkedModifiers<T>
   pluralRules?: PluralizationRules
   missing?: MissingHandler
   missingWarn?: boolean | RegExp
   fallbackWarn?: boolean | RegExp
   fallbackRoot?: boolean
   fallbackFormat?: boolean
-  postTranslation?: PostTranslationHandler
+  postTranslation?: PostTranslationHandler<T>
   warnHtmlMessage?: boolean
 }
 
 /**
  * @internal
  */
-export interface ComposerInternalOptions {
-  __i18n?: CustomBlocks
-  __root?: Composer
+export interface ComposerInternalOptions<T = VueMessageType> {
+  __i18n?: CustomBlocks<T>
+  __root?: Composer<T>
 }
 
 /**
@@ -124,7 +137,7 @@ export interface ComposerInternalOptions {
  * @remarks
  * This is the interface for being used for Vue 3 Composition API.
  */
-export interface Composer {
+export interface Composer<T = VueMessageType> {
   // properties
   locale: WritableComputedRef<Locale>
   fallbackLocale: WritableComputedRef<FallbackLocale>
@@ -133,7 +146,7 @@ export interface Composer {
   readonly messages: ComputedRef<LocaleMessages>
   readonly datetimeFormats: ComputedRef<DateTimeFormats>
   readonly numberFormats: ComputedRef<NumberFormats>
-  readonly modifiers: LinkedModifiers
+  readonly modifiers: LinkedModifiers<T>
   readonly pluralRules?: PluralizationRules
   readonly isGlobal: boolean
   missingWarn: boolean | RegExp
@@ -175,8 +188,8 @@ export interface Composer {
   getNumberFormat(locale: Locale): NumberFormat
   setNumberFormat(locale: Locale, format: NumberFormat): void
   mergeNumberFormat(locale: Locale, format: NumberFormat): void
-  getPostTranslationHandler(): PostTranslationHandler | null
-  setPostTranslationHandler(handler: PostTranslationHandler | null): void
+  getPostTranslationHandler(): PostTranslationHandler<T> | null
+  setPostTranslationHandler(handler: PostTranslationHandler<T> | null): void
   getMissingHandler(): MissingHandler | null
   setMissingHandler(handler: MissingHandler | null): void
 }
@@ -186,18 +199,20 @@ export interface Composer {
  */
 export interface ComposerInternal {
   __id: number
-  __transrateVNode(...args: unknown[]): unknown
+  __transrateVNode(...args: unknown[]): VNodeArrayChildren
   __numberParts(...args: unknown[]): string | Intl.NumberFormatPart[]
   __datetimeParts(...args: unknown[]): string | Intl.DateTimeFormatPart[]
 }
 
+type ComposerWarnType = 'translate' | 'number format' | 'datetime format'
+
 let composerID = 0
 
-function defineRuntimeMissingHandler(
+function defineRuntimeMissingHandler<T = VueMessageType>(
   missing: MissingHandler
-): RuntimeMissingHandler {
+): RuntimeMissingHandler<T> {
   return (
-    ctx: RuntimeContext,
+    ctx: RuntimeContext<T>,
     locale: Locale,
     key: Path,
     type: string
@@ -206,8 +221,8 @@ function defineRuntimeMissingHandler(
   }
 }
 
-function getLocaleMessages(
-  options: ComposerOptions & ComposerInternalOptions,
+function getLocaleMessages<T = VueMessageType>(
+  options: ComposerOptions<T> & ComposerInternalOptions<T>,
   locale: Locale
 ): LocaleMessages {
   const { messages, __i18n } = options
@@ -229,15 +244,15 @@ function getLocaleMessages(
 
   if (isFunction(__i18n)) {
     const { functions } = __i18n()
-    addPreCompileMessages(ret, functions)
+    addPreCompileMessages<T>(ret, functions as MessageFunctions<T>)
   }
 
   return ret
 }
 
-export function addPreCompileMessages(
+export function addPreCompileMessages<T = VueMessageType>(
   messages: LocaleMessages,
-  functions: MessageFunctions
+  functions: MessageFunctions<T>
 ): void {
   const keys = Object.keys(functions)
   keys.forEach(key => {
@@ -275,9 +290,9 @@ export function addPreCompileMessages(
  *
  * @internal
  */
-export function createComposer(
-  options: ComposerOptions & ComposerInternalOptions = {}
-): Composer {
+export function createComposer<T = VueMessageType>(
+  options: ComposerOptions<T> & ComposerInternalOptions<T> = {}
+): Composer<T> {
   const { __root } = options
   const _isGlobal = __root === undefined
 
@@ -307,7 +322,7 @@ export function createComposer(
   )
 
   const _messages = ref<LocaleMessages>(
-    getLocaleMessages(options, _locale.value)
+    getLocaleMessages<T>(options, _locale.value)
   )
 
   const _datetimeFormats = ref<DateTimeFormats>(
@@ -347,7 +362,7 @@ export function createComposer(
   // runtime missing
   let _missing = isFunction(options.missing) ? options.missing : null
   let _runtimeMissing = isFunction(options.missing)
-    ? defineRuntimeMissingHandler(options.missing)
+    ? defineRuntimeMissingHandler<T>(options.missing)
     : null
 
   // postTranslation handler
@@ -365,15 +380,15 @@ export function createComposer(
     ? __root.modifiers
     : isPlainObject(options.modifiers)
       ? options.modifiers
-      : {}
+      : {} as LinkedModifiers<T>
 
   // pluralRules
   const _pluralRules = options.pluralRules
 
   // runtime context
-  let _context: RuntimeContext // eslint-disable-line prefer-const
-  function getRuntimeContext(): RuntimeContext {
-    return createRuntimeContext({
+  let _context: RuntimeContext<T> // eslint-disable-line prefer-const
+  function getRuntimeContext(): RuntimeContext<T> {
+    return createRuntimeContext<T>({
       locale: _locale.value,
       fallbackLocale: _fallbackLocale.value,
       messages: _messages.value,
@@ -397,7 +412,7 @@ export function createComposer(
     })
   }
   _context = getRuntimeContext()
-  updateFallbackLocale(_context, _locale.value, _fallbackLocale.value)
+  updateFallbackLocale<T>(_context, _locale.value, _fallbackLocale.value)
 
   /*!
    * define properties
@@ -436,12 +451,12 @@ export function createComposer(
    */
 
   // getPostTranslationHandler
-  const getPostTranslationHandler = (): PostTranslationHandler | null =>
+  const getPostTranslationHandler = (): PostTranslationHandler<T> | null =>
     isFunction(_postTranslation) ? _postTranslation : null
 
   // setPostTranslationHandler
   function setPostTranslationHandler(
-    handler: PostTranslationHandler | null
+    handler: PostTranslationHandler<T> | null
   ): void {
     _postTranslation = handler
     _context.postTranslation = handler
@@ -459,17 +474,17 @@ export function createComposer(
     _context.missing = _runtimeMissing
   }
 
-  function defineComputed<T>(
-    fn: (context: RuntimeContext) => unknown,
+  function defineComputed<T, U = T>(
+    fn: (context: RuntimeContext<T>) => unknown,
     argumentParser: () => string,
-    warnType: string,
-    fallbackSuccess: (root: Composer & ComposerInternal) => T,
-    fallbackFail: (key: string) => T,
+    warnType: ComposerWarnType,
+    fallbackSuccess: (root: Composer<T> & ComposerInternal) => U,
+    fallbackFail: (key: string) => U,
     successCondition: (val: unknown) => boolean
-  ): ComputedRef<T> {
-    return computed<T>(
-      (): T => {
-        const ret = fn(getRuntimeContext())
+  ): ComputedRef<U> {
+    return computed<U>(
+      (): U => {
+        const ret = fn(getRuntimeContext<T>())
         if (isNumber(ret) && ret === NOT_REOSLVED) {
           const key = argumentParser()
           if (__DEV__ && _fallbackRoot && __root) {
@@ -481,10 +496,12 @@ export function createComposer(
             )
           }
           return _fallbackRoot && __root
-            ? fallbackSuccess(__root as Composer & ComposerInternal)
+            ? fallbackSuccess(
+                (__root as unknown) as Composer<T> & ComposerInternal
+              )
             : fallbackFail(key)
         } else if (successCondition(ret)) {
-          return ret as T
+          return ret as U
         } else {
           /* istanbul ignore next */
           throw createI18nError(I18nErrorCodes.UNEXPECTED_RETURN_TYPE)
@@ -496,7 +513,7 @@ export function createComposer(
   // t
   function t(...args: unknown[]): string {
     return defineComputed<string>(
-      context => translate(context, ...args),
+      context => translate<string>(context, ...args),
       () => parseTranslateArgs(...args)[0],
       'translate',
       root => root.t(...args),
@@ -508,7 +525,7 @@ export function createComposer(
   // d
   function d(...args: unknown[]): string {
     return defineComputed<string>(
-      context => datetime(context, ...args),
+      context => datetime<string>(context, ...args),
       () => parseDateTimeArgs(...args)[0],
       'datetime format',
       root => root.d(...args),
@@ -520,7 +537,7 @@ export function createComposer(
   // n
   function n(...args: unknown[]): string {
     return defineComputed<string>(
-      context => number(context, ...args),
+      context => number<string>(context, ...args),
       () => parseNumberArgs(...args)[0],
       'number format',
       root => root.n(...args),
@@ -530,25 +547,27 @@ export function createComposer(
   }
 
   // for custom processor
-  function normalize(values: unknown[]): unknown {
+  function normalize(
+    values: MessageType<string | VNode>[]
+  ): MessageType<VNode>[] {
     return values.map(val =>
       isString(val) ? createVNode(Text, null, val, 0) : val
     )
   }
-  const interpolate = (val: unknown): unknown => val
+  const interpolate = (val: unknown): MessageType<VNode> => val as VNode
   const processor = {
     normalize,
     interpolate
-  } as MessageProcessor
+  } as MessageProcessor<VNode>
 
   // __transrateVNode, using for `i18n-t` component
-  function __transrateVNode(...args: unknown[]): unknown {
-    return defineComputed<unknown>(
+  function __transrateVNode(...args: unknown[]): VNodeArrayChildren {
+    return defineComputed<VNode, VNodeArrayChildren>(
       context => {
         let ret: unknown
         try {
           context.processor = processor
-          ret = translate(context, ...args)
+          ret = translate<VNode>(context, ...args)
         } finally {
           context.processor = null
         }
@@ -557,7 +576,7 @@ export function createComposer(
       () => parseTranslateArgs(...args)[0],
       'translate',
       root => root.__transrateVNode(...args),
-      key => key,
+      key => [createVNode(Text, null, key, 0)],
       val => isArray(val)
     ).value
   }
@@ -593,7 +612,7 @@ export function createComposer(
     _messages.value[locale] || {}
 
   // setLocaleMessage
-  function setLocaleMessage(locale: Locale, message: LocaleMessage): void {
+  function setLocaleMessage(locale: Locale, message: LocaleMessage) {
     _messages.value[locale] = message
     _context.messages = _messages.value
   }
@@ -615,7 +634,7 @@ export function createComposer(
   function setDateTimeFormat(locale: Locale, format: DateTimeFormat): void {
     _datetimeFormats.value[locale] = format
     _context.datetimeFormats = _datetimeFormats.value
-    clearDateTimeFormat(_context, locale, format)
+    clearDateTimeFormat<T>(_context, locale, format)
   }
 
   // mergeDateTimeFormat
@@ -625,7 +644,7 @@ export function createComposer(
       format
     )
     _context.datetimeFormats = _datetimeFormats.value
-    clearDateTimeFormat(_context, locale, format)
+    clearDateTimeFormat<T>(_context, locale, format)
   }
 
   // getNumberFormat
@@ -636,7 +655,7 @@ export function createComposer(
   function setNumberFormat(locale: Locale, format: NumberFormat): void {
     _numberFormats.value[locale] = format
     _context.numberFormats = _numberFormats.value
-    clearNumberFormat(_context, locale, format)
+    clearNumberFormat<T>(_context, locale, format)
   }
 
   // mergeNumberFormat
@@ -646,7 +665,7 @@ export function createComposer(
       format
     )
     _context.numberFormats = _numberFormats.value
-    clearNumberFormat(_context, locale, format)
+    clearNumberFormat<T>(_context, locale, format)
   }
 
   // for debug
@@ -658,14 +677,14 @@ export function createComposer(
       if (_inheritLocale) {
         _locale.value = val
         _context.locale = val
-        updateFallbackLocale(_context, _locale.value, _fallbackLocale.value)
+        updateFallbackLocale<T>(_context, _locale.value, _fallbackLocale.value)
       }
     })
     watch(__root.fallbackLocale, (val: FallbackLocale) => {
       if (_inheritLocale) {
         _fallbackLocale.value = val
         _context.fallbackLocale = val
-        updateFallbackLocale(_context, _locale.value, _fallbackLocale.value)
+        updateFallbackLocale<T>(_context, _locale.value, _fallbackLocale.value)
       }
     })
   }
@@ -683,7 +702,7 @@ export function createComposer(
       if (val && __root) {
         _locale.value = __root.locale.value
         _fallbackLocale.value = __root.fallbackLocale.value
-        updateFallbackLocale(_context, _locale.value, _fallbackLocale.value)
+        updateFallbackLocale<T>(_context, _locale.value, _fallbackLocale.value)
       }
     },
     get availableLocales(): Locale[] {
@@ -692,7 +711,7 @@ export function createComposer(
     messages,
     datetimeFormats,
     numberFormats,
-    get modifiers(): LinkedModifiers {
+    get modifiers(): LinkedModifiers<T> {
       return _modifiers
     },
     get pluralRules(): PluralizationRules | undefined {

@@ -202,8 +202,8 @@ export function parseDateTimeArgs(
   return [options.key || '', value, options, orverrides]
 }
 
-export function clearDateTimeFormat(
-  context: RuntimeContext,
+export function clearDateTimeFormat<T = string>(
+  context: RuntimeContext<T>,
   locale: Locale,
   format: DateTimeFormat
 ): void {
