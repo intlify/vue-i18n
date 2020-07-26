@@ -20,7 +20,6 @@ import {
   isObject
 } from '../utils'
 import { DateTimeFormats, NumberFormats } from './types'
-import { LinkedKeyNode } from '../message/parser'
 
 export type Locale = string
 

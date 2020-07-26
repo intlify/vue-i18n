@@ -1,11 +1,4 @@
-import {
-  h,
-  Fragment,
-  defineComponent,
-  SetupContext,
-  VNodeChild,
-  VNodeArrayChildren
-} from 'vue'
+import { h, Fragment, defineComponent, SetupContext, VNodeChild } from 'vue'
 import { Composer, ComposerInternal } from '../composer'
 import { useI18n } from '../i18n'
 import { TranslateOptions } from '../core'
