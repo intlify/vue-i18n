@@ -6,7 +6,8 @@ import {
   handleMissing,
   isTrarnslateFallbackWarn,
   NOT_REOSLVED,
-  MISSING_RESOLVE_VALUE
+  MISSING_RESOLVE_VALUE,
+  RuntimeInternalContext
 } from './context'
 import { CoreWarnCodes, getWarnMessage } from './warnings'
 import { CoreErrorCodes, createCoreError } from './errors'
@@ -96,13 +97,8 @@ export function number<T = string>(
   context: RuntimeContext<T>,
   ...args: unknown[]
 ): string | number | Intl.NumberFormatPart[] {
-  const {
-    numberFormats,
-    unresolving,
-    fallbackLocale,
-    onWarn,
-    _numberFormatters
-  } = context
+  const { numberFormats, unresolving, fallbackLocale, onWarn } = context
+  const { __numberFormatters } = (context as unknown) as RuntimeInternalContext
 
   if (__DEV__ && !Availabilities.numberFormat) {
     onWarn(getWarnMessage(CoreWarnCodes.CANNOT_FORMAT_NUMBER))
@@ -158,13 +154,13 @@ export function number<T = string>(
     id = `${id}__${JSON.stringify(orverrides)}`
   }
 
-  let formatter = _numberFormatters.get(id)
+  let formatter = __numberFormatters.get(id)
   if (!formatter) {
     formatter = new Intl.NumberFormat(
       targetLocale,
       Object.assign({}, format, orverrides)
     )
-    _numberFormatters.set(id, formatter)
+    __numberFormatters.set(id, formatter)
   }
   return !part ? formatter.format(value) : formatter.formatToParts(value)
 }
@@ -201,15 +197,16 @@ export function parseNumberArgs(
 }
 
 export function clearNumberFormat<T = string>(
-  context: RuntimeContext<T>,
+  ctx: RuntimeContext<T>,
   locale: Locale,
   format: NumberFormat
 ): void {
+  const context = (ctx as unknown) as RuntimeInternalContext
   for (const key in format) {
     const id = `${locale}__${key}`
-    if (!context._numberFormatters.has(id)) {
+    if (!context.__numberFormatters.has(id)) {
       continue
     }
-    context._numberFormatters.delete(id)
+    context.__numberFormatters.delete(id)
   }
 }

@@ -6,7 +6,8 @@ import {
   handleMissing,
   isTrarnslateFallbackWarn,
   NOT_REOSLVED,
-  MISSING_RESOLVE_VALUE
+  MISSING_RESOLVE_VALUE,
+  RuntimeInternalContext
 } from './context'
 import { CoreWarnCodes, getWarnMessage } from './warnings'
 import { CoreErrorCodes, createCoreError } from './errors'
@@ -98,13 +99,10 @@ export function datetime<T = string>(
   context: RuntimeContext<T>,
   ...args: unknown[]
 ): string | number | Intl.DateTimeFormatPart[] {
+  const { datetimeFormats, unresolving, fallbackLocale, onWarn } = context
   const {
-    datetimeFormats,
-    unresolving,
-    fallbackLocale,
-    onWarn,
-    _datetimeFormatters
-  } = context
+    __datetimeFormatters
+  } = (context as unknown) as RuntimeInternalContext
 
   if (__DEV__ && !Availabilities.dateTimeFormat) {
     onWarn(getWarnMessage(CoreWarnCodes.CANNOT_FORMAT_DATE))
@@ -160,13 +158,13 @@ export function datetime<T = string>(
     id = `${id}__${JSON.stringify(orverrides)}`
   }
 
-  let formatter = _datetimeFormatters.get(id)
+  let formatter = __datetimeFormatters.get(id)
   if (!formatter) {
     formatter = new Intl.DateTimeFormat(
       targetLocale,
       Object.assign({}, format, orverrides)
     )
-    _datetimeFormatters.set(id, formatter)
+    __datetimeFormatters.set(id, formatter)
   }
   return !part ? formatter.format(value) : formatter.formatToParts(value)
 }
@@ -203,15 +201,16 @@ export function parseDateTimeArgs(
 }
 
 export function clearDateTimeFormat<T = string>(
-  context: RuntimeContext<T>,
+  ctx: RuntimeContext<T>,
   locale: Locale,
   format: DateTimeFormat
 ): void {
+  const context = (ctx as unknown) as RuntimeInternalContext
   for (const key in format) {
     const id = `${locale}__${key}`
-    if (!context._datetimeFormatters.has(id)) {
+    if (!context.__datetimeFormatters.has(id)) {
       continue
     }
-    context._datetimeFormatters.delete(id)
+    context.__datetimeFormatters.delete(id)
   }
 }

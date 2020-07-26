@@ -75,8 +75,11 @@ export interface RuntimeOptions<T = string> {
   warnHtmlMessage?: boolean
   messageCompiler?: MessageCompiler<T>
   onWarn?: (msg: string, err?: Error) => void
-  _datetimeFormatters?: Map<string, Intl.DateTimeFormat>
-  _numberFormatters?: Map<string, Intl.NumberFormat>
+}
+
+export interface RuntimeInternalOptions {
+  __datetimeFormatters?: Map<string, Intl.DateTimeFormat>
+  __numberFormatters?: Map<string, Intl.NumberFormat>
 }
 
 export interface RuntimeContext<T = string> {
@@ -97,10 +100,12 @@ export interface RuntimeContext<T = string> {
   warnHtmlMessage: boolean
   messageCompiler: MessageCompiler<T>
   onWarn(msg: string, err?: Error): void
-  _datetimeFormatters: Map<string, Intl.DateTimeFormat>
-  _numberFormatters: Map<string, Intl.NumberFormat>
-  _fallbackLocaleStack?: Locale[]
-  _localeChainCache?: Map<Locale, Locale[]>
+}
+
+export interface RuntimeInternalContext {
+  __datetimeFormatters: Map<string, Intl.DateTimeFormat>
+  __numberFormatters: Map<string, Intl.NumberFormat>
+  __localeChainCache?: Map<Locale, Locale[]>
 }
 
 export const NOT_REOSLVED = -1
@@ -121,7 +126,7 @@ function getDefaultLinkedModifiers<T = string>(): LinkedModifiers<T> {
 }
 
 export function createRuntimeContext<T = string>(
-  options: RuntimeOptions<T> = {}
+  options: RuntimeOptions<T> & RuntimeInternalOptions = {}
 ): RuntimeContext<T> {
   const locale = isString(options.locale) ? options.locale : 'en-US'
   const fallbackLocale =
@@ -168,14 +173,14 @@ export function createRuntimeContext<T = string>(
     ? options.messageCompiler
     : compile
   const onWarn = isFunction(options.onWarn) ? options.onWarn : warn
-  const _datetimeFormatters = isObject(options._datetimeFormatters)
-    ? options._datetimeFormatters
+  const __datetimeFormatters = isObject(options.__datetimeFormatters)
+    ? options.__datetimeFormatters
     : new Map<string, Intl.DateTimeFormat>()
-  const _numberFormatters = isObject(options._numberFormatters)
-    ? options._numberFormatters
+  const __numberFormatters = isObject(options.__numberFormatters)
+    ? options.__numberFormatters
     : new Map<string, Intl.NumberFormat>()
 
-  return {
+  const context = {
     locale,
     fallbackLocale,
     messages,
@@ -193,9 +198,11 @@ export function createRuntimeContext<T = string>(
     warnHtmlMessage,
     messageCompiler,
     onWarn,
-    _datetimeFormatters,
-    _numberFormatters
+    __datetimeFormatters,
+    __numberFormatters
   }
+
+  return context
 }
 
 export function isTrarnslateFallbackWarn(
@@ -232,19 +239,21 @@ export function handleMissing<T = string>(
 }
 
 export function getLocaleChain<T = string>(
-  context: RuntimeContext<T>,
+  ctx: RuntimeContext<T>,
   fallback: FallbackLocale,
   start: Locale = ''
 ): Locale[] {
+  const context = (ctx as unknown) as RuntimeInternalContext
+
   if (start === '') {
     return []
   }
 
-  if (!context._localeChainCache) {
-    context._localeChainCache = new Map()
+  if (!context.__localeChainCache) {
+    context.__localeChainCache = new Map()
   }
 
-  let chain = context._localeChainCache.get(start)
+  let chain = context.__localeChainCache.get(start)
   if (!chain) {
     chain = []
 
@@ -271,7 +280,7 @@ export function getLocaleChain<T = string>(
     if (isArray(block)) {
       appendBlockToChain(chain, block, false)
     }
-    context._localeChainCache.set(start, chain)
+    context.__localeChainCache.set(start, chain)
   }
 
   return chain
@@ -332,10 +341,11 @@ function appendItemToChain(
 }
 
 export function updateFallbackLocale<T = string>(
-  context: RuntimeContext<T>,
+  ctx: RuntimeContext<T>,
   locale: Locale,
   fallback: FallbackLocale
 ): void {
-  context._localeChainCache = new Map()
-  getLocaleChain<T>(context, fallback, locale)
+  const context = (ctx as unknown) as RuntimeInternalContext
+  context.__localeChainCache = new Map()
+  getLocaleChain<T>(ctx, fallback, locale)
 }

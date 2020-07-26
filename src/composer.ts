@@ -42,7 +42,8 @@ import {
   PostTranslationHandler,
   MISSING_RESOLVE_VALUE,
   updateFallbackLocale,
-  FallbackLocale
+  FallbackLocale,
+  RuntimeInternalContext
 } from './core/context'
 import {
   translate,
@@ -403,11 +404,11 @@ export function createComposer<T = VueMessageType>(
       unresolving: true,
       postTranslation: _postTranslation === null ? undefined : _postTranslation,
       warnHtmlMessage: _warnHtmlMessage,
-      _datetimeFormatters: isPlainObject(_context)
-        ? _context._datetimeFormatters
+      __datetimeFormatters: isPlainObject(_context)
+        ? ((_context as unknown) as RuntimeInternalContext).__datetimeFormatters
         : undefined,
-      _numberFormatters: isPlainObject(_context)
-        ? _context._numberFormatters
+      __numberFormatters: isPlainObject(_context)
+        ? ((_context as unknown) as RuntimeInternalContext).__numberFormatters
         : undefined
     })
   }
