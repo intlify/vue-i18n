@@ -138,11 +138,12 @@ declare module '@vue/runtime-core' {
 }
 
 // supports compatibility for legacy vue-i18n APIs
-export function defineMixin(
-  legacy: VueI18n & VueI18nInternal,
-  composer: Composer,
+export function defineMixin<Messages>(
+  vuei18n: VueI18n<Messages>,
+  composer: Composer<Messages>,
   i18n: I18nInternal
 ): ComponentOptions {
+  const legacy = (vuei18n as unknown) as VueI18nInternal<Messages>
   return {
     beforeCreate(): void {
       const instance = getCurrentInstance()
@@ -153,8 +154,8 @@ export function defineMixin(
 
       const options = this.$options
       if (options.i18n) {
-        const optionsI18n = options.i18n as VueI18nOptions &
-          ComposerInternalOptions
+        const optionsI18n = options.i18n as VueI18nOptions<Messages> &
+          ComposerInternalOptions<Messages>
         if (options.__i18n) {
           optionsI18n.__i18n = options.__i18n
         }
@@ -162,15 +163,21 @@ export function defineMixin(
         this.$i18n = createVueI18n(optionsI18n)
         legacy.__onComponentInstanceCreated(this.$i18n)
 
-        i18n._setLegacy(instance, this.$i18n)
+        i18n.__setInstance<Messages, VueI18n<Messages>>(
+          instance,
+          this.$i18n as VueI18n<Messages>
+        )
       } else if (options.__i18n) {
         this.$i18n = createVueI18n({
-          __i18n: options.__i18n,
+          __i18n: (options as ComposerInternalOptions<Messages>).__i18n,
           __root: composer
-        })
+        } as VueI18nOptions<Messages>)
         legacy.__onComponentInstanceCreated(this.$i18n)
 
-        i18n._setLegacy(instance, this.$i18n)
+        i18n.__setInstance<Messages, VueI18n<Messages>>(
+          instance,
+          this.$i18n as VueI18n<Messages>
+        )
       } else {
         // set global
         this.$i18n = legacy
@@ -206,7 +213,7 @@ export function defineMixin(
       delete this.$d
       delete this.$n
 
-      i18n._deleteLegacy(instance)
+      i18n.__deleteInstance(instance)
       delete this.$i18n
     }
   }

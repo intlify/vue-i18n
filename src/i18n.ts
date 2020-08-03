@@ -8,9 +8,10 @@ import {
   ComponentOptions,
   App
 } from 'vue'
+import { LocaleMessageDictionary } from './core/context'
 import {
+  VueMessageType,
   Composer,
-  ComposerInternal,
   ComposerOptions,
   ComposerInternalOptions,
   createComposer
@@ -35,8 +36,8 @@ import { isEmptyObject, warn } from './utils'
  * so you can specify these options.
  *
  */
-export type I18nOptions = I18nAdditionalOptions &
-  (ComposerOptions | VueI18nOptions)
+export type I18nOptions<Messages> = I18nAdditionalOptions &
+  (ComposerOptions<Messages> | VueI18nOptions<Messages>)
 
 /**
  * I18n Additional Options for `createI18n`
@@ -58,7 +59,7 @@ export type I18nMode = 'legacy' | 'composable'
 /**
  * I18n interface
  */
-export interface I18n {
+export interface I18n<Messages = {}> {
   /**
    * I18n API mode
    *
@@ -72,7 +73,7 @@ export interface I18n {
   /**
    * Global composer
    */
-  readonly global: Composer
+  readonly global: Composer<Messages>
   /**
    * @internal
    */
@@ -85,12 +86,20 @@ export interface I18n {
  * @internal
  */
 export interface I18nInternal {
-  _getComposer(instance: ComponentInternalInstance): Composer | null
-  _setComposer(instance: ComponentInternalInstance, composer: Composer): void
-  _deleteComposer(instance: ComponentInternalInstance): void
-  _getLegacy(instance: ComponentInternalInstance): VueI18n | null
-  _setLegacy(instance: ComponentInternalInstance, legacy: VueI18n): void
-  _deleteLegacy(instance: ComponentInternalInstance): void
+  __getInstance<
+    Messages,
+    Instance extends VueI18n<Messages> | Composer<Messages>
+  >(
+    component: ComponentInternalInstance
+  ): Instance | null
+  __setInstance<
+    Messages,
+    Instance extends VueI18n<Messages> | Composer<Messages>
+  >(
+    component: ComponentInternalInstance,
+    instance: Instance
+  ): void
+  __deleteInstance(component: ComponentInternalInstance): void
 }
 
 /**
@@ -105,7 +114,8 @@ export type I18nScope = 'local' | 'parent' | 'global'
  * `UseI18nOptions` is inherited {@link ComposerAdditionalOptions} and {@link ComposerOptions},
  * so you can specify these options.
  */
-export type UseI18nOptions = ComposerAdditionalOptions & ComposerOptions
+export type UseI18nOptions<Messages> = ComposerAdditionalOptions &
+  ComposerOptions<Messages>
 
 /**
  * Composer additional options for `useI18n`
@@ -121,9 +131,7 @@ export interface ComposerAdditionalOptions {
  * I18n instance injectin key
  * @internal
  */
-export const I18nSymbol: InjectionKey<I18n & I18nInternal> = Symbol.for(
-  'vue-i18n'
-)
+export const I18nSymbol: InjectionKey<I18n> = Symbol.for('vue-i18n')
 
 /**
  * I18n factory function
@@ -192,10 +200,18 @@ export const I18nSymbol: InjectionKey<I18n & I18nInternal> = Symbol.for(
  * app.mount('#app')
  * ```
  */
-export function createI18n(options: I18nOptions = {}): I18n {
+export function createI18n<
+  Options extends I18nOptions<Messages> = {},
+  Messages extends Record<
+    keyof Options['messages'],
+    LocaleMessageDictionary<VueMessageType>
+  > = Record<keyof Options['messages'], LocaleMessageDictionary<VueMessageType>>
+>(options: Options = {} as Options): I18n<Options['messages']> {
   const __legacyMode = !!options.legacy
-  const __composers = new Map<ComponentInternalInstance, Composer>()
-  const __legaceis = new Map<ComponentInternalInstance, VueI18n>()
+  const __instances = new Map<
+    ComponentInternalInstance,
+    VueI18n<Messages> | Composer<Messages>
+  >()
   const __global = __legacyMode
     ? createVueI18n(options)
     : createComposer(options)
@@ -206,42 +222,38 @@ export function createI18n(options: I18nOptions = {}): I18n {
       return __legacyMode ? 'legacy' : 'composable'
     },
     install(app: App, ...options: unknown[]): void {
-      apply(app, i18n, ...options)
+      apply<Messages>(app, i18n, ...options)
       if (__legacyMode) {
         app.mixin(
           defineMixin(
-            __global as VueI18n & VueI18nInternal,
-            (__global as VueI18n & VueI18nInternal).__composer,
-            i18n
+            __global as VueI18n<Messages>,
+            ((__global as unknown) as VueI18nInternal<Messages>)
+              .__composer as Composer<Messages>,
+            i18n as I18nInternal
           )
         )
       }
     },
-    get global(): Composer {
+    get global(): Composer<Messages> {
       return __legacyMode
-        ? (__global as VueI18n & VueI18nInternal).__composer
-        : (__global as Composer)
+        ? (((__global as unknown) as VueI18nInternal<Messages>)
+            .__composer as Composer<Messages>)
+        : (__global as Composer<Messages>)
     },
-    _getComposer(instance: ComponentInternalInstance): Composer | null {
-      return __composers.get(instance) || null
+    __getInstance<
+      M extends Messages,
+      Instance extends VueI18n<M> | Composer<M>
+    >(component: ComponentInternalInstance): Instance | null {
+      return ((__instances.get(component) as unknown) as Instance) || null
     },
-    _setComposer(
-      instance: ComponentInternalInstance,
-      composer: Composer
-    ): void {
-      __composers.set(instance, composer)
+    __setInstance<
+      M extends Messages,
+      Instance extends VueI18n<M> | Composer<M>
+    >(component: ComponentInternalInstance, instance: Instance): void {
+      __instances.set(component, instance)
     },
-    _deleteComposer(instance: ComponentInternalInstance): void {
-      __composers.delete(instance)
-    },
-    _getLegacy(instance: ComponentInternalInstance): VueI18n | null {
-      return __legaceis.get(instance) || null
-    },
-    _setLegacy(instance: ComponentInternalInstance, legacy: VueI18n): void {
-      __legaceis.set(instance, legacy)
-    },
-    _deleteLegacy(instance: ComponentInternalInstance): void {
-      __legaceis.delete(instance)
+    __deleteInstance(component: ComponentInternalInstance): void {
+      __instances.delete(component)
     }
   }
 
@@ -293,8 +305,14 @@ export function createI18n(options: I18nOptions = {}): I18n {
  * </script>
  * ```
  */
-export function useI18n(options: UseI18nOptions = {}): Composer {
-  const i18n = inject(I18nSymbol)
+export function useI18n<
+  Options extends UseI18nOptions<Messages> = object,
+  Messages extends Record<
+    keyof Options['messages'],
+    LocaleMessageDictionary<VueMessageType>
+  > = Record<keyof Options['messages'], LocaleMessageDictionary<VueMessageType>>
+>(options: Options = {} as Options): Composer<Options['messages']> {
+  const i18n = inject(I18nSymbol) as I18n<Messages>
   if (!i18n) {
     throw createI18nError(I18nErrorCodes.NOT_INSLALLED)
   }
@@ -337,10 +355,14 @@ export function useI18n(options: UseI18nOptions = {}): Composer {
     throw createI18nError(I18nErrorCodes.NOT_AVAILABLE_IN_LEGACY_MODE)
   }
 
-  let composer = i18n._getComposer(instance)
+  const i18nInternal = (i18n as unknown) as I18nInternal
+  let composer = i18nInternal.__getInstance<Messages, Composer<Messages>>(
+    instance
+  )
   if (composer == null) {
     const type = instance.type as ComponentOptions
-    const composerOptions: ComposerOptions & ComposerInternalOptions = {
+    const composerOptions: ComposerOptions<Messages> &
+      ComposerInternalOptions<Messages> = {
       ...options
     }
     if (type.__i18n) {
@@ -351,29 +373,35 @@ export function useI18n(options: UseI18nOptions = {}): Composer {
       composerOptions.__root = global
     }
 
-    composer = createComposer(composerOptions)
-    setupLifeCycle(i18n, instance, composer)
+    composer = createComposer(composerOptions) as Composer<Messages>
+    setupLifeCycle<Messages>(i18nInternal, instance, composer)
 
-    i18n._setComposer(instance, composer)
+    i18nInternal.__setInstance<Messages, Composer<Messages>>(instance, composer)
   }
 
-  return composer as Composer & ComposerInternal
+  return composer as Composer<Messages>
 }
 
-function getComposer(
-  i18n: I18n & I18nInternal,
+function getComposer<Messages>(
+  i18n: I18n<Messages>,
   target: ComponentInternalInstance
-): Composer | null {
-  let composer: Composer | null = null
+): Composer<Messages, VueMessageType> | null {
+  let composer: Composer<Messages, VueMessageType> | null = null
   const root = target.root
   let current: ComponentInternalInstance | null = target.parent
   while (current != null) {
+    const i18nInternal = (i18n as unknown) as I18nInternal
     if (i18n.mode === 'composable') {
-      composer = i18n._getComposer(current)
+      composer = i18nInternal.__getInstance<Messages, Composer<Messages>>(
+        current
+      )
     } else {
-      const vueI18n = i18n._getLegacy(current)
+      const vueI18n = i18nInternal.__getInstance<Messages, VueI18n<Messages>>(
+        current
+      )
       if (vueI18n != null) {
-        composer = (vueI18n as VueI18n & VueI18nInternal).__composer
+        composer = (vueI18n as VueI18n<Messages> & VueI18nInternal<Messages>)
+          .__composer as Composer<Messages>
       }
     }
     if (composer != null) {
@@ -387,10 +415,10 @@ function getComposer(
   return composer
 }
 
-function setupLifeCycle(
+function setupLifeCycle<Messages>(
   i18n: I18nInternal,
   target: ComponentInternalInstance,
-  composer: Composer
+  composer: Composer<Messages>
 ): void {
   onMounted(() => {
     // inject composer instance to DOM for intlify-devtools
@@ -404,6 +432,6 @@ function setupLifeCycle(
     if (target.proxy && target.proxy.$el.__intlify__) {
       delete target.proxy.$el.__intlify__
     }
-    i18n._deleteComposer(target)
+    i18n.__deleteInstance(target)
   }, target)
 }

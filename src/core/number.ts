@@ -67,34 +67,34 @@ export type NumberOptions = {
 }
 
 // `number` function overloads
-export function number<T = string>(
-  context: RuntimeContext<T>,
+export function number<Messages, Message = string>(
+  context: RuntimeContext<Messages, Message>,
   value: number
 ): string | number | Intl.NumberFormatPart[]
-export function number<T = string>(
-  context: RuntimeContext<T>,
+export function number<Messages, Message = string>(
+  context: RuntimeContext<Messages, Message>,
   value: number,
   key: string
 ): string | number | Intl.NumberFormatPart[]
-export function number<T = string>(
-  context: RuntimeContext<T>,
+export function number<Messages, Message = string>(
+  context: RuntimeContext<Messages, Message>,
   value: number,
   key: string,
   locale: Locale
 ): string | number | Intl.NumberFormatPart[]
-export function number<T = string>(
-  context: RuntimeContext<T>,
+export function number<Messages, Message = string>(
+  context: RuntimeContext<Messages, Message>,
   value: number,
   options: NumberOptions
 ): string | number | Intl.NumberFormatPart[]
-export function number<T = string>(
-  context: RuntimeContext<T>,
+export function number<Messages, Message = string>(
+  context: RuntimeContext<Messages, Message>,
   ...args: unknown[]
 ): string | number | Intl.NumberFormatPart[] // for internal
 
 // implementation of `number` function
-export function number<T = string>(
-  context: RuntimeContext<T>,
+export function number<Messages, Message = string>(
+  context: RuntimeContext<Messages, Message>,
   ...args: unknown[]
 ): string | number | Intl.NumberFormatPart[] {
   const { numberFormats, unresolving, fallbackLocale, onWarn } = context
@@ -196,8 +196,8 @@ export function parseNumberArgs(
   return [options.key || '', value, options, orverrides]
 }
 
-export function clearNumberFormat<T = string>(
-  ctx: RuntimeContext<T>,
+export function clearNumberFormat<Messages, Message = string>(
+  ctx: RuntimeContext<Messages, Message>,
   locale: Locale,
   format: NumberFormat
 ): void {

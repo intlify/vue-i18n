@@ -11,7 +11,7 @@ import {
   createComposer,
   MissingHandler,
   addPreCompileMessages,
-  Composer,
+  ComposerOptions,
   ComposerInternal
 } from '../src/composer'
 import { generateFormatCacheKey } from '../src/utils'
@@ -833,7 +833,7 @@ describe('getNumberFormat / setNumberFormat / mergeNumberFormat', () => {
 
 describe('__i18n', () => {
   test('default value', () => {
-    const { messages } = createComposer({
+    const options = {
       __i18n: [
         JSON.stringify({ en: { hello: 'Hello,world!' } }),
         JSON.stringify({
@@ -847,7 +847,10 @@ describe('__i18n', () => {
           }
         })
       ]
-    })
+    }
+    const { messages } = createComposer(
+      options as ComposerOptions<typeof options>
+    )
     expect(messages.value).toEqual({
       en: { hello: 'Hello,world!' },
       ja: {
@@ -862,7 +865,7 @@ describe('__i18n', () => {
   })
 
   test('locale messages object', () => {
-    const { messages } = createComposer({
+    const options = {
       __i18n: [
         { en: { hello: 'Hello,world!' } },
         {
@@ -876,7 +879,10 @@ describe('__i18n', () => {
           }
         }
       ]
-    })
+    }
+    const { messages } = createComposer(
+      options as ComposerOptions<typeof options>
+    )
     expect(messages.value).toEqual({
       en: { hello: 'Hello,world!' },
       ja: {
@@ -902,7 +908,7 @@ describe('__transrateVNode', () => {
       }
     })
     expect(
-      (composer as Composer & ComposerInternal).__transrateVNode('hello', {
+      ((composer as unknown) as ComposerInternal).__transrateVNode('hello', {
         name: createVNode(Text, null, 'kazupon', 0)
       })
     ).toMatchObject([
@@ -920,7 +926,7 @@ describe('__transrateVNode', () => {
       }
     })
     expect(
-      (composer as Composer & ComposerInternal).__transrateVNode('hello', {
+      ((composer as unknown) as ComposerInternal).__transrateVNode('hello', {
         name: createVNode(Text, null, 'kazupon', 0)
       })
     ).toMatchSnapshot()
@@ -941,7 +947,7 @@ describe('__numberParts', () => {
       }
     })
     expect(
-      (composer as Composer & ComposerInternal).__numberParts(0.99, {
+      ((composer as unknown) as ComposerInternal).__numberParts(0.99, {
         key: 'percent',
         part: true
       })
@@ -956,7 +962,7 @@ describe('__numberParts', () => {
       }
     })
     expect(
-      (composer as Composer & ComposerInternal).__numberParts(0.99, {
+      ((composer as unknown) as ComposerInternal).__numberParts(0.99, {
         key: 'percent',
         part: true
       })
@@ -983,7 +989,7 @@ describe('__datetimeParts', () => {
     })
     const dt = new Date(Date.UTC(2012, 11, 20, 3, 0, 0))
     expect(
-      (composer as Composer & ComposerInternal).__datetimeParts(dt, {
+      ((composer as unknown) as ComposerInternal).__datetimeParts(dt, {
         key: 'short',
         part: true
       })
@@ -1011,7 +1017,7 @@ describe('__datetimeParts', () => {
     })
     const dt = new Date(Date.UTC(2012, 11, 20, 3, 0, 0))
     expect(
-      (composer as Composer & ComposerInternal).__datetimeParts(dt, {
+      ((composer as unknown) as ComposerInternal).__datetimeParts(dt, {
         key: 'short',
         part: true
       })

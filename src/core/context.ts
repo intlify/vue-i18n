@@ -21,6 +21,13 @@ import {
 } from '../utils'
 import { DateTimeFormats, NumberFormats } from './types'
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type UnionToIntersection<U> = (U extends any ? (k: U) => void : never) extends (
+  k: infer I
+) => void
+  ? I
+  : never
+
 export type Locale = string
 
 export type FallbackLocale =
@@ -29,51 +36,60 @@ export type FallbackLocale =
   | { [locale in string]: Locale[] }
   | false
 
-// TODO: should more design it's useful typing ...
-export type LocaleMessageDictionary = {
-  [property: string]: LocaleMessage
-}
-export type LocaleMessage =
+export type LocaleMessageValue<Message = string> =
   | string
-  | MessageFunction
-  | LocaleMessageDictionary
-  | LocaleMessage[]
-export type LocaleMessages = Record<Locale, LocaleMessage>
+  | MessageFunction<Message>
+  | LocaleMessageDictionary<Message>
+  | LocaleMessageArray<Message>
+export type LocaleMessageDictionary<Message = string> = {
+  [property: string]: LocaleMessageValue<Message>
+}
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
+export interface LocaleMessageArray<Message = string>
+  extends Array<LocaleMessageValue<Message>> {}
+export type LocaleMessages<Message = string> = Record<
+  Locale,
+  LocaleMessageDictionary<Message>
+>
+
+type NestedPath<T> = { [K in keyof T]: T[K] }
 
 export type RuntimeMissingType = 'translate' | 'datetime' | 'number'
-export type RuntimeMissingHandler<T = string> = (
-  context: RuntimeContext<T>,
+export type RuntimeMissingHandler<Message = string> = <Messages>(
+  context: RuntimeContext<Messages, Message>,
   locale: Locale,
   key: Path,
   type: RuntimeMissingType,
   ...values: unknown[]
 ) => string | void
-export type PostTranslationHandler<T = string> = (
-  translated: MessageType<T>
-) => MessageType<T>
+export type PostTranslationHandler<Message = string> = (
+  translated: MessageType<Message>
+) => MessageType<Message>
 
-export type MessageCompiler<T = string> = (
+export type MessageCompiler<Message = string> = (
   source: string,
   options?: CompileOptions
-) => MessageFunction<T>
+) => MessageFunction<Message>
 
-export interface RuntimeOptions<T = string> {
+export interface RuntimeOptions<Messages, Message = string> {
   locale?: Locale
   fallbackLocale?: FallbackLocale
-  messages?: LocaleMessages
+  messages?: {
+    [K in keyof Messages]: LocaleMessageDictionary<Message>
+  }
   datetimeFormats?: DateTimeFormats
   numberFormats?: NumberFormats
-  modifiers?: LinkedModifiers<T>
+  modifiers?: LinkedModifiers<Message>
   pluralRules?: PluralizationRules
-  missing?: RuntimeMissingHandler<T>
+  missing?: RuntimeMissingHandler<Message>
   missingWarn?: boolean | RegExp
   fallbackWarn?: boolean | RegExp
   fallbackFormat?: boolean
   unresolving?: boolean
-  postTranslation?: PostTranslationHandler<T>
-  processor?: MessageProcessor<T>
+  postTranslation?: PostTranslationHandler<Message>
+  processor?: MessageProcessor<Message>
   warnHtmlMessage?: boolean
-  messageCompiler?: MessageCompiler<T>
+  messageCompiler?: MessageCompiler<Message>
   onWarn?: (msg: string, err?: Error) => void
 }
 
@@ -82,23 +98,23 @@ export interface RuntimeInternalOptions {
   __numberFormatters?: Map<string, Intl.NumberFormat>
 }
 
-export interface RuntimeContext<T = string> {
+export interface RuntimeContext<Messages, Message = string> {
   locale: Locale
   fallbackLocale: FallbackLocale
-  messages: LocaleMessages
+  messages: Messages
   datetimeFormats: DateTimeFormats
   numberFormats: NumberFormats
-  modifiers: LinkedModifiers<T>
+  modifiers: LinkedModifiers<Message>
   pluralRules?: PluralizationRules
-  missing: RuntimeMissingHandler<T> | null
+  missing: RuntimeMissingHandler<Message> | null
   missingWarn: boolean | RegExp
   fallbackWarn: boolean | RegExp
   fallbackFormat: boolean
   unresolving: boolean
-  postTranslation: PostTranslationHandler<T> | null
-  processor: MessageProcessor<T> | null
+  postTranslation: PostTranslationHandler<Message> | null
+  processor: MessageProcessor<Message> | null
   warnHtmlMessage: boolean
-  messageCompiler: MessageCompiler<T>
+  messageCompiler: MessageCompiler<Message>
   onWarn(msg: string, err?: Error): void
 }
 
@@ -111,23 +127,33 @@ export interface RuntimeInternalContext {
 export const NOT_REOSLVED = -1
 export const MISSING_RESOLVE_VALUE = ''
 
-function getDefaultLinkedModifiers<T = string>(): LinkedModifiers<T> {
+function getDefaultLinkedModifiers<Message = string>(): LinkedModifiers<
+  Message
+> {
   return {
-    upper: (val: T): MessageType<T> =>
-      (isString(val) ? val.toUpperCase() : val) as MessageType<T>,
-    lower: (val: T): MessageType<T> =>
-      (isString(val) ? val.toLowerCase() : val) as MessageType<T>,
+    upper: (val: Message): MessageType<Message> =>
+      (isString(val) ? val.toUpperCase() : val) as MessageType<Message>,
+    lower: (val: Message): MessageType<Message> =>
+      (isString(val) ? val.toLowerCase() : val) as MessageType<Message>,
     // prettier-ignore
-    capitalize: (val: T): MessageType<T> =>
+    capitalize: (val: Message): MessageType<Message> =>
       (isString(val)
         ? `${val.charAt(0).toLocaleUpperCase()}${val.substr(1)}`
-        : val) as MessageType<T>
+        : val) as MessageType<Message>
   }
 }
 
-export function createRuntimeContext<T = string>(
-  options: RuntimeOptions<T> & RuntimeInternalOptions = {}
-): RuntimeContext<T> {
+export function createRuntimeContext<
+  Message = string,
+  Options extends RuntimeOptions<Messages, Message> = object,
+  Messages extends Record<
+    keyof Options['messages'],
+    LocaleMessageDictionary<Message>
+  > = Record<keyof Options['messages'], LocaleMessageDictionary<Message>>
+>(
+  options: Options = {} as Options
+): RuntimeContext<Options['messages'], Message> {
+  // setup options
   const locale = isString(options.locale) ? options.locale : 'en-US'
   const fallbackLocale =
     isArray(options.fallbackLocale) ||
@@ -138,7 +164,7 @@ export function createRuntimeContext<T = string>(
       : locale
   const messages = isPlainObject(options.messages)
     ? options.messages
-    : { [locale]: {} }
+    : ({ [locale]: {} } as Messages)
   const datetimeFormats = isPlainObject(options.datetimeFormats)
     ? options.datetimeFormats
     : { [locale]: {} }
@@ -146,9 +172,9 @@ export function createRuntimeContext<T = string>(
     ? options.numberFormats
     : { [locale]: {} }
   const modifiers = Object.assign(
-    {} as LinkedModifiers<T>,
-    options.modifiers || ({} as LinkedModifiers<T>),
-    getDefaultLinkedModifiers<T>()
+    {} as LinkedModifiers<Message>,
+    options.modifiers || ({} as LinkedModifiers<Message>),
+    getDefaultLinkedModifiers<Message>()
   )
   const pluralRules = options.pluralRules || {}
   const missing = isFunction(options.missing) ? options.missing : null
@@ -173,11 +199,14 @@ export function createRuntimeContext<T = string>(
     ? options.messageCompiler
     : compile
   const onWarn = isFunction(options.onWarn) ? options.onWarn : warn
-  const __datetimeFormatters = isObject(options.__datetimeFormatters)
-    ? options.__datetimeFormatters
+
+  // setup internal options
+  const internalOptions = options as RuntimeInternalOptions
+  const __datetimeFormatters = isObject(internalOptions.__datetimeFormatters)
+    ? internalOptions.__datetimeFormatters
     : new Map<string, Intl.DateTimeFormat>()
-  const __numberFormatters = isObject(options.__numberFormatters)
-    ? options.__numberFormatters
+  const __numberFormatters = isObject(internalOptions.__numberFormatters)
+    ? internalOptions.__numberFormatters
     : new Map<string, Intl.NumberFormat>()
 
   const context = {
@@ -200,7 +229,7 @@ export function createRuntimeContext<T = string>(
     onWarn,
     __datetimeFormatters,
     __numberFormatters
-  }
+  } as RuntimeContext<Options['messages'], Message>
 
   return context
 }
@@ -219,8 +248,8 @@ export function isTranslateMissingWarn(
   return missing instanceof RegExp ? missing.test(key) : missing
 }
 
-export function handleMissing<T = string>(
-  context: RuntimeContext<T>,
+export function handleMissing<Messages, Message = string>(
+  context: RuntimeContext<Messages, Message>,
   key: Path,
   locale: Locale,
   missingWarn: boolean | RegExp,
@@ -228,7 +257,7 @@ export function handleMissing<T = string>(
 ): unknown {
   const { missing, onWarn } = context
   if (missing !== null) {
-    const ret = missing(context, locale, key, type)
+    const ret = missing<Messages>(context, locale, key, type)
     return isString(ret) ? ret : key
   } else {
     if (__DEV__ && isTranslateMissingWarn(missingWarn, key)) {
@@ -238,8 +267,8 @@ export function handleMissing<T = string>(
   }
 }
 
-export function getLocaleChain<T = string>(
-  ctx: RuntimeContext<T>,
+export function getLocaleChain<Messages, Message = string>(
+  ctx: RuntimeContext<Messages, Message>,
   fallback: FallbackLocale,
   start: Locale = ''
 ): Locale[] {
@@ -340,12 +369,12 @@ function appendItemToChain(
   return follow
 }
 
-export function updateFallbackLocale<T = string>(
-  ctx: RuntimeContext<T>,
+export function updateFallbackLocale<Messages, Message = string>(
+  ctx: RuntimeContext<Messages, Message>,
   locale: Locale,
   fallback: FallbackLocale
 ): void {
   const context = (ctx as unknown) as RuntimeInternalContext
   context.__localeChainCache = new Map()
-  getLocaleChain<T>(ctx, fallback, locale)
+  getLocaleChain<Messages, Message>(ctx, fallback, locale)
 }
