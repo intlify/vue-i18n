@@ -20,8 +20,8 @@ import {
 } from './core/context'
 import { TranslateOptions } from './core/translate'
 import {
-  DateTimeFormats,
-  NumberFormats,
+  DateTimeFormats as DateTimeFormatsType,
+  NumberFormats as NumberFormatsType,
   DateTimeFormat,
   NumberFormat
 } from './core/types'
@@ -71,14 +71,12 @@ export type ComponentInstanceCreatedListener = <Messages>(
  *  @remarks
  *  This option is compatible with the constructor options of `VueI18n` class (offered with vue-i18n@8.x).
  */
-export interface VueI18nOptions<Messages = {}> {
+export interface VueI18nOptions {
   locale?: Locale
   fallbackLocale?: FallbackLocale
-  messages?: {
-    [K in keyof Messages]: LocaleMessageDictionary<VueMessageType>
-  }
-  datetimeFormats?: DateTimeFormats
-  numberFormats?: NumberFormats
+  messages?: LocaleMessages<VueMessageType>
+  datetimeFormats?: DateTimeFormatsType
+  numberFormats?: NumberFormatsType
   availableLocales?: Locale[]
   modifiers?: LinkedModifiers<VueMessageType>
   formatter?: Formatter
@@ -89,9 +87,7 @@ export interface VueI18nOptions<Messages = {}> {
   formatFallbackMessages?: boolean
   preserveDirectiveContent?: boolean
   warnHtmlInMessage?: WarnHtmlInMessageLevel
-  sharedMessages?: {
-    [K in keyof Messages]: LocaleMessageDictionary<VueMessageType>
-  }
+  sharedMessages?: LocaleMessages<VueMessageType>
   pluralizationRules?: PluralizationRules
   postTranslation?: PostTranslationHandler<VueMessageType>
   sync?: boolean
@@ -104,7 +100,11 @@ export interface VueI18nOptions<Messages = {}> {
  *  @remarks
  *  This interface is compatible with interface of `VueI18n` class (offered with vue-i18n@8.x).
  */
-export interface VueI18n<Messages = {}> {
+export interface VueI18n<
+  Messages = {},
+  DateTimeFormats = {},
+  NumberFormats = {}
+> {
   // properties
   locale: Locale
   fallbackLocale: FallbackLocale
@@ -170,9 +170,13 @@ export interface VueI18n<Messages = {}> {
 /**
  * @internal
  */
-export interface VueI18nInternal<Messages> {
+export interface VueI18nInternal<
+  Messages = {},
+  DateTimeFormats = {},
+  NumberFormats = {}
+> {
   __id: number
-  __composer: Composer<Messages, VueMessageType>
+  __composer: Composer<Messages, DateTimeFormats, NumberFormats>
   __onComponentInstanceCreated(target: VueI18n<Messages>): void
 }
 
@@ -181,9 +185,15 @@ export interface VueI18nInternal<Messages> {
  *
  * @internal
  */
-function convertComposerOptions<Messages>(
-  options: VueI18nOptions<Messages> & ComposerInternalOptions<Messages>
-): ComposerOptions<Messages> & ComposerInternalOptions<Messages> {
+function convertComposerOptions<
+  Messages = {},
+  DateTimeFormats = {},
+  NumberFormats = {}
+>(
+  options: VueI18nOptions &
+    ComposerInternalOptions<Messages, DateTimeFormats, NumberFormats>
+): ComposerOptions &
+  ComposerInternalOptions<Messages, DateTimeFormats, NumberFormats> {
   const locale = isString(options.locale) ? options.locale : 'en-US'
   const fallbackLocale =
     isString(options.fallbackLocale) ||
@@ -267,15 +277,32 @@ function convertComposerOptions<Messages>(
  * @internal
  */
 export function createVueI18n<
-  Options extends VueI18nOptions<Messages> = object,
+  Options extends VueI18nOptions = object,
   Messages extends Record<
     keyof Options['messages'],
     LocaleMessageDictionary<VueMessageType>
-  > = Record<keyof Options['messages'], LocaleMessageDictionary<VueMessageType>>
->(options: Options = {} as Options): VueI18n<Options['messages']> {
+  > = Record<
+    keyof Options['messages'],
+    LocaleMessageDictionary<VueMessageType>
+  >,
+  DateTimeFormats extends Record<
+    keyof Options['datetimeFormats'],
+    DateTimeFormat
+  > = Record<keyof Options['datetimeFormats'], DateTimeFormat>,
+  NumberFormats extends Record<
+    keyof Options['numberFormats'],
+    NumberFormat
+  > = Record<keyof Options['numberFormats'], NumberFormat>
+>(
+  options: Options = {} as Options
+): VueI18n<
+  Options['messages'],
+  Options['datetimeFormats'],
+  Options['numberFormats']
+> {
   const composer = createComposer<VueMessageType>(
-    convertComposerOptions<Messages>(options)
-  ) as Composer<Messages, VueMessageType>
+    convertComposerOptions<Messages, DateTimeFormats, NumberFormats>(options)
+  ) as Composer<Messages, DateTimeFormats, NumberFormats>
 
   // defines VueI18n
   const vueI18n = {

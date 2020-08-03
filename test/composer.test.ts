@@ -12,7 +12,8 @@ import {
   MissingHandler,
   addPreCompileMessages,
   ComposerOptions,
-  ComposerInternal
+  ComposerInternal,
+  VueMessageType
 } from '../src/composer'
 import { generateFormatCacheKey } from '../src/utils'
 import { watch, nextTick, Text, createVNode } from 'vue'
@@ -849,7 +850,7 @@ describe('__i18n', () => {
       ]
     }
     const { messages } = createComposer(
-      options as ComposerOptions<typeof options>
+      options as ComposerOptions<VueMessageType>
     )
     expect(messages.value).toEqual({
       en: { hello: 'Hello,world!' },
@@ -881,7 +882,7 @@ describe('__i18n', () => {
       ]
     }
     const { messages } = createComposer(
-      options as ComposerOptions<typeof options>
+      options as ComposerOptions<VueMessageType>
     )
     expect(messages.value).toEqual({
       en: { hello: 'Hello,world!' },

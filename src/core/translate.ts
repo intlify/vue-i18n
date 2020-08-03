@@ -11,7 +11,7 @@ import {
 } from '../message/runtime'
 import {
   Locale,
-  RuntimeContext,
+  RuntimeTranslationContext,
   isTrarnslateFallbackWarn,
   handleMissing,
   LocaleMessageValue,
@@ -90,85 +90,85 @@ export type TranslateOptions = {
 
 // `translate` function overloads
 export function translate<Messages, Message = string>(
-  context: RuntimeContext<Messages, Message>,
+  context: RuntimeTranslationContext<Messages, Message>,
   key: Path
 ): MessageType<Message> | number
 export function translate<Messages, Message = string>(
-  context: RuntimeContext<Messages, Message>,
+  context: RuntimeTranslationContext<Messages, Message>,
   key: Path,
   plural: number
 ): MessageType<Message> | number
 export function translate<Messages, Message = string>(
-  context: RuntimeContext<Messages, Message>,
+  context: RuntimeTranslationContext<Messages, Message>,
   key: Path,
   plural: number,
   options: TranslateOptions
 ): MessageType<Message> | number
 export function translate<Messages, Message = string>(
-  context: RuntimeContext<Messages, Message>,
+  context: RuntimeTranslationContext<Messages, Message>,
   key: Path,
   defaultMsg: string
 ): MessageType<Message> | number
 export function translate<Messages, Message = string>(
-  context: RuntimeContext<Messages, Message>,
+  context: RuntimeTranslationContext<Messages, Message>,
   key: Path,
   defaultMsg: string,
   options: TranslateOptions
 ): MessageType<Message> | number
 export function translate<Messages, Message = string>(
-  context: RuntimeContext<Messages, Message>,
+  context: RuntimeTranslationContext<Messages, Message>,
   key: Path,
   list: unknown[]
 ): MessageType<Message> | number
 export function translate<Messages, Message = string>(
-  context: RuntimeContext<Messages, Message>,
+  context: RuntimeTranslationContext<Messages, Message>,
   key: Path,
   list: unknown[],
   plural: number
 ): MessageType<Message> | number
 export function translate<Messages, Message = string>(
-  context: RuntimeContext<Messages, Message>,
+  context: RuntimeTranslationContext<Messages, Message>,
   key: Path,
   list: unknown[],
   defaultMsg: string
 ): MessageType<Message> | number
 export function translate<Messages, Message = string>(
-  context: RuntimeContext<Messages, Message>,
+  context: RuntimeTranslationContext<Messages, Message>,
   key: Path,
   list: unknown[],
   options: TranslateOptions
 ): MessageType<Message> | number
 export function translate<Messages, Message = string>(
-  context: RuntimeContext<Messages, Message>,
+  context: RuntimeTranslationContext<Messages, Message>,
   key: Path,
   named: NamedValue
 ): MessageType<Message> | number
 export function translate<Messages, Message = string>(
-  context: RuntimeContext<Messages, Message>,
+  context: RuntimeTranslationContext<Messages, Message>,
   key: Path,
   named: NamedValue,
   plural: number
 ): MessageType<Message> | number
 export function translate<Messages, Message = string>(
-  context: RuntimeContext<Messages, Message>,
+  context: RuntimeTranslationContext<Messages, Message>,
   key: Path,
   named: NamedValue,
   defaultMsg: string
 ): MessageType<Message> | number
 export function translate<Messages, Message = string>(
-  context: RuntimeContext<Messages, Message>,
+  context: RuntimeTranslationContext<Messages, Message>,
   key: Path,
   named: NamedValue,
   options: TranslateOptions
 ): MessageType<Message> | number
 export function translate<Messages, Message = string>(
-  context: RuntimeContext<Messages, Message>,
+  context: RuntimeTranslationContext<Messages, Message>,
   ...args: unknown[]
 ): MessageType<Message> | number // for internal
 
 // implementationo of `translate` function
 export function translate<Messages, Message = string>(
-  context: RuntimeContext<Messages, Message>,
+  context: RuntimeTranslationContext<Messages, Message>,
   ...args: unknown[]
 ): MessageType<Message> | number {
   const {
@@ -203,11 +203,7 @@ export function translate<Messages, Message = string>(
   const enableDefaultMsg = fallbackFormat || defaultMsgOrKey !== ''
 
   const locale = isString(options.locale) ? options.locale : context.locale
-  const locales = getLocaleChain<Messages, Message>(
-    context,
-    fallbackLocale,
-    locale
-  )
+  const locales = getLocaleChain<Message>(context, fallbackLocale, locale)
 
   // resolve message format
   let message: LocaleMessageValue<Message> = {}
@@ -234,13 +230,7 @@ export function translate<Messages, Message = string>(
       format = (message as any)[key] // eslint-disable-line @typescript-eslint/no-explicit-any
     }
     if (isString(format) || isFunction(format)) break
-    handleMissing<Messages, Message>(
-      context,
-      key,
-      targetLocale,
-      missingWarn,
-      'translate'
-    )
+    handleMissing<Message>(context, key, targetLocale, missingWarn, 'translate')
   }
 
   let cacheBaseKey = key
@@ -371,7 +361,7 @@ function getCompileOptions(
 }
 
 function getMessageContextOptions<Messages, Message = string>(
-  context: RuntimeContext<Messages, Message>,
+  context: RuntimeTranslationContext<Messages, Message>,
   locale: Locale,
   message: LocaleMessageValue<Message>,
   options: TranslateOptions

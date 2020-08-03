@@ -138,12 +138,16 @@ declare module '@vue/runtime-core' {
 }
 
 // supports compatibility for legacy vue-i18n APIs
-export function defineMixin<Messages>(
-  vuei18n: VueI18n<Messages>,
-  composer: Composer<Messages>,
+export function defineMixin<Messages, DateTimeFormats, NumberFormats>(
+  vuei18n: VueI18n<Messages, DateTimeFormats, NumberFormats>,
+  composer: Composer<Messages, DateTimeFormats, NumberFormats>,
   i18n: I18nInternal
 ): ComponentOptions {
-  const legacy = (vuei18n as unknown) as VueI18nInternal<Messages>
+  const legacy = (vuei18n as unknown) as VueI18nInternal<
+    Messages,
+    DateTimeFormats,
+    NumberFormats
+  >
   return {
     beforeCreate(): void {
       const instance = getCurrentInstance()
@@ -154,8 +158,8 @@ export function defineMixin<Messages>(
 
       const options = this.$options
       if (options.i18n) {
-        const optionsI18n = options.i18n as VueI18nOptions<Messages> &
-          ComposerInternalOptions<Messages>
+        const optionsI18n = options.i18n as VueI18nOptions &
+          ComposerInternalOptions<Messages, DateTimeFormats, NumberFormats>
         if (options.__i18n) {
           optionsI18n.__i18n = options.__i18n
         }
@@ -163,20 +167,30 @@ export function defineMixin<Messages>(
         this.$i18n = createVueI18n(optionsI18n)
         legacy.__onComponentInstanceCreated(this.$i18n)
 
-        i18n.__setInstance<Messages, VueI18n<Messages>>(
+        i18n.__setInstance<
+          Messages,
+          DateTimeFormats,
+          NumberFormats,
+          VueI18n<Messages, DateTimeFormats, NumberFormats>
+        >(
           instance,
-          this.$i18n as VueI18n<Messages>
+          this.$i18n as VueI18n<Messages, DateTimeFormats, NumberFormats>
         )
       } else if (options.__i18n) {
         this.$i18n = createVueI18n({
           __i18n: (options as ComposerInternalOptions<Messages>).__i18n,
           __root: composer
-        } as VueI18nOptions<Messages>)
+        } as VueI18nOptions)
         legacy.__onComponentInstanceCreated(this.$i18n)
 
-        i18n.__setInstance<Messages, VueI18n<Messages>>(
+        i18n.__setInstance<
+          Messages,
+          DateTimeFormats,
+          NumberFormats,
+          VueI18n<Messages, DateTimeFormats, NumberFormats>
+        >(
           instance,
-          this.$i18n as VueI18n<Messages>
+          this.$i18n as VueI18n<Messages, DateTimeFormats, NumberFormats>
         )
       } else {
         // set global

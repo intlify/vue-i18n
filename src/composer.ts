@@ -19,8 +19,8 @@ import {
 import { WritableComputedRef, ComputedRef } from '@vue/reactivity'
 import { Path, parse as parsePath } from './path'
 import {
-  DateTimeFormats,
-  NumberFormats,
+  DateTimeFormats as DateTimeFormatsType,
+  NumberFormats as NumberFormatsType,
   DateTimeFormat,
   NumberFormat
 } from './core/types'
@@ -37,9 +37,12 @@ import {
   LocaleMessages,
   createRuntimeContext,
   RuntimeContext,
+  RuntimeCommonContext,
+  RuntimeTranslationContext,
+  RuntimeDateTimeContext,
+  RuntimeNumberContext,
   RuntimeMissingHandler,
   RuntimeOptions,
-  LocaleMessageValue,
   LocaleMessageDictionary,
   PostTranslationHandler,
   MISSING_RESOLVE_VALUE,
@@ -108,15 +111,13 @@ export type CustomBlocks<Message = VueMessageType> =
  * @remarks
  * This is options to create composer.
  */
-export interface ComposerOptions<Messages = {}, Message = VueMessageType> {
+export interface ComposerOptions<Message = VueMessageType> {
   locale?: Locale
   fallbackLocale?: FallbackLocale
   inheritLocale?: boolean
-  messages?: {
-    [K in keyof Messages]: LocaleMessageDictionary<Message>
-  }
-  datetimeFormats?: DateTimeFormats
-  numberFormats?: NumberFormats
+  messages?: LocaleMessages<Message>
+  datetimeFormats?: DateTimeFormatsType
+  numberFormats?: NumberFormatsType
   modifiers?: LinkedModifiers<Message>
   pluralRules?: PluralizationRules
   missing?: MissingHandler
@@ -131,9 +132,14 @@ export interface ComposerOptions<Messages = {}, Message = VueMessageType> {
 /**
  * @internal
  */
-export interface ComposerInternalOptions<Messages, Message = VueMessageType> {
+export interface ComposerInternalOptions<
+  Messages = {},
+  DateTimeFormats = {},
+  NumberFormats = {},
+  Message = VueMessageType
+> {
   __i18n?: CustomBlocks<Message>
-  __root?: Composer<Messages, Message>
+  __root?: Composer<Messages, DateTimeFormats, NumberFormats, Message>
 }
 
 /**
@@ -142,7 +148,12 @@ export interface ComposerInternalOptions<Messages, Message = VueMessageType> {
  * @remarks
  * This is the interface for being used for Vue 3 Composition API.
  */
-export interface Composer<Messages = {}, Message = VueMessageType> {
+export interface Composer<
+  Messages = {},
+  DateTimeFormats = {},
+  NumberFormats = {},
+  Message = VueMessageType
+> {
   // properties
   locale: WritableComputedRef<Locale>
   fallbackLocale: WritableComputedRef<FallbackLocale>
@@ -221,11 +232,11 @@ type ComposerWarnType = 'translate' | 'number format' | 'datetime format'
 
 let composerID = 0
 
-function defineRuntimeMissingHandler<Messages, Message = VueMessageType>(
+function defineRuntimeMissingHandler<Message = VueMessageType>(
   missing: MissingHandler
 ): RuntimeMissingHandler<Message> {
   return ((
-    ctx: RuntimeContext<Messages, Message>,
+    ctx: RuntimeCommonContext<Message>,
     locale: Locale,
     key: Path,
     type: string
@@ -237,10 +248,12 @@ function defineRuntimeMissingHandler<Messages, Message = VueMessageType>(
 // TODO: maybe, we need to improve type definitions
 function getLocaleMessages<
   Messages extends LocaleMessages<Message>,
+  DateTimeFormats extends DateTimeFormatsType,
+  NumberFormats extends NumberFormatsType,
   Message = VueMessageType
 >(
-  options: ComposerOptions<Messages, Message> &
-    ComposerInternalOptions<Messages, Message>,
+  options: ComposerOptions<Message> &
+    ComposerInternalOptions<Messages, DateTimeFormats, NumberFormats, Message>,
   locale: Locale
 ): LocaleMessages<Message> {
   const { messages, __i18n } = options
@@ -310,13 +323,33 @@ export function addPreCompileMessages<Message = VueMessageType>(
  */
 export function createComposer<
   Message = VueMessageType,
-  Options extends ComposerOptions<Messages, Message> = object,
+  Options extends ComposerOptions<Message> = object,
   Messages extends Record<
     keyof Options['messages'],
     LocaleMessageDictionary<Message>
-  > = Record<keyof Options['messages'], LocaleMessageDictionary<Message>>
->(options: Options = {} as Options): Composer<Options['messages'], Message> {
-  const { __root } = options as ComposerInternalOptions<Messages, Message>
+  > = Record<keyof Options['messages'], LocaleMessageDictionary<Message>>,
+  DateTimeFormats extends Record<
+    keyof Options['datetimeFormats'],
+    DateTimeFormat
+  > = Record<keyof Options['datetimeFormats'], DateTimeFormat>,
+  NumberFormats extends Record<
+    keyof Options['numberFormats'],
+    NumberFormat
+  > = Record<keyof Options['numberFormats'], NumberFormat>
+>(
+  options: Options = {} as Options
+): Composer<
+  Options['messages'],
+  Options['datetimeFormats'],
+  Options['numberFormats'],
+  Message
+> {
+  const { __root } = options as ComposerInternalOptions<
+    Messages,
+    DateTimeFormats,
+    NumberFormats,
+    Message
+  >
   const _isGlobal = __root === undefined
 
   let _inheritLocale = isBoolean(options.inheritLocale)
@@ -345,16 +378,19 @@ export function createComposer<
   )
 
   const _messages = ref<LocaleMessages<Message>>(
-    getLocaleMessages<Messages, Message>(options, _locale.value)
+    getLocaleMessages<Messages, DateTimeFormats, NumberFormats, Message>(
+      options,
+      _locale.value
+    )
   )
 
-  const _datetimeFormats = ref<DateTimeFormats>(
+  const _datetimeFormats = ref<DateTimeFormatsType>(
     isPlainObject(options.datetimeFormats)
       ? options.datetimeFormats
       : { [_locale.value]: {} }
   )
 
-  const _numberFormats = ref<NumberFormats>(
+  const _numberFormats = ref<NumberFormatsType>(
     isPlainObject(options.numberFormats)
       ? options.numberFormats
       : { [_locale.value]: {} }
@@ -385,7 +421,7 @@ export function createComposer<
   // runtime missing
   let _missing = isFunction(options.missing) ? options.missing : null
   let _runtimeMissing = isFunction(options.missing)
-    ? defineRuntimeMissingHandler<Messages, Message>(options.missing)
+    ? defineRuntimeMissingHandler<Message>(options.missing)
     : null
 
   // postTranslation handler
@@ -409,14 +445,23 @@ export function createComposer<
   const _pluralRules = options.pluralRules
 
   // runtime context
-  let _context: RuntimeContext<Messages, Message> // eslint-disable-line prefer-const
-  function getRuntimeContext(): RuntimeContext<Messages, Message> {
+  // eslint-disable-next-line prefer-const
+  let _context: RuntimeContext<
+    Messages,
+    DateTimeFormats,
+    NumberFormats,
+    Message
+  >
+  function getRuntimeContext(): RuntimeContext<
+    Messages,
+    DateTimeFormats,
+    NumberFormats,
+    Message
+  > {
     return createRuntimeContext<Message>({
       locale: _locale.value,
       fallbackLocale: _fallbackLocale.value,
-      messages: _messages.value as {
-        [K in keyof Messages]: LocaleMessageValue<Message>
-      },
+      messages: _messages.value,
       datetimeFormats: _datetimeFormats.value,
       numberFormats: _numberFormats.value,
       modifiers: _modifiers,
@@ -434,14 +479,15 @@ export function createComposer<
       __numberFormatters: isPlainObject(_context)
         ? ((_context as unknown) as RuntimeInternalContext).__numberFormatters
         : undefined
-    } as RuntimeOptions<Messages, Message>) as RuntimeContext<Messages, Message>
+    } as RuntimeOptions<Messages, DateTimeFormats, NumberFormats, Message>) as RuntimeContext<
+      Messages,
+      DateTimeFormats,
+      NumberFormats,
+      Message
+    >
   }
   _context = getRuntimeContext()
-  updateFallbackLocale<Messages, Message>(
-    _context,
-    _locale.value,
-    _fallbackLocale.value
-  )
+  updateFallbackLocale<Message>(_context, _locale.value, _fallbackLocale.value)
 
   /*!
    * define properties
@@ -470,10 +516,14 @@ export function createComposer<
   const messages = computed<Messages>(() => _messages.value as Messages)
 
   // datetimeFormats
-  const datetimeFormats = computed(() => _datetimeFormats.value)
+  const datetimeFormats = computed<DateTimeFormats>(
+    () => _datetimeFormats.value as DateTimeFormats
+  )
 
   // numberFormats
-  const numberFormats = computed(() => _numberFormats.value)
+  const numberFormats = computed<NumberFormats>(
+    () => _numberFormats.value as NumberFormats
+  )
 
   /**
    * define methods
@@ -545,7 +595,7 @@ export function createComposer<
     return defineComputed<string>(
       context =>
         translate<Messages, string>(
-          context as RuntimeContext<Messages, string>,
+          context as RuntimeTranslationContext<Messages, string>,
           ...args
         ),
       () => parseTranslateArgs(...args)[0],
@@ -560,8 +610,8 @@ export function createComposer<
   function d(...args: unknown[]): string {
     return defineComputed<string>(
       context =>
-        datetime<Messages, string>(
-          context as RuntimeContext<Messages, string>,
+        datetime<DateTimeFormats, string>(
+          context as RuntimeDateTimeContext<DateTimeFormats, string>,
           ...args
         ),
       () => parseDateTimeArgs(...args)[0],
@@ -576,8 +626,8 @@ export function createComposer<
   function n(...args: unknown[]): string {
     return defineComputed<string>(
       context =>
-        number<Messages, string>(
-          context as RuntimeContext<Messages, string>,
+        number<NumberFormats, string>(
+          context as RuntimeNumberContext<NumberFormats, string>,
           ...args
         ),
       () => parseNumberArgs(...args)[0],
@@ -608,7 +658,7 @@ export function createComposer<
       context => {
         let ret: unknown
         try {
-          const _context = context as RuntimeContext<Messages, VNode>
+          const _context = context as RuntimeTranslationContext<Messages, VNode>
           _context.processor = processor
           ret = translate<Messages, VNode>(_context, ...args)
         } finally {
@@ -682,8 +732,8 @@ export function createComposer<
   // setDateTimeFormat
   function setDateTimeFormat(locale: Locale, format: DateTimeFormat): void {
     _datetimeFormats.value[locale] = format
-    _context.datetimeFormats = _datetimeFormats.value
-    clearDateTimeFormat<Messages, Message>(_context, locale, format)
+    _context.datetimeFormats = _datetimeFormats.value as typeof _context.datetimeFormats
+    clearDateTimeFormat<DateTimeFormats, Message>(_context, locale, format)
   }
 
   // mergeDateTimeFormat
@@ -692,8 +742,8 @@ export function createComposer<
       _datetimeFormats.value[locale] || {},
       format
     )
-    _context.datetimeFormats = _datetimeFormats.value
-    clearDateTimeFormat<Messages, Message>(_context, locale, format)
+    _context.datetimeFormats = _datetimeFormats.value as typeof _context.datetimeFormats
+    clearDateTimeFormat<DateTimeFormats, Message>(_context, locale, format)
   }
 
   // getNumberFormat
@@ -703,8 +753,8 @@ export function createComposer<
   // setNumberFormat
   function setNumberFormat(locale: Locale, format: NumberFormat): void {
     _numberFormats.value[locale] = format
-    _context.numberFormats = _numberFormats.value
-    clearNumberFormat<Messages, Message>(_context, locale, format)
+    _context.numberFormats = _numberFormats.value as typeof _context.numberFormats
+    clearNumberFormat<NumberFormats, Message>(_context, locale, format)
   }
 
   // mergeNumberFormat
@@ -713,8 +763,8 @@ export function createComposer<
       _numberFormats.value[locale] || {},
       format
     )
-    _context.numberFormats = _numberFormats.value
-    clearNumberFormat<Messages, Message>(_context, locale, format)
+    _context.numberFormats = _numberFormats.value as typeof _context.numberFormats
+    clearNumberFormat<NumberFormats, Message>(_context, locale, format)
   }
 
   // for debug
@@ -726,7 +776,7 @@ export function createComposer<
       if (_inheritLocale) {
         _locale.value = val
         _context.locale = val
-        updateFallbackLocale<Messages, Message>(
+        updateFallbackLocale<Message>(
           _context,
           _locale.value,
           _fallbackLocale.value
@@ -737,7 +787,7 @@ export function createComposer<
       if (_inheritLocale) {
         _fallbackLocale.value = val
         _context.fallbackLocale = val
-        updateFallbackLocale<Messages, Message>(
+        updateFallbackLocale<Message>(
           _context,
           _locale.value,
           _fallbackLocale.value
@@ -759,7 +809,7 @@ export function createComposer<
       if (val && __root) {
         _locale.value = __root.locale.value
         _fallbackLocale.value = __root.fallbackLocale.value
-        updateFallbackLocale<Messages, Message>(
+        updateFallbackLocale<Message>(
           _context,
           _locale.value,
           _fallbackLocale.value

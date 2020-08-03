@@ -9,6 +9,7 @@ import {
   App
 } from 'vue'
 import { LocaleMessageDictionary } from './core/context'
+import { DateTimeFormat, NumberFormat } from './core/types'
 import {
   VueMessageType,
   Composer,
@@ -36,8 +37,8 @@ import { isEmptyObject, warn } from './utils'
  * so you can specify these options.
  *
  */
-export type I18nOptions<Messages> = I18nAdditionalOptions &
-  (ComposerOptions<Messages> | VueI18nOptions<Messages>)
+export type I18nOptions = I18nAdditionalOptions &
+  (ComposerOptions | VueI18nOptions)
 
 /**
  * I18n Additional Options for `createI18n`
@@ -59,7 +60,7 @@ export type I18nMode = 'legacy' | 'composable'
 /**
  * I18n interface
  */
-export interface I18n<Messages = {}> {
+export interface I18n<Messages = {}, DateTimeFormats = {}, NumberFormats = {}> {
   /**
    * I18n API mode
    *
@@ -73,7 +74,7 @@ export interface I18n<Messages = {}> {
   /**
    * Global composer
    */
-  readonly global: Composer<Messages>
+  readonly global: Composer<Messages, DateTimeFormats, NumberFormats>
   /**
    * @internal
    */
@@ -88,13 +89,21 @@ export interface I18n<Messages = {}> {
 export interface I18nInternal {
   __getInstance<
     Messages,
-    Instance extends VueI18n<Messages> | Composer<Messages>
+    DateTimeFormats,
+    NumberFormats,
+    Instance extends
+      | VueI18n<Messages, DateTimeFormats, NumberFormats>
+      | Composer<Messages, DateTimeFormats, NumberFormats>
   >(
     component: ComponentInternalInstance
   ): Instance | null
   __setInstance<
     Messages,
-    Instance extends VueI18n<Messages> | Composer<Messages>
+    DateTimeFormats,
+    NumberFormats,
+    Instance extends
+      | VueI18n<Messages, DateTimeFormats, NumberFormats>
+      | Composer<Messages, DateTimeFormats, NumberFormats>
   >(
     component: ComponentInternalInstance,
     instance: Instance
@@ -114,8 +123,7 @@ export type I18nScope = 'local' | 'parent' | 'global'
  * `UseI18nOptions` is inherited {@link ComposerAdditionalOptions} and {@link ComposerOptions},
  * so you can specify these options.
  */
-export type UseI18nOptions<Messages> = ComposerAdditionalOptions &
-  ComposerOptions<Messages>
+export type UseI18nOptions = ComposerAdditionalOptions & ComposerOptions
 
 /**
  * Composer additional options for `useI18n`
@@ -201,12 +209,29 @@ export const I18nSymbol: InjectionKey<I18n> = Symbol.for('vue-i18n')
  * ```
  */
 export function createI18n<
-  Options extends I18nOptions<Messages> = {},
+  Options extends I18nOptions = {},
   Messages extends Record<
     keyof Options['messages'],
     LocaleMessageDictionary<VueMessageType>
-  > = Record<keyof Options['messages'], LocaleMessageDictionary<VueMessageType>>
->(options: Options = {} as Options): I18n<Options['messages']> {
+  > = Record<
+    keyof Options['messages'],
+    LocaleMessageDictionary<VueMessageType>
+  >,
+  DateTimeFormats extends Record<
+    keyof Options['datetimeFormats'],
+    DateTimeFormat
+  > = Record<keyof Options['datetimeFormats'], DateTimeFormat>,
+  NumberFormats extends Record<
+    keyof Options['numberFormats'],
+    NumberFormat
+  > = Record<keyof Options['numberFormats'], NumberFormat>
+>(
+  options: Options = {} as Options
+): I18n<
+  Options['messages'],
+  Options['datetimeFormats'],
+  Options['numberFormats']
+> {
   const __legacyMode = !!options.legacy
   const __instances = new Map<
     ComponentInternalInstance,
@@ -222,23 +247,29 @@ export function createI18n<
       return __legacyMode ? 'legacy' : 'composable'
     },
     install(app: App, ...options: unknown[]): void {
-      apply<Messages>(app, i18n, ...options)
+      apply<Messages, DateTimeFormats, NumberFormats>(app, i18n, ...options)
       if (__legacyMode) {
         app.mixin(
-          defineMixin(
-            __global as VueI18n<Messages>,
-            ((__global as unknown) as VueI18nInternal<Messages>)
-              .__composer as Composer<Messages>,
+          defineMixin<Messages, DateTimeFormats, NumberFormats>(
+            __global as VueI18n<Messages, DateTimeFormats, NumberFormats>,
+            ((__global as unknown) as VueI18nInternal<
+              Messages,
+              DateTimeFormats,
+              NumberFormats
+            >).__composer as Composer<Messages, DateTimeFormats, NumberFormats>,
             i18n as I18nInternal
           )
         )
       }
     },
-    get global(): Composer<Messages> {
+    get global(): Composer<Messages, DateTimeFormats, NumberFormats> {
       return __legacyMode
-        ? (((__global as unknown) as VueI18nInternal<Messages>)
-            .__composer as Composer<Messages>)
-        : (__global as Composer<Messages>)
+        ? (((__global as unknown) as VueI18nInternal<
+            Messages,
+            DateTimeFormats,
+            NumberFormats
+          >).__composer as Composer<Messages, DateTimeFormats, NumberFormats>)
+        : (__global as Composer<Messages, DateTimeFormats, NumberFormats>)
     },
     __getInstance<
       M extends Messages,
@@ -306,13 +337,34 @@ export function createI18n<
  * ```
  */
 export function useI18n<
-  Options extends UseI18nOptions<Messages> = object,
+  Options extends UseI18nOptions = object,
   Messages extends Record<
     keyof Options['messages'],
     LocaleMessageDictionary<VueMessageType>
-  > = Record<keyof Options['messages'], LocaleMessageDictionary<VueMessageType>>
->(options: Options = {} as Options): Composer<Options['messages']> {
-  const i18n = inject(I18nSymbol) as I18n<Messages>
+  > = Record<
+    keyof Options['messages'],
+    LocaleMessageDictionary<VueMessageType>
+  >,
+  DateTimeFormats extends Record<
+    keyof Options['datetimeFormats'],
+    DateTimeFormat
+  > = Record<keyof Options['datetimeFormats'], DateTimeFormat>,
+  NumberFormats extends Record<
+    keyof Options['numberFormats'],
+    NumberFormat
+  > = Record<keyof Options['numberFormats'], NumberFormat>
+>(
+  options: Options = {} as Options
+): Composer<
+  Options['messages'],
+  Options['datetimeFormats'],
+  Options['numberFormats']
+> {
+  const i18n = inject(I18nSymbol) as I18n<
+    Messages,
+    DateTimeFormats,
+    NumberFormats
+  >
   if (!i18n) {
     throw createI18nError(I18nErrorCodes.NOT_INSLALLED)
   }
@@ -356,13 +408,16 @@ export function useI18n<
   }
 
   const i18nInternal = (i18n as unknown) as I18nInternal
-  let composer = i18nInternal.__getInstance<Messages, Composer<Messages>>(
-    instance
-  )
+  let composer = i18nInternal.__getInstance<
+    Messages,
+    DateTimeFormats,
+    NumberFormats,
+    Composer<Messages, DateTimeFormats, NumberFormats>
+  >(instance)
   if (composer == null) {
     const type = instance.type as ComponentOptions
-    const composerOptions: ComposerOptions<Messages> &
-      ComposerInternalOptions<Messages> = {
+    const composerOptions: ComposerOptions &
+      ComposerInternalOptions<Messages, DateTimeFormats, NumberFormats> = {
       ...options
     }
     if (type.__i18n) {
@@ -373,35 +428,59 @@ export function useI18n<
       composerOptions.__root = global
     }
 
-    composer = createComposer(composerOptions) as Composer<Messages>
-    setupLifeCycle<Messages>(i18nInternal, instance, composer)
+    composer = createComposer(composerOptions) as Composer<
+      Messages,
+      DateTimeFormats,
+      NumberFormats
+    >
+    setupLifeCycle<Messages, DateTimeFormats, NumberFormats>(
+      i18nInternal,
+      instance,
+      composer
+    )
 
-    i18nInternal.__setInstance<Messages, Composer<Messages>>(instance, composer)
+    i18nInternal.__setInstance<
+      Messages,
+      DateTimeFormats,
+      NumberFormats,
+      Composer<Messages, DateTimeFormats, NumberFormats>
+    >(instance, composer)
   }
 
   return composer as Composer<Messages>
 }
 
-function getComposer<Messages>(
-  i18n: I18n<Messages>,
+function getComposer<Messages, DateTimeFormats, NumberFormats>(
+  i18n: I18n<Messages, DateTimeFormats, NumberFormats>,
   target: ComponentInternalInstance
-): Composer<Messages, VueMessageType> | null {
-  let composer: Composer<Messages, VueMessageType> | null = null
+): Composer<Messages, DateTimeFormats, NumberFormats> | null {
+  let composer: Composer<Messages, DateTimeFormats, NumberFormats> | null = null
   const root = target.root
   let current: ComponentInternalInstance | null = target.parent
   while (current != null) {
     const i18nInternal = (i18n as unknown) as I18nInternal
     if (i18n.mode === 'composable') {
-      composer = i18nInternal.__getInstance<Messages, Composer<Messages>>(
-        current
-      )
+      composer = i18nInternal.__getInstance<
+        Messages,
+        DateTimeFormats,
+        NumberFormats,
+        Composer<Messages, DateTimeFormats, NumberFormats>
+      >(current)
     } else {
-      const vueI18n = i18nInternal.__getInstance<Messages, VueI18n<Messages>>(
-        current
-      )
+      const vueI18n = i18nInternal.__getInstance<
+        Messages,
+        DateTimeFormats,
+        NumberFormats,
+        VueI18n<Messages, DateTimeFormats, NumberFormats>
+      >(current)
       if (vueI18n != null) {
-        composer = (vueI18n as VueI18n<Messages> & VueI18nInternal<Messages>)
-          .__composer as Composer<Messages>
+        composer = (vueI18n as VueI18n<
+          Messages,
+          DateTimeFormats,
+          NumberFormats
+        > &
+          VueI18nInternal<Messages, DateTimeFormats, NumberFormats>)
+          .__composer as Composer<Messages, DateTimeFormats, NumberFormats>
       }
     }
     if (composer != null) {
@@ -415,10 +494,10 @@ function getComposer<Messages>(
   return composer
 }
 
-function setupLifeCycle<Messages>(
+function setupLifeCycle<Messages, DateTimeFormats, NumberFormats>(
   i18n: I18nInternal,
   target: ComponentInternalInstance,
-  composer: Composer<Messages>
+  composer: Composer<Messages, DateTimeFormats, NumberFormats>
 ): void {
   onMounted(() => {
     // inject composer instance to DOM for intlify-devtools

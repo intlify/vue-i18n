@@ -1,6 +1,11 @@
-import { Availabilities, NumberFormat, NumberFormatOptions } from './types'
 import {
-  RuntimeContext,
+  Availabilities,
+  NumberFormat,
+  NumberFormats as NumberFormatsType,
+  NumberFormatOptions
+} from './types'
+import {
+  RuntimeNumberContext,
   Locale,
   getLocaleChain,
   handleMissing,
@@ -67,34 +72,34 @@ export type NumberOptions = {
 }
 
 // `number` function overloads
-export function number<Messages, Message = string>(
-  context: RuntimeContext<Messages, Message>,
+export function number<NumberFormats, Message = string>(
+  context: RuntimeNumberContext<NumberFormats, Message>,
   value: number
 ): string | number | Intl.NumberFormatPart[]
-export function number<Messages, Message = string>(
-  context: RuntimeContext<Messages, Message>,
+export function number<NumberFormats, Message = string>(
+  context: RuntimeNumberContext<NumberFormats, Message>,
   value: number,
   key: string
 ): string | number | Intl.NumberFormatPart[]
-export function number<Messages, Message = string>(
-  context: RuntimeContext<Messages, Message>,
+export function number<NumberFormats, Message = string>(
+  context: RuntimeNumberContext<NumberFormats, Message>,
   value: number,
   key: string,
   locale: Locale
 ): string | number | Intl.NumberFormatPart[]
-export function number<Messages, Message = string>(
-  context: RuntimeContext<Messages, Message>,
+export function number<NumberFormats, Message = string>(
+  context: RuntimeNumberContext<NumberFormats, Message>,
   value: number,
   options: NumberOptions
 ): string | number | Intl.NumberFormatPart[]
-export function number<Messages, Message = string>(
-  context: RuntimeContext<Messages, Message>,
+export function number<NumberFormats, Message = string>(
+  context: RuntimeNumberContext<NumberFormats, Message>,
   ...args: unknown[]
 ): string | number | Intl.NumberFormatPart[] // for internal
 
 // implementation of `number` function
-export function number<Messages, Message = string>(
-  context: RuntimeContext<Messages, Message>,
+export function number<NumberFormats, Message = string>(
+  context: RuntimeNumberContext<NumberFormats, Message>,
   ...args: unknown[]
 ): string | number | Intl.NumberFormatPart[] {
   const { numberFormats, unresolving, fallbackLocale, onWarn } = context
@@ -138,7 +143,8 @@ export function number<Messages, Message = string>(
         })
       )
     }
-    numberFormat = numberFormats[targetLocale] || {}
+    numberFormat =
+      ((numberFormats as unknown) as NumberFormatsType)[targetLocale] || {}
     format = numberFormat[key]
     if (isPlainObject(format)) break
     handleMissing(context, key, targetLocale, missingWarn, 'number')
@@ -196,8 +202,8 @@ export function parseNumberArgs(
   return [options.key || '', value, options, orverrides]
 }
 
-export function clearNumberFormat<Messages, Message = string>(
-  ctx: RuntimeContext<Messages, Message>,
+export function clearNumberFormat<NumberFormats, Message = string>(
+  ctx: RuntimeNumberContext<NumberFormats, Message>,
   locale: Locale,
   format: NumberFormat
 ): void {

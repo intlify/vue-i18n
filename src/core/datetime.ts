@@ -1,6 +1,11 @@
-import { Availabilities, DateTimeFormat, DateTimeFormatOptions } from './types'
 import {
-  RuntimeContext,
+  Availabilities,
+  DateTimeFormat,
+  DateTimeFormats as DateTimeFormatsType,
+  DateTimeFormatOptions
+} from './types'
+import {
+  RuntimeDateTimeContext,
   Locale,
   getLocaleChain,
   handleMissing,
@@ -69,34 +74,34 @@ export type DateTimeOptions = {
 }
 
 // `datetime` function overloads
-export function datetime<Messages, Message = string>(
-  context: RuntimeContext<Messages, Message>,
+export function datetime<DateTimeFormats, Message = string>(
+  context: RuntimeDateTimeContext<DateTimeFormats, Message>,
   value: number | Date
 ): string | number | Intl.DateTimeFormatPart[]
-export function datetime<Messages, Message = string>(
-  context: RuntimeContext<Messages, Message>,
+export function datetime<DateTimeFormats, Message = string>(
+  context: RuntimeDateTimeContext<DateTimeFormats, Message>,
   value: number | Date,
   key: string
 ): string | number | Intl.DateTimeFormatPart[]
-export function datetime<Messages, Message = string>(
-  context: RuntimeContext<Messages, Message>,
+export function datetime<DateTimeFormats, Message = string>(
+  context: RuntimeDateTimeContext<DateTimeFormats, Message>,
   value: number | Date,
   key: string,
   locale: Locale
 ): string | number | Intl.DateTimeFormatPart[]
-export function datetime<Messages, Message = string>(
-  context: RuntimeContext<Messages, Message>,
+export function datetime<DateTimeFormats, Message = string>(
+  context: RuntimeDateTimeContext<DateTimeFormats, Message>,
   value: number | Date,
   options: DateTimeOptions
 ): string | number | Intl.DateTimeFormatPart[]
-export function datetime<Messages, Message = string>(
-  context: RuntimeContext<Messages, Message>,
+export function datetime<DateTimeFormats, Message = string>(
+  context: RuntimeDateTimeContext<DateTimeFormats, Message>,
   ...args: unknown[]
 ): string | number | Intl.DateTimeFormatPart[] // for internal
 
 // implementation of `datetime` function
-export function datetime<Messages, Message = string>(
-  context: RuntimeContext<Messages, Message>,
+export function datetime<DateTimeFormats, Message = string>(
+  context: RuntimeDateTimeContext<DateTimeFormats, Message>,
   ...args: unknown[]
 ): string | number | Intl.DateTimeFormatPart[] {
   const { datetimeFormats, unresolving, fallbackLocale, onWarn } = context
@@ -142,7 +147,8 @@ export function datetime<Messages, Message = string>(
         })
       )
     }
-    datetimeFormat = datetimeFormats[targetLocale] || {}
+    datetimeFormat =
+      ((datetimeFormats as unknown) as DateTimeFormatsType)[targetLocale] || {}
     format = datetimeFormat[key]
     if (isPlainObject(format)) break
     handleMissing(context, key, targetLocale, missingWarn, 'datetime')
@@ -200,8 +206,8 @@ export function parseDateTimeArgs(
   return [options.key || '', value, options, orverrides]
 }
 
-export function clearDateTimeFormat<Messages, Message = string>(
-  ctx: RuntimeContext<Messages, Message>,
+export function clearDateTimeFormat<DateTimeFormats = {}, Message = string>(
+  ctx: RuntimeDateTimeContext<DateTimeFormats, Message>,
   locale: Locale,
   format: DateTimeFormat
 ): void {

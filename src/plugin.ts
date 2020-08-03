@@ -16,9 +16,9 @@ export interface I18nPluginOptions {
   globalInstall?: boolean
 }
 
-export function apply<Messages>(
+export function apply<Messages, DateTimeFormats, NumberFormats>(
   app: App,
-  i18n: I18n<Messages>,
+  i18n: I18n<Messages, DateTimeFormats, NumberFormats>,
   ...options: unknown[]
 ): void {
   const pluginOptions = isPlainObject(options[0])
@@ -48,7 +48,10 @@ export function apply<Messages>(
   }
 
   // install directive
-  app.directive('t', vTDirective<Messages>(i18n))
+  app.directive(
+    't',
+    vTDirective<Messages, DateTimeFormats, NumberFormats>(i18n)
+  )
 
   // setup global provider
   app.provide(I18nSymbol, i18n)
