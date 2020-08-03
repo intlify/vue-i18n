@@ -652,7 +652,7 @@ export function createComposer<
 
   // getLocaleMessage
   const getLocaleMessage = (locale: Locale): LocaleMessageDictionary<Message> =>
-    _messages.value[locale] || {}
+    (_messages.value[locale] || {}) as LocaleMessageDictionary<Message>
 
   // setLocaleMessage
   function setLocaleMessage(
