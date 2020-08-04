@@ -157,7 +157,7 @@ yarn add vue-i18n@next
   - [x] number function
   - [x] warnHtmlMessage
   - [x] improve translate `args` typing
-  - [ ] improve locale messages typing: `LocaleMessages` / `LocaleMessage` / `LocaleMessageDictiory`
+  - [x] improve locale messages typing: `LocaleMessages` / `LocaleMessage` / `LocaleMessageDictiory`
   - [x] postTranslation context option
 - Composable API: I18n Composer
   - properties
