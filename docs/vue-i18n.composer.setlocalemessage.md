@@ -7,7 +7,7 @@
 <b>Signature:</b>
 
 ```typescript
-setLocaleMessage(locale: Locale, message: LocaleMessage): void;
+setLocaleMessage(locale: Locale, message: LocaleMessageDictionary<Message>): void;
 ```
 
 ## Parameters
@@ -15,7 +15,7 @@ setLocaleMessage(locale: Locale, message: LocaleMessage): void;
 |  Parameter | Type | Description |
 |  --- | --- | --- |
 |  locale | <code>Locale</code> |  |
-|  message | <code>LocaleMessage</code> |  |
+|  message | <code>LocaleMessageDictionary&lt;Message&gt;</code> |  |
 
 <b>Returns:</b>
 

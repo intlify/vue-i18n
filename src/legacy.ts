@@ -14,19 +14,19 @@ import {
 import {
   Locale,
   LocaleMessages,
-  LocaleMessage,
   LocaleMessageDictionary,
   PostTranslationHandler,
   FallbackLocale
 } from './core/context'
 import { TranslateOptions } from './core/translate'
 import {
-  DateTimeFormats,
-  NumberFormats,
+  DateTimeFormats as DateTimeFormatsType,
+  NumberFormats as NumberFormatsType,
   DateTimeFormat,
   NumberFormat
 } from './core/types'
 import {
+  VueMessageType,
   MissingHandler,
   Composer,
   ComposerOptions,
@@ -49,7 +49,9 @@ import {
 
 export type TranslateResult = string
 export type Choice = number
-export type LocaleMessageObject = LocaleMessageDictionary
+export type LocaleMessageObject<Message = string> = LocaleMessageDictionary<
+  Message
+>
 export type PluralizationRulesMap = { [locale: string]: PluralizationRule }
 export type WarnHtmlInMessageLevel = 'off' | 'warn' | 'error'
 export type DateTimeFormatResult = string
@@ -58,9 +60,9 @@ export interface Formatter {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   interpolate(message: string, values: any, path: string): Array<any> | null
 }
-export type ComponentInstanceCreatedListener = (
-  target: VueI18n,
-  global: VueI18n
+export type ComponentInstanceCreatedListener = <Messages>(
+  target: VueI18n<Messages>,
+  global: VueI18n<Messages>
 ) => void
 
 /**
@@ -72,11 +74,11 @@ export type ComponentInstanceCreatedListener = (
 export interface VueI18nOptions {
   locale?: Locale
   fallbackLocale?: FallbackLocale
-  messages?: LocaleMessages
-  datetimeFormats?: DateTimeFormats
-  numberFormats?: NumberFormats
+  messages?: LocaleMessages<VueMessageType>
+  datetimeFormats?: DateTimeFormatsType
+  numberFormats?: NumberFormatsType
   availableLocales?: Locale[]
-  modifiers?: LinkedModifiers
+  modifiers?: LinkedModifiers<VueMessageType>
   formatter?: Formatter
   missing?: MissingHandler
   fallbackRoot?: boolean
@@ -85,9 +87,9 @@ export interface VueI18nOptions {
   formatFallbackMessages?: boolean
   preserveDirectiveContent?: boolean
   warnHtmlInMessage?: WarnHtmlInMessageLevel
-  sharedMessages?: LocaleMessages
+  sharedMessages?: LocaleMessages<VueMessageType>
   pluralizationRules?: PluralizationRules
-  postTranslation?: PostTranslationHandler
+  postTranslation?: PostTranslationHandler<VueMessageType>
   sync?: boolean
   componentInstanceCreatedListener?: ComponentInstanceCreatedListener
 }
@@ -98,17 +100,21 @@ export interface VueI18nOptions {
  *  @remarks
  *  This interface is compatible with interface of `VueI18n` class (offered with vue-i18n@8.x).
  */
-export interface VueI18n {
+export interface VueI18n<
+  Messages = {},
+  DateTimeFormats = {},
+  NumberFormats = {}
+> {
   // properties
   locale: Locale
   fallbackLocale: FallbackLocale
   readonly availableLocales: Locale[]
-  readonly messages: LocaleMessages
+  readonly messages: Messages
   readonly datetimeFormats: DateTimeFormats
   readonly numberFormats: NumberFormats
   formatter: Formatter
   missing: MissingHandler | null
-  postTranslation: PostTranslationHandler | null
+  postTranslation: PostTranslationHandler<VueMessageType> | null
   silentTranslationWarn: boolean | RegExp
   silentFallbackWarn: boolean | RegExp
   formatFallbackMessages: boolean
@@ -133,9 +139,15 @@ export interface VueI18n {
   tc(key: Path, choice: number, named: Record<string, unknown>): TranslateResult
   tc(...args: unknown[]): TranslateResult // for $tc
   te(key: Path, locale?: Locale): boolean
-  getLocaleMessage(locale: Locale): LocaleMessage
-  setLocaleMessage(locale: Locale, message: LocaleMessage): void
-  mergeLocaleMessage(locale: Locale, message: LocaleMessage): void
+  getLocaleMessage(locale: Locale): LocaleMessageDictionary<VueMessageType>
+  setLocaleMessage(
+    locale: Locale,
+    message: LocaleMessageDictionary<VueMessageType>
+  ): void
+  mergeLocaleMessage(
+    locale: Locale,
+    message: LocaleMessageDictionary<VueMessageType>
+  ): void
   d(value: number | Date): DateTimeFormatResult
   d(value: number | Date, key: string): DateTimeFormatResult
   d(value: number | Date, key: string, locale: Locale): DateTimeFormatResult
@@ -158,10 +170,14 @@ export interface VueI18n {
 /**
  * @internal
  */
-export interface VueI18nInternal {
+export interface VueI18nInternal<
+  Messages = {},
+  DateTimeFormats = {},
+  NumberFormats = {}
+> {
   __id: number
-  __composer: Composer
-  __onComponentInstanceCreated(target: VueI18n): void
+  __composer: Composer<Messages, DateTimeFormats, NumberFormats>
+  __onComponentInstanceCreated(target: VueI18n<Messages>): void
 }
 
 /**
@@ -169,9 +185,15 @@ export interface VueI18nInternal {
  *
  * @internal
  */
-function convertComposerOptions(
-  options: VueI18nOptions & ComposerInternalOptions
-): ComposerOptions & ComposerInternalOptions {
+function convertComposerOptions<
+  Messages = {},
+  DateTimeFormats = {},
+  NumberFormats = {}
+>(
+  options: VueI18nOptions &
+    ComposerInternalOptions<Messages, DateTimeFormats, NumberFormats>
+): ComposerOptions &
+  ComposerInternalOptions<Messages, DateTimeFormats, NumberFormats> {
   const locale = isString(options.locale) ? options.locale : 'en-US'
   const fallbackLocale =
     isString(options.fallbackLocale) ||
@@ -214,13 +236,15 @@ function convertComposerOptions(
 
   let messages = options.messages
   if (isPlainObject(options.sharedMessages)) {
-    const sharedMessages = options.sharedMessages
+    const sharedMessages = options.sharedMessages as LocaleMessages<
+      VueMessageType
+    >
     const locales: Locale[] = Object.keys(sharedMessages)
     messages = locales.reduce((messages, locale) => {
-      const message = messages[locale] || { [locale]: {} }
+      const message = messages[locale] || (messages[locale] = {})
       Object.assign(message, sharedMessages[locale])
       return messages
-    }, messages || {})
+    }, (messages || {}) as LocaleMessages<VueMessageType>) as typeof options.messages
   }
   const { __i18n, __root } = options
 
@@ -252,10 +276,33 @@ function convertComposerOptions(
  *
  * @internal
  */
-export function createVueI18n(
-  options: VueI18nOptions & ComposerInternalOptions = {}
-): VueI18n {
-  const composer = createComposer(convertComposerOptions(options))
+export function createVueI18n<
+  Options extends VueI18nOptions = object,
+  Messages extends Record<
+    keyof Options['messages'],
+    LocaleMessageDictionary<VueMessageType>
+  > = Record<
+    keyof Options['messages'],
+    LocaleMessageDictionary<VueMessageType>
+  >,
+  DateTimeFormats extends Record<
+    keyof Options['datetimeFormats'],
+    DateTimeFormat
+  > = Record<keyof Options['datetimeFormats'], DateTimeFormat>,
+  NumberFormats extends Record<
+    keyof Options['numberFormats'],
+    NumberFormat
+  > = Record<keyof Options['numberFormats'], NumberFormat>
+>(
+  options: Options = {} as Options
+): VueI18n<
+  Options['messages'],
+  Options['datetimeFormats'],
+  Options['numberFormats']
+> {
+  const composer = createComposer<VueMessageType>(
+    convertComposerOptions<Messages, DateTimeFormats, NumberFormats>(options)
+  ) as Composer<Messages, DateTimeFormats, NumberFormats>
 
   // defines VueI18n
   const vueI18n = {
@@ -280,7 +327,7 @@ export function createVueI18n(
     },
 
     // messages
-    get messages(): LocaleMessages {
+    get messages(): Messages {
       return composer.messages.value
     },
 
@@ -350,10 +397,12 @@ export function createVueI18n(
     },
 
     // postTranslation
-    get postTranslation(): PostTranslationHandler | null {
+    get postTranslation(): PostTranslationHandler<VueMessageType> | null {
       return composer.getPostTranslationHandler()
     },
-    set postTranslation(handler: PostTranslationHandler | null) {
+    set postTranslation(
+      handler: PostTranslationHandler<VueMessageType> | null
+    ) {
       composer.setPostTranslationHandler(handler)
     },
 
@@ -385,7 +434,7 @@ export function createVueI18n(
     },
 
     // for internal
-    __id: (composer as Composer & ComposerInternal).__id,
+    __id: ((composer as unknown) as ComposerInternal).__id,
     __composer: composer,
 
     /**
@@ -462,17 +511,23 @@ export function createVueI18n(
     },
 
     // getLocaleMessage
-    getLocaleMessage(locale: Locale): LocaleMessage {
+    getLocaleMessage(locale: Locale): LocaleMessageDictionary<VueMessageType> {
       return composer.getLocaleMessage(locale)
     },
 
     // setLocaleMessage
-    setLocaleMessage(locale: Locale, message: LocaleMessage): void {
+    setLocaleMessage(
+      locale: Locale,
+      message: LocaleMessageDictionary<VueMessageType>
+    ): void {
       composer.setLocaleMessage(locale, message)
     },
 
     // mergeLocaleMessasge
-    mergeLocaleMessage(locale: Locale, message: LocaleMessage): void {
+    mergeLocaleMessage(
+      locale: Locale,
+      message: LocaleMessageDictionary<VueMessageType>
+    ): void {
       composer.mergeLocaleMessage(locale, message)
     },
 
@@ -525,10 +580,10 @@ export function createVueI18n(
     },
 
     // for internal
-    __onComponentInstanceCreated(target: VueI18n): void {
+    __onComponentInstanceCreated(target: VueI18n<Messages>): void {
       const { componentInstanceCreatedListener } = options
       if (componentInstanceCreatedListener) {
-        componentInstanceCreatedListener(target, vueI18n)
+        componentInstanceCreatedListener<Messages>(target, vueI18n)
       }
     }
   }

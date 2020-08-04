@@ -3,12 +3,12 @@ import { CompileError } from './errors'
 export type CompileErrorHandler = (error: CompileError) => void
 export type CompileCacheKeyHandler = (source: string) => string
 
-export type TokenizeOptions = {
+export interface TokenizeOptions {
   location?: boolean
   onError?: CompileErrorHandler
 }
 
-export type ParserOptions = {
+export interface ParserOptions {
   // Generate source map?
   // - Default: false
   // sourceMap?: boolean
@@ -19,11 +19,11 @@ export type ParserOptions = {
   onError?: CompileErrorHandler
 }
 
-export type TransformOptions = {
+export interface TransformOptions {
   onError?: CompileErrorHandler
 }
 
-export type CodeGenOptions = {
+export interface CodeGenOptions {
   mode?: 'normal' | 'arrow' // default normal
   onError?: CompileErrorHandler
 }

@@ -9,5 +9,5 @@ Global composer
 <b>Signature:</b>
 
 ```typescript
-readonly global: Composer;
+readonly global: Composer<Messages, DateTimeFormats, NumberFormats>;
 ```

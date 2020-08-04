@@ -6,7 +6,7 @@ Array [
     "text": "hi ",
   },
   Object {
-    "text": "vnode:KAZUPON",
+    "text": "KAZUPON",
   },
   Object {
     "text": " !",
@@ -51,7 +51,7 @@ Array [
     "text": " ",
   },
   Object {
-    "text": "vnode:apple",
+    "text": "apple",
   },
 ]
 `;

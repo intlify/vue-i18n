@@ -19,22 +19,41 @@ type VTDirectiveValue = {
   choice?: number
 }
 
-function getComposer(
-  i18n: I18n & I18nInternal,
+function getComposer<Messages, DateTimeFormats, NumberFormats>(
+  i18n: I18n<Messages, DateTimeFormats, NumberFormats>,
   instance: ComponentInternalInstance
-): Composer | null {
+): Composer<Messages, DateTimeFormats, NumberFormats> | null {
+  const i18nInternal = (i18n as unknown) as I18nInternal
   if (i18n.mode === 'composable') {
-    return i18n._getComposer(instance) || i18n.global
+    return (i18nInternal.__getInstance<
+      Messages,
+      DateTimeFormats,
+      NumberFormats,
+      Composer<Messages, DateTimeFormats, NumberFormats>
+    >(instance) || i18n.global) as Composer<
+      Messages,
+      DateTimeFormats,
+      NumberFormats
+    >
   } else {
-    const vueI18n = i18n._getLegacy(instance)
-    return vueI18n != null
-      ? (vueI18n as VueI18n & VueI18nInternal).__composer
-      : i18n.global
+    const vueI18n = i18nInternal.__getInstance<
+      Messages,
+      DateTimeFormats,
+      NumberFormats,
+      VueI18n<Messages, DateTimeFormats, NumberFormats>
+    >(instance)
+    return (vueI18n != null
+      ? ((vueI18n as unknown) as VueI18nInternal<
+          Messages,
+          DateTimeFormats,
+          NumberFormats
+        >).__composer
+      : i18n.global) as Composer<Messages, DateTimeFormats, NumberFormats>
   }
 }
 
-export function vTDirective(
-  i18n: I18n & I18nInternal
+export function vTDirective<Messages, DateTimeFormats, NumberFormats>(
+  i18n: I18n<Messages, DateTimeFormats, NumberFormats>
 ): ObjectDirective<HTMLElement> {
   const bind = (
     el: HTMLElement,

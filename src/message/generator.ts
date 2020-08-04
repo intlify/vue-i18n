@@ -26,14 +26,14 @@ type CodeGenContext = {
   // map?: SourceMapGenerator
 }
 
-type CodeGenerator = Readonly<{
-  context: () => CodeGenContext
-  push: (code: string) => void
-  indent: () => void
-  deindent: (withoutNewLine?: boolean) => void
-  newline: () => void
-  helper: (key: string) => string
-}>
+type CodeGenerator = {
+  context(): CodeGenContext
+  push(code: string): void
+  indent(): void
+  deindent(withoutNewLine?: boolean): void
+  newline(): void
+  helper(key: string): string
+}
 
 function createCodeGenerator(source?: string): CodeGenerator {
   const _context = {
@@ -91,6 +91,7 @@ function generateLinkedNode(generator: CodeGenerator, node: LinkedNode): void {
   generateNode(generator, node.key)
   generator.push(')(ctx)')
   if (node.modifier) {
+    // TODO: should be refactorerd! (remove TYPE!)
     generator.push(`, ${helper(HelperNameMap.TYPE)})`)
   }
 }

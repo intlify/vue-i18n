@@ -7,5 +7,5 @@
 <b>Signature:</b>
 
 ```typescript
-numberFormats?: NumberFormats;
+numberFormats?: NumberFormatsType;
 ```

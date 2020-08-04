@@ -7,5 +7,5 @@
 <b>Signature:</b>
 
 ```typescript
-export declare type MessageFunctions = Record<string, MessageFunction>;
+export declare type MessageFunctions<T = string> = Record<string, MessageFunction<T>>;
 ```

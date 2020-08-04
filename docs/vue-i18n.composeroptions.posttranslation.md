@@ -7,5 +7,5 @@
 <b>Signature:</b>
 
 ```typescript
-postTranslation?: PostTranslationHandler;
+postTranslation?: PostTranslationHandler<Message>;
 ```

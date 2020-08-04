@@ -1,5 +1,5 @@
 import { App } from 'vue'
-import { I18nSymbol, I18n, I18nInternal } from './i18n'
+import { I18nSymbol, I18n } from './i18n'
 import { Translation, NumberFormat, DatetimeFormat } from './components'
 import { vTDirective } from './directive'
 import { I18nWarnCodes, getWarnMessage } from './warnings'
@@ -16,9 +16,9 @@ export interface I18nPluginOptions {
   globalInstall?: boolean
 }
 
-export function apply(
+export function apply<Messages, DateTimeFormats, NumberFormats>(
   app: App,
-  i18n: I18n & I18nInternal,
+  i18n: I18n<Messages, DateTimeFormats, NumberFormats>,
   ...options: unknown[]
 ): void {
   const pluginOptions = isPlainObject(options[0])
@@ -48,7 +48,10 @@ export function apply(
   }
 
   // install directive
-  app.directive('t', vTDirective(i18n))
+  app.directive(
+    't',
+    vTDirective<Messages, DateTimeFormats, NumberFormats>(i18n)
+  )
 
   // setup global provider
   app.provide(I18nSymbol, i18n)

@@ -9,7 +9,7 @@ Composer Interfaces
 <b>Signature:</b>
 
 ```typescript
-export interface Composer 
+export interface Composer<Messages = {}, DateTimeFormats = {}, NumberFormats = {}, Message = VueMessageType> 
 ```
 
 ## Remarks
@@ -29,9 +29,9 @@ This is the interface for being used for Vue 3 Composition API.
 |  [inheritLocale](./vue-i18n.composer.inheritlocale.md) | <code>boolean</code> |  |
 |  [isGlobal](./vue-i18n.composer.isglobal.md) | <code>boolean</code> |  |
 |  [locale](./vue-i18n.composer.locale.md) | <code>WritableComputedRef&lt;Locale&gt;</code> |  |
-|  [messages](./vue-i18n.composer.messages.md) | <code>ComputedRef&lt;LocaleMessages&gt;</code> |  |
+|  [messages](./vue-i18n.composer.messages.md) | <code>ComputedRef&lt;Messages&gt;</code> |  |
 |  [missingWarn](./vue-i18n.composer.missingwarn.md) | <code>boolean &#124; RegExp</code> |  |
-|  [modifiers](./vue-i18n.composer.modifiers.md) | <code>LinkedModifiers</code> |  |
+|  [modifiers](./vue-i18n.composer.modifiers.md) | <code>LinkedModifiers&lt;Message&gt;</code> |  |
 |  [numberFormats](./vue-i18n.composer.numberformats.md) | <code>ComputedRef&lt;NumberFormats&gt;</code> |  |
 |  [pluralRules](./vue-i18n.composer.pluralrules.md) | <code>PluralizationRules</code> |  |
 |  [warnHtmlMessage](./vue-i18n.composer.warnhtmlmessage.md) | <code>boolean</code> |  |

@@ -1,17 +1,17 @@
-export type Scanner = Readonly<{
-  index: () => number
-  line: () => number
-  column: () => number
-  peekOffset: () => number
-  charAt: (offset: number) => string
-  currentChar: () => string
-  currentPeek: () => string
-  next: () => string
-  peek: () => string
-  reset: () => void
-  resetPeek: (offset?: number) => void
-  skipToPeek: () => void
-}>
+export interface Scanner {
+  index(): number
+  line(): number
+  column(): number
+  peekOffset(): number
+  charAt(offset: number): string
+  currentChar(): string
+  currentPeek(): string
+  next(): string
+  peek(): string
+  reset(): void
+  resetPeek(offset?: number): void
+  skipToPeek(): void
+}
 
 export const CHAR_SP = ' '
 export const CHAR_CR = '\r'

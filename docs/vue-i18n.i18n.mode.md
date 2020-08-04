@@ -16,3 +16,5 @@ readonly mode: I18nMode;
 
 if you specified `legacy: true` option in `createI18n`<!-- -->, return `legacy`<!-- -->, else `composable`
 
+ composable
+

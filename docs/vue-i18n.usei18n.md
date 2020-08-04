@@ -9,18 +9,18 @@ Use Composable API starting function
 <b>Signature:</b>
 
 ```typescript
-export declare function useI18n(options?: UseI18nOptions): Composer;
+export declare function useI18n<Options extends UseI18nOptions = object, Messages extends Record<keyof Options['messages'], LocaleMessageDictionary<VueMessageType>> = Record<keyof Options['messages'], LocaleMessageDictionary<VueMessageType>>, DateTimeFormats extends Record<keyof Options['datetimeFormats'], DateTimeFormat> = Record<keyof Options['datetimeFormats'], DateTimeFormat>, NumberFormats extends Record<keyof Options['numberFormats'], NumberFormat> = Record<keyof Options['numberFormats'], NumberFormat>>(options?: Options): Composer<Options['messages'], Options['datetimeFormats'], Options['numberFormats']>;
 ```
 
 ## Parameters
 
 |  Parameter | Type | Description |
 |  --- | --- | --- |
-|  options | <code>UseI18nOptions</code> | See [UseI18nOptions](./vue-i18n.usei18noptions.md) |
+|  options | <code>Options</code> | See [UseI18nOptions](./vue-i18n.usei18noptions.md) |
 
 <b>Returns:</b>
 
-`Composer`
+`Composer<Options['messages'], Options['datetimeFormats'], Options['numberFormats']>`
 
 [Composer](./vue-i18n.composer.md) object
 

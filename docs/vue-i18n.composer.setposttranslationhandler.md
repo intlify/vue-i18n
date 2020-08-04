@@ -7,14 +7,14 @@
 <b>Signature:</b>
 
 ```typescript
-setPostTranslationHandler(handler: PostTranslationHandler | null): void;
+setPostTranslationHandler(handler: PostTranslationHandler<Message> | null): void;
 ```
 
 ## Parameters
 
 |  Parameter | Type | Description |
 |  --- | --- | --- |
-|  handler | <code>PostTranslationHandler &#124; null</code> |  |
+|  handler | <code>PostTranslationHandler&lt;Message&gt; &#124; null</code> |  |
 
 <b>Returns:</b>
 

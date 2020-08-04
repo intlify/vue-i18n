@@ -7,5 +7,5 @@
 <b>Signature:</b>
 
 ```typescript
-readonly messages: LocaleMessages;
+readonly messages: Messages;
 ```

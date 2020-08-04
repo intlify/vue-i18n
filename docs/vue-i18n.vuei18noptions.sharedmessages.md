@@ -7,5 +7,5 @@
 <b>Signature:</b>
 
 ```typescript
-sharedMessages?: LocaleMessages;
+sharedMessages?: LocaleMessages<VueMessageType>;
 ```

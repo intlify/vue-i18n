@@ -7,7 +7,7 @@
 <b>Signature:</b>
 
 ```typescript
-export declare function compile(source: string, options?: CompileOptions): MessageFunction;
+export declare function compile<T = string>(source: string, options?: CompileOptions): MessageFunction<T>;
 ```
 
 ## Parameters
@@ -19,5 +19,5 @@ export declare function compile(source: string, options?: CompileOptions): Messa
 
 <b>Returns:</b>
 
-`MessageFunction`
+`MessageFunction<T>`
 

@@ -7,5 +7,5 @@
 <b>Signature:</b>
 
 ```typescript
-modifiers?: LinkedModifiers;
+modifiers?: LinkedModifiers<Message>;
 ```

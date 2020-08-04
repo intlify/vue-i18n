@@ -7,5 +7,5 @@
 <b>Signature:</b>
 
 ```typescript
-export declare type LocaleMessages = Record<Locale, LocaleMessage>;
+export declare type LocaleMessages<Message = string> = Record<Locale, LocaleMessageDictionary<Message>>;
 ```

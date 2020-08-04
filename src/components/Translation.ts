@@ -1,11 +1,4 @@
-import {
-  h,
-  Fragment,
-  defineComponent,
-  SetupContext,
-  VNodeChild,
-  VNodeArrayChildren
-} from 'vue'
+import { h, Fragment, defineComponent, SetupContext, VNodeChild } from 'vue'
 import { Composer, ComposerInternal } from '../composer'
 import { useI18n } from '../i18n'
 import { TranslateOptions } from '../core'
@@ -49,12 +42,7 @@ export const Translation = defineComponent({
         options.plural = isString(props.plural) ? +props.plural : props.plural
       }
       const arg = getInterpolateArg(context, keys)
-
-      const children = i18n.__transrateVNode(
-        props.keypath,
-        arg,
-        options
-      ) as VNodeArrayChildren
+      const children = i18n.__transrateVNode(props.keypath, arg, options)
       return props.tag
         ? h(props.tag, { ...attrs }, children)
         : h(Fragment, { ...attrs }, children)
