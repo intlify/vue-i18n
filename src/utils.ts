@@ -5,7 +5,7 @@
 
 const RE_ARGS = /\{([0-9a-zA-Z]+)\}/g
 
-/* eslint-disable @typescript-eslint/no-explicit-any */
+// eslint-disable-next-line
 export function format(message: string, ...args: any): string {
   if (args.length === 1 && isObject(args[0])) {
     args = args[0]
