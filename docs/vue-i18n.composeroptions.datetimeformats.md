@@ -7,5 +7,5 @@
 <b>Signature:</b>
 
 ```typescript
-datetimeFormats?: DateTimeFormats;
+datetimeFormats?: DateTimeFormatsType;
 ```

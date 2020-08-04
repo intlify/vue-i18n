@@ -7,10 +7,5 @@
 <b>Signature:</b>
 
 ```typescript
-export declare type MessageFunction = {
-    (ctx: MessageContext): unknown;
-    key?: string;
-    locale?: string;
-    source?: string;
-};
+export declare type MessageFunction<T = string> = MessageFunctionCallable | MessageFunctionInternal<T>;
 ```

@@ -9,7 +9,7 @@ VueI18n Interfaces
 <b>Signature:</b>
 
 ```typescript
-export interface VueI18n 
+export interface VueI18n<Messages = {}, DateTimeFormats = {}, NumberFormats = {}> 
 ```
 
 ## Remarks
@@ -27,10 +27,10 @@ This interface is compatible with interface of `VueI18n` class (offered with vue
 |  [formatter](./vue-i18n.vuei18n.formatter.md) | <code>Formatter</code> |  |
 |  [getChoiceIndex](./vue-i18n.vuei18n.getchoiceindex.md) | <code>(choice: Choice, choicesLength: number) =&gt; number</code> |  |
 |  [locale](./vue-i18n.vuei18n.locale.md) | <code>Locale</code> |  |
-|  [messages](./vue-i18n.vuei18n.messages.md) | <code>LocaleMessages</code> |  |
+|  [messages](./vue-i18n.vuei18n.messages.md) | <code>Messages</code> |  |
 |  [missing](./vue-i18n.vuei18n.missing.md) | <code>MissingHandler &#124; null</code> |  |
 |  [numberFormats](./vue-i18n.vuei18n.numberformats.md) | <code>NumberFormats</code> |  |
-|  [postTranslation](./vue-i18n.vuei18n.posttranslation.md) | <code>PostTranslationHandler &#124; null</code> |  |
+|  [postTranslation](./vue-i18n.vuei18n.posttranslation.md) | <code>PostTranslationHandler&lt;VueMessageType&gt; &#124; null</code> |  |
 |  [preserveDirectiveContent](./vue-i18n.vuei18n.preservedirectivecontent.md) | <code>boolean</code> |  |
 |  [silentFallbackWarn](./vue-i18n.vuei18n.silentfallbackwarn.md) | <code>boolean &#124; RegExp</code> |  |
 |  [silentTranslationWarn](./vue-i18n.vuei18n.silenttranslationwarn.md) | <code>boolean &#124; RegExp</code> |  |

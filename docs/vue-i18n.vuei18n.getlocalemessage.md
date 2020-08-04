@@ -7,7 +7,7 @@
 <b>Signature:</b>
 
 ```typescript
-getLocaleMessage(locale: Locale): LocaleMessage;
+getLocaleMessage(locale: Locale): LocaleMessageDictionary<VueMessageType>;
 ```
 
 ## Parameters
@@ -18,5 +18,5 @@ getLocaleMessage(locale: Locale): LocaleMessage;
 
 <b>Returns:</b>
 
-`LocaleMessage`
+`LocaleMessageDictionary<VueMessageType>`
 

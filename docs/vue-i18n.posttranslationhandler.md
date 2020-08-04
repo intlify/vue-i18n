@@ -7,5 +7,5 @@
 <b>Signature:</b>
 
 ```typescript
-export declare type PostTranslationHandler = (translated: unknown) => unknown;
+export declare type PostTranslationHandler<Message = string> = (translated: MessageType<Message>) => MessageType<Message>;
 ```

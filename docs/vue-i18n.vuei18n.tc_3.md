@@ -7,7 +7,7 @@
 <b>Signature:</b>
 
 ```typescript
-tc(key: Path, named: object): TranslateResult;
+tc(key: Path, named: Record<string, unknown>): TranslateResult;
 ```
 
 ## Parameters
@@ -15,7 +15,7 @@ tc(key: Path, named: object): TranslateResult;
 |  Parameter | Type | Description |
 |  --- | --- | --- |
 |  key | <code>Path</code> |  |
-|  named | <code>object</code> |  |
+|  named | <code>Record&lt;string, unknown&gt;</code> |  |
 
 <b>Returns:</b>
 

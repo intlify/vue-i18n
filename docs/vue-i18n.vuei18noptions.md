@@ -21,20 +21,21 @@ This option is compatible with the constructor options of `VueI18n` class (offer
 |  Property | Type | Description |
 |  --- | --- | --- |
 |  [availableLocales](./vue-i18n.vuei18noptions.availablelocales.md) | <code>Locale[]</code> |  |
-|  [datetimeFormats](./vue-i18n.vuei18noptions.datetimeformats.md) | <code>DateTimeFormats</code> |  |
+|  [componentInstanceCreatedListener](./vue-i18n.vuei18noptions.componentinstancecreatedlistener.md) | <code>ComponentInstanceCreatedListener</code> |  |
+|  [datetimeFormats](./vue-i18n.vuei18noptions.datetimeformats.md) | <code>DateTimeFormatsType</code> |  |
 |  [fallbackLocale](./vue-i18n.vuei18noptions.fallbacklocale.md) | <code>FallbackLocale</code> |  |
 |  [fallbackRoot](./vue-i18n.vuei18noptions.fallbackroot.md) | <code>boolean</code> |  |
 |  [formatFallbackMessages](./vue-i18n.vuei18noptions.formatfallbackmessages.md) | <code>boolean</code> |  |
 |  [formatter](./vue-i18n.vuei18noptions.formatter.md) | <code>Formatter</code> |  |
 |  [locale](./vue-i18n.vuei18noptions.locale.md) | <code>Locale</code> |  |
-|  [messages](./vue-i18n.vuei18noptions.messages.md) | <code>LocaleMessages</code> |  |
+|  [messages](./vue-i18n.vuei18noptions.messages.md) | <code>LocaleMessages&lt;VueMessageType&gt;</code> |  |
 |  [missing](./vue-i18n.vuei18noptions.missing.md) | <code>MissingHandler</code> |  |
-|  [modifiers](./vue-i18n.vuei18noptions.modifiers.md) | <code>LinkedModifiers</code> |  |
-|  [numberFormats](./vue-i18n.vuei18noptions.numberformats.md) | <code>NumberFormats</code> |  |
+|  [modifiers](./vue-i18n.vuei18noptions.modifiers.md) | <code>LinkedModifiers&lt;VueMessageType&gt;</code> |  |
+|  [numberFormats](./vue-i18n.vuei18noptions.numberformats.md) | <code>NumberFormatsType</code> |  |
 |  [pluralizationRules](./vue-i18n.vuei18noptions.pluralizationrules.md) | <code>PluralizationRules</code> |  |
-|  [postTranslation](./vue-i18n.vuei18noptions.posttranslation.md) | <code>PostTranslationHandler</code> |  |
+|  [postTranslation](./vue-i18n.vuei18noptions.posttranslation.md) | <code>PostTranslationHandler&lt;VueMessageType&gt;</code> |  |
 |  [preserveDirectiveContent](./vue-i18n.vuei18noptions.preservedirectivecontent.md) | <code>boolean</code> |  |
-|  [sharedMessages](./vue-i18n.vuei18noptions.sharedmessages.md) | <code>LocaleMessages</code> |  |
+|  [sharedMessages](./vue-i18n.vuei18noptions.sharedmessages.md) | <code>LocaleMessages&lt;VueMessageType&gt;</code> |  |
 |  [silentFallbackWarn](./vue-i18n.vuei18noptions.silentfallbackwarn.md) | <code>boolean &#124; RegExp</code> |  |
 |  [silentTranslationWarn](./vue-i18n.vuei18noptions.silenttranslationwarn.md) | <code>boolean &#124; RegExp</code> |  |
 |  [sync](./vue-i18n.vuei18noptions.sync.md) | <code>boolean</code> |  |

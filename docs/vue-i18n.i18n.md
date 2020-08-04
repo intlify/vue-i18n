@@ -9,13 +9,13 @@ I18n interface
 <b>Signature:</b>
 
 ```typescript
-export interface I18n 
+export interface I18n<Messages = {}, DateTimeFormats = {}, NumberFormats = {}> 
 ```
 
 ## Properties
 
 |  Property | Type | Description |
 |  --- | --- | --- |
-|  [global](./vue-i18n.i18n.global.md) | <code>Composer</code> | Global composer |
+|  [global](./vue-i18n.i18n.global.md) | <code>Composer&lt;Messages, DateTimeFormats, NumberFormats&gt;</code> | Global composer |
 |  [mode](./vue-i18n.i18n.mode.md) | <code>I18nMode</code> | I18n API mode |
 

@@ -9,18 +9,18 @@ I18n factory function
 <b>Signature:</b>
 
 ```typescript
-export declare function createI18n(options?: I18nOptions): I18n;
+export declare function createI18n<Options extends I18nOptions = {}, Messages extends Record<keyof Options['messages'], LocaleMessageDictionary<VueMessageType>> = Record<keyof Options['messages'], LocaleMessageDictionary<VueMessageType>>, DateTimeFormats extends Record<keyof Options['datetimeFormats'], DateTimeFormat> = Record<keyof Options['datetimeFormats'], DateTimeFormat>, NumberFormats extends Record<keyof Options['numberFormats'], NumberFormat> = Record<keyof Options['numberFormats'], NumberFormat>>(options?: Options): I18n<Options['messages'], Options['datetimeFormats'], Options['numberFormats']>;
 ```
 
 ## Parameters
 
 |  Parameter | Type | Description |
 |  --- | --- | --- |
-|  options | <code>I18nOptions</code> | see the [I18nOptions](./vue-i18n.i18noptions.md) |
+|  options | <code>Options</code> | see the [I18nOptions](./vue-i18n.i18noptions.md) |
 
 <b>Returns:</b>
 
-`I18n`
+`I18n<Options['messages'], Options['datetimeFormats'], Options['numberFormats']>`
 
 [I18n](./vue-i18n.i18n.md) object
 

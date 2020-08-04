@@ -9,7 +9,7 @@ Composer Options
 <b>Signature:</b>
 
 ```typescript
-export interface ComposerOptions 
+export interface ComposerOptions<Message = VueMessageType> 
 ```
 
 ## Remarks
@@ -20,19 +20,19 @@ This is options to create composer.
 
 |  Property | Type | Description |
 |  --- | --- | --- |
-|  [datetimeFormats](./vue-i18n.composeroptions.datetimeformats.md) | <code>DateTimeFormats</code> |  |
+|  [datetimeFormats](./vue-i18n.composeroptions.datetimeformats.md) | <code>DateTimeFormatsType</code> |  |
 |  [fallbackFormat](./vue-i18n.composeroptions.fallbackformat.md) | <code>boolean</code> |  |
 |  [fallbackLocale](./vue-i18n.composeroptions.fallbacklocale.md) | <code>FallbackLocale</code> |  |
 |  [fallbackRoot](./vue-i18n.composeroptions.fallbackroot.md) | <code>boolean</code> |  |
 |  [fallbackWarn](./vue-i18n.composeroptions.fallbackwarn.md) | <code>boolean &#124; RegExp</code> |  |
 |  [inheritLocale](./vue-i18n.composeroptions.inheritlocale.md) | <code>boolean</code> |  |
 |  [locale](./vue-i18n.composeroptions.locale.md) | <code>Locale</code> |  |
-|  [messages](./vue-i18n.composeroptions.messages.md) | <code>LocaleMessages</code> |  |
+|  [messages](./vue-i18n.composeroptions.messages.md) | <code>LocaleMessages&lt;Message&gt;</code> |  |
 |  [missing](./vue-i18n.composeroptions.missing.md) | <code>MissingHandler</code> |  |
 |  [missingWarn](./vue-i18n.composeroptions.missingwarn.md) | <code>boolean &#124; RegExp</code> |  |
-|  [modifiers](./vue-i18n.composeroptions.modifiers.md) | <code>LinkedModifiers</code> |  |
-|  [numberFormats](./vue-i18n.composeroptions.numberformats.md) | <code>NumberFormats</code> |  |
+|  [modifiers](./vue-i18n.composeroptions.modifiers.md) | <code>LinkedModifiers&lt;Message&gt;</code> |  |
+|  [numberFormats](./vue-i18n.composeroptions.numberformats.md) | <code>NumberFormatsType</code> |  |
 |  [pluralRules](./vue-i18n.composeroptions.pluralrules.md) | <code>PluralizationRules</code> |  |
-|  [postTranslation](./vue-i18n.composeroptions.posttranslation.md) | <code>PostTranslationHandler</code> |  |
+|  [postTranslation](./vue-i18n.composeroptions.posttranslation.md) | <code>PostTranslationHandler&lt;Message&gt;</code> |  |
 |  [warnHtmlMessage](./vue-i18n.composeroptions.warnhtmlmessage.md) | <code>boolean</code> |  |
 

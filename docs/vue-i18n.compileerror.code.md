@@ -7,5 +7,5 @@
 <b>Signature:</b>
 
 ```typescript
-code: CompileErrorCodes;
+code: number;
 ```

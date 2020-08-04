@@ -14,7 +14,7 @@ export interface CompileError extends SyntaxError
 
 |  Property | Type | Description |
 |  --- | --- | --- |
-|  [code](./vue-i18n.compileerror.code.md) | <code>CompileErrorCodes</code> |  |
+|  [code](./vue-i18n.compileerror.code.md) | <code>number</code> |  |
 |  [domain](./vue-i18n.compileerror.domain.md) | <code>CompileDomain</code> |  |
 |  [location](./vue-i18n.compileerror.location.md) | <code>SourceLocation</code> |  |
 

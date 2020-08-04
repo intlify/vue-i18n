@@ -7,7 +7,7 @@
 <b>Signature:</b>
 
 ```typescript
-export declare type LinkedModifiers = {
-    [key: string]: LinkedModify;
+export declare type LinkedModifiers<T = string> = {
+    [key: string]: LinkedModify<T>;
 };
 ```

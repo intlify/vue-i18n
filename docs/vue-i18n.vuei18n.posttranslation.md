@@ -7,5 +7,5 @@
 <b>Signature:</b>
 
 ```typescript
-postTranslation: PostTranslationHandler | null;
+postTranslation: PostTranslationHandler<VueMessageType> | null;
 ```

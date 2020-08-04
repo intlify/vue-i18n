@@ -7,5 +7,5 @@
 <b>Signature:</b>
 
 ```typescript
-readonly modifiers: LinkedModifiers;
+readonly modifiers: LinkedModifiers<Message>;
 ```

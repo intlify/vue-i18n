@@ -7,9 +7,9 @@
 <b>Signature:</b>
 
 ```typescript
-getPostTranslationHandler(): PostTranslationHandler | null;
+getPostTranslationHandler(): PostTranslationHandler<Message> | null;
 ```
 <b>Returns:</b>
 
-`PostTranslationHandler | null`
+`PostTranslationHandler<Message> | null`
 

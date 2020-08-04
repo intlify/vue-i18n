@@ -7,5 +7,5 @@
 <b>Signature:</b>
 
 ```typescript
-readonly messages: ComputedRef<LocaleMessages>;
+readonly messages: ComputedRef<Messages>;
 ```

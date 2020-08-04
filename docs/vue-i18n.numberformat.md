@@ -2,12 +2,80 @@
 
 [Home](./index.md) &gt; [vue-i18n](./vue-i18n.md) &gt; [NumberFormat](./vue-i18n.numberformat.md)
 
-## NumberFormat type
+## NumberFormat variable
 
 <b>Signature:</b>
 
 ```typescript
-export declare type NumberFormat = {
-    [key: string]: NumberFormatOptions;
-};
+NumberFormat: (new () => import("vue").ComponentPublicInstance<{
+    value: number;
+    scope: "parent" | "global";
+} & {
+    format?: Intl.NumberFormatOptions | undefined;
+    tag?: string | undefined;
+    locale?: string | undefined;
+}, import("vue").RenderFunction, {}, {}, {}, Record<string, ((...args: any[]) => any) | null>, import("vue").VNodeProps & {
+    value: number;
+} & {
+    format?: Intl.NumberFormatOptions | undefined;
+    tag?: string | undefined;
+    locale?: string | undefined;
+    scope?: "parent" | "global" | undefined;
+}, import("vue").ComponentOptionsBase<{
+    value: number;
+    scope: "parent" | "global";
+} & {
+    format?: Intl.NumberFormatOptions | undefined;
+    tag?: string | undefined;
+    locale?: string | undefined;
+}, import("vue").RenderFunction, unknown, {}, {}, import("vue").ComponentOptionsBase<any, any, any, any, any, any, any, any, any>, import("vue").ComponentOptionsBase<any, any, any, any, any, any, any, any, any>, Record<string, ((...args: any[]) => any) | null>, string>>) & import("vue").ComponentOptionsBase<Readonly<{
+    value: number;
+    scope: "parent" | "global";
+} & {
+    format?: Intl.NumberFormatOptions | undefined;
+    tag?: string | undefined;
+    locale?: string | undefined;
+}>, import("vue").RenderFunction, unknown, {}, {}, import("vue").ComponentOptionsBase<any, any, any, any, any, any, any, any, any>, import("vue").ComponentOptionsBase<any, any, any, any, any, any, any, any, any>, Record<string, ((...args: any[]) => any) | null>, string> & {
+    props: {
+        value: {
+            type: NumberConstructor;
+            required: true;
+        };
+        format: {
+            type: PropType<Intl.NumberFormatOptions>;
+        };
+        tag: {
+            type: StringConstructor;
+        };
+        locale: {
+            type: StringConstructor;
+        };
+        scope: {
+            type: PropType<"parent" | "global">;
+            validator: (val: "parent" | "global") => boolean;
+            default: "parent" | "global";
+        };
+    };
+} & ThisType<import("vue").ComponentPublicInstance<Readonly<{
+    value: number;
+    scope: "parent" | "global";
+} & {
+    format?: Intl.NumberFormatOptions | undefined;
+    tag?: string | undefined;
+    locale?: string | undefined;
+}>, import("vue").RenderFunction, {}, {}, {}, Record<string, ((...args: any[]) => any) | null>, Readonly<{
+    value: number;
+    scope: "parent" | "global";
+} & {
+    format?: Intl.NumberFormatOptions | undefined;
+    tag?: string | undefined;
+    locale?: string | undefined;
+}>, import("vue").ComponentOptionsBase<Readonly<{
+    value: number;
+    scope: "parent" | "global";
+} & {
+    format?: Intl.NumberFormatOptions | undefined;
+    tag?: string | undefined;
+    locale?: string | undefined;
+}>, import("vue").RenderFunction, unknown, {}, {}, import("vue").ComponentOptionsBase<any, any, any, any, any, any, any, any, any>, import("vue").ComponentOptionsBase<any, any, any, any, any, any, any, any, any>, Record<string, ((...args: any[]) => any) | null>, string>>>
 ```

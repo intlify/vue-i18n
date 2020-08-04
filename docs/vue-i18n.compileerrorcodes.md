@@ -14,7 +14,7 @@ export declare const enum CompileErrorCodes
 
 |  Member | Value | Description |
 |  --- | --- | --- |
-|  \_\_EXTEND\_POINT\_\_ | <code>11</code> |  |
+|  \_\_EXTEND\_POINT\_\_ | <code>12</code> |  |
 |  EMPTY\_PLACEHOLDER | <code>7</code> |  |
 |  EXPECTED\_TOKEN | <code>0</code> |  |
 |  INVALID\_LINKED\_FORMAT | <code>9</code> |  |
@@ -23,6 +23,7 @@ export declare const enum CompileErrorCodes
 |  MUST\_HAVE\_MESSAGES\_IN\_PLURAL | <code>10</code> |  |
 |  NOT\_ALLOW\_NEST\_PLACEHOLDER | <code>8</code> |  |
 |  UNBALANCED\_CLOSING\_BRACE | <code>5</code> |  |
+|  UNEXPECTED\_LEXICAL\_ANALYSIS | <code>11</code> |  |
 |  UNKNOWN\_ESCAPE\_SEQUENCE | <code>3</code> |  |
 |  UNTERMINATED\_CLOSING\_BRACE | <code>6</code> |  |
 |  UNTERMINATED\_SINGLE\_QUOTE\_IN\_PLACEHOLDER | <code>2</code> |  |

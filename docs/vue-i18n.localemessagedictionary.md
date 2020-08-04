@@ -7,7 +7,7 @@
 <b>Signature:</b>
 
 ```typescript
-export declare type LocaleMessageDictionary = {
-    [property: string]: LocaleMessage;
+export declare type LocaleMessageDictionary<Message = string> = {
+    [property: string]: LocaleMessageValue<Message>;
 };
 ```
