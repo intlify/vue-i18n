@@ -479,7 +479,7 @@ export function createComposer<
       __numberFormatters: isPlainObject(_context)
         ? ((_context as unknown) as RuntimeInternalContext).__numberFormatters
         : undefined
-    } as RuntimeOptions<Messages, DateTimeFormats, NumberFormats, Message>) as RuntimeContext<
+    } as RuntimeOptions<Message>) as RuntimeContext<
       Messages,
       DateTimeFormats,
       NumberFormats,

@@ -19,7 +19,12 @@ import {
   isPlainObject,
   isObject
 } from '../utils'
-import { NumberFormat, DateTimeFormat } from './types'
+import {
+  NumberFormat,
+  DateTimeFormat,
+  DateTimeFormats as DateTimeFormatsType,
+  NumberFormats as NumberFormatsType
+} from './types'
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type UnionToIntersection<U> = (U extends any ? (k: U) => void : never) extends (
@@ -71,17 +76,12 @@ export type MessageCompiler<Message = string> = (
   options?: CompileOptions
 ) => MessageFunction<Message>
 
-export interface RuntimeOptions<
-  Messages = {},
-  DateTimeFormats = {},
-  NumberFormats = {},
-  Message = string
-> {
+export interface RuntimeOptions<Message = string> {
   locale?: Locale
   fallbackLocale?: FallbackLocale
-  messages?: LocaleMessages<Messages>
-  datetimeFormats?: DateTimeFormats
-  numberFormats?: NumberFormats
+  messages?: LocaleMessages<Message>
+  datetimeFormats?: DateTimeFormatsType
+  numberFormats?: NumberFormatsType
   modifiers?: LinkedModifiers<Message>
   pluralRules?: PluralizationRules
   missing?: RuntimeMissingHandler<Message>
@@ -143,33 +143,6 @@ export interface RuntimeContext<
     RuntimeDateTimeContext<DateTimeFormats, Message>,
     RuntimeNumberContext<NumberFormats, Message> {}
 
-/*
-export interface RuntimeContext<
-  Messages = {},
-  DateTimeFormats = {},
-  NumberFormats = {},
-  Message = string
-> {
-  locale: Locale
-  fallbackLocale: FallbackLocale
-  messages: Messages
-  datetimeFormats: DateTimeFormats
-  numberFormats: NumberFormats
-  modifiers: LinkedModifiers<Message>
-  pluralRules?: PluralizationRules
-  missing: RuntimeMissingHandler<Message> | null
-  missingWarn: boolean | RegExp
-  fallbackWarn: boolean | RegExp
-  fallbackFormat: boolean
-  unresolving: boolean
-  postTranslation: PostTranslationHandler<Message> | null
-  processor: MessageProcessor<Message> | null
-  warnHtmlMessage: boolean
-  messageCompiler: MessageCompiler<Message>
-  onWarn(msg: string, err?: Error): void
-}
-*/
-
 export interface RuntimeInternalContext {
   __datetimeFormatters: Map<string, Intl.DateTimeFormat>
   __numberFormatters: Map<string, Intl.NumberFormat>
@@ -197,12 +170,7 @@ function getDefaultLinkedModifiers<Message = string>(): LinkedModifiers<
 
 export function createRuntimeContext<
   Message = string,
-  Options extends RuntimeOptions<
-    Messages,
-    DateTimeFormats,
-    NumberFormats,
-    Message
-  > = object,
+  Options extends RuntimeOptions<Message> = object,
   Messages extends Record<
     keyof Options['messages'],
     LocaleMessageDictionary<Message>
