@@ -1,7 +1,7 @@
 import { Position, createLocation, SourceLocation } from './location'
 import { ParserOptions } from './options'
 import { createCompileError, CompileErrorCodes } from './errors'
-import { Tokenizer, createTokenizer, TokenTypes, Token } from './tokenizer'
+import { Tokenizer, createTokenizer, TokenTypes } from './tokenizer'
 
 export const enum NodeTypes {
   Resource, // 0
