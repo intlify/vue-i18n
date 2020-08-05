@@ -3,7 +3,7 @@
  */
 
 import { mount } from '../helper'
-import { defineComponent, ref } from 'vue'
+import { h, defineComponent, SetupContext, VNodeChild, ref } from 'vue'
 import { createI18n, useI18n } from '../../src/i18n'
 
 const messages = {
@@ -181,4 +181,33 @@ test('scope', async () => {
   const wrapper = await mount(Root, i18n)
 
   expect(wrapper.html()).toEqual(`this is rootthis is global`)
+})
+
+test('component', async () => {
+  const i18n = createI18n({
+    locale: 'en',
+    messages
+  })
+
+  const MyComponent = defineComponent({
+    setup(props, context: SetupContext) {
+      return (): VNodeChild => h('p', context.slots.default())
+    }
+  })
+
+  const App = defineComponent({
+    data: () => ({ MyComponent }),
+    template: `
+<i18n-t :tag="MyComponent" class="name" keypath="message.named">
+  <template #name>
+    <span>kazupon</span>
+  </template>
+</i18n-t>
+`
+  })
+  const wrapper = await mount(App, i18n)
+
+  expect(wrapper.html()).toEqual(
+    `<p class="name">hello, <span>kazupon</span>!</p>`
+  )
 })

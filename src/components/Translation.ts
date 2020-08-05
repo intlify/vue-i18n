@@ -1,9 +1,17 @@
-import { h, Fragment, defineComponent, SetupContext, VNodeChild } from 'vue'
+import {
+  h,
+  Component,
+  ComponentOptions,
+  Fragment,
+  defineComponent,
+  SetupContext,
+  VNodeChild
+} from 'vue'
 import { Composer, ComposerInternal } from '../composer'
 import { useI18n } from '../i18n'
 import { TranslateOptions } from '../core'
 import { NamedValue } from '../message/runtime'
-import { isNumber, isString } from '../utils'
+import { isNumber, isString, isObject } from '../utils'
 import { baseFormatProps, BaseFormatProps } from './base'
 
 export interface TranslationProps extends BaseFormatProps {
@@ -43,9 +51,12 @@ export const Translation = defineComponent({
       }
       const arg = getInterpolateArg(context, keys)
       const children = i18n.__transrateVNode(props.keypath, arg, options)
-      return props.tag
+      // prettier-ignore
+      return isString(props.tag)
         ? h(props.tag, { ...attrs }, children)
-        : h(Fragment, { ...attrs }, children)
+        : isObject(props.tag)
+          ? h(props.tag as Component | ComponentOptions, { ...attrs }, children)
+          : h(Fragment, { ...attrs }, children)
     }
   }
 })
