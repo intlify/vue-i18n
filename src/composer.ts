@@ -554,45 +554,39 @@ export function createComposer<
     _context.missing = _runtimeMissing
   }
 
-  function defineComputed<T, U = T>(
+  function wrapWithDeps<T, U = T>(
     fn: (context: unknown) => unknown,
     argumentParser: () => string,
     warnType: ComposerWarnType,
     fallbackSuccess: (root: Composer<T> & ComposerInternal) => U,
     fallbackFail: (key: string) => U,
     successCondition: (val: unknown) => boolean
-  ): ComputedRef<U> {
-    return computed<U>(
-      (): U => {
-        const ret = fn(getRuntimeContext())
-        if (isNumber(ret) && ret === NOT_REOSLVED) {
-          const key = argumentParser()
-          if (__DEV__ && _fallbackRoot && __root) {
-            warn(
-              getWarnMessage(I18nWarnCodes.FALLBACK_TO_ROOT, {
-                key,
-                type: warnType
-              })
-            )
-          }
-          return _fallbackRoot && __root
-            ? fallbackSuccess(
-                (__root as unknown) as Composer<T> & ComposerInternal
-              )
-            : fallbackFail(key)
-        } else if (successCondition(ret)) {
-          return ret as U
-        } else {
-          /* istanbul ignore next */
-          throw createI18nError(I18nErrorCodes.UNEXPECTED_RETURN_TYPE)
-        }
+  ): U {
+    const ret = fn(getRuntimeContext()) // track reactive dependency, see the getRuntimeContext
+    if (isNumber(ret) && ret === NOT_REOSLVED) {
+      const key = argumentParser()
+      if (__DEV__ && _fallbackRoot && __root) {
+        warn(
+          getWarnMessage(I18nWarnCodes.FALLBACK_TO_ROOT, {
+            key,
+            type: warnType
+          })
+        )
       }
-    )
+      return _fallbackRoot && __root
+        ? fallbackSuccess((__root as unknown) as Composer<T> & ComposerInternal)
+        : fallbackFail(key)
+    } else if (successCondition(ret)) {
+      return ret as U
+    } else {
+      /* istanbul ignore next */
+      throw createI18nError(I18nErrorCodes.UNEXPECTED_RETURN_TYPE)
+    }
   }
 
   // t
   function t(...args: unknown[]): string {
-    return defineComputed<string>(
+    return wrapWithDeps<string>(
       context =>
         translate<Messages, string>(
           context as RuntimeTranslationContext<Messages, string>,
@@ -603,12 +597,12 @@ export function createComposer<
       root => root.t(...args),
       key => key,
       val => isString(val)
-    ).value
+    )
   }
 
   // d
   function d(...args: unknown[]): string {
-    return defineComputed<string>(
+    return wrapWithDeps<string>(
       context =>
         datetime<DateTimeFormats, string>(
           context as RuntimeDateTimeContext<DateTimeFormats, string>,
@@ -619,12 +613,12 @@ export function createComposer<
       root => root.d(...args),
       () => MISSING_RESOLVE_VALUE,
       val => isString(val)
-    ).value
+    )
   }
 
   // n
   function n(...args: unknown[]): string {
-    return defineComputed<string>(
+    return wrapWithDeps<string>(
       context =>
         number<NumberFormats, string>(
           context as RuntimeNumberContext<NumberFormats, string>,
@@ -635,7 +629,7 @@ export function createComposer<
       root => root.n(...args),
       () => MISSING_RESOLVE_VALUE,
       val => isString(val)
-    ).value
+    )
   }
 
   // for custom processor
@@ -654,7 +648,7 @@ export function createComposer<
 
   // __transrateVNode, using for `i18n-t` component
   function __transrateVNode(...args: unknown[]): VNodeArrayChildren {
-    return defineComputed<VNode, VNodeArrayChildren>(
+    return wrapWithDeps<VNode, VNodeArrayChildren>(
       context => {
         let ret: unknown
         try {
@@ -671,33 +665,33 @@ export function createComposer<
       root => root.__transrateVNode(...args),
       key => [createVNode(Text, null, key, 0)],
       val => isArray(val)
-    ).value
+    )
   }
 
   // __numberParts, using for `i18n-n` component
   function __numberParts(...args: unknown[]): string | Intl.NumberFormatPart[] {
-    return defineComputed<string | Intl.NumberFormatPart[]>(
+    return wrapWithDeps<string | Intl.NumberFormatPart[]>(
       context => number(context as RuntimeContext<Messages, string>, ...args),
       () => parseNumberArgs(...args)[0],
       'number format',
       root => root.__numberParts(...args),
       () => [],
       val => isString(val) || isArray(val)
-    ).value
+    )
   }
 
   // __datetimeParts, using for `i18n-d` component
   function __datetimeParts(
     ...args: unknown[]
   ): string | Intl.DateTimeFormatPart[] {
-    return defineComputed<string | Intl.DateTimeFormatPart[]>(
+    return wrapWithDeps<string | Intl.DateTimeFormatPart[]>(
       context => datetime(context as RuntimeContext<Messages, string>, ...args),
       () => parseDateTimeArgs(...args)[0],
       'datetime format',
       root => root.__datetimeParts(...args),
       () => [],
       val => isString(val) || isArray(val)
-    ).value
+    )
   }
 
   // getLocaleMessage
