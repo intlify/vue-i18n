@@ -62,6 +62,7 @@ export interface TokenizeContext {
   lastEndLoc: Position
   braceNest: number
   inLinked: boolean
+  text: string
 }
 
 export interface Tokenizer {
@@ -95,7 +96,8 @@ export function createTokenizer(
     lastStartLoc: _initLoc,
     lastEndLoc: _initLoc,
     braceNest: 0,
-    inLinked: false
+    inLinked: false,
+    text: ''
   }
 
   const context = (): TokenizeContext => _context
@@ -341,32 +343,33 @@ export function createTokenizer(
     return ret
   }
 
-  function isTextStart(scnr: Scanner): boolean {
-    const fn = (hasSpace = false): boolean => {
+  function isTextStart(scnr: Scanner, reset = true): boolean {
+    const fn = (hasSpace = false, prev = '', detectModulo = false): boolean => {
       const ch = scnr.currentPeek()
-      if (
-        ch === TokenChars.BraceLeft ||
-        ch === TokenChars.BraceRight ||
-        ch === TokenChars.Modulo ||
-        ch === TokenChars.LinkedAlias ||
-        !ch
-      ) {
-        return hasSpace
+      if (ch === TokenChars.BraceLeft) {
+        return prev === TokenChars.Modulo ? false : hasSpace
+      } else if (ch === TokenChars.LinkedAlias || !ch) {
+        return prev === TokenChars.Modulo ? true : hasSpace
+      } else if (ch === TokenChars.Modulo) {
+        scnr.peek()
+        return fn(hasSpace, TokenChars.Modulo, true)
       } else if (ch === TokenChars.Pipe) {
-        return false
+        return prev === TokenChars.Modulo || detectModulo
+          ? true
+          : !(prev === SPACE || prev === NEW_LINE)
       } else if (ch === SPACE) {
         scnr.peek()
-        return fn(true)
+        return fn(true, SPACE, detectModulo)
       } else if (ch === NEW_LINE) {
         scnr.peek()
-        return fn(true)
+        return fn(true, NEW_LINE, detectModulo)
       } else {
         return true
       }
     }
 
     const ret = fn()
-    scnr.resetPeek()
+    reset && scnr.resetPeek()
 
     return ret
   }
@@ -439,13 +442,26 @@ export function createTokenizer(
       if (
         ch === TokenChars.BraceLeft ||
         ch === TokenChars.BraceRight ||
-        ch === TokenChars.Modulo ||
         ch === TokenChars.LinkedAlias ||
-        ch === EOF
+        !ch
       ) {
         return buf
+      } else if (ch === TokenChars.Modulo) {
+        if (isTextStart(scnr)) {
+          buf += ch
+          scnr.next()
+          return fn(buf)
+        } else {
+          return buf
+        }
+      } else if (ch === TokenChars.Pipe) {
+        return buf
       } else if (ch === SPACE || ch === NEW_LINE) {
-        if (isPluralStart(scnr)) {
+        if (isTextStart(scnr)) {
+          buf += ch
+          scnr.next()
+          return fn(buf)
+        } else if (isPluralStart(scnr)) {
           return buf
         } else {
           buf += ch
@@ -920,10 +936,6 @@ export function createTokenizer(
       case TokenChars.LinkedAlias:
         return readTokenInLinked(scnr, context) || getEndToken(context)
 
-      case TokenChars.Modulo:
-        scnr.next()
-        return getToken(context, TokenTypes.Modulo, TokenChars.Modulo)
-
       default:
         if (isPluralStart(scnr)) {
           token = getToken(context, TokenTypes.Pipe, readPlural(scnr))
@@ -937,6 +949,10 @@ export function createTokenizer(
           return getToken(context, TokenTypes.Text, readText(scnr))
         }
 
+        if (ch === TokenChars.Modulo) {
+          scnr.next()
+          return getToken(context, TokenTypes.Modulo, TokenChars.Modulo)
+        }
         break
     }
 

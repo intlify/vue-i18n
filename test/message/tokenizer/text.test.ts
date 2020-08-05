@@ -49,6 +49,63 @@ test('empty', () => {
   })
 })
 
+test('modulo', () => {
+  const tokenizer = createTokenizer('% foo')
+  expect(tokenizer.nextToken()).toEqual({
+    type: TokenTypes.Text,
+    value: '% foo',
+    loc: {
+      start: { line: 1, column: 1, offset: 0 },
+      end: { line: 1, column: 6, offset: 5 }
+    }
+  })
+  expect(tokenizer.nextToken()).toEqual({
+    type: TokenTypes.EOF,
+    loc: {
+      start: { line: 1, column: 6, offset: 5 },
+      end: { line: 1, column: 6, offset: 5 }
+    }
+  })
+})
+
+test('double modulo', () => {
+  const tokenizer = createTokenizer('%% foo')
+  expect(tokenizer.nextToken()).toEqual({
+    type: TokenTypes.Text,
+    value: '%% foo',
+    loc: {
+      start: { line: 1, column: 1, offset: 0 },
+      end: { line: 1, column: 7, offset: 6 }
+    }
+  })
+  expect(tokenizer.nextToken()).toEqual({
+    type: TokenTypes.EOF,
+    loc: {
+      start: { line: 1, column: 7, offset: 6 },
+      end: { line: 1, column: 7, offset: 6 }
+    }
+  })
+})
+
+test('modulo only', () => {
+  const tokenizer = createTokenizer('%')
+  expect(tokenizer.nextToken()).toEqual({
+    type: TokenTypes.Text,
+    value: '%',
+    loc: {
+      start: { line: 1, column: 1, offset: 0 },
+      end: { line: 1, column: 2, offset: 1 }
+    }
+  })
+  expect(tokenizer.nextToken()).toEqual({
+    type: TokenTypes.EOF,
+    loc: {
+      start: { line: 1, column: 2, offset: 1 },
+      end: { line: 1, column: 2, offset: 1 }
+    }
+  })
+})
+
 test('spaces', () => {
   const tokenizer = createTokenizer(' hello world ')
   expect(tokenizer.nextToken()).toEqual({
