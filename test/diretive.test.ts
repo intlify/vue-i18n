@@ -178,6 +178,24 @@ test('legacy mode', async () => {
   expect(wrapper.html()).toEqual('<p>hello!</p>')
 })
 
+test('using in template', async () => {
+  const i18n = createI18n({
+    locale: 'en',
+    messages: {
+      en: {
+        hello: 'hello!'
+      }
+    }
+  })
+
+  const App = defineComponent({
+    template: `<p v-t="'hello'"></p>`
+  })
+  const wrapper = await mount(App, i18n)
+
+  expect(wrapper.html()).toEqual('<p>hello!</p>')
+})
+
 describe('errors', () => {
   test(errorMessages[I18nErrorCodes.NOT_FOUND_COMPOSER], async () => {
     const i18n = createI18n({
