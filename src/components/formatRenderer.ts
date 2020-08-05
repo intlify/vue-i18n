@@ -1,5 +1,7 @@
 import {
   h,
+  Component,
+  ComponentOptions,
   RenderFunction,
   Fragment,
   SetupContext,
@@ -7,7 +9,7 @@ import {
   VNodeArrayChildren
 } from 'vue'
 import { NumberOptions, DateTimeOptions } from '../core'
-import { isString, isPlainObject, isArray } from '../utils'
+import { isString, isObject, isArray } from '../utils'
 import { BaseFormatProps } from './base'
 
 export interface FormattableProps<Value, Format> extends BaseFormatProps {
@@ -45,7 +47,7 @@ export function renderFormatter<
 
     if (isString(props.format)) {
       options.key = props.format
-    } else if (isPlainObject(props.format)) {
+    } else if (isObject(props.format)) {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       if (isString((props.format as any).key)) {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -72,8 +74,11 @@ export function renderFormatter<
       children = [parts]
     }
 
-    return props.tag
+    // prettier-ignore
+    return isString(props.tag)
       ? h(props.tag, { ...attrs }, children)
-      : h(Fragment, { ...attrs }, children)
+      : isObject(props.tag)
+        ? h(props.tag as Component | ComponentOptions, { ...attrs }, children)
+        : h(Fragment, { ...attrs }, children)
   }
 }
