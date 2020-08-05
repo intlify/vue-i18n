@@ -2036,9 +2036,9 @@ Array [
   Object {
     "loc": Object {
       "end": Object {
-        "column": 4,
+        "column": 9,
         "line": 1,
-        "offset": 3,
+        "offset": 8,
       },
       "start": Object {
         "column": 1,
@@ -2047,39 +2047,7 @@ Array [
       },
     },
     "type": 0,
-    "value": "hi ",
-  },
-  Object {
-    "loc": Object {
-      "end": Object {
-        "column": 5,
-        "line": 1,
-        "offset": 4,
-      },
-      "start": Object {
-        "column": 4,
-        "line": 1,
-        "offset": 3,
-      },
-    },
-    "type": 4,
-    "value": "%",
-  },
-  Object {
-    "loc": Object {
-      "end": Object {
-        "column": 9,
-        "line": 1,
-        "offset": 8,
-      },
-      "start": Object {
-        "column": 5,
-        "line": 1,
-        "offset": 4,
-      },
-    },
-    "type": 0,
-    "value": "name",
+    "value": "hi %name",
   },
   Object {
     "loc": Object {

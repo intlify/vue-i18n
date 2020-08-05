@@ -46,6 +46,21 @@ describe('edge cases', () => {
     })
     expect(code.toString()).toMatchSnapshot('code')
   })
+
+  test(`hi %s !`, () => {
+    const code = compile(`hi %s !`)
+    expect(code.toString()).toMatchSnapshot('code')
+  })
+
+  test(`%`, () => {
+    const code = compile(`%`)
+    expect(code.toString()).toMatchSnapshot('code')
+  })
+
+  test(`no apples %| one apple % |  too much apples  `, () => {
+    const code = compile(`no apples %| one apple % |  too much apples  `)
+    expect(code.toString()).toMatchSnapshot('code')
+  })
 })
 
 /* eslint-enable @typescript-eslint/no-empty-function, no-irregular-whitespace  */

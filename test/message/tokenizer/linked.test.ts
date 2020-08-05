@@ -306,6 +306,57 @@ test('dot in refer key', () => {
   })
 })
 
+test('with modulo', () => {
+  const tokenizer = createTokenizer('hi %@:name !')
+  expect(tokenizer.nextToken()).toEqual({
+    type: TokenTypes.Text,
+    value: 'hi %',
+    loc: {
+      start: { line: 1, column: 1, offset: 0 },
+      end: { line: 1, column: 5, offset: 4 }
+    }
+  })
+  expect(tokenizer.nextToken()).toEqual({
+    type: TokenTypes.LinkedAlias,
+    value: '@',
+    loc: {
+      start: { line: 1, column: 5, offset: 4 },
+      end: { line: 1, column: 6, offset: 5 }
+    }
+  })
+  expect(tokenizer.nextToken()).toEqual({
+    type: TokenTypes.LinkedDelimiter,
+    value: ':',
+    loc: {
+      start: { line: 1, column: 6, offset: 5 },
+      end: { line: 1, column: 7, offset: 6 }
+    }
+  })
+  expect(tokenizer.nextToken()).toEqual({
+    type: TokenTypes.LinkedKey,
+    value: 'name',
+    loc: {
+      start: { line: 1, column: 7, offset: 6 },
+      end: { line: 1, column: 11, offset: 10 }
+    }
+  })
+  expect(tokenizer.nextToken()).toEqual({
+    type: TokenTypes.Text,
+    value: ' !',
+    loc: {
+      start: { line: 1, column: 11, offset: 10 },
+      end: { line: 1, column: 13, offset: 12 }
+    }
+  })
+  expect(tokenizer.nextToken()).toEqual({
+    type: TokenTypes.EOF,
+    loc: {
+      start: { line: 1, column: 13, offset: 12 },
+      end: { line: 1, column: 13, offset: 12 }
+    }
+  })
+})
+
 test('multiple', () => {
   const tokenizer = createTokenizer('hi @:{name} @:{0}!')
   expect(tokenizer.nextToken()).toEqual({

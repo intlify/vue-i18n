@@ -99,6 +99,52 @@ test('multi lines', () => {
   })
 })
 
+test('include modulo', () => {
+  const tokenizer = createTokenizer(
+    'no apples %| one apple % |  too much apples  '
+  )
+  expect(tokenizer.nextToken()).toEqual({
+    type: TokenTypes.Text,
+    value: 'no apples %',
+    loc: {
+      start: { line: 1, column: 1, offset: 0 },
+      end: { line: 1, column: 12, offset: 11 }
+    }
+  })
+  expect(tokenizer.nextToken()).toEqual({
+    type: TokenTypes.Pipe,
+    value: '|',
+    loc: {
+      start: { line: 1, column: 12, offset: 11 },
+      end: { line: 1, column: 14, offset: 13 }
+    }
+  })
+  expect(tokenizer.nextToken()).toEqual({
+    type: TokenTypes.Text,
+    value: 'one apple %',
+    loc: {
+      start: { line: 1, column: 14, offset: 13 },
+      end: { line: 1, column: 25, offset: 24 }
+    }
+  })
+  expect(tokenizer.nextToken()).toEqual({
+    type: TokenTypes.Pipe,
+    value: '|',
+    loc: {
+      start: { line: 1, column: 25, offset: 24 },
+      end: { line: 1, column: 29, offset: 28 }
+    }
+  })
+  expect(tokenizer.nextToken()).toEqual({
+    type: TokenTypes.Text,
+    value: 'too much apples  ',
+    loc: {
+      start: { line: 1, column: 29, offset: 28 },
+      end: { line: 1, column: 46, offset: 45 }
+    }
+  })
+})
+
 test('complex', () => {
   const tokenizer = createTokenizer(
     `@.lower:{'no apples'} | {1} apple | {count}　apples` // eslint-disable-line no-irregular-whitespace

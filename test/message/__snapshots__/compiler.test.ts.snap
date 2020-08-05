@@ -52,6 +52,39 @@ Object {
 }
 `;
 
+exports[`edge cases %: code 1`] = `
+"function __msg__ (ctx) {
+  const { normalize: _normalize } = ctx
+  return _normalize([
+    \\"%\\"
+  ])
+}"
+`;
+
+exports[`edge cases hi %s !: code 1`] = `
+"function __msg__ (ctx) {
+  const { normalize: _normalize } = ctx
+  return _normalize([
+    \\"hi %s !\\"
+  ])
+}"
+`;
+
+exports[`edge cases no apples %| one apple % |  too much apples  : code 1`] = `
+"function __msg__ (ctx) {
+  const { normalize: _normalize, pluralIndex: _pluralIndex, pluralRule: _pluralRule, orgPluralRule: _orgPluralRule } = ctx
+  return [
+    _normalize([
+      \\"no apples %\\"
+    ]), _normalize([
+      \\"one apple %\\"
+    ]), _normalize([
+      \\"too much apples  \\"
+    ])
+  ][_pluralRule(_pluralIndex, 3, _orgPluralRule)]
+}"
+`;
+
 exports[`warnHtmlMessage default: code 1`] = `
 "function __msg__ (ctx) {
   const { normalize: _normalize } = ctx
