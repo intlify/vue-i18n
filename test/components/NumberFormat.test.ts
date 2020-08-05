@@ -3,7 +3,7 @@
  */
 
 import { mount } from '../helper'
-import { defineComponent } from 'vue'
+import { defineComponent, SetupContext, VNodeChild, h } from 'vue'
 import { createI18n } from '../../src/i18n'
 
 const numberFormats = {
@@ -91,5 +91,32 @@ test('slots', async () => {
 
   expect(wrapper.html()).toEqual(
     `<span style=\"color: green;\">€</span><span style=\"font-weight: bold;\">1</span><span style=\"font-weight: bold;\">,</span><span style=\"font-weight: bold;\">234</span>.<span style=\"font-size: small;\">00</span>`
+  )
+})
+
+test('component', async () => {
+  const i18n = createI18n({
+    locale: 'en-US',
+    numberFormats
+  })
+
+  const MyComponent = defineComponent({
+    setup(props, context: SetupContext) {
+      return (): VNodeChild => h('span', context.slots.default())
+    }
+  })
+
+  const App = defineComponent({
+    data: () => ({ MyComponent }),
+    template: `
+<i18n-n :tag="MyComponent" :value="100"></i18n-n>
+<i18n-n :tag="MyComponent" :value="100" format="currency"></i18n-n>
+<i18n-n :tag="MyComponent" :value="100" format="currency" locale="ja-JP"></i18n-n>
+`
+  })
+  const wrapper = await mount(App, i18n)
+
+  expect(wrapper.html()).toEqual(
+    `<span>100</span><span>$100.00</span><span>￥100</span>`
   )
 })

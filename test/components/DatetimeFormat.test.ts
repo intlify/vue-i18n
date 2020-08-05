@@ -3,7 +3,7 @@
  */
 
 import { mount } from '../helper'
-import { defineComponent } from 'vue'
+import { defineComponent, SetupContext, VNodeChild, h } from 'vue'
 import { createI18n } from '../../src/i18n'
 
 const datetimeFormats = {
@@ -99,4 +99,34 @@ test('slots', async () => {
   expect(wrapper.html()).toMatch(
     /([1-9]|1[0-2])年([1-9]|1[0-2])月([1-9]|[1-3][0-9])日(月|火|水|木|金|土|日)曜日 (午前|午後)([0-9]|1[0-2]):([0-5][0-9]):([0-5][0-9]) (協定世界時|グリニッジ標準時)/
   )
+})
+
+test('component', async () => {
+  const i18n = createI18n({
+    locale: 'en-US',
+    datetimeFormats
+  })
+
+  const MyComponent = defineComponent({
+    setup(props, context: SetupContext) {
+      return (): VNodeChild => h('span', context.slots.default())
+    }
+  })
+
+  const App = defineComponent({
+    data: () => ({ MyComponent }),
+    template: `
+<i18n-d :tag="MyComponent" :value="new Date()"></i18n-d>
+<i18n-d :tag="MyComponent" :value="new Date()" format="long"></i18n-d>
+<i18n-d
+  :tag="MyComponent"
+  :value="new Date()"
+  format="long"
+  locale="ja-JP-u-ca-japanese"
+></i18n-d>
+`
+  })
+  const wrapper = await mount(App, i18n)
+
+  expect(wrapper.html().includes('span')).toBeTruthy()
 })
