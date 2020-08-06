@@ -56,7 +56,7 @@ describe('basic', () => {
     const App = defineComponent({
       setup() {
         // <p v-t="msg"></p>
-        const msg = ref('hello')
+        const msg = ref('binding')
         const t = resolveDirective('t')
         return () => {
           return withDirectives(h('p'), [[t, msg.value]])
@@ -84,7 +84,7 @@ test('object literal', async () => {
 
   const App = defineComponent({
     setup() {
-      // <p v-t="{ path: 'hello', locale: 'ja', args: { name } }"></p>
+      // <p v-t="{ path: 'hello', locale: 'ja', args: { name: name.value } }"></p>
       const name = ref('kazupon')
       const t = resolveDirective('t')
       return () => {
