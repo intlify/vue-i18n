@@ -16,7 +16,8 @@ import {
   LocaleMessages,
   LocaleMessageDictionary,
   PostTranslationHandler,
-  FallbackLocale
+  FallbackLocale,
+  LocaleMessageValue
 } from './core/context'
 import { TranslateOptions } from './core/translate'
 import {
@@ -139,6 +140,7 @@ export interface VueI18n<
   tc(key: Path, choice: number, named: Record<string, unknown>): TranslateResult
   tc(...args: unknown[]): TranslateResult // for $tc
   te(key: Path, locale?: Locale): boolean
+  tm(key: Path): LocaleMessageValue<VueMessageType> | {}
   getLocaleMessage(locale: Locale): LocaleMessageDictionary<VueMessageType>
   setLocaleMessage(
     locale: Locale,
@@ -508,6 +510,11 @@ export function createVueI18n<
       const targetLocale = isString(locale) ? locale : composer.locale.value
       const message = composer.getLocaleMessage(targetLocale)
       return resolveValue(message, key) !== null
+    },
+
+    // tm
+    tm(key: Path): LocaleMessageValue<VueMessageType> | {} {
+      return composer.tm(key)
     },
 
     // getLocaleMessage
