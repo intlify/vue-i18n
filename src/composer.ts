@@ -530,9 +530,9 @@ export function createComposer<
    */
 
   // getPostTranslationHandler
-  const getPostTranslationHandler = (): PostTranslationHandler<
-    Message
-  > | null => (isFunction(_postTranslation) ? _postTranslation : null)
+  function getPostTranslationHandler(): PostTranslationHandler<Message> | null {
+    return isFunction(_postTranslation) ? _postTranslation : null
+  }
 
   // setPostTranslationHandler
   function setPostTranslationHandler(
@@ -543,7 +543,9 @@ export function createComposer<
   }
 
   // getMissingHandler
-  const getMissingHandler = (): MissingHandler | null => _missing
+  function getMissingHandler(): MissingHandler | null {
+    return _missing
+  }
 
   // setMissingHandler
   function setMissingHandler(handler: MissingHandler | null): void {
@@ -695,8 +697,9 @@ export function createComposer<
   }
 
   // getLocaleMessage
-  const getLocaleMessage = (locale: Locale): LocaleMessageDictionary<Message> =>
-    (_messages.value[locale] || {}) as LocaleMessageDictionary<Message>
+  function getLocaleMessage(locale: Locale): LocaleMessageDictionary<Message> {
+    return (_messages.value[locale] || {}) as LocaleMessageDictionary<Message>
+  }
 
   // setLocaleMessage
   function setLocaleMessage(
@@ -720,8 +723,9 @@ export function createComposer<
   }
 
   // getDateTimeFormat
-  const getDateTimeFormat = (locale: Locale): DateTimeFormat =>
-    _datetimeFormats.value[locale] || {}
+  function getDateTimeFormat(locale: Locale): DateTimeFormat {
+    return _datetimeFormats.value[locale] || {}
+  }
 
   // setDateTimeFormat
   function setDateTimeFormat(locale: Locale, format: DateTimeFormat): void {
@@ -741,8 +745,9 @@ export function createComposer<
   }
 
   // getNumberFormat
-  const getNumberFormat = (locale: Locale): NumberFormat =>
-    _numberFormats.value[locale] || {}
+  function getNumberFormat(locale: Locale): NumberFormat {
+    return _numberFormats.value[locale] || {}
+  }
 
   // setNumberFormat
   function setNumberFormat(locale: Locale, format: NumberFormat): void {
