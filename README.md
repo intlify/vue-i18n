@@ -60,7 +60,6 @@ See the below examples:
 - [Example with using Composable API](https://github.com/intlify/vue-i18n-next/blob/master/examples/composable/components/datetime-format.html)
 - [Example with using Legacy API](https://github.com/intlify/vue-i18n-next/blob/master/examples/legacy/components/datetime-format.html)
 
-
 ## :lollipop: Examples
 
 See the [`examples`](https://github.com/intlify/vue-i18n-next/tree/master/examples) directory.
@@ -79,7 +78,9 @@ The examples are offered that use the following two API styles:
 
 #### APIs
 - The return value of `$t` and `t` methods is **string** only. object and array values ​​are no longer returned.
+  - As an alternative way, you can use `$tm` / `tm`
 - The return value of `$tc` and `tc` methods is **string** only. object and array values ​​are no longer returned.
+  - As an alternative way, you can use `$tm` / `tm`
 - `VueI18n` class cannot used with `new`. It can only be used via the `$i18n` property of Vue instance.
   - In vue-i18n-next, by replacing `new VueI18n` with `createI18n`, you can use existing `VueI18n` options as they are.
   - See the `examples/legacy` directory.
@@ -191,6 +192,7 @@ yarn add vue-i18n@next
     - [x] setPostTranslationHandler
     - [x] getMissingHandler
     - [x] setMissingHandler
+    - [x] tm
 - Legacy API: compatible supporting
   - VueI18n
     - [x] locale
@@ -225,6 +227,7 @@ yarn add vue-i18n@next
     - [x] setNumberFormat
     - [x] mergeNumberFormat
     - [x] getChoiceIndex
+    - [x] tm
   - Inejctted in Vue Prototype API
     - [x] $i18n
     - [x] $t
@@ -232,6 +235,7 @@ yarn add vue-i18n@next
     - [x] $te
     - [x] $d
     - [x] $n
+    - [x] $tm
   - Component options
     - [x] messages
     - [x] pluralRule
