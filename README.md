@@ -120,7 +120,6 @@ The examples are offered that use the following two API styles:
 
 ### :hammer: Missing features
 
-- SSR
 - Custom formatting
 - Tooling
   - `@intlify/devtools`
