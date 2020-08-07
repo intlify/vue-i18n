@@ -259,7 +259,7 @@ yarn add vue-i18n@next
 - Others
   - [ ] documentation
   - [x] fallback localization (bubble up)
-  - [ ] SSR
+  - [x] SSR
 - General tasks
   - [x] error handlings
 
