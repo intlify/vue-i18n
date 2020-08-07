@@ -1,7 +1,12 @@
 import { ComponentOptions, getCurrentInstance } from 'vue'
 import { Path } from './path'
-import { Locale } from './core/context'
-import { Composer, ComposerInternalOptions, CustomBlocks } from './composer'
+import { Locale, LocaleMessageValue } from './core/context'
+import {
+  Composer,
+  ComposerInternalOptions,
+  CustomBlocks,
+  VueMessageType
+} from './composer'
 import {
   VueI18n,
   VueI18nInternal,
@@ -134,6 +139,20 @@ declare module '@vue/runtime-core' {
      * This property is supported for legacy API only
      */
     $n?: (...args: unknown[]) => NumberFormatResult
+    /**
+     * translation messages method
+     *
+     * @param key - required, target keypath
+     * @returns locale messages
+     *
+     * @remarks
+     * Get the locale message of `key`.
+     * Get in preferentially component locale messages than global locale messages.
+     * If the target locale messages is not found locally, get it from the global, otherwise returns an empty object.
+     *
+     * This property is supported for legacy API only
+     */
+    $tm?: (key: Path) => LocaleMessageValue<VueMessageType> | {}
   }
 }
 
@@ -206,6 +225,8 @@ export function defineMixin<Messages, DateTimeFormats, NumberFormats>(
         this.$i18n.d(...args)
       this.$n = (...args: unknown[]): NumberFormatResult =>
         this.$i18n.n(...args)
+      this.$tm = (key: Path): LocaleMessageValue<VueMessageType> | {} =>
+        this.$i18n.tm(key)
     },
 
     mounted(): void {
@@ -226,6 +247,7 @@ export function defineMixin<Messages, DateTimeFormats, NumberFormats>(
       delete this.$te
       delete this.$d
       delete this.$n
+      delete this.$tm
 
       i18n.__deleteInstance(instance)
       delete this.$i18n

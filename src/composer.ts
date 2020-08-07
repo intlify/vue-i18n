@@ -17,7 +17,7 @@ import {
   VNodeArrayChildren
 } from 'vue'
 import { WritableComputedRef, ComputedRef } from '@vue/reactivity'
-import { Path, parse as parsePath } from './path'
+import { Path, parse as parsePath, resolveValue } from './path'
 import {
   DateTimeFormats as DateTimeFormatsType,
   NumberFormats as NumberFormatsType,
@@ -34,6 +34,7 @@ import {
 } from './message/runtime'
 import {
   Locale,
+  LocaleMessageValue,
   LocaleMessages,
   createRuntimeContext,
   RuntimeContext,
@@ -195,6 +196,7 @@ export interface Composer<
   n(value: number, key: string, locale: Locale): string
   n(value: number, options: NumberOptions): string
   n(...args: unknown[]): string // for internal
+  tm(key: Path): LocaleMessageValue<Message> | {}
   getLocaleMessage(locale: Locale): LocaleMessageDictionary<Message>
   setLocaleMessage(
     locale: Locale,
@@ -696,6 +698,18 @@ export function createComposer<
     )
   }
 
+  // tm
+  function tm(key: Path): LocaleMessageValue<Message> | {} {
+    const messages = _messages.value[_locale.value] || {}
+    const target = resolveValue(messages, key)
+    // prettier-ignore
+    return target != null
+      ? target as LocaleMessageValue<Message>
+      : __root
+        ? __root.tm(key) as LocaleMessageValue<Message> || {}
+        : {}
+  }
+
   // getLocaleMessage
   function getLocaleMessage(locale: Locale): LocaleMessageDictionary<Message> {
     return (_messages.value[locale] || {}) as LocaleMessageDictionary<Message>
@@ -869,6 +883,7 @@ export function createComposer<
     t,
     d,
     n,
+    tm,
     getLocaleMessage,
     setLocaleMessage,
     mergeLocaleMessage,

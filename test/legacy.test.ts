@@ -10,6 +10,7 @@ import { warn } from '../src/utils'
 import { createVueI18n } from '../src/legacy'
 import { errorMessages, I18nErrorCodes } from '../src/errors'
 import { getWarnMessage, I18nWarnCodes } from '../src/warnings'
+import { watchEffect, nextTick } from 'vue'
 
 test('locale', () => {
   const i18n = createVueI18n()
@@ -232,6 +233,41 @@ test('te', () => {
   expect(i18n.te('message.hello')).toEqual(true)
   expect(i18n.te('message.hallo')).toEqual(false)
   expect(i18n.te('message.hallo', 'ja')).toEqual(false)
+})
+
+test('tm', async () => {
+  const i18n = createVueI18n({
+    locale: 'ja',
+    messages: {
+      en: {},
+      ja: {
+        foo: {
+          bar: {
+            buz: 'hello'
+          },
+          codes: {
+            errors: ['error1', 'error2']
+          }
+        }
+      }
+    }
+  })
+
+  let messages1 = i18n.tm('foo.bar')
+  let messages2 = i18n.tm('foo.codes')
+  expect(messages1).toEqual({ buz: 'hello' })
+  expect(messages2).toEqual({ errors: ['error1', 'error2'] })
+
+  watchEffect(() => {
+    messages1 = i18n.tm('foo.bar')
+    messages2 = i18n.tm('foo.codes')
+  })
+
+  i18n.locale = 'en'
+  await nextTick()
+
+  expect(messages1).toEqual({})
+  expect(messages2).toEqual({})
 })
 
 test('getLocaleMessage / setLocaleMessage / mergeLocaleMessage', () => {

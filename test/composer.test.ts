@@ -16,7 +16,7 @@ import {
   VueMessageType
 } from '../src/composer'
 import { generateFormatCacheKey } from '../src/utils'
-import { watch, nextTick, Text, createVNode } from 'vue'
+import { watch, watchEffect, nextTick, Text, createVNode } from 'vue'
 
 describe('locale', () => {
   test('default value', () => {
@@ -668,6 +668,41 @@ describe('n', () => {
     })
     expect(n(0.99, { key: 'percent' })).toEqual('')
   })
+})
+
+test('tm', async () => {
+  const composer = createComposer({
+    locale: 'ja',
+    messages: {
+      en: {},
+      ja: {
+        foo: {
+          bar: {
+            buz: 'hello'
+          },
+          codes: {
+            errors: ['error1', 'error2']
+          }
+        }
+      }
+    }
+  })
+
+  let messages1 = composer.tm('foo.bar')
+  let messages2 = composer.tm('foo.codes')
+  expect(messages1).toEqual({ buz: 'hello' })
+  expect(messages2).toEqual({ errors: ['error1', 'error2'] })
+
+  watchEffect(() => {
+    messages1 = composer.tm('foo.bar')
+    messages2 = composer.tm('foo.codes')
+  })
+
+  composer.locale.value = 'en'
+  await nextTick()
+
+  expect(messages1).toEqual({})
+  expect(messages2).toEqual({})
 })
 
 describe('getLocaleMessage / setLocaleMessage / mergeLocaleMessage', () => {
