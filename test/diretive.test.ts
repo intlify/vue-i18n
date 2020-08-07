@@ -56,7 +56,7 @@ describe('basic', () => {
     const App = defineComponent({
       setup() {
         // <p v-t="msg"></p>
-        const msg = ref('binding')
+        const msg = ref('hello')
         const t = resolveDirective('t')
         return () => {
           return withDirectives(h('p'), [[t, msg.value]])

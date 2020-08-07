@@ -34,6 +34,7 @@
     "@typescript-eslint/eslint-plugin": "^3.7.0",
     "@typescript-eslint/parser": "^3.7.0",
     "@typescript-eslint/typescript-estree": "^3.7.0",
+    "@vue/server-renderer": "^3.0.0-rc.5",
     "brotli": "^1.3.2",
     "chalk": "^4.0.0",
     "convert-hrtime": "^3.0.0",
