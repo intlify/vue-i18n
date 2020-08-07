@@ -17,6 +17,7 @@ type VTDirectiveValue = {
   locale?: Locale
   args?: NamedValue
   choice?: number
+  plural?: number
 }
 
 function getComposer<Messages, DateTimeFormats, NumberFormats>(
@@ -97,7 +98,7 @@ function parseValue(value: unknown): VTDirectiveValue {
 }
 
 function makeParams(value: VTDirectiveValue): unknown[] {
-  const { path, locale, args, choice } = value
+  const { path, locale, args, choice, plural } = value
   const options = {} as TranslateOptions
   const named: NamedValue = args || {}
 
@@ -107,6 +108,10 @@ function makeParams(value: VTDirectiveValue): unknown[] {
 
   if (isNumber(choice)) {
     options.plural = choice
+  }
+
+  if (isNumber(plural)) {
+    options.plural = plural
   }
 
   return [path, named, options]
