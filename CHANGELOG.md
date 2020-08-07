@@ -1,4 +1,23 @@
 
+## v9.0.0-alpha.13 (2020-08-07)
+
+#### :star: Features
+* [#84](https://github.com/intlify/vue-i18n-next/pull/84) support server-side rendering  ([@kazupon](https://github.com/kazupon))
+* [#82](https://github.com/intlify/vue-i18n-next/pull/82) port i18n or i18n-d component tag props ([@kazupon](https://github.com/kazupon))
+
+#### :bug: Bug Fixes
+* [#80](https://github.com/intlify/vue-i18n-next/pull/80) fix modulo case ([@kazupon](https://github.com/kazupon))
+
+#### :zap: Improvement Features
+* [#81](https://github.com/intlify/vue-i18n-next/pull/81) remove computed wrapping ([@kazupon](https://github.com/kazupon))
+
+#### :boom: Breaking Change
+* [#77](https://github.com/intlify/vue-i18n-next/pull/77) improvement type definition ([@kazupon](https://github.com/kazupon))
+
+#### Committers: 1
+- kazuya kawaguchi ([@kazupon](https://github.com/kazupon))
+
+
 ## v9.0.0-alpha.12 (2020-06-27)
 
 #### :bug: Bug Fixes
