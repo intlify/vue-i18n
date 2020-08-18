@@ -659,6 +659,45 @@ describe('n', () => {
     expect(n(0.99, { key: 'percent', fallbackWarn: false })).toEqual('99%')
   })
 
+  test('minimumFractionDigits, maximumFractionDigits', () => {
+    const { n } = createComposer({
+      locale: 'US',
+      fallbackLocale: ['ja-JP'],
+      numberFormats: {
+        US: {
+          currency: {
+            style: 'currency',
+            currency: 'USD',
+            minimumFractionDigits: 0,
+            maximumFractionDigits: 2
+          },
+          decimal: {
+            style: 'decimal',
+            currency: 'USD',
+            minimumFractionDigits: 0,
+            maximumFractionDigits: 2
+          }
+        },
+        'ja-JP': {
+          currency: {
+            style: 'currency',
+            currency: 'JPY' /*, currencyDisplay: 'symbol'*/
+          },
+          numeric: {
+            style: 'decimal',
+            useGrouping: false
+          },
+          percent: {
+            style: 'percent',
+            useGrouping: false
+          }
+        }
+      }
+    })
+    expect(n(0.99, { key: 'currency', fallbackWarn: false })).toEqual('$0.99')
+    expect(n(1.1111, { key: 'decimal', fallbackWarn: false })).toEqual('1.11')
+  })
+
   test('missing', () => {
     const { n } = createComposer({
       locale: 'en-US',
