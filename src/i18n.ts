@@ -371,15 +371,14 @@ export function useI18n<
 
   const global = i18n.global
 
-  let emptyOption = false
   // prettier-ignore
-  const scope: I18nScope = (emptyOption = isEmptyObject(options)) // eslint-disable-line no-cond-assign
+  const scope: I18nScope = isEmptyObject(options)
     ? 'global'
     : !options.useScope
       ? 'local'
       : options.useScope
 
-  if (emptyOption) {
+  if (scope === 'global') {
     return global
   }
 
@@ -398,8 +397,6 @@ export function useI18n<
       composer = global
     }
     return composer
-  } else if (scope === 'global') {
-    return global
   }
 
   // scope 'local' case
