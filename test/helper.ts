@@ -1,5 +1,5 @@
 import {
-  Component,
+  ConcreteComponent,
   createApp,
   defineComponent,
   h,
@@ -59,7 +59,7 @@ export function mount(
   i18n: I18n,
   options: Partial<MountOptions> = {}
 ): Promise<Wrapper> {
-  const TargetComponent = targetComponent as Component
+  const TargetComponent = targetComponent as ConcreteComponent
   return new Promise((resolve, reject) => {
     // NOTE: only supports props as an object
     const propsData = reactive(
@@ -79,6 +79,7 @@ export function mount(
     const slots: Record<string, (propsData: any) => VNode> = {}
 
     const Wrapper = defineComponent({
+      emits: ['ready'],
       setup(_props, { emit }) {
         const componentInstanceRef = shallowRef<ComponentPublicInstance>()
         onErrorCaptured(err => {
@@ -172,10 +173,10 @@ function compileSlot(template: string) {
 
   const ToRender = defineComponent({
     inheritAttrs: false,
-    render,
     setup(props, { attrs }) {
       return { ...attrs }
-    }
+    },
+    render
   })
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any

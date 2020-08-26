@@ -1,7 +1,5 @@
 import {
   h,
-  Component,
-  ComponentOptions,
   RenderFunction,
   Fragment,
   SetupContext,
@@ -78,7 +76,7 @@ export function renderFormatter<
     return isString(props.tag)
       ? h(props.tag, { ...attrs }, children)
       : isObject(props.tag)
-        ? h(props.tag as Component | ComponentOptions, { ...attrs }, children)
+        ? h(props.tag, { ...attrs }, children)
         : h(Fragment, { ...attrs }, children)
   }
 }

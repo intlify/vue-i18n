@@ -9,7 +9,6 @@ test('composable mode', async () => {
   })
 
   const App = defineComponent({
-    template: `<p>{{ t('hello') }}</p>`,
     setup() {
       return useI18n({
         locale: 'ja',
@@ -19,7 +18,8 @@ test('composable mode', async () => {
           en: { hello: 'hello!' }
         }
       })
-    }
+    },
+    template: `<p>{{ t('hello') }}</p>`
   })
   const app = createSSRApp(App)
   app.use(i18n)
@@ -53,7 +53,6 @@ test('component: i18n-t', async () => {
   })
 
   const App = defineComponent({
-    template: `<i18n-t tag="p" keypath="hello"/>`,
     setup() {
       return useI18n({
         locale: 'ja',
@@ -63,7 +62,8 @@ test('component: i18n-t', async () => {
           en: { hello: 'hello!' }
         }
       })
-    }
+    },
+    template: `<i18n-t tag="p" keypath="hello"/>`
   })
   const app = createSSRApp(App)
   app.use(i18n)

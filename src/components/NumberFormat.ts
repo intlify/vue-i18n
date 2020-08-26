@@ -1,4 +1,4 @@
-import { defineComponent, SetupContext, PropType } from 'vue'
+import { defineComponent, PropType } from 'vue'
 import { useI18n } from '../i18n'
 import { NumberOptions } from '../core'
 import { Composer, ComposerInternal } from '../composer'
@@ -42,7 +42,7 @@ export const NumberFormat = defineComponent({
     }
   },
   /* eslint-enable */
-  setup(props, context: SetupContext) {
+  setup(props, context) {
     const i18n = useI18n({ useScope: 'parent' }) as Composer & ComposerInternal
 
     return renderFormatter<
