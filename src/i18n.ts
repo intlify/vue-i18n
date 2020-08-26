@@ -1,7 +1,7 @@
 import {
   inject,
-  // onMounted,
-  // onUnmounted,
+  onMounted,
+  onUnmounted,
   InjectionKey,
   getCurrentInstance,
   ComponentInternalInstance,
@@ -28,6 +28,8 @@ import { I18nErrorCodes, createI18nError } from './errors'
 import { apply } from './plugin'
 import { defineMixin } from './mixin'
 import { isEmptyObject, warn } from './utils'
+import { devtoolsRegisterI18n } from './devtools'
+import { VERSION } from './misc'
 
 /**
  * I18n Options for `createI18n`
@@ -288,6 +290,10 @@ export function createI18n<
     }
   }
 
+  if (__DEV__ || __FEATURE_PROD_DEVTOOLS__) {
+    devtoolsRegisterI18n(i18n, VERSION)
+  }
+
   return i18n
 }
 
@@ -430,13 +436,11 @@ export function useI18n<
       DateTimeFormats,
       NumberFormats
     >
-    /* NOTE: DISABLE for intlify-devtools
     setupLifeCycle<Messages, DateTimeFormats, NumberFormats>(
       i18nInternal,
       instance,
       composer
     )
-    */
 
     i18nInternal.__setInstance<
       Messages,
@@ -493,7 +497,6 @@ function getComposer<Messages, DateTimeFormats, NumberFormats>(
   return composer
 }
 
-/*
 function setupLifeCycle<Messages, DateTimeFormats, NumberFormats>(
   i18n: I18nInternal,
   target: ComponentInternalInstance,
@@ -501,17 +504,16 @@ function setupLifeCycle<Messages, DateTimeFormats, NumberFormats>(
 ): void {
   onMounted(() => {
     // inject composer instance to DOM for intlify-devtools
-    if (target.proxy) {
-      target.proxy.$el.__intlify__ = composer
+    if (target.vnode.el) {
+      target.vnode.el.__intlify__ = composer
     }
   }, target)
 
   onUnmounted(() => {
     // remove composer instance from DOM for intlify-devtools
-    if (target.proxy && target.proxy.$el.__intlify__) {
-      delete target.proxy.$el.__intlify__
+    if (target.vnode.el && target.vnode.el.__INTLIFY__) {
+      delete target.vnode.el.__intlify__
     }
     i18n.__deleteInstance(target)
   }, target)
 }
-*/

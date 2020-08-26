@@ -1,3 +1,5 @@
+import { initDev, initFeatureFlags } from './misc'
+
 export { generateFormatCacheKey, friendlyJSONstringify } from './utils'
 export { Path, PathValue } from './path'
 export { createParser, Parser } from './message/parser'
@@ -56,8 +58,10 @@ export {
   ComponetI18nScope
 } from './components'
 export { I18nPluginOptions } from './plugin'
+export { VERSION } from './misc'
 
-/**
- * vue-i18n version
- */
-export const VERSION = __VERSION__
+if (__ESM_BUNDLER__ && !__TEST__) {
+  initFeatureFlags()
+}
+
+__DEV__ && initDev()

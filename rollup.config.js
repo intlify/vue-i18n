@@ -168,6 +168,10 @@ function createReplacePlugin(
     __ESM_BUNDLER__: isBundlerESMBuild,
     __ESM_BROWSER__: isBrowserESMBuild,
     __NODE_JS__: isNodeBuild,
+    // feature flags
+    __FEATURE_PROD_DEVTOOLS__: isBundlerESMBuild
+      ? `__INTLFY_PROD_DEVTOOLS__`
+      : false,
     ...(isProduction && isBrowserBuild
       ? {
           'emitError(': `/*#__PURE__*/ emitError(`,
