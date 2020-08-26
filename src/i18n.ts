@@ -1,7 +1,7 @@
 import {
   inject,
-  onMounted,
-  onUnmounted,
+  // onMounted,
+  // onUnmounted,
   InjectionKey,
   getCurrentInstance,
   ComponentInternalInstance,
@@ -430,11 +430,13 @@ export function useI18n<
       DateTimeFormats,
       NumberFormats
     >
+    /* NOTE: DISABLE for intlify-devtools
     setupLifeCycle<Messages, DateTimeFormats, NumberFormats>(
       i18nInternal,
       instance,
       composer
     )
+    */
 
     i18nInternal.__setInstance<
       Messages,
@@ -491,6 +493,7 @@ function getComposer<Messages, DateTimeFormats, NumberFormats>(
   return composer
 }
 
+/*
 function setupLifeCycle<Messages, DateTimeFormats, NumberFormats>(
   i18n: I18nInternal,
   target: ComponentInternalInstance,
@@ -511,3 +514,4 @@ function setupLifeCycle<Messages, DateTimeFormats, NumberFormats>(
     i18n.__deleteInstance(target)
   }, target)
 }
+*/

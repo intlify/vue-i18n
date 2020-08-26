@@ -18,16 +18,16 @@
       <h2>slot usages:</h2>
       <i18n-n :value="1234" :format="{ key: 'currency', currency: 'EUR' }">
         <template #currency="props"
-          ><span style="color: green;">{{ props.currency }}</span></template
+          ><span style="color: green">{{ props.currency }}</span></template
         >
         <template #integer="props"
-          ><span style="font-weight: bold;">{{ props.integer }}</span></template
+          ><span style="font-weight: bold">{{ props.integer }}</span></template
         >
         <template #group="props"
-          ><span style="font-weight: bold;">{{ props.group }}</span></template
+          ><span style="font-weight: bold">{{ props.group }}</span></template
         >
         <template #fraction="props"
-          ><span style="font-size: small;">{{ props.fraction }}</span></template
+          ><span style="font-size: small">{{ props.fraction }}</span></template
         >
       </i18n-n>
     </div>

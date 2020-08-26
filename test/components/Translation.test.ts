@@ -66,16 +66,16 @@ test('DOM contents', async () => {
   })
 
   const App = defineComponent({
+    setup() {
+      return { ...useI18n() }
+    },
     template: `
 <i18n-t keypath="message.list" locale="en">
   <span class="lang">
     {{ t('message.language', {}, { locale: 'en' }) }}
   </span>
 </i18n-t>
-`,
-    setup() {
-      return { ...useI18n() }
-    }
+`
   })
   const wrapper = await mount(App, i18n)
 
@@ -89,16 +89,16 @@ test('linked contents', async () => {
   })
 
   const App = defineComponent({
+    setup() {
+      return { ...useI18n() }
+    },
     template: `
 <i18n-t keypath="message.linked">
   <template #name>
     <span>かずぽん</span>
   </template>
 </i18n-t>
-`,
-    setup() {
-      return { ...useI18n() }
-    }
+`
   })
   const wrapper = await mount(App, i18n)
 
@@ -112,17 +112,17 @@ test('plural contents', async () => {
   })
 
   const App = defineComponent({
+    setup() {
+      const count = ref(2)
+      return { ...useI18n(), count }
+    },
     template: `
 <i18n-t keypath="message.plural" locale="en" :plural="count">
   <template #n>
     <b>{{ count }}</b>
   </template>
 </i18n-t>
-`,
-    setup() {
-      const count = ref(2)
-      return { ...useI18n(), count }
-    }
+`
   })
   const wrapper = await mount(App, i18n)
 
@@ -163,7 +163,6 @@ test('scope', async () => {
     components: {
       Container
     },
-    template: `<Container>`,
     setup() {
       return {
         ...useI18n({
@@ -175,7 +174,8 @@ test('scope', async () => {
           }
         })
       }
-    }
+    },
+    template: `<Container>`
   })
 
   const wrapper = await mount(Root, i18n)

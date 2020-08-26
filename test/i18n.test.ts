@@ -47,7 +47,6 @@ describe('useI18n', () => {
 
     let composer: Composer | null = null
     const App = defineComponent({
-      template: `<p>foo</p>`,
       setup() {
         composer = useI18n({
           inheritLocale: false,
@@ -59,7 +58,8 @@ describe('useI18n', () => {
           }
         })
         return {}
-      }
+      },
+      template: `<p>foo</p>`
     })
     await mount(App, i18n)
 
@@ -79,11 +79,11 @@ describe('useI18n', () => {
 
     let composer: Composer | null = null
     const App = defineComponent({
-      template: `<p>foo</p>`,
       setup() {
         composer = useI18n({ useScope: 'global' })
         return {}
-      }
+      },
+      template: `<p>foo</p>`
     })
     await mount(App, i18n)
 
@@ -113,7 +113,6 @@ describe('useI18n', () => {
           }
         }
       },
-      template: `<div>parent</div><Leaf />`,
       setup() {
         parent = useI18n({
           inheritLocale: false,
@@ -125,7 +124,8 @@ describe('useI18n', () => {
           }
         })
         return {}
-      }
+      },
+      template: `<div>parent</div><Leaf />`
     })
     await mount(App, i18n)
 
@@ -156,10 +156,10 @@ describe('useI18n', () => {
           }
         }
       },
-      template: `<div>parent</div><Leaf />`,
       setup() {
         return {}
-      }
+      },
+      template: `<div>parent</div><Leaf />`
     })
     await mount(App, i18n)
 
@@ -179,11 +179,11 @@ describe('useI18n', () => {
 
     let composer: Composer | null = null
     const App = defineComponent({
-      template: `<p>foo</p>`,
       setup() {
         composer = useI18n()
         return {}
-      }
+      },
+      template: `<p>foo</p>`
     })
     await mount(App, i18n)
 
@@ -210,7 +210,6 @@ describe('useI18n', () => {
 
     let error = ''
     const App = defineComponent({
-      template: `<p>foo</p>`,
       setup() {
         try {
           useI18n({
@@ -225,7 +224,8 @@ describe('useI18n', () => {
           error = e.message
         }
         return {}
-      }
+      },
+      template: `<p>foo</p>`
     })
     await mount(App, i18n)
     expect(error).toEqual(
@@ -401,6 +401,9 @@ describe('slot reactivity', () => {
       components: {
         Child
       },
+      setup() {
+        return useI18n()
+      },
       template: `
         <h1>Root</h1>
           <form>
@@ -411,10 +414,7 @@ describe('slot reactivity', () => {
           </form>
           <p>{{ t('hello') }}</p>
         <Child />
-      `,
-      setup() {
-        return useI18n()
-      }
+      `
     })
     const { html } = await mount(App, i18n)
     expect(html()).toMatchSnapshot('ja')

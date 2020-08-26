@@ -1,12 +1,4 @@
-import {
-  h,
-  Component,
-  ComponentOptions,
-  Fragment,
-  defineComponent,
-  SetupContext,
-  VNodeChild
-} from 'vue'
+import { h, Fragment, defineComponent, SetupContext, VNodeChild } from 'vue'
 import { Composer, ComposerInternal } from '../composer'
 import { useI18n } from '../i18n'
 import { TranslateOptions } from '../core'
@@ -35,7 +27,7 @@ export const Translation = defineComponent({
     }
   },
   /* eslint-enable */
-  setup(props: TranslationProps, context: SetupContext) {
+  setup(props, context) {
     const { slots, attrs } = context
     const i18n = useI18n({ useScope: props.scope }) as Composer &
       ComposerInternal
@@ -55,7 +47,7 @@ export const Translation = defineComponent({
       return isString(props.tag)
         ? h(props.tag, { ...attrs }, children)
         : isObject(props.tag)
-          ? h(props.tag as Component | ComponentOptions, { ...attrs }, children)
+          ? h(props.tag, { ...attrs }, children)
           : h(Fragment, { ...attrs }, children)
     }
   }

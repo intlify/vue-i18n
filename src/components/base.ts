@@ -12,7 +12,7 @@ export interface BaseFormatProps {
 
 export const baseFormatProps = {
   tag: {
-    type: [String, Object]
+    type: [String, Object] as PropType<string | object>
   },
   locale: {
     type: String

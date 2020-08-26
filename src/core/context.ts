@@ -138,8 +138,7 @@ export interface RuntimeContext<
   DateTimeFormats = {},
   NumberFormats = {},
   Message = string
->
-  extends RuntimeTranslationContext<Messages, Message>,
+> extends RuntimeTranslationContext<Messages, Message>,
     RuntimeDateTimeContext<DateTimeFormats, Message>,
     RuntimeNumberContext<NumberFormats, Message> {}
 
