@@ -1,4 +1,16 @@
 
+## v9.0.0-alpha.14 (2020-08-26)
+
+#### :star: Features
+* [#97](https://github.com/intlify/vue-i18n-next/pull/97) feat: support for devtools interface ([@kazupon](https://github.com/kazupon))
+* [#96](https://github.com/intlify/vue-i18n-next/pull/96) feat: support vue3 rc8 ([@kazupon](https://github.com/kazupon))
+* [#87](https://github.com/intlify/vue-i18n-next/pull/87) feat: how to get locale messages from a given key ([@kazupon](https://github.com/kazupon))
+
+#### Committers: 2
+- kazuya kawaguchi ([@kazupon](https://github.com/kazupon))
+- meteorlxy ([@meteorlxy](https://github.com/meteorlxy))
+
+
 ## v9.0.0-alpha.13 (2020-08-07)
 
 #### :star: Features
