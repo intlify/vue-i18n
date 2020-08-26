@@ -5,7 +5,7 @@
 
 const RE_ARGS = /\{([0-9a-zA-Z]+)\}/g
 
-// eslint-disable-next-line
+/* eslint-disable */
 export function format(message: string, ...args: any): string {
   if (args.length === 1 && isObject(args[0])) {
     args = args[0]
@@ -20,7 +20,6 @@ export function format(message: string, ...args: any): string {
     }
   )
 }
-/* eslint-enable @typescript-eslint/no-explicit-any */
 
 export const generateFormatCacheKey = (
   locale: string,
@@ -55,6 +54,26 @@ export function warn(msg: string, err?: Error): void {
     }
   }
 }
+
+let _globalThis: any
+export const getGlobalThis = (): any => {
+  // prettier-ignore
+  return (
+    _globalThis ||
+    (_globalThis =
+      typeof globalThis !== 'undefined'
+        ? globalThis
+        : typeof self !== 'undefined'
+          ? self
+          : typeof window !== 'undefined'
+            ? window
+            : typeof global !== 'undefined'
+              ? global
+              : {})
+  )
+}
+
+/* eslint-enable */
 
 /**
  * Useful Utilites By Evan you

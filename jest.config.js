@@ -62,7 +62,13 @@ module.exports = {
       diagnostics: false
     },
     __DEV__: true,
-    __VERSION__: require('./package.json').version
+    __TEST__: true,
+    __VERSION__: require('./package.json').version,
+    __BROWSER__: false,
+    __GLOBAL__: false,
+    __ESM_BUNDLER__: true,
+    __ESM_BROWSER__: false,
+    __NODE_JS__: true
   },
 
   // The maximum amount of workers used to run your tests. Can be specified as % or a number. E.g. maxWorkers: 10% will use 10% of your CPU amount + 1 as the maximum worker number. maxWorkers: 2 will use a maximum of 2 workers.
