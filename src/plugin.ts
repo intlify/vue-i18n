@@ -1,4 +1,4 @@
-import { App } from 'vue'
+import { App, Component } from 'vue'
 import { I18nSymbol, I18n } from './i18n'
 import { Translation, NumberFormat, DatetimeFormat } from './components'
 import { vTDirective } from './directive'
@@ -41,10 +41,10 @@ export function apply<Messages, DateTimeFormats, NumberFormats>(
     // install components
     app.component(
       !useI18nComponentName ? Translation.name : 'i18n',
-      Translation
+      Translation as Component
     )
-    app.component(NumberFormat.name, NumberFormat)
-    app.component(DatetimeFormat.name, DatetimeFormat)
+    app.component(NumberFormat.name, NumberFormat as Component)
+    app.component(DatetimeFormat.name, DatetimeFormat as Component)
   }
 
   // install directive

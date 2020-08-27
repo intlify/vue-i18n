@@ -1,4 +1,4 @@
-import { h, Fragment, SetupContext, VNodeChild } from 'vue'
+import { h, Fragment, SetupContext, VNodeChild, RenderFunction } from 'vue'
 import { Composer, ComposerInternal } from '../composer'
 import { useI18n } from '../i18n'
 import { TranslateOptions } from '../core'
@@ -27,7 +27,7 @@ export const Translation = {
     }
   },
   /* eslint-enable */
-  setup(props: TranslationProps, context: SetupContext) {
+  setup(props: TranslationProps, context: SetupContext): RenderFunction {
     const { slots, attrs } = context
     const i18n = useI18n({ useScope: props.scope }) as Composer &
       ComposerInternal
