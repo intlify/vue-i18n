@@ -50,6 +50,9 @@ module.exports = {
     `${releaseType} release v${version}`,
   formatPullRequestTitle: ({ version, releaseType }) =>
     `${releaseType} release v${version}`,
+  afterPublish: ({ exec, dir, version, releaseTag }) => {
+    exec(`yarn tag add vue-i18n@${version} next`)
+  },
   shouldRelease: () => true,
   releases: {
     extractChangelog: ({ version, dir }) => {
