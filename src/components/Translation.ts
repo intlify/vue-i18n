@@ -1,4 +1,4 @@
-import { h, Fragment, defineComponent, SetupContext, VNodeChild } from 'vue'
+import { h, Fragment, SetupContext, VNodeChild } from 'vue'
 import { Composer, ComposerInternal } from '../composer'
 import { useI18n } from '../i18n'
 import { TranslateOptions } from '../core'
@@ -11,7 +11,7 @@ export interface TranslationProps extends BaseFormatProps {
   plural?: number | string
 }
 
-export const Translation = defineComponent({
+export const Translation = {
   /* eslint-disable */
   name: 'i18n-t',
   props: {
@@ -27,7 +27,7 @@ export const Translation = defineComponent({
     }
   },
   /* eslint-enable */
-  setup(props, context) {
+  setup(props: TranslationProps, context: SetupContext) {
     const { slots, attrs } = context
     const i18n = useI18n({ useScope: props.scope }) as Composer &
       ComposerInternal
@@ -51,7 +51,7 @@ export const Translation = defineComponent({
           : h(Fragment, { ...attrs }, children)
     }
   }
-})
+}
 
 function getInterpolateArg(
   { slots }: SetupContext,

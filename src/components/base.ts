@@ -1,4 +1,3 @@
-import { PropType } from 'vue'
 import { Locale } from '../core'
 import { I18nScope } from '../i18n'
 
@@ -12,13 +11,13 @@ export interface BaseFormatProps {
 
 export const baseFormatProps = {
   tag: {
-    type: [String, Object] as PropType<string | object>
+    type: [String, Object]
   },
   locale: {
     type: String
   },
   scope: {
-    type: String as PropType<ComponetI18nScope>,
+    type: String,
     validator: (val: ComponetI18nScope): boolean =>
       val === 'parent' || val === 'global',
     default: 'parent' as ComponetI18nScope
