@@ -1,4 +1,13 @@
 
+## v9.0.0-alpha.15 (2020-08-27)
+
+#### :bug: Bug Fixes
+* [#99](https://github.com/intlify/vue-i18n-next/pull/99) fix: type definition build errors ([@kazupon](https://github.com/kazupon))
+
+#### Committers: 1
+- kazuya kawaguchi ([@kazupon](https://github.com/kazupon))
+
+
 ## v9.0.0-alpha.14 (2020-08-26)
 
 #### :star: Features
