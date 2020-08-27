@@ -1,4 +1,4 @@
-import { defineComponent, PropType } from 'vue'
+import { SetupContext, RenderFunction } from 'vue'
 import { useI18n } from '../i18n'
 import { NumberOptions } from '../core'
 import { Composer, ComposerInternal } from '../composer'
@@ -28,7 +28,7 @@ const NUMBER_FORMAT_KEYS = [
   'formatMatcher'
 ]
 
-export const NumberFormat = defineComponent({
+export const NumberFormat = {
   /* eslint-disable */
   name: 'i18n-n',
   props: {
@@ -38,11 +38,11 @@ export const NumberFormat = defineComponent({
       required: true
     },
     format: {
-      type: [String, Object] as PropType<Intl.NumberFormatOptions>
+      type: [String, Object]
     }
   },
   /* eslint-enable */
-  setup(props, context) {
+  setup(props: NumberFormatProps, context: SetupContext): RenderFunction {
     const i18n = useI18n({ useScope: 'parent' }) as Composer & ComposerInternal
 
     return renderFormatter<
@@ -55,4 +55,4 @@ export const NumberFormat = defineComponent({
       i18n.__numberParts(...args)
     )
   }
-})
+}

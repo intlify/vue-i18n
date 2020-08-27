@@ -1,4 +1,4 @@
-import { defineComponent, PropType } from 'vue'
+import { RenderFunction, SetupContext } from 'vue'
 import { useI18n } from '../i18n'
 import { DateTimeOptions } from '../core'
 import { Composer, ComposerInternal } from '../composer'
@@ -33,21 +33,21 @@ const DATETIME_FORMAT_KEYS = [
   'timeZoneName'
 ]
 
-export const DatetimeFormat = defineComponent({
+export const DatetimeFormat = {
   /* eslint-disable */
   name: 'i18n-d',
   props: {
     ...baseFormatProps,
     value: {
-      type: [Number, Date] as PropType<number | Date>,
+      type: [Number, Date],
       required: true
     },
     format: {
-      type: [String, Object] as PropType<Intl.DateTimeFormatOptions>
+      type: [String, Object]
     }
   },
   /* eslint-enable */
-  setup(props, context) {
+  setup(props: DatetimeFormatProps, context: SetupContext): RenderFunction {
     const i18n = useI18n({ useScope: 'parent' }) as Composer & ComposerInternal
 
     return renderFormatter<
@@ -60,4 +60,4 @@ export const DatetimeFormat = defineComponent({
       i18n.__datetimeParts(...args)
     )
   }
-})
+}
