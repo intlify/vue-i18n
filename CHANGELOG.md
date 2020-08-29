@@ -1,4 +1,13 @@
 
+## v9.0.0-alpha.16 (2020-08-29)
+
+#### :bug: Bug Fixes
+* [#101](https://github.com/intlify/vue-i18n-next/pull/101) Fix devtools typo ([@minddust](https://github.com/minddust))
+
+#### Committers: 1
+- Stephan Groß ([@minddust](https://github.com/minddust))
+
+
 ## v9.0.0-alpha.15 (2020-08-27)
 
 #### :bug: Bug Fixes
