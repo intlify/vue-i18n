@@ -170,7 +170,7 @@ function createReplacePlugin(
     __NODE_JS__: isNodeBuild,
     // feature flags
     __FEATURE_PROD_DEVTOOLS__: isBundlerESMBuild
-      ? `__INTLFY_PROD_DEVTOOLS__`
+      ? `__INTLIFY_PROD_DEVTOOLS__`
       : false,
     ...(isProduction && isBrowserBuild
       ? {
