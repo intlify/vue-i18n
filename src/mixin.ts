@@ -230,7 +230,9 @@ export function defineMixin<Messages, DateTimeFormats, NumberFormats>(
     },
 
     mounted(): void {
-      this.$el.__INTLIFY__ = this.$i18n.__composer
+      if (__DEV__ || __FEATURE_PROD_DEVTOOLS__) {
+        this.$el.__INTLIFY__ = this.$i18n.__composer
+      }
     },
 
     beforeDestroy(): void {
@@ -240,7 +242,9 @@ export function defineMixin<Messages, DateTimeFormats, NumberFormats>(
         throw createI18nError(I18nErrorCodes.UNEXPECTED_ERROR)
       }
 
-      delete this.$el.__INTLIFY__
+      if (__DEV__ || __FEATURE_PROD_DEVTOOLS__) {
+        delete this.$el.__INTLIFY__
+      }
 
       delete this.$t
       delete this.$tc
