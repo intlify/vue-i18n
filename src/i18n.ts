@@ -31,6 +31,13 @@ import { isEmptyObject, warn } from './utils'
 import { devtoolsRegisterI18n } from './devtools'
 import { VERSION } from './misc'
 
+declare module '@vue/runtime-core' {
+  // eslint-disable-next-line
+  interface App<HostElement = any> {
+    __VUE_I18N__?: I18n & I18nInternal
+  }
+}
+
 /**
  * I18n Options for `createI18n`
  *
@@ -89,6 +96,7 @@ export interface I18n<Messages = {}, DateTimeFormats = {}, NumberFormats = {}> {
  * @internal
  */
 export interface I18nInternal {
+  __instances: Map<ComponentInternalInstance, VueI18n | Composer>
   __getInstance<
     Messages,
     DateTimeFormats,
@@ -248,7 +256,11 @@ export function createI18n<
     get mode(): I18nMode {
       return __legacyMode ? 'legacy' : 'composable'
     },
+    // install plugin
     install(app: App, ...options: unknown[]): void {
+      if (__DEV__ || __FEATURE_PROD_DEVTOOLS__) {
+        app.__VUE_I18N__ = i18n as I18n & I18nInternal
+      }
       apply<Messages, DateTimeFormats, NumberFormats>(app, i18n, ...options)
       if (__legacyMode) {
         app.mixin(
@@ -264,6 +276,7 @@ export function createI18n<
         )
       }
     },
+    // global composer accsessor
     get global(): Composer<Messages, DateTimeFormats, NumberFormats> {
       return __legacyMode
         ? (((__global as unknown) as VueI18nInternal<
@@ -273,18 +286,23 @@ export function createI18n<
           >).__composer as Composer<Messages, DateTimeFormats, NumberFormats>)
         : (__global as Composer<Messages, DateTimeFormats, NumberFormats>)
     },
+    // @internal
+    __instances,
+    // @internal
     __getInstance<
       M extends Messages,
       Instance extends VueI18n<M> | Composer<M>
     >(component: ComponentInternalInstance): Instance | null {
       return ((__instances.get(component) as unknown) as Instance) || null
     },
+    // @internal
     __setInstance<
       M extends Messages,
       Instance extends VueI18n<M> | Composer<M>
     >(component: ComponentInternalInstance, instance: Instance): void {
       __instances.set(component, instance)
     },
+    // @internal
     __deleteInstance(component: ComponentInternalInstance): void {
       __instances.delete(component)
     }
@@ -504,15 +522,19 @@ function setupLifeCycle<Messages, DateTimeFormats, NumberFormats>(
 ): void {
   onMounted(() => {
     // inject composer instance to DOM for intlify-devtools
-    if (target.vnode.el) {
-      target.vnode.el.__intlify__ = composer
+    if ((__DEV__ || __FEATURE_PROD_DEVTOOLS__) && target.vnode.el) {
+      target.vnode.el.__INTLIFY__ = composer
     }
   }, target)
 
   onUnmounted(() => {
     // remove composer instance from DOM for intlify-devtools
-    if (target.vnode.el && target.vnode.el.__INTLIFY__) {
-      delete target.vnode.el.__intlify__
+    if (
+      (__DEV__ || __FEATURE_PROD_DEVTOOLS__) &&
+      target.vnode.el &&
+      target.vnode.el.__INTLIFY__
+    ) {
+      delete target.vnode.el.__INTLIFY__
     }
     i18n.__deleteInstance(target)
   }, target)
