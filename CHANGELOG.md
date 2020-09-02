@@ -1,4 +1,13 @@
 
+## v9.0.0-alpha.17 (2020-09-02)
+
+#### :zap: Improvement Features
+* [#104](https://github.com/intlify/vue-i18n-next/pull/104) improvement: tweaks interface for devtools ([@kazupon](https://github.com/kazupon))
+
+#### Committers: 1
+- kazuya kawaguchi ([@kazupon](https://github.com/kazupon))
+
+
 ## v9.0.0-alpha.16 (2020-08-29)
 
 #### :bug: Bug Fixes
