@@ -7328,10 +7328,10 @@ typedarray@^0.0.6:
   resolved "https://registry.yarnpkg.com/typedarray/-/typedarray-0.0.6.tgz#867ac74e3864187b1d3d47d996a78ec5c8830777"
   integrity sha1-hnrHTjhkGHsdPUfZlqeOxciDB3c=
 
-typescript-eslint-language-service@^3.1.0:
-  version "3.1.0"
-  resolved "https://registry.yarnpkg.com/typescript-eslint-language-service/-/typescript-eslint-language-service-3.1.0.tgz#89c9d724056da8dd7757d559b34a892f27c1fca5"
-  integrity sha512-6Lc9AEE3uFBPwD2GughCO2RBtY26RcjJsVLaYHJnRYzJMFQvUqycghMSypzFHplH9MkO6e+h/Mc2/ODjv6dK8A==
+typescript-eslint-language-service@^4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/typescript-eslint-language-service/-/typescript-eslint-language-service-4.0.0.tgz#39377d1afa5f9ada70a5998c7c43100148ccb552"
+  integrity sha512-vPutDeax2LT/etS7yT6g22wj9WpoJ6CMdDI7LAcDKfo9cmiixtZZS4TQry2gljNqXzgfWaLqaq1dd5BMpoWBeg==
   dependencies:
     read-pkg-up "^7.0.0"
 
