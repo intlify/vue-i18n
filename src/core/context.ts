@@ -26,13 +26,6 @@ import {
   NumberFormats as NumberFormatsType
 } from './types'
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-type UnionToIntersection<U> = (U extends any ? (k: U) => void : never) extends (
-  k: infer I
-) => void
-  ? I
-  : never
-
 export type Locale = string
 
 export type FallbackLocale =
@@ -56,8 +49,6 @@ export type LocaleMessages<Message = string> = Record<
   Locale,
   LocaleMessageDictionary<Message>
 >
-
-type NestedPath<T> = { [K in keyof T]: T[K] }
 
 export type RuntimeMissingType = 'translate' | 'datetime' | 'number'
 export type RuntimeMissingHandler<Message = string> = (

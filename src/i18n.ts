@@ -35,6 +35,7 @@ declare module '@vue/runtime-core' {
   // eslint-disable-next-line
   interface App<HostElement = any> {
     __VUE_I18N__?: I18n & I18nInternal
+    __VUE_I18N_SYMBOL__?: InjectionKey<I18n>
   }
 }
 
@@ -146,12 +147,6 @@ export interface ComposerAdditionalOptions {
 }
 
 /**
- * I18n instance injectin key
- * @internal
- */
-export const I18nSymbol: InjectionKey<I18n> = Symbol.for('vue-i18n')
-
-/**
  * I18n factory function
  *
  * @param options - see the {@link I18nOptions}
@@ -250,6 +245,7 @@ export function createI18n<
   const __global = __legacyMode
     ? createVueI18n(options)
     : createComposer(options)
+  const symbol: InjectionKey<I18n> = Symbol(__DEV__ ? 'vue-i18n' : '')
 
   const i18n = {
     // mode
@@ -261,6 +257,7 @@ export function createI18n<
       if (__DEV__ || __FEATURE_PROD_DEVTOOLS__) {
         app.__VUE_I18N__ = i18n as I18n & I18nInternal
       }
+      app.__VUE_I18N_SYMBOL__ = symbol
       apply<Messages, DateTimeFormats, NumberFormats>(app, i18n, ...options)
       if (__legacyMode) {
         app.mixin(
@@ -384,7 +381,13 @@ export function useI18n<
   Options['datetimeFormats'],
   Options['numberFormats']
 > {
-  const i18n = inject(I18nSymbol) as I18n<
+  const instance = getCurrentInstance()
+  /* istanbul ignore if */
+  if (instance == null || !instance.appContext.app.__VUE_I18N_SYMBOL__) {
+    throw createI18nError(I18nErrorCodes.UNEXPECTED_ERROR)
+  }
+
+  const i18n = inject(instance.appContext.app.__VUE_I18N_SYMBOL__) as I18n<
     Messages,
     DateTimeFormats,
     NumberFormats
@@ -404,12 +407,6 @@ export function useI18n<
 
   if (scope === 'global') {
     return global
-  }
-
-  const instance = getCurrentInstance()
-  /* istanbul ignore if */
-  if (instance == null) {
-    throw createI18nError(I18nErrorCodes.UNEXPECTED_ERROR)
   }
 
   if (scope === 'parent') {

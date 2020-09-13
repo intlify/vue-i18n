@@ -191,12 +191,6 @@ describe('useI18n', () => {
     expect(composer.locale.value).toEqual('ja')
   })
 
-  test(errorMessages[I18nErrorCodes.NOT_INSLALLED], () => {
-    expect(() => {
-      useI18n()
-    }).toThrowError(errorMessages[I18nErrorCodes.NOT_INSLALLED])
-  })
-
   test(errorMessages[I18nErrorCodes.NOT_AVAILABLE_IN_LEGACY_MODE], async () => {
     const i18n = createI18n({
       legacy: true,
@@ -422,4 +416,43 @@ describe('slot reactivity', () => {
     await nextTick()
     expect(html()).toMatchSnapshot('en')
   })
+})
+
+test('multi instance', async () => {
+  const i18n1 = createI18n({
+    locale: 'ja',
+    messages: {
+      en: {
+        hello: 'hello!'
+      }
+    }
+  })
+  const i18n2 = createI18n({
+    locale: 'en',
+    messages: {
+      ja: {
+        hello: 'こんにちは！'
+      }
+    }
+  })
+
+  const App = defineComponent({
+    setup() {
+      const i18n = useI18n({
+        locale: 'en',
+        messages: {
+          en: {
+            hello: 'hello!'
+          }
+        }
+      })
+      return { ...i18n }
+    },
+    template: `<p>foo</p>`
+  })
+  const { app: app1 } = await mount(App, i18n1)
+  const { app: app2 } = await mount(App, i18n2)
+
+  expect(app1.__VUE_I18N_SYMBOL__ !== app2.__VUE_I18N_SYMBOL__).toEqual(true)
+  expect(i18n1.global).not.toEqual(i18n2.global)
 })
