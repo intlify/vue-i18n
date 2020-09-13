@@ -7,76 +7,29 @@
 <b>Signature:</b>
 
 ```typescript
-Translation: (new () => import("vue").ComponentPublicInstance<{
-    keypath: string;
-    scope: "parent" | "global";
-} & {
-    plural?: string | number | undefined;
-    tag?: string | undefined;
-    locale?: string | undefined;
-}, () => VNodeChild, {}, {}, {}, Record<string, ((...args: any[]) => any) | null>, import("vue").VNodeProps & {
-    keypath: string;
-} & {
-    plural?: string | number | undefined;
-    tag?: string | undefined;
-    locale?: string | undefined;
-    scope?: "parent" | "global" | undefined;
-}, import("vue").ComponentOptionsBase<{
-    keypath: string;
-    scope: "parent" | "global";
-} & {
-    plural?: string | number | undefined;
-    tag?: string | undefined;
-    locale?: string | undefined;
-}, () => VNodeChild, unknown, {}, {}, import("vue").ComponentOptionsBase<any, any, any, any, any, any, any, any, any>, import("vue").ComponentOptionsBase<any, any, any, any, any, any, any, any, any>, Record<string, ((...args: any[]) => any) | null>, string>>) & import("vue").ComponentOptionsBase<Readonly<{
-    keypath: string;
-    scope: "parent" | "global";
-} & {
-    plural?: string | number | undefined;
-    tag?: string | undefined;
-    locale?: string | undefined;
-}>, () => VNodeChild, unknown, {}, {}, import("vue").ComponentOptionsBase<any, any, any, any, any, any, any, any, any>, import("vue").ComponentOptionsBase<any, any, any, any, any, any, any, any, any>, Record<string, ((...args: any[]) => any) | null>, string> & {
+Translation: {
+    name: string;
     props: {
         keypath: {
             type: StringConstructor;
-            required: true;
+            required: boolean;
         };
         plural: {
             type: (StringConstructor | NumberConstructor)[];
             validator: (val: any) => boolean;
         };
         tag: {
-            type: StringConstructor;
+            type: (StringConstructor | ObjectConstructor)[];
         };
         locale: {
             type: StringConstructor;
         };
         scope: {
-            type: import("vue").PropType<"parent" | "global">;
+            type: StringConstructor;
             validator: (val: "parent" | "global") => boolean;
             default: "parent" | "global";
         };
     };
-} & ThisType<import("vue").ComponentPublicInstance<Readonly<{
-    keypath: string;
-    scope: "parent" | "global";
-} & {
-    plural?: string | number | undefined;
-    tag?: string | undefined;
-    locale?: string | undefined;
-}>, () => VNodeChild, {}, {}, {}, Record<string, ((...args: any[]) => any) | null>, Readonly<{
-    keypath: string;
-    scope: "parent" | "global";
-} & {
-    plural?: string | number | undefined;
-    tag?: string | undefined;
-    locale?: string | undefined;
-}>, import("vue").ComponentOptionsBase<Readonly<{
-    keypath: string;
-    scope: "parent" | "global";
-} & {
-    plural?: string | number | undefined;
-    tag?: string | undefined;
-    locale?: string | undefined;
-}>, () => VNodeChild, unknown, {}, {}, import("vue").ComponentOptionsBase<any, any, any, any, any, any, any, any, any>, import("vue").ComponentOptionsBase<any, any, any, any, any, any, any, any, any>, Record<string, ((...args: any[]) => any) | null>, string>>>
+    setup(props: TranslationProps, context: SetupContext): RenderFunction;
+}
 ```

@@ -7,75 +7,28 @@
 <b>Signature:</b>
 
 ```typescript
-DatetimeFormat: (new () => import("vue").ComponentPublicInstance<{
-    value: number | Date;
-    scope: "parent" | "global";
-} & {
-    format?: Intl.DateTimeFormatOptions | undefined;
-    tag?: string | undefined;
-    locale?: string | undefined;
-}, import("vue").RenderFunction, {}, {}, {}, Record<string, ((...args: any[]) => any) | null>, import("vue").VNodeProps & {
-    value: number | Date;
-} & {
-    format?: Intl.DateTimeFormatOptions | undefined;
-    tag?: string | undefined;
-    locale?: string | undefined;
-    scope?: "parent" | "global" | undefined;
-}, import("vue").ComponentOptionsBase<{
-    value: number | Date;
-    scope: "parent" | "global";
-} & {
-    format?: Intl.DateTimeFormatOptions | undefined;
-    tag?: string | undefined;
-    locale?: string | undefined;
-}, import("vue").RenderFunction, unknown, {}, {}, import("vue").ComponentOptionsBase<any, any, any, any, any, any, any, any, any>, import("vue").ComponentOptionsBase<any, any, any, any, any, any, any, any, any>, Record<string, ((...args: any[]) => any) | null>, string>>) & import("vue").ComponentOptionsBase<Readonly<{
-    value: number | Date;
-    scope: "parent" | "global";
-} & {
-    format?: Intl.DateTimeFormatOptions | undefined;
-    tag?: string | undefined;
-    locale?: string | undefined;
-}>, import("vue").RenderFunction, unknown, {}, {}, import("vue").ComponentOptionsBase<any, any, any, any, any, any, any, any, any>, import("vue").ComponentOptionsBase<any, any, any, any, any, any, any, any, any>, Record<string, ((...args: any[]) => any) | null>, string> & {
+DatetimeFormat: {
+    name: string;
     props: {
         value: {
-            type: PropType<number | Date>;
-            required: true;
+            type: (NumberConstructor | DateConstructor)[];
+            required: boolean;
         };
         format: {
-            type: PropType<Intl.DateTimeFormatOptions>;
+            type: (StringConstructor | ObjectConstructor)[];
         };
         tag: {
-            type: StringConstructor;
+            type: (StringConstructor | ObjectConstructor)[];
         };
         locale: {
             type: StringConstructor;
         };
         scope: {
-            type: PropType<"parent" | "global">;
+            type: StringConstructor;
             validator: (val: "parent" | "global") => boolean;
             default: "parent" | "global";
         };
     };
-} & ThisType<import("vue").ComponentPublicInstance<Readonly<{
-    value: number | Date;
-    scope: "parent" | "global";
-} & {
-    format?: Intl.DateTimeFormatOptions | undefined;
-    tag?: string | undefined;
-    locale?: string | undefined;
-}>, import("vue").RenderFunction, {}, {}, {}, Record<string, ((...args: any[]) => any) | null>, Readonly<{
-    value: number | Date;
-    scope: "parent" | "global";
-} & {
-    format?: Intl.DateTimeFormatOptions | undefined;
-    tag?: string | undefined;
-    locale?: string | undefined;
-}>, import("vue").ComponentOptionsBase<Readonly<{
-    value: number | Date;
-    scope: "parent" | "global";
-} & {
-    format?: Intl.DateTimeFormatOptions | undefined;
-    tag?: string | undefined;
-    locale?: string | undefined;
-}>, import("vue").RenderFunction, unknown, {}, {}, import("vue").ComponentOptionsBase<any, any, any, any, any, any, any, any, any>, import("vue").ComponentOptionsBase<any, any, any, any, any, any, any, any, any>, Record<string, ((...args: any[]) => any) | null>, string>>>
+    setup(props: DatetimeFormatProps, context: SetupContext): RenderFunction;
+}
 ```

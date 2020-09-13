@@ -20,24 +20,24 @@ This option is compatible with the constructor options of `VueI18n` class (offer
 
 |  Property | Type | Description |
 |  --- | --- | --- |
-|  [availableLocales](./vue-i18n.vuei18noptions.availablelocales.md) | <code>Locale[]</code> |  |
-|  [componentInstanceCreatedListener](./vue-i18n.vuei18noptions.componentinstancecreatedlistener.md) | <code>ComponentInstanceCreatedListener</code> |  |
-|  [datetimeFormats](./vue-i18n.vuei18noptions.datetimeformats.md) | <code>DateTimeFormatsType</code> |  |
-|  [fallbackLocale](./vue-i18n.vuei18noptions.fallbacklocale.md) | <code>FallbackLocale</code> |  |
-|  [fallbackRoot](./vue-i18n.vuei18noptions.fallbackroot.md) | <code>boolean</code> |  |
-|  [formatFallbackMessages](./vue-i18n.vuei18noptions.formatfallbackmessages.md) | <code>boolean</code> |  |
-|  [formatter](./vue-i18n.vuei18noptions.formatter.md) | <code>Formatter</code> |  |
-|  [locale](./vue-i18n.vuei18noptions.locale.md) | <code>Locale</code> |  |
-|  [messages](./vue-i18n.vuei18noptions.messages.md) | <code>LocaleMessages&lt;VueMessageType&gt;</code> |  |
-|  [missing](./vue-i18n.vuei18noptions.missing.md) | <code>MissingHandler</code> |  |
-|  [modifiers](./vue-i18n.vuei18noptions.modifiers.md) | <code>LinkedModifiers&lt;VueMessageType&gt;</code> |  |
-|  [numberFormats](./vue-i18n.vuei18noptions.numberformats.md) | <code>NumberFormatsType</code> |  |
-|  [pluralizationRules](./vue-i18n.vuei18noptions.pluralizationrules.md) | <code>PluralizationRules</code> |  |
-|  [postTranslation](./vue-i18n.vuei18noptions.posttranslation.md) | <code>PostTranslationHandler&lt;VueMessageType&gt;</code> |  |
-|  [preserveDirectiveContent](./vue-i18n.vuei18noptions.preservedirectivecontent.md) | <code>boolean</code> |  |
-|  [sharedMessages](./vue-i18n.vuei18noptions.sharedmessages.md) | <code>LocaleMessages&lt;VueMessageType&gt;</code> |  |
-|  [silentFallbackWarn](./vue-i18n.vuei18noptions.silentfallbackwarn.md) | <code>boolean &#124; RegExp</code> |  |
-|  [silentTranslationWarn](./vue-i18n.vuei18noptions.silenttranslationwarn.md) | <code>boolean &#124; RegExp</code> |  |
-|  [sync](./vue-i18n.vuei18noptions.sync.md) | <code>boolean</code> |  |
-|  [warnHtmlInMessage](./vue-i18n.vuei18noptions.warnhtmlinmessage.md) | <code>WarnHtmlInMessageLevel</code> |  |
+|  [availableLocales](./vue-i18n.vuei18noptions.availablelocales.md) | [Locale](./vue-i18n.locale.md)<!-- -->\[\] |  |
+|  [componentInstanceCreatedListener](./vue-i18n.vuei18noptions.componentinstancecreatedlistener.md) | ComponentInstanceCreatedListener |  |
+|  [datetimeFormats](./vue-i18n.vuei18noptions.datetimeformats.md) | [DateTimeFormatsType](./vue-i18n.datetimeformats.md) |  |
+|  [fallbackLocale](./vue-i18n.vuei18noptions.fallbacklocale.md) | [FallbackLocale](./vue-i18n.fallbacklocale.md) |  |
+|  [fallbackRoot](./vue-i18n.vuei18noptions.fallbackroot.md) | boolean |  |
+|  [formatFallbackMessages](./vue-i18n.vuei18noptions.formatfallbackmessages.md) | boolean |  |
+|  [formatter](./vue-i18n.vuei18noptions.formatter.md) | [Formatter](./vue-i18n.formatter.md) |  |
+|  [locale](./vue-i18n.vuei18noptions.locale.md) | [Locale](./vue-i18n.locale.md) |  |
+|  [messages](./vue-i18n.vuei18noptions.messages.md) | [LocaleMessages](./vue-i18n.localemessages.md)<!-- -->&lt;[VueMessageType](./vue-i18n.vuemessagetype.md)<!-- -->&gt; |  |
+|  [missing](./vue-i18n.vuei18noptions.missing.md) | [MissingHandler](./vue-i18n.missinghandler.md) |  |
+|  [modifiers](./vue-i18n.vuei18noptions.modifiers.md) | [LinkedModifiers](./vue-i18n.linkedmodifiers.md)<!-- -->&lt;[VueMessageType](./vue-i18n.vuemessagetype.md)<!-- -->&gt; |  |
+|  [numberFormats](./vue-i18n.vuei18noptions.numberformats.md) | [NumberFormatsType](./vue-i18n.numberformats.md) |  |
+|  [pluralizationRules](./vue-i18n.vuei18noptions.pluralizationrules.md) | PluralizationRules |  |
+|  [postTranslation](./vue-i18n.vuei18noptions.posttranslation.md) | [PostTranslationHandler](./vue-i18n.posttranslationhandler.md)<!-- -->&lt;[VueMessageType](./vue-i18n.vuemessagetype.md)<!-- -->&gt; |  |
+|  [preserveDirectiveContent](./vue-i18n.vuei18noptions.preservedirectivecontent.md) | boolean |  |
+|  [sharedMessages](./vue-i18n.vuei18noptions.sharedmessages.md) | [LocaleMessages](./vue-i18n.localemessages.md)<!-- -->&lt;[VueMessageType](./vue-i18n.vuemessagetype.md)<!-- -->&gt; |  |
+|  [silentFallbackWarn](./vue-i18n.vuei18noptions.silentfallbackwarn.md) | boolean \| RegExp |  |
+|  [silentTranslationWarn](./vue-i18n.vuei18noptions.silenttranslationwarn.md) | boolean \| RegExp |  |
+|  [sync](./vue-i18n.vuei18noptions.sync.md) | boolean |  |
+|  [warnHtmlInMessage](./vue-i18n.vuei18noptions.warnhtmlinmessage.md) | [WarnHtmlInMessageLevel](./vue-i18n.warnhtmlinmessagelevel.md) |  |
 

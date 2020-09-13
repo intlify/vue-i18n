@@ -20,21 +20,21 @@ This is the interface for being used for Vue 3 Composition API.
 
 |  Property | Type | Description |
 |  --- | --- | --- |
-|  [availableLocales](./vue-i18n.composer.availablelocales.md) | <code>Locale[]</code> |  |
-|  [datetimeFormats](./vue-i18n.composer.datetimeformats.md) | <code>ComputedRef&lt;DateTimeFormats&gt;</code> |  |
-|  [fallbackFormat](./vue-i18n.composer.fallbackformat.md) | <code>boolean</code> |  |
-|  [fallbackLocale](./vue-i18n.composer.fallbacklocale.md) | <code>WritableComputedRef&lt;FallbackLocale&gt;</code> |  |
-|  [fallbackRoot](./vue-i18n.composer.fallbackroot.md) | <code>boolean</code> |  |
-|  [fallbackWarn](./vue-i18n.composer.fallbackwarn.md) | <code>boolean &#124; RegExp</code> |  |
-|  [inheritLocale](./vue-i18n.composer.inheritlocale.md) | <code>boolean</code> |  |
-|  [isGlobal](./vue-i18n.composer.isglobal.md) | <code>boolean</code> |  |
-|  [locale](./vue-i18n.composer.locale.md) | <code>WritableComputedRef&lt;Locale&gt;</code> |  |
-|  [messages](./vue-i18n.composer.messages.md) | <code>ComputedRef&lt;Messages&gt;</code> |  |
-|  [missingWarn](./vue-i18n.composer.missingwarn.md) | <code>boolean &#124; RegExp</code> |  |
-|  [modifiers](./vue-i18n.composer.modifiers.md) | <code>LinkedModifiers&lt;Message&gt;</code> |  |
-|  [numberFormats](./vue-i18n.composer.numberformats.md) | <code>ComputedRef&lt;NumberFormats&gt;</code> |  |
-|  [pluralRules](./vue-i18n.composer.pluralrules.md) | <code>PluralizationRules</code> |  |
-|  [warnHtmlMessage](./vue-i18n.composer.warnhtmlmessage.md) | <code>boolean</code> |  |
+|  [availableLocales](./vue-i18n.composer.availablelocales.md) | [Locale](./vue-i18n.locale.md)<!-- -->\[\] |  |
+|  [datetimeFormats](./vue-i18n.composer.datetimeformats.md) | ComputedRef&lt;DateTimeFormats&gt; |  |
+|  [fallbackFormat](./vue-i18n.composer.fallbackformat.md) | boolean |  |
+|  [fallbackLocale](./vue-i18n.composer.fallbacklocale.md) | WritableComputedRef&lt;[FallbackLocale](./vue-i18n.fallbacklocale.md)<!-- -->&gt; |  |
+|  [fallbackRoot](./vue-i18n.composer.fallbackroot.md) | boolean |  |
+|  [fallbackWarn](./vue-i18n.composer.fallbackwarn.md) | boolean \| RegExp |  |
+|  [inheritLocale](./vue-i18n.composer.inheritlocale.md) | boolean |  |
+|  [isGlobal](./vue-i18n.composer.isglobal.md) | boolean |  |
+|  [locale](./vue-i18n.composer.locale.md) | WritableComputedRef&lt;[Locale](./vue-i18n.locale.md)<!-- -->&gt; |  |
+|  [messages](./vue-i18n.composer.messages.md) | ComputedRef&lt;Messages&gt; |  |
+|  [missingWarn](./vue-i18n.composer.missingwarn.md) | boolean \| RegExp |  |
+|  [modifiers](./vue-i18n.composer.modifiers.md) | [LinkedModifiers](./vue-i18n.linkedmodifiers.md)<!-- -->&lt;Message&gt; |  |
+|  [numberFormats](./vue-i18n.composer.numberformats.md) | ComputedRef&lt;NumberFormats&gt; |  |
+|  [pluralRules](./vue-i18n.composer.pluralrules.md) | PluralizationRules |  |
+|  [warnHtmlMessage](./vue-i18n.composer.warnhtmlmessage.md) | boolean |  |
 
 ## Methods
 
@@ -77,4 +77,5 @@ This is the interface for being used for Vue 3 Composition API.
 |  [t(key, list, plural)](./vue-i18n.composer.t_6.md) |  |
 |  [t(key, list, defaultMsg)](./vue-i18n.composer.t_7.md) |  |
 |  [t(key, list, options)](./vue-i18n.composer.t_8.md) |  |
+|  [tm(key)](./vue-i18n.composer.tm.md) |  |
 

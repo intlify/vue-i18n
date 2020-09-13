@@ -16,10 +16,10 @@ n(value: number, args: {
 
 |  Parameter | Type | Description |
 |  --- | --- | --- |
-|  value | <code>number</code> |  |
-|  args | <code>{</code><br/><code>        [key: string]: string;</code><br/><code>    }</code> |  |
+|  value | number |  |
+|  args | { \[key: string\]: string; } |  |
 
 <b>Returns:</b>
 
-`NumberFormatResult`
+[NumberFormatResult](./vue-i18n.numberformatresult.md)
 

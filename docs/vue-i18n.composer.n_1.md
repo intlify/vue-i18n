@@ -14,10 +14,10 @@ n(value: number, key: string): string;
 
 |  Parameter | Type | Description |
 |  --- | --- | --- |
-|  value | <code>number</code> |  |
-|  key | <code>string</code> |  |
+|  value | number |  |
+|  key | string |  |
 
 <b>Returns:</b>
 
-`string`
+string
 

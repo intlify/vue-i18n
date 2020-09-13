@@ -1,6 +1,7 @@
 import { SourceLocation } from './location'
 import { format } from '../utils'
 
+/** @internal */
 export type CompileDomain =
   | 'tokenizer'
   | 'parser'
@@ -8,18 +9,21 @@ export type CompileDomain =
   | 'transformer'
   | 'compiler'
 
+/** @internal */
 export interface CompileError extends SyntaxError {
   code: number
   domain?: CompileDomain
   location?: SourceLocation
 }
 
+/** @internal */
 export interface CreateCompileErrorOptions {
   domain?: CompileDomain
   messages?: { [code: number]: string }
   args?: unknown[]
 }
 
+/** @internal */
 export const enum CompileErrorCodes {
   // tokenizer error codes
   EXPECTED_TOKEN,
@@ -43,6 +47,7 @@ export const enum CompileErrorCodes {
   __EXTEND_POINT__
 }
 
+/** @internal */
 export const errorMessages: { [code: number]: string } = {
   // tokenizer error messages
   [CompileErrorCodes.EXPECTED_TOKEN]: `Expected token: '{0}'`,
@@ -60,6 +65,7 @@ export const errorMessages: { [code: number]: string } = {
   [CompileErrorCodes.UNEXPECTED_LEXICAL_ANALYSIS]: `Unexpected lexical analysis in token: '{0}'`
 }
 
+/** @internal */
 export function createCompileError<T extends number>(
   code: T,
   loc: SourceLocation | null,
@@ -78,6 +84,7 @@ export function createCompileError<T extends number>(
   return error
 }
 
+/** @internal */
 export function defaultOnError(error: CompileError): never {
   throw error
 }

@@ -14,11 +14,11 @@ t(key: Path, list: unknown[], options: TranslateOptions): string;
 
 |  Parameter | Type | Description |
 |  --- | --- | --- |
-|  key | <code>Path</code> |  |
-|  list | <code>unknown[]</code> |  |
-|  options | <code>TranslateOptions</code> |  |
+|  key | [Path](./vue-i18n.path.md) |  |
+|  list | unknown\[\] |  |
+|  options | TranslateOptions |  |
 
 <b>Returns:</b>
 
-`string`
+string
 

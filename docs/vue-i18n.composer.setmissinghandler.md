@@ -14,9 +14,9 @@ setMissingHandler(handler: MissingHandler | null): void;
 
 |  Parameter | Type | Description |
 |  --- | --- | --- |
-|  handler | <code>MissingHandler &#124; null</code> |  |
+|  handler | [MissingHandler](./vue-i18n.missinghandler.md) \| null |  |
 
 <b>Returns:</b>
 
-`void`
+void
 

@@ -16,10 +16,10 @@ d(value: number | Date, args: {
 
 |  Parameter | Type | Description |
 |  --- | --- | --- |
-|  value | <code>number &#124; Date</code> |  |
-|  args | <code>{</code><br/><code>        [key: string]: string;</code><br/><code>    }</code> |  |
+|  value | number \| Date |  |
+|  args | { \[key: string\]: string; } |  |
 
 <b>Returns:</b>
 
-`DateTimeFormatResult`
+[DateTimeFormatResult](./vue-i18n.datetimeformatresult.md)
 

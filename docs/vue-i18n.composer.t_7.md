@@ -14,11 +14,11 @@ t(key: Path, list: unknown[], defaultMsg: string): string;
 
 |  Parameter | Type | Description |
 |  --- | --- | --- |
-|  key | <code>Path</code> |  |
-|  list | <code>unknown[]</code> |  |
-|  defaultMsg | <code>string</code> |  |
+|  key | [Path](./vue-i18n.path.md) |  |
+|  list | unknown\[\] |  |
+|  defaultMsg | string |  |
 
 <b>Returns:</b>
 
-`string`
+string
 

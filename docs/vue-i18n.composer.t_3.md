@@ -14,10 +14,10 @@ t(key: Path, defaultMsg: string): string;
 
 |  Parameter | Type | Description |
 |  --- | --- | --- |
-|  key | <code>Path</code> |  |
-|  defaultMsg | <code>string</code> |  |
+|  key | [Path](./vue-i18n.path.md) |  |
+|  defaultMsg | string |  |
 
 <b>Returns:</b>
 
-`string`
+string
 

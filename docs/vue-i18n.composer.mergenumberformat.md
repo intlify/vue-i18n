@@ -14,10 +14,10 @@ mergeNumberFormat(locale: Locale, format: NumberFormat): void;
 
 |  Parameter | Type | Description |
 |  --- | --- | --- |
-|  locale | <code>Locale</code> |  |
-|  format | <code>NumberFormat</code> |  |
+|  locale | [Locale](./vue-i18n.locale.md) |  |
+|  format | NumberFormat |  |
 
 <b>Returns:</b>
 
-`void`
+void
 

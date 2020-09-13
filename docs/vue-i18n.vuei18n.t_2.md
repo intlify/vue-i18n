@@ -14,11 +14,11 @@ t(key: Path, locale: Locale, list: unknown[]): TranslateResult;
 
 |  Parameter | Type | Description |
 |  --- | --- | --- |
-|  key | <code>Path</code> |  |
-|  locale | <code>Locale</code> |  |
-|  list | <code>unknown[]</code> |  |
+|  key | [Path](./vue-i18n.path.md) |  |
+|  locale | [Locale](./vue-i18n.locale.md) |  |
+|  list | unknown\[\] |  |
 
 <b>Returns:</b>
 
-`TranslateResult`
+[TranslateResult](./vue-i18n.translateresult.md)
 

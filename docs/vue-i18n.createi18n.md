@@ -16,11 +16,11 @@ export declare function createI18n<Options extends I18nOptions = {}, Messages ex
 
 |  Parameter | Type | Description |
 |  --- | --- | --- |
-|  options | <code>Options</code> | see the [I18nOptions](./vue-i18n.i18noptions.md) |
+|  options | Options | see the [I18nOptions](./vue-i18n.i18noptions.md) |
 
 <b>Returns:</b>
 
-`I18n<Options['messages'], Options['datetimeFormats'], Options['numberFormats']>`
+[I18n](./vue-i18n.i18n.md)<!-- -->&lt;Options\['messages'\], Options\['datetimeFormats'\], Options\['numberFormats'\]&gt;
 
 [I18n](./vue-i18n.i18n.md) object
 

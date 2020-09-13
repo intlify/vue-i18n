@@ -11,5 +11,5 @@ getMissingHandler(): MissingHandler | null;
 ```
 <b>Returns:</b>
 
-`MissingHandler | null`
+[MissingHandler](./vue-i18n.missinghandler.md) \| null
 

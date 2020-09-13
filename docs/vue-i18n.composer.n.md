@@ -14,9 +14,9 @@ n(value: number): string;
 
 |  Parameter | Type | Description |
 |  --- | --- | --- |
-|  value | <code>number</code> |  |
+|  value | number |  |
 
 <b>Returns:</b>
 
-`string`
+string
 

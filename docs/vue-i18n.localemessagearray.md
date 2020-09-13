@@ -9,3 +9,5 @@
 ```typescript
 export interface LocaleMessageArray<Message = string> extends Array<LocaleMessageValue<Message>> 
 ```
+<b>Extends:</b> Array&lt;[LocaleMessageValue](./vue-i18n.localemessagevalue.md)<!-- -->&lt;Message&gt;&gt;
+

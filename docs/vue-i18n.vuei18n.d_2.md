@@ -14,11 +14,11 @@ d(value: number | Date, key: string, locale: Locale): DateTimeFormatResult;
 
 |  Parameter | Type | Description |
 |  --- | --- | --- |
-|  value | <code>number &#124; Date</code> |  |
-|  key | <code>string</code> |  |
-|  locale | <code>Locale</code> |  |
+|  value | number \| Date |  |
+|  key | string |  |
+|  locale | [Locale](./vue-i18n.locale.md) |  |
 
 <b>Returns:</b>
 
-`DateTimeFormatResult`
+[DateTimeFormatResult](./vue-i18n.datetimeformatresult.md)
 

@@ -14,10 +14,10 @@ mergeLocaleMessage(locale: Locale, message: LocaleMessageDictionary<VueMessageTy
 
 |  Parameter | Type | Description |
 |  --- | --- | --- |
-|  locale | <code>Locale</code> |  |
-|  message | <code>LocaleMessageDictionary&lt;VueMessageType&gt;</code> |  |
+|  locale | [Locale](./vue-i18n.locale.md) |  |
+|  message | [LocaleMessageDictionary](./vue-i18n.localemessagedictionary.md)<!-- -->&lt;[VueMessageType](./vue-i18n.vuemessagetype.md)<!-- -->&gt; |  |
 
 <b>Returns:</b>
 
-`void`
+void
 

@@ -14,11 +14,11 @@ t(key: Path, plural: number, options: TranslateOptions): string;
 
 |  Parameter | Type | Description |
 |  --- | --- | --- |
-|  key | <code>Path</code> |  |
-|  plural | <code>number</code> |  |
-|  options | <code>TranslateOptions</code> |  |
+|  key | [Path](./vue-i18n.path.md) |  |
+|  plural | number |  |
+|  options | TranslateOptions |  |
 
 <b>Returns:</b>
 
-`string`
+string
 

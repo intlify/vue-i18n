@@ -20,6 +20,6 @@ An options specified when installing vue-i18n as Vue plugin with using `app.use`
 
 |  Property | Type | Description |
 |  --- | --- | --- |
-|  [globalInstall](./vue-i18n.i18npluginoptions.globalinstall.md) | <code>boolean</code> |  |
-|  [useI18nComponentName](./vue-i18n.i18npluginoptions.usei18ncomponentname.md) | <code>boolean</code> |  |
+|  [globalInstall](./vue-i18n.i18npluginoptions.globalinstall.md) | boolean |  |
+|  [useI18nComponentName](./vue-i18n.i18npluginoptions.usei18ncomponentname.md) | boolean |  |
 

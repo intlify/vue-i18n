@@ -14,11 +14,11 @@ interpolate(message: string, values: any, path: string): Array<any> | null;
 
 |  Parameter | Type | Description |
 |  --- | --- | --- |
-|  message | <code>string</code> |  |
-|  values | <code>any</code> |  |
-|  path | <code>string</code> |  |
+|  message | string |  |
+|  values | any |  |
+|  path | string |  |
 
 <b>Returns:</b>
 
-`Array<any> | null`
+Array&lt;any&gt; \| null
 

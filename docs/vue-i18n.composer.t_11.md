@@ -14,11 +14,11 @@ t(key: Path, named: NamedValue, defaultMsg: string): string;
 
 |  Parameter | Type | Description |
 |  --- | --- | --- |
-|  key | <code>Path</code> |  |
-|  named | <code>NamedValue</code> |  |
-|  defaultMsg | <code>string</code> |  |
+|  key | [Path](./vue-i18n.path.md) |  |
+|  named | NamedValue |  |
+|  defaultMsg | string |  |
 
 <b>Returns:</b>
 
-`string`
+string
 

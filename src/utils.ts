@@ -21,12 +21,14 @@ export function format(message: string, ...args: any): string {
   )
 }
 
+/** @internal */
 export const generateFormatCacheKey = (
   locale: string,
   key: string,
   source: string
 ): string => friendlyJSONstringify({ l: locale, k: key, s: source })
 
+/** @internal */
 export const friendlyJSONstringify = (json: unknown): string =>
   JSON.stringify(json)
     .replace(/\u2028/g, '\\u2028')

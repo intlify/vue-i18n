@@ -14,9 +14,9 @@ n(value: number): NumberFormatResult;
 
 |  Parameter | Type | Description |
 |  --- | --- | --- |
-|  value | <code>number</code> |  |
+|  value | number |  |
 
 <b>Returns:</b>
 
-`NumberFormatResult`
+[NumberFormatResult](./vue-i18n.numberformatresult.md)
 

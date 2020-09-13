@@ -14,11 +14,11 @@ n(value: number, key: string, locale: Locale): NumberFormatResult;
 
 |  Parameter | Type | Description |
 |  --- | --- | --- |
-|  value | <code>number</code> |  |
-|  key | <code>string</code> |  |
-|  locale | <code>Locale</code> |  |
+|  value | number |  |
+|  key | string |  |
+|  locale | [Locale](./vue-i18n.locale.md) |  |
 
 <b>Returns:</b>
 
-`NumberFormatResult`
+[NumberFormatResult](./vue-i18n.numberformatresult.md)
 

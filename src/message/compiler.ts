@@ -6,6 +6,7 @@ import { CompileError, defaultOnError } from './errors'
 import { MessageFunction, MessageFunctions } from './runtime'
 import { warn, format, isBoolean } from '../utils'
 
+/** @internal */
 export interface CompileResult {
   code: string
   ast: ResourceNode
@@ -28,10 +29,12 @@ function checkHtmlMessage(source: string, options: CompileOptions): void {
 const defaultOnCacheKey = (source: string): string => source
 let compileCache: unknown = Object.create(null)
 
+/** @internal */
 export function clearCompileCache(): void {
   compileCache = Object.create(null)
 }
 
+/** @internal */
 export function baseCompile(
   source: string,
   options: CompileOptions = {}
@@ -49,6 +52,7 @@ export function baseCompile(
   return { ast, code }
 }
 
+/** @internal */
 export function compile<T = string>(
   source: string,
   options: CompileOptions = {}

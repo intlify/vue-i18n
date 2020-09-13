@@ -20,5 +20,5 @@ export interface ComposerAdditionalOptions
 
 |  Property | Type | Description |
 |  --- | --- | --- |
-|  [useScope](./vue-i18n.composeradditionaloptions.usescope.md) | <code>I18nScope</code> |  |
+|  [useScope](./vue-i18n.composeradditionaloptions.usescope.md) | [I18nScope](./vue-i18n.i18nscope.md) |  |
 

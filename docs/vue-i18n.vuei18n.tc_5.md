@@ -14,11 +14,11 @@ tc(key: Path, choice: number, locale: Locale): TranslateResult;
 
 |  Parameter | Type | Description |
 |  --- | --- | --- |
-|  key | <code>Path</code> |  |
-|  choice | <code>number</code> |  |
-|  locale | <code>Locale</code> |  |
+|  key | [Path](./vue-i18n.path.md) |  |
+|  choice | number |  |
+|  locale | [Locale](./vue-i18n.locale.md) |  |
 
 <b>Returns:</b>
 
-`TranslateResult`
+[TranslateResult](./vue-i18n.translateresult.md)
 

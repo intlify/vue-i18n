@@ -14,9 +14,9 @@ t(key: Path): string;
 
 |  Parameter | Type | Description |
 |  --- | --- | --- |
-|  key | <code>Path</code> |  |
+|  key | [Path](./vue-i18n.path.md) |  |
 
 <b>Returns:</b>
 
-`string`
+string
 

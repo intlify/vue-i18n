@@ -14,11 +14,11 @@ t(key: Path, named: NamedValue, options: TranslateOptions): string;
 
 |  Parameter | Type | Description |
 |  --- | --- | --- |
-|  key | <code>Path</code> |  |
-|  named | <code>NamedValue</code> |  |
-|  options | <code>TranslateOptions</code> |  |
+|  key | [Path](./vue-i18n.path.md) |  |
+|  named | NamedValue |  |
+|  options | TranslateOptions |  |
 
 <b>Returns:</b>
 
-`string`
+string
 

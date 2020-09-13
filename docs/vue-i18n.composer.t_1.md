@@ -14,10 +14,10 @@ t(key: Path, plural: number): string;
 
 |  Parameter | Type | Description |
 |  --- | --- | --- |
-|  key | <code>Path</code> |  |
-|  plural | <code>number</code> |  |
+|  key | [Path](./vue-i18n.path.md) |  |
+|  plural | number |  |
 
 <b>Returns:</b>
 
-`string`
+string
 

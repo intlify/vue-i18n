@@ -194,6 +194,7 @@ function generateNode(generator: CodeGenerator, node: Node): void {
 }
 
 // generate code from AST
+/** @internal */
 export const generate = (
   ast: ResourceNode,
   options: CodeGenOptions = {} // eslint-disable-line

@@ -14,11 +14,11 @@ tc(key: Path, choice: number, list: unknown[]): TranslateResult;
 
 |  Parameter | Type | Description |
 |  --- | --- | --- |
-|  key | <code>Path</code> |  |
-|  choice | <code>number</code> |  |
-|  list | <code>unknown[]</code> |  |
+|  key | [Path](./vue-i18n.path.md) |  |
+|  choice | number |  |
+|  list | unknown\[\] |  |
 
 <b>Returns:</b>
 
-`TranslateResult`
+[TranslateResult](./vue-i18n.translateresult.md)
 

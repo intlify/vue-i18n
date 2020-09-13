@@ -14,9 +14,9 @@ d(value: number | Date): string;
 
 |  Parameter | Type | Description |
 |  --- | --- | --- |
-|  value | <code>number &#124; Date</code> |  |
+|  value | number \| Date |  |
 
 <b>Returns:</b>
 
-`string`
+string
 

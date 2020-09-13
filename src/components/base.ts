@@ -3,6 +3,7 @@ import { I18nScope } from '../i18n'
 
 export type ComponetI18nScope = Exclude<I18nScope, 'local'>
 
+/** @internal */
 export interface BaseFormatProps {
   tag?: string | object
   locale?: Locale

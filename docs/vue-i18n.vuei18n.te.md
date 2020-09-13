@@ -14,10 +14,10 @@ te(key: Path, locale?: Locale): boolean;
 
 |  Parameter | Type | Description |
 |  --- | --- | --- |
-|  key | <code>Path</code> |  |
-|  locale | <code>Locale</code> |  |
+|  key | [Path](./vue-i18n.path.md) |  |
+|  locale | [Locale](./vue-i18n.locale.md) |  |
 
 <b>Returns:</b>
 
-`boolean`
+boolean
 

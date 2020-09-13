@@ -14,10 +14,10 @@ n(value: number, key: string): NumberFormatResult;
 
 |  Parameter | Type | Description |
 |  --- | --- | --- |
-|  value | <code>number</code> |  |
-|  key | <code>string</code> |  |
+|  value | number |  |
+|  key | string |  |
 
 <b>Returns:</b>
 
-`NumberFormatResult`
+[NumberFormatResult](./vue-i18n.numberformatresult.md)
 

@@ -14,11 +14,11 @@ t(key: Path, defaultMsg: string, options: TranslateOptions): string;
 
 |  Parameter | Type | Description |
 |  --- | --- | --- |
-|  key | <code>Path</code> |  |
-|  defaultMsg | <code>string</code> |  |
-|  options | <code>TranslateOptions</code> |  |
+|  key | [Path](./vue-i18n.path.md) |  |
+|  defaultMsg | string |  |
+|  options | TranslateOptions |  |
 
 <b>Returns:</b>
 
-`string`
+string
 

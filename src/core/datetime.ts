@@ -65,6 +65,7 @@ import {
  *    datetime(context, value, { key: 'short', part: true }, { currency: 'EUR'})
  */
 
+/** @internal */
 export type DateTimeOptions = {
   key?: string
   locale?: Locale
@@ -74,32 +75,38 @@ export type DateTimeOptions = {
 }
 
 // `datetime` function overloads
+/** @internal */
 export function datetime<DateTimeFormats, Message = string>(
   context: RuntimeDateTimeContext<DateTimeFormats, Message>,
   value: number | Date
 ): string | number | Intl.DateTimeFormatPart[]
+/** @internal */
 export function datetime<DateTimeFormats, Message = string>(
   context: RuntimeDateTimeContext<DateTimeFormats, Message>,
   value: number | Date,
   key: string
 ): string | number | Intl.DateTimeFormatPart[]
+/** @internal */
 export function datetime<DateTimeFormats, Message = string>(
   context: RuntimeDateTimeContext<DateTimeFormats, Message>,
   value: number | Date,
   key: string,
   locale: Locale
 ): string | number | Intl.DateTimeFormatPart[]
+/** @internal */
 export function datetime<DateTimeFormats, Message = string>(
   context: RuntimeDateTimeContext<DateTimeFormats, Message>,
   value: number | Date,
   options: DateTimeOptions
 ): string | number | Intl.DateTimeFormatPart[]
+/** @internal */
 export function datetime<DateTimeFormats, Message = string>(
   context: RuntimeDateTimeContext<DateTimeFormats, Message>,
   ...args: unknown[]
 ): string | number | Intl.DateTimeFormatPart[] // for internal
 
 // implementation of `datetime` function
+/** @internal */
 export function datetime<DateTimeFormats, Message = string>(
   context: RuntimeDateTimeContext<DateTimeFormats, Message>,
   ...args: unknown[]
@@ -175,6 +182,7 @@ export function datetime<DateTimeFormats, Message = string>(
   return !part ? formatter.format(value) : formatter.formatToParts(value)
 }
 
+/** @internal */
 export function parseDateTimeArgs(
   ...args: unknown[]
 ): [string, number | Date, DateTimeOptions, Intl.DateTimeFormatOptions] {
@@ -206,6 +214,7 @@ export function parseDateTimeArgs(
   return [options.key || '', value, options, orverrides]
 }
 
+/** @internal */
 export function clearDateTimeFormat<DateTimeFormats = {}, Message = string>(
   ctx: RuntimeDateTimeContext<DateTimeFormats, Message>,
   locale: Locale,

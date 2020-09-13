@@ -50,7 +50,10 @@ export type LocaleMessages<Message = string> = Record<
   LocaleMessageDictionary<Message>
 >
 
+/** @internal */
 export type RuntimeMissingType = 'translate' | 'datetime' | 'number'
+
+/** @internal */
 export type RuntimeMissingHandler<Message = string> = (
   context: RuntimeCommonContext<Message>,
   locale: Locale,
@@ -62,11 +65,13 @@ export type PostTranslationHandler<Message = string> = (
   translated: MessageType<Message>
 ) => MessageType<Message>
 
+/** @internal */
 export type MessageCompiler<Message = string> = (
   source: string,
   options?: CompileOptions
 ) => MessageFunction<Message>
 
+/** @internal */
 export interface RuntimeOptions<Message = string> {
   locale?: Locale
   fallbackLocale?: FallbackLocale
@@ -87,11 +92,13 @@ export interface RuntimeOptions<Message = string> {
   onWarn?: (msg: string, err?: Error) => void
 }
 
+/** @internal */
 export interface RuntimeInternalOptions {
   __datetimeFormatters?: Map<string, Intl.DateTimeFormat>
   __numberFormatters?: Map<string, Intl.NumberFormat>
 }
 
+/** @internal */
 export interface RuntimeCommonContext<Message = string> {
   locale: Locale
   fallbackLocale: FallbackLocale
@@ -103,6 +110,7 @@ export interface RuntimeCommonContext<Message = string> {
   onWarn(msg: string, err?: Error): void
 }
 
+/** @internal */
 export interface RuntimeTranslationContext<Messages = {}, Message = string>
   extends RuntimeCommonContext<Message> {
   messages: Messages
@@ -114,16 +122,19 @@ export interface RuntimeTranslationContext<Messages = {}, Message = string>
   messageCompiler: MessageCompiler<Message>
 }
 
+/** @internal */
 export interface RuntimeDateTimeContext<DateTimeFormats = {}, Message = string>
   extends RuntimeCommonContext<Message> {
   datetimeFormats: DateTimeFormats
 }
 
+/** @internal */
 export interface RuntimeNumberContext<NumberFormats = {}, Message = string>
   extends RuntimeCommonContext<Message> {
   numberFormats: NumberFormats
 }
 
+/** @internal */
 export interface RuntimeContext<
   Messages = {},
   DateTimeFormats = {},
@@ -133,13 +144,17 @@ export interface RuntimeContext<
     RuntimeDateTimeContext<DateTimeFormats, Message>,
     RuntimeNumberContext<NumberFormats, Message> {}
 
+/** @internal */
 export interface RuntimeInternalContext {
   __datetimeFormatters: Map<string, Intl.DateTimeFormat>
   __numberFormatters: Map<string, Intl.NumberFormat>
   __localeChainCache?: Map<Locale, Locale[]>
 }
 
+/** @internal */
 export const NOT_REOSLVED = -1
+
+/** @internal */
 export const MISSING_RESOLVE_VALUE = ''
 
 function getDefaultLinkedModifiers<Message = string>(): LinkedModifiers<
@@ -158,6 +173,7 @@ function getDefaultLinkedModifiers<Message = string>(): LinkedModifiers<
   }
 }
 
+/** @internal */
 export function createRuntimeContext<
   Message = string,
   Options extends RuntimeOptions<Message> = object,
@@ -267,6 +283,7 @@ export function createRuntimeContext<
   return context
 }
 
+/** @internal */
 export function isTrarnslateFallbackWarn(
   fallback: boolean | RegExp,
   key: Path
@@ -274,6 +291,7 @@ export function isTrarnslateFallbackWarn(
   return fallback instanceof RegExp ? fallback.test(key) : fallback
 }
 
+/** @internal */
 export function isTranslateMissingWarn(
   missing: boolean | RegExp,
   key: Path
@@ -281,6 +299,7 @@ export function isTranslateMissingWarn(
   return missing instanceof RegExp ? missing.test(key) : missing
 }
 
+/** @internal */
 export function handleMissing<Message = string>(
   context: RuntimeCommonContext<Message>,
   key: Path,
@@ -300,6 +319,7 @@ export function handleMissing<Message = string>(
   }
 }
 
+/** @internal */
 export function getLocaleChain<Message = string>(
   ctx: RuntimeCommonContext<Message>,
   fallback: FallbackLocale,
@@ -402,6 +422,7 @@ function appendItemToChain(
   return follow
 }
 
+/** @internal */
 export function updateFallbackLocale<Message = string>(
   ctx: RuntimeCommonContext<Message>,
   locale: Locale,

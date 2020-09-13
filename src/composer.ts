@@ -102,6 +102,7 @@ export type PreCompileHandler<Message = VueMessageType> = () => {
   functions: MessageFunctions<Message>
 }
 
+/** @internal */
 export type CustomBlocks<Message = VueMessageType> =
   | Array<string | LocaleMessages<Message>>
   | PreCompileHandler<Message>

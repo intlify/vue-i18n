@@ -14,9 +14,9 @@ t(...args: unknown[]): TranslateResult;
 
 |  Parameter | Type | Description |
 |  --- | --- | --- |
-|  args | <code>unknown[]</code> |  |
+|  args | unknown\[\] |  |
 
 <b>Returns:</b>
 
-`TranslateResult`
+[TranslateResult](./vue-i18n.translateresult.md)
 

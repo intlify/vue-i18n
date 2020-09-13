@@ -20,22 +20,22 @@ This interface is compatible with interface of `VueI18n` class (offered with vue
 
 |  Property | Type | Description |
 |  --- | --- | --- |
-|  [availableLocales](./vue-i18n.vuei18n.availablelocales.md) | <code>Locale[]</code> |  |
-|  [datetimeFormats](./vue-i18n.vuei18n.datetimeformats.md) | <code>DateTimeFormats</code> |  |
-|  [fallbackLocale](./vue-i18n.vuei18n.fallbacklocale.md) | <code>FallbackLocale</code> |  |
-|  [formatFallbackMessages](./vue-i18n.vuei18n.formatfallbackmessages.md) | <code>boolean</code> |  |
-|  [formatter](./vue-i18n.vuei18n.formatter.md) | <code>Formatter</code> |  |
-|  [getChoiceIndex](./vue-i18n.vuei18n.getchoiceindex.md) | <code>(choice: Choice, choicesLength: number) =&gt; number</code> |  |
-|  [locale](./vue-i18n.vuei18n.locale.md) | <code>Locale</code> |  |
-|  [messages](./vue-i18n.vuei18n.messages.md) | <code>Messages</code> |  |
-|  [missing](./vue-i18n.vuei18n.missing.md) | <code>MissingHandler &#124; null</code> |  |
-|  [numberFormats](./vue-i18n.vuei18n.numberformats.md) | <code>NumberFormats</code> |  |
-|  [postTranslation](./vue-i18n.vuei18n.posttranslation.md) | <code>PostTranslationHandler&lt;VueMessageType&gt; &#124; null</code> |  |
-|  [preserveDirectiveContent](./vue-i18n.vuei18n.preservedirectivecontent.md) | <code>boolean</code> |  |
-|  [silentFallbackWarn](./vue-i18n.vuei18n.silentfallbackwarn.md) | <code>boolean &#124; RegExp</code> |  |
-|  [silentTranslationWarn](./vue-i18n.vuei18n.silenttranslationwarn.md) | <code>boolean &#124; RegExp</code> |  |
-|  [sync](./vue-i18n.vuei18n.sync.md) | <code>boolean</code> |  |
-|  [warnHtmlInMessage](./vue-i18n.vuei18n.warnhtmlinmessage.md) | <code>WarnHtmlInMessageLevel</code> |  |
+|  [availableLocales](./vue-i18n.vuei18n.availablelocales.md) | [Locale](./vue-i18n.locale.md)<!-- -->\[\] |  |
+|  [datetimeFormats](./vue-i18n.vuei18n.datetimeformats.md) | DateTimeFormats |  |
+|  [fallbackLocale](./vue-i18n.vuei18n.fallbacklocale.md) | [FallbackLocale](./vue-i18n.fallbacklocale.md) |  |
+|  [formatFallbackMessages](./vue-i18n.vuei18n.formatfallbackmessages.md) | boolean |  |
+|  [formatter](./vue-i18n.vuei18n.formatter.md) | [Formatter](./vue-i18n.formatter.md) |  |
+|  [getChoiceIndex](./vue-i18n.vuei18n.getchoiceindex.md) | (choice: [Choice](./vue-i18n.choice.md)<!-- -->, choicesLength: number) =&gt; number |  |
+|  [locale](./vue-i18n.vuei18n.locale.md) | [Locale](./vue-i18n.locale.md) |  |
+|  [messages](./vue-i18n.vuei18n.messages.md) | Messages |  |
+|  [missing](./vue-i18n.vuei18n.missing.md) | [MissingHandler](./vue-i18n.missinghandler.md) \| null |  |
+|  [numberFormats](./vue-i18n.vuei18n.numberformats.md) | NumberFormats |  |
+|  [postTranslation](./vue-i18n.vuei18n.posttranslation.md) | [PostTranslationHandler](./vue-i18n.posttranslationhandler.md)<!-- -->&lt;[VueMessageType](./vue-i18n.vuemessagetype.md)<!-- -->&gt; \| null |  |
+|  [preserveDirectiveContent](./vue-i18n.vuei18n.preservedirectivecontent.md) | boolean |  |
+|  [silentFallbackWarn](./vue-i18n.vuei18n.silentfallbackwarn.md) | boolean \| RegExp |  |
+|  [silentTranslationWarn](./vue-i18n.vuei18n.silenttranslationwarn.md) | boolean \| RegExp |  |
+|  [sync](./vue-i18n.vuei18n.sync.md) | boolean |  |
+|  [warnHtmlInMessage](./vue-i18n.vuei18n.warnhtmlinmessage.md) | [WarnHtmlInMessageLevel](./vue-i18n.warnhtmlinmessagelevel.md) |  |
 
 ## Methods
 
@@ -77,4 +77,5 @@ This interface is compatible with interface of `VueI18n` class (offered with vue
 |  [tc(key, choice, named)](./vue-i18n.vuei18n.tc_7.md) |  |
 |  [tc(args)](./vue-i18n.vuei18n.tc_8.md) |  |
 |  [te(key, locale)](./vue-i18n.vuei18n.te.md) |  |
+|  [tm(key)](./vue-i18n.vuei18n.tm.md) |  |
 

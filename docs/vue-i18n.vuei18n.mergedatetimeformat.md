@@ -14,10 +14,10 @@ mergeDateTimeFormat(locale: Locale, format: DateTimeFormat): void;
 
 |  Parameter | Type | Description |
 |  --- | --- | --- |
-|  locale | <code>Locale</code> |  |
-|  format | <code>DateTimeFormat</code> |  |
+|  locale | [Locale](./vue-i18n.locale.md) |  |
+|  format | DateTimeFormat |  |
 
 <b>Returns:</b>
 
-`void`
+void
 

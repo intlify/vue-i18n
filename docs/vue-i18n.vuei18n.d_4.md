@@ -14,9 +14,9 @@ d(...args: unknown[]): DateTimeFormatResult;
 
 |  Parameter | Type | Description |
 |  --- | --- | --- |
-|  args | <code>unknown[]</code> |  |
+|  args | unknown\[\] |  |
 
 <b>Returns:</b>
 
-`DateTimeFormatResult`
+[DateTimeFormatResult](./vue-i18n.datetimeformatresult.md)
 

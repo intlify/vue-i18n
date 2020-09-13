@@ -14,10 +14,10 @@ t(key: Path, list: unknown[]): TranslateResult;
 
 |  Parameter | Type | Description |
 |  --- | --- | --- |
-|  key | <code>Path</code> |  |
-|  list | <code>unknown[]</code> |  |
+|  key | [Path](./vue-i18n.path.md) |  |
+|  list | unknown\[\] |  |
 
 <b>Returns:</b>
 
-`TranslateResult`
+[TranslateResult](./vue-i18n.translateresult.md)
 

@@ -16,11 +16,11 @@ export declare function useI18n<Options extends UseI18nOptions = object, Message
 
 |  Parameter | Type | Description |
 |  --- | --- | --- |
-|  options | <code>Options</code> | See [UseI18nOptions](./vue-i18n.usei18noptions.md) |
+|  options | Options | See [UseI18nOptions](./vue-i18n.usei18noptions.md) |
 
 <b>Returns:</b>
 
-`Composer<Options['messages'], Options['datetimeFormats'], Options['numberFormats']>`
+[Composer](./vue-i18n.composer.md)<!-- -->&lt;Options\['messages'\], Options\['datetimeFormats'\], Options\['numberFormats'\]&gt;
 
 [Composer](./vue-i18n.composer.md) object
 

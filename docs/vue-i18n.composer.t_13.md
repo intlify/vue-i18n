@@ -14,9 +14,9 @@ t(...args: unknown[]): string;
 
 |  Parameter | Type | Description |
 |  --- | --- | --- |
-|  args | <code>unknown[]</code> |  |
+|  args | unknown\[\] |  |
 
 <b>Returns:</b>
 
-`string`
+string
 

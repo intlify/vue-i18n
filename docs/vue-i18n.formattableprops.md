@@ -9,11 +9,12 @@
 ```typescript
 export interface FormattableProps<Value, Format> extends BaseFormatProps 
 ```
+<b>Extends:</b> BaseFormatProps
 
 ## Properties
 
 |  Property | Type | Description |
 |  --- | --- | --- |
-|  [format](./vue-i18n.formattableprops.format.md) | <code>string &#124; Format</code> |  |
-|  [value](./vue-i18n.formattableprops.value.md) | <code>Value</code> |  |
+|  [format](./vue-i18n.formattableprops.format.md) | string \| Format |  |
+|  [value](./vue-i18n.formattableprops.value.md) | Value |  |
 

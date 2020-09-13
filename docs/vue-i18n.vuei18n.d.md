@@ -14,9 +14,9 @@ d(value: number | Date): DateTimeFormatResult;
 
 |  Parameter | Type | Description |
 |  --- | --- | --- |
-|  value | <code>number &#124; Date</code> |  |
+|  value | number \| Date |  |
 
 <b>Returns:</b>
 
-`DateTimeFormatResult`
+[DateTimeFormatResult](./vue-i18n.datetimeformatresult.md)
 

@@ -14,11 +14,11 @@ t(key: Path, list: unknown[], plural: number): string;
 
 |  Parameter | Type | Description |
 |  --- | --- | --- |
-|  key | <code>Path</code> |  |
-|  list | <code>unknown[]</code> |  |
-|  plural | <code>number</code> |  |
+|  key | [Path](./vue-i18n.path.md) |  |
+|  list | unknown\[\] |  |
+|  plural | number |  |
 
 <b>Returns:</b>
 
-`string`
+string
 

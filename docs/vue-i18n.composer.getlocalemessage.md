@@ -14,9 +14,9 @@ getLocaleMessage(locale: Locale): LocaleMessageDictionary<Message>;
 
 |  Parameter | Type | Description |
 |  --- | --- | --- |
-|  locale | <code>Locale</code> |  |
+|  locale | [Locale](./vue-i18n.locale.md) |  |
 
 <b>Returns:</b>
 
-`LocaleMessageDictionary<Message>`
+[LocaleMessageDictionary](./vue-i18n.localemessagedictionary.md)<!-- -->&lt;Message&gt;
 

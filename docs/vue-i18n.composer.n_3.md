@@ -14,10 +14,10 @@ n(value: number, options: NumberOptions): string;
 
 |  Parameter | Type | Description |
 |  --- | --- | --- |
-|  value | <code>number</code> |  |
-|  options | <code>NumberOptions</code> |  |
+|  value | number |  |
+|  options | NumberOptions |  |
 
 <b>Returns:</b>
 
-`string`
+string
 

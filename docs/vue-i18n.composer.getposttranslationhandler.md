@@ -11,5 +11,5 @@ getPostTranslationHandler(): PostTranslationHandler<Message> | null;
 ```
 <b>Returns:</b>
 
-`PostTranslationHandler<Message> | null`
+[PostTranslationHandler](./vue-i18n.posttranslationhandler.md)<!-- -->&lt;Message&gt; \| null
 

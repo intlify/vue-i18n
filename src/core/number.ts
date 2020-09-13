@@ -63,6 +63,7 @@ import {
  *    number(context, value, { key: 'currenty', part: true }, { year: '2-digit'})
  */
 
+/** @internal */
 export type NumberOptions = {
   key?: string
   locale?: Locale
@@ -72,32 +73,38 @@ export type NumberOptions = {
 }
 
 // `number` function overloads
+/** @internal */
 export function number<NumberFormats, Message = string>(
   context: RuntimeNumberContext<NumberFormats, Message>,
   value: number
 ): string | number | Intl.NumberFormatPart[]
+/** @internal */
 export function number<NumberFormats, Message = string>(
   context: RuntimeNumberContext<NumberFormats, Message>,
   value: number,
   key: string
 ): string | number | Intl.NumberFormatPart[]
+/** @internal */
 export function number<NumberFormats, Message = string>(
   context: RuntimeNumberContext<NumberFormats, Message>,
   value: number,
   key: string,
   locale: Locale
 ): string | number | Intl.NumberFormatPart[]
+/** @internal */
 export function number<NumberFormats, Message = string>(
   context: RuntimeNumberContext<NumberFormats, Message>,
   value: number,
   options: NumberOptions
 ): string | number | Intl.NumberFormatPart[]
+/** @internal */
 export function number<NumberFormats, Message = string>(
   context: RuntimeNumberContext<NumberFormats, Message>,
   ...args: unknown[]
 ): string | number | Intl.NumberFormatPart[] // for internal
 
 // implementation of `number` function
+/** @internal */
 export function number<NumberFormats, Message = string>(
   context: RuntimeNumberContext<NumberFormats, Message>,
   ...args: unknown[]
@@ -171,6 +178,7 @@ export function number<NumberFormats, Message = string>(
   return !part ? formatter.format(value) : formatter.formatToParts(value)
 }
 
+/** @internal */
 export function parseNumberArgs(
   ...args: unknown[]
 ): [string, number, NumberOptions, Intl.NumberFormatOptions] {
@@ -202,6 +210,7 @@ export function parseNumberArgs(
   return [options.key || '', value, options, orverrides]
 }
 
+/** @internal */
 export function clearNumberFormat<NumberFormats, Message = string>(
   ctx: RuntimeNumberContext<NumberFormats, Message>,
   locale: Locale,

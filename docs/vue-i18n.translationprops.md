@@ -9,11 +9,12 @@
 ```typescript
 export interface TranslationProps extends BaseFormatProps 
 ```
+<b>Extends:</b> BaseFormatProps
 
 ## Properties
 
 |  Property | Type | Description |
 |  --- | --- | --- |
-|  [keypath](./vue-i18n.translationprops.keypath.md) | <code>string</code> |  |
-|  [plural](./vue-i18n.translationprops.plural.md) | <code>number &#124; string</code> |  |
+|  [keypath](./vue-i18n.translationprops.keypath.md) | string |  |
+|  [plural](./vue-i18n.translationprops.plural.md) | number \| string |  |
 

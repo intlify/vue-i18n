@@ -1,5 +1,6 @@
 import { format } from '../utils'
 
+/** @internal */
 export const enum CoreWarnCodes {
   NOT_FOUND_KEY,
   FALLBACK_TO_TRANSLATE,
@@ -10,6 +11,7 @@ export const enum CoreWarnCodes {
   __EXTEND_POINT__
 }
 
+/** @internal */
 export const warnMessages: { [code: number]: string } = {
   [CoreWarnCodes.NOT_FOUND_KEY]: `Not found '{key}' key in '{locale}' locale messages.`,
   [CoreWarnCodes.FALLBACK_TO_TRANSLATE]: `Fall back to translate '{key}' key with '{target}' locale.`,
@@ -19,6 +21,7 @@ export const warnMessages: { [code: number]: string } = {
   [CoreWarnCodes.FALLBACK_TO_DATE_FORMAT]: `Fall back to datetime format '{key}' key with '{target}' locale.`
 }
 
+/** @internal */
 export function getWarnMessage(
   code: CoreWarnCodes,
   ...args: unknown[]

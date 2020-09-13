@@ -14,11 +14,11 @@ t(key: Path, named: NamedValue, plural: number): string;
 
 |  Parameter | Type | Description |
 |  --- | --- | --- |
-|  key | <code>Path</code> |  |
-|  named | <code>NamedValue</code> |  |
-|  plural | <code>number</code> |  |
+|  key | [Path](./vue-i18n.path.md) |  |
+|  named | NamedValue |  |
+|  plural | number |  |
 
 <b>Returns:</b>
 
-`string`
+string
 

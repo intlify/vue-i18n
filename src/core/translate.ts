@@ -78,6 +78,7 @@ const isMessageFunction = <T>(val: unknown): val is MessageFunction<T> =>
  *    translate(context, 'foo.bar', { name: 'kazupon' }, { fallbackWarn: false })
  */
 
+/** @internal */
 export type TranslateOptions = {
   list?: unknown[]
   named?: NamedValue
@@ -89,84 +90,99 @@ export type TranslateOptions = {
 }
 
 // `translate` function overloads
+/** @internal */
 export function translate<Messages, Message = string>(
   context: RuntimeTranslationContext<Messages, Message>,
   key: Path
 ): MessageType<Message> | number
+/** @internal */
 export function translate<Messages, Message = string>(
   context: RuntimeTranslationContext<Messages, Message>,
   key: Path,
   plural: number
 ): MessageType<Message> | number
+/** @internal */
 export function translate<Messages, Message = string>(
   context: RuntimeTranslationContext<Messages, Message>,
   key: Path,
   plural: number,
   options: TranslateOptions
 ): MessageType<Message> | number
+/** @internal */
 export function translate<Messages, Message = string>(
   context: RuntimeTranslationContext<Messages, Message>,
   key: Path,
   defaultMsg: string
 ): MessageType<Message> | number
+/** @internal */
 export function translate<Messages, Message = string>(
   context: RuntimeTranslationContext<Messages, Message>,
   key: Path,
   defaultMsg: string,
   options: TranslateOptions
 ): MessageType<Message> | number
+/** @internal */
 export function translate<Messages, Message = string>(
   context: RuntimeTranslationContext<Messages, Message>,
   key: Path,
   list: unknown[]
 ): MessageType<Message> | number
+/** @internal */
 export function translate<Messages, Message = string>(
   context: RuntimeTranslationContext<Messages, Message>,
   key: Path,
   list: unknown[],
   plural: number
 ): MessageType<Message> | number
+/** @internal */
 export function translate<Messages, Message = string>(
   context: RuntimeTranslationContext<Messages, Message>,
   key: Path,
   list: unknown[],
   defaultMsg: string
 ): MessageType<Message> | number
+/** @internal */
 export function translate<Messages, Message = string>(
   context: RuntimeTranslationContext<Messages, Message>,
   key: Path,
   list: unknown[],
   options: TranslateOptions
 ): MessageType<Message> | number
+/** @internal */
 export function translate<Messages, Message = string>(
   context: RuntimeTranslationContext<Messages, Message>,
   key: Path,
   named: NamedValue
 ): MessageType<Message> | number
+/** @internal */
 export function translate<Messages, Message = string>(
   context: RuntimeTranslationContext<Messages, Message>,
   key: Path,
   named: NamedValue,
   plural: number
 ): MessageType<Message> | number
+/** @internal */
 export function translate<Messages, Message = string>(
   context: RuntimeTranslationContext<Messages, Message>,
   key: Path,
   named: NamedValue,
   defaultMsg: string
 ): MessageType<Message> | number
+/** @internal */
 export function translate<Messages, Message = string>(
   context: RuntimeTranslationContext<Messages, Message>,
   key: Path,
   named: NamedValue,
   options: TranslateOptions
 ): MessageType<Message> | number
+/** @internal */
 export function translate<Messages, Message = string>(
   context: RuntimeTranslationContext<Messages, Message>,
   ...args: unknown[]
 ): MessageType<Message> | number // for internal
 
 // implementationo of `translate` function
+/** @internal */
 export function translate<Messages, Message = string>(
   context: RuntimeTranslationContext<Messages, Message>,
   ...args: unknown[]
@@ -298,6 +314,7 @@ export function translate<Messages, Message = string>(
   return postTranslation ? postTranslation(messaged) : messaged
 }
 
+/** @internal */
 export function parseTranslateArgs(
   ...args: unknown[]
 ): [Path, TranslateOptions] {

@@ -16,6 +16,6 @@ export interface I18n<Messages = {}, DateTimeFormats = {}, NumberFormats = {}>
 
 |  Property | Type | Description |
 |  --- | --- | --- |
-|  [global](./vue-i18n.i18n.global.md) | <code>Composer&lt;Messages, DateTimeFormats, NumberFormats&gt;</code> | Global composer |
-|  [mode](./vue-i18n.i18n.mode.md) | <code>I18nMode</code> | I18n API mode |
+|  [global](./vue-i18n.i18n.global.md) | [Composer](./vue-i18n.composer.md)<!-- -->&lt;Messages, DateTimeFormats, NumberFormats&gt; | Global composer |
+|  [mode](./vue-i18n.i18n.mode.md) | [I18nMode](./vue-i18n.i18nmode.md) | I18n API mode |
 

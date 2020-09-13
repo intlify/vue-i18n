@@ -20,19 +20,19 @@ This is options to create composer.
 
 |  Property | Type | Description |
 |  --- | --- | --- |
-|  [datetimeFormats](./vue-i18n.composeroptions.datetimeformats.md) | <code>DateTimeFormatsType</code> |  |
-|  [fallbackFormat](./vue-i18n.composeroptions.fallbackformat.md) | <code>boolean</code> |  |
-|  [fallbackLocale](./vue-i18n.composeroptions.fallbacklocale.md) | <code>FallbackLocale</code> |  |
-|  [fallbackRoot](./vue-i18n.composeroptions.fallbackroot.md) | <code>boolean</code> |  |
-|  [fallbackWarn](./vue-i18n.composeroptions.fallbackwarn.md) | <code>boolean &#124; RegExp</code> |  |
-|  [inheritLocale](./vue-i18n.composeroptions.inheritlocale.md) | <code>boolean</code> |  |
-|  [locale](./vue-i18n.composeroptions.locale.md) | <code>Locale</code> |  |
-|  [messages](./vue-i18n.composeroptions.messages.md) | <code>LocaleMessages&lt;Message&gt;</code> |  |
-|  [missing](./vue-i18n.composeroptions.missing.md) | <code>MissingHandler</code> |  |
-|  [missingWarn](./vue-i18n.composeroptions.missingwarn.md) | <code>boolean &#124; RegExp</code> |  |
-|  [modifiers](./vue-i18n.composeroptions.modifiers.md) | <code>LinkedModifiers&lt;Message&gt;</code> |  |
-|  [numberFormats](./vue-i18n.composeroptions.numberformats.md) | <code>NumberFormatsType</code> |  |
-|  [pluralRules](./vue-i18n.composeroptions.pluralrules.md) | <code>PluralizationRules</code> |  |
-|  [postTranslation](./vue-i18n.composeroptions.posttranslation.md) | <code>PostTranslationHandler&lt;Message&gt;</code> |  |
-|  [warnHtmlMessage](./vue-i18n.composeroptions.warnhtmlmessage.md) | <code>boolean</code> |  |
+|  [datetimeFormats](./vue-i18n.composeroptions.datetimeformats.md) | [DateTimeFormatsType](./vue-i18n.datetimeformats.md) |  |
+|  [fallbackFormat](./vue-i18n.composeroptions.fallbackformat.md) | boolean |  |
+|  [fallbackLocale](./vue-i18n.composeroptions.fallbacklocale.md) | [FallbackLocale](./vue-i18n.fallbacklocale.md) |  |
+|  [fallbackRoot](./vue-i18n.composeroptions.fallbackroot.md) | boolean |  |
+|  [fallbackWarn](./vue-i18n.composeroptions.fallbackwarn.md) | boolean \| RegExp |  |
+|  [inheritLocale](./vue-i18n.composeroptions.inheritlocale.md) | boolean |  |
+|  [locale](./vue-i18n.composeroptions.locale.md) | [Locale](./vue-i18n.locale.md) |  |
+|  [messages](./vue-i18n.composeroptions.messages.md) | [LocaleMessages](./vue-i18n.localemessages.md)<!-- -->&lt;Message&gt; |  |
+|  [missing](./vue-i18n.composeroptions.missing.md) | [MissingHandler](./vue-i18n.missinghandler.md) |  |
+|  [missingWarn](./vue-i18n.composeroptions.missingwarn.md) | boolean \| RegExp |  |
+|  [modifiers](./vue-i18n.composeroptions.modifiers.md) | [LinkedModifiers](./vue-i18n.linkedmodifiers.md)<!-- -->&lt;Message&gt; |  |
+|  [numberFormats](./vue-i18n.composeroptions.numberformats.md) | [NumberFormatsType](./vue-i18n.numberformats.md) |  |
+|  [pluralRules](./vue-i18n.composeroptions.pluralrules.md) | PluralizationRules |  |
+|  [postTranslation](./vue-i18n.composeroptions.posttranslation.md) | [PostTranslationHandler](./vue-i18n.posttranslationhandler.md)<!-- -->&lt;Message&gt; |  |
+|  [warnHtmlMessage](./vue-i18n.composeroptions.warnhtmlmessage.md) | boolean |  |
 

@@ -14,10 +14,10 @@ t(key: Path, named: Record<string, unknown>): TranslateResult;
 
 |  Parameter | Type | Description |
 |  --- | --- | --- |
-|  key | <code>Path</code> |  |
-|  named | <code>Record&lt;string, unknown&gt;</code> |  |
+|  key | [Path](./vue-i18n.path.md) |  |
+|  named | Record&lt;string, unknown&gt; |  |
 
 <b>Returns:</b>
 
-`TranslateResult`
+[TranslateResult](./vue-i18n.translateresult.md)
 

@@ -14,9 +14,9 @@ setPostTranslationHandler(handler: PostTranslationHandler<Message> | null): void
 
 |  Parameter | Type | Description |
 |  --- | --- | --- |
-|  handler | <code>PostTranslationHandler&lt;Message&gt; &#124; null</code> |  |
+|  handler | [PostTranslationHandler](./vue-i18n.posttranslationhandler.md)<!-- -->&lt;Message&gt; \| null |  |
 
 <b>Returns:</b>
 
-`void`
+void
 

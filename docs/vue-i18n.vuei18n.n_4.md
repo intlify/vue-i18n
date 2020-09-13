@@ -14,9 +14,9 @@ n(...args: unknown[]): NumberFormatResult;
 
 |  Parameter | Type | Description |
 |  --- | --- | --- |
-|  args | <code>unknown[]</code> |  |
+|  args | unknown\[\] |  |
 
 <b>Returns:</b>
 
-`NumberFormatResult`
+[NumberFormatResult](./vue-i18n.numberformatresult.md)
 

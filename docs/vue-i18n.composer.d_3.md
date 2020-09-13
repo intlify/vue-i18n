@@ -14,10 +14,10 @@ d(value: number | Date, options: DateTimeOptions): string;
 
 |  Parameter | Type | Description |
 |  --- | --- | --- |
-|  value | <code>number &#124; Date</code> |  |
-|  options | <code>DateTimeOptions</code> |  |
+|  value | number \| Date |  |
+|  options | DateTimeOptions |  |
 
 <b>Returns:</b>
 
-`string`
+string
 

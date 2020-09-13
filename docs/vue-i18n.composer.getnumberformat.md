@@ -14,9 +14,9 @@ getNumberFormat(locale: Locale): NumberFormat;
 
 |  Parameter | Type | Description |
 |  --- | --- | --- |
-|  locale | <code>Locale</code> |  |
+|  locale | [Locale](./vue-i18n.locale.md) |  |
 
 <b>Returns:</b>
 
-`NumberFormat`
+NumberFormat
 

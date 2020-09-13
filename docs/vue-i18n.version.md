@@ -4,8 +4,6 @@
 
 ## VERSION variable
 
-vue-i18n version
-
 <b>Signature:</b>
 
 ```typescript

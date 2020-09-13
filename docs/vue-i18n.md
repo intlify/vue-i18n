@@ -4,64 +4,17 @@
 
 ## vue-i18n package
 
-## Enumerations
-
-|  Enumeration | Description |
-|  --- | --- |
-|  [CompileErrorCodes](./vue-i18n.compileerrorcodes.md) |  |
-
 ## Functions
 
 |  Function | Description |
 |  --- | --- |
-|  [baseCompile(source, options)](./vue-i18n.basecompile.md) |  |
-|  [clearCompileCache()](./vue-i18n.clearcompilecache.md) |  |
-|  [clearDateTimeFormat(ctx, locale, format)](./vue-i18n.cleardatetimeformat.md) |  |
-|  [clearNumberFormat(ctx, locale, format)](./vue-i18n.clearnumberformat.md) |  |
-|  [compile(source, options)](./vue-i18n.compile.md) |  |
 |  [createI18n(options)](./vue-i18n.createi18n.md) | I18n factory function |
-|  [createParser(options)](./vue-i18n.createparser.md) |  |
-|  [createRuntimeContext(options)](./vue-i18n.createruntimecontext.md) |  |
-|  [datetime(context, value)](./vue-i18n.datetime.md) |  |
-|  [datetime(context, value, key)](./vue-i18n.datetime_1.md) |  |
-|  [datetime(context, value, key, locale)](./vue-i18n.datetime_2.md) |  |
-|  [datetime(context, value, options)](./vue-i18n.datetime_3.md) |  |
-|  [datetime(context, args)](./vue-i18n.datetime_4.md) |  |
-|  [getLocaleChain(ctx, fallback, start)](./vue-i18n.getlocalechain.md) |  |
-|  [handleMissing(context, key, locale, missingWarn, type)](./vue-i18n.handlemissing.md) |  |
-|  [isTranslateMissingWarn(missing, key)](./vue-i18n.istranslatemissingwarn.md) |  |
-|  [isTrarnslateFallbackWarn(fallback, key)](./vue-i18n.istrarnslatefallbackwarn.md) |  |
-|  [number(context, value)](./vue-i18n.number.md) |  |
-|  [number(context, value, key)](./vue-i18n.number_1.md) |  |
-|  [number(context, value, key, locale)](./vue-i18n.number_2.md) |  |
-|  [number(context, value, options)](./vue-i18n.number_3.md) |  |
-|  [number(context, args)](./vue-i18n.number_4.md) |  |
-|  [parseDateTimeArgs(args)](./vue-i18n.parsedatetimeargs.md) |  |
-|  [parseNumberArgs(args)](./vue-i18n.parsenumberargs.md) |  |
-|  [parseTranslateArgs(args)](./vue-i18n.parsetranslateargs.md) |  |
-|  [translate(context, key)](./vue-i18n.translate.md) |  |
-|  [translate(context, key, named)](./vue-i18n.translate_9.md) |  |
-|  [translate(context, key, named, plural)](./vue-i18n.translate_10.md) |  |
-|  [translate(context, key, named, defaultMsg)](./vue-i18n.translate_11.md) |  |
-|  [translate(context, key, named, options)](./vue-i18n.translate_12.md) |  |
-|  [translate(context, args)](./vue-i18n.translate_13.md) |  |
-|  [translate(context, key, plural)](./vue-i18n.translate_1.md) |  |
-|  [translate(context, key, plural, options)](./vue-i18n.translate_2.md) |  |
-|  [translate(context, key, defaultMsg)](./vue-i18n.translate_3.md) |  |
-|  [translate(context, key, defaultMsg, options)](./vue-i18n.translate_4.md) |  |
-|  [translate(context, key, list)](./vue-i18n.translate_5.md) |  |
-|  [translate(context, key, list, plural)](./vue-i18n.translate_6.md) |  |
-|  [translate(context, key, list, defaultMsg)](./vue-i18n.translate_7.md) |  |
-|  [translate(context, key, list, options)](./vue-i18n.translate_8.md) |  |
-|  [updateFallbackLocale(ctx, locale, fallback)](./vue-i18n.updatefallbacklocale.md) |  |
 |  [useI18n(options)](./vue-i18n.usei18n.md) | Use Composable API starting function |
 
 ## Interfaces
 
 |  Interface | Description |
 |  --- | --- |
-|  [BaseFormatProps](./vue-i18n.baseformatprops.md) |  |
-|  [CompileError](./vue-i18n.compileerror.md) |  |
 |  [Composer](./vue-i18n.composer.md) | Composer Interfaces |
 |  [ComposerAdditionalOptions](./vue-i18n.composeradditionaloptions.md) | Composer additional options for <code>useI18n</code> |
 |  [ComposerOptions](./vue-i18n.composeroptions.md) | Composer Options |
@@ -71,15 +24,6 @@
 |  [I18nAdditionalOptions](./vue-i18n.i18nadditionaloptions.md) | I18n Additional Options for <code>createI18n</code> |
 |  [I18nPluginOptions](./vue-i18n.i18npluginoptions.md) | I18n plugin options |
 |  [LocaleMessageArray](./vue-i18n.localemessagearray.md) |  |
-|  [Parser](./vue-i18n.parser.md) |  |
-|  [RuntimeCommonContext](./vue-i18n.runtimecommoncontext.md) |  |
-|  [RuntimeContext](./vue-i18n.runtimecontext.md) |  |
-|  [RuntimeDateTimeContext](./vue-i18n.runtimedatetimecontext.md) |  |
-|  [RuntimeInternalContext](./vue-i18n.runtimeinternalcontext.md) |  |
-|  [RuntimeInternalOptions](./vue-i18n.runtimeinternaloptions.md) |  |
-|  [RuntimeNumberContext](./vue-i18n.runtimenumbercontext.md) |  |
-|  [RuntimeOptions](./vue-i18n.runtimeoptions.md) |  |
-|  [RuntimeTranslationContext](./vue-i18n.runtimetranslationcontext.md) |  |
 |  [TranslationProps](./vue-i18n.translationprops.md) |  |
 |  [VueI18n](./vue-i18n.vuei18n.md) | VueI18n Interfaces |
 |  [VueI18nOptions](./vue-i18n.vuei18noptions.md) | VueI18n Options |
@@ -89,28 +33,21 @@
 |  Variable | Description |
 |  --- | --- |
 |  [DatetimeFormat](./vue-i18n.datetimeformat.md) |  |
-|  [friendlyJSONstringify](./vue-i18n.friendlyjsonstringify.md) |  |
-|  [generateFormatCacheKey](./vue-i18n.generateformatcachekey.md) |  |
-|  [MISSING\_RESOLVE\_VALUE](./vue-i18n.missing_resolve_value.md) |  |
-|  [NOT\_REOSLVED](./vue-i18n.not_reoslved.md) |  |
 |  [NumberFormat](./vue-i18n.numberformat.md) |  |
 |  [Translation](./vue-i18n.translation.md) |  |
-|  [VERSION](./vue-i18n.version.md) | vue-i18n version |
+|  [VERSION](./vue-i18n.version.md) |  |
 
 ## Type Aliases
 
 |  Type Alias | Description |
 |  --- | --- |
 |  [Choice](./vue-i18n.choice.md) |  |
-|  [CompileDomain](./vue-i18n.compiledomain.md) |  |
 |  [CompileErrorHandler](./vue-i18n.compileerrorhandler.md) |  |
 |  [CompileOptions](./vue-i18n.compileoptions.md) |  |
 |  [ComponetI18nScope](./vue-i18n.componeti18nscope.md) |  |
-|  [CustomBlocks](./vue-i18n.customblocks.md) |  |
 |  [DatetimeFormatProps](./vue-i18n.datetimeformatprops.md) |  |
 |  [DateTimeFormatResult](./vue-i18n.datetimeformatresult.md) |  |
 |  [DateTimeFormats](./vue-i18n.datetimeformats.md) |  |
-|  [DateTimeOptions](./vue-i18n.datetimeoptions.md) | \# datetime<!-- -->\#\# usages: // for example <code>context.datetimeFormats</code> below 'en-US': { short: { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' } }<!-- -->, 'ja-JP': { ... }<!-- -->// datetimeable value only datetime(context, value)<!-- -->// key argument datetime(context, value, 'short')<!-- -->// key &amp; locale argument datetime(context, value, 'short', 'ja-JP')<!-- -->// object sytle argument datetime(context, value, { key: 'short', locale: 'ja-JP' }<!-- -->)<!-- -->// suppress localize miss warning option, override context.missingWarn datetime(context, value, { key: 'short', locale: 'ja-JP', missingWarn: false }<!-- -->)<!-- -->// suppress localize fallback warning option, override context.fallbackWarn datetime(context, value, { key: 'short', locale: 'ja-JP', fallbackWarn: false }<!-- -->)<!-- -->// if you specify <code>part</code> options, you can get an array of objects containing the formatted datetime in parts datetime(context, value, { key: 'short', part: true }<!-- -->)<!-- -->// orverride context.datetimeFormats\[locale\] options with functino options datetime(cnotext, value, 'short', { currency: 'EUR' }<!-- -->) datetime(cnotext, value, 'short', 'ja-JP', { currency: 'EUR' }<!-- -->) datetime(context, value, { key: 'short', part: true }<!-- -->, { currency: 'EUR'<!-- -->}<!-- -->) |
 |  [FallbackLocale](./vue-i18n.fallbacklocale.md) |  |
 |  [I18nMode](./vue-i18n.i18nmode.md) | I18n API mode |
 |  [I18nOptions](./vue-i18n.i18noptions.md) | I18n Options for <code>createI18n</code> |
@@ -121,23 +58,19 @@
 |  [LocaleMessageObject](./vue-i18n.localemessageobject.md) |  |
 |  [LocaleMessages](./vue-i18n.localemessages.md) |  |
 |  [LocaleMessageValue](./vue-i18n.localemessagevalue.md) |  |
-|  [MessageCompiler](./vue-i18n.messagecompiler.md) |  |
 |  [MessageFunction](./vue-i18n.messagefunction.md) |  |
 |  [MessageFunctions](./vue-i18n.messagefunctions.md) |  |
 |  [MissingHandler](./vue-i18n.missinghandler.md) |  |
 |  [NumberFormatProps](./vue-i18n.numberformatprops.md) |  |
 |  [NumberFormatResult](./vue-i18n.numberformatresult.md) |  |
 |  [NumberFormats](./vue-i18n.numberformats.md) |  |
-|  [NumberOptions](./vue-i18n.numberoptions.md) | \# number<!-- -->\#\# usages // for example <code>context.numberFormats</code> below 'en-US': { 'currency': { style: 'currency', currency: 'USD', currencyDisplay: 'symbol' } }<!-- -->, 'ja-JP: { ... }<!-- -->// value only number(context, value)<!-- -->// key argument number(context, value, 'currency')<!-- -->// key &amp; locale argument number(context, value, 'currency', 'ja-JP')<!-- -->// object sytle argument number(context, value, { key: 'currency', locale: 'ja-JP' }<!-- -->)<!-- -->// suppress localize miss warning option, override context.missingWarn number(context, value, { key: 'currency', locale: 'ja-JP', missingWarn: false }<!-- -->)<!-- -->// suppress localize fallback warning option, override context.fallbackWarn number(context, value, { key: 'currency', locale: 'ja-JP', fallbackWarn: false }<!-- -->)<!-- -->// if you specify <code>part</code> options, you can get an array of objects containing the formatted number in parts number(context, value, { key: 'currenty', part: true }<!-- -->)<!-- -->// orverride context.numberFormats\[locale\] options with functino options number(cnotext, value, 'currency', { year: '2-digit' }<!-- -->) number(cnotext, value, 'currency', 'ja-JP', { year: '2-digit' }<!-- -->) number(context, value, { key: 'currenty', part: true }<!-- -->, { year: '2-digit'<!-- -->}<!-- -->) |
 |  [Path](./vue-i18n.path.md) |  |
 |  [PathValue](./vue-i18n.pathvalue.md) |  |
 |  [PluralizationRule](./vue-i18n.pluralizationrule.md) |  |
 |  [PluralizationRulesMap](./vue-i18n.pluralizationrulesmap.md) |  |
 |  [PostTranslationHandler](./vue-i18n.posttranslationhandler.md) |  |
-|  [RuntimeMissingHandler](./vue-i18n.runtimemissinghandler.md) |  |
-|  [RuntimeMissingType](./vue-i18n.runtimemissingtype.md) |  |
-|  [TranslateOptions](./vue-i18n.translateoptions.md) | \# translate<!-- -->\#\# usages: // for example, locale messages key { 'foo.bar': 'hi {<!-- -->0<!-- -->} !' or 'hi {<!-- -->name<!-- -->} !' }<!-- -->// no argument, context &amp; path only translate(context, 'foo.bar')<!-- -->// list argument translate(context, 'foo.bar', \['kazupon'\])<!-- -->// named argument translate(context, 'foo.bar', { name: 'kazupon' }<!-- -->)<!-- -->// plural choice number translate(context, 'foo.bar', 2)<!-- -->// plural choice number with name argument translate(context, 'foo.bar', { name: 'kazupon' }<!-- -->, 2)<!-- -->// default message argument translate(context, 'foo.bar', 'this is default message')<!-- -->// default message with named argument translate(context, 'foo.bar', { name: 'kazupon' }<!-- -->, 'Hello {<!-- -->name<!-- -->} !')<!-- -->// use key as default message translate(context, 'hi {<!-- -->0<!-- -->} !', \['kazupon'\], { default: true }<!-- -->)<!-- -->// locale option, override context.locale translate(context, 'foo.bar', { name: 'kazupon' }<!-- -->, { locale: 'ja' }<!-- -->)<!-- -->// suppress localize miss warning option, override context.missingWarn translate(context, 'foo.bar', { name: 'kazupon' }<!-- -->, { missingWarn: false }<!-- -->)<!-- -->// suppress localize fallback warning option, override context.fallbackWarn translate(context, 'foo.bar', { name: 'kazupon' }<!-- -->, { fallbackWarn: false }<!-- -->) |
 |  [TranslateResult](./vue-i18n.translateresult.md) |  |
 |  [UseI18nOptions](./vue-i18n.usei18noptions.md) | I18n Options for <code>useI18n</code> |
+|  [VueMessageType](./vue-i18n.vuemessagetype.md) |  |
 |  [WarnHtmlInMessageLevel](./vue-i18n.warnhtmlinmessagelevel.md) |  |
 
