@@ -18,6 +18,7 @@ export {
 } from './message/runtime'
 export * from './core'
 export {
+  VueMessageType,
   MissingHandler,
   ComposerOptions,
   Composer,
