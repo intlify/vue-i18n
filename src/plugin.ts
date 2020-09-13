@@ -1,7 +1,8 @@
 import { App, Component } from 'vue'
-import { I18nSymbol, I18n } from './i18n'
+import { I18n } from './i18n'
 import { Translation, NumberFormat, DatetimeFormat } from './components'
 import { vTDirective } from './directive'
+import { I18nErrorCodes, createI18nError } from './errors'
 import { I18nWarnCodes, getWarnMessage } from './warnings'
 import { isPlainObject, warn, isBoolean } from './utils'
 
@@ -54,5 +55,8 @@ export function apply<Messages, DateTimeFormats, NumberFormats>(
   )
 
   // setup global provider
-  app.provide(I18nSymbol, i18n)
+  if (!app.__VUE_I18N_SYMBOL__) {
+    throw createI18nError(I18nErrorCodes.UNEXPECTED_ERROR)
+  }
+  app.provide(app.__VUE_I18N_SYMBOL__, i18n)
 }

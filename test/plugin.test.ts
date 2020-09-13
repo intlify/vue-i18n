@@ -21,6 +21,7 @@ describe('useI18nComponentName option', () => {
     mockWarn.mockImplementation(() => {})
 
     const app = createApp({})
+    app.__VUE_I18N_SYMBOL__ = Symbol()
     const i18n = {} as I18n & I18nInternal
 
     apply(app, i18n)
@@ -32,6 +33,7 @@ describe('useI18nComponentName option', () => {
     mockWarn.mockImplementation(() => {})
 
     const app = createApp({})
+    app.__VUE_I18N_SYMBOL__ = Symbol()
     const i18n = {} as I18n & I18nInternal
 
     apply(app, i18n, { useI18nComponentName: true })
@@ -47,6 +49,7 @@ describe('useI18nComponentName option', () => {
 describe('globalInstall option', () => {
   test('default', () => {
     const app = createApp({})
+    app.__VUE_I18N_SYMBOL__ = Symbol()
     const i18n = {} as I18n & I18nInternal
     const spy = jest.spyOn(app, 'component')
 
@@ -56,6 +59,7 @@ describe('globalInstall option', () => {
 
   test('false', () => {
     const app = createApp({})
+    app.__VUE_I18N_SYMBOL__ = Symbol()
     const i18n = {} as I18n & I18nInternal
     const spy = jest.spyOn(app, 'component')
 
