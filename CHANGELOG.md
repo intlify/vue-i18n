@@ -1,4 +1,16 @@
 
+## v9.0.0-beta.1 (2020-09-13)
+
+#### :bug: Bug Fixes
+* [#110](https://github.com/intlify/vue-i18n-next/pull/110) fix: type exporting ([@kazupon](https://github.com/kazupon))
+
+#### :zap: Improvement Features
+* [#111](https://github.com/intlify/vue-i18n-next/pull/111) improve i18n instance management ([@kazupon](https://github.com/kazupon))
+
+#### Committers: 1
+- kazuya kawaguchi ([@kazupon](https://github.com/kazupon))
+
+
 ## v9.0.0-alpha.17 (2020-09-02)
 
 #### :zap: Improvement Features
