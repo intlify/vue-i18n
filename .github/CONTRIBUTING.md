@@ -101,7 +101,7 @@ The `build` script builds all build formats.
   - Does not ship a minified build (to be done together with the rest of the code after bundling)
   - For use with bundlers like `webpack`, `rollup` and `parcel`.
 
-- **`esm`**:
+- **`esm-browser`**:
 
   - For usage via native ES modules imports (in browser via `<script type="module">`, or via Node.js native ES modules support in the future)
   - Inlines all dependencies - i.e. it's a single ES module with no imports from other files
@@ -161,7 +161,7 @@ As a pure community-driven project without major corporate backing, we also welc
 - [Become a backer or sponsor on GitHub Sponsors](https://github.com/sponsors/kazupon)
 - [Become a backer or sponsor on Patreon](https://www.patreon.com/evanyou)
 
-Funds donated via GitHub Sponsors and Patreon go to support kazuya kawaguchi full-time work on Intlify. 
+Funds donated via GitHub Sponsors and Patreon go to support kazuya kawaguchi full-time work on Intlify.
 
 ## Credits
 

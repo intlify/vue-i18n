@@ -7,3 +7,5 @@ declare let __VERSION__: string
 
 // Feature flags
 declare let __FEATURE_PROD_DEVTOOLS__: boolean
+declare let __FEATURE_LEGACY_API__: boolean
+declare let __FEATURE_FULL_INSTALL__: boolean

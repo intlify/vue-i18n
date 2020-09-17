@@ -68,7 +68,9 @@ module.exports = {
     __GLOBAL__: false,
     __ESM_BUNDLER__: true,
     __ESM_BROWSER__: false,
-    __NODE_JS__: true
+    __NODE_JS__: true,
+    __FEATURE_FULL_INSTALL__: true,
+    __FEATURE_LEGACY_API__: true
   },
 
   // The maximum amount of workers used to run your tests. Can be specified as % or a number. E.g. maxWorkers: 10% will use 10% of your CPU amount + 1 as the maximum worker number. maxWorkers: 2 will use a maximum of 2 workers.

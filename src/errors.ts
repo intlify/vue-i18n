@@ -39,7 +39,7 @@ export function createI18nError(
 export const errorMessages: { [code: number]: string } = {
   [I18nErrorCodes.UNEXPECTED_RETURN_TYPE]: 'Unexpected return type in composer',
   [I18nErrorCodes.INVALID_ARGUMENT]: 'Invalid argument',
-  [I18nErrorCodes.NOT_INSLALLED]: 'Need to install with use function',
+  [I18nErrorCodes.NOT_INSLALLED]: 'Need to install with app.use function',
   [I18nErrorCodes.UNEXPECTED_ERROR]: 'Unexpeced error',
   [I18nErrorCodes.NOT_AVAILABLE_IN_LEGACY_MODE]: 'Not available in legacy mode',
   [I18nErrorCodes.REQUIRED_VALUE]: `Required in value: {0}`,

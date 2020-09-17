@@ -259,9 +259,16 @@ export function createI18n<
       if (__DEV__ || __FEATURE_PROD_DEVTOOLS__) {
         app.__VUE_I18N__ = i18n as I18n & I18nInternal
       }
+
+      // setup global provider
       app.__VUE_I18N_SYMBOL__ = symbol
-      apply<Messages, DateTimeFormats, NumberFormats>(app, i18n, ...options)
-      if (__legacyMode) {
+      app.provide(app.__VUE_I18N_SYMBOL__, i18n)
+
+      if (__FEATURE_FULL_INSTALL__) {
+        apply<Messages, DateTimeFormats, NumberFormats>(app, i18n, ...options)
+      }
+
+      if (__FEATURE_LEGACY_API__ && __legacyMode) {
         app.mixin(
           defineMixin<Messages, DateTimeFormats, NumberFormats>(
             __global as VueI18n<Messages, DateTimeFormats, NumberFormats>,
