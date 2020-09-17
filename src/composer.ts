@@ -79,15 +79,22 @@ import {
   isString,
   isRegExp,
   isBoolean,
-  isPlainObject
+  isPlainObject,
+  makeSymbol
 } from './utils'
 
 // extend VNode interface
 declare module '@vue/runtime-core' {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   interface VNode<HostNode = RendererNode, HostElement = RendererElement> {
     toString: () => string // mark for vue-i18n message runtime
   }
 }
+
+export const ComposerIdSymbol = makeSymbol('__id')
+export const TransrateVNodeSymbol = makeSymbol('__transrateVNode')
+export const DatetimePartsSymbol = makeSymbol('__datetimeParts')
+export const NumberPartsSymbol = makeSymbol('__numberParts')
 
 export type VueMessageType = string | VNode
 export type MissingHandler = (
@@ -667,7 +674,8 @@ export function createComposer<
       },
       () => parseTranslateArgs(...args)[0],
       'translate',
-      root => root.__transrateVNode(...args),
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      root => (root as any)[TransrateVNodeSymbol](...args),
       key => [createVNode(Text, null, key, 0)],
       val => isArray(val)
     )
@@ -679,7 +687,8 @@ export function createComposer<
       context => number(context as RuntimeContext<Messages, string>, ...args),
       () => parseNumberArgs(...args)[0],
       'number format',
-      root => root.__numberParts(...args),
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      root => (root as any)[NumberPartsSymbol](...args),
       () => [],
       val => isString(val) || isArray(val)
     )
@@ -693,7 +702,8 @@ export function createComposer<
       context => datetime(context as RuntimeContext<Messages, string>, ...args),
       () => parseDateTimeArgs(...args)[0],
       'datetime format',
-      root => root.__datetimeParts(...args),
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      root => (root as any)[DatetimePartsSymbol](...args),
       () => [],
       val => isString(val) || isArray(val)
     )
@@ -879,7 +889,7 @@ export function createComposer<
       _warnHtmlMessage = val
       _context.warnHtmlMessage = val
     },
-    __id: composerID,
+    [ComposerIdSymbol]: composerID,
     // methods
     t,
     d,
@@ -898,9 +908,9 @@ export function createComposer<
     setPostTranslationHandler,
     getMissingHandler,
     setMissingHandler,
-    __transrateVNode,
-    __numberParts,
-    __datetimeParts
+    [TransrateVNodeSymbol]: __transrateVNode,
+    [NumberPartsSymbol]: __numberParts,
+    [DatetimePartsSymbol]: __datetimeParts
   }
 
   return composer

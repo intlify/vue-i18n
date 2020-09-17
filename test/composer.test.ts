@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-empty-function */
+/* eslint-disable @typescript-eslint/no-empty-function, @typescript-eslint/no-explicit-any */
 
 // utils
 jest.mock('../src/utils', () => ({
@@ -12,8 +12,10 @@ import {
   MissingHandler,
   addPreCompileMessages,
   ComposerOptions,
-  ComposerInternal,
-  VueMessageType
+  VueMessageType,
+  TransrateVNodeSymbol,
+  NumberPartsSymbol,
+  DatetimePartsSymbol
 } from '../src/composer'
 import { generateFormatCacheKey } from '../src/utils'
 import { watch, watchEffect, nextTick, Text, createVNode } from 'vue'
@@ -983,7 +985,7 @@ describe('__transrateVNode', () => {
       }
     })
     expect(
-      ((composer as unknown) as ComposerInternal).__transrateVNode('hello', {
+      (composer as any)[TransrateVNodeSymbol]('hello', {
         name: createVNode(Text, null, 'kazupon', 0)
       })
     ).toMatchObject([
@@ -1001,7 +1003,7 @@ describe('__transrateVNode', () => {
       }
     })
     expect(
-      ((composer as unknown) as ComposerInternal).__transrateVNode('hello', {
+      (composer as any)[TransrateVNodeSymbol]('hello', {
         name: createVNode(Text, null, 'kazupon', 0)
       })
     ).toMatchSnapshot()
@@ -1022,7 +1024,7 @@ describe('__numberParts', () => {
       }
     })
     expect(
-      ((composer as unknown) as ComposerInternal).__numberParts(0.99, {
+      (composer as any)[NumberPartsSymbol](0.99, {
         key: 'percent',
         part: true
       })
@@ -1037,7 +1039,7 @@ describe('__numberParts', () => {
       }
     })
     expect(
-      ((composer as unknown) as ComposerInternal).__numberParts(0.99, {
+      (composer as any)[NumberPartsSymbol](0.99, {
         key: 'percent',
         part: true
       })
@@ -1064,7 +1066,7 @@ describe('__datetimeParts', () => {
     })
     const dt = new Date(Date.UTC(2012, 11, 20, 3, 0, 0))
     expect(
-      ((composer as unknown) as ComposerInternal).__datetimeParts(dt, {
+      (composer as any)[DatetimePartsSymbol](dt, {
         key: 'short',
         part: true
       })
@@ -1092,7 +1094,7 @@ describe('__datetimeParts', () => {
     })
     const dt = new Date(Date.UTC(2012, 11, 20, 3, 0, 0))
     expect(
-      ((composer as unknown) as ComposerInternal).__datetimeParts(dt, {
+      (composer as any)[DatetimePartsSymbol](dt, {
         key: 'short',
         part: true
       })
@@ -1212,4 +1214,4 @@ describe('root', () => {
   })
 })
 
-/* eslint-enable @typescript-eslint/no-empty-function */
+/* eslint-enable @typescript-eslint/no-empty-function, @typescript-eslint/no-explicit-any */

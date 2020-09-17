@@ -1,7 +1,7 @@
 import { SetupContext, RenderFunction } from 'vue'
 import { useI18n } from '../i18n'
 import { NumberOptions } from '../core'
-import { Composer, ComposerInternal } from '../composer'
+import { Composer, ComposerInternal, NumberPartsSymbol } from '../composer'
 import { renderFormatter, FormattableProps } from './formatRenderer'
 import { baseFormatProps } from './base'
 
@@ -52,7 +52,8 @@ export const NumberFormat = {
       NumberOptions,
       Intl.NumberFormatPart
     >(props, context, NUMBER_FORMAT_KEYS, (...args: unknown[]) =>
-      i18n.__numberParts(...args)
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      (i18n as any)[NumberPartsSymbol](...args)
     )
   }
 }
