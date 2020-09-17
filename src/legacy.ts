@@ -33,7 +33,7 @@ import {
   ComposerOptions,
   ComposerInternalOptions,
   createComposer,
-  ComposerInternal
+  ComposerIdSymbol
 } from './composer'
 import { I18nWarnCodes, getWarnMessage } from './warnings'
 import { createI18nError, I18nErrorCodes } from './errors'
@@ -436,7 +436,7 @@ export function createVueI18n<
     },
 
     // for internal
-    __id: ((composer as unknown) as ComposerInternal).__id,
+    __id: (composer as any)[ComposerIdSymbol], // eslint-disable-line @typescript-eslint/no-explicit-any
     __composer: composer,
 
     /**

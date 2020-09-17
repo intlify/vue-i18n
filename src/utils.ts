@@ -21,6 +21,12 @@ export function format(message: string, ...args: any): string {
   )
 }
 
+const hasSymbol =
+  typeof Symbol === 'function' && typeof Symbol.toStringTag === 'symbol'
+
+/** @internal */
+export const makeSymbol = (name: string): symbol | string => hasSymbol ? Symbol(name) : name
+
 /** @internal */
 export const generateFormatCacheKey = (
   locale: string,

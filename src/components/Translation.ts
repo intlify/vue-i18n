@@ -1,5 +1,5 @@
 import { h, Fragment, SetupContext, VNodeChild, RenderFunction } from 'vue'
-import { Composer, ComposerInternal } from '../composer'
+import { Composer, ComposerInternal, TransrateVNodeSymbol } from '../composer'
 import { useI18n } from '../i18n'
 import { TranslateOptions } from '../core'
 import { NamedValue } from '../message/runtime'
@@ -42,7 +42,12 @@ export const Translation = {
         options.plural = isString(props.plural) ? +props.plural : props.plural
       }
       const arg = getInterpolateArg(context, keys)
-      const children = i18n.__transrateVNode(props.keypath, arg, options)
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const children = (i18n as any)[TransrateVNodeSymbol](
+        props.keypath,
+        arg,
+        options
+      )
       // prettier-ignore
       return isString(props.tag)
         ? h(props.tag, { ...attrs }, children)

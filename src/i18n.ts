@@ -27,7 +27,7 @@ import { I18nWarnCodes, getWarnMessage } from './warnings'
 import { I18nErrorCodes, createI18nError } from './errors'
 import { apply } from './plugin'
 import { defineMixin } from './mixin'
-import { isEmptyObject, warn } from './utils'
+import { isEmptyObject, warn, makeSymbol } from './utils'
 import { devtoolsRegisterI18n } from './devtools'
 import { VERSION } from './misc'
 
@@ -35,7 +35,7 @@ declare module '@vue/runtime-core' {
   // eslint-disable-next-line
   interface App<HostElement = any> {
     __VUE_I18N__?: I18n & I18nInternal
-    __VUE_I18N_SYMBOL__?: InjectionKey<I18n>
+    __VUE_I18N_SYMBOL__?: InjectionKey<I18n> | string
   }
 }
 
@@ -245,7 +245,9 @@ export function createI18n<
   const __global = __legacyMode
     ? createVueI18n(options)
     : createComposer(options)
-  const symbol: InjectionKey<I18n> = Symbol(__DEV__ ? 'vue-i18n' : '')
+  const symbol: InjectionKey<I18n> | string = makeSymbol(
+    __DEV__ ? 'vue-i18n' : ''
+  )
 
   const i18n = {
     // mode

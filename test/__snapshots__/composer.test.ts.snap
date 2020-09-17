@@ -19,6 +19,8 @@ Array [
     "ref": null,
     "scopeId": null,
     "shapeFlag": 8,
+    "ssContent": null,
+    "ssFallback": null,
     "staticCount": 0,
     "suspense": null,
     "target": null,

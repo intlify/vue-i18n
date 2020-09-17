@@ -235,7 +235,7 @@ export function defineMixin<Messages, DateTimeFormats, NumberFormats>(
       }
     },
 
-    beforeDestroy(): void {
+    beforeUnmount(): void {
       const instance = getCurrentInstance()
       /* istanbul ignore if */
       if (!instance) {

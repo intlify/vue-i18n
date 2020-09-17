@@ -1,7 +1,7 @@
 import { RenderFunction, SetupContext } from 'vue'
 import { useI18n } from '../i18n'
 import { DateTimeOptions } from '../core'
-import { Composer, ComposerInternal } from '../composer'
+import { Composer, ComposerInternal, DatetimePartsSymbol } from '../composer'
 import { renderFormatter, FormattableProps } from './formatRenderer'
 import { baseFormatProps } from './base'
 
@@ -57,7 +57,8 @@ export const DatetimeFormat = {
       DateTimeOptions,
       Intl.DateTimeFormatPart
     >(props, context, DATETIME_FORMAT_KEYS, (...args: unknown[]) =>
-      i18n.__datetimeParts(...args)
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      (i18n as any)[DatetimePartsSymbol](...args)
     )
   }
 }
