@@ -169,6 +169,12 @@ function createReplacePlugin(
     __ESM_BROWSER__: isBrowserESMBuild,
     __NODE_JS__: isNodeBuild,
     // feature flags
+    __FEATURE_FULL_INSTALL__: isBundlerESMBuild
+      ? `__VUE_I18N_FULL_INSTALL__`
+      : true,
+    __FEATURE_LEGACY_API__: isBundlerESMBuild
+      ? `__VUE_I18N_LEGACY_API__`
+      : true,
     __FEATURE_PROD_DEVTOOLS__: isBundlerESMBuild
       ? `__INTLIFY_PROD_DEVTOOLS__`
       : false,
