@@ -1,4 +1,16 @@
 
+## v9.0.0-beta.2 (2020-09-17)
+
+#### :star: Features
+* [#116](https://github.com/intlify/vue-i18n-next/pull/116) optimize tree-shaking supporting ([@kazupon](https://github.com/kazupon))
+
+#### :zap: Improvement Features
+* [#115](https://github.com/intlify/vue-i18n-next/pull/115) fix: composition setup warning ([@kazupon](https://github.com/kazupon))
+
+#### Committers: 1
+- kazuya kawaguchi ([@kazupon](https://github.com/kazupon))
+
+
 ## v9.0.0-beta.1 (2020-09-13)
 
 #### :bug: Bug Fixes
