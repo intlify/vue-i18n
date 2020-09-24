@@ -9,7 +9,7 @@ import {
   Locale,
   getLocaleChain,
   handleMissing,
-  isTrarnslateFallbackWarn,
+  isTranslateFallbackWarn,
   NOT_REOSLVED,
   MISSING_RESOLVE_VALUE,
   RuntimeInternalContext
@@ -145,7 +145,7 @@ export function datetime<DateTimeFormats, Message = string>(
     if (
       __DEV__ &&
       locale !== targetLocale &&
-      isTrarnslateFallbackWarn(fallbackWarn, key)
+      isTranslateFallbackWarn(fallbackWarn, key)
     ) {
       onWarn(
         getWarnMessage(CoreWarnCodes.FALLBACK_TO_DATE_FORMAT, {
