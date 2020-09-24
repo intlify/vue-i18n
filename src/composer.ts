@@ -80,7 +80,8 @@ import {
   isRegExp,
   isBoolean,
   isPlainObject,
-  makeSymbol
+  makeSymbol,
+  isObject
 } from './utils'
 
 // extend VNode interface
@@ -269,7 +270,7 @@ function getLocaleMessages<
   const { messages, __i18n } = options
 
   // prettier-ignore
-  let ret = isPlainObject(messages)
+  const ret = isPlainObject(messages)
     ? messages
     : isArray(__i18n)
       ? {}
@@ -278,7 +279,7 @@ function getLocaleMessages<
   // merge locale messages of i18n custom block
   if (isArray(__i18n)) {
     __i18n.forEach(raw => {
-      ret = Object.assign(ret, isString(raw) ? JSON.parse(raw) : raw)
+      deepCopy(isString(raw) ? JSON.parse(raw) : raw, ret)
     })
     return ret
   }
@@ -289,6 +290,27 @@ function getLocaleMessages<
   }
 
   return ret
+}
+
+const hasOwnProperty = Object.prototype.hasOwnProperty
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function hasOwn(obj: object | Array<any>, key: string): boolean {
+  return hasOwnProperty.call(obj, key)
+}
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function deepCopy(source: any, destination: any): void {
+  for (const key in source) {
+    if (hasOwn(source, key)) {
+      if (!isObject(source[key])) {
+        destination[key] = destination[key] != null ? destination[key] : {}
+        destination[key] = source[key]
+      } else {
+        destination[key] = destination[key] != null ? destination[key] : {}
+        deepCopy(source[key], destination[key])
+      }
+    }
+  }
 }
 
 export function addPreCompileMessages<Message = VueMessageType>(
