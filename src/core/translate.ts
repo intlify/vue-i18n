@@ -12,7 +12,7 @@ import {
 import {
   Locale,
   RuntimeTranslationContext,
-  isTrarnslateFallbackWarn,
+  isTranslateFallbackWarn,
   handleMissing,
   LocaleMessageValue,
   getLocaleChain,
@@ -230,7 +230,7 @@ export function translate<Messages, Message = string>(
     if (
       __DEV__ &&
       locale !== targetLocale &&
-      isTrarnslateFallbackWarn(fallbackWarn, key)
+      isTranslateFallbackWarn(fallbackWarn, key)
     ) {
       onWarn(
         getWarnMessage(CoreWarnCodes.FALLBACK_TO_TRANSLATE, {

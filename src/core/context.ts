@@ -284,7 +284,7 @@ export function createRuntimeContext<
 }
 
 /** @internal */
-export function isTrarnslateFallbackWarn(
+export function isTranslateFallbackWarn(
   fallback: boolean | RegExp,
   key: Path
 ): boolean {
