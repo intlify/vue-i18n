@@ -76,7 +76,7 @@ test('$t', async () => {
   const App = defineComponent({ template: '<br/>' })
   const { vm } = await mount(App, i18n)
 
-  expect(vm.$t('hello')).toEqual('hello!')
+  expect(vm.$t!('hello')).toEqual('hello!')
 })
 
 test('$tc', async () => {
@@ -93,7 +93,7 @@ test('$tc', async () => {
   const App = defineComponent({ template: '<br/>' })
   const { vm } = await mount(App, i18n)
 
-  expect(vm.$tc('banana', 2)).toEqual('2 bananas')
+  expect(vm.$tc!('banana', 2)).toEqual('2 bananas')
 })
 
 test('$te', async () => {
@@ -110,8 +110,8 @@ test('$te', async () => {
   const App = defineComponent({ template: '<br/>' })
   const { vm } = await mount(App, i18n)
 
-  expect(vm.$te('hello')).toBe(true)
-  expect(vm.$te('foo')).toBe(false)
+  expect(vm.$te!('hello')).toBe(true)
+  expect(vm.$te!('foo')).toBe(false)
 })
 
 test('$d', async () => {
@@ -136,7 +136,7 @@ test('$d', async () => {
   const { vm } = await mount(App, i18n)
 
   const dt = new Date(Date.UTC(2012, 11, 20, 3, 0, 0))
-  expect(vm.$d(dt, 'short')).toEqual('12/19/2012, 10:00 PM')
+  expect(vm.$d!(dt, 'short')).toEqual('12/19/2012, 10:00 PM')
 })
 
 test('$n', async () => {
@@ -156,7 +156,7 @@ test('$n', async () => {
   const App = defineComponent({ template: '<br/>' })
   const { vm } = await mount(App, i18n)
 
-  expect(vm.$n(0.99, 'percent')).toEqual('99%')
+  expect(vm.$n!(0.99, 'percent')).toEqual('99%')
 })
 
 test('$i18n', async () => {
@@ -173,7 +173,7 @@ test('$i18n', async () => {
   const App = defineComponent({ template: '<br/>' })
   const { vm } = await mount(App, i18n)
 
-  expect(vm.$i18n.t('hello')).toEqual('hello!')
+  expect(vm.$i18n!.t('hello')).toEqual('hello!')
 })
 
 test('VueI18n componentInstanceCreatedListener option', async () => {
@@ -237,7 +237,7 @@ describe.skip('errors', () => {
     } catch (e) {
       error = e
     }
-    expect(error.message).toEqual(
+    expect(error!.message).toEqual(
       errorMessages[I18nErrorCodes.UNEXPECTED_ERROR]
     )
   })

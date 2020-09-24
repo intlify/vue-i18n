@@ -36,6 +36,9 @@ module.exports = {
     '@typescript-eslint/member-delimiter-style': 'off',
     '@typescript-eslint/no-use-before-define': 'off',
     '@typescript-eslint/no-var-requires': 'off',
-    'vue/one-component-per-file': 'off'
+    '@typescript-eslint/no-non-null-assertion': 'off',
+    'vue/one-component-per-file': 'off',
+    'vue/experimental-script-setup-vars': 'off',
+    'vue/no-deprecated-props-default-this': 'off'
   }
 }

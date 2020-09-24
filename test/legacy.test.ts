@@ -2,11 +2,12 @@
 
 // utils
 jest.mock('../src/utils', () => ({
-  ...jest.requireActual('../src/utils'),
+  ...jest.requireActual<object>('../src/utils'),
   warn: jest.fn()
 }))
-import { warn } from '../src/utils'
+import { isString, warn } from '../src/utils'
 
+import { VueMessageType } from '../src/composer'
 import { createVueI18n } from '../src/legacy'
 import { errorMessages, I18nErrorCodes } from '../src/errors'
 import { getWarnMessage, I18nWarnCodes } from '../src/warnings'
@@ -121,7 +122,8 @@ test('formatFallbackMessages', () => {
 test('postTranslation', () => {
   const i18n = createVueI18n()
   expect(i18n.postTranslation).toEqual(null)
-  const postTranslation = (str: string) => str.trim()
+  const postTranslation = (str: VueMessageType) =>
+    isString(str) ? str.trim() : str
   i18n.postTranslation = postTranslation
   expect(i18n.postTranslation).toEqual(postTranslation)
 })

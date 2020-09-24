@@ -6,7 +6,7 @@ import {
 } from '../../../src/message/parser'
 import { CompileErrorCodes, errorMessages } from '../../../src/message/errors'
 
-let spy
+let spy: any // eslint-disable-line @typescript-eslint/no-explicit-any
 beforeEach(() => {
   spy = jest.fn()
 })
@@ -172,7 +172,10 @@ describe('empty message', () => {
     expect(ast).toMatchSnapshot()
     expect(spy).toHaveBeenCalled()
     expect(
-      spy.mock.calls.map(([err]) => ({ ...err, message: err.message }))
+      spy.mock.calls.map(([err]: Array<Error>) => ({
+        ...err,
+        message: err.message
+      })) // @ts-ignore
     ).toEqual([
       {
         domain: ERROR_DOMAIN,
@@ -227,7 +230,10 @@ describe('one empty message', () => {
     expect(ast).toMatchSnapshot()
     expect(spy).toHaveBeenCalled()
     expect(
-      spy.mock.calls.map(([err]) => ({ ...err, message: err.message }))
+      spy.mock.calls.map(([err]: Array<Error>) => ({
+        ...err,
+        message: err.message
+      }))
     ).toEqual([
       {
         domain: ERROR_DOMAIN,

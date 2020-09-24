@@ -2,14 +2,14 @@
 
 // utils
 jest.mock('../../src/utils', () => ({
-  ...jest.requireActual('../../src/utils'),
+  ...jest.requireActual<object>('../../src/utils'),
   warn: jest.fn()
 }))
 import { warn } from '../../src/utils'
 
 // runtime/types
 jest.mock('../../src/core/types', () => ({
-  ...jest.requireActual('../../src/core/types'),
+  ...jest.requireActual<object>('../../src/core/types'),
   Availabilities: jest.fn()
 }))
 import { Availabilities } from '../../src/core/types'

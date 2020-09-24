@@ -2,10 +2,10 @@
 
 // utils
 jest.mock('../src/utils', () => ({
-  ...jest.requireActual('../src/utils'),
+  ...jest.requireActual<object>('../src/utils'),
   warn: jest.fn()
 }))
-import { warn } from '../src/utils'
+import { isString, warn } from '../src/utils'
 
 import {
   createComposer,
@@ -279,7 +279,8 @@ describe('modifiers', () => {
 
   test('initialize at composer creating', () => {
     const _modifiers = {
-      kebab: (str: string) => str.replace(/\s+/g, '-').toLowerCase()
+      kebab: (str: VueMessageType) =>
+        isString(str) ? str.replace(/\s+/g, '-').toLowerCase() : str
     }
     const { modifiers, t } = createComposer({
       locale: 'en',
@@ -422,14 +423,14 @@ describe('postTranslation', () => {
     })
     expect(getPostTranslationHandler()).toEqual(null)
 
-    const handler = (str: string) => str.trim()
+    const handler = (str: VueMessageType) => (isString(str) ? str.trim() : str)
     setPostTranslationHandler(handler)
     expect(t('hello')).toEqual('hello world!')
     expect(getPostTranslationHandler()).toEqual(handler)
   })
 
   test('initialize at composer creating', () => {
-    const handler = (str: string) => str.trim()
+    const handler = (str: VueMessageType) => (isString(str) ? str.trim() : str)
     const { getPostTranslationHandler, t } = createComposer({
       locale: 'en',
       messages: {
@@ -988,11 +989,11 @@ describe('__i18n', () => {
     const { messages } = createComposer(
       options as ComposerOptions<VueMessageType>
     )
-    expect(messages.value.en).toEqual({
+    expect(messages.value!.en).toEqual({
       hello: 'Hello,world!',
       foo: 'foo'
     })
-    expect(messages.value.ja).toEqual({
+    expect(messages.value!.ja).toEqual({
       hello: 'こんにちは、世界！',
       foo: msgFn
     })
@@ -1016,11 +1017,11 @@ describe('__i18n', () => {
     const { messages } = createComposer(
       options as ComposerOptions<VueMessageType>
     )
-    expect(messages.value.en).toEqual({
+    expect(messages.value!.en).toEqual({
       hello: msg1,
       foo: 'foo'
     })
-    expect(messages.value.ja).toEqual({
+    expect(messages.value!.ja).toEqual({
       hello: {
         hello: msg2
       },
@@ -1158,7 +1159,7 @@ describe('__datetimeParts', () => {
 })
 
 test('addPreCompileMessages', () => {
-  const messages = {}
+  const messages: any = {}
   const functions = Object.create(null)
   const msg1 = () => {}
   const msg2 = () => {}
@@ -1167,10 +1168,10 @@ test('addPreCompileMessages', () => {
     generateFormatCacheKey('ja', 'foo.bar.hello', 'こんにちは、世界')
   ] = msg2
   addPreCompileMessages(messages, functions)
-  expect(messages['en']).toMatchObject({
+  expect(messages!['en']).toMatchObject({
     hello: msg1
   })
-  expect(messages['ja']).toMatchObject({
+  expect(messages!['ja']).toMatchObject({
     foo: {
       bar: {
         hello: msg2

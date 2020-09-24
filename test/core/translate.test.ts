@@ -2,7 +2,7 @@
 
 // utils
 jest.mock('../../src/utils', () => ({
-  ...jest.requireActual('../../src/utils'),
+  ...jest.requireActual<object>('../../src/utils'),
   warn: jest.fn()
 }))
 import { warn } from '../../src/utils'
@@ -542,7 +542,7 @@ describe('context unresolving option', () => {
 describe('context pluralRule option', () => {
   test('basic', () => {
     const pluralRules = {
-      ru: (choice, choicesLength) => {
+      ru: (choice: number, choicesLength: number) => {
         if (choice === 0) {
           return 0
         }
