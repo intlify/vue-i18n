@@ -605,7 +605,7 @@ describe('escapes', () => {
 })
 
 describe('errors', () => {
-  let errors: CompileError[], options
+  let errors: CompileError[], options: TokenizeOptions
   beforeEach(() => {
     errors = []
     options = {

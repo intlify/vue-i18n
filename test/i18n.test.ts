@@ -25,7 +25,8 @@ describe('createI18n', () => {
 })
 
 describe('useI18n', () => {
-  let org, spy
+  let org: any // eslint-disable-line @typescript-eslint/no-explicit-any
+  let spy: any // eslint-disable-line @typescript-eslint/no-explicit-any
   beforeEach(() => {
     org = console.warn
     spy = jest.fn()
@@ -45,7 +46,7 @@ describe('useI18n', () => {
       }
     })
 
-    let composer: Composer | null = null
+    let composer: unknown
     const App = defineComponent({
       setup() {
         composer = useI18n({
@@ -64,7 +65,7 @@ describe('useI18n', () => {
     await mount(App, i18n)
 
     expect(i18n.global !== composer).toEqual(true)
-    expect(composer.locale.value).toEqual('en')
+    expect((composer as Composer).locale.value).toEqual('en')
   })
 
   test('global scope', async () => {
@@ -77,7 +78,7 @@ describe('useI18n', () => {
       }
     })
 
-    let composer: Composer | null = null
+    let composer: unknown
     const App = defineComponent({
       setup() {
         composer = useI18n({ useScope: 'global' })
@@ -88,7 +89,7 @@ describe('useI18n', () => {
     await mount(App, i18n)
 
     expect(i18n.global === composer).toEqual(true)
-    expect(composer.locale.value).toEqual('ja')
+    expect((composer as Composer).locale.value).toEqual('ja')
   })
 
   test('parent scope', async () => {
@@ -101,8 +102,8 @@ describe('useI18n', () => {
       }
     })
 
-    let leaf: Composer | null = null
-    let parent: Composer | null = null
+    let leaf: unknown
+    let parent: unknown
     const App = defineComponent({
       components: {
         Leaf: {
@@ -132,7 +133,7 @@ describe('useI18n', () => {
     expect(i18n.global !== leaf).toEqual(true)
     expect(i18n.global !== parent).toEqual(true)
     expect(parent === leaf).toEqual(true)
-    expect(leaf.locale.value).toEqual('en')
+    expect((leaf as Composer).locale.value).toEqual('en')
   })
 
   test('not found parent composer with parent scope', async () => {
@@ -145,7 +146,7 @@ describe('useI18n', () => {
       }
     })
 
-    let composer: Composer | null = null
+    let composer: unknown
     const App = defineComponent({
       components: {
         Leaf: {
@@ -164,7 +165,7 @@ describe('useI18n', () => {
     await mount(App, i18n)
 
     expect(i18n.global === composer).toEqual(true)
-    expect(composer.locale.value).toEqual('ja')
+    expect((composer as Composer).locale.value).toEqual('ja')
   })
 
   test('empty options', async () => {
@@ -177,7 +178,7 @@ describe('useI18n', () => {
       }
     })
 
-    let composer: Composer | null = null
+    let composer: unknown
     const App = defineComponent({
       setup() {
         composer = useI18n()
@@ -188,7 +189,7 @@ describe('useI18n', () => {
     await mount(App, i18n)
 
     expect(i18n.global === composer).toEqual(true)
-    expect(composer.locale.value).toEqual('ja')
+    expect((composer as Composer).locale.value).toEqual('ja')
   })
 
   test(errorMessages[I18nErrorCodes.NOT_AVAILABLE_IN_LEGACY_MODE], async () => {
@@ -229,7 +230,8 @@ describe('useI18n', () => {
 })
 
 describe('slot reactivity', () => {
-  let org, spy
+  let org: any // eslint-disable-line @typescript-eslint/no-explicit-any
+  let spy: any // eslint-disable-line @typescript-eslint/no-explicit-any
   beforeEach(() => {
     org = console.warn
     spy = jest.fn()

@@ -92,7 +92,7 @@ describe('linked', () => {
     const ctx = createMessageContext({
       list: ['name'],
       messages: {
-        name: ctx => 'kazupon' // eslint-disable-line
+        name: (ctx: MessageContext) => 'kazupon' // eslint-disable-line
       }
     })
     expect(msg(ctx)).toMatch(`hi kazupon !`)
@@ -105,7 +105,7 @@ describe('linked', () => {
         name: 'nickname'
       },
       messages: {
-        nickname: ctx => 'kazupon' // eslint-disable-line
+        nickname: (ctx: MessageContext) => 'kazupon' // eslint-disable-line
       }
     })
     expect(msg(ctx)).toMatch(`hi kazupon !`)
@@ -118,7 +118,7 @@ describe('linked', () => {
         upper: (str: string): string => str.toUpperCase()
       },
       messages: {
-        name: ctx => 'kazupon' // eslint-disable-line
+        name: (ctx: MessageContext) => 'kazupon' // eslint-disable-line
       }
     })
     expect(msg(ctx)).toMatch(`hi KAZUPON !`)
@@ -128,7 +128,7 @@ describe('linked', () => {
     const msg = compile(`hi @.upper:{'name'} !`)
     const ctx = createMessageContext({
       messages: {
-        name: ctx => 'kazupon' // eslint-disable-line
+        name: (ctx: MessageContext) => 'kazupon' // eslint-disable-line
       }
     })
     expect(msg(ctx)).toMatch(`hi kazupon !`)
@@ -137,7 +137,7 @@ describe('linked', () => {
   test('resolve from function', () => {
     const msg = compile('hi @:name !')
     const ctx = createMessageContext({
-      messages: str => ctx => 'kazupon' // eslint-disable-line
+      messages: str => (ctx: MessageContext) => 'kazupon' // eslint-disable-line
     })
     expect(msg(ctx)).toMatch(`hi kazupon !`)
   })
@@ -201,7 +201,7 @@ describe('plural', () => {
         n: 1
       },
       messages: {
-        'apple': ctx => 'APPLE' // eslint-disable-line
+        'apple': (ctx: MessageContext) => 'APPLE' // eslint-disable-line
       },
       pluralIndex: 1
     })
@@ -210,7 +210,7 @@ describe('plural', () => {
 
   test('custom choice rule', () => {
     const pluralRules = {
-      ru: (choice, choicesLength) => {
+      ru: (choice: number, choicesLength: number) => {
         if (choice === 0) {
           return 0
         }
@@ -323,7 +323,7 @@ describe('custom process', () => {
           `${(val as MockVNode).text.toUpperCase()}`
       },
       messages: {
-        name: ctx => createVNode('kazupon') // eslint-disable-line
+        name: (ctx: MessageContext<string | MockVNode>) => createVNode('kazupon') // eslint-disable-line
       }
     })
     expect(msg(ctx)).toMatchSnapshot()
@@ -348,7 +348,7 @@ describe('custom process', () => {
         n: '1'
       },
       messages: {
-        'apple': ctx => createVNode('APPLE') // eslint-disable-line
+        'apple': (ctx: MessageContext<string | MockVNode>) => createVNode('APPLE') // eslint-disable-line
       },
       pluralIndex: 1
     })

@@ -5,7 +5,7 @@ jest.mock('../src/directive')
 
 // utils
 jest.mock('../src/utils', () => ({
-  ...jest.requireActual('../src/utils'),
+  ...jest.requireActual<object>('../src/utils'),
   warn: jest.fn()
 }))
 import { warn } from '../src/utils'

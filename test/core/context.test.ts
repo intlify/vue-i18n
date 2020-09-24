@@ -1,6 +1,7 @@
 import {
   createRuntimeContext as context,
-  getLocaleChain
+  getLocaleChain,
+  RuntimeContext
 } from '../../src/core/context'
 
 describe('locale', () => {
@@ -57,7 +58,7 @@ describe('modifiers', () => {
   })
 
   test('specify', () => {
-    const modifiers = { custom: str => str }
+    const modifiers = { custom: (str: string) => str }
     const ctx = context({ modifiers })
     expect(Object.keys(ctx.modifiers).sort()).toEqual(
       ['upper', 'lower', 'capitalize', 'custom'].sort()
@@ -74,7 +75,7 @@ describe('pluralRules', () => {
   test('specify', () => {
     const pluralRules = { ru: () => 0 }
     const ctx = context({ pluralRules })
-    expect(Object.keys(ctx.pluralRules)).toEqual(['ru'])
+    expect(Object.keys(ctx.pluralRules!)).toEqual(['ru'])
   })
 })
 
@@ -156,14 +157,14 @@ describe('postTranslation', () => {
   })
 
   test('specify', () => {
-    const hook = str => str
+    const hook = (str: string) => str
     const ctx = context({ postTranslation: hook })
     expect(ctx.postTranslation).toEqual(hook)
   })
 })
 
 describe('getLocaleChain', () => {
-  let ctx
+  let ctx: RuntimeContext<unknown, unknown, unknown, string>
   beforeEach(() => {
     ctx = context({})
   })

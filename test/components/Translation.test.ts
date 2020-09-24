@@ -27,7 +27,8 @@ const messages = {
   }
 }
 
-let org, spy
+let org: any // eslint-disable-line @typescript-eslint/no-explicit-any
+let spy: any // eslint-disable-line @typescript-eslint/no-explicit-any
 beforeEach(() => {
   org = console.warn
   spy = jest.fn()
@@ -191,7 +192,7 @@ test('component', async () => {
 
   const MyComponent = defineComponent({
     setup(props, context: SetupContext) {
-      return (): VNodeChild => h('p', context.slots.default())
+      return (): VNodeChild => h('p', context.slots.default!())
     }
   })
 

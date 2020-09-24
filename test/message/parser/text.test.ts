@@ -5,7 +5,7 @@ import {
   TextNode
 } from '../../../src/message/parser'
 
-let spy
+let spy: any // eslint-disable-line @typescript-eslint/no-explicit-any
 beforeEach(() => {
   spy = jest.fn()
 })

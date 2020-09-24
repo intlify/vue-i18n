@@ -1,5 +1,4 @@
 import {
-  ConcreteComponent,
   createApp,
   defineComponent,
   h,
@@ -54,16 +53,17 @@ afterAll(() => {
   activeWrapperRemovers = []
 })
 
-export function mount(
+export function mount<Messages = {}, DateTimeFormats = {}, NumberFormats = {}>(
   targetComponent: Parameters<typeof createApp>[0],
-  i18n: I18n,
+  i18n: I18n<Messages, DateTimeFormats, NumberFormats>,
   options: Partial<MountOptions> = {}
 ): Promise<Wrapper> {
-  const TargetComponent = targetComponent as ConcreteComponent
+  const TargetComponent = targetComponent
   return new Promise((resolve, reject) => {
     // NOTE: only supports props as an object
     const propsData = reactive(
       Object.assign(
+        // @ts-ignore
         initialProps(TargetComponent.props || {}),
         options.propsData
       )
@@ -88,7 +88,8 @@ export function mount(
         })
         return () => {
           return h(
-            TargetComponent,
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            TargetComponent as any,
             {
               ref: componentInstanceRef,
               onVnodeMounted() {

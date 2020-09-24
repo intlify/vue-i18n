@@ -1,5 +1,6 @@
 import { parse } from '../../src/message/tokenizer'
 import { TokenizeOptions } from '../../src/message/options'
+import { CompileError } from '../../src/message/errors'
 
 test('token analysis', () => {
   ;[
@@ -83,7 +84,7 @@ test('token analysis', () => {
     ` foo | | bar`,
     `@.lower: {'no apples'} | {1 apple | @:{count　apples` // eslint-disable-line no-irregular-whitespace
   ].forEach(p => {
-    const errors = []
+    const errors: CompileError[] = []
     const options: TokenizeOptions = {
       onError: err => {
         errors.push({ ...err, message: err.message })

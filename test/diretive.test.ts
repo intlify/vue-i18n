@@ -6,7 +6,7 @@
 
 // utils
 jest.mock('../src/utils', () => ({
-  ...jest.requireActual('../src/utils'),
+  ...jest.requireActual<object>('../src/utils'),
   warn: jest.fn()
 }))
 import { warn } from '../src/utils'
@@ -34,7 +34,7 @@ describe('basic', () => {
         // <p v-t="'hello'"></p>
         const t = resolveDirective('t')
         return () => {
-          return withDirectives(h('p'), [[t, 'hello']])
+          return withDirectives(h('p'), [[t!, 'hello']])
         }
       }
     })
@@ -59,7 +59,7 @@ describe('basic', () => {
         const msg = ref('hello')
         const t = resolveDirective('t')
         return () => {
-          return withDirectives(h('p'), [[t, msg.value]])
+          return withDirectives(h('p'), [[t!, msg.value]])
         }
       }
     })
@@ -89,7 +89,7 @@ test('object literal', async () => {
       const t = resolveDirective('t')
       return () => {
         return withDirectives(h('p'), [
-          [t, { path: 'hello', locale: 'ja', args: { name: name.value } }]
+          [t!, { path: 'hello', locale: 'ja', args: { name: name.value } }]
         ])
       }
     }
@@ -114,7 +114,7 @@ test('plural', async () => {
       // <p v-t="{ path: 'banana', choice: 2 }"></p>
       const t = resolveDirective('t')
       return () => {
-        return withDirectives(h('p'), [[t, { path: 'banana', choice: 2 }]])
+        return withDirectives(h('p'), [[t!, { path: 'banana', choice: 2 }]])
       }
     }
   })
@@ -141,7 +141,7 @@ test('preserve modifier', async () => {
       // <p v-t.preserve="'hello'"></p>
       const t = resolveDirective('t')
       return () => {
-        return withDirectives(h('p'), [[t, 'hello', '', { preserve: true }]])
+        return withDirectives(h('p'), [[t!, 'hello', '', { preserve: true }]])
       }
     }
   })
@@ -169,7 +169,7 @@ test('legacy mode', async () => {
       // <p v-t="'hello'"></p>
       const t = resolveDirective('t')
       return () => {
-        return withDirectives(h('p'), [[t, 'hello']])
+        return withDirectives(h('p'), [[t!, 'hello']])
       }
     }
   })
@@ -207,13 +207,14 @@ describe('errors', () => {
       }
     })
     const spy = jest.spyOn(i18n, 'global', 'get')
+    // @ts-ignore
     spy.mockImplementation(() => null)
 
     const App = defineComponent({
       setup() {
         const t = resolveDirective('t')
         return () => {
-          return withDirectives(h('p'), [[t, { locale: 'ja' }]])
+          return withDirectives(h('p'), [[t!, { locale: 'ja' }]])
         }
       }
     })
@@ -224,7 +225,7 @@ describe('errors', () => {
     } catch (e) {
       error = e
     }
-    expect(error.message).toEqual(
+    expect(error!.message).toEqual(
       errorMessages[I18nErrorCodes.NOT_FOUND_COMPOSER]
     )
   })
@@ -244,7 +245,7 @@ describe('errors', () => {
         // <p v-t="{ locale: 'ja' }"></p>
         const t = resolveDirective('t')
         return () => {
-          return withDirectives(h('p'), [[t, { locale: 'ja' }]])
+          return withDirectives(h('p'), [[t!, { locale: 'ja' }]])
         }
       }
     })
@@ -255,7 +256,7 @@ describe('errors', () => {
     } catch (e) {
       error = e
     }
-    expect(error.message).toEqual(
+    expect(error!.message).toEqual(
       format(errorMessages[I18nErrorCodes.REQUIRED_VALUE], 'path')
     )
   })
@@ -274,7 +275,7 @@ describe('errors', () => {
       setup() {
         // <p v-t="1"></p>
         const t = resolveDirective('t')
-        return () => withDirectives(h('p'), [[t, 1]])
+        return () => withDirectives(h('p'), [[t!, 1]])
       }
     })
 
@@ -284,7 +285,7 @@ describe('errors', () => {
     } catch (e) {
       error = e
     }
-    expect(error.message).toEqual(errorMessages[I18nErrorCodes.INVALID_VALUE])
+    expect(error!.message).toEqual(errorMessages[I18nErrorCodes.INVALID_VALUE])
   })
 })
 
