@@ -15,7 +15,7 @@ d(value: number | Date, options: DateTimeOptions): string;
 |  Parameter | Type | Description |
 |  --- | --- | --- |
 |  value | number \| Date |  |
-|  options | DateTimeOptions |  |
+|  options | [DateTimeOptions](./vue-i18n.datetimeoptions.md) |  |
 
 <b>Returns:</b>
 

@@ -4,8 +4,6 @@
 
 ## I18nMode type
 
-I18n API mode
-
 <b>Signature:</b>
 
 ```typescript

@@ -4,17 +4,11 @@
 
 ## Composer interface
 
-Composer Interfaces
-
 <b>Signature:</b>
 
 ```typescript
 export interface Composer<Messages = {}, DateTimeFormats = {}, NumberFormats = {}, Message = VueMessageType> 
 ```
-
-## Remarks
-
-This is the interface for being used for Vue 3 Composition API.
 
 ## Properties
 

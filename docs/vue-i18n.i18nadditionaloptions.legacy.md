@@ -4,10 +4,6 @@
 
 ## I18nAdditionalOptions.legacy property
 
-Whether vue-i18n legacy API use on your Vue App.
-
- false
-
 <b>Signature:</b>
 
 ```typescript

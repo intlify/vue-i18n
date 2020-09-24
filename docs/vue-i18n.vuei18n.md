@@ -4,17 +4,11 @@
 
 ## VueI18n interface
 
-VueI18n Interfaces
-
 <b>Signature:</b>
 
 ```typescript
 export interface VueI18n<Messages = {}, DateTimeFormats = {}, NumberFormats = {}> 
 ```
-
-## Remarks
-
-This interface is compatible with interface of `VueI18n` class (offered with vue-i18n<!-- -->@<!-- -->8.x).
 
 ## Properties
 

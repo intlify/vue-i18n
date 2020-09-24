@@ -16,7 +16,7 @@ t(key: Path, named: NamedValue, options: TranslateOptions): string;
 |  --- | --- | --- |
 |  key | [Path](./vue-i18n.path.md) |  |
 |  named | NamedValue |  |
-|  options | TranslateOptions |  |
+|  options | [TranslateOptions](./vue-i18n.translateoptions.md) |  |
 
 <b>Returns:</b>
 

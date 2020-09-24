@@ -4,8 +4,6 @@
 
 ## createI18n() function
 
-I18n factory function
-
 <b>Signature:</b>
 
 ```typescript
@@ -16,78 +14,9 @@ export declare function createI18n<Options extends I18nOptions = {}, Messages ex
 
 |  Parameter | Type | Description |
 |  --- | --- | --- |
-|  options | Options | see the [I18nOptions](./vue-i18n.i18noptions.md) |
+|  options | Options |  |
 
 <b>Returns:</b>
 
 [I18n](./vue-i18n.i18n.md)<!-- -->&lt;Options\['messages'\], Options\['datetimeFormats'\], Options\['numberFormats'\]&gt;
-
-[I18n](./vue-i18n.i18n.md) object
-
-## Remarks
-
-When you use Composable API, you need to specify options of [ComposerOptions](./vue-i18n.composeroptions.md)<!-- -->. When you use Legacy API, you need toto specify options of [VueI18nOptions](./vue-i18n.vuei18noptions.md) and `legacy: true` option.
-
-## Example 1
-
-case: for Composable API
-
-```js
-import { createApp } from 'vue'
-import { createI18n, useI18n } from 'vue-i18n'
-
-// call with I18n option
-const i18n = createI18n({
-  locale: 'ja',
-  messages: {
-    en: { ... },
-    ja: { ... }
-  }
-})
-
-const App = {
-  setup() {
-    // ...
-    const { t } = useI18n({ ... })
-    return { ... , t }
-  }
-}
-
-const app = createApp(App)
-
-// install!
-app.use(i18n)
-app.mount('#app')
-
-```
-
-## Example 2
-
-case: for Legacy API
-
-```js
-import { createApp } from 'vue'
-import { createI18n } from 'vue-i18n'
-
-// call with I18n option
-const i18n = createI18n({
-  legacy: true, // you must specify 'lagacy: true' option
-  locale: 'ja',
-  messages: {
-    en: { ... },
-    ja: { ... }
-  }
-})
-
-const App = {
-  // ...
-}
-
-const app = createApp(App)
-
-// install!
-app.use(i18n)
-app.mount('#app')
-
-```
 

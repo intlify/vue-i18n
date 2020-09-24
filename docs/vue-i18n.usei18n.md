@@ -4,8 +4,6 @@
 
 ## useI18n() function
 
-Use Composable API starting function
-
 <b>Signature:</b>
 
 ```typescript
@@ -16,52 +14,9 @@ export declare function useI18n<Options extends UseI18nOptions = object, Message
 
 |  Parameter | Type | Description |
 |  --- | --- | --- |
-|  options | Options | See [UseI18nOptions](./vue-i18n.usei18noptions.md) |
+|  options | Options |  |
 
 <b>Returns:</b>
 
 [Composer](./vue-i18n.composer.md)<!-- -->&lt;Options\['messages'\], Options\['datetimeFormats'\], Options\['numberFormats'\]&gt;
-
-[Composer](./vue-i18n.composer.md) object
-
-## Remarks
-
-This function is mainly used by `setup`<!-- -->. If options are specified, Composer object is created for each component and you can be localized on the component. If options are not specified, you can be localized using the global Composer.
-
-## Example
-
-case: Component resource base localization
-
-```html
-<template>
-  <form>
-    <label>{{ t('language') }}</label>
-    <select v-model="locale">
-      <option value="en">en</option>
-      <option value="ja">ja</option>
-    </select>
-  </form>
-  <p>message: {{ t('hello') }}</p>
-</template>
-
-<script>
-import { useI18n } from 'vue-i18n'
-
-export default {
- setup() {
-   const { t, locale } = useI18n({
-     locale: 'ja',
-     messages: {
-       en: { ... },
-       ja: { ... }
-     }
-   })
-   // Something to do ...
-
-   return { ..., t, locale }
- }
-}
-</script>
-
-```
 

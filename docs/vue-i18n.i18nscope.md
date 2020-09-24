@@ -4,8 +4,6 @@
 
 ## I18nScope type
 
-I18n Scope
-
 <b>Signature:</b>
 
 ```typescript

@@ -15,7 +15,7 @@ n(value: number, options: NumberOptions): string;
 |  Parameter | Type | Description |
 |  --- | --- | --- |
 |  value | number |  |
-|  options | NumberOptions |  |
+|  options | [NumberOptions](./vue-i18n.numberoptions.md) |  |
 
 <b>Returns:</b>
 

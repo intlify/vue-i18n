@@ -4,17 +4,8 @@
 
 ## I18n.mode property
 
-I18n API mode
-
 <b>Signature:</b>
 
 ```typescript
 readonly mode: I18nMode;
 ```
-
-## Remarks
-
-if you specified `legacy: true` option in `createI18n`<!-- -->, return `legacy`<!-- -->, else `composable`
-
- composable
-
