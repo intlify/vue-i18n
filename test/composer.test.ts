@@ -972,6 +972,61 @@ describe('__i18n', () => {
       }
     })
   })
+
+  test('merge locale messages', () => {
+    const msgFn = () => 'ふー'
+    const options = {
+      __i18n: [
+        JSON.stringify({ en: { hello: 'Hello,world!' } }),
+        JSON.stringify({ ja: { hello: 'こんにちは、世界！' } })
+      ],
+      messages: {
+        en: { foo: 'foo' },
+        ja: { foo: msgFn }
+      }
+    }
+    const { messages } = createComposer(
+      options as ComposerOptions<VueMessageType>
+    )
+    expect(messages.value.en).toEqual({
+      hello: 'Hello,world!',
+      foo: 'foo'
+    })
+    expect(messages.value.ja).toEqual({
+      hello: 'こんにちは、世界！',
+      foo: msgFn
+    })
+  })
+
+  test('function + locale messages', () => {
+    const functions = Object.create(null)
+    const msg1 = () => {}
+    const msg2 = () => {}
+    functions[generateFormatCacheKey('en', 'hello', 'hello,world')] = msg1
+    functions[
+      generateFormatCacheKey('ja', 'hello.hello', 'こんにちは、世界')
+    ] = msg2
+    const options = {
+      __i18n: () => ({ functions }),
+      messages: {
+        en: { foo: 'foo' },
+        ja: { foo: 'ふー' }
+      }
+    }
+    const { messages } = createComposer(
+      options as ComposerOptions<VueMessageType>
+    )
+    expect(messages.value.en).toEqual({
+      hello: msg1,
+      foo: 'foo'
+    })
+    expect(messages.value.ja).toEqual({
+      hello: {
+        hello: msg2
+      },
+      foo: 'ふー'
+    })
+  })
 })
 
 describe('__transrateVNode', () => {
