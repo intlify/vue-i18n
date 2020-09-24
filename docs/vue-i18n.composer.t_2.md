@@ -16,7 +16,7 @@ t(key: Path, plural: number, options: TranslateOptions): string;
 |  --- | --- | --- |
 |  key | [Path](./vue-i18n.path.md) |  |
 |  plural | number |  |
-|  options | TranslateOptions |  |
+|  options | [TranslateOptions](./vue-i18n.translateoptions.md) |  |
 
 <b>Returns:</b>
 

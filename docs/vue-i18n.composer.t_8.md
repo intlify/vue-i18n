@@ -16,7 +16,7 @@ t(key: Path, list: unknown[], options: TranslateOptions): string;
 |  --- | --- | --- |
 |  key | [Path](./vue-i18n.path.md) |  |
 |  list | unknown\[\] |  |
-|  options | TranslateOptions |  |
+|  options | [TranslateOptions](./vue-i18n.translateoptions.md) |  |
 
 <b>Returns:</b>
 

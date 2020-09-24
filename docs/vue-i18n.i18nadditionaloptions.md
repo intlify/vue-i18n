@@ -4,8 +4,6 @@
 
 ## I18nAdditionalOptions interface
 
-I18n Additional Options for `createI18n`
-
 <b>Signature:</b>
 
 ```typescript
@@ -16,5 +14,5 @@ export interface I18nAdditionalOptions
 
 |  Property | Type | Description |
 |  --- | --- | --- |
-|  [legacy](./vue-i18n.i18nadditionaloptions.legacy.md) | boolean | Whether vue-i18n legacy API use on your Vue App. false |
+|  [legacy](./vue-i18n.i18nadditionaloptions.legacy.md) | boolean |  |
 

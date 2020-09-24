@@ -63,7 +63,13 @@
     /* Advanced Options */
     "forceConsistentCasingInFileNames": true  /* Disallow inconsistently-cased references to the same file. */
   },
-  "include": ["src/global.d.ts", "src/**/*.ts", "__tests__/**/*.ts"],
+  "include": [
+    "src/vue.d.ts",
+    "src/global.d.ts",
+    "src/vue.d.ts",
+    "src/**/*.ts",
+    "__tests__/**/*.ts"
+  ],
   "exclude": ["node_modules"],
   "plugins": [
     {

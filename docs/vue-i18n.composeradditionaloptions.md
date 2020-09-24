@@ -4,17 +4,11 @@
 
 ## ComposerAdditionalOptions interface
 
-Composer additional options for `useI18n`
-
 <b>Signature:</b>
 
 ```typescript
 export interface ComposerAdditionalOptions 
 ```
-
-## Remarks
-
-`ComposerAdditionalOptions` is extend for [ComposerOptions](./vue-i18n.composeroptions.md)<!-- -->, so you can specify these options.
 
 ## Properties
 

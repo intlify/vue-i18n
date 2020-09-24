@@ -4,17 +4,11 @@
 
 ## ComposerOptions interface
 
-Composer Options
-
 <b>Signature:</b>
 
 ```typescript
 export interface ComposerOptions<Message = VueMessageType> 
 ```
-
-## Remarks
-
-This is options to create composer.
 
 ## Properties
 

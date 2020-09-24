@@ -4,8 +4,6 @@
 
 ## I18n.global property
 
-Global composer
-
 <b>Signature:</b>
 
 ```typescript
