@@ -56,11 +56,17 @@ export type I18nOptions = I18nAdditionalOptions &
  */
 export interface I18nAdditionalOptions {
   /**
-   * Whether vue-i18n legacy API use on your Vue App.
+   * Whether vue-i18n legacy API use on your Vue App
    *
    * @default false
    */
   legacy?: boolean
+  /**
+   * Whether Whether to inject global props & methods into for each component
+   *
+   * @default true
+   */
+  globalInjection?: boolean
 }
 
 /**
@@ -239,6 +245,7 @@ export function createI18n<
   Options['numberFormats']
 > {
   const __legacyMode = !!options.legacy
+  const __globalInjection = !options.globalInjection
   const __instances = new Map<
     ComponentInternalInstance,
     VueI18n<Messages> | Composer<Messages>
@@ -265,7 +272,7 @@ export function createI18n<
       app.__VUE_I18N_SYMBOL__ = symbol
       app.provide(app.__VUE_I18N_SYMBOL__, i18n)
 
-      if (!__legacyMode) {
+      if (!__legacyMode && __globalInjection) {
         injectGlobalFields<Messages, DateTimeFormats, NumberFormats>(
           app,
           i18n.global
