@@ -1,4 +1,18 @@
 
+## v9.0.0-beta.3 (2020-09-25)
+
+#### :star: Features
+* [#122](https://github.com/intlify/vue-i18n-next/pull/122) feat: global props and methods injection for composable mode ([@kazupon](https://github.com/kazupon))
+
+#### :zap: Improvement Features
+* [#121](https://github.com/intlify/vue-i18n-next/pull/121) export vue/runtime-core type extending ([@kazupon](https://github.com/kazupon))
+* [#119](https://github.com/intlify/vue-i18n-next/pull/119) fix: merge custom block locale messages ([@kazupon](https://github.com/kazupon))
+
+#### Committers: 2
+- Raymond Muller ([@raymondmuller](https://github.com/raymondmuller))
+- kazuya kawaguchi ([@kazupon](https://github.com/kazupon))
+
+
 ## v9.0.0-beta.2 (2020-09-17)
 
 #### :star: Features
