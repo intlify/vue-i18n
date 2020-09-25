@@ -96,7 +96,7 @@
   },
   "scripts": {
     "benchmark": "yarn build && node ./benchmark/index.js",
-    "build": "node ./scripts/build.js",
+    "build": "yarn clean:cache:rollup && node ./scripts/build.js",
     "build:sourcemap": "yarn build --sourcemap",
     "build:type": "yarn build --types && tail -n +14 src/vue.d.ts >> ./dist/vue-i18n.d.ts",
     "build:watch": "tsc -p . --watch",
@@ -105,6 +105,7 @@
     "clean:cache:rollup": "rm -rf ./node_modules/.rts2_cache",
     "clean:cache:jest": "jest --clearCache",
     "clean:coverage": "rm -rf ./coverage",
+    "clean:size": "rm -rf ./size-check/**/dist ./size-check/**/node_modules",
     "clean:dist": "rm -rf ./dist/**",
     "clean:docs": "rm -rf ./docs",
     "clean:type": "rm -rf ./types/** ./temp ./dist/vue-i18n.d.ts",
