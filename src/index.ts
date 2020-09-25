@@ -45,7 +45,8 @@ export {
   I18nMode,
   I18nScope,
   ComposerAdditionalOptions,
-  UseI18nOptions
+  UseI18nOptions,
+  ExportedComposer
 } from './i18n'
 export {
   Translation,

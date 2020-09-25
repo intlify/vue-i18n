@@ -1,5 +1,7 @@
 import { Path } from './path'
+import { NamedValue } from './message/runtime'
 import { Locale, LocaleMessageValue } from './core/context'
+import { TranslateOptions, DateTimeOptions, NumberOptions } from './core/index'
 import { CustomBlocks, VueMessageType } from './composer'
 import {
   VueI18n,
@@ -8,6 +10,7 @@ import {
   DateTimeFormatResult,
   NumberFormatResult
 } from './legacy'
+import { ExportedComposer } from './i18n'
 
 declare module '@vue/runtime-core' {
   export interface ComponentCustomOptions {
@@ -27,122 +30,119 @@ declare module '@vue/runtime-core' {
 
   export interface ComponentCustomProperties {
     /**
-     * VueI18n class compatible interface. See {@link VueI18n}
+     * Global composer instance, or a instance that are compatible with vue-i18n@v8.x VueI18n interface
      *
      * @remarks
-     * If you have specified an `i18n` option at component options,
-     * you will be able to get a VueI18n instance at the component,
-     * Otherwise, you will be able get root VueI18n instance.
+     * You can get the {@link I18n.global | global composer} created during the execution of {@link createI18n}.
+     * This instance is global property injected into for each components by `app.config.globalProperties`.
      *
-     * This property is supported for legacy API only
+     * If you have specified `legacy: true` in options at `createI18n`, that is in legacy mode, {@link VueI18n} instance is set to for each the components.
+     * Otherwise, you will be able get root VueI18n instance.
      */
-    $i18n?: VueI18n
+    $i18n: VueI18n | ExportedComposer
     /**
      * translation method
      *
-     * @param key - required, type {@link Path}
-     * @param locale - optional, type {@link Locale}
-     * @param values - optional, type `Array` or `Object`
-     * @returns translated string
-     *
      * @remarks
-     * Localize the locale message of `key`.
-     * Localize in preferentially component locale messages than global locale messages.
-     * If not specified component locale messages, localize with global locale messages.
-     * If you specified `locale`, localize the locale messages of `locale`.
-     * If you specified `key` of list / named formatting local messages, you must specify `values` too.
+     * In composable mode, In the case of composable mode, the method (property) is injected by `app.config.globalProperties`.
+     * the input / output is the same as for `Composer`, and it's **global**. About that details, see {@link Composer.t | `Composer#t` }.
      *
-     * This property is supported for legacy API only
+     * In legacy mode, the input / output is the same as for `VueI18n` of vue-i18n@v8.x. About that details, see {@link VueI18n.t | `VueI18n#t`}.
      */
-    $t?: (...args: unknown[]) => TranslateResult
+    $t(key: Path): TranslateResult
+    $t(key: Path, locale: Locale): TranslateResult
+    $t(key: Path, locale: Locale, list: unknown[]): TranslateResult
+    $t(key: Path, locale: Locale, named: object): TranslateResult
+    $t(key: Path, list: unknown[]): TranslateResult
+    $t(key: Path, named: Record<string, unknown>): TranslateResult
+    $t(key: Path): string
+    $t(key: Path, plural: number): string
+    $t(key: Path, plural: number, options: TranslateOptions): string
+    $t(key: Path, defaultMsg: string): string
+    $t(key: Path, defaultMsg: string, options: TranslateOptions): string
+    $t(key: Path, list: unknown[]): string
+    $t(key: Path, list: unknown[], plural: number): string
+    $t(key: Path, list: unknown[], defaultMsg: string): string
+    $t(key: Path, list: unknown[], options: TranslateOptions): string
+    $t(key: Path, named: NamedValue): string
+    $t(key: Path, named: NamedValue, plural: number): string
+    $t(key: Path, named: NamedValue, defaultMsg: string): string
+    $t(key: Path, named: NamedValue, options: TranslateOptions): string
     /**
      * pluralization method
      *
-     * @param key - required, type {@link Path}
-     * @param choice - optional, type `number`, default `1`
-     * @param locale - optional, type {@link Locale}
-     * @param values - optional, type `string` or `Array` or `Object`
-     * @returns pluralized string
-     *
      * @remarks
-     * Localize the locale message of `key` with pluralization.
-     * Localize in preferentially component locale messages than global locale messages.
-     * If not specified component locale messages, localize with global locale messages.
-     * If you specified `locale`, localize the locale messages of `locale`.
-     * If you will specify string value to `values`, localize the locale messages of value.
-     * If you will specify Array or Object value to `values`, you must specify with `values` of `$t`.
+     * The input / output is the same as for `VueI18n` of vue-i18n@v8.x. About that details, see {@link VueI18n.tc | `VueI18n#tc` }.
      *
-     * This property is supported for legacy API only
+     * This property is supported for legacy mode only
      */
-    $tc?: (...args: unknown[]) => TranslateResult
+    $tc(key: Path): TranslateResult
+    $tc(key: Path, locale: Locale): TranslateResult
+    $tc(key: Path, list: unknown[]): TranslateResult
+    $tc(key: Path, named: Record<string, unknown>): TranslateResult
+    $tc(key: Path, choice: number): TranslateResult
+    $tc(key: Path, choice: number, locale: Locale): TranslateResult
+    $tc(key: Path, choice: number, list: unknown[]): TranslateResult
+    $tc(
+      key: Path,
+      choice: number,
+      named: Record<string, unknown>
+    ): TranslateResult
     /**
      * translation exist method
      *
-     * @param key - required, type {@link Path}
-     * @param locale - optional, type {@link Locale}
-     * @returns key exsiting result
-     *
      * @remarks
-     * Check whether key exists.
-     * In Vue instance, If not specified component locale messages,
-     * check with global locale messages. If you specified `locale`, check the locale messages of `locale`
+     * The input / output is the same as for `VueI18n` of vue-i18n@v8.x. About that details, see {@link VueI18n.te | `VueI18n.#te` }.
      *
-     * This property is supported for legacy API only
+     * This property is supported for legacy mode only
      */
-    $te?: (key: Path, locale?: Locale) => boolean
+    $te(key: Path, locale?: Locale): boolean
     /**
      * datetime method
      *
-     * @param value - required, type `number` or `Date`
-     * @param key - optional, type {@link Path} or `Object`
-     * @param locale - optional, type {@link Locale}
-     * @returns formatted datetime result
-     *
      * @remarks
-     * Localize the datetime of `value` with datetime format of `key`.
-     * The datetime format of `key` need to register to `dateTimeFormats` option of {@link VueI18nOptions},
-     * and depend on `locale` option of {@link VueI18nOptions}.
-     * If you will specify locale argument, it will have priority over `locale` of {@link VueI18nOptions}.
+     * In composable mode, In the case of composable mode, the method (property) is injected by `app.config.globalProperties`.
+     * the input / output is the same as for `Composer`, and it's **global**. About that details, see {@link Composer.d | `Composer#d` }.
      *
-     * If the datetime format of `key` not exist in `dateTimeFormats` option,
-     * fallback to depend on `fallbackLocale` of {@link VueI18nOptions}.
-     *
-     * This property is supported for legacy API only
+     * In legacy mode, the input / output is the same as for `VueI18n` of vue-i18n@v8.x. About that details, see {@link VueI18n.d | `VueI18n#d` }.
      */
-    $d?: (...args: unknown[]) => DateTimeFormatResult
+    $d(value: number | Date): DateTimeFormatResult
+    $d(value: number | Date, key: string): DateTimeFormatResult
+    $d(value: number | Date, key: string, locale: Locale): DateTimeFormatResult
+    $d(
+      value: number | Date,
+      args: { [key: string]: string }
+    ): DateTimeFormatResult
+    $d(value: number | Date): string
+    $d(value: number | Date, key: string): string
+    $d(value: number | Date, key: string, locale: Locale): string
+    $d(value: number | Date, options: DateTimeOptions): string
     /**
      * number method
      *
-     * @param value - required, type `number`
-     * @param format - optional, type {@link Path} or `Object`
-     * @param locale - optional, type {@link Locale}
-     * @returns formatted number result
-     *
      * @remarks
-     * Localize the number of `value` with number format of `format`.
-     * The number format of `format` need to register to `numberFormats` option of {@link VueI18nOptions},
-     * and depend on `locale` option of {@link VueI18nOptions}.
-     * If you will specify `locale` argument, it will have priority over `locale` option of {@link VueI18nOptions}
+     * In composable mode, In the case of composable mode, the method (property) is injected by `app.config.globalProperties`.
+     * the input / output is the same as for `Composer`,  and it's **global**. About that details, see {@link Composer.n | `Composer.n` }.
      *
-     * If the number format of `format` not exist in `numberFormats` option,
-     * fallback to depend on `fallbackLocale` option of {@link VueI18nOptions}
-     *
-     * This property is supported for legacy API only
+     * In legacy mode, the input / output is the same as for `VueI18n` of vue-i18n@v8.x. About that details, see {@link VueI18n.n | `VueI18n.n` }.
      */
-    $n?: (...args: unknown[]) => NumberFormatResult
+    $n(value: number): NumberFormatResult
+    $n(value: number, key: string): NumberFormatResult
+    $n(value: number, key: string, locale: Locale): NumberFormatResult
+    $n(value: number, args: { [key: string]: string }): NumberFormatResult
+    $n(value: number): string
+    $n(value: number, key: string): string
+    $n(value: number, key: string, locale: Locale): string
+    $n(value: number, options: NumberOptions): string
     /**
      * translation messages method
      *
-     * @param key - required, target keypath
-     * @returns locale messages
-     *
      * @remarks
-     * Get the locale message of `key`.
-     * Get in preferentially component locale messages than global locale messages.
-     * If the target locale messages is not found locally, get it from the global, otherwise returns an empty object.
+     * In composable mode, In the case of composable mode, the method (property) is injected by `app.config.globalProperties`.
+     * the input / output is the same as for `Composer`, and it's **global**. About that details, see {@link Composer.tm | `Composer.tm` }.
      *
-     * This property is supported for legacy API only
+     * In legacy mode, the input / output is the same as for `VueI18n` of vue-i18n@v8.x. About that details, see {@link VueI18n.tm | `VueI18n#tm` }.
      */
-    $tm?: (key: Path) => LocaleMessageValue<VueMessageType> | {}
+    $tm(key: Path): LocaleMessageValue<VueMessageType> | {}
   }
 }

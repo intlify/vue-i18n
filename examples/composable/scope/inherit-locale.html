@@ -10,13 +10,13 @@
     <div id="app">
       <h1>Root</h1>
       <form>
-        <label>{{ t('message.language') }}</label>
-        <select v-model="locale">
+        <label>{{ $t('message.language') }}</label>
+        <select v-model="$i18n.locale">
           <option value="en">en</option>
           <option value="ja">ja</option>
         </select>
       </form>
-      <p>{{ t("message.hello") }}</p>
+      <p>{{ $t("message.hello") }}</p>
       <Child />
     </div>
     <script>
@@ -86,10 +86,7 @@
       })
 
       const app = createApp({
-        components: { Child },
-        setup() {
-          return useI18n()
-        }
+        components: { Child }
       })
       app.use(i18n)
       app.mount('#app')

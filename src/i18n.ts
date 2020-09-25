@@ -6,9 +6,10 @@ import {
   getCurrentInstance,
   ComponentInternalInstance,
   ComponentOptions,
-  App
+  App,
+  isRef
 } from 'vue'
-import { LocaleMessageDictionary } from './core/context'
+import { Locale, FallbackLocale, LocaleMessageDictionary } from './core/context'
 import { DateTimeFormat, NumberFormat } from './core/types'
 import {
   VueMessageType,
@@ -63,7 +64,7 @@ export interface I18nAdditionalOptions {
 }
 
 /**
- * I18n API mode
+ * Vue I18n API mode
  */
 export type I18nMode = 'legacy' | 'composable'
 
@@ -72,7 +73,7 @@ export type I18nMode = 'legacy' | 'composable'
  */
 export interface I18n<Messages = {}, DateTimeFormats = {}, NumberFormats = {}> {
   /**
-   * I18n API mode
+   * Vue I18n API mode
    *
    * @remarks
    * if you specified `legacy: true` option in `createI18n`, return `legacy`,
@@ -263,6 +264,13 @@ export function createI18n<
       // setup global provider
       app.__VUE_I18N_SYMBOL__ = symbol
       app.provide(app.__VUE_I18N_SYMBOL__, i18n)
+
+      if (!__legacyMode) {
+        injectGlobalFields<Messages, DateTimeFormats, NumberFormats>(
+          app,
+          i18n.global
+        )
+      }
 
       if (__FEATURE_FULL_INSTALL__) {
         apply<Messages, DateTimeFormats, NumberFormats>(app, i18n, ...options)
@@ -544,4 +552,79 @@ function setupLifeCycle<Messages, DateTimeFormats, NumberFormats>(
     }
     i18n.__deleteInstance(target)
   }, target)
+}
+
+/**
+ * Exported composer interface
+ *
+ * @remarks
+ * This interface is the {@link I18n.global | global composer } that is provided interface that is injected into each component with `app.config.globalProperties`.
+ */
+export interface ExportedComposer {
+  /**
+   * Locale
+   *
+   * @remarks
+   * This property is proxy-like property for `composer#locale`. About details, see the {@link Composer | Composer#locale } property
+   */
+  locale: Locale
+  /**
+   * Fallback locale
+   *
+   * @remarks
+   * This property is proxy-like property for `composer#fallbackLocale`. About details, see the {@link Composer | Composer#fallbackLocale } property
+   */
+  fallbackLocale: FallbackLocale
+  /**
+   * Available locales
+   *
+   * @remarks
+   * This property is proxy-like property for `composer#availableLocales`. About details, see the {@link Composer | Composer#availableLocales } property
+   */
+  readonly availableLocales: Locale[]
+}
+
+const globalExportProps = [
+  'locale',
+  'fallbackLocale',
+  'availableLocales'
+] as const
+const globalExportMethods = ['t', 'd', 'n', 'tm'] as const
+
+function injectGlobalFields<Messages, DateTimeFormats, NumberFormats>(
+  app: App,
+  composer: Composer<Messages, DateTimeFormats, NumberFormats>
+): void {
+  const i18n = Object.create(null)
+  globalExportProps.forEach(prop => {
+    const desc = Object.getOwnPropertyDescriptor(composer, prop)
+    if (!desc) {
+      throw createI18nError(I18nErrorCodes.UNEXPECTED_ERROR)
+    }
+    const wrap = isRef(desc.value) // check computed props
+      ? {
+          get() {
+            return desc.value.value
+          },
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          set(val: any) {
+            desc.value.value = val
+          }
+        }
+      : {
+          get() {
+            return desc.get && desc.get()
+          }
+        }
+    Object.defineProperty(i18n, prop, wrap)
+  })
+  app.config.globalProperties.$i18n = i18n
+
+  globalExportMethods.forEach(method => {
+    const desc = Object.getOwnPropertyDescriptor(composer, method)
+    if (!desc) {
+      throw createI18nError(I18nErrorCodes.UNEXPECTED_ERROR)
+    }
+    Object.defineProperty(app.config.globalProperties, `$${method}`, desc)
+  })
 }

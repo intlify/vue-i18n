@@ -98,7 +98,7 @@
     "benchmark": "yarn build && node ./benchmark/index.js",
     "build": "node ./scripts/build.js",
     "build:sourcemap": "yarn build --sourcemap",
-    "build:type": "yarn build --types && tail -n +11 src/vue.d.ts >> ./dist/vue-i18n.d.ts",
+    "build:type": "yarn build --types && tail -n +13 src/vue.d.ts >> ./dist/vue-i18n.d.ts",
     "build:watch": "tsc -p . --watch",
     "clean": "npm-run-all --parallel clean:*",
     "clean:cache": "yarn clean:cache:rollup && yarn clean:cache:jest",
