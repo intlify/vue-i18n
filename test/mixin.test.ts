@@ -6,6 +6,7 @@ import { mount } from './helper'
 import { defineComponent, nextTick } from 'vue'
 import { createI18n } from '../src/i18n'
 import { errorMessages, I18nErrorCodes } from '../src/errors'
+import { VueI18n } from '../src/legacy'
 
 describe('beforeCreate', () => {
   test('i18n option', async () => {
@@ -173,7 +174,7 @@ test('$i18n', async () => {
   const App = defineComponent({ template: '<br/>' })
   const { vm } = await mount(App, i18n)
 
-  expect(vm.$i18n!.t('hello')).toEqual('hello!')
+  expect((vm.$i18n! as VueI18n).t('hello')).toEqual('hello!')
 })
 
 test('VueI18n componentInstanceCreatedListener option', async () => {

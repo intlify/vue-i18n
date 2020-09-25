@@ -197,39 +197,6 @@ test('using in template', async () => {
 })
 
 describe('errors', () => {
-  test(errorMessages[I18nErrorCodes.NOT_FOUND_COMPOSER], async () => {
-    const i18n = createI18n({
-      locale: 'en',
-      messages: {
-        en: {
-          hello: 'hello!'
-        }
-      }
-    })
-    const spy = jest.spyOn(i18n, 'global', 'get')
-    // @ts-ignore
-    spy.mockImplementation(() => null)
-
-    const App = defineComponent({
-      setup() {
-        const t = resolveDirective('t')
-        return () => {
-          return withDirectives(h('p'), [[t!, { locale: 'ja' }]])
-        }
-      }
-    })
-
-    let error: Error | null = null
-    try {
-      await mount(App, i18n)
-    } catch (e) {
-      error = e
-    }
-    expect(error!.message).toEqual(
-      errorMessages[I18nErrorCodes.NOT_FOUND_COMPOSER]
-    )
-  })
-
   test(errorMessages[I18nErrorCodes.REQUIRED_VALUE], async () => {
     const i18n = createI18n({
       locale: 'en',

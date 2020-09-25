@@ -23,7 +23,7 @@ type VTDirectiveValue = {
 function getComposer<Messages, DateTimeFormats, NumberFormats>(
   i18n: I18n<Messages, DateTimeFormats, NumberFormats>,
   instance: ComponentInternalInstance
-): Composer<Messages, DateTimeFormats, NumberFormats> | null {
+): Composer<Messages, DateTimeFormats, NumberFormats> {
   const i18nInternal = (i18n as unknown) as I18nInternal
   if (i18n.mode === 'composable') {
     return (i18nInternal.__getInstance<
@@ -66,10 +66,6 @@ export function vTDirective<Messages, DateTimeFormats, NumberFormats>(
     }
 
     const composer = getComposer(i18n, instance.$)
-    if (!composer) {
-      throw createI18nError(I18nErrorCodes.NOT_FOUND_COMPOSER)
-    }
-
     if (__DEV__ && modifiers.preserve) {
       warn(getWarnMessage(I18nWarnCodes.NOT_SUPPORTED_PRESERVE))
     }
