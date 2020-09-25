@@ -244,13 +244,14 @@ export function createI18n<
   Options['datetimeFormats'],
   Options['numberFormats']
 > {
-  const __legacyMode = !!options.legacy
+  const __legacyMode = __FEATURE_LEGACY_API__ ? !!options.legacy : false
   const __globalInjection = !options.globalInjection
   const __instances = new Map<
     ComponentInternalInstance,
     VueI18n<Messages> | Composer<Messages>
   >()
-  const __global = __legacyMode
+  // prettier-ignore
+  const __global = __FEATURE_LEGACY_API__ && __legacyMode
     ? createVueI18n(options)
     : createComposer(options)
   const symbol: InjectionKey<I18n> | string = makeSymbol(
@@ -260,7 +261,12 @@ export function createI18n<
   const i18n = {
     // mode
     get mode(): I18nMode {
-      return __legacyMode ? 'legacy' : 'composable'
+      // prettier-ignore
+      return __FEATURE_LEGACY_API__
+        ? __legacyMode
+          ? 'legacy'
+          : 'composable'
+        : 'composable'
     },
     // install plugin
     install(app: App, ...options: unknown[]): void {
