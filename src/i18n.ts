@@ -29,7 +29,7 @@ import { I18nErrorCodes, createI18nError } from './errors'
 import { apply } from './plugin'
 import { defineMixin } from './mixin'
 import { isEmptyObject, warn, makeSymbol } from './utils'
-import { devtoolsRegisterI18n } from './devtools'
+import { devtoolsRegisterI18n, enableDevTools } from './deugger/devtools'
 import { VERSION } from './misc'
 
 declare module '@vue/runtime-core' {
@@ -269,7 +269,7 @@ export function createI18n<
         : 'composable'
     },
     // install plugin
-    install(app: App, ...options: unknown[]): void {
+    async install(app: App, ...options: unknown[]): Promise<void> {
       if (__DEV__ || __FEATURE_PROD_DEVTOOLS__) {
         app.__VUE_I18N__ = i18n as I18n & I18nInternal
       }
@@ -301,6 +301,13 @@ export function createI18n<
             i18n as I18nInternal
           )
         )
+      }
+
+      if (__DEV__) {
+        const ret = await enableDevTools(app, i18n)
+        if (!ret) {
+          throw createI18nError(I18nErrorCodes.CANNOT_SETUP_VUE_DEVTOOLS_PLUGIN)
+        }
       }
     },
     // global composer accsessor
