@@ -32,8 +32,7 @@ import {
   Composer,
   ComposerOptions,
   ComposerInternalOptions,
-  createComposer,
-  ComposerIdSymbol
+  createComposer
 } from './composer'
 import { I18nWarnCodes, getWarnMessage } from './warnings'
 import { createI18nError, I18nErrorCodes } from './errors'
@@ -107,6 +106,7 @@ export interface VueI18n<
   NumberFormats = {}
 > {
   // properties
+  id: number
   locale: Locale
   fallbackLocale: FallbackLocale
   readonly availableLocales: Locale[]
@@ -177,7 +177,6 @@ export interface VueI18nInternal<
   DateTimeFormats = {},
   NumberFormats = {}
 > {
-  __id: number
   __composer: Composer<Messages, DateTimeFormats, NumberFormats>
   __onComponentInstanceCreated(target: VueI18n<Messages>): void
 }
@@ -311,6 +310,8 @@ export function createVueI18n<
     /**
      * properties
      */
+    // id
+    id: composer.id,
 
     // locale
     get locale(): Locale {
@@ -436,7 +437,6 @@ export function createVueI18n<
     },
 
     // for internal
-    __id: (composer as any)[ComposerIdSymbol], // eslint-disable-line @typescript-eslint/no-explicit-any
     __composer: composer,
 
     /**

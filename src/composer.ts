@@ -92,7 +92,6 @@ declare module '@vue/runtime-core' {
   }
 }
 
-export const ComposerIdSymbol = makeSymbol('__id')
 export const TransrateVNodeSymbol = makeSymbol('__transrateVNode')
 export const DatetimePartsSymbol = makeSymbol('__datetimeParts')
 export const NumberPartsSymbol = makeSymbol('__numberParts')
@@ -165,6 +164,7 @@ export interface Composer<
   Message = VueMessageType
 > {
   // properties
+  id: number
   locale: WritableComputedRef<Locale>
   fallbackLocale: WritableComputedRef<FallbackLocale>
   inheritLocale: boolean
@@ -233,7 +233,6 @@ export interface Composer<
  * @internal
  */
 export interface ComposerInternal {
-  __id: number
   __transrateVNode(...args: unknown[]): VNodeArrayChildren
   __numberParts(...args: unknown[]): string | Intl.NumberFormatPart[]
   __datetimeParts(...args: unknown[]): string | Intl.DateTimeFormatPart[]
@@ -845,6 +844,7 @@ export function createComposer<
   // export composable API!
   const composer = {
     // properties
+    id: composerID,
     locale,
     fallbackLocale,
     get inheritLocale(): boolean {
@@ -911,7 +911,6 @@ export function createComposer<
       _warnHtmlMessage = val
       _context.warnHtmlMessage = val
     },
-    [ComposerIdSymbol]: composerID,
     // methods
     t,
     d,

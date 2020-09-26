@@ -244,6 +244,8 @@ export function createI18n<
   Options['datetimeFormats'],
   Options['numberFormats']
 > {
+  type _I18n = I18n & I18nInternal
+
   const __legacyMode = __FEATURE_LEGACY_API__ ? !!options.legacy : false
   const __globalInjection = !options.globalInjection
   const __instances = new Map<
@@ -271,7 +273,7 @@ export function createI18n<
     // install plugin
     async install(app: App, ...options: unknown[]): Promise<void> {
       if (__DEV__ || __FEATURE_PROD_DEVTOOLS__) {
-        app.__VUE_I18N__ = i18n as I18n & I18nInternal
+        app.__VUE_I18N__ = i18n as _I18n
       }
 
       // setup global provider
@@ -304,7 +306,7 @@ export function createI18n<
       }
 
       if (__DEV__) {
-        const ret = await enableDevTools(app, i18n)
+        const ret = await enableDevTools(app, i18n as _I18n)
         if (!ret) {
           throw createI18nError(I18nErrorCodes.CANNOT_SETUP_VUE_DEVTOOLS_PLUGIN)
         }
