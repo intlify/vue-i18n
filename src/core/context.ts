@@ -19,6 +19,7 @@ import {
   isPlainObject,
   isObject
 } from '../utils'
+import { DevToolsTimelineEvents, DevToolsEmitter } from '../debugger/constants'
 import {
   NumberFormat,
   DateTimeFormat,
@@ -96,6 +97,7 @@ export interface RuntimeOptions<Message = string> {
 export interface RuntimeInternalOptions {
   __datetimeFormatters?: Map<string, Intl.DateTimeFormat>
   __numberFormatters?: Map<string, Intl.NumberFormat>
+  __emitter?: DevToolsEmitter // for vue-devtools timeline event
 }
 
 /** @internal */
@@ -149,6 +151,7 @@ export interface RuntimeInternalContext {
   __datetimeFormatters: Map<string, Intl.DateTimeFormat>
   __numberFormatters: Map<string, Intl.NumberFormat>
   __localeChainCache?: Map<Locale, Locale[]>
+  __emitter?: DevToolsEmitter // for vue-devtools timeline event
 }
 
 /** @internal */
@@ -280,6 +283,12 @@ export function createRuntimeContext<
     Message
   >
 
+  // for vue-devtools timeline event
+  if (__DEV__) {
+    ;((context as unknown) as RuntimeInternalContext).__emitter =
+      internalOptions.__emitter != null ? internalOptions.__emitter : undefined
+  }
+
   return context
 }
 
@@ -308,6 +317,19 @@ export function handleMissing<Message = string>(
   type: RuntimeMissingType
 ): unknown {
   const { missing, onWarn } = context
+
+  // for vue-devtools timeline event
+  if (__DEV__) {
+    const emitter = ((context as unknown) as RuntimeInternalContext).__emitter
+    if (emitter) {
+      emitter.emit(DevToolsTimelineEvents.TRANSLATION_MISSING, {
+        locale,
+        key,
+        type
+      })
+    }
+  }
+
   if (missing !== null) {
     const ret = missing(context, locale, key, type)
     return isString(ret) ? ret : key

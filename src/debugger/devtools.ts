@@ -12,6 +12,15 @@ import {
 import { I18n, I18nInternal } from '../i18n'
 import { Composer } from '../composer'
 import { VueI18nInternal } from '../legacy'
+import {
+  DevToolsIDs,
+  DevToolsTimelineColors,
+  DevToolsLabels,
+  DevToolsPlaceholders,
+  DevToolsTimelineEvents,
+  DevToolsTimelineEventPayloads,
+  DevToolsTimelineLayerMaps
+} from './constants'
 
 type _I18n = I18n & I18nInternal
 
@@ -51,8 +60,8 @@ export async function enableDevTools(app: App, i18n: _I18n): Promise<boolean> {
     try {
       setupDevtoolsPlugin(
         {
-          id: 'vue-devtools-plugin-vue-i18n',
-          label: 'Vue I18n devtools',
+          id: DevToolsIDs.PLUGIN,
+          label: DevToolsLabels[DevToolsIDs.PLUGIN],
           app
         },
         api => {
@@ -71,18 +80,18 @@ export async function enableDevTools(app: App, i18n: _I18n): Promise<boolean> {
             }
           })
 
-          const I18nResourceInspectorID = 'vue-i18n-resource-inspector'
           api.addInspector({
-            id: I18nResourceInspectorID,
-            label: 'I18n Resources',
+            id: DevToolsIDs.CUSTOM_INSPECTOR,
+            label: DevToolsLabels[DevToolsIDs.CUSTOM_INSPECTOR],
             icon: 'language',
-            treeFilterPlaceholder: 'Search for scopes ...'
+            treeFilterPlaceholder:
+              DevToolsPlaceholders[DevToolsIDs.CUSTOM_INSPECTOR]
           })
 
           api.on.getInspectorTree(payload => {
             if (
               payload.app === app &&
-              payload.inspectorId === I18nResourceInspectorID
+              payload.inspectorId === DevToolsIDs.CUSTOM_INSPECTOR
             ) {
               registerScope(payload, i18n)
             }
@@ -91,10 +100,30 @@ export async function enableDevTools(app: App, i18n: _I18n): Promise<boolean> {
           api.on.getInspectorState(payload => {
             if (
               payload.app === app &&
-              payload.inspectorId === I18nResourceInspectorID
+              payload.inspectorId === DevToolsIDs.CUSTOM_INSPECTOR
             ) {
               inspectScope(payload, i18n)
             }
+          })
+
+          api.addTimelineLayer({
+            id: DevToolsIDs.TIMELINE_PERFORMANCE,
+            label: DevToolsLabels[DevToolsIDs.TIMELINE_PERFORMANCE],
+            color: DevToolsTimelineColors[DevToolsIDs.TIMELINE_PERFORMANCE]
+          })
+
+          api.addTimelineLayer({
+            id: DevToolsIDs.TIMELINE_TRANSLATION_MISSING,
+            label: DevToolsLabels[DevToolsIDs.TIMELINE_TRANSLATION_MISSING],
+            color:
+              DevToolsTimelineColors[DevToolsIDs.TIMELINE_TRANSLATION_MISSING]
+          })
+
+          api.addTimelineLayer({
+            id: DevToolsIDs.TIMELINE_FALLBACK_TRANSLATION,
+            label: DevToolsLabels[DevToolsIDs.TIMELINE_FALLBACK_TRANSLATION],
+            color:
+              DevToolsTimelineColors[DevToolsIDs.TIMELINE_FALLBACK_TRANSLATION]
           })
 
           resolve(true)
@@ -268,4 +297,20 @@ function makeScopeInspectState(composer: Composer): CustomInspectorState {
   state[numberFormatsType] = numberFormatsStates
 
   return state
+}
+
+export function addTimelineEvent(
+  event: DevToolsTimelineEvents,
+  payload?: DevToolsTimelineEventPayloads[DevToolsTimelineEvents]
+): void {
+  if (devtoolsApi) {
+    devtoolsApi.addTimelineEvent({
+      layerId: DevToolsTimelineLayerMaps[event],
+      event: {
+        time: Date.now(),
+        meta: {},
+        data: payload || {}
+      }
+    })
+  }
 }

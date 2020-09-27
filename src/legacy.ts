@@ -30,8 +30,11 @@ import {
   VueMessageType,
   MissingHandler,
   Composer,
+  ComposerInternal,
   ComposerOptions,
   ComposerInternalOptions,
+  EnableEmitter,
+  DisableEmitter,
   createComposer
 } from './composer'
 import { I18nWarnCodes, getWarnMessage } from './warnings'
@@ -46,6 +49,7 @@ import {
   isRegExp,
   warn
 } from './utils'
+import { DevToolsEmitter } from './debugger/constants'
 
 export type TranslateResult = string
 export type Choice = number
@@ -179,6 +183,8 @@ export interface VueI18nInternal<
 > {
   __composer: Composer<Messages, DateTimeFormats, NumberFormats>
   __onComponentInstanceCreated(target: VueI18n<Messages>): void
+  __enableEmitter?: (emitter: DevToolsEmitter) => void
+  __disableEmitter?: () => void
 }
 
 /**
@@ -592,6 +598,22 @@ export function createVueI18n<
       if (componentInstanceCreatedListener) {
         componentInstanceCreatedListener<Messages>(target, vueI18n)
       }
+    }
+  }
+
+  // for vue-devtools timeline event
+  if (__DEV__) {
+    ;(vueI18n as VueI18nInternal).__enableEmitter = (
+      emitter: DevToolsEmitter
+    ): void => {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const __composer = composer as any
+      __composer[EnableEmitter] && __composer[EnableEmitter](emitter)
+    }
+    ;(vueI18n as VueI18nInternal).__disableEmitter = (): void => {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const __composer = composer as any
+      __composer[DisableEmitter] && __composer[DisableEmitter]()
     }
   }
 

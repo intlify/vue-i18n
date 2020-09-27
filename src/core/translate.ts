@@ -12,6 +12,7 @@ import {
 import {
   Locale,
   RuntimeTranslationContext,
+  RuntimeInternalContext,
   isTranslateFallbackWarn,
   handleMissing,
   LocaleMessageValue,
@@ -32,6 +33,7 @@ import {
   generateFormatCacheKey,
   generateCodeFrame
 } from '../utils'
+import { DevToolsTimelineEvents } from '../debugger/constants'
 
 const NOOP_MESSAGE_FUNCTION = () => ''
 const isMessageFunction = <T>(val: unknown): val is MessageFunction<T> =>
@@ -225,8 +227,10 @@ export function translate<Messages, Message = string>(
   let message: LocaleMessageValue<Message> = {}
   let targetLocale: Locale | undefined
   let format: PathValue = null
+  let from: Locale = locale
+  let to: Locale | null = null
   for (let i = 0; i < locales.length; i++) {
-    targetLocale = locales[i]
+    targetLocale = to = locales[i]
     if (
       __DEV__ &&
       locale !== targetLocale &&
@@ -239,14 +243,50 @@ export function translate<Messages, Message = string>(
         })
       )
     }
+    // for vue-devtools timeline event
+    if (__DEV__ && locale !== targetLocale) {
+      const emitter = ((context as unknown) as RuntimeInternalContext).__emitter
+      if (emitter) {
+        emitter.emit(DevToolsTimelineEvents.FALBACK_TRANSLATION, {
+          key,
+          from,
+          to
+        })
+      }
+    }
     message =
       ((messages as unknown) as LocaleMessages<Message>)[targetLocale] || {}
+
+    // for vue-devtools timeline event
+    // TODO: refactoring
+    let start: number | null = null
+    let end: number
+    if (__DEV__) {
+      start = performance.now()
+    }
     if ((format = resolveValue(message, key)) === null) {
       // if null, resolve with object key path
       format = (message as any)[key] // eslint-disable-line @typescript-eslint/no-explicit-any
     }
+
+    // for vue-devtools timeline event
+    // TODO: refactoring
+    if (__DEV__) {
+      end = performance.now()
+      const emitter = ((context as unknown) as RuntimeInternalContext).__emitter
+      if (emitter && start && format) {
+        emitter.emit(DevToolsTimelineEvents.MESSAGE_RESOLVE, {
+          type: DevToolsTimelineEvents.MESSAGE_RESOLVE,
+          key,
+          message: format,
+          time: end - start
+        })
+      }
+    }
+
     if (isString(format) || isFunction(format)) break
     handleMissing<Message>(context, key, targetLocale, missingWarn, 'translate')
+    from = to
   }
 
   let cacheBaseKey = key
@@ -276,6 +316,14 @@ export function translate<Messages, Message = string>(
   // compile message format
   let msg
   if (!isMessageFunction<Message>(format)) {
+    // for vue-devtools timeline event
+    // TODO: refactoring
+    let start: number | null = null
+    let end: number
+    if (__DEV__) {
+      start = performance.now()
+    }
+
     msg = messageCompiler(
       format,
       getCompileOptions(
@@ -286,6 +334,20 @@ export function translate<Messages, Message = string>(
         errorDetector
       )
     ) as MessageFunctionInternal
+
+    // for vue-devtools timeline event
+    // TODO: refactoring
+    if (__DEV__) {
+      end = performance.now()
+      const emitter = ((context as unknown) as RuntimeInternalContext).__emitter
+      if (emitter && start) {
+        emitter.emit(DevToolsTimelineEvents.MESSAGE_COMPILATION, {
+          type: DevToolsTimelineEvents.MESSAGE_COMPILATION,
+          message: format,
+          time: end - start
+        })
+      }
+    }
     msg.locale = targetLocale
     msg.key = key
     msg.source = format

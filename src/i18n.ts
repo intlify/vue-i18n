@@ -16,7 +16,10 @@ import {
   Composer,
   ComposerOptions,
   ComposerInternalOptions,
-  createComposer
+  createComposer,
+  ComposerInternal,
+  EnableEmitter,
+  DisableEmitter
 } from './composer'
 import {
   createVueI18n,
@@ -29,7 +32,13 @@ import { I18nErrorCodes, createI18nError } from './errors'
 import { apply } from './plugin'
 import { defineMixin } from './mixin'
 import { isEmptyObject, warn, makeSymbol } from './utils'
-import { devtoolsRegisterI18n, enableDevTools } from './deugger/devtools'
+import {
+  devtoolsRegisterI18n,
+  enableDevTools,
+  addTimelineEvent
+} from './debugger/devtools'
+import { DevToolsEmitter, DevToolsEmitterEvents } from './debugger/constants'
+import { createEmitter } from './debugger/emitter'
 import { VERSION } from './misc'
 
 declare module '@vue/runtime-core' {
@@ -310,6 +319,20 @@ export function createI18n<
         if (!ret) {
           throw createI18nError(I18nErrorCodes.CANNOT_SETUP_VUE_DEVTOOLS_PLUGIN)
         }
+        const emitter: DevToolsEmitter = createEmitter<DevToolsEmitterEvents>()
+        if (__legacyMode) {
+          const _vueI18n = (__global as unknown) as VueI18nInternal<
+            Messages,
+            DateTimeFormats,
+            NumberFormats
+          >
+          _vueI18n.__enableEmitter && _vueI18n.__enableEmitter(emitter)
+        } else {
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          const _composer = __global as any
+          _composer[EnableEmitter] && _composer[EnableEmitter](emitter)
+        }
+        emitter.on('*', addTimelineEvent)
       }
     },
     // global composer accsessor
@@ -556,10 +579,17 @@ function setupLifeCycle<Messages, DateTimeFormats, NumberFormats>(
   target: ComponentInternalInstance,
   composer: Composer<Messages, DateTimeFormats, NumberFormats>
 ): void {
+  let emitter: DevToolsEmitter | null = null
+
   onMounted(() => {
     // inject composer instance to DOM for intlify-devtools
     if ((__DEV__ || __FEATURE_PROD_DEVTOOLS__) && target.vnode.el) {
       target.vnode.el.__INTLIFY__ = composer
+      emitter = createEmitter<DevToolsEmitterEvents>()
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const _composer = composer as any
+      _composer[EnableEmitter] && _composer[EnableEmitter](emitter)
+      emitter.on('*', addTimelineEvent)
     }
   }, target)
 
@@ -570,6 +600,10 @@ function setupLifeCycle<Messages, DateTimeFormats, NumberFormats>(
       target.vnode.el &&
       target.vnode.el.__INTLIFY__
     ) {
+      emitter && emitter.off('*', addTimelineEvent)
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const _composer = composer as any
+      _composer[DisableEmitter] && _composer[DisableEmitter]()
       delete target.vnode.el.__INTLIFY__
     }
     i18n.__deleteInstance(target)
