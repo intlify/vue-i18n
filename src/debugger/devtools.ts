@@ -107,6 +107,12 @@ export async function enableDevTools(app: App, i18n: _I18n): Promise<boolean> {
           })
 
           api.addTimelineLayer({
+            id: DevToolsIDs.TIMELINE_COMPILE_ERROR,
+            label: DevToolsLabels[DevToolsIDs.TIMELINE_COMPILE_ERROR],
+            color: DevToolsTimelineColors[DevToolsIDs.TIMELINE_COMPILE_ERROR]
+          })
+
+          api.addTimelineLayer({
             id: DevToolsIDs.TIMELINE_PERFORMANCE,
             label: DevToolsLabels[DevToolsIDs.TIMELINE_PERFORMANCE],
             color: DevToolsTimelineColors[DevToolsIDs.TIMELINE_PERFORMANCE]

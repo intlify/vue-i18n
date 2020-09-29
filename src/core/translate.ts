@@ -410,6 +410,7 @@ function compileMessasgeFormat<Messages, Message>(
   const msg = messageCompiler(
     format as string,
     getCompileOptions(
+      context,
       targetLocale,
       cacheBaseKey,
       format as string,
@@ -513,7 +514,8 @@ export function parseTranslateArgs(
   return [key, options]
 }
 
-function getCompileOptions(
+function getCompileOptions<Messages, Message>(
+  context: RuntimeTranslationContext<Messages, Message>,
   locale: Locale,
   key: string,
   source: string,
@@ -533,6 +535,16 @@ function getCompileOptions(
             err.location.start.offset,
             err.location.end.offset
           )
+        const emitter = ((context as unknown) as RuntimeInternalContext)
+          .__emitter
+        if (emitter) {
+          emitter.emit(DevToolsTimelineEvents.COMPILE_ERROR, {
+            message: source,
+            error: message,
+            start: err.location && err.location.start.offset,
+            end: err.location && err.location.end.offset
+          })
+        }
         console.error(codeFrame ? `${message}\n${codeFrame}` : message)
       } else {
         throw err
