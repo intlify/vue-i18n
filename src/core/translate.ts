@@ -549,7 +549,7 @@ function getMessageContextOptions<Messages, Message = string>(
   message: LocaleMessageValue<Message>,
   options: TranslateOptions
 ): MessageContextOptions<Message> {
-  const { modifiers, pluralRules, messageCompiler } = context
+  const { modifiers, pluralRules } = context
 
   const resolveMessage = (key: string): MessageFunction<Message> => {
     const val = resolveValue(message, key)
@@ -558,16 +558,14 @@ function getMessageContextOptions<Messages, Message = string>(
       const errorDetector = () => {
         occured = true
       }
-      const msg = messageCompiler(
+      const msg = (compileMessasgeFormat<Messages, Message>(
+        context,
+        key,
+        locale,
         val,
-        getCompileOptions(
-          locale,
-          key,
-          val,
-          context.warnHtmlMessage,
-          errorDetector
-        )
-      )
+        key,
+        errorDetector
+      ) as unknown) as MessageFunction<Message>
       return !occured
         ? msg
         : (NOOP_MESSAGE_FUNCTION as MessageFunction<Message>)
