@@ -7,7 +7,8 @@ import {
   MessageFunction,
   MessageFunctionInternal,
   MessageContextOptions,
-  MessageType
+  MessageType,
+  MessageContext
 } from '../message/runtime'
 import {
   Locale,
@@ -18,7 +19,8 @@ import {
   LocaleMessageValue,
   getLocaleChain,
   NOT_REOSLVED,
-  LocaleMessages
+  LocaleMessages,
+  FallbackLocale
 } from './context'
 import { CoreWarnCodes, getWarnMessage } from './warnings'
 import { CoreErrorCodes, createCoreError } from './errors'
@@ -31,7 +33,10 @@ import {
   isPlainObject,
   isEmptyObject,
   generateFormatCacheKey,
-  generateCodeFrame
+  generateCodeFrame,
+  inBrowser,
+  mark,
+  measure
 } from '../utils'
 import { DevToolsTimelineEvents } from '../debugger/constants'
 
@@ -190,14 +195,10 @@ export function translate<Messages, Message = string>(
   ...args: unknown[]
 ): MessageType<Message> | number {
   const {
-    messages,
     fallbackFormat,
     postTranslation,
     unresolving,
-    fallbackLocale,
-    warnHtmlMessage,
-    messageCompiler,
-    onWarn
+    fallbackLocale
   } = context
   const [key, options] = parseTranslateArgs(...args)
 
@@ -219,79 +220,21 @@ export function translate<Messages, Message = string>(
         ? key
         : ''
   const enableDefaultMsg = fallbackFormat || defaultMsgOrKey !== ''
-
   const locale = isString(options.locale) ? options.locale : context.locale
-  const locales = getLocaleChain<Message>(context, fallbackLocale, locale)
 
   // resolve message format
-  let message: LocaleMessageValue<Message> = {}
-  let targetLocale: Locale | undefined
-  let format: PathValue = null
-  let from: Locale = locale
-  let to: Locale | null = null
-  for (let i = 0; i < locales.length; i++) {
-    targetLocale = to = locales[i]
-    if (
-      __DEV__ &&
-      locale !== targetLocale &&
-      isTranslateFallbackWarn(fallbackWarn, key)
-    ) {
-      onWarn(
-        getWarnMessage(CoreWarnCodes.FALLBACK_TO_TRANSLATE, {
-          key,
-          target: targetLocale
-        })
-      )
-    }
-    // for vue-devtools timeline event
-    if (__DEV__ && locale !== targetLocale) {
-      const emitter = ((context as unknown) as RuntimeInternalContext).__emitter
-      if (emitter) {
-        emitter.emit(DevToolsTimelineEvents.FALBACK_TRANSLATION, {
-          key,
-          from,
-          to
-        })
-      }
-    }
-    message =
-      ((messages as unknown) as LocaleMessages<Message>)[targetLocale] || {}
-
-    // for vue-devtools timeline event
-    // TODO: refactoring
-    let start: number | null = null
-    let end: number
-    if (__DEV__) {
-      start = performance.now()
-    }
-    if ((format = resolveValue(message, key)) === null) {
-      // if null, resolve with object key path
-      format = (message as any)[key] // eslint-disable-line @typescript-eslint/no-explicit-any
-    }
-
-    // for vue-devtools timeline event
-    // TODO: refactoring
-    if (__DEV__) {
-      end = performance.now()
-      const emitter = ((context as unknown) as RuntimeInternalContext).__emitter
-      if (emitter && start && format) {
-        emitter.emit(DevToolsTimelineEvents.MESSAGE_RESOLVE, {
-          type: DevToolsTimelineEvents.MESSAGE_RESOLVE,
-          key,
-          message: format,
-          time: end - start
-        })
-      }
-    }
-
-    if (isString(format) || isFunction(format)) break
-    handleMissing<Message>(context, key, targetLocale, missingWarn, 'translate')
-    from = to
-  }
-
-  let cacheBaseKey = key
+  // eslint-disable-next-line prefer-const
+  let [format, targetLocale, message] = resolveMessageFormat(
+    context,
+    key,
+    locale,
+    fallbackLocale,
+    fallbackWarn,
+    missingWarn
+  )
 
   // if you use default message, set it as message format!
+  let cacheBaseKey = key
   if (!(isString(format) || isMessageFunction<Message>(format))) {
     if (enableDefaultMsg) {
       format = defaultMsgOrKey
@@ -314,48 +257,14 @@ export function translate<Messages, Message = string>(
   }
 
   // compile message format
-  let msg
-  if (!isMessageFunction<Message>(format)) {
-    // for vue-devtools timeline event
-    // TODO: refactoring
-    let start: number | null = null
-    let end: number
-    if (__DEV__) {
-      start = performance.now()
-    }
-
-    msg = messageCompiler(
-      format,
-      getCompileOptions(
-        targetLocale,
-        cacheBaseKey,
-        format,
-        warnHtmlMessage,
-        errorDetector
-      )
-    ) as MessageFunctionInternal
-
-    // for vue-devtools timeline event
-    // TODO: refactoring
-    if (__DEV__) {
-      end = performance.now()
-      const emitter = ((context as unknown) as RuntimeInternalContext).__emitter
-      if (emitter && start) {
-        emitter.emit(DevToolsTimelineEvents.MESSAGE_COMPILATION, {
-          type: DevToolsTimelineEvents.MESSAGE_COMPILATION,
-          message: format,
-          time: end - start
-        })
-      }
-    }
-    msg.locale = targetLocale
-    msg.key = key
-    msg.source = format
-  } else {
-    msg = format as MessageFunctionInternal
-    msg.locale = msg.locale || targetLocale
-    msg.key = msg.key || key
-  }
+  const msg = compileMessasgeFormat(
+    context,
+    key,
+    targetLocale,
+    format,
+    cacheBaseKey,
+    errorDetector
+  )
 
   // if occured compile error, return the message format
   if (occured) {
@@ -370,10 +279,205 @@ export function translate<Messages, Message = string>(
     options
   )
   const msgContext = createMessageContext<Message>(ctxOptions)
-  const messaged = (msg as MessageFunction<Message>)(msgContext)
+  const messaged = evaluateMessage<Messages, Message>(
+    context,
+    msg as MessageFunction<Message>,
+    msgContext
+  )
 
   // if use post translation option, procee it with handler
   return postTranslation ? postTranslation(messaged) : messaged
+}
+
+function resolveMessageFormat<Messages, Message>(
+  context: RuntimeTranslationContext<Messages, Message>,
+  key: string,
+  locale: Locale,
+  fallbackLocale: FallbackLocale,
+  fallbackWarn: boolean | RegExp,
+  missingWarn: boolean | RegExp
+): [PathValue, Locale | undefined, LocaleMessageValue<Message>] {
+  const { messages, onWarn } = context
+  const locales = getLocaleChain<Message>(context, fallbackLocale, locale)
+
+  let message: LocaleMessageValue<Message> = {}
+  let targetLocale: Locale | undefined
+  let format: PathValue = null
+  let from: Locale = locale
+  let to: Locale | null = null
+
+  for (let i = 0; i < locales.length; i++) {
+    targetLocale = to = locales[i]
+
+    if (
+      __DEV__ &&
+      locale !== targetLocale &&
+      isTranslateFallbackWarn(fallbackWarn, key)
+    ) {
+      onWarn(
+        getWarnMessage(CoreWarnCodes.FALLBACK_TO_TRANSLATE, {
+          key,
+          target: targetLocale
+        })
+      )
+    }
+
+    // for vue-devtools timeline event
+    if (__DEV__ && locale !== targetLocale) {
+      const emitter = ((context as unknown) as RuntimeInternalContext).__emitter
+      if (emitter) {
+        emitter.emit(DevToolsTimelineEvents.FALBACK_TRANSLATION, {
+          key,
+          from,
+          to
+        })
+      }
+    }
+
+    message =
+      ((messages as unknown) as LocaleMessages<Message>)[targetLocale] || {}
+
+    // for vue-devtools timeline event
+    let start: number | null = null
+    let startTag: string | undefined
+    let endTag: string | undefined
+    if (__DEV__ && inBrowser) {
+      start = window.performance.now()
+      startTag = 'intlify-message-resolve-start'
+      endTag = 'intlify-message-resolve-end'
+      mark && mark(startTag)
+    }
+
+    if ((format = resolveValue(message, key)) === null) {
+      // if null, resolve with object key path
+      format = (message as any)[key] // eslint-disable-line @typescript-eslint/no-explicit-any
+    }
+
+    // for vue-devtools timeline event
+    if (__DEV__ && inBrowser) {
+      const end = window.performance.now()
+      const emitter = ((context as unknown) as RuntimeInternalContext).__emitter
+      if (emitter && start && format) {
+        emitter.emit(DevToolsTimelineEvents.MESSAGE_RESOLVE, {
+          type: DevToolsTimelineEvents.MESSAGE_RESOLVE,
+          key,
+          message: format,
+          time: end - start
+        })
+      }
+      if (startTag && endTag && mark && measure) {
+        mark(endTag)
+        measure('intlify message resolve', startTag, endTag)
+      }
+    }
+
+    if (isString(format) || isFunction(format)) break
+    handleMissing<Message>(context, key, targetLocale, missingWarn, 'translate')
+    from = to
+  }
+
+  return [format, targetLocale, message]
+}
+
+function compileMessasgeFormat<Messages, Message>(
+  context: RuntimeTranslationContext<Messages, Message>,
+  key: string,
+  targetLocale: string,
+  format: PathValue,
+  cacheBaseKey: string,
+  errorDetector: () => void
+): MessageFunctionInternal {
+  const { messageCompiler, warnHtmlMessage } = context
+
+  if (isMessageFunction<Message>(format)) {
+    const msg = format as MessageFunctionInternal
+    msg.locale = msg.locale || targetLocale
+    msg.key = msg.key || key
+    return msg
+  }
+
+  // for vue-devtools timeline event
+  let start: number | null = null
+  let startTag: string | undefined
+  let endTag: string | undefined
+  if (__DEV__ && inBrowser) {
+    start = window.performance.now()
+    startTag = 'intlify-message-compilation-start'
+    endTag = 'intlify-message-compilation-end'
+    mark && mark(startTag)
+  }
+
+  const msg = messageCompiler(
+    format as string,
+    getCompileOptions(
+      targetLocale,
+      cacheBaseKey,
+      format as string,
+      warnHtmlMessage,
+      errorDetector
+    )
+  ) as MessageFunctionInternal
+
+  // for vue-devtools timeline event
+  if (__DEV__ && inBrowser) {
+    const end = window.performance.now()
+    const emitter = ((context as unknown) as RuntimeInternalContext).__emitter
+    if (emitter && start) {
+      emitter.emit(DevToolsTimelineEvents.MESSAGE_COMPILATION, {
+        type: DevToolsTimelineEvents.MESSAGE_COMPILATION,
+        message: format,
+        time: end - start
+      })
+    }
+    if (startTag && endTag && mark && measure) {
+      mark(endTag)
+      measure('intlify message compilation', startTag, endTag)
+    }
+  }
+
+  msg.locale = targetLocale
+  msg.key = key
+  msg.source = format as string
+
+  return msg
+}
+
+function evaluateMessage<Messages, Message>(
+  context: RuntimeTranslationContext<Messages, Message>,
+  msg: MessageFunction<Message>,
+  msgCtx: MessageContext<Message>
+): MessageType<Message> {
+  // for vue-devtools timeline event
+  let start: number | null = null
+  let startTag: string | undefined
+  let endTag: string | undefined
+  if (__DEV__ && inBrowser) {
+    start = window.performance.now()
+    startTag = 'intlify-message-evaluation-start'
+    endTag = 'intlify-message-evaluation-end'
+    mark && mark(startTag)
+  }
+
+  const messaged = msg(msgCtx)
+
+  // for vue-devtools timeline event
+  if (__DEV__ && inBrowser) {
+    const end = window.performance.now()
+    const emitter = ((context as unknown) as RuntimeInternalContext).__emitter
+    if (emitter && start) {
+      emitter.emit(DevToolsTimelineEvents.MESSAGE_EVALUATION, {
+        type: DevToolsTimelineEvents.MESSAGE_EVALUATION,
+        value: messaged,
+        time: end - start
+      })
+    }
+    if (startTag && endTag && mark && measure) {
+      mark(endTag)
+      measure('intlify message evaluation', startTag, endTag)
+    }
+  }
+
+  return messaged
 }
 
 /** @internal */

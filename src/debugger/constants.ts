@@ -31,8 +31,9 @@ export const DevToolsTimelineColors: Record<string, number> = {
 export const enum DevToolsTimelineEvents {
   TRANSLATION_MISSING = 'translation-missing',
   FALBACK_TRANSLATION = 'fallback-translation',
+  MESSAGE_RESOLVE = 'message-resolve',
   MESSAGE_COMPILATION = 'message-compilation',
-  MESSAGE_RESOLVE = 'message-resolve'
+  MESSAGE_EVALUATION = 'message-evaluation'
 }
 
 export type DevToolsTimelineEventPayloads = {
@@ -46,15 +47,20 @@ export type DevToolsTimelineEventPayloads = {
     from?: Locale
     to: Locale | 'global'
   }
-  [DevToolsTimelineEvents.MESSAGE_COMPILATION]: {
-    type: DevToolsTimelineEvents.MESSAGE_COMPILATION
-    message: string | Function
-    time: number
-  }
   [DevToolsTimelineEvents.MESSAGE_RESOLVE]: {
     type: DevToolsTimelineEvents.MESSAGE_RESOLVE
     key: Path
     message: PathValue
+    time: number
+  }
+  [DevToolsTimelineEvents.MESSAGE_COMPILATION]: {
+    type: DevToolsTimelineEvents.MESSAGE_COMPILATION
+    message: PathValue
+    time: number
+  }
+  [DevToolsTimelineEvents.MESSAGE_EVALUATION]: {
+    type: DevToolsTimelineEvents.MESSAGE_EVALUATION
+    value: unknown
     time: number
   }
 }
@@ -64,14 +70,17 @@ export const DevToolsTimelineLayerMaps: Record<string, string> = {
     DevToolsIDs.TIMELINE_TRANSLATION_MISSING,
   [DevToolsTimelineEvents.FALBACK_TRANSLATION]:
     DevToolsIDs.TIMELINE_FALLBACK_TRANSLATION,
-  [DevToolsTimelineEvents.MESSAGE_COMPILATION]: DevToolsIDs.TIMELINE_PERFORMANCE,
-  [DevToolsTimelineEvents.MESSAGE_RESOLVE]: DevToolsIDs.TIMELINE_PERFORMANCE
+  [DevToolsTimelineEvents.MESSAGE_RESOLVE]: DevToolsIDs.TIMELINE_PERFORMANCE,
+  [DevToolsTimelineEvents.MESSAGE_COMPILATION]:
+    DevToolsIDs.TIMELINE_PERFORMANCE,
+  [DevToolsTimelineEvents.MESSAGE_EVALUATION]: DevToolsIDs.TIMELINE_PERFORMANCE
 }
 
 export type DevToolsEmitterEvents = {
   [DevToolsTimelineEvents.TRANSLATION_MISSING]: DevToolsTimelineEventPayloads[DevToolsTimelineEvents.TRANSLATION_MISSING]
   [DevToolsTimelineEvents.FALBACK_TRANSLATION]: DevToolsTimelineEventPayloads[DevToolsTimelineEvents.FALBACK_TRANSLATION]
-  [DevToolsTimelineEvents.MESSAGE_COMPILATION]: DevToolsTimelineEventPayloads[DevToolsTimelineEvents.MESSAGE_COMPILATION]
   [DevToolsTimelineEvents.MESSAGE_RESOLVE]: DevToolsTimelineEventPayloads[DevToolsTimelineEvents.MESSAGE_RESOLVE]
+  [DevToolsTimelineEvents.MESSAGE_COMPILATION]: DevToolsTimelineEventPayloads[DevToolsTimelineEvents.MESSAGE_COMPILATION]
+  [DevToolsTimelineEvents.MESSAGE_EVALUATION]: DevToolsTimelineEventPayloads[DevToolsTimelineEvents.MESSAGE_EVALUATION]
 }
 export type DevToolsEmitter = Emittable<DevToolsEmitterEvents>

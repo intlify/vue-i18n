@@ -17,7 +17,6 @@ import {
   ComposerOptions,
   ComposerInternalOptions,
   createComposer,
-  ComposerInternal,
   EnableEmitter,
   DisableEmitter
 } from './composer'

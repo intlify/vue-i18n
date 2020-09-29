@@ -30,7 +30,6 @@ import {
   VueMessageType,
   MissingHandler,
   Composer,
-  ComposerInternal,
   ComposerOptions,
   ComposerInternalOptions,
   EnableEmitter,
