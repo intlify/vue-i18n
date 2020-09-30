@@ -82,17 +82,6 @@ test('* event', () => {
   expect(handler1).toBeCalledTimes(2)
 })
 
-test('once event', () => {
-  const handler1 = jest.fn()
-
-  const emitter = createEmitter<{ foo: string }>()
-  emitter.once('foo', handler1)
-  emitter.emit('foo', 'hello')
-  emitter.emit('foo', 'hello')
-
-  expect(handler1).toBeCalledTimes(1)
-})
-
 test('events', () => {
   enum NamespaceEvents {
     NAME1_EVENT1 = 'name1:event1'

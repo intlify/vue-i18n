@@ -68,17 +68,6 @@ export interface Emittable<Events extends Record<EventType, unknown> = {}> {
   ): void
 
   /**
-   * Register an event handler to receive an event only once
-   *
-   * @param event - An {@link EventType}
-   * @param handler - An {@link EventHandler}
-   */
-  once<Key extends keyof Events>(
-    event: Key,
-    handler: EventHandler<Events[keyof Events]>
-  ): void
-
-  /**
    * Invoke all handlers with the event type
    *
    * @remarks

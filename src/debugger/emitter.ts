@@ -53,18 +53,6 @@ export function createEmitter<
       }
     },
 
-    once<Key extends keyof Events>(
-      event: Key,
-      handler: EventHandler<Events[keyof Events]>
-    ): void {
-      const on = (...args: unknown[]): void => {
-        emitter.off(event, on)
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        handler.apply(emitter, args as any)
-      }
-      emitter.on(event, on)
-    },
-
     emit<Key extends keyof Events>(
       event: Key,
       payload?: Events[keyof Events]
