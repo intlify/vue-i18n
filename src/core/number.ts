@@ -23,6 +23,7 @@ import {
   isNumber,
   isEmptyObject
 } from '../utils'
+import { DevToolsTimelineEvents } from '../debugger/constants'
 
 /**
  *  # number
@@ -136,8 +137,12 @@ export function number<NumberFormats, Message = string>(
   let numberFormat: NumberFormat = {}
   let targetLocale: Locale | undefined
   let format: NumberFormatOptions | null = null
+  let from: Locale = locale
+  let to: Locale | null = null
+  const type = 'number format'
+
   for (let i = 0; i < locales.length; i++) {
-    targetLocale = locales[i]
+    targetLocale = to = locales[i]
     if (
       __DEV__ &&
       locale !== targetLocale &&
@@ -150,11 +155,27 @@ export function number<NumberFormats, Message = string>(
         })
       )
     }
+
+    // for vue-devtools timeline event
+    if (__DEV__ && locale !== targetLocale) {
+      const emitter = ((context as unknown) as RuntimeInternalContext).__emitter
+      if (emitter) {
+        emitter.emit(DevToolsTimelineEvents.FALBACK, {
+          type,
+          key,
+          from,
+          to
+        })
+      }
+    }
+
     numberFormat =
       ((numberFormats as unknown) as NumberFormatsType)[targetLocale] || {}
+
     format = numberFormat[key]
     if (isPlainObject(format)) break
-    handleMissing(context, key, targetLocale, missingWarn, 'number')
+    handleMissing(context, key, targetLocale, missingWarn, type)
+    from = to
   }
 
   // checking format and target locale

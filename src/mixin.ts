@@ -13,6 +13,9 @@ import {
 } from './legacy'
 import { I18nInternal } from './i18n'
 import { createI18nError, I18nErrorCodes } from './errors'
+import { addTimelineEvent } from './debugger/devtools'
+import { DevToolsEmitter, DevToolsEmitterEvents } from './debugger/constants'
+import { createEmitter } from './debugger/emitter'
 
 // supports compatibility for legacy vue-i18n APIs
 export function defineMixin<Messages, DateTimeFormats, NumberFormats>(
@@ -90,6 +93,16 @@ export function defineMixin<Messages, DateTimeFormats, NumberFormats>(
     mounted(): void {
       if (__DEV__ || __FEATURE_PROD_DEVTOOLS__) {
         this.$el.__INTLIFY__ = this.$i18n.__composer
+        const emitter: DevToolsEmitter = (this.__emitter = createEmitter<
+          DevToolsEmitterEvents
+        >())
+        const _vueI18n = (this.$i18n as unknown) as VueI18nInternal<
+          Messages,
+          DateTimeFormats,
+          NumberFormats
+        >
+        _vueI18n.__enableEmitter && _vueI18n.__enableEmitter(emitter)
+        emitter.on('*', addTimelineEvent)
       }
     },
 
@@ -101,6 +114,16 @@ export function defineMixin<Messages, DateTimeFormats, NumberFormats>(
       }
 
       if (__DEV__ || __FEATURE_PROD_DEVTOOLS__) {
+        if (this.__emitter) {
+          this.__emitter.off('*', addTimelineEvent)
+          delete this.__emitter
+        }
+        const _vueI18n = (this.$i18n as unknown) as VueI18nInternal<
+          Messages,
+          DateTimeFormats,
+          NumberFormats
+        >
+        _vueI18n.__disableEmitter && _vueI18n.__disableEmitter()
         delete this.$el.__INTLIFY__
       }
 

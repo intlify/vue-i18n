@@ -32,8 +32,9 @@ import {
   Composer,
   ComposerOptions,
   ComposerInternalOptions,
-  createComposer,
-  ComposerIdSymbol
+  EnableEmitter,
+  DisableEmitter,
+  createComposer
 } from './composer'
 import { I18nWarnCodes, getWarnMessage } from './warnings'
 import { createI18nError, I18nErrorCodes } from './errors'
@@ -47,6 +48,7 @@ import {
   isRegExp,
   warn
 } from './utils'
+import { DevToolsEmitter } from './debugger/constants'
 
 export type TranslateResult = string
 export type Choice = number
@@ -107,6 +109,7 @@ export interface VueI18n<
   NumberFormats = {}
 > {
   // properties
+  id: number
   locale: Locale
   fallbackLocale: FallbackLocale
   readonly availableLocales: Locale[]
@@ -177,9 +180,10 @@ export interface VueI18nInternal<
   DateTimeFormats = {},
   NumberFormats = {}
 > {
-  __id: number
   __composer: Composer<Messages, DateTimeFormats, NumberFormats>
   __onComponentInstanceCreated(target: VueI18n<Messages>): void
+  __enableEmitter?: (emitter: DevToolsEmitter) => void
+  __disableEmitter?: () => void
 }
 
 /**
@@ -311,6 +315,8 @@ export function createVueI18n<
     /**
      * properties
      */
+    // id
+    id: composer.id,
 
     // locale
     get locale(): Locale {
@@ -436,7 +442,6 @@ export function createVueI18n<
     },
 
     // for internal
-    __id: (composer as any)[ComposerIdSymbol], // eslint-disable-line @typescript-eslint/no-explicit-any
     __composer: composer,
 
     /**
@@ -592,6 +597,22 @@ export function createVueI18n<
       if (componentInstanceCreatedListener) {
         componentInstanceCreatedListener<Messages>(target, vueI18n)
       }
+    }
+  }
+
+  // for vue-devtools timeline event
+  if (__DEV__) {
+    ;(vueI18n as VueI18nInternal).__enableEmitter = (
+      emitter: DevToolsEmitter
+    ): void => {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const __composer = composer as any
+      __composer[EnableEmitter] && __composer[EnableEmitter](emitter)
+    }
+    ;(vueI18n as VueI18nInternal).__disableEmitter = (): void => {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const __composer = composer as any
+      __composer[DisableEmitter] && __composer[DisableEmitter]()
     }
   }
 

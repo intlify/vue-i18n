@@ -24,6 +24,7 @@ import {
   isNumber,
   isEmptyObject
 } from '../utils'
+import { DevToolsTimelineEvents } from '../debugger/constants'
 
 /**
  *  # datetime
@@ -140,8 +141,12 @@ export function datetime<DateTimeFormats, Message = string>(
   let datetimeFormat: DateTimeFormat = {}
   let targetLocale: Locale | undefined
   let format: DateTimeFormatOptions | null = null
+  let from: Locale = locale
+  let to: Locale | null = null
+  const type = 'datetime format'
+
   for (let i = 0; i < locales.length; i++) {
-    targetLocale = locales[i]
+    targetLocale = to = locales[i]
     if (
       __DEV__ &&
       locale !== targetLocale &&
@@ -154,11 +159,27 @@ export function datetime<DateTimeFormats, Message = string>(
         })
       )
     }
+
+    // for vue-devtools timeline event
+    if (__DEV__ && locale !== targetLocale) {
+      const emitter = ((context as unknown) as RuntimeInternalContext).__emitter
+      if (emitter) {
+        emitter.emit(DevToolsTimelineEvents.FALBACK, {
+          type,
+          key,
+          from,
+          to
+        })
+      }
+    }
+
     datetimeFormat =
       ((datetimeFormats as unknown) as DateTimeFormatsType)[targetLocale] || {}
     format = datetimeFormat[key]
+
     if (isPlainObject(format)) break
-    handleMissing(context, key, targetLocale, missingWarn, 'datetime')
+    handleMissing(context, key, targetLocale, missingWarn, type)
+    from = to
   }
 
   // checking format and target locale

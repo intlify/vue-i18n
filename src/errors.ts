@@ -20,6 +20,8 @@ export const enum I18nErrorCodes {
   // diretive module errors
   REQUIRED_VALUE,
   INVALID_VALUE,
+  // vue-devtools errors
+  CANNOT_SETUP_VUE_DEVTOOLS_PLUGIN,
   // for enhancement
   __EXTEND_POINT__
 }
@@ -42,5 +44,6 @@ export const errorMessages: { [code: number]: string } = {
   [I18nErrorCodes.UNEXPECTED_ERROR]: 'Unexpeced error',
   [I18nErrorCodes.NOT_AVAILABLE_IN_LEGACY_MODE]: 'Not available in legacy mode',
   [I18nErrorCodes.REQUIRED_VALUE]: `Required in value: {0}`,
-  [I18nErrorCodes.INVALID_VALUE]: `Invalid value`
+  [I18nErrorCodes.INVALID_VALUE]: `Invalid value`,
+  [I18nErrorCodes.CANNOT_SETUP_VUE_DEVTOOLS_PLUGIN]: `Cannot setup vue-devtools plugin`
 }

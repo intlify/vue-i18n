@@ -83,6 +83,7 @@ import {
   makeSymbol,
   isObject
 } from './utils'
+import { DevToolsEmitter, DevToolsTimelineEvents } from './debugger/constants'
 
 // extend VNode interface
 declare module '@vue/runtime-core' {
@@ -92,10 +93,11 @@ declare module '@vue/runtime-core' {
   }
 }
 
-export const ComposerIdSymbol = makeSymbol('__id')
 export const TransrateVNodeSymbol = makeSymbol('__transrateVNode')
 export const DatetimePartsSymbol = makeSymbol('__datetimeParts')
 export const NumberPartsSymbol = makeSymbol('__numberParts')
+export const EnableEmitter = makeSymbol('__enableEmitter')
+export const DisableEmitter = makeSymbol('__disableEmitter')
 
 export type VueMessageType = string | VNode
 export type MissingHandler = (
@@ -165,6 +167,7 @@ export interface Composer<
   Message = VueMessageType
 > {
   // properties
+  id: number
   locale: WritableComputedRef<Locale>
   fallbackLocale: WritableComputedRef<FallbackLocale>
   inheritLocale: boolean
@@ -213,7 +216,7 @@ export interface Composer<
   ): void
   mergeLocaleMessage(
     locale: Locale,
-    message: LocaleMessageDictionary<Message>
+    uessage: LocaleMessageDictionary<Message>
   ): void
   getDateTimeFormat(locale: Locale): DateTimeFormat
   setDateTimeFormat(locale: Locale, format: DateTimeFormat): void
@@ -233,10 +236,11 @@ export interface Composer<
  * @internal
  */
 export interface ComposerInternal {
-  __id: number
   __transrateVNode(...args: unknown[]): VNodeArrayChildren
   __numberParts(...args: unknown[]): string | Intl.NumberFormatPart[]
   __datetimeParts(...args: unknown[]): string | Intl.DateTimeFormatPart[]
+  __enableEmitter?: (emitter: DevToolsEmitter) => void
+  __disableEmitter?: () => void
 }
 
 type ComposerWarnType = 'translate' | 'number format' | 'datetime format'
@@ -510,6 +514,9 @@ export function createComposer<
         : undefined,
       __numberFormatters: isPlainObject(_context)
         ? ((_context as unknown) as RuntimeInternalContext).__numberFormatters
+        : undefined,
+      __emitter: isPlainObject(_context)
+        ? ((_context as unknown) as RuntimeInternalContext).__emitter
         : undefined
     } as RuntimeOptions<Message>) as RuntimeContext<
       Messages,
@@ -596,7 +603,8 @@ export function createComposer<
     fallbackFail: (key: string) => U,
     successCondition: (val: unknown) => boolean
   ): U {
-    const ret = fn(getRuntimeContext()) // track reactive dependency, see the getRuntimeContext
+    const context = getRuntimeContext()
+    const ret = fn(context) // track reactive dependency, see the getRuntimeContext
     if (isNumber(ret) && ret === NOT_REOSLVED) {
       const key = argumentParser()
       if (__DEV__ && _fallbackRoot && __root) {
@@ -606,6 +614,19 @@ export function createComposer<
             type: warnType
           })
         )
+        // for vue-devtools timeline event
+        if (__DEV__) {
+          const {
+            __emitter: emitter
+          } = (context as unknown) as RuntimeInternalContext
+          if (emitter) {
+            emitter.emit(DevToolsTimelineEvents.FALBACK, {
+              type: warnType,
+              key,
+              to: 'global'
+            })
+          }
+        }
       }
       return _fallbackRoot && __root
         ? fallbackSuccess((__root as unknown) as Composer<T> & ComposerInternal)
@@ -845,6 +866,7 @@ export function createComposer<
   // export composable API!
   const composer = {
     // properties
+    id: composerID,
     locale,
     fallbackLocale,
     get inheritLocale(): boolean {
@@ -911,7 +933,6 @@ export function createComposer<
       _warnHtmlMessage = val
       _context.warnHtmlMessage = val
     },
-    [ComposerIdSymbol]: composerID,
     // methods
     t,
     d,
@@ -933,6 +954,18 @@ export function createComposer<
     [TransrateVNodeSymbol]: __transrateVNode,
     [NumberPartsSymbol]: __numberParts,
     [DatetimePartsSymbol]: __datetimeParts
+  }
+
+  // for vue-devtools timeline event
+  if (__DEV__) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    ;(composer as any)[EnableEmitter] = (emitter: DevToolsEmitter): void => {
+      ;((_context as unknown) as RuntimeInternalContext).__emitter = emitter
+    }
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    ;(composer as any)[DisableEmitter] = (): void => {
+      ;((_context as unknown) as RuntimeInternalContext).__emitter = undefined
+    }
   }
 
   return composer

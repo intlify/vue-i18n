@@ -1,5 +1,5 @@
 import { getGlobalThis } from './utils'
-import { setDevtoolsHook } from './devtools'
+import { setDevtoolsHook } from './debugger/devtools'
 
 export const VERSION = __VERSION__
 

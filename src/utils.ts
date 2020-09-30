@@ -3,6 +3,33 @@
  * written by kazuya kawaguchi
  */
 
+export const inBrowser = typeof window !== 'undefined'
+
+export let mark: (tag: string) => void | undefined
+export let measure: (
+  name: string,
+  startTag: string,
+  endTag: string
+) => void | undefined
+
+if (__DEV__) {
+  const perf = inBrowser && window.performance
+  if (
+    perf &&
+    perf.mark &&
+    perf.measure &&
+    perf.clearMarks &&
+    perf.clearMeasures
+  ) {
+    mark = (tag: string): void => perf.mark(tag)
+    measure = (name: string, startTag: string, endTag: string): void => {
+      perf.measure(name, startTag, endTag)
+      perf.clearMarks(startTag)
+      perf.clearMarks(endTag)
+    }
+  }
+}
+
 const RE_ARGS = /\{([0-9a-zA-Z]+)\}/g
 
 /* eslint-disable */
