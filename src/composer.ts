@@ -620,7 +620,8 @@ export function createComposer<
             __emitter: emitter
           } = (context as unknown) as RuntimeInternalContext
           if (emitter) {
-            emitter.emit(DevToolsTimelineEvents.FALBACK_TRANSLATION, {
+            emitter.emit(DevToolsTimelineEvents.FALBACK, {
+              type: warnType,
               key,
               to: 'global'
             })

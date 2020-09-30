@@ -67,7 +67,7 @@ export async function enableDevTools(app: App, i18n: _I18n): Promise<boolean> {
         api => {
           devtoolsApi = api
 
-          api.on.inspectComponent((payload, ctx) => {
+          api.on.inspectComponent(payload => {
             const componentInstance = payload.componentInstance
             if (
               componentInstance.vnode.el.__INTLIFY__ &&
@@ -119,17 +119,15 @@ export async function enableDevTools(app: App, i18n: _I18n): Promise<boolean> {
           })
 
           api.addTimelineLayer({
-            id: DevToolsIDs.TIMELINE_TRANSLATION_MISSING,
-            label: DevToolsLabels[DevToolsIDs.TIMELINE_TRANSLATION_MISSING],
-            color:
-              DevToolsTimelineColors[DevToolsIDs.TIMELINE_TRANSLATION_MISSING]
+            id: DevToolsIDs.TIMELINE_MISSING,
+            label: DevToolsLabels[DevToolsIDs.TIMELINE_MISSING],
+            color: DevToolsTimelineColors[DevToolsIDs.TIMELINE_MISSING]
           })
 
           api.addTimelineLayer({
-            id: DevToolsIDs.TIMELINE_FALLBACK_TRANSLATION,
-            label: DevToolsLabels[DevToolsIDs.TIMELINE_FALLBACK_TRANSLATION],
-            color:
-              DevToolsTimelineColors[DevToolsIDs.TIMELINE_FALLBACK_TRANSLATION]
+            id: DevToolsIDs.TIMELINE_FALLBACK,
+            label: DevToolsLabels[DevToolsIDs.TIMELINE_FALLBACK],
+            color: DevToolsTimelineColors[DevToolsIDs.TIMELINE_FALLBACK]
           })
 
           resolve(true)

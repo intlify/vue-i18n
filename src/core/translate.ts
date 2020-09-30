@@ -305,6 +305,7 @@ function resolveMessageFormat<Messages, Message>(
   let format: PathValue = null
   let from: Locale = locale
   let to: Locale | null = null
+  const type = 'translate'
 
   for (let i = 0; i < locales.length; i++) {
     targetLocale = to = locales[i]
@@ -326,7 +327,8 @@ function resolveMessageFormat<Messages, Message>(
     if (__DEV__ && locale !== targetLocale) {
       const emitter = ((context as unknown) as RuntimeInternalContext).__emitter
       if (emitter) {
-        emitter.emit(DevToolsTimelineEvents.FALBACK_TRANSLATION, {
+        emitter.emit(DevToolsTimelineEvents.FALBACK, {
+          type,
           key,
           from,
           to
@@ -372,7 +374,7 @@ function resolveMessageFormat<Messages, Message>(
     }
 
     if (isString(format) || isFunction(format)) break
-    handleMissing<Message>(context, key, targetLocale, missingWarn, 'translate')
+    handleMissing<Message>(context, key, targetLocale, missingWarn, type)
     from = to
   }
 
@@ -540,7 +542,7 @@ function getCompileOptions<Messages, Message>(
         if (emitter) {
           emitter.emit(DevToolsTimelineEvents.COMPILE_ERROR, {
             message: source,
-            error: message,
+            error: err.message,
             start: err.location && err.location.start.offset,
             end: err.location && err.location.end.offset
           })

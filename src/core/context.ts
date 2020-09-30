@@ -52,7 +52,10 @@ export type LocaleMessages<Message = string> = Record<
 >
 
 /** @internal */
-export type RuntimeMissingType = 'translate' | 'datetime' | 'number'
+export type RuntimeMissingType =
+  | 'translate'
+  | 'datetime format'
+  | 'number format'
 
 /** @internal */
 export type RuntimeMissingHandler<Message = string> = (
@@ -322,7 +325,7 @@ export function handleMissing<Message = string>(
   if (__DEV__) {
     const emitter = ((context as unknown) as RuntimeInternalContext).__emitter
     if (emitter) {
-      emitter.emit(DevToolsTimelineEvents.TRANSLATION_MISSING, {
+      emitter.emit(DevToolsTimelineEvents.MISSING, {
         locale,
         key,
         type

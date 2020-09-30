@@ -6,8 +6,8 @@ export const enum DevToolsIDs {
   PLUGIN = 'vue-devtools-plugin-vue-i18n',
   CUSTOM_INSPECTOR = 'vue-i18n-resource-inspector',
   TIMELINE_COMPILE_ERROR = 'vue-i18n-compile-error',
-  TIMELINE_TRANSLATION_MISSING = 'vue-i18n-translation-missing',
-  TIMELINE_FALLBACK_TRANSLATION = 'vue-i18n-fallback-translation',
+  TIMELINE_MISSING = 'vue-i18n-missing',
+  TIMELINE_FALLBACK = 'vue-i18n-fallback',
   TIMELINE_PERFORMANCE = 'vue-i18n-performance'
 }
 
@@ -15,8 +15,8 @@ export const DevToolsLabels: Record<string, string> = {
   [DevToolsIDs.PLUGIN]: 'Vue I18n devtools',
   [DevToolsIDs.CUSTOM_INSPECTOR]: 'I18n Resources',
   [DevToolsIDs.TIMELINE_COMPILE_ERROR]: 'Vue I18n: Compile Errors',
-  [DevToolsIDs.TIMELINE_TRANSLATION_MISSING]: 'Vue I18n: Translation Missing',
-  [DevToolsIDs.TIMELINE_FALLBACK_TRANSLATION]: 'Vue I18n: Fallback Translation',
+  [DevToolsIDs.TIMELINE_MISSING]: 'Vue I18n: Missing',
+  [DevToolsIDs.TIMELINE_FALLBACK]: 'Vue I18n: Fallback',
   [DevToolsIDs.TIMELINE_PERFORMANCE]: 'Vue I18n: Performance'
 }
 
@@ -26,15 +26,15 @@ export const DevToolsPlaceholders: Record<string, string> = {
 
 export const DevToolsTimelineColors: Record<string, number> = {
   [DevToolsIDs.TIMELINE_COMPILE_ERROR]: 0xff0000,
-  [DevToolsIDs.TIMELINE_TRANSLATION_MISSING]: 0xffcd19,
-  [DevToolsIDs.TIMELINE_FALLBACK_TRANSLATION]: 0xffcd19,
+  [DevToolsIDs.TIMELINE_MISSING]: 0xffcd19,
+  [DevToolsIDs.TIMELINE_FALLBACK]: 0xffcd19,
   [DevToolsIDs.TIMELINE_PERFORMANCE]: 0xffcd19
 }
 
 export const enum DevToolsTimelineEvents {
   COMPILE_ERROR = 'compile-error',
-  TRANSLATION_MISSING = 'translation-missing',
-  FALBACK_TRANSLATION = 'fallback-translation',
+  MISSING = 'missing',
+  FALBACK = 'fallback',
   MESSAGE_RESOLVE = 'message-resolve',
   MESSAGE_COMPILATION = 'message-compilation',
   MESSAGE_EVALUATION = 'message-evaluation'
@@ -47,13 +47,14 @@ export type DevToolsTimelineEventPayloads = {
     start?: number
     end?: number
   }
-  [DevToolsTimelineEvents.TRANSLATION_MISSING]: {
+  [DevToolsTimelineEvents.MISSING]: {
     locale: Locale
     key: Path
     type: RuntimeMissingType
   }
-  [DevToolsTimelineEvents.FALBACK_TRANSLATION]: {
+  [DevToolsTimelineEvents.FALBACK]: {
     key: Path
+    type: RuntimeMissingType
     from?: Locale
     to: Locale | 'global'
   }
@@ -77,10 +78,8 @@ export type DevToolsTimelineEventPayloads = {
 
 export const DevToolsTimelineLayerMaps: Record<string, string> = {
   [DevToolsTimelineEvents.COMPILE_ERROR]: DevToolsIDs.TIMELINE_COMPILE_ERROR,
-  [DevToolsTimelineEvents.TRANSLATION_MISSING]:
-    DevToolsIDs.TIMELINE_TRANSLATION_MISSING,
-  [DevToolsTimelineEvents.FALBACK_TRANSLATION]:
-    DevToolsIDs.TIMELINE_FALLBACK_TRANSLATION,
+  [DevToolsTimelineEvents.MISSING]: DevToolsIDs.TIMELINE_MISSING,
+  [DevToolsTimelineEvents.FALBACK]: DevToolsIDs.TIMELINE_FALLBACK,
   [DevToolsTimelineEvents.MESSAGE_RESOLVE]: DevToolsIDs.TIMELINE_PERFORMANCE,
   [DevToolsTimelineEvents.MESSAGE_COMPILATION]:
     DevToolsIDs.TIMELINE_PERFORMANCE,
@@ -89,8 +88,8 @@ export const DevToolsTimelineLayerMaps: Record<string, string> = {
 
 export type DevToolsEmitterEvents = {
   [DevToolsTimelineEvents.COMPILE_ERROR]: DevToolsTimelineEventPayloads[DevToolsTimelineEvents.COMPILE_ERROR]
-  [DevToolsTimelineEvents.TRANSLATION_MISSING]: DevToolsTimelineEventPayloads[DevToolsTimelineEvents.TRANSLATION_MISSING]
-  [DevToolsTimelineEvents.FALBACK_TRANSLATION]: DevToolsTimelineEventPayloads[DevToolsTimelineEvents.FALBACK_TRANSLATION]
+  [DevToolsTimelineEvents.MISSING]: DevToolsTimelineEventPayloads[DevToolsTimelineEvents.MISSING]
+  [DevToolsTimelineEvents.FALBACK]: DevToolsTimelineEventPayloads[DevToolsTimelineEvents.FALBACK]
   [DevToolsTimelineEvents.MESSAGE_RESOLVE]: DevToolsTimelineEventPayloads[DevToolsTimelineEvents.MESSAGE_RESOLVE]
   [DevToolsTimelineEvents.MESSAGE_COMPILATION]: DevToolsTimelineEventPayloads[DevToolsTimelineEvents.MESSAGE_COMPILATION]
   [DevToolsTimelineEvents.MESSAGE_EVALUATION]: DevToolsTimelineEventPayloads[DevToolsTimelineEvents.MESSAGE_EVALUATION]
