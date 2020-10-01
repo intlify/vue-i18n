@@ -306,18 +306,21 @@ Note: the replacement value **must be boolean literals** and cannot be strings, 
   - [x] `v-t`
 - Tool Chains
   - [ ] intlify devtools
+  - [x] vue-devtools
   - [x] vue-i18n-extensions
   - [x] vue-i18n-loader
   - [x] rollup-plugin-vue-i18n
   - [x] vite-plugin-vue-i18n
   - [ ] vue-cli-plugin-i18n
   - [ ] eslint-plugin-vue-i18n
+  - [ ] message format pre-compilation tools
 - Others
   - [ ] documentation
   - [x] fallback localization (bubble up)
   - [x] SSR
 - General tasks
   - [x] error handlings
+  - [ ] monorepo
 
 </details>
 
