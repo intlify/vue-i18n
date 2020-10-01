@@ -1,4 +1,16 @@
 
+## v9.0.0-beta.4 (2020-10-01)
+
+#### :star: Features
+* [#126](https://github.com/intlify/vue-i18n-next/pull/126) feat: vue-devtools plugin ([@kazupon](https://github.com/kazupon))
+
+#### :chart_with_upwards_trend: Performance Fixes
+* [#125](https://github.com/intlify/vue-i18n-next/pull/125) fix: tree shaking optimaization ([@kazupon](https://github.com/kazupon))
+
+#### Committers: 1
+- kazuya kawaguchi ([@kazupon](https://github.com/kazupon))
+
+
 ## v9.0.0-beta.3 (2020-09-25)
 
 #### :star: Features
