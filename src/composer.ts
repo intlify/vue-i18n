@@ -216,7 +216,7 @@ export interface Composer<
   ): void
   mergeLocaleMessage(
     locale: Locale,
-    uessage: LocaleMessageDictionary<Message>
+    message: LocaleMessageDictionary<Message>
   ): void
   getDateTimeFormat(locale: Locale): DateTimeFormat
   setDateTimeFormat(locale: Locale, format: DateTimeFormat): void
