@@ -21,7 +21,7 @@ Internationalization plugin for Vue.js
 <br/>
 
 
-## Status: Alpha ![Test](https://github.com/intlify/vue-i18n-next/workflows/Test/badge.svg)
+## Status: Beta ![Test](https://github.com/intlify/vue-i18n-next/workflows/Test/badge.svg)
 
 The current codebase has most of the existing features on Vue I18n v8.x and is usable.
 
@@ -30,6 +30,16 @@ Since the library is still unstable **and because we want feedback** on bugs and
 If you use stable Vue I18n version, see this [repository](https://github.com/kazupon/vue-i18n)
 
 ## :star: New Features
+
+### Message Format Syntax
+- Literal Interpolation
+  - You can use a single quote `'` and "Mustache" like (`{` `}` ) to make the message literal.
+  - e.g. `foo{'@'}domain.com`
+- Message Functions
+  - As Vue's render function, vue-i18n-next and later support the **Message** functions.
+  - Using the Message function has the following advantages
+    - Accelerate evaluation of vue-i18n messages (pre-compilation)
+    - Support for complex i18n that cannot be handled by message format
 
 ### Composable API
 
@@ -75,6 +85,13 @@ The examples are offered that use the following two API styles:
 ## :heavy_exclamation_mark: Known issues
 
 ### :boom: Breaking changes compared to vue-i18n v8.x
+
+#### Message Format Syntax
+- Special characters
+  - Since vue-i18n-next, message format syntax is handled by the compiler.
+  - The following characters used in the message syntax are processed by the compiler as special characters:
+  - `{`, `}`, `@`, `$`, `|`
+  - If you want to use these special characters, you can use **lietral interpolation** to get around it:
 
 #### APIs
 - The return value of `$t` and `t` methods is **string** only. object and array values ​​are no longer returned.
