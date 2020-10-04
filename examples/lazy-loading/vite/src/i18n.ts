@@ -10,7 +10,7 @@ export function setupI18n(locale: Locale = 'en'): I18n {
     messages: {
       en
     }
-  })
+  }) as I18n
   setI18nLanguage(i18n, locale)
   return i18n
 }

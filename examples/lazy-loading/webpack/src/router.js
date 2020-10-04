@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import { setI18nLanguage } from './i18n'
 
 import Home from './pages/Home.vue'
 import About from './pages/About.vue'
@@ -48,8 +49,8 @@ export function setupRouter(i18n) {
       composer.setLocaleMessage(locale, messages.default)
     }
 
-    // set locale of composer
-    composer.locale.value = locale
+    // set i18n language
+    setI18nLanguage(i18n, locale)
 
     return next()
   })

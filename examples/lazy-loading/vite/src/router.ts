@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import { setI18nLanguage } from './i18n'
 import type { Router, RouteRecordRaw } from 'vue-router'
 import type { I18n, Locale } from 'vue-i18n'
 
@@ -22,7 +23,8 @@ export function setupRouter(i18n: I18n): Router {
       component: About
     },
     {
-      path: '/:pathMatch(.*)*', redirect: () => `/${composer.locale.value}`
+      path: '/:pathMatch(.*)*',
+      redirect: () => `/${composer.locale.value}`
     }
   ]
 
@@ -47,8 +49,8 @@ export function setupRouter(i18n: I18n): Router {
       composer.setLocaleMessage(locale, messages.default)
     }
 
-    // set locale of composer
-    composer.locale.value = locale
+    // set i18n language
+    setI18nLanguage(i18n, locale)
 
     return next()
   })
