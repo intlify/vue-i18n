@@ -1,0 +1,13 @@
+export default {
+  pages: {
+    home: 'このページはホームです。',
+    about: 'このページはアバウトページです。'
+  },
+  navigations: {
+    home: 'ホーム',
+    about: 'アバウト'
+  },
+  labels: {
+    language: '言語'
+  }
+}
