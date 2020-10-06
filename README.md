@@ -228,6 +228,7 @@ Note: the replacement value **must be boolean literals** and cannot be strings, 
     - [x] dateTimeFormats
     - [x] numberFormats
     - [x] warnHtmlMessage
+    - [x] escapeParameter
   - methods
     - [x] t
     - [x] getLocaleMessages
@@ -263,6 +264,7 @@ Note: the replacement value **must be boolean literals** and cannot be strings, 
     - [x] formatFallbackMessages
     - [x] preserveDirectiveContent
     - [x] warnHtmlInMessage
+    - [x] escapeParameterHtml
     - [x] postTranslation
     - [x] componentInstanceCreatedListener
     - [x] t

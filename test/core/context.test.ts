@@ -163,6 +163,18 @@ describe('postTranslation', () => {
   })
 })
 
+describe('escapeParameter', () => {
+  test('default', () => {
+    const ctx = context({})
+    expect(ctx.escapeParameter).toEqual(false)
+  })
+
+  test('specify', () => {
+    const ctx = context({ escapeParameter: true })
+    expect(ctx.escapeParameter).toEqual(true)
+  })
+})
+
 describe('getLocaleChain', () => {
   let ctx: RuntimeContext<unknown, unknown, unknown, string>
   beforeEach(() => {

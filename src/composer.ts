@@ -139,6 +139,7 @@ export interface ComposerOptions<Message = VueMessageType> {
   fallbackFormat?: boolean
   postTranslation?: PostTranslationHandler<Message>
   warnHtmlMessage?: boolean
+  escapeParameter?: boolean
 }
 
 /**
@@ -183,6 +184,7 @@ export interface Composer<
   fallbackRoot: boolean
   fallbackFormat: boolean
   warnHtmlMessage: boolean
+  escapeParameter: boolean
   // methods
   t(key: Path): string
   t(key: Path, plural: number): string
@@ -469,6 +471,8 @@ export function createComposer<
     ? options.warnHtmlMessage
     : true
 
+  let _escapeParameter = !!options.escapeParameter
+
   // custom linked modifiers
   // prettier-ignore
   const _modifiers = __root
@@ -509,6 +513,7 @@ export function createComposer<
       unresolving: true,
       postTranslation: _postTranslation === null ? undefined : _postTranslation,
       warnHtmlMessage: _warnHtmlMessage,
+      escapeParameter: _escapeParameter,
       __datetimeFormatters: isPlainObject(_context)
         ? ((_context as unknown) as RuntimeInternalContext).__datetimeFormatters
         : undefined,
@@ -932,6 +937,13 @@ export function createComposer<
     set warnHtmlMessage(val: boolean) {
       _warnHtmlMessage = val
       _context.warnHtmlMessage = val
+    },
+    get escapeParameter(): boolean {
+      return _escapeParameter
+    },
+    set escapeParameter(val: boolean) {
+      _escapeParameter = val
+      _context.escapeParameter = val
     },
     // methods
     t,
