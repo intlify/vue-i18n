@@ -92,6 +92,7 @@ export interface RuntimeOptions<Message = string> {
   postTranslation?: PostTranslationHandler<Message>
   processor?: MessageProcessor<Message>
   warnHtmlMessage?: boolean
+  escapeParameter?: boolean
   messageCompiler?: MessageCompiler<Message>
   onWarn?: (msg: string, err?: Error) => void
 }
@@ -124,6 +125,7 @@ export interface RuntimeTranslationContext<Messages = {}, Message = string>
   postTranslation: PostTranslationHandler<Message> | null
   processor: MessageProcessor<Message> | null
   warnHtmlMessage: boolean
+  escapeParameter: boolean
   messageCompiler: MessageCompiler<Message>
 }
 
@@ -245,6 +247,7 @@ export function createRuntimeContext<
   const warnHtmlMessage = isBoolean(options.warnHtmlMessage)
     ? options.warnHtmlMessage
     : true
+  const escapeParameter = !!options.escapeParameter
   const messageCompiler = isFunction(options.messageCompiler)
     ? options.messageCompiler
     : compile
@@ -275,6 +278,7 @@ export function createRuntimeContext<
     postTranslation,
     processor,
     warnHtmlMessage,
+    escapeParameter,
     messageCompiler,
     onWarn,
     __datetimeFormatters,

@@ -611,6 +611,42 @@ describe('warnHtmlMessage', () => {
   })
 })
 
+describe('escapeParameter', () => {
+  test('context option', () => {
+    const ctx = context({
+      locale: 'en',
+      warnHtmlMessage: false,
+      escapeParameter: true,
+      messages: {
+        en: {
+          hello: 'hello, {name}!'
+        }
+      }
+    })
+
+    expect(translate(ctx, 'hello', { name: '<b>kazupon</b>' })).toEqual(
+      'hello, &lt;b&gt;kazupon&lt;/b&gt;!'
+    )
+  })
+
+  test('override with params', () => {
+    const ctx = context({
+      locale: 'en',
+      warnHtmlMessage: false,
+      escapeParameter: false,
+      messages: {
+        en: {
+          hello: 'hello, {0}!'
+        }
+      }
+    })
+
+    expect(
+      translate(ctx, 'hello', ['<b>kazupon</b>'], { escapeParameter: true })
+    ).toEqual('hello, &lt;b&gt;kazupon&lt;/b&gt;!')
+  })
+})
+
 describe('error', () => {
   test(errorMessages[CoreErrorCodes.INVALID_ARGUMENT], () => {
     const ctx = context({

@@ -90,6 +90,7 @@ export interface VueI18nOptions {
   formatFallbackMessages?: boolean
   preserveDirectiveContent?: boolean
   warnHtmlInMessage?: WarnHtmlInMessageLevel
+  escapeParameterHtml?: boolean
   sharedMessages?: LocaleMessages<VueMessageType>
   pluralizationRules?: PluralizationRules
   postTranslation?: PostTranslationHandler<VueMessageType>
@@ -124,6 +125,7 @@ export interface VueI18n<
   formatFallbackMessages: boolean
   sync: boolean
   warnHtmlInMessage: WarnHtmlInMessageLevel
+  escapeParameterHtml: boolean
   preserveDirectiveContent: boolean
   // methods
   t(key: Path): TranslateResult
@@ -230,6 +232,7 @@ function convertComposerOptions<
   const warnHtmlMessage = isString(options.warnHtmlInMessage)
     ? options.warnHtmlInMessage !== 'off'
     : true
+  const escapeParameter = !!options.escapeParameterHtml
   const inheritLocale = isBoolean(options.sync) ? options.sync : true
 
   if (__DEV__ && options.formatter) {
@@ -271,6 +274,7 @@ function convertComposerOptions<
     pluralRules: pluralizationRules,
     postTranslation,
     warnHtmlMessage,
+    escapeParameter,
     inheritLocale,
     __i18n,
     __root
@@ -428,6 +432,14 @@ export function createVueI18n<
     },
     set warnHtmlInMessage(val: WarnHtmlInMessageLevel) {
       composer.warnHtmlMessage = val !== 'off'
+    },
+
+    // escapeParameterHtml
+    get escapeParameterHtml(): boolean {
+      return composer.escapeParameter
+    },
+    set escapeParameterHtml(val: boolean) {
+      composer.escapeParameter = val
     },
 
     // preserveDirectiveContent

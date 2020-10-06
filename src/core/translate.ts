@@ -34,9 +34,11 @@ import {
   isEmptyObject,
   generateFormatCacheKey,
   generateCodeFrame,
+  escapeHtml,
   inBrowser,
   mark,
-  measure
+  measure,
+  isObject
 } from '../utils'
 import { DevToolsTimelineEvents } from '../debugger/constants'
 
@@ -83,6 +85,9 @@ const isMessageFunction = <T>(val: unknown): val is MessageFunction<T> =>
  *
  *    // suppress localize fallback warning option, override context.fallbackWarn
  *    translate(context, 'foo.bar', { name: 'kazupon' }, { fallbackWarn: false })
+ *
+ *    // escape parameter option, override context.escapeParameter
+ *    translate(context, 'foo.bar', { name: 'kazupon' }, { escapeParameter: true })
  */
 
 /** @internal */
@@ -94,6 +99,7 @@ export type TranslateOptions = {
   locale?: Locale
   missingWarn?: boolean
   fallbackWarn?: boolean
+  escapeParameter?: boolean
 }
 
 // `translate` function overloads
@@ -210,6 +216,10 @@ export function translate<Messages, Message = string>(
     ? options.fallbackWarn
     : context.fallbackWarn
 
+  const escapeParameter = isBoolean(options.escapeParameter)
+    ? options.escapeParameter
+    : context.escapeParameter
+
   // prettier-ignore
   const defaultMsgOrKey: string =
     isString(options.default) || isBoolean(options.default) // default by function option
@@ -221,6 +231,9 @@ export function translate<Messages, Message = string>(
         : ''
   const enableDefaultMsg = fallbackFormat || defaultMsgOrKey !== ''
   const locale = isString(options.locale) ? options.locale : context.locale
+
+  // escape params
+  escapeParameter && escapeParams(options)
 
   // resolve message format
   // eslint-disable-next-line prefer-const
@@ -287,6 +300,20 @@ export function translate<Messages, Message = string>(
 
   // if use post translation option, procee it with handler
   return postTranslation ? postTranslation(messaged) : messaged
+}
+
+function escapeParams(options: TranslateOptions) {
+  if (isArray(options.list)) {
+    options.list = options.list.map(item =>
+      isString(item) ? escapeHtml(item) : item
+    )
+  } else if (isObject(options.named)) {
+    Object.keys(options.named).forEach(key => {
+      if (isString(options.named![key])) {
+        options.named![key] = escapeHtml(options.named![key] as string)
+      }
+    })
+  }
 }
 
 function resolveMessageFormat<Messages, Message>(
