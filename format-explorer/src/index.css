@@ -1,0 +1,21 @@
+body {
+  --bg: #1D1F21;
+  --fg: #fff;
+  --border: #333;
+  --in-bg: white;
+  --in-fg: black;
+  --in-border: #666;
+  margin: 0;
+  background-color: var(--bg);
+}
+
+#app {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  color: var(--fg);
+  margin: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+}
