@@ -7,7 +7,4 @@ import { setupI18n } from './i18n'
 const i18n = setupI18n()
 const router = setupRouter(i18n)
 
-createApp(App)
-  .use(router)
-  .use(i18n)
-  .mount('#app')
+createApp(App).use(router).use(i18n).mount('#app')
