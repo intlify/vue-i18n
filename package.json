@@ -117,7 +117,7 @@
     "fix": "npm-run-all --parallel lint:fix format:fix",
     "format": "prettier --config .prettierrc --ignore-path .prettierignore '**/*.{js,json,html}'",
     "format:fix": "yarn format --write",
-    "lint": "eslint ./src ./test ./test-d ./e2e ./benchmark --ext .js,.ts",
+    "lint": "eslint ./src ./test ./test-d ./e2e ./benchmark ./format-explorer --ext .js,.ts,.vue",
     "lint:fix": "yarn lint --fix",
     "release:prepare": "shipjs prepare",
     "release:trigger": "shipjs trigger",
