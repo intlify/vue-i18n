@@ -23,7 +23,7 @@
     "webpack-dev-server": "^3.11.0",
     "html-webpack-plugin": "^4.3.0",
     "monaco-editor-webpack-plugin": "^2.0.0",
-    "style-loader": "^1.2.1"
+    "style-loader": "^2.0.0"
   },
   "dependencies": {
     "vue": "^3.0.0",
