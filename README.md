@@ -2,7 +2,7 @@
 
 Internationalization plugin for Vue.js
 
-<h3>Silver Sponsors</h3>
+<h3>🥈 Silver Sponsors</h3>
 
 <p>
   <a href="https://www.codeandweb.com/babeledit?utm_campaign=vue-i18n-2019-01" target="_blank">
@@ -10,16 +10,25 @@ Internationalization plugin for Vue.js
   </a>
 </p>
 
-<h3>Bronze Sponsors</h3>
+<h3>🥉 Bronze Sponsors</h3>
 
 <p>
   <a href="https://zenarchitects.co.jp/" target="_blank">
-    <img src="https://raw.githubusercontent.com/kazupon/vue-i18n/v8.x/vuepress/.vuepress/public/patrons/zenarchitects.png">
+    <img src="https://raw.githubusercontent.com/kazupon/vue-i18n/v8.x/vuepress/.vuepress/public/patrons/zenarchitects.png" width="200px">
+  </a>
+</p>
+
+<br />
+<br />
+
+<p>
+  <a href="https://www.sendcloud.com/" target="_blank">
+    <img src="https://raw.githubusercontent.com/kazupon/vue-i18n/v8.x/vuepress/.vuepress/public/patrons/sendcloud.png" width="200px">
   </a>
 </p>
 
 <br/>
-
+<br/>
 
 ## Status: Beta ![Test](https://github.com/intlify/vue-i18n-next/workflows/Test/badge.svg)
 
