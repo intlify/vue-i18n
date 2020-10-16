@@ -59,7 +59,7 @@
     "puppeteer": "^2.1.1",
     "rollup": "^2.26.0",
     "rollup-plugin-terser": "^7.0.2",
-    "rollup-plugin-typescript2": "^0.27.2",
+    "rollup-plugin-typescript2": "^0.28.0",
     "set-tz": "^0.2.0",
     "shipjs": "^0.22.0",
     "ts-jest": "^26.4.0",
