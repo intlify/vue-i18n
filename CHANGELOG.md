@@ -1,4 +1,16 @@
 
+## v9.0.0-beta.5 (2020-10-18)
+
+#### :star: Features
+* [#147](https://github.com/intlify/vue-i18n-next/pull/147) feat: support source map for message functions ([@kazupon](https://github.com/kazupon))
+* [#139](https://github.com/intlify/vue-i18n-next/pull/139) feat: escape html parameter options ([@kazupon](https://github.com/kazupon))
+
+#### Committers: 3
+- Alexander Sokolov ([@Alex-Sokolov](https://github.com/Alex-Sokolov))
+- Daniel Abrão ([@jungleBadger](https://github.com/jungleBadger))
+- kazuya kawaguchi ([@kazupon](https://github.com/kazupon))
+
+
 ## v9.0.0-beta.4 (2020-10-01)
 
 #### :star: Features
