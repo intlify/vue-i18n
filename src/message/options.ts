@@ -9,12 +9,6 @@ export interface TokenizeOptions {
 }
 
 export interface ParserOptions {
-  // Generate source map?
-  // - Default: false
-  // sourceMap?: boolean
-  // Filename for source map generation.
-  // - Default: `message.intl`
-  // filename?: string
   location?: boolean
   onError?: CompileErrorHandler
 }
@@ -26,6 +20,12 @@ export interface TransformOptions {
 export interface CodeGenOptions {
   mode?: 'normal' | 'arrow' // default normal
   onError?: CompileErrorHandler
+  // Generate source map?
+  // - Default: false
+  sourceMap?: boolean
+  // Filename for source map generation.
+  // - Default: `message.intl`
+  filename?: string
 }
 
 export type CompileOptions = {

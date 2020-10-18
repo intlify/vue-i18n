@@ -82,6 +82,7 @@ Object {
       "line": 1,
       "offset": 12,
     },
+    "source": "hi % {name}!",
     "start": Object {
       "column": 1,
       "line": 1,
@@ -139,6 +140,7 @@ Object {
       "line": 1,
       "offset": 12,
     },
+    "source": "hi %% name !",
     "start": Object {
       "column": 1,
       "line": 1,
@@ -249,6 +251,7 @@ Object {
       "line": 1,
       "offset": 12,
     },
+    "source": "hi %@:name !",
     "start": Object {
       "column": 1,
       "line": 1,
@@ -342,6 +345,7 @@ Object {
       "line": 1,
       "offset": 11,
     },
+    "source": "hi %{name}!",
     "start": Object {
       "column": 1,
       "line": 1,
@@ -399,6 +403,7 @@ Object {
       "line": 1,
       "offset": 10,
     },
+    "source": "hi %d %s !",
     "start": Object {
       "column": 1,
       "line": 1,
@@ -549,6 +554,7 @@ Object {
       "line": 1,
       "offset": 45,
     },
+    "source": "no apples %| one apple % |  too much apples  ",
     "start": Object {
       "column": 1,
       "line": 1,

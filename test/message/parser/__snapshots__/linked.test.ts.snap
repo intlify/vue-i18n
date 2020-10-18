@@ -99,6 +99,7 @@ Object {
       "line": 1,
       "offset": 11,
     },
+    "source": "hi @:name !",
     "start": Object {
       "column": 1,
       "line": 1,
@@ -209,6 +210,7 @@ Object {
       "line": 1,
       "offset": 22,
     },
+    "source": "hi @:{'hello world'} !",
     "start": Object {
       "column": 1,
       "line": 1,
@@ -337,6 +339,7 @@ Object {
       "line": 1,
       "offset": 19,
     },
+    "source": "hi @.upper:{name} !",
     "start": Object {
       "column": 1,
       "line": 1,
@@ -500,6 +503,7 @@ Object {
       "line": 1,
       "offset": 18,
     },
+    "source": "hi @:{name} @:{0}!",
     "start": Object {
       "column": 1,
       "line": 1,
@@ -612,6 +616,8 @@ Object {
       "line": 2,
       "offset": 14,
     },
+    "source": "hi @:{name}
+ !",
     "start": Object {
       "column": 1,
       "line": 1,

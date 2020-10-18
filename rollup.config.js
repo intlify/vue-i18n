@@ -1,8 +1,6 @@
 import path from 'path'
 import typescript from 'rollup-plugin-typescript2'
 import replace from '@rollup/plugin-replace'
-import resolve from '@rollup/plugin-node-resolve'
-import commonjs from '@rollup/plugin-commonjs'
 
 const pkg = require('./package.json')
 const { name } = pkg
@@ -64,7 +62,6 @@ function createConfig(format, output, plugins = []) {
   output.sourcemap = !!process.env.SOURCE_MAP
   output.banner = banner
   output.externalLiveBindings = false
-  output.globals = { vue: 'Vue' }
 
   const isProductionBuild =
     process.env.__DEV__ === 'false' || /\.prod\.js$/.test(output.file)
@@ -95,25 +92,44 @@ function createConfig(format, output, plugins = []) {
       }
     }
   })
+
+  output.globals = {
+    vue: 'Vue'
+    // '@vue/devtools-api': 'VueDevtoolsApi'
+  }
+
   // we only need to check TS and generate declarations once for each build.
   // it also seems to run into weird issues when checking multiple times
   // during a single build.
   hasTSChecked = true
 
-  /*
-  const external =
-    isGlobalBuild || isBrowserESMBuild
-      ? []
-      : [
-          ...Object.keys(pkg.dependencies || {}),
-          ...Object.keys(pkg.peerDependencies || {})
-        ]
-  */
+  // const external =
+  //   isGlobalBuild || isBrowserESMBuild
+  //     ? ['source-map']
+  //     : [
+  //         ...Object.keys(pkg.dependencies || {}),
+  //         ...Object.keys(pkg.peerDependencies || {})
+  //       ]
   const external = [
     ...Object.keys(pkg.dependencies || {}),
     ...Object.keys(pkg.peerDependencies || {})
   ]
-  const nodePlugins = [resolve(), commonjs()]
+
+  const nodePlugins =
+    format !== 'cjs'
+      ? [
+          require('@rollup/plugin-node-resolve').nodeResolve({
+            preferBuiltins: true
+          }),
+          require('@rollup/plugin-commonjs')({
+            sourceMap: false
+          }),
+          require('rollup-plugin-node-builtins')(),
+          require('rollup-plugin-node-globals')()
+        ]
+      : []
+
+  // const nodePlugins = [resolve(), commonjs()]
 
   return {
     input: path.resolve(`src/index.ts`),

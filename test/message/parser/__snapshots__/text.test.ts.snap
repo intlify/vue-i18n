@@ -46,6 +46,7 @@ Object {
       "line": 1,
       "offset": 2,
     },
+    "source": "😺",
     "start": Object {
       "column": 1,
       "line": 1,
@@ -103,6 +104,7 @@ Object {
       "line": 1,
       "offset": 8,
     },
+    "source": "こんにちは、世界",
     "start": Object {
       "column": 1,
       "line": 1,
@@ -160,6 +162,7 @@ Object {
       "line": 1,
       "offset": 11,
     },
+    "source": "hello,world",
     "start": Object {
       "column": 1,
       "line": 1,
@@ -198,6 +201,7 @@ Object {
       "line": 1,
       "offset": 0,
     },
+    "source": "",
     "start": Object {
       "column": 1,
       "line": 1,
@@ -255,6 +259,7 @@ Object {
       "line": 1,
       "offset": 11,
     },
+    "source": "Tom & Jerry",
     "start": Object {
       "column": 1,
       "line": 1,
@@ -312,6 +317,7 @@ Object {
       "line": 1,
       "offset": 5,
     },
+    "source": "3 * 4",
     "start": Object {
       "column": 1,
       "line": 1,
@@ -369,6 +375,7 @@ Object {
       "line": 1,
       "offset": 3,
     },
+    "source": "up^",
     "start": Object {
       "column": 1,
       "line": 1,
@@ -426,6 +433,7 @@ Object {
       "line": 1,
       "offset": 13,
     },
+    "source": "land ] bridge",
     "start": Object {
       "column": 1,
       "line": 1,
@@ -483,6 +491,7 @@ Object {
       "line": 1,
       "offset": 9,
     },
+    "source": "hello :-)",
     "start": Object {
       "column": 1,
       "line": 1,
@@ -540,6 +549,7 @@ Object {
       "line": 1,
       "offset": 16,
     },
+    "source": "hello: kazupon !",
     "start": Object {
       "column": 1,
       "line": 1,
@@ -597,6 +607,7 @@ Object {
       "line": 1,
       "offset": 11,
     },
+    "source": "hi, kazupon",
     "start": Object {
       "column": 1,
       "line": 1,
@@ -654,6 +665,7 @@ Object {
       "line": 1,
       "offset": 13,
     },
+    "source": "hi, $jquery !",
     "start": Object {
       "column": 1,
       "line": 1,
@@ -711,6 +723,7 @@ Object {
       "line": 1,
       "offset": 13,
     },
+    "source": "oh my god ...",
     "start": Object {
       "column": 1,
       "line": 1,
@@ -768,6 +781,7 @@ Object {
       "line": 1,
       "offset": 11,
     },
+    "source": "\\"awesome\\" !",
     "start": Object {
       "column": 1,
       "line": 1,
@@ -825,6 +839,7 @@ Object {
       "line": 1,
       "offset": 10,
     },
+    "source": "name = foo",
     "start": Object {
       "column": 1,
       "line": 1,
@@ -882,6 +897,7 @@ Object {
       "line": 1,
       "offset": 17,
     },
+    "source": "escase \\\\ escape !",
     "start": Object {
       "column": 1,
       "line": 1,
@@ -939,6 +955,7 @@ Object {
       "line": 1,
       "offset": 4,
     },
+    "source": "WoW!",
     "start": Object {
       "column": 1,
       "line": 1,
@@ -996,6 +1013,7 @@ Object {
       "line": 1,
       "offset": 9,
     },
+    "source": "\`happy!!\`",
     "start": Object {
       "column": 1,
       "line": 1,
@@ -1053,6 +1071,7 @@ Object {
       "line": 1,
       "offset": 5,
     },
+    "source": "a > b",
     "start": Object {
       "column": 1,
       "line": 1,
@@ -1110,6 +1129,7 @@ Object {
       "line": 1,
       "offset": 9,
     },
+    "source": "# curry !",
     "start": Object {
       "column": 1,
       "line": 1,
@@ -1167,6 +1187,7 @@ Object {
       "line": 1,
       "offset": 14,
     },
+    "source": "hi, kazu-pon !",
     "start": Object {
       "column": 1,
       "line": 1,
@@ -1224,6 +1245,7 @@ Object {
       "line": 1,
       "offset": 5,
     },
+    "source": "a < b",
     "start": Object {
       "column": 1,
       "line": 1,
@@ -1281,6 +1303,7 @@ Object {
       "line": 1,
       "offset": 12,
     },
+    "source": "hello\\\\nworld",
     "start": Object {
       "column": 1,
       "line": 1,
@@ -1338,6 +1361,7 @@ Object {
       "line": 1,
       "offset": 13,
     },
+    "source": "land [ bridge",
     "start": Object {
       "column": 1,
       "line": 1,
@@ -1395,6 +1419,7 @@ Object {
       "line": 1,
       "offset": 5,
     },
+    "source": "(foo)",
     "start": Object {
       "column": 1,
       "line": 1,
@@ -1452,6 +1477,7 @@ Object {
       "line": 1,
       "offset": 5,
     },
+    "source": "1 + 1",
     "start": Object {
       "column": 1,
       "line": 1,
@@ -1509,6 +1535,7 @@ Object {
       "line": 1,
       "offset": 19,
     },
+    "source": "morning; afternoon;",
     "start": Object {
       "column": 1,
       "line": 1,
@@ -1566,6 +1593,7 @@ Object {
       "line": 1,
       "offset": 13,
     },
+    "source": "I'm kazupon !",
     "start": Object {
       "column": 1,
       "line": 1,
@@ -1623,6 +1651,7 @@ Object {
       "line": 1,
       "offset": 12,
     },
+    "source": "hello nworld",
     "start": Object {
       "column": 1,
       "line": 1,
@@ -1680,6 +1709,7 @@ Object {
       "line": 1,
       "offset": 11,
     },
+    "source": "~~kazupon~~",
     "start": Object {
       "column": 1,
       "line": 1,
@@ -1737,6 +1767,7 @@ Object {
       "line": 1,
       "offset": 14,
     },
+    "source": "hi, kazu_pon !",
     "start": Object {
       "column": 1,
       "line": 1,
@@ -1794,6 +1825,7 @@ Object {
       "line": 1,
       "offset": 1,
     },
+    "source": "A",
     "start": Object {
       "column": 1,
       "line": 1,
@@ -1851,6 +1883,7 @@ Object {
       "line": 1,
       "offset": 1,
     },
+    "source": "A",
     "start": Object {
       "column": 1,
       "line": 1,
@@ -1908,6 +1941,7 @@ Object {
       "line": 1,
       "offset": 2,
     },
+    "source": "🍎",
     "start": Object {
       "column": 1,
       "line": 1,

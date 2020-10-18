@@ -46,6 +46,7 @@ Object {
       "line": 1,
       "offset": 11,
     },
+    "source": "hello world",
     "start": Object {
       "column": 1,
       "line": 1,
@@ -120,6 +121,7 @@ Object {
       "line": 1,
       "offset": 8,
     },
+    "source": "@:apples",
     "start": Object {
       "column": 1,
       "line": 1,
@@ -212,6 +214,7 @@ Object {
       "line": 1,
       "offset": 11,
     },
+    "source": "@.lower:{0}",
     "start": Object {
       "column": 1,
       "line": 1,
@@ -305,6 +308,7 @@ Object {
       "line": 1,
       "offset": 11,
     },
+    "source": "hello {0} !",
     "start": Object {
       "column": 1,
       "line": 1,
@@ -398,6 +402,7 @@ Object {
       "line": 1,
       "offset": 19,
     },
+    "source": "hello {'kazupon'} !",
     "start": Object {
       "column": 1,
       "line": 1,
@@ -491,6 +496,7 @@ Object {
       "line": 1,
       "offset": 14,
     },
+    "source": "hello {name} !",
     "start": Object {
       "column": 1,
       "line": 1,
@@ -641,6 +647,7 @@ Object {
       "line": 1,
       "offset": 43,
     },
+    "source": "no apples | one apple  |  too much apples  ",
     "start": Object {
       "column": 1,
       "line": 1,
@@ -862,6 +869,7 @@ Object {
       "line": 1,
       "offset": 50,
     },
+    "source": "@.lower:{'no apples'} | {1} apple | {count}　apples",
     "start": Object {
       "column": 1,
       "line": 1,

@@ -4,11 +4,6 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 const MonacoEditorPlugin = require('monaco-editor-webpack-plugin')
 
 module.exports = {
-  mode: process.env.NODE_ENV === 'production' ? 'production' : 'development',
-  devtool:
-    process.env.NODE_ENV === 'production'
-      ? 'source-map'
-      : 'cheap-module-eval-source-map',
   entry: path.resolve(__dirname, './src/index.ts'),
   output: {
     path: path.resolve(__dirname, './dist'),
@@ -16,8 +11,12 @@ module.exports = {
   },
   resolve: {
     extensions: ['.js', '.ts', '.tsx', '.vue', '.json', '.mjs', '.wasm'],
+    fallback: {
+      fs: false
+    },
     alias: {
-      vue: require.resolve('vue/dist/vue.esm-bundler.js')
+      vue: require.resolve('vue/dist/vue.esm-bundler.js'),
+      'vue-i18n': require.resolve('vue-i18n/dist/vue-i18n.cjs.js')
     }
   },
   module: {

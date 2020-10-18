@@ -1,18 +1,10 @@
 import { CompileOptions } from './options'
-import { ResourceNode, createParser } from './parser'
+import { createParser } from './parser'
 import { transform } from './transformer'
-import { generate } from './generator'
+import { generate, CodeGenResult } from './generator'
 import { CompileError, defaultOnError } from './errors'
 import { MessageFunction, MessageFunctions } from './runtime'
 import { warn, format, isBoolean } from '../utils'
-
-/** @internal */
-export interface CompileResult {
-  code: string
-  ast: ResourceNode
-  // TODO: should be implemetend sourcemap
-  // map?: RawSourceMap
-}
 
 const RE_HTML_TAG = /<\/?[\w\s="/.':;#-\/]+>/
 const WARN_MESSAGE = `Detected HTML in '{source}' message. Recommend not using HTML messages to avoid XSS.`
@@ -38,7 +30,7 @@ export function clearCompileCache(): void {
 export function baseCompile(
   source: string,
   options: CompileOptions = {}
-): CompileResult {
+): CodeGenResult {
   // parse source codes
   const parser = createParser({ ...options })
   const ast = parser.parse(source)
@@ -47,9 +39,7 @@ export function baseCompile(
   transform(ast, { ...options })
 
   // generate javascript codes
-  const code = generate(ast, { ...options })
-
-  return { ast, code }
+  return generate(ast, { ...options })
 }
 
 /** @internal */

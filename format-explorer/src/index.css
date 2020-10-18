@@ -19,3 +19,7 @@ body {
   height: 100vh;
   overflow: hidden;
 }
+
+.highlight {
+  background-color: rgba(46, 120, 190, 0.5);
+}

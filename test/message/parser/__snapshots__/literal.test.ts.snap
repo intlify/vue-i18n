@@ -82,6 +82,7 @@ Object {
       "line": 1,
       "offset": 17,
     },
+    "source": "hello {'world'} !",
     "start": Object {
       "column": 1,
       "line": 1,
@@ -175,6 +176,7 @@ Object {
       "line": 1,
       "offset": 12,
     },
+    "source": "hi, {'😺'} !",
     "start": Object {
       "column": 1,
       "line": 1,
@@ -250,6 +252,8 @@ Object {
       "line": 2,
       "offset": 14,
     },
+    "source": "hi, { 'foo
+' }",
     "start": Object {
       "column": 1,
       "line": 1,
@@ -343,6 +347,7 @@ Object {
       "line": 1,
       "offset": 13,
     },
+    "source": "hi, {'\\\\uw'} !",
     "start": Object {
       "column": 1,
       "line": 1,
@@ -418,6 +423,7 @@ Object {
       "line": 1,
       "offset": 9,
     },
+    "source": "hi, {'foo",
     "start": Object {
       "column": 1,
       "line": 1,
@@ -493,6 +499,7 @@ Object {
       "line": 1,
       "offset": 12,
     },
+    "source": "hi, { 'foo }",
     "start": Object {
       "column": 1,
       "line": 1,
@@ -586,6 +593,7 @@ Object {
       "line": 1,
       "offset": 14,
     },
+    "source": "hi, {'\\\\x41'} !",
     "start": Object {
       "column": 1,
       "line": 1,
@@ -679,6 +687,7 @@ Object {
       "line": 1,
       "offset": 12,
     },
+    "source": "hi, {'\\\\\\\\'} !",
     "start": Object {
       "column": 1,
       "line": 1,
@@ -772,6 +781,7 @@ Object {
       "line": 1,
       "offset": 12,
     },
+    "source": "hi, {'\\\\''} !",
     "start": Object {
       "column": 1,
       "line": 1,
@@ -865,6 +875,7 @@ Object {
       "line": 1,
       "offset": 17,
     },
+    "source": "hi, {'\\\\\\\\u0041'} !",
     "start": Object {
       "column": 1,
       "line": 1,
@@ -958,6 +969,7 @@ Object {
       "line": 1,
       "offset": 19,
     },
+    "source": "hi, {'\\\\\\\\U01F602'} !",
     "start": Object {
       "column": 1,
       "line": 1,
@@ -1051,6 +1063,7 @@ Object {
       "line": 1,
       "offset": 11,
     },
+    "source": "hi, {'%'} !",
     "start": Object {
       "column": 1,
       "line": 1,
@@ -1144,6 +1157,7 @@ Object {
       "line": 1,
       "offset": 11,
     },
+    "source": "hi, {'@'} !",
     "start": Object {
       "column": 1,
       "line": 1,
@@ -1237,6 +1251,7 @@ Object {
       "line": 1,
       "offset": 11,
     },
+    "source": "hi, {'{'} !",
     "start": Object {
       "column": 1,
       "line": 1,
@@ -1330,6 +1345,7 @@ Object {
       "line": 1,
       "offset": 11,
     },
+    "source": "hi, {'|'} !",
     "start": Object {
       "column": 1,
       "line": 1,
@@ -1423,6 +1439,7 @@ Object {
       "line": 1,
       "offset": 11,
     },
+    "source": "hi, {'}'} !",
     "start": Object {
       "column": 1,
       "line": 1,
@@ -1516,6 +1533,7 @@ Object {
       "line": 1,
       "offset": 13,
     },
+    "source": "こんにちは、{'世界'}！",
     "start": Object {
       "column": 1,
       "line": 1,
@@ -1609,6 +1627,7 @@ Object {
       "line": 1,
       "offset": 32,
     },
+    "source": "hi, {'!#%^&*()-_+=[]:;?.<>\\"\`'} !",
     "start": Object {
       "column": 1,
       "line": 1,
@@ -1702,6 +1721,7 @@ Object {
       "line": 1,
       "offset": 16,
     },
+    "source": "hi, {'\\\\u0041'} !",
     "start": Object {
       "column": 1,
       "line": 1,
@@ -1795,6 +1815,7 @@ Object {
       "line": 1,
       "offset": 18,
     },
+    "source": "hi, {'\\\\U01F602'} !",
     "start": Object {
       "column": 1,
       "line": 1,

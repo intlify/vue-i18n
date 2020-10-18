@@ -139,6 +139,7 @@ Object {
       "line": 1,
       "offset": 42,
     },
+    "source": "no apples | one apple  |  too much apples ",
     "start": Object {
       "column": 1,
       "line": 1,
@@ -360,6 +361,7 @@ Object {
       "line": 1,
       "offset": 50,
     },
+    "source": "@.lower:{'no apples'} | {1} apple | {count}　apples",
     "start": Object {
       "column": 1,
       "line": 1,
@@ -471,6 +473,7 @@ Object {
       "line": 1,
       "offset": 6,
     },
+    "source": " | | |",
     "start": Object {
       "column": 1,
       "line": 1,
@@ -623,6 +626,9 @@ Object {
       "line": 3,
       "offset": 45,
     },
+    "source": "no apples |
+ one apple  |
+  too much apples  ",
     "start": Object {
       "column": 1,
       "line": 1,
@@ -791,6 +797,7 @@ Object {
       "line": 1,
       "offset": 18,
     },
+    "source": " foo | | bar | buz",
     "start": Object {
       "column": 1,
       "line": 1,
