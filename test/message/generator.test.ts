@@ -3,251 +3,435 @@
 import { createParser } from '../../src/message/parser'
 import { transform } from '../../src/message/transformer'
 import { generate } from '../../src/message/generator'
+import { SourceMapConsumer, RawSourceMap } from 'source-map'
+import { CHAR_CR, CHAR_LF, CHAR_LS, CHAR_PS } from '../../src/message/scanner'
+
+interface Pos {
+  line: number
+  column: number
+  name?: string
+}
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+function getPositionInCode(
+  code: string,
+  token: string,
+  expectName: string | boolean = false
+): Pos {
+  const generatedOffset = code.indexOf(token)
+  // console.log('getPositionInCode', code, token, generatedOffset)
+  const pos: Pos = {
+    line: 1,
+    column: generatedOffset
+  }
+  if (generatedOffset !== -1) {
+    for (let i = generatedOffset; i < generatedOffset + token.length; i++) {
+      if (
+        (code[i] === CHAR_CR && code[i] === CHAR_LF) ||
+        code[i] === CHAR_LF ||
+        code[i] === CHAR_LS ||
+        code[i] === CHAR_PS
+      ) {
+        pos.line++
+        pos.column = 0
+      } else {
+        pos.column++
+      }
+    }
+  }
+  if (expectName) {
+    pos.name = typeof expectName === 'string' ? expectName : token
+  }
+  // console.log('getPositionInCode ret', generatedOffset, pos)
+  return pos
+}
 
 describe('text', () => {
-  test('basic', () => {
+  test('basic', async () => {
     const parser = createParser()
     const msg = 'hello world'
     const ast = parser.parse(msg)
     transform(ast)
-    const code = generate(ast)
+    const { code, map } = generate(ast, { sourceMap: true })
+
     expect(code).toMatchSnapshot(msg)
     expect(code).toMatch(`return _normalize([`)
     expect(code).toMatch(`"hello world"`)
     expect(code).toMatch(`])`)
+
+    expect(map!.sources).toEqual([`message.intl`])
+    expect(map!.sourcesContent).toEqual([msg])
+    const consumer = await new SourceMapConsumer(map as RawSourceMap)
+    consumer.eachMapping(mapping => {
+      expect(mapping).toMatchSnapshot()
+    })
   })
 
-  test('multline', () => {
+  test('multline', async () => {
     const parser = createParser()
     const msg = 'hello\n world'
     const ast = parser.parse(msg)
     transform(ast)
-    const code = generate(ast)
+    const { code, map } = generate(ast, {
+      sourceMap: true,
+      filename: 'foo.bar'
+    })
+
     expect(code).toMatchSnapshot(msg)
     expect(code).toMatch(`return _normalize([`)
     expect(code).toMatch(`"hello\\n world"`)
     expect(code).toMatch(`])`)
+
+    expect(map!.sources).toEqual([`foo.bar`])
+    expect(map!.sourcesContent).toEqual([msg])
+    const consumer = await new SourceMapConsumer(map as RawSourceMap)
+    consumer.eachMapping(mapping => {
+      expect(mapping).toMatchSnapshot()
+    })
   })
 })
 
 describe('list', () => {
-  test('basic', () => {
+  test('basic', async () => {
     const parser = createParser()
     const msg = 'hi {0} !'
     const ast = parser.parse(msg)
     transform(ast)
-    const code = generate(ast)
+    const { code, map } = generate(ast, { sourceMap: true })
+
     expect(code).toMatchSnapshot(msg)
     expect(code).toMatch(`return _normalize([`)
     expect(code).toMatch(`"hi ", _interpolate(_list(0)), " !"`)
     expect(code).toMatch(`])`)
+
+    expect(map!.sourcesContent).toEqual([msg])
+    const consumer = await new SourceMapConsumer(map as RawSourceMap)
+    consumer.eachMapping(mapping => {
+      expect(mapping).toMatchSnapshot()
+    })
   })
 
-  test('multiple', () => {
+  test('multiple', async () => {
     const parser = createParser()
     const msg = '{0} {1} !'
     const ast = parser.parse(msg)
     transform(ast)
-    const code = generate(ast)
+    const { code, map } = generate(ast, { sourceMap: true })
+
     expect(code).toMatchSnapshot(msg)
     expect(code).toMatch(`return _normalize([`)
     expect(code).toMatch(
       `_interpolate(_list(0)), " ", _interpolate(_list(1)), " !"`
     )
     expect(code).toMatch(`])`)
+
+    expect(map!.sourcesContent).toEqual([msg])
+    const consumer = await new SourceMapConsumer(map as RawSourceMap)
+    consumer.eachMapping(mapping => {
+      expect(mapping).toMatchSnapshot()
+    })
   })
 })
 
 describe('named', () => {
-  test('basic', () => {
+  test('basic', async () => {
     const parser = createParser()
     const msg = 'hi {name} !'
     const ast = parser.parse(msg)
     transform(ast)
-    const code = generate(ast)
+    const { code, map } = generate(ast, { sourceMap: true })
+
     expect(code).toMatchSnapshot(msg)
     expect(code).toMatch(`return _normalize([`)
     expect(code).toMatch(`"hi ", _interpolate(_named("name")), " !"`)
     expect(code).toMatch(`])`)
+
+    expect(map!.sourcesContent).toEqual([msg])
+    const consumer = await new SourceMapConsumer(map as RawSourceMap)
+    consumer.eachMapping(mapping => {
+      expect(mapping).toMatchSnapshot()
+    })
   })
 
-  test('multiple', () => {
+  test('multiple', async () => {
     const parser = createParser()
     const msg = '{greeting} {name} !'
     const ast = parser.parse(msg)
     transform(ast)
-    const code = generate(ast)
+    const { code, map } = generate(ast, { sourceMap: true })
+
     expect(code).toMatchSnapshot(msg)
     expect(code).toMatch(`return _normalize([`)
     expect(code).toMatch(
       `_interpolate(_named("greeting")), " ", _interpolate(_named("name")), " !"`
     )
     expect(code).toMatch(`])`)
+
+    expect(map!.sourcesContent).toEqual([msg])
+    const consumer = await new SourceMapConsumer(map as RawSourceMap)
+    consumer.eachMapping(mapping => {
+      expect(mapping).toMatchSnapshot()
+    })
   })
 })
 
 describe('literal', () => {
-  test('ascii', () => {
+  test('ascii', async () => {
     const parser = createParser()
     const msg = `hi {'kazupon'} !`
     const ast = parser.parse(msg)
     transform(ast)
-    const code = generate(ast)
+    const { code, map } = generate(ast, { sourceMap: true })
+
     expect(code).toMatchSnapshot(msg)
+    expect(map!.sourcesContent).toEqual([msg])
+    const consumer = await new SourceMapConsumer(map as RawSourceMap)
+    consumer.eachMapping(mapping => {
+      expect(mapping).toMatchSnapshot()
+    })
   })
 
-  test('multibytes', () => {
+  test('multibytes', async () => {
     const parser = createParser()
     const msg = `hi {'かずぽん'} !`
     const ast = parser.parse(msg)
     transform(ast)
-    const code = generate(ast)
+    const { code, map } = generate(ast, { sourceMap: true })
+
     expect(code).toMatchSnapshot(msg)
+    expect(map!.sourcesContent).toEqual([msg])
+    const consumer = await new SourceMapConsumer(map as RawSourceMap)
+    consumer.eachMapping(mapping => {
+      expect(mapping).toMatchSnapshot()
+    })
   })
 
-  test('emoji', () => {
+  test('emoji', async () => {
     const parser = createParser()
     const msg = `hi {'😺'} !`
     const ast = parser.parse(msg)
     transform(ast)
-    const code = generate(ast)
+    const { code, map } = generate(ast, { sourceMap: true })
+
     expect(code).toMatchSnapshot(msg)
+    expect(map!.sourcesContent).toEqual([msg])
+    const consumer = await new SourceMapConsumer(map as RawSourceMap)
+    consumer.eachMapping(mapping => {
+      expect(mapping).toMatchSnapshot()
+    })
   })
 
-  test('{}', () => {
+  test('{}', async () => {
     const parser = createParser()
     const msg = `{'{}'}`
     const ast = parser.parse(msg)
     transform(ast)
-    const code = generate(ast)
+    const { code, map } = generate(ast, { sourceMap: true })
+
     expect(code).toMatchSnapshot(msg)
+    expect(map!.sourcesContent).toEqual([msg])
+    const consumer = await new SourceMapConsumer(map as RawSourceMap)
+    consumer.eachMapping(mapping => {
+      expect(mapping).toMatchSnapshot()
+    })
   })
 
-  test('!#%^&*()-_+=[]:;?.<>"`', () => {
+  test('!#%^&*()-_+=[]:;?.<>"`', async () => {
     const parser = createParser()
     const msg = `hi {'${'!#%^&*()-_+=[]:;?.<>"`'}'} !`
     const ast = parser.parse(msg)
     transform(ast)
-    const code = generate(ast)
+    const { code, map } = generate(ast, { sourceMap: true })
+
     expect(code).toMatchSnapshot(msg)
+    expect(map!.sourcesContent).toEqual([msg])
+    const consumer = await new SourceMapConsumer(map as RawSourceMap)
+    consumer.eachMapping(mapping => {
+      expect(mapping).toMatchSnapshot()
+    })
   })
 
-  test('escaped single quote', () => {
+  test('escaped single quote', async () => {
     const parser = createParser()
     const msg = `hi {'\\''} !`
     const ast = parser.parse(msg)
     transform(ast)
-    const code = generate(ast)
+    const { code, map } = generate(ast, { sourceMap: true })
+
     expect(code).toMatchSnapshot(msg)
+    expect(map!.sourcesContent).toEqual([msg])
+    const consumer = await new SourceMapConsumer(map as RawSourceMap)
+    consumer.eachMapping(mapping => {
+      expect(mapping).toMatchSnapshot()
+    })
   })
 
-  test('escaped slash', () => {
+  test('escaped slash', async () => {
     const parser = createParser()
     const msg = `hi {'\\\\'} !`
     const ast = parser.parse(msg)
     transform(ast)
-    const code = generate(ast)
+    const { code, map } = generate(ast, { sourceMap: true })
+
     expect(code).toMatchSnapshot(msg)
+    expect(map!.sourcesContent).toEqual([msg])
+    const consumer = await new SourceMapConsumer(map as RawSourceMap)
+    consumer.eachMapping(mapping => {
+      expect(mapping).toMatchSnapshot()
+    })
   })
 
-  test('unicode 4 digits', () => {
+  test('unicode 4 digits', async () => {
     const parser = createParser()
     const msg = `hi {'${'\u0041'}'} !`
     const ast = parser.parse(msg)
     transform(ast)
-    const code = generate(ast)
+    const { code, map } = generate(ast, { sourceMap: true })
+
     expect(code).toMatchSnapshot(msg)
+    expect(map!.sourcesContent).toEqual([msg])
+    const consumer = await new SourceMapConsumer(map as RawSourceMap)
+    consumer.eachMapping(mapping => {
+      expect(mapping).toMatchSnapshot()
+    })
   })
 
-  test('escaped unicode 4 digits', () => {
+  test('escaped unicode 4 digits', async () => {
     const parser = createParser()
     const msg = `hi {'\\\\u0041'} !`
     const ast = parser.parse(msg)
     transform(ast)
-    const code = generate(ast)
+    const { code, map } = generate(ast, { sourceMap: true })
+
     expect(code).toMatchSnapshot(msg)
+    expect(map!.sourcesContent).toEqual([msg])
+    const consumer = await new SourceMapConsumer(map as RawSourceMap)
+    consumer.eachMapping(mapping => {
+      expect(mapping).toMatchSnapshot()
+    })
   })
 
-  test('unicode 6 digits', () => {
+  test('unicode 6 digits', async () => {
     const parser = createParser()
     const msg = `hi {'${'U01F602'}'} !`
     const ast = parser.parse(msg)
     transform(ast)
-    const code = generate(ast)
+    const { code, map } = generate(ast, { sourceMap: true })
+
     expect(code).toMatchSnapshot(msg)
+    expect(map!.sourcesContent).toEqual([msg])
+    const consumer = await new SourceMapConsumer(map as RawSourceMap)
+    consumer.eachMapping(mapping => {
+      expect(mapping).toMatchSnapshot()
+    })
   })
 
-  test('escaped unicode 6 digits', () => {
+  test('escaped unicode 6 digits', async () => {
     const parser = createParser()
     const msg = `hi {'\\\\U01F602'} !`
     const ast = parser.parse(msg)
     transform(ast)
-    const code = generate(ast)
+    const { code, map } = generate(ast, { sourceMap: true })
+
     expect(code).toMatchSnapshot(msg)
+    expect(map!.sourcesContent).toEqual([msg])
+    const consumer = await new SourceMapConsumer(map as RawSourceMap)
+    consumer.eachMapping(mapping => {
+      expect(mapping).toMatchSnapshot()
+    })
   })
 })
 
 describe('linked', () => {
-  test('key', () => {
+  test('key', async () => {
     const parser = createParser()
     const msg = 'hi @:name !'
     const ast = parser.parse(msg)
     transform(ast)
-    const code = generate(ast)
+    const { code, map } = generate(ast, { sourceMap: true })
+
     expect(code).toMatchSnapshot(msg)
     expect(code).toMatch(`return _normalize([`)
     expect(code).toMatch(`"hi ", _message("name")(ctx), " !"`)
     expect(code).toMatch(`])`)
+
+    expect(map!.sourcesContent).toEqual([msg])
+    const consumer = await new SourceMapConsumer(map as RawSourceMap)
+    consumer.eachMapping(mapping => {
+      expect(mapping).toMatchSnapshot()
+    })
   })
 
-  test('list', () => {
+  test('list', async () => {
     const parser = createParser()
     const msg = 'hi @:{0} !'
     const ast = parser.parse(msg)
     transform(ast)
-    const code = generate(ast)
+    const { code, map } = generate(ast, { sourceMap: true })
+
     expect(code).toMatchSnapshot(msg)
     expect(code).toMatch(`return _normalize([`)
     expect(code).toMatch(`"hi ", _message(_interpolate(_list(0)))(ctx), " !"`)
     expect(code).toMatch(`])`)
+
+    expect(map!.sourcesContent).toEqual([msg])
+    const consumer = await new SourceMapConsumer(map as RawSourceMap)
+    consumer.eachMapping(mapping => {
+      expect(mapping).toMatchSnapshot()
+    })
   })
 
-  test('named', () => {
+  test('named', async () => {
     const parser = createParser()
     const msg = 'hi @:{name} !'
     const ast = parser.parse(msg)
     transform(ast)
-    const code = generate(ast)
+    const { code, map } = generate(ast, { sourceMap: true })
+
     expect(code).toMatchSnapshot(msg)
     expect(code).toMatch(`return _normalize([`)
     expect(code).toMatch(
       `"hi ", _message(_interpolate(_named("name")))(ctx), " !"`
     )
     expect(code).toMatch(`])`)
+
+    expect(map!.sourcesContent).toEqual([msg])
+    const consumer = await new SourceMapConsumer(map as RawSourceMap)
+    consumer.eachMapping(mapping => {
+      expect(mapping).toMatchSnapshot()
+    })
   })
 
-  test('modifier', () => {
+  test('modifier', async () => {
     const parser = createParser()
     const msg = `hi @.upper:{'name'} !`
     const ast = parser.parse(msg)
     transform(ast)
-    const code = generate(ast)
+    const { code, map } = generate(ast, { sourceMap: true })
+
     expect(code).toMatchSnapshot(msg)
     expect(code).toMatch(`return _normalize([`)
     expect(code).toMatch(
       `"hi ", _modifier("upper")(_message("name")(ctx), _type), " !"`
     )
     expect(code).toMatch(`])`)
+
+    expect(map!.sourcesContent).toEqual([msg])
+    const consumer = await new SourceMapConsumer(map as RawSourceMap)
+    consumer.eachMapping(mapping => {
+      expect(mapping).toMatchSnapshot()
+    })
   })
 })
 
 describe('plural', () => {
-  test('simple', () => {
+  test('simple', async () => {
     const parser = createParser()
     const msg = 'no apples | one apple  |  too much apples  '
     const ast = parser.parse(msg)
     transform(ast)
-    const code = generate(ast)
+    const { code, map } = generate(ast, { sourceMap: true })
+
     expect(code).toMatchSnapshot(msg)
     expect(code).toMatch(`return [`)
     expect(code).toMatch(`_normalize([`)
@@ -258,14 +442,21 @@ describe('plural', () => {
     expect(code).toMatch(`"too much apples  "`)
     expect(code).toMatch(` ])`)
     expect(code).toMatch(`][_pluralRule(_pluralIndex, 3, _orgPluralRule)]`)
+
+    expect(map!.sourcesContent).toEqual([msg])
+    const consumer = await new SourceMapConsumer(map as RawSourceMap)
+    consumer.eachMapping(mapping => {
+      expect(mapping).toMatchSnapshot()
+    })
   })
 
-  test('complex', () => {
+  test('complex', async () => {
     const parser = createParser()
     const msg = `@.caml:{'no apples'} | {0} apple | {n}　apples`
     const ast = parser.parse(msg)
     transform(ast)
-    const code = generate(ast)
+    const { code, map } = generate(ast, { sourceMap: true })
+
     expect(code).toMatchSnapshot(msg)
     expect(code).toMatch(`return [`)
     expect(code).toMatch(`_normalize([`)
@@ -276,18 +467,31 @@ describe('plural', () => {
     expect(code).toMatch(`_interpolate(_named("n")), "　apples"`)
     expect(code).toMatch(` ])`)
     expect(code).toMatch(`][_pluralRule(_pluralIndex, 3, _orgPluralRule)]`)
+
+    expect(map!.sourcesContent).toEqual([msg])
+    const consumer = await new SourceMapConsumer(map as RawSourceMap)
+    consumer.eachMapping(mapping => {
+      expect(mapping).toMatchSnapshot()
+    })
   })
 })
 
 describe('mode', () => {
-  test('arrow', () => {
+  test('arrow', async () => {
     const parser = createParser()
     const msg = `@.caml:{'no apples'} | {0} apple | {n}　apples`
     const ast = parser.parse(msg)
     transform(ast)
-    const code = generate(ast, { mode: 'arrow' })
+    const { code, map } = generate(ast, { sourceMap: true, mode: 'arrow' })
+
     expect(code).toMatchSnapshot(msg)
     expect(code).toMatch(`(ctx) => {`)
+
+    expect(map!.sourcesContent).toEqual([msg])
+    const consumer = await new SourceMapConsumer(map as RawSourceMap)
+    consumer.eachMapping(mapping => {
+      expect(mapping).toMatchSnapshot()
+    })
   })
 })
 

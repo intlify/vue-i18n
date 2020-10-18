@@ -82,6 +82,7 @@ Object {
       "line": 1,
       "offset": 11,
     },
+    "source": "hi {name} !",
     "start": Object {
       "column": 1,
       "line": 1,
@@ -211,6 +212,7 @@ Object {
       "line": 1,
       "offset": 23,
     },
+    "source": "{first} {middle}　{last}",
     "start": Object {
       "column": 1,
       "line": 1,
@@ -344,6 +346,9 @@ Object {
       "line": 3,
       "offset": 23,
     },
+    "source": "{first}
+{middle}
+{last}",
     "start": Object {
       "column": 1,
       "line": 1,
@@ -437,6 +442,7 @@ Object {
       "line": 1,
       "offset": 14,
     },
+    "source": "hi {  name } !",
     "start": Object {
       "column": 1,
       "line": 1,

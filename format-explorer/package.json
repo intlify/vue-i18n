@@ -7,27 +7,28 @@
   "license": "MIT",
   "scripts": {
     "build": "webpack",
-    "dev": "webpack-dev-server",
+    "dev": "webpack serve",
     "clean": "rm -rf ./dist"
   },
   "devDependencies": {
     "@vue/compiler-sfc": "^3.0.0",
     "css-loader": "^4.3.0",
     "file-loader": "^6.1.0",
-    "ts-loader": "^8.0.0",
-    "url-loader": "^4.1.0",
-    "typescript": "^4.0.3",
-    "vue-loader": "^16.0.0-beta.8",
-    "webpack": "^4.44.0",
-    "webpack-cli": "^3.3.12",
-    "webpack-dev-server": "^3.11.0",
     "html-webpack-plugin": "^4.3.0",
     "monaco-editor-webpack-plugin": "^2.0.0",
-    "style-loader": "^2.0.0"
+    "style-loader": "^2.0.0",
+    "ts-loader": "^8.0.0",
+    "typescript": "^4.0.3",
+    "url-loader": "^4.1.0",
+    "vue-loader": "^16.0.0-beta.8",
+    "webpack": "^5.1.0",
+    "webpack-cli": "^4.0.0",
+    "webpack-dev-server": "^3.11.0"
   },
   "dependencies": {
+    "monaco-editor": "^0.21.2",
+    "source-map": "^0.6.1",
     "vue": "^3.0.0",
-    "vue-i18n": "link:..",
-    "monaco-editor": "^0.21.2"
+    "vue-i18n": "link:.."
   }
 }

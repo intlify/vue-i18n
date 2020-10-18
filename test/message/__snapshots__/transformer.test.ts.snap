@@ -222,6 +222,7 @@ Object {
       "line": 1,
       "offset": 50,
     },
+    "source": "@.upper:{'no apples'} | {0} apple | {count}　apples",
     "start": Object {
       "column": 1,
       "line": 1,

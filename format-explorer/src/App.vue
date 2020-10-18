@@ -3,6 +3,9 @@ import { defineComponent, ref } from 'vue'
 import Navigation from './components/Navigation.vue'
 import Editor from './components/Editor.vue'
 import { baseCompile } from 'vue-i18n'
+import * as monaco from 'monaco-editor'
+import { debounce } from './utils'
+import { SourceMapConsumer } from 'source-map'
 import type { CompileError, CompileOptions } from 'vue-i18n'
 
 interface PersistedState {
@@ -35,16 +38,19 @@ export default defineComponent({
      * utilties
      */
     let lastSuccessCode: string
-    function compile(message: string): string {
+    let lastSuccessfulMap: SourceMapConsumer | undefined
+    async function compile(message: string): Promise<string> {
       console.clear()
 
       try {
         const start = performance.now()
 
         const errors: CompileError[] = []
-        const { code, ast } = baseCompile(message, {
-          onError: err => errors.push(err)
-        })
+        const options = {
+          sourceMap: true,
+          onError: (err: CompileError) => errors.push(err)
+        }
+        const { code, ast, map } = baseCompile(message, options)
         if (errors.length > 0) {
           console.error(errors)
         }
@@ -52,10 +58,13 @@ export default defineComponent({
         console.log(`Compiled in ${(performance.now() - start).toFixed(2)}ms.`)
         compileErrors.value = errors
         console.log(`AST: `, ast)
+        console.log('sourcemap', map)
 
         const evalCode = new Function(`return ${code}`)()
         lastSuccessCode =
           evalCode.toString() + `\n\n// Check the console for the AST`
+        lastSuccessfulMap = await new SourceMapConsumer(map!)
+        lastSuccessfulMap!.computeColumnSpans()
       } catch (e) {
         lastSuccessCode = `/* ERROR: ${e.message} (see console for more info) */`
         console.error(e)
@@ -67,11 +76,121 @@ export default defineComponent({
     /**
      * envet handlers
      */
-    const onChange = (message: string): void => {
+
+    let inputEditor: monaco.editor.IStandaloneCodeEditor | null = null
+    let outputEditor: monaco.editor.IStandaloneCodeEditor | null = null
+
+    // input editor model change event
+    const onChangeModel = async (message: string): Promise<void> => {
       const state = JSON.stringify({ src: message } as PersistedState)
       localStorage.setItem('state', state)
       window.location.hash = encodeURIComponent(state)
-      genCodes.value = compile(message)
+      genCodes.value = await compile(message)
+    }
+
+    // highlight output codes
+    let prevOutputDecos: string[] = []
+    function clearOutputDecos() {
+      if (!outputEditor) {
+        return
+      }
+      prevOutputDecos = outputEditor.deltaDecorations(prevOutputDecos, [])
+    }
+
+    let prevInputDecos: string[] = []
+    function clearInputDecos() {
+      if (!inputEditor) {
+        return
+      }
+      prevInputDecos = inputEditor.deltaDecorations(prevInputDecos, [])
+    }
+
+    // input editor ready event
+    const onReadyInput = (editor: monaco.editor.IStandaloneCodeEditor) => {
+      inputEditor = editor
+      inputEditor.onDidChangeCursorPosition(
+        debounce(e => {
+          clearInputDecos()
+          if (lastSuccessfulMap) {
+            const pos = lastSuccessfulMap.generatedPositionFor({
+              source: 'message.intl',
+              line: e.position.lineNumber,
+              column: e.position.column
+            })
+            if (pos.line != null && pos.column != null) {
+              prevOutputDecos = outputEditor!.deltaDecorations(
+                prevOutputDecos,
+                [
+                  {
+                    range: new monaco.Range(
+                      pos.line,
+                      pos.column + 1,
+                      pos.line,
+                      pos.lastColumn ? pos.lastColumn + 2 : pos.column + 2
+                    ),
+                    options: {
+                      inlineClassName: `highlight`
+                    }
+                  }
+                ]
+              )
+              outputEditor!.revealPositionInCenter({
+                lineNumber: pos.line,
+                column: pos.column + 1
+              })
+            } else {
+              clearOutputDecos()
+            }
+          }
+        }, 100)
+      )
+    }
+
+    // output editor ready event
+    const onReadyOutput = (editor: monaco.editor.IStandaloneCodeEditor) => {
+      outputEditor = editor
+      editor.onDidChangeCursorPosition(
+        debounce(e => {
+          clearOutputDecos()
+          if (lastSuccessfulMap) {
+            const pos = lastSuccessfulMap.originalPositionFor({
+              line: e.position.lineNumber,
+              column: e.position.column
+            })
+            console.log('onReadyOutput', e.position, pos)
+            if (
+              pos.line != null &&
+              pos.column != null &&
+              !(
+                // ignore mock location
+                (pos.line === 1 && pos.column === 0)
+              )
+            ) {
+              const translatedPos = {
+                column: pos.column + 1,
+                lineNumber: pos.line
+              }
+              prevInputDecos = inputEditor!.deltaDecorations(prevInputDecos, [
+                {
+                  range: new monaco.Range(
+                    pos.line,
+                    pos.column + 1,
+                    pos.line,
+                    pos.column + 1
+                  ),
+                  options: {
+                    isWholeLine: true,
+                    className: `highlight`
+                  }
+                }
+              ])
+              inputEditor!.revealPositionInCenter(translatedPos)
+            } else {
+              clearInputDecos()
+            }
+          }
+        }, 100)
+      )
     }
 
     // setup context
@@ -79,7 +198,9 @@ export default defineComponent({
       initialCodes,
       genCodes,
       compileErrors,
-      onChange
+      onChangeModel,
+      onReadyInput,
+      onReadyOutput
     }
   }
 })
@@ -87,9 +208,10 @@ export default defineComponent({
 
 <template>
   <div class="container">
-    <div class="navigation">
+    <nav class="navigation">
+      <!-- prettier-ignore -->
       <Navigation class="navigation" />
-    </div>
+    </nav>
     <div class="operation">
       <Editor
         class="input"
@@ -97,12 +219,14 @@ export default defineComponent({
         :code="initialCodes"
         :errors="compileErrors"
         :debounce="true"
-        @change="onChange"
+        @change-model="onChangeModel"
+        @ready="onReadyInput"
       />
       <!-- prettier-ignore -->
       <Editor
         class="output"
         :code="genCodes"
+        @ready="onReadyOutput"
       />
     </div>
   </div>
@@ -119,6 +243,7 @@ export default defineComponent({
   box-sizing: border-box;
   background-color: var(--bg);
   border-bottom: 1px solid var(--border);
+  display: contents;
 }
 .operation {
   width: 100%;

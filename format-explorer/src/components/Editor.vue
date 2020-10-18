@@ -1,29 +1,10 @@
 <script lang="ts">
 import { defineComponent, ref, onMounted, watchEffect } from 'vue'
 import theme from '../theme'
+import { debounce } from '../utils'
 import * as monaco from 'monaco-editor'
 import type { PropType } from 'vue'
 import type { CompileError } from 'vue-i18n'
-
-/* eslint-disable */
-function debounce<T extends (...args: any[]) => any>(
-  fn: T,
-  delay: number = 300
-): T {
-  let prevTimer: number | null = null
-  return ((...args: any[]) => {
-    if (prevTimer) {
-      clearTimeout(prevTimer)
-    }
-    prevTimer = window.setTimeout(() => {
-      fn(...args)
-      prevTimer = null
-    }, delay)
-  }) as any
-}
-/* eslint-enable */
-
-export type Foo = number
 
 export default defineComponent({
   name: 'Editor',
@@ -48,7 +29,8 @@ export default defineComponent({
   },
 
   emits: {
-    change: null
+    ready: null,
+    'change-model': null
   },
 
   setup(props, { emit }) {
@@ -90,8 +72,8 @@ export default defineComponent({
       window.addEventListener('resize', () => editor.layout())
 
       const changeEmitter = props.debounce
-        ? debounce(() => emit('change', editor.getValue()))
-        : () => emit('change', editor.getValue())
+        ? debounce(() => emit('change-model', editor.getValue()))
+        : () => emit('change-model', editor.getValue())
 
       editor.onDidChangeModelContent(changeEmitter)
 
@@ -103,6 +85,8 @@ export default defineComponent({
           props.errors.filter(e => e.location).map(formatError)
         )
       })
+
+      emit('ready', editor)
     })
 
     return { container }

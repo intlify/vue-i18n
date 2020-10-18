@@ -483,6 +483,9 @@ export function createParser(options: ParserOptions = {}): Parser {
       context.offset,
       context.startLoc
     ) as ResourceNode
+    if (location && node.loc) {
+      node.loc.source = source
+    }
     node.body = parseResource(tokenizer)
 
     // assert wheather achieved to EOF
