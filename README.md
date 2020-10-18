@@ -209,7 +209,7 @@ Note: the replacement value **must be boolean literals** and cannot be strings, 
 
 - Intlify message format compiler
   - [x] vue-i18n message format
-  - [ ] sourcemap
+  - [x] sourcemap
   - [x] HTML format handling
   - [ ] more unit (fuzzing) tests
   - [x] performance tests (benchmark)
@@ -324,14 +324,15 @@ Note: the replacement value **must be boolean literals** and cannot be strings, 
   - [x] vite-plugin-vue-i18n
   - [ ] vue-cli-plugin-i18n
   - [ ] eslint-plugin-vue-i18n
-  - [ ] message format pre-compilation tools
 - Others
   - [ ] documentation
   - [x] fallback localization (bubble up)
   - [x] SSR
 - General tasks
   - [x] error handlings
+- Next Tasks (v9.1)
   - [ ] monorepo
+  - [ ] message format pre-compilation tools
 
 </details>
 
