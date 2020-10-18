@@ -135,6 +135,6 @@
   "types": "dist/vue-i18n.d.ts",
   "unpkg": "dist/vue-i18n.global.js",
   "dependencies": {
-    "source-map": "^0.6.1"
+    "source-map": "^0.7.0"
   }
 }
