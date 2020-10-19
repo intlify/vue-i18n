@@ -1,4 +1,13 @@
 
+## v9.0.0-beta.6 (2020-10-19)
+
+#### :chart_with_upwards_trend: Performance Fixes
+* [#150](https://github.com/intlify/vue-i18n-next/pull/150) tweak bundling ([@kazupon](https://github.com/kazupon))
+
+#### Committers: 1
+- kazuya kawaguchi ([@kazupon](https://github.com/kazupon))
+
+
 ## v9.0.0-beta.5 (2020-10-18)
 
 #### :star: Features
