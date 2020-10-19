@@ -197,7 +197,11 @@ function createReplacePlugin(
     ...(isProduction && isBrowserBuild
       ? {
           'emitError(': `/*#__PURE__*/ emitError(`,
-          'createCompileError(': `/*#__PURE__*/ createCompileError(`
+          'createCompileError(': `/*#__PURE__*/ createCompileError(`,
+          'function createCoreError(': `/*#__PURE__*/ function createCoreError(`,
+          'throw createCoreError(': `throw Error(`,
+          'function createI18nError(': `/*#__PURE__*/ function createI18nError(`,
+          'throw createI18nError(': `throw Error(`
         }
       : {})
   }
