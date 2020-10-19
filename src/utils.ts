@@ -110,7 +110,6 @@ export const getGlobalThis = (): any => {
 
 export function escapeHtml(rawText: string): string {
   return rawText
-    .replace(/&/g, '&amp;')
     .replace(/</g, '&lt;')
     .replace(/>/g, '&gt;')
     .replace(/"/g, '&quot;')
