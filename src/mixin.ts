@@ -91,7 +91,7 @@ export function defineMixin<Messages, DateTimeFormats, NumberFormats>(
     },
 
     mounted(): void {
-      if (__DEV__ || __FEATURE_PROD_DEVTOOLS__) {
+      if ((__DEV__ || __FEATURE_PROD_DEVTOOLS__) && !__NODE_JS__) {
         this.$el.__INTLIFY__ = this.$i18n.__composer
         const emitter: DevToolsEmitter = (this.__emitter = createEmitter<
           DevToolsEmitterEvents
@@ -113,7 +113,7 @@ export function defineMixin<Messages, DateTimeFormats, NumberFormats>(
         throw createI18nError(I18nErrorCodes.UNEXPECTED_ERROR)
       }
 
-      if (__DEV__ || __FEATURE_PROD_DEVTOOLS__) {
+      if ((__DEV__ || __FEATURE_PROD_DEVTOOLS__) && !__NODE_JS__) {
         if (this.__emitter) {
           this.__emitter.off('*', addTimelineEvent)
           delete this.__emitter
