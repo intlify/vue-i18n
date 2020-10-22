@@ -10,15 +10,15 @@ import { Composer } from '../src/composer'
 
 describe('createI18n', () => {
   test('legay mode', () => {
-    const i18n = createI18n({
-      legacy: true
-    })
+    const i18n = createI18n({})
 
     expect(i18n.mode).toEqual('legacy')
   })
 
   test('composable mode', () => {
-    const i18n = createI18n({})
+    const i18n = createI18n({
+      legacy: false
+    })
 
     expect(i18n.mode).toEqual('composable')
   })
@@ -38,6 +38,7 @@ describe('useI18n', () => {
 
   test('basic', async () => {
     const i18n = createI18n({
+      legacy: false,
       locale: 'ja',
       messages: {
         en: {
@@ -70,6 +71,7 @@ describe('useI18n', () => {
 
   test('global scope', async () => {
     const i18n = createI18n({
+      legacy: false,
       locale: 'ja',
       messages: {
         en: {
@@ -94,6 +96,7 @@ describe('useI18n', () => {
 
   test('parent scope', async () => {
     const i18n = createI18n({
+      legacy: false,
       locale: 'ja',
       messages: {
         en: {
@@ -138,6 +141,7 @@ describe('useI18n', () => {
 
   test('not found parent composer with parent scope', async () => {
     const i18n = createI18n({
+      legacy: false,
       locale: 'ja',
       messages: {
         en: {
@@ -170,6 +174,7 @@ describe('useI18n', () => {
 
   test('empty options', async () => {
     const i18n = createI18n({
+      legacy: false,
       locale: 'ja',
       messages: {
         en: {
@@ -243,7 +248,6 @@ describe('slot reactivity', () => {
 
   test('legacy', async () => {
     const i18n = createI18n({
-      legacy: true,
       locale: 'ja',
       fallbackLocale: ['en'],
       messages: {
@@ -328,6 +332,7 @@ describe('slot reactivity', () => {
 
   test('compsable', async () => {
     const i18n = createI18n({
+      legacy: false,
       locale: 'ja',
       fallbackLocale: ['en'],
       messages: {
@@ -422,6 +427,7 @@ describe('slot reactivity', () => {
 
 test('multi instance', async () => {
   const i18n1 = createI18n({
+    legacy: false,
     locale: 'ja',
     messages: {
       en: {
@@ -430,6 +436,7 @@ test('multi instance', async () => {
     }
   })
   const i18n2 = createI18n({
+    legacy: false,
     locale: 'en',
     messages: {
       ja: {

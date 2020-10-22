@@ -4,6 +4,7 @@ import { createI18n, useI18n } from '../src/index'
 
 test('composable mode', async () => {
   const i18n = createI18n({
+    legacy: false,
     locale: 'en',
     messages: {}
   })
@@ -29,7 +30,6 @@ test('composable mode', async () => {
 
 test('legacy mode', async () => {
   const i18n = createI18n({
-    legacy: true,
     locale: 'ja',
     messages: {
       ja: { hello: 'こんにちは！' },
@@ -48,6 +48,7 @@ test('legacy mode', async () => {
 
 test('component: i18n-t', async () => {
   const i18n = createI18n({
+    legacy: false,
     locale: 'en',
     messages: {}
   })

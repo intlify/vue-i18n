@@ -15,6 +15,7 @@
       const { createI18n, useI18n } = VueI18n
 
       const i18n = createI18n({
+        legacy: false,
         locale: 'ja',
         fallbackFormat: true, // enable, fallback to locale message key
         messages: {
