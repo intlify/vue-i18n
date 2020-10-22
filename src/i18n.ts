@@ -30,7 +30,7 @@ import { I18nWarnCodes, getWarnMessage } from './warnings'
 import { I18nErrorCodes, createI18nError } from './errors'
 import { apply } from './plugin'
 import { defineMixin } from './mixin'
-import { isEmptyObject, warn, makeSymbol } from './utils'
+import { isEmptyObject, isBoolean, warn, makeSymbol } from './utils'
 import {
   devtoolsRegisterI18n,
   enableDevTools,
@@ -66,7 +66,7 @@ export interface I18nAdditionalOptions {
   /**
    * Whether vue-i18n legacy API use on your Vue App
    *
-   * @default false
+   * @default true
    */
   legacy?: boolean
   /**
@@ -168,8 +168,34 @@ export interface ComposerAdditionalOptions {
  * @returns {@link I18n} object
  *
  * @remarks
- * When you use Composable API, you need to specify options of {@link ComposerOptions}.
  * When you use Legacy API, you need toto specify options of {@link VueI18nOptions} and `legacy: true` option.
+ * When you use Composable API, you need to specify options of {@link ComposerOptions}.
+ *
+ * @example
+ * case: for Legacy API
+ * ```js
+ * import { createApp } from 'vue'
+ * import { createI18n } from 'vue-i18n'
+ *
+ * // call with I18n option
+ * const i18n = createI18n({
+ *   locale: 'ja',
+ *   messages: {
+ *     en: { ... },
+ *     ja: { ... }
+ *   }
+ * })
+ *
+ * const App = {
+ *   // ...
+ * }
+ *
+ * const app = createApp(App)
+ *
+ * // install!
+ * app.use(i18n)
+ * app.mount('#app')
+ * ```
  *
  * @example
  * case: for Composable API
@@ -179,6 +205,7 @@ export interface ComposerAdditionalOptions {
  *
  * // call with I18n option
  * const i18n = createI18n({
+ *   legacy: false, // you must specify 'lagacy: false' option
  *   locale: 'ja',
  *   messages: {
  *     en: { ... },
@@ -192,33 +219,6 @@ export interface ComposerAdditionalOptions {
  *     const { t } = useI18n({ ... })
  *     return { ... , t }
  *   }
- * }
- *
- * const app = createApp(App)
- *
- * // install!
- * app.use(i18n)
- * app.mount('#app')
- * ```
- *
- * @example
- * case: for Legacy API
- * ```js
- * import { createApp } from 'vue'
- * import { createI18n } from 'vue-i18n'
- *
- * // call with I18n option
- * const i18n = createI18n({
- *   legacy: true, // you must specify 'lagacy: true' option
- *   locale: 'ja',
- *   messages: {
- *     en: { ... },
- *     ja: { ... }
- *   }
- * })
- *
- * const App = {
- *   // ...
  * }
  *
  * const app = createApp(App)
@@ -254,7 +254,10 @@ export function createI18n<
 > {
   type _I18n = I18n & I18nInternal
 
-  const __legacyMode = __FEATURE_LEGACY_API__ ? !!options.legacy : false
+  // prettier-ignore
+  const __legacyMode = __FEATURE_LEGACY_API__ && isBoolean(options.legacy)
+    ? options.legacy
+    : true
   const __globalInjection = !options.globalInjection
   const __instances = new Map<
     ComponentInternalInstance,
