@@ -1,7 +1,7 @@
 /**
  *  Composer
  *
- *  Composer is offered composable API for Vue 3
+ *  Composer is offered composition API for Vue 3
  *  This module is offered new style vue-i18n API
  */
 
@@ -868,7 +868,7 @@ export function createComposer<
     })
   }
 
-  // export composable API!
+  // export composition API!
   const composer = {
     // properties
     id: composerID,

@@ -80,7 +80,7 @@ export interface I18nAdditionalOptions {
 /**
  * Vue I18n API mode
  */
-export type I18nMode = 'legacy' | 'composable'
+export type I18nMode = 'legacy' | 'composition'
 
 /**
  * I18n interface
@@ -91,9 +91,9 @@ export interface I18n<Messages = {}, DateTimeFormats = {}, NumberFormats = {}> {
    *
    * @remarks
    * if you specified `legacy: true` option in `createI18n`, return `legacy`,
-   * else `composable`
+   * else `composition`
    *
-   * @default composable
+   * @default composition
    */
   readonly mode: I18nMode
   /**
@@ -169,7 +169,7 @@ export interface ComposerAdditionalOptions {
  *
  * @remarks
  * When you use Legacy API, you need toto specify options of {@link VueI18nOptions} and `legacy: true` option.
- * When you use Composable API, you need to specify options of {@link ComposerOptions}.
+ * When you use composition API, you need to specify options of {@link ComposerOptions}.
  *
  * @example
  * case: for Legacy API
@@ -198,7 +198,7 @@ export interface ComposerAdditionalOptions {
  * ```
  *
  * @example
- * case: for Composable API
+ * case: for composition API
  * ```js
  * import { createApp } from 'vue'
  * import { createI18n, useI18n } from 'vue-i18n'
@@ -278,8 +278,8 @@ export function createI18n<
       return __FEATURE_LEGACY_API__
         ? __legacyMode
           ? 'legacy'
-          : 'composable'
-        : 'composable'
+          : 'composition'
+        : 'composition'
     },
     // install plugin
     async install(app: App, ...options: unknown[]): Promise<void> {
@@ -377,7 +377,7 @@ export function createI18n<
 }
 
 /**
- * Use Composable API starting function
+ * Use Composition API starting function
  *
  * @param options - See {@link UseI18nOptions}
  * @returns {@link Composer} object
@@ -541,7 +541,7 @@ function getComposer<Messages, DateTimeFormats, NumberFormats>(
   let current: ComponentInternalInstance | null = target.parent
   while (current != null) {
     const i18nInternal = (i18n as unknown) as I18nInternal
-    if (i18n.mode === 'composable') {
+    if (i18n.mode === 'composition') {
       composer = i18nInternal.__getInstance<
         Messages,
         DateTimeFormats,

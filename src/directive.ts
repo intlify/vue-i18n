@@ -25,7 +25,7 @@ function getComposer<Messages, DateTimeFormats, NumberFormats>(
   instance: ComponentInternalInstance
 ): Composer<Messages, DateTimeFormats, NumberFormats> {
   const i18nInternal = (i18n as unknown) as I18nInternal
-  if (i18n.mode === 'composable') {
+  if (i18n.mode === 'composition') {
     return (i18nInternal.__getInstance<
       Messages,
       DateTimeFormats,

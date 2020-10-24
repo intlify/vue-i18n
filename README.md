@@ -50,9 +50,9 @@ If you use stable Vue I18n version, see this [repository](https://github.com/kaz
     - Accelerate evaluation of vue-i18n messages (pre-compilation)
     - Support for complex i18n that cannot be handled by message format
 
-### Composable API
+### Composition API
 
-New style API for Vue 3. See the following docs:
+New style API for Vue Composition API. See the following docs:
 
 - [createI18n](https://github.com/intlify/vue-i18n-next/blob/master/docs/vue-i18n.createi18n.md)
   - [I18nOptions](https://github.com/intlify/vue-i18n-next/blob/master/docs/vue-i18n.i18noptions.md)
@@ -67,8 +67,8 @@ New style API for Vue 3. See the following docs:
 
 You can use pluralization on the component. See the blow examples:
 
-- [Example with using Composable API](https://github.com/intlify/vue-i18n-next/blob/master/examples/composable/components/translation.html)
-- [Example with using Legacy API](https://github.com/intlify/vue-i18n-next/blob/master/examples/legacy/components/translation.html)
+- [Example with using Composition API](https://github.com/intlify/vue-i18n-next/blob/master/examples/composition/components/translation.html)
+- [Example with using Legacy API](https://github.com/intlify/vue-i18n-next/blob/master/examples/legacy/composition/translation.html)
 
 ### `<i18n-d>` Component
 
@@ -76,8 +76,8 @@ You can use datetime format on the component, like `<i18n-n>` component.
 
 See the below examples:
 
-- [Example with using Composable API](https://github.com/intlify/vue-i18n-next/blob/master/examples/composable/components/datetime-format.html)
-- [Example with using Legacy API](https://github.com/intlify/vue-i18n-next/blob/master/examples/legacy/components/datetime-format.html)
+- [Example with using Composition API](https://github.com/intlify/vue-i18n-next/blob/master/examples/composition/components/datetime-format.html)
+- [Example with using Legacy API](https://github.com/intlify/vue-i18n-next/blob/master/examples/legacy/compostion/datetime-format.html)
 
 ## :lollipop: Examples
 
@@ -85,7 +85,7 @@ See the [`examples`](https://github.com/intlify/vue-i18n-next/tree/master/exampl
 
 The examples are offered that use the following two API styles:
 
-- composable
+- composition
   - Examples with using new vue-i18n API optimized for Vue 3
 - legacy
   - Examples with using vue-i18n API that almost compatible with vue-i18n v8.x
@@ -114,7 +114,7 @@ The examples are offered that use the following two API styles:
   - -> Legacy API style: `pluralizationRules` option of `createI18n` factory function (like `new VueI18n(...)`)
   - -> Compsable API style: `pluralRules` option of `createI18nComposer` factory function
 - `warnHtmlInMessage` option:
-  - Composable API: `warnHtmlMessage` boolean property, default `true`.
+  - Composition API: `warnHtmlMessage` boolean property, default `true`.
   - Legacy API: `warnHtmlInMessage` property.
   - For development mode, warning is default.
   - For production mode, HTML message detect is not check due to performance.
@@ -221,7 +221,7 @@ Note: the replacement value **must be boolean literals** and cannot be strings, 
   - [x] improve translate `args` typing
   - [x] improve locale messages typing: `LocaleMessages` / `LocaleMessage` / `LocaleMessageDictiory`
   - [x] postTranslation context option
-- Composable API: I18n Composer
+- Composition API: I18n Composer
   - properties
     - [x] locale
     - [x] fallbackLocale
@@ -323,7 +323,8 @@ Note: the replacement value **must be boolean literals** and cannot be strings, 
   - [x] rollup-plugin-vue-i18n
   - [x] vite-plugin-vue-i18n
   - [ ] vue-cli-plugin-i18n
-  - [ ] eslint-plugin-vue-i18n
+  - [-] eslint-plugin-vue-i18n
+  - [ ] transformer for vue-jest
 - Others
   - [ ] documentation
   - [x] fallback localization (bubble up)

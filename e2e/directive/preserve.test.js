@@ -1,6 +1,6 @@
 const { sleep } = require('../helper') // eslint-disable-line
 
-;['composable', 'legacy'].forEach(pattern => {
+;['composition', 'legacy'].forEach(pattern => {
   describe(`${pattern}`, () => {
     beforeAll(async () => {
       await page.goto(

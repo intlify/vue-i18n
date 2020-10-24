@@ -1,4 +1,4 @@
-;['composable', 'legacy'].forEach(pattern => {
+;['composition', 'legacy'].forEach(pattern => {
   describe(`${pattern}`, () => {
     beforeAll(async () => {
       await page.goto(`http://localhost:8080/examples/${pattern}/started.html`)
