@@ -44,7 +44,7 @@ declare module '@vue/runtime-core' {
      * translation method
      *
      * @remarks
-     * In composable mode, In the case of composable mode, the method (property) is injected by `app.config.globalProperties`.
+     * In composition mode, In the case of composition mode, the method (property) is injected by `app.config.globalProperties`.
      * the input / output is the same as for `Composer`, and it's **global**. About that details, see {@link Composer.t | `Composer#t` }.
      *
      * In legacy mode, the input / output is the same as for `VueI18n` of vue-i18n@v8.x. About that details, see {@link VueI18n.t | `VueI18n#t`}.
@@ -101,7 +101,7 @@ declare module '@vue/runtime-core' {
      * datetime method
      *
      * @remarks
-     * In composable mode, In the case of composable mode, the method (property) is injected by `app.config.globalProperties`.
+     * In composition mode, In the case of composition mode, the method (property) is injected by `app.config.globalProperties`.
      * the input / output is the same as for `Composer`, and it's **global**. About that details, see {@link Composer.d | `Composer#d` }.
      *
      * In legacy mode, the input / output is the same as for `VueI18n` of vue-i18n@v8.x. About that details, see {@link VueI18n.d | `VueI18n#d` }.
@@ -121,7 +121,7 @@ declare module '@vue/runtime-core' {
      * number method
      *
      * @remarks
-     * In composable mode, In the case of composable mode, the method (property) is injected by `app.config.globalProperties`.
+     * In composition mode, In the case of composition mode, the method (property) is injected by `app.config.globalProperties`.
      * the input / output is the same as for `Composer`,  and it's **global**. About that details, see {@link Composer.n | `Composer.n` }.
      *
      * In legacy mode, the input / output is the same as for `VueI18n` of vue-i18n@v8.x. About that details, see {@link VueI18n.n | `VueI18n.n` }.
@@ -138,7 +138,7 @@ declare module '@vue/runtime-core' {
      * translation messages method
      *
      * @remarks
-     * In composable mode, In the case of composable mode, the method (property) is injected by `app.config.globalProperties`.
+     * In composition mode, In the case of composition mode, the method (property) is injected by `app.config.globalProperties`.
      * the input / output is the same as for `Composer`, and it's **global**. About that details, see {@link Composer.tm | `Composer.tm` }.
      *
      * In legacy mode, the input / output is the same as for `VueI18n` of vue-i18n@v8.x. About that details, see {@link VueI18n.tm | `VueI18n#tm` }.

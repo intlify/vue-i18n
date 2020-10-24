@@ -196,7 +196,7 @@ function registerScope(
   const children: CustomInspectorNode[] = []
   for (const [keyInstance, instance] of i18n.__instances) {
     // prettier-ignore
-    const composer = i18n.mode === 'composable'
+    const composer = i18n.mode === 'composition'
       ? instance
       : (instance as unknown as VueI18nInternal).__composer
     const label =
@@ -227,7 +227,7 @@ function inspectScope(
     )
     if (instance) {
       const composer =
-        i18n.mode === 'composable'
+        i18n.mode === 'composition'
           ? (instance as Composer)
           : ((instance as unknown) as VueI18nInternal).__composer
       payload.state = makeScopeInspectState(composer)

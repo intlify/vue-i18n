@@ -15,12 +15,12 @@ describe('createI18n', () => {
     expect(i18n.mode).toEqual('legacy')
   })
 
-  test('composable mode', () => {
+  test('composition mode', () => {
     const i18n = createI18n({
       legacy: false
     })
 
-    expect(i18n.mode).toEqual('composable')
+    expect(i18n.mode).toEqual('composition')
   })
 })
 

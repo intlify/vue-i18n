@@ -2,7 +2,7 @@ import { defineComponent, createSSRApp } from 'vue'
 import { renderToString } from '@vue/server-renderer'
 import { createI18n, useI18n } from '../src/index'
 
-test('composable mode', async () => {
+test('composition mode', async () => {
   const i18n = createI18n({
     legacy: false,
     locale: 'en',

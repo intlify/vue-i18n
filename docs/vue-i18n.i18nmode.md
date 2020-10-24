@@ -7,5 +7,5 @@
 <b>Signature:</b>
 
 ```typescript
-export declare type I18nMode = 'legacy' | 'composable';
+export declare type I18nMode = 'legacy' | 'composition';
 ```
