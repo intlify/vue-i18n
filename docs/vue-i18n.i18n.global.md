@@ -7,5 +7,5 @@
 <b>Signature:</b>
 
 ```typescript
-readonly global: Composer<Messages, DateTimeFormats, NumberFormats>;
+readonly global: Legacy extends true ? VueI18n<Messages, DateTimeFormats, NumberFormats> : Composer<Messages, DateTimeFormats, NumberFormats>;
 ```

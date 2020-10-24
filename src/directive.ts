@@ -20,8 +20,13 @@ type VTDirectiveValue = {
   plural?: number
 }
 
-function getComposer<Messages, DateTimeFormats, NumberFormats>(
-  i18n: I18n<Messages, DateTimeFormats, NumberFormats>,
+function getComposer<
+  Messages,
+  DateTimeFormats,
+  NumberFormats,
+  Legacy extends boolean
+>(
+  i18n: I18n<Messages, DateTimeFormats, NumberFormats, Legacy>,
   instance: ComponentInternalInstance
 ): Composer<Messages, DateTimeFormats, NumberFormats> {
   const i18nInternal = (i18n as unknown) as I18nInternal
@@ -43,18 +48,27 @@ function getComposer<Messages, DateTimeFormats, NumberFormats>(
       NumberFormats,
       VueI18n<Messages, DateTimeFormats, NumberFormats>
     >(instance)
-    return (vueI18n != null
+    return vueI18n != null
       ? ((vueI18n as unknown) as VueI18nInternal<
           Messages,
           DateTimeFormats,
           NumberFormats
         >).__composer
-      : i18n.global) as Composer<Messages, DateTimeFormats, NumberFormats>
+      : ((i18n.global as unknown) as VueI18nInternal<
+          Messages,
+          DateTimeFormats,
+          NumberFormats
+        >).__composer
   }
 }
 
-export function vTDirective<Messages, DateTimeFormats, NumberFormats>(
-  i18n: I18n<Messages, DateTimeFormats, NumberFormats>
+export function vTDirective<
+  Messages,
+  DateTimeFormats,
+  NumberFormats,
+  Legacy extends boolean
+>(
+  i18n: I18n<Messages, DateTimeFormats, NumberFormats, Legacy>
 ): ObjectDirective<HTMLElement> {
   const bind = (
     el: HTMLElement,

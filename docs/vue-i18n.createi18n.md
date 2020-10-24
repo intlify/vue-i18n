@@ -7,7 +7,7 @@
 <b>Signature:</b>
 
 ```typescript
-export declare function createI18n<Options extends I18nOptions = {}, Messages extends Record<keyof Options['messages'], LocaleMessageDictionary<VueMessageType>> = Record<keyof Options['messages'], LocaleMessageDictionary<VueMessageType>>, DateTimeFormats extends Record<keyof Options['datetimeFormats'], DateTimeFormat> = Record<keyof Options['datetimeFormats'], DateTimeFormat>, NumberFormats extends Record<keyof Options['numberFormats'], NumberFormat> = Record<keyof Options['numberFormats'], NumberFormat>>(options?: Options): I18n<Options['messages'], Options['datetimeFormats'], Options['numberFormats']>;
+export declare function createI18n<Options extends I18nOptions = {}, Messages extends Record<keyof Options['messages'], LocaleMessageDictionary<VueMessageType>> = Record<keyof Options['messages'], LocaleMessageDictionary<VueMessageType>>, DateTimeFormats extends Record<keyof Options['datetimeFormats'], DateTimeFormat> = Record<keyof Options['datetimeFormats'], DateTimeFormat>, NumberFormats extends Record<keyof Options['numberFormats'], NumberFormat> = Record<keyof Options['numberFormats'], NumberFormat>>(options?: Options): I18n<Options['messages'], Options['datetimeFormats'], Options['numberFormats'], Options['legacy'] extends boolean ? Options['legacy'] : true>;
 ```
 
 ## Parameters
@@ -18,5 +18,5 @@ export declare function createI18n<Options extends I18nOptions = {}, Messages ex
 
 <b>Returns:</b>
 
-[I18n](./vue-i18n.i18n.md)<!-- -->&lt;Options\['messages'\], Options\['datetimeFormats'\], Options\['numberFormats'\]&gt;
+[I18n](./vue-i18n.i18n.md)<!-- -->&lt;Options\['messages'\], Options\['datetimeFormats'\], Options\['numberFormats'\], Options\['legacy'\] extends boolean ? Options\['legacy'\] : true&gt;
 

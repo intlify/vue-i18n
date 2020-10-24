@@ -85,7 +85,12 @@ export type I18nMode = 'legacy' | 'composition'
 /**
  * I18n interface
  */
-export interface I18n<Messages = {}, DateTimeFormats = {}, NumberFormats = {}> {
+export interface I18n<
+  Messages = {},
+  DateTimeFormats = {},
+  NumberFormats = {},
+  Legacy extends boolean = true
+> {
   /**
    * Vue I18n API mode
    *
@@ -99,7 +104,9 @@ export interface I18n<Messages = {}, DateTimeFormats = {}, NumberFormats = {}> {
   /**
    * Global composer
    */
-  readonly global: Composer<Messages, DateTimeFormats, NumberFormats>
+  readonly global: Legacy extends true
+    ? VueI18n<Messages, DateTimeFormats, NumberFormats>
+    : Composer<Messages, DateTimeFormats, NumberFormats>
   /**
    * @internal
    */
@@ -250,7 +257,8 @@ export function createI18n<
 ): I18n<
   Options['messages'],
   Options['datetimeFormats'],
-  Options['numberFormats']
+  Options['numberFormats'],
+  Options['legacy'] extends boolean ? Options['legacy'] : true
 > {
   type _I18n = I18n & I18nInternal
 
@@ -271,6 +279,14 @@ export function createI18n<
     __DEV__ ? 'vue-i18n' : ''
   )
 
+  type Legacy = Options['legacy'] extends boolean ? Options['legacy'] : true
+  // prettier-ignore
+  type GlobalType = Legacy extends true
+    ? VueI18n<Messages, DateTimeFormats, NumberFormats>
+    : Legacy extends false
+      ? Composer<Messages, DateTimeFormats, NumberFormats>
+      : VueI18n<Messages, DateTimeFormats, NumberFormats>
+
   const i18n = {
     // mode
     get mode(): I18nMode {
@@ -289,19 +305,26 @@ export function createI18n<
 
       // setup global provider
       app.__VUE_I18N_SYMBOL__ = symbol
-      app.provide(app.__VUE_I18N_SYMBOL__, i18n)
+      app.provide(app.__VUE_I18N_SYMBOL__, i18n as I18n)
 
+      // global method and properties injection for Composition API
       if (!__legacyMode && __globalInjection) {
         injectGlobalFields<Messages, DateTimeFormats, NumberFormats>(
           app,
-          i18n.global
+          i18n.global as Composer<Messages, DateTimeFormats, NumberFormats>
         )
       }
 
+      // install built-in components and directive
       if (__FEATURE_FULL_INSTALL__) {
-        apply<Messages, DateTimeFormats, NumberFormats>(app, i18n, ...options)
+        apply<Messages, DateTimeFormats, NumberFormats, Legacy>(
+          app,
+          i18n as I18n<Messages, DateTimeFormats, NumberFormats, Legacy>,
+          ...options
+        )
       }
 
+      // setup mixin for Legacy API
       if (__FEATURE_LEGACY_API__ && __legacyMode) {
         app.mixin(
           defineMixin<Messages, DateTimeFormats, NumberFormats>(
@@ -316,6 +339,7 @@ export function createI18n<
         )
       }
 
+      // setup vue-devtools plugin
       if ((__DEV__ || __FEATURE_PROD_DEVTOOLS__) && !__NODE_JS__) {
         const ret = await enableDevTools(app, i18n as _I18n)
         if (!ret) {
@@ -337,15 +361,9 @@ export function createI18n<
         emitter.on('*', addTimelineEvent)
       }
     },
-    // global composer accsessor
-    get global(): Composer<Messages, DateTimeFormats, NumberFormats> {
-      return __legacyMode
-        ? (((__global as unknown) as VueI18nInternal<
-            Messages,
-            DateTimeFormats,
-            NumberFormats
-          >).__composer as Composer<Messages, DateTimeFormats, NumberFormats>)
-        : (__global as Composer<Messages, DateTimeFormats, NumberFormats>)
+    // global accsessor
+    get global(): GlobalType {
+      return __global as GlobalType
     },
     // @internal
     __instances,
@@ -370,10 +388,13 @@ export function createI18n<
   }
 
   if ((__DEV__ || __FEATURE_PROD_DEVTOOLS__) && !__NODE_JS__) {
-    devtoolsRegisterI18n(i18n, VERSION)
+    devtoolsRegisterI18n(
+      i18n as I18n<Messages, DateTimeFormats, NumberFormats, Legacy>,
+      VERSION
+    )
   }
 
-  return i18n
+  return i18n as I18n<Messages, DateTimeFormats, NumberFormats, Legacy>
 }
 
 /**
@@ -451,16 +472,23 @@ export function useI18n<
     throw createI18nError(I18nErrorCodes.UNEXPECTED_ERROR)
   }
 
-  const i18n = inject(instance.appContext.app.__VUE_I18N_SYMBOL__) as I18n<
-    Messages,
-    DateTimeFormats,
-    NumberFormats
-  >
+  const i18n = inject(instance.appContext.app.__VUE_I18N_SYMBOL__)
   if (!i18n) {
     throw createI18nError(I18nErrorCodes.NOT_INSLALLED)
   }
 
-  const global = i18n.global
+  const global =
+    i18n.mode === 'composition'
+      ? ((i18n.global as unknown) as Composer<
+          Messages,
+          DateTimeFormats,
+          NumberFormats
+        >)
+      : ((i18n.global as unknown) as VueI18nInternal<
+          Messages,
+          DateTimeFormats,
+          NumberFormats
+        >).__composer
 
   // prettier-ignore
   const scope: I18nScope = isEmptyObject(options)
@@ -532,8 +560,13 @@ export function useI18n<
   return composer as Composer<Messages>
 }
 
-function getComposer<Messages, DateTimeFormats, NumberFormats>(
-  i18n: I18n<Messages, DateTimeFormats, NumberFormats>,
+function getComposer<
+  Messages,
+  DateTimeFormats,
+  NumberFormats,
+  Legacy extends boolean
+>(
+  i18n: I18n<Messages, DateTimeFormats, NumberFormats, Legacy>,
   target: ComponentInternalInstance
 ): Composer<Messages, DateTimeFormats, NumberFormats> | null {
   let composer: Composer<Messages, DateTimeFormats, NumberFormats> | null = null

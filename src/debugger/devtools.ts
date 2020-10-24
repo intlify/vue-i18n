@@ -22,7 +22,12 @@ import {
   DevToolsTimelineLayerMaps
 } from './constants'
 
-type _I18n = I18n & I18nInternal
+type _I18n<
+  Messages,
+  DateTimeFormats,
+  NumberFormats,
+  Legacy extends boolean
+> = I18n<Messages, DateTimeFormats, NumberFormats, Legacy> & I18nInternal
 
 interface I18nRecord {
   id: number
@@ -46,7 +51,15 @@ export function setDevtoolsHook(hook: DevtoolsHook): void {
   devtools = hook
 }
 
-export function devtoolsRegisterI18n(i18n: I18n, version: string): void {
+export function devtoolsRegisterI18n<
+  Messages,
+  DateTimeFormats,
+  NumberFormats,
+  Legacy extends boolean
+>(
+  i18n: I18n<Messages, DateTimeFormats, NumberFormats, Legacy>,
+  version: string
+): void {
   if (!devtools) {
     return
   }
@@ -55,7 +68,15 @@ export function devtoolsRegisterI18n(i18n: I18n, version: string): void {
 
 let devtoolsApi: DevtoolsPluginApi
 
-export async function enableDevTools(app: App, i18n: _I18n): Promise<boolean> {
+export async function enableDevTools<
+  Messages,
+  DateTimeFormats,
+  NumberFormats,
+  Legacy extends boolean
+>(
+  app: App,
+  i18n: _I18n<Messages, DateTimeFormats, NumberFormats, Legacy>
+): Promise<boolean> {
   return new Promise((resolve, reject) => {
     try {
       setupDevtoolsPlugin(
@@ -189,9 +210,14 @@ function inspectComposer(
   })
 }
 
-function registerScope(
+function registerScope<
+  Messages,
+  DateTimeFormats,
+  NumberFormats,
+  Legacy extends boolean
+>(
   payload: HookPayloads[Hooks.GET_INSPECTOR_TREE],
-  i18n: _I18n
+  i18n: _I18n<Messages, DateTimeFormats, NumberFormats, Legacy>
 ): void {
   const children: CustomInspectorNode[] = []
   for (const [keyInstance, instance] of i18n.__instances) {
@@ -215,12 +241,21 @@ function registerScope(
   })
 }
 
-function inspectScope(
+function inspectScope<
+  Messages,
+  DateTimeFormats,
+  NumberFormats,
+  Legacy extends boolean
+>(
   payload: HookPayloads[Hooks.GET_INSPECTOR_STATE],
-  i18n: _I18n
+  i18n: _I18n<Messages, DateTimeFormats, NumberFormats, Legacy>
 ): void {
   if (payload.nodeId === 'global') {
-    payload.state = makeScopeInspectState(i18n.global)
+    payload.state = makeScopeInspectState(
+      i18n.mode === 'composition'
+        ? (i18n.global as Composer)
+        : ((i18n.global as unknown) as VueI18nInternal).__composer
+    )
   } else {
     const instance = Array.from(i18n.__instances.values()).find(
       item => item.id.toString() === payload.nodeId
