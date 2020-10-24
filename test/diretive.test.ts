@@ -197,6 +197,17 @@ test('using in template', async () => {
 })
 
 describe('errors', () => {
+  let org: any // eslint-disable-line @typescript-eslint/no-explicit-any
+  let spy: any // eslint-disable-line @typescript-eslint/no-explicit-any
+  beforeEach(() => {
+    org = console.warn
+    spy = jest.fn()
+    console.warn = spy
+  })
+  afterEach(() => {
+    console.warn = org
+  })
+
   test(errorMessages[I18nErrorCodes.REQUIRED_VALUE], async () => {
     const i18n = createI18n({
       locale: 'en',
