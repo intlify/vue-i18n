@@ -15,6 +15,7 @@ export interface ComposerOptions<Message = VueMessageType>
 |  Property | Type | Description |
 |  --- | --- | --- |
 |  [datetimeFormats](./vue-i18n.composeroptions.datetimeformats.md) | [DateTimeFormatsType](./vue-i18n.datetimeformats.md) |  |
+|  [escapeParameter](./vue-i18n.composeroptions.escapeparameter.md) | boolean |  |
 |  [fallbackFormat](./vue-i18n.composeroptions.fallbackformat.md) | boolean |  |
 |  [fallbackLocale](./vue-i18n.composeroptions.fallbacklocale.md) | [FallbackLocale](./vue-i18n.fallbacklocale.md) |  |
 |  [fallbackRoot](./vue-i18n.composeroptions.fallbackroot.md) | boolean |  |

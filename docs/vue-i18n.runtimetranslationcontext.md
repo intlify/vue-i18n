@@ -15,6 +15,7 @@ export interface RuntimeTranslationContext<Messages = {}, Message = string> exte
 
 |  Property | Type | Description |
 |  --- | --- | --- |
+|  [escapeParameter](./vue-i18n.runtimetranslationcontext.escapeparameter.md) | boolean |  |
 |  [messageCompiler](./vue-i18n.runtimetranslationcontext.messagecompiler.md) | [MessageCompiler](./vue-i18n.messagecompiler.md)<!-- -->&lt;Message&gt; |  |
 |  [messages](./vue-i18n.runtimetranslationcontext.messages.md) | Messages |  |
 |  [modifiers](./vue-i18n.runtimetranslationcontext.modifiers.md) | [LinkedModifiers](./vue-i18n.linkedmodifiers.md)<!-- -->&lt;Message&gt; |  |

@@ -66,6 +66,7 @@
 |  [Composer](./vue-i18n.composer.md) |  |
 |  [ComposerAdditionalOptions](./vue-i18n.composeradditionaloptions.md) |  |
 |  [ComposerOptions](./vue-i18n.composeroptions.md) |  |
+|  [ExportedComposer](./vue-i18n.exportedcomposer.md) |  |
 |  [FormattableProps](./vue-i18n.formattableprops.md) |  |
 |  [Formatter](./vue-i18n.formatter.md) |  |
 |  [I18n](./vue-i18n.i18n.md) |  |

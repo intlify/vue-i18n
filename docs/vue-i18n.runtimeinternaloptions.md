@@ -15,5 +15,6 @@ export interface RuntimeInternalOptions
 |  Property | Type | Description |
 |  --- | --- | --- |
 |  [\_\_datetimeFormatters](./vue-i18n.runtimeinternaloptions.__datetimeformatters.md) | Map&lt;string, Intl.DateTimeFormat&gt; |  |
+|  [\_\_emitter](./vue-i18n.runtimeinternaloptions.__emitter.md) | DevToolsEmitter |  |
 |  [\_\_numberFormatters](./vue-i18n.runtimeinternaloptions.__numberformatters.md) | Map&lt;string, Intl.NumberFormat&gt; |  |
 

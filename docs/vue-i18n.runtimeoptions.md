@@ -15,6 +15,7 @@ export interface RuntimeOptions<Message = string>
 |  Property | Type | Description |
 |  --- | --- | --- |
 |  [datetimeFormats](./vue-i18n.runtimeoptions.datetimeformats.md) | [DateTimeFormatsType](./vue-i18n.datetimeformats.md) |  |
+|  [escapeParameter](./vue-i18n.runtimeoptions.escapeparameter.md) | boolean |  |
 |  [fallbackFormat](./vue-i18n.runtimeoptions.fallbackformat.md) | boolean |  |
 |  [fallbackLocale](./vue-i18n.runtimeoptions.fallbacklocale.md) | [FallbackLocale](./vue-i18n.fallbacklocale.md) |  |
 |  [fallbackWarn](./vue-i18n.runtimeoptions.fallbackwarn.md) | boolean \| RegExp |  |

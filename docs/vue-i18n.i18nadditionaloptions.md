@@ -14,5 +14,6 @@ export interface I18nAdditionalOptions
 
 |  Property | Type | Description |
 |  --- | --- | --- |
+|  [globalInjection](./vue-i18n.i18nadditionaloptions.globalinjection.md) | boolean |  |
 |  [legacy](./vue-i18n.i18nadditionaloptions.legacy.md) | boolean |  |
 

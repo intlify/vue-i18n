@@ -7,7 +7,7 @@
 <b>Signature:</b>
 
 ```typescript
-export declare function baseCompile(source: string, options?: CompileOptions): CompileResult;
+export declare function baseCompile(source: string, options?: CompileOptions): CodeGenResult;
 ```
 
 ## Parameters
@@ -19,5 +19,5 @@ export declare function baseCompile(source: string, options?: CompileOptions): C
 
 <b>Returns:</b>
 
-CompileResult
+CodeGenResult
 

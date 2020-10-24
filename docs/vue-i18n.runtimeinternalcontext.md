@@ -15,6 +15,7 @@ export interface RuntimeInternalContext
 |  Property | Type | Description |
 |  --- | --- | --- |
 |  [\_\_datetimeFormatters](./vue-i18n.runtimeinternalcontext.__datetimeformatters.md) | Map&lt;string, Intl.DateTimeFormat&gt; |  |
+|  [\_\_emitter](./vue-i18n.runtimeinternalcontext.__emitter.md) | DevToolsEmitter |  |
 |  [\_\_localeChainCache](./vue-i18n.runtimeinternalcontext.__localechaincache.md) | Map&lt;[Locale](./vue-i18n.locale.md)<!-- -->, [Locale](./vue-i18n.locale.md)<!-- -->\[\]&gt; |  |
 |  [\_\_numberFormatters](./vue-i18n.runtimeinternalcontext.__numberformatters.md) | Map&lt;string, Intl.NumberFormat&gt; |  |
 

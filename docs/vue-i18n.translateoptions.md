@@ -15,5 +15,6 @@ export declare type TranslateOptions = {
     locale?: Locale;
     missingWarn?: boolean;
     fallbackWarn?: boolean;
+    escapeParameter?: boolean;
 };
 ```

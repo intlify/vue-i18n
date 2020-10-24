@@ -17,6 +17,7 @@ export interface VueI18nOptions
 |  [availableLocales](./vue-i18n.vuei18noptions.availablelocales.md) | [Locale](./vue-i18n.locale.md)<!-- -->\[\] |  |
 |  [componentInstanceCreatedListener](./vue-i18n.vuei18noptions.componentinstancecreatedlistener.md) | ComponentInstanceCreatedListener |  |
 |  [datetimeFormats](./vue-i18n.vuei18noptions.datetimeformats.md) | [DateTimeFormatsType](./vue-i18n.datetimeformats.md) |  |
+|  [escapeParameterHtml](./vue-i18n.vuei18noptions.escapeparameterhtml.md) | boolean |  |
 |  [fallbackLocale](./vue-i18n.vuei18noptions.fallbacklocale.md) | [FallbackLocale](./vue-i18n.fallbacklocale.md) |  |
 |  [fallbackRoot](./vue-i18n.vuei18noptions.fallbackroot.md) | boolean |  |
 |  [formatFallbackMessages](./vue-i18n.vuei18noptions.formatfallbackmessages.md) | boolean |  |

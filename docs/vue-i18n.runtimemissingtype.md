@@ -7,5 +7,5 @@
 <b>Signature:</b>
 
 ```typescript
-export declare type RuntimeMissingType = 'translate' | 'datetime' | 'number';
+export declare type RuntimeMissingType = 'translate' | 'datetime format' | 'number format';
 ```

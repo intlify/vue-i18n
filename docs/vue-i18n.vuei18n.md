@@ -16,10 +16,12 @@ export interface VueI18n<Messages = {}, DateTimeFormats = {}, NumberFormats = {}
 |  --- | --- | --- |
 |  [availableLocales](./vue-i18n.vuei18n.availablelocales.md) | [Locale](./vue-i18n.locale.md)<!-- -->\[\] |  |
 |  [datetimeFormats](./vue-i18n.vuei18n.datetimeformats.md) | DateTimeFormats |  |
+|  [escapeParameterHtml](./vue-i18n.vuei18n.escapeparameterhtml.md) | boolean |  |
 |  [fallbackLocale](./vue-i18n.vuei18n.fallbacklocale.md) | [FallbackLocale](./vue-i18n.fallbacklocale.md) |  |
 |  [formatFallbackMessages](./vue-i18n.vuei18n.formatfallbackmessages.md) | boolean |  |
 |  [formatter](./vue-i18n.vuei18n.formatter.md) | [Formatter](./vue-i18n.formatter.md) |  |
 |  [getChoiceIndex](./vue-i18n.vuei18n.getchoiceindex.md) | (choice: [Choice](./vue-i18n.choice.md)<!-- -->, choicesLength: number) =&gt; number |  |
+|  [id](./vue-i18n.vuei18n.id.md) | number |  |
 |  [locale](./vue-i18n.vuei18n.locale.md) | [Locale](./vue-i18n.locale.md) |  |
 |  [messages](./vue-i18n.vuei18n.messages.md) | Messages |  |
 |  [missing](./vue-i18n.vuei18n.missing.md) | [MissingHandler](./vue-i18n.missinghandler.md) \| null |  |

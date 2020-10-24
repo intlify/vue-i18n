@@ -16,10 +16,12 @@ export interface Composer<Messages = {}, DateTimeFormats = {}, NumberFormats = {
 |  --- | --- | --- |
 |  [availableLocales](./vue-i18n.composer.availablelocales.md) | [Locale](./vue-i18n.locale.md)<!-- -->\[\] |  |
 |  [datetimeFormats](./vue-i18n.composer.datetimeformats.md) | ComputedRef&lt;DateTimeFormats&gt; |  |
+|  [escapeParameter](./vue-i18n.composer.escapeparameter.md) | boolean |  |
 |  [fallbackFormat](./vue-i18n.composer.fallbackformat.md) | boolean |  |
 |  [fallbackLocale](./vue-i18n.composer.fallbacklocale.md) | WritableComputedRef&lt;[FallbackLocale](./vue-i18n.fallbacklocale.md)<!-- -->&gt; |  |
 |  [fallbackRoot](./vue-i18n.composer.fallbackroot.md) | boolean |  |
 |  [fallbackWarn](./vue-i18n.composer.fallbackwarn.md) | boolean \| RegExp |  |
+|  [id](./vue-i18n.composer.id.md) | number |  |
 |  [inheritLocale](./vue-i18n.composer.inheritlocale.md) | boolean |  |
 |  [isGlobal](./vue-i18n.composer.isglobal.md) | boolean |  |
 |  [locale](./vue-i18n.composer.locale.md) | WritableComputedRef&lt;[Locale](./vue-i18n.locale.md)<!-- -->&gt; |  |
