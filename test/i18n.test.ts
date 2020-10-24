@@ -325,7 +325,7 @@ describe('slot reactivity', () => {
     })
     const { html } = await mount(App, i18n)
     expect(html()).toMatchSnapshot('ja')
-    i18n.global.locale.value = 'en'
+    i18n.global.locale = 'en'
     await nextTick()
     expect(html()).toMatchSnapshot('en')
   })

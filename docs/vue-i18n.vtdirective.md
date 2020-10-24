@@ -7,14 +7,14 @@
 <b>Signature:</b>
 
 ```typescript
-export declare function vTDirective<Messages, DateTimeFormats, NumberFormats>(i18n: I18n<Messages, DateTimeFormats, NumberFormats>): ObjectDirective<HTMLElement>;
+export declare function vTDirective<Messages, DateTimeFormats, NumberFormats, Legacy extends boolean>(i18n: I18n<Messages, DateTimeFormats, NumberFormats, Legacy>): ObjectDirective<HTMLElement>;
 ```
 
 ## Parameters
 
 |  Parameter | Type | Description |
 |  --- | --- | --- |
-|  i18n | [I18n](./vue-i18n.i18n.md)<!-- -->&lt;Messages, DateTimeFormats, NumberFormats&gt; |  |
+|  i18n | [I18n](./vue-i18n.i18n.md)<!-- -->&lt;Messages, DateTimeFormats, NumberFormats, Legacy&gt; |  |
 
 <b>Returns:</b>
 
