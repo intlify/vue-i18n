@@ -28,8 +28,8 @@
     "@microsoft/api-documenter": "^7.8.56",
     "@microsoft/api-extractor": "^7.9.22",
     "@rollup/plugin-commonjs": "^15.1.0",
-    "@rollup/plugin-node-resolve": "^9.0.0",
     "@rollup/plugin-json": "^4.0.0",
+    "@rollup/plugin-node-resolve": "^9.0.0",
     "@rollup/plugin-replace": "^2.3.3",
     "@types/jest": "^26.0.14",
     "@typescript-eslint/eslint-plugin": "^4.2.0",
@@ -69,6 +69,7 @@
     "tsd": "^0.13.1",
     "typescript": "^4.0.2",
     "typescript-eslint-language-service": "^4.0.1",
+    "vitepress": "^0.7.0",
     "vue": "^3.0.0"
   },
   "engines": {
@@ -116,6 +117,7 @@
     "coverage": "opener coverage/lcov-report/index.html",
     "dev:docs": "npm-run-all build:type docs:api",
     "dev:e2e": "jest --runInBand --config ./jest.e2e.config.js",
+    "docs:dev": "vitepress dev docs",
     "docs:api": "api-documenter markdown -i ./temp -o docs",
     "fix": "npm-run-all --parallel lint:fix format:fix",
     "format": "prettier --config .prettierrc --ignore-path .prettierignore '**/*.{js,json,html}'",
