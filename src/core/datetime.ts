@@ -211,10 +211,10 @@ export function parseDateTimeArgs(
   let options = {} as DateTimeOptions
   let orverrides = {} as Intl.DateTimeFormatOptions
 
-  if (!(isNumber(arg1) || isDate(arg1))) {
+  if (!(isNumber(arg1) || isDate(arg1) || isString(arg1))) {
     throw createCoreError(CoreErrorCodes.INVALID_ARGUMENT)
   }
-  const value = arg1
+  const value = isString(arg1) ? new Date(arg1) : arg1
 
   if (isString(arg2)) {
     options.key = arg2
