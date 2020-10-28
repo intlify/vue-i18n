@@ -45,8 +45,8 @@ If you use stable Vue I18n version, see this [repository](https://github.com/kaz
   - You can use a single quote `'` and "Mustache" like (`{` `}` ) to make the message literal.
   - e.g. `foo{'@'}domain.com`
 - Message Functions
-  - As Vue's render function, vue-i18n-next and later support the **Message** functions.
-  - Using the Message function has the following advantages
+  - As with Vue's render function, vue-i18n-next (and future releases) support the **Message** functions.
+  - Using the Message function has the following advantages:
     - Accelerate evaluation of vue-i18n messages (pre-compilation)
     - Support for complex i18n that cannot be handled by message format
 
@@ -65,7 +65,7 @@ New style API for Vue Composition API. See the following docs:
 
 ### `<i18n-t>` Component (formerly called `<i18n>` component)
 
-You can use pluralization on the component. See the blow examples:
+You can use pluralization on the component. See the below examples:
 
 - [Example with using Composition API](https://github.com/intlify/vue-i18n-next/blob/master/examples/composition/components/translation.html)
 - [Example with using Legacy API](https://github.com/intlify/vue-i18n-next/blob/master/examples/legacy/composition/translation.html)
@@ -83,12 +83,12 @@ See the below examples:
 
 See the [`examples`](https://github.com/intlify/vue-i18n-next/tree/master/examples) directory.
 
-The examples are offered that use the following two API styles:
+The examples are offered in thee following two API styles:
 
 - composition
   - Examples with using new vue-i18n API optimized for Vue 3
 - legacy
-  - Examples with using vue-i18n API that almost compatible with vue-i18n v8.x
+  - Examples with using vue-i18n API that are almost compatible with vue-i18n v8.x
 
 
 ## :heavy_exclamation_mark: Known issues
@@ -97,15 +97,15 @@ The examples are offered that use the following two API styles:
 
 #### Message Format Syntax
 - Special characters
-  - Since vue-i18n-next, message format syntax is handled by the compiler.
+  - Since vue-i18n-next, the message format syntax is handled by the compiler.
   - The following characters used in the message syntax are processed by the compiler as special characters:
-  - `{`, `}`, `@`, `$`, `|`
-  - If you want to use these special characters, you can use **lietral interpolation** to get around it:
+    - `{`, `}`, `@`, `$`, `|`
+  - If you want to use these special characters, you can use **literal interpolation** to get around it.
 
 #### APIs
-- The return value of `$t` and `t` methods is **string** only. object and array values ​​are no longer returned.
+- The return value of `$t` and `t` methods is **string** only. object and array values are no longer returned.
   - As an alternative way, you can use `$tm` / `tm`
-- The return value of `$tc` and `tc` methods is **string** only. object and array values ​​are no longer returned.
+- The return value of `$tc` and `tc` methods is **string** only. object and array values are no longer returned.
   - As an alternative way, you can use `$tm` / `tm`
 - `VueI18n` class cannot used with `new`. It can only be used via the `$i18n` property of Vue instance.
   - In vue-i18n-next, by replacing `new VueI18n` with `createI18n`, you can use existing `VueI18n` options as they are.
@@ -142,7 +142,7 @@ The examples are offered that use the following two API styles:
 
 ### :zap: Improvements
 
-- See the [vue-i18n issues](https://github.com/kazupon/vue-i18n/issues?q=is%3Aissue+is%3Aopen+label%3A%22Status%3A+Ready%22) that labeld with `Status: Ready`
+- See the [vue-i18n issues](https://github.com/kazupon/vue-i18n/issues?q=is%3Aissue+is%3Aopen+label%3A%22Status%3A+Ready%22) that are labeled with `Status: Ready`
 
 
 ### :hammer: Missing features
@@ -173,7 +173,7 @@ yarn add vue-i18n@next
 
 - **`vue-i18n.global(.prod).js`**:
   - For direct use via `<script src="...">` in the browser. Exposes the `VueI18n` global.
-  - Note that global builds are not [UMD](https://github.com/umdjs/umd) builds.  They are built as [IIFEs](https://developer.mozilla.org/en-US/docs/Glossary/IIFE) and is only meant for direct use via `<script src="...">`.
+  - Note that global builds are not [UMD](https://github.com/umdjs/umd) builds.  They are built as [IIFEs](https://developer.mozilla.org/en-US/docs/Glossary/IIFE) and are only meant for direct use via `<script src="...">`.
   - Contains hard-coded prod/dev branches, and the prod build is pre-minified. Use the `*.prod.js` files for production.
 
 - **`vue-i18n.esm-browser(.prod).js`**:
