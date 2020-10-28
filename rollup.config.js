@@ -88,6 +88,7 @@ function createConfig(format, output, plugins = []) {
         sourceMap: output.sourcemap,
         declaration: shouldEmitDeclarations,
         declarationMap: shouldEmitDeclarations,
+        removeComments: false,
         declarationDir: path.resolve(__dirname, 'types')
       }
     }
