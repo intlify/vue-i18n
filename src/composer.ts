@@ -200,10 +200,10 @@ export interface Composer<
   t(key: Path): string
   /**
    * Get the translation for a given key as string, searching for plurals.
-   * <br/>
+   *
    * If this method is used in a reactive context, it will re-evaluate once
    * the locale changes.
-   * <br/>
+   *
    * The translated string should contain a | separated value of the
    * singular / plural strings
    *
@@ -214,7 +214,7 @@ export interface Composer<
   t(key: Path, plural: number, options?: TranslateOptions): string
   /**
    * Get the translation for a given key as string, searching for plurals.
-   * <br/>
+   *
    * If this method is used in a reactive context, it will re-evaluate once
    * the locale changes.
    *
@@ -227,10 +227,10 @@ export interface Composer<
   /**
    * Get the translation for a given key as string, replacing indexed
    * placeholders.
-   * <br/>
+   *
    * If this method is used in a reactive context, it will re-evaluate once
    * the locale changes.
-   * <br/>
+   *
    * The translated string should contain a {0}, {1}, … for each placeholder
    * in the list.
    * @param key The key to get the translation for
@@ -243,10 +243,10 @@ export interface Composer<
   /**
    * Get the translation for a given key as string, replacing named
    * placeholders.
-   * <br/>
+   *
    * If this method is used in a reactive context, it will re-evaluate once
    * the locale changes.
-   * <br/>
+   *
    * For each placeholder x, the translated string should contain a {x} token.
    * @param key The key to get the translation for
    * @param named The placeholders to replace
