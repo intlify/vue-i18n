@@ -197,6 +197,42 @@ describe('useI18n', () => {
     expect((composer as Composer).locale.value).toEqual('ja')
   })
 
+  test(errorMessages[I18nErrorCodes.MUST_BE_CALL_SETUP_TOP], async () => {
+    let error = ''
+    try {
+      useI18n({})
+    } catch (e) {
+      error = e.message
+    }
+    expect(error).toEqual(errorMessages[I18nErrorCodes.MUST_BE_CALL_SETUP_TOP])
+  })
+
+  test(errorMessages[I18nErrorCodes.NOT_INSLALLED], async () => {
+    const i18n = createI18n({
+      legacy: false,
+      locale: 'ja',
+      messages: {
+        en: {
+          hello: 'hello!'
+        }
+      }
+    })
+
+    let error = ''
+    const App = defineComponent({
+      setup() {
+        try {
+          useI18n({})
+        } catch (e) {
+          error = e.message
+        }
+        return {}
+      }
+    })
+    await mount(App, i18n, { installI18n: false })
+    expect(error).toEqual(errorMessages[I18nErrorCodes.NOT_INSLALLED])
+  })
+
   test(errorMessages[I18nErrorCodes.NOT_AVAILABLE_IN_LEGACY_MODE], async () => {
     const i18n = createI18n({
       legacy: true,
