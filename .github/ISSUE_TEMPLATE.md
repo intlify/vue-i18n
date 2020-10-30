@@ -5,7 +5,7 @@ Got a question?
 ===============
 The issue list of this repo is **exclusively** for bug reports and feature requests. For simple questions, please use the following resources:
 
-- Read the docs: https://github.com/intlify/vue-i18n/blob/master/README.md
+- Read the docs: https://github.com/intlify/vue-i18n-next/blob/master/README.md
 
 Reporting a bug?
 ================
