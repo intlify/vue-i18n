@@ -68,7 +68,7 @@ New style API for Vue Composition API. See the following docs:
 You can use pluralization on the component. See the below examples:
 
 - [Example with using Composition API](https://github.com/intlify/vue-i18n-next/blob/master/examples/composition/components/translation.html)
-- [Example with using Legacy API](https://github.com/intlify/vue-i18n-next/blob/master/examples/legacy/composition/translation.html)
+- [Example with using Legacy API](https://github.com/intlify/vue-i18n-next/blob/master/examples/legacy/components/translation.html)
 
 ### `<i18n-d>` Component
 
@@ -77,7 +77,7 @@ You can use datetime format on the component, like `<i18n-n>` component.
 See the below examples:
 
 - [Example with using Composition API](https://github.com/intlify/vue-i18n-next/blob/master/examples/composition/components/datetime-format.html)
-- [Example with using Legacy API](https://github.com/intlify/vue-i18n-next/blob/master/examples/legacy/compostion/datetime-format.html)
+- [Example with using Legacy API](https://github.com/intlify/vue-i18n-next/blob/master/examples/legacy/components/datetime-format.html)
 
 ## :lollipop: Examples
 
@@ -125,7 +125,7 @@ The examples are offered in thee following two API styles:
   - Legacy API `preserveDirectiveContent` option, and property deprecated
 - `VueI18n.version` -> `import { VERSION } from 'vue-i18n'`
 - `VueI18n.availabilities` -> `import { availabilities } from 'vue-i18n'`
-- See the details [here](https://github.com/intlify/vue-i18n-next/blob/master/docs/vue-i18n.md)
+- See the details [here](https://github.com/intlify/vue-i18n-next/blob/master/docs/api/vue-i18n.md)
 
 #### Components
 - `<i18n>` component
