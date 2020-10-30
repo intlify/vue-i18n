@@ -1,3 +1,6 @@
+const { readdirSync } = require('fs')
+const { resolve, basename } = require('path')
+
 /** @typedef {import('vitepress').UserConfig} UserConfig */
 
 /** @type {UserConfig['head']} */
@@ -24,7 +27,8 @@ const config = {
     docsBranch: 'master',
     editLinks: true,
     locales: {
-      '/': { // english
+      // default english
+      '/': {
         nav: [
           {
             text: 'Guide',
@@ -39,23 +43,45 @@ const config = {
             link: 'https://github.com/intlify/vue-i18n-next/blob/master/CHANGELOG.md'
           }
         ],
-        sidebar: [
-          {
-            text: 'Introduction',
-            link: '/introduction',
-          },
-          {
-            text: 'Getting Starrted',
-            link: '/started',
-          },
-          {
-            text: 'Installation',
-            link: '/installation',
-          }
-        ]
+        sidebar: {
+          '/guide/': [
+            {
+              text: 'Introduction',
+              link: '/introduction',
+            },
+            {
+              text: 'Getting Starrted',
+              link: '/started',
+            },
+            {
+              text: 'Installation',
+              link: '/installation',
+            },
+          ],
+          '/api/': getSidebarApi('vue-i18n'),
+        }
       }
     }
   }
+}
+
+function getSidebarApi(target) {
+  const API_TITLE_MAPS = {
+    function: 'Functions',
+    interface: 'Interfaces',
+    typealias: 'Type Aliases',
+    variable: 'Variables',
+    class: 'Classes'
+  }
+  return readdirSync(resolve(__dirname, '../api'))
+    .map(file => basename(file, '.md'))
+    .filter(file => file.includes(target))
+    .map(file => {
+      return {
+        text: API_TITLE_MAPS[file.split('-').pop()],
+        link: `/api/${file}`
+      }
+    })
 }
 
 module.exports = config

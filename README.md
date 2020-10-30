@@ -292,7 +292,7 @@ Note: the replacement value **must be boolean literals** and cannot be strings, 
     - [x] mergeNumberFormat
     - [x] getChoiceIndex
     - [x] tm
-  - Inejctted in Vue Prototype API
+  - Inejcted in Vue Prototype API
     - [x] $i18n
     - [x] $t
     - [x] $tc

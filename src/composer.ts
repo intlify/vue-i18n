@@ -169,7 +169,14 @@ export interface Composer<
 > {
   // properties
   id: number
+  /**
+   * The current locale this composer is using.
+   */
   locale: WritableComputedRef<Locale>
+  /**
+   * The fallback locale that is used if a string could not be found in the
+   * current locale
+   */
   fallbackLocale: WritableComputedRef<FallbackLocale>
   inheritLocale: boolean
   readonly availableLocales: Locale[]
@@ -186,19 +193,68 @@ export interface Composer<
   warnHtmlMessage: boolean
   escapeParameter: boolean
   // methods
+  /**
+   * Get the translation for a given key as string
+   * @param key The key to get the translation for
+   */
   t(key: Path): string
-  t(key: Path, plural: number): string
-  t(key: Path, plural: number, options: TranslateOptions): string
-  t(key: Path, defaultMsg: string): string
-  t(key: Path, defaultMsg: string, options: TranslateOptions): string
-  t(key: Path, list: unknown[]): string
+  /**
+   * Get the translation for a given key as string, searching for plurals.
+   *
+   * If this method is used in a reactive context, it will re-evaluate once
+   * the locale changes.
+   *
+   * The translated string should contain a | separated value of the
+   * singular / plural strings
+   *
+   * @param key The key to get the translation for
+   * @param plural Which plural string to get. 1 returns the first one.
+   * @param options Additional options for translation
+   */
+  t(key: Path, plural: number, options?: TranslateOptions): string
+  /**
+   * Get the translation for a given key as string, searching for plurals.
+   *
+   * If this method is used in a reactive context, it will re-evaluate once
+   * the locale changes.
+   *
+   * @param key The key to get the translation for
+   * @param defaultMsg The text to return if no translation was found
+   * @param options Additional options for translation
+   */
+  t(key: Path, defaultMsg: string, options?: TranslateOptions): string
+
+  /**
+   * Get the translation for a given key as string, replacing indexed
+   * placeholders.
+   *
+   * If this method is used in a reactive context, it will re-evaluate once
+   * the locale changes.
+   *
+   * The translated string should contain a {0}, {1}, … for each placeholder
+   * in the list.
+   * @param key The key to get the translation for
+   * @param list The list of placeholders to replace
+   * @param options Additional options for translation
+   */
+  t(key: Path, list: unknown[], options?: TranslateOptions): string
   t(key: Path, list: unknown[], plural: number): string
   t(key: Path, list: unknown[], defaultMsg: string): string
-  t(key: Path, list: unknown[], options: TranslateOptions): string
-  t(key: Path, named: NamedValue): string
+  /**
+   * Get the translation for a given key as string, replacing named
+   * placeholders.
+   *
+   * If this method is used in a reactive context, it will re-evaluate once
+   * the locale changes.
+   *
+   * For each placeholder x, the translated string should contain a {x} token.
+   * @param key The key to get the translation for
+   * @param named The placeholders to replace
+   * @param options Additional options for translation
+   */
+  t(key: Path, named: NamedValue, options?: TranslateOptions): string
   t(key: Path, named: NamedValue, plural: number): string
   t(key: Path, named: NamedValue, defaultMsg: string): string
-  t(key: Path, named: NamedValue, options: TranslateOptions): string
   t(...args: unknown[]): string // for internal
   d(value: number | Date | string): string
   d(value: number | Date | string, key: string): string
@@ -434,7 +490,7 @@ export function createComposer<
       : { [_locale.value]: {} }
   )
 
-  // warning supress options
+  // warning suppress options
   // prettier-ignore
   let _missingWarn = __root
     ? __root.missingWarn
