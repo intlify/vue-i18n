@@ -200,10 +200,10 @@ export interface Composer<
   t(key: Path, named: NamedValue, defaultMsg: string): string
   t(key: Path, named: NamedValue, options: TranslateOptions): string
   t(...args: unknown[]): string // for internal
-  d(value: number | Date): string
-  d(value: number | Date, key: string): string
-  d(value: number | Date, key: string, locale: Locale): string
-  d(value: number | Date, options: DateTimeOptions): string
+  d(value: number | Date | string): string
+  d(value: number | Date | string, key: string): string
+  d(value: number | Date | string, key: string, locale: Locale): string
+  d(value: number | Date | string, options: DateTimeOptions): string
   d(...args: unknown[]): string // for internal
   n(value: number): string
   n(value: number, key: string): string

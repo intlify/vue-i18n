@@ -624,6 +624,28 @@ describe('d', () => {
     const dt = new Date(Date.UTC(2012, 11, 20, 3, 0, 0))
     expect(d(dt, { key: 'long' })).toEqual('')
   })
+
+  test('iso', () => {
+    const { d } = createComposer({
+      locale: 'en-US',
+      datetimeFormats: {
+        'en-US': {
+          short: {
+            year: 'numeric',
+            month: '2-digit',
+            day: '2-digit',
+            hour: '2-digit',
+            minute: '2-digit',
+            timeZone: 'America/New_York'
+          }
+        }
+      }
+    })
+    const dt = '2012-12-20T12:00:00Z'
+    expect(d(dt, { key: 'short', fallbackWarn: false })).toEqual(
+      '12/20/2012, 07:00 AM'
+    )
+  })
 })
 
 describe('n', () => {

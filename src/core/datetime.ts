@@ -211,10 +211,31 @@ export function parseDateTimeArgs(
   let options = {} as DateTimeOptions
   let orverrides = {} as Intl.DateTimeFormatOptions
 
-  if (!(isNumber(arg1) || isDate(arg1))) {
+  let value: number | Date
+  if (isString(arg1)) {
+    // Only allow ISO strings - other date formats are often supported,
+    // but may cause different results in different browsers.
+    if (!/\d{4}-\d{2}-\d{2}(T.*)?/.test(arg1)) {
+      throw createCoreError(CoreErrorCodes.INVALID_ISO_DATE_ARGUMENT)
+    }
+    value = new Date(arg1)
+
+    try {
+      // This will fail if the date is not valid
+      value.toISOString()
+    } catch (e) {
+      throw createCoreError(CoreErrorCodes.INVALID_ISO_DATE_ARGUMENT)
+    }
+  } else if (isDate(arg1)) {
+    if (isNaN(arg1.getTime())) {
+      throw createCoreError(CoreErrorCodes.INVALID_DATE_ARGUMENT)
+    }
+    value = arg1
+  } else if (isNumber(arg1)) {
+    value = arg1
+  } else {
     throw createCoreError(CoreErrorCodes.INVALID_ARGUMENT)
   }
-  const value = arg1
 
   if (isString(arg2)) {
     options.key = arg2

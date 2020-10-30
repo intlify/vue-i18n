@@ -327,7 +327,19 @@ describe('error', () => {
     })
     expect(() => {
       datetime(ctx, '111')
+    }).toThrowError(errorMessages[CoreErrorCodes.INVALID_ISO_DATE_ARGUMENT])
+
+    expect(() => {
+      datetime(ctx, '2020-01-01TSomeDefinitelyInvalidString')
+    }).toThrowError(errorMessages[CoreErrorCodes.INVALID_ISO_DATE_ARGUMENT])
+
+    expect(() => {
+      datetime(ctx, { someObject: true })
     }).toThrowError(errorMessages[CoreErrorCodes.INVALID_ARGUMENT])
+
+    expect(() => {
+      datetime(ctx, new Date('invalid'))
+    }).toThrowError(errorMessages[CoreErrorCodes.INVALID_DATE_ARGUMENT])
   })
 })
 
