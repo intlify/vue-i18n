@@ -1,4 +1,5 @@
 dist
+docs/api/vue-i18**
 types
 temp
 coverage
@@ -6,8 +7,10 @@ node_modules
 .DS_Store
 .idea
 .vscode
+
 # jest dump files
 report*.json
+
 *.log
 *.swp
 *~
