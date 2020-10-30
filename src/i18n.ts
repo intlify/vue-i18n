@@ -496,7 +496,9 @@ export function useI18n<
 
   // prettier-ignore
   const scope: I18nScope = isEmptyObject(options)
-    ? 'global'
+    ? ('__i18n' in instance.type)
+      ? 'local'
+      : 'global'
     : !options.useScope
       ? 'local'
       : options.useScope

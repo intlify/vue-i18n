@@ -2,7 +2,12 @@
  * @jest-environment jsdom
  */
 
-import { defineComponent, nextTick } from 'vue'
+import {
+  defineComponent,
+  nextTick,
+  getCurrentInstance,
+  ComponentOptions
+} from 'vue'
 import { mount } from './helper'
 import { createI18n, useI18n } from '../src/i18n'
 import { errorMessages, I18nErrorCodes } from '../src/errors'
@@ -194,6 +199,41 @@ describe('useI18n', () => {
     await mount(App, i18n)
 
     expect(i18n.global === composer).toEqual(true)
+    expect((composer as Composer).locale.value).toEqual('ja')
+  })
+
+  test('empty options, when have i18n custom blocks', async () => {
+    const i18n = createI18n({
+      legacy: false,
+      locale: 'ja',
+      messages: {
+        en: {
+          hello: 'hello!'
+        }
+      }
+    })
+
+    let composer: unknown
+    const App = defineComponent({
+      setup() {
+        const instance = getCurrentInstance()
+        if (instance == null) {
+          throw new Error()
+        }
+        const options = instance.type as ComponentOptions
+        options.__i18n = [
+          JSON.stringify({ en: { hello: 'Hello,world!' } }),
+          JSON.stringify({ ja: { hello: 'こんにちは、世界！' } })
+        ]
+        composer = useI18n()
+        return { t: (composer as Composer).t }
+      },
+      template: `<p>{{ t('hello', ['foo'], { locale: 'ja' }) }}</p>`
+    })
+    const { html } = await mount(App, i18n)
+
+    expect(html()).toEqual('<p>こんにちは、世界！</p>')
+    expect(i18n.global !== composer).toEqual(true)
     expect((composer as Composer).locale.value).toEqual('ja')
   })
 
