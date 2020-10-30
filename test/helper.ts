@@ -15,12 +15,14 @@ import {
 import { compile } from '@vue/compiler-dom'
 import * as runtimeDom from '@vue/runtime-dom'
 import { I18n } from '../src/i18n'
+import { isBoolean } from '../src/utils'
 
 export interface MountOptions {
   propsData: Record<string, any> // eslint-disable-line @typescript-eslint/no-explicit-any
   provide: Record<string | symbol, any> // eslint-disable-line @typescript-eslint/no-explicit-any
   components: ComponentOptions['components']
   slots: Record<string, string>
+  installI18n: boolean
 }
 
 interface Wrapper {
@@ -64,6 +66,9 @@ export function mount<
   options: Partial<MountOptions> = {}
 ): Promise<Wrapper> {
   const TargetComponent = targetComponent
+  const installI18n = isBoolean(options.installI18n)
+    ? options.installI18n
+    : true
   return new Promise((resolve, reject) => {
     // NOTE: only supports props as an object
     const propsData = reactive(
@@ -135,7 +140,7 @@ export function mount<
       }
     }
 
-    app.use(i18n)
+    installI18n && app.use(i18n)
 
     const rootEl = document.createElement('div')
     document.body.appendChild(rootEl)

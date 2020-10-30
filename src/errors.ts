@@ -14,14 +14,16 @@ export const enum I18nErrorCodes {
   // legacy module errors
   INVALID_ARGUMENT,
   // i18n module errors
+  MUST_BE_CALL_SETUP_TOP,
   NOT_INSLALLED,
-  UNEXPECTED_ERROR,
   NOT_AVAILABLE_IN_LEGACY_MODE,
   // diretive module errors
   REQUIRED_VALUE,
   INVALID_VALUE,
   // vue-devtools errors
   CANNOT_SETUP_VUE_DEVTOOLS_PLUGIN,
+  // unexpected error
+  UNEXPECTED_ERROR,
   // for enhancement
   __EXTEND_POINT__
 }
@@ -40,7 +42,9 @@ export function createI18nError(
 export const errorMessages: { [code: number]: string } = {
   [I18nErrorCodes.UNEXPECTED_RETURN_TYPE]: 'Unexpected return type in composer',
   [I18nErrorCodes.INVALID_ARGUMENT]: 'Invalid argument',
-  [I18nErrorCodes.NOT_INSLALLED]: 'Need to install with app.use function',
+  [I18nErrorCodes.MUST_BE_CALL_SETUP_TOP]:
+    'Must be called at the top of a `setup` function',
+  [I18nErrorCodes.NOT_INSLALLED]: 'Need to install with `app.use` function',
   [I18nErrorCodes.UNEXPECTED_ERROR]: 'Unexpected error',
   [I18nErrorCodes.NOT_AVAILABLE_IN_LEGACY_MODE]: 'Not available in legacy mode',
   [I18nErrorCodes.REQUIRED_VALUE]: `Required in value: {0}`,

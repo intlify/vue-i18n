@@ -467,16 +467,20 @@ export function useI18n<
   Options['numberFormats']
 > {
   const instance = getCurrentInstance()
-  /* istanbul ignore if */
-  if (instance == null || !instance.appContext.app.__VUE_I18N_SYMBOL__) {
-    throw createI18nError(I18nErrorCodes.UNEXPECTED_ERROR)
+  if (instance == null) {
+    throw createI18nError(I18nErrorCodes.MUST_BE_CALL_SETUP_TOP)
   }
-
-  const i18n = inject(instance.appContext.app.__VUE_I18N_SYMBOL__)
-  if (!i18n) {
+  if (!instance.appContext.app.__VUE_I18N_SYMBOL__) {
     throw createI18nError(I18nErrorCodes.NOT_INSLALLED)
   }
 
+  const i18n = inject(instance.appContext.app.__VUE_I18N_SYMBOL__)
+  /* istanbul ignore if */
+  if (!i18n) {
+    throw createI18nError(I18nErrorCodes.UNEXPECTED_ERROR)
+  }
+
+  // prettier-ignore
   const global =
     i18n.mode === 'composition'
       ? ((i18n.global as unknown) as Composer<
