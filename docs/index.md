@@ -11,3 +11,7 @@ features:
   details: You can manage locale messages on single file component
 footer: MIT Licensed | Copyright © 2020 kazuya kawaguchi
 ---
+
+:::warning Notice
+:warning: This documentation is WIP
+:::
