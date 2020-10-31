@@ -39,7 +39,7 @@ const config = {
             link: '/api/'
           },
           {
-            text: 'Changelog',
+            text: 'Release Notes',
             link: 'https://github.com/intlify/vue-i18n-next/blob/master/CHANGELOG.md'
           }
         ],
@@ -50,13 +50,29 @@ const config = {
               link: '/introduction',
             },
             {
-              text: 'Getting Starrted',
-              link: '/started',
-            },
-            {
               text: 'Installation',
               link: '/installation',
             },
+            {
+              text: 'Essentials',
+              collapsable: false,
+              children: [
+                {
+                  text: 'Getting Started',
+                  link: '/essentials/started',
+                }
+              ]
+            },
+            {
+              text: 'Advanced',
+              collapsable: false,
+              children: [
+                {
+                  text: 'Composition API',
+                  link: '/advanced/composition',
+                }
+              ]
+            }
           ],
           '/api/': getSidebarApi('vue-i18n'),
         }
