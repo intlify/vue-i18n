@@ -1,3 +1,3 @@
-# Component based localization
+# Component Interpolation
 
 TODO:

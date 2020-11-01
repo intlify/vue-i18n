@@ -98,6 +98,7 @@ The examples are offered in thee following two API styles:
 #### Message Format Syntax
 - Special characters
   - Since vue-i18n-next, the message format syntax is handled by the compiler.
+  - List interpolation is no longer allowed for array-like objects (e.g. `{ '0': 'hello' }`).
   - The following characters used in the message syntax are processed by the compiler as special characters:
     - `{`, `}`, `@`, `$`, `|`
   - If you want to use these special characters, you can use **literal interpolation** to get around it.

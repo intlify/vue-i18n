@@ -60,6 +60,10 @@ const config = {
                 {
                   text: 'Getting Started',
                   link: '/essentials/started',
+                },
+                {
+                  text: 'Message Format Syntax',
+                  link: '/essentials/syntax',
                 }
               ]
             },
@@ -67,6 +71,14 @@ const config = {
               text: 'Advanced',
               collapsable: false,
               children: [
+                {
+                  text: "Component Interpolation",
+                  link: './advanced/component'
+                },
+                {
+                  text: "Message Functions",
+                  link: './advanced/function'
+                },
                 {
                   text: 'Composition API',
                   link: '/advanced/composition',
