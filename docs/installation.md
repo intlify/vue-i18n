@@ -54,7 +54,11 @@ import { createApp } from 'vue'
 import { createI18n } from 'vue-i18n'
 
 const app = createApp({
-  // something options ...
+  // something vue options here ...
+})
+
+const i18n = createI18n({
+  // shomething vue-i18n options here ...
 })
 
 app.use(i18n)
