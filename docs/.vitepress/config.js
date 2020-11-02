@@ -64,6 +64,10 @@ const config = {
                 {
                   text: 'Message Format Syntax',
                   link: '/essentials/syntax',
+                },
+                {
+                  text: 'Pluralization',
+                  link: '/essentials/pluralization'
                 }
               ]
             },
