@@ -68,6 +68,14 @@ const config = {
                 {
                   text: 'Pluralization',
                   link: '/essentials/pluralization'
+                },
+                {
+                  text: 'DateTime Localization',
+                  link: '/essentials/datetime'
+                },
+                {
+                  text: 'Number Localization',
+                  link: '/essentials/number'
                 }
               ]
             },
