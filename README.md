@@ -90,6 +90,9 @@ The examples are offered in thee following two API styles:
 - legacy
   - Examples with using vue-i18n API that are almost compatible with vue-i18n v8.x
 
+## :raising_hand: About support for v9 and earlier
+- v6 and earlier: drop supporting
+- v7 and v8: become LTS upon vue-i18n v9 release with an 12 months maintenance lifespan
 
 ## :heavy_exclamation_mark: Known issues
 
