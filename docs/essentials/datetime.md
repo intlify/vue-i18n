@@ -102,7 +102,7 @@ will produce the below output:
 
 But the real power of this component comes into play when it is used with [scoped slots](https://v3.vuejs.org/guide/component-slots.html#scoped-slots).
 
-Let's say there is a requirement to render the integer part of the number with a bolder font. This can be achieved by specifying `era` scoped slot element:
+Let's say there is a requirement to render the era part of the datetime with a bolder font. This can be achieved by specifying `era` scoped slot element:
 
 ```html
 <i18n-d tag="span" :value="new Date()" locale="ja-JP-u-ca-japanese" :format="{ key: 'long', era: 'narrow' }">
