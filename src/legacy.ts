@@ -117,6 +117,7 @@ export interface VueI18n<
   readonly messages: Messages
   readonly datetimeFormats: DateTimeFormats
   readonly numberFormats: NumberFormats
+  readonly modifiers: LinkedModifiers<VueMessageType>
   formatter: Formatter
   missing: MissingHandler | null
   postTranslation: PostTranslationHandler<VueMessageType> | null
@@ -225,6 +226,7 @@ function convertComposerOptions<
     ? options.fallbackRoot
     : true
   const fallbackFormat = !!options.formatFallbackMessages
+  const modifiers = isPlainObject(options.modifiers) ? options.modifiers : {}
   const pluralizationRules = options.pluralizationRules
   const postTranslation = isFunction(options.postTranslation)
     ? options.postTranslation
@@ -271,6 +273,7 @@ function convertComposerOptions<
     fallbackWarn,
     fallbackRoot,
     fallbackFormat,
+    modifiers,
     pluralRules: pluralizationRules,
     postTranslation,
     warnHtmlMessage,
@@ -398,6 +401,11 @@ export function createVueI18n<
     },
     set silentFallbackWarn(val: boolean | RegExp) {
       composer.fallbackWarn = isBoolean(val) ? !val : val
+    },
+
+    // modifiers
+    get modifiers(): LinkedModifiers<VueMessageType> {
+      return composer.modifiers
     },
 
     // formatFallbackMessages
