@@ -92,7 +92,7 @@ The examples are offered in thee following two API styles:
 
 ## :raising_hand: About support for v9 and earlier
 - v6 and earlier: drop supporting
-- v7 and v8: become LTS upon vue-i18n v9 release with an 12 months maintenance lifespan
+- v7 and v8: become LTS upon vue-i18n v9 release with an 15 months maintenance lifespan
 
 ## :heavy_exclamation_mark: Known issues
 
@@ -105,6 +105,9 @@ The examples are offered in thee following two API styles:
   - The following characters used in the message syntax are processed by the compiler as special characters:
     - `{`, `}`, `@`, `$`, `|`
   - If you want to use these special characters, you can use **literal interpolation** to get around it.
+- Linked messages
+  - No longer use grouping by brackets for key of linked messages.
+  - v9 and later use **named, list, and literal interpolations**
 
 #### APIs
 - The return value of `$t` and `t` methods is **string** only. object and array values are no longer returned.

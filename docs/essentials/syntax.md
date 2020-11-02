@@ -36,17 +36,17 @@ The following is an example of the use of `$t` in a template:
 <p>{{ $t('message.hello', { msg: 'hello' }) }}</p>
 ```
 
-The first argument is `message.hello` as the key to locale messages resource, and the second argument is an object with `msg` property as a parameter to `$t` function.
+The first argument is `message.hello` as the locale messages key, and the second argument is an object with `msg` property as a parameter to `$t` function.
 
 :::tip NOTE
-The locale message resource key for the translate function can be specified for a specific resource with `.` (dot), just like a JavaScript object.
+The locale message resource key for the translate function can be specified for a specific resource namespace with using `.` (dot), just like a JavaScript object.
 ::::
 
 :::tip NOTE
 `$t` function has some overloads. About these overloads, see the here.
 :::
 
-As result, the below:
+As result the below:
 
 ```html
 <p>hello world</p>
@@ -78,9 +78,9 @@ The following is an example of the use of `$t` in a template:
 <p>{{ $t('message.hello', ['hello']) }}</p>
 ```
 
-The first argument is `message.hello` as the key to locale messages resource, and the second argument is an array that have `'hello'` item as a parameter to `$t` function.
+The first argument is `message.hello` as the locale messages key, and the second argument is an array that have `'hello'` item as a parameter to `$t` function.
 
-As result, the below:
+As result the below:
 
 ```html
 <p>hello world</p>
@@ -110,9 +110,9 @@ The following is an example of the use of `$t` in a template:
 <p>email: {{ $t('address', { account: 'foo', domain: 'domain.com' }) }}</p>
 ```
 
-The first argument is `address` as the key to locale messages resource, and the second argument is an object with `account` and `domain` property as a parameter to `$t` function.
+The first argument is `address` as the locale messages key, and the second argument is an object with `account` and `domain` property as a parameter to `$t` function.
 
-As result, the below:
+As result the below:
 
 ```html
 <p>email: foo@domain.com</p>
@@ -124,15 +124,126 @@ Literal interpolation is useful for special characters in message format syntax,
 
 ## Linked messages
 
-TODO:
+If there's a locale messages key that will always have the same concrete text as another one you can just link to it.
 
-### Modifiers
+To link to another locale messages key, all you have to do is to prefix its contents with an *`@:key`* sign followed by the full name of the locale messages key including the namespace you want to link to.
 
-TODO:
+Locale messages the below:
 
-### With interpolations
+```js
+const messages = {
+  en: {
+    message: {
+      the_world: 'the world',
+      dio: 'DIO:',
+      linked: '@:message.dio @:message.the_world !!!!'
+    }
+  }
+}
+```
 
-TODO:
+It's `en` locale that has hierarchical structure in the object.
+
+The `message.the_world` has `the world` and `message.dio`. The `message.linked` has `@:message.dio @:message.dio @:message.the_world !!!!`, and it's linked to the locale messages key with `message.dio` and `message.the_world`.
+
+The following is an example of the use of `$t` in a template:
+
+```html
+<p>{{ $t('message.linked') }}</p>
+```
+
+The first argument is `message.linked` as the locale messages key as a parameter to `$t` function.
+
+As result the below:
+
+```html
+<p>DIO: the world !!!!</p>
+```
+
+### Built-in Modifiers
+
+If the language distinguish cases of character, you may need control the case of the linked locale messages.
+Linked messages can be formatted with modifier *`@.modifier:key`*
+
+The below modifiers are built-in available currently.
+
+* `upper`: Uppercase all characters in the linked message.
+* `lower`: Lowercase all characters in the linked message.
+* `capitalize`: Capitalize the first character in the linked message.
+
+Locale messages the below:
+
+```js
+const messages = {
+  en: {
+    message: {
+      homeAddress: 'Home address',
+      missingHomeAddress: 'Please provide @.lower:message.homeAddress'
+    }
+  }
+}
+```
+
+It's `en` locale that has hierarchical structure in the object.
+
+The `message.homeAddress` has `Home address`. The `message.missingHomeAddress` has `Please provide @.lower:message.homeAddress`, and it's linked to the locale messages key with `message.homeAddress`.
+
+Since the modifier `.lower` is specified in the above example, so the linked `message.homeAddress` key is resolved, after that is evaluated it.
+
+The following is an example of the use of `$t` in a template:
+
+```html
+<label>{{ $t('message.homeAddress') }}</label>
+<p class="error">{{ $t('message.missingHomeAddress') }}</p>
+```
+
+As result the below:
+
+```html
+<label>Home address</label>
+<p class="error">Please provide home address</p>
+```
+
+### Custom Modifiers
+
+If you want to use a non built-in modifiers, you can use your custom modifiers.
+
+To use custom modifiers, you must specify them in `modifiers` option of `createI18n` function:
+
+```js
+const i18n = createI18n({
+  locale: 'en',
+  messages: {
+    // set somethinig locale messages ...
+  },
+  // set custom modifiers at `modifiers` option
+  modifiers: {
+    snakeCase: (str) => str.split(' ').join('-')
+  }
+})
+```
+
+Locale messages the below:
+
+```js
+const messages = {
+  en: {
+    message: {
+      snake: 'snake case',
+      custom_modifier: "custom modifiers example: @.snakeCase:{'message.snake'}"
+    }
+  }
+}
+```
+
+It's `en` locale that has hierarchical structure in the object.
+
+The `message.snake` has `snake case`. The `message.custom_modifier` has `custom modifiers example: @.snakeCase:{'message.snake'}`, and it's linked to the locale messages key, which is interpolated with literal.
+
+:::tip NOTE
+You can use the interpolations (Named, List, and Literal) for the key of Linked messages.
+:::
+
 
 ## Special Characters
 

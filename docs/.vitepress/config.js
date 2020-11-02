@@ -32,7 +32,7 @@ const config = {
         nav: [
           {
             text: 'Guide',
-            link: '/guide/'
+            link: '/essentials/started'
           },
           {
             text: 'API Reference',
@@ -47,7 +47,7 @@ const config = {
           '/guide/': [
             {
               text: 'Introduction',
-              link: '/introduction',
+              link: '/introduction'
             },
             {
               text: 'Installation',
