@@ -511,7 +511,7 @@ export function useI18n<
     let composer = getComposer(i18n, instance)
     if (composer == null) {
       if (__DEV__) {
-        warn(getWarnMessage(I18nWarnCodes.NOT_FOUND_PARENT_COMPOSER))
+        warn(getWarnMessage(I18nWarnCodes.NOT_FOUND_PARENT_SCOPE))
       }
       composer = global
     }
