@@ -767,8 +767,8 @@ export function createComposer<
     return wrapWithDeps<VNode, VNodeArrayChildren>(
       context => {
         let ret: unknown
+        const _context = context as RuntimeTranslationContext<Messages, VNode>
         try {
-          const _context = context as RuntimeTranslationContext<Messages, VNode>
           _context.processor = processor
           ret = translate<Messages, VNode>(_context, ...args)
         } finally {
