@@ -401,7 +401,16 @@ function resolveMessageFormat<Messages, Message>(
     }
 
     if (isString(format) || isFunction(format)) break
-    handleMissing<Message>(context, key, targetLocale, missingWarn, type)
+    const missingRet = handleMissing<Message>(
+      context,
+      key,
+      targetLocale,
+      missingWarn,
+      type
+    )
+    if (missingRet !== key) {
+      format = missingRet as PathValue
+    }
     from = to
   }
 

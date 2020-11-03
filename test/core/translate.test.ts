@@ -203,12 +203,13 @@ describe('context missing option', () => {
         expect(c).toEqual(ctx)
         expect(locale).toEqual('en')
         expect(key).toEqual('hello')
+        return 'HELLO'
       },
       messages: {
         en: {}
       }
     })
-    expect(translate(ctx, 'hello')).toEqual('hello')
+    expect(translate(ctx, 'hello')).toEqual('HELLO')
     expect(mockWarn).not.toHaveBeenCalled()
   })
 })
