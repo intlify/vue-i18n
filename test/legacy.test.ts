@@ -72,11 +72,12 @@ test('formatter', () => {
 test('missing', () => {
   const i18n = createVueI18n()
   expect(i18n.missing).toEqual(null)
-  const handler = () => {
-    return ''
+  const handler = (_: unknown, key: string) => {
+    return key.toUpperCase()
   }
   i18n.missing = handler
   expect(i18n.missing).toEqual(handler)
+  expect(i18n.t('foo.bar.buz')).toEqual('FOO.BAR.BUZ')
 })
 
 test('silentTranslationWarn', () => {

@@ -19,6 +19,7 @@ import {
 } from '../src/composer'
 import { generateFormatCacheKey } from '../src/utils'
 import { watch, watchEffect, nextTick, Text, createVNode } from 'vue'
+import { Locale } from '../src/core/context'
 
 describe('locale', () => {
   test('default value', () => {
@@ -559,7 +560,9 @@ describe('t', () => {
   })
 
   test('missing', () => {
-    const missing = () => {}
+    const missing = (locale: Locale, key: string) => {
+      return key.toUpperCase()
+    }
     const { t } = createComposer({
       locale: 'en',
       missing,
@@ -567,7 +570,7 @@ describe('t', () => {
         en: {}
       }
     })
-    expect(t('foo.bar.buz')).toEqual('foo.bar.buz')
+    expect(t('foo.bar.buz')).toEqual('FOO.BAR.BUZ')
   })
 })
 
