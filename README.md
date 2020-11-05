@@ -125,8 +125,6 @@ The examples are offered in thee following two API styles:
   - Legacy API: `warnHtmlInMessage` property.
   - For development mode, warning is default.
   - For production mode, HTML message detect is not check due to performance.
-- Legacy API `sync` option:
-  - default: change to `false` from `true`
 - `v-t` directive
   - `preserve` modifier deprecated, keep Element content
   - Legacy API `preserveDirectiveContent` option, and property deprecated
