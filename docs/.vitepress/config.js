@@ -76,6 +76,10 @@ const config = {
                 {
                   text: 'Number Localization',
                   link: '/essentials/number'
+                },
+                {
+                  text: 'Scope and Locale Changing',
+                  link: '/essentials/scope'
                 }
               ]
             },
