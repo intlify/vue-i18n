@@ -1,5 +1,5 @@
 <script lang="ts">
-import { TierLevel } from './constants'
+import { TierLevel } from '../state'
 import { defineComponent } from 'vue'
 
 const TIER_CLASSES = ['gold', 'silver', 'bronze'] as const

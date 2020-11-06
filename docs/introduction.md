@@ -17,44 +17,13 @@ Go to [Get Started](./essentials/started)
 ### 🥈 Silver
 
 <p style="text-align: center;">
-  <a
-    href="https://www.codeandweb.com/babeledit?utm_campaign=vue-i18n-2019-01"
-    style="width:320px; display: inline-block; vertical-align: middle;"
-    target="_blank"
-    rel="noopener"
-  >
-    <img
-      src="/babeledit.png"
-      style="width:320px; display: inline-block; vertical-align: middle;"
-    />
-  </a>
+  <SilverSponsors />
 </p>
 
 ### 🥉 Bronze
 
 <p style="text-align: center;">
-  <a
-    href="https://zenarchitects.co.jp/"
-    style="width:200px; display: inline-block; vertical-align: middle;"
-    target="_blank"
-    rel="noopener"
-  >
-    <img
-      src="/zenarchitects.png"
-      style="width:200px; display: inline-block; vertical-align: middle;"
-    />
-  </a>
-  <a
-    href="https://www.sendcloud.com/"
-    style="width:200px; display: inline-block; vertical-align: middle;"
-    target="_blank"
-    rel="noopener"
-  >
-    <img
-      src="/sendcloud.svg"
-      style="width:200px; display: inline-block; vertical-align: middle;"
-    />
-  </a>
+  <BronzeSponsors />
 </p>
 
 ## Become a Sponsor

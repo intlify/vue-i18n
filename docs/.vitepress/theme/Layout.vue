@@ -1,7 +1,7 @@
 <script>
 import DefaultTheme from 'vitepress/dist/client/theme-default'
 import Sponsor from './components/Sponsor.vue'
-import { TierLevel } from './components/constants'
+import { sponsors } from './state'
 
 export default {
   name: 'Layout',
@@ -12,25 +12,7 @@ export default {
   },
 
   setup() {
-    return {
-      silvers: [{
-        name: 'Babel Edit',
-        tier: TierLevel.Silver,
-        link: 'https://www.codeandweb.com/babeledit?utm_campaign=vue-i18n-2019-01',
-        source: '/babeledit.png'
-      }],
-      bronzes: [{
-        name: 'Zen Architects',
-        tier: TierLevel.Bronze,
-        link: 'https://zenarchitects.co.jp/',
-        source: '/zenarchitects.png'
-      }, {
-        name: 'SendCloud',
-        tier: TierLevel.Bronze,
-        link: 'https://www.sendcloud.com/',
-        source: '/sendcloud.svg'
-      }]
-    }
+    return { ...sponsors }
   }
 }
 </script>
