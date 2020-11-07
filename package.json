@@ -10,16 +10,6 @@
   "bugs": {
     "url": "https://github.com/inlitify/vue-i18n-next/issues"
   },
-  "lint-staged": {
-    "*.{js,json,md,yml}": [
-      "yarn format:fix",
-      "git add"
-    ],
-    "*.{js,ts}": [
-      "yarn lint:fix",
-      "git add"
-    ]
-  },
   "changelog": {
     "labels": {
       "Type: Feature": ":star: Features",
@@ -33,6 +23,9 @@
       "Type: A11y": ":wheelchair: Accessibility",
       "Type: Documentation": ":pencil: Documentation"
     }
+  },
+  "dependencies": {
+    "source-map": "0.6.1"
   },
   "devDependencies": {
     "@microsoft/api-extractor": "^7.9.22",
@@ -120,6 +113,16 @@
     "vue.js"
   ],
   "license": "MIT",
+  "lint-staged": {
+    "*.{js,json,md,yml}": [
+      "yarn format:fix",
+      "git add"
+    ],
+    "*.{js,ts}": [
+      "yarn lint:fix",
+      "git add"
+    ]
+  },
   "main": "dist/vue-i18n.cjs.js",
   "module": "dist/vue-i18n.esm-bundler.js",
   "peerDependencies": {
@@ -137,26 +140,26 @@
     "build:watch": "tsc -p . --watch",
     "clean": "npm-run-all --parallel clean:*",
     "clean:cache": "yarn clean:cache:rollup && yarn clean:cache:jest",
-    "clean:cache:rollup": "rm -rf ./node_modules/.rts2_cache",
     "clean:cache:jest": "jest --clearCache",
+    "clean:cache:rollup": "rm -rf ./node_modules/.rts2_cache",
     "clean:coverage": "rm -rf ./coverage",
-    "clean:size": "rm -rf ./size-check/**/dist ./size-check/**/node_modules",
     "clean:dist": "rm -rf ./dist/**",
     "clean:docs": "rm -rf ./docs/api/vue-i18n**.md",
+    "clean:size": "rm -rf ./size-check/**/dist ./size-check/**/node_modules",
     "clean:type": "rm -rf ./types/** ./temp ./dist/vue-i18n.d.ts",
     "coverage": "opener coverage/lcov-report/index.html",
     "dev:e2e": "jest --runInBand --config ./jest.e2e.config.js",
     "docs:apigen": "api-docs-gen ./temp/vue-i18n.api.json -o ./docs/api",
-    "docs:setup": "yarn build:type && yarn docs:apigen",
-    "docs:dev": "vitepress dev docs",
     "docs:build": "yarn docs:setup && vitepress build docs",
+    "docs:dev": "vitepress dev docs",
+    "docs:setup": "yarn build:type && yarn docs:apigen",
     "fix": "npm-run-all --parallel lint:fix format:fix",
     "format": "prettier --config .prettierrc --ignore-path .prettierignore '**/*.{js,json,html}'",
     "format:fix": "yarn format --write",
     "lint": "npm-run-all --parallel lint:codes lint:docs",
     "lint:codes": "eslint ./src ./test ./test-d ./e2e ./benchmark ./format-explorer --ext .js,.ts,.vue",
     "lint:docs": "textlint --config .textlintrc.js docs/**/*.md",
-    "lint:fix": "npm-run-all --parallel \"lint:code --fix\" \"lint:docs --fix\"",
+    "lint:fix": "npm-run-all --parallel \"lint:codes --fix\" \"lint:docs --fix\"",
     "release:prepare": "shipjs prepare",
     "release:trigger": "shipjs trigger",
     "test": "npm-run-all lint clean:cache:jest test:cover test:e2e",
@@ -168,8 +171,5 @@
   },
   "sideEffects": false,
   "types": "dist/vue-i18n.d.ts",
-  "unpkg": "dist/vue-i18n.global.js",
-  "dependencies": {
-    "source-map": "0.6.1"
-  }
+  "unpkg": "dist/vue-i18n.global.js"
 }
