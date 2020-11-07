@@ -24,19 +24,19 @@ The global scope is enabled on the target component when the `i18n` component op
 
 ### Local Scope
 
-The local scope allows you to apply scopes on each component basis like the `<style scoped>` of single-file components, only that component's scope is enabled. This is very useful if you want to manage the i18n resource like locale messages for each component.
+The local scope allows you to apply scopes on each component basis like the `<style scoped>` of single-file components, only that component’s scope is enabled. This is very useful if you want to manage the i18n resource like locale messages for each component.
 
 The local scope is enabled with specifying the `i18n` component option, which creates a `VueI18n` instance when the component is initialized. So, `VueI18n` instance of the component `this.$i18n` is not the same as `VueI18n` instance referenced with `global` property of the i18n instance.
 
 ## Locale Changing
 
-So far, we've explained the concept of the Scope, and once you understand the Scope, it's easy to understand how to change the locale.
+So far, we’ve explained the concept of the Scope, and once you understand the Scope, it’s easy to understand how to change the locale.
 
 ### Global Scope
 
 If you want to change the locale for the whole application, global scope allows you to use the `$i18n.locale` for each component.
 
-Here's an example:
+Here’s an example:
 
 ```js
 const i18n = createI18n({
@@ -83,7 +83,7 @@ As you can see, the global scope is very useful because it allows you to switch 
 If you want to switch the locale for the whole application, you need to change it via `global` property of i18n instance created with `createI18n`.
 
 :::tip MEMO
-If you don't want to inherit `locale` from global scope, you need to set `sync` of `i18n` component option to `false`.
+If you don’t want to inherit `locale` from global scope, you need to set `sync` of `i18n` component option to `false`.
 :::
 
 Example:
@@ -107,5 +107,5 @@ i18n.global.locale = 'en'
 ```
 
 :::warning NOTICE
-Changing `locale` of local scope does not affect `locale` of global scope. This means that changing the locale in `$i18n.locale` in local scope component will not change the entire application's locale, only that component. Only `$i18n.locale` can change the entire application's locale.
+Changing `locale` of local scope does not affect `locale` of global scope. This means that changing the locale in `$i18n.locale` in local scope component will not change the entire application’s locale, only that component. Only `$i18n.locale` can change the entire application’s locale.
 :::

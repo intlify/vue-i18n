@@ -124,7 +124,7 @@ Literal interpolation is useful for special characters in message format syntax,
 
 ## Linked messages
 
-If there's a locale messages key that will always have the same concrete text as another one you can just link to it.
+If there’s a locale messages key that will always have the same concrete text as another one you can just link to it.
 
 To link to another locale messages key, all you have to do is to prefix its contents with an *`@:key`* sign followed by the full name of the locale messages key including the namespace you want to link to.
 
@@ -142,9 +142,9 @@ const messages = {
 }
 ```
 
-It's `en` locale that has hierarchical structure in the object.
+It’s `en` locale that has hierarchical structure in the object.
 
-The `message.the_world` has `the world` and `message.dio`. The `message.linked` has `@:message.dio @:message.dio @:message.the_world !!!!`, and it's linked to the locale messages key with `message.dio` and `message.the_world`.
+The `message.the_world` has `the world` and `message.dio`. The `message.linked` has `@:message.dio @:message.dio @:message.the_world !!!!`, and it’s linked to the locale messages key with `message.dio` and `message.the_world`.
 
 The following is an example of the use of `$t` in a template:
 
@@ -167,9 +167,9 @@ Linked messages can be formatted with modifier *`@.modifier:key`*
 
 The below modifiers are built-in available currently.
 
-* `upper`: Uppercase all characters in the linked message.
-* `lower`: Lowercase all characters in the linked message.
-* `capitalize`: Capitalize the first character in the linked message.
+* `upper`: Uppercase all characters in the linked message
+* `lower`: Lowercase all characters in the linked message
+* `capitalize`: Capitalize the first character in the linked message
 
 Locale messages the below:
 
@@ -184,9 +184,9 @@ const messages = {
 }
 ```
 
-It's `en` locale that has hierarchical structure in the object.
+It’s `en` locale that has hierarchical structure in the object.
 
-The `message.homeAddress` has `Home address`. The `message.missingHomeAddress` has `Please provide @.lower:message.homeAddress`, and it's linked to the locale messages key with `message.homeAddress`.
+The `message.homeAddress` has `Home address`. The `message.missingHomeAddress` has `Please provide @.lower:message.homeAddress`, and it’s linked to the locale messages key with `message.homeAddress`.
 
 Since the modifier `.lower` is specified in the above example, so the linked `message.homeAddress` key is resolved, after that is evaluated it.
 
@@ -236,9 +236,9 @@ const messages = {
 }
 ```
 
-It's `en` locale that has hierarchical structure in the object.
+It’s `en` locale that has hierarchical structure in the object.
 
-The `message.snake` has `snake case`. The `message.custom_modifier` has `custom modifiers example: @.snakeCase:{'message.snake'}`, and it's linked to the locale messages key, which is interpolated with literal.
+The `message.snake` has `snake case`. The `message.custom_modifier` has `custom modifiers example: @.snakeCase:{'message.snake'}`, and it’s linked to the locale messages key, which is interpolated with literal.
 
 :::tip NOTE
 You can use the interpolations (Named, List, and Literal) for the key of Linked messages.
@@ -300,7 +300,7 @@ As result, the below:
 You can localize it with messages that contain HTML.
 
 :::danger Danger
-:warning: Dynamically localizing arbitrary HTML on your website can be very dangerous because it can easily lead to XSS vulnerabilities. Only use HTML interpolation on trusted content and never on user-provided content.
+:warning: Dynamically localizing arbitrary HTML on your site can be very dangerous because it can easily lead to XSS vulnerabilities. Only use HTML interpolation on trusted content and never on user-provided content.
 
 We recommended using the [Component interpolation](../advanced/component).
 :::

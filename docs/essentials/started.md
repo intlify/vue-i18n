@@ -1,14 +1,14 @@
 # Getting started
 
 :::tip NOTE
-We will be using [ES2015](https://github.com/lukehoban/es6features) in the code samples in the guide.
+We will be using [ES6](https://github.com/lukehoban/es6features) in the code samples in the guide.
 
 Also, all examples will be using the full version of Vue to make on-the-fly template compilation possible. See more details [here](https://v3.vuejs.org/guide/installation.html#runtime-compiler-vs-runtime-only).
 :::
 
 Creating a global application with Vue + Vue I18n is dead simple. With Vue.js, we are already composing our application with components. When adding Vue I18n to the mix, all we need to ready resource messages and simply use the localization API and they offered with Vue I18n.
 
-Here's a basic example:
+Here’s a basic example:
 
 ## HTML
 
@@ -78,7 +78,7 @@ By calling `app.use(i18n)`, By default, we can access the VueI18n instance from 
 
 To use similar ways at the `setup` function, you need to call the `useI18n` functions. We will learn more about this in the [Composition API](../advanced/composition).
 
-Throughout the docs, we'll use APIs like `this.$i18n` and `this.$t`, which are almost keep backward compatible from Vue I18n v8.x.
+Throughout the docs, we’ll use APIs like `this.$i18n` and `this.$t`, which are almost keep backward compatible from Vue I18n v8.x.
 
 :::tip NOTE
 In Vue I18n v9 and later, the API offered by Vue I18n v8.x is called **Legacy API**.

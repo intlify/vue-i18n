@@ -81,7 +81,7 @@ The `format` is the property to which the format defined by the `numberFormats` 
 
 The `locale` is the property to set the locale. It’s is localized with the locale specified by this prop instead of the one specified with the `locale` option of `createI18n`.
 
-will produce the below output:
+Will produce the below output:
 
 ```html
 <span>100</span>
@@ -91,7 +91,7 @@ will produce the below output:
 
 But the real power of this component comes into play when it is used with [scoped slots](https://v3.vuejs.org/guide/component-slots.html#scoped-slots).
 
-Let's say there is a requirement to render the integer part of the number with a bolder font. This can be achieved by specifying `integer` scoped slot element:
+Let’s say there is a requirement to render the integer part of the number with a bolder font. This can be achieved by specifying `integer` scoped slot element:
 
 ```html
 <i18n-n tag="span" :value="100" format="currency">

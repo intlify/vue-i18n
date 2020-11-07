@@ -89,7 +89,7 @@ fallbackLocale: {
 },
 ```
 
-will result in the following fallback chains:
+Will result in the following fallback chains:
 
 | locale | fallback chains |
 |--------|-----------------|
@@ -117,7 +117,7 @@ const messages = {
 }
 ```
 
-This is useful because you don't have to specify a translation for the string "Hello, world!" into English.
+This is useful because you don’t have to specify a translation for the string "Hello, world!" into English.
 
 In fact, you can even include template parameters in a key. Together with `formatFallbackMessages: true`, this lets you skip writing templates for your "base" language; the keys *are* your templates.
 

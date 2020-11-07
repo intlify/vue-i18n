@@ -25,7 +25,7 @@ The `car` has `car | cars` pluralization message, and the `apple` has `no apples
 
 These plural messages are selected by the logic of the choice rule for each language in the translaton API according to the numeric value you specify at the translation API.
 
-Vue I18n will be offered some pluralization ways. Here we'll use the `$tc` function.
+Vue I18n will be offered some pluralization ways. Here we’ll use the `$tc` function.
 
 :::tip NOTE
 Some ways to support pluralization are:
@@ -61,11 +61,11 @@ As result the below:
 <p>10 apples</p>
 ```
 
-## Pre-defined implicit arguments
+## Predefined implicit arguments
 
-You don't need to explicitly give the number for pluralization.
+You don’t need to explicitly give the number for pluralization.
 
-Let's look at an example to understand what that means!
+Let’s look at an example to understand what that means!
 
 Locale messages the below:
 
@@ -82,7 +82,7 @@ It’s `en` locale an object that has `apple` and `banana`.
 
 The `banana` has `no apples | one apple | {count} apples` pluralization message, and the `banana` has `no bananas | {n} banana | {n} bananas` pluralization message.
 
-The number can be accessed within locale messages via pre-defined named arguments `{count}` and/or `{n}`. You can overwrite those pre-defined named arguments if necessary.
+The number can be accessed within locale messages via predefined named arguments `{count}` and/or `{n}`. You can overwrite those predefined named arguments if necessary.
 
 The following is an example of using `$tc` function:
 
@@ -97,7 +97,7 @@ The following is an example of using `$tc` function:
 
 In the above some examples, the first argument is the locale messages key and the second argument is the numeric value or object.
 
-If an object is specified, it's equivalent to Named interpolation. You can interpolate `n` or `count` with arguments implicit in the pluralization message by giving it.
+If an object is specified, it’s equivalent to Named interpolation. You can interpolate `n` or `count` with arguments implicit in the pluralization message by giving it.
 
 As result the below:
 

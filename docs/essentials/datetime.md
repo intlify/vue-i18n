@@ -92,7 +92,7 @@ The `format` prop is a property to which the format defined by the `dateTimeForm
 
 The `locale` prop is a property to set the locale. It’s is localized with the locale specified by this prop instead of the one specified with the `locale` option of `createI18n`.
 
-will produce the below output:
+Will produce the below output:
 
 ```html
 <p>11/3/2020</p>
@@ -102,7 +102,7 @@ will produce the below output:
 
 But the real power of this component comes into play when it is used with [scoped slots](https://v3.vuejs.org/guide/component-slots.html#scoped-slots).
 
-Let's say there is a requirement to render the era part of the datetime with a bolder font. This can be achieved by specifying `era` scoped slot element:
+Let’s say there is a requirement to render the era part of the datetime with a bolder font. This can be achieved by specifying `era` scoped slot element:
 
 ```html
 <i18n-d tag="span" :value="new Date()" locale="ja-JP-u-ca-japanese" :format="{ key: 'long', era: 'narrow' }">
