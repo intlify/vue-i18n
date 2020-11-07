@@ -306,7 +306,7 @@ We recommended using the [Component interpolation](../advanced/component).
 :::
 
 :::warning Notice
-If the message contains HTML, Vue I18n outputs a warning to console when `process.env.NODE_ENV !== 'production'`, Vue I18n outputs  warning to console.
+If the message contains HTML, Vue I18n outputs a warning to console when development mode (`process.env.NODE_ENV !== 'production'`), Vue I18n outputs  warning to console.
 
 You can control warning output with the `warnHtmlInMessage` or `warnHtmlMessage` options in `createI18n` function or `useI18n` function.
 :::

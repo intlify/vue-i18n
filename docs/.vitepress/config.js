@@ -80,6 +80,10 @@ const config = {
                 {
                   text: 'Scope and Locale Changing',
                   link: '/essentials/scope'
+                },
+                {
+                  text: 'Fallback Localization',
+                  link: '/essentials/fallback'
                 }
               ]
             },
