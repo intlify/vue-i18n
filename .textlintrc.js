@@ -1,0 +1,40 @@
+module.exports = {
+  rules: {
+    'no-start-duplicated-conjunction': {
+      interval: 2
+    },
+    'max-comma': true, // default 4
+    'no-empty-section': false, // TODO: later
+    terminology: {},
+    'period-in-list-item': true,
+    'no-surrogate-pair': true,
+    '@textlint-rule/no-unmatched-pair': true,
+    'max-doc-width': 360,
+    'unexpanded-acronym': {
+      ignore_acronyms: [
+        'NOTE',
+        'DOM',
+        'XSS',
+        'HTML',
+        'TODO',
+        'API',
+        'ECMA',
+        'MEMO'
+      ]
+    },
+    'abbr-within-parentheses': true,
+    'common-misspellings': true,
+    apostrophe: true,
+    diacritics: true,
+    'stop-words': false, // TODO: later
+    'write-good': false, // TODO: laster
+    'en-capitalization': {
+      allowFigures: false,
+      allowHeading: false,
+      allowLists: false
+    }
+  },
+  filters: {
+    comments: true
+  }
+}
