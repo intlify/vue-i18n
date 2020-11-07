@@ -104,6 +104,9 @@
     "README.md",
     "LICENSE"
   ],
+  "gitHooks": {
+    "pre-commit": "lint-staged"
+  },
   "homepage": "https://github.com/intlify/vue-i18n-next#readme",
   "keywords": [
     "i18n",
