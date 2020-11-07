@@ -70,7 +70,7 @@
     "rollup-plugin-terser": "^7.0.2",
     "rollup-plugin-typescript2": "^0.29.0",
     "set-tz": "^0.2.0",
-    "shipjs": "^0.22.0",
+    "shipjs": "^0.23.0",
     "textlint": "^11.7.6",
     "textlint-filter-rule-comments": "^1.2.2",
     "textlint-rule-abbr-within-parentheses": "^1.0.2",
