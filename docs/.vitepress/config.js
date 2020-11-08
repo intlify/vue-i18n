@@ -84,6 +84,10 @@ const config = {
                 {
                   text: 'Fallback Localization',
                   link: '/essentials/fallback'
+                },
+                {
+                  text: 'Local Scope Based Localization',
+                  link: '/essentials/component'
                 }
               ]
             },

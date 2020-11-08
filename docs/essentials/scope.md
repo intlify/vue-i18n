@@ -1,6 +1,6 @@
 # Scope and Locale Changing
 
-## Scopes
+## Scope
 
 Vue I18n manages resources to offer i18n features, including locale switching, each language messages called locales messsages, and named format for datetime and numbers. They are managed with the `VueI18n` instance.
 
@@ -30,7 +30,7 @@ The local scope is enabled with specifying the `i18n` component option, which cr
 
 ## Locale Changing
 
-So far, we’ve explained the concept of the Scope, and once you understand the Scope, it’s easy to understand how to change the locale.
+So far, we’ve explained the concept of the scope, and once you understand the scope, it’s easy to understand how to change the locale.
 
 ### Global Scope
 
