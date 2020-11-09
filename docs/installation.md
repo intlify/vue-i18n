@@ -10,7 +10,7 @@
 
 <https://unpkg.com/vue-i18n@next>
 
-[unpkg.com](https://unpkg.com) provides NPM-based CDN links. The above link will always point to the latest release on NPM.
+[unpkg.com](https://unpkg.com) provides aw npm-based CDN links. The above link will always point to the latest release on npm.
 
 ### Global import
 
