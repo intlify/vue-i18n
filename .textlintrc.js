@@ -22,7 +22,9 @@ module.exports = {
         'TODO',
         'API',
         'ECMA',
-        'MEMO'
+        'MEMO',
+        'YAML',
+        'CLI'
       ]
     },
     'abbr-within-parentheses': true,

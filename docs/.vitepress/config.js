@@ -96,16 +96,20 @@ const config = {
               collapsable: false,
               children: [
                 {
-                  text: "Custom Directive Localization",
-                  link: './advanced/directive'
+                  text: 'Custom Directive Localization',
+                  link: '/advanced/directive'
                 },
                 {
-                  text: "Component Interpolation",
-                  link: './advanced/component'
+                  text: 'Component Interpolation',
+                  link: '/advanced/component'
                 },
                 {
-                  text: "Message Functions",
-                  link: './advanced/function'
+                  text: 'Single File Components',
+                  link: '/advanced/sfc'
+                },
+                {
+                  text: 'Message Functions',
+                  link: '/advanced/function'
                 },
                 {
                   text: 'Composition API',
