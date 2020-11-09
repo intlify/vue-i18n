@@ -24,6 +24,7 @@ module.exports = {
         'ECMA',
         'MEMO',
         'YAML',
+        'JSON5',
         'CLI'
       ]
     },

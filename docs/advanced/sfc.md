@@ -91,9 +91,9 @@ module.exports = {
 
 ## YAML loading
 
-`i18n` custom blocks need to specify `JSON` format, also you can use `YAML` format by using pre-loader feature of `vue-loader`.
+You can load `yaml` format without yaml-loader.
 
-The `i18n` custom blocks below of `YAML` format:
+The `i18n` custom blocks below of `yaml` format:
 
 ```html
 <i18n lang="yaml">
@@ -101,6 +101,27 @@ en:
   hello: "hello world!"
 ja:
   hello: "こんにちは、世界！"
+</i18n>
+```
+
+## JSON5 loading
+
+You can load `json5` format.
+
+The `i18n` custom blocks below of `json5` format:
+
+```html
+<i18n lang="json5">
+{
+  // for english
+  en: {
+    hello: "hello world!"
+  },
+  // for japanese
+  ja: {
+    hello: "こんにちは、世界！"
+  }
+}
 </i18n>
 ```
 
