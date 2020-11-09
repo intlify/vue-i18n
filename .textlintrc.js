@@ -7,11 +7,14 @@ module.exports = {
     'no-empty-section': false, // TODO: later
     terminology: {},
     'period-in-list-item': true,
-    'no-surrogate-pair': true,
+    'no-surrogate-pair': false,
     '@textlint-rule/no-unmatched-pair': true,
     'max-doc-width': 360,
     'unexpanded-acronym': {
       ignore_acronyms: [
+        'NPM',
+        'CDN',
+        'WIP',
         'NOTE',
         'DOM',
         'XSS',
