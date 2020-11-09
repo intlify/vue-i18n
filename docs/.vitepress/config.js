@@ -96,6 +96,10 @@ const config = {
               collapsable: false,
               children: [
                 {
+                  text: "Custom Directive Localization",
+                  link: './advanced/directive'
+                },
+                {
                   text: "Component Interpolation",
                   link: './advanced/component'
                 },

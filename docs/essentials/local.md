@@ -81,13 +81,13 @@ Outputs the following:
 </div>
 ```
 
-As in the example above, if the component doesn’t have the locale message, it falls back to global scope. As explained [this](scope#local-scope-2), due to the `locale` of local scope inherits from global scope, so the component uses the language set in global scope (in the above example: `locale: 'ja'`)
+As in the example above, if the component doesn’t have the locale message, it falls back to global scope. As explained the [here](scope#local-scope-2), due to the `locale` of local scope inherits from global scope, so the component uses the language set in global scope (in the above example: `locale: 'ja'`)
 
-And also, as explaine [this](fallback#explicit-fallback-with-one-locale), note that, by default, falling back to global scope generates two warnings in the console:
+And also, as explained the [here](fallback#explicit-fallback-with-one-locale), note that, by default, falling back to global scope generates two warnings in the console:
 
 ```
-[vue-i18n] Value of key 'message.greeting' is not a string!
-[vue-i18n] Fall back to translate the keypath 'message.greeting' with root locale.
+[vue-i18n] Not found 'message.greeting' key in 'ja' locale messages.
+[vue-i18n] Fall back to translate 'message.greeting' with root locale.
 ```
 
 If you want to localize using the component locale, you can do that with `sync: false` and `locale` in the `i18n` component option.
