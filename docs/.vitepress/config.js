@@ -87,7 +87,7 @@ const config = {
                 },
                 {
                   text: 'Local Scope Based Localization',
-                  link: '/essentials/component'
+                  link: '/essentials/local'
                 }
               ]
             },
