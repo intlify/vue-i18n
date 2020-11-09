@@ -75,7 +75,7 @@ app.use(i18n)
 app.mount('#app')
 ```
 
-the following output:
+The following output:
 
 ```html
 <div id="app">
@@ -95,15 +95,17 @@ The children of `i18n-t` component are interpolated with locale message of `path
 `<a :href="url" target="_blank">{{ $t('tos') }}</a>`
 :::
 
-is interpolated with `term` locale message.
+Is interpolated with `term` locale message.
 
 In the above example, the component interpolation follows the **list interpolation**. The children of `i18n-t` component are interpolated by their order of appearance.
 
-You can choose the root container's node type by specifying a `tag` prop. If omitted, it defaults to [Fragments](https://v3.vuejs.org/guide/migration/fragments.html#overview).
+<!-- textlint-disable -->
+You can choose the root node element type by specifying a `tag` prop. If omitted, it defaults to [Fragments](https://v3.vuejs.org/guide/migration/fragments.html#overview).
+<!-- textlint-enable -->
 
 ## Slots syntax usage
 
-It's more convenient to use the named slots syntax. For example the below.
+It’s more convenient to use the named slots syntax. For example the below.
 
 Template:
 
