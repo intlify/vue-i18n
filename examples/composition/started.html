@@ -43,7 +43,13 @@
       const app = createApp({
         setup() {
           // `useI18n` return the global compser that is created at `createI18n`
-          return useI18n()
+          // `useI18n` must to be called at head of `setup` function
+          const { t, locale } = useI18n()
+
+          // Something to do ...
+          //
+
+          return { t, locale }
         }
       })
       app.use(i18n)

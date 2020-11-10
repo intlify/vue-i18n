@@ -8,7 +8,7 @@
   </head>
   <body>
     <div id="app">
-      <h1>DateTime Localization with Composable API</h1>
+      <h1>DateTime Localization for Composition API</h1>
       <form>
         <label>{{ t('language') }}</label>
         <select v-model="locale">
@@ -63,7 +63,12 @@
       const app = createApp({
         data: () => ({ now: new Date() }),
         setup() {
-          return useI18n()
+          const { t, d, locale } = useI18n()
+
+          // Something to do ...
+          //
+
+          return { t, d, locale }
         }
       })
       app.use(i18n)

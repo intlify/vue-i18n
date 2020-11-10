@@ -42,7 +42,12 @@
 
       const app = createApp({
         setup() {
-          return useI18n()
+          const { t, locale } = useI18n()
+
+          // Something to do ...
+          //
+
+          return { t, locale }
         }
       })
       app.use(i18n)

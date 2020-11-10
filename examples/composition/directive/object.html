@@ -36,8 +36,9 @@
 
       const app = createApp({
         setup() {
+          useI18n()
           const byePath = ref('message.bye')
-          return { byePath, ...useI18n() }
+          return { byePath }
         }
       })
       app.use(i18n)

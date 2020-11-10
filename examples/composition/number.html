@@ -16,7 +16,7 @@
   </head>
   <body>
     <div id="app">
-      <h1>Number Localization with Composable API</h1>
+      <h1>Number Localization for Composition API</h1>
       <form>
         <label>{{ t('language') }}</label>
         <select v-model="locale">
@@ -63,7 +63,12 @@
       const app = createApp({
         data: () => ({ money: 1000 }),
         setup() {
-          return useI18n()
+          const { t, n, locale } = useI18n()
+
+          // Something to do ...
+          //
+
+          return { t, n, locale }
         }
       })
       app.use(i18n)

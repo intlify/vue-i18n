@@ -44,8 +44,9 @@
 
       const app = createApp({
         setup() {
+          const { locale } = useI18n()
           const target = ref('message.hello')
-          return { target, ...useI18n() }
+          return { target, locale }
         }
       })
       app.use(i18n)

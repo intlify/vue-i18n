@@ -77,8 +77,9 @@
 
       const app = createApp({
         setup() {
+          const { t } = useI18n()
           const count = ref(0)
-          return { count, ...useI18n() }
+          return { count, t }
         }
       })
       app.use(i18n)

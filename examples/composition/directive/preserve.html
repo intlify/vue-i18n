@@ -44,7 +44,7 @@
       const app = createApp({
         setup() {
           const toggle = ref(true)
-          return { toggle, ...useI18n() }
+          return { toggle }
         }
       })
       app.use(i18n)

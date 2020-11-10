@@ -52,19 +52,29 @@
           </div>
         `,
         setup() {
-          return useI18n({
+          const { t } = useI18n({
             messages: {
               en: { message: { hello: 'hello component1' } },
               ja: { message: { hello: 'こんにちは、component1' } }
             }
           })
+
+          // Something to do ...
+          //
+
+          return { t }
         }
       }
 
       const app = createApp({
         components: { Component1 },
         setup() {
-          return useI18n()
+          const { t } = useI18n()
+
+          // Something to do ...
+          //
+
+          return { t }
         }
       })
       app.use(i18n)

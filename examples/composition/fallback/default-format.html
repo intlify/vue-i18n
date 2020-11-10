@@ -12,8 +12,7 @@
       <p>{{ t("messages.hello", { name: 'kazupon' }, 'hello, {name}!') }}</p>
       <!-- `default` option (string) -->
       <p>
-        {{ t("messages.hello", { name: 'kazupon' }, { default: 'hi, {name}!' })
-        }}
+        {{ t("messages.hello", { name: 'kazupon' }, { default: 'hi, {name}!' }) }}
       </p>
       <!-- `default` option (true) -->
       <p>
@@ -36,7 +35,12 @@
 
       const app = createApp({
         setup() {
-          return useI18n()
+          const { t } = useI18n()
+
+          // Something to do ...
+          //
+
+          return { t }
         }
       })
       app.use(i18n)

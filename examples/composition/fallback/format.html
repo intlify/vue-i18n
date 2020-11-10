@@ -27,7 +27,12 @@
 
       const app = createApp({
         setup() {
-          return useI18n()
+          const { t } = useI18n()
+
+          // Something to do ...
+          //
+
+          return { t }
         }
       })
       app.use(i18n)

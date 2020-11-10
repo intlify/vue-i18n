@@ -33,7 +33,7 @@
     </div>
     <script>
       const { createApp } = Vue
-      const { createI18n, useI18n } = VueI18n
+      const { createI18n } = VueI18n
 
       const i18n = createI18n({
         legacy: false,
@@ -68,11 +68,7 @@
         }
       })
 
-      const app = createApp({
-        setup() {
-          return useI18n()
-        }
-      })
+      const app = createApp({})
       app.use(i18n)
       app.mount('#app')
     </script>
