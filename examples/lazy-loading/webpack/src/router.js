@@ -1,12 +1,13 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import { setI18nLanguage } from './i18n'
+import { setI18nLanguage, loadLocaleMessages } from './i18n'
 
 import Home from './pages/Home.vue'
 import About from './pages/About.vue'
 
 export function setupRouter(i18n) {
   const SUPPORT_LOCALES = ['en', 'ja']
-  const { global: composer } = i18n
+  const locale =
+    i18n.mode === 'legacy' ? i18n.global.locale : i18n.global.locale.value
 
   // setup routes
   const routes = [
@@ -22,7 +23,7 @@ export function setupRouter(i18n) {
     },
     {
       path: '/:pathMatch(.*)*',
-      redirect: () => `/${composer.locale.value}`
+      redirect: () => `/${locale}`
     }
   ]
 
@@ -33,7 +34,7 @@ export function setupRouter(i18n) {
   })
 
   // navigation guards
-  router.beforeEach(async (to, from, next) => {
+  router.beforeEach((to, from, next) => {
     const locale = to.params.locale
 
     // check locale
@@ -42,12 +43,7 @@ export function setupRouter(i18n) {
     }
 
     // load locale messages
-    if (!composer.availableLocales.includes(locale)) {
-      const messages = await import(
-        /* webpackChunkName: "locale-[request]" */ `./locales/${locale}.json`
-      )
-      composer.setLocaleMessage(locale, messages.default)
-    }
+    loadLocaleMessages(i18n, locale)
 
     // set i18n language
     setI18nLanguage(i18n, locale)

@@ -25,6 +25,7 @@ module.exports = {
         'MEMO',
         'YAML',
         'JSON5',
+        'HTTP',
         'CLI'
       ]
     },

@@ -2,32 +2,33 @@
   <nav>
     <div class="navigation">
       <router-link :to="{ name: 'home', params: { locale } }">
-        {{ $t('navigations.home') }}
+        {{ t('navigations.home') }}
       </router-link>
       |
       <router-link :to="{ name: 'about', params: { locale } }">
-        {{ $t('navigations.about') }}
+        {{ t('navigations.about') }}
       </router-link>
     </div>
     <form class="language">
-      <label>{{ $t('labels.language') }}</label>
+      <label>{{ t('labels.language') }}</label>
       <select v-model="locale">
         <option value="en">en</option>
         <option value="ja">ja</option>
       </select>
     </form>
   </nav>
-  <router-view></router-view>
+  <router-view />
 </template>
 
 <script>
 import { ref, watch, defineComponent } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
+import { useI18n } from 'vue-i18n'
 
 export default defineComponent({
   name: 'App',
   setup() {
-    const locale = ref('en')
+    const { t, locale } = useI18n()
     const router = useRouter()
     const route = useRoute()
 
@@ -39,7 +40,7 @@ export default defineComponent({
       })
     })
 
-    return { locale }
+    return { t, locale }
   }
 })
 </script>

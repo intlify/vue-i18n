@@ -108,6 +108,10 @@ const config = {
                   link: '/advanced/sfc'
                 },
                 {
+                  text: 'Lazy Loading',
+                  link: '/advanced/lazy'
+                },
+                {
                   text: 'Message Functions',
                   link: '/advanced/function'
                 },

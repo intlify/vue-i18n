@@ -3,8 +3,19 @@ import App from './App.vue'
 import './index.css'
 import { setupRouter } from './router'
 import { setupI18n } from './i18n'
+import en from './locales/en'
 
-const i18n = setupI18n()
+const i18n = setupI18n({
+  legacy: false,
+  locale: 'en',
+  fallbackLocale: 'en',
+  messages: {
+    en
+  }
+})
 const router = setupRouter(i18n)
 
-createApp(App).use(router).use(i18n).mount('#app')
+const app = createApp(App)
+app.use(i18n)
+app.use(router)
+app.mount('#app')
