@@ -280,9 +280,11 @@ describe('custom process', () => {
     const ctx = createMessageContext<string | MockVNode>({
       processor: {
         normalize,
-        interpolate
+        interpolate,
+        type: 'mock'
       }
     })
+    expect(ctx.type).toEqual('mock')
     expect(msg(ctx)).toMatchSnapshot()
   })
 

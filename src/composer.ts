@@ -759,7 +759,8 @@ export function createComposer<
   const interpolate = (val: unknown): MessageType<VNode> => val as VNode
   const processor = {
     normalize,
-    interpolate
+    interpolate,
+    type: 'vnode'
   } as MessageProcessor<VNode>
 
   // __transrateVNode, using for `i18n-t` component
