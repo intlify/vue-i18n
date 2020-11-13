@@ -83,6 +83,7 @@ export const enum HelperNameMap {
   PLURAL = 'plural',
   LINKED = 'linked',
   MESSAGE = 'message',
+  TYPE = 'type',
   INTERPOLATE = 'interpolate',
   NORMALIZE = 'normalize'
 }
@@ -94,6 +95,7 @@ export interface MessageContext<T = string> {
   plural(messages: T[]): T
   linked(key: Path, modifier?: string): MessageType<T>
   message(key: Path): MessageFunction<T>
+  type: string
   interpolate: MessageInterpolate<T>
   normalize: MessageNormalize<T>
 }
@@ -202,6 +204,11 @@ export function createMessageContext<T = string, N = {}>(
       ? options.processor.interpolate
       : ((DEFAULT_INTERPOLATE as unknown) as MessageInterpolate<T>)
 
+  const type =
+    isPlainObject(options.processor) && isString(options.processor.type)
+      ? options.processor.type
+      : DEFAULT_MESSAGE_DATA_TYPE
+
   const ctx = {
     [HelperNameMap.LIST]: list,
     [HelperNameMap.NAMED]: named,
@@ -212,6 +219,7 @@ export function createMessageContext<T = string, N = {}>(
       return isString(modifier) ? _modifier(modifier)(msg as T) : msg
     },
     [HelperNameMap.MESSAGE]: message,
+    [HelperNameMap.TYPE]: type,
     [HelperNameMap.INTERPOLATE]: interpolate,
     [HelperNameMap.NORMALIZE]: normalize
   }
