@@ -206,15 +206,11 @@ Object {
   "end": 50,
   "helpers": Array [
     "normalize",
-    "modifier",
-    "type",
-    "message",
+    "linked",
     "interpolate",
     "list",
     "named",
-    "pluralIndex",
-    "pluralRule",
-    "orgPluralRule",
+    "plural",
   ],
   "loc": Object {
     "end": Object {
@@ -237,14 +233,10 @@ Object {
 exports[`transform: helpers 1`] = `
 Array [
   "normalize",
-  "modifier",
-  "type",
-  "message",
+  "linked",
   "interpolate",
   "list",
   "named",
-  "pluralIndex",
-  "pluralRule",
-  "orgPluralRule",
+  "plural",
 ]
 `;

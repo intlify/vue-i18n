@@ -53,22 +53,15 @@ function traverseNode(node: Node, transformer: Transformer): void {
   switch (node.type) {
     case NodeTypes.Plural:
       traverseNodes((node as PluralNode).cases, transformer)
-      transformer.helper(HelperNameMap.PLURAL_INDEX)
-      transformer.helper(HelperNameMap.PLURAL_RULE)
-      transformer.helper(HelperNameMap.ORG_PLURAL_RULE)
+      transformer.helper(HelperNameMap.PLURAL)
       break
     case NodeTypes.Message:
       traverseNodes((node as MessageNode).items, transformer)
       break
     case NodeTypes.Linked:
       const linked = node as LinkedNode
-      if (linked.modifier) {
-        traverseNode(linked.modifier, transformer)
-        transformer.helper(HelperNameMap.MODIFIER)
-        transformer.helper(HelperNameMap.TYPE)
-      }
       traverseNode(linked.key, transformer)
-      transformer.helper(HelperNameMap.MESSAGE)
+      transformer.helper(HelperNameMap.LINKED)
       break
     case NodeTypes.List:
       transformer.helper(HelperNameMap.INTERPOLATE)
