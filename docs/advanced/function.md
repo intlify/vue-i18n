@@ -9,7 +9,7 @@ For example, suppose you want to handle the following message in French:
 - Manger de la soupe
 - Manger une pomme
 - Manger du pain
-- Manger de l'orge
+- Manger de l’orge
 
 As you can see, the article preceding the noun will vary based on gender and phonetics.
 
@@ -34,7 +34,7 @@ const messages = {
 }
 ```
 
-The message function accept the **Message context** as the first argument, which has several props and functions. We'll explain how to use it in the following sections, so let's go on.
+The message function accept the **Message context** as the first argument, which has several props and functions. We’ll explain how to use it in the following sections, so let’s go on.
 
 The use of the message function is very easy! You just specify the key of the message function with `$t` or `t`:
 
@@ -67,7 +67,7 @@ const messages = {
 }
 ```
 
-If you haven't already, it's recommended to read through the [Vue render function](https://v3.vuejs.org/guide/render-function.html#the-dom-tree) before diving into message functions.
+If you haven’t already, it’s recommended to read through the [Vue render function](https://v3.vuejs.org/guide/render-function.html#the-dom-tree) before diving into message functions.
 :::
 
 ## Named interpolation

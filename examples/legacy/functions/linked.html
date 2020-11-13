@@ -33,13 +33,19 @@
               the_world: 'the world',
               dio: 'DIO:',
               // '@:message.dio @:message.the_world !!!!'
-              linked: ({ linked }) => `${linked('message.dio')} ${linked('message.the_world')} !!!!`,
+              linked: ({ linked }) =>
+                `${linked('message.dio')} ${linked('message.the_world')} !!!!`,
               homeAddress: 'Home address',
               // 'Please provide @.lower:message.homeAddress'
-              missingHomeAddress: ({ linked }) => `Please provide ${linked('message.homeAddress', 'lower')}`,
+              missingHomeAddress: ({ linked }) =>
+                `Please provide ${linked('message.homeAddress', 'lower')}`,
               snake: 'snake case',
               // "custom modifiers example: @.snakeCase:{'message.snake'}"
-              custom_modifier: ({ linked }) => `custom modifiers example: ${linked('message.snake', 'snakeCase')}`
+              custom_modifier: ({ linked }) =>
+                `custom modifiers example: ${linked(
+                  'message.snake',
+                  'snakeCase'
+                )}`
             }
           },
           ja: {
@@ -48,13 +54,21 @@
               the_world: 'ザ・ワールド',
               dio: 'ディオ:',
               // '@:message.dio @:message.the_world ！！！！'
-              linked: ({ linked }) => `${linked('message.dio')} ${linked('message.the_world')} ！！！！`,
+              linked: ({ linked }) =>
+                `${linked('message.dio')} ${linked(
+                  'message.the_world'
+                )} ！！！！`,
               homeAddress: 'ホームアドレス',
               // 'どうか、@.lower:message.homeAddress を提供してください。'
-              missingHomeAddress: ({ linked }) => `どうか、${linked('message.homeAddress', 'lower')} を提供してください。`,
+              missingHomeAddress: ({ linked }) =>
+                `どうか、${linked(
+                  'message.homeAddress',
+                  'lower'
+                )} を提供してください。`,
               snake: 'スネーク ケース',
               // "カスタム修飾子の例: @.snakeCase:{'message.snake'}"
-              custom_modifier: ({ linked }) => `カスタム修飾子の例: ${linked('message.snake', 'snakeCase')}`
+              custom_modifier: ({ linked }) =>
+                `カスタム修飾子の例: ${linked('message.snake', 'snakeCase')}`
             }
           }
         },
