@@ -2,23 +2,23 @@
 
 exports[`@.caml:{'no apples'} | {0} apple | {n}　apples: code 1`] = `
 "function __msg__ (ctx) {
-  const { normalize: _normalize, modifier: _modifier, type: _type, message: _message, interpolate: _interpolate, list: _list, named: _named, pluralIndex: _pluralIndex, pluralRule: _pluralRule, orgPluralRule: _orgPluralRule } = ctx
-  return [
+  const { normalize: _normalize, linked: _linked, interpolate: _interpolate, list: _list, named: _named, plural: _plural } = ctx
+  return _plural([
     _normalize([
-      _modifier(\\"caml\\")(_message(\\"no apples\\")(ctx), _type)
+      _linked(\\"no apples\\", \\"caml\\")
     ]), _normalize([
       _interpolate(_list(0)), \\" apple\\"
     ]), _normalize([
       _interpolate(_named(\\"n\\")), \\"　apples\\"
     ])
-  ][_pluralRule(_pluralIndex, 3, _orgPluralRule)]
+  ])
 }"
 `;
 
 exports[`edge cases  | | | : code 1`] = `
 "function __msg__ (ctx) {
-  const { normalize: _normalize, pluralIndex: _pluralIndex, pluralRule: _pluralRule, orgPluralRule: _orgPluralRule } = ctx
-  return [
+  const { normalize: _normalize, plural: _plural } = ctx
+  return _plural([
     _normalize([
       
     ]), _normalize([
@@ -28,7 +28,7 @@ exports[`edge cases  | | | : code 1`] = `
     ]), _normalize([
       
     ])
-  ][_pluralRule(_pluralIndex, 4, _orgPluralRule)]
+  ])
 }"
 `;
 
@@ -72,8 +72,8 @@ exports[`edge cases hi %s !: code 1`] = `
 
 exports[`edge cases no apples %| one apple % |  too much apples  : code 1`] = `
 "function __msg__ (ctx) {
-  const { normalize: _normalize, pluralIndex: _pluralIndex, pluralRule: _pluralRule, orgPluralRule: _orgPluralRule } = ctx
-  return [
+  const { normalize: _normalize, plural: _plural } = ctx
+  return _plural([
     _normalize([
       \\"no apples %\\"
     ]), _normalize([
@@ -81,7 +81,7 @@ exports[`edge cases no apples %| one apple % |  too much apples  : code 1`] = `
     ]), _normalize([
       \\"too much apples  \\"
     ])
-  ][_pluralRule(_pluralIndex, 3, _orgPluralRule)]
+  ])
 }"
 `;
 
