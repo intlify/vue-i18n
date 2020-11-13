@@ -2,10 +2,6 @@
 
 Vue I18n can use message format syntax to localize the messages to be displayed in the UI. Vue I18n messages are interpolations and messages with various feature syntax.
 
-Under the hood, The messages written in message format syntax are compiled into message functions with Vue I18n message compiler. Message functions and caching mechanism to maximize performance gains.
-
-If you prefer the raw power of JavaScript, you can also [directly write message functions](../advanced/function) instead of messages.
-
 ## Interpolations
 
 Vue I18n supports interpolation using placeholders `{}` like "Mustache".

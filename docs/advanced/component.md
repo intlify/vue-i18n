@@ -89,7 +89,7 @@ The following output:
 
 About the above example, see the [example](https://github.com/intlify/vue-i18n-next/blob/master/examples/legacy/components/translation.html)
 
-The children of `i18n-t` component are interpolated with locale message of `path` prop. In the above example,
+The children of `i18n-t` component are interpolated with locale message of `keypath` prop. In the above example,
 
 :::v-pre
 `<a :href="url" target="_blank">{{ $t('tos') }}</a>`
