@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <title>List interpolation example</title>
+    <title>Example: Named interpolatino with message function</title>
     <script src="../../../node_modules/vue/dist/vue.global.js"></script>
     <script src="../../../dist/vue-i18n.global.js"></script>
   </head>
@@ -15,7 +15,7 @@
           <option value="ja">ja</option>
         </select>
       </form>
-      <p>{{ $t('message.greeting', ['kazupon']) }}</p>
+      <p>{{ $t('message.greeting', { name: 'kazupon' }) }}</p>
     </div>
     <script>
       const { createApp } = Vue
@@ -27,13 +27,13 @@
           en: {
             message: {
               language: 'Language',
-              greeting: 'Hello, {0}!'
+              greeting: ctx => `Hello, ${ctx.named('name')}!`
             }
           },
           ja: {
             message: {
               language: '言語',
-              greeting: 'こんにちは、{0}！'
+              greeting: ctx => `こんにちは、${ctx.named('name')}！`
             }
           }
         }

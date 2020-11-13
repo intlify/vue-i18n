@@ -134,18 +134,13 @@ function createCodeGenerator(
 
 function generateLinkedNode(generator: CodeGenerator, node: LinkedNode): void {
   const { helper } = generator
-  if (node.modifier) {
-    generator.push(`${helper(HelperNameMap.MODIFIER)}(`)
-    generateNode(generator, node.modifier)
-    generator.push(')(')
-  }
-  generator.push(`${helper(HelperNameMap.MESSAGE)}(`)
+  generator.push(`${helper(HelperNameMap.LINKED)}(`)
   generateNode(generator, node.key)
-  generator.push(')(ctx)')
   if (node.modifier) {
-    // TODO: should be refactorerd! (remove TYPE!)
-    generator.push(`, ${helper(HelperNameMap.TYPE)})`)
+    generator.push(`, `)
+    generateNode(generator, node.modifier)
   }
+  generator.push(`)`)
 }
 
 function generateMessageNode(
@@ -170,7 +165,7 @@ function generateMessageNode(
 function generatePluralNode(generator: CodeGenerator, node: PluralNode): void {
   const { helper } = generator
   if (node.cases.length > 1) {
-    generator.push('[')
+    generator.push(`${helper(HelperNameMap.PLURAL)}([`)
     generator.indent()
     const length = node.cases.length
     for (let i = 0; i < length; i++) {
@@ -181,11 +176,7 @@ function generatePluralNode(generator: CodeGenerator, node: PluralNode): void {
       generator.push(', ')
     }
     generator.deindent()
-    generator.push(
-      `][${helper(HelperNameMap.PLURAL_RULE)}(${helper(
-        HelperNameMap.PLURAL_INDEX
-      )}, ${length}, ${helper(HelperNameMap.ORG_PLURAL_RULE)})]`
-    )
+    generator.push(`])`)
   }
 }
 

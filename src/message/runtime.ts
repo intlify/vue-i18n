@@ -1,3 +1,4 @@
+import { Path } from '../path'
 import {
   isNumber,
   isFunction,
@@ -79,12 +80,9 @@ export interface MessageContextOptions<T = string, N = {}> {
 export const enum HelperNameMap {
   LIST = 'list',
   NAMED = 'named',
-  PLURAL_INDEX = 'pluralIndex',
-  PLURAL_RULE = 'pluralRule',
-  ORG_PLURAL_RULE = 'orgPluralRule',
-  MODIFIER = 'modifier',
+  PLURAL = 'plural',
+  LINKED = 'linked',
   MESSAGE = 'message',
-  TYPE = 'type', // TODO: should be removed!
   INTERPOLATE = 'interpolate',
   NORMALIZE = 'normalize'
 }
@@ -93,12 +91,9 @@ export const enum HelperNameMap {
 export interface MessageContext<T = string> {
   list(index: number): unknown
   named(key: string): unknown
-  pluralIndex: number
-  pluralRule: PluralizationRule
-  orgPluralRule?: PluralizationRule
-  modifier(name: string): LinkedModify<T>
-  message(name: string): MessageFunction<T>
-  type?: string // TODO: should be removed!
+  plural(messages: T[]): T
+  linked(key: Path, modifier?: string): MessageType<T>
+  message(key: Path): MessageFunction<T>
   interpolate: MessageInterpolate<T>
   normalize: MessageNormalize<T>
 }
@@ -151,8 +146,8 @@ export function createMessageContext<T = string, N = {}>(
   options: MessageContextOptions<T, N> = {}
 ): MessageContext<T> {
   const locale = options.locale
-  const pluralIndex = getPluralIndex(options)
 
+  const pluralIndex = getPluralIndex(options)
   const pluralRule =
     isObject(options.pluralRules) &&
     isString(locale) &&
@@ -165,6 +160,8 @@ export function createMessageContext<T = string, N = {}>(
     isFunction(options.pluralRules[locale])
       ? pluralDefault
       : undefined
+  const plural = (messages: T[]): T =>
+    messages[pluralRule(pluralIndex, messages.length, orgPluralRule)]
 
   const _list = options.list || []
   const list = (index: number): unknown => _list[index]
@@ -174,31 +171,25 @@ export function createMessageContext<T = string, N = {}>(
   isNumber(options.pluralIndex) && normalizeNamed(pluralIndex, _named)
   const named = (key: string): unknown => _named[key]
 
-  const modifier = (name: string): LinkedModify<T> =>
-    options.modifiers
-      ? options.modifiers[name]
-      : ((DEFAULT_MODIFIER as unknown) as LinkedModify<T>)
-
   // TODO: need to design resolve message function?
-  function message(name: string): MessageFunction<T> {
+  function message(key: Path): MessageFunction<T> {
     // prettier-ignore
     const msg = isFunction(options.messages)
-      ? options.messages(name)
+      ? options.messages(key)
       : isObject(options.messages)
-        ? options.messages[name]
+        ? options.messages[key]
         : false
     return !msg
       ? options.parent
-        ? options.parent.message(name) // resolve from parent messages
+        ? options.parent.message(key) // resolve from parent messages
         : ((DEFAULT_MESSAGE as unknown) as MessageFunction<T>)
       : msg
   }
 
-  // TODO: should be removed!
-  const type =
-    isPlainObject(options.processor) && isString(options.processor.type)
-      ? options.processor.type
-      : DEFAULT_MESSAGE_DATA_TYPE
+  const _modifier = (name: string): LinkedModify<T> =>
+    options.modifiers
+      ? options.modifiers[name]
+      : ((DEFAULT_MODIFIER as unknown) as LinkedModify<T>)
 
   const normalize =
     isPlainObject(options.processor) && isFunction(options.processor.normalize)
@@ -211,16 +202,19 @@ export function createMessageContext<T = string, N = {}>(
       ? options.processor.interpolate
       : ((DEFAULT_INTERPOLATE as unknown) as MessageInterpolate<T>)
 
-  return {
+  const ctx = {
     [HelperNameMap.LIST]: list,
     [HelperNameMap.NAMED]: named,
-    [HelperNameMap.PLURAL_INDEX]: pluralIndex,
-    [HelperNameMap.PLURAL_RULE]: pluralRule,
-    [HelperNameMap.ORG_PLURAL_RULE]: orgPluralRule,
-    [HelperNameMap.MODIFIER]: modifier,
+    [HelperNameMap.PLURAL]: plural,
+    [HelperNameMap.LINKED]: (key: Path, modifier?: string): MessageType<T> => {
+      // TODO: should check `key`
+      const msg = message(key)(ctx)
+      return isString(modifier) ? _modifier(modifier)(msg as T) : msg
+    },
     [HelperNameMap.MESSAGE]: message,
-    [HelperNameMap.TYPE]: type, // TODO: should be removed!
     [HelperNameMap.INTERPOLATE]: interpolate,
     [HelperNameMap.NORMALIZE]: normalize
   }
+
+  return ctx
 }

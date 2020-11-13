@@ -352,7 +352,7 @@ describe('linked', () => {
 
     expect(code).toMatchSnapshot(msg)
     expect(code).toMatch(`return _normalize([`)
-    expect(code).toMatch(`"hi ", _message("name")(ctx), " !"`)
+    expect(code).toMatch(`"hi ", _linked("name"), " !"`)
     expect(code).toMatch(`])`)
 
     expect(map!.sourcesContent).toEqual([msg])
@@ -371,7 +371,7 @@ describe('linked', () => {
 
     expect(code).toMatchSnapshot(msg)
     expect(code).toMatch(`return _normalize([`)
-    expect(code).toMatch(`"hi ", _message(_interpolate(_list(0)))(ctx), " !"`)
+    expect(code).toMatch(`"hi ", _linked(_interpolate(_list(0))), " !"`)
     expect(code).toMatch(`])`)
 
     expect(map!.sourcesContent).toEqual([msg])
@@ -390,9 +390,7 @@ describe('linked', () => {
 
     expect(code).toMatchSnapshot(msg)
     expect(code).toMatch(`return _normalize([`)
-    expect(code).toMatch(
-      `"hi ", _message(_interpolate(_named("name")))(ctx), " !"`
-    )
+    expect(code).toMatch(`"hi ", _linked(_interpolate(_named("name"))), " !"`)
     expect(code).toMatch(`])`)
 
     expect(map!.sourcesContent).toEqual([msg])
@@ -411,9 +409,7 @@ describe('linked', () => {
 
     expect(code).toMatchSnapshot(msg)
     expect(code).toMatch(`return _normalize([`)
-    expect(code).toMatch(
-      `"hi ", _modifier("upper")(_message("name")(ctx), _type), " !"`
-    )
+    expect(code).toMatch(`"hi ", _linked("name", "upper"), " !"`)
     expect(code).toMatch(`])`)
 
     expect(map!.sourcesContent).toEqual([msg])
@@ -433,7 +429,7 @@ describe('plural', () => {
     const { code, map } = generate(ast, { sourceMap: true })
 
     expect(code).toMatchSnapshot(msg)
-    expect(code).toMatch(`return [`)
+    expect(code).toMatch(`return _plural([`)
     expect(code).toMatch(`_normalize([`)
     expect(code).toMatch(`"no apples"`)
     expect(code).toMatch(` ]), _normalize([`)
@@ -441,7 +437,7 @@ describe('plural', () => {
     expect(code).toMatch(` ]), _normalize([`)
     expect(code).toMatch(`"too much apples  "`)
     expect(code).toMatch(` ])`)
-    expect(code).toMatch(`][_pluralRule(_pluralIndex, 3, _orgPluralRule)]`)
+    expect(code).toMatch(`])`)
 
     expect(map!.sourcesContent).toEqual([msg])
     const consumer = await new SourceMapConsumer(map as RawSourceMap)
@@ -458,15 +454,15 @@ describe('plural', () => {
     const { code, map } = generate(ast, { sourceMap: true })
 
     expect(code).toMatchSnapshot(msg)
-    expect(code).toMatch(`return [`)
+    expect(code).toMatch(`return _plural([`)
     expect(code).toMatch(`_normalize([`)
-    expect(code).toMatch(`_modifier("caml")(_message("no apples")(ctx), _type)`)
+    expect(code).toMatch(`_linked("no apples", "caml")`)
     expect(code).toMatch(` ]), _normalize([`)
     expect(code).toMatch(`_interpolate(_list(0)), " apple"`)
     expect(code).toMatch(` ]), _normalize([`)
     expect(code).toMatch(`_interpolate(_named("n")), "　apples"`)
     expect(code).toMatch(` ])`)
-    expect(code).toMatch(`][_pluralRule(_pluralIndex, 3, _orgPluralRule)]`)
+    expect(code).toMatch(`])`)
 
     expect(map!.sourcesContent).toEqual([msg])
     const consumer = await new SourceMapConsumer(map as RawSourceMap)

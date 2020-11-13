@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <title>List interpolation example</title>
+    <title>Example: List interpolation with Message Function</title>
     <script src="../../../node_modules/vue/dist/vue.global.js"></script>
     <script src="../../../dist/vue-i18n.global.js"></script>
   </head>
@@ -27,13 +27,13 @@
           en: {
             message: {
               language: 'Language',
-              greeting: 'Hello, {0}!'
+              greeting: ctx => `Hello, ${ctx.list(0)}!`
             }
           },
           ja: {
             message: {
               language: '言語',
-              greeting: 'こんにちは、{0}！'
+              greeting: ctx => `こんにちは、${ctx.list(0)}！`
             }
           }
         }
