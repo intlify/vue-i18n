@@ -107,5 +107,5 @@ i18n.global.locale = 'en'
 ```
 
 :::warning NOTICE
-Changing `locale` of local scope does not affect `locale` of global scope. This means that changing the locale in `$i18n.locale` in local scope component will not change the entire application’s locale, only that component. Only `$i18n.locale` can change the entire application’s locale.
+Changing `locale` of local scope does not affect `locale` of global scope. This means that changing the locale in `$i18n.locale` in local scope component will not change the entire application’s locale, only that component. Use `$root.$i18n.locale` instead of `$i18n.locale`.
 :::
