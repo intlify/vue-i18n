@@ -23,7 +23,7 @@ export default {
       <div class="sponsors">
         <h4>🥈 Silver Sponsors</h4>
         <Sponsor v-for="silver in silvers" v-bind="silver" />
-        <h4 class="title">🥉 Bronze Sponsors</h4>
+        <h4 class="sponsor-title">🥉 Bronze Sponsors</h4>
         <Sponsor v-for="bronze in bronzes" v-bind="bronze" />
       </div>
     </template>
@@ -42,7 +42,10 @@ form {
   text-align:center;
   padding: 24px 0 24px 0;
 }
-.title {
+.sponsor-title {
   padding: 12px 0 0 0;
+}
+.hero .action .nav-item {
+  margin-left: 0;
 }
 </style>
