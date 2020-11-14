@@ -39,12 +39,12 @@ const config = {
             link: '/api/'
           },
           {
-            text: 'Release Notes',
+            text: 'Chnagelog',
             link: 'https://github.com/intlify/vue-i18n-next/blob/master/CHANGELOG.md'
           }
         ],
         sidebar: {
-          '/guide/': [
+          '/': [
             {
               text: 'Introduction',
               link: '/introduction'
@@ -119,6 +119,20 @@ const config = {
                   text: 'Composition API',
                   link: '/advanced/composition',
                 }
+              ]
+            },
+            {
+              text: 'Migration from Vue 2',
+              collapsable: false,
+              children: [
+                {
+                  text: 'Breaking Changes',
+                  link: '/migration/breaking'
+                },
+                {
+                  text: 'New Features',
+                  link: '/migration/features'
+                },
               ]
             }
           ],

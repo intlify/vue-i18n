@@ -76,10 +76,26 @@ Output the following:
 
 By calling `app.use(i18n)`, By default, we can access the VueI18n instance from each component with `this.$i18n`, which can be referenced from the `global` property of i18n instance that created with `createI18n`. As well as, translation API such as `this.$t` is also injected into each component, so these API can be used with templates.
 
-To use similar ways at the `setup` function, you need to call the `useI18n` functions. We will learn more about this in the [Composition API](../advanced/composition).
+To use similar ways at the `setup` function, you need to call the `useI18n` functions. We will learn more about this in the [Composition API](https://v3.vuejs.org/guide/composition-api-introduction.html)
 
 Throughout the docs, we’ll use APIs like `this.$i18n` and `this.$t`, which are almost keep backward compatible from Vue I18n v8.x.
 
 :::tip NOTE
 In Vue I18n v9 and later, the API offered by Vue I18n v8.x is called **Legacy API**.
 :::
+
+The following sections will be explained using the Legacy API.
+
+## Have you already used Vue I18n ?
+
+If you've used Vue I18n before, you'll want to use the API offered for Compostion API to support i18n, but some new features are supported in Vue I18n v9 and later.
+
+So recommended that you read through the basics at least once.
+
+If you just wanna use the Compositoin API and just wanna migrate from Vue 2.x, you can read on from the sections below:
+
+- Advanced
+  - [Compostion API](../advanced/composition)
+- Migration from Vue 2
+  - [Breaking Changes](../migration/breaking)
+  - [New Features](../migration/features)
