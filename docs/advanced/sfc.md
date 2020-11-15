@@ -54,7 +54,7 @@ To use i18n custom blocks, you need to use the following plugins for bundler.
 
 [vue-i18n-loader](https://github.com/intlify/vue-i18n-loader) is loader plugin for [webpack](https://webpack.js.org/). Since single file components is bundled with [vue-loader](https://github.com/vuejs/vue-loader), you need to setting webpack config with vue-i18n-loader.
 
-:::tip Support Version
+:::tip NOTE
 - webpack: **v4 or later**
 - vue-loader: **v16 or later**.
 :::
@@ -97,7 +97,7 @@ module.exports = {
 
 [rollup-plugin-vue-i18n](https://github.com/intlify/rollup-plugin-vue-i18n) is rollup plugin for [rollup](https://rollupjs.org). Since single-file components is bundled with [rollup-plugin-vue](https://github.com/vuejs/rollup-plugin-vue), you need to setting rollup config with rollup-plugin-vue
 
-:::tip Support Version
+:::tip NOTE
 - rollup: **v2.32 or later**
 - rollup-plugin-vue: **v6 or later**.
 :::
@@ -146,7 +146,7 @@ export default [
 
 [vite-plugin-vue-i18n](https://github.com/intlify/vite-plugin-vue-i18n) is vite plugin for [Vite](https://github.com/vitejs/vite).
 
-:::tip Support Version
+:::tip NOTE
 - vite: **v1 or later**.
 :::
 

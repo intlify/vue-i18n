@@ -183,6 +183,6 @@ You can also use the following slots shorthand in templates:
 </div>
 ```
 
-:::warning Limitation
+:::warning LIMITATION
 :warning: In `i18n-t` component, slots props are not supported.
 :::

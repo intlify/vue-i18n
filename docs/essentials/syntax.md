@@ -259,7 +259,7 @@ Vue I18n supports the message format that is compatible with [Ruby on Rails i18n
 
 You can interpolate message format syntax with `%` prefixing:
 
-:::danger Important!!
+:::danger IMPORTANT
 In v10 and later, Rails i18n format will be deprecated. We recommended using Named interpolation.
 :::
 
@@ -295,13 +295,13 @@ As result, the below:
 
 You can localize it with messages that contain HTML.
 
-:::danger Danger
+:::danger DANGER
 :warning: Dynamically localizing arbitrary HTML on your site can be very dangerous because it can easily lead to XSS vulnerabilities. Only use HTML interpolation on trusted content and never on user-provided content.
 
 We recommended using the [Component interpolation](../advanced/component).
 :::
 
-:::warning Notice
+:::warning NOTICE
 If the message contains HTML, Vue I18n outputs a warning to console when development mode (`process.env.NODE_ENV !== 'production'`), Vue I18n outputs  warning to console.
 
 You can control warning output with the `warnHtmlInMessage` or `warnHtmlMessage` options in `createI18n` function or `useI18n` function.

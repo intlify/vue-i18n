@@ -82,7 +82,7 @@ As you can see, the global scope is very useful because it allows you to switch 
 
 If you want to switch the locale for the whole application, you need to change it via `global` property of i18n instance created with `createI18n`.
 
-:::tip MEMO
+:::tip NOTE
 If you don’t want to inherit `locale` from global scope, you need to set `sync` of `i18n` component option to `false`.
 :::
 
