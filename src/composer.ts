@@ -318,16 +318,14 @@ function defineRuntimeMissingHandler<Message = VueMessageType>(
   }) as RuntimeMissingHandler<Message>
 }
 
-// TODO: maybe, we need to improve type definitions
-function getLocaleMessages<
-  Messages extends LocaleMessages<Message>,
-  DateTimeFormats extends DateTimeFormatsType,
-  NumberFormats extends NumberFormatsType,
-  Message = VueMessageType
->(
-  options: ComposerOptions<Message> &
-    ComposerInternalOptions<Messages, DateTimeFormats, NumberFormats, Message>,
-  locale: Locale
+type GetLocaleMessagesOptions<Message = VueMessageType> = {
+  messages?: LocaleMessages<Message>
+  __i18n?: CustomBlocks<Message>
+}
+
+export function getLocaleMessages<Message = VueMessageType>(
+  locale: Locale,
+  options: GetLocaleMessagesOptions<Message>
 ): LocaleMessages<Message> {
   const { messages, __i18n } = options
 
@@ -472,10 +470,7 @@ export function createComposer<
   )
 
   const _messages = ref<LocaleMessages<Message>>(
-    getLocaleMessages<Messages, DateTimeFormats, NumberFormats, Message>(
-      options,
-      _locale.value
-    )
+    getLocaleMessages<Message>(_locale.value, options)
   )
 
   const _datetimeFormats = ref<DateTimeFormatsType>(

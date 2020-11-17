@@ -1,7 +1,12 @@
 import { ComponentOptions, getCurrentInstance } from 'vue'
 import { Path } from './path'
 import { Locale, LocaleMessageValue } from './core/context'
-import { Composer, ComposerInternalOptions, VueMessageType } from './composer'
+import {
+  Composer,
+  ComposerInternalOptions,
+  VueMessageType,
+  getLocaleMessages
+} from './composer'
 import {
   VueI18n,
   VueI18nInternal,
@@ -44,38 +49,80 @@ export function defineMixin<Messages, DateTimeFormats, NumberFormats>(
           optionsI18n.__i18n = options.__i18n
         }
         optionsI18n.__root = composer
-        this.$i18n = createVueI18n(optionsI18n)
-        legacy.__onComponentInstanceCreated(this.$i18n)
-
-        i18n.__setInstance<
-          Messages,
-          DateTimeFormats,
-          NumberFormats,
-          VueI18n<Messages, DateTimeFormats, NumberFormats>
-        >(
-          instance,
-          this.$i18n as VueI18n<Messages, DateTimeFormats, NumberFormats>
-        )
+        if (this === this.$root) {
+          const rootLegacy = (legacy as unknown) as VueI18n<
+            Messages,
+            DateTimeFormats,
+            NumberFormats
+          >
+          rootLegacy.locale = optionsI18n.locale || rootLegacy.locale
+          rootLegacy.fallbackLocale =
+            optionsI18n.fallbackLocale || rootLegacy.fallbackLocale
+          rootLegacy.missing = optionsI18n.missing || rootLegacy.missing
+          rootLegacy.silentTranslationWarn =
+            optionsI18n.silentTranslationWarn || rootLegacy.silentFallbackWarn
+          rootLegacy.silentFallbackWarn =
+            optionsI18n.silentFallbackWarn || rootLegacy.silentFallbackWarn
+          rootLegacy.formatFallbackMessages =
+            optionsI18n.formatFallbackMessages ||
+            rootLegacy.formatFallbackMessages
+          rootLegacy.postTranslation =
+            optionsI18n.postTranslation || rootLegacy.postTranslation
+          rootLegacy.warnHtmlInMessage =
+            optionsI18n.warnHtmlInMessage || rootLegacy.warnHtmlInMessage
+          rootLegacy.escapeParameterHtml =
+            optionsI18n.escapeParameterHtml || rootLegacy.escapeParameterHtml
+          rootLegacy.sync = optionsI18n.sync || rootLegacy.sync
+          const messages = getLocaleMessages<VueMessageType>(
+            rootLegacy.locale,
+            {
+              messages: optionsI18n.messages,
+              __i18n: optionsI18n.__i18n
+            }
+          )
+          Object.keys(messages).forEach(locale =>
+            rootLegacy.mergeLocaleMessage(locale, messages[locale])
+          )
+          if (optionsI18n.datetimeFormats) {
+            Object.keys(optionsI18n.datetimeFormats).forEach(locale =>
+              rootLegacy.mergeDateTimeFormat(
+                locale,
+                optionsI18n.datetimeFormats![locale]
+              )
+            )
+          }
+          if (optionsI18n.numberFormats) {
+            Object.keys(optionsI18n.numberFormats).forEach(locale =>
+              rootLegacy.mergeNumberFormat(
+                locale,
+                optionsI18n.numberFormats![locale]
+              )
+            )
+          }
+          this.$i18n = legacy
+        } else {
+          this.$i18n = createVueI18n(optionsI18n)
+        }
       } else if (options.__i18n) {
         this.$i18n = createVueI18n({
           __i18n: (options as ComposerInternalOptions<Messages>).__i18n,
           __root: composer
         } as VueI18nOptions)
-        legacy.__onComponentInstanceCreated(this.$i18n)
-
-        i18n.__setInstance<
-          Messages,
-          DateTimeFormats,
-          NumberFormats,
-          VueI18n<Messages, DateTimeFormats, NumberFormats>
-        >(
-          instance,
-          this.$i18n as VueI18n<Messages, DateTimeFormats, NumberFormats>
-        )
       } else {
         // set global
         this.$i18n = legacy
       }
+
+      legacy.__onComponentInstanceCreated(this.$i18n)
+      i18n.__setInstance<
+        Messages,
+        DateTimeFormats,
+        NumberFormats,
+        VueI18n<Messages, DateTimeFormats, NumberFormats>
+      >(
+        instance,
+        this.$i18n as VueI18n<Messages, DateTimeFormats, NumberFormats>
+      )
 
       // defines vue-i18n legacy APIs
       this.$t = (...args: unknown[]): TranslateResult => this.$i18n.t(...args)
