@@ -1,4 +1,41 @@
 
+## v9.0.0-beta.7 (2020-11-17)
+
+#### :star: Features
+* [#188](https://github.com/intlify/vue-i18n-next/pull/188) feat: export type prop from runtime ([@kazupon](https://github.com/kazupon))
+* [#187](https://github.com/intlify/vue-i18n-next/pull/187) feat: exports linked and plural function from runtime context ([@kazupon](https://github.com/kazupon))
+* [#165](https://github.com/intlify/vue-i18n-next/pull/165) Allow d() to take an ISO string as parameter. ([@michaelzangl](https://github.com/michaelzangl))
+
+#### :bug: Bug Fixes
+* [#190](https://github.com/intlify/vue-i18n-next/pull/190) fix: locale changing for legacy mode ([@kazupon](https://github.com/kazupon))
+* [#180](https://github.com/intlify/vue-i18n-next/pull/180) fix: missing handler not returned ([@kazupon](https://github.com/kazupon))
+* [#178](https://github.com/intlify/vue-i18n-next/pull/178) fix: can't assign to property "processor" on false: not an object ([@nrzull](https://github.com/nrzull))
+* [#176](https://github.com/intlify/vue-i18n-next/pull/176) fix: cannot pass modifiers options ([@kazupon](https://github.com/kazupon))
+* [#168](https://github.com/intlify/vue-i18n-next/pull/168) fix: useScope inconsistency ([@kazupon](https://github.com/kazupon))
+
+#### :zap: Improvement Features
+* [#181](https://github.com/intlify/vue-i18n-next/pull/181) fix: improve warning message ([@kazupon](https://github.com/kazupon))
+* [#167](https://github.com/intlify/vue-i18n-next/pull/167) fix: improvement errors ([@kazupon](https://github.com/kazupon))
+
+#### :boom: Breaking Change
+* [#157](https://github.com/intlify/vue-i18n-next/pull/157) breaking: change i18n global property ([@kazupon](https://github.com/kazupon))
+* [#156](https://github.com/intlify/vue-i18n-next/pull/156) breaking: change api mode name ([@kazupon](https://github.com/kazupon))
+* [#155](https://github.com/intlify/vue-i18n-next/pull/155) breaking: change to default legacy mode from compsable mode ([@kazupon](https://github.com/kazupon))
+* [#153](https://github.com/intlify/vue-i18n-next/pull/153) port: escape ampersand ([@kazupon](https://github.com/kazupon))
+
+#### :pencil: Documentation
+* [#163](https://github.com/intlify/vue-i18n-next/pull/163) Documentation - t() ([@michaelzangl](https://github.com/michaelzangl))
+* [#170](https://github.com/intlify/vue-i18n-next/pull/170) Fix readme link ([@TeeVenDick](https://github.com/TeeVenDick))
+* [#160](https://github.com/intlify/vue-i18n-next/pull/160) Update README.md ([@dhritzkiv](https://github.com/dhritzkiv))
+
+#### Committers: 5
+- Andrey Pavlov ([@nrzull](https://github.com/nrzull))
+- Daniel Hritzkiv ([@dhritzkiv](https://github.com/dhritzkiv))
+- Michael Zangl ([@michaelzangl](https://github.com/michaelzangl))
+- [@TeeVenDick](https://github.com/TeeVenDick)
+- kazuya kawaguchi ([@kazupon](https://github.com/kazupon))
+
+
 ## v9.0.0-beta.6 (2020-10-19)
 
 #### :chart_with_upwards_trend: Performance Fixes
