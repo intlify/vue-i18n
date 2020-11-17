@@ -657,12 +657,12 @@ function setupLifeCycle<Messages, DateTimeFormats, NumberFormats>(
 }
 
 /**
- * Exported composer interface
+ * Exported global composer interface
  *
  * @remarks
  * This interface is the {@link I18n.global | global composer } that is provided interface that is injected into each component with `app.config.globalProperties`.
  */
-export interface ExportedComposer {
+export interface ExportedGlobalComposer {
   /**
    * Locale
    *
