@@ -26,7 +26,8 @@ module.exports = {
         'YAML',
         'JSON5',
         'HTTP',
-        'CLI'
+        'CLI',
+        'SFC'
       ]
     },
     'abbr-within-parentheses': true,
