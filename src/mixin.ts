@@ -28,11 +28,6 @@ export function defineMixin<Messages, DateTimeFormats, NumberFormats>(
   composer: Composer<Messages, DateTimeFormats, NumberFormats>,
   i18n: I18nInternal
 ): ComponentOptions {
-  const legacy = (vuei18n as unknown) as VueI18nInternal<
-    Messages,
-    DateTimeFormats,
-    NumberFormats
-  >
   return {
     beforeCreate(): void {
       const instance = getCurrentInstance()
@@ -50,70 +45,29 @@ export function defineMixin<Messages, DateTimeFormats, NumberFormats>(
         }
         optionsI18n.__root = composer
         if (this === this.$root) {
-          const rootLegacy = (legacy as unknown) as VueI18n<
-            Messages,
-            DateTimeFormats,
-            NumberFormats
-          >
-          rootLegacy.locale = optionsI18n.locale || rootLegacy.locale
-          rootLegacy.fallbackLocale =
-            optionsI18n.fallbackLocale || rootLegacy.fallbackLocale
-          rootLegacy.missing = optionsI18n.missing || rootLegacy.missing
-          rootLegacy.silentTranslationWarn =
-            optionsI18n.silentTranslationWarn || rootLegacy.silentFallbackWarn
-          rootLegacy.silentFallbackWarn =
-            optionsI18n.silentFallbackWarn || rootLegacy.silentFallbackWarn
-          rootLegacy.formatFallbackMessages =
-            optionsI18n.formatFallbackMessages ||
-            rootLegacy.formatFallbackMessages
-          rootLegacy.postTranslation =
-            optionsI18n.postTranslation || rootLegacy.postTranslation
-          rootLegacy.warnHtmlInMessage =
-            optionsI18n.warnHtmlInMessage || rootLegacy.warnHtmlInMessage
-          rootLegacy.escapeParameterHtml =
-            optionsI18n.escapeParameterHtml || rootLegacy.escapeParameterHtml
-          rootLegacy.sync = optionsI18n.sync || rootLegacy.sync
-          const messages = getLocaleMessages<VueMessageType>(
-            rootLegacy.locale,
-            {
-              messages: optionsI18n.messages,
-              __i18n: optionsI18n.__i18n
-            }
-          )
-          Object.keys(messages).forEach(locale =>
-            rootLegacy.mergeLocaleMessage(locale, messages[locale])
-          )
-          if (optionsI18n.datetimeFormats) {
-            Object.keys(optionsI18n.datetimeFormats).forEach(locale =>
-              rootLegacy.mergeDateTimeFormat(
-                locale,
-                optionsI18n.datetimeFormats![locale]
-              )
-            )
-          }
-          if (optionsI18n.numberFormats) {
-            Object.keys(optionsI18n.numberFormats).forEach(locale =>
-              rootLegacy.mergeNumberFormat(
-                locale,
-                optionsI18n.numberFormats![locale]
-              )
-            )
-          }
-          this.$i18n = legacy
+          this.$i18n = mergeToRoot(vuei18n, optionsI18n)
         } else {
           this.$i18n = createVueI18n(optionsI18n)
         }
       } else if (options.__i18n) {
-        this.$i18n = createVueI18n({
-          __i18n: (options as ComposerInternalOptions<Messages>).__i18n,
-          __root: composer
-        } as VueI18nOptions)
+        if (this === this.$root) {
+          this.$i18n = mergeToRoot(vuei18n, options)
+        } else {
+          this.$i18n = createVueI18n({
+            __i18n: (options as ComposerInternalOptions<Messages>).__i18n,
+            __root: composer
+          } as VueI18nOptions)
+        }
       } else {
         // set global
-        this.$i18n = legacy
+        this.$i18n = vuei18n
       }
 
-      legacy.__onComponentInstanceCreated(this.$i18n)
+      ;((vuei18n as unknown) as VueI18nInternal<
+        Messages,
+        DateTimeFormats,
+        NumberFormats
+      >).__onComponentInstanceCreated(this.$i18n)
       i18n.__setInstance<
         Messages,
         DateTimeFormats,
@@ -138,6 +92,7 @@ export function defineMixin<Messages, DateTimeFormats, NumberFormats>(
     },
 
     mounted(): void {
+      /* istanbul ignore if */
       if ((__DEV__ || __FEATURE_PROD_DEVTOOLS__) && !__NODE_JS__) {
         this.$el.__INTLIFY__ = this.$i18n.__composer
         const emitter: DevToolsEmitter = (this.__emitter = createEmitter<
@@ -160,6 +115,7 @@ export function defineMixin<Messages, DateTimeFormats, NumberFormats>(
         throw createI18nError(I18nErrorCodes.UNEXPECTED_ERROR)
       }
 
+      /* istanbul ignore if */
       if ((__DEV__ || __FEATURE_PROD_DEVTOOLS__) && !__NODE_JS__) {
         if (this.__emitter) {
           this.__emitter.off('*', addTimelineEvent)
@@ -185,4 +141,43 @@ export function defineMixin<Messages, DateTimeFormats, NumberFormats>(
       delete this.$i18n
     }
   }
+}
+
+function mergeToRoot<Messages, DateTimeFormats, NumberFormats>(
+  root: VueI18n<Messages, DateTimeFormats, NumberFormats>,
+  optoins: VueI18nOptions &
+    ComposerInternalOptions<Messages, DateTimeFormats, NumberFormats>
+): VueI18n<Messages, DateTimeFormats, NumberFormats> {
+  root.locale = optoins.locale || root.locale
+  root.fallbackLocale = optoins.fallbackLocale || root.fallbackLocale
+  root.missing = optoins.missing || root.missing
+  root.silentTranslationWarn =
+    optoins.silentTranslationWarn || root.silentFallbackWarn
+  root.silentFallbackWarn =
+    optoins.silentFallbackWarn || root.silentFallbackWarn
+  root.formatFallbackMessages =
+    optoins.formatFallbackMessages || root.formatFallbackMessages
+  root.postTranslation = optoins.postTranslation || root.postTranslation
+  root.warnHtmlInMessage = optoins.warnHtmlInMessage || root.warnHtmlInMessage
+  root.escapeParameterHtml =
+    optoins.escapeParameterHtml || root.escapeParameterHtml
+  root.sync = optoins.sync || root.sync
+  const messages = getLocaleMessages<VueMessageType>(root.locale, {
+    messages: optoins.messages,
+    __i18n: optoins.__i18n
+  })
+  Object.keys(messages).forEach(locale =>
+    root.mergeLocaleMessage(locale, messages[locale])
+  )
+  if (optoins.datetimeFormats) {
+    Object.keys(optoins.datetimeFormats).forEach(locale =>
+      root.mergeDateTimeFormat(locale, optoins.datetimeFormats![locale])
+    )
+  }
+  if (optoins.numberFormats) {
+    Object.keys(optoins.numberFormats).forEach(locale =>
+      root.mergeNumberFormat(locale, optoins.numberFormats![locale])
+    )
+  }
+  return root
 }
