@@ -1,4 +1,13 @@
 
+## v9.0.0-beta.8 (2020-11-18)
+
+#### :bug: Bug Fixes
+* [#192](https://github.com/intlify/vue-i18n-next/pull/192) fix: cannot locale change for specified i18n custom blocks only ([@kazupon](https://github.com/kazupon))
+
+#### Committers: 1
+- kazuya kawaguchi ([@kazupon](https://github.com/kazupon))
+
+
 ## v9.0.0-beta.7 (2020-11-17)
 
 #### :star: Features
