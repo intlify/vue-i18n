@@ -458,7 +458,7 @@ If you do not want to inherit the locale from the global scope, the `inheritLoca
 Changes to the `locale` at the local scope have **no effect on the global scope locale, but only within the local scope**.
 :::
 
-## Comparison of Composer instance and VueI18n instance
+## Mapping between VueI18n instance and Composer instance
 
 The API offered by the Composer instance in the Compostion API is very similar interface to the API provided by the VueI18n instance.
 
@@ -467,6 +467,41 @@ Internally, the VueI18n instance of the Legacy API mode works by wrapping the Co
 For this reason, the performance overhead is less in the Composition API mode than in the Legacy API mode.
 :::
 
-Below is the comparison table:
+Below is the mapping table:
 
-TODO:
+| VueI18n instance  | Composer instance       |
+| ----------------- | ----------------------- |
+| `id` | `id` |
+| `locale` | `locale` |
+| `fallbackLocale` | `fallbackLocale` |
+| `availableLocales` | `availableLocales` |
+| `messages` | `messages` |
+| `datetimeFormats` | `datetimeFormats` |
+| `numberFormats` | `numberFormats` |
+| `modifiers` | `modifiers` |
+| `formatter` | N/A |
+| `missing` | `getMissingHandler` / `setMissingHandler` |
+| `postTranslation` | `getPostTranslationHandler` / `setPostTranslationHandler`|
+| `silentTranslationWarn` | `missingWarn` |
+| `silentFallbackWarn` | `fallbackWarn` |
+| `formatFallbackMessages` | `fallbackFormat` |
+| `sync` | `inheritLocale` |
+| `warnHtmlInMessage` | `warnHtmlMessage` |
+| `escapeParameterHtml` | `escapeParameter` |
+| `preserveDirectiveContent` | N/A |
+| `t` | `t` |
+| `tc` | `t` |
+| `te` | N/A |
+| `tm` | `tm` |
+| `getLocaleMessage` | `getLocaleMessage` |
+| `setLocaleMessage` | `setLocaleMessage`|
+| `mergeLocaleMessage` | `mergeLocaleMessage` |
+| `d` | `d` |
+| `getDateTimeFormat` | `getDateTimeFormat` |
+| `setDateTimeFormat` | `setDateTimeFormat` |
+| `mergeDateTimeFormat` | `mergetDateTimeFormat` |
+| `n` | `n` |
+| `getNumberFormat` | `getNumberFormat` |
+| `setNumberFormat` | `setNumberFormat` |
+| `mergeNumberFormat` | `mergeNumberFormat` |
+| `getChoiiceIndex` | N/A |
