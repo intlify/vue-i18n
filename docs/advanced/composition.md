@@ -299,7 +299,7 @@ The above code sets the `useI18n` option to `useScope: 'global'`, which allows `
 
 Then you can compose using the functions and properties exposed from the Composer instance.
 
-### Implicitly with injected properties and functions
+### Implicit with injected properties and functions
 
 Another way to refer a global scope Composer instance is through properties and functions implicitly injected into the component.
 
