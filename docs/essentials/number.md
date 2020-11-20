@@ -59,7 +59,7 @@ As result the below:
 
 ## Custom Formatting
 
-`$n` function returns resulting string with fully formatted number, which can only be used as a whole. In situations when you need to style some part of the formatted number (like fraction digits), `$n` is not enough. In such cases `<i18n-n>` component will be of help.
+`$n` function returns resulting string with fully formatted number, which can only be used as a whole. In situations when you need to style some part of the formatted number (like fraction digits), `$n` is not enough. In such cases Number component (`i18n-n`) will be of help.
 
 With a minimum set of properties, `<i18n-n>` generates the same output as `$n`, wrapped into configured DOM element.
 

@@ -43,9 +43,9 @@ To localize DateTime value with Vue I18n, use the `$d` function.
 :::tip NOTE
 Some ways to support localize are:
 
-- `$d` function (for Legacy API & Composition API)
-- built-in `i18n-d` component
-- exported `d` function from `useI18n` (for Composition API)
+- `$d` function (for Legacy API mode & [Composition API mode](../advanced/composition))
+- built-in Datetime component (`i18n-d`)
+- exported `d` function from `useI18n` (for [Composition API mode](../advanced/composition))
 :::
 
 The following is an example of the use of `$d` in a template:

@@ -133,8 +133,16 @@ const config = {
                   text: 'New Features',
                   link: '/migration/features'
                 },
+                {
+                  text: 'Compostion API for Vue 2',
+                  link: '/migration/composition'
+                }
               ]
-            }
+            },
+            {
+              text: 'Documentation for v8.x',
+              link: '/v8-docs',
+            },
           ],
           '/api/': getSidebarApi('vue-i18n'),
         }

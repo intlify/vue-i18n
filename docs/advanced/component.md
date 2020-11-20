@@ -33,7 +33,7 @@ Output:
 
 This is very cumbersome, and if you configure the `<a>` tag in a locale message, there is a possibility of XSS vulnerabilities due to localizing with `v-html="$t('term')"`.
 
-You can avoid it using the `i18n-t` component. For example the below.
+You can avoid it using the Translation component (`i18n-t`). For example the below.
 
 Template:
 
@@ -89,7 +89,7 @@ The following output:
 
 About the above example, see the [example](https://github.com/intlify/vue-i18n-next/blob/master/examples/legacy/components/translation.html)
 
-The children of `i18n-t` component are interpolated with locale message of `keypath` prop. In the above example,
+The children of translation component are interpolated with locale message of `keypath` prop. In the above example,
 
 :::v-pre
 `<a :href="url" target="_blank">{{ $t('tos') }}</a>`
@@ -97,7 +97,7 @@ The children of `i18n-t` component are interpolated with locale message of `keyp
 
 Is interpolated with `term` locale message.
 
-In the above example, the component interpolation follows the **list interpolation**. The children of `i18n-t` component are interpolated by their order of appearance.
+In the above example, the component interpolation follows the **list interpolation**. The children of translation component are interpolated by their order of appearance.
 
 <!-- textlint-disable -->
 You can choose the root node element type by specifying a `tag` prop. If omitted, it defaults to [Fragments](https://v3.vuejs.org/guide/migration/fragments.html#overview).
@@ -184,5 +184,5 @@ You can also use the following slots shorthand in templates:
 ```
 
 :::warning LIMITATION
-:warning: In `i18n-t` component, slots props are not supported.
+:warning: In translation component, slots props are not supported.
 :::

@@ -32,9 +32,9 @@ Some ways to support pluralization are:
 
 - `$tc` function (for Legacy API)
 - `v-t` function custom directive
-- built-in `i18n-t` component
-- exported `t` function from `useI18n` (for Composition API)
-- injected `$t` global function  (for Compostion API)
+- built-in Translation component (`i18n-t`)
+- exported `t` function from `useI18n` (for [Composition API mode](../advanced/composition))
+- injected `$t` global function  (for [Composition API mode](../advanced/composition))
 :::
 
 The following is an example of using the translation API.
