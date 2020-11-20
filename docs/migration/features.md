@@ -20,7 +20,7 @@ See the [Advanced Compostion API](../advanced/composition) section
 Support for `plural` prop.
 You can specify the number of messages to be pluralized.
 
-the below example:
+The below example:
 
 ```html
 <template>
