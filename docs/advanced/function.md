@@ -22,9 +22,6 @@ So instead of string-based messages, you can use the **Message functions**.
 The messages written in message format syntax are compiled into message functions with Vue I18n message compiler. Message functions and caching mechanism to maximize performance gains.
 :::
 
-:::danger NOTICE
-:::
-
 ## Basic usage
 
 The following is a message function that returns a simple greeting:
