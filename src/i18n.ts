@@ -66,13 +66,13 @@ export interface I18nAdditionalOptions {
   /**
    * Whether vue-i18n legacy API use on your Vue App
    *
-   * @default true
+   * @defaultValue `true`
    */
   legacy?: boolean
   /**
    * Whether Whether to inject global props & methods into for each component
    *
-   * @default true
+   * @defaultValue `true`
    */
   globalInjection?: boolean
 }
@@ -98,7 +98,7 @@ export interface I18n<
    * if you specified `legacy: true` option in `createI18n`, return `legacy`,
    * else `composition`
    *
-   * @default composition
+   * @defaultValue `'composition'`
    */
   readonly mode: I18nMode
   /**
