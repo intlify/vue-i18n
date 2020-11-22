@@ -336,6 +336,9 @@
         // "addToApiReportFile": false
       },
 
+      "ae-missing-release-tag": {
+        "logLevel": "none",
+      },
       // "ae-extra-release-tag": {
       //   "logLevel": "warning",
       //   "addToApiReportFile": true
@@ -355,8 +358,11 @@
       "default": {
         "logLevel": "warning",
         // "addToApiReportFile": false
-      }
+      },
 
+      "tsdoc-undefined-tag": {
+        "logLevel": "none",
+      },
       // "tsdoc-link-tag-unescaped-text": {
       //   "logLevel": "warning",
       //   "addToApiReportFile": true
