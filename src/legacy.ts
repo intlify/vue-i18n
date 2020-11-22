@@ -72,29 +72,209 @@ export type ComponentInstanceCreatedListener = <Messages>(
  *  VueI18n Options
  *
  *  @remarks
- *  This option is compatible with the constructor options of `VueI18n` class (offered with vue-i18n@8.x).
+ *  This option is compatible with the constructor options of `VueI18n` class (offered with vue-i18n v8.x).
+ *
+ *  @category Legacy API
  */
 export interface VueI18nOptions {
+  /**
+   * locale
+   *
+   * @remarks
+   * The locale of localization. If the locale contains a territory and a dialect, this locale contains an implicit fallback.
+   *
+   * @defaultValue `'en-US'`
+   */
   locale?: Locale
+  /**
+   * fallbackLocale
+   *
+   * @remarks
+   * The locale of fallback localization. For more complex fallback definitions see fallback.
+   *
+   * @defaultValue `true`
+   */
   fallbackLocale?: FallbackLocale
+  /**
+   * messages
+   *
+   * @remarks
+   * The locale messages of localization.
+   *
+   * @defaultValue `{}`
+   */
   messages?: LocaleMessages<VueMessageType>
+  /**
+   * datetimeFormats
+   *
+   * @remarks
+   * The datetime formats of localization.
+   *
+   * @defaultValue `{}`
+   */
   datetimeFormats?: DateTimeFormatsType
+  /**
+   * numberFormats
+   *
+   * @remarks
+   * The number formats of localization.
+   *
+   * @defaultValue `{}`
+   */
   numberFormats?: NumberFormatsType
+  /**
+   * availableLocales
+   *
+   * @remarks
+   * The list of available locales in messages in lexical order.
+   *
+   * @defaultValue `[]`
+   */
   availableLocales?: Locale[]
+  /**
+   * modifiers
+   *
+   * @remarks
+   * Modifiers functions for linked messages.
+   */
   modifiers?: LinkedModifiers<VueMessageType>
+  /**
+   * formatter
+   *
+   * @remarks
+   * The formatter that implemented with Formatter interface.
+   */
   formatter?: Formatter
+  /**
+   * missing
+   *
+   * @remarks
+   * A handler for localization missing.
+   * The handler gets called with the localization target locale, localization path key, the Vue instance and values.
+   * If missing handler is assigned, and occurred localization missing, it's not warned.
+   *
+   * @defaultValue `null`
+   */
   missing?: MissingHandler
+  /**
+   * fallbackRoot
+   *
+   * @remarks
+   * In the component localization, whether to fall back to root level (global) localization when localization fails.
+   * If `false`, it's warned, and is returned the key.
+   *
+   * @defaultValue `true`
+   */
   fallbackRoot?: boolean
+  /**
+   * silentTranslationWarn
+   *
+   * @remarks
+   * Whether suppress warnings outputted when localization fails.
+   * If `true`, suppress localization fail warnings.
+   * If you use regular expression, you can suppress localization fail warnings that it match with translation key (e.g. `$t`).
+   *
+   * @defaultValue `false`
+   */
   silentTranslationWarn?: boolean | RegExp
+  /**
+   * silentFallbackWarn
+   *
+   * @remarks
+   * Whether do template interpolation on translation keys when your language lacks a translation for a key.
+   * If `true`, skip writing templates for your "base" language; the keys are your templates.
+   *
+   * @defaultValue `false`
+   */
   silentFallbackWarn?: boolean | RegExp
+  /**
+   * formatFallbackMessages
+   *
+   * @remarks
+   * Whether suppress warnings when falling back to either `fallbackLocale` or root.
+   *
+   * @defaultValue `false`
+   */
   formatFallbackMessages?: boolean
+  /**
+   * preserveDirectiveContent
+   *
+   * @remarks
+   * Whether `v-t` directive's element should preserve `textContent` after directive is unbinded.
+   *
+   * @defaultValue `false`
+   */
   preserveDirectiveContent?: boolean
+  /**
+   * warnHtmlInMessage
+   *
+   * @remarks
+   * Whether to allow the use locale messages of HTML formatting. See the warnHtmlInMessage property.
+   *
+   * @defaultValue `'off'`
+   */
   warnHtmlInMessage?: WarnHtmlInMessageLevel
+  /**
+   * escapeParameterHtml
+   *
+   * @remarks
+   * If `escapeParameterHtml` is configured as true then interpolation parameters are escaped before the message is translated.
+   * This is useful when translation output is used in `v-html` and the translation resource contains html markup (e.g. <b> around a user provided value).
+   * This usage pattern mostly occurs when passing precomputed text strings into UI compontents.
+   * The escape process involves replacing the following symbols with their respective HTML character entities: `<`, `>`, `"`, `'`.
+   * Setting `escapeParameterHtml` as true should not break existing functionality but provides a safeguard against a subtle type of XSS attack vectors.
+   *
+   * @defaultValue `false`
+   */
   escapeParameterHtml?: boolean
+  /**
+   * sharedMessages
+   *
+   * @remarks
+   * The shared locale messages of localization for components. More detail see Component based localization.
+   *
+   * @defaultValue `undefined`
+   */
   sharedMessages?: LocaleMessages<VueMessageType>
+  /**
+   * pluralizationRules
+   *
+   * @remarks
+   * A set of rules for word pluralization
+   *
+   * @defaultValue `{}`
+   */
   pluralizationRules?: PluralizationRules
+  /**
+   * postTranslation
+   *
+   * @remarks
+   * A handler for post processing of translation. The handler gets after being called with the `$t`, `t`, `$tc`, and `tc`.
+   * This handler is useful if you want to filter on translated text such as space trimming.
+   *
+   * @defaultValue `null`
+   */
   postTranslation?: PostTranslationHandler<VueMessageType>
+  /**
+   * sync
+   *
+   * @remarks
+   * Whether synchronize the root level locale to the component localization locale.
+   * If `false`, regardless of the root level locale, localize for each component locale.
+   *
+   * @defaultValue `true`
+   */
   sync?: boolean
+  /**
+   * componentInstanceCreatedListener
+   *
+   * @remarks
+   * A handler for getting notified when component-local instance was created.
+   * The handler gets called with new and old (root) VueI18n instances.
+   * This handler is useful when extending the root VueI18n instance and wanting to also apply those extensions to component-local instance.
+   *
+   * @defaultValue `null`
+   */
   componentInstanceCreatedListener?: ComponentInstanceCreatedListener
 }
 
@@ -102,7 +282,9 @@ export interface VueI18nOptions {
  *  VueI18n Interfaces
  *
  *  @remarks
- *  This interface is compatible with interface of `VueI18n` class (offered with vue-i18n@8.x).
+ *  This interface is compatible with interface of `VueI18n` class (offered with vue-i18n 8.x).
+ *
+ *  @category Legacy API
  */
 export interface VueI18n<
   Messages = {},
