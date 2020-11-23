@@ -2,52 +2,497 @@ const {
   getDocSectionContent,
   escapeText,
   findCustomTags,
-  ContentBuilder
+  createContentBuilder
 } = require('api-docs-gen')
 
 function process(model, pkg, style, resolver, customTags) {
   // console.log('custom process', model, pkg, style, customTags)
-  const items = pkg.members[0] ? pkg.members[0].members : []
-  const models = []
-  for (const item of items) {
-    const { kind } = item
-    switch (kind) {
-      case 'Function':
-        models.push(
-          parseFunction(style, model, pkg, resolver, item, customTags)
-        )
-        break
-      case 'Enum':
-        models.push(parseEnum(style, model, pkg, resolver, item, customTags))
-        break
-      case 'Interface':
-        models.push(
-          parseInterface(style, model, pkg, resolver, item, customTags)
-        )
-        break
-      case 'Class':
-        break
-      case 'TypeAlias':
-        models.push(
-          parseTypeAlias(style, model, pkg, resolver, item, customTags)
-        )
-        break
-      case 'Variable':
-        models.push(
-          parseVariable(style, model, pkg, resolver, item, customTags)
-        )
-        break
-      default:
-        break
+
+  function parse() {
+    const items = pkg.members[0] ? pkg.members[0].members : []
+    const models = []
+    for (const item of items) {
+      const { kind } = item
+      switch (kind) {
+        case 'Function':
+          models.push(
+            parseFunction(style, model, pkg, resolver, item, customTags)
+          )
+          break
+        case 'Enum':
+          models.push(parseEnum(style, model, pkg, resolver, item, customTags))
+          break
+        case 'Interface':
+          models.push(
+            parseInterface(style, model, pkg, resolver, item, customTags)
+          )
+          break
+        case 'Class':
+          break
+        case 'TypeAlias':
+          models.push(
+            parseTypeAlias(style, model, pkg, resolver, item, customTags)
+          )
+          break
+        case 'Variable':
+          models.push(
+            parseVariable(style, model, pkg, resolver, item, customTags)
+          )
+          break
+        default:
+          break
+      }
+    }
+    return models
+  }
+
+  function build(models) {
+    const generalModels = models.filter(
+      m => m.modifierTags && m.modifierTags.includes('@VueI18nGeneral')
+    )
+    const legacyModels = models.filter(
+      m => m.modifierTags && m.modifierTags.includes('@VueI18nLegacy')
+    )
+    const compositionModels = models.filter(
+      m => m.modifierTags && m.modifierTags.includes('@VueI18nComposition')
+    )
+    const miscModels = models.filter(
+      m => m.modifierTags && m.modifierTags.length === 0
+    )
+    console.log('misc models', miscModels)
+
+    const contents = []
+    contents.push(buildGeneral(generalModels))
+    contents.push(buildLegacy(legacyModels))
+    contents.push(buildComposition(compositionModels))
+    // contents.push(buildMisc(miscModels))
+    return contents
+  }
+
+  function buildFunction(model, builder) {
+    if (model.summary) {
+      builder.pushline(model.summary)
+      builder.newline()
+    }
+
+    if (model.signature) {
+      builder.pushline(`**Signature:**`)
+      builder.pushline('```typescript')
+      builder.pushline(model.signature)
+      builder.pushline('```')
+      builder.newline()
+    }
+
+    if (model.remarks) {
+      builder.pushline(`### Remarks`)
+      builder.newline()
+      builder.pushline(model.remarks)
+      builder.newline()
+    }
+
+    if (model.parameters) {
+      builder.pushline(`### Parameters`)
+      builder.newline()
+      builder.pushline(`| Parameter | Type | Description |`)
+      builder.pushline(`| --- | --- | --- |`)
+      for (const p of model.parameters) {
+        builder.pushline(`| ${p.name} | ${p.type} | ${p.description} |`)
+      }
+      builder.newline()
+    }
+
+    if (model.returns) {
+      builder.pushline(`### Returns`)
+      builder.newline()
+      builder.pushline(model.returns)
+      builder.newline()
+    }
+
+    if (model.throws) {
+      builder.pushline(`### Throws`)
+      builder.newline()
+      for (const t of model.throws) {
+        let text = t
+        if (model.throws.length > 1) {
+          text = `- ` + text
+        }
+        builder.pushline(text)
+      }
+      builder.newline()
+    }
+
+    if (model.examples) {
+      if (model.examples.length > 0) {
+        builder.pushline(`### Examples`)
+        builder.newline()
+        let count = 1
+        for (const e of model.examples) {
+          if (model.examples.length > 1) {
+            builder.pushline(`**Example ${count}:**`)
+            builder.newline()
+          }
+          builder.pushline(e)
+          builder.newline()
+          count++
+        }
+        builder.newline()
+      }
     }
   }
 
-  const generalModels = models.filter(m => m.modifierTags && m.modifierTags.includes('@VueI18nGeneral'))
-  const legacyModels = models.filter(m => m.modifierTags && m.modifierTags.includes('@VueI18nLegacy'))
-  const compositionModels = models.filter(m => m.modifierTags && m.modifierTags.includes('@VueI18nComposition'))
-  const miscModels = models.filter(m => m.modifierTags && m.modifierTags.length === 0)
+  function buildEnum(model, builder) {}
 
-  return ''
+  function buildInterface(model, builder) {
+    if (model.summary) {
+      builder.pushline(model.summary)
+      builder.newline()
+    }
+
+    if (model.signature) {
+      builder.pushline(`**Signature:**`)
+      builder.pushline('```typescript')
+      builder.pushline(model.signature)
+      builder.pushline('```')
+      builder.newline()
+    }
+
+    if (model.remarks) {
+      builder.pushline(`### Remarks`)
+      builder.newline()
+      builder.pushline(model.remarks)
+      builder.newline()
+    }
+
+    if (model.examples) {
+      if (model.examples.length > 0) {
+        builder.pushline(`### Examples`)
+        builder.newline()
+        let count = 1
+        for (const e of model.examples) {
+          if (model.examples.length > 1) {
+            builder.pushline(`**Example ${count}:**`)
+            builder.newline()
+          }
+          builder.pushline(e)
+          builder.newline()
+          count++
+        }
+        builder.newline()
+      }
+    }
+
+    if (model.properties) {
+      for (const p of model.properties) {
+        builder.pushline(`### ${p.name}`)
+        builder.newline()
+        buildPropertySignature(p, builder)
+      }
+    }
+
+    if (model.methods) {
+      for (const m of model.methods) {
+        builder.pushline(`### ${m.name}`)
+        builder.newline()
+        buildMethodSignature(m, builder)
+      }
+    }
+  }
+
+  function buildPropertySignature(model, builder) {
+    if (model.summary) {
+      builder.pushline(model.summary)
+      builder.newline()
+    }
+
+    if (model.signature) {
+      builder.pushline(`**Signature:**`)
+      builder.pushline('```typescript')
+      builder.pushline(model.signature)
+      builder.pushline('```')
+      builder.newline()
+    }
+
+    if (model.remarks) {
+      builder.pushline(`#### Remarks`)
+      builder.newline()
+      builder.pushline(model.remarks)
+      builder.newline()
+    }
+
+    if (model.examples) {
+      if (model.examples.length > 0) {
+        builder.pushline(`#### Examples`)
+        builder.newline()
+        let count = 1
+        for (const e of model.examples) {
+          if (model.examples.length > 1) {
+            builder.pushline(`**Example ${count}:**`)
+            builder.newline()
+          }
+          builder.pushline(e)
+          builder.newline()
+          count++
+        }
+        builder.newline()
+      }
+    }
+  }
+
+  function buildMethodSignature(model, builder) {
+    if (model.summary) {
+      builder.pushline(model.summary)
+      builder.newline()
+    }
+
+    if (model.signature) {
+      builder.pushline(`**Signature:**`)
+      builder.pushline('```typescript')
+      builder.pushline(model.signature)
+      builder.pushline('```')
+      builder.newline()
+    }
+
+    if (model.remarks) {
+      builder.pushline(`#### Remarks`)
+      builder.newline()
+      builder.pushline(model.remarks)
+      builder.newline()
+    }
+
+    if (model.parameters) {
+      builder.pushline(`#### Parameters`)
+      builder.newline()
+      builder.pushline(`| Parameter | Type | Description |`)
+      builder.pushline(`| --- | --- | --- |`)
+      for (const p of model.parameters) {
+        builder.pushline(`| ${p.name} | ${p.type} | ${p.description} |`)
+      }
+      builder.newline()
+    }
+
+    if (model.returns) {
+      builder.pushline(`#### Returns`)
+      builder.newline()
+      builder.pushline(model.returns)
+      builder.newline()
+    }
+
+    if (model.throws) {
+      builder.pushline(`#### Throws`)
+      builder.newline()
+      for (const t of model.throws) {
+        let text = t
+        if (model.throws.length > 1) {
+          text = `- ` + text
+        }
+        builder.pushline(text)
+      }
+      builder.newline()
+    }
+
+    if (model.examples) {
+      if (model.examples.length > 0) {
+        builder.pushline(`#### Examples`)
+        builder.newline()
+        let count = 1
+        for (const e of model.examples) {
+          if (model.examples.length > 1) {
+            builder.pushline(`**Example ${count}:**`)
+            builder.newline()
+          }
+          builder.pushline(e)
+          builder.newline()
+          count++
+        }
+        builder.newline()
+      }
+    }
+  }
+
+  function buildClass(model, builder) {}
+
+  function buildTypeAlias(model, builder) {
+    if (model.summary) {
+      builder.pushline(model.summary)
+      builder.newline()
+    }
+
+    if (model.signature) {
+      builder.pushline(`**Signature:**`)
+      builder.pushline('```typescript')
+      builder.pushline(model.signature)
+      builder.pushline('```')
+      builder.newline()
+    }
+
+    if (model.remarks) {
+      builder.pushline(`### Remarks`)
+      builder.newline()
+      builder.pushline(model.remarks)
+      builder.newline()
+    }
+
+    if (model.examples) {
+      if (model.examples.length > 0) {
+        builder.pushline(`### Examples`)
+        builder.newline()
+        let count = 1
+        for (const e of model.examples) {
+          if (model.examples.length > 1) {
+            builder.pushline(`**Example ${count}:**`)
+            builder.newline()
+          }
+          builder.pushline(e)
+          builder.newline()
+          count++
+        }
+        builder.newline()
+      }
+    }
+  }
+
+  function buildVariable(model, builder) {}
+
+  function buildGeneral(models) {
+    const builder = createContentBuilder()
+    builder.pushline(`# General`)
+    builder.newline()
+
+    models.sort((a, b) => a.name.localeCompare(b.name))
+    models.forEach(m => {
+      builder.pushline(`## ${m.name}`)
+      builder.newline()
+      switch (m.type) {
+        case 'Function':
+          buildFunction(m, builder)
+          break
+        case 'Enum':
+          buildEnum(m, builder)
+          break
+        case 'Interface':
+          buildInterface(m, builder)
+          break
+        case 'Class':
+          buildClass(m, builder)
+          break
+        case 'TypeAlias':
+          buildTypeAlias(m, builder)
+          break
+        case 'Variable':
+          buildVariable(m, builder)
+          break
+        default:
+          break
+      }
+    })
+
+    return {
+      filename: 'general.md',
+      body: builder.content
+    }
+  }
+
+  function buildLegacy(models) {
+    const builder = createContentBuilder()
+    builder.pushline(`# Legacy API`)
+    builder.newline()
+
+    models.sort((a, b) => a.name.localeCompare(b.name))
+    models.forEach(m => {
+      builder.pushline(`## ${m.name}`)
+      builder.newline()
+      switch (m.type) {
+        case 'Function':
+          buildFunction(m, builder)
+          break
+        case 'Enum':
+          buildEnum(m, builder)
+          break
+        case 'Interface':
+          buildInterface(m, builder)
+          break
+        case 'Class':
+          buildClass(m, builder)
+          break
+        case 'TypeAlias':
+          buildTypeAlias(m, builder)
+          break
+        case 'Variable':
+          buildVariable(m, builder)
+          break
+        default:
+          break
+      }
+    })
+
+    return {
+      filename: 'legacy.md',
+      body: builder.content
+    }
+  }
+
+  function buildComposition(models) {
+    const builder = createContentBuilder()
+    builder.pushline(`# Composition API`)
+    builder.newline()
+
+    models.sort((a, b) => a.name.localeCompare(b.name))
+    models.forEach(m => {
+      builder.pushline(`## ${m.name}`)
+      builder.newline()
+      switch (m.type) {
+        case 'Function':
+          buildFunction(m, builder)
+          break
+        case 'Enum':
+          buildEnum(m, builder)
+          break
+        case 'Interface':
+          buildInterface(m, builder)
+          break
+        case 'Class':
+          buildClass(m, builder)
+          break
+        case 'TypeAlias':
+          buildTypeAlias(m, builder)
+          break
+        case 'Variable':
+          buildVariable(m, builder)
+          break
+        default:
+          break
+      }
+    })
+
+    return {
+      filename: 'composition.md',
+      body: builder.content
+    }
+  }
+
+  /*
+  function buildMisc(models) {
+    const builder = createContentBuilder()
+    builder.pushline(`# Misc`)
+    builder.newline()
+
+    models.sort((a, b) => a.name.localeCompare(b.name))
+    models.forEach(m => {
+      builder.pushline(`## ${m.name}`)
+      builder.newline()
+    })
+
+    return {
+      filename: 'misc.md',
+      body: builder.content
+    }
+  }
+  */
+
+  const models = parse()
+  const contents = build(models)
+
+  return contents
 }
 
 function parseFunction(style, model, pkg, resolver, item, customTags) {

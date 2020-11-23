@@ -1,6 +1,6 @@
 const { getSafePathFromDisplayName } = require('api-docs-gen')
 
-function resolve(style, item, model, pkg) {
+function resolve(style, item, model, pkg, customTags) {
   let baseName = ''
   for (const hierarchyItem of item.getHierarchy()) {
     const qualifiedName = getSafePathFromDisplayName(hierarchyItem.displayName)

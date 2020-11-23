@@ -37,6 +37,7 @@ const config = {
           {
             text: 'API Reference',
             link: '/api/'
+            //link: '/api/vue-i18n-general'
           },
           {
             text: 'Chnagelog',
@@ -145,6 +146,20 @@ const config = {
             },
           ],
           '/api/': getSidebarApi('vue-i18n'),
+          // '/api/': [
+          //   {
+          //     text: 'General',
+          //     link: '/api/vue-i18n-general'
+          //   },
+          //   {
+          //     text: 'Legacy API',
+          //     link: '/api/vue-i18n-legacy'
+          //   },
+          //   {
+          //     text: 'Composition API',
+          //     link: '/api/vue-i18n-composition'
+          //   }
+          // ]
         }
       }
     }
