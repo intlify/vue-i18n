@@ -1679,7 +1679,7 @@ anymatch@^3.0.3, anymatch@~3.1.1:
     normalize-path "^3.0.0"
     picomatch "^2.0.4"
 
-api-docs-gen@^0.2.2:
+api-docs-gen@^0.2.1:
   version "0.2.2"
   resolved "https://registry.yarnpkg.com/api-docs-gen/-/api-docs-gen-0.2.2.tgz#6821d32f5313a01e183f2de997d85b64741e419b"
   integrity sha512-jKSlNotT0Cz7XaWS2c/MmRPGhXNLtZOmOfhzwYNNq1y9iu3VKPsVZrb1jSGh8kzAhOuggPcXvLE2YUwTMRCncA==
