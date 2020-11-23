@@ -55,12 +55,15 @@ declare module '@vue/runtime-core' {
  * `I18nOptions` is inherited {@link I18nAdditionalOptions}, {@link ComposerOptions} and {@link VueI18nOptions},
  * so you can specify these options.
  *
+ * @VueI18nGeneral
  */
 export type I18nOptions = I18nAdditionalOptions &
   (ComposerOptions | VueI18nOptions)
 
 /**
  * I18n Additional Options for `createI18n`
+ *
+ * @VueI18nGeneral
  */
 export interface I18nAdditionalOptions {
   /**
@@ -79,11 +82,15 @@ export interface I18nAdditionalOptions {
 
 /**
  * Vue I18n API mode
+ *
+ * @VueI18nGeneral
  */
 export type I18nMode = 'legacy' | 'composition'
 
 /**
  * I18n interface
+ *
+ * @VueI18nGeneral
  */
 export interface I18n<
   Messages = {},
@@ -146,6 +153,8 @@ export interface I18nInternal {
 
 /**
  * I18n Scope
+ *
+ * @VueI18nGeneral
  */
 export type I18nScope = 'local' | 'parent' | 'global'
 
@@ -155,6 +164,8 @@ export type I18nScope = 'local' | 'parent' | 'global'
  * @remarks
  * `UseI18nOptions` is inherited {@link ComposerAdditionalOptions} and {@link ComposerOptions},
  * so you can specify these options.
+ *
+ * @VueI18nComposition
  */
 export type UseI18nOptions = ComposerAdditionalOptions & ComposerOptions
 
@@ -163,6 +174,8 @@ export type UseI18nOptions = ComposerAdditionalOptions & ComposerOptions
  *
  * @remarks
  * `ComposerAdditionalOptions` is extend for {@link ComposerOptions}, so you can specify these options.
+ *
+ * @VueI18nComposition
  */
 export interface ComposerAdditionalOptions {
   useScope?: I18nScope
@@ -234,6 +247,8 @@ export interface ComposerAdditionalOptions {
  * app.use(i18n)
  * app.mount('#app')
  * ```
+ *
+ * @VueI18nGeneral
  */
 export function createI18n<
   Options extends I18nOptions = {},
@@ -441,6 +456,8 @@ export function createI18n<
  * }
  * </script>
  * ```
+ *
+ * @VueI18nComposition
  */
 export function useI18n<
   Options extends UseI18nOptions = object,
@@ -661,6 +678,8 @@ function setupLifeCycle<Messages, DateTimeFormats, NumberFormats>(
  *
  * @remarks
  * This interface is the {@link I18n.global | global composer } that is provided interface that is injected into each component with `app.config.globalProperties`.
+ *
+ * @VueI18nGeneral
  */
 export interface ExportedGlobalComposer {
   /**

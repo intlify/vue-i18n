@@ -122,6 +122,8 @@ export type CustomBlocks<Message = VueMessageType> =
  *
  * @remarks
  * This is options to create composer.
+ *
+ * @VueI18nComposition
  */
 export interface ComposerOptions<Message = VueMessageType> {
   locale?: Locale
@@ -160,6 +162,8 @@ export interface ComposerInternalOptions<
  *
  * @remarks
  * This is the interface for being used for Vue 3 Composition API.
+ *
+ * @VueI18nComposition
  */
 export interface Composer<
   Messages = {},

@@ -50,6 +50,11 @@ import {
 } from './utils'
 import { DevToolsEmitter } from './debugger/constants'
 
+/**
+ * Translate Result
+ *
+ * @VueI18nLegacy
+ */
 export type TranslateResult = string
 export type Choice = number
 export type LocaleMessageObject<Message = string> = LocaleMessageDictionary<
@@ -74,7 +79,7 @@ export type ComponentInstanceCreatedListener = <Messages>(
  *  @remarks
  *  This option is compatible with the constructor options of `VueI18n` class (offered with vue-i18n v8.x).
  *
- *  @category Legacy API
+ *  @VueI18nLegacy
  */
 export interface VueI18nOptions {
   /**
@@ -284,7 +289,7 @@ export interface VueI18nOptions {
  *  @remarks
  *  This interface is compatible with interface of `VueI18n` class (offered with vue-i18n 8.x).
  *
- *  @category Legacy API
+ *  @VueI18nLegacy
  */
 export interface VueI18n<
   Messages = {},

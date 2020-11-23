@@ -153,6 +153,7 @@
     "coverage": "opener coverage/lcov-report/index.html",
     "dev:e2e": "jest --runInBand --config ./jest.e2e.config.js",
     "docs:apigen": "api-docs-gen ./temp/vue-i18n.api.json -o ./docs/api",
+    "docs:apigen1": "api-docs-gen ./temp/vue-i18n.api.json -o ./docs/api -c ./docsgen.config.js --tsdoc-config ./tsdoc.json",
     "docs:build": "yarn docs:setup && vitepress build docs",
     "docs:dev": "vitepress dev docs",
     "docs:serve": "vitepress serve docs",

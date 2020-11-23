@@ -1,0 +1,25 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/tsdoc/v0/tsdoc.schema.json",
+  "tagDefinitions": [
+    {
+      "tagName": "@VueI18nGeneral",
+      "syntaxKind": "modifier"
+    },
+    {
+      "tagName": "@VueI18nLegacy",
+      "syntaxKind": "modifier"
+    },
+    {
+      "tagName": "@VueI18nComposition",
+      "syntaxKind": "modifier"
+    },
+    {
+      "tagName": "@VueI18nDirective",
+      "syntaxKind": "modifier"
+    },
+    {
+      "tagName": "@VueI18nComponent",
+      "syntaxKind": "modifier"
+    }
+  ]
+}

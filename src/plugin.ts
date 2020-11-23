@@ -10,6 +10,8 @@ import { isPlainObject, warn, isBoolean } from './utils'
  *
  * @remarks
  * An options specified when installing vue-i18n as Vue plugin with using `app.use`.
+ *
+ * @VueI18nGeneral
  */
 export interface I18nPluginOptions {
   useI18nComponentName?: boolean
