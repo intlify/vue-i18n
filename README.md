@@ -54,14 +54,14 @@ If you use stable Vue I18n version, see this [repository](https://github.com/kaz
 
 New style API for Vue Composition API. See the following docs:
 
-- [createI18n](https://vue-i18n-next.intlify.dev/api/vue-i18n-function.html#createi18n)
-  - [I18nOptions](https://vue-i18n-next.intlify.dev/api/vue-i18n-typealias.html#i18noptions)
-  - [ComposerOptions](https://vue-i18n-next.intlify.dev/api/vue-i18n-interface.html#composeroptions)
-  - [VueI18nOptions](https://vue-i18n-next.intlify.dev/api/vue-i18n-interface.html#vuei18noptions)
-- [useI18n](https://vue-i18n-next.intlify.dev/api/vue-i18n-function.html#usei18n)
-  - [ComposerOptions](https://vue-i18n-next.intlify.dev/api/vue-i18n-interface.html#composeroptions)
-- [Composer](https://vue-i18n-next.intlify.dev/api/vue-i18n-interface.html#composer)
-- [VueI18n](https://vue-i18n-next.intlify.dev/api/vue-i18n-interface.html#vuei18n)
+- [createI18n](https://vue-i18n-next.intlify.dev/api/general.html#createi18n)
+  - [I18nOptions](https://vue-i18n-next.intlify.dev/api/general.html#i18noptions)
+  - [ComposerOptions](https://vue-i18n-next.intlify.dev/api/composition.html#composeroptions)
+  - [VueI18nOptions](https://vue-i18n-next.intlify.dev/api/legacy.html#vuei18noptions)
+- [useI18n](https://vue-i18n-next.intlify.dev/api/compositiono.html#usei18n)
+  - [ComposerOptions](https://vue-i18n-next.intlify.dev/api/compositino.html#composeroptions)
+- [Composer](https://vue-i18n-next.intlify.dev/api/composition.html#composer)
+- [VueI18n](https://vue-i18n-next.intlify.dev/api/legacy.html#vuei18n)
 
 ### `<i18n-t>` Component (formerly called `<i18n>` component)
 

@@ -1,6 +1,3 @@
-const { readdirSync } = require('fs')
-const { resolve, basename } = require('path')
-
 /** @typedef {import('vitepress').UserConfig} UserConfig */
 
 /** @type {UserConfig['head']} */
@@ -36,8 +33,7 @@ const config = {
           },
           {
             text: 'API Reference',
-            link: '/api/'
-            //link: '/api/vue-i18n-general'
+            link: '/api/general'
           },
           {
             text: 'Chnagelog',
@@ -145,44 +141,24 @@ const config = {
               link: '/v8-docs',
             },
           ],
-          '/api/': getSidebarApi('vue-i18n'),
-          // '/api/': [
-          //   {
-          //     text: 'General',
-          //     link: '/api/vue-i18n-general'
-          //   },
-          //   {
-          //     text: 'Legacy API',
-          //     link: '/api/vue-i18n-legacy'
-          //   },
-          //   {
-          //     text: 'Composition API',
-          //     link: '/api/vue-i18n-composition'
-          //   }
-          // ]
+          '/api/': [
+            {
+              text: 'General',
+              link: '/api/general'
+            },
+            {
+              text: 'Legacy API',
+              link: '/api/legacy'
+            },
+            {
+              text: 'Composition API',
+              link: '/api/composition'
+            }
+          ]
         }
       }
     }
   }
-}
-
-function getSidebarApi(target) {
-  const API_TITLE_MAPS = {
-    function: 'Functions',
-    interface: 'Interfaces',
-    typealias: 'Type Aliases',
-    variable: 'Variables',
-    class: 'Classes'
-  }
-  return readdirSync(resolve(__dirname, '../api'))
-    .map(file => basename(file, '.md'))
-    .filter(file => file.includes(target))
-    .map(file => {
-      return {
-        text: API_TITLE_MAPS[file.split('-').pop()],
-        link: `/api/${file}`
-      }
-    })
 }
 
 module.exports = config

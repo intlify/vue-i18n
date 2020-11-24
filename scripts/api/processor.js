@@ -62,11 +62,52 @@ function process(model, pkg, style, resolver, customTags) {
     console.log('misc models', miscModels)
 
     const contents = []
-    contents.push(buildGeneral(generalModels))
-    contents.push(buildLegacy(legacyModels))
-    contents.push(buildComposition(compositionModels))
+    contents.push(buildContents(generalModels, 'General', 'general.md'))
+    contents.push(buildContents(legacyModels, 'Legacy API', 'legacy.md'))
+    contents.push(
+      buildContents(compositionModels, 'Compositoin API', 'composition.md')
+    )
     // contents.push(buildMisc(miscModels))
     return contents
+  }
+
+  function buildContents(models, title, filename) {
+    const builder = createContentBuilder()
+    builder.pushline(`# ${title}`)
+    builder.newline()
+
+    models.sort((a, b) => a.name.localeCompare(b.name))
+    models.forEach(m => {
+      builder.pushline(`## ${m.name}`)
+      builder.newline()
+      switch (m.type) {
+        case 'Function':
+          buildFunction(m, builder)
+          break
+        case 'Enum':
+          buildEnum(m, builder)
+          break
+        case 'Interface':
+          buildInterface(m, builder)
+          break
+        case 'Class':
+          buildClass(m, builder)
+          break
+        case 'TypeAlias':
+          buildTypeAlias(m, builder)
+          break
+        case 'Variable':
+          buildVariable(m, builder)
+          break
+        default:
+          break
+      }
+    })
+
+    return {
+      filename: filename,
+      body: builder.content
+    }
   }
 
   function buildFunction(model, builder) {
@@ -84,7 +125,7 @@ function process(model, pkg, style, resolver, customTags) {
     }
 
     if (model.remarks) {
-      builder.pushline(`### Remarks`)
+      builder.pushline(`**Remarks**`)
       builder.newline()
       builder.pushline(model.remarks)
       builder.newline()
@@ -102,7 +143,7 @@ function process(model, pkg, style, resolver, customTags) {
     }
 
     if (model.returns) {
-      builder.pushline(`### Returns`)
+      builder.pushline(`**Remarks**`)
       builder.newline()
       builder.pushline(model.returns)
       builder.newline()
@@ -123,7 +164,7 @@ function process(model, pkg, style, resolver, customTags) {
 
     if (model.examples) {
       if (model.examples.length > 0) {
-        builder.pushline(`### Examples`)
+        builder.pushline(`**Examples**`)
         builder.newline()
         let count = 1
         for (const e of model.examples) {
@@ -157,7 +198,7 @@ function process(model, pkg, style, resolver, customTags) {
     }
 
     if (model.remarks) {
-      builder.pushline(`### Remarks`)
+      builder.pushline(`**Remarks**`)
       builder.newline()
       builder.pushline(model.remarks)
       builder.newline()
@@ -165,7 +206,7 @@ function process(model, pkg, style, resolver, customTags) {
 
     if (model.examples) {
       if (model.examples.length > 0) {
-        builder.pushline(`### Examples`)
+        builder.pushline(`**Examples**`)
         builder.newline()
         let count = 1
         for (const e of model.examples) {
@@ -213,7 +254,7 @@ function process(model, pkg, style, resolver, customTags) {
     }
 
     if (model.remarks) {
-      builder.pushline(`#### Remarks`)
+      builder.pushline(`**Remarks**`)
       builder.newline()
       builder.pushline(model.remarks)
       builder.newline()
@@ -221,7 +262,7 @@ function process(model, pkg, style, resolver, customTags) {
 
     if (model.examples) {
       if (model.examples.length > 0) {
-        builder.pushline(`#### Examples`)
+        builder.pushline(`**Examples**`)
         builder.newline()
         let count = 1
         for (const e of model.examples) {
@@ -253,7 +294,7 @@ function process(model, pkg, style, resolver, customTags) {
     }
 
     if (model.remarks) {
-      builder.pushline(`#### Remarks`)
+      builder.pushline(`**Remarks**`)
       builder.newline()
       builder.pushline(model.remarks)
       builder.newline()
@@ -292,7 +333,7 @@ function process(model, pkg, style, resolver, customTags) {
 
     if (model.examples) {
       if (model.examples.length > 0) {
-        builder.pushline(`#### Examples`)
+        builder.pushline(`**Examples**`)
         builder.newline()
         let count = 1
         for (const e of model.examples) {
@@ -326,7 +367,7 @@ function process(model, pkg, style, resolver, customTags) {
     }
 
     if (model.remarks) {
-      builder.pushline(`### Remarks`)
+      builder.pushline(`**Remarks**`)
       builder.newline()
       builder.pushline(model.remarks)
       builder.newline()
@@ -334,7 +375,7 @@ function process(model, pkg, style, resolver, customTags) {
 
     if (model.examples) {
       if (model.examples.length > 0) {
-        builder.pushline(`### Examples`)
+        builder.pushline(`**Examples**`)
         builder.newline()
         let count = 1
         for (const e of model.examples) {
@@ -351,143 +392,45 @@ function process(model, pkg, style, resolver, customTags) {
     }
   }
 
-  function buildVariable(model, builder) {}
-
-  function buildGeneral(models) {
-    const builder = createContentBuilder()
-    builder.pushline(`# General`)
-    builder.newline()
-
-    models.sort((a, b) => a.name.localeCompare(b.name))
-    models.forEach(m => {
-      builder.pushline(`## ${m.name}`)
+  function buildVariable(model, builder) {
+    if (model.summary) {
+      builder.pushline(model.summary)
       builder.newline()
-      switch (m.type) {
-        case 'Function':
-          buildFunction(m, builder)
-          break
-        case 'Enum':
-          buildEnum(m, builder)
-          break
-        case 'Interface':
-          buildInterface(m, builder)
-          break
-        case 'Class':
-          buildClass(m, builder)
-          break
-        case 'TypeAlias':
-          buildTypeAlias(m, builder)
-          break
-        case 'Variable':
-          buildVariable(m, builder)
-          break
-        default:
-          break
+    }
+
+    if (model.signature) {
+      builder.pushline(`**Signature:**`)
+      builder.pushline('```typescript')
+      builder.pushline(model.signature)
+      builder.pushline('```')
+      builder.newline()
+    }
+
+    if (model.remarks) {
+      builder.pushline(`**Remarks**`)
+      builder.newline()
+      builder.pushline(model.remarks)
+      builder.newline()
+    }
+
+    if (model.examples) {
+      if (model.examples.length > 0) {
+        builder.pushline(`**Examples**`)
+        builder.newline()
+        let count = 1
+        for (const e of model.examples) {
+          if (model.examples.length > 1) {
+            builder.pushline(`**Example ${count}:**`)
+            builder.newline()
+          }
+          builder.pushline(e)
+          builder.newline()
+          count++
+        }
+        builder.newline()
       }
-    })
-
-    return {
-      filename: 'general.md',
-      body: builder.content
     }
   }
-
-  function buildLegacy(models) {
-    const builder = createContentBuilder()
-    builder.pushline(`# Legacy API`)
-    builder.newline()
-
-    models.sort((a, b) => a.name.localeCompare(b.name))
-    models.forEach(m => {
-      builder.pushline(`## ${m.name}`)
-      builder.newline()
-      switch (m.type) {
-        case 'Function':
-          buildFunction(m, builder)
-          break
-        case 'Enum':
-          buildEnum(m, builder)
-          break
-        case 'Interface':
-          buildInterface(m, builder)
-          break
-        case 'Class':
-          buildClass(m, builder)
-          break
-        case 'TypeAlias':
-          buildTypeAlias(m, builder)
-          break
-        case 'Variable':
-          buildVariable(m, builder)
-          break
-        default:
-          break
-      }
-    })
-
-    return {
-      filename: 'legacy.md',
-      body: builder.content
-    }
-  }
-
-  function buildComposition(models) {
-    const builder = createContentBuilder()
-    builder.pushline(`# Composition API`)
-    builder.newline()
-
-    models.sort((a, b) => a.name.localeCompare(b.name))
-    models.forEach(m => {
-      builder.pushline(`## ${m.name}`)
-      builder.newline()
-      switch (m.type) {
-        case 'Function':
-          buildFunction(m, builder)
-          break
-        case 'Enum':
-          buildEnum(m, builder)
-          break
-        case 'Interface':
-          buildInterface(m, builder)
-          break
-        case 'Class':
-          buildClass(m, builder)
-          break
-        case 'TypeAlias':
-          buildTypeAlias(m, builder)
-          break
-        case 'Variable':
-          buildVariable(m, builder)
-          break
-        default:
-          break
-      }
-    })
-
-    return {
-      filename: 'composition.md',
-      body: builder.content
-    }
-  }
-
-  /*
-  function buildMisc(models) {
-    const builder = createContentBuilder()
-    builder.pushline(`# Misc`)
-    builder.newline()
-
-    models.sort((a, b) => a.name.localeCompare(b.name))
-    models.forEach(m => {
-      builder.pushline(`## ${m.name}`)
-      builder.newline()
-    })
-
-    return {
-      filename: 'misc.md',
-      body: builder.content
-    }
-  }
-  */
 
   const models = parse()
   const contents = build(models)
