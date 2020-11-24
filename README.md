@@ -58,8 +58,8 @@ New style API for Vue Composition API. See the following docs:
   - [I18nOptions](https://vue-i18n-next.intlify.dev/api/general.html#i18noptions)
   - [ComposerOptions](https://vue-i18n-next.intlify.dev/api/composition.html#composeroptions)
   - [VueI18nOptions](https://vue-i18n-next.intlify.dev/api/legacy.html#vuei18noptions)
-- [useI18n](https://vue-i18n-next.intlify.dev/api/compositiono.html#usei18n)
-  - [ComposerOptions](https://vue-i18n-next.intlify.dev/api/compositino.html#composeroptions)
+- [useI18n](https://vue-i18n-next.intlify.dev/api/composition.html#usei18n)
+  - [ComposerOptions](https://vue-i18n-next.intlify.dev/api/composition.html#composeroptions)
 - [Composer](https://vue-i18n-next.intlify.dev/api/composition.html#composer)
 - [VueI18n](https://vue-i18n-next.intlify.dev/api/legacy.html#vuei18n)
 
