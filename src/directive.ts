@@ -62,6 +62,13 @@ function getComposer<
   }
 }
 
+/**
+ * Translation Directive (`v-t`)
+ *
+ * @VueI18nDirective
+ */
+export type TranslationDirective<T = HTMLElement> = ObjectDirective<T>
+
 export function vTDirective<
   Messages,
   DateTimeFormats,
@@ -69,7 +76,7 @@ export function vTDirective<
   Legacy extends boolean
 >(
   i18n: I18n<Messages, DateTimeFormats, NumberFormats, Legacy>
-): ObjectDirective<HTMLElement> {
+): TranslationDirective<HTMLElement> {
   const bind = (
     el: HTMLElement,
     { instance, value, modifiers }: DirectiveBinding
@@ -91,7 +98,7 @@ export function vTDirective<
   return {
     beforeMount: bind,
     beforeUpdate: bind
-  } as ObjectDirective<HTMLElement>
+  } as TranslationDirective<HTMLElement>
 }
 
 function parseValue(value: unknown): VTDirectiveValue {

@@ -47,28 +47,45 @@ function process(model, pkg, style, resolver, customTags) {
   }
 
   function build(models) {
-    const generalModels = models.filter(
-      m => m.modifierTags && m.modifierTags.includes('@VueI18nGeneral')
-    )
-    const legacyModels = models.filter(
-      m => m.modifierTags && m.modifierTags.includes('@VueI18nLegacy')
-    )
-    const compositionModels = models.filter(
-      m => m.modifierTags && m.modifierTags.includes('@VueI18nComposition')
-    )
-    const miscModels = models.filter(
-      m => m.modifierTags && m.modifierTags.length === 0
-    )
-    console.log('misc models', miscModels)
+    const targets = [
+      {
+        tag: '@VueI18nGeneral',
+        title: 'General',
+        file: 'general.md'
+      },
+      {
+        tag: '@VueI18nLegacy',
+        title: 'Legacy API',
+        file: 'legacy.md'
+      },
+      {
+        tag: '@VueI18nComposition',
+        title: 'Composition API',
+        file: 'composition.md'
+      },
+      {
+        tag: '@VueI18nComponent',
+        title: 'Components',
+        file: 'component.md'
+      },
+      {
+        tag: '@VueI18nDirective',
+        title: 'Directives',
+        file: 'directive.md'
+      },
+      {
+        tag: '@VueI18nInjection',
+        title: 'Component Injections',
+        file: 'injection.md'
+      }
+    ]
 
-    const contents = []
-    contents.push(buildContents(generalModels, 'General', 'general.md'))
-    contents.push(buildContents(legacyModels, 'Legacy API', 'legacy.md'))
-    contents.push(
-      buildContents(compositionModels, 'Compositoin API', 'composition.md')
-    )
-    // contents.push(buildMisc(miscModels))
-    return contents
+    return targets.map(t => {
+      const targetModels = models.filter(
+        m => m.modifierTags && m.modifierTags.includes(t.tag)
+      )
+      return buildContents(targetModels, t.title, t.file)
+    })
   }
 
   function buildContents(models, title, filename) {

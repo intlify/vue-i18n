@@ -153,6 +153,14 @@ const config = {
             {
               text: 'Composition API',
               link: '/api/composition'
+            },
+            {
+              text: 'Coomponents',
+              link: '/api/component'
+            },
+            {
+              text: 'Diretives',
+              link: '/api/directive'
             }
           ]
         }

@@ -20,6 +20,10 @@
     {
       "tagName": "@VueI18nComponent",
       "syntaxKind": "modifier"
+    },
+    {
+      "tagName": "@VueI18nInjection",
+      "syntaxKind": "modifier"
     }
   ]
 }

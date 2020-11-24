@@ -3,7 +3,11 @@ import { I18nScope } from '../i18n'
 
 export type ComponetI18nScope = Exclude<I18nScope, 'local'>
 
-/** @internal */
+/**
+ * Base Format Props for Vue I18n Component
+ *
+ * @VueI18nComponent
+ */
 export interface BaseFormatProps {
   tag?: string | object
   locale?: Locale

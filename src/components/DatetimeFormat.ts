@@ -5,6 +5,11 @@ import { Composer, ComposerInternal, DatetimePartsSymbol } from '../composer'
 import { renderFormatter, FormattableProps } from './formatRenderer'
 import { baseFormatProps } from './base'
 
+/**
+ * Datetime Foramt Props
+ *
+ * @VueI18nComponent
+ */
 export type DatetimeFormatProps = FormattableProps<
   number | Date,
   Intl.DateTimeFormatOptions
@@ -33,6 +38,11 @@ const DATETIME_FORMAT_KEYS = [
   'timeZoneName'
 ]
 
+/**
+ * Datetime Format Component
+ *
+ * @VueI18nComponent
+ */
 export const DatetimeFormat = {
   /* eslint-disable */
   name: 'i18n-d',

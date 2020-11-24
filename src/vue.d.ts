@@ -13,6 +13,11 @@ import {
 import { ExportedGlobalComposer } from './i18n'
 
 declare module '@vue/runtime-core' {
+  /**
+   * Component Custom Options for Vue I18n
+   *
+   * @VueI18nInjection
+   */
   export interface ComponentCustomOptions {
     /**
      * VueI18n options
@@ -28,6 +33,11 @@ declare module '@vue/runtime-core' {
     __i18n?: CustomBlocks
   }
 
+  /**
+   * Component Custom Propertieis for Vue I18n
+   *
+   * @VueI18nInjection
+   */
   export interface ComponentCustomProperties {
     /**
      * Exported Global Composer instance, or global VueI18n instance.

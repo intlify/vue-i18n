@@ -59,7 +59,7 @@ export {
   BaseFormatProps,
   ComponetI18nScope
 } from './components'
-export { vTDirective } from './directive'
+export { vTDirective, TranslationDirective } from './directive'
 export { I18nPluginOptions } from './plugin'
 export { VERSION } from './misc'
 

@@ -5,6 +5,11 @@ import { Composer, ComposerInternal, NumberPartsSymbol } from '../composer'
 import { renderFormatter, FormattableProps } from './formatRenderer'
 import { baseFormatProps } from './base'
 
+/**
+ * Number Format Props
+ *
+ * @VueI18nComponent
+ */
 export type NumberFormatProps = FormattableProps<
   number,
   Intl.NumberFormatOptions
@@ -28,6 +33,11 @@ const NUMBER_FORMAT_KEYS = [
   'formatMatcher'
 ]
 
+/**
+ * Number Format Component
+ *
+ * @VueI18nComponent
+ */
 export const NumberFormat = {
   /* eslint-disable */
   name: 'i18n-n',

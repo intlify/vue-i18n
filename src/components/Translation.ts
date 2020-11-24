@@ -6,11 +6,21 @@ import { NamedValue } from '../message/runtime'
 import { isNumber, isString, isObject } from '../utils'
 import { baseFormatProps, BaseFormatProps } from './base'
 
+/**
+ * Translation Props
+ *
+ * @VueI18nComponent
+ */
 export interface TranslationProps extends BaseFormatProps {
   keypath: string
   plural?: number | string
 }
 
+/**
+ * Translationo Component
+ *
+ * @VueI18nComponent
+ */
 export const Translation = {
   /* eslint-disable */
   name: 'i18n-t',
