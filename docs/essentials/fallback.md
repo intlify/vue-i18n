@@ -27,7 +27,7 @@ const messages = {
 }
 ```
 
-If you want to use (say) `en` items when an item is not available in your desired locale, set the `fallbackLocale` option in the `createI18n` function:
+If you want to use (say) `en` items when an item is not available in your desired locale, set the `fallbackLocale` option in the `createI18n`:
 
 ```js
 const i18n = createI18n({
@@ -62,7 +62,7 @@ The first warning message is printed the key, due to  given to the translation f
 These warning messages are only warned in development mode (`process.env.NODE_ENV !== 'production'`) by default, not for production.
 :::
 
-To suppress these warnings (while keeping those which warn of the total absence of translation for the given key) set `silentTranslationWarn: true`, and `silentFallbackWarn: true` when initializing the `createI18n` function.
+To suppress these warnings (while keeping those which warn of the total absence of translation for the given key) set `silentTranslationWarn: true`, and `silentFallbackWarn: true` when initializing the `createI18n`.
 
 ## Explicit fallback with an array of locales
 

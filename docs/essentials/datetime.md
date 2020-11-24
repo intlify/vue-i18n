@@ -30,7 +30,7 @@ const dateTimeFormats = {
 
 As seen above, you can define named datetime format (e.g. `short`, `long`, etc), and you need to use [the options with ECMA-402 Intl.DateTimeFormat](https://tc39.es/ecma402/#datetimeformat-objects)
 
-After that, when using the locale messages, you need to specify the `dateTimeFormats` option of `createI18n` function:
+After that, when using the locale messages, you need to specify the `dateTimeFormats` option of `createI18n`:
 
 ```js
 const i18n = createI18n({
@@ -38,14 +38,14 @@ const i18n = createI18n({
 })
 ```
 
-To localize DateTime value with Vue I18n, use the `$d` function.
+To localize DateTime value with Vue I18n, use the `$d`.
 
 :::tip NOTE
 Some ways to support localize are:
 
-- `$d` function (for Legacy API mode & [Composition API mode](../advanced/composition))
-- built-in Datetime component (`i18n-d`)
-- exported `d` function from `useI18n` (for [Composition API mode](../advanced/composition))
+- `$d` (for Legacy API mode & [Composition API](../advanced/composition) mode)
+- built-in DatetimeFormat component (`i18n-d`)
+- exported `d` from `useI18n` (for [Composition API](../advanced/composition) mode)
 :::
 
 The following is an example of the use of `$d` in a template:
@@ -58,7 +58,7 @@ The following is an example of the use of `$d` in a template:
 The first argument is datetime able value (e.g. `Date`, timestamp) as a parameter, and the second argument is datetime format name as a parameter. The last argument locale value as a parameter.
 
 :::tip NOTE
-About `$d` function of parameter details, See the API docs.
+About `$d` of parameter details, See the API docs.
 :::
 
 As result the below:
@@ -70,9 +70,9 @@ As result the below:
 
 ## Custom Formatting
 
-`$d` function returns resulting string with fully formatted datetime, which can only be used as a whole. In situations when you need to style some part of the formatted datetime (like fraction digits), `$d` is not enough. In such cases `<i18n-d>` component will be of help.
+`$d` returns resulting string with fully formatted datetime, which can only be used as a whole. In situations when you need to style some part of the formatted datetime (like fraction digits), `$d` is not enough. In such cases `i18n-d` component will be of help.
 
-With a minimum set of properties, `<i18n-d>` generates the same output as `$d`, wrapped into configured DOM element.
+With a minimum set of properties, `i18n-d` generates the same output as `$d`, wrapped into configured DOM element.
 
 The following template:
 
@@ -82,13 +82,13 @@ The following template:
 <i18n-d tag="p" :value="new Date()" format="long" locale="ja-JP-u-ca-japanese"></i18n-d>
 ```
 
-`<i18n-dn>` component has some props.
+`i18n-d` component has some props.
 
 The `tag` is the property to set the tag.
 
 The `value` prop is a property to set the datetime able value to be formatted.
 
-The `format` prop is a property to which the format defined by the `dateTimeFormats` option of `createI18n` function can be set.
+The `format` prop is a property to which the format defined by the `dateTimeFormats` option of `createI18n` can be set.
 
 The `locale` prop is a property to set the locale. It’s is localized with the locale specified by this prop instead of the one specified with the `locale` option of `createI18n`.
 
@@ -147,5 +147,5 @@ It is possible to specify multiple scoped slots at the same time:
 ```
 
 :::tip NOTE
-Full list of the supported scoped slots as well as other `<i18n-d>` properties can be found on API page.
+Full list of the supported scoped slots as well as other `i18n-d`, properties can be found on [API Reference](../api/component.html#datetimeformat).
 :::

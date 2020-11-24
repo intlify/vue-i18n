@@ -4,11 +4,17 @@
 :warning: This documentation is WIP
 :::
 
-:::warning NOTICE
-:warning: This documentation is for Vue I18n v9.0 or later. If you use v8.x, see the [migrations](./migrations/) section.
-:::
-
 Vue I18n is internationalization plugin of Vue.js. It easily integrates some localization features to your Vue.js Application. Features includes:
+
+:::warning NOTICE
+This documentation is for Vue I18n v9.0 or later. If you use v8.x, see the sections below:
+
+- Migration from Vue 2
+  - [Breaking Changes](../migration/breaking)
+  - [New Features](../migration/features)
+- Advanced
+  - [Compostion API](../advanced/composition)
+:::
 
 Go to [Get Started](./essentials/started)
 

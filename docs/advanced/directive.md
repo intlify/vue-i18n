@@ -1,6 +1,6 @@
 # Custom Directive Localization
 
-You can translate not only with `$t` function, but also with the `v-t` custom directive.
+You can translate not only with `$t`, but also with the `v-t` custom directive.
 
 ## String syntax
 

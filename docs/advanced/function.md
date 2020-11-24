@@ -51,9 +51,9 @@ Output is the below:
 The message function outputs the message of the return **string** value of the message function.
 
 :::tip NOTE
-If you need to use the `<i18n-t>` component, you need to support returning not only the string value, but also the **VNode** value.
+If you need to use the Translation component (`i18n-t`), you need to support returning not only the string value, but also the **VNode** value.
 
-To support for `<i18n-t>` component usage, the `type` prop of MessageContext is used as shown in the following code example:
+To support for Translatiion component usage, the `type` prop of MessageContext is used as shown in the following code example:
 
 ```js
 import { createVNode, Text } from 'vue'

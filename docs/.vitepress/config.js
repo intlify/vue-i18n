@@ -159,7 +159,7 @@ const config = {
               link: '/api/component'
             },
             {
-              text: 'Diretives',
+              text: 'Directives',
               link: '/api/directive'
             }
           ]

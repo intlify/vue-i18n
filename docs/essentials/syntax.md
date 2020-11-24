@@ -22,7 +22,7 @@ const messages = {
 }
 ```
 
-The locale messages is the resource specified by the `messages` option of `createI18n` function. It is defined `en` locale with `{ message: { hello: '{msg} world' } } }`.
+The locale messages is the resource specified by the `messages` option of `createI18n`. It is defined `en` locale with `{ message: { hello: '{msg} world' } } }`.
 
 Named interpolation allows you to specify variables defined in JavaScript. In the locale message above, you can localize it by giving the JavaScript defined `msg` as a parameter to the translation function.
 
@@ -32,14 +32,14 @@ The following is an example of the use of `$t` in a template:
 <p>{{ $t('message.hello', { msg: 'hello' }) }}</p>
 ```
 
-The first argument is `message.hello` as the locale messages key, and the second argument is an object with `msg` property as a parameter to `$t` function.
+The first argument is `message.hello` as the locale messages key, and the second argument is an object with `msg` property as a parameter to `$t`.
 
 :::tip NOTE
 The locale message resource key for the translate function can be specified for a specific resource namespace with using `.` (dot), just like a JavaScript object.
 ::::
 
 :::tip NOTE
-`$t` function has some overloads. About these overloads, see the here.
+`$t` has some overloads. About these overloads, see the here.
 :::
 
 As result the below:
@@ -74,7 +74,7 @@ The following is an example of the use of `$t` in a template:
 <p>{{ $t('message.hello', ['hello']) }}</p>
 ```
 
-The first argument is `message.hello` as the locale messages key, and the second argument is an array that have `'hello'` item as a parameter to `$t` function.
+The first argument is `message.hello` as the locale messages key, and the second argument is an array that have `'hello'` item as a parameter to `$t`.
 
 As result the below:
 
@@ -106,7 +106,7 @@ The following is an example of the use of `$t` in a template:
 <p>email: {{ $t('address', { account: 'foo', domain: 'domain.com' }) }}</p>
 ```
 
-The first argument is `address` as the locale messages key, and the second argument is an object with `account` and `domain` property as a parameter to `$t` function.
+The first argument is `address` as the locale messages key, and the second argument is an object with `account` and `domain` property as a parameter to `$t`.
 
 As result the below:
 
@@ -148,7 +148,7 @@ The following is an example of the use of `$t` in a template:
 <p>{{ $t('message.linked') }}</p>
 ```
 
-The first argument is `message.linked` as the locale messages key as a parameter to `$t` function.
+The first argument is `message.linked` as the locale messages key as a parameter to `$t`.
 
 As result the below:
 
@@ -204,7 +204,7 @@ As result the below:
 
 If you want to use a non built-in modifiers, you can use your custom modifiers.
 
-To use custom modifiers, you must specify them in `modifiers` option of `createI18n` function:
+To use custom modifiers, you must specify them in `modifiers` option of `createI18n`:
 
 ```js
 const i18n = createI18n({
@@ -304,7 +304,7 @@ We recommended using the [Component interpolation](../advanced/component).
 :::warning NOTICE
 If the message contains HTML, Vue I18n outputs a warning to console when development mode (`process.env.NODE_ENV !== 'production'`), Vue I18n outputs  warning to console.
 
-You can control warning output with the `warnHtmlInMessage` or `warnHtmlMessage` options in `createI18n` function or `useI18n` function.
+You can control warning output with the `warnHtmlInMessage` or `warnHtmlMessage` options in `createI18n` or `useI18n`.
 :::
 
 As an example, the following locale messages resource:

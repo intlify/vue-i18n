@@ -484,11 +484,11 @@ Vue I18n v9 or later:
 
 **Reason**: Since be able to do the same thing with slots
 
-## Number component
+## NumberFormat component
 
 ### `tag` prop is optional
 
-Similar to *[Translation component section](#tag-prop-is-optional)*, In Number component (called *i18n-n functional component* in Vue I18n v8.x) `tag` prop could be used to render child elements without the root element by specifying a tag name and the `Boolean` value `true`.
+Similar to *[Translation component section](#tag-prop-is-optional)*, In NumberFormat component (called *i18n-n functional component* in Vue I18n v8.x) `tag` prop could be used to render child elements without the root element by specifying a tag name and the `Boolean` value `true`.
 
 Vue I18n v8.x:
 

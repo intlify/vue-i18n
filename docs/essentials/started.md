@@ -85,17 +85,3 @@ In Vue I18n v9 and later, the API offered by Vue I18n v8.x is called **Legacy AP
 :::
 
 The following sections will be explained using the Legacy API.
-
-## Have you already used Vue I18n ?
-
-If you`ve used Vue I18n before, you’ll want to use the API offered for Compostion API to support i18n, but some new features are supported in Vue I18n v9 and later.
-
-So recommended that you read through the basics at least once.
-
-If you just wanna use the Compositoin API and just wanna migrate from Vue 2.x, you can read on from the sections below:
-
-- Advanced
-  - [Compostion API](../advanced/composition)
-- Migration from Vue 2
-  - [Breaking Changes](../migration/breaking)
-  - [New Features](../migration/features)

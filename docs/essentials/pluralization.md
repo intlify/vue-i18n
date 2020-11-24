@@ -25,16 +25,16 @@ The `car` has `car | cars` pluralization message, and the `apple` has `no apples
 
 These plural messages are selected by the logic of the choice rule for each language in the translaton API according to the numeric value you specify at the translation API.
 
-Vue I18n will be offered some pluralization ways. Here we’ll use the `$tc` function.
+Vue I18n will be offered some pluralization ways. Here we’ll use the `$tc`.
 
 :::tip NOTE
 Some ways to support pluralization are:
 
-- `$tc` function (for Legacy API)
-- `v-t` function custom directive
+- `$tc` (for Legacy API mode)
+- `v-t` custom directive
 - built-in Translation component (`i18n-t`)
-- exported `t` function from `useI18n` (for [Composition API mode](../advanced/composition))
-- injected `$t` global function  (for [Composition API mode](../advanced/composition))
+- exported `t` from `useI18n` (for [Composition API](../advanced/composition)) mode
+- injected global `$t` (for [Composition API](../advanced/composition)) mode
 :::
 
 The following is an example of using the translation API.
@@ -48,7 +48,7 @@ The following is an example of using the translation API.
 <p>{{ $tc('apple', 10, { count: 10 }) }}</p>
 ```
 
-In the above example of using the `$tc` function, the first argument is the locale messages key and the second argument is a number. The `$tc` function returns the choice message as a result.
+In the above example of using the `$tc`, the first argument is the locale messages key and the second argument is a number. The `$tc` returns the choice message as a result.
 
 As result the below:
 
@@ -84,7 +84,7 @@ The `banana` has `no apples | one apple | {count} apples` pluralization message,
 
 The number can be accessed within locale messages via predefined named arguments `{count}` and/or `{n}`. You can overwrite those predefined named arguments if necessary.
 
-The following is an example of using `$tc` function:
+The following is an example of using `$tc`:
 
 ```html
 <p>{{ $tc('apple', 10, { count: 10 }) }}</p>

@@ -13,7 +13,7 @@ Vue I18n v9 offers not only Vue 3 support, but this version also is included new
 
 ## Composition API
 
-See the [Advanced Compostion API](../advanced/composition) section
+See the [Compostion API](../advanced/composition) advanced section
 
 ## Translation Component
 
@@ -54,8 +54,8 @@ export default {
 </script>
 ```
 
-## Datetime Component
+## DatetimeFormat Component
 
-For Datetime localization, since Vue I18n v9, we also offer the Datetime component like the [Number component](../essentials/number#custom-formatting).
+For Datetime localization, since Vue I18n v9, we also offer the DatetimeFormat component like the [NumberFormat component](../essentials/number#custom-formatting).
 
-See the [Datetime localizaztion custom formatting](../essentials/datetime#custom-formatting)
+See the [Datetime localization custom formatting](../essentials/datetime#custom-formatting)

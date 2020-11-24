@@ -55,7 +55,7 @@ const app = Vue.createApp({
 
 You must call `useI18n` at top of the `setup`.
 
-The `useI18n` returns a Composer instance. The Compser instance provides a translation API such as the `t` function, as well as properties such as `locale` and `fallbackLocale`, just like the VueI18n instance. For more information on the Composer instance, see the [API Reference](../api/).
+The `useI18n` returns a Composer instance. The Compser instance provides a translation API such as the `t` function, as well as properties such as `locale` and `fallbackLocale`, just like the VueI18n instance. For more information on the Composer instance, see the [API Reference](../api/composition#composer).
 
 In the above example, there are no options for `useI18n`, so it returns a Composer instance that works with the global scope. As such, it returns a Composer instance that works with the global scope, which means that the localized message referenced by the spread `t` function here is the one specified in `createI18n`. This means that the locale message referenced by the spread `t` function here will be the locale message specified in `createI18n`.
 
@@ -127,7 +127,7 @@ export default {
 </script>
 ```
 
-For more detals of `t`, see the [API Reference](../api/).
+For more detals of `t`, see the [API Reference](../api/composition#t).
 
 ## Pluralization
 
@@ -223,7 +223,7 @@ export default {
 </script>
 ```
 
-For more detals of `d`, see the [API Reference](../api/).
+For more detals of `d`, see the [API Reference](../api/composition#d).
 
 ## Number Localization
 
@@ -267,7 +267,7 @@ export default {
 </script>
 ```
 
-For more detals of `n`, see the [API Reference](../api/).
+For more detals of `n`, see the [API Reference](../api/composition#n).
 
 ## Global scope
 

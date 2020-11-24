@@ -17,9 +17,9 @@ Vue I18n has two scopes the below:
 
 The global scope allows you to refer to scopes in all components of the Vue application. The global scope is very useful if you want to centrally manage i18n resources across your application.
 
-The global scope is created when you create an i18n instance with `createI18n`, and the one to be scoped is the one for the `VueI18n` instance, which can be accessed by the `global` property of the i18n instance. What is global scoped is the one of the `VueI18n` instance that is accessible with `global` property of the i18n instance.
+The global scope is created when you create an i18n instance with `createI18n`, and the one to be scoped is the one for the `VueI18n` instance, which can be accessed by the i18n instance `global` property. What is global scoped is the one of the `VueI18n` instance that is accessible with `global` property of the i18n instance.
 
-The global scope is enabled on the target component when the `i18n` component option is unspecified. When global scope is enabled on a component, `VueI18n` instance accessed by `this.$i18n` is essentially the same as `global` property of the i18n instance.
+The global scope is enabled on the target component when the `i18n` component option is unspecified. When global scope is enabled on a component, `VueI18n` instance accessed by `this.$i18n` is essentially the same as i18n instance `global` property.
 
 
 ### Local Scope
