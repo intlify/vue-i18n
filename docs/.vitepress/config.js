@@ -32,6 +32,53 @@ const config = {
             link: '/essentials/started'
           },
           {
+            text: 'Ecosystem',
+            items: [
+              {
+                text: 'Official Tooling',
+                items: [
+                  // {
+                  //   text: 'Vue CLI Plugin',
+                  //   link: 'https://github.com/kazupon/vue-cli-plugin-i18n'
+                  // },
+                  {
+                    text: 'Webpack Loader',
+                    link: 'https://github.com/intlify/vue-i18n-loader'
+                  },
+                  {
+                    text: 'Rollup Plugin',
+                    link: 'https://github.com/intlify/rollup-plugin-vue-i18n'
+                  },
+                  {
+                    text: 'Vite Plugin',
+                    link: 'https://github.com/intlify/vite-plugin-vue-i18n'
+                  },
+                  {
+                    text: 'ESLint Plugin',
+                    link: 'https://intlify.github.io/eslint-plugin-vue-i18n/'
+                  },
+                  {
+                    text: 'Extensions',
+                    link: 'https://github.com/kazupon/vue-i18n-extensions'
+                  }
+                ]
+              },
+              {
+                text: '3rd Party Tooling',
+                items: [
+                  {
+                    text: 'BabelEdit',
+                    link: 'https://www.codeandweb.com/babeledit?utm_campaign=vue-i18n-2019-01'
+                  },
+                  {
+                    text: 'i18n Ally',
+                    link: 'https://marketplace.visualstudio.com/items?itemName=antfu.i18n-ally'
+                  }
+                ]
+              }
+            ]
+          },
+          {
             text: 'API Reference',
             link: '/api/general'
           },
@@ -117,6 +164,10 @@ const config = {
                   link: '/advanced/composition',
                 }
               ]
+            },
+            {
+              text: 'Tooling',
+              link: '/tooling'
             },
             {
               text: 'Migration from Vue 2',
