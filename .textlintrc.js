@@ -27,7 +27,9 @@ module.exports = {
         'JSON5',
         'HTTP',
         'CLI',
-        'SFC'
+        'SFC',
+        'PHP',
+        'SSR'
       ]
     },
     'abbr-within-parentheses': true,
