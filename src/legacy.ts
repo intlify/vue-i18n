@@ -50,19 +50,18 @@ import {
 } from './utils'
 import { DevToolsEmitter } from './debugger/constants'
 
-/**
- * Translate Result
- *
- * @VueI18nLegacy
- */
+/** @VueI18nLegacy */
 export type TranslateResult = string
 export type Choice = number
+/** @VueI18nLegacy */
 export type LocaleMessageObject<Message = string> = LocaleMessageDictionary<
   Message
 >
 export type PluralizationRulesMap = { [locale: string]: PluralizationRule }
 export type WarnHtmlInMessageLevel = 'off' | 'warn' | 'error'
+/** @VueI18nLegacy */
 export type DateTimeFormatResult = string
+/** @VueI18nLegacy */
 export type NumberFormatResult = string
 export interface Formatter {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any

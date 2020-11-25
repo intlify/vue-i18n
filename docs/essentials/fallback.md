@@ -1,4 +1,4 @@
-# Fallback localization
+# Fallbacking
 
 `fallbackLocale: '<lang>'` to choose which language to use when your preferred language lacks a translation.
 

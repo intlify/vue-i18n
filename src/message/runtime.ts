@@ -62,6 +62,7 @@ export type PluralizationProps = {
 export type LinkedModify<T = string> = (value: T) => MessageType<T>
 export type LinkedModifiers<T = string> = { [key: string]: LinkedModify<T> }
 
+/** @VueI18nGeneral */
 export type NamedValue<T = {}> = T & Record<string, unknown>
 
 // TODO: list and named type definition more improvements

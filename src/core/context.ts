@@ -27,19 +27,24 @@ import {
   NumberFormats as NumberFormatsType
 } from './types'
 
+/** @VueI18nGeneral */
 export type Locale = string
 
+/** @VueI18nGeneral */
 export type FallbackLocale =
   | Locale
   | Locale[]
   | { [locale in string]: Locale[] }
   | false
 
+/** @VueI18nGeneral */
 export type LocaleMessageValue<Message = string> =
   | string
   | MessageFunction<Message>
   | LocaleMessageDictionary<Message>
   | LocaleMessageArray<Message>
+
+/** @VueI18nGeneral */
 export type LocaleMessageDictionary<Message = string> = {
   [property: string]: LocaleMessageValue<Message>
 }
