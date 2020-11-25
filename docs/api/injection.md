@@ -66,7 +66,7 @@ $t(key: Path): TranslateResult;
 
 In [Compostion API mode](general#mode), the `$t` is injected by `app.config.globalProperties`. The input / output is the same as for Composer, and it work on **global scope**. About that details, see [Composer#t](composition#t-key).
 
-In [Legacy API mode](general#mode), the input / output is the same as for VueI18n instance. About that details, see [VueI18n#t](legacy#t-key).
+In [Legacy API mode](general#mode), the input / output is the same as for VueI18n instance. About details, see [VueI18n#t](legacy#t-key).
 
 #### Parameters
 | Parameter | Type | Description |
@@ -761,7 +761,7 @@ $d(value: number | Date): DateTimeFormatResult;
 
 In [Compostion API mode](general#i18nmode), the `$d` is injected by `app.config.globalProperties`. The input / output is the same as for Composer instance, and it work on **global scope**. About that details, see [Composer#d](composition#d-value).
 
-In [Compostion API mode](general#i18nmode), the input / output is the same as for VueI18n instance. About that details, see [VueI18n#d](legacy#d-value).
+In [Compostion API mode](general#i18nmode), the input / output is the same as for VueI18n instance. About details, see [VueI18n#d](legacy#d-value).
 
 #### Parameters
 | Parameter | Type | Description |
@@ -947,7 +947,7 @@ $n(value: number): NumberFormatResult;
 
 In [Compostion API mode](general#i18nmode), the `$n` is injected by `app.config.globalProperties`. The input / output is the same as for Composer instance, and it work on **global scope**. About that details, see [Composer#n](composition#n-value).
 
-In [Legacy API mode](general#i18nmode), the input / output is the same as for VueI18n instance. About that details, see [VueI18n#n](legacy#n-value).
+In [Legacy API mode](general#i18nmode), the input / output is the same as for VueI18n instance. About details, see [VueI18n#n](legacy#n-value).
 
 #### Parameters
 | Parameter | Type | Description |
