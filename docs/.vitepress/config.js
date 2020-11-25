@@ -114,11 +114,11 @@ const config = {
                   link: '/essentials/pluralization'
                 },
                 {
-                  text: 'DateTime Localization',
+                  text: 'Datetime Formatting',
                   link: '/essentials/datetime'
                 },
                 {
-                  text: 'Number Localization',
+                  text: 'Number Formatting',
                   link: '/essentials/number'
                 },
                 {
@@ -126,7 +126,7 @@ const config = {
                   link: '/essentials/scope'
                 },
                 {
-                  text: 'Fallback Localization',
+                  text: 'Fallbacking',
                   link: '/essentials/fallback'
                 },
                 {
@@ -140,7 +140,7 @@ const config = {
               collapsable: false,
               children: [
                 {
-                  text: 'Custom Directive Localization',
+                  text: 'Custom Directive',
                   link: '/advanced/directive'
                 },
                 {

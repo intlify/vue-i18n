@@ -1,4 +1,4 @@
-# Number Localization
+# Number Formatting
 
 ## Basic Usage
 

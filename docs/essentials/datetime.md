@@ -1,4 +1,4 @@
-# DateTime Localization
+# Datetime Formatting
 
 ## Basic Usage
 You can localize the datetime with your definition formats.

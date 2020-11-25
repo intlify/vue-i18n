@@ -66,7 +66,7 @@ import { DevToolsTimelineEvents } from '../debugger/constants'
  *    datetime(context, value, { key: 'short', part: true }, { currency: 'EUR'})
  */
 
-/** @internal */
+/** @VueI18nGeneral */
 export type DateTimeOptions = {
   key?: string
   locale?: Locale

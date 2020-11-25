@@ -1,4 +1,4 @@
-# Custom Directive Localization
+# Custom Directive
 
 You can translate not only with `$t`, but also with the `v-t` custom directive.
 

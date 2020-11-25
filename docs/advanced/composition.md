@@ -177,7 +177,7 @@ export default {
 In the Composition API mode, plural translations have been integrated into `t`.
 :::
 
-## Datetime Localization
+## Datetime Formatting
 
 In the Legacy API mode, Datetime value was localized using `$d` or the VueI18n instance of `d`.
 
@@ -225,7 +225,7 @@ export default {
 
 For more detals of `d`, see the [API Reference](../api/composition#d).
 
-## Number Localization
+## Number Formatting
 
 In the Legacy API mode, Number value is localized using `$n` or the `n` of the VueI18n instance.
 
