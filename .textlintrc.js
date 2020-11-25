@@ -29,8 +29,7 @@ module.exports = {
         'CLI',
         'SFC',
         'PHP',
-        'SSR',
-        'Jetbrains'
+        'SSR'
       ]
     },
     'abbr-within-parentheses': true,

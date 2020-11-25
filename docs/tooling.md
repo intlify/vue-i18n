@@ -51,13 +51,13 @@ Read more about BabelEdit in [tutorial page](https://www.codeandweb.com/babeledi
 
 [i18n Ally](https://marketplace.visualstudio.com/items?itemName=antfu.i18n-ally) is i18n extension for VSCode.
 
-i18n Ally give awesome developer experience for your i18n development.
+The i18n Ally give awesome developer experience for your i18n development.
 
 Read more about i18n Ally in [README](https://github.com/antfu/i18n-ally/blob/master/README.md).
 
 ### i18nPlugin (intellij platform)
 
-[i18nPlugin](https://github.com/nyavro/i18nPlugin) Intellij idea i18next support plugin ( [Jetbrains plugin page ](https://plugins.jetbrains.com/plugin/12981-i18n-support)).
+[i18nPlugin](https://github.com/nyavro/i18nPlugin) Intellij idea i18next support plugin ( [JetBrains plugin page ](https://plugins.jetbrains.com/plugin/12981-i18n-support)).
 
 Plugin for i18n typescript/javascript/PHP. Supports vue-i18n. To enable vue-i18n support go to settings -> Tools -> i18n Plugin configuration and check "Vue-i18n". You need set vue locales directory (locales by default).
 
