@@ -1,5 +1,6 @@
 dist
-docs/api/
+docs/api/*.md
+!docs/api/injection.md
 types
 temp
 coverage

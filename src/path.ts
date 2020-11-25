@@ -1,5 +1,6 @@
 import { isObject } from './utils'
 
+/** @VueI18nGeneral */
 export type Path = string
 
 // actions

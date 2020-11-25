@@ -72,12 +72,12 @@ function process(model, pkg, style, resolver, customTags) {
         tag: '@VueI18nDirective',
         title: 'Directives',
         file: 'directive.md'
-      },
-      {
-        tag: '@VueI18nInjection',
-        title: 'Component Injections',
-        file: 'injection.md'
       }
+      // {
+      //   tag: '@VueI18nInjection',
+      //   title: 'Component Injections',
+      //   file: 'injection.md'
+      // }
     ]
 
     return targets.map(t => {
@@ -160,7 +160,7 @@ function process(model, pkg, style, resolver, customTags) {
     }
 
     if (model.returns) {
-      builder.pushline(`**Remarks**`)
+      builder.pushline(`### Returns`)
       builder.newline()
       builder.pushline(model.returns)
       builder.newline()
@@ -458,6 +458,9 @@ function process(model, pkg, style, resolver, customTags) {
 function parseFunction(style, model, pkg, resolver, item, customTags) {
   const genModel = {
     name: item.displayName,
+    // name: item.parameters
+    //   ? `${item.displayName}(${item.parameters.map(p => p.name).join(', ')})`
+    //   : item.displayName,
     type: item.kind
   }
 
@@ -673,6 +676,16 @@ function parseEnum(style, model, pkg, resolver, item, customTags) {
   return genModel
 }
 
+function getNameSignature(item, type) {
+  if ((type === 'constrcutor' || type === 'method') && item.parameters) {
+    return `${
+      type === 'constrcutor' ? 'constructor' : item.displayName
+    }(${item.parameters.map(p => p.name).join(', ')})`
+  } else {
+    return item.displayName
+  }
+}
+
 function parseContentForClassinizable(
   style,
   model,
@@ -683,7 +696,7 @@ function parseContentForClassinizable(
   customTags
 ) {
   const genModel = {
-    name: item.displayName,
+    name: getNameSignature(item, type),
     type: item.kind
   }
 

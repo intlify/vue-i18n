@@ -212,6 +212,10 @@ const config = {
             {
               text: 'Directives',
               link: '/api/directive'
+            },
+            {
+              text: 'Component Injections',
+              link: '/api/injection'
             }
           ]
         }
