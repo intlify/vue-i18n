@@ -61,19 +61,33 @@ export type I18nOptions = I18nAdditionalOptions &
   (ComposerOptions | VueI18nOptions)
 
 /**
- * I18n Additional Options for `createI18n`
+ * I18n Additional Options
+ *
+ * @remarks
+ * Specific options for {@link createI18n}
  *
  * @VueI18nGeneral
  */
 export interface I18nAdditionalOptions {
   /**
-   * Whether vue-i18n legacy API use on your Vue App
+   * Whether vue-i18n Legacy API mode use on your Vue App
+   *
+   * @remarks
+   * The default is to use the Lagacy API mode. If you want to use the compositoin API mode, you need to set it to `false`.
+   *
+   * @VueI18nSee [Composition API](../advanced/composition)
    *
    * @defaultValue `true`
    */
   legacy?: boolean
   /**
-   * Whether Whether to inject global props & methods into for each component
+   * Whether Whether to inject global properties & functions into for each component.
+   *
+   * @remarks
+   * If set to `false`, then properties and methods prefixed with `$` are injected into Vue Component.
+   *
+   * @VueI18nSee [Implicit with injected properties and functions](../advanced/composition#implicit-with-injected-properties-and-functions)
+   * @VueI18nSee [ComponentCustomProperties](injection#componentcustomproperties)
    *
    * @defaultValue `true`
    */
@@ -83,12 +97,17 @@ export interface I18nAdditionalOptions {
 /**
  * Vue I18n API mode
  *
+ * @VueI18nSee [I18n#mode](general#mode)
+ *
  * @VueI18nGeneral
  */
 export type I18nMode = 'legacy' | 'composition'
 
 /**
- * I18n interface
+ * I18n instance
+ *
+ * @remarks
+ * The instance required for installation as the Vue plugin
  *
  * @VueI18nGeneral
  */
@@ -102,14 +121,17 @@ export interface I18n<
    * Vue I18n API mode
    *
    * @remarks
-   * if you specified `legacy: true` option in `createI18n`, return `legacy`,
-   * else `composition`
+   * If you specified `legacy: true` option in `createI18n`, return `legacy`, else `composition`
    *
    * @defaultValue `'composition'`
    */
   readonly mode: I18nMode
   /**
-   * Global composer
+   * The property accessible to the global Composer instance or VueI18n instance
+   *
+   * @remarks
+   * If the [I18n#mode](general#mode) is `'legacy'`, then you can access to a global {@link VueI18n} instance, else then [I18n#mode](general#mode) is `'legacy' `, you can access to the global {@link Composer} instance.
+   * An instance of this property is **global scope***.
    */
   readonly global: Legacy extends true
     ? VueI18n<Messages, DateTimeFormats, NumberFormats>
@@ -154,6 +176,9 @@ export interface I18nInternal {
 /**
  * I18n Scope
  *
+ * @VueI18nSee [ComposerAdditionalOptions#useScope](composition#usescope)
+ * @VueI18nSee [useI18n](composition#usei18n)
+ *
  * @VueI18nGeneral
  */
 export type I18nScope = 'local' | 'parent' | 'global'
@@ -165,6 +190,8 @@ export type I18nScope = 'local' | 'parent' | 'global'
  * `UseI18nOptions` is inherited {@link ComposerAdditionalOptions} and {@link ComposerOptions},
  * so you can specify these options.
  *
+ * @VueI18nSee [useI18n](composition#usei18n)
+ *
  * @VueI18nComposition
  */
 export type UseI18nOptions = ComposerAdditionalOptions & ComposerOptions
@@ -175,6 +202,8 @@ export type UseI18nOptions = ComposerAdditionalOptions & ComposerOptions
  * @remarks
  * `ComposerAdditionalOptions` is extend for {@link ComposerOptions}, so you can specify these options.
  *
+ * @VueI18nSee [useI18n](composition#usei18n)
+ *
  * @VueI18nComposition
  */
 export interface ComposerAdditionalOptions {
@@ -182,14 +211,18 @@ export interface ComposerAdditionalOptions {
 }
 
 /**
- * I18n factory function
+ * Vue I18n factory
  *
- * @param options - see the {@link I18nOptions}
- * @returns {@link I18n} object
+ * @param options - An options, see the {@link I18nOptions}
+ *
+ * @returns {@link I18n} instance
  *
  * @remarks
- * When you use Legacy API, you need toto specify options of {@link VueI18nOptions} and `legacy: true` option.
- * When you use composition API, you need to specify options of {@link ComposerOptions}.
+ * If you use Legacy API mode, you need toto specify {@link VueI18nOptions} and `legacy: true` option.
+ * If you use composition API mode, you need to specify {@link ComposerOptions}.
+ *
+ * @VueI18nSee [Getting Started](../essentials/started)
+ * @VueI18nSee [Composition API](../advanced/composition)
  *
  * @example
  * case: for Legacy API
@@ -413,14 +446,15 @@ export function createI18n<
 }
 
 /**
- * Use Composition API starting function
+ * Use Composition API for Vue I18n
  *
- * @param options - See {@link UseI18nOptions}
- * @returns {@link Composer} object
+ * @param options - An options, see {@link UseI18nOptions}
+ *
+ * @returns {@link Composer} instance
  *
  * @remarks
  * This function is mainly used by `setup`.
- * If options are specified, Composer object is created for each component and you can be localized on the component.
+ * If options are specified, Composer instance is created for each component and you can be localized on the component.
  * If options are not specified, you can be localized using the global Composer.
  *
  * @example

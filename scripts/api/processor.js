@@ -4,6 +4,7 @@ const {
   findCustomTags,
   createContentBuilder
 } = require('api-docs-gen')
+const { getCombinedModifierFlags } = require('typescript')
 
 function process(model, pkg, style, resolver, customTags) {
   // console.log('custom process', model, pkg, style, customTags)
@@ -142,9 +143,17 @@ function process(model, pkg, style, resolver, customTags) {
     }
 
     if (model.remarks) {
-      builder.pushline(`**Remarks**`)
+      builder.pushline(`**Details**`)
       builder.newline()
       builder.pushline(model.remarks)
+      builder.newline()
+    }
+
+    if (model.seeAlso) {
+      builder.pushline(`**See Also**`)
+      for (const see of model.seeAlso) {
+        builder.pushline(`- ${see}`)
+      }
       builder.newline()
     }
 
@@ -215,9 +224,17 @@ function process(model, pkg, style, resolver, customTags) {
     }
 
     if (model.remarks) {
-      builder.pushline(`**Remarks**`)
+      builder.pushline(`**Details**`)
       builder.newline()
       builder.pushline(model.remarks)
+      builder.newline()
+    }
+
+    if (model.seeAlso) {
+      builder.pushline(`**See Also**`)
+      for (const see of model.seeAlso) {
+        builder.pushline(`- ${see}`)
+      }
       builder.newline()
     }
 
@@ -271,9 +288,24 @@ function process(model, pkg, style, resolver, customTags) {
     }
 
     if (model.remarks) {
-      builder.pushline(`**Remarks**`)
+      builder.pushline(`**Details**`)
       builder.newline()
       builder.pushline(model.remarks)
+      builder.newline()
+    }
+
+    if (model.defaultValue) {
+      builder.pushline(`**Default Value**`)
+      builder.newline()
+      builder.pushline(model.defaultValue)
+      builder.newline()
+    }
+
+    if (model.seeAlso) {
+      builder.pushline(`**See Also**`)
+      for (const see of model.seeAlso) {
+        builder.pushline(`- ${see}`)
+      }
       builder.newline()
     }
 
@@ -311,9 +343,17 @@ function process(model, pkg, style, resolver, customTags) {
     }
 
     if (model.remarks) {
-      builder.pushline(`**Remarks**`)
+      builder.pushline(`**Details**`)
       builder.newline()
       builder.pushline(model.remarks)
+      builder.newline()
+    }
+
+    if (model.seeAlso) {
+      builder.pushline(`**See Also**`)
+      for (const see of model.seeAlso) {
+        builder.pushline(`- ${see}`)
+      }
       builder.newline()
     }
 
@@ -384,9 +424,17 @@ function process(model, pkg, style, resolver, customTags) {
     }
 
     if (model.remarks) {
-      builder.pushline(`**Remarks**`)
+      builder.pushline(`**Details**`)
       builder.newline()
       builder.pushline(model.remarks)
+      builder.newline()
+    }
+
+    if (model.seeAlso) {
+      builder.pushline(`**See Also**`)
+      for (const see of model.seeAlso) {
+        builder.pushline(`- ${see}`)
+      }
       builder.newline()
     }
 
@@ -424,9 +472,17 @@ function process(model, pkg, style, resolver, customTags) {
     }
 
     if (model.remarks) {
-      builder.pushline(`**Remarks**`)
+      builder.pushline(`**Details**`)
       builder.newline()
       builder.pushline(model.remarks)
+      builder.newline()
+    }
+
+    if (model.seeAlso) {
+      builder.pushline(`**See Also**`)
+      for (const see of model.seeAlso) {
+        builder.pushline(`- ${see}`)
+      }
       builder.newline()
     }
 
@@ -492,6 +548,38 @@ function parseFunction(style, model, pkg, resolver, item, customTags) {
     genModel.signature = item.excerptTokens.map(token => token.text).join('')
   }
 
+  // remarks
+  if (docs.remarksBlock) {
+    genModel.remarks = getDocSectionContent(
+      model,
+      pkg,
+      docs.remarksBlock.content,
+      item,
+      style,
+      resolver,
+      customTags
+    )
+  }
+
+  // see also
+  const seealso = findCustomTags(docs.customBlocks, '@VueI18nSee')
+  if (seealso.length > 0) {
+    genModel.seeAlso = []
+    for (const s of seealso) {
+      genModel.seeAlso.push(
+        getDocSectionContent(
+          model,
+          pkg,
+          s.content,
+          item,
+          style,
+          resolver,
+          customTags
+        )
+      )
+    }
+  }
+
   // parameters
   if (item.parameters) {
     genModel.parameters = []
@@ -545,19 +633,6 @@ function parseFunction(style, model, pkg, resolver, item, customTags) {
         )
       )
     }
-  }
-
-  // remarks
-  if (docs.remarksBlock) {
-    genModel.remarks = getDocSectionContent(
-      model,
-      pkg,
-      docs.remarksBlock.content,
-      item,
-      style,
-      resolver,
-      customTags
-    )
   }
 
   // examples
@@ -628,6 +703,25 @@ function parseEnum(style, model, pkg, resolver, item, customTags) {
       resolver,
       customTags
     )
+  }
+
+  // see also
+  const seealso = findCustomTags(docs.customBlocks, '@VueI18nSee')
+  if (seealso.length > 0) {
+    genModel.seeAlso = []
+    for (const s of seealso) {
+      genModel.seeAlso.push(
+        getDocSectionContent(
+          model,
+          pkg,
+          s.content,
+          item,
+          style,
+          resolver,
+          customTags
+        )
+      )
+    }
   }
 
   // members
@@ -739,6 +833,40 @@ function parseContentForClassinizable(
       resolver,
       customTags
     )
+  }
+
+  // defaultValue
+  const defaultValues = findCustomTags(docs.customBlocks, '@defaultValue')
+  if (type === 'property' && defaultValues && defaultValues.length > 0) {
+    const defalutValue = defaultValues[0]
+    genModel.defaultValue = getDocSectionContent(
+      model,
+      pkg,
+      defalutValue.content,
+      item,
+      style,
+      resolver,
+      customTags
+    )
+  }
+
+  // see also
+  const seealso = findCustomTags(docs.customBlocks, '@VueI18nSee')
+  if (seealso.length > 0) {
+    genModel.seeAlso = []
+    for (const s of seealso) {
+      genModel.seeAlso.push(
+        getDocSectionContent(
+          model,
+          pkg,
+          s.content,
+          item,
+          style,
+          resolver,
+          customTags
+        )
+      )
+    }
   }
 
   // parameters
@@ -918,6 +1046,25 @@ function parseTypeAlias(style, model, pkg, resolver, item, customTags) {
     )
   }
 
+  // see also
+  const seealso = findCustomTags(docs.customBlocks, '@VueI18nSee')
+  if (seealso.length > 0) {
+    genModel.seeAlso = []
+    for (const s of seealso) {
+      genModel.seeAlso.push(
+        getDocSectionContent(
+          model,
+          pkg,
+          s.content,
+          item,
+          style,
+          resolver,
+          customTags
+        )
+      )
+    }
+  }
+
   // examples
   const examples = findCustomTags(docs.customBlocks, '@example')
   if (examples.length > 0) {
@@ -986,6 +1133,25 @@ function parseVariable(style, model, pkg, resolver, item, customTags) {
       resolver,
       customTags
     )
+  }
+
+  // see also
+  const seealso = findCustomTags(docs.customBlocks, '@VueI18nSee')
+  if (seealso.length > 0) {
+    genModel.seeAlso = []
+    for (const s of seealso) {
+      genModel.seeAlso.push(
+        getDocSectionContent(
+          model,
+          pkg,
+          s.content,
+          item,
+          style,
+          resolver,
+          customTags
+        )
+      )
+    }
   }
 
   // examples

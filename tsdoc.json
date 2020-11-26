@@ -2,6 +2,10 @@
   "$schema": "https://developer.microsoft.com/json-schemas/tsdoc/v0/tsdoc.schema.json",
   "tagDefinitions": [
     {
+      "tagName": "@VueI18nSee",
+      "syntaxKind": "block"
+    },
+    {
       "tagName": "@VueI18nGeneral",
       "syntaxKind": "modifier"
     },

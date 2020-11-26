@@ -11,15 +11,15 @@ export interface ComponentCustomOptions;
 
 ### i18n
 
+Vue I18n options for Component
+
 **Signature:**
 ```typescript
 i18n?: VueI18nOptions;
 ```
 
-**Remarks**
-
-See the [VueI18nOptions](legacy#vuei18noptions)
-
+**See Also**
+- [VueI18nOptions](legacy#vuei18noptions)
 
 ## ComponentCustomProperties
 
@@ -30,7 +30,7 @@ Component Custom Options for Vue I18n
 export interface ComponentCustomProperties;
 ```
 
-**Remarks**
+**Details**
 
 These properties are injected into every child component
 
@@ -43,15 +43,19 @@ Exported Global Composer instance, or global VueI18n instance.
 $i18n: VueI18n | ExportedGlobalComposer;
 ```
 
-**Remarks**
+**Details**
 
- You can get the [exported composer instance](general#exportedglobalcomposer) which are exported from global [composer](composition#composer) instance created with [createI18n](general#createi18n), or global [VueI18n](legacy#vuei18n) instance.
+You can get the [exported composer instance](general#exportedglobalcomposer) which are exported from global [composer](composition#composer) instance created with [createI18n](general#createi18n), or global [VueI18n](legacy#vuei18n) instance.
 
 You can get the exported composer instance in [Compostion API mode](general#mode), or the Vuei18n instance in [Legacy API mode](general#mode), which is the instance you can refer to with this property.
 
 The locales, locale messages, and other resources managed by the instance referenced by this property are valid as global scope.
 
 If the `i18n` component option is not specified, it’s the same as the VueI18n instance that can be referenced by the i18n instance [global](general#global).
+
+**See Also**
+- [Scope and Locale Changing](../essentials/scope)
+- [Composition API](../advanced/composition)
 
 ### $t(key)
 
@@ -62,11 +66,15 @@ Locale message translation
 $t(key: Path): TranslateResult;
 ```
 
-**Remarks**
+**Details**
 
 In [Compostion API mode](general#mode), the `$t` is injected by `app.config.globalProperties`. The input / output is the same as for Composer, and it work on **global scope**. About that details, see [Composer#t](composition#t-key).
 
 In [Legacy API mode](general#mode), the input / output is the same as for VueI18n instance. About details, see [VueI18n#t](legacy#t-key).
+
+**See Also**
+- [Scope and Locale Changing](../essentials/scope)
+- [Composition API](../advanced/composition)
 
 #### Parameters
 | Parameter | Type | Description |
@@ -86,7 +94,7 @@ Locale message translation
 $t(key: Path, locale: Locale): TranslateResult;
 ```
 
-**Remarks**
+**Details**
 
 Overloaded `$t`. About details, see the [$t](injection#t-key) remarks.
 
@@ -109,7 +117,7 @@ Locale message translation
 $t(key: Path, locale: Locale, list: unknown[]): TranslateResult;
 ```
 
-**Remarks**
+**Details**
 
 Overloaded `$t`. About details, see the [$t](injection#t-key) remarks.
 
@@ -133,7 +141,7 @@ Locale message translation
 $t(key: Path, locale: Locale, named: object): TranslateResult;
 ```
 
-**Remarks**
+**Details**
 
 Overloaded `$t`. About details, see the [$t](injection#t-key) remarks.
 
@@ -157,7 +165,7 @@ Locale message translation
 $t(key: Path, list: unknown[]): TranslateResult;
 ```
 
-**Remarks**
+**Details**
 
 Overloaded `$t`. About details, see the [$t](injection#t-key) remarks.
 
@@ -180,7 +188,7 @@ Locale message translation
 $t(key: Path, named: Record<string, unknown>): TranslateResult;
 ```
 
-**Remarks**
+**Details**
 
 Overloaded `$t`. About details, see the [$t](injection#t-key) remarks.
 
@@ -204,7 +212,7 @@ Locale message translation
 $t(key: Path): string;
 ```
 
-**Remarks**
+**Details**
 
 Overloaded `$t`. About details, see the [$t](injection#t-key) remarks.
 
@@ -226,7 +234,7 @@ Locale message translation
 $t(key: Path, plural: number): string;
 ```
 
-**Remarks**
+**Details**
 
 Overloaded `$t`. About details, see the [$t](injection#t-key) remarks.
 
@@ -249,7 +257,7 @@ Locale message translation
 $t(key: Path, plural: number, options: TranslateOptions): string;
 ```
 
-**Remarks**
+**Details**
 
 Overloaded `$t`. About details, see the [$t](injection#t-key) remarks.
 
@@ -273,7 +281,7 @@ Locale message translation
 $t(key: Path, defaultMsg: string): string;
 ```
 
-**Remarks**
+**Details**
 
 Overloaded `$t`. About details, see the [$t](injection#t-key) remarks.
 
@@ -296,7 +304,7 @@ Locale message translation
 $t(key: Path, defaultMsg: string, options: TranslateOptions): string;
 ```
 
-**Remarks**
+**Details**
 
 Overloaded `$t`. About details, see the [$t](injection#t-key) remarks.
 
@@ -320,7 +328,7 @@ Locale message translation
 $t(key: Path, list: unknown[]): string;
 ```
 
-**Remarks**
+**Details**
 
 Overloaded `$t`. About details, see the [$t](injection#t-key) remarks.
 
@@ -343,7 +351,7 @@ Locale message translation
 $t(key: Path, list: unknown[], plural: number): string;
 ```
 
-**Remarks**
+**Details**
 
 Overloaded `$t`. About details, see the [$t](injection#t-key) remarks.
 
@@ -367,7 +375,7 @@ Locale message translation
 $t(key: Path, list: unknown[], defaultMsg: string): string;
 ```
 
-**Remarks**
+**Details**
 
 Overloaded `$t`. About details, see the [$t](injection#t-key) remarks.
 
@@ -391,7 +399,7 @@ Locale message translation
 $t(key: Path, list: unknown[], options: TranslateOptions): string;
 ```
 
-**Remarks**
+**Details**
 
 Overloaded `$t`. About details, see the [$t](injection#t-key) remarks.
 
@@ -415,7 +423,7 @@ Locale message translation
 $t(key: Path, named: NamedValue): string;
 ```
 
-**Remarks**
+**Details**
 
 Overloaded `$t`. About details, see the [$t](injection#t-key) remarks.
 
@@ -438,7 +446,7 @@ Locale message translation
 $t(key: Path, named: NamedValue, plural: number): string;
 ```
 
-**Remarks**
+**Details**
 
 Overloaded `$t`. About details, see the [$t](injection#t-key) remarks.
 
@@ -462,7 +470,7 @@ Locale message translation
 $t(key: Path, named: NamedValue, defaultMsg: string): string;
 ```
 
-**Remarks**
+**Details**
 
 Overloaded `$t`. About details, see the [$t](injection#t-key) remarks.
 
@@ -486,7 +494,7 @@ Locale message translation
 $t(key: Path, named: NamedValue, options: TranslateOptions): string;
 ```
 
-**Remarks**
+**Details**
 
 Overloaded `$t`. About details, see the [$t](injection#t-key) remarks.
 
@@ -510,7 +518,7 @@ Locale message pluralization
 $tc(key: Path): TranslateResult;
 ```
 
-**Remarks**
+**Details**
 
 The input / output is the same as for VueI18n instance. About that details, see [VueI18n#tc](legacy#tc-key).
 
@@ -519,6 +527,9 @@ The value of plural is handled with default `1`.
 :::tip NOTE
 Supported for **Legacy API mode only**.
 :::
+
+**See Also**
+- [Pluralization](../essentials/pluralization)
 
 #### Parameters
 | Parameter | Type | Description |
@@ -538,7 +549,7 @@ Locale message pluralization
 $tc(key: Path, locale: Locale): TranslateResult;
 ```
 
-**Remarks**
+**Details**
 
 Overloaded `$tc`. About details, see the [$tc](injection#tc-key) remarks.
 
@@ -565,7 +576,7 @@ Locale message pluralization
 $tc(key: Path, list: unknown[]): TranslateResult;
 ```
 
-**Remarks**
+**Details**
 
 Overloaded `$tc`. About details, see the [$tc](injection#tc-key) remarks.
 
@@ -592,7 +603,7 @@ Locale message pluralization
 $tc(key: Path, named: Record<string, unknown>): TranslateResult;
 ```
 
-**Remarks**
+**Details**
 
 Overloaded `$tc`. About details, see the [$tc](injection#tc-key) remarks.
 
@@ -619,7 +630,7 @@ Locale message pluralization
 $tc(key: Path, choice: number): TranslateResult;
 ```
 
-**Remarks**
+**Details**
 
 Overloaded `$tc`. About details, see the [$tc](injection#tc-key) remarks.
 
@@ -646,7 +657,7 @@ Locale message pluralization
 $tc(key: Path, choice: number, locale: Locale): TranslateResult;
 ```
 
-**Remarks**
+**Details**
 
 Overloaded `$tc`. About details, see the [$tc](injection#tc-key) remarks.
 
@@ -674,7 +685,7 @@ Locale message pluralization
 $tc(key: Path, choice: number, list: unknown[]): TranslateResult;
 ```
 
-**Remarks**
+**Details**
 
 Overloaded `$tc`. About details, see the [$tc](injection#tc-key) remarks.
 
@@ -702,7 +713,7 @@ Locale message pluralization
 $tc(key: Path, choice: number, named: Record<string, unknown>): TranslateResult;
 ```
 
-**Remarks**
+**Details**
 
 Overloaded `$tc`. About details, see the [$tc](injection#tc-key) remarks.
 
@@ -730,7 +741,7 @@ Translation message exist
 $te(key: Path, locale?: Locale): boolean;
 ```
 
-**Remarks**
+**Details**
 
 The input / output is the same as for VueI18n instance. About that details, see [VueI18n#te](legacy#te-key-locale)
 
@@ -757,11 +768,16 @@ Datetime formating
 $d(value: number | Date): DateTimeFormatResult;
 ```
 
-**Remarks**
+**Details**
 
 In [Compostion API mode](general#i18nmode), the `$d` is injected by `app.config.globalProperties`. The input / output is the same as for Composer instance, and it work on **global scope**. About that details, see [Composer#d](composition#d-value).
 
 In [Compostion API mode](general#i18nmode), the input / output is the same as for VueI18n instance. About details, see [VueI18n#d](legacy#d-value).
+
+**See Also**
+- [Datetime Formatting](../essentials/datetime)
+- [Scope and Locale Changing](../essentials/scope)
+- [Composition API](../advanced/composition#datetime-formatting)
 
 #### Parameters
 | Parameter | Type | Description |
@@ -781,7 +797,7 @@ Datetime formating
 $d(value: number | Date, key: string): DateTimeFormatResult;
 ```
 
-**Remarks**
+**Details**
 
 Overloaded `$d`. About details, see the [$d](injection#d-value) remarks.
 
@@ -804,7 +820,7 @@ Datetime formating
 $d(value: number | Date, key: string, locale: Locale): DateTimeFormatResult;
 ```
 
-**Remarks**
+**Details**
 
 Overloaded `$d`. About details, see the [$d](injection#d-value) remarks.
 
@@ -828,7 +844,7 @@ Datetime formating
 $d(value: number | Date, args: { [key: string]: string }): DateTimeFormatResult;
 ```
 
-**Remarks**
+**Details**
 
 Overloaded `$d`. About details, see the [$d](injection#d-value) remarks.
 
@@ -851,7 +867,7 @@ Datetime formating
 $d(value: number | Date): string;
 ```
 
-**Remarks**
+**Details**
 
 Overloaded `$d`. About details, see the [$d](injection#d-value) remarks.
 
@@ -873,7 +889,7 @@ Datetime formating
 $d(value: number | Date, key: string): string;
 ```
 
-**Remarks**
+**Details**
 
 Overloaded `$d`. About details, see the [$d](injection#d-value) remarks.
 
@@ -896,7 +912,7 @@ Datetime formating
 $d(value: number | Date, key: string, locale: Locale): string;
 ```
 
-**Remarks**
+**Details**
 
 Overloaded `$d`. About details, see the [$d](injection#d-value) remarks.
 
@@ -920,7 +936,7 @@ Datetime formating
 $d(value: number | Date, options: DateTimeOptions): string;
 ```
 
-**Remarks**
+**Details**
 
 Overloaded `$d`. About details, see the [$d](injection#d-value) remarks.
 
@@ -943,11 +959,16 @@ Number formatting
 $n(value: number): NumberFormatResult;
 ```
 
-**Remarks**
+**Details**
 
 In [Compostion API mode](general#i18nmode), the `$n` is injected by `app.config.globalProperties`. The input / output is the same as for Composer instance, and it work on **global scope**. About that details, see [Composer#n](composition#n-value).
 
 In [Legacy API mode](general#i18nmode), the input / output is the same as for VueI18n instance. About details, see [VueI18n#n](legacy#n-value).
+
+**See Also**
+- [Number Formatting](../essentials/number)
+- [Scope and Locale Changing](../essentials/scope)
+- [Composition API](../advanced/composition#number-formatting)
 
 #### Parameters
 | Parameter | Type | Description |
@@ -967,7 +988,7 @@ Number formatting
 $n(value: number, key: string): NumberFormatResult;
 ```
 
-**Remarks**
+**Details**
 
 Overloaded `$n`. About details, see the [$n](injection#n-value) remarks.
 
@@ -990,7 +1011,7 @@ Number formatting
 $n(value: number, key: string, locale: Locale): NumberFormatResult;
 ```
 
-**Remarks**
+**Details**
 
 Overloaded `$n`. About details, see the [$n](injection#n-value) remarks.
 
@@ -1014,7 +1035,7 @@ Number formatting
 $n(value: number, args: { [key: string]: string }): NumberFormatResult;
 ```
 
-**Remarks**
+**Details**
 
 Overloaded `$n`. About details, see the [$n](injection#n-value) remarks.
 
@@ -1037,7 +1058,7 @@ Number formatting
 $n(value: number): string;
 ```
 
-**Remarks**
+**Details**
 
 Overloaded `$n`. About details, see the [$n](injection#n-value) remarks.
 
@@ -1059,7 +1080,7 @@ Number formatting
 $n(value: number, key: string): string;
 ```
 
-**Remarks**
+**Details**
 
 Overloaded `$n`. About details, see the [$n](injection#n-value) remarks.
 
@@ -1082,7 +1103,7 @@ Number formatting
 $n(value: number, key: string, locale: Locale): string;
 ```
 
-**Remarks**
+**Details**
 
 Overloaded `$n`. About details, see the [$n](injection#n-value) remarks.
 
@@ -1106,7 +1127,7 @@ Number formatting
 $n(value: number, options: NumberOptions): string;
 ```
 
-**Remarks**
+**Details**
 
 Overloaded `$n`. About details, see the [$n](injection#n-value) remarks.
 
