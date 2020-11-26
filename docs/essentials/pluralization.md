@@ -28,13 +28,17 @@ These plural messages are selected by the logic of the choice rule for each lang
 Vue I18n will be offered some pluralization ways. Here we’ll use the `$tc`.
 
 :::tip NOTE
+`$tc` has some overloads. About these overloads, see the [API Reference](../api/injection#tc-key)
+:::
+
+:::tip NOTE
 Some ways to support pluralization are:
 
 - `$tc` (for Legacy API mode)
 - `v-t` custom directive
 - built-in Translation component (`i18n-t`)
-- exported `t` from `useI18n` (for [Composition API](../advanced/composition)) mode
-- injected global `$t` (for [Composition API](../advanced/composition)) mode
+- exported `t` from `useI18n` (for Composition API mode)
+- injected global `$t` (for Composition API mode)
 :::
 
 The following is an example of using the translation API.

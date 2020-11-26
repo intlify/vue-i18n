@@ -2,10 +2,10 @@ import { getGlobalThis } from './utils'
 import { setDevtoolsHook } from './debugger/devtools'
 
 /**
- * Version
+ * Vue I18n Version
  *
  * @remarks
- * Version of Vue I18n, semver format. Same format as the package.json `version` field.
+ * Semver format. Same format as the package.json `version` field.
  *
  * @VueI18nGeneral
  */

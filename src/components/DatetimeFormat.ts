@@ -6,7 +6,7 @@ import { renderFormatter, FormattableProps } from './formatRenderer'
 import { baseFormatProps } from './base'
 
 /**
- * Datetime Foramt Props
+ * DatetimeForamt Component Props
  *
  * @VueI18nComponent
  */

@@ -81,7 +81,7 @@ To use similar ways at the `setup` function, you need to call the `useI18n` func
 Throughout the docs, we’ll use APIs like `this.$i18n` and `this.$t`, which are almost keep backward compatible from Vue I18n v8.x.
 
 :::tip NOTE
-In Vue I18n v9 and later, the API offered by Vue I18n v8.x is called **Legacy API**.
+In Vue I18n v9 and later, the API offered by Vue I18n v8.x is called **Legacy API** mode.
 :::
 
-The following sections will be explained using the Legacy API.
+The following sections will be explained using the Legacy API mode.

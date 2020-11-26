@@ -22,7 +22,7 @@ const messages = {
 }
 ```
 
-The locale messages is the resource specified by the `messages` option of `createI18n`. It is defined `en` locale with `{ message: { hello: '{msg} world' } } }`.
+The locale messages is the resource specified by the `messages` option of `createI18n`. It’s defined `en` locale with `{ message: { hello: '{msg} world' } } }`.
 
 Named interpolation allows you to specify variables defined in JavaScript. In the locale message above, you can localize it by giving the JavaScript defined `msg` as a parameter to the translation function.
 
@@ -39,7 +39,7 @@ The locale message resource key for the translate function can be specified for 
 ::::
 
 :::tip NOTE
-`$t` has some overloads. About these overloads, see the here.
+`$t` has some overloads. About these overloads, see the [API Reference](../api/injection#t-key)
 :::
 
 As result the below:

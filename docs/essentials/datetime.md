@@ -3,7 +3,7 @@
 ## Basic Usage
 You can localize the datetime with your definition formats.
 
-DateTime formats the below:
+Datetime formats the below:
 
 ```js
 const dateTimeFormats = {
@@ -41,11 +41,15 @@ const i18n = createI18n({
 To localize DateTime value with Vue I18n, use the `$d`.
 
 :::tip NOTE
+`$d` has some overloads. About these overloads, see the [API Reference](../api/injection#d-value)
+:::
+
+:::tip NOTE
 Some ways to support localize are:
 
-- `$d` (for Legacy API mode & [Composition API](../advanced/composition) mode)
+- `$d` (for Legacy API mode & Composition API mode)
 - built-in DatetimeFormat component (`i18n-d`)
-- exported `d` from `useI18n` (for [Composition API](../advanced/composition) mode)
+- exported `d` from `useI18n` (for Composition API mode)
 :::
 
 The following is an example of the use of `$d` in a template:
@@ -57,10 +61,6 @@ The following is an example of the use of `$d` in a template:
 
 The first argument is datetime able value (e.g. `Date`, timestamp) as a parameter, and the second argument is datetime format name as a parameter. The last argument locale value as a parameter.
 
-:::tip NOTE
-About `$d` of parameter details, See the API docs.
-:::
-
 As result the below:
 
 ```html
@@ -70,7 +70,7 @@ As result the below:
 
 ## Custom Formatting
 
-`$d` returns resulting string with fully formatted datetime, which can only be used as a whole. In situations when you need to style some part of the formatted datetime (like fraction digits), `$d` is not enough. In such cases `i18n-d` component will be of help.
+`$d` returns resulting string with fully formatted datetime, which can only be used as a whole. In situations when you need to style some part of the formatted datetime (like fraction digits), `$d` is not enough. In such cases DatetimeFormat component (`i18n-d`) will be of help.
 
 With a minimum set of properties, `i18n-d` generates the same output as `$d`, wrapped into configured DOM element.
 
@@ -82,7 +82,7 @@ The following template:
 <i18n-d tag="p" :value="new Date()" format="long" locale="ja-JP-u-ca-japanese"></i18n-d>
 ```
 
-`i18n-d` component has some props.
+DatetimeFormat component has some props.
 
 The `tag` is the property to set the tag.
 

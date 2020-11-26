@@ -708,10 +708,10 @@ function setupLifeCycle<Messages, DateTimeFormats, NumberFormats>(
 }
 
 /**
- * Exported global composer interface
+ * Exported global composer instance
  *
  * @remarks
- * This interface is the {@link I18n.global | global composer } that is provided interface that is injected into each component with `app.config.globalProperties`.
+ * This interface is the [global composer](general#global) that is provided interface that is injected into each component with `app.config.globalProperties`.
  *
  * @VueI18nGeneral
  */
@@ -720,21 +720,21 @@ export interface ExportedGlobalComposer {
    * Locale
    *
    * @remarks
-   * This property is proxy-like property for `composer#locale`. About details, see the {@link Composer | Composer#locale } property
+   * This property is proxy-like property for `Composer#locale`. About details, see the [Composer#locale](composition#locale)
    */
   locale: Locale
   /**
    * Fallback locale
    *
    * @remarks
-   * This property is proxy-like property for `composer#fallbackLocale`. About details, see the {@link Composer | Composer#fallbackLocale } property
+   * This property is proxy-like property for `Composer#fallbackLocale`. About details, see the [Composer#fallbackLocale](composition#fallbacklocale)
    */
   fallbackLocale: FallbackLocale
   /**
    * Available locales
    *
    * @remarks
-   * This property is proxy-like property for `composer#availableLocales`. About details, see the {@link Composer | Composer#availableLocales } property
+   * This property is proxy-like property for `Composer#availableLocales`. About details, see the [Composer#availableLocales](composition#availablelocales)
    */
   readonly availableLocales: Locale[]
 }

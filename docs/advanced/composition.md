@@ -127,7 +127,7 @@ export default {
 </script>
 ```
 
-For more detals of `t`, see the [API Reference](../api/composition#t).
+For more details of `t`, see the [API Reference](../api/composition#t-key).
 
 ## Pluralization
 
@@ -223,7 +223,7 @@ export default {
 </script>
 ```
 
-For more detals of `d`, see the [API Reference](../api/composition#d).
+For more details of `d`, see the [API Reference](../api/composition#d-value).
 
 ## Number Formatting
 
@@ -267,15 +267,15 @@ export default {
 </script>
 ```
 
-For more detals of `n`, see the [API Reference](../api/composition#n).
+For more details of `n`, see the [API Reference](../api/composition#n-value).
 
 ## Global scope
 
-A Global Scope in the Composition API mode is created when an i18n instance is created with `createI18n`, similar to the Legacy API mode.
+A global scope in the Composition API mode is created when an i18n instance is created with `createI18n`, similar to the Legacy API mode.
 
 While the Legacy API mode `global` property of the i18n instance is the VueI18n instance, the Composition API mode allows you to reference the Composer instance.
 
-There are two ways to refer the Global Scope Composer instance at the component.
+There are two ways to refer the global scope Composer instance at the component.
 
 ### Explicit with `useI18n`
 
@@ -295,7 +295,7 @@ export default {
 }
 ```
 
-The above code sets the `useI18n` option to `useScope: 'global'`, which allows `useI18n` to return a Composer instance that can be accessed by the i18n instance `global` property. This allows `useI18n` to return the Composer instance that can be accessed by i18n instance`global` property, which is a Global scope. The Commposer instance is a Global scope.
+The above code sets the `useI18n` option to `useScope: 'global'`, which allows `useI18n` to return a Composer instance that can be accessed by the i18n instance `global` property. This allows `useI18n` to return the Composer instance that can be accessed by i18n instance`global` property, which is a global scope. The Commposer instance is a global scope.
 
 Then you can compose using the functions and properties exposed from the Composer instance.
 

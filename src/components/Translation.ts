@@ -7,12 +7,20 @@ import { isNumber, isString, isObject } from '../utils'
 import { baseFormatProps, BaseFormatProps } from './base'
 
 /**
- * Translation Props
+ * Translation Component Props
  *
  * @VueI18nComponent
  */
 export interface TranslationProps extends BaseFormatProps {
+  /**
+   * @remarks
+   * The locale message key can be specified prop
+   */
   keypath: string
+  /**
+   * @remarks
+   * The Plural Choicing the message number prop
+   */
   plural?: number | string
 }
 

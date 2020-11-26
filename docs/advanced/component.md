@@ -105,7 +105,7 @@ You can choose the root node element type by specifying a `tag` prop. If omitted
 
 ## Slots syntax usage
 
-It’s more convenient to use the named slots syntax. For example the below.
+It’s more convenient to use the named slots syntax. For example the below:
 
 Template:
 

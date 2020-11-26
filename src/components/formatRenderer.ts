@@ -10,8 +10,25 @@ import { NumberOptions, DateTimeOptions } from '../core'
 import { isString, isObject, isArray } from '../utils'
 import { BaseFormatProps } from './base'
 
+/**
+ * Formattable Props
+ *
+ * @remarks
+ * The props used in DatetimeFormat, or NumberFormat component
+ *
+ * @VueI18nComponent
+ */
 export interface FormattableProps<Value, Format> extends BaseFormatProps {
+  /**
+   * @remarks
+   * The value specified for the target component
+   */
   value: Value
+  /**
+   * @remarks
+   * The format to use in the target component.
+   * Specify the format key string or the format as defined by the Intl API in ECMA 402.
+   */
   format?: string | Format
 }
 

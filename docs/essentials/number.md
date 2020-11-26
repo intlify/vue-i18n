@@ -34,7 +34,7 @@ const i18n = createI18n({
 To localize Number value with Vue I18n, use the `$n`.
 
 :::tip NOTE
-About number localization for the Compostion API, see here.
+`$n` has some overloads. About these overloads, see the [API Reference](../api/injection#n-value)
 :::
 
 The following is an example of the use of `$n` in a template:
@@ -45,10 +45,6 @@ The following is an example of the use of `$n` in a template:
 ```
 
 The first argument is numeric value as a parameter, and the second argument is number format name as a parameter. The last argument locale value as a parameter.
-
-:::tip NOTE
-About `$n` of parameter details, See the API docs.
-:::
 
 As result the below:
 
@@ -71,7 +67,7 @@ The following template:
 <i18n-n tag="span" :value="100" format="currency" locale="ja-JP"></i18n-n>
 ```
 
-`i18n-n` component has some props.
+NumberFormat component has some props.
 
 The `tag` is the property to set the tag.
 

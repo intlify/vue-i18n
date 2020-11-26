@@ -6,7 +6,7 @@ import { renderFormatter, FormattableProps } from './formatRenderer'
 import { baseFormatProps } from './base'
 
 /**
- * Number Format Props
+ * NumberFormat Component Props
  *
  * @VueI18nComponent
  */

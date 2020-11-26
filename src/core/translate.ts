@@ -90,8 +90,12 @@ const isMessageFunction = <T>(val: unknown): val is MessageFunction<T> =>
  *    translate(context, 'foo.bar', { name: 'kazupon' }, { escapeParameter: true })
  */
 
-/** @VueI18nGeneral */
-export type TranslateOptions = {
+/**
+ * Translate Options
+ *
+ * @VueI18nGeneral
+ */
+export interface TranslateOptions {
   list?: unknown[]
   named?: NamedValue
   plural?: number

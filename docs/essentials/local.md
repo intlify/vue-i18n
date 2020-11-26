@@ -2,7 +2,7 @@
 
 ## i18n component options
 
-[As explained earlier](scope), Vue I18n has two scope concepts, global scope and local scope.
+[In *'Scope and Locale Changing’*](scope), Vue I18n has two scope concepts, global scope and local scope.
 
 In general, locale info (e.g. `locale`,`messages`, etc) is set as option of `createI18n` and it sets (install) with `app.use`. To sum up, you use global scope translation functions `$t` and `$tc` to localize them.
 

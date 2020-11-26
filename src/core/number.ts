@@ -64,8 +64,12 @@ import { DevToolsTimelineEvents } from '../debugger/constants'
  *    number(context, value, { key: 'currenty', part: true }, { year: '2-digit'})
  */
 
-/** @VueI18nGeneral */
-export type NumberOptions = {
+/**
+ * Number Options
+ *
+ * @VueI18nGeneral
+ */
+export interface NumberOptions {
   key?: string
   locale?: Locale
   missingWarn?: boolean
