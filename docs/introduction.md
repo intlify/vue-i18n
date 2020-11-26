@@ -5,7 +5,7 @@
 :::
 
 :::tip NOTE
-Already know Vue I18n v8.x and just want to learn about what's new in Vue I18n v9? Check out the [Migration Guide](../migration/breaking)!
+Already know Vue I18n v8.x and just want to learn about what’s new in Vue I18n v9? Check out the [Migration Guide](../migration/breaking)!
 :::
 
 Vue I18n is internationalization plugin of Vue.js. It easily integrates some localization features to your Vue.js Application. Features includes:
