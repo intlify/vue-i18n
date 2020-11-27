@@ -27,6 +27,7 @@ export interface FormattableProps<Value, Format> extends BaseFormatProps {
   /**
    * @remarks
    * The format to use in the target component.
+   *
    * Specify the format key string or the format as defined by the Intl API in ECMA 402.
    */
   format?: string | Format

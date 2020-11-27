@@ -19,6 +19,7 @@ export interface I18nPluginOptions {
    *
    * @remarks
    * This option is used for compatibility with Vue I18n v8.x.
+   *
    * If you can't migrate right away, you can temporarily enable this option, and you can work Translation Component.
    *
    * @defaultValue `false`
@@ -29,6 +30,7 @@ export interface I18nPluginOptions {
    *
    * @remarks
    * If this option is enabled, the components will be installed globally at `app.use` time.
+   *
    * If you want to install manually in the `import` syntax, you can set it to `false` to install when needed.
    *
    * @defaultValue `true`

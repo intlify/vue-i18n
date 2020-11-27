@@ -131,6 +131,7 @@ export interface I18n<
    *
    * @remarks
    * If the [I18n#mode](general#mode) is `'legacy'`, then you can access to a global {@link VueI18n} instance, else then [I18n#mode](general#mode) is `'legacy' `, you can access to the global {@link Composer} instance.
+   *
    * An instance of this property is **global scope***.
    */
   readonly global: Legacy extends true
@@ -187,8 +188,7 @@ export type I18nScope = 'local' | 'parent' | 'global'
  * I18n Options for `useI18n`
  *
  * @remarks
- * `UseI18nOptions` is inherited {@link ComposerAdditionalOptions} and {@link ComposerOptions},
- * so you can specify these options.
+ * `UseI18nOptions` is inherited {@link ComposerAdditionalOptions} and {@link ComposerOptions}, so you can specify these options.
  *
  * @VueI18nSee [useI18n](composition#usei18n)
  *
@@ -219,6 +219,7 @@ export interface ComposerAdditionalOptions {
  *
  * @remarks
  * If you use Legacy API mode, you need toto specify {@link VueI18nOptions} and `legacy: true` option.
+ *
  * If you use composition API mode, you need to specify {@link ComposerOptions}.
  *
  * @VueI18nSee [Getting Started](../essentials/started)
@@ -454,7 +455,9 @@ export function createI18n<
  *
  * @remarks
  * This function is mainly used by `setup`.
+ *
  * If options are specified, Composer instance is created for each component and you can be localized on the component.
+ *
  * If options are not specified, you can be localized using the global Composer.
  *
  * @example

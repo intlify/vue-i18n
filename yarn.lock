@@ -1679,10 +1679,10 @@ anymatch@^3.0.3, anymatch@~3.1.1:
     normalize-path "^3.0.0"
     picomatch "^2.0.4"
 
-api-docs-gen@^0.2.4:
-  version "0.2.4"
-  resolved "https://registry.yarnpkg.com/api-docs-gen/-/api-docs-gen-0.2.4.tgz#006e300f7282a80a60f0261b6766c268d4fc8a22"
-  integrity sha512-L7jdsUkiqCJGIBupGI8vEoCDd0BKko7QPiNaTD6/eKrkoG3yzryCXbr8dd08CjP/3RGLnW38ESh08eJnjV86gg==
+api-docs-gen@^0.2.5:
+  version "0.2.5"
+  resolved "https://registry.yarnpkg.com/api-docs-gen/-/api-docs-gen-0.2.5.tgz#807a43c93eb8ea2120fdae6c23ddcd2fbb85ebdd"
+  integrity sha512-nIdnN1P0vqMRDjZIThMd/aET3RVaOQ7o4UoLSG63+6JAFCYkvzdV7ygUruNVO2yblRo3HTvUXu1CCxwkInvfiw==
   dependencies:
     "@microsoft/api-extractor-model" "^7.12.0"
     "@microsoft/tsdoc" "^0.12.21"
