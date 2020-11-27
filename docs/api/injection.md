@@ -518,15 +518,15 @@ Locale message pluralization
 $tc(key: Path): TranslateResult;
 ```
 
+:::tip NOTE
+Supported for **Legacy API mode only**.
+:::
+
 **Details**
 
 The input / output is the same as for VueI18n instance. About that details, see [VueI18n#tc](legacy#tc-key).
 
 The value of plural is handled with default `1`.
-
-:::tip NOTE
-Supported for **Legacy API mode only**.
-:::
 
 **See Also**
 - [Pluralization](../essentials/pluralization)
@@ -549,13 +549,13 @@ Locale message pluralization
 $tc(key: Path, locale: Locale): TranslateResult;
 ```
 
-**Details**
-
-Overloaded `$tc`. About details, see the [$tc](injection#tc-key) remarks.
-
 :::tip NOTE
 Supported for **Legacy API mode only**.
 :::
+
+**Details**
+
+Overloaded `$tc`. About details, see the [$tc](injection#tc-key) remarks.
 
 #### Parameters
 | Parameter | Type | Description |
@@ -576,13 +576,13 @@ Locale message pluralization
 $tc(key: Path, list: unknown[]): TranslateResult;
 ```
 
-**Details**
-
-Overloaded `$tc`. About details, see the [$tc](injection#tc-key) remarks.
-
 :::tip NOTE
 Supported for **Legacy API mode only**.
 :::
+
+**Details**
+
+Overloaded `$tc`. About details, see the [$tc](injection#tc-key) remarks.
 
 #### Parameters
 | Parameter | Type | Description |
@@ -603,13 +603,13 @@ Locale message pluralization
 $tc(key: Path, named: Record<string, unknown>): TranslateResult;
 ```
 
-**Details**
-
-Overloaded `$tc`. About details, see the [$tc](injection#tc-key) remarks.
-
 :::tip NOTE
 Supported for **Legacy API mode only**.
 :::
+
+**Details**
+
+Overloaded `$tc`. About details, see the [$tc](injection#tc-key) remarks.
 
 #### Parameters
 | Parameter | Type | Description |
@@ -630,13 +630,13 @@ Locale message pluralization
 $tc(key: Path, choice: number): TranslateResult;
 ```
 
-**Details**
-
-Overloaded `$tc`. About details, see the [$tc](injection#tc-key) remarks.
-
 :::tip NOTE
 Supported for **Legacy API mode only**.
 :::
+
+**Details**
+
+Overloaded `$tc`. About details, see the [$tc](injection#tc-key) remarks.
 
 #### Parameters
 | Parameter | Type | Description |
@@ -657,13 +657,13 @@ Locale message pluralization
 $tc(key: Path, choice: number, locale: Locale): TranslateResult;
 ```
 
-**Details**
-
-Overloaded `$tc`. About details, see the [$tc](injection#tc-key) remarks.
-
 :::tip NOTE
 Supported for **Legacy API mode only**.
 :::
+
+**Details**
+
+Overloaded `$tc`. About details, see the [$tc](injection#tc-key) remarks.
 
 #### Parameters
 | Parameter | Type | Description |
@@ -685,13 +685,13 @@ Locale message pluralization
 $tc(key: Path, choice: number, list: unknown[]): TranslateResult;
 ```
 
-**Details**
-
-Overloaded `$tc`. About details, see the [$tc](injection#tc-key) remarks.
-
 :::tip NOTE
 Supported for **Legacy API mode only**.
 :::
+
+**Details**
+
+Overloaded `$tc`. About details, see the [$tc](injection#tc-key) remarks.
 
 #### Parameters
 | Parameter | Type | Description |
@@ -713,13 +713,13 @@ Locale message pluralization
 $tc(key: Path, choice: number, named: Record<string, unknown>): TranslateResult;
 ```
 
-**Details**
-
-Overloaded `$tc`. About details, see the [$tc](injection#tc-key) remarks.
-
 :::tip NOTE
 Supported for **Legacy API mode only**.
 :::
+
+**Details**
+
+Overloaded `$tc`. About details, see the [$tc](injection#tc-key) remarks.
 
 #### Parameters
 | Parameter | Type | Description |
@@ -741,13 +741,13 @@ Translation message exist
 $te(key: Path, locale?: Locale): boolean;
 ```
 
-**Details**
-
-The input / output is the same as for VueI18n instance. About that details, see [VueI18n#te](legacy#te-key-locale)
-
 :::tip NOTE
 Supported for **Legacy API mode only**.
 :::
+
+**Details**
+
+The input / output is the same as for VueI18n instance. About that details, see [VueI18n#te](legacy#te-key-locale)
 
 #### Parameters
 | Parameter | Type | Description |
