@@ -142,6 +142,13 @@ function process(model, pkg, style, resolver, customTags) {
       builder.newline()
     }
 
+    if (model.deprecated) {
+      builder.pushline(`:::danger DEPRECATED`)
+      builder.pushline(model.deprecated)
+      builder.pushline(`:::`)
+      builder.newline()
+    }
+
     if (model.remarks) {
       builder.pushline(`**Details**`)
       builder.newline()
@@ -223,6 +230,13 @@ function process(model, pkg, style, resolver, customTags) {
       builder.newline()
     }
 
+    if (model.deprecated) {
+      builder.pushline(`:::danger DEPRECATED`)
+      builder.pushline(model.deprecated)
+      builder.pushline(`:::`)
+      builder.newline()
+    }
+
     if (model.remarks) {
       builder.pushline(`**Details**`)
       builder.newline()
@@ -287,6 +301,13 @@ function process(model, pkg, style, resolver, customTags) {
       builder.newline()
     }
 
+    if (model.deprecated) {
+      builder.pushline(`:::danger DEPRECATED`)
+      builder.pushline(model.deprecated)
+      builder.pushline(`:::`)
+      builder.newline()
+    }
+
     if (model.remarks) {
       builder.pushline(`**Details**`)
       builder.newline()
@@ -339,6 +360,13 @@ function process(model, pkg, style, resolver, customTags) {
       builder.pushline('```typescript')
       builder.pushline(model.signature)
       builder.pushline('```')
+      builder.newline()
+    }
+
+    if (model.deprecated) {
+      builder.pushline(`:::danger DEPRECATED`)
+      builder.pushline(model.deprecated)
+      builder.pushline(`:::`)
       builder.newline()
     }
 
@@ -423,6 +451,13 @@ function process(model, pkg, style, resolver, customTags) {
       builder.newline()
     }
 
+    if (model.deprecated) {
+      builder.pushline(`:::danger DEPRECATED`)
+      builder.pushline(model.deprecated)
+      builder.pushline(`:::`)
+      builder.newline()
+    }
+
     if (model.remarks) {
       builder.pushline(`**Details**`)
       builder.newline()
@@ -468,6 +503,13 @@ function process(model, pkg, style, resolver, customTags) {
       builder.pushline('```typescript')
       builder.pushline(model.signature)
       builder.pushline('```')
+      builder.newline()
+    }
+
+    if (model.deprecated) {
+      builder.pushline(`:::danger DEPRECATED`)
+      builder.pushline(model.deprecated)
+      builder.pushline(`:::`)
       builder.newline()
     }
 
@@ -546,6 +588,19 @@ function parseFunction(style, model, pkg, resolver, item, customTags) {
   // signature
   if (item.excerptTokens) {
     genModel.signature = item.excerptTokens.map(token => token.text).join('')
+  }
+
+  // deprecated
+  if (docs.deprecatedBlock) {
+    genModel.deprecated = getDocSectionContent(
+      model,
+      pkg,
+      docs.deprecatedBlock.content,
+      item,
+      style,
+      resolver,
+      customTags
+    )
   }
 
   // remarks
@@ -692,6 +747,19 @@ function parseEnum(style, model, pkg, resolver, item, customTags) {
     genModel.signature = item.excerptTokens.map(token => token.text).join('')
   }
 
+  // deprecated
+  if (docs.deprecatedBlock) {
+    genModel.deprecated = getDocSectionContent(
+      model,
+      pkg,
+      docs.deprecatedBlock.content,
+      item,
+      style,
+      resolver,
+      customTags
+    )
+  }
+
   // remarks
   if (docs.remarksBlock) {
     genModel.remarks = getDocSectionContent(
@@ -820,6 +888,19 @@ function parseContentForClassinizable(
   // signature
   if (item.excerptTokens) {
     genModel.signature = item.excerptTokens.map(token => token.text).join('')
+  }
+
+  // deprecated
+  if (docs.deprecatedBlock) {
+    genModel.deprecated = getDocSectionContent(
+      model,
+      pkg,
+      docs.deprecatedBlock.content,
+      item,
+      style,
+      resolver,
+      customTags
+    )
   }
 
   // remarks
@@ -979,6 +1060,9 @@ function parseInterface(style, model, pkg, resolver, item, customTags) {
   if (properties.length > 0) {
     genModel.properties = []
     for (const property of properties) {
+      // if (property.displayName === 'preserveDirectiveContent') {
+      //   console.log('fff', property.tsdocComment)
+      // }
       genModel.properties.push(
         parseContentForClassinizable(
           style,
@@ -1031,6 +1115,19 @@ function parseTypeAlias(style, model, pkg, resolver, item, customTags) {
   // signature
   if (item.excerptTokens) {
     genModel.signature = item.excerptTokens.map(token => token.text).join('')
+  }
+
+  // deprecated
+  if (docs.deprecatedBlock) {
+    genModel.deprecated = getDocSectionContent(
+      model,
+      pkg,
+      docs.deprecatedBlock.content,
+      item,
+      style,
+      resolver,
+      customTags
+    )
   }
 
   // remarks
@@ -1120,6 +1217,19 @@ function parseVariable(style, model, pkg, resolver, item, customTags) {
   // signature
   if (item.excerptTokens) {
     genModel.signature = item.excerptTokens.map(token => token.text).join('')
+  }
+
+  // deprecated
+  if (docs.deprecatedBlock) {
+    genModel.deprecated = getDocSectionContent(
+      model,
+      pkg,
+      docs.deprecatedBlock.content,
+      item,
+      style,
+      resolver,
+      customTags
+    )
   }
 
   // remarks
