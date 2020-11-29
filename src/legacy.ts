@@ -179,7 +179,7 @@ export interface VueI18nOptions {
    *
    * If `true`, suppress localization fail warnings.
    *
-   * If you use regular expression, you can suppress localization fail warnings that it match with translation key (e.g. `$t`).
+   * If you use regular expression, you can suppress localization fail warnings that it match with translation key (e.g. `t`).
    *
    * @VueI18nSee [Fallbacking](../essentials/fallback)
    *
@@ -220,7 +220,9 @@ export interface VueI18nOptions {
   preserveDirectiveContent?: boolean
   /**
    * @remarks
-   * Whether to allow the use locale messages of HTML formatting. See the warnHtmlInMessage property.
+   * Whether to allow the use locale messages of HTML formatting.
+   *
+   * See the warnHtmlInMessage property.
    *
    * @VueI18nSee [HTML Message](../essentials/syntax#html-message)
    * @VueI18nSee [Change `warnHtmlInMessage` option default value](../migration/breaking#change-warnhtmlinmessage-option-default-value)
@@ -316,7 +318,7 @@ export interface VueI18n<
   id: number
   /**
    * @remarks
-   * The locale of localization.
+   * The current locale this VueI18n instance is using.
    *
    * If the locale contains a territory and a dialect, this locale contains an implicit fallback.
    *
@@ -325,7 +327,7 @@ export interface VueI18n<
   locale: Locale
   /**
    * @remarks
-   * The locale of fallback localization.
+   * The current fallback locales this VueI18n instance is using.
    *
    * @VueI18nSee [Fallbacking](../essentials/fallback)
    */
@@ -418,8 +420,6 @@ export interface VueI18n<
    *
    * @VueI18nSee [HTML Message](../essentials/syntax#html-message)
    * @VueI18nSee [Change `warnHtmlInMessage` option default value](../migration/breaking#change-warnhtmlinmessage-option-default-value)
-   *
-   * @defaultValue `'warn'`
    */
   warnHtmlInMessage: WarnHtmlInMessageLevel
   /**
@@ -443,6 +443,8 @@ export interface VueI18n<
    * Locale message translation.
    *
    * @remarks
+   * If this is used in a reactive context, it will re-evaluate once the locale changes.
+   *
    * If [i18n component options](injection#i18n) is specified, it’s translated in preferentially local scope locale messages than global scope locale messages.
    *
    * If [i18n component options](injection#i18n) isn't specified, it’s translated with global scope locale messages.
@@ -530,6 +532,8 @@ export interface VueI18n<
    * Locale message pluralization
    *
    * @remarks
+   * If this is used in a reactive context, it will re-evaluate once the locale changes.
+   *
    * If [i18n component options](injection#i18n) is specified, it’s pluraled in preferentially local scope locale messages than global scope locale messages.
    *
    * If [i18n component options](injection#i18n) isn't specified, it’s pluraled with global scope locale messages.
@@ -586,7 +590,7 @@ export interface VueI18n<
    * Overloaded `tc`. About details, see the [tc](legacy#tc-key) details.
    *
    * @param key - A target locale message key
-   * @param choice - A choice number of plural
+   * @param choice - Which plural string to get. 1 returns the first one.
    *
    * @returns Pluraled message
    */
@@ -598,7 +602,7 @@ export interface VueI18n<
    * Overloaded `tc`. About details, see the [tc](legacy#tc-key) details.
    *
    * @param key - A target locale message key
-   * @param choice - A choice number of plural
+   * @param choice - Which plural string to get. 1 returns the first one.
    * @param locale - A locale, it will be used over than global scope or local scope.
    *
    * @returns Pluraled message
@@ -611,7 +615,7 @@ export interface VueI18n<
    * Overloaded `tc`. About details, see the [tc](legacy#tc-key) details.
    *
    * @param key - A target locale message key
-   * @param choice - A choice number of plural
+   * @param choice - Which plural string to get. 1 returns the first one.
    * @param list - A values of list interpolation
    *
    * @returns Pluraled message
@@ -624,7 +628,7 @@ export interface VueI18n<
    * Overloaded `tc`. About details, see the [tc](legacy#tc-key) details.
    *
    * @param key - A target locale message key
-   * @param choice - A choice number of plural
+   * @param choice - Which plural string to get. 1 returns the first one.
    * @param named - A values of named interpolation
    *
    * @returns Pluraled message
@@ -702,6 +706,8 @@ export interface VueI18n<
    * Datetime formating
    *
    * @remarks
+   * If this is used in a reactive context, it will re-evaluate once the locale changes.
+   *
    * If [i18n component options](injection#i18n) is specified, it’s formatted in preferentially local scope datetime formats than global scope locale messages.
    *
    * If [i18n component options](injection#i18n) isn't specified, it’s formatted with global scope datetime formats.
@@ -787,6 +793,8 @@ export interface VueI18n<
    * Number formating
    *
    * @remarks
+   * If this is used in a reactive context, it will re-evaluate once the locale changes.
+   *
    * If [i18n component options](injection#i18n) is specified, it’s formatted in preferentially local scope number formats than global scope locale messages.
    *
    * If [i18n component options](injection#i18n) isn't specified, it’s formatted with global scope number formats.
@@ -794,6 +802,8 @@ export interface VueI18n<
    * @param value - A number value
    *
    * @returns Formatted value
+   *
+   * @VueI18nSee [Number formatting](../essentials/number)
    */
   n(value: number): NumberFormatResult
   /**
@@ -806,8 +816,6 @@ export interface VueI18n<
      @param key - A key of number formats
    *
    * @returns Formatted value
-   *
-   * @VueI18nSee [Number formatting](../essentials/number)
    */
   n(value: number, key: string): NumberFormatResult
   /**

@@ -53,6 +53,7 @@ export type PluralizationRule = (
   choicesLength: number,
   orgRule?: PluralizationRule
 ) => number
+/** @VueI18nGeneral */
 export type PluralizationRules = { [locale: string]: PluralizationRule }
 export type PluralizationProps = {
   n?: number
@@ -60,6 +61,7 @@ export type PluralizationProps = {
 }
 
 export type LinkedModify<T = string> = (value: T) => MessageType<T>
+/** @VueI18nGeneral */
 export type LinkedModifiers<T = string> = { [key: string]: LinkedModify<T> }
 
 /** @VueI18nGeneral */

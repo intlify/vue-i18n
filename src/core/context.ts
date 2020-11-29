@@ -48,9 +48,11 @@ export type LocaleMessageValue<Message = string> =
 export type LocaleMessageDictionary<Message = string> = {
   [property: string]: LocaleMessageValue<Message>
 }
+/** @VueI18nGeneral */
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface LocaleMessageArray<Message = string>
   extends Array<LocaleMessageValue<Message>> {}
+/** @VueI18nGeneral */
 export type LocaleMessages<Message = string> = Record<
   Locale,
   LocaleMessageDictionary<Message>
@@ -70,6 +72,7 @@ export type RuntimeMissingHandler<Message = string> = (
   type: RuntimeMissingType,
   ...values: unknown[]
 ) => string | void
+/** @VueI18nGeneral */
 export type PostTranslationHandler<Message = string> = (
   translated: MessageType<Message>
 ) => MessageType<Message>

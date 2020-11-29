@@ -68,6 +68,8 @@ $t(key: Path): TranslateResult;
 
 **Details**
 
+If this is used in a reactive context, it will re-evaluate once the locale changes.
+
 In [Compostion API mode](general#mode), the `$t` is injected by `app.config.globalProperties`. The input / output is the same as for Composer, and it work on **global scope**. About that details, see [Composer#t](composition#t-key).
 
 In [Legacy API mode](general#mode), the input / output is the same as for VueI18n instance. About details, see [VueI18n#t](legacy#t-key).
@@ -289,7 +291,7 @@ Overloaded `$t`. About details, see the [$t](injection#t-key) remarks.
 | Parameter | Type | Description |
 | --- | --- | --- |
 | key | Path | A target locale message key |
-| defaultMsg | string | A default translate message, returned by the function when the locale messages for the given key were not found |
+| defaultMsg | string | A defautl message to return if no translation was found |
 
 #### Returns
 
@@ -312,7 +314,7 @@ Overloaded `$t`. About details, see the [$t](injection#t-key) remarks.
 | Parameter | Type | Description |
 | --- | --- | --- |
 | key | Path | A target locale message key |
-| defaultMsg | string | A default translate message, returned by the function when the locale messages for the given key were not found |
+| defaultMsg | string | A defautl message to return if no translation was found |
 | options | TranslateOptions | An options, see the [TranslateOptions](general#translateoptions) |
 
 #### Returns
@@ -384,7 +386,7 @@ Overloaded `$t`. About details, see the [$t](injection#t-key) remarks.
 | --- | --- | --- |
 | key | Path | A target locale message key |
 | list | unknown[] | A values of list interpolation |
-| defaultMsg | string | A default translate message, returned by the function when the locale messages for the given key were not found |
+| defaultMsg | string | A defautl message to return if no translation was found |
 
 #### Returns
 
@@ -479,7 +481,7 @@ Overloaded `$t`. About details, see the [$t](injection#t-key) remarks.
 | --- | --- | --- |
 | key | Path | A target locale message key |
 | named | NamedValue | A values of named interpolation |
-| defaultMsg | string | A default translate message, returned by the function when the locale messages for the given key were not found |
+| defaultMsg | string | A defautl message to return if no translation was found |
 
 #### Returns
 
@@ -523,6 +525,8 @@ Supported for **Legacy API mode only**.
 :::
 
 **Details**
+
+If this is used in a reactive context, it will re-evaluate once the locale changes.
 
 The input / output is the same as for VueI18n instance. About that details, see [VueI18n#tc](legacy#tc-key).
 
@@ -642,7 +646,7 @@ Overloaded `$tc`. About details, see the [$tc](injection#tc-key) remarks.
 | Parameter | Type | Description |
 | --- | --- | --- |
 | key | Path | A target locale message key |
-| choice | number | A choice number of plural |
+| choice | number | Which plural string to get. 1 returns the first one |
 
 #### Returns
 
@@ -669,7 +673,7 @@ Overloaded `$tc`. About details, see the [$tc](injection#tc-key) remarks.
 | Parameter | Type | Description |
 | --- | --- | --- |
 | key | Path | A target locale message key |
-| choice | number | A choice number of plural |
+| choice | number | Which plural string to get. 1 returns the first one |
 | locale | Locale | A locale, override locale that global scope or local scope |
 
 #### Returns
@@ -697,7 +701,7 @@ Overloaded `$tc`. About details, see the [$tc](injection#tc-key) remarks.
 | Parameter | Type | Description |
 | --- | --- | --- |
 | key | Path | A target locale message key |
-| choice | number | A choice number of plural |
+| choice | number | Which plural string to get. 1 returns the first one |
 | list | unknown[] | A values of list interpolation |
 
 #### Returns
@@ -725,7 +729,7 @@ Overloaded `$tc`. About details, see the [$tc](injection#tc-key) remarks.
 | Parameter | Type | Description |
 | --- | --- | --- |
 | key | Path | A target locale message key |
-| choice | number | A choice number of plural |
+| choice | number | Which plural string to get. 1 returns the first one |
 | named | Record&lt;string, unknown&gt; | A values of named interpolation |
 
 #### Returns
@@ -769,6 +773,8 @@ $d(value: number | Date): DateTimeFormatResult;
 ```
 
 **Details**
+
+If this is used in a reactive context, it will re-evaluate once the locale changes.
 
 In [Compostion API mode](general#i18nmode), the `$d` is injected by `app.config.globalProperties`. The input / output is the same as for Composer instance, and it work on **global scope**. About that details, see [Composer#d](composition#d-value).
 
@@ -960,6 +966,8 @@ $n(value: number): NumberFormatResult;
 ```
 
 **Details**
+
+If this is used in a reactive context, it will re-evaluate once the locale changes.
 
 In [Compostion API mode](general#i18nmode), the `$n` is injected by `app.config.globalProperties`. The input / output is the same as for Composer instance, and it work on **global scope**. About that details, see [Composer#n](composition#n-value).
 

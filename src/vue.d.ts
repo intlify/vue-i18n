@@ -53,6 +53,8 @@ declare module '@vue/runtime-core' {
      * Locale message translation
      *
      * @remarks
+     * If this is used in a reactive context, it will re-evaluate once the locale changes.
+     *
      * In {@link I18nMode | Compostion API mode}, the `$t` is injected by `app.config.globalProperties`.
      * the input / output is the same as for Composer, and it work on **global scope**. About that details, see {@link Composer#t | `Composer#t` }.
      *
@@ -155,7 +157,7 @@ declare module '@vue/runtime-core' {
      * Overloaded `$t`. About details, see the {@link $t} remarks.
      *
      * @param key - A target locale message key
-     * @param plural - A choice number of plural
+     * @param plural - Which plural string to get. 1 returns the first one.
      * @param options - An options, see the {@link TranslateOptiions}
      *
      * @returns translation message
@@ -168,7 +170,7 @@ declare module '@vue/runtime-core' {
      * Overloaded `$t`. About details, see the {@link $t} remarks.
      *
      * @param key - A target locale message key
-     * @param defaultMsg - A default translate message, returned by the function when the locale messages for the given key were not found
+     * @param defaultMsg - A defautl message to return if no translation was found
      *
      * @returns translation message
      */
@@ -180,7 +182,7 @@ declare module '@vue/runtime-core' {
      * Overloaded `$t`. About details, see the {@link $t} remarks.
      *
      * @param key - A target locale message key
-     * @param defaultMsg - A default translate message, returned by the function when the locale messages for the given key were not found
+     * @param defaultMsg - A defautl message to return if no translation was found
      * @param options - An options, see the {@link TranslateOptiions}
      *
      * @returns translation message
@@ -219,7 +221,7 @@ declare module '@vue/runtime-core' {
      *
      * @param key - A target locale message key
      * @param list - A values of list interpolation
-     * @param defaultMsg - A default translate message, returned by the function when the locale messages for the given key were not found
+     * @param defaultMsg - A defautl message to return if no translation was found
      *
      * @returns translation message
      */
@@ -270,7 +272,7 @@ declare module '@vue/runtime-core' {
      *
      * @param key - A target locale message key
      * @param named - A values of named interpolation
-     * @param defaultMsg - A default translate message, returned by the function when the locale messages for the given key were not found
+     * @param defaultMsg - A defautl message to return if no translation was found
      *
      * @returns translation message
      */
@@ -292,6 +294,8 @@ declare module '@vue/runtime-core' {
      * Locale message pluralization
      *
      * @remarks
+     * If this is used in a reactive context, it will re-evaluate once the locale changes.
+     *
      * The input / output is the same as for VueI18n instance. About that details, see {@link VueI18n#tc | `VueI18n#tc` }.
      * The value of plural is handled with default `1`.
      * Supported for Legacy API mode only.
@@ -350,7 +354,7 @@ declare module '@vue/runtime-core' {
      * Supported for Legacy API mode only.
      *
      * @param key - A target locale message key
-     * @param choice - A choice number of plural
+     * @param choice - Which plural string to get. 1 returns the first one.
      *
      * @returns translation message that is pluraled
      */
@@ -364,7 +368,7 @@ declare module '@vue/runtime-core' {
      * Supported for Legacy API mode only.
      *
      * @param key - A target locale message key
-     * @param choice - A choice number of plural
+     * @param choice - Which plural string to get. 1 returns the first one.
      * @param locale - A locale, override locale that global scope or local scope
      *
      * @returns translation message that is pluraled
@@ -379,7 +383,7 @@ declare module '@vue/runtime-core' {
      * Supported for Legacy API mode only.
      *
      * @param key - A target locale message key
-     * @param choice - A choice number of plural
+     * @param choice - Which plural string to get. 1 returns the first one.
      * @param list - A values of list interpolation
      *
      * @returns translation message that is pluraled
@@ -394,7 +398,7 @@ declare module '@vue/runtime-core' {
      * Supported for Legacy API mode only.
      *
      * @param key - A target locale message key
-     * @param choice - A choice number of plural
+     * @param choice - Which plural string to get. 1 returns the first one.
      * @param named - A values of named interpolation
      *
      * @returns translation message that is pluraled
@@ -421,6 +425,8 @@ declare module '@vue/runtime-core' {
      * Datetime formating
      *
      * @remarks
+     * If this is used in a reactive context, it will re-evaluate once the locale changes.
+     *
      * In {@link I18nMode | Compostion API mode}, the `$d` is injected by `app.config.globalProperties`.
      * the input / output is the same as for Composer instance, and it work on **global scope**. About that details, see {@link Composer#d | `Composer#d` }.
      *
@@ -523,6 +529,8 @@ declare module '@vue/runtime-core' {
      * Number formatting
      *
      * @remarks
+     * If this is used in a reactive context, it will re-evaluate once the locale changes.
+     *
      * In {@link I18nMode | Compostion API mode}, the `$n` is injected by `app.config.globalProperties`.
      * the input / output is the same as for Composer instance,  and it work on **global scope**. About that details, see {@link Composer#n | `Composer.n` }.
      *
