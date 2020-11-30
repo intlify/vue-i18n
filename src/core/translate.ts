@@ -93,16 +93,51 @@ const isMessageFunction = <T>(val: unknown): val is MessageFunction<T> =>
 /**
  * Translate Options
  *
+ * @remarks
+ * Options for Translation API
+ *
  * @VueI18nGeneral
  */
 export interface TranslateOptions {
+  /**
+   * @remarks
+   * List interpolation
+   */
   list?: unknown[]
+  /**
+   * @remarks
+   * Named interpolation
+   */
   named?: NamedValue
+  /**
+   * @remarks
+   * Plulralzation choice number
+   */
   plural?: number
+  /**
+   * @remarks
+   * Default message when is occured translation missing
+   */
   default?: string | boolean
+  /**
+   * @remarks
+   * The locale of localization
+   */
   locale?: Locale
+  /**
+   * @remarks
+   * Whether suppress warnings outputted when localization fails
+   */
   missingWarn?: boolean
+  /**
+   * @remarks
+   * Whether do template interpolation on translation keys when your language lacks a translation for a key
+   */
   fallbackWarn?: boolean
+  /**
+   * @remarks
+   * Whether do escape parameter for list or named interpolation values
+   */
   escapeParameter?: boolean
 }
 

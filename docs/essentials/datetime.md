@@ -70,6 +70,12 @@ As result the below:
 
 ## Custom Formatting
 
+:::danger NOTE
+Not supported IE, due to no support `Intl.DateTimeForamt#formatToParts` in [IE](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/DateTimeFormat/formatToParts)
+
+If you want to use it, you need to use [polyfill](https://github.com/formatjs/formatjs/tree/main/packages/intl-datetimeformat)
+:::
+
 `$d` returns resulting string with fully formatted datetime, which can only be used as a whole. In situations when you need to style some part of the formatted datetime (like fraction digits), `$d` is not enough. In such cases DatetimeFormat component (`i18n-d`) will be of help.
 
 With a minimum set of properties, `i18n-d` generates the same output as `$d`, wrapped into configured DOM element.

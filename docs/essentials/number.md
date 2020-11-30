@@ -55,6 +55,12 @@ As result the below:
 
 ## Custom Formatting
 
+:::danger NOTE
+Not supported IE, due to no support `Intl.NumberForamt#formatToParts` in [IE](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/NumberFormat/formatToParts)
+
+If you want to use it, you need to use [polyfill](https://github.com/formatjs/formatjs/tree/main/packages/intl-numberformat)
+:::
+
 `$n` returns resulting string with fully formatted number, which can only be used as a whole. In situations when you need to style some part of the formatted number (like fraction digits), `$n` is not enough. In such cases NumberForamt component (`i18n-n`) will be of help.
 
 With a minimum set of properties, `i18n-n` generates the same output as `$n`, wrapped into configured DOM element.

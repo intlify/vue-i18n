@@ -1,10 +1,9 @@
 const {
   getDocSectionContent,
-  escapeText,
+  escapeTextForTable,
   findCustomTags,
   createContentBuilder
 } = require('api-docs-gen')
-const { getCombinedModifierFlags } = require('typescript')
 
 function process(model, pkg, style, resolver, customTags) {
   // console.log('custom process', model, pkg, style, customTags)
@@ -29,6 +28,7 @@ function process(model, pkg, style, resolver, customTags) {
           )
           break
         case 'Class':
+          // TODO:
           break
         case 'TypeAlias':
           models.push(
@@ -128,429 +128,239 @@ function process(model, pkg, style, resolver, customTags) {
     }
   }
 
-  function buildFunction(model, builder) {
-    if (model.summary) {
-      builder.pushline(model.summary)
-      builder.newline()
-    }
-
-    if (model.signature) {
-      builder.pushline(`**Signature:**`)
-      builder.pushline('```typescript')
-      builder.pushline(model.signature)
-      builder.pushline('```')
-      builder.newline()
-    }
-
-    if (model.deprecated) {
-      builder.pushline(`:::danger DEPRECATED`)
-      builder.pushline(model.deprecated)
-      builder.pushline(`:::`)
-      builder.newline()
-    }
-
-    if (model.remarks) {
-      builder.pushline(`**Details**`)
-      builder.newline()
-      builder.pushline(model.remarks)
-      builder.newline()
-    }
-
-    if (model.seeAlso) {
-      builder.pushline(`**See Also**`)
-      for (const see of model.seeAlso) {
-        builder.pushline(`- ${see}`)
-      }
-      builder.newline()
-    }
-
-    if (model.parameters) {
-      builder.pushline(`### Parameters`)
-      builder.newline()
-      builder.pushline(`| Parameter | Type | Description |`)
-      builder.pushline(`| --- | --- | --- |`)
-      for (const p of model.parameters) {
-        builder.pushline(`| ${p.name} | ${p.type} | ${p.description} |`)
-      }
-      builder.newline()
-    }
-
-    if (model.returns) {
-      builder.pushline(`### Returns`)
-      builder.newline()
-      builder.pushline(model.returns)
-      builder.newline()
-    }
-
-    if (model.throws) {
-      builder.pushline(`### Throws`)
-      builder.newline()
-      for (const t of model.throws) {
-        let text = t
-        if (model.throws.length > 1) {
-          text = `- ` + text
-        }
-        builder.pushline(text)
-      }
-      builder.newline()
-    }
-
-    if (model.examples) {
-      if (model.examples.length > 0) {
-        builder.pushline(`**Examples**`)
-        builder.newline()
-        let count = 1
-        for (const e of model.examples) {
-          if (model.examples.length > 1) {
-            builder.pushline(`**Example ${count}:**`)
-            builder.newline()
-          }
-          builder.pushline(e)
-          builder.newline()
-          count++
-        }
-        builder.newline()
-      }
-    }
-  }
-
-  function buildEnum(model, builder) {}
-
-  function buildInterface(model, builder) {
-    if (model.summary) {
-      builder.pushline(model.summary)
-      builder.newline()
-    }
-
-    if (model.signature) {
-      builder.pushline(`**Signature:**`)
-      builder.pushline('```typescript')
-      builder.pushline(model.signature)
-      builder.pushline('```')
-      builder.newline()
-    }
-
-    if (model.deprecated) {
-      builder.pushline(`:::danger DEPRECATED`)
-      builder.pushline(model.deprecated)
-      builder.pushline(`:::`)
-      builder.newline()
-    }
-
-    if (model.remarks) {
-      builder.pushline(`**Details**`)
-      builder.newline()
-      builder.pushline(model.remarks)
-      builder.newline()
-    }
-
-    if (model.seeAlso) {
-      builder.pushline(`**See Also**`)
-      for (const see of model.seeAlso) {
-        builder.pushline(`- ${see}`)
-      }
-      builder.newline()
-    }
-
-    if (model.examples) {
-      if (model.examples.length > 0) {
-        builder.pushline(`**Examples**`)
-        builder.newline()
-        let count = 1
-        for (const e of model.examples) {
-          if (model.examples.length > 1) {
-            builder.pushline(`**Example ${count}:**`)
-            builder.newline()
-          }
-          builder.pushline(e)
-          builder.newline()
-          count++
-        }
-        builder.newline()
-      }
-    }
-
-    if (model.properties) {
-      for (const p of model.properties) {
-        builder.pushline(`### ${p.name}`)
-        builder.newline()
-        buildPropertySignature(p, builder)
-      }
-    }
-
-    if (model.methods) {
-      for (const m of model.methods) {
-        builder.pushline(`### ${m.name}`)
-        builder.newline()
-        buildMethodSignature(m, builder)
-      }
-    }
-  }
-
-  function buildPropertySignature(model, builder) {
-    if (model.summary) {
-      builder.pushline(model.summary)
-      builder.newline()
-    }
-
-    if (model.signature) {
-      builder.pushline(`**Signature:**`)
-      builder.pushline('```typescript')
-      builder.pushline(model.signature)
-      builder.pushline('```')
-      builder.newline()
-    }
-
-    if (model.deprecated) {
-      builder.pushline(`:::danger DEPRECATED`)
-      builder.pushline(model.deprecated)
-      builder.pushline(`:::`)
-      builder.newline()
-    }
-
-    if (model.remarks) {
-      builder.pushline(`**Details**`)
-      builder.newline()
-      builder.pushline(model.remarks)
-      builder.newline()
-    }
-
-    if (model.defaultValue) {
-      builder.pushline(`**Default Value**`)
-      builder.newline()
-      builder.pushline(model.defaultValue)
-      builder.newline()
-    }
-
-    if (model.seeAlso) {
-      builder.pushline(`**See Also**`)
-      for (const see of model.seeAlso) {
-        builder.pushline(`- ${see}`)
-      }
-      builder.newline()
-    }
-
-    if (model.examples) {
-      if (model.examples.length > 0) {
-        builder.pushline(`**Examples**`)
-        builder.newline()
-        let count = 1
-        for (const e of model.examples) {
-          if (model.examples.length > 1) {
-            builder.pushline(`**Example ${count}:**`)
-            builder.newline()
-          }
-          builder.pushline(e)
-          builder.newline()
-          count++
-        }
-        builder.newline()
-      }
-    }
-  }
-
-  function buildMethodSignature(model, builder) {
-    if (model.summary) {
-      builder.pushline(model.summary)
-      builder.newline()
-    }
-
-    if (model.signature) {
-      builder.pushline(`**Signature:**`)
-      builder.pushline('```typescript')
-      builder.pushline(model.signature)
-      builder.pushline('```')
-      builder.newline()
-    }
-
-    if (model.deprecated) {
-      builder.pushline(`:::danger DEPRECATED`)
-      builder.pushline(model.deprecated)
-      builder.pushline(`:::`)
-      builder.newline()
-    }
-
-    if (model.remarks) {
-      builder.pushline(`**Details**`)
-      builder.newline()
-      builder.pushline(model.remarks)
-      builder.newline()
-    }
-
-    if (model.seeAlso) {
-      builder.pushline(`**See Also**`)
-      for (const see of model.seeAlso) {
-        builder.pushline(`- ${see}`)
-      }
-      builder.newline()
-    }
-
-    if (model.parameters) {
-      builder.pushline(`#### Parameters`)
-      builder.newline()
-      builder.pushline(`| Parameter | Type | Description |`)
-      builder.pushline(`| --- | --- | --- |`)
-      for (const p of model.parameters) {
-        builder.pushline(`| ${p.name} | ${p.type} | ${p.description} |`)
-      }
-      builder.newline()
-    }
-
-    if (model.returns) {
-      builder.pushline(`#### Returns`)
-      builder.newline()
-      builder.pushline(model.returns)
-      builder.newline()
-    }
-
-    if (model.throws) {
-      builder.pushline(`#### Throws`)
-      builder.newline()
-      for (const t of model.throws) {
-        let text = t
-        if (model.throws.length > 1) {
-          text = `- ` + text
-        }
-        builder.pushline(text)
-      }
-      builder.newline()
-    }
-
-    if (model.examples) {
-      if (model.examples.length > 0) {
-        builder.pushline(`**Examples**`)
-        builder.newline()
-        let count = 1
-        for (const e of model.examples) {
-          if (model.examples.length > 1) {
-            builder.pushline(`**Example ${count}:**`)
-            builder.newline()
-          }
-          builder.pushline(e)
-          builder.newline()
-          count++
-        }
-        builder.newline()
-      }
-    }
-  }
-
-  function buildClass(model, builder) {}
-
-  function buildTypeAlias(model, builder) {
-    if (model.summary) {
-      builder.pushline(model.summary)
-      builder.newline()
-    }
-
-    if (model.signature) {
-      builder.pushline(`**Signature:**`)
-      builder.pushline('```typescript')
-      builder.pushline(model.signature)
-      builder.pushline('```')
-      builder.newline()
-    }
-
-    if (model.deprecated) {
-      builder.pushline(`:::danger DEPRECATED`)
-      builder.pushline(model.deprecated)
-      builder.pushline(`:::`)
-      builder.newline()
-    }
-
-    if (model.remarks) {
-      builder.pushline(`**Details**`)
-      builder.newline()
-      builder.pushline(model.remarks)
-      builder.newline()
-    }
-
-    if (model.seeAlso) {
-      builder.pushline(`**See Also**`)
-      for (const see of model.seeAlso) {
-        builder.pushline(`- ${see}`)
-      }
-      builder.newline()
-    }
-
-    if (model.examples) {
-      if (model.examples.length > 0) {
-        builder.pushline(`**Examples**`)
-        builder.newline()
-        let count = 1
-        for (const e of model.examples) {
-          if (model.examples.length > 1) {
-            builder.pushline(`**Example ${count}:**`)
-            builder.newline()
-          }
-          builder.pushline(e)
-          builder.newline()
-          count++
-        }
-        builder.newline()
-      }
-    }
-  }
-
-  function buildVariable(model, builder) {
-    if (model.summary) {
-      builder.pushline(model.summary)
-      builder.newline()
-    }
-
-    if (model.signature) {
-      builder.pushline(`**Signature:**`)
-      builder.pushline('```typescript')
-      builder.pushline(model.signature)
-      builder.pushline('```')
-      builder.newline()
-    }
-
-    if (model.deprecated) {
-      builder.pushline(`:::danger DEPRECATED`)
-      builder.pushline(model.deprecated)
-      builder.pushline(`:::`)
-      builder.newline()
-    }
-
-    if (model.remarks) {
-      builder.pushline(`**Details**`)
-      builder.newline()
-      builder.pushline(model.remarks)
-      builder.newline()
-    }
-
-    if (model.seeAlso) {
-      builder.pushline(`**See Also**`)
-      for (const see of model.seeAlso) {
-        builder.pushline(`- ${see}`)
-      }
-      builder.newline()
-    }
-
-    if (model.examples) {
-      if (model.examples.length > 0) {
-        builder.pushline(`**Examples**`)
-        builder.newline()
-        let count = 1
-        for (const e of model.examples) {
-          if (model.examples.length > 1) {
-            builder.pushline(`**Example ${count}:**`)
-            builder.newline()
-          }
-          builder.pushline(e)
-          builder.newline()
-          count++
-        }
-        builder.newline()
-      }
-    }
-  }
-
   const models = parse()
   const contents = build(models)
 
   return contents
+}
+
+function buildFunction(model, builder) {
+  model.summary && buildSummary(model, builder)
+  model.signature && buildSignature(model, builder)
+  model.deprecated && buildDeprecated(model, builder)
+  model.remarks && buildDetails(model, builder)
+  model.tips && buildTips(model, builder)
+  model.dangers && buildDangers(model, builder)
+  model.warnings && buildWarnings(model, builder)
+  model.seeAlso && buildSeeAlso(model, builder)
+  model.parameters && buildParameters(model, builder)
+  model.returns && buildReturns(model, builder)
+  model.throws && buildThrows(model, builder)
+  model.examples && buildExamples(model, builder)
+}
+
+function buildEnum(model, builder) {
+  // TODO:
+}
+
+function buildInterface(model, builder) {
+  model.summary && buildSummary(model, builder)
+  model.signature && buildSignature(model, builder)
+  model.deprecated && buildDeprecated(model, builder)
+  model.remarks && buildDetails(model, builder)
+  model.tips && buildTips(model, builder)
+  model.dangers && buildDangers(model, builder)
+  model.warnings && buildWarnings(model, builder)
+  model.seeAlso && buildSeeAlso(model, builder)
+  model.examples && buildExamples(model, builder)
+
+  if (model.properties) {
+    for (const p of model.properties) {
+      builder.pushline(`### ${p.name}`)
+      builder.newline()
+      buildPropertySignature(p, builder)
+    }
+  }
+
+  if (model.methods) {
+    for (const m of model.methods) {
+      builder.pushline(`### ${m.name}`)
+      builder.newline()
+      buildMethodSignature(m, builder)
+    }
+  }
+}
+
+function buildPropertySignature(model, builder) {
+  model.summary && buildSummary(model, builder)
+  model.signature && buildSignature(model, builder)
+  model.deprecated && buildDeprecated(model, builder)
+  model.remarks && buildDetails(model, builder)
+  model.tips && buildTips(model, builder)
+  model.dangers && buildDangers(model, builder)
+  model.warnings && buildWarnings(model, builder)
+  model.defaultValue && buildDefaultValue(model, builder)
+  model.seeAlso && buildSeeAlso(model, builder)
+  model.examples && buildExamples(model, builder)
+}
+
+function buildMethodSignature(model, builder) {
+  model.summary && buildSummary(model, builder)
+  model.signature && buildSignature(model, builder)
+  model.deprecated && buildDeprecated(model, builder)
+  model.remarks && buildDetails(model, builder)
+  model.seeAlso && buildSeeAlso(model, builder)
+  model.tips && buildTips(model, builder)
+  model.dangers && buildDangers(model, builder)
+  model.warnings && buildWarnings(model, builder)
+  model.parameters && buildParameters(model, builder, 4)
+  model.returns && buildReturns(model, builder, 4)
+  model.throws && buildThrows(model, builder, 4)
+  model.examples && buildExamples(model, builder)
+}
+
+function buildClass(model, builder) {
+  // TODO:
+}
+
+function buildTypeAlias(model, builder) {
+  model.summary && buildSummary(model, builder)
+  model.signature && buildSignature(model, builder)
+  model.deprecated && buildDeprecated(model, builder)
+  model.remarks && buildDetails(model, builder)
+  model.tips && buildTips(model, builder)
+  model.dangers && buildDangers(model, builder)
+  model.warnings && buildWarnings(model, builder)
+  model.seeAlso && buildSeeAlso(model, builder)
+  model.examples && buildExamples(model, builder)
+}
+
+function buildVariable(model, builder) {
+  model.summary && buildSummary(model, builder)
+  model.signature && buildSignature(model, builder)
+  model.deprecated && buildDeprecated(model, builder)
+  model.remarks && buildDetails(model, builder)
+  model.tips && buildTips(model, builder)
+  model.dangers && buildDangers(model, builder)
+  model.warnings && buildWarnings(model, builder)
+  model.seeAlso && buildSeeAlso(model, builder)
+  model.examples && buildExamples(model, builder)
+}
+
+function buildSummary(model, builder) {
+  builder.pushline(model.summary)
+  builder.newline()
+}
+
+function buildSignature(model, builder) {
+  builder.pushline(`**Signature:**`)
+  builder.pushline('```typescript')
+  builder.pushline(model.signature)
+  builder.pushline('```')
+  builder.newline()
+}
+
+function buildDeprecated(model, builder) {
+  builder.pushline(`:::danger DEPRECATED`)
+  builder.pushline(model.deprecated)
+  builder.pushline(`:::`)
+  builder.newline()
+}
+
+function buildTips(model, builder) {
+  builder.pushline(`:::tip`)
+  for (const tip of model.tips) {
+    builder.pushline(tip)
+  }
+  builder.pushline(`:::`)
+  builder.newline()
+}
+
+function buildDangers(model, builder) {
+  builder.pushline(`:::danger`)
+  for (const danger of model.dangers) {
+    builder.pushline(danger)
+  }
+  builder.pushline(`:::`)
+  builder.newline()
+}
+
+function buildWarnings(model, builder) {
+  builder.pushline(`:::warning`)
+  for (const warning of model.warnings) {
+    builder.pushline(warning)
+  }
+  builder.pushline(`:::`)
+  builder.newline()
+}
+
+function buildDetails(model, builder) {
+  builder.pushline(`**Details**`)
+  builder.newline()
+  builder.pushline(model.remarks)
+  builder.newline()
+}
+
+function buildDefaultValue(model, builder) {
+  builder.pushline(`**Default Value**`)
+  builder.newline()
+  builder.pushline(model.defaultValue)
+  builder.newline()
+}
+
+function buildSeeAlso(model, builder) {
+  builder.pushline(`**See Also**`)
+  for (const see of model.seeAlso) {
+    builder.pushline(`- ${see}`)
+  }
+  builder.newline()
+}
+
+function buildParameters(model, builder, level = 3) {
+  builder.pushline(`${'#'.repeat(level)} Parameters`)
+  builder.newline()
+  builder.pushline(`| Parameter | Type | Description |`)
+  builder.pushline(`| --- | --- | --- |`)
+  for (const p of model.parameters) {
+    builder.pushline(
+      `| ${p.name} | ${normalize(escapeTextForTable(p.type))} | ${
+        p.description
+      } |`
+    )
+  }
+  builder.newline()
+}
+
+function buildReturns(model, builder, level = 3) {
+  builder.pushline(`${'#'.repeat(level)} Returns`)
+  builder.newline()
+  builder.pushline(model.returns)
+  builder.newline()
+}
+
+function buildThrows(model, builder, level = 3) {
+  builder.pushline(`${'#'.repeat(level)} Throws`)
+  builder.newline()
+  for (const t of model.throws) {
+    let text = t
+    if (model.throws.length > 1) {
+      text = `- ` + text
+    }
+    builder.pushline(text)
+  }
+  builder.newline()
+}
+
+function buildExamples(model, builder) {
+  if (model.examples.length > 0) {
+    builder.pushline(`**Examples**`)
+    builder.newline()
+    let count = 1
+    for (const e of model.examples) {
+      if (model.examples.length > 1) {
+        builder.pushline(`**Example ${count}:**`)
+        builder.newline()
+      }
+      builder.pushline(e)
+      builder.newline()
+      count++
+    }
+    builder.newline()
+  }
+}
+
+function normalize(text) {
+  return text.replace(/\n/g, ' ')
 }
 
 function parseFunction(style, model, pkg, resolver, item, customTags) {
@@ -568,146 +378,123 @@ function parseFunction(style, model, pkg, resolver, item, customTags) {
   }
 
   // modifierTags
-  genModel.modifierTags = docs.modifierTagSet.nodes
-    ? docs.modifierTagSet.nodes.map(n => n.tagName)
-    : []
+  genModel.modifierTags = getModifierTags(docs)
 
-  // sumarry
-  if (docs.summarySection) {
-    genModel.summary = getDocSectionContent(
-      model,
-      pkg,
-      docs.summarySection,
-      item,
-      style,
-      resolver,
-      customTags
-    )
-  }
+  // summary
+  genModel.summary = getSummary(
+    docs,
+    style,
+    model,
+    pkg,
+    resolver,
+    item,
+    customTags
+  )
 
   // signature
-  if (item.excerptTokens) {
-    genModel.signature = item.excerptTokens.map(token => token.text).join('')
-  }
+  genModel.signature = getSignature(item)
 
   // deprecated
-  if (docs.deprecatedBlock) {
-    genModel.deprecated = getDocSectionContent(
-      model,
-      pkg,
-      docs.deprecatedBlock.content,
-      item,
-      style,
-      resolver,
-      customTags
-    )
-  }
+  genModel.deprecated = getDeprecated(
+    docs,
+    style,
+    model,
+    pkg,
+    resolver,
+    item,
+    customTags
+  )
 
   // remarks
-  if (docs.remarksBlock) {
-    genModel.remarks = getDocSectionContent(
-      model,
-      pkg,
-      docs.remarksBlock.content,
-      item,
-      style,
-      resolver,
-      customTags
-    )
-  }
+  genModel.remarks = getRamrks(
+    docs,
+    style,
+    model,
+    pkg,
+    resolver,
+    item,
+    customTags
+  )
 
   // see also
-  const seealso = findCustomTags(docs.customBlocks, '@VueI18nSee')
-  if (seealso.length > 0) {
-    genModel.seeAlso = []
-    for (const s of seealso) {
-      genModel.seeAlso.push(
-        getDocSectionContent(
-          model,
-          pkg,
-          s.content,
-          item,
-          style,
-          resolver,
-          customTags
-        )
-      )
-    }
-  }
+  genModel.seeAlso = getSeeAlso(
+    docs,
+    style,
+    model,
+    pkg,
+    resolver,
+    item,
+    customTags
+  )
+
+  // tips
+  genModel.tips = getTips(docs, style, model, pkg, resolver, item, customTags)
+
+  // dangers
+  genModel.dangers = getDangers(
+    docs,
+    style,
+    model,
+    pkg,
+    resolver,
+    item,
+    customTags
+  )
+
+  // warnings
+  genModel.warnings = getWarnings(
+    docs,
+    style,
+    model,
+    pkg,
+    resolver,
+    item,
+    customTags
+  )
 
   // parameters
-  if (item.parameters) {
-    genModel.parameters = []
-    for (const p of item.parameters) {
-      genModel.parameters.push({
-        name: p.name,
-        type: escapeText(p.parameterTypeExcerpt.text.trim()),
-        description:
-          p.tsdocParamBlock && p.tsdocParamBlock.content
-            ? getDocSectionContent(
-                model,
-                pkg,
-                p.tsdocParamBlock.content,
-                item,
-                style,
-                resolver,
-                customTags
-              )
-            : ''
-      })
-    }
-  }
+  genModel.parameters = getParameters(
+    docs,
+    style,
+    model,
+    pkg,
+    resolver,
+    item,
+    customTags
+  )
 
   // returns
-  if (docs.returnsBlock) {
-    genModel.returns = getDocSectionContent(
-      model,
-      pkg,
-      docs.returnsBlock.content,
-      item,
-      style,
-      resolver,
-      customTags
-    )
-  }
+  genModel.returns = getReturns(
+    docs,
+    style,
+    model,
+    pkg,
+    resolver,
+    item,
+    customTags
+  )
 
   // throws
-  const throws = findCustomTags(docs.customBlocks, '@throws')
-  if (throws.length > 0) {
-    genModel.throws = []
-    for (const t of throws) {
-      genModel.throws.push(
-        getDocSectionContent(
-          model,
-          pkg,
-          t.content,
-          item,
-          style,
-          resolver,
-          customTags
-        )
-      )
-    }
-  }
+  genModel.throws = getThrows(
+    docs,
+    style,
+    model,
+    pkg,
+    resolver,
+    item,
+    customTags
+  )
 
   // examples
-  const examples = findCustomTags(docs.customBlocks, '@example')
-  if (examples.length > 0) {
-    genModel.examples = []
-    for (const e of examples) {
-      genModel.examples.push(
-        getDocSectionContent(
-          model,
-          pkg,
-          e.content,
-          item,
-          style,
-          resolver,
-          customTags
-        )
-      )
-    }
-  }
+  genModel.examples = getExamples(
+    docs,
+    style,
+    model,
+    pkg,
+    resolver,
+    item,
+    customTags
+  )
 
   // console.log('function genmodel', genModel)
   return genModel
@@ -725,72 +512,79 @@ function parseEnum(style, model, pkg, resolver, item, customTags) {
   }
 
   // modifierTags
-  genModel.modifierTags = docs.modifierTagSet.nodes
-    ? docs.modifierTagSet.nodes.map(n => n.tagName)
-    : []
+  genModel.modifierTags = getModifierTags(docs)
 
-  // sumarry
-  if (docs.summarySection) {
-    genModel.summary = getDocSectionContent(
-      model,
-      pkg,
-      docs.summarySection,
-      item,
-      style,
-      resolver,
-      customTags
-    )
-  }
+  // summary
+  genModel.summary = getSummary(
+    docs,
+    style,
+    model,
+    pkg,
+    resolver,
+    item,
+    customTags
+  )
 
   // signature
-  if (item.excerptTokens) {
-    genModel.signature = item.excerptTokens.map(token => token.text).join('')
-  }
+  genModel.signature = getSignature(item)
 
   // deprecated
-  if (docs.deprecatedBlock) {
-    genModel.deprecated = getDocSectionContent(
-      model,
-      pkg,
-      docs.deprecatedBlock.content,
-      item,
-      style,
-      resolver,
-      customTags
-    )
-  }
+  genModel.deprecated = getDeprecated(
+    docs,
+    style,
+    model,
+    pkg,
+    resolver,
+    item,
+    customTags
+  )
 
   // remarks
-  if (docs.remarksBlock) {
-    genModel.remarks = getDocSectionContent(
-      model,
-      pkg,
-      docs.remarksBlock.content,
-      item,
-      style,
-      resolver,
-      customTags
-    )
-  }
+  genModel.remarks = getRamrks(
+    docs,
+    style,
+    model,
+    pkg,
+    resolver,
+    item,
+    customTags
+  )
 
   // see also
-  const seealso = findCustomTags(docs.customBlocks, '@VueI18nSee')
-  if (seealso.length > 0) {
-    genModel.seeAlso = []
-    for (const s of seealso) {
-      genModel.seeAlso.push(
-        getDocSectionContent(
-          model,
-          pkg,
-          s.content,
-          item,
-          style,
-          resolver,
-          customTags
-        )
-      )
-    }
-  }
+  genModel.seeAlso = getSeeAlso(
+    docs,
+    style,
+    model,
+    pkg,
+    resolver,
+    item,
+    customTags
+  )
+
+  // tips
+  genModel.tips = getTips(docs, style, model, pkg, resolver, item, customTags)
+
+  // dangers
+  genModel.dangers = getDangers(
+    docs,
+    style,
+    model,
+    pkg,
+    resolver,
+    item,
+    customTags
+  )
+
+  // warnings
+  genModel.warnings = getWarnings(
+    docs,
+    style,
+    model,
+    pkg,
+    resolver,
+    item,
+    customTags
+  )
 
   // members
   if (item.members) {
@@ -816,23 +610,15 @@ function parseEnum(style, model, pkg, resolver, item, customTags) {
   }
 
   // examples
-  const examples = findCustomTags(docs.customBlocks, '@example')
-  if (examples.length > 0) {
-    genModel.examples = []
-    for (const e of examples) {
-      genModel.examples.push(
-        getDocSectionContent(
-          model,
-          pkg,
-          e.content,
-          item,
-          style,
-          resolver,
-          customTags
-        )
-      )
-    }
-  }
+  genModel.examples = getExamples(
+    docs,
+    style,
+    model,
+    pkg,
+    resolver,
+    item,
+    customTags
+  )
 
   // console.log('enum genmodel', genModel)
   return genModel
@@ -868,161 +654,142 @@ function parseContentForClassinizable(
   }
 
   // modifierTags
-  genModel.modifierTags = docs.modifierTagSet.nodes
-    ? docs.modifierTagSet.nodes.map(n => n.tagName)
-    : []
+  genModel.modifierTags = getModifierTags(docs)
 
-  // sumarry
-  if (docs.summarySection) {
-    genModel.summary = getDocSectionContent(
-      model,
-      pkg,
-      docs.summarySection,
-      item,
-      style,
-      resolver,
-      customTags
-    )
-  }
+  // summary
+  genModel.summary = getSummary(
+    docs,
+    style,
+    model,
+    pkg,
+    resolver,
+    item,
+    customTags
+  )
 
   // signature
-  if (item.excerptTokens) {
-    genModel.signature = item.excerptTokens.map(token => token.text).join('')
-  }
+  genModel.signature = getSignature(item)
 
   // deprecated
-  if (docs.deprecatedBlock) {
-    genModel.deprecated = getDocSectionContent(
-      model,
-      pkg,
-      docs.deprecatedBlock.content,
-      item,
-      style,
-      resolver,
-      customTags
-    )
-  }
+  genModel.deprecated = getDeprecated(
+    docs,
+    style,
+    model,
+    pkg,
+    resolver,
+    item,
+    customTags
+  )
 
   // remarks
-  if (docs.remarksBlock) {
-    genModel.remarks = getDocSectionContent(
-      model,
-      pkg,
-      docs.remarksBlock.content,
-      item,
-      style,
-      resolver,
-      customTags
-    )
-  }
+  genModel.remarks = getRamrks(
+    docs,
+    style,
+    model,
+    pkg,
+    resolver,
+    item,
+    customTags
+  )
 
   // defaultValue
-  const defaultValues = findCustomTags(docs.customBlocks, '@defaultValue')
-  if (type === 'property' && defaultValues && defaultValues.length > 0) {
-    const defalutValue = defaultValues[0]
-    genModel.defaultValue = getDocSectionContent(
+  if (type === 'property') {
+    genModel.defaultValue = getDefaultValue(
+      docs,
+      style,
       model,
       pkg,
-      defalutValue.content,
-      item,
-      style,
       resolver,
+      item,
       customTags
     )
   }
 
   // see also
-  const seealso = findCustomTags(docs.customBlocks, '@VueI18nSee')
-  if (seealso.length > 0) {
-    genModel.seeAlso = []
-    for (const s of seealso) {
-      genModel.seeAlso.push(
-        getDocSectionContent(
-          model,
-          pkg,
-          s.content,
-          item,
-          style,
-          resolver,
-          customTags
-        )
-      )
-    }
-  }
+  genModel.seeAlso = getSeeAlso(
+    docs,
+    style,
+    model,
+    pkg,
+    resolver,
+    item,
+    customTags
+  )
+
+  // tips
+  genModel.tips = getTips(docs, style, model, pkg, resolver, item, customTags)
+
+  // dangers
+  genModel.dangers = getDangers(
+    docs,
+    style,
+    model,
+    pkg,
+    resolver,
+    item,
+    customTags
+  )
+
+  // warnings
+  genModel.warnings = getWarnings(
+    docs,
+    style,
+    model,
+    pkg,
+    resolver,
+    item,
+    customTags
+  )
 
   // parameters
-  if ((type === 'constrcutor' || type === 'method') && item.parameters) {
-    genModel.parameters = []
-    for (const p of item.parameters) {
-      genModel.parameters.push({
-        name: p.name,
-        type: escapeText(p.parameterTypeExcerpt.text.trim()),
-        description:
-          p.tsdocParamBlock && p.tsdocParamBlock.content
-            ? getDocSectionContent(
-                model,
-                pkg,
-                p.tsdocParamBlock.content,
-                item,
-                style,
-                resolver,
-                customTags
-              )
-            : ''
-      })
-    }
+  if (type === 'constrcutor' || type === 'method') {
+    genModel.parameters = getParameters(
+      docs,
+      style,
+      model,
+      pkg,
+      resolver,
+      item,
+      customTags
+    )
   }
 
   // returns
-  if (type === 'method' && docs.returnsBlock) {
-    genModel.returns = getDocSectionContent(
+  if (type === 'method') {
+    genModel.returns = getReturns(
+      docs,
+      style,
       model,
       pkg,
-      docs.returnsBlock.content,
-      item,
-      style,
       resolver,
+      item,
       customTags
     )
   }
 
   // throws
-  const throws = findCustomTags(docs.customBlocks, '@throws')
-  if ((type === 'constructor' || type === 'method') && throws.length > 0) {
-    genModel.throws = []
-    for (const t of throws) {
-      genModel.throws.push(
-        getDocSectionContent(
-          model,
-          pkg,
-          t.content,
-          item,
-          style,
-          resolver,
-          customTags
-        )
-      )
-    }
+  if (type === 'constructor' || type === 'method') {
+    genModel.throws = getThrows(
+      docs,
+      style,
+      model,
+      pkg,
+      resolver,
+      item,
+      customTags
+    )
   }
 
   // examples
-  const examples = findCustomTags(docs.customBlocks, '@example')
-  if (examples.length > 0) {
-    genModel.examples = []
-    for (const e of examples) {
-      genModel.examples.push(
-        getDocSectionContent(
-          model,
-          pkg,
-          e.content,
-          item,
-          style,
-          resolver,
-          customTags
-        )
-      )
-    }
-  }
+  genModel.examples = getExamples(
+    docs,
+    style,
+    model,
+    pkg,
+    resolver,
+    item,
+    customTags
+  )
 
   return genModel
 }
@@ -1060,9 +827,6 @@ function parseInterface(style, model, pkg, resolver, item, customTags) {
   if (properties.length > 0) {
     genModel.properties = []
     for (const property of properties) {
-      // if (property.displayName === 'preserveDirectiveContent') {
-      //   console.log('fff', property.tsdocComment)
-      // }
       genModel.properties.push(
         parseContentForClassinizable(
           style,
@@ -1081,7 +845,9 @@ function parseInterface(style, model, pkg, resolver, item, customTags) {
   return genModel
 }
 
-function parseClass() {}
+function parseClass() {
+  // TODO:
+}
 
 function parseTypeAlias(style, model, pkg, resolver, item, customTags) {
   const genModel = {
@@ -1095,91 +861,90 @@ function parseTypeAlias(style, model, pkg, resolver, item, customTags) {
   }
 
   // modifierTags
-  genModel.modifierTags = docs.modifierTagSet.nodes
-    ? docs.modifierTagSet.nodes.map(n => n.tagName)
-    : []
+  genModel.modifierTags = getModifierTags(docs)
 
   // sumarry
-  if (docs.summarySection) {
-    genModel.summary = getDocSectionContent(
-      model,
-      pkg,
-      docs.summarySection,
-      item,
-      style,
-      resolver,
-      customTags
-    )
-  }
+  genModel.summary = getSummary(
+    docs,
+    style,
+    model,
+    pkg,
+    resolver,
+    item,
+    customTags
+  )
 
   // signature
-  if (item.excerptTokens) {
-    genModel.signature = item.excerptTokens.map(token => token.text).join('')
-  }
+  genModel.signature = getSignature(item)
 
   // deprecated
-  if (docs.deprecatedBlock) {
-    genModel.deprecated = getDocSectionContent(
-      model,
-      pkg,
-      docs.deprecatedBlock.content,
-      item,
-      style,
-      resolver,
-      customTags
-    )
-  }
+  genModel.deprecated = getDeprecated(
+    docs,
+    style,
+    model,
+    pkg,
+    resolver,
+    item,
+    customTags
+  )
 
   // remarks
-  if (docs.remarksBlock) {
-    genModel.remarks = getDocSectionContent(
-      model,
-      pkg,
-      docs.remarksBlock.content,
-      item,
-      style,
-      resolver,
-      customTags
-    )
-  }
+  genModel.remarks = getRamrks(
+    docs,
+    style,
+    model,
+    pkg,
+    resolver,
+    item,
+    customTags
+  )
 
   // see also
-  const seealso = findCustomTags(docs.customBlocks, '@VueI18nSee')
-  if (seealso.length > 0) {
-    genModel.seeAlso = []
-    for (const s of seealso) {
-      genModel.seeAlso.push(
-        getDocSectionContent(
-          model,
-          pkg,
-          s.content,
-          item,
-          style,
-          resolver,
-          customTags
-        )
-      )
-    }
-  }
+  genModel.seeAlso = getSeeAlso(
+    docs,
+    style,
+    model,
+    pkg,
+    resolver,
+    item,
+    customTags
+  )
+
+  // tips
+  genModel.tips = getTips(docs, style, model, pkg, resolver, item, customTags)
+
+  // dangers
+  genModel.dangers = getDangers(
+    docs,
+    style,
+    model,
+    pkg,
+    resolver,
+    item,
+    customTags
+  )
+
+  // warnings
+  genModel.warnings = getWarnings(
+    docs,
+    style,
+    model,
+    pkg,
+    resolver,
+    item,
+    customTags
+  )
 
   // examples
-  const examples = findCustomTags(docs.customBlocks, '@example')
-  if (examples.length > 0) {
-    genModel.examples = []
-    for (const e of examples) {
-      genModel.examples.push(
-        getDocSectionContent(
-          model,
-          pkg,
-          e.content,
-          item,
-          style,
-          resolver,
-          customTags
-        )
-      )
-    }
-  }
+  genModel.examples = getExamples(
+    docs,
+    style,
+    model,
+    pkg,
+    resolver,
+    item,
+    customTags
+  )
 
   // console.log('typealias genmodel', genModel)
   return genModel
@@ -1197,13 +962,104 @@ function parseVariable(style, model, pkg, resolver, item, customTags) {
   }
 
   // modifierTags
-  genModel.modifierTags = docs.modifierTagSet.nodes
+  genModel.modifierTags = getModifierTags(docs)
+
+  // summary
+  genModel.summary = getSummary(
+    docs,
+    style,
+    model,
+    pkg,
+    resolver,
+    item,
+    customTags
+  )
+
+  // signature
+  genModel.signature = getSignature(item)
+
+  // deprecated
+  genModel.deprecated = getDeprecated(
+    docs,
+    style,
+    model,
+    pkg,
+    resolver,
+    item,
+    customTags
+  )
+
+  // remarks
+  genModel.remarks = getRamrks(
+    docs,
+    style,
+    model,
+    pkg,
+    resolver,
+    item,
+    customTags
+  )
+
+  // see also
+  genModel.seeAlso = getSeeAlso(
+    docs,
+    style,
+    model,
+    pkg,
+    resolver,
+    item,
+    customTags
+  )
+
+  // tips
+  genModel.tips = getTips(docs, style, model, pkg, resolver, item, customTags)
+
+  // dangers
+  genModel.dangers = getDangers(
+    docs,
+    style,
+    model,
+    pkg,
+    resolver,
+    item,
+    customTags
+  )
+
+  // warnings
+  genModel.warnings = getWarnings(
+    docs,
+    style,
+    model,
+    pkg,
+    resolver,
+    item,
+    customTags
+  )
+
+  // examples
+  genModel.examples = getExamples(
+    docs,
+    style,
+    model,
+    pkg,
+    resolver,
+    item,
+    customTags
+  )
+
+  // console.log('variable genmodel', genModel)
+  return genModel
+}
+
+function getModifierTags(docs) {
+  return docs.modifierTagSet.nodes
     ? docs.modifierTagSet.nodes.map(n => n.tagName)
     : []
+}
 
-  // sumarry
+function getSummary(docs, style, model, pkg, resolver, item, customTags) {
   if (docs.summarySection) {
-    genModel.summary = getDocSectionContent(
+    return getDocSectionContent(
       model,
       pkg,
       docs.summarySection,
@@ -1212,16 +1068,20 @@ function parseVariable(style, model, pkg, resolver, item, customTags) {
       resolver,
       customTags
     )
+  } else {
+    return undefined
   }
+}
 
-  // signature
-  if (item.excerptTokens) {
-    genModel.signature = item.excerptTokens.map(token => token.text).join('')
-  }
+function getSignature(item) {
+  return item.excerptTokens
+    ? item.excerptTokens.map(token => token.text).join('')
+    : undefined
+}
 
-  // deprecated
+function getDeprecated(docs, style, model, pkg, resolver, item, customTags) {
   if (docs.deprecatedBlock) {
-    genModel.deprecated = getDocSectionContent(
+    return getDocSectionContent(
       model,
       pkg,
       docs.deprecatedBlock.content,
@@ -1230,11 +1090,14 @@ function parseVariable(style, model, pkg, resolver, item, customTags) {
       resolver,
       customTags
     )
+  } else {
+    return undefined
   }
+}
 
-  // remarks
+function getRamrks(docs, style, model, pkg, resolver, item, customTags) {
   if (docs.remarksBlock) {
-    genModel.remarks = getDocSectionContent(
+    return getDocSectionContent(
       model,
       pkg,
       docs.remarksBlock.content,
@@ -1243,48 +1106,173 @@ function parseVariable(style, model, pkg, resolver, item, customTags) {
       resolver,
       customTags
     )
+  } else {
+    return undefined
   }
+}
 
-  // see also
-  const seealso = findCustomTags(docs.customBlocks, '@VueI18nSee')
-  if (seealso.length > 0) {
-    genModel.seeAlso = []
-    for (const s of seealso) {
-      genModel.seeAlso.push(
-        getDocSectionContent(
-          model,
-          pkg,
-          s.content,
-          item,
-          style,
-          resolver,
-          customTags
-        )
+function getSeeAlso(docs, style, model, pkg, resolver, item, customTags) {
+  return getCustomBlockContents(
+    '@VueI18nSee',
+    docs,
+    style,
+    model,
+    pkg,
+    resolver,
+    item,
+    customTags
+  )
+}
+
+function getTips(docs, style, model, pkg, resolver, item, customTags) {
+  return getCustomBlockContents(
+    '@VueI18nTip',
+    docs,
+    style,
+    model,
+    pkg,
+    resolver,
+    item,
+    customTags
+  )
+}
+
+function getDangers(docs, style, model, pkg, resolver, item, customTags) {
+  return getCustomBlockContents(
+    '@VueI18nDanger',
+    docs,
+    style,
+    model,
+    pkg,
+    resolver,
+    item,
+    customTags
+  )
+}
+
+function getWarnings(docs, style, model, pkg, resolver, item, customTags) {
+  return getCustomBlockContents(
+    '@VueI18nWarning',
+    docs,
+    style,
+    model,
+    pkg,
+    resolver,
+    item,
+    customTags
+  )
+}
+
+function getParameters(docs, style, model, pkg, resolver, item, customTags) {
+  if (item.parameters) {
+    return item.parameters.map(p => {
+      return {
+        name: p.name,
+        type: p.parameterTypeExcerpt.text.trim(),
+        description:
+          p.tsdocParamBlock && p.tsdocParamBlock.content
+            ? getDocSectionContent(
+                model,
+                pkg,
+                p.tsdocParamBlock.content,
+                item,
+                style,
+                resolver,
+                customTags
+              )
+            : ''
+      }
+    })
+  } else {
+    return undefined
+  }
+}
+
+function getReturns(docs, style, model, pkg, resolver, item, customTags) {
+  if (docs.returnsBlock) {
+    return getDocSectionContent(
+      model,
+      pkg,
+      docs.returnsBlock.content,
+      item,
+      style,
+      resolver,
+      customTags
+    )
+  } else {
+    return undefined
+  }
+}
+
+function getThrows(docs, style, model, pkg, resolver, item, customTags) {
+  return getCustomBlockContents(
+    '@throws',
+    docs,
+    style,
+    model,
+    pkg,
+    resolver,
+    item,
+    customTags
+  )
+}
+
+function getExamples(docs, style, model, pkg, resolver, item, customTags) {
+  return getCustomBlockContents(
+    '@example',
+    docs,
+    style,
+    model,
+    pkg,
+    resolver,
+    item,
+    customTags
+  )
+}
+
+function getDefaultValue(docs, style, model, pkg, resolver, item, customTags) {
+  const defaultValues = findCustomTags(docs.customBlocks, '@defaultValue')
+  if (defaultValues && defaultValues.length > 0) {
+    return getDocSectionContent(
+      model,
+      pkg,
+      defaultValues[0].content,
+      item,
+      style,
+      resolver,
+      customTags
+    )
+  } else {
+    return undefined
+  }
+}
+
+function getCustomBlockContents(
+  tag,
+  docs,
+  style,
+  model,
+  pkg,
+  resolver,
+  item,
+  customTags
+) {
+  const blocks = findCustomTags(docs.customBlocks, tag)
+  if (blocks.length > 0) {
+    return blocks.map(b => {
+      return getDocSectionContent(
+        model,
+        pkg,
+        b.content,
+        item,
+        style,
+        resolver,
+        customTags
       )
-    }
+    })
+  } else {
+    return undefined
   }
-
-  // examples
-  const examples = findCustomTags(docs.customBlocks, '@example')
-  if (examples.length > 0) {
-    genModel.examples = []
-    for (const e of examples) {
-      genModel.examples.push(
-        getDocSectionContent(
-          model,
-          pkg,
-          e.content,
-          item,
-          style,
-          resolver,
-          customTags
-        )
-      )
-    }
-  }
-
-  // console.log('variable genmodel', genModel)
-  return genModel
 }
 
 module.exports = process

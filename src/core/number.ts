@@ -67,13 +67,36 @@ import { DevToolsTimelineEvents } from '../debugger/constants'
 /**
  * Number Options
  *
+ * @remarks
+ * Options for Number formatting API
+ *
  * @VueI18nGeneral
  */
 export interface NumberOptions {
+  /**
+   * @remarks
+   * The target format key
+   */
   key?: string
+  /**
+   * @remarks
+   * The locale of localization
+   */
   locale?: Locale
+  /**
+   * @remarks
+   * Whether suppress warnings outputted when localization fails
+   */
   missingWarn?: boolean
+  /**
+   * @remarks
+   * Whether do resolve on format keys when your language lacks a formatting for a key
+   */
   fallbackWarn?: boolean
+  /**
+   * @remarks
+   * Whether to use [Intel.NumberForrmat#formatToParts](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/NumberFormat/formatToParts)
+   */
   part?: boolean
 }
 

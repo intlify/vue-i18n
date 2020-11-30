@@ -2,6 +2,18 @@
   "$schema": "https://developer.microsoft.com/json-schemas/tsdoc/v0/tsdoc.schema.json",
   "tagDefinitions": [
     {
+      "tagName": "@VueI18nTip",
+      "syntaxKind": "block"
+    },
+    {
+      "tagName": "@VueI18nDanger",
+      "syntaxKind": "block"
+    },
+    {
+      "tagName": "@VueI18nWarning",
+      "syntaxKind": "block"
+    },
+    {
       "tagName": "@VueI18nSee",
       "syntaxKind": "block"
     },
