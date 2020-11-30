@@ -440,6 +440,12 @@ export interface VueI18n<
    */
   preserveDirectiveContent: boolean
   /**
+   * A set of rules for word pluralization
+   *
+   * @VueI18nSee [Custom Pluralization](../essentials/pluralization#custom-pluralization)
+   */
+  pluralizationRules: PluralizationRules
+  /**
    * Locale message translation.
    *
    * @remarks
@@ -882,7 +888,7 @@ export interface VueI18n<
    * @remarks
    * Get pluralization index for current pluralizing number and a given amount of choices.
    *
-   * @deprecated Use `pluralizationRules` insted of `getChoiceIndex`.
+   * @deprecated Use `pluralizationRules` option insted of `getChoiceIndex`.
    */
   getChoiceIndex: (choice: Choice, choicesLength: number) => number
 }
@@ -1171,6 +1177,11 @@ export function createVueI18n<
     set preserveDirectiveContent(val: boolean) {
       __DEV__ &&
         warn(getWarnMessage(I18nWarnCodes.NOT_SUPPORTED_PRESERVE_DIRECTIVE))
+    },
+
+    // pluralizationRules
+    get pluralizationRules(): PluralizationRules {
+      return composer.pluralRules || {}
     },
 
     // for internal

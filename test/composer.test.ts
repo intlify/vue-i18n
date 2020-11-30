@@ -301,7 +301,7 @@ describe('modifiers', () => {
 describe('pluralRules', () => {
   test('default', () => {
     const { pluralRules } = createComposer({})
-    expect(pluralRules).toBeUndefined()
+    expect(pluralRules).toEqual({})
   })
 
   test('initialize at composer creating', () => {

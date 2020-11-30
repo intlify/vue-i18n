@@ -129,6 +129,18 @@ test('postTranslation', () => {
   expect(i18n.postTranslation).toEqual(postTranslation)
 })
 
+test('pluralizationRules', () => {
+  const _pluralRules = {
+    en: () => {
+      return 0
+    }
+  }
+  const i18n = createVueI18n({
+    pluralizationRules: _pluralRules
+  })
+  expect(i18n.pluralizationRules).toEqual(_pluralRules)
+})
+
 test('messages', () => {
   const i18n = createVueI18n()
   expect(i18n.messages).toEqual({
