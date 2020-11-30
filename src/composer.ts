@@ -749,6 +749,20 @@ export interface Composer<
   /** @internal */
   n(...args: unknown[]): string
   /**
+   * Translation locale message exist
+   *
+   * @remarks
+   * whether do exist locale message on Composer instance [messages](composition#messages).
+   *
+   * If you specified `locale`, check the locale messages of `locale`.
+   *
+   * @param key - A target locale message key
+   * @param locale - A locale, it will be used over than global scope or local scope
+   *
+   * @returns If found locale message, `true`, else `false`
+   */
+  te(key: Path, locale?: Locale): boolean
+  /**
    * Locale messages getter
    *
    * @remarks
@@ -1413,6 +1427,13 @@ export function createComposer<
     )
   }
 
+  // te
+  function te(key: Path, locale?: Locale): boolean {
+    const targetLocale = isString(locale) ? locale : _locale.value
+    const message = getLocaleMessage(targetLocale)
+    return resolveValue(message, key) !== null
+  }
+
   // tm
   function tm(key: Path): LocaleMessageValue<Message> | {} {
     const messages = _messages.value[_locale.value] || {}
@@ -1605,6 +1626,7 @@ export function createComposer<
     t,
     d,
     n,
+    te,
     tm,
     getLocaleMessage,
     setLocaleMessage,

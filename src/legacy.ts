@@ -643,17 +643,15 @@ export interface VueI18n<
   /** @internal */
   tc(...args: unknown[]): TranslateResult // for $tc
   /**
-   * Translation message exist
+   * Translation locale message exist
    *
    * @remarks
-   * Check whether key exists.
-   *
-   * In Vue instance, If not specified locale messages on i18n component options component locale messages, check with global scope locale messages.
+   * whether do exist locale message on VueI18n instance [messages](legacy#messages).
    *
    * If you specified `locale`, check the locale messages of `locale`.
    *
    * @param key - A target locale message key
-   * @param locale - A locale, it will be used over than global scope or local scope.
+   * @param locale - A target locale
    *
    * @returns If found locale message, `true`, else `false`
    */
@@ -1255,9 +1253,7 @@ export function createVueI18n<
 
     // te
     te(key: Path, locale?: Locale): boolean {
-      const targetLocale = isString(locale) ? locale : composer.locale.value
-      const message = composer.getLocaleMessage(targetLocale)
-      return resolveValue(message, key) !== null
+      return composer.te(key, locale)
     },
 
     // tm

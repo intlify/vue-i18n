@@ -772,6 +772,23 @@ test('tm', async () => {
   expect(messages2).toEqual({})
 })
 
+test('te', async () => {
+  const { te } = createComposer({
+    locale: 'en',
+    messages: {
+      en: {
+        message: {
+          hello: 'Hello!'
+        }
+      }
+    }
+  })
+
+  expect(te('message.hello')).toEqual(true)
+  expect(te('message.hallo')).toEqual(false)
+  expect(te('message.hallo', 'ja')).toEqual(false)
+})
+
 describe('getLocaleMessage / setLocaleMessage / mergeLocaleMessage', () => {
   test('basic', () => {
     const {
