@@ -395,7 +395,7 @@ export interface Composer<
    *
    * @VueI18nSee [Custom Pluralization](../essentials/pluralization#custom-pluralization)
    */
-  readonly pluralRules?: PluralizationRules
+  readonly pluralRules: PluralizationRules
   /**
    * @remarks
    * Whether this composer instance is global or not
@@ -1554,8 +1554,8 @@ export function createComposer<
     get modifiers(): LinkedModifiers<Message> {
       return _modifiers
     },
-    get pluralRules(): PluralizationRules | undefined {
-      return _pluralRules
+    get pluralRules(): PluralizationRules {
+      return _pluralRules || {}
     },
     get isGlobal(): boolean {
       return _isGlobal
