@@ -491,7 +491,7 @@ Below is the mapping table:
 | `preserveDirectiveContent` | N/A |
 | `t` | `t` |
 | `tc` | `t` |
-| `te` | N/A |
+| `te` | `te` |
 | `tm` | `tm` |
 | `getLocaleMessage` | `getLocaleMessage` |
 | `setLocaleMessage` | `setLocaleMessage`|
