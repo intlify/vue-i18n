@@ -162,7 +162,7 @@
     "format:fix": "yarn format --write",
     "lint": "npm-run-all --parallel lint:codes lint:docs",
     "lint:codes": "eslint ./src ./test ./test-d ./e2e ./benchmark ./format-explorer --ext .js,.ts,.vue",
-    "lint:docs": "textlint --config .textlintrc.js docs/**/*.md",
+    "lint:docs": "textlint --config .textlintrc.js docs/*.md docs/advanced/**/*.md docs/essentials/**/*.md docs/migration/**/*.md docs/api/injection.md",
     "lint:fix": "npm-run-all --parallel \"lint:codes --fix\" \"lint:docs --fix\"",
     "release:prepare": "shipjs prepare",
     "release:trigger": "shipjs trigger",

@@ -84,21 +84,21 @@ In the [dist/ directory of the npm package](https://cdn.jsdelivr.net/npm/vue-i18
 ### From CDN or without a Bundler
 
 - **`vue-i18n.global(.prod).js`**:
-  - For direct use via `<script src="...">` in the browser. Exposes the `VueI18n` global.
-  - Note that global builds are not [UMD](https://github.com/umdjs/umd) builds.  They are built as [IIFEs](https://developer.mozilla.org/en-US/docs/Glossary/IIFE) and are only meant for direct use via `<script src="...">`.
-  - Contains hard-coded prod/dev branches, and the prod build is pre-minified. Use the `*.prod.js` files for production.
+  - For direct use via `<script src="...">` in the browser. Exposes the `VueI18n` global
+  - Note that global builds are not [UMD](https://github.com/umdjs/umd) builds.  They are built as [IIFEs](https://developer.mozilla.org/en-US/docs/Glossary/IIFE) and are only meant for direct use via `<script src="...">`
+  - Contains hard-coded prod/dev branches, and the prod build is pre-minified. Use the `*.prod.js` files for production
 
 :::tip NOTE
 Global builds are not [UMD](https://github.com/umdjs/umd) builds. They are built as [IIFEs](https://developer.mozilla.org/en-US/docs/Glossary/IIFE) and are only meant for direct use via `<script src="...">`.
 :::
 
 - **`vue-i18n.esm-browser(.prod).js`**:
-  - For usage via native ES modules imports (in browser via `<script type="module">`.
-  - Shares the same runtime compilation, dependency inlining and hard-coded prod/dev behavior with the global build.
+  - For usage via native ES modules imports (in browser via `<script type="module">`)
+  - Shares the same runtime compilation, dependency inlining and hard-coded prod/dev behavior with the global build
 
 ### With a Bundler
 
 - **`vue-i18n.esm-bundler.js`**:
-  - For use with bundlers like `webpack`, `rollup` and `parcel`.
+  - For use with bundlers like `webpack`, `rollup` and `parcel`
   - Leaves prod/dev branches with `process.env.NODE_ENV` guards (must be replaced by bundler)
   - Does not ship minified builds (to be done together with the rest of the code after bundling)

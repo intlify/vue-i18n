@@ -12,6 +12,7 @@ module.exports = {
     'max-doc-width': 360,
     'unexpanded-acronym': {
       ignore_acronyms: [
+        'UMD',
         'NPM',
         'CDN',
         'WIP',
