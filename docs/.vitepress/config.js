@@ -32,6 +32,10 @@ const config = {
             link: '/essentials/started'
           },
           {
+            text: 'API Reference',
+            link: '/api/general'
+          },
+          {
             text: 'Ecosystem',
             items: [
               {
@@ -77,10 +81,6 @@ const config = {
                 ]
               }
             ]
-          },
-          {
-            text: 'API Reference',
-            link: '/api/general'
           },
           {
             text: 'Chnagelog',
@@ -162,6 +162,10 @@ const config = {
                 {
                   text: 'Composition API',
                   link: '/advanced/composition',
+                },
+                {
+                  text: 'Optimaization',
+                  link: '/advanced/optimaization',
                 }
               ]
             },
