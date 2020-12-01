@@ -23,6 +23,11 @@ const config = {
     docsDir: 'docs',
     docsBranch: 'master',
     editLinks: true,
+    algolia: {
+      apiKey: '9831550d7a35015b79c75e40c9b6237d',
+      indexName: 'docs',
+      algoliaOptions: { facetFilters: ['tags:guide,api'] },
+    },
     locales: {
       // default english
       '/': {
