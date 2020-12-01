@@ -4,7 +4,7 @@
  *  This module is offered legacy vue-i18n API compatibility
  */
 
-import { Path, resolveValue } from './path'
+import { Path } from './path'
 import {
   PluralizationRule,
   PluralizationRules,
