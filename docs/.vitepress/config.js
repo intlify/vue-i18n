@@ -26,7 +26,7 @@ const config = {
     algolia: {
       apiKey: '9831550d7a35015b79c75e40c9b6237d',
       indexName: 'docs',
-      algoliaOptions: { facetFilters: ['tags:guide,api'] },
+      algoliaOptions: { facetFilters: ['guide:essentials,guide:advanced,guide:migration,api'] },
     },
     locales: {
       // default english
