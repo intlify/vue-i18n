@@ -1,7 +1,7 @@
 # Introduction
 
-:::danger NOTICE
-:warning: This documentation is WIP
+:::warning NOTICE
+**This documentation is beta**
 :::
 
 :::tip NOTE
