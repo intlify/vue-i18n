@@ -26,10 +26,14 @@ export default {
     </template>
     <template #home-hero>
       <div class="sponsors">
-        <h4>🥈 Silver Sponsors</h4>
-        <Sponsor v-for="silver in silvers" v-bind="silver" />
-        <h4 class="sponsor-title">🥉 Bronze Sponsors</h4>
-        <Sponsor v-for="bronze in bronzes" v-bind="bronze" />
+        <div class="level">
+          <h4>🥈 Silver Sponsors</h4>
+          <Sponsor v-for="silver in silvers" v-bind="silver" />
+        </div>
+        <div class="level">
+          <h4 class="sponsor-title">🥉 Bronze Sponsors</h4>
+          <Sponsor v-for="bronze in bronzes" v-bind="bronze" />
+        </div>
       </div>
     </template>
     <template #home-featuers>
@@ -46,6 +50,9 @@ form {
 .sponsors {
   text-align:center;
   padding: 24px 0 24px 0;
+}
+.sponsors .level {
+  padding: 24px 0 0 0;
 }
 .sponsor-title {
   padding: 12px 0 0 0;
