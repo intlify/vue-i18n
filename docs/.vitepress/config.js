@@ -26,7 +26,7 @@ const config = {
     algolia: {
       apiKey: '3a9e93ba1069de0ece2ae100daf8f6ea',
       indexName: 'vue-i18n',
-      algoliaOptions: { facetFilters: ['type:content'] },
+      algoliaOptions: { facetFilters: ['type:$TYPE'] },
     },
     locales: {
       // default english
