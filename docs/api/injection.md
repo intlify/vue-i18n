@@ -776,9 +776,9 @@ $d(value: number | Date): DateTimeFormatResult;
 
 If this is used in a reactive context, it will re-evaluate once the locale changes.
 
-In [Compostion API mode](general#i18nmode), the `$d` is injected by `app.config.globalProperties`. The input / output is the same as for Composer instance, and it work on **global scope**. About that details, see [Composer#d](composition#d-value).
-
 In [Compostion API mode](general#i18nmode), the input / output is the same as for VueI18n instance. About details, see [VueI18n#d](legacy#d-value).
+
+In [Compostion API mode](general#i18nmode), the `$d` is injected by `app.config.globalProperties`. The input / output is the same as for Composer instance, and it work on **global scope**. About that details, see [Composer#d](composition#d-value).
 
 **See Also**
 - [Datetime Formatting](../essentials/datetime)
@@ -969,9 +969,9 @@ $n(value: number): NumberFormatResult;
 
 If this is used in a reactive context, it will re-evaluate once the locale changes.
 
-In [Compostion API mode](general#i18nmode), the `$n` is injected by `app.config.globalProperties`. The input / output is the same as for Composer instance, and it work on **global scope**. About that details, see [Composer#n](composition#n-value).
-
 In [Legacy API mode](general#i18nmode), the input / output is the same as for VueI18n instance. About details, see [VueI18n#n](legacy#n-value).
+
+In [Compostion API mode](general#i18nmode), the `$n` is injected by `app.config.globalProperties`. The input / output is the same as for Composer instance, and it work on **global scope**. About that details, see [Composer#n](composition#n-value).
 
 **See Also**
 - [Number Formatting](../essentials/number)

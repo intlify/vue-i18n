@@ -84,12 +84,12 @@ export interface I18nAdditionalOptions {
    * Whether Whether to inject global properties & functions into for each component.
    *
    * @remarks
-   * If set to `false`, then properties and methods prefixed with `$` are injected into Vue Component.
+   * If set to `true`, then properties and methods prefixed with `$` are injected into Vue Component.
    *
    * @VueI18nSee [Implicit with injected properties and functions](../advanced/composition#implicit-with-injected-properties-and-functions)
    * @VueI18nSee [ComponentCustomProperties](injection#componentcustomproperties)
    *
-   * @defaultValue `true`
+   * @defaultValue `false`
    */
   globalInjection?: boolean
 }
@@ -315,7 +315,7 @@ export function createI18n<
   const __legacyMode = __FEATURE_LEGACY_API__ && isBoolean(options.legacy)
     ? options.legacy
     : true
-  const __globalInjection = !options.globalInjection
+  const __globalInjection = !!options.globalInjection
   const __instances = new Map<
     ComponentInternalInstance,
     VueI18n<Messages> | Composer<Messages>

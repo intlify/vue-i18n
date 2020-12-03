@@ -179,9 +179,9 @@ In the Composition API mode, plural translations have been integrated into `t`.
 
 ## Datetime Formatting
 
-In the Legacy API mode, Datetime value was localized using `$d` or the VueI18n instance of `d`.
+In the Legacy API mode, Datetime value was formatted using `$d` or the VueI18n instance of `d`.
 
-In the Compostion API mode, it uses the `d` of the Composer instance to localize:
+In the Compostion API mode, it uses the `d` of the Composer instance to format:
 
 ```html
 <template>
@@ -227,9 +227,9 @@ For more details of `d`, see the [API Reference](../api/composition#d-value).
 
 ## Number Formatting
 
-In the Legacy API mode, Number value is localized using `$n` or the `n` of the VueI18n instance.
+In the Legacy API mode, Number value is formatted using `$n` or the `n` of the VueI18n instance.
 
-In the Compostion API mode, it is localized using the `n` of the Composer instance:
+In the Compostion API mode, it is formatted using the `n` of the Composer instance:
 
 ```html
 <template>
@@ -303,7 +303,9 @@ Then you can compose using the functions and properties exposed from the Compose
 
 Another way to refer a global scope Composer instance is through properties and functions implicitly injected into the component.
 
-If you use Compostion API mode with the `legacy: false` option for `createI18n`, Vue I18n defaults to the following properties and functions, which injected to the component via `app.config.globalProperties`:
+You need to specify **`globalInjection: true`** together with `legacy: false` as an option for `createI18n`, because disabled by default.
+
+This allows Vue I18n to inject the following properties and functions into the components:
 
 - `$i18n`: An object wrapped with the following global scope Composer instance properties
   - `locale`
@@ -328,8 +330,11 @@ You’ve noticed that the ones listed above are prifixed with `$`. The reason fo
 
 By doing so, the user is made aware that they are special properties and functions.
 
-With the previously explained explicit way, you had to run `useI18n` in `setup` every time. **If your Vue application doesn’t use local scope and does everything i18n in global scope**, it is very convenient because you don’t have to run `useI18n` in the `setup` every time.
+:::warning NOTICE
+If your Vue application doesn’t use local scope and does everything i18n in global scope, this is very useful as it does not need to run `useI18n` in the `setup` for each component. However, this way has the problem with global variables of the same nature. You should be used with caution, especially for large Vue applications.
 
+If you use it once and stop using it, you must change all the properties or functions used in the templates to those of the setup context returned with the `setup` using the `useI18n` with `useScope: 'global'` option.
+:::
 
 ## Local scope
 
@@ -423,16 +428,7 @@ In this example, the definition of resources is separated from i18n custom block
 
 ### Global Scope
 
-Changing the locale in the global scope, i.e., Composer instance  `locale` property  referenced by i18n instance `global` property,  you can change with `$i18n.locale`.
-
-```html
-<select v-model="$i18n.locale">
-  <option value="en">en</option>
-  <option value="ja">ja</option>
-</select>
-```
-
-If you want to change the locale with `setup`, just get a global Composer with `useI18n` and change it using the `locale` property of the instance.
+You want to change the locale with `setup`, just get a global Composer with `useI18n` and change it using the `locale` property of the instance.
 
 ```js
 setup() {
@@ -444,11 +440,29 @@ setup() {
 }
 ```
 
+And you can also use the setup context in the template, which can be changed as follows:
+
+```html
+<select v-model="locale">
+  <option value="en">en</option>
+  <option value="ja">ja</option>
+</select>
+```
+
 When you change the locale of the global scope, components that depend on the global scope, such as `t` translation API can work reactive and switch the display messages to those of the target locale.
+
+If you are using the [implicit way](composition#implicit-with-injected-properties-and-functions), you can also change it in template with `$i18n.locale`, as follows:
+
+```html
+<select v-model="$i18n.locale">
+  <option value="en">en</option>
+  <option value="ja">ja</option>
+</select>
+```
 
 ### Local Scope
 
-The local scope locales, that is, the  Composer instance `locale` property returned by `useI18n`, are inherited from the global scope, as is the Legacy API. Therefore, when you change the locale at global scope, the inherited local scope locale is also changed. If you want to switch the locale for the whole application, you need to do so via `$i18n.locale`.
+The local scope locales, that is, the  Composer instance `locale` property returned by `useI18n`, are inherited from the global scope, as is the Legacy API. Therefore, when you change the locale at global scope, the inherited local scope locale is also changed. If you want to switch the locale for the whole application, you can use the `locale` returned by `useI18n({ useScope: 'global' })` or, if you use [implicit way](composition#implicit-with-injected-properties-and-functions), you can use `$i18n.locale`.
 
 :::tip NOTE
 If you do not want to inherit the locale from the global scope, the `inheritLocale` option of `useI18n` must be `false`.
