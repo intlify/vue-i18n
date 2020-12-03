@@ -311,6 +311,7 @@ export interface ComposerInternalOptions<
   Message = VueMessageType
 > {
   __i18n?: CustomBlocks<Message>
+  __i18nGlobal?: CustomBlocks<Message>
   __root?: Composer<Messages, DateTimeFormats, NumberFormats, Message>
 }
 

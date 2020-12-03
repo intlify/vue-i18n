@@ -173,7 +173,7 @@ const config: UserConfig = {
 export default config
 ```
 
-## Define Locale Messages Importing
+## Define locale lessages importing
 
 You can use `src` attribute:
 
@@ -209,7 +209,7 @@ You can use `locale` attribute:
 
 In the above example, since the `locale` attribute is set to `en`, the locale messages defined in `i18n` custom blocks can be used as a resource for locale messages of `en`.
 
-## Define Multiple Locale Messages
+## Define multiple locale lessages
 
 You can use locale messages with multiple `i18n` custom blocks.
 
@@ -231,7 +231,7 @@ In the above, first custom block load the common locale message with `src` attri
 
 In this way, multiple custom blocks useful when want to be used as module.
 
-## Locale Messages Other Formats
+## Locale messages other formats
 
 `i18n` custom blocks supports resource formats other than `json`.
 
@@ -270,6 +270,27 @@ The `i18n` custom blocks below of `json5` format:
 }
 </i18n>
 ```
+
+## Define locale messages for global scope
+
+You can use define locale messages for global scope with `global` attribute:
+
+```html
+<i18n global>
+{
+  "en": {
+    "hello": "hello world!"
+  }
+}
+</i18n>
+```
+
+In the above example, since the `global` attribute is set, the locale messages defined in `i18n` custom blocks can be merged as a resource for locale messages of global scope.
+
+:::warning NOTICE
+The locale messages for global scope defined in i18n custom blocks are available **only composition API mode**. You need to run `useI18n` option to `useScope: 'global'` at `setup`. About details, see the [Composition API](/advanced/composition).
+:::
+
 
 ## Vue CLI
 
