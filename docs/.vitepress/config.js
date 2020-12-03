@@ -24,9 +24,9 @@ const config = {
     docsBranch: 'master',
     editLinks: true,
     algolia: {
-      apiKey: '9831550d7a35015b79c75e40c9b6237d',
-      indexName: 'docs',
-      algoliaOptions: { facetFilters: ['guide:essentials,guide:advanced,guide:migration,api'] },
+      apiKey: '3a9e93ba1069de0ece2ae100daf8f6ea',
+      indexName: 'vue-i18n',
+      algoliaOptions: { facetFilters: ['type:$TYPE'] },
     },
     locales: {
       // default english
