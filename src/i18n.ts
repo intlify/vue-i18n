@@ -13,6 +13,7 @@ import { Locale, FallbackLocale, LocaleMessageDictionary } from './core/context'
 import { DateTimeFormat, NumberFormat } from './core/types'
 import {
   VueMessageType,
+  getLocaleMessages,
   Composer,
   ComposerOptions,
   ComposerInternalOptions,
@@ -30,7 +31,7 @@ import { I18nWarnCodes, getWarnMessage } from './warnings'
 import { I18nErrorCodes, createI18nError } from './errors'
 import { apply } from './plugin'
 import { defineMixin } from './mixin'
-import { isEmptyObject, isBoolean, warn, makeSymbol } from './utils'
+import { isEmptyObject, isObject, isBoolean, warn, makeSymbol } from './utils'
 import {
   devtoolsRegisterI18n,
   enableDevTools,
@@ -558,6 +559,38 @@ export function useI18n<
       : options.useScope
 
   if (scope === 'global') {
+    let messages = isObject(options.messages) ? options.messages : {}
+    if ('__i18nGlobal' in instance.type) {
+      messages = getLocaleMessages(global.locale.value, {
+        messages,
+        __i18n: instance.type.__i18nGlobal
+      })
+    }
+    // merge locale messages
+    const locales = Object.keys(messages)
+    if (locales.length) {
+      locales.forEach(locale => {
+        global.mergeLocaleMessage(locale, messages![locale])
+      })
+    }
+    // merge datetime formats
+    if (isObject(options.datetimeFormats)) {
+      const locales = Object.keys(options.datetimeFormats)
+      if (locales.length) {
+        locales.forEach(locale => {
+          global.mergeDateTimeFormat(locale, options.datetimeFormats![locale])
+        })
+      }
+    }
+    // merge number formats
+    if (isObject(options.numberFormats)) {
+      const locales = Object.keys(options.numberFormats)
+      if (locales.length) {
+        locales.forEach(locale => {
+          global.mergeNumberFormat(locale, options.numberFormats![locale])
+        })
+      }
+    }
     return global
   }
 

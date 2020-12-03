@@ -541,3 +541,115 @@ test('multi instance', async () => {
   expect(app1.__VUE_I18N_SYMBOL__ !== app2.__VUE_I18N_SYMBOL__).toEqual(true)
   expect(i18n1.global).not.toEqual(i18n2.global)
 })
+
+test('merge useI18n resources to global scope', async () => {
+  const i18n = createI18n({
+    legacy: false,
+    locale: 'ja',
+    messages: {
+      en: {
+        hello: 'hello!'
+      }
+    }
+  })
+
+  const App = defineComponent({
+    setup() {
+      useI18n({
+        useScope: 'global',
+        messages: {
+          ja: {
+            hello: 'こんにちは！'
+          }
+        },
+        datetimeFormats: {
+          'en-US': {
+            short: {
+              year: 'numeric',
+              month: '2-digit',
+              day: '2-digit',
+              hour: '2-digit',
+              minute: '2-digit'
+            }
+          }
+        },
+        numberFormats: {
+          'en-US': {
+            currency: {
+              style: 'currency',
+              currency: 'USD',
+              currencyDisplay: 'symbol'
+            }
+          }
+        }
+      })
+      return {}
+    },
+    template: `<p>foo</p>`
+  })
+  await mount(App, i18n)
+
+  expect(i18n.global.getLocaleMessage('ja')).toEqual({ hello: 'こんにちは！' })
+  expect(i18n.global.getDateTimeFormat('en-US')).toEqual({
+    short: {
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+      hour: '2-digit',
+      minute: '2-digit'
+    }
+  })
+  expect(i18n.global.getNumberFormat('en-US')).toEqual({
+    currency: {
+      style: 'currency',
+      currency: 'USD',
+      currencyDisplay: 'symbol'
+    }
+  })
+})
+
+test('merge i18n custom blocks to global scope', async () => {
+  const i18n = createI18n({
+    legacy: false,
+    locale: 'ja',
+    messages: {
+      en: {
+        hello: 'hello!'
+      }
+    }
+  })
+
+  const App = defineComponent({
+    setup() {
+      const instance = getCurrentInstance()
+      if (instance == null) {
+        throw new Error()
+      }
+      const options = instance.type as ComponentOptions
+      options.__i18nGlobal = [
+        JSON.stringify({ en: { foo: 'foo!' } }),
+        JSON.stringify({ ja: { foo: 'ふー！' } })
+      ]
+      useI18n({
+        useScope: 'global',
+        messages: {
+          ja: {
+            hello: 'こんにちは！'
+          }
+        }
+      })
+      return {}
+    },
+    template: `<p>foo</p>`
+  })
+  await mount(App, i18n)
+
+  expect(i18n.global.getLocaleMessage('en')).toEqual({
+    hello: 'hello!',
+    foo: 'foo!'
+  })
+  expect(i18n.global.getLocaleMessage('ja')).toEqual({
+    hello: 'こんにちは！',
+    foo: 'ふー！'
+  })
+})

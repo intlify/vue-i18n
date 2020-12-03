@@ -59,3 +59,7 @@ export default {
 For Datetime localization, since Vue I18n v9, we also offer the DatetimeFormat component like the [NumberFormat component](../essentials/number#custom-formatting).
 
 See the [Datetime localization custom formatting](../essentials/datetime#custom-formatting)
+
+## i18n Custom Block
+
+- See the [`global` attribute](../advanced/sfc#define-locale-messages-for-global-scope)
