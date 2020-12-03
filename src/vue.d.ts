@@ -55,10 +55,10 @@ declare module '@vue/runtime-core' {
      * @remarks
      * If this is used in a reactive context, it will re-evaluate once the locale changes.
      *
+     * In {@link I18nMode | Legacy API mode}, the input / output is the same as for VueI18n instance. About that details, see {@link VueI18n#t | `VueI18n#t`}.
+     *
      * In {@link I18nMode | Compostion API mode}, the `$t` is injected by `app.config.globalProperties`.
      * the input / output is the same as for Composer, and it work on **global scope**. About that details, see {@link Composer#t | `Composer#t` }.
-     *
-     * In {@link I18nMode | Legacy API mode}, the input / output is the same as for VueI18n instance. About that details, see {@link VueI18n#t | `VueI18n#t`}.
      *
      * @param key - A target locale message key
      *
@@ -427,10 +427,10 @@ declare module '@vue/runtime-core' {
      * @remarks
      * If this is used in a reactive context, it will re-evaluate once the locale changes.
      *
+     * In {@link I18nMode | Legacy API mode}, the input / output is the same as for VueI18n instance. About that details, see {@link VueI18n#d | `VueI18n#d` }.
+     *
      * In {@link I18nMode | Compostion API mode}, the `$d` is injected by `app.config.globalProperties`.
      * the input / output is the same as for Composer instance, and it work on **global scope**. About that details, see {@link Composer#d | `Composer#d` }.
-     *
-     * In {@link I18nMode | Legacy API mode}, the input / output is the same as for VueI18n instance. About that details, see {@link VueI18n#d | `VueI18n#d` }.
      *
      * @param value - A value, timestamp number or `Date` instance
      *
@@ -531,10 +531,10 @@ declare module '@vue/runtime-core' {
      * @remarks
      * If this is used in a reactive context, it will re-evaluate once the locale changes.
      *
+     * In {@link I18nMode | Legacy API mode}, the input / output is the same as for VueI18n instance. About that details, see {@link VueI18n#n | `VueI18n.n` }.
+     *
      * In {@link I18nMode | Compostion API mode}, the `$n` is injected by `app.config.globalProperties`.
      * the input / output is the same as for Composer instance,  and it work on **global scope**. About that details, see {@link Composer#n | `Composer.n` }.
-     *
-     * In {@link I18nMode | Legacy API mode}, the input / output is the same as for VueI18n instance. About that details, see {@link VueI18n#n | `VueI18n.n` }.
      *
      * @param value - A number value
      *
@@ -629,11 +629,11 @@ declare module '@vue/runtime-core' {
     /**
      * Locale messages getter
      *
+     * In {@link I18nMode | Legacy API mode}, the input / output is the same as for VueI18n instance. About that details, see {@link VueI18n#tm | `VueI18n#tm` }.
+     *
      * @remarks
      * In {@link I18nMode | Compostion API mode}, the `$tm` is injected by `app.config.globalProperties`.
      * the input / output is the same as for Composer instance, and it work on **global scope**. About that details, see {@link Composer#tm | `Composer.tm` }.
-     *
-     * In {@link I18nMode | Legacy API mode}, the input / output is the same as for VueI18n instance. About that details, see {@link VueI18n#tm | `VueI18n#tm` }.
      *
      * @param key - A target locale message key
      *

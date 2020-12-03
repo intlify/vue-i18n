@@ -15,11 +15,9 @@ module.exports = {
       lang: 'ru-RU',
       title: 'Vue I18n',
       description: 'Vue I18n — плагин для интернационализации во Vue.js'
-    },
+    }
   },
-  head: [
-    ['meta', { name: 'theme-color', content: '#3eaf7c' }],
-  ],
+  head: [['meta', { name: 'theme-color', content: '#3eaf7c' }]],
   serviceWorker: false,
   themeConfig: {
     repo: 'kazupon/vue-i18n',
@@ -70,11 +68,13 @@ module.exports = {
                 items: [
                   {
                     text: 'BabelEdit',
-                    link: 'https://www.codeandweb.com/babeledit?utm_campaign=vue-i18n-2019-01'
+                    link:
+                      'https://www.codeandweb.com/babeledit?utm_campaign=vue-i18n-2019-01'
                   },
                   {
                     text: 'i18n Ally',
-                    link: 'https://marketplace.visualstudio.com/items?itemName=antfu.i18n-ally'
+                    link:
+                      'https://marketplace.visualstudio.com/items?itemName=antfu.i18n-ally'
                   }
                 ]
               }
@@ -116,10 +116,7 @@ module.exports = {
           {
             title: 'Legacy',
             collapsable: false,
-            children: [
-              '/legacy/',
-              '/legacy/v5'
-            ]
+            children: ['/legacy/', '/legacy/v5']
           }
         ]
       },
@@ -131,7 +128,7 @@ module.exports = {
         nav: [
           {
             text: '指南',
-            link: '/zh/guide/formatting',
+            link: '/zh/guide/formatting'
           },
           {
             text: 'API',
@@ -166,7 +163,8 @@ module.exports = {
                 items: [
                   {
                     text: 'BabelEdit',
-                    link: 'https://www.codeandweb.com/babeledit?utm_campaign=vue-i18n-2019-01'
+                    link:
+                      'https://www.codeandweb.com/babeledit?utm_campaign=vue-i18n-2019-01'
                   }
                 ]
               }
@@ -208,10 +206,7 @@ module.exports = {
           {
             title: 'Legacy',
             collapsable: false,
-            children: [
-              '/zh/legacy/',
-              '/zh/legacy/v5'
-            ]
+            children: ['/zh/legacy/', '/zh/legacy/v5']
           }
         ]
       },
@@ -223,7 +218,7 @@ module.exports = {
         nav: [
           {
             text: 'Руководство',
-            link: '/ru/guide/formatting',
+            link: '/ru/guide/formatting'
           },
           {
             text: 'Справочник API',
@@ -258,11 +253,13 @@ module.exports = {
                 items: [
                   {
                     text: 'BabelEdit',
-                    link: 'https://www.codeandweb.com/babeledit?utm_campaign=vue-i18n-2019-01'
+                    link:
+                      'https://www.codeandweb.com/babeledit?utm_campaign=vue-i18n-2019-01'
                   },
                   {
                     text: 'i18n Ally',
-                    link: 'https://marketplace.visualstudio.com/items?itemName=antfu.i18n-ally'
+                    link:
+                      'https://marketplace.visualstudio.com/items?itemName=antfu.i18n-ally'
                   }
                 ]
               }
@@ -304,14 +301,10 @@ module.exports = {
           {
             title: 'Устаревшие версии',
             collapsable: false,
-            children: [
-              '/ru/legacy/',
-              '/ru/legacy/v5'
-            ]
+            children: ['/ru/legacy/', '/ru/legacy/v5']
           }
         ]
-      },
+      }
     }
   }
 }
-

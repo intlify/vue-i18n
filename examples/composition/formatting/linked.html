@@ -9,8 +9,8 @@
   <body>
     <div id="app">
       <form>
-        <label>{{ $t('message.language') }}</label>
-        <select v-model="$i18n.locale">
+        <label>{{ t('message.language') }}</label>
+        <select v-model="locale">
           <option value="en">en</option>
           <option value="ja">ja</option>
         </select>
@@ -64,12 +64,12 @@
 
       const app = createApp({
         setup() {
-          const { t } = useI18n()
+          const { t, locale } = useI18n()
 
           // Something to do ...
           //
 
-          return { t }
+          return { t, locale }
         }
       })
       app.use(i18n)
