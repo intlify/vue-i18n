@@ -88,7 +88,7 @@ const config = {
             ]
           },
           {
-            text: 'Chnagelog',
+            text: 'Changelog',
             link: 'https://github.com/intlify/vue-i18n-next/blob/master/CHANGELOG.md'
           }
         ],
@@ -215,7 +215,7 @@ const config = {
               link: '/api/composition'
             },
             {
-              text: 'Coomponents',
+              text: 'Components',
               link: '/api/component'
             },
             {
