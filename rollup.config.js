@@ -62,6 +62,10 @@ function createConfig(format, output, plugins = []) {
   output.sourcemap = !!process.env.SOURCE_MAP
   output.banner = banner
   output.externalLiveBindings = false
+  output.globals = {
+    vue: 'Vue',
+    '@vue/devtools-api': 'VueDevtoolsApi'
+  }
 
   const isProductionBuild =
     process.env.__DEV__ === 'false' || /\.prod\.js$/.test(output.file)
@@ -93,11 +97,6 @@ function createConfig(format, output, plugins = []) {
       }
     }
   })
-
-  output.globals = {
-    vue: 'Vue'
-    // '@vue/devtools-api': 'VueDevtoolsApi'
-  }
 
   // we only need to check TS and generate declarations once for each build.
   // it also seems to run into weird issues when checking multiple times
