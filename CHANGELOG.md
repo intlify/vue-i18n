@@ -1,4 +1,13 @@
 
+## v9.0.0-beta.10 (2020-12-04)
+
+#### :bug: Bug Fixes
+* [#211](https://github.com/intlify/vue-i18n-next/pull/211) fix: cannot resolve deps in webpack ([@kazupon](https://github.com/kazupon))
+
+#### Committers: 1
+- kazuya kawaguchi ([@kazupon](https://github.com/kazupon))
+
+
 ## v9.0.0-beta.9 (2020-12-04)
 
 #### :star: Features

@@ -1,7 +1,7 @@
 {
   "name": "vue-i18n",
   "description": "Internationalization plugin for Vue.js",
-  "version": "9.0.0-beta.9",
+  "version": "9.0.0-beta.10",
   "author": {
     "name": "kazuya kawaguchi",
     "email": "kawakazu80@gmail.com"
