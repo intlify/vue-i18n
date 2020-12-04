@@ -1,4 +1,27 @@
 
+## v9.0.0-beta.9 (2020-12-04)
+
+#### :star: Features
+* [#206](https://github.com/intlify/vue-i18n-next/pull/206) feat: resources merge to global scope ([@kazupon](https://github.com/kazupon))
+* [#200](https://github.com/intlify/vue-i18n-next/pull/200) feat: add te for composition API ([@kazupon](https://github.com/kazupon))
+
+#### :bug: Bug Fixes
+* [#199](https://github.com/intlify/vue-i18n-next/pull/199) fix: plural rules compatibilites ([@kazupon](https://github.com/kazupon))
+
+#### :zap: Improvement Features
+* [#197](https://github.com/intlify/vue-i18n-next/pull/197) improve: component injection properties typing hints on VSCode ([@kazupon](https://github.com/kazupon))
+
+#### :boom: Breaking Change
+* [#204](https://github.com/intlify/vue-i18n-next/pull/204) breaking: change globalInjection default disable ([@kazupon](https://github.com/kazupon))
+
+#### :pencil: Documentation
+* [#203](https://github.com/intlify/vue-i18n-next/pull/203) docs: typos in website header and submenu ([@chartrandf](https://github.com/chartrandf))
+
+#### Committers: 2
+- Francis Chartrand ([@chartrandf](https://github.com/chartrandf))
+- kazuya kawaguchi ([@kazupon](https://github.com/kazupon))
+
+
 ## v9.0.0-beta.8 (2020-11-18)
 
 #### :bug: Bug Fixes
