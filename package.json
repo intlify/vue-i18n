@@ -10,6 +10,10 @@
   "bugs": {
     "url": "https://github.com/inlitify/vue-i18n-next/issues"
   },
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
   "changelog": {
     "labels": {
       "Type: Feature": ":star: Features",
@@ -140,14 +144,13 @@
   },
   "scripts": {
     "benchmark": "yarn build && node ./benchmark/index.js",
-    "build": "yarn clean:cache:rollup && node ./scripts/build.js",
+    "build": "node scripts/build.js",
+    "dev": "node scripts/dev.js",
     "build:sourcemap": "yarn build --sourcemap",
     "build:type": "yarn build --types && tail -n +14 ./src/vue.d.ts >> ./dist/vue-i18n.d.ts",
-    "build:watch": "tsc -p . --watch",
     "clean": "npm-run-all --parallel clean:*",
-    "clean:cache": "yarn clean:cache:rollup && yarn clean:cache:jest",
+    "clean:cache": "yarn clean:cache:jest",
     "clean:cache:jest": "jest --clearCache",
-    "clean:cache:rollup": "rm -rf ./node_modules/.rts2_cache",
     "clean:coverage": "rm -rf ./coverage",
     "clean:dist": "rm -rf ./dist/**",
     "clean:docs": "rm -rf ./docs/api/vue-i18n**.md",
@@ -164,8 +167,8 @@
     "format": "prettier --config .prettierrc --ignore-path .prettierignore '**/*.{js,json,html}'",
     "format:fix": "yarn format --write",
     "lint": "npm-run-all --parallel lint:codes lint:docs",
-    "lint:codes": "eslint ./src ./test ./test-d ./e2e ./benchmark ./format-explorer --ext .js,.ts,.vue",
-    "lint:docs": "textlint --config .textlintrc.js docs/*.md docs/advanced/**/*.md docs/essentials/**/*.md docs/migration/**/*.md docs/api/injection.md",
+    "lint:codes": "eslint ./packages ./test-d ./e2e ./benchmark ./format-explorer --ext .js,.ts,.vue",
+    "lint:docs": "textlint --config .textlintrc.js docs/*.md docs/advanced/**/*.md docs/essentials/**/*.md docs/migration/**/*.md docs/api/injection.md packages/**/*.md",
     "lint:fix": "npm-run-all --parallel \"lint:codes --fix\" \"lint:docs --fix\"",
     "release:prepare": "shipjs prepare",
     "release:trigger": "shipjs trigger",
@@ -174,7 +177,7 @@
     "test:e2e": "yarn build && jest --runInBand --config ./jest.e2e.config.js",
     "test:type": "tsd",
     "test:unit": "yarn clean:cache:jest && cross-env NODE_ICU_DATA=./node_modules/full-icu jest --env node",
-    "test:watch": "yarn clean:cache:jest && cross-env NODE_ICU_DATA=./node_modules/full-icu jest --env node --watch"
+    "preinstall": "node ./scripts/checkYarn.js"
   },
   "sideEffects": false,
   "types": "dist/vue-i18n.d.ts",

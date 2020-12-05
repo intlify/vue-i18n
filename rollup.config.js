@@ -1,55 +1,76 @@
 import path from 'path'
-import typescript from 'rollup-plugin-typescript2'
+import ts from 'rollup-plugin-typescript2'
 import replace from '@rollup/plugin-replace'
+import json from '@rollup/plugin-json'
 
-const pkg = require('./package.json')
-const { name } = pkg
+if (!process.env.TARGET) {
+  throw new Error('TARGET package must be specified via --environment flag.')
+}
 
-const banner = `/*!
-  * ${pkg.name} v${pkg.version}
-  * (c) ${new Date().getFullYear()} ${pkg.author.name}
-  * Released under the ${pkg.license} License.
-  */`
+const masterVersion = require('./package.json').version
+const packagesDir = path.resolve(__dirname, 'packages')
+const packageDir = path.resolve(packagesDir, process.env.TARGET)
+const name = path.basename(packageDir)
+const resolve = p => path.resolve(packageDir, p)
+const pkg = require(resolve(`package.json`))
+const packageOptions = pkg.buildOptions || {}
 
 // ensure TS checks only once for each build
 let hasTSChecked = false
 
 const outputConfigs = {
-  // each file name has the format: `dist/${name}.${format}.js`
-  // format being a key of this object
   'esm-bundler': {
-    file: pkg.module,
-    format: 'es'
+    file: resolve(`dist/${name}.esm-bundler.js`),
+    format: `es`
   },
   'esm-browser': {
-    file: pkg.browser,
-    format: 'es'
+    file: resolve(`dist/${name}.esm-browser.js`),
+    format: `es`
   },
   cjs: {
-    file: pkg.main,
-    format: 'cjs'
+    file: resolve(`dist/${name}.cjs.js`),
+    format: `cjs`
   },
   global: {
-    file: pkg.unpkg,
-    format: 'iife'
+    file: resolve(`dist/${name}.global.js`),
+    format: `iife`
   }
+  // ,
+  // runtime-only builds, for main "vue" package only
+  // 'esm-bundler-runtime': {
+  //   file: resolve(`dist/${name}.runtime.esm-bundler.js`),
+  //   format: `es`
+  // },
+  // 'esm-browser-runtime': {
+  //   file: resolve(`dist/${name}.runtime.esm-browser.js`),
+  //   format: 'es'
+  // },
+  // 'global-runtime': {
+  //   file: resolve(`dist/${name}.runtime.global.js`),
+  //   format: 'iife'
+  // }
 }
 
-const allFormats = Object.keys(outputConfigs)
-const packageFormats = allFormats
-const packageConfigs = packageFormats.map(format =>
-  createConfig(format, outputConfigs[format])
-)
+const defaultFormats = ['esm-bundler', 'cjs']
+const inlineFormats = process.env.FORMATS && process.env.FORMATS.split(',')
+const packageFormats = inlineFormats || packageOptions.formats || defaultFormats
+const packageConfigs = process.env.PROD_ONLY
+  ? []
+  : packageFormats.map(format => createConfig(format, outputConfigs[format]))
 
-// only add the production ready if we are bundling the options
-packageFormats.forEach(format => {
-  if (format === 'cjs') {
-    packageConfigs.push(createProductionConfig(format))
-  }
-  if (format === 'global' || format === 'esm-browser') {
-    packageConfigs.push(createMinifiedConfig(format))
-  }
-})
+if (process.env.NODE_ENV === 'production') {
+  packageFormats.forEach(format => {
+    if (packageOptions.prod === false) {
+      return
+    }
+    if (format === 'cjs') {
+      packageConfigs.push(createProductionConfig(format))
+    }
+    if (/^(global|esm-browser)(-runtime)?/.test(format)) {
+      packageConfigs.push(createMinifiedConfig(format))
+    }
+  })
+}
 
 export default packageConfigs
 
@@ -60,62 +81,52 @@ function createConfig(format, output, plugins = []) {
   }
 
   output.sourcemap = !!process.env.SOURCE_MAP
-  output.banner = banner
   output.externalLiveBindings = false
-  output.globals = {
-    vue: 'Vue',
-    '@vue/devtools-api': 'VueDevtoolsApi'
-  }
 
   const isProductionBuild =
     process.env.__DEV__ === 'false' || /\.prod\.js$/.test(output.file)
   const isBundlerESMBuild = /esm-bundler/.test(format)
   const isBrowserESMBuild = /esm-browser/.test(format)
   const isNodeBuild = format === 'cjs'
-  const isGlobalBuild = format === 'global'
+  const isGlobalBuild = /global/.test(format)
 
   if (isGlobalBuild) {
-    output.name = 'VueI18n'
+    output.name = packageOptions.name
   }
 
-  // const shouldEmitDeclarations = process.env.TYPES != null && !hasTSChecked
-  const shouldEmitDeclarations = !hasTSChecked
+  const shouldEmitDeclarations = process.env.TYPES != null && !hasTSChecked
 
-  const tsPlugin = typescript({
+  const tsPlugin = ts({
     check: process.env.NODE_ENV === 'production' && !hasTSChecked,
     tsconfig: path.resolve(__dirname, 'tsconfig.json'),
     cacheRoot: path.resolve(__dirname, 'node_modules/.rts2_cache'),
-    // verbosity: 4,
-    useTsconfigDeclarationDir: true,
     tsconfigOverride: {
       compilerOptions: {
         sourceMap: output.sourcemap,
         declaration: shouldEmitDeclarations,
-        declarationMap: shouldEmitDeclarations,
-        removeComments: false,
-        declarationDir: path.resolve(__dirname, 'types')
-      }
+        declarationMap: shouldEmitDeclarations
+      },
+      exclude: ['**/test', 'test-dts']
     }
   })
-
   // we only need to check TS and generate declarations once for each build.
   // it also seems to run into weird issues when checking multiple times
   // during a single build.
   hasTSChecked = true
 
-  // const external =
-  //   isGlobalBuild || isBrowserESMBuild
-  //     ? ['source-map']
-  //     : [
-  //         ...Object.keys(pkg.dependencies || {}),
-  //         ...Object.keys(pkg.peerDependencies || {})
-  //       ]
-  const external = [
-    ...Object.keys(pkg.dependencies || {}),
-    ...Object.keys(pkg.peerDependencies || {})
-  ]
+  const entryFile = /runtime$/.test(format) ? `src/runtime.ts` : `src/index.ts`
+
+  const external =
+    isGlobalBuild || isBrowserESMBuild
+      ? [] // packageOptions.enableNonBrowserBranches
+      : // Node / esm-bundler builds. Externalize everything.
+        [
+          ...Object.keys(pkg.dependencies || {}),
+          ...Object.keys(pkg.peerDependencies || {})
+        ]
 
   const nodePlugins =
+    // packageOptions.enableNonBrowserBranches && format !== 'cjs'
     format !== 'cjs'
       ? [
           require('@rollup/plugin-node-resolve').nodeResolve({
@@ -132,17 +143,21 @@ function createConfig(format, output, plugins = []) {
   // const nodePlugins = [resolve(), commonjs()]
 
   return {
-    input: path.resolve(`src/index.ts`),
+    input: resolve(entryFile),
     // Global and Browser ESM builds inlines everything so that they can be
     // used alone.
     external,
     plugins: [
+      json({
+        namedExports: false
+      }),
       tsPlugin,
       createReplacePlugin(
         isProductionBuild,
         isBundlerESMBuild,
         isBrowserESMBuild,
-        isGlobalBuild || isBrowserESMBuild || isBundlerESMBuild,
+        // isBrowserBuild?
+        isGlobalBuild || isBrowserESMBuild || isBundlerESMBuild, // && !packageOptions.enableNonBrowserBranches,
         isGlobalBuild,
         isNodeBuild
       ),
@@ -170,7 +185,8 @@ function createReplacePlugin(
   isNodeBuild
 ) {
   const replacements = {
-    __VERSION__: `"${pkg.version}"`,
+    // __COMMIT__: `"${process.env.COMMIT}"`,
+    __VERSION__: `"${masterVersion}"`,
     __DEV__: isBundlerESMBuild
       ? // preserve to be handled by bundlers
         `(process.env.NODE_ENV !== 'production')`
@@ -183,6 +199,7 @@ function createReplacePlugin(
     __GLOBAL__: isGlobalBuild,
     __ESM_BUNDLER__: isBundlerESMBuild,
     __ESM_BROWSER__: isBrowserESMBuild,
+    // is targeting Node (SSR)?
     __NODE_JS__: isNodeBuild,
     // feature flags
     __FEATURE_FULL_INSTALL__: isBundlerESMBuild
@@ -215,7 +232,7 @@ function createReplacePlugin(
 
 function createProductionConfig(format) {
   return createConfig(format, {
-    file: path.resolve(__dirname, `dist/${name}.${format}.prod.js`),
+    file: resolve(`dist/${name}.${format}.prod.js`),
     format: outputConfigs[format].format
   })
 }
@@ -225,7 +242,7 @@ function createMinifiedConfig(format) {
   return createConfig(
     format,
     {
-      file: path.resolve(__dirname, `dist/${name}.${format}.prod.js`),
+      file: outputConfigs[format].file.replace(/\.js$/, '.prod.js'),
       format: outputConfigs[format].format
     },
     [

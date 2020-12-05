@@ -1,0 +1,48 @@
+{
+  "name": "@intlify/compiler",
+  "version": "9.0.0",
+  "description": "@intlify/compiler",
+  "main": "index.js",
+  "module": "dist/compiler.esm-bundler.js",
+  "types": "dist/compiler.d.ts",
+  "unpkg": "dist/compiler.global.js",
+  "jsdelivr": "dist/compiler.global.js",
+  "files": [
+    "index.js",
+    "dist"
+  ],
+  "sideEffects": false,
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/intlify/vue-i18n-next.git",
+    "directory": "packages/compiler"
+  },
+  "buildOptions": {
+    "name": "IntlifyCompiler",
+    "formats": [
+      "esm-bundler",
+      "esm-browser",
+      "cjs",
+      "global"
+    ]
+  },
+  "keywords": [
+    "intlify",
+    "i18n",
+    "message-format",
+    "compiler"
+  ],
+  "author": {
+    "name": "kazuya kawaguchi",
+    "email": "kawakazu80@gmail.com"
+  },
+  "browser": "dist/compiler.esm-browser.js",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/intlify/vue-i18n-next/issues"
+  },
+  "homepage": "https://github.com/intlify/vue-i18n-next/tree/master/packages/compiler#readme",
+  "dependencies": {
+    "@intlify/shared": "9.0.0"
+  }
+}
