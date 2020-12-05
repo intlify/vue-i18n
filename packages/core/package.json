@@ -1,12 +1,12 @@
 {
-  "name": "@intlify/shared",
+  "name": "@intlify/core",
   "version": "9.0.0-beta.11",
-  "description": "@intlify/shared",
+  "description": "@intlify/core",
   "main": "index.js",
-  "module": "dist/shared.esm-bundler.js",
-  "types": "dist/shared.d.ts",
-  "unpkg": "dist/shared.global.js",
-  "jsdelivr": "dist/shared.global.js",
+  "module": "dist/core.esm-bundler.js",
+  "types": "dist/core.d.ts",
+  "unpkg": "dist/core.global.js",
+  "jsdelivr": "dist/core.global.js",
   "files": [
     "index.js",
     "dist"
@@ -15,10 +15,10 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/intlify/vue-i18n-next.git",
-    "directory": "packages/shared"
+    "directory": "packages/core"
   },
   "buildOptions": {
-    "name": "IntlifyShared",
+    "name": "IntlifyCore",
     "formats": [
       "esm-bundler",
       "esm-browser",
@@ -31,17 +31,21 @@
   },
   "keywords": [
     "intlify",
-    "utitlity"
+    "i18n",
+    "fundamental",
+    "core"
   ],
   "author": {
     "name": "kazuya kawaguchi",
     "email": "kawakazu80@gmail.com"
   },
-  "browser": "dist/shared.esm-browser.js",
+  "browser": "dist/core.esm-browser.js",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/intlify/vue-i18n-next/issues"
   },
-  "homepage": "https://github.com/intlify/vue-i18n-next/tree/master/packages/shared#readme",
-  "dependencies": {}
+  "homepage": "https://github.com/intlify/vue-i18n-next/tree/master/packages/core#readme",
+  "dependencies": {
+    "@intlify/compiler": "9.0.0-beta.11"
+  }
 }

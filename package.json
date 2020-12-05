@@ -1,19 +1,7 @@
 {
-  "name": "vue-i18n",
-  "description": "Internationalization plugin for Vue.js",
-  "version": "9.0.0-beta.10",
-  "author": {
-    "name": "kazuya kawaguchi",
-    "email": "kawakazu80@gmail.com"
-  },
-  "browser": "dist/vue-i18n.esm-browser.js",
   "bugs": {
     "url": "https://github.com/inlitify/vue-i18n-next/issues"
   },
-  "private": true,
-  "workspaces": [
-    "packages/*"
-  ],
   "changelog": {
     "labels": {
       "Type: Feature": ":star: Features",
@@ -27,9 +15,6 @@
       "Type: A11y": ":wheelchair: Accessibility",
       "Type: Documentation": ":pencil: Documentation"
     }
-  },
-  "dependencies": {
-    "source-map": "0.6.1"
   },
   "devDependencies": {
     "@docsearch/css": "^1.0.0-alpha.28",
@@ -105,24 +90,10 @@
   "engines": {
     "node": ">= 10"
   },
-  "files": [
-    "dist",
-    "CHANGELOG.md",
-    "README.md",
-    "LICENSE"
-  ],
-  "homepage": "https://github.com/intlify/vue-i18n-next#readme",
-  "keywords": [
-    "i18n",
-    "internationalization",
-    "plugin",
-    "vue",
-    "vue.js"
-  ],
-  "license": "MIT",
   "gitHooks": {
     "pre-commit": "lint-staged"
   },
+  "license": "MIT",
   "lint-staged": {
     "*.{js,json,md,yml}": [
       "yarn format:fix",
@@ -133,19 +104,10 @@
       "git add"
     ]
   },
-  "main": "dist/vue-i18n.cjs.js",
-  "module": "dist/vue-i18n.esm-bundler.js",
-  "peerDependencies": {
-    "vue": "^3.0.0"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/intlify/vue-i18n-next.git"
-  },
+  "private": true,
   "scripts": {
     "benchmark": "yarn build && node ./benchmark/index.js",
     "build": "node scripts/build.js",
-    "dev": "node scripts/dev.js",
     "build:sourcemap": "yarn build --sourcemap",
     "build:type": "yarn build --types && tail -n +14 ./src/vue.d.ts >> ./dist/vue-i18n.d.ts",
     "clean": "npm-run-all --parallel clean:*",
@@ -157,6 +119,7 @@
     "clean:size": "rm -rf ./size-check/**/dist ./size-check/**/node_modules",
     "clean:type": "rm -rf ./types/** ./temp ./dist/vue-i18n.d.ts",
     "coverage": "opener coverage/lcov-report/index.html",
+    "dev": "node scripts/dev.js",
     "dev:e2e": "jest --runInBand --config ./jest.e2e.config.js",
     "docs:apigen": "api-docs-gen ./temp/vue-i18n.api.json -o ./docs/api -c ./docsgen.config.js -g noprefix -t ./tsdoc.json",
     "docs:build": "yarn docs:setup && vitepress build docs",
@@ -170,16 +133,16 @@
     "lint:codes": "eslint ./packages ./test-d ./e2e ./benchmark ./format-explorer --ext .js,.ts,.vue",
     "lint:docs": "textlint --config .textlintrc.js docs/*.md docs/advanced/**/*.md docs/essentials/**/*.md docs/migration/**/*.md docs/api/injection.md packages/**/*.md",
     "lint:fix": "npm-run-all --parallel \"lint:codes --fix\" \"lint:docs --fix\"",
+    "preinstall": "node ./scripts/checkYarn.js",
     "release:prepare": "shipjs prepare",
     "release:trigger": "shipjs trigger",
     "test": "npm-run-all lint clean:cache:jest test:cover test:e2e",
     "test:cover": "yarn test:unit --coverage",
     "test:e2e": "yarn build && jest --runInBand --config ./jest.e2e.config.js",
     "test:type": "tsd",
-    "test:unit": "yarn clean:cache:jest && cross-env NODE_ICU_DATA=./node_modules/full-icu jest --env node",
-    "preinstall": "node ./scripts/checkYarn.js"
+    "test:unit": "yarn clean:cache:jest && cross-env NODE_ICU_DATA=./node_modules/full-icu jest --env node"
   },
-  "sideEffects": false,
-  "types": "dist/vue-i18n.d.ts",
-  "unpkg": "dist/vue-i18n.global.js"
+  "workspaces": [
+    "packages/*"
+  ]
 }

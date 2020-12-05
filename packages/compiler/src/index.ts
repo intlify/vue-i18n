@@ -1,5 +1,7 @@
 import { isObject } from '@intlify/shared'
 
-export type Foo = 'Foo'
+export function baseCompile(): void {
+  console.log('call baseCompile')
+}
 
 console.log('hello compiler!', isObject({}))

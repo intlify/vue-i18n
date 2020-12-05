@@ -1,4 +1,4 @@
-# @intlify/compiler
+# @intlify/core
 
 ## :copyright: License
 

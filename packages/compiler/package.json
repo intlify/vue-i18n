@@ -1,6 +1,6 @@
 {
   "name": "@intlify/compiler",
-  "version": "9.0.0",
+  "version": "9.0.0-beta.11",
   "description": "@intlify/compiler",
   "main": "index.js",
   "module": "dist/compiler.esm-bundler.js",
@@ -26,6 +26,9 @@
       "global"
     ]
   },
+  "engines": {
+    "node": ">= 10"
+  },
   "keywords": [
     "intlify",
     "i18n",
@@ -43,6 +46,6 @@
   },
   "homepage": "https://github.com/intlify/vue-i18n-next/tree/master/packages/compiler#readme",
   "dependencies": {
-    "@intlify/shared": "9.0.0"
+    "@intlify/shared": "9.0.0-beta.11"
   }
 }
