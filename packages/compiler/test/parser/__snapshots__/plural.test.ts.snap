@@ -1,0 +1,810 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`basic no apples | one apple  |  too much apples  1`] = `
+Object {
+  "body": Object {
+    "cases": Array [
+      Object {
+        "end": 0,
+        "items": Array [
+          Object {
+            "end": 9,
+            "loc": Object {
+              "end": Object {
+                "column": 10,
+                "line": 1,
+                "offset": 9,
+              },
+              "start": Object {
+                "column": 1,
+                "line": 1,
+                "offset": 0,
+              },
+            },
+            "start": 0,
+            "type": 3,
+            "value": "no apples",
+          },
+        ],
+        "loc": Object {
+          "end": Object {
+            "column": 10,
+            "line": 1,
+            "offset": 9,
+          },
+          "start": Object {
+            "column": 1,
+            "line": 1,
+            "offset": 0,
+          },
+        },
+        "start": 0,
+        "type": 2,
+      },
+      Object {
+        "end": 12,
+        "items": Array [
+          Object {
+            "end": 21,
+            "loc": Object {
+              "end": Object {
+                "column": 22,
+                "line": 1,
+                "offset": 21,
+              },
+              "start": Object {
+                "column": 13,
+                "line": 1,
+                "offset": 12,
+              },
+            },
+            "start": 12,
+            "type": 3,
+            "value": "one apple",
+          },
+        ],
+        "loc": Object {
+          "end": Object {
+            "column": 22,
+            "line": 1,
+            "offset": 21,
+          },
+          "start": Object {
+            "column": 13,
+            "line": 1,
+            "offset": 12,
+          },
+        },
+        "start": 12,
+        "type": 2,
+      },
+      Object {
+        "end": 42,
+        "items": Array [
+          Object {
+            "end": 42,
+            "loc": Object {
+              "end": Object {
+                "column": 43,
+                "line": 1,
+                "offset": 42,
+              },
+              "start": Object {
+                "column": 27,
+                "line": 1,
+                "offset": 26,
+              },
+            },
+            "start": 26,
+            "type": 3,
+            "value": "too much apples ",
+          },
+        ],
+        "loc": Object {
+          "end": Object {
+            "column": 43,
+            "line": 1,
+            "offset": 42,
+          },
+          "start": Object {
+            "column": 27,
+            "line": 1,
+            "offset": 26,
+          },
+        },
+        "start": 26,
+        "type": 2,
+      },
+    ],
+    "end": 42,
+    "loc": Object {
+      "end": Object {
+        "column": 43,
+        "line": 1,
+        "offset": 42,
+      },
+      "start": Object {
+        "column": 1,
+        "line": 1,
+        "offset": 0,
+      },
+    },
+    "start": 0,
+    "type": 1,
+  },
+  "end": 42,
+  "loc": Object {
+    "end": Object {
+      "column": 43,
+      "line": 1,
+      "offset": 42,
+    },
+    "source": "no apples | one apple  |  too much apples ",
+    "start": Object {
+      "column": 1,
+      "line": 1,
+      "offset": 0,
+    },
+  },
+  "start": 0,
+  "type": 0,
+}
+`;
+
+exports[`complex usage @.lower:{'no apples'} | {1} apple | {count}　apples 1`] = `
+Object {
+  "body": Object {
+    "cases": Array [
+      Object {
+        "end": 20,
+        "items": Array [
+          Object {
+            "end": 21,
+            "key": Object {
+              "end": 21,
+              "loc": Object {
+                "end": Object {
+                  "column": 22,
+                  "line": 1,
+                  "offset": 21,
+                },
+                "start": Object {
+                  "column": 9,
+                  "line": 1,
+                  "offset": 8,
+                },
+              },
+              "start": 8,
+              "type": 9,
+              "value": "no apples",
+            },
+            "loc": Object {
+              "end": Object {
+                "column": 22,
+                "line": 1,
+                "offset": 21,
+              },
+              "start": Object {
+                "column": 1,
+                "line": 1,
+                "offset": 0,
+              },
+            },
+            "modifier": Object {
+              "end": 7,
+              "loc": Object {
+                "end": Object {
+                  "column": 8,
+                  "line": 1,
+                  "offset": 7,
+                },
+                "start": Object {
+                  "column": 2,
+                  "line": 1,
+                  "offset": 1,
+                },
+              },
+              "start": 1,
+              "type": 8,
+              "value": "lower",
+            },
+            "start": 0,
+            "type": 6,
+          },
+        ],
+        "loc": Object {
+          "end": Object {
+            "column": 22,
+            "line": 1,
+            "offset": 21,
+          },
+          "start": Object {
+            "column": 1,
+            "line": 1,
+            "offset": 0,
+          },
+        },
+        "start": 0,
+        "type": 2,
+      },
+      Object {
+        "end": 27,
+        "items": Array [
+          Object {
+            "end": 27,
+            "index": 1,
+            "loc": Object {
+              "end": Object {
+                "column": 28,
+                "line": 1,
+                "offset": 27,
+              },
+              "start": Object {
+                "column": 25,
+                "line": 1,
+                "offset": 24,
+              },
+            },
+            "start": 24,
+            "type": 5,
+          },
+          Object {
+            "end": 33,
+            "loc": Object {
+              "end": Object {
+                "column": 34,
+                "line": 1,
+                "offset": 33,
+              },
+              "start": Object {
+                "column": 28,
+                "line": 1,
+                "offset": 27,
+              },
+            },
+            "start": 27,
+            "type": 3,
+            "value": " apple",
+          },
+        ],
+        "loc": Object {
+          "end": Object {
+            "column": 34,
+            "line": 1,
+            "offset": 33,
+          },
+          "start": Object {
+            "column": 25,
+            "line": 1,
+            "offset": 24,
+          },
+        },
+        "start": 24,
+        "type": 2,
+      },
+      Object {
+        "end": 50,
+        "items": Array [
+          Object {
+            "end": 43,
+            "key": "count",
+            "loc": Object {
+              "end": Object {
+                "column": 44,
+                "line": 1,
+                "offset": 43,
+              },
+              "start": Object {
+                "column": 37,
+                "line": 1,
+                "offset": 36,
+              },
+            },
+            "start": 36,
+            "type": 4,
+          },
+          Object {
+            "end": 50,
+            "loc": Object {
+              "end": Object {
+                "column": 51,
+                "line": 1,
+                "offset": 50,
+              },
+              "start": Object {
+                "column": 44,
+                "line": 1,
+                "offset": 43,
+              },
+            },
+            "start": 43,
+            "type": 3,
+            "value": "　apples",
+          },
+        ],
+        "loc": Object {
+          "end": Object {
+            "column": 51,
+            "line": 1,
+            "offset": 50,
+          },
+          "start": Object {
+            "column": 37,
+            "line": 1,
+            "offset": 36,
+          },
+        },
+        "start": 36,
+        "type": 2,
+      },
+    ],
+    "end": 50,
+    "loc": Object {
+      "end": Object {
+        "column": 51,
+        "line": 1,
+        "offset": 50,
+      },
+      "start": Object {
+        "column": 1,
+        "line": 1,
+        "offset": 0,
+      },
+    },
+    "start": 0,
+    "type": 1,
+  },
+  "end": 50,
+  "loc": Object {
+    "end": Object {
+      "column": 51,
+      "line": 1,
+      "offset": 50,
+    },
+    "source": "@.lower:{'no apples'} | {1} apple | {count}　apples",
+    "start": Object {
+      "column": 1,
+      "line": 1,
+      "offset": 0,
+    },
+  },
+  "start": 0,
+  "type": 0,
+}
+`;
+
+exports[`empty message  | | | 1`] = `
+Object {
+  "body": Object {
+    "cases": Array [
+      Object {
+        "end": 0,
+        "items": Array [],
+        "loc": Object {
+          "end": Object {
+            "column": 1,
+            "line": 1,
+            "offset": 0,
+          },
+          "start": Object {
+            "column": 1,
+            "line": 1,
+            "offset": 0,
+          },
+        },
+        "start": 0,
+        "type": 2,
+      },
+      Object {
+        "end": 0,
+        "items": Array [],
+        "loc": Object {
+          "end": Object {
+            "column": 4,
+            "line": 1,
+            "offset": 3,
+          },
+          "start": Object {
+            "column": 4,
+            "line": 1,
+            "offset": 3,
+          },
+        },
+        "start": 3,
+        "type": 2,
+      },
+      Object {
+        "end": 3,
+        "items": Array [],
+        "loc": Object {
+          "end": Object {
+            "column": 6,
+            "line": 1,
+            "offset": 5,
+          },
+          "start": Object {
+            "column": 6,
+            "line": 1,
+            "offset": 5,
+          },
+        },
+        "start": 5,
+        "type": 2,
+      },
+      Object {
+        "end": 6,
+        "items": Array [],
+        "loc": Object {
+          "end": Object {
+            "column": 7,
+            "line": 1,
+            "offset": 6,
+          },
+          "start": Object {
+            "column": 7,
+            "line": 1,
+            "offset": 6,
+          },
+        },
+        "start": 6,
+        "type": 2,
+      },
+    ],
+    "end": 6,
+    "loc": Object {
+      "end": Object {
+        "column": 7,
+        "line": 1,
+        "offset": 6,
+      },
+      "start": Object {
+        "column": 1,
+        "line": 1,
+        "offset": 0,
+      },
+    },
+    "start": 0,
+    "type": 1,
+  },
+  "end": 6,
+  "loc": Object {
+    "end": Object {
+      "column": 7,
+      "line": 1,
+      "offset": 6,
+    },
+    "source": " | | |",
+    "start": Object {
+      "column": 1,
+      "line": 1,
+      "offset": 0,
+    },
+  },
+  "start": 0,
+  "type": 0,
+}
+`;
+
+exports[`included new line no apples |
+ one apple  |
+  too much apples   1`] = `
+Object {
+  "body": Object {
+    "cases": Array [
+      Object {
+        "end": 0,
+        "items": Array [
+          Object {
+            "end": 9,
+            "loc": Object {
+              "end": Object {
+                "column": 10,
+                "line": 1,
+                "offset": 9,
+              },
+              "start": Object {
+                "column": 1,
+                "line": 1,
+                "offset": 0,
+              },
+            },
+            "start": 0,
+            "type": 3,
+            "value": "no apples",
+          },
+        ],
+        "loc": Object {
+          "end": Object {
+            "column": 10,
+            "line": 1,
+            "offset": 9,
+          },
+          "start": Object {
+            "column": 1,
+            "line": 1,
+            "offset": 0,
+          },
+        },
+        "start": 0,
+        "type": 2,
+      },
+      Object {
+        "end": 13,
+        "items": Array [
+          Object {
+            "end": 22,
+            "loc": Object {
+              "end": Object {
+                "column": 11,
+                "line": 2,
+                "offset": 22,
+              },
+              "start": Object {
+                "column": 2,
+                "line": 2,
+                "offset": 13,
+              },
+            },
+            "start": 13,
+            "type": 3,
+            "value": "one apple",
+          },
+        ],
+        "loc": Object {
+          "end": Object {
+            "column": 11,
+            "line": 2,
+            "offset": 22,
+          },
+          "start": Object {
+            "column": 2,
+            "line": 2,
+            "offset": 13,
+          },
+        },
+        "start": 13,
+        "type": 2,
+      },
+      Object {
+        "end": 45,
+        "items": Array [
+          Object {
+            "end": 45,
+            "loc": Object {
+              "end": Object {
+                "column": 20,
+                "line": 3,
+                "offset": 45,
+              },
+              "start": Object {
+                "column": 3,
+                "line": 3,
+                "offset": 28,
+              },
+            },
+            "start": 28,
+            "type": 3,
+            "value": "too much apples  ",
+          },
+        ],
+        "loc": Object {
+          "end": Object {
+            "column": 20,
+            "line": 3,
+            "offset": 45,
+          },
+          "start": Object {
+            "column": 3,
+            "line": 3,
+            "offset": 28,
+          },
+        },
+        "start": 28,
+        "type": 2,
+      },
+    ],
+    "end": 45,
+    "loc": Object {
+      "end": Object {
+        "column": 20,
+        "line": 3,
+        "offset": 45,
+      },
+      "start": Object {
+        "column": 1,
+        "line": 1,
+        "offset": 0,
+      },
+    },
+    "start": 0,
+    "type": 1,
+  },
+  "end": 45,
+  "loc": Object {
+    "end": Object {
+      "column": 20,
+      "line": 3,
+      "offset": 45,
+    },
+    "source": "no apples |
+ one apple  |
+  too much apples  ",
+    "start": Object {
+      "column": 1,
+      "line": 1,
+      "offset": 0,
+    },
+  },
+  "start": 0,
+  "type": 0,
+}
+`;
+
+exports[`one empty message  foo | | bar | buz 1`] = `
+Object {
+  "body": Object {
+    "cases": Array [
+      Object {
+        "end": 0,
+        "items": Array [
+          Object {
+            "end": 4,
+            "loc": Object {
+              "end": Object {
+                "column": 5,
+                "line": 1,
+                "offset": 4,
+              },
+              "start": Object {
+                "column": 1,
+                "line": 1,
+                "offset": 0,
+              },
+            },
+            "start": 0,
+            "type": 3,
+            "value": " foo",
+          },
+        ],
+        "loc": Object {
+          "end": Object {
+            "column": 5,
+            "line": 1,
+            "offset": 4,
+          },
+          "start": Object {
+            "column": 1,
+            "line": 1,
+            "offset": 0,
+          },
+        },
+        "start": 0,
+        "type": 2,
+      },
+      Object {
+        "end": 4,
+        "items": Array [],
+        "loc": Object {
+          "end": Object {
+            "column": 8,
+            "line": 1,
+            "offset": 7,
+          },
+          "start": Object {
+            "column": 8,
+            "line": 1,
+            "offset": 7,
+          },
+        },
+        "start": 7,
+        "type": 2,
+      },
+      Object {
+        "end": 9,
+        "items": Array [
+          Object {
+            "end": 12,
+            "loc": Object {
+              "end": Object {
+                "column": 13,
+                "line": 1,
+                "offset": 12,
+              },
+              "start": Object {
+                "column": 10,
+                "line": 1,
+                "offset": 9,
+              },
+            },
+            "start": 9,
+            "type": 3,
+            "value": "bar",
+          },
+        ],
+        "loc": Object {
+          "end": Object {
+            "column": 13,
+            "line": 1,
+            "offset": 12,
+          },
+          "start": Object {
+            "column": 10,
+            "line": 1,
+            "offset": 9,
+          },
+        },
+        "start": 9,
+        "type": 2,
+      },
+      Object {
+        "end": 18,
+        "items": Array [
+          Object {
+            "end": 18,
+            "loc": Object {
+              "end": Object {
+                "column": 19,
+                "line": 1,
+                "offset": 18,
+              },
+              "start": Object {
+                "column": 16,
+                "line": 1,
+                "offset": 15,
+              },
+            },
+            "start": 15,
+            "type": 3,
+            "value": "buz",
+          },
+        ],
+        "loc": Object {
+          "end": Object {
+            "column": 19,
+            "line": 1,
+            "offset": 18,
+          },
+          "start": Object {
+            "column": 16,
+            "line": 1,
+            "offset": 15,
+          },
+        },
+        "start": 15,
+        "type": 2,
+      },
+    ],
+    "end": 18,
+    "loc": Object {
+      "end": Object {
+        "column": 19,
+        "line": 1,
+        "offset": 18,
+      },
+      "start": Object {
+        "column": 1,
+        "line": 1,
+        "offset": 0,
+      },
+    },
+    "start": 0,
+    "type": 1,
+  },
+  "end": 18,
+  "loc": Object {
+    "end": Object {
+      "column": 19,
+      "line": 1,
+      "offset": 18,
+    },
+    "source": " foo | | bar | buz",
+    "start": Object {
+      "column": 1,
+      "line": 1,
+      "offset": 0,
+    },
+  },
+  "start": 0,
+  "type": 0,
+}
+`;

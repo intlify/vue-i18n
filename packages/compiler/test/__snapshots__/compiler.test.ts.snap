@@ -1,0 +1,104 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`@.caml:{'no apples'} | {0} apple | {n}　apples: code 1`] = `
+"function __msg__ (ctx) {
+  const { normalize: _normalize, linked: _linked, interpolate: _interpolate, list: _list, named: _named, plural: _plural } = ctx
+  return _plural([
+    _normalize([
+      _linked(\\"no apples\\", \\"caml\\")
+    ]), _normalize([
+      _interpolate(_list(0)), \\" apple\\"
+    ]), _normalize([
+      _interpolate(_named(\\"n\\")), \\"　apples\\"
+    ])
+  ])
+}"
+`;
+
+exports[`edge cases  | | | : code 1`] = `
+"function __msg__ (ctx) {
+  const { normalize: _normalize, plural: _plural } = ctx
+  return _plural([
+    _normalize([
+      
+    ]), _normalize([
+      
+    ]), _normalize([
+      
+    ]), _normalize([
+      
+    ])
+  ])
+}"
+`;
+
+exports[`edge cases  | | | : error 1`] = `
+Object {
+  "code": 10,
+  "domain": "parser",
+  "location": Object {
+    "end": Object {
+      "column": 8,
+      "line": 1,
+      "offset": 7,
+    },
+    "start": Object {
+      "column": 1,
+      "line": 1,
+      "offset": 0,
+    },
+  },
+  "message": "Plural must have messages",
+}
+`;
+
+exports[`edge cases %: code 1`] = `
+"function __msg__ (ctx) {
+  const { normalize: _normalize } = ctx
+  return _normalize([
+    \\"%\\"
+  ])
+}"
+`;
+
+exports[`edge cases hi %s !: code 1`] = `
+"function __msg__ (ctx) {
+  const { normalize: _normalize } = ctx
+  return _normalize([
+    \\"hi %s !\\"
+  ])
+}"
+`;
+
+exports[`edge cases no apples %| one apple % |  too much apples  : code 1`] = `
+"function __msg__ (ctx) {
+  const { normalize: _normalize, plural: _plural } = ctx
+  return _plural([
+    _normalize([
+      \\"no apples %\\"
+    ]), _normalize([
+      \\"one apple %\\"
+    ]), _normalize([
+      \\"too much apples  \\"
+    ])
+  ])
+}"
+`;
+
+exports[`warnHtmlMessage default: code 1`] = `
+"function __msg__ (ctx) {
+  const { normalize: _normalize } = ctx
+  return _normalize([
+    \\"<p>hello</p>\\"
+  ])
+}"
+`;
+
+exports[`warnHtmlMessage false: code 1`] = `
+"function __msg__ (ctx) {
+  const { normalize: _normalize } = ctx
+  return _normalize([
+    \\"<p>hello</p>\\"
+  ])
+}"
+`;

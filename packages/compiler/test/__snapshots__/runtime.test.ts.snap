@@ -1,0 +1,85 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`custom process linked 1`] = `
+Array [
+  Object {
+    "text": "hi ",
+  },
+  Object {
+    "text": "KAZUPON",
+  },
+  Object {
+    "text": " !",
+  },
+]
+`;
+
+exports[`custom process list 1`] = `
+Array [
+  Object {
+    "text": "hi, ",
+  },
+  Object {
+    "text": "kazupon",
+  },
+  Object {
+    "text": "!",
+  },
+]
+`;
+
+exports[`custom process named 1`] = `
+Array [
+  Object {
+    "text": "hi ",
+  },
+  Object {
+    "text": "kazupon",
+  },
+  Object {
+    "text": " !",
+  },
+]
+`;
+
+exports[`custom process plural 1`] = `
+Array [
+  Object {
+    "text": "1",
+  },
+  Object {
+    "text": " ",
+  },
+  Object {
+    "text": "apple",
+  },
+]
+`;
+
+exports[`custom process simple text 1`] = `
+Array [
+  Object {
+    "text": "hello",
+  },
+]
+`;
+
+exports[`edge cases plural: ' | foo | ': error 1`] = `
+Object {
+  "code": 10,
+  "domain": "parser",
+  "location": Object {
+    "end": Object {
+      "column": 10,
+      "line": 1,
+      "offset": 9,
+    },
+    "start": Object {
+      "column": 1,
+      "line": 1,
+      "offset": 0,
+    },
+  },
+  "message": "Plural must have messages",
+}
+`;
