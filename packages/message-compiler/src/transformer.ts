@@ -7,7 +7,7 @@ import {
   LinkedNode
 } from './parser'
 import { TransformOptions } from './options'
-import { HelperNameMap } from './runtime'
+import { HelperNameMap } from './helpers'
 
 // TODO: if we offer custom transform for uses, should be defined TransformOptions type to here
 // ex.

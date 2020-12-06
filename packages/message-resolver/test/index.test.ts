@@ -1,4 +1,4 @@
-import { parse, resolveValue } from '../src/path'
+import { parse, resolveValue } from '../src/index'
 
 test('parse', () => {
   expect(parse('a')).toEqual(['a'])

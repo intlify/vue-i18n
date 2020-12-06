@@ -6,7 +6,8 @@ import {
   isString,
   isPlainObject
 } from '@intlify/shared'
-import { Path } from './path'
+import { Path } from '@intlify/message-resolver'
+import { HelperNameMap } from '@intlify/message-compiler'
 
 type ExtractToStringKey<T> = Extract<keyof T, 'toString'>
 type ExtractToStringFunction<T> = T[ExtractToStringKey<T>]
@@ -78,17 +79,6 @@ export interface MessageContextOptions<T = string, N = {}> {
   pluralRules?: PluralizationRules
   messages?: MessageFunctions<T> | MessageResolveFunction<T> // TODO: need to design resolve message function?
   processor?: MessageProcessor<T>
-}
-
-export const enum HelperNameMap {
-  LIST = 'list',
-  NAMED = 'named',
-  PLURAL = 'plural',
-  LINKED = 'linked',
-  MESSAGE = 'message',
-  TYPE = 'type',
-  INTERPOLATE = 'interpolate',
-  NORMALIZE = 'normalize'
 }
 
 // TODO: list and named type definition more improvements

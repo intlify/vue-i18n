@@ -1,23 +1,23 @@
 {
-  "name": "@intlify/shared",
+  "name": "@intlify/runtime",
   "version": "9.0.0-beta.10",
-  "description": "@intlify/shared",
+  "description": "@intlify/runtime",
   "keywords": [
     "i18n",
     "internationalization",
     "intlify",
-    "utitlity"
+    "runtime"
   ],
   "license": "MIT",
   "author": {
     "name": "kazuya kawaguchi",
     "email": "kawakazu80@gmail.com"
   },
-  "homepage": "https://github.com/intlify/vue-i18n-next/tree/master/packages/shared#readme",
+  "homepage": "https://github.com/intlify/vue-i18n-next/tree/master/packages/runtime#readme",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/intlify/vue-i18n-next.git",
-    "directory": "packages/shared"
+    "directory": "packages/runtime"
   },
   "bugs": {
     "url": "https://github.com/intlify/vue-i18n-next/issues"
@@ -27,16 +27,21 @@
     "dist"
   ],
   "main": "index.js",
-  "module": "dist/shared.esm-bundler.js",
-  "browser": "dist/shared.esm-browser.js",
-  "unpkg": "dist/shared.global.js",
-  "jsdelivr": "dist/shared.global.js",
-  "types": "dist/shared.d.ts",
+  "module": "dist/runtime.esm-bundler.js",
+  "browser": "dist/runtime.esm-browser.js",
+  "unpkg": "dist/runtime.global.js",
+  "jsdelivr": "dist/runtime.global.js",
+  "types": "dist/runtime.d.ts",
+  "dependencies": {
+    "@intlify/message-compiler": "9.0.0-beta.10",
+    "@intlify/message-resolver": "9.0.0-beta.10",
+    "@intlify/shared": "9.0.0-beta.10"
+  },
   "engines": {
     "node": ">= 10"
   },
   "buildOptions": {
-    "name": "IntlifyRuntime",
+    "name": "Intlifyruntime",
     "formats": [
       "esm-bundler",
       "esm-browser",

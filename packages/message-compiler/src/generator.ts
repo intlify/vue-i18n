@@ -16,7 +16,7 @@ import {
 } from './parser'
 import { Position, LocationStub } from './location'
 import { CodeGenOptions } from './options'
-import { HelperNameMap } from './runtime'
+import { HelperNameMap } from './helpers'
 
 export interface CodeGenResult {
   code: string

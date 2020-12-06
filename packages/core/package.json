@@ -1,11 +1,12 @@
 {
   "name": "@intlify/core",
-  "version": "9.0.0-beta.11",
+  "version": "9.0.0-beta.10",
   "description": "@intlify/core",
   "keywords": [
     "core",
     "fundamental",
     "i18n",
+    "internationalization",
     "intlify"
   ],
   "license": "MIT",
@@ -33,7 +34,10 @@
   "jsdelivr": "dist/core.global.js",
   "types": "dist/core.d.ts",
   "dependencies": {
-    "@intlify/compiler": "9.0.0-beta.11"
+    "@intlify/message-compiler": "9.0.0-beta.10",
+    "@intlify/message-resolver": "9.0.0-beta.10",
+    "@intlify/runtime": "9.0.0-beta.10",
+    "@intlify/shared": "9.0.0-beta.10"
   },
   "engines": {
     "node": ">= 10"

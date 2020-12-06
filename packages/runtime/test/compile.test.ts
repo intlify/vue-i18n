@@ -1,10 +1,10 @@
-import { compile } from '../src/compiler'
+import { isString } from '@intlify/shared'
 import {
   createMessageContext,
   MessageType,
   MessageContext
-} from '../src/runtime'
-import { isString } from '@intlify/shared'
+} from '../src/context'
+import { compile } from '../src/compile'
 
 type MockVNode = {
   text: string

@@ -1,23 +1,23 @@
 {
-  "name": "@intlify/shared",
+  "name": "@intlify/message-resolver",
   "version": "9.0.0-beta.10",
-  "description": "@intlify/shared",
+  "description": "@intlify/message-resolver",
   "keywords": [
     "i18n",
     "internationalization",
     "intlify",
-    "utitlity"
+    "resolver"
   ],
   "license": "MIT",
   "author": {
     "name": "kazuya kawaguchi",
     "email": "kawakazu80@gmail.com"
   },
-  "homepage": "https://github.com/intlify/vue-i18n-next/tree/master/packages/shared#readme",
+  "homepage": "https://github.com/intlify/vue-i18n-next/tree/master/packages/message-resolver#readme",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/intlify/vue-i18n-next.git",
-    "directory": "packages/shared"
+    "directory": "packages/message-resolver"
   },
   "bugs": {
     "url": "https://github.com/intlify/vue-i18n-next/issues"
@@ -27,16 +27,16 @@
     "dist"
   ],
   "main": "index.js",
-  "module": "dist/shared.esm-bundler.js",
-  "browser": "dist/shared.esm-browser.js",
-  "unpkg": "dist/shared.global.js",
-  "jsdelivr": "dist/shared.global.js",
-  "types": "dist/shared.d.ts",
+  "module": "dist/message-resolver.esm-bundler.js",
+  "browser": "dist/message-resolver.esm-browser.js",
+  "unpkg": "dist/message-resolver.global.js",
+  "jsdelivr": "dist/message-resolver.global.js",
+  "types": "dist/message-resolver.d.ts",
   "engines": {
     "node": ">= 10"
   },
   "buildOptions": {
-    "name": "IntlifyRuntime",
+    "name": "IntlifyMessageResolver",
     "formats": [
       "esm-bundler",
       "esm-browser",

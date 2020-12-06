@@ -1,4 +1,4 @@
-# @intlify/compiler
+# vue-i18n
 
 ## :copyright: License
 

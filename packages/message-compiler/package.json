@@ -1,10 +1,11 @@
 {
-  "name": "@intlify/compiler",
-  "version": "9.0.0-beta.11",
-  "description": "@intlify/compiler",
+  "name": "@intlify/message-compiler",
+  "version": "9.0.0-beta.10",
+  "description": "@intlify/message-compiler",
   "keywords": [
     "compiler",
     "i18n",
+    "internationalization",
     "intlify",
     "message-format"
   ],
@@ -13,11 +14,11 @@
     "name": "kazuya kawaguchi",
     "email": "kawakazu80@gmail.com"
   },
-  "homepage": "https://github.com/intlify/vue-i18n-next/tree/master/packages/compiler#readme",
+  "homepage": "https://github.com/intlify/vue-i18n-next/tree/master/packages/message-compiler#readme",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/intlify/vue-i18n-next.git",
-    "directory": "packages/compiler"
+    "directory": "packages/message-compiler"
   },
   "bugs": {
     "url": "https://github.com/intlify/vue-i18n-next/issues"
@@ -27,20 +28,21 @@
     "dist"
   ],
   "main": "index.js",
-  "module": "dist/compiler.esm-bundler.js",
-  "browser": "dist/compiler.esm-browser.js",
-  "unpkg": "dist/compiler.global.js",
-  "jsdelivr": "dist/compiler.global.js",
-  "types": "dist/compiler.d.ts",
+  "module": "dist/message-compiler.esm-bundler.js",
+  "browser": "dist/message-compiler.esm-browser.js",
+  "unpkg": "dist/message-compiler.global.js",
+  "jsdelivr": "dist/message-compiler.global.js",
+  "types": "dist/message-compiler.d.ts",
   "dependencies": {
-    "@intlify/shared": "9.0.0-beta.11",
+    "@intlify/message-resolver": "9.0.0-beta.10",
+    "@intlify/shared": "9.0.0-beta.10",
     "source-map": "0.6.1"
   },
   "engines": {
     "node": ">= 10"
   },
   "buildOptions": {
-    "name": "IntlifyCompiler",
+    "name": "IntlifyMessageCompiler",
     "formats": [
       "esm-bundler",
       "esm-browser",

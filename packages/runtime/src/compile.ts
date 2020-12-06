@@ -1,10 +1,8 @@
 import { warn, format, isBoolean } from '@intlify/shared'
-import { CompileOptions } from './options'
-import { createParser } from './parser'
-import { transform } from './transformer'
-import { generate, CodeGenResult } from './generator'
-import { CompileError, defaultOnError } from './errors'
-import { MessageFunction, MessageFunctions } from './runtime'
+import { baseCompile, defaultOnError } from '@intlify/message-compiler'
+
+import type { CompileOptions, CompileError } from '@intlify/message-compiler'
+import type { MessageFunction, MessageFunctions } from './context'
 
 const RE_HTML_TAG = /<\/?[\w\s="/.':;#-\/]+>/
 const WARN_MESSAGE = `Detected HTML in '{source}' message. Recommend not using HTML messages to avoid XSS.`
@@ -24,22 +22,6 @@ let compileCache: unknown = Object.create(null)
 /** @internal */
 export function clearCompileCache(): void {
   compileCache = Object.create(null)
-}
-
-/** @internal */
-export function baseCompile(
-  source: string,
-  options: CompileOptions = {}
-): CodeGenResult {
-  // parse source codes
-  const parser = createParser({ ...options })
-  const ast = parser.parse(source)
-
-  // transform ASTs
-  transform(ast, { ...options })
-
-  // generate javascript codes
-  return generate(ast, { ...options })
 }
 
 /** @internal */
