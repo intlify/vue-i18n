@@ -2,20 +2,47 @@
   "name": "vue-i18n",
   "version": "9.0.0-beta.11",
   "description": "Internationalization plugin for Vue.js",
-  "main": "index.js",
-  "module": "dist/vue-i18n.esm-bundler.js",
-  "types": "dist/vue-i18n.d.ts",
-  "unpkg": "dist/vue-i18n.global.js",
-  "jsdelivr": "dist/vue-i18n.global.js",
-  "files": [
-    "index.js",
-    "dist"
+  "keywords": [
+    "i18n",
+    "internationalization",
+    "intlify",
+    "plugin",
+    "vue",
+    "vue.js"
   ],
-  "sideEffects": false,
+  "license": "MIT",
+  "author": {
+    "name": "kazuya kawaguchi",
+    "email": "kawakazu80@gmail.com"
+  },
+  "homepage": "https://github.com/intlify/vue-i18n-next/tree/master/packages/vue-i18n#readme",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/intlify/vue-i18n-next.git",
     "directory": "packages/vue-i18n"
+  },
+  "bugs": {
+    "url": "https://github.com/intlify/vue-i18n-next/issues"
+  },
+  "files": [
+    "index.js",
+    "dist"
+  ],
+  "main": "index.js",
+  "module": "dist/vue-i18n.esm-bundler.js",
+  "browser": "dist/vue-i18n.esm-browser.js",
+  "unpkg": "dist/vue-i18n.global.js",
+  "jsdelivr": "dist/vue-i18n.global.js",
+  "types": "dist/vue-i18n.d.ts",
+  "dependencies": {
+    "@intlify/core": "9.0.0-beta.11",
+    "@vue/devtools-api": "^6.0.0-beta.2"
+  },
+  "peerDependencies": {
+    "vue": "^3.0.0"
+  },
+  "engines": {
+    "node": ">= 10"
   },
   "buildOptions": {
     "name": "VueI18n",
@@ -26,32 +53,5 @@
       "global"
     ]
   },
-  "keywords": [
-    "intlify",
-    "i18n",
-    "internationalization",
-    "plugin",
-    "vue",
-    "vue.js"
-  ],
-  "author": {
-    "name": "kazuya kawaguchi",
-    "email": "kawakazu80@gmail.com"
-  },
-  "engines": {
-    "node": ">= 10"
-  },
-  "browser": "dist/vue-i18n.esm-browser.js",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/intlify/vue-i18n-next/issues"
-  },
-  "homepage": "https://github.com/intlify/vue-i18n-next/tree/master/packages/vue-i18n#readme",
-  "peerDependencies": {
-    "vue": "^3.0.0"
-  },
-  "dependencies": {
-    "@intlify/core": "9.0.0-beta.11",
-    "@vue/devtools-api": "^6.0.0-beta.2"
-  }
+  "sideEffects": false
 }

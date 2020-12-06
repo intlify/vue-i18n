@@ -1702,6 +1702,14 @@ ajv@^6.10.0, ajv@^6.10.2, ajv@^6.12.3, ajv@^6.12.4, ajv@~6.12.6:
     json-schema-traverse "^0.4.1"
     uri-js "^4.2.2"
 
+alce@1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/alce/-/alce-1.0.0.tgz#426184c98ee288d0eeac77fd63fed680b667cab6"
+  integrity sha1-QmGEyY7iiNDurHf9Y/7WgLZnyrY=
+  dependencies:
+    esprima "~1.0.4"
+    estraverse "~1.3.0"
+
 algoliasearch@^4.0.0, algoliasearch@^4.8.2:
   version "4.8.3"
   resolved "https://registry.yarnpkg.com/algoliasearch/-/algoliasearch-4.8.3.tgz#f76b824423e4264506fb6ba6a6709feb08ab9954"
@@ -3890,6 +3898,11 @@ esprima@^4.0.0, esprima@^4.0.1:
   resolved "https://registry.yarnpkg.com/esprima/-/esprima-4.0.1.tgz#13b04cdb3e6c5d19df91ab6987a8695619b0aa71"
   integrity sha512-eGuFFw7Upda+g4p+QHvnW0RyTX/SVeJBDM/gCtMARO0cLuT2HcEKnTPvhjV6aGeqrCB/sbNop0Kszm0jsaWU4A==
 
+esprima@~1.0.4:
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/esprima/-/esprima-1.0.4.tgz#9f557e08fc3b4d26ece9dd34f8fbf476b62585ad"
+  integrity sha1-n1V+CPw7TSbs6d00+Pv0drYlha0=
+
 esquery@^1.0.1, esquery@^1.2.0:
   version "1.3.1"
   resolved "https://registry.yarnpkg.com/esquery/-/esquery-1.3.1.tgz#b78b5828aa8e214e29fb74c4d5b752e1c033da57"
@@ -3913,6 +3926,11 @@ estraverse@^5.1.0, estraverse@^5.2.0:
   version "5.2.0"
   resolved "https://registry.yarnpkg.com/estraverse/-/estraverse-5.2.0.tgz#307df42547e6cc7324d3cf03c155d5cdb8c53880"
   integrity sha512-BxbNGGNm0RyRYvUdHpIwv9IWzeM9XClbOxwoATuFdOE7ZE6wHL+HQ5T8hoPM+zHvmKzzsEqhgy0GrQ5X13afiQ==
+
+estraverse@~1.3.0:
+  version "1.3.2"
+  resolved "https://registry.yarnpkg.com/estraverse/-/estraverse-1.3.2.tgz#37c2b893ef13d723f276d878d60d8535152a6c42"
+  integrity sha1-N8K4k+8T1yPydth41g2FNRUqbEI=
 
 estree-walker@^0.5.2:
   version "0.5.2"
@@ -4046,6 +4064,11 @@ expect@^26.6.2:
     jest-matcher-utils "^26.6.2"
     jest-message-util "^26.6.2"
     jest-regex-util "^26.0.0"
+
+extend-object@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/extend-object/-/extend-object-1.0.0.tgz#42514f84015d1356caf5187969dfb2bc1bda0823"
+  integrity sha1-QlFPhAFdE1bK9Rh5ad+yvBvaCCM=
 
 extend-shallow@^2.0.1:
   version "2.0.1"
@@ -4289,6 +4312,16 @@ find-versions@^3.2.0:
   integrity sha512-P8WRou2S+oe222TOCHitLy8zj+SIsVJh52VP4lvXkaFVnOFFdoWv1H1Jjvel1aI6NCFOAaeAVm8qrI0odiLcww==
   dependencies:
     semver-regex "^2.0.0"
+
+fixpack@^3.0.6:
+  version "3.0.6"
+  resolved "https://registry.yarnpkg.com/fixpack/-/fixpack-3.0.6.tgz#80128402ece98095803362d41d8c7c1d57f77f5e"
+  integrity sha512-RfEXT2IMmoeAyr7PCwUHSRvC2K2VrrXQkmXwqjdTxoJ9TDDIWxgevr93ZIaEFFB+aQR17SN8zB6G0YCNQ6v83w==
+  dependencies:
+    alce "1.0.0"
+    chalk "^2.4.1"
+    extend-object "^1.0.0"
+    rc "^1.2.8"
 
 flat-cache@^2.0.1:
   version "2.0.1"

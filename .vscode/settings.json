@@ -1,6 +1,7 @@
 {
   "files.associations": {
-    "*.json": "jsonc"
+    "*.json": "jsonc",
+    ".fixpackrc": "json"
   },
   "typescript.tsdk": "node_modules/typescript/lib"
 }

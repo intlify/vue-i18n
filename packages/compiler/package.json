@@ -2,20 +2,42 @@
   "name": "@intlify/compiler",
   "version": "9.0.0-beta.11",
   "description": "@intlify/compiler",
-  "main": "index.js",
-  "module": "dist/compiler.esm-bundler.js",
-  "types": "dist/compiler.d.ts",
-  "unpkg": "dist/compiler.global.js",
-  "jsdelivr": "dist/compiler.global.js",
-  "files": [
-    "index.js",
-    "dist"
+  "keywords": [
+    "compiler",
+    "i18n",
+    "intlify",
+    "message-format"
   ],
-  "sideEffects": false,
+  "license": "MIT",
+  "author": {
+    "name": "kazuya kawaguchi",
+    "email": "kawakazu80@gmail.com"
+  },
+  "homepage": "https://github.com/intlify/vue-i18n-next/tree/master/packages/compiler#readme",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/intlify/vue-i18n-next.git",
     "directory": "packages/compiler"
+  },
+  "bugs": {
+    "url": "https://github.com/intlify/vue-i18n-next/issues"
+  },
+  "files": [
+    "index.js",
+    "dist"
+  ],
+  "main": "index.js",
+  "module": "dist/compiler.esm-bundler.js",
+  "browser": "dist/compiler.esm-browser.js",
+  "unpkg": "dist/compiler.global.js",
+  "jsdelivr": "dist/compiler.global.js",
+  "types": "dist/compiler.d.ts",
+  "dependencies": {
+    "@intlify/shared": "9.0.0-beta.11",
+    "source-map": "0.6.1"
+  },
+  "engines": {
+    "node": ">= 10"
   },
   "buildOptions": {
     "name": "IntlifyCompiler",
@@ -26,27 +48,5 @@
       "global"
     ]
   },
-  "engines": {
-    "node": ">= 10"
-  },
-  "keywords": [
-    "intlify",
-    "i18n",
-    "message-format",
-    "compiler"
-  ],
-  "author": {
-    "name": "kazuya kawaguchi",
-    "email": "kawakazu80@gmail.com"
-  },
-  "browser": "dist/compiler.esm-browser.js",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/intlify/vue-i18n-next/issues"
-  },
-  "homepage": "https://github.com/intlify/vue-i18n-next/tree/master/packages/compiler#readme",
-  "dependencies": {
-    "@intlify/shared": "9.0.0-beta.11",
-    "source-map": "0.6.1"
-  }
+  "sideEffects": false
 }
