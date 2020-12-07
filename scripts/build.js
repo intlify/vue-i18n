@@ -171,5 +171,4 @@ function checkFileSize(filePath) {
       chalk.bold(path.basename(filePath))
     )} min:${minSize} / gzip:${gzippedSize} / brotli:${compressedSize}`
   )
-  console.log()
 }

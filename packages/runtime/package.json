@@ -41,7 +41,7 @@
     "node": ">= 10"
   },
   "buildOptions": {
-    "name": "Intlifyruntime",
+    "name": "IntlifyRuntime",
     "formats": [
       "esm-bundler",
       "esm-browser",

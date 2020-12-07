@@ -1,0 +1,32 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`__transrateVNode missing 1`] = `
+Array [
+  Object {
+    "__v_isVNode": true,
+    "__v_skip": true,
+    "anchor": null,
+    "appContext": null,
+    "children": "hello",
+    "component": null,
+    "dirs": null,
+    "dynamicChildren": null,
+    "dynamicProps": null,
+    "el": null,
+    "key": null,
+    "patchFlag": 0,
+    "props": null,
+    "ref": null,
+    "scopeId": null,
+    "shapeFlag": 8,
+    "ssContent": null,
+    "ssFallback": null,
+    "staticCount": 0,
+    "suspense": null,
+    "target": null,
+    "targetAnchor": null,
+    "transition": null,
+    "type": Symbol(Text),
+  },
+]
+`;

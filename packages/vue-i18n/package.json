@@ -36,6 +36,10 @@
   "types": "dist/vue-i18n.d.ts",
   "dependencies": {
     "@intlify/core": "9.0.0-beta.10",
+    "@intlify/message-compiler": "9.0.0-beta.10",
+    "@intlify/message-resolver": "9.0.0-beta.10",
+    "@intlify/runtime": "9.0.0-beta.10",
+    "@intlify/shared": "9.0.0-beta.10",
     "@vue/devtools-api": "^6.0.0-beta.2"
   },
   "peerDependencies": {
