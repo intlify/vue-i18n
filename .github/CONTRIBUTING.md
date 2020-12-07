@@ -192,11 +192,10 @@ $ yarn test fileName -t 'test name'
 This repository employs a [monorepo](https://en.wikipedia.org/wiki/Monorepo) setup which hosts a number of associated packages under the `packages` directory:
 
 - `shared`: Internal utilities shared across multiple packages.
-
-- `compiler`: The message format compiler & runtime.
-
-- `core`: The core i18n modules.
-
+- `message-resolver`: The message resolver.
+- `message-compiler`: The message format compiler.
+- `runtime`: The intlify runtime
+- `core`: The intlify core.
 - `vue-i18n`: The public facing "full build" which includes both the runtime AND the compiler.
 
 ### Importing Packages
