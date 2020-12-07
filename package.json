@@ -9,7 +9,7 @@
     "url": "https://github.com/inlitify/vue-i18n-next/issues"
   },
   "scripts": {
-    "benchmark": "yarn build && node ./benchmark/index.js",
+    "benchmark": "node ./benchmark/index.js",
     "build": "node scripts/build.js",
     "build:sourcemap": "yarn build --sourcemap",
     "build:type": "yarn build --types && tail -n +14 ./src/vue.d.ts >> ./dist/vue-i18n.d.ts",
@@ -42,7 +42,7 @@
     "release:trigger": "shipjs trigger",
     "test": "npm-run-all lint clean:cache:jest test:cover test:e2e",
     "test:cover": "yarn test:unit --coverage",
-    "test:e2e": "yarn build && jest --runInBand --config ./jest.e2e.config.js",
+    "test:e2e": "jest --runInBand --config ./jest.e2e.config.js",
     "test:type": "tsd",
     "test:unit": "yarn clean:cache:jest && cross-env NODE_ICU_DATA=./node_modules/full-icu jest --env node"
   },
