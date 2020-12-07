@@ -1,10 +1,14 @@
 const {
-  baseCompile,
+  baseCompile
+} = require('../packages/message-compiler/dist/message-compiler.cjs.prod.js')
+const {
+  clearCompileCache
+} = require('../packages/runtime/dist/runtime.cjs.prod.js')
+const {
   translate,
-  createRuntimeContext,
-  clearCompileCache,
-  createI18n
-} = require('../dist/vue-i18n.cjs.prod')
+  createRuntimeContext
+} = require('../packages/core/dist/core.cjs.prod.js')
+const { createI18n } = require('../packages/vue-i18n/dist/vue-i18n.cjs.prod.js')
 const convertHrtime = require('convert-hrtime')
 
 const data = require('./complex.json')
