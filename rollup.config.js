@@ -15,6 +15,12 @@ const resolve = p => path.resolve(packageDir, p)
 const pkg = require(resolve(`package.json`))
 const packageOptions = pkg.buildOptions || {}
 
+const banner = `/*!
+  * ${pkg.name} v${pkg.version}
+  * (c) ${new Date().getFullYear()} ${pkg.author.name}
+  * Released under the ${pkg.license} License.
+  */`
+
 // ensure TS checks only once for each build
 let hasTSChecked = false
 
@@ -81,7 +87,14 @@ function createConfig(format, output, plugins = []) {
   }
 
   output.sourcemap = !!process.env.SOURCE_MAP
+  output.banner = banner
   output.externalLiveBindings = false
+  if (pkg.name === 'vue-i18n') {
+    output.globals = {
+      vue: 'Vue',
+      '@vue/devtools-api': 'VueDevtoolsApi'
+    }
+  }
 
   const isProductionBuild =
     process.env.__DEV__ === 'false' || /\.prod\.js$/.test(output.file)
@@ -118,7 +131,7 @@ function createConfig(format, output, plugins = []) {
 
   const external =
     isGlobalBuild || isBrowserESMBuild
-      ? [] // packageOptions.enableNonBrowserBranches
+      ? ['vue'] // packageOptions.enableNonBrowserBranches
       : // Node / esm-bundler builds. Externalize everything.
         [
           ...Object.keys(pkg.dependencies || {}),
