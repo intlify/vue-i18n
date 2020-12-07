@@ -12,7 +12,7 @@
     "benchmark": "node ./benchmark/index.js",
     "build": "node scripts/build.js",
     "build:sourcemap": "yarn build --sourcemap",
-    "build:type": "yarn build --types && tail -n +14 ./src/vue.d.ts >> ./dist/vue-i18n.d.ts",
+    "build:type": "yarn build --types && tail -n +19 ./packages/vue-i18n/src/vue.d.ts >> ./packages/vue-i18n/dist/vue-i18n.d.ts",
     "clean": "npm-run-all --parallel clean:*",
     "clean:cache": "yarn clean:cache:jest",
     "clean:cache:jest": "jest --clearCache",
