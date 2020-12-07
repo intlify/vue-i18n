@@ -1,0 +1,61 @@
+{
+  "name": "vue-i18n",
+  "version": "9.0.0-beta.10",
+  "description": "Internationalization plugin for Vue.js",
+  "keywords": [
+    "i18n",
+    "internationalization",
+    "intlify",
+    "plugin",
+    "vue",
+    "vue.js"
+  ],
+  "license": "MIT",
+  "author": {
+    "name": "kazuya kawaguchi",
+    "email": "kawakazu80@gmail.com"
+  },
+  "homepage": "https://github.com/intlify/vue-i18n-next/tree/master/packages/vue-i18n#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/intlify/vue-i18n-next.git",
+    "directory": "packages/vue-i18n"
+  },
+  "bugs": {
+    "url": "https://github.com/intlify/vue-i18n-next/issues"
+  },
+  "files": [
+    "index.js",
+    "dist"
+  ],
+  "main": "index.js",
+  "module": "dist/vue-i18n.esm-bundler.js",
+  "browser": "dist/vue-i18n.esm-browser.js",
+  "unpkg": "dist/vue-i18n.global.js",
+  "jsdelivr": "dist/vue-i18n.global.js",
+  "types": "dist/vue-i18n.d.ts",
+  "dependencies": {
+    "@intlify/core": "9.0.0-beta.10",
+    "@intlify/message-compiler": "9.0.0-beta.10",
+    "@intlify/message-resolver": "9.0.0-beta.10",
+    "@intlify/runtime": "9.0.0-beta.10",
+    "@intlify/shared": "9.0.0-beta.10",
+    "@vue/devtools-api": "^6.0.0-beta.2"
+  },
+  "peerDependencies": {
+    "vue": "^3.0.0"
+  },
+  "engines": {
+    "node": ">= 10"
+  },
+  "buildOptions": {
+    "name": "VueI18n",
+    "formats": [
+      "esm-bundler",
+      "esm-browser",
+      "cjs",
+      "global"
+    ]
+  },
+  "sideEffects": false
+}

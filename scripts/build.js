@@ -1,43 +1,103 @@
+/*
+Produces production builds and stitches together d.ts files.
+
+To specify the package to build, simply pass its name and the desired build
+formats to output (defaults to `buildOptions.formats` specified in that package,
+or "esm,cjs"):
+
+```
+# name supports fuzzy match. will build all packages with name containing "dom":
+yarn build dom
+
+# specify the format to output
+yarn build core --formats cjs
+```
+*/
+
 const fs = require('fs-extra')
 const path = require('path')
 const chalk = require('chalk')
 const execa = require('execa')
 const { gzipSync } = require('zlib')
 const { compress } = require('brotli')
+const { targets: allTargets, fuzzyMatchTarget } = require('./utils')
 
 const args = require('minimist')(process.argv.slice(2))
+const targets = args._
+const formats = args.formats || args.f
 const devOnly = args.devOnly || args.d
 const prodOnly = !devOnly && (args.prodOnly || args.p)
 const sourceMap = args.sourcemap || args.s
+const isRelease = args.release
 const buildTypes = args.t || args.types
+const buildAllMatching = args.all || args.a
+// const commit = execa.sync('git', ['rev-parse', 'HEAD']).stdout.slice(0, 7)
 
 run()
 
 async function run() {
-  await build()
-  await checkSize()
+  if (isRelease) {
+    // remove build cache for release builds to avoid outdated enum values
+    await fs.remove(path.resolve(__dirname, '../node_modules/.rts2_cache'))
+  }
+  if (!targets.length) {
+    await buildAll(allTargets)
+    checkAllSizes(allTargets)
+  } else {
+    await buildAll(fuzzyMatchTarget(targets, buildAllMatching))
+    checkAllSizes(fuzzyMatchTarget(targets, buildAllMatching))
+  }
 }
 
-async function build() {
-  const pkgDir = path.resolve('./')
+async function buildAll(targets) {
+  await runParallel(require('os').cpus().length, targets, build)
+}
+
+async function runParallel(maxConcurrency, source, iteratorFn) {
+  const ret = []
+  const executing = []
+  for (const item of source) {
+    const p = Promise.resolve().then(() => iteratorFn(item, source))
+    ret.push(p)
+
+    if (maxConcurrency <= source.length) {
+      const e = p.then(() => executing.splice(executing.indexOf(e), 1))
+      executing.push(e)
+      if (executing.length >= maxConcurrency) {
+        await Promise.race(executing)
+      }
+    }
+  }
+  return Promise.all(ret)
+}
+
+async function build(target) {
+  const pkgDir = path.resolve(`packages/${target}`)
   const pkg = require(`${pkgDir}/package.json`)
 
-  if (!fs.existsSync('dist')) {
-    fs.mkdirSync('dist')
+  // only build published packages for release
+  if (isRelease && pkg.private) {
+    return
   }
 
-  const env = devOnly ? 'development' : 'production'
-  console.log(
-    chalk.bold(chalk.yellow(`Building for ${env} mode as plugin ...`))
-  )
+  // if building a specific format, do not remove dist.
+  if (!formats) {
+    await fs.remove(`${pkgDir}/dist`)
+  }
 
+  const env =
+    (pkg.buildOptions && pkg.buildOptions.env) ||
+    (devOnly ? 'development' : 'production')
   await execa(
     'rollup',
     [
       '-c',
       '--environment',
       [
+        // `COMMIT:${commit}`,
         `NODE_ENV:${env}`,
+        `TARGET:${target}`,
+        formats ? `FORMATS:${formats}` : ``,
         buildTypes ? `TYPES:true` : ``,
         prodOnly ? `PROD_ONLY:true` : ``,
         sourceMap ? `SOURCE_MAP:true` : ``
@@ -48,21 +108,11 @@ async function build() {
     { stdio: 'inherit' }
   )
 
-  console.log()
-  console.log(
-    chalk.bold(
-      chalk.green(
-        `✅  Build complete. The ${chalk.cyan(
-          'dist'
-        )} directory is ready to be deployed.`
-      )
-    )
-  )
-  console.log()
-
   if (buildTypes && pkg.types) {
-    console.log(chalk.bold(chalk.yellow(`Rolling up type definitions ...`)))
     console.log()
+    console.log(
+      chalk.bold(chalk.yellow(`Rolling up type definitions for ${target}...`))
+    )
 
     // build types
     const { Extractor, ExtractorConfig } = require('@microsoft/api-extractor')
@@ -71,61 +121,70 @@ async function build() {
     const extractorConfig = ExtractorConfig.loadFileAndPrepare(
       extractorConfigPath
     )
-    const result = Extractor.invoke(extractorConfig, {
+    const extractorResult = Extractor.invoke(extractorConfig, {
       localBuild: true,
       showVerboseMessages: true
     })
 
-    if (result.succeeded) {
-      // concat additional d.ts to rolled-up dts (mostly for JSX)
-      if (pkg.buildOptions && pkg.buildOptions.dts) {
+    if (extractorResult.succeeded) {
+      // concat additional d.ts to rolled-up dts
+      const typesDir = path.resolve(pkgDir, 'types')
+      if (await fs.exists(typesDir)) {
         const dtsPath = path.resolve(pkgDir, pkg.types)
         const existing = await fs.readFile(dtsPath, 'utf-8')
+        const typeFiles = await fs.readdir(typesDir)
         const toAdd = await Promise.all(
-          pkg.buildOptions.dts.map(file => {
-            return fs.readFile(path.resolve(pkgDir, file), 'utf-8')
+          typeFiles.map(file => {
+            return fs.readFile(path.resolve(typesDir, file), 'utf-8')
           })
         )
         await fs.writeFile(dtsPath, existing + '\n' + toAdd.join('\n'))
       }
-      console.log()
       console.log(
-        chalk.bold(chalk.green(`✅  API Extractor completed successfully.`))
+        chalk.bold(chalk.green(`API Extractor completed successfully.`))
       )
-      console.log()
     } else {
-      console.log()
       console.error(
-        `API Extractor completed with ${result.errorCount} errors` +
-          ` and ${result.warningCount} warnings`
+        `API Extractor completed with ${extractorResult.errorCount} errors` +
+          ` and ${extractorResult.warningCount} warnings`
       )
       process.exitCode = 1
     }
-    // await fs.remove(`${pkgDir}/dist/packages`)
+
+    await fs.remove(`${pkgDir}/dist/packages`)
   }
 }
 
-function checkSize() {
+function checkAllSizes(targets) {
   if (devOnly) {
     return
   }
-  console.log(chalk.bold(chalk.yellow(`Checking file size ...`)))
   console.log()
-
-  const pkgDir = path.resolve('./')
-  const esmProdBuild = `${pkgDir}/dist/vue-i18n.global.prod.js`
-  if (fs.existsSync(esmProdBuild)) {
-    const file = fs.readFileSync(esmProdBuild)
-    const minSize = (file.length / 1024).toFixed(2) + 'kb'
-    const gzipped = gzipSync(file)
-    const gzippedSize = (gzipped.length / 1024).toFixed(2) + 'kb'
-    const compressed = compress(file)
-    const compressedSize = (compressed.length / 1024).toFixed(2) + 'kb'
-    console.log(
-      `✅  ${chalk.gray(
-        chalk.bold('vue-i18n')
-      )} min:${minSize} / gzip:${gzippedSize} / brotli:${compressedSize}`
-    )
-    console.log()
+  for (const target of targets) {
+    checkSize(target)
   }
+  console.log()
+}
+
+function checkSize(target) {
+  const pkgDir = path.resolve(`packages/${target}`)
+  checkFileSize(`${pkgDir}/dist/${target}.global.prod.js`)
+}
+
+function checkFileSize(filePath) {
+  if (!fs.existsSync(filePath)) {
+    return
+  }
+  const file = fs.readFileSync(filePath)
+  const minSize = (file.length / 1024).toFixed(2) + 'kb'
+  const gzipped = gzipSync(file)
+  const gzippedSize = (gzipped.length / 1024).toFixed(2) + 'kb'
+  const compressed = compress(file)
+  const compressedSize =
+    compressed != null ? (compressed.length / 1024).toFixed(2) + 'kb' : 'N/A'
+  console.log(
+    `✅  ${chalk.gray(
+      chalk.bold(path.basename(filePath))
+    )} min:${minSize} / gzip:${gzippedSize} / brotli:${compressedSize}`
+  )
 }

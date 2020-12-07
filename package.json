@@ -1,31 +1,50 @@
 {
-  "name": "vue-i18n",
-  "description": "Internationalization plugin for Vue.js",
   "version": "9.0.0-beta.10",
+  "license": "MIT",
   "author": {
     "name": "kazuya kawaguchi",
     "email": "kawakazu80@gmail.com"
   },
-  "browser": "dist/vue-i18n.esm-browser.js",
   "bugs": {
     "url": "https://github.com/inlitify/vue-i18n-next/issues"
   },
-  "changelog": {
-    "labels": {
-      "Type: Feature": ":star: Features",
-      "Type: Bug": ":bug: Bug Fixes",
-      "Type: Security": ":lock: Security Fixes",
-      "Type: Performance": ":chart_with_upwards_trend: Performance Fixes",
-      "Type: Improvement": ":zap: Improvement Features",
-      "Type: Breaking": ":boom: Breaking Change",
-      "Type: Deprecated": ":warning: Deprecated Features",
-      "Type: I18n": ":globe_with_meridians: Internationalization",
-      "Type: A11y": ":wheelchair: Accessibility",
-      "Type: Documentation": ":pencil: Documentation"
-    }
-  },
-  "dependencies": {
-    "source-map": "0.6.1"
+  "scripts": {
+    "benchmark": "node ./benchmark/index.js",
+    "build": "node scripts/build.js",
+    "build:sourcemap": "yarn build --sourcemap",
+    "build:type": "yarn build --types && tail -n +19 ./packages/vue-i18n/src/vue.d.ts >> ./packages/vue-i18n/dist/vue-i18n.d.ts",
+    "clean": "npm-run-all --parallel clean:*",
+    "clean:cache": "yarn clean:cache:jest",
+    "clean:cache:jest": "jest --clearCache",
+    "clean:coverage": "rm -rf ./coverage",
+    "clean:dist": "rm -rf ./dist/**",
+    "clean:docs": "rm -rf ./docs/api/vue-i18n**.md",
+    "clean:size": "rm -rf ./size-check/**/dist ./size-check/**/node_modules",
+    "clean:type": "rm -rf ./types/** ./temp ./dist/vue-i18n.d.ts",
+    "coverage": "opener coverage/lcov-report/index.html",
+    "dev": "node scripts/dev.js",
+    "dev:e2e": "jest --runInBand --config ./jest.e2e.config.js",
+    "docs:apigen": "api-docs-gen ./temp/vue-i18n.api.json -o ./docs/api -c ./docsgen.config.js -g noprefix -t ./tsdoc.json",
+    "docs:build": "yarn docs:setup && vitepress build docs",
+    "docs:dev": "vitepress dev docs",
+    "docs:serve": "vitepress serve docs",
+    "docs:setup": "yarn build:type && yarn docs:apigen",
+    "fix": "npm-run-all --parallel lint:fix format:fix",
+    "format:fix": "npm-run-all --parallel \"format:prettier --write\" format:package",
+    "format:package": "node scripts/fixpack.js",
+    "format:prettier": "prettier --config .prettierrc --ignore-path .prettierignore '**/*.{js,json,html}'",
+    "lint": "npm-run-all --parallel lint:codes lint:docs",
+    "lint:codes": "eslint ./packages ./test-d ./e2e ./benchmark ./format-explorer --ext .js,.ts,.vue",
+    "lint:docs": "textlint --config .textlintrc.js docs/*.md docs/advanced/**/*.md docs/essentials/**/*.md docs/migration/**/*.md docs/api/injection.md packages/**/*.md",
+    "lint:fix": "npm-run-all --parallel \"lint:codes --fix\" \"lint:docs --fix\"",
+    "preinstall": "node ./scripts/checkYarn.js",
+    "release:prepare": "shipjs prepare",
+    "release:trigger": "shipjs trigger",
+    "test": "npm-run-all lint clean:cache:jest test:cover test:type test:e2e",
+    "test:cover": "yarn test:unit --coverage",
+    "test:e2e": "jest --runInBand --config ./jest.e2e.config.js",
+    "test:type": "tsc -p ./test-d/tsconfig.json",
+    "test:unit": "yarn clean:cache:jest && cross-env NODE_ICU_DATA=./node_modules/full-icu jest --env node"
   },
   "devDependencies": {
     "@docsearch/css": "^1.0.0-alpha.28",
@@ -53,6 +72,7 @@
     "eslint-plugin-vue": "^7.1.0",
     "eslint-plugin-vue-libs": "^4.0.0",
     "execa": "^5.0.0",
+    "fixpack": "^3.0.6",
     "fs-extra": "^9.0.0",
     "full-icu": "^1.3.1",
     "http-server": "^0.12.1",
@@ -92,7 +112,6 @@
     "textlint-rule-unexpanded-acronym": "^1.2.4",
     "textlint-rule-write-good": "^1.6.2",
     "ts-jest": "^26.4.0",
-    "tsd": "^0.14.0",
     "typescript": "^4.1.2",
     "typescript-eslint-language-service": "^4.1.2",
     "vitepress": "^0.8.0",
@@ -101,21 +120,21 @@
   "engines": {
     "node": ">= 10"
   },
-  "files": [
-    "dist",
-    "CHANGELOG.md",
-    "README.md",
-    "LICENSE"
-  ],
-  "homepage": "https://github.com/intlify/vue-i18n-next#readme",
-  "keywords": [
-    "i18n",
-    "internationalization",
-    "plugin",
-    "vue",
-    "vue.js"
-  ],
-  "license": "MIT",
+  "private": true,
+  "changelog": {
+    "labels": {
+      "Type: Feature": ":star: Features",
+      "Type: Bug": ":bug: Bug Fixes",
+      "Type: Security": ":lock: Security Fixes",
+      "Type: Performance": ":chart_with_upwards_trend: Performance Fixes",
+      "Type: Improvement": ":zap: Improvement Features",
+      "Type: Breaking": ":boom: Breaking Change",
+      "Type: Deprecated": ":warning: Deprecated Features",
+      "Type: I18n": ":globe_with_meridians: Internationalization",
+      "Type: A11y": ":wheelchair: Accessibility",
+      "Type: Documentation": ":pencil: Documentation"
+    }
+  },
   "gitHooks": {
     "pre-commit": "lint-staged"
   },
@@ -129,54 +148,7 @@
       "git add"
     ]
   },
-  "main": "dist/vue-i18n.cjs.js",
-  "module": "dist/vue-i18n.esm-bundler.js",
-  "peerDependencies": {
-    "vue": "^3.0.0"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/intlify/vue-i18n-next.git"
-  },
-  "scripts": {
-    "benchmark": "yarn build && node ./benchmark/index.js",
-    "build": "yarn clean:cache:rollup && node ./scripts/build.js",
-    "build:sourcemap": "yarn build --sourcemap",
-    "build:type": "yarn build --types && tail -n +14 ./src/vue.d.ts >> ./dist/vue-i18n.d.ts",
-    "build:watch": "tsc -p . --watch",
-    "clean": "npm-run-all --parallel clean:*",
-    "clean:cache": "yarn clean:cache:rollup && yarn clean:cache:jest",
-    "clean:cache:jest": "jest --clearCache",
-    "clean:cache:rollup": "rm -rf ./node_modules/.rts2_cache",
-    "clean:coverage": "rm -rf ./coverage",
-    "clean:dist": "rm -rf ./dist/**",
-    "clean:docs": "rm -rf ./docs/api/vue-i18n**.md",
-    "clean:size": "rm -rf ./size-check/**/dist ./size-check/**/node_modules",
-    "clean:type": "rm -rf ./types/** ./temp ./dist/vue-i18n.d.ts",
-    "coverage": "opener coverage/lcov-report/index.html",
-    "dev:e2e": "jest --runInBand --config ./jest.e2e.config.js",
-    "docs:apigen": "api-docs-gen ./temp/vue-i18n.api.json -o ./docs/api -c ./docsgen.config.js -g noprefix -t ./tsdoc.json",
-    "docs:build": "yarn docs:setup && vitepress build docs",
-    "docs:dev": "vitepress dev docs",
-    "docs:serve": "vitepress serve docs",
-    "docs:setup": "yarn build:type && yarn docs:apigen",
-    "fix": "npm-run-all --parallel lint:fix format:fix",
-    "format": "prettier --config .prettierrc --ignore-path .prettierignore '**/*.{js,json,html}'",
-    "format:fix": "yarn format --write",
-    "lint": "npm-run-all --parallel lint:codes lint:docs",
-    "lint:codes": "eslint ./src ./test ./test-d ./e2e ./benchmark ./format-explorer --ext .js,.ts,.vue",
-    "lint:docs": "textlint --config .textlintrc.js docs/*.md docs/advanced/**/*.md docs/essentials/**/*.md docs/migration/**/*.md docs/api/injection.md",
-    "lint:fix": "npm-run-all --parallel \"lint:codes --fix\" \"lint:docs --fix\"",
-    "release:prepare": "shipjs prepare",
-    "release:trigger": "shipjs trigger",
-    "test": "npm-run-all lint clean:cache:jest test:cover test:e2e",
-    "test:cover": "yarn test:unit --coverage",
-    "test:e2e": "yarn build && jest --runInBand --config ./jest.e2e.config.js",
-    "test:type": "tsd",
-    "test:unit": "yarn clean:cache:jest && cross-env NODE_ICU_DATA=./node_modules/full-icu jest --env node",
-    "test:watch": "yarn clean:cache:jest && cross-env NODE_ICU_DATA=./node_modules/full-icu jest --env node --watch"
-  },
-  "sideEffects": false,
-  "types": "dist/vue-i18n.d.ts",
-  "unpkg": "dist/vue-i18n.global.js"
+  "workspaces": [
+    "packages/*"
+  ]
 }

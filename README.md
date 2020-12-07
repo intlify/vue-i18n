@@ -53,7 +53,7 @@ The examples are offered in thee following two API styles:
 
 ## :white_check_mark: Tasks for release
 
-- [ ] monorepo packaging
+- [x] monorepo packaging
 - [ ] support fully univarsal environments (CSP)
 - [ ] support i18n resources packing (pre-compilation) CLI
 - [ ] vue-cli-plugin-i18n

@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { expectType } from 'tsd'
-import { MessageType } from '../src/message/runtime'
+import { expectType } from './index'
+import { MessageType } from '../packages/runtime/dist/runtime'
 
 /**
  * Message Type

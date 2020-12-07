@@ -30,7 +30,8 @@ module.exports = {
         'CLI',
         'SFC',
         'PHP',
-        'SSR'
+        'SSR',
+        'MIT'
       ]
     },
     'abbr-within-parentheses': true,

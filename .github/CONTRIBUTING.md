@@ -86,31 +86,56 @@ A high level overview of tools used:
 
 ### `yarn build`
 
-The `build` script builds all build formats.
+The `build` script builds all public packages (packages without `private: true` in their `package.json`).
+
+Packages to build can be specified with fuzzy matching:
+
+```bash
+# build compiler only
+yarn build compiler
+
+# build all packages
+yarn build --all
+```
 
 #### Build Formats
 
-- **`global`**:
+By default, each package will be built in multiple distribution formats as specified in the `buildOptions.formats` field in its `package.json`. These can be overwritten via the `-f` flag. The following formats are supported:
+
+- **`global`**
 
   - For direct use via `<script>` in the browser.
   - Note: global builds are not [UMD](https://github.com/umdjs/umd) builds. Instead they are built as [IIFEs](https://developer.mozilla.org/en-US/docs/Glossary/IIFE).
 
-- **`esm-bundler`**:
+- **`esm-bundler`**
 
   - Leaves prod/dev branches with `process.env.NODE_ENV` guards (to be replaced by bundler)
   - Does not ship a minified build (to be done together with the rest of the code after bundling)
   - For use with bundlers like `webpack`, `rollup` and `parcel`.
 
-- **`esm-browser`**:
+- **`esm-browser`**
 
   - For usage via native ES modules imports (in browser via `<script type="module">`, or via Node.js native ES modules support in the future)
   - Inlines all dependencies - i.e. it's a single ES module with no imports from other files
     - This means you **must** import everything from this file and this file only to ensure you are getting the same instance of code.
   - Hard-coded prod/dev branches, and the prod build is pre-minified (you will have to use different paths/aliases for dev/prod)
 
-- **`cjs`**:
+- **`cjs`**
+
   - For use in Node.js server-side rendering via `require()`.
   - The dev/prod files are pre-built, but are dynamically required based on `process.env.NODE_ENV` in `index.js`, which is the default entry when you do `require('vue-i18n')`.
+
+For example, to build `compiler` with the global build only:
+
+```bash
+yarn build compiler -f global
+```
+
+Multiple formats can be specified as a comma-separated list:
+
+```bash
+yarn build compiler -f esm-browser,cjs
+```
 
 #### Build with Source Maps
 
@@ -120,33 +145,72 @@ Use the `--sourcemap` or `-s` flag to build with source maps. Note this will mak
 
 The `--types` or `-t` flag will generate type declarations during the build and in addition:
 
-- Roll the declarations into a single `.d.ts` file.
-- Generate an API report in `<projectRoot>/temp/vue-i18n.api.md`. This report contains potential warnings emitted by [api-extractor](https://api-extractor.com/).
-- Generate an API model json in `<projectRoot>/temp/vue-i18n.api.json`. This file can be used to generate a Markdown version of the exported APIs.
+- Roll the declarations into a single `.d.ts` file for each package;
+- Generate an API report in `<projectRoot>/temp/<packageName>.api.md`. This report contains potential warnings emitted by [api-extractor](https://api-extractor.com/).
+- Generate an API model json in `<projectRoot>/temp/<packageName>.api.json`. This file can be used to generate a Markdown version of the exported APIs.
+
+### `yarn dev`
+
+The `dev` script bundles a target package (default: `vue-i18n`) in a specified format (default: `global`) in dev mode and watches for changes. This is useful when you want to load up a build in an HTML page for quick debugging:
+
+```bash
+$ yarn dev
+
+> rollup v1.19.4
+> bundles packages/vue-i18n/src/index.ts → packages/vue-i18n/dist/vue-i18n.global.js...
+```
+
+- The `dev` script also supports fuzzy match for the target package, but will only match the first package matched.
+
+- The `dev` script supports specifying build format via the `-f` flag just like the `build` script.
+
+- The `dev` script also supports the `-s` flag for generating source maps, but it will make rebuilds slower.
 
 ### `yarn test`
 
-The `yarn test` script simply calls the `jest` binary, so all [Jest CLI Options](https://jestjs.io/docs/en/cli) can be used. Some examples:
+The `test` script simply calls the `jest` binary, so all [Jest CLI Options](https://jestjs.io/docs/en/cli) can be used. Some examples:
 
 ```bash
 # run all tests
 $ yarn test
 
-# run unit tests
-$ yarn test:unit
+# run tests in watch mode
+$ yarn test --watch
 
-# run unit test coverages
-$ yarn test:coverage
+# run all tests under the runtime-core package
+$ yarn test compiler
 
-# run unit tests in watch mode
-$ yarn test:watch
+# run tests in a specific file
+$ yarn test fileName
 
-# run type tests
-$ yarn test:type
-
-# run e2e tests
-$ yarn test:e2e
+# run a specific test in a specific file
+$ yarn test fileName -t 'test name'
 ```
+
+## Project Structure
+
+This repository employs a [monorepo](https://en.wikipedia.org/wiki/Monorepo) setup which hosts a number of associated packages under the `packages` directory:
+
+- `shared`: Internal utilities shared across multiple packages.
+- `message-resolver`: The message resolver.
+- `message-compiler`: The message format compiler.
+- `runtime`: The intlify runtime
+- `core`: The intlify core.
+- `vue-i18n`: The public facing "full build" which includes both the runtime AND the compiler.
+
+### Importing Packages
+
+The packages can import each other directly using their package names. Note that when importing a package, the name listed in its `package.json` should be used. Most of the time the `@intlify/` prefix is needed:
+
+```js
+import { baseCompile } from '@intlify/compiler'
+```
+
+This is made possible via several configurations:
+
+- For TypeScript, `compilerOptions.path` in `tsconfig.json`
+- For Jest, `moduleNameMapper` in `jest.config.js`
+- For plain Node.js, they are linked using [Yarn Workspaces](https://yarnpkg.com/blog/2017/08/02/introducing-workspaces/).
 
 ## Contributing Tests
 
