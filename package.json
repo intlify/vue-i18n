@@ -40,10 +40,10 @@
     "preinstall": "node ./scripts/checkYarn.js",
     "release:prepare": "shipjs prepare",
     "release:trigger": "shipjs trigger",
-    "test": "npm-run-all lint clean:cache:jest test:cover test:e2e",
+    "test": "npm-run-all lint clean:cache:jest test:cover test:type test:e2e",
     "test:cover": "yarn test:unit --coverage",
     "test:e2e": "jest --runInBand --config ./jest.e2e.config.js",
-    "test:type": "tsd",
+    "test:type": "tsc -p ./test-d/tsconfig.json",
     "test:unit": "yarn clean:cache:jest && cross-env NODE_ICU_DATA=./node_modules/full-icu jest --env node"
   },
   "devDependencies": {
@@ -112,7 +112,6 @@
     "textlint-rule-unexpanded-acronym": "^1.2.4",
     "textlint-rule-write-good": "^1.6.2",
     "ts-jest": "^26.4.0",
-    "tsd": "^0.14.0",
     "typescript": "^4.1.2",
     "typescript-eslint-language-service": "^4.1.2",
     "vitepress": "^0.8.0",
