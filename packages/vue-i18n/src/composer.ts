@@ -27,7 +27,7 @@ import {
 } from '@intlify/shared'
 import { parse as parsePath, resolveValue } from '@intlify/message-resolver'
 import {
-  createRuntimeContext,
+  createCoreContext,
   MISSING_RESOLVE_VALUE,
   updateFallbackLocale,
   translate,
@@ -51,17 +51,17 @@ import type {
   Locale,
   LocaleMessageValue,
   LocaleMessages,
-  RuntimeContext,
-  RuntimeCommonContext,
-  RuntimeTranslationContext,
-  RuntimeDateTimeContext,
-  RuntimeNumberContext,
-  RuntimeMissingHandler,
-  RuntimeOptions,
+  CoreContext,
+  CoreCommonContext,
+  CoreTranslationContext,
+  CoreDateTimeContext,
+  CoreNumberContext,
+  CoreMissingHandler,
+  CoreOptions,
   LocaleMessageDictionary,
   PostTranslationHandler,
   FallbackLocale,
-  RuntimeInternalContext,
+  CoreInternalContext,
   TranslateOptions,
   DateTimeOptions,
   NumberOptions,
@@ -919,17 +919,17 @@ type ComposerWarnType = 'translate' | 'number format' | 'datetime format'
 
 let composerID = 0
 
-function defineRuntimeMissingHandler<Message = VueMessageType>(
+function defineCoreMissingHandler<Message = VueMessageType>(
   missing: MissingHandler
-): RuntimeMissingHandler<Message> {
+): CoreMissingHandler<Message> {
   return ((
-    ctx: RuntimeCommonContext<Message>,
+    ctx: CoreCommonContext<Message>,
     locale: Locale,
     key: Path,
     type: string
   ): string | void => {
     return missing(locale, key, getCurrentInstance() || undefined, type)
-  }) as RuntimeMissingHandler<Message>
+  }) as CoreMissingHandler<Message>
 }
 
 type GetLocaleMessagesOptions<Message = VueMessageType> = {
@@ -1124,7 +1124,7 @@ export function createComposer<
   // runtime missing
   let _missing = isFunction(options.missing) ? options.missing : null
   let _runtimeMissing = isFunction(options.missing)
-    ? defineRuntimeMissingHandler<Message>(options.missing)
+    ? defineCoreMissingHandler<Message>(options.missing)
     : null
 
   // postTranslation handler
@@ -1151,19 +1151,14 @@ export function createComposer<
 
   // runtime context
   // eslint-disable-next-line prefer-const
-  let _context: RuntimeContext<
-    Messages,
-    DateTimeFormats,
-    NumberFormats,
-    Message
-  >
-  function getRuntimeContext(): RuntimeContext<
+  let _context: CoreContext<Messages, DateTimeFormats, NumberFormats, Message>
+  function getRuntimeContext(): CoreContext<
     Messages,
     DateTimeFormats,
     NumberFormats,
     Message
   > {
-    return createRuntimeContext<Message>({
+    return createCoreContext<Message>({
       locale: _locale.value,
       fallbackLocale: _fallbackLocale.value,
       messages: _messages.value,
@@ -1180,15 +1175,15 @@ export function createComposer<
       warnHtmlMessage: _warnHtmlMessage,
       escapeParameter: _escapeParameter,
       __datetimeFormatters: isPlainObject(_context)
-        ? ((_context as unknown) as RuntimeInternalContext).__datetimeFormatters
+        ? ((_context as unknown) as CoreInternalContext).__datetimeFormatters
         : undefined,
       __numberFormatters: isPlainObject(_context)
-        ? ((_context as unknown) as RuntimeInternalContext).__numberFormatters
+        ? ((_context as unknown) as CoreInternalContext).__numberFormatters
         : undefined,
       __emitter: isPlainObject(_context)
-        ? ((_context as unknown) as RuntimeInternalContext).__emitter
+        ? ((_context as unknown) as CoreInternalContext).__emitter
         : undefined
-    } as RuntimeOptions<Message>) as RuntimeContext<
+    } as CoreOptions<Message>) as CoreContext<
       Messages,
       DateTimeFormats,
       NumberFormats,
@@ -1259,7 +1254,7 @@ export function createComposer<
   // setMissingHandler
   function setMissingHandler(handler: MissingHandler | null): void {
     if (handler !== null) {
-      _runtimeMissing = defineRuntimeMissingHandler(handler)
+      _runtimeMissing = defineCoreMissingHandler(handler)
     }
     _missing = handler
     _context.missing = _runtimeMissing
@@ -1288,7 +1283,7 @@ export function createComposer<
         if (__DEV__) {
           const {
             __emitter: emitter
-          } = (context as unknown) as RuntimeInternalContext
+          } = (context as unknown) as CoreInternalContext
           if (emitter) {
             emitter.emit(DevToolsTimelineEvents.FALBACK, {
               type: warnType,
@@ -1314,7 +1309,7 @@ export function createComposer<
     return wrapWithDeps<string>(
       context =>
         translate<Messages, string>(
-          context as RuntimeTranslationContext<Messages, string>,
+          context as CoreTranslationContext<Messages, string>,
           ...args
         ),
       () => parseTranslateArgs(...args)[0],
@@ -1330,7 +1325,7 @@ export function createComposer<
     return wrapWithDeps<string>(
       context =>
         datetime<DateTimeFormats, string>(
-          context as RuntimeDateTimeContext<DateTimeFormats, string>,
+          context as CoreDateTimeContext<DateTimeFormats, string>,
           ...args
         ),
       () => parseDateTimeArgs(...args)[0],
@@ -1346,7 +1341,7 @@ export function createComposer<
     return wrapWithDeps<string>(
       context =>
         number<NumberFormats, string>(
-          context as RuntimeNumberContext<NumberFormats, string>,
+          context as CoreNumberContext<NumberFormats, string>,
           ...args
         ),
       () => parseNumberArgs(...args)[0],
@@ -1377,7 +1372,7 @@ export function createComposer<
     return wrapWithDeps<VNode, VNodeArrayChildren>(
       context => {
         let ret: unknown
-        const _context = context as RuntimeTranslationContext<Messages, VNode>
+        const _context = context as CoreTranslationContext<Messages, VNode>
         try {
           _context.processor = processor
           ret = translate<Messages, VNode>(_context, ...args)
@@ -1398,7 +1393,7 @@ export function createComposer<
   // __numberParts, using for `i18n-n` component
   function __numberParts(...args: unknown[]): string | Intl.NumberFormatPart[] {
     return wrapWithDeps<string | Intl.NumberFormatPart[]>(
-      context => number(context as RuntimeContext<Messages, string>, ...args),
+      context => number(context as CoreContext<Messages, string>, ...args),
       () => parseNumberArgs(...args)[0],
       'number format',
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -1413,7 +1408,7 @@ export function createComposer<
     ...args: unknown[]
   ): string | Intl.DateTimeFormatPart[] {
     return wrapWithDeps<string | Intl.DateTimeFormatPart[]>(
-      context => datetime(context as RuntimeContext<Messages, string>, ...args),
+      context => datetime(context as CoreContext<Messages, string>, ...args),
       () => parseDateTimeArgs(...args)[0],
       'datetime format',
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -1646,11 +1641,11 @@ export function createComposer<
   if (__DEV__) {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     ;(composer as any)[EnableEmitter] = (emitter: DevToolsEmitter): void => {
-      ;((_context as unknown) as RuntimeInternalContext).__emitter = emitter
+      ;((_context as unknown) as CoreInternalContext).__emitter = emitter
     }
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     ;(composer as any)[DisableEmitter] = (): void => {
-      ;((_context as unknown) as RuntimeInternalContext).__emitter = undefined
+      ;((_context as unknown) as CoreInternalContext).__emitter = undefined
     }
   }
 

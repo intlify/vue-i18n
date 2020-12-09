@@ -25,8 +25,8 @@ import type {
 } from './types'
 import type {
   Locale,
-  RuntimeDateTimeContext,
-  RuntimeInternalContext
+  CoreDateTimeContext,
+  CoreInternalContext
 } from './context'
 
 /**
@@ -108,44 +108,42 @@ export interface DateTimeOptions {
 // `datetime` function overloads
 /** @internal */
 export function datetime<DateTimeFormats, Message = string>(
-  context: RuntimeDateTimeContext<DateTimeFormats, Message>,
+  context: CoreDateTimeContext<DateTimeFormats, Message>,
   value: number | Date
 ): string | number | Intl.DateTimeFormatPart[]
 /** @internal */
 export function datetime<DateTimeFormats, Message = string>(
-  context: RuntimeDateTimeContext<DateTimeFormats, Message>,
+  context: CoreDateTimeContext<DateTimeFormats, Message>,
   value: number | Date,
   key: string
 ): string | number | Intl.DateTimeFormatPart[]
 /** @internal */
 export function datetime<DateTimeFormats, Message = string>(
-  context: RuntimeDateTimeContext<DateTimeFormats, Message>,
+  context: CoreDateTimeContext<DateTimeFormats, Message>,
   value: number | Date,
   key: string,
   locale: Locale
 ): string | number | Intl.DateTimeFormatPart[]
 /** @internal */
 export function datetime<DateTimeFormats, Message = string>(
-  context: RuntimeDateTimeContext<DateTimeFormats, Message>,
+  context: CoreDateTimeContext<DateTimeFormats, Message>,
   value: number | Date,
   options: DateTimeOptions
 ): string | number | Intl.DateTimeFormatPart[]
 /** @internal */
 export function datetime<DateTimeFormats, Message = string>(
-  context: RuntimeDateTimeContext<DateTimeFormats, Message>,
+  context: CoreDateTimeContext<DateTimeFormats, Message>,
   ...args: unknown[]
 ): string | number | Intl.DateTimeFormatPart[] // for internal
 
 // implementation of `datetime` function
 /** @internal */
 export function datetime<DateTimeFormats, Message = string>(
-  context: RuntimeDateTimeContext<DateTimeFormats, Message>,
+  context: CoreDateTimeContext<DateTimeFormats, Message>,
   ...args: unknown[]
 ): string | number | Intl.DateTimeFormatPart[] {
   const { datetimeFormats, unresolving, fallbackLocale, onWarn } = context
-  const {
-    __datetimeFormatters
-  } = (context as unknown) as RuntimeInternalContext
+  const { __datetimeFormatters } = (context as unknown) as CoreInternalContext
 
   if (__DEV__ && !Availabilities.dateTimeFormat) {
     onWarn(getWarnMessage(CoreWarnCodes.CANNOT_FORMAT_DATE))
@@ -192,7 +190,7 @@ export function datetime<DateTimeFormats, Message = string>(
 
     // for vue-devtools timeline event
     if (__DEV__ && locale !== targetLocale) {
-      const emitter = ((context as unknown) as RuntimeInternalContext).__emitter
+      const emitter = ((context as unknown) as CoreInternalContext).__emitter
       if (emitter) {
         emitter.emit(DevToolsTimelineEvents.FALBACK, {
           type,
@@ -288,11 +286,11 @@ export function parseDateTimeArgs(
 
 /** @internal */
 export function clearDateTimeFormat<DateTimeFormats = {}, Message = string>(
-  ctx: RuntimeDateTimeContext<DateTimeFormats, Message>,
+  ctx: CoreDateTimeContext<DateTimeFormats, Message>,
   locale: Locale,
   format: DateTimeFormat
 ): void {
-  const context = (ctx as unknown) as RuntimeInternalContext
+  const context = (ctx as unknown) as CoreInternalContext
   for (const key in format) {
     const id = `${locale}__${key}`
     if (!context.__datetimeFormatters.has(id)) {

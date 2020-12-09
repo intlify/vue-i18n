@@ -14,7 +14,7 @@ jest.mock('../src/intl', () => ({
 }))
 import { Availabilities } from '../src/intl'
 
-import { createRuntimeContext as context, NOT_REOSLVED } from '../src/context'
+import { createCoreContext as context, NOT_REOSLVED } from '../src/context'
 import { datetime } from '../src/datetime'
 import { CoreErrorCodes, errorMessages } from '../src/errors'
 

@@ -7,7 +7,7 @@ jest.mock('@intlify/shared', () => ({
 }))
 import { warn } from '@intlify/shared'
 
-import { createRuntimeContext as context, NOT_REOSLVED } from '../src/context'
+import { createCoreContext as context, NOT_REOSLVED } from '../src/context'
 import { translate } from '../src/translate'
 import { CoreErrorCodes, errorMessages } from '../src/errors'
 

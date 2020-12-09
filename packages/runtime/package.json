@@ -28,9 +28,6 @@
   ],
   "main": "index.js",
   "module": "dist/runtime.esm-bundler.js",
-  "browser": "dist/runtime.esm-browser.js",
-  "unpkg": "dist/runtime.global.js",
-  "jsdelivr": "dist/runtime.global.js",
   "types": "dist/runtime.d.ts",
   "dependencies": {
     "@intlify/message-compiler": "9.0.0-beta.10",
@@ -44,9 +41,7 @@
     "name": "IntlifyRuntime",
     "formats": [
       "esm-bundler",
-      "esm-browser",
-      "cjs",
-      "global"
+      "cjs"
     ]
   },
   "sideEffects": false

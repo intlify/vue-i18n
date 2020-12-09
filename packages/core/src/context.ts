@@ -61,17 +61,14 @@ export type LocaleMessages<Message = string> = Record<
 >
 
 /** @internal */
-export type RuntimeMissingType =
-  | 'translate'
-  | 'datetime format'
-  | 'number format'
+export type CoreMissingType = 'translate' | 'datetime format' | 'number format'
 
 /** @internal */
-export type RuntimeMissingHandler<Message = string> = (
-  context: RuntimeCommonContext<Message>,
+export type CoreMissingHandler<Message = string> = (
+  context: CoreCommonContext<Message>,
   locale: Locale,
   key: Path,
-  type: RuntimeMissingType,
+  type: CoreMissingType,
   ...values: unknown[]
 ) => string | void
 /** @VueI18nGeneral */
@@ -86,7 +83,7 @@ export type MessageCompiler<Message = string> = (
 ) => MessageFunction<Message>
 
 /** @internal */
-export interface RuntimeOptions<Message = string> {
+export interface CoreOptions<Message = string> {
   locale?: Locale
   fallbackLocale?: FallbackLocale
   messages?: LocaleMessages<Message>
@@ -94,7 +91,7 @@ export interface RuntimeOptions<Message = string> {
   numberFormats?: NumberFormatsType
   modifiers?: LinkedModifiers<Message>
   pluralRules?: PluralizationRules
-  missing?: RuntimeMissingHandler<Message>
+  missing?: CoreMissingHandler<Message>
   missingWarn?: boolean | RegExp
   fallbackWarn?: boolean | RegExp
   fallbackFormat?: boolean
@@ -108,17 +105,17 @@ export interface RuntimeOptions<Message = string> {
 }
 
 /** @internal */
-export interface RuntimeInternalOptions {
+export interface CoreInternalOptions {
   __datetimeFormatters?: Map<string, Intl.DateTimeFormat>
   __numberFormatters?: Map<string, Intl.NumberFormat>
   __emitter?: DevToolsEmitter // for vue-devtools timeline event
 }
 
 /** @internal */
-export interface RuntimeCommonContext<Message = string> {
+export interface CoreCommonContext<Message = string> {
   locale: Locale
   fallbackLocale: FallbackLocale
-  missing: RuntimeMissingHandler<Message> | null
+  missing: CoreMissingHandler<Message> | null
   missingWarn: boolean | RegExp
   fallbackWarn: boolean | RegExp
   fallbackFormat: boolean
@@ -127,8 +124,8 @@ export interface RuntimeCommonContext<Message = string> {
 }
 
 /** @internal */
-export interface RuntimeTranslationContext<Messages = {}, Message = string>
-  extends RuntimeCommonContext<Message> {
+export interface CoreTranslationContext<Messages = {}, Message = string>
+  extends CoreCommonContext<Message> {
   messages: Messages
   modifiers: LinkedModifiers<Message>
   pluralRules?: PluralizationRules
@@ -140,29 +137,29 @@ export interface RuntimeTranslationContext<Messages = {}, Message = string>
 }
 
 /** @internal */
-export interface RuntimeDateTimeContext<DateTimeFormats = {}, Message = string>
-  extends RuntimeCommonContext<Message> {
+export interface CoreDateTimeContext<DateTimeFormats = {}, Message = string>
+  extends CoreCommonContext<Message> {
   datetimeFormats: DateTimeFormats
 }
 
 /** @internal */
-export interface RuntimeNumberContext<NumberFormats = {}, Message = string>
-  extends RuntimeCommonContext<Message> {
+export interface CoreNumberContext<NumberFormats = {}, Message = string>
+  extends CoreCommonContext<Message> {
   numberFormats: NumberFormats
 }
 
 /** @internal */
-export interface RuntimeContext<
+export interface CoreContext<
   Messages = {},
   DateTimeFormats = {},
   NumberFormats = {},
   Message = string
-> extends RuntimeTranslationContext<Messages, Message>,
-    RuntimeDateTimeContext<DateTimeFormats, Message>,
-    RuntimeNumberContext<NumberFormats, Message> {}
+> extends CoreTranslationContext<Messages, Message>,
+    CoreDateTimeContext<DateTimeFormats, Message>,
+    CoreNumberContext<NumberFormats, Message> {}
 
 /** @internal */
-export interface RuntimeInternalContext {
+export interface CoreInternalContext {
   __datetimeFormatters: Map<string, Intl.DateTimeFormat>
   __numberFormatters: Map<string, Intl.NumberFormat>
   __localeChainCache?: Map<Locale, Locale[]>
@@ -192,9 +189,9 @@ function getDefaultLinkedModifiers<
 }
 
 /** @internal */
-export function createRuntimeContext<
+export function createCoreContext<
   Message = string,
-  Options extends RuntimeOptions<Message> = object,
+  Options extends CoreOptions<Message> = object,
   Messages extends Record<
     keyof Options['messages'],
     LocaleMessageDictionary<Message>
@@ -209,7 +206,7 @@ export function createRuntimeContext<
   > = Record<keyof Options['numberFormats'], NumberFormat>
 >(
   options: Options = {} as Options
-): RuntimeContext<
+): CoreContext<
   Options['messages'],
   Options['datetimeFormats'],
   Options['numberFormats'],
@@ -264,7 +261,7 @@ export function createRuntimeContext<
   const onWarn = isFunction(options.onWarn) ? options.onWarn : warn
 
   // setup internal options
-  const internalOptions = options as RuntimeInternalOptions
+  const internalOptions = options as CoreInternalOptions
   const __datetimeFormatters = isObject(internalOptions.__datetimeFormatters)
     ? internalOptions.__datetimeFormatters
     : new Map<string, Intl.DateTimeFormat>()
@@ -293,7 +290,7 @@ export function createRuntimeContext<
     onWarn,
     __datetimeFormatters,
     __numberFormatters
-  } as RuntimeContext<
+  } as CoreContext<
     Options['messages'],
     Options['datetimeFormats'],
     Options['numberFormats'],
@@ -302,7 +299,7 @@ export function createRuntimeContext<
 
   // for vue-devtools timeline event
   if (__DEV__) {
-    ;((context as unknown) as RuntimeInternalContext).__emitter =
+    ;((context as unknown) as CoreInternalContext).__emitter =
       internalOptions.__emitter != null ? internalOptions.__emitter : undefined
   }
 
@@ -327,17 +324,17 @@ export function isTranslateMissingWarn(
 
 /** @internal */
 export function handleMissing<Message = string>(
-  context: RuntimeCommonContext<Message>,
+  context: CoreCommonContext<Message>,
   key: Path,
   locale: Locale,
   missingWarn: boolean | RegExp,
-  type: RuntimeMissingType
+  type: CoreMissingType
 ): unknown {
   const { missing, onWarn } = context
 
   // for vue-devtools timeline event
   if (__DEV__) {
-    const emitter = ((context as unknown) as RuntimeInternalContext).__emitter
+    const emitter = ((context as unknown) as CoreInternalContext).__emitter
     if (emitter) {
       emitter.emit(DevToolsTimelineEvents.MISSING, {
         locale,
@@ -360,11 +357,11 @@ export function handleMissing<Message = string>(
 
 /** @internal */
 export function getLocaleChain<Message = string>(
-  ctx: RuntimeCommonContext<Message>,
+  ctx: CoreCommonContext<Message>,
   fallback: FallbackLocale,
   start: Locale = ''
 ): Locale[] {
-  const context = (ctx as unknown) as RuntimeInternalContext
+  const context = (ctx as unknown) as CoreInternalContext
 
   if (start === '') {
     return []
@@ -463,11 +460,11 @@ function appendItemToChain(
 
 /** @internal */
 export function updateFallbackLocale<Message = string>(
-  ctx: RuntimeCommonContext<Message>,
+  ctx: CoreCommonContext<Message>,
   locale: Locale,
   fallback: FallbackLocale
 ): void {
-  const context = (ctx as unknown) as RuntimeInternalContext
+  const context = (ctx as unknown) as CoreInternalContext
   context.__localeChainCache = new Map()
   getLocaleChain(ctx, fallback, locale)
 }

@@ -22,11 +22,7 @@ import type {
   NumberFormats as NumberFormatsType,
   NumberFormatOptions
 } from './types'
-import type {
-  Locale,
-  RuntimeNumberContext,
-  RuntimeInternalContext
-} from './context'
+import type { Locale, CoreNumberContext, CoreInternalContext } from './context'
 
 /**
  *  # number
@@ -106,42 +102,42 @@ export interface NumberOptions {
 // `number` function overloads
 /** @internal */
 export function number<NumberFormats, Message = string>(
-  context: RuntimeNumberContext<NumberFormats, Message>,
+  context: CoreNumberContext<NumberFormats, Message>,
   value: number
 ): string | number | Intl.NumberFormatPart[]
 /** @internal */
 export function number<NumberFormats, Message = string>(
-  context: RuntimeNumberContext<NumberFormats, Message>,
+  context: CoreNumberContext<NumberFormats, Message>,
   value: number,
   key: string
 ): string | number | Intl.NumberFormatPart[]
 /** @internal */
 export function number<NumberFormats, Message = string>(
-  context: RuntimeNumberContext<NumberFormats, Message>,
+  context: CoreNumberContext<NumberFormats, Message>,
   value: number,
   key: string,
   locale: Locale
 ): string | number | Intl.NumberFormatPart[]
 /** @internal */
 export function number<NumberFormats, Message = string>(
-  context: RuntimeNumberContext<NumberFormats, Message>,
+  context: CoreNumberContext<NumberFormats, Message>,
   value: number,
   options: NumberOptions
 ): string | number | Intl.NumberFormatPart[]
 /** @internal */
 export function number<NumberFormats, Message = string>(
-  context: RuntimeNumberContext<NumberFormats, Message>,
+  context: CoreNumberContext<NumberFormats, Message>,
   ...args: unknown[]
 ): string | number | Intl.NumberFormatPart[] // for internal
 
 // implementation of `number` function
 /** @internal */
 export function number<NumberFormats, Message = string>(
-  context: RuntimeNumberContext<NumberFormats, Message>,
+  context: CoreNumberContext<NumberFormats, Message>,
   ...args: unknown[]
 ): string | number | Intl.NumberFormatPart[] {
   const { numberFormats, unresolving, fallbackLocale, onWarn } = context
-  const { __numberFormatters } = (context as unknown) as RuntimeInternalContext
+  const { __numberFormatters } = (context as unknown) as CoreInternalContext
 
   if (__DEV__ && !Availabilities.numberFormat) {
     onWarn(getWarnMessage(CoreWarnCodes.CANNOT_FORMAT_NUMBER))
@@ -188,7 +184,7 @@ export function number<NumberFormats, Message = string>(
 
     // for vue-devtools timeline event
     if (__DEV__ && locale !== targetLocale) {
-      const emitter = ((context as unknown) as RuntimeInternalContext).__emitter
+      const emitter = ((context as unknown) as CoreInternalContext).__emitter
       if (emitter) {
         emitter.emit(DevToolsTimelineEvents.FALBACK, {
           type,
@@ -263,11 +259,11 @@ export function parseNumberArgs(
 
 /** @internal */
 export function clearNumberFormat<NumberFormats, Message = string>(
-  ctx: RuntimeNumberContext<NumberFormats, Message>,
+  ctx: CoreNumberContext<NumberFormats, Message>,
   locale: Locale,
   format: NumberFormat
 ): void {
-  const context = (ctx as unknown) as RuntimeInternalContext
+  const context = (ctx as unknown) as CoreInternalContext
   for (const key in format) {
     const id = `${locale}__${key}`
     if (!context.__numberFormatters.has(id)) {

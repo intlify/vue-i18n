@@ -1,7 +1,7 @@
 import {
-  createRuntimeContext as context,
+  createCoreContext as context,
   getLocaleChain,
-  RuntimeContext
+  CoreContext
 } from '../src/context'
 
 describe('locale', () => {
@@ -176,7 +176,7 @@ describe('escapeParameter', () => {
 })
 
 describe('getLocaleChain', () => {
-  let ctx: RuntimeContext<unknown, unknown, unknown, string>
+  let ctx: CoreContext<unknown, unknown, unknown, string>
   beforeEach(() => {
     ctx = context({})
   })

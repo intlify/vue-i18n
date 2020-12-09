@@ -41,8 +41,8 @@ import type {
   FallbackLocale,
   LocaleMessages,
   LocaleMessageValue,
-  RuntimeInternalContext,
-  RuntimeTranslationContext
+  CoreInternalContext,
+  CoreTranslationContext
 } from './context'
 
 const NOOP_MESSAGE_FUNCTION = () => ''
@@ -147,99 +147,99 @@ export interface TranslateOptions {
 // `translate` function overloads
 /** @internal */
 export function translate<Messages, Message = string>(
-  context: RuntimeTranslationContext<Messages, Message>,
+  context: CoreTranslationContext<Messages, Message>,
   key: Path
 ): MessageType<Message> | number
 /** @internal */
 export function translate<Messages, Message = string>(
-  context: RuntimeTranslationContext<Messages, Message>,
+  context: CoreTranslationContext<Messages, Message>,
   key: Path,
   plural: number
 ): MessageType<Message> | number
 /** @internal */
 export function translate<Messages, Message = string>(
-  context: RuntimeTranslationContext<Messages, Message>,
+  context: CoreTranslationContext<Messages, Message>,
   key: Path,
   plural: number,
   options: TranslateOptions
 ): MessageType<Message> | number
 /** @internal */
 export function translate<Messages, Message = string>(
-  context: RuntimeTranslationContext<Messages, Message>,
+  context: CoreTranslationContext<Messages, Message>,
   key: Path,
   defaultMsg: string
 ): MessageType<Message> | number
 /** @internal */
 export function translate<Messages, Message = string>(
-  context: RuntimeTranslationContext<Messages, Message>,
+  context: CoreTranslationContext<Messages, Message>,
   key: Path,
   defaultMsg: string,
   options: TranslateOptions
 ): MessageType<Message> | number
 /** @internal */
 export function translate<Messages, Message = string>(
-  context: RuntimeTranslationContext<Messages, Message>,
+  context: CoreTranslationContext<Messages, Message>,
   key: Path,
   list: unknown[]
 ): MessageType<Message> | number
 /** @internal */
 export function translate<Messages, Message = string>(
-  context: RuntimeTranslationContext<Messages, Message>,
+  context: CoreTranslationContext<Messages, Message>,
   key: Path,
   list: unknown[],
   plural: number
 ): MessageType<Message> | number
 /** @internal */
 export function translate<Messages, Message = string>(
-  context: RuntimeTranslationContext<Messages, Message>,
+  context: CoreTranslationContext<Messages, Message>,
   key: Path,
   list: unknown[],
   defaultMsg: string
 ): MessageType<Message> | number
 /** @internal */
 export function translate<Messages, Message = string>(
-  context: RuntimeTranslationContext<Messages, Message>,
+  context: CoreTranslationContext<Messages, Message>,
   key: Path,
   list: unknown[],
   options: TranslateOptions
 ): MessageType<Message> | number
 /** @internal */
 export function translate<Messages, Message = string>(
-  context: RuntimeTranslationContext<Messages, Message>,
+  context: CoreTranslationContext<Messages, Message>,
   key: Path,
   named: NamedValue
 ): MessageType<Message> | number
 /** @internal */
 export function translate<Messages, Message = string>(
-  context: RuntimeTranslationContext<Messages, Message>,
+  context: CoreTranslationContext<Messages, Message>,
   key: Path,
   named: NamedValue,
   plural: number
 ): MessageType<Message> | number
 /** @internal */
 export function translate<Messages, Message = string>(
-  context: RuntimeTranslationContext<Messages, Message>,
+  context: CoreTranslationContext<Messages, Message>,
   key: Path,
   named: NamedValue,
   defaultMsg: string
 ): MessageType<Message> | number
 /** @internal */
 export function translate<Messages, Message = string>(
-  context: RuntimeTranslationContext<Messages, Message>,
+  context: CoreTranslationContext<Messages, Message>,
   key: Path,
   named: NamedValue,
   options: TranslateOptions
 ): MessageType<Message> | number
 /** @internal */
 export function translate<Messages, Message = string>(
-  context: RuntimeTranslationContext<Messages, Message>,
+  context: CoreTranslationContext<Messages, Message>,
   ...args: unknown[]
 ): MessageType<Message> | number // for internal
 
 // implementationo of `translate` function
 /** @internal */
 export function translate<Messages, Message = string>(
-  context: RuntimeTranslationContext<Messages, Message>,
+  context: CoreTranslationContext<Messages, Message>,
   ...args: unknown[]
 ): MessageType<Message> | number {
   const {
@@ -359,7 +359,7 @@ function escapeParams(options: TranslateOptions) {
 }
 
 function resolveMessageFormat<Messages, Message>(
-  context: RuntimeTranslationContext<Messages, Message>,
+  context: CoreTranslationContext<Messages, Message>,
   key: string,
   locale: Locale,
   fallbackLocale: FallbackLocale,
@@ -394,7 +394,7 @@ function resolveMessageFormat<Messages, Message>(
 
     // for vue-devtools timeline event
     if (__DEV__ && locale !== targetLocale) {
-      const emitter = ((context as unknown) as RuntimeInternalContext).__emitter
+      const emitter = ((context as unknown) as CoreInternalContext).__emitter
       if (emitter) {
         emitter.emit(DevToolsTimelineEvents.FALBACK, {
           type,
@@ -427,7 +427,7 @@ function resolveMessageFormat<Messages, Message>(
     // for vue-devtools timeline event
     if (__DEV__ && inBrowser) {
       const end = window.performance.now()
-      const emitter = ((context as unknown) as RuntimeInternalContext).__emitter
+      const emitter = ((context as unknown) as CoreInternalContext).__emitter
       if (emitter && start && format) {
         emitter.emit(DevToolsTimelineEvents.MESSAGE_RESOLVE, {
           type: DevToolsTimelineEvents.MESSAGE_RESOLVE,
@@ -460,7 +460,7 @@ function resolveMessageFormat<Messages, Message>(
 }
 
 function compileMessasgeFormat<Messages, Message>(
-  context: RuntimeTranslationContext<Messages, Message>,
+  context: CoreTranslationContext<Messages, Message>,
   key: string,
   targetLocale: string,
   format: PathValue,
@@ -502,7 +502,7 @@ function compileMessasgeFormat<Messages, Message>(
   // for vue-devtools timeline event
   if (__DEV__ && inBrowser) {
     const end = window.performance.now()
-    const emitter = ((context as unknown) as RuntimeInternalContext).__emitter
+    const emitter = ((context as unknown) as CoreInternalContext).__emitter
     if (emitter && start) {
       emitter.emit(DevToolsTimelineEvents.MESSAGE_COMPILATION, {
         type: DevToolsTimelineEvents.MESSAGE_COMPILATION,
@@ -524,7 +524,7 @@ function compileMessasgeFormat<Messages, Message>(
 }
 
 function evaluateMessage<Messages, Message>(
-  context: RuntimeTranslationContext<Messages, Message>,
+  context: CoreTranslationContext<Messages, Message>,
   msg: MessageFunction<Message>,
   msgCtx: MessageContext<Message>
 ): MessageType<Message> {
@@ -544,7 +544,7 @@ function evaluateMessage<Messages, Message>(
   // for vue-devtools timeline event
   if (__DEV__ && inBrowser) {
     const end = window.performance.now()
-    const emitter = ((context as unknown) as RuntimeInternalContext).__emitter
+    const emitter = ((context as unknown) as CoreInternalContext).__emitter
     if (emitter && start) {
       emitter.emit(DevToolsTimelineEvents.MESSAGE_EVALUATION, {
         type: DevToolsTimelineEvents.MESSAGE_EVALUATION,
@@ -595,7 +595,7 @@ export function parseTranslateArgs(
 }
 
 function getCompileOptions<Messages, Message>(
-  context: RuntimeTranslationContext<Messages, Message>,
+  context: CoreTranslationContext<Messages, Message>,
   locale: Locale,
   key: string,
   source: string,
@@ -615,8 +615,7 @@ function getCompileOptions<Messages, Message>(
             err.location.start.offset,
             err.location.end.offset
           )
-        const emitter = ((context as unknown) as RuntimeInternalContext)
-          .__emitter
+        const emitter = ((context as unknown) as CoreInternalContext).__emitter
         if (emitter) {
           emitter.emit(DevToolsTimelineEvents.COMPILE_ERROR, {
             message: source,
@@ -636,7 +635,7 @@ function getCompileOptions<Messages, Message>(
 }
 
 function getMessageContextOptions<Messages, Message = string>(
-  context: RuntimeTranslationContext<Messages, Message>,
+  context: CoreTranslationContext<Messages, Message>,
   locale: Locale,
   message: LocaleMessageValue<Message>,
   options: TranslateOptions

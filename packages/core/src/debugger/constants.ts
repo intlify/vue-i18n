@@ -1,6 +1,6 @@
 import type { Emittable } from './emittable'
 import type { Path, PathValue } from '@intlify/message-resolver'
-import type { Locale, RuntimeMissingType } from '../context'
+import type { Locale, CoreMissingType } from '../context'
 
 export const enum DevToolsIDs {
   PLUGIN = 'vue-devtools-plugin-vue-i18n',
@@ -50,11 +50,11 @@ export type DevToolsTimelineEventPayloads = {
   [DevToolsTimelineEvents.MISSING]: {
     locale: Locale
     key: Path
-    type: RuntimeMissingType
+    type: CoreMissingType
   }
   [DevToolsTimelineEvents.FALBACK]: {
     key: Path
-    type: RuntimeMissingType
+    type: CoreMissingType
     from?: Locale
     to: Locale | 'global'
   }

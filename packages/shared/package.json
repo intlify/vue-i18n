@@ -28,9 +28,6 @@
   ],
   "main": "index.js",
   "module": "dist/shared.esm-bundler.js",
-  "browser": "dist/shared.esm-browser.js",
-  "unpkg": "dist/shared.global.js",
-  "jsdelivr": "dist/shared.global.js",
   "types": "dist/shared.d.ts",
   "engines": {
     "node": ">= 10"
@@ -39,9 +36,7 @@
     "name": "IntlifyShared",
     "formats": [
       "esm-bundler",
-      "esm-browser",
-      "cjs",
-      "global"
+      "cjs"
     ]
   },
   "sideEffects": false

@@ -28,9 +28,6 @@
   ],
   "main": "index.js",
   "module": "dist/message-resolver.esm-bundler.js",
-  "browser": "dist/message-resolver.esm-browser.js",
-  "unpkg": "dist/message-resolver.global.js",
-  "jsdelivr": "dist/message-resolver.global.js",
   "types": "dist/message-resolver.d.ts",
   "engines": {
     "node": ">= 10"
@@ -39,9 +36,7 @@
     "name": "IntlifyMessageResolver",
     "formats": [
       "esm-bundler",
-      "esm-browser",
-      "cjs",
-      "global"
+      "cjs"
     ]
   },
   "sideEffects": false
