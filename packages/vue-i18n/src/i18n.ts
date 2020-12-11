@@ -148,7 +148,10 @@ export interface I18n<
     ? VueI18n<Messages, DateTimeFormats, NumberFormats>
     : Composer<Messages, DateTimeFormats, NumberFormats>
   /**
-   * @internal
+   * Install entry point
+   *
+   * @param app - A target Vue app instance
+   * @param options - An install options
    */
   install(app: App, ...options: unknown[]): void
 }
