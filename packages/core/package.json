@@ -26,7 +26,6 @@
   "files": ["index.js", "dist"],
   "main": "index.js",
   "module": "dist/core.esm-bundler.js",
-  "browser": "dist/core.esm-browser.js",
   "unpkg": "dist/core.global.js",
   "jsdelivr": "dist/core.global.js",
   "types": "dist/core.d.ts",
