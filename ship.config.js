@@ -37,7 +37,23 @@ async function commitChangelog(current, next) {
 
 module.exports = {
   mergeStrategy: { toSameBranch: ['master'] },
-  monorepo: undefined,
+  monorepo: {
+    mainVersionFile: 'package.json',
+    packagesToBump: [
+      'packages/shared',
+      'packages/message-resolver',
+      'packages/message-compiler',
+      'packages/core',
+      'packages/vue-i18n'
+    ],
+    packagesToPublish: [
+      'packages/shared',
+      'packages/message-resolver',
+      'packages/message-compiler',
+      'packages/core',
+      'packages/vue-i18n'
+    ]
+  },
   updateChangelog: false,
   buildCommand: ({ isYarn, version }) => 'yarn build:type',
   beforeCommitChanges: ({ nextVersion, exec, dir }) => {
