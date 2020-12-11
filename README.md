@@ -54,9 +54,13 @@ The examples are offered in thee following two API styles:
 ## :white_check_mark: Tasks for release
 
 - [x] monorepo packaging
-- [ ] support fully univarsal environments (CSP)
-- [ ] support i18n resources packing (pre-compilation) CLI
+- [x] support fully univarsal environments (CSP)
+- [ ] extend bundler for i18n resource bundling
+  - [ ] `@intlify/vue-i18n-loader`
+  - [ ] `@intlify/rollup-plugin-vue-i18n`
+  - [ ] `@intlify/vite-plugin-vue-i18n`
 - [ ] vue-cli-plugin-i18n
+- [ ] support i18n resources packing (pre-compilation) CLI
 - [ ] support i18n custom blocks sourcemaps
 
 ## :muscle: Contribution
