@@ -10,6 +10,7 @@ import {
   generateCodeFrame,
   escapeHtml,
   inBrowser,
+  warn,
   mark,
   measure,
   isObject
@@ -305,6 +306,13 @@ export function translate<Messages, Message = string>(
     return unresolving ? NOT_REOSLVED : (key as MessageType<Message>)
   }
 
+  if (__RUNTIME__ && isString(format) && context.messageCompiler == null) {
+    warn(
+      `Message format compilation is not supported in this build, because message compiler isn't included, you need to pre-compilation all message format.`
+    )
+    return key as MessageType<Message>
+  }
+
   // setup compile error detecting
   let occured = false
   const errorDetector = () => {
@@ -487,7 +495,7 @@ function compileMessasgeFormat<Messages, Message>(
     mark && mark(startTag)
   }
 
-  const msg = messageCompiler(
+  const msg = messageCompiler!(
     format as string,
     getCompileOptions(
       context,

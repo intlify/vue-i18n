@@ -7,7 +7,7 @@ import type {
   VNodeChild,
   VNodeArrayChildren
 } from 'vue'
-import type { NumberOptions, DateTimeOptions } from '@intlify/core'
+import type { NumberOptions, DateTimeOptions } from '@intlify/core/src/runtime'
 import type { BaseFormatProps } from './base'
 
 /**

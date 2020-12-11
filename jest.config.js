@@ -66,6 +66,9 @@ module.exports = {
     __VERSION__: require('./package.json').version,
     __BROWSER__: false,
     __GLOBAL__: false,
+    __RUNTIME__: false,
+    __WARN_LABEL__: `'vue-i18n'`,
+    __BUNDLE_FILENAME__: 'test.bundle.js',
     __ESM_BUNDLER__: true,
     __ESM_BROWSER__: false,
     __NODE_JS__: true,
@@ -93,6 +96,7 @@ module.exports = {
 
   // A map from regular expressions to module names that allow to stub out resources with a single module
   moduleNameMapper: {
+    '^@intlify/core/src/runtime$': '<rootDir>/packages/core/src/index.ts',
     '^@intlify/(.*?)$': '<rootDir>/packages/$1/src',
     'vue-i18n': '<rootDir>/packages/vue-i18n/src'
   },

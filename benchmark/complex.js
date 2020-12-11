@@ -1,14 +1,10 @@
-const {
-  baseCompile
-} = require('../packages/message-compiler/dist/message-compiler.cjs.prod.js')
-const {
-  clearCompileCache
-} = require('../packages/runtime/dist/runtime.cjs.prod.js')
+const { baseCompile } = require('../packages/message-compiler')
 const {
   translate,
-  createRuntimeContext
-} = require('../packages/core/dist/core.cjs.prod.js')
-const { createI18n } = require('../packages/vue-i18n/dist/vue-i18n.cjs.prod.js')
+  createCoreContext,
+  clearCompileCache
+} = require('../packages/core')
+const { createI18n } = require('../packages/vue-i18n')
 const convertHrtime = require('convert-hrtime')
 
 const data = require('./complex.json')
@@ -27,7 +23,7 @@ console.log(`ms: ${end.milliseconds - start.milliseconds}`)
 console.log()
 
 console.log(`resolve time with core: ${len} resources`)
-const ctx = createRuntimeContext({
+const ctx = createCoreContext({
   locale: 'en',
   modifiers: {
     caml: val => val

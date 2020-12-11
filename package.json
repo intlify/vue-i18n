@@ -11,6 +11,9 @@
   "scripts": {
     "benchmark": "node ./benchmark/index.js",
     "build": "node scripts/build.js",
+    "build:size": "npm-run-all --parallel build:size-*",
+    "build:size-core": "rollup -c packages/size-check-core/rollup.config.js",
+    "build:size-vue-i18n": "rollup -c packages/size-check-vue-i18n/rollup.config.js",
     "build:sourcemap": "yarn build --sourcemap",
     "build:type": "yarn build --types && tail -n +19 ./packages/vue-i18n/src/vue.d.ts >> ./packages/vue-i18n/dist/vue-i18n.d.ts",
     "clean": "npm-run-all --parallel clean:*",
@@ -19,7 +22,6 @@
     "clean:coverage": "rm -rf ./coverage",
     "clean:dist": "rm -rf ./dist/**",
     "clean:docs": "rm -rf ./docs/api/vue-i18n**.md",
-    "clean:size": "rm -rf ./size-check/**/dist ./size-check/**/node_modules",
     "clean:type": "rm -rf ./types/** ./temp ./dist/vue-i18n.d.ts",
     "coverage": "opener coverage/lcov-report/index.html",
     "dev": "node scripts/dev.js",

@@ -8,7 +8,6 @@ import {
   isPlainObject,
   isObject
 } from '@intlify/shared'
-import { compile } from '@intlify/runtime'
 import { DevToolsTimelineEvents } from './debugger/constants'
 import { CoreWarnCodes, getWarnMessage } from './warnings'
 
@@ -133,7 +132,7 @@ export interface CoreTranslationContext<Messages = {}, Message = string>
   processor: MessageProcessor<Message> | null
   warnHtmlMessage: boolean
   escapeParameter: boolean
-  messageCompiler: MessageCompiler<Message>
+  messageCompiler: MessageCompiler<Message> | null
 }
 
 /** @internal */
@@ -186,6 +185,15 @@ function getDefaultLinkedModifiers<
         ? `${val.charAt(0).toLocaleUpperCase()}${val.substr(1)}`
         : val) as MessageType<Message>
   }
+}
+
+let _compiler: unknown | null
+
+/** @internal */
+export function registerMessageCompiler<Message>(
+  compiler: MessageCompiler<Message>
+): void {
+  _compiler = compiler
 }
 
 /** @internal */
@@ -257,7 +265,7 @@ export function createCoreContext<
   const escapeParameter = !!options.escapeParameter
   const messageCompiler = isFunction(options.messageCompiler)
     ? options.messageCompiler
-    : compile
+    : _compiler
   const onWarn = isFunction(options.onWarn) ? options.onWarn : warn
 
   // setup internal options

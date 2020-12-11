@@ -1,9 +1,4 @@
-import { registerMessageCompiler } from './context'
-import { compileToFunction } from './compile'
-
-// register message compiler at @intlify/core
-registerMessageCompiler(compileToFunction)
-
+// NOTE: for runtime only buidling & vue-i18n direct inmporting
 export * from './context'
 export * from './compile'
 export * from './translate'

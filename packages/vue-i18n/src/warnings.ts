@@ -1,5 +1,5 @@
 import { format } from '@intlify/shared'
-import { CoreWarnCodes } from '@intlify/core'
+import { CoreWarnCodes } from '@intlify/core/src/runtime'
 
 export const enum I18nWarnCodes {
   FALLBACK_TO_ROOT = CoreWarnCodes.__EXTEND_POINT__,

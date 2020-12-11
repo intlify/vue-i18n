@@ -29,16 +29,19 @@ import {
   enableDevTools,
   addTimelineEvent
 } from './devtools'
-import { createEmitter } from '@intlify/core'
+import { createEmitter } from '@intlify/core/src/runtime'
 import { VERSION } from './misc'
 
 import type { ComponentInternalInstance, ComponentOptions, App } from 'vue'
 import type {
   Locale,
   FallbackLocale,
-  LocaleMessageDictionary
-} from '@intlify/core'
-import type { DateTimeFormat, NumberFormat } from '@intlify/core'
+  LocaleMessageDictionary,
+  DateTimeFormat,
+  NumberFormat,
+  DevToolsEmitter,
+  DevToolsEmitterEvents
+} from '@intlify/core/src/runtime'
 import type {
   VueMessageType,
   Composer,
@@ -46,7 +49,6 @@ import type {
   ComposerInternalOptions
 } from './composer'
 import type { VueI18n, VueI18nOptions, VueI18nInternal } from './legacy'
-import type { DevToolsEmitter, DevToolsEmitterEvents } from '@intlify/core'
 
 declare module '@vue/runtime-core' {
   // eslint-disable-next-line
@@ -323,7 +325,7 @@ export function createI18n<
   const __legacyMode = __FEATURE_LEGACY_API__ && isBoolean(options.legacy)
     ? options.legacy
     : true
-  const __globalInjection = !!options.globalInjection
+  const __globalInjection = __FEATURE_LEGACY_API__ && !!options.globalInjection
   const __instances = new Map<
     ComponentInternalInstance,
     VueI18n<Messages> | Composer<Messages>
