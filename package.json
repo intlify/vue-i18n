@@ -1,9 +1,14 @@
 {
+  "name": "vue-i18n-next",
   "version": "9.0.0-beta.10",
   "license": "MIT",
   "author": {
     "name": "kazuya kawaguchi",
     "email": "kawakazu80@gmail.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/intlify/vue-i18n-next.git"
   },
   "bugs": {
     "url": "https://github.com/inlitify/vue-i18n-next/issues"
