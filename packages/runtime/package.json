@@ -1,13 +1,8 @@
 {
   "name": "@intlify/runtime",
-  "version": "9.0.0-beta.10",
+  "version": "9.0.0-beta.11",
   "description": "@intlify/runtime",
-  "keywords": [
-    "i18n",
-    "internationalization",
-    "intlify",
-    "runtime"
-  ],
+  "keywords": ["i18n", "internationalization", "intlify", "runtime"],
   "license": "MIT",
   "author": {
     "name": "kazuya kawaguchi",
@@ -22,27 +17,21 @@
   "bugs": {
     "url": "https://github.com/intlify/vue-i18n-next/issues"
   },
-  "files": [
-    "index.js",
-    "dist"
-  ],
+  "files": ["index.js", "dist"],
   "main": "index.js",
   "module": "dist/runtime.esm-bundler.js",
   "types": "dist/runtime.d.ts",
   "dependencies": {
-    "@intlify/message-compiler": "9.0.0-beta.10",
-    "@intlify/message-resolver": "9.0.0-beta.10",
-    "@intlify/shared": "9.0.0-beta.10"
+    "@intlify/message-compiler": "9.0.0-beta.11",
+    "@intlify/message-resolver": "9.0.0-beta.11",
+    "@intlify/shared": "9.0.0-beta.11"
   },
   "engines": {
     "node": ">= 10"
   },
   "buildOptions": {
     "name": "IntlifyRuntime",
-    "formats": [
-      "esm-bundler",
-      "cjs"
-    ]
+    "formats": ["esm-bundler", "cjs"]
   },
   "sideEffects": false
 }

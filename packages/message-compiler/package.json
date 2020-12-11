@@ -1,6 +1,6 @@
 {
   "name": "@intlify/message-compiler",
-  "version": "9.0.0-beta.10",
+  "version": "9.0.0-beta.11",
   "description": "@intlify/message-compiler",
   "keywords": [
     "compiler",
@@ -23,10 +23,7 @@
   "bugs": {
     "url": "https://github.com/intlify/vue-i18n-next/issues"
   },
-  "files": [
-    "index.js",
-    "dist"
-  ],
+  "files": ["index.js", "dist"],
   "main": "index.js",
   "module": "dist/message-compiler.esm-bundler.js",
   "browser": "dist/message-compiler.esm-browser.js",
@@ -34,8 +31,8 @@
   "jsdelivr": "dist/message-compiler.global.js",
   "types": "dist/message-compiler.d.ts",
   "dependencies": {
-    "@intlify/message-resolver": "9.0.0-beta.10",
-    "@intlify/shared": "9.0.0-beta.10",
+    "@intlify/message-resolver": "9.0.0-beta.11",
+    "@intlify/shared": "9.0.0-beta.11",
     "source-map": "0.6.1"
   },
   "engines": {
@@ -43,12 +40,7 @@
   },
   "buildOptions": {
     "name": "IntlifyMessageCompiler",
-    "formats": [
-      "esm-bundler",
-      "esm-browser",
-      "cjs",
-      "global"
-    ]
+    "formats": ["esm-bundler", "esm-browser", "cjs", "global"]
   },
   "sideEffects": false
 }
