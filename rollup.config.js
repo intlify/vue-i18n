@@ -40,21 +40,20 @@ const outputConfigs = {
   global: {
     file: resolve(`dist/${name}.global.js`),
     format: `iife`
+  },
+  // runtime-only builds, for '@intlify/core' and 'vue-i18n' package only
+  'esm-bundler-runtime': {
+    file: resolve(`dist/${name}.runtime.esm-bundler.js`),
+    format: `es`
+  },
+  'esm-browser-runtime': {
+    file: resolve(`dist/${name}.runtime.esm-browser.js`),
+    format: 'es'
+  },
+  'global-runtime': {
+    file: resolve(`dist/${name}.runtime.global.js`),
+    format: 'iife'
   }
-  // ,
-  // runtime-only builds, for main "vue" package only
-  // 'esm-bundler-runtime': {
-  //   file: resolve(`dist/${name}.runtime.esm-bundler.js`),
-  //   format: `es`
-  // },
-  // 'esm-browser-runtime': {
-  //   file: resolve(`dist/${name}.runtime.esm-browser.js`),
-  //   format: 'es'
-  // },
-  // 'global-runtime': {
-  //   file: resolve(`dist/${name}.runtime.global.js`),
-  //   format: 'iife'
-  // }
 }
 
 const defaultFormats = ['esm-bundler', 'cjs']
@@ -102,6 +101,7 @@ function createConfig(format, output, plugins = []) {
   const isBrowserESMBuild = /esm-browser/.test(format)
   const isNodeBuild = format === 'cjs'
   const isGlobalBuild = /global/.test(format)
+  const isRuntimeOnlyBuild = /runtime$/.test(format)
 
   if (isGlobalBuild) {
     output.name = packageOptions.name
@@ -172,7 +172,10 @@ function createConfig(format, output, plugins = []) {
         // isBrowserBuild?
         isGlobalBuild || isBrowserESMBuild || isBundlerESMBuild, // && !packageOptions.enableNonBrowserBranches,
         isGlobalBuild,
-        isNodeBuild
+        isNodeBuild,
+        isRuntimeOnlyBuild,
+        name === 'vue-i18n' ? name : 'intlify',
+        path.parse(output.file).base || ''
       ),
       ...nodePlugins,
       ...plugins
@@ -195,11 +198,14 @@ function createReplacePlugin(
   isBrowserESMBuild,
   isBrowserBuild,
   isGlobalBuild,
-  isNodeBuild
+  isNodeBuild,
+  isRuntimeOnlyBuild,
+  warnLabel,
+  bundleFilename
 ) {
   const replacements = {
-    // __COMMIT__: `"${process.env.COMMIT}"`,
-    __VERSION__: `"${masterVersion}"`,
+    __COMMIT__: `"${process.env.COMMIT}"`,
+    __VERSION__: `'${masterVersion}'`,
     __DEV__: isBundlerESMBuild
       ? // preserve to be handled by bundlers
         `(process.env.NODE_ENV !== 'production')`
@@ -210,6 +216,12 @@ function createReplacePlugin(
     // If the build is expected to run directly in the browser (global / esm builds)
     __BROWSER__: isBrowserBuild,
     __GLOBAL__: isGlobalBuild,
+    // for runtime only
+    __RUNTIME__: isRuntimeOnlyBuild,
+    // warning label
+    __WARN_LABEL__: `'${warnLabel}'`,
+    // bundle filename
+    __BUNDLE_FILENAME__: `'${bundleFilename}'`,
     __ESM_BUNDLER__: isBundlerESMBuild,
     __ESM_BROWSER__: isBrowserESMBuild,
     // is targeting Node (SSR)?

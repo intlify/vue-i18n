@@ -20,7 +20,11 @@ const chalk = require('chalk')
 const execa = require('execa')
 const { gzipSync } = require('zlib')
 const { compress } = require('brotli')
-const { targets: allTargets, fuzzyMatchTarget } = require('./utils')
+const {
+  targets: allTargets,
+  fuzzyMatchTarget,
+  checkSizeDistFiles
+} = require('./utils')
 
 const args = require('minimist')(process.argv.slice(2))
 const targets = args._
@@ -31,7 +35,7 @@ const sourceMap = args.sourcemap || args.s
 const isRelease = args.release
 const buildTypes = args.t || args.types
 const buildAllMatching = args.all || args.a
-// const commit = execa.sync('git', ['rev-parse', 'HEAD']).stdout.slice(0, 7)
+const commit = execa.sync('git', ['rev-parse', 'HEAD']).stdout.slice(0, 7)
 
 run()
 
@@ -94,7 +98,7 @@ async function build(target) {
       '-c',
       '--environment',
       [
-        // `COMMIT:${commit}`,
+        `COMMIT:${commit}`,
         `NODE_ENV:${env}`,
         `TARGET:${target}`,
         formats ? `FORMATS:${formats}` : ``,
@@ -168,7 +172,9 @@ function checkAllSizes(targets) {
 
 function checkSize(target) {
   const pkgDir = path.resolve(`packages/${target}`)
-  checkFileSize(`${pkgDir}/dist/${target}.global.prod.js`)
+  checkSizeDistFiles(pkgDir).forEach(file => {
+    checkFileSize(`${pkgDir}/dist/${file}`)
+  })
 }
 
 function checkFileSize(filePath) {
@@ -183,7 +189,7 @@ function checkFileSize(filePath) {
   const compressedSize =
     compressed != null ? (compressed.length / 1024).toFixed(2) + 'kb' : 'N/A'
   console.log(
-    `✅  ${chalk.gray(
+    `📦  ${chalk.gray(
       chalk.bold(path.basename(filePath))
     )} min:${minSize} / gzip:${gzippedSize} / brotli:${compressedSize}`
   )

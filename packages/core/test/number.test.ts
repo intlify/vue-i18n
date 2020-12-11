@@ -17,6 +17,8 @@ import { Availabilities } from '../src/intl'
 import { createCoreContext as context, NOT_REOSLVED } from '../src/context'
 import { number } from '../src/number'
 import { CoreErrorCodes, errorMessages } from '../src/errors'
+import { registerMessageCompiler } from '../src/context'
+import { compileToFunction } from '../src/compile'
 
 const numberFormats = {
   'en-US': {
@@ -45,6 +47,10 @@ const numberFormats = {
     }
   }
 }
+
+beforeEach(() => {
+  registerMessageCompiler(compileToFunction)
+})
 
 test('value argument only', () => {
   const mockAvailabilities = Availabilities as jest.Mocked<

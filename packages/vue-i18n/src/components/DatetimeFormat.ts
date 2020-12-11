@@ -4,7 +4,7 @@ import { renderFormatter } from './formatRenderer'
 import { baseFormatProps } from './base'
 
 import type { RenderFunction, SetupContext } from 'vue'
-import type { DateTimeOptions } from '@intlify/core'
+import type { DateTimeOptions } from '@intlify/core/src/runtime'
 import type { Composer, ComposerInternal } from '../composer'
 import type { FormattableProps } from './formatRenderer'
 

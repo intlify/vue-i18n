@@ -10,6 +10,12 @@ import { warn } from '@intlify/shared'
 import { createCoreContext as context, NOT_REOSLVED } from '../src/context'
 import { translate } from '../src/translate'
 import { CoreErrorCodes, errorMessages } from '../src/errors'
+import { registerMessageCompiler } from '../src/context'
+import { compileToFunction } from '../src/compile'
+
+beforeEach(() => {
+  registerMessageCompiler(compileToFunction)
+})
 
 describe('features', () => {
   test('simple text', () => {

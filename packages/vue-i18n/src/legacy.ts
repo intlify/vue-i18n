@@ -38,7 +38,7 @@ import type {
   DateTimeFormat,
   NumberFormat,
   DevToolsEmitter
-} from '@intlify/core'
+} from '@intlify/core/src/runtime'
 import type {
   VueMessageType,
   MissingHandler,

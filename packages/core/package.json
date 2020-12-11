@@ -46,9 +46,12 @@
     "name": "IntlifyCore",
     "formats": [
       "esm-bundler",
+      "esm-bundler-runtime",
       "esm-browser",
+      "esm-browser-runtime",
       "cjs",
-      "global"
+      "global",
+      "global-runtime"
     ]
   },
   "sideEffects": false

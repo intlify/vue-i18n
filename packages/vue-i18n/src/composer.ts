@@ -40,7 +40,7 @@ import {
   clearNumberFormat,
   NOT_REOSLVED,
   DevToolsTimelineEvents
-} from '@intlify/core'
+} from '@intlify/core/src/runtime'
 import { I18nWarnCodes, getWarnMessage } from './warnings'
 import { I18nErrorCodes, createI18nError } from './errors'
 
@@ -70,7 +70,7 @@ import type {
   NumberFormats as NumberFormatsType,
   DateTimeFormat,
   NumberFormat
-} from '@intlify/core'
+} from '@intlify/core/src/runtime'
 import type {
   LinkedModifiers,
   PluralizationRules,
@@ -1152,7 +1152,7 @@ export function createComposer<
   // runtime context
   // eslint-disable-next-line prefer-const
   let _context: CoreContext<Messages, DateTimeFormats, NumberFormats, Message>
-  function getRuntimeContext(): CoreContext<
+  function getCoreContext(): CoreContext<
     Messages,
     DateTimeFormats,
     NumberFormats,
@@ -1190,7 +1190,7 @@ export function createComposer<
       Message
     >
   }
-  _context = getRuntimeContext()
+  _context = getCoreContext()
   updateFallbackLocale<Message>(_context, _locale.value, _fallbackLocale.value)
 
   /*!
@@ -1268,7 +1268,7 @@ export function createComposer<
     fallbackFail: (key: string) => U,
     successCondition: (val: unknown) => boolean
   ): U {
-    const context = getRuntimeContext()
+    const context = getCoreContext()
     const ret = fn(context) // track reactive dependency, see the getRuntimeContext
     if (isNumber(ret) && ret === NOT_REOSLVED) {
       const key = argumentParser()

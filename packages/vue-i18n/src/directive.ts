@@ -10,7 +10,7 @@ import type {
 import type { I18n, I18nInternal } from './i18n'
 import type { VueI18n, VueI18nInternal } from './legacy'
 import type { Composer } from './composer'
-import type { Locale, TranslateOptions } from '@intlify/core'
+import type { Locale, TranslateOptions } from '@intlify/core/src/runtime'
 import type { NamedValue } from '@intlify/runtime'
 
 type VTDirectiveValue = {

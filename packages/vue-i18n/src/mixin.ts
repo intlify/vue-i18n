@@ -3,11 +3,16 @@ import { getLocaleMessages } from './composer'
 import { createVueI18n } from './legacy'
 import { createI18nError, I18nErrorCodes } from './errors'
 import { addTimelineEvent } from './devtools'
-import { createEmitter } from '@intlify/core'
+import { createEmitter } from '@intlify/core/src/runtime'
 
 import type { ComponentOptions } from 'vue'
 import type { Path } from '@intlify/message-resolver'
-import type { Locale, LocaleMessageValue } from '@intlify/core'
+import type {
+  Locale,
+  LocaleMessageValue,
+  DevToolsEmitter,
+  DevToolsEmitterEvents
+} from '@intlify/core/src/runtime'
 import type {
   Composer,
   ComposerInternalOptions,
@@ -22,7 +27,6 @@ import type {
   NumberFormatResult
 } from './legacy'
 import type { I18nInternal } from './i18n'
-import type { DevToolsEmitter, DevToolsEmitterEvents } from '@intlify/core'
 
 // supports compatibility for legacy vue-i18n APIs
 export function defineMixin<Messages, DateTimeFormats, NumberFormats>(

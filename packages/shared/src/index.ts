@@ -82,7 +82,8 @@ export const isEmptyObject = (val: unknown): val is boolean =>
 
 export function warn(msg: string, err?: Error): void {
   if (typeof console !== 'undefined') {
-    console.warn('[vue-i18n] ' + msg)
+    const label = __WARN_LABEL__ ? __WARN_LABEL__ : 'intlify'
+    console.warn(`[${label}] ` + msg)
     /* istanbul ignore if */
     if (err) {
       console.warn(err.stack)

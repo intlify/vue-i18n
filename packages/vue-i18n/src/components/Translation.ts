@@ -6,7 +6,7 @@ import { baseFormatProps } from './base'
 
 import type { SetupContext, VNodeChild, RenderFunction } from 'vue'
 import type { Composer, ComposerInternal } from '../composer'
-import type { TranslateOptions } from '@intlify/core'
+import type { TranslateOptions } from '@intlify/core/src/runtime'
 import type { NamedValue } from '@intlify/runtime'
 import type { BaseFormatProps } from './base'
 

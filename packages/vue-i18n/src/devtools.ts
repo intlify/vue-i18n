@@ -6,7 +6,7 @@ import {
   DevToolsPlaceholders,
   DevToolsTimelineEvents,
   DevToolsTimelineLayerMaps
-} from '@intlify/core'
+} from '@intlify/core/src/runtime'
 
 import type { App } from 'vue'
 import type {
@@ -17,7 +17,7 @@ import type {
   ComponentStateBase,
   HookPayloads
 } from '@vue/devtools-api'
-import type { DevToolsTimelineEventPayloads } from '@intlify/core'
+import type { DevToolsTimelineEventPayloads } from '@intlify/core/src/runtime'
 import type { I18n, I18nInternal } from './i18n'
 import type { Composer } from './composer'
 import type { VueI18nInternal } from './legacy'

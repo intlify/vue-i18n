@@ -6,7 +6,7 @@ const targets = (exports.targets = fs.readdirSync('packages').filter(f => {
     return false
   }
   const pkg = require(`../packages/${f}/package.json`)
-  if (pkg.private && !pkg.buildOptions) {
+  if (pkg.private || !pkg.buildOptions) {
     return false
   }
   return true
@@ -37,4 +37,8 @@ exports.fuzzyMatchTarget = (partialTargets, includeAllMatching) => {
 
     process.exit(1)
   }
+}
+
+exports.checkSizeDistFiles = target => {
+  return fs.readdirSync(`${target}/dist`).filter(file => /prod.js$/.test(file))
 }
