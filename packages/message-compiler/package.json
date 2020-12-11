@@ -26,7 +26,6 @@
   "files": ["index.js", "dist"],
   "main": "index.js",
   "module": "dist/message-compiler.esm-bundler.js",
-  "browser": "dist/message-compiler.esm-browser.js",
   "unpkg": "dist/message-compiler.global.js",
   "jsdelivr": "dist/message-compiler.global.js",
   "types": "dist/message-compiler.d.ts",

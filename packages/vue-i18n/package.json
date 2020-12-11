@@ -27,7 +27,6 @@
   "files": ["index.js", "dist"],
   "main": "index.js",
   "module": "dist/vue-i18n.esm-bundler.js",
-  "browser": "dist/vue-i18n.esm-browser.js",
   "unpkg": "dist/vue-i18n.global.js",
   "jsdelivr": "dist/vue-i18n.global.js",
   "types": "dist/vue-i18n.d.ts",
