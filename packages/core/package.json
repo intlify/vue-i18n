@@ -1,6 +1,6 @@
 {
   "name": "@intlify/core",
-  "version": "9.0.0-beta.10",
+  "version": "9.0.0-beta.11",
   "description": "@intlify/core",
   "keywords": [
     "core",
@@ -23,10 +23,7 @@
   "bugs": {
     "url": "https://github.com/intlify/vue-i18n-next/issues"
   },
-  "files": [
-    "index.js",
-    "dist"
-  ],
+  "files": ["index.js", "dist"],
   "main": "index.js",
   "module": "dist/core.esm-bundler.js",
   "browser": "dist/core.esm-browser.js",
@@ -34,10 +31,10 @@
   "jsdelivr": "dist/core.global.js",
   "types": "dist/core.d.ts",
   "dependencies": {
-    "@intlify/message-compiler": "9.0.0-beta.10",
-    "@intlify/message-resolver": "9.0.0-beta.10",
-    "@intlify/runtime": "9.0.0-beta.10",
-    "@intlify/shared": "9.0.0-beta.10"
+    "@intlify/message-compiler": "9.0.0-beta.11",
+    "@intlify/message-resolver": "9.0.0-beta.11",
+    "@intlify/runtime": "9.0.0-beta.11",
+    "@intlify/shared": "9.0.0-beta.11"
   },
   "engines": {
     "node": ">= 10"

@@ -1,4 +1,18 @@
 
+## v9.0.0-beta.11 (2020-12-11)
+
+#### :star: Features
+* `core`, `message-compiler`, `message-resolver`, `runtime`, `shared`, `vue-i18n`
+  * [#213](https://github.com/intlify/vue-i18n-next/pull/213) feat: monorepo structure ([@kazupon](https://github.com/kazupon))
+
+#### :zap: Improvement Features
+* `core`, `runtime`, `shared`, `size-check-core`, `size-check-vue-i18n`, `vue-i18n`
+  * [#222](https://github.com/intlify/vue-i18n-next/pull/222) improvement: vue-i18n re-packaging ([@kazupon](https://github.com/kazupon))
+
+#### Committers: 1
+- kazuya kawaguchi ([@kazupon](https://github.com/kazupon))
+
+
 ## v9.0.0-beta.10 (2020-12-04)
 
 #### :bug: Bug Fixes

@@ -1,6 +1,6 @@
 {
   "name": "vue-i18n",
-  "version": "9.0.0-beta.10",
+  "version": "9.0.0-beta.11",
   "description": "Internationalization plugin for Vue.js",
   "keywords": [
     "i18n",
@@ -24,10 +24,7 @@
   "bugs": {
     "url": "https://github.com/intlify/vue-i18n-next/issues"
   },
-  "files": [
-    "index.js",
-    "dist"
-  ],
+  "files": ["index.js", "dist"],
   "main": "index.js",
   "module": "dist/vue-i18n.esm-bundler.js",
   "browser": "dist/vue-i18n.esm-browser.js",
@@ -35,11 +32,11 @@
   "jsdelivr": "dist/vue-i18n.global.js",
   "types": "dist/vue-i18n.d.ts",
   "dependencies": {
-    "@intlify/core": "9.0.0-beta.10",
-    "@intlify/message-compiler": "9.0.0-beta.10",
-    "@intlify/message-resolver": "9.0.0-beta.10",
-    "@intlify/runtime": "9.0.0-beta.10",
-    "@intlify/shared": "9.0.0-beta.10",
+    "@intlify/core": "9.0.0-beta.11",
+    "@intlify/message-compiler": "9.0.0-beta.11",
+    "@intlify/message-resolver": "9.0.0-beta.11",
+    "@intlify/runtime": "9.0.0-beta.11",
+    "@intlify/shared": "9.0.0-beta.11",
     "@vue/devtools-api": "^6.0.0-beta.2"
   },
   "peerDependencies": {
