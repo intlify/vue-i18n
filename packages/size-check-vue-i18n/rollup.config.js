@@ -32,17 +32,17 @@ const config = {
       'process.env.NODE_ENV': JSON.stringify('production')
     }),
     resolve(),
-    commonjs()
-    // terser({
-    //   format: {
-    //     comments: false
-    //   },
-    //   module: true,
-    //   compress: {
-    //     ecma: 2015,
-    //     pure_getters: true
-    //   }
-    // })
+    commonjs(),
+    terser({
+      format: {
+        comments: false
+      },
+      module: true,
+      compress: {
+        ecma: 2015,
+        pure_getters: true
+      }
+    })
   ]
 }
 
