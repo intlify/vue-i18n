@@ -495,7 +495,7 @@ export interface Composer<
    * About details of options, see the {@link TranslateOptions}.
    *
    * @param key - A target locale message key
-   * @param defaultMsg - A defautl message to return if no translation was found
+   * @param defaultMsg - A default message to return if no translation was found
    * @param options - Additional {@link TranslateOptions | options} for translation
    *
    * @returns Translated message
@@ -550,7 +550,7 @@ export interface Composer<
    *
    * @param key - A target locale message key
    * @param list - A values of list interpolation
-   * @param defaultMsg - A defautl message to return if no translation was found
+   * @param defaultMsg - A default message to return if no translation was found
    *
    * @returns Translated message
    *
@@ -606,7 +606,7 @@ export interface Composer<
    *
    * @param key - A target locale message key
    * @param named - A values of named interpolation
-   * @param defaultMsg - A defautl message to return if no translation was found
+   * @param defaultMsg - A default message to return if no translation was found
    *
    * @returns Translated message
    *

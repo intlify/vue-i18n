@@ -39,7 +39,7 @@ declare module '@vue/runtime-core' {
   }
 
   /**
-   * Component Custom Propertieis for Vue I18n
+   * Component Custom Properties for Vue I18n
    *
    * @VueI18nInjection
    */
@@ -175,7 +175,7 @@ declare module '@vue/runtime-core' {
      * Overloaded `$t`. About details, see the {@link $t} remarks.
      *
      * @param key - A target locale message key
-     * @param defaultMsg - A defautl message to return if no translation was found
+     * @param defaultMsg - A default message to return if no translation was found
      *
      * @returns translation message
      */
@@ -187,7 +187,7 @@ declare module '@vue/runtime-core' {
      * Overloaded `$t`. About details, see the {@link $t} remarks.
      *
      * @param key - A target locale message key
-     * @param defaultMsg - A defautl message to return if no translation was found
+     * @param defaultMsg - A default message to return if no translation was found
      * @param options - An options, see the {@link TranslateOptiions}
      *
      * @returns translation message
@@ -226,7 +226,7 @@ declare module '@vue/runtime-core' {
      *
      * @param key - A target locale message key
      * @param list - A values of list interpolation
-     * @param defaultMsg - A defautl message to return if no translation was found
+     * @param defaultMsg - A default message to return if no translation was found
      *
      * @returns translation message
      */
@@ -277,7 +277,7 @@ declare module '@vue/runtime-core' {
      *
      * @param key - A target locale message key
      * @param named - A values of named interpolation
-     * @param defaultMsg - A defautl message to return if no translation was found
+     * @param defaultMsg - A default message to return if no translation was found
      *
      * @returns translation message
      */
