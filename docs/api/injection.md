@@ -2,7 +2,7 @@
 
 ## ComponentCustomOptions
 
-Component Custom Propertieis for Vue I18n
+Component Custom Properties for Vue I18n
 
 **Signature:**
 ```typescript
@@ -291,7 +291,7 @@ Overloaded `$t`. About details, see the [$t](injection#t-key) remarks.
 | Parameter | Type | Description |
 | --- | --- | --- |
 | key | Path | A target locale message key |
-| defaultMsg | string | A defautl message to return if no translation was found |
+| defaultMsg | string | A default message to return if no translation was found |
 
 #### Returns
 
@@ -314,7 +314,7 @@ Overloaded `$t`. About details, see the [$t](injection#t-key) remarks.
 | Parameter | Type | Description |
 | --- | --- | --- |
 | key | Path | A target locale message key |
-| defaultMsg | string | A defautl message to return if no translation was found |
+| defaultMsg | string | A default message to return if no translation was found |
 | options | TranslateOptions | An options, see the [TranslateOptions](general#translateoptions) |
 
 #### Returns
@@ -386,7 +386,7 @@ Overloaded `$t`. About details, see the [$t](injection#t-key) remarks.
 | --- | --- | --- |
 | key | Path | A target locale message key |
 | list | unknown[] | A values of list interpolation |
-| defaultMsg | string | A defautl message to return if no translation was found |
+| defaultMsg | string | A default message to return if no translation was found |
 
 #### Returns
 
@@ -481,7 +481,7 @@ Overloaded `$t`. About details, see the [$t](injection#t-key) remarks.
 | --- | --- | --- |
 | key | Path | A target locale message key |
 | named | NamedValue | A values of named interpolation |
-| defaultMsg | string | A defautl message to return if no translation was found |
+| defaultMsg | string | A default message to return if no translation was found |
 
 #### Returns
 

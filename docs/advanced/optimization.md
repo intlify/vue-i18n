@@ -1,4 +1,4 @@
-# Optimaizatoin
+# Optimization
 
 
 ## Pre translations with extensions
@@ -25,4 +25,3 @@ The build will work without configuring these flags, however it is **strongly re
 :::tip NOTE
 The replacement value **must be boolean literals** and cannot be strings, otherwise the bundler/minifier will not be able to properly evaluate the conditions.
 :::
-
