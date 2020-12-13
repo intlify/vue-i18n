@@ -1,4 +1,23 @@
 
+## v9.0.0-beta.12 (2020-12-13)
+
+#### :bug: Bug Fixes
+* `vue-i18n`
+  * [#226](https://github.com/intlify/vue-i18n-next/pull/226) fix i18n interface typing for app.use ([@kazupon](https://github.com/kazupon))
+
+#### :zap: Improvement Features
+* `core`, `message-compiler`, `vue-i18n`
+  * [#227](https://github.com/intlify/vue-i18n-next/pull/227) remove browser field ([@kazupon](https://github.com/kazupon))
+
+#### :pencil: Documentation
+* `vue-i18n`
+  * [#228](https://github.com/intlify/vue-i18n-next/pull/228) docs: fix various typos ([@SamuelAlev](https://github.com/SamuelAlev))
+
+#### Committers: 2
+- Samuel Alev ([@SamuelAlev](https://github.com/SamuelAlev))
+- kazuya kawaguchi ([@kazupon](https://github.com/kazupon))
+
+
 ## v9.0.0-beta.11 (2020-12-11)
 
 #### :star: Features
