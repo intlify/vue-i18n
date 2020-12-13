@@ -1,6 +1,6 @@
 {
   "name": "@intlify/runtime",
-  "version": "9.0.0-beta.11",
+  "version": "9.0.0-beta.12",
   "description": "@intlify/runtime",
   "keywords": ["i18n", "internationalization", "intlify", "runtime"],
   "license": "MIT",
@@ -22,9 +22,9 @@
   "module": "dist/runtime.esm-bundler.js",
   "types": "dist/runtime.d.ts",
   "dependencies": {
-    "@intlify/message-compiler": "9.0.0-beta.11",
-    "@intlify/message-resolver": "9.0.0-beta.11",
-    "@intlify/shared": "9.0.0-beta.11"
+    "@intlify/message-compiler": "9.0.0-beta.12",
+    "@intlify/message-resolver": "9.0.0-beta.12",
+    "@intlify/shared": "9.0.0-beta.12"
   },
   "engines": {
     "node": ">= 10"
