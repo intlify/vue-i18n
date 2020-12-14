@@ -59,7 +59,6 @@ export type LocaleMessages<Message = string> = Record<
   LocaleMessageDictionary<Message>
 >
 
-/** @internal */
 export type CoreMissingType = 'translate' | 'datetime format' | 'number format'
 
 /** @internal */

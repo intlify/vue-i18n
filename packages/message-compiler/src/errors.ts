@@ -1,7 +1,6 @@
 import { format } from '@intlify/shared'
 import { SourceLocation } from './location'
 
-/** @internal */
 export type CompileDomain =
   | 'tokenizer'
   | 'parser'
@@ -9,7 +8,6 @@ export type CompileDomain =
   | 'transformer'
   | 'compiler'
 
-/** @internal */
 export interface CompileError extends SyntaxError {
   code: number
   domain?: CompileDomain

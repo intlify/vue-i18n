@@ -3,7 +3,6 @@ import { createParser } from './parser'
 import { transform } from './transformer'
 import { generate, CodeGenResult } from './generator'
 
-/** @internal */
 export function baseCompile(
   source: string,
   options: CompileOptions = {}
