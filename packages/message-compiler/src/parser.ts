@@ -85,7 +85,6 @@ export interface LinkedModitierNode extends Node {
   value: Identifier
 }
 
-/** @internal */
 export interface Parser {
   parse(source: string): ResourceNode
 }
@@ -117,7 +116,6 @@ function fromEscapeSequence(
   }
 }
 
-/** @internal */
 export function createParser(options: ParserOptions = {}): Parser {
   const location = !options.location
 
