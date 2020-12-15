@@ -1,6 +1,6 @@
 {
   "name": "@intlify/core",
-  "version": "9.0.0-beta.12",
+  "version": "9.0.0-beta.13",
   "description": "@intlify/core",
   "keywords": [
     "core",
@@ -23,17 +23,14 @@
   "bugs": {
     "url": "https://github.com/intlify/vue-i18n-next/issues"
   },
-  "files": [
-    "index.js",
-    "dist"
-  ],
+  "files": ["index.js", "dist"],
   "main": "index.js",
   "module": "dist/core.esm-bundler.js",
   "unpkg": "dist/core.global.js",
   "jsdelivr": "dist/core.global.js",
   "types": "dist/core.d.ts",
   "dependencies": {
-    "@intlify/core-base": "9.0.0-beta.12"
+    "@intlify/core-base": "9.0.0-beta.13"
   },
   "engines": {
     "node": ">= 10"

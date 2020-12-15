@@ -1,4 +1,16 @@
 
+## v9.0.0-beta.13 (2020-12-15)
+
+#### :zap: Improvement Features
+* `core-base`, `core`, `message-compiler`, `runtime`, `size-check-core`, `size-check-vue-i18n`, `vue-i18n`
+  * [#233](https://github.com/intlify/vue-i18n-next/pull/233) improvement: package structure ([@kazupon](https://github.com/kazupon))
+* `core`, `message-compiler`
+  * [#231](https://github.com/intlify/vue-i18n-next/pull/231) improvement: export more type definitions ([@kazupon](https://github.com/kazupon))
+
+#### Committers: 1
+- kazuya kawaguchi ([@kazupon](https://github.com/kazupon))
+
+
 ## v9.0.0-beta.12 (2020-12-13)
 
 #### :bug: Bug Fixes
