@@ -1,4 +1,4 @@
-import { isBoolean, isString } from '@intlify/shared'
+import { isString } from '@intlify/shared'
 import { SourceMapGenerator, RawSourceMap } from 'source-map'
 import {
   ResourceNode,
@@ -30,6 +30,8 @@ type CodeGenContext = {
   indentLevel: number
   filename: string
   line: number
+  breakLineCode: string
+  needIndent: boolean
   column: number
   offset: number
   map?: SourceMapGenerator
@@ -46,17 +48,23 @@ type CodeGenNode =
 type CodeGenerator = {
   context(): CodeGenContext
   push(code: string, node?: CodeGenNode): void
-  indent(): void
-  deindent(withoutNewLine?: boolean): void
+  indent(withNewLine?: boolean): void
+  deindent(withNewLine?: boolean): void
   newline(): void
   helper(key: string): string
+  needIndent(): boolean
 }
 
 function createCodeGenerator(
   ast: ResourceNode,
   options: CodeGenOptions
 ): CodeGenerator {
-  const { sourceMap, filename } = options
+  const {
+    sourceMap,
+    filename,
+    breakLineCode,
+    needIndent: _needIndent
+  } = options
   const _context = {
     source: ast.loc!.source,
     filename,
@@ -65,6 +73,8 @@ function createCodeGenerator(
     line: 1,
     offset: 0,
     map: undefined,
+    breakLineCode,
+    needIndent: _needIndent,
     indentLevel: 0
   } as CodeGenContext
 
@@ -80,20 +90,19 @@ function createCodeGenerator(
     }
   }
 
-  function _newline(n: number): void {
-    push('\n' + `  `.repeat(n))
+  function _newline(n: number, withBreakLine = true): void {
+    const _breakLineCode = withBreakLine ? breakLineCode : ''
+    push(_needIndent ? _breakLineCode! + `  `.repeat(n) : _breakLineCode!)
   }
 
-  function indent(): void {
-    _newline(++_context.indentLevel)
+  function indent(withNewLine = true): void {
+    const level = ++_context.indentLevel
+    withNewLine && _newline(level)
   }
 
-  function deindent(withoutNewLine?: boolean): void {
-    if (withoutNewLine) {
-      --_context.indentLevel
-    } else {
-      _newline(--_context.indentLevel)
-    }
+  function deindent(withNewLine = true): void {
+    const level = --_context.indentLevel
+    withNewLine && _newline(level)
   }
 
   function newline(): void {
@@ -101,6 +110,7 @@ function createCodeGenerator(
   }
 
   const helper = (key: string): string => `_${key}`
+  const needIndent = (): boolean => _context.needIndent
 
   function addMapping(loc: Position, name?: string) {
     _context.map!.addMapping({
@@ -128,7 +138,8 @@ function createCodeGenerator(
     indent,
     deindent,
     newline,
-    helper
+    helper,
+    needIndent
   }
 }
 
@@ -147,9 +158,9 @@ function generateMessageNode(
   generator: CodeGenerator,
   node: MessageNode
 ): void {
-  const { helper } = generator
+  const { helper, needIndent } = generator
   generator.push(`${helper(HelperNameMap.NORMALIZE)}([`)
-  generator.indent()
+  generator.indent(needIndent())
   const length = node.items.length
   for (let i = 0; i < length; i++) {
     generateNode(generator, node.items[i])
@@ -158,15 +169,15 @@ function generateMessageNode(
     }
     generator.push(', ')
   }
-  generator.deindent()
+  generator.deindent(needIndent())
   generator.push('])')
 }
 
 function generatePluralNode(generator: CodeGenerator, node: PluralNode): void {
-  const { helper } = generator
+  const { helper, needIndent } = generator
   if (node.cases.length > 1) {
     generator.push(`${helper(HelperNameMap.PLURAL)}([`)
-    generator.indent()
+    generator.indent(needIndent())
     const length = node.cases.length
     for (let i = 0; i < length; i++) {
       generateNode(generator, node.cases[i])
@@ -175,7 +186,7 @@ function generatePluralNode(generator: CodeGenerator, node: PluralNode): void {
       }
       generator.push(', ')
     }
-    generator.deindent()
+    generator.deindent(needIndent())
     generator.push(`])`)
   }
 }
@@ -256,12 +267,25 @@ export const generate = (
   const filename = isString(options.filename)
     ? options.filename
     : 'message.intl'
-  const sourceMap = isBoolean(options.sourceMap) ? options.sourceMap : false
+  const sourceMap = !!options.sourceMap
+  // prettier-ignore
+  const breakLineCode = options.breakLineCode != null
+    ? options.breakLineCode
+    : mode === 'arrow'
+      ? ';'
+      : '\n'
+  const needIndent = options.needIndent ? options.needIndent : mode !== 'arrow'
   const helpers = ast.helpers || []
-  const generator = createCodeGenerator(ast, { mode, filename, sourceMap })
+  const generator = createCodeGenerator(ast, {
+    mode,
+    filename,
+    sourceMap,
+    breakLineCode,
+    needIndent
+  })
 
   generator.push(mode === 'normal' ? `function __msg__ (ctx) {` : `(ctx) => {`)
-  generator.indent()
+  generator.indent(needIndent)
 
   if (helpers.length > 0) {
     generator.push(
@@ -272,7 +296,7 @@ export const generate = (
 
   generator.push(`return `)
   generateNode(generator, ast)
-  generator.deindent()
+  generator.deindent(needIndent)
   generator.push(`}`)
 
   const { code, map } = generator.context()

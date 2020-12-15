@@ -19,6 +19,8 @@ export interface TransformOptions {
 
 export interface CodeGenOptions {
   mode?: 'normal' | 'arrow' // default normal
+  breakLineCode?: '\n' | ';' // default newline
+  needIndent?: boolean // default true
   onError?: CompileErrorHandler
   // Generate source map?
   // - Default: false

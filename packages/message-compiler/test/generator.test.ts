@@ -472,8 +472,8 @@ describe('plural', () => {
   })
 })
 
-describe('mode', () => {
-  test('arrow', async () => {
+describe('arrow mode', () => {
+  test('complex', async () => {
     const parser = createParser()
     const msg = `@.caml:{'no apples'} | {0} apple | {n}　apples`
     const ast = parser.parse(msg)

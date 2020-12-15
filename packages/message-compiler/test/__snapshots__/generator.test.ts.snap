@@ -1,5 +1,73 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`arrow mode complex 1`] = `
+Object {
+  "generatedColumn": 173,
+  "generatedLine": 1,
+  "name": "no apples",
+  "originalColumn": 7,
+  "originalLine": 1,
+  "source": "message.intl",
+}
+`;
+
+exports[`arrow mode complex 2`] = `
+Object {
+  "generatedColumn": 186,
+  "generatedLine": 1,
+  "name": "caml",
+  "originalColumn": 1,
+  "originalLine": 1,
+  "source": "message.intl",
+}
+`;
+
+exports[`arrow mode complex 3`] = `
+Object {
+  "generatedColumn": 209,
+  "generatedLine": 1,
+  "name": "0",
+  "originalColumn": 23,
+  "originalLine": 1,
+  "source": "message.intl",
+}
+`;
+
+exports[`arrow mode complex 4`] = `
+Object {
+  "generatedColumn": 233,
+  "generatedLine": 1,
+  "name": " apple",
+  "originalColumn": 26,
+  "originalLine": 1,
+  "source": "message.intl",
+}
+`;
+
+exports[`arrow mode complex 5`] = `
+Object {
+  "generatedColumn": 257,
+  "generatedLine": 1,
+  "name": "n",
+  "originalColumn": 35,
+  "originalLine": 1,
+  "source": "message.intl",
+}
+`;
+
+exports[`arrow mode complex 6`] = `
+Object {
+  "generatedColumn": 284,
+  "generatedLine": 1,
+  "name": "　apples",
+  "originalColumn": 38,
+  "originalLine": 1,
+  "source": "message.intl",
+}
+`;
+
+exports[`arrow mode complex: @.caml:{'no apples'} | {0} apple | {n}　apples 1`] = `"(ctx) => {const { normalize: _normalize, linked: _linked, interpolate: _interpolate, list: _list, named: _named, plural: _plural } = ctx;return _plural([_normalize([_linked(\\"no apples\\", \\"caml\\")]), _normalize([_interpolate(_list(0)), \\" apple\\"]), _normalize([_interpolate(_named(\\"n\\")), \\"　apples\\"])])}"`;
+
 exports[`linked key 1`] = `
 Object {
   "generatedColumn": 4,
@@ -710,87 +778,6 @@ exports[`literal unicode 6 digits: hi {'U01F602'} ! 1`] = `
   const { normalize: _normalize } = ctx
   return _normalize([
     \\"hi \\", \\"U01F602\\", \\" !\\"
-  ])
-}"
-`;
-
-exports[`mode arrow 1`] = `
-Object {
-  "generatedColumn": 14,
-  "generatedLine": 5,
-  "name": "no apples",
-  "originalColumn": 7,
-  "originalLine": 1,
-  "source": "message.intl",
-}
-`;
-
-exports[`mode arrow 2`] = `
-Object {
-  "generatedColumn": 27,
-  "generatedLine": 5,
-  "name": "caml",
-  "originalColumn": 1,
-  "originalLine": 1,
-  "source": "message.intl",
-}
-`;
-
-exports[`mode arrow 3`] = `
-Object {
-  "generatedColumn": 6,
-  "generatedLine": 7,
-  "name": "0",
-  "originalColumn": 23,
-  "originalLine": 1,
-  "source": "message.intl",
-}
-`;
-
-exports[`mode arrow 4`] = `
-Object {
-  "generatedColumn": 30,
-  "generatedLine": 7,
-  "name": " apple",
-  "originalColumn": 26,
-  "originalLine": 1,
-  "source": "message.intl",
-}
-`;
-
-exports[`mode arrow 5`] = `
-Object {
-  "generatedColumn": 6,
-  "generatedLine": 9,
-  "name": "n",
-  "originalColumn": 35,
-  "originalLine": 1,
-  "source": "message.intl",
-}
-`;
-
-exports[`mode arrow 6`] = `
-Object {
-  "generatedColumn": 33,
-  "generatedLine": 9,
-  "name": "　apples",
-  "originalColumn": 38,
-  "originalLine": 1,
-  "source": "message.intl",
-}
-`;
-
-exports[`mode arrow: @.caml:{'no apples'} | {0} apple | {n}　apples 1`] = `
-"(ctx) => {
-  const { normalize: _normalize, linked: _linked, interpolate: _interpolate, list: _list, named: _named, plural: _plural } = ctx
-  return _plural([
-    _normalize([
-      _linked(\\"no apples\\", \\"caml\\")
-    ]), _normalize([
-      _interpolate(_list(0)), \\" apple\\"
-    ]), _normalize([
-      _interpolate(_named(\\"n\\")), \\"　apples\\"
-    ])
   ])
 }"
 `;
