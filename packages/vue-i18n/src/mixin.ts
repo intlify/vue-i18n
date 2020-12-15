@@ -3,16 +3,16 @@ import { getLocaleMessages } from './composer'
 import { createVueI18n } from './legacy'
 import { createI18nError, I18nErrorCodes } from './errors'
 import { addTimelineEvent } from './devtools'
-import { createEmitter } from '@intlify/core/src/runtime'
+import { createEmitter } from '@intlify/core-base'
 
 import type { ComponentOptions } from 'vue'
-import type { Path } from '@intlify/message-resolver'
+import type { Path } from '@intlify/core-base'
 import type {
   Locale,
   LocaleMessageValue,
   DevToolsEmitter,
   DevToolsEmitterEvents
-} from '@intlify/core/src/runtime'
+} from '@intlify/core'
 import type {
   Composer,
   ComposerInternalOptions,

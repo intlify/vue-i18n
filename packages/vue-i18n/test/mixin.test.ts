@@ -4,7 +4,7 @@
 
 import { mount } from './helper'
 import { defineComponent, nextTick } from 'vue'
-import { createI18n } from '../src/i18n'
+import { createI18n } from '../src/index'
 import { errorMessages, I18nErrorCodes } from '../src/errors'
 import { VueI18n } from '../src/legacy'
 

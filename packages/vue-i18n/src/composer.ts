@@ -25,8 +25,9 @@ import {
   makeSymbol,
   isObject
 } from '@intlify/shared'
-import { parse as parsePath, resolveValue } from '@intlify/message-resolver'
 import {
+  parse as parsePath,
+  resolveValue,
   createCoreContext,
   MISSING_RESOLVE_VALUE,
   updateFallbackLocale,
@@ -40,14 +41,20 @@ import {
   clearNumberFormat,
   NOT_REOSLVED,
   DevToolsTimelineEvents
-} from '@intlify/core/src/runtime'
+} from '@intlify/core-base'
 import { I18nWarnCodes, getWarnMessage } from './warnings'
 import { I18nErrorCodes, createI18nError } from './errors'
 
 import type { ComponentInternalInstance, VNode, VNodeArrayChildren } from 'vue'
 import type { WritableComputedRef, ComputedRef } from '@vue/reactivity'
-import type { Path } from '@intlify/message-resolver'
 import type {
+  Path,
+  LinkedModifiers,
+  PluralizationRules,
+  NamedValue,
+  MessageFunctions,
+  MessageProcessor,
+  MessageType,
   Locale,
   LocaleMessageValue,
   LocaleMessages,
@@ -70,15 +77,7 @@ import type {
   NumberFormats as NumberFormatsType,
   DateTimeFormat,
   NumberFormat
-} from '@intlify/core/src/runtime'
-import type {
-  LinkedModifiers,
-  PluralizationRules,
-  NamedValue,
-  MessageFunctions,
-  MessageProcessor,
-  MessageType
-} from '@intlify/runtime'
+} from '@intlify/core-base'
 
 // extend VNode interface
 declare module '@vue/runtime-core' {

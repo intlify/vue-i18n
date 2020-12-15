@@ -18,14 +18,12 @@ import {
   warn
 } from '@intlify/shared'
 
-import type { Path } from '@intlify/message-resolver'
 import type {
+  Path,
   PluralizationRule,
   PluralizationRules,
   LinkedModifiers,
-  NamedValue
-} from '@intlify/runtime'
-import type {
+  NamedValue,
   Locale,
   LocaleMessages,
   LocaleMessageDictionary,
@@ -38,7 +36,7 @@ import type {
   DateTimeFormat,
   NumberFormat,
   DevToolsEmitter
-} from '@intlify/core/src/runtime'
+} from '@intlify/core-base'
 import type {
   VueMessageType,
   MissingHandler,

@@ -19,7 +19,15 @@ import {
 } from '../src/composer'
 import { generateFormatCacheKey } from '@intlify/shared'
 import { watch, watchEffect, nextTick, Text, createVNode } from 'vue'
-import { Locale } from '@intlify/core'
+import {
+  Locale,
+  compileToFunction,
+  registerMessageCompiler
+} from '@intlify/core-base'
+
+beforeEach(() => {
+  registerMessageCompiler(compileToFunction)
+})
 
 describe('locale', () => {
   test('default value', () => {

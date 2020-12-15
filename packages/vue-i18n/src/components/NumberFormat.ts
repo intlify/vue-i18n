@@ -4,7 +4,7 @@ import { renderFormatter } from './formatRenderer'
 import { baseFormatProps } from './base'
 
 import type { SetupContext, RenderFunction } from 'vue'
-import type { NumberOptions } from '@intlify/core/src/runtime'
+import type { NumberOptions } from '@intlify/core-base'
 import type { Composer, ComposerInternal } from '../composer'
 import type { FormattableProps } from './formatRenderer'
 

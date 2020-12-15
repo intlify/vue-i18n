@@ -96,7 +96,6 @@ module.exports = {
 
   // A map from regular expressions to module names that allow to stub out resources with a single module
   moduleNameMapper: {
-    '^@intlify/core/src/runtime$': '<rootDir>/packages/core/src/index.ts',
     '^@intlify/(.*?)$': '<rootDir>/packages/$1/src',
     'vue-i18n': '<rootDir>/packages/vue-i18n/src'
   },

@@ -1,6 +1,6 @@
 import { I18nWarnCodes, getWarnMessage } from './warnings'
-import { isString, isPlainObject, isNumber, warn } from '@intlify/shared'
 import { createI18nError, I18nErrorCodes } from './errors'
+import { isString, isPlainObject, isNumber, warn } from '@intlify/shared'
 
 import type {
   DirectiveBinding,
@@ -10,8 +10,7 @@ import type {
 import type { I18n, I18nInternal } from './i18n'
 import type { VueI18n, VueI18nInternal } from './legacy'
 import type { Composer } from './composer'
-import type { Locale, TranslateOptions } from '@intlify/core/src/runtime'
-import type { NamedValue } from '@intlify/runtime'
+import type { Locale, TranslateOptions, NamedValue } from '@intlify/core-base'
 
 type VTDirectiveValue = {
   path: string

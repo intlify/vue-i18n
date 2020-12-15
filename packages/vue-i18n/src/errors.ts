@@ -2,7 +2,7 @@ import {
   CompileError,
   CompileErrorCodes,
   createCompileError
-} from '@intlify/message-compiler'
+} from '@intlify/core-base'
 
 export interface I18nError extends CompileError {
   code: I18nErrorCodes

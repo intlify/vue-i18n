@@ -1,4 +1,7 @@
 {
   "name": "@intlify/size-check-vue-i18n",
-  "private": true
+  "private": true,
+  "dependencies": {
+    "@intlify/vue-i18n": "9.0.0-beta.12"
+  }
 }

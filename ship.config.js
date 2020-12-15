@@ -44,6 +44,7 @@ module.exports = {
       'packages/message-resolver',
       'packages/message-compiler',
       'packages/runtime',
+      'packages/core-base',
       'packages/core',
       'packages/vue-i18n'
     ],
@@ -52,6 +53,7 @@ module.exports = {
       'packages/message-resolver',
       'packages/message-compiler',
       'packages/runtime',
+      'packages/core-base',
       'packages/core',
       'packages/vue-i18n'
     ]

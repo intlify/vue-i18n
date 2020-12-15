@@ -9,7 +9,7 @@ import {
   ComponentOptions
 } from 'vue'
 import { mount } from './helper'
-import { createI18n, useI18n } from '../src/i18n'
+import { createI18n, useI18n } from '../src/index'
 import { errorMessages, I18nErrorCodes } from '../src/errors'
 import { Composer } from '../src/composer'
 

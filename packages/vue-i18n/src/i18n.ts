@@ -29,7 +29,7 @@ import {
   enableDevTools,
   addTimelineEvent
 } from './devtools'
-import { createEmitter } from '@intlify/core/src/runtime'
+import { createEmitter } from '@intlify/core-base'
 import { VERSION } from './misc'
 
 import type { ComponentInternalInstance, ComponentOptions, App } from 'vue'
@@ -41,7 +41,7 @@ import type {
   NumberFormat,
   DevToolsEmitter,
   DevToolsEmitterEvents
-} from '@intlify/core/src/runtime'
+} from '@intlify/core-base'
 import type {
   VueMessageType,
   Composer,

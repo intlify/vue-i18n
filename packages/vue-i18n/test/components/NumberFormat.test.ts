@@ -4,7 +4,7 @@
 
 import { mount } from '../helper'
 import { defineComponent, SetupContext, VNodeChild, h } from 'vue'
-import { createI18n } from '../../src/i18n'
+import { createI18n } from '../../src/index'
 
 const numberFormats = {
   'en-US': {

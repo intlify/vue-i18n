@@ -1,18 +1,17 @@
 import { initDev, initFeatureFlags } from './misc'
 
-export { Path, PathValue } from '@intlify/message-resolver'
 export {
+  Path,
+  PathValue,
   MessageFunction,
   MessageFunctions,
   PluralizationRule,
-  LinkedModifiers
-} from '@intlify/runtime'
-export {
+  LinkedModifiers,
   TranslateOptions,
   DateTimeOptions,
   NumberOptions,
   PostTranslationHandler
-} from '@intlify/core/src/runtime'
+} from '@intlify/core-base'
 export {
   VueMessageType,
   MissingHandler,
