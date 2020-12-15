@@ -247,6 +247,24 @@ exports[`@.caml:{'no apples'} | {0} apple | {n}　apples: code 1`] = `
 
 exports[`@.caml:{'no apples'} | {0} apple | {n}　apples: map 1`] = `undefined`;
 
+exports[`arrow mode  | | | : code 1`] = `"(ctx) => {const { normalize: _normalize, plural: _plural } = ctx;return _plural([_normalize([]), _normalize([]), _normalize([]), _normalize([])])}"`;
+
+exports[`arrow mode !#%^&*()-_+=[]:;?.<>"\`: code 1`] = `"(ctx) => {const { normalize: _normalize } = ctx;return _normalize([\\"hi \\", \\"!#%^&*()-_+=[]:;?.<>\\\\\\"\`\\", \\" !\\"])}"`;
+
+exports[`arrow mode @.caml:{'no apples'} | {0} apple | {n}　apples: code 1`] = `"(ctx) => {const { normalize: _normalize, linked: _linked, interpolate: _interpolate, list: _list, named: _named, plural: _plural } = ctx;return _plural([_normalize([_linked(\\"no apples\\", \\"caml\\")]), _normalize([_interpolate(_list(0)), \\" apple\\"]), _normalize([_interpolate(_named(\\"n\\")), \\"　apples\\"])])}"`;
+
+exports[`arrow mode hello world: code 1`] = `"(ctx) => {const { normalize: _normalize } = ctx;return _normalize([\\"hello world\\"])}"`;
+
+exports[`arrow mode hello\\n world: code 1`] = `"(ctx) => {const { normalize: _normalize } = ctx;return _normalize([\\"hello\\\\n world\\"])}"`;
+
+exports[`arrow mode hi @.upper:{'name'} !: code 1`] = `"(ctx) => {const { normalize: _normalize, linked: _linked } = ctx;return _normalize([\\"hi \\", _linked(\\"name\\", \\"upper\\"), \\" !\\"])}"`;
+
+exports[`arrow mode hi { 'kazupon' }!: code 1`] = `"(ctx) => {const { normalize: _normalize } = ctx;return _normalize([\\"hi \\", \\"kazupon\\", \\"!\\"])}"`;
+
+exports[`arrow mode hi {0}!: code 1`] = `"(ctx) => {const { normalize: _normalize, interpolate: _interpolate, list: _list } = ctx;return _normalize([\\"hi \\", _interpolate(_list(0)), \\"!\\"])}"`;
+
+exports[`arrow mode hi {name}!: code 1`] = `"(ctx) => {const { normalize: _normalize, interpolate: _interpolate, named: _named } = ctx;return _normalize([\\"hi \\", _interpolate(_named(\\"name\\")), \\"!\\"])}"`;
+
 exports[`edge cases  | | | : code 1`] = `
 "function __msg__ (ctx) {
   const { normalize: _normalize, plural: _plural } = ctx

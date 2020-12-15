@@ -11,6 +11,66 @@ test(`@.caml:{'no apples'} | {0} apple | {n}　apples`, () => {
   expect(map).toMatchSnapshot('map')
 })
 
+describe('arrow mode', () => {
+  test('hello world', () => {
+    const { code } = compile(`hello world`, { mode: 'arrow' })
+    new Function(code)
+    expect(code).toMatchSnapshot('code')
+  })
+
+  test('hello\\n world', () => {
+    const { code } = compile(`hello\n world`, { mode: 'arrow' })
+    new Function(code)
+    expect(code).toMatchSnapshot('code')
+  })
+
+  test('hi {0}!', () => {
+    const { code } = compile(`hi {0}!`, { mode: 'arrow' })
+    new Function(code)
+    expect(code).toMatchSnapshot('code')
+  })
+
+  test('hi {name}!', () => {
+    const { code } = compile(`hi {name}!`, { mode: 'arrow' })
+    new Function(code)
+    expect(code).toMatchSnapshot('code')
+  })
+
+  test("hi { 'kazupon' }!", () => {
+    const { code } = compile(`hi { 'kazupon' }!`, { mode: 'arrow' })
+    new Function(code)
+    expect(code).toMatchSnapshot('code')
+  })
+
+  test(`hi @.upper:{'name'} !`, () => {
+    const { code } = compile(`hi @.upper:{'name'} !`, { mode: 'arrow' })
+    new Function(code)
+    expect(code).toMatchSnapshot('code')
+  })
+
+  test('!#%^&*()-_+=[]:;?.<>"`', () => {
+    const { code } = compile(`hi {'${'!#%^&*()-_+=[]:;?.<>"`'}'} !`, {
+      mode: 'arrow'
+    })
+    new Function(code)
+    expect(code).toMatchSnapshot('code')
+  })
+
+  test(` | | | `, () => {
+    const { code } = compile(` | | | `, { mode: 'arrow' })
+    new Function(code)
+    expect(code).toMatchSnapshot('code')
+  })
+
+  test(`@.caml:{'no apples'} | {0} apple | {n}　apples`, () => {
+    const { code } = compile(`@.caml:{'no apples'} | {0} apple | {n}　apples`, {
+      mode: 'arrow'
+    })
+    new Function(code)
+    expect(code).toMatchSnapshot('code')
+  })
+})
+
 describe('edge cases', () => {
   test(` | | | `, () => {
     const { code } = compile(` | | | `, {
