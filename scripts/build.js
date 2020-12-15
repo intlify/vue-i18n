@@ -6,8 +6,8 @@ formats to output (defaults to `buildOptions.formats` specified in that package,
 or "esm,cjs"):
 
 ```
-# name supports fuzzy match. will build all packages with name containing "dom":
-yarn build dom
+# name supports fuzzy match. will build all packages with name containing "core-base":
+yarn build core-base
 
 # specify the format to output
 yarn build core --formats cjs

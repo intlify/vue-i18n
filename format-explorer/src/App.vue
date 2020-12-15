@@ -2,11 +2,11 @@
 import { defineComponent, ref } from 'vue'
 import Navigation from './components/Navigation.vue'
 import Editor from './components/Editor.vue'
-import { baseCompile } from 'vue-i18n'
+import { baseCompile } from '@intlify/message-compiler'
 import * as monaco from 'monaco-editor'
 import { debounce } from './utils'
 import { SourceMapConsumer } from 'source-map'
-import type { CompileError, CompileOptions } from 'vue-i18n'
+import type { CompileError, CompileOptions } from '@intlify/message-compiler'
 
 interface PersistedState {
   src?: string

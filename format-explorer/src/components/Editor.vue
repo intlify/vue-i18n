@@ -4,7 +4,7 @@ import theme from '../theme'
 import { debounce } from '../utils'
 import * as monaco from 'monaco-editor'
 import type { PropType } from 'vue'
-import type { CompileError } from 'vue-i18n'
+import type { CompileError } from '@intlify/message-compiler'
 
 export default defineComponent({
   name: 'Editor',
