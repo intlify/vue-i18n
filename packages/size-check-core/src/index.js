@@ -1,7 +1,4 @@
-import {
-  createCoreContext,
-  translate
-} from '../../core/dist/core.runtime.esm-bundler.js'
+import { createCoreContext, translate } from '@intlify/core'
 
 const ctx = createCoreContext({
   locale: 'en',

@@ -70,7 +70,7 @@
     "packages/global.d.ts",
     "packages/*/src",
     "packages/*/test"
-, "packages/size-check-vue-i18n/rollup.config.js"  ],
+  ],
   "exclude": ["node_modules"],
   "plugins": [
     {

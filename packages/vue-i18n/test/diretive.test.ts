@@ -13,7 +13,7 @@ import { warn } from '@intlify/shared'
 
 import { mount } from './helper'
 import { defineComponent, ref, h, withDirectives, resolveDirective } from 'vue'
-import { createI18n } from '../src/i18n'
+import { createI18n } from '../src/index'
 import { errorMessages, I18nErrorCodes } from '../src/errors'
 import { getWarnMessage, I18nWarnCodes } from '../src/warnings'
 import { format } from '@intlify/shared'

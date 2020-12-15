@@ -12,6 +12,11 @@ import { createVueI18n } from '../src/legacy'
 import { errorMessages, I18nErrorCodes } from '../src/errors'
 import { getWarnMessage, I18nWarnCodes } from '../src/warnings'
 import { watchEffect, nextTick } from 'vue'
+import { compileToFunction, registerMessageCompiler } from '@intlify/core-base'
+
+beforeEach(() => {
+  registerMessageCompiler(compileToFunction)
+})
 
 test('locale', () => {
   const i18n = createVueI18n()

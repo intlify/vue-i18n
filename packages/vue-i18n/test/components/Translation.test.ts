@@ -4,7 +4,7 @@
 
 import { mount } from '../helper'
 import { h, defineComponent, SetupContext, VNodeChild, ref } from 'vue'
-import { createI18n, useI18n } from '../../src/i18n'
+import { createI18n, useI18n } from '../../src/index'
 
 const messages = {
   en: {

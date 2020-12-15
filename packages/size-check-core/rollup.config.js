@@ -5,7 +5,6 @@ import commonjs from '@rollup/plugin-commonjs'
 import { terser } from 'rollup-plugin-terser'
 
 const config = {
-  external: [],
   output: {
     file: path.resolve(__dirname, './dist/index.js'),
     format: 'es'

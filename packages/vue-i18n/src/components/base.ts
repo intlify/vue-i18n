@@ -1,4 +1,4 @@
-import type { Locale } from '@intlify/core/src/runtime'
+import type { Locale } from '@intlify/core'
 import type { I18nScope } from '../i18n'
 
 export type ComponetI18nScope = Exclude<I18nScope, 'local'>

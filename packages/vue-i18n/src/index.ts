@@ -1,25 +1,21 @@
 import { initDev, initFeatureFlags } from './misc'
-import {
-  registerMessageCompiler,
-  compileToFunction
-} from '@intlify/core/src/runtime'
+import { registerMessageCompiler, compileToFunction } from '@intlify/core'
 
 // register message compiler at vue-i18n
 registerMessageCompiler(compileToFunction)
 
-export { Path, PathValue } from '@intlify/message-resolver'
 export {
+  Path,
+  PathValue,
   MessageFunction,
   MessageFunctions,
   PluralizationRule,
-  LinkedModifiers
-} from '@intlify/runtime'
-export {
+  LinkedModifiers,
   TranslateOptions,
   DateTimeOptions,
   NumberOptions,
   PostTranslationHandler
-} from '@intlify/core/src/runtime'
+} from '@intlify/core-base'
 export {
   VueMessageType,
   MissingHandler,
