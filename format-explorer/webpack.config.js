@@ -16,7 +16,9 @@ module.exports = {
     },
     alias: {
       vue: require.resolve('vue/dist/vue.esm-bundler.js'),
-      '@intlify/message-compiler': require.resolve('../packages/message-compiler/dist/message-compiler.cjs.js')
+      '@intlify/message-compiler': require.resolve(
+        '../packages/message-compiler/dist/message-compiler.cjs.js'
+      )
     }
   },
   module: {
