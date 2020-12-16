@@ -19,12 +19,10 @@ function checkHtmlMessage(source: string, options: CompileOptions): void {
 const defaultOnCacheKey = (source: string): string => source
 let compileCache: unknown = Object.create(null)
 
-/** @internal */
 export function clearCompileCache(): void {
   compileCache = Object.create(null)
 }
 
-/** @internal */
 export function compileToFunction<T = string>(
   source: string,
   options: CompileOptions = {}

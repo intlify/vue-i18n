@@ -14,14 +14,12 @@ export interface CompileError extends SyntaxError {
   location?: SourceLocation
 }
 
-/** @internal */
 export interface CreateCompileErrorOptions {
   domain?: CompileDomain
   messages?: { [code: number]: string }
   args?: unknown[]
 }
 
-/** @internal */
 export const enum CompileErrorCodes {
   // tokenizer error codes
   EXPECTED_TOKEN,
@@ -63,7 +61,6 @@ export const errorMessages: { [code: number]: string } = {
   [CompileErrorCodes.UNEXPECTED_LEXICAL_ANALYSIS]: `Unexpected lexical analysis in token: '{0}'`
 }
 
-/** @internal */
 export function createCompileError<T extends number>(
   code: T,
   loc: SourceLocation | null,

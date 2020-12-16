@@ -61,7 +61,6 @@ export type LocaleMessages<Message = string> = Record<
 
 export type CoreMissingType = 'translate' | 'datetime format' | 'number format'
 
-/** @internal */
 export type CoreMissingHandler<Message = string> = (
   context: CoreCommonContext<Message>,
   locale: Locale,
@@ -74,13 +73,11 @@ export type PostTranslationHandler<Message = string> = (
   translated: MessageType<Message>
 ) => MessageType<Message>
 
-/** @internal */
 export type MessageCompiler<Message = string> = (
   source: string,
   options?: CompileOptions
 ) => MessageFunction<Message>
 
-/** @internal */
 export interface CoreOptions<Message = string> {
   locale?: Locale
   fallbackLocale?: FallbackLocale
@@ -102,14 +99,12 @@ export interface CoreOptions<Message = string> {
   onWarn?: (msg: string, err?: Error) => void
 }
 
-/** @internal */
 export interface CoreInternalOptions {
   __datetimeFormatters?: Map<string, Intl.DateTimeFormat>
   __numberFormatters?: Map<string, Intl.NumberFormat>
   __emitter?: DevToolsEmitter // for vue-devtools timeline event
 }
 
-/** @internal */
 export interface CoreCommonContext<Message = string> {
   locale: Locale
   fallbackLocale: FallbackLocale
@@ -121,7 +116,6 @@ export interface CoreCommonContext<Message = string> {
   onWarn(msg: string, err?: Error): void
 }
 
-/** @internal */
 export interface CoreTranslationContext<Messages = {}, Message = string>
   extends CoreCommonContext<Message> {
   messages: Messages
@@ -134,19 +128,16 @@ export interface CoreTranslationContext<Messages = {}, Message = string>
   messageCompiler: MessageCompiler<Message> | null
 }
 
-/** @internal */
 export interface CoreDateTimeContext<DateTimeFormats = {}, Message = string>
   extends CoreCommonContext<Message> {
   datetimeFormats: DateTimeFormats
 }
 
-/** @internal */
 export interface CoreNumberContext<NumberFormats = {}, Message = string>
   extends CoreCommonContext<Message> {
   numberFormats: NumberFormats
 }
 
-/** @internal */
 export interface CoreContext<
   Messages = {},
   DateTimeFormats = {},
@@ -156,7 +147,6 @@ export interface CoreContext<
     CoreDateTimeContext<DateTimeFormats, Message>,
     CoreNumberContext<NumberFormats, Message> {}
 
-/** @internal */
 export interface CoreInternalContext {
   __datetimeFormatters: Map<string, Intl.DateTimeFormat>
   __numberFormatters: Map<string, Intl.NumberFormat>
@@ -164,10 +154,8 @@ export interface CoreInternalContext {
   __emitter?: DevToolsEmitter // for vue-devtools timeline event
 }
 
-/** @internal */
 export const NOT_REOSLVED = -1
 
-/** @internal */
 export const MISSING_RESOLVE_VALUE = ''
 
 function getDefaultLinkedModifiers<
@@ -188,14 +176,12 @@ function getDefaultLinkedModifiers<
 
 let _compiler: unknown | null
 
-/** @internal */
 export function registerMessageCompiler<Message>(
   compiler: MessageCompiler<Message>
 ): void {
   _compiler = compiler
 }
 
-/** @internal */
 export function createCoreContext<
   Message = string,
   Options extends CoreOptions<Message> = object,

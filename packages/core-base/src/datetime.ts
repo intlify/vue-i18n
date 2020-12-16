@@ -106,38 +106,32 @@ export interface DateTimeOptions {
 }
 
 // `datetime` function overloads
-/** @internal */
 export function datetime<DateTimeFormats, Message = string>(
   context: CoreDateTimeContext<DateTimeFormats, Message>,
   value: number | Date
 ): string | number | Intl.DateTimeFormatPart[]
-/** @internal */
 export function datetime<DateTimeFormats, Message = string>(
   context: CoreDateTimeContext<DateTimeFormats, Message>,
   value: number | Date,
   key: string
 ): string | number | Intl.DateTimeFormatPart[]
-/** @internal */
 export function datetime<DateTimeFormats, Message = string>(
   context: CoreDateTimeContext<DateTimeFormats, Message>,
   value: number | Date,
   key: string,
   locale: Locale
 ): string | number | Intl.DateTimeFormatPart[]
-/** @internal */
 export function datetime<DateTimeFormats, Message = string>(
   context: CoreDateTimeContext<DateTimeFormats, Message>,
   value: number | Date,
   options: DateTimeOptions
 ): string | number | Intl.DateTimeFormatPart[]
-/** @internal */
 export function datetime<DateTimeFormats, Message = string>(
   context: CoreDateTimeContext<DateTimeFormats, Message>,
   ...args: unknown[]
 ): string | number | Intl.DateTimeFormatPart[] // for internal
 
 // implementation of `datetime` function
-/** @internal */
 export function datetime<DateTimeFormats, Message = string>(
   context: CoreDateTimeContext<DateTimeFormats, Message>,
   ...args: unknown[]

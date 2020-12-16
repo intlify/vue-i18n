@@ -4,12 +4,10 @@ import {
 } from '@intlify/message-compiler'
 import type { CompileError } from '@intlify/message-compiler'
 
-/** @internal */
 export interface CoreError extends CompileError {
   code: CoreErrorCodes
 }
 
-/** @internal */
 export const enum CoreErrorCodes {
   INVALID_ARGUMENT = CompileErrorCodes.__EXTEND_POINT__,
   INVALID_DATE_ARGUMENT,
@@ -17,7 +15,6 @@ export const enum CoreErrorCodes {
   __EXTEND_POINT__
 }
 
-/** @internal */
 export function createCoreError(code: CoreErrorCodes): CoreError {
   return createCompileError(
     code,

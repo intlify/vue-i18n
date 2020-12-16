@@ -100,38 +100,32 @@ export interface NumberOptions {
 }
 
 // `number` function overloads
-/** @internal */
 export function number<NumberFormats, Message = string>(
   context: CoreNumberContext<NumberFormats, Message>,
   value: number
 ): string | number | Intl.NumberFormatPart[]
-/** @internal */
 export function number<NumberFormats, Message = string>(
   context: CoreNumberContext<NumberFormats, Message>,
   value: number,
   key: string
 ): string | number | Intl.NumberFormatPart[]
-/** @internal */
 export function number<NumberFormats, Message = string>(
   context: CoreNumberContext<NumberFormats, Message>,
   value: number,
   key: string,
   locale: Locale
 ): string | number | Intl.NumberFormatPart[]
-/** @internal */
 export function number<NumberFormats, Message = string>(
   context: CoreNumberContext<NumberFormats, Message>,
   value: number,
   options: NumberOptions
 ): string | number | Intl.NumberFormatPart[]
-/** @internal */
 export function number<NumberFormats, Message = string>(
   context: CoreNumberContext<NumberFormats, Message>,
   ...args: unknown[]
 ): string | number | Intl.NumberFormatPart[] // for internal
 
 // implementation of `number` function
-/** @internal */
 export function number<NumberFormats, Message = string>(
   context: CoreNumberContext<NumberFormats, Message>,
   ...args: unknown[]

@@ -1,6 +1,5 @@
 import { format } from '@intlify/shared'
 
-/** @internal */
 export const enum CoreWarnCodes {
   NOT_FOUND_KEY,
   FALLBACK_TO_TRANSLATE,
@@ -21,7 +20,6 @@ export const warnMessages: { [code: number]: string } = {
   [CoreWarnCodes.FALLBACK_TO_DATE_FORMAT]: `Fall back to datetime format '{key}' key with '{target}' locale.`
 }
 
-/** @internal */
 export function getWarnMessage(
   code: CoreWarnCodes,
   ...args: unknown[]
