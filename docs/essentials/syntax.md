@@ -214,7 +214,7 @@ const i18n = createI18n({
   },
   // set custom modifiers at `modifiers` option
   modifiers: {
-    snakeCase: (str) => str.split(' ').join('-')
+    snakeCase: (str) => str.split(' ').join('_')
   }
 })
 ```
