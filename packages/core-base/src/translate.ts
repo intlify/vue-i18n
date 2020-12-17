@@ -291,7 +291,7 @@ export function translate<Messages, Message = string>(
     return unresolving ? NOT_REOSLVED : (key as MessageType<Message>)
   }
 
-  if (__RUNTIME__ && isString(format) && context.messageCompiler == null) {
+  if (__DEV__ && isString(format) && context.messageCompiler == null) {
     warn(
       `Message format compilation is not supported in this build, because message compiler isn't included, you need to pre-compilation all message format.`
     )
