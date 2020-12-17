@@ -1,4 +1,18 @@
 
+## v9.0.0-beta.14 (2020-12-17)
+
+#### :zap: Improvement Features
+* `core-base`
+  * [#238](https://github.com/intlify/vue-i18n-next/pull/238) tweak runtime warning ([@kazupon](https://github.com/kazupon))
+* `core-base`, `message-compiler`, `shared`, `vue-i18n`
+  * [#237](https://github.com/intlify/vue-i18n-next/pull/237) improvement: api exporting ([@kazupon](https://github.com/kazupon))
+* `core-base`, `core`, `message-compiler`, `runtime`, `vue-i18n`
+  * [#235](https://github.com/intlify/vue-i18n-next/pull/235) improvement: inline code generation ([@kazupon](https://github.com/kazupon))
+
+#### Committers: 1
+- kazuya kawaguchi ([@kazupon](https://github.com/kazupon))
+
+
 ## v9.0.0-beta.13 (2020-12-15)
 
 #### :zap: Improvement Features

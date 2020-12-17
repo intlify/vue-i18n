@@ -1,6 +1,6 @@
 {
   "name": "@intlify/core-base",
-  "version": "9.0.0-beta.13",
+  "version": "9.0.0-beta.14",
   "description": "@intlify/core-base",
   "keywords": [
     "core",
@@ -23,32 +23,24 @@
   "bugs": {
     "url": "https://github.com/intlify/vue-i18n-next/issues"
   },
-  "files": [
-    "index.js",
-    "dist"
-  ],
+  "files": ["index.js", "dist"],
   "main": "index.js",
   "module": "dist/core-base.esm-bundler.js",
   "unpkg": "dist/core-base.global.js",
   "jsdelivr": "dist/core-base.global.js",
   "types": "dist/core-base.d.ts",
   "dependencies": {
-    "@intlify/message-compiler": "9.0.0-beta.13",
-    "@intlify/message-resolver": "9.0.0-beta.13",
-    "@intlify/runtime": "9.0.0-beta.13",
-    "@intlify/shared": "9.0.0-beta.13"
+    "@intlify/message-compiler": "9.0.0-beta.14",
+    "@intlify/message-resolver": "9.0.0-beta.14",
+    "@intlify/runtime": "9.0.0-beta.14",
+    "@intlify/shared": "9.0.0-beta.14"
   },
   "engines": {
     "node": ">= 10"
   },
   "buildOptions": {
     "name": "IntlifyCoreBase",
-    "formats": [
-      "esm-bundler",
-      "esm-browser",
-      "cjs",
-      "global"
-    ]
+    "formats": ["esm-bundler", "esm-browser", "cjs", "global"]
   },
   "sideEffects": false
 }
