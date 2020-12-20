@@ -76,7 +76,7 @@ export function createTokenizer(
   source: string,
   options: TokenizeOptions = {}
 ): Tokenizer {
-  const location = !options.location
+  const location = options.location !== false
 
   const _scnr = createScanner(source)
 
