@@ -117,7 +117,7 @@ function fromEscapeSequence(
 }
 
 export function createParser(options: ParserOptions = {}): Parser {
-  const location = !options.location
+  const location = options.location !== false
 
   const { onError } = options
   function emitError(
