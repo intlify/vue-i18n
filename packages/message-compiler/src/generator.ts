@@ -11,7 +11,7 @@ import {
   NamedNode,
   LinkedNode,
   LinkedKeyNode,
-  LinkedModitierNode,
+  LinkedModifierNode,
   LiteralNode
 } from './parser'
 import { Position, LocationStub } from './location'
@@ -43,7 +43,7 @@ type CodeGenNode =
   | ListNode
   | LiteralNode
   | LinkedKeyNode
-  | LinkedModitierNode
+  | LinkedModifierNode
 
 type CodeGenerator = {
   context(): CodeGenContext
@@ -216,8 +216,8 @@ function generateNode(generator: CodeGenerator, node: Node): void {
       break
     case NodeTypes.LinkedModifier:
       generator.push(
-        JSON.stringify((node as LinkedModitierNode).value),
-        node as LinkedModitierNode
+        JSON.stringify((node as LinkedModifierNode).value),
+        node as LinkedModifierNode
       )
       break
     case NodeTypes.LinkedKey:
