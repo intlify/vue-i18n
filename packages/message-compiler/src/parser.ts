@@ -71,7 +71,7 @@ export interface LiteralNode extends Node {
 
 export interface LinkedNode extends Node {
   type: NodeTypes.Linked
-  modifier?: LinkedModitierNode
+  modifier?: LinkedModifierNode
   key: LinkedKeyNode | NamedNode | ListNode | LiteralNode
 }
 
@@ -80,7 +80,7 @@ export interface LinkedKeyNode extends Node {
   value: string
 }
 
-export interface LinkedModitierNode extends Node {
+export interface LinkedModifierNode extends Node {
   type: NodeTypes.LinkedModifier
   value: Identifier
 }
@@ -213,7 +213,7 @@ export function createParser(options: ParserOptions = {}): Parser {
     return node
   }
 
-  function parseLinkedModifier(tokenizer: Tokenizer): LinkedModitierNode {
+  function parseLinkedModifier(tokenizer: Tokenizer): LinkedModifierNode {
     const token = tokenizer.nextToken()
     const context = tokenizer.context()
     // check token
@@ -231,7 +231,7 @@ export function createParser(options: ParserOptions = {}): Parser {
       NodeTypes.LinkedModifier,
       offset,
       loc
-    ) as LinkedModitierNode
+    ) as LinkedModifierNode
     node.value = token.value || ''
     endNode(node, tokenizer.currentOffset(), tokenizer.currentPosition())
     return node
