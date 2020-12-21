@@ -13,7 +13,7 @@ const { setupWarningConsole } = require('../helper') // eslint-disable-line
     test('warning', () => {
       // missing warning only
       expect(warnings[0]).toEqual(
-        `[vue-i18n] Not found 'hello, {name}!' key in 'ja' locale messages.`
+        `[intlify] Not found 'hello, {name}!' key in 'ja' locale messages.`
       )
     })
 

@@ -79,8 +79,7 @@ export const isEmptyObject = (val: unknown): val is boolean =>
 
 export function warn(msg: string, err?: Error): void {
   if (typeof console !== 'undefined') {
-    const label = __WARN_LABEL__ ? __WARN_LABEL__ : 'intlify'
-    console.warn(`[${label}] ` + msg)
+    console.warn(`[intlify] ` + msg)
     /* istanbul ignore if */
     if (err) {
       console.warn(err.stack)

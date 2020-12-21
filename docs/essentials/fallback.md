@@ -52,8 +52,8 @@ Output:
 By default, falling back to `fallbackLocale` generates two console warnings:
 
 ```
-[vue-i18n] Not found 'hello' key in 'ja' locale messages.
-[vue-i18n] Fall back to translate 'hello' key with 'en' locale.
+[intlify] Not found 'hello' key in 'ja' locale messages.
+[intlify] Fall back to translate 'hello' key with 'en' locale.
 ```
 
 The first warning message is printed the key, due to  given to the translation function `$t` is not in the `ja` locale messages and the second warning message that comes out when you fall back to resolve localized messages from `en` locale messages. These warning messages are output to support debugging using Vue I18n.

@@ -13,7 +13,7 @@ const { setupWarningConsole } = require('../helper') // eslint-disable-line
     test('warning', () => {
       // fallback warning only
       expect(warnings[0]).toEqual(
-        `[vue-i18n] Fall back to translate 'message.hello' key with 'en' locale.`
+        `[intlify] Fall back to translate 'message.hello' key with 'en' locale.`
       )
     })
 
