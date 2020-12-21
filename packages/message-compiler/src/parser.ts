@@ -1,7 +1,7 @@
 import { Position, createLocation, SourceLocation } from './location'
 import { ParserOptions } from './options'
 import { createCompileError, CompileErrorCodes } from './errors'
-import { Tokenizer, createTokenizer, TokenTypes } from './tokenizer'
+import { Tokenizer, createTokenizer, TokenTypes, Token } from './tokenizer'
 
 export const enum NodeTypes {
   Resource, // 0
@@ -213,9 +213,36 @@ export function createParser(options: ParserOptions = {}): Parser {
     return node
   }
 
-  function parseLinkedModifier(tokenizer: Tokenizer): LinkedModifierNode {
+  function parseLinkedModifier(
+    tokenizer: Tokenizer
+  ): {
+    nextConsumeToken?: Token
+    node: LinkedModifierNode
+  } {
     const token = tokenizer.nextToken()
     const context = tokenizer.context()
+    const { lastOffset: offset, lastStartLoc: loc } = context // get linked dot loc
+    const node = startNode(
+      NodeTypes.LinkedModifier,
+      offset,
+      loc
+    ) as LinkedModifierNode
+    if (token.type !== TokenTypes.LinkedModifier) {
+      // empty modifier
+      emitError(
+        tokenizer,
+        CompileErrorCodes.UNEXPECTED_LEXICAL_ANALYSIS,
+        context.lastStartLoc,
+        0,
+        token.type
+      )
+      node.value = ''
+      endNode(node, offset, loc)
+      return {
+        nextConsumeToken: token,
+        node
+      }
+    }
     // check token
     if (token.value == null) {
       emitError(
@@ -226,15 +253,11 @@ export function createParser(options: ParserOptions = {}): Parser {
         token.type
       )
     }
-    const { lastOffset: offset, lastStartLoc: loc } = context // get linked dot loc
-    const node = startNode(
-      NodeTypes.LinkedModifier,
-      offset,
-      loc
-    ) as LinkedModifierNode
     node.value = token.value || ''
     endNode(node, tokenizer.currentOffset(), tokenizer.currentPosition())
-    return node
+    return {
+      node
+    }
   }
 
   function parseLinkedKey(tokenizer: Tokenizer, value: string): LinkedKeyNode {
@@ -249,7 +272,12 @@ export function createParser(options: ParserOptions = {}): Parser {
     return node
   }
 
-  function parseLinked(tokenizer: Tokenizer): LinkedNode {
+  function parseLinked(
+    tokenizer: Tokenizer
+  ): {
+    nextConsumeToken?: Token
+    node: LinkedNode
+  } {
     const context = tokenizer.context()
     const linkedNode = startNode(
       NodeTypes.Linked,
@@ -259,8 +287,9 @@ export function createParser(options: ParserOptions = {}): Parser {
 
     let token = tokenizer.nextToken()
     if (token.type === TokenTypes.LinkedDot) {
-      linkedNode.modifier = parseLinkedModifier(tokenizer)
-      token = tokenizer.nextToken()
+      const parsed = parseLinkedModifier(tokenizer)
+      linkedNode.modifier = parsed.node
+      token = parsed.nextConsumeToken || tokenizer.nextToken()
     }
 
     // asset check token
@@ -329,10 +358,36 @@ export function createParser(options: ParserOptions = {}): Parser {
         }
         linkedNode.key = parseLiteral(tokenizer, token.value || '')
         break
+      default:
+        // empty key
+        emitError(
+          tokenizer,
+          CompileErrorCodes.UNEXPECTED_LEXICAL_ANALYSIS,
+          context.lastStartLoc,
+          0,
+          token.type
+        )
+        const nextContext = tokenizer.context()
+        const emptyLinkedKeyNode = startNode(
+          NodeTypes.LinkedKey,
+          nextContext.offset,
+          nextContext.startLoc
+        ) as LinkedKeyNode
+        emptyLinkedKeyNode.value = ''
+        endNode(emptyLinkedKeyNode, nextContext.offset, nextContext.startLoc)
+        linkedNode.key = emptyLinkedKeyNode
+        endNode(linkedNode, nextContext.offset, nextContext.startLoc)
+        return {
+          nextConsumeToken: token,
+          node: linkedNode
+        }
+        break
     }
 
     endNode(linkedNode, tokenizer.currentOffset(), tokenizer.currentPosition())
-    return linkedNode
+    return {
+      node: linkedNode
+    }
   }
 
   function parseMessage(tokenizer: Tokenizer): MessageNode {
@@ -352,8 +407,10 @@ export function createParser(options: ParserOptions = {}): Parser {
     ) as MessageNode
     node.items = []
 
+    let nextToken: Token | null = null
     do {
-      const token = tokenizer.nextToken()
+      const token = nextToken || tokenizer.nextToken()
+      nextToken = null
       switch (token.type) {
         case TokenTypes.Text:
           if (token.value == null) {
@@ -404,7 +461,9 @@ export function createParser(options: ParserOptions = {}): Parser {
           node.items.push(parseLiteral(tokenizer, token.value || ''))
           break
         case TokenTypes.LinkedAlias:
-          node.items.push(parseLinked(tokenizer))
+          const parsed = parseLinked(tokenizer)
+          node.items.push(parsed.node)
+          nextToken = parsed.nextConsumeToken || null
           break
       }
     } while (
