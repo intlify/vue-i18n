@@ -21,6 +21,7 @@ export {
   MissingHandler,
   ComposerOptions,
   Composer,
+  CustomBlock,
   CustomBlocks
 } from './composer'
 export {

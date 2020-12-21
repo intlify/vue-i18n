@@ -222,8 +222,14 @@ describe('useI18n', () => {
         }
         const options = instance.type as ComponentOptions
         options.__i18n = [
-          JSON.stringify({ en: { hello: 'Hello,world!' } }),
-          JSON.stringify({ ja: { hello: 'こんにちは、世界！' } })
+          {
+            locale: '',
+            resource: { en: { hello: 'Hello,world!' } }
+          },
+          {
+            locale: '',
+            resource: { ja: { hello: 'こんにちは、世界！' } }
+          }
         ]
         composer = useI18n()
         return { t: (composer as Composer).t }
@@ -627,8 +633,14 @@ test('merge i18n custom blocks to global scope', async () => {
       }
       const options = instance.type as ComponentOptions
       options.__i18nGlobal = [
-        JSON.stringify({ en: { foo: 'foo!' } }),
-        JSON.stringify({ ja: { foo: 'ふー！' } })
+        {
+          locale: 'en',
+          resource: { foo: 'foo!' }
+        },
+        {
+          locale: 'ja',
+          resource: { foo: 'ふー！' }
+        }
       ]
       useI18n({
         useScope: 'global',
