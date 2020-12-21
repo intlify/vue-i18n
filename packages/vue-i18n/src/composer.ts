@@ -26,7 +26,6 @@ import {
   isObject
 } from '@intlify/shared'
 import {
-  parse as parsePath,
   resolveValue,
   createCoreContext,
   MISSING_RESOLVE_VALUE,
@@ -108,9 +107,12 @@ export type PreCompileHandler<Message = VueMessageType> = () => {
   functions: MessageFunctions<Message>
 }
 
-export type CustomBlocks<Message = VueMessageType> =
-  | Array<string | LocaleMessages<Message>>
-  | PreCompileHandler<Message>
+export interface CustomBlock<Message = VueMessageType> {
+  locale: Locale
+  resource: LocaleMessages<Message> | LocaleMessageDictionary<Message>
+}
+
+export type CustomBlocks<Message = VueMessageType> = Array<CustomBlock<Message>>
 
 /**
  * Composer Options
@@ -950,15 +952,14 @@ export function getLocaleMessages<Message = VueMessageType>(
 
   // merge locale messages of i18n custom block
   if (isArray(__i18n)) {
-    __i18n.forEach(raw => {
-      deepCopy(isString(raw) ? JSON.parse(raw) : raw, ret)
+    __i18n.forEach(({ locale, resource }) => {
+      if (locale) {
+        ret[locale] = ret[locale] || {}
+        deepCopy(resource, ret[locale])
+      } else {
+        deepCopy(resource, ret)
+      }
     })
-    return ret
-  }
-
-  if (isFunction(__i18n)) {
-    const { functions } = __i18n()
-    addPreCompileMessages<Message>(ret, functions as MessageFunctions<Message>)
   }
 
   return ret
@@ -983,41 +984,6 @@ function deepCopy(source: any, destination: any): void {
       }
     }
   }
-}
-
-export function addPreCompileMessages<Message = VueMessageType>(
-  messages: LocaleMessages<Message>,
-  functions: MessageFunctions<Message>
-): void {
-  const keys = Object.keys(functions)
-  keys.forEach(key => {
-    const compiled = functions[key]
-    const { l, k } = JSON.parse(key)
-    if (!messages[l]) {
-      messages[l] = {}
-    }
-    const targetLocaleMessage = messages[l]
-    const paths = parsePath(k)
-    if (paths != null) {
-      const len = paths.length
-      let last = targetLocaleMessage as any // eslint-disable-line @typescript-eslint/no-explicit-any
-      let i = 0
-      while (i < len) {
-        const path = paths[i]
-        if (i === len - 1) {
-          last[path] = compiled
-          break
-        } else {
-          let val = last[path]
-          if (!val) {
-            last[path] = val = {}
-          }
-          last = val
-          i++
-        }
-      }
-    }
-  })
 }
 
 /**

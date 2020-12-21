@@ -10,14 +10,12 @@ import { isString, warn } from '@intlify/shared'
 import {
   createComposer,
   MissingHandler,
-  addPreCompileMessages,
   ComposerOptions,
   VueMessageType,
   TransrateVNodeSymbol,
   NumberPartsSymbol,
   DatetimePartsSymbol
 } from '../src/composer'
-import { generateFormatCacheKey } from '@intlify/shared'
 import { watch, watchEffect, nextTick, Text, createVNode } from 'vue'
 import {
   Locale,
@@ -960,122 +958,97 @@ describe('getNumberFormat / setNumberFormat / mergeNumberFormat', () => {
 })
 
 describe('__i18n', () => {
-  test('default value', () => {
-    const options = {
-      __i18n: [
-        JSON.stringify({ en: { hello: 'Hello,world!' } }),
-        JSON.stringify({
-          ja: {
-            hello: 'こんにちは、世界！',
-            nest: {
-              foo: {
-                bar: 'ばー'
-              }
+  test('locale included locale messages', () => {
+    const enResource = {
+      locale: '',
+      resource: {
+        en: { hello: () => 'Hello,world!' }
+      }
+    }
+    const jaResource = {
+      locale: '',
+      resource: {
+        ja: {
+          hello: () => 'こんにちは、世界！',
+          nest: {
+            foo: {
+              bar: () => 'ばー'
             }
           }
-        })
-      ]
+        }
+      }
+    }
+    const options = {
+      __i18n: [enResource, jaResource]
     }
     const { messages } = createComposer(
       options as ComposerOptions<VueMessageType>
     )
     expect(messages.value).toEqual({
-      en: { hello: 'Hello,world!' },
-      ja: {
-        hello: 'こんにちは、世界！',
-        nest: {
-          foo: {
-            bar: 'ばー'
-          }
-        }
-      }
+      en: enResource.resource.en,
+      ja: jaResource.resource.ja
     })
   })
 
-  test('locale messages object', () => {
-    const options = {
-      __i18n: [
-        { en: { hello: 'Hello,world!' } },
-        {
-          ja: {
-            hello: 'こんにちは、世界！',
-            nest: {
-              foo: {
-                bar: 'ばー'
-              }
-            }
+  test('locale not included locale messages', () => {
+    const enResource = {
+      locale: 'en',
+      resource: { hello: () => 'Hello,world!' }
+    }
+    const jaResource = {
+      locale: 'ja',
+      resource: {
+        hello: () => 'こんにちは、世界！',
+        nest: {
+          foo: {
+            bar: () => 'ばー'
           }
         }
-      ]
+      }
+    }
+    const options = {
+      __i18n: [enResource, jaResource]
     }
     const { messages } = createComposer(
       options as ComposerOptions<VueMessageType>
     )
     expect(messages.value).toEqual({
-      en: { hello: 'Hello,world!' },
-      ja: {
-        hello: 'こんにちは、世界！',
-        nest: {
-          foo: {
-            bar: 'ばー'
-          }
-        }
-      }
+      en: enResource.resource,
+      ja: jaResource.resource
     })
   })
 
   test('merge locale messages', () => {
-    const msgFn = () => 'ふー'
+    const msgFnEn = () => 'foo'
+    const msgFnJa = () => 'ふー'
+    const enI18nFn = () => 'Hello,world!'
+    const jaI18nFn = () => 'こんにちは、世界！'
     const options = {
       __i18n: [
-        JSON.stringify({ en: { hello: 'Hello,world!' } }),
-        JSON.stringify({ ja: { hello: 'こんにちは、世界！' } })
+        {
+          locale: 'en',
+          resource: { hello: enI18nFn }
+        },
+        {
+          locale: 'ja',
+          resource: { hello: jaI18nFn }
+        }
       ],
       messages: {
-        en: { foo: 'foo' },
-        ja: { foo: msgFn }
+        en: { foo: msgFnEn },
+        ja: { foo: msgFnJa }
       }
     }
     const { messages } = createComposer(
       options as ComposerOptions<VueMessageType>
     )
     expect(messages.value!.en).toEqual({
-      hello: 'Hello,world!',
-      foo: 'foo'
+      hello: enI18nFn,
+      foo: msgFnEn
     })
     expect(messages.value!.ja).toEqual({
-      hello: 'こんにちは、世界！',
-      foo: msgFn
-    })
-  })
-
-  test('function + locale messages', () => {
-    const functions = Object.create(null)
-    const msg1 = () => {}
-    const msg2 = () => {}
-    functions[generateFormatCacheKey('en', 'hello', 'hello,world')] = msg1
-    functions[
-      generateFormatCacheKey('ja', 'hello.hello', 'こんにちは、世界')
-    ] = msg2
-    const options = {
-      __i18n: () => ({ functions }),
-      messages: {
-        en: { foo: 'foo' },
-        ja: { foo: 'ふー' }
-      }
-    }
-    const { messages } = createComposer(
-      options as ComposerOptions<VueMessageType>
-    )
-    expect(messages.value!.en).toEqual({
-      hello: msg1,
-      foo: 'foo'
-    })
-    expect(messages.value!.ja).toEqual({
-      hello: {
-        hello: msg2
-      },
-      foo: 'ふー'
+      hello: jaI18nFn,
+      foo: msgFnJa
     })
   })
 })
@@ -1205,28 +1178,6 @@ describe('__datetimeParts', () => {
         part: true
       })
     ).toEqual([])
-  })
-})
-
-test('addPreCompileMessages', () => {
-  const messages: any = {}
-  const functions = Object.create(null)
-  const msg1 = () => {}
-  const msg2 = () => {}
-  functions[generateFormatCacheKey('en', 'hello', 'hello,world')] = msg1
-  functions[
-    generateFormatCacheKey('ja', 'foo.bar.hello', 'こんにちは、世界')
-  ] = msg2
-  addPreCompileMessages(messages, functions)
-  expect(messages!['en']).toMatchObject({
-    hello: msg1
-  })
-  expect(messages!['ja']).toMatchObject({
-    foo: {
-      bar: {
-        hello: msg2
-      }
-    }
   })
 })
 

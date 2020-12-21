@@ -55,7 +55,12 @@ describe('beforeCreate', () => {
     }
     const App = defineComponent({
       template: `<p>{{ $t('bye') }}</p>`,
-      __i18n: [JSON.stringify(messages)]
+      __i18n: [
+        {
+          locale: '',
+          resource: messages
+        }
+      ]
     })
     const { html } = await mount(App, i18n)
 
