@@ -15,7 +15,7 @@ const { setupWarningConsole } = require('../helper') // eslint-disable-line
       expect(warnings[0]).toEqual(`detect 'message.hello' key missing in 'ja'`)
       // fallback warning
       expect(warnings[1]).toEqual(
-        `[vue-i18n] Fall back to translate 'message.hello' key with 'en' locale.`
+        `[intlify] Fall back to translate 'message.hello' key with 'en' locale.`
       )
     })
 
