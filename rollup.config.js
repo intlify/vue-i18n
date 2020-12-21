@@ -174,7 +174,6 @@ function createConfig(format, output, plugins = []) {
         isGlobalBuild,
         isNodeBuild,
         isRuntimeOnlyBuild,
-        name === 'vue-i18n' ? name : 'intlify',
         path.parse(output.file).base || ''
       ),
       ...nodePlugins,
@@ -200,7 +199,6 @@ function createReplacePlugin(
   isGlobalBuild,
   isNodeBuild,
   isRuntimeOnlyBuild,
-  warnLabel,
   bundleFilename
 ) {
   const replacements = {
@@ -218,8 +216,6 @@ function createReplacePlugin(
     __GLOBAL__: isGlobalBuild,
     // for runtime only
     __RUNTIME__: isRuntimeOnlyBuild,
-    // warning label
-    __WARN_LABEL__: `'${warnLabel}'`,
     // bundle filename
     __BUNDLE_FILENAME__: `'${bundleFilename}'`,
     __ESM_BUNDLER__: isBundlerESMBuild,

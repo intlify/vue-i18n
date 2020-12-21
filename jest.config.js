@@ -67,7 +67,6 @@ module.exports = {
     __BROWSER__: false,
     __GLOBAL__: false,
     __RUNTIME__: false,
-    __WARN_LABEL__: `'vue-i18n'`,
     __BUNDLE_FILENAME__: 'test.bundle.js',
     __ESM_BUNDLER__: true,
     __ESM_BROWSER__: false,

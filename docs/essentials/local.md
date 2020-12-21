@@ -86,8 +86,8 @@ As in the example above, if the component doesn’t have the locale message, it 
 And also, as explained the [here](fallback#explicit-fallback-with-one-locale), note that, by default, falling back to global scope generates two warnings in the console:
 
 ```
-[vue-i18n] Not found 'message.greeting' key in 'ja' locale messages.
-[vue-i18n] Fall back to translate 'message.greeting' with root locale.
+[intlify] Not found 'message.greeting' key in 'ja' locale messages.
+[intlify] Fall back to translate 'message.greeting' with root locale.
 ```
 
 If you want to localize using the component locale, you can do that with `sync: false` and `locale` in the `i18n` component option.

@@ -24,9 +24,12 @@
   "bugs": {
     "url": "https://github.com/intlify/vue-i18n-next/issues"
   },
-  "files": ["index.js", "dist"],
+  "files": [
+    "index.js",
+    "dist"
+  ],
   "main": "index.js",
-  "module": "dist/vue-i18n.esm-bundler.js",
+  "module": "dist/vue-i18n.runtime.esm-bundler.js",
   "unpkg": "dist/vue-i18n.global.js",
   "jsdelivr": "dist/vue-i18n.global.js",
   "types": "dist/vue-i18n.d.ts",
