@@ -23,7 +23,10 @@
   "bugs": {
     "url": "https://github.com/intlify/vue-i18n-next/issues"
   },
-  "files": ["index.js", "dist"],
+  "files": [
+    "index.js",
+    "dist"
+  ],
   "main": "index.js",
   "module": "dist/core.runtime.esm-bundler.js",
   "unpkg": "dist/core.global.js",

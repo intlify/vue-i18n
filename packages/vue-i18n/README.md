@@ -36,7 +36,14 @@ Internationalization plugin for Vue.js
     - **`vue-i18n.runtime.esm-bundler.js` (default)** is runtime only, and requires all locale messages to be pre-compiled. This is the default entry for bundlers (via `module` field in `package.json`) because when using a bundler templates are typically pre-compiled (e.g. in `*.json` files)
     - **`vue-i18n.esm-bundler.js`**: includes the runtime compiler. Use this if you are using a bundler but still want locale messages compilation (e.g. templates via inline JavaScript strings)
 
-#### Bundler Build Feature Flags
+### For Node.js (Server-Side)
+
+- **`vue-i18n.cjs(.prod).js`**:
+  - For use in Node.js via `require()`
+  - If you bundle your app with webpack with `target: 'node'` and properly externalize `vue-i18n`, this is the build that will be loaded
+  - The dev/prod files are pre-built, but the appropriate file is automatically required based on `process.env.NODE_ENV`
+
+## Bundler Build Feature Flags
 
 The `esm-bundler` builds now exposes global feature flags that can be overwritten at compile time:
 
@@ -51,13 +58,6 @@ The build will work without configuring these flags, however it is **strongly re
 - Vite: configured by default, but can be overwritten using the [`define` option](https://github.com/vitejs/vite/blob/a4133c073e640b17276b2de6e91a6857bdf382e1/src/node/config.ts#L72-L76)
 
 Note: the replacement value **must be boolean literals** and cannot be strings, otherwise the bundler/minifier will not be able to properly evaluate the conditions.
-
-### For Node.js (Server-Side)
-
-- **`vue-i18n.cjs(.prod).js`**:
-  - For use in Node.js via `require()`
-  - If you bundle your app with webpack with `target: 'node'` and properly externalize `vue-i18n`, this is the build that will be loaded
-  - The dev/prod files are pre-built, but the appropriate file is automatically required based on `process.env.NODE_ENV`
 
 ## :copyright: License
 

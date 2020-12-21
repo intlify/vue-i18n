@@ -23,7 +23,10 @@
   "bugs": {
     "url": "https://github.com/intlify/vue-i18n-next/issues"
   },
-  "files": ["index.js", "dist"],
+  "files": [
+    "index.js",
+    "dist"
+  ],
   "main": "index.js",
   "module": "dist/message-compiler.esm-bundler.js",
   "unpkg": "dist/message-compiler.global.js",
@@ -39,7 +42,12 @@
   },
   "buildOptions": {
     "name": "IntlifyMessageCompiler",
-    "formats": ["esm-bundler", "esm-browser", "cjs", "global"]
+    "formats": [
+      "esm-bundler",
+      "esm-browser",
+      "cjs",
+      "global"
+    ]
   },
   "sideEffects": false
 }
