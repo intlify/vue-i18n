@@ -1,4 +1,26 @@
 
+## v9.0.0-beta.15 (2020-12-21)
+
+#### :bug: Bug Fixes
+* `message-compiler`
+  * [#243](https://github.com/intlify/vue-i18n-next/pull/243) Fix maybe typo ([@ota-meshi](https://github.com/ota-meshi))
+  * [#242](https://github.com/intlify/vue-i18n-next/pull/242) Fix not to get loc when passing true to ParserOptions.location ([@ota-meshi](https://github.com/ota-meshi))
+
+#### :zap: Improvement Features
+* `core-base`, `core`, `message-compiler`, `runtime`, `shared`, `vue-i18n`
+  * [#247](https://github.com/intlify/vue-i18n-next/pull/247) change vue-i18n and core es module for bundler ([@kazupon](https://github.com/kazupon))
+* `message-compiler`
+  * [#245](https://github.com/intlify/vue-i18n-next/pull/245) improvement(message-compiler): Change to generate AST with linked message error ([@ota-meshi](https://github.com/ota-meshi))
+
+#### :boom: Breaking Change
+* `vue-i18n`
+  * [#246](https://github.com/intlify/vue-i18n-next/pull/246) breaking: change sfc custom block interface ([@kazupon](https://github.com/kazupon))
+
+#### Committers: 2
+- Yosuke Ota ([@ota-meshi](https://github.com/ota-meshi))
+- kazuya kawaguchi ([@kazupon](https://github.com/kazupon))
+
+
 ## v9.0.0-beta.14 (2020-12-17)
 
 #### :zap: Improvement Features
