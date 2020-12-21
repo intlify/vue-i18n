@@ -16,7 +16,6 @@ import {
   NumberPartsSymbol,
   DatetimePartsSymbol
 } from '../src/composer'
-import { generateFormatCacheKey } from '@intlify/shared'
 import { watch, watchEffect, nextTick, Text, createVNode } from 'vue'
 import {
   Locale,

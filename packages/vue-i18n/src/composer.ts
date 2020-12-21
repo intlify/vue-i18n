@@ -26,7 +26,6 @@ import {
   isObject
 } from '@intlify/shared'
 import {
-  parse as parsePath,
   resolveValue,
   createCoreContext,
   MISSING_RESOLVE_VALUE,
