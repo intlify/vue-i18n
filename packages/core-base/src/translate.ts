@@ -293,7 +293,10 @@ export function translate<Messages, Message = string>(
 
   if (__DEV__ && isString(format) && context.messageCompiler == null) {
     warn(
-      `Message format compilation is not supported in this build, because message compiler isn't included, you need to pre-compilation all message format.`
+      `The message format compilation is not supported in this build. ` +
+        `Because message compiler isn't included. ` +
+        `You need to pre-compilation all message format. ` +
+        `So translate function return '${key}'.`
     )
     return key as MessageType<Message>
   }
