@@ -467,6 +467,10 @@ describe('getMissingHandler / setMissingHandler', () => {
   })
 })
 
+const enum ErrorCodes {
+  Code1 = 1
+}
+
 describe('t', () => {
   test('basic', () => {
     const { t } = createComposer({
@@ -577,6 +581,19 @@ describe('t', () => {
       }
     })
     expect(t('foo.bar.buz')).toEqual('FOO.BAR.BUZ')
+  })
+
+  test('computed property name', () => {
+    const { t } = createComposer({
+      locale: 'en',
+      messages: {
+        en: {
+          [ErrorCodes.Code1]: 'computed property name'
+        }
+      }
+    })
+
+    expect(t(ErrorCodes.Code1)).toEqual('computed property name')
   })
 })
 

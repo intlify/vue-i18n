@@ -660,10 +660,14 @@ describe('error', () => {
       }
     })
     expect(() => {
-      translate(ctx, 1)
+      translate(ctx, {})
     }).toThrowError(errorMessages[CoreErrorCodes.INVALID_ARGUMENT])
   })
 })
+
+const enum ErrorCodes {
+  CODE1 = 1
+}
 
 describe('edge cases', () => {
   test('multi bytes key', () => {
@@ -688,6 +692,18 @@ describe('edge cases', () => {
       }
     })
     expect(translate(ctx, 'side.left')).toEqual('Left')
+  })
+
+  test('computed property name', () => {
+    const ctx = context({
+      locale: 'en',
+      messages: {
+        en: {
+          [ErrorCodes.CODE1]: 'error code1'
+        }
+      }
+    })
+    expect(translate(ctx, ErrorCodes.CODE1)).toEqual('error code1')
   })
 })
 

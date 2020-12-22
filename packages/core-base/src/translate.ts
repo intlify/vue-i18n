@@ -148,73 +148,73 @@ export interface TranslateOptions {
 // `translate` function overloads
 export function translate<Messages, Message = string>(
   context: CoreTranslationContext<Messages, Message>,
-  key: Path
+  key: Path | number
 ): MessageType<Message> | number
 export function translate<Messages, Message = string>(
   context: CoreTranslationContext<Messages, Message>,
-  key: Path,
+  key: Path | number,
   plural: number
 ): MessageType<Message> | number
 export function translate<Messages, Message = string>(
   context: CoreTranslationContext<Messages, Message>,
-  key: Path,
+  key: Path | number,
   plural: number,
   options: TranslateOptions
 ): MessageType<Message> | number
 export function translate<Messages, Message = string>(
   context: CoreTranslationContext<Messages, Message>,
-  key: Path,
+  key: Path | number,
   defaultMsg: string
 ): MessageType<Message> | number
 export function translate<Messages, Message = string>(
   context: CoreTranslationContext<Messages, Message>,
-  key: Path,
+  key: Path | number,
   defaultMsg: string,
   options: TranslateOptions
 ): MessageType<Message> | number
 export function translate<Messages, Message = string>(
   context: CoreTranslationContext<Messages, Message>,
-  key: Path,
+  key: Path | number,
   list: unknown[]
 ): MessageType<Message> | number
 export function translate<Messages, Message = string>(
   context: CoreTranslationContext<Messages, Message>,
-  key: Path,
+  key: Path | number,
   list: unknown[],
   plural: number
 ): MessageType<Message> | number
 export function translate<Messages, Message = string>(
   context: CoreTranslationContext<Messages, Message>,
-  key: Path,
+  key: Path | number,
   list: unknown[],
   defaultMsg: string
 ): MessageType<Message> | number
 export function translate<Messages, Message = string>(
   context: CoreTranslationContext<Messages, Message>,
-  key: Path,
+  key: Path | number,
   list: unknown[],
   options: TranslateOptions
 ): MessageType<Message> | number
 export function translate<Messages, Message = string>(
   context: CoreTranslationContext<Messages, Message>,
-  key: Path,
+  key: Path | number,
   named: NamedValue
 ): MessageType<Message> | number
 export function translate<Messages, Message = string>(
   context: CoreTranslationContext<Messages, Message>,
-  key: Path,
+  key: Path | number,
   named: NamedValue,
   plural: number
 ): MessageType<Message> | number
 export function translate<Messages, Message = string>(
   context: CoreTranslationContext<Messages, Message>,
-  key: Path,
+  key: Path | number,
   named: NamedValue,
   defaultMsg: string
 ): MessageType<Message> | number
 export function translate<Messages, Message = string>(
   context: CoreTranslationContext<Messages, Message>,
-  key: Path,
+  key: Path | number,
   named: NamedValue,
   options: TranslateOptions
 ): MessageType<Message> | number
@@ -564,10 +564,10 @@ export function parseTranslateArgs(
   const [arg1, arg2, arg3] = args
   const options = {} as TranslateOptions
 
-  if (!isString(arg1)) {
+  if (!isString(arg1) && !isNumber(arg1)) {
     throw createCoreError(CoreErrorCodes.INVALID_ARGUMENT)
   }
-  const key = arg1
+  const key = isNumber(arg1) ? String(arg1) : arg1
 
   if (isNumber(arg2)) {
     options.plural = arg2
