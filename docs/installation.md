@@ -112,6 +112,14 @@ Global builds are not [UMD](https://github.com/umdjs/umd) builds. They are built
     - **`vue-i18n.runtime.esm-bundler.js`** is runtime only, and requires all locale messages to be pre-compiled. This is the default entry for bundlers (via `module` field in `package.json`) because when using a bundler templates are typically pre-compiled (e.g. in `*.json` files)
     - **`vue-i18n.esm-bundler.js` (default)**: includes the runtime compiler. Use this if you are using a bundler but still want locale messages compilation (e.g. templates via inline JavaScript strings)
 
+:::tip NOTE
+If you use `vue-i18n.runtime.esm-bundler.js`, you will need to precompile all locale messages, and you can do that with `.json` (`.json5`) or `.yaml`, i18n custom blocks to manage i18n resources. Therefore, you can be going to pre-compile all locale messages with bundler and the following loader / plugin.
+
+- [`@intlify/vue-i18n-loader`](https://github.com/intlify/vue-i18n-loader)
+- [`@intlify/rollup-plugin-vue-i18n`](https://github.com/intlify/rollup-plugin-vue-i18n)
+- [`@intlify/vite-plugin-vue-i18n`](https://github.com/intlify/vite-plugin-vue-i18n)
+:::
+
 ### For Node.js (Server-Side)
 
 - **`vue-i18n.cjs(.prod).js`**:

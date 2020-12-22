@@ -7,7 +7,7 @@ You can pre-translation with vue-i18n-extensions.
 
 About how to usage, see [here](https://github.com/intlify/vue-i18n-extensions).
 
-## Reduce bundle size with runtime build only
+## Improve performance and reduce bundle size with runtime build only
 
 As described in "[installation](installation##from-cdn-or-without-a-bundler)" section, Vue I18n offer the following two built ES modules for Bundler.
 
@@ -22,7 +22,7 @@ The use of this ES Module means that **all locale messages have to pre-compile t
 In the [CSP](https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP) environment, `vue-i18n.esm-bundler.js` does not work with compiler due to policy, so you need to use `vue-i18n.runtime.esm-bundler.js` in that environment as well.
 :::
 
-#### webpack
+### webpack
 
 In webpack, use `resolve.alias` as follows:
 
@@ -31,21 +31,24 @@ module.exports = {
   // ...
   resolve: {
     alias: {
-      'vue-i18n': 'vue-i18n/dist/vue-i18n.runtime.esm-bundler.js`
+      'vue-i18n': 'vue-i18n/dist/vue-i18n.runtime.esm-bundler.js'
     }
   },
   // ...
 }
 ```
 
-#### Rollup
+:::tip NOTE
+For more information about pre-compiling locale messages, see [`@intlify/vue-i18n-loader`](https://github.com/intlify/vue-i18n-loader)
+:::
+
+### Rollup
 
 TODO:
 
-#### Vite
+### Vite
 
 TODO:
-
 
 ## Reduce bundle size with feature build flags
 
