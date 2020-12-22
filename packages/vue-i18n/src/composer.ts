@@ -460,7 +460,7 @@ export interface Composer<
    *
    * @VueI18nSee [Scope and Locale Changing](../essentials/scope)
    */
-  t(key: Path): string
+  t(key: Path | number): string
   /**
    * Locale message translation for plurals
    *
@@ -481,7 +481,7 @@ export interface Composer<
    *
    * @VueI18nSee [Pluralization](../essentials/pluralization)
    */
-  t(key: Path, plural: number, options?: TranslateOptions): string
+  t(key: Path | number, plural: number, options?: TranslateOptions): string
   /**
    * Locale message translation for missing default mssage
    *
@@ -500,7 +500,7 @@ export interface Composer<
    *
    * @returns Translated message
    */
-  t(key: Path, defaultMsg: string, options?: TranslateOptions): string
+  t(key: Path | number, defaultMsg: string, options?: TranslateOptions): string
   /**
    * Locale message translation for list interpolations
    *
@@ -521,7 +521,7 @@ export interface Composer<
    *
    * @VueI18nSee [List interpolation](../essentials/syntax#list-interpolation)
    */
-  t(key: Path, list: unknown[], options?: TranslateOptions): string
+  t(key: Path | number, list: unknown[], options?: TranslateOptions): string
   /**
    * Locale message translation for list interpolations and plurals
    *
@@ -539,7 +539,7 @@ export interface Composer<
    * @VueI18nSee [Pluralization](../essentials/pluralization)
    * @VueI18nSee [List interpolation](../essentials/syntax#list-interpolation)
    */
-  t(key: Path, list: unknown[], plural: number): string
+  t(key: Path | number, list: unknown[], plural: number): string
   /**
    * Locale message translation for list interpolations and missing default mssage
    *
@@ -556,7 +556,7 @@ export interface Composer<
    *
    * @VueI18nSee [List interpolation](../essentials/syntax#list-interpolation)
    */
-  t(key: Path, list: unknown[], defaultMsg: string): string
+  t(key: Path | number, list: unknown[], defaultMsg: string): string
   /**
    * Locale message translation for named interpolations
    *
@@ -577,7 +577,7 @@ export interface Composer<
    *
    * @VueI18nSee [Named interpolation](../essentials/syntax#named-interpolation)
    */
-  t(key: Path, named: NamedValue, options?: TranslateOptions): string
+  t(key: Path | number, named: NamedValue, options?: TranslateOptions): string
   /**
    * Locale message translation for named interpolations and plurals
    *
@@ -595,7 +595,7 @@ export interface Composer<
    * @VueI18nSee [Pluralization](../essentials/pluralization)
    * @VueI18nSee [Named interpolation](../essentials/syntax#named-interpolation)
    */
-  t(key: Path, named: NamedValue, plural: number): string
+  t(key: Path | number, named: NamedValue, plural: number): string
   /**
    * Locale message translation for named interpolations and plurals
    *
@@ -612,7 +612,7 @@ export interface Composer<
    *
    * @VueI18nSee [Named interpolation](../essentials/syntax#named-interpolation)
    */
-  t(key: Path, named: NamedValue, defaultMsg: string): string
+  t(key: Path | number, named: NamedValue, defaultMsg: string): string
   /** @internal */
   t(...args: unknown[]): string
   /**
