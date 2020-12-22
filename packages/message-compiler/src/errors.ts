@@ -35,6 +35,8 @@ export const enum CompileErrorCodes {
 
   // parser error codes
   MUST_HAVE_MESSAGES_IN_PLURAL,
+  UNEXPECTED_EMPTY_LINKED_MODIFIER,
+  UNEXPECTED_EMPTY_LINKED_KEY,
   UNEXPECTED_LEXICAL_ANALYSIS,
 
   // Special value for higher-order compilers to pick up the last code
@@ -58,6 +60,8 @@ export const errorMessages: { [code: number]: string } = {
   [CompileErrorCodes.INVALID_LINKED_FORMAT]: `Invalid linked format`,
   // parser error messages
   [CompileErrorCodes.MUST_HAVE_MESSAGES_IN_PLURAL]: `Plural must have messages`,
+  [CompileErrorCodes.UNEXPECTED_EMPTY_LINKED_MODIFIER]: `Unexpected empty linked modifier`,
+  [CompileErrorCodes.UNEXPECTED_EMPTY_LINKED_KEY]: `Unexpected empty linked key`,
   [CompileErrorCodes.UNEXPECTED_LEXICAL_ANALYSIS]: `Unexpected lexical analysis in token: '{0}'`
 }
 

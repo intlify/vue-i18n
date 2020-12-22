@@ -17,7 +17,9 @@ test('parse', () => {
     { code: `@.: a`, name: 'linked error' },
     { code: `@.:foo`, name: 'linked modifier error' },
     { code: `@:(foo)`, name: 'linked key paren error' },
-    { code: `@.lower:(foo)`, name: 'linked key paren error with modifier' }
+    { code: `@.lower:(foo)`, name: 'linked key paren error with modifier' },
+    { code: `@.`, name: 'EOF in linked modifier' },
+    { code: `|`, name: 'empty plural' }
   ].forEach(({ name, code }) => {
     const errors: CompileError[] = []
     const options: ParserOptions = {

@@ -231,10 +231,9 @@ export function createParser(options: ParserOptions = {}): Parser {
       // empty modifier
       emitError(
         tokenizer,
-        CompileErrorCodes.UNEXPECTED_LEXICAL_ANALYSIS,
+        CompileErrorCodes.UNEXPECTED_EMPTY_LINKED_MODIFIER,
         context.lastStartLoc,
-        0,
-        token.type
+        0
       )
       node.value = ''
       endNode(node, offset, loc)
@@ -250,7 +249,7 @@ export function createParser(options: ParserOptions = {}): Parser {
         CompileErrorCodes.UNEXPECTED_LEXICAL_ANALYSIS,
         context.lastStartLoc,
         0,
-        token.type
+        getTokenCaption(token)
       )
     }
     node.value = token.value || ''
@@ -299,7 +298,7 @@ export function createParser(options: ParserOptions = {}): Parser {
         CompileErrorCodes.UNEXPECTED_LEXICAL_ANALYSIS,
         context.lastStartLoc,
         0,
-        token.type
+        getTokenCaption(token)
       )
     }
     token = tokenizer.nextToken()
@@ -317,7 +316,7 @@ export function createParser(options: ParserOptions = {}): Parser {
             CompileErrorCodes.UNEXPECTED_LEXICAL_ANALYSIS,
             context.lastStartLoc,
             0,
-            token.type
+            getTokenCaption(token)
           )
         }
         linkedNode.key = parseLinkedKey(tokenizer, token.value || '')
@@ -329,7 +328,7 @@ export function createParser(options: ParserOptions = {}): Parser {
             CompileErrorCodes.UNEXPECTED_LEXICAL_ANALYSIS,
             context.lastStartLoc,
             0,
-            token.type
+            getTokenCaption(token)
           )
         }
         linkedNode.key = parseNamed(tokenizer, token.value || '')
@@ -341,7 +340,7 @@ export function createParser(options: ParserOptions = {}): Parser {
             CompileErrorCodes.UNEXPECTED_LEXICAL_ANALYSIS,
             context.lastStartLoc,
             0,
-            token.type
+            getTokenCaption(token)
           )
         }
         linkedNode.key = parseList(tokenizer, token.value || '')
@@ -353,7 +352,7 @@ export function createParser(options: ParserOptions = {}): Parser {
             CompileErrorCodes.UNEXPECTED_LEXICAL_ANALYSIS,
             context.lastStartLoc,
             0,
-            token.type
+            getTokenCaption(token)
           )
         }
         linkedNode.key = parseLiteral(tokenizer, token.value || '')
@@ -362,10 +361,9 @@ export function createParser(options: ParserOptions = {}): Parser {
         // empty key
         emitError(
           tokenizer,
-          CompileErrorCodes.UNEXPECTED_LEXICAL_ANALYSIS,
+          CompileErrorCodes.UNEXPECTED_EMPTY_LINKED_KEY,
           context.lastStartLoc,
-          0,
-          token.type
+          0
         )
         const nextContext = tokenizer.context()
         const emptyLinkedKeyNode = startNode(
@@ -419,7 +417,7 @@ export function createParser(options: ParserOptions = {}): Parser {
               CompileErrorCodes.UNEXPECTED_LEXICAL_ANALYSIS,
               context.lastStartLoc,
               0,
-              token.type
+              getTokenCaption(token)
             )
           }
           node.items.push(parseText(tokenizer, token.value || ''))
@@ -431,7 +429,7 @@ export function createParser(options: ParserOptions = {}): Parser {
               CompileErrorCodes.UNEXPECTED_LEXICAL_ANALYSIS,
               context.lastStartLoc,
               0,
-              token.type
+              getTokenCaption(token)
             )
           }
           node.items.push(parseList(tokenizer, token.value || ''))
@@ -443,7 +441,7 @@ export function createParser(options: ParserOptions = {}): Parser {
               CompileErrorCodes.UNEXPECTED_LEXICAL_ANALYSIS,
               context.lastStartLoc,
               0,
-              token.type
+              getTokenCaption(token)
             )
           }
           node.items.push(parseNamed(tokenizer, token.value || ''))
@@ -455,7 +453,7 @@ export function createParser(options: ParserOptions = {}): Parser {
               CompileErrorCodes.UNEXPECTED_LEXICAL_ANALYSIS,
               context.lastStartLoc,
               0,
-              token.type
+              getTokenCaption(token)
             )
           }
           node.items.push(parseLiteral(tokenizer, token.value || ''))
@@ -552,7 +550,7 @@ export function createParser(options: ParserOptions = {}): Parser {
         CompileErrorCodes.UNEXPECTED_LEXICAL_ANALYSIS,
         context.lastStartLoc,
         0,
-        context.currentType
+        source[context.offset] || ''
       )
     }
 
@@ -561,4 +559,12 @@ export function createParser(options: ParserOptions = {}): Parser {
   }
 
   return { parse }
+}
+
+function getTokenCaption(token: Token) {
+  if (token.type === TokenTypes.EOF) {
+    return 'EOF'
+  }
+  const name = (token.value || '').replace(/\r?\n/gu, '\\n')
+  return name.length > 10 ? name.slice(0, 9) + '…' : name
 }

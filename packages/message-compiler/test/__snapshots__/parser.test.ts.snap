@@ -1,5 +1,252 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`parse: EOF in linked modifier 1`] = `
+Object {
+  "body": Object {
+    "end": 2,
+    "items": Array [
+      Object {
+        "end": 2,
+        "key": Object {
+          "end": 2,
+          "loc": Object {
+            "end": Object {
+              "column": 3,
+              "line": 1,
+              "offset": 2,
+            },
+            "start": Object {
+              "column": 3,
+              "line": 1,
+              "offset": 2,
+            },
+          },
+          "start": 2,
+          "type": 7,
+          "value": "",
+        },
+        "loc": Object {
+          "end": Object {
+            "column": 3,
+            "line": 1,
+            "offset": 2,
+          },
+          "start": Object {
+            "column": 1,
+            "line": 1,
+            "offset": 0,
+          },
+        },
+        "modifier": Object {
+          "end": 1,
+          "loc": Object {
+            "end": Object {
+              "column": 2,
+              "line": 1,
+              "offset": 1,
+            },
+            "start": Object {
+              "column": 2,
+              "line": 1,
+              "offset": 1,
+            },
+          },
+          "start": 1,
+          "type": 8,
+          "value": "",
+        },
+        "start": 0,
+        "type": 6,
+      },
+    ],
+    "loc": Object {
+      "end": Object {
+        "column": 3,
+        "line": 1,
+        "offset": 2,
+      },
+      "start": Object {
+        "column": 1,
+        "line": 1,
+        "offset": 0,
+      },
+    },
+    "start": 0,
+    "type": 2,
+  },
+  "end": 2,
+  "loc": Object {
+    "end": Object {
+      "column": 3,
+      "line": 1,
+      "offset": 2,
+    },
+    "source": "@.",
+    "start": Object {
+      "column": 1,
+      "line": 1,
+      "offset": 0,
+    },
+  },
+  "start": 0,
+  "type": 0,
+}
+`;
+
+exports[`parse: EOF in linked modifier errors 1`] = `
+Array [
+  Object {
+    "code": 11,
+    "domain": "parser",
+    "location": Object {
+      "end": Object {
+        "column": 3,
+        "line": 1,
+        "offset": 2,
+      },
+      "start": Object {
+        "column": 2,
+        "line": 1,
+        "offset": 1,
+      },
+    },
+    "message": "Unexpected empty linked modifier",
+  },
+  Object {
+    "code": 13,
+    "domain": "parser",
+    "location": Object {
+      "end": Object {
+        "column": 3,
+        "line": 1,
+        "offset": 2,
+      },
+      "start": Object {
+        "column": 2,
+        "line": 1,
+        "offset": 1,
+      },
+    },
+    "message": "Unexpected lexical analysis in token: 'EOF'",
+  },
+  Object {
+    "code": 12,
+    "domain": "parser",
+    "location": Object {
+      "end": Object {
+        "column": 3,
+        "line": 1,
+        "offset": 2,
+      },
+      "start": Object {
+        "column": 3,
+        "line": 1,
+        "offset": 2,
+      },
+    },
+    "message": "Unexpected empty linked key",
+  },
+]
+`;
+
+exports[`parse: empty plural 1`] = `
+Object {
+  "body": Object {
+    "cases": Array [
+      Object {
+        "end": 0,
+        "items": Array [],
+        "loc": Object {
+          "end": Object {
+            "column": 1,
+            "line": 1,
+            "offset": 0,
+          },
+          "start": Object {
+            "column": 1,
+            "line": 1,
+            "offset": 0,
+          },
+        },
+        "start": 0,
+        "type": 2,
+      },
+      Object {
+        "end": 1,
+        "items": Array [],
+        "loc": Object {
+          "end": Object {
+            "column": 2,
+            "line": 1,
+            "offset": 1,
+          },
+          "start": Object {
+            "column": 2,
+            "line": 1,
+            "offset": 1,
+          },
+        },
+        "start": 1,
+        "type": 2,
+      },
+    ],
+    "end": 1,
+    "loc": Object {
+      "end": Object {
+        "column": 2,
+        "line": 1,
+        "offset": 1,
+      },
+      "start": Object {
+        "column": 1,
+        "line": 1,
+        "offset": 0,
+      },
+    },
+    "start": 0,
+    "type": 1,
+  },
+  "end": 1,
+  "loc": Object {
+    "end": Object {
+      "column": 2,
+      "line": 1,
+      "offset": 1,
+    },
+    "source": "|",
+    "start": Object {
+      "column": 1,
+      "line": 1,
+      "offset": 0,
+    },
+  },
+  "start": 0,
+  "type": 0,
+}
+`;
+
+exports[`parse: empty plural errors 1`] = `
+Array [
+  Object {
+    "code": 10,
+    "domain": "parser",
+    "location": Object {
+      "end": Object {
+        "column": 2,
+        "line": 1,
+        "offset": 1,
+      },
+      "start": Object {
+        "column": 1,
+        "line": 1,
+        "offset": 0,
+      },
+    },
+    "message": "Plural must have messages",
+  },
+]
+`;
+
 exports[`parse: linked 1`] = `
 Object {
   "body": Object {
@@ -203,7 +450,7 @@ Array [
         "offset": 1,
       },
     },
-    "message": "Unexpected lexical analysis in token: '10'",
+    "message": "Unexpected empty linked modifier",
   },
   Object {
     "code": 9,
@@ -223,7 +470,7 @@ Array [
     "message": "Invalid linked format",
   },
   Object {
-    "code": 11,
+    "code": 12,
     "domain": "parser",
     "location": Object {
       "end": Object {
@@ -237,7 +484,7 @@ Array [
         "offset": 2,
       },
     },
-    "message": "Unexpected lexical analysis in token: '0'",
+    "message": "Unexpected empty linked key",
   },
 ]
 `;
@@ -338,7 +585,7 @@ Object {
 exports[`parse: linked key paren error errors 1`] = `
 Array [
   Object {
-    "code": 11,
+    "code": 12,
     "domain": "parser",
     "location": Object {
       "end": Object {
@@ -352,7 +599,7 @@ Array [
         "offset": 1,
       },
     },
-    "message": "Unexpected lexical analysis in token: '0'",
+    "message": "Unexpected empty linked key",
   },
 ]
 `;
@@ -471,7 +718,7 @@ Object {
 exports[`parse: linked key paren error with modifier errors 1`] = `
 Array [
   Object {
-    "code": 11,
+    "code": 12,
     "domain": "parser",
     "location": Object {
       "end": Object {
@@ -485,7 +732,7 @@ Array [
         "offset": 7,
       },
     },
-    "message": "Unexpected lexical analysis in token: '0'",
+    "message": "Unexpected empty linked key",
   },
 ]
 `;
@@ -600,7 +847,7 @@ Array [
         "offset": 1,
       },
     },
-    "message": "Unexpected lexical analysis in token: '10'",
+    "message": "Unexpected empty linked modifier",
   },
 ]
 `;
