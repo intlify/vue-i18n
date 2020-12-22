@@ -7,6 +7,7 @@ import {
   DevToolsTimelineEvents,
   DevToolsTimelineLayerMaps
 } from '@intlify/core-base'
+import { isFunction, isObject } from '@intlify/shared'
 
 import type { App } from 'vue'
 import type {
@@ -194,7 +195,7 @@ function inspectComposer(
     type,
     key: 'messages',
     editable: false,
-    value: composer.messages.value
+    value: getLocaleMessageValue(composer.messages.value)
   })
   instanceData.state.push({
     type,
@@ -208,6 +209,48 @@ function inspectComposer(
     editable: false,
     value: composer.numberFormats.value
   })
+}
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function getLocaleMessageValue(messages: any): Record<string, unknown> {
+  const value: Record<string, unknown> = {}
+  Object.keys(messages).forEach((key: string) => {
+    const v: unknown = messages[key]
+    if (isFunction(v) && 'source' in v) {
+      value[key] = getMessageFunctionDetails(v)
+    } else if (isObject(v)) {
+      value[key] = getLocaleMessageValue(v)
+    } else {
+      value[key] = v
+    }
+  })
+  return value
+}
+
+const ESC: Record<string, string> = {
+  '<': '&lt;',
+  '>': '&gt;',
+  '"': '&quot;',
+  '&': '&amp;'
+}
+
+function escape(s: string): string {
+  return s.replace(/[<>"&]/g, escapeChar)
+}
+
+function escapeChar(a: string): string {
+  return ESC[a] || a
+}
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function getMessageFunctionDetails(func: any): Record<string, unknown> {
+  const argString = func.source ? `("${escape(func.source)}")` : `(?)`
+  return {
+    _custom: {
+      type: 'function',
+      display: `<span>ƒ</span> ${argString}`
+    }
+  }
 }
 
 function registerScope<
@@ -308,7 +351,7 @@ function makeScopeInspectState(composer: Composer): CustomInspectorState {
       type: localeMessagesType,
       key: 'messages',
       editable: false,
-      value: composer.messages.value
+      value: getLocaleMessageValue(composer.messages.value)
     }
   ]
   state[localeMessagesType] = localeMessagesStates
