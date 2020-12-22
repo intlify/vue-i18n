@@ -28,6 +28,7 @@ module.exports = {
         'JSON5',
         'HTTP',
         'CLI',
+        'CSP',
         'SFC',
         'PHP',
         'SSR',
