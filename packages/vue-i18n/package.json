@@ -1,6 +1,6 @@
 {
   "name": "vue-i18n",
-  "version": "9.0.0-beta.15",
+  "version": "9.0.0-beta.16",
   "description": "Internationalization plugin for Vue.js",
   "keywords": [
     "i18n",
@@ -34,8 +34,8 @@
   "jsdelivr": "dist/vue-i18n.global.js",
   "types": "dist/vue-i18n.d.ts",
   "dependencies": {
-    "@intlify/core-base": "9.0.0-beta.15",
-    "@intlify/shared": "9.0.0-beta.15",
+    "@intlify/core-base": "9.0.0-beta.16",
+    "@intlify/shared": "9.0.0-beta.16",
     "@vue/devtools-api": "^6.0.0-beta.2"
   },
   "peerDependencies": {
