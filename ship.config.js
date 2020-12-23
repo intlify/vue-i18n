@@ -60,11 +60,10 @@ module.exports = {
   },
   updateChangelog: false,
   buildCommand: ({ isYarn, version }) => 'yarn build:type',
-  beforeCommitChanges: ({ nextVersion, exec, dir }) => {
-    return new Promise(resolve => {
-      const pkg = require('./package.json')
-      commitChangelog(pkg.version, nextVersion).then(resolve)
-    })
+  beforeCommitChanges: async ({ nextVersion, exec, dir }) => {
+    const pkg = require('./package.json')
+    await commitChangelog(pkg.version, nextVersion)
+    await exec('yarn format:package')
   },
   formatCommitMessage: ({ version, releaseType, mergeStrategy, baseBranch }) =>
     `${releaseType} release v${version}`,
