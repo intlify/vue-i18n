@@ -1,4 +1,22 @@
 
+## v9.0.0-beta.16 (2020-12-23)
+
+#### :bug: Bug Fixes
+* `core-base`, `vue-i18n`
+  * [#255](https://github.com/intlify/vue-i18n-next/pull/255) fix cannot resolve computed property name ([@kazupon](https://github.com/kazupon))
+
+#### :zap: Improvement Features
+* `vue-i18n`
+  * [#256](https://github.com/intlify/vue-i18n-next/pull/256) revert: change default ES module bundler module ([@kazupon](https://github.com/kazupon))
+  * [#250](https://github.com/intlify/vue-i18n-next/pull/250) improvement: display message function details ([@kazupon](https://github.com/kazupon))
+* `message-compiler`
+  * [#251](https://github.com/intlify/vue-i18n-next/pull/251) improvement(message-compiler): Improves parse error messages ([@ota-meshi](https://github.com/ota-meshi))
+
+#### Committers: 2
+- Yosuke Ota ([@ota-meshi](https://github.com/ota-meshi))
+- kazuya kawaguchi ([@kazupon](https://github.com/kazupon))
+
+
 ## v9.0.0-beta.15 (2020-12-21)
 
 #### :bug: Bug Fixes
