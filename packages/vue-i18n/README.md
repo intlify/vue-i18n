@@ -29,7 +29,7 @@ Internationalization plugin for Vue.js
   - For use with bundlers like `webpack`, `rollup` and `parcel`
   - Leaves prod/dev branches with `process.env.NODE_ENV` guards (must be replaced by bundler)
   - Does not ship minified builds (to be done together with the rest of the code after bundling)
-  - Imports dependencies (e.g. `@intlify/core`, `@intlify/message-compiler`)
+  - Imports dependencies (e.g. `@intlify/core-base`, `@intlify/message-compiler`)
     - Imported dependencies are also `esm-bundler` builds and will in turn import their dependencies (e.g. `@intlify/message-compiler` imports `@intlify/shared`)
     - This means you **can** install/import these deps individually without ending up with different instances of these dependencies, but you must make sure they all resolve to the same version
   - In-browser locale messages compilation:
