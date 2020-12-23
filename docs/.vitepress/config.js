@@ -170,7 +170,7 @@ const config = {
                 },
                 {
                   text: 'Optimaization',
-                  link: '/advanced/optimaization',
+                  link: '/advanced/optimization',
                 }
               ]
             },
