@@ -24,7 +24,7 @@ In the [CSP](https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP) environment,
 
 ### webpack
 
-In webpack, use `resolve.alias` as follows:
+In webpack, use `resolve.alias` as below:
 
 ```js
 module.exports = {
@@ -42,11 +42,28 @@ module.exports = {
 For more information about pre-compiling locale messages, see [`@intlify/vue-i18n-loader`](https://github.com/intlify/vue-i18n-loader)
 :::
 
-### Rollup
+### rollup
 
-TODO:
+In rollup, use [`@rollup/plugin-alias`](https://github.com/rollup/plugins/tree/master/packages/alias) as below:
 
-### Vite
+```js
+import path from 'path'
+import alias from '@rollup/plugin-alias'
+
+module.exports = {
+  // ...
+  plugins: [
+    alias({
+      entries: {
+        'vue-i18n': path.resolve(__dirname, './node_modules/vue-i18n/dist/vue-i18n.runtime.esm-bundler.js')
+      }
+    })
+  ],
+  // ...
+}
+```
+
+### vite
 
 TODO:
 
