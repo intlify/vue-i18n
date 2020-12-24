@@ -123,28 +123,29 @@ npm i --save-dev @intlify/rollup-plugin-vue-i18n
 Rollup config for example:
 
 ```js
-import vue from 'rollup-plugin-vue'
-import replace from '@rollup/plugin-replace'
+import VuePlugin from 'rollup-plugin-vue'
+import VueI18nPlugin from 'rollup-plugin-vue-i18n'
 import resolve from '@rollup/plugin-node-resolve'
 import commonjs from '@rollup/plugin-commonjs'
-import i18n from '@intlify/rollup-plugin-vue-i18n'
 import path from 'path'
 
 export default [
   {
-    input: path.resolve(__dirname, `./path/to/main.js`),
+    input: path.resolve(__dirname, `./path/to/src/main.js`),
     output: {
       file: path.resolve(__dirname, `./path/to/dist/index.js`),
       format: 'cjs'
     },
     plugins: [
-      commonjs(),
-      resolve(),
-      replace({
-        'process.env.NODE_ENV': JSON.stringify('production')
+      // set `customBlocks` opton to `rollup-plugin-vue`
+      VuePlugin({ customBlocks: ['i18n'] }),
+      // set `rollup-plugin-vue-i18n` after **`rollup-plugin-vue`**
+      VueI18nPlugin({
+        // `include` option for i18n resources bundling
+        include: path.resolve(__dirname, `./path/to/src/locales/**`)
       }),
-      i18n(),
-      vue({ customBlocks: ['i18n'] })
+      resolve(),
+      commonjs()
     ]
   }
 ]
@@ -171,13 +172,17 @@ npm i --save-dev @intlify/vite-plugin-vue-i18n
 vite config for example:
 
 ```ts
+import path from 'path'
+import { pluginI18n } from '@intlify/vite-plugin-vue-i18n'
+
 import type { UserConfig } from 'vite'
-import i18n from '@intlify/vite-plugin-vue-i18n'
 
 const config: UserConfig = {
-  vueCustomBlockTransforms: {
-    i18n
-  }
+  plugins: [
+    pluginI18n({
+      include: path.resolve(__dirname, './path/to/src/locales/**')
+    })
+  ]
 }
 
 export default config

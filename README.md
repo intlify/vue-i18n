@@ -55,10 +55,10 @@ The examples are offered in thee following two API styles:
 
 - [x] monorepo packaging
 - [x] support fully univarsal environments (CSP)
-- [ ] extend bundler for i18n resource bundling
+- [x] extend bundler for i18n resource bundling
   - [x] `@intlify/vue-i18n-loader`
   - [x] `@intlify/rollup-plugin-vue-i18n`
-  - [ ] `@intlify/vite-plugin-vue-i18n`
+  - [x] `@intlify/vite-plugin-vue-i18n`
 - [ ] vue-cli-plugin-i18n
 - [ ] support i18n resources packing (pre-compilation) CLI
 - [x] support i18n custom blocks sourcemaps
