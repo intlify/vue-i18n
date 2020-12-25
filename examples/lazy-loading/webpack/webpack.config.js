@@ -41,6 +41,22 @@ module.exports = (env = {}) => ({
           },
           'css-loader'
         ]
+      },
+      // for i18n resources (json/json5/yaml)
+      {
+        test: /\.(json5?|ya?ml)$/, // target json, json5, yaml and yml files
+        type: 'javascript/auto',
+        // Use `Rule.include` to specify the files of locale messages to be pre-compiled
+        include: [
+          path.resolve(__dirname, './src/locales'),
+        ],
+        loader: '@intlify/vue-i18n-loader'
+      },
+      // for i18n custom block
+      {
+        resourceQuery: /blockType=i18n/,
+        type: 'javascript/auto',
+        loader: '@intlify/vue-i18n-loader'
       }
     ]
   },

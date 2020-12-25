@@ -3,9 +3,10 @@ import App from './App.vue'
 import './index.css'
 import { setupRouter } from './router'
 import { setupI18n } from './i18n'
-import en from './locales/en'
+import en from './locales/en.yaml'
 
 const i18n = setupI18n({
+  globalInjection: true,
   legacy: false,
   locale: 'en',
   fallbackLocale: 'en',

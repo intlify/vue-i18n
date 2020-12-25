@@ -26,7 +26,7 @@ export function setI18nLanguage(i18n: I18n, locale: Locale): void {
 export async function loadLocaleMessages(i18n: I18n, locale: Locale) {
   // load locale messages
   if (!i18n.global.availableLocales.includes(locale)) {
-    const messages = await import(`./locales/${locale}.js`)
+    const messages = await import(`./locales/${locale}.yaml`)
     i18n.global.setLocaleMessage(locale, messages.default)
   }
 }

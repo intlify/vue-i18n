@@ -1,18 +1,19 @@
 {
   "name": "lazy-loading-vite",
   "version": "0.0.0",
-  "private": true,
   "scripts": {
-    "dev": "vite",
-    "build": "vite build"
+    "build": "vite build",
+    "dev": "vite"
   },
   "dependencies": {
-    "vue": "^3.0.2",
-    "vue-i18n": "^9.0.0-beta.6",
-    "vue-router": "^4.0.0-rc.2"
+    "vue": "^3.0.4",
+    "vue-i18n": "^9.0.0-beta.16",
+    "vue-router": "^4.0.1"
   },
   "devDependencies": {
-    "@vue/compiler-sfc": "^3.0.2",
-    "vite": "^1.0.0-rc.4"
-  }
+    "@vue/compiler-sfc": "^3.0.4",
+    "@intlify/vite-plugin-vue-i18n": "^1.0.0-beta.4",
+    "vite": "^1.0.0-rc.13"
+  },
+  "private": true
 }
