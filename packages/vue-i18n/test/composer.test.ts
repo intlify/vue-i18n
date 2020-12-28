@@ -712,10 +712,10 @@ describe('n', () => {
 
   test('minimumFractionDigits, maximumFractionDigits', () => {
     const { n } = createComposer({
-      locale: 'US',
+      locale: 'en-US',
       fallbackLocale: ['ja-JP'],
       numberFormats: {
-        US: {
+        'en-US': {
           currency: {
             style: 'currency',
             currency: 'USD',
