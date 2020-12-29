@@ -1252,7 +1252,8 @@ export function createComposer<
             emitter.emit(DevToolsTimelineEvents.FALBACK, {
               type: warnType,
               key,
-              to: 'global'
+              to: 'global',
+              groupId: `${warnType}:${key}`
             })
           }
         }
