@@ -1,4 +1,23 @@
 
+## v9.0.0-beta.17 (2020-12-29)
+
+#### :zap: Improvement Features
+* `core-base`, `vue-i18n`
+  * [#268](https://github.com/intlify/vue-i18n-next/pull/268) improvement: vue-devtools debugging ([@kazupon](https://github.com/kazupon))
+
+#### :pencil: Documentation
+* [#266](https://github.com/intlify/vue-i18n-next/pull/266) Fix casing of datetimeFormats option ([@adi-wan](https://github.com/adi-wan))
+* [#264](https://github.com/intlify/vue-i18n-next/pull/264) update docs ([@hong4rc](https://github.com/hong4rc))
+* [#258](https://github.com/intlify/vue-i18n-next/pull/258) docs: update installing for esm bundler ([@sh0ber](https://github.com/sh0ber))
+
+#### Committers: 5
+- Anh Hong ([@hong4rc](https://github.com/hong4rc))
+- Dan ([@sh0ber](https://github.com/sh0ber))
+- Lee ([@PeterAlfredLee](https://github.com/PeterAlfredLee))
+- [@adi-wan](https://github.com/adi-wan)
+- kazuya kawaguchi ([@kazupon](https://github.com/kazupon))
+
+
 ## v9.0.0-beta.16 (2020-12-23)
 
 #### :bug: Bug Fixes
