@@ -9,8 +9,7 @@ import {
   DevToolsTimelineColors,
   DevToolsLabels,
   DevToolsPlaceholders,
-  DevToolsTimelineEvents,
-  DevToolsTimelineLayerMaps
+  DevToolsTimelineEvents
 } from '@intlify/core-base'
 import { isFunction, isObject } from '@intlify/shared'
 
@@ -141,27 +140,9 @@ export async function enableDevTools<
           })
 
           api.addTimelineLayer({
-            id: DevToolsIDs.TIMELINE_COMPILE_ERROR,
-            label: DevToolsLabels[DevToolsIDs.TIMELINE_COMPILE_ERROR],
-            color: DevToolsTimelineColors[DevToolsIDs.TIMELINE_COMPILE_ERROR]
-          })
-
-          api.addTimelineLayer({
-            id: DevToolsIDs.TIMELINE_PERFORMANCE,
-            label: DevToolsLabels[DevToolsIDs.TIMELINE_PERFORMANCE],
-            color: DevToolsTimelineColors[DevToolsIDs.TIMELINE_PERFORMANCE]
-          })
-
-          api.addTimelineLayer({
-            id: DevToolsIDs.TIMELINE_MISSING,
-            label: DevToolsLabels[DevToolsIDs.TIMELINE_MISSING],
-            color: DevToolsTimelineColors[DevToolsIDs.TIMELINE_MISSING]
-          })
-
-          api.addTimelineLayer({
-            id: DevToolsIDs.TIMELINE_FALLBACK,
-            label: DevToolsLabels[DevToolsIDs.TIMELINE_FALLBACK],
-            color: DevToolsTimelineColors[DevToolsIDs.TIMELINE_FALLBACK]
+            id: DevToolsIDs.TIMELINE,
+            label: DevToolsLabels[DevToolsIDs.TIMELINE],
+            color: DevToolsTimelineColors[DevToolsIDs.TIMELINE]
           })
 
           resolve(true)
@@ -418,12 +399,26 @@ export function addTimelineEvent(
   payload?: DevToolsTimelineEventPayloads[DevToolsTimelineEvents]
 ): void {
   if (devtoolsApi) {
+    let groupId: string | undefined
+    if (payload && 'groupId' in payload) {
+      groupId = payload.groupId
+      delete payload.groupId
+    }
     devtoolsApi.addTimelineEvent({
-      layerId: DevToolsTimelineLayerMaps[event],
+      layerId: DevToolsIDs.TIMELINE,
       event: {
+        title: event,
+        groupId,
         time: Date.now(),
         meta: {},
-        data: payload || {}
+        data: payload || {},
+        logType:
+          event === DevToolsTimelineEvents.COMPILE_ERROR
+            ? 'error'
+            : event === DevToolsTimelineEvents.FALBACK ||
+              event === DevToolsTimelineEvents.MISSING
+            ? 'warning'
+            : 'default'
       }
     })
   }

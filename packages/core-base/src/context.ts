@@ -332,7 +332,8 @@ export function handleMissing<Message = string>(
       emitter.emit(DevToolsTimelineEvents.MISSING, {
         locale,
         key,
-        type
+        type,
+        groupId: `${type}:${key}`
       })
     }
   }

@@ -184,7 +184,8 @@ export function number<NumberFormats, Message = string>(
           type,
           key,
           from,
-          to
+          to,
+          groupId: `${type}:${key}`
         })
       }
     }

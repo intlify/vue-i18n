@@ -396,7 +396,8 @@ function resolveMessageFormat<Messages, Message>(
           type,
           key,
           from,
-          to
+          to,
+          groupId: `${type}:${key}`
         })
       }
     }
@@ -429,7 +430,8 @@ function resolveMessageFormat<Messages, Message>(
           type: DevToolsTimelineEvents.MESSAGE_RESOLVE,
           key,
           message: format,
-          time: end - start
+          time: end - start,
+          groupId: `${type}:${key}`
         })
       }
       if (startTag && endTag && mark && measure) {
@@ -503,7 +505,8 @@ function compileMessasgeFormat<Messages, Message>(
       emitter.emit(DevToolsTimelineEvents.MESSAGE_COMPILATION, {
         type: DevToolsTimelineEvents.MESSAGE_COMPILATION,
         message: format,
-        time: end - start
+        time: end - start,
+        groupId: `${'translate'}:${key}`
       })
     }
     if (startTag && endTag && mark && measure) {
@@ -545,7 +548,8 @@ function evaluateMessage<Messages, Message>(
       emitter.emit(DevToolsTimelineEvents.MESSAGE_EVALUATION, {
         type: DevToolsTimelineEvents.MESSAGE_EVALUATION,
         value: messaged,
-        time: end - start
+        time: end - start,
+        groupId: `${'translate'}:${(msg as MessageFunctionInternal).key}`
       })
     }
     if (startTag && endTag && mark && measure) {
@@ -617,7 +621,8 @@ function getCompileOptions<Messages, Message>(
             message: source,
             error: err.message,
             start: err.location && err.location.start.offset,
-            end: err.location && err.location.end.offset
+            end: err.location && err.location.end.offset,
+            groupId: `${'translate'}:${key}`
           })
         }
         console.error(codeFrame ? `${message}\n${codeFrame}` : message)
