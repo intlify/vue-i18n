@@ -6,7 +6,7 @@ You can localize the datetime with your definition formats.
 Datetime formats the below:
 
 ```js
-const dateTimeFormats = {
+const datetimeFormats = {
   'en-US': {
     short: {
       year: 'numeric', month: 'short', day: 'numeric'
@@ -30,11 +30,11 @@ const dateTimeFormats = {
 
 As seen above, you can define named datetime format (e.g. `short`, `long`, etc), and you need to use [the options with ECMA-402 Intl.DateTimeFormat](https://tc39.es/ecma402/#datetimeformat-objects)
 
-After that, when using the locale messages, you need to specify the `dateTimeFormats` option of `createI18n`:
+After that, when using the locale messages, you need to specify the `datetimeFormats` option of `createI18n`:
 
 ```js
 const i18n = createI18n({
-  dateTimeFormats
+  datetimeFormats
 })
 ```
 
@@ -94,7 +94,7 @@ The `tag` is the property to set the tag.
 
 The `value` prop is a property to set the datetime able value to be formatted.
 
-The `format` prop is a property to which the format defined by the `dateTimeFormats` option of `createI18n` can be set.
+The `format` prop is a property to which the format defined by the `datetimeFormats` option of `createI18n` can be set.
 
 The `locale` prop is a property to set the locale. It’s is localized with the locale specified by this prop instead of the one specified with the `locale` option of `createI18n`.
 
