@@ -1,4 +1,9 @@
-import { setupDevtoolsPlugin, Hooks } from '@vue/devtools-api'
+import {
+  setupDevtoolsPlugin,
+  Hooks,
+  AppRecord,
+  ComponentTreeNode
+} from '@vue/devtools-api'
 import {
   DevToolsIDs,
   DevToolsTimelineColors,
@@ -89,6 +94,13 @@ export async function enableDevTools<
         api => {
           devtoolsApi = api
 
+          api.on.walkComponentTree((payload, ctx) => {
+            updateComponentTreeDataTags(
+              ctx.currentAppRecord,
+              payload.componentTreeData
+            )
+          })
+
           api.on.inspectComponent(payload => {
             const componentInstance = payload.componentInstance
             if (
@@ -160,6 +172,26 @@ export async function enableDevTools<
       reject(false)
     }
   })
+}
+
+function updateComponentTreeDataTags(
+  appRecord: AppRecord,
+  treeData: ComponentTreeNode
+): void {
+  const instance = appRecord.instanceMap.get(treeData.id)
+  if (instance && instance.vnode.el.__INTLIFY__) {
+    const label =
+      instance.type.name || instance.type.displayName || instance.type.__file
+    const tag = {
+      label: `i18n (${label} Scope)`,
+      textColor: 0x000000,
+      backgroundColor: 0xffcd19
+    }
+    treeData.tags = [tag]
+  }
+  for (const node of treeData.children) {
+    updateComponentTreeDataTags(appRecord, node)
+  }
 }
 
 function inspectComposer(

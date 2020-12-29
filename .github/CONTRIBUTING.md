@@ -91,8 +91,8 @@ The `build` script builds all public packages (packages without `private: true` 
 Packages to build can be specified with fuzzy matching:
 
 ```bash
-# build compiler only
-yarn build compiler
+# build message-compiler only
+yarn build message-compiler
 
 # build all packages
 yarn build --all
@@ -128,13 +128,13 @@ By default, each package will be built in multiple distribution formats as speci
 For example, to build `compiler` with the global build only:
 
 ```bash
-yarn build compiler -f global
+yarn build message-compiler -f global
 ```
 
 Multiple formats can be specified as a comma-separated list:
 
 ```bash
-yarn build compiler -f esm-browser,cjs
+yarn build message-compiler -f esm-browser,cjs
 ```
 
 #### Build with Source Maps
