@@ -60,7 +60,7 @@ The examples are offered in thee following two API styles:
   - [x] `@intlify/rollup-plugin-vue-i18n`
   - [x] `@intlify/vite-plugin-vue-i18n`
 - [ ] vue-cli-plugin-i18n
-- [ ] support i18n resources packing (pre-compilation) CLI
+- [x] support i18n resources packing (pre-compilation) CLI
 - [x] support i18n custom blocks sourcemaps
 
 ## :muscle: Contribution
