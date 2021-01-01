@@ -17,7 +17,6 @@ import type { App } from 'vue'
 import type {
   DevtoolsPluginApi,
   InspectedComponentData,
-  CustomInspectorNode,
   CustomInspectorState,
   ComponentStateBase,
   HookPayloads
@@ -33,43 +32,6 @@ type _I18n<
   NumberFormats,
   Legacy extends boolean
 > = I18n<Messages, DateTimeFormats, NumberFormats, Legacy> & I18nInternal
-
-interface I18nRecord {
-  id: number
-  version: string
-}
-
-const enum DevtoolsHooks {
-  REGISTER = 'intlify:register'
-}
-
-interface DevtoolsHook {
-  emit(event: string, ...payload: unknown[]): void
-  on(event: string, handler: Function): void
-  off(event: string, handler: Function): void
-  i18nRecords: I18nRecord[]
-}
-
-export let devtools: DevtoolsHook
-
-export function setDevtoolsHook(hook: DevtoolsHook): void {
-  devtools = hook
-}
-
-export function devtoolsRegisterI18n<
-  Messages,
-  DateTimeFormats,
-  NumberFormats,
-  Legacy extends boolean
->(
-  i18n: I18n<Messages, DateTimeFormats, NumberFormats, Legacy>,
-  version: string
-): void {
-  if (!devtools) {
-    return
-  }
-  devtools.emit(DevtoolsHooks.REGISTER, i18n, version)
-}
 
 let devtoolsApi: DevtoolsPluginApi
 
@@ -96,7 +58,8 @@ export async function enableDevTools<
           api.on.walkComponentTree((payload, ctx) => {
             updateComponentTreeDataTags(
               ctx.currentAppRecord,
-              payload.componentTreeData
+              payload.componentTreeData,
+              i18n
             )
           })
 
@@ -106,10 +69,23 @@ export async function enableDevTools<
               componentInstance.vnode.el.__INTLIFY__ &&
               payload.instanceData
             ) {
-              inspectComposer(
-                payload.instanceData,
-                componentInstance.vnode.el.__INTLIFY__ as Composer
-              )
+              if (i18n.mode === 'legacy') {
+                // ignore global scope on legacy mode
+                if (
+                  componentInstance.vnode.el.__INTLIFY__ !==
+                  ((i18n.global as unknown) as VueI18nInternal).__composer
+                ) {
+                  inspectComposer(
+                    payload.instanceData,
+                    componentInstance.vnode.el.__INTLIFY__ as Composer
+                  )
+                }
+              } else {
+                inspectComposer(
+                  payload.instanceData,
+                  componentInstance.vnode.el.__INTLIFY__ as Composer
+                )
+              }
             }
           })
 
@@ -155,23 +131,36 @@ export async function enableDevTools<
   })
 }
 
-function updateComponentTreeDataTags(
+function updateComponentTreeDataTags<
+  Messages,
+  DateTimeFormats,
+  NumberFormats,
+  Legacy extends boolean
+>(
   appRecord: AppRecord,
-  treeData: ComponentTreeNode
+  treeData: ComponentTreeNode,
+  i18n: _I18n<Messages, DateTimeFormats, NumberFormats, Legacy>
 ): void {
   const instance = appRecord.instanceMap.get(treeData.id)
   if (instance && instance.vnode.el.__INTLIFY__) {
-    const label =
-      instance.type.name || instance.type.displayName || instance.type.__file
-    const tag = {
-      label: `i18n (${label} Scope)`,
-      textColor: 0x000000,
-      backgroundColor: 0xffcd19
+    // prettier-ignore
+    const global = i18n.mode === 'composition'
+      ? i18n.global
+      : (i18n.global as unknown as VueI18nInternal).__composer
+    // add custom tags local scope only
+    if (instance.vnode.el.__INTLIFY__ !== global) {
+      const label =
+        instance.type.name || instance.type.displayName || instance.type.__file
+      const tag = {
+        label: `i18n (${label} Scope)`,
+        textColor: 0x000000,
+        backgroundColor: 0xffcd19
+      }
+      treeData.tags = [tag]
     }
-    treeData.tags = [tag]
   }
   for (const node of treeData.children) {
-    updateComponentTreeDataTags(appRecord, node)
+    updateComponentTreeDataTags(appRecord, node, i18n)
   }
 }
 
@@ -275,26 +264,31 @@ function registerScope<
   payload: HookPayloads[Hooks.GET_INSPECTOR_TREE],
   i18n: _I18n<Messages, DateTimeFormats, NumberFormats, Legacy>
 ): void {
-  const children: CustomInspectorNode[] = []
+  payload.rootNodes.push({
+    id: 'global',
+    label: 'Global Scope'
+  })
+  // prettier-ignore
+  const global = i18n.mode === 'composition'
+    ? i18n.global
+    : (i18n.global as unknown as VueI18nInternal).__composer
   for (const [keyInstance, instance] of i18n.__instances) {
     // prettier-ignore
     const composer = i18n.mode === 'composition'
       ? instance
       : (instance as unknown as VueI18nInternal).__composer
+    if (global === composer) {
+      continue
+    }
     const label =
       keyInstance.type.name ||
       keyInstance.type.displayName ||
       keyInstance.type.__file
-    children.push({
+    payload.rootNodes.push({
       id: composer.id.toString(),
       label: `${label} Scope`
     })
   }
-  payload.rootNodes.push({
-    id: 'global',
-    label: 'Global Scope',
-    children
-  })
 }
 
 function inspectScope<
