@@ -1,4 +1,14 @@
 
+## v9.0.0-beta.18 (2021-01-01)
+
+#### :zap: Improvement Features
+* `vue-i18n`
+  * [#273](https://github.com/intlify/vue-i18n-next/pull/273) improvement: vue-i18n debugging on vue-devtools ([@kazupon](https://github.com/kazupon))
+
+#### Committers: 1
+- kazuya kawaguchi ([@kazupon](https://github.com/kazupon))
+
+
 ## v9.0.0-beta.17 (2020-12-29)
 
 #### :zap: Improvement Features
