@@ -24,13 +24,8 @@ import { I18nWarnCodes, getWarnMessage } from './warnings'
 import { I18nErrorCodes, createI18nError } from './errors'
 import { apply } from './plugin'
 import { defineMixin } from './mixin'
-import {
-  devtoolsRegisterI18n,
-  enableDevTools,
-  addTimelineEvent
-} from './devtools'
+import { enableDevTools, addTimelineEvent } from './devtools'
 import { createEmitter } from '@intlify/core-base'
-import { VERSION } from './misc'
 
 import type { ComponentInternalInstance, ComponentOptions, App } from 'vue'
 import type {
@@ -447,13 +442,6 @@ export function createI18n<
     __deleteInstance(component: ComponentInternalInstance): void {
       __instances.delete(component)
     }
-  }
-
-  if ((__DEV__ || __FEATURE_PROD_DEVTOOLS__) && !__NODE_JS__) {
-    devtoolsRegisterI18n(
-      i18n as I18n<Messages, DateTimeFormats, NumberFormats, Legacy>,
-      VERSION
-    )
   }
 
   return i18n as I18n<Messages, DateTimeFormats, NumberFormats, Legacy>

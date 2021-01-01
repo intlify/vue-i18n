@@ -1,5 +1,4 @@
 import { getGlobalThis } from '@intlify/shared'
-import { setDevtoolsHook } from './devtools'
 
 /**
  * Vue I18n Version
@@ -50,7 +49,6 @@ export function initDev(): void {
   const target = getGlobalThis()
 
   target.__INTLIFY__ = true
-  setDevtoolsHook(target.__INTLIFY_DEVTOOLS_GLOBAL_HOOK__)
 
   if (__BROWSER__) {
     console.info(
