@@ -392,6 +392,11 @@ argparse@^1.0.7:
   dependencies:
     sprintf-js "~1.0.2"
 
+argparse@^2.0.1:
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/argparse/-/argparse-2.0.1.tgz#246f50f3ca78a3240f6c997e8a9bd1eac49e4b38"
+  integrity sha512-8+9WqebbFzpX9OR+Wa6O29asIogeRMzcGtAINdpMHHyAg10f05aSFVBbcEqGf/PXw1EjAZ+q2/bEBg3DvurK3Q==
+
 array-union@^2.1.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/array-union/-/array-union-2.1.0.tgz#b798420adbeb1de828d84acd8a2e23d3efe85e8d"
@@ -1189,6 +1194,13 @@ js-yaml@^3.13.1, js-yaml@^3.14.0:
   dependencies:
     argparse "^1.0.7"
     esprima "^4.0.0"
+
+js-yaml@^4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/js-yaml/-/js-yaml-4.0.0.tgz#f426bc0ff4b4051926cd588c71113183409a121f"
+  integrity sha512-pqon0s+4ScYUvX30wxQi3PogGFAlUyH0awepWvwkj4jD4v+ova3RiYw8bmA6x2rDrEaj8i/oWKoRxpVNW+Re8Q==
+  dependencies:
+    argparse "^2.0.1"
 
 json-parse-better-errors@^1.0.1:
   version "1.0.2"
@@ -2053,14 +2065,10 @@ vite@^1.0.0-rc.4:
     ws "^7.2.3"
 
 vue-i18n@^9.0.0-beta.6:
-  version "9.0.0-beta.6"
-  dependencies:
-    source-map "^0.6.1"
+  version "9.0.0-beta.18"
 
 "vue-i18n@link:..":
-  version "9.0.0-beta.6"
-  dependencies:
-    source-map "^0.6.1"
+  version "9.0.0-beta.18"
 
 vue@^3.0.0, vue@^3.0.0-rc.5:
   version "3.0.0"
