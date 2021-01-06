@@ -168,7 +168,7 @@ const config = {
                   link: '/advanced/composition',
                 },
                 {
-                  text: 'Optimaization',
+                  text: 'Optimization',
                   link: '/advanced/optimization',
                 }
               ]
