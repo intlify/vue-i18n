@@ -35,7 +35,7 @@ export default defineComponent({
     // when change the locale, go to locale route
     watch(locale, val => {
       router.push({
-        name: route.name,
+        name: router.currentRoute._rawValue.name,
         params: { locale: val }
       })
     })
