@@ -54,7 +54,7 @@ To use i18n custom blocks, you need to use the following plugins for bundler.
 
 [vue-i18n-loader](https://github.com/intlify/vue-i18n-loader) is loader plugin for [webpack](https://webpack.js.org/). Since single file components is bundled with [vue-loader](https://github.com/vuejs/vue-loader), you need to setting webpack config with vue-i18n-loader.
 
-:::tip NOTE
+:::tip REQUIREMENTS
 - webpack: **v4 or later**
 - vue-loader: **v16 or later**.
 :::
@@ -107,7 +107,7 @@ module.exports = {
 
 [rollup-plugin-vue-i18n](https://github.com/intlify/rollup-plugin-vue-i18n) is rollup plugin for [rollup](https://rollupjs.org). Since single-file components is bundled with [rollup-plugin-vue](https://github.com/vuejs/rollup-plugin-vue), you need to setting rollup config with rollup-plugin-vue
 
-:::tip NOTE
+:::tip REQUIREMENTS
 - rollup: **v2.32 or later**
 - rollup-plugin-vue: **v6 or later**.
 :::
@@ -157,8 +157,9 @@ export default [
 
 [vite-plugin-vue-i18n](https://github.com/intlify/vite-plugin-vue-i18n) is vite plugin for [Vite](https://github.com/vitejs/vite).
 
-:::tip NOTE
-- vite: **v1 or later**.
+:::tip REQUIREMENTS
+- vite: **v2-beta or later**.
+- @vitejs/plugin-vue: **v1.0.4 or later**.
 :::
 
 #### Installation
@@ -173,19 +174,22 @@ vite config for example:
 
 ```ts
 import path from 'path'
+import vue from '@vitejs/plugin-vue'
 import { pluginI18n } from '@intlify/vite-plugin-vue-i18n'
 
 import type { UserConfig } from 'vite'
 
 const config: UserConfig = {
   plugins: [
+    vue(),
     pluginI18n({
-      include: path.resolve(__dirname, './path/to/src/locales/**')
+      include: path.resolve(__dirname, './locales/**')
     })
   ]
 }
 
 export default config
+
 ```
 
 ## Define locale lessages importing

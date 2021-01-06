@@ -67,6 +67,10 @@ const config = {
                     link: 'https://intlify.github.io/eslint-plugin-vue-i18n/'
                   },
                   {
+                    text: 'CLI Tooling',
+                    link: 'https://github.com/intlify/cli',
+                  },
+                  {
                     text: 'Extensions',
                     link: 'https://github.com/kazupon/vue-i18n-extensions'
                   }

@@ -19,7 +19,7 @@
 <script src="https://unpkg.com/vue-i18n@next"></script>
 ```
 
-You can also use a specific version/tag via URLs like <https://unpkg.com/vue-i18n@9.0.0-beta.8/dist/vue-i18n.global.js>
+You can also use a specific version/tag via URLs like <https://unpkg.com/vue-i18n@9.0.0-beta.18/dist/vue-i18n.global.js>
 
 ### ES Modules import
 
@@ -28,7 +28,7 @@ You can also use a specific version/tag via URLs like <https://unpkg.com/vue-i18
 <script type="module" src="https://unpkg.com/vue-i18n@next/dist/vue-i18n.esm-browser.js">
 ```
 
-You can also use a specific version/tag via URLs like <https://unpkg.com/vue-i18n@9.0.0-beta.8/dist/vue-i18n.esm-browser.js>
+You can also use a specific version/tag via URLs like <https://unpkg.com/vue-i18n@9.0.0-beta.18/dist/vue-i18n.esm-browser.js>
 
 
 ## Package managers

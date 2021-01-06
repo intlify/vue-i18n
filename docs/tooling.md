@@ -30,12 +30,17 @@ Still not supported.
 
 It easily integrates some localization lint features to your Vue.js Application.
 
+### Intlify CLI
+
+[@intlify/cli](https://github.com/intlify/cli) is CLI Tooling for i18n development.
+
+You can pre-compile i18n resources (`json5?`, `ya?ml`) with `intlify compile` command.
+
 ### Extensions
 
 [vue-i18n-extensions](https://github.com/intlify/vue-i18n-extensions) provides some extensions for Vue I18n.
 
 You can use this extension to enable SSR and improve i18n performance.
-
 
 ## Third-party tooling
 

@@ -1,12 +1,6 @@
 # Optimization
 
 
-## Pre translations with extensions
-
-You can pre-translation with vue-i18n-extensions.
-
-About how to usage, see [here](https://github.com/intlify/vue-i18n-extensions).
-
 ## Improve performance and reduce bundle size with runtime build only
 
 As described in "[installation](installation##from-cdn-or-without-a-bundler)" section, Vue I18n offer the following two built ES modules for Bundler.
@@ -69,6 +63,7 @@ In vite, use `alias` option as below:
 
 ```js
 import path from 'path'
+import vue from '@vitejs/plugin-vue'
 import { pluginI18n } from '@intlify/vite-plugin-vue-i18n'
 
 import type { UserConfig } from 'vite'
@@ -79,6 +74,7 @@ const config: UserConfig = {
     'vue-i18n': 'vue-i18n/dist/vue-i18n.runtime.esm-bundler.js'
   },
   plugins: [
+    vue(),
     pluginI18n({
       include: path.resolve(__dirname, './path/to/src/locales/**')
     })
@@ -106,3 +102,9 @@ The build will work without configuring these flags, however it is **strongly re
 :::tip NOTE
 The replacement value **must be boolean literals** and cannot be strings, otherwise the bundler/minifier will not be able to properly evaluate the conditions.
 :::
+
+## Pre translations with extensions
+
+You can pre-translation with vue-i18n-extensions.
+
+About how to usage, see [here](https://github.com/intlify/vue-i18n-extensions).
