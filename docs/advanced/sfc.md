@@ -158,7 +158,7 @@ export default [
 [vite-plugin-vue-i18n](https://github.com/intlify/vite-plugin-vue-i18n) is vite plugin for [Vite](https://github.com/vitejs/vite).
 
 :::tip REQUIREMENTS
-- vite: **v2-beta or later**.
+- vite: **v2-beta or later**
 - @vitejs/plugin-vue: **v1.0.4 or later**.
 :::
 
