@@ -70,6 +70,6 @@ module.exports = (env = {}) => ({
     stats: 'minimal',
     contentBase: __dirname,
     overlay: true,
-    historyApiFallback: true  // 404s will fallback to /index.html
+    historyApiFallback: true // 404s will fallback to /index.html
   }
 })

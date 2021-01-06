@@ -1,4 +1,7 @@
+import { nextTick } from 'vue'
 import { createI18n } from 'vue-i18n'
+
+export const SUPPORT_LOCALES = ['en', 'ja']
 
 export function setupI18n(options = { locale: 'en' }) {
   const i18n = createI18n(options)
@@ -23,14 +26,13 @@ export function setI18nLanguage(i18n, locale) {
 }
 
 export async function loadLocaleMessages(i18n, locale) {
-  // load locale messages
-  if (!i18n.global.availableLocales.includes(locale)) {
-    const messages = await import(
-      /* webpackChunkName: "locale-[request]" */ `./locales/${locale}.json`
-    )
+  // load locale messages with dynami import
+  const messages = await import(
+    /* webpackChunkName: "locale-[request]" */ `./locales/${locale}.json`
+  )
 
-    // set locale and locale message
-    i18n.global.setLocaleMessage(locale, messages.default)
-    setI18nLanguage(i18n, locale)
-  }
+  // set locale and locale message
+  i18n.global.setLocaleMessage(locale, messages.default)
+
+  return nextTick()
 }

@@ -28,7 +28,10 @@ Let´s assume we have a project directory similar to the one below:
 The `pages` folder is where our arbitrary Vue component files like the `About.vue`, router inits, i18n inits and other reside. The `locales` folder is where all of our localization files reside, and In `i18n.js`, the functions for i18n-related process are defined as follows:
 
 ```js
+import { nextTick } from 'vue'
 import { createI18n } from 'vue-i18n'
+
+export const SUPPORT_LOCALES = ['en', 'ja']
 
 export function setupI18n(options = { locale: 'en' }) {
   const i18n = createI18n(options)
@@ -53,13 +56,15 @@ export function setI18nLanguage(i18n, locale) {
 }
 
 export async function loadLocaleMessages(i18n, locale) {
-  // load locale messages
-  if (!i18n.global.availableLocales.includes(locale)) {
-    const messages = await import(
-      /* webpackChunkName: "locale-[request]" */ `./locales/${locale}.json`
-    )
-    i18n.global.setLocaleMessage(locale, messages.default)
-  }
+  // load locale messages with dynami import
+  const messages = await import(
+    /* webpackChunkName: "locale-[request]" */ `./locales/${locale}.json`
+  )
+
+  // set locale and locale message
+  i18n.global.setLocaleMessage(locale, messages.default)
+
+  return nextTick()
 }
 ```
 
@@ -83,19 +88,21 @@ Here the code for the vue-router beforeEach hook part of `router.js`:
 
 ```js
   // navigation guards
-  router.beforeEach((to, from, next) => {
-    const locale = to.params.locale
+  router.beforeEach(async (to, from, next) => {
+    const paramsLocale = to.params.locale
 
-    // check locale
-    if (!SUPPORT_LOCALES.includes(locale)) {
-      return false
+    // use locale if paramsLocale is not in SUPPORT_LOCALES
+    if (!SUPPORT_LOCALES.includes(paramsLocale)) {
+      return next(`/${locale}`)
     }
 
     // load locale messages
-    loadLocaleMessages(i18n, locale)
+    if (!i18n.global.availableLocales.includes(paramsLocale)) {
+      await loadLocaleMessages(i18n, paramsLocale)
+    }
 
     // set i18n language
-    setI18nLanguage(i18n, locale)
+    setI18nLanguage(i18n, paramsLocale)
 
     return next()
   })
