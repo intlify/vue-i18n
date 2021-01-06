@@ -280,7 +280,7 @@ console.log(VueI18n.availability)
 
 ### Remove Custom formatter
 
-**Reason**: Due to hard to provide custom formats in the new compiler and runtime APIs. We are planning to support it in the next major version to support in these APIs. if you would like to use ICU message format, you can use the [@formatjs/vue-intl](https://formatjs.io/docs/vue-intl/)
+**Reason**: Due to hard to provide custom formats in the new compiler and runtime APIs. We are planning to support it in the next major version to support in these APIs. If you would like to use ICU message format, you can use the [@formatjs/vue-intl](https://formatjs.io/docs/vue-intl/)
 
 ### Remove `preserveDirectiveContent` option
 

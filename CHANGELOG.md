@@ -1,3 +1,10 @@
+## v9.0.0-rc.1 (2021-01-06)
+
+Vue I18n is entering RC :tada:
+
+#### Committers: 1
+- kazuya kawaguchi ([@kazupon](https://github.com/kazupon))
+
 
 ## v9.0.0-beta.18 (2021-01-01)
 
@@ -945,7 +952,7 @@ see the [API docs](https://kazupon.github.io/vue-i18n/api/)
 
 ### NOTE
 
-* extend: 
+* extend:
 
 
 
@@ -1506,7 +1513,7 @@ In the examples, please refer to this [examples](https://github.com/kazupon/vue-
 - locales <sup>DEPRECATED, use `messages` of `i18n` option (e.g `{ i18n: { messaes: ... } }`)</sup>
 
 ### Instance Properties
-- $lang <sup>DEPRECATED, use `locale` of Vue instance property `$i18n` (e.g `vm.$i18n.locale = 'en'`) 
+- $lang <sup>DEPRECATED, use `locale` of Vue instance property `$i18n` (e.g `vm.$i18n.locale = 'en'`)
 
 ### VueI18n class <sup>NEW</sup>
 - constructor options: See the [`I18nOptions` type](https://github.com/kazupon/vue-i18n/blob/dev/decls/i18n.js#L7-L15) of flowtype.
@@ -1832,7 +1839,7 @@ In the examples, please refer to this [examples](https://github.com/kazupon/vue-
 ### DEPRECATED
 
 * **index:** plugin install `Vue.use` options (`options.locales`, `options.lang`). See [README](https://github.com/kazupon/vue-i18n/blob/dev/README.md)
-    
+
 
 <a name="2.4.1"></a>
 ## [2.4.1](https://github.com/kazupon/vue-i18n/compare/v2.4.0...v2.4.1) (2016-02-29)
