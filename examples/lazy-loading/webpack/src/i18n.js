@@ -28,6 +28,9 @@ export async function loadLocaleMessages(i18n, locale) {
     const messages = await import(
       /* webpackChunkName: "locale-[request]" */ `./locales/${locale}.json`
     )
+
+    // set locale and locale message
     i18n.global.setLocaleMessage(locale, messages.default)
+    setI18nLanguage(i18n, locale)
   }
 }

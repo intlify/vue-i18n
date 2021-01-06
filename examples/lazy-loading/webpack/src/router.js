@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import { setI18nLanguage, loadLocaleMessages } from './i18n'
+import { loadLocaleMessages } from './i18n'
 
 import Home from './pages/Home.vue'
 import About from './pages/About.vue'
@@ -35,18 +35,15 @@ export function setupRouter(i18n) {
 
   // navigation guards
   router.beforeEach((to, from, next) => {
-    const locale = to.params.locale
+    const paramsLocale = to.params.locale
 
-    // check locale
-    if (!SUPPORT_LOCALES.includes(locale)) {
-      return false
+    // use locale if paramsLocale is not in SUPPORT_LOCALES
+    if (!SUPPORT_LOCALES.includes(paramsLocale)) {
+      return next(`/${locale}`)
     }
 
-    // load locale messages
-    loadLocaleMessages(i18n, locale)
-
-    // set i18n language
-    setI18nLanguage(i18n, locale)
+    // load locale messages and set i18n language
+    loadLocaleMessages(i18n, paramsLocale)
 
     return next()
   })
