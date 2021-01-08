@@ -1,9 +1,3 @@
-/**
- *  Legacy
- *
- *  This module is offered legacy vue-i18n API compatibility
- */
-
 import { EnableEmitter, DisableEmitter, createComposer } from './composer'
 import { I18nWarnCodes, getWarnMessage } from './warnings'
 import { createI18nError, I18nErrorCodes } from './errors'
@@ -1028,9 +1022,6 @@ export function createVueI18n<
 
   // defines VueI18n
   const vueI18n = {
-    /**
-     * properties
-     */
     // id
     id: composer.id,
 
@@ -1177,10 +1168,6 @@ export function createVueI18n<
 
     // for internal
     __composer: composer,
-
-    /**
-     * methods
-     */
 
     // t
     t(...args: unknown[]): TranslateResult {
