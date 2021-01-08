@@ -1,10 +1,3 @@
-/**
- *  Composer
- *
- *  Composer is offered composable API for Vue 3
- *  This module is offered new style vue-i18n API
- */
-
 import {
   ref,
   computed,
@@ -1157,10 +1150,6 @@ export function createComposer<
   _context = getCoreContext()
   updateFallbackLocale<Message>(_context, _locale.value, _fallbackLocale.value)
 
-  /*!
-   * define properties
-   */
-
   // locale
   const locale = computed({
     get: () => _locale.value,
@@ -1192,10 +1181,6 @@ export function createComposer<
   const numberFormats = computed<NumberFormats>(
     () => _numberFormats.value as NumberFormats
   )
-
-  /**
-   * define methods
-   */
 
   // getPostTranslationHandler
   function getPostTranslationHandler(): PostTranslationHandler<Message> | null {
@@ -1503,7 +1488,6 @@ export function createComposer<
 
   // export composition API!
   const composer = {
-    // properties
     id: composerID,
     locale,
     fallbackLocale,
@@ -1578,7 +1562,6 @@ export function createComposer<
       _escapeParameter = val
       _context.escapeParameter = val
     },
-    // methods
     t,
     d,
     n,
