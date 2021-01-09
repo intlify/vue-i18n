@@ -28,7 +28,7 @@ These plural messages are selected by the logic of the choice rule for each lang
 Vue I18n will be offered some pluralization ways. Here we’ll use the `$tc`.
 
 :::tip NOTE
-`$tc` has some overloads. About these overloads, see the [API Reference](../api/injection#tc-key)
+`$tc` has some overloads. About these overloads, see the [API Reference](../../api/injection#tc-key)
 :::
 
 :::tip NOTE

@@ -49,7 +49,7 @@ const DATETIME_FORMAT_KEYS = [
  *
  * @VueI18nSee [FormattableProps](component#formattableprops)
  * @VueI18nSee [BaseFormatProps](component#baseformatprops)
- * @VueI18nSee [Custom Formatting](../essentials/datetime#custom-formatting)
+ * @VueI18nSee [Custom Formatting](../../guide/essentials/datetime#custom-formatting)
  *
  * @VueI18nDanger
  * Not supported IE, due to no support `Intl.DateTimeForamt#formatToParts` in [IE](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/DateTimeFormat/formatToParts)

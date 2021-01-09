@@ -8,13 +8,6 @@ const config = {
   lang: 'en-US',
   title: 'Vue I18n',
   description: 'Vue I18n is internationalization plugin for Vue.js',
-  locales: {
-    '/': {
-      lang: 'en-US',
-      title: 'Vue I18n',
-      description: 'Vue I18n is internationalization plugin for Vue.js',
-    }
-  },
   head,
   // serviceWorker: true,
   themeConfig: {
@@ -23,211 +16,172 @@ const config = {
     docsDir: 'docs',
     docsBranch: 'master',
     editLinks: true,
+
     algolia: {
       apiKey: '3a9e93ba1069de0ece2ae100daf8f6ea',
       indexName: 'vue-i18n',
       algoliaOptions: { facetFilters: ['type:$TYPE'] },
     },
-    locales: {
-      // default english
-      '/': {
-        nav: [
-          {
-            text: 'Guide',
-            link: '/essentials/started'
-          },
-          {
-            text: 'API Reference',
-            link: '/api/general'
-          },
-          {
-            text: 'Official Tooling',
-            items: [
-              // {
-              //   text: 'Vue CLI Plugin',
-              //   link: 'https://github.com/kazupon/vue-cli-plugin-i18n'
-              // },
-              {
-                text: 'Webpack Loader',
-                link: 'https://github.com/intlify/vue-i18n-loader'
-              },
-              {
-                text: 'Rollup Plugin',
-                link: 'https://github.com/intlify/rollup-plugin-vue-i18n'
-              },
-              {
-                text: 'Vite Plugin',
-                link: 'https://github.com/intlify/vite-plugin-vue-i18n'
-              },
-              {
-                text: 'ESLint Plugin',
-                link: 'https://intlify.github.io/eslint-plugin-vue-i18n/'
-              },
-              {
-                text: 'CLI Tooling',
-                link: 'https://github.com/intlify/cli',
-              },
-              {
-                text: 'Extensions',
-                link: 'https://github.com/kazupon/vue-i18n-extensions'
-              }
-            ]
-          },
-          {
-            text: '3rd Party Tooling',
-            items: [
-              {
-                text: 'BabelEdit',
-                link: 'https://www.codeandweb.com/babeledit?utm_campaign=vue-i18n-2019-01'
-              },
-              {
-                text: 'i18n Ally',
-                link: 'https://marketplace.visualstudio.com/items?itemName=antfu.i18n-ally'
-              }
-            ]
-          },
-          {
-            text: 'Changelog',
-            link: 'https://github.com/intlify/vue-i18n-next/blob/master/CHANGELOG.md'
-          }
-        ],
-        sidebar: {
-          '/': [
+
+    nav: [
+      {
+        text: 'Guide',
+        link: '/guide/'
+      },
+      {
+        text: 'API Reference',
+        link: '/api/general'
+      },
+      {
+        text: 'Ecosystem',
+        link: '/ecosystem/official'
+      },
+      {
+        text: 'Changelog',
+        link: 'https://github.com/intlify/vue-i18n-next/blob/master/CHANGELOG.md'
+      }
+    ],
+    sidebar: {
+      '/ecosystem/': [
+        {
+          text: 'Official Tooling',
+          link: '/ecosystem/official'
+        },
+        {
+          text: '3rd Party Tooling',
+          link: '/ecosystem/third'
+        },
+      ],
+      '/api/': [
+        {
+          text: 'General',
+          link: '/api/general'
+        },
+        {
+          text: 'Legacy API',
+          link: '/api/legacy'
+        },
+        {
+          text: 'Composition API',
+          link: '/api/composition'
+        },
+        {
+          text: 'Components',
+          link: '/api/component'
+        },
+        {
+          text: 'Directives',
+          link: '/api/directive'
+        },
+        {
+          text: 'Component Injections',
+          link: '/api/injection'
+        }
+      ],
+      '/': [
+        {
+          text: 'Introduction',
+          link: '/introduction'
+        },
+        {
+          text: 'Installation',
+          link: '/installation',
+        },
+        {
+          text: 'Essentials',
+          collapsable: false,
+          children: [
             {
-              text: 'Introduction',
-              link: '/introduction'
+              text: 'Getting Started',
+              link: '/guide/',
             },
             {
-              text: 'Installation',
-              link: '/installation',
+              text: 'Message Format Syntax',
+              link: '/guide/essentials/syntax',
             },
             {
-              text: 'Essentials',
-              collapsable: false,
-              children: [
-                {
-                  text: 'Getting Started',
-                  link: '/essentials/started',
-                },
-                {
-                  text: 'Message Format Syntax',
-                  link: '/essentials/syntax',
-                },
-                {
-                  text: 'Pluralization',
-                  link: '/essentials/pluralization'
-                },
-                {
-                  text: 'Datetime Formatting',
-                  link: '/essentials/datetime'
-                },
-                {
-                  text: 'Number Formatting',
-                  link: '/essentials/number'
-                },
-                {
-                  text: 'Scope and Locale Changing',
-                  link: '/essentials/scope'
-                },
-                {
-                  text: 'Fallbacking',
-                  link: '/essentials/fallback'
-                },
-                {
-                  text: 'Local Scope Based Localization',
-                  link: '/essentials/local'
-                }
-              ]
+              text: 'Pluralization',
+              link: '/guide/essentials/pluralization'
             },
             {
-              text: 'Advanced',
-              collapsable: false,
-              children: [
-                {
-                  text: 'Custom Directive',
-                  link: '/advanced/directive'
-                },
-                {
-                  text: 'Component Interpolation',
-                  link: '/advanced/component'
-                },
-                {
-                  text: 'Single File Components',
-                  link: '/advanced/sfc'
-                },
-                {
-                  text: 'Lazy Loading',
-                  link: '/advanced/lazy'
-                },
-                {
-                  text: 'Message Functions',
-                  link: '/advanced/function'
-                },
-                {
-                  text: 'Composition API',
-                  link: '/advanced/composition',
-                },
-                {
-                  text: 'Optimization',
-                  link: '/advanced/optimization',
-                }
-              ]
+              text: 'Datetime Formatting',
+              link: '/guide/essentials/datetime'
             },
             {
-              text: 'Tooling',
-              link: '/tooling'
+              text: 'Number Formatting',
+              link: '/guide/essentials/number'
             },
             {
-              text: 'Migration from Vue 2',
-              collapsable: false,
-              children: [
-                {
-                  text: 'Breaking Changes',
-                  link: '/migration/breaking'
-                },
-                {
-                  text: 'New Features',
-                  link: '/migration/features'
-                },
-                {
-                  text: 'Compostion API for Vue 2',
-                  link: '/migration/composition'
-                }
-              ]
+              text: 'Scope and Locale Changing',
+              link: '/guide/essentials/scope'
             },
             {
-              text: 'Documentation for v8.x',
-              link: '/v8-docs',
-            },
-          ],
-          '/api/': [
-            {
-              text: 'General',
-              link: '/api/general'
+              text: 'Fallbacking',
+              link: '/guide/essentials/fallback'
             },
             {
-              text: 'Legacy API',
-              link: '/api/legacy'
+              text: 'Local Scope Based Localization',
+              link: '/guide/essentials/local'
+            }
+          ]
+        },
+        {
+          text: 'Advanced',
+          collapsable: false,
+          children: [
+            {
+              text: 'Custom Directive',
+              link: '/guide/advanced/directive'
+            },
+            {
+              text: 'Component Interpolation',
+              link: '/guide/advanced/component'
+            },
+            {
+              text: 'Single File Components',
+              link: '/guide/advanced/sfc'
+            },
+            {
+              text: 'Lazy Loading',
+              link: '/guide/advanced/lazy'
+            },
+            {
+              text: 'Message Functions',
+              link: '/guide/advanced/function'
             },
             {
               text: 'Composition API',
-              link: '/api/composition'
+              link: '/guide/advanced/composition',
             },
             {
-              text: 'Components',
-              link: '/api/component'
-            },
-            {
-              text: 'Directives',
-              link: '/api/directive'
-            },
-            {
-              text: 'Component Injections',
-              link: '/api/injection'
+              text: 'Optimization',
+              link: '/guide/advanced/optimization',
             }
           ]
-        }
-      }
+        },
+        {
+          text: 'Migration from Vue 2',
+          collapsable: false,
+          children: [
+            {
+              text: 'Breaking Changes',
+              link: '/guide/migration/breaking'
+            },
+            {
+              text: 'New Features',
+              link: '/guide/migration/features'
+            },
+            {
+              text: 'Compostion API for Vue 2',
+              link: '/guide/migration/composition'
+            }
+          ]
+        },
+        {
+          text: 'Documentation for v8.x',
+          link: '/v8-docs',
+        },
+      ]
     }
   }
 }

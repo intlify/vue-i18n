@@ -79,7 +79,7 @@ npm run build  # or `yarn run build`
 
 
 ## Explanation of Different Builds
-In the [dist/ directory of the npm package](https://cdn.jsdelivr.net/npm/vue-i18n@9.0.0-beta.8/dist/) you will find many different builds of Vue I18n. Here is an overview of which dist file should be used depending on the use-case.
+In the [dist/ directory of the npm package](https://cdn.jsdelivr.net/npm/vue-i18n@9.0.0-rc.1/dist/) you will find many different builds of Vue I18n. Here is an overview of which dist file should be used depending on the use-case.
 
 ### From CDN or without a Bundler
 

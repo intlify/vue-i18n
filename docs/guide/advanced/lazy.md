@@ -80,7 +80,7 @@ The `setI18nLanguage` function sets the language by setting the locale of the pa
 
 The `loadLocaleMessages` function is what we will actually use to change the languages. Loading the new files is done via the `import` function, which is generously provided by webpack and it allows us to load files dynamically, and because it uses promises we can easily wait for the loading to finish.
 
-You can learn more about the import function in the [Webpack documentation](https://webpack.js.org/guides/code-splitting/#dynamic-imports).
+You can learn more about the import function in the [webpack documentation](https://webpack.js.org/guides/code-splitting/#dynamic-imports).
 
 Using the `loadLocaleMessages` function is straightforward. A common use case is inside a vue-router beforeEach hook.
 

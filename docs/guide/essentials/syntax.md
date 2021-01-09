@@ -39,7 +39,7 @@ The locale message resource key for the translate function can be specified for 
 ::::
 
 :::tip NOTE
-`$t` has some overloads. About these overloads, see the [API Reference](../api/injection#t-key)
+`$t` has some overloads. About these overloads, see the [API Reference](../../api/injection#t-key)
 :::
 
 As result the below:

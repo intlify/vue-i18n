@@ -76,7 +76,7 @@ export interface VueI18nOptions {
    *
    * If the locale contains a territory and a dialect, this locale contains an implicit fallback.
    *
-   * @VueI18nSee [Scope and Locale Changing](../essentials/scope)
+   * @VueI18nSee [Scope and Locale Changing](../../guide/essentials/scope)
    *
    * @defaultValue `'en-US'`
    */
@@ -87,7 +87,7 @@ export interface VueI18nOptions {
    *
    * For more complex fallback definitions see fallback.
    *
-   * @VueI18nSee [Fallbacking](../essentials/fallback)
+   * @VueI18nSee [Fallbacking](../../guide/essentials/fallback)
    *
    * @defaultValue `true`
    */
@@ -96,7 +96,7 @@ export interface VueI18nOptions {
    * @remarks
    * The locale messages of localization.
    *
-   * @VueI18nSee [Getting Started](../essentials/started)
+   * @VueI18nSee [Getting Started](../../guide/)
    *
    * @defaultValue `{}`
    */
@@ -105,7 +105,7 @@ export interface VueI18nOptions {
    * @remarks
    * The datetime formats of localization.
    *
-   * @VueI18nSee [Datetime Formatting](../essentials/datetime)
+   * @VueI18nSee [Datetime Formatting](../../guide/essentials/datetime)
    *
    * @defaultValue `{}`
    */
@@ -114,7 +114,7 @@ export interface VueI18nOptions {
    * @remarks
    * The number formats of localization.
    *
-   * @VueI18nSee [Number Formatting](../essentials/number)
+   * @VueI18nSee [Number Formatting](../../guide/essentials/number)
    *
    * @defaultValue `{}`
    */
@@ -130,14 +130,14 @@ export interface VueI18nOptions {
    * @remarks
    * Custom Modifiers for linked messages.
    *
-   * @VueI18nSee [Custom Modifiers](../essentials/syntax#custom-modifiers)
+   * @VueI18nSee [Custom Modifiers](../../guide/essentials/syntax#custom-modifiers)
    */
   modifiers?: LinkedModifiers<VueMessageType>
   /**
    * @remarks
    * The formatter that implemented with Formatter interface.
    *
-   * @deprecated TODO
+   * @deprecated See the [here](../../guide/migration/breaking#remove-custom-formatter)
    */
   formatter?: Formatter
   /**
@@ -157,7 +157,7 @@ export interface VueI18nOptions {
    *
    * If `false`, it's warned, and is returned the key.
    *
-   * @VueI18nSee [Fallbacking](../essentials/fallback)
+   * @VueI18nSee [Fallbacking](../../guide/essentials/fallback)
    *
    * @defaultValue `true`
    */
@@ -170,7 +170,7 @@ export interface VueI18nOptions {
    *
    * If you use regular expression, you can suppress localization fail warnings that it match with translation key (e.g. `t`).
    *
-   * @VueI18nSee [Fallbacking](../essentials/fallback)
+   * @VueI18nSee [Fallbacking](../../guide/essentials/fallback)
    *
    * @defaultValue `false`
    */
@@ -181,7 +181,7 @@ export interface VueI18nOptions {
    *
    * If `true`, skip writing templates for your "base" language; the keys are your templates.
    *
-   * @VueI18nSee [Fallbacking](../essentials/fallback)
+   * @VueI18nSee [Fallbacking](../../guide/essentials/fallback)
    *
    * @defaultValue `false`
    */
@@ -190,7 +190,7 @@ export interface VueI18nOptions {
    * @remarks
    * Whether suppress warnings when falling back to either `fallbackLocale` or root.
    *
-   * @VueI18nSee [Fallbacking](../essentials/fallback)
+   * @VueI18nSee [Fallbacking](../../guide/essentials/fallback)
    *
    * @defaultValue `false`
    */
@@ -199,8 +199,8 @@ export interface VueI18nOptions {
    * @remarks
    * Whether `v-t` directive's element should preserve `textContent` after directive is unbinded.
    *
-   * @VueI18nSee [Custom Directive](../advanced/directive)
-   * @VueI18nSee [Remove `preserveDirectiveContent` option](../migration/breaking#remove-preservedirectivecontent-option)
+   * @VueI18nSee [Custom Directive](../../guide/advanced/directive)
+   * @VueI18nSee [Remove `preserveDirectiveContent` option](../../guide/migration/breaking#remove-preservedirectivecontent-option)
    *
    * @defaultValue `false`
    *
@@ -213,8 +213,8 @@ export interface VueI18nOptions {
    *
    * See the warnHtmlInMessage property.
    *
-   * @VueI18nSee [HTML Message](../essentials/syntax#html-message)
-   * @VueI18nSee [Change `warnHtmlInMessage` option default value](../migration/breaking#change-warnhtmlinmessage-option-default-value)
+   * @VueI18nSee [HTML Message](../../guide/essentials/syntax#html-message)
+   * @VueI18nSee [Change `warnHtmlInMessage` option default value](../../guide/migration/breaking#change-warnhtmlinmessage-option-default-value)
    *
    * @defaultValue `'off'`
    */
@@ -231,7 +231,7 @@ export interface VueI18nOptions {
    *
    * Setting `escapeParameterHtml` as true should not break existing functionality but provides a safeguard against a subtle type of XSS attack vectors.
    *
-   * @VueI18nSee [HTML Message](../essentials/syntax#html-message)
+   * @VueI18nSee [HTML Message](../../guide/essentials/syntax#html-message)
    *
    * @defaultValue `false`
    */
@@ -240,7 +240,7 @@ export interface VueI18nOptions {
    * @remarks
    * The shared locale messages of localization for components. More detail see Component based localization.
    *
-   * @VueI18nSee [Shared locale messages for components](../essentials/local#shared-locale-messages-for-components)
+   * @VueI18nSee [Shared locale messages for components](../../guide/essentials/local#shared-locale-messages-for-components)
    *
    * @defaultValue `undefined`
    */
@@ -249,7 +249,7 @@ export interface VueI18nOptions {
    * @remarks
    * A set of rules for word pluralization
    *
-   * @VueI18nSee [Custom Pluralization](../essentials/pluralization#custom-pluralization)
+   * @VueI18nSee [Custom Pluralization](../../guide/essentials/pluralization#custom-pluralization)
    *
    * @defaultValue `{}`
    */
@@ -269,7 +269,7 @@ export interface VueI18nOptions {
    *
    * If `false`, regardless of the root level locale, localize for each component locale.
    *
-   * @VueI18nSee [Local Scope](../essentials/scope#local-scope-2)
+   * @VueI18nSee [Local Scope](../../guide/essentials/scope#local-scope-2)
    *
    * @defaultValue `true`
    */
@@ -311,14 +311,14 @@ export interface VueI18n<
    *
    * If the locale contains a territory and a dialect, this locale contains an implicit fallback.
    *
-   * @VueI18nSee [Scope and Locale Changing](../essentials/scope)
+   * @VueI18nSee [Scope and Locale Changing](../../guide/essentials/scope)
    */
   locale: Locale
   /**
    * @remarks
    * The current fallback locales this VueI18n instance is using.
    *
-   * @VueI18nSee [Fallbacking](../essentials/fallback)
+   * @VueI18nSee [Fallbacking](../../guide/essentials/fallback)
    */
   fallbackLocale: FallbackLocale
   /**
@@ -330,35 +330,35 @@ export interface VueI18n<
    * @remarks
    * The locale messages of localization.
    *
-   * @VueI18nSee [Getting Started](../essentials/started)
+   * @VueI18nSee [Getting Started](../../guide/)
    */
   readonly messages: Messages
   /**
    * @remarks
    * The datetime formats of localization.
    *
-   * @VueI18nSee [Datetime Formatting](../essentials/datetime)
+   * @VueI18nSee [Datetime Formatting](../../guide/essentials/datetime)
    */
   readonly datetimeFormats: DateTimeFormats
   /**
    * @remarks
    * The number formats of localization.
    *
-   * @VueI18nSee [Number Formatting](../essentials/number)
+   * @VueI18nSee [Number Formatting](../../guide/essentials/number)
    */
   readonly numberFormats: NumberFormats
   /**
    * @remarks
    * Custom Modifiers for linked messages.
    *
-   * @VueI18nSee [Custom Modifiers](../essentials/syntax#custom-modifiers)
+   * @VueI18nSee [Custom Modifiers](../../guide/essentials/syntax#custom-modifiers)
    */
   readonly modifiers: LinkedModifiers<VueMessageType>
   /**
    * @remarks
    * The formatter that implemented with Formatter interface.
    *
-   * @deprecated TODO
+   * @deprecated See the [here](../../guide/migration/breaking#remove-custom-formatter)
    */
   formatter: Formatter
   /**
@@ -375,7 +375,7 @@ export interface VueI18n<
    * @remarks
    * Whether suppress warnings outputted when localization fails.
    *
-   * @VueI18nSee [Fallbacking](../essentials/fallback)
+   * @VueI18nSee [Fallbacking](../../guide/essentials/fallback)
    */
   silentTranslationWarn: boolean | RegExp
   /**
@@ -387,14 +387,14 @@ export interface VueI18n<
    * @remarks
    * Whether suppress warnings when falling back to either `fallbackLocale` or root.
    *
-   * @VueI18nSee [Fallbacking](../essentials/fallback)
+   * @VueI18nSee [Fallbacking](../../guide/essentials/fallback)
    */
   formatFallbackMessages: boolean
   /**
    * @remarks
    * Whether synchronize the root level locale to the component localization locale.
    *
-   * @VueI18nSee [Local Scope](../essentials/scope#local-scope-2)
+   * @VueI18nSee [Local Scope](../../guide/essentials/scope#local-scope-2)
    */
   sync: boolean
   /**
@@ -407,23 +407,23 @@ export interface VueI18n<
    *
    * If you are specified `error` will occurred an Error.
    *
-   * @VueI18nSee [HTML Message](../essentials/syntax#html-message)
-   * @VueI18nSee [Change `warnHtmlInMessage` option default value](../migration/breaking#change-warnhtmlinmessage-option-default-value)
+   * @VueI18nSee [HTML Message](../../guide/essentials/syntax#html-message)
+   * @VueI18nSee [Change `warnHtmlInMessage` option default value](../../guide/migration/breaking#change-warnhtmlinmessage-option-default-value)
    */
   warnHtmlInMessage: WarnHtmlInMessageLevel
   /**
    * @remarks
    * Whether interpolation parameters are escaped before the message is translated.
    *
-   * @VueI18nSee [HTML Message](../essentials/syntax#html-message)
+   * @VueI18nSee [HTML Message](../../guide/essentials/syntax#html-message)
    */
   escapeParameterHtml: boolean
   /**
    * @remarks
    * Whether `v-t` directive's element should preserve `textContent` after directive is unbinded.
    *
-   * @VueI18nSee [Custom Directive](../advanced/directive)
-   * @VueI18nSee [Remove preserveDirectiveContent option](../migration/breaking#remove-preservedirectivecontent-option)
+   * @VueI18nSee [Custom Directive](../../guide/advanced/directive)
+   * @VueI18nSee [Remove preserveDirectiveContent option](../../guide/migration/breaking#remove-preservedirectivecontent-option)
    *
    * @deprecated The `v-t` directive for Vue 3 now preserves the default content. Therefore, this option and its properties have been removed from the VueI18n instance.
    */
@@ -431,7 +431,7 @@ export interface VueI18n<
   /**
    * A set of rules for word pluralization
    *
-   * @VueI18nSee [Custom Pluralization](../essentials/pluralization#custom-pluralization)
+   * @VueI18nSee [Custom Pluralization](../../guide/essentials/pluralization#custom-pluralization)
    */
   pluralizationRules: PluralizationRules
   /**
@@ -448,7 +448,7 @@ export interface VueI18n<
    *
    * @returns Translated message
    *
-   * @VueI18nSee [Scope and Locale Changing](../essentials/scope)
+   * @VueI18nSee [Scope and Locale Changing](../../guide/essentials/scope)
    */
   t(key: Path): TranslateResult
   /**
@@ -475,7 +475,7 @@ export interface VueI18n<
    *
    * @returns Translated message
    *
-   * @VueI18nSee [List interpolation](../essentials/syntax#list-interpolation)
+   * @VueI18nSee [List interpolation](../../guide/essentials/syntax#list-interpolation)
    */
   t(key: Path, locale: Locale, list: unknown[]): TranslateResult
   /**
@@ -490,7 +490,7 @@ export interface VueI18n<
    *
    * @returns Translated message
    *
-   * @VueI18nSee [Named interpolation](../essentials/syntax#named-interpolation)
+   * @VueI18nSee [Named interpolation](../../guide/essentials/syntax#named-interpolation)
    */
   t(key: Path, locale: Locale, named: object): TranslateResult
   /**
@@ -504,7 +504,7 @@ export interface VueI18n<
    *
    * @returns Translated message
    *
-   * @VueI18nSee [List interpolation](../essentials/syntax#list-interpolation)
+   * @VueI18nSee [List interpolation](../../guide/essentials/syntax#list-interpolation)
    */
   t(key: Path, list: unknown[]): TranslateResult
   /**
@@ -518,7 +518,7 @@ export interface VueI18n<
    *
    * @returns Translated message
    *
-   * @VueI18nSee [Named interpolation](../essentials/syntax#named-interpolation)
+   * @VueI18nSee [Named interpolation](../../guide/essentials/syntax#named-interpolation)
    */
   t(key: Path, named: Record<string, unknown>): TranslateResult
   /** @internal */
@@ -539,7 +539,7 @@ export interface VueI18n<
    *
    * @returns Pluraled message
    *
-   * @VueI18nSee [Pluralization](../essentials/pluralization)
+   * @VueI18nSee [Pluralization](../../guide/essentials/pluralization)
    */
   tc(key: Path): TranslateResult
   /**
@@ -709,7 +709,7 @@ export interface VueI18n<
    *
    * @returns Formatted value
    *
-   * @VueI18nSee [Datetime formatting](../essentials/datetime)
+   * @VueI18nSee [Datetime formatting](../../guide/essentials/datetime)
    */
   d(value: number | Date): DateTimeFormatResult
   /**
@@ -796,7 +796,7 @@ export interface VueI18n<
    *
    * @returns Formatted value
    *
-   * @VueI18nSee [Number formatting](../essentials/number)
+   * @VueI18nSee [Number formatting](../../guide/essentials/number)
    */
   n(value: number): NumberFormatResult
   /**

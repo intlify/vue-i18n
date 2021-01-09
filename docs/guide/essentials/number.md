@@ -34,7 +34,7 @@ const i18n = createI18n({
 To localize Number value with Vue I18n, use the `$n`.
 
 :::tip NOTE
-`$n` has some overloads. About these overloads, see the [API Reference](../api/injection#n-value)
+`$n` has some overloads. About these overloads, see the [API Reference](../../api/injection#n-value)
 :::
 
 The following is an example of the use of `$n` in a template:
@@ -142,5 +142,5 @@ It is possible to specify multiple scoped slots at the same time:
 ```
 
 :::tip NOTE
-Full list of the supported scoped slots as well as other `i18n-n`, properties can be found on [API Reference](../api/component.html#numberformat).
+Full list of the supported scoped slots as well as other `i18n-n`, properties can be found on [API Reference](../../api/component.html#numberformat).
 :::

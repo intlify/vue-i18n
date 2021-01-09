@@ -54,8 +54,8 @@ The locales, locale messages, and other resources managed by the instance refere
 If the `i18n` component option is not specified, it’s the same as the VueI18n instance that can be referenced by the i18n instance [global](general#global).
 
 **See Also**
-- [Scope and Locale Changing](../essentials/scope)
-- [Composition API](../advanced/composition)
+- [Scope and Locale Changing](../../guide/essentials/scope)
+- [Composition API](../../guide/advanced/composition)
 
 ### $t(key)
 
@@ -75,8 +75,8 @@ In [Compostion API mode](general#mode), the `$t` is injected by `app.config.glob
 In [Legacy API mode](general#mode), the input / output is the same as for VueI18n instance. About details, see [VueI18n#t](legacy#t-key).
 
 **See Also**
-- [Scope and Locale Changing](../essentials/scope)
-- [Composition API](../advanced/composition)
+- [Scope and Locale Changing](../../guide/essentials/scope)
+- [Composition API](../../guide/advanced/composition)
 
 #### Parameters
 | Parameter | Type | Description |
@@ -533,7 +533,7 @@ The input / output is the same as for VueI18n instance. About that details, see 
 The value of plural is handled with default `1`.
 
 **See Also**
-- [Pluralization](../essentials/pluralization)
+- [Pluralization](../../guide/essentials/pluralization)
 
 #### Parameters
 | Parameter | Type | Description |
@@ -781,9 +781,9 @@ In [Compostion API mode](general#i18nmode), the input / output is the same as fo
 In [Compostion API mode](general#i18nmode), the `$d` is injected by `app.config.globalProperties`. The input / output is the same as for Composer instance, and it work on **global scope**. About that details, see [Composer#d](composition#d-value).
 
 **See Also**
-- [Datetime Formatting](../essentials/datetime)
-- [Scope and Locale Changing](../essentials/scope)
-- [Composition API](../advanced/composition#datetime-formatting)
+- [Datetime Formatting](../../guide/essentials/datetime)
+- [Scope and Locale Changing](../../guide/essentials/scope)
+- [Composition API](../../guide/advanced/composition#datetime-formatting)
 
 #### Parameters
 | Parameter | Type | Description |
@@ -974,9 +974,9 @@ In [Legacy API mode](general#i18nmode), the input / output is the same as for Vu
 In [Compostion API mode](general#i18nmode), the `$n` is injected by `app.config.globalProperties`. The input / output is the same as for Composer instance, and it work on **global scope**. About that details, see [Composer#n](composition#n-value).
 
 **See Also**
-- [Number Formatting](../essentials/number)
-- [Scope and Locale Changing](../essentials/scope)
-- [Composition API](../advanced/composition#number-formatting)
+- [Number Formatting](../../guide/essentials/number)
+- [Scope and Locale Changing](../../guide/essentials/scope)
+- [Composition API](../../guide/advanced/composition#number-formatting)
 
 #### Parameters
 | Parameter | Type | Description |

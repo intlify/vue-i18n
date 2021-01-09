@@ -41,7 +41,7 @@ const i18n = createI18n({
 To localize DateTime value with Vue I18n, use the `$d`.
 
 :::tip NOTE
-`$d` has some overloads. About these overloads, see the [API Reference](../api/injection#d-value)
+`$d` has some overloads. About these overloads, see the [API Reference](../../api/injection#d-value)
 :::
 
 :::tip NOTE
@@ -153,5 +153,5 @@ It is possible to specify multiple scoped slots at the same time:
 ```
 
 :::tip NOTE
-Full list of the supported scoped slots as well as other `i18n-d`, properties can be found on [API Reference](../api/component.html#datetimeformat).
+Full list of the supported scoped slots as well as other `i18n-d`, properties can be found on [API Reference](../../api/component.html#datetimeformat).
 :::

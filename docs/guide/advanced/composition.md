@@ -6,7 +6,7 @@ We have been describing the features of Vue I18n using the Legacy API, which is 
 
 ## Basic Usage
 
-Let’s look at the basic usage of Vue I18n Composition API! Here we will learn the basic usage by modifying the code in [Getting Started](../essentials/started) to learn the basic usage.
+Let’s look at the basic usage of Vue I18n Composition API! Here we will learn the basic usage by modifying the code in [Getting Started](../../guide/) to learn the basic usage.
 
 To compose with `useI18n` in `setup` of Vue 3, there is one thing you need to do, you need set the `legacy` option of the `createI18n` function to `false`.
 
@@ -55,7 +55,7 @@ const app = Vue.createApp({
 
 You must call `useI18n` at top of the `setup`.
 
-The `useI18n` returns a Composer instance. The Compser instance provides a translation API such as the `t` function, as well as properties such as `locale` and `fallbackLocale`, just like the VueI18n instance. For more information on the Composer instance, see the [API Reference](../api/composition#composer).
+The `useI18n` returns a Composer instance. The Compser instance provides a translation API such as the `t` function, as well as properties such as `locale` and `fallbackLocale`, just like the VueI18n instance. For more information on the Composer instance, see the [API Reference](../../api/composition#composer).
 
 In the above example, there are no options for `useI18n`, so it returns a Composer instance that works with the global scope. As such, it returns a Composer instance that works with the global scope, which means that the localized message referenced by the spread `t` function here is the one specified in `createI18n`. This means that the locale message referenced by the spread `t` function here will be the locale message specified in `createI18n`.
 
@@ -127,7 +127,7 @@ export default {
 </script>
 ```
 
-For more details of `t`, see the [API Reference](../api/composition#t-key).
+For more details of `t`, see the [API Reference](../../api/composition#t-key).
 
 ## Pluralization
 
@@ -223,7 +223,7 @@ export default {
 </script>
 ```
 
-For more details of `d`, see the [API Reference](../api/composition#d-value).
+For more details of `d`, see the [API Reference](../../api/composition#d-value).
 
 ## Number Formatting
 
@@ -267,7 +267,7 @@ export default {
 </script>
 ```
 
-For more details of `n`, see the [API Reference](../api/composition#n-value).
+For more details of `n`, see the [API Reference](../../api/composition#n-value).
 
 ## Global scope
 

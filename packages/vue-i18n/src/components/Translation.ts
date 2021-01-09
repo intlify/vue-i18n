@@ -36,7 +36,7 @@ export interface TranslationProps extends BaseFormatProps {
  *
  * @VueI18nSee [TranslationProps](component#translationprops)
  * @VueI18nSee [BaseFormatProps](component#baseformatprops)
- * @VueI18nSee [Component Interpolation](../advanced/component)
+ * @VueI18nSee [Component Interpolation](../../guide/advanced/component)
  *
  * @example
  * ```html

@@ -43,10 +43,49 @@ If `$t('hello')` is used in the template, the `hello` key defined by `i18n` cust
 :::tip NOTE
 The Composition API requires `useI18n` to return the `setup` context in order to localize with reference to locale messages defined in the i18n custom blocks.
 
-About how to usage of `useI18n` , see the [Composition API](/advanced/composition)
+About how to usage of `useI18n` , see the [Composition API](composition)
 :::
 
 To use i18n custom blocks, you need to use the following plugins for bundler.
+
+
+## Bundling with Vite
+
+### vite-plugin-vue-i18n
+
+[vite-plugin-vue-i18n](https://github.com/intlify/vite-plugin-vue-i18n) is vite plugin for [Vite](https://github.com/vitejs/vite).
+
+:::tip REQUIREMENTS
+- vite: **v2-beta or later**
+- @vitejs/plugin-vue: **v1.0.4 or later**.
+:::
+
+#### Installation
+
+```sh
+npm i --save-dev @intlify/vite-plugin-vue-i18n
+```
+
+#### Configuration
+
+vite config for example:
+
+```ts
+import path from 'path'
+import { defineConfig } from 'vite'
+import vue from '@vitejs/plugin-vue'
+import vueI18n from '@intlify/vite-plugin-vue-i18n'
+
+export default defineConfig({
+  plugins: [
+    vue(),
+    vueI18n({
+      include: path.resolve(__dirname, './path/to/src/locales/**')
+    })
+  ]
+})
+```
+
 
 ## Bundling with webpack
 
@@ -101,6 +140,7 @@ module.exports = {
 }
 ```
 
+
 ## Bundling with Rollup
 
 ### rollup-plugin-vue-i18n
@@ -151,46 +191,6 @@ export default [
 ]
 ```
 
-## Bundling with Vite
-
-### vite-plugin-vue-i18n
-
-[vite-plugin-vue-i18n](https://github.com/intlify/vite-plugin-vue-i18n) is vite plugin for [Vite](https://github.com/vitejs/vite).
-
-:::tip REQUIREMENTS
-- vite: **v2-beta or later**
-- @vitejs/plugin-vue: **v1.0.4 or later**.
-:::
-
-#### Installation
-
-```sh
-npm i --save-dev @intlify/vite-plugin-vue-i18n
-```
-
-#### Configuration
-
-vite config for example:
-
-```ts
-import path from 'path'
-import vue from '@vitejs/plugin-vue'
-import { pluginI18n } from '@intlify/vite-plugin-vue-i18n'
-
-import type { UserConfig } from 'vite'
-
-const config: UserConfig = {
-  plugins: [
-    vue(),
-    pluginI18n({
-      include: path.resolve(__dirname, './locales/**')
-    })
-  ]
-}
-
-export default config
-
-```
 
 ## Define locale lessages importing
 
@@ -214,6 +214,7 @@ You can use `src` attribute:
 
 In the above example, `src` attribute is set to `./myLang.json`, so the path of the component with the `i18n` custom blocks is the base directory, and `./myLang.json` is  defined as the resource for locale messages.
 
+
 ## Define Locale Messages each Locales
 
 You can use `locale` attribute:
@@ -227,6 +228,7 @@ You can use `locale` attribute:
 ```
 
 In the above example, since the `locale` attribute is set to `en`, the locale messages defined in `i18n` custom blocks can be used as a resource for locale messages of `en`.
+
 
 ## Define multiple locale lessages
 
@@ -249,6 +251,7 @@ You can use locale messages with multiple `i18n` custom blocks.
 In the above, first custom block load the common locale message with `src` attribute, second custom block load the locale message that is defined only at single file component. These locale messages will be merged as locale message of component.
 
 In this way, multiple custom blocks useful when want to be used as module.
+
 
 ## Locale messages other formats
 

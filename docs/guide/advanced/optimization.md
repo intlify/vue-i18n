@@ -3,7 +3,7 @@
 
 ## Improve performance and reduce bundle size with runtime build only
 
-As described in "[installation](installation##from-cdn-or-without-a-bundler)" section, Vue I18n offer the following two built ES modules for Bundler.
+As described in "[installation](../../installation##from-cdn-or-without-a-bundler)" section, Vue I18n offer the following two built ES modules for Bundler.
 
 - message compiler + runtime: **`vue-i18n.esm-bundler.js`**
 - runtime only: **`vue-i18n.runtime.esm-bundler.js`**
@@ -15,6 +15,31 @@ The use of this ES Module means that **all locale messages have to pre-compile t
 :::danger NOTE
 In the [CSP](https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP) environment, `vue-i18n.esm-bundler.js` does not work with compiler due to policy, so you need to use `vue-i18n.runtime.esm-bundler.js` in that environment as well.
 :::
+
+### vite
+
+In vite, use `alias` option as below:
+
+```js
+import path from 'path'
+import { defineConfig } from 'vite'
+import vue from '@vitejs/plugin-vue'
+import vueI18n from '@intlify/vite-plugin-vue-i18n'
+
+export default defineConfig({
+  // ...
+  alias: {
+    'vue-i18n': 'vue-i18n/dist/vue-i18n.runtime.esm-bundler.js'
+  },
+  plugins: [
+    vue(),
+    vueI18n({
+      include: path.resolve(__dirname, './path/to/src/locales/**')
+    })
+  ],
+  // ...
+})
+```
 
 ### webpack
 
@@ -57,33 +82,6 @@ module.exports = {
 }
 ```
 
-### vite
-
-In vite, use `alias` option as below:
-
-```js
-import path from 'path'
-import vue from '@vitejs/plugin-vue'
-import { pluginI18n } from '@intlify/vite-plugin-vue-i18n'
-
-import type { UserConfig } from 'vite'
-
-const config: UserConfig = {
-  // ...
-  alias: {
-    'vue-i18n': 'vue-i18n/dist/vue-i18n.runtime.esm-bundler.js'
-  },
-  plugins: [
-    vue(),
-    pluginI18n({
-      include: path.resolve(__dirname, './path/to/src/locales/**')
-    })
-  ],
-  // ...
-}
-
-export default config
-```
 
 ## Reduce bundle size with feature build flags
 

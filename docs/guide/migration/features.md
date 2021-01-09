@@ -4,12 +4,12 @@ Vue I18n v9 offers not only Vue 3 support, but this version also is included new
 
 ## Message format syntax
 
-- See the [Literal interpolation](../essentials/#literal-interpolation)
+- See the [Literal interpolation](../essentials/syntax#literal-interpolation)
 
 ## Message functions
 
-- See the [Linked messages](../advanced/#linked-messages)
-- See the [Pluralization](../advanced/#pluralization)
+- See the [Linked messages](../advanced/function#linked-messages)
+- See the [Pluralization](../advanced/function#pluralization)
 
 ## Composition API
 
