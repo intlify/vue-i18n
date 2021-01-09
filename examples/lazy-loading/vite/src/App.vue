@@ -11,9 +11,14 @@
     </div>
     <form class="language">
       <label>{{ t('labels.language') }}</label>
-      <select v-model="locale">
-        <option value="en">en</option>
-        <option value="ja">ja</option>
+      <select v-model="currentLocale">
+        <option
+          v-for="optionLocale in supportLocales"
+          :key="optionLocale"
+          :value="optionLocale"
+        >
+          {{ optionLocale }}
+        </option>
       </select>
     </form>
   </nav>
@@ -21,26 +26,45 @@
 </template>
 
 <script>
-import { ref, watch, defineComponent } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
+import { defineComponent, watch, ref } from 'vue'
+import { useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
+import { SUPPORT_LOCALES } from './i18n'
 
 export default defineComponent({
   name: 'App',
   setup() {
-    const { t, locale } = useI18n()
     const router = useRouter()
-    const route = useRoute()
+    const { t, locale } = useI18n({ useScope: 'global' })
 
-    // when change the locale, go to locale route
-    watch(locale, val => {
+    /**
+     * select locale value for language select form
+     *
+     * If you use the vue-i18n composer `locale` property directly, it will be re-rendering component when this property is changed,
+     * before dynamic import was used to asynchronously load and apply locale messages
+     * To avoid this, use the anoter locale reactive value.
+     */
+    const currentLocale = ref(locale.value)
+
+    // sync to switch locale from router locale path
+    watch(router.currentRoute, route => {
+      currentLocale.value = route.params.locale
+    })
+
+    /**
+     * when change the locale, go to locale route
+     *
+     * when the changes are detected, load the locale message and set the language via vue-router navigation guard.
+     * change the vue-i18n locale too.
+     */
+    watch(currentLocale, val => {
       router.push({
-        name: route.name,
+        name: router.currentRoute.value.name,
         params: { locale: val }
       })
     })
 
-    return { t, locale }
+    return { t, locale, currentLocale, supportLocales: SUPPORT_LOCALES }
   }
 })
 </script>

@@ -1,14 +1,14 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import { setI18nLanguage, loadLocaleMessages } from './i18n'
+import { setI18nLanguage, loadLocaleMessages, SUPPORT_LOCALES } from './i18n'
+
 import type { Router, RouteRecordRaw } from 'vue-router'
-import type { I18n, Locale, Composer } from 'vue-i18n'
+import type { I18n, Composer } from 'vue-i18n'
 
 import Home from './pages/Home.vue'
 import About from './pages/About.vue'
 
 export function setupRouter(i18n: I18n): Router {
-  const SUPPORT_LOCALES = ['en', 'ja']
-  const locale: Locale =
+  const locale: string =
     i18n.mode === 'legacy'
       ? i18n.global.locale
       : ((i18n.global as unknown) as Composer).locale.value
@@ -38,19 +38,21 @@ export function setupRouter(i18n: I18n): Router {
   })
 
   // navigation guards
-  router.beforeEach((to, from, next) => {
-    const locale = (to.params as any).locale as Locale
+  router.beforeEach(async (to, from, next) => {
+    const paramsLocale = (to.params as any).locale as string
 
-    // check locale
-    if (!SUPPORT_LOCALES.includes(locale)) {
-      return false
+    // use locale if paramsLocale is not in SUPPORT_LOCALES
+    if (!SUPPORT_LOCALES.includes(paramsLocale)) {
+      return next(`/${locale}`)
     }
 
     // load locale messages
-    loadLocaleMessages(i18n, locale)
+    if (!i18n.global.availableLocales.includes(paramsLocale)) {
+      await loadLocaleMessages(i18n, paramsLocale)
+    }
 
     // set i18n language
-    setI18nLanguage(i18n, locale)
+    setI18nLanguage(i18n, paramsLocale)
 
     return next()
   })

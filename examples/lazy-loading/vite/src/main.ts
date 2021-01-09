@@ -6,7 +6,6 @@ import { setupI18n } from './i18n'
 import en from './locales/en.yaml'
 
 const i18n = setupI18n({
-  globalInjection: true,
   legacy: false,
   locale: 'en',
   fallbackLocale: 'en',

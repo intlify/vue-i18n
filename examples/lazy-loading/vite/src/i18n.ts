@@ -1,5 +1,9 @@
+import { nextTick } from 'vue'
 import { createI18n } from 'vue-i18n'
-import type { I18n, Locale, I18nOptions, Composer } from 'vue-i18n'
+
+import type { I18n, I18nOptions, Composer } from 'vue-i18n'
+
+export const SUPPORT_LOCALES = ['en', 'ja']
 
 export function setupI18n(options: I18nOptions = { locale: 'en' }): I18n {
   const i18n = createI18n(options) as I18n
@@ -7,7 +11,7 @@ export function setupI18n(options: I18nOptions = { locale: 'en' }): I18n {
   return i18n
 }
 
-export function setI18nLanguage(i18n: I18n, locale: Locale): void {
+export function setI18nLanguage(i18n: I18n, locale: string): void {
   if (i18n.mode === 'legacy') {
     i18n.global.locale = locale
   } else {
@@ -23,10 +27,12 @@ export function setI18nLanguage(i18n: I18n, locale: Locale): void {
   document.querySelector('html').setAttribute('lang', locale)
 }
 
-export async function loadLocaleMessages(i18n: I18n, locale: Locale) {
+export async function loadLocaleMessages(i18n: I18n, locale: string) {
   // load locale messages
-  if (!i18n.global.availableLocales.includes(locale)) {
-    const messages = await import(`./locales/${locale}.yaml`)
-    i18n.global.setLocaleMessage(locale, messages.default)
-  }
+  const messages = await import(/* @vite-ignore */ `./src/locales/${locale}.yaml`)
+
+  // set locale and locale message
+  i18n.global.setLocaleMessage(locale, messages.default)
+
+  return nextTick()
 }
