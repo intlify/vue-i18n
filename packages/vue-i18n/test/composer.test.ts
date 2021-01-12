@@ -400,6 +400,56 @@ describe('fallbackRoot', () => {
     composer.fallbackRoot = true
     expect(composer.fallbackRoot).toEqual(true)
   })
+
+  test('not warnings', () => {
+    const mockWarn = warn as jest.MockedFunction<typeof warn>
+    mockWarn.mockImplementation(() => {})
+
+    const root = createComposer({
+      locale: 'en',
+      missingWarn: false,
+      fallbackRoot: true
+    })
+    const { t } = createComposer({
+      locale: 'en',
+      fallbackLocale: ['fr', 'jp'],
+      missingWarn: false,
+      fallbackRoot: true,
+      messages: {
+        ja: {},
+        en: {},
+        fr: {}
+      },
+      __root: root
+    } as any)
+    expect(t('hello')).toEqual('hello')
+    expect(mockWarn).not.toHaveBeenCalled()
+  })
+
+  test('warnings', () => {
+    const mockWarn = warn as jest.MockedFunction<typeof warn>
+    mockWarn.mockImplementation(() => {})
+
+    const root = createComposer({
+      locale: 'en',
+      missingWarn: false,
+      fallbackRoot: false
+    })
+    const { t } = createComposer({
+      locale: 'en',
+      fallbackLocale: ['fr', 'jp'],
+      missingWarn: false,
+      fallbackRoot: false,
+      messages: {
+        ja: {},
+        en: {},
+        fr: {}
+      },
+      __root: root
+    } as any)
+    expect(t('hello')).toEqual('hello')
+    expect(mockWarn).toHaveBeenCalledTimes(1)
+  })
 })
 
 describe('warnHtmlMessage', () => {

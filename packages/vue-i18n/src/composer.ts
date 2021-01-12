@@ -207,24 +207,26 @@ export interface ComposerOptions<Message = VueMessageType> {
    * @remarks
    * Whether suppress warnings outputted when localization fails.
    *
-   * If `true`, suppress localization fail warnings.
+   * If `false`, suppress localization fail warnings.
    *
    * If you use regular expression, you can suppress localization fail warnings that it match with translation key (e.g. `t`).
    *
    * @VueI18nSee [Fallbacking](../../guide/essentials/fallback)
    *
-   * @defaultValue `false`
+   * @defaultValue `true`
    */
   missingWarn?: boolean | RegExp
   /**
    * @remarks
-   * Whether do template interpolation on translation keys when your language lacks a translation for a key.
+   * Whether suppress warnings when falling back to either `fallbackLocale` or root.
    *
-   * If `true`, skip writing templates for your "base" language; the keys are your templates.
+   * If `false`, suppress fall back warnings.
+   *
+   * If you use regular expression, you can suppress fallback warnings that it match with translation key (e.g. `t`).
    *
    * @VueI18nSee [Fallbacking](../../guide/essentials/fallback)
    *
-   * @defaultValue `false`
+   * @defaultValue `true`
    */
   fallbackWarn?: boolean | RegExp
   /**
@@ -240,7 +242,9 @@ export interface ComposerOptions<Message = VueMessageType> {
   fallbackRoot?: boolean
   /**
    * @remarks
-   * Whether suppress warnings when falling back to either `fallbackLocale` or root.
+   * Whether do template interpolation on translation keys when your language lacks a translation for a key.
+   *
+   * If `true`, skip writing templates for your "base" language; the keys are your templates.
    *
    * @VueI18nSee [Fallbacking](../../guide/essentials/fallback)
    *
@@ -399,14 +403,14 @@ export interface Composer<
   missingWarn: boolean | RegExp
   /**
    * @remarks
-   * Whether suppress fallback warnings when localization fails.
+   * Whether suppress fall back warnings when localization fails.
+   *
+   * @VueI18nSee [Fallbacking](../../guide/essentials/fallback)
    */
   fallbackWarn: boolean | RegExp
   /**
    * @remarks
-   * Whether to fallback to root level (global) localization when localization fails.
-   *
-   * If `false`, it's warned, and is returned the key.
+   * Whether to fall back to root level (global) localization when localization fails.
    *
    * @VueI18nSee [Fallbacking](../../guide/essentials/fallback)
    */
@@ -1071,9 +1075,12 @@ export function createComposer<
       ? options.fallbackWarn
       : true
 
-  let _fallbackRoot = isBoolean(options.fallbackRoot)
-    ? options.fallbackRoot
-    : true
+  // prettier-ignore
+  let _fallbackRoot = __root
+    ? __root.fallbackRoot
+    : isBoolean(options.fallbackRoot)
+      ? options.fallbackRoot
+      : true
 
   // configure fall bakck to root
   let _fallbackFormat = !!options.fallbackFormat
@@ -1221,13 +1228,15 @@ export function createComposer<
     const ret = fn(context) // track reactive dependency, see the getRuntimeContext
     if (isNumber(ret) && ret === NOT_REOSLVED) {
       const key = argumentParser()
-      if (__DEV__ && _fallbackRoot && __root) {
-        warn(
-          getWarnMessage(I18nWarnCodes.FALLBACK_TO_ROOT, {
-            key,
-            type: warnType
-          })
-        )
+      if (__DEV__ && __root) {
+        if (!_fallbackRoot) {
+          warn(
+            getWarnMessage(I18nWarnCodes.FALLBACK_TO_ROOT, {
+              key,
+              type: warnType
+            })
+          )
+        }
         // for vue-devtools timeline event
         if (__DEV__) {
           const {
@@ -1243,7 +1252,7 @@ export function createComposer<
           }
         }
       }
-      return _fallbackRoot && __root
+      return __root && _fallbackRoot
         ? fallbackSuccess((__root as unknown) as Composer<T> & ComposerInternal)
         : fallbackFail(key)
     } else if (successCondition(ret)) {
