@@ -26,7 +26,7 @@ It is of course fine to use non-English language, when you open a PR to translat
 
 - Check if the issue is reproducible with the latest stable version of Vue. If you are using a pre-release, please indicate the specific version you are using.
 
-- It is **required** that you clearly describe the steps necessary to reproduce the issue you are running into. Issues with no clear repro steps will not be triaged. If an issue labeled "need repro" receives no further input from the issue author for more than 5 days, it will be closed.
+- It is **required** that you clearly describe the steps necessary to reproduce the issue you are running into. Issues with no clear repro steps will not be triaged. If an issue labeled "Status: Need More Info" receives no further input from the issue author for more than 5 days, it will be closed.
 
 - It is recommended that you make a JSFiddle/JSBin/Codepen/CodeSandbox to demonstrate your issue. You could start based with [this template](http://jsfiddle.net/r8qnsfb1/) that already includes the latest version.
 
