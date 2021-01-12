@@ -1,3 +1,22 @@
+
+## v9.0.0-rc.2 (2021-01-12)
+
+#### :bug: Bug Fixes
+* `vue-i18n`
+  * [#290](https://github.com/intlify/vue-i18n-next/pull/290) fix: fallback root warnings ([@kazupon](https://github.com/kazupon))
+  * [#287](https://github.com/intlify/vue-i18n-next/pull/287) fix: export types ([@kazupon](https://github.com/kazupon))
+
+#### :chart_with_upwards_trend: Performance Fixes
+* `vue-i18n`
+  * [#282](https://github.com/intlify/vue-i18n-next/pull/282) improvement: bundle-size ([@kazupon](https://github.com/kazupon))
+
+#### :pencil: Documentation
+* [#280](https://github.com/intlify/vue-i18n-next/pull/280) fix: typo ([@fabiofdsantos](https://github.com/fabiofdsantos))
+
+#### Committers: 2
+- Fábio Santos ([@fabiofdsantos](https://github.com/fabiofdsantos))
+- kazuya kawaguchi ([@kazupon](https://github.com/kazupon))
+
 ## v9.0.0-rc.1 (2021-01-06)
 
 Vue I18n is entering RC :tada:
