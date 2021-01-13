@@ -2,11 +2,19 @@
 
 Internationalization plugin for Vue.js
 
+<h3>🥇 Gold Sponsors<h3>
+
+<p>
+  <a href="https://nuxtjs.org/" target="_blank">
+    <img src="https://raw.githubusercontent.com/intlify/vue-i18n-next/master/docs/public/nuxt.png">
+  </a>
+</p>
+
 <h3>🥈 Silver Sponsors</h3>
 
 <p>
   <a href="https://www.codeandweb.com/babeledit?utm_campaign=vue-i18n-2019-01" target="_blank">
-    <img src="https://raw.githubusercontent.com/kazupon/vue-i18n/dev/vuepress/.vuepress/public/patrons/babeledit.png">
+    <img src="https://raw.githubusercontent.com/intlify/vue-i18n-next/master/docs/public/babeledit.png">
   </a>
 </p>
 
@@ -14,7 +22,7 @@ Internationalization plugin for Vue.js
 
 <p>
   <a href="https://zenarchitects.co.jp/" target="_blank">
-    <img src="https://raw.githubusercontent.com/kazupon/vue-i18n/v8.x/vuepress/.vuepress/public/patrons/zenarchitects.png" width="200px">
+    <img src="https://raw.githubusercontent.com/intlify/vue-i18n-next/master/docs/public/zenarchitects.png" width="200px">
   </a>
 </p>
 
@@ -23,7 +31,7 @@ Internationalization plugin for Vue.js
 
 <p>
   <a href="https://www.sendcloud.com/" target="_blank">
-    <img src="https://raw.githubusercontent.com/kazupon/vue-i18n/v8.x/vuepress/.vuepress/public/patrons/sendcloud.png" width="200px">
+    <img src="https://raw.githubusercontent.com/intlify/vue-i18n-next/master/docs/public/sendcloud.svg" width="200px">
   </a>
 </p>
 

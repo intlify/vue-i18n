@@ -27,7 +27,11 @@ export default {
     <template #home-hero>
       <div class="sponsors">
         <div class="level">
-          <h4>🥈 Silver Sponsors</h4>
+          <h4 class="sponsor-title">🥇 Gold Sponsors</h4>
+          <Sponsor v-for="gold in golds" v-bind="gold" />
+        </div>
+        <div class="level">
+          <h4 class="sponsor-title">🥈 Silver Sponsors</h4>
           <Sponsor v-for="silver in silvers" v-bind="silver" />
         </div>
         <div class="level">
@@ -55,7 +59,7 @@ form {
   padding: 24px 0 0 0;
 }
 .sponsor-title {
-  padding: 12px 0 0 0;
+  padding: 12px 0;
 }
 .hero .action .nav-item {
   margin-left: 0;

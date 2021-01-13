@@ -14,6 +14,12 @@ Go to [Get Started](./guide/)
 
 ## Sponsors
 
+### 🥇 Gold
+
+<p style="text-align: center;">
+  <GoldSponsors />
+</p>
+
 ### 🥈 Silver
 
 <p style="text-align: center;">

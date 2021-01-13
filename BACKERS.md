@@ -4,34 +4,50 @@ You can join them in supporting vue-i18n development by [pledging on Patreon](ht
 
 <h2 align="center">Gold Sponsors</h2>
 
-[Currently vacant. It could be you!](https://www.patreon.com/bePatron?c=1597144&patAmt=500.0)
+<p align="center">
+  <a href="https://nuxtjs.org/" target="_blank">
+    <img src="https://raw.githubusercontent.com/intlify/vue-i18n-next/master/docs/public/nuxt.png">
+  </a>
+</p>
+
+[It could be you!](https://github.com/sponsors/kazupon?o=esc)
 
 <h2 align="center">Sliver Sponsors</h2>
 
 <p align="center">
   <a href="https://www.codeandweb.com/babeledit?utm_campaign=vue-i18n-2019-01" target="_blank">
-    <img src="https://raw.githubusercontent.com/kazupon/vue-i18n/dev/vuepress/.vuepress/public/patrons/babeledit.png">
+    <img src="https://raw.githubusercontent.com/intlify/vue-i18n-next/master/docs/public/babeledit.png">
   </a>
 </p>
 
-[It could be you!](https://www.patreon.com/bePatron?c=1597144&patAmt=250.0)
+[It could be you!](https://github.com/sponsors/kazupon?o=esc)
 
 <h2 align="center">Bronze Sponsors</h2>
 
 <p align="center">
   <a href="https://zenarchitects.co.jp/" target="_blank">
-    <img src="https://raw.githubusercontent.com/kazupon/vue-i18n/v8.x/vuepress/.vuepress/public/patrons/zenarchitects.png">
+    <img src="https://raw.githubusercontent.com/intlify/vue-i18n-next/master/docs/public/zenarchitects.png" width="200px">
   </a>
 </p>
 
-[It could be you!](https://www.patreon.com/bePatron?c=1597144&patAmt=100.0)
+<br />
+<br />
+
+<p align="center">
+  <a href="https://www.sendcloud.com/" target="_blank">
+    <img src="https://raw.githubusercontent.com/intlify/vue-i18n-next/master/docs/public/sendcloud.svg" width="200px">
+  </a>
+</p>
+
+
+[It could be you!](https://github.com/sponsors/kazupon?o=esc)
 
 <h2 align="center">Generous Supporters</h2>
 
-[Currently vacant. It could be you!](https://www.patreon.com/bePatron?c=1597144&patAmt=50.0)
+[Currently vacant. It could be you!](https://github.com/sponsors/kazupon?o=esc)
 
 <h2 align="center">Awesome Supporters</h2>
 
 - Shinya Katayama
 
-[It could be you!](https://www.patreon.com/bePatron?c=1597144&patAmt=20.0)
+[It could be you!](https://github.com/sponsors/kazupon?o=esc)

@@ -8,6 +8,7 @@ export default {
   ...DefaultTheme,
   Layout,
   enhanceApp({ app, router, siteData }) {
+    app.component('GoldSponsors', () => sponsors.golds.map(prop => h(Sponsor, prop)))
     app.component('SilverSponsors', () => sponsors.silvers.map(prop => h(Sponsor, prop)))
     app.component('BronzeSponsors', () => sponsors.bronzes.map(prop => h(Sponsor, prop)))
     // test

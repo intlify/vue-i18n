@@ -39,7 +39,7 @@ export default defineComponent({
 
 <template>
   <a :href="link" :class="[tierClass]" class="base" target="_blank" rel="noopener">
-    <img :alt="name" :src="source" :class="[tierClass]" class="base" />
+    <img :alt="name" :src="source" />
   </a>
 </template>
 
@@ -49,10 +49,10 @@ export default defineComponent({
   vertical-align: middle;
 }
 .gold {
-  width: 440px;
+  width: 400px;
 }
 .sliver {
-  width: 320px;
+  width: 300px;
 }
 .bronze {
   width: 200px;

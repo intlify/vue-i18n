@@ -5,6 +5,12 @@ export const enum TierLevel {
 }
 
 export const sponsors = {
+  golds: [{
+    name: 'NuxtJS',
+    tier: TierLevel.Gold,
+    link: 'https://nuxtjs.org/',
+    source: '/nuxt.png'
+  }],
   silvers: [{
     name: 'Babel Edit',
     tier: TierLevel.Silver,
