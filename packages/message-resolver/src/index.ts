@@ -321,3 +321,50 @@ export function resolveValue(obj: unknown, path: Path): PathValue {
 
   return last
 }
+
+/**
+ * Transform flat json in obj to normal json in obj
+ */
+export function handleFlatJson(obj: unknown): unknown {
+  // check obj
+  if (!isObject(obj)) {
+    return obj
+  }
+
+  for (const key in obj as object) {
+    // check key
+    if (!obj.hasOwnProperty(key)) {
+      continue
+    }
+
+    // handle for normal json
+    if (!key.includes(PathCharTypes.DOT)) {
+      // recursive process value if value is also a object
+      if (typeof obj[key] === 'object') {
+        handleFlatJson(obj[key])
+      }
+    }
+    // handle for flat json, transform to normal json
+    else {
+      // go to the last object
+      const subKeys = key.split(PathCharTypes.DOT)
+      const lastIndex = subKeys.length - 1
+      let currentObj = obj
+      for (let i = 0; i < lastIndex; i++) {
+        if (!(subKeys[i] in currentObj)) {
+          currentObj[subKeys[i]] = {}
+        }
+        currentObj = currentObj[subKeys[i]]
+      }
+      // update last object value, delete old property
+      currentObj[subKeys[lastIndex]] = obj[key]
+      delete obj[key]
+      // recursive process value if value is also a object
+      if (typeof currentObj[subKeys[lastIndex]] === 'object') {
+        handleFlatJson(currentObj[subKeys[lastIndex]])
+      }
+    }
+  }
+
+  return obj
+}

@@ -1,4 +1,4 @@
-import { parse, resolveValue } from '../src/index'
+import { parse, resolveValue, handleFlatJson } from '../src/index'
 
 test('parse', () => {
   expect(parse('a')).toEqual(['a'])
@@ -120,4 +120,30 @@ test('resolveValue', () => {
   expect(resolveValue({}, 'a.b.c[]')).toEqual(null)
   // blanket middle
   expect(resolveValue({}, 'a.b.c[]d')).toEqual(null)
+})
+
+test('handleFlatJson', () => {
+  const obj = {
+    a: { a1: 'a1.value' },
+    'a.a2': 'a.a2.value',
+    'b.x': {
+      'b1.x': 'b1.x.value',
+      'b2.x': ['b2.x.value0', 'b2.x.value1'],
+      'b3.x': { 'b3.x': 'b3.x.value' }
+    }
+  }
+
+  handleFlatJson(obj)
+
+  expect(obj['a']['a1'] === 'a1.value').toEqual(true)
+  // @ts-ignore
+  expect(obj['a']['a2'] === 'a.a2.value').toEqual(true)
+  // @ts-ignore
+  expect(obj['b']['x']['b1']['x'] === 'b1.x.value').toEqual(true)
+  // @ts-ignore
+  expect(obj['b']['x']['b2']['x'][0] === 'b2.x.value0').toEqual(true)
+  // @ts-ignore
+  expect(obj['b']['x']['b2']['x'][1] === 'b2.x.value1').toEqual(true)
+  // @ts-ignore
+  expect(obj['b']['x']['b3']['x']['b3']['x'] === 'b3.x.value').toEqual(true)
 })
