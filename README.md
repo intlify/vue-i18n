@@ -59,17 +59,31 @@ The examples are offered in thee following two API styles:
   - Examples with using vue-i18n API that are almost compatible with vue-i18n v8.x
 
 
-## :white_check_mark: Tasks for release
+## :package: Main Pakcages
 
-- [x] monorepo packaging
-- [x] support fully univarsal environments (CSP)
-- [x] extend bundler for i18n resource bundling
-  - [x] `@intlify/vue-i18n-loader`
-  - [x] `@intlify/rollup-plugin-vue-i18n`
-  - [x] `@intlify/vite-plugin-vue-i18n`
-- [x] vue-cli-plugin-i18n
-- [x] support i18n resources packing (pre-compilation) CLI
-- [x] support i18n custom blocks sourcemaps
+| Package | NPM |
+| ------- | --- |
+| [vue-i18n](packages/vue-i18n) | [![vue-i18n](https://img.shields.io/npm/v/vue-i18n/rc.svg)](https://www.npmjs.com/package/vue-i18n)
+| [@intlify/core](packages/core) | [![@intlify/core](https://img.shields.io/npm/v/@intlify/core/rc.svg)](https://www.npmjs.com/package/@intlify/core)
+| [@intlify/core-base](packages/core-base) | [![@intlify/core-base](https://img.shields.io/npm/v/@intlify/core-base/rc.svg)](https://www.npmjs.com/package/@intlify/core-base)
+| [@intlify/runtime](packages/runtime) | [![@intlify/runtime](https://img.shields.io/npm/v/@intlify/runtime/rc.svg)](https://www.npmjs.com/package/@intlify/runtime)
+| [@intlify/message-compiler](packages/message-compiler) | [![@intlify/message-compiler](https://img.shields.io/npm/v/@intlify/message-compiler/rc.svg)](https://www.npmjs.com/package/@intlify/message-compiler)
+| [@intlify/message-resolver](packages/message-resolver) | [![@intlify/message-resolver](https://img.shields.io/npm/v/@intlify/message-resolver/rc.svg)](https://www.npmjs.com/package/@intlify/message-resolver)
+| [@intlify/shared](packages/shared) | [![@intlify/shared](https://img.shields.io/npm/v/@intlify/shared/rc.svg)](https://www.npmjs.com/package/@intlify/shared)
+
+## :package: Other Projects
+
+| Project | NPM | Repo |
+| ------- | --- | ---- |
+| Vue CLI Plugin | [![vue-cli-plugin-i18n](https://img.shields.io/npm/v/vue-cli-plugin-i18n/beta.svg)](https://www.npmjs.com/package/vue-cli-plugin-i18n) | [intlify/vue-cli-plugin-i18n](https://github.com/intlify/vue-cli-plugin-i18n)
+| Vue I18n Extensions | [![@intlify/vue-i18n-extensions](https://img.shields.io/npm/v/@intlify/vue-i18n-extensions/beta.svg)](https://www.npmjs.com/package/@intlify/vue-i18n-extensions) | [intlify/vue-i18n-extentions](https://github.com/intlify/vue-i18n-extensions)
+| ESLint Plugin | [![@intlify/eslint-plugin-vue-i18n](https://img.shields.io/npm/v/@intlify/eslint-plugin-vue-i18n.svg)](https://www.npmjs.com/package/@intlify/eslint-plugin-vue-i18n) | [intlify/eslint-plugin-vue-i18n](https://github.com/intlify/eslint-plugin-vue-i18n)
+| Composition API for Vue 2.x | [![vue-i18n-composable](https://img.shields.io/npm/v/vue-i18n-composable.svg)](https://www.npmjs.com/package/vue-i18n-composable) | [intlify/vue-i18n-composable](https://github.com/intlify/vue-i18n-composable)
+| CLI | [![intlify/cli](https://img.shields.io/npm/v/@intlify/cli.svg)](https://www.npmjs.com/package/@intlify/cli) | [intlify/cli](https://github.com/intlify/cli)
+| Vite Plugin | [![intlify/vite-plugin-vue-i18n](https://img.shields.io/npm/v/@intlify/vite-plugin-vue-i18n.svg)](https://www.npmjs.com/package/@intlify/vite-plugin-vue-i18n) | [intlify/vite-plugin-vue-i18n](https://github.com/intlify/vite-plugin-vue-i18n)
+| Webpack Loader | [![intlify/vue-i18n-loader](https://img.shields.io/npm/v/@intlify/vue-i18n-loader/beta.svg)](https://www.npmjs.com/package/@intlify/vue-i18n-loader) | [intlify/vue-i18n-loader](https://github.com/intlify/vue-i18n-loader)
+| Rollup Plugin | [![intlify/rollup-plugin-vue-i18n](https://img.shields.io/npm/v/@intlify/rollup-plugin-vue-i18n/beta.svg)](https://www.npmjs.com/package/@intlify/rollup-plugin-vue-i18n) | [intlify/rollup-plugin-vue-i18n](https://github.com/intlify/rollup-plugin-vue-i18n)
+| Vue Jest Plugin | [![vue-i18n-jest](https://img.shields.io/npm/v/vue-i18n-jest.svg)](https://www.npmjs.com/package/vue-i18n-jest) | [intlify/vue-i18n-jest](https://github.com/intlify/vue-i18n-jest)
 
 ## :muscle: Contribution
 
