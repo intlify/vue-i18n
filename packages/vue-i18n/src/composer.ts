@@ -32,7 +32,8 @@ import {
   parseNumberArgs,
   clearNumberFormat,
   NOT_REOSLVED,
-  DevToolsTimelineEvents
+  DevToolsTimelineEvents,
+  handleFlatJson
 } from '@intlify/core-base'
 import { I18nWarnCodes, getWarnMessage } from './warnings'
 import { I18nErrorCodes, createI18nError } from './errors'
@@ -957,6 +958,13 @@ export function getLocaleMessages<Message = VueMessageType>(
         deepCopy(resource, ret)
       }
     })
+  }
+
+  // handle messages for flat json
+  for (const key in ret) {
+    if (ret.hasOwnProperty(key)) {
+      handleFlatJson(ret[key])
+    }
   }
 
   return ret
