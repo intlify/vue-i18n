@@ -27,7 +27,7 @@
   },
   "dependencies": {
     "monaco-editor": "^0.21.2",
-    "source-map": "^0.6.1",
+    "source-map": "^0.7.0",
     "vue": "^3.0.4",
     "@intlify/message-compiler": "link:../packages/message-compiler"
   }

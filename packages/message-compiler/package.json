@@ -35,7 +35,7 @@
   "dependencies": {
     "@intlify/message-resolver": "9.0.0-rc.2",
     "@intlify/shared": "9.0.0-rc.2",
-    "source-map": "0.6.1"
+    "source-map": "0.7.3"
   },
   "engines": {
     "node": ">= 10"
