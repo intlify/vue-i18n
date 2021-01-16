@@ -71,7 +71,7 @@ The examples are offered in thee following two API styles:
 | [@intlify/message-resolver](packages/message-resolver) | [![@intlify/message-resolver](https://img.shields.io/npm/v/@intlify/message-resolver/rc.svg)](https://www.npmjs.com/package/@intlify/message-resolver)
 | [@intlify/shared](packages/shared) | [![@intlify/shared](https://img.shields.io/npm/v/@intlify/shared/rc.svg)](https://www.npmjs.com/package/@intlify/shared)
 
-## :package: Other Projects
+## :runner: Other Projects
 
 | Project | NPM | Repo |
 | ------- | --- | ---- |
@@ -84,6 +84,7 @@ The examples are offered in thee following two API styles:
 | Webpack Loader | [![intlify/vue-i18n-loader](https://img.shields.io/npm/v/@intlify/vue-i18n-loader/beta.svg)](https://www.npmjs.com/package/@intlify/vue-i18n-loader) | [intlify/vue-i18n-loader](https://github.com/intlify/vue-i18n-loader)
 | Rollup Plugin | [![intlify/rollup-plugin-vue-i18n](https://img.shields.io/npm/v/@intlify/rollup-plugin-vue-i18n/beta.svg)](https://www.npmjs.com/package/@intlify/rollup-plugin-vue-i18n) | [intlify/rollup-plugin-vue-i18n](https://github.com/intlify/rollup-plugin-vue-i18n)
 | Vue Jest Plugin | [![vue-i18n-jest](https://img.shields.io/npm/v/vue-i18n-jest.svg)](https://www.npmjs.com/package/vue-i18n-jest) | [intlify/vue-i18n-jest](https://github.com/intlify/vue-i18n-jest)
+| Vue I18n Locale Message Tools | [![vue-i18n-locale-message](https://img.shields.io/npm/v/vue-i18n-locale-message.svg)](https://www.npmjs.com/package/vue-i18n-locale-message) | [intlify/vue-i18n-locale-message](https://github.com/intlify/vue-i18n-locale-message)
 
 ## :muscle: Contribution
 
