@@ -27,6 +27,29 @@ describe('createI18n', () => {
 
     expect(i18n.mode).toEqual('composition')
   })
+
+  test('flat json message in legacy mode', () => {
+    const i18n = createI18n({
+      messages: {
+        en: { 'mainMenu.buttonStart': 'Start!' }
+      }
+    })
+    const messages = i18n.global.messages
+    // @ts-ignore
+    expect(messages['en']['mainMenu']['buttonStart'] === 'Start!').toEqual(true)
+  })
+
+  test('flat json message in composition mode', () => {
+    const i18n = createI18n({
+      legacy: false,
+      messages: {
+        en: { 'mainMenu.buttonStart': 'Start!' }
+      }
+    })
+    const messages = i18n.global.messages.value
+    // @ts-ignore
+    expect(messages['en']['mainMenu']['buttonStart'] === 'Start!').toEqual(true)
+  })
 })
 
 describe('useI18n', () => {
