@@ -543,7 +543,7 @@ export function createParser(options: ParserOptions = {}): Parser {
     }
     node.body = parseResource(tokenizer)
 
-    // assert wheather achieved to EOF
+    // assert whether achieved to EOF
     if (context.currentType !== TokenTypes.EOF) {
       emitError(
         tokenizer,

@@ -225,7 +225,7 @@ export interface VueI18nOptions {
    *
    * This is useful when translation output is used in `v-html` and the translation resource contains html markup (e.g. <b> around a user provided value).
    *
-   * This usage pattern mostly occurs when passing precomputed text strings into UI compontents.
+   * This usage pattern mostly occurs when passing precomputed text strings into UI components.
    *
    * The escape process involves replacing the following symbols with their respective HTML character entities: `<`, `>`, `"`, `'`.
    *
@@ -696,7 +696,7 @@ export interface VueI18n<
     message: LocaleMessageDictionary<VueMessageType>
   ): void
   /**
-   * Datetime formating
+   * Datetime formatting
    *
    * @remarks
    * If this is used in a reactive context, it will re-evaluate once the locale changes.
@@ -713,7 +713,7 @@ export interface VueI18n<
    */
   d(value: number | Date): DateTimeFormatResult
   /**
-   * Datetime formating
+   * Datetime formatting
    *
    * @remarks
    * Overloaded `d`. About details, see the [d](legacy#d-value) details.
@@ -725,7 +725,7 @@ export interface VueI18n<
    */
   d(value: number | Date, key: string): DateTimeFormatResult
   /**
-   * Datetime formating
+   * Datetime formatting
    *
    * @remarks
    * Overloaded `d`. About details, see the [d](legacy#d-value) details.
@@ -738,7 +738,7 @@ export interface VueI18n<
    */
   d(value: number | Date, key: string, locale: Locale): DateTimeFormatResult
   /**
-   * Datetime formating
+   * Datetime formatting
    *
    * @remarks
    * Overloaded `d`. About details, see the [d](legacy#d-value) details.
@@ -783,7 +783,7 @@ export interface VueI18n<
    */
   mergeDateTimeFormat(locale: Locale, format: DateTimeFormat): void
   /**
-   * Number formating
+   * Number formatting
    *
    * @remarks
    * If this is used in a reactive context, it will re-evaluate once the locale changes.
@@ -800,7 +800,7 @@ export interface VueI18n<
    */
   n(value: number): NumberFormatResult
   /**
-   * Number formating
+   * Number formatting
    *
    * @remarks
    * Overloaded `n`. About details, see the [n](legacy#n-value) details.
@@ -812,7 +812,7 @@ export interface VueI18n<
    */
   n(value: number, key: string): NumberFormatResult
   /**
-   * Number formating
+   * Number formatting
    *
    * @remarks
    * Overloaded `n`. About details, see the [n](legacy#n-value) details.
@@ -825,7 +825,7 @@ export interface VueI18n<
    */
   n(value: number, key: string, locale: Locale): NumberFormatResult
   /**
-   * Number formating
+   * Number formatting
    *
    * @remarks
    * Overloaded `n`. About details, see the [n](legacy#n-value) details.
@@ -875,7 +875,7 @@ export interface VueI18n<
    * @remarks
    * Get pluralization index for current pluralizing number and a given amount of choices.
    *
-   * @deprecated Use `pluralizationRules` option insted of `getChoiceIndex`.
+   * @deprecated Use `pluralizationRules` option instead of `getChoiceIndex`.
    */
   getChoiceIndex: (choice: Choice, choicesLength: number) => number
 }
@@ -1254,7 +1254,7 @@ export function createVueI18n<
       composer.setLocaleMessage(locale, message)
     },
 
-    // mergeLocaleMessasge
+    // mergeLocaleMessage
     mergeLocaleMessage(
       locale: Locale,
       message: LocaleMessageDictionary<VueMessageType>

@@ -887,7 +887,7 @@ describe('getLocaleMessage / setLocaleMessage / mergeLocaleMessage', () => {
 })
 
 describe('getDateTimeFormat / setDateTimeFormat / mergeDateTimeFormat', () => {
-  test('basci', () => {
+  test('basic', () => {
     const {
       getDateTimeFormat,
       setDateTimeFormat,

@@ -149,38 +149,38 @@ export function defineMixin<Messages, DateTimeFormats, NumberFormats>(
 
 function mergeToRoot<Messages, DateTimeFormats, NumberFormats>(
   root: VueI18n<Messages, DateTimeFormats, NumberFormats>,
-  optoins: VueI18nOptions &
+  options: VueI18nOptions &
     ComposerInternalOptions<Messages, DateTimeFormats, NumberFormats>
 ): VueI18n<Messages, DateTimeFormats, NumberFormats> {
-  root.locale = optoins.locale || root.locale
-  root.fallbackLocale = optoins.fallbackLocale || root.fallbackLocale
-  root.missing = optoins.missing || root.missing
+  root.locale = options.locale || root.locale
+  root.fallbackLocale = options.fallbackLocale || root.fallbackLocale
+  root.missing = options.missing || root.missing
   root.silentTranslationWarn =
-    optoins.silentTranslationWarn || root.silentFallbackWarn
+    options.silentTranslationWarn || root.silentFallbackWarn
   root.silentFallbackWarn =
-    optoins.silentFallbackWarn || root.silentFallbackWarn
+    options.silentFallbackWarn || root.silentFallbackWarn
   root.formatFallbackMessages =
-    optoins.formatFallbackMessages || root.formatFallbackMessages
-  root.postTranslation = optoins.postTranslation || root.postTranslation
-  root.warnHtmlInMessage = optoins.warnHtmlInMessage || root.warnHtmlInMessage
+    options.formatFallbackMessages || root.formatFallbackMessages
+  root.postTranslation = options.postTranslation || root.postTranslation
+  root.warnHtmlInMessage = options.warnHtmlInMessage || root.warnHtmlInMessage
   root.escapeParameterHtml =
-    optoins.escapeParameterHtml || root.escapeParameterHtml
-  root.sync = optoins.sync || root.sync
+    options.escapeParameterHtml || root.escapeParameterHtml
+  root.sync = options.sync || root.sync
   const messages = getLocaleMessages<VueMessageType>(root.locale, {
-    messages: optoins.messages,
-    __i18n: optoins.__i18n
+    messages: options.messages,
+    __i18n: options.__i18n
   })
   Object.keys(messages).forEach(locale =>
     root.mergeLocaleMessage(locale, messages[locale])
   )
-  if (optoins.datetimeFormats) {
-    Object.keys(optoins.datetimeFormats).forEach(locale =>
-      root.mergeDateTimeFormat(locale, optoins.datetimeFormats![locale])
+  if (options.datetimeFormats) {
+    Object.keys(options.datetimeFormats).forEach(locale =>
+      root.mergeDateTimeFormat(locale, options.datetimeFormats![locale])
     )
   }
-  if (optoins.numberFormats) {
-    Object.keys(optoins.numberFormats).forEach(locale =>
-      root.mergeNumberFormat(locale, optoins.numberFormats![locale])
+  if (options.numberFormats) {
+    Object.keys(options.numberFormats).forEach(locale =>
+      root.mergeNumberFormat(locale, options.numberFormats![locale])
     )
   }
   return root

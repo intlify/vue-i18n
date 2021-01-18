@@ -13,10 +13,10 @@ export const enum I18nWarnCodes {
 
 export const warnMessages: { [code: number]: string } = {
   [I18nWarnCodes.FALLBACK_TO_ROOT]: `Fall back to {type} '{key}' with root locale.`,
-  [I18nWarnCodes.NOT_SUPPORTED_PRESERVE]: `Not supportted 'preserve'.`,
-  [I18nWarnCodes.NOT_SUPPORTED_FORMATTER]: `Not supportted 'formatter'.`,
-  [I18nWarnCodes.NOT_SUPPORTED_PRESERVE_DIRECTIVE]: `Not supportted 'preserveDirectiveContent'.`,
-  [I18nWarnCodes.NOT_SUPPORTED_GET_CHOICE_INDEX]: `Not supportted 'getChoiceIndex'.`,
+  [I18nWarnCodes.NOT_SUPPORTED_PRESERVE]: `Not supported 'preserve'.`,
+  [I18nWarnCodes.NOT_SUPPORTED_FORMATTER]: `Not supported 'formatter'.`,
+  [I18nWarnCodes.NOT_SUPPORTED_PRESERVE_DIRECTIVE]: `Not supported 'preserveDirectiveContent'.`,
+  [I18nWarnCodes.NOT_SUPPORTED_GET_CHOICE_INDEX]: `Not supported 'getChoiceIndex'.`,
   [I18nWarnCodes.COMPONENT_NAME_LEGACY_COMPATIBLE]: `Component name legacy compatible: '{name}' -> 'i18n'`,
   [I18nWarnCodes.NOT_FOUND_PARENT_SCOPE]: `Not found parent scope. use the global scope.`
 }

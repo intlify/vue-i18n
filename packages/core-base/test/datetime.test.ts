@@ -346,4 +346,4 @@ describe('error', () => {
   })
 })
 
-/* eslint-eable @typescript-eslint/no-empty-function */
+/* eslint-enable @typescript-eslint/no-empty-function */

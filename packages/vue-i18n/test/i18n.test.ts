@@ -14,7 +14,7 @@ import { errorMessages, I18nErrorCodes } from '../src/errors'
 import { Composer } from '../src/composer'
 
 describe('createI18n', () => {
-  test('legay mode', () => {
+  test('legacy mode', () => {
     const i18n = createI18n({})
 
     expect(i18n.mode).toEqual('legacy')
@@ -435,7 +435,7 @@ describe('slot reactivity', () => {
     expect(html()).toMatchSnapshot('en')
   })
 
-  test('compsable', async () => {
+  test('composable', async () => {
     const i18n = createI18n({
       legacy: false,
       locale: 'ja',

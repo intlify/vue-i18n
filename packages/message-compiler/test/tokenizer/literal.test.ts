@@ -210,7 +210,7 @@ describe('unicode', () => {
   })
 })
 
-describe('special chracters', () => {
+describe('special characters', () => {
   test(`'{'`, () => {
     const tokenizer = createTokenizer(`open blace: {'{'}`)
     expect(tokenizer.nextToken()).toEqual({

@@ -15,7 +15,7 @@ test('basic', () => {
   expect(handler).toBeCalledTimes(1)
 })
 
-test('mlutiple reigster', () => {
+test('multiple register', () => {
   const handler1 = jest.fn()
   const handler2 = jest.fn()
 

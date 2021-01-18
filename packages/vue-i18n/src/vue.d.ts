@@ -49,7 +49,7 @@ declare module '@vue/runtime-core' {
      *
      * @remarks
      * You can get the {@link ExportedGlobalComposer | exported composer instance} which are exported from global {@link Composer | composer instance} created with {@link createI18n}, or global {@link VueI18n | VueI18n instance}.
-     * You can get the exported composer instance in {@link I18nMode | Compostion API mode}, or the Vuei18n instance in {@link I18nMode | Legacy API mode}, which is the instance you can refer to with this property.
+     * You can get the exported composer instance in {@link I18nMode | Composition API mode}, or the Vuei18n instance in {@link I18nMode | Legacy API mode}, which is the instance you can refer to with this property.
      * The locales, locale messages, and other resources managed by the instance referenced by this property are valid as global scope.
      * If the `i18n` component custom option is not specified, it's the same as the VueI18n instance that can be referenced by the i18n instance {@link I18n.global | global} property.
      */
@@ -62,7 +62,7 @@ declare module '@vue/runtime-core' {
      *
      * In {@link I18nMode | Legacy API mode}, the input / output is the same as for VueI18n instance. About that details, see {@link VueI18n#t | `VueI18n#t`}.
      *
-     * In {@link I18nMode | Compostion API mode}, the `$t` is injected by `app.config.globalProperties`.
+     * In {@link I18nMode | Composition API mode}, the `$t` is injected by `app.config.globalProperties`.
      * the input / output is the same as for Composer, and it work on **global scope**. About that details, see {@link Composer#t | `Composer#t` }.
      *
      * @param key - A target locale message key
@@ -163,7 +163,7 @@ declare module '@vue/runtime-core' {
      *
      * @param key - A target locale message key
      * @param plural - Which plural string to get. 1 returns the first one.
-     * @param options - An options, see the {@link TranslateOptiions}
+     * @param options - An options, see the {@link TranslateOptions}
      *
      * @returns translation message
      */
@@ -188,7 +188,7 @@ declare module '@vue/runtime-core' {
      *
      * @param key - A target locale message key
      * @param defaultMsg - A default message to return if no translation was found
-     * @param options - An options, see the {@link TranslateOptiions}
+     * @param options - An options, see the {@link TranslateOptions}
      *
      * @returns translation message
      */
@@ -239,7 +239,7 @@ declare module '@vue/runtime-core' {
      *
      * @param key - A target locale message key
      * @param list - A values of list interpolation
-     * @param options - An options, see the {@link TranslateOptiions}
+     * @param options - An options, see the {@link TranslateOptions}
      *
      * @returns translation message
      */
@@ -290,7 +290,7 @@ declare module '@vue/runtime-core' {
      *
      * @param key - A target locale message key
      * @param named - A values of named interpolation
-     * @param options - An options, see the {@link TranslateOptiions}
+     * @param options - An options, see the {@link TranslateOptions}
      *
      * @returns translation message
      */
@@ -427,14 +427,14 @@ declare module '@vue/runtime-core' {
      */
     $te(key: Path, locale?: Locale): boolean
     /**
-     * Datetime formating
+     * Datetime formatting
      *
      * @remarks
      * If this is used in a reactive context, it will re-evaluate once the locale changes.
      *
      * In {@link I18nMode | Legacy API mode}, the input / output is the same as for VueI18n instance. About that details, see {@link VueI18n#d | `VueI18n#d` }.
      *
-     * In {@link I18nMode | Compostion API mode}, the `$d` is injected by `app.config.globalProperties`.
+     * In {@link I18nMode | Composition API mode}, the `$d` is injected by `app.config.globalProperties`.
      * the input / output is the same as for Composer instance, and it work on **global scope**. About that details, see {@link Composer#d | `Composer#d` }.
      *
      * @param value - A value, timestamp number or `Date` instance
@@ -443,7 +443,7 @@ declare module '@vue/runtime-core' {
      */
     $d(value: number | Date): DateTimeFormatResult
     /**
-     * Datetime formating
+     * Datetime formatting
      *
      * @remarks
      * Overloaded `$d`. About details, see the {@link $d} remarks.
@@ -455,7 +455,7 @@ declare module '@vue/runtime-core' {
      */
     $d(value: number | Date, key: string): DateTimeFormatResult
     /**
-     * Datetime formating
+     * Datetime formatting
      *
      * @remarks
      * Overloaded `$d`. About details, see the {@link $d} remarks.
@@ -468,7 +468,7 @@ declare module '@vue/runtime-core' {
      */
     $d(value: number | Date, key: string, locale: Locale): DateTimeFormatResult
     /**
-     * Datetime formating
+     * Datetime formatting
      *
      * @remarks
      * Overloaded `$d`. About details, see the {@link $d} remarks.
@@ -483,7 +483,7 @@ declare module '@vue/runtime-core' {
       args: { [key: string]: string }
     ): DateTimeFormatResult
     /**
-     * Datetime formating
+     * Datetime formatting
      *
      * @remarks
      * Overloaded `$d`. About details, see the {@link $d} remarks.
@@ -494,7 +494,7 @@ declare module '@vue/runtime-core' {
      */
     $d(value: number | Date): string
     /**
-     * Datetime formating
+     * Datetime formatting
      *
      * @remarks
      * Overloaded `$d`. About details, see the {@link $d} remarks.
@@ -506,7 +506,7 @@ declare module '@vue/runtime-core' {
      */
     $d(value: number | Date, key: string): string
     /**
-     * Datetime formating
+     * Datetime formatting
      *
      * @remarks
      * Overloaded `$d`. About details, see the {@link $d} remarks.
@@ -519,7 +519,7 @@ declare module '@vue/runtime-core' {
      */
     $d(value: number | Date, key: string, locale: Locale): string
     /**
-     * Datetime formating
+     * Datetime formatting
      *
      * @remarks
      * Overloaded `$d`. About details, see the {@link $d} remarks.
@@ -538,7 +538,7 @@ declare module '@vue/runtime-core' {
      *
      * In {@link I18nMode | Legacy API mode}, the input / output is the same as for VueI18n instance. About that details, see {@link VueI18n#n | `VueI18n.n` }.
      *
-     * In {@link I18nMode | Compostion API mode}, the `$n` is injected by `app.config.globalProperties`.
+     * In {@link I18nMode | Composition API mode}, the `$n` is injected by `app.config.globalProperties`.
      * the input / output is the same as for Composer instance,  and it work on **global scope**. About that details, see {@link Composer#n | `Composer.n` }.
      *
      * @param value - A number value
@@ -637,7 +637,7 @@ declare module '@vue/runtime-core' {
      * In {@link I18nMode | Legacy API mode}, the input / output is the same as for VueI18n instance. About that details, see {@link VueI18n#tm | `VueI18n#tm` }.
      *
      * @remarks
-     * In {@link I18nMode | Compostion API mode}, the `$tm` is injected by `app.config.globalProperties`.
+     * In {@link I18nMode | Composition API mode}, the `$tm` is injected by `app.config.globalProperties`.
      * the input / output is the same as for Composer instance, and it work on **global scope**. About that details, see {@link Composer#tm | `Composer.tm` }.
      *
      * @param key - A target locale message key

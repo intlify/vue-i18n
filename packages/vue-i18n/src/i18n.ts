@@ -78,7 +78,7 @@ export interface I18nAdditionalOptions {
    * Whether vue-i18n Legacy API mode use on your Vue App
    *
    * @remarks
-   * The default is to use the Lagacy API mode. If you want to use the compositoin API mode, you need to set it to `false`.
+   * The default is to use the Legacy API mode. If you want to use the Composition API mode, you need to set it to `false`.
    *
    * @VueI18nSee [Composition API](../../guide/advanced/composition)
    *
@@ -267,7 +267,7 @@ export interface ComposerAdditionalOptions {
  *
  * // call with I18n option
  * const i18n = createI18n({
- *   legacy: false, // you must specify 'lagacy: false' option
+ *   legacy: false, // you must specify 'legacy: false' option
  *   locale: 'ja',
  *   messages: {
  *     en: { ... },
@@ -418,7 +418,7 @@ export function createI18n<
         emitter.on('*', addTimelineEvent)
       }
     },
-    // global accsessor
+    // global accessor
     get global(): GlobalType {
       return __global as GlobalType
     },

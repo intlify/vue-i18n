@@ -7,7 +7,7 @@ export type ComponetI18nScope = Exclude<I18nScope, 'local'>
  * BaseFormat Props for Components that is offered Vue I18n
  *
  * @remarks
- * The interface definitions of the underlying props of components such as Translation, DatetimeForamt, and NumberFromat.
+ * The interface definitions of the underlying props of components such as Translation, DatetimeFormat, and NumberFormat.
  *
  * @VueI18nComponent
  */

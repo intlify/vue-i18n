@@ -423,7 +423,7 @@ describe('modulo cases', () => {
     })
   })
 
-  test('other placeholder sytnax: hi %s !', () => {
+  test('other placeholder syntax: hi %s !', () => {
     const tokenizer = createTokenizer('hi %s !')
     expect(tokenizer.nextToken()).toEqual({
       type: TokenTypes.Text,

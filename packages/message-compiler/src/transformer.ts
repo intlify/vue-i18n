@@ -48,7 +48,7 @@ function traverseNodes(nodes: Node[], transformer: Transformer): void {
 }
 
 function traverseNode(node: Node, transformer: Transformer): void {
-  // TODO: if we need pre-hook of transform, should be implemeted to here
+  // TODO: if we need pre-hook of transform, should be implemented to here
 
   switch (node.type) {
     case NodeTypes.Plural:
@@ -73,7 +73,7 @@ function traverseNode(node: Node, transformer: Transformer): void {
       break
   }
 
-  // TODO: if we need post-hook of transform, should be implemeted to here
+  // TODO: if we need post-hook of transform, should be implemented to here
 }
 
 // transform AST
