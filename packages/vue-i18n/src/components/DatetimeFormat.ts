@@ -9,7 +9,7 @@ import type { Composer, ComposerInternal } from '../composer'
 import type { FormattableProps } from './formatRenderer'
 
 /**
- * DatetimeForamt Component Props
+ * DatetimeFormat Component Props
  *
  * @VueI18nComponent
  */
@@ -52,7 +52,7 @@ const DATETIME_FORMAT_KEYS = [
  * @VueI18nSee [Custom Formatting](../../guide/essentials/datetime#custom-formatting)
  *
  * @VueI18nDanger
- * Not supported IE, due to no support `Intl.DateTimeForamt#formatToParts` in [IE](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/DateTimeFormat/formatToParts)
+ * Not supported IE, due to no support `Intl.DateTimeFormat#formatToParts` in [IE](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/DateTimeFormat/formatToParts)
  *
  * If you want to use it, you need to use [polyfill](https://github.com/formatjs/formatjs/tree/main/packages/intl-datetimeformat)
  *

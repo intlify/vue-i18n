@@ -94,7 +94,7 @@ export interface NumberOptions {
   fallbackWarn?: boolean
   /**
    * @remarks
-   * Whether to use [Intel.NumberForrmat#formatToParts](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/NumberFormat/formatToParts)
+   * Whether to use [Intel.NumberFormat#formatToParts](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/NumberFormat/formatToParts)
    */
   part?: boolean
 }
@@ -138,7 +138,7 @@ export function number<NumberFormats, Message = string>(
     return MISSING_RESOLVE_VALUE
   }
 
-  const [key, value, options, orverrides] = parseNumberArgs(...args)
+  const [key, value, options, overrides] = parseNumberArgs(...args)
   const missingWarn = isBoolean(options.missingWarn)
     ? options.missingWarn
     : context.missingWarn
@@ -205,15 +205,15 @@ export function number<NumberFormats, Message = string>(
   }
 
   let id = `${targetLocale}__${key}`
-  if (!isEmptyObject(orverrides)) {
-    id = `${id}__${JSON.stringify(orverrides)}`
+  if (!isEmptyObject(overrides)) {
+    id = `${id}__${JSON.stringify(overrides)}`
   }
 
   let formatter = __numberFormatters.get(id)
   if (!formatter) {
     formatter = new Intl.NumberFormat(
       targetLocale,
-      Object.assign({}, format, orverrides)
+      Object.assign({}, format, overrides)
     )
     __numberFormatters.set(id, formatter)
   }
@@ -226,7 +226,7 @@ export function parseNumberArgs(
 ): [string, number, NumberOptions, Intl.NumberFormatOptions] {
   const [arg1, arg2, arg3, arg4] = args
   let options = {} as NumberOptions
-  let orverrides = {} as Intl.NumberFormatOptions
+  let overrides = {} as Intl.NumberFormatOptions
 
   if (!isNumber(arg1)) {
     throw createCoreError(CoreErrorCodes.INVALID_ARGUMENT)
@@ -242,14 +242,14 @@ export function parseNumberArgs(
   if (isString(arg3)) {
     options.locale = arg3
   } else if (isPlainObject(arg3)) {
-    orverrides = arg3
+    overrides = arg3
   }
 
   if (isPlainObject(arg4)) {
-    orverrides = arg4
+    overrides = arg4
   }
 
-  return [options.key || '', value, options, orverrides]
+  return [options.key || '', value, options, overrides]
 }
 
 /** @internal */

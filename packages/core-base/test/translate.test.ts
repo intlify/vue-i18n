@@ -434,7 +434,7 @@ describe('context fallbackFormat option', () => {
     )
   })
 
-  test('overrided with default option', () => {
+  test('overridden with default option', () => {
     const mockWarn = warn as jest.MockedFunction<typeof warn>
     mockWarn.mockImplementation(() => {})
 

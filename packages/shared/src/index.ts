@@ -116,7 +116,7 @@ export function escapeHtml(rawText: string): string {
 /* eslint-enable */
 
 /**
- * Useful Utilites By Evan you
+ * Useful Utilities By Evan you
  * Modified by kazuya kawaguchi
  * MIT License
  * https://github.com/vuejs/vue-next/blob/master/packages/shared/src/index.ts

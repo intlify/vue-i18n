@@ -23,7 +23,7 @@ export interface TranslationProps extends BaseFormatProps {
   keypath: string
   /**
    * @remarks
-   * The Plural Choicing the message number prop
+   * The Plural Choosing the message number prop
    */
   plural?: number | string
 }

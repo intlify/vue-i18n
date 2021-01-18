@@ -323,7 +323,7 @@ export function createTokenizer(
         scnr.peek()
         return fn()
       } else {
-        // other charactors
+        // other characters
         return isIdentifierStart(ch)
       }
     }
@@ -725,7 +725,7 @@ export function createTokenizer(
       default:
         let validNamedIdentifier = true
         let validListIdentifier = true
-        let validLeteral = true
+        let validLiteral = true
 
         if (isPluralStart(scnr)) {
           if (context.braceNest > 0) {
@@ -774,14 +774,14 @@ export function createTokenizer(
           return token
         }
 
-        if ((validLeteral = isLiteralStart(scnr, context))) {
+        if ((validLiteral = isLiteralStart(scnr, context))) {
           token = getToken(context, TokenTypes.Literal, readLiteral(scnr))
 
           skipSpaces(scnr)
           return token
         }
 
-        if (!validNamedIdentifier && !validListIdentifier && !validLeteral) {
+        if (!validNamedIdentifier && !validListIdentifier && !validLiteral) {
           // TODO: we should be re-designed invalid cases, when we will extend message syntax near the future ...
           token = getToken(
             context,

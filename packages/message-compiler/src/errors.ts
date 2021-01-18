@@ -68,9 +68,9 @@ export const errorMessages: { [code: number]: string } = {
 export function createCompileError<T extends number>(
   code: T,
   loc: SourceLocation | null,
-  optinos: CreateCompileErrorOptions = {}
+  options: CreateCompileErrorOptions = {}
 ): CompileError {
-  const { domain, messages, args } = optinos
+  const { domain, messages, args } = options
   const msg = __DEV__
     ? format((messages || errorMessages)[code] || '', ...(args || []))
     : code

@@ -55,7 +55,7 @@ export function renderFormatter<
 
   return (): VNodeChild => {
     const options = { part: true } as Arg
-    let orverrides = {} as FormatOverrideOptions
+    let overrides = {} as FormatOverrideOptions
 
     if (props.locale) {
       options.locale = props.locale
@@ -70,14 +70,14 @@ export function renderFormatter<
         options.key = (props.format as any).key
       }
       // Filter out number format options only
-      orverrides = Object.keys(props.format).reduce((options, prop) => {
+      overrides = Object.keys(props.format).reduce((options, prop) => {
         return slotKeys.includes(prop)
           ? Object.assign({}, options, { [prop]: (props.format as any)[prop] }) // eslint-disable-line @typescript-eslint/no-explicit-any
           : options
       }, {})
     }
 
-    const parts = partFormatter(...[props.value, options, orverrides])
+    const parts = partFormatter(...[props.value, options, overrides])
     let children = [options.key] as VNodeArrayChildren
     if (isArray(parts)) {
       children = parts.map((part, index) => {

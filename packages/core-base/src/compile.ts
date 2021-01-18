@@ -48,10 +48,10 @@ export function compileToFunction<T = string>(
     }
 
     // compile error detecting
-    let occured = false
+    let occurred = false
     const onError = options.onError || defaultOnError
     options.onError = (err: CompileError): void => {
-      occured = true
+      occurred = true
       onError(err)
     }
 
@@ -61,7 +61,7 @@ export function compileToFunction<T = string>(
     // evaluate function
     const msg = new Function(`return ${code}`)() as MessageFunction<T>
 
-    // if occured compile error, don't cache
-    return !occured ? ((compileCache as MessageFunctions<T>)[key] = msg) : msg
+    // if occurred compile error, don't cache
+    return !occurred ? ((compileCache as MessageFunctions<T>)[key] = msg) : msg
   }
 }

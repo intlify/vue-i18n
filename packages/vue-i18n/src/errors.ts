@@ -17,7 +17,7 @@ export const enum I18nErrorCodes {
   MUST_BE_CALL_SETUP_TOP,
   NOT_INSLALLED,
   NOT_AVAILABLE_IN_LEGACY_MODE,
-  // diretive module errors
+  // directive module errors
   REQUIRED_VALUE,
   INVALID_VALUE,
   // vue-devtools errors

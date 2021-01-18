@@ -281,7 +281,7 @@ export interface ComposerOptions<Message = VueMessageType> {
    *
    * This is useful when translation output is used in `v-html` and the translation resource contains html markup (e.g. <b> around a user provided value).
    *
-   * This usage pattern mostly occurs when passing precomputed text strings into UI compontents.
+   * This usage pattern mostly occurs when passing precomputed text strings into UI components.
    *
    * The escape process involves replacing the following symbols with their respective HTML character entities: `<`, `>`, `"`, `'`.
    *
@@ -481,7 +481,7 @@ export interface Composer<
    */
   t(key: Path | number, plural: number, options?: TranslateOptions): string
   /**
-   * Locale message translation for missing default mssage
+   * Locale message translation for missing default message
    *
    * @remarks
    * Overloaded `t`. About details, see the [t](composition#t-key) details.
@@ -539,7 +539,7 @@ export interface Composer<
    */
   t(key: Path | number, list: unknown[], plural: number): string
   /**
-   * Locale message translation for list interpolations and missing default mssage
+   * Locale message translation for list interpolations and missing default message
    *
    * @remarks
    * Overloaded `t`. About details, see the [t](composition#t-key) details.
@@ -1090,7 +1090,7 @@ export function createComposer<
       ? options.fallbackRoot
       : true
 
-  // configure fall bakck to root
+  // configure fall back to root
   let _fallbackFormat = !!options.fallbackFormat
 
   // runtime missing

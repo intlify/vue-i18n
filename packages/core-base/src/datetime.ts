@@ -100,7 +100,7 @@ export interface DateTimeOptions {
   fallbackWarn?: boolean
   /**
    * @remarks
-   * Whether to use [Intel.DateTimeForrmat#formatToParts](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/DateTimeFormat/formatToParts)
+   * Whether to use [Intel.DateTimeFormat#formatToParts](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/DateTimeFormat/formatToParts)
    */
   part?: boolean
 }
@@ -144,7 +144,7 @@ export function datetime<DateTimeFormats, Message = string>(
     return MISSING_RESOLVE_VALUE
   }
 
-  const [key, value, options, orverrides] = parseDateTimeArgs(...args)
+  const [key, value, options, overrides] = parseDateTimeArgs(...args)
   const missingWarn = isBoolean(options.missingWarn)
     ? options.missingWarn
     : context.missingWarn
@@ -211,15 +211,15 @@ export function datetime<DateTimeFormats, Message = string>(
   }
 
   let id = `${targetLocale}__${key}`
-  if (!isEmptyObject(orverrides)) {
-    id = `${id}__${JSON.stringify(orverrides)}`
+  if (!isEmptyObject(overrides)) {
+    id = `${id}__${JSON.stringify(overrides)}`
   }
 
   let formatter = __datetimeFormatters.get(id)
   if (!formatter) {
     formatter = new Intl.DateTimeFormat(
       targetLocale,
-      Object.assign({}, format, orverrides)
+      Object.assign({}, format, overrides)
     )
     __datetimeFormatters.set(id, formatter)
   }
@@ -232,7 +232,7 @@ export function parseDateTimeArgs(
 ): [string, number | Date, DateTimeOptions, Intl.DateTimeFormatOptions] {
   const [arg1, arg2, arg3, arg4] = args
   let options = {} as DateTimeOptions
-  let orverrides = {} as Intl.DateTimeFormatOptions
+  let overrides = {} as Intl.DateTimeFormatOptions
 
   let value: number | Date
   if (isString(arg1)) {
@@ -269,14 +269,14 @@ export function parseDateTimeArgs(
   if (isString(arg3)) {
     options.locale = arg3
   } else if (isPlainObject(arg3)) {
-    orverrides = arg3
+    overrides = arg3
   }
 
   if (isPlainObject(arg4)) {
-    orverrides = arg4
+    overrides = arg4
   }
 
-  return [options.key || '', value, options, orverrides]
+  return [options.key || '', value, options, overrides]
 }
 
 /** @internal */

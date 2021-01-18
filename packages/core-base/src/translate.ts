@@ -120,7 +120,7 @@ export interface TranslateOptions {
   plural?: number
   /**
    * @remarks
-   * Default message when is occured translation missing
+   * Default message when is occurred translation missing
    */
   default?: string | boolean
   /**
@@ -223,7 +223,7 @@ export function translate<Messages, Message = string>(
   ...args: unknown[]
 ): MessageType<Message> | number // for internal
 
-// implementationo of `translate` function
+// implementation of `translate` function
 export function translate<Messages, Message = string>(
   context: CoreTranslationContext<Messages, Message>,
   ...args: unknown[]
@@ -302,13 +302,13 @@ export function translate<Messages, Message = string>(
   }
 
   // setup compile error detecting
-  let occured = false
+  let occurred = false
   const errorDetector = () => {
-    occured = true
+    occurred = true
   }
 
   // compile message format
-  const msg = compileMessasgeFormat(
+  const msg = compileMessageFormat(
     context,
     key,
     targetLocale,
@@ -317,8 +317,8 @@ export function translate<Messages, Message = string>(
     errorDetector
   )
 
-  // if occured compile error, return the message format
-  if (occured) {
+  // if occurred compile error, return the message format
+  if (occurred) {
     return format as MessageType<Message>
   }
 
@@ -336,7 +336,7 @@ export function translate<Messages, Message = string>(
     msgContext
   )
 
-  // if use post translation option, procee it with handler
+  // if use post translation option, proceed it with handler
   return postTranslation ? postTranslation(messaged) : messaged
 }
 
@@ -457,7 +457,7 @@ function resolveMessageFormat<Messages, Message>(
   return [format, targetLocale, message]
 }
 
-function compileMessasgeFormat<Messages, Message>(
+function compileMessageFormat<Messages, Message>(
   context: CoreTranslationContext<Messages, Message>,
   key: string,
   targetLocale: string,
@@ -646,11 +646,11 @@ function getMessageContextOptions<Messages, Message = string>(
   const resolveMessage = (key: string): MessageFunction<Message> => {
     const val = resolveValue(message, key)
     if (isString(val)) {
-      let occured = false
+      let occurred = false
       const errorDetector = () => {
-        occured = true
+        occurred = true
       }
-      const msg = (compileMessasgeFormat<Messages, Message>(
+      const msg = (compileMessageFormat<Messages, Message>(
         context,
         key,
         locale,
@@ -658,7 +658,7 @@ function getMessageContextOptions<Messages, Message = string>(
         key,
         errorDetector
       ) as unknown) as MessageFunction<Message>
-      return !occured
+      return !occurred
         ? msg
         : (NOOP_MESSAGE_FUNCTION as MessageFunction<Message>)
     } else if (isMessageFunction<Message>(val)) {
