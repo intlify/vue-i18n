@@ -44,7 +44,7 @@ const messages = {
 // 2. Create i18n instance with options
 const i18n = VueI18n.createI18n({
   locale: 'ja', // set locale
-  fallbackLocale: 'en' // set fallback locale
+  fallbackLocale: 'en', // set fallback locale
   messages, // set locale messages
   // If you need to specify other options, you can set other options
   // ...
