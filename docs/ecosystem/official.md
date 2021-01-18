@@ -6,14 +6,6 @@
 
 With this plugin, you can setup the i18n environment for the Vue application, and support the i18n development environment.
 
-## Nuxt Module
-
-[nuxt-i18n](https://github.com/nuxt-community/nuxt-i18n/) is corresponding Nuxt.js module.
-
-:::warning NOTICE
-Still not supported.
-:::
-
 ## ESLint Plugin
 
 [eslint-plugin-vue-i18n](https://intlify.github.io/eslint-plugin-vue-i18n/) is ESLint plugin for Vue I18n.
@@ -31,3 +23,7 @@ You can pre-compile i18n resources (`json5?`, `ya?ml`) with `intlify compile` co
 [vue-i18n-extensions](https://github.com/intlify/vue-i18n-extensions) provides some extensions for Vue I18n.
 
 You can use this extension to enable SSR and improve i18n performance.
+
+## Composition API for Vue 2.x 
+
+[vue-i18n-composable](https://github.com/intlify/vue-i18n-composable) provides Composition API for Vue I18n in Vue 2.x.
