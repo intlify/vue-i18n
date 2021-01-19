@@ -1,4 +1,23 @@
 
+## v9.0.0-rc.3 (2021-01-19)
+
+#### :bug: Bug Fixes
+* `vue-i18n`
+  * [#303](https://github.com/intlify/vue-i18n-next/pull/303) fix: locale type importing ([@kazupon](https://github.com/kazupon))
+
+#### :zap: Improvement Features
+* `message-resolver`, `vue-i18n`
+  * [#294](https://github.com/intlify/vue-i18n-next/pull/294) Add support for flat json separated with dot('.') ([@PeterAlfredLee](https://github.com/PeterAlfredLee))
+
+#### :pencil: Documentation
+* [#301](https://github.com/intlify/vue-i18n-next/pull/301) chore/update-guide-doc-error ([@JeremyWuuuuu](https://github.com/JeremyWuuuuu))
+
+#### Committers: 3
+- Lee ([@PeterAlfredLee](https://github.com/PeterAlfredLee))
+- jeremywu ([@JeremyWuuuuu](https://github.com/JeremyWuuuuu))
+- kazuya kawaguchi ([@kazupon](https://github.com/kazupon))
+
+
 ## v9.0.0-rc.2 (2021-01-12)
 
 #### :bug: Bug Fixes
