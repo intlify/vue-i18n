@@ -1,4 +1,4 @@
-import { isObject } from '@intlify/shared'
+import { isObject, hasOwn } from '@intlify/shared'
 
 /** @VueI18nGeneral */
 export type Path = string
@@ -333,7 +333,7 @@ export function handleFlatJson(obj: unknown): unknown {
 
   for (const key in obj as object) {
     // check key
-    if (!obj.hasOwnProperty(key)) {
+    if (!hasOwn(obj, key)) {
       continue
     }
 

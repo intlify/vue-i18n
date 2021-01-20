@@ -16,7 +16,8 @@ import {
   isBoolean,
   isPlainObject,
   makeSymbol,
-  isObject
+  isObject,
+  hasOwn
 } from '@intlify/shared'
 import {
   resolveValue,
@@ -962,18 +963,12 @@ export function getLocaleMessages<Message = VueMessageType>(
 
   // handle messages for flat json
   for (const key in ret) {
-    if (ret.hasOwnProperty(key)) {
+    if (hasOwn(ret, key)) {
       handleFlatJson(ret[key])
     }
   }
 
   return ret
-}
-
-const hasOwnProperty = Object.prototype.hasOwnProperty
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-function hasOwn(obj: object | Array<any>, key: string): boolean {
-  return hasOwnProperty.call(obj, key)
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any

@@ -113,6 +113,11 @@ export function escapeHtml(rawText: string): string {
     .replace(/'/g, '&apos;')
 }
 
+const hasOwnProperty = Object.prototype.hasOwnProperty
+export function hasOwn(obj: object | Array<any>, key: string): boolean {
+  return hasOwnProperty.call(obj, key)
+}
+
 /* eslint-enable */
 
 /**
