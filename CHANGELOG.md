@@ -1,4 +1,14 @@
 
+## v9.0.0-rc.4 (2021-01-22)
+
+#### :bug: Bug Fixes
+* `message-resolver`, `vue-i18n`
+  * [#308](https://github.com/intlify/vue-i18n-next/pull/308) Revert "Add support for flat json separated with dot('.')" ([@kazupon](https://github.com/kazupon))
+
+#### Committers: 1
+- kazuya kawaguchi ([@kazupon](https://github.com/kazupon))
+
+
 ## v9.0.0-rc.3 (2021-01-19)
 
 #### :bug: Bug Fixes
