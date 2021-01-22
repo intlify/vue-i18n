@@ -192,7 +192,7 @@ export default [
 ```
 
 
-## Define locale lessages importing
+## Define locale messages importing
 
 You can use `src` attribute:
 
