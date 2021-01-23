@@ -76,7 +76,7 @@ The following three functions are exported:
 
 The `setupI18n` function takes the same options as `createI18n`, creates an instance of i18n with those options, executes the `setI18nLanguage` function, and returns the i18n instance.
 
-The `setI18nLanguage` function sets the language by setting the locale of the parameter `i18n` to the value of the parameter `locale`. Besides, this function has the utility of setting the `lang` attribute of the HTML doocument to the value of the parameter `locale`. As noted in the comments, like the HTTP client, you can also set the language
+The `setI18nLanguage` function sets the language by setting the locale of the parameter `i18n` to the value of the parameter `locale`. Besides, this function has the utility of setting the `lang` attribute of the HTML document to the value of the parameter `locale`. As noted in the comments, like the HTTP client, you can also set the language
 
 The `loadLocaleMessages` function is what we will actually use to change the languages. Loading the new files is done via the `import` function, which is generously provided by webpack and it allows us to load files dynamically, and because it uses promises we can easily wait for the loading to finish.
 

@@ -244,7 +244,7 @@ In production mode, it does not detect if the message contains HTML to maximize 
 
 ### Version info
 
-Version information is now accessible in import syntax instead of the VueI18n class static propery.
+Version information is now accessible in import syntax instead of the VueI18n class static property.
 
 Vue I18n v8.x:
 
@@ -353,7 +353,7 @@ Since Vue I18n v9 and later, message format syntax is now handled by the message
 
 **Reason**: In order for the message format compiler to correctly handle the special characters of the syntax used in the message format syntax, it is necessary to limit them.
 
-### Remove brackets grouping for Linkekd messages
+### Remove brackets grouping for Linked messages
 
 In Vue I18n v8.x, the distinction was made between key references in Linked messages and messages using brackets `()` to distinguish between them.
 
@@ -458,7 +458,7 @@ Vue I18n v9 or later:
 
 ### Remove place syntax with `place` attr and `places` prop
 
-In Vue I18n v9 or later, the `place` attr and `places` prop have been removed from component interplation.
+In Vue I18n v9 or later, the `place` attr and `places` prop have been removed from component interpolation.
 
 Vue I18n v8.x:
 

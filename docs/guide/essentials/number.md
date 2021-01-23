@@ -61,7 +61,7 @@ Not supported IE, due to no support `Intl.NumberForamt#formatToParts` in [IE](ht
 If you want to use it, you need to use [polyfill](https://github.com/formatjs/formatjs/tree/main/packages/intl-numberformat)
 :::
 
-`$n` returns resulting string with fully formatted number, which can only be used as a whole. In situations when you need to style some part of the formatted number (like fraction digits), `$n` is not enough. In such cases NumberForamt component (`i18n-n`) will be of help.
+`$n` returns resulting string with fully formatted number, which can only be used as a whole. In situations when you need to style some part of the formatted number (like fraction digits), `$n` is not enough. In such cases NumberFormat component (`i18n-n`) will be of help.
 
 With a minimum set of properties, `i18n-n` generates the same output as `$n`, wrapped into configured DOM element.
 
@@ -81,7 +81,7 @@ The `value` is the property to set the numeric value to be formatted.
 
 The `format` is the property to which the format defined by the `numberFormats` option of `createI18n` can be set.
 
-The `locale` is the property to set the locale. It’s is localized with the locale specified by this prop instead of the one specified with the `locale` option of `createI18n`.
+The `locale` is the property to set the locale. It's localized with the locale specified by this prop instead of the one specified with the `locale` option of `createI18n`.
 
 Will produce the below output:
 
