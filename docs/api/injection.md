@@ -47,7 +47,7 @@ $i18n: VueI18n | ExportedGlobalComposer;
 
 You can get the [exported composer instance](general#exportedglobalcomposer) which are exported from global [composer](composition#composer) instance created with [createI18n](general#createi18n), or global [VueI18n](legacy#vuei18n) instance.
 
-You can get the exported composer instance in [Compostion API mode](general#mode), or the Vuei18n instance in [Legacy API mode](general#mode), which is the instance you can refer to with this property.
+You can get the exported composer instance in [Composition API mode](general#mode), or the Vuei18n instance in [Legacy API mode](general#mode), which is the instance you can refer to with this property.
 
 The locales, locale messages, and other resources managed by the instance referenced by this property are valid as global scope.
 
@@ -70,7 +70,7 @@ $t(key: Path): TranslateResult;
 
 If this is used in a reactive context, it will re-evaluate once the locale changes.
 
-In [Compostion API mode](general#mode), the `$t` is injected by `app.config.globalProperties`. The input / output is the same as for Composer, and it work on **global scope**. About that details, see [Composer#t](composition#t-key).
+In [Composition API mode](general#mode), the `$t` is injected by `app.config.globalProperties`. The input / output is the same as for Composer, and it works on **global scope**. About that details, see [Composer#t](composition#t-key).
 
 In [Legacy API mode](general#mode), the input / output is the same as for VueI18n instance. About details, see [VueI18n#t](legacy#t-key).
 
@@ -765,7 +765,7 @@ If found locale message, `true`, else `false`.
 
 ### $d(value)
 
-Datetime formating
+Datetime formatting
 
 **Signature:**
 ```typescript
@@ -776,9 +776,9 @@ $d(value: number | Date): DateTimeFormatResult;
 
 If this is used in a reactive context, it will re-evaluate once the locale changes.
 
-In [Compostion API mode](general#i18nmode), the input / output is the same as for VueI18n instance. About details, see [VueI18n#d](legacy#d-value).
+In [Composition API mode](general#i18nmode), the input / output is the same as for VueI18n instance. About details, see [VueI18n#d](legacy#d-value).
 
-In [Compostion API mode](general#i18nmode), the `$d` is injected by `app.config.globalProperties`. The input / output is the same as for Composer instance, and it work on **global scope**. About that details, see [Composer#d](composition#d-value).
+In [Composition API mode](general#i18nmode), the `$d` is injected by `app.config.globalProperties`. The input / output is the same as for Composer instance, and it works on **global scope**. About that details, see [Composer#d](composition#d-value).
 
 **See Also**
 - [Datetime Formatting](../../guide/essentials/datetime)
@@ -796,7 +796,7 @@ Formatted value
 
 ### $d(value, key)
 
-Datetime formating
+Datetime formatting
 
 **Signature:**
 ```typescript
@@ -819,7 +819,7 @@ Formatted value
 
 ### $d(value, key, locale)
 
-Datetime formating
+Datetime formatting
 
 **Signature:**
 ```typescript
@@ -843,7 +843,7 @@ Formatted value
 
 ### $d(value, args)
 
-Datetime formating
+Datetime formatting
 
 **Signature:**
 ```typescript
@@ -866,7 +866,7 @@ Formatted value
 
 ### $d(value)
 
-Datetime formating
+Datetime formatting
 
 **Signature:**
 ```typescript
@@ -888,7 +888,7 @@ Formatted value
 
 ### $d(value, key)
 
-Datetime formating
+Datetime formatting
 
 **Signature:**
 ```typescript
@@ -911,7 +911,7 @@ Formatted value
 
 ### $d(value, key, locale)
 
-Datetime formating
+Datetime formatting
 
 **Signature:**
 ```typescript
@@ -935,7 +935,7 @@ Formatted value
 
 ### $d(value, options)
 
-Datetime formating
+Datetime formatting
 
 **Signature:**
 ```typescript
@@ -971,7 +971,7 @@ If this is used in a reactive context, it will re-evaluate once the locale chang
 
 In [Legacy API mode](general#i18nmode), the input / output is the same as for VueI18n instance. About details, see [VueI18n#n](legacy#n-value).
 
-In [Compostion API mode](general#i18nmode), the `$n` is injected by `app.config.globalProperties`. The input / output is the same as for Composer instance, and it work on **global scope**. About that details, see [Composer#n](composition#n-value).
+In [Composition API mode](general#i18nmode), the `$n` is injected by `app.config.globalProperties`. The input / output is the same as for Composer instance, and it works on **global scope**. About that details, see [Composer#n](composition#n-value).
 
 **See Also**
 - [Number Formatting](../../guide/essentials/number)

@@ -96,7 +96,7 @@ The `value` prop is a property to set the datetime able value to be formatted.
 
 The `format` prop is a property to which the format defined by the `datetimeFormats` option of `createI18n` can be set.
 
-The `locale` prop is a property to set the locale. It’s is localized with the locale specified by this prop instead of the one specified with the `locale` option of `createI18n`.
+The `locale` prop is a property to set the locale. It's localized with the locale specified by this prop instead of the one specified with the `locale` option of `createI18n`.
 
 Will produce the below output:
 

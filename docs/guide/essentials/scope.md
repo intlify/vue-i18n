@@ -2,7 +2,7 @@
 
 ## Scope
 
-Vue I18n manages resources to offer i18n features, including locale switching, each language messages called locales messsages, and named format for datetime and numbers. They are managed with the `VueI18n` instance.
+Vue I18n manages resources to offer i18n features, including locale switching, each language messages called locales messages, and named format for datetime and numbers. They are managed with the `VueI18n` instance.
 
 The Vue application is built from some components on the tree structure. To localize each of components in Vue I18n using the i18n features, we need to understand the concept of scope.
 
