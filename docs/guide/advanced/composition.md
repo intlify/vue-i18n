@@ -55,7 +55,7 @@ const app = Vue.createApp({
 
 You must call `useI18n` at top of the `setup`.
 
-The `useI18n` returns a Composer instance. The Compser instance provides a translation API such as the `t` function, as well as properties such as `locale` and `fallbackLocale`, just like the VueI18n instance. For more information on the Composer instance, see the [API Reference](../../api/composition#composer).
+The `useI18n` returns a Composer instance. The Composer instance provides a translation API such as the `t` function, as well as properties such as `locale` and `fallbackLocale`, just like the VueI18n instance. For more information on the Composer instance, see the [API Reference](../../api/composition#composer).
 
 In the above example, there are no options for `useI18n`, so it returns a Composer instance that works with the global scope. As such, it returns a Composer instance that works with the global scope, which means that the localized message referenced by the spread `t` function here is the one specified in `createI18n`. This means that the locale message referenced by the spread `t` function here will be the locale message specified in `createI18n`.
 
@@ -79,7 +79,7 @@ The output follows:
 
 In the Legacy API mode, The messages were translated using either `$t` or the VueI18n instance of `t` to translate the message.
 
-In the Compostion API mode, the Message Format Syntax remains the same as in the Legacy API mode. You can use the Composer instance `t` to translate a message as follows:
+In the Composition API mode, the Message Format Syntax remains the same as in the Legacy API mode. You can use the Composer instance `t` to translate a message as follows:
 
 ```html
 <template>
@@ -133,7 +133,7 @@ For more details of `t`, see the [API Reference](../../api/composition#t-key).
 
 In the Legacy API mode, the plural form of the message was translated using either `$tc` or the VueI18n instance of `tc` to translate the message.
 
-In the Compostion API mode, the plural form of the message is left in sytax as in the Legacy API mode, but is translated using the `t` of the Composer instance:
+In the Composition API mode, the plural form of the message is left in syntax as in the Legacy API mode, but is translated using the `t` of the Composer instance:
 
 ```html
 <template>
@@ -181,7 +181,7 @@ In the Composition API mode, plural translations have been integrated into `t`.
 
 In the Legacy API mode, Datetime value was formatted using `$d` or the VueI18n instance of `d`.
 
-In the Compostion API mode, it uses the `d` of the Composer instance to format:
+In the Composition API mode, it uses the `d` of the Composer instance to format:
 
 ```html
 <template>
@@ -229,7 +229,7 @@ For more details of `d`, see the [API Reference](../../api/composition#d-value).
 
 In the Legacy API mode, Number value is formatted using `$n` or the `n` of the VueI18n instance.
 
-In the Compostion API mode, it is formatted using the `n` of the Composer instance:
+In the Composition API mode, it is formatted using the `n` of the Composer instance:
 
 ```html
 <template>
@@ -279,7 +279,7 @@ There are two ways to refer the global scope Composer instance at the component.
 
 ### Explicit with `useI18n`
 
-As we have explaiined, `setup` in `useI18n` is a way.
+As we have explained, `setup` in `useI18n` is a way.
 
 ```js
 import { useI18n } from 'vue-i18n'
@@ -295,14 +295,14 @@ export default {
 }
 ```
 
-The above code sets the `useI18n` option to `useScope: 'global'`, which allows `useI18n` to return a Composer instance that can be accessed by the i18n instance `global` property. This allows `useI18n` to return the Composer instance that can be accessed by i18n instance`global` property, which is a global scope. The Commposer instance is a global scope.
+The above code sets the `useI18n` option to `useScope: 'global'`, which allows `useI18n` to return a Composer instance that can be accessed by the i18n instance `global` property. This allows `useI18n` to return the Composer instance that can be accessed by i18n instance`global` property, which is a global scope. The Composer instance is a global scope.
 
 Then you can compose using the functions and properties exposed from the Composer instance.
 
 :::tip NOTE
 If you set `useI18n` to `messages`, `datetimeFormats`, and `numberFormats` together `useScope: 'global’`, **they will be merged into global scope**. That is, they will be managed by `messages`, `datetimeFormasts`, and `numberFormats` of the global scope Composer instance.
 
-And also, if [`global` is specified in i18n custom blocks](../advanced/sfc#define-locale-messages-for-global-scope) (e.g. `<i18n global>{ … }</i18n>`), the locale messags defined in the blocks are merged with the global scope.
+And also, if [`global` is specified in i18n custom blocks](../advanced/sfc#define-locale-messages-for-global-scope) (e.g. `<i18n global>{ … }</i18n>`), the locale messages defined in the blocks are merged with the global scope.
 :::
 
 ### Implicit with injected properties and functions
@@ -326,10 +326,10 @@ The Vue 3 runtime globally injects components with what is set in `app.config.gl
 
 :::warning NOTICE
 - The `setup` does not allow to see these properties and functions injected into the component
-- In Legacy API mode, some Vue I18n APIs prifexed with `$` were injected, but the properties and functions prefixing components with `$` and injected in Compostion API mode are different from the Legacy API mode.
+- In Legacy API mode, some Vue I18n APIs prefixed with `$` were injected, but the properties and functions prefixing components with `$` and injected in Composition API mode are different from the Legacy API mode.
 :::
 
-You’ve noticed that the ones listed above are prifixed with `$`. The reason for prefixing them with `$` is that they are:
+You’ve noticed that the ones listed above are prefixed with `$`. The reason for prefixing them with `$` is that they are:
 
 - The `setup` does not conflict with the properties and functions returned by render context
 - Global scope accessible identifier for Vue I18n Composition API mode
@@ -337,14 +337,14 @@ You’ve noticed that the ones listed above are prifixed with `$`. The reason fo
 By doing so, the user is made aware that they are special properties and functions.
 
 :::warning NOTICE
-If your Vue application doesn’t use local scope and does everything i18n in global scope, this is very useful as it does not need to run `useI18n` in the `setup` for each component. However, this way has the problem with global variables of the same nature. You should be used with caution, especially for large Vue applications.
+If your Vue application doesn't use local scope and does everything i18n in global scope, this is very useful as it does not need to run `useI18n` in the `setup` for each component. However, this way has the problem with global variables of the same nature. You should be used with caution, especially for large Vue applications.
 
 If you use it once and stop using it, you must change all the properties or functions used in the templates to those of the setup context returned with the `setup` using the `useI18n` with `useScope: 'global'` option.
 :::
 
 ## Local scope
 
-In Legacy API mode, VueI18n instance is created by specifying the `i18n` component option for each component. This enables resources such as local messges managed by VueI18n instance to be local scopes that could be referenced only by the target component.
+In Legacy API mode, VueI18n instance is created by specifying the `i18n` component option for each component. This enables resources such as local messages managed by VueI18n instance to be local scopes that could be referenced only by the target component.
 
 To enable local scope in the Composition API mode, you need to set an option to `useI18n`, which will create a new instance of Composer based on the given locale, locale messages, etc. When the option is given, `useI18n` creates and returns a new Composer instance based on the locale, locale messages, and other resources specified by the option.
 
@@ -480,7 +480,7 @@ Changes to the `locale` at the local scope have **no effect on the global scope 
 
 ## Mapping between VueI18n instance and Composer instance
 
-The API offered by the Composer instance in the Compostion API is very similar interface to the API provided by the VueI18n instance.
+The API offered by the Composer instance in the Composition API is very similar interface to the API provided by the VueI18n instance.
 
 :::tip MEMO
 Internally, the VueI18n instance of the Legacy API mode works by wrapping the Composer instance.

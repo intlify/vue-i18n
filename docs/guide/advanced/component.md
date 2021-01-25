@@ -47,7 +47,7 @@ Template:
 </div>
 ```
 
-JavaScrirpt:
+JavaScript:
 
 ```js
 import { createApp } from 'vue'

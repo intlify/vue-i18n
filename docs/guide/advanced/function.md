@@ -53,7 +53,7 @@ The message function outputs the message of the return **string** value of the m
 :::tip NOTE
 If you need to use the Translation component (`i18n-t`), you need to support returning not only the string value, but also the **VNode** value.
 
-To support for Translatiion component usage, the `type` prop of MessageContext is used as shown in the following code example:
+To support for Translation component usage, the `type` prop of MessageContext is used as shown in the following code example:
 
 ```js
 import { createVNode, Text } from 'vue'
@@ -100,7 +100,7 @@ Output is the below:
 
 You need to specify the key that resolves the value specified with the named of `$t` or `t`.
 
-## List interplation
+## List interpolation
 
 Vue I18n supports [list interpolation](../essentials/syntax#list-interpolation) as a string-based message format. Vue I18n interpolate the parameter values with `$t` or `t`, and it can be output it.
 

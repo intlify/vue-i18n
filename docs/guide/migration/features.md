@@ -13,7 +13,7 @@ Vue I18n v9 offers not only Vue 3 support, but this version also is included new
 
 ## Composition API
 
-See the [Compostion API](../advanced/composition) advanced section
+See the [Composition API](../advanced/composition) advanced section
 
 ## Translation Component
 

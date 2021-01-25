@@ -182,7 +182,7 @@ const config = {
               link: '/guide/migration/features'
             },
             {
-              text: 'Compostion API for Vue 2',
+              text: 'Composition API for Vue 2',
               link: '/guide/migration/composition'
             }
           ]

@@ -192,7 +192,7 @@ export default [
 ```
 
 
-## Define locale lessages importing
+## Define locale messages importing
 
 You can use `src` attribute:
 
@@ -230,7 +230,7 @@ You can use `locale` attribute:
 In the above example, since the `locale` attribute is set to `en`, the locale messages defined in `i18n` custom blocks can be used as a resource for locale messages of `en`.
 
 
-## Define multiple locale lessages
+## Define multiple locale messages
 
 You can use locale messages with multiple `i18n` custom blocks.
 
