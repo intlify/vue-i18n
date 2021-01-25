@@ -348,6 +348,10 @@ In Legacy API mode, VueI18n instance is created by specifying the `i18n` compone
 
 To enable local scope in the Composition API mode, you need to set an option to `useI18n`, which will create a new instance of Composer based on the given locale, locale messages, etc. When the option is given, `useI18n` creates and returns a new Composer instance based on the locale, locale messages, and other resources specified by the option.
 
+:::tip NOTE
+You can explicit specify `useScope: ‘local’` option.
+:::
+
 The following example codes:
 
 ```js
