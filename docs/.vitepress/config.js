@@ -3,6 +3,16 @@
 /** @type {UserConfig['head']} */
 const head = []
 
+if (process.env.NODE_ENV === 'production') {
+  head.push([
+    'script',
+    {
+      src: 'https://unpkg.com/thesemetrics@latest',
+      async: ''
+    }
+  ])
+}
+
 /** @type {UserConfig} */
 const config = {
   lang: 'en-US',

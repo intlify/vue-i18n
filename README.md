@@ -40,7 +40,7 @@ Internationalization plugin for Vue.js
 
 ## Status: RC ![Test](https://github.com/intlify/vue-i18n-next/workflows/Test/badge.svg)
 
-- [Documetantion](https://vue-i18n-next.intlify.dev/) (beta)
+- [Documetantion](https://vue-i18n.intlify.dev/) (beta)
 - If you use stable Vue I18n version, see this [repository](https://github.com/kazupon/vue-i18n)
 
 ## :raising_hand: About support for v9 and earlier
