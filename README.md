@@ -40,7 +40,7 @@ Internationalization plugin for Vue.js
 
 ## Status: RC ![Test](https://github.com/intlify/vue-i18n-next/workflows/Test/badge.svg)
 
-- [Documetantion](https://vue-i18n.intlify.dev/) (beta)
+- [Documentation](https://vue-i18n.intlify.dev/) (beta)
 - If you use stable Vue I18n version, see this [repository](https://github.com/kazupon/vue-i18n)
 
 ## :raising_hand: About support for v9 and earlier
@@ -51,15 +51,15 @@ Internationalization plugin for Vue.js
 
 See the [`examples`](https://github.com/intlify/vue-i18n-next/tree/master/examples) directory.
 
-The examples are offered in thee following two API styles:
+The examples are offered in the following two API styles:
 
 - composition
-  - Examples with using new vue-i18n API for Vue 3 Composition API
+  - Examples using the new vue-i18n API for Vue 3 Composition API
 - legacy
-  - Examples with using vue-i18n API that are almost compatible with vue-i18n v8.x
+  - Examples using the vue-i18n API that are almost compatible with vue-i18n v8.x
 
 
-## :package: Main Pakcages
+## :package: Main Packages
 
 | Package | NPM |
 | ------- | --- |
