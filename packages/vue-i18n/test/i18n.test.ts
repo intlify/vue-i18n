@@ -70,7 +70,7 @@ describe('useI18n', () => {
     })
     await mount(App, i18n)
 
-    expect(i18n.global !== composer).toEqual(true)
+    expect(i18n.global).not.toEqual(composer)
     expect((composer as Composer).locale.value).toEqual('en')
   })
 
@@ -95,7 +95,7 @@ describe('useI18n', () => {
     })
     await mount(App, i18n)
 
-    expect(i18n.global === composer).toEqual(true)
+    expect(i18n.global).toEqual(composer)
     expect((composer as Composer).locale.value).toEqual('ja')
   })
 
@@ -138,9 +138,9 @@ describe('useI18n', () => {
     })
     await mount(App, i18n)
 
-    expect(i18n.global !== leaf).toEqual(true)
-    expect(i18n.global !== parent).toEqual(true)
-    expect(parent === leaf).toEqual(true)
+    expect(i18n.global).not.toEqual(leaf)
+    expect(i18n.global).not.toEqual(parent)
+    expect(parent).toEqual(leaf)
     expect((leaf as Composer).locale.value).toEqual('en')
   })
 
@@ -173,7 +173,7 @@ describe('useI18n', () => {
     })
     await mount(App, i18n)
 
-    expect(i18n.global === composer).toEqual(true)
+    expect(i18n.global).toEqual(composer)
     expect((composer as Composer).locale.value).toEqual('ja')
   })
 
@@ -198,7 +198,7 @@ describe('useI18n', () => {
     })
     await mount(App, i18n)
 
-    expect(i18n.global === composer).toEqual(true)
+    expect(i18n.global).toEqual(composer)
     expect((composer as Composer).locale.value).toEqual('ja')
   })
 
@@ -239,7 +239,7 @@ describe('useI18n', () => {
     const { html } = await mount(App, i18n)
 
     expect(html()).toEqual('<p>こんにちは、世界！</p>')
-    expect(i18n.global !== composer).toEqual(true)
+    expect(i18n.global).not.toEqual(composer)
     expect((composer as Composer).locale.value).toEqual('ja')
   })
 
@@ -544,7 +544,7 @@ test('multi instance', async () => {
   const { app: app1 } = await mount(App, i18n1)
   const { app: app2 } = await mount(App, i18n2)
 
-  expect(app1.__VUE_I18N_SYMBOL__ !== app2.__VUE_I18N_SYMBOL__).toEqual(true)
+  expect(app1.__VUE_I18N_SYMBOL__).not.toEqual(app2.__VUE_I18N_SYMBOL__)
   expect(i18n1.global).not.toEqual(i18n2.global)
 })
 
