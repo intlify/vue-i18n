@@ -43,7 +43,7 @@ console.log(`ms: ${end.milliseconds - start.milliseconds}`)
 clearCompileCache()
 console.log()
 
-console.log(`resolve time with composition: ${len} resources`)
+console.log(`resolve time on composition: ${len} resources`)
 const i18n = createI18n({
   legacy: false,
   locale: 'en',
@@ -54,6 +54,14 @@ const i18n = createI18n({
     en: data
   }
 })
+start = convertHrtime(process.hrtime())
+for (const [key] of Object.entries(data)) {
+  i18n.global.t(key, 2)
+}
+end = convertHrtime(process.hrtime())
+console.log(`ms: ${end.milliseconds - start.milliseconds}`)
+
+console.log(`resolve time on composition with compile cache: ${len} resources`)
 start = convertHrtime(process.hrtime())
 for (const [key] of Object.entries(data)) {
   i18n.global.t(key, 2)
