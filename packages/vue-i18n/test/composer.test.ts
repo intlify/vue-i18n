@@ -1118,6 +1118,47 @@ describe('__i18n', () => {
       foo: msgFnJa
     })
   })
+
+  test('deepCopy', () => {
+    const options = {
+      __i18n: [
+        {
+          locale: 'en',
+          resource: {
+            str: 'str_custom',
+            array1: ['array1_custom'],
+            array2: ['array2_custom'],
+            array3: ['array3_custom'],
+            map1: { key1: 'key1_custom' },
+            map2: { key1: 'key1_custom' },
+            map3: { key1: 'key1_custom' }
+          }
+        }
+      ],
+      messages: {
+        en: {
+          str: 'str_messages',
+          array2: ['array2_messages'],
+          array3: { key1: 'array3_messages' },
+          map1: { key1: 'key1_messages', key2: 'key2_messages' },
+          map2: 'map2_messages',
+          map3: ['key1_messages']
+        }
+      }
+    }
+    const { messages } = createComposer(
+      options as ComposerOptions<VueMessageType>
+    )
+    expect(messages.value!.en).toEqual({
+      str: 'str_custom',
+      array1: ['array1_custom'],
+      array2: ['array2_custom'],
+      array3: ['array3_custom'],
+      map1: { key1: 'key1_custom', key2: 'key2_messages' },
+      map2: { key1: 'key1_custom' },
+      map3: { key1: 'key1_custom' }
+    })
+  })
 })
 
 describe('__transrateVNode', () => {
