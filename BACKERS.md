@@ -14,6 +14,7 @@ You can join them in supporting vue-i18n development by [pledging on Patreon](ht
     <img
       style="max-width: 100%; vertical-align: midele;"
       src="https://raw.githubusercontent.com/intlify/vue-i18n-next/master/docs/public/nuxt.png"
+      width="15rem"
       alt="Nuxt.js"
     >
   </a>
@@ -33,6 +34,7 @@ You can join them in supporting vue-i18n development by [pledging on Patreon](ht
     <img
       style="max-width: 100%; vertical-align: midele;"
       src="https://raw.githubusercontent.com/intlify/vue-i18n-next/master/docs/public/babeledit.png"
+      width="12rem"
       alt="Babel Edit"
     >
   </a>
@@ -52,6 +54,7 @@ You can join them in supporting vue-i18n development by [pledging on Patreon](ht
     <img
       style="max-width: 100%; vertical-align: midele;"
       src="https://raw.githubusercontent.com/intlify/vue-i18n-next/master/docs/public/zenarchitects.png"
+      width="9rem"
       alt="Zen Architects"
     >
   </a>
@@ -67,6 +70,7 @@ You can join them in supporting vue-i18n development by [pledging on Patreon](ht
     <img
       style="max-width: 100%; vertical-align: midele;"
       src="https://raw.githubusercontent.com/intlify/vue-i18n-next/master/docs/public/sendcloud.png"
+      width="9rem"
       alt="Send Cloud"
     >
   </a>
@@ -82,6 +86,7 @@ You can join them in supporting vue-i18n development by [pledging on Patreon](ht
     <img
       style="max-width: 100%; vertical-align: midele;"
       src="https://raw.githubusercontent.com/intlify/vue-i18n-next/master/docs/public/vuemastery.png"
+      width="9rem"
       alt="Vue Mastery"
     >
   </a>
