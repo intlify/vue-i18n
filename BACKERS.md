@@ -5,8 +5,17 @@ You can join them in supporting vue-i18n development by [pledging on Patreon](ht
 <h2 align="center">Gold Sponsors</h2>
 
 <p align="center">
-  <a href="https://nuxtjs.org/" target="_blank">
-    <img src="https://raw.githubusercontent.com/intlify/vue-i18n-next/master/docs/public/nuxt.png">
+  <a
+    href="https://nuxtjs.org/"
+    style="margin: 1rem 1rem 0 1rem; width: 15rem; height: auto; display: inline-block; vertical-align: middle;"
+    target="_blank"
+    rel="noopener"
+  >
+    <img
+      style="max-width: 100%; vertical-align: midele;"
+      src="https://raw.githubusercontent.com/intlify/vue-i18n-next/master/docs/public/nuxt.png"
+      alt="Nuxt.js"
+    >
   </a>
 </p>
 
@@ -15,8 +24,17 @@ You can join them in supporting vue-i18n development by [pledging on Patreon](ht
 <h2 align="center">Sliver Sponsors</h2>
 
 <p align="center">
-  <a href="https://www.codeandweb.com/babeledit?utm_campaign=vue-i18n-2019-01" target="_blank">
-    <img src="https://raw.githubusercontent.com/intlify/vue-i18n-next/master/docs/public/babeledit.png">
+  <a
+    href="https://www.codeandweb.com/babeledit?utm_campaign=vue-i18n-2019-01"
+    style="margin: 1rem 1rem 0 1rem; width: 12rem; height: auto; display: inline-block; vertical-align: middle;"
+    target="_blank"
+    rel="noopener"
+  >
+    <img
+      style="max-width: 100%; vertical-align: midele;"
+      src="https://raw.githubusercontent.com/intlify/vue-i18n-next/master/docs/public/babeledit.png"
+      alt="Babel Edit"
+    >
   </a>
 </p>
 
@@ -25,20 +43,49 @@ You can join them in supporting vue-i18n development by [pledging on Patreon](ht
 <h2 align="center">Bronze Sponsors</h2>
 
 <p align="center">
-  <a href="https://zenarchitects.co.jp/" target="_blank">
-    <img src="https://raw.githubusercontent.com/intlify/vue-i18n-next/master/docs/public/zenarchitects.png" width="200px">
+  <a
+    href="https://zenarchitects.co.jp/"
+    style="margin: 1rem 1rem 0 1rem; width: 9rem; height: auto; display: inline-block; vertical-align: middle;"
+    target="_blank"
+    rel="noopener"
+  >
+    <img
+      style="max-width: 100%; vertical-align: midele;"
+      src="https://raw.githubusercontent.com/intlify/vue-i18n-next/master/docs/public/zenarchitects.png"
+      alt="Zen Architects"
+    >
   </a>
 </p>
-
-<br />
-<br />
 
 <p align="center">
-  <a href="https://www.sendcloud.com/" target="_blank">
-    <img src="https://raw.githubusercontent.com/intlify/vue-i18n-next/master/docs/public/sendcloud.svg" width="200px">
+  <a
+    href="https://www.sendcloud.com/"
+    style="margin: 1rem 1rem 0 1rem; width: 9rem; height: auto; display: inline-block; vertical-align: middle;"
+    target="_blank"
+    rel="noopener"
+  >
+    <img
+      style="max-width: 100%; vertical-align: midele;"
+      src="https://raw.githubusercontent.com/intlify/vue-i18n-next/master/docs/public/sendcloud.png"
+      alt="Send Cloud"
+    >
   </a>
 </p>
 
+<p align="center">
+  <a
+    href="https://www.vuemastery.com/"
+    style="margin: 1rem 1rem 0 1rem; width: 9rem; height: auto; display: inline-block; vertical-align: middle;"
+    target="_blank"
+    rel="noopener"
+  >
+    <img
+      style="max-width: 100%; vertical-align: midele;"
+      src="https://raw.githubusercontent.com/intlify/vue-i18n-next/master/docs/public/vuemastery.png"
+      alt="Vue Mastery"
+    >
+  </a>
+</p>
 
 [It could be you!](https://github.com/sponsors/kazupon?o=esc)
 

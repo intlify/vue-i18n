@@ -26,6 +26,11 @@ export const sponsors = {
     name: 'SendCloud',
     tier: TierLevel.Bronze,
     link: 'https://www.sendcloud.com/',
-    source: '/sendcloud.svg'
+    source: '/sendcloud.png'
+  }, {
+    name: 'Vue Mastery',
+    tier: TierLevel.Bronze,
+    link: 'https://www.vuemastery.com/',
+    source: '/vuemastery.png'
   }]
 } as const
