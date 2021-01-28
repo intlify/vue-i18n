@@ -57,7 +57,6 @@ Internationalization plugin for Vue.js
 </p>
 
 <br />
-<br />
 
 <p>
   <a
@@ -76,7 +75,6 @@ Internationalization plugin for Vue.js
 </p>
 
 <br/>
-<br/>
 
 <p>
   <a
@@ -94,7 +92,6 @@ Internationalization plugin for Vue.js
   </a>
 </p>
 
-<br/>
 <br/>
 
 
