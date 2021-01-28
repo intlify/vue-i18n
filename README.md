@@ -55,9 +55,6 @@ Internationalization plugin for Vue.js
     >
   </a>
 </p>
-
-<br />
-
 <p>
   <a
     href="https://www.sendcloud.com/"
@@ -73,9 +70,6 @@ Internationalization plugin for Vue.js
     >
   </a>
 </p>
-
-<br/>
-
 <p>
   <a
     href="https://www.vuemastery.com/"
@@ -91,8 +85,6 @@ Internationalization plugin for Vue.js
     >
   </a>
 </p>
-
-<br/>
 
 
 ## Status: RC ![Test](https://github.com/intlify/vue-i18n-next/workflows/Test/badge.svg)
