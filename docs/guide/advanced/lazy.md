@@ -56,7 +56,7 @@ export function setI18nLanguage(i18n, locale) {
 }
 
 export async function loadLocaleMessages(i18n, locale) {
-  // load locale messages with dynami import
+  // load locale messages with dynamic import
   const messages = await import(
     /* webpackChunkName: "locale-[request]" */ `./locales/${locale}.json`
   )
