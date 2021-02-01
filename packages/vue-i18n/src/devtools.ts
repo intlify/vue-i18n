@@ -138,29 +138,31 @@ function updateComponentTreeDataTags<
   Legacy extends boolean
 >(
   appRecord: AppRecord,
-  treeData: ComponentTreeNode,
+  treeData: ComponentTreeNode[],
   i18n: _I18n<Messages, DateTimeFormats, NumberFormats, Legacy>
 ): void {
-  const instance = appRecord.instanceMap.get(treeData.id)
-  if (instance && instance.vnode.el.__INTLIFY__) {
-    // prettier-ignore
-    const global = i18n.mode === 'composition'
-      ? i18n.global
-      : (i18n.global as unknown as VueI18nInternal).__composer
-    // add custom tags local scope only
-    if (instance.vnode.el.__INTLIFY__ !== global) {
-      const label =
-        instance.type.name || instance.type.displayName || instance.type.__file
-      const tag = {
-        label: `i18n (${label} Scope)`,
-        textColor: 0x000000,
-        backgroundColor: 0xffcd19
+  // prettier-ignore
+  const global = i18n.mode === 'composition'
+    ? i18n.global
+    : (i18n.global as unknown as VueI18nInternal).__composer
+  for (const node of treeData) {
+    const instance = appRecord.instanceMap.get(node.id)
+    if (instance && instance.vnode.el.__INTLIFY__) {
+      // add custom tags local scope only
+      if (instance.vnode.el.__INTLIFY__ !== global) {
+        const label =
+          instance.type.name ||
+          instance.type.displayName ||
+          instance.type.__file
+        const tag = {
+          label: `i18n (${label} Scope)`,
+          textColor: 0x000000,
+          backgroundColor: 0xffcd19
+        }
+        node.tags.push(tag)
       }
-      treeData.tags = [tag]
     }
-  }
-  for (const node of treeData.children) {
-    updateComponentTreeDataTags(appRecord, node, i18n)
+    updateComponentTreeDataTags(appRecord, node.children, i18n)
   }
 }
 
