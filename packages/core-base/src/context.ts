@@ -353,13 +353,9 @@ export function handleMissing<Message = string>(
 export function getLocaleChain<Message = string>(
   ctx: CoreCommonContext<Message>,
   fallback: FallbackLocale,
-  start: Locale = ''
+  start: Locale
 ): Locale[] {
   const context = (ctx as unknown) as CoreInternalContext
-
-  if (start === '') {
-    return []
-  }
 
   if (!context.__localeChainCache) {
     context.__localeChainCache = new Map()

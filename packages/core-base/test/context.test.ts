@@ -204,6 +204,10 @@ describe('getLocaleChain', () => {
   })
 
   describe(`simple: 'en'`, () => {
+    test('empty string', () => {
+      expect(getLocaleChain(ctx, 'en', '')).toEqual(['en'])
+    })
+
     test('en', () => {
       expect(getLocaleChain(ctx, 'en', 'en')).toEqual(['en'])
     })
