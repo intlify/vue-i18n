@@ -1,4 +1,30 @@
 
+## v9.0.0-rc.5 (2021-02-02)
+
+#### :bug: Bug Fixes
+* `core-base`
+  * [#330](https://github.com/intlify/vue-i18n-next/pull/330) fix won't fallback when `fallbackLocale` is empty string, and add a test ([@PeterAlfredLee](https://github.com/PeterAlfredLee))
+
+#### :zap: Improvement Features
+* `vue-i18n`
+  * [#332](https://github.com/intlify/vue-i18n-next/pull/332) fix: support vue-devtools component inspector custom tags breaking change ([@kazupon](https://github.com/kazupon))
+
+#### :pencil: Documentation
+* [#329](https://github.com/intlify/vue-i18n-next/pull/329) fix typo in docs lazy.md ([@candy02058912](https://github.com/candy02058912))
+* [#323](https://github.com/intlify/vue-i18n-next/pull/323) Fix typos in readme.md ([@Duncank](https://github.com/Duncank))
+* [#317](https://github.com/intlify/vue-i18n-next/pull/317) update lazy loading docs ([@kazupon](https://github.com/kazupon))
+* [#316](https://github.com/intlify/vue-i18n-next/pull/316) update composition api docs ([@kazupon](https://github.com/kazupon))
+* [#313](https://github.com/intlify/vue-i18n-next/pull/313) fix some typos in docs/ ([@PeterAlfredLee](https://github.com/PeterAlfredLee))
+* [#312](https://github.com/intlify/vue-i18n-next/pull/312) Fix spelling line 195 for sfc doc : lessages to messages ([@s3bc40](https://github.com/s3bc40))
+
+#### Committers: 5
+- Candy Tsai ([@candy02058912](https://github.com/candy02058912))
+- Duncan Krebbers ([@Duncank](https://github.com/Duncank))
+- Lee ([@PeterAlfredLee](https://github.com/PeterAlfredLee))
+- [@s3bc40](https://github.com/s3bc40)
+- kazuya kawaguchi ([@kazupon](https://github.com/kazupon))
+
+
 ## v9.0.0-rc.4 (2021-01-22)
 
 #### :bug: Bug Fixes
