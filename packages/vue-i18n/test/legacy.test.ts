@@ -298,13 +298,15 @@ test('getLocaleMessage / setLocaleMessage / mergeLocaleMessage', () => {
   })
   expect(i18n.getLocaleMessage('en')).toEqual({ hello: 'Hello!' })
 
-  i18n.setLocaleMessage('en', { hi: 'Hi!' })
-  expect(i18n.getLocaleMessage('en')).toEqual({ hi: 'Hi!' })
+  i18n.setLocaleMessage('en', { hi: { hi: 'hi!' } })
+  expect(i18n.getLocaleMessage('en')).toEqual({ hi: { hi: 'hi!' } })
 
-  i18n.mergeLocaleMessage('en', { hello: 'Hello!' })
+  i18n.mergeLocaleMessage('en', { hi: { hello: 'hello!' } })
   expect(i18n.getLocaleMessage('en')).toEqual({
-    hello: 'Hello!',
-    hi: 'Hi!'
+    hi: {
+      hi: 'hi!',
+      hello: 'hello!'
+    }
   })
 })
 

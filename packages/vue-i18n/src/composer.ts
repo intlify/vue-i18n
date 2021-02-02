@@ -1423,10 +1423,8 @@ export function createComposer<
     locale: Locale,
     message: LocaleMessageDictionary<Message>
   ): void {
-    _messages.value[locale] = Object.assign(
-      _messages.value[locale] || {},
-      message
-    )
+    _messages.value[locale] = _messages.value[locale] || {}
+    deepCopy(message, _messages.value[locale])
     _context.messages = _messages.value as typeof _context.messages
   }
 
