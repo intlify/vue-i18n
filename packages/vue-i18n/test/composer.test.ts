@@ -875,13 +875,15 @@ describe('getLocaleMessage / setLocaleMessage / mergeLocaleMessage', () => {
     })
     expect(getLocaleMessage('en')).toEqual({ hello: 'Hello!' })
 
-    setLocaleMessage('en', { hi: 'Hi!' })
-    expect(getLocaleMessage('en')).toEqual({ hi: 'Hi!' })
+    setLocaleMessage('en', { hi: { hi: 'Hi!' } })
+    expect(getLocaleMessage('en')).toEqual({ hi: { hi: 'Hi!' } })
 
-    mergeLocaleMessage('en', { hello: 'Hello!' })
+    mergeLocaleMessage('en', { hi: { hello: 'Hello!' } })
     expect(getLocaleMessage('en')).toEqual({
-      hello: 'Hello!',
-      hi: 'Hi!'
+      hi: {
+        hi: 'Hi!',
+        hello: 'Hello!'
+      }
     })
   })
 })

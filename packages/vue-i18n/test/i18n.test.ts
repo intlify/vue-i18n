@@ -554,7 +554,7 @@ test('merge useI18n resources to global scope', async () => {
     locale: 'ja',
     messages: {
       en: {
-        hello: 'hello!'
+        hi: { hello: 'hello!' }
       }
     }
   })
@@ -564,6 +564,9 @@ test('merge useI18n resources to global scope', async () => {
       useI18n({
         useScope: 'global',
         messages: {
+          en: {
+            hi: { hi: 'hi!' }
+          },
           ja: {
             hello: 'こんにちは！'
           }
@@ -595,6 +598,12 @@ test('merge useI18n resources to global scope', async () => {
   })
   await mount(App, i18n)
 
+  expect(i18n.global.getLocaleMessage('en')).toEqual({
+    hi: {
+      hi: 'hi!',
+      hello: 'hello!'
+    }
+  })
   expect(i18n.global.getLocaleMessage('ja')).toEqual({ hello: 'こんにちは！' })
   expect(i18n.global.getDateTimeFormat('en-US')).toEqual({
     short: {
@@ -620,7 +629,7 @@ test('merge i18n custom blocks to global scope', async () => {
     locale: 'ja',
     messages: {
       en: {
-        hello: 'hello!'
+        hi: { hello: 'hello!' }
       }
     }
   })
@@ -635,7 +644,10 @@ test('merge i18n custom blocks to global scope', async () => {
       options.__i18nGlobal = [
         {
           locale: 'en',
-          resource: { foo: 'foo!' }
+          resource: {
+            hi: { hi: 'hi!' },
+            foo: 'foo!'
+          }
         },
         {
           locale: 'ja',
@@ -657,7 +669,10 @@ test('merge i18n custom blocks to global scope', async () => {
   await mount(App, i18n)
 
   expect(i18n.global.getLocaleMessage('en')).toEqual({
-    hello: 'hello!',
+    hi: {
+      hi: 'hi!',
+      hello: 'hello!'
+    },
     foo: 'foo!'
   })
   expect(i18n.global.getLocaleMessage('ja')).toEqual({
