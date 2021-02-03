@@ -14,7 +14,7 @@
     "@vue/compiler-sfc": "^3.0.4",
     "css-loader": "^5.0.0",
     "file-loader": "^6.2.0",
-    "html-webpack-plugin": "^4.5.0",
+    "html-webpack-plugin": "^5.0.0",
     "monaco-editor-webpack-plugin": "^3.0.0",
     "style-loader": "^2.0.0",
     "ts-loader": "^8.0.12",
