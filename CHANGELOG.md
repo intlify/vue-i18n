@@ -1,4 +1,16 @@
 
+## v9.0.0-rc.6 (2021-02-10)
+
+#### :bug: Bug Fixes
+* `vue-i18n`
+  * [#342](https://github.com/intlify/vue-i18n-next/pull/342) fix: feature flags ([@kazupon](https://github.com/kazupon))
+  * [#334](https://github.com/intlify/vue-i18n-next/pull/334) fix for function `mergeLocaleMessage`, and modify some tests ([@PeterAlfredLee](https://github.com/PeterAlfredLee))
+
+#### Committers: 2
+- Lee ([@PeterAlfredLee](https://github.com/PeterAlfredLee))
+- kazuya kawaguchi ([@kazupon](https://github.com/kazupon))
+
+
 ## v9.0.0-rc.5 (2021-02-02)
 
 #### :bug: Bug Fixes

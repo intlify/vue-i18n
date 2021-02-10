@@ -1,6 +1,6 @@
 {
   "name": "@intlify/runtime",
-  "version": "9.0.0-rc.5",
+  "version": "9.0.0-rc.6",
   "description": "@intlify/runtime",
   "keywords": [
     "i18n",
@@ -30,9 +30,9 @@
   "module": "dist/runtime.esm-bundler.js",
   "types": "dist/runtime.d.ts",
   "dependencies": {
-    "@intlify/message-compiler": "9.0.0-rc.5",
-    "@intlify/message-resolver": "9.0.0-rc.5",
-    "@intlify/shared": "9.0.0-rc.5"
+    "@intlify/message-compiler": "9.0.0-rc.6",
+    "@intlify/message-resolver": "9.0.0-rc.6",
+    "@intlify/shared": "9.0.0-rc.6"
   },
   "engines": {
     "node": ">= 10"
