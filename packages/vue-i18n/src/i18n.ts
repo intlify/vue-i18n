@@ -322,8 +322,8 @@ export function createI18n<
   // prettier-ignore
   const __legacyMode = __FEATURE_LEGACY_API__ && isBoolean(options.legacy)
     ? options.legacy
-    : true
-  const __globalInjection = __FEATURE_LEGACY_API__ && !!options.globalInjection
+    : __FEATURE_LEGACY_API__
+  const __globalInjection = !!options.globalInjection
   const __instances = new Map<
     ComponentInternalInstance,
     VueI18n<Messages> | Composer<Messages>
