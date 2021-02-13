@@ -25,7 +25,8 @@ type Transformer = Readonly<{
 }>
 
 function createTransformer(
-  ast: ResourceNode, options: TransformOptions = {} // eslint-disable-line
+  ast: ResourceNode,
+  options: TransformOptions = {} // eslint-disable-line
 ): Transformer {
   const _context = {
     ast,
@@ -89,5 +90,5 @@ export function transform(
 
   // set meta information
   const context = transformer.context()
-  ast.helpers = [...context.helpers]
+  ast.helpers = Array.from(context.helpers)
 }
