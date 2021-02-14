@@ -26,7 +26,8 @@
   },
   "files": [
     "index.js",
-    "dist"
+    "dist",
+    "vetur"
   ],
   "main": "index.js",
   "module": "dist/vue-i18n.esm-bundler.js",
@@ -56,5 +57,9 @@
       "global-runtime"
     ]
   },
-  "sideEffects": false
+  "sideEffects": false,
+  "vetur": {
+    "tags": "vetur/tags.json",
+    "attributes": "vetur/attributes.json"
+  }
 }
