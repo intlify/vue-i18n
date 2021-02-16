@@ -1,4 +1,17 @@
 
+## v9.0.0-rc.7 (2021-02-16)
+
+#### :zap: Improvement Features
+* `vue-i18n`
+  * [#346](https://github.com/intlify/vue-i18n-next/pull/346) Support vetur component data ([@kazupon](https://github.com/kazupon))
+* `message-compiler`
+  * [#345](https://github.com/intlify/vue-i18n-next/pull/345) fix: convert Set with Array.from ([@sayuti-daniel](https://github.com/sayuti-daniel))
+
+#### Committers: 2
+- Sayuti Daniel ([@sayuti-daniel](https://github.com/sayuti-daniel))
+- kazuya kawaguchi ([@kazupon](https://github.com/kazupon))
+
+
 ## v9.0.0-rc.6 (2021-02-10)
 
 #### :bug: Bug Fixes
