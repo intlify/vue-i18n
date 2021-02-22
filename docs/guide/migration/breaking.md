@@ -420,12 +420,12 @@ Vue I18n v9 or later:
 
 ### `tag` prop is optional
 
-In Vue I18n v8.x, `tag` prop could be used to render child elements without the root element by specifying a tag name and the `Boolean` value `true`.
+In Vue I18n v8.x, `tag` prop could be used to render child elements without the root element by specifying a tag name and the `Boolean` value `false`.
 
 Vue I18n v8.x:
 
 ```html{1,3}
-<i18n tag="true" path="message.greeting">
+<i18n :tag="false" path="message.greeting">
   <span>hello!</span>
 </i18n>
 ```
