@@ -8,6 +8,7 @@ node_modules
 .DS_Store
 .idea
 .vscode
+debug.log
 
 # jest dump files
 report*.json
