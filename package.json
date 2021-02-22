@@ -74,7 +74,7 @@
     "convert-hrtime": "^3.0.0",
     "cross-env": "^7.0.2",
     "eslint": "^7.16.0",
-    "eslint-config-prettier": "^7.0.0",
+    "eslint-config-prettier": "^8.0.0",
     "eslint-plugin-prettier": "^3.1.2",
     "eslint-plugin-vue": "^7.4.0",
     "eslint-plugin-vue-libs": "^4.0.0",
