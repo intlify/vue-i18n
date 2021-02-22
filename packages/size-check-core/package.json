@@ -2,6 +2,6 @@
   "name": "@intlify/size-check-core",
   "private": true,
   "dependencies": {
-    "@intlify/core": "9.0.0-beta.12"
+    "@intlify/core": "9.0.0-rc.7"
   }
 }
