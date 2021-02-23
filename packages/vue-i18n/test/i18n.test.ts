@@ -8,7 +8,7 @@ import {
   getCurrentInstance,
   ComponentOptions
 } from 'vue'
-import { mount } from './helper'
+import { mount, pluralRules as _pluralRules } from './helper'
 import { createI18n, useI18n } from '../src/index'
 import { errorMessages, I18nErrorCodes } from '../src/errors'
 import { Composer } from '../src/composer'
@@ -678,5 +678,147 @@ test('merge i18n custom blocks to global scope', async () => {
   expect(i18n.global.getLocaleMessage('ja')).toEqual({
     hello: 'こんにちは！',
     foo: 'ふー！'
+  })
+})
+
+describe('custom pluralization', () => {
+  test('legacy', async () => {
+    const i18n = createI18n({
+      locale: 'ru',
+      pluralizationRules: _pluralRules,
+      messages: {
+        ru: {
+          car: '0 машин | {n} машина | {n} машины | {n} машин'
+        }
+      }
+    })
+
+    const App = defineComponent({
+      template: `
+        <p>{{ $tc('car', 1) }}</p>
+        <p>{{ $tc('car', 2) }}</p>
+        <p>{{ $tc('car', 4) }}</p>
+        <p>{{ $tc('car', 12) }}</p>
+        <p>{{ $tc('car', 21) }}</p>
+      `
+    })
+    const { find } = await mount(App, i18n)
+    await nextTick()
+    expect(find('p:nth-child(1)')!.innerHTML).toEqual('1 машина')
+    expect(find('p:nth-child(2)')!.innerHTML).toEqual('2 машины')
+    expect(find('p:nth-child(3)')!.innerHTML).toEqual('4 машины')
+    expect(find('p:nth-child(4)')!.innerHTML).toEqual('12 машин')
+    expect(find('p:nth-child(5)')!.innerHTML).toEqual('21 машина')
+  })
+
+  test('legacy + custom block', async () => {
+    const i18n = createI18n({
+      locale: 'ru',
+      pluralizationRules: _pluralRules
+    })
+
+    const App = defineComponent({
+      __i18n: [
+        {
+          locale: 'ru',
+          resource: {
+            car: '0 машин | {n} машина | {n} машины | {n} машин'
+          }
+        }
+      ],
+      template: `
+        <p>{{ $tc('car', 1) }}</p>
+        <p>{{ $tc('car', 2) }}</p>
+        <p>{{ $tc('car', 4) }}</p>
+        <p>{{ $tc('car', 12) }}</p>
+        <p>{{ $tc('car', 21) }}</p>
+      `
+    })
+    const { find } = await mount(App, i18n)
+    await nextTick()
+    expect(find('p:nth-child(1)')!.innerHTML).toEqual('1 машина')
+    expect(find('p:nth-child(2)')!.innerHTML).toEqual('2 машины')
+    expect(find('p:nth-child(3)')!.innerHTML).toEqual('4 машины')
+    expect(find('p:nth-child(4)')!.innerHTML).toEqual('12 машин')
+    expect(find('p:nth-child(5)')!.innerHTML).toEqual('21 машина')
+  })
+
+  test('composition', async () => {
+    const i18n = createI18n({
+      legacy: false,
+      locale: 'ru',
+      pluralRules: _pluralRules,
+      messages: {
+        ru: {
+          car: '0 машин | {n} машина | {n} машины | {n} машин'
+        }
+      }
+    })
+
+    const App = defineComponent({
+      setup() {
+        const { t } = useI18n()
+        return { t }
+      },
+      template: `
+        <p>{{ t('car', 1) }}</p>
+        <p>{{ t('car', 2) }}</p>
+        <p>{{ t('car', 4) }}</p>
+        <p>{{ t('car', 12) }}</p>
+        <p>{{ t('car', 21) }}</p>
+      `
+    })
+    const { find } = await mount(App, i18n)
+    await nextTick()
+    expect(find('p:nth-child(1)')!.innerHTML).toEqual('1 машина')
+    expect(find('p:nth-child(2)')!.innerHTML).toEqual('2 машины')
+    expect(find('p:nth-child(3)')!.innerHTML).toEqual('4 машины')
+    expect(find('p:nth-child(4)')!.innerHTML).toEqual('12 машин')
+    expect(find('p:nth-child(5)')!.innerHTML).toEqual('21 машина')
+  })
+
+  test('composition + custom block', async () => {
+    const i18n = createI18n({
+      legacy: false,
+      locale: 'ru'
+    })
+
+    const App = defineComponent({
+      setup() {
+        const instance = getCurrentInstance()
+        if (instance == null) {
+          throw new Error()
+        }
+        const options = instance.type as ComponentOptions
+        options.__i18n = [
+          {
+            locale: 'ru',
+            resource: {
+              car: '0 машин | {n} машина | {n} машины | {n} машин'
+            }
+          }
+        ]
+        const { t } = useI18n({
+          inheritLocale: true,
+          useScope: 'local',
+          pluralRules: _pluralRules
+        })
+        return { t }
+      },
+      template: `
+        <p>{{ t('car', 1) }}</p>
+        <p>{{ t('car', 2) }}</p>
+        <p>{{ t('car', 4) }}</p>
+        <p>{{ t('car', 12) }}</p>
+        <p>{{ t('car', 21) }}</p>
+      `
+    })
+    const { find } = await mount(App, i18n)
+    await nextTick()
+    expect(find('p:nth-child(1)')!.innerHTML).toEqual('1 машина')
+    expect(find('p:nth-child(2)')!.innerHTML).toEqual('2 машины')
+    expect(find('p:nth-child(3)')!.innerHTML).toEqual('4 машины')
+    expect(find('p:nth-child(4)')!.innerHTML).toEqual('12 машин')
+    expect(find('p:nth-child(5)')!.innerHTML).toEqual('21 машина')
   })
 })

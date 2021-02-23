@@ -13,6 +13,7 @@ import { errorMessages, I18nErrorCodes } from '../src/errors'
 import { getWarnMessage, I18nWarnCodes } from '../src/warnings'
 import { watchEffect, nextTick } from 'vue'
 import { compileToFunction, registerMessageCompiler } from '@intlify/core-base'
+import { pluralRules as _pluralRules } from './helper'
 
 beforeEach(() => {
   registerMessageCompiler(compileToFunction)
@@ -135,15 +136,22 @@ test('postTranslation', () => {
 })
 
 test('pluralizationRules', () => {
-  const _pluralRules = {
-    en: () => {
-      return 0
-    }
-  }
   const i18n = createVueI18n({
-    pluralizationRules: _pluralRules
+    locale: 'ru',
+    pluralizationRules: _pluralRules,
+    messages: {
+      ru: {
+        car: '0 машин | {n} машина | {n} машины | {n} машин'
+      }
+    }
   })
+
   expect(i18n.pluralizationRules).toEqual(_pluralRules)
+  expect(i18n.tc('car', 1)).toEqual('1 машина')
+  expect(i18n.tc('car', 2)).toEqual('2 машины')
+  expect(i18n.tc('car', 4)).toEqual('4 машины')
+  expect(i18n.tc('car', 12)).toEqual('12 машин')
+  expect(i18n.tc('car', 21)).toEqual('21 машина')
 })
 
 test('messages', () => {
