@@ -166,6 +166,8 @@ function mergeToRoot<Messages, DateTimeFormats, NumberFormats>(
   root.escapeParameterHtml =
     options.escapeParameterHtml || root.escapeParameterHtml
   root.sync = options.sync || root.sync
+  root.pluralizationRules =
+    options.pluralizationRules || root.pluralizationRules
   const messages = getLocaleMessages<VueMessageType>(root.locale, {
     messages: options.messages,
     __i18n: options.__i18n

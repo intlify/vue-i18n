@@ -1119,7 +1119,7 @@ export function createComposer<
       : {} as LinkedModifiers<Message>
 
   // pluralRules
-  const _pluralRules = options.pluralRules
+  const _pluralRules = options.pluralRules || (__root && __root.pluralRules)
 
   // runtime context
   // eslint-disable-next-line prefer-const

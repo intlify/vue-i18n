@@ -6,6 +6,7 @@ jest.mock('@intlify/shared', () => ({
   warn: jest.fn()
 }))
 import { isString, warn } from '@intlify/shared'
+import { pluralRules as _pluralRules } from './helper'
 
 import {
   createComposer,
@@ -310,16 +311,23 @@ describe('pluralRules', () => {
     expect(pluralRules).toEqual({})
   })
 
-  test('initialize at composer creating', () => {
-    const _pluralRules = {
-      en: () => {
-        return 0
+  test('specified', () => {
+    const { pluralRules, t } = createComposer({
+      locale: 'ru',
+      pluralRules: _pluralRules,
+      messages: {
+        ru: {
+          car: '0 машин | {n} машина | {n} машины | {n} машин'
+        }
       }
-    }
-    const { pluralRules } = createComposer({
-      pluralRules: _pluralRules
     })
+
     expect(pluralRules).toEqual(_pluralRules)
+    expect(t('car', 1)).toEqual('1 машина')
+    expect(t('car', 2)).toEqual('2 машины')
+    expect(t('car', 4)).toEqual('4 машины')
+    expect(t('car', 12)).toEqual('12 машин')
+    expect(t('car', 21)).toEqual('21 машина')
   })
 })
 
