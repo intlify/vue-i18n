@@ -35,7 +35,7 @@
   "jsdelivr": "dist/vue-i18n.global.js",
   "types": "dist/vue-i18n.d.ts",
   "dependencies": {
-    "@intlify/core-base": "9.0.0-rc.8",
+    "@intlify/core-base": "9.0.0-rc.7",
     "@intlify/shared": "9.0.0-rc.8",
     "@vue/devtools-api": "^6.0.0-beta.5"
   },

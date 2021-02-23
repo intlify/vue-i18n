@@ -487,6 +487,44 @@
   dependencies:
     "@hapi/hoek" "^8.3.0"
 
+"@intlify/core-base@9.0.0-rc.7":
+  version "9.0.0-rc.7"
+  resolved "https://registry.yarnpkg.com/@intlify/core-base/-/core-base-9.0.0-rc.7.tgz#664e58d0c24465d19fb84d65be2bc4c4735c2b4e"
+  integrity sha512-jYF6kQpSCeBXprZRcggGV/YQAwqXRWo2MtcdkPfZf0cP26Yx12UeFF0Uk5W5M/cgts3ktkhF/CzvxtXP1mevlQ==
+  dependencies:
+    "@intlify/message-compiler" "9.0.0-rc.7"
+    "@intlify/message-resolver" "9.0.0-rc.7"
+    "@intlify/runtime" "9.0.0-rc.7"
+    "@intlify/shared" "9.0.0-rc.7"
+
+"@intlify/message-compiler@9.0.0-rc.7":
+  version "9.0.0-rc.7"
+  resolved "https://registry.yarnpkg.com/@intlify/message-compiler/-/message-compiler-9.0.0-rc.7.tgz#383459a96220536ad675b77fef2d3f3f652d5647"
+  integrity sha512-T8cPzSkNV0KHtLokQW8hBHMlqYcpknJy8JygwA4R6guiO2G9eyUdZ+rswDq5vrGfSIUglgHYusoIvOhFyQpkpQ==
+  dependencies:
+    "@intlify/message-resolver" "9.0.0-rc.7"
+    "@intlify/shared" "9.0.0-rc.7"
+    source-map "0.6.1"
+
+"@intlify/message-resolver@9.0.0-rc.7":
+  version "9.0.0-rc.7"
+  resolved "https://registry.yarnpkg.com/@intlify/message-resolver/-/message-resolver-9.0.0-rc.7.tgz#f41a552c7dd1c85f7042478bf264b0459c376376"
+  integrity sha512-d0Jz0OWiH7jYTDk4VzTnVroJ2eylQUgVIk+2ztNJAHsrKoy3wxq6Tw/GlIGOrVJCFqZLWuxg7dmuhZDd4fliTw==
+
+"@intlify/runtime@9.0.0-rc.7":
+  version "9.0.0-rc.7"
+  resolved "https://registry.yarnpkg.com/@intlify/runtime/-/runtime-9.0.0-rc.7.tgz#81ed1602447c387476aeaf6eea7ff0608768f67e"
+  integrity sha512-SdM9Gqca4W+u/O6XHqDf38UwoiopbyRtUnnqWy5DGihbE1CTKlFZSGPMx95cLOVt0AIeVK/eRwclxLiRtQRM7A==
+  dependencies:
+    "@intlify/message-compiler" "9.0.0-rc.7"
+    "@intlify/message-resolver" "9.0.0-rc.7"
+    "@intlify/shared" "9.0.0-rc.7"
+
+"@intlify/shared@9.0.0-rc.7":
+  version "9.0.0-rc.7"
+  resolved "https://registry.yarnpkg.com/@intlify/shared/-/shared-9.0.0-rc.7.tgz#4bab9e58bbb09bc690fd953d1e83d9026e3a3893"
+  integrity sha512-ynMHCCcBPtQAdJlOUMzrlvUp+DdKlnB0yrkPPMzAs8bBETwJbAK1Jq6zBHlMZzscPcF+1ia5pj4Gmmn7QL9b8w==
+
 "@istanbuljs/load-nyc-config@^1.0.0":
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/@istanbuljs/load-nyc-config/-/load-nyc-config-1.1.0.tgz#fd3db1d59ecf7cf121e80650bb86712f9b55eced"
