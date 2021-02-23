@@ -1,4 +1,19 @@
 
+## v9.0.0-rc.8 (2021-02-23)
+
+#### :bug: Bug Fixes
+* `vue-i18n`
+  * [#357](https://github.com/intlify/vue-i18n-next/pull/357) fix: cannot apply custom pluralization rules ([@kazupon](https://github.com/kazupon))
+
+#### :pencil: Documentation
+* [#354](https://github.com/intlify/vue-i18n-next/pull/354) Fix typo in breaking.md ([@ota-meshi](https://github.com/ota-meshi))
+
+#### Committers: 3
+- Lee ([@PeterAlfredLee](https://github.com/PeterAlfredLee))
+- Yosuke Ota ([@ota-meshi](https://github.com/ota-meshi))
+- kazuya kawaguchi ([@kazupon](https://github.com/kazupon))
+
+
 ## v9.0.0-rc.7 (2021-02-16)
 
 #### :zap: Improvement Features
