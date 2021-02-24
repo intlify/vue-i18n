@@ -25,11 +25,15 @@ Remove the template from below and provide thoughtful commentary *and code sampl
 <!-- BUG REPORT TEMPLATE -->
 ### vue & vue-i18n version
 ex:
-- vue: 3.0.0-alpha.10
-- vue-i18n: 9.0.0-alpha.0
+- vue: 3.0.0
+- vue-i18n: 9.0.0-rc.1
 
 ### Reproduction Link
-<!-- A minimal JSBin, JSFiddle, Codepen, or a GitHub reprository that can reproduce the bug. -->
+<!--
+A minimal JSBin, JSFiddle, Codepen, CodeSandbox, or a GitHub reprository that can reproduce the bug.
+
+You can use reproduction CodeSandbox template: https://codesandbox.io/s/vue-i18n-9-template-h28c0
+-->
 
 ### Steps to reproduce
 
