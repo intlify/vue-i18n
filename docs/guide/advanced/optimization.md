@@ -98,6 +98,12 @@ The build will work without configuring these flags, however it is **strongly re
 - Vite: configured by default, but can be overwritten using the [`define` option](https://github.com/vitejs/vite/blob/a4133c073e640b17276b2de6e91a6857bdf382e1/src/node/config.ts#L72-L76)
 
 :::tip NOTE
+If you are using Vite, you can do the same thing by specifying the option in the [plugin provided officially](https://github.com/intlify/vite-plugin-vue-i18n).
+
+Also, if you are using the Vue CLI, you can use the [officially provided plugin](https://github.com/intlify/vue-cli-plugin-i18n) to optimize the settings in `vue.config.js`.
+:::
+
+:::tip NOTE
 The replacement value **must be boolean literals** and cannot be strings, otherwise the bundler/minifier will not be able to properly evaluate the conditions.
 :::
 

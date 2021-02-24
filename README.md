@@ -103,9 +103,9 @@ See the [`examples`](https://github.com/intlify/vue-i18n-next/tree/master/exampl
 The examples are offered in the following two API styles:
 
 - composition
-  - Examples using the new vue-i18n API for Vue 3 Composition API
+  - Examples using the new Vue I18n API for Vue 3 Composition API
 - legacy
-  - Examples using the vue-i18n API that are almost compatible with vue-i18n v8.x
+  - Examples using the Vue I18n API that are almost compatible with Vue I18n v8.x
 
 
 ## :package: Main Packages
