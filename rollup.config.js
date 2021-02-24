@@ -232,6 +232,7 @@ function createReplacePlugin(
     __FEATURE_PROD_DEVTOOLS__: isBundlerESMBuild
       ? `__INTLIFY_PROD_DEVTOOLS__`
       : false,
+    preventAssignment: false,
     ...(isProduction && isBrowserBuild
       ? {
           'emitError(': `/*#__PURE__*/ emitError(`,

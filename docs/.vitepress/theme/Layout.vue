@@ -1,7 +1,6 @@
 <script>
 import DefaultTheme from 'vitepress/dist/client/theme-default'
 import Sponsor from './components/Sponsor.vue'
-import AlgoliaSearchBox from './components/AlgoliaSearchBox.vue'
 import { sponsors } from './state'
 
 export default {
@@ -9,7 +8,6 @@ export default {
 
   components: {
     ParentLayout: DefaultTheme.Layout,
-    AlgoliaSearchBox,
     Sponsor
   },
 
@@ -22,7 +20,6 @@ export default {
 <template>
   <ParentLayout>
     <template #navbar-search>
-      <AlgoliaSearchBox :options="$site.themeConfig.algolia" />
     </template>
     <template #home-hero>
       <div class="sponsors">
