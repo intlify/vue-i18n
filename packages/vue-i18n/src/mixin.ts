@@ -1,5 +1,5 @@
 import { getCurrentInstance } from 'vue'
-import { getLocaleMessages } from './composer'
+import { getLocaleMessages, SetPluralRulesSymbol } from './composer'
 import { createVueI18n } from './legacy'
 import { createI18nError, I18nErrorCodes } from './errors'
 import { addTimelineEvent } from './devtools'
@@ -166,8 +166,10 @@ function mergeToRoot<Messages, DateTimeFormats, NumberFormats>(
   root.escapeParameterHtml =
     options.escapeParameterHtml || root.escapeParameterHtml
   root.sync = options.sync || root.sync
-  root.pluralizationRules =
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  ;(root as any).__composer[SetPluralRulesSymbol](
     options.pluralizationRules || root.pluralizationRules
+  )
   const messages = getLocaleMessages<VueMessageType>(root.locale, {
     messages: options.messages,
     __i18n: options.__i18n
