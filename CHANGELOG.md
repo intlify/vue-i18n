@@ -1,4 +1,15 @@
 
+## v9.0.0-rc.9 (2021-02-26)
+
+#### :bug: Bug Fixes
+* `vue-i18n`
+  * [#365](https://github.com/intlify/vue-i18n-next/pull/365) fix: undefind setter using ([@kazupon](https://github.com/kazupon))
+
+#### Committers: 2
+- Lee ([@PeterAlfredLee](https://github.com/PeterAlfredLee))
+- kazuya kawaguchi ([@kazupon](https://github.com/kazupon))
+
+
 ## v9.0.0-rc.8 (2021-02-23)
 
 #### :bug: Bug Fixes
