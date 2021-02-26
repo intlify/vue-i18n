@@ -84,6 +84,7 @@ export const DatetimePartsSymbol = makeSymbol('__datetimeParts')
 export const NumberPartsSymbol = makeSymbol('__numberParts')
 export const EnableEmitter = makeSymbol('__enableEmitter')
 export const DisableEmitter = makeSymbol('__disableEmitter')
+export const SetPluralRulesSymbol = makeSymbol('__setPluralRules')
 
 /** @VueI18nComposition */
 export type VueMessageType = string | VNode
@@ -910,6 +911,7 @@ export interface ComposerInternal {
   __datetimeParts(...args: unknown[]): string | Intl.DateTimeFormatPart[]
   __enableEmitter?: (emitter: DevToolsEmitter) => void
   __disableEmitter?: () => void
+  __setPluralRules(rules: PluralizationRules): void
 }
 
 type ComposerWarnType = 'translate' | 'number format' | 'datetime format'
@@ -1119,7 +1121,7 @@ export function createComposer<
       : {} as LinkedModifiers<Message>
 
   // pluralRules
-  const _pluralRules = options.pluralRules || (__root && __root.pluralRules)
+  let _pluralRules = options.pluralRules || (__root && __root.pluralRules)
 
   // runtime context
   // eslint-disable-next-line prefer-const
@@ -1385,6 +1387,11 @@ export function createComposer<
     )
   }
 
+  function __setPluralRules(rules: PluralizationRules): void {
+    _pluralRules = rules
+    _context.pluralRules = _pluralRules
+  }
+
   // te
   function te(key: Path, locale?: Locale): boolean {
     const targetLocale = isString(locale) ? locale : _locale.value
@@ -1597,7 +1604,8 @@ export function createComposer<
     setMissingHandler,
     [TransrateVNodeSymbol]: __transrateVNode,
     [NumberPartsSymbol]: __numberParts,
-    [DatetimePartsSymbol]: __datetimeParts
+    [DatetimePartsSymbol]: __datetimeParts,
+    [SetPluralRulesSymbol]: __setPluralRules
   }
 
   // for vue-devtools timeline event
