@@ -1,9 +1,5 @@
 # Introduction
 
-:::warning NOTICE
-**This documentation is beta**
-:::
-
 :::tip NOTE
 Already know Vue I18n v8.x and just want to learn about what’s new in Vue I18n v9? Check out the [Migration Guide](../guide/migration/breaking)!
 :::
