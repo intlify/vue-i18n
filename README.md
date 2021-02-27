@@ -1,5 +1,7 @@
 # vue-i18n-next
 
+> This is the repository for Vue I18n 9 (for Vue 3)
+
 Internationalization plugin for Vue.js
 
 <h3>🥇 Gold Sponsors<h3>
@@ -87,10 +89,10 @@ Internationalization plugin for Vue.js
 </p>
 
 
-## Status: RC ![Test](https://github.com/intlify/vue-i18n-next/workflows/Test/badge.svg)
+## Status: [Test](https://github.com/intlify/vue-i18n-next/workflows/Test/badge.svg)
 
-- [Documentation](https://vue-i18n.intlify.dev/) (beta)
-- If you use stable Vue I18n version, see this [repository](https://github.com/kazupon/vue-i18n)
+- [Documentation](https://vue-i18n.intlify.dev/)
+- If you use Vue I18n v8, see this [repository](https://github.com/kazupon/vue-i18n)
 
 ## :raising_hand: About support for v9 and earlier
 - v6 and earlier: drop supporting
