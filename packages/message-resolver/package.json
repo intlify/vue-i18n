@@ -1,6 +1,6 @@
 {
   "name": "@intlify/message-resolver",
-  "version": "9.0.0-rc.9",
+  "version": "9.0.0",
   "description": "@intlify/message-resolver",
   "keywords": [
     "i18n",
