@@ -1,3 +1,8 @@
+## v9.0.0 (2021-02-27)
+
+See the below link:
+https://blog.intlify.dev/posts/vue-i18n-9.html
+
 
 ## v9.0.0-rc.9 (2021-02-26)
 
