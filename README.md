@@ -4,9 +4,9 @@
 
 Internationalization plugin for Vue.js
 
-<h3>🥇 Gold Sponsors<h3>
+<h3 align="center">🥇 Gold Sponsors<h3>
 
-<p>
+<p align="center">
   <a
     href="https://nuxtjs.org/"
     style="margin: 1rem 1rem 0 1rem; width: 15rem; height: auto; display: inline-block; vertical-align: middle;"
@@ -22,9 +22,9 @@ Internationalization plugin for Vue.js
   </a>
 </p>
 
-<h3>🥈 Silver Sponsors</h3>
+<h3 align="center">🥈 Silver Sponsors</h3>
 
-<p>
+<p align="center">
   <a
     href="https://www.codeandweb.com/babeledit?utm_campaign=vue-i18n-2019-01"
     style="margin: 1rem 1rem 0 1rem; width: 12rem; height: auto; display: inline-block; vertical-align: middle;"
@@ -40,9 +40,9 @@ Internationalization plugin for Vue.js
   </a>
 </p>
 
-<h3>🥉 Bronze Sponsors</h3>
+<h3 align="center">🥉 Bronze Sponsors</h3>
 
-<p>
+<p align="center">
   <a
     href="https://zenarchitects.co.jp/"
     style="margin: 1rem 1rem 0 1rem; width: 9rem; height: auto; display: inline-block; vertical-align: middle;"
@@ -57,7 +57,7 @@ Internationalization plugin for Vue.js
     >
   </a>
 </p>
-<p>
+<p align="center">
   <a
     href="https://www.sendcloud.com/"
     style="margin: 1rem 1rem 0 1rem; width: 9rem; height: auto; display: inline-block; vertical-align: middle;"
@@ -72,7 +72,7 @@ Internationalization plugin for Vue.js
     >
   </a>
 </p>
-<p>
+<p align="center">
   <a
     href="https://www.vuemastery.com/"
     style="margin: 1rem 1rem 0 1rem; width: 9rem; height: auto; display: inline-block; vertical-align: middle;"
