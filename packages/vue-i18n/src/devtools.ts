@@ -1,7 +1,6 @@
 import {
   setupDevtoolsPlugin,
   Hooks,
-  AppRecord,
   ComponentTreeNode
 } from '@vue/devtools-api'
 import {
@@ -55,20 +54,12 @@ export async function enableDevTools<
         api => {
           devtoolsApi = api
 
-          api.on.walkComponentTree((payload, ctx) => {
-            updateComponentTreeDataTags(
-              ctx.currentAppRecord,
-              payload.componentTreeData,
-              i18n
-            )
+          api.on.visitComponentTree(({ componentInstance, treeNode }) => {
+            updateComponentTreeTags(componentInstance, treeNode, i18n)
           })
 
-          api.on.inspectComponent(payload => {
-            const componentInstance = payload.componentInstance
-            if (
-              componentInstance.vnode.el.__INTLIFY__ &&
-              payload.instanceData
-            ) {
+          api.on.inspectComponent(({ componentInstance, instanceData }) => {
+            if (componentInstance.vnode.el.__INTLIFY__ && instanceData) {
               if (i18n.mode === 'legacy') {
                 // ignore global scope on legacy mode
                 if (
@@ -76,13 +67,13 @@ export async function enableDevTools<
                   ((i18n.global as unknown) as VueI18nInternal).__composer
                 ) {
                   inspectComposer(
-                    payload.instanceData,
+                    instanceData,
                     componentInstance.vnode.el.__INTLIFY__ as Composer
                   )
                 }
               } else {
                 inspectComposer(
-                  payload.instanceData,
+                  instanceData,
                   componentInstance.vnode.el.__INTLIFY__ as Composer
                 )
               }
@@ -131,38 +122,32 @@ export async function enableDevTools<
   })
 }
 
-function updateComponentTreeDataTags<
+function updateComponentTreeTags<
   Messages,
   DateTimeFormats,
   NumberFormats,
   Legacy extends boolean
 >(
-  appRecord: AppRecord,
-  treeData: ComponentTreeNode[],
+  instance: any, // eslint-disable-line @typescript-eslint/no-explicit-any
+  treeNode: ComponentTreeNode,
   i18n: _I18n<Messages, DateTimeFormats, NumberFormats, Legacy>
 ): void {
   // prettier-ignore
   const global = i18n.mode === 'composition'
     ? i18n.global
     : (i18n.global as unknown as VueI18nInternal).__composer
-  for (const node of treeData) {
-    const instance = appRecord.instanceMap.get(node.id)
-    if (instance && instance.vnode.el.__INTLIFY__) {
-      // add custom tags local scope only
-      if (instance.vnode.el.__INTLIFY__ !== global) {
-        const label =
-          instance.type.name ||
-          instance.type.displayName ||
-          instance.type.__file
-        const tag = {
-          label: `i18n (${label} Scope)`,
-          textColor: 0x000000,
-          backgroundColor: 0xffcd19
-        }
-        node.tags.push(tag)
+  if (instance && instance.vnode.el.__INTLIFY__) {
+    // add custom tags local scope only
+    if (instance.vnode.el.__INTLIFY__ !== global) {
+      const label =
+        instance.type.name || instance.type.displayName || instance.type.__file
+      const tag = {
+        label: `i18n (${label} Scope)`,
+        textColor: 0x000000,
+        backgroundColor: 0xffcd19
       }
+      treeNode.tags.push(tag)
     }
-    updateComponentTreeDataTags(appRecord, node.children, i18n)
   }
 }
 
