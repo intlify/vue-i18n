@@ -1,28 +1,30 @@
 <template>
-  <nav>
-    <div class="navigation">
-      <router-link :to="{ name: 'home', params: { locale } }">
-        {{ t('navigations.home') }}
-      </router-link>
-      |
-      <router-link :to="{ name: 'about', params: { locale } }">
-        {{ t('navigations.about') }}
-      </router-link>
-    </div>
-    <form class="language">
-      <label>{{ t('labels.language') }}</label>
-      <select v-model="currentLocale">
-        <option
-          v-for="optionLocale in supportLocales"
-          :key="optionLocale"
-          :value="optionLocale"
-        >
-          {{ optionLocale }}
-        </option>
-      </select>
-    </form>
-  </nav>
-  <router-view />
+  <div>
+    <nav>
+      <div class="navigation">
+        <router-link :to="{ name: 'home', params: { locale } }">
+          {{ t('navigations.home') }}
+        </router-link>
+        |
+        <router-link :to="{ name: 'about', params: { locale } }">
+          {{ t('navigations.about') }}
+        </router-link>
+      </div>
+      <form class="language">
+        <label>{{ t('labels.language') }}</label>
+        <select v-model="currentLocale">
+          <option
+            v-for="optionLocale in supportLocales"
+            :key="optionLocale"
+            :value="optionLocale"
+          >
+            {{ optionLocale }}
+          </option>
+        </select>
+      </form>
+    </nav>
+    <router-view />
+  </div>
 </template>
 
 <script>
