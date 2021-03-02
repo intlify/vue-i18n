@@ -311,11 +311,29 @@ exports[`edge cases %: code 1`] = `
 }"
 `;
 
+exports[`edge cases {_field} with the same value already exists.: code 1`] = `
+"function __msg__ (ctx) {
+  const { normalize: _normalize, interpolate: _interpolate, named: _named } = ctx
+  return _normalize([
+    _interpolate(_named(\\"_field\\")), \\" with the same value already exists.\\"
+  ])
+}"
+`;
+
 exports[`edge cases hi %s !: code 1`] = `
 "function __msg__ (ctx) {
   const { normalize: _normalize } = ctx
   return _normalize([
     \\"hi %s !\\"
+  ])
+}"
+`;
+
+exports[`edge cases hi @._upper:{_name} !: code 1`] = `
+"function __msg__ (ctx) {
+  const { normalize: _normalize, interpolate: _interpolate, named: _named, linked: _linked } = ctx
+  return _normalize([
+    \\"hi \\", _linked(_interpolate(_named(\\"_name\\")), \\"_upper\\"), \\" !\\"
   ])
 }"
 `;

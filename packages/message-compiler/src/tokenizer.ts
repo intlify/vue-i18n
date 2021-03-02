@@ -178,8 +178,9 @@ export function createTokenizer(
     const cc = ch.charCodeAt(0)
     return (
       (cc >= 97 && cc <= 122) || // a-z
-      (cc >= 65 && cc <= 90)
-    ) // A-Z
+      (cc >= 65 && cc <= 90) || // A-Z
+      cc === 95 // _
+    )
   }
 
   function isNumberStart(ch: string): boolean {
@@ -399,9 +400,9 @@ export function createTokenizer(
         (cc >= 97 && cc <= 122) || // a-z
         (cc >= 65 && cc <= 90) || // A-Z
         (cc >= 48 && cc <= 57) || // 0-9
-        cc === 95 ||
-        cc === 36
-      ) // _ $
+        cc === 95 || // _
+        cc === 36 // $
+      )
     }
     return takeChar(scnr, closure)
   }
