@@ -135,7 +135,7 @@ export interface I18n<
    * The property accessible to the global Composer instance or VueI18n instance
    *
    * @remarks
-   * If the [I18n#mode](general#mode) is `'legacy'`, then you can access to a global {@link VueI18n} instance, else then [I18n#mode](general#mode) is `'legacy' `, you can access to the global {@link Composer} instance.
+   * If the [I18n#mode](general#mode) is `'legacy'`, then you can access to a global {@link VueI18n} instance, else then [I18n#mode](general#mode) is `'composition' `, you can access to the global {@link Composer} instance.
    *
    * An instance of this property is **global scope***.
    */
