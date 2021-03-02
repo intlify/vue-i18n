@@ -443,6 +443,51 @@ describe('modulo cases', () => {
   })
 })
 
+test('underscore started', () => {
+  const tokenizer = createTokenizer(
+    `{_field} with the same value already exists.`
+  )
+  expect(tokenizer.nextToken()).toEqual({
+    type: TokenTypes.BraceLeft,
+    value: '{',
+    loc: {
+      start: { line: 1, column: 1, offset: 0 },
+      end: { line: 1, column: 2, offset: 1 }
+    }
+  })
+  expect(tokenizer.nextToken()).toEqual({
+    type: TokenTypes.Named,
+    value: '_field',
+    loc: {
+      start: { line: 1, column: 2, offset: 1 },
+      end: { line: 1, column: 8, offset: 7 }
+    }
+  })
+  expect(tokenizer.nextToken()).toEqual({
+    type: TokenTypes.BraceRight,
+    value: '}',
+    loc: {
+      start: { line: 1, column: 8, offset: 7 },
+      end: { line: 1, column: 9, offset: 8 }
+    }
+  })
+  expect(tokenizer.nextToken()).toEqual({
+    type: TokenTypes.Text,
+    value: ' with the same value already exists.',
+    loc: {
+      start: { line: 1, column: 9, offset: 8 },
+      end: { line: 1, column: 45, offset: 44 }
+    }
+  })
+  expect(tokenizer.nextToken()).toEqual({
+    type: TokenTypes.EOF,
+    loc: {
+      start: { line: 1, column: 45, offset: 44 },
+      end: { line: 1, column: 45, offset: 44 }
+    }
+  })
+})
+
 describe('errors', () => {
   let errors: CompileError[], options: TokenizeOptions
   beforeEach(() => {
@@ -631,7 +676,7 @@ describe('errors', () => {
       }
     ] as CompileError[])
   })
-  ;[`$`, `-`, `_`].forEach(ch => {
+  ;[`$`, `-`].forEach(ch => {
     test(`invalid '${ch}' in placeholder`, () => {
       parse(`hi {${ch}} !`, options)
       expect(errors).toEqual([

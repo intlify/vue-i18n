@@ -263,6 +263,89 @@ test('linked modifier', () => {
   })
 })
 
+test('underscore in modifier and refer', () => {
+  const tokenizer = createTokenizer('hi @._upper:{_name} !')
+  expect(tokenizer.nextToken()).toEqual({
+    type: TokenTypes.Text,
+    value: 'hi ',
+    loc: {
+      start: { line: 1, column: 1, offset: 0 },
+      end: { line: 1, column: 4, offset: 3 }
+    }
+  })
+  expect(tokenizer.nextToken()).toEqual({
+    type: TokenTypes.LinkedAlias,
+    value: '@',
+    loc: {
+      start: { line: 1, column: 4, offset: 3 },
+      end: { line: 1, column: 5, offset: 4 }
+    }
+  })
+  expect(tokenizer.nextToken()).toEqual({
+    type: TokenTypes.LinkedDot,
+    value: '.',
+    loc: {
+      start: { line: 1, column: 5, offset: 4 },
+      end: { line: 1, column: 6, offset: 5 }
+    }
+  })
+  expect(tokenizer.nextToken()).toEqual({
+    type: TokenTypes.LinkedModifier,
+    value: '_upper',
+    loc: {
+      start: { line: 1, column: 6, offset: 5 },
+      end: { line: 1, column: 12, offset: 11 }
+    }
+  })
+  expect(tokenizer.nextToken()).toEqual({
+    type: TokenTypes.LinkedDelimiter,
+    value: ':',
+    loc: {
+      start: { line: 1, column: 12, offset: 11 },
+      end: { line: 1, column: 13, offset: 12 }
+    }
+  })
+  expect(tokenizer.nextToken()).toEqual({
+    type: TokenTypes.BraceLeft,
+    value: '{',
+    loc: {
+      start: { line: 1, column: 13, offset: 12 },
+      end: { line: 1, column: 14, offset: 13 }
+    }
+  })
+  expect(tokenizer.nextToken()).toEqual({
+    type: TokenTypes.Named,
+    value: '_name',
+    loc: {
+      start: { line: 1, column: 14, offset: 13 },
+      end: { line: 1, column: 19, offset: 18 }
+    }
+  })
+  expect(tokenizer.nextToken()).toEqual({
+    type: TokenTypes.BraceRight,
+    value: '}',
+    loc: {
+      start: { line: 1, column: 19, offset: 18 },
+      end: { line: 1, column: 20, offset: 19 }
+    }
+  })
+  expect(tokenizer.nextToken()).toEqual({
+    type: TokenTypes.Text,
+    value: ' !',
+    loc: {
+      start: { line: 1, column: 20, offset: 19 },
+      end: { line: 1, column: 22, offset: 21 }
+    }
+  })
+  expect(tokenizer.nextToken()).toEqual({
+    type: TokenTypes.EOF,
+    loc: {
+      start: { line: 1, column: 22, offset: 21 },
+      end: { line: 1, column: 22, offset: 21 }
+    }
+  })
+})
+
 test('dot in refer key', () => {
   const tokenizer = createTokenizer('hi @:foo.bar')
   expect(tokenizer.nextToken()).toEqual({

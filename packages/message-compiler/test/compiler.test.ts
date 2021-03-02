@@ -95,4 +95,14 @@ describe('edge cases', () => {
     const { code } = compile(`no apples %| one apple % |  too much apples  `)
     expect(code).toMatchSnapshot('code')
   })
+
+  test(`{_field} with the same value already exists.`, () => {
+    const { code } = compile(`{_field} with the same value already exists.`)
+    expect(code).toMatchSnapshot('code')
+  })
+
+  test(`hi @._upper:{_name} !`, () => {
+    const { code } = compile(`hi @._upper:{_name} !`)
+    expect(code).toMatchSnapshot('code')
+  })
 })

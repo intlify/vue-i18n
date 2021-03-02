@@ -5,6 +5,7 @@ test('parse', () => {
   ;[
     { code: 'hello world', name: 'message' },
     { code: 'hello {name} !', name: 'named' },
+    { code: 'hello {_name} !', name: 'named' },
     { code: 'hello {0} !', name: 'list' },
     { code: `hello {'kazupon'} !`, name: 'literal' },
     { code: '@:apples', name: 'linked' },
@@ -17,6 +18,7 @@ test('parse', () => {
     { code: `@.: a`, name: 'linked error' },
     { code: `@.:foo`, name: 'linked modifier error' },
     { code: `@:(foo)`, name: 'linked key paren error' },
+    { code: `hi @._upper:{_name} !`, name: 'foo' },
     { code: `@.lower:(foo)`, name: 'linked key paren error with modifier' },
     { code: `@.`, name: 'EOF in linked modifier' },
     { code: `|`, name: 'empty plural' }
