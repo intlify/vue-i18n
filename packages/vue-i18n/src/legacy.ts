@@ -153,9 +153,9 @@ export interface VueI18nOptions {
   missing?: MissingHandler
   /**
    * @remarks
-   * In the component localization, whether to fall back to root level (global) localization when localization fails.
+   * In the component localization, whether to fall back to root level (global scope) localization when localization fails.
    *
-   * If `false`, it's warned, and is returned the key.
+   * If `false`, it's not fallback to root.
    *
    * @VueI18nSee [Fallbacking](../../guide/essentials/fallback)
    *

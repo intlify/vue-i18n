@@ -19,6 +19,8 @@ import {
   isObject
 } from '@intlify/shared'
 import {
+  isTranslateFallbackWarn,
+  isTranslateMissingWarn,
   resolveValue,
   createCoreContext,
   MISSING_RESOLVE_VALUE,
@@ -232,9 +234,9 @@ export interface ComposerOptions<Message = VueMessageType> {
   fallbackWarn?: boolean | RegExp
   /**
    * @remarks
-   * In the component localization, whether to fall back to root level (global) localization when localization fails.
+   * In the component localization, whether to fallback to root level (global scope) localization when localization fails.
    *
-   * If `false`, it's warned, and is returned the key.
+   * If `false`, it's not fallback to root.
    *
    * @VueI18nSee [Fallbacking](../../guide/essentials/fallback)
    *
@@ -411,7 +413,7 @@ export interface Composer<
   fallbackWarn: boolean | RegExp
   /**
    * @remarks
-   * Whether to fall back to root level (global) localization when localization fails.
+   * Whether to fall back to root level (global scope) localization when localization fails.
    *
    * @VueI18nSee [Fallbacking](../../guide/essentials/fallback)
    */
@@ -1239,7 +1241,11 @@ export function createComposer<
     if (isNumber(ret) && ret === NOT_REOSLVED) {
       const key = argumentParser()
       if (__DEV__ && __root) {
-        if (!_fallbackRoot) {
+        if (
+          _fallbackRoot &&
+          (isTranslateFallbackWarn(_fallbackWarn, key) ||
+            isTranslateMissingWarn(_missingWarn, key))
+        ) {
           warn(
             getWarnMessage(I18nWarnCodes.FALLBACK_TO_ROOT, {
               key,
@@ -1252,7 +1258,7 @@ export function createComposer<
           const {
             __emitter: emitter
           } = (context as unknown) as CoreInternalContext
-          if (emitter) {
+          if (emitter && _fallbackRoot) {
             emitter.emit(DevToolsTimelineEvents.FALBACK, {
               type: warnType,
               key,
