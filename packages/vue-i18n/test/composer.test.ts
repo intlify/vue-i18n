@@ -17,6 +17,7 @@ import {
   NumberPartsSymbol,
   DatetimePartsSymbol
 } from '../src/composer'
+import { getWarnMessage, I18nWarnCodes } from '../src/warnings'
 import { watch, watchEffect, nextTick, Text, createVNode } from 'vue'
 import {
   Locale,
@@ -409,19 +410,21 @@ describe('fallbackRoot', () => {
     expect(composer.fallbackRoot).toEqual(true)
   })
 
-  test('not warnings', () => {
+  test('warnings', () => {
     const mockWarn = warn as jest.MockedFunction<typeof warn>
     mockWarn.mockImplementation(() => {})
 
     const root = createComposer({
       locale: 'en',
       missingWarn: false,
+      fallbackWarn: true,
       fallbackRoot: true
     })
     const { t } = createComposer({
       locale: 'en',
       fallbackLocale: ['fr', 'jp'],
       missingWarn: false,
+      fallbackWarn: true,
       fallbackRoot: true,
       messages: {
         ja: {},
@@ -431,23 +434,31 @@ describe('fallbackRoot', () => {
       __root: root
     } as any)
     expect(t('hello')).toEqual('hello')
-    expect(mockWarn).not.toHaveBeenCalled()
+    expect(mockWarn).toHaveBeenCalled()
+    expect(mockWarn.mock.calls[0][0]).toEqual(
+      getWarnMessage(I18nWarnCodes.FALLBACK_TO_ROOT, {
+        type: 'translate',
+        key: 'hello'
+      })
+    )
   })
 
-  test('warnings', () => {
+  test('not warnings', () => {
     const mockWarn = warn as jest.MockedFunction<typeof warn>
     mockWarn.mockImplementation(() => {})
 
     const root = createComposer({
       locale: 'en',
       missingWarn: false,
-      fallbackRoot: false
+      fallbackWarn: false,
+      fallbackRoot: true
     })
     const { t } = createComposer({
       locale: 'en',
       fallbackLocale: ['fr', 'jp'],
       missingWarn: false,
-      fallbackRoot: false,
+      fallbackWarn: false,
+      fallbackRoot: true,
       messages: {
         ja: {},
         en: {},
@@ -456,7 +467,7 @@ describe('fallbackRoot', () => {
       __root: root
     } as any)
     expect(t('hello')).toEqual('hello')
-    expect(mockWarn).toHaveBeenCalledTimes(1)
+    expect(mockWarn).not.toHaveBeenCalledTimes(1)
   })
 })
 
