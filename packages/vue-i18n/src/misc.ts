@@ -32,6 +32,10 @@ export function initFeatureFlags(): void {
     getGlobalThis().__INTLIFY_PROD_DEVTOOLS__ = false
   }
 
+  if (__DEV__ && typeof __FEATURE_ESM_BUNDLER_WARN__ === 'boolean') {
+    needWarn = __FEATURE_ESM_BUNDLER_WARN__
+  }
+
   if (__DEV__ && needWarn) {
     console.warn(
       `You are running the esm-bundler build of vue-i18n. It is recommended to ` +

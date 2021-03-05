@@ -14,6 +14,7 @@ declare let __COMMIT__: string
 declare let __FEATURE_PROD_DEVTOOLS__: boolean
 declare let __FEATURE_LEGACY_API__: boolean
 declare let __FEATURE_FULL_INSTALL__: boolean
+declare let __FEATURE_ESM_BUNDLER_WARN__: boolean
 
 // for tests
 declare namespace jest {
