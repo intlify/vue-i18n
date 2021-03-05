@@ -26,7 +26,7 @@
     "webpack-dev-server": "^3.11.0"
   },
   "dependencies": {
-    "monaco-editor": "^0.22.0",
+    "monaco-editor": "^0.23.0",
     "source-map": "^0.6.1",
     "vue": "^3.0.4",
     "@intlify/message-compiler": "link:../packages/message-compiler"
