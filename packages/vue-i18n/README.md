@@ -43,7 +43,9 @@ Internationalization plugin for Vue.js
   - If you bundle your app with webpack with `target: 'node'` and properly externalize `vue-i18n`, this is the build that will be loaded
   - The dev/prod files are pre-built, but the appropriate file is automatically required based on `process.env.NODE_ENV`
 
-## Bundler Build Feature Flags
+## For Bundler feature flags
+
+### Build Feature Flags
 
 The `esm-bundler` builds now exposes global feature flags that can be overwritten at compile time:
 
@@ -58,6 +60,10 @@ The build will work without configuring these flags, however it is **strongly re
 - Vite: configured by default, but can be overwritten using the [`define` option](https://github.com/vitejs/vite/blob/a4133c073e640b17276b2de6e91a6857bdf382e1/src/node/config.ts#L72-L76)
 
 Note: the replacement value **must be boolean literals** and cannot be strings, otherwise the bundler/minifier will not be able to properly evaluate the conditions.
+
+## Other Feature Flags
+
+- `__FEATURE_ESM_BUNDLER_WARN__` (Suppress / Not suppress feature flags recommended warnings in build for `esm-bulder`)
 
 ## :copyright: License
 
