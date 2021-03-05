@@ -22,21 +22,21 @@
     to-fast-properties "^2.0.0"
 
 "@intlify/message-compiler@link:../packages/message-compiler":
-  version "9.0.0-rc.5"
+  version "9.0.0"
   dependencies:
-    "@intlify/message-resolver" "9.0.0-rc.5"
-    "@intlify/shared" "9.0.0-rc.5"
+    "@intlify/message-resolver" "9.0.0"
+    "@intlify/shared" "9.0.0"
     source-map "0.6.1"
 
-"@intlify/message-resolver@9.0.0-rc.5":
-  version "9.0.0-rc.5"
-  resolved "https://registry.yarnpkg.com/@intlify/message-resolver/-/message-resolver-9.0.0-rc.5.tgz#144f61a09ff32a9451c37b8e92e806ed3efaf947"
-  integrity sha512-cZT9kWy6TBB71zb17e5juCTuSNz2/RUf8PeqGYnGP+f/mrPG0X6D3KFqpY3tkWgYwSGcwswd8oBMEvmb0eTMTw==
+"@intlify/message-resolver@9.0.0":
+  version "9.0.0"
+  resolved "https://registry.yarnpkg.com/@intlify/message-resolver/-/message-resolver-9.0.0.tgz#0077ec24606b6486d238bdef9044e27729f4782c"
+  integrity sha512-LVK4cwu1l33yvBy0UQkEdXm6pZUcbbiparobruJXz+U8jRTmYHBprN59j59YKXEKcV43cHfzNveaQIm84bgxvQ==
 
-"@intlify/shared@9.0.0-rc.5":
-  version "9.0.0-rc.5"
-  resolved "https://registry.yarnpkg.com/@intlify/shared/-/shared-9.0.0-rc.5.tgz#8ed9ea92e73b3856031724dc4a11fcbf7f1f7a7c"
-  integrity sha512-LGurIHW/TYo07WrbCWXBuZQ3Hg2CHAv5rXLFpxBfHjZawCTrrORQfD4NA+RPVbaWFgzMgw5VJybpJRd9iB1x6g==
+"@intlify/shared@9.0.0":
+  version "9.0.0"
+  resolved "https://registry.yarnpkg.com/@intlify/shared/-/shared-9.0.0.tgz#d85b3b5f9033f377c5cf2202cf2459aa49948f36"
+  integrity sha512-0r4v7dnY8g/Jfx2swUWy2GyfH/WvIpWvkU4OIupvxDTWiE8RhcpbOCVvqpVh/xGi0proHQ/r2Dhc0QSItUsfDQ==
 
 "@types/eslint-scope@^3.7.0":
   version "3.7.0"
@@ -2427,10 +2427,10 @@ monaco-editor-webpack-plugin@^3.0.0:
   dependencies:
     loader-utils "^2.0.0"
 
-monaco-editor@^0.22.0:
-  version "0.22.0"
-  resolved "https://registry.yarnpkg.com/monaco-editor/-/monaco-editor-0.22.0.tgz#8a2038bc5b7e36ae40b51e0bf85df21a24ebbc2d"
-  integrity sha512-hr0TB1ykyfvtSpr+5+r13910k1daWx7hrV+Bicc5gC4HDtr1K0lEcN9h5X+aFL96OiWx68dsRaaQbKGjTz1B+A==
+monaco-editor@^0.23.0:
+  version "0.23.0"
+  resolved "https://registry.yarnpkg.com/monaco-editor/-/monaco-editor-0.23.0.tgz#24844ba5640c7adb3a2a3ff3b520cf2d7170a6f0"
+  integrity sha512-q+CP5zMR/aFiMTE9QlIavGyGicKnG2v/H8qVvybLzeFsARM8f6G9fL0sMST2tyVYCwDKkGamZUI6647A0jR/Lg==
 
 ms@2.0.0:
   version "2.0.0"
