@@ -38,6 +38,8 @@ type _I18n<
   Legacy extends boolean
 > = I18n<Messages, DateTimeFormats, NumberFormats, Legacy> & I18nInternal
 
+const VUE_I18N_COMPONENT_TYPES = 'vue-i18n: composer properties'
+
 let devtoolsApi: DevtoolsPluginApi
 
 export async function enableDevTools<
@@ -55,6 +57,10 @@ export async function enableDevTools<
         {
           id: DevToolsIDs.PLUGIN,
           label: DevToolsLabels[DevToolsIDs.PLUGIN],
+          packageName: 'vue-i18n',
+          homepage: 'https://vue-i18n.intlify.dev',
+          logo: 'https://vue-i18n.intlify.dev/vue-i18n-devtools-logo.png',
+          componentStateTypes: [VUE_I18N_COMPONENT_TYPES],
           app
         },
         api => {
@@ -170,7 +176,7 @@ function inspectComposer(
   instanceData: InspectedComponentData,
   composer: Composer
 ): void {
-  const type = 'vue-i18n: composer properties'
+  const type = VUE_I18N_COMPONENT_TYPES
   instanceData.state.push({
     type,
     key: 'locale',
