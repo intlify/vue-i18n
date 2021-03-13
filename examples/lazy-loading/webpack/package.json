@@ -7,13 +7,13 @@
     "build": "webpack --env.prod"
   },
   "dependencies": {
-    "vue": "^3.0.4",
-    "vue-i18n": "^9.0.0-beta.18",
-    "vue-router": "^4.0.1"
+    "vue": "^3.0.7",
+    "vue-i18n": "^9.0.0",
+    "vue-router": "^4.0.5"
   },
   "devDependencies": {
-    "@vue/compiler-sfc": "^3.0.4",
-    "@intlify/vue-i18n-loader": "^2.0.0-beta.3",
+    "@vue/compiler-sfc": "^3.0.7",
+    "@intlify/vue-i18n-loader": "^2.0.3",
     "css-loader": "^4.3.0",
     "file-loader": "^6.1.0",
     "mini-css-extract-plugin": "^0.11.0",
