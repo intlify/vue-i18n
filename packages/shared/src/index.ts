@@ -87,6 +87,8 @@ export function warn(msg: string, err?: Error): void {
   }
 }
 
+export const assign = Object.assign
+
 let _globalThis: any
 export const getGlobalThis = (): any => {
   // prettier-ignore

@@ -2,6 +2,7 @@ import { useI18n } from '../i18n'
 import { DatetimePartsSymbol } from '../composer'
 import { renderFormatter } from './formatRenderer'
 import { baseFormatProps } from './base'
+import { assign } from '@intlify/shared'
 
 import type { RenderFunction, SetupContext } from 'vue'
 import type { DateTimeOptions } from '@intlify/core-base'
@@ -61,8 +62,7 @@ const DATETIME_FORMAT_KEYS = [
 export const DatetimeFormat = {
   /* eslint-disable */
   name: 'i18n-d',
-  props: {
-    ...baseFormatProps,
+  props: assign({
     value: {
       type: [Number, Date],
       required: true
@@ -70,7 +70,7 @@ export const DatetimeFormat = {
     format: {
       type: [String, Object]
     }
-  },
+  }, baseFormatProps),
   /* eslint-enable */
   setup(props: DatetimeFormatProps, context: SetupContext): RenderFunction {
     const i18n = useI18n({ useScope: 'parent' }) as Composer & ComposerInternal

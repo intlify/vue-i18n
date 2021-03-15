@@ -1,5 +1,5 @@
 import { h, Fragment } from 'vue'
-import { isString, isObject, isArray } from '@intlify/shared'
+import { isString, isObject, isArray, assign } from '@intlify/shared'
 
 import type {
   RenderFunction,
@@ -90,11 +90,12 @@ export function renderFormatter<
       children = [parts]
     }
 
+    const assignedAttrs = assign({}, attrs)
     // prettier-ignore
     return isString(props.tag)
-      ? h(props.tag, { ...attrs }, children)
+      ? h(props.tag, assignedAttrs, children)
       : isObject(props.tag)
-        ? h(props.tag, { ...attrs }, children)
-        : h(Fragment, { ...attrs }, children)
+        ? h(props.tag, assignedAttrs, children)
+        : h(Fragment, assignedAttrs, children)
   }
 }
