@@ -4,6 +4,12 @@
 
 Internationalization plugin for Vue.js
 
+<h2 align="center">Supporting Vue I18n</h2>
+
+Vue I18n is part of the Vue Ecosystem and is an MIT-licensed open source project with its ongoing development made possible entirely by the support of Sponsors. If you would like to become a sponsor, please consider:
+
+- [Become a Sponsor on GitHub](https://github.com/sponsors/kazupon)
+
 <h3 align="center">🥇 Gold Sponsors<h3>
 
 <p align="center">
@@ -93,6 +99,19 @@ Internationalization plugin for Vue.js
 
 - [Documentation](https://vue-i18n.intlify.dev/)
 - If you use Vue I18n v8, see this [repository](https://github.com/kazupon/vue-i18n)
+
+## Quickstart
+
+- Via CDN: `<script src="https://unpkg.com/vue-i18n@next"></script>`
+- In-browser playground on [CodeSandbox](https://codesandbox.io/s/vue-i18n-9-template-h28c0)
+- Add it to an existing Vue Project:
+  ```bash
+  npm install vue-i18n@next
+  ```
+
+## Changes from Vue I18n v8
+
+Please consult the [Migration Guide](https://vue-i18n.intlify.dev/guide/migration/breaking.html).
 
 ## :raising_hand: About support for v9 and earlier
 - v6 and earlier: drop supporting
