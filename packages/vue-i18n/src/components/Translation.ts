@@ -3,6 +3,7 @@ import { isNumber, isString, isObject } from '@intlify/shared'
 import { TransrateVNodeSymbol } from '../composer'
 import { useI18n } from '../i18n'
 import { baseFormatProps } from './base'
+import { assign } from '@intlify/shared'
 
 import type { SetupContext, VNodeChild, RenderFunction } from 'vue'
 import type { Composer, ComposerInternal } from '../composer'
@@ -80,8 +81,7 @@ export interface TranslationProps extends BaseFormatProps {
 export const Translation = {
   /* eslint-disable */
   name: 'i18n-t',
-  props: {
-    ...baseFormatProps,
+  props: assign({
     keypath: {
       type: String,
       required: true
@@ -91,7 +91,7 @@ export const Translation = {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       validator: (val: any): boolean => isNumber(val) || !isNaN(val)
     }
-  },
+  }, baseFormatProps),
   /* eslint-enable */
   setup(props: TranslationProps, context: SetupContext): RenderFunction {
     const { slots, attrs } = context
@@ -114,12 +114,13 @@ export const Translation = {
         arg,
         options
       )
+      const assignedAttrs = assign({}, attrs)
       // prettier-ignore
       return isString(props.tag)
-        ? h(props.tag, { ...attrs }, children)
+        ? h(props.tag, assignedAttrs, children)
         : isObject(props.tag)
-          ? h(props.tag, { ...attrs }, children)
-          : h(Fragment, { ...attrs }, children)
+          ? h(props.tag, assignedAttrs, children)
+          : h(Fragment, assignedAttrs, children)
     }
   }
 }

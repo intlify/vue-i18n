@@ -2,6 +2,7 @@ import { useI18n } from '../i18n'
 import { NumberPartsSymbol } from '../composer'
 import { renderFormatter } from './formatRenderer'
 import { baseFormatProps } from './base'
+import { assign } from '@intlify/shared'
 
 import type { SetupContext, RenderFunction } from 'vue'
 import type { NumberOptions } from '@intlify/core-base'
@@ -56,8 +57,7 @@ const NUMBER_FORMAT_KEYS = [
 export const NumberFormat = {
   /* eslint-disable */
   name: 'i18n-n',
-  props: {
-    ...baseFormatProps,
+  props: assign({
     value: {
       type: Number,
       required: true
@@ -65,7 +65,7 @@ export const NumberFormat = {
     format: {
       type: [String, Object]
     }
-  },
+  }, baseFormatProps),
   /* eslint-enable */
   setup(props: NumberFormatProps, context: SetupContext): RenderFunction {
     const i18n = useI18n({ useScope: 'parent' }) as Composer & ComposerInternal

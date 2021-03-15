@@ -2,6 +2,7 @@ import { Position, createLocation, SourceLocation } from './location'
 import { ParserOptions } from './options'
 import { createCompileError, CompileErrorCodes } from './errors'
 import { Tokenizer, createTokenizer, TokenTypes, Token } from './tokenizer'
+import { assign } from '@intlify/shared'
 
 export const enum NodeTypes {
   Resource, // 0
@@ -530,7 +531,7 @@ export function createParser(options: ParserOptions = {}): Parser {
   }
 
   function parse(source: string): ResourceNode {
-    const tokenizer = createTokenizer(source, { ...options })
+    const tokenizer = createTokenizer(source, assign({}, options))
     const context = tokenizer.context()
 
     const node = startNode(
