@@ -186,3 +186,58 @@ You can also use the following slots shorthand in templates:
 :::warning LIMITATION
 :warning: In translation component, slots props are not supported.
 :::
+
+### Pluralization Usage
+
+You can use pluralization in Component interpolation by use `plural` prop. For example the below.
+
+Template:
+
+```html
+<div id="app">
+  <!-- ... -->
+  <i18n-t keypath="message.plural" locale="en" :plural="count">
+    <template #n>
+      <b>{{ count }}</b>
+    </template>
+  </i18n-t>
+  <!-- ... -->
+</div>
+```
+
+JavaScript:
+
+```js
+const { createApp, ref } = Vue
+const { createI18n } = VueI18n
+
+const i18n = createI18n({
+  legacy: false,
+  locale: 'en',
+  messages: {
+    en: {
+      message: {
+        plural: 'no bananas | {n} banana | {n} bananas'
+      }
+    }
+  }
+})
+
+const app = createApp({
+  setup() {
+    const count = ref(2)
+    return { count }
+  }
+})
+app.use(i18n)
+app.mount('#app')
+```
+
+The following output:
+```html
+<div id="app" data-v-app="">
+  <!-- ... -->
+  <b>2</b> bananas
+  <!-- ... -->
+</div>
+```
