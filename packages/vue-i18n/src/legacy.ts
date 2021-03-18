@@ -103,6 +103,13 @@ export interface VueI18nOptions {
   messages?: LocaleMessages<VueMessageType>
   /**
    * @remarks
+   * Allow use flat json messages or not
+   *
+   * @defaultValue `false`
+   */
+  flatJson?: boolean
+  /**
+   * @remarks
    * The datetime formats of localization.
    *
    * @VueI18nSee [Datetime Formatting](../../guide/essentials/datetime)
@@ -964,11 +971,13 @@ function convertComposerOptions<
 
   const datetimeFormats = options.datetimeFormats
   const numberFormats = options.numberFormats
+  const flatJson = options.flatJson
 
   return {
     locale,
     fallbackLocale,
     messages,
+    flatJson,
     datetimeFormats,
     numberFormats,
     missing,
