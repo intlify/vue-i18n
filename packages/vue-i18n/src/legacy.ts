@@ -89,7 +89,7 @@ export interface VueI18nOptions {
    *
    * @VueI18nSee [Fallbacking](../../guide/essentials/fallback)
    *
-   * @defaultValue `true`
+   * @defaultValue The default `'en-US'` for the `locale` if it's not specified, or it's `locale` value
    */
   fallbackLocale?: FallbackLocale
   /**
@@ -659,6 +659,12 @@ export interface VueI18n<
    * If [i18n component options](injection#i18n) is specified, it’s get in preferentially local scope locale messages than global scope locale messages.
    *
    * If [i18n component options](injection#i18n) isn't specified, it’s get with global scope locale messages.
+   *
+   * Based on the current `locale`, locale messages will be returned from Composer instance messages.
+   *
+   * If you change the `locale`, the locale messages returned will also correspond to the locale.
+   *
+   * If there are no locale messages for the given `key` in the composer instance messages, they will be returned with [fallbacking](../../guide/essentials/fallback).
    *
    * @param key - A target locale message key
    *
