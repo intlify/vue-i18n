@@ -29,6 +29,33 @@ describe('createI18n', () => {
   })
 })
 
+describe('createI18n with flat json messages', () => {
+  test('legacy mode', () => {
+    const i18n = createI18n({
+      flatJson: true,
+      messages: {
+        en: { 'mainMenu.buttonStart': 'Start!' }
+      }
+    })
+    const messages = i18n.global.messages
+    // @ts-ignore
+    expect(messages.en.mainMenu.buttonStart).toEqual('Start!')
+  })
+
+  test('composition mode', () => {
+    const i18n = createI18n({
+      legacy: false,
+      flatJson: true,
+      messages: {
+        en: { 'mainMenu.buttonStart': 'Start!' }
+      }
+    })
+    const messages = i18n.global.messages.value
+    // @ts-ignore
+    expect(messages.en.mainMenu.buttonStart).toEqual('Start!')
+  })
+})
+
 describe('useI18n', () => {
   let org: any // eslint-disable-line @typescript-eslint/no-explicit-any
   let spy: any // eslint-disable-line @typescript-eslint/no-explicit-any
