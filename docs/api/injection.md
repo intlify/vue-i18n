@@ -763,6 +763,36 @@ The input / output is the same as for VueI18n instance. About that details, see 
 
 If found locale message, `true`, else `false`.
 
+### $tm(key)
+
+Locale messages getter
+
+**Signature:**
+```typescript
+$tm(key: Path): LocaleMessageValue<VueMessageType> | {}
+```
+
+**Details**
+
+If [i18n component options](injection#i18n) is specified, it’s get in preferentially local scope locale messages than global scope locale messages.
+
+If [i18n component options](injection#i18n) isn’t specified, it’s get with global scope locale messages.
+
+Based on the current `locale`, locale messages will be returned from Composer instance messages.
+
+If you change the `locale`, the locale messages returned will also correspond to the locale.
+
+If there are no locale messages for the given `key` in the composer instance messages, they will be returned with [fallbacking](../../guide/essentials/fallback).
+
+#### Parameters
+| Parameter | Type | Description |
+| --- | --- | --- |
+| key | Path | A target locale message key |
+
+#### Returns
+
+Locale messages
+
 ### $d(value)
 
 Datetime formatting

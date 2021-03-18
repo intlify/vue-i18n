@@ -639,10 +639,13 @@ declare module '@vue/runtime-core' {
      * @remarks
      * In {@link I18nMode | Composition API mode}, the `$tm` is injected by `app.config.globalProperties`.
      * the input / output is the same as for Composer instance, and it work on **global scope**. About that details, see {@link Composer#tm | `Composer.tm` }.
+     * Based on the current `locale`, locale messages will be returned from Composer instance messages.
+     * If you change the `locale`, the locale messages returned will also correspond to the locale.
+     * If there are no locale messages for the given `key` in the composer instance messages, they will be returned with fallbacking.
      *
      * @param key - A target locale message key
      *
-     * @return locale messages
+     * @returns locale messages
      */
     $tm(key: Path): LocaleMessageValue<VueMessageType> | {}
   }
