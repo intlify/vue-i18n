@@ -294,8 +294,8 @@ test('tm', async () => {
   i18n.locale = 'en'
   await nextTick()
 
-  expect(messages1).toEqual({})
-  expect(messages2).toEqual({})
+  expect(messages1).toEqual({ buz: 'hello' })
+  expect(messages2).toEqual({ errors: ['error1', 'error2'] })
 })
 
 test('getLocaleMessage / setLocaleMessage / mergeLocaleMessage', () => {

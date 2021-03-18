@@ -829,39 +829,83 @@ describe('n', () => {
   })
 })
 
-test('tm', async () => {
-  const composer = createComposer({
-    locale: 'ja',
-    messages: {
-      en: {},
-      ja: {
-        foo: {
-          bar: {
-            buz: 'hello'
-          },
-          codes: {
-            errors: ['error1', 'error2']
+describe('tm', () => {
+  test('basic', async () => {
+    const composer = createComposer({
+      locale: 'ja',
+      messages: {
+        en: {},
+        ja: {
+          foo: {
+            bar: {
+              buz: 'hello'
+            },
+            codes: {
+              errors: ['error1', 'error2']
+            }
           }
         }
       }
-    }
+    })
+
+    let messages1 = composer.tm('foo.bar')
+    let messages2 = composer.tm('foo.codes')
+    expect(messages1).toEqual({ buz: 'hello' })
+    expect(messages2).toEqual({ errors: ['error1', 'error2'] })
+
+    watchEffect(() => {
+      messages1 = composer.tm('foo.bar')
+      messages2 = composer.tm('foo.codes')
+    })
+
+    composer.locale.value = 'en'
+    await nextTick()
+
+    expect(messages1).toEqual({ buz: 'hello' })
+    expect(messages2).toEqual({ errors: ['error1', 'error2'] })
   })
 
-  let messages1 = composer.tm('foo.bar')
-  let messages2 = composer.tm('foo.codes')
-  expect(messages1).toEqual({ buz: 'hello' })
-  expect(messages2).toEqual({ errors: ['error1', 'error2'] })
+  test('fallback to local locale', async () => {
+    const composer = createComposer({
+      locale: 'en',
+      fallbackLocale: 'ja',
+      messages: {
+        ja: {
+          foo: {
+            bar: {
+              buz: 'hello'
+            }
+          }
+        }
+      }
+    })
 
-  watchEffect(() => {
-    messages1 = composer.tm('foo.bar')
-    messages2 = composer.tm('foo.codes')
+    const messages1 = composer.tm('foo')
+    expect(messages1).toEqual({ bar: { buz: 'hello' } })
   })
 
-  composer.locale.value = 'en'
-  await nextTick()
+  test('fallback to global locale', async () => {
+    const __root = createComposer({
+      locale: 'en',
+      fallbackLocale: 'ja',
+      messages: {
+        ja: {
+          foo: {
+            bar: {
+              buz: 'hello'
+            }
+          }
+        }
+      }
+    })
+    const child = createComposer({
+      inheritLocale: true,
+      __root
+    })
 
-  expect(messages1).toEqual({})
-  expect(messages2).toEqual({})
+    const messages1 = child.tm('foo')
+    expect(messages1).toEqual({ bar: { buz: 'hello' } })
+  })
 })
 
 test('te', async () => {

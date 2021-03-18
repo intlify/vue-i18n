@@ -33,6 +33,7 @@ import {
   number,
   parseNumberArgs,
   clearNumberFormat,
+  getLocaleChain,
   NOT_REOSLVED,
   DevToolsTimelineEvents
 } from '@intlify/core-base'
@@ -138,7 +139,7 @@ export interface ComposerOptions<Message = VueMessageType> {
    *
    * @VueI18nSee [Fallbacking](../../guide/essentials/fallback)
    *
-   * @defaultValue `true`
+   * @defaultValue The default `'en-US'` for the `locale` if it's not specified, or it's `locale` value
    */
   fallbackLocale?: FallbackLocale
   /**
@@ -763,6 +764,12 @@ export interface Composer<
    *
    * @remarks
    * If [UseI18nScope](general#usei18nscope) `'local'` or Some [UseI18nOptions](composition#usei18noptions) are specified at `useI18n`, it’s translated in preferentially local scope locale messages than global scope locale messages.
+   *
+   * Based on the current `locale`, locale messages will be returned from Composer instance messages.
+   *
+   * If you change the `locale`, the locale messages returned will also correspond to the locale.
+   *
+   * If there are no locale messages for the given `key` in the composer instance messages, they will be returned with [fallbacking](../../guide/essentials/fallback).
    *
    * @param key - A target locale message key
    *
@@ -1405,13 +1412,31 @@ export function createComposer<
     return resolveValue(message, key) !== null
   }
 
+  function __resolveMessages(key: Path): LocaleMessageValue<Message> | null {
+    const context = getCoreContext()
+    let messages: LocaleMessageValue<Message> | null = null
+    const locales = getLocaleChain<Message>(
+      context,
+      _fallbackLocale.value,
+      _locale.value
+    )
+    for (let i = 0; i < locales.length; i++) {
+      const targetLocaleMessages = _messages.value[locales[i]] || {}
+      const messageValue = resolveValue(targetLocaleMessages, key)
+      if (messageValue != null) {
+        messages = messageValue as LocaleMessageValue<Message>
+        break
+      }
+    }
+    return messages
+  }
+
   // tm
   function tm(key: Path): LocaleMessageValue<Message> | {} {
-    const messages = _messages.value[_locale.value] || {}
-    const target = resolveValue(messages, key)
+    const messages = __resolveMessages(key)
     // prettier-ignore
-    return target != null
-      ? target as LocaleMessageValue<Message>
+    return messages != null
+      ? messages
       : __root
         ? __root.tm(key) as LocaleMessageValue<Message> || {}
         : {}
