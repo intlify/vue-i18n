@@ -73,4 +73,6 @@ if (__ESM_BUNDLER__ && !__TEST__) {
   initFeatureFlags()
 }
 
-__DEV__ && initDev()
+if (__DEV__ && __FEATURE_PROD_DEVTOOLS__) {
+  initDev()
+}
