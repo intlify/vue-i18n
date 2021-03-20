@@ -30,6 +30,12 @@ Read more about i18n Ally in [README](https://github.com/antfu/i18n-ally/blob/ma
 
 Plugin for i18n typescript/javascript/PHP. Supports vue-i18n. To enable vue-i18n support go to settings -> Tools -> i18n Plugin configuration and check "Vue-i18n". You need set vue locales directory (locales by default).
 
+## Easy I18n (intellij platform)
+
+Translation helper for IntelliJ IDEA based IDE's. Requires dedicated language files. Features: `Tree-/Table-View` / `Search filter` / `Indication of missing translations` / `Quick CRUD operations`.
+
+[JetBrains Marketplace](https://plugins.jetbrains.com/plugin/16316-easy-i18n) // [GitHub Repository](https://github.com/marhali/easy-i18n)
+
 ## vue-i18n-extract
 
 [vue-i18n-extract](https://github.com/pixari/vue-i18n-extract) performs static analysis on a Vue.js project based on vue-i18n and reports the following information:
