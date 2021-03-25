@@ -10,21 +10,16 @@ Vue I18n is part of the Vue Ecosystem and is an MIT-licensed open source project
 
 - [Become a Sponsor on GitHub](https://github.com/sponsors/kazupon)
 
-<h3 align="center">🥇 Gold Sponsors<h3>
+<h3 align="center">🥇 Gold Sponsors</h3>
 
 <p align="center">
   <a
     href="https://nuxtjs.org/"
-    style="margin: 1rem 1rem 0 1rem; width: 15rem; height: auto; display: inline-block; vertical-align: middle;"
-    target="_blank"
-    rel="noopener"
-  >
+    target="_blank">
     <img
-      style="max-width: 100%; vertical-align: midele;"
       src="https://raw.githubusercontent.com/intlify/vue-i18n-next/master/docs/public/nuxt.png"
-      width="260px"
-      alt="Nuxt.js"
-    >
+      width="240px"
+    />
   </a>
 </p>
 
@@ -32,68 +27,43 @@ Vue I18n is part of the Vue Ecosystem and is an MIT-licensed open source project
 
 <p align="center">
   <a
-    href="https://www.codeandweb.com/babeledit?utm_campaign=vue-i18n-2019-01"
-    style="margin: 1rem 1rem 0 1rem; width: 12rem; height: auto; display: inline-block; vertical-align: middle;"
-    target="_blank"
-    rel="noopener"
-  >
+    href="https://www.codeandweb.com/babeledit?utm_campaign=vue-i18n-2019-01" 
+    target="_blank">
     <img
-      style="max-width: 100%; vertical-align: midele;"
-      src="https://raw.githubusercontent.com/intlify/vue-i18n-next/master/docs/public/babeledit.png"
+      src="https://secure.codeandweb.com/static/babeledit.svg"
       width="200px"
-      alt="Babel Edit"
-    >
+    />
   </a>
 </p>
 
 <h3 align="center">🥉 Bronze Sponsors</h3>
 
 <p align="center">
-  <a
-    href="https://zenarchitects.co.jp/"
-    style="margin: 1rem 1rem 0 1rem; width: 9rem; height: auto; display: inline-block; vertical-align: middle;"
-    target="_blank"
-    rel="noopener"
-  >
+  <a href="https://zenarchitects.co.jp/" target="_blank">
     <img
-      style="max-width: 100%; vertical-align: midele;"
       src="https://raw.githubusercontent.com/intlify/vue-i18n-next/master/docs/public/zenarchitects.png"
-      width="140px"
-      alt="Zen Architects"
-    >
+      width="144px"
+    />
   </a>
 </p>
 <p align="center">
-  <a
-    href="https://www.sendcloud.com/"
-    style="margin: 1rem 1rem 0 1rem; width: 9rem; height: auto; display: inline-block; vertical-align: middle;"
-    target="_blank"
-    rel="noopener"
-  >
+  <a href="https://www.sendcloud.com/" target="_blank">
     <img
-      style="max-width: 100%; vertical-align: midele;"
       src="https://raw.githubusercontent.com/intlify/vue-i18n-next/master/docs/public/sendcloud.png"
-      width="140px"
-      alt="Send Cloud"
-    >
+      width="144px"
+    />
   </a>
 </p>
 <p align="center">
-  <a
-    href="https://www.vuemastery.com/"
-    style="margin: 1rem 1rem 0 1rem; width: 9rem; height: auto; display: inline-block; vertical-align: middle;"
-    target="_blank"
-    rel="noopener"
-  >
+  <a href="https://www.vuemastery.com/" target="_blank">
     <img
-      style="max-width: 100%; vertical-align: midele;"
       src="https://raw.githubusercontent.com/intlify/vue-i18n-next/master/docs/public/vuemastery.png"
-      width="140px"
-      alt="Vue Mastery"
-    >
+      width="144px"
+    />
   </a>
 </p>
 
+<br/>
 
 ## Status: ![Test](https://github.com/intlify/vue-i18n-next/workflows/Test/badge.svg)
 

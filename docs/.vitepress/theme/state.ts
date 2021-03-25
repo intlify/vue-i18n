@@ -15,7 +15,7 @@ export const sponsors = {
     name: 'Babel Edit',
     tier: TierLevel.Silver,
     link: 'https://www.codeandweb.com/babeledit?utm_campaign=vue-i18n-2019-01',
-    source: '/babeledit.png'
+    source: 'https://secure.codeandweb.com/static/babeledit.svg'
   }],
   bronzes: [{
     name: 'Zen Architects',

@@ -38,8 +38,8 @@ export default defineComponent({
 </script>
 
 <template>
-  <a :href="link" :class="[tierClass]" class="base" target="_blank" rel="noopener">
-    <img class="banner" :alt="name" :src="source" />
+  <a :href="link" class="base" target="_blank" rel="noopener">
+    <img class="banner" :class="[tierClass]" :alt="name" :src="source" />
   </a>
 </template>
 
@@ -53,8 +53,8 @@ export default defineComponent({
 .gold {
   width: 15rem;
 }
-.sliver {
-  width: 12rem;
+.silver {
+  width: 12.5rem;
 }
 .bronze {
   width: 9rem;
