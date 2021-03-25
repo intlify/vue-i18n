@@ -4,9 +4,9 @@
 
 Internationalization plugin for Vue.js
 
-<h2 align="center">Supporting Vue I18n</h2>
+<h2 align="center">Supporting Vue I18n & Intlify Project</h2>
 
-Vue I18n is part of the Vue Ecosystem and is an MIT-licensed open source project with its ongoing development made possible entirely by the support of Sponsors. If you would like to become a sponsor, please consider:
+Vue I18n is part of the Vue Ecosystem and Intlify Project is an open source project with its ongoing development made possible entirely by the support of Sponsors. If you would like to become a sponsor, please consider:
 
 - [Become a Sponsor on GitHub](https://github.com/sponsors/kazupon)
 
