@@ -11,8 +11,8 @@
         </router-link>
       </div>
       <form class="language">
-        <label>{{ t('labels.language') }}</label>
-        <select v-model="currentLocale">
+        <label for="locale-select">{{ t('labels.language') }}</label>
+        <select id="locale-select" v-model="currentLocale">
           <option
             v-for="optionLocale in supportLocales"
             :key="optionLocale"

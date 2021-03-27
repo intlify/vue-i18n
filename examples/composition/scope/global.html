@@ -10,8 +10,8 @@
     <div id="app">
       <h1>Root</h1>
       <form>
-        <label>{{ $t('message.language') }}</label>
-        <select v-model="$i18n.locale">
+        <label for="locale-select">{{ $t('message.language') }}</label>
+        <select id="locale-select" v-model="$i18n.locale">
           <option value="en">en</option>
           <option value="ja">ja</option>
         </select>

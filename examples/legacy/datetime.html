@@ -10,8 +10,8 @@
     <div id="app">
       <h1>DateTime Localization with Legacy API</h1>
       <form>
-        <label>{{ $t('language') }}</label>
-        <select v-model="$i18n.locale">
+        <label for="locale-select">{{ $t('language') }}</label>
+        <select id="locale-select" v-model="$i18n.locale">
           <option value="en-US">en-US</option>
           <option value="ja-JP">ja-JP</option>
         </select>
