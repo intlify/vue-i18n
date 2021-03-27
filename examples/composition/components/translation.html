@@ -33,8 +33,8 @@
 
       <h2>localize with using plural:</h2>
       <form>
-        <label>{{ t('message.quantity', {}, { locale: 'en' }) }}</label>
-        <select v-model="count">
+        <label for="locale-select">{{ t('message.quantity', {}, { locale: 'en' }) }}</label>
+        <select id="locale-select" v-model="count">
           <option value="0">0</option>
           <option value="1">1</option>
           <option value="2">2</option>

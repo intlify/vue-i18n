@@ -18,8 +18,8 @@
     <div id="app">
       <h1>Number Localization for Composition API</h1>
       <form>
-        <label>{{ t('language') }}</label>
-        <select v-model="locale">
+        <label for="locale-select">{{ t('language') }}</label>
+        <select id="locale-select" v-model="locale">
           <option value="en-US">en-US</option>
           <option value="ja-JP">ja-JP</option>
         </select>

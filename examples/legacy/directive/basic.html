@@ -10,8 +10,8 @@
     <div id="app">
       <form>
         <!-- e.g. string lieteral -->
-        <label v-t="'message.language'"></label>
-        <select v-model="$i18n.locale">
+        <label for="locale-select" v-t="'message.language'"></label>
+        <select id="locale-select" v-model="$i18n.locale">
           <option value="en">en</option>
           <option value="ja">ja</option>
         </select>
