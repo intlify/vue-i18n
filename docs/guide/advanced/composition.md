@@ -318,6 +318,7 @@ This allows Vue I18n to inject the following properties and functions into the c
   - `fallbackLocale`
   - `availableLocales`
 - `$t`: `t` function of Composer that is global scope
+- `$rt`: `rt` function of Composer that is global scope
 - `$d`: `d` function of Composer that is global scope
 - `$n`: `n` function of Composer that is global scope
 - `$tm`: `tm` function of Composer that is global scope
