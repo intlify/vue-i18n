@@ -143,6 +143,11 @@ export interface TranslateOptions {
    * Whether do escape parameter for list or named interpolation values
    */
   escapeParameter?: boolean
+  /**
+   * @remarks
+   * Whether the message has been resolved
+   */
+  resolvedMessage?: boolean
 }
 
 // `translate` function overloads
@@ -158,6 +163,12 @@ export function translate<Messages, Message = string>(
 export function translate<Messages, Message = string>(
   context: CoreTranslationContext<Messages, Message>,
   key: Path | number,
+  plural: number,
+  options: TranslateOptions
+): MessageType<Message> | number
+export function translate<Messages, Message = string>(
+  context: CoreTranslationContext<Messages, Message>,
+  message: MessageFunction<Message> | string,
   plural: number,
   options: TranslateOptions
 ): MessageType<Message> | number
@@ -197,6 +208,12 @@ export function translate<Messages, Message = string>(
 ): MessageType<Message> | number
 export function translate<Messages, Message = string>(
   context: CoreTranslationContext<Messages, Message>,
+  message: MessageFunction<Message> | string,
+  list: unknown[],
+  options: TranslateOptions
+): MessageType<Message> | number
+export function translate<Messages, Message = string>(
+  context: CoreTranslationContext<Messages, Message>,
   key: Path | number,
   named: NamedValue
 ): MessageType<Message> | number
@@ -220,6 +237,12 @@ export function translate<Messages, Message = string>(
 ): MessageType<Message> | number
 export function translate<Messages, Message = string>(
   context: CoreTranslationContext<Messages, Message>,
+  message: MessageFunction<Message> | string,
+  named: NamedValue,
+  options: TranslateOptions
+): MessageType<Message> | number
+export function translate<Messages, Message = string>(
+  context: CoreTranslationContext<Messages, Message>,
   ...args: unknown[]
 ): MessageType<Message> | number // for internal
 
@@ -232,9 +255,10 @@ export function translate<Messages, Message = string>(
     fallbackFormat,
     postTranslation,
     unresolving,
-    fallbackLocale
+    fallbackLocale,
+    messages
   } = context
-  const [key, options] = parseTranslateArgs(...args)
+  const [key, options] = parseTranslateArgs<Message>(...args)
 
   const missingWarn = isBoolean(options.missingWarn)
     ? options.missingWarn
@@ -248,8 +272,10 @@ export function translate<Messages, Message = string>(
     ? options.escapeParameter
     : context.escapeParameter
 
+  const resolvedMessage = !!options.resolvedMessage
+
   // prettier-ignore
-  const defaultMsgOrKey: string =
+  const defaultMsgOrKey =
     isString(options.default) || isBoolean(options.default) // default by function option
       ? !isBoolean(options.default)
         ? options.default
@@ -265,28 +291,42 @@ export function translate<Messages, Message = string>(
 
   // resolve message format
   // eslint-disable-next-line prefer-const
-  let [format, targetLocale, message] = resolveMessageFormat(
-    context,
-    key,
-    locale,
-    fallbackLocale,
-    fallbackWarn,
-    missingWarn
-  )
+  let [format, targetLocale, message]: [
+    PathValue | MessageFunction<Message>,
+    Locale | undefined,
+    LocaleMessageValue<Message>
+  ] = !resolvedMessage
+    ? resolveMessageFormat(
+        context,
+        key as string,
+        locale,
+        fallbackLocale,
+        fallbackWarn,
+        missingWarn
+      )
+    : [
+        key,
+        locale,
+        ((messages as unknown) as LocaleMessages<Message>)[locale] || {}
+      ]
 
   // if you use default message, set it as message format!
   let cacheBaseKey = key
-  if (!(isString(format) || isMessageFunction<Message>(format))) {
+  if (
+    !resolvedMessage &&
+    !(isString(format) || isMessageFunction<Message>(format))
+  ) {
     if (enableDefaultMsg) {
       format = defaultMsgOrKey
-      cacheBaseKey = format
+      cacheBaseKey = format as Path | MessageFunction<Message>
     }
   }
 
   // checking message format and target locale
   if (
-    !(isString(format) || isMessageFunction<Message>(format)) ||
-    !isString(targetLocale)
+    !resolvedMessage &&
+    (!(isString(format) || isMessageFunction<Message>(format)) ||
+      !isString(targetLocale))
   ) {
     return unresolving ? NOT_REOSLVED : (key as MessageType<Message>)
   }
@@ -308,14 +348,16 @@ export function translate<Messages, Message = string>(
   }
 
   // compile message format
-  const msg = compileMessageFormat(
-    context,
-    key,
-    targetLocale,
-    format,
-    cacheBaseKey,
-    errorDetector
-  )
+  const msg = !isMessageFunction(format)
+    ? compileMessageFormat(
+        context,
+        key as string,
+        targetLocale!,
+        format,
+        cacheBaseKey as string,
+        errorDetector
+      )
+    : format
 
   // if occurred compile error, return the message format
   if (occurred) {
@@ -325,7 +367,7 @@ export function translate<Messages, Message = string>(
   // evaluate message with context
   const ctxOptions = getMessageContextOptions<Messages, Message>(
     context,
-    targetLocale,
+    targetLocale!,
     message,
     options
   )
@@ -562,16 +604,22 @@ function evaluateMessage<Messages, Message>(
 }
 
 /** @internal */
-export function parseTranslateArgs(
+export function parseTranslateArgs<Message = string>(
   ...args: unknown[]
-): [Path, TranslateOptions] {
+): [Path | MessageFunction<Message>, TranslateOptions] {
   const [arg1, arg2, arg3] = args
   const options = {} as TranslateOptions
 
-  if (!isString(arg1) && !isNumber(arg1)) {
+  if (!isString(arg1) && !isNumber(arg1) && !isMessageFunction(arg1)) {
     throw createCoreError(CoreErrorCodes.INVALID_ARGUMENT)
   }
-  const key = isNumber(arg1) ? String(arg1) : arg1
+
+  // prettier-ignore
+  const key = isNumber(arg1)
+    ? String(arg1)
+    : isMessageFunction(arg1)
+      ? (arg1 as MessageFunction<Message>)
+      : arg1
 
   if (isNumber(arg2)) {
     options.plural = arg2

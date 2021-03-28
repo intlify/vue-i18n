@@ -12,7 +12,11 @@ import { createVueI18n } from '../src/legacy'
 import { errorMessages, I18nErrorCodes } from '../src/errors'
 import { getWarnMessage, I18nWarnCodes } from '../src/warnings'
 import { watchEffect, nextTick } from 'vue'
-import { compileToFunction, registerMessageCompiler } from '@intlify/core-base'
+import {
+  compileToFunction,
+  registerMessageCompiler,
+  MessageContext
+} from '@intlify/core-base'
 import { pluralRules as _pluralRules } from './helper'
 
 beforeEach(() => {
@@ -213,6 +217,59 @@ describe('t', () => {
     expect(() => {
       i18n.t(4 as unknown)
     }).toThrowError(errorMessages[I18nErrorCodes.INVALID_ARGUMENT])
+  })
+})
+
+describe('rt', () => {
+  test('compilation', () => {
+    const i18n = createVueI18n({
+      locale: 'en',
+      messages: {
+        en: {
+          text: 'hi dio!',
+          list: 'hi {0}!',
+          named: 'hi {name}!',
+          name: 'dio',
+          linked: 'hi @.upper:name !',
+          pural: 'no apples | one apple | {count} apples'
+        }
+      }
+    })
+
+    expect(i18n.rt(i18n.messages.en.text)).toEqual('hi dio!')
+    expect(i18n.rt(i18n.messages.en.list, ['dio'])).toEqual('hi dio!')
+    expect(i18n.rt(i18n.messages.en.named, { name: 'dio' })).toEqual('hi dio!')
+    expect(i18n.rt(i18n.messages.en.linked)).toEqual('hi DIO !')
+    expect(i18n.rt(i18n.messages.en.pural, 2)).toEqual('2 apples')
+  })
+
+  test('message functions', () => {
+    const i18n = createVueI18n({
+      locale: 'en',
+      messages: {
+        en: {
+          text: () => 'hi dio!',
+          list: (ctx: MessageContext<VueMessageType>) => `hi ${ctx.list(0)}!`,
+          named: (ctx: MessageContext<VueMessageType>) =>
+            `hi ${ctx.named('name')}!`,
+          name: 'dio',
+          linked: (ctx: MessageContext<VueMessageType>) =>
+            `hi ${ctx.linked('name', 'upper')} !`,
+          pural: (ctx: MessageContext<VueMessageType>) =>
+            ctx.plural([
+              'no apples',
+              'one apple',
+              `${ctx.named('count')} apples`
+            ])
+        }
+      }
+    })
+
+    expect(i18n.rt(i18n.messages.en.text)).toEqual('hi dio!')
+    expect(i18n.rt(i18n.messages.en.list, ['dio'])).toEqual('hi dio!')
+    expect(i18n.rt(i18n.messages.en.named, { name: 'dio' })).toEqual('hi dio!')
+    expect(i18n.rt(i18n.messages.en.linked)).toEqual('hi DIO !')
+    expect(i18n.rt(i18n.messages.en.pural, 2)).toEqual('2 apples')
   })
 })
 

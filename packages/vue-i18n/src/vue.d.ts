@@ -3,6 +3,7 @@ import type { NamedValue } from '@intlify/runtime'
 import type {
   Locale,
   LocaleMessageValue,
+  MessageFunction,
   TranslateOptions,
   DateTimeOptions,
   NumberOptions
@@ -295,6 +296,73 @@ declare module '@vue/runtime-core' {
      * @returns translation message
      */
     $t(key: Path, named: NamedValue, options: TranslateOptions): string
+    /**
+     * Resolve locale message translation
+     *
+     * @remarks
+     * If this is used in a reactive context, it will re-evaluate once the locale changes.
+     *
+     * In {@link I18nMode | Legacy API mode}, the input / output is the same as for VueI18n instance. About that details, see {@link VueI18n#rt | `VueI18n#rt`}.
+     *
+     * In {@link I18nMode | Composition API mode}, the `$rt` is injected by `app.config.globalProperties`.
+     * the input / output is the same as for Composer, and it work on **global scope**. About that details, see {@link Composer#rt | `Composer#rt` }.
+     *
+     * @param message - A target locale message to be resolved. You will need to specify the locale message returned by `$tm`.
+     *
+     * @returns translated message
+     */
+    $rt(message: MessageFunction<VueMessageType> | VueMessageType): string
+    /**
+     * Resolve locale message translation for plurals
+     *
+     * @remarks
+     * Overloaded `$rt`. About details, see the {@link $rt} remarks.
+     *
+     * @param message - A target locale message to be resolved. You will need to specify the locale message returned by `$tm`.
+     * @param plural - Which plural string to get. 1 returns the first one.
+     * @param options - Additional {@link TranslateOptions | options} for translation
+     *
+     * @returns Translated message
+     */
+    $rt(
+      message: MessageFunction<VueMessageType> | VueMessageType,
+      plural: number,
+      options?: TranslateOptions
+    ): string
+    /**
+     * Resolve locale message translation for list interpolations
+     *
+     * @remarks
+     * Overloaded `$rt`. About details, see the {@link $rt} remarks.
+     *
+     * @param message - A target locale message to be resolved. You will need to specify the locale message returned by `$tm`.
+     * @param list - A values of list interpolation.
+     * @param options - Additional {@link TranslateOptions | options} for translation
+     *
+     * @returns Translated message
+     */
+    $rt(
+      message: MessageFunction<VueMessageType> | VueMessageType,
+      list: unknown[],
+      options?: TranslateOptions
+    ): string
+    /**
+     * Resolve locale message translation for named interpolations
+     *
+     * @remarks
+     * Overloaded `$rt`. About details, see the {@link $rt} remarks.
+     *
+     * @param message - A target locale message to be resolved. You will need to specify the locale message returned by `$tm`.
+     * @param named - A values of named interpolation.
+     * @param options - Additional {@link TranslateOptions | options} for translation
+     *
+     * @returns Translated message
+     */
+    $rt(
+      message: MessageFunction<VueMessageType> | VueMessageType,
+      named: NamedValue,
+      options?: TranslateOptions
+    ): string
     /**
      * Locale message pluralization
      *
