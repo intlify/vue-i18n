@@ -85,6 +85,32 @@ test('$t', async () => {
   expect(vm.$t!('hello')).toEqual('hello!')
 })
 
+test('$rt', async () => {
+  const i18n = createI18n({
+    legacy: true,
+    locale: 'en',
+    messages: {
+      en: {
+        contents: [
+          {
+            title: 'Title {0}'
+          },
+          {
+            title: () => 'Title 2'
+          }
+        ]
+      }
+    }
+  })
+
+  const App = defineComponent({
+    template: `<p v-for="(content, index) in $tm('contents')">{{ $rt(content.title, [index + 1]) }}</p>`
+  })
+  const { html } = await mount(App, i18n)
+
+  expect(html()).toEqual('<p>Title 1</p><p>Title 2</p>')
+})
+
 test('$tc', async () => {
   const i18n = createI18n({
     legacy: true,

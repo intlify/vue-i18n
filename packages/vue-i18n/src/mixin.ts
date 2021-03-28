@@ -86,6 +86,7 @@ export function defineMixin<Messages, DateTimeFormats, NumberFormats>(
 
       // defines vue-i18n legacy APIs
       this.$t = (...args: unknown[]): TranslateResult => this.$i18n.t(...args)
+      this.$rt = (...args: unknown[]): TranslateResult => this.$i18n.rt(...args)
       this.$tc = (...args: unknown[]): TranslateResult => this.$i18n.tc(...args)
       this.$te = (key: Path, locale?: Locale): boolean =>
         this.$i18n.te(key, locale)
@@ -135,6 +136,7 @@ export function defineMixin<Messages, DateTimeFormats, NumberFormats>(
       }
 
       delete this.$t
+      delete this.$rt
       delete this.$tc
       delete this.$te
       delete this.$d

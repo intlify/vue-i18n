@@ -37,7 +37,8 @@ import {
   getLocaleChain,
   NOT_REOSLVED,
   DevToolsTimelineEvents,
-  handleFlatJson
+  handleFlatJson,
+  MessageFunction
 } from '@intlify/core-base'
 import { I18nWarnCodes, getWarnMessage } from './warnings'
 import { I18nErrorCodes, createI18nError } from './errors'
@@ -626,6 +627,112 @@ export interface Composer<
   /** @internal */
   t(...args: unknown[]): string
   /**
+   * Resolve locale message translation
+   *
+   * @remarks
+   * If this is used in a reactive context, it will re-evaluate once the locale changes.
+   *
+   * If [UseI18nScope](general#usei18nscope) `'local'` or Some [UseI18nOptions](composition#usei18noptions) are specified at `useI18n`, it’s translated in preferentially local scope locale messages than global scope locale messages.
+   *
+   * If not, then it’s translated with global scope locale messages.
+   *
+   * @VueI18nTip
+   * The use-case for `rt` is for programmatic locale messages translation with using `tm`, `v-for`, javascript `for` statement.
+   *
+   * @VueI18nWarning
+   * `rt` differs from `t` in that it processes the locale message directly, not the key of the locale message. There is no internal fallback with `rt`. You need to understand and use the structure of the locale messge returned by `tm`.
+   *
+   * @param message - A target locale message to be resolved. You will need to specify the locale message returned by `tm`.
+   *
+   * @returns Translated message
+   *
+   * @VueI18nSee [Scope and Locale Changing](../../guide/essentials/scope)
+   */
+  rt(message: MessageFunction<Message> | Message): string
+  /**
+   * Resolve locale message translation for plurals
+   *
+   * @remarks
+   * Overloaded `rt`. About details, see the [rt](composition#rt-message) details.
+   *
+   * In this overloaded `rt`, return a pluralized translation message.
+   *
+   * @VueI18nTip
+   * The use-case for `rt` is for programmatic locale messages translation with using `tm`, `v-for`, javascript `for` statement.
+   *
+   * @VueI18nWarning
+   * `rt` differs from `t` in that it processes the locale message directly, not the key of the locale message. There is no internal fallback with `rt`. You need to understand and use the structure of the locale messge returned by `tm`.
+   *
+   * @param message - A target locale message to be resolved. You will need to specify the locale message returned by `tm`.
+   * @param plural - Which plural string to get. 1 returns the first one.
+   * @param options - Additional {@link TranslateOptions | options} for translation
+   *
+   * @returns Translated message
+   *
+   * @VueI18nSee [Pluralization](../../guide/essentials/pluralization)
+   */
+  rt(
+    message: MessageFunction<Message> | Message,
+    plural: number,
+    options?: TranslateOptions
+  ): string
+  /**
+   * Resolve locale message translation for list interpolations
+   *
+   * @remarks
+   * Overloaded `rt`. About details, see the [rt](composition#rt-message) details.
+   *
+   * In this overloaded `rt`, return a pluralized translation message.
+   *
+   * @VueI18nTip
+   * The use-case for `rt` is for programmatic locale messages translation with using `tm`, `v-for`, javascript `for` statement.
+   *
+   * @VueI18nWarning
+   * `rt` differs from `t` in that it processes the locale message directly, not the key of the locale message. There is no internal fallback with `rt`. You need to understand and use the structure of the locale messge returned by `tm`.
+   *
+   * @param message - A target locale message to be resolved. You will need to specify the locale message returned by `tm`.
+   * @param list - A values of list interpolation.
+   * @param options - Additional {@link TranslateOptions | options} for translation
+   *
+   * @returns Translated message
+   *
+   * @VueI18nSee [List interpolation](../../guide/essentials/syntax#list-interpolation)
+   */
+  rt(
+    message: MessageFunction<Message> | Message,
+    list: unknown[],
+    options?: TranslateOptions
+  ): string
+  /**
+   * Resolve locale message translation for named interpolations
+   *
+   * @remarks
+   * Overloaded `rt`. About details, see the [rt](composition#rt-message) details.
+   *
+   * In this overloaded `rt`, for each placeholder x, the locale messages should contain a `{x}` token.
+   *
+   * @VueI18nTip
+   * The use-case for `rt` is for programmatic locale messages translation with using `tm`, `v-for`, javascript `for` statement.
+   *
+   * @VueI18nWarning
+   * `rt` differs from `t` in that it processes the locale message directly, not the key of the locale message. There is no internal fallback with `rt`. You need to understand and use the structure of the locale messge returned by `tm`.
+   *
+   * @param message - A target locale message to be resolved. You will need to specify the locale message returned by `tm`.
+   * @param named - A values of named interpolation.
+   * @param options - Additional {@link TranslateOptions | options} for translation
+   *
+   * @returns Translated message
+   *
+   * @VueI18nSee [Named interpolation](../../guide/essentials/syntax#named-interpolation)
+   */
+  rt(
+    message: MessageFunction<Message> | Message,
+    named: NamedValue,
+    options?: TranslateOptions
+  ): string
+  /** @internal */
+  rt(...args: unknown[]): string
+  /**
    * Datetime formatting
    *
    * @remarks
@@ -779,6 +886,50 @@ export interface Composer<
    * If you change the `locale`, the locale messages returned will also correspond to the locale.
    *
    * If there are no locale messages for the given `key` in the composer instance messages, they will be returned with [fallbacking](../../guide/essentials/fallback).
+   *
+   * @VueI18nWarning
+   * You need to use `rt` for the locale message returned by `tm`. see the [rt](composition#rt-message) details.
+   *
+   * @example
+   * template block:
+   * ```html
+   * <div class="container">
+   *   <template v-for="content in tm('contents')">
+   *     <h2>{{ rt(content.title) }}</h2>
+   *     <p v-for="paragraph in content.paragraphs">
+   *      {{ rt(paragraph) }}
+   *     </p>
+   *   </template>
+   * </div>
+   * ```
+   * script block:
+   * ```js
+   * import { defineComponent } from 'vue
+   * import { useI18n } from 'vue-i18n'
+   *
+   * export default defineComponent({
+   *   setup() {
+   *     const { rt, tm } = useI18n({
+   *       messages: {
+   *         en: {
+   *           contents: [
+   *             {
+   *               title: 'Title1',
+   *               // ...
+   *               paragraphs: [
+   *                 // ...
+   *               ]
+   *             }
+   *           ]
+   *         }
+   *       }
+   *       // ...
+   *     })
+   *     // ...
+   *     retrun { ... , rt, tm }
+   *   }
+   * })
+   * ```
    *
    * @param key - A target locale message key
    *
@@ -1248,19 +1399,31 @@ export function createComposer<
     _context.missing = _runtimeMissing
   }
 
+  function isResolvedTranslateMessage(
+    type: ComposerWarnType,
+    arg: any // eslint-disable-line @typescript-eslint/no-explicit-any
+  ): boolean {
+    return type !== 'translate' || !!arg.resolvedMessage === false
+  }
+
   function wrapWithDeps<T, U = T>(
     fn: (context: unknown) => unknown,
-    argumentParser: () => string,
+    argumentParser: () => unknown[],
     warnType: ComposerWarnType,
     fallbackSuccess: (root: Composer<T> & ComposerInternal) => U,
-    fallbackFail: (key: string) => U,
+    fallbackFail: (key: unknown) => U,
     successCondition: (val: unknown) => boolean
   ): U {
     const context = getCoreContext()
     const ret = fn(context) // track reactive dependency, see the getRuntimeContext
     if (isNumber(ret) && ret === NOT_REOSLVED) {
-      const key = argumentParser()
-      if (__DEV__ && __root) {
+      const [key, arg2] = argumentParser()
+      if (
+        __DEV__ &&
+        __root &&
+        isString(key) &&
+        isResolvedTranslateMessage(warnType, arg2)
+      ) {
         if (
           _fallbackRoot &&
           (isTranslateFallbackWarn(_fallbackWarn, key) ||
@@ -1307,11 +1470,22 @@ export function createComposer<
           context as CoreTranslationContext<Messages, string>,
           ...args
         ),
-      () => parseTranslateArgs(...args)[0],
+      () => parseTranslateArgs(...args),
       'translate',
       root => root.t(...args),
-      key => key,
+      key => key as string,
       val => isString(val)
+    )
+  }
+
+  // rt
+  function rt(...args: unknown[]): string {
+    const [arg1, arg2, arg3] = args
+    if (arg3 && !isObject(arg3)) {
+      throw createI18nError(I18nErrorCodes.INVALID_ARGUMENT)
+    }
+    return t(
+      ...[arg1, arg2, Object.assign({ resolvedMessage: true }, arg3 || {})]
     )
   }
 
@@ -1323,7 +1497,7 @@ export function createComposer<
           context as CoreDateTimeContext<DateTimeFormats, string>,
           ...args
         ),
-      () => parseDateTimeArgs(...args)[0],
+      () => parseDateTimeArgs(...args),
       'datetime format',
       root => root.d(...args),
       () => MISSING_RESOLVE_VALUE,
@@ -1339,7 +1513,7 @@ export function createComposer<
           context as CoreNumberContext<NumberFormats, string>,
           ...args
         ),
-      () => parseNumberArgs(...args)[0],
+      () => parseNumberArgs(...args),
       'number format',
       root => root.n(...args),
       () => MISSING_RESOLVE_VALUE,
@@ -1376,7 +1550,7 @@ export function createComposer<
         }
         return ret
       },
-      () => parseTranslateArgs(...args)[0],
+      () => parseTranslateArgs(...args),
       'translate',
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       root => (root as any)[TransrateVNodeSymbol](...args),
@@ -1389,7 +1563,7 @@ export function createComposer<
   function __numberParts(...args: unknown[]): string | Intl.NumberFormatPart[] {
     return wrapWithDeps<string | Intl.NumberFormatPart[]>(
       context => number(context as CoreContext<Messages, string>, ...args),
-      () => parseNumberArgs(...args)[0],
+      () => parseNumberArgs(...args),
       'number format',
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       root => (root as any)[NumberPartsSymbol](...args),
@@ -1404,7 +1578,7 @@ export function createComposer<
   ): string | Intl.DateTimeFormatPart[] {
     return wrapWithDeps<string | Intl.DateTimeFormatPart[]>(
       context => datetime(context as CoreContext<Messages, string>, ...args),
-      () => parseDateTimeArgs(...args)[0],
+      () => parseDateTimeArgs(...args),
       'datetime format',
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       root => (root as any)[DatetimePartsSymbol](...args),
@@ -1629,6 +1803,7 @@ export function createComposer<
       _context.escapeParameter = val
     },
     t,
+    rt,
     d,
     n,
     te,

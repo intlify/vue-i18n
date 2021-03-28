@@ -13,6 +13,8 @@ import { CoreErrorCodes, errorMessages } from '../src/errors'
 import { registerMessageCompiler } from '../src/context'
 import { compileToFunction } from '../src/compile'
 
+import type { MessageContext } from '@intlify/runtime'
+
 beforeEach(() => {
   registerMessageCompiler(compileToFunction)
 })
@@ -663,6 +665,40 @@ describe('error', () => {
       translate(ctx, {})
     }).toThrowError(errorMessages[CoreErrorCodes.INVALID_ARGUMENT])
   })
+})
+
+test('resolvedMessage', () => {
+  const ctx = context({
+    locale: 'en',
+    messages: {
+      en: {}
+    }
+  })
+  expect(translate(ctx, 'car', 1, { resolvedMessage: true })).toEqual('car')
+  expect(
+    translate(ctx, () => 'hello!', 1, {
+      resolvedMessage: true
+    })
+  ).toEqual('hello!')
+  expect(translate(ctx, 'list {0}', [1], { resolvedMessage: true })).toEqual(
+    'list 1'
+  )
+  expect(
+    translate(ctx, (ctx: MessageContext) => `list ${ctx.list(0)}`, [1], {
+      resolvedMessage: true
+    })
+  ).toEqual('list 1')
+  expect(
+    translate(ctx, 'named {name}', { name: 'dio' }, { resolvedMessage: true })
+  ).toEqual('named dio')
+  expect(
+    translate(
+      ctx,
+      (ctx: MessageContext) => `named ${ctx.named('name')}`,
+      { name: 'dio' },
+      { resolvedMessage: true }
+    )
+  ).toEqual('named dio')
 })
 
 const enum ErrorCodes {

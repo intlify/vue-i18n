@@ -18,6 +18,7 @@ import type {
   PluralizationRules,
   LinkedModifiers,
   NamedValue,
+  MessageFunction,
   Locale,
   LocaleMessages,
   LocaleMessageDictionary,
@@ -531,6 +532,108 @@ export interface VueI18n<
   /** @internal */
   t(...args: unknown[]): TranslateResult // for $t
   /**
+   * Resolve locale message translation
+   *
+   * @remarks
+   * If this is used in a reactive context, it will re-evaluate once the locale changes.
+   *
+   * @VueI18nTip
+   * The use-case for `rt` is for programmatic locale messages translation with using `tm`, `v-for`, javascript `for` statement.
+   *
+   * @VueI18nWarning
+   * `rt` differs from `t` in that it processes the locale message directly, not the key of the locale message. There is no internal fallback with `rt`. You need to understand and use the structure of the locale messge returned by `tm`.
+   *
+   * @param message - A target locale message to be resolved. You will need to specify the locale message returned by `tm`.
+   *
+   * @returns Translated message
+   *
+   * @VueI18nSee [Scope and Locale Changing](../../guide/essentials/scope)
+   */
+  rt(message: MessageFunction<VueMessageType> | VueMessageType): string
+  /**
+   * Resolve locale message translation for plurals
+   *
+   * @remarks
+   * Overloaded `rt`. About details, see the [rt](legacy#rt-message) details.
+   *
+   * In this overloaded `rt`, return a pluralized translation message.
+   *
+   * @VueI18nTip
+   * The use-case for `rt` is for programmatic locale messages translation with using `tm`, `v-for`, javascript `for` statement.
+   *
+   * @VueI18nWarning
+   * `rt` differs from `t` in that it processes the locale message directly, not the key of the locale message. There is no internal fallback with `rt`. You need to understand and use the structure of the locale messge returned by `tm`.
+   *
+   * @param message - A target locale message to be resolved. You will need to specify the locale message returned by `tm`.
+   * @param plural - Which plural string to get. 1 returns the first one.
+   * @param options - Additional {@link TranslateOptions | options} for translation
+   *
+   * @returns Translated message
+   *
+   * @VueI18nSee [Pluralization](../../guide/essentials/pluralization)
+   */
+  rt(
+    message: MessageFunction<VueMessageType> | VueMessageType,
+    plural: number,
+    options?: TranslateOptions
+  ): string
+  /**
+   * Resolve locale message translation for list interpolations
+   *
+   * @remarks
+   * Overloaded `rt`. About details, see the [rt](legacy#rt-message) details.
+   *
+   * In this overloaded `rt`, return a pluralized translation message.
+   *
+   * @VueI18nTip
+   * The use-case for `rt` is for programmatic locale messages translation with using `tm`, `v-for`, javascript `for` statement.
+   *
+   * @VueI18nWarning
+   * `rt` differs from `t` in that it processes the locale message directly, not the key of the locale message. There is no internal fallback with `rt`. You need to understand and use the structure of the locale messge returned by `tm`.
+   *
+   * @param message - A target locale message to be resolved. You will need to specify the locale message returned by `tm`.
+   * @param list - A values of list interpolation.
+   * @param options - Additional {@link TranslateOptions | options} for translation
+   *
+   * @returns Translated message
+   *
+   * @VueI18nSee [List interpolation](../../guide/essentials/syntax#list-interpolation)
+   */
+  rt(
+    message: MessageFunction<VueMessageType> | VueMessageType,
+    list: unknown[],
+    options?: TranslateOptions
+  ): string
+  /**
+   * Resolve locale message translation for named interpolations
+   *
+   * @remarks
+   * Overloaded `rt`. About details, see the [rt](legacy#rt-message) details.
+   *
+   * In this overloaded `rt`, for each placeholder x, the locale messages should contain a `{x}` token.
+   *
+   * @VueI18nTip
+   * The use-case for `rt` is for programmatic locale messages translation with using `tm`, `v-for`, javascript `for` statement.
+   *
+   * @VueI18nWarning
+   * `rt` differs from `t` in that it processes the locale message directly, not the key of the locale message. There is no internal fallback with `rt`. You need to understand and use the structure of the locale messge returned by `tm`.
+   *
+   * @param message - A target locale message to be resolved. You will need to specify the locale message returned by `tm`.
+   * @param named - A values of named interpolation.
+   * @param options - Additional {@link TranslateOptions | options} for translation
+   *
+   * @returns Translated message
+   *
+   * @VueI18nSee [Named interpolation](../../guide/essentials/syntax#named-interpolation)
+   */
+  rt(
+    message: MessageFunction<VueMessageType> | VueMessageType,
+    named: NamedValue,
+    options?: TranslateOptions
+  ): string
+  /** @internal */
+  rt(...args: unknown[]): string // for $rt
+  /**
    * Locale message pluralization
    *
    * @remarks
@@ -666,6 +769,42 @@ export interface VueI18n<
    *
    * If there are no locale messages for the given `key` in the composer instance messages, they will be returned with [fallbacking](../../guide/essentials/fallback).
    *
+   * @VueI18nWarning
+   * You need to use `rt` for the locale message returned by `tm`. see the [rt](legacy#rt-message) details.
+   *
+   * @example
+   * template:
+   * ```html
+   * <div class="container">
+   *   <template v-for="content in $tm('contents')">
+   *     <h2>{{ $rt(content.title) }}</h2>
+   *     <p v-for="paragraph in content.paragraphs">
+   *      {{ $rt(paragraph) }}
+   *     </p>
+   *   </template>
+   * </div>
+   * ```
+   *
+   * ```js
+   * import { createI18n } from 'vue-i18n'
+   *
+   * const i18n = createI18n({
+   *   messages: {
+   *     en: {
+   *       contents: [
+   *         {
+   *           title: 'Title1',
+   *           // ...
+   *           paragraphs: [
+   *             // ...
+   *           ]
+   *         }
+   *       ]
+   *     }
+   *   }
+   *   // ...
+   * })
+   * ```
    * @param key - A target locale message key
    *
    * @return Locale messages
@@ -1211,6 +1350,10 @@ export function createVueI18n<
       }
 
       return composer.t(key, list || named || {}, options)
+    },
+
+    rt(...args: unknown[]): TranslateResult {
+      return composer.rt(...args)
     },
 
     // tc

@@ -22,7 +22,8 @@ import { watch, watchEffect, nextTick, Text, createVNode } from 'vue'
 import {
   Locale,
   compileToFunction,
-  registerMessageCompiler
+  registerMessageCompiler,
+  MessageContext
 } from '@intlify/core-base'
 
 beforeEach(() => {
@@ -666,6 +667,59 @@ describe('t', () => {
   })
 })
 
+describe('rt', () => {
+  test('compilation', () => {
+    const { rt, messages } = createComposer({
+      locale: 'en',
+      messages: {
+        en: {
+          text: 'hi dio!',
+          list: 'hi {0}!',
+          named: 'hi {name}!',
+          name: 'dio',
+          linked: 'hi @.upper:name !',
+          pural: 'no apples | one apple | {count} apples'
+        }
+      }
+    })
+
+    expect(rt(messages.value.en.text)).toEqual('hi dio!')
+    expect(rt(messages.value.en.list, ['dio'])).toEqual('hi dio!')
+    expect(rt(messages.value.en.named, { name: 'dio' })).toEqual('hi dio!')
+    expect(rt(messages.value.en.linked)).toEqual('hi DIO !')
+    expect(rt(messages.value.en.pural, 2)).toEqual('2 apples')
+  })
+
+  test('message functions', () => {
+    const { rt, messages } = createComposer({
+      locale: 'en',
+      messages: {
+        en: {
+          text: () => 'hi dio!',
+          list: (ctx: MessageContext<VueMessageType>) => `hi ${ctx.list(0)}!`,
+          named: (ctx: MessageContext<VueMessageType>) =>
+            `hi ${ctx.named('name')}!`,
+          name: 'dio',
+          linked: (ctx: MessageContext<VueMessageType>) =>
+            `hi ${ctx.linked('name', 'upper')} !`,
+          pural: (ctx: MessageContext<VueMessageType>) =>
+            ctx.plural([
+              'no apples',
+              'one apple',
+              `${ctx.named('count')} apples`
+            ])
+        }
+      }
+    })
+
+    expect(rt(messages.value.en.text)).toEqual('hi dio!')
+    expect(rt(messages.value.en.list, ['dio'])).toEqual('hi dio!')
+    expect(rt(messages.value.en.named, { name: 'dio' })).toEqual('hi dio!')
+    expect(rt(messages.value.en.linked)).toEqual('hi DIO !')
+    expect(rt(messages.value.en.pural, 2)).toEqual('2 apples')
+  })
+})
+
 describe('d', () => {
   test('basic', () => {
     const { d } = createComposer({
@@ -865,7 +919,7 @@ describe('tm', () => {
     expect(messages2).toEqual({ errors: ['error1', 'error2'] })
   })
 
-  test('fallback to local locale', async () => {
+  test('fallback to local locale', () => {
     const composer = createComposer({
       locale: 'en',
       fallbackLocale: 'ja',
@@ -884,7 +938,7 @@ describe('tm', () => {
     expect(messages1).toEqual({ bar: { buz: 'hello' } })
   })
 
-  test('fallback to global locale', async () => {
+  test('fallback to global locale', () => {
     const __root = createComposer({
       locale: 'en',
       fallbackLocale: 'ja',
@@ -905,6 +959,33 @@ describe('tm', () => {
 
     const messages1 = child.tm('foo')
     expect(messages1).toEqual({ bar: { buz: 'hello' } })
+  })
+
+  test('resolved with rt', () => {
+    const { rt, tm } = createComposer({
+      locale: 'ja',
+      messages: {
+        en: {},
+        ja: {
+          foo: {
+            bar: {
+              buz: 'hello, {name}!'
+            },
+            codes: {
+              errors: [() => 'error1', () => 'error2']
+            }
+          }
+        }
+      }
+    })
+
+    expect(rt((tm('foo.bar') as any).buz, { name: 'dio' })).toEqual(
+      'hello, dio!'
+    )
+    const errors = tm('foo.codes.errors') as (() => string)[]
+    errors.forEach((err, index) => {
+      expect(rt(err)).toEqual(`error${index + 1}`)
+    })
   })
 })
 

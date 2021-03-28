@@ -511,6 +511,108 @@ Overloaded `$t`. About details, see the [$t](injection#t-key) remarks.
 
 Translation message
 
+### $rt(message)
+
+Resolve locale message translation
+
+**Signature:**
+```typescript
+$rt(message: MessageFunction<VueMessageType> | VueMessageType): string;
+```
+
+**Details**
+
+If this is used in a reactive context, it will re-evaluate once the locale changes.
+
+In [Composition API mode](general#mode), the `$rt` is injected by `app.config.globalProperties`. The input / output is the same as for Composer, and it works on **global scope**. About that details, see [Composer#rt](composition#rt-message).
+
+In [Legacy API mode](general#mode), the input / output is the same as for VueI18n instance. About details, see [VueI18n#rt](legacy#rt-message).
+
+**See Also**
+- [Scope and Locale Changing](../../guide/essentials/scope)
+- [Composition API](../../guide/advanced/composition)
+
+#### Parameters
+| Parameter | Type | Description |
+| --- | --- | --- |
+| message | MessageFunction&lt;VueMessageType&gt; \| VueMessageType | A target locale message to be resolved. You will need to specify the locale message returned by `$tm`. |
+
+#### Returns
+
+Translation message
+
+### $rt(message, plural, options)
+
+Resolve locale message translation for plurals
+
+**Signature:**
+```typescript
+$rt(message: MessageFunction<VueMessageType> | VueMessageType, plural: number, options?: TranslationOptions): string;
+```
+
+**Details**
+
+Overloaded `$rt`. About details, see the [$rt](injection#rt-message) remarks.
+
+#### Parameters
+| Parameter | Type | Description |
+| --- | --- | --- |
+| message | MessageFunction&lt;VueMessageType&gt; \| VueMessageType | A target locale message to be resolved. You will need to specify the locale message returned by `$tm`. |
+| plural | number | Which plural string to get. `1` returns the first one. |
+| options | TranslateOptions | Additional [TranslateOptions](general#translateoptions) |
+
+#### Returns
+
+Translation message
+
+### $rt(message, list, options)
+
+Resolve locale message translation for list interpolations
+
+**Signature:**
+```typescript
+$rt(message: MessageFunction<VueMessageType> | VueMessageType, list: unknown[], options?: TranslationOptions): string;
+```
+
+**Details**
+
+Overloaded `$rt`. About details, see the [$rt](injection#rt-message) remarks.
+
+#### Parameters
+| Parameter | Type | Description |
+| --- | --- | --- |
+| message | MessageFunction&lt;VueMessageType&gt; \| VueMessageType | A target locale message to be resolved. You will need to specify the locale message returned by `$tm`. |
+| list | unknown[] | A values of list interpolation. |
+| options | TranslateOptions | Additional [TranslateOptions](general#translateoptions) |
+
+#### Returns
+
+Translation message
+
+### $rt(message, named, options)
+
+Resolve locale message translation for named interpolations
+
+**Signature:**
+```typescript
+$rt(message: MessageFunction<VueMessageType> | VueMessageType, named: NamedValue, options?: TranslationOptions): string;
+```
+
+**Details**
+
+Overloaded `$rt`. About details, see the [$rt](injection#rt-message) remarks.
+
+#### Parameters
+| Parameter | Type | Description |
+| --- | --- | --- |
+| message | MessageFunction&lt;VueMessageType&gt; \| VueMessageType | A target locale message to be resolved. You will need to specify the locale message returned by `$tm`. |
+| named | NamedValue | A values of named interpolation. |
+| options | TranslateOptions | Additional [TranslateOptions](general#translateoptions) |
+
+#### Returns
+
+Translation message
+
 ### $tc(key)
 
 Locale message pluralization

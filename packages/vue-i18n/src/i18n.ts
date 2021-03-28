@@ -780,7 +780,7 @@ const globalExportProps = [
   'fallbackLocale',
   'availableLocales'
 ] as const
-const globalExportMethods = ['t', 'd', 'n', 'tm'] as const
+const globalExportMethods = ['t', 'rt', 'd', 'n', 'tm'] as const
 
 function injectGlobalFields<Messages, DateTimeFormats, NumberFormats>(
   app: App,
