@@ -926,7 +926,7 @@ export interface Composer<
    *       // ...
    *     })
    *     // ...
-   *     retrun { ... , rt, tm }
+   *     return { ... , rt, tm }
    *   }
    * })
    * ```
