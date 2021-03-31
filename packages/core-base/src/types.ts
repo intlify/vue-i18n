@@ -43,8 +43,8 @@ export interface CurrencyNumberFormatOptions extends Intl.NumberFormatOptions {
   style: 'currency'
   currency: string // Obligatory if style is 'currency'
   currencyDisplay?: CurrencyDisplay
-  localeMatcher?: 'lookup' | 'best-fit'
-  formatMatcher?: 'basic' | 'best-fit'
+  localeMatcher?: 'lookup' | 'best fit'
+  formatMatcher?: 'basic' | 'best fit'
 }
 
 export type NumberFormatOptions =
