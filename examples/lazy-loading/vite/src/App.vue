@@ -44,7 +44,7 @@ export default defineComponent({
      *
      * If you use the vue-i18n composer `locale` property directly, it will be re-rendering component when this property is changed,
      * before dynamic import was used to asynchronously load and apply locale messages
-     * To avoid this, use the anoter locale reactive value.
+     * To avoid this, use the another locale reactive value.
      */
     const currentLocale = ref(locale.value)
 
