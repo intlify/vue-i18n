@@ -150,7 +150,8 @@ describe('unicode', () => {
 })
 
 describe('intlify message syntax special characters', () => {
-  ;['{', '}', '@', '|', '%'].forEach(ch => {
+  const items = ['{', '}', '@', '|', '%']
+  for (const ch of items) {
     test(`${ch}`, () => {
       const text = `hi, {'${ch}'} !`
       const parser = createParser({ onError: spy })
@@ -177,7 +178,7 @@ describe('intlify message syntax special characters', () => {
         }
       ])
     })
-  })
+  }
 })
 
 describe('other special characters', () => {

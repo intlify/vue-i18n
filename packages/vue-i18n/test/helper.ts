@@ -70,7 +70,9 @@ function initialProps<P>(propsOption: ComponentObjectPropsOptions<P>) {
 // cleanup wrappers after a suite runs
 let activeWrapperRemovers: Array<() => void> = []
 afterAll(() => {
-  activeWrapperRemovers.forEach(remove => remove())
+  for (const remove of activeWrapperRemovers) {
+    remove()
+  }
   activeWrapperRemovers = []
 })
 

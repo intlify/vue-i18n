@@ -72,11 +72,12 @@ describe('emoji', () => {
 })
 
 describe('unicode', () => {
-  ;[
+  const items = [
     { desc: `'\\u0041'`, data: '\u0041' },
     { desc: `'\\u{0041}'`, data: '\u{0041}' },
     { desc: `surrogate pair: '\\uD83C\\uDF4E'`, data: '\uD83C\uDF4E' }
-  ].forEach(target => {
+  ]
+  for (const target of items) {
     test(`${target.desc}`, () => {
       const text = target.data
       const parser = createParser({ onError: spy })
@@ -94,11 +95,11 @@ describe('unicode', () => {
         value: text
       })
     })
-  })
+  }
 })
 
 describe('special characters', () => {
-  ;[
+  const items = [
     { desc: `include new line '\\n'`, case: `hello\\nworld` },
     { desc: `include space ' '`, case: `hello nworld` },
     { desc: `include dot '.'`, case: `oh my god ...` },
@@ -126,7 +127,8 @@ describe('special characters', () => {
     { desc: `include escase '\\'`, case: `escase \\ escape !` },
     { desc: `include grave '\`'`, case: `\`happy!!\`` },
     { desc: `include tilde '~'`, case: `~~kazupon~~` }
-  ].forEach(target => {
+  ]
+  for (const target of items) {
     test(`${target.desc}: '${target.case}'`, () => {
       const text = target.case
       const parser = createParser({ onError: spy })
@@ -144,7 +146,7 @@ describe('special characters', () => {
         value: text
       })
     })
-  })
+  }
 
   test(`empty string: ''`, () => {
     const text = ''

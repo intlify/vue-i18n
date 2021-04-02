@@ -983,9 +983,9 @@ describe('tm', () => {
       'hello, dio!'
     )
     const errors = tm('foo.codes.errors') as (() => string)[]
-    errors.forEach((err, index) => {
+    for (const [index, err] of errors.entries()) {
       expect(rt(err)).toEqual(`error${index + 1}`)
-    })
+    }
   })
 })
 
