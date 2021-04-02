@@ -17,7 +17,7 @@ The following is an example of adding the `legacy` option to `createI18n`:
 
 // 2. Create i18n instance with options
 const i18n = VueI18n.createI18n({
-  legacy: false, // you must set `false`, to use Compostion API
+  legacy: false, // you must set `false`, to use Composition API
   locale: 'ja', // set locale
   fallbackLocale: 'en' // set fallback locale
   messages, // set locale messages
@@ -524,9 +524,9 @@ Below is the mapping table:
 | `d` | `d` |
 | `getDateTimeFormat` | `getDateTimeFormat` |
 | `setDateTimeFormat` | `setDateTimeFormat` |
-| `mergeDateTimeFormat` | `mergetDateTimeFormat` |
+| `mergeDateTimeFormat` | `mergeDateTimeFormat` |
 | `n` | `n` |
 | `getNumberFormat` | `getNumberFormat` |
 | `setNumberFormat` | `setNumberFormat` |
 | `mergeNumberFormat` | `mergeNumberFormat` |
-| `getChoiiceIndex` | N/A |
+| `getChoiceIndex` | N/A |
