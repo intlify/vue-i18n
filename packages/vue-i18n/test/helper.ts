@@ -181,7 +181,7 @@ export function mount<
     }
 
     activeWrapperRemovers.push(() => {
-      app.unmount(rootEl)
+      app.unmount()
       rootEl.remove()
     })
   })
