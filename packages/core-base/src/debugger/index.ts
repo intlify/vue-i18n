@@ -1,3 +1,4 @@
 export * from './constants'
-export * from './emittable'
-export * from './emitter'
+export { createEmitter } from '@intlify/shared'
+
+export type { Emittable } from '@intlify/shared'
