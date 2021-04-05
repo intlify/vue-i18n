@@ -14,20 +14,25 @@ yarn build core --formats cjs
 ```
 */
 
-import fs from 'fs-extra'
+import { promisify } from 'util'
+import { promises as fs } from 'fs'
 import path from 'path'
 import chalk from 'chalk'
 import execa from 'execa'
 import os from 'os'
-import { gzipSync } from 'zlib'
+import { gzip as _gzip } from 'zlib'
 import { compress } from 'brotli'
 import { targets as allTargets, fuzzyMatchTarget, checkSizeDistFiles } from './utils'
 import minimist from 'minimist'
 import { Extractor, ExtractorConfig } from '@microsoft/api-extractor'
+import { default as _rimraf } from 'rimraf'
+
+const gzip = promisify(_gzip)
+const rimraf = promisify(_rimraf)
 
 ;(async () => {
   const args = minimist(process.argv.slice(2))
-  const targets = args._
+  let targets = args._
   const formats = args.formats || args.f
   const devOnly = args.devOnly || args.d
   const prodOnly = !devOnly && (args.prodOnly || args.p)
@@ -38,17 +43,22 @@ import { Extractor, ExtractorConfig } from '@microsoft/api-extractor'
   const { stdout } = await execa('git', ['rev-parse', 'HEAD'])
   const commit = stdout.slice(0, 7)
 
+  await run()
+
   async function run() {
     if (isRelease) {
       // remove build cache for release builds to avoid outdated enum values
-      await fs.remove(path.resolve(__dirname, '../node_modules/.rts2_cache'))
+      // @ts-ignore
+      await rimraf(path.resolve(__dirname, '../node_modules/.rts2_cache'))
     }
     if (!targets.length) {
-      await buildAll(allTargets)
-      await checkAllSizes(allTargets)
+      targets = await allTargets()
+      await buildAll(targets)
+      await checkAllSizes(targets)
     } else {
-      await buildAll(fuzzyMatchTarget(targets, buildAllMatching))
-      checkAllSizes(fuzzyMatchTarget(targets, buildAllMatching))
+      targets = await fuzzyMatchTarget(targets, buildAllMatching)
+      await buildAll(targets)
+      await checkAllSizes(targets)
     }
   }
   
@@ -74,6 +84,14 @@ import { Extractor, ExtractorConfig } from '@microsoft/api-extractor'
     return Promise.all(ret)
   }
   
+  async function isExist(filePath) {
+    const ret = false
+    try {
+      await fs.access(filePath)
+    } catch (e) {}
+    return ret
+  }
+
   async function build(target) {
     const pkgDir = path.resolve(`packages/${target}`)
     const { default: pkg } = await import(`${pkgDir}/package.json`)
@@ -85,7 +103,8 @@ import { Extractor, ExtractorConfig } from '@microsoft/api-extractor'
   
     // if building a specific format, do not remove dist.
     if (!formats) {
-      await fs.remove(`${pkgDir}/dist`)
+      // @ts-ignore
+      await rimraf(`${pkgDir}/dist`)
     }
   
     const env =
@@ -130,13 +149,13 @@ import { Extractor, ExtractorConfig } from '@microsoft/api-extractor'
       if (extractorResult.succeeded) {
         // concat additional d.ts to rolled-up dts
         const typesDir = path.resolve(pkgDir, 'types')
-        if (await fs.exists(typesDir)) {
+        if (await isExist(typesDir)) {
           const dtsPath = path.resolve(pkgDir, pkg.types)
           const existing = await fs.readFile(dtsPath, 'utf-8')
           const typeFiles = await fs.readdir(typesDir)
           const toAdd = await Promise.all(
-            typeFiles.map(file => {
-              return fs.readFile(path.resolve(typesDir, file), 'utf-8')
+            typeFiles.map(async (file) => {
+              return await fs.readFile(path.resolve(typesDir, file), 'utf-8')
             })
           )
           await fs.writeFile(dtsPath, existing + '\n' + toAdd.join('\n'))
@@ -152,7 +171,8 @@ import { Extractor, ExtractorConfig } from '@microsoft/api-extractor'
         process.exitCode = 1
       }
   
-      await fs.remove(`${pkgDir}/dist/packages`)
+      // @ts-ignore
+      await rimraf(`${pkgDir}/dist/packages`)
     }
   }
   
@@ -176,13 +196,12 @@ import { Extractor, ExtractorConfig } from '@microsoft/api-extractor'
   }
   
   async function checkFileSize(filePath) {
-    const exists = await fs.pathExists(filePath)
-    if (!exists)
+    if (await !isExist(filePath)) {
       return
     }
     const file = await fs.readFile(filePath)
     const minSize = (file.length / 1024).toFixed(2) + 'kb'
-    const gzipped = gzipSync(file)
+    const gzipped = await gzip(file)
     const gzippedSize = (gzipped.length / 1024).toFixed(2) + 'kb'
     const compressed = compress(file)
     const compressedSize =
@@ -193,6 +212,4 @@ import { Extractor, ExtractorConfig } from '@microsoft/api-extractor'
       )} min:${minSize} / gzip:${gzippedSize} / brotli:${compressedSize}`
     )
   }
-  
-  run()
 })()
