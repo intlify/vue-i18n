@@ -20,7 +20,9 @@ import { CoreErrorCodes, errorMessages } from '../src/errors'
 import { registerMessageCompiler } from '../src/context'
 import { compileToFunction } from '../src/compile'
 
-const datetimeFormats = {
+import type { DateTimeFormats } from '../src/types'
+
+const datetimeFormats: DateTimeFormats = {
   'en-US': {
     short: {
       // DD/MM/YYYY, hh:mm (AM|PM)

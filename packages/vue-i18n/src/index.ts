@@ -18,6 +18,8 @@ export {
   DateTimeFormat as IntlDateTimeFormat,
   DateTimeFormats as IntlDateTimeFormats,
   NumberFormats as IntlNumberFormats,
+  LocaleMatcher as IntlLocaleMatcher,
+  FormatMatcher as IntlFormatMatcher,
   MessageFunction,
   MessageFunctions,
   PluralizationRule,
