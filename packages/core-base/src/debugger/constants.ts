@@ -1,4 +1,4 @@
-import type { Emittable } from './emittable'
+import type { Emittable } from '@intlify/shared'
 import type { Path, PathValue } from '@intlify/message-resolver'
 import type { Locale, CoreMissingType } from '../context'
 
