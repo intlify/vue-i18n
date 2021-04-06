@@ -73,7 +73,7 @@ export type VueDevToolsTimelineEventPayloads = {
   }
 }
 
-export type VueVueDevToolsEmitterEvents = {
+export type VueDevToolsEmitterEvents = {
   [VueDevToolsTimelineEvents.COMPILE_ERROR]: VueDevToolsTimelineEventPayloads[VueDevToolsTimelineEvents.COMPILE_ERROR]
   [VueDevToolsTimelineEvents.MISSING]: VueDevToolsTimelineEventPayloads[VueDevToolsTimelineEvents.MISSING]
   [VueDevToolsTimelineEvents.FALBACK]: VueDevToolsTimelineEventPayloads[VueDevToolsTimelineEvents.FALBACK]
@@ -81,4 +81,4 @@ export type VueVueDevToolsEmitterEvents = {
   [VueDevToolsTimelineEvents.MESSAGE_COMPILATION]: VueDevToolsTimelineEventPayloads[VueDevToolsTimelineEvents.MESSAGE_COMPILATION]
   [VueDevToolsTimelineEvents.MESSAGE_EVALUATION]: VueDevToolsTimelineEventPayloads[VueDevToolsTimelineEvents.MESSAGE_EVALUATION]
 }
-export type VueDevToolsEmitter = Emittable<VueVueDevToolsEmitterEvents>
+export type VueDevToolsEmitter = Emittable<VueDevToolsEmitterEvents>

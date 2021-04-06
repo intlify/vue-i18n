@@ -432,7 +432,7 @@ function resolveMessageFormat<Messages, Message>(
 
     // for vue-devtools timeline event
     if (__DEV__ && locale !== targetLocale) {
-      const emitter = ((context as unknown) as CoreInternalContext).__emitter
+      const emitter = ((context as unknown) as CoreInternalContext).__v_emitter
       if (emitter) {
         emitter.emit(VueDevToolsTimelineEvents.FALBACK, {
           type,
@@ -466,7 +466,7 @@ function resolveMessageFormat<Messages, Message>(
     // for vue-devtools timeline event
     if (__DEV__ && inBrowser) {
       const end = window.performance.now()
-      const emitter = ((context as unknown) as CoreInternalContext).__emitter
+      const emitter = ((context as unknown) as CoreInternalContext).__v_emitter
       if (emitter && start && format) {
         emitter.emit(VueDevToolsTimelineEvents.MESSAGE_RESOLVE, {
           type: VueDevToolsTimelineEvents.MESSAGE_RESOLVE,
@@ -542,7 +542,7 @@ function compileMessageFormat<Messages, Message>(
   // for vue-devtools timeline event
   if (__DEV__ && inBrowser) {
     const end = window.performance.now()
-    const emitter = ((context as unknown) as CoreInternalContext).__emitter
+    const emitter = ((context as unknown) as CoreInternalContext).__v_emitter
     if (emitter && start) {
       emitter.emit(VueDevToolsTimelineEvents.MESSAGE_COMPILATION, {
         type: VueDevToolsTimelineEvents.MESSAGE_COMPILATION,
@@ -585,7 +585,7 @@ function evaluateMessage<Messages, Message>(
   // for vue-devtools timeline event
   if (__DEV__ && inBrowser) {
     const end = window.performance.now()
-    const emitter = ((context as unknown) as CoreInternalContext).__emitter
+    const emitter = ((context as unknown) as CoreInternalContext).__v_emitter
     if (emitter && start) {
       emitter.emit(VueDevToolsTimelineEvents.MESSAGE_EVALUATION, {
         type: VueDevToolsTimelineEvents.MESSAGE_EVALUATION,
@@ -663,7 +663,7 @@ function getCompileOptions<Messages, Message>(
             err.location.start.offset,
             err.location.end.offset
           )
-        const emitter = ((context as unknown) as CoreInternalContext).__emitter
+        const emitter = ((context as unknown) as CoreInternalContext).__v_emitter
         if (emitter) {
           emitter.emit(VueDevToolsTimelineEvents.COMPILE_ERROR, {
             message: source,

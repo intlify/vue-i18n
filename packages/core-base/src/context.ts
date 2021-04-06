@@ -93,7 +93,7 @@ export interface CoreOptions<Message = string> {
 export interface CoreInternalOptions {
   __datetimeFormatters?: Map<string, Intl.DateTimeFormat>
   __numberFormatters?: Map<string, Intl.NumberFormat>
-  __emitter?: VueDevToolsEmitter // for vue-devtools timeline event
+  __v_emitter?: VueDevToolsEmitter // for vue-devtools timeline event
 }
 
 export interface CoreCommonContext<Message = string> {
@@ -142,7 +142,7 @@ export interface CoreInternalContext {
   __datetimeFormatters: Map<string, Intl.DateTimeFormat>
   __numberFormatters: Map<string, Intl.NumberFormat>
   __localeChainCache?: Map<Locale, Locale[]>
-  __emitter?: VueDevToolsEmitter // for vue-devtools timeline event
+  __v_emitter?: VueDevToolsEmitter // for vue-devtools timeline event
 }
 
 export const NOT_REOSLVED = -1
@@ -283,8 +283,8 @@ export function createCoreContext<
 
   // for vue-devtools timeline event
   if (__DEV__) {
-    ;((context as unknown) as CoreInternalContext).__emitter =
-      internalOptions.__emitter != null ? internalOptions.__emitter : undefined
+    ;((context as unknown) as CoreInternalContext).__v_emitter =
+      internalOptions.__v_emitter != null ? internalOptions.__v_emitter : undefined
   }
 
   return context
@@ -318,7 +318,7 @@ export function handleMissing<Message = string>(
 
   // for vue-devtools timeline event
   if (__DEV__) {
-    const emitter = ((context as unknown) as CoreInternalContext).__emitter
+    const emitter = ((context as unknown) as CoreInternalContext).__v_emitter
     if (emitter) {
       emitter.emit(VueDevToolsTimelineEvents.MISSING, {
         locale,

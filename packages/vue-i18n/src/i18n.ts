@@ -35,7 +35,7 @@ import type {
   DateTimeFormat,
   NumberFormat,
   VueDevToolsEmitter,
-  VueVueDevToolsEmitterEvents
+  VueDevToolsEmitterEvents
 } from '@intlify/core-base'
 import type {
   VueMessageType,
@@ -402,7 +402,7 @@ export function createI18n<
         if (!ret) {
           throw createI18nError(I18nErrorCodes.CANNOT_SETUP_VUE_DEVTOOLS_PLUGIN)
         }
-        const emitter: VueDevToolsEmitter = createEmitter<VueVueDevToolsEmitterEvents>()
+        const emitter: VueDevToolsEmitter = createEmitter<VueDevToolsEmitterEvents>()
         if (__legacyMode) {
           const _vueI18n = (__global as unknown) as VueI18nInternal<
             Messages,
@@ -717,7 +717,7 @@ function setupLifeCycle<Messages, DateTimeFormats, NumberFormats>(
       target.vnode.el
     ) {
       target.vnode.el.__INTLIFY__ = composer
-      emitter = createEmitter<VueVueDevToolsEmitterEvents>()
+      emitter = createEmitter<VueDevToolsEmitterEvents>()
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const _composer = composer as any
       _composer[EnableEmitter] && _composer[EnableEmitter](emitter)

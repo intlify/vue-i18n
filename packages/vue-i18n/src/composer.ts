@@ -1327,8 +1327,8 @@ export function createComposer<
       __numberFormatters: isPlainObject(_context)
         ? ((_context as unknown) as CoreInternalContext).__numberFormatters
         : undefined,
-      __emitter: isPlainObject(_context)
-        ? ((_context as unknown) as CoreInternalContext).__emitter
+      __v_emitter: isPlainObject(_context)
+        ? ((_context as unknown) as CoreInternalContext).__v_emitter
         : undefined
     } as CoreOptions<Message>) as CoreContext<
       Messages,
@@ -1439,7 +1439,7 @@ export function createComposer<
         // for vue-devtools timeline event
         if (__DEV__) {
           const {
-            __emitter: emitter
+            __v_emitter: emitter
           } = (context as unknown) as CoreInternalContext
           if (emitter && _fallbackRoot) {
             emitter.emit(VueDevToolsTimelineEvents.FALBACK, {
@@ -1831,11 +1831,11 @@ export function createComposer<
   if (__DEV__) {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     ;(composer as any)[EnableEmitter] = (emitter: VueDevToolsEmitter): void => {
-      ;((_context as unknown) as CoreInternalContext).__emitter = emitter
+      ;((_context as unknown) as CoreInternalContext).__v_emitter = emitter
     }
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     ;(composer as any)[DisableEmitter] = (): void => {
-      ;((_context as unknown) as CoreInternalContext).__emitter = undefined
+      ;((_context as unknown) as CoreInternalContext).__v_emitter = undefined
     }
   }
 

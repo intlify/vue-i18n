@@ -11,7 +11,7 @@ import type {
   Locale,
   LocaleMessageValue,
   VueDevToolsEmitter,
-  VueVueDevToolsEmitterEvents
+  VueDevToolsEmitterEvents
 } from '@intlify/core'
 import type {
   Composer,
@@ -102,7 +102,7 @@ export function defineMixin<Messages, DateTimeFormats, NumberFormats>(
       /* istanbul ignore if */
       if ((__DEV__ || __FEATURE_PROD_DEVTOOLS__) && !__NODE_JS__) {
         this.$el.__INTLIFY__ = this.$i18n.__composer
-        const emitter: VueDevToolsEmitter = (this.__emitter = createEmitter<VueVueDevToolsEmitterEvents>())
+        const emitter: VueDevToolsEmitter = (this.__v_emitter = createEmitter<VueDevToolsEmitterEvents>())
         const _vueI18n = (this.$i18n as unknown) as VueI18nInternal<
           Messages,
           DateTimeFormats,
@@ -122,9 +122,9 @@ export function defineMixin<Messages, DateTimeFormats, NumberFormats>(
 
       /* istanbul ignore if */
       if ((__DEV__ || __FEATURE_PROD_DEVTOOLS__) && !__NODE_JS__) {
-        if (this.__emitter) {
-          this.__emitter.off('*', addTimelineEvent)
-          delete this.__emitter
+        if (this.__v_emitter) {
+          this.__v_emitter.off('*', addTimelineEvent)
+          delete this.__v_emitter
         }
         const _vueI18n = (this.$i18n as unknown) as VueI18nInternal<
           Messages,

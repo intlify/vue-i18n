@@ -179,7 +179,7 @@ export function number<NumberFormats, Message = string>(
 
     // for vue-devtools timeline event
     if (__DEV__ && locale !== targetLocale) {
-      const emitter = ((context as unknown) as CoreInternalContext).__emitter
+      const emitter = ((context as unknown) as CoreInternalContext).__v_emitter
       if (emitter) {
         emitter.emit(VueDevToolsTimelineEvents.FALBACK, {
           type,
