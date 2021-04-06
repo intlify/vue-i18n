@@ -8,35 +8,28 @@ import {
   isPlainObject,
   isObject
 } from '@intlify/shared'
-import { DevToolsTimelineEvents } from './debugger/constants'
+import { DevToolsTimelineEvents } from '@intlify/vue-devtools'
 import { CoreWarnCodes, getWarnMessage } from './warnings'
 
 import type { Path } from '@intlify/message-resolver'
 import type { CompileOptions } from '@intlify/message-compiler'
 import type {
+  Locale,
+  FallbackLocale,
+  CoreMissingType,
   LinkedModifiers,
   PluralizationRules,
   MessageProcessor,
   MessageFunction,
   MessageType
 } from '@intlify/runtime'
-import type { DevToolsEmitter } from './debugger/constants'
+import type { DevToolsEmitter } from '@intlify/vue-devtools'
 import type {
   NumberFormat,
   DateTimeFormat,
   DateTimeFormats as DateTimeFormatsType,
   NumberFormats as NumberFormatsType
 } from './types'
-
-/** @VueI18nGeneral */
-export type Locale = string
-
-/** @VueI18nGeneral */
-export type FallbackLocale =
-  | Locale
-  | Locale[]
-  | { [locale in string]: Locale[] }
-  | false
 
 /** @VueI18nGeneral */
 export type LocaleMessageValue<Message = string> =
@@ -58,8 +51,6 @@ export type LocaleMessages<Message = string> = Record<
   Locale,
   LocaleMessageDictionary<Message>
 >
-
-export type CoreMissingType = 'translate' | 'datetime format' | 'number format'
 
 export type CoreMissingHandler<Message = string> = (
   context: CoreCommonContext<Message>,

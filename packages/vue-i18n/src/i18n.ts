@@ -11,7 +11,8 @@ import {
   isObject,
   isBoolean,
   warn,
-  makeSymbol
+  makeSymbol,
+  createEmitter
 } from '@intlify/shared'
 import {
   getLocaleMessages,
@@ -25,7 +26,6 @@ import { I18nErrorCodes, createI18nError } from './errors'
 import { apply } from './plugin'
 import { defineMixin } from './mixin'
 import { enableDevTools, addTimelineEvent } from './devtools'
-import { createEmitter } from '@intlify/core-base'
 
 import type { ComponentInternalInstance, ComponentOptions, App } from 'vue'
 import type {

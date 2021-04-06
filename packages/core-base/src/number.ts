@@ -14,15 +14,16 @@ import {
 } from './context'
 import { CoreWarnCodes, getWarnMessage } from './warnings'
 import { CoreErrorCodes, createCoreError } from './errors'
-import { DevToolsTimelineEvents } from './debugger/constants'
+import { DevToolsTimelineEvents } from '@intlify/vue-devtools'
 import { Availabilities } from './intl'
 
+import type { Locale } from '@intlify/runtime'
 import type {
   NumberFormat,
   NumberFormats as NumberFormatsType,
   NumberFormatOptions
 } from './types'
-import type { Locale, CoreNumberContext, CoreInternalContext } from './context'
+import type { CoreNumberContext, CoreInternalContext } from './context'
 
 /**
  *  # number

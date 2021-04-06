@@ -25,11 +25,13 @@ import {
 } from './context'
 import { CoreWarnCodes, getWarnMessage } from './warnings'
 import { CoreErrorCodes, createCoreError } from './errors'
-import { DevToolsTimelineEvents } from './debugger/constants'
+import { DevToolsTimelineEvents } from '@intlify/vue-devtools'
 
 import type { Path, PathValue } from '@intlify/message-resolver'
 import type { CompileOptions, CompileError } from '@intlify/message-compiler'
 import type {
+  Locale,
+  FallbackLocale,
   NamedValue,
   MessageFunction,
   MessageFunctionInternal,
@@ -38,8 +40,6 @@ import type {
   MessageContext
 } from '@intlify/runtime'
 import type {
-  Locale,
-  FallbackLocale,
   LocaleMessages,
   LocaleMessageValue,
   CoreInternalContext,

@@ -6,8 +6,12 @@ The shared utility package for intlify project
 The implementation of this module is contains code forked from other packages or projects:
 
 - [@vue/shared](https://github.com/vuejs/vue-next/tree/master/packages/shared)
-  - Author: Evan You
-  - License: MIT
+  - Usefull Utilities at `utils.ts`
+    - Author: Evan You
+    - License: MIT
+  - Event Emitter at `emitter.ts` and `emittable.ts`
+    - Author: Jason Miller
+    - License: MIT
 
 ## :copyright: License
 

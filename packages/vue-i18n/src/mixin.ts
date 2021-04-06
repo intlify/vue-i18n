@@ -3,7 +3,7 @@ import { getLocaleMessages, SetPluralRulesSymbol } from './composer'
 import { createVueI18n } from './legacy'
 import { createI18nError, I18nErrorCodes } from './errors'
 import { addTimelineEvent } from './devtools'
-import { createEmitter } from '@intlify/core-base'
+import { createEmitter } from '@intlify/shared'
 
 import type { ComponentOptions } from 'vue'
 import type { Path } from '@intlify/core-base'

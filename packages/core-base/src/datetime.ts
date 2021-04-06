@@ -15,19 +15,16 @@ import {
 } from './context'
 import { CoreWarnCodes, getWarnMessage } from './warnings'
 import { CoreErrorCodes, createCoreError } from './errors'
-import { DevToolsTimelineEvents } from './debugger/constants'
+import { DevToolsTimelineEvents } from '@intlify/vue-devtools'
 import { Availabilities } from './intl'
 
+import type { Locale } from '@intlify/runtime'
 import type {
   DateTimeFormat,
   DateTimeFormats as DateTimeFormatsType,
   DateTimeFormatOptions
 } from './types'
-import type {
-  Locale,
-  CoreDateTimeContext,
-  CoreInternalContext
-} from './context'
+import type { CoreDateTimeContext, CoreInternalContext } from './context'
 
 /**
  *  # datetime
