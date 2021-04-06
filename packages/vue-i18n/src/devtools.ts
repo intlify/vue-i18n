@@ -4,12 +4,12 @@ import {
   ComponentTreeNode
 } from '@vue/devtools-api'
 import {
-  DevToolsIDs,
-  DevToolsTimelineColors,
-  DevToolsLabels,
-  DevToolsPlaceholders,
-  DevToolsTimelineEvents
-} from '@intlify/core-base'
+  VueDevToolsIDs,
+  VueDevToolsTimelineColors,
+  VueDevToolsLabels,
+  VueDevToolsPlaceholders,
+  VueDevToolsTimelineEvents
+} from '@intlify/vue-devtools'
 import {
   isFunction,
   isString,
@@ -26,7 +26,7 @@ import type {
   ComponentStateBase,
   HookPayloads
 } from '@vue/devtools-api'
-import type { DevToolsTimelineEventPayloads } from '@intlify/core-base'
+import type { VueDevToolsTimelineEventPayloads } from '@intlify/vue-devtools'
 import type { I18n, I18nInternal } from './i18n'
 import type { Composer } from './composer'
 import type { VueI18nInternal } from './legacy'
@@ -55,8 +55,8 @@ export async function enableDevTools<
     try {
       setupDevtoolsPlugin(
         {
-          id: DevToolsIDs.PLUGIN,
-          label: DevToolsLabels[DevToolsIDs.PLUGIN],
+          id: VueDevToolsIDs.PLUGIN,
+          label: VueDevToolsLabels[VueDevToolsIDs.PLUGIN],
           packageName: 'vue-i18n',
           homepage: 'https://vue-i18n.intlify.dev',
           logo: 'https://vue-i18n.intlify.dev/vue-i18n-devtools-logo.png',
@@ -93,17 +93,17 @@ export async function enableDevTools<
           })
 
           api.addInspector({
-            id: DevToolsIDs.CUSTOM_INSPECTOR,
-            label: DevToolsLabels[DevToolsIDs.CUSTOM_INSPECTOR],
+            id: VueDevToolsIDs.CUSTOM_INSPECTOR,
+            label: VueDevToolsLabels[VueDevToolsIDs.CUSTOM_INSPECTOR],
             icon: 'language',
             treeFilterPlaceholder:
-              DevToolsPlaceholders[DevToolsIDs.CUSTOM_INSPECTOR]
+              VueDevToolsPlaceholders[VueDevToolsIDs.CUSTOM_INSPECTOR]
           })
 
           api.on.getInspectorTree(payload => {
             if (
               payload.app === app &&
-              payload.inspectorId === DevToolsIDs.CUSTOM_INSPECTOR
+              payload.inspectorId === VueDevToolsIDs.CUSTOM_INSPECTOR
             ) {
               registerScope(payload, i18n)
             }
@@ -112,7 +112,7 @@ export async function enableDevTools<
           api.on.getInspectorState(payload => {
             if (
               payload.app === app &&
-              payload.inspectorId === DevToolsIDs.CUSTOM_INSPECTOR
+              payload.inspectorId === VueDevToolsIDs.CUSTOM_INSPECTOR
             ) {
               inspectScope(payload, i18n)
             }
@@ -121,16 +121,16 @@ export async function enableDevTools<
           api.on.editInspectorState(payload => {
             if (
               payload.app === app &&
-              payload.inspectorId === DevToolsIDs.CUSTOM_INSPECTOR
+              payload.inspectorId === VueDevToolsIDs.CUSTOM_INSPECTOR
             ) {
               editScope(payload, i18n)
             }
           })
 
           api.addTimelineLayer({
-            id: DevToolsIDs.TIMELINE,
-            label: DevToolsLabels[DevToolsIDs.TIMELINE],
-            color: DevToolsTimelineColors[DevToolsIDs.TIMELINE]
+            id: VueDevToolsIDs.TIMELINE,
+            label: VueDevToolsLabels[VueDevToolsIDs.TIMELINE],
+            color: VueDevToolsTimelineColors[VueDevToolsIDs.TIMELINE]
           })
 
           resolve(true)
@@ -418,8 +418,8 @@ function makeScopeInspectState(composer: Composer): CustomInspectorState {
 }
 
 export function addTimelineEvent(
-  event: DevToolsTimelineEvents,
-  payload?: DevToolsTimelineEventPayloads[DevToolsTimelineEvents]
+  event: VueDevToolsTimelineEvents,
+  payload?: VueDevToolsTimelineEventPayloads[VueDevToolsTimelineEvents]
 ): void {
   if (devtoolsApi) {
     let groupId: string | undefined
@@ -428,7 +428,7 @@ export function addTimelineEvent(
       delete payload.groupId
     }
     devtoolsApi.addTimelineEvent({
-      layerId: DevToolsIDs.TIMELINE,
+      layerId: VueDevToolsIDs.TIMELINE,
       event: {
         title: event,
         groupId,
@@ -436,10 +436,10 @@ export function addTimelineEvent(
         meta: {},
         data: payload || {},
         logType:
-          event === DevToolsTimelineEvents.COMPILE_ERROR
+          event === VueDevToolsTimelineEvents.COMPILE_ERROR
             ? 'error'
-            : event === DevToolsTimelineEvents.FALBACK ||
-              event === DevToolsTimelineEvents.MISSING
+            : event === VueDevToolsTimelineEvents.FALBACK ||
+              event === VueDevToolsTimelineEvents.MISSING
             ? 'warning'
             : 'default'
       }

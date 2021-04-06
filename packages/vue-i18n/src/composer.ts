@@ -36,10 +36,10 @@ import {
   clearNumberFormat,
   getLocaleChain,
   NOT_REOSLVED,
-  DevToolsTimelineEvents,
   handleFlatJson,
   MessageFunction
 } from '@intlify/core-base'
+import { VueDevToolsTimelineEvents } from '@intlify/vue-devtools'
 import { I18nWarnCodes, getWarnMessage } from './warnings'
 import { I18nErrorCodes, createI18nError } from './errors'
 
@@ -70,12 +70,12 @@ import type {
   TranslateOptions,
   DateTimeOptions,
   NumberOptions,
-  DevToolsEmitter,
   DateTimeFormats as DateTimeFormatsType,
   NumberFormats as NumberFormatsType,
   DateTimeFormat,
   NumberFormat
 } from '@intlify/core-base'
+import type { VueDevToolsEmitter } from '@intlify/vue-devtools'
 
 // extend VNode interface
 declare module '@vue/runtime-core' {
@@ -1078,7 +1078,7 @@ export interface ComposerInternal {
   __transrateVNode(...args: unknown[]): VNodeArrayChildren
   __numberParts(...args: unknown[]): string | Intl.NumberFormatPart[]
   __datetimeParts(...args: unknown[]): string | Intl.DateTimeFormatPart[]
-  __enableEmitter?: (emitter: DevToolsEmitter) => void
+  __enableEmitter?: (emitter: VueDevToolsEmitter) => void
   __disableEmitter?: () => void
   __setPluralRules(rules: PluralizationRules): void
 }
@@ -1327,8 +1327,8 @@ export function createComposer<
       __numberFormatters: isPlainObject(_context)
         ? ((_context as unknown) as CoreInternalContext).__numberFormatters
         : undefined,
-      __emitter: isPlainObject(_context)
-        ? ((_context as unknown) as CoreInternalContext).__emitter
+      __v_emitter: isPlainObject(_context)
+        ? ((_context as unknown) as CoreInternalContext).__v_emitter
         : undefined
     } as CoreOptions<Message>) as CoreContext<
       Messages,
@@ -1439,10 +1439,10 @@ export function createComposer<
         // for vue-devtools timeline event
         if (__DEV__) {
           const {
-            __emitter: emitter
+            __v_emitter: emitter
           } = (context as unknown) as CoreInternalContext
           if (emitter && _fallbackRoot) {
-            emitter.emit(DevToolsTimelineEvents.FALBACK, {
+            emitter.emit(VueDevToolsTimelineEvents.FALBACK, {
               type: warnType,
               key,
               to: 'global',
@@ -1830,12 +1830,12 @@ export function createComposer<
   // for vue-devtools timeline event
   if (__DEV__) {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    ;(composer as any)[EnableEmitter] = (emitter: DevToolsEmitter): void => {
-      ;((_context as unknown) as CoreInternalContext).__emitter = emitter
+    ;(composer as any)[EnableEmitter] = (emitter: VueDevToolsEmitter): void => {
+      ;((_context as unknown) as CoreInternalContext).__v_emitter = emitter
     }
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     ;(composer as any)[DisableEmitter] = (): void => {
-      ;((_context as unknown) as CoreInternalContext).__emitter = undefined
+      ;((_context as unknown) as CoreInternalContext).__v_emitter = undefined
     }
   }
 

@@ -1,24 +1,23 @@
 {
-  "name": "@intlify/core-base",
+  "name": "@intlify/vue-devtools",
   "version": "9.0.0",
-  "description": "@intlify/core-base",
+  "description": "@intlify/vue-devtools",
   "keywords": [
-    "core",
-    "fundamental",
     "i18n",
     "internationalization",
-    "intlify"
+    "intlify",
+    "vue-devtools"
   ],
   "license": "MIT",
   "author": {
     "name": "kazuya kawaguchi",
     "email": "kawakazu80@gmail.com"
   },
-  "homepage": "https://github.com/intlify/vue-i18n-next/tree/master/packages/core-base#readme",
+  "homepage": "https://github.com/intlify/vue-i18n-next/tree/master/packages/vue-devtools#readme",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/intlify/vue-i18n-next.git",
-    "directory": "packages/core"
+    "directory": "packages/vue-devtools"
   },
   "bugs": {
     "url": "https://github.com/intlify/vue-i18n-next/issues"
@@ -28,27 +27,21 @@
     "dist"
   ],
   "main": "index.js",
-  "module": "dist/core-base.esm-bundler.js",
-  "unpkg": "dist/core-base.global.js",
-  "jsdelivr": "dist/core-base.global.js",
-  "types": "dist/core-base.d.ts",
+  "module": "dist/vue-devtools.esm-bundler.js",
+  "types": "dist/vue-devtools.d.ts",
   "dependencies": {
-    "@intlify/message-compiler": "9.0.0",
     "@intlify/message-resolver": "9.0.0",
     "@intlify/runtime": "9.0.0",
-    "@intlify/shared": "9.0.0",
-    "@intlify/vue-devtools": "9.0.0"
+    "@intlify/shared": "9.0.0"
   },
   "engines": {
     "node": ">= 10"
   },
   "buildOptions": {
-    "name": "IntlifyCoreBase",
+    "name": "IntlifyVueDevtools",
     "formats": [
       "esm-bundler",
-      "esm-browser",
-      "cjs",
-      "global"
+      "cjs"
     ]
   },
   "sideEffects": false

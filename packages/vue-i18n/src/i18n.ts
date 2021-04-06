@@ -11,7 +11,8 @@ import {
   isObject,
   isBoolean,
   warn,
-  makeSymbol
+  makeSymbol,
+  createEmitter
 } from '@intlify/shared'
 import {
   getLocaleMessages,
@@ -25,7 +26,6 @@ import { I18nErrorCodes, createI18nError } from './errors'
 import { apply } from './plugin'
 import { defineMixin } from './mixin'
 import { enableDevTools, addTimelineEvent } from './devtools'
-import { createEmitter } from '@intlify/core-base'
 
 import type { ComponentInternalInstance, ComponentOptions, App } from 'vue'
 import type {
@@ -33,10 +33,12 @@ import type {
   FallbackLocale,
   LocaleMessageDictionary,
   DateTimeFormat,
-  NumberFormat,
-  DevToolsEmitter,
-  DevToolsEmitterEvents
+  NumberFormat
 } from '@intlify/core-base'
+import type {
+  VueDevToolsEmitter,
+  VueDevToolsEmitterEvents
+} from '@intlify/vue-devtools'
 import type {
   VueMessageType,
   Composer,
@@ -402,7 +404,7 @@ export function createI18n<
         if (!ret) {
           throw createI18nError(I18nErrorCodes.CANNOT_SETUP_VUE_DEVTOOLS_PLUGIN)
         }
-        const emitter: DevToolsEmitter = createEmitter<DevToolsEmitterEvents>()
+        const emitter: VueDevToolsEmitter = createEmitter<VueDevToolsEmitterEvents>()
         if (__legacyMode) {
           const _vueI18n = (__global as unknown) as VueI18nInternal<
             Messages,
@@ -707,7 +709,7 @@ function setupLifeCycle<Messages, DateTimeFormats, NumberFormats>(
   target: ComponentInternalInstance,
   composer: Composer<Messages, DateTimeFormats, NumberFormats>
 ): void {
-  let emitter: DevToolsEmitter | null = null
+  let emitter: VueDevToolsEmitter | null = null
 
   onMounted(() => {
     // inject composer instance to DOM for intlify-devtools
@@ -717,7 +719,7 @@ function setupLifeCycle<Messages, DateTimeFormats, NumberFormats>(
       target.vnode.el
     ) {
       target.vnode.el.__INTLIFY__ = composer
-      emitter = createEmitter<DevToolsEmitterEvents>()
+      emitter = createEmitter<VueDevToolsEmitterEvents>()
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const _composer = composer as any
       _composer[EnableEmitter] && _composer[EnableEmitter](emitter)
