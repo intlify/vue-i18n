@@ -93,7 +93,7 @@ export interface CoreOptions<Message = string> {
 export interface CoreInternalOptions {
   __datetimeFormatters?: Map<string, Intl.DateTimeFormat>
   __numberFormatters?: Map<string, Intl.NumberFormat>
-  __v_emitter?: VueDevToolsEmitter // for vue-devtools timeline event
+  __v_emitter?: VueDevToolsEmitter // eslint-disable-line camelcase
 }
 
 export interface CoreCommonContext<Message = string> {
@@ -142,7 +142,7 @@ export interface CoreInternalContext {
   __datetimeFormatters: Map<string, Intl.DateTimeFormat>
   __numberFormatters: Map<string, Intl.NumberFormat>
   __localeChainCache?: Map<Locale, Locale[]>
-  __v_emitter?: VueDevToolsEmitter // for vue-devtools timeline event
+  __v_emitter?: VueDevToolsEmitter // eslint-disable-line camelcase
 }
 
 export const NOT_REOSLVED = -1
@@ -284,7 +284,9 @@ export function createCoreContext<
   // for vue-devtools timeline event
   if (__DEV__) {
     ;((context as unknown) as CoreInternalContext).__v_emitter =
-      internalOptions.__v_emitter != null ? internalOptions.__v_emitter : undefined
+      internalOptions.__v_emitter != null
+        ? internalOptions.__v_emitter
+        : undefined
   }
 
   return context

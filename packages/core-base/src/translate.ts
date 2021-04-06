@@ -663,7 +663,8 @@ function getCompileOptions<Messages, Message>(
             err.location.start.offset,
             err.location.end.offset
           )
-        const emitter = ((context as unknown) as CoreInternalContext).__v_emitter
+        const emitter = ((context as unknown) as CoreInternalContext)
+          .__v_emitter
         if (emitter) {
           emitter.emit(VueDevToolsTimelineEvents.COMPILE_ERROR, {
             message: source,
