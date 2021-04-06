@@ -7,12 +7,11 @@ import { createEmitter } from '@intlify/shared'
 
 import type { ComponentOptions } from 'vue'
 import type { Path } from '@intlify/core-base'
+import type { Locale, LocaleMessageValue } from '@intlify/core'
 import type {
-  Locale,
-  LocaleMessageValue,
   VueDevToolsEmitter,
   VueDevToolsEmitterEvents
-} from '@intlify/core'
+} from '@intlify/vue-devtools'
 import type {
   Composer,
   ComposerInternalOptions,

@@ -29,9 +29,9 @@ import type {
   DateTimeFormats as DateTimeFormatsType,
   NumberFormats as NumberFormatsType,
   DateTimeFormat,
-  NumberFormat,
-  VueDevToolsEmitter
+  NumberFormat
 } from '@intlify/core-base'
+import type { VueDevToolsEmitter } from '@intlify/vue-devtools'
 import type {
   VueMessageType,
   MissingHandler,

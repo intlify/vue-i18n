@@ -5,7 +5,6 @@ export {
   CompileErrorCodes,
   createCompileError
 } from '@intlify/message-compiler'
-export * from '@intlify/vue-devtools'
 export * from './context'
 export * from './compile'
 export * from './translate'

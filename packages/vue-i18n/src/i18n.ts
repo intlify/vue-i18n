@@ -33,10 +33,12 @@ import type {
   FallbackLocale,
   LocaleMessageDictionary,
   DateTimeFormat,
-  NumberFormat,
+  NumberFormat
+} from '@intlify/core-base'
+import type {
   VueDevToolsEmitter,
   VueDevToolsEmitterEvents
-} from '@intlify/core-base'
+} from '@intlify/vue-devtools'
 import type {
   VueMessageType,
   Composer,

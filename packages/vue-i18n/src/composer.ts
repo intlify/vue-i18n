@@ -36,10 +36,10 @@ import {
   clearNumberFormat,
   getLocaleChain,
   NOT_REOSLVED,
-  VueDevToolsTimelineEvents,
   handleFlatJson,
   MessageFunction
 } from '@intlify/core-base'
+import { VueDevToolsTimelineEvents } from '@intlify/vue-devtools'
 import { I18nWarnCodes, getWarnMessage } from './warnings'
 import { I18nErrorCodes, createI18nError } from './errors'
 
@@ -70,12 +70,12 @@ import type {
   TranslateOptions,
   DateTimeOptions,
   NumberOptions,
-  VueDevToolsEmitter,
   DateTimeFormats as DateTimeFormatsType,
   NumberFormats as NumberFormatsType,
   DateTimeFormat,
   NumberFormat
 } from '@intlify/core-base'
+import type { VueDevToolsEmitter } from '@intlify/vue-devtools'
 
 // extend VNode interface
 declare module '@vue/runtime-core' {

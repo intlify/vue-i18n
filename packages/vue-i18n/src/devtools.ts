@@ -9,7 +9,7 @@ import {
   VueDevToolsLabels,
   VueDevToolsPlaceholders,
   VueDevToolsTimelineEvents
-} from '@intlify/core-base'
+} from '@intlify/vue-devtools'
 import {
   isFunction,
   isString,
@@ -26,7 +26,7 @@ import type {
   ComponentStateBase,
   HookPayloads
 } from '@vue/devtools-api'
-import type { VueDevToolsTimelineEventPayloads } from '@intlify/core-base'
+import type { VueDevToolsTimelineEventPayloads } from '@intlify/vue-devtools'
 import type { I18n, I18nInternal } from './i18n'
 import type { Composer } from './composer'
 import type { VueI18nInternal } from './legacy'
