@@ -10,8 +10,8 @@ import type { Path } from '@intlify/core-base'
 import type {
   Locale,
   LocaleMessageValue,
-  DevToolsEmitter,
-  DevToolsEmitterEvents
+  VueDevToolsEmitter,
+  VueVueDevToolsEmitterEvents
 } from '@intlify/core'
 import type {
   Composer,
@@ -102,7 +102,7 @@ export function defineMixin<Messages, DateTimeFormats, NumberFormats>(
       /* istanbul ignore if */
       if ((__DEV__ || __FEATURE_PROD_DEVTOOLS__) && !__NODE_JS__) {
         this.$el.__INTLIFY__ = this.$i18n.__composer
-        const emitter: DevToolsEmitter = (this.__emitter = createEmitter<DevToolsEmitterEvents>())
+        const emitter: VueDevToolsEmitter = (this.__emitter = createEmitter<VueVueDevToolsEmitterEvents>())
         const _vueI18n = (this.$i18n as unknown) as VueI18nInternal<
           Messages,
           DateTimeFormats,

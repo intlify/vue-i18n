@@ -34,8 +34,8 @@ import type {
   LocaleMessageDictionary,
   DateTimeFormat,
   NumberFormat,
-  DevToolsEmitter,
-  DevToolsEmitterEvents
+  VueDevToolsEmitter,
+  VueVueDevToolsEmitterEvents
 } from '@intlify/core-base'
 import type {
   VueMessageType,
@@ -402,7 +402,7 @@ export function createI18n<
         if (!ret) {
           throw createI18nError(I18nErrorCodes.CANNOT_SETUP_VUE_DEVTOOLS_PLUGIN)
         }
-        const emitter: DevToolsEmitter = createEmitter<DevToolsEmitterEvents>()
+        const emitter: VueDevToolsEmitter = createEmitter<VueVueDevToolsEmitterEvents>()
         if (__legacyMode) {
           const _vueI18n = (__global as unknown) as VueI18nInternal<
             Messages,
@@ -707,7 +707,7 @@ function setupLifeCycle<Messages, DateTimeFormats, NumberFormats>(
   target: ComponentInternalInstance,
   composer: Composer<Messages, DateTimeFormats, NumberFormats>
 ): void {
-  let emitter: DevToolsEmitter | null = null
+  let emitter: VueDevToolsEmitter | null = null
 
   onMounted(() => {
     // inject composer instance to DOM for intlify-devtools
@@ -717,7 +717,7 @@ function setupLifeCycle<Messages, DateTimeFormats, NumberFormats>(
       target.vnode.el
     ) {
       target.vnode.el.__INTLIFY__ = composer
-      emitter = createEmitter<DevToolsEmitterEvents>()
+      emitter = createEmitter<VueVueDevToolsEmitterEvents>()
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const _composer = composer as any
       _composer[EnableEmitter] && _composer[EnableEmitter](emitter)

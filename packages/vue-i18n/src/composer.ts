@@ -36,7 +36,7 @@ import {
   clearNumberFormat,
   getLocaleChain,
   NOT_REOSLVED,
-  DevToolsTimelineEvents,
+  VueDevToolsTimelineEvents,
   handleFlatJson,
   MessageFunction
 } from '@intlify/core-base'
@@ -70,7 +70,7 @@ import type {
   TranslateOptions,
   DateTimeOptions,
   NumberOptions,
-  DevToolsEmitter,
+  VueDevToolsEmitter,
   DateTimeFormats as DateTimeFormatsType,
   NumberFormats as NumberFormatsType,
   DateTimeFormat,
@@ -1078,7 +1078,7 @@ export interface ComposerInternal {
   __transrateVNode(...args: unknown[]): VNodeArrayChildren
   __numberParts(...args: unknown[]): string | Intl.NumberFormatPart[]
   __datetimeParts(...args: unknown[]): string | Intl.DateTimeFormatPart[]
-  __enableEmitter?: (emitter: DevToolsEmitter) => void
+  __enableEmitter?: (emitter: VueDevToolsEmitter) => void
   __disableEmitter?: () => void
   __setPluralRules(rules: PluralizationRules): void
 }
@@ -1442,7 +1442,7 @@ export function createComposer<
             __emitter: emitter
           } = (context as unknown) as CoreInternalContext
           if (emitter && _fallbackRoot) {
-            emitter.emit(DevToolsTimelineEvents.FALBACK, {
+            emitter.emit(VueDevToolsTimelineEvents.FALBACK, {
               type: warnType,
               key,
               to: 'global',
@@ -1830,7 +1830,7 @@ export function createComposer<
   // for vue-devtools timeline event
   if (__DEV__) {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    ;(composer as any)[EnableEmitter] = (emitter: DevToolsEmitter): void => {
+    ;(composer as any)[EnableEmitter] = (emitter: VueDevToolsEmitter): void => {
       ;((_context as unknown) as CoreInternalContext).__emitter = emitter
     }
     // eslint-disable-next-line @typescript-eslint/no-explicit-any

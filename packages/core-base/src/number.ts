@@ -14,7 +14,7 @@ import {
 } from './context'
 import { CoreWarnCodes, getWarnMessage } from './warnings'
 import { CoreErrorCodes, createCoreError } from './errors'
-import { DevToolsTimelineEvents } from '@intlify/vue-devtools'
+import { VueDevToolsTimelineEvents } from '@intlify/vue-devtools'
 import { Availabilities } from './intl'
 
 import type { Locale } from '@intlify/runtime'
@@ -181,7 +181,7 @@ export function number<NumberFormats, Message = string>(
     if (__DEV__ && locale !== targetLocale) {
       const emitter = ((context as unknown) as CoreInternalContext).__emitter
       if (emitter) {
-        emitter.emit(DevToolsTimelineEvents.FALBACK, {
+        emitter.emit(VueDevToolsTimelineEvents.FALBACK, {
           type,
           key,
           from,

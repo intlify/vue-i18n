@@ -8,7 +8,7 @@ import {
   isPlainObject,
   isObject
 } from '@intlify/shared'
-import { DevToolsTimelineEvents } from '@intlify/vue-devtools'
+import { VueDevToolsTimelineEvents } from '@intlify/vue-devtools'
 import { CoreWarnCodes, getWarnMessage } from './warnings'
 
 import type { Path } from '@intlify/message-resolver'
@@ -23,7 +23,7 @@ import type {
   MessageFunction,
   MessageType
 } from '@intlify/runtime'
-import type { DevToolsEmitter } from '@intlify/vue-devtools'
+import type { VueDevToolsEmitter } from '@intlify/vue-devtools'
 import type {
   NumberFormat,
   DateTimeFormat,
@@ -93,7 +93,7 @@ export interface CoreOptions<Message = string> {
 export interface CoreInternalOptions {
   __datetimeFormatters?: Map<string, Intl.DateTimeFormat>
   __numberFormatters?: Map<string, Intl.NumberFormat>
-  __emitter?: DevToolsEmitter // for vue-devtools timeline event
+  __emitter?: VueDevToolsEmitter // for vue-devtools timeline event
 }
 
 export interface CoreCommonContext<Message = string> {
@@ -142,7 +142,7 @@ export interface CoreInternalContext {
   __datetimeFormatters: Map<string, Intl.DateTimeFormat>
   __numberFormatters: Map<string, Intl.NumberFormat>
   __localeChainCache?: Map<Locale, Locale[]>
-  __emitter?: DevToolsEmitter // for vue-devtools timeline event
+  __emitter?: VueDevToolsEmitter // for vue-devtools timeline event
 }
 
 export const NOT_REOSLVED = -1
@@ -320,7 +320,7 @@ export function handleMissing<Message = string>(
   if (__DEV__) {
     const emitter = ((context as unknown) as CoreInternalContext).__emitter
     if (emitter) {
-      emitter.emit(DevToolsTimelineEvents.MISSING, {
+      emitter.emit(VueDevToolsTimelineEvents.MISSING, {
         locale,
         key,
         type,

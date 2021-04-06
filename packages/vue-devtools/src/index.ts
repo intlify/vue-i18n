@@ -2,27 +2,27 @@ import type { Emittable } from '@intlify/shared'
 import type { Path, PathValue } from '@intlify/message-resolver'
 import type { Locale, CoreMissingType } from '@intlify/runtime'
 
-export const enum DevToolsIDs {
+export const enum VueDevToolsIDs {
   PLUGIN = 'vue-devtools-plugin-vue-i18n',
   CUSTOM_INSPECTOR = 'vue-i18n-resource-inspector',
   TIMELINE = 'vue-i18n-timeline'
 }
 
-export const DevToolsLabels: Record<string, string> = {
-  [DevToolsIDs.PLUGIN]: 'Vue I18n devtools',
-  [DevToolsIDs.CUSTOM_INSPECTOR]: 'I18n Resources',
-  [DevToolsIDs.TIMELINE]: 'Vue I18n'
+export const VueDevToolsLabels: Record<string, string> = {
+  [VueDevToolsIDs.PLUGIN]: 'Vue I18n devtools',
+  [VueDevToolsIDs.CUSTOM_INSPECTOR]: 'I18n Resources',
+  [VueDevToolsIDs.TIMELINE]: 'Vue I18n'
 }
 
-export const DevToolsPlaceholders: Record<string, string> = {
-  [DevToolsIDs.CUSTOM_INSPECTOR]: 'Search for scopes ...'
+export const VueDevToolsPlaceholders: Record<string, string> = {
+  [VueDevToolsIDs.CUSTOM_INSPECTOR]: 'Search for scopes ...'
 }
 
-export const DevToolsTimelineColors: Record<string, number> = {
-  [DevToolsIDs.TIMELINE]: 0xffcd19
+export const VueDevToolsTimelineColors: Record<string, number> = {
+  [VueDevToolsIDs.TIMELINE]: 0xffcd19
 }
 
-export const enum DevToolsTimelineEvents {
+export const enum VueDevToolsTimelineEvents {
   COMPILE_ERROR = 'compile-error',
   MISSING = 'missing',
   FALBACK = 'fallback',
@@ -31,54 +31,54 @@ export const enum DevToolsTimelineEvents {
   MESSAGE_EVALUATION = 'message-evaluation'
 }
 
-export type DevToolsTimelineEventPayloads = {
-  [DevToolsTimelineEvents.COMPILE_ERROR]: {
+export type VueDevToolsTimelineEventPayloads = {
+  [VueDevToolsTimelineEvents.COMPILE_ERROR]: {
     message: PathValue
     error: string
     start?: number
     end?: number
     groupId?: string
   }
-  [DevToolsTimelineEvents.MISSING]: {
+  [VueDevToolsTimelineEvents.MISSING]: {
     locale: Locale
     key: Path
     type: CoreMissingType
     groupId?: string
   }
-  [DevToolsTimelineEvents.FALBACK]: {
+  [VueDevToolsTimelineEvents.FALBACK]: {
     key: Path
     type: CoreMissingType
     from?: Locale
     to: Locale | 'global'
     groupId?: string
   }
-  [DevToolsTimelineEvents.MESSAGE_RESOLVE]: {
-    type: DevToolsTimelineEvents.MESSAGE_RESOLVE
+  [VueDevToolsTimelineEvents.MESSAGE_RESOLVE]: {
+    type: VueDevToolsTimelineEvents.MESSAGE_RESOLVE
     key: Path
     message: PathValue
     time: number
     groupId?: string
   }
-  [DevToolsTimelineEvents.MESSAGE_COMPILATION]: {
-    type: DevToolsTimelineEvents.MESSAGE_COMPILATION
+  [VueDevToolsTimelineEvents.MESSAGE_COMPILATION]: {
+    type: VueDevToolsTimelineEvents.MESSAGE_COMPILATION
     message: PathValue
     time: number
     groupId?: string
   }
-  [DevToolsTimelineEvents.MESSAGE_EVALUATION]: {
-    type: DevToolsTimelineEvents.MESSAGE_EVALUATION
+  [VueDevToolsTimelineEvents.MESSAGE_EVALUATION]: {
+    type: VueDevToolsTimelineEvents.MESSAGE_EVALUATION
     value: unknown
     time: number
     groupId?: string
   }
 }
 
-export type DevToolsEmitterEvents = {
-  [DevToolsTimelineEvents.COMPILE_ERROR]: DevToolsTimelineEventPayloads[DevToolsTimelineEvents.COMPILE_ERROR]
-  [DevToolsTimelineEvents.MISSING]: DevToolsTimelineEventPayloads[DevToolsTimelineEvents.MISSING]
-  [DevToolsTimelineEvents.FALBACK]: DevToolsTimelineEventPayloads[DevToolsTimelineEvents.FALBACK]
-  [DevToolsTimelineEvents.MESSAGE_RESOLVE]: DevToolsTimelineEventPayloads[DevToolsTimelineEvents.MESSAGE_RESOLVE]
-  [DevToolsTimelineEvents.MESSAGE_COMPILATION]: DevToolsTimelineEventPayloads[DevToolsTimelineEvents.MESSAGE_COMPILATION]
-  [DevToolsTimelineEvents.MESSAGE_EVALUATION]: DevToolsTimelineEventPayloads[DevToolsTimelineEvents.MESSAGE_EVALUATION]
+export type VueVueDevToolsEmitterEvents = {
+  [VueDevToolsTimelineEvents.COMPILE_ERROR]: VueDevToolsTimelineEventPayloads[VueDevToolsTimelineEvents.COMPILE_ERROR]
+  [VueDevToolsTimelineEvents.MISSING]: VueDevToolsTimelineEventPayloads[VueDevToolsTimelineEvents.MISSING]
+  [VueDevToolsTimelineEvents.FALBACK]: VueDevToolsTimelineEventPayloads[VueDevToolsTimelineEvents.FALBACK]
+  [VueDevToolsTimelineEvents.MESSAGE_RESOLVE]: VueDevToolsTimelineEventPayloads[VueDevToolsTimelineEvents.MESSAGE_RESOLVE]
+  [VueDevToolsTimelineEvents.MESSAGE_COMPILATION]: VueDevToolsTimelineEventPayloads[VueDevToolsTimelineEvents.MESSAGE_COMPILATION]
+  [VueDevToolsTimelineEvents.MESSAGE_EVALUATION]: VueDevToolsTimelineEventPayloads[VueDevToolsTimelineEvents.MESSAGE_EVALUATION]
 }
-export type DevToolsEmitter = Emittable<DevToolsEmitterEvents>
+export type VueDevToolsEmitter = Emittable<VueVueDevToolsEmitterEvents>
