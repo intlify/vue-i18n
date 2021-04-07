@@ -71,22 +71,22 @@ export async function enableDevTools<
           })
 
           api.on.inspectComponent(({ componentInstance, instanceData }) => {
-            if (componentInstance.vnode.el.__INTLIFY__ && instanceData) {
+            if (componentInstance.vnode.el.__VUE_I18N__ && instanceData) {
               if (i18n.mode === 'legacy') {
                 // ignore global scope on legacy mode
                 if (
-                  componentInstance.vnode.el.__INTLIFY__ !==
+                  componentInstance.vnode.el.__VUE_I18N__ !==
                   ((i18n.global as unknown) as VueI18nInternal).__composer
                 ) {
                   inspectComposer(
                     instanceData,
-                    componentInstance.vnode.el.__INTLIFY__ as Composer
+                    componentInstance.vnode.el.__VUE_I18N__ as Composer
                   )
                 }
               } else {
                 inspectComposer(
                   instanceData,
-                  componentInstance.vnode.el.__INTLIFY__ as Composer
+                  componentInstance.vnode.el.__VUE_I18N__ as Composer
                 )
               }
             }
@@ -157,9 +157,9 @@ function updateComponentTreeTags<
   const global = i18n.mode === 'composition'
     ? i18n.global
     : (i18n.global as unknown as VueI18nInternal).__composer
-  if (instance && instance.vnode.el.__INTLIFY__) {
+  if (instance && instance.vnode.el.__VUE_I18N__) {
     // add custom tags local scope only
-    if (instance.vnode.el.__INTLIFY__ !== global) {
+    if (instance.vnode.el.__VUE_I18N__ !== global) {
       const label =
         instance.type.name || instance.type.displayName || instance.type.__file
       const tag = {

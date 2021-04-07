@@ -7,8 +7,9 @@ Internationalization plugin for Vue.js
 ### From CDN or without a Bundler
 
 - **`vue-i18n(.runtime).global(.prod).js`**:
+
   - For direct use via `<script src="...">` in the browser. Exposes the `VueI18n` global
-  - Note that global builds are not [UMD](https://github.com/umdjs/umd) builds.  They are built as [IIFEs](https://developer.mozilla.org/en-US/docs/Glossary/IIFE) and is only meant for direct use via `<script src="...">`
+  - Note that global builds are not [UMD](https://github.com/umdjs/umd) builds. They are built as [IIFEs](https://developer.mozilla.org/en-US/docs/Glossary/IIFE) and is only meant for direct use via `<script src="...">`
   - In-browser locale messages compilation:
     - **`vue-i18n.global.js`** is the "full" build that includes both the compiler and the runtime so it supports compiling locale messages on the fly
     - **`vue-i18n.runtime.global.js`** contains only the runtime and requires locale messages to be pre-compiled during a build step
@@ -51,7 +52,10 @@ The `esm-bundler` builds now exposes global feature flags that can be overwritte
 
 - `__VUE_I18N_FULL_INSTALL__` (enable/disable, in addition to vue-i18n APIs, components and directives all fully support installation: `true`)
 - `__VUE_I18N_LEGACY_API__` (enable/disable vue-i18n legacy style APIs support, default: `true`)
-- `__INTLIFY_PROD_DEVTOOLS__` (enable/disable intlify-devtools and vue-devtools support in production, default: `false`)
+- `__VUE_I18N_PROD_DEVTOOLS__` (enable/disable vue-devtools support in production, default: `false`)
+- `__INTLIFY_PROD_DEVTOOLS__` (enable/disable `@intlify/devtools` support in production, default: `false`)
+
+> NOTE: `__INTLIFY_PROD_DEVTOOLS__` flag is experimental, and `@intlify/devtools` is WIP yet.
 
 The build will work without configuring these flags, however it is **strongly recommended** to properly configure them in order to get proper tree shaking in the final bundle. To configure these flags:
 

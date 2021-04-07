@@ -110,8 +110,8 @@ export function defineMixin<Messages, DateTimeFormats, NumberFormats>(
 
     mounted(): void {
       /* istanbul ignore if */
-      if ((__DEV__ || __FEATURE_PROD_DEVTOOLS__) && !__NODE_JS__) {
-        this.$el.__INTLIFY__ = this.$i18n.__composer
+      if ((__DEV__ || __FEATURE_PROD_VUE_DEVTOOLS__) && !__NODE_JS__) {
+        this.$el.__VUE_I18N__ = this.$i18n.__composer
         const emitter: VueDevToolsEmitter = (this.__v_emitter = createEmitter<VueDevToolsEmitterEvents>())
         const _vueI18n = (this.$i18n as unknown) as VueI18nInternal<
           Messages,
@@ -131,7 +131,7 @@ export function defineMixin<Messages, DateTimeFormats, NumberFormats>(
       }
 
       /* istanbul ignore if */
-      if ((__DEV__ || __FEATURE_PROD_DEVTOOLS__) && !__NODE_JS__) {
+      if ((__DEV__ || __FEATURE_PROD_VUE_DEVTOOLS__) && !__NODE_JS__) {
         if (this.__v_emitter) {
           this.__v_emitter.off('*', addTimelineEvent)
           delete this.__v_emitter
@@ -142,7 +142,7 @@ export function defineMixin<Messages, DateTimeFormats, NumberFormats>(
           NumberFormats
         >
         _vueI18n.__disableEmitter && _vueI18n.__disableEmitter()
-        delete this.$el.__INTLIFY__
+        delete this.$el.__VUE_I18N__
       }
 
       delete this.$t

@@ -359,7 +359,7 @@ export function createI18n<
     },
     // install plugin
     async install(app: App, ...options: unknown[]): Promise<void> {
-      if ((__DEV__ || __FEATURE_PROD_DEVTOOLS__) && !__NODE_JS__) {
+      if ((__DEV__ || __FEATURE_PROD_VUE_DEVTOOLS__) && !__NODE_JS__) {
         app.__VUE_I18N__ = i18n as _I18n
       }
 
@@ -400,7 +400,7 @@ export function createI18n<
       }
 
       // setup vue-devtools plugin
-      if ((__DEV__ || __FEATURE_PROD_DEVTOOLS__) && !__NODE_JS__) {
+      if ((__DEV__ || __FEATURE_PROD_VUE_DEVTOOLS__) && !__NODE_JS__) {
         const ret = await enableDevTools(app, i18n as _I18n)
         if (!ret) {
           throw createI18nError(I18nErrorCodes.CANNOT_SETUP_VUE_DEVTOOLS_PLUGIN)
@@ -721,11 +721,11 @@ function setupLifeCycle<Messages, DateTimeFormats, NumberFormats>(
   onMounted(() => {
     // inject composer instance to DOM for intlify-devtools
     if (
-      (__DEV__ || __FEATURE_PROD_DEVTOOLS__) &&
+      (__DEV__ || __FEATURE_PROD_VUE_DEVTOOLS__) &&
       !__NODE_JS__ &&
       target.vnode.el
     ) {
-      target.vnode.el.__INTLIFY__ = composer
+      target.vnode.el.__VUE_I18N__ = composer
       emitter = createEmitter<VueDevToolsEmitterEvents>()
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const _composer = composer as any
@@ -737,16 +737,16 @@ function setupLifeCycle<Messages, DateTimeFormats, NumberFormats>(
   onUnmounted(() => {
     // remove composer instance from DOM for intlify-devtools
     if (
-      (__DEV__ || __FEATURE_PROD_DEVTOOLS__) &&
+      (__DEV__ || __FEATURE_PROD_VUE_DEVTOOLS__) &&
       !__NODE_JS__ &&
       target.vnode.el &&
-      target.vnode.el.__INTLIFY__
+      target.vnode.el.__VUE_I18N__
     ) {
       emitter && emitter.off('*', addTimelineEvent)
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const _composer = composer as any
       _composer[DisableEmitter] && _composer[DisableEmitter]()
-      delete target.vnode.el.__INTLIFY__
+      delete target.vnode.el.__VUE_I18N__
     }
     i18n.__deleteInstance(target)
   }, target)
