@@ -72,7 +72,7 @@ Vue I18n is part of the Vue Ecosystem and Intlify Project is an open source proj
 
 ## Quickstart
 
-- Via CDN: `<script src="https://unpkg.com/vue-i18n@next"></script>`
+- Via CDN: `<script src="https://unpkg.com/vue-i18n@9"></script>`
 - In-browser playground on [CodeSandbox](https://codesandbox.io/s/vue-i18n-9-template-h28c0)
 - Add it to an existing Vue Project:
   ```bash
