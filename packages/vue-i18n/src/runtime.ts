@@ -84,4 +84,6 @@ if (__DEV__ || __FEATURE_PROD_INTLIFY_DEVTOOLS__) {
   setDevToolsHook(target.__INTLIFY_DEVTOOLS_GLOBAL_HOOK__)
 }
 
-__DEV__ && initDev()
+if (__DEV__) {
+  initDev()
+}
