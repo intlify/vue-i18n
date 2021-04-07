@@ -1,3 +1,55 @@
+
+## v9.1.0 (2021-04-07)
+
+#### :star: Features
+* `core-base`, `devtools-if`, `vue-i18n`
+  * [#433](https://github.com/intlify/vue-i18n-next/pull/433) experimental: Hooking for `@intlify/devtools` ([@kazupon](https://github.com/kazupon))
+* `core-base`, `vue-i18n`
+  * [#411](https://github.com/intlify/vue-i18n-next/pull/411) feat: resolve locale message translation new API `rt` ([@kazupon](https://github.com/kazupon))
+* `message-resolver`, `shared`, `vue-i18n`
+  * [#402](https://github.com/intlify/vue-i18n-next/pull/402) Add support for flat json separated with dot('.') ([@PeterAlfredLee](https://github.com/PeterAlfredLee))
+* `vue-i18n`
+  * [#386](https://github.com/intlify/vue-i18n-next/pull/386) feat: Vue I18n Data Editing at DevTools ([@kazupon](https://github.com/kazupon))
+
+#### :bug: Bug Fixes
+* `vue-i18n`
+  * [#404](https://github.com/intlify/vue-i18n-next/pull/404) fix: suppress console for devtools flag ([@kazupon](https://github.com/kazupon))
+  * [#403](https://github.com/intlify/vue-i18n-next/pull/403) fix: cannot fallback at tm / $tm ([@kazupon](https://github.com/kazupon))
+  * [#374](https://github.com/intlify/vue-i18n-next/pull/374) fix: cannot warn fallback root ([@kazupon](https://github.com/kazupon))
+* `message-compiler`
+  * [#372](https://github.com/intlify/vue-i18n-next/pull/372) fix: cannot use underscore as indentifier ([@kazupon](https://github.com/kazupon))
+
+#### :zap: Improvement Features
+* `core-base`, `vue-i18n`
+  * [#422](https://github.com/intlify/vue-i18n-next/pull/422) fix: Intl type definition for TS 4.2 ([@kazupon](https://github.com/kazupon))
+* `core-base`
+  * [#417](https://github.com/intlify/vue-i18n-next/pull/417) Coherent update from 'best-fit' to 'best fit' ([@ValdoGhafoor](https://github.com/ValdoGhafoor))
+* `message-compiler`, `shared`, `vue-i18n`
+  * [#397](https://github.com/intlify/vue-i18n-next/pull/397) fix: Support for browsers that don't support object spread literals ([@kazupon](https://github.com/kazupon))
+* `vue-i18n`
+  * [#387](https://github.com/intlify/vue-i18n-next/pull/387) improvement: Vue I18n Devtools plugin info ([@kazupon](https://github.com/kazupon))
+  * [#384](https://github.com/intlify/vue-i18n-next/pull/384) support suppress esm-bundler feature flags warning ([@kazupon](https://github.com/kazupon))
+  * [#368](https://github.com/intlify/vue-i18n-next/pull/368) improvement: upgrade vue devtools ([@kazupon](https://github.com/kazupon))
+
+#### :boom: Breaking Change
+* `core-base`, `size-check-vue-i18n`, `vue-i18n`
+  * [#434](https://github.com/intlify/vue-i18n-next/pull/434) breaking: split devtools production feature flags ([@kazupon](https://github.com/kazupon))
+
+#### :pencil: Documentation
+* Other
+  * [#420](https://github.com/intlify/vue-i18n-next/pull/420) Fix typos in Composition API page ([@FlandreDaisuki](https://github.com/FlandreDaisuki))
+  * [#406](https://github.com/intlify/vue-i18n-next/pull/406) Add easy-i18n as third-party tool ([@marhali](https://github.com/marhali))
+* `vue-i18n`
+  * [#370](https://github.com/intlify/vue-i18n-next/pull/370) Fix typo in docstring ([@kuanyen](https://github.com/kuanyen))
+
+#### Committers: 6
+- Chun-Hao Lien ([@FlandreDaisuki](https://github.com/FlandreDaisuki))
+- Lee ([@PeterAlfredLee](https://github.com/PeterAlfredLee))
+- Marcel ([@marhali](https://github.com/marhali))
+- Valdo Ghafoor ([@ValdoGhafoor](https://github.com/ValdoGhafoor))
+- Yen Kuan ([@kuanyen](https://github.com/kuanyen))
+- kazuya kawaguchi ([@kazupon](https://github.com/kazupon))
+
 ## v9.0.0 (2021-02-27)
 
 See the below link:
