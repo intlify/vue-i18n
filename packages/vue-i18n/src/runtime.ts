@@ -73,6 +73,10 @@ export { vTDirective, TranslationDirective } from './directive'
 export { I18nPluginOptions } from './plugin'
 export { VERSION } from './misc'
 
+if (__ESM_BUNDLER__ && !__TEST__) {
+  initFeatureFlags()
+}
+
 // NOTE: experimental !!
 if (__DEV__ || __FEATURE_PROD_INTLIFY_DEVTOOLS__) {
   const target = getGlobalThis()
@@ -80,10 +84,4 @@ if (__DEV__ || __FEATURE_PROD_INTLIFY_DEVTOOLS__) {
   setDevToolsHook(target.__INTLIFY_DEVTOOLS_GLOBAL_HOOK__)
 }
 
-if (__ESM_BUNDLER__ && !__TEST__) {
-  initFeatureFlags()
-}
-
-if (__DEV__ && __FEATURE_PROD_VUE_DEVTOOLS__) {
-  initDev()
-}
+__DEV__ && initDev()
