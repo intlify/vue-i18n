@@ -41,13 +41,17 @@ describe('locale', () => {
     expect(locale.value).toEqual('ja')
   })
 
-  test('reactivity', done => {
+  test('reactivity', async () => {
+    const fn = jest.fn()
+
     const { locale } = createComposer({})
-    watch(locale, () => {
-      expect(locale.value).toEqual('en')
-      done()
-    })
+    watch(locale, fn)
     locale.value = 'en'
+    await nextTick()
+
+    expect(fn).toBeCalled()
+    expect(fn.mock.calls[0][0]).toEqual('en')
+    expect(fn.mock.calls[0][1]).toEqual('en-US')
   })
 })
 
@@ -664,6 +668,29 @@ describe('t', () => {
     })
 
     expect(t(ErrorCodes.Code1)).toEqual('computed property name')
+  })
+
+  test('reactivity', async () => {
+    const EN_HELLO = 'Hello!'
+    const JA_HELLO = 'こんにちは！'
+    const { t, locale } = createComposer({
+      locale: 'en',
+      messages: {
+        en: { hello: EN_HELLO },
+        ja: { hello: JA_HELLO }
+      }
+    })
+
+    expect(t('hello')).toEqual(EN_HELLO)
+    locale.value = 'ja'
+    await nextTick()
+    expect(t('hello')).toEqual(JA_HELLO)
+    locale.value = 'en'
+    await nextTick()
+    expect(t('hello')).toEqual(EN_HELLO)
+    locale.value = 'ja'
+    await nextTick()
+    expect(t('hello')).toEqual(JA_HELLO)
   })
 })
 

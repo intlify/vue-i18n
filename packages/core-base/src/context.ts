@@ -9,6 +9,7 @@ import {
   isObject
 } from '@intlify/shared'
 import { VueDevToolsTimelineEvents } from '@intlify/vue-devtools'
+import { initI18nDevTools } from './devtools'
 import { CoreWarnCodes, getWarnMessage } from './warnings'
 
 import type { Path } from '@intlify/message-resolver'
@@ -25,6 +26,7 @@ import type {
 } from '@intlify/runtime'
 import type { VueDevToolsEmitter } from '@intlify/vue-devtools'
 import type {
+  MetaInfo,
   NumberFormat,
   DateTimeFormat,
   DateTimeFormats as DateTimeFormatsType,
@@ -94,9 +96,11 @@ export interface CoreInternalOptions {
   __datetimeFormatters?: Map<string, Intl.DateTimeFormat>
   __numberFormatters?: Map<string, Intl.NumberFormat>
   __v_emitter?: VueDevToolsEmitter // eslint-disable-line camelcase
+  __meta?: MetaInfo
 }
 
 export interface CoreCommonContext<Message = string> {
+  cid: number
   locale: Locale
   fallbackLocale: FallbackLocale
   missing: CoreMissingHandler<Message> | null
@@ -143,7 +147,14 @@ export interface CoreInternalContext {
   __numberFormatters: Map<string, Intl.NumberFormat>
   __localeChainCache?: Map<Locale, Locale[]>
   __v_emitter?: VueDevToolsEmitter // eslint-disable-line camelcase
+  __meta?: MetaInfo
 }
+
+/**
+ * Intlify core-base version
+ * @internal
+ */
+export const VERSION = __VERSION__
 
 export const NOT_REOSLVED = -1
 
@@ -172,6 +183,9 @@ export function registerMessageCompiler<Message>(
 ): void {
   _compiler = compiler
 }
+
+// ID for CoreContext
+let _cid = 0
 
 export function createCoreContext<
   Message = string,
@@ -252,8 +266,12 @@ export function createCoreContext<
   const __numberFormatters = isObject(internalOptions.__numberFormatters)
     ? internalOptions.__numberFormatters
     : new Map<string, Intl.NumberFormat>()
+  const { __meta } = internalOptions
+
+  _cid++
 
   const context = {
+    cid: _cid,
     locale,
     fallbackLocale,
     messages,
@@ -273,7 +291,8 @@ export function createCoreContext<
     messageCompiler,
     onWarn,
     __datetimeFormatters,
-    __numberFormatters
+    __numberFormatters,
+    __meta
   } as CoreContext<
     Options['messages'],
     Options['datetimeFormats'],
@@ -287,6 +306,12 @@ export function createCoreContext<
       internalOptions.__v_emitter != null
         ? internalOptions.__v_emitter
         : undefined
+  }
+
+  // NOTE: experimental !!
+  // TODO: should be checked with feature flags
+  if (__DEV__ || __FEATURE_PROD_DEVTOOLS__) {
+    initI18nDevTools(context, VERSION, __meta)
   }
 
   return context

@@ -73,7 +73,8 @@ import type {
   DateTimeFormats as DateTimeFormatsType,
   NumberFormats as NumberFormatsType,
   DateTimeFormat,
-  NumberFormat
+  NumberFormat,
+  MetaInfo
 } from '@intlify/core-base'
 import type { VueDevToolsEmitter } from '@intlify/vue-devtools'
 
@@ -85,12 +86,15 @@ declare module '@vue/runtime-core' {
   }
 }
 
+export const DEVTOOLS_META = '__INTLIFY_META__'
+
 export const TransrateVNodeSymbol = makeSymbol('__transrateVNode')
 export const DatetimePartsSymbol = makeSymbol('__datetimeParts')
 export const NumberPartsSymbol = makeSymbol('__numberParts')
 export const EnableEmitter = makeSymbol('__enableEmitter')
 export const DisableEmitter = makeSymbol('__disableEmitter')
 export const SetPluralRulesSymbol = makeSymbol('__setPluralRules')
+export const DevToolsMetaSymbol = makeSymbol('__intlifyMeta')
 
 /** @VueI18nComposition */
 export type VueMessageType = string | VNode
@@ -319,6 +323,7 @@ export interface ComposerInternalOptions<
   __i18n?: CustomBlocks<Message>
   __i18nGlobal?: CustomBlocks<Message>
   __root?: Composer<Messages, DateTimeFormats, NumberFormats, Message>
+  __meta?: MetaInfo
 }
 
 /**
@@ -1194,7 +1199,7 @@ export function createComposer<
   Options['numberFormats'],
   Message
 > {
-  const { __root } = options as ComposerInternalOptions<
+  const { __root, __meta } = options as ComposerInternalOptions<
     Messages,
     DateTimeFormats,
     NumberFormats,
@@ -1299,6 +1304,7 @@ export function createComposer<
   // runtime context
   // eslint-disable-next-line prefer-const
   let _context: CoreContext<Messages, DateTimeFormats, NumberFormats, Message>
+
   function getCoreContext(): CoreContext<
     Messages,
     DateTimeFormats,
@@ -1329,7 +1335,8 @@ export function createComposer<
         : undefined,
       __v_emitter: isPlainObject(_context)
         ? ((_context as unknown) as CoreInternalContext).__v_emitter
-        : undefined
+        : undefined,
+      __meta: Object.assign({ framework: 'vue' }, __meta || {})
     } as CoreOptions<Message>) as CoreContext<
       Messages,
       DateTimeFormats,
@@ -1337,8 +1344,20 @@ export function createComposer<
       Message
     >
   }
+
   _context = getCoreContext()
   updateFallbackLocale<Message>(_context, _locale.value, _fallbackLocale.value)
+
+  // track reactivity
+  function trackReactivityValues() {
+    return [
+      _locale.value,
+      _fallbackLocale.value,
+      _messages.value,
+      _datetimeFormats.value,
+      _numberFormats.value
+    ]
+  }
 
   // locale
   const locale = computed({
@@ -1414,8 +1433,8 @@ export function createComposer<
     fallbackFail: (key: unknown) => U,
     successCondition: (val: unknown) => boolean
   ): U {
-    const context = getCoreContext()
-    const ret = fn(context) // track reactive dependency, see the getRuntimeContext
+    trackReactivityValues() // track reactive dependency
+    const ret = fn(_context)
     if (isNumber(ret) && ret === NOT_REOSLVED) {
       const [key, arg2] = argumentParser()
       if (
@@ -1440,7 +1459,7 @@ export function createComposer<
         if (__DEV__) {
           const {
             __v_emitter: emitter
-          } = (context as unknown) as CoreInternalContext
+          } = (_context as unknown) as CoreInternalContext
           if (emitter && _fallbackRoot) {
             emitter.emit(VueDevToolsTimelineEvents.FALBACK, {
               type: warnType,
@@ -1536,8 +1555,8 @@ export function createComposer<
     type: 'vnode'
   } as MessageProcessor<VNode>
 
-  // __transrateVNode, using for `i18n-t` component
-  function __transrateVNode(...args: unknown[]): VNodeArrayChildren {
+  // transrateVNode, using for `i18n-t` component
+  function transrateVNode(...args: unknown[]): VNodeArrayChildren {
     return wrapWithDeps<VNode, VNodeArrayChildren>(
       context => {
         let ret: unknown
@@ -1559,8 +1578,8 @@ export function createComposer<
     )
   }
 
-  // __numberParts, using for `i18n-n` component
-  function __numberParts(...args: unknown[]): string | Intl.NumberFormatPart[] {
+  // numberParts, using for `i18n-n` component
+  function numberParts(...args: unknown[]): string | Intl.NumberFormatPart[] {
     return wrapWithDeps<string | Intl.NumberFormatPart[]>(
       context => number(context as CoreContext<Messages, string>, ...args),
       () => parseNumberArgs(...args),
@@ -1572,8 +1591,8 @@ export function createComposer<
     )
   }
 
-  // __datetimeParts, using for `i18n-d` component
-  function __datetimeParts(
+  // datetimeParts, using for `i18n-d` component
+  function datetimeParts(
     ...args: unknown[]
   ): string | Intl.DateTimeFormatPart[] {
     return wrapWithDeps<string | Intl.DateTimeFormatPart[]>(
@@ -1587,7 +1606,7 @@ export function createComposer<
     )
   }
 
-  function __setPluralRules(rules: PluralizationRules): void {
+  function setPluralRules(rules: PluralizationRules): void {
     _pluralRules = rules
     _context.pluralRules = _pluralRules
   }
@@ -1599,11 +1618,10 @@ export function createComposer<
     return resolveValue(message, key) !== null
   }
 
-  function __resolveMessages(key: Path): LocaleMessageValue<Message> | null {
-    const context = getCoreContext()
+  function resolveMessages(key: Path): LocaleMessageValue<Message> | null {
     let messages: LocaleMessageValue<Message> | null = null
     const locales = getLocaleChain<Message>(
-      context,
+      _context,
       _fallbackLocale.value,
       _locale.value
     )
@@ -1620,7 +1638,7 @@ export function createComposer<
 
   // tm
   function tm(key: Path): LocaleMessageValue<Message> | {} {
-    const messages = __resolveMessages(key)
+    const messages = resolveMessages(key)
     // prettier-ignore
     return messages != null
       ? messages
@@ -1726,7 +1744,7 @@ export function createComposer<
     })
   }
 
-  // export composition API!
+  // define composition API!
   const composer = {
     id: composerID,
     locale,
@@ -1821,10 +1839,11 @@ export function createComposer<
     setPostTranslationHandler,
     getMissingHandler,
     setMissingHandler,
-    [TransrateVNodeSymbol]: __transrateVNode,
-    [NumberPartsSymbol]: __numberParts,
-    [DatetimePartsSymbol]: __datetimeParts,
-    [SetPluralRulesSymbol]: __setPluralRules
+    [TransrateVNodeSymbol]: transrateVNode,
+    [NumberPartsSymbol]: numberParts,
+    [DatetimePartsSymbol]: datetimeParts,
+    [SetPluralRulesSymbol]: setPluralRules,
+    [DevToolsMetaSymbol]: __meta
   }
 
   // for vue-devtools timeline event

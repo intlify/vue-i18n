@@ -1,3 +1,5 @@
+import { getGlobalThis } from '@intlify/shared'
+import { setDevToolsHook } from '@intlify/core-base'
 import { initDev, initFeatureFlags } from './misc'
 
 export {
@@ -70,6 +72,13 @@ export {
 export { vTDirective, TranslationDirective } from './directive'
 export { I18nPluginOptions } from './plugin'
 export { VERSION } from './misc'
+
+// NOTE: experimental !!
+// TODO: should be checked with feature flags
+if (__DEV__ || __FEATURE_PROD_DEVTOOLS__) {
+  const target = getGlobalThis()
+  setDevToolsHook(target.__INTLIFY_DEVTOOLS_GLOBAL_HOOK__)
+}
 
 if (__ESM_BUNDLER__ && !__TEST__) {
   initFeatureFlags()

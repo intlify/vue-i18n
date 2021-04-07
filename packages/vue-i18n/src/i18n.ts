@@ -15,6 +15,7 @@ import {
   createEmitter
 } from '@intlify/shared'
 import {
+  DEVTOOLS_META,
   getLocaleMessages,
   createComposer,
   EnableEmitter,
@@ -625,8 +626,14 @@ export function useI18n<
       ComposerInternalOptions<Messages, DateTimeFormats, NumberFormats> = {
       ...options
     }
+
     if (type.__i18n) {
       composerOptions.__i18n = type.__i18n
+    }
+
+    if (type[DEVTOOLS_META]) {
+      composerOptions.__meta = composerOptions.__meta || {}
+      composerOptions.__meta[DEVTOOLS_META] = type[DEVTOOLS_META]
     }
 
     if (global) {
