@@ -25,6 +25,7 @@ import {
 } from './context'
 import { CoreWarnCodes, getWarnMessage } from './warnings'
 import { CoreErrorCodes, createCoreError } from './errors'
+import { translateDevTools } from './devtools'
 import { VueDevToolsTimelineEvents } from '@intlify/vue-devtools'
 
 import type { Path, PathValue } from '@intlify/message-resolver'
@@ -39,6 +40,7 @@ import type {
   MessageType,
   MessageContext
 } from '@intlify/runtime'
+import type { AdditionalPayloads } from '@intlify/devtools-if'
 import type {
   LocaleMessages,
   LocaleMessageValue,
@@ -47,7 +49,7 @@ import type {
 } from './context'
 
 const NOOP_MESSAGE_FUNCTION = () => ''
-const isMessageFunction = <T>(val: unknown): val is MessageFunction<T> =>
+export const isMessageFunction = <T>(val: unknown): val is MessageFunction<T> =>
   isFunction(val)
 
 /**
@@ -379,7 +381,31 @@ export function translate<Messages, Message = string>(
   )
 
   // if use post translation option, proceed it with handler
-  return postTranslation ? postTranslation(messaged) : messaged
+  const ret = postTranslation ? postTranslation(messaged) : messaged
+
+  // NOTE: experimental !!
+  // TODO: should be checked with feature flags
+  if (__DEV__ || __FEATURE_PROD_DEVTOOLS__) {
+    const payloads = {
+      timestamp: Date.now(),
+      key:
+        !isMessageFunction(format) && isString(key)
+          ? key
+          : (format as MessageFunctionInternal).key!,
+      locale: targetLocale!,
+      format:
+        !isMessageFunction(format) && isString(format)
+          ? format
+          : (format as MessageFunctionInternal).source!,
+      message: ret as string
+    }
+    if (((context as unknown) as CoreInternalContext).__meta) {
+      ;(payloads as AdditionalPayloads).meta = ((context as unknown) as CoreInternalContext).__meta
+    }
+    translateDevTools(payloads)
+  }
+
+  return ret
 }
 
 function escapeParams(options: TranslateOptions) {

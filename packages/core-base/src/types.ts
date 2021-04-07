@@ -74,3 +74,6 @@ export type FormattedNumberPart = {
   value: string
 }
 export type NumberFormatToPartsResult = { [index: number]: FormattedNumberPart }
+export interface MetaInfo {
+  [field: string]: unknown
+}

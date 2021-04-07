@@ -8,7 +8,7 @@ import type {
   DateTimeOptions,
   NumberOptions
 } from '@intlify/core'
-import type { CustomBlocks, VueMessageType } from './composer'
+import type { CustomBlocks, DEVTOOLS_META, VueMessageType } from './composer'
 import type {
   VueI18n,
   VueI18nOptions,
@@ -37,6 +37,11 @@ declare module '@vue/runtime-core' {
      * @internal
      */
     __i18n?: CustomBlocks
+    /**
+     * For devtools
+     * @internal
+     */
+    [DEVTOOLS_META]?: string
   }
 
   /**
