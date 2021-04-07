@@ -1,3 +1,13 @@
+
+## v9.1.1 (2021-04-07)
+
+#### :bug: Bug Fixes
+* `vue-i18n`
+  * [#436](https://github.com/intlify/vue-i18n-next/pull/436) fix: cannot defined feature flags accessing ([@kazupon](https://github.com/kazupon))
+
+#### Committers: 1
+- kazuya kawaguchi ([@kazupon](https://github.com/kazupon))
+
 ## v9.1.0 (2021-04-07)
 
 #### :star: Features
