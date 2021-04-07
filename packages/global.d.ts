@@ -11,7 +11,8 @@ declare let __BUNDLE_FILENAME__: string
 declare let __COMMIT__: string
 
 // Feature flags
-declare let __FEATURE_PROD_DEVTOOLS__: boolean
+declare let __FEATURE_PROD_VUE_DEVTOOLS__: boolean
+declare let __FEATURE_PROD_INTLIFY_DEVTOOLS__: boolean
 declare let __FEATURE_LEGACY_API__: boolean
 declare let __FEATURE_FULL_INSTALL__: boolean
 declare let __FEATURE_ESM_BUNDLER_WARN__: boolean

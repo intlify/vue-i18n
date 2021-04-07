@@ -309,8 +309,7 @@ export function createCoreContext<
   }
 
   // NOTE: experimental !!
-  // TODO: should be checked with feature flags
-  if (__DEV__ || __FEATURE_PROD_DEVTOOLS__) {
+  if (__DEV__ || __FEATURE_PROD_INTLIFY_DEVTOOLS__) {
     initI18nDevTools(context, VERSION, __meta)
   }
 

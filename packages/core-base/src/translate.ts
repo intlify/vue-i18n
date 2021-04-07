@@ -384,8 +384,7 @@ export function translate<Messages, Message = string>(
   const ret = postTranslation ? postTranslation(messaged) : messaged
 
   // NOTE: experimental !!
-  // TODO: should be checked with feature flags
-  if (__DEV__ || __FEATURE_PROD_DEVTOOLS__) {
+  if (__DEV__ || __FEATURE_PROD_INTLIFY_DEVTOOLS__) {
     const payloads = {
       timestamp: Date.now(),
       key:
