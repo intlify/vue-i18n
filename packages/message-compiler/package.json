@@ -49,5 +49,8 @@
       "global"
     ]
   },
+  "publishConfig": {
+    "access": "public"
+  },
   "sideEffects": false
 }

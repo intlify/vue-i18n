@@ -44,5 +44,8 @@
       "cjs"
     ]
   },
+  "publishConfig": {
+    "access": "public"
+  },
   "sideEffects": false
 }
