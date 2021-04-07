@@ -39,7 +39,6 @@ test('initI18nDevTools', () => {
   expect(fn).toBeCalled()
   expect(fn.mock.calls[0][0]).toMatchObject({
     i18n: ctx,
-    version: '9.0.0',
     meta
   })
 })
