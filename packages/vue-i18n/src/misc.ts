@@ -55,9 +55,11 @@ export function initFeatureFlags(): void {
  */
 export function initDev(): void {
   if (__BROWSER__) {
-    console.info(
-      `You are running a development build of vue-i18n.\n` +
-        `Make sure to use the production build (*.prod.js) when deploying for production.`
-    )
+    if (!__ESM_BUNDLER__) {
+      console.info(
+        `You are running a development build of vue-i18n.\n` +
+          `Make sure to use the production build (*.prod.js) when deploying for production.`
+      )
+    }
   }
 }
