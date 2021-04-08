@@ -41,7 +41,7 @@ declare module '@vue/runtime-core' {
      * For devtools
      * @internal
      */
-    [DEVTOOLS_META]?: string
+    __INTLIFY_META__?: string
   }
 
   /**
