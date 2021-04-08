@@ -1,4 +1,14 @@
 
+## v9.1.2 (2021-04-08)
+
+#### :bug: Bug Fixes
+* `vue-i18n`
+  * [#441](https://github.com/intlify/vue-i18n-next/pull/441) fix: typing errors ([@kazupon](https://github.com/kazupon))
+
+#### Committers: 1
+- kazuya kawaguchi ([@kazupon](https://github.com/kazupon))
+
+
 ## v9.1.1 (2021-04-07)
 
 #### :bug: Bug Fixes

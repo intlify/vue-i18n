@@ -1,6 +1,6 @@
 {
   "name": "@intlify/devtools-if",
-  "version": "9.1.1",
+  "version": "9.1.2",
   "description": "@intlify/devtools-if",
   "keywords": [
     "devtools",
@@ -30,7 +30,7 @@
   "module": "dist/devtools-if.esm-bundler.js",
   "types": "dist/devtools-if.d.ts",
   "dependencies": {
-    "@intlify/shared": "9.1.1"
+    "@intlify/shared": "9.1.2"
   },
   "engines": {
     "node": ">= 10"
