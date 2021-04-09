@@ -15,7 +15,6 @@ import {
   createEmitter
 } from '@intlify/shared'
 import {
-  DEVTOOLS_META,
   getLocaleMessages,
   createComposer,
   EnableEmitter,
@@ -631,11 +630,6 @@ export function useI18n<
       composerOptions.__i18n = type.__i18n
     }
 
-    if (type[DEVTOOLS_META]) {
-      composerOptions.__meta = composerOptions.__meta || {}
-      composerOptions.__meta[DEVTOOLS_META] = type[DEVTOOLS_META]
-    }
-
     if (global) {
       composerOptions.__root = global
     }
@@ -822,7 +816,7 @@ function injectGlobalFields<Messages, DateTimeFormats, NumberFormats>(
 
   globalExportMethods.forEach(method => {
     const desc = Object.getOwnPropertyDescriptor(composer, method)
-    if (!desc) {
+    if (!desc || !desc.value) {
       throw createI18nError(I18nErrorCodes.UNEXPECTED_ERROR)
     }
     Object.defineProperty(app.config.globalProperties, `$${method}`, desc)

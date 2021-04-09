@@ -8,7 +8,7 @@ import type {
   DateTimeOptions,
   NumberOptions
 } from '@intlify/core'
-import type { CustomBlocks, DEVTOOLS_META, VueMessageType } from './composer'
+import type { CustomBlocks, VueMessageType } from './composer'
 import type {
   VueI18n,
   VueI18nOptions,

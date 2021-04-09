@@ -1,10 +1,5 @@
 import { getCurrentInstance } from 'vue'
-import {
-  getLocaleMessages,
-  SetPluralRulesSymbol,
-  DEVTOOLS_META,
-  DevToolsMetaSymbol
-} from './composer'
+import { getLocaleMessages, SetPluralRulesSymbol } from './composer'
 import { createVueI18n } from './legacy'
 import { createI18nError, I18nErrorCodes } from './errors'
 import { addTimelineEvent } from './devtools'
@@ -53,9 +48,6 @@ export function defineMixin<Messages, DateTimeFormats, NumberFormats>(
         if (options.__i18n) {
           optionsI18n.__i18n = options.__i18n
         }
-        optionsI18n.__meta = options[DEVTOOLS_META]
-          ? { [DEVTOOLS_META]: options[DEVTOOLS_META] }
-          : {}
         optionsI18n.__root = composer
         if (this === this.$root) {
           this.$i18n = mergeToRoot(vuei18n, optionsI18n)
@@ -68,9 +60,6 @@ export function defineMixin<Messages, DateTimeFormats, NumberFormats>(
         } else {
           this.$i18n = createVueI18n({
             __i18n: (options as ComposerInternalOptions<Messages>).__i18n,
-            __meta: options[DEVTOOLS_META]
-              ? { [DEVTOOLS_META]: options[DEVTOOLS_META] }
-              : {},
             __root: composer
           } as VueI18nOptions)
         }
@@ -182,16 +171,6 @@ function mergeToRoot<Messages, DateTimeFormats, NumberFormats>(
   ;(root as any).__composer[SetPluralRulesSymbol](
     options.pluralizationRules || root.pluralizationRules
   )
-  /* eslint-disable @typescript-eslint/no-explicit-any */
-  if (
-    (options as any)[DEVTOOLS_META] &&
-    !(root as any).__composer[DevToolsMetaSymbol]
-  ) {
-    ;(root as any).__composer[DevToolsMetaSymbol] = {
-      [DEVTOOLS_META]: (options as any)[DEVTOOLS_META]
-    }
-  }
-  /* eslint-enable @typescript-eslint/no-explicit-any */
   const messages = getLocaleMessages<VueMessageType>(root.locale, {
     messages: options.messages,
     __i18n: options.__i18n

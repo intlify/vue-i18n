@@ -72,6 +72,7 @@ export type MessageCompiler<Message = string> = (
 ) => MessageFunction<Message>
 
 export interface CoreOptions<Message = string> {
+  version?: string
   locale?: Locale
   fallbackLocale?: FallbackLocale
   messages?: LocaleMessages<Message>
@@ -101,6 +102,7 @@ export interface CoreInternalOptions {
 
 export interface CoreCommonContext<Message = string> {
   cid: number
+  version: string
   locale: Locale
   fallbackLocale: FallbackLocale
   missing: CoreMissingHandler<Message> | null
@@ -147,7 +149,7 @@ export interface CoreInternalContext {
   __numberFormatters: Map<string, Intl.NumberFormat>
   __localeChainCache?: Map<Locale, Locale[]>
   __v_emitter?: VueDevToolsEmitter // eslint-disable-line camelcase
-  __meta?: MetaInfo
+  __meta: MetaInfo // for Intlify DevTools
 }
 
 /**
@@ -184,6 +186,18 @@ export function registerMessageCompiler<Message>(
   _compiler = compiler
 }
 
+// Additional Meta for Intlify DevTools
+let _additionalMeta: MetaInfo | null = /* #__PURE__*/ null
+
+export const setAdditionalMeta = /* #__PURE__*/ (
+  meta: MetaInfo | null
+): void => {
+  _additionalMeta = meta
+}
+
+export const getAdditionalMeta = /* #__PURE__*/ (): MetaInfo | null =>
+  _additionalMeta
+
 // ID for CoreContext
 let _cid = 0
 
@@ -211,6 +225,7 @@ export function createCoreContext<
   Message
 > {
   // setup options
+  const version = isString(options.version) ? options.version : VERSION
   const locale = isString(options.locale) ? options.locale : 'en-US'
   const fallbackLocale =
     isArray(options.fallbackLocale) ||
@@ -266,11 +281,12 @@ export function createCoreContext<
   const __numberFormatters = isObject(internalOptions.__numberFormatters)
     ? internalOptions.__numberFormatters
     : new Map<string, Intl.NumberFormat>()
-  const { __meta } = internalOptions
+  const __meta = isObject(internalOptions.__meta) ? internalOptions.__meta : {}
 
   _cid++
 
   const context = {
+    version,
     cid: _cid,
     locale,
     fallbackLocale,
@@ -310,7 +326,7 @@ export function createCoreContext<
 
   // NOTE: experimental !!
   if (__DEV__ || __FEATURE_PROD_INTLIFY_DEVTOOLS__) {
-    initI18nDevTools(context, VERSION, __meta)
+    initI18nDevTools(context, version, __meta)
   }
 
   return context
