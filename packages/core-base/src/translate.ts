@@ -394,11 +394,9 @@ export function translate<Messages, Message = string>(
         : isMessageFunction(format)
           ? (format as MessageFunctionInternal).key!
           : '',
-      locale: targetLocale
-        ? targetLocale
-        : isMessageFunction(format)
+      locale: targetLocale || (isMessageFunction(format)
           ? (format as MessageFunctionInternal).locale!
-          : '',
+          : ''),
       format:
         isString(format)
         ? format

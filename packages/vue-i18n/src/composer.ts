@@ -38,8 +38,7 @@ import {
   NOT_REOSLVED,
   handleFlatJson,
   MessageFunction,
-  setAdditionalMeta,
-  getAdditionalMeta
+  setAdditionalMeta
 } from '@intlify/core-base'
 import { VueDevToolsTimelineEvents } from '@intlify/vue-devtools'
 import { I18nWarnCodes, getWarnMessage } from './warnings'
@@ -1176,9 +1175,8 @@ function deepCopy(src: any, des: any): void {
 // for Intlify DevTools
 const getMetaInfo = /* #__PURE__*/ (): MetaInfo | null => {
   const instance = getCurrentInstance()
-  console.log('getMetaInfo', instance)
-  return instance && (instance.type as any)[DEVTOOLS_META]
-    ? { [DEVTOOLS_META]: (instance.type as any)[DEVTOOLS_META] }
+  return instance && (instance.type as any)[DEVTOOLS_META] // eslint-disable-line @typescript-eslint/no-explicit-any
+    ? { [DEVTOOLS_META]: (instance.type as any)[DEVTOOLS_META] } // eslint-disable-line @typescript-eslint/no-explicit-any
     : null
 }
 

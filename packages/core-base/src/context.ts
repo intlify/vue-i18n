@@ -187,15 +187,15 @@ export function registerMessageCompiler<Message>(
 }
 
 // Additional Meta for Intlify DevTools
-let _additionalMeta: MetaInfo | null = /*#__PURE__*/ null
+let _additionalMeta: MetaInfo | null = /* #__PURE__*/ null
 
-export const setAdditionalMeta = /*#__PURE__*/ (
+export const setAdditionalMeta = /* #__PURE__*/ (
   meta: MetaInfo | null
 ): void => {
   _additionalMeta = meta
 }
 
-export const getAdditionalMeta = /*#__PURE__*/ (): MetaInfo | null =>
+export const getAdditionalMeta = /* #__PURE__*/ (): MetaInfo | null =>
   _additionalMeta
 
 // ID for CoreContext
