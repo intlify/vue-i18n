@@ -1,4 +1,14 @@
 
+## v9.1.3 (2021-04-09)
+
+#### :zap: Improvement Features
+* `core-base`, `vue-i18n`
+  * [#446](https://github.com/intlify/vue-i18n-next/pull/446) experimental: improve meta for intlify devtools ([@kazupon](https://github.com/kazupon))
+
+#### Committers: 1
+- kazuya kawaguchi ([@kazupon](https://github.com/kazupon))
+
+
 ## v9.1.2 (2021-04-08)
 
 #### :bug: Bug Fixes
