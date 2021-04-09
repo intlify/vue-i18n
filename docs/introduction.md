@@ -16,12 +16,6 @@ Go to [Get Started](./guide/)
   <GoldSponsors />
 </p>
 
-### 🥈 Silver
-
-<p style="text-align: center;">
-  <SilverSponsors />
-</p>
-
 ### 🥉 Bronze
 
 <p style="text-align: center;">

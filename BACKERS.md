@@ -24,22 +24,6 @@ You can join them in supporting vue-i18n development by [pledging on Patreon](ht
 
 <h2 align="center">Sliver Sponsors</h2>
 
-<p align="center">
-  <a
-    href="https://www.codeandweb.com/babeledit?utm_campaign=vue-i18n-2019-01"
-    style="margin: 1rem 1rem 0 1rem; width: 12rem; height: auto; display: inline-block; vertical-align: middle;"
-    target="_blank"
-    rel="noopener"
-  >
-    <img
-      style="max-width: 100%; vertical-align: midele;"
-      src="https://raw.githubusercontent.com/intlify/vue-i18n-next/master/docs/public/babeledit.png"
-      width="200px"
-      alt="Babel Edit"
-    >
-  </a>
-</p>
-
 [It could be you!](https://github.com/sponsors/kazupon?o=esc)
 
 <h2 align="center">Bronze Sponsors</h2>
