@@ -21,7 +21,8 @@ import {
   isTranslateFallbackWarn,
   handleMissing,
   getLocaleChain,
-  NOT_REOSLVED
+  NOT_REOSLVED,
+  getAdditionalMeta
 } from './context'
 import { CoreWarnCodes, getWarnMessage } from './warnings'
 import { CoreErrorCodes, createCoreError } from './errors'
@@ -385,22 +386,32 @@ export function translate<Messages, Message = string>(
 
   // NOTE: experimental !!
   if (__DEV__ || __FEATURE_PROD_INTLIFY_DEVTOOLS__) {
+    // prettier-ignore
     const payloads = {
       timestamp: Date.now(),
-      key:
-        !isMessageFunction(format) && isString(key)
-          ? key
-          : (format as MessageFunctionInternal).key!,
-      locale: targetLocale!,
+      key: isString(key)
+        ? key
+        : isMessageFunction(format)
+          ? (format as MessageFunctionInternal).key!
+          : '',
+      locale: targetLocale
+        ? targetLocale
+        : isMessageFunction(format)
+          ? (format as MessageFunctionInternal).locale!
+          : '',
       format:
-        !isMessageFunction(format) && isString(format)
-          ? format
-          : (format as MessageFunctionInternal).source!,
+        isString(format)
+        ? format
+        : isMessageFunction(format)
+          ? (format as MessageFunctionInternal).source!
+          : '',
       message: ret as string
     }
-    if (((context as unknown) as CoreInternalContext).__meta) {
-      ;(payloads as AdditionalPayloads).meta = ((context as unknown) as CoreInternalContext).__meta
-    }
+    ;(payloads as AdditionalPayloads).meta = Object.assign(
+      {},
+      ((context as unknown) as CoreInternalContext).__meta,
+      getAdditionalMeta() || {}
+    )
     translateDevTools(payloads)
   }
 

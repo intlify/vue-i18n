@@ -37,11 +37,14 @@ import {
   getLocaleChain,
   NOT_REOSLVED,
   handleFlatJson,
-  MessageFunction
+  MessageFunction,
+  setAdditionalMeta,
+  getAdditionalMeta
 } from '@intlify/core-base'
 import { VueDevToolsTimelineEvents } from '@intlify/vue-devtools'
 import { I18nWarnCodes, getWarnMessage } from './warnings'
 import { I18nErrorCodes, createI18nError } from './errors'
+import { VERSION } from './misc'
 
 import type { ComponentInternalInstance, VNode, VNodeArrayChildren } from 'vue'
 import type { WritableComputedRef, ComputedRef } from '@vue/reactivity'
@@ -323,7 +326,6 @@ export interface ComposerInternalOptions<
   __i18n?: CustomBlocks<Message>
   __i18nGlobal?: CustomBlocks<Message>
   __root?: Composer<Messages, DateTimeFormats, NumberFormats, Message>
-  __meta?: MetaInfo
 }
 
 /**
@@ -1171,6 +1173,15 @@ function deepCopy(src: any, des: any): void {
   }
 }
 
+// for Intlify DevTools
+const getMetaInfo = /* #__PURE__*/ (): MetaInfo | null => {
+  const instance = getCurrentInstance()
+  console.log('getMetaInfo', instance)
+  return instance && (instance.type as any)[DEVTOOLS_META]
+    ? { [DEVTOOLS_META]: (instance.type as any)[DEVTOOLS_META] }
+    : null
+}
+
 /**
  * Create composer interface factory
  *
@@ -1199,7 +1210,7 @@ export function createComposer<
   Options['numberFormats'],
   Message
 > {
-  const { __root, __meta } = options as ComposerInternalOptions<
+  const { __root } = options as ComposerInternalOptions<
     Messages,
     DateTimeFormats,
     NumberFormats,
@@ -1312,6 +1323,7 @@ export function createComposer<
     Message
   > {
     return createCoreContext<Message>({
+      version: VERSION,
       locale: _locale.value,
       fallbackLocale: _fallbackLocale.value,
       messages: _messages.value,
@@ -1336,7 +1348,7 @@ export function createComposer<
       __v_emitter: isPlainObject(_context)
         ? ((_context as unknown) as CoreInternalContext).__v_emitter
         : undefined,
-      __meta: Object.assign({ framework: 'vue' }, __meta || {})
+      __meta: { framework: 'vue' }
     } as CoreOptions<Message>) as CoreContext<
       Messages,
       DateTimeFormats,
@@ -1434,7 +1446,18 @@ export function createComposer<
     successCondition: (val: unknown) => boolean
   ): U {
     trackReactivityValues() // track reactive dependency
-    const ret = fn(_context)
+    // NOTE: experimental !!
+    let ret: unknown
+    if (__DEV__ || __FEATURE_PROD_INTLIFY_DEVTOOLS__) {
+      try {
+        setAdditionalMeta(getMetaInfo())
+        ret = fn(_context)
+      } finally {
+        setAdditionalMeta(null)
+      }
+    } else {
+      ret = fn(_context)
+    }
     if (isNumber(ret) && ret === NOT_REOSLVED) {
       const [key, arg2] = argumentParser()
       if (
@@ -1842,8 +1865,7 @@ export function createComposer<
     [TransrateVNodeSymbol]: transrateVNode,
     [NumberPartsSymbol]: numberParts,
     [DatetimePartsSymbol]: datetimeParts,
-    [SetPluralRulesSymbol]: setPluralRules,
-    [DevToolsMetaSymbol]: __meta
+    [SetPluralRulesSymbol]: setPluralRules
   }
 
   // for vue-devtools timeline event
