@@ -14,15 +14,16 @@ import {
 } from './context'
 import { CoreWarnCodes, getWarnMessage } from './warnings'
 import { CoreErrorCodes, createCoreError } from './errors'
-import { DevToolsTimelineEvents } from './debugger/constants'
+import { VueDevToolsTimelineEvents } from '@intlify/vue-devtools'
 import { Availabilities } from './intl'
 
+import type { Locale } from '@intlify/runtime'
 import type {
   NumberFormat,
   NumberFormats as NumberFormatsType,
   NumberFormatOptions
 } from './types'
-import type { Locale, CoreNumberContext, CoreInternalContext } from './context'
+import type { CoreNumberContext, CoreInternalContext } from './context'
 
 /**
  *  # number
@@ -178,9 +179,9 @@ export function number<NumberFormats, Message = string>(
 
     // for vue-devtools timeline event
     if (__DEV__ && locale !== targetLocale) {
-      const emitter = ((context as unknown) as CoreInternalContext).__emitter
+      const emitter = ((context as unknown) as CoreInternalContext).__v_emitter
       if (emitter) {
-        emitter.emit(DevToolsTimelineEvents.FALBACK, {
+        emitter.emit(VueDevToolsTimelineEvents.FALBACK, {
           type,
           key,
           from,

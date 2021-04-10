@@ -239,9 +239,9 @@ test.skip('beforeDestroy', async () => {
   })
 
   const App = defineComponent({ template: '<br/>' })
-  const { app, rootEl, vm } = await mount(App, i18n)
+  const { app, vm } = await mount(App, i18n)
 
-  app.unmount(rootEl)
+  app.unmount()
   await nextTick()
 
   expect(vm.$i18n).toBeUndefined()

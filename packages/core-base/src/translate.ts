@@ -21,15 +21,19 @@ import {
   isTranslateFallbackWarn,
   handleMissing,
   getLocaleChain,
-  NOT_REOSLVED
+  NOT_REOSLVED,
+  getAdditionalMeta
 } from './context'
 import { CoreWarnCodes, getWarnMessage } from './warnings'
 import { CoreErrorCodes, createCoreError } from './errors'
-import { DevToolsTimelineEvents } from './debugger/constants'
+import { translateDevTools } from './devtools'
+import { VueDevToolsTimelineEvents } from '@intlify/vue-devtools'
 
 import type { Path, PathValue } from '@intlify/message-resolver'
 import type { CompileOptions, CompileError } from '@intlify/message-compiler'
 import type {
+  Locale,
+  FallbackLocale,
   NamedValue,
   MessageFunction,
   MessageFunctionInternal,
@@ -37,9 +41,8 @@ import type {
   MessageType,
   MessageContext
 } from '@intlify/runtime'
+import type { AdditionalPayloads } from '@intlify/devtools-if'
 import type {
-  Locale,
-  FallbackLocale,
   LocaleMessages,
   LocaleMessageValue,
   CoreInternalContext,
@@ -47,7 +50,7 @@ import type {
 } from './context'
 
 const NOOP_MESSAGE_FUNCTION = () => ''
-const isMessageFunction = <T>(val: unknown): val is MessageFunction<T> =>
+export const isMessageFunction = <T>(val: unknown): val is MessageFunction<T> =>
   isFunction(val)
 
 /**
@@ -379,7 +382,38 @@ export function translate<Messages, Message = string>(
   )
 
   // if use post translation option, proceed it with handler
-  return postTranslation ? postTranslation(messaged) : messaged
+  const ret = postTranslation ? postTranslation(messaged) : messaged
+
+  // NOTE: experimental !!
+  if (__DEV__ || __FEATURE_PROD_INTLIFY_DEVTOOLS__) {
+    // prettier-ignore
+    const payloads = {
+      timestamp: Date.now(),
+      key: isString(key)
+        ? key
+        : isMessageFunction(format)
+          ? (format as MessageFunctionInternal).key!
+          : '',
+      locale: targetLocale || (isMessageFunction(format)
+          ? (format as MessageFunctionInternal).locale!
+          : ''),
+      format:
+        isString(format)
+        ? format
+        : isMessageFunction(format)
+          ? (format as MessageFunctionInternal).source!
+          : '',
+      message: ret as string
+    }
+    ;(payloads as AdditionalPayloads).meta = Object.assign(
+      {},
+      ((context as unknown) as CoreInternalContext).__meta,
+      getAdditionalMeta() || {}
+    )
+    translateDevTools(payloads)
+  }
+
+  return ret
 }
 
 function escapeParams(options: TranslateOptions) {
@@ -432,9 +466,9 @@ function resolveMessageFormat<Messages, Message>(
 
     // for vue-devtools timeline event
     if (__DEV__ && locale !== targetLocale) {
-      const emitter = ((context as unknown) as CoreInternalContext).__emitter
+      const emitter = ((context as unknown) as CoreInternalContext).__v_emitter
       if (emitter) {
-        emitter.emit(DevToolsTimelineEvents.FALBACK, {
+        emitter.emit(VueDevToolsTimelineEvents.FALBACK, {
           type,
           key,
           from,
@@ -466,10 +500,10 @@ function resolveMessageFormat<Messages, Message>(
     // for vue-devtools timeline event
     if (__DEV__ && inBrowser) {
       const end = window.performance.now()
-      const emitter = ((context as unknown) as CoreInternalContext).__emitter
+      const emitter = ((context as unknown) as CoreInternalContext).__v_emitter
       if (emitter && start && format) {
-        emitter.emit(DevToolsTimelineEvents.MESSAGE_RESOLVE, {
-          type: DevToolsTimelineEvents.MESSAGE_RESOLVE,
+        emitter.emit(VueDevToolsTimelineEvents.MESSAGE_RESOLVE, {
+          type: VueDevToolsTimelineEvents.MESSAGE_RESOLVE,
           key,
           message: format,
           time: end - start,
@@ -542,10 +576,10 @@ function compileMessageFormat<Messages, Message>(
   // for vue-devtools timeline event
   if (__DEV__ && inBrowser) {
     const end = window.performance.now()
-    const emitter = ((context as unknown) as CoreInternalContext).__emitter
+    const emitter = ((context as unknown) as CoreInternalContext).__v_emitter
     if (emitter && start) {
-      emitter.emit(DevToolsTimelineEvents.MESSAGE_COMPILATION, {
-        type: DevToolsTimelineEvents.MESSAGE_COMPILATION,
+      emitter.emit(VueDevToolsTimelineEvents.MESSAGE_COMPILATION, {
+        type: VueDevToolsTimelineEvents.MESSAGE_COMPILATION,
         message: format,
         time: end - start,
         groupId: `${'translate'}:${key}`
@@ -585,10 +619,10 @@ function evaluateMessage<Messages, Message>(
   // for vue-devtools timeline event
   if (__DEV__ && inBrowser) {
     const end = window.performance.now()
-    const emitter = ((context as unknown) as CoreInternalContext).__emitter
+    const emitter = ((context as unknown) as CoreInternalContext).__v_emitter
     if (emitter && start) {
-      emitter.emit(DevToolsTimelineEvents.MESSAGE_EVALUATION, {
-        type: DevToolsTimelineEvents.MESSAGE_EVALUATION,
+      emitter.emit(VueDevToolsTimelineEvents.MESSAGE_EVALUATION, {
+        type: VueDevToolsTimelineEvents.MESSAGE_EVALUATION,
         value: messaged,
         time: end - start,
         groupId: `${'translate'}:${(msg as MessageFunctionInternal).key}`
@@ -663,9 +697,10 @@ function getCompileOptions<Messages, Message>(
             err.location.start.offset,
             err.location.end.offset
           )
-        const emitter = ((context as unknown) as CoreInternalContext).__emitter
+        const emitter = ((context as unknown) as CoreInternalContext)
+          .__v_emitter
         if (emitter) {
-          emitter.emit(DevToolsTimelineEvents.COMPILE_ERROR, {
+          emitter.emit(VueDevToolsTimelineEvents.COMPILE_ERROR, {
             message: source,
             error: err.message,
             start: err.location && err.location.start.offset,

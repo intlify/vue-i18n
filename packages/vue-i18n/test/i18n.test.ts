@@ -12,6 +12,17 @@ import { mount, pluralRules as _pluralRules } from './helper'
 import { createI18n, useI18n } from '../src/index'
 import { errorMessages, I18nErrorCodes } from '../src/errors'
 import { Composer } from '../src/composer'
+import { setDevToolsHook } from '@intlify/core-base'
+import { createEmitter } from '@intlify/shared'
+
+import {
+  IntlifyDevToolsEmitterHooks,
+  IntlifyDevToolsHooks
+} from '@intlify/devtools-if'
+
+afterEach(() => {
+  setDevToolsHook(null)
+})
 
 describe('createI18n', () => {
   test('legacy mode', () => {
@@ -848,4 +859,27 @@ describe('custom pluralization', () => {
     expect(find('p:nth-child(4)')!.innerHTML).toEqual('12 машин')
     expect(find('p:nth-child(5)')!.innerHTML).toEqual('21 машина')
   })
+})
+
+test('Intlify devtools hooking', () => {
+  const emitter = createEmitter<IntlifyDevToolsEmitterHooks>()
+  setDevToolsHook(emitter)
+
+  const fnI18nInit = jest.fn()
+  const fnTranslate = jest.fn()
+  emitter.on(IntlifyDevToolsHooks.I18N_INIT, fnI18nInit)
+  emitter.on(IntlifyDevToolsHooks.FUNCTION_TRANSLATE, fnTranslate)
+
+  const i18n = createI18n({
+    locale: 'en',
+    messages: {
+      en: {
+        hello: 'Hello {name}!'
+      }
+    }
+  })
+  i18n.global.t('hello', { name: 'DIO' })
+
+  expect(fnI18nInit).toHaveBeenCalled()
+  expect(fnTranslate).toHaveBeenCalled()
 })

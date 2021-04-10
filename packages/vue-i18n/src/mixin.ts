@@ -3,16 +3,15 @@ import { getLocaleMessages, SetPluralRulesSymbol } from './composer'
 import { createVueI18n } from './legacy'
 import { createI18nError, I18nErrorCodes } from './errors'
 import { addTimelineEvent } from './devtools'
-import { createEmitter } from '@intlify/core-base'
+import { createEmitter } from '@intlify/shared'
 
 import type { ComponentOptions } from 'vue'
 import type { Path } from '@intlify/core-base'
+import type { Locale, LocaleMessageValue } from '@intlify/core'
 import type {
-  Locale,
-  LocaleMessageValue,
-  DevToolsEmitter,
-  DevToolsEmitterEvents
-} from '@intlify/core'
+  VueDevToolsEmitter,
+  VueDevToolsEmitterEvents
+} from '@intlify/vue-devtools'
 import type {
   Composer,
   ComposerInternalOptions,
@@ -100,9 +99,9 @@ export function defineMixin<Messages, DateTimeFormats, NumberFormats>(
 
     mounted(): void {
       /* istanbul ignore if */
-      if ((__DEV__ || __FEATURE_PROD_DEVTOOLS__) && !__NODE_JS__) {
-        this.$el.__INTLIFY__ = this.$i18n.__composer
-        const emitter: DevToolsEmitter = (this.__emitter = createEmitter<DevToolsEmitterEvents>())
+      if ((__DEV__ || __FEATURE_PROD_VUE_DEVTOOLS__) && !__NODE_JS__) {
+        this.$el.__VUE_I18N__ = this.$i18n.__composer
+        const emitter: VueDevToolsEmitter = (this.__v_emitter = createEmitter<VueDevToolsEmitterEvents>())
         const _vueI18n = (this.$i18n as unknown) as VueI18nInternal<
           Messages,
           DateTimeFormats,
@@ -121,10 +120,10 @@ export function defineMixin<Messages, DateTimeFormats, NumberFormats>(
       }
 
       /* istanbul ignore if */
-      if ((__DEV__ || __FEATURE_PROD_DEVTOOLS__) && !__NODE_JS__) {
-        if (this.__emitter) {
-          this.__emitter.off('*', addTimelineEvent)
-          delete this.__emitter
+      if ((__DEV__ || __FEATURE_PROD_VUE_DEVTOOLS__) && !__NODE_JS__) {
+        if (this.__v_emitter) {
+          this.__v_emitter.off('*', addTimelineEvent)
+          delete this.__v_emitter
         }
         const _vueI18n = (this.$i18n as unknown) as VueI18nInternal<
           Messages,
@@ -132,7 +131,7 @@ export function defineMixin<Messages, DateTimeFormats, NumberFormats>(
           NumberFormats
         >
         _vueI18n.__disableEmitter && _vueI18n.__disableEmitter()
-        delete this.$el.__INTLIFY__
+        delete this.$el.__VUE_I18N__
       }
 
       delete this.$t

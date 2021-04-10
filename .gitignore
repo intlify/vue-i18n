@@ -16,3 +16,4 @@ report*.json
 *.log
 *.swp
 *~
+.env

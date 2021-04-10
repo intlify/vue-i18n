@@ -1,4 +1,4 @@
-import { createEmitter } from '../src/debugger/emitter'
+import { createEmitter } from '../src/emitter'
 
 test('basic', () => {
   const handler = jest.fn()
@@ -15,7 +15,7 @@ test('basic', () => {
   expect(handler).toBeCalledTimes(1)
 })
 
-test('multiple register', () => {
+test('mlutiple reigster', () => {
   const handler1 = jest.fn()
   const handler2 = jest.fn()
 

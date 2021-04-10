@@ -2,7 +2,7 @@ import { CompileError, ParserOptions } from '../src'
 import { createParser } from '../src/parser'
 
 test('parse', () => {
-  ;[
+  const cases = [
     { code: 'hello world', name: 'message' },
     { code: 'hello {name} !', name: 'named' },
     { code: 'hello {_name} !', name: 'named' },
@@ -22,7 +22,8 @@ test('parse', () => {
     { code: `@.lower:(foo)`, name: 'linked key paren error with modifier' },
     { code: `@.`, name: 'EOF in linked modifier' },
     { code: `|`, name: 'empty plural' }
-  ].forEach(({ name, code }) => {
+  ]
+  for (const { name, code } of cases) {
     const errors: CompileError[] = []
     const options: ParserOptions = {
       onError: err => {
@@ -35,5 +36,5 @@ test('parse', () => {
     if (errors.length) {
       expect(errors).toMatchSnapshot(`${name || JSON.stringify(code)} errors`)
     }
-  })
+  }
 })

@@ -8,7 +8,7 @@
 
 ## Direct Download
 
-<https://unpkg.com/vue-i18n@next>
+<https://unpkg.com/vue-i18n@9>
 
 [unpkg.com](https://unpkg.com) provides a npm-based CDN links. The above link will always point to the latest release on npm.
 
@@ -19,7 +19,7 @@
 <script src="https://unpkg.com/vue-i18n@next"></script>
 ```
 
-You can also use a specific version/tag via URLs like <https://unpkg.com/vue-i18n@9.0.0-rc.1/dist/vue-i18n.global.js>
+You can also use a specific version/tag via URLs like <https://unpkg.com/vue-i18n@9.1.0/dist/vue-i18n.global.js>
 
 ### ES Modules import
 
@@ -28,7 +28,7 @@ You can also use a specific version/tag via URLs like <https://unpkg.com/vue-i18
 <script type="module" src="https://unpkg.com/vue-i18n@next/dist/vue-i18n.esm-browser.js">
 ```
 
-You can also use a specific version/tag via URLs like <https://unpkg.com/vue-i18n@9.0.0-rc.1/dist/vue-i18n.esm-browser.js>
+You can also use a specific version/tag via URLs like <https://unpkg.com/vue-i18n@9.1.0/dist/vue-i18n.esm-browser.js>
 
 
 ## Package managers

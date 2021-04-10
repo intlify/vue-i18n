@@ -46,6 +46,8 @@ module.exports = {
       'packages/runtime',
       'packages/core-base',
       'packages/core',
+      'packages/devtools-if',
+      'packages/vue-devtools',
       'packages/vue-i18n'
     ],
     packagesToPublish: [
@@ -55,6 +57,8 @@ module.exports = {
       'packages/runtime',
       'packages/core-base',
       'packages/core',
+      'packages/devtools-if',
+      'packages/vue-devtools',
       'packages/vue-i18n'
     ]
   },

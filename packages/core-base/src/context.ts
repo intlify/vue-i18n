@@ -8,35 +8,30 @@ import {
   isPlainObject,
   isObject
 } from '@intlify/shared'
-import { DevToolsTimelineEvents } from './debugger/constants'
+import { VueDevToolsTimelineEvents } from '@intlify/vue-devtools'
+import { initI18nDevTools } from './devtools'
 import { CoreWarnCodes, getWarnMessage } from './warnings'
 
 import type { Path } from '@intlify/message-resolver'
 import type { CompileOptions } from '@intlify/message-compiler'
 import type {
+  Locale,
+  FallbackLocale,
+  CoreMissingType,
   LinkedModifiers,
   PluralizationRules,
   MessageProcessor,
   MessageFunction,
   MessageType
 } from '@intlify/runtime'
-import type { DevToolsEmitter } from './debugger/constants'
+import type { VueDevToolsEmitter } from '@intlify/vue-devtools'
 import type {
+  MetaInfo,
   NumberFormat,
   DateTimeFormat,
   DateTimeFormats as DateTimeFormatsType,
   NumberFormats as NumberFormatsType
 } from './types'
-
-/** @VueI18nGeneral */
-export type Locale = string
-
-/** @VueI18nGeneral */
-export type FallbackLocale =
-  | Locale
-  | Locale[]
-  | { [locale in string]: Locale[] }
-  | false
 
 /** @VueI18nGeneral */
 export type LocaleMessageValue<Message = string> =
@@ -59,8 +54,6 @@ export type LocaleMessages<Message = string> = Record<
   LocaleMessageDictionary<Message>
 >
 
-export type CoreMissingType = 'translate' | 'datetime format' | 'number format'
-
 export type CoreMissingHandler<Message = string> = (
   context: CoreCommonContext<Message>,
   locale: Locale,
@@ -79,6 +72,7 @@ export type MessageCompiler<Message = string> = (
 ) => MessageFunction<Message>
 
 export interface CoreOptions<Message = string> {
+  version?: string
   locale?: Locale
   fallbackLocale?: FallbackLocale
   messages?: LocaleMessages<Message>
@@ -102,10 +96,13 @@ export interface CoreOptions<Message = string> {
 export interface CoreInternalOptions {
   __datetimeFormatters?: Map<string, Intl.DateTimeFormat>
   __numberFormatters?: Map<string, Intl.NumberFormat>
-  __emitter?: DevToolsEmitter // for vue-devtools timeline event
+  __v_emitter?: VueDevToolsEmitter // eslint-disable-line camelcase
+  __meta?: MetaInfo
 }
 
 export interface CoreCommonContext<Message = string> {
+  cid: number
+  version: string
   locale: Locale
   fallbackLocale: FallbackLocale
   missing: CoreMissingHandler<Message> | null
@@ -151,8 +148,15 @@ export interface CoreInternalContext {
   __datetimeFormatters: Map<string, Intl.DateTimeFormat>
   __numberFormatters: Map<string, Intl.NumberFormat>
   __localeChainCache?: Map<Locale, Locale[]>
-  __emitter?: DevToolsEmitter // for vue-devtools timeline event
+  __v_emitter?: VueDevToolsEmitter // eslint-disable-line camelcase
+  __meta: MetaInfo // for Intlify DevTools
 }
+
+/**
+ * Intlify core-base version
+ * @internal
+ */
+export const VERSION = __VERSION__
 
 export const NOT_REOSLVED = -1
 
@@ -182,6 +186,21 @@ export function registerMessageCompiler<Message>(
   _compiler = compiler
 }
 
+// Additional Meta for Intlify DevTools
+let _additionalMeta: MetaInfo | null = /* #__PURE__*/ null
+
+export const setAdditionalMeta = /* #__PURE__*/ (
+  meta: MetaInfo | null
+): void => {
+  _additionalMeta = meta
+}
+
+export const getAdditionalMeta = /* #__PURE__*/ (): MetaInfo | null =>
+  _additionalMeta
+
+// ID for CoreContext
+let _cid = 0
+
 export function createCoreContext<
   Message = string,
   Options extends CoreOptions<Message> = object,
@@ -206,6 +225,7 @@ export function createCoreContext<
   Message
 > {
   // setup options
+  const version = isString(options.version) ? options.version : VERSION
   const locale = isString(options.locale) ? options.locale : 'en-US'
   const fallbackLocale =
     isArray(options.fallbackLocale) ||
@@ -261,8 +281,13 @@ export function createCoreContext<
   const __numberFormatters = isObject(internalOptions.__numberFormatters)
     ? internalOptions.__numberFormatters
     : new Map<string, Intl.NumberFormat>()
+  const __meta = isObject(internalOptions.__meta) ? internalOptions.__meta : {}
+
+  _cid++
 
   const context = {
+    version,
+    cid: _cid,
     locale,
     fallbackLocale,
     messages,
@@ -282,7 +307,8 @@ export function createCoreContext<
     messageCompiler,
     onWarn,
     __datetimeFormatters,
-    __numberFormatters
+    __numberFormatters,
+    __meta
   } as CoreContext<
     Options['messages'],
     Options['datetimeFormats'],
@@ -292,8 +318,15 @@ export function createCoreContext<
 
   // for vue-devtools timeline event
   if (__DEV__) {
-    ;((context as unknown) as CoreInternalContext).__emitter =
-      internalOptions.__emitter != null ? internalOptions.__emitter : undefined
+    ;((context as unknown) as CoreInternalContext).__v_emitter =
+      internalOptions.__v_emitter != null
+        ? internalOptions.__v_emitter
+        : undefined
+  }
+
+  // NOTE: experimental !!
+  if (__DEV__ || __FEATURE_PROD_INTLIFY_DEVTOOLS__) {
+    initI18nDevTools(context, version, __meta)
   }
 
   return context
@@ -327,9 +360,9 @@ export function handleMissing<Message = string>(
 
   // for vue-devtools timeline event
   if (__DEV__) {
-    const emitter = ((context as unknown) as CoreInternalContext).__emitter
+    const emitter = ((context as unknown) as CoreInternalContext).__v_emitter
     if (emitter) {
-      emitter.emit(DevToolsTimelineEvents.MISSING, {
+      emitter.emit(VueDevToolsTimelineEvents.MISSING, {
         locale,
         key,
         type,

@@ -42,11 +42,11 @@ expect.extend({
   toHaveBeenWarnedTimes(received: string, n: number) {
     asserted.add(received)
     let found = 0
-    warn.mock.calls.forEach(args => {
+    for (const args of warn.mock.calls) {
       if (args[0].indexOf(received) > -1) {
         found++
       }
-    })
+    }
 
     if (found === n) {
       return {

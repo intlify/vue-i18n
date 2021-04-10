@@ -27,8 +27,12 @@ export function initFeatureFlags(): void {
     getGlobalThis().__VUE_I18N_LEGACY_API__ = true
   }
 
-  if (typeof __FEATURE_PROD_DEVTOOLS__ !== 'boolean') {
+  if (typeof __FEATURE_PROD_VUE_DEVTOOLS__ !== 'boolean') {
     needWarn = true
+    getGlobalThis().__VUE_I18N_PROD_DEVTOOLS__ = false
+  }
+
+  if (typeof __FEATURE_PROD_INTLIFY_DEVTOOLS__ !== 'boolean') {
     getGlobalThis().__INTLIFY_PROD_DEVTOOLS__ = false
   }
 
@@ -50,14 +54,12 @@ export function initFeatureFlags(): void {
  * istanbul-ignore-next
  */
 export function initDev(): void {
-  const target = getGlobalThis()
-
-  target.__INTLIFY__ = true
-
   if (__BROWSER__) {
-    console.info(
-      `You are running a development build of vue-i18n.\n` +
-        `Make sure to use the production build (*.prod.js) when deploying for production.`
-    )
+    if (!__ESM_BUNDLER__) {
+      console.info(
+        `You are running a development build of vue-i18n.\n` +
+          `Make sure to use the production build (*.prod.js) when deploying for production.`
+      )
+    }
   }
 }

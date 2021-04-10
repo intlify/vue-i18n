@@ -37,6 +37,11 @@ declare module '@vue/runtime-core' {
      * @internal
      */
     __i18n?: CustomBlocks
+    /**
+     * For devtools
+     * @internal
+     */
+    __INTLIFY_META__?: string
   }
 
   /**

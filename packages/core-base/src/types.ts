@@ -4,6 +4,8 @@
 
 export type DateTimeHumanReadable = 'long' | 'short' | 'narrow'
 export type DateTimeDigital = 'numeric' | '2-digit'
+export type LocaleMatcher = 'lookup' | 'best fit'
+export type FormatMatcher = 'basic' | 'best fit'
 
 export interface SpecificDateTimeFormatOptions
   extends Intl.DateTimeFormatOptions {
@@ -16,8 +18,8 @@ export interface SpecificDateTimeFormatOptions
   weekday?: DateTimeHumanReadable
   era?: DateTimeHumanReadable
   timeZoneName?: 'long' | 'short'
-  localeMatcher?: 'lookup' | 'best-fit'
-  formatMatcher?: 'basic' | 'best-fit'
+  localeMatcher?: LocaleMatcher
+  formatMatcher?: FormatMatcher
 }
 export type DateTimeFormatOptions =
   | Intl.DateTimeFormatOptions
@@ -35,16 +37,16 @@ export interface SpecificNumberFormatOptions extends Intl.NumberFormatOptions {
   style?: 'decimal' | 'percent'
   currency?: string
   currencyDisplay?: CurrencyDisplay
-  localeMatcher?: 'lookup' | 'best-fit'
-  formatMatcher?: 'basic' | 'best-fit'
+  localeMatcher?: LocaleMatcher
+  formatMatcher?: FormatMatcher
 }
 
 export interface CurrencyNumberFormatOptions extends Intl.NumberFormatOptions {
   style: 'currency'
   currency: string // Obligatory if style is 'currency'
   currencyDisplay?: CurrencyDisplay
-  localeMatcher?: 'lookup' | 'best fit'
-  formatMatcher?: 'basic' | 'best fit'
+  localeMatcher?: LocaleMatcher
+  formatMatcher?: FormatMatcher
 }
 
 export type NumberFormatOptions =
@@ -72,3 +74,6 @@ export type FormattedNumberPart = {
   value: string
 }
 export type NumberFormatToPartsResult = { [index: number]: FormattedNumberPart }
+export interface MetaInfo {
+  [field: string]: unknown
+}

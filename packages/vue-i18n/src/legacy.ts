@@ -29,9 +29,9 @@ import type {
   DateTimeFormats as DateTimeFormatsType,
   NumberFormats as NumberFormatsType,
   DateTimeFormat,
-  NumberFormat,
-  DevToolsEmitter
+  NumberFormat
 } from '@intlify/core-base'
+import type { VueDevToolsEmitter } from '@intlify/vue-devtools'
 import type {
   VueMessageType,
   MissingHandler,
@@ -1042,7 +1042,7 @@ export interface VueI18nInternal<
 > {
   __composer: Composer<Messages, DateTimeFormats, NumberFormats>
   __onComponentInstanceCreated(target: VueI18n<Messages>): void
-  __enableEmitter?: (emitter: DevToolsEmitter) => void
+  __enableEmitter?: (emitter: VueDevToolsEmitter) => void
   __disableEmitter?: () => void
 }
 
@@ -1480,7 +1480,7 @@ export function createVueI18n<
   // for vue-devtools timeline event
   if (__DEV__) {
     ;(vueI18n as VueI18nInternal).__enableEmitter = (
-      emitter: DevToolsEmitter
+      emitter: VueDevToolsEmitter
     ): void => {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const __composer = composer as any

@@ -676,7 +676,8 @@ describe('errors', () => {
       }
     ] as CompileError[])
   })
-  ;[`$`, `-`].forEach(ch => {
+  const items = [`$`, `-`]
+  for (const ch of items) {
     test(`invalid '${ch}' in placeholder`, () => {
       parse(`hi {${ch}} !`, options)
       expect(errors).toEqual([
@@ -702,5 +703,5 @@ describe('errors', () => {
         }
       ] as CompileError[])
     })
-  })
+  }
 })

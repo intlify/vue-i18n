@@ -144,13 +144,14 @@ describe('new lines in placeholder', () => {
 })
 
 describe('errors', () => {
-  ;[
+  const tests = [
     { desc: `nest placeholder`, case: `hi {{0}} !` },
     { desc: `space in nest placeholder`, case: `hi { { 0 } } !` },
     { desc: `not close brace with EOF`, case: `hi {0` },
     { desc: `not close brace`, case: `hi {0 !` },
     { desc: `not close brace included spaces`, case: `hi {  0 !` }
-  ].forEach(target => {
+  ]
+  for (const target of tests) {
     test(`${target.desc}: '${target.case}'`, () => {
       const text = target.case
       const parser = createParser({ onError: spy })
@@ -159,5 +160,5 @@ describe('errors', () => {
       expect(ast).toMatchSnapshot()
       expect(spy).toHaveBeenCalled()
     })
-  })
+  }
 })

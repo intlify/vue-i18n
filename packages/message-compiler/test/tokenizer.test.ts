@@ -3,7 +3,7 @@ import { TokenizeOptions } from '../src/options'
 import { CompileError } from '../src/errors'
 
 test('token analysis', () => {
-  ;[
+  const cases = [
     `hello world`,
     `hi {name} !`,
     `{first} {middle}　{last}`, // eslint-disable-line no-irregular-whitespace
@@ -83,7 +83,8 @@ test('token analysis', () => {
     ` | | |`,
     ` foo | | bar`,
     `@.lower: {'no apples'} | {1 apple | @:{count　apples` // eslint-disable-line no-irregular-whitespace
-  ].forEach(p => {
+  ]
+  for (const p of cases) {
     const errors: CompileError[] = []
     const options: TokenizeOptions = {
       onError: err => {
@@ -95,5 +96,5 @@ test('token analysis', () => {
     if (errors.length) {
       expect(errors).toMatchSnapshot(`${JSON.stringify(p)} errors`)
     }
-  })
+  }
 })

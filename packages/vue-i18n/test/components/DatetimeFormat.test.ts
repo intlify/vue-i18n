@@ -4,9 +4,9 @@
 
 import { mount } from '../helper'
 import { defineComponent, SetupContext, VNodeChild, h } from 'vue'
-import { createI18n } from '../../src/index'
+import { createI18n, IntlDateTimeFormats } from '../../src/index'
 
-const datetimeFormats = {
+const datetimeFormats: IntlDateTimeFormats = {
   'en-US': {
     long: {
       year: 'numeric',

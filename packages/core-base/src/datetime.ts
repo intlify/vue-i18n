@@ -15,19 +15,16 @@ import {
 } from './context'
 import { CoreWarnCodes, getWarnMessage } from './warnings'
 import { CoreErrorCodes, createCoreError } from './errors'
-import { DevToolsTimelineEvents } from './debugger/constants'
+import { VueDevToolsTimelineEvents } from '@intlify/vue-devtools'
 import { Availabilities } from './intl'
 
+import type { Locale } from '@intlify/runtime'
 import type {
   DateTimeFormat,
   DateTimeFormats as DateTimeFormatsType,
   DateTimeFormatOptions
 } from './types'
-import type {
-  Locale,
-  CoreDateTimeContext,
-  CoreInternalContext
-} from './context'
+import type { CoreDateTimeContext, CoreInternalContext } from './context'
 
 /**
  *  # datetime
@@ -184,9 +181,9 @@ export function datetime<DateTimeFormats, Message = string>(
 
     // for vue-devtools timeline event
     if (__DEV__ && locale !== targetLocale) {
-      const emitter = ((context as unknown) as CoreInternalContext).__emitter
+      const emitter = ((context as unknown) as CoreInternalContext).__v_emitter
       if (emitter) {
-        emitter.emit(DevToolsTimelineEvents.FALBACK, {
+        emitter.emit(VueDevToolsTimelineEvents.FALBACK, {
           type,
           key,
           from,

@@ -11,7 +11,8 @@ import {
   isObject,
   isBoolean,
   warn,
-  makeSymbol
+  makeSymbol,
+  createEmitter
 } from '@intlify/shared'
 import {
   getLocaleMessages,
@@ -25,7 +26,6 @@ import { I18nErrorCodes, createI18nError } from './errors'
 import { apply } from './plugin'
 import { defineMixin } from './mixin'
 import { enableDevTools, addTimelineEvent } from './devtools'
-import { createEmitter } from '@intlify/core-base'
 
 import type { ComponentInternalInstance, ComponentOptions, App } from 'vue'
 import type {
@@ -33,10 +33,12 @@ import type {
   FallbackLocale,
   LocaleMessageDictionary,
   DateTimeFormat,
-  NumberFormat,
-  DevToolsEmitter,
-  DevToolsEmitterEvents
+  NumberFormat
 } from '@intlify/core-base'
+import type {
+  VueDevToolsEmitter,
+  VueDevToolsEmitterEvents
+} from '@intlify/vue-devtools'
 import type {
   VueMessageType,
   Composer,
@@ -356,7 +358,7 @@ export function createI18n<
     },
     // install plugin
     async install(app: App, ...options: unknown[]): Promise<void> {
-      if ((__DEV__ || __FEATURE_PROD_DEVTOOLS__) && !__NODE_JS__) {
+      if ((__DEV__ || __FEATURE_PROD_VUE_DEVTOOLS__) && !__NODE_JS__) {
         app.__VUE_I18N__ = i18n as _I18n
       }
 
@@ -397,12 +399,12 @@ export function createI18n<
       }
 
       // setup vue-devtools plugin
-      if ((__DEV__ || __FEATURE_PROD_DEVTOOLS__) && !__NODE_JS__) {
+      if ((__DEV__ || __FEATURE_PROD_VUE_DEVTOOLS__) && !__NODE_JS__) {
         const ret = await enableDevTools(app, i18n as _I18n)
         if (!ret) {
           throw createI18nError(I18nErrorCodes.CANNOT_SETUP_VUE_DEVTOOLS_PLUGIN)
         }
-        const emitter: DevToolsEmitter = createEmitter<DevToolsEmitterEvents>()
+        const emitter: VueDevToolsEmitter = createEmitter<VueDevToolsEmitterEvents>()
         if (__legacyMode) {
           const _vueI18n = (__global as unknown) as VueI18nInternal<
             Messages,
@@ -623,6 +625,7 @@ export function useI18n<
       ComposerInternalOptions<Messages, DateTimeFormats, NumberFormats> = {
       ...options
     }
+
     if (type.__i18n) {
       composerOptions.__i18n = type.__i18n
     }
@@ -707,17 +710,17 @@ function setupLifeCycle<Messages, DateTimeFormats, NumberFormats>(
   target: ComponentInternalInstance,
   composer: Composer<Messages, DateTimeFormats, NumberFormats>
 ): void {
-  let emitter: DevToolsEmitter | null = null
+  let emitter: VueDevToolsEmitter | null = null
 
   onMounted(() => {
     // inject composer instance to DOM for intlify-devtools
     if (
-      (__DEV__ || __FEATURE_PROD_DEVTOOLS__) &&
+      (__DEV__ || __FEATURE_PROD_VUE_DEVTOOLS__) &&
       !__NODE_JS__ &&
       target.vnode.el
     ) {
-      target.vnode.el.__INTLIFY__ = composer
-      emitter = createEmitter<DevToolsEmitterEvents>()
+      target.vnode.el.__VUE_I18N__ = composer
+      emitter = createEmitter<VueDevToolsEmitterEvents>()
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const _composer = composer as any
       _composer[EnableEmitter] && _composer[EnableEmitter](emitter)
@@ -728,16 +731,16 @@ function setupLifeCycle<Messages, DateTimeFormats, NumberFormats>(
   onUnmounted(() => {
     // remove composer instance from DOM for intlify-devtools
     if (
-      (__DEV__ || __FEATURE_PROD_DEVTOOLS__) &&
+      (__DEV__ || __FEATURE_PROD_VUE_DEVTOOLS__) &&
       !__NODE_JS__ &&
       target.vnode.el &&
-      target.vnode.el.__INTLIFY__
+      target.vnode.el.__VUE_I18N__
     ) {
       emitter && emitter.off('*', addTimelineEvent)
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const _composer = composer as any
       _composer[DisableEmitter] && _composer[DisableEmitter]()
-      delete target.vnode.el.__INTLIFY__
+      delete target.vnode.el.__VUE_I18N__
     }
     i18n.__deleteInstance(target)
   }, target)
@@ -813,7 +816,7 @@ function injectGlobalFields<Messages, DateTimeFormats, NumberFormats>(
 
   globalExportMethods.forEach(method => {
     const desc = Object.getOwnPropertyDescriptor(composer, method)
-    if (!desc) {
+    if (!desc || !desc.value) {
       throw createI18nError(I18nErrorCodes.UNEXPECTED_ERROR)
     }
     Object.defineProperty(app.config.globalProperties, `$${method}`, desc)
