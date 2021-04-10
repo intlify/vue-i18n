@@ -12,6 +12,10 @@ export const sponsors = {
     source: '/nuxt.png'
   }],
   silvers: [{
+    name: 'Babel Edit',
+    tier: TierLevel.Silver,
+    link: 'https://www.codeandweb.com/babeledit?utm_campaign=vue-i18n-2019-01',
+    source: 'https://secure.codeandweb.com/static/babeledit.svg'
   }],
   bronzes: [{
     name: 'Zen Architects',

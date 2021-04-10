@@ -23,6 +23,19 @@ Vue I18n is part of the Vue Ecosystem and Intlify Project is an open source proj
   </a>
 </p>
 
+<h3 align="center">🥈 Silver Sponsors</h3>
+
+<p align="center">
+  <a
+    href="https://www.codeandweb.com/babeledit?utm_campaign=vue-i18n-2019-01" 
+    target="_blank">
+    <img
+      src="https://secure.codeandweb.com/static/babeledit.svg"
+      width="200px"
+    />
+  </a>
+</p>
+
 <h3 align="center">🥉 Bronze Sponsors</h3>
 
 <p align="center">

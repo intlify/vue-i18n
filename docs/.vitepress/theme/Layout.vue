@@ -28,10 +28,8 @@ export default {
           <Sponsor v-for="gold in golds" v-bind="gold" />
         </div>
         <div class="level">
-          <!--
           <h4 class="sponsor-title">🥈 Silver Sponsors</h4>
           <Sponsor v-for="silver in silvers" v-bind="silver" />
-          -->
         </div>
         <div class="level">
           <h4 class="sponsor-title">🥉 Bronze Sponsors</h4>
