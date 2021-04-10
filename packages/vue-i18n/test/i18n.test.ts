@@ -867,8 +867,8 @@ test('Intlify devtools hooking', () => {
 
   const fnI18nInit = jest.fn()
   const fnTranslate = jest.fn()
-  emitter.on(IntlifyDevToolsHooks.I18N_INIT, fnI18nInit)
-  emitter.on(IntlifyDevToolsHooks.FUNCTION_TRANSLATE, fnTranslate)
+  emitter.on(IntlifyDevToolsHooks.I18nInit, fnI18nInit)
+  emitter.on(IntlifyDevToolsHooks.FunctionTranslate, fnTranslate)
 
   const i18n = createI18n({
     locale: 'en',
