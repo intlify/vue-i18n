@@ -23,7 +23,7 @@ afterEach(() => {
 
 test('initI18nDevTools', () => {
   const fn = jest.fn()
-  devtools!.on(IntlifyDevToolsHooks.I18N_INIT, fn)
+  devtools!.on(IntlifyDevToolsHooks.I18nInit, fn)
 
   const meta = { framework: 'Vue' }
   const ctx = createCoreContext({
@@ -46,7 +46,7 @@ test('initI18nDevTools', () => {
 describe('translateDevTools', () => {
   test('basic', () => {
     const fn = jest.fn()
-    devtools!.on(IntlifyDevToolsHooks.FUNCTION_TRANSLATE, fn)
+    devtools!.on(IntlifyDevToolsHooks.FunctionTranslate, fn)
 
     const meta = { __INTLIFY_META__: 'xxx', framework: 'Vue' }
     const HELLO = 'Hello {name}!'
@@ -73,7 +73,7 @@ describe('translateDevTools', () => {
 
   test('fallback', () => {
     const fn = jest.fn()
-    devtools!.on(IntlifyDevToolsHooks.FUNCTION_TRANSLATE, fn)
+    devtools!.on(IntlifyDevToolsHooks.FunctionTranslate, fn)
 
     const HELLO = 'やあ　{name}！'
     const ctx = createCoreContext({
