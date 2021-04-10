@@ -7,22 +7,24 @@ export interface IntlifyRecord {
   types: Record<string, string | Symbol> // TODO
 }
 
-export const enum IntlifyDevToolsHooks {
-  I18N_INIT = 'i18n:init',
-  FUNCTION_TRANSLATE = 'function:translate'
-}
+export const IntlifyDevToolsHooks = {
+  I18nInit: 'i18n:init',
+  FunctionTranslate: 'function:translate'
+} as const
 
 export type AdditionalPayloads = {
   meta?: Record<string, unknown>
 }
 
+export type IntlifyDevToolsHooks = typeof IntlifyDevToolsHooks[keyof typeof IntlifyDevToolsHooks]
+
 export type IntlifyDevToolsHookPayloads = {
-  [IntlifyDevToolsHooks.I18N_INIT]: {
+  [IntlifyDevToolsHooks.I18nInit]: {
     timestamp: number
     i18n: unknown // TODO:
     version: string
   } & AdditionalPayloads
-  [IntlifyDevToolsHooks.FUNCTION_TRANSLATE]: {
+  [IntlifyDevToolsHooks.FunctionTranslate]: {
     timestamp: number
     message: string | number
     key: string
@@ -32,8 +34,8 @@ export type IntlifyDevToolsHookPayloads = {
 }
 
 export type IntlifyDevToolsEmitterHooks = {
-  [IntlifyDevToolsHooks.I18N_INIT]: IntlifyDevToolsHookPayloads[IntlifyDevToolsHooks.I18N_INIT]
-  [IntlifyDevToolsHooks.FUNCTION_TRANSLATE]: IntlifyDevToolsHookPayloads[IntlifyDevToolsHooks.FUNCTION_TRANSLATE]
+  [IntlifyDevToolsHooks.I18nInit]: IntlifyDevToolsHookPayloads[typeof IntlifyDevToolsHooks.I18nInit]
+  [IntlifyDevToolsHooks.FunctionTranslate]: IntlifyDevToolsHookPayloads[typeof IntlifyDevToolsHooks.FunctionTranslate]
 }
 
 export type IntlifyDevToolsEmitter = Emittable<IntlifyDevToolsEmitterHooks>

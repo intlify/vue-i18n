@@ -22,7 +22,7 @@ export function initI18nDevTools(
 ): void {
   // TODO: queue if devtools is undefined
   devtools &&
-    devtools.emit(IntlifyDevToolsHooks.I18N_INIT, {
+    devtools.emit(IntlifyDevToolsHooks.I18nInit, {
       timestamp: Date.now(),
       i18n,
       version,
@@ -31,7 +31,7 @@ export function initI18nDevTools(
 }
 
 export const translateDevTools = /* #__PURE__*/ createDevToolsHook(
-  IntlifyDevToolsHooks.FUNCTION_TRANSLATE
+  IntlifyDevToolsHooks.FunctionTranslate
 )
 
 function createDevToolsHook(hook: IntlifyDevToolsHooks) {
