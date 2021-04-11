@@ -98,6 +98,7 @@ The `esm-bundler` builds now exposes global feature flags that can be overwritte
 
 :::warning NOTICE
 `__INTLIFY_PROD_DEVTOOLS__` flag is experimental, and `@intlify/devtools` is WIP yet.
+:::
 
 The build will work without configuring these flags, however it is **strongly recommended** to properly configure them in order to get proper tree shaking in the final bundle. To configure these flags:
 
