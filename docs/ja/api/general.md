@@ -16,8 +16,8 @@ If you use Legacy API mode, you need toto specify [VueI18nOptions](legacy#vuei18
 If you use composition API mode, you need to specify [ComposerOptions](composition#composeroptions).
 
 **See Also**
--  [Getting Started](../../guide/)  
--  [Composition API](../../guide/advanced/composition)
+-  [Getting Started](../guide/)  
+-  [Composition API](../guide/advanced/composition)
 
 ### Parameters
 
@@ -239,7 +239,7 @@ If set to `true`, then properties and methods prefixed with `$` are injected int
 `false`
 
 **See Also**
--  [Implicit with injected properties and functions](../../guide/advanced/composition#implicit-with-injected-properties-and-functions)  
+-  [Implicit with injected properties and functions](../guide/advanced/composition#implicit-with-injected-properties-and-functions)  
 -  [ComponentCustomProperties](injection#componentcustomproperties)
 
 ### legacy
@@ -260,7 +260,7 @@ The default is to use the Legacy API mode. If you want to use the Composition AP
 `true`
 
 **See Also**
--  [Composition API](../../guide/advanced/composition)
+-  [Composition API](../guide/advanced/composition)
 
 ## I18nMode
 

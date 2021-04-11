@@ -37,7 +37,7 @@ export interface TranslationProps extends BaseFormatProps {
  *
  * @VueI18nSee [TranslationProps](component#translationprops)
  * @VueI18nSee [BaseFormatProps](component#baseformatprops)
- * @VueI18nSee [Component Interpolation](../../guide/advanced/component)
+ * @VueI18nSee [Component Interpolation](../guide/advanced/component)
  *
  * @example
  * ```html
@@ -81,17 +81,20 @@ export interface TranslationProps extends BaseFormatProps {
 export const Translation = {
   /* eslint-disable */
   name: 'i18n-t',
-  props: assign({
-    keypath: {
-      type: String,
-      required: true
+  props: assign(
+    {
+      keypath: {
+        type: String,
+        required: true
+      },
+      plural: {
+        type: [Number, String],
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        validator: (val: any): boolean => isNumber(val) || !isNaN(val)
+      }
     },
-    plural: {
-      type: [Number, String],
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      validator: (val: any): boolean => isNumber(val) || !isNaN(val)
-    }
-  }, baseFormatProps),
+    baseFormatProps
+  ),
   /* eslint-enable */
   setup(props: TranslationProps, context: SetupContext): RenderFunction {
     const { slots, attrs } = context

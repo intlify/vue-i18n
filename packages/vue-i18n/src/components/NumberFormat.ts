@@ -45,7 +45,7 @@ const NUMBER_FORMAT_KEYS = [
  *
  * @VueI18nSee [FormattableProps](component#formattableprops)
  * @VueI18nSee [BaseFormatProps](component#baseformatprops)
- * @VueI18nSee [Custom Formatting](../../guide/essentials/number#custom-formatting)
+ * @VueI18nSee [Custom Formatting](../guide/essentials/number#custom-formatting)
  *
  * @VueI18nDanger
  * Not supported IE, due to no support `Intl.NumberFormat#formatToParts` in [IE](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/NumberFormat/formatToParts)
@@ -57,15 +57,18 @@ const NUMBER_FORMAT_KEYS = [
 export const NumberFormat = {
   /* eslint-disable */
   name: 'i18n-n',
-  props: assign({
-    value: {
-      type: Number,
-      required: true
+  props: assign(
+    {
+      value: {
+        type: Number,
+        required: true
+      },
+      format: {
+        type: [String, Object]
+      }
     },
-    format: {
-      type: [String, Object]
-    }
-  }, baseFormatProps),
+    baseFormatProps
+  ),
   /* eslint-enable */
   setup(props: NumberFormatProps, context: SetupContext): RenderFunction {
     const i18n = useI18n({ useScope: 'parent' }) as Composer & ComposerInternal

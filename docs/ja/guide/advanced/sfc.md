@@ -43,7 +43,7 @@ If `$t('hello')` is used in the template, the `hello` key defined by `i18n` cust
 :::tip NOTE
 The Composition API requires `useI18n` to return the `setup` context in order to localize with reference to locale messages defined in the i18n custom blocks.
 
-About how to usage of `useI18n` , see the [Composition API](composition)
+About how to usage of `useI18n` , see the [Composition API](./composition)
 :::
 
 To use i18n custom blocks, you need to use the following plugins for bundler.
@@ -312,7 +312,7 @@ You can use define locale messages for global scope with `global` attribute:
 In the above example, since the `global` attribute is set, the locale messages defined in `i18n` custom blocks can be merged as a resource for locale messages of global scope.
 
 :::warning NOTICE
-The locale messages for global scope defined in i18n custom blocks are available **only composition API mode**. You need to run `useI18n` option to `useScope: 'global'` at `setup`. About details, see the [Composition API](/advanced/composition).
+The locale messages for global scope defined in i18n custom blocks are available **only composition API mode**. You need to run `useI18n` option to `useScope: 'global'` at `setup`. About details, see the [Composition API](./composition).
 :::
 
 

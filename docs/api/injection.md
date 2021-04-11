@@ -54,8 +54,8 @@ The locales, locale messages, and other resources managed by the instance refere
 If the `i18n` component option is not specified, it’s the same as the VueI18n instance that can be referenced by the i18n instance [global](general#global).
 
 **See Also**
-- [Scope and Locale Changing](../../guide/essentials/scope)
-- [Composition API](../../guide/advanced/composition)
+- [Scope and Locale Changing](../guide/essentials/scope)
+- [Composition API](../guide/advanced/composition)
 
 ### $t(key)
 
@@ -75,8 +75,8 @@ In [Composition API mode](general#mode), the `$t` is injected by `app.config.glo
 In [Legacy API mode](general#mode), the input / output is the same as for VueI18n instance. About details, see [VueI18n#t](legacy#t-key).
 
 **See Also**
-- [Scope and Locale Changing](../../guide/essentials/scope)
-- [Composition API](../../guide/advanced/composition)
+- [Scope and Locale Changing](../guide/essentials/scope)
+- [Composition API](../guide/advanced/composition)
 
 #### Parameters
 | Parameter | Type | Description |
@@ -529,8 +529,8 @@ In [Composition API mode](general#mode), the `$rt` is injected by `app.config.gl
 In [Legacy API mode](general#mode), the input / output is the same as for VueI18n instance. About details, see [VueI18n#rt](legacy#rt-message).
 
 **See Also**
-- [Scope and Locale Changing](../../guide/essentials/scope)
-- [Composition API](../../guide/advanced/composition)
+- [Scope and Locale Changing](../guide/essentials/scope)
+- [Composition API](../guide/advanced/composition)
 
 #### Parameters
 | Parameter | Type | Description |
@@ -635,7 +635,7 @@ The input / output is the same as for VueI18n instance. About that details, see 
 The value of plural is handled with default `1`.
 
 **See Also**
-- [Pluralization](../../guide/essentials/pluralization)
+- [Pluralization](../guide/essentials/pluralization)
 
 #### Parameters
 | Parameter | Type | Description |
@@ -884,7 +884,7 @@ Based on the current `locale`, locale messages will be returned from Composer in
 
 If you change the `locale`, the locale messages returned will also correspond to the locale.
 
-If there are no locale messages for the given `key` in the composer instance messages, they will be returned with [fallbacking](../../guide/essentials/fallback).
+If there are no locale messages for the given `key` in the composer instance messages, they will be returned with [fallbacking](../guide/essentials/fallback).
 
 #### Parameters
 | Parameter | Type | Description |
@@ -913,9 +913,9 @@ In [Composition API mode](general#i18nmode), the input / output is the same as f
 In [Composition API mode](general#i18nmode), the `$d` is injected by `app.config.globalProperties`. The input / output is the same as for Composer instance, and it works on **global scope**. About that details, see [Composer#d](composition#d-value).
 
 **See Also**
-- [Datetime Formatting](../../guide/essentials/datetime)
-- [Scope and Locale Changing](../../guide/essentials/scope)
-- [Composition API](../../guide/advanced/composition#datetime-formatting)
+- [Datetime Formatting](../guide/essentials/datetime)
+- [Scope and Locale Changing](../guide/essentials/scope)
+- [Composition API](../guide/advanced/composition#datetime-formatting)
 
 #### Parameters
 | Parameter | Type | Description |
@@ -1106,9 +1106,9 @@ In [Legacy API mode](general#i18nmode), the input / output is the same as for Vu
 In [Composition API mode](general#i18nmode), the `$n` is injected by `app.config.globalProperties`. The input / output is the same as for Composer instance, and it works on **global scope**. About that details, see [Composer#n](composition#n-value).
 
 **See Also**
-- [Number Formatting](../../guide/essentials/number)
-- [Scope and Locale Changing](../../guide/essentials/scope)
-- [Composition API](../../guide/advanced/composition#number-formatting)
+- [Number Formatting](../guide/essentials/number)
+- [Scope and Locale Changing](../guide/essentials/scope)
+- [Composition API](../guide/advanced/composition#number-formatting)
 
 #### Parameters
 | Parameter | Type | Description |

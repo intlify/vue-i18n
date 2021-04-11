@@ -82,7 +82,7 @@ export interface I18nAdditionalOptions {
    * @remarks
    * The default is to use the Legacy API mode. If you want to use the Composition API mode, you need to set it to `false`.
    *
-   * @VueI18nSee [Composition API](../../guide/advanced/composition)
+   * @VueI18nSee [Composition API](../guide/advanced/composition)
    *
    * @defaultValue `true`
    */
@@ -93,7 +93,7 @@ export interface I18nAdditionalOptions {
    * @remarks
    * If set to `true`, then properties and methods prefixed with `$` are injected into Vue Component.
    *
-   * @VueI18nSee [Implicit with injected properties and functions](../../guide/advanced/composition#implicit-with-injected-properties-and-functions)
+   * @VueI18nSee [Implicit with injected properties and functions](../guide/advanced/composition#implicit-with-injected-properties-and-functions)
    * @VueI18nSee [ComponentCustomProperties](injection#componentcustomproperties)
    *
    * @defaultValue `false`
@@ -232,8 +232,8 @@ export interface ComposerAdditionalOptions {
  *
  * If you use composition API mode, you need to specify {@link ComposerOptions}.
  *
- * @VueI18nSee [Getting Started](../../guide/)
- * @VueI18nSee [Composition API](../../guide/advanced/composition)
+ * @VueI18nSee [Getting Started](../guide/)
+ * @VueI18nSee [Composition API](../guide/advanced/composition)
  *
  * @example
  * case: for Legacy API

@@ -50,7 +50,7 @@ const DATETIME_FORMAT_KEYS = [
  *
  * @VueI18nSee [FormattableProps](component#formattableprops)
  * @VueI18nSee [BaseFormatProps](component#baseformatprops)
- * @VueI18nSee [Custom Formatting](../../guide/essentials/datetime#custom-formatting)
+ * @VueI18nSee [Custom Formatting](../guide/essentials/datetime#custom-formatting)
  *
  * @VueI18nDanger
  * Not supported IE, due to no support `Intl.DateTimeFormat#formatToParts` in [IE](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/DateTimeFormat/formatToParts)
@@ -62,15 +62,18 @@ const DATETIME_FORMAT_KEYS = [
 export const DatetimeFormat = {
   /* eslint-disable */
   name: 'i18n-d',
-  props: assign({
-    value: {
-      type: [Number, Date],
-      required: true
+  props: assign(
+    {
+      value: {
+        type: [Number, Date],
+        required: true
+      },
+      format: {
+        type: [String, Object]
+      }
     },
-    format: {
-      type: [String, Object]
-    }
-  }, baseFormatProps),
+    baseFormatProps
+  ),
   /* eslint-enable */
   setup(props: DatetimeFormatProps, context: SetupContext): RenderFunction {
     const i18n = useI18n({ useScope: 'parent' }) as Composer & ComposerInternal

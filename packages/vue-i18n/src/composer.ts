@@ -135,7 +135,7 @@ export interface ComposerOptions<Message = VueMessageType> {
    *
    * If the locale contains a territory and a dialect, this locale contains an implicit fallback.
    *
-   * @VueI18nSee [Scope and Locale Changing](../../guide/essentials/scope)
+   * @VueI18nSee [Scope and Locale Changing](../guide/essentials/scope)
    *
    * @defaultValue `'en-US'`
    */
@@ -146,7 +146,7 @@ export interface ComposerOptions<Message = VueMessageType> {
    *
    * For more complex fallback definitions see fallback.
    *
-   * @VueI18nSee [Fallbacking](../../guide/essentials/fallback)
+   * @VueI18nSee [Fallbacking](../guide/essentials/fallback)
    *
    * @defaultValue The default `'en-US'` for the `locale` if it's not specified, or it's `locale` value
    */
@@ -157,7 +157,7 @@ export interface ComposerOptions<Message = VueMessageType> {
    *
    * If `false`, regardless of the root level locale, localize for each component locale.
    *
-   * @VueI18nSee [Local Scope](../../guide/essentials/scope#local-scope-2)
+   * @VueI18nSee [Local Scope](../guide/essentials/scope#local-scope-2)
    *
    * @defaultValue `true`
    */
@@ -166,7 +166,7 @@ export interface ComposerOptions<Message = VueMessageType> {
    * @remarks
    * The locale messages of localization.
    *
-   * @VueI18nSee [Getting Started](../../guide/)
+   * @VueI18nSee [Getting Started](../guide/)
    *
    * @defaultValue `{}`
    */
@@ -182,7 +182,7 @@ export interface ComposerOptions<Message = VueMessageType> {
    * @remarks
    * The datetime formats of localization.
    *
-   * @VueI18nSee [Datetime Formatting](../../guide/essentials/datetime)
+   * @VueI18nSee [Datetime Formatting](../guide/essentials/datetime)
    *
    * @defaultValue `{}`
    */
@@ -191,7 +191,7 @@ export interface ComposerOptions<Message = VueMessageType> {
    * @remarks
    * The number formats of localization.
    *
-   * @VueI18nSee [Number Formatting](../../guide/essentials/number)
+   * @VueI18nSee [Number Formatting](../guide/essentials/number)
    *
    * @defaultValue `{}`
    */
@@ -200,14 +200,14 @@ export interface ComposerOptions<Message = VueMessageType> {
    * @remarks
    * Custom Modifiers for linked messages.
    *
-   * @VueI18nSee [Custom Modifiers](../../guide/essentials/syntax#custom-modifiers)
+   * @VueI18nSee [Custom Modifiers](../guide/essentials/syntax#custom-modifiers)
    */
   modifiers?: LinkedModifiers<Message>
   /**
    * @remarks
    * A set of rules for word pluralization
    *
-   * @VueI18nSee [Custom Pluralization](../../guide/essentials/pluralization#custom-pluralization)
+   * @VueI18nSee [Custom Pluralization](../guide/essentials/pluralization#custom-pluralization)
    *
    * @defaultValue `{}`
    */
@@ -231,7 +231,7 @@ export interface ComposerOptions<Message = VueMessageType> {
    *
    * If you use regular expression, you can suppress localization fail warnings that it match with translation key (e.g. `t`).
    *
-   * @VueI18nSee [Fallbacking](../../guide/essentials/fallback)
+   * @VueI18nSee [Fallbacking](../guide/essentials/fallback)
    *
    * @defaultValue `true`
    */
@@ -244,7 +244,7 @@ export interface ComposerOptions<Message = VueMessageType> {
    *
    * If you use regular expression, you can suppress fallback warnings that it match with translation key (e.g. `t`).
    *
-   * @VueI18nSee [Fallbacking](../../guide/essentials/fallback)
+   * @VueI18nSee [Fallbacking](../guide/essentials/fallback)
    *
    * @defaultValue `true`
    */
@@ -255,7 +255,7 @@ export interface ComposerOptions<Message = VueMessageType> {
    *
    * If `false`, it's not fallback to root.
    *
-   * @VueI18nSee [Fallbacking](../../guide/essentials/fallback)
+   * @VueI18nSee [Fallbacking](../guide/essentials/fallback)
    *
    * @defaultValue `true`
    */
@@ -266,7 +266,7 @@ export interface ComposerOptions<Message = VueMessageType> {
    *
    * If `true`, skip writing templates for your "base" language; the keys are your templates.
    *
-   * @VueI18nSee [Fallbacking](../../guide/essentials/fallback)
+   * @VueI18nSee [Fallbacking](../guide/essentials/fallback)
    *
    * @defaultValue `false`
    */
@@ -288,8 +288,8 @@ export interface ComposerOptions<Message = VueMessageType> {
    *
    * See the warnHtmlMessage property.
    *
-   * @VueI18nSee [HTML Message](../../guide/essentials/syntax#html-message)
-   * @VueI18nSee [Change `warnHtmlInMessage` option default value](../../guide/migration/breaking#change-warnhtmlinmessage-option-default-value)
+   * @VueI18nSee [HTML Message](../guide/essentials/syntax#html-message)
+   * @VueI18nSee [Change `warnHtmlInMessage` option default value](../guide/migration/breaking#change-warnhtmlinmessage-option-default-value)
    *
    * @defaultValue `'off'`
    */
@@ -306,7 +306,7 @@ export interface ComposerOptions<Message = VueMessageType> {
    *
    * Setting `escapeParameter` as true should not break existing functionality but provides a safeguard against a subtle type of XSS attack vectors.
    *
-   * @VueI18nSee [HTML Message](../../guide/essentials/syntax#html-message)
+   * @VueI18nSee [HTML Message](../guide/essentials/syntax#html-message)
    *
    * @defaultValue `false`
    */
@@ -352,21 +352,21 @@ export interface Composer<
    *
    * If the locale contains a territory and a dialect, this locale contains an implicit fallback.
    *
-   * @VueI18nSee [Scope and Locale Changing](../../guide/essentials/scope)
+   * @VueI18nSee [Scope and Locale Changing](../guide/essentials/scope)
    */
   locale: WritableComputedRef<Locale>
   /**
    * @remarks
    * The current fallback locales this Composer instance is using.
    *
-   * @VueI18nSee [Fallbacking](../../guide/essentials/fallback)
+   * @VueI18nSee [Fallbacking](../guide/essentials/fallback)
    */
   fallbackLocale: WritableComputedRef<FallbackLocale>
   /**
    * @remarks
    * Whether inherit the root level locale to the component localization locale.
    *
-   * @VueI18nSee [Local Scope](../../guide/essentials/scope#local-scope-2)
+   * @VueI18nSee [Local Scope](../guide/essentials/scope#local-scope-2)
    */
   inheritLocale: boolean
   /**
@@ -378,35 +378,35 @@ export interface Composer<
    * @remarks
    * The locale messages of localization.
    *
-   * @VueI18nSee [Getting Started](../../guide/)
+   * @VueI18nSee [Getting Started](../guide/)
    */
   readonly messages: ComputedRef<Messages>
   /**
    * @remarks
    * The datetime formats of localization.
    *
-   * @VueI18nSee [Datetime Formatting](../../guide/essentials/datetime)
+   * @VueI18nSee [Datetime Formatting](../guide/essentials/datetime)
    */
   readonly datetimeFormats: ComputedRef<DateTimeFormats>
   /**
    * @remarks
    * The number formats of localization.
    *
-   * @VueI18nSee [Number Formatting](../../guide/essentials/number)
+   * @VueI18nSee [Number Formatting](../guide/essentials/number)
    */
   readonly numberFormats: ComputedRef<NumberFormats>
   /**
    * @remarks
    * Custom Modifiers for linked messages.
    *
-   * @VueI18nSee [Custom Modifiers](../../guide/essentials/syntax#custom-modifiers)
+   * @VueI18nSee [Custom Modifiers](../guide/essentials/syntax#custom-modifiers)
    */
   readonly modifiers: LinkedModifiers<Message>
   /**
    * @remarks
    * A set of rules for word pluralization
    *
-   * @VueI18nSee [Custom Pluralization](../../guide/essentials/pluralization#custom-pluralization)
+   * @VueI18nSee [Custom Pluralization](../guide/essentials/pluralization#custom-pluralization)
    */
   readonly pluralRules: PluralizationRules
   /**
@@ -418,28 +418,28 @@ export interface Composer<
    * @remarks
    * Whether suppress warnings outputted when localization fails.
    *
-   * @VueI18nSee [Fallbacking](../../guide/essentials/fallback)
+   * @VueI18nSee [Fallbacking](../guide/essentials/fallback)
    */
   missingWarn: boolean | RegExp
   /**
    * @remarks
    * Whether suppress fall back warnings when localization fails.
    *
-   * @VueI18nSee [Fallbacking](../../guide/essentials/fallback)
+   * @VueI18nSee [Fallbacking](../guide/essentials/fallback)
    */
   fallbackWarn: boolean | RegExp
   /**
    * @remarks
    * Whether to fall back to root level (global scope) localization when localization fails.
    *
-   * @VueI18nSee [Fallbacking](../../guide/essentials/fallback)
+   * @VueI18nSee [Fallbacking](../guide/essentials/fallback)
    */
   fallbackRoot: boolean
   /**
    * @remarks
    * Whether suppress warnings when falling back to either `fallbackLocale` or root.
    *
-   * @VueI18nSee [Fallbacking](../../guide/essentials/fallback)
+   * @VueI18nSee [Fallbacking](../guide/essentials/fallback)
    */
   fallbackFormat: boolean
   /**
@@ -450,15 +450,15 @@ export interface Composer<
    *
    * If you are specified `true`, a warning will be output at console.
    *
-   * @VueI18nSee [HTML Message](../../guide/essentials/syntax#html-message)
-   * @VueI18nSee [Change `warnHtmlInMessage` option default value](../../guide/migration/breaking#change-warnhtmlinmessage-option-default-value)
+   * @VueI18nSee [HTML Message](../guide/essentials/syntax#html-message)
+   * @VueI18nSee [Change `warnHtmlInMessage` option default value](../guide/migration/breaking#change-warnhtmlinmessage-option-default-value)
    */
   warnHtmlMessage: boolean
   /**
    * @remarks
    * Whether interpolation parameters are escaped before the message is translated.
    *
-   * @VueI18nSee [HTML Message](../../guide/essentials/syntax#html-message)
+   * @VueI18nSee [HTML Message](../guide/essentials/syntax#html-message)
    */
   escapeParameter: boolean
   /**
@@ -475,7 +475,7 @@ export interface Composer<
    *
    * @returns Translated message
    *
-   * @VueI18nSee [Scope and Locale Changing](../../guide/essentials/scope)
+   * @VueI18nSee [Scope and Locale Changing](../guide/essentials/scope)
    */
   t(key: Path | number): string
   /**
@@ -496,7 +496,7 @@ export interface Composer<
    *
    * @returns Translated message
    *
-   * @VueI18nSee [Pluralization](../../guide/essentials/pluralization)
+   * @VueI18nSee [Pluralization](../guide/essentials/pluralization)
    */
   t(key: Path | number, plural: number, options?: TranslateOptions): string
   /**
@@ -536,7 +536,7 @@ export interface Composer<
    *
    * @returns Translated message
    *
-   * @VueI18nSee [List interpolation](../../guide/essentials/syntax#list-interpolation)
+   * @VueI18nSee [List interpolation](../guide/essentials/syntax#list-interpolation)
    */
   t(key: Path | number, list: unknown[], options?: TranslateOptions): string
   /**
@@ -553,8 +553,8 @@ export interface Composer<
    *
    * @returns Translated message
    *
-   * @VueI18nSee [Pluralization](../../guide/essentials/pluralization)
-   * @VueI18nSee [List interpolation](../../guide/essentials/syntax#list-interpolation)
+   * @VueI18nSee [Pluralization](../guide/essentials/pluralization)
+   * @VueI18nSee [List interpolation](../guide/essentials/syntax#list-interpolation)
    */
   t(key: Path | number, list: unknown[], plural: number): string
   /**
@@ -571,7 +571,7 @@ export interface Composer<
    *
    * @returns Translated message
    *
-   * @VueI18nSee [List interpolation](../../guide/essentials/syntax#list-interpolation)
+   * @VueI18nSee [List interpolation](../guide/essentials/syntax#list-interpolation)
    */
   t(key: Path | number, list: unknown[], defaultMsg: string): string
   /**
@@ -592,7 +592,7 @@ export interface Composer<
    *
    * @returns Translated message
    *
-   * @VueI18nSee [Named interpolation](../../guide/essentials/syntax#named-interpolation)
+   * @VueI18nSee [Named interpolation](../guide/essentials/syntax#named-interpolation)
    */
   t(key: Path | number, named: NamedValue, options?: TranslateOptions): string
   /**
@@ -609,8 +609,8 @@ export interface Composer<
    *
    * @returns Translated message
    *
-   * @VueI18nSee [Pluralization](../../guide/essentials/pluralization)
-   * @VueI18nSee [Named interpolation](../../guide/essentials/syntax#named-interpolation)
+   * @VueI18nSee [Pluralization](../guide/essentials/pluralization)
+   * @VueI18nSee [Named interpolation](../guide/essentials/syntax#named-interpolation)
    */
   t(key: Path | number, named: NamedValue, plural: number): string
   /**
@@ -627,7 +627,7 @@ export interface Composer<
    *
    * @returns Translated message
    *
-   * @VueI18nSee [Named interpolation](../../guide/essentials/syntax#named-interpolation)
+   * @VueI18nSee [Named interpolation](../guide/essentials/syntax#named-interpolation)
    */
   t(key: Path | number, named: NamedValue, defaultMsg: string): string
   /** @internal */
@@ -652,7 +652,7 @@ export interface Composer<
    *
    * @returns Translated message
    *
-   * @VueI18nSee [Scope and Locale Changing](../../guide/essentials/scope)
+   * @VueI18nSee [Scope and Locale Changing](../guide/essentials/scope)
    */
   rt(message: MessageFunction<Message> | Message): string
   /**
@@ -675,7 +675,7 @@ export interface Composer<
    *
    * @returns Translated message
    *
-   * @VueI18nSee [Pluralization](../../guide/essentials/pluralization)
+   * @VueI18nSee [Pluralization](../guide/essentials/pluralization)
    */
   rt(
     message: MessageFunction<Message> | Message,
@@ -702,7 +702,7 @@ export interface Composer<
    *
    * @returns Translated message
    *
-   * @VueI18nSee [List interpolation](../../guide/essentials/syntax#list-interpolation)
+   * @VueI18nSee [List interpolation](../guide/essentials/syntax#list-interpolation)
    */
   rt(
     message: MessageFunction<Message> | Message,
@@ -729,7 +729,7 @@ export interface Composer<
    *
    * @returns Translated message
    *
-   * @VueI18nSee [Named interpolation](../../guide/essentials/syntax#named-interpolation)
+   * @VueI18nSee [Named interpolation](../guide/essentials/syntax#named-interpolation)
    */
   rt(
     message: MessageFunction<Message> | Message,
@@ -752,7 +752,7 @@ export interface Composer<
    *
    * @returns Formatted value
    *
-   * @VueI18nSee [Datetime formatting](../../guide/essentials/datetime)
+   * @VueI18nSee [Datetime formatting](../guide/essentials/datetime)
    */
   d(value: number | Date | string): string
   /**
@@ -816,7 +816,7 @@ export interface Composer<
    *
    * @returns Formatted value
    *
-   * @VueI18nSee [Number formatting](../../guide/essentials/number)
+   * @VueI18nSee [Number formatting](../guide/essentials/number)
    */
   n(value: number): string
   /**
@@ -891,7 +891,7 @@ export interface Composer<
    *
    * If you change the `locale`, the locale messages returned will also correspond to the locale.
    *
-   * If there are no locale messages for the given `key` in the composer instance messages, they will be returned with [fallbacking](../../guide/essentials/fallback).
+   * If there are no locale messages for the given `key` in the composer instance messages, they will be returned with [fallbacking](../guide/essentials/fallback).
    *
    * @VueI18nWarning
    * You need to use `rt` for the locale message returned by `tm`. see the [rt](composition#rt-message) details.

@@ -9986,7 +9986,7 @@ vfile@^2.0.0:
     unist-util-stringify-position "^1.0.0"
     vfile-message "^1.0.0"
 
-vite@^2.0.0-beta.70:
+vite@^2.0.5:
   version "2.1.5"
   resolved "https://registry.yarnpkg.com/vite/-/vite-2.1.5.tgz#4857da441c62f7982c83cbd5f42a00330f20c9c1"
   integrity sha512-tYU5iaYeUgQYvK/CNNz3tiJ8vYqPWfCE9IQ7K0iuzYovWw7lzty7KRYGWwV3CQPh0NKxWjOczAqiJsCL0Xb+Og==
@@ -9998,10 +9998,10 @@ vite@^2.0.0-beta.70:
   optionalDependencies:
     fsevents "~2.3.1"
 
-vitepress@^0.12.2:
-  version "0.12.2"
-  resolved "https://registry.yarnpkg.com/vitepress/-/vitepress-0.12.2.tgz#5e53c78a3ca045f8513cd4bedf2e280f98d48f61"
-  integrity sha512-dU4O7nG4TfI4CbGbrry1TAXlg19+xm9wlHJdvZnYYjTFRlS7zvHDWgxcP7zduUvhqXCGoGURFKjMPo8MRghVNg==
+vitepress@^0.13.0:
+  version "0.13.0"
+  resolved "https://registry.yarnpkg.com/vitepress/-/vitepress-0.13.0.tgz#99fbeccc7e18f5371713b381c8c9725fa6bfd72d"
+  integrity sha512-LTVxbHTZt46kKwxreKe3EFARuwtbsK5DyXFPvhQ8oUkKFFR9FDI/vt79ABFQWUQM1AokQEoa6RXsBr1qFv0s4Q==
   dependencies:
     "@docsearch/css" "^1.0.0-alpha.28"
     "@docsearch/js" "^1.0.0-alpha.28"
@@ -10027,8 +10027,7 @@ vitepress@^0.12.2:
     polka "^0.5.2"
     prismjs "^1.23.0"
     sirv "^1.0.11"
-    slash "^3.0.0"
-    vite "^2.0.0-beta.70"
+    vite "^2.0.5"
     vue "^3.0.5"
 
 vlq@^0.2.2:

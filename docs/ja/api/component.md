@@ -102,7 +102,7 @@ If you want to use it, you need to use [polyfill](https://github.com/formatjs/fo
 **See Also**
 -  [FormattableProps](component#formattableprops)  
 -  [BaseFormatProps](component#baseformatprops)  
--  [Custom Formatting](../../guide/essentials/datetime#custom-formatting)
+-  [Custom Formatting](../guide/essentials/datetime#custom-formatting)
 
 ## DatetimeFormatProps
 
@@ -196,7 +196,7 @@ If you want to use it, you need to use [polyfill](https://github.com/formatjs/fo
 **See Also**
 -  [FormattableProps](component#formattableprops)  
 -  [BaseFormatProps](component#baseformatprops)  
--  [Custom Formatting](../../guide/essentials/number#custom-formatting)
+-  [Custom Formatting](../guide/essentials/number#custom-formatting)
 
 ## NumberFormatProps
 
@@ -248,7 +248,7 @@ See the following items for property about details
 **See Also**
 -  [TranslationProps](component#translationprops)  
 -  [BaseFormatProps](component#baseformatprops)  
--  [Component Interpolation](../../guide/advanced/component)
+-  [Component Interpolation](../guide/advanced/component)
 
 **Examples**
 

@@ -64,7 +64,7 @@ readonly datetimeFormats: DateTimeFormats;
 The datetime formats of localization.
 
 **See Also**
--  [Datetime Formatting](../../guide/essentials/datetime)
+-  [Datetime Formatting](../guide/essentials/datetime)
 
 ### escapeParameterHtml
 
@@ -78,7 +78,7 @@ escapeParameterHtml: boolean;
 Whether interpolation parameters are escaped before the message is translated.
 
 **See Also**
--  [HTML Message](../../guide/essentials/syntax#html-message)
+-  [HTML Message](../guide/essentials/syntax#html-message)
 
 ### fallbackLocale
 
@@ -92,7 +92,7 @@ fallbackLocale: FallbackLocale;
 The current fallback locales this VueI18n instance is using.
 
 **See Also**
--  [Fallbacking](../../guide/essentials/fallback)
+-  [Fallbacking](../guide/essentials/fallback)
 
 ### formatFallbackMessages
 
@@ -106,7 +106,7 @@ formatFallbackMessages: boolean;
 Whether suppress warnings when falling back to either `fallbackLocale` or root.
 
 **See Also**
--  [Fallbacking](../../guide/essentials/fallback)
+-  [Fallbacking](../guide/essentials/fallback)
 
 ### formatter
 
@@ -116,7 +116,7 @@ formatter: Formatter;
 ```
 
 :::danger DEPRECATED
-See the [here](../../guide/migration/breaking#remove-custom-formatter)
+See the [here](../guide/migration/breaking#remove-custom-formatter)
 :::
 
 **Details**
@@ -165,7 +165,7 @@ The current locale this VueI18n instance is using.
 If the locale contains a territory and a dialect, this locale contains an implicit fallback.
 
 **See Also**
--  [Scope and Locale Changing](../../guide/essentials/scope)
+-  [Scope and Locale Changing](../guide/essentials/scope)
 
 ### messages
 
@@ -179,7 +179,7 @@ readonly messages: Messages;
 The locale messages of localization.
 
 **See Also**
--  [Getting Started](../../guide/)
+-  [Getting Started](../guide/)
 
 ### missing
 
@@ -204,7 +204,7 @@ readonly modifiers: LinkedModifiers<VueMessageType>;
 Custom Modifiers for linked messages.
 
 **See Also**
--  [Custom Modifiers](../../guide/essentials/syntax#custom-modifiers)
+-  [Custom Modifiers](../guide/essentials/syntax#custom-modifiers)
 
 ### numberFormats
 
@@ -218,7 +218,7 @@ readonly numberFormats: NumberFormats;
 The number formats of localization.
 
 **See Also**
--  [Number Formatting](../../guide/essentials/number)
+-  [Number Formatting](../guide/essentials/number)
 
 ### pluralizationRules
 
@@ -230,7 +230,7 @@ pluralizationRules: PluralizationRules;
 ```
 
 **See Also**
--  [Custom Pluralization](../../guide/essentials/pluralization#custom-pluralization)
+-  [Custom Pluralization](../guide/essentials/pluralization#custom-pluralization)
 
 ### postTranslation
 
@@ -259,8 +259,8 @@ The `v-t` directive for Vue 3 now preserves the default content. Therefore, this
 Whether `v-t` directive's element should preserve `textContent` after directive is unbinded.
 
 **See Also**
--  [Custom Directive](../../guide/advanced/directive)  
--  [Remove preserveDirectiveContent option](../../guide/migration/breaking#remove-preservedirectivecontent-option)
+-  [Custom Directive](../guide/advanced/directive)  
+-  [Remove preserveDirectiveContent option](../guide/migration/breaking#remove-preservedirectivecontent-option)
 
 ### silentFallbackWarn
 
@@ -285,7 +285,7 @@ silentTranslationWarn: boolean | RegExp;
 Whether suppress warnings outputted when localization fails.
 
 **See Also**
--  [Fallbacking](../../guide/essentials/fallback)
+-  [Fallbacking](../guide/essentials/fallback)
 
 ### sync
 
@@ -299,7 +299,7 @@ sync: boolean;
 Whether synchronize the root level locale to the component localization locale.
 
 **See Also**
--  [Local Scope](../../guide/essentials/scope#local-scope-2)
+-  [Local Scope](../guide/essentials/scope#local-scope-2)
 
 ### warnHtmlInMessage
 
@@ -319,8 +319,8 @@ If you are specified `warn`, a warning will be output at console.
 If you are specified `error` will occurred an Error.
 
 **See Also**
--  [HTML Message](../../guide/essentials/syntax#html-message)  
--  [Change `warnHtmlInMessage` option default value](../../guide/migration/breaking#change-warnhtmlinmessage-option-default-value)
+-  [HTML Message](../guide/essentials/syntax#html-message)  
+-  [Change `warnHtmlInMessage` option default value](../guide/migration/breaking#change-warnhtmlinmessage-option-default-value)
 
 ### d(value)
 
@@ -340,7 +340,7 @@ If [i18n component options](injection#i18n) is specified, it’s formatted in pr
 If [i18n component options](injection#i18n) isn't specified, it’s formatted with global scope datetime formats.
 
 **See Also**
--  [Datetime formatting](../../guide/essentials/datetime)
+-  [Datetime formatting](../guide/essentials/datetime)
 
 #### Parameters
 
@@ -574,7 +574,7 @@ If [i18n component options](injection#i18n) is specified, it’s formatted in pr
 If [i18n component options](injection#i18n) isn't specified, it’s formatted with global scope number formats.
 
 **See Also**
--  [Number formatting](../../guide/essentials/number)
+-  [Number formatting](../guide/essentials/number)
 
 #### Parameters
 
@@ -675,7 +675,7 @@ rt(message: MessageFunction<VueMessageType> | VueMessageType): string;
 If this is used in a reactive context, it will re-evaluate once the locale changes.
 
 **See Also**
--  [Scope and Locale Changing](../../guide/essentials/scope)
+-  [Scope and Locale Changing](../guide/essentials/scope)
 
 :::tip
  The use-case for `rt` is for programmatic locale messages translation with using `tm`, `v-for`, javascript `for` statement.
@@ -711,7 +711,7 @@ Overloaded `rt`. About details, see the [rt](legacy#rt-message) details.
 In this overloaded `rt`, return a pluralized translation message.
 
 **See Also**
--  [Pluralization](../../guide/essentials/pluralization)
+-  [Pluralization](../guide/essentials/pluralization)
 
 :::tip
  The use-case for `rt` is for programmatic locale messages translation with using `tm`, `v-for`, javascript `for` statement.
@@ -749,7 +749,7 @@ Overloaded `rt`. About details, see the [rt](legacy#rt-message) details.
 In this overloaded `rt`, return a pluralized translation message.
 
 **See Also**
--  [List interpolation](../../guide/essentials/syntax#list-interpolation)
+-  [List interpolation](../guide/essentials/syntax#list-interpolation)
 
 :::tip
  The use-case for `rt` is for programmatic locale messages translation with using `tm`, `v-for`, javascript `for` statement.
@@ -787,7 +787,7 @@ Overloaded `rt`. About details, see the [rt](legacy#rt-message) details.
 In this overloaded `rt`, for each placeholder x, the locale messages should contain a `{x}` token.
 
 **See Also**
--  [Named interpolation](../../guide/essentials/syntax#named-interpolation)
+-  [Named interpolation](../guide/essentials/syntax#named-interpolation)
 
 :::tip
  The use-case for `rt` is for programmatic locale messages translation with using `tm`, `v-for`, javascript `for` statement.
@@ -887,7 +887,7 @@ If [i18n component options](injection#i18n) is specified, it’s translated in p
 If [i18n component options](injection#i18n) isn't specified, it’s translated with global scope locale messages.
 
 **See Also**
--  [Scope and Locale Changing](../../guide/essentials/scope)
+-  [Scope and Locale Changing](../guide/essentials/scope)
 
 #### Parameters
 
@@ -937,7 +937,7 @@ t(key: Path, locale: Locale, list: unknown[]): TranslateResult;
 Overloaded `t`. About details, see the [t](legacy#t-key) details.
 
 **See Also**
--  [List interpolation](../../guide/essentials/syntax#list-interpolation)
+-  [List interpolation](../guide/essentials/syntax#list-interpolation)
 
 #### Parameters
 
@@ -965,7 +965,7 @@ t(key: Path, locale: Locale, named: object): TranslateResult;
 Overloaded `t`. About details, see the [t](legacy#t-key) details.
 
 **See Also**
--  [Named interpolation](../../guide/essentials/syntax#named-interpolation)
+-  [Named interpolation](../guide/essentials/syntax#named-interpolation)
 
 #### Parameters
 
@@ -993,7 +993,7 @@ t(key: Path, list: unknown[]): TranslateResult;
 Overloaded `t`. About details, see the [t](legacy#t-key) details.
 
 **See Also**
--  [List interpolation](../../guide/essentials/syntax#list-interpolation)
+-  [List interpolation](../guide/essentials/syntax#list-interpolation)
 
 #### Parameters
 
@@ -1020,7 +1020,7 @@ t(key: Path, named: Record<string, unknown>): TranslateResult;
 Overloaded `t`. About details, see the [t](legacy#t-key) details.
 
 **See Also**
--  [Named interpolation](../../guide/essentials/syntax#named-interpolation)
+-  [Named interpolation](../guide/essentials/syntax#named-interpolation)
 
 #### Parameters
 
@@ -1053,7 +1053,7 @@ If [i18n component options](injection#i18n) isn't specified, it’s pluraled wit
 The plural choice number is handled with default `1`.
 
 **See Also**
--  [Pluralization](../../guide/essentials/pluralization)
+-  [Pluralization](../guide/essentials/pluralization)
 
 #### Parameters
 
@@ -1281,7 +1281,7 @@ Based on the current `locale`, locale messages will be returned from Composer in
 
 If you change the `locale`, the locale messages returned will also correspond to the locale.
 
-If there are no locale messages for the given `key` in the composer instance messages, they will be returned with [fallbacking](../../guide/essentials/fallback).
+If there are no locale messages for the given `key` in the composer instance messages, they will be returned with [fallbacking](../guide/essentials/fallback).
 
 :::warning
  You need to use `rt` for the locale message returned by `tm`. see the [rt](legacy#rt-message) details.
@@ -1397,7 +1397,7 @@ The datetime formats of localization.
 `{}`
 
 **See Also**
--  [Datetime Formatting](../../guide/essentials/datetime)
+-  [Datetime Formatting](../guide/essentials/datetime)
 
 ### escapeParameterHtml
 
@@ -1423,7 +1423,7 @@ Setting `escapeParameterHtml` as true should not break existing functionality bu
 `false`
 
 **See Also**
--  [HTML Message](../../guide/essentials/syntax#html-message)
+-  [HTML Message](../guide/essentials/syntax#html-message)
 
 ### fallbackLocale
 
@@ -1443,7 +1443,7 @@ For more complex fallback definitions see fallback.
 The default `'en-US'` for the `locale` if it's not specified, or it's `locale` value
 
 **See Also**
--  [Fallbacking](../../guide/essentials/fallback)
+-  [Fallbacking](../guide/essentials/fallback)
 
 ### fallbackRoot
 
@@ -1463,7 +1463,7 @@ If `false`, it's not fallback to root.
 `true`
 
 **See Also**
--  [Fallbacking](../../guide/essentials/fallback)
+-  [Fallbacking](../guide/essentials/fallback)
 
 ### flatJson
 
@@ -1496,7 +1496,7 @@ Whether suppress warnings when falling back to either `fallbackLocale` or root.
 `false`
 
 **See Also**
--  [Fallbacking](../../guide/essentials/fallback)
+-  [Fallbacking](../guide/essentials/fallback)
 
 ### formatter
 
@@ -1506,7 +1506,7 @@ formatter?: Formatter;
 ```
 
 :::danger DEPRECATED
-See the [here](../../guide/migration/breaking#remove-custom-formatter)
+See the [here](../guide/migration/breaking#remove-custom-formatter)
 :::
 
 **Details**
@@ -1531,7 +1531,7 @@ If the locale contains a territory and a dialect, this locale contains an implic
 `'en-US'`
 
 **See Also**
--  [Scope and Locale Changing](../../guide/essentials/scope)
+-  [Scope and Locale Changing](../guide/essentials/scope)
 
 ### messages
 
@@ -1549,7 +1549,7 @@ The locale messages of localization.
 `{}`
 
 **See Also**
--  [Getting Started](../../guide/)
+-  [Getting Started](../guide/)
 
 ### missing
 
@@ -1582,7 +1582,7 @@ modifiers?: LinkedModifiers<VueMessageType>;
 Custom Modifiers for linked messages.
 
 **See Also**
--  [Custom Modifiers](../../guide/essentials/syntax#custom-modifiers)
+-  [Custom Modifiers](../guide/essentials/syntax#custom-modifiers)
 
 ### numberFormats
 
@@ -1600,7 +1600,7 @@ The number formats of localization.
 `{}`
 
 **See Also**
--  [Number Formatting](../../guide/essentials/number)
+-  [Number Formatting](../guide/essentials/number)
 
 ### pluralizationRules
 
@@ -1618,7 +1618,7 @@ A set of rules for word pluralization
 `{}`
 
 **See Also**
--  [Custom Pluralization](../../guide/essentials/pluralization#custom-pluralization)
+-  [Custom Pluralization](../guide/essentials/pluralization#custom-pluralization)
 
 ### postTranslation
 
@@ -1657,8 +1657,8 @@ Whether `v-t` directive's element should preserve `textContent` after directive 
 `false`
 
 **See Also**
--  [Custom Directive](../../guide/advanced/directive)  
--  [Remove `preserveDirectiveContent` option](../../guide/migration/breaking#remove-preservedirectivecontent-option)
+-  [Custom Directive](../guide/advanced/directive)  
+-  [Remove `preserveDirectiveContent` option](../guide/migration/breaking#remove-preservedirectivecontent-option)
 
 ### sharedMessages
 
@@ -1676,7 +1676,7 @@ The shared locale messages of localization for components. More detail see Compo
 `undefined`
 
 **See Also**
--  [Shared locale messages for components](../../guide/essentials/local#shared-locale-messages-for-components)
+-  [Shared locale messages for components](../guide/essentials/local#shared-locale-messages-for-components)
 
 ### silentFallbackWarn
 
@@ -1696,7 +1696,7 @@ If `true`, skip writing templates for your "base" language; the keys are your te
 `false`
 
 **See Also**
--  [Fallbacking](../../guide/essentials/fallback)
+-  [Fallbacking](../guide/essentials/fallback)
 
 ### silentTranslationWarn
 
@@ -1718,7 +1718,7 @@ If you use regular expression, you can suppress localization fail warnings that 
 `false`
 
 **See Also**
--  [Fallbacking](../../guide/essentials/fallback)
+-  [Fallbacking](../guide/essentials/fallback)
 
 ### sync
 
@@ -1738,7 +1738,7 @@ If `false`, regardless of the root level locale, localize for each component loc
 `true`
 
 **See Also**
--  [Local Scope](../../guide/essentials/scope#local-scope-2)
+-  [Local Scope](../guide/essentials/scope#local-scope-2)
 
 ### warnHtmlInMessage
 
@@ -1758,6 +1758,6 @@ See the warnHtmlInMessage property.
 `'off'`
 
 **See Also**
--  [HTML Message](../../guide/essentials/syntax#html-message)  
--  [Change `warnHtmlInMessage` option default value](../../guide/migration/breaking#change-warnhtmlinmessage-option-default-value)
+-  [HTML Message](../guide/essentials/syntax#html-message)  
+-  [Change `warnHtmlInMessage` option default value](../guide/migration/breaking#change-warnhtmlinmessage-option-default-value)
 
