@@ -1,4 +1,18 @@
 
+## v9.1.4 (2021-04-11)
+
+#### :zap: Improvement Features
+* `core-base`, `devtools-if`, `vue-i18n`
+  * [#450](https://github.com/intlify/vue-i18n-next/pull/450) experimental: fix devtools-if ([@kazupon](https://github.com/kazupon))
+
+#### :pencil: Documentation
+* [#449](https://github.com/intlify/vue-i18n-next/pull/449) Japanese translation (~essential) ([@noy4](https://github.com/noy4))
+
+#### Committers: 2
+- [@noy4](https://github.com/noy4)
+- kazuya kawaguchi ([@kazupon](https://github.com/kazupon))
+
+
 ## v9.1.3 (2021-04-09)
 
 #### :zap: Improvement Features
