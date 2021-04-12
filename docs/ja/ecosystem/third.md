@@ -1,5 +1,6 @@
 # Third-party tooling
 
+
 ## Nuxt Module
 
 [nuxt-i18n](https://github.com/nuxt-community/nuxt-i18n/) is corresponding Nuxt.js module.

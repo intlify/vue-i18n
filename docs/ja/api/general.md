@@ -1,5 +1,6 @@
 # General
 
+
 ## createI18n
 
 Vue I18n factory

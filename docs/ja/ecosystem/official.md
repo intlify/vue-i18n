@@ -1,5 +1,6 @@
 # Official tooling
 
+
 ## Vue CLI Plugin
 
 [vue-cli-plugin-i18n](https://github.com/kazupon/vue-cli-plugin-i18n) is officially provided as the Vue CLI Plugin.

@@ -1,5 +1,6 @@
 # Component Injections
 
+
 ## ComponentCustomOptions
 
 Component Custom Properties for Vue I18n

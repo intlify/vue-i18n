@@ -1,4 +1,4 @@
-import { h } from 'vue'
+import { h, watch } from 'vue'
 import DefaultTheme from 'vitepress/dist/client/theme-default'
 import Layout from './Layout.vue'
 import Sponsor from './components/Sponsor.vue'

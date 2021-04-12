@@ -1,5 +1,6 @@
 # Components
 
+
 ## BaseFormatProps
 
 BaseFormat Props for Components that is offered Vue I18n
