@@ -91,14 +91,15 @@ export const Translation = {
         type: [Number, String],
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         validator: (val: any): boolean => isNumber(val) || !isNaN(val)
-      }
+      },
+      i18n: { type: Object }
     },
     baseFormatProps
   ),
   /* eslint-enable */
   setup(props: TranslationProps, context: SetupContext): RenderFunction {
     const { slots, attrs } = context
-    const i18n = useI18n({ useScope: props.scope }) as Composer &
+    const i18n = props.i18n ?? useI18n({ useScope: props.scope }) as Composer &
       ComposerInternal
     const keys = Object.keys(slots).filter(key => key !== '_')
 
