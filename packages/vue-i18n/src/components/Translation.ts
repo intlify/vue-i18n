@@ -27,6 +27,11 @@ export interface TranslationProps extends BaseFormatProps {
    * The Plural Choosing the message number prop
    */
   plural?: number | string
+  /**
+   * @remarks
+   * An existing i18n Composer instance to use for translating
+   */
+  i18n?: Composer
 }
 
 /**
