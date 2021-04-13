@@ -12,7 +12,8 @@ import {
   isBoolean,
   warn,
   makeSymbol,
-  createEmitter
+  createEmitter,
+  assign
 } from '@intlify/shared'
 import {
   getLocaleMessages,
@@ -622,9 +623,11 @@ export function useI18n<
   if (composer == null) {
     const type = instance.type as ComponentOptions
     const composerOptions: ComposerOptions &
-      ComposerInternalOptions<Messages, DateTimeFormats, NumberFormats> = {
-      ...options
-    }
+      ComposerInternalOptions<
+        Messages,
+        DateTimeFormats,
+        NumberFormats
+      > = assign({}, options)
 
     if (type.__i18n) {
       composerOptions.__i18n = type.__i18n

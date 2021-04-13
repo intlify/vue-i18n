@@ -6,6 +6,7 @@ import {
   isRegExp,
   isFunction,
   isPlainObject,
+  assign,
   isObject
 } from '@intlify/shared'
 import { VueDevToolsTimelineEvents } from '@intlify/vue-devtools'
@@ -243,7 +244,7 @@ export function createCoreContext<
   const numberFormats = isPlainObject(options.numberFormats)
     ? options.numberFormats
     : ({ [locale]: {} } as NumberFormats)
-  const modifiers = Object.assign(
+  const modifiers = assign(
     {} as LinkedModifiers<Message>,
     options.modifiers || ({} as LinkedModifiers<Message>),
     getDefaultLinkedModifiers<Message>()

@@ -9,6 +9,7 @@ import {
   isBoolean,
   isFunction,
   isRegExp,
+  assign,
   warn
 } from '@intlify/shared'
 
@@ -1108,7 +1109,7 @@ function convertComposerOptions<
     const locales: Locale[] = Object.keys(sharedMessages)
     messages = locales.reduce((messages, locale) => {
       const message = messages[locale] || (messages[locale] = {})
-      Object.assign(message, sharedMessages[locale])
+      assign(message, sharedMessages[locale])
       return messages
     }, (messages || {}) as LocaleMessages<VueMessageType>) as typeof options.messages
   }

@@ -13,6 +13,7 @@ import {
   warn,
   mark,
   measure,
+  assign,
   isObject
 } from '@intlify/shared'
 import { resolveValue } from '@intlify/message-resolver'
@@ -405,7 +406,7 @@ export function translate<Messages, Message = string>(
           : '',
       message: ret as string
     }
-    ;(payloads as AdditionalPayloads).meta = Object.assign(
+    ;(payloads as AdditionalPayloads).meta = assign(
       {},
       ((context as unknown) as CoreInternalContext).__meta,
       getAdditionalMeta() || {}
@@ -670,7 +671,7 @@ export function parseTranslateArgs<Message = string>(
   } else if (isString(arg3)) {
     options.default = arg3
   } else if (isPlainObject(arg3)) {
-    Object.assign(options, arg3)
+    assign(options, arg3)
   }
 
   return [key, options]

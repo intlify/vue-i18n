@@ -4,7 +4,8 @@ import {
   isPlainObject,
   isDate,
   isNumber,
-  isEmptyObject
+  isEmptyObject,
+  assign
 } from '@intlify/shared'
 import {
   getLocaleChain,
@@ -216,7 +217,7 @@ export function datetime<DateTimeFormats, Message = string>(
   if (!formatter) {
     formatter = new Intl.DateTimeFormat(
       targetLocale,
-      Object.assign({}, format, overrides)
+      assign({}, format, overrides)
     )
     __datetimeFormatters.set(id, formatter)
   }
