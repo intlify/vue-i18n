@@ -1,4 +1,6 @@
 import type { Locale } from '@intlify/core-base'
+import { PropType } from '@vue/runtime-core'
+import { Composer } from '../composer'
 import type { I18nScope } from '../i18n'
 
 export type ComponetI18nScope = Exclude<I18nScope, 'local'>
@@ -37,6 +39,11 @@ export interface BaseFormatProps {
    * If the parent is a global scope, the global scope is used, if it's a local scope, the local scope is used.
    */
   scope?: ComponetI18nScope
+  /**
+   * @remarks
+   * An existing i18n Composer instance to use for translating
+   */
+  i18n?: Composer
 }
 
 export const baseFormatProps = {
@@ -51,5 +58,6 @@ export const baseFormatProps = {
     validator: (val: ComponetI18nScope): boolean =>
       val === 'parent' || val === 'global',
     default: 'parent' as ComponetI18nScope
-  }
+  },
+  i18n: { type: Object as PropType<Composer> }
 }
