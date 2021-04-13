@@ -72,7 +72,7 @@ export function renderFormatter<
       // Filter out number format options only
       overrides = Object.keys(props.format).reduce((options, prop) => {
         return slotKeys.includes(prop)
-          ? Object.assign({}, options, { [prop]: (props.format as any)[prop] }) // eslint-disable-line @typescript-eslint/no-explicit-any
+          ? assign({}, options, { [prop]: (props.format as any)[prop] }) // eslint-disable-line @typescript-eslint/no-explicit-any
           : options
       }, {})
     }

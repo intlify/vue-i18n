@@ -15,7 +15,7 @@ import {
 import { compile } from '@vue/compiler-dom'
 import * as runtimeDom from '@vue/runtime-dom'
 import { I18n } from '../src/i18n'
-import { isBoolean } from '@intlify/shared'
+import { isBoolean, assign } from '@intlify/shared'
 
 export interface MountOptions {
   propsData: Record<string, any> // eslint-disable-line @typescript-eslint/no-explicit-any
@@ -93,7 +93,7 @@ export function mount<
   return new Promise((resolve, reject) => {
     // NOTE: only supports props as an object
     const propsData = reactive(
-      Object.assign(
+      assign(
         // @ts-ignore
         initialProps(TargetComponent.props || {}),
         options.propsData
@@ -102,7 +102,7 @@ export function mount<
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     function setProps(partialProps: Record<string, any>) {
-      Object.assign(propsData, partialProps)
+      assign(propsData, partialProps)
       return nextTick()
     }
 

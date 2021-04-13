@@ -17,7 +17,8 @@ import {
   isPlainObject,
   makeSymbol,
   isObject,
-  hasOwn
+  hasOwn,
+  assign
 } from '@intlify/shared'
 import {
   isTranslateFallbackWarn,
@@ -1524,9 +1525,7 @@ export function createComposer<
     if (arg3 && !isObject(arg3)) {
       throw createI18nError(I18nErrorCodes.INVALID_ARGUMENT)
     }
-    return t(
-      ...[arg1, arg2, Object.assign({ resolvedMessage: true }, arg3 || {})]
-    )
+    return t(...[arg1, arg2, assign({ resolvedMessage: true }, arg3 || {})])
   }
 
   // d
@@ -1706,7 +1705,7 @@ export function createComposer<
 
   // mergeDateTimeFormat
   function mergeDateTimeFormat(locale: Locale, format: DateTimeFormat): void {
-    _datetimeFormats.value[locale] = Object.assign(
+    _datetimeFormats.value[locale] = assign(
       _datetimeFormats.value[locale] || {},
       format
     )
@@ -1728,7 +1727,7 @@ export function createComposer<
 
   // mergeNumberFormat
   function mergeNumberFormat(locale: Locale, format: NumberFormat): void {
-    _numberFormats.value[locale] = Object.assign(
+    _numberFormats.value[locale] = assign(
       _numberFormats.value[locale] || {},
       format
     )

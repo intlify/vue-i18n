@@ -3,7 +3,8 @@ import {
   isBoolean,
   isPlainObject,
   isNumber,
-  isEmptyObject
+  isEmptyObject,
+  assign
 } from '@intlify/shared'
 import {
   getLocaleChain,
@@ -214,7 +215,7 @@ export function number<NumberFormats, Message = string>(
   if (!formatter) {
     formatter = new Intl.NumberFormat(
       targetLocale,
-      Object.assign({}, format, overrides)
+      assign({}, format, overrides)
     )
     __numberFormatters.set(id, formatter)
   }
