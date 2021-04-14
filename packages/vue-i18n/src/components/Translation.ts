@@ -98,8 +98,9 @@ export const Translation = {
   /* eslint-enable */
   setup(props: TranslationProps, context: SetupContext): RenderFunction {
     const { slots, attrs } = context
-    const i18n = useI18n({ useScope: props.scope }) as Composer &
-      ComposerInternal
+    const i18n =
+      props.i18n ||
+      (useI18n({ useScope: props.scope }) as Composer & ComposerInternal)
     const keys = Object.keys(slots).filter(key => key !== '_')
 
     return (): VNodeChild => {

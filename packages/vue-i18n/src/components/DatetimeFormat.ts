@@ -76,7 +76,9 @@ export const DatetimeFormat = {
   ),
   /* eslint-enable */
   setup(props: DatetimeFormatProps, context: SetupContext): RenderFunction {
-    const i18n = useI18n({ useScope: 'parent' }) as Composer & ComposerInternal
+    const i18n =
+      props.i18n ||
+      (useI18n({ useScope: 'parent' }) as Composer & ComposerInternal)
 
     return renderFormatter<
       FormattableProps<number | Date, Intl.DateTimeFormatOptions>,
