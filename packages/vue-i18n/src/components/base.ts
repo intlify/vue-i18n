@@ -41,7 +41,9 @@ export interface BaseFormatProps {
   scope?: ComponetI18nScope
   /**
    * @remarks
-   * An existing i18n Composer instance to use for translating
+   * A composer instance with an existing scope.
+   *
+   * This option takes precedence over the `scope` option.
    */
   i18n?: Composer
 }
