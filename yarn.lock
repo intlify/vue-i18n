@@ -2863,10 +2863,10 @@ conventional-commits-parser@^3.2.0:
     through2 "^4.0.0"
     trim-off-newlines "^1.0.0"
 
-convert-hrtime@^4.0.0:
-  version "4.0.0"
-  resolved "https://registry.yarnpkg.com/convert-hrtime/-/convert-hrtime-4.0.0.tgz#7aad75f91d64a1550e95f58d72a2c211092067a5"
-  integrity sha512-2cSheCjPS0ens9ZmdCf9Hi+Axw7eqOau4rK+U3N6W13lpmNIjm8HZPE7sTGjKX+iPaWjo1heJ3ydN+t4eRkAJQ==
+convert-hrtime@^5.0.0:
+  version "5.0.0"
+  resolved "https://registry.yarnpkg.com/convert-hrtime/-/convert-hrtime-5.0.0.tgz#f2131236d4598b95de856926a67100a0a97e9fa3"
+  integrity sha512-lOETlkIeYSJWcbbcvjRKGxVMXJR+8+OQb/mTPbA4ObPMytYIsUbuOE0Jzy60hjARYszq1id0j8KgVhC+WGZVTg==
 
 convert-source-map@^1.4.0, convert-source-map@^1.6.0, convert-source-map@^1.7.0:
   version "1.7.0"
