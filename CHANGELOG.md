@@ -1,4 +1,15 @@
 
+## v9.1.5 (2021-04-15)
+
+#### :zap: Improvement Features
+* `vue-i18n`
+  * [#453](https://github.com/intlify/vue-i18n-next/pull/453) Support passing composer instance to Translation component ([@andresberrios](https://github.com/andresberrios))
+
+#### Committers: 2
+- Andrés Berríos ([@andresberrios](https://github.com/andresberrios))
+- kazuya kawaguchi ([@kazupon](https://github.com/kazupon))
+
+
 ## v9.1.4 (2021-04-11)
 
 #### :zap: Improvement Features
