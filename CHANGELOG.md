@@ -1,4 +1,14 @@
 
+## v9.1.6 (2021-04-15)
+
+#### :bug: Bug Fixes
+* `vue-i18n`
+  * [#459](https://github.com/intlify/vue-i18n-next/pull/459) fix vue-i18n type definition broken ([@kazupon](https://github.com/kazupon))
+
+#### Committers: 1
+- kazuya kawaguchi ([@kazupon](https://github.com/kazupon))
+
+
 ## v9.1.5 (2021-04-15)
 
 #### :zap: Improvement Features
