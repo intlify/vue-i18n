@@ -1,7 +1,7 @@
-import type { Locale } from '@intlify/core-base'
-import { PropType } from '@vue/runtime-core'
 import { Composer } from '../composer'
+
 import type { I18nScope } from '../i18n'
+import type { Locale } from '@intlify/core-base'
 
 export type ComponetI18nScope = Exclude<I18nScope, 'local'>
 
@@ -61,5 +61,7 @@ export const baseFormatProps = {
       val === 'parent' || val === 'global',
     default: 'parent' as ComponetI18nScope
   },
-  i18n: { type: Object as PropType<Composer> }
+  i18n: {
+    type: Object
+  }
 }
