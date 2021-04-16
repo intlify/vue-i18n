@@ -8,12 +8,14 @@ export interface CoreError extends CompileError {
   code: CoreErrorCodes
 }
 
-export const enum CoreErrorCodes {
-  INVALID_ARGUMENT = CompileErrorCodes.__EXTEND_POINT__,
-  INVALID_DATE_ARGUMENT,
-  INVALID_ISO_DATE_ARGUMENT,
-  __EXTEND_POINT__
-}
+export const CoreErrorCodes = {
+  INVALID_ARGUMENT: CompileErrorCodes.__EXTEND_POINT__,
+  INVALID_DATE_ARGUMENT: CompileErrorCodes.__EXTEND_POINT__ + 1,
+  INVALID_ISO_DATE_ARGUMENT: CompileErrorCodes.__EXTEND_POINT__ + 2,
+  __EXTEND_POINT__: CompileErrorCodes.__EXTEND_POINT__ + 3
+} as const
+
+export type CoreErrorCodes = typeof CoreErrorCodes[keyof typeof CoreErrorCodes]
 
 export function createCoreError(code: CoreErrorCodes): CoreError {
   return createCompileError(

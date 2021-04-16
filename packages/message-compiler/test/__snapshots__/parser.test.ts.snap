@@ -96,7 +96,7 @@ Object {
 exports[`parse: EOF in linked modifier errors 1`] = `
 Array [
   Object {
-    "code": 11,
+    "code": 12,
     "domain": "parser",
     "location": Object {
       "end": Object {
@@ -113,7 +113,7 @@ Array [
     "message": "Unexpected empty linked modifier",
   },
   Object {
-    "code": 13,
+    "code": 14,
     "domain": "parser",
     "location": Object {
       "end": Object {
@@ -130,7 +130,7 @@ Array [
     "message": "Unexpected lexical analysis in token: 'EOF'",
   },
   Object {
-    "code": 12,
+    "code": 13,
     "domain": "parser",
     "location": Object {
       "end": Object {
@@ -228,7 +228,7 @@ Object {
 exports[`parse: empty plural errors 1`] = `
 Array [
   Object {
-    "code": 10,
+    "code": 11,
     "domain": "parser",
     "location": Object {
       "end": Object {
@@ -565,7 +565,7 @@ Object {
 exports[`parse: linked error errors 1`] = `
 Array [
   Object {
-    "code": 11,
+    "code": 12,
     "domain": "parser",
     "location": Object {
       "end": Object {
@@ -582,7 +582,7 @@ Array [
     "message": "Unexpected empty linked modifier",
   },
   Object {
-    "code": 9,
+    "code": 10,
     "domain": "tokenizer",
     "location": Object {
       "end": Object {
@@ -599,7 +599,7 @@ Array [
     "message": "Invalid linked format",
   },
   Object {
-    "code": 12,
+    "code": 13,
     "domain": "parser",
     "location": Object {
       "end": Object {
@@ -714,7 +714,7 @@ Object {
 exports[`parse: linked key paren error errors 1`] = `
 Array [
   Object {
-    "code": 12,
+    "code": 13,
     "domain": "parser",
     "location": Object {
       "end": Object {
@@ -847,7 +847,7 @@ Object {
 exports[`parse: linked key paren error with modifier errors 1`] = `
 Array [
   Object {
-    "code": 12,
+    "code": 13,
     "domain": "parser",
     "location": Object {
       "end": Object {
@@ -962,7 +962,7 @@ Object {
 exports[`parse: linked modifier error errors 1`] = `
 Array [
   Object {
-    "code": 11,
+    "code": 12,
     "domain": "parser",
     "location": Object {
       "end": Object {

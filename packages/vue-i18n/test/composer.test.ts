@@ -541,9 +541,11 @@ describe('getMissingHandler / setMissingHandler', () => {
   })
 })
 
-const enum ErrorCodes {
-  Code1 = 1
+const ErrorCodes = {
+  Code1: 1
 }
+
+type ErrorCodes = typeof ErrorCodes[keyof typeof ErrorCodes]
 
 describe('t', () => {
   test('basic', () => {

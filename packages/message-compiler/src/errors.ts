@@ -20,30 +20,32 @@ export interface CreateCompileErrorOptions {
   args?: unknown[]
 }
 
-export const enum CompileErrorCodes {
+export const CompileErrorCodes = {
   // tokenizer error codes
-  EXPECTED_TOKEN,
-  INVALID_TOKEN_IN_PLACEHOLDER,
-  UNTERMINATED_SINGLE_QUOTE_IN_PLACEHOLDER,
-  UNKNOWN_ESCAPE_SEQUENCE,
-  INVALID_UNICODE_ESCAPE_SEQUENCE,
-  UNBALANCED_CLOSING_BRACE,
-  UNTERMINATED_CLOSING_BRACE,
-  EMPTY_PLACEHOLDER,
-  NOT_ALLOW_NEST_PLACEHOLDER,
-  INVALID_LINKED_FORMAT,
+  EXPECTED_TOKEN: 1,
+  INVALID_TOKEN_IN_PLACEHOLDER: 2,
+  UNTERMINATED_SINGLE_QUOTE_IN_PLACEHOLDER: 3,
+  UNKNOWN_ESCAPE_SEQUENCE: 4,
+  INVALID_UNICODE_ESCAPE_SEQUENCE: 5,
+  UNBALANCED_CLOSING_BRACE: 6,
+  UNTERMINATED_CLOSING_BRACE: 7,
+  EMPTY_PLACEHOLDER: 8,
+  NOT_ALLOW_NEST_PLACEHOLDER: 9,
+  INVALID_LINKED_FORMAT: 10,
 
   // parser error codes
-  MUST_HAVE_MESSAGES_IN_PLURAL,
-  UNEXPECTED_EMPTY_LINKED_MODIFIER,
-  UNEXPECTED_EMPTY_LINKED_KEY,
-  UNEXPECTED_LEXICAL_ANALYSIS,
+  MUST_HAVE_MESSAGES_IN_PLURAL: 11,
+  UNEXPECTED_EMPTY_LINKED_MODIFIER: 12,
+  UNEXPECTED_EMPTY_LINKED_KEY: 13,
+  UNEXPECTED_LEXICAL_ANALYSIS: 14,
 
   // Special value for higher-order compilers to pick up the last code
   // to avoid collision of error codes. This should always be kept as the last
   // item.
-  __EXTEND_POINT__
-}
+  __EXTEND_POINT__: 15
+} as const
+
+export type CompileErrorCodes = typeof CompileErrorCodes[keyof typeof CompileErrorCodes]
 
 /** @internal */
 export const errorMessages: { [code: number]: string } = {

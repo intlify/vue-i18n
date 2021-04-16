@@ -1,14 +1,16 @@
 import { format } from '@intlify/shared'
 
-export const enum CoreWarnCodes {
-  NOT_FOUND_KEY,
-  FALLBACK_TO_TRANSLATE,
-  CANNOT_FORMAT_NUMBER,
-  FALLBACK_TO_NUMBER_FORMAT,
-  CANNOT_FORMAT_DATE,
-  FALLBACK_TO_DATE_FORMAT,
-  __EXTEND_POINT__
-}
+export const CoreWarnCodes = {
+  NOT_FOUND_KEY: 1,
+  FALLBACK_TO_TRANSLATE: 2,
+  CANNOT_FORMAT_NUMBER: 3,
+  FALLBACK_TO_NUMBER_FORMAT: 4,
+  CANNOT_FORMAT_DATE: 5,
+  FALLBACK_TO_DATE_FORMAT: 6,
+  __EXTEND_POINT__: 7
+} as const
+
+export type CoreWarnCodes = typeof CoreWarnCodes[keyof typeof CoreWarnCodes]
 
 /** @internal */
 export const warnMessages: { [code: number]: string } = {
