@@ -3853,10 +3853,10 @@ vary@~1.1.2:
   resolved "https://registry.yarnpkg.com/vary/-/vary-1.1.2.tgz#2299f02c6ded30d4a5961b0b9f74524a18f634fc"
   integrity sha1-IpnwLG3tMNSllhsLn3RSShj2NPw=
 
-vue-loader@^16.1.0:
-  version "16.1.1"
-  resolved "https://registry.yarnpkg.com/vue-loader/-/vue-loader-16.1.1.tgz#f5b286d60ac6886684c63a17a184391cc9e0199a"
-  integrity sha512-wz/+HFg/3SBayHWAlZXARcnDTl3VOChrfW9YnxvAweiuyKX/7IGx1ad/4yJHmwhgWlOVYMAbTiI7GV8G33PfGQ==
+vue-loader@^16.2.0:
+  version "16.2.0"
+  resolved "https://registry.yarnpkg.com/vue-loader/-/vue-loader-16.2.0.tgz#046a53308dd47e58efe20ddec1edec027ce3b46e"
+  integrity sha512-TitGhqSQ61RJljMmhIGvfWzJ2zk9m1Qug049Ugml6QP3t0e95o0XJjk29roNEiPKJQBEi8Ord5hFuSuELzSp8Q==
   dependencies:
     chalk "^4.1.0"
     hash-sum "^2.0.0"
