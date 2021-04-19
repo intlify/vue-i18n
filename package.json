@@ -55,7 +55,7 @@
     "test:unit": "yarn clean:cache:jest && cross-env NODE_ICU_DATA=./node_modules/full-icu jest --env node"
   },
   "devDependencies": {
-    "@microsoft/api-extractor": "^7.13.0",
+    "@microsoft/api-extractor": "^7.13.2",
     "@rollup/plugin-commonjs": "^18.0.0",
     "@rollup/plugin-json": "^4.1.0",
     "@rollup/plugin-node-resolve": "^11.2.0",
