@@ -320,7 +320,7 @@ export interface ComposerOptions<Message = VueMessageType> {
    *
    * You need to implement a message resolver yourself that supports the following requirements:
    *
-   * - Resolve the message using the locale message of [`local`](composition#locale) passed as the first argument of the message resolver, and the path passed as the second argument.
+   * - Resolve the message using the locale message of [`locale`](composition#locale) passed as the first argument of the message resolver, and the path passed as the second argument.
    *
    * - If the message could not be resolved, you need to return `null`.
    *
