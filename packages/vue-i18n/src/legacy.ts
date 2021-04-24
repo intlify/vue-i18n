@@ -15,6 +15,7 @@ import {
 
 import type {
   Path,
+  MessageResolver,
   PluralizationRule,
   PluralizationRules,
   LinkedModifiers,
@@ -294,6 +295,54 @@ export interface VueI18nOptions {
    * @defaultValue `null`
    */
   componentInstanceCreatedListener?: ComponentInstanceCreatedListener
+  /**
+   * @remarks
+   * A message resolver to resolve [`messages`](legacy#messages).
+   *
+   * If not specified, the vue-i18n internal message resolver will be used by default.
+   *
+   * You need to implement a message resolver yourself that supports the following requirements
+   *
+   * - Resolve the message using the locale message of [`local`](legacy#locale) passed as the first argument of the message resolver, and the path passed as the second argument.
+   *
+   * - If the message could not be resolved, you need to return `null`.
+   *
+   * - If you will be returned `null`, the message resolver will also be called on fallback if [`fallbackLocale`](legacy#fallbacklocale-2) is enabled, so the message will need to be resolved as well.
+   *
+   * @example
+   * Here is an example of how to set it up using your `createI18n`:
+   * ```js
+   * import { createI18n } from 'vue-i18n'
+   *
+   * // your message resolver
+   * function messageResolver(obj, path) {
+   *   // simple message resolving!
+   *   const msg = obj[path]
+   *   return msg != null ? msg : null
+   * }
+   *
+   * // call with I18n option
+   * const i18n = createI18n({
+   *   locale: 'ja',
+   *   messageResolver, // set your message resolver
+   *   messages: {
+   *     en: { ... },
+   *     ja: { ... }
+   *   }
+   * })
+   *
+   * // the below your something to do ...
+   * // ...
+   * ```
+   *
+   * @VueI18nWarning
+   * If you use the message resolver, the [`flatJson`](legacy#flatjson) setting will be ignored. That is, you need to resolve the flat JSON by yourself.
+   *
+   * @VueI18nSee [Fallbacking](../guide/essentials/fallback)
+   *
+   * @defaultValue `undefined`
+   */
+  messageResolver?: MessageResolver
 }
 
 /**
@@ -1136,6 +1185,7 @@ function convertComposerOptions<
     postTranslation,
     warnHtmlMessage,
     escapeParameter,
+    messageResolver: options.messageResolver,
     inheritLocale,
     __i18n,
     __root

@@ -274,6 +274,7 @@ export function parse(path: Path): string[] | undefined {
   }
 }
 
+/** @VueI18nGeneral */
 export type PathValue =
   | string
   | number
@@ -282,11 +283,16 @@ export type PathValue =
   | null
   | { [key: string]: PathValue }
   | PathValue[]
+/** @VueI18nGeneral */
+export type MessageResolver = (obj: unknown, path: Path) => PathValue
 
 // path token cache
 const cache = new Map<Path, string[]>()
 
-export function resolveValue(obj: unknown, path: Path): PathValue {
+export const resolveValue = /* #__PURE__*/ (
+  obj: unknown,
+  path: Path
+): PathValue => {
   // check object
   if (!isObject(obj)) {
     return null
@@ -325,7 +331,7 @@ export function resolveValue(obj: unknown, path: Path): PathValue {
 /**
  * Transform flat json in obj to normal json in obj
  */
-export function handleFlatJson(obj: unknown): unknown {
+export const handleFlatJson = /* #__PURE__*/ (obj: unknown): unknown => {
   // check obj
   if (!isObject(obj)) {
     return obj

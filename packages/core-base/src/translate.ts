@@ -16,7 +16,6 @@ import {
   assign,
   isObject
 } from '@intlify/shared'
-import { resolveValue } from '@intlify/message-resolver'
 import { createMessageContext } from '@intlify/runtime'
 import {
   isTranslateFallbackWarn,
@@ -439,7 +438,7 @@ function resolveMessageFormat<Messages, Message>(
   fallbackWarn: boolean | RegExp,
   missingWarn: boolean | RegExp
 ): [PathValue, Locale | undefined, LocaleMessageValue<Message>] {
-  const { messages, onWarn } = context
+  const { messages, onWarn, messageResolver: resolveValue } = context
   const locales = getLocaleChain<Message>(context, fallbackLocale, locale)
 
   let message: LocaleMessageValue<Message> = {}
@@ -725,7 +724,7 @@ function getMessageContextOptions<Messages, Message = string>(
   message: LocaleMessageValue<Message>,
   options: TranslateOptions
 ): MessageContextOptions<Message> {
-  const { modifiers, pluralRules } = context
+  const { modifiers, pluralRules, messageResolver: resolveValue } = context
 
   const resolveMessage = (key: string): MessageFunction<Message> => {
     const val = resolveValue(message, key)
