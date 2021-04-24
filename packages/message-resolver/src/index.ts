@@ -289,10 +289,7 @@ export type MessageResolver = (obj: unknown, path: Path) => PathValue
 // path token cache
 const cache = new Map<Path, string[]>()
 
-export const resolveValue = /* #__PURE__*/ (
-  obj: unknown,
-  path: Path
-): PathValue => {
+export function resolveValue(obj: unknown, path: Path): PathValue {
   // check object
   if (!isObject(obj)) {
     return null
@@ -331,7 +328,7 @@ export const resolveValue = /* #__PURE__*/ (
 /**
  * Transform flat json in obj to normal json in obj
  */
-export const handleFlatJson = /* #__PURE__*/ (obj: unknown): unknown => {
+export function handleFlatJson(obj: unknown): unknown {
   // check obj
   if (!isObject(obj)) {
     return obj
