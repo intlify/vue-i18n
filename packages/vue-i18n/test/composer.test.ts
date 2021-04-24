@@ -1237,9 +1237,10 @@ describe('messageResolver', () => {
     )
 
     const ja = {
-      'path.to.message': 'こんにちは'
+      'path.to.message': 'こんにちは',
+      'api.errors': ['error 1']
     }
-    const { t } = createComposer({
+    const { t, te, tm } = createComposer({
       locale: 'en',
       fallbackLocale: 'ja',
       messageResolver: fn,
@@ -1247,11 +1248,21 @@ describe('messageResolver', () => {
     })
 
     expect(t('path.to.message')).toEqual('こんにちは')
-    expect(mockMessageResolver).toHaveBeenCalledTimes(2)
+    expect(te('path.to.message')).toEqual(true)
+    expect(tm('api.errors')).toEqual(ja['api.errors'])
+    expect(mockMessageResolver).toHaveBeenCalledTimes(5)
     expect(mockMessageResolver.mock.calls[0][0]).toEqual({})
     expect(mockMessageResolver.mock.calls[0][1]).toEqual('path.to.message')
     expect(mockMessageResolver.mock.calls[1][0]).toEqual(ja)
     expect(mockMessageResolver.mock.calls[1][1]).toEqual('path.to.message')
+    expect(mockMessageResolver.mock.calls[1][0]).toEqual(ja)
+    expect(mockMessageResolver.mock.calls[1][1]).toEqual('path.to.message')
+    expect(mockMessageResolver.mock.calls[2][0]).toEqual({})
+    expect(mockMessageResolver.mock.calls[2][1]).toEqual('path.to.message')
+    expect(mockMessageResolver.mock.calls[3][0]).toEqual({})
+    expect(mockMessageResolver.mock.calls[3][1]).toEqual('api.errors')
+    expect(mockMessageResolver.mock.calls[4][0]).toEqual(ja)
+    expect(mockMessageResolver.mock.calls[4][1]).toEqual('api.errors')
   })
 })
 

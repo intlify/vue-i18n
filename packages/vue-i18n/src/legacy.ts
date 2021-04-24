@@ -301,13 +301,25 @@ export interface VueI18nOptions {
    *
    * If not specified, the vue-i18n internal message resolver will be used by default.
    *
-   * You need to implement a message resolver yourself that supports the following requirements
+   * You need to implement a message resolver yourself that supports the following requirements:
    *
    * - Resolve the message using the locale message of [`local`](legacy#locale) passed as the first argument of the message resolver, and the path passed as the second argument.
    *
    * - If the message could not be resolved, you need to return `null`.
    *
    * - If you will be returned `null`, the message resolver will also be called on fallback if [`fallbackLocale`](legacy#fallbacklocale-2) is enabled, so the message will need to be resolved as well.
+   *
+   * The message resolver is called indirectly by the following APIs:
+   *
+   * - [`t`](legacy#t-key)
+   *
+   * - [`tc`](legacy#tc-key)
+   *
+   * - [`te`](legacy#te-key-locale)
+   *
+   * - [`tm`](legacy#tm-key)
+   *
+   * - [Translation component](component#translation)
    *
    * @example
    * Here is an example of how to set it up using your `createI18n`:
@@ -334,6 +346,9 @@ export interface VueI18nOptions {
    * // the below your something to do ...
    * // ...
    * ```
+   *
+   * @VueI18nTip
+   * :new: v9.2+
    *
    * @VueI18nWarning
    * If you use the message resolver, the [`flatJson`](legacy#flatjson) setting will be ignored. That is, you need to resolve the flat JSON by yourself.
