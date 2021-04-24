@@ -15,7 +15,10 @@ import { watchEffect, nextTick } from 'vue'
 import {
   compileToFunction,
   registerMessageCompiler,
-  MessageContext
+  MessageContext,
+  Path,
+  PathValue,
+  MessageResolver
 } from '@intlify/core-base'
 import { pluralRules as _pluralRules } from './helper'
 
@@ -608,6 +611,29 @@ test('warnHtmlInMessage', () => {
   i18n.warnHtmlInMessage = 'error'
   expect(i18n.t('hello')).toEqual('<p>hello</p>')
   expect(mockWarn).toHaveBeenCalledTimes(2)
+})
+
+test('messageResolver', () => {
+  const fn = jest.fn()
+  const mockMessageResolver = fn as jest.MockedFunction<MessageResolver>
+  mockMessageResolver.mockImplementation(
+    (obj: unknown, path: Path): PathValue => {
+      return path
+    }
+  )
+
+  const i18n = createVueI18n({
+    locale: 'en',
+    messageResolver: fn,
+    messages: {
+      en: {}
+    }
+  })
+
+  expect(i18n.t('path.to.message')).toEqual('path.to.message')
+  expect(mockMessageResolver).toHaveBeenCalledTimes(1)
+  expect(mockMessageResolver.mock.calls[0][0]).toEqual({})
+  expect(mockMessageResolver.mock.calls[0][1]).toEqual('path.to.message')
 })
 
 /* eslint-enable @typescript-eslint/no-empty-function */

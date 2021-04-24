@@ -23,7 +23,6 @@ import {
 import {
   isTranslateFallbackWarn,
   isTranslateMissingWarn,
-  resolveValue,
   createCoreContext,
   MISSING_RESOLVE_VALUE,
   updateFallbackLocale,
@@ -50,6 +49,7 @@ import type { ComponentInternalInstance, VNode, VNodeArrayChildren } from 'vue'
 import type { WritableComputedRef, ComputedRef } from '@vue/reactivity'
 import type {
   Path,
+  MessageResolver,
   LinkedModifiers,
   PluralizationRules,
   NamedValue,
@@ -312,6 +312,68 @@ export interface ComposerOptions<Message = VueMessageType> {
    * @defaultValue `false`
    */
   escapeParameter?: boolean
+  /**
+   * @remarks
+   * A message resolver to resolve [`messages`](composition#messages).
+   *
+   * If not specified, the vue-i18n internal message resolver will be used by default.
+   *
+   * You need to implement a message resolver yourself that supports the following requirements:
+   *
+   * - Resolve the message using the locale message of [`locale`](composition#locale) passed as the first argument of the message resolver, and the path passed as the second argument.
+   *
+   * - If the message could not be resolved, you need to return `null`.
+   *
+   * - If you will be returned `null`, the message resolver will also be called on fallback if [`fallbackLocale`](composition#fallbacklocale-2) is enabled, so the message will need to be resolved as well.
+   *
+   * The message resolver is called indirectly by the following APIs:
+   *
+   * - [`t`](composition#t-key)
+   *
+   * - [`te`](composition#te-key-locale)
+   *
+   * - [`tm`](composition#tm-key)
+   *
+   * - [Translation component](component#translation)
+   *
+   * @example
+   * Here is an example of how to set it up using your `createI18n`:
+   * ```js
+   * import { createI18n } from 'vue-i18n'
+   *
+   * // your message resolver
+   * function messageResolver(obj, path) {
+   *   // simple message resolving!
+   *   const msg = obj[path]
+   *   return msg != null ? msg : null
+   * }
+   *
+   * // call with I18n option
+   * const i18n = createI18n({
+   *   legacy: false,
+   *   locale: 'ja',
+   *   messageResolver, // set your message resolver
+   *   messages: {
+   *     en: { ... },
+   *     ja: { ... }
+   *   }
+   * })
+   *
+   * // the below your something to do ...
+   * // ...
+   * ```
+   *
+   * @VueI18nTip
+   * :new: v9.2+
+   *
+   * @VueI18nWarning
+   * If you use the message resolver, the [`flatJson`](composition#flatjson) setting will be ignored. That is, you need to resolve the flat JSON by yourself.
+   *
+   * @VueI18nSee [Fallbacking](../guide/essentials/fallback)
+   *
+   * @defaultValue `undefined`
+   */
+  messageResolver?: MessageResolver
 }
 
 /**
@@ -1110,6 +1172,7 @@ function defineCoreMissingHandler<Message = VueMessageType>(
 type GetLocaleMessagesOptions<Message = VueMessageType> = {
   messages?: LocaleMessages<Message>
   __i18n?: CustomBlocks<Message>
+  messageResolver?: MessageResolver
   flatJson?: boolean
 }
 
@@ -1117,7 +1180,7 @@ export function getLocaleMessages<Message = VueMessageType>(
   locale: Locale,
   options: GetLocaleMessagesOptions<Message>
 ): LocaleMessages<Message> {
-  const { messages, __i18n } = options
+  const { messages, __i18n, messageResolver, flatJson } = options
 
   // prettier-ignore
   const ret = isPlainObject(messages)
@@ -1139,7 +1202,7 @@ export function getLocaleMessages<Message = VueMessageType>(
   }
 
   // handle messages for flat json
-  if (options.flatJson) {
+  if (messageResolver == null && flatJson) {
     for (const key in ret) {
       if (hasOwn(ret, key)) {
         handleFlatJson(ret[key])
@@ -1338,6 +1401,7 @@ export function createComposer<
       postTranslation: _postTranslation === null ? undefined : _postTranslation,
       warnHtmlMessage: _warnHtmlMessage,
       escapeParameter: _escapeParameter,
+      messageResolver: options.messageResolver,
       __datetimeFormatters: isPlainObject(_context)
         ? ((_context as unknown) as CoreInternalContext).__datetimeFormatters
         : undefined,
@@ -1635,7 +1699,7 @@ export function createComposer<
   function te(key: Path, locale?: Locale): boolean {
     const targetLocale = isString(locale) ? locale : _locale.value
     const message = getLocaleMessage(targetLocale)
-    return resolveValue(message, key) !== null
+    return _context.messageResolver(message, key) !== null
   }
 
   function resolveMessages(key: Path): LocaleMessageValue<Message> | null {
@@ -1647,7 +1711,7 @@ export function createComposer<
     )
     for (let i = 0; i < locales.length; i++) {
       const targetLocaleMessages = _messages.value[locales[i]] || {}
-      const messageValue = resolveValue(targetLocaleMessages, key)
+      const messageValue = _context.messageResolver(targetLocaleMessages, key)
       if (messageValue != null) {
         messages = messageValue as LocaleMessageValue<Message>
         break

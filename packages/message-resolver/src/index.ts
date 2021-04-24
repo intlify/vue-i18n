@@ -274,6 +274,7 @@ export function parse(path: Path): string[] | undefined {
   }
 }
 
+/** @VueI18nGeneral */
 export type PathValue =
   | string
   | number
@@ -282,6 +283,8 @@ export type PathValue =
   | null
   | { [key: string]: PathValue }
   | PathValue[]
+/** @VueI18nGeneral */
+export type MessageResolver = (obj: unknown, path: Path) => PathValue
 
 // path token cache
 const cache = new Map<Path, string[]>()

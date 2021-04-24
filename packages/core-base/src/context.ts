@@ -9,11 +9,12 @@ import {
   assign,
   isObject
 } from '@intlify/shared'
+import { resolveValue } from '@intlify/message-resolver'
 import { VueDevToolsTimelineEvents } from '@intlify/vue-devtools'
 import { initI18nDevTools } from './devtools'
 import { CoreWarnCodes, getWarnMessage } from './warnings'
 
-import type { Path } from '@intlify/message-resolver'
+import type { Path, MessageResolver } from '@intlify/message-resolver'
 import type { CompileOptions } from '@intlify/message-compiler'
 import type {
   Locale,
@@ -91,6 +92,7 @@ export interface CoreOptions<Message = string> {
   warnHtmlMessage?: boolean
   escapeParameter?: boolean
   messageCompiler?: MessageCompiler<Message>
+  messageResolver?: MessageResolver
   onWarn?: (msg: string, err?: Error) => void
 }
 
@@ -124,6 +126,7 @@ export interface CoreTranslationContext<Messages = {}, Message = string>
   warnHtmlMessage: boolean
   escapeParameter: boolean
   messageCompiler: MessageCompiler<Message> | null
+  messageResolver: MessageResolver
 }
 
 export interface CoreDateTimeContext<DateTimeFormats = {}, Message = string>
@@ -272,6 +275,9 @@ export function createCoreContext<
   const messageCompiler = isFunction(options.messageCompiler)
     ? options.messageCompiler
     : _compiler
+  const messageResolver = isFunction(options.messageResolver)
+    ? options.messageResolver
+    : resolveValue
   const onWarn = isFunction(options.onWarn) ? options.onWarn : warn
 
   // setup internal options
@@ -306,6 +312,7 @@ export function createCoreContext<
     warnHtmlMessage,
     escapeParameter,
     messageCompiler,
+    messageResolver,
     onWarn,
     __datetimeFormatters,
     __numberFormatters,

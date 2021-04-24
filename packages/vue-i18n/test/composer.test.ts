@@ -23,7 +23,10 @@ import {
   Locale,
   compileToFunction,
   registerMessageCompiler,
-  MessageContext
+  MessageContext,
+  Path,
+  PathValue,
+  MessageResolver
 } from '@intlify/core-base'
 
 beforeEach(() => {
@@ -1196,6 +1199,70 @@ describe('getNumberFormat / setNumberFormat / mergeNumberFormat', () => {
         useGrouping: false
       }
     })
+  })
+})
+
+describe('messageResolver', () => {
+  test('basic', () => {
+    const fn = jest.fn()
+    const mockMessageResolver = fn as jest.MockedFunction<MessageResolver>
+    mockMessageResolver.mockImplementation(
+      (obj: unknown, path: Path): PathValue => {
+        return (obj as any)[path]
+      }
+    )
+
+    const en = {
+      'path.to.message': 'hello'
+    }
+    const { t } = createComposer({
+      locale: 'en',
+      messageResolver: fn,
+      messages: { en }
+    })
+
+    expect(t('path.to.message')).toEqual('hello')
+    expect(mockMessageResolver).toHaveBeenCalledTimes(1)
+    expect(mockMessageResolver.mock.calls[0][0]).toEqual(en)
+    expect(mockMessageResolver.mock.calls[0][1]).toEqual('path.to.message')
+  })
+
+  test('fallback', () => {
+    const fn = jest.fn()
+    const mockMessageResolver = fn as jest.MockedFunction<MessageResolver>
+    mockMessageResolver.mockImplementation(
+      (obj: unknown, path: Path): PathValue => {
+        return (obj as any)[path]
+      }
+    )
+
+    const ja = {
+      'path.to.message': 'こんにちは',
+      'api.errors': ['error 1']
+    }
+    const { t, te, tm } = createComposer({
+      locale: 'en',
+      fallbackLocale: 'ja',
+      messageResolver: fn,
+      messages: { ja }
+    })
+
+    expect(t('path.to.message')).toEqual('こんにちは')
+    expect(te('path.to.message')).toEqual(true)
+    expect(tm('api.errors')).toEqual(ja['api.errors'])
+    expect(mockMessageResolver).toHaveBeenCalledTimes(5)
+    expect(mockMessageResolver.mock.calls[0][0]).toEqual({})
+    expect(mockMessageResolver.mock.calls[0][1]).toEqual('path.to.message')
+    expect(mockMessageResolver.mock.calls[1][0]).toEqual(ja)
+    expect(mockMessageResolver.mock.calls[1][1]).toEqual('path.to.message')
+    expect(mockMessageResolver.mock.calls[1][0]).toEqual(ja)
+    expect(mockMessageResolver.mock.calls[1][1]).toEqual('path.to.message')
+    expect(mockMessageResolver.mock.calls[2][0]).toEqual({})
+    expect(mockMessageResolver.mock.calls[2][1]).toEqual('path.to.message')
+    expect(mockMessageResolver.mock.calls[3][0]).toEqual({})
+    expect(mockMessageResolver.mock.calls[3][1]).toEqual('api.errors')
+    expect(mockMessageResolver.mock.calls[4][0]).toEqual(ja)
+    expect(mockMessageResolver.mock.calls[4][1]).toEqual('api.errors')
   })
 })
 
