@@ -329,7 +329,7 @@ function getComponentInstance<
 
   if (nodeId !== 'global') {
     for (const [component, composer] of i18n.__instances.entries()) {
-      if (composer.id.toString() == nodeId) {
+      if (composer.id.toString() === nodeId) {
         instance = component
         break
       }
