@@ -18,7 +18,7 @@ import {
   isArray
 } from '@intlify/shared'
 
-import type { App } from 'vue'
+import type { App, ComponentInternalInstance } from 'vue'
 import type {
   DevtoolsPluginApi,
   InspectedComponentData,
@@ -109,12 +109,26 @@ export async function enableDevTools<
             }
           })
 
-          api.on.getInspectorState(payload => {
+          const roots = new Map<App, ComponentInternalInstance>()
+          api.on.getInspectorState(async payload => {
             if (
               payload.app === app &&
               payload.inspectorId === VueDevToolsIDs.CUSTOM_INSPECTOR
             ) {
+              api.unhighlightElement()
+
               inspectScope(payload, i18n)
+
+              if (payload.nodeId === 'global') {
+                if (!roots.has(payload.app)) {
+                  const [root] = await api.getComponentInstances(payload.app)
+                  roots.set(payload.app, root)
+                }
+                api.highlightElement(roots.get(payload.app))
+              } else {
+                const instance = getComponentInstance(payload.nodeId, i18n)
+                instance && api.highlightElement(instance)
+              }
             }
           })
 
@@ -143,6 +157,15 @@ export async function enableDevTools<
   })
 }
 
+function getI18nScopeLable(instance: any): string {
+  return (
+    instance.type.name ||
+    instance.type.displayName ||
+    instance.type.__file ||
+    'Anonymous'
+  )
+}
+
 function updateComponentTreeTags<
   Messages,
   DateTimeFormats,
@@ -160,10 +183,8 @@ function updateComponentTreeTags<
   if (instance && instance.vnode.el.__VUE_I18N__) {
     // add custom tags local scope only
     if (instance.vnode.el.__VUE_I18N__ !== global) {
-      const label =
-        instance.type.name || instance.type.displayName || instance.type.__file
       const tag = {
-        label: `i18n (${label} Scope)`,
+        label: `i18n (${getI18nScopeLable(instance)} Scope)`,
         textColor: 0x000000,
         backgroundColor: 0xffcd19
       }
@@ -288,15 +309,34 @@ function registerScope<
     if (global === composer) {
       continue
     }
-    const label =
-      keyInstance.type.name ||
-      keyInstance.type.displayName ||
-      keyInstance.type.__file
     payload.rootNodes.push({
       id: composer.id.toString(),
-      label: `${label} Scope`
+      label: `${getI18nScopeLable(keyInstance)} Scope`
     })
   }
+}
+
+function getComponentInstance<
+  Messages,
+  DateTimeFormats,
+  NumberFormats,
+  Legacy extends boolean
+>(
+  nodeId: string,
+  i18n: _I18n<Messages, DateTimeFormats, NumberFormats, Legacy>
+): ComponentInternalInstance | null {
+  let instance: ComponentInternalInstance | null = null
+
+  if (nodeId !== 'global') {
+    for (const [component, composer] of i18n.__instances.entries()) {
+      if (composer.id.toString() == nodeId) {
+        instance = component
+        break
+      }
+    }
+  }
+
+  return instance
 }
 
 function getComposer<
@@ -342,11 +382,12 @@ function inspectScope<
 >(
   payload: HookPayloads[Hooks.GET_INSPECTOR_STATE],
   i18n: _I18n<Messages, DateTimeFormats, NumberFormats, Legacy>
-): void {
+): any {
   const composer = getComposer(payload.nodeId, i18n)
   if (composer) {
     payload.state = makeScopeInspectState(composer)
   }
+  return null
 }
 
 function makeScopeInspectState(composer: Composer): CustomInspectorState {
