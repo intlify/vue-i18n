@@ -109,7 +109,7 @@
     "textlint-rule-common-misspellings": "^1.0.1",
     "textlint-rule-diacritics": "^1.0.0",
     "textlint-rule-en-capitalization": "^2.0.3",
-    "textlint-rule-max-comma": "^1.0.4",
+    "textlint-rule-max-comma": "^2.0.0",
     "textlint-rule-max-doc-width": "^1.4.0",
     "textlint-rule-no-empty-section": "^1.1.0",
     "textlint-rule-no-start-duplicated-conjunction": "^2.0.2",
