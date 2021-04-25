@@ -118,12 +118,9 @@ export const Translation = {
         options
       )
       const assignedAttrs = assign({}, attrs)
-      // prettier-ignore
-      return isString(props.tag)
+      return isString(props.tag) || isObject(props.tag)
         ? h(props.tag, assignedAttrs, children)
-        : isObject(props.tag)
-          ? h(props.tag, assignedAttrs, children)
-          : h(Fragment, assignedAttrs, children)
+        : h(Fragment, assignedAttrs, children)
     }
   }
 }
