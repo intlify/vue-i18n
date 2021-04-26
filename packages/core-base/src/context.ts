@@ -416,13 +416,11 @@ export function getLocaleChain<Message = string>(
 
     // prettier-ignore
     // last block defined by default
-    const defaults = isArray(fallback)
+    const defaults = isArray(fallback) || !isPlainObject(fallback)
       ? fallback
-      : isPlainObject(fallback)
+      : fallback['default']
         ? fallback['default']
-          ? fallback['default']
-          : null
-        : fallback
+        : null
 
     // convert defaults to array
     block = isString(defaults) ? [defaults] : defaults

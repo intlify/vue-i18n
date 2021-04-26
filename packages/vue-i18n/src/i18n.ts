@@ -350,12 +350,7 @@ export function createI18n<
   const i18n = {
     // mode
     get mode(): I18nMode {
-      // prettier-ignore
-      return __FEATURE_LEGACY_API__
-        ? __legacyMode
-          ? 'legacy'
-          : 'composition'
-        : 'composition'
+      return __FEATURE_LEGACY_API__ && __legacyMode ? 'legacy' : 'composition'
     },
     // install plugin
     async install(app: App, ...options: unknown[]): Promise<void> {
