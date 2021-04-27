@@ -157,6 +157,7 @@ export async function enableDevTools<
   })
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function getI18nScopeLable(instance: any): string {
   return (
     instance.type.name ||
@@ -382,6 +383,7 @@ function inspectScope<
 >(
   payload: HookPayloads[Hooks.GET_INSPECTOR_STATE],
   i18n: _I18n<Messages, DateTimeFormats, NumberFormats, Legacy>
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
 ): any {
   const composer = getComposer(payload.nodeId, i18n)
   if (composer) {
