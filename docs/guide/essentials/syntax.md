@@ -96,7 +96,7 @@ const messages = {
 }
 ```
 
-It is defined `en` locale with `{ address: "{account}{'@'}{domain} }`.
+It is defined `en` locale with `{ address: "{account}{'@'}{domain}" }`.
 
 Literal interpolation allows you to specify string literal that is quoted with single quotation `’`. The message specified with literal interpolation is localized **as the string** by the translation function.
 
