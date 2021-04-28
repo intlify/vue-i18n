@@ -22,7 +22,7 @@ const messages = {
 }
 ```
 
-The locale messages is the resource specified by the `messages` option of `createI18n`. It’s defined `en` locale with `{ message: { hello: '{msg} world' } } }`.
+The locale messages is the resource specified by the `messages` option of `createI18n`. It’s defined `en` locale with `{ message: { hello: '{msg} world' } }`.
 
 Named interpolation allows you to specify variables defined in JavaScript. In the locale message above, you can localize it by giving the JavaScript defined `msg` as a parameter to the translation function.
 
@@ -64,7 +64,7 @@ const messages = {
 }
 ```
 
-It is defined `en` locale with `{ message: { hello: '{0} world' } } }`.
+It is defined `en` locale with `{ message: { hello: '{0} world' } }`.
 
 List interpolation allows you to specify array defined in JavaScript. In the locale message above, you can be localized by giving the `0` index item of the array defined by JavaScript as a parameter to the translation function.
 
@@ -275,7 +275,7 @@ const messages = {
 }
 ```
 
-It is defined `en` locale with `{ message: { hello: '%{msg} world' } } }`.
+It is defined `en` locale with `{ message: { hello: '%{msg} world' } }`.
 
 As with [Named interpolation](#named-interpolation), you can specify variables defined in JavaScript. In the locale message above, it is possible to localize it by giving a JavaScript defined `msg` as a parameter to the translation function.
 
@@ -319,7 +319,7 @@ const messages = {
 }
 ```
 
-It is defined `en` locale with `{ message: { hello: 'hello <br> world' } } }`.
+It is defined `en` locale with `{ message: { hello: 'hello <br> world' } }`.
 
 The following is an example of the use of `v-html` and `$t` in a template:
 
