@@ -1497,7 +1497,7 @@ export function createComposer<
     type: ComposerWarnType,
     arg: any // eslint-disable-line @typescript-eslint/no-explicit-any
   ): boolean {
-    return type !== 'translate' || !!arg.resolvedMessage === false
+    return type !== 'translate' || !arg.resolvedMessage
   }
 
   function wrapWithDeps<T, U = T>(
