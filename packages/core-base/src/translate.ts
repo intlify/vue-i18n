@@ -22,7 +22,8 @@ import {
   handleMissing,
   getLocaleChain,
   NOT_REOSLVED,
-  getAdditionalMeta
+  getAdditionalMeta,
+  CoreContext
 } from './context'
 import { CoreWarnCodes, getWarnMessage } from './warnings'
 import { CoreErrorCodes, createCoreError } from './errors'
@@ -45,9 +46,9 @@ import type { AdditionalPayloads } from '@intlify/devtools-if'
 import type {
   LocaleMessages,
   LocaleMessageValue,
-  CoreInternalContext,
-  CoreTranslationContext
+  CoreInternalContext
 } from './context'
+import type { PickupKeys } from './types/index'
 
 const NOOP_MESSAGE_FUNCTION = () => ''
 export const isMessageFunction = <T>(val: unknown): val is MessageFunction<T> =>
@@ -105,7 +106,7 @@ export const isMessageFunction = <T>(val: unknown): val is MessageFunction<T> =>
  *
  * @VueI18nGeneral
  */
-export interface TranslateOptions {
+export interface TranslateOptions<Locales = Locale> {
   /**
    * @remarks
    * List interpolation
@@ -130,7 +131,7 @@ export interface TranslateOptions {
    * @remarks
    * The locale of localization
    */
-  locale?: Locale
+  locale?: Locales
   /**
    * @remarks
    * Whether suppress warnings outputted when localization fails
@@ -154,106 +155,136 @@ export interface TranslateOptions {
 }
 
 // `translate` function overloads
-export function translate<Messages, Message = string>(
-  context: CoreTranslationContext<Messages, Message>,
-  key: Path | number
+export function translate<
+  Context extends CoreContext<Message, Context['messages'], {}, {}>,
+  Key extends PickupKeys<Context['messages']>,
+  Message = string
+>(
+  context: Context,
+  key: Key | number | MessageFunction<Message>
 ): MessageType<Message> | number
-export function translate<Messages, Message = string>(
-  context: CoreTranslationContext<Messages, Message>,
-  key: Path | number,
+export function translate<
+  Context extends CoreContext<Message, Context['messages'], {}, {}>,
+  Key extends PickupKeys<Context['messages']>,
+  Message = string
+>(
+  context: Context,
+  key: Key | number | MessageFunction<Message>,
   plural: number
 ): MessageType<Message> | number
-export function translate<Messages, Message = string>(
-  context: CoreTranslationContext<Messages, Message>,
-  key: Path | number,
+export function translate<
+  Context extends CoreContext<Message, Context['messages'], {}, {}>,
+  Key extends PickupKeys<Context['messages']>,
+  Message = string
+>(
+  context: Context,
+  key: Key | number | MessageFunction<Message>,
   plural: number,
-  options: TranslateOptions
+  options: TranslateOptions<Context['locale']>
 ): MessageType<Message> | number
-export function translate<Messages, Message = string>(
-  context: CoreTranslationContext<Messages, Message>,
-  message: MessageFunction<Message> | string,
-  plural: number,
-  options: TranslateOptions
-): MessageType<Message> | number
-export function translate<Messages, Message = string>(
-  context: CoreTranslationContext<Messages, Message>,
-  key: Path | number,
+export function translate<
+  Context extends CoreContext<Message, Context['messages'], {}, {}>,
+  Key extends PickupKeys<Context['messages']>,
+  Message = string
+>(
+  context: Context,
+  key: Key | number | MessageFunction<Message>,
   defaultMsg: string
 ): MessageType<Message> | number
-export function translate<Messages, Message = string>(
-  context: CoreTranslationContext<Messages, Message>,
-  key: Path | number,
+export function translate<
+  Context extends CoreContext<Message, Context['messages'], {}, {}>,
+  Key extends PickupKeys<Context['messages']>,
+  Message = string
+>(
+  context: Context,
+  key: Key | number | MessageFunction<Message>,
   defaultMsg: string,
-  options: TranslateOptions
+  options: TranslateOptions<Context['locale']>
 ): MessageType<Message> | number
-export function translate<Messages, Message = string>(
-  context: CoreTranslationContext<Messages, Message>,
-  key: Path | number,
+export function translate<
+  Context extends CoreContext<Message, Context['messages'], {}, {}>,
+  Key extends PickupKeys<Context['messages']>,
+  Message = string
+>(
+  context: Context,
+  key: Key | number | MessageFunction<Message>,
   list: unknown[]
 ): MessageType<Message> | number
-export function translate<Messages, Message = string>(
-  context: CoreTranslationContext<Messages, Message>,
-  key: Path | number,
+export function translate<
+  Context extends CoreContext<Message, Context['messages'], {}, {}>,
+  Key extends PickupKeys<Context['messages']>,
+  Message = string
+>(
+  context: Context,
+  key: Key | number | MessageFunction<Message>,
   list: unknown[],
   plural: number
 ): MessageType<Message> | number
-export function translate<Messages, Message = string>(
-  context: CoreTranslationContext<Messages, Message>,
-  key: Path | number,
+export function translate<
+  Context extends CoreContext<Message, Context['messages'], {}, {}>,
+  Key extends PickupKeys<Context['messages']>,
+  Message = string
+>(
+  context: Context,
+  key: Key | number | MessageFunction<Message>,
   list: unknown[],
   defaultMsg: string
 ): MessageType<Message> | number
-export function translate<Messages, Message = string>(
-  context: CoreTranslationContext<Messages, Message>,
-  key: Path | number,
+export function translate<
+  Context extends CoreContext<Message, Context['messages'], {}, {}>,
+  Key extends PickupKeys<Context['messages']>,
+  Message = string
+>(
+  context: Context,
+  key: Key | number | MessageFunction<Message>,
   list: unknown[],
-  options: TranslateOptions
+  options: TranslateOptions<Context['locale']>
 ): MessageType<Message> | number
-export function translate<Messages, Message = string>(
-  context: CoreTranslationContext<Messages, Message>,
-  message: MessageFunction<Message> | string,
-  list: unknown[],
-  options: TranslateOptions
-): MessageType<Message> | number
-export function translate<Messages, Message = string>(
-  context: CoreTranslationContext<Messages, Message>,
-  key: Path | number,
+export function translate<
+  Context extends CoreContext<Message, Context['messages'], {}, {}>,
+  Key extends PickupKeys<Context['messages']>,
+  Message = string
+>(
+  context: Context,
+  key: Key | number | MessageFunction<Message>,
   named: NamedValue
 ): MessageType<Message> | number
-export function translate<Messages, Message = string>(
-  context: CoreTranslationContext<Messages, Message>,
-  key: Path | number,
+export function translate<
+  Context extends CoreContext<Message, Context['messages'], {}, {}>,
+  Key extends PickupKeys<Context['messages']>,
+  Message = string
+>(
+  context: Context,
+  key: Key | number | MessageFunction<Message>,
   named: NamedValue,
   plural: number
 ): MessageType<Message> | number
-export function translate<Messages, Message = string>(
-  context: CoreTranslationContext<Messages, Message>,
-  key: Path | number,
+export function translate<
+  Context extends CoreContext<Message, Context['messages'], {}, {}>,
+  Key extends PickupKeys<Context['messages']>,
+  Message = string
+>(
+  context: Context,
+  key: Key | number | MessageFunction<Message>,
   named: NamedValue,
   defaultMsg: string
 ): MessageType<Message> | number
-export function translate<Messages, Message = string>(
-  context: CoreTranslationContext<Messages, Message>,
-  key: Path | number,
+export function translate<
+  Context extends CoreContext<Message, Context['messages'], {}, {}>,
+  Key extends PickupKeys<Context['messages']>,
+  Message = string
+>(
+  context: Context,
+  key: Key | number | MessageFunction<Message>,
   named: NamedValue,
-  options: TranslateOptions
+  options: TranslateOptions<Context['locale']>
 ): MessageType<Message> | number
-export function translate<Messages, Message = string>(
-  context: CoreTranslationContext<Messages, Message>,
-  message: MessageFunction<Message> | string,
-  named: NamedValue,
-  options: TranslateOptions
-): MessageType<Message> | number
-export function translate<Messages, Message = string>(
-  context: CoreTranslationContext<Messages, Message>,
-  ...args: unknown[]
-): MessageType<Message> | number // for internal
 
 // implementation of `translate` function
-export function translate<Messages, Message = string>(
-  context: CoreTranslationContext<Messages, Message>,
-  ...args: unknown[]
-): MessageType<Message> | number {
+export function translate<
+  Context extends CoreContext<Message, Context['messages'], {}, {}>,
+  Message = string
+>(context: Context, ...args: unknown[]): MessageType<Message> | number {
   const {
     fallbackFormat,
     postTranslation,
@@ -303,7 +334,7 @@ export function translate<Messages, Message = string>(
         context,
         key as string,
         locale,
-        fallbackLocale,
+        fallbackLocale as FallbackLocale,
         fallbackWarn,
         missingWarn
       )
@@ -368,14 +399,14 @@ export function translate<Messages, Message = string>(
   }
 
   // evaluate message with context
-  const ctxOptions = getMessageContextOptions<Messages, Message>(
+  const ctxOptions = getMessageContextOptions(
     context,
     targetLocale!,
     message,
     options
   )
   const msgContext = createMessageContext<Message>(ctxOptions)
-  const messaged = evaluateMessage<Messages, Message>(
+  const messaged = evaluateMessage(
     context,
     msg as MessageFunction<Message>,
     msgContext
@@ -431,7 +462,7 @@ function escapeParams(options: TranslateOptions) {
 }
 
 function resolveMessageFormat<Messages, Message>(
-  context: CoreTranslationContext<Messages, Message>,
+  context: CoreContext<Message, Messages>,
   key: string,
   locale: Locale,
   fallbackLocale: FallbackLocale,
@@ -439,7 +470,7 @@ function resolveMessageFormat<Messages, Message>(
   missingWarn: boolean | RegExp
 ): [PathValue, Locale | undefined, LocaleMessageValue<Message>] {
   const { messages, onWarn, messageResolver: resolveValue } = context
-  const locales = getLocaleChain<Message>(context, fallbackLocale, locale)
+  const locales = getLocaleChain(context as any, fallbackLocale, locale) // eslint-disable-line @typescript-eslint/no-explicit-any
 
   let message: LocaleMessageValue<Message> = {}
   let targetLocale: Locale | undefined
@@ -517,8 +548,8 @@ function resolveMessageFormat<Messages, Message>(
     }
 
     if (isString(format) || isFunction(format)) break
-    const missingRet = handleMissing<Message>(
-      context,
+    const missingRet = handleMissing(
+      context as any, // eslint-disable-line @typescript-eslint/no-explicit-any
       key,
       targetLocale,
       missingWarn,
@@ -534,7 +565,7 @@ function resolveMessageFormat<Messages, Message>(
 }
 
 function compileMessageFormat<Messages, Message>(
-  context: CoreTranslationContext<Messages, Message>,
+  context: CoreContext<Message, Messages>,
   key: string,
   targetLocale: string,
   format: PathValue,
@@ -599,7 +630,7 @@ function compileMessageFormat<Messages, Message>(
 }
 
 function evaluateMessage<Messages, Message>(
-  context: CoreTranslationContext<Messages, Message>,
+  context: CoreContext<Message, Messages>,
   msg: MessageFunction<Message>,
   msgCtx: MessageContext<Message>
 ): MessageType<Message> {
@@ -677,7 +708,7 @@ export function parseTranslateArgs<Message = string>(
 }
 
 function getCompileOptions<Messages, Message>(
-  context: CoreTranslationContext<Messages, Message>,
+  context: CoreContext<Message, Messages>,
   locale: Locale,
   key: string,
   source: string,
@@ -719,7 +750,7 @@ function getCompileOptions<Messages, Message>(
 }
 
 function getMessageContextOptions<Messages, Message = string>(
-  context: CoreTranslationContext<Messages, Message>,
+  context: CoreContext<Message, Messages>,
   locale: Locale,
   message: LocaleMessageValue<Message>,
   options: TranslateOptions

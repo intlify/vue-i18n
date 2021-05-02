@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-empty-function */
+/* eslint-disable @typescript-eslint/no-empty-function, @typescript-eslint/no-explicit-any */
 
 // utils
 jest.mock('@intlify/shared', () => ({
@@ -34,7 +34,7 @@ describe('features', () => {
     const ctx = context({
       locale: 'en',
       messages: {
-        en: { hi: 'hi {0} !' }
+        en: { hi: 'hi {0} !', nest: { foo: '' } }
       }
     })
     expect(translate(ctx, 'hi', ['kazupon'])).toEqual('hi kazupon !')
@@ -100,7 +100,7 @@ describe('default option', () => {
         en: {}
       }
     })
-    expect(translate(ctx, 'hello', 'hello, default message!')).toEqual(
+    expect(translate(ctx, 'hello' as any, 'hello, default message!')).toEqual(
       'hello, default message!'
     )
   })
@@ -113,7 +113,12 @@ describe('default option', () => {
       }
     })
     expect(
-      translate(ctx, 'hi {name}!', { name: 'kazupon' }, { default: true })
+      translate(
+        ctx,
+        'hi {name}!' as any,
+        { name: 'kazupon' },
+        { default: true }
+      )
     ).toEqual('hi kazupon!')
   })
 })
@@ -131,7 +136,7 @@ describe('context fallbackLocale option', () => {
       }
     })
 
-    expect(translate(ctx, 'hello')).toEqual('hello')
+    expect(translate(ctx, 'hello' as any)).toEqual('hello')
     expect(mockWarn.mock.calls[0][0]).toEqual(
       `Not found 'hello' key in 'en' locale messages.`
     )
@@ -192,7 +197,7 @@ describe('context missing option', () => {
       }
     })
 
-    expect(translate(ctx, 'hello')).toEqual('hello')
+    expect(translate(ctx, 'hello' as any)).toEqual('hello')
     expect(mockWarn.mock.calls[0][0]).toEqual(
       `Not found 'hello' key in 'en' locale messages.`
     )
@@ -214,7 +219,7 @@ describe('context missing option', () => {
         en: {}
       }
     })
-    expect(translate(ctx, 'hello')).toEqual('HELLO')
+    expect(translate(ctx, 'hello' as any)).toEqual('HELLO')
     expect(mockWarn).not.toHaveBeenCalled()
   })
 })
@@ -233,7 +238,7 @@ describe('context missingWarn option', () => {
       }
     })
 
-    expect(translate(ctx, 'hello')).toEqual('hello')
+    expect(translate(ctx, 'hello' as any)).toEqual('hello')
     expect(mockWarn).not.toHaveBeenCalled()
   })
 
@@ -250,8 +255,8 @@ describe('context missingWarn option', () => {
       }
     })
 
-    expect(translate(ctx, 'hi kazupon!')).toEqual('hi kazupon!')
-    expect(translate(ctx, 'hello')).toEqual('hello')
+    expect(translate(ctx, 'hi kazupon!' as any)).toEqual('hi kazupon!')
+    expect(translate(ctx, 'hello' as any)).toEqual('hello')
     expect(mockWarn).toHaveBeenCalledTimes(1)
     expect(mockWarn.mock.calls[0][0]).not.toEqual(
       `Not found 'hello' key in 'en' locale messages.`
@@ -270,7 +275,9 @@ describe('context missingWarn option', () => {
       }
     })
 
-    expect(translate(ctx, 'hello', {}, { missingWarn: false })).toEqual('hello')
+    expect(translate(ctx, 'hello' as any, {}, { missingWarn: false })).toEqual(
+      'hello'
+    )
     expect(mockWarn).not.toHaveBeenCalled()
   })
 })
@@ -288,7 +295,7 @@ describe('context fallbackWarn option', () => {
       }
     })
 
-    expect(translate(ctx, 'hello')).toEqual('hello')
+    expect(translate(ctx, 'hello' as any)).toEqual('hello')
     expect(mockWarn).not.toHaveBeenCalled()
   })
 
@@ -329,7 +336,7 @@ describe('context fallbackWarn option', () => {
       }
     })
 
-    expect(translate(ctx, 'hello.world')).toEqual('hello.world')
+    expect(translate(ctx, 'hello.world' as any)).toEqual('hello.world')
     expect(mockWarn).toHaveBeenCalledTimes(2)
     expect(mockWarn.mock.calls[0][0]).toEqual(
       `Fall back to translate 'hello.world' key with 'ja' locale.`
@@ -354,7 +361,7 @@ describe('context fallbackWarn option', () => {
       }
     })
 
-    expect(translate(ctx, 'hello.world')).toEqual('hello.world')
+    expect(translate(ctx, 'hello.world' as any)).toEqual('hello.world')
     expect(mockWarn).toHaveBeenCalledTimes(0)
   })
 
@@ -373,7 +380,7 @@ describe('context fallbackWarn option', () => {
       }
     })
 
-    expect(translate(ctx, 'hello.world')).toEqual('hello.world')
+    expect(translate(ctx, 'hello.world' as any)).toEqual('hello.world')
     expect(mockWarn).toHaveBeenCalledTimes(2)
   })
 
@@ -394,7 +401,9 @@ describe('context fallbackWarn option', () => {
     })
 
     expect(translate(ctx, 'hello')).toEqual('こんにちは！')
-    expect(translate(ctx, 'hi', {}, { fallbackWarn: false })).toEqual('hi')
+    expect(translate(ctx, 'hi' as any, {}, { fallbackWarn: false })).toEqual(
+      'hi'
+    )
     expect(mockWarn).toHaveBeenCalledTimes(1)
   })
 })
@@ -415,7 +424,7 @@ describe('context fallbackFormat option', () => {
       }
     })
 
-    expect(translate(ctx, 'hi, {name}!', { name: 'kazupon' })).toEqual(
+    expect(translate(ctx, 'hi, {name}!' as any, { name: 'kazupon' })).toEqual(
       'hi, kazupon!'
     )
     expect(mockWarn).toHaveBeenCalledTimes(5)
@@ -452,7 +461,12 @@ describe('context fallbackFormat option', () => {
     })
 
     expect(
-      translate(ctx, 'hi, {name}!', { name: 'kazupon' }, 'hello, {name}!')
+      translate(
+        ctx,
+        'hi, {name}!' as any,
+        { name: 'kazupon' },
+        'hello, {name}!'
+      )
     ).toEqual('hello, kazupon!')
     expect(mockWarn).toHaveBeenCalledTimes(5)
     expect(mockWarn.mock.calls[0][0]).toEqual(
@@ -485,7 +499,12 @@ describe('context fallbackFormat option', () => {
     })
 
     expect(
-      translate(ctx, 'hi, {name}!', { name: 'kazupon' }, 'hello, {name}!')
+      translate(
+        ctx,
+        'hi, {name}!' as any,
+        { name: 'kazupon' },
+        'hello, {name}!'
+      )
     ).toEqual('hello, kazupon!')
     expect(mockWarn).toHaveBeenCalledTimes(1)
     expect(mockWarn.mock.calls[0][0]).toEqual(
@@ -507,7 +526,7 @@ describe('context unresolving option', () => {
         ja: {}
       }
     })
-    expect(translate(ctx, 'hello.world')).toEqual(NOT_REOSLVED)
+    expect(translate(ctx, 'hello.world' as any)).toEqual(NOT_REOSLVED)
   })
 
   test('fallbackWarn is false', () => {
@@ -522,7 +541,7 @@ describe('context unresolving option', () => {
         ja: {}
       }
     })
-    expect(translate(ctx, 'hello.world')).toEqual(NOT_REOSLVED)
+    expect(translate(ctx, 'hello.world' as any)).toEqual(NOT_REOSLVED)
   })
 
   test('fallbackFormat is true', () => {
@@ -539,7 +558,7 @@ describe('context unresolving option', () => {
         ja: {}
       }
     })
-    expect(translate(ctx, 'hi, {name}!', { name: 'kazupon' })).toEqual(
+    expect(translate(ctx, 'hi, {name}!' as any, { name: 'kazupon' })).toEqual(
       'hi, kazupon!'
     )
   })
@@ -662,7 +681,7 @@ describe('error', () => {
       }
     })
     expect(() => {
-      translate(ctx, {})
+      translate(ctx, {} as any)
     }).toThrowError(errorMessages[CoreErrorCodes.INVALID_ARGUMENT])
   })
 })
@@ -674,22 +693,29 @@ test('resolvedMessage', () => {
       en: {}
     }
   })
-  expect(translate(ctx, 'car', 1, { resolvedMessage: true })).toEqual('car')
+  expect(translate(ctx, 'car' as any, 1, { resolvedMessage: true })).toEqual(
+    'car'
+  )
   expect(
     translate(ctx, () => 'hello!', 1, {
       resolvedMessage: true
     })
   ).toEqual('hello!')
-  expect(translate(ctx, 'list {0}', [1], { resolvedMessage: true })).toEqual(
-    'list 1'
-  )
+  expect(
+    translate(ctx, 'list {0}' as any, [1], { resolvedMessage: true })
+  ).toEqual('list 1')
   expect(
     translate(ctx, (ctx: MessageContext) => `list ${ctx.list(0)}`, [1], {
       resolvedMessage: true
     })
   ).toEqual('list 1')
   expect(
-    translate(ctx, 'named {name}', { name: 'dio' }, { resolvedMessage: true })
+    translate(
+      ctx,
+      'named {name}' as any,
+      { name: 'dio' },
+      { resolvedMessage: true }
+    )
   ).toEqual('named dio')
   expect(
     translate(
@@ -745,4 +771,4 @@ describe('edge cases', () => {
   })
 })
 
-/* eslint-enable @typescript-eslint/no-empty-function */
+/* eslint-enable @typescript-eslint/no-empty-function, @typescript-eslint/no-explicit-any */

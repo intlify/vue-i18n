@@ -176,7 +176,7 @@ describe('escapeParameter', () => {
 })
 
 describe('getLocaleChain', () => {
-  let ctx: CoreContext<unknown, unknown, unknown, string>
+  let ctx: CoreContext<string>
   beforeEach(() => {
     ctx = context({})
   })

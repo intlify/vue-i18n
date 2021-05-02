@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-empty-function */
+/* eslint-disable @typescript-eslint/no-empty-function, @typescript-eslint/no-explicit-any */
 
 // utils
 jest.mock('@intlify/shared', () => ({
@@ -20,9 +20,15 @@ import { CoreErrorCodes, errorMessages } from '../src/errors'
 import { registerMessageCompiler } from '../src/context'
 import { compileToFunction } from '../src/compile'
 
-import type { DateTimeFormats } from '../src/types'
+import type { DateTimeFormats } from '../src/types/index'
 
-const datetimeFormats: DateTimeFormats = {
+type MyDateTimeSchema = {
+  short: {} // loose schema
+  long: {} // loose schema
+}
+
+const datetimeFormats: DateTimeFormats<MyDateTimeSchema, 'en-US' | 'ja-JP'> = {
+  // @ts-ignore NOTE: checking fallback tests
   'en-US': {
     short: {
       // DD/MM/YYYY, hh:mm (AM|PM)
@@ -267,7 +273,7 @@ describe('context unresolving option', () => {
       datetimeFormats
     })
 
-    expect(datetime(ctx, dt, 'custom')).toEqual(NOT_REOSLVED)
+    expect(datetime(ctx, dt, 'custom' as any)).toEqual(NOT_REOSLVED)
     expect(mockWarn).not.toHaveBeenCalled()
   })
 })
@@ -339,7 +345,7 @@ describe('error', () => {
     }).toThrowError(errorMessages[CoreErrorCodes.INVALID_ISO_DATE_ARGUMENT])
 
     expect(() => {
-      datetime(ctx, { someObject: true })
+      datetime(ctx, { someObject: true } as any)
     }).toThrowError(errorMessages[CoreErrorCodes.INVALID_ARGUMENT])
 
     expect(() => {
@@ -348,4 +354,4 @@ describe('error', () => {
   })
 })
 
-/* eslint-enable @typescript-eslint/no-empty-function */
+/* eslint-enable @typescript-eslint/no-empty-function, @typescript-eslint/no-explicit-any */

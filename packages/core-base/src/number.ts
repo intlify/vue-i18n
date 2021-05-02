@@ -18,13 +18,14 @@ import { CoreErrorCodes, createCoreError } from './errors'
 import { VueDevToolsTimelineEvents } from '@intlify/vue-devtools'
 import { Availabilities } from './intl'
 
-import type { Locale } from '@intlify/runtime'
+import type { Locale, FallbackLocale } from '@intlify/runtime'
 import type {
   NumberFormat,
   NumberFormats as NumberFormatsType,
-  NumberFormatOptions
-} from './types'
-import type { CoreNumberContext, CoreInternalContext } from './context'
+  NumberFormatOptions,
+  PickupKeys
+} from './types/index'
+import type { CoreContext, CoreInternalContext } from './context'
 
 /**
  *  # number
@@ -73,17 +74,17 @@ import type { CoreNumberContext, CoreInternalContext } from './context'
  *
  * @VueI18nGeneral
  */
-export interface NumberOptions {
+export interface NumberOptions<Key = string, Locales = Locale> {
   /**
    * @remarks
    * The target format key
    */
-  key?: string
+  key?: Key
   /**
    * @remarks
    * The locale of localization
    */
-  locale?: Locale
+  locale?: Locales
   /**
    * @remarks
    * Whether suppress warnings outputted when localization fails
@@ -102,34 +103,57 @@ export interface NumberOptions {
 }
 
 // `number` function overloads
-export function number<NumberFormats, Message = string>(
-  context: CoreNumberContext<NumberFormats, Message>,
-  value: number
-): string | number | Intl.NumberFormatPart[]
-export function number<NumberFormats, Message = string>(
-  context: CoreNumberContext<NumberFormats, Message>,
+export function number<
+  Context extends CoreContext<Message, {}, {}, Context['numberFormats']>,
+  Message = string
+>(context: Context, value: number): string | number | Intl.NumberFormatPart[]
+export function number<
+  Context extends CoreContext<Message, {}, {}, Context['numberFormats']>,
+  Key extends PickupKeys<Context['numberFormats']>,
+  Message = string
+>(
+  context: Context,
   value: number,
-  key: string
+  keyOrOptions: Key | NumberOptions<Key, Context['locale']>
 ): string | number | Intl.NumberFormatPart[]
-export function number<NumberFormats, Message = string>(
-  context: CoreNumberContext<NumberFormats, Message>,
+export function number<
+  Context extends CoreContext<Message, {}, {}, Context['numberFormats']>,
+  Key extends PickupKeys<Context['numberFormats']>,
+  Message = string
+>(
+  context: Context,
   value: number,
-  key: string,
-  locale: Locale
+  keyOrOptions: Key | NumberOptions<Key, Context['locale']>,
+  locale: Context['locale']
 ): string | number | Intl.NumberFormatPart[]
-export function number<NumberFormats, Message = string>(
-  context: CoreNumberContext<NumberFormats, Message>,
+export function number<
+  Context extends CoreContext<Message, {}, {}, Context['numberFormats']>,
+  Key extends PickupKeys<Context['numberFormats']>,
+  Message = string
+>(
+  context: Context,
   value: number,
-  options: NumberOptions
+  keyOrOptions: Key | NumberOptions<Key, Context['locale']>,
+  override: Intl.NumberFormatOptions
 ): string | number | Intl.NumberFormatPart[]
-export function number<NumberFormats, Message = string>(
-  context: CoreNumberContext<NumberFormats, Message>,
-  ...args: unknown[]
-): string | number | Intl.NumberFormatPart[] // for internal
+export function number<
+  Context extends CoreContext<Message, {}, {}, Context['numberFormats']>,
+  Key extends PickupKeys<Context['numberFormats']>,
+  Message = string
+>(
+  context: Context,
+  value: number,
+  keyOrOptions: Key | NumberOptions<Key, Context['locale']>,
+  locale: Context['locale'],
+  override: Intl.NumberFormatOptions
+): string | number | Intl.NumberFormatPart[]
 
 // implementation of `number` function
-export function number<NumberFormats, Message = string>(
-  context: CoreNumberContext<NumberFormats, Message>,
+export function number<
+  Context extends CoreContext<Message, {}, {}, Context['numberFormats']>,
+  Message = string
+>(
+  context: Context,
   ...args: unknown[]
 ): string | number | Intl.NumberFormatPart[] {
   const { numberFormats, unresolving, fallbackLocale, onWarn } = context
@@ -149,7 +173,11 @@ export function number<NumberFormats, Message = string>(
     : context.fallbackWarn
   const part = !!options.part
   const locale = isString(options.locale) ? options.locale : context.locale
-  const locales = getLocaleChain(context, fallbackLocale, locale)
+  const locales = getLocaleChain(
+    context as any, // eslint-disable-line @typescript-eslint/no-explicit-any
+    fallbackLocale as FallbackLocale,
+    locale
+  )
 
   if (!isString(key) || key === '') {
     return new Intl.NumberFormat(locale).format(value)
@@ -197,7 +225,7 @@ export function number<NumberFormats, Message = string>(
 
     format = numberFormat[key]
     if (isPlainObject(format)) break
-    handleMissing(context, key, targetLocale, missingWarn, type)
+    handleMissing(context as any, key, targetLocale, missingWarn, type) // eslint-disable-line @typescript-eslint/no-explicit-any
     from = to
   }
 
@@ -256,7 +284,7 @@ export function parseNumberArgs(
 
 /** @internal */
 export function clearNumberFormat<NumberFormats, Message = string>(
-  ctx: CoreNumberContext<NumberFormats, Message>,
+  ctx: CoreContext<Message, {}, {}, NumberFormats>,
   locale: Locale,
   format: NumberFormat
 ): void {
