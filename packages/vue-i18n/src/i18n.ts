@@ -32,7 +32,7 @@ import type { ComponentInternalInstance, ComponentOptions, App } from 'vue'
 import type {
   Locale,
   FallbackLocale,
-  LocaleMessageDictionary,
+  LocaleMessage,
   DateTimeFormat,
   NumberFormat
 } from '@intlify/core-base'
@@ -299,11 +299,8 @@ export function createI18n<
   Options extends I18nOptions = {},
   Messages extends Record<
     keyof Options['messages'],
-    LocaleMessageDictionary<VueMessageType>
-  > = Record<
-    keyof Options['messages'],
-    LocaleMessageDictionary<VueMessageType>
-  >,
+    LocaleMessage<VueMessageType>
+  > = Record<keyof Options['messages'], LocaleMessage<VueMessageType>>,
   DateTimeFormats extends Record<
     keyof Options['datetimeFormats'],
     DateTimeFormat
@@ -442,7 +439,8 @@ export function createI18n<
     }
   }
 
-  return i18n as I18n<Messages, DateTimeFormats, NumberFormats, Legacy>
+  // TODO: return i18n as I18n<Messages, DateTimeFormats, NumberFormats, Legacy>
+  return i18n as any
 }
 
 /**
@@ -499,11 +497,8 @@ export function useI18n<
   Options extends UseI18nOptions = object,
   Messages extends Record<
     keyof Options['messages'],
-    LocaleMessageDictionary<VueMessageType>
-  > = Record<
-    keyof Options['messages'],
-    LocaleMessageDictionary<VueMessageType>
-  >,
+    LocaleMessage<VueMessageType>
+  > = Record<keyof Options['messages'], LocaleMessage<VueMessageType>>,
   DateTimeFormats extends Record<
     keyof Options['datetimeFormats'],
     DateTimeFormat
@@ -568,7 +563,7 @@ export function useI18n<
     const locales = Object.keys(messages)
     if (locales.length) {
       locales.forEach(locale => {
-        global.mergeLocaleMessage(locale, messages![locale])
+        global.mergeLocaleMessage(locale, messages![locale] as any)
       })
     }
     // merge datetime formats
@@ -589,7 +584,7 @@ export function useI18n<
         })
       }
     }
-    return global
+    return global as any
   }
 
   if (scope === 'parent') {
@@ -619,19 +614,21 @@ export function useI18n<
     const type = instance.type as ComponentOptions
     const composerOptions: ComposerOptions &
       ComposerInternalOptions<
+        VueMessageType,
         Messages,
         DateTimeFormats,
         NumberFormats
       > = assign({}, options)
 
     if (type.__i18n) {
-      composerOptions.__i18n = type.__i18n
+      composerOptions.__i18n = type.__i18n as any
     }
 
     if (global) {
-      composerOptions.__root = global
+      composerOptions.__root = global as any
     }
 
+    /*
     composer = createComposer(composerOptions) as Composer<
       Messages,
       DateTimeFormats,
@@ -649,9 +646,25 @@ export function useI18n<
       NumberFormats,
       Composer<Messages, DateTimeFormats, NumberFormats>
     >(instance, composer)
+    */
+    composer = createComposer(composerOptions) as any
+    setupLifeCycle<Messages, DateTimeFormats, NumberFormats>(
+      i18nInternal,
+      instance,
+      composer as any
+    )
+
+    i18nInternal.__setInstance<
+      Messages,
+      DateTimeFormats,
+      NumberFormats,
+      Composer<Messages, DateTimeFormats, NumberFormats>
+    >(instance, composer as any)
   }
 
-  return composer as Composer<Messages>
+  // TODO:
+  // return composer as Composer<Messages>
+  return composer as any
 }
 
 function getComposer<

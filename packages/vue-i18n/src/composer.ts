@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import {
   ref,
   computed,
@@ -62,10 +63,8 @@ import type {
   CoreContext,
   CoreCommonContext,
   CoreTranslationContext,
-  CoreDateTimeContext,
-  CoreNumberContext,
   CoreMissingHandler,
-  CoreOptions,
+  LocaleMessage,
   LocaleMessageDictionary,
   PostTranslationHandler,
   FallbackLocale,
@@ -1210,7 +1209,7 @@ export function getLocaleMessages<Message = VueMessageType>(
     }
   }
 
-  return ret
+  return ret as any
 }
 
 const isNotObjectOrIsArray = (val: unknown) => !isObject(val) || isArray(val)
@@ -1254,8 +1253,8 @@ export function createComposer<
   Options extends ComposerOptions<Message> = object,
   Messages extends Record<
     keyof Options['messages'],
-    LocaleMessageDictionary<Message>
-  > = Record<keyof Options['messages'], LocaleMessageDictionary<Message>>,
+    LocaleMessage<Message>
+  > = Record<keyof Options['messages'], LocaleMessage<Message>>,
   DateTimeFormats extends Record<
     keyof Options['datetimeFormats'],
     DateTimeFormat
@@ -1376,15 +1375,20 @@ export function createComposer<
 
   // runtime context
   // eslint-disable-next-line prefer-const
-  let _context: CoreContext<Messages, DateTimeFormats, NumberFormats, Message>
+  let _context: CoreContext<
+    Message,
+    LocaleMessages<LocaleMessage<Message>, Message>,
+    DateTimeFormatsType,
+    NumberFormatsType
+  >
 
   function getCoreContext(): CoreContext<
-    Messages,
-    DateTimeFormats,
-    NumberFormats,
-    Message
+    Message,
+    LocaleMessages<LocaleMessage<Message>, Message>,
+    DateTimeFormatsType,
+    NumberFormatsType
   > {
-    return createCoreContext<Message>({
+    const ctxOptions = {
       version: VERSION,
       locale: _locale.value,
       fallbackLocale: _fallbackLocale.value,
@@ -1412,16 +1416,21 @@ export function createComposer<
         ? ((_context as unknown) as CoreInternalContext).__v_emitter
         : undefined,
       __meta: { framework: 'vue' }
-    } as CoreOptions<Message>) as CoreContext<
-      Messages,
-      DateTimeFormats,
-      NumberFormats,
-      Message
+    } as any
+    return createCoreContext(ctxOptions) as CoreContext<
+      Message,
+      LocaleMessages<LocaleMessage<Message>, Message>,
+      DateTimeFormatsType,
+      NumberFormatsType
     >
   }
 
   _context = getCoreContext()
-  updateFallbackLocale<Message>(_context, _locale.value, _fallbackLocale.value)
+  updateFallbackLocale<Message>(
+    _context as any,
+    _locale.value,
+    _fallbackLocale.value
+  )
 
   // track reactivity
   function trackReactivityValues() {
@@ -1448,8 +1457,8 @@ export function createComposer<
     get: () => _fallbackLocale.value,
     set: val => {
       _fallbackLocale.value = val
-      _context.fallbackLocale = _fallbackLocale.value
-      updateFallbackLocale(_context, _locale.value, val)
+      _context.fallbackLocale = _fallbackLocale.value as any
+      updateFallbackLocale(_context as any, _locale.value, val)
     }
   })
 
@@ -1570,11 +1579,7 @@ export function createComposer<
   // t
   function t(...args: unknown[]): string {
     return wrapWithDeps<string>(
-      context =>
-        translate<Messages, string>(
-          context as CoreTranslationContext<Messages, string>,
-          ...args
-        ),
+      context => Reflect.apply(translate, null, [context, ...args]) as string,
       () => parseTranslateArgs(...args),
       'translate',
       root => root.t(...args),
@@ -1595,11 +1600,7 @@ export function createComposer<
   // d
   function d(...args: unknown[]): string {
     return wrapWithDeps<string>(
-      context =>
-        datetime<DateTimeFormats, string>(
-          context as CoreDateTimeContext<DateTimeFormats, string>,
-          ...args
-        ),
+      context => Reflect.apply(datetime, null, [context, ...args]) as string,
       () => parseDateTimeArgs(...args),
       'datetime format',
       root => root.d(...args),
@@ -1611,11 +1612,7 @@ export function createComposer<
   // n
   function n(...args: unknown[]): string {
     return wrapWithDeps<string>(
-      context =>
-        number<NumberFormats, string>(
-          context as CoreNumberContext<NumberFormats, string>,
-          ...args
-        ),
+      context => Reflect.apply(number, null, [context, ...args]) as string,
       () => parseNumberArgs(...args),
       'number format',
       root => root.n(...args),
@@ -1647,7 +1644,7 @@ export function createComposer<
         const _context = context as CoreTranslationContext<Messages, VNode>
         try {
           _context.processor = processor
-          ret = translate<Messages, VNode>(_context, ...args)
+          ret = Reflect.apply(translate, null, [_context, ...args])
         } finally {
           _context.processor = null
         }
@@ -1665,7 +1662,7 @@ export function createComposer<
   // numberParts, using for `i18n-n` component
   function numberParts(...args: unknown[]): string | Intl.NumberFormatPart[] {
     return wrapWithDeps<string | Intl.NumberFormatPart[]>(
-      context => number(context as CoreContext<Messages, string>, ...args),
+      context => Reflect.apply(number, null, [context, ...args]),
       () => parseNumberArgs(...args),
       'number format',
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -1680,7 +1677,7 @@ export function createComposer<
     ...args: unknown[]
   ): string | Intl.DateTimeFormatPart[] {
     return wrapWithDeps<string | Intl.DateTimeFormatPart[]>(
-      context => datetime(context as CoreContext<Messages, string>, ...args),
+      context => Reflect.apply(datetime, null, [context, ...args]),
       () => parseDateTimeArgs(...args),
       'datetime format',
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -1705,7 +1702,7 @@ export function createComposer<
   function resolveMessages(key: Path): LocaleMessageValue<Message> | null {
     let messages: LocaleMessageValue<Message> | null = null
     const locales = getLocaleChain<Message>(
-      _context,
+      _context as any,
       _fallbackLocale.value,
       _locale.value
     )
@@ -1732,27 +1729,24 @@ export function createComposer<
   }
 
   // getLocaleMessage
-  function getLocaleMessage(locale: Locale): LocaleMessageDictionary<Message> {
-    return (_messages.value[locale] || {}) as LocaleMessageDictionary<Message>
+  function getLocaleMessage(locale: Locale): LocaleMessage<Message> {
+    return (_messages.value[locale] || {}) as LocaleMessage<Message>
   }
 
   // setLocaleMessage
-  function setLocaleMessage(
-    locale: Locale,
-    message: LocaleMessageDictionary<Message>
-  ) {
-    _messages.value[locale] = message
-    _context.messages = _messages.value as typeof _context.messages
+  function setLocaleMessage(locale: Locale, message: LocaleMessage<Message>) {
+    _messages.value[locale] = message as any
+    _context.messages = _messages.value as any
   }
 
   // mergeLocaleMessage
   function mergeLocaleMessage(
     locale: Locale,
-    message: LocaleMessageDictionary<Message>
+    message: LocaleMessage<Message>
   ): void {
-    _messages.value[locale] = _messages.value[locale] || {}
+    _messages.value[locale] = _messages.value[locale] || ({} as any)
     deepCopy(message, _messages.value[locale])
-    _context.messages = _messages.value as typeof _context.messages
+    _context.messages = _messages.value as any
   }
 
   // getDateTimeFormat
@@ -1764,7 +1758,11 @@ export function createComposer<
   function setDateTimeFormat(locale: Locale, format: DateTimeFormat): void {
     _datetimeFormats.value[locale] = format
     _context.datetimeFormats = _datetimeFormats.value as typeof _context.datetimeFormats
-    clearDateTimeFormat<DateTimeFormats, Message>(_context, locale, format)
+    clearDateTimeFormat<DateTimeFormats, Message>(
+      _context as any,
+      locale,
+      format
+    )
   }
 
   // mergeDateTimeFormat
@@ -1774,7 +1772,11 @@ export function createComposer<
       format
     )
     _context.datetimeFormats = _datetimeFormats.value as typeof _context.datetimeFormats
-    clearDateTimeFormat<DateTimeFormats, Message>(_context, locale, format)
+    clearDateTimeFormat<DateTimeFormats, Message>(
+      _context as any,
+      locale,
+      format
+    )
   }
 
   // getNumberFormat
@@ -1786,7 +1788,7 @@ export function createComposer<
   function setNumberFormat(locale: Locale, format: NumberFormat): void {
     _numberFormats.value[locale] = format
     _context.numberFormats = _numberFormats.value as typeof _context.numberFormats
-    clearNumberFormat<NumberFormats, Message>(_context, locale, format)
+    clearNumberFormat<NumberFormats, Message>(_context as any, locale, format)
   }
 
   // mergeNumberFormat
@@ -1796,7 +1798,7 @@ export function createComposer<
       format
     )
     _context.numberFormats = _numberFormats.value as typeof _context.numberFormats
-    clearNumberFormat<NumberFormats, Message>(_context, locale, format)
+    clearNumberFormat<NumberFormats, Message>(_context as any, locale, format)
   }
 
   // for debug
@@ -1809,7 +1811,7 @@ export function createComposer<
         _locale.value = val
         _context.locale = val
         updateFallbackLocale<Message>(
-          _context,
+          _context as any,
           _locale.value,
           _fallbackLocale.value
         )
@@ -1818,9 +1820,9 @@ export function createComposer<
     watch(__root.fallbackLocale, (val: FallbackLocale) => {
       if (_inheritLocale) {
         _fallbackLocale.value = val
-        _context.fallbackLocale = val
+        _context.fallbackLocale = val as any
         updateFallbackLocale<Message>(
-          _context,
+          _context as any,
           _locale.value,
           _fallbackLocale.value
         )
@@ -1842,7 +1844,7 @@ export function createComposer<
         _locale.value = __root.locale.value
         _fallbackLocale.value = __root.fallbackLocale.value
         updateFallbackLocale<Message>(
-          _context,
+          _context as any,
           _locale.value,
           _fallbackLocale.value
         )
@@ -1941,5 +1943,7 @@ export function createComposer<
     }
   }
 
-  return composer
+  return composer as any
 }
+
+/* eslint-enable @typescript-eslint/no-explicit-any */

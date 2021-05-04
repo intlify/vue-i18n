@@ -14,7 +14,7 @@ export {
   FallbackLocale,
   LocaleMessageValue,
   LocaleMessageDictionary,
-  LocaleMessageArray,
+  LocaleMessageType,
   LocaleMessages,
   NumberFormat as IntlNumberFormat,
   DateTimeFormat as IntlDateTimeFormat,

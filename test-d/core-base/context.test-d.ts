@@ -3,6 +3,8 @@ import { expectType } from '../index'
 
 import {
   CoreOptions,
+  SchemaParams,
+  LocaleParams,
   PickupFallbackLocales,
   createCoreContext
 } from '../../packages/core-base/src/context'
@@ -83,7 +85,20 @@ const strictOptions = {
 }
 
 expectType<CoreOptions>(looseOptions)
-expectType<CoreOptions<ResourceSchema>>(strictOptions)
+expectType<
+  CoreOptions<
+    string,
+    SchemaParams<
+      {
+        message: ResourceSchema
+        datetime: MyDatetimeScehma
+        number: MyNumberSchema
+      },
+      string
+    >,
+    LocaleParams<'en' | 'ja'>
+  >
+>(strictOptions)
 
 // check loose context
 const looseCtx = createCoreContext(looseOptions)

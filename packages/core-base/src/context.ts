@@ -102,7 +102,6 @@ export type MessageCompiler<Message = string> = (
 // prettier-ignore
 export interface CoreOptions<
   Message = string,
-  // Schema = LocaleMessage<Message>,
   Schema extends 
     {
       message?: unknown
@@ -135,7 +134,6 @@ export interface CoreOptions<
     : Locales extends string
       ? Locales
       : Locale,
-  // MessageSchema = Schema,
   MessageSchema = Schema extends { message: infer M } ? M : LocaleMessage,
   DateTimeSchema = Schema extends { datetime: infer D } ? D : DateTimeFormat,
   NumberSchema = Schema extends { number: infer N } ? N : NumberFormat,
@@ -150,7 +148,7 @@ export interface CoreOptions<
   version?: string
   locale?: Locale
   fallbackLocale?: FallbackLocale
-  messages?: { [T in keyof Messages]: MessageSchema }
+  messages?: { [K in keyof Messages]: MessageSchema }
   datetimeFormats?: { [K in keyof DateTimeFormats]: DateTimeSchema }
   numberFormats?: { [K in keyof NumberFormats]: NumberSchema }
   modifiers?: LinkedModifiers<Message>
@@ -178,17 +176,19 @@ export interface CoreInternalOptions {
 
 export type PickupFallbackLocales<T extends any[]> = T[number] | `${T[number]}!`
 
+export type FallbackLocales<Locales = 'en-US'> =
+  | Locales
+  | Array<Locales>
+  | {
+      [locale in string]: Array<PickupFallbackLocales<UnionToTuple<Locales>>>
+    }
+  | false
+
 export interface CoreCommonContext<Message = string, Locales = 'en-US'> {
   cid: number
   version: string
   locale: Locales
-  fallbackLocale:
-    | Locales
-    | Array<Locales>
-    | {
-        [locale in string]: Array<PickupFallbackLocales<UnionToTuple<Locales>>>
-      }
-    | false
+  fallbackLocale: FallbackLocales<Locales>
   missing: CoreMissingHandler<Message> | null
   missingWarn: boolean | RegExp
   fallbackWarn: boolean | RegExp
@@ -219,7 +219,7 @@ export interface CoreNumberContext<NumberFormats = {}> {
   numberFormats: { [K in keyof NumberFormats]: NumberFormats[K] }
 }
 
-type PickupLocales<
+export type PickupLocales<
   T extends Record<string, any>,
   K = keyof T
 > = K extends string ? K : never
@@ -344,20 +344,13 @@ export function createCoreContext<
 
 export function createCoreContext<
   Schema = LocaleMessage,
-  // Schema extends LocaleMessage<Message> = LocaleMessage,
   Locales = 'en-US',
   Message = string,
   Options extends CoreOptions<
     Message,
-    // Schema,
     SchemaParams<Schema, Message>,
     LocaleParams<Locales>
-  > = CoreOptions<
-    Message,
-    // Schema,
-    SchemaParams<Schema, Message>,
-    LocaleParams<Locales>
-  >
+  > = CoreOptions<Message, SchemaParams<Schema, Message>, LocaleParams<Locales>>
 >(
   options: Options
 ): CoreContext<
@@ -457,12 +450,7 @@ export function createCoreContext<Message = string>(options: any = {}): any {
     __datetimeFormatters,
     __numberFormatters,
     __meta
-  } /* as CoreContext<
-    Options['messages'],
-    Options['datetimeFormats'],
-    Options['numberFormats'],
-    Message
-  >*/
+  }
 
   // for vue-devtools timeline event
   if (__DEV__) {

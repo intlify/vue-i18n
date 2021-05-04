@@ -44,11 +44,16 @@ export function defineMixin<Messages, DateTimeFormats, NumberFormats>(
       const options = this.$options
       if (options.i18n) {
         const optionsI18n = options.i18n as VueI18nOptions &
-          ComposerInternalOptions<Messages, DateTimeFormats, NumberFormats>
+          ComposerInternalOptions<
+            VueMessageType,
+            Messages,
+            DateTimeFormats,
+            NumberFormats
+          >
         if (options.__i18n) {
           optionsI18n.__i18n = options.__i18n
         }
-        optionsI18n.__root = composer
+        optionsI18n.__root = composer as any
         if (this === this.$root) {
           this.$i18n = mergeToRoot(vuei18n, optionsI18n)
         } else {
@@ -151,7 +156,12 @@ export function defineMixin<Messages, DateTimeFormats, NumberFormats>(
 function mergeToRoot<Messages, DateTimeFormats, NumberFormats>(
   root: VueI18n<Messages, DateTimeFormats, NumberFormats>,
   options: VueI18nOptions &
-    ComposerInternalOptions<Messages, DateTimeFormats, NumberFormats>
+    ComposerInternalOptions<
+      VueMessageType,
+      Messages,
+      DateTimeFormats,
+      NumberFormats
+    >
 ): VueI18n<Messages, DateTimeFormats, NumberFormats> {
   root.locale = options.locale || root.locale
   root.fallbackLocale = options.fallbackLocale || root.fallbackLocale
@@ -173,10 +183,10 @@ function mergeToRoot<Messages, DateTimeFormats, NumberFormats>(
   )
   const messages = getLocaleMessages<VueMessageType>(root.locale, {
     messages: options.messages,
-    __i18n: options.__i18n
+    __i18n: options.__i18n as any
   })
   Object.keys(messages).forEach(locale =>
-    root.mergeLocaleMessage(locale, messages[locale])
+    root.mergeLocaleMessage(locale, messages[locale] as any)
   )
   if (options.datetimeFormats) {
     Object.keys(options.datetimeFormats).forEach(locale =>

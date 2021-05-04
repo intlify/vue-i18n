@@ -405,7 +405,7 @@ export interface VueI18n<
    *
    * @VueI18nSee [Getting Started](../guide/)
    */
-  readonly messages: Messages
+  readonly messages: LocaleMessages<VueMessageType>
   /**
    * @remarks
    * The datetime formats of localization.
@@ -1122,9 +1122,19 @@ function convertComposerOptions<
   NumberFormats = {}
 >(
   options: VueI18nOptions &
-    ComposerInternalOptions<Messages, DateTimeFormats, NumberFormats>
+    ComposerInternalOptions<
+      VueMessageType,
+      Messages,
+      DateTimeFormats,
+      NumberFormats
+    >
 ): ComposerOptions &
-  ComposerInternalOptions<Messages, DateTimeFormats, NumberFormats> {
+  ComposerInternalOptions<
+    VueMessageType,
+    Messages,
+    DateTimeFormats,
+    NumberFormats
+  > {
   const locale = isString(options.locale) ? options.locale : 'en-US'
   const fallbackLocale =
     isString(options.fallbackLocale) ||
@@ -1169,10 +1179,13 @@ function convertComposerOptions<
 
   let messages = options.messages
   if (isPlainObject(options.sharedMessages)) {
-    const sharedMessages = options.sharedMessages as LocaleMessages<VueMessageType>
+    const sharedMessages = options.sharedMessages as Record<
+      Locale,
+      LocaleMessageValue<VueMessageType>
+    >
     const locales: Locale[] = Object.keys(sharedMessages)
     messages = locales.reduce((messages, locale) => {
-      const message = messages[locale] || (messages[locale] = {})
+      const message = messages[locale] || (messages[locale] = {} as any)
       assign(message, sharedMessages[locale])
       return messages
     }, (messages || {}) as LocaleMessages<VueMessageType>) as typeof options.messages
@@ -1538,7 +1551,7 @@ export function createVueI18n<
     __onComponentInstanceCreated(target: VueI18n<Messages>): void {
       const { componentInstanceCreatedListener } = options
       if (componentInstanceCreatedListener) {
-        componentInstanceCreatedListener<Messages>(target, vueI18n)
+        componentInstanceCreatedListener<Messages>(target, vueI18n as any)
       }
     }
   }
@@ -1559,5 +1572,5 @@ export function createVueI18n<
     }
   }
 
-  return vueI18n
+  return vueI18n as any
 }
