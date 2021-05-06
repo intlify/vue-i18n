@@ -10,12 +10,24 @@ Number formats the below:
 const numberFormats = {
   'en-US': {
     currency: {
-      style: 'currency', currency: 'USD'
+      style: 'currency', currency: 'USD', notation: 'standard'
+    },
+    decimal: {
+      style: 'decimal', minimumFractionDigits: 2, maximumFractionDigits: 2
+    },
+    percent: {
+      style: 'percent', useGrouping: false
     }
   },
   'ja-JP': {
     currency: {
-      style: 'currency', currency: 'JPY', currencyDisplay: 'symbol'
+      style: 'currency', currency: 'JPY', , useGrouping: true, currencyDisplay: 'symbol'
+    },
+    decimal: {
+      style: 'decimal', minimumSignificantDigits: 3, maximumSignificantDigits: 5
+    },
+    percent: {
+      style: 'percent', useGrouping: false
     }
   }
 }
@@ -40,8 +52,14 @@ To localize Number value with Vue I18n, use the `$n`.
 The following is an example of the use of `$n` in a template:
 
 ```html
-<p>{{ $n(100, 'currency') }}</p>
-<p>{{ $n(100, 'currency', 'ja-JP') }}</p>
+<p>{{ $n(10000, 'currency') }}</p>
+<p>{{ $n(10000, 'currency', 'ja-JP') }}</p>
+<p>{{ $n(10000, 'currency', 'ja-JP', { useGrouping: false }) }}</p>
+<p>{{ $n(987654321, 'currency', { notation: 'compact' }) }}</p>
+<p>{{ $n(0.99123, 'percent') }}</p>
+<p>{{ $n(0.99123, 'percent', { minimumFractionDigits: 2 }) }}</p>
+<p>{{ $n(12.11612345, 'decimal') }}</p>
+<p>{{ $n(12145281111, 'decimal', 'ja-JP') }}</p>
 ```
 
 The first argument is numeric value as a parameter, and the second argument is number format name as a parameter. The last argument locale value as a parameter.
@@ -49,8 +67,14 @@ The first argument is numeric value as a parameter, and the second argument is n
 As result the below:
 
 ```html
-<p>$100.00</p>
-<p>￥100</p>
+<p>$10,000.00</p>
+<p>￥10,000</p>
+<p>￥10000</p>
+<p>$988M</p>
+<p>99%</p>
+<p>99.12%</p>
+<p>12.12</p>
+<p>12,145,000,000</p>
 ```
 
 ## Custom Formatting
