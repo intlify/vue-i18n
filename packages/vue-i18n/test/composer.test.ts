@@ -902,6 +902,71 @@ describe('n', () => {
     })
     expect(n(0.99, { key: 'currency', fallbackWarn: false })).toEqual('$0.99')
     expect(n(1.1111, { key: 'decimal', fallbackWarn: false })).toEqual('1.11')
+    expect(n(12345.1161, { key: 'decimal', fallbackWarn: false })).toEqual(
+      '12,345.12'
+    )
+  })
+  test('minimumSignificantDigits, maximumSignificantDigits', () => {
+    const { n } = createComposer({
+      locale: 'en-US',
+      fallbackLocale: ['ja-JP'],
+      numberFormats: {
+        'en-US': {
+          decimal: {
+            style: 'decimal',
+            currency: 'USD',
+            minimumSignificantDigits: 3,
+            maximumSignificantDigits: 5
+          }
+        },
+        'ja-JP': {
+          decimal: {
+            style: 'decimal',
+            currency: 'JPY',
+            minimumSignificantDigits: 3,
+            maximumSignificantDigits: 5
+          }
+        }
+      }
+    })
+    expect(n(1, { key: 'decimal', fallbackWarn: false })).toEqual('1.00')
+    expect(n(214528.1161, { key: 'decimal', fallbackWarn: false })).toEqual(
+      '214,530'
+    )
+    expect(n(12145281111, 'decimal')).toEqual('12,145,000,000')
+  })
+
+  test('notation', () => {
+    const { n } = createComposer({
+      locale: 'en-US',
+      fallbackLocale: ['ja-JP'],
+      numberFormats: {
+        'en-US': {
+          decimal: {
+            style: 'decimal',
+            currency: 'USD',
+            notation: 'scientific'
+          }
+        },
+        'ja-JP': {
+          decimal: {
+            style: 'decimal',
+            currency: 'JPY',
+            notation: 'engineering'
+          }
+        },
+        'zh-CN': {
+          decimal: {
+            style: 'decimal',
+            currency: 'CNY',
+            notation: 'compact'
+          }
+        }
+      }
+    })
+    expect(n(12145281111, { key: 'decimal' })).toEqual('1.215E10')
+    expect(n(12145281111, 'decimal', 'ja-JP')).toEqual('12.145E9')
+    expect(n(123456789, 'decimal', 'zh-CN')).toEqual('1.2亿')
   })
 
   test('missing', () => {
