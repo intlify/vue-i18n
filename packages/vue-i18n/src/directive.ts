@@ -122,7 +122,11 @@ export function vTDirective<
     }
 
     const parsedValue = parseValue(value)
-    el.textContent = composer.t(...makeParams(parsedValue))
+    // el.textContent = composer.t(...makeParams(parsedValue))
+    // TODO:
+    el.textContent = Reflect.apply(composer.t, composer, [
+      ...makeParams(parsedValue)
+    ])
   }
 
   return {

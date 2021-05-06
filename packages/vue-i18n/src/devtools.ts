@@ -363,7 +363,12 @@ function getComposer<
     )
     if (instance) {
       return i18n.mode === 'composition'
-        ? (instance as Composer<Messages, DateTimeFormats, NumberFormats>)
+        ? // TODO:
+          ((instance as unknown) as Composer<
+            Messages,
+            DateTimeFormats,
+            NumberFormats
+          >)
         : ((instance as unknown) as VueI18nInternal<
             Messages,
             DateTimeFormats,
@@ -387,7 +392,8 @@ function inspectScope<
 ): any {
   const composer = getComposer(payload.nodeId, i18n)
   if (composer) {
-    payload.state = makeScopeInspectState(composer)
+    // TODO:
+    payload.state = makeScopeInspectState(composer as any)
   }
   return null
 }

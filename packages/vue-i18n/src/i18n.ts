@@ -330,8 +330,8 @@ export function createI18n<
   >()
   // prettier-ignore
   const __global = __FEATURE_LEGACY_API__ && __legacyMode
-    ? createVueI18n(options)
-    : createComposer(options)
+    ? createVueI18n(options as any) // TODO:
+    : createComposer(options as any) // TODO:
   const symbol: InjectionKey<I18n> | string = makeSymbol(
     __DEV__ ? 'vue-i18n' : ''
   )
@@ -431,7 +431,7 @@ export function createI18n<
       M extends Messages,
       Instance extends VueI18n<M> | Composer<M>
     >(component: ComponentInternalInstance, instance: Instance): void {
-      __instances.set(component, instance)
+      __instances.set(component, instance as any) // TODO:
     },
     // @internal
     __deleteInstance(component: ComponentInternalInstance): void {
@@ -510,6 +510,7 @@ export function useI18n<
 >(
   options: Options = {} as Options
 ): Composer<
+  VueMessageType,
   Options['messages'],
   Options['datetimeFormats'],
   Options['numberFormats']
@@ -554,7 +555,7 @@ export function useI18n<
   if (scope === 'global') {
     let messages = isObject(options.messages) ? options.messages : {}
     if ('__i18nGlobal' in instance.type) {
-      messages = getLocaleMessages(global.locale.value, {
+      messages = getLocaleMessages(global.locale.value as Locale, {
         messages,
         __i18n: instance.type.__i18nGlobal
       })
@@ -593,7 +594,13 @@ export function useI18n<
       if (__DEV__) {
         warn(getWarnMessage(I18nWarnCodes.NOT_FOUND_PARENT_SCOPE))
       }
-      composer = global
+      composer = (global as unknown) as Composer<
+        VueMessageType,
+        Messages,
+        DateTimeFormats,
+        NumberFormats,
+        Options['locale']
+      >
     }
     return composer
   }
@@ -675,7 +682,7 @@ function getComposer<
 >(
   i18n: I18n<Messages, DateTimeFormats, NumberFormats, Legacy>,
   target: ComponentInternalInstance
-): Composer<Messages, DateTimeFormats, NumberFormats> | null {
+): Composer<VueMessageType, Messages, DateTimeFormats, NumberFormats> | null {
   let composer: Composer<Messages, DateTimeFormats, NumberFormats> | null = null
   const root = target.root
   let current: ComponentInternalInstance | null = target.parent
@@ -713,7 +720,8 @@ function getComposer<
     }
     current = current.parent
   }
-  return composer
+  // TODO:
+  return composer as any
 }
 
 function setupLifeCycle<Messages, DateTimeFormats, NumberFormats>(

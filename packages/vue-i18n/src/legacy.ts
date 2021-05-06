@@ -22,6 +22,7 @@ import type {
   NamedValue,
   MessageFunction,
   Locale,
+  LocaleMessage,
   LocaleMessages,
   LocaleMessageDictionary,
   PostTranslationHandler,
@@ -1128,7 +1129,7 @@ function convertComposerOptions<
       DateTimeFormats,
       NumberFormats
     >
-): ComposerOptions &
+): ComposerOptions<VueMessageType> &
   ComposerInternalOptions<
     VueMessageType,
     Messages,
@@ -1177,7 +1178,10 @@ function convertComposerOptions<
     warn(getWarnMessage(I18nWarnCodes.NOT_SUPPORTED_PRESERVE_DIRECTIVE))
   }
 
-  let messages = options.messages
+  // TODO:
+  let messages = (options.messages as unknown) as LocaleMessages<
+    LocaleMessage<VueMessageType>
+  >
   if (isPlainObject(options.sharedMessages)) {
     const sharedMessages = options.sharedMessages as Record<
       Locale,
@@ -1188,7 +1192,7 @@ function convertComposerOptions<
       const message = messages[locale] || (messages[locale] = {} as any)
       assign(message, sharedMessages[locale])
       return messages
-    }, (messages || {}) as LocaleMessages<VueMessageType>) as typeof options.messages
+    }, (messages || {}) as LocaleMessages<LocaleMessage<VueMessageType>>)
   }
   const { __i18n, __root } = options
 
@@ -1251,7 +1255,13 @@ export function createVueI18n<
 > {
   const composer = createComposer<VueMessageType>(
     convertComposerOptions<Messages, DateTimeFormats, NumberFormats>(options)
-  ) as Composer<Messages, DateTimeFormats, NumberFormats>
+  ) as Composer<
+    VueMessageType,
+    Messages,
+    DateTimeFormats,
+    NumberFormats,
+    Options['locale']
+  >
 
   // defines VueI18n
   const vueI18n = {
@@ -1260,18 +1270,18 @@ export function createVueI18n<
 
     // locale
     get locale(): Locale {
-      return composer.locale.value
+      return composer.locale.value as Locale
     },
     set locale(val: Locale) {
-      composer.locale.value = val
+      composer.locale.value = val as any
     },
 
     // fallbackLocale
     get fallbackLocale(): FallbackLocale {
-      return composer.fallbackLocale.value
+      return composer.fallbackLocale.value as FallbackLocale
     },
     set fallbackLocale(val: FallbackLocale) {
-      composer.fallbackLocale.value = val
+      composer.fallbackLocale.value = val as any
     },
 
     // messages
@@ -1291,7 +1301,7 @@ export function createVueI18n<
 
     // availableLocales
     get availableLocales(): Locale[] {
-      return composer.availableLocales
+      return composer.availableLocales as Locale[]
     },
 
     // formatter
@@ -1428,11 +1438,17 @@ export function createVueI18n<
         named = arg3 as NamedValue
       }
 
-      return composer.t(key, list || named || {}, options)
+      // TODO:
+      return composer.t(
+        key as any,
+        (list || named || {}) as any,
+        options as any
+      )
     },
 
     rt(...args: unknown[]): TranslateResult {
-      return composer.rt(...args)
+      // TODO: return composer.rt(...args)
+      return Reflect.apply(composer.rt, composer, [...args])
     },
 
     // tc
@@ -1465,12 +1481,18 @@ export function createVueI18n<
         named = arg3 as NamedValue
       }
 
-      return composer.t(key, list || named || {}, options)
+      // TODO:
+      return composer.t(
+        key as any,
+        (list || named || {}) as any,
+        options as any
+      )
     },
 
     // te
     te(key: Path, locale?: Locale): boolean {
-      return composer.te(key, locale)
+      // TODO:
+      return composer.te(key as any, locale as any)
     },
 
     // tm
@@ -1480,7 +1502,8 @@ export function createVueI18n<
 
     // getLocaleMessage
     getLocaleMessage(locale: Locale): LocaleMessageDictionary<VueMessageType> {
-      return composer.getLocaleMessage(locale)
+      // TODO:
+      return composer.getLocaleMessage(locale as any) as any
     },
 
     // setLocaleMessage
@@ -1488,7 +1511,8 @@ export function createVueI18n<
       locale: Locale,
       message: LocaleMessageDictionary<VueMessageType>
     ): void {
-      composer.setLocaleMessage(locale, message)
+      // TODO:
+      composer.setLocaleMessage(locale, message as any)
     },
 
     // mergeLocaleMessage
@@ -1496,12 +1520,15 @@ export function createVueI18n<
       locale: Locale,
       message: LocaleMessageDictionary<VueMessageType>
     ): void {
-      composer.mergeLocaleMessage(locale, message)
+      // TODO:
+      composer.mergeLocaleMessage(locale, message as any)
     },
 
     // d
     d(...args: unknown[]): DateTimeFormatResult {
-      return composer.d(...args)
+      // return composer.d(...args)
+      // TODO:
+      return Reflect.apply(composer.d, composer, [...args])
     },
 
     // getDateTimeFormat
@@ -1521,7 +1548,9 @@ export function createVueI18n<
 
     // n
     n(...args: unknown[]): NumberFormatResult {
-      return composer.n(...args)
+      // return composer.n(...args)
+      // TODO:
+      return Reflect.apply(composer.n, composer, [...args])
     },
 
     // getNumberFormat
@@ -1558,14 +1587,14 @@ export function createVueI18n<
 
   // for vue-devtools timeline event
   if (__DEV__) {
-    ;(vueI18n as VueI18nInternal).__enableEmitter = (
-      emitter: VueDevToolsEmitter
-    ): void => {
+    // TODO:
+    ;(vueI18n as any).__enableEmitter = (emitter: VueDevToolsEmitter): void => {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const __composer = composer as any
       __composer[EnableEmitter] && __composer[EnableEmitter](emitter)
     }
-    ;(vueI18n as VueI18nInternal).__disableEmitter = (): void => {
+    // TODO:
+    ;(vueI18n as any).__disableEmitter = (): void => {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const __composer = composer as any
       __composer[DisableEmitter] && __composer[DisableEmitter]()

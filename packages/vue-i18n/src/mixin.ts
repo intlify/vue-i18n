@@ -55,7 +55,8 @@ export function defineMixin<Messages, DateTimeFormats, NumberFormats>(
         }
         optionsI18n.__root = composer as any
         if (this === this.$root) {
-          this.$i18n = mergeToRoot(vuei18n, optionsI18n)
+          // TODO;
+          this.$i18n = mergeToRoot(vuei18n as any, optionsI18n as any)
         } else {
           this.$i18n = createVueI18n(optionsI18n)
         }
@@ -186,7 +187,8 @@ function mergeToRoot<Messages, DateTimeFormats, NumberFormats>(
     __i18n: options.__i18n as any
   })
   Object.keys(messages).forEach(locale =>
-    root.mergeLocaleMessage(locale, messages[locale] as any)
+    // TODO:
+    root.mergeLocaleMessage(locale, (messages as any)[locale] as any)
   )
   if (options.datetimeFormats) {
     Object.keys(options.datetimeFormats).forEach(locale =>

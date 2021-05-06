@@ -400,7 +400,7 @@ describe('fallbackFormat', () => {
       }
     })
 
-    expect(t('hi, {name}!', { name: 'kazupon' })).toEqual('hi, kazupon!')
+    expect(t('hi, {name}!' as any, { name: 'kazupon' })).toEqual('hi, kazupon!')
     expect(mockWarn).toHaveBeenCalledTimes(5)
   })
 })
@@ -440,8 +440,8 @@ describe('fallbackRoot', () => {
         fr: {}
       },
       __root: root
-    } as any)
-    expect(t('hello')).toEqual('hello')
+    })
+    expect(t('hello' as any)).toEqual('hello')
     expect(mockWarn).toHaveBeenCalled()
     expect(mockWarn.mock.calls[0][0]).toEqual(
       getWarnMessage(I18nWarnCodes.FALLBACK_TO_ROOT, {
@@ -473,8 +473,8 @@ describe('fallbackRoot', () => {
         fr: {}
       },
       __root: root
-    } as any)
-    expect(t('hello')).toEqual('hello')
+    })
+    expect(t('hello' as any)).toEqual('hello')
     expect(mockWarn).not.toHaveBeenCalledTimes(1)
   })
 })
@@ -659,7 +659,7 @@ describe('t', () => {
         en: {}
       }
     })
-    expect(t('foo.bar.buz')).toEqual('FOO.BAR.BUZ')
+    expect(t('foo.bar.buz' as any)).toEqual('FOO.BAR.BUZ')
   })
 
   test('computed property name', () => {
@@ -803,7 +803,7 @@ describe('d', () => {
       }
     })
     const dt = new Date(Date.UTC(2012, 11, 20, 3, 0, 0))
-    expect(d(dt, { key: 'long' })).toEqual('')
+    expect(d(dt, { key: 'long' as any })).toEqual('')
   })
 
   test('iso', () => {
@@ -976,7 +976,7 @@ describe('n', () => {
         'en-US': {}
       }
     })
-    expect(n(0.99, { key: 'percent' })).toEqual('')
+    expect(n(0.99, { key: 'percent' as any })).toEqual('')
   })
 })
 
@@ -1099,8 +1099,8 @@ test('te', async () => {
   })
 
   expect(te('message.hello')).toEqual(true)
-  expect(te('message.hallo')).toEqual(false)
-  expect(te('message.hallo', 'ja')).toEqual(false)
+  expect(te('message.hallo' as any)).toEqual(false)
+  expect(te('message.hallo' as any, 'ja' as any)).toEqual(false)
 })
 
 describe('getLocaleMessage / setLocaleMessage / mergeLocaleMessage', () => {
@@ -1629,7 +1629,7 @@ describe('root', () => {
       __root
     })
 
-    expect(t('hello')).toEqual('hello!')
+    expect(t('hello' as any)).toEqual('hello!')
   })
 
   test('d', () => {
@@ -1658,7 +1658,7 @@ describe('root', () => {
     })
 
     const dt = new Date(Date.UTC(2012, 11, 20, 3, 0, 0))
-    expect(d(dt, { key: 'short' })).toEqual('12/19/2012, 10:00 PM')
+    expect(d(dt, { key: 'short' as any })).toEqual('12/19/2012, 10:00 PM')
   })
 
   test('n', () => {
@@ -1682,7 +1682,7 @@ describe('root', () => {
       __root
     })
 
-    expect(n(0.99, { key: 'percent' })).toEqual('99%')
+    expect(n(0.99, { key: 'percent' as any })).toEqual('99%')
   })
 })
 

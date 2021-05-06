@@ -39,7 +39,8 @@ import {
   NOT_REOSLVED,
   handleFlatJson,
   MessageFunction,
-  setAdditionalMeta
+  setAdditionalMeta,
+  IsUnion
 } from '@intlify/core-base'
 import { VueDevToolsTimelineEvents } from '@intlify/vue-devtools'
 import { I18nWarnCodes, getWarnMessage } from './warnings'
@@ -47,7 +48,7 @@ import { I18nErrorCodes, createI18nError } from './errors'
 import { VERSION } from './misc'
 
 import type { ComponentInternalInstance, VNode, VNodeArrayChildren } from 'vue'
-import type { WritableComputedRef, ComputedRef } from '@vue/reactivity'
+import type { Ref, WritableComputedRef, ComputedRef } from '@vue/reactivity'
 import type {
   Path,
   MessageResolver,
@@ -59,12 +60,10 @@ import type {
   MessageType,
   Locale,
   LocaleMessageValue,
+  LocaleMessage,
   LocaleMessages,
   CoreContext,
-  CoreCommonContext,
-  CoreTranslationContext,
   CoreMissingHandler,
-  LocaleMessage,
   LocaleMessageDictionary,
   PostTranslationHandler,
   FallbackLocale,
@@ -76,7 +75,12 @@ import type {
   NumberFormats as NumberFormatsType,
   DateTimeFormat,
   NumberFormat,
-  MetaInfo
+  MetaInfo,
+  PickupLocales,
+  PickupKeys,
+  FallbackLocales,
+  SchemaParams,
+  LocaleParams
 } from '@intlify/core-base'
 import type { VueDevToolsEmitter } from '@intlify/vue-devtools'
 
@@ -120,6 +124,7 @@ export interface CustomBlock<Message = VueMessageType> {
 
 export type CustomBlocks<Message = VueMessageType> = Array<CustomBlock<Message>>
 
+// prettier-ignore
 /**
  * Composer Options
  *
@@ -128,7 +133,56 @@ export type CustomBlocks<Message = VueMessageType> = Array<CustomBlock<Message>>
  *
  * @VueI18nComposition
  */
-export interface ComposerOptions<Message = VueMessageType> {
+export interface ComposerOptions<
+  Message = VueMessageType,
+  Schema extends {
+    message?: unknown
+    datetime?: unknown
+    number?: unknown
+  } = {
+    message: LocaleMessage<Message>
+    datetime: DateTimeFormat
+    number: NumberFormat
+  },
+  Locales extends
+    | {
+        messages: unknown
+        datetimeFormats: unknown
+        numberFormats: unknown
+      }
+    | string = Locale,
+  MessagesLocales = Locales extends { messages: infer M }
+    ? M
+    : Locales extends string
+      ? Locales
+      : Locale,
+  DateTimeFormatsLocales = Locales extends { datetimeFormats: infer D }
+    ? D
+    : Locales extends string
+      ? Locales
+      : Locale,
+  NumberFormatsLocales = Locales extends { numberFormats: infer N }
+    ? N
+    : Locales extends string
+      ? Locales
+      : Locale,
+  MessageSchema = Schema extends { message: infer M } ? M : LocaleMessage,
+  DateTimeSchema = Schema extends { datetime: infer D } ? D : DateTimeFormat,
+  NumberSchema = Schema extends { number: infer N } ? N : NumberFormat,
+  Messages extends LocaleMessages<
+    MessageSchema,
+    MessagesLocales,
+    Message
+  > = LocaleMessages<MessageSchema, MessagesLocales, Message>,
+  DateTimeFormats extends DateTimeFormatsType<
+    DateTimeSchema,
+    DateTimeFormatsLocales
+  > = DateTimeFormatsType<DateTimeSchema, DateTimeFormatsLocales>,
+  NumberFormats extends NumberFormatsType<
+    NumberSchema,
+    NumberFormatsLocales
+  > = NumberFormatsType<NumberSchema, NumberFormatsLocales>
+> {
   /**
    * @remarks
    * The locale of localization.
@@ -170,7 +224,7 @@ export interface ComposerOptions<Message = VueMessageType> {
    *
    * @defaultValue `{}`
    */
-  messages?: LocaleMessages<Message>
+  messages?: { [K in keyof Messages]: MessageSchema }
   /**
    * @remarks
    * Allow use flat json messages or not
@@ -186,7 +240,7 @@ export interface ComposerOptions<Message = VueMessageType> {
    *
    * @defaultValue `{}`
    */
-  datetimeFormats?: DateTimeFormatsType
+  datetimeFormats?: { [K in keyof DateTimeFormats]: DateTimeSchema }
   /**
    * @remarks
    * The number formats of localization.
@@ -195,7 +249,7 @@ export interface ComposerOptions<Message = VueMessageType> {
    *
    * @defaultValue `{}`
    */
-  numberFormats?: NumberFormatsType
+  numberFormats?: { [K in keyof NumberFormats]: NumberSchema }
   /**
    * @remarks
    * Custom Modifiers for linked messages.
@@ -379,14 +433,482 @@ export interface ComposerOptions<Message = VueMessageType> {
  * @internal
  */
 export interface ComposerInternalOptions<
+  Message = VueMessageType,
   Messages = {},
   DateTimeFormats = {},
-  NumberFormats = {},
-  Message = VueMessageType
+  NumberFormats = {}
 > {
   __i18n?: CustomBlocks<Message>
   __i18nGlobal?: CustomBlocks<Message>
-  __root?: Composer<Messages, DateTimeFormats, NumberFormats, Message>
+  __root?: Composer<Message, Messages, DateTimeFormats, NumberFormats>
+}
+
+/**
+ * Locale message translation functions
+ *
+ * @remarks
+ * This is the interface for {@link Composer}
+ *
+ * @VueI18nComposition
+ */
+export interface ComposerTranslation<Messages = {}, Locales = 'en-US'> {
+  /**
+   * Locale message translation
+   *
+   * @remarks
+   * If this is used in a reactive context, it will re-evaluate once the locale changes.
+   *
+   * If [UseI18nScope](general#usei18nscope) `'local'` or Some [UseI18nOptions](composition#usei18noptions) are specified at `useI18n`, it’s translated in preferentially local scope locale messages than global scope locale messages.
+   *
+   * If not, then it’s translated with global scope locale messages.
+   *
+   * @param key - A target locale message key
+   *
+   * @returns Translated message
+   *
+   * @VueI18nSee [Scope and Locale Changing](../guide/essentials/scope)
+   */
+  <Key extends PickupKeys<Messages> = PickupKeys<Messages>>(
+    key: Key | number
+  ): string
+  /**
+   * Locale message translation for plurals
+   *
+   * @remarks
+   * Overloaded `t`. About details, see the [t](composition#t-key) details.
+   *
+   * In this overloaded `t`, return a pluralized translation message.
+   *
+   * You can also suppress the warning, when the translation missing according to the options.
+   *
+   * About details of options, see the {@link TranslateOptions}.
+   *
+   * @param key - A target locale message key
+   * @param plural - Which plural string to get. 1 returns the first one.
+   * @param options - Additional {@link TranslateOptions | options} for translation
+   *
+   * @returns Translated message
+   *
+   * @VueI18nSee [Pluralization](../guide/essentials/pluralization)
+   */
+  <Key extends PickupKeys<Messages> = PickupKeys<Messages>>(
+    key: Key | number,
+    plural: number,
+    options?: TranslateOptions<Locales>
+  ): string
+  /**
+   * Locale message translation for missing default message
+   *
+   * @remarks
+   * Overloaded `t`. About details, see the [t](composition#t-key) details.
+   *
+   * In this overloaded `t`, if no translation was found, return a default message.
+   *
+   * You can also suppress the warning, when the translation missing according to the options.
+   *
+   * About details of options, see the {@link TranslateOptions}.
+   *
+   * @param key - A target locale message key
+   * @param defaultMsg - A default message to return if no translation was found
+   * @param options - Additional {@link TranslateOptions | options} for translation
+   *
+   * @returns Translated message
+   */
+  <Key extends PickupKeys<Messages> = PickupKeys<Messages>>(
+    key: Key | number,
+    defaultMsg: string,
+    options?: TranslateOptions<Locales>
+  ): string
+  /**
+   * Locale message translation for list interpolations
+   *
+   * @remarks
+   * Overloaded `t`. About details, see the [t](composition#t-key) details.
+   *
+   * In this overloaded `t`, the locale messages should contain a `{0}`, `{1}`, … for each placeholder in the list.
+   *
+   * You can also suppress the warning, when the translation missing according to the options.
+   *
+   * About details of options, see the {@link TranslateOptions}.
+   *
+   * @param key - A target locale message key
+   * @param list - A values of list interpolation
+   * @param options - Additional {@link TranslateOptions | options} for translation
+   *
+   * @returns Translated message
+   *
+   * @VueI18nSee [List interpolation](../guide/essentials/syntax#list-interpolation)
+   */
+  <Key extends PickupKeys<Messages> = PickupKeys<Messages>>(
+    key: Key | number,
+    list: unknown[],
+    options?: TranslateOptions<Locales>
+  ): string
+  /**
+   * Locale message translation for list interpolations and plurals
+   *
+   * @remarks
+   * Overloaded `t`. About details, see the [t](composition#t-key) details.
+   *
+   * In this overloaded `t`, the locale messages should contain a `{0}`, `{1}`, … for each placeholder in the list, and return a pluralized translation message.
+   *
+   * @param key - A target locale message key
+   * @param list - A values of list interpolation
+   * @param plural - Which plural string to get. 1 returns the first one.
+   *
+   * @returns Translated message
+   *
+   * @VueI18nSee [Pluralization](../guide/essentials/pluralization)
+   * @VueI18nSee [List interpolation](../guide/essentials/syntax#list-interpolation)
+   */
+  <Key extends PickupKeys<Messages> = PickupKeys<Messages>>(
+    key: Key | number,
+    list: unknown[],
+    plural: number
+  ): string
+  /**
+   * Locale message translation for list interpolations and missing default message
+   *
+   * @remarks
+   * Overloaded `t`. About details, see the [t](composition#t-key) details.
+   *
+   * In this overloaded `t`, the locale messages should contain a `{0}`, `{1}`, … for each placeholder in the list, and if no translation was found, return a default message.
+   *
+   * @param key - A target locale message key
+   * @param list - A values of list interpolation
+   * @param defaultMsg - A default message to return if no translation was found
+   *
+   * @returns Translated message
+   *
+   * @VueI18nSee [List interpolation](../guide/essentials/syntax#list-interpolation)
+   */
+  <Key extends PickupKeys<Messages> = PickupKeys<Messages>>(
+    key: Key | number,
+    list: unknown[],
+    defaultMsg: string
+  ): string
+  /**
+   * Locale message translation for named interpolations
+   *
+   * @remarks
+   * Overloaded `t`. About details, see the [t](composition#t-key) details.
+   *
+   * In this overloaded `t`, for each placeholder x, the locale messages should contain a `{x}` token.
+   *
+   * You can also suppress the warning, when the translation missing according to the options.
+   *
+   * About details of options, see the {@link TranslateOptions}.
+   *
+   * @param key - A target locale message key
+   * @param named - A values of named interpolation
+   * @param options - Additional {@link TranslateOptions | options} for translation
+   *
+   * @returns Translated message
+   *
+   * @VueI18nSee [Named interpolation](../guide/essentials/syntax#named-interpolation)
+   */
+  <Key extends PickupKeys<Messages> = PickupKeys<Messages>>(
+    key: Key | number,
+    named: NamedValue,
+    options?: TranslateOptions<Locales>
+  ): string
+  /**
+   * Locale message translation for named interpolations and plurals
+   *
+   * @remarks
+   * Overloaded `t`. About details, see the [t](composition#t-key) details.
+   *
+   * In this overloaded `t`, for each placeholder x, the locale messages should contain a `{x}` token, and return a pluralized translation message.
+   *
+   * @param key - A target locale message key
+   * @param named - A values of named interpolation
+   * @param plural - Which plural string to get. 1 returns the first one.
+   *
+   * @returns Translated message
+   *
+   * @VueI18nSee [Pluralization](../guide/essentials/pluralization)
+   * @VueI18nSee [Named interpolation](../guide/essentials/syntax#named-interpolation)
+   */
+  <Key extends PickupKeys<Messages> = PickupKeys<Messages>>(
+    key: Key | number,
+    named: NamedValue,
+    plural: number
+  ): string
+  /**
+   * Locale message translation for named interpolations and plurals
+   *
+   * @remarks
+   * Overloaded `t`. About details, see the [t](composition#t-key) details.
+   *
+   * In this overloaded `t`, for each placeholder x, the locale messages should contain a `{x}` token, and if no translation was found, return a default message.
+   *
+   * @param key - A target locale message key
+   * @param named - A values of named interpolation
+   * @param defaultMsg - A default message to return if no translation was found
+   *
+   * @returns Translated message
+   *
+   * @VueI18nSee [Named interpolation](../guide/essentials/syntax#named-interpolation)
+   */
+  <Key extends PickupKeys<Messages> = PickupKeys<Messages>>(
+    key: Key | number,
+    named: NamedValue,
+    defaultMsg: string
+  ): string
+}
+
+/**
+ * Resolve locale message translation functions
+ *
+ * @remarks
+ * This is the interface for {@link Composer}
+ *
+ * @VueI18nComposition
+ */
+export interface ComposerResolveLocaleMessageTranslation<
+  Message,
+  Locales = 'en-US'
+> {
+  /**
+   * Resolve locale message translation
+   *
+   * @remarks
+   * If this is used in a reactive context, it will re-evaluate once the locale changes.
+   *
+   * If [UseI18nScope](general#usei18nscope) `'local'` or Some [UseI18nOptions](composition#usei18noptions) are specified at `useI18n`, it’s translated in preferentially local scope locale messages than global scope locale messages.
+   *
+   * If not, then it’s translated with global scope locale messages.
+   *
+   * @VueI18nTip
+   * The use-case for `rt` is for programmatic locale messages translation with using `tm`, `v-for`, javascript `for` statement.
+   *
+   * @VueI18nWarning
+   * `rt` differs from `t` in that it processes the locale message directly, not the key of the locale message. There is no internal fallback with `rt`. You need to understand and use the structure of the locale messge returned by `tm`.
+   *
+   * @param message - A target locale message to be resolved. You will need to specify the locale message returned by `tm`.
+   *
+   * @returns Translated message
+   *
+   * @VueI18nSee [Scope and Locale Changing](../guide/essentials/scope)
+   */
+  (message: MessageFunction<Message> | Message): string
+  /**
+   * Resolve locale message translation for plurals
+   *
+   * @remarks
+   * Overloaded `rt`. About details, see the [rt](composition#rt-message) details.
+   *
+   * In this overloaded `rt`, return a pluralized translation message.
+   *
+   * @VueI18nTip
+   * The use-case for `rt` is for programmatic locale messages translation with using `tm`, `v-for`, javascript `for` statement.
+   *
+   * @VueI18nWarning
+   * `rt` differs from `t` in that it processes the locale message directly, not the key of the locale message. There is no internal fallback with `rt`. You need to understand and use the structure of the locale messge returned by `tm`.
+   *
+   * @param message - A target locale message to be resolved. You will need to specify the locale message returned by `tm`.
+   * @param plural - Which plural string to get. 1 returns the first one.
+   * @param options - Additional {@link TranslateOptions | options} for translation
+   *
+   * @returns Translated message
+   *
+   * @VueI18nSee [Pluralization](../guide/essentials/pluralization)
+   */
+  (
+    message: MessageFunction<Message> | Message,
+    plural: number,
+    options?: TranslateOptions<Locales>
+  ): string
+  /**
+   * Resolve locale message translation for list interpolations
+   *
+   * @remarks
+   * Overloaded `rt`. About details, see the [rt](composition#rt-message) details.
+   *
+   * In this overloaded `rt`, return a pluralized translation message.
+   *
+   * @VueI18nTip
+   * The use-case for `rt` is for programmatic locale messages translation with using `tm`, `v-for`, javascript `for` statement.
+   *
+   * @VueI18nWarning
+   * `rt` differs from `t` in that it processes the locale message directly, not the key of the locale message. There is no internal fallback with `rt`. You need to understand and use the structure of the locale messge returned by `tm`.
+   *
+   * @param message - A target locale message to be resolved. You will need to specify the locale message returned by `tm`.
+   * @param list - A values of list interpolation.
+   * @param options - Additional {@link TranslateOptions | options} for translation
+   *
+   * @returns Translated message
+   *
+   * @VueI18nSee [List interpolation](../guide/essentials/syntax#list-interpolation)
+   */
+  (
+    message: MessageFunction<Message> | Message,
+    list: unknown[],
+    options?: TranslateOptions<Locales>
+  ): string
+  /**
+   * Resolve locale message translation for named interpolations
+   *
+   * @remarks
+   * Overloaded `rt`. About details, see the [rt](composition#rt-message) details.
+   *
+   * In this overloaded `rt`, for each placeholder x, the locale messages should contain a `{x}` token.
+   *
+   * @VueI18nTip
+   * The use-case for `rt` is for programmatic locale messages translation with using `tm`, `v-for`, javascript `for` statement.
+   *
+   * @VueI18nWarning
+   * `rt` differs from `t` in that it processes the locale message directly, not the key of the locale message. There is no internal fallback with `rt`. You need to understand and use the structure of the locale messge returned by `tm`.
+   *
+   * @param message - A target locale message to be resolved. You will need to specify the locale message returned by `tm`.
+   * @param named - A values of named interpolation.
+   * @param options - Additional {@link TranslateOptions | options} for translation
+   *
+   * @returns Translated message
+   *
+   * @VueI18nSee [Named interpolation](../guide/essentials/syntax#named-interpolation)
+   */
+  (
+    message: MessageFunction<Message> | Message,
+    named: NamedValue,
+    options?: TranslateOptions<Locales>
+  ): string
+}
+
+/**
+ * Datetime formatting functions
+ *
+ * @remarks
+ * This is the interface for {@link Composer}
+ *
+ * @VueI18nComposition
+ */
+export interface ComposerDateTimeFormatting<
+  DateTimeFormats = {},
+  Locales = 'en-US'
+> {
+  /**
+   * Datetime formatting
+   *
+   * @remarks
+   * If this is used in a reactive context, it will re-evaluate once the locale changes.
+   *
+   * If [UseI18nScope](general#usei18nscope) `'local'` or Some [UseI18nOptions](composition#usei18noptions) are specified at `useI18n`, it’s translated in preferentially local scope datetime formats than global scope datetime formats.
+   *
+   * If not, then it’s formatted with global scope datetime formats.
+   *
+   * @param value - A value, timestamp number or `Date` instance or ISO 8601 string
+   *
+   * @returns Formatted value
+   *
+   * @VueI18nSee [Datetime formatting](../guide/essentials/datetime)
+   */
+  <Key extends PickupKeys<DateTimeFormats> = PickupKeys<DateTimeFormats>>(
+    value: number | Date | string
+  ): string
+  /**
+   * Datetime formatting
+   *
+   * @remarks
+   * Overloaded `d`. About details, see the [d](composition#d-value) details.
+   *
+   * In this overloaded `d`, format in datetime format for a key registered in datetime formats.
+   *
+   * @param value - A value, timestamp number or `Date` instance or ISO 8601 string
+   * @param keyOrOptions - A key of datetime formats, or additional {@link DateTimeOptions | options} for datetime formatting
+   *
+   * @returns Formatted value
+   */
+  <Key extends PickupKeys<DateTimeFormats> = PickupKeys<DateTimeFormats>>(
+    value: number | Date | string,
+    keyOrOptions: Key | DateTimeOptions<Key, Locales>
+  ): string
+  /**
+   * Datetime formatting
+   *
+   * @remarks
+   * Overloaded `d`. About details, see the [d](composition#d-value) details.
+   *
+   * In this overloaded `d`, format in datetime format for a key registered in datetime formats at target locale
+   *
+   * @param value - A value, timestamp number or `Date` instance or ISO 8601 string
+   * @param keyOrOptions - A key of datetime formats, or additional {@link DateTimeOptions | options} for datetime formatting
+   * @param locale - A locale, it will be used over than global scope or local scope.
+   *
+   * @returns Formatted value
+   */
+  <Key extends PickupKeys<DateTimeFormats> = PickupKeys<DateTimeFormats>>(
+    value: number | Date | string,
+    keyOrOptions: Key | DateTimeOptions<Key, Locales>,
+    locale: Locales
+  ): string
+}
+
+/**
+ * Number formatting functions
+ *
+ * @remarks
+ * This is the interface for {@link Composer}
+ *
+ * @VueI18nComposition
+ */
+export interface ComposerNumberFormatting<
+  NumberFormats = {},
+  Locales = 'en-US'
+> {
+  /**
+   * Number Formatting
+   *
+   * @remarks
+   * If this is used in a reactive context, it will re-evaluate once the locale changes.
+   *
+   * If [UseI18nScope](general#usei18nscope) `'local'` or Some [UseI18nOptions](composition#usei18noptions) are specified at `useI18n`, it’s translated in preferentially local scope datetime formats than global scope datetime formats.
+   *
+   * If not, then it’s formatted with global scope number formats.
+   *
+   * @param value - A number value
+   *
+   * @returns Formatted value
+   *
+   * @VueI18nSee [Number formatting](../guide/essentials/number)
+   */
+  (value: number): string
+  /**
+   * Number Formatting
+   *
+   * @remarks
+   * Overloaded `n`. About details, see the [n](composition#n-value) details.
+   *
+   * In this overloaded `n`, format in number format for a key registered in number formats.
+   *
+   * @param value - A number value
+   * @param keyOrOptions - A key of number formats, or additional {@link NumberOptions | options} for number formatting
+   *
+   * @returns Formatted value
+   */
+  <Key extends PickupKeys<NumberFormats> = PickupKeys<NumberFormats>>(
+    value: number,
+    keyOrOptions: Key | NumberOptions<Key, Locales>
+  ): string
+  /**
+   * Number Formatting
+   *
+   * @remarks
+   * Overloaded `n`. About details, see the [n](composition#n-value) details.
+   *
+   * In this overloaded `n`, format in number format for a key registered in number formats at target locale.
+   *
+   * @param value - A number value
+   * @param keyOrOptions - A key of number formats, or additional {@link NumberOptions | options} for number formatting
+   * @param locale - A locale, it will be used over than global scope or local scope.
+   *
+   * @returns Formatted value
+   */
+  <Key extends PickupKeys<NumberFormats> = PickupKeys<NumberFormats>>(
+    value: number,
+    keyOrOptions: Key | NumberOptions<Key, Locales>,
+    locale: Locales
+  ): string
 }
 
 /**
@@ -398,10 +920,70 @@ export interface ComposerInternalOptions<
  * @VueI18nComposition
  */
 export interface Composer<
+  Message = VueMessageType,
   Messages = {},
   DateTimeFormats = {},
   NumberFormats = {},
-  Message = VueMessageType
+  OptionLocale = unknown,
+  Schema extends {
+    message?: unknown
+    datetime?: unknown
+    number?: unknown
+  } = {
+    message: LocaleMessage<Message>
+    datetime: DateTimeFormat
+    number: NumberFormat
+  },
+  SchemaLocales extends
+    | {
+        messages: unknown
+        datetimeFormats: unknown
+        numberFormats: unknown
+      }
+    | string = Locale,
+  MessagesLocales = SchemaLocales extends { messages: infer M }
+    ? M
+    : SchemaLocales extends string
+    ? SchemaLocales
+    : Locale,
+  DateTimeFormatsLocales = SchemaLocales extends { datetimeFormats: infer D }
+    ? D
+    : SchemaLocales extends string
+    ? SchemaLocales
+    : SchemaLocales,
+  NumberFormatsLocales = SchemaLocales extends { numberFormats: infer N }
+    ? N
+    : SchemaLocales extends string
+    ? SchemaLocales
+    : Locale,
+  MessageSchema = Schema extends { message: infer M }
+    ? M
+    : LocaleMessage<Message>,
+  DateTimeSchema = Schema extends { datetime: infer D } ? D : DateTimeFormat,
+  NumberSchema = Schema extends { number: infer N } ? N : NumberFormat,
+  MessagesEntity extends LocaleMessages<
+    MessageSchema,
+    MessagesLocales,
+    Message
+  > = LocaleMessages<MessageSchema, MessagesLocales, Message>,
+  DateTimeFormatsEntity extends DateTimeFormatsType<
+    DateTimeSchema,
+    DateTimeFormatsLocales
+  > = DateTimeFormatsType<DateTimeSchema, DateTimeFormatsLocales>,
+  NumberFormatsEntity extends NumberFormatsType<
+    NumberSchema,
+    NumberFormatsLocales
+  > = NumberFormatsType<NumberSchema, NumberFormatsLocales>,
+  M = { [K in keyof Messages]: Messages[K] },
+  ResourceLocales =
+    | PickupLocales<NonNullable<Messages>>
+    | PickupLocales<NonNullable<DateTimeFormats>>
+    | PickupLocales<NonNullable<NumberFormats>>,
+  Locales = OptionLocale extends string
+    ? [ResourceLocales] extends [never]
+      ? string
+      : ResourceLocales
+    : OptionLocale | ResourceLocales
 > {
   /**
    * @remarks
@@ -416,14 +998,14 @@ export interface Composer<
    *
    * @VueI18nSee [Scope and Locale Changing](../guide/essentials/scope)
    */
-  locale: WritableComputedRef<Locale>
+  locale: WritableComputedRef<Locales>
   /**
    * @remarks
    * The current fallback locales this Composer instance is using.
    *
    * @VueI18nSee [Fallbacking](../guide/essentials/fallback)
    */
-  fallbackLocale: WritableComputedRef<FallbackLocale>
+  fallbackLocale: WritableComputedRef<FallbackLocales<Locales>>
   /**
    * @remarks
    * Whether inherit the root level locale to the component localization locale.
@@ -435,28 +1017,32 @@ export interface Composer<
    * @remarks
    * The list of available locales in `messages` in lexical order.
    */
-  readonly availableLocales: Locale[]
+  readonly availableLocales: Locales[]
   /**
    * @remarks
    * The locale messages of localization.
    *
    * @VueI18nSee [Getting Started](../guide/)
    */
-  readonly messages: ComputedRef<Messages>
+  readonly messages: ComputedRef<{ [K in keyof Messages]: Messages[K] }>
   /**
    * @remarks
    * The datetime formats of localization.
    *
    * @VueI18nSee [Datetime Formatting](../guide/essentials/datetime)
    */
-  readonly datetimeFormats: ComputedRef<DateTimeFormats>
+  readonly datetimeFormats: ComputedRef<
+    { [K in keyof DateTimeFormats]: DateTimeFormats[K] }
+  >
   /**
    * @remarks
    * The number formats of localization.
    *
    * @VueI18nSee [Number Formatting](../guide/essentials/number)
    */
-  readonly numberFormats: ComputedRef<NumberFormats>
+  readonly numberFormats: ComputedRef<
+    { [K in keyof NumberFormats]: NumberFormats[K] }
+  >
   /**
    * @remarks
    * Custom Modifiers for linked messages.
@@ -527,408 +1113,30 @@ export interface Composer<
    * Locale message translation
    *
    * @remarks
-   * If this is used in a reactive context, it will re-evaluate once the locale changes.
-   *
-   * If [UseI18nScope](general#usei18nscope) `'local'` or Some [UseI18nOptions](composition#usei18noptions) are specified at `useI18n`, it’s translated in preferentially local scope locale messages than global scope locale messages.
-   *
-   * If not, then it’s translated with global scope locale messages.
-   *
-   * @param key - A target locale message key
-   *
-   * @returns Translated message
-   *
-   * @VueI18nSee [Scope and Locale Changing](../guide/essentials/scope)
+   * About details functions, See the {@link ComposerTranslation}
    */
-  t(key: Path | number): string
-  /**
-   * Locale message translation for plurals
-   *
-   * @remarks
-   * Overloaded `t`. About details, see the [t](composition#t-key) details.
-   *
-   * In this overloaded `t`, return a pluralized translation message.
-   *
-   * You can also suppress the warning, when the translation missing according to the options.
-   *
-   * About details of options, see the {@link TranslateOptions}.
-   *
-   * @param key - A target locale message key
-   * @param plural - Which plural string to get. 1 returns the first one.
-   * @param options - Additional {@link TranslateOptions | options} for translation
-   *
-   * @returns Translated message
-   *
-   * @VueI18nSee [Pluralization](../guide/essentials/pluralization)
-   */
-  t(key: Path | number, plural: number, options?: TranslateOptions): string
-  /**
-   * Locale message translation for missing default message
-   *
-   * @remarks
-   * Overloaded `t`. About details, see the [t](composition#t-key) details.
-   *
-   * In this overloaded `t`, if no translation was found, return a default message.
-   *
-   * You can also suppress the warning, when the translation missing according to the options.
-   *
-   * About details of options, see the {@link TranslateOptions}.
-   *
-   * @param key - A target locale message key
-   * @param defaultMsg - A default message to return if no translation was found
-   * @param options - Additional {@link TranslateOptions | options} for translation
-   *
-   * @returns Translated message
-   */
-  t(key: Path | number, defaultMsg: string, options?: TranslateOptions): string
-  /**
-   * Locale message translation for list interpolations
-   *
-   * @remarks
-   * Overloaded `t`. About details, see the [t](composition#t-key) details.
-   *
-   * In this overloaded `t`, the locale messages should contain a `{0}`, `{1}`, … for each placeholder in the list.
-   *
-   * You can also suppress the warning, when the translation missing according to the options.
-   *
-   * About details of options, see the {@link TranslateOptions}.
-   *
-   * @param key - A target locale message key
-   * @param list - A values of list interpolation
-   * @param options - Additional {@link TranslateOptions | options} for translation
-   *
-   * @returns Translated message
-   *
-   * @VueI18nSee [List interpolation](../guide/essentials/syntax#list-interpolation)
-   */
-  t(key: Path | number, list: unknown[], options?: TranslateOptions): string
-  /**
-   * Locale message translation for list interpolations and plurals
-   *
-   * @remarks
-   * Overloaded `t`. About details, see the [t](composition#t-key) details.
-   *
-   * In this overloaded `t`, the locale messages should contain a `{0}`, `{1}`, … for each placeholder in the list, and return a pluralized translation message.
-   *
-   * @param key - A target locale message key
-   * @param list - A values of list interpolation
-   * @param plural - Which plural string to get. 1 returns the first one.
-   *
-   * @returns Translated message
-   *
-   * @VueI18nSee [Pluralization](../guide/essentials/pluralization)
-   * @VueI18nSee [List interpolation](../guide/essentials/syntax#list-interpolation)
-   */
-  t(key: Path | number, list: unknown[], plural: number): string
-  /**
-   * Locale message translation for list interpolations and missing default message
-   *
-   * @remarks
-   * Overloaded `t`. About details, see the [t](composition#t-key) details.
-   *
-   * In this overloaded `t`, the locale messages should contain a `{0}`, `{1}`, … for each placeholder in the list, and if no translation was found, return a default message.
-   *
-   * @param key - A target locale message key
-   * @param list - A values of list interpolation
-   * @param defaultMsg - A default message to return if no translation was found
-   *
-   * @returns Translated message
-   *
-   * @VueI18nSee [List interpolation](../guide/essentials/syntax#list-interpolation)
-   */
-  t(key: Path | number, list: unknown[], defaultMsg: string): string
-  /**
-   * Locale message translation for named interpolations
-   *
-   * @remarks
-   * Overloaded `t`. About details, see the [t](composition#t-key) details.
-   *
-   * In this overloaded `t`, for each placeholder x, the locale messages should contain a `{x}` token.
-   *
-   * You can also suppress the warning, when the translation missing according to the options.
-   *
-   * About details of options, see the {@link TranslateOptions}.
-   *
-   * @param key - A target locale message key
-   * @param named - A values of named interpolation
-   * @param options - Additional {@link TranslateOptions | options} for translation
-   *
-   * @returns Translated message
-   *
-   * @VueI18nSee [Named interpolation](../guide/essentials/syntax#named-interpolation)
-   */
-  t(key: Path | number, named: NamedValue, options?: TranslateOptions): string
-  /**
-   * Locale message translation for named interpolations and plurals
-   *
-   * @remarks
-   * Overloaded `t`. About details, see the [t](composition#t-key) details.
-   *
-   * In this overloaded `t`, for each placeholder x, the locale messages should contain a `{x}` token, and return a pluralized translation message.
-   *
-   * @param key - A target locale message key
-   * @param named - A values of named interpolation
-   * @param plural - Which plural string to get. 1 returns the first one.
-   *
-   * @returns Translated message
-   *
-   * @VueI18nSee [Pluralization](../guide/essentials/pluralization)
-   * @VueI18nSee [Named interpolation](../guide/essentials/syntax#named-interpolation)
-   */
-  t(key: Path | number, named: NamedValue, plural: number): string
-  /**
-   * Locale message translation for named interpolations and plurals
-   *
-   * @remarks
-   * Overloaded `t`. About details, see the [t](composition#t-key) details.
-   *
-   * In this overloaded `t`, for each placeholder x, the locale messages should contain a `{x}` token, and if no translation was found, return a default message.
-   *
-   * @param key - A target locale message key
-   * @param named - A values of named interpolation
-   * @param defaultMsg - A default message to return if no translation was found
-   *
-   * @returns Translated message
-   *
-   * @VueI18nSee [Named interpolation](../guide/essentials/syntax#named-interpolation)
-   */
-  t(key: Path | number, named: NamedValue, defaultMsg: string): string
-  /** @internal */
-  t(...args: unknown[]): string
+  t: ComposerTranslation<Messages, Locales>
   /**
    * Resolve locale message translation
    *
    * @remarks
-   * If this is used in a reactive context, it will re-evaluate once the locale changes.
-   *
-   * If [UseI18nScope](general#usei18nscope) `'local'` or Some [UseI18nOptions](composition#usei18noptions) are specified at `useI18n`, it’s translated in preferentially local scope locale messages than global scope locale messages.
-   *
-   * If not, then it’s translated with global scope locale messages.
-   *
-   * @VueI18nTip
-   * The use-case for `rt` is for programmatic locale messages translation with using `tm`, `v-for`, javascript `for` statement.
-   *
-   * @VueI18nWarning
-   * `rt` differs from `t` in that it processes the locale message directly, not the key of the locale message. There is no internal fallback with `rt`. You need to understand and use the structure of the locale messge returned by `tm`.
-   *
-   * @param message - A target locale message to be resolved. You will need to specify the locale message returned by `tm`.
-   *
-   * @returns Translated message
-   *
-   * @VueI18nSee [Scope and Locale Changing](../guide/essentials/scope)
+   * About details functions, See the {@link ComposerResolveLocaleMessageTranslation}
    */
-  rt(message: MessageFunction<Message> | Message): string
-  /**
-   * Resolve locale message translation for plurals
-   *
-   * @remarks
-   * Overloaded `rt`. About details, see the [rt](composition#rt-message) details.
-   *
-   * In this overloaded `rt`, return a pluralized translation message.
-   *
-   * @VueI18nTip
-   * The use-case for `rt` is for programmatic locale messages translation with using `tm`, `v-for`, javascript `for` statement.
-   *
-   * @VueI18nWarning
-   * `rt` differs from `t` in that it processes the locale message directly, not the key of the locale message. There is no internal fallback with `rt`. You need to understand and use the structure of the locale messge returned by `tm`.
-   *
-   * @param message - A target locale message to be resolved. You will need to specify the locale message returned by `tm`.
-   * @param plural - Which plural string to get. 1 returns the first one.
-   * @param options - Additional {@link TranslateOptions | options} for translation
-   *
-   * @returns Translated message
-   *
-   * @VueI18nSee [Pluralization](../guide/essentials/pluralization)
-   */
-  rt(
-    message: MessageFunction<Message> | Message,
-    plural: number,
-    options?: TranslateOptions
-  ): string
-  /**
-   * Resolve locale message translation for list interpolations
-   *
-   * @remarks
-   * Overloaded `rt`. About details, see the [rt](composition#rt-message) details.
-   *
-   * In this overloaded `rt`, return a pluralized translation message.
-   *
-   * @VueI18nTip
-   * The use-case for `rt` is for programmatic locale messages translation with using `tm`, `v-for`, javascript `for` statement.
-   *
-   * @VueI18nWarning
-   * `rt` differs from `t` in that it processes the locale message directly, not the key of the locale message. There is no internal fallback with `rt`. You need to understand and use the structure of the locale messge returned by `tm`.
-   *
-   * @param message - A target locale message to be resolved. You will need to specify the locale message returned by `tm`.
-   * @param list - A values of list interpolation.
-   * @param options - Additional {@link TranslateOptions | options} for translation
-   *
-   * @returns Translated message
-   *
-   * @VueI18nSee [List interpolation](../guide/essentials/syntax#list-interpolation)
-   */
-  rt(
-    message: MessageFunction<Message> | Message,
-    list: unknown[],
-    options?: TranslateOptions
-  ): string
-  /**
-   * Resolve locale message translation for named interpolations
-   *
-   * @remarks
-   * Overloaded `rt`. About details, see the [rt](composition#rt-message) details.
-   *
-   * In this overloaded `rt`, for each placeholder x, the locale messages should contain a `{x}` token.
-   *
-   * @VueI18nTip
-   * The use-case for `rt` is for programmatic locale messages translation with using `tm`, `v-for`, javascript `for` statement.
-   *
-   * @VueI18nWarning
-   * `rt` differs from `t` in that it processes the locale message directly, not the key of the locale message. There is no internal fallback with `rt`. You need to understand and use the structure of the locale messge returned by `tm`.
-   *
-   * @param message - A target locale message to be resolved. You will need to specify the locale message returned by `tm`.
-   * @param named - A values of named interpolation.
-   * @param options - Additional {@link TranslateOptions | options} for translation
-   *
-   * @returns Translated message
-   *
-   * @VueI18nSee [Named interpolation](../guide/essentials/syntax#named-interpolation)
-   */
-  rt(
-    message: MessageFunction<Message> | Message,
-    named: NamedValue,
-    options?: TranslateOptions
-  ): string
-  /** @internal */
-  rt(...args: unknown[]): string
+  rt: ComposerResolveLocaleMessageTranslation<Message, Locales>
   /**
    * Datetime formatting
    *
    * @remarks
-   * If this is used in a reactive context, it will re-evaluate once the locale changes.
-   *
-   * If [UseI18nScope](general#usei18nscope) `'local'` or Some [UseI18nOptions](composition#usei18noptions) are specified at `useI18n`, it’s translated in preferentially local scope datetime formats than global scope datetime formats.
-   *
-   * If not, then it’s formatted with global scope datetime formats.
-   *
-   * @param value - A value, timestamp number or `Date` instance or ISO 8601 string
-   *
-   * @returns Formatted value
-   *
-   * @VueI18nSee [Datetime formatting](../guide/essentials/datetime)
+   * About details functions, See the {@link ComposerDateTimeFormatting}
    */
-  d(value: number | Date | string): string
-  /**
-   * Datetime formatting
-   *
-   * @remarks
-   * Overloaded `d`. About details, see the [d](composition#d-value) details.
-   *
-   * In this overloaded `d`, format in datetime format for a key registered in datetime formats.
-   *
-   * @param value - A value, timestamp number or `Date` instance or ISO 8601 string
-   * @param key - A key of datetime formats
-   *
-   * @returns Formatted value
-   */
-  d(value: number | Date | string, key: string): string
-  /**
-   * Datetime formatting
-   *
-   * @remarks
-   * Overloaded `d`. About details, see the [d](composition#d-value) details.
-   *
-   * In this overloaded `d`, format in datetime format for a key registered in datetime formats at target locale
-   *
-   * @param value - A value, timestamp number or `Date` instance or ISO 8601 string
-   * @param key - A key of datetime formats
-   * @param locale - A locale, it will be used over than global scope or local scope.
-   *
-   * @returns Formatted value
-   */
-  d(value: number | Date | string, key: string, locale: Locale): string
-  /**
-   * Datetime formatting
-   *
-   * @remarks
-   * Overloaded `d`. About details, see the [d](composition#d-value) details.
-   *
-   * You can also suppress the warning, when the formatting missing according to the options.
-   *
-   * About details of options, see the {@link DateTimeOptions}.
-   *
-   * @param value - A value, timestamp number or `Date` instance or ISO 8601 string
-   * @param options - Additional {@link DateTimeOptions | options} for datetime formatting
-   *
-   * @returns Formatted value
-   */
-  d(value: number | Date | string, options: DateTimeOptions): string
-  /** @internal */
-  d(...args: unknown[]): string
+  d: ComposerDateTimeFormatting<DateTimeFormats, Locales>
   /**
    * Number Formatting
    *
    * @remarks
-   * If this is used in a reactive context, it will re-evaluate once the locale changes.
-   *
-   * If [UseI18nScope](general#usei18nscope) `'local'` or Some [UseI18nOptions](composition#usei18noptions) are specified at `useI18n`, it’s translated in preferentially local scope datetime formats than global scope datetime formats.
-   *
-   * If not, then it’s formatted with global scope number formats.
-   *
-   * @param value - A number value
-   *
-   * @returns Formatted value
-   *
-   * @VueI18nSee [Number formatting](../guide/essentials/number)
+   * About details functions, See the {@link ComposerNumberFormatting}
    */
-  n(value: number): string
-  /**
-   * Number Formatting
-   *
-   * @remarks
-   * Overloaded `n`. About details, see the [n](composition#n-value) details.
-   *
-   * In this overloaded `n`, format in number format for a key registered in number formats.
-   *
-   * @param value - A number value
-   * @param key - A key of number formats
-   *
-   * @returns Formatted value
-   */
-  n(value: number, key: string): string
-  /**
-   * Number Formatting
-   *
-   * @remarks
-   * Overloaded `n`. About details, see the [n](composition#n-value) details.
-   *
-   * In this overloaded `n`, format in number format for a key registered in number formats at target locale.
-   *
-   * @param value - A number value
-   * @param key - A key of number formats
-   * @param locale - A locale, it will be used over than global scope or local scope.
-   *
-   * @returns Formatted value
-   */
-  n(value: number, key: string, locale: Locale): string
-  /**
-   *
-   * Number Formatting
-   *
-   * @remarks
-   * Overloaded `n`. About details, see the [n](composition#n-value) details.
-   *
-   * You can also suppress the warning, when the formatting missing according to the options.
-   *
-   * About details of options, see the {@link NumberOptions}.
-   *
-   * @param value - A number value
-   * @param options - Additional {@link NumberOptions | options} for number formatting
-   *
-   * @returns Formatted value
-   */
-  n(value: number, options: NumberOptions): string
-  /** @internal */
-  n(...args: unknown[]): string
+  n: ComposerNumberFormatting<NumberFormats, Locales>
   /**
    * Translation locale message exist
    *
@@ -942,7 +1150,10 @@ export interface Composer<
    *
    * @returns If found locale message, `true`, else `false`
    */
-  te(key: Path, locale?: Locale): boolean
+  te<Key extends PickupKeys<Messages> = PickupKeys<Messages>>(
+    key: Key,
+    locale?: Locales
+  ): boolean
   /**
    * Locale messages getter
    *
@@ -1003,7 +1214,9 @@ export interface Composer<
    *
    * @return Locale messages
    */
-  tm(key: Path): LocaleMessageValue<Message> | {}
+  tm<Key extends PickupKeys<Messages> = PickupKeys<Messages>>(
+    key: Key | string // TODO: dynamic type!
+  ): LocaleMessageValue<Message>
   /**
    * Get locale message
    *
@@ -1014,7 +1227,15 @@ export interface Composer<
    *
    * @returns Locale messages
    */
-  getLocaleMessage(locale: Locale): LocaleMessageDictionary<Message>
+  getLocaleMessage<
+    LocaleSchema extends string = never,
+    MessageSchema extends LocaleMessage<Message> = {},
+    Locale extends PickupLocales<NonNullable<Messages>> = PickupLocales<
+      NonNullable<Messages>
+    >
+  >(
+    locale: LocaleSchema | Locale
+  ): Ref<NonNullable<Messages>[Locale]> // TODO: dynamic type !
   /**
    * Set locale message
    *
@@ -1024,9 +1245,15 @@ export interface Composer<
    * @param locale - A target locale
    * @param message - A message
    */
-  setLocaleMessage(
-    locale: Locale,
-    message: LocaleMessageDictionary<Message>
+  setLocaleMessage<
+    LocaleSchema extends string = never,
+    MessageSchema extends LocaleMessage<Message> = {},
+    Locale extends PickupLocales<NonNullable<Messages>> = PickupLocales<
+      NonNullable<Messages>
+    >
+  >(
+    locale: LocaleSchema | Locale,
+    message: NonNullable<Messages>[Locale] | MessageSchema // TODO: dynamic type !
   ): void
   /**
    * Merge locale message
@@ -1037,9 +1264,15 @@ export interface Composer<
    * @param locale - A target locale
    * @param message - A message
    */
-  mergeLocaleMessage(
-    locale: Locale,
-    message: LocaleMessageDictionary<Message>
+  mergeLocaleMessage<
+    LocaleSchema extends string = never,
+    MessageSchema extends LocaleMessage<Message> = {},
+    Locale extends PickupLocales<NonNullable<Messages>> = PickupLocales<
+      NonNullable<Messages>
+    >
+  >(
+    locale: LocaleSchema | Locale,
+    message: NonNullable<Messages>[Locale] | MessageSchema // TODO: dynamic type !
   ): void
   /**
    * Get datetime format
@@ -1159,7 +1392,7 @@ function defineCoreMissingHandler<Message = VueMessageType>(
   missing: MissingHandler
 ): CoreMissingHandler<Message> {
   return ((
-    ctx: CoreCommonContext<Message>,
+    ctx: CoreContext<Message>,
     locale: Locale,
     key: Path,
     type: string
@@ -1168,17 +1401,17 @@ function defineCoreMissingHandler<Message = VueMessageType>(
   }) as CoreMissingHandler<Message>
 }
 
-type GetLocaleMessagesOptions<Message = VueMessageType> = {
-  messages?: LocaleMessages<Message>
+type GetLocaleMessagesOptions<Message = VueMessageType, Messages = {}> = {
+  messages?: { [K in keyof Messages]: Messages[K] }
   __i18n?: CustomBlocks<Message>
   messageResolver?: MessageResolver
   flatJson?: boolean
 }
 
-export function getLocaleMessages<Message = VueMessageType>(
+export function getLocaleMessages<Message = VueMessageType, Messages = {}>(
   locale: Locale,
-  options: GetLocaleMessagesOptions<Message>
-): LocaleMessages<Message> {
+  options: GetLocaleMessagesOptions<Message, Messages>
+): { [K in keyof Messages]: Messages[K] } {
   const { messages, __i18n, messageResolver, flatJson } = options
 
   // prettier-ignore
@@ -1209,7 +1442,7 @@ export function getLocaleMessages<Message = VueMessageType>(
     }
   }
 
-  return ret as any
+  return ret as { [K in keyof Messages]: Messages[K] }
 }
 
 const isNotObjectOrIsArray = (val: unknown) => !isObject(val) || isArray(val)
@@ -1243,39 +1476,58 @@ const getMetaInfo = /* #__PURE__*/ (): MetaInfo | null => {
     : null
 }
 
+export function createComposer<
+  Message = VueMessageType,
+  Options extends ComposerOptions<Message> = {}
+>(
+  options: Options
+): Composer<
+  Message,
+  Options['messages'],
+  Options['datetimeFormats'],
+  Options['numberFormats'],
+  Options['locale'],
+  SchemaParams<LocaleMessage<Message>, Message>
+>
+
+export function createComposer<
+  Schema = LocaleMessage,
+  Locales = 'en-US',
+  Message = VueMessageType,
+  Options extends ComposerOptions<
+    Message,
+    SchemaParams<Schema, Message>,
+    LocaleParams<Locales>
+  > = ComposerOptions<
+    Message,
+    SchemaParams<Schema, Message>,
+    LocaleParams<Locales>
+  >
+>(
+  options: Options
+): Composer<
+  Message,
+  Options['messages'],
+  Options['datetimeFormats'],
+  Options['numberFormats'],
+  Options['locale'],
+  SchemaParams<Schema, Message>,
+  LocaleParams<Locales>
+>
+
 /**
  * Create composer interface factory
  *
  * @internal
  */
-export function createComposer<
-  Message = VueMessageType,
-  Options extends ComposerOptions<Message> = object,
-  Messages extends Record<
-    keyof Options['messages'],
-    LocaleMessage<Message>
-  > = Record<keyof Options['messages'], LocaleMessage<Message>>,
-  DateTimeFormats extends Record<
-    keyof Options['datetimeFormats'],
-    DateTimeFormat
-  > = Record<keyof Options['datetimeFormats'], DateTimeFormat>,
-  NumberFormats extends Record<
-    keyof Options['numberFormats'],
-    NumberFormat
-  > = Record<keyof Options['numberFormats'], NumberFormat>
->(
-  options: Options = {} as Options
-): Composer<
-  Options['messages'],
-  Options['datetimeFormats'],
-  Options['numberFormats'],
-  Message
-> {
+export function createComposer<Message = VueMessageType>(
+  options: any = {}
+): any {
   const { __root } = options as ComposerInternalOptions<
-    Messages,
-    DateTimeFormats,
-    NumberFormats,
-    Message
+    Message,
+    LocaleMessages<LocaleMessage<Message>>,
+    DateTimeFormatsType,
+    NumberFormatsType
   >
   const _isGlobal = __root === undefined
 
@@ -1304,8 +1556,11 @@ export function createComposer<
         : _locale.value
   )
 
-  const _messages = ref<LocaleMessages<Message>>(
-    getLocaleMessages<Message>(_locale.value, options)
+  const _messages = ref<LocaleMessages<LocaleMessage<Message>>>(
+    getLocaleMessages<Message, LocaleMessages<LocaleMessage<Message>>>(
+      _locale.value as Locale,
+      options
+    )
   )
 
   const _datetimeFormats = ref<DateTimeFormatsType>(
@@ -1463,17 +1718,17 @@ export function createComposer<
   })
 
   // messages
-  const messages = computed<Messages>(() => _messages.value as Messages)
+  const messages = computed<LocaleMessages<LocaleMessage<Message>, Message>>(
+    () => _messages.value as any
+  )
 
   // datetimeFormats
-  const datetimeFormats = computed<DateTimeFormats>(
-    () => _datetimeFormats.value as DateTimeFormats
+  const datetimeFormats = computed<DateTimeFormatsType>(
+    () => _datetimeFormats.value
   )
 
   // numberFormats
-  const numberFormats = computed<NumberFormats>(
-    () => _numberFormats.value as NumberFormats
-  )
+  const numberFormats = computed<NumberFormatsType>(() => _numberFormats.value)
 
   // getPostTranslationHandler
   function getPostTranslationHandler(): PostTranslationHandler<Message> | null {
@@ -1582,7 +1837,7 @@ export function createComposer<
       context => Reflect.apply(translate, null, [context, ...args]) as string,
       () => parseTranslateArgs(...args),
       'translate',
-      root => root.t(...args),
+      root => Reflect.apply(root.t, root, [...args]),
       key => key as string,
       val => isString(val)
     )
@@ -1603,7 +1858,7 @@ export function createComposer<
       context => Reflect.apply(datetime, null, [context, ...args]) as string,
       () => parseDateTimeArgs(...args),
       'datetime format',
-      root => root.d(...args),
+      root => Reflect.apply(root.d, root, [...args]),
       () => MISSING_RESOLVE_VALUE,
       val => isString(val)
     )
@@ -1615,7 +1870,7 @@ export function createComposer<
       context => Reflect.apply(number, null, [context, ...args]) as string,
       () => parseNumberArgs(...args),
       'number format',
-      root => root.n(...args),
+      root => Reflect.apply(root.n, root, [...args]),
       () => MISSING_RESOLVE_VALUE,
       val => isString(val)
     )
@@ -1641,7 +1896,10 @@ export function createComposer<
     return wrapWithDeps<VNode, VNodeArrayChildren>(
       context => {
         let ret: unknown
-        const _context = context as CoreTranslationContext<Messages, VNode>
+        const _context = context as CoreContext<
+          VNode,
+          LocaleMessages<LocaleMessage<Message>>
+        >
         try {
           _context.processor = processor
           ret = Reflect.apply(translate, null, [_context, ...args])
@@ -1724,29 +1982,32 @@ export function createComposer<
     return messages != null
       ? messages
       : __root
-        ? __root.tm(key) as LocaleMessageValue<Message> || {}
+        ? __root.tm(key as any) as LocaleMessageValue<Message> || {}
         : {}
   }
 
   // getLocaleMessage
-  function getLocaleMessage(locale: Locale): LocaleMessage<Message> {
-    return (_messages.value[locale] || {}) as LocaleMessage<Message>
+  function getLocaleMessage(locale: Locale): LocaleMessageDictionary<Message> {
+    return (_messages.value[locale] || {}) as LocaleMessageDictionary<Message>
   }
 
   // setLocaleMessage
-  function setLocaleMessage(locale: Locale, message: LocaleMessage<Message>) {
-    _messages.value[locale] = message as any
-    _context.messages = _messages.value as any
+  function setLocaleMessage(
+    locale: Locale,
+    message: LocaleMessageDictionary<Message>
+  ) {
+    _messages.value[locale] = message
+    _context.messages = _messages.value as typeof _context.messages
   }
 
   // mergeLocaleMessage
   function mergeLocaleMessage(
     locale: Locale,
-    message: LocaleMessage<Message>
+    message: LocaleMessageDictionary<Message>
   ): void {
-    _messages.value[locale] = _messages.value[locale] || ({} as any)
+    _messages.value[locale] = _messages.value[locale] || {}
     deepCopy(message, _messages.value[locale])
-    _context.messages = _messages.value as any
+    _context.messages = _messages.value as typeof _context.messages
   }
 
   // getDateTimeFormat
@@ -1757,8 +2018,8 @@ export function createComposer<
   // setDateTimeFormat
   function setDateTimeFormat(locale: Locale, format: DateTimeFormat): void {
     _datetimeFormats.value[locale] = format
-    _context.datetimeFormats = _datetimeFormats.value as typeof _context.datetimeFormats
-    clearDateTimeFormat<DateTimeFormats, Message>(
+    _context.datetimeFormats = _datetimeFormats.value
+    clearDateTimeFormat<DateTimeFormatsType, Message>(
       _context as any,
       locale,
       format
@@ -1771,8 +2032,8 @@ export function createComposer<
       _datetimeFormats.value[locale] || {},
       format
     )
-    _context.datetimeFormats = _datetimeFormats.value as typeof _context.datetimeFormats
-    clearDateTimeFormat<DateTimeFormats, Message>(
+    _context.datetimeFormats = _datetimeFormats.value
+    clearDateTimeFormat<DateTimeFormatsType, Message>(
       _context as any,
       locale,
       format
@@ -1787,8 +2048,12 @@ export function createComposer<
   // setNumberFormat
   function setNumberFormat(locale: Locale, format: NumberFormat): void {
     _numberFormats.value[locale] = format
-    _context.numberFormats = _numberFormats.value as typeof _context.numberFormats
-    clearNumberFormat<NumberFormats, Message>(_context as any, locale, format)
+    _context.numberFormats = _numberFormats.value
+    clearNumberFormat<NumberFormatsType, Message>(
+      _context as any,
+      locale,
+      format
+    )
   }
 
   // mergeNumberFormat
@@ -1797,8 +2062,12 @@ export function createComposer<
       _numberFormats.value[locale] || {},
       format
     )
-    _context.numberFormats = _numberFormats.value as typeof _context.numberFormats
-    clearNumberFormat<NumberFormats, Message>(_context as any, locale, format)
+    _context.numberFormats = _numberFormats.value
+    clearNumberFormat<NumberFormatsType, Message>(
+      _context as any,
+      locale,
+      format
+    )
   }
 
   // for debug
@@ -1806,7 +2075,7 @@ export function createComposer<
 
   // watch root locale & fallbackLocale
   if (__root) {
-    watch(__root.locale, (val: Locale) => {
+    watch(__root.locale as any, (val: Locale) => {
       if (_inheritLocale) {
         _locale.value = val
         _context.locale = val
@@ -1817,7 +2086,7 @@ export function createComposer<
         )
       }
     })
-    watch(__root.fallbackLocale, (val: FallbackLocale) => {
+    watch(__root.fallbackLocale as any, (val: FallbackLocale) => {
       if (_inheritLocale) {
         _fallbackLocale.value = val
         _context.fallbackLocale = val as any
@@ -1841,8 +2110,8 @@ export function createComposer<
     set inheritLocale(val: boolean) {
       _inheritLocale = val
       if (val && __root) {
-        _locale.value = __root.locale.value
-        _fallbackLocale.value = __root.fallbackLocale.value
+        _locale.value = __root.locale.value as Locale
+        _fallbackLocale.value = __root.fallbackLocale.value as FallbackLocale
         updateFallbackLocale<Message>(
           _context as any,
           _locale.value,
@@ -1943,7 +2212,7 @@ export function createComposer<
     }
   }
 
-  return composer as any
+  return composer
 }
 
 /* eslint-enable @typescript-eslint/no-explicit-any */
