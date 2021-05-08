@@ -28,6 +28,7 @@ import {
   PathValue,
   MessageResolver
 } from '@intlify/core-base'
+import { stringify } from 'node:querystring'
 
 beforeEach(() => {
   registerMessageCompiler(compileToFunction)
@@ -400,7 +401,7 @@ describe('fallbackFormat', () => {
       }
     })
 
-    expect(t('hi, {name}!' as any, { name: 'kazupon' })).toEqual('hi, kazupon!')
+    expect(t('hi, {name}!', { name: 'kazupon' })).toEqual('hi, kazupon!')
     expect(mockWarn).toHaveBeenCalledTimes(5)
   })
 })
@@ -441,7 +442,7 @@ describe('fallbackRoot', () => {
       },
       __root: root
     })
-    expect(t('hello' as any)).toEqual('hello')
+    expect(t('hello')).toEqual('hello')
     expect(mockWarn).toHaveBeenCalled()
     expect(mockWarn.mock.calls[0][0]).toEqual(
       getWarnMessage(I18nWarnCodes.FALLBACK_TO_ROOT, {
@@ -474,7 +475,7 @@ describe('fallbackRoot', () => {
       },
       __root: root
     })
-    expect(t('hello' as any)).toEqual('hello')
+    expect(t('hello')).toEqual('hello')
     expect(mockWarn).not.toHaveBeenCalledTimes(1)
   })
 })
@@ -659,7 +660,7 @@ describe('t', () => {
         en: {}
       }
     })
-    expect(t('foo.bar.buz' as any)).toEqual('FOO.BAR.BUZ')
+    expect(t('foo.bar.buz')).toEqual('FOO.BAR.BUZ')
   })
 
   test('computed property name', () => {
@@ -803,7 +804,7 @@ describe('d', () => {
       }
     })
     const dt = new Date(Date.UTC(2012, 11, 20, 3, 0, 0))
-    expect(d(dt, { key: 'long' as any })).toEqual('')
+    expect(d(dt, { key: 'long' })).toEqual('')
   })
 
   test('iso', () => {
@@ -976,7 +977,7 @@ describe('n', () => {
         'en-US': {}
       }
     })
-    expect(n(0.99, { key: 'percent' as any })).toEqual('')
+    expect(n(0.99, { key: 'percent' })).toEqual('')
   })
 })
 
@@ -985,8 +986,7 @@ describe('tm', () => {
     const composer = createComposer({
       locale: 'ja',
       messages: {
-        en: {},
-        ja: {
+        en: {
           foo: {
             bar: {
               buz: 'hello'
@@ -995,14 +995,24 @@ describe('tm', () => {
               errors: ['error1', 'error2']
             }
           }
+        },
+        ja: {
+          foo: {
+            bar: {
+              buz: 'こんにちは'
+            },
+            codes: {
+              errors: ['エラー1', 'エラー2']
+            }
+          }
         }
       }
     })
 
     let messages1 = composer.tm('foo.bar')
     let messages2 = composer.tm('foo.codes')
-    expect(messages1).toEqual({ buz: 'hello' })
-    expect(messages2).toEqual({ errors: ['error1', 'error2'] })
+    expect(messages1).toEqual({ buz: 'こんにちは' })
+    expect(messages2).toEqual({ errors: ['エラー1', 'エラー2'] })
 
     watchEffect(() => {
       messages1 = composer.tm('foo.bar')
@@ -1060,10 +1070,9 @@ describe('tm', () => {
 
   test('resolved with rt', () => {
     const { rt, tm } = createComposer({
-      locale: 'ja',
+      locale: 'en',
       messages: {
-        en: {},
-        ja: {
+        en: {
           foo: {
             bar: {
               buz: 'hello, {name}!'
@@ -1072,14 +1081,22 @@ describe('tm', () => {
               errors: [() => 'error1', () => 'error2']
             }
           }
+        },
+        ja: {
+          foo: {
+            bar: {
+              buz: 'こんにちは、 {name}！'
+            },
+            codes: {
+              errors: [() => 'エラー1', () => 'エラー2']
+            }
+          }
         }
       }
     })
 
-    expect(rt((tm('foo.bar') as any).buz, { name: 'dio' })).toEqual(
-      'hello, dio!'
-    )
-    const errors = tm('foo.codes.errors') as (() => string)[]
+    expect(rt(tm('foo.bar').buz, { name: 'dio' })).toEqual('hello, dio!')
+    const errors = tm('foo.codes.errors')
     for (const [index, err] of errors.entries()) {
       expect(rt(err)).toEqual(`error${index + 1}`)
     }
@@ -1099,8 +1116,8 @@ test('te', async () => {
   })
 
   expect(te('message.hello')).toEqual(true)
-  expect(te('message.hallo' as any)).toEqual(false)
-  expect(te('message.hallo' as any, 'ja' as any)).toEqual(false)
+  expect(te('message.hallo')).toEqual(false)
+  expect(te('message.hallo', 'ja' as any)).toEqual(false)
 })
 
 describe('getLocaleMessage / setLocaleMessage / mergeLocaleMessage', () => {
@@ -1117,10 +1134,14 @@ describe('getLocaleMessage / setLocaleMessage / mergeLocaleMessage', () => {
     expect(getLocaleMessage('en')).toEqual({ hello: 'Hello!' })
 
     setLocaleMessage('en', { hi: { hi: 'Hi!' } })
-    expect(getLocaleMessage('en')).toEqual({ hi: { hi: 'Hi!' } })
+    expect(getLocaleMessage<{ hi: { hi: string } }>('en')).toEqual({
+      hi: { hi: 'Hi!' }
+    })
 
     mergeLocaleMessage('en', { hi: { hello: 'Hello!' } })
-    expect(getLocaleMessage('en')).toEqual({
+    expect(
+      getLocaleMessage<{ hi: { hi: string; hello: string } }>('en')
+    ).toEqual({
       hi: {
         hi: 'Hi!',
         hello: 'Hello!'
@@ -1136,6 +1157,7 @@ describe('getDateTimeFormat / setDateTimeFormat / mergeDateTimeFormat', () => {
       setDateTimeFormat,
       mergeDateTimeFormat
     } = createComposer({
+      locale: 'en-US',
       datetimeFormats: {
         'en-US': {
           short: {
@@ -1629,7 +1651,7 @@ describe('root', () => {
       __root
     })
 
-    expect(t('hello' as any)).toEqual('hello!')
+    expect(t('hello')).toEqual('hello!')
   })
 
   test('d', () => {
@@ -1658,7 +1680,7 @@ describe('root', () => {
     })
 
     const dt = new Date(Date.UTC(2012, 11, 20, 3, 0, 0))
-    expect(d(dt, { key: 'short' as any })).toEqual('12/19/2012, 10:00 PM')
+    expect(d(dt, { key: 'short' })).toEqual('12/19/2012, 10:00 PM')
   })
 
   test('n', () => {
@@ -1682,7 +1704,7 @@ describe('root', () => {
       __root
     })
 
-    expect(n(0.99, { key: 'percent' as any })).toEqual('99%')
+    expect(n(0.99, { key: 'percent' })).toEqual('99%')
   })
 })
 

@@ -273,7 +273,7 @@ describe('context unresolving option', () => {
       datetimeFormats
     })
 
-    expect(datetime(ctx, dt, 'custom' as any)).toEqual(NOT_REOSLVED)
+    expect(datetime(ctx, dt, 'custom')).toEqual(NOT_REOSLVED)
     expect(mockWarn).not.toHaveBeenCalled()
   })
 })

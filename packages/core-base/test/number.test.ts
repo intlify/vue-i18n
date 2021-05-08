@@ -256,7 +256,7 @@ describe('context unresolving option', () => {
       numberFormats
     })
 
-    expect(number(ctx, 123456789, 'custom' as any)).toEqual(NOT_REOSLVED)
+    expect(number(ctx, 123456789, 'custom')).toEqual(NOT_REOSLVED)
     expect(mockWarn).not.toHaveBeenCalled()
   })
 })

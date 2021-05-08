@@ -24,7 +24,7 @@ import type {
   DateTimeFormat,
   DateTimeFormats as DateTimeFormatsType,
   DateTimeFormatOptions,
-  PickupKeys
+  PickupFormatKeys
 } from './types/index'
 import type { CoreContext, CoreInternalContext } from './context'
 
@@ -104,7 +104,10 @@ export interface DateTimeOptions<Key = string, Locales = Locale> {
   part?: boolean
 }
 
-// `datetime` function overloads
+/**
+ * `datetime` function overloads
+ */
+
 export function datetime<
   Context extends CoreContext<Message, {}, Context['datetimeFormats'], {}>,
   Message = string
@@ -112,43 +115,75 @@ export function datetime<
   context: Context,
   value: number | string | Date
 ): string | number | Intl.DateTimeFormatPart[]
+
 export function datetime<
   Context extends CoreContext<Message, {}, Context['datetimeFormats'], {}>,
-  Key extends PickupKeys<Context['datetimeFormats']>,
+  Value extends number | string | Date = number,
+  Key extends string = string,
+  ResourceKeys extends PickupFormatKeys<
+    Context['datetimeFormats']
+  > = PickupFormatKeys<Context['datetimeFormats']>,
   Message = string
 >(
   context: Context,
-  value: number | string | Date,
-  keyOrOptions: Key | DateTimeOptions<Key, Context['locale']>
+  value: Value,
+  keyOrOptions:
+    | Key
+    | ResourceKeys
+    | DateTimeOptions<Key | ResourceKeys, Context['locale']>
 ): string | number | Intl.DateTimeFormatPart[]
+
 export function datetime<
   Context extends CoreContext<Message, {}, Context['datetimeFormats'], {}>,
-  Key extends PickupKeys<Context['datetimeFormats']>,
+  Value extends number | string | Date = number,
+  Key extends string = string,
+  ResourceKeys extends PickupFormatKeys<
+    Context['datetimeFormats']
+  > = PickupFormatKeys<Context['datetimeFormats']>,
   Message = string
 >(
   context: Context,
-  value: number | string | Date,
-  keyOrOptions: Key | DateTimeOptions<Key, Context['locale']>,
+  value: Value,
+  keyOrOptions:
+    | Key
+    | ResourceKeys
+    | DateTimeOptions<Key | ResourceKeys, Context['locale']>,
   locale: Context['locale']
 ): string | number | Intl.DateTimeFormatPart[]
+
 export function datetime<
   Context extends CoreContext<Message, {}, Context['datetimeFormats'], {}>,
-  Key extends PickupKeys<Context['datetimeFormats']>,
+  Value extends number | string | Date = number,
+  Key extends string = string,
+  ResourceKeys extends PickupFormatKeys<
+    Context['datetimeFormats']
+  > = PickupFormatKeys<Context['datetimeFormats']>,
   Message = string
 >(
   context: Context,
-  value: number | string | Date,
-  keyOrOptions: Key | DateTimeOptions<Key, Context['locale']>,
+  value: Value,
+  keyOrOptions:
+    | Key
+    | ResourceKeys
+    | DateTimeOptions<Key | ResourceKeys, Context['locale']>,
   override: Intl.DateTimeFormatOptions
 ): string | number | Intl.DateTimeFormatPart[]
+
 export function datetime<
   Context extends CoreContext<Message, {}, Context['datetimeFormats'], {}>,
-  Key extends PickupKeys<Context['datetimeFormats']>,
+  Value extends number | string | Date = number,
+  Key extends string = string,
+  ResourceKeys extends PickupFormatKeys<
+    Context['datetimeFormats']
+  > = PickupFormatKeys<Context['datetimeFormats']>,
   Message = string
 >(
   context: Context,
-  value: number | string | Date,
-  keyOrOptions: Key | DateTimeOptions<Key, Context['locale']>,
+  value: Value,
+  keyOrOptions:
+    | Key
+    | ResourceKeys
+    | DateTimeOptions<Key | ResourceKeys, Context['locale']>,
   locale: Context['locale'],
   override: Intl.DateTimeFormatOptions
 ): string | number | Intl.DateTimeFormatPart[]

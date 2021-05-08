@@ -8,24 +8,11 @@ import {
   PickupFallbackLocales,
   createCoreContext
 } from '../../packages/core-base/src/context'
-
-type ResourceSchema = {
-  foo: string
-  nest: {
-    bar: string
-  }
-  errors: string[]
-}
-type MyDatetimeScehma = {
-  short: {
-    hour: 'numeric'
-  }
-}
-type MyNumberSchema = {
-  currency: {
-    style: 'symbol'
-  }
-}
+import type {
+  ResourceSchema,
+  MyDatetimeScehma,
+  MyNumberSchema
+} from '../schema'
 
 // loose options
 const looseOptions = {

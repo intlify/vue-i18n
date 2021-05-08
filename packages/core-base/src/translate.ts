@@ -154,75 +154,109 @@ export interface TranslateOptions<Locales = Locale> {
   resolvedMessage?: boolean
 }
 
-// `translate` function overloads
+/**
+ * `translate` function overloads
+ */
+
 export function translate<
   Context extends CoreContext<Message, Context['messages'], {}, {}>,
-  Key extends PickupKeys<Context['messages']>,
+  Key extends string = string,
+  ResourceKeys extends PickupKeys<Context['messages']> = PickupKeys<
+    Context['messages']
+  >,
   Message = string
 >(
   context: Context,
-  key: Key | number | MessageFunction<Message>
+  key: Key | ResourceKeys | number | MessageFunction<Message>
 ): MessageType<Message> | number
+
 export function translate<
   Context extends CoreContext<Message, Context['messages'], {}, {}>,
-  Key extends PickupKeys<Context['messages']>,
+  Key extends string = string,
+  ResourceKeys extends PickupKeys<Context['messages']> = PickupKeys<
+    Context['messages']
+  >,
   Message = string
 >(
   context: Context,
-  key: Key | number | MessageFunction<Message>,
+  key: Key | ResourceKeys | number | MessageFunction<Message>,
   plural: number
 ): MessageType<Message> | number
+
 export function translate<
   Context extends CoreContext<Message, Context['messages'], {}, {}>,
-  Key extends PickupKeys<Context['messages']>,
+  Key extends string = string,
+  ResourceKeys extends PickupKeys<Context['messages']> = PickupKeys<
+    Context['messages']
+  >,
   Message = string
 >(
   context: Context,
-  key: Key | number | MessageFunction<Message>,
+  key: Key | ResourceKeys | number | MessageFunction<Message>,
   plural: number,
   options: TranslateOptions<Context['locale']>
 ): MessageType<Message> | number
+
 export function translate<
   Context extends CoreContext<Message, Context['messages'], {}, {}>,
-  Key extends PickupKeys<Context['messages']>,
+  Key extends string = string,
+  ResourceKeys extends PickupKeys<Context['messages']> = PickupKeys<
+    Context['messages']
+  >,
   Message = string
 >(
   context: Context,
-  key: Key | number | MessageFunction<Message>,
+  key: Key | ResourceKeys | number | MessageFunction<Message>,
   defaultMsg: string
 ): MessageType<Message> | number
+
 export function translate<
   Context extends CoreContext<Message, Context['messages'], {}, {}>,
-  Key extends PickupKeys<Context['messages']>,
+  Key extends string = string,
+  ResourceKeys extends PickupKeys<Context['messages']> = PickupKeys<
+    Context['messages']
+  >,
   Message = string
 >(
   context: Context,
-  key: Key | number | MessageFunction<Message>,
+  key: Key | ResourceKeys | number | MessageFunction<Message>,
   defaultMsg: string,
   options: TranslateOptions<Context['locale']>
 ): MessageType<Message> | number
+
 export function translate<
   Context extends CoreContext<Message, Context['messages'], {}, {}>,
-  Key extends PickupKeys<Context['messages']>,
+  Key extends string = string,
+  ResourceKeys extends PickupKeys<Context['messages']> = PickupKeys<
+    Context['messages']
+  >,
   Message = string
 >(
   context: Context,
-  key: Key | number | MessageFunction<Message>,
+  key: Key | ResourceKeys | number | MessageFunction<Message>,
   list: unknown[]
 ): MessageType<Message> | number
+
 export function translate<
   Context extends CoreContext<Message, Context['messages'], {}, {}>,
-  Key extends PickupKeys<Context['messages']>,
+  Key extends string = string,
+  ResourceKeys extends PickupKeys<Context['messages']> = PickupKeys<
+    Context['messages']
+  >,
   Message = string
 >(
   context: Context,
-  key: Key | number | MessageFunction<Message>,
+  key: Key | ResourceKeys | number | MessageFunction<Message>,
   list: unknown[],
   plural: number
 ): MessageType<Message> | number
+
 export function translate<
   Context extends CoreContext<Message, Context['messages'], {}, {}>,
-  Key extends PickupKeys<Context['messages']>,
+  Key extends string = string,
+  ResourceKeys extends PickupKeys<Context['messages']> = PickupKeys<
+    Context['messages']
+  >,
   Message = string
 >(
   context: Context,
@@ -230,52 +264,72 @@ export function translate<
   list: unknown[],
   defaultMsg: string
 ): MessageType<Message> | number
+
 export function translate<
   Context extends CoreContext<Message, Context['messages'], {}, {}>,
-  Key extends PickupKeys<Context['messages']>,
+  Key extends string = string,
+  ResourceKeys extends PickupKeys<Context['messages']> = PickupKeys<
+    Context['messages']
+  >,
   Message = string
 >(
   context: Context,
-  key: Key | number | MessageFunction<Message>,
+  key: Key | ResourceKeys | number | MessageFunction<Message>,
   list: unknown[],
   options: TranslateOptions<Context['locale']>
 ): MessageType<Message> | number
+
 export function translate<
   Context extends CoreContext<Message, Context['messages'], {}, {}>,
-  Key extends PickupKeys<Context['messages']>,
+  Key extends string = string,
+  ResourceKeys extends PickupKeys<Context['messages']> = PickupKeys<
+    Context['messages']
+  >,
   Message = string
 >(
   context: Context,
-  key: Key | number | MessageFunction<Message>,
+  key: Key | ResourceKeys | number | MessageFunction<Message>,
   named: NamedValue
 ): MessageType<Message> | number
+
 export function translate<
   Context extends CoreContext<Message, Context['messages'], {}, {}>,
-  Key extends PickupKeys<Context['messages']>,
+  Key extends string = string,
+  ResourceKeys extends PickupKeys<Context['messages']> = PickupKeys<
+    Context['messages']
+  >,
   Message = string
 >(
   context: Context,
-  key: Key | number | MessageFunction<Message>,
+  key: Key | ResourceKeys | number | MessageFunction<Message>,
   named: NamedValue,
   plural: number
 ): MessageType<Message> | number
+
 export function translate<
   Context extends CoreContext<Message, Context['messages'], {}, {}>,
-  Key extends PickupKeys<Context['messages']>,
+  Key extends string = string,
+  ResourceKeys extends PickupKeys<Context['messages']> = PickupKeys<
+    Context['messages']
+  >,
   Message = string
 >(
   context: Context,
-  key: Key | number | MessageFunction<Message>,
+  key: Key | ResourceKeys | number | MessageFunction<Message>,
   named: NamedValue,
   defaultMsg: string
 ): MessageType<Message> | number
+
 export function translate<
   Context extends CoreContext<Message, Context['messages'], {}, {}>,
-  Key extends PickupKeys<Context['messages']>,
+  Key extends string = string,
+  ResourceKeys extends PickupKeys<Context['messages']> = PickupKeys<
+    Context['messages']
+  >,
   Message = string
 >(
   context: Context,
-  key: Key | number | MessageFunction<Message>,
+  key: Key | ResourceKeys | number | MessageFunction<Message>,
   named: NamedValue,
   options: TranslateOptions<Context['locale']>
 ): MessageType<Message> | number

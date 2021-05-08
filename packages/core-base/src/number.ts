@@ -23,7 +23,7 @@ import type {
   NumberFormat,
   NumberFormats as NumberFormatsType,
   NumberFormatOptions,
-  PickupKeys
+  PickupFormatKeys
 } from './types/index'
 import type { CoreContext, CoreInternalContext } from './context'
 
@@ -102,48 +102,83 @@ export interface NumberOptions<Key = string, Locales = Locale> {
   part?: boolean
 }
 
-// `number` function overloads
+/**
+ * `number` function overloads
+ */
+
 export function number<
   Context extends CoreContext<Message, {}, {}, Context['numberFormats']>,
   Message = string
 >(context: Context, value: number): string | number | Intl.NumberFormatPart[]
+
 export function number<
   Context extends CoreContext<Message, {}, {}, Context['numberFormats']>,
-  Key extends PickupKeys<Context['numberFormats']>,
+  Value extends number = number,
+  Key extends string = string,
+  ResourceKeys extends PickupFormatKeys<
+    Context['numberFormats']
+  > = PickupFormatKeys<Context['numberFormats']>,
   Message = string
 >(
   context: Context,
-  value: number,
-  keyOrOptions: Key | NumberOptions<Key, Context['locale']>
+  value: Value,
+  keyOrOptions:
+    | Key
+    | ResourceKeys
+    | NumberOptions<Key | ResourceKeys, Context['locale']>
 ): string | number | Intl.NumberFormatPart[]
+
 export function number<
   Context extends CoreContext<Message, {}, {}, Context['numberFormats']>,
-  Key extends PickupKeys<Context['numberFormats']>,
+  Value extends number = number,
+  Key extends string = string,
+  ResourceKeys extends PickupFormatKeys<
+    Context['numberFormats']
+  > = PickupFormatKeys<Context['numberFormats']>,
   Message = string
 >(
   context: Context,
   value: number,
-  keyOrOptions: Key | NumberOptions<Key, Context['locale']>,
+  keyOrOptions:
+    | Key
+    | ResourceKeys
+    | NumberOptions<Key | ResourceKeys, Context['locale']>,
   locale: Context['locale']
 ): string | number | Intl.NumberFormatPart[]
+
 export function number<
   Context extends CoreContext<Message, {}, {}, Context['numberFormats']>,
-  Key extends PickupKeys<Context['numberFormats']>,
+  Value extends number = number,
+  Key extends string = string,
+  ResourceKeys extends PickupFormatKeys<
+    Context['numberFormats']
+  > = PickupFormatKeys<Context['numberFormats']>,
   Message = string
 >(
   context: Context,
   value: number,
-  keyOrOptions: Key | NumberOptions<Key, Context['locale']>,
+  keyOrOptions:
+    | Key
+    | ResourceKeys
+    | NumberOptions<Key | ResourceKeys, Context['locale']>,
   override: Intl.NumberFormatOptions
 ): string | number | Intl.NumberFormatPart[]
+
 export function number<
   Context extends CoreContext<Message, {}, {}, Context['numberFormats']>,
-  Key extends PickupKeys<Context['numberFormats']>,
+  Value extends number = number,
+  Key extends string = string,
+  ResourceKeys extends PickupFormatKeys<
+    Context['numberFormats']
+  > = PickupFormatKeys<Context['numberFormats']>,
   Message = string
 >(
   context: Context,
   value: number,
-  keyOrOptions: Key | NumberOptions<Key, Context['locale']>,
+  keyOrOptions:
+    | Key
+    | ResourceKeys
+    | NumberOptions<Key | ResourceKeys, Context['locale']>,
   locale: Context['locale'],
   override: Intl.NumberFormatOptions
 ): string | number | Intl.NumberFormatPart[]

@@ -40,7 +40,9 @@ import {
   handleFlatJson,
   MessageFunction,
   setAdditionalMeta,
-  IsUnion
+  IsUnion,
+  ResourcePath,
+  UnionToTuple
 } from '@intlify/core-base'
 import { VueDevToolsTimelineEvents } from '@intlify/vue-devtools'
 import { I18nWarnCodes, getWarnMessage } from './warnings'
@@ -78,9 +80,11 @@ import type {
   MetaInfo,
   PickupLocales,
   PickupKeys,
+  PickupFormatKeys,
   FallbackLocales,
   SchemaParams,
-  LocaleParams
+  LocaleParams,
+  ResourceValue
 } from '@intlify/core-base'
 import type { VueDevToolsEmitter } from '@intlify/vue-devtools'
 
@@ -468,8 +472,11 @@ export interface ComposerTranslation<Messages = {}, Locales = 'en-US'> {
    *
    * @VueI18nSee [Scope and Locale Changing](../guide/essentials/scope)
    */
-  <Key extends PickupKeys<Messages> = PickupKeys<Messages>>(
-    key: Key | number
+  <
+    Key extends string,
+    ResourceKeys extends PickupKeys<Messages> = PickupKeys<Messages>
+  >(
+    key: Key | ResourceKeys | number
   ): string
   /**
    * Locale message translation for plurals
@@ -491,8 +498,11 @@ export interface ComposerTranslation<Messages = {}, Locales = 'en-US'> {
    *
    * @VueI18nSee [Pluralization](../guide/essentials/pluralization)
    */
-  <Key extends PickupKeys<Messages> = PickupKeys<Messages>>(
-    key: Key | number,
+  <
+    Key extends string,
+    ResourceKeys extends PickupKeys<Messages> = PickupKeys<Messages>
+  >(
+    key: Key | ResourceKeys | number,
     plural: number,
     options?: TranslateOptions<Locales>
   ): string
@@ -514,8 +524,11 @@ export interface ComposerTranslation<Messages = {}, Locales = 'en-US'> {
    *
    * @returns Translated message
    */
-  <Key extends PickupKeys<Messages> = PickupKeys<Messages>>(
-    key: Key | number,
+  <
+    Key extends string,
+    ResourceKeys extends PickupKeys<Messages> = PickupKeys<Messages>
+  >(
+    key: Key | ResourceKeys | number,
     defaultMsg: string,
     options?: TranslateOptions<Locales>
   ): string
@@ -539,8 +552,11 @@ export interface ComposerTranslation<Messages = {}, Locales = 'en-US'> {
    *
    * @VueI18nSee [List interpolation](../guide/essentials/syntax#list-interpolation)
    */
-  <Key extends PickupKeys<Messages> = PickupKeys<Messages>>(
-    key: Key | number,
+  <
+    Key extends string,
+    ResourceKeys extends PickupKeys<Messages> = PickupKeys<Messages>
+  >(
+    key: Key | ResourceKeys | number,
     list: unknown[],
     options?: TranslateOptions<Locales>
   ): string
@@ -561,8 +577,11 @@ export interface ComposerTranslation<Messages = {}, Locales = 'en-US'> {
    * @VueI18nSee [Pluralization](../guide/essentials/pluralization)
    * @VueI18nSee [List interpolation](../guide/essentials/syntax#list-interpolation)
    */
-  <Key extends PickupKeys<Messages> = PickupKeys<Messages>>(
-    key: Key | number,
+  <
+    Key extends string,
+    ResourceKeys extends PickupKeys<Messages> = PickupKeys<Messages>
+  >(
+    key: Key | ResourceKeys | number,
     list: unknown[],
     plural: number
   ): string
@@ -582,8 +601,11 @@ export interface ComposerTranslation<Messages = {}, Locales = 'en-US'> {
    *
    * @VueI18nSee [List interpolation](../guide/essentials/syntax#list-interpolation)
    */
-  <Key extends PickupKeys<Messages> = PickupKeys<Messages>>(
-    key: Key | number,
+  <
+    Key extends string,
+    ResourceKeys extends PickupKeys<Messages> = PickupKeys<Messages>
+  >(
+    key: Key | ResourceKeys | number,
     list: unknown[],
     defaultMsg: string
   ): string
@@ -607,8 +629,11 @@ export interface ComposerTranslation<Messages = {}, Locales = 'en-US'> {
    *
    * @VueI18nSee [Named interpolation](../guide/essentials/syntax#named-interpolation)
    */
-  <Key extends PickupKeys<Messages> = PickupKeys<Messages>>(
-    key: Key | number,
+  <
+    Key extends string,
+    ResourceKeys extends PickupKeys<Messages> = PickupKeys<Messages>
+  >(
+    key: Key | ResourceKeys | number,
     named: NamedValue,
     options?: TranslateOptions<Locales>
   ): string
@@ -629,8 +654,11 @@ export interface ComposerTranslation<Messages = {}, Locales = 'en-US'> {
    * @VueI18nSee [Pluralization](../guide/essentials/pluralization)
    * @VueI18nSee [Named interpolation](../guide/essentials/syntax#named-interpolation)
    */
-  <Key extends PickupKeys<Messages> = PickupKeys<Messages>>(
-    key: Key | number,
+  <
+    Key extends string,
+    ResourceKeys extends PickupKeys<Messages> = PickupKeys<Messages>
+  >(
+    key: Key | ResourceKeys | number,
     named: NamedValue,
     plural: number
   ): string
@@ -650,8 +678,11 @@ export interface ComposerTranslation<Messages = {}, Locales = 'en-US'> {
    *
    * @VueI18nSee [Named interpolation](../guide/essentials/syntax#named-interpolation)
    */
-  <Key extends PickupKeys<Messages> = PickupKeys<Messages>>(
-    key: Key | number,
+  <
+    Key extends string,
+    ResourceKeys extends PickupKeys<Messages> = PickupKeys<Messages>
+  >(
+    key: Key | ResourceKeys | number,
     named: NamedValue,
     defaultMsg: string
   ): string
@@ -803,9 +834,7 @@ export interface ComposerDateTimeFormatting<
    *
    * @VueI18nSee [Datetime formatting](../guide/essentials/datetime)
    */
-  <Key extends PickupKeys<DateTimeFormats> = PickupKeys<DateTimeFormats>>(
-    value: number | Date | string
-  ): string
+  (value: number | Date | string): string
   /**
    * Datetime formatting
    *
@@ -819,9 +848,16 @@ export interface ComposerDateTimeFormatting<
    *
    * @returns Formatted value
    */
-  <Key extends PickupKeys<DateTimeFormats> = PickupKeys<DateTimeFormats>>(
-    value: number | Date | string,
-    keyOrOptions: Key | DateTimeOptions<Key, Locales>
+  <
+    Value extends number | Date | string = number,
+    Key extends string = string,
+    ResourceKeys extends PickupFormatKeys<DateTimeFormats> = PickupFormatKeys<DateTimeFormats>
+  >(
+    value: Value,
+    keyOrOptions:
+      | Key
+      | ResourceKeys
+      | DateTimeOptions<Key | ResourceKeys, Locales>
   ): string
   /**
    * Datetime formatting
@@ -837,9 +873,16 @@ export interface ComposerDateTimeFormatting<
    *
    * @returns Formatted value
    */
-  <Key extends PickupKeys<DateTimeFormats> = PickupKeys<DateTimeFormats>>(
-    value: number | Date | string,
-    keyOrOptions: Key | DateTimeOptions<Key, Locales>,
+  <
+    Value extends number | Date | string = number,
+    Key extends string = string,
+    ResourceKeys extends PickupFormatKeys<DateTimeFormats> = PickupFormatKeys<DateTimeFormats>
+  >(
+    value: Value,
+    keyOrOptions:
+      | Key
+      | ResourceKeys
+      | DateTimeOptions<Key | ResourceKeys, Locales>,
     locale: Locales
   ): string
 }
@@ -886,9 +929,16 @@ export interface ComposerNumberFormatting<
    *
    * @returns Formatted value
    */
-  <Key extends PickupKeys<NumberFormats> = PickupKeys<NumberFormats>>(
-    value: number,
-    keyOrOptions: Key | NumberOptions<Key, Locales>
+  <
+    Value extends number = number,
+    Key extends string = string,
+    ResourceKeys extends PickupFormatKeys<NumberFormats> = PickupFormatKeys<NumberFormats>
+  >(
+    value: Value,
+    keyOrOptions:
+      | Key
+      | ResourceKeys
+      | NumberOptions<Key | ResourceKeys, Locales>
   ): string
   /**
    * Number Formatting
@@ -904,9 +954,16 @@ export interface ComposerNumberFormatting<
    *
    * @returns Formatted value
    */
-  <Key extends PickupKeys<NumberFormats> = PickupKeys<NumberFormats>>(
-    value: number,
-    keyOrOptions: Key | NumberOptions<Key, Locales>,
+  <
+    Value extends number = number,
+    Key extends string = string,
+    ResourceKeys extends PickupFormatKeys<NumberFormats> = PickupFormatKeys<NumberFormats>
+  >(
+    value: Value,
+    keyOrOptions:
+      | Key
+      | ResourceKeys
+      | NumberOptions<Key | ResourceKeys, Locales>,
     locale: Locales
   ): string
 }
@@ -1150,8 +1207,11 @@ export interface Composer<
    *
    * @returns If found locale message, `true`, else `false`
    */
-  te<Key extends PickupKeys<Messages> = PickupKeys<Messages>>(
-    key: Key,
+  te<
+    Str extends string,
+    Key extends PickupKeys<Messages> = PickupKeys<Messages>
+  >(
+    key: Str | Key,
     locale?: Locales
   ): boolean
   /**
@@ -1214,9 +1274,19 @@ export interface Composer<
    *
    * @return Locale messages
    */
-  tm<Key extends PickupKeys<Messages> = PickupKeys<Messages>>(
-    key: Key | string // TODO: dynamic type!
-  ): LocaleMessageValue<Message>
+  tm<
+    Key extends string,
+    ResourceKeys extends PickupKeys<Messages> = PickupKeys<Messages>,
+    Locale extends PickupLocales<NonNullable<Messages>> = PickupLocales<
+      NonNullable<Messages>
+    >,
+    Target = NonNullable<Messages>[Locale],
+    Return = ResourceKeys extends ResourcePath<Target>
+      ? ResourceValue<Target, ResourceKeys>
+      : Record<string, any>
+  >(
+    key: Key | ResourceKeys
+  ): Return
   /**
    * Get locale message
    *
@@ -1228,14 +1298,17 @@ export interface Composer<
    * @returns Locale messages
    */
   getLocaleMessage<
-    LocaleSchema extends string = never,
-    MessageSchema extends LocaleMessage<Message> = {},
+    MessageSchema extends LocaleMessage<Message> = never,
+    LocaleSchema extends string = string,
     Locale extends PickupLocales<NonNullable<Messages>> = PickupLocales<
       NonNullable<Messages>
-    >
+    >,
+    Return = [MessageSchema] extends [never]
+      ? NonNullable<Messages>[Locale] // TODO: more strict!
+      : MessageSchema
   >(
     locale: LocaleSchema | Locale
-  ): Ref<NonNullable<Messages>[Locale]> // TODO: dynamic type !
+  ): Return
   /**
    * Set locale message
    *
@@ -1246,14 +1319,17 @@ export interface Composer<
    * @param message - A message
    */
   setLocaleMessage<
-    LocaleSchema extends string = never,
-    MessageSchema extends LocaleMessage<Message> = {},
+    MessageSchema extends LocaleMessage<Message> = never,
+    LocaleSchema extends string = string,
     Locale extends PickupLocales<NonNullable<Messages>> = PickupLocales<
       NonNullable<Messages>
-    >
+    >,
+    Message = [MessageSchema] extends [never]
+      ? NonNullable<Messages>[Locale] // TODO: more strict!
+      : MessageSchema
   >(
     locale: LocaleSchema | Locale,
-    message: NonNullable<Messages>[Locale] | MessageSchema // TODO: dynamic type !
+    message: Message
   ): void
   /**
    * Merge locale message
@@ -1265,14 +1341,16 @@ export interface Composer<
    * @param message - A message
    */
   mergeLocaleMessage<
-    LocaleSchema extends string = never,
-    MessageSchema extends LocaleMessage<Message> = {},
+    MessageSchema extends LocaleMessage<Message> = never,
     Locale extends PickupLocales<NonNullable<Messages>> = PickupLocales<
       NonNullable<Messages>
-    >
+    >,
+    Message = [MessageSchema] extends [never]
+      ? Record<string, any>
+      : MessageSchema
   >(
-    locale: LocaleSchema | Locale,
-    message: NonNullable<Messages>[Locale] | MessageSchema // TODO: dynamic type !
+    locale: Locale,
+    message: Message
   ): void
   /**
    * Get datetime format
