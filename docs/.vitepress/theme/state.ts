@@ -10,13 +10,13 @@ export const sponsors = {
     tier: TierLevel.Gold,
     link: 'https://nuxtjs.org/',
     source: '/nuxt.png'
+  }, {
+    name: 'RapidAPI',
+    tier: TierLevel.Gold,
+    link: 'https://rapidapi.com/',
+    source: '/RapidAPI.svg'
   }],
-  silvers: [{
-    name: 'Babel Edit',
-    tier: TierLevel.Silver,
-    link: 'https://www.codeandweb.com/babeledit?utm_campaign=vue-i18n-2019-01',
-    source: 'https://secure.codeandweb.com/static/babeledit.svg'
-  }],
+  silvers: [],
   bronzes: [{
     name: 'Zen Architects',
     tier: TierLevel.Bronze,
