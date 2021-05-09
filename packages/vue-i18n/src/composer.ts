@@ -40,9 +40,7 @@ import {
   handleFlatJson,
   MessageFunction,
   setAdditionalMeta,
-  IsUnion,
-  ResourcePath,
-  UnionToTuple
+  ResourcePath
 } from '@intlify/core-base'
 import { VueDevToolsTimelineEvents } from '@intlify/vue-devtools'
 import { I18nWarnCodes, getWarnMessage } from './warnings'
@@ -50,7 +48,7 @@ import { I18nErrorCodes, createI18nError } from './errors'
 import { VERSION } from './misc'
 
 import type { ComponentInternalInstance, VNode, VNodeArrayChildren } from 'vue'
-import type { Ref, WritableComputedRef, ComputedRef } from '@vue/reactivity'
+import type { WritableComputedRef, ComputedRef } from '@vue/reactivity'
 import type {
   Path,
   MessageResolver,
@@ -998,40 +996,6 @@ export interface Composer<
         numberFormats: unknown
       }
     | string = Locale,
-  MessagesLocales = SchemaLocales extends { messages: infer M }
-    ? M
-    : SchemaLocales extends string
-    ? SchemaLocales
-    : Locale,
-  DateTimeFormatsLocales = SchemaLocales extends { datetimeFormats: infer D }
-    ? D
-    : SchemaLocales extends string
-    ? SchemaLocales
-    : SchemaLocales,
-  NumberFormatsLocales = SchemaLocales extends { numberFormats: infer N }
-    ? N
-    : SchemaLocales extends string
-    ? SchemaLocales
-    : Locale,
-  MessageSchema = Schema extends { message: infer M }
-    ? M
-    : LocaleMessage<Message>,
-  DateTimeSchema = Schema extends { datetime: infer D } ? D : DateTimeFormat,
-  NumberSchema = Schema extends { number: infer N } ? N : NumberFormat,
-  MessagesEntity extends LocaleMessages<
-    MessageSchema,
-    MessagesLocales,
-    Message
-  > = LocaleMessages<MessageSchema, MessagesLocales, Message>,
-  DateTimeFormatsEntity extends DateTimeFormatsType<
-    DateTimeSchema,
-    DateTimeFormatsLocales
-  > = DateTimeFormatsType<DateTimeSchema, DateTimeFormatsLocales>,
-  NumberFormatsEntity extends NumberFormatsType<
-    NumberSchema,
-    NumberFormatsLocales
-  > = NumberFormatsType<NumberSchema, NumberFormatsLocales>,
-  M = { [K in keyof Messages]: Messages[K] },
   ResourceLocales =
     | PickupLocales<NonNullable<Messages>>
     | PickupLocales<NonNullable<DateTimeFormats>>
@@ -1362,7 +1326,18 @@ export interface Composer<
    *
    * @returns Datetime format
    */
-  getDateTimeFormat(locale: Locale): DateTimeFormat
+  getDateTimeFormat<
+    DateTimeSchema extends Record<string, any> = never,
+    LocaleSchema extends string = string,
+    Locale extends PickupLocales<NonNullable<DateTimeFormats>> = PickupLocales<
+      NonNullable<DateTimeFormats>
+    >,
+    Return = [DateTimeSchema] extends [never]
+      ? NonNullable<DateTimeFormats>[Locale] // TODO: more strict!
+      : DateTimeSchema
+  >(
+    locale: LocaleSchema | Locale
+  ): Return
   /**
    * Set datetime format
    *
@@ -1372,7 +1347,19 @@ export interface Composer<
    * @param locale - A target locale
    * @param format - A target datetime format
    */
-  setDateTimeFormat(locale: Locale, format: DateTimeFormat): void
+  setDateTimeFormat<
+    DateTimeSchema extends Record<string, any> = never,
+    LocaleSchema extends string = string,
+    Locale extends PickupLocales<NonNullable<DateTimeFormats>> = PickupLocales<
+      NonNullable<DateTimeFormats>
+    >,
+    Formats = [DateTimeSchema] extends [never]
+      ? NonNullable<DateTimeFormats>[Locale] // TODO: more strict!
+      : DateTimeSchema
+  >(
+    locale: LocaleSchema | Locale,
+    format: Formats
+  ): void
   /**
    * Merge datetime format
    *
@@ -1382,7 +1369,18 @@ export interface Composer<
    * @param locale - A target locale
    * @param format - A target datetime format
    */
-  mergeDateTimeFormat(locale: Locale, format: DateTimeFormat): void
+  mergeDateTimeFormat<
+    DateTimeSchema extends Record<string, any> = never,
+    Locale extends PickupLocales<NonNullable<DateTimeFormats>> = PickupLocales<
+      NonNullable<DateTimeFormats>
+    >,
+    Formats = [DateTimeSchema] extends [never]
+      ? Record<string, any>
+      : DateTimeSchema
+  >(
+    locale: Locale,
+    format: Formats
+  ): void
   /**
    * Get number format
    *
@@ -1393,7 +1391,18 @@ export interface Composer<
    *
    * @returns Number format
    */
-  getNumberFormat(locale: Locale): NumberFormat
+  getNumberFormat<
+    NumberSchema extends Record<string, any> = never,
+    LocaleSchema extends string = string,
+    Locale extends PickupLocales<NonNullable<NumberFormats>> = PickupLocales<
+      NonNullable<NumberFormats>
+    >,
+    Return = [NumberSchema] extends [never]
+      ? NonNullable<NumberFormats>[Locale] // TODO: more strict!
+      : NumberSchema
+  >(
+    locale: LocaleSchema | Locale
+  ): Return
   /**
    * Set number format
    *
@@ -1403,7 +1412,19 @@ export interface Composer<
    * @param locale - A target locale
    * @param format - A target number format
    */
-  setNumberFormat(locale: Locale, format: NumberFormat): void
+  setNumberFormat<
+    NumberSchema extends Record<string, any> = never,
+    LocaleSchema extends string = string,
+    Locale extends PickupLocales<NonNullable<NumberFormats>> = PickupLocales<
+      NonNullable<NumberFormats>
+    >,
+    Formats = [NumberSchema] extends [never]
+      ? NonNullable<NumberFormats>[Locale] // TODO: more strict!
+      : NumberSchema
+  >(
+    locale: LocaleSchema | Locale,
+    format: Formats
+  ): void
   /**
    * Merge number format
    *
@@ -1413,7 +1434,18 @@ export interface Composer<
    * @param locale - A target locale
    * @param format - A target number format
    */
-  mergeNumberFormat(locale: Locale, format: NumberFormat): void
+  mergeNumberFormat<
+    NumberSchema extends Record<string, any> = never,
+    Locale extends PickupLocales<NonNullable<NumberFormats>> = PickupLocales<
+      NonNullable<NumberFormats>
+    >,
+    Formats = [NumberSchema] extends [never]
+      ? Record<string, any>
+      : NumberSchema
+  >(
+    locale: Locale,
+    format: Formats
+  ): void
   /**
    * Get post translation handler
    *

@@ -169,6 +169,52 @@ looseComposer.mergeLocaleMessage('en', {
 looseComposer.mergeLocaleMessage<{ dio: string }>('en', {
   dio: 'The world!'
 })
+// TODO: more strict!
+expectType<typeof looseComposer.datetimeFormats.value['en-US']>(
+  looseComposer.getDateTimeFormat('en-US')
+)
+expectType<{ long: { hour: string } }>(
+  looseComposer.getLocaleMessage<{ long: { hour: string } }>('en-US')
+)
+// TODO: more strict!
+looseComposer.setDateTimeFormat('en-US', {
+  long: {
+    hour: 'numeric'
+  }
+})
+looseComposer.setDateTimeFormat<{ stop: { hour: string } }>('world', {
+  stop: { hour: 'infinity' }
+})
+looseComposer.mergeDateTimeFormat('en-US', {
+  long: { hour: 'numeric' }
+})
+looseComposer.mergeDateTimeFormat<{ stop: { hour: string } }>('en-US', {
+  stop: { hour: 'infinity' }
+})
+// TODO: more strict!
+expectType<typeof looseComposer.numberFormats.value['ja-JP']>(
+  looseComposer.getNumberFormat('ja-JP')
+)
+expectType<{ weight: { unit: string } }>(
+  looseComposer.getNumberFormat<{ weight: { unit: string } }>('en-US')
+)
+// TODO: more strict!
+looseComposer.setNumberFormat('en-US', {
+  weight: {
+    unit: 'kiro'
+  }
+})
+looseComposer.setNumberFormat<{ echoes: { act: string } }>('stand', {
+  echoes: { act: '2' }
+})
+looseComposer.mergeNumberFormat('ja-JP', {
+  weight: {
+    unit: 'kiro'
+  }
+})
+looseComposer.mergeNumberFormat<{ echoes: { act: string } }>('ja-JP', {
+  echoes: { act: '2' }
+})
 
 // check strict composer
 const strictComposer = createComposer<[ResourceSchema], 'en' | 'ja'>(
