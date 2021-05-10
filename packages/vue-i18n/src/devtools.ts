@@ -393,6 +393,7 @@ function inspectScope<
   const composer = getComposer(payload.nodeId, i18n)
   if (composer) {
     // TODO:
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     payload.state = makeScopeInspectState(composer as any)
   }
   return null

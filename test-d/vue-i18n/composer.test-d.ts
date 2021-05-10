@@ -1,16 +1,15 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { expectType } from '../index'
+import { expectType } from '..'
 
-import { Ref } from 'vue'
 import {
   LocaleMessageValue,
   PickupFallbackLocales
-} from '../../packages/core-base/src/context'
+} from '../../packages/core-base/src'
 import {
   ComposerOptions,
   createComposer
 } from '../../packages/vue-i18n/src/composer'
-import { SchemaParams, LocaleParams } from '../../packages/core-base/src/'
+import { SchemaParams, LocaleParams } from '../../packages/core-base/src'
 
 type ResourceSchema = {
   foo: string

@@ -48,7 +48,7 @@ import type {
   LocaleMessageValue,
   CoreInternalContext
 } from './context'
-import type { PickupKeys } from './types/index'
+import type { PickupKeys } from './types'
 
 const NOOP_MESSAGE_FUNCTION = () => ''
 export const isMessageFunction = <T>(val: unknown): val is MessageFunction<T> =>
@@ -260,7 +260,7 @@ export function translate<
   Message = string
 >(
   context: Context,
-  key: Key | number | MessageFunction<Message>,
+  key: Key | ResourceKeys | number | MessageFunction<Message>,
   list: unknown[],
   defaultMsg: string
 ): MessageType<Message> | number

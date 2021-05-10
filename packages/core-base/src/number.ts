@@ -24,7 +24,7 @@ import type {
   NumberFormats as NumberFormatsType,
   NumberFormatOptions,
   PickupFormatKeys
-} from './types/index'
+} from './types'
 import type { CoreContext, CoreInternalContext } from './context'
 
 /**
@@ -138,7 +138,7 @@ export function number<
   Message = string
 >(
   context: Context,
-  value: number,
+  value: Value,
   keyOrOptions:
     | Key
     | ResourceKeys
@@ -156,7 +156,7 @@ export function number<
   Message = string
 >(
   context: Context,
-  value: number,
+  value: Value,
   keyOrOptions:
     | Key
     | ResourceKeys
@@ -174,7 +174,7 @@ export function number<
   Message = string
 >(
   context: Context,
-  value: number,
+  value: Value,
   keyOrOptions:
     | Key
     | ResourceKeys

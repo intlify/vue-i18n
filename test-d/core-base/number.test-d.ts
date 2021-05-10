@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { expectType } from '../index'
 
-import { createCoreContext } from '../../packages/core-base/src/context'
-import { number } from '../../packages/core-base/src/number'
+import { createCoreContext } from '../../packages/core-base/src'
+import { number } from '../../packages/core-base/src'
 
 const ctx = createCoreContext({
   locale: 'en-US',

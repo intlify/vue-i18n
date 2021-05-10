@@ -7,7 +7,7 @@ import {
   LocaleParams,
   PickupFallbackLocales,
   createCoreContext
-} from '../../packages/core-base/src/context'
+} from '../../packages/core-base/src'
 import type {
   ResourceSchema,
   MyDatetimeScehma,

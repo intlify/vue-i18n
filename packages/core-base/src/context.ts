@@ -32,13 +32,15 @@ import type { VueDevToolsEmitter } from '@intlify/vue-devtools'
 import type {
   UnionToTuple,
   LocaleRecord,
-  IsUnion,
-  First,
   NumberFormat,
   DateTimeFormat,
   DateTimeFormats as DateTimeFormatsType,
-  NumberFormats as NumberFormatsType
-} from './types/index'
+  NumberFormats as NumberFormatsType,
+  SchemaParams,
+  LocaleParams,
+  PickupLocales,
+  FallbackLocales
+} from './types'
 
 export interface MetaInfo {
   [field: string]: unknown
@@ -174,16 +176,6 @@ export interface CoreInternalOptions {
   __meta?: MetaInfo
 }
 
-export type PickupFallbackLocales<T extends any[]> = T[number] | `${T[number]}!`
-
-export type FallbackLocales<Locales = 'en-US'> =
-  | Locales
-  | Array<Locales>
-  | {
-      [locale in string]: Array<PickupFallbackLocales<UnionToTuple<Locales>>>
-    }
-  | false
-
 export interface CoreCommonContext<Message = string, Locales = 'en-US'> {
   cid: number
   version: string
@@ -218,11 +210,6 @@ export interface CoreDateTimeContext<DateTimeFormats = {}> {
 export interface CoreNumberContext<NumberFormats = {}> {
   numberFormats: { [K in keyof NumberFormats]: NumberFormats[K] }
 }
-
-export type PickupLocales<
-  T extends Record<string, any>,
-  K = keyof T
-> = K extends string ? K : never
 
 export type CoreContext<
   Message = string,
@@ -294,41 +281,6 @@ export const getAdditionalMeta = /* #__PURE__*/ (): MetaInfo | null =>
 
 // ID for CoreContext
 let _cid = 0
-
-// prettier-ignore
-type LocaleParamsType<T, R> = T extends IsUnion<T>
-  ? T
-  : T extends string
-    ? T
-    : R
-
-// prettier-ignore
-export type SchemaParams<T, Message = string> = T extends readonly any[]
-  ? { message: First<T>, datetime: DateTimeFormat, number: NumberFormat }
-  : T extends { message?: infer M, datetime?: infer D, number?: infer N }
-    ? {
-      message: M extends LocaleMessage<Message> ? M : LocaleMessage<Message>,
-      datetime: D extends DateTimeFormat ? D : DateTimeFormat,
-      number: N extends NumberFormat ? N : NumberFormat
-    }
-    : {
-      message: LocaleMessage<Message>,
-      datetime: DateTimeFormat,
-      number: NumberFormat
-    }
-
-// prettier-ignore
-export type LocaleParams<T, Default = 'en-US'> = T extends IsUnion<T>
-  ? { messages: T, datetimeFormats: T, numberFormats: T }
-  : T extends { messages?: infer M, datetimeFormats?: infer D, numberFormats?: infer N }
-    ? {
-      messages: LocaleParamsType<M, Default>,
-      datetimeFormats: LocaleParamsType<D, Default>,
-      numberFormats: LocaleParamsType<N, Default>
-    }
-    : T extends string
-      ? { messages: T, datetimeFormats: T, numberFormats: T }
-      : { messages: Default, datetimeFormats: Default, numberFormats: Default }
 
 export function createCoreContext<
   Message = string,

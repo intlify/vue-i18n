@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { expectType } from '../index'
 
-import { createCoreContext } from '../../packages/core-base/src/context'
-import { datetime } from '../../packages/core-base/src/datetime'
+import { createCoreContext } from '../../packages/core-base/src'
+import { datetime } from '../../packages/core-base/src'
 
 const ctx = createCoreContext({
   locale: 'en-US',

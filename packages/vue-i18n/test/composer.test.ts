@@ -28,7 +28,6 @@ import {
   PathValue,
   MessageResolver
 } from '@intlify/core-base'
-import { stringify } from 'node:querystring'
 
 beforeEach(() => {
   registerMessageCompiler(compileToFunction)

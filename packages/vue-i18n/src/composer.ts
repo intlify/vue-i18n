@@ -980,22 +980,6 @@ export interface Composer<
   DateTimeFormats = {},
   NumberFormats = {},
   OptionLocale = unknown,
-  Schema extends {
-    message?: unknown
-    datetime?: unknown
-    number?: unknown
-  } = {
-    message: LocaleMessage<Message>
-    datetime: DateTimeFormat
-    number: NumberFormat
-  },
-  SchemaLocales extends
-    | {
-        messages: unknown
-        datetimeFormats: unknown
-        numberFormats: unknown
-      }
-    | string = Locale,
   ResourceLocales =
     | PickupLocales<NonNullable<Messages>>
     | PickupLocales<NonNullable<DateTimeFormats>>
@@ -1596,8 +1580,8 @@ export function createComposer<
   Options['messages'],
   Options['datetimeFormats'],
   Options['numberFormats'],
-  Options['locale'],
-  SchemaParams<LocaleMessage<Message>, Message>
+  Options['locale']
+  // SchemaParams<LocaleMessage<Message>, Message>
 >
 
 export function createComposer<
@@ -1620,9 +1604,9 @@ export function createComposer<
   Options['messages'],
   Options['datetimeFormats'],
   Options['numberFormats'],
-  Options['locale'],
-  SchemaParams<Schema, Message>,
-  LocaleParams<Locales>
+  Options['locale']
+  // SchemaParams<Schema, Message>,
+  // LocaleParams<Locales>
 >
 
 /**

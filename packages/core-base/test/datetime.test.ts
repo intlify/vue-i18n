@@ -20,7 +20,7 @@ import { CoreErrorCodes, errorMessages } from '../src/errors'
 import { registerMessageCompiler } from '../src/context'
 import { compileToFunction } from '../src/compile'
 
-import type { DateTimeFormats } from '../src/types/index'
+import type { DateTimeFormats } from '../src/types'
 
 type MyDateTimeSchema = {
   short: {} // loose schema

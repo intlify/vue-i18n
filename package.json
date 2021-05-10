@@ -28,7 +28,7 @@
     "clean:dist": "rimraf ./dist ./packages/**/dist ./docs/.vitepress/dist",
     "clean:docs": "trash './docs/api/!(injection).md'",
     "clean:duplicate": "yarn-deduplicate yarn.lock",
-    "clean:type": "rimraf ./packages/**/types ./temp",
+    "clean:type": "rimraf ./temp",
     "coverage": "opener coverage/lcov-report/index.html",
     "dev": "node -r esbuild-register scripts/dev.ts",
     "dev:e2e": "jest --runInBand --config ./jest.e2e.config.js",

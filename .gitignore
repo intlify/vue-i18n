@@ -1,7 +1,6 @@
 dist
 docs/api/*.md
 !docs/api/injection.md
-types
 temp
 coverage
 node_modules
