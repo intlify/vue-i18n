@@ -1290,6 +1290,7 @@ export interface Composer<
    */
   mergeLocaleMessage<
     MessageSchema extends LocaleMessage<Message> = never,
+    LocaleSchema extends string = string,
     Locale extends PickupLocales<NonNullable<Messages>> = PickupLocales<
       NonNullable<Messages>
     >,
@@ -1297,7 +1298,7 @@ export interface Composer<
       ? Record<string, any>
       : MessageSchema
   >(
-    locale: Locale,
+    locale: LocaleSchema | Locale,
     message: Message
   ): void
   /**
@@ -1355,6 +1356,7 @@ export interface Composer<
    */
   mergeDateTimeFormat<
     DateTimeSchema extends Record<string, any> = never,
+    LocaleSchema extends string = string,
     Locale extends PickupLocales<NonNullable<DateTimeFormats>> = PickupLocales<
       NonNullable<DateTimeFormats>
     >,
@@ -1362,7 +1364,7 @@ export interface Composer<
       ? Record<string, any>
       : DateTimeSchema
   >(
-    locale: Locale,
+    locale: LocaleSchema | Locale,
     format: Formats
   ): void
   /**
@@ -1420,6 +1422,7 @@ export interface Composer<
    */
   mergeNumberFormat<
     NumberSchema extends Record<string, any> = never,
+    LocaleSchema extends string = string,
     Locale extends PickupLocales<NonNullable<NumberFormats>> = PickupLocales<
       NonNullable<NumberFormats>
     >,
@@ -1427,7 +1430,7 @@ export interface Composer<
       ? Record<string, any>
       : NumberSchema
   >(
-    locale: Locale,
+    locale: LocaleSchema | Locale,
     format: Formats
   ): void
   /**

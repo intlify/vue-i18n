@@ -37,7 +37,11 @@ export {
   ComposerOptions,
   Composer,
   CustomBlock,
-  CustomBlocks
+  CustomBlocks,
+  ComposerTranslation,
+  ComposerDateTimeFormatting,
+  ComposerNumberFormatting,
+  ComposerResolveLocaleMessageTranslation
 } from './composer'
 export {
   TranslateResult,
@@ -49,7 +53,8 @@ export {
   NumberFormatResult,
   Formatter,
   VueI18nOptions,
-  VueI18n
+  VueI18n,
+  ComponentInstanceCreatedListener
 } from './legacy'
 export {
   createI18n,
