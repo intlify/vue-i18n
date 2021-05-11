@@ -1768,7 +1768,7 @@ export function createComposer<Message = VueMessageType>(
         ? ((_context as unknown) as CoreInternalContext).__v_emitter
         : undefined,
       __meta: { framework: 'vue' }
-    } as any
+    }
     return createCoreContext(ctxOptions) as CoreContext<
       Message,
       LocaleMessages<LocaleMessage<Message>, Message>,
@@ -2079,7 +2079,7 @@ export function createComposer<Message = VueMessageType>(
     return messages != null
       ? messages
       : __root
-        ? __root.tm(key as any) as LocaleMessageValue<Message> || {}
+        ? __root.tm(key) as LocaleMessageValue<Message> || {}
         : {}
   }
 
