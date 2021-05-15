@@ -121,7 +121,7 @@ export type PreCompileHandler<Message = VueMessageType> = () => {
 
 export interface CustomBlock<Message = VueMessageType> {
   locale: Locale
-  resource: LocaleMessages<Message> | LocaleMessageDictionary<Message>
+  resource: LocaleMessages<Message>
 }
 
 export type CustomBlocks<Message = VueMessageType> = Array<CustomBlock<Message>>
@@ -1250,7 +1250,7 @@ export interface Composer<
       NonNullable<Messages>
     >,
     Return = [MessageSchema] extends [never]
-      ? NonNullable<Messages>[Locale] // TODO: more strict!
+      ? NonNullable<Messages>[Locale]
       : MessageSchema
   >(
     locale: LocaleSchema | Locale
@@ -1271,7 +1271,7 @@ export interface Composer<
       NonNullable<Messages>
     >,
     Message = [MessageSchema] extends [never]
-      ? NonNullable<Messages>[Locale] // TODO: more strict!
+      ? NonNullable<Messages>[Locale]
       : MessageSchema
   >(
     locale: LocaleSchema | Locale,
@@ -1316,7 +1316,7 @@ export interface Composer<
       NonNullable<DateTimeFormats>
     >,
     Return = [DateTimeSchema] extends [never]
-      ? NonNullable<DateTimeFormats>[Locale] // TODO: more strict!
+      ? NonNullable<DateTimeFormats>[Locale]
       : DateTimeSchema
   >(
     locale: LocaleSchema | Locale
@@ -1337,7 +1337,7 @@ export interface Composer<
       NonNullable<DateTimeFormats>
     >,
     Formats = [DateTimeSchema] extends [never]
-      ? NonNullable<DateTimeFormats>[Locale] // TODO: more strict!
+      ? NonNullable<DateTimeFormats>[Locale]
       : DateTimeSchema
   >(
     locale: LocaleSchema | Locale,
@@ -1382,7 +1382,7 @@ export interface Composer<
       NonNullable<NumberFormats>
     >,
     Return = [NumberSchema] extends [never]
-      ? NonNullable<NumberFormats>[Locale] // TODO: more strict!
+      ? NonNullable<NumberFormats>[Locale]
       : NumberSchema
   >(
     locale: LocaleSchema | Locale
@@ -1403,7 +1403,7 @@ export interface Composer<
       NonNullable<NumberFormats>
     >,
     Formats = [NumberSchema] extends [never]
-      ? NonNullable<NumberFormats>[Locale] // TODO: more strict!
+      ? NonNullable<NumberFormats>[Locale]
       : NumberSchema
   >(
     locale: LocaleSchema | Locale,

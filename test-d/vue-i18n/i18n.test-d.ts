@@ -6,9 +6,11 @@ import {
   PickupFallbackLocales
 } from '../../packages/core-base/src'
 import {
-  ComposerOptions,
-  createComposer
-} from '../../packages/vue-i18n/src/composer'
+  UseI18nOptions,
+  I18nOptions,
+  useI18n,
+  createI18n
+} from '../../packages/vue-i18n/src/i18n'
 import { SchemaParams, LocaleParams } from '../../packages/core-base/src'
 import { ResourceSchema, MyDatetimeScehma, MyNumberSchema } from '../schema'
 
@@ -47,6 +49,7 @@ const looseOptions = {
 // strict options
 const strictOptions = {
   locale: 'en',
+  legacy: false,
   fallbackLocale: {
     ja: ['en']
   },
@@ -68,9 +71,9 @@ const strictOptions = {
   }
 }
 
-expectType<ComposerOptions>(looseOptions)
+expectType<UseI18nOptions>(looseOptions)
 expectType<
-  ComposerOptions<
+  UseI18nOptions<
     string,
     SchemaParams<
       {
@@ -85,7 +88,7 @@ expectType<
 >(strictOptions)
 
 // check loose composer
-const looseComposer = createComposer(looseOptions)
+const looseComposer = useI18n(looseOptions)
 expectType<'en' | 'ja' | 'en-US' | 'ja-JP'>(looseComposer.locale.value)
 expectType<
   | 'en'
@@ -192,9 +195,7 @@ looseComposer.mergeNumberFormat<{ echoes: { act: string } }>('ja-JP', {
 })
 
 // check strict composer
-const strictComposer = createComposer<[ResourceSchema], 'en' | 'ja'>(
-  strictOptions
-)
+const strictComposer = useI18n<[ResourceSchema], 'en' | 'ja'>(strictOptions)
 expectType<'en' | 'ja'>(strictComposer.locale.value)
 expectType<
   | 'en'
@@ -243,71 +244,180 @@ strictComposer.mergeLocaleMessage<{ dio: string }>('en', {
   dio: 'The world!'
 })
 
-// check strict context with direct options
-const strictDirectComposer = createComposer<
-  {
-    message: ResourceSchema
-    datetime: MyDatetimeScehma
-    number: MyNumberSchema
-  },
-  { messages: 'en'; datetimeFormats: 'ja-JP' | 'zh'; numberFormats: 'ca' }
->({
-  messages: {
-    en: {
-      foo: '',
-      nest: {
-        bar: ''
+expectType<I18nOptions>(looseOptions)
+expectType<
+  I18nOptions<
+    string,
+    SchemaParams<
+      {
+        message: ResourceSchema
+        datetime: MyDatetimeScehma
+        number: MyNumberSchema
       },
-      errors: ['']
-    }
-  },
-  datetimeFormats: {
-    zh: {
-      short: {
-        hour: 'numeric'
-      }
-    },
-    'ja-JP': {
-      short: {
-        hour: 'numeric'
-      }
-    }
-  },
-  numberFormats: {
-    ca: {
-      currency: { style: 'symbol' }
-    }
-  }
-})
-expectType<'en' | 'zh' | 'ca' | 'ja-JP'>(strictDirectComposer.locale.value)
+      string
+    >,
+    LocaleParams<'en' | 'ja'>
+  >
+>(strictOptions)
+
+// check loose i18n
+const looseI18n = createI18n(looseOptions).global
+expectType<'en' | 'ja' | 'en-US' | 'ja-JP'>(looseI18n.locale)
 expectType<
   | 'en'
-  | 'zh'
-  | 'ca'
+  | 'ja'
+  | 'en-US'
   | 'ja-JP'
-  | ('en' | 'zh' | 'ca' | 'ja-JP')[]
-  | { [x in string]: PickupFallbackLocales<['en' | 'zh' | 'ca' | 'ja-JP']>[] }
+  | ('en' | 'ja' | 'en-US' | 'ja-JP')[]
+  | {
+      [x in string]: PickupFallbackLocales<['en' | 'ja' | 'en-US' | 'ja-JP']>[]
+    }
   | false
->(strictDirectComposer.fallbackLocale.value)
-expectType<{ en: ResourceSchema }>(strictDirectComposer.messages.value)
-expectType<{ zh: {}; 'ja-JP': { short: {} } }>(
-  strictDirectComposer.datetimeFormats.value
+>(looseI18n.fallbackLocale)
+expectType<{
+  en: {
+    foo: string
+    nest: {
+      bar: string
+    }
+  }
+  ja: {
+    bar: string
+    nest: {
+      bar: string
+    }
+  }
+}>(looseI18n.messages)
+expectType<{ 'en-US': { short: {} } }>(looseI18n.datetimeFormats)
+expectType<{ 'ja-JP': { currency: {} } }>(looseI18n.numberFormats)
+expectType<string>(looseI18n.t('nest.bar'))
+expectType<string>(looseI18n.t('nest', 'en'))
+expectType<string>(looseI18n.t('nest', 'en', [1]))
+expectType<string>(looseI18n.t('nest', 'en', { foo: 'test' }))
+expectType<string>(looseI18n.t('foo', [1]))
+expectType<string>(looseI18n.t('nest', { foo: 1 }))
+expectType<string>(looseI18n.tc('nest'))
+expectType<string>(looseI18n.tc('bar', 'en'))
+expectType<string>(looseI18n.tc('bar', ['foo']))
+expectType<string>(looseI18n.tc('bar', { foo: 'foo' }))
+expectType<string>(looseI18n.tc('nest.bar', 1))
+expectType<string>(looseI18n.tc('nest.bar', 1, ['bar']))
+expectType<string>(looseI18n.tc('nest.bar', 1, { foo: 'bar' }))
+expectType<boolean>(looseI18n.te('errors', 'en'))
+expectType<{ bar: string }>(looseI18n.tm('nest'))
+expectType<LocaleMessageValue>(looseI18n.tm('errors'))
+expectType<string>(looseI18n.rt('foo'))
+expectType<typeof looseI18n.messages.en>(looseI18n.getLocaleMessage('en'))
+expectType<{ japan: string }>(
+  looseI18n.getLocaleMessage<{ japan: string }>('japan')
 )
-expectType<{ ca: { currency: {} } }>(strictDirectComposer.numberFormats.value)
-expectType<string>(strictDirectComposer.d(new Date()))
-expectType<string>(strictDirectComposer.d(new Date(), 'short', 'ja-JP'))
-expectType<string>(
-  strictDirectComposer.d(new Date(), { key: 'short', locale: 'zh' })
+looseI18n.setLocaleMessage('en', {
+  foo: 'foo',
+  nest: {
+    bar: 'bar'
+  },
+  errors: ['error1']
+})
+looseI18n.setLocaleMessage<{ dio: string }>('jojo', {
+  dio: 'The world!'
+})
+looseI18n.mergeLocaleMessage('en', {
+  bar: 'foo'
+})
+looseI18n.mergeLocaleMessage<{ dio: string }>('en', {
+  dio: 'The world!'
+})
+expectType<typeof looseI18n.datetimeFormats['en-US']>(
+  looseI18n.getDateTimeFormat('en-US')
 )
-expectType<string>(strictDirectComposer.d(new Date(), 'custom' as any))
-expectType<string>(strictDirectComposer.n(1))
-expectType<string>(strictDirectComposer.n(1, 'currency', 'zh'))
-expectType<string>(strictDirectComposer.n(1, { key: 'currency', locale: 'en' }))
-expectType<string>(strictDirectComposer.n(1, 'custom' as any))
+expectType<{ long: { hour: string } }>(
+  looseI18n.getLocaleMessage<{ long: { hour: string } }>('en-US')
+)
+looseI18n.setDateTimeFormat('en-US', {
+  long: {
+    hour: 'numeric'
+  }
+})
+looseI18n.setDateTimeFormat<{ stop: { hour: string } }>('world', {
+  stop: { hour: 'infinity' }
+})
+looseI18n.mergeDateTimeFormat('en-US', {
+  long: { hour: 'numeric' }
+})
+looseI18n.mergeDateTimeFormat<{ stop: { hour: string } }>('en-US', {
+  stop: { hour: 'infinity' }
+})
+expectType<typeof looseI18n.numberFormats['ja-JP']>(
+  looseI18n.getNumberFormat('ja-JP')
+)
+expectType<{ weight: { unit: string } }>(
+  looseI18n.getNumberFormat<{ weight: { unit: string } }>('en-US')
+)
+looseI18n.setNumberFormat('en-US', {
+  weight: {
+    unit: 'kiro'
+  }
+})
+looseI18n.setNumberFormat<{ echoes: { act: string } }>('stand', {
+  echoes: { act: '2' }
+})
+looseI18n.mergeNumberFormat('ja-JP', {
+  weight: {
+    unit: 'kiro'
+  }
+})
+looseI18n.mergeNumberFormat<{ echoes: { act: string } }>('ja-JP', {
+  echoes: { act: '2' }
+})
 
-// const noOptionsComposer = createComposer({ missingWarn: true })
-const noOptionsComposer = createComposer({ locale: 'en' })
-expectType<unknown>(noOptionsComposer.locale.value)
-expectType<unknown>(noOptionsComposer.fallbackLocale.value)
-
-/* eslint-enable @typescript-eslint/no-explicit-any */
+// check strict i18n
+const strictI18n = createI18n<[ResourceSchema], 'en' | 'ja', false>(
+  strictOptions
+).global
+expectType<'en' | 'ja'>(strictI18n.locale.value)
+expectType<
+  | 'en'
+  | 'ja'
+  | ('en' | 'ja')[]
+  | { [x in string]: PickupFallbackLocales<['en' | 'ja']>[] }
+  | false
+>(strictI18n.fallbackLocale.value)
+expectType<{ en: ResourceSchema; ja: ResourceSchema }>(
+  strictI18n.messages.value
+)
+expectType<{ en: {}; ja: {} }>(strictI18n.datetimeFormats.value)
+expectType<{ en: {}; ja: {} }>(strictI18n.numberFormats.value)
+expectType<string>(strictI18n.t('nest.bar'))
+expectType<string>(strictI18n.t('nest', 1, { locale: 'en' }))
+expectType<string>(strictI18n.t('foo', 'default msg', { locale: 'en' }))
+expectType<string>(strictI18n.t('errors', [1], { plural: 1 }))
+expectType<string>(strictI18n.t('errors', [1], 1))
+expectType<string>(strictI18n.t('errors', [1], 'default msg'))
+expectType<string>(strictI18n.t(1, { foo: 1 }, { locale: 'en' }))
+expectType<string>(strictI18n.t('nestt', { foo: 1 }, 'msg'))
+expectType<boolean>(strictI18n.te('errors', 'en'))
+expectType<{ bar: string }>(strictI18n.tm('nest'))
+expectType<LocaleMessageValue>(strictI18n.tm('errors'))
+expectType<string>(strictI18n.rt('foo'))
+expectType<typeof strictI18n.messages.value.en>(
+  strictI18n.getLocaleMessage('en')
+)
+expectType<{ japan: string }>(
+  strictI18n.getLocaleMessage<{ japan: string }>('japan')
+)
+strictI18n.setLocaleMessage('en', {
+  foo: 'foo',
+  nest: {
+    bar: 'bar'
+  },
+  errors: ['error1']
+})
+strictI18n.setLocaleMessage<{ dio: string }>('jojo', {
+  dio: 'The world!'
+})
+strictI18n.mergeLocaleMessage('en', {
+  bar: 'foo'
+})
+strictI18n.mergeLocaleMessage<{ dio: string }>('en', {
+  dio: 'The world!'
+})

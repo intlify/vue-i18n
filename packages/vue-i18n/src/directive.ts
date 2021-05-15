@@ -8,8 +8,8 @@ import type {
   ComponentInternalInstance
 } from 'vue'
 import type { I18n, I18nInternal } from './i18n'
-import type { VueI18n, VueI18nInternal } from './legacy'
-import type { Composer, VueMessageType } from './composer'
+import type { VueI18nInternal } from './legacy'
+import type { Composer } from './composer'
 import type { Locale, TranslateOptions, NamedValue } from '@intlify/core-base'
 
 type VTDirectiveValue = {
@@ -20,50 +20,18 @@ type VTDirectiveValue = {
   plural?: number
 }
 
-function getComposer<
-  Messages,
-  DateTimeFormats,
-  NumberFormats,
-  Legacy extends boolean
->(
-  i18n: I18n<Messages, DateTimeFormats, NumberFormats, Legacy>,
+function getComposer(
+  i18n: I18n,
   instance: ComponentInternalInstance
-): Composer<VueMessageType, Messages, DateTimeFormats, NumberFormats> {
+): Composer {
   const i18nInternal = (i18n as unknown) as I18nInternal
   if (i18n.mode === 'composition') {
-    return (i18nInternal.__getInstance<
-      VueMessageType,
-      Messages,
-      DateTimeFormats,
-      NumberFormats,
-      Composer<VueMessageType, Messages, DateTimeFormats, NumberFormats>
-    >(instance) || i18n.global) as Composer<
-      VueMessageType,
-      Messages,
-      DateTimeFormats,
-      NumberFormats
-    >
+    return (i18nInternal.__getInstance(instance) || i18n.global) as Composer
   } else {
-    const vueI18n = i18nInternal.__getInstance<
-      VueMessageType,
-      Messages,
-      DateTimeFormats,
-      NumberFormats,
-      VueI18n<VueMessageType, Messages, DateTimeFormats, NumberFormats>
-    >(instance)
+    const vueI18n = i18nInternal.__getInstance(instance)
     return vueI18n != null
-      ? ((vueI18n as unknown) as VueI18nInternal<
-          VueMessageType,
-          Messages,
-          DateTimeFormats,
-          NumberFormats
-        >).__composer
-      : ((i18n.global as unknown) as VueI18nInternal<
-          VueMessageType,
-          Messages,
-          DateTimeFormats,
-          NumberFormats
-        >).__composer
+      ? ((vueI18n as unknown) as VueI18nInternal).__composer
+      : ((i18n.global as unknown) as VueI18nInternal).__composer
   }
 }
 
@@ -104,14 +72,7 @@ function getComposer<
  */
 export type TranslationDirective<T = HTMLElement> = ObjectDirective<T>
 
-export function vTDirective<
-  Messages,
-  DateTimeFormats,
-  NumberFormats,
-  Legacy extends boolean
->(
-  i18n: I18n<Messages, DateTimeFormats, NumberFormats, Legacy>
-): TranslationDirective<HTMLElement> {
+export function vTDirective(i18n: I18n): TranslationDirective<HTMLElement> {
   const bind = (
     el: HTMLElement,
     { instance, value, modifiers }: DirectiveBinding
@@ -128,7 +89,6 @@ export function vTDirective<
 
     const parsedValue = parseValue(value)
     // el.textContent = composer.t(...makeParams(parsedValue))
-    // TODO:
     el.textContent = Reflect.apply(composer.t, composer, [
       ...makeParams(parsedValue)
     ])

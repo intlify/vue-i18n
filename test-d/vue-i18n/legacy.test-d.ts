@@ -61,7 +61,6 @@ const strictOptions = {
       errors: ['error1']
     },
     ja: {
-      // bar: 'foo', // TODO:
       foo: 'foo',
       nest: {
         bar: 'bar'
@@ -134,12 +133,10 @@ expectType<boolean>(looseVueI18n.te('errors', 'en'))
 expectType<{ bar: string }>(looseVueI18n.tm('nest'))
 expectType<LocaleMessageValue<string>>(looseVueI18n.tm('errors'))
 expectType<string>(looseVueI18n.rt('foo'))
-// TODO: more strict!
 expectType<typeof looseVueI18n.messages.en>(looseVueI18n.getLocaleMessage('en'))
 expectType<{ japan: string }>(
   looseVueI18n.getLocaleMessage<{ japan: string }>('japan')
 )
-// TODO: more strict!
 looseVueI18n.setLocaleMessage('en', {
   foo: 'foo',
   nest: {
@@ -151,7 +148,6 @@ looseVueI18n.setLocaleMessage<{ dio: string }>('jojo', { dio: 'dio' })
 looseVueI18n.mergeLocaleMessage('en', {
   bar: 'foo'
 })
-// TODO: more strict!
 looseVueI18n.setDateTimeFormat('en-US', {
   long: {
     hour: 'numeric'
@@ -166,14 +162,12 @@ looseVueI18n.mergeDateTimeFormat('en-US', {
 looseVueI18n.mergeDateTimeFormat<{ stop: { hour: string } }>('en-US', {
   stop: { hour: 'infinity' }
 })
-// TODO: more strict!
 expectType<typeof looseVueI18n.numberFormats['ja-JP']>(
   looseVueI18n.getNumberFormat('ja-JP')
 )
 expectType<{ weight: { unit: string } }>(
   looseVueI18n.getNumberFormat<{ weight: { unit: string } }>('en-US')
 )
-// TODO: more strict!
 looseVueI18n.setNumberFormat('en-US', {
   weight: {
     unit: 'kiro'
@@ -223,14 +217,12 @@ expectType<boolean>(strictVueI18n.te('errors', 'en'))
 expectType<{ bar: string }>(strictVueI18n.tm('nest'))
 expectType<LocaleMessageValue<string>>(strictVueI18n.tm('errors'))
 expectType<string>(strictVueI18n.rt('foo'))
-// TODO: more strict!
 expectType<typeof strictVueI18n.messages.en>(
   strictVueI18n.getLocaleMessage('en')
 )
 expectType<{ japan: string }>(
   strictVueI18n.getLocaleMessage<{ japan: string }>('japan')
 )
-// TODO: more strict!
 strictVueI18n.setLocaleMessage('en', {
   foo: 'foo',
   nest: {

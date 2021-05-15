@@ -61,7 +61,6 @@ const strictOptions = {
       errors: ['error1']
     },
     ja: {
-      // bar: 'foo', // TODO:
       foo: 'foo',
       nest: {
         bar: 'bar'

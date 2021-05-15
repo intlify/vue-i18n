@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { EnableEmitter, DisableEmitter, createComposer } from './composer'
 import { I18nWarnCodes, getWarnMessage } from './warnings'
 import { createI18nError, I18nErrorCodes } from './errors'
@@ -914,6 +915,7 @@ export interface VueI18n<
    *
    * @VueI18nSee [Scope and Locale Changing](../guide/essentials/scope)
    */
+  // locale: Locales
   locale: Locales
   /**
    * @remarks
@@ -1160,7 +1162,7 @@ export interface VueI18n<
       NonNullable<Messages>
     >,
     Return = [MessageSchema] extends [never]
-      ? NonNullable<Messages>[Locale] // TODO: more strict!
+      ? NonNullable<Messages>[Locale]
       : MessageSchema
   >(
     locale: LocaleSchema | Locale
@@ -1181,7 +1183,7 @@ export interface VueI18n<
       NonNullable<Messages>
     >,
     Message = [MessageSchema] extends [never]
-      ? NonNullable<Messages>[Locale] // TODO: more strict!
+      ? NonNullable<Messages>[Locale]
       : MessageSchema
   >(
     locale: LocaleSchema | Locale,
@@ -1233,7 +1235,7 @@ export interface VueI18n<
       NonNullable<DateTimeFormats>
     >,
     Return = [DateTimeSchema] extends [never]
-      ? NonNullable<DateTimeFormats>[Locale] // TODO: more strict!
+      ? NonNullable<DateTimeFormats>[Locale]
       : DateTimeSchema
   >(
     locale: LocaleSchema | Locale
@@ -1254,7 +1256,7 @@ export interface VueI18n<
       NonNullable<DateTimeFormats>
     >,
     Formats = [DateTimeSchema] extends [never]
-      ? NonNullable<DateTimeFormats>[Locale] // TODO: more strict!
+      ? NonNullable<DateTimeFormats>[Locale]
       : DateTimeSchema
   >(
     locale: LocaleSchema | Locale,
@@ -1306,7 +1308,7 @@ export interface VueI18n<
       NonNullable<NumberFormats>
     >,
     Return = [NumberSchema] extends [never]
-      ? NonNullable<NumberFormats>[Locale] // TODO: more strict!
+      ? NonNullable<NumberFormats>[Locale]
       : NumberSchema
   >(
     locale: LocaleSchema | Locale
@@ -1327,7 +1329,7 @@ export interface VueI18n<
       NonNullable<NumberFormats>
     >,
     Formats = [NumberSchema] extends [never]
-      ? NonNullable<NumberFormats>[Locale] // TODO: more strict!
+      ? NonNullable<NumberFormats>[Locale]
       : NumberSchema
   >(
     locale: LocaleSchema | Locale,
@@ -1484,7 +1486,7 @@ export function createVueI18n<
   Message = VueMessageType,
   Options extends VueI18nOptions<Message> = {}
 >(
-  options: Options
+  options?: Options
 ): VueI18n<
   Message,
   Options['messages'],
@@ -1507,7 +1509,7 @@ export function createVueI18n<
     LocaleParams<Locales>
   >
 >(
-  options: Options
+  options?: Options
 ): VueI18n<
   Message,
   Options['messages'],
@@ -1834,12 +1836,10 @@ export function createVueI18n<Message = VueMessageType>(
     ;(vueI18n as VueI18nInternal<Message>).__enableEmitter = (
       emitter: VueDevToolsEmitter
     ): void => {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const __composer = composer as any
       __composer[EnableEmitter] && __composer[EnableEmitter](emitter)
     }
     ;(vueI18n as VueI18nInternal<Message>).__disableEmitter = (): void => {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const __composer = composer as any
       __composer[DisableEmitter] && __composer[DisableEmitter]()
     }
@@ -1847,3 +1847,5 @@ export function createVueI18n<Message = VueMessageType>(
 
   return vueI18n
 }
+
+/* eslint-enable @typescript-eslint/no-explicit-any */

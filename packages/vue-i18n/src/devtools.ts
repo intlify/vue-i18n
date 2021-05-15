@@ -28,29 +28,16 @@ import type {
 } from '@vue/devtools-api'
 import type { VueDevToolsTimelineEventPayloads } from '@intlify/vue-devtools'
 import type { I18n, I18nInternal } from './i18n'
-import type { Composer, VueMessageType } from './composer'
+import type { Composer } from './composer'
 import type { VueI18nInternal } from './legacy'
 
-type _I18n<
-  Messages,
-  DateTimeFormats,
-  NumberFormats,
-  Legacy extends boolean
-> = I18n<Messages, DateTimeFormats, NumberFormats, Legacy> & I18nInternal
+type _I18n = I18n & I18nInternal
 
 const VUE_I18N_COMPONENT_TYPES = 'vue-i18n: composer properties'
 
 let devtoolsApi: DevtoolsPluginApi
 
-export async function enableDevTools<
-  Messages,
-  DateTimeFormats,
-  NumberFormats,
-  Legacy extends boolean
->(
-  app: App,
-  i18n: _I18n<Messages, DateTimeFormats, NumberFormats, Legacy>
-): Promise<boolean> {
+export async function enableDevTools(app: App, i18n: _I18n): Promise<boolean> {
   return new Promise((resolve, reject) => {
     try {
       setupDevtoolsPlugin(
@@ -167,15 +154,10 @@ function getI18nScopeLable(instance: any): string {
   )
 }
 
-function updateComponentTreeTags<
-  Messages,
-  DateTimeFormats,
-  NumberFormats,
-  Legacy extends boolean
->(
+function updateComponentTreeTags(
   instance: any, // eslint-disable-line @typescript-eslint/no-explicit-any
   treeNode: ComponentTreeNode,
-  i18n: _I18n<Messages, DateTimeFormats, NumberFormats, Legacy>
+  i18n: _I18n
 ): void {
   // prettier-ignore
   const global = i18n.mode === 'composition'
@@ -285,14 +267,9 @@ function getMessageFunctionDetails(func: any): Record<string, unknown> {
   }
 }
 
-function registerScope<
-  Messages,
-  DateTimeFormats,
-  NumberFormats,
-  Legacy extends boolean
->(
+function registerScope(
   payload: HookPayloads[Hooks.GET_INSPECTOR_TREE],
-  i18n: _I18n<Messages, DateTimeFormats, NumberFormats, Legacy>
+  i18n: _I18n
 ): void {
   payload.rootNodes.push({
     id: 'global',
@@ -317,14 +294,9 @@ function registerScope<
   }
 }
 
-function getComponentInstance<
-  Messages,
-  DateTimeFormats,
-  NumberFormats,
-  Legacy extends boolean
->(
+function getComponentInstance(
   nodeId: string,
-  i18n: _I18n<Messages, DateTimeFormats, NumberFormats, Legacy>
+  i18n: _I18n
 ): ComponentInternalInstance | null {
   let instance: ComponentInternalInstance | null = null
 
@@ -340,62 +312,28 @@ function getComponentInstance<
   return instance
 }
 
-function getComposer<
-  Messages,
-  DateTimeFormats,
-  NumberFormats,
-  Legacy extends boolean
->(
-  nodeId: string,
-  i18n: _I18n<Messages, DateTimeFormats, NumberFormats, Legacy>
-): Composer<VueMessageType, Messages, DateTimeFormats, NumberFormats> | null {
+function getComposer(nodeId: string, i18n: _I18n): Composer | null {
   if (nodeId === 'global') {
     return i18n.mode === 'composition'
-      ? (i18n.global as Composer<
-          VueMessageType,
-          Messages,
-          DateTimeFormats,
-          NumberFormats
-        >)
-      : ((i18n.global as unknown) as VueI18nInternal<
-          VueMessageType,
-          Messages,
-          DateTimeFormats,
-          NumberFormats
-        >).__composer
+      ? ((i18n.global as unknown) as Composer)
+      : ((i18n.global as unknown) as VueI18nInternal).__composer
   } else {
     const instance = Array.from(i18n.__instances.values()).find(
       item => item.id.toString() === nodeId
     )
     if (instance) {
       return i18n.mode === 'composition'
-        ? // TODO:
-          ((instance as unknown) as Composer<
-            VueMessageType,
-            Messages,
-            DateTimeFormats,
-            NumberFormats
-          >)
-        : ((instance as unknown) as VueI18nInternal<
-            VueMessageType,
-            Messages,
-            DateTimeFormats,
-            NumberFormats
-          >).__composer
+        ? ((instance as unknown) as Composer)
+        : ((instance as unknown) as VueI18nInternal).__composer
     } else {
       return null
     }
   }
 }
 
-function inspectScope<
-  Messages,
-  DateTimeFormats,
-  NumberFormats,
-  Legacy extends boolean
->(
+function inspectScope(
   payload: HookPayloads[Hooks.GET_INSPECTOR_STATE],
-  i18n: _I18n<Messages, DateTimeFormats, NumberFormats, Legacy>
+  i18n: _I18n
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
 ): any {
   const composer = getComposer(payload.nodeId, i18n)
@@ -505,14 +443,9 @@ export function addTimelineEvent(
   }
 }
 
-function editScope<
-  Messages,
-  DateTimeFormats,
-  NumberFormats,
-  Legacy extends boolean
->(
+function editScope(
   payload: HookPayloads[Hooks.EDIT_INSPECTOR_STATE],
-  i18n: _I18n<Messages, DateTimeFormats, NumberFormats, Legacy>
+  i18n: _I18n
 ): void {
   const composer = getComposer(payload.nodeId, i18n)
   if (composer) {

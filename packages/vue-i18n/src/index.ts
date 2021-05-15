@@ -54,6 +54,10 @@ export {
   Formatter,
   VueI18nOptions,
   VueI18n,
+  VueI18nTranslation,
+  VueI18nDateTimeFormatting,
+  VueI18nNumberFormatting,
+  VueI18nResolveLocaleMessageTranslation,
   ComponentInstanceCreatedListener
 } from './legacy'
 export {

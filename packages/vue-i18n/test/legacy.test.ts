@@ -218,7 +218,7 @@ describe('t', () => {
     })
 
     expect(() => {
-      i18n.t(4 as unknown)
+      i18n.t(4 as any) // eslint-disable-line @typescript-eslint/no-explicit-any
     }).toThrowError(errorMessages[I18nErrorCodes.INVALID_ARGUMENT])
   })
 })
@@ -301,7 +301,7 @@ describe('tc', () => {
     })
 
     expect(() => {
-      i18n.tc(4 as unknown, 4)
+      i18n.tc(4 as any, 4) // eslint-disable-line @typescript-eslint/no-explicit-any
     }).toThrowError(errorMessages[I18nErrorCodes.INVALID_ARGUMENT])
   })
 })
@@ -314,7 +314,8 @@ test('te', () => {
         message: {
           hello: 'Hello!'
         }
-      }
+      },
+      ja: {}
     }
   })
 
