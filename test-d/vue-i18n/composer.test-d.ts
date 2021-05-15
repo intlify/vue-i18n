@@ -10,24 +10,7 @@ import {
   createComposer
 } from '../../packages/vue-i18n/src/composer'
 import { SchemaParams, LocaleParams } from '../../packages/core-base/src'
-
-type ResourceSchema = {
-  foo: string
-  nest: {
-    bar: string
-  }
-  errors: string[]
-}
-type MyDatetimeScehma = {
-  short: {
-    hour: 'numeric'
-  }
-}
-type MyNumberSchema = {
-  currency: {
-    style: 'symbol'
-  }
-}
+import { ResourceSchema, MyDatetimeScehma, MyNumberSchema } from '../schema'
 
 // loose options
 const looseOptions = {

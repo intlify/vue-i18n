@@ -28,9 +28,9 @@ import type {
 import type { I18nInternal } from './i18n'
 
 // supports compatibility for legacy vue-i18n APIs
-export function defineMixin<Messages, DateTimeFormats, NumberFormats>(
-  vuei18n: VueI18n<Messages, DateTimeFormats, NumberFormats>,
-  composer: Composer<Messages, DateTimeFormats, NumberFormats>,
+export function defineMixin<Message, Messages, DateTimeFormats, NumberFormats>(
+  vuei18n: VueI18n<Message, Messages, DateTimeFormats, NumberFormats>,
+  composer: Composer<Message, Messages, DateTimeFormats, NumberFormats>,
   i18n: I18nInternal
 ): ComponentOptions {
   return {
@@ -43,9 +43,9 @@ export function defineMixin<Messages, DateTimeFormats, NumberFormats>(
 
       const options = this.$options
       if (options.i18n) {
-        const optionsI18n = options.i18n as VueI18nOptions &
+        const optionsI18n = options.i18n as VueI18nOptions<Message> &
           ComposerInternalOptions<
-            VueMessageType,
+            Message,
             Messages,
             DateTimeFormats,
             NumberFormats
@@ -53,19 +53,35 @@ export function defineMixin<Messages, DateTimeFormats, NumberFormats>(
         if (options.__i18n) {
           optionsI18n.__i18n = options.__i18n
         }
-        optionsI18n.__root = composer as any
+        optionsI18n.__root = composer
         if (this === this.$root) {
           // TODO;
-          this.$i18n = mergeToRoot(vuei18n as any, optionsI18n as any)
+          this.$i18n = mergeToRoot<
+            Message,
+            Messages,
+            DateTimeFormats,
+            NumberFormats
+          >(vuei18n, optionsI18n)
         } else {
-          this.$i18n = createVueI18n(optionsI18n)
+          this.$i18n = createVueI18n<
+            Message,
+            Messages,
+            DateTimeFormats,
+            NumberFormats
+          >(optionsI18n as any) // TODO:
         }
       } else if (options.__i18n) {
         if (this === this.$root) {
-          this.$i18n = mergeToRoot(vuei18n, options)
+          this.$i18n = mergeToRoot<
+            Message,
+            Messages,
+            DateTimeFormats,
+            NumberFormats
+          >(vuei18n, options)
         } else {
           this.$i18n = createVueI18n({
-            __i18n: (options as ComposerInternalOptions<Messages>).__i18n,
+            __i18n: (options as ComposerInternalOptions<Message, Messages>)
+              .__i18n,
             __root: composer
           } as VueI18nOptions)
         }
@@ -75,18 +91,20 @@ export function defineMixin<Messages, DateTimeFormats, NumberFormats>(
       }
 
       ;((vuei18n as unknown) as VueI18nInternal<
+        Message,
         Messages,
         DateTimeFormats,
         NumberFormats
       >).__onComponentInstanceCreated(this.$i18n)
       i18n.__setInstance<
+        Message,
         Messages,
         DateTimeFormats,
         NumberFormats,
-        VueI18n<Messages, DateTimeFormats, NumberFormats>
+        VueI18n<Message, Messages, DateTimeFormats, NumberFormats>
       >(
         instance,
-        this.$i18n as VueI18n<Messages, DateTimeFormats, NumberFormats>
+        this.$i18n as VueI18n<Message, Messages, DateTimeFormats, NumberFormats>
       )
 
       // defines vue-i18n legacy APIs
@@ -109,6 +127,7 @@ export function defineMixin<Messages, DateTimeFormats, NumberFormats>(
         this.$el.__VUE_I18N__ = this.$i18n.__composer
         const emitter: VueDevToolsEmitter = (this.__v_emitter = createEmitter<VueDevToolsEmitterEvents>())
         const _vueI18n = (this.$i18n as unknown) as VueI18nInternal<
+          Message,
           Messages,
           DateTimeFormats,
           NumberFormats
@@ -132,6 +151,7 @@ export function defineMixin<Messages, DateTimeFormats, NumberFormats>(
           delete this.__v_emitter
         }
         const _vueI18n = (this.$i18n as unknown) as VueI18nInternal<
+          Message,
           Messages,
           DateTimeFormats,
           NumberFormats
@@ -154,16 +174,11 @@ export function defineMixin<Messages, DateTimeFormats, NumberFormats>(
   }
 }
 
-function mergeToRoot<Messages, DateTimeFormats, NumberFormats>(
-  root: VueI18n<Messages, DateTimeFormats, NumberFormats>,
-  options: VueI18nOptions &
-    ComposerInternalOptions<
-      VueMessageType,
-      Messages,
-      DateTimeFormats,
-      NumberFormats
-    >
-): VueI18n<Messages, DateTimeFormats, NumberFormats> {
+function mergeToRoot<Message, Messages, DateTimeFormats, NumberFormats>(
+  root: VueI18n<Message, Messages, DateTimeFormats, NumberFormats>,
+  options: VueI18nOptions<Message> &
+    ComposerInternalOptions<Message, Messages, DateTimeFormats, NumberFormats>
+): VueI18n<Message, Messages, DateTimeFormats, NumberFormats> {
   root.locale = options.locale || root.locale
   root.fallbackLocale = options.fallbackLocale || root.fallbackLocale
   root.missing = options.missing || root.missing
@@ -182,13 +197,13 @@ function mergeToRoot<Messages, DateTimeFormats, NumberFormats>(
   ;(root as any).__composer[SetPluralRulesSymbol](
     options.pluralizationRules || root.pluralizationRules
   )
-  const messages = getLocaleMessages<VueMessageType>(root.locale, {
+  const messages = getLocaleMessages(root.locale as Locale, {
     messages: options.messages,
-    __i18n: options.__i18n as any
+    __i18n: options.__i18n
   })
   Object.keys(messages).forEach(locale =>
     // TODO:
-    root.mergeLocaleMessage(locale, (messages as any)[locale] as any)
+    root.mergeLocaleMessage(locale, messages[locale])
   )
   if (options.datetimeFormats) {
     Object.keys(options.datetimeFormats).forEach(locale =>

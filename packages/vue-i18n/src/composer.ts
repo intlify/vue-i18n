@@ -928,11 +928,10 @@ export interface ComposerNumberFormatting<
    * @returns Formatted value
    */
   <
-    Value extends number = number,
     Key extends string = string,
     ResourceKeys extends PickupFormatKeys<NumberFormats> = PickupFormatKeys<NumberFormats>
   >(
-    value: Value,
+    value: number,
     keyOrOptions:
       | Key
       | ResourceKeys
@@ -953,11 +952,10 @@ export interface ComposerNumberFormatting<
    * @returns Formatted value
    */
   <
-    Value extends number = number,
     Key extends string = string,
     ResourceKeys extends PickupFormatKeys<NumberFormats> = PickupFormatKeys<NumberFormats>
   >(
-    value: Value,
+    value: number,
     keyOrOptions:
       | Key
       | ResourceKeys
@@ -1584,7 +1582,6 @@ export function createComposer<
   Options['datetimeFormats'],
   Options['numberFormats'],
   Options['locale']
-  // SchemaParams<LocaleMessage<Message>, Message>
 >
 
 export function createComposer<
@@ -1608,8 +1605,6 @@ export function createComposer<
   Options['datetimeFormats'],
   Options['numberFormats'],
   Options['locale']
-  // SchemaParams<Schema, Message>,
-  // LocaleParams<Locales>
 >
 
 /**

@@ -28,7 +28,7 @@ import type {
 } from '@vue/devtools-api'
 import type { VueDevToolsTimelineEventPayloads } from '@intlify/vue-devtools'
 import type { I18n, I18nInternal } from './i18n'
-import type { Composer } from './composer'
+import type { Composer, VueMessageType } from './composer'
 import type { VueI18nInternal } from './legacy'
 
 type _I18n<
@@ -348,11 +348,17 @@ function getComposer<
 >(
   nodeId: string,
   i18n: _I18n<Messages, DateTimeFormats, NumberFormats, Legacy>
-): Composer<Messages, DateTimeFormats, NumberFormats> | null {
+): Composer<VueMessageType, Messages, DateTimeFormats, NumberFormats> | null {
   if (nodeId === 'global') {
     return i18n.mode === 'composition'
-      ? (i18n.global as Composer<Messages, DateTimeFormats, NumberFormats>)
+      ? (i18n.global as Composer<
+          VueMessageType,
+          Messages,
+          DateTimeFormats,
+          NumberFormats
+        >)
       : ((i18n.global as unknown) as VueI18nInternal<
+          VueMessageType,
           Messages,
           DateTimeFormats,
           NumberFormats
@@ -365,11 +371,13 @@ function getComposer<
       return i18n.mode === 'composition'
         ? // TODO:
           ((instance as unknown) as Composer<
+            VueMessageType,
             Messages,
             DateTimeFormats,
             NumberFormats
           >)
         : ((instance as unknown) as VueI18nInternal<
+            VueMessageType,
             Messages,
             DateTimeFormats,
             NumberFormats
