@@ -290,10 +290,10 @@ export function createI18n<
   options: Options
 ): I18n<
   VueMessageType,
-  Options['messages'],
-  Options['datetimeFormats'],
-  Options['numberFormats'],
-  Options['locale'],
+  NonNullable<Options['messages']>,
+  NonNullable<Options['datetimeFormats']>,
+  NonNullable<Options['numberFormats']>,
+  NonNullable<Options['locale']>,
   Legacy
 >
 
@@ -314,10 +314,10 @@ export function createI18n<
   options: Options
 ): I18n<
   VueMessageType,
-  Options['messages'],
-  Options['datetimeFormats'],
-  Options['numberFormats'],
-  Options['locale'],
+  NonNullable<Options['messages']>,
+  NonNullable<Options['datetimeFormats']>,
+  NonNullable<Options['numberFormats']>,
+  NonNullable<Options['locale']>,
   Legacy
 >
 
@@ -502,10 +502,10 @@ export function useI18n<
   options?: Options
 ): Composer<
   Message,
-  Options['messages'],
-  Options['datetimeFormats'],
-  Options['numberFormats'],
-  Options['locale']
+  NonNullable<Options['messages']>,
+  NonNullable<Options['datetimeFormats']>,
+  NonNullable<Options['numberFormats']>,
+  NonNullable<Options['locale']>
 >
 
 export function useI18n<
@@ -525,10 +525,10 @@ export function useI18n<
   options?: Options
 ): Composer<
   Message,
-  Options['messages'],
-  Options['datetimeFormats'],
-  Options['numberFormats'],
-  Options['locale']
+  NonNullable<Options['messages']>,
+  NonNullable<Options['datetimeFormats']>,
+  NonNullable<Options['numberFormats']>,
+  NonNullable<Options['locale']>
 >
 
 /**
