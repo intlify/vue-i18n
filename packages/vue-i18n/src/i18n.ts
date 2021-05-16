@@ -68,13 +68,12 @@ declare module '@vue/runtime-core' {
  * @VueI18nGeneral
  */
 export type I18nOptions<
-  Message = VueMessageType,
   Schema extends {
     message?: unknown
     datetime?: unknown
     number?: unknown
   } = {
-    message: LocaleMessage<Message>
+    message: LocaleMessage<VueMessageType>
     datetime: DateTimeFormat
     number: NumberFormat
   },
@@ -87,8 +86,8 @@ export type I18nOptions<
     | string = Locale
 > = I18nAdditionalOptions &
   (
-    | ComposerOptions<Message, Schema, Locales>
-    | VueI18nOptions<Message, Schema, Locales>
+    | ComposerOptions<VueMessageType, Schema, Locales>
+    | VueI18nOptions<VueMessageType, Schema, Locales>
   )
 
 /**
@@ -143,7 +142,6 @@ export type I18nMode = 'legacy' | 'composition'
  * @VueI18nGeneral
  */
 export interface I18n<
-  Message = VueMessageType,
   Messages = {},
   DateTimeFormats = {},
   NumberFormats = {},
@@ -169,9 +167,9 @@ export interface I18n<
    * An instance of this property is **global scope***.
    */
   readonly global: Legacy extends true
-    ? VueI18n<Message, Messages, DateTimeFormats, NumberFormats, OptionLocale>
+    ? VueI18n<VueMessageType, Messages, DateTimeFormats, NumberFormats, OptionLocale>
     : Legacy extends false
-      ? Composer<Message, Messages, DateTimeFormats, NumberFormats, OptionLocale>
+      ? Composer<VueMessageType, Messages, DateTimeFormats, NumberFormats, OptionLocale>
       : unknown
   /**
    * Install entry point
@@ -188,7 +186,6 @@ export interface I18n<
  * @internal
  */
 export interface I18nInternal<
-  Message = VueMessageType,
   Messages = {},
   DateTimeFormats = {},
   NumberFormats = {},
@@ -196,14 +193,32 @@ export interface I18nInternal<
 > {
   __instances: Map<
     ComponentInternalInstance,
-    | VueI18n<Message, Messages, DateTimeFormats, NumberFormats, OptionLocale>
-    | Composer<Message, Messages, DateTimeFormats, NumberFormats, OptionLocale>
+    | VueI18n<
+        VueMessageType,
+        Messages,
+        DateTimeFormats,
+        NumberFormats,
+        OptionLocale
+      >
+    | Composer<
+        VueMessageType,
+        Messages,
+        DateTimeFormats,
+        NumberFormats,
+        OptionLocale
+      >
   >
   __getInstance<
     Instance extends
-      | VueI18n<Message, Messages, DateTimeFormats, NumberFormats, OptionLocale>
+      | VueI18n<
+          VueMessageType,
+          Messages,
+          DateTimeFormats,
+          NumberFormats,
+          OptionLocale
+        >
       | Composer<
-          Message,
+          VueMessageType,
           Messages,
           DateTimeFormats,
           NumberFormats,
@@ -214,9 +229,15 @@ export interface I18nInternal<
   ): Instance | null
   __setInstance<
     Instance extends
-      | VueI18n<Message, Messages, DateTimeFormats, NumberFormats, OptionLocale>
+      | VueI18n<
+          VueMessageType,
+          Messages,
+          DateTimeFormats,
+          NumberFormats,
+          OptionLocale
+        >
       | Composer<
-          Message,
+          VueMessageType,
           Messages,
           DateTimeFormats,
           NumberFormats,
@@ -250,13 +271,12 @@ export type I18nScope = 'local' | 'parent' | 'global'
  * @VueI18nComposition
  */
 export type UseI18nOptions<
-  Message = VueMessageType,
   Schema extends {
     message?: unknown
     datetime?: unknown
     number?: unknown
   } = {
-    message: LocaleMessage<Message>
+    message: LocaleMessage<VueMessageType>
     datetime: DateTimeFormat
     number: NumberFormat
   },
@@ -267,7 +287,7 @@ export type UseI18nOptions<
         numberFormats: unknown
       }
     | string = Locale
-> = ComposerAdditionalOptions & ComposerOptions<Message, Schema, Locales>
+> = ComposerAdditionalOptions & ComposerOptions<VueMessageType, Schema, Locales>
 
 /**
  * Composer additional options for `useI18n`
@@ -289,7 +309,6 @@ export function createI18n<
 >(
   options: Options
 ): I18n<
-  VueMessageType,
   NonNullable<Options['messages']>,
   NonNullable<Options['datetimeFormats']>,
   NonNullable<Options['numberFormats']>,
@@ -302,18 +321,12 @@ export function createI18n<
   Locales = 'en-US',
   Legacy extends boolean = true,
   Options extends I18nOptions<
-    VueMessageType,
     SchemaParams<Schema, VueMessageType>,
     LocaleParams<Locales>
-  > = I18nOptions<
-    VueMessageType,
-    SchemaParams<Schema, VueMessageType>,
-    LocaleParams<Locales>
-  >
+  > = I18nOptions<SchemaParams<Schema, VueMessageType>, LocaleParams<Locales>>
 >(
   options: Options
 ): I18n<
-  VueMessageType,
   NonNullable<Options['messages']>,
   NonNullable<Options['datetimeFormats']>,
   NonNullable<Options['numberFormats']>,
@@ -495,9 +508,7 @@ export function createI18n(options: any = {}): any {
   return i18n
 }
 
-export function useI18n<
-  Options extends UseI18nOptions<VueMessageType> = UseI18nOptions<VueMessageType>
->(
+export function useI18n<Options extends UseI18nOptions = UseI18nOptions>(
   options?: Options
 ): Composer<
   VueMessageType,
@@ -511,11 +522,9 @@ export function useI18n<
   Schema = LocaleMessage,
   Locales = 'en-US',
   Options extends UseI18nOptions<
-    VueMessageType,
     SchemaParams<Schema, VueMessageType>,
     LocaleParams<Locales>
   > = UseI18nOptions<
-    VueMessageType,
     SchemaParams<Schema, VueMessageType>,
     LocaleParams<Locales>
   >
