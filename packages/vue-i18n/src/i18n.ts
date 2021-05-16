@@ -496,12 +496,11 @@ export function createI18n(options: any = {}): any {
 }
 
 export function useI18n<
-  Message = VueMessageType,
-  Options extends UseI18nOptions<Message> = UseI18nOptions<Message>
+  Options extends UseI18nOptions<VueMessageType> = UseI18nOptions<VueMessageType>
 >(
   options?: Options
 ): Composer<
-  Message,
+  VueMessageType,
   NonNullable<Options['messages']>,
   NonNullable<Options['datetimeFormats']>,
   NonNullable<Options['numberFormats']>,
@@ -511,20 +510,19 @@ export function useI18n<
 export function useI18n<
   Schema = LocaleMessage,
   Locales = 'en-US',
-  Message = VueMessageType,
   Options extends UseI18nOptions<
     VueMessageType,
-    SchemaParams<Schema, Message>,
+    SchemaParams<Schema, VueMessageType>,
     LocaleParams<Locales>
   > = UseI18nOptions<
     VueMessageType,
-    SchemaParams<Schema, Message>,
+    SchemaParams<Schema, VueMessageType>,
     LocaleParams<Locales>
   >
 >(
   options?: Options
 ): Composer<
-  Message,
+  VueMessageType,
   NonNullable<Options['messages']>,
   NonNullable<Options['datetimeFormats']>,
   NonNullable<Options['numberFormats']>,
