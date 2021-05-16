@@ -589,7 +589,13 @@ export function useI18n<
  * @VueI18nComposition
  */
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export function useI18n(options: any = {}): any {
+export function useI18n<
+  Options extends UseI18nOptions = UseI18nOptions,
+  Messages = NonNullable<Options['messages']>,
+  DateTimeFormats = NonNullable<Options['datetimeFormats']>,
+  NumberFormats = NonNullable<Options['numberFormats']>,
+  OptionLocale = NonNullable<Options['locale']>
+>(options: Options = {} as Options) {
   const instance = getCurrentInstance()
   if (instance == null) {
     throw createI18nError(I18nErrorCodes.MUST_BE_CALL_SETUP_TOP)
@@ -652,7 +658,13 @@ export function useI18n(options: any = {}): any {
         })
       }
     }
-    return global
+    return global as Composer<
+      VueMessageType,
+      Messages,
+      DateTimeFormats,
+      NumberFormats,
+      OptionLocale
+    >
   }
 
   if (scope === 'parent') {
@@ -663,7 +675,13 @@ export function useI18n(options: any = {}): any {
       }
       composer = (global as unknown) as Composer
     }
-    return composer
+    return composer as Composer<
+      VueMessageType,
+      Messages,
+      DateTimeFormats,
+      NumberFormats,
+      OptionLocale
+    >
   }
 
   // scope 'local' case
@@ -692,7 +710,13 @@ export function useI18n(options: any = {}): any {
     i18nInternal.__setInstance(instance, composer)
   }
 
-  return composer
+  return composer as Composer<
+    VueMessageType,
+    Messages,
+    DateTimeFormats,
+    NumberFormats,
+    OptionLocale
+  >
 }
 
 function getComposer(

@@ -74,7 +74,6 @@ const strictOptions = {
 expectType<UseI18nOptions>(looseOptions)
 expectType<
   UseI18nOptions<
-    string,
     SchemaParams<
       {
         message: ResourceSchema
@@ -244,10 +243,16 @@ strictComposer.mergeLocaleMessage<{ dio: string }>('en', {
   dio: 'The world!'
 })
 
+// not local scope
+const globalComposer = useI18n<[ResourceSchema], 'en' | 'ja'>({
+  inheritLocale: true,
+  useScope: 'global'
+})
+expect<string>(globalComposer.t('nest.bar', { foo: 1 }, { locale: 'ja' }))
+
 expectType<I18nOptions>(looseOptions)
 expectType<
   I18nOptions<
-    string,
     SchemaParams<
       {
         message: ResourceSchema
