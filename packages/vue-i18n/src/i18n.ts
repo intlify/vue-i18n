@@ -512,24 +512,14 @@ export function createI18n(options: any = {}): any {
   return i18n
 }
 
-export function useI18n<
-  Options extends UseI18nOptions = UseI18nOptions,
-  Messages = Options['messages'] extends object ? Options['messages'] : {},
-  DateTimeFormats = Options['datetimeFormats'] extends object
-    ? Options['datetimeFormats']
-    : {},
-  NumberFormats = Options['numberFormats'] extends object
-    ? Options['numberFormats']
-    : {},
-  OptionLocale = Options['locale'] extends string ? Options['locale'] : Locale
->(
+export function useI18n<Options extends UseI18nOptions = UseI18nOptions>(
   options?: Options
 ): Composer<
   VueMessageType,
-  Messages,
-  DateTimeFormats,
-  NumberFormats,
-  OptionLocale
+  NonNullable<Options['messages']>,
+  NonNullable<Options['datetimeFormats']>,
+  NonNullable<Options['numberFormats']>,
+  NonNullable<Options['locale']>
 >
 
 export function useI18n<
@@ -541,23 +531,15 @@ export function useI18n<
   > = UseI18nOptions<
     SchemaParams<Schema, VueMessageType>,
     LocaleParams<Locales>
-  >,
-  Messages = Options['messages'] extends object ? Options['messages'] : {},
-  DateTimeFormats = Options['datetimeFormats'] extends object
-    ? Options['datetimeFormats']
-    : {},
-  NumberFormats = Options['numberFormats'] extends object
-    ? Options['numberFormats']
-    : {},
-  OptionLocale = Options['locale'] extends string ? Options['locale'] : Locale
+  >
 >(
   options?: Options
 ): Composer<
   VueMessageType,
-  Messages,
-  DateTimeFormats,
-  NumberFormats,
-  OptionLocale
+  NonNullable<Options['messages']>,
+  NonNullable<Options['datetimeFormats']>,
+  NonNullable<Options['numberFormats']>,
+  NonNullable<Options['locale']>
 >
 
 /**
@@ -613,14 +595,10 @@ export function useI18n<
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function useI18n<
   Options extends UseI18nOptions = UseI18nOptions,
-  Messages = Options['messages'] extends object ? Options['messages'] : {},
-  DateTimeFormats = Options['datetimeFormats'] extends object
-    ? Options['datetimeFormats']
-    : {},
-  NumberFormats = Options['numberFormats'] extends object
-    ? Options['numberFormats']
-    : {},
-  OptionLocale = Options['locale'] extends string ? Options['locale'] : Locale
+  Messages = NonNullable<Options['messages']>,
+  DateTimeFormats = NonNullable<Options['datetimeFormats']>,
+  NumberFormats = NonNullable<Options['numberFormats']>,
+  OptionLocale = NonNullable<Options['locale']>
 >(options: Options = {} as Options) {
   const instance = getCurrentInstance()
   if (instance == null) {
