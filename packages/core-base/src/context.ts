@@ -216,10 +216,11 @@ export type CoreContext<
   Messages = {},
   DateTimeFormats = {},
   NumberFormats = {},
-  Locales =
+  ResourceLocales =
     | PickupLocales<NonNullable<Messages>>
     | PickupLocales<NonNullable<DateTimeFormats>>
-    | PickupLocales<NonNullable<NumberFormats>>
+    | PickupLocales<NonNullable<NumberFormats>>,
+  Locales = [ResourceLocales] extends [never] ? Locale : ResourceLocales
 > = CoreCommonContext<Message, Locales> &
   CoreTranslationContext<NonNullable<Messages>, Message> &
   CoreDateTimeContext<NonNullable<DateTimeFormats>> &
@@ -284,15 +285,17 @@ let _cid = 0
 
 export function createCoreContext<
   Message = string,
-  Options extends CoreOptions<Message> = CoreOptions<Message>
+  Options extends CoreOptions<Message> = CoreOptions<Message>,
+  Messages = Options['messages'] extends object ? Options['messages'] : {},
+  DateTimeFormats = Options['datetimeFormats'] extends object
+    ? Options['datetimeFormats']
+    : {},
+  NumberFormats = Options['numberFormats'] extends object
+    ? Options['numberFormats']
+    : {}
 >(
   options: Options
-): CoreContext<
-  Message,
-  Options['messages'],
-  Options['datetimeFormats'],
-  Options['numberFormats']
->
+): CoreContext<Message, Messages, DateTimeFormats, NumberFormats>
 
 export function createCoreContext<
   Schema = LocaleMessage,
@@ -302,15 +305,21 @@ export function createCoreContext<
     Message,
     SchemaParams<Schema, Message>,
     LocaleParams<Locales>
-  > = CoreOptions<Message, SchemaParams<Schema, Message>, LocaleParams<Locales>>
+  > = CoreOptions<
+    Message,
+    SchemaParams<Schema, Message>,
+    LocaleParams<Locales>
+  >,
+  Messages = Options['messages'] extends object ? Options['messages'] : {},
+  DateTimeFormats = Options['datetimeFormats'] extends object
+    ? Options['datetimeFormats']
+    : {},
+  NumberFormats = Options['numberFormats'] extends object
+    ? Options['numberFormats']
+    : {}
 >(
   options: Options
-): CoreContext<
-  Message,
-  Options['messages'],
-  Options['datetimeFormats'],
-  Options['numberFormats']
->
+): CoreContext<Message, Messages, DateTimeFormats, NumberFormats>
 
 export function createCoreContext<Message = string>(options: any = {}): any {
   // setup options

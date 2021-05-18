@@ -2,6 +2,8 @@
 import { expectType } from '..'
 
 import {
+  Locale,
+  FallbackLocale,
   LocaleMessageValue,
   PickupFallbackLocales
 } from '../../packages/core-base/src'
@@ -240,4 +242,8 @@ strictVueI18n.mergeLocaleMessage<{ dio: string }>('en', {
   dio: 'The world!'
 })
 
-/* eslint-enable @typescript-eslint/no-explicit-any */
+const nullVueI18n = createVueI18n({})
+expectType<Locale>(nullVueI18n.locale)
+nullVueI18n.locale = 'en'
+expectType<FallbackLocale>(nullVueI18n.fallbackLocale)
+nullVueI18n.fallbackLocale = 'fr'

@@ -885,14 +885,14 @@ export interface VueI18n<
   Messages = {},
   DateTimeFormats = {},
   NumberFormats = {},
-  OptionLocale = unknown,
+  OptionLocale = Locale,
   ResourceLocales =
     | PickupLocales<NonNullable<Messages>>
     | PickupLocales<NonNullable<DateTimeFormats>>
     | PickupLocales<NonNullable<NumberFormats>>,
   Locales = OptionLocale extends string
     ? [ResourceLocales] extends [never]
-      ? string
+      ? Locale
       : ResourceLocales
     : OptionLocale | ResourceLocales,
   Composition extends Composer<
@@ -1484,16 +1484,15 @@ function convertComposerOptions<
 
 export function createVueI18n<
   Message = VueMessageType,
-  Options extends VueI18nOptions<Message> = {}
->(
-  options?: Options
-): VueI18n<
-  Message,
-  Options['messages'],
-  Options['datetimeFormats'],
-  Options['numberFormats'],
-  Options['locale']
->
+  Options extends VueI18nOptions<Message> = VueI18nOptions<Message>,
+  Messages = Options['messages'] extends object ? Options['messages'] : {},
+  DateTimeFormats = Options['datetimeFormats'] extends object
+    ? Options['datetimeFormats']
+    : {},
+  NumberFormats = Options['numberFormats'] extends object
+    ? Options['numberFormats']
+    : {}
+>(options?: Options): VueI18n<Message, Messages, DateTimeFormats, NumberFormats>
 
 export function createVueI18n<
   Schema = LocaleMessage,
@@ -1507,16 +1506,15 @@ export function createVueI18n<
     Message,
     SchemaParams<Schema, Message>,
     LocaleParams<Locales>
-  >
->(
-  options?: Options
-): VueI18n<
-  Message,
-  Options['messages'],
-  Options['datetimeFormats'],
-  Options['numberFormats'],
-  Options['locale']
->
+  >,
+  Messages = Options['messages'] extends object ? Options['messages'] : {},
+  DateTimeFormats = Options['datetimeFormats'] extends object
+    ? Options['datetimeFormats']
+    : {},
+  NumberFormats = Options['numberFormats'] extends object
+    ? Options['numberFormats']
+    : {}
+>(options?: Options): VueI18n<Message, Messages, DateTimeFormats, NumberFormats>
 
 /**
  * create VueI18n interface factory

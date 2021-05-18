@@ -6,7 +6,9 @@ import {
   SchemaParams,
   LocaleParams,
   PickupFallbackLocales,
-  createCoreContext
+  createCoreContext,
+  Locale,
+  FallbackLocale
 } from '../../packages/core-base/src'
 import type {
   ResourceSchema,
@@ -182,5 +184,11 @@ expectType<
 expectType<{ en: ResourceSchema }>(strictDirectCtx.messages)
 expectType<{ zh: {}; 'ja-JP': { short: {} } }>(strictDirectCtx.datetimeFormats)
 expectType<{ ca: { currency: {} } }>(strictDirectCtx.numberFormats)
+
+const nullCtx = createCoreContext({})
+expectType<Locale>(nullCtx.locale)
+nullCtx.locale = 'ja'
+expectType<FallbackLocale>(nullCtx.fallbackLocale)
+nullCtx.fallbackLocale = 'en'
 
 /* eslint-enable @typescript-eslint/no-explicit-any */

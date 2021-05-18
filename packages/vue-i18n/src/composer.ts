@@ -977,14 +977,14 @@ export interface Composer<
   Messages = {},
   DateTimeFormats = {},
   NumberFormats = {},
-  OptionLocale = unknown,
+  OptionLocale = Locale,
   ResourceLocales =
     | PickupLocales<NonNullable<Messages>>
     | PickupLocales<NonNullable<DateTimeFormats>>
     | PickupLocales<NonNullable<NumberFormats>>,
-  Locales = OptionLocale extends string
+  Locales = OptionLocale extends Locale
     ? [ResourceLocales] extends [never]
-      ? string
+      ? Locale
       : ResourceLocales
     : OptionLocale | ResourceLocales
 > {
@@ -1483,17 +1483,15 @@ type ComposerWarnType = 'translate' | 'number format' | 'datetime format'
 
 let composerID = 0
 
-function defineCoreMissingHandler<Message = VueMessageType>(
-  missing: MissingHandler
-): CoreMissingHandler<Message> {
+function defineCoreMissingHandler(missing: MissingHandler): CoreMissingHandler {
   return ((
-    ctx: CoreContext<Message>,
+    ctx: CoreContext,
     locale: Locale,
     key: Path,
     type: string
   ): string | void => {
     return missing(locale, key, getCurrentInstance() || undefined, type)
-  }) as CoreMissingHandler<Message>
+  }) as CoreMissingHandler
 }
 
 type GetLocaleMessagesOptions<Message = VueMessageType, Messages = {}> = {
@@ -1573,16 +1571,15 @@ const getMetaInfo = /* #__PURE__*/ (): MetaInfo | null => {
 
 export function createComposer<
   Message = VueMessageType,
-  Options extends ComposerOptions<Message> = {}
->(
-  options: Options
-): Composer<
-  Message,
-  Options['messages'],
-  Options['datetimeFormats'],
-  Options['numberFormats'],
-  Options['locale']
->
+  Options extends ComposerOptions<Message> = ComposerOptions<Message>,
+  Messages = Options['messages'] extends object ? Options['messages'] : {},
+  DateTimeFormats = Options['datetimeFormats'] extends object
+    ? Options['datetimeFormats']
+    : {},
+  NumberFormats = Options['numberFormats'] extends object
+    ? Options['numberFormats']
+    : {}
+>(options: Options): Composer<Message, Messages, DateTimeFormats, NumberFormats>
 
 export function createComposer<
   Schema = LocaleMessage,
@@ -1596,16 +1593,15 @@ export function createComposer<
     Message,
     SchemaParams<Schema, Message>,
     LocaleParams<Locales>
-  >
->(
-  options: Options
-): Composer<
-  Message,
-  Options['messages'],
-  Options['datetimeFormats'],
-  Options['numberFormats'],
-  Options['locale']
->
+  >,
+  Messages = Options['messages'] extends object ? Options['messages'] : {},
+  DateTimeFormats = Options['datetimeFormats'] extends object
+    ? Options['datetimeFormats']
+    : {},
+  NumberFormats = Options['numberFormats'] extends object
+    ? Options['numberFormats']
+    : {}
+>(options: Options): Composer<Message, Messages, DateTimeFormats, NumberFormats>
 
 /**
  * Create composer interface factory
@@ -1695,7 +1691,7 @@ export function createComposer<Message = VueMessageType>(
   // runtime missing
   let _missing = isFunction(options.missing) ? options.missing : null
   let _runtimeMissing = isFunction(options.missing)
-    ? defineCoreMissingHandler<Message>(options.missing)
+    ? defineCoreMissingHandler(options.missing)
     : null
 
   // postTranslation handler
@@ -1722,19 +1718,9 @@ export function createComposer<Message = VueMessageType>(
 
   // runtime context
   // eslint-disable-next-line prefer-const
-  let _context: CoreContext<
-    Message,
-    LocaleMessages<LocaleMessage<Message>, Message>,
-    DateTimeFormatsType,
-    NumberFormatsType
-  >
+  let _context: CoreContext
 
-  function getCoreContext(): CoreContext<
-    Message,
-    LocaleMessages<LocaleMessage<Message>, Message>,
-    DateTimeFormatsType,
-    NumberFormatsType
-  > {
+  function getCoreContext(): CoreContext {
     const ctxOptions = {
       version: VERSION,
       locale: _locale.value,
@@ -1764,20 +1750,11 @@ export function createComposer<Message = VueMessageType>(
         : undefined,
       __meta: { framework: 'vue' }
     }
-    return createCoreContext(ctxOptions) as CoreContext<
-      Message,
-      LocaleMessages<LocaleMessage<Message>, Message>,
-      DateTimeFormatsType,
-      NumberFormatsType
-    >
+    return createCoreContext(ctxOptions as any)
   }
 
   _context = getCoreContext()
-  updateFallbackLocale<Message>(
-    _context as any,
-    _locale.value,
-    _fallbackLocale.value
-  )
+  updateFallbackLocale(_context, _locale.value, _fallbackLocale.value)
 
   // track reactivity
   function trackReactivityValues() {
@@ -1804,8 +1781,8 @@ export function createComposer<Message = VueMessageType>(
     get: () => _fallbackLocale.value,
     set: val => {
       _fallbackLocale.value = val
-      _context.fallbackLocale = _fallbackLocale.value as any
-      updateFallbackLocale(_context as any, _locale.value, val)
+      _context.fallbackLocale = _fallbackLocale.value
+      updateFallbackLocale(_context, _locale.value, val)
     }
   })
 
@@ -1829,7 +1806,7 @@ export function createComposer<Message = VueMessageType>(
 
   // setPostTranslationHandler
   function setPostTranslationHandler(
-    handler: PostTranslationHandler<Message> | null
+    handler: PostTranslationHandler | null
   ): void {
     _postTranslation = handler
     _context.postTranslation = handler
@@ -2051,8 +2028,8 @@ export function createComposer<Message = VueMessageType>(
 
   function resolveMessages(key: Path): LocaleMessageValue<Message> | null {
     let messages: LocaleMessageValue<Message> | null = null
-    const locales = getLocaleChain<Message>(
-      _context as any,
+    const locales = getLocaleChain(
+      _context,
       _fallbackLocale.value,
       _locale.value
     )
@@ -2111,11 +2088,7 @@ export function createComposer<Message = VueMessageType>(
   function setDateTimeFormat(locale: Locale, format: DateTimeFormat): void {
     _datetimeFormats.value[locale] = format
     _context.datetimeFormats = _datetimeFormats.value
-    clearDateTimeFormat<DateTimeFormatsType, Message>(
-      _context as any,
-      locale,
-      format
-    )
+    clearDateTimeFormat(_context, locale, format)
   }
 
   // mergeDateTimeFormat
@@ -2125,11 +2098,7 @@ export function createComposer<Message = VueMessageType>(
       format
     )
     _context.datetimeFormats = _datetimeFormats.value
-    clearDateTimeFormat<DateTimeFormatsType, Message>(
-      _context as any,
-      locale,
-      format
-    )
+    clearDateTimeFormat(_context, locale, format)
   }
 
   // getNumberFormat
@@ -2141,11 +2110,7 @@ export function createComposer<Message = VueMessageType>(
   function setNumberFormat(locale: Locale, format: NumberFormat): void {
     _numberFormats.value[locale] = format
     _context.numberFormats = _numberFormats.value
-    clearNumberFormat<NumberFormatsType, Message>(
-      _context as any,
-      locale,
-      format
-    )
+    clearNumberFormat(_context, locale, format)
   }
 
   // mergeNumberFormat
@@ -2155,11 +2120,7 @@ export function createComposer<Message = VueMessageType>(
       format
     )
     _context.numberFormats = _numberFormats.value
-    clearNumberFormat<NumberFormatsType, Message>(
-      _context as any,
-      locale,
-      format
-    )
+    clearNumberFormat(_context, locale, format)
   }
 
   // for debug
@@ -2167,26 +2128,18 @@ export function createComposer<Message = VueMessageType>(
 
   // watch root locale & fallbackLocale
   if (__root) {
-    watch(__root.locale as any, (val: Locale) => {
+    watch(__root.locale, (val: Locale) => {
       if (_inheritLocale) {
         _locale.value = val
         _context.locale = val
-        updateFallbackLocale<Message>(
-          _context as any,
-          _locale.value,
-          _fallbackLocale.value
-        )
+        updateFallbackLocale(_context, _locale.value, _fallbackLocale.value)
       }
     })
-    watch(__root.fallbackLocale as any, (val: FallbackLocale) => {
+    watch(__root.fallbackLocale, (val: FallbackLocale) => {
       if (_inheritLocale) {
         _fallbackLocale.value = val
-        _context.fallbackLocale = val as any
-        updateFallbackLocale<Message>(
-          _context as any,
-          _locale.value,
-          _fallbackLocale.value
-        )
+        _context.fallbackLocale = val
+        updateFallbackLocale(_context, _locale.value, _fallbackLocale.value)
       }
     })
   }
@@ -2203,12 +2156,8 @@ export function createComposer<Message = VueMessageType>(
       _inheritLocale = val
       if (val && __root) {
         _locale.value = __root.locale.value as Locale
-        _fallbackLocale.value = __root.fallbackLocale.value as FallbackLocale
-        updateFallbackLocale<Message>(
-          _context as any,
-          _locale.value,
-          _fallbackLocale.value
-        )
+        _fallbackLocale.value = __root.fallbackLocale.value
+        updateFallbackLocale(_context, _locale.value, _fallbackLocale.value)
       }
     },
     get availableLocales(): Locale[] {

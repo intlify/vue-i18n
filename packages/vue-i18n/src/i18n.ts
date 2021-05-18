@@ -145,7 +145,7 @@ export interface I18n<
   Messages = {},
   DateTimeFormats = {},
   NumberFormats = {},
-  OptionLocale = unknown,
+  OptionLocale = Locale,
   Legacy = true
 > {
   /**
@@ -189,7 +189,7 @@ export interface I18nInternal<
   Messages = {},
   DateTimeFormats = {},
   NumberFormats = {},
-  OptionLocale = unknown
+  OptionLocale = Locale
 > {
   __instances: Map<
     ComponentInternalInstance,
@@ -305,16 +305,18 @@ export interface ComposerAdditionalOptions {
 
 export function createI18n<
   Legacy extends boolean = true,
-  Options extends I18nOptions = I18nOptions
+  Options extends I18nOptions = I18nOptions,
+  Messages = Options['messages'] extends object ? Options['messages'] : {},
+  DateTimeFormats = Options['datetimeFormats'] extends object
+    ? Options['datetimeFormats']
+    : {},
+  NumberFormats = Options['numberFormats'] extends object
+    ? Options['numberFormats']
+    : {},
+  OptionLocale = Options['locale'] extends string ? Options['locale'] : Locale
 >(
   options: Options
-): I18n<
-  NonNullable<Options['messages']>,
-  NonNullable<Options['datetimeFormats']>,
-  NonNullable<Options['numberFormats']>,
-  NonNullable<Options['locale']>,
-  Legacy
->
+): I18n<Messages, DateTimeFormats, NumberFormats, OptionLocale, Legacy>
 
 export function createI18n<
   Schema = LocaleMessage,
@@ -323,16 +325,18 @@ export function createI18n<
   Options extends I18nOptions<
     SchemaParams<Schema, VueMessageType>,
     LocaleParams<Locales>
-  > = I18nOptions<SchemaParams<Schema, VueMessageType>, LocaleParams<Locales>>
+  > = I18nOptions<SchemaParams<Schema, VueMessageType>, LocaleParams<Locales>>,
+  Messages = Options['messages'] extends object ? Options['messages'] : {},
+  DateTimeFormats = Options['datetimeFormats'] extends object
+    ? Options['datetimeFormats']
+    : {},
+  NumberFormats = Options['numberFormats'] extends object
+    ? Options['numberFormats']
+    : {},
+  OptionLocale = Options['locale'] extends string ? Options['locale'] : Locale
 >(
   options: Options
-): I18n<
-  NonNullable<Options['messages']>,
-  NonNullable<Options['datetimeFormats']>,
-  NonNullable<Options['numberFormats']>,
-  NonNullable<Options['locale']>,
-  Legacy
->
+): I18n<Messages, DateTimeFormats, NumberFormats, OptionLocale, Legacy>
 
 /**
  * Vue I18n factory
@@ -508,14 +512,24 @@ export function createI18n(options: any = {}): any {
   return i18n
 }
 
-export function useI18n<Options extends UseI18nOptions = UseI18nOptions>(
+export function useI18n<
+  Options extends UseI18nOptions = UseI18nOptions,
+  Messages = Options['messages'] extends object ? Options['messages'] : {},
+  DateTimeFormats = Options['datetimeFormats'] extends object
+    ? Options['datetimeFormats']
+    : {},
+  NumberFormats = Options['numberFormats'] extends object
+    ? Options['numberFormats']
+    : {},
+  OptionLocale = Options['locale'] extends string ? Options['locale'] : Locale
+>(
   options?: Options
 ): Composer<
   VueMessageType,
-  NonNullable<Options['messages']>,
-  NonNullable<Options['datetimeFormats']>,
-  NonNullable<Options['numberFormats']>,
-  NonNullable<Options['locale']>
+  Messages,
+  DateTimeFormats,
+  NumberFormats,
+  OptionLocale
 >
 
 export function useI18n<
@@ -527,15 +541,23 @@ export function useI18n<
   > = UseI18nOptions<
     SchemaParams<Schema, VueMessageType>,
     LocaleParams<Locales>
-  >
+  >,
+  Messages = Options['messages'] extends object ? Options['messages'] : {},
+  DateTimeFormats = Options['datetimeFormats'] extends object
+    ? Options['datetimeFormats']
+    : {},
+  NumberFormats = Options['numberFormats'] extends object
+    ? Options['numberFormats']
+    : {},
+  OptionLocale = Options['locale'] extends string ? Options['locale'] : Locale
 >(
   options?: Options
 ): Composer<
   VueMessageType,
-  NonNullable<Options['messages']>,
-  NonNullable<Options['datetimeFormats']>,
-  NonNullable<Options['numberFormats']>,
-  NonNullable<Options['locale']>
+  Messages,
+  DateTimeFormats,
+  NumberFormats,
+  OptionLocale
 >
 
 /**
@@ -591,10 +613,14 @@ export function useI18n<
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function useI18n<
   Options extends UseI18nOptions = UseI18nOptions,
-  Messages = NonNullable<Options['messages']>,
-  DateTimeFormats = NonNullable<Options['datetimeFormats']>,
-  NumberFormats = NonNullable<Options['numberFormats']>,
-  OptionLocale = NonNullable<Options['locale']>
+  Messages = Options['messages'] extends object ? Options['messages'] : {},
+  DateTimeFormats = Options['datetimeFormats'] extends object
+    ? Options['datetimeFormats']
+    : {},
+  NumberFormats = Options['numberFormats'] extends object
+    ? Options['numberFormats']
+    : {},
+  OptionLocale = Options['locale'] extends string ? Options['locale'] : Locale
 >(options: Options = {} as Options) {
   const instance = getCurrentInstance()
   if (instance == null) {

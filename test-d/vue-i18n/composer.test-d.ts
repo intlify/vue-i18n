@@ -2,6 +2,8 @@
 import { expectType } from '..'
 
 import {
+  Locale,
+  FallbackLocale,
   LocaleMessageValue,
   PickupFallbackLocales
 } from '../../packages/core-base/src'
@@ -309,5 +311,11 @@ expectType<string>(strictDirectComposer.n(1, 'custom' as any))
 const noOptionsComposer = createComposer({ locale: 'en' })
 expectType<unknown>(noOptionsComposer.locale.value)
 expectType<unknown>(noOptionsComposer.fallbackLocale.value)
+
+const nullComposer = createComposer({})
+expectType<Locale>(nullComposer.locale.value)
+nullComposer.locale.value = 'en'
+expectType<FallbackLocale>(nullComposer.fallbackLocale.value)
+nullComposer.fallbackLocale.value = 'fr'
 
 /* eslint-enable @typescript-eslint/no-explicit-any */

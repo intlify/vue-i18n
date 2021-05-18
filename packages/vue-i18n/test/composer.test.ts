@@ -1434,14 +1434,12 @@ describe('__i18n', () => {
         ja: { foo: msgFnJa }
       }
     }
-    const { messages } = createComposer(
-      options as ComposerOptions<VueMessageType>
-    )
-    expect(messages.value!.en).toEqual({
+    const { messages } = createComposer(options)
+    expect(messages.value.en).toEqual({
       hello: enI18nFn,
       foo: msgFnEn
     })
-    expect(messages.value!.ja).toEqual({
+    expect(messages.value.ja).toEqual({
       hello: jaI18nFn,
       foo: msgFnJa
     })
@@ -1474,10 +1472,8 @@ describe('__i18n', () => {
         }
       }
     }
-    const { messages } = createComposer(
-      options as ComposerOptions<VueMessageType>
-    )
-    expect(messages.value!.en).toEqual({
+    const { messages } = createComposer(options)
+    expect(messages.value.en).toEqual({
       str: 'str_custom',
       array1: ['array1_custom'],
       array2: ['array2_custom'],
