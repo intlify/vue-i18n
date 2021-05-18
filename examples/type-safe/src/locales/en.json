@@ -1,0 +1,12 @@
+{
+  "hello": "Hello!",
+  "nest": {
+    "foo": {
+      "bar": {
+        "buz": {
+          "msg": "nest message!"
+        }
+      }
+    }
+  }
+}
