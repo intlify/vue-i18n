@@ -9,6 +9,7 @@ function escapeTitle(text) {
   return text
     .replace(/&/g, '&amp;')
     .replace(/"/g, '&quot;')
+    .replace(/\n/g, '')
     .replace(/</g, '&lt;')
     .replace(/>/g, '&gt;')
 }
@@ -202,7 +203,7 @@ function buildInterface(model, builder) {
 function buildPropertySignature(model, builder) {
   model.summary && buildSummary(model, builder)
   model.signature && buildSignature(model, builder)
-  model.typeParameters && buildTypeParameters(model, builder)
+  model.typeParameters && buildTypeParameters(model, builder, 4)
   model.deprecated && buildDeprecated(model, builder)
   model.remarks && buildDetails(model, builder)
   model.tips && buildTips(model, builder)
@@ -216,7 +217,7 @@ function buildPropertySignature(model, builder) {
 function buildMethodSignature(model, builder) {
   model.summary && buildSummary(model, builder)
   model.signature && buildSignature(model, builder)
-  model.typeParameters && buildTypeParameters(model, builder)
+  model.typeParameters && buildTypeParameters(model, builder, 4)
   model.deprecated && buildDeprecated(model, builder)
   model.remarks && buildDetails(model, builder)
   model.seeAlso && buildSeeAlso(model, builder)

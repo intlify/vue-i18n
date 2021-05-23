@@ -318,30 +318,14 @@ export function createI18n<
   options: Options
 ): I18n<Messages, DateTimeFormats, NumberFormats, OptionLocale, Legacy>
 
-export function createI18n<
-  Schema = LocaleMessage,
-  Locales = 'en-US',
-  Legacy extends boolean = true,
-  Options extends I18nOptions<
-    SchemaParams<Schema, VueMessageType>,
-    LocaleParams<Locales>
-  > = I18nOptions<SchemaParams<Schema, VueMessageType>, LocaleParams<Locales>>,
-  Messages = Options['messages'] extends object ? Options['messages'] : {},
-  DateTimeFormats = Options['datetimeFormats'] extends object
-    ? Options['datetimeFormats']
-    : {},
-  NumberFormats = Options['numberFormats'] extends object
-    ? Options['numberFormats']
-    : {},
-  OptionLocale = Options['locale'] extends string ? Options['locale'] : Locale
->(
-  options: Options
-): I18n<Messages, DateTimeFormats, NumberFormats, OptionLocale, Legacy>
-
 /**
  * Vue I18n factory
  *
  * @param options - An options, see the {@link I18nOptions}
+ *
+ * @typeParam Schema - The i18n resources (messages, datetimeFormats, numberFormats) schema, default {@link LocaleMessage}
+ * @typeParam Locales - The locales of i18n resource schema, default `en-US`
+ * @typeParam Legacy - Whether legacy mode is enabled or disabled, default `true`
  *
  * @returns {@link I18n} instance
  *
@@ -412,6 +396,26 @@ export function createI18n<
  *
  * @VueI18nGeneral
  */
+export function createI18n<
+  Schema = LocaleMessage,
+  Locales = 'en-US',
+  Legacy extends boolean = true,
+  Options extends I18nOptions<
+    SchemaParams<Schema, VueMessageType>,
+    LocaleParams<Locales>
+  > = I18nOptions<SchemaParams<Schema, VueMessageType>, LocaleParams<Locales>>,
+  Messages = Options['messages'] extends object ? Options['messages'] : {},
+  DateTimeFormats = Options['datetimeFormats'] extends object
+    ? Options['datetimeFormats']
+    : {},
+  NumberFormats = Options['numberFormats'] extends object
+    ? Options['numberFormats']
+    : {},
+  OptionLocale = Options['locale'] extends string ? Options['locale'] : Locale
+>(
+  options: Options
+): I18n<Messages, DateTimeFormats, NumberFormats, OptionLocale, Legacy>
+
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function createI18n(options: any = {}): any {
   type _I18n = I18n & I18nInternal
@@ -522,30 +526,13 @@ export function useI18n<Options extends UseI18nOptions = UseI18nOptions>(
   NonNullable<Options['locale']>
 >
 
-export function useI18n<
-  Schema = LocaleMessage,
-  Locales = 'en-US',
-  Options extends UseI18nOptions<
-    SchemaParams<Schema, VueMessageType>,
-    LocaleParams<Locales>
-  > = UseI18nOptions<
-    SchemaParams<Schema, VueMessageType>,
-    LocaleParams<Locales>
-  >
->(
-  options?: Options
-): Composer<
-  VueMessageType,
-  NonNullable<Options['messages']>,
-  NonNullable<Options['datetimeFormats']>,
-  NonNullable<Options['numberFormats']>,
-  NonNullable<Options['locale']>
->
-
 /**
  * Use Composition API for Vue I18n
  *
  * @param options - An options, see {@link UseI18nOptions}
+ *
+ * @typeParam Schema - The i18n resources (messages, datetimeFormats, numberFormats) schema, default {@link LocaleMessage}
+ * @typeParam Locales - The locales of i18n resource schema, default `en-US`
  *
  * @returns {@link Composer} instance
  *
@@ -592,6 +579,26 @@ export function useI18n<
  *
  * @VueI18nComposition
  */
+export function useI18n<
+  Schema = LocaleMessage,
+  Locales = 'en-US',
+  Options extends UseI18nOptions<
+    SchemaParams<Schema, VueMessageType>,
+    LocaleParams<Locales>
+  > = UseI18nOptions<
+    SchemaParams<Schema, VueMessageType>,
+    LocaleParams<Locales>
+  >
+>(
+  options?: Options
+): Composer<
+  VueMessageType,
+  NonNullable<Options['messages']>,
+  NonNullable<Options['datetimeFormats']>,
+  NonNullable<Options['numberFormats']>,
+  NonNullable<Options['locale']>
+>
+
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function useI18n<
   Options extends UseI18nOptions = UseI18nOptions,

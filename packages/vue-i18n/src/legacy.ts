@@ -428,7 +428,7 @@ export interface VueI18nTranslation<Messages = {}, Locales = 'en-US'> {
    * Locale message translation.
    *
    * @remarks
-   * Overloaded `t`. About details, see the [t](legacy#t-key) details.
+   * Overloaded `t`. About details, see the [call signature](legacy#key-key-resourcekeys-translateresult) details.
    *
    * @param key - A target locale message key
    * @param locale - A locale, it will be used over than global scope or local scope.
@@ -446,7 +446,7 @@ export interface VueI18nTranslation<Messages = {}, Locales = 'en-US'> {
    * Locale message translation.
    *
    * @remarks
-   * Overloaded `t`. About details, see the [t](legacy#t-key) details.
+   * Overloaded `t`. About details, see the [call signature](legacy#key-key-resourcekeys-translateresult) details.
    *
    * @param key - A target locale message key
    * @param locale - A locale, it will be used over than global scope or local scope.
@@ -468,7 +468,7 @@ export interface VueI18nTranslation<Messages = {}, Locales = 'en-US'> {
    * Locale message translation.
    *
    * @remarks
-   * Overloaded `t`. About details, see the [t](legacy#t-key) details.
+   * Overloaded `t`. About details, see the [call signature](legacy#key-key-resourcekeys-translateresult) details.
    *
    * @param key - A target locale message key
    * @param locale - A locale, it will be used over than global scope or local scope.
@@ -490,7 +490,7 @@ export interface VueI18nTranslation<Messages = {}, Locales = 'en-US'> {
    * Locale message translation.
    *
    * @remarks
-   * Overloaded `t`. About details, see the [t](legacy#t-key) details.
+   * Overloaded `t`. About details, see the [call signature](legacy#key-key-resourcekeys-translateresult) details.
    *
    * @param key - A target locale message key
    * @param list - A values of list interpolation
@@ -510,7 +510,7 @@ export interface VueI18nTranslation<Messages = {}, Locales = 'en-US'> {
    * Locale message translation.
    *
    * @remarks
-   * Overloaded `t`. About details, see the [t](legacy#t-key) details.
+   * Overloaded `t`. About details, see the [call signature](legacy#key-key-resourcekeys-translateresult) details.
    *
    * @param key - A target locale message key
    * @param named - A values of named interpolation
@@ -578,7 +578,7 @@ export interface VueI18nTranslationChoice<Messages = {}, Locales = 'en-US'> {
    * Locale message pluralization
    *
    * @remarks
-   * Overloaded `tc`. About details, see the [tc](legacy#tc-key) details.
+   * Overloaded `tc`. About details, see the [call signature](legacy#key-key-resourcekeys-translateresult-2) details.
    *
    * @param key - A target locale message key
    * @param locale - A locale, it will be used over than global scope or local scope.
@@ -596,7 +596,7 @@ export interface VueI18nTranslationChoice<Messages = {}, Locales = 'en-US'> {
    * Locale message pluralization
    *
    * @remarks
-   * Overloaded `tc`. About details, see the [tc](legacy#tc-key) details.
+   * Overloaded `tc`. About details, see the [call signature](legacy#key-key-resourcekeys-translateresult-2) details.
    *
    * @param key - A target locale message key
    * @param list - A values of list interpolation
@@ -614,7 +614,7 @@ export interface VueI18nTranslationChoice<Messages = {}, Locales = 'en-US'> {
    * Locale message pluralization
    *
    * @remarks
-   * Overloaded `tc`. About details, see the [tc](legacy#tc-key) details.
+   * Overloaded `tc`. About details, see the [call signature](legacy#key-key-resourcekeys-translateresult-2) details.
    *
    * @param key - A target locale message key
    * @param named - A values of named interpolation
@@ -632,7 +632,7 @@ export interface VueI18nTranslationChoice<Messages = {}, Locales = 'en-US'> {
    * Locale message pluralization
    *
    * @remarks
-   * Overloaded `tc`. About details, see the [tc](legacy#tc-key) details.
+   * Overloaded `tc`. About details, see the [call signature](legacy#key-key-resourcekeys-translateresult-2) details.
    *
    * @param key - A target locale message key
    * @param choice - Which plural string to get. 1 returns the first one.
@@ -650,7 +650,7 @@ export interface VueI18nTranslationChoice<Messages = {}, Locales = 'en-US'> {
    * Locale message pluralization
    *
    * @remarks
-   * Overloaded `tc`. About details, see the [tc](legacy#tc-key) details.
+   * Overloaded `tc`. About details, see the [call signature](legacy#key-key-resourcekeys-translateresult-2) details.
    *
    * @param key - A target locale message key
    * @param choice - Which plural string to get. 1 returns the first one.
@@ -670,7 +670,7 @@ export interface VueI18nTranslationChoice<Messages = {}, Locales = 'en-US'> {
    * Locale message pluralization
    *
    * @remarks
-   * Overloaded `tc`. About details, see the [tc](legacy#tc-key) details.
+   * Overloaded `tc`. About details, see the [call signature](legacy#key-key-resourcekeys-translateresult-2) details.
    *
    * @param key - A target locale message key
    * @param choice - Which plural string to get. 1 returns the first one.
@@ -690,7 +690,7 @@ export interface VueI18nTranslationChoice<Messages = {}, Locales = 'en-US'> {
    * Locale message pluralization
    *
    * @remarks
-   * Overloaded `tc`. About details, see the [tc](legacy#tc-key) details.
+   * Overloaded `tc`. About details, see the [call signature](legacy#key-key-resourcekeys-translateresult-2) details.
    *
    * @param key - A target locale message key
    * @param choice - Which plural string to get. 1 returns the first one.
@@ -741,7 +741,7 @@ export interface VueI18nDateTimeFormatting<
    * Datetime formatting
    *
    * @remarks
-   * Overloaded `d`. About details, see the [d](legacy#d-value) details.
+   * Overloaded `d`. About details, see the [call signature](legacy#value-number-date-datetimeformatresult) details.
    *
    * @param value - A value, timestamp number or `Date` instance
    * @param key - A key of datetime formats
@@ -760,7 +760,7 @@ export interface VueI18nDateTimeFormatting<
    * Datetime formatting
    *
    * @remarks
-   * Overloaded `d`. About details, see the [d](legacy#d-value) details.
+   * Overloaded `d`. About details, see the [call signature](legacy#value-number-date-datetimeformatresult) details.
    *
    * @param value - A value, timestamp number or `Date` instance
    * @param key - A key of datetime formats
@@ -781,7 +781,7 @@ export interface VueI18nDateTimeFormatting<
    * Datetime formatting
    *
    * @remarks
-   * Overloaded `d`. About details, see the [d](legacy#d-value) details.
+   * Overloaded `d`. About details, see the [call signature](legacy#value-number-date-datetimeformatresult) details.
    *
    * @param value - A value, timestamp number or `Date` instance
    * @param args - An argument values
@@ -821,16 +821,16 @@ export interface VueI18nNumberFormatting<
    */
   (value: number): NumberFormatResult
   /**
-    * Number formatting
-    *
-    * @remarks
-    * Overloaded `n`. About details, see the [n](legacy#n-value) details.
-    *
-    * @param value - A number value
-      @param key - A key of number formats
-    *
-    * @returns Formatted value
-    */
+   * Number formatting
+   *
+   * @remarks
+   * Overloaded `n`. About details, see the [call signature](legacy#value-number-numberformatresult) details.
+   *
+   * @param value - A number value
+   * @param key - A key of number formats
+   *
+   * @returns Formatted value
+   */
   <
     Key extends string = string,
     ResourceKeys extends PickupFormatKeys<NumberFormats> = PickupFormatKeys<NumberFormats>
@@ -842,7 +842,7 @@ export interface VueI18nNumberFormatting<
    * Number formatting
    *
    * @remarks
-   * Overloaded `n`. About details, see the [n](legacy#n-value) details.
+   * Overloaded `n`. About details, see the [call signature](legacy#value-number-numberformatresult) details.
    *
    * @param value - A number value
    * @param key - A key of number formats
@@ -862,7 +862,7 @@ export interface VueI18nNumberFormatting<
    * Number formatting
    *
    * @remarks
-   * Overloaded `n`. About details, see the [n](legacy#n-value) details.
+   * Overloaded `n`. About details, see the [call signature](legacy#value-number-numberformatresult) details.
    *
    * @param value - A number value
    * @param args - An argument values
@@ -980,26 +980,26 @@ export interface VueI18n<
    *
    * @VueI18nSee [Fallbacking](../guide/essentials/fallback)
    */
-  silentTranslationWarn: Composer['missingWarn']
+  silentTranslationWarn: Composition['missingWarn']
   /**
    * @remarks
    * Whether suppress fallback warnings when localization fails.
    */
-  silentFallbackWarn: Composer['fallbackWarn']
+  silentFallbackWarn: Composition['fallbackWarn']
   /**
    * @remarks
    * Whether suppress warnings when falling back to either `fallbackLocale` or root.
    *
    * @VueI18nSee [Fallbacking](../guide/essentials/fallback)
    */
-  formatFallbackMessages: Composer['fallbackFormat']
+  formatFallbackMessages: Composition['fallbackFormat']
   /**
    * @remarks
    * Whether synchronize the root level locale to the component localization locale.
    *
    * @VueI18nSee [Local Scope](../guide/essentials/scope#local-scope-2)
    */
-  sync: Composer['inheritLocale']
+  sync: Composition['inheritLocale']
   /**
    * @remarks
    * Whether to allow the use locale messages of HTML formatting.
@@ -1153,6 +1153,8 @@ export interface VueI18n<
    *
    * @param locale - A target locale
    *
+   * @typeParam MessageSchema - The locale message schema, default `never`
+   *
    * @returns Locale messages
    */
   getLocaleMessage<
@@ -1175,6 +1177,8 @@ export interface VueI18n<
    *
    * @param locale - A target locale
    * @param message - A message
+   *
+   * @typeParam MessageSchema - The locale message schema, default `never`
    */
   setLocaleMessage<
     MessageSchema extends LocaleMessage<Message> = never,
@@ -1197,6 +1201,8 @@ export interface VueI18n<
    *
    * @param locale - A target locale
    * @param message - A message
+   *
+   * @typeParam MessageSchema - The locale message schema, default `never`
    */
   mergeLocaleMessage<
     MessageSchema extends LocaleMessage<Message> = never,
@@ -1215,7 +1221,7 @@ export interface VueI18n<
    * Datetime formatting
    *
    * @remarks
-   * About details functions, See the {@link ueI18nDateTimeFormatting}
+   * About details functions, See the {@link VueI18nDateTimeFormatting}
    */
   d: VueI18nDateTimeFormatting<DateTimeFormats, Locales>
   /**
@@ -1225,6 +1231,8 @@ export interface VueI18n<
    * get datetime format from VueI18n instance [datetimeFormats](legacy#datetimeformats).
    *
    * @param locale - A target locale
+   *
+   * @typeParam DateTimeSchema - The datetime format schema, default `never`
    *
    * @returns Datetime format
    */
@@ -1248,6 +1256,8 @@ export interface VueI18n<
    *
    * @param locale - A target locale
    * @param format - A target datetime format
+   *
+   * @typeParam DateTimeSchema - The datetime format schema, default `never`
    */
   setDateTimeFormat<
     DateTimeSchema extends Record<string, any> = never,
@@ -1270,6 +1280,8 @@ export interface VueI18n<
    *
    * @param locale - A target locale
    * @param format - A target datetime format
+   *
+   * @typeParam DateTimeSchema - The datetime format schema, default `never`
    */
   mergeDateTimeFormat<
     DateTimeSchema extends Record<string, any> = never,
@@ -1299,6 +1311,8 @@ export interface VueI18n<
    *
    * @param locale - A target locale
    *
+   * @typeParam NumberSchema - The number format schema, default `never`
+   *
    * @returns Number format
    */
   getNumberFormat<
@@ -1321,6 +1335,8 @@ export interface VueI18n<
    *
    * @param locale - A target locale
    * @param format - A target number format
+   *
+   * @typeParam NumberSchema - The number format schema, default `never`
    */
   setNumberFormat<
     NumberSchema extends Record<string, any> = never,
@@ -1343,6 +1359,8 @@ export interface VueI18n<
    *
    * @param locale - A target locale
    * @param format - A target number format
+   *
+   * @typeParam NumberSchema - The number format schema, default `never`
    */
   mergeNumberFormat<
     NumberSchema extends Record<string, any> = never,

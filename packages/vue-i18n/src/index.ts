@@ -55,6 +55,7 @@ export {
   VueI18nOptions,
   VueI18n,
   VueI18nTranslation,
+  VueI18nTranslationChoice,
   VueI18nDateTimeFormatting,
   VueI18nNumberFormatting,
   VueI18nResolveLocaleMessageTranslation,

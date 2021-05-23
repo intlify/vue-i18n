@@ -480,7 +480,7 @@ export interface ComposerTranslation<Messages = {}, Locales = 'en-US'> {
    * Locale message translation for plurals
    *
    * @remarks
-   * Overloaded `t`. About details, see the [t](composition#t-key) details.
+   * Overloaded `t`. About details, see the [call signature](composition#key-key-resourcekeys-number-string) details.
    *
    * In this overloaded `t`, return a pluralized translation message.
    *
@@ -508,7 +508,7 @@ export interface ComposerTranslation<Messages = {}, Locales = 'en-US'> {
    * Locale message translation for missing default message
    *
    * @remarks
-   * Overloaded `t`. About details, see the [t](composition#t-key) details.
+   * Overloaded `t`. About details, see the [call signature](composition#key-key-resourcekeys-number-string) details.
    *
    * In this overloaded `t`, if no translation was found, return a default message.
    *
@@ -534,7 +534,7 @@ export interface ComposerTranslation<Messages = {}, Locales = 'en-US'> {
    * Locale message translation for list interpolations
    *
    * @remarks
-   * Overloaded `t`. About details, see the [t](composition#t-key) details.
+   * Overloaded `t`. About details, see the [call signature](composition#key-key-resourcekeys-number-string) details.
    *
    * In this overloaded `t`, the locale messages should contain a `{0}`, `{1}`, … for each placeholder in the list.
    *
@@ -562,7 +562,7 @@ export interface ComposerTranslation<Messages = {}, Locales = 'en-US'> {
    * Locale message translation for list interpolations and plurals
    *
    * @remarks
-   * Overloaded `t`. About details, see the [t](composition#t-key) details.
+   * Overloaded `t`. About details, see the [call signature](composition#key-key-resourcekeys-number-string) details.
    *
    * In this overloaded `t`, the locale messages should contain a `{0}`, `{1}`, … for each placeholder in the list, and return a pluralized translation message.
    *
@@ -587,7 +587,7 @@ export interface ComposerTranslation<Messages = {}, Locales = 'en-US'> {
    * Locale message translation for list interpolations and missing default message
    *
    * @remarks
-   * Overloaded `t`. About details, see the [t](composition#t-key) details.
+   * Overloaded `t`. About details, see the [call signature](composition#key-key-resourcekeys-number-string) details.
    *
    * In this overloaded `t`, the locale messages should contain a `{0}`, `{1}`, … for each placeholder in the list, and if no translation was found, return a default message.
    *
@@ -611,7 +611,7 @@ export interface ComposerTranslation<Messages = {}, Locales = 'en-US'> {
    * Locale message translation for named interpolations
    *
    * @remarks
-   * Overloaded `t`. About details, see the [t](composition#t-key) details.
+   * Overloaded `t`. About details, see the [call signature](composition#key-key-resourcekeys-number-string) details.
    *
    * In this overloaded `t`, for each placeholder x, the locale messages should contain a `{x}` token.
    *
@@ -639,7 +639,7 @@ export interface ComposerTranslation<Messages = {}, Locales = 'en-US'> {
    * Locale message translation for named interpolations and plurals
    *
    * @remarks
-   * Overloaded `t`. About details, see the [t](composition#t-key) details.
+   * Overloaded `t`. About details, see the [call signature](composition#key-key-resourcekeys-number-string) details.
    *
    * In this overloaded `t`, for each placeholder x, the locale messages should contain a `{x}` token, and return a pluralized translation message.
    *
@@ -664,7 +664,7 @@ export interface ComposerTranslation<Messages = {}, Locales = 'en-US'> {
    * Locale message translation for named interpolations and plurals
    *
    * @remarks
-   * Overloaded `t`. About details, see the [t](composition#t-key) details.
+   * Overloaded `t`. About details, see the [call signature](composition#key-key-resourcekeys-number-string) details.
    *
    * In this overloaded `t`, for each placeholder x, the locale messages should contain a `{x}` token, and if no translation was found, return a default message.
    *
@@ -725,7 +725,7 @@ export interface ComposerResolveLocaleMessageTranslation<
    * Resolve locale message translation for plurals
    *
    * @remarks
-   * Overloaded `rt`. About details, see the [rt](composition#rt-message) details.
+   * Overloaded `rt`. About details, see the [call signature](composition#message-messagefunction-message-message-string) details.
    *
    * In this overloaded `rt`, return a pluralized translation message.
    *
@@ -752,7 +752,7 @@ export interface ComposerResolveLocaleMessageTranslation<
    * Resolve locale message translation for list interpolations
    *
    * @remarks
-   * Overloaded `rt`. About details, see the [rt](composition#rt-message) details.
+   * Overloaded `rt`. About details, see the [call signature](composition#message-messagefunction-message-message-string) details.
    *
    * In this overloaded `rt`, return a pluralized translation message.
    *
@@ -779,7 +779,7 @@ export interface ComposerResolveLocaleMessageTranslation<
    * Resolve locale message translation for named interpolations
    *
    * @remarks
-   * Overloaded `rt`. About details, see the [rt](composition#rt-message) details.
+   * Overloaded `rt`. About details, see the [call signature](composition#message-messagefunction-message-message-string) details.
    *
    * In this overloaded `rt`, for each placeholder x, the locale messages should contain a `{x}` token.
    *
@@ -837,7 +837,7 @@ export interface ComposerDateTimeFormatting<
    * Datetime formatting
    *
    * @remarks
-   * Overloaded `d`. About details, see the [d](composition#d-value) details.
+   * Overloaded `d`. About details, see the [call signature](composition#value-number-date-string-string) details.
    *
    * In this overloaded `d`, format in datetime format for a key registered in datetime formats.
    *
@@ -861,7 +861,7 @@ export interface ComposerDateTimeFormatting<
    * Datetime formatting
    *
    * @remarks
-   * Overloaded `d`. About details, see the [d](composition#d-value) details.
+   * Overloaded `d`. About details, see the [call signature](composition#value-number-date-string-string) details.
    *
    * In this overloaded `d`, format in datetime format for a key registered in datetime formats at target locale
    *
@@ -918,7 +918,7 @@ export interface ComposerNumberFormatting<
    * Number Formatting
    *
    * @remarks
-   * Overloaded `n`. About details, see the [n](composition#n-value) details.
+   * Overloaded `n`. About details, see the [call signature](composition#value-number-string) details.
    *
    * In this overloaded `n`, format in number format for a key registered in number formats.
    *
@@ -941,7 +941,7 @@ export interface ComposerNumberFormatting<
    * Number Formatting
    *
    * @remarks
-   * Overloaded `n`. About details, see the [n](composition#n-value) details.
+   * Overloaded `n`. About details, see the [call signature](composition#value-number-string) details.
    *
    * In this overloaded `n`, format in number format for a key registered in number formats at target locale.
    *
@@ -1241,6 +1241,8 @@ export interface Composer<
    *
    * @param locale - A target locale
    *
+   * @typeParam MessageSchema - The locale message schema, default `never`
+   *
    * @returns Locale messages
    */
   getLocaleMessage<
@@ -1263,6 +1265,8 @@ export interface Composer<
    *
    * @param locale - A target locale
    * @param message - A message
+   *
+   * @typeParam MessageSchema - The locale message schema, default `never`
    */
   setLocaleMessage<
     MessageSchema extends LocaleMessage<Message> = never,
@@ -1285,6 +1289,8 @@ export interface Composer<
    *
    * @param locale - A target locale
    * @param message - A message
+   *
+   * @typeParam MessageSchema - The locale message schema, default `never`
    */
   mergeLocaleMessage<
     MessageSchema extends LocaleMessage<Message> = never,
@@ -1306,6 +1312,8 @@ export interface Composer<
    * get datetime format from Composer instance [datetimeFormats](composition#datetimeformats).
    *
    * @param locale - A target locale
+   *
+   * @typeParam DateTimeSchema - The datetime format schema, default `never`
    *
    * @returns Datetime format
    */
@@ -1329,6 +1337,8 @@ export interface Composer<
    *
    * @param locale - A target locale
    * @param format - A target datetime format
+   *
+   * @typeParam DateTimeSchema - The datetime format schema, default `never`
    */
   setDateTimeFormat<
     DateTimeSchema extends Record<string, any> = never,
@@ -1351,6 +1361,8 @@ export interface Composer<
    *
    * @param locale - A target locale
    * @param format - A target datetime format
+   *
+   * @typeParam DateTimeSchema - The datetime format schema, default `never`
    */
   mergeDateTimeFormat<
     DateTimeSchema extends Record<string, any> = never,
@@ -1372,6 +1384,8 @@ export interface Composer<
    * get number format from Composer instance [numberFormats](composition#numberFormats).
    *
    * @param locale - A target locale
+   *
+   * @typeParam NumberSchema - The number format schema, default `never`
    *
    * @returns Number format
    */
@@ -1395,6 +1409,8 @@ export interface Composer<
    *
    * @param locale - A target locale
    * @param format - A target number format
+   *
+   * @typeParam NumberSchema - The number format schema, default `never`
    */
   setNumberFormat<
     NumberSchema extends Record<string, any> = never,
@@ -1417,6 +1433,8 @@ export interface Composer<
    *
    * @param locale - A target locale
    * @param format - A target number format
+   *
+   * @typeParam NumberSchema - The number format schema, default `never`
    */
   mergeNumberFormat<
     NumberSchema extends Record<string, any> = never,
