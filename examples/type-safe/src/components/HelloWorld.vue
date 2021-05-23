@@ -15,7 +15,7 @@ type Schema = {
 
 export default defineComponent({
   name: 'HelloWorld',
-  setup: () => {
+  setup() {
     /**
      * if you can specify resource schema to type parameter of `useI18n`,
      * you can make to be type-safe the i18n resources.

@@ -110,7 +110,7 @@ export interface CoreOptions<
       datetime?: unknown
       number?: unknown
     } = {
-      message: LocaleMessage,
+      message: LocaleMessage<Message>,
       datetime: DateTimeFormat,
       number: NumberFormat
     },
@@ -136,7 +136,7 @@ export interface CoreOptions<
     : Locales extends string
       ? Locales
       : Locale,
-  MessageSchema = Schema extends { message: infer M } ? M : LocaleMessage,
+  MessageSchema = Schema extends { message: infer M } ? M : LocaleMessage<Message>,
   DateTimeSchema = Schema extends { datetime: infer D } ? D : DateTimeFormat,
   NumberSchema = Schema extends { number: infer N } ? N : NumberFormat,
   Messages extends LocaleMessages<
