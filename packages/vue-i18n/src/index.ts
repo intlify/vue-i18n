@@ -14,7 +14,7 @@ export {
   FallbackLocale,
   LocaleMessageValue,
   LocaleMessageDictionary,
-  LocaleMessageArray,
+  LocaleMessageType,
   LocaleMessages,
   NumberFormat as IntlNumberFormat,
   DateTimeFormat as IntlDateTimeFormat,
@@ -33,11 +33,16 @@ export {
 } from '@intlify/core-base'
 export {
   VueMessageType,
+  CustomLocaleMessage,
   MissingHandler,
   ComposerOptions,
   Composer,
   CustomBlock,
-  CustomBlocks
+  CustomBlocks,
+  ComposerTranslation,
+  ComposerDateTimeFormatting,
+  ComposerNumberFormatting,
+  ComposerResolveLocaleMessageTranslation
 } from './composer'
 export {
   TranslateResult,
@@ -49,7 +54,13 @@ export {
   NumberFormatResult,
   Formatter,
   VueI18nOptions,
-  VueI18n
+  VueI18n,
+  VueI18nTranslation,
+  VueI18nTranslationChoice,
+  VueI18nDateTimeFormatting,
+  VueI18nNumberFormatting,
+  VueI18nResolveLocaleMessageTranslation,
+  ComponentInstanceCreatedListener
 } from './legacy'
 export {
   createI18n,

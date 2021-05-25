@@ -1,3 +1,6 @@
+import type { LocaleRecord, UnionToTuple } from './utils'
+import type { Locale } from '@intlify/runtime'
+
 /**
  *  datetime
  */
@@ -25,7 +28,7 @@ export type DateTimeFormatOptions =
   | Intl.DateTimeFormatOptions
   | SpecificDateTimeFormatOptions
 export type DateTimeFormat = { [key: string]: DateTimeFormatOptions }
-export type DateTimeFormats = { [locale: string]: DateTimeFormat }
+export type DateTimeFormats<Schema = DateTimeFormat, Locales = Locale> = LocaleRecord<UnionToTuple<Locales>, Schema>
 
 /**
  *  number
@@ -54,7 +57,7 @@ export type NumberFormatOptions =
   | SpecificNumberFormatOptions
   | CurrencyNumberFormatOptions
 export type NumberFormat = { [key: string]: NumberFormatOptions }
-export type NumberFormats = { [locale: string]: NumberFormat }
+export type NumberFormats<Schema = NumberFormat, Locales = Locale> = LocaleRecord<UnionToTuple<Locales>, Schema>
 
 export type FormattedNumberPartType =
   | 'currency'
@@ -74,6 +77,3 @@ export type FormattedNumberPart = {
   value: string
 }
 export type NumberFormatToPartsResult = { [index: number]: FormattedNumberPart }
-export interface MetaInfo {
-  [field: string]: unknown
-}

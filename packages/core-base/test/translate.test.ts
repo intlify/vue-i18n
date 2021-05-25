@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-empty-function */
+/* eslint-disable @typescript-eslint/no-empty-function, @typescript-eslint/no-explicit-any */
 
 // utils
 jest.mock('@intlify/shared', () => ({
@@ -34,7 +34,7 @@ describe('features', () => {
     const ctx = context({
       locale: 'en',
       messages: {
-        en: { hi: 'hi {0} !' }
+        en: { hi: 'hi {0} !', nest: { foo: '' } }
       }
     })
     expect(translate(ctx, 'hi', ['kazupon'])).toEqual('hi kazupon !')
@@ -662,7 +662,7 @@ describe('error', () => {
       }
     })
     expect(() => {
-      translate(ctx, {})
+      translate(ctx, {} as any)
     }).toThrowError(errorMessages[CoreErrorCodes.INVALID_ARGUMENT])
   })
 })
@@ -745,4 +745,4 @@ describe('edge cases', () => {
   })
 })
 
-/* eslint-enable @typescript-eslint/no-empty-function */
+/* eslint-enable @typescript-eslint/no-empty-function, @typescript-eslint/no-explicit-any */

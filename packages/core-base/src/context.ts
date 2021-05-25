@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
 import {
   warn,
   isString,
@@ -28,41 +30,67 @@ import type {
 } from '@intlify/runtime'
 import type { VueDevToolsEmitter } from '@intlify/vue-devtools'
 import type {
-  MetaInfo,
+  UnionToTuple,
+  LocaleRecord,
   NumberFormat,
   DateTimeFormat,
   DateTimeFormats as DateTimeFormatsType,
-  NumberFormats as NumberFormatsType
+  NumberFormats as NumberFormatsType,
+  SchemaParams,
+  LocaleParams,
+  PickupLocales,
+  FallbackLocales
 } from './types'
+
+export interface MetaInfo {
+  [field: string]: unknown
+}
 
 /** @VueI18nGeneral */
 export type LocaleMessageValue<Message = string> =
+  | LocaleMessageDictionary<any, Message>
   | string
-  | MessageFunction<Message>
-  | LocaleMessageDictionary<Message>
-  | LocaleMessageArray<Message>
+
+// prettier-ignore
+/** @VueI18nGeneral */
+export type LocaleMessageType<T, Message = string> = T extends string
+  ? string
+  : T extends () => Promise<infer P>
+    ? LocaleMessageDictionary<P, Message>
+    : T extends (...args: infer Arguments) => any
+      ? (...args: Arguments) => ReturnType<T>
+      : T extends Record<string, any>
+        ? LocaleMessageDictionary<T, Message>
+        : T extends Array<T>
+          ? { [K in keyof T]: T[K] }
+          : T
 
 /** @VueI18nGeneral */
-export type LocaleMessageDictionary<Message = string> = {
-  [property: string]: LocaleMessageValue<Message>
+export type LocaleMessageDictionary<T, Message = string> = {
+  [K in keyof T]: LocaleMessageType<T[K], Message>
 }
+
 /** @VueI18nGeneral */
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
-export interface LocaleMessageArray<Message = string>
-  extends Array<LocaleMessageValue<Message>> {}
-/** @VueI18nGeneral */
-export type LocaleMessages<Message = string> = Record<
-  Locale,
-  LocaleMessageDictionary<Message>
+export type LocaleMessage<Message = string> = Record<
+  string,
+  LocaleMessageValue<Message>
 >
 
+/** @VueI18nGeneral */
+export type LocaleMessages<
+  Schema,
+  Locales = Locale,
+  Message = string // eslint-disable-line @typescript-eslint/no-unused-vars
+> = LocaleRecord<UnionToTuple<Locales>, Schema>
+
 export type CoreMissingHandler<Message = string> = (
-  context: CoreCommonContext<Message>,
+  context: CoreContext<Message>,
   locale: Locale,
   key: Path,
   type: CoreMissingType,
   ...values: unknown[]
 ) => string | void
+
 /** @VueI18nGeneral */
 export type PostTranslationHandler<Message = string> = (
   translated: MessageType<Message>
@@ -73,13 +101,58 @@ export type MessageCompiler<Message = string> = (
   options?: CompileOptions
 ) => MessageFunction<Message>
 
-export interface CoreOptions<Message = string> {
+// prettier-ignore
+export interface CoreOptions<
+  Message = string,
+  Schema extends 
+    {
+      message?: unknown
+      datetime?: unknown
+      number?: unknown
+    } = {
+      message: LocaleMessage<Message>,
+      datetime: DateTimeFormat,
+      number: NumberFormat
+    },
+  Locales extends
+    | {
+        messages: unknown
+        datetimeFormats: unknown
+        numberFormats: unknown
+      }
+    | string = Locale,
+  MessagesLocales = Locales extends { messages: infer M }
+    ? M
+    : Locales extends string
+      ? Locales
+      : Locale,
+  DateTimeFormatsLocales = Locales extends { datetimeFormats: infer D }
+      ? D
+      : Locales extends string
+        ? Locales
+        : Locale,
+  NumberFormatsLocales = Locales extends { numberFormats: infer N }
+    ? N
+    : Locales extends string
+      ? Locales
+      : Locale,
+  MessageSchema = Schema extends { message: infer M } ? M : LocaleMessage<Message>,
+  DateTimeSchema = Schema extends { datetime: infer D } ? D : DateTimeFormat,
+  NumberSchema = Schema extends { number: infer N } ? N : NumberFormat,
+  _Messages extends LocaleMessages<
+    MessageSchema,
+    MessagesLocales,
+    Message
+  > = LocaleMessages<MessageSchema, MessagesLocales, Message>,
+  _DateTimeFormats extends DateTimeFormatsType<DateTimeSchema, DateTimeFormatsLocales> = DateTimeFormatsType<DateTimeSchema, DateTimeFormatsLocales>,
+  _NumberFormats extends NumberFormatsType<NumberSchema, NumberFormatsLocales> = NumberFormatsType<NumberSchema, NumberFormatsLocales>,
+> {
   version?: string
   locale?: Locale
   fallbackLocale?: FallbackLocale
-  messages?: LocaleMessages<Message>
-  datetimeFormats?: DateTimeFormatsType
-  numberFormats?: NumberFormatsType
+  messages?: { [K in keyof _Messages]: MessageSchema }
+  datetimeFormats?: { [K in keyof _DateTimeFormats]: DateTimeSchema }
+  numberFormats?: { [K in keyof _NumberFormats]: NumberSchema }
   modifiers?: LinkedModifiers<Message>
   pluralRules?: PluralizationRules
   missing?: CoreMissingHandler<Message>
@@ -103,11 +176,11 @@ export interface CoreInternalOptions {
   __meta?: MetaInfo
 }
 
-export interface CoreCommonContext<Message = string> {
+export interface CoreCommonContext<Message = string, Locales = 'en-US'> {
   cid: number
   version: string
-  locale: Locale
-  fallbackLocale: FallbackLocale
+  locale: Locales
+  fallbackLocale: FallbackLocales<Locales>
   missing: CoreMissingHandler<Message> | null
   missingWarn: boolean | RegExp
   fallbackWarn: boolean | RegExp
@@ -116,9 +189,10 @@ export interface CoreCommonContext<Message = string> {
   onWarn(msg: string, err?: Error): void
 }
 
-export interface CoreTranslationContext<Messages = {}, Message = string>
-  extends CoreCommonContext<Message> {
-  messages: Messages
+export interface CoreTranslationContext<Messages = {}, Message = string> {
+  messages: {
+    [K in keyof Messages]: Messages[K]
+  }
   modifiers: LinkedModifiers<Message>
   pluralRules?: PluralizationRules
   postTranslation: PostTranslationHandler<Message> | null
@@ -129,24 +203,28 @@ export interface CoreTranslationContext<Messages = {}, Message = string>
   messageResolver: MessageResolver
 }
 
-export interface CoreDateTimeContext<DateTimeFormats = {}, Message = string>
-  extends CoreCommonContext<Message> {
-  datetimeFormats: DateTimeFormats
+export interface CoreDateTimeContext<DateTimeFormats = {}> {
+  datetimeFormats: { [K in keyof DateTimeFormats]: DateTimeFormats[K] }
 }
 
-export interface CoreNumberContext<NumberFormats = {}, Message = string>
-  extends CoreCommonContext<Message> {
-  numberFormats: NumberFormats
+export interface CoreNumberContext<NumberFormats = {}> {
+  numberFormats: { [K in keyof NumberFormats]: NumberFormats[K] }
 }
 
-export interface CoreContext<
+export type CoreContext<
+  Message = string,
   Messages = {},
   DateTimeFormats = {},
   NumberFormats = {},
-  Message = string
-> extends CoreTranslationContext<Messages, Message>,
-    CoreDateTimeContext<DateTimeFormats, Message>,
-    CoreNumberContext<NumberFormats, Message> {}
+  ResourceLocales =
+    | PickupLocales<NonNullable<Messages>>
+    | PickupLocales<NonNullable<DateTimeFormats>>
+    | PickupLocales<NonNullable<NumberFormats>>,
+  Locales = [ResourceLocales] extends [never] ? Locale : ResourceLocales
+> = CoreCommonContext<Message, Locales> &
+  CoreTranslationContext<NonNullable<Messages>, Message> &
+  CoreDateTimeContext<NonNullable<DateTimeFormats>> &
+  CoreNumberContext<NonNullable<NumberFormats>>
 
 export interface CoreInternalContext {
   __datetimeFormatters: Map<string, Intl.DateTimeFormat>
@@ -207,27 +285,43 @@ let _cid = 0
 
 export function createCoreContext<
   Message = string,
-  Options extends CoreOptions<Message> = object,
-  Messages extends Record<
-    keyof Options['messages'],
-    LocaleMessageDictionary<Message>
-  > = Record<keyof Options['messages'], LocaleMessageDictionary<Message>>,
-  DateTimeFormats extends Record<
-    keyof Options['datetimeFormats'],
-    DateTimeFormat
-  > = Record<keyof Options['datetimeFormats'], DateTimeFormat>,
-  NumberFormats extends Record<
-    keyof Options['numberFormats'],
-    NumberFormat
-  > = Record<keyof Options['numberFormats'], NumberFormat>
+  Options extends CoreOptions<Message> = CoreOptions<Message>,
+  Messages = Options['messages'] extends object ? Options['messages'] : {},
+  DateTimeFormats = Options['datetimeFormats'] extends object
+    ? Options['datetimeFormats']
+    : {},
+  NumberFormats = Options['numberFormats'] extends object
+    ? Options['numberFormats']
+    : {}
 >(
-  options: Options = {} as Options
-): CoreContext<
-  Options['messages'],
-  Options['datetimeFormats'],
-  Options['numberFormats'],
-  Message
-> {
+  options: Options
+): CoreContext<Message, Messages, DateTimeFormats, NumberFormats>
+
+export function createCoreContext<
+  Schema = LocaleMessage,
+  Locales = 'en-US',
+  Message = string,
+  Options extends CoreOptions<
+    Message,
+    SchemaParams<Schema, Message>,
+    LocaleParams<Locales>
+  > = CoreOptions<
+    Message,
+    SchemaParams<Schema, Message>,
+    LocaleParams<Locales>
+  >,
+  Messages = Options['messages'] extends object ? Options['messages'] : {},
+  DateTimeFormats = Options['datetimeFormats'] extends object
+    ? Options['datetimeFormats']
+    : {},
+  NumberFormats = Options['numberFormats'] extends object
+    ? Options['numberFormats']
+    : {}
+>(
+  options: Options
+): CoreContext<Message, Messages, DateTimeFormats, NumberFormats>
+
+export function createCoreContext<Message = string>(options: any = {}): any {
   // setup options
   const version = isString(options.version) ? options.version : VERSION
   const locale = isString(options.locale) ? options.locale : 'en-US'
@@ -240,16 +334,16 @@ export function createCoreContext<
       : locale
   const messages = isPlainObject(options.messages)
     ? options.messages
-    : ({ [locale]: {} } as Messages)
+    : { [locale]: {} }
   const datetimeFormats = isPlainObject(options.datetimeFormats)
     ? options.datetimeFormats
-    : ({ [locale]: {} } as DateTimeFormats)
+    : { [locale]: {} }
   const numberFormats = isPlainObject(options.numberFormats)
     ? options.numberFormats
-    : ({ [locale]: {} } as NumberFormats)
+    : { [locale]: {} }
   const modifiers = assign(
-    {} as LinkedModifiers<Message>,
-    options.modifiers || ({} as LinkedModifiers<Message>),
+    {},
+    options.modifiers || {},
     getDefaultLinkedModifiers<Message>()
   )
   const pluralRules = options.pluralRules || {}
@@ -317,12 +411,7 @@ export function createCoreContext<
     __datetimeFormatters,
     __numberFormatters,
     __meta
-  } as CoreContext<
-    Options['messages'],
-    Options['datetimeFormats'],
-    Options['numberFormats'],
-    Message
-  >
+  }
 
   // for vue-devtools timeline event
   if (__DEV__) {
@@ -358,7 +447,7 @@ export function isTranslateMissingWarn(
 
 /** @internal */
 export function handleMissing<Message = string>(
-  context: CoreCommonContext<Message>,
+  context: CoreContext<Message>,
   key: Path,
   locale: Locale,
   missingWarn: boolean | RegExp,
@@ -380,7 +469,7 @@ export function handleMissing<Message = string>(
   }
 
   if (missing !== null) {
-    const ret = missing(context, locale, key, type)
+    const ret = missing(context as any, locale, key, type)
     return isString(ret) ? ret : key
   } else {
     if (__DEV__ && isTranslateMissingWarn(missingWarn, key)) {
@@ -392,7 +481,7 @@ export function handleMissing<Message = string>(
 
 /** @internal */
 export function getLocaleChain<Message = string>(
-  ctx: CoreCommonContext<Message>,
+  ctx: CoreContext<Message>,
   fallback: FallbackLocale,
   start: Locale
 ): Locale[] {
@@ -489,11 +578,13 @@ function appendItemToChain(
 
 /** @internal */
 export function updateFallbackLocale<Message = string>(
-  ctx: CoreCommonContext<Message>,
+  ctx: CoreContext<Message>,
   locale: Locale,
   fallback: FallbackLocale
 ): void {
   const context = (ctx as unknown) as CoreInternalContext
   context.__localeChainCache = new Map()
-  getLocaleChain(ctx, fallback, locale)
+  getLocaleChain<Message>(ctx, fallback, locale)
 }
+
+/* eslint-enable @typescript-eslint/no-explicit-any */

@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-empty-function */
+/* eslint-disable @typescript-eslint/no-empty-function, @typescript-eslint/no-explicit-any */
 
 // utils
 jest.mock('@intlify/shared', () => ({
@@ -19,8 +19,17 @@ import { number } from '../src/number'
 import { CoreErrorCodes, errorMessages } from '../src/errors'
 import { registerMessageCompiler } from '../src/context'
 import { compileToFunction } from '../src/compile'
+import { NumberFormats } from '../src/types/index'
 
-const numberFormats = {
+type MyNumberSchema = {
+  currency: {} // loose schema
+  decimal: {} // loose schema
+  percent: {} // loose schema
+  numeric: {} // loose schema
+}
+
+const numberFormats: NumberFormats<MyNumberSchema, 'en-US' | 'ja-JP'> = {
+  // @ts-ignore NOTE: checking fallback tests
   'en-US': {
     currency: {
       style: 'currency',
@@ -32,6 +41,7 @@ const numberFormats = {
       useGrouping: false
     }
   },
+  // @ts-ignore NOTE: checking fallback tests
   'ja-JP': {
     currency: {
       style: 'currency',
@@ -305,9 +315,9 @@ describe('error', () => {
       numberFormats
     })
     expect(() => {
-      number(ctx, '111')
+      number(ctx, '111' as any)
     }).toThrowError(errorMessages[CoreErrorCodes.INVALID_ARGUMENT])
   })
 })
 
-/* eslint-enable @typescript-eslint/no-empty-function */
+/* eslint-enable @typescript-eslint/no-empty-function, @typescript-eslint/no-explicit-any */

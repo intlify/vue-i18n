@@ -6,7 +6,9 @@ import type {
   MessageFunction,
   TranslateOptions,
   DateTimeOptions,
-  NumberOptions
+  NumberOptions,
+  PickupKeys,
+  PickupFormatKeys
 } from '@intlify/core'
 import type { CustomBlocks, VueMessageType } from './composer'
 import type {
@@ -75,7 +77,13 @@ declare module '@vue/runtime-core' {
      *
      * @returns translation message
      */
-    $t(key: Path): TranslateResult
+    $t<
+      Key extends string,
+      Messages extends object = {},
+      ResourceKeys extends PickupKeys<Messages> = PickupKeys<Messages>
+    >(
+      key: Key | ResourceKeys | Path
+    ): TranslateResult
     /**
      * Locale message translation
      *
@@ -87,7 +95,13 @@ declare module '@vue/runtime-core' {
      *
      * @returns translation message
      */
-    $t(key: Path, locale: Locale): TranslateResult
+    $t<
+      Key extends string,
+      Messages extends object = {},
+      ResourceKeys extends PickupKeys<Messages> = PickupKeys<Messages>
+    >(
+      key: Key | ResourceKeys | Path
+    ): TranslateResult
     /**
      * Locale message translation
      *
@@ -100,7 +114,15 @@ declare module '@vue/runtime-core' {
      *
      * @returns translation message
      */
-    $t(key: Path, locale: Locale, list: unknown[]): TranslateResult
+    $t<
+      Key extends string,
+      Messages extends object = {},
+      ResourceKeys extends PickupKeys<Messages> = PickupKeys<Messages>
+    >(
+      key: Key | ResourceKeys | Path,
+      locale: Locale,
+      list: unknown[]
+    ): TranslateResult
     /**
      * Locale message translation
      *
@@ -113,7 +135,15 @@ declare module '@vue/runtime-core' {
      *
      * @returns translation message
      */
-    $t(key: Path, locale: Locale, named: object): TranslateResult
+    $t<
+      Key extends string,
+      Messages extends object = {},
+      ResourceKeys extends PickupKeys<Messages> = PickupKeys<Messages>
+    >(
+      key: Key | ResourceKeys | Path,
+      locale: Locale,
+      named: object
+    ): TranslateResult
     /**
      * Locale message translation
      *
@@ -125,7 +155,14 @@ declare module '@vue/runtime-core' {
      *
      * @returns translation message
      */
-    $t(key: Path, list: unknown[]): TranslateResult
+    $t<
+      Key extends string,
+      Messages extends object = {},
+      ResourceKeys extends PickupKeys<Messages> = PickupKeys<Messages>
+    >(
+      key: Key | ResourceKeys | Path,
+      list: unknown[]
+    ): TranslateResult
     /**
      * Locale message translation
      *
@@ -137,7 +174,14 @@ declare module '@vue/runtime-core' {
      *
      * @returns translation message
      */
-    $t(key: Path, named: Record<string, unknown>): TranslateResult
+    $t<
+      Key extends string,
+      Messages extends object = {},
+      ResourceKeys extends PickupKeys<Messages> = PickupKeys<Messages>
+    >(
+      key: Key | ResourceKeys | Path,
+      named: Record<string, unknown>
+    ): TranslateResult
     /**
      * Locale message translation
      *
@@ -148,7 +192,13 @@ declare module '@vue/runtime-core' {
      *
      * @returns translation message
      */
-    $t(key: Path): string
+    $t<
+      Key extends string,
+      Messages extends object = {},
+      ResourceKeys extends PickupKeys<Messages> = PickupKeys<Messages>
+    >(
+      key: Key | ResourceKeys | Path
+    ): string
     /**
      * Locale message translation
      *
@@ -160,7 +210,14 @@ declare module '@vue/runtime-core' {
      *
      * @returns translation message
      */
-    $t(key: Path, plural: number): string
+    $t<
+      Key extends string,
+      Messages extends object = {},
+      ResourceKeys extends PickupKeys<Messages> = PickupKeys<Messages>
+    >(
+      key: Key | ResourceKeys | Path,
+      plural: number
+    ): string
     /**
      * Locale message translation
      *
@@ -173,7 +230,15 @@ declare module '@vue/runtime-core' {
      *
      * @returns translation message
      */
-    $t(key: Path, plural: number, options: TranslateOptions): string
+    $t<
+      Key extends string,
+      Messages extends object = {},
+      ResourceKeys extends PickupKeys<Messages> = PickupKeys<Messages>
+    >(
+      key: Key | ResourceKeys | Path,
+      plural: number,
+      options: TranslateOptions
+    ): string
     /**
      * Locale message translation
      *
@@ -185,7 +250,14 @@ declare module '@vue/runtime-core' {
      *
      * @returns translation message
      */
-    $t(key: Path, defaultMsg: string): string
+    $t<
+      Key extends string,
+      Messages extends object = {},
+      ResourceKeys extends PickupKeys<Messages> = PickupKeys<Messages>
+    >(
+      key: Key | ResourceKeys | Path,
+      defaultMsg: string
+    ): string
     /**
      * Locale message translation
      *
@@ -198,7 +270,15 @@ declare module '@vue/runtime-core' {
      *
      * @returns translation message
      */
-    $t(key: Path, defaultMsg: string, options: TranslateOptions): string
+    $t<
+      Key extends string,
+      Messages extends object = {},
+      ResourceKeys extends PickupKeys<Messages> = PickupKeys<Messages>
+    >(
+      key: Key | ResourceKeys | Path,
+      defaultMsg: string,
+      options: TranslateOptions
+    ): string
     /**
      * Locale message translation
      *
@@ -210,7 +290,14 @@ declare module '@vue/runtime-core' {
      *
      * @returns translation message
      */
-    $t(key: Path, list: unknown[]): string
+    $t<
+      Key extends string,
+      Messages extends object = {},
+      ResourceKeys extends PickupKeys<Messages> = PickupKeys<Messages>
+    >(
+      key: Key | ResourceKeys | Path,
+      list: unknown[]
+    ): string
     /**
      * Locale message translation
      *
@@ -223,7 +310,15 @@ declare module '@vue/runtime-core' {
      *
      * @returns translation message
      */
-    $t(key: Path, list: unknown[], plural: number): string
+    $t<
+      Key extends string,
+      Messages extends object = {},
+      ResourceKeys extends PickupKeys<Messages> = PickupKeys<Messages>
+    >(
+      key: Key | ResourceKeys | Path,
+      list: unknown[],
+      plural: number
+    ): string
     /**
      * Locale message translation
      *
@@ -236,7 +331,15 @@ declare module '@vue/runtime-core' {
      *
      * @returns translation message
      */
-    $t(key: Path, list: unknown[], defaultMsg: string): string
+    $t<
+      Key extends string,
+      Messages extends object = {},
+      ResourceKeys extends PickupKeys<Messages> = PickupKeys<Messages>
+    >(
+      key: Key | ResourceKeys | Path,
+      list: unknown[],
+      defaultMsg: string
+    ): string
     /**
      * Locale message translation
      *
@@ -249,7 +352,15 @@ declare module '@vue/runtime-core' {
      *
      * @returns translation message
      */
-    $t(key: Path, list: unknown[], options: TranslateOptions): string
+    $t<
+      Key extends string,
+      Messages extends object = {},
+      ResourceKeys extends PickupKeys<Messages> = PickupKeys<Messages>
+    >(
+      key: Key | ResourceKeys | Path,
+      list: unknown[],
+      options: TranslateOptions
+    ): string
     /**
      * Locale message translation
      *
@@ -261,7 +372,14 @@ declare module '@vue/runtime-core' {
      *
      * @returns translation message
      */
-    $t(key: Path, named: NamedValue): string
+    $t<
+      Key extends string,
+      Messages extends object = {},
+      ResourceKeys extends PickupKeys<Messages> = PickupKeys<Messages>
+    >(
+      key: Key | ResourceKeys | Path,
+      named: NamedValue
+    ): string
     /**
      * Locale message translation
      *
@@ -274,7 +392,15 @@ declare module '@vue/runtime-core' {
      *
      * @returns translation message
      */
-    $t(key: Path, named: NamedValue, plural: number): string
+    $t<
+      Key extends string,
+      Messages extends object = {},
+      ResourceKeys extends PickupKeys<Messages> = PickupKeys<Messages>
+    >(
+      key: Key | ResourceKeys | Path,
+      named: NamedValue,
+      plural: number
+    ): string
     /**
      * Locale message translation
      *
@@ -287,7 +413,15 @@ declare module '@vue/runtime-core' {
      *
      * @returns translation message
      */
-    $t(key: Path, named: NamedValue, defaultMsg: string): string
+    $t<
+      Key extends string,
+      Messages extends object = {},
+      ResourceKeys extends PickupKeys<Messages> = PickupKeys<Messages>
+    >(
+      key: Key | ResourceKeys | Path,
+      named: NamedValue,
+      defaultMsg: string
+    ): string
     /**
      * Locale message translation
      *
@@ -300,7 +434,15 @@ declare module '@vue/runtime-core' {
      *
      * @returns translation message
      */
-    $t(key: Path, named: NamedValue, options: TranslateOptions): string
+    $t<
+      Key extends string,
+      Messages extends object = {},
+      ResourceKeys extends PickupKeys<Messages> = PickupKeys<Messages>
+    >(
+      key: Key | ResourceKeys | Path,
+      named: NamedValue,
+      options: TranslateOptions
+    ): string
     /**
      * Resolve locale message translation
      *
@@ -382,7 +524,13 @@ declare module '@vue/runtime-core' {
      *
      * @returns translation message that is pluraled
      */
-    $tc(key: Path): TranslateResult
+    $tc<
+      Key extends string,
+      Messages extends object = {},
+      ResourceKeys extends PickupKeys<Messages> = PickupKeys<Messages>
+    >(
+      key: Key | ResourceKeys | Path
+    ): TranslateResult
     /**
      * Locale message pluralization
      *
@@ -395,7 +543,14 @@ declare module '@vue/runtime-core' {
      *
      * @returns translation message that is pluraled
      */
-    $tc(key: Path, locale: Locale): TranslateResult
+    $tc<
+      Key extends string,
+      Messages extends object = {},
+      ResourceKeys extends PickupKeys<Messages> = PickupKeys<Messages>
+    >(
+      key: Key | ResourceKeys | Path,
+      locale: Locale
+    ): TranslateResult
     /**
      * Locale message pluralization
      *
@@ -408,7 +563,14 @@ declare module '@vue/runtime-core' {
      *
      * @returns translation message that is pluraled
      */
-    $tc(key: Path, list: unknown[]): TranslateResult
+    $tc<
+      Key extends string,
+      Messages extends object = {},
+      ResourceKeys extends PickupKeys<Messages> = PickupKeys<Messages>
+    >(
+      key: Key | ResourceKeys | Path,
+      list: unknown[]
+    ): TranslateResult
     /**
      * Locale message pluralization
      * Supported for Legacy API mode only.
@@ -422,7 +584,14 @@ declare module '@vue/runtime-core' {
      *
      * @returns translation message that is pluraled
      */
-    $tc(key: Path, named: Record<string, unknown>): TranslateResult
+    $tc<
+      Key extends string,
+      Messages extends object = {},
+      ResourceKeys extends PickupKeys<Messages> = PickupKeys<Messages>
+    >(
+      key: Key | ResourceKeys | Path,
+      named: Record<string, unknown>
+    ): TranslateResult
     /**
      * Locale message pluralization
      * Supported for Legacy API mode only.
@@ -436,7 +605,14 @@ declare module '@vue/runtime-core' {
      *
      * @returns translation message that is pluraled
      */
-    $tc(key: Path, choice: number): TranslateResult
+    $tc<
+      Key extends string,
+      Messages extends object = {},
+      ResourceKeys extends PickupKeys<Messages> = PickupKeys<Messages>
+    >(
+      key: Key | ResourceKeys | Path,
+      choice: number
+    ): TranslateResult
     /**
      * Locale message pluralization
      * Supported for Legacy API mode only.
@@ -451,7 +627,15 @@ declare module '@vue/runtime-core' {
      *
      * @returns translation message that is pluraled
      */
-    $tc(key: Path, choice: number, locale: Locale): TranslateResult
+    $tc<
+      Key extends string,
+      Messages extends object = {},
+      ResourceKeys extends PickupKeys<Messages> = PickupKeys<Messages>
+    >(
+      key: Key | ResourceKeys | Path,
+      choice: number,
+      locale: Locale
+    ): TranslateResult
     /**
      * Locale message pluralization
      * Supported for Legacy API mode only.
@@ -466,7 +650,15 @@ declare module '@vue/runtime-core' {
      *
      * @returns translation message that is pluraled
      */
-    $tc(key: Path, choice: number, list: unknown[]): TranslateResult
+    $tc<
+      Key extends string,
+      Messages extends object = {},
+      ResourceKeys extends PickupKeys<Messages> = PickupKeys<Messages>
+    >(
+      key: Key | ResourceKeys | Path,
+      choice: number,
+      list: unknown[]
+    ): TranslateResult
     /**
      * Locale message pluralization
      * Supported for Legacy API mode only.
@@ -481,8 +673,12 @@ declare module '@vue/runtime-core' {
      *
      * @returns translation message that is pluraled
      */
-    $tc(
-      key: Path,
+    $tc<
+      Key extends string,
+      Messages extends object = {},
+      ResourceKeys extends PickupKeys<Messages> = PickupKeys<Messages>
+    >(
+      key: Key | ResourceKeys | Path,
       choice: number,
       named: Record<string, unknown>
     ): TranslateResult
@@ -498,7 +694,14 @@ declare module '@vue/runtime-core' {
      *
      * @returns if found locale message, `true`, else `false`
      */
-    $te(key: Path, locale?: Locale): boolean
+    $te<
+      Key extends string,
+      Messages extends object = {},
+      ResourceKeys extends PickupKeys<Messages> = PickupKeys<Messages>
+    >(
+      key: Key | ResourceKeys | Path,
+      locale?: Locale
+    ): boolean
     /**
      * Datetime formatting
      *
@@ -526,7 +729,15 @@ declare module '@vue/runtime-core' {
      *
      * @returns formatted value
      */
-    $d(value: number | Date, key: string): DateTimeFormatResult
+    $d<
+      Value extends number | Date = number,
+      Key extends string = string,
+      DateTimeFormats extends object = {},
+      ResourceKeys extends PickupFormatKeys<DateTimeFormats> = PickupFormatKeys<DateTimeFormats>
+    >(
+      value: Value,
+      key: Key | ResourceKeys
+    ): DateTimeFormatResult
     /**
      * Datetime formatting
      *
@@ -539,7 +750,16 @@ declare module '@vue/runtime-core' {
      *
      * @returns formatted value
      */
-    $d(value: number | Date, key: string, locale: Locale): DateTimeFormatResult
+    $d<
+      Value extends number | Date = number,
+      Key extends string = string,
+      DateTimeFormats extends object = {},
+      ResourceKeys extends PickupFormatKeys<DateTimeFormats> = PickupFormatKeys<DateTimeFormats>
+    >(
+      value: Value,
+      key: Key | ResourceKeys,
+      locale: Locale
+    ): DateTimeFormatResult
     /**
      * Datetime formatting
      *
@@ -577,7 +797,15 @@ declare module '@vue/runtime-core' {
      *
      * @returns formatted value
      */
-    $d(value: number | Date, key: string): string
+    $d<
+      Value extends number | Date = number,
+      Key extends string = string,
+      DateTimeFormats extends object = {},
+      ResourceKeys extends PickupFormatKeys<DateTimeFormats> = PickupFormatKeys<DateTimeFormats>
+    >(
+      value: Value,
+      key: Key | ResourceKeys
+    ): string
     /**
      * Datetime formatting
      *
@@ -590,7 +818,16 @@ declare module '@vue/runtime-core' {
      *
      * @returns formatted value
      */
-    $d(value: number | Date, key: string, locale: Locale): string
+    $d<
+      Value extends number | Date = number,
+      Key extends string = string,
+      DateTimeFormats extends object = {},
+      ResourceKeys extends PickupFormatKeys<DateTimeFormats> = PickupFormatKeys<DateTimeFormats>
+    >(
+      value: Value,
+      key: Key | ResourceKeys,
+      locale: Locale
+    ): string
     /**
      * Datetime formatting
      *
@@ -630,7 +867,14 @@ declare module '@vue/runtime-core' {
      *
      * @returns formatted value
      */
-    $n(value: number, key: string): NumberFormatResult
+    $n<
+      Key extends string = string,
+      NumberFormats extends object = {},
+      ResourceKeys extends PickupFormatKeys<NumberFormats> = PickupFormatKeys<NumberFormats>
+    >(
+      value: number,
+      key: Key | ResourceKeys
+    ): NumberFormatResult
     /**
      * Number formatting
      *
@@ -643,7 +887,15 @@ declare module '@vue/runtime-core' {
      *
      * @returns formatted value
      */
-    $n(value: number, key: string, locale: Locale): NumberFormatResult
+    $n<
+      Key extends string = string,
+      NumberFormats extends object = {},
+      ResourceKeys extends PickupFormatKeys<NumberFormats> = PickupFormatKeys<NumberFormats>
+    >(
+      value: number,
+      key: Key | ResourceKeys,
+      locale: Locale
+    ): NumberFormatResult
     /**
      * Number formatting
      *
@@ -678,7 +930,14 @@ declare module '@vue/runtime-core' {
      *
      * @returns formatted value
      */
-    $n(value: number, key: string): string
+    $n<
+      Key extends string = string,
+      NumberFormats extends object = {},
+      ResourceKeys extends PickupFormatKeys<NumberFormats> = PickupFormatKeys<NumberFormats>
+    >(
+      value: number,
+      key: Key | ResourceKeys
+    ): string
     /**
      * Number formatting
      *
@@ -691,7 +950,15 @@ declare module '@vue/runtime-core' {
      *
      * @returns formatted value
      */
-    $n(value: number, key: string, locale: Locale): string
+    $n<
+      Key extends string = string,
+      NumberFormats extends object = {},
+      ResourceKeys extends PickupFormatKeys<NumberFormats> = PickupFormatKeys<NumberFormats>
+    >(
+      value: number,
+      key: Key | ResourceKeys,
+      locale: Locale
+    ): string
     /**
      * Number formatting
      *
@@ -720,6 +987,12 @@ declare module '@vue/runtime-core' {
      *
      * @returns locale messages
      */
-    $tm(key: Path): LocaleMessageValue<VueMessageType> | {}
+    $tm<
+      Key extends string,
+      Messages extends object = {},
+      ResourceKeys extends PickupKeys<Messages> = PickupKeys<Messages>
+    >(
+      key: Key | ResourceKeys
+    ): LocaleMessageValue<VueMessageType> | {}
   }
 }

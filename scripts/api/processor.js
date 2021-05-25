@@ -5,6 +5,15 @@ const {
   createContentBuilder
 } = require('api-docs-gen')
 
+function escapeTitle(text) {
+  return text
+    .replace(/&/g, '&amp;')
+    .replace(/"/g, '&quot;')
+    .replace(/\n/g, '')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+}
+
 function process(model, pkg, style, resolver, customTags) {
   // console.log('custom process', model, pkg, style, customTags)
 
@@ -137,6 +146,7 @@ function process(model, pkg, style, resolver, customTags) {
 function buildFunction(model, builder) {
   model.summary && buildSummary(model, builder)
   model.signature && buildSignature(model, builder)
+  model.typeParameters && buildTypeParameters(model, builder)
   model.deprecated && buildDeprecated(model, builder)
   model.remarks && buildDetails(model, builder)
   model.tips && buildTips(model, builder)
@@ -156,6 +166,7 @@ function buildEnum(model, builder) {
 function buildInterface(model, builder) {
   model.summary && buildSummary(model, builder)
   model.signature && buildSignature(model, builder)
+  model.typeParameters && buildTypeParameters(model, builder)
   model.deprecated && buildDeprecated(model, builder)
   model.remarks && buildDetails(model, builder)
   model.tips && buildTips(model, builder)
@@ -172,6 +183,14 @@ function buildInterface(model, builder) {
     }
   }
 
+  if (model.functions) {
+    for (const m of model.functions) {
+      builder.pushline(`### ${m.name}`)
+      builder.newline()
+      buildMethodSignature(m, builder)
+    }
+  }
+
   if (model.methods) {
     for (const m of model.methods) {
       builder.pushline(`### ${m.name}`)
@@ -184,6 +203,7 @@ function buildInterface(model, builder) {
 function buildPropertySignature(model, builder) {
   model.summary && buildSummary(model, builder)
   model.signature && buildSignature(model, builder)
+  model.typeParameters && buildTypeParameters(model, builder, 4)
   model.deprecated && buildDeprecated(model, builder)
   model.remarks && buildDetails(model, builder)
   model.tips && buildTips(model, builder)
@@ -197,6 +217,7 @@ function buildPropertySignature(model, builder) {
 function buildMethodSignature(model, builder) {
   model.summary && buildSummary(model, builder)
   model.signature && buildSignature(model, builder)
+  model.typeParameters && buildTypeParameters(model, builder, 4)
   model.deprecated && buildDeprecated(model, builder)
   model.remarks && buildDetails(model, builder)
   model.seeAlso && buildSeeAlso(model, builder)
@@ -216,6 +237,7 @@ function buildClass(model, builder) {
 function buildTypeAlias(model, builder) {
   model.summary && buildSummary(model, builder)
   model.signature && buildSignature(model, builder)
+  model.typeParameters && buildTypeParameters(model, builder)
   model.deprecated && buildDeprecated(model, builder)
   model.remarks && buildDetails(model, builder)
   model.tips && buildTips(model, builder)
@@ -247,6 +269,17 @@ function buildSignature(model, builder) {
   builder.pushline('```typescript')
   builder.pushline(model.signature)
   builder.pushline('```')
+  builder.newline()
+}
+
+function buildTypeParameters(model, builder, level = 3) {
+  builder.pushline(`${'#'.repeat(level)} Type Parameters`)
+  builder.newline()
+  builder.pushline(`| Parameter | Description |`)
+  builder.pushline(`| --- | --- |`)
+  for (const p of model.typeParameters) {
+    builder.pushline(`| ${p.name} | ${p.description} |`)
+  }
   builder.newline()
 }
 
@@ -393,6 +426,17 @@ function parseFunction(style, model, pkg, resolver, item, customTags) {
 
   // signature
   genModel.signature = getSignature(item)
+
+  // type parameters
+  genModel.typeParameters = getTypeParameters(
+    docs,
+    style,
+    model,
+    pkg,
+    resolver,
+    item,
+    customTags
+  )
 
   // deprecated
   genModel.deprecated = getDeprecated(
@@ -629,6 +673,9 @@ function getNameSignature(item, type) {
     return `${
       type === 'constrcutor' ? 'constructor' : item.displayName
     }(${item.parameters.map(p => p.name).join(', ')})`
+  } else if (type === 'function') {
+    const display = item.excerptTokens.map(token => token.text).join('')
+    return escapeTitle(display.slice(display.indexOf('(')))
   } else {
     return item.displayName
   }
@@ -669,6 +716,17 @@ function parseContentForClassinizable(
 
   // signature
   genModel.signature = getSignature(item)
+
+  // type parameters
+  genModel.typeParameters = getTypeParameters(
+    docs,
+    style,
+    model,
+    pkg,
+    resolver,
+    item,
+    customTags
+  )
 
   // deprecated
   genModel.deprecated = getDeprecated(
@@ -742,7 +800,7 @@ function parseContentForClassinizable(
   )
 
   // parameters
-  if (type === 'constrcutor' || type === 'method') {
+  if (type === 'constrcutor' || type === 'method' || type === 'function') {
     genModel.parameters = getParameters(
       docs,
       style,
@@ -755,7 +813,7 @@ function parseContentForClassinizable(
   }
 
   // returns
-  if (type === 'method') {
+  if (type === 'method' || type === 'function') {
     genModel.returns = getReturns(
       docs,
       style,
@@ -768,7 +826,7 @@ function parseContentForClassinizable(
   }
 
   // throws
-  if (type === 'constructor' || type === 'method') {
+  if (type === 'constructor' || type === 'method' || type === 'function') {
     genModel.throws = getThrows(
       docs,
       style,
@@ -804,6 +862,24 @@ function parseInterface(style, model, pkg, resolver, item, customTags) {
     'interface',
     customTags
   )
+
+  const functions = item.members.filter(m => m.kind === 'CallSignature')
+  if (functions.length > 0) {
+    genModel.functions = []
+    for (const func of functions) {
+      genModel.functions.push(
+        parseContentForClassinizable(
+          style,
+          model,
+          pkg,
+          resolver,
+          func,
+          'function',
+          customTags
+        )
+      )
+    }
+  }
 
   const methods = item.members.filter(m => m.kind === 'MethodSignature')
   if (methods.length > 0) {
@@ -876,6 +952,17 @@ function parseTypeAlias(style, model, pkg, resolver, item, customTags) {
 
   // signature
   genModel.signature = getSignature(item)
+
+  // type parameters
+  genModel.typeParameters = getTypeParameters(
+    docs,
+    style,
+    model,
+    pkg,
+    resolver,
+    item,
+    customTags
+  )
 
   // deprecated
   genModel.deprecated = getDeprecated(
@@ -1077,6 +1164,37 @@ function getSignature(item) {
   return item.excerptTokens
     ? item.excerptTokens.map(token => token.text).join('')
     : undefined
+}
+
+function getTypeParameters(
+  docs,
+  style,
+  model,
+  pkg,
+  resolver,
+  item,
+  customTags
+) {
+  if (docs.typeParams && docs.typeParams.count > 0) {
+    return docs.typeParams.blocks.map(b => {
+      return {
+        name: b.parameterName,
+        description: b.content
+          ? getDocSectionContent(
+              model,
+              pkg,
+              b.content,
+              item,
+              style,
+              resolver,
+              customTags
+            )
+          : ''
+      }
+    })
+  } else {
+    return undefined
+  }
 }
 
 function getDeprecated(docs, style, model, pkg, resolver, item, customTags) {

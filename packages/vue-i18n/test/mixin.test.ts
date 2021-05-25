@@ -58,7 +58,7 @@ describe('beforeCreate', () => {
       __i18n: [
         {
           locale: '',
-          resource: messages
+          resource: messages as any // eslint-disable-line @typescript-eslint/no-explicit-any
         }
       ]
     })

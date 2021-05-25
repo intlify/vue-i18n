@@ -76,14 +76,9 @@ afterAll(() => {
   activeWrapperRemovers = []
 })
 
-export function mount<
-  Messages = {},
-  DateTimeFormats = {},
-  NumberFormats = {},
-  Legacy extends boolean = true
->(
+export function mount(
   targetComponent: Parameters<typeof createApp>[0],
-  i18n: I18n<Messages, DateTimeFormats, NumberFormats, Legacy>,
+  i18n: I18n,
   options: Partial<MountOptions> = {}
 ): Promise<Wrapper> {
   const TargetComponent = targetComponent

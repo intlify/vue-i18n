@@ -39,16 +39,7 @@ export interface I18nPluginOptions {
   globalInstall?: boolean
 }
 
-export function apply<
-  Messages,
-  DateTimeFormats,
-  NumberFormats,
-  Legacy extends boolean
->(
-  app: App,
-  i18n: I18n<Messages, DateTimeFormats, NumberFormats, Legacy>,
-  ...options: unknown[]
-): void {
+export function apply(app: App, i18n: I18n, ...options: unknown[]): void {
   const pluginOptions = isPlainObject(options[0])
     ? (options[0] as I18nPluginOptions)
     : {}
@@ -76,8 +67,5 @@ export function apply<
   }
 
   // install directive
-  app.directive(
-    't',
-    vTDirective<Messages, DateTimeFormats, NumberFormats, Legacy>(i18n)
-  )
+  app.directive('t', vTDirective(i18n))
 }

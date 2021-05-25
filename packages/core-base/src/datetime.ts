@@ -19,13 +19,14 @@ import { CoreErrorCodes, createCoreError } from './errors'
 import { VueDevToolsTimelineEvents } from '@intlify/vue-devtools'
 import { Availabilities } from './intl'
 
-import type { Locale } from '@intlify/runtime'
+import type { Locale, FallbackLocale } from '@intlify/runtime'
 import type {
   DateTimeFormat,
   DateTimeFormats as DateTimeFormatsType,
-  DateTimeFormatOptions
-} from './types'
-import type { CoreDateTimeContext, CoreInternalContext } from './context'
+  DateTimeFormatOptions,
+  PickupFormatKeys
+} from './types/index'
+import type { CoreContext, CoreInternalContext } from './context'
 
 /**
  *  # datetime
@@ -75,17 +76,17 @@ import type { CoreDateTimeContext, CoreInternalContext } from './context'
  *
  * @VueI18nGeneral
  */
-export interface DateTimeOptions {
+export interface DateTimeOptions<Key = string, Locales = Locale> {
   /**
    * @remarks
    * The target format key
    */
-  key?: string
+  key?: Key
   /**
    * @remarks
    * The locale of localization
    */
-  locale?: Locale
+  locale?: Locales
   /**
    * @remarks
    * Whether suppress warnings outputted when localization fails
@@ -103,35 +104,96 @@ export interface DateTimeOptions {
   part?: boolean
 }
 
-// `datetime` function overloads
-export function datetime<DateTimeFormats, Message = string>(
-  context: CoreDateTimeContext<DateTimeFormats, Message>,
-  value: number | Date
+/**
+ * `datetime` function overloads
+ */
+
+export function datetime<
+  Context extends CoreContext<Message, {}, Context['datetimeFormats'], {}>,
+  Message = string
+>(
+  context: Context,
+  value: number | string | Date
 ): string | number | Intl.DateTimeFormatPart[]
-export function datetime<DateTimeFormats, Message = string>(
-  context: CoreDateTimeContext<DateTimeFormats, Message>,
-  value: number | Date,
-  key: string
+
+export function datetime<
+  Context extends CoreContext<Message, {}, Context['datetimeFormats'], {}>,
+  Value extends number | string | Date = number,
+  Key extends string = string,
+  ResourceKeys extends PickupFormatKeys<
+    Context['datetimeFormats']
+  > = PickupFormatKeys<Context['datetimeFormats']>,
+  Message = string
+>(
+  context: Context,
+  value: Value,
+  keyOrOptions:
+    | Key
+    | ResourceKeys
+    | DateTimeOptions<Key | ResourceKeys, Context['locale']>
 ): string | number | Intl.DateTimeFormatPart[]
-export function datetime<DateTimeFormats, Message = string>(
-  context: CoreDateTimeContext<DateTimeFormats, Message>,
-  value: number | Date,
-  key: string,
-  locale: Locale
+
+export function datetime<
+  Context extends CoreContext<Message, {}, Context['datetimeFormats'], {}>,
+  Value extends number | string | Date = number,
+  Key extends string = string,
+  ResourceKeys extends PickupFormatKeys<
+    Context['datetimeFormats']
+  > = PickupFormatKeys<Context['datetimeFormats']>,
+  Message = string
+>(
+  context: Context,
+  value: Value,
+  keyOrOptions:
+    | Key
+    | ResourceKeys
+    | DateTimeOptions<Key | ResourceKeys, Context['locale']>,
+  locale: Context['locale']
 ): string | number | Intl.DateTimeFormatPart[]
-export function datetime<DateTimeFormats, Message = string>(
-  context: CoreDateTimeContext<DateTimeFormats, Message>,
-  value: number | Date,
-  options: DateTimeOptions
+
+export function datetime<
+  Context extends CoreContext<Message, {}, Context['datetimeFormats'], {}>,
+  Value extends number | string | Date = number,
+  Key extends string = string,
+  ResourceKeys extends PickupFormatKeys<
+    Context['datetimeFormats']
+  > = PickupFormatKeys<Context['datetimeFormats']>,
+  Message = string
+>(
+  context: Context,
+  value: Value,
+  keyOrOptions:
+    | Key
+    | ResourceKeys
+    | DateTimeOptions<Key | ResourceKeys, Context['locale']>,
+  override: Intl.DateTimeFormatOptions
 ): string | number | Intl.DateTimeFormatPart[]
-export function datetime<DateTimeFormats, Message = string>(
-  context: CoreDateTimeContext<DateTimeFormats, Message>,
-  ...args: unknown[]
-): string | number | Intl.DateTimeFormatPart[] // for internal
+
+export function datetime<
+  Context extends CoreContext<Message, {}, Context['datetimeFormats'], {}>,
+  Value extends number | string | Date = number,
+  Key extends string = string,
+  ResourceKeys extends PickupFormatKeys<
+    Context['datetimeFormats']
+  > = PickupFormatKeys<Context['datetimeFormats']>,
+  Message = string
+>(
+  context: Context,
+  value: Value,
+  keyOrOptions:
+    | Key
+    | ResourceKeys
+    | DateTimeOptions<Key | ResourceKeys, Context['locale']>,
+  locale: Context['locale'],
+  override: Intl.DateTimeFormatOptions
+): string | number | Intl.DateTimeFormatPart[]
 
 // implementation of `datetime` function
-export function datetime<DateTimeFormats, Message = string>(
-  context: CoreDateTimeContext<DateTimeFormats, Message>,
+export function datetime<
+  Context extends CoreContext<Message, {}, Context['datetimeFormats'], {}>,
+  Message = string
+>(
+  context: Context,
   ...args: unknown[]
 ): string | number | Intl.DateTimeFormatPart[] {
   const { datetimeFormats, unresolving, fallbackLocale, onWarn } = context
@@ -151,7 +213,11 @@ export function datetime<DateTimeFormats, Message = string>(
     : context.fallbackWarn
   const part = !!options.part
   const locale = isString(options.locale) ? options.locale : context.locale
-  const locales = getLocaleChain(context, fallbackLocale, locale)
+  const locales = getLocaleChain(
+    context as any, // eslint-disable-line @typescript-eslint/no-explicit-any
+    fallbackLocale as FallbackLocale,
+    locale
+  )
 
   if (!isString(key) || key === '') {
     return new Intl.DateTimeFormat(locale).format(value)
@@ -199,7 +265,7 @@ export function datetime<DateTimeFormats, Message = string>(
     format = datetimeFormat[key]
 
     if (isPlainObject(format)) break
-    handleMissing(context, key, targetLocale, missingWarn, type)
+    handleMissing(context as any, key, targetLocale, missingWarn, type) // eslint-disable-line @typescript-eslint/no-explicit-any
     from = to
   }
 
@@ -279,7 +345,7 @@ export function parseDateTimeArgs(
 
 /** @internal */
 export function clearDateTimeFormat<DateTimeFormats = {}, Message = string>(
-  ctx: CoreDateTimeContext<DateTimeFormats, Message>,
+  ctx: CoreContext<Message, {}, DateTimeFormats>,
   locale: Locale,
   format: DateTimeFormat
 ): void {

@@ -6,7 +6,7 @@ import type { I18n, I18nOptions, Composer } from 'vue-i18n'
 export const SUPPORT_LOCALES = ['en', 'ja']
 
 export function setupI18n(options: I18nOptions = { locale: 'en' }): I18n {
-  const i18n = createI18n(options) as I18n
+  const i18n = createI18n(options)
   setI18nLanguage(i18n, options.locale!)
   return i18n
 }
@@ -24,12 +24,12 @@ export function setI18nLanguage(i18n: I18n, locale: string): void {
    *
    * axios.defaults.headers.common['Accept-Language'] = locale
    */
-  document.querySelector('html').setAttribute('lang', locale)
+  document.querySelector('html')!.setAttribute('lang', locale)
 }
 
 export async function loadLocaleMessages(i18n: I18n, locale: string) {
   // load locale messages
-  const messages = await import(/* @vite-ignore */ `./locales/${locale}.yaml`)
+  const messages = await import(/* @vite-ignore */ `./locales/${locale}.json`)
 
   // set locale and locale message
   i18n.global.setLocaleMessage(locale, messages.default)

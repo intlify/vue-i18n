@@ -54,7 +54,7 @@ describe('createI18n with flat json messages', () => {
   })
 
   test('composition mode', () => {
-    const i18n = createI18n({
+    const i18n = createI18n<false>({
       legacy: false,
       flatJson: true,
       messages: {
@@ -268,7 +268,7 @@ describe('useI18n', () => {
             locale: '',
             resource: { ja: { hello: 'こんにちは、世界！' } }
           }
-        ]
+        ] as any // eslint-disable-line @typescript-eslint/no-explicit-any
         composer = useI18n()
         return { t: (composer as Composer).t }
       },
@@ -451,7 +451,7 @@ describe('slot reactivity', () => {
   })
 
   test('composable', async () => {
-    const i18n = createI18n({
+    const i18n = createI18n<false>({
       legacy: false,
       locale: 'ja',
       fallbackLocale: ['en'],
@@ -537,7 +537,7 @@ describe('slot reactivity', () => {
         <Child />
       `
     })
-    const { html } = await mount(App, i18n)
+    const { html } = await mount(App, i18n as any) // eslint-disable-line @typescript-eslint/no-explicit-any
     expect(html()).toMatchSnapshot('ja')
     i18n.global.locale.value = 'en'
     await nextTick()
