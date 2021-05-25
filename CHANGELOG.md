@@ -1,4 +1,33 @@
 
+## v9.2.0-alpha.1 (2021-05-25)
+
+#### :star: Features
+* `core-base`, `message-resolver`, `vue-i18n`
+  * [#477](https://github.com/intlify/vue-i18n-next/pull/477) feat: custom message resolver ([@kazupon](https://github.com/kazupon))
+
+#### :zap: Improvement Features
+* `core-base`, `vue-i18n`
+  * [#489](https://github.com/intlify/vue-i18n-next/pull/489) Type safe improvements ([@kazupon](https://github.com/kazupon))
+* `vue-i18n`
+  * [#478](https://github.com/intlify/vue-i18n-next/pull/478) improvement: target component highlighting on i18n resources inspector ([@kazupon](https://github.com/kazupon))
+
+#### :boom: Breaking Change
+* `core-base`, `vue-i18n`
+  * [#489](https://github.com/intlify/vue-i18n-next/pull/489) Type safe improvements ([@kazupon](https://github.com/kazupon))
+
+#### :pencil: Documentation
+* `vue-i18n`
+  * [#487](https://github.com/intlify/vue-i18n-next/pull/487) Add some tests about numberFormats ([@PeterAlfredLee](https://github.com/PeterAlfredLee))
+* Other
+  * [#484](https://github.com/intlify/vue-i18n-next/pull/484) Fix syntax error in quote example. ([@snuggs](https://github.com/snuggs))
+
+#### Committers: 4
+- Ahmid ([@snuggs](https://github.com/snuggs))
+- Lee ([@PeterAlfredLee](https://github.com/PeterAlfredLee))
+- [@noy4](https://github.com/noy4)
+- kazuya kawaguchi ([@kazupon](https://github.com/kazupon))
+
+
 ## v9.1.6 (2021-04-15)
 
 #### :bug: Bug Fixes
