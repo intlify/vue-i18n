@@ -1,4 +1,17 @@
-import en from './en.json'
+/**
+ * define the resource schema
+ */
 
-// define the resource schema from default language resource
-export type ResourceSchema = typeof en
+import enUS from './en-US.json'
+
+// define message schema as master mesage schema
+export type MessageSchema = typeof enUS
+
+// define number format schema
+export type NumberSchema = {
+  currency: {
+    style: 'currency'
+    currencyDisplay: 'symbol'
+    currency: string
+  }
+}

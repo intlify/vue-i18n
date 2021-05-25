@@ -1,15 +1,18 @@
 <template>
-  <HelloI18n />
+  <LocalScope />
+  <GlobalScope />
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue'
-import HelloWorld from './components/HelloWorld.vue'
+import LocalScope from './components/LocalScope.vue'
+import GlobalScope from './components/GlobalScope.vue'
 
 export default defineComponent({
   name: 'App',
   components: {
-    HelloWorld
+    LocalScope,
+    GlobalScope
   }
 })
 </script>
