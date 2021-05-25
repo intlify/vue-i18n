@@ -139,20 +139,20 @@ export interface CoreOptions<
   MessageSchema = Schema extends { message: infer M } ? M : LocaleMessage<Message>,
   DateTimeSchema = Schema extends { datetime: infer D } ? D : DateTimeFormat,
   NumberSchema = Schema extends { number: infer N } ? N : NumberFormat,
-  Messages extends LocaleMessages<
+  _Messages extends LocaleMessages<
     MessageSchema,
     MessagesLocales,
     Message
   > = LocaleMessages<MessageSchema, MessagesLocales, Message>,
-  DateTimeFormats extends DateTimeFormatsType<DateTimeSchema, DateTimeFormatsLocales> = DateTimeFormatsType<DateTimeSchema, DateTimeFormatsLocales>,
-  NumberFormats extends NumberFormatsType<NumberSchema, NumberFormatsLocales> = NumberFormatsType<NumberSchema, NumberFormatsLocales>,
+  _DateTimeFormats extends DateTimeFormatsType<DateTimeSchema, DateTimeFormatsLocales> = DateTimeFormatsType<DateTimeSchema, DateTimeFormatsLocales>,
+  _NumberFormats extends NumberFormatsType<NumberSchema, NumberFormatsLocales> = NumberFormatsType<NumberSchema, NumberFormatsLocales>,
 > {
   version?: string
   locale?: Locale
   fallbackLocale?: FallbackLocale
-  messages?: { [K in keyof Messages]: MessageSchema }
-  datetimeFormats?: { [K in keyof DateTimeFormats]: DateTimeSchema }
-  numberFormats?: { [K in keyof NumberFormats]: NumberSchema }
+  messages?: { [K in keyof _Messages]: MessageSchema }
+  datetimeFormats?: { [K in keyof _DateTimeFormats]: DateTimeSchema }
+  numberFormats?: { [K in keyof _NumberFormats]: NumberSchema }
   modifiers?: LinkedModifiers<Message>
   pluralRules?: PluralizationRules
   missing?: CoreMissingHandler<Message>

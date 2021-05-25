@@ -171,16 +171,16 @@ export interface ComposerOptions<
   MessageSchema = Schema extends { message: infer M } ? M : LocaleMessage,
   DateTimeSchema = Schema extends { datetime: infer D } ? D : DateTimeFormat,
   NumberSchema = Schema extends { number: infer N } ? N : NumberFormat,
-  Messages extends LocaleMessages<
+  _Messages extends LocaleMessages<
     MessageSchema,
     MessagesLocales,
     Message
   > = LocaleMessages<MessageSchema, MessagesLocales, Message>,
-  DateTimeFormats extends DateTimeFormatsType<
+  _DateTimeFormats extends DateTimeFormatsType<
     DateTimeSchema,
     DateTimeFormatsLocales
   > = DateTimeFormatsType<DateTimeSchema, DateTimeFormatsLocales>,
-  NumberFormats extends NumberFormatsType<
+  _NumberFormats extends NumberFormatsType<
     NumberSchema,
     NumberFormatsLocales
   > = NumberFormatsType<NumberSchema, NumberFormatsLocales>
@@ -226,7 +226,7 @@ export interface ComposerOptions<
    *
    * @defaultValue `{}`
    */
-  messages?: { [K in keyof Messages]: MessageSchema }
+  messages?: { [K in keyof _Messages]: MessageSchema }
   /**
    * @remarks
    * Allow use flat json messages or not
@@ -242,7 +242,7 @@ export interface ComposerOptions<
    *
    * @defaultValue `{}`
    */
-  datetimeFormats?: { [K in keyof DateTimeFormats]: DateTimeSchema }
+  datetimeFormats?: { [K in keyof _DateTimeFormats]: DateTimeSchema }
   /**
    * @remarks
    * The number formats of localization.
@@ -251,7 +251,7 @@ export interface ComposerOptions<
    *
    * @defaultValue `{}`
    */
-  numberFormats?: { [K in keyof NumberFormats]: NumberSchema }
+  numberFormats?: { [K in keyof _NumberFormats]: NumberSchema }
   /**
    * @remarks
    * Custom Modifiers for linked messages.
