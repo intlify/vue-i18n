@@ -106,6 +106,10 @@ export const DevToolsMetaSymbol = makeSymbol('__intlifyMeta')
 
 /** @VueI18nComposition */
 export type VueMessageType = string | VNode
+
+// TODO: custom locale message as global schema
+export interface CustomLocaleMessage extends LocaleMessage<VueMessageType> {} // eslint-disable-line @typescript-eslint/no-empty-interface
+
 /** @VueI18nComposition */
 export type MissingHandler = (
   locale: Locale,
@@ -168,7 +172,7 @@ export interface ComposerOptions<
     : Locales extends string
       ? Locales
       : Locale,
-  MessageSchema = Schema extends { message: infer M } ? M : LocaleMessage,
+  MessageSchema = Schema extends { message: infer M } ? M : LocaleMessage<Message>,
   DateTimeSchema = Schema extends { datetime: infer D } ? D : DateTimeFormat,
   NumberSchema = Schema extends { number: infer N } ? N : NumberFormat,
   _Messages extends LocaleMessages<
@@ -1600,7 +1604,7 @@ export function createComposer<
 >(options: Options): Composer<Message, Messages, DateTimeFormats, NumberFormats>
 
 export function createComposer<
-  Schema = LocaleMessage,
+  Schema = LocaleMessage<VueMessageType>,
   Locales = 'en-US',
   Message = VueMessageType,
   Options extends ComposerOptions<

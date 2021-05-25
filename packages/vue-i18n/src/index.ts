@@ -33,6 +33,7 @@ export {
 } from '@intlify/core-base'
 export {
   VueMessageType,
+  CustomLocaleMessage,
   MissingHandler,
   ComposerOptions,
   Composer,

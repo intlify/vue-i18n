@@ -44,6 +44,7 @@ import type {
 } from '@intlify/vue-devtools'
 import type {
   VueMessageType,
+  CustomLocaleMessage,
   Composer,
   ComposerOptions,
   ComposerInternalOptions
@@ -313,7 +314,8 @@ export function createI18n<
   NumberFormats = Options['numberFormats'] extends object
     ? Options['numberFormats']
     : {},
-  OptionLocale = Options['locale'] extends string ? Options['locale'] : Locale
+  OptionLocale = Options['locale'] extends string ? Options['locale'] : Locale,
+  F = keyof CustomLocaleMessage // eslint-disable-line @typescript-eslint/no-unused-vars
 >(
   options: Options
 ): I18n<Messages, DateTimeFormats, NumberFormats, OptionLocale, Legacy>
@@ -411,7 +413,8 @@ export function createI18n<
   NumberFormats = Options['numberFormats'] extends object
     ? Options['numberFormats']
     : {},
-  OptionLocale = Options['locale'] extends string ? Options['locale'] : Locale
+  OptionLocale = Options['locale'] extends string ? Options['locale'] : Locale,
+  F = keyof CustomLocaleMessage // eslint-disable-line @typescript-eslint/no-unused-vars
 >(
   options: Options
 ): I18n<Messages, DateTimeFormats, NumberFormats, OptionLocale, Legacy>
@@ -516,7 +519,10 @@ export function createI18n(options: any = {}): any {
   return i18n
 }
 
-export function useI18n<Options extends UseI18nOptions = UseI18nOptions>(
+export function useI18n<
+  Options extends UseI18nOptions = UseI18nOptions,
+  F = keyof CustomLocaleMessage // eslint-disable-line @typescript-eslint/no-unused-vars
+>(
   options?: Options
 ): Composer<
   VueMessageType,
@@ -588,7 +594,8 @@ export function useI18n<
   > = UseI18nOptions<
     SchemaParams<Schema, VueMessageType>,
     LocaleParams<Locales>
-  >
+  >,
+  F = keyof CustomLocaleMessage // eslint-disable-line @typescript-eslint/no-unused-vars
 >(
   options?: Options
 ): Composer<
@@ -599,13 +606,14 @@ export function useI18n<
   NonNullable<Options['locale']>
 >
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export function useI18n<
   Options extends UseI18nOptions = UseI18nOptions,
   Messages = NonNullable<Options['messages']>,
   DateTimeFormats = NonNullable<Options['datetimeFormats']>,
   NumberFormats = NonNullable<Options['numberFormats']>,
-  OptionLocale = NonNullable<Options['locale']>
+  OptionLocale = NonNullable<Options['locale']>,
+  F = keyof CustomLocaleMessage // eslint-disable-line @typescript-eslint/no-unused-vars
 >(options: Options = {} as Options) {
   const instance = getCurrentInstance()
   if (instance == null) {

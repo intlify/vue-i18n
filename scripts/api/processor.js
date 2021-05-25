@@ -278,13 +278,10 @@ function buildTypeParameters(model, builder, level = 3) {
   builder.pushline(`| Parameter | Description |`)
   builder.pushline(`| --- | --- |`)
   for (const p of model.typeParameters) {
-    builder.pushline(
-      `| ${p.name} | ${ p.description } |`
-    )
+    builder.pushline(`| ${p.name} | ${p.description} |`)
   }
   builder.newline()
 }
-
 
 function buildDeprecated(model, builder) {
   builder.pushline(`:::danger DEPRECATED`)
@@ -677,9 +674,7 @@ function getNameSignature(item, type) {
       type === 'constrcutor' ? 'constructor' : item.displayName
     }(${item.parameters.map(p => p.name).join(', ')})`
   } else if (type === 'function') {
-    const display = item.excerptTokens
-      .map(token => token.text)
-      .join('')
+    const display = item.excerptTokens.map(token => token.text).join('')
     return escapeTitle(display.slice(display.indexOf('(')))
   } else {
     return item.displayName
@@ -1171,23 +1166,30 @@ function getSignature(item) {
     : undefined
 }
 
-function getTypeParameters(docs, style, model, pkg, resolver, item, customTags) {
+function getTypeParameters(
+  docs,
+  style,
+  model,
+  pkg,
+  resolver,
+  item,
+  customTags
+) {
   if (docs.typeParams && docs.typeParams.count > 0) {
     return docs.typeParams.blocks.map(b => {
       return {
         name: b.parameterName,
-        description:
-          b.content
-            ? getDocSectionContent(
-                model,
-                pkg,
-                b.content,
-                item,
-                style,
-                resolver,
-                customTags
-              )
-            : ''
+        description: b.content
+          ? getDocSectionContent(
+              model,
+              pkg,
+              b.content,
+              item,
+              style,
+              resolver,
+              customTags
+            )
+          : ''
       }
     })
   } else {

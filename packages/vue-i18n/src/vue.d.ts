@@ -82,7 +82,7 @@ declare module '@vue/runtime-core' {
       Messages extends object = {},
       ResourceKeys extends PickupKeys<Messages> = PickupKeys<Messages>
     >(
-      key: Key | ResourceKeys
+      key: Key | ResourceKeys | Path
     ): TranslateResult
     /**
      * Locale message translation
@@ -100,7 +100,7 @@ declare module '@vue/runtime-core' {
       Messages extends object = {},
       ResourceKeys extends PickupKeys<Messages> = PickupKeys<Messages>
     >(
-      key: Key | ResourceKeys
+      key: Key | ResourceKeys | Path
     ): TranslateResult
     /**
      * Locale message translation
@@ -119,7 +119,7 @@ declare module '@vue/runtime-core' {
       Messages extends object = {},
       ResourceKeys extends PickupKeys<Messages> = PickupKeys<Messages>
     >(
-      key: Key | ResourceKeys,
+      key: Key | ResourceKeys | Path,
       locale: Locale,
       list: unknown[]
     ): TranslateResult
@@ -140,7 +140,7 @@ declare module '@vue/runtime-core' {
       Messages extends object = {},
       ResourceKeys extends PickupKeys<Messages> = PickupKeys<Messages>
     >(
-      key: Key | ResourceKeys,
+      key: Key | ResourceKeys | Path,
       locale: Locale,
       named: object
     ): TranslateResult
@@ -160,7 +160,7 @@ declare module '@vue/runtime-core' {
       Messages extends object = {},
       ResourceKeys extends PickupKeys<Messages> = PickupKeys<Messages>
     >(
-      key: Key | ResourceKeys,
+      key: Key | ResourceKeys | Path,
       list: unknown[]
     ): TranslateResult
     /**
@@ -179,7 +179,7 @@ declare module '@vue/runtime-core' {
       Messages extends object = {},
       ResourceKeys extends PickupKeys<Messages> = PickupKeys<Messages>
     >(
-      key: Key | ResourceKeys,
+      key: Key | ResourceKeys | Path,
       named: Record<string, unknown>
     ): TranslateResult
     /**
@@ -197,7 +197,7 @@ declare module '@vue/runtime-core' {
       Messages extends object = {},
       ResourceKeys extends PickupKeys<Messages> = PickupKeys<Messages>
     >(
-      key: Key | ResourceKeys
+      key: Key | ResourceKeys | Path
     ): string
     /**
      * Locale message translation
@@ -215,7 +215,7 @@ declare module '@vue/runtime-core' {
       Messages extends object = {},
       ResourceKeys extends PickupKeys<Messages> = PickupKeys<Messages>
     >(
-      key: Key | ResourceKeys,
+      key: Key | ResourceKeys | Path,
       plural: number
     ): string
     /**
@@ -235,7 +235,7 @@ declare module '@vue/runtime-core' {
       Messages extends object = {},
       ResourceKeys extends PickupKeys<Messages> = PickupKeys<Messages>
     >(
-      key: Key | ResourceKeys,
+      key: Key | ResourceKeys | Path,
       plural: number,
       options: TranslateOptions
     ): string
@@ -255,7 +255,7 @@ declare module '@vue/runtime-core' {
       Messages extends object = {},
       ResourceKeys extends PickupKeys<Messages> = PickupKeys<Messages>
     >(
-      key: Key | ResourceKeys,
+      key: Key | ResourceKeys | Path,
       defaultMsg: string
     ): string
     /**
@@ -275,7 +275,7 @@ declare module '@vue/runtime-core' {
       Messages extends object = {},
       ResourceKeys extends PickupKeys<Messages> = PickupKeys<Messages>
     >(
-      key: Path,
+      key: Key | ResourceKeys | Path,
       defaultMsg: string,
       options: TranslateOptions
     ): string
@@ -295,7 +295,7 @@ declare module '@vue/runtime-core' {
       Messages extends object = {},
       ResourceKeys extends PickupKeys<Messages> = PickupKeys<Messages>
     >(
-      key: Key | ResourceKeys,
+      key: Key | ResourceKeys | Path,
       list: unknown[]
     ): string
     /**
@@ -315,7 +315,7 @@ declare module '@vue/runtime-core' {
       Messages extends object = {},
       ResourceKeys extends PickupKeys<Messages> = PickupKeys<Messages>
     >(
-      key: Key | ResourceKeys,
+      key: Key | ResourceKeys | Path,
       list: unknown[],
       plural: number
     ): string
@@ -336,7 +336,7 @@ declare module '@vue/runtime-core' {
       Messages extends object = {},
       ResourceKeys extends PickupKeys<Messages> = PickupKeys<Messages>
     >(
-      key: Key | ResourceKeys,
+      key: Key | ResourceKeys | Path,
       list: unknown[],
       defaultMsg: string
     ): string
@@ -357,7 +357,7 @@ declare module '@vue/runtime-core' {
       Messages extends object = {},
       ResourceKeys extends PickupKeys<Messages> = PickupKeys<Messages>
     >(
-      key: Key | ResourceKeys,
+      key: Key | ResourceKeys | Path,
       list: unknown[],
       options: TranslateOptions
     ): string
@@ -377,7 +377,7 @@ declare module '@vue/runtime-core' {
       Messages extends object = {},
       ResourceKeys extends PickupKeys<Messages> = PickupKeys<Messages>
     >(
-      key: Key | ResourceKeys,
+      key: Key | ResourceKeys | Path,
       named: NamedValue
     ): string
     /**
@@ -397,7 +397,7 @@ declare module '@vue/runtime-core' {
       Messages extends object = {},
       ResourceKeys extends PickupKeys<Messages> = PickupKeys<Messages>
     >(
-      key: Key | ResourceKeys,
+      key: Key | ResourceKeys | Path,
       named: NamedValue,
       plural: number
     ): string
@@ -418,7 +418,7 @@ declare module '@vue/runtime-core' {
       Messages extends object = {},
       ResourceKeys extends PickupKeys<Messages> = PickupKeys<Messages>
     >(
-      key: Key | ResourceKeys,
+      key: Key | ResourceKeys | Path,
       named: NamedValue,
       defaultMsg: string
     ): string
@@ -439,7 +439,7 @@ declare module '@vue/runtime-core' {
       Messages extends object = {},
       ResourceKeys extends PickupKeys<Messages> = PickupKeys<Messages>
     >(
-      key: Key | ResourceKeys,
+      key: Key | ResourceKeys | Path,
       named: NamedValue,
       options: TranslateOptions
     ): string
@@ -529,7 +529,7 @@ declare module '@vue/runtime-core' {
       Messages extends object = {},
       ResourceKeys extends PickupKeys<Messages> = PickupKeys<Messages>
     >(
-      key: Key | ResourceKeys
+      key: Key | ResourceKeys | Path
     ): TranslateResult
     /**
      * Locale message pluralization
@@ -548,7 +548,7 @@ declare module '@vue/runtime-core' {
       Messages extends object = {},
       ResourceKeys extends PickupKeys<Messages> = PickupKeys<Messages>
     >(
-      key: Key | ResourceKeys,
+      key: Key | ResourceKeys | Path,
       locale: Locale
     ): TranslateResult
     /**
@@ -568,7 +568,7 @@ declare module '@vue/runtime-core' {
       Messages extends object = {},
       ResourceKeys extends PickupKeys<Messages> = PickupKeys<Messages>
     >(
-      key: Key | ResourceKeys,
+      key: Key | ResourceKeys | Path,
       list: unknown[]
     ): TranslateResult
     /**
@@ -589,7 +589,7 @@ declare module '@vue/runtime-core' {
       Messages extends object = {},
       ResourceKeys extends PickupKeys<Messages> = PickupKeys<Messages>
     >(
-      key: Key | ResourceKeys,
+      key: Key | ResourceKeys | Path,
       named: Record<string, unknown>
     ): TranslateResult
     /**
@@ -610,7 +610,7 @@ declare module '@vue/runtime-core' {
       Messages extends object = {},
       ResourceKeys extends PickupKeys<Messages> = PickupKeys<Messages>
     >(
-      key: Key | ResourceKeys,
+      key: Key | ResourceKeys | Path,
       choice: number
     ): TranslateResult
     /**
@@ -632,7 +632,7 @@ declare module '@vue/runtime-core' {
       Messages extends object = {},
       ResourceKeys extends PickupKeys<Messages> = PickupKeys<Messages>
     >(
-      key: Key | ResourceKeys,
+      key: Key | ResourceKeys | Path,
       choice: number,
       locale: Locale
     ): TranslateResult
@@ -655,7 +655,7 @@ declare module '@vue/runtime-core' {
       Messages extends object = {},
       ResourceKeys extends PickupKeys<Messages> = PickupKeys<Messages>
     >(
-      key: Key | ResourceKeys,
+      key: Key | ResourceKeys | Path,
       choice: number,
       list: unknown[]
     ): TranslateResult
@@ -678,7 +678,7 @@ declare module '@vue/runtime-core' {
       Messages extends object = {},
       ResourceKeys extends PickupKeys<Messages> = PickupKeys<Messages>
     >(
-      key: Key | ResourceKeys,
+      key: Key | ResourceKeys | Path,
       choice: number,
       named: Record<string, unknown>
     ): TranslateResult
@@ -699,7 +699,7 @@ declare module '@vue/runtime-core' {
       Messages extends object = {},
       ResourceKeys extends PickupKeys<Messages> = PickupKeys<Messages>
     >(
-      key: Key | ResourceKeys,
+      key: Key | ResourceKeys | Path,
       locale?: Locale
     ): boolean
     /**
