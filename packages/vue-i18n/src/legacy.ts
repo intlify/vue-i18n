@@ -83,13 +83,12 @@ export type ComponentInstanceCreatedListener = <Messages>(
  *  @VueI18nLegacy
  */
 export interface VueI18nOptions<
-  Message = VueMessageType,
   Schema extends {
     message?: unknown
     datetime?: unknown
     number?: unknown
   } = {
-    message: LocaleMessage<Message>
+    message: LocaleMessage<VueMessageType>
     datetime: DateTimeFormat
     number: NumberFormat
   },
@@ -100,8 +99,7 @@ export interface VueI18nOptions<
         numberFormats: unknown
       }
     | string = Locale,
-  Options extends ComposerOptions<Message, Schema, Locales> = ComposerOptions<
-    Message,
+  Options extends ComposerOptions<Schema, Locales> = ComposerOptions<
     Schema,
     Locales
   >
@@ -537,9 +535,8 @@ export interface VueI18nTranslation<Messages = {}, Locales = 'en-US'> {
  * @VueI18nLegacy
  */
 export type VueI18nResolveLocaleMessageTranslation<
-  Message,
   Locales = 'en-US'
-> = ComposerResolveLocaleMessageTranslation<Message, Locales>
+> = ComposerResolveLocaleMessageTranslation<Locales>
 
 /**
  * Locale message pluralization functions for VueI18n legacy interfaces
@@ -881,7 +878,6 @@ export interface VueI18nNumberFormatting<
  *  @VueI18nLegacy
  */
 export interface VueI18n<
-  Message = VueMessageType,
   Messages = {},
   DateTimeFormats = {},
   NumberFormats = {},
@@ -896,11 +892,10 @@ export interface VueI18n<
       : ResourceLocales
     : OptionLocale | ResourceLocales,
   Composition extends Composer<
-    Message,
     Messages,
     DateTimeFormats,
     NumberFormats
-  > = Composer<Message, Messages, DateTimeFormats, NumberFormats>
+  > = Composer<Messages, DateTimeFormats, NumberFormats>
 > {
   /**
    * @remarks
@@ -973,7 +968,7 @@ export interface VueI18n<
    * @remarks
    * A handler for post processing of translation.
    */
-  postTranslation: PostTranslationHandler<Message> | null
+  postTranslation: PostTranslationHandler<VueMessageType> | null
   /**
    * @remarks
    * Whether suppress warnings outputted when localization fails.
@@ -1050,7 +1045,7 @@ export interface VueI18n<
    * @remarks
    * About details functions, See the {@link VueI18nResolveLocaleMessageTranslation}
    */
-  rt: VueI18nResolveLocaleMessageTranslation<Message, Locales>
+  rt: VueI18nResolveLocaleMessageTranslation<Locales>
   /**
    * Locale message pluralization
    *
@@ -1158,7 +1153,7 @@ export interface VueI18n<
    * @returns Locale messages
    */
   getLocaleMessage<
-    MessageSchema extends LocaleMessage<Message> = never,
+    MessageSchema extends LocaleMessage<VueMessageType> = never,
     LocaleSchema extends string = string,
     Locale extends PickupLocales<NonNullable<Messages>> = PickupLocales<
       NonNullable<Messages>
@@ -1181,7 +1176,7 @@ export interface VueI18n<
    * @typeParam MessageSchema - The locale message schema, default `never`
    */
   setLocaleMessage<
-    MessageSchema extends LocaleMessage<Message> = never,
+    MessageSchema extends LocaleMessage<VueMessageType> = never,
     LocaleSchema extends string = string,
     Locale extends PickupLocales<NonNullable<Messages>> = PickupLocales<
       NonNullable<Messages>
@@ -1205,7 +1200,7 @@ export interface VueI18n<
    * @typeParam MessageSchema - The locale message schema, default `never`
    */
   mergeLocaleMessage<
-    MessageSchema extends LocaleMessage<Message> = never,
+    MessageSchema extends LocaleMessage<VueMessageType> = never,
     LocaleSchema extends string = string,
     Locale extends PickupLocales<NonNullable<Messages>> = PickupLocales<
       NonNullable<Messages>
@@ -1390,14 +1385,13 @@ export interface VueI18n<
  * @internal
  */
 export interface VueI18nInternal<
-  Message = VueMessageType,
   Messages = {},
   DateTimeFormats = {},
   NumberFormats = {}
 > {
-  __composer: Composer<Message, Messages, DateTimeFormats, NumberFormats>
+  __composer: Composer<Messages, DateTimeFormats, NumberFormats>
   __onComponentInstanceCreated(
-    target: VueI18n<Message, Messages, DateTimeFormats, NumberFormats>
+    target: VueI18n<Messages, DateTimeFormats, NumberFormats>
   ): void
   __enableEmitter?: (emitter: VueDevToolsEmitter) => void
   __disableEmitter?: () => void
@@ -1409,15 +1403,14 @@ export interface VueI18nInternal<
  * @internal
  */
 function convertComposerOptions<
-  Message = VueMessageType,
   Messages = {},
   DateTimeFormats = {},
   NumberFormats = {}
 >(
-  options: VueI18nOptions<Message> &
-    ComposerInternalOptions<Message, Messages, DateTimeFormats, NumberFormats>
-): ComposerOptions<Message> &
-  ComposerInternalOptions<Message, Messages, DateTimeFormats, NumberFormats> {
+  options: VueI18nOptions &
+    ComposerInternalOptions<Messages, DateTimeFormats, NumberFormats>
+): ComposerOptions &
+  ComposerInternalOptions<Messages, DateTimeFormats, NumberFormats> {
   const locale = isString(options.locale) ? options.locale : 'en-US'
   const fallbackLocale =
     isString(options.fallbackLocale) ||
@@ -1468,7 +1461,7 @@ function convertComposerOptions<
       const message = messages[locale] || (messages[locale] = {})
       assign(message, sharedMessages[locale])
       return messages
-    }, (messages || {}) as LocaleMessages<LocaleMessage<Message>>)
+    }, (messages || {}) as LocaleMessages<LocaleMessage<VueMessageType>>)
   }
   const { __i18n, __root } = options
 
@@ -1501,8 +1494,7 @@ function convertComposerOptions<
 }
 
 export function createVueI18n<
-  Message = VueMessageType,
-  Options extends VueI18nOptions<Message> = VueI18nOptions<Message>,
+  Options extends VueI18nOptions = VueI18nOptions,
   Messages = Options['messages'] extends object ? Options['messages'] : {},
   DateTimeFormats = Options['datetimeFormats'] extends object
     ? Options['datetimeFormats']
@@ -1510,19 +1502,16 @@ export function createVueI18n<
   NumberFormats = Options['numberFormats'] extends object
     ? Options['numberFormats']
     : {}
->(options?: Options): VueI18n<Message, Messages, DateTimeFormats, NumberFormats>
+>(options?: Options): VueI18n<Messages, DateTimeFormats, NumberFormats>
 
 export function createVueI18n<
   Schema = LocaleMessage,
   Locales = 'en-US',
-  Message = VueMessageType,
   Options extends VueI18nOptions<
-    Message,
-    SchemaParams<Schema, Message>,
+    SchemaParams<Schema, VueMessageType>,
     LocaleParams<Locales>
   > = VueI18nOptions<
-    Message,
-    SchemaParams<Schema, Message>,
+    SchemaParams<Schema, VueMessageType>,
     LocaleParams<Locales>
   >,
   Messages = Options['messages'] extends object ? Options['messages'] : {},
@@ -1532,19 +1521,16 @@ export function createVueI18n<
   NumberFormats = Options['numberFormats'] extends object
     ? Options['numberFormats']
     : {}
->(options?: Options): VueI18n<Message, Messages, DateTimeFormats, NumberFormats>
+>(options?: Options): VueI18n<Messages, DateTimeFormats, NumberFormats>
 
 /**
  * create VueI18n interface factory
  *
  * @internal
  */
-export function createVueI18n<Message = VueMessageType>(
-  options: any = {}
-): any {
-  const composer = createComposer<Message>(
-    convertComposerOptions<Message>(options)
-  ) as Composer<Message>
+export function createVueI18n(options: any = {}): any {
+  type Message = VueMessageType
+  const composer = createComposer(convertComposerOptions(options)) as Composer
 
   // defines VueI18n
   const vueI18n = {
@@ -1849,13 +1835,13 @@ export function createVueI18n<Message = VueMessageType>(
 
   // for vue-devtools timeline event
   if (__DEV__) {
-    ;(vueI18n as VueI18nInternal<Message>).__enableEmitter = (
+    ;((vueI18n as unknown) as VueI18nInternal).__enableEmitter = (
       emitter: VueDevToolsEmitter
     ): void => {
       const __composer = composer as any
       __composer[EnableEmitter] && __composer[EnableEmitter](emitter)
     }
-    ;(vueI18n as VueI18nInternal<Message>).__disableEmitter = (): void => {
+    ;((vueI18n as unknown) as VueI18nInternal).__disableEmitter = (): void => {
       const __composer = composer as any
       __composer[DisableEmitter] && __composer[DisableEmitter]()
     }

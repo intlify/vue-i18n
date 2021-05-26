@@ -86,10 +86,7 @@ export type I18nOptions<
       }
     | string = Locale
 > = I18nAdditionalOptions &
-  (
-    | ComposerOptions<VueMessageType, Schema, Locales>
-    | VueI18nOptions<VueMessageType, Schema, Locales>
-  )
+  (ComposerOptions<Schema, Locales> | VueI18nOptions<Schema, Locales>)
 
 /**
  * I18n Additional Options
@@ -168,9 +165,9 @@ export interface I18n<
    * An instance of this property is **global scope***.
    */
   readonly global: Legacy extends true
-    ? VueI18n<VueMessageType, Messages, DateTimeFormats, NumberFormats, OptionLocale>
+    ? VueI18n<Messages, DateTimeFormats, NumberFormats, OptionLocale>
     : Legacy extends false
-      ? Composer<VueMessageType, Messages, DateTimeFormats, NumberFormats, OptionLocale>
+      ? Composer<Messages, DateTimeFormats, NumberFormats, OptionLocale>
       : unknown
   /**
    * Install entry point
@@ -194,56 +191,20 @@ export interface I18nInternal<
 > {
   __instances: Map<
     ComponentInternalInstance,
-    | VueI18n<
-        VueMessageType,
-        Messages,
-        DateTimeFormats,
-        NumberFormats,
-        OptionLocale
-      >
-    | Composer<
-        VueMessageType,
-        Messages,
-        DateTimeFormats,
-        NumberFormats,
-        OptionLocale
-      >
+    | VueI18n<Messages, DateTimeFormats, NumberFormats, OptionLocale>
+    | Composer<Messages, DateTimeFormats, NumberFormats, OptionLocale>
   >
   __getInstance<
     Instance extends
-      | VueI18n<
-          VueMessageType,
-          Messages,
-          DateTimeFormats,
-          NumberFormats,
-          OptionLocale
-        >
-      | Composer<
-          VueMessageType,
-          Messages,
-          DateTimeFormats,
-          NumberFormats,
-          OptionLocale
-        >
+      | VueI18n<Messages, DateTimeFormats, NumberFormats, OptionLocale>
+      | Composer<Messages, DateTimeFormats, NumberFormats, OptionLocale>
   >(
     component: ComponentInternalInstance
   ): Instance | null
   __setInstance<
     Instance extends
-      | VueI18n<
-          VueMessageType,
-          Messages,
-          DateTimeFormats,
-          NumberFormats,
-          OptionLocale
-        >
-      | Composer<
-          VueMessageType,
-          Messages,
-          DateTimeFormats,
-          NumberFormats,
-          OptionLocale
-        >
+      | VueI18n<Messages, DateTimeFormats, NumberFormats, OptionLocale>
+      | Composer<Messages, DateTimeFormats, NumberFormats, OptionLocale>
   >(
     component: ComponentInternalInstance,
     instance: Instance
@@ -288,7 +249,7 @@ export type UseI18nOptions<
         numberFormats: unknown
       }
     | string = Locale
-> = ComposerAdditionalOptions & ComposerOptions<VueMessageType, Schema, Locales>
+> = ComposerAdditionalOptions & ComposerOptions<Schema, Locales>
 
 /**
  * Composer additional options for `useI18n`
@@ -399,7 +360,7 @@ export function createI18n<
  * @VueI18nGeneral
  */
 export function createI18n<
-  Schema = LocaleMessage,
+  Schema = LocaleMessage<VueMessageType>,
   Locales = 'en-US',
   Legacy extends boolean = true,
   Options extends I18nOptions<
@@ -525,7 +486,6 @@ export function useI18n<
 >(
   options?: Options
 ): Composer<
-  VueMessageType,
   NonNullable<Options['messages']>,
   NonNullable<Options['datetimeFormats']>,
   NonNullable<Options['numberFormats']>,
@@ -586,7 +546,7 @@ export function useI18n<
  * @VueI18nComposition
  */
 export function useI18n<
-  Schema = LocaleMessage,
+  Schema = LocaleMessage<VueMessageType>,
   Locales = 'en-US',
   Options extends UseI18nOptions<
     SchemaParams<Schema, VueMessageType>,
@@ -599,7 +559,6 @@ export function useI18n<
 >(
   options?: Options
 ): Composer<
-  VueMessageType,
   NonNullable<Options['messages']>,
   NonNullable<Options['datetimeFormats']>,
   NonNullable<Options['numberFormats']>,
@@ -678,7 +637,6 @@ export function useI18n<
       }
     }
     return global as Composer<
-      VueMessageType,
       Messages,
       DateTimeFormats,
       NumberFormats,
@@ -695,7 +653,6 @@ export function useI18n<
       composer = (global as unknown) as Composer
     }
     return composer as Composer<
-      VueMessageType,
       Messages,
       DateTimeFormats,
       NumberFormats,
@@ -730,7 +687,6 @@ export function useI18n<
   }
 
   return composer as Composer<
-    VueMessageType,
     Messages,
     DateTimeFormats,
     NumberFormats,

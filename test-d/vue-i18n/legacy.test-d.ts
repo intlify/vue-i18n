@@ -75,7 +75,6 @@ const strictOptions = {
 expectType<VueI18nOptions>(looseOptions)
 expectType<
   VueI18nOptions<
-    string,
     SchemaParams<
       {
         message: ResourceSchema

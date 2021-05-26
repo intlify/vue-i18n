@@ -73,7 +73,6 @@ const strictOptions = {
 expectType<ComposerOptions>(looseOptions)
 expectType<
   ComposerOptions<
-    string,
     SchemaParams<
       {
         message: ResourceSchema

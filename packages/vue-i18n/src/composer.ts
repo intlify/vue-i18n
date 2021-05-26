@@ -140,13 +140,12 @@ export type CustomBlocks<Message = VueMessageType> = Array<CustomBlock<Message>>
  * @VueI18nComposition
  */
 export interface ComposerOptions<
-  Message = VueMessageType,
   Schema extends {
     message?: unknown
     datetime?: unknown
     number?: unknown
   } = {
-    message: LocaleMessage<Message>
+    message: LocaleMessage<VueMessageType>
     datetime: DateTimeFormat
     number: NumberFormat
   },
@@ -172,14 +171,14 @@ export interface ComposerOptions<
     : Locales extends string
       ? Locales
       : Locale,
-  MessageSchema = Schema extends { message: infer M } ? M : LocaleMessage<Message>,
+  MessageSchema = Schema extends { message: infer M } ? M : LocaleMessage<VueMessageType>,
   DateTimeSchema = Schema extends { datetime: infer D } ? D : DateTimeFormat,
   NumberSchema = Schema extends { number: infer N } ? N : NumberFormat,
   _Messages extends LocaleMessages<
     MessageSchema,
     MessagesLocales,
-    Message
-  > = LocaleMessages<MessageSchema, MessagesLocales, Message>,
+    VueMessageType
+  > = LocaleMessages<MessageSchema, MessagesLocales, VueMessageType>,
   _DateTimeFormats extends DateTimeFormatsType<
     DateTimeSchema,
     DateTimeFormatsLocales
@@ -262,7 +261,7 @@ export interface ComposerOptions<
    *
    * @VueI18nSee [Custom Modifiers](../guide/essentials/syntax#custom-modifiers)
    */
-  modifiers?: LinkedModifiers<Message>
+  modifiers?: LinkedModifiers<VueMessageType>
   /**
    * @remarks
    * A set of rules for word pluralization
@@ -341,7 +340,7 @@ export interface ComposerOptions<
    *
    * @defaultValue `null`
    */
-  postTranslation?: PostTranslationHandler<Message>
+  postTranslation?: PostTranslationHandler<VueMessageType>
   /**
    * @remarks
    * Whether to allow the use locale messages of HTML formatting.
@@ -439,14 +438,13 @@ export interface ComposerOptions<
  * @internal
  */
 export interface ComposerInternalOptions<
-  Message = VueMessageType,
   Messages = {},
   DateTimeFormats = {},
   NumberFormats = {}
 > {
-  __i18n?: CustomBlocks<Message>
-  __i18nGlobal?: CustomBlocks<Message>
-  __root?: Composer<Message, Messages, DateTimeFormats, NumberFormats>
+  __i18n?: CustomBlocks<VueMessageType>
+  __i18nGlobal?: CustomBlocks<VueMessageType>
+  __root?: Composer<Messages, DateTimeFormats, NumberFormats>
 }
 
 /**
@@ -698,10 +696,7 @@ export interface ComposerTranslation<Messages = {}, Locales = 'en-US'> {
  *
  * @VueI18nComposition
  */
-export interface ComposerResolveLocaleMessageTranslation<
-  Message,
-  Locales = 'en-US'
-> {
+export interface ComposerResolveLocaleMessageTranslation<Locales = 'en-US'> {
   /**
    * Resolve locale message translation
    *
@@ -724,7 +719,7 @@ export interface ComposerResolveLocaleMessageTranslation<
    *
    * @VueI18nSee [Scope and Locale Changing](../guide/essentials/scope)
    */
-  (message: MessageFunction<Message> | Message): string
+  (message: MessageFunction<VueMessageType> | VueMessageType): string
   /**
    * Resolve locale message translation for plurals
    *
@@ -748,7 +743,7 @@ export interface ComposerResolveLocaleMessageTranslation<
    * @VueI18nSee [Pluralization](../guide/essentials/pluralization)
    */
   (
-    message: MessageFunction<Message> | Message,
+    message: MessageFunction<VueMessageType> | VueMessageType,
     plural: number,
     options?: TranslateOptions<Locales>
   ): string
@@ -775,7 +770,7 @@ export interface ComposerResolveLocaleMessageTranslation<
    * @VueI18nSee [List interpolation](../guide/essentials/syntax#list-interpolation)
    */
   (
-    message: MessageFunction<Message> | Message,
+    message: MessageFunction<VueMessageType> | VueMessageType,
     list: unknown[],
     options?: TranslateOptions<Locales>
   ): string
@@ -802,7 +797,7 @@ export interface ComposerResolveLocaleMessageTranslation<
    * @VueI18nSee [Named interpolation](../guide/essentials/syntax#named-interpolation)
    */
   (
-    message: MessageFunction<Message> | Message,
+    message: MessageFunction<VueMessageType> | VueMessageType,
     named: NamedValue,
     options?: TranslateOptions<Locales>
   ): string
@@ -977,7 +972,6 @@ export interface ComposerNumberFormatting<
  * @VueI18nComposition
  */
 export interface Composer<
-  Message = VueMessageType,
   Messages = {},
   DateTimeFormats = {},
   NumberFormats = {},
@@ -1056,7 +1050,7 @@ export interface Composer<
    *
    * @VueI18nSee [Custom Modifiers](../guide/essentials/syntax#custom-modifiers)
    */
-  readonly modifiers: LinkedModifiers<Message>
+  readonly modifiers: LinkedModifiers<VueMessageType>
   /**
    * @remarks
    * A set of rules for word pluralization
@@ -1129,7 +1123,7 @@ export interface Composer<
    * @remarks
    * About details functions, See the {@link ComposerResolveLocaleMessageTranslation}
    */
-  rt: ComposerResolveLocaleMessageTranslation<Message, Locales>
+  rt: ComposerResolveLocaleMessageTranslation<Locales>
   /**
    * Datetime formatting
    *
@@ -1250,7 +1244,7 @@ export interface Composer<
    * @returns Locale messages
    */
   getLocaleMessage<
-    MessageSchema extends LocaleMessage<Message> = never,
+    MessageSchema extends LocaleMessage<VueMessageType> = never,
     LocaleSchema extends string = string,
     Locale extends PickupLocales<NonNullable<Messages>> = PickupLocales<
       NonNullable<Messages>
@@ -1273,7 +1267,7 @@ export interface Composer<
    * @typeParam MessageSchema - The locale message schema, default `never`
    */
   setLocaleMessage<
-    MessageSchema extends LocaleMessage<Message> = never,
+    MessageSchema extends LocaleMessage<VueMessageType> = never,
     LocaleSchema extends string = string,
     Locale extends PickupLocales<NonNullable<Messages>> = PickupLocales<
       NonNullable<Messages>
@@ -1297,7 +1291,7 @@ export interface Composer<
    * @typeParam MessageSchema - The locale message schema, default `never`
    */
   mergeLocaleMessage<
-    MessageSchema extends LocaleMessage<Message> = never,
+    MessageSchema extends LocaleMessage<VueMessageType> = never,
     LocaleSchema extends string = string,
     Locale extends PickupLocales<NonNullable<Messages>> = PickupLocales<
       NonNullable<Messages>
@@ -1460,7 +1454,7 @@ export interface Composer<
    *
    * @VueI18nSee [missing](composition#posttranslation)
    */
-  getPostTranslationHandler(): PostTranslationHandler<Message> | null
+  getPostTranslationHandler(): PostTranslationHandler<VueMessageType> | null
   /**
    * Set post translation handler
    *
@@ -1469,7 +1463,7 @@ export interface Composer<
    * @VueI18nSee [missing](composition#posttranslation)
    */
   setPostTranslationHandler(
-    handler: PostTranslationHandler<Message> | null
+    handler: PostTranslationHandler<VueMessageType> | null
   ): void
   /**
    * Get missing handler
@@ -1516,16 +1510,16 @@ function defineCoreMissingHandler(missing: MissingHandler): CoreMissingHandler {
   }) as CoreMissingHandler
 }
 
-type GetLocaleMessagesOptions<Message = VueMessageType, Messages = {}> = {
+type GetLocaleMessagesOptions<Messages = {}> = {
   messages?: { [K in keyof Messages]: Messages[K] }
-  __i18n?: CustomBlocks<Message>
+  __i18n?: CustomBlocks<VueMessageType>
   messageResolver?: MessageResolver
   flatJson?: boolean
 }
 
-export function getLocaleMessages<Message = VueMessageType, Messages = {}>(
+export function getLocaleMessages<Messages = {}>(
   locale: Locale,
-  options: GetLocaleMessagesOptions<Message, Messages>
+  options: GetLocaleMessagesOptions<Messages>
 ): { [K in keyof Messages]: Messages[K] } {
   const { messages, __i18n, messageResolver, flatJson } = options
 
@@ -1592,8 +1586,7 @@ const getMetaInfo = /* #__PURE__*/ (): MetaInfo | null => {
 }
 
 export function createComposer<
-  Message = VueMessageType,
-  Options extends ComposerOptions<Message> = ComposerOptions<Message>,
+  Options extends ComposerOptions = ComposerOptions,
   Messages = Options['messages'] extends object ? Options['messages'] : {},
   DateTimeFormats = Options['datetimeFormats'] extends object
     ? Options['datetimeFormats']
@@ -1601,19 +1594,16 @@ export function createComposer<
   NumberFormats = Options['numberFormats'] extends object
     ? Options['numberFormats']
     : {}
->(options: Options): Composer<Message, Messages, DateTimeFormats, NumberFormats>
+>(options: Options): Composer<Messages, DateTimeFormats, NumberFormats>
 
 export function createComposer<
   Schema = LocaleMessage<VueMessageType>,
   Locales = 'en-US',
-  Message = VueMessageType,
   Options extends ComposerOptions<
-    Message,
-    SchemaParams<Schema, Message>,
+    SchemaParams<Schema, VueMessageType>,
     LocaleParams<Locales>
   > = ComposerOptions<
-    Message,
-    SchemaParams<Schema, Message>,
+    SchemaParams<Schema, VueMessageType>,
     LocaleParams<Locales>
   >,
   Messages = Options['messages'] extends object ? Options['messages'] : {},
@@ -1623,18 +1613,16 @@ export function createComposer<
   NumberFormats = Options['numberFormats'] extends object
     ? Options['numberFormats']
     : {}
->(options: Options): Composer<Message, Messages, DateTimeFormats, NumberFormats>
+>(options: Options): Composer<Messages, DateTimeFormats, NumberFormats>
 
 /**
  * Create composer interface factory
  *
  * @internal
  */
-export function createComposer<Message = VueMessageType>(
-  options: any = {}
-): any {
+export function createComposer(options: any = {}): any {
+  type Message = VueMessageType
   const { __root } = options as ComposerInternalOptions<
-    Message,
     LocaleMessages<LocaleMessage<Message>>,
     DateTimeFormatsType,
     NumberFormatsType
@@ -1667,7 +1655,7 @@ export function createComposer<Message = VueMessageType>(
   )
 
   const _messages = ref<LocaleMessages<LocaleMessage<Message>>>(
-    getLocaleMessages<Message, LocaleMessages<LocaleMessage<Message>>>(
+    getLocaleMessages<LocaleMessages<LocaleMessage<Message>>>(
       _locale.value as Locale,
       options
     )
@@ -2078,15 +2066,12 @@ export function createComposer<Message = VueMessageType>(
   }
 
   // getLocaleMessage
-  function getLocaleMessage(locale: Locale): LocaleMessageDictionary<Message> {
-    return (_messages.value[locale] || {}) as LocaleMessageDictionary<Message>
+  function getLocaleMessage(locale: Locale): LocaleMessage<Message> {
+    return (_messages.value[locale] || {}) as LocaleMessage<Message>
   }
 
   // setLocaleMessage
-  function setLocaleMessage(
-    locale: Locale,
-    message: LocaleMessageDictionary<Message>
-  ) {
+  function setLocaleMessage(locale: Locale, message: LocaleMessage<Message>) {
     _messages.value[locale] = message
     _context.messages = _messages.value as typeof _context.messages
   }
