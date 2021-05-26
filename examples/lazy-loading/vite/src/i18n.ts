@@ -29,7 +29,7 @@ export function setI18nLanguage(i18n: I18n, locale: string): void {
 
 export async function loadLocaleMessages(i18n: I18n, locale: string) {
   // load locale messages
-  const messages = await import(/* @vite-ignore */ `./locales/${locale}.json`)
+  const messages = await import(/* @vite-ignore */ `./locales/${locale}.yaml`)
 
   // set locale and locale message
   i18n.global.setLocaleMessage(locale, messages.default)
