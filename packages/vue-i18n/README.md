@@ -65,10 +65,6 @@ The build will work without configuring these flags, however it is **strongly re
 
 Note: the replacement value **must be boolean literals** and cannot be strings, otherwise the bundler/minifier will not be able to properly evaluate the conditions.
 
-## Other Feature Flags
-
-- `__FEATURE_ESM_BUNDLER_WARN__` (Suppress / Not suppress feature flags recommended warnings in build for `esm-bulder`)
-
 ## :copyright: License
 
 [MIT](http://opensource.org/licenses/MIT)
