@@ -235,7 +235,6 @@ function createReplacePlugin(
     __FEATURE_PROD_INTLIFY_DEVTOOLS__: isBundlerESMBuild
       ? `__INTLIFY_PROD_DEVTOOLS__`
       : false,
-    __FEATURE_ESM_BUNDLER_WARN__: true,
     preventAssignment: false,
     ...(isProduction && isBrowserBuild
       ? {
