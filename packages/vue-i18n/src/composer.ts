@@ -39,8 +39,7 @@ import {
   NOT_REOSLVED,
   handleFlatJson,
   MessageFunction,
-  setAdditionalMeta,
-  ResourcePath
+  setAdditionalMeta
 } from '@intlify/core-base'
 import { VueDevToolsTimelineEvents } from '@intlify/vue-devtools'
 import { I18nWarnCodes, getWarnMessage } from './warnings'
@@ -82,7 +81,13 @@ import type {
   FallbackLocales,
   SchemaParams,
   LocaleParams,
-  ResourceValue
+  ResourceValue,
+  ResourcePath,
+  PickupPaths,
+  RemoveIndexSignature,
+  IsNever,
+  First,
+  IsEmptyObject
 } from '@intlify/core-base'
 import type { VueDevToolsEmitter } from '@intlify/vue-devtools'
 
@@ -107,8 +112,48 @@ export const DevToolsMetaSymbol = makeSymbol('__intlifyMeta')
 /** @VueI18nComposition */
 export type VueMessageType = string | VNode
 
-// TODO: custom locale message as global schema
-export interface CustomLocaleMessage extends LocaleMessage<VueMessageType> {} // eslint-disable-line @typescript-eslint/no-empty-interface
+/**
+ * The type definition of Loale Message
+ *
+ * @remarks
+ * The typealias is used to strictly define the type of the Locale message.
+ *
+ * The type defined by this can be used in the global scope.
+ *
+ * @example
+ * ```ts
+ * // type.d.ts (`.d.ts` file at your app)
+ * import { DefineLocaleMessage } from 'vue-i18n'
+ *
+ * declare module 'vue-i18n' {
+ *   export interface DefineLocaleMessage {
+ *     title: string
+ *     menu: {
+ *       login: string
+ *     }
+ *   }
+ * }
+ * ```
+ *
+ * @VueI18nGeneral
+ */
+export interface DefineLocaleMessage extends LocaleMessage<VueMessageType> {} // eslint-disable-line @typescript-eslint/no-empty-interface
+export type DefineDateTimeFormat = DateTimeFormat
+export type DefineNumberFormat = NumberFormat
+
+export type RemovedIndexDefineLocaleMessage = RemoveIndexSignature<
+  {
+    [K in keyof DefineLocaleMessage]: DefineLocaleMessage[K]
+  }
+>
+
+export type DefaultLocaleMessageSchema<
+  Schema = RemoveIndexSignature<
+    {
+      [K in keyof DefineLocaleMessage]: DefineLocaleMessage[K]
+    }
+  >
+> = IsEmptyObject<Schema> extends true ? LocaleMessage<VueMessageType> : Schema
 
 /** @VueI18nComposition */
 export type MissingHandler = (
@@ -145,7 +190,7 @@ export interface ComposerOptions<
     datetime?: unknown
     number?: unknown
   } = {
-    message: LocaleMessage<VueMessageType>
+    message: DefaultLocaleMessageSchema
     datetime: DateTimeFormat
     number: NumberFormat
   },
@@ -171,7 +216,9 @@ export interface ComposerOptions<
     : Locales extends string
       ? Locales
       : Locale,
-  MessageSchema = Schema extends { message: infer M } ? M : LocaleMessage<VueMessageType>,
+  MessageSchema = Schema extends { message: infer M }
+    ? M
+    : DefaultLocaleMessageSchema,
   DateTimeSchema = Schema extends { datetime: infer D } ? D : DateTimeFormat,
   NumberSchema = Schema extends { number: infer N } ? N : NumberFormat,
   _Messages extends LocaleMessages<
@@ -455,7 +502,26 @@ export interface ComposerInternalOptions<
  *
  * @VueI18nComposition
  */
-export interface ComposerTranslation<Messages = {}, Locales = 'en-US'> {
+export interface ComposerTranslation<
+  Messages = {},
+  Locales = 'en-US',
+  DefinedLocaleMessage extends RemovedIndexDefineLocaleMessage = RemovedIndexDefineLocaleMessage,
+  C = IsEmptyObject<DefinedLocaleMessage> extends false
+    ? PickupPaths<
+        {
+          [K in keyof DefinedLocaleMessage]: DefinedLocaleMessage[K]
+        }
+      >
+    : never,
+  M = IsEmptyObject<Messages> extends false ? PickupKeys<Messages> : never,
+  ResourceKeys extends C | M = IsNever<C> extends false
+    ? IsNever<M> extends false
+      ? C | M
+      : C
+    : IsNever<M> extends false
+    ? M
+    : never
+> {
   /**
    * Locale message translation
    *
@@ -472,12 +538,7 @@ export interface ComposerTranslation<Messages = {}, Locales = 'en-US'> {
    *
    * @VueI18nSee [Scope and Locale Changing](../guide/essentials/scope)
    */
-  <
-    Key extends string,
-    ResourceKeys extends PickupKeys<Messages> = PickupKeys<Messages>
-  >(
-    key: Key | ResourceKeys | number
-  ): string
+  <Key extends string>(key: Key | ResourceKeys | number): string
   /**
    * Locale message translation for plurals
    *
@@ -498,10 +559,7 @@ export interface ComposerTranslation<Messages = {}, Locales = 'en-US'> {
    *
    * @VueI18nSee [Pluralization](../guide/essentials/pluralization)
    */
-  <
-    Key extends string,
-    ResourceKeys extends PickupKeys<Messages> = PickupKeys<Messages>
-  >(
+  <Key extends string>(
     key: Key | ResourceKeys | number,
     plural: number,
     options?: TranslateOptions<Locales>
@@ -524,10 +582,7 @@ export interface ComposerTranslation<Messages = {}, Locales = 'en-US'> {
    *
    * @returns Translated message
    */
-  <
-    Key extends string,
-    ResourceKeys extends PickupKeys<Messages> = PickupKeys<Messages>
-  >(
+  <Key extends string>(
     key: Key | ResourceKeys | number,
     defaultMsg: string,
     options?: TranslateOptions<Locales>
@@ -552,10 +607,7 @@ export interface ComposerTranslation<Messages = {}, Locales = 'en-US'> {
    *
    * @VueI18nSee [List interpolation](../guide/essentials/syntax#list-interpolation)
    */
-  <
-    Key extends string,
-    ResourceKeys extends PickupKeys<Messages> = PickupKeys<Messages>
-  >(
+  <Key extends string>(
     key: Key | ResourceKeys | number,
     list: unknown[],
     options?: TranslateOptions<Locales>
@@ -577,10 +629,7 @@ export interface ComposerTranslation<Messages = {}, Locales = 'en-US'> {
    * @VueI18nSee [Pluralization](../guide/essentials/pluralization)
    * @VueI18nSee [List interpolation](../guide/essentials/syntax#list-interpolation)
    */
-  <
-    Key extends string,
-    ResourceKeys extends PickupKeys<Messages> = PickupKeys<Messages>
-  >(
+  <Key extends string>(
     key: Key | ResourceKeys | number,
     list: unknown[],
     plural: number
@@ -601,10 +650,7 @@ export interface ComposerTranslation<Messages = {}, Locales = 'en-US'> {
    *
    * @VueI18nSee [List interpolation](../guide/essentials/syntax#list-interpolation)
    */
-  <
-    Key extends string,
-    ResourceKeys extends PickupKeys<Messages> = PickupKeys<Messages>
-  >(
+  <Key extends string>(
     key: Key | ResourceKeys | number,
     list: unknown[],
     defaultMsg: string
@@ -629,10 +675,7 @@ export interface ComposerTranslation<Messages = {}, Locales = 'en-US'> {
    *
    * @VueI18nSee [Named interpolation](../guide/essentials/syntax#named-interpolation)
    */
-  <
-    Key extends string,
-    ResourceKeys extends PickupKeys<Messages> = PickupKeys<Messages>
-  >(
+  <Key extends string>(
     key: Key | ResourceKeys | number,
     named: NamedValue,
     options?: TranslateOptions<Locales>
@@ -654,10 +697,7 @@ export interface ComposerTranslation<Messages = {}, Locales = 'en-US'> {
    * @VueI18nSee [Pluralization](../guide/essentials/pluralization)
    * @VueI18nSee [Named interpolation](../guide/essentials/syntax#named-interpolation)
    */
-  <
-    Key extends string,
-    ResourceKeys extends PickupKeys<Messages> = PickupKeys<Messages>
-  >(
+  <Key extends string>(
     key: Key | ResourceKeys | number,
     named: NamedValue,
     plural: number
@@ -678,10 +718,7 @@ export interface ComposerTranslation<Messages = {}, Locales = 'en-US'> {
    *
    * @VueI18nSee [Named interpolation](../guide/essentials/syntax#named-interpolation)
    */
-  <
-    Key extends string,
-    ResourceKeys extends PickupKeys<Messages> = PickupKeys<Messages>
-  >(
+  <Key extends string>(
     key: Key | ResourceKeys | number,
     named: NamedValue,
     defaultMsg: string
@@ -1116,7 +1153,15 @@ export interface Composer<
    * @remarks
    * About details functions, See the {@link ComposerTranslation}
    */
-  t: ComposerTranslation<Messages, Locales>
+  t: ComposerTranslation<
+    Messages,
+    Locales,
+    RemoveIndexSignature<
+      {
+        [K in keyof DefineLocaleMessage]: DefineLocaleMessage[K]
+      }
+    >
+  >
   /**
    * Resolve locale message translation
    *
@@ -1224,7 +1269,13 @@ export interface Composer<
     Locale extends PickupLocales<NonNullable<Messages>> = PickupLocales<
       NonNullable<Messages>
     >,
-    Target = NonNullable<Messages>[Locale],
+    Target = IsEmptyObject<Messages> extends false
+      ? NonNullable<Messages>[Locale]
+      : RemoveIndexSignature<
+          {
+            [K in keyof DefineLocaleMessage]: DefineLocaleMessage[K]
+          }
+        >,
     Return = ResourceKeys extends ResourcePath<Target>
       ? ResourceValue<Target, ResourceKeys>
       : Record<string, any>
@@ -1249,8 +1300,14 @@ export interface Composer<
     Locale extends PickupLocales<NonNullable<Messages>> = PickupLocales<
       NonNullable<Messages>
     >,
-    Return = [MessageSchema] extends [never]
-      ? NonNullable<Messages>[Locale]
+    Return = IsNever<MessageSchema> extends true
+      ? IsEmptyObject<Messages> extends true
+        ? RemoveIndexSignature<
+            {
+              [K in keyof DefineLocaleMessage]: DefineLocaleMessage[K]
+            }
+          >
+        : NonNullable<Messages>[Locale]
       : MessageSchema
   >(
     locale: LocaleSchema | Locale
@@ -1272,9 +1329,16 @@ export interface Composer<
     Locale extends PickupLocales<NonNullable<Messages>> = PickupLocales<
       NonNullable<Messages>
     >,
-    Message = [MessageSchema] extends [never]
-      ? NonNullable<Messages>[Locale]
-      : MessageSchema
+    MessageType = IsNever<MessageSchema> extends true
+      ? IsEmptyObject<Messages> extends true
+        ? RemoveIndexSignature<
+            {
+              [K in keyof DefineLocaleMessage]: DefineLocaleMessage[K]
+            }
+          >
+        : NonNullable<Messages>[Locale]
+      : MessageSchema,
+    Message extends MessageType = MessageType
   >(
     locale: LocaleSchema | Locale,
     message: Message
@@ -1296,7 +1360,7 @@ export interface Composer<
     Locale extends PickupLocales<NonNullable<Messages>> = PickupLocales<
       NonNullable<Messages>
     >,
-    Message = [MessageSchema] extends [never]
+    Message = IsNever<MessageSchema> extends true
       ? Record<string, any>
       : MessageSchema
   >(
@@ -1597,7 +1661,7 @@ export function createComposer<
 >(options: Options): Composer<Messages, DateTimeFormats, NumberFormats>
 
 export function createComposer<
-  Schema = LocaleMessage<VueMessageType>,
+  Schema = DefaultLocaleMessageSchema,
   Locales = 'en-US',
   Options extends ComposerOptions<
     SchemaParams<Schema, VueMessageType>,

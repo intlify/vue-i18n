@@ -32,11 +32,11 @@ import type { ComponentInternalInstance, ComponentOptions, App } from 'vue'
 import type {
   Locale,
   FallbackLocale,
-  LocaleMessage,
   DateTimeFormat,
   NumberFormat,
   SchemaParams,
-  LocaleParams
+  LocaleParams,
+  _ResourcePath
 } from '@intlify/core-base'
 import type {
   VueDevToolsEmitter,
@@ -44,7 +44,7 @@ import type {
 } from '@intlify/vue-devtools'
 import type {
   VueMessageType,
-  CustomLocaleMessage,
+  DefaultLocaleMessageSchema,
   Composer,
   ComposerOptions,
   ComposerInternalOptions
@@ -74,7 +74,7 @@ export type I18nOptions<
     datetime?: unknown
     number?: unknown
   } = {
-    message: LocaleMessage<VueMessageType>
+    message: DefaultLocaleMessageSchema
     datetime: DateTimeFormat
     number: NumberFormat
   },
@@ -84,9 +84,13 @@ export type I18nOptions<
         datetimeFormats: unknown
         numberFormats: unknown
       }
-    | string = Locale
-> = I18nAdditionalOptions &
-  (ComposerOptions<Schema, Locales> | VueI18nOptions<Schema, Locales>)
+    | string = Locale,
+  Options extends
+    | ComposerOptions<Schema, Locales>
+    | VueI18nOptions<Schema, Locales> =
+    | ComposerOptions<Schema, Locales>
+    | VueI18nOptions<Schema, Locales>
+> = I18nAdditionalOptions & Options
 
 /**
  * I18n Additional Options
@@ -238,7 +242,7 @@ export type UseI18nOptions<
     datetime?: unknown
     number?: unknown
   } = {
-    message: LocaleMessage<VueMessageType>
+    message: DefaultLocaleMessageSchema
     datetime: DateTimeFormat
     number: NumberFormat
   },
@@ -248,8 +252,12 @@ export type UseI18nOptions<
         datetimeFormats: unknown
         numberFormats: unknown
       }
-    | string = Locale
-> = ComposerAdditionalOptions & ComposerOptions<Schema, Locales>
+    | string = Locale,
+  Options extends ComposerOptions<Schema, Locales> = ComposerOptions<
+    Schema,
+    Locales
+  >
+> = ComposerAdditionalOptions & Options
 
 /**
  * Composer additional options for `useI18n`
@@ -275,8 +283,7 @@ export function createI18n<
   NumberFormats = Options['numberFormats'] extends object
     ? Options['numberFormats']
     : {},
-  OptionLocale = Options['locale'] extends string ? Options['locale'] : Locale,
-  F = keyof CustomLocaleMessage // eslint-disable-line @typescript-eslint/no-unused-vars
+  OptionLocale = Options['locale'] extends string ? Options['locale'] : Locale
 >(
   options: Options
 ): I18n<Messages, DateTimeFormats, NumberFormats, OptionLocale, Legacy>
@@ -360,8 +367,8 @@ export function createI18n<
  * @VueI18nGeneral
  */
 export function createI18n<
-  Schema = LocaleMessage<VueMessageType>,
-  Locales = 'en-US',
+  Schema extends object = DefaultLocaleMessageSchema,
+  Locales extends string = 'en-US',
   Legacy extends boolean = true,
   Options extends I18nOptions<
     SchemaParams<Schema, VueMessageType>,
@@ -374,8 +381,7 @@ export function createI18n<
   NumberFormats = Options['numberFormats'] extends object
     ? Options['numberFormats']
     : {},
-  OptionLocale = Options['locale'] extends string ? Options['locale'] : Locale,
-  F = keyof CustomLocaleMessage // eslint-disable-line @typescript-eslint/no-unused-vars
+  OptionLocale = Options['locale'] extends string ? Options['locale'] : Locale
 >(
   options: Options
 ): I18n<Messages, DateTimeFormats, NumberFormats, OptionLocale, Legacy>
@@ -480,10 +486,7 @@ export function createI18n(options: any = {}): any {
   return i18n
 }
 
-export function useI18n<
-  Options extends UseI18nOptions = UseI18nOptions,
-  F = keyof CustomLocaleMessage // eslint-disable-line @typescript-eslint/no-unused-vars
->(
+export function useI18n<Options extends UseI18nOptions = UseI18nOptions>(
   options?: Options
 ): Composer<
   NonNullable<Options['messages']>,
@@ -546,7 +549,7 @@ export function useI18n<
  * @VueI18nComposition
  */
 export function useI18n<
-  Schema = LocaleMessage<VueMessageType>,
+  Schema = DefaultLocaleMessageSchema,
   Locales = 'en-US',
   Options extends UseI18nOptions<
     SchemaParams<Schema, VueMessageType>,
@@ -554,8 +557,7 @@ export function useI18n<
   > = UseI18nOptions<
     SchemaParams<Schema, VueMessageType>,
     LocaleParams<Locales>
-  >,
-  F = keyof CustomLocaleMessage // eslint-disable-line @typescript-eslint/no-unused-vars
+  >
 >(
   options?: Options
 ): Composer<
@@ -571,8 +573,7 @@ export function useI18n<
   Messages = NonNullable<Options['messages']>,
   DateTimeFormats = NonNullable<Options['datetimeFormats']>,
   NumberFormats = NonNullable<Options['numberFormats']>,
-  OptionLocale = NonNullable<Options['locale']>,
-  F = keyof CustomLocaleMessage // eslint-disable-line @typescript-eslint/no-unused-vars
+  OptionLocale = NonNullable<Options['locale']>
 >(options: Options = {} as Options) {
   const instance = getCurrentInstance()
   if (instance == null) {

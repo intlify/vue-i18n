@@ -33,7 +33,9 @@ export {
 } from '@intlify/core-base'
 export {
   VueMessageType,
-  CustomLocaleMessage,
+  DefineLocaleMessage,
+  DefaultLocaleMessageSchema,
+  RemovedIndexDefineLocaleMessage,
   MissingHandler,
   ComposerOptions,
   Composer,

@@ -30,7 +30,7 @@ export type LocaleRecord<T extends any[], R> = {
 
 export type First<T extends readonly any[]> = T[0]
 
-type __ResourcePath<T, Key extends keyof T> = Key extends string
+export type __ResourcePath<T, Key extends keyof T> = Key extends string
   ? T[Key] extends Record<string, any>
     ?
         | `${Key}.${__ResourcePath<T[Key], Exclude<keyof T[Key], keyof any[]>> &
@@ -38,7 +38,7 @@ type __ResourcePath<T, Key extends keyof T> = Key extends string
         | `${Key}.${Exclude<keyof T[Key], keyof any[]> & string}`
     : never
   : never
-type _ResourcePath<T> = __ResourcePath<T, keyof T> | keyof T
+export type _ResourcePath<T> = __ResourcePath<T, keyof T> | keyof T
 export type ResourcePath<T> = _ResourcePath<T> extends string | keyof T
   ? _ResourcePath<T>
   : keyof T
@@ -65,6 +65,8 @@ export type PickupKeys<
   T extends Record<string, any>,
   K = keyof T
 > = K extends string ? ResourcePath<T[K]> : never
+
+export type PickupPaths<T extends object> = ResourcePath<T>
 
 type __ResourceFormatPath<T, Key extends keyof T> = Key extends string
   ? T[Key] extends Record<string, any>
@@ -126,4 +128,11 @@ export type LocaleParams<T, Default = 'en-US'> = T extends IsUnion<T>
       ? { messages: T, datetimeFormats: T, numberFormats: T }
       : { messages: Default, datetimeFormats: Default, numberFormats: Default }
 
+// prettier-ignore
+export type RemoveIndexSignature<T> = {
+  [K in keyof T as string extends K ? never : number extends K ? never : K]: T[K]
+}
+
+export type IsEmptyObject<T> = [keyof T] extends [never] ? true : false
+export type IsNever<T> = [T] extends [never] ? true : false
 /* eslint-enable @typescript-eslint/no-explicit-any */

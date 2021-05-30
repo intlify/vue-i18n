@@ -1,5 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { EnableEmitter, DisableEmitter, createComposer } from './composer'
+import {
+  EnableEmitter,
+  DisableEmitter,
+  createComposer,
+  DefineLocaleMessage
+} from './composer'
 import { I18nWarnCodes, getWarnMessage } from './warnings'
 import { createI18nError, I18nErrorCodes } from './errors'
 import {
@@ -40,11 +45,17 @@ import type {
   ResourceValue,
   SchemaParams,
   LocaleParams,
-  FallbackLocales
+  RemoveIndexSignature,
+  FallbackLocales,
+  PickupPaths,
+  IsEmptyObject,
+  IsNever
 } from '@intlify/core-base'
 import type { VueDevToolsEmitter } from '@intlify/vue-devtools'
 import type {
   VueMessageType,
+  DefaultLocaleMessageSchema,
+  RemovedIndexDefineLocaleMessage,
   MissingHandler,
   Composer,
   ComposerOptions,
@@ -88,7 +99,7 @@ export interface VueI18nOptions<
     datetime?: unknown
     number?: unknown
   } = {
-    message: LocaleMessage<VueMessageType>
+    message: DefaultLocaleMessageSchema
     datetime: DateTimeFormat
     number: NumberFormat
   },
@@ -399,7 +410,26 @@ export interface VueI18nOptions<
  *
  * @VueI18nLegacy
  */
-export interface VueI18nTranslation<Messages = {}, Locales = 'en-US'> {
+export interface VueI18nTranslation<
+  Messages = {},
+  Locales = 'en-US',
+  DefinedLocaleMessage extends RemovedIndexDefineLocaleMessage = RemovedIndexDefineLocaleMessage,
+  C = IsEmptyObject<DefinedLocaleMessage> extends false
+    ? PickupPaths<
+        {
+          [K in keyof DefinedLocaleMessage]: DefinedLocaleMessage[K]
+        }
+      >
+    : never,
+  M = IsEmptyObject<Messages> extends false ? PickupKeys<Messages> : never,
+  ResourceKeys extends C | M = IsNever<C> extends false
+    ? IsNever<M> extends false
+      ? C | M
+      : C
+    : IsNever<M> extends false
+    ? M
+    : never
+> {
   /**
    * Locale message translation.
    *
@@ -416,12 +446,7 @@ export interface VueI18nTranslation<Messages = {}, Locales = 'en-US'> {
    *
    * @VueI18nSee [Scope and Locale Changing](../guide/essentials/scope)
    */
-  <
-    Key extends string,
-    ResourceKeys extends PickupKeys<Messages> = PickupKeys<Messages>
-  >(
-    key: Key | ResourceKeys
-  ): TranslateResult
+  <Key extends string>(key: Key | ResourceKeys): TranslateResult
   /**
    * Locale message translation.
    *
@@ -433,10 +458,7 @@ export interface VueI18nTranslation<Messages = {}, Locales = 'en-US'> {
    *
    * @returns Translated message
    */
-  <
-    Key extends string,
-    ResourceKeys extends PickupKeys<Messages> = PickupKeys<Messages>
-  >(
+  <Key extends string>(
     key: Key | ResourceKeys,
     locale: Locales | Locale
   ): TranslateResult
@@ -454,10 +476,7 @@ export interface VueI18nTranslation<Messages = {}, Locales = 'en-US'> {
    *
    * @VueI18nSee [List interpolation](../guide/essentials/syntax#list-interpolation)
    */
-  <
-    Key extends string,
-    ResourceKeys extends PickupKeys<Messages> = PickupKeys<Messages>
-  >(
+  <Key extends string>(
     key: Key | ResourceKeys,
     locale: Locales | Locale,
     list: unknown[]
@@ -476,10 +495,7 @@ export interface VueI18nTranslation<Messages = {}, Locales = 'en-US'> {
    *
    * @VueI18nSee [Named interpolation](../guide/essentials/syntax#named-interpolation)
    */
-  <
-    Key extends string,
-    ResourceKeys extends PickupKeys<Messages> = PickupKeys<Messages>
-  >(
+  <Key extends string>(
     key: Key | ResourceKeys,
     locale: Locales | Locale,
     named: Record<string, unknown>
@@ -497,10 +513,7 @@ export interface VueI18nTranslation<Messages = {}, Locales = 'en-US'> {
    *
    * @VueI18nSee [List interpolation](../guide/essentials/syntax#list-interpolation)
    */
-  <
-    Key extends string,
-    ResourceKeys extends PickupKeys<Messages> = PickupKeys<Messages>
-  >(
+  <Key extends string>(
     key: Key | ResourceKeys,
     list: unknown[]
   ): TranslateResult
@@ -517,10 +530,7 @@ export interface VueI18nTranslation<Messages = {}, Locales = 'en-US'> {
    *
    * @VueI18nSee [Named interpolation](../guide/essentials/syntax#named-interpolation)
    */
-  <
-    Key extends string,
-    ResourceKeys extends PickupKeys<Messages> = PickupKeys<Messages>
-  >(
+  <Key extends string>(
     key: Key | ResourceKeys,
     named: Record<string, unknown>
   ): TranslateResult
@@ -546,7 +556,26 @@ export type VueI18nResolveLocaleMessageTranslation<
  *
  * @VueI18nLegacy
  */
-export interface VueI18nTranslationChoice<Messages = {}, Locales = 'en-US'> {
+export interface VueI18nTranslationChoice<
+  Messages = {},
+  Locales = 'en-US',
+  DefinedLocaleMessage extends RemovedIndexDefineLocaleMessage = RemovedIndexDefineLocaleMessage,
+  C = IsEmptyObject<DefinedLocaleMessage> extends false
+    ? PickupPaths<
+        {
+          [K in keyof DefinedLocaleMessage]: DefinedLocaleMessage[K]
+        }
+      >
+    : never,
+  M = IsEmptyObject<Messages> extends false ? PickupKeys<Messages> : never,
+  ResourceKeys extends C | M = IsNever<C> extends false
+    ? IsNever<M> extends false
+      ? C | M
+      : C
+    : IsNever<M> extends false
+    ? M
+    : never
+> {
   /**
    * Locale message pluralization
    *
@@ -565,12 +594,7 @@ export interface VueI18nTranslationChoice<Messages = {}, Locales = 'en-US'> {
    *
    * @VueI18nSee [Pluralization](../guide/essentials/pluralization)
    */
-  <
-    Key extends string = string,
-    ResourceKeys extends PickupKeys<Messages> = PickupKeys<Messages>
-  >(
-    key: Key | ResourceKeys
-  ): TranslateResult
+  <Key extends string = string>(key: Key | ResourceKeys): TranslateResult
   /**
    * Locale message pluralization
    *
@@ -582,10 +606,7 @@ export interface VueI18nTranslationChoice<Messages = {}, Locales = 'en-US'> {
    *
    * @returns Pluraled message
    */
-  <
-    Key extends string = string,
-    ResourceKeys extends PickupKeys<Messages> = PickupKeys<Messages>
-  >(
+  <Key extends string = string>(
     key: Key | ResourceKeys,
     locale: Locales | Locale
   ): TranslateResult
@@ -600,10 +621,7 @@ export interface VueI18nTranslationChoice<Messages = {}, Locales = 'en-US'> {
    *
    * @returns Pluraled message
    */
-  <
-    Key extends string,
-    ResourceKeys extends PickupKeys<Messages> = PickupKeys<Messages>
-  >(
+  <Key extends string>(
     key: Key | ResourceKeys,
     list: unknown[]
   ): TranslateResult
@@ -618,10 +636,7 @@ export interface VueI18nTranslationChoice<Messages = {}, Locales = 'en-US'> {
    *
    * @returns Pluraled message
    */
-  <
-    Key extends string,
-    ResourceKeys extends PickupKeys<Messages> = PickupKeys<Messages>
-  >(
+  <Key extends string>(
     key: Key | ResourceKeys,
     named: Record<string, unknown>
   ): TranslateResult
@@ -636,13 +651,7 @@ export interface VueI18nTranslationChoice<Messages = {}, Locales = 'en-US'> {
    *
    * @returns Pluraled message
    */
-  <
-    Key extends string,
-    ResourceKeys extends PickupKeys<Messages> = PickupKeys<Messages>
-  >(
-    key: Key | ResourceKeys,
-    choice: number
-  ): TranslateResult
+  <Key extends string>(key: Key | ResourceKeys, choice: number): TranslateResult
   /**
    * Locale message pluralization
    *
@@ -655,10 +664,7 @@ export interface VueI18nTranslationChoice<Messages = {}, Locales = 'en-US'> {
    *
    * @returns Pluraled message
    */
-  <
-    Key extends string,
-    ResourceKeys extends PickupKeys<Messages> = PickupKeys<Messages>
-  >(
+  <Key extends string>(
     key: Key | ResourceKeys,
     choice: number,
     locale: Locales | Locale
@@ -675,10 +681,7 @@ export interface VueI18nTranslationChoice<Messages = {}, Locales = 'en-US'> {
    *
    * @returns Pluraled message
    */
-  <
-    Key extends string,
-    ResourceKeys extends PickupKeys<Messages> = PickupKeys<Messages>
-  >(
+  <Key extends string>(
     key: Key | ResourceKeys,
     choice: number,
     list: unknown[]
@@ -695,10 +698,7 @@ export interface VueI18nTranslationChoice<Messages = {}, Locales = 'en-US'> {
    *
    * @returns Pluraled message
    */
-  <
-    Key extends string,
-    ResourceKeys extends PickupKeys<Messages> = PickupKeys<Messages>
-  >(
+  <Key extends string>(
     key: Key | ResourceKeys,
     choice: number,
     named: Record<string, unknown>
@@ -1038,7 +1038,15 @@ export interface VueI18n<
    * @remarks
    * About details functions, See the {@link VueI18nTranslation}
    */
-  t: VueI18nTranslation<Messages, Locales>
+  t: VueI18nTranslation<
+    Messages,
+    Locales,
+    RemoveIndexSignature<
+      {
+        [K in keyof DefineLocaleMessage]: DefineLocaleMessage[K]
+      }
+    >
+  >
   /**
    * Resolve locale message translation
    *
@@ -1505,7 +1513,7 @@ export function createVueI18n<
 >(options?: Options): VueI18n<Messages, DateTimeFormats, NumberFormats>
 
 export function createVueI18n<
-  Schema = LocaleMessage,
+  Schema = DefaultLocaleMessageSchema,
   Locales = 'en-US',
   Options extends VueI18nOptions<
     SchemaParams<Schema, VueMessageType>,
@@ -1705,7 +1713,12 @@ export function createVueI18n(options: any = {}): any {
         named = arg3 as NamedValue
       }
 
-      return composer.t(key, (list || named || {}) as any, options)
+      // return composer.t(key, (list || named || {}) as any, options)
+      return Reflect.apply(composer.t, composer, [
+        key,
+        (list || named || {}) as any,
+        options
+      ])
     },
 
     rt(...args: unknown[]): TranslateResult {
@@ -1742,7 +1755,12 @@ export function createVueI18n(options: any = {}): any {
         named = arg3 as NamedValue
       }
 
-      return composer.t(key, (list || named || {}) as any, options)
+      // return composer.t(key, (list || named || {}) as any, options)
+      return Reflect.apply(composer.t, composer, [
+        key,
+        (list || named || {}) as any,
+        options
+      ])
     },
 
     // te
