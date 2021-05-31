@@ -64,6 +64,16 @@ const datetimeFormats: DateTimeFormats<MyDateTimeSchema, 'en-US' | 'ja-JP'> = {
 }
 
 const dt = new Date(Date.UTC(2012, 11, 20, 3, 0, 0))
+const dts = [
+  '2012-12-20 03:00',
+  '2012-12-20  03:00',
+  '2012-12-20 03:00:00',
+  '2012-12-20  03:00:00',
+  '2012-12-20T03:00',
+  '2012-12-20 T03:00',
+  '2012-12-20T03:00:00',
+  '2012-12-20 T03:00:00'
+]
 
 beforeEach(() => {
   registerMessageCompiler(compileToFunction)
@@ -112,6 +122,9 @@ test('key argument', () => {
   })
 
   expect(datetime(ctx, dt, 'short')).toEqual('12/19/2012, 10:00 PM')
+  dts.forEach(dt => {
+    expect(datetime(ctx, dt, 'short')).toEqual('12/19/2012, 10:00 PM')
+  })
 })
 
 test('locale argument', () => {
@@ -127,6 +140,9 @@ test('locale argument', () => {
   })
 
   expect(datetime(ctx, dt, 'short', 'ja-JP')).toEqual('2012/12/20 12:00')
+  dts.forEach(dt => {
+    expect(datetime(ctx, dt, 'short', 'ja-JP')).toEqual('2012/12/20 12:00')
+  })
 })
 
 test('with object argument', () => {
@@ -211,6 +227,9 @@ test(`context fallbackWarn 'false' option`, () => {
   })
 
   expect(datetime(ctx, dt, 'long')).toEqual('2012/12/20 12:00:00')
+  dts.forEach(dt => {
+    expect(datetime(ctx, dt, 'long')).toEqual('2012/12/20 12:00:00')
+  })
   expect(mockWarn).not.toHaveBeenCalled()
 })
 
