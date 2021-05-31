@@ -302,10 +302,18 @@ export function parseDateTimeArgs(
   if (isString(arg1)) {
     // Only allow ISO strings - other date formats are often supported,
     // but may cause different results in different browsers.
-    if (!/\d{4}-\d{2}-\d{2}(T.*)?/.test(arg1)) {
+    const matches = arg1.match(/(\d{4}-\d{2}-\d{2})(T|\s)?(.*)/)
+    if (!matches) {
       throw createCoreError(CoreErrorCodes.INVALID_ISO_DATE_ARGUMENT)
     }
-    value = new Date(arg1)
+    // Some browsers can not parse the iso datetime separated by space,
+    // this is a compromise solution by replace the 'T'/' ' with 'T'
+    const dateTime = matches[3]
+      ? matches[3].trim().startsWith('T')
+        ? `${matches[1].trim()}${matches[3].trim()}`
+        : `${matches[1].trim()}T${matches[3].trim()}`
+      : matches[1].trim()
+    value = new Date(dateTime)
 
     try {
       // This will fail if the date is not valid
