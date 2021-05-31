@@ -83,6 +83,8 @@ export type PickupFormatKeys<
     K = keyof T
 > = K extends string ? ResourceFormatPath<T[K]> : never
 
+export type PickupFormatPathKeys<T extends object> = ResourceFormatPath<T>
+
 export type PickupFallbackLocales<T extends any[]> = T[number] | `${T[number]}!`
 
 export type FallbackLocales<Locales = 'en-US'> =

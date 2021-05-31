@@ -36,6 +36,8 @@ export {
   DefineLocaleMessage,
   DefaultLocaleMessageSchema,
   RemovedIndexDefineLocaleMessage,
+  DefineDateTimeFormat,
+  DefaultDateTimeFormatSchema,
   MissingHandler,
   ComposerOptions,
   Composer,

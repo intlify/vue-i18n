@@ -45,6 +45,7 @@ import type {
 import type {
   VueMessageType,
   DefaultLocaleMessageSchema,
+  DefaultDateTimeFormatSchema,
   Composer,
   ComposerOptions,
   ComposerInternalOptions
@@ -75,7 +76,7 @@ export type I18nOptions<
     number?: unknown
   } = {
     message: DefaultLocaleMessageSchema
-    datetime: DateTimeFormat
+    datetime: DefaultDateTimeFormatSchema
     number: NumberFormat
   },
   Locales extends
@@ -243,7 +244,7 @@ export type UseI18nOptions<
     number?: unknown
   } = {
     message: DefaultLocaleMessageSchema
-    datetime: DateTimeFormat
+    datetime: DefaultDateTimeFormatSchema
     number: NumberFormat
   },
   Locales extends
@@ -368,7 +369,7 @@ export function createI18n<
  */
 export function createI18n<
   Schema extends object = DefaultLocaleMessageSchema,
-  Locales extends string = 'en-US',
+  Locales extends string | object = 'en-US',
   Legacy extends boolean = true,
   Options extends I18nOptions<
     SchemaParams<Schema, VueMessageType>,

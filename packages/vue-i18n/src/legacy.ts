@@ -48,14 +48,18 @@ import type {
   RemoveIndexSignature,
   FallbackLocales,
   PickupPaths,
+  PickupFormatPathKeys,
   IsEmptyObject,
   IsNever
 } from '@intlify/core-base'
 import type { VueDevToolsEmitter } from '@intlify/vue-devtools'
 import type {
   VueMessageType,
+  RemovedIndexResources,
   DefaultLocaleMessageSchema,
   RemovedIndexDefineLocaleMessage,
+  DefineDateTimeFormat,
+  DefaultDateTimeFormatSchema,
   MissingHandler,
   Composer,
   ComposerOptions,
@@ -100,7 +104,7 @@ export interface VueI18nOptions<
     number?: unknown
   } = {
     message: DefaultLocaleMessageSchema
-    datetime: DateTimeFormat
+    datetime: DefaultDateTimeFormatSchema
     number: NumberFormat
   },
   Locales extends
@@ -715,7 +719,25 @@ export interface VueI18nTranslationChoice<
  */
 export interface VueI18nDateTimeFormatting<
   DateTimeFormats = {},
-  Locales = 'en-US'
+  Locales = 'en-US',
+  DefinedDateTimeFormat extends RemovedIndexResources<DefineDateTimeFormat> = RemovedIndexResources<DefineDateTimeFormat>,
+  C = IsEmptyObject<DefinedDateTimeFormat> extends false
+    ? PickupFormatPathKeys<
+        {
+          [K in keyof DefinedDateTimeFormat]: DefinedDateTimeFormat[K]
+        }
+      >
+    : never,
+  M = IsEmptyObject<DateTimeFormats> extends false
+    ? PickupFormatKeys<DateTimeFormats>
+    : never,
+  ResourceKeys extends C | M = IsNever<C> extends false
+    ? IsNever<M> extends false
+      ? C | M
+      : C
+    : IsNever<M> extends false
+    ? M
+    : never
 > {
   /**
    * Datetime formatting
@@ -745,11 +767,7 @@ export interface VueI18nDateTimeFormatting<
    *
    * @returns Formatted value
    */
-  <
-    Value extends number | Date = number,
-    Key extends string = string,
-    ResourceKeys extends PickupFormatKeys<DateTimeFormats> = PickupFormatKeys<DateTimeFormats>
-  >(
+  <Value extends number | Date = number, Key extends string = string>(
     value: Value,
     key: Key | ResourceKeys
   ): DateTimeFormatResult
@@ -765,11 +783,7 @@ export interface VueI18nDateTimeFormatting<
    *
    * @returns Formatted value
    */
-  <
-    Value extends number | Date = number,
-    Key extends string = string,
-    ResourceKeys extends PickupFormatKeys<DateTimeFormats> = PickupFormatKeys<DateTimeFormats>
-  >(
+  <Value extends number | Date = number, Key extends string = string>(
     value: Value,
     key: Key | ResourceKeys,
     locale: Locales
@@ -1226,7 +1240,15 @@ export interface VueI18n<
    * @remarks
    * About details functions, See the {@link VueI18nDateTimeFormatting}
    */
-  d: VueI18nDateTimeFormatting<DateTimeFormats, Locales>
+  d: VueI18nDateTimeFormatting<
+    DateTimeFormats,
+    Locales,
+    RemoveIndexSignature<
+      {
+        [K in keyof DefineDateTimeFormat]: DefineDateTimeFormat[K]
+      }
+    >
+  >
   /**
    * Get datetime format
    *
@@ -1245,8 +1267,14 @@ export interface VueI18n<
     Locale extends PickupLocales<NonNullable<DateTimeFormats>> = PickupLocales<
       NonNullable<DateTimeFormats>
     >,
-    Return = [DateTimeSchema] extends [never]
-      ? NonNullable<DateTimeFormats>[Locale]
+    Return = IsNever<DateTimeSchema> extends true
+      ? IsEmptyObject<DateTimeFormats> extends true
+        ? RemoveIndexSignature<
+            {
+              [K in keyof DefineDateTimeFormat]: DefineDateTimeFormat[K]
+            }
+          >
+        : NonNullable<DateTimeFormats>[Locale]
       : DateTimeSchema
   >(
     locale: LocaleSchema | Locale
@@ -1268,9 +1296,16 @@ export interface VueI18n<
     Locale extends PickupLocales<NonNullable<DateTimeFormats>> = PickupLocales<
       NonNullable<DateTimeFormats>
     >,
-    Formats = [DateTimeSchema] extends [never]
-      ? NonNullable<DateTimeFormats>[Locale]
-      : DateTimeSchema
+    FormatsType = IsNever<DateTimeSchema> extends true
+      ? IsEmptyObject<DateTimeFormats> extends true
+        ? RemoveIndexSignature<
+            {
+              [K in keyof DefineDateTimeFormat]: DefineDateTimeFormat[K]
+            }
+          >
+        : NonNullable<DateTimeFormats>[Locale]
+      : DateTimeSchema,
+    Formats extends FormatsType = FormatsType
   >(
     locale: LocaleSchema | Locale,
     format: Formats
@@ -1292,7 +1327,7 @@ export interface VueI18n<
     Locale extends PickupLocales<NonNullable<DateTimeFormats>> = PickupLocales<
       NonNullable<DateTimeFormats>
     >,
-    Formats = [DateTimeSchema] extends [never]
+    Formats = IsNever<DateTimeSchema> extends true
       ? Record<string, any>
       : DateTimeSchema
   >(
@@ -1513,8 +1548,8 @@ export function createVueI18n<
 >(options?: Options): VueI18n<Messages, DateTimeFormats, NumberFormats>
 
 export function createVueI18n<
-  Schema = DefaultLocaleMessageSchema,
-  Locales = 'en-US',
+  Schema extends object = DefaultLocaleMessageSchema,
+  Locales extends string | object = 'en-US',
   Options extends VueI18nOptions<
     SchemaParams<Schema, VueMessageType>,
     LocaleParams<Locales>

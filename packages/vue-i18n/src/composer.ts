@@ -84,9 +84,9 @@ import type {
   ResourceValue,
   ResourcePath,
   PickupPaths,
+  PickupFormatPathKeys,
   RemoveIndexSignature,
   IsNever,
-  First,
   IsEmptyObject
 } from '@intlify/core-base'
 import type { VueDevToolsEmitter } from '@intlify/vue-devtools'
@@ -113,7 +113,7 @@ export const DevToolsMetaSymbol = makeSymbol('__intlifyMeta')
 export type VueMessageType = string | VNode
 
 /**
- * The type definition of Loale Message
+ * The type definition of Locale Message
  *
  * @remarks
  * The typealias is used to strictly define the type of the Locale message.
@@ -138,13 +138,44 @@ export type VueMessageType = string | VNode
  * @VueI18nGeneral
  */
 export interface DefineLocaleMessage extends LocaleMessage<VueMessageType> {} // eslint-disable-line @typescript-eslint/no-empty-interface
-export type DefineDateTimeFormat = DateTimeFormat
+
+/**
+ * The type definition of datetime format
+ *
+ * @remarks
+ * The typealias is used to strictly define the type of the Datetime format.
+ *
+ * The type defined by this can be used in the global scope.
+ *
+ * @example
+ * ```ts
+ * // type.d.ts (`.d.ts` file at your app)
+ * import { DefineDateTimeFormat } from 'vue-i18n'
+ *
+ * declare module 'vue-i18n' {
+ *   export interface DefineDateTimeFormat {
+ *     currency: {
+ *       style: 'currency'
+ *       currencyDisplay: 'symbol'
+ *       currency: string
+ *     }
+ *   }
+ * }
+ * ```
+ *
+ * @VueI18nGeneral
+ */
+export interface DefineDateTimeFormat extends DateTimeFormat {} // eslint-disable-line @typescript-eslint/no-empty-interface
 export type DefineNumberFormat = NumberFormat
 
 export type RemovedIndexDefineLocaleMessage = RemoveIndexSignature<
   {
     [K in keyof DefineLocaleMessage]: DefineLocaleMessage[K]
   }
+>
+
+export type RemovedIndexResources<T> = RemoveIndexSignature<
+  { [K in keyof T]: T[K] }
 >
 
 export type DefaultLocaleMessageSchema<
@@ -154,6 +185,14 @@ export type DefaultLocaleMessageSchema<
     }
   >
 > = IsEmptyObject<Schema> extends true ? LocaleMessage<VueMessageType> : Schema
+
+export type DefaultDateTimeFormatSchema<
+  Schema = RemoveIndexSignature<
+    {
+      [K in keyof DefineDateTimeFormat]: DefineDateTimeFormat[K]
+    }
+  >
+> = IsEmptyObject<Schema> extends true ? DateTimeFormat : Schema
 
 /** @VueI18nComposition */
 export type MissingHandler = (
@@ -191,7 +230,7 @@ export interface ComposerOptions<
     number?: unknown
   } = {
     message: DefaultLocaleMessageSchema
-    datetime: DateTimeFormat
+    datetime: DefaultDateTimeFormatSchema
     number: NumberFormat
   },
   Locales extends
@@ -219,7 +258,9 @@ export interface ComposerOptions<
   MessageSchema = Schema extends { message: infer M }
     ? M
     : DefaultLocaleMessageSchema,
-  DateTimeSchema = Schema extends { datetime: infer D } ? D : DateTimeFormat,
+  DateTimeSchema = Schema extends { datetime: infer D }
+    ? D
+    : DefaultDateTimeFormatSchema,
   NumberSchema = Schema extends { number: infer N } ? N : NumberFormat,
   _Messages extends LocaleMessages<
     MessageSchema,
@@ -850,7 +891,25 @@ export interface ComposerResolveLocaleMessageTranslation<Locales = 'en-US'> {
  */
 export interface ComposerDateTimeFormatting<
   DateTimeFormats = {},
-  Locales = 'en-US'
+  Locales = 'en-US',
+  DefinedDateTimeFormat extends RemovedIndexResources<DefineDateTimeFormat> = RemovedIndexResources<DefineDateTimeFormat>,
+  C = IsEmptyObject<DefinedDateTimeFormat> extends false
+    ? PickupFormatPathKeys<
+        {
+          [K in keyof DefinedDateTimeFormat]: DefinedDateTimeFormat[K]
+        }
+      >
+    : never,
+  M = IsEmptyObject<DateTimeFormats> extends false
+    ? PickupFormatKeys<DateTimeFormats>
+    : never,
+  ResourceKeys extends C | M = IsNever<C> extends false
+    ? IsNever<M> extends false
+      ? C | M
+      : C
+    : IsNever<M> extends false
+    ? M
+    : never
 > {
   /**
    * Datetime formatting
@@ -882,11 +941,7 @@ export interface ComposerDateTimeFormatting<
    *
    * @returns Formatted value
    */
-  <
-    Value extends number | Date | string = number,
-    Key extends string = string,
-    ResourceKeys extends PickupFormatKeys<DateTimeFormats> = PickupFormatKeys<DateTimeFormats>
-  >(
+  <Value extends number | Date | string = number, Key extends string = string>(
     value: Value,
     keyOrOptions:
       | Key
@@ -907,11 +962,7 @@ export interface ComposerDateTimeFormatting<
    *
    * @returns Formatted value
    */
-  <
-    Value extends number | Date | string = number,
-    Key extends string = string,
-    ResourceKeys extends PickupFormatKeys<DateTimeFormats> = PickupFormatKeys<DateTimeFormats>
-  >(
+  <Value extends number | Date | string = number, Key extends string = string>(
     value: Value,
     keyOrOptions:
       | Key
@@ -1175,7 +1226,15 @@ export interface Composer<
    * @remarks
    * About details functions, See the {@link ComposerDateTimeFormatting}
    */
-  d: ComposerDateTimeFormatting<DateTimeFormats, Locales>
+  d: ComposerDateTimeFormatting<
+    DateTimeFormats,
+    Locales,
+    RemoveIndexSignature<
+      {
+        [K in keyof DefineDateTimeFormat]: DefineDateTimeFormat[K]
+      }
+    >
+  >
   /**
    * Number Formatting
    *
@@ -1385,8 +1444,14 @@ export interface Composer<
     Locale extends PickupLocales<NonNullable<DateTimeFormats>> = PickupLocales<
       NonNullable<DateTimeFormats>
     >,
-    Return = [DateTimeSchema] extends [never]
-      ? NonNullable<DateTimeFormats>[Locale]
+    Return = IsNever<DateTimeSchema> extends true
+      ? IsEmptyObject<DateTimeFormats> extends true
+        ? RemoveIndexSignature<
+            {
+              [K in keyof DefineDateTimeFormat]: DefineDateTimeFormat[K]
+            }
+          >
+        : NonNullable<DateTimeFormats>[Locale]
       : DateTimeSchema
   >(
     locale: LocaleSchema | Locale
@@ -1408,9 +1473,16 @@ export interface Composer<
     Locale extends PickupLocales<NonNullable<DateTimeFormats>> = PickupLocales<
       NonNullable<DateTimeFormats>
     >,
-    Formats = [DateTimeSchema] extends [never]
-      ? NonNullable<DateTimeFormats>[Locale]
-      : DateTimeSchema
+    FormatsType = IsNever<DateTimeSchema> extends true
+      ? IsEmptyObject<DateTimeFormats> extends true
+        ? RemoveIndexSignature<
+            {
+              [K in keyof DefineDateTimeFormat]: DefineDateTimeFormat[K]
+            }
+          >
+        : NonNullable<DateTimeFormats>[Locale]
+      : DateTimeSchema,
+    Formats extends FormatsType = FormatsType
   >(
     locale: LocaleSchema | Locale,
     format: Formats
@@ -1432,7 +1504,7 @@ export interface Composer<
     Locale extends PickupLocales<NonNullable<DateTimeFormats>> = PickupLocales<
       NonNullable<DateTimeFormats>
     >,
-    Formats = [DateTimeSchema] extends [never]
+    Formats = IsNever<DateTimeSchema> extends true
       ? Record<string, any>
       : DateTimeSchema
   >(
@@ -1661,8 +1733,8 @@ export function createComposer<
 >(options: Options): Composer<Messages, DateTimeFormats, NumberFormats>
 
 export function createComposer<
-  Schema = DefaultLocaleMessageSchema,
-  Locales = 'en-US',
+  Schema extends object = DefaultLocaleMessageSchema,
+  Locales extends string | object = 'en-US',
   Options extends ComposerOptions<
     SchemaParams<Schema, VueMessageType>,
     LocaleParams<Locales>

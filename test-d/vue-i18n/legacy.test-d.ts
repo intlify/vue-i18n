@@ -149,8 +149,8 @@ looseVueI18n.setLocaleMessage<{ dio: string }>('jojo', { dio: 'dio' })
 looseVueI18n.mergeLocaleMessage('en', {
   bar: 'foo'
 })
-looseVueI18n.setDateTimeFormat('en-US', {
-  long: {
+looseVueI18n.setDateTimeFormat('ja-JP', {
+  short: {
     hour: 'numeric'
   }
 })

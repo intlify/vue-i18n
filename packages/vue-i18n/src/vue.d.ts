@@ -12,12 +12,15 @@ import type {
   PickupPaths,
   RemoveIndexSignature,
   PickupKeys,
-  PickupFormatKeys
+  PickupFormatKeys,
+  PickupFormatPathKeys
 } from '@intlify/core-base'
 import type {
   CustomBlocks,
   VueMessageType,
   DefineLocaleMessage,
+  DefineDateTimeFormat,
+  RemovedIndexResources,
   RemovedIndexDefineLocaleMessage
 } from './composer'
 import type {
@@ -1049,8 +1052,15 @@ declare module '@vue/runtime-core' {
     $d<
       Value extends number | Date = number,
       Key extends string = string,
-      DateTimeFormats extends object = {},
-      ResourceKeys extends PickupFormatKeys<DateTimeFormats> = PickupFormatKeys<DateTimeFormats>
+      DefinedDateTimeFormat extends RemovedIndexResources<DefineDateTimeFormat> = RemovedIndexResources<DefineDateTimeFormat>,
+      Keys = IsEmptyObject<DefinedDateTimeFormat> extends false
+        ? PickupFormatPathKeys<
+            {
+              [K in keyof DefinedDateTimeFormat]: DefinedDateTimeFormat[K]
+            }
+          >
+        : never,
+      ResourceKeys extends Keys = IsNever<Keys> extends false ? Keys : never
     >(
       value: Value,
       key: Key | ResourceKeys
@@ -1070,8 +1080,15 @@ declare module '@vue/runtime-core' {
     $d<
       Value extends number | Date = number,
       Key extends string = string,
-      DateTimeFormats extends object = {},
-      ResourceKeys extends PickupFormatKeys<DateTimeFormats> = PickupFormatKeys<DateTimeFormats>
+      DefinedDateTimeFormat extends RemovedIndexResources<DefineDateTimeFormat> = RemovedIndexResources<DefineDateTimeFormat>,
+      Keys = IsEmptyObject<DefinedDateTimeFormat> extends false
+        ? PickupFormatPathKeys<
+            {
+              [K in keyof DefinedDateTimeFormat]: DefinedDateTimeFormat[K]
+            }
+          >
+        : never,
+      ResourceKeys extends Keys = IsNever<Keys> extends false ? Keys : never
     >(
       value: Value,
       key: Key | ResourceKeys,
@@ -1117,8 +1134,15 @@ declare module '@vue/runtime-core' {
     $d<
       Value extends number | Date = number,
       Key extends string = string,
-      DateTimeFormats extends object = {},
-      ResourceKeys extends PickupFormatKeys<DateTimeFormats> = PickupFormatKeys<DateTimeFormats>
+      DefinedDateTimeFormat extends RemovedIndexResources<DefineDateTimeFormat> = RemovedIndexResources<DefineDateTimeFormat>,
+      Keys = IsEmptyObject<DefinedDateTimeFormat> extends false
+        ? PickupFormatPathKeys<
+            {
+              [K in keyof DefinedDateTimeFormat]: DefinedDateTimeFormat[K]
+            }
+          >
+        : never,
+      ResourceKeys extends Keys = IsNever<Keys> extends false ? Keys : never
     >(
       value: Value,
       key: Key | ResourceKeys
@@ -1138,8 +1162,15 @@ declare module '@vue/runtime-core' {
     $d<
       Value extends number | Date = number,
       Key extends string = string,
-      DateTimeFormats extends object = {},
-      ResourceKeys extends PickupFormatKeys<DateTimeFormats> = PickupFormatKeys<DateTimeFormats>
+      DefinedDateTimeFormat extends RemovedIndexResources<DefineDateTimeFormat> = RemovedIndexResources<DefineDateTimeFormat>,
+      Keys = IsEmptyObject<DefinedDateTimeFormat> extends false
+        ? PickupFormatPathKeys<
+            {
+              [K in keyof DefinedDateTimeFormat]: DefinedDateTimeFormat[K]
+            }
+          >
+        : never,
+      ResourceKeys extends Keys = IsNever<Keys> extends false ? Keys : never
     >(
       value: Value,
       key: Key | ResourceKeys,

@@ -30,6 +30,10 @@ export {
 export {
   VueMessageType,
   DefineLocaleMessage,
+  DefaultLocaleMessageSchema,
+  RemovedIndexDefineLocaleMessage,
+  DefineDateTimeFormat,
+  DefaultDateTimeFormatSchema,
   MissingHandler,
   ComposerOptions,
   Composer,

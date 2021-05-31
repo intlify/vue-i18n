@@ -156,8 +156,8 @@ expectType<typeof looseComposer.datetimeFormats.value['en-US']>(
 expectType<{ long: { hour: string } }>(
   looseComposer.getLocaleMessage<{ long: { hour: string } }>('en-US')
 )
-looseComposer.setDateTimeFormat('en-US', {
-  long: {
+looseComposer.setDateTimeFormat('ja-JP', {
+  short: {
     hour: 'numeric'
   }
 })
@@ -338,8 +338,8 @@ expectType<typeof looseI18n.datetimeFormats['en-US']>(
 expectType<{ long: { hour: string } }>(
   looseI18n.getLocaleMessage<{ long: { hour: string } }>('en-US')
 )
-looseI18n.setDateTimeFormat('en-US', {
-  long: {
+looseI18n.setDateTimeFormat('ja-JP', {
+  short: {
     hour: 'numeric'
   }
 })
@@ -426,3 +426,56 @@ strictI18n.mergeLocaleMessage('en', {
 strictI18n.mergeLocaleMessage<{ dio: string }>('en', {
   dio: 'The world!'
 })
+
+// check strict with direct i18n options
+const strictDirectI18n = createI18n<
+  {
+    message: ResourceSchema
+    datetime: MyDatetimeScehma
+    number: MyNumberSchema
+  },
+  { messages: 'en'; datetimeFormats: 'ja-JP' | 'zh'; numberFormats: 'ca' },
+  false
+>({
+  messages: {
+    en: {
+      foo: '',
+      nest: {
+        bar: ''
+      },
+      errors: ['']
+    }
+  },
+  datetimeFormats: {
+    zh: {
+      short: {
+        hour: 'numeric'
+      }
+    },
+    'ja-JP': {
+      short: {
+        hour: 'numeric'
+      }
+    }
+  },
+  numberFormats: {
+    ca: {
+      currency: { style: 'symbol' }
+    }
+  }
+}).global
+expectType<'en' | 'zh' | 'ca' | 'ja-JP'>(strictDirectI18n.locale.value)
+expectType<
+  | 'en'
+  | 'zh'
+  | 'ca'
+  | 'ja-JP'
+  | ('en' | 'zh' | 'ca' | 'ja-JP')[]
+  | { [x in string]: PickupFallbackLocales<['en' | 'zh' | 'ca' | 'ja-JP']>[] }
+  | false
+>(strictDirectI18n.fallbackLocale.value)
+expectType<{ en: ResourceSchema }>(strictDirectI18n.messages.value)
+expectType<{ zh: {}; 'ja-JP': { short: {} } }>(
+  strictDirectI18n.datetimeFormats.value
+)
+expectType<{ ca: { currency: {} } }>(strictDirectI18n.numberFormats.value)

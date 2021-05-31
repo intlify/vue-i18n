@@ -155,8 +155,8 @@ expectType<typeof looseComposer.datetimeFormats.value['en-US']>(
 expectType<{ long: { hour: string } }>(
   looseComposer.getLocaleMessage<{ long: { hour: string } }>('en-US')
 )
-looseComposer.setDateTimeFormat('en-US', {
-  long: {
+looseComposer.setDateTimeFormat('ja-JP', {
+  short: {
     hour: 'numeric'
   }
 })
