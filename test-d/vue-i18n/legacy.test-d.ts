@@ -170,8 +170,8 @@ expectType<{ weight: { unit: string } }>(
   looseVueI18n.getNumberFormat<{ weight: { unit: string } }>('en-US')
 )
 looseVueI18n.setNumberFormat('en-US', {
-  weight: {
-    unit: 'kiro'
+  currency: {
+    currecy: 'USD'
   }
 })
 looseVueI18n.setNumberFormat<{ echoes: { act: string } }>('stand', {

@@ -921,8 +921,9 @@ export interface VueI18n<
   Composition extends Composer<
     Messages,
     DateTimeFormats,
-    NumberFormats
-  > = Composer<Messages, DateTimeFormats, NumberFormats>
+    NumberFormats,
+    OptionLocale
+  > = Composer<Messages, DateTimeFormats, NumberFormats, OptionLocale>
 > {
   /**
    * @remarks
@@ -1170,19 +1171,7 @@ export interface VueI18n<
    *
    * @return Locale messages
    */
-  tm<
-    Key extends string,
-    ResourceKeys extends PickupKeys<Messages> = PickupKeys<Messages>,
-    Locale extends PickupLocales<NonNullable<Messages>> = PickupLocales<
-      NonNullable<Messages>
-    >,
-    Target = NonNullable<Messages>[Locale],
-    Return = ResourceKeys extends ResourcePath<Target>
-      ? ResourceValue<Target, ResourceKeys>
-      : Record<string, any>
-  >(
-    key: Key | ResourceKeys
-  ): Return
+  tm: Composition['tm']
   /**
    * Get locale message
    *
@@ -1195,18 +1184,7 @@ export interface VueI18n<
    *
    * @returns Locale messages
    */
-  getLocaleMessage<
-    MessageSchema extends LocaleMessage<VueMessageType> = never,
-    LocaleSchema extends string = string,
-    Locale extends PickupLocales<NonNullable<Messages>> = PickupLocales<
-      NonNullable<Messages>
-    >,
-    Return = [MessageSchema] extends [never]
-      ? NonNullable<Messages>[Locale]
-      : MessageSchema
-  >(
-    locale: LocaleSchema | Locale
-  ): Return
+  getLocaleMessage: Composition['getLocaleMessage']
   /**
    * Set locale message
    *
@@ -1218,19 +1196,7 @@ export interface VueI18n<
    *
    * @typeParam MessageSchema - The locale message schema, default `never`
    */
-  setLocaleMessage<
-    MessageSchema extends LocaleMessage<VueMessageType> = never,
-    LocaleSchema extends string = string,
-    Locale extends PickupLocales<NonNullable<Messages>> = PickupLocales<
-      NonNullable<Messages>
-    >,
-    Message = [MessageSchema] extends [never]
-      ? NonNullable<Messages>[Locale]
-      : MessageSchema
-  >(
-    locale: LocaleSchema | Locale,
-    message: Message
-  ): void
+  setLocaleMessage: Composition['setLocaleMessage']
   /**
    * Merge locale message
    *
@@ -1242,19 +1208,7 @@ export interface VueI18n<
    *
    * @typeParam MessageSchema - The locale message schema, default `never`
    */
-  mergeLocaleMessage<
-    MessageSchema extends LocaleMessage<VueMessageType> = never,
-    LocaleSchema extends string = string,
-    Locale extends PickupLocales<NonNullable<Messages>> = PickupLocales<
-      NonNullable<Messages>
-    >,
-    Message = [MessageSchema] extends [never]
-      ? Record<string, any>
-      : MessageSchema
-  >(
-    locale: LocaleSchema | Locale,
-    message: Message
-  ): void
+  mergeLocaleMessage: Composition['mergeLocaleMessage']
   /**
    * Datetime formatting
    *
@@ -1282,24 +1236,7 @@ export interface VueI18n<
    *
    * @returns Datetime format
    */
-  getDateTimeFormat<
-    DateTimeSchema extends Record<string, any> = never,
-    LocaleSchema extends string = string,
-    Locale extends PickupLocales<NonNullable<DateTimeFormats>> = PickupLocales<
-      NonNullable<DateTimeFormats>
-    >,
-    Return = IsNever<DateTimeSchema> extends true
-      ? IsEmptyObject<DateTimeFormats> extends true
-        ? RemoveIndexSignature<
-            {
-              [K in keyof DefineDateTimeFormat]: DefineDateTimeFormat[K]
-            }
-          >
-        : NonNullable<DateTimeFormats>[Locale]
-      : DateTimeSchema
-  >(
-    locale: LocaleSchema | Locale
-  ): Return
+  getDateTimeFormat: Composition['getDateTimeFormat']
   /**
    * Set datetime format
    *
@@ -1311,26 +1248,7 @@ export interface VueI18n<
    *
    * @typeParam DateTimeSchema - The datetime format schema, default `never`
    */
-  setDateTimeFormat<
-    DateTimeSchema extends Record<string, any> = never,
-    LocaleSchema extends string = string,
-    Locale extends PickupLocales<NonNullable<DateTimeFormats>> = PickupLocales<
-      NonNullable<DateTimeFormats>
-    >,
-    FormatsType = IsNever<DateTimeSchema> extends true
-      ? IsEmptyObject<DateTimeFormats> extends true
-        ? RemoveIndexSignature<
-            {
-              [K in keyof DefineDateTimeFormat]: DefineDateTimeFormat[K]
-            }
-          >
-        : NonNullable<DateTimeFormats>[Locale]
-      : DateTimeSchema,
-    Formats extends FormatsType = FormatsType
-  >(
-    locale: LocaleSchema | Locale,
-    format: Formats
-  ): void
+  setDateTimeFormat: Composition['setDateTimeFormat']
   /**
    * Merge datetime format
    *
@@ -1342,19 +1260,7 @@ export interface VueI18n<
    *
    * @typeParam DateTimeSchema - The datetime format schema, default `never`
    */
-  mergeDateTimeFormat<
-    DateTimeSchema extends Record<string, any> = never,
-    LocaleSchema extends string = string,
-    Locale extends PickupLocales<NonNullable<DateTimeFormats>> = PickupLocales<
-      NonNullable<DateTimeFormats>
-    >,
-    Formats = IsNever<DateTimeSchema> extends true
-      ? Record<string, any>
-      : DateTimeSchema
-  >(
-    locale: LocaleSchema | Locale,
-    format: Formats
-  ): void
+  mergeDateTimeFormat: Composition['mergeDateTimeFormat']
   /**
    * Number Formatting
    *
@@ -1382,18 +1288,7 @@ export interface VueI18n<
    *
    * @returns Number format
    */
-  getNumberFormat<
-    NumberSchema extends Record<string, any> = never,
-    LocaleSchema extends string = string,
-    Locale extends PickupLocales<NonNullable<NumberFormats>> = PickupLocales<
-      NonNullable<NumberFormats>
-    >,
-    Return = [NumberSchema] extends [never]
-      ? NonNullable<NumberFormats>[Locale]
-      : NumberSchema
-  >(
-    locale: LocaleSchema | Locale
-  ): Return
+  getNumberFormat: Composition['getNumberFormat']
   /**
    * Set number format
    *
@@ -1405,19 +1300,7 @@ export interface VueI18n<
    *
    * @typeParam NumberSchema - The number format schema, default `never`
    */
-  setNumberFormat<
-    NumberSchema extends Record<string, any> = never,
-    LocaleSchema extends string = string,
-    Locale extends PickupLocales<NonNullable<NumberFormats>> = PickupLocales<
-      NonNullable<NumberFormats>
-    >,
-    Formats = [NumberSchema] extends [never]
-      ? NonNullable<NumberFormats>[Locale]
-      : NumberSchema
-  >(
-    locale: LocaleSchema | Locale,
-    format: Formats
-  ): void
+  setNumberFormat: Composition['setNumberFormat']
   /**
    * Merge number format
    *
@@ -1429,19 +1312,7 @@ export interface VueI18n<
    *
    * @typeParam NumberSchema - The number format schema, default `never`
    */
-  mergeNumberFormat<
-    NumberSchema extends Record<string, any> = never,
-    LocaleSchema extends string = string,
-    Locale extends PickupLocales<NonNullable<NumberFormats>> = PickupLocales<
-      NonNullable<NumberFormats>
-    >,
-    Formats = [NumberSchema] extends [never]
-      ? Record<string, any>
-      : NumberSchema
-  >(
-    locale: LocaleSchema | Locale,
-    format: Formats
-  ): void
+  mergeNumberFormat: Composition['mergeNumberFormat']
   /**
    * Get choice index
    *
