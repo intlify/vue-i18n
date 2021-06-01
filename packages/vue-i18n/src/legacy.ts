@@ -1180,8 +1180,6 @@ export interface VueI18n<
    *
    * @param locale - A target locale
    *
-   * @typeParam MessageSchema - The locale message schema, default `never`
-   *
    * @returns Locale messages
    */
   getLocaleMessage: Composition['getLocaleMessage']
@@ -1193,8 +1191,6 @@ export interface VueI18n<
    *
    * @param locale - A target locale
    * @param message - A message
-   *
-   * @typeParam MessageSchema - The locale message schema, default `never`
    */
   setLocaleMessage: Composition['setLocaleMessage']
   /**
@@ -1205,8 +1201,6 @@ export interface VueI18n<
    *
    * @param locale - A target locale
    * @param message - A message
-   *
-   * @typeParam MessageSchema - The locale message schema, default `never`
    */
   mergeLocaleMessage: Composition['mergeLocaleMessage']
   /**
@@ -1232,8 +1226,6 @@ export interface VueI18n<
    *
    * @param locale - A target locale
    *
-   * @typeParam DateTimeSchema - The datetime format schema, default `never`
-   *
    * @returns Datetime format
    */
   getDateTimeFormat: Composition['getDateTimeFormat']
@@ -1245,8 +1237,6 @@ export interface VueI18n<
    *
    * @param locale - A target locale
    * @param format - A target datetime format
-   *
-   * @typeParam DateTimeSchema - The datetime format schema, default `never`
    */
   setDateTimeFormat: Composition['setDateTimeFormat']
   /**
@@ -1257,8 +1247,6 @@ export interface VueI18n<
    *
    * @param locale - A target locale
    * @param format - A target datetime format
-   *
-   * @typeParam DateTimeSchema - The datetime format schema, default `never`
    */
   mergeDateTimeFormat: Composition['mergeDateTimeFormat']
   /**
@@ -1284,8 +1272,6 @@ export interface VueI18n<
    *
    * @param locale - A target locale
    *
-   * @typeParam NumberSchema - The number format schema, default `never`
-   *
    * @returns Number format
    */
   getNumberFormat: Composition['getNumberFormat']
@@ -1297,8 +1283,6 @@ export interface VueI18n<
    *
    * @param locale - A target locale
    * @param format - A target number format
-   *
-   * @typeParam NumberSchema - The number format schema, default `never`
    */
   setNumberFormat: Composition['setNumberFormat']
   /**
@@ -1309,8 +1293,6 @@ export interface VueI18n<
    *
    * @param locale - A target locale
    * @param format - A target number format
-   *
-   * @typeParam NumberSchema - The number format schema, default `never`
    */
   mergeNumberFormat: Composition['mergeNumberFormat']
   /**
