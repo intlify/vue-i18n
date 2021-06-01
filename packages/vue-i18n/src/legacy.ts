@@ -57,9 +57,10 @@ import type {
   VueMessageType,
   RemovedIndexResources,
   DefaultLocaleMessageSchema,
-  RemovedIndexDefineLocaleMessage,
   DefineDateTimeFormat,
   DefaultDateTimeFormatSchema,
+  DefineNumberFormat,
+  DefaultNumberFormatSchema,
   MissingHandler,
   Composer,
   ComposerOptions,
@@ -105,7 +106,7 @@ export interface VueI18nOptions<
   } = {
     message: DefaultLocaleMessageSchema
     datetime: DefaultDateTimeFormatSchema
-    number: NumberFormat
+    number: DefaultNumberFormatSchema
   },
   Locales extends
     | {
@@ -417,7 +418,7 @@ export interface VueI18nOptions<
 export interface VueI18nTranslation<
   Messages = {},
   Locales = 'en-US',
-  DefinedLocaleMessage extends RemovedIndexDefineLocaleMessage = RemovedIndexDefineLocaleMessage,
+  DefinedLocaleMessage extends RemovedIndexResources<DefineLocaleMessage> = RemovedIndexResources<DefineLocaleMessage>,
   C = IsEmptyObject<DefinedLocaleMessage> extends false
     ? PickupPaths<
         {
@@ -812,7 +813,25 @@ export interface VueI18nDateTimeFormatting<
  */
 export interface VueI18nNumberFormatting<
   NumberFormats = {},
-  Locales = 'en-US'
+  Locales = 'en-US',
+  DefinedNumberFormat extends RemovedIndexResources<DefineNumberFormat> = RemovedIndexResources<DefineNumberFormat>,
+  C = IsEmptyObject<DefinedNumberFormat> extends false
+    ? PickupFormatPathKeys<
+        {
+          [K in keyof DefinedNumberFormat]: DefinedNumberFormat[K]
+        }
+      >
+    : never,
+  M = IsEmptyObject<NumberFormats> extends false
+    ? PickupFormatKeys<NumberFormats>
+    : never,
+  ResourceKeys extends C | M = IsNever<C> extends false
+    ? IsNever<M> extends false
+      ? C | M
+      : C
+    : IsNever<M> extends false
+    ? M
+    : never
 > {
   /**
    * Number formatting
@@ -842,10 +861,7 @@ export interface VueI18nNumberFormatting<
    *
    * @returns Formatted value
    */
-  <
-    Key extends string = string,
-    ResourceKeys extends PickupFormatKeys<NumberFormats> = PickupFormatKeys<NumberFormats>
-  >(
+  <Key extends string = string>(
     value: number,
     key: Key | ResourceKeys
   ): NumberFormatResult
@@ -861,10 +877,7 @@ export interface VueI18nNumberFormatting<
    *
    * @returns Formatted value
    */
-  <
-    Key extends string = string,
-    ResourceKeys extends PickupFormatKeys<NumberFormats> = PickupFormatKeys<NumberFormats>
-  >(
+  <Key extends string = string>(
     value: number,
     key: Key | ResourceKeys,
     locale: Locales
@@ -1074,7 +1087,15 @@ export interface VueI18n<
    * @remarks
    * About details functions, See the {@link VueI18nTranslationChoice}
    */
-  tc: VueI18nTranslationChoice<Messages, Locales>
+  tc: VueI18nTranslationChoice<
+    Messages,
+    Locales,
+    RemoveIndexSignature<
+      {
+        [K in keyof DefineLocaleMessage]: DefineLocaleMessage[K]
+      }
+    >
+  >
   /**
    * Translation locale message exist
    *
@@ -1340,7 +1361,15 @@ export interface VueI18n<
    * @remarks
    * About details functions, See the {@link VueI18nNumberFormatting}
    */
-  n: VueI18nNumberFormatting<NumberFormats, Locales>
+  n: VueI18nNumberFormatting<
+    NumberFormats,
+    Locales,
+    RemoveIndexSignature<
+      {
+        [K in keyof DefineNumberFormat]: DefineNumberFormat[K]
+      }
+    >
+  >
   /**
    * Get number format
    *

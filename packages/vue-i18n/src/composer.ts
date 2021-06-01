@@ -154,6 +154,33 @@ export interface DefineLocaleMessage extends LocaleMessage<VueMessageType> {} //
  *
  * declare module 'vue-i18n' {
  *   export interface DefineDateTimeFormat {
+ *     short: {
+ *       hour: 'numeric'
+ *       timezone: string
+ *     }
+ *   }
+ * }
+ * ```
+ *
+ * @VueI18nGeneral
+ */
+export interface DefineDateTimeFormat extends DateTimeFormat {} // eslint-disable-line @typescript-eslint/no-empty-interface
+
+/**
+ * The type definition of number format
+ *
+ * @remarks
+ * The typealias is used to strictly define the type of the Number format.
+ *
+ * The type defined by this can be used in the global scope.
+ *
+ * @example
+ * ```ts
+ * // type.d.ts (`.d.ts` file at your app)
+ * import { DefineNumberFormat } from 'vue-i18n'
+ *
+ * declare module 'vue-i18n' {
+ *   export interface DefineNumberFormat {
  *     currency: {
  *       style: 'currency'
  *       currencyDisplay: 'symbol'
@@ -165,14 +192,7 @@ export interface DefineLocaleMessage extends LocaleMessage<VueMessageType> {} //
  *
  * @VueI18nGeneral
  */
-export interface DefineDateTimeFormat extends DateTimeFormat {} // eslint-disable-line @typescript-eslint/no-empty-interface
-export type DefineNumberFormat = NumberFormat
-
-export type RemovedIndexDefineLocaleMessage = RemoveIndexSignature<
-  {
-    [K in keyof DefineLocaleMessage]: DefineLocaleMessage[K]
-  }
->
+export interface DefineNumberFormat extends NumberFormat {} // eslint-disable-line @typescript-eslint/no-empty-interface
 
 export type RemovedIndexResources<T> = RemoveIndexSignature<
   { [K in keyof T]: T[K] }
@@ -193,6 +213,14 @@ export type DefaultDateTimeFormatSchema<
     }
   >
 > = IsEmptyObject<Schema> extends true ? DateTimeFormat : Schema
+
+export type DefaultNumberFormatSchema<
+  Schema = RemoveIndexSignature<
+    {
+      [K in keyof DefineNumberFormat]: DefineNumberFormat[K]
+    }
+  >
+> = IsEmptyObject<Schema> extends true ? NumberFormat : Schema
 
 /** @VueI18nComposition */
 export type MissingHandler = (
@@ -231,7 +259,7 @@ export interface ComposerOptions<
   } = {
     message: DefaultLocaleMessageSchema
     datetime: DefaultDateTimeFormatSchema
-    number: NumberFormat
+    number: DefaultNumberFormatSchema
   },
   Locales extends
     | {
@@ -261,7 +289,9 @@ export interface ComposerOptions<
   DateTimeSchema = Schema extends { datetime: infer D }
     ? D
     : DefaultDateTimeFormatSchema,
-  NumberSchema = Schema extends { number: infer N } ? N : NumberFormat,
+  NumberSchema = Schema extends { number: infer N }
+    ? N
+    : DefaultNumberFormatSchema,
   _Messages extends LocaleMessages<
     MessageSchema,
     MessagesLocales,
@@ -982,7 +1012,25 @@ export interface ComposerDateTimeFormatting<
  */
 export interface ComposerNumberFormatting<
   NumberFormats = {},
-  Locales = 'en-US'
+  Locales = 'en-US',
+  DefinedNumberFormat extends RemovedIndexResources<DefineNumberFormat> = RemovedIndexResources<DefineNumberFormat>,
+  C = IsEmptyObject<DefinedNumberFormat> extends false
+    ? PickupFormatPathKeys<
+        {
+          [K in keyof DefinedNumberFormat]: DefinedNumberFormat[K]
+        }
+      >
+    : never,
+  M = IsEmptyObject<NumberFormats> extends false
+    ? PickupFormatKeys<NumberFormats>
+    : never,
+  ResourceKeys extends C | M = IsNever<C> extends false
+    ? IsNever<M> extends false
+      ? C | M
+      : C
+    : IsNever<M> extends false
+    ? M
+    : never
 > {
   /**
    * Number Formatting
@@ -1014,10 +1062,7 @@ export interface ComposerNumberFormatting<
    *
    * @returns Formatted value
    */
-  <
-    Key extends string = string,
-    ResourceKeys extends PickupFormatKeys<NumberFormats> = PickupFormatKeys<NumberFormats>
-  >(
+  <Key extends string = string>(
     value: number,
     keyOrOptions:
       | Key
@@ -1038,10 +1083,7 @@ export interface ComposerNumberFormatting<
    *
    * @returns Formatted value
    */
-  <
-    Key extends string = string,
-    ResourceKeys extends PickupFormatKeys<NumberFormats> = PickupFormatKeys<NumberFormats>
-  >(
+  <Key extends string = string>(
     value: number,
     keyOrOptions:
       | Key
@@ -1241,7 +1283,15 @@ export interface Composer<
    * @remarks
    * About details functions, See the {@link ComposerNumberFormatting}
    */
-  n: ComposerNumberFormatting<NumberFormats, Locales>
+  n: ComposerNumberFormatting<
+    NumberFormats,
+    Locales,
+    RemoveIndexSignature<
+      {
+        [K in keyof DefineNumberFormat]: DefineNumberFormat[K]
+      }
+    >
+  >
   /**
    * Translation locale message exist
    *
@@ -1529,8 +1579,14 @@ export interface Composer<
     Locale extends PickupLocales<NonNullable<NumberFormats>> = PickupLocales<
       NonNullable<NumberFormats>
     >,
-    Return = [NumberSchema] extends [never]
-      ? NonNullable<NumberFormats>[Locale]
+    Return = IsNever<NumberSchema> extends true
+      ? IsEmptyObject<NumberFormats> extends true
+        ? RemoveIndexSignature<
+            {
+              [K in keyof DefineNumberFormat]: DefineNumberFormat[K]
+            }
+          >
+        : NonNullable<NumberFormats>[Locale]
       : NumberSchema
   >(
     locale: LocaleSchema | Locale
@@ -1552,9 +1608,16 @@ export interface Composer<
     Locale extends PickupLocales<NonNullable<NumberFormats>> = PickupLocales<
       NonNullable<NumberFormats>
     >,
-    Formats = [NumberSchema] extends [never]
-      ? NonNullable<NumberFormats>[Locale]
-      : NumberSchema
+    FormatsType = IsNever<NumberSchema> extends true
+      ? IsEmptyObject<NumberFormats> extends true
+        ? RemoveIndexSignature<
+            {
+              [K in keyof DefineNumberFormat]: DefineNumberFormat[K]
+            }
+          >
+        : NonNullable<NumberFormats>[Locale]
+      : NumberSchema,
+    Formats extends FormatsType = FormatsType
   >(
     locale: LocaleSchema | Locale,
     format: Formats
@@ -1576,7 +1639,7 @@ export interface Composer<
     Locale extends PickupLocales<NonNullable<NumberFormats>> = PickupLocales<
       NonNullable<NumberFormats>
     >,
-    Formats = [NumberSchema] extends [never]
+    Formats = IsNever<NumberSchema> extends true
       ? Record<string, any>
       : NumberSchema
   >(

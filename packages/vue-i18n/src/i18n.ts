@@ -32,7 +32,6 @@ import type { ComponentInternalInstance, ComponentOptions, App } from 'vue'
 import type {
   Locale,
   FallbackLocale,
-  NumberFormat,
   SchemaParams,
   LocaleParams
 } from '@intlify/core-base'
@@ -44,6 +43,7 @@ import type {
   VueMessageType,
   DefaultLocaleMessageSchema,
   DefaultDateTimeFormatSchema,
+  DefaultNumberFormatSchema,
   Composer,
   ComposerOptions,
   ComposerInternalOptions
@@ -75,7 +75,7 @@ export type I18nOptions<
   } = {
     message: DefaultLocaleMessageSchema
     datetime: DefaultDateTimeFormatSchema
-    number: NumberFormat
+    number: DefaultNumberFormatSchema
   },
   Locales extends
     | {
@@ -243,7 +243,7 @@ export type UseI18nOptions<
   } = {
     message: DefaultLocaleMessageSchema
     datetime: DefaultDateTimeFormatSchema
-    number: NumberFormat
+    number: DefaultNumberFormatSchema
   },
   Locales extends
     | {

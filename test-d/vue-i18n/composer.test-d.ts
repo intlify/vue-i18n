@@ -176,8 +176,8 @@ expectType<{ weight: { unit: string } }>(
   looseComposer.getNumberFormat<{ weight: { unit: string } }>('en-US')
 )
 looseComposer.setNumberFormat('en-US', {
-  weight: {
-    unit: 'kiro'
+  currency: {
+    currecy: 'USD'
   }
 })
 looseComposer.setNumberFormat<{ echoes: { act: string } }>('stand', {
