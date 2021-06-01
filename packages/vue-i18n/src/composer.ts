@@ -546,7 +546,7 @@ export interface ComposerInternalOptions<
 export interface ComposerTranslation<
   Messages = {},
   Locales = 'en-US',
-  DefinedLocaleMessage extends RemovedIndexDefineLocaleMessage = RemovedIndexDefineLocaleMessage,
+  DefinedLocaleMessage extends RemovedIndexResources<DefineLocaleMessage> = RemovedIndexResources<DefineLocaleMessage>,
   C = IsEmptyObject<DefinedLocaleMessage> extends false
     ? PickupPaths<
         {

@@ -32,11 +32,9 @@ import type { ComponentInternalInstance, ComponentOptions, App } from 'vue'
 import type {
   Locale,
   FallbackLocale,
-  DateTimeFormat,
   NumberFormat,
   SchemaParams,
-  LocaleParams,
-  _ResourcePath
+  LocaleParams
 } from '@intlify/core-base'
 import type {
   VueDevToolsEmitter,

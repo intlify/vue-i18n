@@ -10,7 +10,6 @@ import type {
   IsNever,
   IsEmptyObject,
   PickupPaths,
-  RemoveIndexSignature,
   PickupKeys,
   PickupFormatKeys,
   PickupFormatPathKeys
@@ -20,8 +19,7 @@ import type {
   VueMessageType,
   DefineLocaleMessage,
   DefineDateTimeFormat,
-  RemovedIndexResources,
-  RemovedIndexDefineLocaleMessage
+  RemovedIndexResources
 } from './composer'
 import type {
   VueI18n,
@@ -91,11 +89,7 @@ declare module '@vue/runtime-core' {
      */
     $t<
       Key extends string,
-      DefinedLocaleMessage extends RemovedIndexDefineLocaleMessage = RemoveIndexSignature<
-        {
-          [K in keyof DefineLocaleMessage]: DefineLocaleMessage[K]
-        }
-      >,
+      DefinedLocaleMessage extends RemovedIndexResources<DefineLocaleMessage> = RemovedIndexResources<DefineLocaleMessage>,
       Keys = IsEmptyObject<DefinedLocaleMessage> extends false
         ? PickupPaths<
             {
@@ -120,11 +114,7 @@ declare module '@vue/runtime-core' {
      */
     $t<
       Key extends string,
-      DefinedLocaleMessage extends RemovedIndexDefineLocaleMessage = RemoveIndexSignature<
-        {
-          [K in keyof DefineLocaleMessage]: DefineLocaleMessage[K]
-        }
-      >,
+      DefinedLocaleMessage extends RemovedIndexResources<DefineLocaleMessage> = RemovedIndexResources<DefineLocaleMessage>,
       Keys = IsEmptyObject<DefinedLocaleMessage> extends false
         ? PickupPaths<
             {
@@ -150,11 +140,7 @@ declare module '@vue/runtime-core' {
      */
     $t<
       Key extends string,
-      DefinedLocaleMessage extends RemovedIndexDefineLocaleMessage = RemoveIndexSignature<
-        {
-          [K in keyof DefineLocaleMessage]: DefineLocaleMessage[K]
-        }
-      >,
+      DefinedLocaleMessage extends RemovedIndexResources<DefineLocaleMessage> = RemovedIndexResources<DefineLocaleMessage>,
       Keys = IsEmptyObject<DefinedLocaleMessage> extends false
         ? PickupPaths<
             {
@@ -182,11 +168,7 @@ declare module '@vue/runtime-core' {
      */
     $t<
       Key extends string,
-      DefinedLocaleMessage extends RemovedIndexDefineLocaleMessage = RemoveIndexSignature<
-        {
-          [K in keyof DefineLocaleMessage]: DefineLocaleMessage[K]
-        }
-      >,
+      DefinedLocaleMessage extends RemovedIndexResources<DefineLocaleMessage> = RemovedIndexResources<DefineLocaleMessage>,
       Keys = IsEmptyObject<DefinedLocaleMessage> extends false
         ? PickupPaths<
             {
@@ -213,11 +195,7 @@ declare module '@vue/runtime-core' {
      */
     $t<
       Key extends string,
-      DefinedLocaleMessage extends RemovedIndexDefineLocaleMessage = RemoveIndexSignature<
-        {
-          [K in keyof DefineLocaleMessage]: DefineLocaleMessage[K]
-        }
-      >,
+      DefinedLocaleMessage extends RemovedIndexResources<DefineLocaleMessage> = RemovedIndexResources<DefineLocaleMessage>,
       Keys = IsEmptyObject<DefinedLocaleMessage> extends false
         ? PickupPaths<
             {
@@ -243,11 +221,7 @@ declare module '@vue/runtime-core' {
      */
     $t<
       Key extends string,
-      DefinedLocaleMessage extends RemovedIndexDefineLocaleMessage = RemoveIndexSignature<
-        {
-          [K in keyof DefineLocaleMessage]: DefineLocaleMessage[K]
-        }
-      >,
+      DefinedLocaleMessage extends RemovedIndexResources<DefineLocaleMessage> = RemovedIndexResources<DefineLocaleMessage>,
       Keys = IsEmptyObject<DefinedLocaleMessage> extends false
         ? PickupPaths<
             {
@@ -272,11 +246,7 @@ declare module '@vue/runtime-core' {
      */
     $t<
       Key extends string,
-      DefinedLocaleMessage extends RemovedIndexDefineLocaleMessage = RemoveIndexSignature<
-        {
-          [K in keyof DefineLocaleMessage]: DefineLocaleMessage[K]
-        }
-      >,
+      DefinedLocaleMessage extends RemovedIndexResources<DefineLocaleMessage> = RemovedIndexResources<DefineLocaleMessage>,
       Keys = IsEmptyObject<DefinedLocaleMessage> extends false
         ? PickupPaths<
             {
@@ -301,11 +271,7 @@ declare module '@vue/runtime-core' {
      */
     $t<
       Key extends string,
-      DefinedLocaleMessage extends RemovedIndexDefineLocaleMessage = RemoveIndexSignature<
-        {
-          [K in keyof DefineLocaleMessage]: DefineLocaleMessage[K]
-        }
-      >,
+      DefinedLocaleMessage extends RemovedIndexResources<DefineLocaleMessage> = RemovedIndexResources<DefineLocaleMessage>,
       Keys = IsEmptyObject<DefinedLocaleMessage> extends false
         ? PickupPaths<
             {
@@ -332,11 +298,7 @@ declare module '@vue/runtime-core' {
      */
     $t<
       Key extends string,
-      DefinedLocaleMessage extends RemovedIndexDefineLocaleMessage = RemoveIndexSignature<
-        {
-          [K in keyof DefineLocaleMessage]: DefineLocaleMessage[K]
-        }
-      >,
+      DefinedLocaleMessage extends RemovedIndexResources<DefineLocaleMessage> = RemovedIndexResources<DefineLocaleMessage>,
       Keys = IsEmptyObject<DefinedLocaleMessage> extends false
         ? PickupPaths<
             {
@@ -363,11 +325,7 @@ declare module '@vue/runtime-core' {
      */
     $t<
       Key extends string,
-      DefinedLocaleMessage extends RemovedIndexDefineLocaleMessage = RemoveIndexSignature<
-        {
-          [K in keyof DefineLocaleMessage]: DefineLocaleMessage[K]
-        }
-      >,
+      DefinedLocaleMessage extends RemovedIndexResources<DefineLocaleMessage> = RemovedIndexResources<DefineLocaleMessage>,
       Keys = IsEmptyObject<DefinedLocaleMessage> extends false
         ? PickupPaths<
             {
@@ -394,11 +352,7 @@ declare module '@vue/runtime-core' {
      */
     $t<
       Key extends string,
-      DefinedLocaleMessage extends RemovedIndexDefineLocaleMessage = RemoveIndexSignature<
-        {
-          [K in keyof DefineLocaleMessage]: DefineLocaleMessage[K]
-        }
-      >,
+      DefinedLocaleMessage extends RemovedIndexResources<DefineLocaleMessage> = RemovedIndexResources<DefineLocaleMessage>,
       Keys = IsEmptyObject<DefinedLocaleMessage> extends false
         ? PickupPaths<
             {
@@ -425,11 +379,7 @@ declare module '@vue/runtime-core' {
      */
     $t<
       Key extends string,
-      DefinedLocaleMessage extends RemovedIndexDefineLocaleMessage = RemoveIndexSignature<
-        {
-          [K in keyof DefineLocaleMessage]: DefineLocaleMessage[K]
-        }
-      >,
+      DefinedLocaleMessage extends RemovedIndexResources<DefineLocaleMessage> = RemovedIndexResources<DefineLocaleMessage>,
       Keys = IsEmptyObject<DefinedLocaleMessage> extends false
         ? PickupPaths<
             {
@@ -456,11 +406,7 @@ declare module '@vue/runtime-core' {
      */
     $t<
       Key extends string,
-      DefinedLocaleMessage extends RemovedIndexDefineLocaleMessage = RemoveIndexSignature<
-        {
-          [K in keyof DefineLocaleMessage]: DefineLocaleMessage[K]
-        }
-      >,
+      DefinedLocaleMessage extends RemovedIndexResources<DefineLocaleMessage> = RemovedIndexResources<DefineLocaleMessage>,
       Keys = IsEmptyObject<DefinedLocaleMessage> extends false
         ? PickupPaths<
             {
@@ -488,11 +434,7 @@ declare module '@vue/runtime-core' {
      */
     $t<
       Key extends string,
-      DefinedLocaleMessage extends RemovedIndexDefineLocaleMessage = RemoveIndexSignature<
-        {
-          [K in keyof DefineLocaleMessage]: DefineLocaleMessage[K]
-        }
-      >,
+      DefinedLocaleMessage extends RemovedIndexResources<DefineLocaleMessage> = RemovedIndexResources<DefineLocaleMessage>,
       Keys = IsEmptyObject<DefinedLocaleMessage> extends false
         ? PickupPaths<
             {
@@ -520,11 +462,7 @@ declare module '@vue/runtime-core' {
      */
     $t<
       Key extends string,
-      DefinedLocaleMessage extends RemovedIndexDefineLocaleMessage = RemoveIndexSignature<
-        {
-          [K in keyof DefineLocaleMessage]: DefineLocaleMessage[K]
-        }
-      >,
+      DefinedLocaleMessage extends RemovedIndexResources<DefineLocaleMessage> = RemovedIndexResources<DefineLocaleMessage>,
       Keys = IsEmptyObject<DefinedLocaleMessage> extends false
         ? PickupPaths<
             {
@@ -551,11 +489,7 @@ declare module '@vue/runtime-core' {
      */
     $t<
       Key extends string,
-      DefinedLocaleMessage extends RemovedIndexDefineLocaleMessage = RemoveIndexSignature<
-        {
-          [K in keyof DefineLocaleMessage]: DefineLocaleMessage[K]
-        }
-      >,
+      DefinedLocaleMessage extends RemovedIndexResources<DefineLocaleMessage> = RemovedIndexResources<DefineLocaleMessage>,
       Keys = IsEmptyObject<DefinedLocaleMessage> extends false
         ? PickupPaths<
             {
@@ -582,11 +516,7 @@ declare module '@vue/runtime-core' {
      */
     $t<
       Key extends string,
-      DefinedLocaleMessage extends RemovedIndexDefineLocaleMessage = RemoveIndexSignature<
-        {
-          [K in keyof DefineLocaleMessage]: DefineLocaleMessage[K]
-        }
-      >,
+      DefinedLocaleMessage extends RemovedIndexResources<DefineLocaleMessage> = RemovedIndexResources<DefineLocaleMessage>,
       Keys = IsEmptyObject<DefinedLocaleMessage> extends false
         ? PickupPaths<
             {
@@ -614,11 +544,7 @@ declare module '@vue/runtime-core' {
      */
     $t<
       Key extends string,
-      DefinedLocaleMessage extends RemovedIndexDefineLocaleMessage = RemoveIndexSignature<
-        {
-          [K in keyof DefineLocaleMessage]: DefineLocaleMessage[K]
-        }
-      >,
+      DefinedLocaleMessage extends RemovedIndexResources<DefineLocaleMessage> = RemovedIndexResources<DefineLocaleMessage>,
       Keys = IsEmptyObject<DefinedLocaleMessage> extends false
         ? PickupPaths<
             {
@@ -646,11 +572,7 @@ declare module '@vue/runtime-core' {
      */
     $t<
       Key extends string,
-      DefinedLocaleMessage extends RemovedIndexDefineLocaleMessage = RemoveIndexSignature<
-        {
-          [K in keyof DefineLocaleMessage]: DefineLocaleMessage[K]
-        }
-      >,
+      DefinedLocaleMessage extends RemovedIndexResources<DefineLocaleMessage> = RemovedIndexResources<DefineLocaleMessage>,
       Keys = IsEmptyObject<DefinedLocaleMessage> extends false
         ? PickupPaths<
             {
@@ -747,11 +669,7 @@ declare module '@vue/runtime-core' {
      */
     $tc<
       Key extends string,
-      DefinedLocaleMessage extends RemovedIndexDefineLocaleMessage = RemoveIndexSignature<
-        {
-          [K in keyof DefineLocaleMessage]: DefineLocaleMessage[K]
-        }
-      >,
+      DefinedLocaleMessage extends RemovedIndexResources<DefineLocaleMessage> = RemovedIndexResources<DefineLocaleMessage>,
       Keys = IsEmptyObject<DefinedLocaleMessage> extends false
         ? PickupPaths<
             {
@@ -777,11 +695,7 @@ declare module '@vue/runtime-core' {
      */
     $tc<
       Key extends string,
-      DefinedLocaleMessage extends RemovedIndexDefineLocaleMessage = RemoveIndexSignature<
-        {
-          [K in keyof DefineLocaleMessage]: DefineLocaleMessage[K]
-        }
-      >,
+      DefinedLocaleMessage extends RemovedIndexResources<DefineLocaleMessage> = RemovedIndexResources<DefineLocaleMessage>,
       Keys = IsEmptyObject<DefinedLocaleMessage> extends false
         ? PickupPaths<
             {
@@ -808,11 +722,7 @@ declare module '@vue/runtime-core' {
      */
     $tc<
       Key extends string,
-      DefinedLocaleMessage extends RemovedIndexDefineLocaleMessage = RemoveIndexSignature<
-        {
-          [K in keyof DefineLocaleMessage]: DefineLocaleMessage[K]
-        }
-      >,
+      DefinedLocaleMessage extends RemovedIndexResources<DefineLocaleMessage> = RemovedIndexResources<DefineLocaleMessage>,
       Keys = IsEmptyObject<DefinedLocaleMessage> extends false
         ? PickupPaths<
             {
@@ -840,11 +750,7 @@ declare module '@vue/runtime-core' {
      */
     $tc<
       Key extends string,
-      DefinedLocaleMessage extends RemovedIndexDefineLocaleMessage = RemoveIndexSignature<
-        {
-          [K in keyof DefineLocaleMessage]: DefineLocaleMessage[K]
-        }
-      >,
+      DefinedLocaleMessage extends RemovedIndexResources<DefineLocaleMessage> = RemovedIndexResources<DefineLocaleMessage>,
       Keys = IsEmptyObject<DefinedLocaleMessage> extends false
         ? PickupPaths<
             {
@@ -872,11 +778,7 @@ declare module '@vue/runtime-core' {
      */
     $tc<
       Key extends string,
-      DefinedLocaleMessage extends RemovedIndexDefineLocaleMessage = RemoveIndexSignature<
-        {
-          [K in keyof DefineLocaleMessage]: DefineLocaleMessage[K]
-        }
-      >,
+      DefinedLocaleMessage extends RemovedIndexResources<DefineLocaleMessage> = RemovedIndexResources<DefineLocaleMessage>,
       Keys = IsEmptyObject<DefinedLocaleMessage> extends false
         ? PickupPaths<
             {
@@ -905,11 +807,7 @@ declare module '@vue/runtime-core' {
      */
     $tc<
       Key extends string,
-      DefinedLocaleMessage extends RemovedIndexDefineLocaleMessage = RemoveIndexSignature<
-        {
-          [K in keyof DefineLocaleMessage]: DefineLocaleMessage[K]
-        }
-      >,
+      DefinedLocaleMessage extends RemovedIndexResources<DefineLocaleMessage> = RemovedIndexResources<DefineLocaleMessage>,
       Keys = IsEmptyObject<DefinedLocaleMessage> extends false
         ? PickupPaths<
             {
@@ -939,11 +837,7 @@ declare module '@vue/runtime-core' {
      */
     $tc<
       Key extends string,
-      DefinedLocaleMessage extends RemovedIndexDefineLocaleMessage = RemoveIndexSignature<
-        {
-          [K in keyof DefineLocaleMessage]: DefineLocaleMessage[K]
-        }
-      >,
+      DefinedLocaleMessage extends RemovedIndexResources<DefineLocaleMessage> = RemovedIndexResources<DefineLocaleMessage>,
       Keys = IsEmptyObject<DefinedLocaleMessage> extends false
         ? PickupPaths<
             {
@@ -973,11 +867,7 @@ declare module '@vue/runtime-core' {
      */
     $tc<
       Key extends string,
-      DefinedLocaleMessage extends RemovedIndexDefineLocaleMessage = RemoveIndexSignature<
-        {
-          [K in keyof DefineLocaleMessage]: DefineLocaleMessage[K]
-        }
-      >,
+      DefinedLocaleMessage extends RemovedIndexResources<DefineLocaleMessage> = RemovedIndexResources<DefineLocaleMessage>,
       Keys = IsEmptyObject<DefinedLocaleMessage> extends false
         ? PickupPaths<
             {
@@ -1005,11 +895,7 @@ declare module '@vue/runtime-core' {
      */
     $te<
       Key extends string,
-      DefinedLocaleMessage extends RemovedIndexDefineLocaleMessage = RemoveIndexSignature<
-        {
-          [K in keyof DefineLocaleMessage]: DefineLocaleMessage[K]
-        }
-      >,
+      DefinedLocaleMessage extends RemovedIndexResources<DefineLocaleMessage> = RemovedIndexResources<DefineLocaleMessage>,
       Keys = IsEmptyObject<DefinedLocaleMessage> extends false
         ? PickupPaths<
             {
