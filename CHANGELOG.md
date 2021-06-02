@@ -1,4 +1,13 @@
 
+## v9.2.0-alpha.3 (2021-06-02)
+
+#### :bug: Bug Fixes
+* [#519](https://github.com/intlify/vue-i18n-next/pull/519) fix `d.ts` breaking ([@kazupon](https://github.com/kazupon))
+
+#### Committers: 1
+- kazuya kawaguchi ([@kazupon](https://github.com/kazupon))
+
+
 ## v9.2.0-alpha.2 (2021-06-02)
 
 #### :star: Features
