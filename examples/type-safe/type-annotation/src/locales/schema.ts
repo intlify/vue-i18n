@@ -4,10 +4,10 @@
 
 import enUS from './en-US.json'
 
-// define message schema as master mesage schema
+// define the locale message schema as master
 export type MessageSchema = typeof enUS
 
-// define number format schema
+// define the number format schema
 export type NumberSchema = {
   currency: {
     style: 'currency'

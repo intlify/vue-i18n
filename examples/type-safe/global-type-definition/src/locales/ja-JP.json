@@ -1,0 +1,7 @@
+{
+  "hello": "hello world!",
+  "menu": {
+    "login": "login"
+  },
+  "errors": ["Error!"]
+}
