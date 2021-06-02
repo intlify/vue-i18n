@@ -1,4 +1,23 @@
 
+## v9.2.0-alpha.2 (2021-06-02)
+
+#### :star: Features
+* `core-base`, `vue-i18n`
+  * [#508](https://github.com/intlify/vue-i18n-next/pull/508) feat: global type definition ([@kazupon](https://github.com/kazupon))
+
+#### :bug: Bug Fixes
+* `core-base`
+  * [#515](https://github.com/intlify/vue-i18n-next/pull/515) Closes [#383](https://github.com/intlify/vue-i18n-next/issues/383) ([@PeterAlfredLee](https://github.com/PeterAlfredLee))
+
+#### :boom: Breaking Change
+* `vue-i18n`
+  * [#514](https://github.com/intlify/vue-i18n-next/pull/514) Fix __FEATURE_ESM_BUNDLER_WARN__ flag can not be configured ([@PeterAlfredLee](https://github.com/PeterAlfredLee))
+
+#### Committers: 2
+- Lee ([@PeterAlfredLee](https://github.com/PeterAlfredLee))
+- kazuya kawaguchi ([@kazupon](https://github.com/kazupon))
+
+
 ## v9.2.0-alpha.1 (2021-05-25)
 
 #### :star: Features
