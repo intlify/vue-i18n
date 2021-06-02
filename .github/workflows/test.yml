@@ -5,6 +5,9 @@ on:
       - gh-pages
       - releases/**
   pull_request:
+    branches-ignore:
+      - gh-pages
+      - releases/**
     types:
       - opened
       - synchronize
