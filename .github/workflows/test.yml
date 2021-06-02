@@ -3,14 +3,18 @@ on:
   push:
     branches-ignore:
       - gh-pages
-      - v8.x
+      - releases/**
   pull_request:
+    types:
+      - opened
+      - synchronize
+      - reopened
 env:
   CI: true
 
 jobs:
   test:
-    name: "Test on Node.js ${{ matrix.node }} OS: ${{matrix.os}}"
+    name: 'Test on Node.js ${{ matrix.node }} OS: ${{matrix.os}}'
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
