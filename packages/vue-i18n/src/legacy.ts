@@ -1,5 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { EnableEmitter, DisableEmitter, createComposer } from './composer'
+import {
+  EnableEmitter,
+  DisableEmitter,
+  createComposer,
+  DefineLocaleMessage
+} from './composer'
 import { I18nWarnCodes, getWarnMessage } from './warnings'
 import { createI18nError, I18nErrorCodes } from './errors'
 import {
@@ -36,15 +41,24 @@ import type {
   PickupKeys,
   PickupFormatKeys,
   PickupLocales,
-  ResourcePath,
-  ResourceValue,
   SchemaParams,
   LocaleParams,
-  FallbackLocales
+  RemoveIndexSignature,
+  FallbackLocales,
+  PickupPaths,
+  PickupFormatPathKeys,
+  IsEmptyObject,
+  IsNever
 } from '@intlify/core-base'
 import type { VueDevToolsEmitter } from '@intlify/vue-devtools'
 import type {
   VueMessageType,
+  RemovedIndexResources,
+  DefaultLocaleMessageSchema,
+  DefineDateTimeFormat,
+  DefaultDateTimeFormatSchema,
+  DefineNumberFormat,
+  DefaultNumberFormatSchema,
   MissingHandler,
   Composer,
   ComposerOptions,
@@ -83,15 +97,14 @@ export type ComponentInstanceCreatedListener = <Messages>(
  *  @VueI18nLegacy
  */
 export interface VueI18nOptions<
-  Message = VueMessageType,
   Schema extends {
     message?: unknown
     datetime?: unknown
     number?: unknown
   } = {
-    message: LocaleMessage<Message>
-    datetime: DateTimeFormat
-    number: NumberFormat
+    message: DefaultLocaleMessageSchema
+    datetime: DefaultDateTimeFormatSchema
+    number: DefaultNumberFormatSchema
   },
   Locales extends
     | {
@@ -100,8 +113,7 @@ export interface VueI18nOptions<
         numberFormats: unknown
       }
     | string = Locale,
-  Options extends ComposerOptions<Message, Schema, Locales> = ComposerOptions<
-    Message,
+  Options extends ComposerOptions<Schema, Locales> = ComposerOptions<
     Schema,
     Locales
   >
@@ -401,7 +413,26 @@ export interface VueI18nOptions<
  *
  * @VueI18nLegacy
  */
-export interface VueI18nTranslation<Messages = {}, Locales = 'en-US'> {
+export interface VueI18nTranslation<
+  Messages = {},
+  Locales = 'en-US',
+  DefinedLocaleMessage extends RemovedIndexResources<DefineLocaleMessage> = RemovedIndexResources<DefineLocaleMessage>,
+  C = IsEmptyObject<DefinedLocaleMessage> extends false
+    ? PickupPaths<
+        {
+          [K in keyof DefinedLocaleMessage]: DefinedLocaleMessage[K]
+        }
+      >
+    : never,
+  M = IsEmptyObject<Messages> extends false ? PickupKeys<Messages> : never,
+  ResourceKeys extends C | M = IsNever<C> extends false
+    ? IsNever<M> extends false
+      ? C | M
+      : C
+    : IsNever<M> extends false
+    ? M
+    : never
+> {
   /**
    * Locale message translation.
    *
@@ -418,12 +449,7 @@ export interface VueI18nTranslation<Messages = {}, Locales = 'en-US'> {
    *
    * @VueI18nSee [Scope and Locale Changing](../guide/essentials/scope)
    */
-  <
-    Key extends string,
-    ResourceKeys extends PickupKeys<Messages> = PickupKeys<Messages>
-  >(
-    key: Key | ResourceKeys
-  ): TranslateResult
+  <Key extends string>(key: Key | ResourceKeys): TranslateResult
   /**
    * Locale message translation.
    *
@@ -435,10 +461,7 @@ export interface VueI18nTranslation<Messages = {}, Locales = 'en-US'> {
    *
    * @returns Translated message
    */
-  <
-    Key extends string,
-    ResourceKeys extends PickupKeys<Messages> = PickupKeys<Messages>
-  >(
+  <Key extends string>(
     key: Key | ResourceKeys,
     locale: Locales | Locale
   ): TranslateResult
@@ -456,10 +479,7 @@ export interface VueI18nTranslation<Messages = {}, Locales = 'en-US'> {
    *
    * @VueI18nSee [List interpolation](../guide/essentials/syntax#list-interpolation)
    */
-  <
-    Key extends string,
-    ResourceKeys extends PickupKeys<Messages> = PickupKeys<Messages>
-  >(
+  <Key extends string>(
     key: Key | ResourceKeys,
     locale: Locales | Locale,
     list: unknown[]
@@ -478,10 +498,7 @@ export interface VueI18nTranslation<Messages = {}, Locales = 'en-US'> {
    *
    * @VueI18nSee [Named interpolation](../guide/essentials/syntax#named-interpolation)
    */
-  <
-    Key extends string,
-    ResourceKeys extends PickupKeys<Messages> = PickupKeys<Messages>
-  >(
+  <Key extends string>(
     key: Key | ResourceKeys,
     locale: Locales | Locale,
     named: Record<string, unknown>
@@ -499,10 +516,7 @@ export interface VueI18nTranslation<Messages = {}, Locales = 'en-US'> {
    *
    * @VueI18nSee [List interpolation](../guide/essentials/syntax#list-interpolation)
    */
-  <
-    Key extends string,
-    ResourceKeys extends PickupKeys<Messages> = PickupKeys<Messages>
-  >(
+  <Key extends string>(
     key: Key | ResourceKeys,
     list: unknown[]
   ): TranslateResult
@@ -519,10 +533,7 @@ export interface VueI18nTranslation<Messages = {}, Locales = 'en-US'> {
    *
    * @VueI18nSee [Named interpolation](../guide/essentials/syntax#named-interpolation)
    */
-  <
-    Key extends string,
-    ResourceKeys extends PickupKeys<Messages> = PickupKeys<Messages>
-  >(
+  <Key extends string>(
     key: Key | ResourceKeys,
     named: Record<string, unknown>
   ): TranslateResult
@@ -537,9 +548,8 @@ export interface VueI18nTranslation<Messages = {}, Locales = 'en-US'> {
  * @VueI18nLegacy
  */
 export type VueI18nResolveLocaleMessageTranslation<
-  Message,
   Locales = 'en-US'
-> = ComposerResolveLocaleMessageTranslation<Message, Locales>
+> = ComposerResolveLocaleMessageTranslation<Locales>
 
 /**
  * Locale message pluralization functions for VueI18n legacy interfaces
@@ -549,7 +559,26 @@ export type VueI18nResolveLocaleMessageTranslation<
  *
  * @VueI18nLegacy
  */
-export interface VueI18nTranslationChoice<Messages = {}, Locales = 'en-US'> {
+export interface VueI18nTranslationChoice<
+  Messages = {},
+  Locales = 'en-US',
+  DefinedLocaleMessage extends RemovedIndexResources<DefineLocaleMessage> = RemovedIndexResources<DefineLocaleMessage>,
+  C = IsEmptyObject<DefinedLocaleMessage> extends false
+    ? PickupPaths<
+        {
+          [K in keyof DefinedLocaleMessage]: DefinedLocaleMessage[K]
+        }
+      >
+    : never,
+  M = IsEmptyObject<Messages> extends false ? PickupKeys<Messages> : never,
+  ResourceKeys extends C | M = IsNever<C> extends false
+    ? IsNever<M> extends false
+      ? C | M
+      : C
+    : IsNever<M> extends false
+    ? M
+    : never
+> {
   /**
    * Locale message pluralization
    *
@@ -568,12 +597,7 @@ export interface VueI18nTranslationChoice<Messages = {}, Locales = 'en-US'> {
    *
    * @VueI18nSee [Pluralization](../guide/essentials/pluralization)
    */
-  <
-    Key extends string = string,
-    ResourceKeys extends PickupKeys<Messages> = PickupKeys<Messages>
-  >(
-    key: Key | ResourceKeys
-  ): TranslateResult
+  <Key extends string = string>(key: Key | ResourceKeys): TranslateResult
   /**
    * Locale message pluralization
    *
@@ -585,10 +609,7 @@ export interface VueI18nTranslationChoice<Messages = {}, Locales = 'en-US'> {
    *
    * @returns Pluraled message
    */
-  <
-    Key extends string = string,
-    ResourceKeys extends PickupKeys<Messages> = PickupKeys<Messages>
-  >(
+  <Key extends string = string>(
     key: Key | ResourceKeys,
     locale: Locales | Locale
   ): TranslateResult
@@ -603,10 +624,7 @@ export interface VueI18nTranslationChoice<Messages = {}, Locales = 'en-US'> {
    *
    * @returns Pluraled message
    */
-  <
-    Key extends string,
-    ResourceKeys extends PickupKeys<Messages> = PickupKeys<Messages>
-  >(
+  <Key extends string>(
     key: Key | ResourceKeys,
     list: unknown[]
   ): TranslateResult
@@ -621,10 +639,7 @@ export interface VueI18nTranslationChoice<Messages = {}, Locales = 'en-US'> {
    *
    * @returns Pluraled message
    */
-  <
-    Key extends string,
-    ResourceKeys extends PickupKeys<Messages> = PickupKeys<Messages>
-  >(
+  <Key extends string>(
     key: Key | ResourceKeys,
     named: Record<string, unknown>
   ): TranslateResult
@@ -639,13 +654,7 @@ export interface VueI18nTranslationChoice<Messages = {}, Locales = 'en-US'> {
    *
    * @returns Pluraled message
    */
-  <
-    Key extends string,
-    ResourceKeys extends PickupKeys<Messages> = PickupKeys<Messages>
-  >(
-    key: Key | ResourceKeys,
-    choice: number
-  ): TranslateResult
+  <Key extends string>(key: Key | ResourceKeys, choice: number): TranslateResult
   /**
    * Locale message pluralization
    *
@@ -658,10 +667,7 @@ export interface VueI18nTranslationChoice<Messages = {}, Locales = 'en-US'> {
    *
    * @returns Pluraled message
    */
-  <
-    Key extends string,
-    ResourceKeys extends PickupKeys<Messages> = PickupKeys<Messages>
-  >(
+  <Key extends string>(
     key: Key | ResourceKeys,
     choice: number,
     locale: Locales | Locale
@@ -678,10 +684,7 @@ export interface VueI18nTranslationChoice<Messages = {}, Locales = 'en-US'> {
    *
    * @returns Pluraled message
    */
-  <
-    Key extends string,
-    ResourceKeys extends PickupKeys<Messages> = PickupKeys<Messages>
-  >(
+  <Key extends string>(
     key: Key | ResourceKeys,
     choice: number,
     list: unknown[]
@@ -698,10 +701,7 @@ export interface VueI18nTranslationChoice<Messages = {}, Locales = 'en-US'> {
    *
    * @returns Pluraled message
    */
-  <
-    Key extends string,
-    ResourceKeys extends PickupKeys<Messages> = PickupKeys<Messages>
-  >(
+  <Key extends string>(
     key: Key | ResourceKeys,
     choice: number,
     named: Record<string, unknown>
@@ -718,7 +718,25 @@ export interface VueI18nTranslationChoice<Messages = {}, Locales = 'en-US'> {
  */
 export interface VueI18nDateTimeFormatting<
   DateTimeFormats = {},
-  Locales = 'en-US'
+  Locales = 'en-US',
+  DefinedDateTimeFormat extends RemovedIndexResources<DefineDateTimeFormat> = RemovedIndexResources<DefineDateTimeFormat>,
+  C = IsEmptyObject<DefinedDateTimeFormat> extends false
+    ? PickupFormatPathKeys<
+        {
+          [K in keyof DefinedDateTimeFormat]: DefinedDateTimeFormat[K]
+        }
+      >
+    : never,
+  M = IsEmptyObject<DateTimeFormats> extends false
+    ? PickupFormatKeys<DateTimeFormats>
+    : never,
+  ResourceKeys extends C | M = IsNever<C> extends false
+    ? IsNever<M> extends false
+      ? C | M
+      : C
+    : IsNever<M> extends false
+    ? M
+    : never
 > {
   /**
    * Datetime formatting
@@ -748,11 +766,7 @@ export interface VueI18nDateTimeFormatting<
    *
    * @returns Formatted value
    */
-  <
-    Value extends number | Date = number,
-    Key extends string = string,
-    ResourceKeys extends PickupFormatKeys<DateTimeFormats> = PickupFormatKeys<DateTimeFormats>
-  >(
+  <Value extends number | Date = number, Key extends string = string>(
     value: Value,
     key: Key | ResourceKeys
   ): DateTimeFormatResult
@@ -768,11 +782,7 @@ export interface VueI18nDateTimeFormatting<
    *
    * @returns Formatted value
    */
-  <
-    Value extends number | Date = number,
-    Key extends string = string,
-    ResourceKeys extends PickupFormatKeys<DateTimeFormats> = PickupFormatKeys<DateTimeFormats>
-  >(
+  <Value extends number | Date = number, Key extends string = string>(
     value: Value,
     key: Key | ResourceKeys,
     locale: Locales
@@ -801,7 +811,25 @@ export interface VueI18nDateTimeFormatting<
  */
 export interface VueI18nNumberFormatting<
   NumberFormats = {},
-  Locales = 'en-US'
+  Locales = 'en-US',
+  DefinedNumberFormat extends RemovedIndexResources<DefineNumberFormat> = RemovedIndexResources<DefineNumberFormat>,
+  C = IsEmptyObject<DefinedNumberFormat> extends false
+    ? PickupFormatPathKeys<
+        {
+          [K in keyof DefinedNumberFormat]: DefinedNumberFormat[K]
+        }
+      >
+    : never,
+  M = IsEmptyObject<NumberFormats> extends false
+    ? PickupFormatKeys<NumberFormats>
+    : never,
+  ResourceKeys extends C | M = IsNever<C> extends false
+    ? IsNever<M> extends false
+      ? C | M
+      : C
+    : IsNever<M> extends false
+    ? M
+    : never
 > {
   /**
    * Number formatting
@@ -831,10 +859,7 @@ export interface VueI18nNumberFormatting<
    *
    * @returns Formatted value
    */
-  <
-    Key extends string = string,
-    ResourceKeys extends PickupFormatKeys<NumberFormats> = PickupFormatKeys<NumberFormats>
-  >(
+  <Key extends string = string>(
     value: number,
     key: Key | ResourceKeys
   ): NumberFormatResult
@@ -850,10 +875,7 @@ export interface VueI18nNumberFormatting<
    *
    * @returns Formatted value
    */
-  <
-    Key extends string = string,
-    ResourceKeys extends PickupFormatKeys<NumberFormats> = PickupFormatKeys<NumberFormats>
-  >(
+  <Key extends string = string>(
     value: number,
     key: Key | ResourceKeys,
     locale: Locales
@@ -881,7 +903,6 @@ export interface VueI18nNumberFormatting<
  *  @VueI18nLegacy
  */
 export interface VueI18n<
-  Message = VueMessageType,
   Messages = {},
   DateTimeFormats = {},
   NumberFormats = {},
@@ -896,11 +917,11 @@ export interface VueI18n<
       : ResourceLocales
     : OptionLocale | ResourceLocales,
   Composition extends Composer<
-    Message,
     Messages,
     DateTimeFormats,
-    NumberFormats
-  > = Composer<Message, Messages, DateTimeFormats, NumberFormats>
+    NumberFormats,
+    OptionLocale
+  > = Composer<Messages, DateTimeFormats, NumberFormats, OptionLocale>
 > {
   /**
    * @remarks
@@ -973,7 +994,7 @@ export interface VueI18n<
    * @remarks
    * A handler for post processing of translation.
    */
-  postTranslation: PostTranslationHandler<Message> | null
+  postTranslation: PostTranslationHandler<VueMessageType> | null
   /**
    * @remarks
    * Whether suppress warnings outputted when localization fails.
@@ -1043,21 +1064,37 @@ export interface VueI18n<
    * @remarks
    * About details functions, See the {@link VueI18nTranslation}
    */
-  t: VueI18nTranslation<Messages, Locales>
+  t: VueI18nTranslation<
+    Messages,
+    Locales,
+    RemoveIndexSignature<
+      {
+        [K in keyof DefineLocaleMessage]: DefineLocaleMessage[K]
+      }
+    >
+  >
   /**
    * Resolve locale message translation
    *
    * @remarks
    * About details functions, See the {@link VueI18nResolveLocaleMessageTranslation}
    */
-  rt: VueI18nResolveLocaleMessageTranslation<Message, Locales>
+  rt: VueI18nResolveLocaleMessageTranslation<Locales>
   /**
    * Locale message pluralization
    *
    * @remarks
    * About details functions, See the {@link VueI18nTranslationChoice}
    */
-  tc: VueI18nTranslationChoice<Messages, Locales>
+  tc: VueI18nTranslationChoice<
+    Messages,
+    Locales,
+    RemoveIndexSignature<
+      {
+        [K in keyof DefineLocaleMessage]: DefineLocaleMessage[K]
+      }
+    >
+  >
   /**
    * Translation locale message exist
    *
@@ -1132,19 +1169,7 @@ export interface VueI18n<
    *
    * @return Locale messages
    */
-  tm<
-    Key extends string,
-    ResourceKeys extends PickupKeys<Messages> = PickupKeys<Messages>,
-    Locale extends PickupLocales<NonNullable<Messages>> = PickupLocales<
-      NonNullable<Messages>
-    >,
-    Target = NonNullable<Messages>[Locale],
-    Return = ResourceKeys extends ResourcePath<Target>
-      ? ResourceValue<Target, ResourceKeys>
-      : Record<string, any>
-  >(
-    key: Key | ResourceKeys
-  ): Return
+  tm: Composition['tm']
   /**
    * Get locale message
    *
@@ -1153,22 +1178,9 @@ export interface VueI18n<
    *
    * @param locale - A target locale
    *
-   * @typeParam MessageSchema - The locale message schema, default `never`
-   *
    * @returns Locale messages
    */
-  getLocaleMessage<
-    MessageSchema extends LocaleMessage<Message> = never,
-    LocaleSchema extends string = string,
-    Locale extends PickupLocales<NonNullable<Messages>> = PickupLocales<
-      NonNullable<Messages>
-    >,
-    Return = [MessageSchema] extends [never]
-      ? NonNullable<Messages>[Locale]
-      : MessageSchema
-  >(
-    locale: LocaleSchema | Locale
-  ): Return
+  getLocaleMessage: Composition['getLocaleMessage']
   /**
    * Set locale message
    *
@@ -1177,22 +1189,8 @@ export interface VueI18n<
    *
    * @param locale - A target locale
    * @param message - A message
-   *
-   * @typeParam MessageSchema - The locale message schema, default `never`
    */
-  setLocaleMessage<
-    MessageSchema extends LocaleMessage<Message> = never,
-    LocaleSchema extends string = string,
-    Locale extends PickupLocales<NonNullable<Messages>> = PickupLocales<
-      NonNullable<Messages>
-    >,
-    Message = [MessageSchema] extends [never]
-      ? NonNullable<Messages>[Locale]
-      : MessageSchema
-  >(
-    locale: LocaleSchema | Locale,
-    message: Message
-  ): void
+  setLocaleMessage: Composition['setLocaleMessage']
   /**
    * Merge locale message
    *
@@ -1201,29 +1199,23 @@ export interface VueI18n<
    *
    * @param locale - A target locale
    * @param message - A message
-   *
-   * @typeParam MessageSchema - The locale message schema, default `never`
    */
-  mergeLocaleMessage<
-    MessageSchema extends LocaleMessage<Message> = never,
-    LocaleSchema extends string = string,
-    Locale extends PickupLocales<NonNullable<Messages>> = PickupLocales<
-      NonNullable<Messages>
-    >,
-    Message = [MessageSchema] extends [never]
-      ? Record<string, any>
-      : MessageSchema
-  >(
-    locale: LocaleSchema | Locale,
-    message: Message
-  ): void
+  mergeLocaleMessage: Composition['mergeLocaleMessage']
   /**
    * Datetime formatting
    *
    * @remarks
    * About details functions, See the {@link VueI18nDateTimeFormatting}
    */
-  d: VueI18nDateTimeFormatting<DateTimeFormats, Locales>
+  d: VueI18nDateTimeFormatting<
+    DateTimeFormats,
+    Locales,
+    RemoveIndexSignature<
+      {
+        [K in keyof DefineDateTimeFormat]: DefineDateTimeFormat[K]
+      }
+    >
+  >
   /**
    * Get datetime format
    *
@@ -1232,22 +1224,9 @@ export interface VueI18n<
    *
    * @param locale - A target locale
    *
-   * @typeParam DateTimeSchema - The datetime format schema, default `never`
-   *
    * @returns Datetime format
    */
-  getDateTimeFormat<
-    DateTimeSchema extends Record<string, any> = never,
-    LocaleSchema extends string = string,
-    Locale extends PickupLocales<NonNullable<DateTimeFormats>> = PickupLocales<
-      NonNullable<DateTimeFormats>
-    >,
-    Return = [DateTimeSchema] extends [never]
-      ? NonNullable<DateTimeFormats>[Locale]
-      : DateTimeSchema
-  >(
-    locale: LocaleSchema | Locale
-  ): Return
+  getDateTimeFormat: Composition['getDateTimeFormat']
   /**
    * Set datetime format
    *
@@ -1256,22 +1235,8 @@ export interface VueI18n<
    *
    * @param locale - A target locale
    * @param format - A target datetime format
-   *
-   * @typeParam DateTimeSchema - The datetime format schema, default `never`
    */
-  setDateTimeFormat<
-    DateTimeSchema extends Record<string, any> = never,
-    LocaleSchema extends string = string,
-    Locale extends PickupLocales<NonNullable<DateTimeFormats>> = PickupLocales<
-      NonNullable<DateTimeFormats>
-    >,
-    Formats = [DateTimeSchema] extends [never]
-      ? NonNullable<DateTimeFormats>[Locale]
-      : DateTimeSchema
-  >(
-    locale: LocaleSchema | Locale,
-    format: Formats
-  ): void
+  setDateTimeFormat: Composition['setDateTimeFormat']
   /**
    * Merge datetime format
    *
@@ -1280,29 +1245,23 @@ export interface VueI18n<
    *
    * @param locale - A target locale
    * @param format - A target datetime format
-   *
-   * @typeParam DateTimeSchema - The datetime format schema, default `never`
    */
-  mergeDateTimeFormat<
-    DateTimeSchema extends Record<string, any> = never,
-    LocaleSchema extends string = string,
-    Locale extends PickupLocales<NonNullable<DateTimeFormats>> = PickupLocales<
-      NonNullable<DateTimeFormats>
-    >,
-    Formats = [DateTimeSchema] extends [never]
-      ? Record<string, any>
-      : DateTimeSchema
-  >(
-    locale: LocaleSchema | Locale,
-    format: Formats
-  ): void
+  mergeDateTimeFormat: Composition['mergeDateTimeFormat']
   /**
    * Number Formatting
    *
    * @remarks
    * About details functions, See the {@link VueI18nNumberFormatting}
    */
-  n: VueI18nNumberFormatting<NumberFormats, Locales>
+  n: VueI18nNumberFormatting<
+    NumberFormats,
+    Locales,
+    RemoveIndexSignature<
+      {
+        [K in keyof DefineNumberFormat]: DefineNumberFormat[K]
+      }
+    >
+  >
   /**
    * Get number format
    *
@@ -1311,22 +1270,9 @@ export interface VueI18n<
    *
    * @param locale - A target locale
    *
-   * @typeParam NumberSchema - The number format schema, default `never`
-   *
    * @returns Number format
    */
-  getNumberFormat<
-    NumberSchema extends Record<string, any> = never,
-    LocaleSchema extends string = string,
-    Locale extends PickupLocales<NonNullable<NumberFormats>> = PickupLocales<
-      NonNullable<NumberFormats>
-    >,
-    Return = [NumberSchema] extends [never]
-      ? NonNullable<NumberFormats>[Locale]
-      : NumberSchema
-  >(
-    locale: LocaleSchema | Locale
-  ): Return
+  getNumberFormat: Composition['getNumberFormat']
   /**
    * Set number format
    *
@@ -1335,22 +1281,8 @@ export interface VueI18n<
    *
    * @param locale - A target locale
    * @param format - A target number format
-   *
-   * @typeParam NumberSchema - The number format schema, default `never`
    */
-  setNumberFormat<
-    NumberSchema extends Record<string, any> = never,
-    LocaleSchema extends string = string,
-    Locale extends PickupLocales<NonNullable<NumberFormats>> = PickupLocales<
-      NonNullable<NumberFormats>
-    >,
-    Formats = [NumberSchema] extends [never]
-      ? NonNullable<NumberFormats>[Locale]
-      : NumberSchema
-  >(
-    locale: LocaleSchema | Locale,
-    format: Formats
-  ): void
+  setNumberFormat: Composition['setNumberFormat']
   /**
    * Merge number format
    *
@@ -1359,22 +1291,8 @@ export interface VueI18n<
    *
    * @param locale - A target locale
    * @param format - A target number format
-   *
-   * @typeParam NumberSchema - The number format schema, default `never`
    */
-  mergeNumberFormat<
-    NumberSchema extends Record<string, any> = never,
-    LocaleSchema extends string = string,
-    Locale extends PickupLocales<NonNullable<NumberFormats>> = PickupLocales<
-      NonNullable<NumberFormats>
-    >,
-    Formats = [NumberSchema] extends [never]
-      ? Record<string, any>
-      : NumberSchema
-  >(
-    locale: LocaleSchema | Locale,
-    format: Formats
-  ): void
+  mergeNumberFormat: Composition['mergeNumberFormat']
   /**
    * Get choice index
    *
@@ -1390,14 +1308,13 @@ export interface VueI18n<
  * @internal
  */
 export interface VueI18nInternal<
-  Message = VueMessageType,
   Messages = {},
   DateTimeFormats = {},
   NumberFormats = {}
 > {
-  __composer: Composer<Message, Messages, DateTimeFormats, NumberFormats>
+  __composer: Composer<Messages, DateTimeFormats, NumberFormats>
   __onComponentInstanceCreated(
-    target: VueI18n<Message, Messages, DateTimeFormats, NumberFormats>
+    target: VueI18n<Messages, DateTimeFormats, NumberFormats>
   ): void
   __enableEmitter?: (emitter: VueDevToolsEmitter) => void
   __disableEmitter?: () => void
@@ -1409,15 +1326,14 @@ export interface VueI18nInternal<
  * @internal
  */
 function convertComposerOptions<
-  Message = VueMessageType,
   Messages = {},
   DateTimeFormats = {},
   NumberFormats = {}
 >(
-  options: VueI18nOptions<Message> &
-    ComposerInternalOptions<Message, Messages, DateTimeFormats, NumberFormats>
-): ComposerOptions<Message> &
-  ComposerInternalOptions<Message, Messages, DateTimeFormats, NumberFormats> {
+  options: VueI18nOptions &
+    ComposerInternalOptions<Messages, DateTimeFormats, NumberFormats>
+): ComposerOptions &
+  ComposerInternalOptions<Messages, DateTimeFormats, NumberFormats> {
   const locale = isString(options.locale) ? options.locale : 'en-US'
   const fallbackLocale =
     isString(options.fallbackLocale) ||
@@ -1468,7 +1384,7 @@ function convertComposerOptions<
       const message = messages[locale] || (messages[locale] = {})
       assign(message, sharedMessages[locale])
       return messages
-    }, (messages || {}) as LocaleMessages<LocaleMessage<Message>>)
+    }, (messages || {}) as LocaleMessages<LocaleMessage<VueMessageType>>)
   }
   const { __i18n, __root } = options
 
@@ -1501,8 +1417,7 @@ function convertComposerOptions<
 }
 
 export function createVueI18n<
-  Message = VueMessageType,
-  Options extends VueI18nOptions<Message> = VueI18nOptions<Message>,
+  Options extends VueI18nOptions = VueI18nOptions,
   Messages = Options['messages'] extends object ? Options['messages'] : {},
   DateTimeFormats = Options['datetimeFormats'] extends object
     ? Options['datetimeFormats']
@@ -1510,19 +1425,16 @@ export function createVueI18n<
   NumberFormats = Options['numberFormats'] extends object
     ? Options['numberFormats']
     : {}
->(options?: Options): VueI18n<Message, Messages, DateTimeFormats, NumberFormats>
+>(options?: Options): VueI18n<Messages, DateTimeFormats, NumberFormats>
 
 export function createVueI18n<
-  Schema = LocaleMessage,
-  Locales = 'en-US',
-  Message = VueMessageType,
+  Schema extends object = DefaultLocaleMessageSchema,
+  Locales extends string | object = 'en-US',
   Options extends VueI18nOptions<
-    Message,
-    SchemaParams<Schema, Message>,
+    SchemaParams<Schema, VueMessageType>,
     LocaleParams<Locales>
   > = VueI18nOptions<
-    Message,
-    SchemaParams<Schema, Message>,
+    SchemaParams<Schema, VueMessageType>,
     LocaleParams<Locales>
   >,
   Messages = Options['messages'] extends object ? Options['messages'] : {},
@@ -1532,19 +1444,16 @@ export function createVueI18n<
   NumberFormats = Options['numberFormats'] extends object
     ? Options['numberFormats']
     : {}
->(options?: Options): VueI18n<Message, Messages, DateTimeFormats, NumberFormats>
+>(options?: Options): VueI18n<Messages, DateTimeFormats, NumberFormats>
 
 /**
  * create VueI18n interface factory
  *
  * @internal
  */
-export function createVueI18n<Message = VueMessageType>(
-  options: any = {}
-): any {
-  const composer = createComposer<Message>(
-    convertComposerOptions<Message>(options)
-  ) as Composer<Message>
+export function createVueI18n(options: any = {}): any {
+  type Message = VueMessageType
+  const composer = createComposer(convertComposerOptions(options)) as Composer
 
   // defines VueI18n
   const vueI18n = {
@@ -1719,7 +1628,12 @@ export function createVueI18n<Message = VueMessageType>(
         named = arg3 as NamedValue
       }
 
-      return composer.t(key, (list || named || {}) as any, options)
+      // return composer.t(key, (list || named || {}) as any, options)
+      return Reflect.apply(composer.t, composer, [
+        key,
+        (list || named || {}) as any,
+        options
+      ])
     },
 
     rt(...args: unknown[]): TranslateResult {
@@ -1756,7 +1670,12 @@ export function createVueI18n<Message = VueMessageType>(
         named = arg3 as NamedValue
       }
 
-      return composer.t(key, (list || named || {}) as any, options)
+      // return composer.t(key, (list || named || {}) as any, options)
+      return Reflect.apply(composer.t, composer, [
+        key,
+        (list || named || {}) as any,
+        options
+      ])
     },
 
     // te
@@ -1849,13 +1768,13 @@ export function createVueI18n<Message = VueMessageType>(
 
   // for vue-devtools timeline event
   if (__DEV__) {
-    ;(vueI18n as VueI18nInternal<Message>).__enableEmitter = (
+    ;((vueI18n as unknown) as VueI18nInternal).__enableEmitter = (
       emitter: VueDevToolsEmitter
     ): void => {
       const __composer = composer as any
       __composer[EnableEmitter] && __composer[EnableEmitter](emitter)
     }
-    ;(vueI18n as VueI18nInternal<Message>).__disableEmitter = (): void => {
+    ;((vueI18n as unknown) as VueI18nInternal).__disableEmitter = (): void => {
       const __composer = composer as any
       __composer[DisableEmitter] && __composer[DisableEmitter]()
     }

@@ -73,7 +73,6 @@ const strictOptions = {
 expectType<ComposerOptions>(looseOptions)
 expectType<
   ComposerOptions<
-    string,
     SchemaParams<
       {
         message: ResourceSchema
@@ -156,8 +155,8 @@ expectType<typeof looseComposer.datetimeFormats.value['en-US']>(
 expectType<{ long: { hour: string } }>(
   looseComposer.getLocaleMessage<{ long: { hour: string } }>('en-US')
 )
-looseComposer.setDateTimeFormat('en-US', {
-  long: {
+looseComposer.setDateTimeFormat('ja-JP', {
+  short: {
     hour: 'numeric'
   }
 })
@@ -177,8 +176,8 @@ expectType<{ weight: { unit: string } }>(
   looseComposer.getNumberFormat<{ weight: { unit: string } }>('en-US')
 )
 looseComposer.setNumberFormat('en-US', {
-  weight: {
-    unit: 'kiro'
+  currency: {
+    currecy: 'USD'
   }
 })
 looseComposer.setNumberFormat<{ echoes: { act: string } }>('stand', {

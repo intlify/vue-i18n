@@ -32,9 +32,6 @@ import type { ComponentInternalInstance, ComponentOptions, App } from 'vue'
 import type {
   Locale,
   FallbackLocale,
-  LocaleMessage,
-  DateTimeFormat,
-  NumberFormat,
   SchemaParams,
   LocaleParams
 } from '@intlify/core-base'
@@ -44,7 +41,9 @@ import type {
 } from '@intlify/vue-devtools'
 import type {
   VueMessageType,
-  CustomLocaleMessage,
+  DefaultLocaleMessageSchema,
+  DefaultDateTimeFormatSchema,
+  DefaultNumberFormatSchema,
   Composer,
   ComposerOptions,
   ComposerInternalOptions
@@ -74,9 +73,9 @@ export type I18nOptions<
     datetime?: unknown
     number?: unknown
   } = {
-    message: LocaleMessage<VueMessageType>
-    datetime: DateTimeFormat
-    number: NumberFormat
+    message: DefaultLocaleMessageSchema
+    datetime: DefaultDateTimeFormatSchema
+    number: DefaultNumberFormatSchema
   },
   Locales extends
     | {
@@ -84,12 +83,13 @@ export type I18nOptions<
         datetimeFormats: unknown
         numberFormats: unknown
       }
-    | string = Locale
-> = I18nAdditionalOptions &
-  (
-    | ComposerOptions<VueMessageType, Schema, Locales>
-    | VueI18nOptions<VueMessageType, Schema, Locales>
-  )
+    | string = Locale,
+  Options extends
+    | ComposerOptions<Schema, Locales>
+    | VueI18nOptions<Schema, Locales> =
+    | ComposerOptions<Schema, Locales>
+    | VueI18nOptions<Schema, Locales>
+> = I18nAdditionalOptions & Options
 
 /**
  * I18n Additional Options
@@ -168,9 +168,9 @@ export interface I18n<
    * An instance of this property is **global scope***.
    */
   readonly global: Legacy extends true
-    ? VueI18n<VueMessageType, Messages, DateTimeFormats, NumberFormats, OptionLocale>
+    ? VueI18n<Messages, DateTimeFormats, NumberFormats, OptionLocale>
     : Legacy extends false
-      ? Composer<VueMessageType, Messages, DateTimeFormats, NumberFormats, OptionLocale>
+      ? Composer<Messages, DateTimeFormats, NumberFormats, OptionLocale>
       : unknown
   /**
    * Install entry point
@@ -194,56 +194,20 @@ export interface I18nInternal<
 > {
   __instances: Map<
     ComponentInternalInstance,
-    | VueI18n<
-        VueMessageType,
-        Messages,
-        DateTimeFormats,
-        NumberFormats,
-        OptionLocale
-      >
-    | Composer<
-        VueMessageType,
-        Messages,
-        DateTimeFormats,
-        NumberFormats,
-        OptionLocale
-      >
+    | VueI18n<Messages, DateTimeFormats, NumberFormats, OptionLocale>
+    | Composer<Messages, DateTimeFormats, NumberFormats, OptionLocale>
   >
   __getInstance<
     Instance extends
-      | VueI18n<
-          VueMessageType,
-          Messages,
-          DateTimeFormats,
-          NumberFormats,
-          OptionLocale
-        >
-      | Composer<
-          VueMessageType,
-          Messages,
-          DateTimeFormats,
-          NumberFormats,
-          OptionLocale
-        >
+      | VueI18n<Messages, DateTimeFormats, NumberFormats, OptionLocale>
+      | Composer<Messages, DateTimeFormats, NumberFormats, OptionLocale>
   >(
     component: ComponentInternalInstance
   ): Instance | null
   __setInstance<
     Instance extends
-      | VueI18n<
-          VueMessageType,
-          Messages,
-          DateTimeFormats,
-          NumberFormats,
-          OptionLocale
-        >
-      | Composer<
-          VueMessageType,
-          Messages,
-          DateTimeFormats,
-          NumberFormats,
-          OptionLocale
-        >
+      | VueI18n<Messages, DateTimeFormats, NumberFormats, OptionLocale>
+      | Composer<Messages, DateTimeFormats, NumberFormats, OptionLocale>
   >(
     component: ComponentInternalInstance,
     instance: Instance
@@ -277,9 +241,9 @@ export type UseI18nOptions<
     datetime?: unknown
     number?: unknown
   } = {
-    message: LocaleMessage<VueMessageType>
-    datetime: DateTimeFormat
-    number: NumberFormat
+    message: DefaultLocaleMessageSchema
+    datetime: DefaultDateTimeFormatSchema
+    number: DefaultNumberFormatSchema
   },
   Locales extends
     | {
@@ -287,8 +251,12 @@ export type UseI18nOptions<
         datetimeFormats: unknown
         numberFormats: unknown
       }
-    | string = Locale
-> = ComposerAdditionalOptions & ComposerOptions<VueMessageType, Schema, Locales>
+    | string = Locale,
+  Options extends ComposerOptions<Schema, Locales> = ComposerOptions<
+    Schema,
+    Locales
+  >
+> = ComposerAdditionalOptions & Options
 
 /**
  * Composer additional options for `useI18n`
@@ -314,8 +282,7 @@ export function createI18n<
   NumberFormats = Options['numberFormats'] extends object
     ? Options['numberFormats']
     : {},
-  OptionLocale = Options['locale'] extends string ? Options['locale'] : Locale,
-  F = keyof CustomLocaleMessage // eslint-disable-line @typescript-eslint/no-unused-vars
+  OptionLocale = Options['locale'] extends string ? Options['locale'] : Locale
 >(
   options: Options
 ): I18n<Messages, DateTimeFormats, NumberFormats, OptionLocale, Legacy>
@@ -399,8 +366,8 @@ export function createI18n<
  * @VueI18nGeneral
  */
 export function createI18n<
-  Schema = LocaleMessage,
-  Locales = 'en-US',
+  Schema extends object = DefaultLocaleMessageSchema,
+  Locales extends string | object = 'en-US',
   Legacy extends boolean = true,
   Options extends I18nOptions<
     SchemaParams<Schema, VueMessageType>,
@@ -413,8 +380,7 @@ export function createI18n<
   NumberFormats = Options['numberFormats'] extends object
     ? Options['numberFormats']
     : {},
-  OptionLocale = Options['locale'] extends string ? Options['locale'] : Locale,
-  F = keyof CustomLocaleMessage // eslint-disable-line @typescript-eslint/no-unused-vars
+  OptionLocale = Options['locale'] extends string ? Options['locale'] : Locale
 >(
   options: Options
 ): I18n<Messages, DateTimeFormats, NumberFormats, OptionLocale, Legacy>
@@ -519,13 +485,9 @@ export function createI18n(options: any = {}): any {
   return i18n
 }
 
-export function useI18n<
-  Options extends UseI18nOptions = UseI18nOptions,
-  F = keyof CustomLocaleMessage // eslint-disable-line @typescript-eslint/no-unused-vars
->(
+export function useI18n<Options extends UseI18nOptions = UseI18nOptions>(
   options?: Options
 ): Composer<
-  VueMessageType,
   NonNullable<Options['messages']>,
   NonNullable<Options['datetimeFormats']>,
   NonNullable<Options['numberFormats']>,
@@ -586,7 +548,7 @@ export function useI18n<
  * @VueI18nComposition
  */
 export function useI18n<
-  Schema = LocaleMessage,
+  Schema = DefaultLocaleMessageSchema,
   Locales = 'en-US',
   Options extends UseI18nOptions<
     SchemaParams<Schema, VueMessageType>,
@@ -594,12 +556,10 @@ export function useI18n<
   > = UseI18nOptions<
     SchemaParams<Schema, VueMessageType>,
     LocaleParams<Locales>
-  >,
-  F = keyof CustomLocaleMessage // eslint-disable-line @typescript-eslint/no-unused-vars
+  >
 >(
   options?: Options
 ): Composer<
-  VueMessageType,
   NonNullable<Options['messages']>,
   NonNullable<Options['datetimeFormats']>,
   NonNullable<Options['numberFormats']>,
@@ -612,8 +572,7 @@ export function useI18n<
   Messages = NonNullable<Options['messages']>,
   DateTimeFormats = NonNullable<Options['datetimeFormats']>,
   NumberFormats = NonNullable<Options['numberFormats']>,
-  OptionLocale = NonNullable<Options['locale']>,
-  F = keyof CustomLocaleMessage // eslint-disable-line @typescript-eslint/no-unused-vars
+  OptionLocale = NonNullable<Options['locale']>
 >(options: Options = {} as Options) {
   const instance = getCurrentInstance()
   if (instance == null) {
@@ -678,7 +637,6 @@ export function useI18n<
       }
     }
     return global as Composer<
-      VueMessageType,
       Messages,
       DateTimeFormats,
       NumberFormats,
@@ -695,7 +653,6 @@ export function useI18n<
       composer = (global as unknown) as Composer
     }
     return composer as Composer<
-      VueMessageType,
       Messages,
       DateTimeFormats,
       NumberFormats,
@@ -730,7 +687,6 @@ export function useI18n<
   }
 
   return composer as Composer<
-    VueMessageType,
     Messages,
     DateTimeFormats,
     NumberFormats,

@@ -1,5 +1,5 @@
 {
-  "name": "type-safe",
+  "name": "type-annotation",
   "version": "0.0.0",
   "private": true,
   "scripts": {
@@ -9,7 +9,7 @@
   },
   "dependencies": {
     "vue": "^3.0.11",
-    "vue-i18n": "link:../packages/vue-i18n"
+    "vue-i18n": "link:../../packages/vue-i18n"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^1.2.2",

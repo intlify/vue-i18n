@@ -75,7 +75,6 @@ const strictOptions = {
 expectType<VueI18nOptions>(looseOptions)
 expectType<
   VueI18nOptions<
-    string,
     SchemaParams<
       {
         message: ResourceSchema
@@ -150,8 +149,8 @@ looseVueI18n.setLocaleMessage<{ dio: string }>('jojo', { dio: 'dio' })
 looseVueI18n.mergeLocaleMessage('en', {
   bar: 'foo'
 })
-looseVueI18n.setDateTimeFormat('en-US', {
-  long: {
+looseVueI18n.setDateTimeFormat('ja-JP', {
+  short: {
     hour: 'numeric'
   }
 })
@@ -171,8 +170,8 @@ expectType<{ weight: { unit: string } }>(
   looseVueI18n.getNumberFormat<{ weight: { unit: string } }>('en-US')
 )
 looseVueI18n.setNumberFormat('en-US', {
-  weight: {
-    unit: 'kiro'
+  currency: {
+    currecy: 'USD'
   }
 })
 looseVueI18n.setNumberFormat<{ echoes: { act: string } }>('stand', {

@@ -33,7 +33,12 @@ export {
 } from '@intlify/core-base'
 export {
   VueMessageType,
-  CustomLocaleMessage,
+  DefineLocaleMessage,
+  DefaultLocaleMessageSchema,
+  DefineDateTimeFormat,
+  DefaultDateTimeFormatSchema,
+  DefineNumberFormat,
+  DefaultNumberFormatSchema,
   MissingHandler,
   ComposerOptions,
   Composer,
