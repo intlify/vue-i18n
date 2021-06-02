@@ -41,8 +41,6 @@ import type {
   PickupKeys,
   PickupFormatKeys,
   PickupLocales,
-  ResourcePath,
-  ResourceValue,
   SchemaParams,
   LocaleParams,
   RemoveIndexSignature,
