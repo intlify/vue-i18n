@@ -424,7 +424,19 @@ describe('slot reactivity', () => {
             <i18n-t keypath='hello'/>
           </SlotChild>
         </div>
-      `
+      `,
+      created() {
+        // @ts-ignore
+        console.log('child created $t', this.$t)
+      },
+      beforeUnmount() {
+        // @ts-ignore
+        console.log('child beforeUnmount $t', this.$t)
+      },
+      unmounted() {
+        // @ts-ignore
+        console.log('child unmounted $t', this.$t)
+      }
     }
 
     const App = defineComponent({
