@@ -1048,6 +1048,11 @@
   resolved "https://registry.yarnpkg.com/@textlint/ast-node-types/-/ast-node-types-4.4.2.tgz#d3fda5c9086baba04bc75440039ccf18415c8446"
   integrity sha512-m5brKbI7UY/Q8sbIZ7z1KB8ls04nRILshz5fPQ4EZ04jL19qrrUHJR8A6nK3vJ/GelkDWl4I0VDYSAjLEFQV8g==
 
+"@textlint/ast-node-types@^4.4.3":
+  version "4.4.3"
+  resolved "https://registry.yarnpkg.com/@textlint/ast-node-types/-/ast-node-types-4.4.3.tgz#fdba16e8126cddc50f45433ce7f6c55e7829566c"
+  integrity sha512-qi2jjgO6Tn3KNPGnm6B7p6QTEPvY95NFsIAaJuwbulur8iJUEenp1OnoUfiDaC/g2WPPEFkcfXpmnu8XEMFo2A==
+
 "@textlint/ast-tester@^12.0.0":
   version "12.0.0"
   resolved "https://registry.yarnpkg.com/@textlint/ast-tester/-/ast-tester-12.0.0.tgz#3cd4395909ad688f56f47d77a80ec6ba4461837f"
@@ -1303,6 +1308,13 @@
   integrity sha512-bhSrOjW8AFSa/xf6lYZ2akE0j+4O/WEAA2S/R8RrjNMkA5Az2j57mxPNpqMhEeyHDkpzN/coIlqUwgYvcJHv1A==
   dependencies:
     "@textlint/ast-node-types" "^4.4.2"
+
+"@textlint/types@^1.5.5":
+  version "1.5.5"
+  resolved "https://registry.yarnpkg.com/@textlint/types/-/types-1.5.5.tgz#9c82dbcbf4e00116573f05c6739c6c8ec3b35304"
+  integrity sha512-80P6fcqgsG9bP6JgR6W/E/oIx+71pplaicYCvvB4vMIeGk0OnWls4Q21kCpDYmq/C/ABtZ/Gy/Ov/8ExQPeQ7A==
+  dependencies:
+    "@textlint/ast-node-types" "^4.4.3"
 
 "@textlint/types@^12.0.0":
   version "12.0.0"
@@ -1741,10 +1753,10 @@ add-stream@^1.0.0:
   resolved "https://registry.yarnpkg.com/add-stream/-/add-stream-1.0.0.tgz#6a7990437ca736d5e1288db92bd3266d5f5cb2aa"
   integrity sha1-anmQQ3ynNtXhKI25K9MmbV9csqo=
 
-adverb-where@0.0.9:
-  version "0.0.9"
-  resolved "https://registry.yarnpkg.com/adverb-where/-/adverb-where-0.0.9.tgz#09c5cddd8d503b9fe5f76e0b8dc5c70a8f193e34"
-  integrity sha1-CcXN3Y1QO5/l924LjcXHCo8ZPjQ=
+adverb-where@^0.2.2:
+  version "0.2.5"
+  resolved "https://registry.yarnpkg.com/adverb-where/-/adverb-where-0.2.5.tgz#3f818c9afdcc95a5a1c73dede9dcbd6ae6c96984"
+  integrity sha512-JiQe2U1UR8l10jPrXv/PmlDhOLZpsxqjvTp+k6Dm5wYDUULdMZytDRmovkXU8X6V9o0sg0FBdetv3VXHAZZK5Q==
 
 agent-base@5:
   version "5.1.1"
@@ -2878,7 +2890,7 @@ comma-separated-tokens@^1.0.0:
   resolved "https://registry.yarnpkg.com/comma-separated-tokens/-/comma-separated-tokens-1.0.8.tgz#632b80b6117867a158f1080ad498b2fbe7e3f5ea"
   integrity sha512-GHuDRO12Sypu2cV70d1dkA2EUmXHgntrzbpvOB+Qy+49ypNfGgFQIC2fhhXbnyrJRynDCAARsT7Ou0M6hirpfw==
 
-commander@^2.20.0, commander@^2.7.1:
+commander@^2.19.0, commander@^2.20.0, commander@^2.7.1:
   version "2.20.3"
   resolved "https://registry.yarnpkg.com/commander/-/commander-2.20.3.tgz#fd485e84c03eb4881c20722ba48035e8531aeb33"
   integrity sha512-GpVkmM8vF2vQUkj2LvZmD35JxeJOLCwJ9cUkugyk2nuhbv3+mJvpLYYt+0+USMxE+oj+ey/lJEnhZw75x/OMcQ==
@@ -3502,7 +3514,7 @@ dotenv@^8.1.0, dotenv@^8.2.0:
   resolved "https://registry.yarnpkg.com/dotenv/-/dotenv-8.2.0.tgz#97e619259ada750eea3e4ea3e26bceea5424b16a"
   integrity sha512-8sJ78ElpbDJBHNeBzUbUVLsqKdccaa/BXF1uPTw3GrvQTBgrQrtObr2mUrE38vzYd8cEv+m/JBfDLioYcfXoaw==
 
-e-prime@^0.10.2:
+e-prime@^0.10.4:
   version "0.10.4"
   resolved "https://registry.yarnpkg.com/e-prime/-/e-prime-0.10.4.tgz#562f56a50f0def8a6c7a73069fff42b035e569d7"
   integrity sha512-tzBmM2mFSnAq5BuxPSyin6qXb3yMe1wufJN7L7ZPcEWS5S+jI2dhKQEoqHVEcSMMXo/j5lcWpX5jzA6wLSmX6w==
@@ -7378,10 +7390,10 @@ no-case@^3.0.3, no-case@^3.0.4:
     lower-case "^2.0.2"
     tslib "^2.0.3"
 
-no-cliches@^0.1.0:
-  version "0.1.1"
-  resolved "https://registry.yarnpkg.com/no-cliches/-/no-cliches-0.1.1.tgz#c0afaef1011333d72aa3bf85382601ef81ae681c"
-  integrity sha512-mYihjs47X5+N71CN3P+QBrEIBuclIfMMpgWEpkmLqFPvrOXdzokvDlhbLfjdBNZOqYgniaeZC6J1ZCgxFdyvXw==
+no-cliches@^0.3.0:
+  version "0.3.4"
+  resolved "https://registry.yarnpkg.com/no-cliches/-/no-cliches-0.3.4.tgz#506d77e93fa1b19c1ef7afed77800dd79c29cf45"
+  integrity sha512-oUqnng1vhKLaA4GR+OzVbLuZZ7OOguKCtMHxHMiyP8+9mXidKfoCyc030LbAyNI3xcgCHHyitK3Q8wP+w6DwVQ==
 
 node-fetch@^2.6.1:
   version "2.6.1"
@@ -7556,7 +7568,7 @@ object-visit@^1.0.0:
   dependencies:
     isobject "^3.0.0"
 
-object.assign@^4.0.4, object.assign@^4.1.2:
+object.assign@^4.1.2:
   version "4.1.2"
   resolved "https://registry.yarnpkg.com/object.assign/-/object.assign-4.1.2.tgz#0ed54a342eceb37b38ff76eb831a0e788cb63940"
   integrity sha512-ixT2L5THXsApyiUPYKmW+2EHpXXe5Ii3M+f4e+aJFAHao5amFRW6J0OO6c/LU8Be47utCx2GL89hxGB6XSmKuQ==
@@ -9867,6 +9879,16 @@ textlint-rule-helper@^2.0.0, textlint-rule-helper@^2.1.1:
     structured-source "^3.0.2"
     unist-util-visit "^1.1.0"
 
+textlint-rule-helper@^2.2.0:
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/textlint-rule-helper/-/textlint-rule-helper-2.2.0.tgz#30522ba904a03849d57ea3e5ebd5920027cd8da3"
+  integrity sha512-9S5CsgQuQwPjM2wvr4JGdpkLf+pR9gOjedSQFa/Dkrbh+D9MXt1LIR4Jvx1RujKtt2nq42prmEX2q3xOxyUcIQ==
+  dependencies:
+    "@textlint/ast-node-types" "^4.4.3"
+    "@textlint/types" "^1.5.5"
+    structured-source "^3.0.2"
+    unist-util-visit "^1.1.0"
+
 textlint-rule-max-comma@^2.0.0:
   version "2.0.2"
   resolved "https://registry.yarnpkg.com/textlint-rule-max-comma/-/textlint-rule-max-comma-2.0.2.tgz#c204ae840b436d572d5c24e3a3056776992a882b"
@@ -9938,13 +9960,13 @@ textlint-rule-unexpanded-acronym@^1.2.4:
     array-includes "^3.0.3"
     is-capitalized "^1.0.0"
 
-textlint-rule-write-good@^1.6.2:
-  version "1.6.2"
-  resolved "https://registry.yarnpkg.com/textlint-rule-write-good/-/textlint-rule-write-good-1.6.2.tgz#3c79b04091319d4e8be5fb442c596bf500e8493e"
-  integrity sha1-PHmwQJExnU6L5ftELFlr9QDoST4=
+textlint-rule-write-good@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/textlint-rule-write-good/-/textlint-rule-write-good-2.0.0.tgz#16cb9ae7fdf0d99115de9e51586b82e2329395c4"
+  integrity sha512-yvOJavJD+PgyUzvsoLDDzDtgCVBva/HNhEvsFnYVugrWz0qy2hr+/4B4wkzjro4wfPbwz20GQe5h13N4DeUEeA==
   dependencies:
-    textlint-rule-helper "^2.0.0"
-    write-good "^0.11.0"
+    textlint-rule-helper "^2.2.0"
+    write-good "^1.0.8"
 
 textlint-tester@5.0.1:
   version "5.0.1"
@@ -10134,10 +10156,10 @@ to-regex@^3.0.1, to-regex@^3.0.2:
     regex-not "^1.0.2"
     safe-regex "^1.1.0"
 
-too-wordy@^0.1.4:
-  version "0.1.6"
-  resolved "https://registry.yarnpkg.com/too-wordy/-/too-wordy-0.1.6.tgz#97b69de6c28a176871305453f24fc747d434e9a7"
-  integrity sha512-MV5F74YF9+UYsvwXGXTh+5YP3EqH/ivwWfyFE2/YHWQQxm9jDPmkIC23nkN133Ye4nO3HTXmiMcfGqJ5xRPfOA==
+too-wordy@^0.3.1:
+  version "0.3.4"
+  resolved "https://registry.yarnpkg.com/too-wordy/-/too-wordy-0.3.4.tgz#84e67ae376eb697f8f5bae216effdc002b7320f5"
+  integrity sha512-EU+UA4zHc06TkVQaravNNVdqX763/ENTIOKiKlqSJ6WKCPwLxHjvY3d0uEJYaq92iojyHPwD2iaYbZKjdw3icA==
 
 totalist@^1.0.0:
   version "1.1.0"
@@ -10979,17 +11001,17 @@ write-file-atomic@^3.0.0:
     signal-exit "^3.0.2"
     typedarray-to-buffer "^3.1.5"
 
-write-good@^0.11.0:
-  version "0.11.3"
-  resolved "https://registry.yarnpkg.com/write-good/-/write-good-0.11.3.tgz#8eeb5da9a8e155dafb1325d27eba33cb67d24d8c"
-  integrity sha512-fDKIHO5wCzTLCOGNJl1rzzJrZlTIzfZl8msOoJQZzRhYo0X/tFTm4+2B1zTibFYK01Nnd1kLZBjj4xjcFLePNQ==
+write-good@^1.0.8:
+  version "1.0.8"
+  resolved "https://registry.yarnpkg.com/write-good/-/write-good-1.0.8.tgz#e359e833026a83c7cc1e921eb0836d16438c8cc2"
+  integrity sha512-P1Ct7+DNrOcr2JAxDZ3Q5i5sx2LSveu7iLaoUL0A+YiG0GKf0l5+9j3rwMeyh6JeTL1+HfQV1rnwEvzhNIvpFw==
   dependencies:
-    adverb-where "0.0.9"
-    e-prime "^0.10.2"
-    no-cliches "^0.1.0"
-    object.assign "^4.0.4"
+    adverb-where "^0.2.2"
+    commander "^2.19.0"
+    e-prime "^0.10.4"
+    no-cliches "^0.3.0"
     passive-voice "^0.1.0"
-    too-wordy "^0.1.4"
+    too-wordy "^0.3.1"
     weasel-words "^0.1.1"
 
 write@1.0.3:
