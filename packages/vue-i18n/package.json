@@ -38,7 +38,7 @@
     "@intlify/core-base": "9.2.0-alpha.3",
     "@intlify/shared": "9.2.0-alpha.3",
     "@intlify/vue-devtools": "9.2.0-alpha.3",
-    "@vue/devtools-api": "^6.0.0-beta.8"
+    "@vue/devtools-api": "^6.0.0-beta.13"
   },
   "devDependencies": {
     "@intlify/devtools-if": "9.2.0-alpha.3"
