@@ -128,7 +128,7 @@
     "yarn-deduplicate": "^3.1.0"
   },
   "engines": {
-    "node": ">= 10"
+    "node": ">= 12"
   },
   "private": true,
   "changelog": {
