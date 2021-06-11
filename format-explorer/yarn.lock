@@ -22,21 +22,21 @@
     to-fast-properties "^2.0.0"
 
 "@intlify/message-compiler@link:../packages/message-compiler":
-  version "9.1.6"
+  version "9.2.0-alpha.3"
   dependencies:
-    "@intlify/message-resolver" "9.1.6"
-    "@intlify/shared" "9.1.6"
+    "@intlify/message-resolver" "9.2.0-alpha.3"
+    "@intlify/shared" "9.2.0-alpha.3"
     source-map "0.6.1"
 
-"@intlify/message-resolver@9.1.6":
-  version "9.1.6"
-  resolved "https://registry.yarnpkg.com/@intlify/message-resolver/-/message-resolver-9.1.6.tgz#d7493c9f326d5feb0cd8538a6735b648a91d8f2f"
-  integrity sha512-UUnbawQa5U9sffd5wRIscqtyY1xWlwJbyfwCLPEWLvBhyAnCwPYlvaHGnnO0CSi0fzJTVwlV9DYzobh3agDeMA==
+"@intlify/message-resolver@9.2.0-alpha.3":
+  version "9.2.0-alpha.3"
+  resolved "https://registry.yarnpkg.com/@intlify/message-resolver/-/message-resolver-9.2.0-alpha.3.tgz#e5de29bcc27897357fdf4de013b416609af409f3"
+  integrity sha512-d9u40BMj8fIRNgx8TdM3MOBAtOXrt1aBlD8JKSEAH/6YOZl0ytZuDliKFqs56bZtAyGgIUvbcoBBdd1WfxVX/w==
 
-"@intlify/shared@9.1.6":
-  version "9.1.6"
-  resolved "https://registry.yarnpkg.com/@intlify/shared/-/shared-9.1.6.tgz#d03c9301898d6ddffe2a54c03e7664174fbcdfd9"
-  integrity sha512-6MtsKulyfZxdD7OuxjaODjj8QWoHCnLFAk4wkWiHqBCa6UCTC0qXjtEeZ1MxpQihvFmmJZauBUu25EvtngW5qQ==
+"@intlify/shared@9.2.0-alpha.3":
+  version "9.2.0-alpha.3"
+  resolved "https://registry.yarnpkg.com/@intlify/shared/-/shared-9.2.0-alpha.3.tgz#36d629a8ed1953fa142c57aa33ccc61911a4cb97"
+  integrity sha512-WNT3sr6hpL6EyexRXTha8cMI4QRmk29eOw2s79OzahIIztlaDakHtufpFBVHaPj1HwPd0/MeFiOkqbhk1PKKdQ==
 
 "@types/eslint-scope@^3.7.0":
   version "3.7.0"
@@ -2418,10 +2418,10 @@ mkdirp@^0.5.1, mkdirp@^0.5.5:
   dependencies:
     minimist "^1.2.5"
 
-monaco-editor-webpack-plugin@^3.0.0:
-  version "3.0.0"
-  resolved "https://registry.yarnpkg.com/monaco-editor-webpack-plugin/-/monaco-editor-webpack-plugin-3.0.0.tgz#47a1c16e990d743572f47b0a1abb6de36bbc4afb"
-  integrity sha512-oPuYInTZIT5ctj8gjx7VEzxZFjcIBJXazVOaF6wJ/TPCldF0Lb/58jEeKTERXr4nr1Yobgx2tVfKcfkncAlAHg==
+monaco-editor-webpack-plugin@^4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/monaco-editor-webpack-plugin/-/monaco-editor-webpack-plugin-4.0.0.tgz#95be3f48f4220999b909266a9997727f0deab947"
+  integrity sha512-4BT9XDRQXraMQjxEUjR+uuubRe3RIPkvVoGw8zwWG++s7wq6TAiXaSOMdkdS9TrjCREgSnygCOlVzY6MS8RPuA==
   dependencies:
     loader-utils "^2.0.0"
 
