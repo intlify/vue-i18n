@@ -1,4 +1,20 @@
 
+## v9.2.0-alpha.4 (2021-06-12)
+
+#### :bug: Bug Fixes
+* `core-base`
+  * [#532](https://github.com/intlify/vue-i18n-next/pull/532) fix: __INTLIFY_PROD_DEVTOOLS__ is not defined ([@kazupon](https://github.com/kazupon))
+* `vue-i18n`
+  * [#524](https://github.com/intlify/vue-i18n-next/pull/524) fix: cannot hook at beforeUnmount/unmounted ([@kazupon](https://github.com/kazupon))
+
+#### :boom: Breaking Change
+* `vue-i18n`
+  * [#526](https://github.com/intlify/vue-i18n-next/pull/526) drop node v10 ([@kazupon](https://github.com/kazupon))
+
+#### Committers: 1
+- kazuya kawaguchi ([@kazupon](https://github.com/kazupon))
+
+
 ## v9.2.0-alpha.3 (2021-06-02)
 
 #### :bug: Bug Fixes
