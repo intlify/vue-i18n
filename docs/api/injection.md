@@ -1,5 +1,6 @@
 # Component Injections
 
+
 ## ComponentCustomOptions
 
 Component Custom Properties for Vue I18n
@@ -1183,6 +1184,55 @@ Overloaded `$n`. About details, see the [$n](injection#n-value) remarks.
 | Parameter | Type | Description |
 | --- | --- | --- |
 | value | number | A number value |
+| args | { [key: string]: string } | An argument values |
+
+#### Returns
+
+Formatted value
+
+### $n(value, key, args)
+
+Number formatting
+
+**Signature:**
+```typescript
+$n(value: number, key: string, args: { [key: string]: string }): NumberFormatResult
+```
+
+**Details**
+
+Overloaded `$n`. About details, see the [$n](injection#n-value) remarks.
+
+#### Parameters
+| Parameter | Type | Description |
+| --- | --- | --- |
+| value | number | A number value |
+| key | string | A key of number formats |
+| args | { [key: string]: string } | An argument values |
+
+#### Returns
+
+Formatted value
+
+### $n(value, key, locale, args)
+
+Number formatting
+
+**Signature:**
+```typescript
+$n(value: number, key: string, locale: Locale, args: { [key: string]: string }): NumberFormatResult
+```
+
+**Details**
+
+Overloaded `$n`. About details, see the [$n](injection#n-value) remarks.
+
+#### Parameters
+| Parameter | Type | Description |
+| --- | --- | --- |
+| value | number | A number value |
+| key | string | A key of number formats |
+| locale | Locale | A locale, override locale that global scope or local scope |
 | args | { [key: string]: string } | An argument values |
 
 #### Returns
