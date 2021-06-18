@@ -798,7 +798,10 @@ export interface VueI18nDateTimeFormatting<
    *
    * @returns Formatted value
    */
-  (value: number | Date, args: { [key: string]: string | boolean | number }): DateTimeFormatResult
+  (
+    value: number | Date,
+    args: { [key: string]: string | boolean | number }
+  ): DateTimeFormatResult
 }
 
 /**
@@ -891,7 +894,10 @@ export interface VueI18nNumberFormatting<
    *
    * @returns Formatted value
    */
-  (value: number, args: { [key: string]: string | boolean | number }): NumberFormatResult
+  (
+    value: number,
+    args: { [key: string]: string | boolean | number }
+  ): NumberFormatResult
 }
 
 /**
