@@ -1167,7 +1167,11 @@ declare module '@vue/runtime-core' {
      *
      * @returns formatted value
      */
-    $n(value: number, key: string, args: { [key: string]: string }): NumberFormatResult
+    $n(
+      value: number,
+      key: string,
+      args: { [key: string]: string }
+    ): NumberFormatResult
     /**
      * Number formatting
      *
@@ -1181,7 +1185,12 @@ declare module '@vue/runtime-core' {
      *
      * @returns formatted value
      */
-    $n(value: number, key: string, locale: Locale, args: { [key: string]: string }): NumberFormatResult
+    $n(
+      value: number,
+      key: string,
+      locale: Locale,
+      args: { [key: string]: string }
+    ): NumberFormatResult
     /**
      * Number formatting
      *

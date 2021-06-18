@@ -7,7 +7,7 @@
   },
   "dependencies": {
     "vue": "^3.0.11",
-    "vue-i18n": "link:../../packages/vue-i18n",
+    "vue-i18n": "link:../../../packages/vue-i18n",
     "vue-router": "^4.0.8"
   },
   "devDependencies": {
