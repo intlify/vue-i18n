@@ -1162,6 +1162,33 @@ declare module '@vue/runtime-core' {
      * Overloaded `$n`. About details, see the {@link $n} remarks.
      *
      * @param value - A number value
+     * @param key - A key of number formats
+     * @param args - An argument values
+     *
+     * @returns formatted value
+     */
+    $n(value: number, key: string, args: { [key: string]: string }): NumberFormatResult
+    /**
+     * Number formatting
+     *
+     * @remarks
+     * Overloaded `$n`. About details, see the {@link $n} remarks.
+     *
+     * @param value - A number value
+     * @param key - A key of number formats
+     * @param locale - A locale, optional, override locale that global scope or local scope
+     * @param args - An argument values
+     *
+     * @returns formatted value
+     */
+    $n(value: number, key: string, locale: Locale, args: { [key: string]: string }): NumberFormatResult
+    /**
+     * Number formatting
+     *
+     * @remarks
+     * Overloaded `$n`. About details, see the {@link $n} remarks.
+     *
+     * @param value - A number value
      *
      * @returns formatted value
      */
