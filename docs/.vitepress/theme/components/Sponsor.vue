@@ -2,7 +2,7 @@
 import { TierLevel } from '../state'
 import { defineComponent } from 'vue'
 
-const TIER_CLASSES = ['gold', 'silver', 'bronze'] as const
+const TIER_CLASSES = ['platinum', 'gold', 'silver', 'bronze'] as const
 
 export default defineComponent({
   name: 'Sponsor',
@@ -16,7 +16,7 @@ export default defineComponent({
     tier: {
       type: Number,
       default: (): number => TierLevel.Bronze,
-      validate: (level: number) => [TierLevel.Gold, TierLevel.Silver, TierLevel.Bronze].includes(level)
+      validate: (level: number) => [TierLevel.Platinum, TierLevel.Gold, TierLevel.Silver, TierLevel.Bronze].includes(level)
     },
 
     link: {
@@ -49,6 +49,9 @@ export default defineComponent({
   height: auto;
   display: inline-block;
   vertical-align: middle;
+}
+.platinum {
+  width: 30rem;
 }
 .gold {
   width: 15rem;

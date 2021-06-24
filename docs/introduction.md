@@ -9,6 +9,11 @@ Vue I18n is internationalization plugin of Vue.js. It easily integrates some loc
 Go to [Get Started](./guide/)
 
 ## Sponsors
+### 🏅 Platinum
+
+<p style="text-align: center;">
+  <PlatinumSponsors />
+</p>
 
 ### 🥇 Gold
 

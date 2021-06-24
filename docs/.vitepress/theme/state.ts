@@ -1,10 +1,17 @@
 export const enum TierLevel {
-  Gold = 0,
+  Platinum = 0,
+  Gold,
   Silver,
   Bronze
 }
 
 export const sponsors = {
+  platinums: [{
+    name: 'Zen Architects',
+    tier: TierLevel.Platinum,
+    link: 'https://zenarchitects.co.jp/',
+    source: '/zenarchitects.png'
+  }],
   golds: [{
     name: 'NuxtJS',
     tier: TierLevel.Gold,
@@ -18,11 +25,6 @@ export const sponsors = {
   }],
   silvers: [],
   bronzes: [{
-    name: 'Zen Architects',
-    tier: TierLevel.Bronze,
-    link: 'https://zenarchitects.co.jp/',
-    source: '/zenarchitects.png'
-  }, {
     name: 'SendCloud',
     tier: TierLevel.Bronze,
     link: 'https://www.sendcloud.com/',

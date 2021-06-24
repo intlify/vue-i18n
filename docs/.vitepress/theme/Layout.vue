@@ -24,6 +24,10 @@ export default {
     <template #home-hero>
       <div class="sponsors">
         <div class="level">
+          <h4 class="sponsor-title">🏅 Platinum Sponsors</h4>
+          <Sponsor v-for="platinum in platinums" v-bind="platinum" />
+        </div>
+        <div class="level">
           <h4 class="sponsor-title">🥇 Gold Sponsors</h4>
           <Sponsor v-for="gold in golds" v-bind="gold" />
         </div>

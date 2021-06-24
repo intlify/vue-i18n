@@ -10,6 +10,17 @@ Vue I18n is part of the Vue Ecosystem and Intlify Project is an open source proj
 
 - [Become a Sponsor on GitHub](https://github.com/sponsors/kazupon)
 
+<h3 align="center">🏅 Platinum Sponsors</h3>
+
+<p align="center">
+  <a href="https://zenarchitects.co.jp/" target="_blank">
+    <img
+      src="https://raw.githubusercontent.com/intlify/vue-i18n-next/master/docs/public/zenarchitects.png"
+      width="400px"
+    />
+  </a>
+</p>
+
 <h3 align="center">🥇 Gold Sponsors</h3>
 
 <p align="center">
@@ -37,14 +48,6 @@ Vue I18n is part of the Vue Ecosystem and Intlify Project is an open source proj
 
 <h3 align="center">🥉 Bronze Sponsors</h3>
 
-<p align="center">
-  <a href="https://zenarchitects.co.jp/" target="_blank">
-    <img
-      src="https://raw.githubusercontent.com/intlify/vue-i18n-next/master/docs/public/zenarchitects.png"
-      width="144px"
-    />
-  </a>
-</p>
 <p align="center">
   <a href="https://www.sendcloud.com/" target="_blank">
     <img
