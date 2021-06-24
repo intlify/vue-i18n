@@ -22,21 +22,21 @@
     to-fast-properties "^2.0.0"
 
 "@intlify/message-compiler@link:../packages/message-compiler":
-  version "9.2.0-alpha.3"
+  version "9.2.0-alpha.4"
   dependencies:
-    "@intlify/message-resolver" "9.2.0-alpha.3"
-    "@intlify/shared" "9.2.0-alpha.3"
+    "@intlify/message-resolver" "9.2.0-alpha.4"
+    "@intlify/shared" "9.2.0-alpha.4"
     source-map "0.6.1"
 
-"@intlify/message-resolver@9.2.0-alpha.3":
-  version "9.2.0-alpha.3"
-  resolved "https://registry.yarnpkg.com/@intlify/message-resolver/-/message-resolver-9.2.0-alpha.3.tgz#e5de29bcc27897357fdf4de013b416609af409f3"
-  integrity sha512-d9u40BMj8fIRNgx8TdM3MOBAtOXrt1aBlD8JKSEAH/6YOZl0ytZuDliKFqs56bZtAyGgIUvbcoBBdd1WfxVX/w==
+"@intlify/message-resolver@9.2.0-alpha.4":
+  version "9.2.0-alpha.4"
+  resolved "https://registry.yarnpkg.com/@intlify/message-resolver/-/message-resolver-9.2.0-alpha.4.tgz#295457dcffa1adf8265741191ddec5a0e70ecc79"
+  integrity sha512-Eg5JQDvLlU6BCOL486QxJMgzSFfZsn6V4IF5zHnxczaPyWfs/X1U02aCySuDqW+a7rKLfsKMimkO+Mo3fnL6Ig==
 
-"@intlify/shared@9.2.0-alpha.3":
-  version "9.2.0-alpha.3"
-  resolved "https://registry.yarnpkg.com/@intlify/shared/-/shared-9.2.0-alpha.3.tgz#36d629a8ed1953fa142c57aa33ccc61911a4cb97"
-  integrity sha512-WNT3sr6hpL6EyexRXTha8cMI4QRmk29eOw2s79OzahIIztlaDakHtufpFBVHaPj1HwPd0/MeFiOkqbhk1PKKdQ==
+"@intlify/shared@9.2.0-alpha.4":
+  version "9.2.0-alpha.4"
+  resolved "https://registry.yarnpkg.com/@intlify/shared/-/shared-9.2.0-alpha.4.tgz#5fa3a43be81c1c45c4cde73bd75f1c5464dd9b7d"
+  integrity sha512-li8DUeoA4k/C9RILYGaJV4QcLMAXIBtcvyZ/MrvaL9cu5x/DO4SkyiyrM6BnfLoOdyKiC/iEKfTq4zvh2uZYnA==
 
 "@types/eslint-scope@^3.7.0":
   version "3.7.0"
@@ -3588,13 +3588,10 @@ strip-final-newline@^2.0.0:
   resolved "https://registry.yarnpkg.com/strip-final-newline/-/strip-final-newline-2.0.0.tgz#89b852fb2fcbe936f6f4b3187afb0a12c1ab58ad"
   integrity sha512-BrpvfNAE3dcvq7ll3xVumzjKjZQ5tI1sEUIKr3Uoks0XUl45St3FlatVqef9prk4jRDzhW6WZg+3bk93y6pLjA==
 
-style-loader@^2.0.0:
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/style-loader/-/style-loader-2.0.0.tgz#9669602fd4690740eaaec137799a03addbbc393c"
-  integrity sha512-Z0gYUJmzZ6ZdRUqpg1r8GsaFKypE+3xAzuFeMuoHgjc9KZv3wMyCRjQIWEbhoFSq7+7yoHXySDJyyWQaPajeiQ==
-  dependencies:
-    loader-utils "^2.0.0"
-    schema-utils "^3.0.0"
+style-loader@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/style-loader/-/style-loader-3.0.0.tgz#2eafcd0dbe70b07438e0256a9714ea94dd63cbe0"
+  integrity sha512-pqJTDiCtLr8D2eyVWXPiwNkLsAMDuvPHnu+Z/Edo9hu+DzdJwdO5eZv9zUBF6tWI8GJGhAkenWJaVjXI+sHnuQ==
 
 supports-color@^5.3.0:
   version "5.5.0"
