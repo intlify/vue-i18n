@@ -21,7 +21,7 @@ const numberFormats = {
   },
   'ja-JP': {
     currency: {
-      style: 'currency', currency: 'JPY', , useGrouping: true, currencyDisplay: 'symbol'
+      style: 'currency', currency: 'JPY', useGrouping: true, currencyDisplay: 'symbol'
     },
     decimal: {
       style: 'decimal', minimumSignificantDigits: 3, maximumSignificantDigits: 5
