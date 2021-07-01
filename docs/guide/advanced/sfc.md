@@ -307,6 +307,8 @@ If you are using one of `@intlify/vite-plugin-vue-i18n`, `@intlify/vue-i18n-load
 plugin on your project, you can also define the `lang` for all your inlined `i18n` custom blocks
 on all your `SFC` using the `defaultSFCLocale` option.
 
+On inlined `i18n` custom blocks that have specified the `lang` attribute, the `defaultSFCLang` is not applied.
+
 For example, in order to configure `yml` format on all your inlined `i18n` custom blocks on all your `SFC`:
 
 ```html
@@ -404,6 +406,8 @@ In the above example, since the `global` attribute is set, the locale messages d
 If you are using one of `@intlify/vite-plugin-vue-i18n`, `@intlify/vue-i18n-loader`  or `@intlify/rollup-plugin-vue-i18n`
 plugin on your project, you can also define the `global` scope for all your `i18n` custom blocks
 on all your `SFC` using the `globalSFCScope` option.
+
+**Warning**: beware enabling `globalSFCScope: true`, all `i18n` custom blocks in all your `SFC` will be on `global` scope.
 
 For example, in order to configure `global` scope on all your `i18n` custom blocks on all your `SFC`:
 
