@@ -53,7 +53,7 @@ To use i18n custom blocks, you need to use the following plugins for bundler.
 
 ### vite-plugin-vue-i18n
 
-[vite-plugin-vue-i18n](https://github.com/intlify/vite-plugin-vue-i18n) is vite plugin for [Vite](https://github.com/vitejs/vite).
+[vite-plugin-vue-i18n](https://github.com/intlify/bundle-tools/tree/main/packages/vite-plugin-vue-i18n) is vite plugin for [Vite](https://github.com/vitejs/vite).
 
 :::tip REQUIREMENTS
 - vite: **v2-beta or later**
@@ -95,7 +95,7 @@ export default defineConfig({
 
 ### vue-i18n-loader
 
-[vue-i18n-loader](https://github.com/intlify/vue-i18n-loader) is loader plugin for [webpack](https://webpack.js.org/). Since single file components is bundled with [vue-loader](https://github.com/vuejs/vue-loader), you need to setting webpack config with vue-i18n-loader.
+[vue-i18n-loader](https://github.com/intlify/bundle-tools/tree/main/packages/vue-i18n-loader) is loader plugin for [webpack](https://webpack.js.org/). Since single file components is bundled with [vue-loader](https://github.com/vuejs/vue-loader), you need to setting webpack config with vue-i18n-loader.
 
 :::tip REQUIREMENTS
 - webpack: **v4 or later**
@@ -151,7 +151,7 @@ module.exports = {
 
 ### rollup-plugin-vue-i18n
 
-[rollup-plugin-vue-i18n](https://github.com/intlify/rollup-plugin-vue-i18n) is rollup plugin for [rollup](https://rollupjs.org). Since single-file components is bundled with [rollup-plugin-vue](https://github.com/vuejs/rollup-plugin-vue), you need to setting rollup config with rollup-plugin-vue
+[rollup-plugin-vue-i18n](https://github.com/intlify/bundle-tools/tree/main/packages/rollup-plugin-vue-i18n) is rollup plugin for [rollup](https://rollupjs.org). Since single-file components is bundled with [rollup-plugin-vue](https://github.com/vuejs/rollup-plugin-vue), you need to setting rollup config with rollup-plugin-vue
 
 :::tip REQUIREMENTS
 - rollup: **v2.32 or later**
@@ -303,16 +303,15 @@ The `i18n` custom blocks below of `json5` format:
 
 ### Define global format
 
-If you are using one of `@intlify/vite-plugin-vue-i18n`, `@intlify/vue-i18n-loader`  or `@intlify/rollup-plugin-vue-i18n`
-plugin on your project, you can also define the `lang` for all your inlined `i18n` custom blocks
-on all your `SFC` using the `defaultSFCLocale` option.
+If you are using one of `@intlify/vite-plugin-vue-i18n` plugin on your project, you can also define the `lang` for all your inlined `i18n` custom blocks on all your SFC using the `defaultSFCLang` option.
 
-:::warning:::
+:::warning NOTICE
 `@intlify/vue-i18n-loader` and `@intlify/rollup-plugin-vue-i18n` are currently in progress to add this feature.
+:::
 
 On inlined `i18n` custom blocks that have specified the `lang` attribute, the `defaultSFCLang` is not applied.
 
-For example, in order to configure `yml` format on all your inlined `i18n` custom blocks on all your `SFC`:
+For example, in order to configure `yml` format on all your inlined `i18n` custom blocks on all your SFC:
 
 ```html
 <!-- custom block equivalent to &lt;i18n lang="yml"> -->
@@ -324,7 +323,7 @@ es:
 </i18n>
 ```
 
-just configure `defaultSFCLocale: "yml"` on your plugin configuration:
+just configure `defaultSFCLang: "yml"` on your plugin configuration:
 
 #### Use global format with vite plugin
 
@@ -335,7 +334,7 @@ import vueI18n from '@intlify/vite-plugin-vue-i18n'
 plugins: [
   vue(),
   vueI18n({
-    defaultSFCLocale: "yml",
+    defaultSFCLang: 'yml',
     /* other options */
   })
 ]
@@ -356,7 +355,7 @@ module.exports = {
       {
         test: /\.(json5?|ya?ml)$/, // target json, json5, yaml and yml files
         type: 'javascript/auto',
-        defaultSFCLocale: 'yml',
+        defaultSFCLang: 'yml',
         /* other options */,
         loader: '@intlify/vue-i18n-loader'
       },
@@ -381,7 +380,7 @@ plugins: [
   VuePlugin({ customBlocks: ['i18n'] }),
   // set `rollup-plugin-vue-i18n` after **`rollup-plugin-vue`**
   VueI18nPlugin({
-    defaultSFCLocale: 'yml',
+    defaultSFCLang: 'yml',
     /* other options */
   }),
   /* other plugins */
@@ -406,17 +405,15 @@ In the above example, since the `global` attribute is set, the locale messages d
 
 ### Define global scope
 
-If you are using one of `@intlify/vite-plugin-vue-i18n`, `@intlify/vue-i18n-loader` or
-`@intlify/rollup-plugin-vue-i18n`
-plugin on your project, you can also define the `global` scope for all your `i18n` custom blocks
-on all your `SFC` using the `globalSFCScope` option.
+If you are using one of `@intlify/vite-plugin-vue-i18n` plugin on your project, you can also define the `global` scope for all your `i18n` custom blocks on all your SFC using the `globalSFCScope` option.
 
-:::warning:::
+:::warning NOTICE
 `@intlify/vue-i18n-loader` and `@intlify/rollup-plugin-vue-i18n` are currently in progress to add this feature.
+:::
 
 **Warning**: beware enabling `globalSFCScope: true`, all `i18n` custom blocks in all your `SFC` will be on `global` scope.
 
-For example, in order to configure `global` scope on all your `i18n` custom blocks on all your `SFC`:
+For example, in order to configure `global` scope on all your `i18n` custom blocks on all your SFC:
 
 ```html
 <!-- custom block equivalent to &lt;i18n lang="yml" global> -->
@@ -501,7 +498,7 @@ plugins: [
 ```
 
 
-:::warning NOTICE
+:::warn NOTICE
 The locale messages for global scope defined in i18n custom blocks are available **only composition API mode**. You need to run `useI18n` option to `useScope: 'global'` at `setup`. About details, see the [Composition API](./composition).
 :::
 
