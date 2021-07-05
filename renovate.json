@@ -2,7 +2,7 @@
   "extends": ["config:base", ":preserveSemverRanges"],
   "labels": ["Type: Dependency"],
   "automerge": true,
-  "ignoreDeps": ["puppeteer", "jest", "typescript"],
+  "ignoreDeps": ["puppeteer", "jest", "typescript", "ts-jest"],
   "major": {
     "automerge": false
   }
