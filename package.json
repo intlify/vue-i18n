@@ -41,9 +41,10 @@
     "format:fix": "npm-run-all --parallel \"format:prettier --write\" format:package",
     "format:package": "node -r esbuild-register ./scripts/fixpack.ts",
     "format:prettier": "prettier --config .prettierrc --ignore-path .prettierignore '**/*.{js,json,html}'",
-    "lint": "npm-run-all --parallel lint:codes lint:docs",
+    "lint": "npm-run-all --parallel lint:secret lint:codes lint:docs",
     "lint:codes": "eslint ./packages ./test-d ./e2e ./benchmark ./format-explorer --ext .js,.ts,.vue",
     "lint:docs": "textlint --config .textlintrc.js docs/*.md docs/advanced/**/*.md docs/essentials/**/*.md docs/migration/**/*.md docs/api/injection.md packages/**/*.md",
+    "lint:secret": "npx secretlint \"**/*\"",
     "lint:fix": "npm-run-all --parallel \"lint:codes --fix\" \"lint:docs --fix\"",
     "preinstall": "node ./scripts/checkYarn.js",
     "release:prepare": "shipjs prepare",
@@ -61,6 +62,7 @@
     "@rollup/plugin-json": "^4.1.0",
     "@rollup/plugin-node-resolve": "^13.0.0",
     "@rollup/plugin-replace": "^2.4.0",
+    "@secretlint/secretlint-rule-preset-recommend": "^3.1.0",
     "@sucrase/jest-plugin": "^2.1.0",
     "@textlint-rule/textlint-rule-no-unmatched-pair": "^1.0.7",
     "@types/jest": "^26.0.14",
@@ -99,6 +101,7 @@
     "rollup-plugin-node-globals": "^1.4.0",
     "rollup-plugin-terser": "^7.0.2",
     "rollup-plugin-typescript2": "^0.30.0",
+    "secretlint": "^3.2.0",
     "set-tz": "^0.2.0",
     "shipjs": "^0.23.1",
     "textlint": "^12.0.0",
@@ -159,6 +162,9 @@
     "*.ts?(x)": [
       "prettier --parser=typescript --write",
       "eslint --fix --ext .ts"
+    ],
+    "*": [
+      "secretlint"
     ]
   },
   "workspaces": [
