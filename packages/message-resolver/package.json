@@ -30,7 +30,7 @@
   "module": "dist/message-resolver.esm-bundler.js",
   "types": "dist/message-resolver.d.ts",
   "engines": {
-    "node": ">= 10"
+    "node": ">= 12"
   },
   "buildOptions": {
     "name": "IntlifyMessageResolver",

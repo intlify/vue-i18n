@@ -30,7 +30,7 @@
   "module": "dist/shared.esm-bundler.js",
   "types": "dist/shared.d.ts",
   "engines": {
-    "node": ">= 10"
+    "node": ">= 12"
   },
   "buildOptions": {
     "name": "IntlifyShared",
