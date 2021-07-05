@@ -1154,7 +1154,10 @@ declare module '@vue/runtime-core' {
      *
      * @returns formatted value
      */
-    $n(value: number, args: { [key: string]: string }): NumberFormatResult
+    $n(
+      value: number,
+      args: { [key: string]: string | boolean | number }
+    ): NumberFormatResult
     /**
      * Number formatting
      *
@@ -1170,7 +1173,7 @@ declare module '@vue/runtime-core' {
     $n(
       value: number,
       key: string,
-      args: { [key: string]: string }
+      args: { [key: string]: string | boolean | number }
     ): NumberFormatResult
     /**
      * Number formatting
@@ -1189,7 +1192,7 @@ declare module '@vue/runtime-core' {
       value: number,
       key: string,
       locale: Locale,
-      args: { [key: string]: string }
+      args: { [key: string]: string | boolean | number }
     ): NumberFormatResult
     /**
      * Number formatting
