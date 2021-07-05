@@ -38,7 +38,7 @@
     "source-map": "0.6.1"
   },
   "engines": {
-    "node": ">= 10"
+    "node": ">= 12"
   },
   "buildOptions": {
     "name": "IntlifyMessageCompiler",

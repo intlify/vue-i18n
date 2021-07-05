@@ -36,7 +36,7 @@
     "@intlify/core-base": "9.2.0-alpha.4"
   },
   "engines": {
-    "node": ">= 10"
+    "node": ">= 12"
   },
   "buildOptions": {
     "name": "IntlifyCore",
