@@ -1,4 +1,4 @@
-name: Test
+name: Lint
 on:
   push:
     branches-ignore:
@@ -19,12 +19,12 @@ env:
 
 jobs:
   test:
-    name: 'Test on Node.js ${{ matrix.node }} OS: ${{matrix.os}}'
+    name: 'Lint on Node.js ${{ matrix.node }} OS: ${{matrix.os}}'
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ubuntu-latest, windows-latest, macos-latest]
-        node: [12, 14, 16]
+        os: [ubuntu-latest]
+        node: [14]
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -35,9 +35,5 @@ jobs:
           cache: 'yarn'
       - name: Install
         run: yarn install
-      - name: Test
-        run: yarn build --all -t
-      - name: Test
-        run: yarn test
-      # https://github.com/actions/runner/issues/795
-      - run: echo "NODE_ICU_DATA=" >> $GITHUB_ENV
+      - name: Lint
+        run: yarn lint
