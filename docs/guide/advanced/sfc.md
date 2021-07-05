@@ -406,8 +406,8 @@ In the above example, since the `global` attribute is set, the locale messages d
 
 ### Define global scope
 
-If you are using one of `@intlify/vite-plugin-vue-i18n`, `@intlify/vue-i18n-loader` (:::warning::: WIP) or
-`@intlify/rollup-plugin-vue-i18n`  (:::warning::: WIP)
+If you are using one of `@intlify/vite-plugin-vue-i18n`, `@intlify/vue-i18n-loader` or
+`@intlify/rollup-plugin-vue-i18n`
 plugin on your project, you can also define the `global` scope for all your `i18n` custom blocks
 on all your `SFC` using the `globalSFCScope` option.
 
