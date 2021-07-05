@@ -36,7 +36,7 @@ export default {
 
 In i18n custom blocks, the format of the locale messages resource is **json** format by default.
 
-The locale messages defined by i18n custom blocks are used as the  local scope in single file components.
+The locale messages defined by i18n custom blocks, are used as the  local scope in single file components.
 
 If `$t('hello')` is used in the template, the `hello` key defined by `i18n` custom blocks is referred to.
 
@@ -67,6 +67,8 @@ npm i --save-dev @intlify/vite-plugin-vue-i18n
 ```
 
 #### Configuration
+
+See also [use global format](#use-global-format-with-vite-plugin) and [use global scope](#use-global-scope-with-vite-plugin).
 
 vite config for example:
 
@@ -108,6 +110,8 @@ npm i --save-dev @intlify/vue-i18n-loader
 
 #### Configuration
 
+See also [use global format](#use-global-format-with-webpack-plugin) and [use global scope](#use-global-scope-with-webpack-plugin).
+
 Webpack config for example:
 
 ```js
@@ -128,7 +132,7 @@ module.exports = {
           path.resolve(__dirname, './src/locales'),
         ],
         loader: '@intlify/vue-i18n-loader'
-      }
+      },
       // for i18n custom block
       {
         resourceQuery: /blockType=i18n/,
@@ -161,6 +165,8 @@ npm i --save-dev @intlify/rollup-plugin-vue-i18n
 ```
 
 #### Configuration
+
+See also [use global format](#use-global-format-with-rollup-plugin) and [use global scope](#use-global-scope-with-rollup-plugin).
 
 Rollup config for example:
 
@@ -295,6 +301,93 @@ The `i18n` custom blocks below of `json5` format:
 </i18n>
 ```
 
+### Define global format
+
+If you are using one of `@intlify/vite-plugin-vue-i18n`, `@intlify/vue-i18n-loader`  or `@intlify/rollup-plugin-vue-i18n`
+plugin on your project, you can also define the `lang` for all your inlined `i18n` custom blocks
+on all your `SFC` using the `defaultSFCLocale` option.
+
+:::warning:::
+`@intlify/vue-i18n-loader` and `@intlify/rollup-plugin-vue-i18n` are currently in progress to add this feature.
+
+On inlined `i18n` custom blocks that have specified the `lang` attribute, the `defaultSFCLang` is not applied.
+
+For example, in order to configure `yml` format on all your inlined `i18n` custom blocks on all your `SFC`:
+
+```html
+<!-- custom block equivalent to &lt;i18n lang="yml"> -->
+<i18n>
+en:
+  hello: Hello
+es:
+  hello: Hola
+</i18n>
+```
+
+just configure `defaultSFCLocale: "yml"` on your plugin configuration:
+
+#### Use global format with vite plugin
+
+```javascript
+import vue from '@vitejs/plugin-vue'
+import vueI18n from '@intlify/vite-plugin-vue-i18n'
+
+plugins: [
+  vue(),
+  vueI18n({
+    defaultSFCLocale: "yml",
+    /* other options */
+  })
+]
+```
+
+#### Use global format with webpack plugin (WIP)
+
+```javascript
+module.exports = {
+  // ...
+  module: {
+    rules: [
+      {
+        test: /\.vue$/,
+        loader: 'vue-loader',
+      },
+      // for i18n resources (json/json5/yaml)
+      {
+        test: /\.(json5?|ya?ml)$/, // target json, json5, yaml and yml files
+        type: 'javascript/auto',
+        defaultSFCLocale: 'yml',
+        /* other options */,
+        loader: '@intlify/vue-i18n-loader'
+      },
+      // for i18n custom block
+      {
+        resourceQuery: /blockType=i18n/,
+        type: 'javascript/auto',
+        loader: '@intlify/vue-i18n-loader'
+      }
+      // ...
+    ]
+  }
+  // ...
+}
+```
+
+#### Use global format with rollup plugin (WIP)
+
+```javascript
+plugins: [
+  // set `customBlocks` opton to `rollup-plugin-vue`
+  VuePlugin({ customBlocks: ['i18n'] }),
+  // set `rollup-plugin-vue-i18n` after **`rollup-plugin-vue`**
+  VueI18nPlugin({
+    defaultSFCLocale: 'yml',
+    /* other options */
+  }),
+  /* other plugins */
+]
+```
+
 ## Define locale messages for global scope
 
 You can use define locale messages for global scope with `global` attribute:
@@ -310,6 +403,103 @@ You can use define locale messages for global scope with `global` attribute:
 ```
 
 In the above example, since the `global` attribute is set, the locale messages defined in `i18n` custom blocks can be merged as a resource for locale messages of global scope.
+
+### Define global scope
+
+If you are using one of `@intlify/vite-plugin-vue-i18n`, `@intlify/vue-i18n-loader` or
+`@intlify/rollup-plugin-vue-i18n`
+plugin on your project, you can also define the `global` scope for all your `i18n` custom blocks
+on all your `SFC` using the `globalSFCScope` option.
+
+:::warning:::
+`@intlify/vue-i18n-loader` and `@intlify/rollup-plugin-vue-i18n` are currently in progress to add this feature.
+
+**Warning**: beware enabling `globalSFCScope: true`, all `i18n` custom blocks in all your `SFC` will be on `global` scope.
+
+For example, in order to configure `global` scope on all your `i18n` custom blocks on all your `SFC`:
+
+```html
+<!-- custom block equivalent to &lt;i18n lang="yml" global> -->
+<i18n lang="yml">
+en:
+  hello: Hello
+es:
+  hello: Hola
+</i18n>
+```
+
+or
+
+```html
+<!-- custom block equivalent to &lt;i18n src="./locales/myMessages.json" global> -->
+<i18n src="./locales/myMessages.json5">
+</i18n>
+```
+
+just configure `globalSFCScope: true` on your plugin configuration:
+
+#### Use global format with vite plugin
+
+```javascript
+import vue from '@vitejs/plugin-vue'
+import vueI18n from '@intlify/vite-plugin-vue-i18n'
+
+plugins: [
+  vue(),
+  vueI18n({
+    globalSFCScope: true,
+    /* other options */
+  })
+]
+```
+
+#### Use global format with webpack plugin (WIP)
+
+```javascript
+module.exports = {
+  // ...
+  module: {
+    rules: [
+      {
+        test: /\.vue$/,
+        loader: 'vue-loader',
+      },
+      // for i18n resources (json/json5/yaml)
+      {
+        test: /\.(json5?|ya?ml)$/, // target json, json5, yaml and yml files
+        type: 'javascript/auto',
+        globalSFCScope: true,
+        /* other options */,
+        loader: '@intlify/vue-i18n-loader'
+      },
+      // for i18n custom block
+      {
+        resourceQuery: /blockType=i18n/,
+        type: 'javascript/auto',
+        loader: '@intlify/vue-i18n-loader'
+      }
+      // ...
+    ]
+  }
+  // ...
+}
+```
+
+#### Use global format with rollup plugin (WIP)
+
+```javascript
+plugins: [
+  // set `customBlocks` opton to `rollup-plugin-vue`
+  VuePlugin({ customBlocks: ['i18n'] }),
+  // set `rollup-plugin-vue-i18n` after **`rollup-plugin-vue`**
+  VueI18nPlugin({
+    globalSFCScope: true,
+    /* other options */
+  }),
+  /* other plugins */
+]
+```
+
 
 :::warning NOTICE
 The locale messages for global scope defined in i18n custom blocks are available **only composition API mode**. You need to run `useI18n` option to `useScope: 'global'` at `setup`. About details, see the [Composition API](./composition).
