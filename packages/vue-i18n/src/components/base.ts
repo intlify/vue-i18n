@@ -57,9 +57,11 @@ export const baseFormatProps = {
   },
   scope: {
     type: String,
-    validator: (val: ComponetI18nScope): boolean =>
-      val === 'parent' || val === 'global',
-    default: 'parent' as ComponetI18nScope
+    // NOTE: avoid https://github.com/microsoft/rushstack/issues/1050
+    validator: (
+      val: Exclude<I18nScope, 'local'> /* ComponetI18nScope */
+    ): boolean => val === 'parent' || val === 'global',
+    default: 'parent' as Exclude<I18nScope, 'local'> /* ComponetI18nScope */
   },
   i18n: {
     type: Object

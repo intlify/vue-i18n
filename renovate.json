@@ -2,7 +2,13 @@
   "extends": ["config:base", ":preserveSemverRanges"],
   "labels": ["Type: Dependency"],
   "automerge": true,
-  "ignoreDeps": ["puppeteer", "jest", "typescript", "ts-jest"],
+  "ignoreDeps": [
+    "puppeteer",
+    "jest",
+    "typescript",
+    "@microsoft/api-extractor",
+    "ts-jest"
+  ],
   "major": {
     "automerge": false
   }
