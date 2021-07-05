@@ -980,7 +980,7 @@ Datetime formatting
 
 **Signature:**
 ```typescript
-$d(value: number | Date, args: { [key: string]: string }): DateTimeFormatResult;
+$d(value: number | Date, args: { [key: string]: string | boolean | number }): DateTimeFormatResult;
 ```
 
 **Details**
@@ -1173,7 +1173,7 @@ Number formatting
 
 **Signature:**
 ```typescript
-$n(value: number, args: { [key: string]: string }): NumberFormatResult;
+$n(value: number, args: { [key: string]: string | boolean | number }): NumberFormatResult;
 ```
 
 **Details**
@@ -1196,7 +1196,7 @@ Number formatting
 
 **Signature:**
 ```typescript
-$n(value: number, key: string, args: { [key: string]: string }): NumberFormatResult
+$n(value: number, key: string, args: { [key: string]: string | boolean | number }): NumberFormatResult
 ```
 
 **Details**
@@ -1220,7 +1220,7 @@ Number formatting
 
 **Signature:**
 ```typescript
-$n(value: number, key: string, locale: Locale, args: { [key: string]: string }): NumberFormatResult
+$n(value: number, key: string, locale: Locale, args: { [key: string]: string | boolean | number }): NumberFormatResult
 ```
 
 **Details**
