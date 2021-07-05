@@ -1,6 +1,5 @@
 # Vue I18n Contributing Guide
 
-- [Issue Reporting Guidelines](#issue-reporting-guidelines)
 - [Pull Request Guidelines](#pull-request-guidelines)
 - [Development Setup](#development-setup)
 - [Contributing Tests](#contributing-tests)
@@ -13,26 +12,6 @@ Maintainers do not use machine translation to avoid miscommunication due to erro
 If description of issue / PR are written in non-English languages, those may be closed.
 
 It is of course fine to use non-English language, when you open a PR to translate documents and communicates with other users in same language.
-
-## Issue Reporting Guidelines
-
-- The issue list of this repo is **exclusively** for bug reports and feature requests. Non-conforming issues will be closed immediately.
-
-  - For simple beginner questions, you can get quick answers from [`#vue-i18n` channel of Discord](https://chat.vuejs.org/)
-
-  - For more complicated questions, you can use [the official forum](http://forum.vuejs.org/) or StackOverflow. Make sure to provide enough information when asking your questions - this makes it easier for others to help you!
-
-- Try to search for your issue, it may have already been answered or even fixed in the development branch.
-
-- Check if the issue is reproducible with the latest stable version of Vue. If you are using a pre-release, please indicate the specific version you are using.
-
-- It is **required** that you clearly describe the steps necessary to reproduce the issue you are running into. Issues with no clear repro steps will not be triaged. If an issue labeled "Status: Need More Info" receives no further input from the issue author for more than 5 days, it will be closed.
-
-- It is recommended that you make a JSFiddle/JSBin/Codepen/CodeSandbox to demonstrate your issue. You could start based with [this template](http://jsfiddle.net/r8qnsfb1/) that already includes the latest version.
-
-- For bugs that involves build setups, you can create a reproduction repository with steps in the README.
-
-- If your issue is resolved but still open, don’t hesitate to close it. In case you found a solution by yourself, it could be helpful to explain how you fixed it.
 
 ## Pull Request Guidelines
 
@@ -64,7 +43,7 @@ It is of course fine to use non-English language, when you open a PR to translat
 
 ## Development Setup
 
-You will need [Node.js](http://nodejs.org) **version 10+**, and [Yarn](https://yarnpkg.com/en/docs/install).
+You will need [Node.js](http://nodejs.org) **version 12+**, and [Yarn v1](https://classic.yarnpkg.com/).
 
 After cloning the repo, run:
 
@@ -223,7 +202,6 @@ Use the minimal API needed for a test case. For example, if a test can be writte
 As a pure community-driven project without major corporate backing, we also welcome financial contributions via GitHub Sponsors and Patreon
 
 - [Become a backer or sponsor on GitHub Sponsors](https://github.com/sponsors/kazupon)
-- [Become a backer or sponsor on Patreon](https://www.patreon.com/evanyou)
 
 Funds donated via GitHub Sponsors and Patreon go to support kazuya kawaguchi full-time work on Intlify.
 
