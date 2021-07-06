@@ -1,139 +1,184 @@
+## v9.2.0-alpha.5 (2021-07-06)
+
+#### :zap: Improvement Features
+
+- `vue-i18n`
+  - [#545](https://github.com/intlify/vue-i18n-next/pull/545) Allow number and boolean in args of number formatting ([@yannbriancon](https://github.com/yannbriancon))
+
+#### :boom: Breaking Change
+
+- `core-base`, `core`, `devtools-if`, `message-compiler`, `message-resolver`, `runtime`, `shared`, `vue-devtools`, `vue-i18n`
+  - [#560](https://github.com/intlify/vue-i18n-next/pull/560) breaking: drop node v10 ([@kazupon](https://github.com/kazupon))
+
+#### :pencil: Documentation
+
+- Other
+  - [#555](https://github.com/intlify/vue-i18n-next/pull/555) docs: add `defaultSFCLocale` and `globalSFCScope` to sfc ([@userquin](https://github.com/userquin))
+  - [#549](https://github.com/intlify/vue-i18n-next/pull/549) Fix VueJS Syntax ([@MarianPohling](https://github.com/MarianPohling))
+- `vue-i18n`
+  - [#541](https://github.com/intlify/vue-i18n-next/pull/541) Add number formatting missing type definition ([@yannbriancon](https://github.com/yannbriancon))
+
+#### Committers: 5
+
+- Lee ([@PeterAlfredLee](https://github.com/PeterAlfredLee))
+- Marian Pohling ([@MarianPohling](https://github.com/MarianPohling))
+- Yann Briançon ([@yannbriancon](https://github.com/yannbriancon))
+- [@userquin](https://github.com/userquin)
+- kazuya kawaguchi ([@kazupon](https://github.com/kazupon))
 
 ## v9.2.0-alpha.4 (2021-06-12)
 
 #### :bug: Bug Fixes
-* `core-base`
-  * [#532](https://github.com/intlify/vue-i18n-next/pull/532) fix: __INTLIFY_PROD_DEVTOOLS__ is not defined ([@kazupon](https://github.com/kazupon))
-* `vue-i18n`
-  * [#524](https://github.com/intlify/vue-i18n-next/pull/524) fix: cannot hook at beforeUnmount/unmounted ([@kazupon](https://github.com/kazupon))
+
+- `core-base`
+  - [#532](https://github.com/intlify/vue-i18n-next/pull/532) fix: **INTLIFY_PROD_DEVTOOLS** is not defined ([@kazupon](https://github.com/kazupon))
+- `vue-i18n`
+  - [#524](https://github.com/intlify/vue-i18n-next/pull/524) fix: cannot hook at beforeUnmount/unmounted ([@kazupon](https://github.com/kazupon))
 
 #### :boom: Breaking Change
-* `vue-i18n`
-  * [#526](https://github.com/intlify/vue-i18n-next/pull/526) drop node v10 ([@kazupon](https://github.com/kazupon))
+
+- `vue-i18n`
+  - [#526](https://github.com/intlify/vue-i18n-next/pull/526) drop node v10 ([@kazupon](https://github.com/kazupon))
 
 #### Committers: 1
-- kazuya kawaguchi ([@kazupon](https://github.com/kazupon))
 
+- kazuya kawaguchi ([@kazupon](https://github.com/kazupon))
 
 ## v9.2.0-alpha.3 (2021-06-02)
 
 #### :bug: Bug Fixes
-* [#519](https://github.com/intlify/vue-i18n-next/pull/519) fix `d.ts` breaking ([@kazupon](https://github.com/kazupon))
+
+- [#519](https://github.com/intlify/vue-i18n-next/pull/519) fix `d.ts` breaking ([@kazupon](https://github.com/kazupon))
 
 #### Committers: 1
-- kazuya kawaguchi ([@kazupon](https://github.com/kazupon))
 
+- kazuya kawaguchi ([@kazupon](https://github.com/kazupon))
 
 ## v9.2.0-alpha.2 (2021-06-02)
 
 #### :star: Features
-* `core-base`, `vue-i18n`
-  * [#508](https://github.com/intlify/vue-i18n-next/pull/508) feat: global type definition ([@kazupon](https://github.com/kazupon))
+
+- `core-base`, `vue-i18n`
+  - [#508](https://github.com/intlify/vue-i18n-next/pull/508) feat: global type definition ([@kazupon](https://github.com/kazupon))
 
 #### :bug: Bug Fixes
-* `core-base`
-  * [#515](https://github.com/intlify/vue-i18n-next/pull/515) Closes [#383](https://github.com/intlify/vue-i18n-next/issues/383) ([@PeterAlfredLee](https://github.com/PeterAlfredLee))
+
+- `core-base`
+  - [#515](https://github.com/intlify/vue-i18n-next/pull/515) Closes [#383](https://github.com/intlify/vue-i18n-next/issues/383) ([@PeterAlfredLee](https://github.com/PeterAlfredLee))
 
 #### :boom: Breaking Change
-* `vue-i18n`
-  * [#514](https://github.com/intlify/vue-i18n-next/pull/514) Fix __FEATURE_ESM_BUNDLER_WARN__ flag can not be configured ([@PeterAlfredLee](https://github.com/PeterAlfredLee))
+
+- `vue-i18n`
+  - [#514](https://github.com/intlify/vue-i18n-next/pull/514) Fix **FEATURE_ESM_BUNDLER_WARN** flag can not be configured ([@PeterAlfredLee](https://github.com/PeterAlfredLee))
 
 #### Committers: 2
+
 - Lee ([@PeterAlfredLee](https://github.com/PeterAlfredLee))
 - kazuya kawaguchi ([@kazupon](https://github.com/kazupon))
-
 
 ## v9.2.0-alpha.1 (2021-05-25)
 
 #### :star: Features
-* `core-base`, `message-resolver`, `vue-i18n`
-  * [#477](https://github.com/intlify/vue-i18n-next/pull/477) feat: custom message resolver ([@kazupon](https://github.com/kazupon))
+
+- `core-base`, `message-resolver`, `vue-i18n`
+  - [#477](https://github.com/intlify/vue-i18n-next/pull/477) feat: custom message resolver ([@kazupon](https://github.com/kazupon))
 
 #### :zap: Improvement Features
-* `core-base`, `vue-i18n`
-  * [#489](https://github.com/intlify/vue-i18n-next/pull/489) Type safe improvements ([@kazupon](https://github.com/kazupon))
-* `vue-i18n`
-  * [#478](https://github.com/intlify/vue-i18n-next/pull/478) improvement: target component highlighting on i18n resources inspector ([@kazupon](https://github.com/kazupon))
+
+- `core-base`, `vue-i18n`
+  - [#489](https://github.com/intlify/vue-i18n-next/pull/489) Type safe improvements ([@kazupon](https://github.com/kazupon))
+- `vue-i18n`
+  - [#478](https://github.com/intlify/vue-i18n-next/pull/478) improvement: target component highlighting on i18n resources inspector ([@kazupon](https://github.com/kazupon))
 
 #### :boom: Breaking Change
-* `core-base`, `vue-i18n`
-  * [#489](https://github.com/intlify/vue-i18n-next/pull/489) Type safe improvements ([@kazupon](https://github.com/kazupon))
+
+- `core-base`, `vue-i18n`
+  - [#489](https://github.com/intlify/vue-i18n-next/pull/489) Type safe improvements ([@kazupon](https://github.com/kazupon))
 
 #### :pencil: Documentation
-* `vue-i18n`
-  * [#487](https://github.com/intlify/vue-i18n-next/pull/487) Add some tests about numberFormats ([@PeterAlfredLee](https://github.com/PeterAlfredLee))
-* Other
-  * [#484](https://github.com/intlify/vue-i18n-next/pull/484) Fix syntax error in quote example. ([@snuggs](https://github.com/snuggs))
+
+- `vue-i18n`
+  - [#487](https://github.com/intlify/vue-i18n-next/pull/487) Add some tests about numberFormats ([@PeterAlfredLee](https://github.com/PeterAlfredLee))
+- Other
+  - [#484](https://github.com/intlify/vue-i18n-next/pull/484) Fix syntax error in quote example. ([@snuggs](https://github.com/snuggs))
 
 #### Committers: 4
+
 - Ahmid ([@snuggs](https://github.com/snuggs))
 - Lee ([@PeterAlfredLee](https://github.com/PeterAlfredLee))
 - [@noy4](https://github.com/noy4)
 - kazuya kawaguchi ([@kazupon](https://github.com/kazupon))
 
-
 ## v9.1.6 (2021-04-15)
 
 #### :bug: Bug Fixes
-* `vue-i18n`
-  * [#459](https://github.com/intlify/vue-i18n-next/pull/459) fix vue-i18n type definition broken ([@kazupon](https://github.com/kazupon))
+
+- `vue-i18n`
+  - [#459](https://github.com/intlify/vue-i18n-next/pull/459) fix vue-i18n type definition broken ([@kazupon](https://github.com/kazupon))
 
 #### Committers: 1
-- kazuya kawaguchi ([@kazupon](https://github.com/kazupon))
 
+- kazuya kawaguchi ([@kazupon](https://github.com/kazupon))
 
 ## v9.1.5 (2021-04-15)
 
 #### :zap: Improvement Features
-* `vue-i18n`
-  * [#453](https://github.com/intlify/vue-i18n-next/pull/453) Support passing composer instance to Translation component ([@andresberrios](https://github.com/andresberrios))
+
+- `vue-i18n`
+  - [#453](https://github.com/intlify/vue-i18n-next/pull/453) Support passing composer instance to Translation component ([@andresberrios](https://github.com/andresberrios))
 
 #### Committers: 2
+
 - Andrés Berríos ([@andresberrios](https://github.com/andresberrios))
 - kazuya kawaguchi ([@kazupon](https://github.com/kazupon))
-
 
 ## v9.1.4 (2021-04-11)
 
 #### :zap: Improvement Features
-* `core-base`, `devtools-if`, `vue-i18n`
-  * [#450](https://github.com/intlify/vue-i18n-next/pull/450) experimental: fix devtools-if ([@kazupon](https://github.com/kazupon))
+
+- `core-base`, `devtools-if`, `vue-i18n`
+  - [#450](https://github.com/intlify/vue-i18n-next/pull/450) experimental: fix devtools-if ([@kazupon](https://github.com/kazupon))
 
 #### :pencil: Documentation
-* [#449](https://github.com/intlify/vue-i18n-next/pull/449) Japanese translation (~essential) ([@noy4](https://github.com/noy4))
+
+- [#449](https://github.com/intlify/vue-i18n-next/pull/449) Japanese translation (~essential) ([@noy4](https://github.com/noy4))
 
 #### Committers: 2
+
 - [@noy4](https://github.com/noy4)
 - kazuya kawaguchi ([@kazupon](https://github.com/kazupon))
-
 
 ## v9.1.3 (2021-04-09)
 
 #### :zap: Improvement Features
-* `core-base`, `vue-i18n`
-  * [#446](https://github.com/intlify/vue-i18n-next/pull/446) experimental: improve meta for intlify devtools ([@kazupon](https://github.com/kazupon))
+
+- `core-base`, `vue-i18n`
+  - [#446](https://github.com/intlify/vue-i18n-next/pull/446) experimental: improve meta for intlify devtools ([@kazupon](https://github.com/kazupon))
 
 #### Committers: 1
-- kazuya kawaguchi ([@kazupon](https://github.com/kazupon))
 
+- kazuya kawaguchi ([@kazupon](https://github.com/kazupon))
 
 ## v9.1.2 (2021-04-08)
 
 #### :bug: Bug Fixes
-* `vue-i18n`
-  * [#441](https://github.com/intlify/vue-i18n-next/pull/441) fix: typing errors ([@kazupon](https://github.com/kazupon))
+
+- `vue-i18n`
+  - [#441](https://github.com/intlify/vue-i18n-next/pull/441) fix: typing errors ([@kazupon](https://github.com/kazupon))
 
 #### Committers: 1
-- kazuya kawaguchi ([@kazupon](https://github.com/kazupon))
 
+- kazuya kawaguchi ([@kazupon](https://github.com/kazupon))
 
 ## v9.1.1 (2021-04-07)
 
 #### :bug: Bug Fixes
-* `vue-i18n`
-  * [#436](https://github.com/intlify/vue-i18n-next/pull/436) fix: cannot defined feature flags accessing ([@kazupon](https://github.com/kazupon))
+
+- `vue-i18n`
+  - [#436](https://github.com/intlify/vue-i18n-next/pull/436) fix: cannot defined feature flags accessing ([@kazupon](https://github.com/kazupon))
 
 #### Committers: 1
+
 - kazuya kawaguchi ([@kazupon](https://github.com/kazupon))
 
 ## v9.1.0 (2021-04-07)

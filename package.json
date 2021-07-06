@@ -1,6 +1,6 @@
 {
   "name": "vue-i18n-next",
-  "version": "9.2.0-alpha.4",
+  "version": "9.2.0-alpha.5",
   "license": "MIT",
   "author": {
     "name": "kazuya kawaguchi",
@@ -44,8 +44,8 @@
     "lint": "npm-run-all --parallel lint:secret lint:codes lint:docs",
     "lint:codes": "eslint ./packages ./test-d ./e2e ./benchmark ./format-explorer --ext .js,.ts,.vue",
     "lint:docs": "textlint --config .textlintrc.js docs/*.md docs/advanced/**/*.md docs/essentials/**/*.md docs/migration/**/*.md docs/api/injection.md packages/**/*.md",
-    "lint:secret": "npx secretlint \"**/*\"",
     "lint:fix": "npm-run-all --parallel \"lint:codes --fix\" \"lint:docs --fix\"",
+    "lint:secret": "npx secretlint \"**/*\"",
     "preinstall": "node ./scripts/checkYarn.js",
     "release:prepare": "shipjs prepare",
     "release:trigger": "shipjs trigger",
@@ -131,8 +131,8 @@
     "yorkie": "^2.0.0"
   },
   "peerDependencies": {
-    "typescript": "4.2.3",
-    "@microsoft/api-extractor": "7.15.2"
+    "@microsoft/api-extractor": "7.15.2",
+    "typescript": "4.2.3"
   },
   "engines": {
     "node": ">= 12"
