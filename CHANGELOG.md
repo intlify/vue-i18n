@@ -13,7 +13,7 @@
 #### :pencil: Documentation
 
 - Other
-  - [#555](https://github.com/intlify/vue-i18n-next/pull/555) docs: add `defaultSFCLocale` and `globalSFCScope` to sfc ([@userquin](https://github.com/userquin))
+  - [#555](https://github.com/intlify/vue-i18n-next/pull/555) docs: add `defaultSFCLang` and `globalSFCScope` to sfc ([@userquin](https://github.com/userquin))
   - [#549](https://github.com/intlify/vue-i18n-next/pull/549) Fix VueJS Syntax ([@MarianPohling](https://github.com/MarianPohling))
 - `vue-i18n`
   - [#541](https://github.com/intlify/vue-i18n-next/pull/541) Add number formatting missing type definition ([@yannbriancon](https://github.com/yannbriancon))
