@@ -145,19 +145,6 @@
       "Type: Documentation": ":pencil: Documentation"
     }
   },
-  "gitHooks": {
-    "pre-commit": "lint-staged"
-  },
-  "lint-staged": {
-    "*.{js,json,md,yml}": [
-      "yarn format:fix",
-      "git add"
-    ],
-    "*.{js,ts}": [
-      "yarn lint:fix",
-      "git add"
-    ]
-  },
   "workspaces": [
     "packages/*"
   ]
