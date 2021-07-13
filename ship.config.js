@@ -36,7 +36,7 @@ async function commitChangelog(current, next) {
 }
 
 module.exports = {
-  mergeStrategy: { toSameBranch: ['master'] },
+  mergeStrategy: { toSameBranch: ['v9.1-maintain'] },
   monorepo: {
     mainVersionFile: 'package.json',
     packagesToBump: [
