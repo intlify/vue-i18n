@@ -1,4 +1,14 @@
 
+## v9.1.7 (2021-07-13)
+
+#### :bug: Bug Fixes
+* `core-base`
+  * [#570](https://github.com/intlify/vue-i18n-next/pull/570) fix: __INTLIFY_PROD_DEVTOOLS__ is not defined (#532) ([@kazupon](https://github.com/kazupon))
+
+#### Committers: 1
+- kazuya kawaguchi ([@kazupon](https://github.com/kazupon))
+
+
 ## v9.1.6 (2021-04-15)
 
 #### :bug: Bug Fixes
