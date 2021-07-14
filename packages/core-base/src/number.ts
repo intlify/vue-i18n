@@ -192,7 +192,7 @@ export function number<
   ...args: unknown[]
 ): string | number | Intl.NumberFormatPart[] {
   const { numberFormats, unresolving, fallbackLocale, onWarn } = context
-  const { __numberFormatters } = (context as unknown) as CoreInternalContext
+  const { __numberFormatters } = context as unknown as CoreInternalContext
 
   if (__DEV__ && !Availabilities.numberFormat) {
     onWarn(getWarnMessage(CoreWarnCodes.CANNOT_FORMAT_NUMBER))
@@ -243,7 +243,7 @@ export function number<
 
     // for vue-devtools timeline event
     if (__DEV__ && locale !== targetLocale) {
-      const emitter = ((context as unknown) as CoreInternalContext).__v_emitter
+      const emitter = (context as unknown as CoreInternalContext).__v_emitter
       if (emitter) {
         emitter.emit(VueDevToolsTimelineEvents.FALBACK, {
           type,
@@ -256,7 +256,7 @@ export function number<
     }
 
     numberFormat =
-      ((numberFormats as unknown) as NumberFormatsType)[targetLocale] || {}
+      (numberFormats as unknown as NumberFormatsType)[targetLocale] || {}
 
     format = numberFormat[key]
     if (isPlainObject(format)) break
@@ -323,7 +323,7 @@ export function clearNumberFormat<NumberFormats, Message = string>(
   locale: Locale,
   format: NumberFormat
 ): void {
-  const context = (ctx as unknown) as CoreInternalContext
+  const context = ctx as unknown as CoreInternalContext
   for (const key in format) {
     const id = `${locale}__${key}`
     if (!context.__numberFormatters.has(id)) {

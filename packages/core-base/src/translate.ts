@@ -395,7 +395,7 @@ export function translate<
     : [
         key,
         locale,
-        ((messages as unknown) as LocaleMessages<Message>)[locale] || {}
+        (messages as unknown as LocaleMessages<Message>)[locale] || {}
       ]
 
   // if you use default message, set it as message format!
@@ -492,7 +492,7 @@ export function translate<
     }
     ;(payloads as AdditionalPayloads).meta = assign(
       {},
-      ((context as unknown) as CoreInternalContext).__meta,
+      (context as unknown as CoreInternalContext).__meta,
       getAdditionalMeta() || {}
     )
     translateDevTools(payloads)
@@ -551,7 +551,7 @@ function resolveMessageFormat<Messages, Message>(
 
     // for vue-devtools timeline event
     if (__DEV__ && locale !== targetLocale) {
-      const emitter = ((context as unknown) as CoreInternalContext).__v_emitter
+      const emitter = (context as unknown as CoreInternalContext).__v_emitter
       if (emitter) {
         emitter.emit(VueDevToolsTimelineEvents.FALBACK, {
           type,
@@ -564,7 +564,7 @@ function resolveMessageFormat<Messages, Message>(
     }
 
     message =
-      ((messages as unknown) as LocaleMessages<Message>)[targetLocale] || {}
+      (messages as unknown as LocaleMessages<Message>)[targetLocale] || {}
 
     // for vue-devtools timeline event
     let start: number | null = null
@@ -585,7 +585,7 @@ function resolveMessageFormat<Messages, Message>(
     // for vue-devtools timeline event
     if (__DEV__ && inBrowser) {
       const end = window.performance.now()
-      const emitter = ((context as unknown) as CoreInternalContext).__v_emitter
+      const emitter = (context as unknown as CoreInternalContext).__v_emitter
       if (emitter && start && format) {
         emitter.emit(VueDevToolsTimelineEvents.MESSAGE_RESOLVE, {
           type: VueDevToolsTimelineEvents.MESSAGE_RESOLVE,
@@ -661,7 +661,7 @@ function compileMessageFormat<Messages, Message>(
   // for vue-devtools timeline event
   if (__DEV__ && inBrowser) {
     const end = window.performance.now()
-    const emitter = ((context as unknown) as CoreInternalContext).__v_emitter
+    const emitter = (context as unknown as CoreInternalContext).__v_emitter
     if (emitter && start) {
       emitter.emit(VueDevToolsTimelineEvents.MESSAGE_COMPILATION, {
         type: VueDevToolsTimelineEvents.MESSAGE_COMPILATION,
@@ -704,7 +704,7 @@ function evaluateMessage<Messages, Message>(
   // for vue-devtools timeline event
   if (__DEV__ && inBrowser) {
     const end = window.performance.now()
-    const emitter = ((context as unknown) as CoreInternalContext).__v_emitter
+    const emitter = (context as unknown as CoreInternalContext).__v_emitter
     if (emitter && start) {
       emitter.emit(VueDevToolsTimelineEvents.MESSAGE_EVALUATION, {
         type: VueDevToolsTimelineEvents.MESSAGE_EVALUATION,
@@ -782,8 +782,7 @@ function getCompileOptions<Messages, Message>(
             err.location.start.offset,
             err.location.end.offset
           )
-        const emitter = ((context as unknown) as CoreInternalContext)
-          .__v_emitter
+        const emitter = (context as unknown as CoreInternalContext).__v_emitter
         if (emitter) {
           emitter.emit(VueDevToolsTimelineEvents.COMPILE_ERROR, {
             message: source,
@@ -818,14 +817,14 @@ function getMessageContextOptions<Messages, Message = string>(
       const errorDetector = () => {
         occurred = true
       }
-      const msg = (compileMessageFormat<Messages, Message>(
+      const msg = compileMessageFormat<Messages, Message>(
         context,
         key,
         locale,
         val,
         key,
         errorDetector
-      ) as unknown) as MessageFunction<Message>
+      ) as unknown as MessageFunction<Message>
       return !occurred
         ? msg
         : (NOOP_MESSAGE_FUNCTION as MessageFunction<Message>)

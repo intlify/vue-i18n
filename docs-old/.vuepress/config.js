@@ -68,13 +68,11 @@ module.exports = {
                 items: [
                   {
                     text: 'BabelEdit',
-                    link:
-                      'https://www.codeandweb.com/babeledit?utm_campaign=vue-i18n-2019-01'
+                    link: 'https://www.codeandweb.com/babeledit?utm_campaign=vue-i18n-2019-01'
                   },
                   {
                     text: 'i18n Ally',
-                    link:
-                      'https://marketplace.visualstudio.com/items?itemName=antfu.i18n-ally'
+                    link: 'https://marketplace.visualstudio.com/items?itemName=antfu.i18n-ally'
                   }
                 ]
               }
@@ -163,8 +161,7 @@ module.exports = {
                 items: [
                   {
                     text: 'BabelEdit',
-                    link:
-                      'https://www.codeandweb.com/babeledit?utm_campaign=vue-i18n-2019-01'
+                    link: 'https://www.codeandweb.com/babeledit?utm_campaign=vue-i18n-2019-01'
                   }
                 ]
               }
@@ -253,13 +250,11 @@ module.exports = {
                 items: [
                   {
                     text: 'BabelEdit',
-                    link:
-                      'https://www.codeandweb.com/babeledit?utm_campaign=vue-i18n-2019-01'
+                    link: 'https://www.codeandweb.com/babeledit?utm_campaign=vue-i18n-2019-01'
                   },
                   {
                     text: 'i18n Ally',
-                    link:
-                      'https://marketplace.visualstudio.com/items?itemName=antfu.i18n-ally'
+                    link: 'https://marketplace.visualstudio.com/items?itemName=antfu.i18n-ally'
                   }
                 ]
               }

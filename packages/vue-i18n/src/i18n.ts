@@ -411,12 +411,12 @@ export function createI18n(options: any = {}): any {
     // install plugin
     async install(app: App, ...options: unknown[]): Promise<void> {
       if ((__DEV__ || __FEATURE_PROD_VUE_DEVTOOLS__) && !__NODE_JS__) {
-        app.__VUE_I18N__ = (i18n as unknown) as _I18n
+        app.__VUE_I18N__ = i18n as unknown as _I18n
       }
 
       // setup global provider
       app.__VUE_I18N_SYMBOL__ = symbol
-      app.provide(app.__VUE_I18N_SYMBOL__, (i18n as unknown) as I18n)
+      app.provide(app.__VUE_I18N_SYMBOL__, i18n as unknown as I18n)
 
       // global method and properties injection for Composition API
       if (!__legacyMode && __globalInjection) {
@@ -432,9 +432,9 @@ export function createI18n(options: any = {}): any {
       if (__FEATURE_LEGACY_API__ && __legacyMode) {
         app.mixin(
           defineMixin(
-            (__global as unknown) as VueI18n,
-            ((__global as unknown) as VueI18nInternal).__composer as Composer,
-            (i18n as unknown) as I18nInternal
+            __global as unknown as VueI18n,
+            (__global as unknown as VueI18nInternal).__composer as Composer,
+            i18n as unknown as I18nInternal
           )
         )
       }
@@ -445,9 +445,10 @@ export function createI18n(options: any = {}): any {
         if (!ret) {
           throw createI18nError(I18nErrorCodes.CANNOT_SETUP_VUE_DEVTOOLS_PLUGIN)
         }
-        const emitter: VueDevToolsEmitter = createEmitter<VueDevToolsEmitterEvents>()
+        const emitter: VueDevToolsEmitter =
+          createEmitter<VueDevToolsEmitterEvents>()
         if (__legacyMode) {
-          const _vueI18n = (__global as unknown) as VueI18nInternal
+          const _vueI18n = __global as unknown as VueI18nInternal
           _vueI18n.__enableEmitter && _vueI18n.__enableEmitter(emitter)
         } else {
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -467,7 +468,7 @@ export function createI18n(options: any = {}): any {
     __getInstance<Instance extends VueI18n | Composer>(
       component: ComponentInternalInstance
     ): Instance | null {
-      return ((__instances.get(component) as unknown) as Instance) || null
+      return (__instances.get(component) as unknown as Instance) || null
     },
     // @internal
     __setInstance<Instance extends VueI18n | Composer>(
@@ -650,7 +651,7 @@ export function useI18n<
       if (__DEV__) {
         warn(getWarnMessage(I18nWarnCodes.NOT_FOUND_PARENT_SCOPE))
       }
-      composer = (global as unknown) as Composer
+      composer = global as unknown as Composer
     }
     return composer as Composer<
       Messages,
@@ -665,7 +666,7 @@ export function useI18n<
     throw createI18nError(I18nErrorCodes.NOT_AVAILABLE_IN_LEGACY_MODE)
   }
 
-  const i18nInternal = (i18n as unknown) as I18nInternal
+  const i18nInternal = i18n as unknown as I18nInternal
   let composer = i18nInternal.__getInstance(instance)
   if (composer == null) {
     const type = instance.type as ComponentOptions
@@ -702,7 +703,7 @@ function getComposer(
   const root = target.root
   let current: ComponentInternalInstance | null = target.parent
   while (current != null) {
-    const i18nInternal = (i18n as unknown) as I18nInternal
+    const i18nInternal = i18n as unknown as I18nInternal
     if (i18n.mode === 'composition') {
       composer = i18nInternal.__getInstance(current)
     } else {

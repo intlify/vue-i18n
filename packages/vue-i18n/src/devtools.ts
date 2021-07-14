@@ -63,7 +63,7 @@ export async function enableDevTools(app: App, i18n: _I18n): Promise<boolean> {
                 // ignore global scope on legacy mode
                 if (
                   componentInstance.vnode.el.__VUE_I18N__ !==
-                  ((i18n.global as unknown) as VueI18nInternal).__composer
+                  (i18n.global as unknown as VueI18nInternal).__composer
                 ) {
                   inspectComposer(
                     instanceData,
@@ -315,16 +315,16 @@ function getComponentInstance(
 function getComposer(nodeId: string, i18n: _I18n): Composer | null {
   if (nodeId === 'global') {
     return i18n.mode === 'composition'
-      ? ((i18n.global as unknown) as Composer)
-      : ((i18n.global as unknown) as VueI18nInternal).__composer
+      ? (i18n.global as unknown as Composer)
+      : (i18n.global as unknown as VueI18nInternal).__composer
   } else {
     const instance = Array.from(i18n.__instances.values()).find(
       item => item.id.toString() === nodeId
     )
     if (instance) {
       return i18n.mode === 'composition'
-        ? ((instance as unknown) as Composer)
-        : ((instance as unknown) as VueI18nInternal).__composer
+        ? (instance as unknown as Composer)
+        : (instance as unknown as VueI18nInternal).__composer
     } else {
       return null
     }

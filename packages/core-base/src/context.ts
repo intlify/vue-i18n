@@ -415,7 +415,7 @@ export function createCoreContext<Message = string>(options: any = {}): any {
 
   // for vue-devtools timeline event
   if (__DEV__) {
-    ;((context as unknown) as CoreInternalContext).__v_emitter =
+    ;(context as unknown as CoreInternalContext).__v_emitter =
       internalOptions.__v_emitter != null
         ? internalOptions.__v_emitter
         : undefined
@@ -457,7 +457,7 @@ export function handleMissing<Message = string>(
 
   // for vue-devtools timeline event
   if (__DEV__) {
-    const emitter = ((context as unknown) as CoreInternalContext).__v_emitter
+    const emitter = (context as unknown as CoreInternalContext).__v_emitter
     if (emitter) {
       emitter.emit(VueDevToolsTimelineEvents.MISSING, {
         locale,
@@ -485,7 +485,7 @@ export function getLocaleChain<Message = string>(
   fallback: FallbackLocale,
   start: Locale
 ): Locale[] {
-  const context = (ctx as unknown) as CoreInternalContext
+  const context = ctx as unknown as CoreInternalContext
 
   if (!context.__localeChainCache) {
     context.__localeChainCache = new Map()
@@ -582,7 +582,7 @@ export function updateFallbackLocale<Message = string>(
   locale: Locale,
   fallback: FallbackLocale
 ): void {
-  const context = (ctx as unknown) as CoreInternalContext
+  const context = ctx as unknown as CoreInternalContext
   context.__localeChainCache = new Map()
   getLocaleChain<Message>(ctx, fallback, locale)
 }

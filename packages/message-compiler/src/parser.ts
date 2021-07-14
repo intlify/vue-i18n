@@ -214,9 +214,7 @@ export function createParser(options: ParserOptions = {}): Parser {
     return node
   }
 
-  function parseLinkedModifier(
-    tokenizer: Tokenizer
-  ): {
+  function parseLinkedModifier(tokenizer: Tokenizer): {
     nextConsumeToken?: Token
     node: LinkedModifierNode
   } {
@@ -272,9 +270,7 @@ export function createParser(options: ParserOptions = {}): Parser {
     return node
   }
 
-  function parseLinked(
-    tokenizer: Tokenizer
-  ): {
+  function parseLinked(tokenizer: Tokenizer): {
     nextConsumeToken?: Token
     node: LinkedNode
   } {

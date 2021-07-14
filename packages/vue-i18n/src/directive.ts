@@ -24,14 +24,14 @@ function getComposer(
   i18n: I18n,
   instance: ComponentInternalInstance
 ): Composer {
-  const i18nInternal = (i18n as unknown) as I18nInternal
+  const i18nInternal = i18n as unknown as I18nInternal
   if (i18n.mode === 'composition') {
     return (i18nInternal.__getInstance(instance) || i18n.global) as Composer
   } else {
     const vueI18n = i18nInternal.__getInstance(instance)
     return vueI18n != null
-      ? ((vueI18n as unknown) as VueI18nInternal).__composer
-      : ((i18n.global as unknown) as VueI18nInternal).__composer
+      ? (vueI18n as unknown as VueI18nInternal).__composer
+      : (i18n.global as unknown as VueI18nInternal).__composer
   }
 }
 

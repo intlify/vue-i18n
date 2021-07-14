@@ -45,7 +45,8 @@ export const CompileErrorCodes = {
   __EXTEND_POINT__: 15
 } as const
 
-export type CompileErrorCodes = typeof CompileErrorCodes[keyof typeof CompileErrorCodes]
+export type CompileErrorCodes =
+  typeof CompileErrorCodes[keyof typeof CompileErrorCodes]
 
 /** @internal */
 export const errorMessages: { [code: number]: string } = {

@@ -16,7 +16,8 @@ export type AdditionalPayloads = {
   meta?: Record<string, unknown>
 }
 
-export type IntlifyDevToolsHooks = typeof IntlifyDevToolsHooks[keyof typeof IntlifyDevToolsHooks]
+export type IntlifyDevToolsHooks =
+  typeof IntlifyDevToolsHooks[keyof typeof IntlifyDevToolsHooks]
 
 export type IntlifyDevToolsHookPayloads = {
   [IntlifyDevToolsHooks.I18nInit]: {

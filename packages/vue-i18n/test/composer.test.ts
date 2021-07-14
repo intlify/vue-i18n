@@ -495,16 +495,13 @@ describe('warnHtmlMessage', () => {
 
 describe('postTranslation', () => {
   test('default', () => {
-    const {
-      getPostTranslationHandler,
-      setPostTranslationHandler,
-      t
-    } = createComposer({
-      locale: 'en',
-      messages: {
-        en: { hello: ' hello world! ' }
-      }
-    })
+    const { getPostTranslationHandler, setPostTranslationHandler, t } =
+      createComposer({
+        locale: 'en',
+        messages: {
+          en: { hello: ' hello world! ' }
+        }
+      })
     expect(getPostTranslationHandler()).toEqual(null)
 
     const handler = (str: VueMessageType) => (isString(str) ? str.trim() : str)
@@ -1121,15 +1118,12 @@ test('te', async () => {
 
 describe('getLocaleMessage / setLocaleMessage / mergeLocaleMessage', () => {
   test('basic', () => {
-    const {
-      getLocaleMessage,
-      setLocaleMessage,
-      mergeLocaleMessage
-    } = createComposer({
-      messages: {
-        en: { hello: 'Hello!' }
-      }
-    })
+    const { getLocaleMessage, setLocaleMessage, mergeLocaleMessage } =
+      createComposer({
+        messages: {
+          en: { hello: 'Hello!' }
+        }
+      })
     expect(getLocaleMessage('en')).toEqual({ hello: 'Hello!' })
 
     setLocaleMessage('en', { hi: { hi: 'Hi!' } })
@@ -1151,24 +1145,21 @@ describe('getLocaleMessage / setLocaleMessage / mergeLocaleMessage', () => {
 
 describe('getDateTimeFormat / setDateTimeFormat / mergeDateTimeFormat', () => {
   test('basic', () => {
-    const {
-      getDateTimeFormat,
-      setDateTimeFormat,
-      mergeDateTimeFormat
-    } = createComposer({
-      locale: 'en-US',
-      datetimeFormats: {
-        'en-US': {
-          short: {
-            year: 'numeric',
-            month: '2-digit',
-            day: '2-digit',
-            hour: '2-digit',
-            minute: '2-digit'
+    const { getDateTimeFormat, setDateTimeFormat, mergeDateTimeFormat } =
+      createComposer({
+        locale: 'en-US',
+        datetimeFormats: {
+          'en-US': {
+            short: {
+              year: 'numeric',
+              month: '2-digit',
+              day: '2-digit',
+              hour: '2-digit',
+              minute: '2-digit'
+            }
           }
         }
-      }
-    })
+      })
     expect(getDateTimeFormat('en-US')).toEqual({
       short: {
         year: 'numeric',
@@ -1231,21 +1222,18 @@ describe('getDateTimeFormat / setDateTimeFormat / mergeDateTimeFormat', () => {
 
 describe('getNumberFormat / setNumberFormat / mergeNumberFormat', () => {
   test('basic', () => {
-    const {
-      getNumberFormat,
-      setNumberFormat,
-      mergeNumberFormat
-    } = createComposer({
-      numberFormats: {
-        'en-US': {
-          currency: {
-            style: 'currency',
-            currency: 'USD',
-            currencyDisplay: 'symbol'
+    const { getNumberFormat, setNumberFormat, mergeNumberFormat } =
+      createComposer({
+        numberFormats: {
+          'en-US': {
+            currency: {
+              style: 'currency',
+              currency: 'USD',
+              currencyDisplay: 'symbol'
+            }
           }
         }
-      }
-    })
+      })
     expect(getNumberFormat('en-US')).toEqual({
       currency: {
         style: 'currency',

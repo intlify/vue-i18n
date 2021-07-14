@@ -1949,13 +1949,13 @@ export function createComposer(options: any = {}): any {
       escapeParameter: _escapeParameter,
       messageResolver: options.messageResolver,
       __datetimeFormatters: isPlainObject(_context)
-        ? ((_context as unknown) as CoreInternalContext).__datetimeFormatters
+        ? (_context as unknown as CoreInternalContext).__datetimeFormatters
         : undefined,
       __numberFormatters: isPlainObject(_context)
-        ? ((_context as unknown) as CoreInternalContext).__numberFormatters
+        ? (_context as unknown as CoreInternalContext).__numberFormatters
         : undefined,
       __v_emitter: isPlainObject(_context)
-        ? ((_context as unknown) as CoreInternalContext).__v_emitter
+        ? (_context as unknown as CoreInternalContext).__v_emitter
         : undefined,
       __meta: { framework: 'vue' }
     }
@@ -2085,9 +2085,8 @@ export function createComposer(options: any = {}): any {
         }
         // for vue-devtools timeline event
         if (__DEV__) {
-          const {
-            __v_emitter: emitter
-          } = (_context as unknown) as CoreInternalContext
+          const { __v_emitter: emitter } =
+            _context as unknown as CoreInternalContext
           if (emitter && _fallbackRoot) {
             emitter.emit(VueDevToolsTimelineEvents.FALBACK, {
               type: warnType,
@@ -2099,7 +2098,7 @@ export function createComposer(options: any = {}): any {
         }
       }
       return __root && _fallbackRoot
-        ? fallbackSuccess((__root as unknown) as Composer<T> & ComposerInternal)
+        ? fallbackSuccess(__root as unknown as Composer<T> & ComposerInternal)
         : fallbackFail(key)
     } else if (successCondition(ret)) {
       return ret as U
@@ -2451,11 +2450,11 @@ export function createComposer(options: any = {}): any {
   if (__DEV__) {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     ;(composer as any)[EnableEmitter] = (emitter: VueDevToolsEmitter): void => {
-      ;((_context as unknown) as CoreInternalContext).__v_emitter = emitter
+      ;(_context as unknown as CoreInternalContext).__v_emitter = emitter
     }
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     ;(composer as any)[DisableEmitter] = (): void => {
-      ;((_context as unknown) as CoreInternalContext).__v_emitter = undefined
+      ;(_context as unknown as CoreInternalContext).__v_emitter = undefined
     }
   }
 

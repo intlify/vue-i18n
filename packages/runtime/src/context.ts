@@ -177,25 +177,25 @@ export function createMessageContext<T = string, N = {}>(
     return !msg
       ? options.parent
         ? options.parent.message(key) // resolve from parent messages
-        : ((DEFAULT_MESSAGE as unknown) as MessageFunction<T>)
+        : (DEFAULT_MESSAGE as unknown as MessageFunction<T>)
       : msg
   }
 
   const _modifier = (name: string): LinkedModify<T> =>
     options.modifiers
       ? options.modifiers[name]
-      : ((DEFAULT_MODIFIER as unknown) as LinkedModify<T>)
+      : (DEFAULT_MODIFIER as unknown as LinkedModify<T>)
 
   const normalize =
     isPlainObject(options.processor) && isFunction(options.processor.normalize)
       ? options.processor.normalize
-      : ((DEFAULT_NORMALIZE as unknown) as MessageNormalize<T>)
+      : (DEFAULT_NORMALIZE as unknown as MessageNormalize<T>)
 
   const interpolate =
     isPlainObject(options.processor) &&
     isFunction(options.processor.interpolate)
       ? options.processor.interpolate
-      : ((DEFAULT_INTERPOLATE as unknown) as MessageInterpolate<T>)
+      : (DEFAULT_INTERPOLATE as unknown as MessageInterpolate<T>)
 
   const type =
     isPlainObject(options.processor) && isString(options.processor.type)

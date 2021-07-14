@@ -197,7 +197,7 @@ export function datetime<
   ...args: unknown[]
 ): string | number | Intl.DateTimeFormatPart[] {
   const { datetimeFormats, unresolving, fallbackLocale, onWarn } = context
-  const { __datetimeFormatters } = (context as unknown) as CoreInternalContext
+  const { __datetimeFormatters } = context as unknown as CoreInternalContext
 
   if (__DEV__ && !Availabilities.dateTimeFormat) {
     onWarn(getWarnMessage(CoreWarnCodes.CANNOT_FORMAT_DATE))
@@ -248,7 +248,7 @@ export function datetime<
 
     // for vue-devtools timeline event
     if (__DEV__ && locale !== targetLocale) {
-      const emitter = ((context as unknown) as CoreInternalContext).__v_emitter
+      const emitter = (context as unknown as CoreInternalContext).__v_emitter
       if (emitter) {
         emitter.emit(VueDevToolsTimelineEvents.FALBACK, {
           type,
@@ -261,7 +261,7 @@ export function datetime<
     }
 
     datetimeFormat =
-      ((datetimeFormats as unknown) as DateTimeFormatsType)[targetLocale] || {}
+      (datetimeFormats as unknown as DateTimeFormatsType)[targetLocale] || {}
     format = datetimeFormat[key]
 
     if (isPlainObject(format)) break
@@ -357,7 +357,7 @@ export function clearDateTimeFormat<DateTimeFormats = {}, Message = string>(
   locale: Locale,
   format: DateTimeFormat
 ): void {
-  const context = (ctx as unknown) as CoreInternalContext
+  const context = ctx as unknown as CoreInternalContext
   for (const key in format) {
     const id = `${locale}__${key}`
     if (!context.__datetimeFormatters.has(id)) {

@@ -70,9 +70,8 @@ import type {
 export type TranslateResult = string
 export type Choice = number
 /** @VueI18nLegacy */
-export type LocaleMessageObject<
-  Message = string
-> = LocaleMessageDictionary<Message>
+export type LocaleMessageObject<Message = string> =
+  LocaleMessageDictionary<Message>
 export type PluralizationRulesMap = { [locale: string]: PluralizationRule }
 export type WarnHtmlInMessageLevel = 'off' | 'warn' | 'error'
 /** @VueI18nLegacy */
@@ -547,9 +546,8 @@ export interface VueI18nTranslation<
  *
  * @VueI18nLegacy
  */
-export type VueI18nResolveLocaleMessageTranslation<
-  Locales = 'en-US'
-> = ComposerResolveLocaleMessageTranslation<Locales>
+export type VueI18nResolveLocaleMessageTranslation<Locales = 'en-US'> =
+  ComposerResolveLocaleMessageTranslation<Locales>
 
 /**
  * Locale message pluralization functions for VueI18n legacy interfaces
@@ -1774,13 +1772,13 @@ export function createVueI18n(options: any = {}): any {
 
   // for vue-devtools timeline event
   if (__DEV__) {
-    ;((vueI18n as unknown) as VueI18nInternal).__enableEmitter = (
+    ;(vueI18n as unknown as VueI18nInternal).__enableEmitter = (
       emitter: VueDevToolsEmitter
     ): void => {
       const __composer = composer as any
       __composer[EnableEmitter] && __composer[EnableEmitter](emitter)
     }
-    ;((vueI18n as unknown) as VueI18nInternal).__disableEmitter = (): void => {
+    ;(vueI18n as unknown as VueI18nInternal).__disableEmitter = (): void => {
       const __composer = composer as any
       __composer[DisableEmitter] && __composer[DisableEmitter]()
     }

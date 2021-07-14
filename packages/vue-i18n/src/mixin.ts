@@ -70,7 +70,7 @@ export function defineMixin(
         this.$i18n = vuei18n
       }
 
-      ;((vuei18n as unknown) as VueI18nInternal).__onComponentInstanceCreated(
+      ;(vuei18n as unknown as VueI18nInternal).__onComponentInstanceCreated(
         this.$i18n
       )
       i18n.__setInstance(instance, this.$i18n as VueI18n)
@@ -93,8 +93,9 @@ export function defineMixin(
       /* istanbul ignore if */
       if ((__DEV__ || __FEATURE_PROD_VUE_DEVTOOLS__) && !__NODE_JS__) {
         this.$el.__VUE_I18N__ = this.$i18n.__composer
-        const emitter: VueDevToolsEmitter = (this.__v_emitter = createEmitter<VueDevToolsEmitterEvents>())
-        const _vueI18n = (this.$i18n as unknown) as VueI18nInternal
+        const emitter: VueDevToolsEmitter = (this.__v_emitter =
+          createEmitter<VueDevToolsEmitterEvents>())
+        const _vueI18n = this.$i18n as unknown as VueI18nInternal
         _vueI18n.__enableEmitter && _vueI18n.__enableEmitter(emitter)
         emitter.on('*', addTimelineEvent)
       }
@@ -114,7 +115,7 @@ export function defineMixin(
             this.__v_emitter.off('*', addTimelineEvent)
             delete this.__v_emitter
           }
-          const _vueI18n = (this.$i18n as unknown) as VueI18nInternal
+          const _vueI18n = this.$i18n as unknown as VueI18nInternal
           _vueI18n.__disableEmitter && _vueI18n.__disableEmitter()
           delete this.$el.__VUE_I18N__
         }
