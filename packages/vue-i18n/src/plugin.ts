@@ -60,9 +60,9 @@ export function apply(app: App, i18n: I18n, ...options: unknown[]): void {
     // install components
     app.component(
       !useI18nComponentName ? Translation.name : 'i18n',
-      Translation as Component
+      Translation
     )
-    app.component(NumberFormat.name, NumberFormat as Component)
+    app.component(NumberFormat.name, NumberFormat)
     app.component(DatetimeFormat.name, DatetimeFormat as Component)
   }
 

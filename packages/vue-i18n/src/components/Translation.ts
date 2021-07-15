@@ -1,11 +1,27 @@
-import { h, Fragment } from 'vue'
+import { h, Fragment, defineComponent } from 'vue'
 import { isNumber, isString, isObject } from '@intlify/shared'
 import { TransrateVNodeSymbol } from '../composer'
 import { useI18n } from '../i18n'
 import { baseFormatProps } from './base'
 import { assign } from '@intlify/shared'
 
-import type { SetupContext, VNodeChild, RenderFunction } from 'vue'
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import type {
+  SetupContext,
+  VNodeChild,
+  // NOTE: avoid https://github.com/microsoft/rushstack/issues/1050
+  // @ts-ignore
+  DefineComponent,
+  // @ts-ignore
+  ComponentOptionsMixin,
+  // @ts-ignore
+  AllowedComponentProps,
+  // @ts-ignore
+  VNodeProps,
+  // @ts-ignore
+  ComponentCustomProps
+} from 'vue'
+/* eslint-enable @typescript-eslint/no-unused-vars */
 import type { Composer, ComposerInternal } from '../composer'
 import type { TranslateOptions } from '@intlify/core-base'
 import type { NamedValue } from '@intlify/runtime'
@@ -78,7 +94,7 @@ export interface TranslationProps extends BaseFormatProps {
  *
  * @VueI18nComponent
  */
-export const Translation = {
+export const Translation = /* #__PURE__*/ defineComponent({
   /* eslint-disable */
   name: 'i18n-t',
   props: assign(
@@ -96,11 +112,13 @@ export const Translation = {
     baseFormatProps
   ),
   /* eslint-enable */
-  setup(props: TranslationProps, context: SetupContext): RenderFunction {
+  setup(props, context) {
     const { slots, attrs } = context
+    // NOTE: avoid https://github.com/microsoft/rushstack/issues/1050
     const i18n =
       props.i18n ||
-      (useI18n({ useScope: props.scope }) as Composer & ComposerInternal)
+      (useI18n({ useScope: props.scope as 'global' | 'parent' }) as Composer &
+        ComposerInternal)
     const keys = Object.keys(slots).filter(key => key !== '_')
 
     return (): VNodeChild => {
@@ -124,7 +142,7 @@ export const Translation = {
         : h(Fragment, assignedAttrs, children)
     }
   }
-}
+})
 
 function getInterpolateArg(
   { slots }: SetupContext,
