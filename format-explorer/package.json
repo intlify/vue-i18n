@@ -12,7 +12,7 @@
   },
   "devDependencies": {
     "@vue/compiler-sfc": "^3.0.4",
-    "css-loader": "^5.0.0",
+    "css-loader": "^6.0.0",
     "file-loader": "^6.2.0",
     "html-webpack-plugin": "^5.0.0",
     "monaco-editor-webpack-plugin": "^4.0.0",
