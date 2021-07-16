@@ -9,7 +9,7 @@ import { defineComponent } from 'vue'
 import type {
   RenderFunction,
   // NOTE: avoid https://github.com/microsoft/rushstack/issues/1050
-  // @ts-ignoreu
+  // @ts-ignore
   DefineComponent,
   // @ts-ignore
   ComponentOptionsMixin,
