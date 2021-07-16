@@ -1,4 +1,4 @@
-import { defineComponent, createSSRApp } from 'vue'
+import { h, defineComponent, resolveComponent, createSSRApp } from 'vue'
 import { renderToString } from '@vue/server-renderer'
 import { createI18n, useI18n } from '../src/index'
 
@@ -11,7 +11,7 @@ test('composition mode', async () => {
 
   const App = defineComponent({
     setup() {
-      return useI18n({
+      const { t } = useI18n({
         locale: 'ja',
         inheritLocale: false,
         messages: {
@@ -19,8 +19,8 @@ test('composition mode', async () => {
           en: { hello: 'hello!' }
         }
       })
-    },
-    template: `<p>{{ t('hello') }}</p>`
+      return () => h('p', t('hello'))
+    }
   })
   const app = createSSRApp(App)
   app.use(i18n)
@@ -37,9 +37,8 @@ test('legacy mode', async () => {
     }
   })
 
-  const App = defineComponent({
-    template: `<p>{{ $t('hello') }}</p>`
-  })
+  // NOTE: template: `<p>{{ $t('hello') }}</p>`
+  const App = () => h('p', i18n.global.t('hello'))
   const app = createSSRApp(App)
   app.use(i18n)
 
@@ -55,7 +54,7 @@ test('component: i18n-t', async () => {
 
   const App = defineComponent({
     setup() {
-      return useI18n({
+      useI18n({
         locale: 'ja',
         inheritLocale: false,
         messages: {
@@ -63,8 +62,9 @@ test('component: i18n-t', async () => {
           en: { hello: 'hello!' }
         }
       })
-    },
-    template: `<i18n-t tag="p" keypath="hello"/>`
+      return () => h(resolveComponent('i18n-t'), { tag: 'p', keypath: 'hello' })
+    }
+    // template: `<i18n-t tag="p" keypath="hello"/>`
   })
   const app = createSSRApp(App)
   app.use(i18n)

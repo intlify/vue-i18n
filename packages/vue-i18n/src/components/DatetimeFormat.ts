@@ -3,8 +3,24 @@ import { DatetimePartsSymbol } from '../composer'
 import { renderFormatter } from './formatRenderer'
 import { baseFormatProps } from './base'
 import { assign } from '@intlify/shared'
+import { defineComponent } from 'vue'
 
-import type { RenderFunction, SetupContext } from 'vue'
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import type {
+  RenderFunction,
+  // NOTE: avoid https://github.com/microsoft/rushstack/issues/1050
+  // @ts-ignore
+  DefineComponent,
+  // @ts-ignore
+  ComponentOptionsMixin,
+  // @ts-ignore
+  AllowedComponentProps,
+  // @ts-ignore
+  VNodeProps,
+  // @ts-ignore
+  ComponentCustomProps
+} from 'vue'
+/* eslint-enable @typescript-eslint/no-unused-vars */
 import type { DateTimeOptions } from '@intlify/core-base'
 import type { Composer, ComposerInternal } from '../composer'
 import type { FormattableProps } from './formatRenderer'
@@ -59,7 +75,7 @@ const DATETIME_FORMAT_KEYS = [
  *
  * @VueI18nComponent
  */
-export const DatetimeFormat = {
+export const DatetimeFormat = /* #__PURE__*/ defineComponent({
   /* eslint-disable */
   name: 'i18n-d',
   props: assign(
@@ -75,7 +91,7 @@ export const DatetimeFormat = {
     baseFormatProps
   ),
   /* eslint-enable */
-  setup(props: DatetimeFormatProps, context: SetupContext): RenderFunction {
+  setup(props, context): RenderFunction {
     const i18n =
       props.i18n ||
       (useI18n({ useScope: 'parent' }) as Composer & ComposerInternal)
@@ -86,9 +102,13 @@ export const DatetimeFormat = {
       Intl.DateTimeFormatOptions,
       DateTimeOptions,
       Intl.DateTimeFormatPart
-    >(props, context, DATETIME_FORMAT_KEYS, (...args: unknown[]) =>
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      (i18n as any)[DatetimePartsSymbol](...args)
+    >(
+      props as DatetimeFormatProps,
+      context,
+      DATETIME_FORMAT_KEYS,
+      (...args: unknown[]) =>
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        (i18n as any)[DatetimePartsSymbol](...args)
     )
   }
-}
+})

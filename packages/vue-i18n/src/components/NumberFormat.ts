@@ -3,8 +3,24 @@ import { NumberPartsSymbol } from '../composer'
 import { renderFormatter } from './formatRenderer'
 import { baseFormatProps } from './base'
 import { assign } from '@intlify/shared'
+import { defineComponent } from 'vue'
 
-import type { SetupContext, RenderFunction } from 'vue'
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import type {
+  RenderFunction,
+  // NOTE: avoid https://github.com/microsoft/rushstack/issues/1050
+  // @ts-ignore
+  DefineComponent,
+  // @ts-ignore
+  ComponentOptionsMixin,
+  // @ts-ignore
+  AllowedComponentProps,
+  // @ts-ignore
+  VNodeProps,
+  // @ts-ignore
+  ComponentCustomProps
+} from 'vue'
+/* eslint-enable @typescript-eslint/no-unused-vars */
 import type { NumberOptions } from '@intlify/core-base'
 import type { Composer, ComposerInternal } from '../composer'
 import type { FormattableProps } from './formatRenderer'
@@ -54,7 +70,7 @@ const NUMBER_FORMAT_KEYS = [
  *
  * @VueI18nComponent
  */
-export const NumberFormat = {
+export const NumberFormat = /* #__PURE__*/ defineComponent({
   /* eslint-disable */
   name: 'i18n-n',
   props: assign(
@@ -70,7 +86,7 @@ export const NumberFormat = {
     baseFormatProps
   ),
   /* eslint-enable */
-  setup(props: NumberFormatProps, context: SetupContext): RenderFunction {
+  setup(props, context): RenderFunction {
     const i18n =
       props.i18n ||
       (useI18n({ useScope: 'parent' }) as Composer & ComposerInternal)
@@ -81,9 +97,13 @@ export const NumberFormat = {
       Intl.NumberFormatOptions,
       NumberOptions,
       Intl.NumberFormatPart
-    >(props, context, NUMBER_FORMAT_KEYS, (...args: unknown[]) =>
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      (i18n as any)[NumberPartsSymbol](...args)
+    >(
+      props as NumberFormatProps,
+      context,
+      NUMBER_FORMAT_KEYS,
+      (...args: unknown[]) =>
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        (i18n as any)[NumberPartsSymbol](...args)
     )
   }
-}
+})
