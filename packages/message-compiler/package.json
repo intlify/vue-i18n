@@ -1,6 +1,6 @@
 {
   "name": "@intlify/message-compiler",
-  "version": "9.2.0-alpha.5",
+  "version": "9.2.0-alpha.6",
   "description": "@intlify/message-compiler",
   "keywords": [
     "compiler",
@@ -33,8 +33,8 @@
   "jsdelivr": "dist/message-compiler.global.js",
   "types": "dist/message-compiler.d.ts",
   "dependencies": {
-    "@intlify/message-resolver": "9.2.0-alpha.5",
-    "@intlify/shared": "9.2.0-alpha.5",
+    "@intlify/message-resolver": "9.2.0-alpha.6",
+    "@intlify/shared": "9.2.0-alpha.6",
     "source-map": "0.6.1"
   },
   "engines": {

@@ -1,3 +1,13 @@
+
+## v9.2.0-alpha.6 (2021-07-16)
+
+#### :zap: Improvement Features
+* `vue-i18n`
+  * [#578](https://github.com/intlify/vue-i18n-next/pull/578) support for Vue 3.1 ([@kazupon](https://github.com/kazupon))
+
+#### Committers: 1
+- kazuya kawaguchi ([@kazupon](https://github.com/kazupon))
+
 ## v9.1.7 (2021-07-13)
 
 #### :bug: Bug Fixes
