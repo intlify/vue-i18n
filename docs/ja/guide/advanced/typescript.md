@@ -146,7 +146,7 @@ export default defineComponent({
 - Type safety is not supported for i18n custom blocks in SFC. We'll plan to support it in the future.
 :::
 
-これまで説明したコードは、example として公開しています。実際に確認してみましょう！
+これまで説明したコードは、[example](https://github.com/intlify/vue-i18n-next/tree/master/examples/type-safe) として公開しています。実際に確認してみましょう！
 
 ### Type-Safe supporting APIs
 他にも、以下のAPIに対して、型安全なリソースの操作ができるようリソースのスキーマを指定できる型パラメータをサポートしています。
