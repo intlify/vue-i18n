@@ -1,5 +1,5 @@
 <template>
-  <p>message: {{ t('hello') }}</p>
+  <p>message: {{ t('world') }}</p>
   <p>currecy: {{ n(1000, 'currency') }}</p>
 </template>
 
@@ -14,7 +14,7 @@ export default defineComponent({
   name: 'GlobalScope',
   setup() {
     // use global scope
-    const { t, n } = useI18n<{ message: MessageSchema, number: NumberSchema }>({
+    const { t, n } = useI18n<{ message: MessageSchema; number: NumberSchema }>({
       useScope: 'global'
     })
     return { t, n }

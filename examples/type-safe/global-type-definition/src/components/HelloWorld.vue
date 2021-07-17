@@ -13,7 +13,7 @@ export default defineComponent({
   setup() {
     // use global scope
     const { t, d, n } = useI18n({
-      inheritLocale: true,
+      inheritLocale: true
     })
     return { t, d, n }
   }

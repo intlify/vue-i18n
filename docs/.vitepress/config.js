@@ -181,6 +181,10 @@ const config = {
                   link: '/guide/advanced/composition',
                 },
                 {
+                  text: 'TypeScript Support',
+                  link: '/guide/advanced/typescript',
+                },
+                {
                   text: 'Optimization',
                   link: '/guide/advanced/optimization',
                 }
@@ -346,6 +350,10 @@ const config = {
                 {
                   text: 'Composition API',
                   link: '/ja/guide/advanced/composition',
+                },
+                {
+                  text: 'TypeScript Support',
+                  link: '/ja/guide/advanced/typescript',
                 },
                 {
                   text: 'Optimization',
