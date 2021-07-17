@@ -1,14 +1,17 @@
 import { format } from '@intlify/shared'
 import { CoreWarnCodes } from '@intlify/core-base'
 
+let code = CoreWarnCodes.__EXTEND_POINT__
+const inc = () => code++
+
 export const I18nWarnCodes = {
-  FALLBACK_TO_ROOT: CoreWarnCodes.__EXTEND_POINT__,
-  NOT_SUPPORTED_PRESERVE: CoreWarnCodes.__EXTEND_POINT__ + 1,
-  NOT_SUPPORTED_FORMATTER: CoreWarnCodes.__EXTEND_POINT__ + 2,
-  NOT_SUPPORTED_PRESERVE_DIRECTIVE: CoreWarnCodes.__EXTEND_POINT__ + 3,
-  NOT_SUPPORTED_GET_CHOICE_INDEX: CoreWarnCodes.__EXTEND_POINT__ + 4,
-  COMPONENT_NAME_LEGACY_COMPATIBLE: CoreWarnCodes.__EXTEND_POINT__ + 5,
-  NOT_FOUND_PARENT_SCOPE: CoreWarnCodes.__EXTEND_POINT__ + 6
+  FALLBACK_TO_ROOT: code, // 7
+  NOT_SUPPORTED_PRESERVE: inc(), // 8
+  NOT_SUPPORTED_FORMATTER: inc(), // 9
+  NOT_SUPPORTED_PRESERVE_DIRECTIVE: inc(), // 10
+  NOT_SUPPORTED_GET_CHOICE_INDEX: inc(), // 11
+  COMPONENT_NAME_LEGACY_COMPATIBLE: inc(), // 12
+  NOT_FOUND_PARENT_SCOPE: inc() // 13
 } as const
 
 type I18nWarnCodes = typeof I18nWarnCodes[keyof typeof I18nWarnCodes]
