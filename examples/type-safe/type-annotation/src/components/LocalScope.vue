@@ -11,7 +11,7 @@ import enUS from './en-US.json'
 type MessageSchema = typeof enUS
 type NumberSchema = {
   currency: {
-    style: 'currency',
+    style: 'currency'
     currencyDisplay: 'symbol'
     currency: string
   }
@@ -24,10 +24,13 @@ export default defineComponent({
      * if you can specify resource schema to type parameter of `useI18n`,
      * you can make to be type-safe the i18n resources.
      */
-    const { t, n } = useI18n<{
-      message: MessageSchema,
-      number: NumberSchema
-    }, 'en-US'>({
+    const { t, n } = useI18n<
+      {
+        message: MessageSchema
+        number: NumberSchema
+      },
+      'en-US'
+    >({
       inheritLocale: true,
       messages: {
         'en-US': enUS
