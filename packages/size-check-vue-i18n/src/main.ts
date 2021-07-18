@@ -1,12 +1,12 @@
 import { h, createApp } from '@vue/runtime-dom'
-import { createI18n } from '../../vue-i18n/dist/vue-i18n.runtime.esm-bundler.js'
+import { createI18n } from 'vue-i18n'
 
 const i18n = createI18n({
   legacy: false,
   locale: 'en',
   messages: {
     en: {
-      hello: 'hello!'
+      hello: () => 'hello!'
     }
   }
 })

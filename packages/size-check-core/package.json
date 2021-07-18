@@ -1,7 +1,16 @@
 {
   "name": "@intlify/size-check-core",
   "private": true,
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "check": "tsc",
+    "serve": "vite preview"
+  },
   "dependencies": {
-    "@intlify/core": "9.0.0"
+    "@intlify/core": "9.2.0-alpha.6"
+  },
+  "devDependencies": {
+    "vite": "^2.4.2"
   }
 }
