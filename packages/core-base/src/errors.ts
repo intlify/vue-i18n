@@ -8,11 +8,14 @@ export interface CoreError extends CompileError {
   code: CoreErrorCodes
 }
 
+let code = CompileErrorCodes.__EXTEND_POINT__
+const inc = () => code++
+
 export const CoreErrorCodes = {
-  INVALID_ARGUMENT: CompileErrorCodes.__EXTEND_POINT__,
-  INVALID_DATE_ARGUMENT: CompileErrorCodes.__EXTEND_POINT__ + 1,
-  INVALID_ISO_DATE_ARGUMENT: CompileErrorCodes.__EXTEND_POINT__ + 2,
-  __EXTEND_POINT__: CompileErrorCodes.__EXTEND_POINT__ + 3
+  INVALID_ARGUMENT: code, // 15
+  INVALID_DATE_ARGUMENT: inc(), // 16
+  INVALID_ISO_DATE_ARGUMENT: inc(), // 17
+  __EXTEND_POINT__: inc() // 18
 } as const
 
 export type CoreErrorCodes = typeof CoreErrorCodes[keyof typeof CoreErrorCodes]

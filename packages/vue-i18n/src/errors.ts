@@ -8,24 +8,27 @@ export interface I18nError extends CompileError {
   code: I18nErrorCodes
 }
 
+let code = CompileErrorCodes.__EXTEND_POINT__
+const inc = () => code++
+
 export const I18nErrorCodes = {
   // composer module errors
-  UNEXPECTED_RETURN_TYPE: CompileErrorCodes.__EXTEND_POINT__,
+  UNEXPECTED_RETURN_TYPE: code, // 15
   // legacy module errors
-  INVALID_ARGUMENT: CompileErrorCodes.__EXTEND_POINT__ + 1,
+  INVALID_ARGUMENT: inc(), // 16
   // i18n module errors
-  MUST_BE_CALL_SETUP_TOP: CompileErrorCodes.__EXTEND_POINT__ + 2,
-  NOT_INSLALLED: CompileErrorCodes.__EXTEND_POINT__ + 3,
-  NOT_AVAILABLE_IN_LEGACY_MODE: CompileErrorCodes.__EXTEND_POINT__ + 4,
+  MUST_BE_CALL_SETUP_TOP: inc(), // 17
+  NOT_INSLALLED: inc(), // 18
+  NOT_AVAILABLE_IN_LEGACY_MODE: inc(), // 19
   // directive module errors
-  REQUIRED_VALUE: CompileErrorCodes.__EXTEND_POINT__ + 5,
-  INVALID_VALUE: CompileErrorCodes.__EXTEND_POINT__ + 6,
+  REQUIRED_VALUE: inc(), // 20
+  INVALID_VALUE: inc(), // 21
   // vue-devtools errors
-  CANNOT_SETUP_VUE_DEVTOOLS_PLUGIN: CompileErrorCodes.__EXTEND_POINT__ + 7,
+  CANNOT_SETUP_VUE_DEVTOOLS_PLUGIN: inc(), // 22
   // unexpected error
-  UNEXPECTED_ERROR: CompileErrorCodes.__EXTEND_POINT__ + 8,
+  UNEXPECTED_ERROR: inc(), // 23
   // for enhancement
-  __EXTEND_POINT__: CompileErrorCodes.__EXTEND_POINT__ + 9
+  __EXTEND_POINT__: inc() // 24
 } as const
 
 type I18nErrorCodes = typeof I18nErrorCodes[keyof typeof I18nErrorCodes]
