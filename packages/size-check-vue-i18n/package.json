@@ -15,6 +15,6 @@
     "@vitejs/plugin-vue": "^1.2.5",
     "@vue/compiler-sfc": "^3.1.5",
     "vite": "^2.4.2",
-    "vue-tsc": "^0.0.24"
+    "vue-tsc": "^0.2.0"
   }
 }
