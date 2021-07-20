@@ -12,11 +12,13 @@ import {
   createComposer,
   MissingHandler,
   ComposerOptions,
-  VueMessageType,
+  VueMessageType
+} from '../src/composer'
+import {
   TransrateVNodeSymbol,
   NumberPartsSymbol,
   DatetimePartsSymbol
-} from '../src/composer'
+} from '../src/symbols'
 import { getWarnMessage, I18nWarnCodes } from '../src/warnings'
 import { watch, watchEffect, nextTick, Text, createVNode } from 'vue'
 import {

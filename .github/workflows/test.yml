@@ -36,7 +36,7 @@ jobs:
       - name: Install
         run: yarn install
       - name: Test
-        run: yarn build --all -t
+        run: yarn build --all -t --lite
       - name: Test
         run: yarn test
       # https://github.com/actions/runner/issues/795
