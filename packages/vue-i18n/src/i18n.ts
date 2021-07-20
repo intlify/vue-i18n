@@ -390,13 +390,15 @@ export function createI18n(options: any = {}): any {
   type _I18n = I18n & I18nInternal
 
   // prettier-ignore
-  const __legacyMode = __FEATURE_LEGACY_API__ && isBoolean(options.legacy)
-    ? options.legacy
-    : __FEATURE_LEGACY_API__
+  const __legacyMode = __LITE__
+    ? false
+    :  __FEATURE_LEGACY_API__ && isBoolean(options.legacy)
+      ? options.legacy
+      : __FEATURE_LEGACY_API__
   const __globalInjection = !!options.globalInjection
   const __instances = new Map<ComponentInternalInstance, VueI18n | Composer>()
   // prettier-ignore
-  const __global = __FEATURE_LEGACY_API__ && __legacyMode
+  const __global = !__LITE__ && __FEATURE_LEGACY_API__ && __legacyMode
     ? createVueI18n(options)
     : createComposer(options)
   const symbol: InjectionKey<I18n> | string = makeSymbol(
@@ -406,7 +408,9 @@ export function createI18n(options: any = {}): any {
   const i18n = {
     // mode
     get mode(): I18nMode {
-      return __FEATURE_LEGACY_API__ && __legacyMode ? 'legacy' : 'composition'
+      return !__LITE__ && __FEATURE_LEGACY_API__ && __legacyMode
+        ? 'legacy'
+        : 'composition'
     },
     // install plugin
     async install(app: App, ...options: unknown[]): Promise<void> {
@@ -424,12 +428,12 @@ export function createI18n(options: any = {}): any {
       }
 
       // install built-in components and directive
-      if (__FEATURE_FULL_INSTALL__) {
+      if (!__LITE__ && __FEATURE_FULL_INSTALL__) {
         apply(app, i18n as I18n, ...options)
       }
 
       // setup mixin for Legacy API
-      if (__FEATURE_LEGACY_API__ && __legacyMode) {
+      if (!__LITE__ && __FEATURE_LEGACY_API__ && __legacyMode) {
         app.mixin(
           defineMixin(
             __global as unknown as VueI18n,
@@ -707,9 +711,12 @@ function getComposer(
     if (i18n.mode === 'composition') {
       composer = i18nInternal.__getInstance(current)
     } else {
-      const vueI18n = i18nInternal.__getInstance(current)
-      if (vueI18n != null) {
-        composer = (vueI18n as VueI18n & VueI18nInternal).__composer as Composer
+      if (!__LITE__ && __FEATURE_LEGACY_API__) {
+        const vueI18n = i18nInternal.__getInstance(current)
+        if (vueI18n != null) {
+          composer = (vueI18n as VueI18n & VueI18nInternal)
+            .__composer as Composer
+        }
       }
     }
     if (composer != null) {

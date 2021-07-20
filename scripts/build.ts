@@ -22,7 +22,11 @@ import execa from 'execa'
 import os from 'os'
 import { gzip as _gzip } from 'zlib'
 import { compress } from 'brotli'
-import { targets as allTargets, fuzzyMatchTarget, checkSizeDistFiles } from './utils'
+import {
+  targets as allTargets,
+  fuzzyMatchTarget,
+  checkSizeDistFiles
+} from './utils'
 import minimist from 'minimist'
 import { Extractor, ExtractorConfig } from '@microsoft/api-extractor'
 import { default as _rimraf } from 'rimraf'
@@ -42,6 +46,7 @@ const rimraf = promisify(_rimraf)
   const buildAllMatching = args.all || args.a
   const { stdout } = await execa('git', ['rev-parse', 'HEAD'])
   const commit = stdout.slice(0, 7)
+  const lite = args.lite || args.l
 
   await run()
 
@@ -61,18 +66,18 @@ const rimraf = promisify(_rimraf)
       await checkAllSizes(targets)
     }
   }
-  
+
   async function buildAll(targets) {
     await runParallel(os.cpus().length, targets, build)
   }
-  
+
   async function runParallel(maxConcurrency, source, iteratorFn) {
     const ret = []
     const executing = []
     for (const item of source) {
       const p = Promise.resolve().then(() => iteratorFn(item, source))
       ret.push(p)
-  
+
       if (maxConcurrency <= source.length) {
         const e = p.then(() => executing.splice(executing.indexOf(e), 1))
         executing.push(e)
@@ -83,7 +88,7 @@ const rimraf = promisify(_rimraf)
     }
     return Promise.all(ret)
   }
-  
+
   async function isExist(filePath) {
     const ret = false
     try {
@@ -95,18 +100,18 @@ const rimraf = promisify(_rimraf)
   async function build(target) {
     const pkgDir = path.resolve(`packages/${target}`)
     const { default: pkg } = await import(`${pkgDir}/package.json`)
-  
+
     // only build published packages for release
     if (isRelease && pkg.private) {
       return
     }
-  
+
     // if building a specific format, do not remove dist.
     if (!formats) {
       // @ts-ignore
       await rimraf(`${pkgDir}/dist`)
     }
-  
+
     const env =
       (pkg.buildOptions && pkg.buildOptions.env) ||
       (devOnly ? 'development' : 'production')
@@ -122,30 +127,30 @@ const rimraf = promisify(_rimraf)
           formats ? `FORMATS:${formats}` : ``,
           buildTypes ? `TYPES:true` : ``,
           prodOnly ? `PROD_ONLY:true` : ``,
-          sourceMap ? `SOURCE_MAP:true` : ``
+          sourceMap ? `SOURCE_MAP:true` : ``,
+          lite ? `LITE:true` : ``
         ]
           .filter(Boolean)
           .join(',')
       ],
       { stdio: 'inherit' }
     )
-  
+
     if (buildTypes && pkg.types) {
       console.log()
       console.log(
         chalk.bold(chalk.yellow(`Rolling up type definitions for ${target}...`))
       )
-  
+
       // build types
       const extractorConfigPath = path.resolve(pkgDir, `api-extractor.json`)
-      const extractorConfig = ExtractorConfig.loadFileAndPrepare(
-        extractorConfigPath
-      )
+      const extractorConfig =
+        ExtractorConfig.loadFileAndPrepare(extractorConfigPath)
       const extractorResult = Extractor.invoke(extractorConfig, {
         localBuild: true,
         showVerboseMessages: true
       })
-  
+
       if (extractorResult.succeeded) {
         // concat additional d.ts to rolled-up dts
         const typesDir = path.resolve(pkgDir, 'types')
@@ -154,7 +159,7 @@ const rimraf = promisify(_rimraf)
           const existing = await fs.readFile(dtsPath, 'utf-8')
           const typeFiles = await fs.readdir(typesDir)
           const toAdd = await Promise.all(
-            typeFiles.map(async (file) => {
+            typeFiles.map(async file => {
               return await fs.readFile(path.resolve(typesDir, file), 'utf-8')
             })
           )
@@ -170,12 +175,12 @@ const rimraf = promisify(_rimraf)
         )
         process.exitCode = 1
       }
-  
+
       // @ts-ignore
       await rimraf(`${pkgDir}/dist/packages`)
     }
   }
-  
+
   async function checkAllSizes(targets) {
     if (devOnly) {
       return
@@ -186,7 +191,7 @@ const rimraf = promisify(_rimraf)
     }
     console.log()
   }
-  
+
   async function checkSize(target) {
     const pkgDir = path.resolve(`packages/${target}`)
     const files = await checkSizeDistFiles(pkgDir)
@@ -194,7 +199,7 @@ const rimraf = promisify(_rimraf)
       await checkFileSize(`${pkgDir}/dist/${file}`)
     }
   }
-  
+
   async function checkFileSize(filePath) {
     if (await !isExist(filePath)) {
       return

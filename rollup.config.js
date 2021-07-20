@@ -24,7 +24,7 @@ const banner = `/*!
 // ensure TS checks only once for each build
 let hasTSChecked = false
 
-const outputConfigs = {
+const basicConfigs = {
   'esm-bundler': {
     file: resolve(`dist/${name}.esm-bundler.js`),
     format: `es`
@@ -55,10 +55,49 @@ const outputConfigs = {
     format: 'iife'
   }
 }
+// for vue-i18n lite build
+const liteOutputConfigs = {
+  'esm-bundler-lite': {
+    file: resolve(`dist/${name}.lite.esm-bundler.js`),
+    format: `es`
+  },
+  'esm-browser-lite': {
+    file: resolve(`dist/${name}.lite.esm-browser.js`),
+    format: `es`
+  },
+  'global-lite': {
+    file: resolve(`dist/${name}.lite.global.js`),
+    format: `iife`
+  },
+  'esm-bundler-runtime-lite': {
+    file: resolve(`dist/${name}.lite.runtime.esm-bundler.js`),
+    format: `es`
+  },
+  'esm-browser-runtime-lite': {
+    file: resolve(`dist/${name}.lite.runtime.esm-browser.js`),
+    format: 'es'
+  },
+  'global-runtime-lite': {
+    file: resolve(`dist/${name}.lite.runtime.global.js`),
+    format: 'iife'
+  }
+}
+
+const outputConfigs =
+  name === 'vue-i18n' && process.env.LITE
+    ? { ...basicConfigs, ...liteOutputConfigs }
+    : { ...basicConfigs }
 
 const defaultFormats = ['esm-bundler', 'cjs']
 const inlineFormats = process.env.FORMATS && process.env.FORMATS.split(',')
-const packageFormats = inlineFormats || packageOptions.formats || defaultFormats
+const baseFormats = inlineFormats || packageOptions.formats || defaultFormats
+const packageFormats =
+  name === 'vue-i18n' && process.env.LITE
+    ? [
+        ...baseFormats,
+        ...baseFormats.map(f => `${f}-lite`).filter(f => f !== 'cjs-lite')
+      ]
+    : baseFormats
 const packageConfigs = process.env.PROD_ONLY
   ? []
   : packageFormats.map(format => createConfig(format, outputConfigs[format]))
@@ -101,7 +140,8 @@ function createConfig(format, output, plugins = []) {
   const isBrowserESMBuild = /esm-browser/.test(format)
   const isNodeBuild = format === 'cjs'
   const isGlobalBuild = /global/.test(format)
-  const isRuntimeOnlyBuild = /runtime$/.test(format)
+  const isRuntimeOnlyBuild = /runtime/.test(format)
+  const isLite = /lite/.test(format)
 
   if (isGlobalBuild) {
     output.name = packageOptions.name
@@ -127,7 +167,7 @@ function createConfig(format, output, plugins = []) {
   // during a single build.
   hasTSChecked = true
 
-  const entryFile = /runtime$/.test(format) ? `src/runtime.ts` : `src/index.ts`
+  const entryFile = /runtime/.test(format) ? `src/runtime.ts` : `src/index.ts`
 
   const external =
     isGlobalBuild || isBrowserESMBuild
@@ -174,6 +214,7 @@ function createConfig(format, output, plugins = []) {
         isGlobalBuild,
         isNodeBuild,
         isRuntimeOnlyBuild,
+        isLite,
         path.parse(output.file).base || ''
       ),
       ...nodePlugins,
@@ -199,6 +240,7 @@ function createReplacePlugin(
   isGlobalBuild,
   isNodeBuild,
   isRuntimeOnlyBuild,
+  isLite,
   bundleFilename
 ) {
   const replacements = {
@@ -222,6 +264,8 @@ function createReplacePlugin(
     __ESM_BROWSER__: isBrowserESMBuild,
     // is targeting Node (SSR)?
     __NODE_JS__: isNodeBuild,
+    // for lite version
+    __LITE__: isLite,
     // feature flags
     __FEATURE_FULL_INSTALL__: isBundlerESMBuild
       ? `__VUE_I18N_FULL_INSTALL__`

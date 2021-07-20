@@ -1,9 +1,11 @@
-import { Translation, NumberFormat, DatetimeFormat } from './components'
+import { Translation } from './components/Translation'
+import { NumberFormat } from './components/NumberFormat'
+import { DatetimeFormat } from './components/DatetimeFormat'
 import { vTDirective } from './directive'
 import { I18nWarnCodes, getWarnMessage } from './warnings'
 import { isPlainObject, warn, isBoolean } from '@intlify/shared'
 
-import type { App, Component } from 'vue'
+import type { App } from 'vue'
 import type { I18n } from './i18n'
 
 /**
@@ -56,16 +58,18 @@ export function apply(app: App, i18n: I18n, ...options: unknown[]): void {
     )
   }
 
-  if (globalInstall) {
+  if (!__LITE__ && globalInstall) {
     // install components
     app.component(
       !useI18nComponentName ? Translation.name : 'i18n',
       Translation
     )
     app.component(NumberFormat.name, NumberFormat)
-    app.component(DatetimeFormat.name, DatetimeFormat as Component)
+    app.component(DatetimeFormat.name, DatetimeFormat)
   }
 
   // install directive
-  app.directive('t', vTDirective(i18n))
+  if (!__LITE__) {
+    app.directive('t', vTDirective(i18n))
+  }
 }

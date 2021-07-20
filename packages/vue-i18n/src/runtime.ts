@@ -1,6 +1,8 @@
 import { getGlobalThis } from '@intlify/shared'
 import { setDevToolsHook } from '@intlify/core-base'
 import { initDev, initFeatureFlags } from './misc'
+import { Translation, NumberFormat, DatetimeFormat } from './components'
+import { vTDirective } from './directive'
 
 export {
   Path,
@@ -63,6 +65,7 @@ export {
   VueI18nResolveLocaleMessageTranslation,
   ComponentInstanceCreatedListener
 } from './legacy'
+export { Translation, DatetimeFormat, NumberFormat, vTDirective }
 export {
   createI18n,
   useI18n,
@@ -76,17 +79,14 @@ export {
   ExportedGlobalComposer
 } from './i18n'
 export {
-  Translation,
   TranslationProps,
-  NumberFormat,
   NumberFormatProps,
-  DatetimeFormat,
   DatetimeFormatProps,
   FormattableProps,
   BaseFormatProps,
   ComponetI18nScope
 } from './components'
-export { vTDirective, TranslationDirective } from './directive'
+export { TranslationDirective } from './directive'
 export { I18nPluginOptions } from './plugin'
 export { VERSION } from './misc'
 

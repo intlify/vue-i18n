@@ -101,11 +101,13 @@ declare module '@vue/runtime-core' {
 
 export const DEVTOOLS_META = '__INTLIFY_META__'
 
-export const TransrateVNodeSymbol = makeSymbol('__transrateVNode')
-export const DatetimePartsSymbol = makeSymbol('__datetimeParts')
-export const NumberPartsSymbol = makeSymbol('__numberParts')
-export const EnableEmitter = makeSymbol('__enableEmitter')
-export const DisableEmitter = makeSymbol('__disableEmitter')
+export const TransrateVNodeSymbol =
+  /* #__PURE__*/
+  makeSymbol('__transrateVNode')
+export const DatetimePartsSymbol = /* #__PURE__*/ makeSymbol('__datetimeParts')
+export const NumberPartsSymbol = /* #__PURE__*/ makeSymbol('__numberParts')
+export const EnableEmitter = /* #__PURE__*/ makeSymbol('__enableEmitter')
+export const DisableEmitter = /* #__PURE__*/ makeSymbol('__disableEmitter')
 export const SetPluralRulesSymbol = makeSymbol('__setPluralRules')
 export const DevToolsMetaSymbol = makeSymbol('__intlifyMeta')
 
@@ -1860,14 +1862,20 @@ export function createComposer(options: any = {}): any {
     )
   )
 
+  // prettier-ignore
   const _datetimeFormats = ref<DateTimeFormatsType>(
-    isPlainObject(options.datetimeFormats)
-      ? options.datetimeFormats
-      : { [_locale.value]: {} }
+    __LITE__
+      ? { [_locale.value]: {} }
+      : isPlainObject(options.datetimeFormats)
+        ? options.datetimeFormats
+        : { [_locale.value]: {} }
   )
 
+  // prettier-ignore
   const _numberFormats = ref<NumberFormatsType>(
-    isPlainObject(options.numberFormats)
+    __LITE__
+      ? { [_locale.value]: {} }
+      : isPlainObject(options.numberFormats)
       ? options.numberFormats
       : { [_locale.value]: {} }
   )
@@ -1935,8 +1943,6 @@ export function createComposer(options: any = {}): any {
       locale: _locale.value,
       fallbackLocale: _fallbackLocale.value,
       messages: _messages.value,
-      datetimeFormats: _datetimeFormats.value,
-      numberFormats: _numberFormats.value,
       modifiers: _modifiers,
       pluralRules: _pluralRules,
       missing: _runtimeMissing === null ? undefined : _runtimeMissing,
@@ -1948,16 +1954,20 @@ export function createComposer(options: any = {}): any {
       warnHtmlMessage: _warnHtmlMessage,
       escapeParameter: _escapeParameter,
       messageResolver: options.messageResolver,
-      __datetimeFormatters: isPlainObject(_context)
-        ? (_context as unknown as CoreInternalContext).__datetimeFormatters
-        : undefined,
-      __numberFormatters: isPlainObject(_context)
-        ? (_context as unknown as CoreInternalContext).__numberFormatters
-        : undefined,
       __v_emitter: isPlainObject(_context)
         ? (_context as unknown as CoreInternalContext).__v_emitter
         : undefined,
       __meta: { framework: 'vue' }
+    }
+    if (!__LITE__) {
+      ;(ctxOptions as any).datetimeFormats = _datetimeFormats.value
+      ;(ctxOptions as any).numberFormats = _numberFormats.value
+      ;(ctxOptions as any).__datetimeFormatters = isPlainObject(_context)
+        ? (_context as unknown as CoreInternalContext).__datetimeFormatters
+        : undefined
+      ;(ctxOptions as any).__numberFormatters = isPlainObject(_context)
+        ? (_context as unknown as CoreInternalContext).__numberFormatters
+        : undefined
     }
     return createCoreContext(ctxOptions as any)
   }
@@ -2349,7 +2359,7 @@ export function createComposer(options: any = {}): any {
     })
   }
 
-  // define composition API!
+  // define basic composition API!
   const composer = {
     id: composerID,
     locale,
@@ -2369,8 +2379,6 @@ export function createComposer(options: any = {}): any {
       return Object.keys(_messages.value).sort()
     },
     messages,
-    datetimeFormats,
-    numberFormats,
     get modifiers(): LinkedModifiers<Message> {
       return _modifiers
     },
@@ -2422,28 +2430,33 @@ export function createComposer(options: any = {}): any {
       _context.escapeParameter = val
     },
     t,
-    rt,
-    d,
-    n,
-    te,
-    tm,
     getLocaleMessage,
     setLocaleMessage,
     mergeLocaleMessage,
-    getDateTimeFormat,
-    setDateTimeFormat,
-    mergeDateTimeFormat,
-    getNumberFormat,
-    setNumberFormat,
-    mergeNumberFormat,
     getPostTranslationHandler,
     setPostTranslationHandler,
     getMissingHandler,
     setMissingHandler,
-    [TransrateVNodeSymbol]: transrateVNode,
-    [NumberPartsSymbol]: numberParts,
-    [DatetimePartsSymbol]: datetimeParts,
     [SetPluralRulesSymbol]: setPluralRules
+  }
+
+  if (!__LITE__) {
+    ;(composer as any).datetimeFormats = datetimeFormats
+    ;(composer as any).numberFormats = numberFormats
+    ;(composer as any).rt = rt
+    ;(composer as any).te = te
+    ;(composer as any).tm = tm
+    ;(composer as any).d = d
+    ;(composer as any).n = n
+    ;(composer as any).getDateTimeFormat = getDateTimeFormat
+    ;(composer as any).setDateTimeFormat = setDateTimeFormat
+    ;(composer as any).mergeDateTimeFormat = mergeDateTimeFormat
+    ;(composer as any).getNumberFormat = getNumberFormat
+    ;(composer as any).setNumberFormat = setNumberFormat
+    ;(composer as any).mergeNumberFormat = mergeNumberFormat
+    ;(composer as any)[TransrateVNodeSymbol] = transrateVNode
+    ;(composer as any)[NumberPartsSymbol] = numberParts
+    ;(composer as any)[DatetimePartsSymbol] = datetimeParts
   }
 
   // for vue-devtools timeline event
