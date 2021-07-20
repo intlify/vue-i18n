@@ -43,7 +43,7 @@ const enum PathCharTypes {
 type PathState = StateAction | States.ERROR
 type PathStateMachine = Record<string, PathState>
 
-const pathStateMachine = [] as PathStateMachine[]
+const pathStateMachine = /* #__PURE__*/ [] as PathStateMachine[]
 
 pathStateMachine[States.BEFORE_PATH] = {
   [PathCharTypes.WORKSPACE]: [States.BEFORE_PATH],
@@ -288,6 +288,10 @@ export type MessageResolver = (obj: unknown, path: Path) => PathValue
 
 // path token cache
 const cache = new Map<Path, string[]>()
+
+export function resolveWithKeyValue(obj: unknown, path: Path): PathValue {
+  return isObject(obj) ? obj[path] : null
+}
 
 export function resolveValue(obj: unknown, path: Path): PathValue {
   // check object

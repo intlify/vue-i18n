@@ -15,4 +15,5 @@ const app = createApp({
   render: () => h('div', 'hello world!')
 })
 app.use(i18n, { globalInstall: false })
+console.log('t', i18n.global.t('hello'))
 app.mount('#app')

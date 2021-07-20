@@ -36,7 +36,7 @@
     "docs:build": "yarn docs:setup && vitepress build docs",
     "docs:dev": "vitepress dev docs",
     "docs:serve": "vitepress serve docs",
-    "docs:setup": "yarn build:type --lite && yarn docs:apigen",
+    "docs:setup": "yarn build:type && yarn docs:apigen",
     "fix": "npm-run-all --parallel lint:fix format:fix",
     "format:fix": "npm-run-all --parallel \"format:prettier --write\" format:package",
     "format:package": "node -r esbuild-register ./scripts/fixpack.ts",

@@ -15,6 +15,8 @@ import { watchEffect, nextTick } from 'vue'
 import {
   compileToFunction,
   registerMessageCompiler,
+  resolveValue,
+  registerMessageResolver,
   MessageContext,
   Path,
   PathValue,
@@ -24,6 +26,7 @@ import { pluralRules as _pluralRules } from './helper'
 
 beforeEach(() => {
   registerMessageCompiler(compileToFunction)
+  registerMessageResolver(resolveValue)
 })
 
 test('locale', () => {

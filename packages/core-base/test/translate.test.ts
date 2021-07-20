@@ -10,13 +10,18 @@ import { warn } from '@intlify/shared'
 import { createCoreContext as context, NOT_REOSLVED } from '../src/context'
 import { translate } from '../src/translate'
 import { CoreErrorCodes, errorMessages } from '../src/errors'
-import { registerMessageCompiler } from '../src/context'
+import {
+  registerMessageCompiler,
+  registerMessageResolver
+} from '../src/context'
 import { compileToFunction } from '../src/compile'
+import { resolveValue } from '@intlify/message-resolver'
 
 import type { MessageContext } from '@intlify/runtime'
 
 beforeEach(() => {
   registerMessageCompiler(compileToFunction)
+  registerMessageResolver(resolveValue)
 })
 
 describe('features', () => {

@@ -11,7 +11,7 @@ import {
   assign,
   isObject
 } from '@intlify/shared'
-import { resolveValue } from '@intlify/message-resolver'
+import { resolveWithKeyValue } from '@intlify/message-resolver'
 import { VueDevToolsTimelineEvents } from '@intlify/vue-devtools'
 import { initI18nDevTools } from './devtools'
 import { CoreWarnCodes, getWarnMessage } from './warnings'
@@ -268,6 +268,12 @@ export function registerMessageCompiler<Message>(
   _compiler = compiler
 }
 
+let _resolver: unknown | null
+
+export function registerMessageResolver(resolver: MessageResolver): void {
+  _resolver = resolver
+}
+
 // Additional Meta for Intlify DevTools
 let _additionalMeta: MetaInfo | null = /* #__PURE__*/ null
 
@@ -371,7 +377,7 @@ export function createCoreContext<Message = string>(options: any = {}): any {
     : _compiler
   const messageResolver = isFunction(options.messageResolver)
     ? options.messageResolver
-    : resolveValue
+    : _resolver || resolveWithKeyValue
   const onWarn = isFunction(options.onWarn) ? options.onWarn : warn
 
   // setup internal options

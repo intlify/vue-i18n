@@ -25,6 +25,8 @@ import {
   Locale,
   compileToFunction,
   registerMessageCompiler,
+  resolveValue,
+  registerMessageResolver,
   MessageContext,
   Path,
   PathValue,
@@ -33,6 +35,7 @@ import {
 
 beforeEach(() => {
   registerMessageCompiler(compileToFunction)
+  registerMessageResolver(resolveValue)
 })
 
 describe('locale', () => {
