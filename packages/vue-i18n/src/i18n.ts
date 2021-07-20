@@ -15,15 +15,11 @@ import {
   createEmitter,
   assign
 } from '@intlify/shared'
-import {
-  getLocaleMessages,
-  createComposer,
-  EnableEmitter,
-  DisableEmitter
-} from './composer'
+import { getLocaleMessages, createComposer } from './composer'
 import { createVueI18n } from './legacy'
 import { I18nWarnCodes, getWarnMessage } from './warnings'
 import { I18nErrorCodes, createI18nError } from './errors'
+import { EnableEmitter, DisableEmitter } from './symbols'
 import { apply } from './plugin'
 import { defineMixin } from './mixin'
 import { enableDevTools, addTimelineEvent } from './devtools'

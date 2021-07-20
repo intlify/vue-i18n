@@ -1,5 +1,5 @@
 import { useI18n } from '../i18n'
-import { DatetimePartsSymbol } from '../composer'
+import { DatetimePartsSymbol } from '../symbols'
 import { renderFormatter } from './formatRenderer'
 import { baseFormatProps } from './base'
 import { assign } from '@intlify/shared'

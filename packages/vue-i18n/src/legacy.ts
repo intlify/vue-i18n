@@ -1,12 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import {
-  EnableEmitter,
-  DisableEmitter,
-  createComposer,
-  DefineLocaleMessage
-} from './composer'
+import { createComposer, DefineLocaleMessage } from './composer'
 import { I18nWarnCodes, getWarnMessage } from './warnings'
 import { createI18nError, I18nErrorCodes } from './errors'
+import { EnableEmitter, DisableEmitter } from './symbols'
 import {
   isString,
   isArray,

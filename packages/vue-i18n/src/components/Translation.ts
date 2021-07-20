@@ -1,6 +1,6 @@
 import { h, Fragment, defineComponent } from 'vue'
 import { isNumber, isString, isObject } from '@intlify/shared'
-import { TransrateVNodeSymbol } from '../composer'
+import { TransrateVNodeSymbol } from '../symbols'
 import { useI18n } from '../i18n'
 import { baseFormatProps } from './base'
 import { assign } from '@intlify/shared'

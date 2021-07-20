@@ -1,5 +1,5 @@
 import { useI18n } from '../i18n'
-import { NumberPartsSymbol } from '../composer'
+import { NumberPartsSymbol } from '../symbols'
 import { renderFormatter } from './formatRenderer'
 import { baseFormatProps } from './base'
 import { assign } from '@intlify/shared'

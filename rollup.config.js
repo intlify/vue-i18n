@@ -58,33 +58,33 @@ const basicConfigs = {
 // for vue-i18n lite build
 const liteOutputConfigs = {
   'esm-bundler-lite': {
-    file: resolve(`dist/${name}.lite.esm-bundler.js`),
+    file: resolve(`dist/${name}-lite.esm-bundler.js`),
     format: `es`
   },
   'esm-browser-lite': {
-    file: resolve(`dist/${name}.lite.esm-browser.js`),
+    file: resolve(`dist/${name}-lite.esm-browser.js`),
     format: `es`
   },
   'global-lite': {
-    file: resolve(`dist/${name}.lite.global.js`),
+    file: resolve(`dist/${name}-lite.global.js`),
     format: `iife`
   },
   'esm-bundler-runtime-lite': {
-    file: resolve(`dist/${name}.lite.runtime.esm-bundler.js`),
+    file: resolve(`dist/${name}-lite.runtime.esm-bundler.js`),
     format: `es`
   },
   'esm-browser-runtime-lite': {
-    file: resolve(`dist/${name}.lite.runtime.esm-browser.js`),
+    file: resolve(`dist/${name}-lite.runtime.esm-browser.js`),
     format: 'es'
   },
   'global-runtime-lite': {
-    file: resolve(`dist/${name}.lite.runtime.global.js`),
+    file: resolve(`dist/${name}-lite.runtime.global.js`),
     format: 'iife'
   }
 }
 
 const outputConfigs =
-  name === 'vue-i18n' && process.env.LITE
+  pkg.name === 'vue-i18n' && process.env.LITE
     ? { ...basicConfigs, ...liteOutputConfigs }
     : { ...basicConfigs }
 
@@ -92,7 +92,7 @@ const defaultFormats = ['esm-bundler', 'cjs']
 const inlineFormats = process.env.FORMATS && process.env.FORMATS.split(',')
 const baseFormats = inlineFormats || packageOptions.formats || defaultFormats
 const packageFormats =
-  name === 'vue-i18n' && process.env.LITE
+  pkg.name === 'vue-i18n' && process.env.LITE
     ? [
         ...baseFormats,
         ...baseFormats.map(f => `${f}-lite`).filter(f => f !== 'cjs-lite')
@@ -167,7 +167,14 @@ function createConfig(format, output, plugins = []) {
   // during a single build.
   hasTSChecked = true
 
-  const entryFile = /runtime/.test(format) ? `src/runtime.ts` : `src/index.ts`
+  // prettier-ignore
+  const entryFile = !isLite
+    ? /runtime/.test(format)
+      ? `src/runtime.ts`
+      : `src/index.ts`
+    : /runtime/.test(format)
+      ? `src/lite/runtime.ts`
+      : `src/lite/index.ts`
 
   const external =
     isGlobalBuild || isBrowserESMBuild
