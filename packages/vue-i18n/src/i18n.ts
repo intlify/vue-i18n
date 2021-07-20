@@ -804,7 +804,7 @@ const globalExportProps = [
   'fallbackLocale',
   'availableLocales'
 ] as const
-const globalExportMethods = ['t', 'rt', 'd', 'n', 'tm'] as const
+const globalExportMethods = !__LITE__ ? ['t', 'rt', 'd', 'n', 'tm'] : ['t']
 
 function injectGlobalFields(app: App, composer: Composer): void {
   const i18n = Object.create(null)
