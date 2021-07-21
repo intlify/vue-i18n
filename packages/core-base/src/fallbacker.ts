@@ -7,7 +7,7 @@ import {
 } from '@intlify/shared'
 import { DEFAULT_LOCALE } from './context'
 
-import type { Locale, FallbackLocale } from '@intlify/runtime'
+import type { Locale, FallbackLocale } from './runtime'
 import type { CoreContext, CoreInternalContext } from './context'
 
 /**

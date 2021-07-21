@@ -19,6 +19,7 @@ import { fallbackWithSimple } from './fallbacker'
 
 import type { Path, MessageResolver } from '@intlify/message-resolver'
 import type { CompileOptions } from '@intlify/message-compiler'
+import type { VueDevToolsEmitter } from '@intlify/vue-devtools'
 import type {
   Locale,
   FallbackLocale,
@@ -28,8 +29,7 @@ import type {
   MessageProcessor,
   MessageFunction,
   MessageType
-} from '@intlify/runtime'
-import type { VueDevToolsEmitter } from '@intlify/vue-devtools'
+} from './runtime'
 import type {
   UnionToTuple,
   LocaleRecord,

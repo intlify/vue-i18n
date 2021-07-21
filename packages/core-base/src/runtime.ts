@@ -13,10 +13,22 @@ type ExtractToStringKey<T> = Extract<keyof T, 'toString'>
 type ExtractToStringFunction<T> = T[ExtractToStringKey<T>]
 // prettier-ignore
 type StringConvertable<T> = ExtractToStringKey<T> extends never
-  ? unknown
-  : ExtractToStringFunction<T> extends (...args: any) => string // eslint-disable-line @typescript-eslint/no-explicit-any
-    ? T
-    : unknown
+	? unknown
+	: ExtractToStringFunction<T> extends (...args: any) => string // eslint-disable-line @typescript-eslint/no-explicit-any
+	  ? T
+	  : unknown
+
+/** @VueI18nGeneral */
+export type Locale = string
+
+/** @VueI18nGeneral */
+export type FallbackLocale =
+  | Locale
+  | Locale[]
+  | { [locale in string]: Locale[] }
+  | false
+
+export type CoreMissingType = 'translate' | 'datetime format' | 'number format'
 
 export type MessageType<T = string> = T extends string
   ? string
@@ -105,10 +117,10 @@ function pluralDefault(choice: number, choicesLength: number): number {
   if (choicesLength === 2) {
     // prettier-ignore
     return choice
-      ? choice > 1
-        ? 1
-        : 0
-      : 1
+	    ? choice > 1
+	      ? 1
+	      : 0
+	    : 1
   }
   return choice ? Math.min(choice, 2) : 0
 }
@@ -116,16 +128,16 @@ function pluralDefault(choice: number, choicesLength: number): number {
 function getPluralIndex<T>(options: MessageContextOptions<T>): number {
   // prettier-ignore
   const index = isNumber(options.pluralIndex)
-    ? options.pluralIndex
-    : -1
+	  ? options.pluralIndex
+	  : -1
   // prettier-ignore
   return options.named && (isNumber(options.named.count) || isNumber(options.named.n))
-    ? isNumber(options.named.count)
-      ? options.named.count
-      : isNumber(options.named.n)
-        ? options.named.n
-        : index
-    : index
+	  ? isNumber(options.named.count)
+	    ? options.named.count
+	    : isNumber(options.named.n)
+	      ? options.named.n
+	      : index
+	  : index
 }
 
 function normalizeNamed(pluralIndex: number, props: PluralizationProps): void {
@@ -170,10 +182,10 @@ export function createMessageContext<T = string, N = {}>(
   function message(key: Path): MessageFunction<T> {
     // prettier-ignore
     const msg = isFunction(options.messages)
-      ? options.messages(key)
-      : isObject(options.messages)
-        ? options.messages[key]
-        : false
+	    ? options.messages(key)
+	    : isObject(options.messages)
+	      ? options.messages[key]
+	      : false
     return !msg
       ? options.parent
         ? options.parent.message(key) // resolve from parent messages

@@ -2,7 +2,7 @@ import { warn, format, isBoolean } from '@intlify/shared'
 import { baseCompile, defaultOnError } from '@intlify/message-compiler'
 
 import type { CompileOptions, CompileError } from '@intlify/message-compiler'
-import type { MessageFunction, MessageFunctions } from '@intlify/runtime'
+import type { MessageFunction, MessageFunctions } from './runtime'
 
 const RE_HTML_TAG = /<\/?[\w\s="/.':;#-\/]+>/
 const WARN_MESSAGE = `Detected HTML in '{source}' message. Recommend not using HTML messages to avoid XSS.`

@@ -18,7 +18,7 @@ import { CoreErrorCodes, createCoreError } from './errors'
 import { VueDevToolsTimelineEvents } from '@intlify/vue-devtools'
 import { Availabilities } from './intl'
 
-import type { Locale, FallbackLocale } from '@intlify/runtime'
+import type { Locale, FallbackLocale } from './runtime'
 import type {
   DateTimeFormat,
   DateTimeFormats as DateTimeFormatsType,

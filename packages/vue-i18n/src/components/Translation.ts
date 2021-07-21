@@ -23,8 +23,7 @@ import type {
 } from 'vue'
 /* eslint-enable @typescript-eslint/no-unused-vars */
 import type { Composer, ComposerInternal } from '../composer'
-import type { TranslateOptions } from '@intlify/core-base'
-import type { NamedValue } from '@intlify/runtime'
+import type { TranslateOptions, NamedValue } from '@intlify/core-base'
 import type { BaseFormatProps } from './base'
 
 /**

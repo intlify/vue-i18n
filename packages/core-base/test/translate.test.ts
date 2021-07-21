@@ -19,7 +19,7 @@ import { compileToFunction } from '../src/compile'
 import { fallbackWithLocaleChain } from '../src/fallbacker'
 import { resolveValue } from '@intlify/message-resolver'
 
-import type { MessageContext } from '@intlify/runtime'
+import type { MessageContext } from '../src/runtime'
 
 beforeEach(() => {
   registerMessageCompiler(compileToFunction)

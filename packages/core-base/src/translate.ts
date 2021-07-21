@@ -16,7 +16,7 @@ import {
   assign,
   isObject
 } from '@intlify/shared'
-import { createMessageContext } from '@intlify/runtime'
+import { createMessageContext } from './runtime'
 import {
   isTranslateFallbackWarn,
   handleMissing,
@@ -31,6 +31,7 @@ import { VueDevToolsTimelineEvents } from '@intlify/vue-devtools'
 
 import type { Path, PathValue } from '@intlify/message-resolver'
 import type { CompileOptions, CompileError } from '@intlify/message-compiler'
+import type { AdditionalPayloads } from '@intlify/devtools-if'
 import type {
   Locale,
   FallbackLocale,
@@ -40,8 +41,7 @@ import type {
   MessageContextOptions,
   MessageType,
   MessageContext
-} from '@intlify/runtime'
-import type { AdditionalPayloads } from '@intlify/devtools-if'
+} from './runtime'
 import type {
   LocaleMessages,
   LocaleMessageValue,

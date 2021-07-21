@@ -1,5 +1,5 @@
 import type { Path } from '@intlify/message-resolver'
-import type { NamedValue } from '@intlify/runtime'
+import type { NamedValue } from '@intlify/core-base'
 import type {
   Locale,
   LocaleMessageValue,

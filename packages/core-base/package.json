@@ -36,7 +36,6 @@
     "@intlify/devtools-if": "9.2.0-alpha.6",
     "@intlify/message-compiler": "9.2.0-alpha.6",
     "@intlify/message-resolver": "9.2.0-alpha.6",
-    "@intlify/runtime": "9.2.0-alpha.6",
     "@intlify/shared": "9.2.0-alpha.6",
     "@intlify/vue-devtools": "9.2.0-alpha.6"
   },
