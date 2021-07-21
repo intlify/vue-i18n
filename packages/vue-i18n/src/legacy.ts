@@ -3,6 +3,7 @@ import { createComposer, DefineLocaleMessage } from './composer'
 import { I18nWarnCodes, getWarnMessage } from './warnings'
 import { createI18nError, I18nErrorCodes } from './errors'
 import { EnableEmitter, DisableEmitter } from './symbols'
+import { DEFAULT_LOCALE } from '@intlify/core-base'
 import {
   isString,
   isArray,
@@ -1334,7 +1335,7 @@ function convertComposerOptions<
     ComposerInternalOptions<Messages, DateTimeFormats, NumberFormats>
 ): ComposerOptions &
   ComposerInternalOptions<Messages, DateTimeFormats, NumberFormats> {
-  const locale = isString(options.locale) ? options.locale : 'en-US'
+  const locale = isString(options.locale) ? options.locale : DEFAULT_LOCALE
   const fallbackLocale =
     isString(options.fallbackLocale) ||
     isArray(options.fallbackLocale) ||

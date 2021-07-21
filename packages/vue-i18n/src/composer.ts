@@ -38,7 +38,8 @@ import {
   NOT_REOSLVED,
   handleFlatJson,
   MessageFunction,
-  setAdditionalMeta
+  setAdditionalMeta,
+  DEFAULT_LOCALE
 } from '@intlify/core-base'
 import { VueDevToolsTimelineEvents } from '@intlify/vue-devtools'
 import { I18nWarnCodes, getWarnMessage } from './warnings'
@@ -1837,7 +1838,7 @@ export function createComposer(options: any = {}): any {
       ? __root.locale.value
       : isString(options.locale)
         ? options.locale
-        : 'en-US'
+        : DEFAULT_LOCALE
   )
 
   const _fallbackLocale = ref<FallbackLocale>(

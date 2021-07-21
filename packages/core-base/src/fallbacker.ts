@@ -5,6 +5,8 @@ import {
   isPlainObject,
   isObject
 } from '@intlify/shared'
+import { DEFAULT_LOCALE } from './context'
+
 import type { Locale, FallbackLocale } from '@intlify/runtime'
 import type { CoreContext, CoreInternalContext } from './context'
 
@@ -16,7 +18,7 @@ import type { CoreContext, CoreInternalContext } from './context'
 export type LocaleFallbacker = <Message = string>(
   ctx: CoreContext<Message>,
   fallback: FallbackLocale,
-  start: Locale
+  start?: Locale
 ) => Locale[]
 
 /**
@@ -27,18 +29,16 @@ export type LocaleFallbacker = <Message = string>(
 export function fallbackWithSimple<Message = string>(
   ctx: CoreContext<Message>,
   fallback: FallbackLocale,
-  start: Locale
+  start?: Locale // eslint-disable-line @typescript-eslint/no-unused-vars
 ): Locale[] {
   // prettier-ignore
-  return [start].concat(
-    isArray(fallback)
-      ? fallback
-      : isObject(fallback)
-        ? Object.keys(fallback)
-        : isString(fallback)
-          ? [fallback]
-          : ['en']
-  )
+  return isArray(fallback)
+    ? fallback
+    : isObject(fallback)
+      ? Object.keys(fallback)
+      : isString(fallback)
+        ? [fallback]
+        : [DEFAULT_LOCALE]
 }
 
 /**
@@ -49,15 +49,16 @@ export function fallbackWithSimple<Message = string>(
 export function fallbackWithLocaleChain<Message = string>(
   ctx: CoreContext<Message>,
   fallback: FallbackLocale,
-  start: Locale
+  start?: Locale
 ): Locale[] {
+  const startLocale = isString(start) ? start : DEFAULT_LOCALE
   const context = ctx as unknown as CoreInternalContext
 
   if (!context.__localeChainCache) {
     context.__localeChainCache = new Map()
   }
 
-  let chain = context.__localeChainCache.get(start)
+  let chain = context.__localeChainCache.get(startLocale)
   if (!chain) {
     chain = []
 
@@ -82,7 +83,7 @@ export function fallbackWithLocaleChain<Message = string>(
     if (isArray(block)) {
       appendBlockToChain(chain, block, false)
     }
-    context.__localeChainCache.set(start, chain)
+    context.__localeChainCache.set(startLocale, chain)
   }
 
   return chain

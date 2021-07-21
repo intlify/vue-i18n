@@ -1,7 +1,38 @@
 import { createCoreContext as context, CoreContext } from '../src/context'
-import { fallbackWithLocaleChain } from '../src/fallbacker'
+import { fallbackWithLocaleChain, fallbackWithSimple } from '../src/fallbacker'
 
-describe('getLocaleChain', () => {
+describe('fallbackWithSimple', () => {
+  let ctx: CoreContext<string>
+  beforeEach(() => {
+    ctx = context({})
+  })
+
+  describe('none', () => {
+    test('en-US', () => {
+      expect(fallbackWithSimple(ctx, false)).toEqual(['en-US'])
+    })
+  })
+
+  describe('string locale', () => {
+    test('en', () => {
+      expect(fallbackWithSimple(ctx, 'en')).toEqual(['en'])
+    })
+  })
+
+  describe('array locales', () => {
+    test('[en, ja]', () => {
+      expect(fallbackWithSimple(ctx, ['en', 'ja'])).toEqual(['en', 'ja'])
+    })
+  })
+
+  describe('object locales', () => {
+    test('{ en: [], ja: []', () => {
+      expect(fallbackWithSimple(ctx, { en: [], ja: [] })).toEqual(['en', 'ja'])
+    })
+  })
+})
+
+describe('fallbackWithLocaleChain', () => {
   let ctx: CoreContext<string>
   beforeEach(() => {
     ctx = context({})

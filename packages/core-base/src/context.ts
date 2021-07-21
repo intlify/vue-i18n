@@ -246,6 +246,8 @@ export const VERSION = __VERSION__
 
 export const NOT_REOSLVED = -1
 
+export const DEFAULT_LOCALE = 'en-US'
+
 export const MISSING_RESOLVE_VALUE = ''
 
 function getDefaultLinkedModifiers<
@@ -340,7 +342,7 @@ export function createCoreContext<
 export function createCoreContext<Message = string>(options: any = {}): any {
   // setup options
   const version = isString(options.version) ? options.version : VERSION
-  const locale = isString(options.locale) ? options.locale : 'en-US'
+  const locale = isString(options.locale) ? options.locale : DEFAULT_LOCALE
   const fallbackLocale =
     isArray(options.fallbackLocale) ||
     isPlainObject(options.fallbackLocale) ||
