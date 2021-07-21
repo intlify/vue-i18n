@@ -41,7 +41,6 @@ module.exports = {
     mainVersionFile: 'package.json',
     packagesToBump: [
       'packages/shared',
-      'packages/message-resolver',
       'packages/message-compiler',
       'packages/core-base',
       'packages/core',
@@ -51,7 +50,6 @@ module.exports = {
     ],
     packagesToPublish: [
       'packages/shared',
-      'packages/message-resolver',
       'packages/message-compiler',
       'packages/core-base',
       'packages/core',

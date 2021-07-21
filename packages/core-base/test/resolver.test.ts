@@ -1,4 +1,4 @@
-import { parse, resolveValue, handleFlatJson } from '../src/index'
+import { parse, resolveValue, handleFlatJson } from '../src/resolver'
 
 test('parse', () => {
   expect(parse('a')).toEqual(['a'])

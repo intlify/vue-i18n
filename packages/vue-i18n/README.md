@@ -15,7 +15,6 @@ Internationalization plugin for Vue.js
     - **`vue-i18n.runtime.global.js`** contains only the runtime and requires locale messages to be pre-compiled during a build step
   - Inlines internal the bellow packages - i.e. it’s a single file with no dependencies on other files. This means you **must** import everything from this file and this file only to ensure you are getting the same instance of code
     - `@intlify/shared`
-    - `@intlify/message-resolver`
     - `@intlify/message-compiler`
     - `@intlify/core`
   - Contains hard-coded prod/dev branches, and the prod build is pre-minified. Use the `*.prod.js` files for production

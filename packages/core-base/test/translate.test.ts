@@ -17,7 +17,7 @@ import {
 } from '../src/context'
 import { compileToFunction } from '../src/compile'
 import { fallbackWithLocaleChain } from '../src/fallbacker'
-import { resolveValue } from '@intlify/message-resolver'
+import { resolveValue } from '../src/resolver'
 
 import type { MessageContext } from '../src/runtime'
 

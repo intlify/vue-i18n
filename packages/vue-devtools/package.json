@@ -31,7 +31,6 @@
   "types": "dist/vue-devtools.d.ts",
   "dependencies": {
     "@intlify/core-base": "9.2.0-alpha.6",
-    "@intlify/message-resolver": "9.2.0-alpha.6",
     "@intlify/shared": "9.2.0-alpha.6"
   },
   "engines": {

@@ -11,15 +11,15 @@ import {
   assign,
   isObject
 } from '@intlify/shared'
-import { resolveWithKeyValue } from '@intlify/message-resolver'
 import { VueDevToolsTimelineEvents } from '@intlify/vue-devtools'
 import { initI18nDevTools } from './devtools'
 import { CoreWarnCodes, getWarnMessage } from './warnings'
+import { resolveWithKeyValue } from './resolver'
 import { fallbackWithSimple } from './fallbacker'
 
-import type { Path, MessageResolver } from '@intlify/message-resolver'
 import type { CompileOptions } from '@intlify/message-compiler'
 import type { VueDevToolsEmitter } from '@intlify/vue-devtools'
+import type { Path, MessageResolver } from './resolver'
 import type {
   Locale,
   FallbackLocale,

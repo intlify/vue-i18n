@@ -29,9 +29,9 @@ import { CoreErrorCodes, createCoreError } from './errors'
 import { translateDevTools } from './devtools'
 import { VueDevToolsTimelineEvents } from '@intlify/vue-devtools'
 
-import type { Path, PathValue } from '@intlify/message-resolver'
 import type { CompileOptions, CompileError } from '@intlify/message-compiler'
 import type { AdditionalPayloads } from '@intlify/devtools-if'
+import type { Path, PathValue } from './resolver'
 import type {
   Locale,
   FallbackLocale,

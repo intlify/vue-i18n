@@ -1,11 +1,11 @@
 import { getGlobalThis } from '@intlify/shared'
 
-export * from '@intlify/message-resolver'
 export {
   CompileError,
   CompileErrorCodes,
   createCompileError
 } from '@intlify/message-compiler'
+export * from './resolver'
 export * from './runtime'
 export * from './context'
 export * from './fallbacker'

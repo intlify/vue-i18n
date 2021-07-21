@@ -6,8 +6,8 @@ import {
   isString,
   isPlainObject
 } from '@intlify/shared'
-import { Path } from '@intlify/message-resolver'
 import { HelperNameMap } from '@intlify/message-compiler'
+import { Path } from './resolver'
 
 type ExtractToStringKey<T> = Extract<keyof T, 'toString'>
 type ExtractToStringFunction<T> = T[ExtractToStringKey<T>]
