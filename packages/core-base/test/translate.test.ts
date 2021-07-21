@@ -12,9 +12,11 @@ import { translate } from '../src/translate'
 import { CoreErrorCodes, errorMessages } from '../src/errors'
 import {
   registerMessageCompiler,
-  registerMessageResolver
+  registerMessageResolver,
+  registerLocaleFallbacker
 } from '../src/context'
 import { compileToFunction } from '../src/compile'
+import { fallbackWithLocaleChain } from '../src/fallbacker'
 import { resolveValue } from '@intlify/message-resolver'
 
 import type { MessageContext } from '@intlify/runtime'
@@ -22,6 +24,7 @@ import type { MessageContext } from '@intlify/runtime'
 beforeEach(() => {
   registerMessageCompiler(compileToFunction)
   registerMessageResolver(resolveValue)
+  registerLocaleFallbacker(fallbackWithLocaleChain)
 })
 
 describe('features', () => {

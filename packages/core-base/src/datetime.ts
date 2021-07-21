@@ -8,7 +8,6 @@ import {
   assign
 } from '@intlify/shared'
 import {
-  getLocaleChain,
   handleMissing,
   isTranslateFallbackWarn,
   NOT_REOSLVED,
@@ -196,7 +195,13 @@ export function datetime<
   context: Context,
   ...args: unknown[]
 ): string | number | Intl.DateTimeFormatPart[] {
-  const { datetimeFormats, unresolving, fallbackLocale, onWarn } = context
+  const {
+    datetimeFormats,
+    unresolving,
+    fallbackLocale,
+    onWarn,
+    localeFallbacker
+  } = context
   const { __datetimeFormatters } = context as unknown as CoreInternalContext
 
   if (__DEV__ && !Availabilities.dateTimeFormat) {
@@ -213,7 +218,7 @@ export function datetime<
     : context.fallbackWarn
   const part = !!options.part
   const locale = isString(options.locale) ? options.locale : context.locale
-  const locales = getLocaleChain(
+  const locales = localeFallbacker(
     context as any, // eslint-disable-line @typescript-eslint/no-explicit-any
     fallbackLocale as FallbackLocale,
     locale

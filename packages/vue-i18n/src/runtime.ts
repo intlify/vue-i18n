@@ -1,12 +1,20 @@
 import { getGlobalThis } from '@intlify/shared'
 import { setDevToolsHook } from '@intlify/core-base'
 import { initDev, initFeatureFlags } from './misc'
-import { registerMessageResolver, resolveValue } from '@intlify/core'
+import {
+  registerMessageResolver,
+  resolveValue,
+  registerLocaleFallbacker,
+  fallbackWithLocaleChain
+} from '@intlify/core'
 import { Translation, NumberFormat, DatetimeFormat } from './components'
 import { vTDirective } from './directive'
 
 // register message resolver at vue-i18n
 registerMessageResolver(resolveValue)
+
+// register fallback locale at vue-i18n
+registerLocaleFallbacker(fallbackWithLocaleChain)
 
 export {
   Path,

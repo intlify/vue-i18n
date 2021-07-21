@@ -20,7 +20,6 @@ import { createMessageContext } from '@intlify/runtime'
 import {
   isTranslateFallbackWarn,
   handleMissing,
-  getLocaleChain,
   NOT_REOSLVED,
   getAdditionalMeta,
   CoreContext
@@ -523,8 +522,13 @@ function resolveMessageFormat<Messages, Message>(
   fallbackWarn: boolean | RegExp,
   missingWarn: boolean | RegExp
 ): [PathValue, Locale | undefined, LocaleMessageValue<Message>] {
-  const { messages, onWarn, messageResolver: resolveValue } = context
-  const locales = getLocaleChain(context as any, fallbackLocale, locale) // eslint-disable-line @typescript-eslint/no-explicit-any
+  const {
+    messages,
+    onWarn,
+    messageResolver: resolveValue,
+    localeFallbacker
+  } = context
+  const locales = localeFallbacker(context as any, fallbackLocale, locale) // eslint-disable-line @typescript-eslint/no-explicit-any
 
   let message: LocaleMessageValue<Message> = {}
   let targetLocale: Locale | undefined

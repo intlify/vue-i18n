@@ -34,7 +34,7 @@ import {
   number,
   parseNumberArgs,
   clearNumberFormat,
-  getLocaleChain,
+  fallbackWithLocaleChain,
   NOT_REOSLVED,
   handleFlatJson,
   MessageFunction,
@@ -2243,7 +2243,7 @@ export function createComposer(options: any = {}): any {
 
   function resolveMessages(key: Path): LocaleMessageValue<Message> | null {
     let messages: LocaleMessageValue<Message> | null = null
-    const locales = getLocaleChain(
+    const locales = fallbackWithLocaleChain(
       _context,
       _fallbackLocale.value,
       _locale.value

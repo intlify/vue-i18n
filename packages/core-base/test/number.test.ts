@@ -17,8 +17,12 @@ import { Availabilities } from '../src/intl'
 import { createCoreContext as context, NOT_REOSLVED } from '../src/context'
 import { number } from '../src/number'
 import { CoreErrorCodes, errorMessages } from '../src/errors'
-import { registerMessageCompiler } from '../src/context'
+import {
+  registerMessageCompiler,
+  registerLocaleFallbacker
+} from '../src/context'
 import { compileToFunction } from '../src/compile'
+import { fallbackWithLocaleChain } from '../src/fallbacker'
 import { NumberFormats } from '../src/types/index'
 
 type MyNumberSchema = {
@@ -60,6 +64,7 @@ const numberFormats: NumberFormats<MyNumberSchema, 'en-US' | 'ja-JP'> = {
 
 beforeEach(() => {
   registerMessageCompiler(compileToFunction)
+  registerLocaleFallbacker(fallbackWithLocaleChain)
 })
 
 test('value argument only', () => {

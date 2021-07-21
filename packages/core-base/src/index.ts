@@ -8,6 +8,7 @@ export {
   createCompileError
 } from '@intlify/message-compiler'
 export * from './context'
+export * from './fallbacker'
 export * from './compile'
 export * from './translate'
 export * from './datetime'

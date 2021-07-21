@@ -5,7 +5,9 @@ import {
   registerMessageCompiler,
   compileToFunction,
   registerMessageResolver,
-  resolveValue
+  resolveValue,
+  registerLocaleFallbacker,
+  fallbackWithLocaleChain
 } from '@intlify/core'
 import { Translation, NumberFormat, DatetimeFormat } from './components'
 import { vTDirective } from './directive'
@@ -15,6 +17,9 @@ registerMessageCompiler(compileToFunction)
 
 // register message resolver at vue-i18n
 registerMessageResolver(resolveValue)
+
+// register fallback locale at vue-i18n
+registerLocaleFallbacker(fallbackWithLocaleChain)
 
 export {
   Path,
