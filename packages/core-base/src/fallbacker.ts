@@ -24,6 +24,16 @@ export type LocaleFallbacker = <Message = string>(
 /**
  * Fallback with simple implemenation
  *
+ * @remarks
+ * A fallback locale function implemented with a simple fallback algorithm.
+ *
+ * Basically, it returns the value as specified in the `fallbackLocale` props, and is processed with the fallback inside intlify.
+ *
+ * @param ctx - A {@link CoreContext | context}
+ * @param fallback - A {@link FallbackLocale | fallback locale}
+ *
+ * @returns Fallback locales
+ *
  * @VueI18nGeneral
  */
 export function fallbackWithSimple<Message = string>(
@@ -43,6 +53,17 @@ export function fallbackWithSimple<Message = string>(
 
 /**
  * Fallback with locale chain
+ *
+ * @remarks
+ * A fallback locale function implemented with a fallback chain algorithm. It's used in VueI18n as default.
+ *
+ * @param ctx - A {@link CoreContext | context}
+ * @param fallback - A {@link FallbackLocale | fallback locale}
+ * @param start - A starting {@link Locale | locale}
+ *
+ * @returns Fallback locales
+ *
+ * @VueI18nSee [Fallbacking](../guide/essentials/fallback)
  *
  * @VueI18nGeneral
  */

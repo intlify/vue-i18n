@@ -211,18 +211,20 @@ function inspectComposer(
     editable: false,
     value: getLocaleMessageValue(composer.messages.value)
   })
-  instanceData.state.push({
-    type,
-    key: 'datetimeFormats',
-    editable: false,
-    value: composer.datetimeFormats.value
-  })
-  instanceData.state.push({
-    type,
-    key: 'numberFormats',
-    editable: false,
-    value: composer.numberFormats.value
-  })
+  if (!__LITE__) {
+    instanceData.state.push({
+      type,
+      key: 'datetimeFormats',
+      editable: false,
+      value: composer.datetimeFormats.value
+    })
+    instanceData.state.push({
+      type,
+      key: 'numberFormats',
+      editable: false,
+      value: composer.numberFormats.value
+    })
+  }
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -388,27 +390,29 @@ function makeScopeInspectState(composer: Composer): CustomInspectorState {
   ]
   state[localeMessagesType] = localeMessagesStates
 
-  const datetimeFormatsType = 'Datetime formats info'
-  const datetimeFormatsStates: ComponentStateBase[] = [
-    {
-      type: datetimeFormatsType,
-      key: 'datetimeFormats',
-      editable: false,
-      value: composer.datetimeFormats.value
-    }
-  ]
-  state[datetimeFormatsType] = datetimeFormatsStates
+  if (!__LITE__) {
+    const datetimeFormatsType = 'Datetime formats info'
+    const datetimeFormatsStates: ComponentStateBase[] = [
+      {
+        type: datetimeFormatsType,
+        key: 'datetimeFormats',
+        editable: false,
+        value: composer.datetimeFormats.value
+      }
+    ]
+    state[datetimeFormatsType] = datetimeFormatsStates
 
-  const numberFormatsType = 'Datetime formats info'
-  const numberFormatsStates: ComponentStateBase[] = [
-    {
-      type: numberFormatsType,
-      key: 'numberFormats',
-      editable: false,
-      value: composer.numberFormats.value
-    }
-  ]
-  state[numberFormatsType] = numberFormatsStates
+    const numberFormatsType = 'Datetime formats info'
+    const numberFormatsStates: ComponentStateBase[] = [
+      {
+        type: numberFormatsType,
+        key: 'numberFormats',
+        editable: false,
+        value: composer.numberFormats.value
+      }
+    ]
+    state[numberFormatsType] = numberFormatsStates
+  }
 
   return state
 }

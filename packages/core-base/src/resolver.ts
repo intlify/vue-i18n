@@ -289,10 +289,36 @@ export type MessageResolver = (obj: unknown, path: Path) => PathValue
 // path token cache
 const cache = new Map<Path, string[]>()
 
+/**
+ * key-value message resolver
+ *
+ * @remarks
+ * Resolves messages with the key-value structure. Note that messages with a hierarchical structure such as objects cannot be resolved
+ *
+ * @param obj - A target object to be resolved with path
+ * @param path - A {@link Path | path} to resolve the value of message
+ *
+ * @returns A resolved {@link PathValue | path value}
+ *
+ * @VueI18nGeneral
+ */
 export function resolveWithKeyValue(obj: unknown, path: Path): PathValue {
   return isObject(obj) ? obj[path] : null
 }
 
+/**
+ * message resolver
+ *
+ * @remarks
+ * Resolves messages. messages with a hierarchical structure such as objects can be resolved. This resolver is used in VueI18n as default.
+ *
+ * @param obj - A target object to be resolved with path
+ * @param path - A {@link Path | path} to resolve the value of message
+ *
+ * @returns A resolved {@link PathValue | path value}
+ *
+ * @VueI18nGeneral
+ */
 export function resolveValue(obj: unknown, path: Path): PathValue {
   // check object
   if (!isObject(obj)) {

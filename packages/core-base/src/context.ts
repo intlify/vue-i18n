@@ -276,12 +276,26 @@ export function registerMessageCompiler<Message>(
 
 let _resolver: unknown | null
 
+/**
+ * Register the message resolver
+ *
+ * @param resolver - A {@link MessageResolver} function
+ *
+ * @VueI18nGeneral
+ */
 export function registerMessageResolver(resolver: MessageResolver): void {
   _resolver = resolver
 }
 
 let _fallbacker: unknown | null
 
+/**
+ * Register the locale fallbacker
+ *
+ * @param fallbacker - A {@link LocaleFallbacker} function
+ *
+ * @VueI18nGeneral
+ */
 export function registerLocaleFallbacker(fallbacker: LocaleFallbacker): void {
   _fallbacker = fallbacker
 }
@@ -353,12 +367,16 @@ export function createCoreContext<Message = string>(options: any = {}): any {
   const messages = isPlainObject(options.messages)
     ? options.messages
     : { [locale]: {} }
-  const datetimeFormats = isPlainObject(options.datetimeFormats)
-    ? options.datetimeFormats
-    : { [locale]: {} }
-  const numberFormats = isPlainObject(options.numberFormats)
-    ? options.numberFormats
-    : { [locale]: {} }
+  const datetimeFormats = !__LITE__
+    ? isPlainObject(options.datetimeFormats)
+      ? options.datetimeFormats
+      : { [locale]: {} }
+    : /* #__PURE__*/ { [locale]: {} }
+  const numberFormats = !__LITE__
+    ? isPlainObject(options.numberFormats)
+      ? options.numberFormats
+      : { [locale]: {} }
+    : /* #__PURE__*/ { [locale]: {} }
   const modifiers = assign(
     {},
     options.modifiers || {},
@@ -397,12 +415,16 @@ export function createCoreContext<Message = string>(options: any = {}): any {
 
   // setup internal options
   const internalOptions = options as CoreInternalOptions
-  const __datetimeFormatters = isObject(internalOptions.__datetimeFormatters)
-    ? internalOptions.__datetimeFormatters
-    : new Map<string, Intl.DateTimeFormat>()
-  const __numberFormatters = isObject(internalOptions.__numberFormatters)
-    ? internalOptions.__numberFormatters
-    : new Map<string, Intl.NumberFormat>()
+  const __datetimeFormatters = !__LITE__
+    ? isObject(internalOptions.__datetimeFormatters)
+      ? internalOptions.__datetimeFormatters
+      : new Map<string, Intl.DateTimeFormat>()
+    : /* #__PURE__*/ new Map<string, Intl.DateTimeFormat>()
+  const __numberFormatters = !__LITE__
+    ? isObject(internalOptions.__numberFormatters)
+      ? internalOptions.__numberFormatters
+      : new Map<string, Intl.NumberFormat>()
+    : /* #__PURE__*/ new Map<string, Intl.NumberFormat>()
   const __meta = isObject(internalOptions.__meta) ? internalOptions.__meta : {}
 
   _cid++
@@ -413,8 +435,6 @@ export function createCoreContext<Message = string>(options: any = {}): any {
     locale,
     fallbackLocale,
     messages,
-    datetimeFormats,
-    numberFormats,
     modifiers,
     pluralRules,
     missing,
@@ -430,9 +450,14 @@ export function createCoreContext<Message = string>(options: any = {}): any {
     messageResolver,
     localeFallbacker,
     onWarn,
-    __datetimeFormatters,
-    __numberFormatters,
     __meta
+  }
+
+  if (!__LITE__) {
+    ;(context as any).datetimeFormats = datetimeFormats
+    ;(context as any).numberFormats = numberFormats
+    ;(context as any).__datetimeFormatters = __datetimeFormatters
+    ;(context as any).__numberFormatters = __numberFormatters
   }
 
   // for vue-devtools timeline event

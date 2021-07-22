@@ -39,7 +39,9 @@ export {
   TranslateOptions,
   DateTimeOptions,
   NumberOptions,
-  PostTranslationHandler
+  PostTranslationHandler,
+  registerMessageResolver,
+  registerLocaleFallbacker
 } from '@intlify/core-base'
 export {
   VueMessageType,

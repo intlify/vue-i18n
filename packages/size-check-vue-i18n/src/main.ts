@@ -1,5 +1,8 @@
 import { h, createApp } from '@vue/runtime-dom'
-import { createI18n, useI18n } from 'vue-i18n'
+import { createI18n, useI18n, registerMessageResolver } from 'vue-i18n'
+import { resolveValue } from '@intlify/core-base'
+
+// registerMessageResolver(resolveValue)
 
 const i18n = createI18n({
   legacy: false,

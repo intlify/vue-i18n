@@ -9,7 +9,8 @@
   },
   "dependencies": {
     "vue": "^3.1.5",
-    "vue-i18n": "9.2.0-alpha.6"
+    "vue-i18n": "file:../vue-i18n",
+    "@intlify/core-base": "file:../core-base"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^1.2.5",
