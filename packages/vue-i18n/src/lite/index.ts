@@ -1,7 +1,10 @@
 import { getGlobalThis } from '@intlify/shared'
-import { setDevToolsHook } from '@intlify/core-base'
+import {
+  setDevToolsHook,
+  registerMessageCompiler,
+  compileToFunction
+} from '@intlify/core-base'
 import { initDev, initFeatureFlags } from '../misc'
-import { registerMessageCompiler, compileToFunction } from '@intlify/core'
 
 // register message compiler at vue-i18n
 registerMessageCompiler(compileToFunction)

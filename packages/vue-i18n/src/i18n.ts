@@ -619,22 +619,24 @@ export function useI18n<
         global.mergeLocaleMessage(locale, messages[locale])
       })
     }
-    // merge datetime formats
-    if (isObject(options.datetimeFormats)) {
-      const locales = Object.keys(options.datetimeFormats)
-      if (locales.length) {
-        locales.forEach(locale => {
-          global.mergeDateTimeFormat(locale, options.datetimeFormats![locale])
-        })
+    if (!__LITE__) {
+      // merge datetime formats
+      if (isObject(options.datetimeFormats)) {
+        const locales = Object.keys(options.datetimeFormats)
+        if (locales.length) {
+          locales.forEach(locale => {
+            global.mergeDateTimeFormat(locale, options.datetimeFormats![locale])
+          })
+        }
       }
-    }
-    // merge number formats
-    if (isObject(options.numberFormats)) {
-      const locales = Object.keys(options.numberFormats)
-      if (locales.length) {
-        locales.forEach(locale => {
-          global.mergeNumberFormat(locale, options.numberFormats![locale])
-        })
+      // merge number formats
+      if (isObject(options.numberFormats)) {
+        const locales = Object.keys(options.numberFormats)
+        if (locales.length) {
+          locales.forEach(locale => {
+            global.mergeNumberFormat(locale, options.numberFormats![locale])
+          })
+        }
       }
     }
     return global as Composer<
