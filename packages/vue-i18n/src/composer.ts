@@ -1861,22 +1861,22 @@ export function createComposer(options: any = {}): any {
   )
 
   // prettier-ignore
-  const _datetimeFormats = ref<DateTimeFormatsType>(
-    __LITE__
-      ? { [_locale.value]: {} }
-      : isPlainObject(options.datetimeFormats)
-        ? options.datetimeFormats
-        : { [_locale.value]: {} }
-  )
+  const _datetimeFormats = !__LITE__
+    ? ref<DateTimeFormatsType>(
+        isPlainObject(options.datetimeFormats)
+          ? options.datetimeFormats
+          : { [_locale.value]: {} }
+      )
+    : /* #__PURE__*/ ref<DateTimeFormatsType>({})
 
   // prettier-ignore
-  const _numberFormats = ref<NumberFormatsType>(
-    __LITE__
-      ? { [_locale.value]: {} }
-      : isPlainObject(options.numberFormats)
-      ? options.numberFormats
-      : { [_locale.value]: {} }
-  )
+  const _numberFormats = !__LITE__
+    ? ref<NumberFormatsType>(
+        isPlainObject(options.numberFormats)
+          ? options.numberFormats
+          : { [_locale.value]: {} }
+      )
+    : /* #__PURE__*/ ref<NumberFormatsType>({})
 
   // warning suppress options
   // prettier-ignore
@@ -1952,9 +1952,6 @@ export function createComposer(options: any = {}): any {
       warnHtmlMessage: _warnHtmlMessage,
       escapeParameter: _escapeParameter,
       messageResolver: options.messageResolver,
-      __v_emitter: isPlainObject(_context)
-        ? (_context as unknown as CoreInternalContext).__v_emitter
-        : undefined,
       __meta: { framework: 'vue' }
     }
     if (!__LITE__) {
@@ -1967,6 +1964,11 @@ export function createComposer(options: any = {}): any {
         ? (_context as unknown as CoreInternalContext).__numberFormatters
         : undefined
     }
+    if (__DEV__) {
+      ;(ctxOptions as any).__v_emitter = isPlainObject(_context)
+        ? (_context as unknown as CoreInternalContext).__v_emitter
+        : undefined
+    }
     return createCoreContext(ctxOptions as any)
   }
 
@@ -1975,13 +1977,15 @@ export function createComposer(options: any = {}): any {
 
   // track reactivity
   function trackReactivityValues() {
-    return [
-      _locale.value,
-      _fallbackLocale.value,
-      _messages.value,
-      _datetimeFormats.value,
-      _numberFormats.value
-    ]
+    return !__LITE__
+      ? [
+          _locale.value,
+          _fallbackLocale.value,
+          _messages.value,
+          _datetimeFormats.value,
+          _numberFormats.value
+        ]
+      : [_locale.value, _fallbackLocale.value, _messages.value]
   }
 
   // locale
@@ -2009,12 +2013,14 @@ export function createComposer(options: any = {}): any {
   )
 
   // datetimeFormats
-  const datetimeFormats = computed<DateTimeFormatsType>(
+  const datetimeFormats = /* #__PURE__*/ computed<DateTimeFormatsType>(
     () => _datetimeFormats.value
   )
 
   // numberFormats
-  const numberFormats = computed<NumberFormatsType>(() => _numberFormats.value)
+  const numberFormats = /* #__PURE__*/ computed<NumberFormatsType>(
+    () => _numberFormats.value
+  )
 
   // getPostTranslationHandler
   function getPostTranslationHandler(): PostTranslationHandler<Message> | null {

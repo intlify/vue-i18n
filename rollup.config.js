@@ -15,8 +15,15 @@ const resolve = p => path.resolve(packageDir, p)
 const pkg = require(resolve(`package.json`))
 const packageOptions = pkg.buildOptions || {}
 
+// prettier-ignore
+const pkgName = pkg.name === 'vue-i18n'
+  ? process.env.LITE
+    ? 'vue-i18n-lite'
+    : pkg.name
+  : pkg.name
+
 const banner = `/*!
-  * ${pkg.name} v${pkg.version}
+  * ${pkgName} v${pkg.version}
   * (c) ${new Date().getFullYear()} ${pkg.author.name}
   * Released under the ${pkg.license} License.
   */`
@@ -65,6 +72,10 @@ const liteOutputConfigs = {
     file: resolve(`dist/${name}-lite.esm-browser.js`),
     format: `es`
   },
+  'cjs-lite': {
+    file: resolve(`dist/${name}-lite.cjs.js`),
+    format: `cjs`
+  },
   'global-lite': {
     file: resolve(`dist/${name}-lite.global.js`),
     format: `iife`
@@ -84,7 +95,7 @@ const liteOutputConfigs = {
 }
 
 const outputConfigs =
-  pkg.name === 'vue-i18n' && process.env.LITE
+  pkgName === 'vue-i18n-lite'
     ? { ...basicConfigs, ...liteOutputConfigs }
     : { ...basicConfigs }
 
@@ -92,11 +103,8 @@ const defaultFormats = ['esm-bundler', 'cjs']
 const inlineFormats = process.env.FORMATS && process.env.FORMATS.split(',')
 const baseFormats = inlineFormats || packageOptions.formats || defaultFormats
 const packageFormats =
-  pkg.name === 'vue-i18n' && process.env.LITE
-    ? [
-        ...baseFormats,
-        ...baseFormats.map(f => `${f}-lite`).filter(f => f !== 'cjs-lite')
-      ]
+  pkgName === 'vue-i18n-lite'
+    ? [...baseFormats, ...baseFormats.map(f => `${f}-lite`)]
     : baseFormats
 const packageConfigs = process.env.PROD_ONLY
   ? []
@@ -127,7 +135,7 @@ function createConfig(format, output, plugins = []) {
   output.sourcemap = !!process.env.SOURCE_MAP
   output.banner = banner
   output.externalLiveBindings = false
-  if (pkg.name === 'vue-i18n') {
+  if (pkgName === 'vue-i18n' || pkgName === 'vue-i18n-lite') {
     output.globals = {
       vue: 'Vue',
       '@vue/devtools-api': 'VueDevtoolsApi'
@@ -138,7 +146,7 @@ function createConfig(format, output, plugins = []) {
     process.env.__DEV__ === 'false' || /\.prod\.js$/.test(output.file)
   const isBundlerESMBuild = /esm-bundler/.test(format)
   const isBrowserESMBuild = /esm-browser/.test(format)
-  const isNodeBuild = format === 'cjs'
+  const isNodeBuild = format === 'cjs' || format === 'cjs-lite'
   const isGlobalBuild = /global/.test(format)
   const isRuntimeOnlyBuild = /runtime/.test(format)
   const isLite = /lite/.test(format)

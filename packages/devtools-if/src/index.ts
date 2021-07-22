@@ -7,7 +7,7 @@ export interface IntlifyRecord {
   types: Record<string, string | Symbol> // TODO
 }
 
-export const IntlifyDevToolsHooks = {
+export const IntlifyDevToolsHooks = /* #__PURE__*/ {
   I18nInit: 'i18n:init',
   FunctionTranslate: 'function:translate'
 } as const
