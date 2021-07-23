@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Fallback with default example</title>
+    <script src="../../../node_modules/vue/dist/vue.global.js"></script>
+    <script src="../../../packages/petite-vue-i18n/dist/petite-vue-i18n.global.js"></script>
+  </head>
+  <body>
+    <div id="app">
+      <!-- string argument -->
+      <p>{{ t("messages.hello", { name: 'kazupon' }, 'hello, {name}!') }}</p>
+      <!-- `default` option (string) -->
+      <p>
+        {{ t("messages.hello", { name: 'kazupon' }, { default: 'hi, {name}!' })
+        }}
+      </p>
+      <!-- `default` option (true) -->
+      <p>
+        {{ t("good morning, {name}!", { name: 'kazupon' }, { default: true }) }}
+      </p>
+    </div>
+    <script>
+      const { createApp } = Vue
+      const { createI18n, useI18n } = PetiteVueI18n
+
+      const i18n = createI18n({
+        locale: 'ja',
+        fallbackLocale: ['en'],
+        messages: {
+          en: {},
+          ja: {}
+        }
+      })
+
+      const app = createApp({
+        setup() {
+          const { t } = useI18n()
+
+          // Something to do ...
+          //
+
+          return { t }
+        }
+      })
+      app.use(i18n)
+      app.mount('#app')
+    </script>
+  </body>
+</html>

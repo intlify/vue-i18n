@@ -1,4 +1,4 @@
-;['composition', 'legacy'].forEach(pattern => {
+;['composition', 'petite', 'legacy'].forEach(pattern => {
   describe(`${pattern}`, () => {
     beforeAll(async () => {
       await page.goto(

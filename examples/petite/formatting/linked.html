@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Linked message example</title>
+    <script src="../../../node_modules/vue/dist/vue.global.js"></script>
+    <script src="../../../packages/petite-vue-i18n/dist/petite-vue-i18n.global.js"></script>
+  </head>
+  <body>
+    <div id="app">
+      <form>
+        <label for="locale-select">{{ t('message.language') }}</label>
+        <select id="locale-select" v-model="locale">
+          <option value="en">en</option>
+          <option value="ja">ja</option>
+        </select>
+      </form>
+      <p>{{ t('message.linked') }}</p>
+      <label>{{ t('message.homeAddress') }}</label>
+      <p class="error">{{ t('message.missingHomeAddress') }}</p>
+      <p>{{ t('message.custom_modifier', { foo: 'message.snake' }) }}</p>
+    </div>
+    <script>
+      const { createApp } = Vue
+      const { createI18n, useI18n } = PetiteVueI18n
+
+      const i18n = createI18n({
+        locale: 'en',
+        messages: {
+          en: {
+            'message.language': 'Language',
+            'message.the_world': 'the world',
+            'message.dio': 'DIO:',
+            'message.linked': '@:message.dio @:message.the_world !!!!',
+            'message.homeAddress': 'Home address',
+            'message.missingHomeAddress': 'Please provide @.lower:message.homeAddress',
+            'message.snake': 'snake case',
+            'message.custom_modifier': "custom modifiers example: @.snakeCase:{'message.snake'}"
+          },
+          ja: {
+            'message.language': '言語',
+            'message.the_world': 'ザ・ワールド',
+            'message.dio': 'ディオ:',
+            'message.linked': '@:message.dio @:message.the_world ！！！！',
+            'message.homeAddress': 'ホームアドレス',
+            'message.missingHomeAddress': 'どうか、@.lower:message.homeAddress を提供してください。',
+            'message.snake': 'スネーク ケース',
+            'message.foo': 'message.snake',
+            'message.custom_modifier': "カスタム修飾子の例: @.snakeCase:{'message.snake'}"
+          }
+        },
+        modifiers: {
+          snakeCase: str => str.split(' ').join('-')
+        }
+      })
+
+      const app = createApp({
+        setup() {
+          const { t, locale } = useI18n()
+
+          // Something to do ...
+          //
+
+          return { t, locale }
+        }
+      })
+      app.use(i18n)
+      app.mount('#app')
+    </script>
+  </body>
+</html>
