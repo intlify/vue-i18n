@@ -1,6 +1,6 @@
 {
   "name": "petite-vue-i18n",
-  "version": "9.2.0-alpha.6",
+  "version": "9.2.0-alpha.7",
   "description": "Vue I18n lite version",
   "keywords": [
     "i18n",
@@ -35,8 +35,8 @@
   "jsdelivr": "dist/petite-vue-i18n.global.js",
   "types": "dist/petite-vue-i18n.d.ts",
   "dependencies": {
-    "@intlify/core-base": "9.2.0-alpha.6",
-    "@intlify/vue-i18n-core": "9.2.0-alpha.6"
+    "@intlify/core-base": "9.2.0-alpha.7",
+    "@intlify/vue-i18n-core": "9.2.0-alpha.7"
   },
   "peerDependencies": {
     "vue": "^3.0.0"

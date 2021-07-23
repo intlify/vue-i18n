@@ -1,4 +1,23 @@
 
+## v9.2.0-alpha.7 (2021-07-23)
+
+#### :star: Features
+* `core-base`, `core`, `devtools-if`, `message-compiler`, `message-resolver`, `petite-vue-i18n`, `runtime`, `size-check-core`, `size-check-petite-vue-i18n`, `size-check-vue-i18n`, `vue-devtools`, `vue-i18n-core`, `vue-i18n`
+  * [#588](https://github.com/intlify/vue-i18n-next/pull/588) feat: vue-i18n lite version ([@kazupon](https://github.com/kazupon))
+
+#### :zap: Improvement Features
+* `core-base`, `vue-i18n`
+  * [#584](https://github.com/intlify/vue-i18n-next/pull/584) improvement: reduce size ([@kazupon](https://github.com/kazupon))
+* `size-check-vue-i18n`, `vue-i18n`
+  * [#583](https://github.com/intlify/vue-i18n-next/pull/583) improvement: deprecated __VUE_I18N_PROD_DEVTOOLS__ feature flag ([@kazupon](https://github.com/kazupon))
+
+#### :pencil: Documentation
+* [#582](https://github.com/intlify/vue-i18n-next/pull/582) docs: add typescript section to advanced ([@kazupon](https://github.com/kazupon))
+
+#### Committers: 1
+- kazuya kawaguchi ([@kazupon](https://github.com/kazupon))
+
+
 ## v9.2.0-alpha.6 (2021-07-16)
 
 #### :zap: Improvement Features

@@ -1,15 +1,15 @@
 {
   "name": "@intlify/vue-i18n-core",
-  "version": "9.2.0-alpha.6",
+  "version": "9.2.0-alpha.7",
   "description": "@intlify/vue-i18n-core",
   "keywords": [
+    "core",
+    "fundamental",
     "i18n",
     "internationalization",
     "intlify",
     "vue",
-    "vue.js",
-    "core",
-    "fundamental"
+    "vue.js"
   ],
   "license": "MIT",
   "author": {
@@ -35,13 +35,13 @@
   "jsdelivr": "dist/vue-i18n-core.global.js",
   "types": "dist/vue-i18n-core.d.ts",
   "dependencies": {
-    "@intlify/core-base": "9.2.0-alpha.6",
-    "@intlify/shared": "9.2.0-alpha.6",
-    "@intlify/vue-devtools": "9.2.0-alpha.6",
+    "@intlify/core-base": "9.2.0-alpha.7",
+    "@intlify/shared": "9.2.0-alpha.7",
+    "@intlify/vue-devtools": "9.2.0-alpha.7",
     "@vue/devtools-api": "^6.0.0-beta.13"
   },
   "devDependencies": {
-    "@intlify/devtools-if": "9.2.0-alpha.6"
+    "@intlify/devtools-if": "9.2.0-alpha.7"
   },
   "peerDependencies": {
     "vue": "^3.0.0"
