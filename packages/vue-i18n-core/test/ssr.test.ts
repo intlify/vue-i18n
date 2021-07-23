@@ -1,6 +1,20 @@
 import { h, defineComponent, resolveComponent, createSSRApp } from 'vue'
 import { renderToString } from '@vue/server-renderer'
+import {
+  compileToFunction,
+  registerMessageCompiler,
+  resolveValue,
+  registerMessageResolver,
+  fallbackWithLocaleChain,
+  registerLocaleFallbacker
+} from '@intlify/core-base'
 import { createI18n, useI18n } from '../src/index'
+
+beforeAll(() => {
+  registerMessageCompiler(compileToFunction)
+  registerMessageResolver(resolveValue)
+  registerLocaleFallbacker(fallbackWithLocaleChain)
+})
 
 test('composition mode', async () => {
   const i18n = createI18n({

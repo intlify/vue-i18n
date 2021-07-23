@@ -15,15 +15,8 @@ const resolve = p => path.resolve(packageDir, p)
 const pkg = require(resolve(`package.json`))
 const packageOptions = pkg.buildOptions || {}
 
-// prettier-ignore
-const pkgName = pkg.name === 'vue-i18n'
-  ? process.env.LITE
-    ? 'vue-i18n-lite'
-    : pkg.name
-  : pkg.name
-
 const banner = `/*!
-  * ${pkgName} v${pkg.version}
+  * ${name} v${pkg.version}
   * (c) ${new Date().getFullYear()} ${pkg.author.name}
   * Released under the ${pkg.license} License.
   */`
@@ -31,7 +24,7 @@ const banner = `/*!
 // ensure TS checks only once for each build
 let hasTSChecked = false
 
-const basicConfigs = {
+const outputConfigs = {
   'esm-bundler': {
     file: resolve(`dist/${name}.esm-bundler.js`),
     format: `es`
@@ -62,50 +55,10 @@ const basicConfigs = {
     format: 'iife'
   }
 }
-// for vue-i18n lite build
-const liteOutputConfigs = {
-  'esm-bundler-lite': {
-    file: resolve(`dist/${name}-lite.esm-bundler.js`),
-    format: `es`
-  },
-  'esm-browser-lite': {
-    file: resolve(`dist/${name}-lite.esm-browser.js`),
-    format: `es`
-  },
-  'cjs-lite': {
-    file: resolve(`dist/${name}-lite.cjs.js`),
-    format: `cjs`
-  },
-  'global-lite': {
-    file: resolve(`dist/${name}-lite.global.js`),
-    format: `iife`
-  },
-  'esm-bundler-runtime-lite': {
-    file: resolve(`dist/${name}-lite.runtime.esm-bundler.js`),
-    format: `es`
-  },
-  'esm-browser-runtime-lite': {
-    file: resolve(`dist/${name}-lite.runtime.esm-browser.js`),
-    format: 'es'
-  },
-  'global-runtime-lite': {
-    file: resolve(`dist/${name}-lite.runtime.global.js`),
-    format: 'iife'
-  }
-}
-
-const outputConfigs =
-  pkgName === 'vue-i18n-lite'
-    ? { ...basicConfigs, ...liteOutputConfigs }
-    : { ...basicConfigs }
 
 const defaultFormats = ['esm-bundler', 'cjs']
 const inlineFormats = process.env.FORMATS && process.env.FORMATS.split(',')
-const baseFormats = inlineFormats || packageOptions.formats || defaultFormats
-const packageFormats =
-  pkgName === 'vue-i18n-lite'
-    ? [...baseFormats, ...baseFormats.map(f => `${f}-lite`)]
-    : baseFormats
+const packageFormats = inlineFormats || packageOptions.formats || defaultFormats
 const packageConfigs = process.env.PROD_ONLY
   ? []
   : packageFormats.map(format => createConfig(format, outputConfigs[format]))
@@ -135,7 +88,11 @@ function createConfig(format, output, plugins = []) {
   output.sourcemap = !!process.env.SOURCE_MAP
   output.banner = banner
   output.externalLiveBindings = false
-  if (pkgName === 'vue-i18n' || pkgName === 'vue-i18n-lite') {
+  if (
+    name === 'vue-i18n' ||
+    name === 'vue-i18n-core' ||
+    name === 'petite-vue-i18n'
+  ) {
     output.globals = {
       vue: 'Vue',
       '@vue/devtools-api': 'VueDevtoolsApi'
@@ -149,7 +106,7 @@ function createConfig(format, output, plugins = []) {
   const isNodeBuild = format === 'cjs' || format === 'cjs-lite'
   const isGlobalBuild = /global/.test(format)
   const isRuntimeOnlyBuild = /runtime/.test(format)
-  const isLite = /lite/.test(format)
+  const isLite = /petite-vue-i18n/.test(name)
 
   if (isGlobalBuild) {
     output.name = packageOptions.name
@@ -175,14 +132,7 @@ function createConfig(format, output, plugins = []) {
   // during a single build.
   hasTSChecked = true
 
-  // prettier-ignore
-  const entryFile = !isLite
-    ? /runtime/.test(format)
-      ? `src/runtime.ts`
-      : `src/index.ts`
-    : /runtime/.test(format)
-      ? `src/lite/runtime.ts`
-      : `src/lite/index.ts`
+  const entryFile = /runtime/.test(format) ? `src/runtime.ts` : `src/index.ts`
 
   const external =
     isGlobalBuild || isBrowserESMBuild

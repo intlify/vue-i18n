@@ -10,7 +10,7 @@ import {
   I18nOptions,
   useI18n,
   createI18n
-} from '../../packages/vue-i18n/src/i18n'
+} from '../../packages/vue-i18n-core/src/i18n'
 import { SchemaParams, LocaleParams } from '../../packages/core-base/src'
 import { ResourceSchema, MyDatetimeScehma, MyNumberSchema } from '../schema'
 

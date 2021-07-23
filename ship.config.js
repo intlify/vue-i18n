@@ -46,7 +46,9 @@ module.exports = {
       'packages/core',
       'packages/devtools-if',
       'packages/vue-devtools',
-      'packages/vue-i18n'
+      'packages/vue-i18n-core',
+      'packages/vue-i18n',
+      'packages/petite-vue-i18n'
     ],
     packagesToPublish: [
       'packages/shared',
@@ -55,7 +57,9 @@ module.exports = {
       'packages/core',
       'packages/devtools-if',
       'packages/vue-devtools',
-      'packages/vue-i18n'
+      'packages/vue-i18n-core',
+      'packages/vue-i18n',
+      'packages/petite-vue-i18n'
     ]
   },
   updateChangelog: false,

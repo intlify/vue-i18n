@@ -1,5 +1,5 @@
 {
-  "name": "@intlify/size-check-vue-i18n",
+  "name": "@intlify/size-check-petite-vue-i18n",
   "private": true,
   "scripts": {
     "dev": "vite",
@@ -9,7 +9,7 @@
   },
   "dependencies": {
     "vue": "^3.1.5",
-    "vue-i18n": "file:../vue-i18n"
+    "petite-vue-i18n": "file:../petite-vue-i18n"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^1.2.5",

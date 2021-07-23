@@ -4,9 +4,23 @@
 
 import { mount } from './helper'
 import { defineComponent, nextTick } from 'vue'
+import {
+  compileToFunction,
+  registerMessageCompiler,
+  resolveValue,
+  registerMessageResolver,
+  fallbackWithLocaleChain,
+  registerLocaleFallbacker
+} from '@intlify/core-base'
 import { createI18n } from '../src/index'
 import { errorMessages, I18nErrorCodes } from '../src/errors'
 import { VueI18n } from '../src/legacy'
+
+beforeAll(() => {
+  registerMessageCompiler(compileToFunction)
+  registerMessageResolver(resolveValue)
+  registerLocaleFallbacker(fallbackWithLocaleChain)
+})
 
 describe('beforeCreate', () => {
   test('i18n option', async () => {

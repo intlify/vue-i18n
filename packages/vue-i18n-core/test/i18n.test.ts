@@ -8,17 +8,31 @@ import {
   getCurrentInstance,
   ComponentOptions
 } from 'vue'
+import {
+  setDevToolsHook,
+  compileToFunction,
+  registerMessageCompiler,
+  resolveValue,
+  registerMessageResolver,
+  fallbackWithLocaleChain,
+  registerLocaleFallbacker
+} from '@intlify/core-base'
+import { createEmitter } from '@intlify/shared'
 import { mount, pluralRules as _pluralRules } from './helper'
 import { createI18n, useI18n } from '../src/index'
 import { errorMessages, I18nErrorCodes } from '../src/errors'
 import { Composer } from '../src/composer'
-import { setDevToolsHook } from '@intlify/core-base'
-import { createEmitter } from '@intlify/shared'
 
 import {
   IntlifyDevToolsEmitterHooks,
   IntlifyDevToolsHooks
 } from '@intlify/devtools-if'
+
+beforeAll(() => {
+  registerMessageCompiler(compileToFunction)
+  registerMessageResolver(resolveValue)
+  registerLocaleFallbacker(fallbackWithLocaleChain)
+})
 
 afterEach(() => {
   setDevToolsHook(null)

@@ -46,7 +46,6 @@ const rimraf = promisify(_rimraf)
   const buildAllMatching = args.all || args.a
   const { stdout } = await execa('git', ['rev-parse', 'HEAD'])
   const commit = stdout.slice(0, 7)
-  const lite = args.lite || args.l
 
   await run()
 
@@ -127,8 +126,7 @@ const rimraf = promisify(_rimraf)
           formats ? `FORMATS:${formats}` : ``,
           buildTypes ? `TYPES:true` : ``,
           prodOnly ? `PROD_ONLY:true` : ``,
-          sourceMap ? `SOURCE_MAP:true` : ``,
-          lite ? `LITE:true` : ``
+          sourceMap ? `SOURCE_MAP:true` : ``
         ]
           .filter(Boolean)
           .join(',')

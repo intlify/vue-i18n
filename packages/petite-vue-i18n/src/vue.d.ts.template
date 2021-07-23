@@ -1,32 +1,10 @@
-import type { Path, NamedValue } from '@intlify/vue-i18n-core'
 import type {
-  Locale,
-  LocaleMessageValue,
-  MessageFunction,
-  TranslateOptions,
-  DateTimeOptions,
-  NumberOptions,
   IsNever,
   IsEmptyObject,
   PickupPaths,
   PickupKeys,
   PickupFormatPathKeys
 } from '@intlify/vue-i18n-core'
-import type {
-  CustomBlocks,
-  VueMessageType,
-  DefineLocaleMessage,
-  DefineDateTimeFormat,
-  RemovedIndexResources
-} from '@intlify/vue-i18n-core'
-import type {
-  VueI18n,
-  VueI18nOptions,
-  TranslateResult,
-  DateTimeFormatResult,
-  NumberFormatResult
-} from '@intlify/vue-i18n-core'
-import type { ExportedGlobalComposer } from '@intlify/vue-i18n-core'
 
 declare module '@vue/runtime-core' {
   /**

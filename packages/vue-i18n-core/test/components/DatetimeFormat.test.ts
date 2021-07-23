@@ -4,6 +4,14 @@
 
 import { mount } from '../helper'
 import { defineComponent, SetupContext, VNodeChild, h } from 'vue'
+import {
+  compileToFunction,
+  registerMessageCompiler,
+  resolveValue,
+  registerMessageResolver,
+  fallbackWithLocaleChain,
+  registerLocaleFallbacker
+} from '@intlify/core-base'
 import { createI18n, IntlDateTimeFormats } from '../../src/index'
 
 const datetimeFormats: IntlDateTimeFormats = {
@@ -32,6 +40,12 @@ const datetimeFormats: IntlDateTimeFormats = {
     }
   }
 }
+
+beforeAll(() => {
+  registerMessageCompiler(compileToFunction)
+  registerMessageResolver(resolveValue)
+  registerLocaleFallbacker(fallbackWithLocaleChain)
+})
 
 let org: any // eslint-disable-line @typescript-eslint/no-explicit-any
 let spy: any // eslint-disable-line @typescript-eslint/no-explicit-any

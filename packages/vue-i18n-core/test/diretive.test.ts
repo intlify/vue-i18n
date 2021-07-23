@@ -13,10 +13,24 @@ import { warn } from '@intlify/shared'
 
 import { mount } from './helper'
 import { defineComponent, ref, h, withDirectives, resolveDirective } from 'vue'
+import { format } from '@intlify/shared'
+import {
+  compileToFunction,
+  registerMessageCompiler,
+  resolveValue,
+  registerMessageResolver,
+  fallbackWithLocaleChain,
+  registerLocaleFallbacker
+} from '@intlify/core-base'
 import { createI18n } from '../src/index'
 import { errorMessages, I18nErrorCodes } from '../src/errors'
 import { getWarnMessage, I18nWarnCodes } from '../src/warnings'
-import { format } from '@intlify/shared'
+
+beforeAll(() => {
+  registerMessageCompiler(compileToFunction)
+  registerMessageResolver(resolveValue)
+  registerLocaleFallbacker(fallbackWithLocaleChain)
+})
 
 describe('basic', () => {
   test('literal', async () => {

@@ -1,11 +1,12 @@
 {
-  "name": "vue-i18n",
+  "name": "petite-vue-i18n",
   "version": "9.2.0-alpha.6",
-  "description": "Internationalization plugin for Vue.js",
+  "description": "Vue I18n lite version",
   "keywords": [
     "i18n",
     "internationalization",
     "intlify",
+    "lite",
     "plugin",
     "vue",
     "vue.js"
@@ -15,34 +16,36 @@
     "name": "kazuya kawaguchi",
     "email": "kawakazu80@gmail.com"
   },
-  "homepage": "https://github.com/intlify/vue-i18n-next/tree/master/packages/vue-i18n#readme",
+  "homepage": "https://github.com/intlify/vue-i18n-next/tree/master/packages/petite-vue-i18n#readme",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/intlify/vue-i18n-next.git",
-    "directory": "packages/vue-i18n"
+    "directory": "packages/petite-vue-i18n"
   },
   "bugs": {
     "url": "https://github.com/intlify/vue-i18n-next/issues"
   },
   "files": [
     "index.js",
-    "dist",
-    "vetur"
+    "dist"
   ],
   "main": "index.js",
-  "module": "dist/vue-i18n.esm-bundler.js",
-  "unpkg": "dist/vue-i18n.global.js",
-  "jsdelivr": "dist/vue-i18n.global.js",
-  "types": "dist/vue-i18n.d.ts",
+  "module": "dist/petite-vue-i18n.esm-bundler.js",
+  "unpkg": "dist/petite-vue-i18n.global.js",
+  "jsdelivr": "dist/petite-vue-i18n.global.js",
+  "types": "dist/petite-vue-i18n.d.ts",
   "dependencies": {
     "@intlify/core-base": "9.2.0-alpha.6",
     "@intlify/vue-i18n-core": "9.2.0-alpha.6"
+  },
+  "peerDependencies": {
+    "vue": "^3.0.0"
   },
   "engines": {
     "node": ">= 12"
   },
   "buildOptions": {
-    "name": "VueI18n",
+    "name": "PetiteVueI18n",
     "formats": [
       "esm-bundler",
       "esm-bundler-runtime",
@@ -53,9 +56,5 @@
       "global-runtime"
     ]
   },
-  "sideEffects": false,
-  "vetur": {
-    "tags": "vetur/tags.json",
-    "attributes": "vetur/attributes.json"
-  }
+  "sideEffects": false
 }

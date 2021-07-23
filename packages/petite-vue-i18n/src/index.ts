@@ -1,12 +1,6 @@
-import { getGlobalThis } from '@intlify/shared'
-import {
-  setDevToolsHook,
-  registerMessageCompiler,
-  compileToFunction
-} from '@intlify/core-base'
-import { initDev, initFeatureFlags } from '../misc'
+import { registerMessageCompiler, compileToFunction } from '@intlify/core-base'
 
-// register message compiler at vue-i18n
+// register message compiler at petite-vue-i18n
 registerMessageCompiler(compileToFunction)
 
 export {
@@ -19,12 +13,12 @@ export {
   LocaleMessageDictionary,
   LocaleMessageType,
   LocaleMessages,
-  NumberFormat as IntlNumberFormat,
-  DateTimeFormat as IntlDateTimeFormat,
-  DateTimeFormats as IntlDateTimeFormats,
-  NumberFormats as IntlNumberFormats,
-  LocaleMatcher as IntlLocaleMatcher,
-  FormatMatcher as IntlFormatMatcher,
+  IntlNumberFormat,
+  IntlDateTimeFormat,
+  IntlDateTimeFormats,
+  IntlNumberFormats,
+  IntlLocaleMatcher,
+  IntlFormatMatcher,
   MessageFunction,
   MessageFunctions,
   PluralizationRule,
@@ -33,10 +27,6 @@ export {
   DateTimeOptions,
   NumberOptions,
   PostTranslationHandler,
-  registerMessageResolver,
-  registerLocaleFallbacker
-} from '@intlify/core-base'
-export {
   VueMessageType,
   DefineLocaleMessage,
   DefaultLocaleMessageSchema,
@@ -52,9 +42,8 @@ export {
   ComposerTranslation,
   ComposerDateTimeFormatting,
   ComposerNumberFormatting,
-  ComposerResolveLocaleMessageTranslation
-} from '../composer'
-export {
+  ComposerResolveLocaleMessageTranslation,
+  RemovedIndexResources,
   TranslateResult,
   Choice,
   LocaleMessageObject,
@@ -70,9 +59,7 @@ export {
   VueI18nDateTimeFormatting,
   VueI18nNumberFormatting,
   VueI18nResolveLocaleMessageTranslation,
-  ComponentInstanceCreatedListener
-} from '../legacy'
-export {
+  ComponentInstanceCreatedListener,
   createI18n,
   useI18n,
   I18nOptions,
@@ -82,22 +69,7 @@ export {
   I18nScope,
   ComposerAdditionalOptions,
   UseI18nOptions,
-  ExportedGlobalComposer
-} from '../i18n'
-export { I18nPluginOptions } from '../plugin'
-export { VERSION } from '../misc'
-
-if (__ESM_BUNDLER__ && !__TEST__) {
-  initFeatureFlags()
-}
-
-// NOTE: experimental !!
-if (__DEV__ || __FEATURE_PROD_INTLIFY_DEVTOOLS__) {
-  const target = getGlobalThis()
-  target.__INTLIFY__ = true
-  setDevToolsHook(target.__INTLIFY_DEVTOOLS_GLOBAL_HOOK__)
-}
-
-if (__DEV__) {
-  initDev()
-}
+  ExportedGlobalComposer,
+  I18nPluginOptions,
+  VERSION
+} from '@intlify/vue-i18n-core'

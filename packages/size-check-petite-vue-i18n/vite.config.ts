@@ -21,5 +21,11 @@ export default defineConfig({
     __INTLIFY_PROD_DEVTOOLS__: false,
     'process.env.NODE_ENV': JSON.stringify('production')
   },
+  resolve: {
+    alias: {
+      'petite-vue-i18n':
+        '../petite-vue-i18n/dist/petite-vue-i18n.runtime.esm-bundler.js'
+    }
+  },
   plugins: [vue()]
 })

@@ -1,6 +1,6 @@
 import { getGlobalThis } from '@intlify/shared'
 import { setDevToolsHook } from '@intlify/core-base'
-import { initDev, initFeatureFlags } from '../misc'
+import { initDev, initFeatureFlags } from './misc'
 
 export {
   Path,
@@ -25,9 +25,7 @@ export {
   TranslateOptions,
   DateTimeOptions,
   NumberOptions,
-  PostTranslationHandler,
-  registerMessageResolver,
-  registerLocaleFallbacker
+  PostTranslationHandler
 } from '@intlify/core-base'
 export {
   VueMessageType,
@@ -45,8 +43,9 @@ export {
   ComposerTranslation,
   ComposerDateTimeFormatting,
   ComposerNumberFormatting,
-  ComposerResolveLocaleMessageTranslation
-} from '../composer'
+  ComposerResolveLocaleMessageTranslation,
+  RemovedIndexResources
+} from './composer'
 export {
   TranslateResult,
   Choice,
@@ -64,7 +63,7 @@ export {
   VueI18nNumberFormatting,
   VueI18nResolveLocaleMessageTranslation,
   ComponentInstanceCreatedListener
-} from '../legacy'
+} from './legacy'
 export {
   createI18n,
   useI18n,
@@ -76,9 +75,29 @@ export {
   ComposerAdditionalOptions,
   UseI18nOptions,
   ExportedGlobalComposer
-} from '../i18n'
-export { I18nPluginOptions } from '../plugin'
-export { VERSION } from '../misc'
+} from './i18n'
+export {
+  Translation,
+  NumberFormat,
+  DatetimeFormat,
+  TranslationProps,
+  NumberFormatProps,
+  DatetimeFormatProps,
+  FormattableProps,
+  BaseFormatProps,
+  ComponetI18nScope
+} from './components'
+export { vTDirective, TranslationDirective } from './directive'
+export { I18nPluginOptions } from './plugin'
+export { VERSION } from './misc'
+
+export type {
+  IsNever,
+  IsEmptyObject,
+  PickupPaths,
+  PickupKeys,
+  PickupFormatPathKeys
+} from '@intlify/core-base'
 
 if (__ESM_BUNDLER__ && !__TEST__) {
   initFeatureFlags()

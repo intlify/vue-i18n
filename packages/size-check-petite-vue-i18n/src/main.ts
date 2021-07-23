@@ -1,5 +1,5 @@
 import { h, createApp } from '@vue/runtime-dom'
-import { createI18n, useI18n } from 'vue-i18n'
+import { createI18n, useI18n } from 'petite-vue-i18n'
 
 const i18n = createI18n({
   legacy: false,

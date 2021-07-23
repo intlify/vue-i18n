@@ -4,6 +4,14 @@
 
 import { mount } from '../helper'
 import { h, defineComponent, SetupContext, VNodeChild, ref } from 'vue'
+import {
+  compileToFunction,
+  registerMessageCompiler,
+  resolveValue,
+  registerMessageResolver,
+  fallbackWithLocaleChain,
+  registerLocaleFallbacker
+} from '@intlify/core-base'
 import { createI18n, useI18n } from '../../src/index'
 
 import type { Path, PathValue, MessageResolver } from '@intlify/core-base'
@@ -28,6 +36,12 @@ const messages = {
     }
   }
 }
+
+beforeAll(() => {
+  registerMessageCompiler(compileToFunction)
+  registerMessageResolver(resolveValue)
+  registerLocaleFallbacker(fallbackWithLocaleChain)
+})
 
 let org: any // eslint-disable-line @typescript-eslint/no-explicit-any
 let spy: any // eslint-disable-line @typescript-eslint/no-explicit-any
