@@ -1,6 +1,6 @@
 {
   "name": "vue-i18n-next",
-  "version": "9.2.0-alpha.6",
+  "version": "9.2.0-alpha.7",
   "license": "MIT",
   "author": {
     "name": "kazuya kawaguchi",
@@ -18,8 +18,8 @@
     "build": "node -r esbuild-register scripts/build.ts",
     "build:size": "npm-run-all --parallel build:size-*",
     "build:size-core": "cd packages/size-check-core && yarn build --minify false",
-    "build:size-vue-i18n": "cd packages/size-check-vue-i18n && yarn build --minify false",
     "build:size-petite-vue-i18n": "cd packages/size-check-petite-vue-i18n && yarn build --minify false",
+    "build:size-vue-i18n": "cd packages/size-check-vue-i18n && yarn build --minify false",
     "build:sourcemap": "yarn build --sourcemap",
     "build:type": "yarn build --types && cat ./packages/vue-i18n/src/vue.d.ts >> ./packages/vue-i18n/dist/vue-i18n.d.ts && cat ./packages/petite-vue-i18n/src/vue.d.ts.template >> ./packages/petite-vue-i18n/dist/petite-vue-i18n.d.ts",
     "clean": "npm-run-all --parallel clean:*",
