@@ -8,26 +8,45 @@ describe('fallbackWithSimple', () => {
   })
 
   describe('none', () => {
-    test('en-US', () => {
-      expect(fallbackWithSimple(ctx, false)).toEqual(['en-US'])
-    })
-  })
-
-  describe('string locale', () => {
     test('en', () => {
-      expect(fallbackWithSimple(ctx, 'en')).toEqual(['en'])
+      expect(fallbackWithSimple(ctx, false, 'en')).toEqual(['en'])
     })
   })
 
-  describe('array locales', () => {
-    test('[en, ja]', () => {
-      expect(fallbackWithSimple(ctx, ['en', 'ja'])).toEqual(['en', 'ja'])
+  describe('string locale: "en"', () => {
+    test('en', () => {
+      expect(fallbackWithSimple(ctx, 'en', 'en')).toEqual(['en'])
+    })
+
+    test('ja', () => {
+      expect(fallbackWithSimple(ctx, 'en', 'ja')).toEqual(['ja', 'en'])
     })
   })
 
-  describe('object locales', () => {
-    test('{ en: [], ja: []', () => {
-      expect(fallbackWithSimple(ctx, { en: [], ja: [] })).toEqual(['en', 'ja'])
+  describe('array locales: ["en"]', () => {
+    test('en', () => {
+      expect(fallbackWithSimple(ctx, ['en'], 'en')).toEqual(['en'])
+    })
+
+    test('ja', () => {
+      expect(fallbackWithSimple(ctx, ['en'], 'ja')).toEqual(['ja', 'en'])
+    })
+  })
+
+  describe('object locales: { en: [], ja: [] }', () => {
+    test('en', () => {
+      expect(fallbackWithSimple(ctx, { en: [], ja: [] }, 'en')).toEqual([
+        'en',
+        'ja'
+      ])
+    })
+
+    test('ca', () => {
+      expect(fallbackWithSimple(ctx, { en: [], ja: [] }, 'ca')).toEqual([
+        'ca',
+        'en',
+        'ja'
+      ])
     })
   })
 })

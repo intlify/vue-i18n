@@ -18,7 +18,7 @@ import type { CoreContext, CoreInternalContext } from './context'
 export type LocaleFallbacker = <Message = string>(
   ctx: CoreContext<Message>,
   fallback: FallbackLocale,
-  start?: Locale
+  start: Locale
 ) => Locale[]
 
 /**
@@ -31,6 +31,7 @@ export type LocaleFallbacker = <Message = string>(
  *
  * @param ctx - A {@link CoreContext | context}
  * @param fallback - A {@link FallbackLocale | fallback locale}
+ * @param start - A starting {@link Locale | locale}
  *
  * @returns Fallback locales
  *
@@ -39,16 +40,21 @@ export type LocaleFallbacker = <Message = string>(
 export function fallbackWithSimple<Message = string>(
   ctx: CoreContext<Message>,
   fallback: FallbackLocale,
-  start?: Locale // eslint-disable-line @typescript-eslint/no-unused-vars
+  start: Locale // eslint-disable-line @typescript-eslint/no-unused-vars
 ): Locale[] {
   // prettier-ignore
-  return isArray(fallback)
-    ? fallback
-    : isObject(fallback)
-      ? Object.keys(fallback)
-      : isString(fallback)
-        ? [fallback]
-        : [DEFAULT_LOCALE]
+  return [...new Set(
+    [
+      start,
+      ...(isArray(fallback)
+        ? fallback
+        : isObject(fallback)
+          ? Object.keys(fallback)
+          : isString(fallback)
+            ? [fallback]
+            : [start])
+    ]
+  )]
 }
 
 /**
@@ -70,7 +76,7 @@ export function fallbackWithSimple<Message = string>(
 export function fallbackWithLocaleChain<Message = string>(
   ctx: CoreContext<Message>,
   fallback: FallbackLocale,
-  start?: Locale
+  start: Locale
 ): Locale[] {
   const startLocale = isString(start) ? start : DEFAULT_LOCALE
   const context = ctx as unknown as CoreInternalContext
