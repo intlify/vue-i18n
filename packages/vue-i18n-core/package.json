@@ -1,0 +1,62 @@
+{
+  "name": "@intlify/vue-i18n-core",
+  "version": "9.2.0-alpha.6",
+  "description": "@intlify/vue-i18n-core",
+  "keywords": [
+    "i18n",
+    "internationalization",
+    "intlify",
+    "vue",
+    "vue.js",
+    "core",
+    "fundamental"
+  ],
+  "license": "MIT",
+  "author": {
+    "name": "kazuya kawaguchi",
+    "email": "kawakazu80@gmail.com"
+  },
+  "homepage": "https://github.com/intlify/vue-i18n-next/tree/master/packages/vue-i18n-core#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/intlify/vue-i18n-next.git",
+    "directory": "packages/vue-i18n-core"
+  },
+  "bugs": {
+    "url": "https://github.com/intlify/vue-i18n-next/issues"
+  },
+  "files": [
+    "index.js",
+    "dist"
+  ],
+  "main": "index.js",
+  "module": "dist/vue-i18n-core.esm-bundler.js",
+  "unpkg": "dist/vue-i18n-core.global.js",
+  "jsdelivr": "dist/vue-i18n-core.global.js",
+  "types": "dist/vue-i18n-core.d.ts",
+  "dependencies": {
+    "@intlify/core-base": "9.2.0-alpha.6",
+    "@intlify/shared": "9.2.0-alpha.6",
+    "@intlify/vue-devtools": "9.2.0-alpha.6",
+    "@vue/devtools-api": "^6.0.0-beta.13"
+  },
+  "devDependencies": {
+    "@intlify/devtools-if": "9.2.0-alpha.6"
+  },
+  "peerDependencies": {
+    "vue": "^3.0.0"
+  },
+  "engines": {
+    "node": ">= 12"
+  },
+  "buildOptions": {
+    "name": "IntlifyVueI18nCore",
+    "formats": [
+      "esm-bundler",
+      "esm-browser",
+      "cjs",
+      "global"
+    ]
+  },
+  "sideEffects": false
+}

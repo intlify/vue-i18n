@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Example: plural with message functions</title>
+    <script src="../../../node_modules/vue/dist/vue.global.js"></script>
+    <script src="../../../packages/petite-vue-i18n/dist/petite-vue-i18n.global.js"></script>
+  </head>
+  <body>
+    <div id="app">
+      <h2>Car:</h2>
+      <p>{{ t('car', 1) }}</p>
+      <p>{{ t('car', 2) }}</p>
+      <h2>Apple:</h2>
+      <p>{{ t('apple', 0) }}</p>
+      <p>{{ t('apple', 1) }}</p>
+      <p>{{ t('apple', { count: 10 }, 10) }}</p>
+      <p>{{ t('apple', 10) }}</p>
+      <h2>Banana:</h2>
+      <p>{{ t('banana', { n: 1 }, 1) }}</p>
+      <p>{{ t('banana', 1) }}</p>
+      <p>{{ t('banana', { n: 'too many' }, 100) }}</p>
+    </div>
+    <script>
+      const { createApp } = Vue
+      const { createI18n, useI18n } = PetiteVueI18n
+
+      const i18n = createI18n({
+        locale: 'en',
+        messages: {
+          en: {
+            car: ({ plural }) => {
+              // 'car | cars'
+              return plural(['car', 'cars'])
+            },
+            apple: ({ plural, named }) => {
+              // 'no apples | one apple | {count} apples'
+              return plural([
+                'no apples',
+                'one apple',
+                `${named('count')} apples`
+              ])
+            },
+            banana: ({ plural, named }) => {
+              const n = named('n')
+              // 'no bananas | {n} banana | {n} bananas'
+              return plural(['no bananas', `${n} banana`, `${n} bananas`])
+            }
+          }
+        }
+      })
+
+      const app = createApp({
+        setup() {
+          const { t } = useI18n()
+
+          // Something to do ...
+          //
+
+          return { t }
+        }
+      })
+      app.use(i18n)
+      app.mount('#app')
+    </script>
+  </body>
+</html>

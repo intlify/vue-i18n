@@ -33,7 +33,6 @@
   "jsdelivr": "dist/message-compiler.global.js",
   "types": "dist/message-compiler.d.ts",
   "dependencies": {
-    "@intlify/message-resolver": "9.2.0-alpha.6",
     "@intlify/shared": "9.2.0-alpha.6",
     "source-map": "0.6.1"
   },

@@ -7,7 +7,6 @@ import {
   assign
 } from '@intlify/shared'
 import {
-  getLocaleChain,
   handleMissing,
   isTranslateFallbackWarn,
   NOT_REOSLVED,
@@ -18,7 +17,7 @@ import { CoreErrorCodes, createCoreError } from './errors'
 import { VueDevToolsTimelineEvents } from '@intlify/vue-devtools'
 import { Availabilities } from './intl'
 
-import type { Locale, FallbackLocale } from '@intlify/runtime'
+import type { Locale, FallbackLocale } from './runtime'
 import type {
   NumberFormat,
   NumberFormats as NumberFormatsType,
@@ -191,7 +190,13 @@ export function number<
   context: Context,
   ...args: unknown[]
 ): string | number | Intl.NumberFormatPart[] {
-  const { numberFormats, unresolving, fallbackLocale, onWarn } = context
+  const {
+    numberFormats,
+    unresolving,
+    fallbackLocale,
+    onWarn,
+    localeFallbacker
+  } = context
   const { __numberFormatters } = context as unknown as CoreInternalContext
 
   if (__DEV__ && !Availabilities.numberFormat) {
@@ -208,7 +213,7 @@ export function number<
     : context.fallbackWarn
   const part = !!options.part
   const locale = isString(options.locale) ? options.locale : context.locale
-  const locales = getLocaleChain(
+  const locales = localeFallbacker(
     context as any, // eslint-disable-line @typescript-eslint/no-explicit-any
     fallbackLocale as FallbackLocale,
     locale

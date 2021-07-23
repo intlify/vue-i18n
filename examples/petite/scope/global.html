@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Global scope example</title>
+    <script src="../../../node_modules/vue/dist/vue.global.js"></script>
+    <script src="../../../packages/petite-vue-i18n/dist/petite-vue-i18n.global.js"></script>
+  </head>
+  <body>
+    <div id="app">
+      <h1>Root</h1>
+      <form>
+        <label for="locale-select">{{ $t('message.language') }}</label>
+        <select id="locale-select" v-model="$i18n.locale">
+          <option value="en">en</option>
+          <option value="ja">ja</option>
+        </select>
+      </form>
+      <p>{{ $t('message.hello') }}</p>
+      <Child />
+    </div>
+    <script>
+      const { createApp } = Vue
+      const { createI18n } = PetiteVueI18n
+
+      const SlotChild = {
+        template: `
+          <p><slot/></p>
+        `
+      }
+
+      const SubChild = {
+        template: `
+          <div class="sub-child">
+            <h1>Sub Child</h1>
+            <form>
+              <label>{{ $t('message.language') }}</label>
+              <select v-model="$i18n.locale">
+                <option value="en">en</option>
+                <option value="ja">ja</option>
+              </select>
+            </form>
+            <p>{{ $t('message.hi') }}</p>
+          </div>
+        `
+      }
+
+      const Child = {
+        components: {
+          SubChild,
+          SlotChild
+        },
+        template: `
+          <div class="child">
+            <h1>Child</h1>
+            <form>
+              <label>{{ $t('message.language') }}</label>
+              <select v-model="$i18n.locale">
+                <option value="en">en</option>
+                <option value="ja">ja</option>
+              </select>
+            </form>
+            <p>{{ $t('message.hi') }}</p>
+            <SubChild />
+            t inside of slot
+            <SlotChild>
+              {{ $t('message.hi') }}
+            </SlotChild>
+            i18n-t inside of slot
+            <SlotChild>
+              <i18n-t keypath='message.hi'/>
+            </SlotChild>
+          </div>
+        `
+      }
+
+      const i18n = createI18n({
+        globalInjection: true,
+        locale: 'ja',
+        messages: {
+          en: {
+            'message.language': 'Language',
+            'message.hello': 'hello world!',
+            'message.hi': 'Hi !'
+          },
+          ja: {
+            'message.language': '言語',
+            'message.hello': 'こんにちは、世界！',
+            'message.hi': 'こんにちは！'
+          }
+        }
+      })
+
+      const app = createApp({
+        components: { Child }
+      })
+      app.use(i18n)
+      app.mount('#app')
+    </script>
+  </body>
+</html>

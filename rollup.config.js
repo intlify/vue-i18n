@@ -16,7 +16,7 @@ const pkg = require(resolve(`package.json`))
 const packageOptions = pkg.buildOptions || {}
 
 const banner = `/*!
-  * ${pkg.name} v${pkg.version}
+  * ${name} v${pkg.version}
   * (c) ${new Date().getFullYear()} ${pkg.author.name}
   * Released under the ${pkg.license} License.
   */`
@@ -88,7 +88,11 @@ function createConfig(format, output, plugins = []) {
   output.sourcemap = !!process.env.SOURCE_MAP
   output.banner = banner
   output.externalLiveBindings = false
-  if (pkg.name === 'vue-i18n') {
+  if (
+    name === 'vue-i18n' ||
+    name === 'vue-i18n-core' ||
+    name === 'petite-vue-i18n'
+  ) {
     output.globals = {
       vue: 'Vue',
       '@vue/devtools-api': 'VueDevtoolsApi'
@@ -99,9 +103,10 @@ function createConfig(format, output, plugins = []) {
     process.env.__DEV__ === 'false' || /\.prod\.js$/.test(output.file)
   const isBundlerESMBuild = /esm-bundler/.test(format)
   const isBrowserESMBuild = /esm-browser/.test(format)
-  const isNodeBuild = format === 'cjs'
+  const isNodeBuild = format === 'cjs' || format === 'cjs-lite'
   const isGlobalBuild = /global/.test(format)
-  const isRuntimeOnlyBuild = /runtime$/.test(format)
+  const isRuntimeOnlyBuild = /runtime/.test(format)
+  const isLite = /petite-vue-i18n/.test(name)
 
   if (isGlobalBuild) {
     output.name = packageOptions.name
@@ -127,7 +132,7 @@ function createConfig(format, output, plugins = []) {
   // during a single build.
   hasTSChecked = true
 
-  const entryFile = /runtime$/.test(format) ? `src/runtime.ts` : `src/index.ts`
+  const entryFile = /runtime/.test(format) ? `src/runtime.ts` : `src/index.ts`
 
   const external =
     isGlobalBuild || isBrowserESMBuild
@@ -174,6 +179,7 @@ function createConfig(format, output, plugins = []) {
         isGlobalBuild,
         isNodeBuild,
         isRuntimeOnlyBuild,
+        isLite,
         path.parse(output.file).base || ''
       ),
       ...nodePlugins,
@@ -199,6 +205,7 @@ function createReplacePlugin(
   isGlobalBuild,
   isNodeBuild,
   isRuntimeOnlyBuild,
+  isLite,
   bundleFilename
 ) {
   const replacements = {
@@ -222,6 +229,8 @@ function createReplacePlugin(
     __ESM_BROWSER__: isBrowserESMBuild,
     // is targeting Node (SSR)?
     __NODE_JS__: isNodeBuild,
+    // for lite version
+    __LITE__: isLite,
     // feature flags
     __FEATURE_FULL_INSTALL__: isBundlerESMBuild
       ? `__VUE_I18N_FULL_INSTALL__`

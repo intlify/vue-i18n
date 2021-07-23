@@ -1,6 +1,6 @@
 const { setupWarningConsole } = require('../helper') // eslint-disable-line
 
-;['composition'].forEach(pattern => {
+;['composition', 'petite'].forEach(pattern => {
   describe(`${pattern}`, () => {
     const warnings = []
     beforeAll(async () => {

@@ -14,7 +14,6 @@ The intlify core module for i18n
     - **`core.runtime.global.js`** contains only the runtime and requires locale messages to be pre-compiled during a build step
   - Inlines internal the bellow packages - i.e. it’s a single file with no dependencies on other files. This means you **must** import everything from this file and this file only to ensure you are getting the same instance of code
     - `@intlify/shared`
-    - `@intlify/message-resolver`
     - `@intlify/message-compiler`
   - Contains hard-coded prod/dev branches, and the prod build is pre-minified. Use the `*.prod.js` files for production
 
@@ -28,7 +27,7 @@ The intlify core module for i18n
   - For use with bundlers like `webpack`, `rollup` and `parcel`
   - Leaves prod/dev branches with `process.env.NODE_ENV` guards (must be replaced by bundler)
   - Does not ship minified builds (to be done together with the rest of the code after bundling)
-  - Imports dependencies (e.g. `@intlify/message-compiler`, `@intlify/message-resolver`)
+  - Imports dependencies (e.g. `@intlify/message-compiler`)
     - Imported dependencies are also `esm-bundler` builds and will in turn import their dependencies (e.g. `@intlify/message-compiler` imports `@intlify/shared`)
     - This means you **can** install/import these deps individually without ending up with different instances of these dependencies, but you must make sure they all resolve to the same version
   - In-browser locale messages compilation:

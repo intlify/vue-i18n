@@ -16,11 +16,10 @@ import {
   assign,
   isObject
 } from '@intlify/shared'
-import { createMessageContext } from '@intlify/runtime'
+import { createMessageContext } from './runtime'
 import {
   isTranslateFallbackWarn,
   handleMissing,
-  getLocaleChain,
   NOT_REOSLVED,
   getAdditionalMeta,
   CoreContext
@@ -30,8 +29,9 @@ import { CoreErrorCodes, createCoreError } from './errors'
 import { translateDevTools } from './devtools'
 import { VueDevToolsTimelineEvents } from '@intlify/vue-devtools'
 
-import type { Path, PathValue } from '@intlify/message-resolver'
 import type { CompileOptions, CompileError } from '@intlify/message-compiler'
+import type { AdditionalPayloads } from '@intlify/devtools-if'
+import type { Path, PathValue } from './resolver'
 import type {
   Locale,
   FallbackLocale,
@@ -41,8 +41,7 @@ import type {
   MessageContextOptions,
   MessageType,
   MessageContext
-} from '@intlify/runtime'
-import type { AdditionalPayloads } from '@intlify/devtools-if'
+} from './runtime'
 import type {
   LocaleMessages,
   LocaleMessageValue,
@@ -523,8 +522,13 @@ function resolveMessageFormat<Messages, Message>(
   fallbackWarn: boolean | RegExp,
   missingWarn: boolean | RegExp
 ): [PathValue, Locale | undefined, LocaleMessageValue<Message>] {
-  const { messages, onWarn, messageResolver: resolveValue } = context
-  const locales = getLocaleChain(context as any, fallbackLocale, locale) // eslint-disable-line @typescript-eslint/no-explicit-any
+  const {
+    messages,
+    onWarn,
+    messageResolver: resolveValue,
+    localeFallbacker
+  } = context
+  const locales = localeFallbacker(context as any, fallbackLocale, locale) // eslint-disable-line @typescript-eslint/no-explicit-any
 
   let message: LocaleMessageValue<Message> = {}
   let targetLocale: Locale | undefined

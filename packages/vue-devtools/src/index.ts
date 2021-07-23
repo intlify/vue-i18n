@@ -1,6 +1,10 @@
 import type { Emittable } from '@intlify/shared'
-import type { Path, PathValue } from '@intlify/message-resolver'
-import type { Locale, CoreMissingType } from '@intlify/runtime'
+import type {
+  Path,
+  PathValue,
+  Locale,
+  CoreMissingType
+} from '@intlify/core-base'
 
 export const enum VueDevToolsIDs {
   PLUGIN = 'vue-devtools-plugin-vue-i18n',

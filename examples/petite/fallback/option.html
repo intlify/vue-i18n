@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Fallback warning with option example</title>
+    <script src="../../../node_modules/vue/dist/vue.global.js"></script>
+    <script src="../../../packages/petite-vue-i18n/dist/petite-vue-i18n.global.js"></script>
+  </head>
+  <body>
+    <div id="app">
+      <!-- warning disable with 'fallbackWarn' option -->
+      <p>
+        {{ t("message.hello", { name: 'kazupon' }, { fallbackWarn: false }) }}
+      </p>
+    </div>
+    <script>
+      const { createApp } = Vue
+      const { createI18n, useI18n } = PetiteVueI18n
+
+      const i18n = createI18n({
+        locale: 'ja',
+        fallbackLocale: ['en'],
+        messages: {
+          en: {
+            'message.hello': 'hello, {name}!'
+          },
+          // missing key in 'ja' locale messages ...
+          ja: {}
+        }
+      })
+
+      const app = createApp({
+        setup() {
+          const { t } = useI18n()
+
+          // Something to do ...
+          //
+
+          return { t }
+        }
+      })
+      app.use(i18n)
+      app.mount('#app')
+    </script>
+  </body>
+</html>

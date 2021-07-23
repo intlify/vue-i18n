@@ -10,7 +10,7 @@ import {
 import {
   ComposerOptions,
   createComposer
-} from '../../packages/vue-i18n/src/composer'
+} from '../../packages/vue-i18n-core/src/composer'
 import { SchemaParams, LocaleParams } from '../../packages/core-base/src'
 import { ResourceSchema, MyDatetimeScehma, MyNumberSchema } from '../schema'
 

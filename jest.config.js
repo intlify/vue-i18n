@@ -71,6 +71,7 @@ module.exports = {
     __ESM_BUNDLER__: true,
     __ESM_BROWSER__: false,
     __NODE_JS__: true,
+    __LITE__: false,
     __FEATURE_FULL_INSTALL__: true,
     __FEATURE_LEGACY_API__: true
   },

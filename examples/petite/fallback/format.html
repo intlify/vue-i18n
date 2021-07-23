@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Fallback format example</title>
+    <script src="../../../node_modules/vue/dist/vue.global.js"></script>
+    <script src="../../../packages/petite-vue-i18n/dist/petite-vue-i18n.global.js"></script>
+  </head>
+  <body>
+    <div id="app">
+      <p>{{ t("hello, {name}!", { name: 'kazupon' }) }}</p>
+    </div>
+    <script>
+      const { createApp } = Vue
+      const { createI18n, useI18n } = PetiteVueI18n
+
+      const i18n = createI18n({
+        locale: 'ja',
+        fallbackFormat: true, // enable, fallback to locale message key
+        messages: {
+          // `hello, {name}` key is nothing in `messages` option
+          en: {},
+          ja: {}
+        }
+      })
+
+      const app = createApp({
+        setup() {
+          const { t } = useI18n()
+
+          // Something to do ...
+          //
+
+          return { t }
+        }
+      })
+      app.use(i18n)
+      app.mount('#app')
+    </script>
+  </body>
+</html>

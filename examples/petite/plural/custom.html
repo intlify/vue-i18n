@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>plural custom rule usage examples</title>
+    <script src="../../../node_modules/vue/dist/vue.global.js"></script>
+    <script src="../../../packages/petite-vue-i18n/dist/petite-vue-i18n.global.js"></script>
+  </head>
+  <body>
+    <div id="app">
+      <h2>Car:</h2>
+      <p>{{ t('car', 1) }}</p>
+      <p>{{ t('car', 2) }}</p>
+      <p>{{ t('car', 4) }}</p>
+      <p>{{ t('car', 12) }}</p>
+      <p>{{ t('car', 21) }}</p>
+
+      <h2>Banana:</h2>
+      <p>{{ t('banana', 0) }}</p>
+      <p>{{ t('banana', 4) }}</p>
+      <p>{{ t('banana', 11) }}</p>
+      <p>{{ t('banana', 31) }}</p>
+    </div>
+    <script>
+      const { createApp } = Vue
+      const { createI18n, useI18n } = PetiteVueI18n
+
+      function customRule(choice, choicesLength, orgRule) {
+        if (choice === 0) {
+          return 0
+        }
+
+        const teen = choice > 10 && choice < 20
+        const endsWithOne = choice % 10 === 1
+        if (!teen && endsWithOne) {
+          return 1
+        }
+        if (!teen && choice % 10 >= 2 && choice % 10 <= 4) {
+          return 2
+        }
+
+        return choicesLength < 4 ? 2 : 3
+      }
+
+      const i18n = createI18n({
+        legacy: false,
+        locale: 'ru',
+        pluralRules: {
+          ru: customRule
+        },
+        messages: {
+          ru: {
+            car: '0 машин | {n} машина | {n} машины | {n} машин',
+            banana: 'нет бананов | {n} банан | {n} банана | {n} бананов'
+          }
+        }
+      })
+
+      const app = createApp({
+        setup() {
+          const { t } = useI18n()
+
+          // Something to do ...
+          //
+
+          return { t }
+        }
+      })
+      app.use(i18n)
+      app.mount('#app')
+    </script>
+  </body>
+</html>

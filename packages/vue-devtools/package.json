@@ -30,8 +30,7 @@
   "module": "dist/vue-devtools.esm-bundler.js",
   "types": "dist/vue-devtools.d.ts",
   "dependencies": {
-    "@intlify/message-resolver": "9.2.0-alpha.6",
-    "@intlify/runtime": "9.2.0-alpha.6",
+    "@intlify/core-base": "9.2.0-alpha.6",
     "@intlify/shared": "9.2.0-alpha.6"
   },
   "engines": {

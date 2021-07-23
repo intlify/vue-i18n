@@ -1,5 +1,4 @@
-import type { Path } from '@intlify/message-resolver'
-import type { NamedValue } from '@intlify/runtime'
+import type { Path, NamedValue } from '@intlify/vue-i18n-core'
 import type {
   Locale,
   LocaleMessageValue,
@@ -12,22 +11,22 @@ import type {
   PickupPaths,
   PickupKeys,
   PickupFormatPathKeys
-} from '@intlify/core-base'
+} from '@intlify/vue-i18n-core'
 import type {
   CustomBlocks,
   VueMessageType,
   DefineLocaleMessage,
   DefineDateTimeFormat,
   RemovedIndexResources
-} from './composer'
+} from '@intlify/vue-i18n-core'
 import type {
   VueI18n,
   VueI18nOptions,
   TranslateResult,
   DateTimeFormatResult,
   NumberFormatResult
-} from './legacy'
-import type { ExportedGlobalComposer } from './i18n'
+} from '@intlify/vue-i18n-core'
+import type { ExportedGlobalComposer } from '@intlify/vue-i18n-core'
 
 declare module '@vue/runtime-core' {
   /**

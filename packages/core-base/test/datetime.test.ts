@@ -17,8 +17,12 @@ import { Availabilities } from '../src/intl'
 import { createCoreContext as context, NOT_REOSLVED } from '../src/context'
 import { datetime } from '../src/datetime'
 import { CoreErrorCodes, errorMessages } from '../src/errors'
-import { registerMessageCompiler } from '../src/context'
+import {
+  registerMessageCompiler,
+  registerLocaleFallbacker
+} from '../src/context'
 import { compileToFunction } from '../src/compile'
+import { fallbackWithLocaleChain } from '../src/fallbacker'
 
 import type { DateTimeFormats } from '../src/types'
 
@@ -77,6 +81,7 @@ const dts = [
 
 beforeEach(() => {
   registerMessageCompiler(compileToFunction)
+  registerLocaleFallbacker(fallbackWithLocaleChain)
 })
 
 test('datetime value', () => {

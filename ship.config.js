@@ -41,25 +41,25 @@ module.exports = {
     mainVersionFile: 'package.json',
     packagesToBump: [
       'packages/shared',
-      'packages/message-resolver',
       'packages/message-compiler',
-      'packages/runtime',
       'packages/core-base',
       'packages/core',
       'packages/devtools-if',
       'packages/vue-devtools',
-      'packages/vue-i18n'
+      'packages/vue-i18n-core',
+      'packages/vue-i18n',
+      'packages/petite-vue-i18n'
     ],
     packagesToPublish: [
       'packages/shared',
-      'packages/message-resolver',
       'packages/message-compiler',
-      'packages/runtime',
       'packages/core-base',
       'packages/core',
       'packages/devtools-if',
       'packages/vue-devtools',
-      'packages/vue-i18n'
+      'packages/vue-i18n-core',
+      'packages/vue-i18n',
+      'packages/petite-vue-i18n'
     ]
   },
   updateChangelog: false,

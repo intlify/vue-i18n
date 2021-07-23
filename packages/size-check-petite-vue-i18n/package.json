@@ -1,0 +1,20 @@
+{
+  "name": "@intlify/size-check-petite-vue-i18n",
+  "private": true,
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "check": "vue-tsc",
+    "serve": "vite preview"
+  },
+  "dependencies": {
+    "vue": "^3.1.5",
+    "petite-vue-i18n": "file:../petite-vue-i18n"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^1.2.5",
+    "@vue/compiler-sfc": "^3.1.5",
+    "vite": "^2.4.2",
+    "vue-tsc": "^0.0.24"
+  }
+}

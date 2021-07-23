@@ -1,5 +1,5 @@
 import type { LocaleRecord, UnionToTuple } from './utils'
-import type { Locale } from '@intlify/runtime'
+import type { Locale } from '../runtime'
 
 /**
  *  datetime
