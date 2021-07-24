@@ -14,7 +14,7 @@ const i18n = createI18n({
 const app = createApp({
   setup() {
     const { t } = useI18n({ useScope: 'global' })
-    return () => h('div', t('hello world!'))
+    return () => h('div', t('hello'))
   }
 })
 app.use(i18n, { globalInstall: false })

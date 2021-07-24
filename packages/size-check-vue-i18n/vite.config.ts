@@ -21,5 +21,10 @@ export default defineConfig({
     __INTLIFY_PROD_DEVTOOLS__: false,
     'process.env.NODE_ENV': JSON.stringify('production')
   },
+  resolve: {
+    alias: {
+      'vue-i18n': 'vue-i18n/dist/vue-i18n.runtime.esm-bundler.js'
+    }
+  },
   plugins: [vue()]
 })
