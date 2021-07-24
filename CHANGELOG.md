@@ -1,4 +1,14 @@
 
+## v9.2.0-alpha.9 (2021-07-24)
+
+#### :bug: Bug Fixes
+* `petite-vue-i18n`, `vue-i18n`
+  * [#595](https://github.com/intlify/vue-i18n-next/pull/595) fix: build feature flags ([@kazupon](https://github.com/kazupon))
+
+#### Committers: 1
+- kazuya kawaguchi ([@kazupon](https://github.com/kazupon))
+
+
 ## v9.2.0-alpha.8 (2021-07-24)
 
 #### :zap: Improvement Features
