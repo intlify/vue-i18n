@@ -21,7 +21,7 @@
     "build:size-petite-vue-i18n": "cd packages/size-check-petite-vue-i18n && yarn build --minify false",
     "build:size-vue-i18n": "cd packages/size-check-vue-i18n && yarn build --minify false",
     "build:sourcemap": "yarn build --sourcemap",
-    "build:type": "yarn build --types && cat ./packages/vue-i18n/src/vue.d.ts >> ./packages/vue-i18n/dist/vue-i18n.d.ts && cat ./packages/petite-vue-i18n/src/vue.d.ts.template >> ./packages/petite-vue-i18n/dist/petite-vue-i18n.d.ts",
+    "build:type": "yarn build --types && tail -n +32 ./packages/vue-i18n/src/vue.d.ts >> ./packages/vue-i18n/dist/vue-i18n.d.ts && tail -n +32 ./packages/petite-vue-i18n/src/vue.d.ts >> ./packages/petite-vue-i18n/dist/petite-vue-i18n.d.ts",
     "clean": "npm-run-all --parallel clean:*",
     "clean:cache": "yarn clean:cache:jest",
     "clean:cache:jest": "jest --clearCache",

@@ -1,4 +1,10 @@
-import { registerMessageCompiler, compileToFunction } from '@intlify/core-base'
+import { getGlobalThis } from '@intlify/shared'
+import {
+  setDevToolsHook,
+  registerMessageCompiler,
+  compileToFunction
+} from '@intlify/core-base'
+import { initDev, initFeatureFlags } from '../../vue-i18n-core/src/misc'
 
 // register message compiler at petite-vue-i18n
 registerMessageCompiler(compileToFunction)
@@ -13,12 +19,12 @@ export {
   LocaleMessageDictionary,
   LocaleMessageType,
   LocaleMessages,
-  IntlNumberFormat,
-  IntlDateTimeFormat,
-  IntlDateTimeFormats,
-  IntlNumberFormats,
-  IntlLocaleMatcher,
-  IntlFormatMatcher,
+  NumberFormat as IntlNumberFormat,
+  DateTimeFormat as IntlDateTimeFormat,
+  DateTimeFormats as IntlDateTimeFormats,
+  NumberFormats as IntlNumberFormats,
+  LocaleMatcher as IntlLocaleMatcher,
+  FormatMatcher as IntlFormatMatcher,
   MessageFunction,
   MessageFunctions,
   PluralizationRule,
@@ -26,7 +32,9 @@ export {
   TranslateOptions,
   DateTimeOptions,
   NumberOptions,
-  PostTranslationHandler,
+  PostTranslationHandler
+} from '@intlify/core-base'
+export {
   VueMessageType,
   DefineLocaleMessage,
   DefaultLocaleMessageSchema,
@@ -43,7 +51,9 @@ export {
   ComposerDateTimeFormatting,
   ComposerNumberFormatting,
   ComposerResolveLocaleMessageTranslation,
-  RemovedIndexResources,
+  RemovedIndexResources
+} from '../../vue-i18n-core/src/composer'
+export {
   TranslateResult,
   Choice,
   LocaleMessageObject,
@@ -59,7 +69,9 @@ export {
   VueI18nDateTimeFormatting,
   VueI18nNumberFormatting,
   VueI18nResolveLocaleMessageTranslation,
-  ComponentInstanceCreatedListener,
+  ComponentInstanceCreatedListener
+} from '../../vue-i18n-core/src/legacy'
+export {
   createI18n,
   useI18n,
   I18nOptions,
@@ -69,7 +81,30 @@ export {
   I18nScope,
   ComposerAdditionalOptions,
   UseI18nOptions,
-  ExportedGlobalComposer,
-  I18nPluginOptions,
-  VERSION
-} from '@intlify/vue-i18n-core'
+  ExportedGlobalComposer
+} from '../../vue-i18n-core/src/i18n'
+export { I18nPluginOptions } from '../../vue-i18n-core/src/plugin'
+export { VERSION } from './../../vue-i18n-core/src/misc'
+
+export type {
+  IsNever,
+  IsEmptyObject,
+  PickupPaths,
+  PickupKeys,
+  PickupFormatPathKeys
+} from '@intlify/core-base'
+
+if (__ESM_BUNDLER__ && !__TEST__) {
+  initFeatureFlags()
+}
+
+// NOTE: experimental !!
+if (__DEV__ || __FEATURE_PROD_INTLIFY_DEVTOOLS__) {
+  const target = getGlobalThis()
+  target.__INTLIFY__ = true
+  setDevToolsHook(target.__INTLIFY_DEVTOOLS_GLOBAL_HOOK__)
+}
+
+if (__DEV__) {
+  initDev()
+}
