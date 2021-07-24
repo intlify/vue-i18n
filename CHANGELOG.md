@@ -1,4 +1,16 @@
 
+## v9.2.0-alpha.8 (2021-07-24)
+
+#### :zap: Improvement Features
+* `vue-i18n`
+  * [#593](https://github.com/intlify/vue-i18n-next/pull/593) improvement: vue-i18n tree shaking ([@kazupon](https://github.com/kazupon))
+* `petite-vue-i18n`, `size-check-petite-vue-i18n`, `size-check-vue-i18n`
+  * [#592](https://github.com/intlify/vue-i18n-next/pull/592) improvement: petite-vue-i18n tree shaking ([@kazupon](https://github.com/kazupon))
+
+#### Committers: 1
+- kazuya kawaguchi ([@kazupon](https://github.com/kazupon))
+
+
 ## v9.2.0-alpha.7 (2021-07-23)
 
 #### :star: Features
