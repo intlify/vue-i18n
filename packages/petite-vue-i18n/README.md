@@ -8,11 +8,11 @@ Small size subset of Vue I18n
 
 - The Size is smaller than vue-i18n
   - For CDN or without a Bundler
-    - The code size can be reduced by up to about 50%
+    - Reduce size: runtime + compiler `~36%`, runtime only `~49%`
     - `petite-vue-i18n`: runtime + compiler `~7.48KB`, runtime only `~4.07KB` (production build, brotli compression)
     - `vue-i18n`: runtime + compiler `~11.71KB`, runtime only `~8.30KB` (production build, brotli compression)
   - ES Modules for browser
-    - runtime + compiler 35%, runtime only 49%
+    - Reduce size: runtime + compiler `~35%`, runtime only `~49%`
     - `petite-vue-i18n`: runtime + compiler `~7.51KB`, runtime only `~4.09KB` (production build, brotli compression)
     - `vue-i18n`: runtime + compiler `~11.73KB`, runtime only `~8.34KB` (production build, brotli compression)
 - The legacy API is not supported, **only the composition API**
