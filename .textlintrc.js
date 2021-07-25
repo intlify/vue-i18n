@@ -15,6 +15,7 @@ module.exports = {
         'UMD',
         'NPM',
         'CDN',
+        'URL',
         'WIP',
         'NOTE',
         'DOM',
