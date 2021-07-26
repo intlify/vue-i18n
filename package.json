@@ -1,6 +1,6 @@
 {
   "name": "vue-i18n-next",
-  "version": "9.2.0-alpha.9",
+  "version": "9.2.0-beta.1",
   "license": "MIT",
   "author": {
     "name": "kazuya kawaguchi",
@@ -33,9 +33,9 @@
     "coverage": "opener coverage/lcov-report/index.html",
     "dev": "node -r esbuild-register scripts/dev.ts",
     "dev:e2e": "jest --runInBand --config ./jest.e2e.config.js",
+    "docs:apigen": "yarn docs:apigen:core && yarn docs:apigen:vue",
     "docs:apigen:core": "api-docs-gen ./temp/core-base.api.json -o ./docs/api -c ./docsgen.config.js -g noprefix -t ./tsdoc.json && mv ./docs/api/general.md ./docs/api/temp.md",
     "docs:apigen:vue": "api-docs-gen ./temp/vue-i18n-core.api.json -o ./docs/api -c ./docsgen.config.js -g noprefix -t ./tsdoc.json && tail -n +3 ./docs/api/temp.md >> ./docs/api/general.md && rm -rf ./docs/api/temp.md",
-    "docs:apigen": "yarn docs:apigen:core && yarn docs:apigen:vue",
     "docs:build": "yarn docs:setup && vitepress build docs",
     "docs:dev": "vitepress dev docs",
     "docs:serve": "vitepress serve docs",
