@@ -1,4 +1,67 @@
+## v9.2.0-beta.1 (2021-07-27)
 
+#### :star: Features
+* `core-base`, `core`, `devtools-if`, `message-compiler`, `message-resolver`, `petite-vue-i18n`, `runtime`, `size-check-core`, `size-check-petite-vue-i18n`, `size-check-vue-i18n`, `vue-devtools`, `vue-i18n-core`, `vue-i18n`
+  * [#588](https://github.com/intlify/vue-i18n-next/pull/588) feat: [petite-vue-i18n](https://github.com/intlify/vue-i18n-next/tree/master/packages/petite-vue-i18n) ([@kazupon](https://github.com/kazupon))
+* `core-base`, `vue-i18n`
+  * [#508](https://github.com/intlify/vue-i18n-next/pull/508) feat: type-safe with global type definition ([@kazupon](https://github.com/kazupon))
+- `core-base`, `message-resolver`, `vue-i18n`
+  - [#477](https://github.com/intlify/vue-i18n-next/pull/477) feat: custom message resolver ([@kazupon](https://github.com/kazupon))
+
+
+#### :boom: Breaking Change
+- `core-base`, `core`, `devtools-if`, `message-compiler`, `message-resolver`, `runtime`, `shared`, `vue-devtools`, `vue-i18n`
+  - [#560](https://github.com/intlify/vue-i18n-next/pull/560) breaking: drop node v10 ([@kazupon](https://github.com/kazupon))
+- `vue-i18n`
+  - [#514](https://github.com/intlify/vue-i18n-next/pull/514) Fix **FEATURE_ESM_BUNDLER_WARN** flag can not be configured ([@PeterAlfredLee](https://github.com/PeterAlfredLee))
+
+
+#### :zap: Improvement Features
+* `core-base`, `vue-i18n`
+  * [#584](https://github.com/intlify/vue-i18n-next/pull/584) improvement: reduce size ([@kazupon](https://github.com/kazupon))
+* `size-check-vue-i18n`, `vue-i18n`
+  * [#583](https://github.com/intlify/vue-i18n-next/pull/583) improvement: deprecated __VUE_I18N_PROD_DEVTOOLS__ feature flag ([@kazupon](https://github.com/kazupon))
+* `vue-i18n`
+  * [#578](https://github.com/intlify/vue-i18n-next/pull/578) support for Vue 3.1 ([@kazupon](https://github.com/kazupon))
+* `vue-i18n`
+  * [#545](https://github.com/intlify/vue-i18n-next/pull/545) Allow number and boolean in args of number formatting ([@yannbriancon](https://github.com/yannbriancon))
+* `vue-i18n`
+  * [#541](https://github.com/intlify/vue-i18n-next/pull/541) Add number formatting missing type definition ([@yannbriancon](https://github.com/yannbriancon))
+* `core-base`, `vue-i18n`
+  * [#489](https://github.com/intlify/vue-i18n-next/pull/489) Type safe improvements ([@kazupon](https://github.com/kazupon))
+* `vue-i18n`
+  * [#478](https://github.com/intlify/vue-i18n-next/pull/478) improvement: target component highlighting on i18n resources inspector ([@kazupon](https://github.com/kazupon))
+
+
+#### :bug: Bug Fixes
+* `core-base`
+  * [#570](https://github.com/intlify/vue-i18n-next/pull/570) fix: __INTLIFY_PROD_DEVTOOLS__ is not defined (#532) ([@kazupon](https://github.com/kazupon))
+* `core-base`
+  * [#532](https://github.com/intlify/vue-i18n-next/pull/532) fix: **INTLIFY_PROD_DEVTOOLS** is not defined ([@kazupon](https://github.com/kazupon))
+* `vue-i18n`
+  * [#524](https://github.com/intlify/vue-i18n-next/pull/524) fix: cannot hook at beforeUnmount/unmounted ([@kazupon](https://github.com/kazupon))
+* `core-base`
+  * [#515](https://github.com/intlify/vue-i18n-next/pull/515) Datetime format validation ([@PeterAlfredLee](https://github.com/PeterAlfredLee))
+* Other
+  * [#519](https://github.com/intlify/vue-i18n-next/pull/519) fix `d.ts` breaking ([@kazupon](https://github.com/kazupon))
+
+
+#### :pencil: Documentation
+* Other
+  * [#555](https://github.com/intlify/vue-i18n-next/pull/555) docs: add `defaultSFCLang` and `globalSFCScope` to sfc ([@userquin](https://github.com/userquin))
+  * [#549](https://github.com/intlify/vue-i18n-next/pull/549) Fix VueJS Syntax ([@MarianPohling](https://github.com/MarianPohling))
+  * [#484](https://github.com/intlify/vue-i18n-next/pull/484) Fix syntax error in quote example. ([@snuggs](https://github.com/snuggs))
+* `vue-i18n`
+  * [#487](https://github.com/intlify/vue-i18n-next/pull/487) Add some tests about numberFormats ([@PeterAlfredLee](https://github.com/PeterAlfredLee))
+
+#### Committers: 1
+* kazuya kawaguchi ([@kazupon](https://github.com/kazupon))
+* Yann Briançon ([@yannbriancon](https://github.com/yannbriancon))
+* Lee ([@PeterAlfredLee](https://github.com/PeterAlfredLee))
+* Marian Pohling ([@MarianPohling](https://github.com/MarianPohling))
+* [@userquin](https://github.com/userquin)
+* Ahmid ([@snuggs](https://github.com/snuggs))
+* [@noy4](https://github.com/noy4)
 
 
 ## v9.2.0-alpha.9 (2021-07-24)
