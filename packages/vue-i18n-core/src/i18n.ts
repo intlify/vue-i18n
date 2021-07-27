@@ -108,7 +108,7 @@ export interface I18nAdditionalOptions {
    */
   legacy?: boolean
   /**
-   * Whether Whether to inject global properties & functions into for each component.
+   * Whether to inject global properties & functions into for each component.
    *
    * @remarks
    * If set to `true`, then properties and methods prefixed with `$` are injected into Vue Component.
