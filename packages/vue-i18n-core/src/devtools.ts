@@ -58,7 +58,11 @@ export async function enableDevTools(app: App, i18n: _I18n): Promise<boolean> {
           })
 
           api.on.inspectComponent(({ componentInstance, instanceData }) => {
-            if (componentInstance.vnode.el.__VUE_I18N__ && instanceData) {
+            if (
+              componentInstance.vnode.el &&
+              componentInstance.vnode.el.__VUE_I18N__ &&
+              instanceData
+            ) {
               if (i18n.mode === 'legacy') {
                 // ignore global scope on legacy mode
                 if (
@@ -163,7 +167,7 @@ function updateComponentTreeTags(
   const global = i18n.mode === 'composition'
     ? i18n.global
     : (i18n.global as unknown as VueI18nInternal).__composer
-  if (instance && instance.vnode.el.__VUE_I18N__) {
+  if (instance && instance.vnode.el && instance.vnode.el.__VUE_I18N__) {
     // add custom tags local scope only
     if (instance.vnode.el.__VUE_I18N__ !== global) {
       const tag = {
