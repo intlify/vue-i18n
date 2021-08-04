@@ -34,5 +34,10 @@ export const sponsors = {
     tier: TierLevel.Bronze,
     link: 'https://www.vuemastery.com/',
     source: '/vuemastery.png'
+  }, {
+    name: 'DECIBEL',
+    tier: TierLevel.Bronze,
+    link: 'https://www.deci-bel.com/',
+    source: '/decibel.png'
   }]
 } as const

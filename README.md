@@ -64,6 +64,14 @@ Vue I18n is part of the Vue Ecosystem and Intlify Project is an open source proj
     />
   </a>
 </p>
+<p align="center">
+  <a href="https://www.deci-bel.com/" target="_blank">
+    <img
+      src="https://raw.githubusercontent.com/intlify/vue-i18n-next/master/docs/public/decibel.png"
+      width="144px"
+    />
+  </a>
+</p>
 
 <br/>
 
