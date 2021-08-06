@@ -16,7 +16,7 @@ You can support the type-safe resources with resoruce schema using TypeScript.
 
 ### Type-safe resources in `createI18n`
 
-The following is an example code to define type-safe resrouces for `messages` defined with `createI18n` option.
+The following is an example code to define type-safe resources for `messages` defined with `createI18n` option.
 
 Locale messages resource:
 ```json
