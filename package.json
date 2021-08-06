@@ -16,7 +16,7 @@
   "scripts": {
     "benchmark": "node ./benchmark/index.js",
     "build": "node -r esbuild-register scripts/build.ts",
-    "build:size": "npm-run-all --parallel build:size-*",
+    "build:size": "yarn build && npm-run-all --parallel build:size-*",
     "build:size-core": "cd packages/size-check-core && yarn build",
     "build:size-petite-vue-i18n": "cd packages/size-check-petite-vue-i18n && yarn build",
     "build:size-vue-i18n": "cd packages/size-check-vue-i18n && yarn build",

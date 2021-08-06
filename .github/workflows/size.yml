@@ -38,8 +38,6 @@ jobs:
           cache: 'yarn'
       - name: Install
         run: yarn install
-      - name: Build packages
-        run: yarn build
       - name: Check build size
         uses: posva/size-check-action@v1.1.2
         with:
