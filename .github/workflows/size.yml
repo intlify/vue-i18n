@@ -14,6 +14,7 @@ on:
       - reopened
 permissions:
   contents: read
+  issues: write
 env:
   CI: true
 
