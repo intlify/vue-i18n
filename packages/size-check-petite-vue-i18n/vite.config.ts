@@ -23,7 +23,17 @@ export default defineConfig({
   },
   resolve: {
     alias: {
-      'vue-i18n': 'petite-vue-i18n/dist/petite-vue-i18n.runtime.esm-bundler.js'
+      'vue-i18n':
+        '../petite-vue-i18n/dist/petite-vue-i18n.runtime.esm-bundler.js'
+    }
+  },
+  build: {
+    rollupOptions: {
+      output: {
+        entryFileNames: `assets/[name].js`,
+        chunkFileNames: `assets/[name].js`,
+        assetFileNames: `assets/[name].[ext]`
+      }
     }
   },
   plugins: [vue()]

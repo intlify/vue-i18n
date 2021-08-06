@@ -18,7 +18,7 @@ env:
   CI: true
 
 jobs:
-  test:
+  lint:
     name: 'Lint on Node.js ${{ matrix.node }} OS: ${{matrix.os}}'
     runs-on: ${{ matrix.os }}
     strategy:

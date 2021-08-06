@@ -16,5 +16,14 @@ export default defineConfig({
     'process.env.NODE_ENV': JSON.stringify('production'),
     __INTLIFY_PROD_DEVTOOLS__: false
   },
+  build: {
+    rollupOptions: {
+      output: {
+        entryFileNames: `assets/[name].js`,
+        chunkFileNames: `assets/[name].js`,
+        assetFileNames: `assets/[name].[ext]`
+      }
+    }
+  },
   plugins: []
 })
