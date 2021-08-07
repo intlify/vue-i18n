@@ -1,6 +1,6 @@
 # @intlify/message-format-explorer
 
-intlify message format explorer
+Intlify message format explorer
 
 ## 🔨 develop the format explorer
 
