@@ -1,17 +1,11 @@
 name: Size
 on:
   push:
-    branches-ignore:
-      - gh-pages
-      - releases/**
+    branches:
+      - '**'
   pull_request:
-    branches-ignore:
-      - gh-pages
-      - releases/**
-    types:
-      - opened
-      - synchronize
-      - reopened
+    branches:
+      - master
 permissions:
   contents: read
   issues: write
