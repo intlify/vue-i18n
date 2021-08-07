@@ -16,6 +16,10 @@ $ yarn build:explorer
 
 ## 🏄 serve the format explorer
 
+```sh
+$ yarn serve:explorer
+```
+
 ## ©️ License
 
 [MIT](http://opensource.org/licenses/MIT)
