@@ -1,10 +1,34 @@
 <script lang="ts">
-import { defineComponent, ref, onMounted, watchEffect } from 'vue'
+import { defineComponent, ref, onMounted, onUnmounted, watchEffect } from 'vue'
 import theme from '../theme'
 import { debounce } from '../utils'
 import * as monaco from 'monaco-editor'
+import EditorWorker from 'monaco-editor/esm/vs/editor/editor.worker?worker'
+import JsonWorker from 'monaco-editor/esm/vs/language/json/json.worker?worker'
+import CssWorker from 'monaco-editor/esm/vs/language/css/css.worker?worker'
+import HtmlWorker from 'monaco-editor/esm/vs/language/html/html.worker?worker'
+import TsWorker from 'monaco-editor/esm/vs/language/typescript/ts.worker?worker'
 import type { PropType } from 'vue'
 import type { CompileError } from '@intlify/message-compiler'
+
+// @ts-ignore
+self.MonacoEnvironment = {
+  getWorker(_: unknown, label: string) {
+    if (label === 'json') {
+      return new JsonWorker()
+    }
+    if (label === 'css' || label === 'scss' || label === 'less') {
+      return new CssWorker()
+    }
+    if (label === 'html' || label === 'handlebars' || label === 'razor') {
+      return new HtmlWorker()
+    }
+    if (label === 'typescript' || label === 'javascript') {
+      return new TsWorker()
+    }
+    return new EditorWorker()
+  }
+}
 
 export default defineComponent({
   name: 'Editor',
@@ -49,6 +73,8 @@ export default defineComponent({
       }
     }
 
+    let editor: monaco.editor.IStandaloneCodeEditor
+
     onMounted(() => {
       if (container.value == null) {
         return
@@ -57,7 +83,7 @@ export default defineComponent({
       monaco.editor.defineTheme('my-theme', theme)
       monaco.editor.setTheme('my-theme')
 
-      const editor = monaco.editor.create(container.value, {
+      editor = monaco.editor.create(container.value, {
         value: [props.code].join('\n'),
         wordWrap: 'bounded',
         language: props.language,
@@ -69,6 +95,11 @@ export default defineComponent({
           enabled: false
         }
       })
+
+      if (editor == null) {
+        throw new Error('editor is null')
+      }
+
       window.addEventListener('resize', () => editor.layout())
 
       const changeEmitter = props.debounce
@@ -87,6 +118,10 @@ export default defineComponent({
       })
 
       emit('ready', editor)
+    })
+
+    onUnmounted(() => {
+      editor.dispose()
     })
 
     return { container }

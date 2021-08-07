@@ -209,7 +209,6 @@ export default defineComponent({
 <template>
   <div class="container">
     <nav class="navigation">
-      <!-- prettier-ignore -->
       <Navigation class="navigation" />
     </nav>
     <div class="operation">
@@ -222,17 +221,38 @@ export default defineComponent({
         @change-model="onChangeModel"
         @ready="onReadyInput"
       />
-      <!-- prettier-ignore -->
-      <Editor
-        class="output"
-        :code="genCodes"
-        @ready="onReadyOutput"
-      />
+      <Editor class="output" :code="genCodes" @ready="onReadyOutput" />
     </div>
   </div>
 </template>
 
-<style scoped>
+<style>
+body {
+  --bg: #1d1f21;
+  --fg: #fff;
+  --border: #333;
+  --in-bg: white;
+  --in-fg: black;
+  --in-border: #666;
+  margin: 0;
+  background-color: var(--bg);
+}
+
+#app {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  color: var(--fg);
+  margin: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.highlight {
+  background-color: rgba(46, 120, 190, 0.5);
+}
+
 .container {
   width: 100%;
   height: 100%;

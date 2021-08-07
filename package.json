@@ -16,6 +16,7 @@
   "scripts": {
     "benchmark": "node ./benchmark/index.js",
     "build": "node -r esbuild-register scripts/build.ts",
+    "build:explorer": "cd packages/format-explorer && vite build",
     "build:size": "yarn build && npm-run-all --parallel build:size-*",
     "build:size-core": "cd packages/size-check-core && yarn build",
     "build:size-petite-vue-i18n": "cd packages/size-check-petite-vue-i18n && yarn build",
@@ -33,7 +34,9 @@
     "clean:type": "rimraf ./temp",
     "coverage": "opener coverage/lcov-report/index.html",
     "dev": "node -r esbuild-register scripts/dev.ts",
+    "dev:explorer": "vite packages/format-explorer",
     "dev:e2e": "jest --runInBand --config ./jest.e2e.config.js",
+    "serve:explorer": "cd packages/format-explorer && vite preview",
     "docs:apigen": "yarn docs:apigen:core && yarn docs:apigen:vue",
     "docs:apigen:core": "api-docs-gen ./temp/core-base.api.json -o ./docs/api -c ./docsgen.config.js -g noprefix -t ./tsdoc.json && mv ./docs/api/general.md ./docs/api/temp.md",
     "docs:apigen:vue": "api-docs-gen ./temp/vue-i18n-core.api.json -o ./docs/api -c ./docsgen.config.js -g noprefix -t ./tsdoc.json && tail -n +3 ./docs/api/temp.md >> ./docs/api/general.md && rm -rf ./docs/api/temp.md",
