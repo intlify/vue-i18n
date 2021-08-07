@@ -46,7 +46,8 @@
       "esm-browser",
       "cjs",
       "global"
-    ]
+    ],
+    "enableFullBundleForEsmBrowser": true
   },
   "publishConfig": {
     "access": "public"

@@ -19,19 +19,15 @@ env:
 
 jobs:
   lint:
-    name: 'Lint on Node.js ${{ matrix.node }} OS: ${{matrix.os}}'
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        os: [ubuntu-latest]
-        node: [14]
+    name: 'Lint'
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-      - name: Setup Node.js ${{ matrix.node }}
+      - name: Setup Node.js v14.x
         uses: actions/setup-node@v2
         with:
-          node-version: ${{ matrix.node }}
+          node-version: 14
           cache: 'yarn'
       - name: Install
         run: yarn install
