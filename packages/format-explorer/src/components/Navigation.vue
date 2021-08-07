@@ -1,11 +1,3 @@
-<script lang="ts">
-import { defineComponent } from 'vue'
-
-export default defineComponent({
-  name: 'Navigation'
-})
-</script>
-
 <template>
   <h2>Intlify Message Format Explorer</h2>
   <!-- eslint-disable-next-line vue/no-multiple-template-root -->
