@@ -4,5 +4,5 @@
     "noEmit": true,
     "declaration": true
   },
-  "exclude": ["../packages/*/test"]
+  "exclude": ["../packages/*/test", "../packages/format-explorer/**"]
 }
