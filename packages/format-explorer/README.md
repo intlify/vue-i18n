@@ -2,6 +2,8 @@
 
 Intlify message format explorer
 
+https://format-explorer.netlify.app
+
 ## 🔨 develop the format explorer
 
 ```sh

@@ -4,6 +4,7 @@ module.exports = {
   root: true,
   globals: {
     __DEV__: true,
+    __COMMIT__: true,
     page: true,
     browser: true,
     context: true,
