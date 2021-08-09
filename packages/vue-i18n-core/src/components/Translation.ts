@@ -136,9 +136,9 @@ export const Translation = /* #__PURE__*/ defineComponent({
         options
       )
       const assignedAttrs = assign({}, attrs)
-      return isString(props.tag) || isObject(props.tag)
-        ? h(props.tag, assignedAttrs, children)
-        : h(Fragment, assignedAttrs, children)
+      const tag =
+        isString(props.tag) || isObject(props.tag) ? props.tag : Fragment
+      return h(tag, assignedAttrs, children)
     }
   }
 })
