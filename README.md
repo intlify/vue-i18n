@@ -93,11 +93,11 @@ Vue I18n is part of the Vue Ecosystem and Intlify Project is an open source proj
 
 Please consult the [Migration Guide](https://vue-i18n.intlify.dev/guide/migration/breaking.html).
 
-## :raising_hand: About support for v9 and earlier
+## 🙋‍♂️ About support for v9 and earlier
 - v6 and earlier: drop supporting
 - v7 and v8: become LTS upon vue-i18n v9 release with an 12 months maintenance lifespan
 
-## :lollipop: Examples
+## 🍭 Examples
 
 See the [`examples`](https://github.com/intlify/vue-i18n-next/tree/master/examples) directory.
 
@@ -109,7 +109,7 @@ The examples are offered in the following two API styles:
   - Examples using the Vue I18n API that are almost compatible with Vue I18n v8.x
 
 
-## :package: Main Packages
+## 📦 Main Packages
 
 | Package | NPM |
 | ------- | --- |
@@ -121,7 +121,7 @@ The examples are offered in the following two API styles:
 | [@intlify/message-resolver](packages/message-resolver) | [![@intlify/message-resolver](https://img.shields.io/npm/v/@intlify/message-resolver.svg)](https://www.npmjs.com/package/@intlify/message-resolver)
 | [@intlify/shared](packages/shared) | [![@intlify/shared](https://img.shields.io/npm/v/@intlify/shared.svg)](https://www.npmjs.com/package/@intlify/shared)
 
-## :runner: Other Projects
+## 🏃 Other Projects
 
 | Project | NPM | Repo |
 | ------- | --- | ---- |
@@ -136,10 +136,10 @@ The examples are offered in the following two API styles:
 | Vue Jest Plugin | [![vue-i18n-jest](https://img.shields.io/npm/v/vue-i18n-jest.svg)](https://www.npmjs.com/package/vue-i18n-jest) | [intlify/vue-i18n-jest](https://github.com/intlify/vue-i18n-jest)
 | Vue I18n Locale Message Tools | [![vue-i18n-locale-message](https://img.shields.io/npm/v/vue-i18n-locale-message.svg)](https://www.npmjs.com/package/vue-i18n-locale-message) | [intlify/vue-i18n-locale-message](https://github.com/intlify/vue-i18n-locale-message)
 
-## :muscle: Contribution
+## 💪 Contribution
 
 Please make sure to read the [Contributing Guide](https://github.com/intlify/vue-i18n-next/blob/master/.github/CONTRIBUTING.md) before making a pull request.
 
-## :copyright: License
+## ©️ License
 
 [MIT](http://opensource.org/licenses/MIT)
