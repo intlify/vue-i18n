@@ -22,6 +22,7 @@ Array [
     "slotScopeIds": null,
     "ssContent": null,
     "ssFallback": null,
+    "staticCount": 0,
     "suspense": null,
     "target": null,
     "targetAnchor": null,
