@@ -1,3 +1,26 @@
+
+## v9.2.0-beta.2 (2021-08-10)
+
+#### :star: Features
+* `size-check-petite-vue-i18n`, `size-check-vue-i18n`, `vue-i18n-core`
+  * [#623](https://github.com/intlify/vue-i18n-next/pull/623) feat: support Vue 3.2 ([@kazupon](https://github.com/kazupon))
+
+#### :bug: Bug Fixes
+* `vue-i18n-core`
+  * [#602](https://github.com/intlify/vue-i18n-next/pull/602) fix null access of __VUE_I18n__ ([@kazupon](https://github.com/kazupon))
+
+#### :zap: Improvement Features
+* `message-compiler`
+  * [#619](https://github.com/intlify/vue-i18n-next/pull/619) improvement: bundle source map at message-compiler ([@kazupon](https://github.com/kazupon))
+
+#### :pencil: Documentation
+* [#616](https://github.com/intlify/vue-i18n-next/pull/616) docs: typo in typescript.md ([@maiolica](https://github.com/maiolica))
+
+#### Committers: 3
+- Gualtiero ([@maiolica](https://github.com/maiolica))
+- Lee ([@PeterAlfredLee](https://github.com/PeterAlfredLee))
+- kazuya kawaguchi ([@kazupon](https://github.com/kazupon))
+
 ## v9.2.0-beta.1 (2021-07-27)
 
 #### :star: Features
