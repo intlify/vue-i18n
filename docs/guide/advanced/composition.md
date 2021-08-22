@@ -19,7 +19,7 @@ The following is an example of adding the `legacy` option to `createI18n`:
 const i18n = VueI18n.createI18n({
   legacy: false, // you must set `false`, to use Composition API
   locale: 'ja', // set locale
-  fallbackLocale: 'en' // set fallback locale
+  fallbackLocale: 'en', // set fallback locale
   messages, // set locale messages
   // If you need to specify other options, you can set other options
   // ...
