@@ -1,4 +1,18 @@
 
+## v9.2.0-beta.3 (2021-08-23)
+
+#### :star: Features
+* `vue-i18n-core`, `vue-i18n`
+  * [#641](https://github.com/intlify/vue-i18n-next/pull/641) feat: support web components ([@kazupon](https://github.com/kazupon))
+
+#### :pencil: Documentation
+* [#640](https://github.com/intlify/vue-i18n-next/pull/640) added missing comma in code example in Advanced > Composition API  ([@Topograph](https://github.com/Topograph))
+
+#### Committers: 2
+- [@Topograph](https://github.com/Topograph)
+- kazuya kawaguchi ([@kazupon](https://github.com/kazupon))
+
+
 ## v9.2.0-beta.2 (2021-08-10)
 
 #### :star: Features
