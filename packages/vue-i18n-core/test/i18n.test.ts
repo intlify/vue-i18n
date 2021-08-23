@@ -3,7 +3,9 @@
  */
 
 import {
+  h,
   defineComponent,
+  defineCustomElement,
   nextTick,
   getCurrentInstance,
   ComponentOptions
@@ -28,10 +30,17 @@ import {
   IntlifyDevToolsHooks
 } from '@intlify/devtools-if'
 
+const container = document.createElement('div')
+document.body.appendChild(container)
+
 beforeAll(() => {
   registerMessageCompiler(compileToFunction)
   registerMessageResolver(resolveValue)
   registerLocaleFallbacker(fallbackWithLocaleChain)
+})
+
+beforeEach(() => {
+  container.innerHTML = ''
 })
 
 afterEach(() => {
@@ -364,6 +373,36 @@ describe('useI18n', () => {
     await mount(App, i18n)
     expect(error).toEqual(
       errorMessages[I18nErrorCodes.NOT_AVAILABLE_IN_LEGACY_MODE]
+    )
+  })
+
+  test(errorMessages[I18nErrorCodes.NOT_INSLALLED_WITH_PROVIDE], async () => {
+    const Provider = defineCustomElement({
+      setup() {
+        createI18n<false>({ legacy: false })
+        return () => h('my-consumer')
+      }
+    })
+    customElements.define('my-provider', Provider)
+
+    let error = ''
+    const Consumer = defineCustomElement({
+      setup() {
+        try {
+          useI18n()
+        } catch (e) {
+          error = e.message
+        }
+        return () => h('div')
+      }
+    })
+    customElements.define('my-consumer', Consumer)
+
+    container.innerHTML = `<my-provider><my-provider>`
+    await nextTick()
+
+    expect(error).toEqual(
+      errorMessages[I18nErrorCodes.NOT_INSLALLED_WITH_PROVIDE]
     )
   })
 })

@@ -185,6 +185,10 @@ const config = {
                   link: '/guide/advanced/typescript',
                 },
                 {
+                  text: 'Web components',
+                  link: '/guide/advanced/wc',
+                },
+                {
                   text: 'Optimization',
                   link: '/guide/advanced/optimization',
                 }
@@ -354,6 +358,10 @@ const config = {
                 {
                   text: 'TypeScript Support',
                   link: '/ja/guide/advanced/typescript',
+                },
+                {
+                  text: 'Web components',
+                  link: '/ja/guide/advanced/wc',
                 },
                 {
                   text: 'Optimization',

@@ -143,7 +143,7 @@ export interface I18n<
   DateTimeFormats = {},
   NumberFormats = {},
   OptionLocale = Locale,
-  Legacy = true
+  Legacy = boolean
 > {
   /**
    * Vue I18n API mode
@@ -267,6 +267,18 @@ export type UseI18nOptions<
 export interface ComposerAdditionalOptions {
   useScope?: I18nScope
 }
+
+/**
+ * Injection key for {@link useI18n}
+ *
+ * @remarks
+ * The global injection key for I18n instances with `useI18n`. this injection key is used in Web Components.
+ * Specify the i18n instance created by {@link createI18n} together with `provide` function.
+ *
+ * @VueI18nGeneral
+ */
+export const I18nInjectionKey: InjectionKey<I18n> | string =
+  /* #__PURE__*/ makeSymbol('global-vue-i18n')
 
 export function createI18n<
   Legacy extends boolean = true,
@@ -579,14 +591,26 @@ export function useI18n<
   if (instance == null) {
     throw createI18nError(I18nErrorCodes.MUST_BE_CALL_SETUP_TOP)
   }
-  if (!instance.appContext.app.__VUE_I18N_SYMBOL__) {
+  if (
+    !instance.isCE &&
+    instance.appContext.app != null &&
+    !instance.appContext.app.__VUE_I18N_SYMBOL__
+  ) {
     throw createI18nError(I18nErrorCodes.NOT_INSLALLED)
   }
 
-  const i18n = inject(instance.appContext.app.__VUE_I18N_SYMBOL__)
+  const i18n = inject(
+    !instance.isCE
+      ? instance.appContext.app.__VUE_I18N_SYMBOL__!
+      : I18nInjectionKey
+  )
   /* istanbul ignore if */
   if (!i18n) {
-    throw createI18nError(I18nErrorCodes.UNEXPECTED_ERROR)
+    throw createI18nError(
+      !instance.isCE
+        ? I18nErrorCodes.UNEXPECTED_ERROR
+        : I18nErrorCodes.NOT_INSLALLED_WITH_PROVIDE
+    )
   }
 
   // prettier-ignore
