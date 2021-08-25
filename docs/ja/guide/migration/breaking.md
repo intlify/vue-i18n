@@ -45,6 +45,30 @@ app.use(i18n)
 
 **Reason**: Vue 3 [Global API changes](https://v3.vuejs.org/guide/migration/global-api.html#a-new-global-api-createapp), and Vue 3 API architecture changes related for component instances.
 
+### Rename to `datetimeFormats` from `dateTimeFormats`
+
+Vue I18n v8.x:
+
+```js{3-5}
+const i18n = new VueI18n({
+  // ...
+  dataTimeFormats: {
+    // ...
+  }
+})
+```
+
+Vue I18n v9 or later:
+
+```js{3-5}
+const i18n = new createI18n({
+  // ...
+  datetimeFormats: {
+    // ...
+  }
+})
+```
+
 ### Translation API return value
 
 The translation API like `$t` and `t` function that return **string** only. Object and array values are no longer returned.
