@@ -21,13 +21,13 @@ export default {
   <ParentLayout>
     <template #navbar-search>
     </template>
-    <template #sidebar-bottom>
+    <template #sidebar-top>
       <div class="sponsors-sidebar">
         <a
           href="https://github.com/sponsors/kazupon"
           target="_blank"
           rel="noopener"
-          >Sponsors</a
+          >Platinum Sponsors</a
         >
 
         <a
@@ -86,7 +86,7 @@ form {
   margin-left: 0;
 }
 .sponsors-sidebar {
-  padding: 0 1.5rem 2rem;
+  padding: 1rem 1.5rem 0;
   font-size: 0.8rem;
 }
 .sponsors-sidebar a {
