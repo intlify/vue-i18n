@@ -237,6 +237,10 @@ Locale message translation
 $t(key: Path, plural: number): string;
 ```
 
+:::tip NOTE
+Supported for **Commposition API mode only**.
+:::
+
 **Details**
 
 Overloaded `$t`. About details, see the [$t](injection#t-key) remarks.
@@ -259,6 +263,10 @@ Locale message translation
 ```typescript
 $t(key: Path, plural: number, options: TranslateOptions): string;
 ```
+
+:::tip NOTE
+Supported for **Commposition API mode only**.
+:::
 
 **Details**
 
@@ -284,6 +292,10 @@ Locale message translation
 $t(key: Path, defaultMsg: string): string;
 ```
 
+:::tip NOTE
+Supported for **Commposition API mode only**.
+:::
+
 **Details**
 
 Overloaded `$t`. About details, see the [$t](injection#t-key) remarks.
@@ -306,6 +318,10 @@ Locale message translation
 ```typescript
 $t(key: Path, defaultMsg: string, options: TranslateOptions): string;
 ```
+
+:::tip NOTE
+Supported for **Commposition API mode only**.
+:::
 
 **Details**
 
@@ -354,6 +370,10 @@ Locale message translation
 $t(key: Path, list: unknown[], plural: number): string;
 ```
 
+:::tip NOTE
+Supported for **Commposition API mode only**.
+:::
+
 **Details**
 
 Overloaded `$t`. About details, see the [$t](injection#t-key) remarks.
@@ -378,6 +398,10 @@ Locale message translation
 $t(key: Path, list: unknown[], defaultMsg: string): string;
 ```
 
+:::tip NOTE
+Supported for **Commposition API mode only**.
+:::
+
 **Details**
 
 Overloaded `$t`. About details, see the [$t](injection#t-key) remarks.
@@ -401,6 +425,10 @@ Locale message translation
 ```typescript
 $t(key: Path, list: unknown[], options: TranslateOptions): string;
 ```
+
+:::tip NOTE
+Supported for **Commposition API mode only**.
+:::
 
 **Details**
 
@@ -449,6 +477,10 @@ Locale message translation
 $t(key: Path, named: NamedValue, plural: number): string;
 ```
 
+:::tip NOTE
+Supported for **Commposition API mode only**.
+:::
+
 **Details**
 
 Overloaded `$t`. About details, see the [$t](injection#t-key) remarks.
@@ -473,6 +505,10 @@ Locale message translation
 $t(key: Path, named: NamedValue, defaultMsg: string): string;
 ```
 
+:::tip NOTE
+Supported for **Commposition API mode only**.
+:::
+
 **Details**
 
 Overloaded `$t`. About details, see the [$t](injection#t-key) remarks.
@@ -496,6 +532,10 @@ Locale message translation
 ```typescript
 $t(key: Path, named: NamedValue, options: TranslateOptions): string;
 ```
+
+:::tip NOTE
+Supported for **Commposition API mode only**.
+:::
 
 **Details**
 
@@ -623,7 +663,7 @@ Locale message pluralization
 $tc(key: Path): TranslateResult;
 ```
 
-:::tip NOTE
+:::warning NOTE
 Supported for **Legacy API mode only**.
 :::
 
@@ -656,7 +696,7 @@ Locale message pluralization
 $tc(key: Path, locale: Locale): TranslateResult;
 ```
 
-:::tip NOTE
+:::warning NOTE
 Supported for **Legacy API mode only**.
 :::
 
@@ -683,7 +723,7 @@ Locale message pluralization
 $tc(key: Path, list: unknown[]): TranslateResult;
 ```
 
-:::tip NOTE
+:::warning NOTE
 Supported for **Legacy API mode only**.
 :::
 
@@ -710,7 +750,7 @@ Locale message pluralization
 $tc(key: Path, named: Record<string, unknown>): TranslateResult;
 ```
 
-:::tip NOTE
+:::warning NOTE
 Supported for **Legacy API mode only**.
 :::
 
@@ -737,7 +777,7 @@ Locale message pluralization
 $tc(key: Path, choice: number): TranslateResult;
 ```
 
-:::tip NOTE
+:::warning NOTE
 Supported for **Legacy API mode only**.
 :::
 
@@ -764,7 +804,7 @@ Locale message pluralization
 $tc(key: Path, choice: number, locale: Locale): TranslateResult;
 ```
 
-:::tip NOTE
+:::warning NOTE
 Supported for **Legacy API mode only**.
 :::
 
@@ -792,7 +832,7 @@ Locale message pluralization
 $tc(key: Path, choice: number, list: unknown[]): TranslateResult;
 ```
 
-:::tip NOTE
+:::warning NOTE
 Supported for **Legacy API mode only**.
 :::
 
@@ -820,7 +860,7 @@ Locale message pluralization
 $tc(key: Path, choice: number, named: Record<string, unknown>): TranslateResult;
 ```
 
-:::tip NOTE
+:::warning NOTE
 Supported for **Legacy API mode only**.
 :::
 
@@ -848,7 +888,7 @@ Translation message exist
 $te(key: Path, locale?: Locale): boolean;
 ```
 
-:::tip NOTE
+:::warning NOTE
 Supported for **Legacy API mode only**.
 :::
 
@@ -902,7 +942,7 @@ Datetime formatting
 
 **Signature:**
 ```typescript
-$d(value: number | Date): DateTimeFormatResult;
+$d(value: number | Date): DateTimeFormatResult | string;
 ```
 
 **Details**
@@ -933,7 +973,7 @@ Datetime formatting
 
 **Signature:**
 ```typescript
-$d(value: number | Date, key: string): DateTimeFormatResult;
+$d(value: number | Date, key: string): DateTimeFormatResult | string;
 ```
 
 **Details**
@@ -956,7 +996,7 @@ Datetime formatting
 
 **Signature:**
 ```typescript
-$d(value: number | Date, key: string, locale: Locale): DateTimeFormatResult;
+$d(value: number | Date, key: string, locale: Locale): DateTimeFormatResult | string;
 ```
 
 **Details**
@@ -997,75 +1037,6 @@ Overloaded `$d`. About details, see the [$d](injection#d-value) remarks.
 
 Formatted value
 
-### $d(value)
-
-Datetime formatting
-
-**Signature:**
-```typescript
-$d(value: number | Date): string;
-```
-
-**Details**
-
-Overloaded `$d`. About details, see the [$d](injection#d-value) remarks.
-
-#### Parameters
-| Parameter | Type | Description |
-| --- | --- | --- |
-| value | number \| Date | A value, timestamp number or `Date` instance |
-
-#### Returns
-
-Formatted value
-
-### $d(value, key)
-
-Datetime formatting
-
-**Signature:**
-```typescript
-$d(value: number | Date, key: string): string;
-```
-
-**Details**
-
-Overloaded `$d`. About details, see the [$d](injection#d-value) remarks.
-
-#### Parameters
-| Parameter | Type | Description |
-| --- | --- | --- |
-| value | number \| Date | A value, timestamp number or `Date` instance |
-| key | string | A key of datetime formats |
-
-#### Returns
-
-Formatted value
-
-### $d(value, key, locale)
-
-Datetime formatting
-
-**Signature:**
-```typescript
-$d(value: number | Date, key: string, locale: Locale): string;
-```
-
-**Details**
-
-Overloaded `$d`. About details, see the [$d](injection#d-value) remarks.
-
-#### Parameters
-| Parameter | Type | Description |
-| --- | --- | --- |
-| value | number \| Date | A value, timestamp number or `Date` instance |
-| key | string | A key of datetime formats |
-| locale | Locale | A locale, override locale that global scope or local scope |
-
-#### Returns
-
-Formatted value
-
 ### $d(value, options)
 
 Datetime formatting
@@ -1095,7 +1066,7 @@ Number formatting
 
 **Signature:**
 ```typescript
-$n(value: number): NumberFormatResult;
+$n(value: number): NumberFormatResult | string;
 ```
 
 **Details**
@@ -1126,7 +1097,7 @@ Number formatting
 
 **Signature:**
 ```typescript
-$n(value: number, key: string): NumberFormatResult;
+$n(value: number, key: string): NumberFormatResult | string;
 ```
 
 **Details**
@@ -1149,7 +1120,7 @@ Number formatting
 
 **Signature:**
 ```typescript
-$n(value: number, key: string, locale: Locale): NumberFormatResult;
+$n(value: number, key: string, locale: Locale): NumberFormatResult | string;
 ```
 
 **Details**
@@ -1234,75 +1205,6 @@ Overloaded `$n`. About details, see the [$n](injection#n-value) remarks.
 | key | string | A key of number formats |
 | locale | Locale | A locale, override locale that global scope or local scope |
 | args | { [key: string]: string } | An argument values |
-
-#### Returns
-
-Formatted value
-
-### $n(value)
-
-Number formatting
-
-**Signature:**
-```typescript
-$n(value: number): string;
-```
-
-**Details**
-
-Overloaded `$n`. About details, see the [$n](injection#n-value) remarks.
-
-#### Parameters
-| Parameter | Type | Description |
-| --- | --- | --- |
-| value | number | A number value |
-
-#### Returns
-
-Formatted value
-
-### $n(value, key)
-
-Number formatting
-
-**Signature:**
-```typescript
-$n(value: number, key: string): string;
-```
-
-**Details**
-
-Overloaded `$n`. About details, see the [$n](injection#n-value) remarks.
-
-#### Parameters
-| Parameter | Type | Description |
-| --- | --- | --- |
-| value | number | A number value |
-| key | string | A key of number formats |
-
-#### Returns
-
-Formatted value
-
-### $n(value, key, locale)
-
-Number formatting
-
-**Signature:**
-```typescript
-$n(value: number, key: string, locale: Locale): string;
-```
-
-**Details**
-
-Overloaded `$n`. About details, see the [$n](injection#n-value) remarks.
-
-#### Parameters
-| Parameter | Type | Description |
-| --- | --- | --- |
-| value | number | A number value |
-| key | string | A key of number formats |
-| locale | Locale | A locale, override locale that global scope or local scope |
 
 #### Returns
 
