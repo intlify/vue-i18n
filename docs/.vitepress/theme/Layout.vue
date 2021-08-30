@@ -21,6 +21,26 @@ export default {
   <ParentLayout>
     <template #navbar-search>
     </template>
+    <template #sidebar-bottom>
+      <div class="sponsors-sidebar">
+        <a
+          href="https://github.com/sponsors/kazupon"
+          target="_blank"
+          rel="noopener"
+          >Sponsors</a
+        >
+
+        <a
+          v-for="platinum in platinums"
+          :href="platinum.link"
+          :key="platinum.link"
+          target="_blank"
+          rel="noopener"
+        >
+          <img :src="platinum.source" :alt="platinum.name" />
+        </a>
+      </div>
+    </template>
     <template #home-hero>
       <div class="sponsors">
         <div class="level">
@@ -64,5 +84,18 @@ form {
 }
 .hero .action .nav-item {
   margin-left: 0;
+}
+.sponsors-sidebar {
+  padding: 0 1.5rem 2rem;
+  font-size: 0.8rem;
+}
+.sponsors-sidebar a {
+  color: #999;
+}
+.sponsors-sidebar img {
+  max-width: 200px;
+  max-height: 40px;
+  display: block;
+  margin: 1.25rem 0;
 }
 </style>
