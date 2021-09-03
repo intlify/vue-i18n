@@ -52,7 +52,7 @@ Vue I18n v8.x:
 ```js{3-5}
 const i18n = new VueI18n({
   // ...
-  dataTimeFormats: {
+  dateTimeFormats: {
     // ...
   }
 })
