@@ -31,7 +31,7 @@ const i18n = VueI18n.createI18n({
 You can set `legacy: false` to allow Vue I18n to switch the API mode, from Legacy API mode to Composition API mode.
 
 :::tip NOTE
-The following properties of i18n instance created by `createI18n` change it’s behavior:
+The following properties of i18n instance created by `createI18n` change its behavior:
 
 - `mode` property: `"legacy"` to `"composition"`
 - `global` property: VueI18n instance to Composer instance
