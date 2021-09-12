@@ -2,7 +2,6 @@
 
 Most of the APIs offered in Vue I18n v9 (for Vue 3) strive to maintain compatibility, to ease the pain of migration from v8 (for Vue 2). But there are still a few breaking changes that you might encounter while migrating your application. This guide is how to adapt your application to make it work with Vue I18n v9.
 
-
 ## APIs
 
 ### `new VueI18n` becomes `createI18n`
@@ -11,7 +10,7 @@ Vue I18n is no longer a class but a set of functions. Instead of writing `new Vu
 
 Vue I18n v8.x:
 
-```js{2,4,6-8,11}
+```js
 import Vue from 'vue'
 import VueI18n from 'vue-i18n'
 
@@ -29,7 +28,7 @@ new Vue({
 
 Vue I18n v9 or later:
 
-```js{2,4-6,11}
+```js
 import { createApp } from 'vue'
 import { createI18n } from 'vue-i18n'
 
@@ -49,7 +48,7 @@ app.use(i18n)
 
 Vue I18n v8.x:
 
-```js{3-5}
+```js
 const i18n = new VueI18n({
   // ...
   dateTimeFormats: {
@@ -60,7 +59,7 @@ const i18n = new VueI18n({
 
 Vue I18n v9 or later:
 
-```js{3-5}
+```js
 const i18n = new createI18n({
   // ...
   datetimeFormats: {
@@ -75,7 +74,7 @@ The translation API like `$t` and `t` function that return **string** only. Obje
 
 Vue I18n v8.x:
 
-```js{24}
+```js
 // e.g. Array structure locale messages
 const i18n = new VueI18n({
   messages: {
@@ -108,7 +107,7 @@ const ErrorMessage = {
 
 In Vue I18n v9 or later, it change to be using `$tm` or `tm`. The following Composition API example:
 
-```js{24}
+```js
 // e.g. Array structure locale messages
 const i18n = createI18n({
   messages: {
@@ -181,7 +180,7 @@ In Vue I18n v9 or later, you can customize it with the following options:
 
 Legacy API mode:
 
-```js{21-24}
+```js
 import { createI18n } from 'vue-i18n'
 
 function customRule(choice, choicesLength, orgRule) {
@@ -213,7 +212,7 @@ const i18n = createI18n({
 
 Composition API mode:
 
-```js{23-26}
+```js
 import { useI18n } from 'vue-i18n'
 
 function customRule(choice, choicesLength, orgRule) {
@@ -383,7 +382,7 @@ In Vue I18n v8.x, the distinction was made between key references in Linked mess
 
 Vue I18n v8.x:
 
-```js{5}
+```js
 const messages = {
   en: {
     message: {
@@ -397,6 +396,7 @@ const messages = {
 In Vue I18n v9 or later, brackets are no longer needed as the message format compiler allows you to handle **named, list, and literal interpolations**.
 
 Vue I18n v9 or later:
+
 ```js
 const messages = {
   en: {
@@ -424,7 +424,7 @@ Vue I18n v8.x:
 
 ## Translation component
 
-### Rename to `i18n-t`from `i18n`
+### Rename to `i18n-t` from `i18n`
 
 The tag name of the translation component (called *i18n functional component* in Vue I18n v8.x) has been changed.
 
@@ -448,7 +448,7 @@ In Vue I18n v8.x, `tag` prop could be used to render child elements without the 
 
 Vue I18n v8.x:
 
-```html{1,3}
+```html
 <i18n :tag="false" path="message.greeting">
   <span>hello!</span>
 </i18n>
@@ -458,7 +458,7 @@ Since Vue I18n v9 or later, you can do the same by omitting the `tag` prop.
 
 Vue I18n v9 or later:
 
-```html{1,3}
+```html
 <i18n-t keypath="message.greeting">
   <span>hello!</span>
 </i18n-t>
