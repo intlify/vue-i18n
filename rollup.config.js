@@ -136,10 +136,11 @@ function createConfig(format, output, plugins = []) {
 
   const external =
     isGlobalBuild || isBrowserESMBuild
-      ? packageOptions.enableFullBundleForEsmBrowser && isBrowserESMBuild
-        ? []
-        : ['vue'] // packageOptions.enableNonBrowserBranches
-      : // Node / esm-bundler builds. Externalize everything.
+      ? ['vue'] // packageOptions.enableNonBrowserBranches
+      : // ? packageOptions.enableFullBundleForEsmBrowser && isBrowserESMBuild
+        //   ? []
+        //   : ['vue'] // packageOptions.enableNonBrowserBranches
+        // Node / esm-bundler builds. Externalize everything.
         [
           ...Object.keys(pkg.dependencies || {}),
           ...Object.keys(pkg.peerDependencies || {})
@@ -175,8 +176,8 @@ function createConfig(format, output, plugins = []) {
         isBundlerESMBuild,
         isBrowserESMBuild,
         // isBrowserBuild?
-        (isGlobalBuild || isBrowserESMBuild || isBundlerESMBuild) &&
-          !packageOptions.enableFullBundleForEsmBrowser,
+        isGlobalBuild || isBrowserESMBuild || isBundlerESMBuild,
+        // (isGlobalBuild || isBrowserESMBuild || isBundlerESMBuild) && !packageOptions.enableFullBundleForEsmBrowser,
         isGlobalBuild,
         isNodeBuild,
         isRuntimeOnlyBuild,
