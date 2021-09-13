@@ -1,4 +1,22 @@
 
+## v9.2.0-beta.4 (2021-09-13)
+
+#### :bug: Bug Fixes
+* [#666](https://github.com/intlify/vue-i18n-next/pull/666) fix: source-map bundling on message-compiler esm bundler ([@kazupon](https://github.com/kazupon))
+
+#### :pencil: Documentation
+* [#664](https://github.com/intlify/vue-i18n-next/pull/664) Fixed a type in the Composition API documentation (it's -> its) ([@SeverityOne](https://github.com/SeverityOne))
+* [#661](https://github.com/intlify/vue-i18n-next/pull/661) docs: fix typo dat"a"TimeFormats ([@tyankatsu0105](https://github.com/tyankatsu0105))
+* [#655](https://github.com/intlify/vue-i18n-next/pull/655) docs: add support api mode for injection APIs ([@kazupon](https://github.com/kazupon))
+* [#643](https://github.com/intlify/vue-i18n-next/pull/643) docs: update breaking changes section ([@kazupon](https://github.com/kazupon))
+
+#### Committers: 4
+- BaboonKing ([@baboon-king](https://github.com/baboon-king))
+- Peter Korsten ([@SeverityOne](https://github.com/SeverityOne))
+- kazuya kawaguchi ([@kazupon](https://github.com/kazupon))
+- tyankatsu ([@tyankatsu0105](https://github.com/tyankatsu0105))
+
+
 ## v9.2.0-beta.3 (2021-08-23)
 
 #### :star: Features
