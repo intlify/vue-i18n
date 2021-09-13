@@ -143,6 +143,7 @@ the above codes, by specifying the defined schema as the first type parameter of
 
 :::warning Limitation
 - Type safety is not supported for i18n custom blocks in SFC. We'll plan to support it in the future.
+- Currently support for `JSON` format only.
 :::
 
 The code described so far is available as [example](https://github.com/intlify/vue-i18n-next/tree/master/examples/type-safe). Let's check it!

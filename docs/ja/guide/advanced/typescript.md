@@ -144,6 +144,7 @@ export default defineComponent({
 
 :::warning Limitation
 - Type safety is not supported for i18n custom blocks in SFC. We'll plan to support it in the future.
+- Currently support for `JSON` format only.
 :::
 
 これまで説明したコードは、[example](https://github.com/intlify/vue-i18n-next/tree/master/examples/type-safe) として公開しています。実際に確認してみましょう！
