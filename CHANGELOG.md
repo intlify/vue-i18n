@@ -1,4 +1,14 @@
 
+## v9.2.0-beta.5 (2021-09-19)
+
+#### :star: Features
+* `vue-i18n-core`
+  * [#673](https://github.com/intlify/vue-i18n-next/pull/673) feat: export types ([@kazupon](https://github.com/kazupon))
+
+#### Committers: 1
+- kazuya kawaguchi ([@kazupon](https://github.com/kazupon))
+
+
 ## v9.2.0-beta.4 (2021-09-13)
 
 #### :bug: Bug Fixes
