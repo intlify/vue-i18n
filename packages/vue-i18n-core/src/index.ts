@@ -3,6 +3,8 @@ import { setDevToolsHook } from '@intlify/core-base'
 import { initDev, initFeatureFlags } from './misc'
 
 export {
+  SchemaParams,
+  LocaleParams,
   Path,
   PathValue,
   NamedValue,
@@ -12,6 +14,7 @@ export {
   LocaleMessageDictionary,
   LocaleMessageType,
   LocaleMessages,
+  LocaleMessage,
   NumberFormat as IntlNumberFormat,
   DateTimeFormat as IntlDateTimeFormat,
   DateTimeFormats as IntlDateTimeFormats,
