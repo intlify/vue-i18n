@@ -1135,7 +1135,7 @@ describe('getLocaleMessage / setLocaleMessage / mergeLocaleMessage', () => {
       })
     expect(getLocaleMessage('en')).toEqual({ hello: 'Hello!' })
 
-    setLocaleMessage('en', { hi: { hi: 'Hi!' } })
+    setLocaleMessage<{ hi: { hi: string } }>('en', { hi: { hi: 'Hi!' } })
     expect(getLocaleMessage<{ hi: { hi: string } }>('en')).toEqual({
       hi: { hi: 'Hi!' }
     })
@@ -1179,7 +1179,7 @@ describe('getDateTimeFormat / setDateTimeFormat / mergeDateTimeFormat', () => {
       }
     })
 
-    setDateTimeFormat('en-US', {
+    setDateTimeFormat<{ long: Record<string, string> }>('en-US', {
       long: {
         year: 'numeric',
         month: '2-digit',
@@ -1251,12 +1251,15 @@ describe('getNumberFormat / setNumberFormat / mergeNumberFormat', () => {
       }
     })
 
-    setNumberFormat('en-US', {
-      decimal: {
-        style: 'decimal',
-        useGrouping: false
+    setNumberFormat<{ decimal: { style: string; useGrouping: boolean } }>(
+      'en-US',
+      {
+        decimal: {
+          style: 'decimal',
+          useGrouping: false
+        }
       }
-    })
+    )
     expect(getNumberFormat('en-US')).toEqual({
       decimal: {
         style: 'decimal',
@@ -1373,9 +1376,7 @@ describe('__i18n', () => {
     const options = {
       __i18n: [enResource, jaResource]
     }
-    const { messages } = createComposer(
-      options as ComposerOptions<VueMessageType>
-    )
+    const { messages } = createComposer(options as ComposerOptions)
     expect(messages.value).toEqual({
       en: enResource.resource.en,
       ja: jaResource.resource.ja
@@ -1401,9 +1402,7 @@ describe('__i18n', () => {
     const options = {
       __i18n: [enResource, jaResource]
     }
-    const { messages } = createComposer(
-      options as ComposerOptions<VueMessageType>
-    )
+    const { messages } = createComposer(options as ComposerOptions)
     expect(messages.value).toEqual({
       en: enResource.resource,
       ja: jaResource.resource
