@@ -38,14 +38,14 @@
     "@intlify/core-base": "9.2.0-beta.5",
     "@intlify/shared": "9.2.0-beta.5",
     "@intlify/vue-devtools": "9.2.0-beta.5",
-    "@vue/composition-api": "^1.1.5",
+    "@vue/composition-api": "^1.2.1",
     "@vue/devtools-api": "^6.0.0-beta.13"
   },
   "devDependencies": {
     "@intlify/devtools-if": "9.2.0-beta.5"
   },
   "peerDependencies": {
-    "@vue/composition-api": "^1.1.0"
+    "@vue/composition-api": "^1.2.0"
   },
   "engines": {
     "node": ">= 12"
