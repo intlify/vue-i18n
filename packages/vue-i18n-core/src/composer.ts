@@ -49,7 +49,8 @@ import {
   NumberPartsSymbol,
   EnableEmitter,
   DisableEmitter,
-  SetPluralRulesSymbol
+  SetPluralRulesSymbol,
+  LegacyInstanceSymbol
 } from './symbols'
 import { VERSION } from './misc'
 
@@ -97,6 +98,7 @@ import type {
   IsEmptyObject
 } from '@intlify/core-base'
 import type { VueDevToolsEmitter } from '@intlify/vue-devtools'
+import { isLegacyVueI18n } from './utils'
 
 // extend VNode interface
 declare module '@vue/runtime-core' {
@@ -1839,7 +1841,10 @@ export function createComposer<
   NumberFormats = Options['numberFormats'] extends object
     ? Options['numberFormats']
     : {}
->(options: Options): Composer<Messages, DateTimeFormats, NumberFormats>
+>(
+  options: Options,
+  VueI18nLegacy?: any
+): Composer<Messages, DateTimeFormats, NumberFormats>
 
 export function createComposer<
   Schema extends object = DefaultLocaleMessageSchema,
@@ -1858,14 +1863,18 @@ export function createComposer<
   NumberFormats = Options['numberFormats'] extends object
     ? Options['numberFormats']
     : {}
->(options: Options): Composer<Messages, DateTimeFormats, NumberFormats>
+>(
+  options: Options,
+  VueI18nLegacy?: any
+): Composer<Messages, DateTimeFormats, NumberFormats>
 
 /**
  * Create composer interface factory
  *
  * @internal
  */
-export function createComposer(options: any = {}): any {
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+export function createComposer(options: any = {}, VueI18nLegacy?: any): any {
   type Message = VueMessageType
   const { __root } = options as ComposerInternalOptions<
     LocaleMessages<LocaleMessage<Message>>,
@@ -1977,6 +1986,43 @@ export function createComposer(options: any = {}): any {
   // pluralRules
   let _pluralRules = options.pluralRules || (__root && __root.pluralRules)
 
+  // for bridge
+  let __legacy: any
+  if (__BRIDGE__) {
+    if (!isLegacyVueI18n(VueI18nLegacy)) {
+      createI18nError(I18nErrorCodes.NOT_COMPATIBLE_LEGACY_VUE_I18N)
+    }
+    const legacyOptions = {
+      locale: _locale.value,
+      fallbackLocale: _fallbackLocale.value,
+      messages: _messages.value,
+      dateTimeFormats: _datetimeFormats.value,
+      numberFormats: _numberFormats.value,
+      modifiers: _modifiers,
+      missing: _missing,
+      fallbackRoot: _fallbackRoot,
+      postTranslation: _postTranslation,
+      pluralizationRules: _pluralRules,
+      escapeParameterHtml: _escapeParameter,
+      sync: _inheritLocale,
+      silentFallbackWarn: isBoolean(_fallbackWarn)
+        ? !_fallbackWarn
+        : _fallbackWarn,
+      silentTranslationWarn: isBoolean(_missingWarn)
+        ? !_missingWarn
+        : _missingWarn,
+      formatFallbackMessages: isBoolean(_fallbackFormat)
+        ? !_fallbackFormat
+        : _fallbackFormat,
+      warnHtmlInMessage: isBoolean(_warnHtmlMessage)
+        ? _warnHtmlMessage
+          ? 'warn'
+          : 'off'
+        : 'off'
+    }
+    __legacy = new VueI18nLegacy(legacyOptions)
+  }
+
   // runtime context
   // eslint-disable-next-line prefer-const
   let _context: CoreContext
@@ -2039,6 +2085,11 @@ export function createComposer(options: any = {}): any {
     get: () => _locale.value,
     set: val => {
       _locale.value = val
+      if (__BRIDGE__) {
+        if (__legacy) {
+          __legacy.locale = val
+        }
+      }
       _context.locale = _locale.value
     }
   })
@@ -2048,6 +2099,11 @@ export function createComposer(options: any = {}): any {
     get: () => _fallbackLocale.value,
     set: val => {
       _fallbackLocale.value = val
+      if (__BRIDGE__) {
+        if (__legacy) {
+          __legacy.fallbackLocale = val
+        }
+      }
       _context.fallbackLocale = _fallbackLocale.value
       updateFallbackLocale(_context, _locale.value, val)
     }
@@ -2331,6 +2387,9 @@ export function createComposer(options: any = {}): any {
   // setLocaleMessage
   function setLocaleMessage(locale: Locale, message: LocaleMessage<Message>) {
     _messages.value[locale] = message
+    if (__BRIDGE__) {
+      __legacy && __legacy.setLocaleMessage(locale, message)
+    }
     _context.messages = _messages.value as typeof _context.messages
   }
 
@@ -2340,6 +2399,9 @@ export function createComposer(options: any = {}): any {
     message: LocaleMessageDictionary<Message>
   ): void {
     _messages.value[locale] = _messages.value[locale] || {}
+    if (__BRIDGE__) {
+      __legacy && __legacy.mergeLocaleMessage(locale, message)
+    }
     deepCopy(message, _messages.value[locale])
     _context.messages = _messages.value as typeof _context.messages
   }
@@ -2352,6 +2414,9 @@ export function createComposer(options: any = {}): any {
   // setDateTimeFormat
   function setDateTimeFormat(locale: Locale, format: DateTimeFormat): void {
     _datetimeFormats.value[locale] = format
+    if (__BRIDGE__) {
+      __legacy && __legacy.setDateTimeFormat(locale, format)
+    }
     _context.datetimeFormats = _datetimeFormats.value
     clearDateTimeFormat(_context, locale, format)
   }
@@ -2362,6 +2427,9 @@ export function createComposer(options: any = {}): any {
       _datetimeFormats.value[locale] || {},
       format
     )
+    if (__BRIDGE__) {
+      __legacy && __legacy.mergeDateTimeFormat(locale, format)
+    }
     _context.datetimeFormats = _datetimeFormats.value
     clearDateTimeFormat(_context, locale, format)
   }
@@ -2374,6 +2442,9 @@ export function createComposer(options: any = {}): any {
   // setNumberFormat
   function setNumberFormat(locale: Locale, format: NumberFormat): void {
     _numberFormats.value[locale] = format
+    if (__BRIDGE__) {
+      __legacy && __legacy.setNumberFormat(locale, format)
+    }
     _context.numberFormats = _numberFormats.value
     clearNumberFormat(_context, locale, format)
   }
@@ -2384,6 +2455,9 @@ export function createComposer(options: any = {}): any {
       _numberFormats.value[locale] || {},
       format
     )
+    if (__BRIDGE__) {
+      __legacy && __legacy.mergeNumberFormat(locale, format)
+    }
     _context.numberFormats = _numberFormats.value
     clearNumberFormat(_context, locale, format)
   }
@@ -2396,6 +2470,11 @@ export function createComposer(options: any = {}): any {
     watch(__root.locale, (val: Locale) => {
       if (_inheritLocale) {
         _locale.value = val
+        if (__BRIDGE__) {
+          if (__legacy) {
+            __legacy.locale = val
+          }
+        }
         _context.locale = val
         updateFallbackLocale(_context, _locale.value, _fallbackLocale.value)
       }
@@ -2403,6 +2482,11 @@ export function createComposer(options: any = {}): any {
     watch(__root.fallbackLocale, (val: FallbackLocale) => {
       if (_inheritLocale) {
         _fallbackLocale.value = val
+        if (__BRIDGE__) {
+          if (__legacy) {
+            __legacy.locale = val
+          }
+        }
         _context.fallbackLocale = val
         updateFallbackLocale(_context, _locale.value, _fallbackLocale.value)
       }
@@ -2423,6 +2507,11 @@ export function createComposer(options: any = {}): any {
         _locale.value = __root.locale.value as Locale
         _fallbackLocale.value = __root.fallbackLocale.value
         updateFallbackLocale(_context, _locale.value, _fallbackLocale.value)
+      }
+      if (__BRIDGE__) {
+        if (__legacy) {
+          __legacy._sync = val
+        }
       }
     },
     get availableLocales(): Locale[] {
@@ -2509,6 +2598,9 @@ export function createComposer(options: any = {}): any {
       ;(composer as any)[NumberPartsSymbol] = numberParts
       ;(composer as any)[DatetimePartsSymbol] = datetimeParts
     }
+  }
+  if (__BRIDGE__) {
+    ;(composer as any)[LegacyInstanceSymbol] = __legacy
   }
 
   // for vue-devtools timeline event

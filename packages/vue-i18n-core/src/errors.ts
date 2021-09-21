@@ -28,8 +28,10 @@ export const I18nErrorCodes = {
   NOT_INSLALLED_WITH_PROVIDE: inc(), // 23
   // unexpected error
   UNEXPECTED_ERROR: inc(), // 24
+  // not compatible legacy vue-i18n constructor
+  NOT_COMPATIBLE_LEGACY_VUE_I18N: inc(), // 25
   // for enhancement
-  __EXTEND_POINT__: inc() // 25
+  __EXTEND_POINT__: inc() // 26
 } as const
 
 type I18nErrorCodes = typeof I18nErrorCodes[keyof typeof I18nErrorCodes]
@@ -57,5 +59,7 @@ export const errorMessages: { [code: number]: string } = {
   [I18nErrorCodes.INVALID_VALUE]: `Invalid value`,
   [I18nErrorCodes.CANNOT_SETUP_VUE_DEVTOOLS_PLUGIN]: `Cannot setup vue-devtools plugin`,
   [I18nErrorCodes.NOT_INSLALLED_WITH_PROVIDE]:
-    'Need to install with `provide` function'
+    'Need to install with `provide` function',
+  [I18nErrorCodes.NOT_COMPATIBLE_LEGACY_VUE_I18N]:
+    'Not compatible legacy VueI18n.'
 }

@@ -112,7 +112,7 @@ function createConfig(format, output, plugins = []) {
   if (isGlobalBuild) {
     output.name = packageOptions.name
     if (isBridge) {
-      output.globals = { '@vue/composition-api': 'CompositionApi' }
+      output.globals = { '@vue/composition-api': 'VueCompositionAPI' }
     }
   }
 
