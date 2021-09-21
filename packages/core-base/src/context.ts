@@ -461,7 +461,7 @@ export function createCoreContext<Message = string>(options: any = {}): any {
   }
 
   // for vue-devtools timeline event
-  if (__DEV__) {
+  if (!__BRIDGE__ && __DEV__) {
     ;(context as unknown as CoreInternalContext).__v_emitter =
       internalOptions.__v_emitter != null
         ? internalOptions.__v_emitter
@@ -503,7 +503,7 @@ export function handleMissing<Message = string>(
   const { missing, onWarn } = context
 
   // for vue-devtools timeline event
-  if (__DEV__) {
+  if (!__BRIDGE__ && __DEV__) {
     const emitter = (context as unknown as CoreInternalContext).__v_emitter
     if (emitter) {
       emitter.emit(VueDevToolsTimelineEvents.MISSING, {

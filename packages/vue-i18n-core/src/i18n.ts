@@ -422,26 +422,32 @@ export function createI18n(options: any = {}): any {
     },
     // install plugin
     async install(app: App, ...options: unknown[]): Promise<void> {
-      if ((__DEV__ || __FEATURE_PROD_VUE_DEVTOOLS__) && !__NODE_JS__) {
+      if (
+        !__BRIDGE__ &&
+        (__DEV__ || __FEATURE_PROD_VUE_DEVTOOLS__) &&
+        !__NODE_JS__
+      ) {
         app.__VUE_I18N__ = i18n as unknown as _I18n
       }
 
       // setup global provider
-      app.__VUE_I18N_SYMBOL__ = symbol
-      app.provide(app.__VUE_I18N_SYMBOL__, i18n as unknown as I18n)
+      if (!__BRIDGE__) {
+        app.__VUE_I18N_SYMBOL__ = symbol
+        app.provide(app.__VUE_I18N_SYMBOL__, i18n as unknown as I18n)
+      }
 
       // global method and properties injection for Composition API
-      if (!__legacyMode && __globalInjection) {
+      if (!__BRIDGE__ && !__legacyMode && __globalInjection) {
         injectGlobalFields(app, i18n.global as Composer)
       }
 
       // install built-in components and directive
-      if (!__LITE__ && __FEATURE_FULL_INSTALL__) {
+      if (!__BRIDGE__ && !__LITE__ && __FEATURE_FULL_INSTALL__) {
         apply(app, i18n as I18n, ...options)
       }
 
       // setup mixin for Legacy API
-      if (!__LITE__ && __FEATURE_LEGACY_API__ && __legacyMode) {
+      if (!__BRIDGE__ && !__LITE__ && __FEATURE_LEGACY_API__ && __legacyMode) {
         app.mixin(
           defineMixin(
             __global as unknown as VueI18n,
@@ -452,7 +458,11 @@ export function createI18n(options: any = {}): any {
       }
 
       // setup vue-devtools plugin
-      if ((__DEV__ || __FEATURE_PROD_VUE_DEVTOOLS__) && !__NODE_JS__) {
+      if (
+        !__BRIDGE__ &&
+        (__DEV__ || __FEATURE_PROD_VUE_DEVTOOLS__) &&
+        !__NODE_JS__
+      ) {
         const ret = await enableDevTools(app, i18n as _I18n)
         if (!ret) {
           throw createI18nError(I18nErrorCodes.CANNOT_SETUP_VUE_DEVTOOLS_PLUGIN)
@@ -762,6 +772,7 @@ function setupLifeCycle(
   onMounted(() => {
     // inject composer instance to DOM for intlify-devtools
     if (
+      !__BRIDGE__ &&
       (__DEV__ || __FEATURE_PROD_VUE_DEVTOOLS__) &&
       !__NODE_JS__ &&
       target.vnode.el
@@ -778,6 +789,7 @@ function setupLifeCycle(
   onUnmounted(() => {
     // remove composer instance from DOM for intlify-devtools
     if (
+      !__BRIDGE__ &&
       (__DEV__ || __FEATURE_PROD_VUE_DEVTOOLS__) &&
       !__NODE_JS__ &&
       target.vnode.el &&

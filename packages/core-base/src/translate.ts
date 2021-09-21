@@ -554,7 +554,7 @@ function resolveMessageFormat<Messages, Message>(
     }
 
     // for vue-devtools timeline event
-    if (__DEV__ && locale !== targetLocale) {
+    if (!__BRIDGE__ && __DEV__ && locale !== targetLocale) {
       const emitter = (context as unknown as CoreInternalContext).__v_emitter
       if (emitter) {
         emitter.emit(VueDevToolsTimelineEvents.FALBACK, {
@@ -587,7 +587,7 @@ function resolveMessageFormat<Messages, Message>(
     }
 
     // for vue-devtools timeline event
-    if (__DEV__ && inBrowser) {
+    if (!__BRIDGE__ && __DEV__ && inBrowser) {
       const end = window.performance.now()
       const emitter = (context as unknown as CoreInternalContext).__v_emitter
       if (emitter && start && format) {
@@ -663,7 +663,7 @@ function compileMessageFormat<Messages, Message>(
   ) as MessageFunctionInternal
 
   // for vue-devtools timeline event
-  if (__DEV__ && inBrowser) {
+  if (!__BRIDGE__ && __DEV__ && inBrowser) {
     const end = window.performance.now()
     const emitter = (context as unknown as CoreInternalContext).__v_emitter
     if (emitter && start) {
@@ -706,7 +706,7 @@ function evaluateMessage<Messages, Message>(
   const messaged = msg(msgCtx)
 
   // for vue-devtools timeline event
-  if (__DEV__ && inBrowser) {
+  if (!__BRIDGE__ && __DEV__ && inBrowser) {
     const end = window.performance.now()
     const emitter = (context as unknown as CoreInternalContext).__v_emitter
     if (emitter && start) {
@@ -777,7 +777,7 @@ function getCompileOptions<Messages, Message>(
     warnHtmlMessage,
     onError: (err: CompileError): void => {
       errorDetector && errorDetector(err)
-      if (__DEV__) {
+      if (!__BRIDGE__ && __DEV__) {
         const message = `Message compilation error: ${err.message}`
         const codeFrame =
           err.location &&

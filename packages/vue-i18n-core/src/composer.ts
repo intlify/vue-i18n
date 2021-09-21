@@ -2010,7 +2010,7 @@ export function createComposer(options: any = {}): any {
         ? (_context as unknown as CoreInternalContext).__numberFormatters
         : undefined
     }
-    if (__DEV__) {
+    if (!__BRIDGE__ && __DEV__) {
       ;(ctxOptions as any).__v_emitter = isPlainObject(_context)
         ? (_context as unknown as CoreInternalContext).__v_emitter
         : undefined
@@ -2144,7 +2144,7 @@ export function createComposer(options: any = {}): any {
           )
         }
         // for vue-devtools timeline event
-        if (__DEV__) {
+        if (!__BRIDGE__ && __DEV__) {
           const { __v_emitter: emitter } =
             _context as unknown as CoreInternalContext
           if (emitter && _fallbackRoot) {
@@ -2504,13 +2504,15 @@ export function createComposer(options: any = {}): any {
     ;(composer as any).getNumberFormat = getNumberFormat
     ;(composer as any).setNumberFormat = setNumberFormat
     ;(composer as any).mergeNumberFormat = mergeNumberFormat
-    ;(composer as any)[TransrateVNodeSymbol] = transrateVNode
-    ;(composer as any)[NumberPartsSymbol] = numberParts
-    ;(composer as any)[DatetimePartsSymbol] = datetimeParts
+    if (!__BRIDGE__) {
+      ;(composer as any)[TransrateVNodeSymbol] = transrateVNode
+      ;(composer as any)[NumberPartsSymbol] = numberParts
+      ;(composer as any)[DatetimePartsSymbol] = datetimeParts
+    }
   }
 
   // for vue-devtools timeline event
-  if (__DEV__) {
+  if (!__BRIDGE__ && __DEV__) {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     ;(composer as any)[EnableEmitter] = (emitter: VueDevToolsEmitter): void => {
       ;(_context as unknown as CoreInternalContext).__v_emitter = emitter

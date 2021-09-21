@@ -1768,7 +1768,7 @@ export function createVueI18n(options: any = {}): any {
   }
 
   // for vue-devtools timeline event
-  if (__DEV__) {
+  if (!__BRIDGE__ && __DEV__) {
     ;(vueI18n as unknown as VueI18nInternal).__enableEmitter = (
       emitter: VueDevToolsEmitter
     ): void => {
