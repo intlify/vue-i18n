@@ -24,6 +24,7 @@ import { EnableEmitter, DisableEmitter, LegacyInstanceSymbol } from './symbols'
 import { apply } from './plugin'
 import { defineMixin } from './mixin'
 import { enableDevTools, addTimelineEvent } from './devtools'
+import { isLegacyVueI18n } from './utils'
 
 import type { ComponentInternalInstance, App } from 'vue'
 import type {
@@ -419,10 +420,7 @@ export function createI18n(options: any = {}, VueI18nLegacy?: any): any {
       : __FEATURE_LEGACY_API__
   const __globalInjection = /* #__PURE__*/ !!options.globalInjection
   const __instances = new Map<ComponentInternalInstance, VueI18n | Composer>()
-  // prettier-ignore
-  const __global = !__LITE__ && __FEATURE_LEGACY_API__ && __legacyMode
-    ? createVueI18n(options, VueI18nLegacy)
-    : createComposer(options, VueI18nLegacy)
+  const __global = createGlobal(options, __legacyMode, VueI18nLegacy)
   const symbol: InjectionKey<I18n> | string = /* #__PURE__*/ makeSymbol(
     __DEV__ ? 'vue-i18n' : ''
   )
@@ -534,9 +532,7 @@ export function createI18n(options: any = {}, VueI18nLegacy?: any): any {
   } else {
     // extend legacy VueI18n instance
 
-    const i18n = __legacyMode
-      ? __global
-      : (__global as any)[LegacyInstanceSymbol] // eslint-disable-line @typescript-eslint/no-explicit-any
+    const i18n = (__global as any)[LegacyInstanceSymbol] // eslint-disable-line @typescript-eslint/no-explicit-any
     Object.defineProperty(i18n, 'global', {
       get() {
         return __global
@@ -738,6 +734,23 @@ export function useI18n<
   >
 }
 
+function createGlobal(
+  options: I18nOptions,
+  legacyMode: boolean,
+  VueI18nLegacy: any // eslint-disable-line @typescript-eslint/no-explicit-any
+): VueI18n | Composer {
+  if (!__BRIDGE__) {
+    return !__LITE__ && __FEATURE_LEGACY_API__ && legacyMode
+      ? createVueI18n(options, VueI18nLegacy)
+      : createComposer(options, VueI18nLegacy)
+  } else {
+    if (!isLegacyVueI18n(VueI18nLegacy)) {
+      throw createI18nError(I18nErrorCodes.NOT_COMPATIBLE_LEGACY_VUE_I18N)
+    }
+    return createComposer(options, VueI18nLegacy)
+  }
+}
+
 function getI18nInstance(instance: ComponentInternalInstance): I18n {
   if (!__BRIDGE__) {
     const i18n = inject(
@@ -777,9 +790,12 @@ function getScope(options: UseI18nOptions, componentOptions: any): I18nScope {
 }
 
 function getGlobalComposer(i18n: I18n): Composer {
-  return i18n.mode === 'composition'
-    ? (i18n.global as unknown as Composer)
-    : (i18n.global as unknown as VueI18nInternal).__composer
+  // prettier-ignore
+  return !__BRIDGE__
+    ? i18n.mode === 'composition'
+      ? (i18n.global as unknown as Composer)
+      : (i18n.global as unknown as VueI18nInternal).__composer
+    : (i18n.global as unknown as Composer)
 }
 
 function adjustI18nResources(
