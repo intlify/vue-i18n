@@ -22,7 +22,8 @@ import { I18nWarnCodes, getWarnMessage } from './warnings'
 import { I18nErrorCodes, createI18nError } from './errors'
 import { EnableEmitter, DisableEmitter, LegacyInstanceSymbol } from './symbols'
 import { apply } from './plugin'
-import { defineMixin } from './mixin'
+import { defineMixin as defineMixinNext } from './mixins/next'
+import { defineMixin as defineMixinBridge } from './mixins/bridge'
 import { enableDevTools, addTimelineEvent } from './devtools'
 import { isLegacyVueI18n } from './utils'
 
@@ -482,7 +483,7 @@ export function createI18n(options: any = {}, VueI18nLegacy?: any): any {
           __legacyMode
         ) {
           app.mixin(
-            defineMixin(
+            defineMixinNext(
               __global as unknown as VueI18n,
               (__global as unknown as VueI18nInternal).__composer as Composer,
               i18n as unknown as I18nInternal
@@ -546,6 +547,17 @@ export function createI18n(options: any = {}, VueI18nLegacy?: any): any {
     Object.defineProperty(i18n, '__instances', {
       get() {
         return __instances
+      }
+    })
+    Object.defineProperty(i18n, 'install', {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      value: (Vue: any) => {
+        const version =
+          (Vue && Vue.version && Number(Vue.version.split('.')[0])) || -1
+        if (version !== 2) {
+          throw createI18nError(I18nErrorCodes.BRIDGE_SUPPORT_VUE_2_ONLY)
+        }
+        Vue.mixin(defineMixinBridge(i18n, _legacyVueI18n))
       }
     })
     const methodMap = {
@@ -768,7 +780,18 @@ function getI18nInstance(instance: ComponentInternalInstance): I18n {
     }
     return i18n
   } else {
-    return _legacyI18n!
+    const vm = instance.proxy
+    /* istanbul ignore if */
+    if (vm == null) {
+      throw createI18nError(I18nErrorCodes.UNEXPECTED_ERROR)
+    }
+    const i18n = (vm as any)._i18nBridgeRoot // eslint-disable-line @typescript-eslint/no-explicit-any
+    /* istanbul ignore if */
+    if (!i18n) {
+      throw createI18nError(I18nErrorCodes.NOT_INSLALLED)
+    }
+    console.log('getIntance', vm, i18n)
+    return i18n as I18n
   }
 }
 

@@ -170,7 +170,7 @@ function createConfig(format, output, plugins = []) {
     const replacingPaths = [
       path.resolve(__dirname, './packages/vue-i18n-core/src/composer.ts'),
       path.resolve(__dirname, './packages/vue-i18n-core/src/i18n.ts'),
-      path.resolve(__dirname, './packages/vue-i18n-core/src/mixin.ts'),
+      path.resolve(__dirname, './packages/vue-i18n-core/src/mixins/next.ts'),
       path.resolve(
         __dirname,
         './packages/vue-i18n-core/src/components/NumberFormat.ts'

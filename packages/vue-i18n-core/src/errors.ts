@@ -30,8 +30,10 @@ export const I18nErrorCodes = {
   UNEXPECTED_ERROR: inc(), // 24
   // not compatible legacy vue-i18n constructor
   NOT_COMPATIBLE_LEGACY_VUE_I18N: inc(), // 25
+  // bridge support vue 2.x only
+  BRIDGE_SUPPORT_VUE_2_ONLY: inc(), // 26
   // for enhancement
-  __EXTEND_POINT__: inc() // 26
+  __EXTEND_POINT__: inc() // 27
 } as const
 
 type I18nErrorCodes = typeof I18nErrorCodes[keyof typeof I18nErrorCodes]
@@ -61,5 +63,7 @@ export const errorMessages: { [code: number]: string } = {
   [I18nErrorCodes.NOT_INSLALLED_WITH_PROVIDE]:
     'Need to install with `provide` function',
   [I18nErrorCodes.NOT_COMPATIBLE_LEGACY_VUE_I18N]:
-    'Not compatible legacy VueI18n.'
+    'Not compatible legacy VueI18n.',
+  [I18nErrorCodes.BRIDGE_SUPPORT_VUE_2_ONLY]:
+    'vue-i18n-bridge support Vue 2.x only'
 }
