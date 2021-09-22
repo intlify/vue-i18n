@@ -1,9 +1,9 @@
 import { getCurrentInstance, nextTick } from 'vue'
-import { getLocaleMessages } from '../composer'
 import { createVueI18n } from '../legacy'
 import { createI18nError, I18nErrorCodes } from '../errors'
 import { SetPluralRulesSymbol } from '../symbols'
 import { addTimelineEvent } from '../devtools'
+import { getLocaleMessages } from '../utils'
 import { createEmitter } from '@intlify/shared'
 
 import type { ComponentOptions } from 'vue'

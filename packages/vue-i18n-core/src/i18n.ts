@@ -16,7 +16,7 @@ import {
   createEmitter,
   assign
 } from '@intlify/shared'
-import { getLocaleMessages, createComposer } from './composer'
+import { createComposer } from './composer'
 import { createVueI18n } from './legacy'
 import { I18nWarnCodes, getWarnMessage } from './warnings'
 import { I18nErrorCodes, createI18nError } from './errors'
@@ -25,7 +25,7 @@ import { apply } from './plugin'
 import { defineMixin as defineMixinNext } from './mixins/next'
 import { defineMixin as defineMixinBridge } from './mixins/bridge'
 import { enableDevTools, addTimelineEvent } from './devtools'
-import { isLegacyVueI18n } from './utils'
+import { isLegacyVueI18n, getLocaleMessages } from './utils'
 
 import type { ComponentInternalInstance, App } from 'vue'
 import type {

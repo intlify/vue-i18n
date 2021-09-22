@@ -1,5 +1,5 @@
 import { isPlainObject, warn } from '@intlify/shared'
-import { merge } from '../utils'
+import { deepCopy } from '../utils'
 
 import type { ComponentOptions } from 'vue'
 import type { Locale } from '@intlify/core-base'
@@ -32,13 +32,13 @@ export function defineMixin(
           // init locale messages via custom blocks
           if (options.__i18n) {
             try {
-              let localeMessages =
+              const localeMessages =
                 options.i18n && options.i18n.messages
                   ? options.i18n.messages
                   : {}
-              ;(options.__i18n as string[]).forEach(resource => {
-                localeMessages = merge(localeMessages, JSON.parse(resource))
-              })
+              ;(options.__i18n as string[]).forEach(resource =>
+                deepCopy(localeMessages, JSON.parse(resource))
+              )
               Object.keys(localeMessages).forEach((locale: Locale) => {
                 options.i18n.mergeLocaleMessage(locale, localeMessages[locale])
               })
@@ -77,13 +77,13 @@ export function defineMixin(
           // init locale messages via custom blocks
           if (options.__i18n) {
             try {
-              let localeMessages =
+              const localeMessages =
                 options.i18n && options.i18n.messages
                   ? options.i18n.messages
                   : {}
-              ;(options.__i18n as string[]).forEach(resource => {
-                localeMessages = merge(localeMessages, JSON.parse(resource))
-              })
+              ;(options.__i18n as string[]).forEach(resource =>
+                deepCopy(localeMessages, JSON.parse(resource))
+              )
               options.i18n.messages = localeMessages
             } catch (e) {
               if (__DEV__) {
@@ -94,7 +94,7 @@ export function defineMixin(
 
           const { sharedMessages } = options.i18n
           if (sharedMessages && isPlainObject(sharedMessages)) {
-            options.i18n.messages = merge(options.i18n.messages, sharedMessages)
+            deepCopy(options.i18n.messages, sharedMessages)
           }
 
           this._i18n = new VueI18n(options.i18n)
