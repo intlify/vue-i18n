@@ -790,7 +790,6 @@ function getI18nInstance(instance: ComponentInternalInstance): I18n {
     if (!i18n) {
       throw createI18nError(I18nErrorCodes.NOT_INSLALLED)
     }
-    console.log('getIntance', vm, i18n)
     return i18n as I18n
   }
 }

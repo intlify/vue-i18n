@@ -2370,7 +2370,7 @@ export function createComposer(options: any = {}, VueI18nLegacy?: any): any {
         _fallbackLocale.value = val
         if (__BRIDGE__) {
           if (__legacy) {
-            __legacy.locale = val
+            __legacy.fallbackLocale = val
           }
         }
         _context.fallbackLocale = val
@@ -2389,15 +2389,21 @@ export function createComposer(options: any = {}, VueI18nLegacy?: any): any {
     },
     set inheritLocale(val: boolean) {
       _inheritLocale = val
-      if (val && __root) {
-        _locale.value = __root.locale.value as Locale
-        _fallbackLocale.value = __root.fallbackLocale.value
-        updateFallbackLocale(_context, _locale.value, _fallbackLocale.value)
-      }
       if (__BRIDGE__) {
         if (__legacy) {
           __legacy._sync = val
         }
+      }
+      if (val && __root) {
+        _locale.value = __root.locale.value as Locale
+        _fallbackLocale.value = __root.fallbackLocale.value
+        if (__BRIDGE__) {
+          if (__legacy) {
+            __legacy.locale = __root.locale.value as Locale
+            __legacy.fallbackLocale = __root.fallbackLocale.value
+          }
+        }
+        updateFallbackLocale(_context, _locale.value, _fallbackLocale.value)
       }
     },
     get availableLocales(): Locale[] {
