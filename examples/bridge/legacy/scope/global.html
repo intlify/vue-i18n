@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Global scope example</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+    <script src="https://unpkg.com/vue-i18n@8/dist/vue-i18n.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@vue/composition-api@1.2.1"></script>
+    <script src="../../../../packages/vue-i18n-bridge/dist/vue-i18n-bridge.global.js"></script>
+  </head>
+  <body>
+    <div id="app">
+      <h1>Root</h1>
+      <form>
+        <label for="locale-select">{{ $t('message.language') }}</label>
+        <select id="locale-select" v-model="$i18n.locale">
+          <option value="en">en</option>
+          <option value="ja">ja</option>
+        </select>
+      </form>
+      <p>{{ $t('message.hello') }}</p>
+      <Child />
+    </div>
+    <script>
+      const { createI18n } = VueI18nBridge
+
+      Vue.use(VueCompositionAPI)
+      Vue.use(VueI18n, { bridge: true })
+
+      const SlotChild = {
+        template: `
+          <p><slot/></p>
+        `
+      }
+
+      const SubChild = {
+        template: `
+          <div class="sub-child">
+            <h1>Sub Child</h1>
+            <form>
+              <label>{{ $t('message.language') }}</label>
+              <select v-model="$i18n.locale">
+                <option value="en">en</option>
+                <option value="ja">ja</option>
+              </select>
+            </form>
+            <p>{{ $t('message.hi') }}</p>
+          </div>
+        `
+      }
+
+      const Child = {
+        components: {
+          SubChild,
+          SlotChild
+        },
+        template: `
+          <div class="child">
+            <h1>Child</h1>
+            <form>
+              <label>{{ $t('message.language') }}</label>
+              <select v-model="$i18n.locale">
+                <option value="en">en</option>
+                <option value="ja">ja</option>
+              </select>
+            </form>
+            <p>{{ $t('message.hi') }}</p>
+            <SubChild />
+            $t inside of slot
+            <SlotChild>
+              {{ $t('message.hi') }}
+            </SlotChild>
+            i18n-t inside of slot
+            <SlotChild>
+              <i18n path='message.hi'/>
+            </SlotChild>
+          </div>
+        `
+      }
+
+      const i18n = createI18n(
+        {
+          legacy: true,
+          locale: 'ja',
+          messages: {
+            en: {
+              message: {
+                language: 'Language',
+                hello: 'hello world!',
+                hi: 'Hi !'
+              }
+            },
+            ja: {
+              message: {
+                language: '言語',
+                hello: 'こんにちは、世界！',
+                hi: 'こんにちは！'
+              }
+            }
+          }
+        },
+        VueI18n
+      )
+
+      Vue.use(i18n)
+
+      const app = new Vue({ i18n, components: { Child } })
+      app.$mount('#app')
+    </script>
+  </body>
+</html>

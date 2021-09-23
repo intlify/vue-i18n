@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Translation component example</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+    <script src="https://unpkg.com/vue-i18n@8/dist/vue-i18n.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@vue/composition-api@1.2.1"></script>
+    <script src="../../../packages/vue-i18n-bridge/dist/vue-i18n-bridge.global.js"></script>
+  </head>
+  <body>
+    <div id="app">
+      <h2>Translation component</h2>
+      <i18n tag="p" class="name" path="message.named">
+        <template #name>
+          <span>{{ t('message.kazupon') }}</span>
+        </template>
+      </i18n>
+    </div>
+    <script>
+      const { createApp } = VueCompositionAPI
+      const { createI18n, useI18n } = VueI18nBridge
+
+      Vue.use(VueCompositionAPI)
+      Vue.use(VueI18n, { bridge: true })
+
+      const i18n = createI18n(
+        {
+          legacy: false,
+          locale: 'ja',
+          messages: {
+            en: {
+              message: {
+                named: 'hello, {name}!',
+                kazupon: 'kazupon'
+              }
+            },
+            ja: {
+              message: {
+                named: 'こんにちは、{name}！',
+                kazupon: 'かずぽん'
+              }
+            }
+          }
+        },
+        VueI18n
+      )
+
+      const app = createApp({
+        setup() {
+          const { t } = useI18n()
+          return { t }
+        }
+      })
+      app.use(i18n)
+      app.mount('#app')
+    </script>
+  </body>
+</html>
