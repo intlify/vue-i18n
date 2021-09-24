@@ -207,8 +207,8 @@ const config = {
                   link: '/guide/migration/features'
                 },
                 {
-                  text: 'Composition API for Vue 2',
-                  link: '/guide/migration/composition'
+                  text: 'Migration ways',
+                  link: '/guide/migration/ways'
                 }
               ]
             },
@@ -382,8 +382,8 @@ const config = {
                   link: '/ja/guide/migration/features'
                 },
                 {
-                  text: 'Composition API for Vue 2',
-                  link: '/ja/guide/migration/composition'
+                  text: 'Migration ways',
+                  link: '/ja/guide/migration/ways'
                 }
               ]
             },

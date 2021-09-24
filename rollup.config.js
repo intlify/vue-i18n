@@ -107,9 +107,13 @@ function createConfig(format, output, plugins = []) {
   const isGlobalBuild = /global/.test(format)
   const isRuntimeOnlyBuild = /runtime/.test(format)
   const isLite = /petite-vue-i18n/.test(name)
+  const isBridge = /vue-i18n-bridge/.test(name)
 
   if (isGlobalBuild) {
     output.name = packageOptions.name
+    if (isBridge) {
+      output.globals = { '@vue/composition-api': 'VueCompositionAPI' }
+    }
   }
 
   const shouldEmitDeclarations = process.env.TYPES != null && !hasTSChecked
@@ -145,6 +149,9 @@ function createConfig(format, output, plugins = []) {
           ...Object.keys(pkg.dependencies || {}),
           ...Object.keys(pkg.peerDependencies || {})
         ]
+  if (isBridge) {
+    external.push('@vue/composition-api')
+  }
 
   const nodePlugins =
     // packageOptions.enableNonBrowserBranches && format !== 'cjs'
@@ -159,7 +166,37 @@ function createConfig(format, output, plugins = []) {
         ]
       : []
 
-  // const nodePlugins = [resolve(), commonjs()]
+  if (isBridge) {
+    const replacingPaths = [
+      path.resolve(__dirname, './packages/vue-i18n-core/src/composer.ts'),
+      path.resolve(__dirname, './packages/vue-i18n-core/src/i18n.ts'),
+      path.resolve(__dirname, './packages/vue-i18n-core/src/mixins/next.ts'),
+      path.resolve(
+        __dirname,
+        './packages/vue-i18n-core/src/components/NumberFormat.ts'
+      ),
+      path.resolve(
+        __dirname,
+        './packages/vue-i18n-core/src/components/DatetimeFormat.ts'
+      ),
+      path.resolve(
+        __dirname,
+        './packages/vue-i18n-core/src/components/formatRenderer.ts'
+      ),
+      path.resolve(
+        __dirname,
+        './packages/vue-i18n-core/src/components/Translation.ts'
+      )
+    ]
+    plugins.push({
+      transform(source, id) {
+        if (replacingPaths.some(p => p === id)) {
+          return source.replace(`from 'vue'`, `from '@vue/composition-api'`)
+        }
+        return source
+      }
+    })
+  }
 
   return {
     input: resolve(entryFile),
@@ -182,6 +219,7 @@ function createConfig(format, output, plugins = []) {
         isNodeBuild,
         isRuntimeOnlyBuild,
         isLite,
+        isBridge,
         path.parse(output.file).base || ''
       ),
       ...nodePlugins,
@@ -208,6 +246,7 @@ function createReplacePlugin(
   isNodeBuild,
   isRuntimeOnlyBuild,
   isLite,
+  isBridge,
   bundleFilename
 ) {
   const replacements = {
@@ -233,6 +272,8 @@ function createReplacePlugin(
     __NODE_JS__: isNodeBuild,
     // for lite version
     __LITE__: isLite,
+    // for bridge version
+    __BRIDGE__: isBridge,
     // feature flags
     __FEATURE_FULL_INSTALL__: isBundlerESMBuild
       ? `__VUE_I18N_FULL_INSTALL__`

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>plural basic usage examples</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+    <script src="https://unpkg.com/vue-i18n@8/dist/vue-i18n.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@vue/composition-api@1.2.1"></script>
+    <script src="../../../packages/vue-i18n-bridge/dist/vue-i18n-bridge.global.js"></script>
+  </head>
+  <body>
+    <div id="app">
+      <h2>Car:</h2>
+      <p>{{ $tc('car', 1) }}</p>
+      <p>{{ $tc('car', 2) }}</p>
+      <h2>Apple:</h2>
+      <p>{{ $tc('apple', 0) }}</p>
+      <p>{{ $tc('apple', 1) }}</p>
+      <p>{{ $tc('apple', 10, { count: 10 }) }}</p>
+      <p>{{ $tc('apple', 10) }}</p>
+      <h2>Banana:</h2>
+      <p>{{ $tc('banana', 1, { n: 1 }) }}</p>
+      <p>{{ $tc('banana', 1) }}</p>
+      <p>{{ $tc('banana', 100, { n: 'too many' }) }}</p>
+    </div>
+    <script>
+      const { createI18n } = VueI18nBridge
+
+      Vue.use(VueCompositionAPI)
+      Vue.use(VueI18n, { bridge: true })
+
+      const i18n = createI18n(
+        {
+          locale: 'en',
+          messages: {
+            en: {
+              car: 'car | cars',
+              apple: 'no apples | one apple | {count} apples',
+              banana: 'no bananas | {n} banana | {n} bananas'
+            }
+          }
+        },
+        VueI18n
+      )
+
+      Vue.use(i18n)
+
+      const app = new Vue({ i18n })
+      app.$mount('#app')
+    </script>
+  </body>
+</html>

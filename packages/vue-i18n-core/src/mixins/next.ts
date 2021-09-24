@@ -1,9 +1,9 @@
 import { getCurrentInstance, nextTick } from 'vue'
-import { getLocaleMessages } from './composer'
-import { createVueI18n } from './legacy'
-import { createI18nError, I18nErrorCodes } from './errors'
-import { SetPluralRulesSymbol } from './symbols'
-import { addTimelineEvent } from './devtools'
+import { createVueI18n } from '../legacy'
+import { createI18nError, I18nErrorCodes } from '../errors'
+import { SetPluralRulesSymbol } from '../symbols'
+import { addTimelineEvent } from '../devtools'
+import { getLocaleMessages } from '../utils'
 import { createEmitter } from '@intlify/shared'
 
 import type { ComponentOptions } from 'vue'
@@ -17,7 +17,7 @@ import type {
   Composer,
   ComposerInternalOptions,
   VueMessageType
-} from './composer'
+} from '../composer'
 import type {
   VueI18n,
   VueI18nInternal,
@@ -25,10 +25,13 @@ import type {
   TranslateResult,
   DateTimeFormatResult,
   NumberFormatResult
-} from './legacy'
-import type { I18nInternal } from './i18n'
+} from '../legacy'
+import type { I18nInternal } from '../i18n'
 
-// supports compatibility for legacy vue-i18n APIs
+/**
+ * Supports compatibility for legacy vue-i18n APIs
+ * This mixin is used when we use vue-i18n@v9.x or later
+ */
 export function defineMixin(
   vuei18n: VueI18n,
   composer: Composer,
@@ -52,7 +55,6 @@ export function defineMixin(
         }
         optionsI18n.__root = composer
         if (this === this.$root) {
-          // TODO;
           this.$i18n = mergeToRoot(vuei18n, optionsI18n)
         } else {
           this.$i18n = createVueI18n(optionsI18n)
@@ -163,7 +165,6 @@ function mergeToRoot(
     __i18n: options.__i18n
   })
   Object.keys(messages).forEach(locale =>
-    // TODO:
     root.mergeLocaleMessage(locale, messages[locale])
   )
   if (options.datetimeFormats) {
