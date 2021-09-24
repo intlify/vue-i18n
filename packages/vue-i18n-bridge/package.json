@@ -1,12 +1,13 @@
 {
   "name": "vue-i18n-bridge",
   "version": "9.2.0-beta.5",
-  "description": "Bridge for Vue I18n Legacy",
+  "description": "A bridge for Vue I18n Legacy",
   "keywords": [
+    "bridge",
     "i18n",
     "internationalization",
     "intlify",
-    "lite",
+    "migration",
     "plugin",
     "vue",
     "vue.js"

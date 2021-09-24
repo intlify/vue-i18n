@@ -1,8 +1,8 @@
-# 🌉 vue-i18n-bridge
+# Migration ways
 
-A bridge for Vue I18n Legacy
+## `vue-i18n-bridge`
 
-## ❓ What is `vue-i18n-bridge`?
+### What is `vue-i18n-bridge`?
 
 `vue-i18n-bridge` is a bridge to make the upgrade as easy as possible between vue-i18n@v8.26.1 or later and vue-i18n@v9.x.
 
@@ -13,9 +13,9 @@ And, also some features are backported from vue-i18n@v9.x:
 - Vue I18n Compostion API, that is powered by `@vue/composition-api`
 - Message format syntax, that is powered by `@intlify/message-compiler`
 
-## 💿 Installation
+### Installation
 
-### Package manager
+#### Package manager
 
 ```sh
 # npm
@@ -31,7 +31,7 @@ You must install the below packages before using this library:
 - vue-i18n: >= v8.26.1 < v9
 - @vue/composition-api: >= v1.2.0
 
-### CDN
+#### CDN
 
 Include `vue-i18n-bridge` after `vue`, `@vue/composition-api` and it will install.
 
@@ -42,9 +42,9 @@ Include `vue-i18n-bridge` after `vue`, `@vue/composition-api` and it will instal
 <script src="https://unpkg.com/vue-i18n-bridge@9.2.0-beta.5/dist/vue-i18n-bridge.global.prod.js"></script>
 ```
 
-## 🚀 Usage
+### Usage
 
-### Composition API
+#### Composition API
 
 ```js
 import Vue from 'vue'
@@ -86,7 +86,7 @@ app.use(i18n) // you must install `i18n` instance which is created by `createI18
 app.mount('#app')
 ```
 
-### Legacy API
+#### Legacy API
 
 ```js
 import Vue from 'vue'
@@ -129,17 +129,17 @@ Vue.use(VueCompositionAPI)
 Vue.use(VueI18n, { bridge: true })
 ```
 
-## ⚠️ Limitations
+### Limitations
 - In Legacy API mode, You **cannot use [new message format syntax](https://vue-i18n.intlify.dev/guide/essentials/syntax.html)** by porting from `vue-i18n-next`
   - it use possible only Composition API mode
 - In Composition API mode, If you can use the following components, these can be referenced i18n resources, **only globally**
   - i18n functional component `<i18n>`
   - i18n-n functional component `<i18n-n>`
 
-## Explanation of Different Builds
+### Explanation of Different Builds
 In the [dist/ directory of the npm package](https://unpkg.com/browse/vue-i18n-bridge@9.2.0-beta.6/dist/) you will find many different builds of `vue-i18n-bridge`. Here is an overview of which dist file should be used depending on the use-case.
 
-### From CDN or without a Bundler
+#### From CDN or without a Bundler
 
 - **`vue-i18n-bridge(.runtime).global(.prod).js`**:
   - For direct use via `<script src="...">` in the browser. Exposes the `VueI18nBridge` global
@@ -149,18 +149,19 @@ In the [dist/ directory of the npm package](https://unpkg.com/browse/vue-i18n-br
   - Inlines all Vue I18n core internal packages - i.e. it’s a single file with no dependencies on other files. This means you **must** import everything from this file and this file only to ensure you are getting the same instance of code
   - Contains hard-coded prod/dev branches, and the prod build is pre-minified. Use the `*.prod.js` files for production
 
-> ⚠️ NOTE:
+:::warning NOTICE
 Global builds are not [UMD](https://github.com/umdjs/umd) builds. They are built as [IIFEs](https://developer.mozilla.org/en-US/docs/Glossary/IIFE) and are only meant for direct use via `<script src="...">`.
+:::
 
 - **`vue-i18n-bridge(.runtime).esm-browser(.prod).js`**:
   - For usage via native ES modules imports (in browser via `<script type="module">`)
   - Shares the same runtime compilation, dependency inlining and hard-coded prod/dev behavior with the global build
 
-### With a Bundler
+#### With a Bundler
 
 - **`vue-i18n-bridge(.runtime).esm-bundler.js`**:
   - For use with bundlers like `webpack`, `rollup` and `parcel`
-  - Leaves prod/dev branches with `process.env.NODE_ENV` guards (must be replaced by bundler)
+  - Leaves prod/dev branches with `process\.env\.NODE_ENV` guards (must be replaced by bundler)
   - Does not ship minified builds (to be done together with the rest of the code after bundling)
   - Imports dependencies (e.g. `@intlify/core-base`, `@intlify/message-compiler`)
     - Imported dependencies are also `esm-bundler` builds and will in turn import their dependencies (e.g. `@intlify/message-compiler` imports `@intlify/shared`)
@@ -169,7 +170,7 @@ Global builds are not [UMD](https://github.com/umdjs/umd) builds. They are built
     - **`vue-i18n-bridge.runtime.esm-bundler.js`** is runtime only, and requires all locale messages to be pre-compiled. This is the default entry for bundlers (via `module` field in `package.json`) because when using a bundler templates are typically pre-compiled (e.g. in `*.json` files)
     - **`vue-i18n-bridge.esm-bundler.js` (default)**: includes the runtime compiler. Use this if you are using a bundler but still want locale messages compilation (e.g. templates via inline JavaScript strings).  To use this build, change your import statement to: `import { createI18n } from "vue-i18n-bridge/dist/vue-i18n-bridge.esm-bundler.js";`
 
-> ⚠️ NOTE:
+:::warning NOTICE
 If you use `vue-i18n-bridge.runtime.esm-bundler.js`, you will need to precompile all locale messages, and you can do that with `.json` (`.json5`) or `.yaml`, i18n custom blocks to manage i18n resources. Therefore, you can be going to pre-compile all locale messages with bundler and the following loader / plugin.
 
 - [`@intlify/vite-plugin-vue-i18n`](https://github.com/intlify/bundle-tools/tree/main/packages/vite-plugin-vue-i18n)
@@ -177,13 +178,22 @@ If you use `vue-i18n-bridge.runtime.esm-bundler.js`, you will need to precompile
 - [`@intlify/rollup-plugin-vue-i18n`](https://github.com/intlify/bundle-tools/tree/main/packages/rollup-plugin-vue-i18n)
 :::
 
-### For Node.js (Server-Side)
+#### For Node.js (Server-Side)
 
 - **`vue-i18n-bridge.cjs(.prod).js`**:
   - For use in Node.js via `require()`
   - If you bundle your app with webpack with `target: 'node'` and properly externalize `vue-i18n-bridge`, this is the build that will be loaded
-  - The dev/prod files are pre-built, but the appropriate file is automatically required based on `process.env.NODE_ENV`
+  - The dev/prod files are pre-built, but the appropriate file is automatically required based on `process\.env\.NODE_ENV`
 
-## ©️ License
 
-[MIT](http://opensource.org/licenses/MIT)
+## `vue-i18n-composable`
+
+Composition API is supported from Vue 3, and you can use the official [`@vue/composition-api`](https://github.com/vuejs/composition-api) plugin to make the Composition API available to Vue 2.
+
+Vue I18n Composition API is also available in Vue 2 using the `vue-i18n-composable` plugin.
+
+About how to usage, See the [here](https://github.com/intlify/vue-i18n-composable)
+
+:::warning NOTICE
+`vue-i18n-composable` allows the main API of Vue I18n v8.x to work with the Composition API. All of Composition API provided in Vue I18n v9 are not available.
+:::
