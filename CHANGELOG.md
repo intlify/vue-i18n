@@ -1,4 +1,14 @@
 
+## v9.2.0-beta.6 (2021-09-24)
+
+#### :star: Features
+* `core-base`, `vue-i18n-bridge`, `vue-i18n-core`
+  * [#676](https://github.com/intlify/vue-i18n-next/pull/676) feat: bridge for vue-i18n@v8.26.1 or later ([@kazupon](https://github.com/kazupon))
+
+#### Committers: 1
+- kazuya kawaguchi ([@kazupon](https://github.com/kazupon))
+
+
 ## v9.2.0-beta.5 (2021-09-19)
 
 #### :star: Features
