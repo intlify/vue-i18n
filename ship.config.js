@@ -48,7 +48,8 @@ module.exports = {
       'packages/vue-devtools',
       'packages/vue-i18n-core',
       'packages/vue-i18n',
-      'packages/petite-vue-i18n'
+      'packages/petite-vue-i18n',
+      'packages/vue-i18n-bridge'
     ],
     packagesToPublish: [
       'packages/shared',
@@ -59,7 +60,8 @@ module.exports = {
       'packages/vue-devtools',
       'packages/vue-i18n-core',
       'packages/vue-i18n',
-      'packages/petite-vue-i18n'
+      'packages/petite-vue-i18n',
+      'packages/vue-i18n-bridge'
     ]
   },
   updateChangelog: false,
