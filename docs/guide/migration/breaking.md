@@ -275,7 +275,7 @@ Vue I18n v8.x:
 ```js
 import VueI18n from 'vue-i18n'
 
-console.log(VueI18n.Version)
+console.log(VueI18n.version)
 ```
 
 Vue I18n v9 or later:
