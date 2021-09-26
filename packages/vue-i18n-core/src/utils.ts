@@ -1,5 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { isArray, isObject, hasOwn, isPlainObject } from '@intlify/shared'
+import {
+  isArray,
+  isObject,
+  hasOwn,
+  isPlainObject,
+  isString
+} from '@intlify/shared'
 import { I18nErrorCodes, createI18nError } from './errors'
 
 import type { Locale, MessageResolver } from '@intlify/core-base'
@@ -83,12 +89,17 @@ export function getLocaleMessages<Messages = {}>(
 
   // merge locale messages of i18n custom block
   if (isArray(__i18n)) {
-    __i18n.forEach(({ locale, resource }) => {
-      if (locale) {
-        ret[locale] = ret[locale] || {}
-        deepCopy(resource, ret[locale])
+    __i18n.forEach(custom => {
+      if ('locale' in custom && 'resource' in custom) {
+        const { locale, resource } = custom
+        if (locale) {
+          ret[locale] = ret[locale] || {}
+          deepCopy(resource, ret[locale])
+        } else {
+          deepCopy(resource, ret)
+        }
       } else {
-        deepCopy(resource, ret)
+        isString(custom) && deepCopy(JSON.parse(custom), ret)
       }
     })
   }
