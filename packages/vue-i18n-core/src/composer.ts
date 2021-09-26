@@ -51,7 +51,7 @@ import {
   SetPluralRulesSymbol,
   LegacyInstanceSymbol
 } from './symbols'
-import { deepCopy, getLocaleMessages } from './utils'
+import { deepCopy, getLocaleMessages, getComponentOptions } from './utils'
 import { VERSION } from './misc'
 
 import type { ComponentInternalInstance, VNode, VNodeArrayChildren } from 'vue'
@@ -1713,8 +1713,9 @@ function defineCoreMissingHandler(missing: MissingHandler): CoreMissingHandler {
 // for Intlify DevTools
 const getMetaInfo = /* #__PURE__*/ (): MetaInfo | null => {
   const instance = getCurrentInstance()
-  return instance && (instance.type as any)[DEVTOOLS_META] // eslint-disable-line @typescript-eslint/no-explicit-any
-    ? { [DEVTOOLS_META]: (instance.type as any)[DEVTOOLS_META] } // eslint-disable-line @typescript-eslint/no-explicit-any
+  let meta: any = null // eslint-disable-line @typescript-eslint/no-explicit-any
+  return instance && (meta = getComponentOptions(instance)[DEVTOOLS_META])
+    ? { [DEVTOOLS_META]: meta } // eslint-disable-line @typescript-eslint/no-explicit-any
     : null
 }
 

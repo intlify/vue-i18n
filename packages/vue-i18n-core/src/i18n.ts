@@ -25,7 +25,11 @@ import { apply } from './plugin'
 import { defineMixin as defineMixinNext } from './mixins/next'
 import { defineMixin as defineMixinBridge } from './mixins/bridge'
 import { enableDevTools, addTimelineEvent } from './devtools'
-import { isLegacyVueI18n, getLocaleMessages } from './utils'
+import {
+  isLegacyVueI18n,
+  getLocaleMessages,
+  getComponentOptions
+} from './utils'
 
 import type { ComponentInternalInstance, App } from 'vue'
 import type {
@@ -792,11 +796,6 @@ function getI18nInstance(instance: ComponentInternalInstance): I18n {
     }
     return i18n as I18n
   }
-}
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-function getComponentOptions(instance: ComponentInternalInstance): any {
-  return !__BRIDGE__ ? instance.type : instance.proxy!.$options
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
