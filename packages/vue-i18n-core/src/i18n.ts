@@ -303,7 +303,8 @@ export function createI18n<
     : {},
   OptionLocale = Options['locale'] extends string ? Options['locale'] : Locale
 >(
-  options: Options
+  options: Options,
+  LegacyVueI18n?: any // eslint-disable-line @typescript-eslint/no-explicit-any
 ): I18n<Messages, DateTimeFormats, NumberFormats, OptionLocale, Legacy>
 
 /**
@@ -401,7 +402,8 @@ export function createI18n<
     : {},
   OptionLocale = Options['locale'] extends string ? Options['locale'] : Locale
 >(
-  options: Options
+  options: Options,
+  LegacyVueI18n?: any // eslint-disable-line @typescript-eslint/no-explicit-any
 ): I18n<Messages, DateTimeFormats, NumberFormats, OptionLocale, Legacy>
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/explicit-module-boundary-types
