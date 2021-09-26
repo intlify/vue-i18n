@@ -4,6 +4,7 @@ import { I18nErrorCodes, createI18nError } from './errors'
 
 import type { Locale, MessageResolver } from '@intlify/core-base'
 import type { CustomBlocks, VueMessageType } from './composer'
+import type { ComponentInternalInstance } from 'vue'
 
 type GetLocaleMessagesOptions<Messages = {}> = {
   messages?: { [K in keyof Messages]: Messages[K] }
@@ -125,6 +126,11 @@ export function deepCopy(src: any, des: any): void {
       }
     }
   }
+}
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export function getComponentOptions(instance: ComponentInternalInstance): any {
+  return !__BRIDGE__ ? instance.type : instance.proxy!.$options
 }
 
 /* eslint-enable @typescript-eslint/no-explicit-any */
