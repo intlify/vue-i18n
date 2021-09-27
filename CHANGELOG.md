@@ -1,4 +1,20 @@
 
+## v9.2.0-beta.7 (2021-09-27)
+
+#### :bug: Bug Fixes
+* `vue-i18n-core`
+  * [#698](https://github.com/intlify/vue-i18n-next/pull/698) fix: custom block reosurce processing errors ([@kazupon](https://github.com/kazupon))
+  * [#697](https://github.com/intlify/vue-i18n-next/pull/697) fix: createI18n second argument type error ([@kazupon](https://github.com/kazupon))
+  * [#696](https://github.com/intlify/vue-i18n-next/pull/696) fix: __INTLIFY_META__ access error in vue-i18n-bridge ([@kazupon](https://github.com/kazupon))
+
+#### :pencil: Documentation
+* [#691](https://github.com/intlify/vue-i18n-next/pull/691) Fix typo in docs/guide/migration/breaking.md ([@ota-meshi](https://github.com/ota-meshi))
+
+#### Committers: 2
+- Yosuke Ota ([@ota-meshi](https://github.com/ota-meshi))
+- kazuya kawaguchi ([@kazupon](https://github.com/kazupon))
+
+
 ## v9.2.0-beta.6 (2021-09-24)
 
 #### :star: Features
