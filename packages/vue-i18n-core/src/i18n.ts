@@ -752,6 +752,29 @@ export function useI18n<
   >
 }
 
+/**
+ * Cast to VueI18n legacy compatible type
+ *
+ * @remarks
+ * This API is provided only with [vue-i18n-bridge](https://vue-i18n.intlify.dev/guide/migration/ways.html#what-is-vue-i18n-bridge).
+ *
+ * The purpose of this function is to convert an {@link I18n} instance created with {@link createI18n | createI18n(legacy: true)} into a `vue-i18n@v8.x` compatible instance of `new VueI18n` in a TypeScript environment.
+ *
+ * @param i18n - An instance of {@link I18n}
+ * @returns A i18n instance which is casted to {@link VueI18n} type
+ *
+ * @VueI18nTip
+ * :new: provided by **vue-i18n-bridge only**
+ *
+ * @VueI18nGeneral
+ */
+export const castToVueI18n = /* #__PURE__*/ (i18n: I18n): VueI18n => {
+  if (!isLegacyVueI18n(i18n)) {
+    throw createI18nError(I18nErrorCodes.NOT_COMPATIBLE_LEGACY_VUE_I18N)
+  }
+  return i18n as unknown as VueI18n
+}
+
 function createGlobal(
   options: I18nOptions,
   legacyMode: boolean,

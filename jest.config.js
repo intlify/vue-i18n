@@ -98,7 +98,9 @@ module.exports = {
   // A map from regular expressions to module names that allow to stub out resources with a single module
   moduleNameMapper: {
     '^@intlify/(.*?)$': '<rootDir>/packages/$1/src',
-    'vue-i18n': '<rootDir>/packages/vue-i18n/src'
+    'vue-i18n': '<rootDir>/packages/vue-i18n/src',
+    'vue-i18n-bridge': '<rootDir>/packages/vue-i18n-bridge/src',
+    'petite-vue-i18n': '<rootDir>/packages/petite-vue-i18n/src'
   },
 
   // An array of regexp pattern strings, matched against all module paths before considered 'visible' to the module loader
