@@ -39,7 +39,7 @@ Include `vue-i18n-bridge` after `vue`, `@vue/composition-api` and it will instal
 <script src="https://cdn.jsdelivr.net/npm/vue@2.6"></script>
 <script src="https://unpkg.com/vue-i18n@8/dist/vue-i18n.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@vue/composition-api@1.2"></script>
-<script src="https://unpkg.com/vue-i18n-bridge@9.2.0-beta.5/dist/vue-i18n-bridge.global.prod.js"></script>
+<script src="https://unpkg.com/vue-i18n-bridge@9.2.0-beta.8/dist/vue-i18n-bridge.global.prod.js"></script>
 ```
 
 ## 🚀 Usage
@@ -116,6 +116,37 @@ const i18n = createI18n({
 Vue.use(i18n) // you must install `i18n` instance which is created by `createI18n`
 
 const app = new Vue({ i18n })
+app.$mount('#app')
+```
+
+For TypeScript:
+```ts
+import Vue from 'vue'
+import VueCompositionAPI from '@vue/composition-api'
+import { createI18n, useI18n, castToVueI18n } from 'vue-i18n-bridge'
+
+Vue.use(VueCompositionAPI)
+Vue.use(VueI18n, { bridge: true })
+
+const i18n = createI18n({
+  locale: 'ja',
+  messages: {
+    en: {
+      message: {
+        hello: 'hello, {name}!'
+      }
+    },
+    ja: {
+      message: {
+        hello: 'こんにちは、{name}！'
+      }
+    }
+  }
+}, VueI18n)
+
+Vue.use(i18n)
+
+const app = new Vue({ i18n: castToVueI18n(i18n) }) // you need to cast `i18n` instance
 app.$mount('#app')
 ```
 
