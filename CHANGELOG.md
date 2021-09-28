@@ -1,4 +1,18 @@
 
+## v9.2.0-beta.9 (2021-09-28)
+
+#### :zap: Improvement Features
+* `vue-i18n-core`
+  * [#705](https://github.com/intlify/vue-i18n-next/pull/705) improvement: flag for vue-i18n-bridge ([@kazupon](https://github.com/kazupon))
+
+#### :pencil: Documentation
+* [#704](https://github.com/intlify/vue-i18n-next/pull/704) Fix typo `Stdio` for `Studio` ([@FMGordillo](https://github.com/FMGordillo))
+
+#### Committers: 2
+- Facundo Martin Gordillo ([@FMGordillo](https://github.com/FMGordillo))
+- kazuya kawaguchi ([@kazupon](https://github.com/kazupon))
+
+
 ## v9.2.0-beta.8 (2021-09-28)
 
 #### :zap: Improvement Features
