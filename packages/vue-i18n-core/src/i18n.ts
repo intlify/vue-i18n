@@ -20,7 +20,12 @@ import { createComposer } from './composer'
 import { createVueI18n } from './legacy'
 import { I18nWarnCodes, getWarnMessage } from './warnings'
 import { I18nErrorCodes, createI18nError } from './errors'
-import { EnableEmitter, DisableEmitter, LegacyInstanceSymbol } from './symbols'
+import {
+  EnableEmitter,
+  DisableEmitter,
+  LegacyInstanceSymbol,
+  __VUE_I18N_BRIDGE__
+} from './symbols'
 import { apply } from './plugin'
 import { defineMixin as defineMixinNext } from './mixins/next'
 import { defineMixin as defineMixinBridge } from './mixins/bridge'
@@ -769,7 +774,7 @@ export function useI18n<
  * @VueI18nGeneral
  */
 export const castToVueI18n = /* #__PURE__*/ (i18n: I18n): VueI18n => {
-  if (!isLegacyVueI18n(i18n)) {
+  if (!(__VUE_I18N_BRIDGE__ in i18n)) {
     throw createI18nError(I18nErrorCodes.NOT_COMPATIBLE_LEGACY_VUE_I18N)
   }
   return i18n as unknown as VueI18n

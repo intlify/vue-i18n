@@ -37,7 +37,7 @@ export function defineMixin(
                   ? options.i18n.messages
                   : {}
               ;(options.__i18n as string[]).forEach(resource =>
-                deepCopy(localeMessages, JSON.parse(resource))
+                deepCopy(JSON.parse(resource), localeMessages)
               )
               Object.keys(localeMessages).forEach((locale: Locale) => {
                 options.i18n.mergeLocaleMessage(locale, localeMessages[locale])
@@ -82,7 +82,7 @@ export function defineMixin(
                   ? options.i18n.messages
                   : {}
               ;(options.__i18n as string[]).forEach(resource =>
-                deepCopy(localeMessages, JSON.parse(resource))
+                deepCopy(JSON.parse(resource), localeMessages)
               )
               options.i18n.messages = localeMessages
             } catch (e) {
@@ -94,7 +94,7 @@ export function defineMixin(
 
           const { sharedMessages } = options.i18n
           if (sharedMessages && isPlainObject(sharedMessages)) {
-            deepCopy(options.i18n.messages, sharedMessages)
+            deepCopy(sharedMessages, options.i18n.messages)
           }
 
           this._i18n = new VueI18n(options.i18n)
