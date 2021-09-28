@@ -22,6 +22,7 @@ import {
 import { createEmitter } from '@intlify/shared'
 import { mount, pluralRules as _pluralRules } from './helper'
 import { createI18n, useI18n, castToVueI18n } from '../src/i18n'
+import { __VUE_I18N_BRIDGE__ } from '../src/symbols'
 import { errorMessages, I18nErrorCodes } from '../src/errors'
 import { Composer } from '../src/composer'
 
@@ -942,7 +943,7 @@ test('Intlify devtools hooking', () => {
 describe('castToVueI18n', () => {
   test('succeeded', () => {
     const mockVueI18n = {
-      version: '8.2.0'
+      __VUE_I18N_BRIDGE__
     } as unknown as I18n
     expect(castToVueI18n(mockVueI18n)).toBe(mockVueI18n)
   })

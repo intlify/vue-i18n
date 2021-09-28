@@ -49,7 +49,8 @@ import {
   EnableEmitter,
   DisableEmitter,
   SetPluralRulesSymbol,
-  LegacyInstanceSymbol
+  LegacyInstanceSymbol,
+  __VUE_I18N_BRIDGE__
 } from './symbols'
 import { deepCopy, getLocaleMessages, getComponentOptions } from './utils'
 import { VERSION } from './misc'
@@ -1905,7 +1906,8 @@ export function createComposer(options: any = {}, VueI18nLegacy?: any): any {
         ? _warnHtmlMessage
           ? 'warn'
           : 'off'
-        : 'off'
+        : 'off',
+      __VUE_I18N_BRIDGE__
     }
     __legacy = new VueI18nLegacy(legacyOptions)
   }

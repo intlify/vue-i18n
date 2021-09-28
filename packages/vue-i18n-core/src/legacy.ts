@@ -2,7 +2,7 @@
 import { createComposer, DefineLocaleMessage } from './composer'
 import { I18nWarnCodes, getWarnMessage } from './warnings'
 import { createI18nError, I18nErrorCodes } from './errors'
-import { EnableEmitter, DisableEmitter } from './symbols'
+import { EnableEmitter, DisableEmitter, __VUE_I18N_BRIDGE__ } from './symbols'
 import { DEFAULT_LOCALE } from '@intlify/core-base'
 import {
   isString,
@@ -15,7 +15,6 @@ import {
   assign,
   warn
 } from '@intlify/shared'
-import { isLegacyVueI18n } from './utils'
 
 import type {
   Path,
@@ -1464,9 +1463,7 @@ export function createVueI18n(options: any = {}, VueI18nLegacy?: any): any {
   type Message = VueMessageType
 
   if (__BRIDGE__) {
-    if (!isLegacyVueI18n(VueI18nLegacy)) {
-      throw createI18nError(I18nErrorCodes.NOT_COMPATIBLE_LEGACY_VUE_I18N)
-    }
+    options[__VUE_I18N_BRIDGE__] = __VUE_I18N_BRIDGE__ // marking
     return new VueI18nLegacy(options)
   } else {
     const composer = createComposer(convertComposerOptions(options)) as Composer
