@@ -1,4 +1,14 @@
 
+## v9.2.0-beta.8 (2021-09-28)
+
+#### :zap: Improvement Features
+* `vue-i18n-bridge`, `vue-i18n-core`, `vue-i18n`
+  * [#700](https://github.com/intlify/vue-i18n-next/pull/700) improvement: expose type casting API for Legacy mode ([@kazupon](https://github.com/kazupon))
+
+#### Committers: 1
+- kazuya kawaguchi ([@kazupon](https://github.com/kazupon))
+
+
 ## v9.2.0-beta.7 (2021-09-27)
 
 #### :bug: Bug Fixes
