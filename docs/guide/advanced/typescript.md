@@ -175,7 +175,7 @@ Resource Keys completion can be used if you are using [Visual Studio Code](https
 
 Along with the support for type-safe resource definitions, VueI18n now provides APIs such as `t` and `d` for interpolating resource keys in the Composition API.
 
-The following indicate how to interpolate Resource keys in Visual Stdio Code for the local scope Vue component described above.
+The following indicate how to interpolate Resource keys in Visual Studio Code for the local scope Vue component described above.
 
 ![VSCode-Resource-Completion](/ts-support-3.gif)
 
