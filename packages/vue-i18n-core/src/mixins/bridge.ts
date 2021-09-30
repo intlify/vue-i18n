@@ -19,7 +19,7 @@ export function defineMixin(
       if (options.__VUE18N__INSTANCE__) {
         return
       }
-      options.i18n = options.i18n || (options.__i18n ? {} : null)
+      options.i18n = options.i18n || (options.__i18nBridge ? {} : null)
 
       this._i18nBridgeRoot = i18n
       if (i18n.mode === 'composition') {
@@ -30,13 +30,13 @@ export function defineMixin(
       if (options.i18n) {
         if (options.i18n instanceof VueI18n) {
           // init locale messages via custom blocks
-          if (options.__i18n) {
+          if (options.__i18nBridge) {
             try {
               const localeMessages =
                 options.i18n && options.i18n.messages
                   ? options.i18n.messages
                   : {}
-              ;(options.__i18n as string[]).forEach(resource =>
+              ;(options.__i18nBridge as string[]).forEach(resource =>
                 deepCopy(JSON.parse(resource), localeMessages)
               )
               Object.keys(localeMessages).forEach((locale: Locale) => {
@@ -75,13 +75,13 @@ export function defineMixin(
           }
 
           // init locale messages via custom blocks
-          if (options.__i18n) {
+          if (options.__i18nBridge) {
             try {
               const localeMessages =
                 options.i18n && options.i18n.messages
                   ? options.i18n.messages
                   : {}
-              ;(options.__i18n as string[]).forEach(resource =>
+              ;(options.__i18nBridge as string[]).forEach(resource =>
                 deepCopy(JSON.parse(resource), localeMessages)
               )
               options.i18n.messages = localeMessages
@@ -135,7 +135,11 @@ export function defineMixin(
         return
       }
 
-      options.i18n = options.i18n || (options.__i18n ? {} : null)
+      if (i18n.mode === 'composition') {
+        return
+      }
+
+      options.i18n = options.i18n || (options.__i18nBridge ? {} : null)
 
       if (options.i18n) {
         if (options.i18n instanceof VueI18n) {
