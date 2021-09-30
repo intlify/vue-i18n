@@ -1,4 +1,14 @@
 
+## v9.2.0-beta.10 (2021-09-30)
+
+#### :zap: Improvement Features
+* `vue-i18n-core`
+  * [#709](https://github.com/intlify/vue-i18n-next/pull/709) improvement: support vue-i18n-loader bridge mode ([@kazupon](https://github.com/kazupon))
+
+#### Committers: 1
+- kazuya kawaguchi ([@kazupon](https://github.com/kazupon))
+
+
 ## v9.2.0-beta.9 (2021-09-28)
 
 #### :zap: Improvement Features
