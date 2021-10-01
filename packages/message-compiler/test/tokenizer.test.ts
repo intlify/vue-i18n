@@ -1,6 +1,8 @@
 import { parse } from '../src/tokenizer'
 import { TokenizeOptions } from '../src/options'
 import { CompileError } from '../src/errors'
+import path from 'path'
+import fs from 'fs/promises'
 
 test('token analysis', () => {
   const cases = [
@@ -97,4 +99,21 @@ test('token analysis', () => {
       expect(errors).toMatchSnapshot(`${JSON.stringify(p)} errors`)
     }
   }
+})
+
+describe('edge cases', () => {
+  test('long text', async () => {
+    const data = await fs.readFile(
+      path.join(__dirname, './fixtures/20_newsgroups_alt_atheism_51060.txt'),
+      'utf8'
+    )
+    let err = null
+    try {
+      const tokens = parse(data)
+    } catch (e) {
+      console.error(e)
+      err = e
+    }
+    expect(err).toEqual(null)
+  })
 })
