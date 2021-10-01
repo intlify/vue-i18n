@@ -568,13 +568,6 @@ export function createI18n(options: any = {}, VueI18nLegacy?: any): any {
         if (version !== 2) {
           throw createI18nError(I18nErrorCodes.BRIDGE_SUPPORT_VUE_2_ONLY)
         }
-        if (!Vue.prototype.hasOwnProperty('$i18n')) {
-          Object.defineProperty(Vue.prototype, '$i18n', {
-            get() {
-              return this._i18n
-            }
-          })
-        }
 
         Vue.mixin(defineMixinBridge(i18n, _legacyVueI18n))
       }
