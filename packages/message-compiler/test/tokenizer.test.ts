@@ -2,7 +2,7 @@ import { parse } from '../src/tokenizer'
 import { TokenizeOptions } from '../src/options'
 import { CompileError } from '../src/errors'
 import path from 'path'
-import fs from 'fs/promises'
+import { promises as fs } from 'fs'
 
 test('token analysis', () => {
   const cases = [
@@ -109,7 +109,7 @@ describe('edge cases', () => {
     )
     let err = null
     try {
-      const tokens = parse(data)
+      parse(data)
     } catch (e) {
       console.error(e)
       err = e

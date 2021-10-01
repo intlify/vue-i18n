@@ -438,45 +438,40 @@ export function createTokenizer(
   }
 
   function readText(scnr: Scanner): string {
-    const fn = (buf: string): string => {
+    let buf = ''
+    while (true) {
       const ch = scnr.currentChar()
       if (
         ch === TokenChars.BraceLeft ||
         ch === TokenChars.BraceRight ||
         ch === TokenChars.LinkedAlias ||
+        ch === TokenChars.Pipe ||
         !ch
       ) {
-        return buf
+        break
       } else if (ch === TokenChars.Modulo) {
         if (isTextStart(scnr)) {
           buf += ch
           scnr.next()
-          return fn(buf)
         } else {
-          return buf
+          break
         }
-      } else if (ch === TokenChars.Pipe) {
-        return buf
       } else if (ch === SPACE || ch === NEW_LINE) {
         if (isTextStart(scnr)) {
           buf += ch
           scnr.next()
-          return fn(buf)
         } else if (isPluralStart(scnr)) {
-          return buf
+          break
         } else {
           buf += ch
           scnr.next()
-          return fn(buf)
         }
       } else {
         buf += ch
         scnr.next()
-        return fn(buf)
       }
     }
-
-    return fn('')
+    return buf
   }
 
   function readNamedIdentifier(scnr: Scanner): string {
