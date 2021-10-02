@@ -107,13 +107,6 @@ describe('edge cases', () => {
       path.join(__dirname, './fixtures/20_newsgroups_alt_atheism_51060.txt'),
       'utf8'
     )
-    let err = null
-    try {
-      parse(data)
-    } catch (e) {
-      console.error(e)
-      err = e
-    }
-    expect(err).toEqual(null)
+    expect(parse(data).length).toEqual(2)
   })
 })
