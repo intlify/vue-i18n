@@ -23,6 +23,7 @@ import { I18nErrorCodes, createI18nError } from './errors'
 import {
   EnableEmitter,
   DisableEmitter,
+  InejctWithOption,
   LegacyInstanceSymbol,
   __VUE_I18N_BRIDGE__
 } from './symbols'
@@ -710,7 +711,8 @@ export function useI18n<
   }
 
   if (scope === 'parent') {
-    let composer = getComposer(i18n, instance)
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    let composer = getComposer(i18n, instance, (options as any).__useComponent)
     if (composer == null) {
       if (__DEV__) {
         warn(getWarnMessage(I18nWarnCodes.NOT_FOUND_PARENT_SCOPE))
@@ -893,7 +895,8 @@ function adjustI18nResources(
 
 function getComposer(
   i18n: I18n,
-  target: ComponentInternalInstance
+  target: ComponentInternalInstance,
+  useComponent = false
 ): Composer | null {
   let composer: Composer | null = null
   const root = target.root
@@ -908,6 +911,10 @@ function getComposer(
         if (vueI18n != null) {
           composer = (vueI18n as VueI18n & VueI18nInternal)
             .__composer as Composer
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          if (useComponent && !(composer as any)[InejctWithOption]) {
+            composer = null
+          }
         }
       }
     }

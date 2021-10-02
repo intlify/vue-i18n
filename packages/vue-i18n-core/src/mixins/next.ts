@@ -57,6 +57,7 @@ export function defineMixin(
         if (this === this.$root) {
           this.$i18n = mergeToRoot(vuei18n, optionsI18n)
         } else {
+          optionsI18n.__injectWithOption = true
           this.$i18n = createVueI18n(optionsI18n)
         }
       } else if (options.__i18n) {
@@ -65,6 +66,7 @@ export function defineMixin(
         } else {
           this.$i18n = createVueI18n({
             __i18n: (options as ComposerInternalOptions).__i18n,
+            __injectWithOption: true,
             __root: composer
           } as VueI18nOptions)
         }

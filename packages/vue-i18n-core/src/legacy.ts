@@ -1387,7 +1387,7 @@ function convertComposerOptions<
       return messages
     }, (messages || {}) as LocaleMessages<LocaleMessage<VueMessageType>>)
   }
-  const { __i18n, __root } = options
+  const { __i18n, __root, __injectWithOption } = options
 
   const datetimeFormats = options.datetimeFormats
   const numberFormats = options.numberFormats
@@ -1413,7 +1413,8 @@ function convertComposerOptions<
     messageResolver: options.messageResolver,
     inheritLocale,
     __i18n,
-    __root
+    __root,
+    __injectWithOption
   }
 }
 

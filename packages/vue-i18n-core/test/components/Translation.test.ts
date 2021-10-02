@@ -276,3 +276,61 @@ test('message resolver', async () => {
   expect(mockMessageResolver.mock.calls[0][0]).toEqual(en)
   expect(mockMessageResolver.mock.calls[0][1]).toEqual('message.named')
 })
+
+test('issue #708', async () => {
+  const i18n = createI18n({
+    legacy: true,
+    locale: 'en',
+    messages
+  })
+
+  const C2 = defineComponent({
+    template: `<div>C2 slot: <slot></slot></div>`
+  })
+
+  const C1 = defineComponent({
+    components: {
+      C2
+    },
+    template: `<div>
+  C1:
+  <div>{{ $t("hello", { world: $t("world") }) }}</div>
+  <i18n-t keypath="hello" tag="div">
+    <template #world>
+      <strong>{{ $t("world") }}</strong>
+    </template>
+  </i18n-t>
+
+  <br />
+
+  <C2>
+    <div>{{ $t("hello", { world: $t("world") }) }}</div>
+    <i18n-t keypath="hello" tag="div">
+      <template #world>
+        <strong>{{ $t("world") }}</strong>
+      </template>
+    </i18n-t>
+  </C2>
+</div>`,
+    i18n: {
+      messages: {
+        en: {
+          hello: 'Hello {world}',
+          world: 'world!'
+        }
+      }
+    }
+  })
+
+  const App = defineComponent({
+    components: {
+      C1
+    },
+    template: `<C1 />`
+  })
+  const wrapper = await mount(App, i18n)
+
+  expect(wrapper.html()).toEqual(
+    `<div> C1: <div>Hello world!</div><div>Hello <strong>world!</strong></div><br><div>C2 slot: <div>Hello world!</div><div>Hello <strong>world!</strong></div></div></div>`
+  )
+})
