@@ -1,0 +1,23 @@
+{
+  "menu": {
+    "home": "Home",
+    "about": "About",
+    "external": "External",
+    "language": "Languages"
+  },
+  "components": {
+    "Foo": "from JSX",
+    "ImportType": "import type should be removed without side-effect"
+  },
+  "pages": {
+    "home": {
+      "title": "Home",
+      "count": "count is: {value}",
+      "virtual": "msg from virtual module: {msg}",
+      "inter": "this will be styled with a font-face"
+    },
+    "about": {
+      "title": "About"
+    }
+  }
+}

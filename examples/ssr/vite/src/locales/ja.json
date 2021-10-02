@@ -1,0 +1,23 @@
+{
+  "menu": {
+    "home": "ホーム",
+    "about": "概要",
+    "external": "外部",
+    "language": "言語"
+  },
+  "components": {
+    "Foo": "JSX から",
+    "ImportType": "インポートタイプは副作用なし (side-effect) で削除されるべき"
+  },
+  "pages": {
+    "home": {
+      "title": "ホーム",
+      "count": "カウント: {value}",
+      "virtual": "仮想モジュールからのメッセージ: {msg}",
+      "inter": "これは font-fface でスタイルされています"
+    },
+    "about": {
+      "title": "概要"
+    }
+  }
+}
