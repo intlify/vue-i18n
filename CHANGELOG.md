@@ -1,4 +1,17 @@
 
+## v9.2.0-beta.11 (2021-10-02)
+
+#### :bug: Bug Fixes
+* `vue-i18n-core`
+  * [#715](https://github.com/intlify/vue-i18n-next/pull/715) fix: vue-i18n components scope resolving in Legacy API mode ([@kazupon](https://github.com/kazupon))
+* `message-compiler`, `vue-i18n-core`
+  * [#713](https://github.com/intlify/vue-i18n-next/pull/713) fix: Maximum call stack size ([@fabiankranewitter](https://github.com/fabiankranewitter))
+
+#### Committers: 2
+- Fabian Kranewitter ([@fabiankranewitter](https://github.com/fabiankranewitter))
+- kazuya kawaguchi ([@kazupon](https://github.com/kazupon))
+
+
 ## v9.2.0-beta.10 (2021-09-30)
 
 #### :zap: Improvement Features

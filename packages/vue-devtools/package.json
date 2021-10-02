@@ -1,6 +1,6 @@
 {
   "name": "@intlify/vue-devtools",
-  "version": "9.2.0-beta.10",
+  "version": "9.2.0-beta.11",
   "description": "@intlify/vue-devtools",
   "keywords": [
     "i18n",
@@ -30,8 +30,8 @@
   "module": "dist/vue-devtools.esm-bundler.js",
   "types": "dist/vue-devtools.d.ts",
   "dependencies": {
-    "@intlify/core-base": "9.2.0-beta.10",
-    "@intlify/shared": "9.2.0-beta.10"
+    "@intlify/core-base": "9.2.0-beta.11",
+    "@intlify/shared": "9.2.0-beta.11"
   },
   "engines": {
     "node": ">= 12"
