@@ -568,6 +568,7 @@ export function createI18n(options: any = {}, VueI18nLegacy?: any): any {
         if (version !== 2) {
           throw createI18nError(I18nErrorCodes.BRIDGE_SUPPORT_VUE_2_ONLY)
         }
+
         Vue.mixin(defineMixinBridge(i18n, _legacyVueI18n))
       }
     })
