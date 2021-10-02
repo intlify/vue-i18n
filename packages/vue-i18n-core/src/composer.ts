@@ -49,6 +49,7 @@ import {
   EnableEmitter,
   DisableEmitter,
   SetPluralRulesSymbol,
+  InejctWithOption,
   LegacyInstanceSymbol,
   __VUE_I18N_BRIDGE__
 } from './symbols'
@@ -565,6 +566,7 @@ export interface ComposerInternalOptions<
   __i18n?: CustomBlocks<VueMessageType>
   __i18nGlobal?: CustomBlocks<VueMessageType>
   __root?: Composer<Messages, DateTimeFormats, NumberFormats>
+  __injectWithOption?: boolean
 }
 
 /**
@@ -2488,6 +2490,7 @@ export function createComposer(options: any = {}, VueI18nLegacy?: any): any {
     ;(composer as any).getNumberFormat = getNumberFormat
     ;(composer as any).setNumberFormat = setNumberFormat
     ;(composer as any).mergeNumberFormat = mergeNumberFormat
+    ;(composer as any)[InejctWithOption] = options.__injectWithOption
     if (!__BRIDGE__) {
       ;(composer as any)[TransrateVNodeSymbol] = transrateVNode
       ;(composer as any)[NumberPartsSymbol] = numberParts

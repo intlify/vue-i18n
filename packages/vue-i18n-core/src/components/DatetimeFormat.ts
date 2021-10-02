@@ -94,7 +94,8 @@ export const DatetimeFormat = /* #__PURE__*/ defineComponent({
   setup(props, context): RenderFunction {
     const i18n =
       props.i18n ||
-      (useI18n({ useScope: 'parent' }) as Composer & ComposerInternal)
+      (useI18n({ useScope: 'parent', __useComponent: true }) as Composer &
+        ComposerInternal)
 
     return renderFormatter<
       FormattableProps<number | Date, Intl.DateTimeFormatOptions>,

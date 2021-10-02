@@ -116,8 +116,10 @@ export const Translation = /* #__PURE__*/ defineComponent({
     // NOTE: avoid https://github.com/microsoft/rushstack/issues/1050
     const i18n =
       props.i18n ||
-      (useI18n({ useScope: props.scope as 'global' | 'parent' }) as Composer &
-        ComposerInternal)
+      (useI18n({
+        useScope: props.scope as 'global' | 'parent',
+        __useComponent: true
+      }) as Composer & ComposerInternal)
     const keys = Object.keys(slots).filter(key => key !== '_')
 
     return (): VNodeChild => {
