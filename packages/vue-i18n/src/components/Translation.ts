@@ -100,7 +100,10 @@ export const Translation = {
     const { slots, attrs } = context
     const i18n =
       props.i18n ||
-      (useI18n({ useScope: props.scope }) as Composer & ComposerInternal)
+      (useI18n({
+        useScope: props.scope as 'global' | 'parent',
+        __useComponent: true
+      }) as Composer & ComposerInternal)
     const keys = Object.keys(slots).filter(key => key !== '_')
 
     return (): VNodeChild => {

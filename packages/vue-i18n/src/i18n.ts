@@ -19,7 +19,8 @@ import {
   getLocaleMessages,
   createComposer,
   EnableEmitter,
-  DisableEmitter
+  DisableEmitter,
+  InejctWithOption
 } from './composer'
 import { createVueI18n } from './legacy'
 import { I18nWarnCodes, getWarnMessage } from './warnings'
@@ -598,7 +599,8 @@ export function useI18n<
   }
 
   if (scope === 'parent') {
-    let composer = getComposer(i18n, instance)
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    let composer = getComposer(i18n, instance, (options as any).__useComponent)
     if (composer == null) {
       if (__DEV__) {
         warn(getWarnMessage(I18nWarnCodes.NOT_FOUND_PARENT_SCOPE))
@@ -666,7 +668,8 @@ function getComposer<
   Legacy extends boolean
 >(
   i18n: I18n<Messages, DateTimeFormats, NumberFormats, Legacy>,
-  target: ComponentInternalInstance
+  target: ComponentInternalInstance,
+  useComponent = false
 ): Composer<Messages, DateTimeFormats, NumberFormats> | null {
   let composer: Composer<Messages, DateTimeFormats, NumberFormats> | null = null
   const root = target.root
@@ -695,6 +698,10 @@ function getComposer<
         > &
           VueI18nInternal<Messages, DateTimeFormats, NumberFormats>)
           .__composer as Composer<Messages, DateTimeFormats, NumberFormats>
+      }
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      if (useComponent && !(composer as any)[InejctWithOption]) {
+        composer = null
       }
     }
     if (composer != null) {

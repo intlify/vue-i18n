@@ -73,7 +73,8 @@ export const NumberFormat = {
   setup(props: NumberFormatProps, context: SetupContext): RenderFunction {
     const i18n =
       props.i18n ||
-      (useI18n({ useScope: 'parent' }) as Composer & ComposerInternal)
+      (useI18n({ useScope: 'parent', __useComponent: true }) as Composer &
+        ComposerInternal)
 
     return renderFormatter<
       FormattableProps<number, Intl.NumberFormatOptions>,

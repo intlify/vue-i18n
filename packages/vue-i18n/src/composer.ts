@@ -98,6 +98,7 @@ export const EnableEmitter = makeSymbol('__enableEmitter')
 export const DisableEmitter = makeSymbol('__disableEmitter')
 export const SetPluralRulesSymbol = makeSymbol('__setPluralRules')
 export const DevToolsMetaSymbol = makeSymbol('__intlifyMeta')
+export const InejctWithOption = makeSymbol('__injectWithOption')
 
 /** @VueI18nComposition */
 export type VueMessageType = string | VNode
@@ -326,6 +327,7 @@ export interface ComposerInternalOptions<
   __i18n?: CustomBlocks<Message>
   __i18nGlobal?: CustomBlocks<Message>
   __root?: Composer<Messages, DateTimeFormats, NumberFormats, Message>
+  __injectWithOption?: boolean
 }
 
 /**
@@ -1862,7 +1864,8 @@ export function createComposer<
     [TransrateVNodeSymbol]: transrateVNode,
     [NumberPartsSymbol]: numberParts,
     [DatetimePartsSymbol]: datetimeParts,
-    [SetPluralRulesSymbol]: setPluralRules
+    [SetPluralRulesSymbol]: setPluralRules,
+    [InejctWithOption]: (options as any).__injectWithOption // eslint-disable-line @typescript-eslint/no-explicit-any
   }
 
   // for vue-devtools timeline event
