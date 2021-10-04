@@ -1,4 +1,14 @@
 
+## v9.1.8 (2021-10-04)
+
+#### :bug: Bug Fixes
+* `message-compiler`, `vue-i18n`
+  * [#720](https://github.com/intlify/vue-i18n-next/pull/720) fix: bring bug fixes from v9.2.0-beta.11 ([@kazupon](https://github.com/kazupon))
+
+#### Committers: 1
+- kazuya kawaguchi ([@kazupon](https://github.com/kazupon))
+
+
 ## v9.1.7 (2021-07-13)
 
 #### :bug: Bug Fixes
