@@ -700,7 +700,7 @@ function getComposer<
           .__composer as Composer<Messages, DateTimeFormats, NumberFormats>
       }
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      if (useComponent && !(composer as any)[InejctWithOption]) {
+      if (useComponent && composer && !(composer as any)[InejctWithOption]) {
         composer = null
       }
     }

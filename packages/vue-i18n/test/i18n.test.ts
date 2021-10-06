@@ -3,6 +3,7 @@
  */
 
 import {
+  ref,
   defineComponent,
   nextTick,
   getCurrentInstance,
@@ -959,4 +960,164 @@ test('issue #708', async () => {
   expect(wrapper.html()).toEqual(
     `<div> C1: <div>Hello world!</div><div>Hello <strong>world!</strong></div><br><div>C2 slot: <div>Hello world!</div><div>Hello <strong>world!</strong></div></div></div>`
   )
+})
+
+describe('issue #722', () => {
+  test('legacy', async () => {
+    const messages = {
+      en: { language: 'English' },
+      ja: { language: '日本語' }
+    }
+
+    const i18n = createI18n({
+      legacy: true,
+      locale: 'en',
+      messages
+    })
+
+    const App = defineComponent({
+      template: `<transition name="fade">
+    <i18n-t keypath="hello" tag="p">
+      <template #world>
+          <b>{{ $t("world") }}</b>
+      </template>
+    </i18n-t>
+</transition>`,
+      i18n: {
+        messages: {
+          en: {
+            hello: 'Hello {world}',
+            world: 'world!'
+          }
+        }
+      }
+    })
+    const wrapper = await mount(App, i18n)
+
+    expect(wrapper.html()).toEqual(`<p>Hello <b>world!</b></p>`)
+  })
+
+  test('composition', async () => {
+    const messages = {
+      en: { language: 'English' },
+      ja: { language: '日本語' }
+    }
+
+    const i18n = createI18n({
+      legacy: false,
+      globalInjection: true,
+      locale: 'en',
+      messages
+    })
+
+    const App = defineComponent({
+      setup() {
+        const { t } = useI18n({
+          inheritLocale: true,
+          messages: {
+            en: {
+              hello: 'Hello {world}',
+              world: 'world!'
+            }
+          }
+        })
+        return { t }
+      },
+      template: `<transition name="fade">
+    <i18n-t keypath="hello" tag="p">
+      <template #world>
+          <b>{{ t("world") }}</b>
+      </template>
+    </i18n-t>
+</transition>`
+    })
+    const wrapper = await mount(App, i18n)
+
+    expect(wrapper.html()).toEqual(`<p>Hello <b>world!</b></p>`)
+  })
+
+  test('v-if: legacy', async () => {
+    const messages = {
+      en: { language: 'English' },
+      ja: { language: '日本語' }
+    }
+
+    const i18n = createI18n({
+      legacy: true,
+      locale: 'en',
+      messages
+    })
+
+    const App = defineComponent({
+      data() {
+        return { flag: true }
+      },
+      template: `<div v-if="flag">
+    <i18n-t keypath="hello" tag="p">
+      <template #world>
+          <b>{{ $t("world") }}</b>
+      </template>
+    </i18n-t>
+</div>`,
+      i18n: {
+        messages: {
+          en: {
+            hello: 'Hello {world}',
+            world: 'world!'
+          }
+        }
+      }
+    })
+    const wrapper = await mount(App, i18n)
+
+    expect(wrapper.html()).toEqual(`<div><p>Hello <b>world!</b></p></div>`)
+  })
+
+  test('v-if: composition', async () => {
+    const messages = {
+      en: { language: 'English' },
+      ja: { language: '日本語' }
+    }
+
+    const i18n = createI18n({
+      legacy: false,
+      globalInjection: true,
+      locale: 'en',
+      messages
+    })
+
+    const App = defineComponent({
+      setup() {
+        const { t } = useI18n({
+          inheritLocale: true,
+          messages: {
+            en: {
+              hello: 'Hello {world}',
+              world: 'world!'
+            }
+          }
+        })
+        const flag = ref(true)
+        return { t, flag }
+      },
+      template: `<div v-if="flag">
+    <i18n-t keypath="hello" tag="p">
+      <template #world>
+          <b>{{ t("world") }}</b>
+      </template>
+    </i18n-t>
+</div>`,
+      i18n: {
+        messages: {
+          en: {
+            hello: 'Hello {world}',
+            world: 'world!'
+          }
+        }
+      }
+    })
+    const wrapper = await mount(App, i18n)
+
+    expect(wrapper.html()).toEqual(`<div><p>Hello <b>world!</b></p></div>`)
+  })
 })
