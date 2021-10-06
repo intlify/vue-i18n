@@ -1,4 +1,14 @@
 
+## v9.1.9 (2021-10-06)
+
+#### :bug: Bug Fixes
+* `vue-i18n`
+  * [#723](https://github.com/intlify/vue-i18n-next/pull/723) fix: Built-in components bugs ([@kazupon](https://github.com/kazupon))
+
+#### Committers: 1
+- kazuya kawaguchi ([@kazupon](https://github.com/kazupon))
+
+
 ## v9.1.8 (2021-10-04)
 
 #### :bug: Bug Fixes

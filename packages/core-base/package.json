@@ -1,6 +1,6 @@
 {
   "name": "@intlify/core-base",
-  "version": "9.1.8",
+  "version": "9.1.9",
   "description": "@intlify/core-base",
   "keywords": [
     "core",
@@ -33,12 +33,12 @@
   "jsdelivr": "dist/core-base.global.js",
   "types": "dist/core-base.d.ts",
   "dependencies": {
-    "@intlify/devtools-if": "9.1.8",
-    "@intlify/message-compiler": "9.1.8",
-    "@intlify/message-resolver": "9.1.8",
-    "@intlify/runtime": "9.1.8",
-    "@intlify/shared": "9.1.8",
-    "@intlify/vue-devtools": "9.1.8"
+    "@intlify/devtools-if": "9.1.9",
+    "@intlify/message-compiler": "9.1.9",
+    "@intlify/message-resolver": "9.1.9",
+    "@intlify/runtime": "9.1.9",
+    "@intlify/shared": "9.1.9",
+    "@intlify/vue-devtools": "9.1.9"
   },
   "engines": {
     "node": ">= 10"
