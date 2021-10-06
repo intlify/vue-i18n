@@ -911,8 +911,11 @@ function getComposer(
         if (vueI18n != null) {
           composer = (vueI18n as VueI18n & VueI18nInternal)
             .__composer as Composer
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          if (useComponent && !(composer as any)[InejctWithOption]) {
+          if (
+            useComponent &&
+            composer &&
+            !(composer as any)[InejctWithOption] // eslint-disable-line @typescript-eslint/no-explicit-any
+          ) {
             composer = null
           }
         }
