@@ -8037,10 +8037,10 @@ modify-values@^1.0.0:
   resolved "https://registry.yarnpkg.com/modify-values/-/modify-values-1.0.1.tgz#b3939fa605546474e3e3e3c63d64bd43b4ee6022"
   integrity sha512-xV2bxeN6F7oYjZWTe/YPAy6MN2M+sL4u/Rlm2AHCIVGfo2p1yGmBHQ6vHehl4bRTZBdHu3TSkWdYgkwpYzAGSw==
 
-monaco-editor@^0.28.0:
-  version "0.28.0"
-  resolved "https://registry.yarnpkg.com/monaco-editor/-/monaco-editor-0.28.0.tgz#eda159cf64d9ad96b60e78525d6f822aa943170c"
-  integrity sha512-Mo0Mn2rZubXqjiy8AUs/0hGnY2y3oc4UPAP2hgVqrMX0E5Np9aCCz+BeHKzkl4D3n6xeR7mB4JuvOumD5kwC/A==
+monaco-editor@^0.29.0:
+  version "0.29.0"
+  resolved "https://registry.yarnpkg.com/monaco-editor/-/monaco-editor-0.29.0.tgz#916b7be58e882c3b2a4a2f444688b583919e085e"
+  integrity sha512-7bOTapOZG8gNfzk9HJstNClnRjD9TEkVqo7qB3W6y+4cypS31A55MBQ7dpnEdnQBU+Hz3isyx61mi3/e05S7Xg==
 
 mount-point@^3.0.0:
   version "3.0.0"
