@@ -42,6 +42,7 @@
     "docs:dev": "vitepress dev docs",
     "docs:serve": "vitepress serve docs",
     "docs:setup": "npm run build:typed && npm run docs:apigen",
+    "example:ssr": "cd examples/ssr/vite && npm run dev",
     "fix": "run-p lint:fix format:fix",
     "format:fix": "run-p \"format:prettier -- --write\" format:package",
     "format:package": "node -r esbuild-register ./scripts/fixpack.ts",
