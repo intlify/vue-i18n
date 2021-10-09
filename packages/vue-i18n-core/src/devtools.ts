@@ -35,7 +35,7 @@ type _I18n = I18n & I18nInternal
 
 const VUE_I18N_COMPONENT_TYPES = 'vue-i18n: composer properties'
 
-let devtoolsApi: DevtoolsPluginApi
+let devtoolsApi: DevtoolsPluginApi<{}>
 
 export async function enableDevTools(app: App, i18n: _I18n): Promise<boolean> {
   return new Promise((resolve, reject) => {
