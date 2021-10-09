@@ -17,7 +17,7 @@
     "benchmark": "node ./benchmark/index.js",
     "build": "node -r esbuild-register scripts/build.ts",
     "build:explorer": "cd packages/format-explorer && vite build",
-    "build:size": "npm run build && npm-run-all --parallel build:size-*",
+    "build:size": "npm run build && run-p build:size-*",
     "build:size-core": "cd packages/size-check-core && npm run build",
     "build:size-petite-vue-i18n": "cd packages/size-check-petite-vue-i18n && npm run build",
     "build:size-vue-i18n": "cd packages/size-check-vue-i18n && npm run build",
@@ -133,7 +133,7 @@
     "ts-jest": "^26.5.4",
     "typescript": "4.2.3",
     "typescript-eslint-language-service": "^4.1.3",
-    "vitepress": "^0.20.0",
+    "vitepress": "^0.18.0",
     "vue": "^3.2.4",
     "yorkie": "^2.0.0"
   },
