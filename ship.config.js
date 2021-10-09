@@ -65,11 +65,11 @@ module.exports = {
     ]
   },
   updateChangelog: false,
-  buildCommand: ({ isYarn, version }) => 'yarn build:type',
+  buildCommand: ({ isYarn, version }) => 'npm run build:type',
   beforeCommitChanges: async ({ nextVersion, exec, dir }) => {
     const pkg = require('./package.json')
     await commitChangelog(pkg.version, nextVersion)
-    await exec('yarn format:package')
+    await exec('npm run format:package')
   },
   formatCommitMessage: ({ version, releaseType, mergeStrategy, baseBranch }) =>
     `${releaseType} release v${version}`,

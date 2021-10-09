@@ -414,11 +414,9 @@ export interface VueI18nTranslation<
   Locales = 'en-US',
   DefinedLocaleMessage extends RemovedIndexResources<DefineLocaleMessage> = RemovedIndexResources<DefineLocaleMessage>,
   C = IsEmptyObject<DefinedLocaleMessage> extends false
-    ? PickupPaths<
-        {
-          [K in keyof DefinedLocaleMessage]: DefinedLocaleMessage[K]
-        }
-      >
+    ? PickupPaths<{
+        [K in keyof DefinedLocaleMessage]: DefinedLocaleMessage[K]
+      }>
     : never,
   M = IsEmptyObject<Messages> extends false ? PickupKeys<Messages> : never,
   ResourceKeys extends C | M = IsNever<C> extends false
@@ -559,11 +557,9 @@ export interface VueI18nTranslationChoice<
   Locales = 'en-US',
   DefinedLocaleMessage extends RemovedIndexResources<DefineLocaleMessage> = RemovedIndexResources<DefineLocaleMessage>,
   C = IsEmptyObject<DefinedLocaleMessage> extends false
-    ? PickupPaths<
-        {
-          [K in keyof DefinedLocaleMessage]: DefinedLocaleMessage[K]
-        }
-      >
+    ? PickupPaths<{
+        [K in keyof DefinedLocaleMessage]: DefinedLocaleMessage[K]
+      }>
     : never,
   M = IsEmptyObject<Messages> extends false ? PickupKeys<Messages> : never,
   ResourceKeys extends C | M = IsNever<C> extends false
@@ -716,11 +712,9 @@ export interface VueI18nDateTimeFormatting<
   Locales = 'en-US',
   DefinedDateTimeFormat extends RemovedIndexResources<DefineDateTimeFormat> = RemovedIndexResources<DefineDateTimeFormat>,
   C = IsEmptyObject<DefinedDateTimeFormat> extends false
-    ? PickupFormatPathKeys<
-        {
-          [K in keyof DefinedDateTimeFormat]: DefinedDateTimeFormat[K]
-        }
-      >
+    ? PickupFormatPathKeys<{
+        [K in keyof DefinedDateTimeFormat]: DefinedDateTimeFormat[K]
+      }>
     : never,
   M = IsEmptyObject<DateTimeFormats> extends false
     ? PickupFormatKeys<DateTimeFormats>
@@ -812,11 +806,9 @@ export interface VueI18nNumberFormatting<
   Locales = 'en-US',
   DefinedNumberFormat extends RemovedIndexResources<DefineNumberFormat> = RemovedIndexResources<DefineNumberFormat>,
   C = IsEmptyObject<DefinedNumberFormat> extends false
-    ? PickupFormatPathKeys<
-        {
-          [K in keyof DefinedNumberFormat]: DefinedNumberFormat[K]
-        }
-      >
+    ? PickupFormatPathKeys<{
+        [K in keyof DefinedNumberFormat]: DefinedNumberFormat[K]
+      }>
     : never,
   M = IsEmptyObject<NumberFormats> extends false
     ? PickupFormatKeys<NumberFormats>
@@ -1068,11 +1060,9 @@ export interface VueI18n<
   t: VueI18nTranslation<
     Messages,
     Locales,
-    RemoveIndexSignature<
-      {
-        [K in keyof DefineLocaleMessage]: DefineLocaleMessage[K]
-      }
-    >
+    RemoveIndexSignature<{
+      [K in keyof DefineLocaleMessage]: DefineLocaleMessage[K]
+    }>
   >
   /**
    * Resolve locale message translation
@@ -1090,11 +1080,9 @@ export interface VueI18n<
   tc: VueI18nTranslationChoice<
     Messages,
     Locales,
-    RemoveIndexSignature<
-      {
-        [K in keyof DefineLocaleMessage]: DefineLocaleMessage[K]
-      }
-    >
+    RemoveIndexSignature<{
+      [K in keyof DefineLocaleMessage]: DefineLocaleMessage[K]
+    }>
   >
   /**
    * Translation locale message exist
@@ -1211,11 +1199,9 @@ export interface VueI18n<
   d: VueI18nDateTimeFormatting<
     DateTimeFormats,
     Locales,
-    RemoveIndexSignature<
-      {
-        [K in keyof DefineDateTimeFormat]: DefineDateTimeFormat[K]
-      }
-    >
+    RemoveIndexSignature<{
+      [K in keyof DefineDateTimeFormat]: DefineDateTimeFormat[K]
+    }>
   >
   /**
    * Get datetime format
@@ -1257,11 +1243,9 @@ export interface VueI18n<
   n: VueI18nNumberFormatting<
     NumberFormats,
     Locales,
-    RemoveIndexSignature<
-      {
-        [K in keyof DefineNumberFormat]: DefineNumberFormat[K]
-      }
-    >
+    RemoveIndexSignature<{
+      [K in keyof DefineNumberFormat]: DefineNumberFormat[K]
+    }>
   >
   /**
    * Get number format

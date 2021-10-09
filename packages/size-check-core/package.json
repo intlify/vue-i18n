@@ -8,9 +8,9 @@
     "serve": "vite preview"
   },
   "dependencies": {
-    "@intlify/core": "9.2.0-alpha.7"
+    "@intlify/core": "workspace:*"
   },
   "devDependencies": {
-    "vite": "^2.4.2"
+    "vite": "^2.6.0"
   }
 }

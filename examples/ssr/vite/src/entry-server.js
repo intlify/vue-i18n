@@ -25,10 +25,10 @@ export async function render(url, manifest) {
 function renderPreloadLinks(modules, manifest) {
   let links = ''
   const seen = new Set()
-  modules.forEach((id) => {
+  modules.forEach(id => {
     const files = manifest[id]
     if (files) {
-      files.forEach((file) => {
+      files.forEach(file => {
         if (!seen.has(file)) {
           seen.add(file)
           links += renderPreloadLink(file)

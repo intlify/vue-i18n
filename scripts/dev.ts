@@ -6,20 +6,19 @@ formats to watch (defaults to "global"):
 
 ```
 # name supports fuzzy match. will watch all packages with name containing "core-base"
-yarn dev core-base
+pnpm dev core-base
 
 # specify the format to output
-yarn dev core --formats cjs
+pnpm dev core --formats cjs
 
 # Can also drop all __DEV__ blocks with:
-__DEV__=false yarn dev
+__DEV__=false pnpm run dev
 ```
 */
 
 import execa from 'execa'
 import { fuzzyMatchTarget } from './utils'
 import minimist from 'minimist'
-
 ;(async () => {
   const args = minimist(process.argv.slice(2))
   const targets = await fuzzyMatchTarget(args._)

@@ -1,4 +1,5 @@
 import { promises as fs } from 'fs'
+import { resolve, dirname } from 'pathe'
 import chalk from 'chalk'
 
 export const targets = async () => {
@@ -9,7 +10,9 @@ export const targets = async () => {
       if (!stat.isDirectory()) {
         return ''
       }
-      const { default: pkg } = await import(`../packages/${f}/package.json`)
+      const pkg = await readJson(
+        resolve(dirname(''), `./packages/${f}/package.json`)
+      )
       if (pkg.private || !pkg.buildOptions) {
         return ''
       }
@@ -54,4 +57,9 @@ export const fuzzyMatchTarget = async (
 export async function checkSizeDistFiles(target) {
   const dirs = await fs.readdir(`${target}/dist`)
   return dirs.filter(file => /prod.js$/.test(file))
+}
+
+export async function readJson(path: string) {
+  const data = await fs.readFile(path, 'utf8')
+  return JSON.parse(data)
 }

@@ -12,16 +12,13 @@ jobs:
     runs-on: Ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+      - name: Install pnpm
+        uses: pnpm/action-setup@v2.0.1
+        with:
+          version: 6.15.1
       - uses: actions/setup-node@v2
         with:
-          registry-url: "https://registry.npmjs.org"
-      - run: git switch master
-      - run: |
-          if [ -f "yarn.lock" ]; then
-            yarn install
-          else
-            npm install
-          fi
+          cache: 'pnpm'
       - run: npm run release:trigger
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
