@@ -59,7 +59,7 @@ import type {
 } from './composer'
 import type { VueI18n, VueI18nOptions, VueI18nInternal } from './legacy'
 
-declare module '@vue/runtime-core' {
+declare module 'vue' {
   // eslint-disable-next-line
   interface App<HostElement = any> {
     __VUE_I18N__?: I18n & I18nInternal

@@ -7,16 +7,16 @@ or "esm,cjs"):
 
 ```
 # name supports fuzzy match. will build all packages with name containing "core-base":
-yarn build core-base
+pnpm build core-base
 
 # specify the format to output
-yarn build core --formats cjs
+pnpm build core --formats cjs
 ```
 */
 
 import { promisify } from 'util'
 import { promises as fs } from 'fs'
-import path from 'path'
+import path from 'pathe'
 import chalk from 'chalk'
 import execa from 'execa'
 import os from 'os'
@@ -25,7 +25,8 @@ import { compress } from 'brotli'
 import {
   targets as allTargets,
   fuzzyMatchTarget,
-  checkSizeDistFiles
+  checkSizeDistFiles,
+  readJson
 } from './utils'
 import minimist from 'minimist'
 import { Extractor, ExtractorConfig } from '@microsoft/api-extractor'
@@ -53,7 +54,9 @@ const rimraf = promisify(_rimraf)
     if (isRelease) {
       // remove build cache for release builds to avoid outdated enum values
       // @ts-ignore
-      await rimraf(path.resolve(__dirname, '../node_modules/.rts2_cache'))
+      await rimraf(
+        path.resolve(path.dirname('.'), './node_modules/.rts2_cache')
+      )
     }
     if (!targets.length) {
       targets = await allTargets()
@@ -97,8 +100,8 @@ const rimraf = promisify(_rimraf)
   }
 
   async function build(target) {
-    const pkgDir = path.resolve(`packages/${target}`)
-    const { default: pkg } = await import(`${pkgDir}/package.json`)
+    const pkgDir = path.resolve(path.dirname('.'), `./packages/${target}`)
+    const pkg = await readJson(`${pkgDir}/package.json`)
 
     // only build published packages for release
     if (isRelease && pkg.private) {

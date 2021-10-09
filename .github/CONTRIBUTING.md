@@ -43,12 +43,14 @@ It is of course fine to use non-English language, when you open a PR to translat
 
 ## Development Setup
 
-You will need [Node.js](http://nodejs.org) **version 12+**, and [Yarn v1](https://classic.yarnpkg.com/).
+You will need [Node.js](http://nodejs.org) **version 12+**, and [PNPM](https://pnpm.io).
+
+We also recommend installing [ni](https://github.com/antfu/ni) to help switching between repos using different package managers. `ni` also provides the handy `nr` command which running npm scripts easier.
 
 After cloning the repo, run:
 
 ```bash
-$ yarn # install the dependencies of the project
+$ pnpm i # install the dependencies of the project
 ```
 
 
@@ -63,7 +65,7 @@ A high level overview of tools used:
 
 ## Scripts
 
-### `yarn build`
+### `pnpm build`
 
 The `build` script builds all public packages (packages without `private: true` in their `package.json`).
 
@@ -71,10 +73,10 @@ Packages to build can be specified with fuzzy matching:
 
 ```bash
 # build message-compiler only
-yarn build message-compiler
+pnpm build -- message-compiler
 
 # build all packages
-yarn build --all
+pnpm build -- --all
 ```
 
 #### Build Formats
@@ -107,13 +109,13 @@ By default, each package will be built in multiple distribution formats as speci
 For example, to build `compiler` with the global build only:
 
 ```bash
-yarn build message-compiler -f global
+pnpm build -- message-compiler -f global
 ```
 
 Multiple formats can be specified as a comma-separated list:
 
 ```bash
-yarn build message-compiler -f esm-browser,cjs
+pnpm build -- message-compiler -f esm-browser,cjs
 ```
 
 #### Build with Source Maps
@@ -128,12 +130,12 @@ The `--types` or `-t` flag will generate type declarations during the build and 
 - Generate an API report in `<projectRoot>/temp/<packageName>.api.md`. This report contains potential warnings emitted by [api-extractor](https://api-extractor.com/).
 - Generate an API model json in `<projectRoot>/temp/<packageName>.api.json`. This file can be used to generate a Markdown version of the exported APIs.
 
-### `yarn dev`
+### `pnpm dev`
 
 The `dev` script bundles a target package (default: `vue-i18n`) in a specified format (default: `global`) in dev mode and watches for changes. This is useful when you want to load up a build in an HTML page for quick debugging:
 
 ```bash
-$ yarn dev
+$ pnpm dev
 
 > rollup v1.19.4
 > bundles packages/vue-i18n/src/index.ts → packages/vue-i18n/dist/vue-i18n.global.js...
@@ -145,25 +147,25 @@ $ yarn dev
 
 - The `dev` script also supports the `-s` flag for generating source maps, but it will make rebuilds slower.
 
-### `yarn test`
+### `pnpm test`
 
 The `test` script simply calls the `jest` binary, so all [Jest CLI Options](https://jestjs.io/docs/en/cli) can be used. Some examples:
 
 ```bash
 # run all tests
-$ yarn test
+$ pnpm test
 
 # run tests in watch mode
-$ yarn test --watch
+$ pnpm test -- --watch
 
 # run all tests under the runtime-core package
-$ yarn test compiler
+$ pnpm test -- compiler
 
 # run tests in a specific file
-$ yarn test fileName
+$ pnpm test -- fileName
 
 # run a specific test in a specific file
-$ yarn test fileName -t 'test name'
+$ pnpm test -- fileName -t 'test name'
 ```
 
 ## Project Structure
@@ -171,11 +173,13 @@ $ yarn test fileName -t 'test name'
 This repository employs a [monorepo](https://en.wikipedia.org/wiki/Monorepo) setup which hosts a number of associated packages under the `packages` directory:
 
 - `shared`: Internal utilities shared across multiple packages.
-- `message-resolver`: The message resolver.
-- `message-compiler`: The message format compiler.
-- `runtime`: The intlify runtime
-- `core`: The intlify core.
-- `vue-i18n`: The public facing "full build" which includes both the runtime AND the compiler.
+- `message-compiler`: The intlify message format compiler.
+- `core-base`: The inlitfy core base.
+- `core`: The intlify core "full build" which includes both the runtime AND the compiler.
+- `vue-i18n-core`: The vue-i18n core implementation package.
+- `vue-i18n`: The vue-i18n "full build" which includes both the runtime AND the compiler.
+- `vue-i18n-bridge`: The birdge package for migrating from vue-i18n@v8.26.1 or later.
+- `petite-vue-i18n`: The vue-i18n "small build" which includes both the runtime AND the compiler.
 
 ### Importing Packages
 
@@ -189,7 +193,7 @@ This is made possible via several configurations:
 
 - For TypeScript, `compilerOptions.path` in `tsconfig.json`
 - For Jest, `moduleNameMapper` in `jest.config.js`
-- For plain Node.js, they are linked using [Yarn Workspaces](https://yarnpkg.com/blog/2017/08/02/introducing-workspaces/).
+- For plain Node.js, they are linked using [PNPM Workspaces](https://pnpm.io/workspaces).
 
 ## Contributing Tests
 

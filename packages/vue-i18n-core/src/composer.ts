@@ -197,32 +197,26 @@ export interface DefineDateTimeFormat extends DateTimeFormat {} // eslint-disabl
  */
 export interface DefineNumberFormat extends NumberFormat {} // eslint-disable-line @typescript-eslint/no-empty-interface
 
-export type RemovedIndexResources<T> = RemoveIndexSignature<
-  { [K in keyof T]: T[K] }
->
+export type RemovedIndexResources<T> = RemoveIndexSignature<{
+  [K in keyof T]: T[K]
+}>
 
 export type DefaultLocaleMessageSchema<
-  Schema = RemoveIndexSignature<
-    {
-      [K in keyof DefineLocaleMessage]: DefineLocaleMessage[K]
-    }
-  >
+  Schema = RemoveIndexSignature<{
+    [K in keyof DefineLocaleMessage]: DefineLocaleMessage[K]
+  }>
 > = IsEmptyObject<Schema> extends true ? LocaleMessage<VueMessageType> : Schema
 
 export type DefaultDateTimeFormatSchema<
-  Schema = RemoveIndexSignature<
-    {
-      [K in keyof DefineDateTimeFormat]: DefineDateTimeFormat[K]
-    }
-  >
+  Schema = RemoveIndexSignature<{
+    [K in keyof DefineDateTimeFormat]: DefineDateTimeFormat[K]
+  }>
 > = IsEmptyObject<Schema> extends true ? DateTimeFormat : Schema
 
 export type DefaultNumberFormatSchema<
-  Schema = RemoveIndexSignature<
-    {
-      [K in keyof DefineNumberFormat]: DefineNumberFormat[K]
-    }
-  >
+  Schema = RemoveIndexSignature<{
+    [K in keyof DefineNumberFormat]: DefineNumberFormat[K]
+  }>
 > = IsEmptyObject<Schema> extends true ? NumberFormat : Schema
 
 /** @VueI18nComposition */
@@ -582,11 +576,9 @@ export interface ComposerTranslation<
   Locales = 'en-US',
   DefinedLocaleMessage extends RemovedIndexResources<DefineLocaleMessage> = RemovedIndexResources<DefineLocaleMessage>,
   C = IsEmptyObject<DefinedLocaleMessage> extends false
-    ? PickupPaths<
-        {
-          [K in keyof DefinedLocaleMessage]: DefinedLocaleMessage[K]
-        }
-      >
+    ? PickupPaths<{
+        [K in keyof DefinedLocaleMessage]: DefinedLocaleMessage[K]
+      }>
     : never,
   M = IsEmptyObject<Messages> extends false ? PickupKeys<Messages> : never,
   ResourceKeys extends C | M = IsNever<C> extends false
@@ -928,11 +920,9 @@ export interface ComposerDateTimeFormatting<
   Locales = 'en-US',
   DefinedDateTimeFormat extends RemovedIndexResources<DefineDateTimeFormat> = RemovedIndexResources<DefineDateTimeFormat>,
   C = IsEmptyObject<DefinedDateTimeFormat> extends false
-    ? PickupFormatPathKeys<
-        {
-          [K in keyof DefinedDateTimeFormat]: DefinedDateTimeFormat[K]
-        }
-      >
+    ? PickupFormatPathKeys<{
+        [K in keyof DefinedDateTimeFormat]: DefinedDateTimeFormat[K]
+      }>
     : never,
   M = IsEmptyObject<DateTimeFormats> extends false
     ? PickupFormatKeys<DateTimeFormats>
@@ -1019,11 +1009,9 @@ export interface ComposerNumberFormatting<
   Locales = 'en-US',
   DefinedNumberFormat extends RemovedIndexResources<DefineNumberFormat> = RemovedIndexResources<DefineNumberFormat>,
   C = IsEmptyObject<DefinedNumberFormat> extends false
-    ? PickupFormatPathKeys<
-        {
-          [K in keyof DefinedNumberFormat]: DefinedNumberFormat[K]
-        }
-      >
+    ? PickupFormatPathKeys<{
+        [K in keyof DefinedNumberFormat]: DefinedNumberFormat[K]
+      }>
     : never,
   M = IsEmptyObject<NumberFormats> extends false
     ? PickupFormatKeys<NumberFormats>
@@ -1166,18 +1154,18 @@ export interface Composer<
    *
    * @VueI18nSee [Datetime Formatting](../guide/essentials/datetime)
    */
-  readonly datetimeFormats: ComputedRef<
-    { [K in keyof DateTimeFormats]: DateTimeFormats[K] }
-  >
+  readonly datetimeFormats: ComputedRef<{
+    [K in keyof DateTimeFormats]: DateTimeFormats[K]
+  }>
   /**
    * @remarks
    * The number formats of localization.
    *
    * @VueI18nSee [Number Formatting](../guide/essentials/number)
    */
-  readonly numberFormats: ComputedRef<
-    { [K in keyof NumberFormats]: NumberFormats[K] }
-  >
+  readonly numberFormats: ComputedRef<{
+    [K in keyof NumberFormats]: NumberFormats[K]
+  }>
   /**
    * @remarks
    * Custom Modifiers for linked messages.
@@ -1253,11 +1241,9 @@ export interface Composer<
   t: ComposerTranslation<
     Messages,
     Locales,
-    RemoveIndexSignature<
-      {
-        [K in keyof DefineLocaleMessage]: DefineLocaleMessage[K]
-      }
-    >
+    RemoveIndexSignature<{
+      [K in keyof DefineLocaleMessage]: DefineLocaleMessage[K]
+    }>
   >
   /**
    * Resolve locale message translation
@@ -1275,11 +1261,9 @@ export interface Composer<
   d: ComposerDateTimeFormatting<
     DateTimeFormats,
     Locales,
-    RemoveIndexSignature<
-      {
-        [K in keyof DefineDateTimeFormat]: DefineDateTimeFormat[K]
-      }
-    >
+    RemoveIndexSignature<{
+      [K in keyof DefineDateTimeFormat]: DefineDateTimeFormat[K]
+    }>
   >
   /**
    * Number Formatting
@@ -1290,11 +1274,9 @@ export interface Composer<
   n: ComposerNumberFormatting<
     NumberFormats,
     Locales,
-    RemoveIndexSignature<
-      {
-        [K in keyof DefineNumberFormat]: DefineNumberFormat[K]
-      }
-    >
+    RemoveIndexSignature<{
+      [K in keyof DefineNumberFormat]: DefineNumberFormat[K]
+    }>
   >
   /**
    * Translation locale message exist
@@ -1384,11 +1366,9 @@ export interface Composer<
     >,
     Target = IsEmptyObject<Messages> extends false
       ? NonNullable<Messages>[Locale]
-      : RemoveIndexSignature<
-          {
-            [K in keyof DefineLocaleMessage]: DefineLocaleMessage[K]
-          }
-        >,
+      : RemoveIndexSignature<{
+          [K in keyof DefineLocaleMessage]: DefineLocaleMessage[K]
+        }>,
     Return = ResourceKeys extends ResourcePath<Target>
       ? ResourceValue<Target, ResourceKeys>
       : Record<string, any>
@@ -1415,11 +1395,9 @@ export interface Composer<
     >,
     Return = IsNever<MessageSchema> extends true
       ? IsEmptyObject<Messages> extends true
-        ? RemoveIndexSignature<
-            {
-              [K in keyof DefineLocaleMessage]: DefineLocaleMessage[K]
-            }
-          >
+        ? RemoveIndexSignature<{
+            [K in keyof DefineLocaleMessage]: DefineLocaleMessage[K]
+          }>
         : NonNullable<Messages>[Locale]
       : MessageSchema
   >(
@@ -1444,11 +1422,9 @@ export interface Composer<
     >,
     MessageType = IsNever<MessageSchema> extends true
       ? IsEmptyObject<Messages> extends true
-        ? RemoveIndexSignature<
-            {
-              [K in keyof DefineLocaleMessage]: DefineLocaleMessage[K]
-            }
-          >
+        ? RemoveIndexSignature<{
+            [K in keyof DefineLocaleMessage]: DefineLocaleMessage[K]
+          }>
         : NonNullable<Messages>[Locale]
       : MessageSchema,
     Message extends MessageType = MessageType
@@ -1500,11 +1476,9 @@ export interface Composer<
     >,
     Return = IsNever<DateTimeSchema> extends true
       ? IsEmptyObject<DateTimeFormats> extends true
-        ? RemoveIndexSignature<
-            {
-              [K in keyof DefineDateTimeFormat]: DefineDateTimeFormat[K]
-            }
-          >
+        ? RemoveIndexSignature<{
+            [K in keyof DefineDateTimeFormat]: DefineDateTimeFormat[K]
+          }>
         : NonNullable<DateTimeFormats>[Locale]
       : DateTimeSchema
   >(
@@ -1529,11 +1503,9 @@ export interface Composer<
     >,
     FormatsType = IsNever<DateTimeSchema> extends true
       ? IsEmptyObject<DateTimeFormats> extends true
-        ? RemoveIndexSignature<
-            {
-              [K in keyof DefineDateTimeFormat]: DefineDateTimeFormat[K]
-            }
-          >
+        ? RemoveIndexSignature<{
+            [K in keyof DefineDateTimeFormat]: DefineDateTimeFormat[K]
+          }>
         : NonNullable<DateTimeFormats>[Locale]
       : DateTimeSchema,
     Formats extends FormatsType = FormatsType
@@ -1585,11 +1557,9 @@ export interface Composer<
     >,
     Return = IsNever<NumberSchema> extends true
       ? IsEmptyObject<NumberFormats> extends true
-        ? RemoveIndexSignature<
-            {
-              [K in keyof DefineNumberFormat]: DefineNumberFormat[K]
-            }
-          >
+        ? RemoveIndexSignature<{
+            [K in keyof DefineNumberFormat]: DefineNumberFormat[K]
+          }>
         : NonNullable<NumberFormats>[Locale]
       : NumberSchema
   >(
@@ -1614,11 +1584,9 @@ export interface Composer<
     >,
     FormatsType = IsNever<NumberSchema> extends true
       ? IsEmptyObject<NumberFormats> extends true
-        ? RemoveIndexSignature<
-            {
-              [K in keyof DefineNumberFormat]: DefineNumberFormat[K]
-            }
-          >
+        ? RemoveIndexSignature<{
+            [K in keyof DefineNumberFormat]: DefineNumberFormat[K]
+          }>
         : NonNullable<NumberFormats>[Locale]
       : NumberSchema,
     Formats extends FormatsType = FormatsType
