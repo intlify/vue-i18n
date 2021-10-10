@@ -4,6 +4,8 @@ importers:
 
   .:
     specifiers:
+      '@intlify/core-base': workspace:*
+      '@intlify/message-compiler': workspace:*
       '@kazupon/lerna-changelog': ^4.3.0
       '@microsoft/api-extractor': 7.15.2
       '@rollup/plugin-commonjs': ^21.0.0
@@ -77,8 +79,11 @@ importers:
       typescript-eslint-language-service: ^4.1.3
       vitepress: ^0.18.0
       vue: ^3.2.4
+      vue-i18n: workspace:*
       yorkie: ^2.0.0
     devDependencies:
+      '@intlify/core-base': link:packages/core-base
+      '@intlify/message-compiler': link:packages/message-compiler
       '@kazupon/lerna-changelog': 4.3.0
       '@microsoft/api-extractor': 7.15.2
       '@rollup/plugin-commonjs': 21.0.0_rollup@2.58.0
@@ -152,6 +157,7 @@ importers:
       typescript-eslint-language-service: 4.1.5_306256632336565c0eecc451c0425529
       vitepress: 0.18.1
       vue: 3.2.20
+      vue-i18n: link:packages/vue-i18n
       yorkie: 2.0.0
 
   examples/lazy-loading/vite:
