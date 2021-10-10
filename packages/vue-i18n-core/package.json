@@ -27,6 +27,7 @@
   },
   "files": [
     "index.js",
+    "index.mjs",
     "dist"
   ],
   "main": "index.js",
@@ -57,6 +58,18 @@
       "cjs",
       "global"
     ]
+  },
+  "exports": {
+    ".": {
+      "import": {
+        "node": "./index.mjs",
+        "browser": "./dist/vue-i18n-core.esm-browser.prod.js",
+        "default": "./dist/vue-i18n-core.esm-bundler.js"
+      },
+      "require": "./index.js"
+    },
+    "./dist/*": "./dist/*",
+    "./package.json": "./package.json"
   },
   "publishConfig": {
     "access": "public"

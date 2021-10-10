@@ -18,6 +18,8 @@ export { CoreError, CoreErrorCodes, createCoreError } from './errors'
 export * from './types'
 export * from './devtools'
 
+// TODO: we could not exports for Node native ES Moudles yet...
+
 if (__ESM_BUNDLER__ && !__TEST__) {
   if (typeof __FEATURE_PROD_INTLIFY_DEVTOOLS__ !== 'boolean') {
     getGlobalThis().__INTLIFY_PROD_DEVTOOLS__ = false

@@ -25,6 +25,7 @@
   },
   "files": [
     "index.js",
+    "index.mjs",
     "dist"
   ],
   "main": "index.js",
@@ -49,6 +50,18 @@
       "global",
       "global-runtime"
     ]
+  },
+  "exports": {
+    ".": {
+      "import": {
+        "node": "./index.mjs",
+        "browser": "./dist/core.runtime.esm-browser.prod.js",
+        "default": "./dist/core.runtime.esm-bundler.js"
+      },
+      "require": "./index.js"
+    },
+    "./dist/*": "./dist/*",
+    "./package.json": "./package.json"
   },
   "publishConfig": {
     "access": "public"

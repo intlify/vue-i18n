@@ -25,6 +25,7 @@
   },
   "files": [
     "index.js",
+    "index.mjs",
     "dist"
   ],
   "main": "index.js",
@@ -49,6 +50,18 @@
       "cjs",
       "global"
     ]
+  },
+  "exports": {
+    ".": {
+      "import": {
+        "node": "./index.mjs",
+        "browser": "./dist/core-base.esm-browser.prod.js",
+        "default": "./dist/core-base.esm-bundler.js"
+      },
+      "require": "./index.js"
+    },
+    "./dist/*": "./dist/*",
+    "./package.json": "./package.json"
   },
   "publishConfig": {
     "access": "public"

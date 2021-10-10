@@ -25,6 +25,7 @@
   },
   "files": [
     "index.js",
+    "index.mjs",
     "dist"
   ],
   "main": "index.js",
@@ -48,6 +49,18 @@
       "global"
     ],
     "enableFullBundleForEsmBrowser": true
+  },
+  "exports": {
+    ".": {
+      "import": {
+        "node": "./index.mjs",
+        "browser": "./dist/message-compiler.esm-browser.prod.js",
+        "default": "./dist/message-compiler.esm-bundler.js"
+      },
+      "require": "./index.js"
+    },
+    "./dist/*": "./dist/*",
+    "./package.json": "./package.json"
   },
   "publishConfig": {
     "access": "public"

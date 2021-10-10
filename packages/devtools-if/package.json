@@ -24,6 +24,7 @@
   },
   "files": [
     "index.js",
+    "index.mjs",
     "dist"
   ],
   "main": "index.js",
@@ -41,6 +42,17 @@
       "esm-bundler",
       "cjs"
     ]
+  },
+  "exports": {
+    ".": {
+      "import": {
+        "node": "./index.mjs",
+        "default": "./dist/devtools-if.esm-bundler.js"
+      },
+      "require": "./index.js"
+    },
+    "./dist/*": "./dist/*",
+    "./package.json": "./package.json"
   },
   "publishConfig": {
     "access": "public"
