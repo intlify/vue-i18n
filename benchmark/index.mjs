@@ -22,9 +22,6 @@ function run(pattner) {
     for (const p of ['simple', 'complex']) {
       await run(p)
     }
-    // await asyncForEach(['simple', 'complex'], async p => {
-    //   await run(p)
-    // })
   } catch (e) {
     console.error(e)
   }
