@@ -24,11 +24,23 @@
   },
   "files": [
     "index.js",
+    "index.mjs",
     "dist"
   ],
   "main": "index.js",
   "module": "dist/shared.esm-bundler.js",
   "types": "dist/shared.d.ts",
+  "exports": {
+    ".": {
+      "import": {
+        "node": "./index.mjs",
+        "default": "./dist/shared.esm-bundler.js"
+      },
+      "require": "./index.js"
+    },
+    "./dist/*": "./dist/*",
+    "./package.json": "./package.json"
+  },
   "engines": {
     "node": ">= 12"
   },
