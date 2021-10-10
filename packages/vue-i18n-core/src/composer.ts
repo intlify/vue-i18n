@@ -56,8 +56,15 @@ import {
 import { deepCopy, getLocaleMessages, getComponentOptions } from './utils'
 import { VERSION } from './misc'
 
-import type { ComponentInternalInstance, VNode, VNodeArrayChildren } from 'vue'
-import type { WritableComputedRef, ComputedRef } from '@vue/reactivity'
+import type {
+  ComponentInternalInstance,
+  VNode,
+  VNodeArrayChildren,
+  WritableComputedRef,
+  ComputedRef,
+  RendererNode,
+  RendererElement
+} from 'vue'
 import type {
   Path,
   MessageResolver,
@@ -103,7 +110,7 @@ import type { VueDevToolsEmitter } from '@intlify/vue-devtools'
 import { isLegacyVueI18n } from './utils'
 
 // extend VNode interface
-declare module '@vue/runtime-core' {
+declare module 'vue' {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   interface VNode<HostNode = RendererNode, HostElement = RendererElement> {
     toString: () => string // mark for vue-i18n message runtime
