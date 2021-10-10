@@ -35,18 +35,6 @@
   "unpkg": "dist/vue-i18n.global.js",
   "jsdelivr": "dist/vue-i18n.global.js",
   "types": "dist/vue-i18n.d.ts",
-  "exports": {
-    ".": {
-      "import": {
-        "node": "./index.mjs",
-        "browser": "./dist/vue-i18n.runtime.esm-browser.prod.js",
-        "default": "./dist/vue-i18n.runtime.esm-bundler.js"
-      },
-      "require": "./index.js"
-    },
-    "./dist/*": "./dist/*",
-    "./package.json": "./package.json"
-  },
   "dependencies": {
     "@intlify/core-base": "9.2.0-beta.11",
     "@intlify/shared": "9.2.0-beta.11",
@@ -73,6 +61,18 @@
       "global",
       "global-runtime"
     ]
+  },
+  "exports": {
+    ".": {
+      "import": {
+        "node": "./index.mjs",
+        "browser": "./dist/vue-i18n.runtime.esm-browser.prod.js",
+        "default": "./dist/vue-i18n.runtime.esm-bundler.js"
+      },
+      "require": "./index.js"
+    },
+    "./dist/*": "./dist/*",
+    "./package.json": "./package.json"
   },
   "sideEffects": false,
   "vetur": {

@@ -30,17 +30,6 @@
   "main": "index.js",
   "module": "dist/vue-devtools.esm-bundler.js",
   "types": "dist/vue-devtools.d.ts",
-  "exports": {
-    ".": {
-      "import": {
-        "node": "./index.mjs",
-        "default": "./dist/vue-devtools.esm-bundler.js"
-      },
-      "require": "./index.js"
-    },
-    "./dist/*": "./dist/*",
-    "./package.json": "./package.json"
-  },
   "dependencies": {
     "@intlify/core-base": "9.2.0-beta.11",
     "@intlify/shared": "9.2.0-beta.11"
@@ -54,6 +43,17 @@
       "esm-bundler",
       "cjs"
     ]
+  },
+  "exports": {
+    ".": {
+      "import": {
+        "node": "./index.mjs",
+        "default": "./dist/vue-devtools.esm-bundler.js"
+      },
+      "require": "./index.js"
+    },
+    "./dist/*": "./dist/*",
+    "./package.json": "./package.json"
   },
   "publishConfig": {
     "access": "public"

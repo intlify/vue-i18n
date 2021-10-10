@@ -33,18 +33,6 @@
   "unpkg": "dist/message-compiler.global.js",
   "jsdelivr": "dist/message-compiler.global.js",
   "types": "dist/message-compiler.d.ts",
-  "exports": {
-    ".": {
-      "import": {
-        "node": "./index.mjs",
-        "browser": "./dist/message-compiler.esm-browser.prod.js",
-        "default": "./dist/message-compiler.esm-bundler.js"
-      },
-      "require": "./index.js"
-    },
-    "./dist/*": "./dist/*",
-    "./package.json": "./package.json"
-  },
   "dependencies": {
     "@intlify/shared": "9.2.0-beta.11",
     "source-map": "0.6.1"
@@ -61,6 +49,18 @@
       "global"
     ],
     "enableFullBundleForEsmBrowser": true
+  },
+  "exports": {
+    ".": {
+      "import": {
+        "node": "./index.mjs",
+        "browser": "./dist/message-compiler.esm-browser.prod.js",
+        "default": "./dist/message-compiler.esm-bundler.js"
+      },
+      "require": "./index.js"
+    },
+    "./dist/*": "./dist/*",
+    "./package.json": "./package.json"
   },
   "publishConfig": {
     "access": "public"

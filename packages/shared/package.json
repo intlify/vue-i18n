@@ -30,6 +30,16 @@
   "main": "index.js",
   "module": "dist/shared.esm-bundler.js",
   "types": "dist/shared.d.ts",
+  "engines": {
+    "node": ">= 12"
+  },
+  "buildOptions": {
+    "name": "IntlifyShared",
+    "formats": [
+      "esm-bundler",
+      "cjs"
+    ]
+  },
   "exports": {
     ".": {
       "import": {
@@ -40,16 +50,6 @@
     },
     "./dist/*": "./dist/*",
     "./package.json": "./package.json"
-  },
-  "engines": {
-    "node": ">= 12"
-  },
-  "buildOptions": {
-    "name": "IntlifyShared",
-    "formats": [
-      "esm-bundler",
-      "cjs"
-    ]
   },
   "publishConfig": {
     "access": "public"

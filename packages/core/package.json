@@ -33,18 +33,6 @@
   "unpkg": "dist/core.global.js",
   "jsdelivr": "dist/core.global.js",
   "types": "dist/core.d.ts",
-  "exports": {
-    ".": {
-      "import": {
-        "node": "./index.mjs",
-        "browser": "./dist/core.runtime.esm-browser.prod.js",
-        "default": "./dist/core.runtime.esm-bundler.js"
-      },
-      "require": "./index.js"
-    },
-    "./dist/*": "./dist/*",
-    "./package.json": "./package.json"
-  },
   "dependencies": {
     "@intlify/core-base": "9.2.0-beta.11"
   },
@@ -62,6 +50,18 @@
       "global",
       "global-runtime"
     ]
+  },
+  "exports": {
+    ".": {
+      "import": {
+        "node": "./index.mjs",
+        "browser": "./dist/core.runtime.esm-browser.prod.js",
+        "default": "./dist/core.runtime.esm-bundler.js"
+      },
+      "require": "./index.js"
+    },
+    "./dist/*": "./dist/*",
+    "./package.json": "./package.json"
   },
   "publishConfig": {
     "access": "public"
