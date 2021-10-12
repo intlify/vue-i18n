@@ -1,6 +1,6 @@
 import execa from 'execa'
 import path from 'path'
-import { promise as fs } from 'fs'
+import { promises as fs } from 'fs'
 
 function extractSpecificChangelog(changelog, version) {
   if (!changelog) {
