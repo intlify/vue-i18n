@@ -85,9 +85,7 @@ export default {
     extractChangelog: async ({ version, dir }) => {
       const changelogPath = path.resolve(dir, 'CHANGELOG.md')
       try {
-        const changelogFile = (
-          await fs.readFile(changelogPath, 'utf-8')
-        ).toString()
+        const changelogFile = await fs.readFile(changelogPath, 'utf-8')
         const ret = extractSpecificChangelog(changelogFile, version)
         return ret
       } catch (err) {
