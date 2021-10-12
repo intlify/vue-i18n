@@ -1,4 +1,22 @@
 
+## v9.2.0-beta.12 (2021-10-12)
+
+#### :star: Features
+* `core-base`, `core`, `devtools-if`, `message-compiler`, `petite-vue-i18n`, `shared`, `vue-devtools`, `vue-i18n-bridge`, `vue-i18n-core`, `vue-i18n`
+  * [#733](https://github.com/intlify/vue-i18n-next/pull/733) support node native es modules ([@kazupon](https://github.com/kazupon))
+
+#### :bug: Bug Fixes
+* `vue-i18n-core`
+  * [#725](https://github.com/intlify/vue-i18n-next/pull/725) fix: builtin components bugs ([@kazupon](https://github.com/kazupon))
+
+#### :zap: Improvement Features
+* `petite-vue-i18n`, `size-check-core`, `size-check-petite-vue-i18n`, `size-check-vue-i18n`, `vue-i18n-bridge`, `vue-i18n-core`, `vue-i18n`
+  * [#731](https://github.com/intlify/vue-i18n-next/pull/731) move to pnpm from yarn v1 ([@kazupon](https://github.com/kazupon))
+
+#### Committers: 1
+- kazuya kawaguchi ([@kazupon](https://github.com/kazupon))
+
+
 ## v9.2.0-beta.11 (2021-10-02)
 
 #### :bug: Bug Fixes
