@@ -15,7 +15,6 @@ module.exports = {
     jest: true
   },
   extends: [
-    'plugin:vue-libs/recommended',
     'plugin:vue/vue3-recommended',
     'plugin:@typescript-eslint/recommended',
     'plugin:@typescript-eslint/eslint-recommended',
