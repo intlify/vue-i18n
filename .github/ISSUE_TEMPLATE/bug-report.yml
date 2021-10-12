@@ -35,7 +35,7 @@ body:
     id: system-info
     attributes:
       label: System Info
-      description: Output of `npx envinfo --system --npmPackages vue,vue-i18n --binaries --browsers`
+      description: Output of `npx envinfo --system --npmPackages '{vue*,@vue/*,vue-i18n*,@intlify/*,vite*,@vitejs/*}' --binaries --browsers`
       render: shell
       placeholder: System, Binaries, Browsers
     validations:
