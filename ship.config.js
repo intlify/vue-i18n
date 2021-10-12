@@ -2,6 +2,13 @@ import execa from 'execa'
 import path from 'path'
 import { promises as fs } from 'fs'
 
+const dirname = path.dirname(new URL(import.meta.url).pathname)
+
+async function readJson(target) {
+  const file = await fs.readFile(target, 'utf8')
+  return JSON.parse(file)
+}
+
 function extractSpecificChangelog(changelog, version) {
   if (!changelog) {
     return null
@@ -64,7 +71,7 @@ export default {
   updateChangelog: false,
   buildCommand: ({ isYarn, version }) => 'npm run build:type',
   beforeCommitChanges: async ({ nextVersion, exec, dir }) => {
-    const pkg = require('./package.json')
+    const pkg = await readJson(path.resolve(dirname, './package.json'))
     await commitChangelog(pkg.version, nextVersion)
     await exec('npm run format:package')
   },
@@ -77,7 +84,9 @@ export default {
     extractChangelog: async ({ version, dir }) => {
       const changelogPath = path.resolve(dir, 'CHANGELOG.md')
       try {
-        const changelogFile = fs.readFile(changelogPath, 'utf-8').toString()
+        const changelogFile = (
+          await fs.readFile(changelogPath, 'utf-8')
+        ).toString()
         const ret = extractSpecificChangelog(changelogFile, version)
         return ret
       } catch (err) {
