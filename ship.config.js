@@ -69,11 +69,12 @@ export default {
     ]
   },
   updateChangelog: false,
-  buildCommand: ({ isYarn, version }) => 'npm run build:type',
+  installCommand: () => 'pnpm install --silent',
+  buildCommand: ({ isYarn, version }) => 'pnpm build:type',
   beforeCommitChanges: async ({ nextVersion, exec, dir }) => {
     const pkg = await readJson(path.resolve(dirname, './package.json'))
     await commitChangelog(pkg.version, nextVersion)
-    await exec('npm run format:package')
+    await exec('pnpm format:package')
   },
   formatCommitMessage: ({ version, releaseType, mergeStrategy, baseBranch }) =>
     `${releaseType} release v${version}`,
