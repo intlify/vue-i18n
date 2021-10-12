@@ -1,9 +1,6 @@
-const execa = require(require.resolve('execa'))
-const { promisify } = require('util')
-const fs = require('fs')
-const path = require('path')
-const read = promisify(fs.readFile)
-const write = fs.writeFileSync
+import execa from 'execa'
+import path from 'path'
+import { promise as fs } from 'fs'
 
 function extractSpecificChangelog(changelog, version) {
   if (!changelog) {
@@ -31,11 +28,11 @@ async function commitChangelog(current, next) {
   )
   const matches = regex.exec(stdout.toString())
   const head = matches ? matches[1] : stdout
-  const changelog = await read('./CHANGELOG.md', 'utf8')
-  return write('./CHANGELOG.md', `${head}\n\n${changelog}`)
+  const changelog = await fs.readFile('./CHANGELOG.md', 'utf8')
+  return fs.writeFile('./CHANGELOG.md', `${head}\n\n${changelog}`)
 }
 
-module.exports = {
+export default {
   mergeStrategy: { toSameBranch: ['master'] },
   monorepo: {
     mainVersionFile: 'package.json',
@@ -77,10 +74,10 @@ module.exports = {
     `${releaseType} release v${version}`,
   shouldRelease: () => true,
   releases: {
-    extractChangelog: ({ version, dir }) => {
+    extractChangelog: async ({ version, dir }) => {
       const changelogPath = path.resolve(dir, 'CHANGELOG.md')
       try {
-        const changelogFile = fs.readFileSync(changelogPath, 'utf-8').toString()
+        const changelogFile = fs.readFile(changelogPath, 'utf-8').toString()
         const ret = extractSpecificChangelog(changelogFile, version)
         return ret
       } catch (err) {
