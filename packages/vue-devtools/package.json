@@ -53,6 +53,7 @@
       "require": "./index.js"
     },
     "./dist/*": "./dist/*",
+    "./index.mjs": "./index.mjs",
     "./package.json": "./package.json"
   },
   "publishConfig": {
