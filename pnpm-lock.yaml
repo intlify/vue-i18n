@@ -304,19 +304,19 @@ importers:
     specifiers:
       '@intlify/devtools-if': 9.2.0-beta.13
       '@intlify/message-compiler': 9.2.0-beta.13
-      '@intlify/shared': 9.2.0-beta.13
+      '@intlify/shared': 9.2.0-beta.12
       '@intlify/vue-devtools': 9.2.0-beta.13
     dependencies:
       '@intlify/devtools-if': link:../devtools-if
       '@intlify/message-compiler': link:../message-compiler
-      '@intlify/shared': link:../shared
+      '@intlify/shared': 9.2.0-beta.12
       '@intlify/vue-devtools': link:../vue-devtools
 
   packages/devtools-if:
     specifiers:
-      '@intlify/shared': 9.2.0-beta.13
+      '@intlify/shared': 9.2.0-beta.12
     dependencies:
-      '@intlify/shared': link:../shared
+      '@intlify/shared': 9.2.0-beta.12
 
   packages/format-explorer:
     specifiers:
@@ -339,22 +339,22 @@ importers:
 
   packages/message-compiler:
     specifiers:
-      '@intlify/shared': 9.2.0-beta.13
+      '@intlify/shared': 9.2.0-beta.12
       source-map: 0.6.1
     dependencies:
-      '@intlify/shared': link:../shared
+      '@intlify/shared': 9.2.0-beta.12
       source-map: 0.6.1
 
   packages/petite-vue-i18n:
     specifiers:
       '@intlify/core-base': 9.2.0-beta.13
       '@intlify/devtools-if': 9.2.0-beta.13
-      '@intlify/shared': 9.2.0-beta.13
+      '@intlify/shared': 9.2.0-beta.12
       '@intlify/vue-devtools': 9.2.0-beta.13
       '@vue/devtools-api': ^6.0.0-beta.13
     dependencies:
       '@intlify/core-base': link:../core-base
-      '@intlify/shared': link:../shared
+      '@intlify/shared': 9.2.0-beta.12
       '@intlify/vue-devtools': link:../vue-devtools
       '@vue/devtools-api': 6.0.0-beta.19
     devDependencies:
@@ -409,21 +409,21 @@ importers:
   packages/vue-devtools:
     specifiers:
       '@intlify/core-base': 9.2.0-beta.13
-      '@intlify/shared': 9.2.0-beta.13
+      '@intlify/shared': 9.2.0-beta.12
     dependencies:
       '@intlify/core-base': link:../core-base
-      '@intlify/shared': link:../shared
+      '@intlify/shared': 9.2.0-beta.12
 
   packages/vue-i18n:
     specifiers:
       '@intlify/core-base': 9.2.0-beta.13
       '@intlify/devtools-if': 9.2.0-beta.13
-      '@intlify/shared': 9.2.0-beta.13
+      '@intlify/shared': 9.2.0-beta.12
       '@intlify/vue-devtools': 9.2.0-beta.13
       '@vue/devtools-api': ^6.0.0-beta.13
     dependencies:
       '@intlify/core-base': link:../core-base
-      '@intlify/shared': link:../shared
+      '@intlify/shared': 9.2.0-beta.12
       '@intlify/vue-devtools': link:../vue-devtools
       '@vue/devtools-api': 6.0.0-beta.19
     devDependencies:
@@ -433,13 +433,13 @@ importers:
     specifiers:
       '@intlify/core-base': 9.2.0-beta.13
       '@intlify/devtools-if': 9.2.0-beta.13
-      '@intlify/shared': 9.2.0-beta.13
+      '@intlify/shared': 9.2.0-beta.12
       '@intlify/vue-devtools': 9.2.0-beta.13
       '@vue/composition-api': ^1.2.1
       '@vue/devtools-api': ^6.0.0-beta.13
     dependencies:
       '@intlify/core-base': link:../core-base
-      '@intlify/shared': link:../shared
+      '@intlify/shared': 9.2.0-beta.12
       '@intlify/vue-devtools': link:../vue-devtools
       '@vue/composition-api': 1.2.4_vue@3.2.20
       '@vue/devtools-api': 6.0.0-beta.19
@@ -450,12 +450,12 @@ importers:
     specifiers:
       '@intlify/core-base': 9.2.0-beta.13
       '@intlify/devtools-if': 9.2.0-beta.13
-      '@intlify/shared': 9.2.0-beta.13
+      '@intlify/shared': 9.2.0-beta.12
       '@intlify/vue-devtools': 9.2.0-beta.13
       '@vue/devtools-api': ^6.0.0-beta.13
     dependencies:
       '@intlify/core-base': link:../core-base
-      '@intlify/shared': link:../shared
+      '@intlify/shared': 9.2.0-beta.12
       '@intlify/vue-devtools': link:../vue-devtools
       '@vue/devtools-api': 6.0.0-beta.19
     devDependencies:
@@ -1146,6 +1146,11 @@ packages:
     resolution: {integrity: sha512-xKGM1d0EAxdDFCWedcYXOm6V5Pfw/TMudd6/qCdEb4tv0hk9EKeg7lwQF1azE0dP2phvx0yXxrt7UQK+IZjNdw==}
     engines: {node: '>= 10'}
     dev: true
+
+  /@intlify/shared/9.2.0-beta.12:
+    resolution: {integrity: sha512-vFtQAFmWgWahag+KGyjg/vQRLqHXLZgRbOWZjHyuXvy7rool4kMmdXW1VC1VkqEMzdKENynsH/Yq7IrZHZcy7g==}
+    engines: {node: '>= 12'}
+    dev: false
 
   /@intlify/vite-plugin-vue-i18n/2.4.0_vite@2.6.5:
     resolution: {integrity: sha512-DXBvl7JEEcChjrsCUHIBJUSqgAXJSUzbaZskzTuJy5K3FDCX/g9XfHVaw8lCUaW7jYF60BIsPr87sAP1QSGB0Q==}
@@ -2358,6 +2363,7 @@ packages:
 
   /@types/yauzl/2.9.2:
     resolution: {integrity: sha512-8uALY5LTvSuHgloDVUvWP3pIauILm+8/0pDMokuDYIoNsOkSwd5AiHBTSEJjKTDcZr5z8UpgOWZkxBF4iJftoA==}
+    requiresBuild: true
     dependencies:
       '@types/node': 14.17.21
     dev: true
@@ -3424,6 +3430,7 @@ packages:
 
   /bindings/1.5.0:
     resolution: {integrity: sha512-p2q/t/mhvuOj/UeLlV6566GD/guowlr0hHxClI0W9m7MWYkL1F0hLo+0Aexs9HSPCtR1SXQ0TD3MMKrXZajbiQ==}
+    requiresBuild: true
     dependencies:
       file-uri-to-path: 1.0.0
     dev: true
@@ -3915,6 +3922,7 @@ packages:
   /chokidar/3.5.2:
     resolution: {integrity: sha512-ekGhOnNVPgT77r4K/U3GDhu+FQ2S8TnK/s2KbIGXi0SZWuwkZ2QNyfWdZW+TVfn84DpEP7rLeCt2UI6bJ8GwbQ==}
     engines: {node: '>= 8.10.0'}
+    requiresBuild: true
     dependencies:
       anymatch: 3.1.2
       braces: 3.0.2
@@ -4975,6 +4983,7 @@ packages:
 
   /encoding/0.1.13:
     resolution: {integrity: sha512-ETBauow1T35Y/WZMkio9jiM0Z5xjHHmJ4XmjZOq1l/dXz3lr2sRn87nJy20RupqSh1F2m3HHPSp8ShIPQJrJ3A==}
+    requiresBuild: true
     dependencies:
       iconv-lite: 0.6.3
     dev: true
@@ -5085,6 +5094,7 @@ packages:
     resolution: {integrity: sha512-elDJt+jNyoHFId0/dKsuVYUPke3EcquIyUwzJCH17a3ERglN3A9aMBI5zbz+xNZ+FbaDNdpn0RaJHCFLbZX+fA==}
     cpu: [arm64]
     os: [android]
+    requiresBuild: true
     dev: true
     optional: true
 
@@ -5092,6 +5102,7 @@ packages:
     resolution: {integrity: sha512-zJQGyHRAdZUXlRzbN7W+7ykmEiGC+bq3Gc4GxKYjjWTgDRSEly98ym+vRNkDjXwXYD3gGzSwvH35+MiHAtWvLA==}
     cpu: [x64]
     os: [darwin]
+    requiresBuild: true
     dev: true
     optional: true
 
@@ -5099,6 +5110,7 @@ packages:
     resolution: {integrity: sha512-r8oYvAtqSGq8HNTZCAx4TdLE7jZiGhX9ooGi5AQAey37MA6XNaP8ZNlw9OCpcgpx3ryU2WctXwIqPzkHO7a8dg==}
     cpu: [arm64]
     os: [darwin]
+    requiresBuild: true
     dev: true
     optional: true
 
@@ -5106,6 +5118,7 @@ packages:
     resolution: {integrity: sha512-u9DRGkn09EN8+lCh6z7FKle7awi17PJRBuAKdRNgSo5ZrH/3m+mYaJK2PR2URHMpAfXiwJX341z231tSdVe3Yw==}
     cpu: [x64]
     os: [freebsd]
+    requiresBuild: true
     dev: true
     optional: true
 
@@ -5113,6 +5126,7 @@ packages:
     resolution: {integrity: sha512-q3B2k68Uf6gfjATjcK16DqxvjqRQkHL8aPoOfj4op+lSqegdXvBacB1d8jw8PxbWJ8JHpdTLdAVUYU80kotQXA==}
     cpu: [arm64]
     os: [freebsd]
+    requiresBuild: true
     dev: true
     optional: true
 
@@ -5120,6 +5134,7 @@ packages:
     resolution: {integrity: sha512-UUYJPHSiKAO8KoN3Ls/iZtgDLZvK5HarES96aolDPWZnq9FLx4dIHM/x2z4Rxv9IYqQ/DxlPoE2Co1UPBIYYeA==}
     cpu: [ia32]
     os: [linux]
+    requiresBuild: true
     dev: true
     optional: true
 
@@ -5127,6 +5142,7 @@ packages:
     resolution: {integrity: sha512-+RnohAKiiUW4UHLGRkNR1AnENW1gCuDWuygEtd4jxTNPIoeC7lbXGor7rtgjj9AdUzFgOEvAXyNNX01kJ8NueQ==}
     cpu: [x64]
     os: [linux]
+    requiresBuild: true
     dev: true
     optional: true
 
@@ -5134,6 +5150,7 @@ packages:
     resolution: {integrity: sha512-BH5gKve4jglS7UPSsfwHSX79I5agC/lm4eKoRUEyo8lwQs89frQSRp2Xup+6SFQnxt3md5EsKcd2Dbkqeb3gPA==}
     cpu: [arm]
     os: [linux]
+    requiresBuild: true
     dev: true
     optional: true
 
@@ -5141,6 +5158,7 @@ packages:
     resolution: {integrity: sha512-+A188cAdd6QuSRxMIwRrWLjgphQA0LDAQ/ECVlrPVJwnx+1i64NjDZivoqPYLOTkSPIKntiWwMhhf0U5/RrPHQ==}
     cpu: [arm64]
     os: [linux]
+    requiresBuild: true
     dev: true
     optional: true
 
@@ -5148,6 +5166,7 @@ packages:
     resolution: {integrity: sha512-0xkwtPaUkG5xMTFGaQPe1AadSe5QAiQuD4Gix1O9k5Xo/U8xGIkw9UFUTvfEUeu71vFb6ZgsIacfP1NLoFjWNw==}
     cpu: [mips64el]
     os: [linux]
+    requiresBuild: true
     dev: true
     optional: true
 
@@ -5155,6 +5174,7 @@ packages:
     resolution: {integrity: sha512-E1+oJPP7A+j23GPo3CEpBhGwG1bni4B8IbTA3/3rvzjURwUMZdcN3Fhrz24rnjzdLSHmULtOE4VsbT42h1Om4Q==}
     cpu: [ppc64]
     os: [linux]
+    requiresBuild: true
     dev: true
     optional: true
 
@@ -5162,6 +5182,7 @@ packages:
     resolution: {integrity: sha512-xEkI1o5HYxDzbv9jSox0EsDxpwraG09SRiKKv0W8pH6O3bt+zPSlnoK7+I7Q69tkvONkpIq5n2o+c55uq0X7cw==}
     cpu: [x64]
     os: [openbsd]
+    requiresBuild: true
     dev: true
     optional: true
 
@@ -5176,6 +5197,7 @@ packages:
     resolution: {integrity: sha512-bjXUMcODMnB6hQicLBBmmnBl7OMDyVpFahKvHGXJfDChIi5udiIRKCmFUFIRn+AUAKVlfrofRKdyPC7kBsbvGQ==}
     cpu: [x64]
     os: [sunos]
+    requiresBuild: true
     dev: true
     optional: true
 
@@ -5183,6 +5205,7 @@ packages:
     resolution: {integrity: sha512-z4CH07pfyVY0XF98TCsGmLxKCl0kyvshKDbdpTekW9f2d+dJqn5mmoUyWhpSVJ0SfYWJg86FoD9nMbbaMVyGdg==}
     cpu: [ia32]
     os: [win32]
+    requiresBuild: true
     dev: true
     optional: true
 
@@ -5190,6 +5213,7 @@ packages:
     resolution: {integrity: sha512-uVL11vORRPjocGLYam67rwFLd0LvkrHEs+JG+1oJN4UD9MQmNGZPa4gBHo6hDpF+kqRJ9kXgQSeDqUyRy0tj/Q==}
     cpu: [x64]
     os: [win32]
+    requiresBuild: true
     dev: true
     optional: true
 
@@ -5197,6 +5221,7 @@ packages:
     resolution: {integrity: sha512-vA6GLvptgftRcDcWngD5cMlL4f4LbL8JjU2UMT9yJ0MT5ra6hdZNFWnOeOoEtY4GtJ6OjZ0i+81sTqhAB0fMkg==}
     cpu: [arm64]
     os: [win32]
+    requiresBuild: true
     dev: true
     optional: true
 
@@ -5844,6 +5869,7 @@ packages:
 
   /file-uri-to-path/1.0.0:
     resolution: {integrity: sha512-0Zt+s3L7Vf1biwWZ29aARiVYLx7iMGnEUl9x33fbB/j3jR81u/O2LbqK+Bm1CDSNDKVtJ/YjwY7TUd5SkeLQLw==}
+    requiresBuild: true
     dev: true
     optional: true
 
@@ -6156,6 +6182,7 @@ packages:
     resolution: {integrity: sha512-xiqMQR4xAeHTuB9uWm+fFRcIOgKBMiOBP+eXiyT7jsgVCq1bkVygt00oASowB7EdtpOHaaPgKt812P9ab+DDKA==}
     engines: {node: ^8.16.0 || ^10.6.0 || >=11.0.0}
     os: [darwin]
+    requiresBuild: true
     dev: true
     optional: true
 
@@ -9378,6 +9405,7 @@ packages:
 
   /nan/2.15.0:
     resolution: {integrity: sha512-8ZtvEnA2c5aYCZYd1cvgdnU6cqwixRoYg70xPLWUws5ORTa/lnw+u4amixRS/Ac5U5mQVgp9pnlSUnbNWFaWZQ==}
+    requiresBuild: true
     dev: true
     optional: true
 
@@ -9488,6 +9516,7 @@ packages:
 
   /node-notifier/8.0.2:
     resolution: {integrity: sha512-oJP/9NAdd9+x2Q+rfphB2RJCHjod70RcRLjosiPMMu5gjIfwVnOUGq2nbTjTUbmy0DJ/tFIVT30+Qe3nzl4TJg==}
+    requiresBuild: true
     dependencies:
       growly: 1.3.0
       is-wsl: 2.2.0
@@ -12723,6 +12752,7 @@ packages:
     resolution: {integrity: sha512-rtPMlmcO4agTUfz10CbgJ1k6UAoXM2gWb3GoMPPZB/+/Ackf8lNWk11K4rYi2D0apgoFRLtQOZhb+/iGNJq26A==}
     engines: {node: '>=0.8.0'}
     hasBin: true
+    requiresBuild: true
     dev: true
     optional: true
 
@@ -13378,6 +13408,7 @@ packages:
 
   /watchpack-chokidar2/2.0.1:
     resolution: {integrity: sha512-nCFfBIPKr5Sh61s4LPpy1Wtfi0HE8isJ3d2Yb5/Ppw2P2B/3eVSEBjKfN0fmHJSK14+31KwMKmcrzs2GM4P0Ww==}
+    requiresBuild: true
     dependencies:
       chokidar: 2.1.8
     dev: true
