@@ -1,4 +1,14 @@
 
+## v9.2.0-beta.13 (2021-10-19)
+
+#### :bug: Bug Fixes
+* `petite-vue-i18n`, `vue-i18n-bridge`, `vue-i18n`
+  * [#748](https://github.com/intlify/vue-i18n-next/pull/748) fix not a function error ([@PeterAlfredLee](https://github.com/PeterAlfredLee))
+
+#### Committers: 1
+- Lee ([@PeterAlfredLee](https://github.com/PeterAlfredLee))
+
+
 ## v9.2.0-beta.12 (2021-10-14)
 
 #### :star: Features
