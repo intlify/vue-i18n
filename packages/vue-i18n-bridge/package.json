@@ -68,8 +68,8 @@
     ".": {
       "import": {
         "node": "./index.mjs",
-        "browser": "./dist/vue-i18n-bridge.runtime.esm-browser.prod.js",
-        "default": "./dist/vue-i18n-bridge.runtime.esm-bundler.js"
+        "browser": "./dist/vue-i18n-bridge.esm-browser.prod.js",
+        "default": "./dist/vue-i18n-bridge.esm-bundler.js"
       },
       "require": "./index.js"
     },
