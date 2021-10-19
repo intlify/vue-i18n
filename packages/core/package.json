@@ -55,8 +55,8 @@
     ".": {
       "import": {
         "node": "./index.mjs",
-        "browser": "./dist/core.runtime.esm-browser.prod.js",
-        "default": "./dist/core.runtime.esm-bundler.js"
+        "browser": "./dist/core.esm-browser.prod.js",
+        "default": "./dist/core.esm-bundler.js"
       },
       "require": "./index.js"
     },
