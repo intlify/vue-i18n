@@ -1,6 +1,6 @@
 import execa from 'execa'
 import path from 'path'
-import { promises as fs } from 'fs'
+import { promises as fs, readFileSync } from 'fs'
 
 const dirname = path.dirname(new URL(import.meta.url).pathname)
 
@@ -82,10 +82,10 @@ export default {
     `${releaseType} release v${version}`,
   shouldRelease: () => true,
   releases: {
-    extractChangelog: async ({ version, dir }) => {
+    extractChangelog: ({ version, dir }) => {
       const changelogPath = path.resolve(dir, 'CHANGELOG.md')
       try {
-        const changelogFile = await fs.readFile(changelogPath, 'utf-8')
+        const changelogFile = readFileSync(changelogPath, 'utf-8')
         const ret = extractSpecificChangelog(changelogFile, version)
         return ret
       } catch (err) {
