@@ -1,4 +1,13 @@
 
+## v9.2.0-beta.14 (2021-10-21)
+
+#### :bug: Bug Fixes
+* [#754](https://github.com/intlify/vue-i18n-next/pull/754) fix: remove terser option pure_getters: true, avoid wrong tree-shaking ([@PeterAlfredLee](https://github.com/PeterAlfredLee))
+
+#### Committers: 1
+- Lee ([@PeterAlfredLee](https://github.com/PeterAlfredLee))
+
+
 ## v9.2.0-beta.13 (2021-10-19)
 
 #### :bug: Bug Fixes
