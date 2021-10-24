@@ -1,4 +1,14 @@
 
+## v9.2.0-beta.15 (2021-10-24)
+
+#### :boom: Breaking Change
+* `core-base`, `core`, `message-compiler`, `petite-vue-i18n`, `vue-i18n-bridge`, `vue-i18n-core`, `vue-i18n`
+  * [#757](https://github.com/intlify/vue-i18n-next/pull/757) breaking: revert import.browser fileds ([@kazupon](https://github.com/kazupon))
+
+#### Committers: 1
+- kazuya kawaguchi ([@kazupon](https://github.com/kazupon))
+
+
 ## v9.2.0-beta.14 (2021-10-21)
 
 #### :bug: Bug Fixes
