@@ -66,7 +66,6 @@
     ".": {
       "import": {
         "node": "./index.mjs",
-        "browser": "./dist/petite-vue-i18n.esm-browser.prod.js",
         "default": "./dist/petite-vue-i18n.esm-bundler.js"
       },
       "require": "./index.js"

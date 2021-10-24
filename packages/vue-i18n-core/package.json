@@ -63,7 +63,6 @@
     ".": {
       "import": {
         "node": "./index.mjs",
-        "browser": "./dist/vue-i18n-core.esm-browser.prod.js",
         "default": "./dist/vue-i18n-core.esm-bundler.js"
       },
       "require": "./index.js"

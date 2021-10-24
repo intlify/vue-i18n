@@ -54,7 +54,6 @@
     ".": {
       "import": {
         "node": "./index.mjs",
-        "browser": "./dist/message-compiler.esm-browser.prod.js",
         "default": "./dist/message-compiler.esm-bundler.js"
       },
       "require": "./index.js"
