@@ -74,7 +74,7 @@
     "@secretlint/secretlint-rule-preset-recommend": "^3.1.0",
     "@sucrase/jest-plugin": "^2.1.0",
     "@textlint-rule/textlint-rule-no-unmatched-pair": "^1.0.7",
-    "@types/jest": "^26.0.14",
+    "@types/jest": "^27.0.0",
     "@types/node": "^16.0.0",
     "@typescript-eslint/eslint-plugin": "^5.0.0",
     "@typescript-eslint/parser": "^5.0.0",
