@@ -1,4 +1,14 @@
 
+## v9.2.0-beta.16 (2021-10-29)
+
+#### :zap: Improvement Features
+* `core-base`
+  * [#761](https://github.com/intlify/vue-i18n-next/pull/761) improvement: avoid vite ssrTransform bug ([@kazupon](https://github.com/kazupon))
+
+#### Committers: 1
+- kazuya kawaguchi ([@kazupon](https://github.com/kazupon))
+
+
 ## v9.2.0-beta.15 (2021-10-24)
 
 #### :boom: Breaking Change
