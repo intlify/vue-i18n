@@ -378,7 +378,7 @@ export function translate<
 
   // resolve message format
   // eslint-disable-next-line prefer-const
-  let [format, targetLocale, message]: [
+  let [formatScope, targetLocale, message]: [
     PathValue | MessageFunction<Message>,
     Locale | undefined,
     LocaleMessageValue<Message>
@@ -396,6 +396,12 @@ export function translate<
         locale,
         (messages as unknown as LocaleMessages<Message>)[locale] || {}
       ]
+  // NOTE:
+  //  Fix to work around `ssrTransfrom` bug in Vite.
+  //  https://github.com/vitejs/vite/issues/4306
+  //  To get around this, use temporary variables.
+  //  https://github.com/nuxt/framework/issues/1461#issuecomment-954606243
+  let format = formatScope
 
   // if you use default message, set it as message format!
   let cacheBaseKey = key
