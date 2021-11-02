@@ -1,4 +1,14 @@
 
+## v9.2.0-beta.17 (2021-11-02)
+
+#### :zap: Improvement Features
+* `vue-i18n-core`
+  * [#764](https://github.com/intlify/vue-i18n-next/pull/764) improvement: global injection for vue-i18n-bridge ([@kazupon](https://github.com/kazupon))
+
+#### Committers: 1
+- kazuya kawaguchi ([@kazupon](https://github.com/kazupon))
+
+
 ## v9.2.0-beta.16 (2021-10-29)
 
 #### :zap: Improvement Features
