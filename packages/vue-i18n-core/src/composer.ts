@@ -1952,7 +1952,7 @@ export function createComposer(options: any = {}, VueI18nLegacy?: any): any {
     set: val => {
       _locale.value = val
       if (__BRIDGE__) {
-        if (__legacy) {
+        if (__legacy && !_isGlobal) {
           __legacy.locale = val
         }
       }
@@ -1966,7 +1966,7 @@ export function createComposer(options: any = {}, VueI18nLegacy?: any): any {
     set: val => {
       _fallbackLocale.value = val
       if (__BRIDGE__) {
-        if (__legacy) {
+        if (__legacy && !_isGlobal) {
           __legacy.fallbackLocale = val
         }
       }
@@ -2337,7 +2337,7 @@ export function createComposer(options: any = {}, VueI18nLegacy?: any): any {
       if (_inheritLocale) {
         _locale.value = val
         if (__BRIDGE__) {
-          if (__legacy) {
+          if (__legacy && !_isGlobal) {
             __legacy.locale = val
           }
         }
@@ -2349,7 +2349,7 @@ export function createComposer(options: any = {}, VueI18nLegacy?: any): any {
       if (_inheritLocale) {
         _fallbackLocale.value = val
         if (__BRIDGE__) {
-          if (__legacy) {
+          if (__legacy && !_isGlobal) {
             __legacy.fallbackLocale = val
           }
         }

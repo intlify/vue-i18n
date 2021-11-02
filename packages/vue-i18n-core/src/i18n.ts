@@ -431,7 +431,12 @@ export function createI18n(options: any = {}, VueI18nLegacy?: any): any {
     :  __FEATURE_LEGACY_API__ && isBoolean(options.legacy)
       ? options.legacy
       : __FEATURE_LEGACY_API__
-  const __globalInjection = /* #__PURE__*/ !!options.globalInjection
+  // prettier-ignore
+  const __globalInjection = /* #__PURE__*/ !__BRIDGE__
+    ? !!options.globalInjection
+    : isBoolean(options.globalInjection)
+      ? options.globalInjection
+      : true
   const __instances = new Map<ComponentInternalInstance, VueI18n | Composer>()
   const __global = createGlobal(options, __legacyMode, VueI18nLegacy)
   const symbol: InjectionKey<I18n> | string = /* #__PURE__*/ makeSymbol(
@@ -570,6 +575,9 @@ export function createI18n(options: any = {}, VueI18nLegacy?: any): any {
           throw createI18nError(I18nErrorCodes.BRIDGE_SUPPORT_VUE_2_ONLY)
         }
 
+        if (!__legacyMode && __globalInjection) {
+          injectGlobalFieldsForBridge(Vue, i18n, __global as Composer)
+        }
         Vue.mixin(defineMixinBridge(i18n, _legacyVueI18n))
       }
     })
@@ -1090,4 +1098,28 @@ function injectGlobalFields(app: App, composer: Composer): void {
     }
     Object.defineProperty(app.config.globalProperties, `$${method}`, desc)
   })
+}
+
+function injectGlobalFieldsForBridge(
+  Vue: any, // eslint-disable-line @typescript-eslint/no-explicit-any
+  i18n: any, // eslint-disable-line @typescript-eslint/no-explicit-any
+  composer: Composer
+): void {
+  // The composition mode in vue-i18n-bridge is `$18n` is the VueI18n instance.
+  // so we need to tell composer to change the locale.
+  // If we don't do, things like `$t` that are injected will not be reacted.
+  i18n.watchLocale(composer)
+
+  // define fowardcompatible vue-i18n-next inject fields with `globalInjection`
+  Vue.prototype.$t = function (...args: unknown[]) {
+    return Reflect.apply(composer.t, composer, [...args])
+  }
+
+  Vue.prototype.$d = function (...args: unknown[]) {
+    return Reflect.apply(composer.d, composer, [...args])
+  }
+
+  Vue.prototype.$n = function (...args: unknown[]) {
+    return Reflect.apply(composer.n, composer, [...args])
+  }
 }
