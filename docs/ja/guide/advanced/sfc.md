@@ -535,7 +535,7 @@ module.exports = {
 
 If we want to add support to the `<i18n>` tag inside a single file component in a [Quasar CLI](https://quasar.dev) project then we need to modify the existing configuration.
 
-In order to do that we need to edit `quasar.conf.js` at the root of our project. Once we have done that, we have to include the following:
+In order to do that we need to edit `quasar.conf.js` at the root of our project:
 
 ```js
 build: {
