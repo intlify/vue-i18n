@@ -543,7 +543,7 @@ build: {
     chain.module
       .rule('i18n-resource')
         .test(/\.(json5?|ya?ml)$/)
-          .include.add(path.resolve(__dirname, './src/locales'))
+          .include.add(path.resolve(__dirname, './src/i18n'))
           .end()
         .type('javascript/auto')
         .use('i18n-resource')
