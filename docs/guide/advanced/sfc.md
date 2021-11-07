@@ -529,3 +529,36 @@ module.exports = {
   }
 }
 ```
+
+## Quasar CLI
+
+If we want to add support to the `<i18n>` tag inside a single file component in a [Quasar CLI](https://quasar.dev) project then we need to modify the existing configuration.
+
+In order to do that we need to edit `quasar.conf.js` at the root of our project. Once we have done that, we have to include the following:
+
+```js
+build: {
+  chainWebpack: chain => {
+    chain.module
+      .rule('i18n-resource')
+        .test(/\.(json5?|ya?ml)$/)
+          .include.add(path.resolve(__dirname, './src/locales'))
+          .end()
+        .type('javascript/auto')
+        .use('i18n-resource')
+          .loader('@intlify/vue-i18n-loader')
+    chain.module
+      .rule('i18n')
+        .resourceQuery(/blockType=i18n/)
+        .type('javascript/auto')
+        .use('i18n')
+          .loader('@intlify/vue-i18n-loader')
+  }
+}
+```
+
+We also need to make sure that we've installed `@intlify/vue-i18n-loader`:
+
+```sh
+npm i --save-dev @intlify/vue-i18n-loader
+```
