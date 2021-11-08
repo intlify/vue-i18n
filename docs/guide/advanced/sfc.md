@@ -498,7 +498,7 @@ plugins: [
 ```
 
 
-:::warn NOTICE
+:::warning NOTICE
 The locale messages for global scope defined in i18n custom blocks are available **only composition API mode**. You need to run `useI18n` option to `useScope: 'global'` at `setup`. About details, see the [Composition API](./composition).
 :::
 
