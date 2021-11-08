@@ -53,6 +53,7 @@
     "lint:fix": "run-p \"lint:codes -- --fix\" \"lint:docs -- --fix\"",
     "lint:secret": "npx secretlint \"**/*\"",
     "preinstall": "node ./scripts/preinstall.js",
+    "prebuild": "test \"$CI\" = true && npx pnpm install -r --store=node_modules/.pnpm-store || echo skipping pnpm install",
     "release:prepare": "shipjs prepare",
     "release:trigger": "shipjs trigger",
     "serve:explorer": "cd packages/format-explorer && vite preview",
