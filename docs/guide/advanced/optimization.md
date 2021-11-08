@@ -86,6 +86,9 @@ module.exports = {
 }
 ```
 
+### Quasar CLI
+
+No need to do anything. [Quasar CLI](https://quasar.dev) takes care of the optimizations for you.
 
 ## Reduce bundle size with feature build flags
 
@@ -104,6 +107,7 @@ The build will work without configuring these flags, however it is **strongly re
 - webpack: use [DefinePlugin](https://webpack.js.org/plugins/define-plugin/)
 - Rollup: use [@rollup/plugin-replace](https://github.com/rollup/plugins/tree/master/packages/replace)
 - Vite: configured by default, but can be overwritten using the [`define` option](https://github.com/vitejs/vite/blob/a4133c073e640b17276b2de6e91a6857bdf382e1/src/node/config.ts#L72-L76)
+- Quasar CLI: configured by default, but can be overwritten using quasar.conf.js > build > [env option](https://quasar.dev/quasar-cli/handling-process-env#adding-to-process-env)
 
 :::tip NOTE
 If you are using Vite, you can do the same thing by specifying the option in the [plugin provided officially](https://github.com/intlify/vite-plugin-vue-i18n).
