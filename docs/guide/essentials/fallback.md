@@ -62,7 +62,9 @@ The first warning message is printed the key, due to  given to the translation f
 These warning messages are only warned in development mode (`process.env.NODE_ENV !== 'production'`) by default, not for production.
 :::
 
-To suppress these warnings (while keeping those which warn of the total absence of translation for the given key) set `silentTranslationWarn: true`, and `silentFallbackWarn: true` when initializing the `createI18n`.
+To suppress the first warning(`Not found key...`), set `silentTranslationWarn: true` in Legacy API mode or set `missingWarn: false` in Composition API mode when initializing the `createI18n`.
+
+To suppress the second warning(`Fall back to...`), set `silentFallbackWarn: true` in Legacy API mode or set `fallbackWarn: false` in Composition API mode when initializing the `createI18n`.
 
 ## Explicit fallback with an array of locales
 
