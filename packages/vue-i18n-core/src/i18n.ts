@@ -830,7 +830,10 @@ function getI18nInstance(instance: ComponentInternalInstance): I18n {
     if (vm == null) {
       throw createI18nError(I18nErrorCodes.UNEXPECTED_ERROR)
     }
-    const i18n = (vm as any)._i18nBridgeRoot // eslint-disable-line @typescript-eslint/no-explicit-any
+    let i18n = (vm as any)._i18nBridgeRoot // eslint-disable-line @typescript-eslint/no-explicit-any
+    if (!i18n) {
+      i18n = _legacyI18n
+    }
     /* istanbul ignore if */
     if (!i18n) {
       throw createI18nError(I18nErrorCodes.NOT_INSLALLED)
