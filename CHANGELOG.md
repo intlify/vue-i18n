@@ -1,4 +1,23 @@
 
+## v9.2.0-beta.18 (2021-11-10)
+
+#### :zap: Improvement Features
+* `vue-i18n-core`
+  * [#780](https://github.com/intlify/vue-i18n-next/pull/780) improvement: vue-i18n-bridge installation at nuxt-bridge ([@kazupon](https://github.com/kazupon))
+
+#### :pencil: Documentation
+* [#778](https://github.com/intlify/vue-i18n-next/pull/778) docs: improve doc of fall back warinings ([@PeterAlfredLee](https://github.com/PeterAlfredLee))
+* [#775](https://github.com/intlify/vue-i18n-next/pull/775) Fix typo in docs ([@Zauberbutter](https://github.com/Zauberbutter))
+* [#773](https://github.com/intlify/vue-i18n-next/pull/773) feat(docs): add usage with Quasar CLI ([@rstoenescu](https://github.com/rstoenescu))
+* [#772](https://github.com/intlify/vue-i18n-next/pull/772) fix: advanced/sfc - wrong definition of warning container ([@rstoenescu](https://github.com/rstoenescu))
+
+#### Committers: 4
+- Lee ([@PeterAlfredLee](https://github.com/PeterAlfredLee))
+- Razvan Stoenescu ([@rstoenescu](https://github.com/rstoenescu))
+- [@Zauberbutter](https://github.com/Zauberbutter)
+- kazuya kawaguchi ([@kazupon](https://github.com/kazupon))
+
+
 ## v9.2.0-beta.17 (2021-11-02)
 
 #### :zap: Improvement Features

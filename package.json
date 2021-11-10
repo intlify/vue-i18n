@@ -1,6 +1,6 @@
 {
   "name": "vue-i18n-next",
-  "version": "9.2.0-beta.17",
+  "version": "9.2.0-beta.18",
   "license": "MIT",
   "author": {
     "name": "kazuya kawaguchi",
@@ -52,8 +52,8 @@
     "lint:docs": "textlint --config .textlintrc.js docs/*.md docs/advanced/**/*.md docs/essentials/**/*.md docs/migration/**/*.md docs/api/injection.md packages/**/*.md",
     "lint:fix": "run-p \"lint:codes -- --fix\" \"lint:docs -- --fix\"",
     "lint:secret": "npx secretlint \"**/*\"",
-    "preinstall": "node ./scripts/preinstall.js",
     "prebuild": "test \"$CI\" = true && npx pnpm install -r --store=node_modules/.pnpm-store || echo skipping pnpm install",
+    "preinstall": "node ./scripts/preinstall.js",
     "release:prepare": "shipjs prepare",
     "release:trigger": "shipjs trigger",
     "serve:explorer": "cd packages/format-explorer && vite preview",
