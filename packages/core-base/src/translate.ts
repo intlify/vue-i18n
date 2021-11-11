@@ -342,6 +342,7 @@ export function translate<
     fallbackFormat,
     postTranslation,
     unresolving,
+    messageCompiler,
     fallbackLocale,
     messages
   } = context
@@ -368,7 +369,7 @@ export function translate<
         ? options.default
         : key
       : fallbackFormat // default by `fallbackFormat` option
-        ? key
+        ? (!messageCompiler ? () => key : key)
         : ''
   const enableDefaultMsg = fallbackFormat || defaultMsgOrKey !== ''
   const locale = isString(options.locale) ? options.locale : context.locale

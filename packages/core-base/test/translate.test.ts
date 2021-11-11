@@ -500,6 +500,28 @@ describe('context fallbackFormat option', () => {
       `Not found 'hi, {name}!' key in 'en' locale messages.`
     )
   })
+
+  test('runtimeOnly', () => {
+    const mockWarn = warn as jest.MockedFunction<typeof warn>
+    mockWarn.mockImplementation(() => {})
+
+    const ctx = context({
+      locale: 'en',
+      fallbackFormat: true,
+      messages: {
+        en: {}
+      }
+    })
+    ctx.messageCompiler = null
+
+    expect(
+      translate(ctx, 'hi, {name}!', { name: 'kazupon' },)
+    ).toEqual('hi, {name}!')
+    expect(mockWarn).toHaveBeenCalledTimes(1)
+    expect(mockWarn.mock.calls[0][0]).toEqual(
+      `Not found 'hi, {name}!' key in 'en' locale messages.`
+    )
+  })
 })
 
 describe('context unresolving option', () => {
