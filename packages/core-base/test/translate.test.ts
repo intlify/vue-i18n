@@ -514,9 +514,9 @@ describe('context fallbackFormat option', () => {
     })
     ctx.messageCompiler = null
 
-    expect(
-      translate(ctx, 'hi, {name}!', { name: 'kazupon' },)
-    ).toEqual('hi, {name}!')
+    expect(translate(ctx, 'hi, {name}!', { name: 'kazupon' })).toEqual(
+      'hi, {name}!'
+    )
     expect(mockWarn).toHaveBeenCalledTimes(1)
     expect(mockWarn.mock.calls[0][0]).toEqual(
       `Not found 'hi, {name}!' key in 'en' locale messages.`
