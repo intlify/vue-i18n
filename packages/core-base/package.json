@@ -36,7 +36,7 @@
   "dependencies": {
     "@intlify/devtools-if": "9.2.0-beta.19",
     "@intlify/message-compiler": "9.2.0-beta.19",
-    "@intlify/shared": "9.2.0-beta.19",
+    "@intlify/shared": "9.2.0-beta.18",
     "@intlify/vue-devtools": "9.2.0-beta.19"
   },
   "engines": {

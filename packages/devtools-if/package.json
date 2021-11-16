@@ -31,7 +31,7 @@
   "module": "dist/devtools-if.esm-bundler.js",
   "types": "dist/devtools-if.d.ts",
   "dependencies": {
-    "@intlify/shared": "9.2.0-beta.19"
+    "@intlify/shared": "9.2.0-beta.18"
   },
   "engines": {
     "node": ">= 12"
