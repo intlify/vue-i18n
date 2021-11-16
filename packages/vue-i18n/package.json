@@ -1,6 +1,6 @@
 {
   "name": "vue-i18n",
-  "version": "9.2.0-beta.18",
+  "version": "9.2.0-beta.19",
   "description": "Internationalization plugin for Vue.js",
   "keywords": [
     "i18n",
@@ -36,13 +36,13 @@
   "jsdelivr": "dist/vue-i18n.global.js",
   "types": "dist/vue-i18n.d.ts",
   "dependencies": {
-    "@intlify/core-base": "9.2.0-beta.18",
-    "@intlify/shared": "9.2.0-beta.18",
-    "@intlify/vue-devtools": "9.2.0-beta.18",
+    "@intlify/core-base": "9.2.0-beta.19",
+    "@intlify/shared": "9.2.0-beta.19",
+    "@intlify/vue-devtools": "9.2.0-beta.19",
     "@vue/devtools-api": "^6.0.0-beta.13"
   },
   "devDependencies": {
-    "@intlify/devtools-if": "9.2.0-beta.18"
+    "@intlify/devtools-if": "9.2.0-beta.19"
   },
   "peerDependencies": {
     "vue": "^3.0.0"
