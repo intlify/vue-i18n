@@ -1,4 +1,14 @@
 
+## v9.2.0-beta.19 (2021-11-16)
+
+#### :bug: Bug Fixes
+* `core-base`
+  * [#784](https://github.com/intlify/vue-i18n-next/pull/784) fix(core-base): fallback interpolation should not break in runtime only (Closes [#768](https://github.com/intlify/vue-i18n-next/issues/768)) ([@AlexandreBonaventure](https://github.com/AlexandreBonaventure))
+
+#### Committers: 1
+- Alexandre Bonaventure Geissmann ([@AlexandreBonaventure](https://github.com/AlexandreBonaventure))
+
+
 ## v9.2.0-beta.18 (2021-11-10)
 
 #### :zap: Improvement Features
