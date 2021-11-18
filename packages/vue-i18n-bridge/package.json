@@ -39,7 +39,7 @@
   "dependencies": {
     "@intlify/core-base": "9.2.0-beta.20",
     "@intlify/shared": "9.2.0-beta.20",
-    "@intlify/vue-devtools": "9.2.0-beta.20",
+    "@intlify/vue-devtools": "9.2.0-beta.19",
     "@vue/composition-api": "^1.2.1",
     "@vue/devtools-api": "^6.0.0-beta.13"
   },
