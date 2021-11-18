@@ -22,7 +22,7 @@
     "build:size-petite-vue-i18n": "cd packages/size-check-petite-vue-i18n && npm run build",
     "build:size-vue-i18n": "cd packages/size-check-vue-i18n && npm run build",
     "build:sourcemap": "npm run build -- --sourcemap",
-    "build:type": "npm run build -- --types && tail -n +32 ./packages/vue-i18n/src/vue.d.ts >> ./packages/vue-i18n/dist/vue-i18n.d.ts && tail -n +32 ./packages/petite-vue-i18n/src/vue.d.ts >> ./packages/petite-vue-i18n/dist/petite-vue-i18n.d.ts && tail -n +32 ./packages/vue-i18n-bridge/src/vue.d.ts >> ./packages/vue-i18n-bridge/dist/vue-i18n-bridge.d.ts",
+    "build:type": "./scripts/build.sh",
     "build:typed": "npm run build -- core-base vue-i18n-core --types",
     "clean": "run-p clean:*",
     "clean:cache": "npm run clean:cache:jest",
