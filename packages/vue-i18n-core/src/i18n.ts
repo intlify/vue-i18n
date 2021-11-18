@@ -784,11 +784,15 @@ export function useI18n<
  *
  * @VueI18nGeneral
  */
-export const castToVueI18n = /* #__PURE__*/ (i18n: I18n): VueI18n => {
+export const castToVueI18n = /* #__PURE__*/ (
+  i18n: I18n
+): VueI18n & { install: (Vue: any, options?: any) => void } => {
   if (!(__VUE_I18N_BRIDGE__ in i18n)) {
     throw createI18nError(I18nErrorCodes.NOT_COMPATIBLE_LEGACY_VUE_I18N)
   }
-  return i18n as unknown as VueI18n
+  return i18n as unknown as VueI18n & {
+    install: (Vue: any, options?: any) => void
+  }
 }
 
 function createGlobal(

@@ -128,7 +128,8 @@ import { createI18n, useI18n, castToVueI18n } from 'vue-i18n-bridge'
 Vue.use(VueCompositionAPI)
 Vue.use(VueI18n, { bridge: true })
 
-const i18n = createI18n({
+// you need to cast `i18n` instance
+const i18n = castToVueI18n(createI18n({
   locale: 'ja',
   messages: {
     en: {
@@ -142,11 +143,11 @@ const i18n = createI18n({
       }
     }
   }
-}, VueI18n)
+}, VueI18n))
 
 Vue.use(i18n)
 
-const app = new Vue({ i18n: castToVueI18n(i18n) }) // you need to cast `i18n` instance
+const app = new Vue({ i18n })
 app.$mount('#app')
 ```
 
