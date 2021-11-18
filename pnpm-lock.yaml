@@ -296,16 +296,16 @@ importers:
 
   packages/core:
     specifiers:
-      '@intlify/core-base': 9.2.0-beta.19
+      '@intlify/core-base': 9.2.0-beta.20
     dependencies:
       '@intlify/core-base': link:../core-base
 
   packages/core-base:
     specifiers:
-      '@intlify/devtools-if': 9.2.0-beta.19
-      '@intlify/message-compiler': 9.2.0-beta.19
-      '@intlify/shared': 9.2.0-beta.19
-      '@intlify/vue-devtools': 9.2.0-beta.19
+      '@intlify/devtools-if': 9.2.0-beta.20
+      '@intlify/message-compiler': 9.2.0-beta.20
+      '@intlify/shared': 9.2.0-beta.20
+      '@intlify/vue-devtools': 9.2.0-beta.20
     dependencies:
       '@intlify/devtools-if': link:../devtools-if
       '@intlify/message-compiler': link:../message-compiler
@@ -314,7 +314,7 @@ importers:
 
   packages/devtools-if:
     specifiers:
-      '@intlify/shared': 9.2.0-beta.19
+      '@intlify/shared': 9.2.0-beta.20
     dependencies:
       '@intlify/shared': link:../shared
 
@@ -339,7 +339,7 @@ importers:
 
   packages/message-compiler:
     specifiers:
-      '@intlify/shared': 9.2.0-beta.19
+      '@intlify/shared': 9.2.0-beta.20
       source-map: 0.6.1
     dependencies:
       '@intlify/shared': link:../shared
@@ -347,10 +347,10 @@ importers:
 
   packages/petite-vue-i18n:
     specifiers:
-      '@intlify/core-base': 9.2.0-beta.19
-      '@intlify/devtools-if': 9.2.0-beta.19
-      '@intlify/shared': 9.2.0-beta.19
-      '@intlify/vue-devtools': 9.2.0-beta.19
+      '@intlify/core-base': 9.2.0-beta.20
+      '@intlify/devtools-if': 9.2.0-beta.20
+      '@intlify/shared': 9.2.0-beta.20
+      '@intlify/vue-devtools': 9.2.0-beta.20
       '@vue/devtools-api': ^6.0.0-beta.13
     dependencies:
       '@intlify/core-base': link:../core-base
@@ -408,18 +408,18 @@ importers:
 
   packages/vue-devtools:
     specifiers:
-      '@intlify/core-base': 9.2.0-beta.19
-      '@intlify/shared': 9.2.0-beta.19
+      '@intlify/core-base': 9.2.0-beta.20
+      '@intlify/shared': 9.2.0-beta.20
     dependencies:
       '@intlify/core-base': link:../core-base
       '@intlify/shared': link:../shared
 
   packages/vue-i18n:
     specifiers:
-      '@intlify/core-base': 9.2.0-beta.19
-      '@intlify/devtools-if': 9.2.0-beta.19
-      '@intlify/shared': 9.2.0-beta.19
-      '@intlify/vue-devtools': 9.2.0-beta.19
+      '@intlify/core-base': 9.2.0-beta.20
+      '@intlify/devtools-if': 9.2.0-beta.20
+      '@intlify/shared': 9.2.0-beta.20
+      '@intlify/vue-devtools': 9.2.0-beta.20
       '@vue/devtools-api': ^6.0.0-beta.13
     dependencies:
       '@intlify/core-base': link:../core-base
@@ -431,10 +431,10 @@ importers:
 
   packages/vue-i18n-bridge:
     specifiers:
-      '@intlify/core-base': 9.2.0-beta.19
-      '@intlify/devtools-if': 9.2.0-beta.19
-      '@intlify/shared': 9.2.0-beta.19
-      '@intlify/vue-devtools': 9.2.0-beta.19
+      '@intlify/core-base': 9.2.0-beta.20
+      '@intlify/devtools-if': 9.2.0-beta.20
+      '@intlify/shared': 9.2.0-beta.20
+      '@intlify/vue-devtools': 9.2.0-beta.20
       '@vue/composition-api': ^1.2.1
       '@vue/devtools-api': ^6.0.0-beta.13
     dependencies:
@@ -448,10 +448,10 @@ importers:
 
   packages/vue-i18n-core:
     specifiers:
-      '@intlify/core-base': 9.2.0-beta.19
-      '@intlify/devtools-if': 9.2.0-beta.19
-      '@intlify/shared': 9.2.0-beta.19
-      '@intlify/vue-devtools': 9.2.0-beta.19
+      '@intlify/core-base': 9.2.0-beta.20
+      '@intlify/devtools-if': 9.2.0-beta.20
+      '@intlify/shared': 9.2.0-beta.20
+      '@intlify/vue-devtools': 9.2.0-beta.20
       '@vue/devtools-api': ^6.0.0-beta.13
     dependencies:
       '@intlify/core-base': link:../core-base
@@ -6133,6 +6133,18 @@ packages:
         optional: true
     dev: true
 
+  /follow-redirects/1.14.4_debug@4.3.2:
+    resolution: {integrity: sha512-zwGkiSXC1MUJG/qmeIFH2HBJx9u0V46QGUe3YR1fXG8bXQxq7fLj0RjLZQ5nubr9qNJUZrH+xUcwXEoXNpfS+g==}
+    engines: {node: '>=4.0'}
+    peerDependencies:
+      debug: '*'
+    peerDependenciesMeta:
+      debug:
+        optional: true
+    dependencies:
+      debug: 4.3.2_supports-color@6.1.0
+    dev: true
+
   /for-in/0.1.8:
     resolution: {integrity: sha1-2Hc5COMSVhCZUrH9ubP6hn0ndeE=}
     engines: {node: '>=0.10.0'}
@@ -6908,7 +6920,7 @@ packages:
     engines: {node: '>=8.0.0'}
     dependencies:
       eventemitter3: 4.0.7
-      follow-redirects: 1.14.4
+      follow-redirects: 1.14.4_debug@4.3.2
       requires-port: 1.0.0
     transitivePeerDependencies:
       - debug

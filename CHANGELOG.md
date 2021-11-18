@@ -1,4 +1,14 @@
 
+## v9.2.0-beta.20 (2021-11-18)
+
+#### :bug: Bug Fixes
+* `vue-i18n-core`
+  * [#799](https://github.com/intlify/vue-i18n-next/pull/799) fix: typescript errors with vue-tsc on vue-i18n-bridge ([@kazupon](https://github.com/kazupon))
+
+#### Committers: 1
+- kazuya kawaguchi ([@kazupon](https://github.com/kazupon))
+
+
 ## v9.2.0-beta.19 (2021-11-16)
 
 #### :bug: Bug Fixes
