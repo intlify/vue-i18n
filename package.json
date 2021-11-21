@@ -132,7 +132,7 @@
     "textlint-rule-terminology": "^2.1.4",
     "textlint-rule-unexpanded-acronym": "^1.2.4",
     "textlint-rule-write-good": "^2.0.0",
-    "trash-cli": "^4.0.0",
+    "trash-cli": "^5.0.0",
     "ts-jest": "^26.5.4",
     "typescript": "4.2.3",
     "typescript-eslint-language-service": "^4.1.3",
