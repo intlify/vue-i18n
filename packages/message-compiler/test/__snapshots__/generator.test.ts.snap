@@ -1,39 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`arrow mode complex 1`] = `
-Object {
-  "generatedColumn": 173,
-  "generatedLine": 1,
-  "name": "no apples",
-  "originalColumn": 7,
-  "originalLine": 1,
-  "source": "message.intl",
-}
-`;
-
-exports[`arrow mode complex 2`] = `
-Object {
-  "generatedColumn": 186,
-  "generatedLine": 1,
-  "name": "caml",
-  "originalColumn": 1,
-  "originalLine": 1,
-  "source": "message.intl",
-}
-`;
-
-exports[`arrow mode complex 3`] = `
-Object {
-  "generatedColumn": 209,
-  "generatedLine": 1,
-  "name": "0",
-  "originalColumn": 23,
-  "originalLine": 1,
-  "source": "message.intl",
-}
-`;
-
-exports[`arrow mode complex 4`] = `
+exports[`arrow mode complex:  apple mapping 1`] = `
 Object {
   "generatedColumn": 233,
   "generatedLine": 1,
@@ -44,7 +11,31 @@ Object {
 }
 `;
 
-exports[`arrow mode complex 5`] = `
+exports[`arrow mode complex: @.caml:{'no apples'} | {0} apple | {n}　apples 1`] = `"(ctx) => {const { normalize: _normalize, linked: _linked, interpolate: _interpolate, list: _list, named: _named, plural: _plural } = ctx;return _plural([_normalize([_linked(\\"no apples\\", \\"caml\\")]), _normalize([_interpolate(_list(0)), \\" apple\\"]), _normalize([_interpolate(_named(\\"n\\")), \\"　apples\\"])])}"`;
+
+exports[`arrow mode complex: 0 mapping 1`] = `
+Object {
+  "generatedColumn": 209,
+  "generatedLine": 1,
+  "name": "0",
+  "originalColumn": 23,
+  "originalLine": 1,
+  "source": "message.intl",
+}
+`;
+
+exports[`arrow mode complex: caml mapping 1`] = `
+Object {
+  "generatedColumn": 186,
+  "generatedLine": 1,
+  "name": "caml",
+  "originalColumn": 1,
+  "originalLine": 1,
+  "source": "message.intl",
+}
+`;
+
+exports[`arrow mode complex: n mapping 1`] = `
 Object {
   "generatedColumn": 257,
   "generatedLine": 1,
@@ -55,7 +46,18 @@ Object {
 }
 `;
 
-exports[`arrow mode complex 6`] = `
+exports[`arrow mode complex: no apples mapping 1`] = `
+Object {
+  "generatedColumn": 173,
+  "generatedLine": 1,
+  "name": "no apples",
+  "originalColumn": 7,
+  "originalLine": 1,
+  "source": "message.intl",
+}
+`;
+
+exports[`arrow mode complex: 　apples mapping 1`] = `
 Object {
   "generatedColumn": 284,
   "generatedLine": 1,
@@ -66,36 +68,23 @@ Object {
 }
 `;
 
-exports[`arrow mode complex: @.caml:{'no apples'} | {0} apple | {n}　apples 1`] = `"(ctx) => {const { normalize: _normalize, linked: _linked, interpolate: _interpolate, list: _list, named: _named, plural: _plural } = ctx;return _plural([_normalize([_linked(\\"no apples\\", \\"caml\\")]), _normalize([_interpolate(_list(0)), \\" apple\\"]), _normalize([_interpolate(_named(\\"n\\")), \\"　apples\\"])])}"`;
-
-exports[`linked key 1`] = `
-Object {
-  "generatedColumn": 4,
-  "generatedLine": 4,
-  "name": "hi ",
-  "originalColumn": 0,
-  "originalLine": 1,
-  "source": "message.intl",
-}
-`;
-
-exports[`linked key 2`] = `
-Object {
-  "generatedColumn": 19,
-  "generatedLine": 4,
-  "name": "name",
-  "originalColumn": 5,
-  "originalLine": 1,
-  "source": "message.intl",
-}
-`;
-
-exports[`linked key 3`] = `
+exports[`linked key:  ! mapping 1`] = `
 Object {
   "generatedColumn": 28,
   "generatedLine": 4,
   "name": " !",
   "originalColumn": 9,
+  "originalLine": 1,
+  "source": "message.intl",
+}
+`;
+
+exports[`linked key: hi  mapping 1`] = `
+Object {
+  "generatedColumn": 4,
+  "generatedLine": 4,
+  "name": "hi ",
+  "originalColumn": 0,
   "originalLine": 1,
   "source": "message.intl",
 }
@@ -110,18 +99,29 @@ exports[`linked key: hi @:name ! 1`] = `
 }"
 `;
 
-exports[`linked list 1`] = `
+exports[`linked key: name mapping 1`] = `
 Object {
-  "generatedColumn": 4,
+  "generatedColumn": 19,
   "generatedLine": 4,
-  "name": "hi ",
-  "originalColumn": 0,
+  "name": "name",
+  "originalColumn": 5,
   "originalLine": 1,
   "source": "message.intl",
 }
 `;
 
-exports[`linked list 2`] = `
+exports[`linked list:  ! mapping 1`] = `
+Object {
+  "generatedColumn": 44,
+  "generatedLine": 4,
+  "name": " !",
+  "originalColumn": 8,
+  "originalLine": 1,
+  "source": "message.intl",
+}
+`;
+
+exports[`linked list: 0 mapping 1`] = `
 Object {
   "generatedColumn": 19,
   "generatedLine": 4,
@@ -132,12 +132,12 @@ Object {
 }
 `;
 
-exports[`linked list 3`] = `
+exports[`linked list: hi  mapping 1`] = `
 Object {
-  "generatedColumn": 44,
+  "generatedColumn": 4,
   "generatedLine": 4,
-  "name": " !",
-  "originalColumn": 8,
+  "name": "hi ",
+  "originalColumn": 0,
   "originalLine": 1,
   "source": "message.intl",
 }
@@ -152,45 +152,23 @@ exports[`linked list: hi @:{0} ! 1`] = `
 }"
 `;
 
-exports[`linked modifier 1`] = `
-Object {
-  "generatedColumn": 4,
-  "generatedLine": 4,
-  "name": "hi ",
-  "originalColumn": 0,
-  "originalLine": 1,
-  "source": "message.intl",
-}
-`;
-
-exports[`linked modifier 2`] = `
-Object {
-  "generatedColumn": 19,
-  "generatedLine": 4,
-  "name": "name",
-  "originalColumn": 11,
-  "originalLine": 1,
-  "source": "message.intl",
-}
-`;
-
-exports[`linked modifier 3`] = `
-Object {
-  "generatedColumn": 27,
-  "generatedLine": 4,
-  "name": "upper",
-  "originalColumn": 4,
-  "originalLine": 1,
-  "source": "message.intl",
-}
-`;
-
-exports[`linked modifier 4`] = `
+exports[`linked modifier:  ! mapping 1`] = `
 Object {
   "generatedColumn": 37,
   "generatedLine": 4,
   "name": " !",
   "originalColumn": 19,
+  "originalLine": 1,
+  "source": "message.intl",
+}
+`;
+
+exports[`linked modifier: hi  mapping 1`] = `
+Object {
+  "generatedColumn": 4,
+  "generatedLine": 4,
+  "name": "hi ",
+  "originalColumn": 0,
   "originalLine": 1,
   "source": "message.intl",
 }
@@ -205,34 +183,45 @@ exports[`linked modifier: hi @.upper:{'name'} ! 1`] = `
 }"
 `;
 
-exports[`linked named 1`] = `
-Object {
-  "generatedColumn": 4,
-  "generatedLine": 4,
-  "name": "hi ",
-  "originalColumn": 0,
-  "originalLine": 1,
-  "source": "message.intl",
-}
-`;
-
-exports[`linked named 2`] = `
+exports[`linked modifier: name mapping 1`] = `
 Object {
   "generatedColumn": 19,
   "generatedLine": 4,
   "name": "name",
-  "originalColumn": 5,
+  "originalColumn": 11,
   "originalLine": 1,
   "source": "message.intl",
 }
 `;
 
-exports[`linked named 3`] = `
+exports[`linked modifier: upper mapping 1`] = `
+Object {
+  "generatedColumn": 27,
+  "generatedLine": 4,
+  "name": "upper",
+  "originalColumn": 4,
+  "originalLine": 1,
+  "source": "message.intl",
+}
+`;
+
+exports[`linked named:  ! mapping 1`] = `
 Object {
   "generatedColumn": 50,
   "generatedLine": 4,
   "name": " !",
   "originalColumn": 11,
+  "originalLine": 1,
+  "source": "message.intl",
+}
+`;
+
+exports[`linked named: hi  mapping 1`] = `
+Object {
+  "generatedColumn": 4,
+  "generatedLine": 4,
+  "name": "hi ",
+  "originalColumn": 0,
   "originalLine": 1,
   "source": "message.intl",
 }
@@ -247,18 +236,29 @@ exports[`linked named: hi @:{name} ! 1`] = `
 }"
 `;
 
-exports[`list basic 1`] = `
+exports[`linked named: name mapping 1`] = `
 Object {
-  "generatedColumn": 4,
+  "generatedColumn": 19,
   "generatedLine": 4,
-  "name": "hi ",
-  "originalColumn": 0,
+  "name": "name",
+  "originalColumn": 5,
   "originalLine": 1,
   "source": "message.intl",
 }
 `;
 
-exports[`list basic 2`] = `
+exports[`list basic:  ! mapping 1`] = `
+Object {
+  "generatedColumn": 35,
+  "generatedLine": 4,
+  "name": " !",
+  "originalColumn": 6,
+  "originalLine": 1,
+  "source": "message.intl",
+}
+`;
+
+exports[`list basic: 0 mapping 1`] = `
 Object {
   "generatedColumn": 11,
   "generatedLine": 4,
@@ -269,12 +269,12 @@ Object {
 }
 `;
 
-exports[`list basic 3`] = `
+exports[`list basic: hi  mapping 1`] = `
 Object {
-  "generatedColumn": 35,
+  "generatedColumn": 4,
   "generatedLine": 4,
-  "name": " !",
-  "originalColumn": 6,
+  "name": "hi ",
+  "originalColumn": 0,
   "originalLine": 1,
   "source": "message.intl",
 }
@@ -289,18 +289,7 @@ exports[`list basic: hi {0} ! 1`] = `
 }"
 `;
 
-exports[`list multiple 1`] = `
-Object {
-  "generatedColumn": 4,
-  "generatedLine": 4,
-  "name": "0",
-  "originalColumn": 0,
-  "originalLine": 1,
-  "source": "message.intl",
-}
-`;
-
-exports[`list multiple 2`] = `
+exports[`list multiple:   mapping 1`] = `
 Object {
   "generatedColumn": 28,
   "generatedLine": 4,
@@ -311,18 +300,7 @@ Object {
 }
 `;
 
-exports[`list multiple 3`] = `
-Object {
-  "generatedColumn": 33,
-  "generatedLine": 4,
-  "name": "1",
-  "originalColumn": 4,
-  "originalLine": 1,
-  "source": "message.intl",
-}
-`;
-
-exports[`list multiple 4`] = `
+exports[`list multiple:  ! mapping 1`] = `
 Object {
   "generatedColumn": 57,
   "generatedLine": 4,
@@ -342,18 +320,40 @@ exports[`list multiple: {0} {1} ! 1`] = `
 }"
 `;
 
-exports[`literal !#%^&*()-_+=[]:;?.<>"\` 1`] = `
+exports[`list multiple: 0 mapping 1`] = `
 Object {
   "generatedColumn": 4,
   "generatedLine": 4,
-  "name": "hi ",
+  "name": "0",
   "originalColumn": 0,
   "originalLine": 1,
   "source": "message.intl",
 }
 `;
 
-exports[`literal !#%^&*()-_+=[]:;?.<>"\` 2`] = `
+exports[`list multiple: 1 mapping 1`] = `
+Object {
+  "generatedColumn": 33,
+  "generatedLine": 4,
+  "name": "1",
+  "originalColumn": 4,
+  "originalLine": 1,
+  "source": "message.intl",
+}
+`;
+
+exports[`literal !#%^&*()-_+=[]:;?.<>"\`:  ! mapping 1`] = `
+Object {
+  "generatedColumn": 38,
+  "generatedLine": 4,
+  "name": " !",
+  "originalColumn": 29,
+  "originalLine": 1,
+  "source": "message.intl",
+}
+`;
+
+exports[`literal !#%^&*()-_+=[]:;?.<>"\`: !#%^&*()-_+=[]:;?.<>"\` mapping 1`] = `
 Object {
   "generatedColumn": 11,
   "generatedLine": 4,
@@ -364,12 +364,12 @@ Object {
 }
 `;
 
-exports[`literal !#%^&*()-_+=[]:;?.<>"\` 3`] = `
+exports[`literal !#%^&*()-_+=[]:;?.<>"\`: hi  mapping 1`] = `
 Object {
-  "generatedColumn": 38,
+  "generatedColumn": 4,
   "generatedLine": 4,
-  "name": " !",
-  "originalColumn": 29,
+  "name": "hi ",
+  "originalColumn": 0,
   "originalLine": 1,
   "source": "message.intl",
 }
@@ -384,7 +384,16 @@ exports[`literal !#%^&*()-_+=[]:;?.<>"\`: hi {'!#%^&*()-_+=[]:;?.<>"\`'} ! 1`] =
 }"
 `;
 
-exports[`literal {} 1`] = `
+exports[`literal {}: {'{}'} 1`] = `
+"function __msg__ (ctx) {
+  const { normalize: _normalize } = ctx
+  return _normalize([
+    \\"{}\\"
+  ])
+}"
+`;
+
+exports[`literal {}: {} mapping 1`] = `
 Object {
   "generatedColumn": 4,
   "generatedLine": 4,
@@ -395,43 +404,23 @@ Object {
 }
 `;
 
-exports[`literal {}: {'{}'} 1`] = `
-"function __msg__ (ctx) {
-  const { normalize: _normalize } = ctx
-  return _normalize([
-    \\"{}\\"
-  ])
-}"
-`;
-
-exports[`literal ascii 1`] = `
-Object {
-  "generatedColumn": 4,
-  "generatedLine": 4,
-  "name": "hi ",
-  "originalColumn": 0,
-  "originalLine": 1,
-  "source": "message.intl",
-}
-`;
-
-exports[`literal ascii 2`] = `
-Object {
-  "generatedColumn": 11,
-  "generatedLine": 4,
-  "name": "kazupon",
-  "originalColumn": 3,
-  "originalLine": 1,
-  "source": "message.intl",
-}
-`;
-
-exports[`literal ascii 3`] = `
+exports[`literal ascii:  ! mapping 1`] = `
 Object {
   "generatedColumn": 22,
   "generatedLine": 4,
   "name": " !",
   "originalColumn": 14,
+  "originalLine": 1,
+  "source": "message.intl",
+}
+`;
+
+exports[`literal ascii: hi  mapping 1`] = `
+Object {
+  "generatedColumn": 4,
+  "generatedLine": 4,
+  "name": "hi ",
+  "originalColumn": 0,
   "originalLine": 1,
   "source": "message.intl",
 }
@@ -446,34 +435,34 @@ exports[`literal ascii: hi {'kazupon'} ! 1`] = `
 }"
 `;
 
-exports[`literal emoji 1`] = `
-Object {
-  "generatedColumn": 4,
-  "generatedLine": 4,
-  "name": "hi ",
-  "originalColumn": 0,
-  "originalLine": 1,
-  "source": "message.intl",
-}
-`;
-
-exports[`literal emoji 2`] = `
+exports[`literal ascii: kazupon mapping 1`] = `
 Object {
   "generatedColumn": 11,
   "generatedLine": 4,
-  "name": "😺",
+  "name": "kazupon",
   "originalColumn": 3,
   "originalLine": 1,
   "source": "message.intl",
 }
 `;
 
-exports[`literal emoji 3`] = `
+exports[`literal emoji:  ! mapping 1`] = `
 Object {
   "generatedColumn": 17,
   "generatedLine": 4,
   "name": " !",
   "originalColumn": 9,
+  "originalLine": 1,
+  "source": "message.intl",
+}
+`;
+
+exports[`literal emoji: hi  mapping 1`] = `
+Object {
+  "generatedColumn": 4,
+  "generatedLine": 4,
+  "name": "hi ",
+  "originalColumn": 0,
   "originalLine": 1,
   "source": "message.intl",
 }
@@ -488,18 +477,29 @@ exports[`literal emoji: hi {'😺'} ! 1`] = `
 }"
 `;
 
-exports[`literal escaped single quote 1`] = `
+exports[`literal emoji: 😺 mapping 1`] = `
 Object {
-  "generatedColumn": 4,
+  "generatedColumn": 11,
   "generatedLine": 4,
-  "name": "hi ",
-  "originalColumn": 0,
+  "name": "😺",
+  "originalColumn": 3,
   "originalLine": 1,
   "source": "message.intl",
 }
 `;
 
-exports[`literal escaped single quote 2`] = `
+exports[`literal escaped single quote:  ! mapping 1`] = `
+Object {
+  "generatedColumn": 16,
+  "generatedLine": 4,
+  "name": " !",
+  "originalColumn": 9,
+  "originalLine": 1,
+  "source": "message.intl",
+}
+`;
+
+exports[`literal escaped single quote: ' mapping 1`] = `
 Object {
   "generatedColumn": 11,
   "generatedLine": 4,
@@ -510,12 +510,12 @@ Object {
 }
 `;
 
-exports[`literal escaped single quote 3`] = `
+exports[`literal escaped single quote: hi  mapping 1`] = `
 Object {
-  "generatedColumn": 16,
+  "generatedColumn": 4,
   "generatedLine": 4,
-  "name": " !",
-  "originalColumn": 9,
+  "name": "hi ",
+  "originalColumn": 0,
   "originalLine": 1,
   "source": "message.intl",
 }
@@ -530,18 +530,18 @@ exports[`literal escaped single quote: hi {'\\''} ! 1`] = `
 }"
 `;
 
-exports[`literal escaped slash 1`] = `
+exports[`literal escaped slash:  ! mapping 1`] = `
 Object {
-  "generatedColumn": 4,
+  "generatedColumn": 17,
   "generatedLine": 4,
-  "name": "hi ",
-  "originalColumn": 0,
+  "name": " !",
+  "originalColumn": 9,
   "originalLine": 1,
   "source": "message.intl",
 }
 `;
 
-exports[`literal escaped slash 2`] = `
+exports[`literal escaped slash: \\ mapping 1`] = `
 Object {
   "generatedColumn": 11,
   "generatedLine": 4,
@@ -552,12 +552,12 @@ Object {
 }
 `;
 
-exports[`literal escaped slash 3`] = `
+exports[`literal escaped slash: hi  mapping 1`] = `
 Object {
-  "generatedColumn": 17,
+  "generatedColumn": 4,
   "generatedLine": 4,
-  "name": " !",
-  "originalColumn": 9,
+  "name": "hi ",
+  "originalColumn": 0,
   "originalLine": 1,
   "source": "message.intl",
 }
@@ -572,18 +572,18 @@ exports[`literal escaped slash: hi {'\\\\'} ! 1`] = `
 }"
 `;
 
-exports[`literal escaped unicode 4 digits 1`] = `
+exports[`literal escaped unicode 4 digits:  ! mapping 1`] = `
 Object {
-  "generatedColumn": 4,
+  "generatedColumn": 22,
   "generatedLine": 4,
-  "name": "hi ",
-  "originalColumn": 0,
+  "name": " !",
+  "originalColumn": 14,
   "originalLine": 1,
   "source": "message.intl",
 }
 `;
 
-exports[`literal escaped unicode 4 digits 2`] = `
+exports[`literal escaped unicode 4 digits: \\u0041 mapping 1`] = `
 Object {
   "generatedColumn": 11,
   "generatedLine": 4,
@@ -594,12 +594,12 @@ Object {
 }
 `;
 
-exports[`literal escaped unicode 4 digits 3`] = `
+exports[`literal escaped unicode 4 digits: hi  mapping 1`] = `
 Object {
-  "generatedColumn": 22,
+  "generatedColumn": 4,
   "generatedLine": 4,
-  "name": " !",
-  "originalColumn": 14,
+  "name": "hi ",
+  "originalColumn": 0,
   "originalLine": 1,
   "source": "message.intl",
 }
@@ -614,18 +614,18 @@ exports[`literal escaped unicode 4 digits: hi {'\\\\u0041'} ! 1`] = `
 }"
 `;
 
-exports[`literal escaped unicode 6 digits 1`] = `
+exports[`literal escaped unicode 6 digits:  ! mapping 1`] = `
 Object {
-  "generatedColumn": 4,
+  "generatedColumn": 24,
   "generatedLine": 4,
-  "name": "hi ",
-  "originalColumn": 0,
+  "name": " !",
+  "originalColumn": 16,
   "originalLine": 1,
   "source": "message.intl",
 }
 `;
 
-exports[`literal escaped unicode 6 digits 2`] = `
+exports[`literal escaped unicode 6 digits: \\U01F602 mapping 1`] = `
 Object {
   "generatedColumn": 11,
   "generatedLine": 4,
@@ -636,12 +636,12 @@ Object {
 }
 `;
 
-exports[`literal escaped unicode 6 digits 3`] = `
+exports[`literal escaped unicode 6 digits: hi  mapping 1`] = `
 Object {
-  "generatedColumn": 24,
+  "generatedColumn": 4,
   "generatedLine": 4,
-  "name": " !",
-  "originalColumn": 16,
+  "name": "hi ",
+  "originalColumn": 0,
   "originalLine": 1,
   "source": "message.intl",
 }
@@ -656,34 +656,23 @@ exports[`literal escaped unicode 6 digits: hi {'\\\\U01F602'} ! 1`] = `
 }"
 `;
 
-exports[`literal multibytes 1`] = `
-Object {
-  "generatedColumn": 4,
-  "generatedLine": 4,
-  "name": "hi ",
-  "originalColumn": 0,
-  "originalLine": 1,
-  "source": "message.intl",
-}
-`;
-
-exports[`literal multibytes 2`] = `
-Object {
-  "generatedColumn": 11,
-  "generatedLine": 4,
-  "name": "かずぽん",
-  "originalColumn": 3,
-  "originalLine": 1,
-  "source": "message.intl",
-}
-`;
-
-exports[`literal multibytes 3`] = `
+exports[`literal multibytes:  ! mapping 1`] = `
 Object {
   "generatedColumn": 19,
   "generatedLine": 4,
   "name": " !",
   "originalColumn": 11,
+  "originalLine": 1,
+  "source": "message.intl",
+}
+`;
+
+exports[`literal multibytes: hi  mapping 1`] = `
+Object {
+  "generatedColumn": 4,
+  "generatedLine": 4,
+  "name": "hi ",
+  "originalColumn": 0,
   "originalLine": 1,
   "source": "message.intl",
 }
@@ -698,18 +687,29 @@ exports[`literal multibytes: hi {'かずぽん'} ! 1`] = `
 }"
 `;
 
-exports[`literal unicode 4 digits 1`] = `
+exports[`literal multibytes: かずぽん mapping 1`] = `
 Object {
-  "generatedColumn": 4,
+  "generatedColumn": 11,
   "generatedLine": 4,
-  "name": "hi ",
-  "originalColumn": 0,
+  "name": "かずぽん",
+  "originalColumn": 3,
   "originalLine": 1,
   "source": "message.intl",
 }
 `;
 
-exports[`literal unicode 4 digits 2`] = `
+exports[`literal unicode 4 digits:  ! mapping 1`] = `
+Object {
+  "generatedColumn": 16,
+  "generatedLine": 4,
+  "name": " !",
+  "originalColumn": 8,
+  "originalLine": 1,
+  "source": "message.intl",
+}
+`;
+
+exports[`literal unicode 4 digits: A mapping 1`] = `
 Object {
   "generatedColumn": 11,
   "generatedLine": 4,
@@ -720,12 +720,12 @@ Object {
 }
 `;
 
-exports[`literal unicode 4 digits 3`] = `
+exports[`literal unicode 4 digits: hi  mapping 1`] = `
 Object {
-  "generatedColumn": 16,
+  "generatedColumn": 4,
   "generatedLine": 4,
-  "name": " !",
-  "originalColumn": 8,
+  "name": "hi ",
+  "originalColumn": 0,
   "originalLine": 1,
   "source": "message.intl",
 }
@@ -740,18 +740,18 @@ exports[`literal unicode 4 digits: hi {'A'} ! 1`] = `
 }"
 `;
 
-exports[`literal unicode 6 digits 1`] = `
+exports[`literal unicode 6 digits:  ! mapping 1`] = `
 Object {
-  "generatedColumn": 4,
+  "generatedColumn": 22,
   "generatedLine": 4,
-  "name": "hi ",
-  "originalColumn": 0,
+  "name": " !",
+  "originalColumn": 14,
   "originalLine": 1,
   "source": "message.intl",
 }
 `;
 
-exports[`literal unicode 6 digits 2`] = `
+exports[`literal unicode 6 digits: U01F602 mapping 1`] = `
 Object {
   "generatedColumn": 11,
   "generatedLine": 4,
@@ -762,12 +762,12 @@ Object {
 }
 `;
 
-exports[`literal unicode 6 digits 3`] = `
+exports[`literal unicode 6 digits: hi  mapping 1`] = `
 Object {
-  "generatedColumn": 22,
+  "generatedColumn": 4,
   "generatedLine": 4,
-  "name": " !",
-  "originalColumn": 14,
+  "name": "hi ",
+  "originalColumn": 0,
   "originalLine": 1,
   "source": "message.intl",
 }
@@ -782,34 +782,23 @@ exports[`literal unicode 6 digits: hi {'U01F602'} ! 1`] = `
 }"
 `;
 
-exports[`named basic 1`] = `
-Object {
-  "generatedColumn": 4,
-  "generatedLine": 4,
-  "name": "hi ",
-  "originalColumn": 0,
-  "originalLine": 1,
-  "source": "message.intl",
-}
-`;
-
-exports[`named basic 2`] = `
-Object {
-  "generatedColumn": 11,
-  "generatedLine": 4,
-  "name": "name",
-  "originalColumn": 3,
-  "originalLine": 1,
-  "source": "message.intl",
-}
-`;
-
-exports[`named basic 3`] = `
+exports[`named basic:  ! mapping 1`] = `
 Object {
   "generatedColumn": 41,
   "generatedLine": 4,
   "name": " !",
   "originalColumn": 9,
+  "originalLine": 1,
+  "source": "message.intl",
+}
+`;
+
+exports[`named basic: hi  mapping 1`] = `
+Object {
+  "generatedColumn": 4,
+  "generatedLine": 4,
+  "name": "hi ",
+  "originalColumn": 0,
   "originalLine": 1,
   "source": "message.intl",
 }
@@ -824,18 +813,18 @@ exports[`named basic: hi {name} ! 1`] = `
 }"
 `;
 
-exports[`named multiple 1`] = `
+exports[`named basic: name mapping 1`] = `
 Object {
-  "generatedColumn": 4,
+  "generatedColumn": 11,
   "generatedLine": 4,
-  "name": "greeting",
-  "originalColumn": 0,
+  "name": "name",
+  "originalColumn": 3,
   "originalLine": 1,
   "source": "message.intl",
 }
 `;
 
-exports[`named multiple 2`] = `
+exports[`named multiple:   mapping 1`] = `
 Object {
   "generatedColumn": 38,
   "generatedLine": 4,
@@ -846,18 +835,7 @@ Object {
 }
 `;
 
-exports[`named multiple 3`] = `
-Object {
-  "generatedColumn": 43,
-  "generatedLine": 4,
-  "name": "name",
-  "originalColumn": 11,
-  "originalLine": 1,
-  "source": "message.intl",
-}
-`;
-
-exports[`named multiple 4`] = `
+exports[`named multiple:  ! mapping 1`] = `
 Object {
   "generatedColumn": 73,
   "generatedLine": 4,
@@ -877,67 +855,34 @@ exports[`named multiple: {greeting} {name} ! 1`] = `
 }"
 `;
 
-exports[`plural complex 1`] = `
+exports[`named multiple: greeting mapping 1`] = `
 Object {
-  "generatedColumn": 14,
-  "generatedLine": 5,
-  "name": "no apples",
-  "originalColumn": 7,
+  "generatedColumn": 4,
+  "generatedLine": 4,
+  "name": "greeting",
+  "originalColumn": 0,
   "originalLine": 1,
   "source": "message.intl",
 }
 `;
 
-exports[`plural complex 2`] = `
+exports[`named multiple: name mapping 1`] = `
 Object {
-  "generatedColumn": 27,
-  "generatedLine": 5,
-  "name": "caml",
-  "originalColumn": 1,
+  "generatedColumn": 43,
+  "generatedLine": 4,
+  "name": "name",
+  "originalColumn": 11,
   "originalLine": 1,
   "source": "message.intl",
 }
 `;
 
-exports[`plural complex 3`] = `
-Object {
-  "generatedColumn": 6,
-  "generatedLine": 7,
-  "name": "0",
-  "originalColumn": 23,
-  "originalLine": 1,
-  "source": "message.intl",
-}
-`;
-
-exports[`plural complex 4`] = `
+exports[`plural complex:  apple mapping 1`] = `
 Object {
   "generatedColumn": 30,
   "generatedLine": 7,
   "name": " apple",
   "originalColumn": 26,
-  "originalLine": 1,
-  "source": "message.intl",
-}
-`;
-
-exports[`plural complex 5`] = `
-Object {
-  "generatedColumn": 6,
-  "generatedLine": 9,
-  "name": "n",
-  "originalColumn": 35,
-  "originalLine": 1,
-  "source": "message.intl",
-}
-`;
-
-exports[`plural complex 6`] = `
-Object {
-  "generatedColumn": 33,
-  "generatedLine": 9,
-  "name": "　apples",
-  "originalColumn": 38,
   "originalLine": 1,
   "source": "message.intl",
 }
@@ -958,34 +903,56 @@ exports[`plural complex: @.caml:{'no apples'} | {0} apple | {n}　apples 1`] = `
 }"
 `;
 
-exports[`plural simple 1`] = `
-Object {
-  "generatedColumn": 6,
-  "generatedLine": 5,
-  "name": "no apples",
-  "originalColumn": 0,
-  "originalLine": 1,
-  "source": "message.intl",
-}
-`;
-
-exports[`plural simple 2`] = `
+exports[`plural complex: 0 mapping 1`] = `
 Object {
   "generatedColumn": 6,
   "generatedLine": 7,
-  "name": "one apple",
-  "originalColumn": 12,
+  "name": "0",
+  "originalColumn": 23,
   "originalLine": 1,
   "source": "message.intl",
 }
 `;
 
-exports[`plural simple 3`] = `
+exports[`plural complex: caml mapping 1`] = `
+Object {
+  "generatedColumn": 27,
+  "generatedLine": 5,
+  "name": "caml",
+  "originalColumn": 1,
+  "originalLine": 1,
+  "source": "message.intl",
+}
+`;
+
+exports[`plural complex: n mapping 1`] = `
 Object {
   "generatedColumn": 6,
   "generatedLine": 9,
-  "name": "too much apples  ",
-  "originalColumn": 26,
+  "name": "n",
+  "originalColumn": 35,
+  "originalLine": 1,
+  "source": "message.intl",
+}
+`;
+
+exports[`plural complex: no apples mapping 1`] = `
+Object {
+  "generatedColumn": 14,
+  "generatedLine": 5,
+  "name": "no apples",
+  "originalColumn": 7,
+  "originalLine": 1,
+  "source": "message.intl",
+}
+`;
+
+exports[`plural complex: 　apples mapping 1`] = `
+Object {
+  "generatedColumn": 33,
+  "generatedLine": 9,
+  "name": "　apples",
+  "originalColumn": 38,
   "originalLine": 1,
   "source": "message.intl",
 }
@@ -1006,12 +973,34 @@ exports[`plural simple: no apples | one apple  |  too much apples   1`] = `
 }"
 `;
 
-exports[`text basic 1`] = `
+exports[`plural simple: no apples mapping 1`] = `
 Object {
-  "generatedColumn": 4,
-  "generatedLine": 4,
-  "name": "hello world",
+  "generatedColumn": 6,
+  "generatedLine": 5,
+  "name": "no apples",
   "originalColumn": 0,
+  "originalLine": 1,
+  "source": "message.intl",
+}
+`;
+
+exports[`plural simple: one apple mapping 1`] = `
+Object {
+  "generatedColumn": 6,
+  "generatedLine": 7,
+  "name": "one apple",
+  "originalColumn": 12,
+  "originalLine": 1,
+  "source": "message.intl",
+}
+`;
+
+exports[`plural simple: too much apples   mapping 1`] = `
+Object {
+  "generatedColumn": 6,
+  "generatedLine": 9,
+  "name": "too much apples  ",
+  "originalColumn": 26,
   "originalLine": 1,
   "source": "message.intl",
 }
@@ -1026,15 +1015,14 @@ exports[`text basic: hello world 1`] = `
 }"
 `;
 
-exports[`text multline 1`] = `
+exports[`text basic: hello world mapping 1`] = `
 Object {
   "generatedColumn": 4,
   "generatedLine": 4,
-  "name": "hello
- world",
+  "name": "hello world",
   "originalColumn": 0,
   "originalLine": 1,
-  "source": "foo.bar",
+  "source": "message.intl",
 }
 `;
 
@@ -1046,4 +1034,17 @@ exports[`text multline: hello
     \\"hello\\\\n world\\"
   ])
 }"
+`;
+
+exports[`text multline: hello
+ world mapping 1`] = `
+Object {
+  "generatedColumn": 4,
+  "generatedLine": 4,
+  "name": "hello
+ world",
+  "originalColumn": 0,
+  "originalLine": 1,
+  "source": "foo.bar",
+}
 `;

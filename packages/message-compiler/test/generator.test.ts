@@ -63,7 +63,7 @@ describe('text', () => {
     expect(map!.sourcesContent).toEqual([msg])
     const consumer = await new SourceMapConsumer(map as RawSourceMap)
     consumer.eachMapping(mapping => {
-      expect(mapping).toMatchSnapshot()
+      expect(mapping).toMatchSnapshot(`${mapping.name} mapping`)
     })
   })
 
@@ -86,7 +86,7 @@ describe('text', () => {
     expect(map!.sourcesContent).toEqual([msg])
     const consumer = await new SourceMapConsumer(map as RawSourceMap)
     consumer.eachMapping(mapping => {
-      expect(mapping).toMatchSnapshot()
+      expect(mapping).toMatchSnapshot(`${mapping.name} mapping`)
     })
   })
 })
@@ -107,7 +107,7 @@ describe('list', () => {
     expect(map!.sourcesContent).toEqual([msg])
     const consumer = await new SourceMapConsumer(map as RawSourceMap)
     consumer.eachMapping(mapping => {
-      expect(mapping).toMatchSnapshot()
+      expect(mapping).toMatchSnapshot(`${mapping.name} mapping`)
     })
   })
 
@@ -128,7 +128,7 @@ describe('list', () => {
     expect(map!.sourcesContent).toEqual([msg])
     const consumer = await new SourceMapConsumer(map as RawSourceMap)
     consumer.eachMapping(mapping => {
-      expect(mapping).toMatchSnapshot()
+      expect(mapping).toMatchSnapshot(`${mapping.name} mapping`)
     })
   })
 })
@@ -149,7 +149,7 @@ describe('named', () => {
     expect(map!.sourcesContent).toEqual([msg])
     const consumer = await new SourceMapConsumer(map as RawSourceMap)
     consumer.eachMapping(mapping => {
-      expect(mapping).toMatchSnapshot()
+      expect(mapping).toMatchSnapshot(`${mapping.name} mapping`)
     })
   })
 
@@ -170,7 +170,7 @@ describe('named', () => {
     expect(map!.sourcesContent).toEqual([msg])
     const consumer = await new SourceMapConsumer(map as RawSourceMap)
     consumer.eachMapping(mapping => {
-      expect(mapping).toMatchSnapshot()
+      expect(mapping).toMatchSnapshot(`${mapping.name} mapping`)
     })
   })
 })
@@ -187,7 +187,7 @@ describe('literal', () => {
     expect(map!.sourcesContent).toEqual([msg])
     const consumer = await new SourceMapConsumer(map as RawSourceMap)
     consumer.eachMapping(mapping => {
-      expect(mapping).toMatchSnapshot()
+      expect(mapping).toMatchSnapshot(`${mapping.name} mapping`)
     })
   })
 
@@ -202,7 +202,7 @@ describe('literal', () => {
     expect(map!.sourcesContent).toEqual([msg])
     const consumer = await new SourceMapConsumer(map as RawSourceMap)
     consumer.eachMapping(mapping => {
-      expect(mapping).toMatchSnapshot()
+      expect(mapping).toMatchSnapshot(`${mapping.name} mapping`)
     })
   })
 
@@ -217,7 +217,7 @@ describe('literal', () => {
     expect(map!.sourcesContent).toEqual([msg])
     const consumer = await new SourceMapConsumer(map as RawSourceMap)
     consumer.eachMapping(mapping => {
-      expect(mapping).toMatchSnapshot()
+      expect(mapping).toMatchSnapshot(`${mapping.name} mapping`)
     })
   })
 
@@ -232,7 +232,7 @@ describe('literal', () => {
     expect(map!.sourcesContent).toEqual([msg])
     const consumer = await new SourceMapConsumer(map as RawSourceMap)
     consumer.eachMapping(mapping => {
-      expect(mapping).toMatchSnapshot()
+      expect(mapping).toMatchSnapshot(`${mapping.name} mapping`)
     })
   })
 
@@ -247,7 +247,7 @@ describe('literal', () => {
     expect(map!.sourcesContent).toEqual([msg])
     const consumer = await new SourceMapConsumer(map as RawSourceMap)
     consumer.eachMapping(mapping => {
-      expect(mapping).toMatchSnapshot()
+      expect(mapping).toMatchSnapshot(`${mapping.name} mapping`)
     })
   })
 
@@ -262,7 +262,7 @@ describe('literal', () => {
     expect(map!.sourcesContent).toEqual([msg])
     const consumer = await new SourceMapConsumer(map as RawSourceMap)
     consumer.eachMapping(mapping => {
-      expect(mapping).toMatchSnapshot()
+      expect(mapping).toMatchSnapshot(`${mapping.name} mapping`)
     })
   })
 
@@ -277,7 +277,7 @@ describe('literal', () => {
     expect(map!.sourcesContent).toEqual([msg])
     const consumer = await new SourceMapConsumer(map as RawSourceMap)
     consumer.eachMapping(mapping => {
-      expect(mapping).toMatchSnapshot()
+      expect(mapping).toMatchSnapshot(`${mapping.name} mapping`)
     })
   })
 
@@ -292,7 +292,7 @@ describe('literal', () => {
     expect(map!.sourcesContent).toEqual([msg])
     const consumer = await new SourceMapConsumer(map as RawSourceMap)
     consumer.eachMapping(mapping => {
-      expect(mapping).toMatchSnapshot()
+      expect(mapping).toMatchSnapshot(`${mapping.name} mapping`)
     })
   })
 
@@ -307,7 +307,7 @@ describe('literal', () => {
     expect(map!.sourcesContent).toEqual([msg])
     const consumer = await new SourceMapConsumer(map as RawSourceMap)
     consumer.eachMapping(mapping => {
-      expect(mapping).toMatchSnapshot()
+      expect(mapping).toMatchSnapshot(`${mapping.name} mapping`)
     })
   })
 
@@ -322,7 +322,7 @@ describe('literal', () => {
     expect(map!.sourcesContent).toEqual([msg])
     const consumer = await new SourceMapConsumer(map as RawSourceMap)
     consumer.eachMapping(mapping => {
-      expect(mapping).toMatchSnapshot()
+      expect(mapping).toMatchSnapshot(`${mapping.name} mapping`)
     })
   })
 
@@ -337,7 +337,7 @@ describe('literal', () => {
     expect(map!.sourcesContent).toEqual([msg])
     const consumer = await new SourceMapConsumer(map as RawSourceMap)
     consumer.eachMapping(mapping => {
-      expect(mapping).toMatchSnapshot()
+      expect(mapping).toMatchSnapshot(`${mapping.name} mapping`)
     })
   })
 })
@@ -358,7 +358,7 @@ describe('linked', () => {
     expect(map!.sourcesContent).toEqual([msg])
     const consumer = await new SourceMapConsumer(map as RawSourceMap)
     consumer.eachMapping(mapping => {
-      expect(mapping).toMatchSnapshot()
+      expect(mapping).toMatchSnapshot(`${mapping.name} mapping`)
     })
   })
 
@@ -377,7 +377,7 @@ describe('linked', () => {
     expect(map!.sourcesContent).toEqual([msg])
     const consumer = await new SourceMapConsumer(map as RawSourceMap)
     consumer.eachMapping(mapping => {
-      expect(mapping).toMatchSnapshot()
+      expect(mapping).toMatchSnapshot(`${mapping.name} mapping`)
     })
   })
 
@@ -396,7 +396,7 @@ describe('linked', () => {
     expect(map!.sourcesContent).toEqual([msg])
     const consumer = await new SourceMapConsumer(map as RawSourceMap)
     consumer.eachMapping(mapping => {
-      expect(mapping).toMatchSnapshot()
+      expect(mapping).toMatchSnapshot(`${mapping.name} mapping`)
     })
   })
 
@@ -415,7 +415,7 @@ describe('linked', () => {
     expect(map!.sourcesContent).toEqual([msg])
     const consumer = await new SourceMapConsumer(map as RawSourceMap)
     consumer.eachMapping(mapping => {
-      expect(mapping).toMatchSnapshot()
+      expect(mapping).toMatchSnapshot(`${mapping.name} mapping`)
     })
   })
 })
@@ -442,7 +442,7 @@ describe('plural', () => {
     expect(map!.sourcesContent).toEqual([msg])
     const consumer = await new SourceMapConsumer(map as RawSourceMap)
     consumer.eachMapping(mapping => {
-      expect(mapping).toMatchSnapshot()
+      expect(mapping).toMatchSnapshot(`${mapping.name} mapping`)
     })
   })
 
@@ -467,7 +467,7 @@ describe('plural', () => {
     expect(map!.sourcesContent).toEqual([msg])
     const consumer = await new SourceMapConsumer(map as RawSourceMap)
     consumer.eachMapping(mapping => {
-      expect(mapping).toMatchSnapshot()
+      expect(mapping).toMatchSnapshot(`${mapping.name} mapping`)
     })
   })
 })
@@ -486,7 +486,7 @@ describe('arrow mode', () => {
     expect(map!.sourcesContent).toEqual([msg])
     const consumer = await new SourceMapConsumer(map as RawSourceMap)
     consumer.eachMapping(mapping => {
-      expect(mapping).toMatchSnapshot()
+      expect(mapping).toMatchSnapshot(`${mapping.name} mapping`)
     })
   })
 })
