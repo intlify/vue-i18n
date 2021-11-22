@@ -3,7 +3,7 @@ import App from './App.vue'
 import './index.css'
 import { setupRouter } from './router'
 import { setupI18n } from './i18n'
-import en from './locales/en.yaml'
+import en from './locales/en.json'
 
 const i18n = setupI18n({
   legacy: false,

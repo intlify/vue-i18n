@@ -37,7 +37,7 @@ export default defineComponent({
   name: 'App',
   setup() {
     const router = useRouter()
-    const { t, locale } = useI18n({ useScope: 'global' })
+    const { t, locale } = useI18n() // same as `useI18n({ useScope: 'global' })`
 
     /**
      * select locale value for language select form
