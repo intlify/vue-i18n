@@ -9,7 +9,12 @@ import {
 import { I18nErrorCodes, createI18nError } from './errors'
 
 import type { Locale, MessageResolver } from '@intlify/core-base'
-import type { CustomBlocks, VueMessageType } from './composer'
+import type {
+  Composer,
+  ComposerOptions,
+  CustomBlocks,
+  VueMessageType
+} from './composer'
 import type { ComponentInternalInstance } from 'vue'
 
 type GetLocaleMessagesOptions<Messages = {}> = {
@@ -144,4 +149,44 @@ export function getComponentOptions(instance: ComponentInternalInstance): any {
   return !__BRIDGE__ ? instance.type : instance.proxy!.$options
 }
 
+export function adjustI18nResources(
+  global: Composer,
+  options: ComposerOptions,
+  componentOptions: any // eslint-disable-line @typescript-eslint/no-explicit-any
+): void {
+  let messages = isObject(options.messages) ? options.messages : {}
+  if ('__i18nGlobal' in componentOptions) {
+    messages = getLocaleMessages(global.locale.value as Locale, {
+      messages,
+      __i18n: componentOptions.__i18nGlobal
+    })
+  }
+  // merge locale messages
+  const locales = Object.keys(messages)
+  if (locales.length) {
+    locales.forEach(locale => {
+      global.mergeLocaleMessage(locale, messages[locale])
+    })
+  }
+  if (!__LITE__) {
+    // merge datetime formats
+    if (isObject(options.datetimeFormats)) {
+      const locales = Object.keys(options.datetimeFormats)
+      if (locales.length) {
+        locales.forEach(locale => {
+          global.mergeDateTimeFormat(locale, options.datetimeFormats![locale])
+        })
+      }
+    }
+    // merge number formats
+    if (isObject(options.numberFormats)) {
+      const locales = Object.keys(options.numberFormats)
+      if (locales.length) {
+        locales.forEach(locale => {
+          global.mergeNumberFormat(locale, options.numberFormats![locale])
+        })
+      }
+    }
+  }
+}
 /* eslint-enable @typescript-eslint/no-explicit-any */

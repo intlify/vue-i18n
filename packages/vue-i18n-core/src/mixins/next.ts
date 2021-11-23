@@ -3,7 +3,7 @@ import { createVueI18n } from '../legacy'
 import { createI18nError, I18nErrorCodes } from '../errors'
 import { SetPluralRulesSymbol } from '../symbols'
 import { addTimelineEvent } from '../devtools'
-import { getLocaleMessages } from '../utils'
+import { getLocaleMessages, adjustI18nResources } from '../utils'
 import { createEmitter } from '@intlify/shared'
 
 import type { ComponentOptions } from 'vue'
@@ -16,6 +16,7 @@ import type {
 import type {
   Composer,
   ComposerInternalOptions,
+  ComposerOptions,
   VueMessageType
 } from '../composer'
 import type {
@@ -73,6 +74,10 @@ export function defineMixin(
       } else {
         // set global
         this.$i18n = vuei18n
+      }
+
+      if (options.__i18nGlobal) {
+        adjustI18nResources(composer, options as ComposerOptions, options)
       }
 
       ;(vuei18n as unknown as VueI18nInternal).__onComponentInstanceCreated(
