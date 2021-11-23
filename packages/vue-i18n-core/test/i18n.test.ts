@@ -718,25 +718,81 @@ test('merge useI18n resources to global scope', async () => {
   })
 })
 
-test('merge i18n custom blocks to global scope', async () => {
-  const i18n = createI18n({
-    legacy: false,
-    locale: 'ja',
-    messages: {
-      en: {
-        hi: { hello: 'hello!' }
+describe('merge i18n custom blocks to global scope', () => {
+  test('composition mode', async () => {
+    const i18n = createI18n({
+      legacy: false,
+      locale: 'ja',
+      messages: {
+        en: {
+          hi: { hello: 'hello!' }
+        }
       }
-    }
+    })
+
+    const App = defineComponent({
+      setup() {
+        const instance = getCurrentInstance()
+        if (instance == null) {
+          throw new Error()
+        }
+        const options = instance.type as ComponentOptions
+        options.__i18nGlobal = [
+          {
+            locale: 'en',
+            resource: {
+              hi: { hi: 'hi!' },
+              foo: 'foo!'
+            }
+          },
+          {
+            locale: 'ja',
+            resource: { foo: 'ふー！' }
+          }
+        ]
+        useI18n({
+          useScope: 'global',
+          messages: {
+            ja: {
+              hello: 'こんにちは！'
+            }
+          }
+        })
+        return {}
+      },
+      template: `<p>foo</p>`
+    })
+    await mount(App, i18n)
+
+    expect(i18n.global.getLocaleMessage('en')).toEqual({
+      hi: {
+        hi: 'hi!',
+        hello: 'hello!'
+      },
+      foo: 'foo!'
+    })
+    expect(i18n.global.getLocaleMessage('ja')).toEqual({
+      hello: 'こんにちは！',
+      foo: 'ふー！'
+    })
   })
 
-  const App = defineComponent({
-    setup() {
-      const instance = getCurrentInstance()
-      if (instance == null) {
-        throw new Error()
+  test('legacy mode', async () => {
+    const i18n = createI18n({
+      legacy: true,
+      locale: 'ja',
+      messages: {
+        en: {
+          hi: { hello: 'hello!' }
+        },
+        ja: {
+          hello: 'こんにちは！'
+        }
       }
-      const options = instance.type as ComponentOptions
-      options.__i18nGlobal = [
+    })
+
+    const App = defineComponent({
+      __i18nGlobal: [
         {
           locale: 'en',
           resource: {
@@ -748,31 +804,22 @@ test('merge i18n custom blocks to global scope', async () => {
           locale: 'ja',
           resource: { foo: 'ふー！' }
         }
-      ]
-      useI18n({
-        useScope: 'global',
-        messages: {
-          ja: {
-            hello: 'こんにちは！'
-          }
-        }
-      })
-      return {}
-    },
-    template: `<p>foo</p>`
-  })
-  await mount(App, i18n)
+      ],
+      template: `<p>foo</p>`
+    })
+    await mount(App, i18n)
 
-  expect(i18n.global.getLocaleMessage('en')).toEqual({
-    hi: {
-      hi: 'hi!',
-      hello: 'hello!'
-    },
-    foo: 'foo!'
-  })
-  expect(i18n.global.getLocaleMessage('ja')).toEqual({
-    hello: 'こんにちは！',
-    foo: 'ふー！'
+    expect(i18n.global.getLocaleMessage('en')).toEqual({
+      hi: {
+        hi: 'hi!',
+        hello: 'hello!'
+      },
+      foo: 'foo!'
+    })
+    expect(i18n.global.getLocaleMessage('ja')).toEqual({
+      hello: 'こんにちは！',
+      foo: 'ふー！'
+    })
   })
 })
 
