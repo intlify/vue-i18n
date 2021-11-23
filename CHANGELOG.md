@@ -1,4 +1,14 @@
 
+## v9.2.0-beta.21 (2021-11-23)
+
+#### :bug: Bug Fixes
+* `vue-i18n-core`
+  * [#806](https://github.com/intlify/vue-i18n-next/pull/806) fix: merge global resources of i18n custom block ([@kazupon](https://github.com/kazupon))
+
+#### Committers: 1
+- kazuya kawaguchi ([@kazupon](https://github.com/kazupon))
+
+
 ## v9.2.0-beta.20 (2021-11-18)
 
 #### :bug: Bug Fixes
