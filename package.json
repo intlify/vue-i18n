@@ -135,7 +135,7 @@
     "trash-cli": "^5.0.0",
     "ts-jest": "^26.5.4",
     "typescript": "4.2.3",
-    "typescript-eslint-language-service": "^4.1.3",
+    "typescript-eslint-language-service": "^5.0.0",
     "vitepress": "^0.18.0",
     "vue": "^3.2.4",
     "vue-i18n": "workspace:*",

@@ -75,7 +75,7 @@ importers:
       trash-cli: ^5.0.0
       ts-jest: ^26.5.4
       typescript: 4.2.3
-      typescript-eslint-language-service: ^4.1.3
+      typescript-eslint-language-service: ^5.0.0
       vitepress: ^0.18.0
       vue: ^3.2.4
       vue-i18n: workspace:*
@@ -152,7 +152,7 @@ importers:
       trash-cli: 5.0.0
       ts-jest: 26.5.6_jest@26.6.3+typescript@4.2.3
       typescript: 4.2.3
-      typescript-eslint-language-service: 4.1.5_a68335aecb8c8504fefba9971b4bf8d5
+      typescript-eslint-language-service: 5.0.0_a68335aecb8c8504fefba9971b4bf8d5
       vitepress: 0.18.1
       vue: 3.2.20
       vue-i18n: link:packages/vue-i18n
@@ -1105,8 +1105,8 @@ packages:
       vue-i18n:
         optional: true
     dependencies:
-      '@intlify/message-compiler': 9.2.0-beta.20
-      '@intlify/shared': 9.2.0-beta.20
+      '@intlify/message-compiler': 9.2.0-beta.21
+      '@intlify/shared': 9.2.0-beta.21
       jsonc-eslint-parser: 1.4.1
       source-map: 0.6.1
       yaml-eslint-parser: 0.3.2
@@ -1147,11 +1147,11 @@ packages:
       source-map: 0.6.1
     dev: true
 
-  /@intlify/message-compiler/9.2.0-beta.20:
-    resolution: {integrity: sha512-nbJFuzwm1XZuKzhXqcURYabZ7JqyhyibIs3i661NXrblutd8ZiuOWUB20zIYjKFRLL38QWIijUclOyp+CSW5YQ==}
+  /@intlify/message-compiler/9.2.0-beta.21:
+    resolution: {integrity: sha512-Dk84bcd/REMxHCcS8PaWnoimGYZFVoxA5DE46Y4PaF7DSh6o9V2ckjHPE+O6/G9JPHlmH1Bmtl3G28xzP3tAXw==}
     engines: {node: '>= 12'}
     dependencies:
-      '@intlify/shared': 9.2.0-beta.20
+      '@intlify/shared': 9.2.0-beta.21
       source-map: 0.6.1
     dev: true
 
@@ -1174,8 +1174,8 @@ packages:
     engines: {node: '>= 10'}
     dev: true
 
-  /@intlify/shared/9.2.0-beta.20:
-    resolution: {integrity: sha512-mwdvobi1gBNWt+dgd68IuRHG3xh6BXs0472ZO8vClr49HOhoVg9M+myQQntBQBHblcXreM8NX/pLkBzXSyUfmQ==}
+  /@intlify/shared/9.2.0-beta.21:
+    resolution: {integrity: sha512-A4MgJqraJ30q6nb4FhkbEhSaRzPhBaXFyw31aBQEA2b3/pYKpuRopYB+ouPGKk6A1iL0WE1uZU4Emf+DtsU44w==}
     engines: {node: '>= 12'}
     dev: true
 
@@ -1210,7 +1210,7 @@ packages:
         optional: true
     dependencies:
       '@intlify/bundle-utils': 2.1.0
-      '@intlify/shared': 9.2.0-beta.20
+      '@intlify/shared': 9.2.0-beta.21
       '@rollup/pluginutils': 4.1.1
       debug: 4.3.2
       fast-glob: 3.2.7
@@ -6363,18 +6363,6 @@ packages:
         optional: true
     dev: true
 
-  /follow-redirects/1.14.4_debug@4.3.2:
-    resolution: {integrity: sha512-zwGkiSXC1MUJG/qmeIFH2HBJx9u0V46QGUe3YR1fXG8bXQxq7fLj0RjLZQ5nubr9qNJUZrH+xUcwXEoXNpfS+g==}
-    engines: {node: '>=4.0'}
-    peerDependencies:
-      debug: '*'
-    peerDependenciesMeta:
-      debug:
-        optional: true
-    dependencies:
-      debug: 4.3.2_supports-color@6.1.0
-    dev: true
-
   /for-in/0.1.8:
     resolution: {integrity: sha1-2Hc5COMSVhCZUrH9ubP6hn0ndeE=}
     engines: {node: '>=0.10.0'}
@@ -7150,7 +7138,7 @@ packages:
     engines: {node: '>=8.0.0'}
     dependencies:
       eventemitter3: 4.0.7
-      follow-redirects: 1.14.4_debug@4.3.2
+      follow-redirects: 1.14.4
       requires-port: 1.0.0
     transitivePeerDependencies:
       - debug
@@ -13201,12 +13189,12 @@ packages:
     resolution: {integrity: sha1-hnrHTjhkGHsdPUfZlqeOxciDB3c=}
     dev: true
 
-  /typescript-eslint-language-service/4.1.5_a68335aecb8c8504fefba9971b4bf8d5:
-    resolution: {integrity: sha512-lJ9tH53m8e8fYYwhG5hTpiUHCz4SjY55rT8T4ADrmF/29JPdWkUik8cbZy+KsCsUIG1CEMRz+DOV4S+wVyYivQ==}
+  /typescript-eslint-language-service/5.0.0_a68335aecb8c8504fefba9971b4bf8d5:
+    resolution: {integrity: sha512-QB3YsL+lDOpKwblXuqD9GkzpHhJC2D02e/3OIj38kIe6LSL97cEsUtnsVPqIaofnOsV2glj2T5VLxp5gmLTERQ==}
     peerDependencies:
-      '@typescript-eslint/parser': '>= 4.0.0'
-      eslint: '>= 6.7.0 <= 6.8.x || >= 7.0.0'
-      typescript: '>= 3.0.0 || >= 4.0.0'
+      '@typescript-eslint/parser': '>= 5.0.0'
+      eslint: '>= 8.0.0'
+      typescript: '>= 4.0.0'
     dependencies:
       '@typescript-eslint/parser': 5.0.0_eslint@8.0.0+typescript@4.2.3
       eslint: 8.0.0
