@@ -564,7 +564,7 @@ export function createI18n(options: any = {}, VueI18nLegacy?: any): any {
           throw createI18nError(I18nErrorCodes.BRIDGE_SUPPORT_VUE_2_ONLY)
         }
 
-        __FEATURE_FULL_INSTALL__ && applyBridge(Vue, i18n as I18n, ...options)
+        __FEATURE_FULL_INSTALL__ && applyBridge(Vue, ...options)
 
         if (!__legacyMode && __globalInjection) {
           injectGlobalFieldsForBridge(Vue, i18n, __global as Composer)
