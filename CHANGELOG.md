@@ -1,4 +1,14 @@
 
+## v9.2.0-beta.22 (2021-11-25)
+
+#### :star: Features
+* `vue-i18n-bridge`, `vue-i18n-core`
+  * [#811](https://github.com/intlify/vue-i18n-next/pull/811) feat: backport build-in components to vue-i18n-bridge from vue-i18n-next ([@kazupon](https://github.com/kazupon))
+
+#### Committers: 1
+- kazuya kawaguchi ([@kazupon](https://github.com/kazupon))
+
+
 ## v9.2.0-beta.21 (2021-11-23)
 
 #### :bug: Bug Fixes
