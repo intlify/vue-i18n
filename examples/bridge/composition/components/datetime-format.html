@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>DatetimeFormat component examples</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+    <script src="https://unpkg.com/vue-i18n@8/dist/vue-i18n.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@vue/composition-api@1.4.0"></script>
+    <script src="../../../../packages/vue-i18n-bridge/dist/vue-i18n-bridge.global.js"></script>
+  </head>
+  <body>
+    <h1>DatetimeFormat component examples</h1>
+
+    <div id="app">
+      <h2>basic usages:</h2>
+      <i18n-d tag="p" :value="new Date()"></i18n-d>
+      <i18n-d tag="p" :value="new Date()" format="long"></i18n-d>
+      <i18n-d
+        tag="p"
+        :value="new Date()"
+        format="long"
+        locale="ja-JP-u-ca-japanese"
+      ></i18n-d>
+
+      <h2>slot usages:</h2>
+      <i18n-d
+        :value="new Date()"
+        locale="ja-JP-u-ca-japanese"
+        :format="{ key: 'long', era: 'narrow' }"
+      >
+        <template #era="props"
+          ><span style="color: green">{{ props.era }}</span></template
+        >
+      </i18n-d>
+    </div>
+    <script>
+      const { createApp, ref } = VueCompositionAPI
+      const { createI18n, useI18n } = VueI18nBridge
+
+      Vue.use(VueCompositionAPI)
+      Vue.use(VueI18n, { bridge: true })
+
+      const i18n = createI18n(
+        {
+          legacy: false,
+          locale: 'en-US',
+          datetimeFormats: {
+            'en-US': {
+              long: {
+                year: 'numeric',
+                month: '2-digit',
+                day: '2-digit',
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit'
+              }
+            },
+            'ja-JP-u-ca-japanese': {
+              long: {
+                era: 'long',
+                year: 'numeric',
+                month: 'numeric',
+                day: 'numeric',
+                hour: 'numeric',
+                minute: 'numeric',
+                second: 'numeric',
+                weekday: 'long',
+                hour12: true,
+                timeZoneName: 'long'
+              }
+            }
+          }
+        },
+        VueI18n
+      )
+
+      const app = createApp({})
+      app.use(i18n)
+      app.mount('#app')
+    </script>
+  </body>
+</html>

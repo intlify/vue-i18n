@@ -9,7 +9,6 @@ import {
 } from 'vue'
 import {
   isEmptyObject,
-  isObject,
   isBoolean,
   warn,
   makeSymbol,
@@ -27,7 +26,8 @@ import {
   LegacyInstanceSymbol,
   __VUE_I18N_BRIDGE__
 } from './symbols'
-import { apply } from './plugin'
+import { apply as applyNext } from './plugin/next'
+import { apply as applyBridge } from './plugin/bridge'
 import { defineMixin as defineMixinNext } from './mixins/next'
 import { defineMixin as defineMixinBridge } from './mixins/bridge'
 import { enableDevTools, addTimelineEvent } from './devtools'
@@ -477,28 +477,21 @@ export function createI18n(options: any = {}, VueI18nLegacy?: any): any {
         }
 
         // setup global provider
-        if (!__BRIDGE__) {
-          app.__VUE_I18N_SYMBOL__ = symbol
-          app.provide(app.__VUE_I18N_SYMBOL__, i18n as unknown as I18n)
-        }
+        app.__VUE_I18N_SYMBOL__ = symbol
+        app.provide(app.__VUE_I18N_SYMBOL__, i18n as unknown as I18n)
 
         // global method and properties injection for Composition API
-        if (!__BRIDGE__ && !__legacyMode && __globalInjection) {
+        if (!__legacyMode && __globalInjection) {
           injectGlobalFields(app, i18n.global as Composer)
         }
 
         // install built-in components and directive
-        if (!__BRIDGE__ && !__LITE__ && __FEATURE_FULL_INSTALL__) {
-          apply(app, i18n as I18n, ...options)
+        if (!__LITE__ && __FEATURE_FULL_INSTALL__) {
+          applyNext(app, i18n as I18n, ...options)
         }
 
         // setup mixin for Legacy API
-        if (
-          !__BRIDGE__ &&
-          !__LITE__ &&
-          __FEATURE_LEGACY_API__ &&
-          __legacyMode
-        ) {
+        if (!__LITE__ && __FEATURE_LEGACY_API__ && __legacyMode) {
           app.mixin(
             defineMixinNext(
               __global as unknown as VueI18n,
@@ -509,11 +502,7 @@ export function createI18n(options: any = {}, VueI18nLegacy?: any): any {
         }
 
         // setup vue-devtools plugin
-        if (
-          !__BRIDGE__ &&
-          (__DEV__ || __FEATURE_PROD_VUE_DEVTOOLS__) &&
-          !__NODE_JS__
-        ) {
+        if ((__DEV__ || __FEATURE_PROD_VUE_DEVTOOLS__) && !__NODE_JS__) {
           const ret = await enableDevTools(app, i18n as _I18n)
           if (!ret) {
             throw createI18nError(
@@ -568,12 +557,14 @@ export function createI18n(options: any = {}, VueI18nLegacy?: any): any {
     })
     Object.defineProperty(i18n, 'install', {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      value: (Vue: any) => {
+      value: (Vue: any, ...options: unknown[]) => {
         const version =
           (Vue && Vue.version && Number(Vue.version.split('.')[0])) || -1
         if (version !== 2) {
           throw createI18nError(I18nErrorCodes.BRIDGE_SUPPORT_VUE_2_ONLY)
         }
+
+        __FEATURE_FULL_INSTALL__ && applyBridge(Vue, ...options)
 
         if (!__legacyMode && __globalInjection) {
           injectGlobalFieldsForBridge(Vue, i18n, __global as Composer)
@@ -786,11 +777,13 @@ export function useI18n<
  */
 export const castToVueI18n = /* #__PURE__*/ (
   i18n: I18n
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
 ): VueI18n & { install: (Vue: any, options?: any) => void } => {
   if (!(__VUE_I18N_BRIDGE__ in i18n)) {
     throw createI18nError(I18nErrorCodes.NOT_COMPATIBLE_LEGACY_VUE_I18N)
   }
   return i18n as unknown as VueI18n & {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     install: (Vue: any, options?: any) => void
   }
 }

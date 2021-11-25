@@ -1,12 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import {
-  ref,
-  computed,
-  getCurrentInstance,
-  Text,
-  createVNode,
-  watch
-} from 'vue'
+import { ref, computed, getCurrentInstance, watch } from 'vue'
 import {
   warn,
   isArray,
@@ -53,7 +46,12 @@ import {
   LegacyInstanceSymbol,
   __VUE_I18N_BRIDGE__
 } from './symbols'
-import { deepCopy, getLocaleMessages, getComponentOptions } from './utils'
+import {
+  deepCopy,
+  getLocaleMessages,
+  getComponentOptions,
+  createTextNode
+} from './utils'
 import { VERSION } from './misc'
 
 import type {
@@ -61,9 +59,7 @@ import type {
   VNode,
   VNodeArrayChildren,
   WritableComputedRef,
-  ComputedRef,
-  RendererNode,
-  RendererElement
+  ComputedRef
 } from 'vue'
 import type {
   Path,
@@ -110,13 +106,6 @@ import type { VueDevToolsEmitter } from '@intlify/vue-devtools'
 import { isLegacyVueI18n } from './utils'
 
 // extend VNode interface
-declare module 'vue' {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  interface VNode<HostNode = RendererNode, HostElement = RendererElement> {
-    toString: () => string // mark for vue-i18n message runtime
-  }
-}
-
 export const DEVTOOLS_META = '__INTLIFY_META__'
 
 /** @VueI18nComposition */
@@ -2139,9 +2128,7 @@ export function createComposer(options: any = {}, VueI18nLegacy?: any): any {
   function normalize(
     values: MessageType<string | VNode>[]
   ): MessageType<VNode>[] {
-    return values.map(val =>
-      isString(val) ? createVNode(Text, null, val, 0) : val
-    )
+    return values.map(val => (isString(val) ? createTextNode(val) : val))
   }
   const interpolate = (val: unknown): MessageType<VNode> => val as VNode
   const processor = {
@@ -2171,7 +2158,7 @@ export function createComposer(options: any = {}, VueI18nLegacy?: any): any {
       'translate',
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       root => (root as any)[TransrateVNodeSymbol](...args),
-      key => [createVNode(Text, null, key, 0)],
+      key => [createTextNode(key as string)],
       val => isArray(val)
     )
   }
@@ -2466,11 +2453,9 @@ export function createComposer(options: any = {}, VueI18nLegacy?: any): any {
     ;(composer as any).setNumberFormat = setNumberFormat
     ;(composer as any).mergeNumberFormat = mergeNumberFormat
     ;(composer as any)[InejctWithOption] = options.__injectWithOption
-    if (!__BRIDGE__) {
-      ;(composer as any)[TransrateVNodeSymbol] = transrateVNode
-      ;(composer as any)[NumberPartsSymbol] = numberParts
-      ;(composer as any)[DatetimePartsSymbol] = datetimeParts
-    }
+    ;(composer as any)[TransrateVNodeSymbol] = transrateVNode
+    ;(composer as any)[DatetimePartsSymbol] = datetimeParts
+    ;(composer as any)[NumberPartsSymbol] = numberParts
   }
   if (__BRIDGE__) {
     ;(composer as any)[LegacyInstanceSymbol] = __legacy

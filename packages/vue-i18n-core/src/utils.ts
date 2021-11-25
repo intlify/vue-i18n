@@ -6,6 +6,7 @@ import {
   isPlainObject,
   isString
 } from '@intlify/shared'
+import { Text, createVNode } from 'vue'
 import { I18nErrorCodes, createI18nError } from './errors'
 
 import type { Locale, MessageResolver } from '@intlify/core-base'
@@ -15,13 +16,24 @@ import type {
   CustomBlocks,
   VueMessageType
 } from './composer'
-import type { ComponentInternalInstance } from 'vue'
+import type {
+  ComponentInternalInstance,
+  RendererNode,
+  RendererElement
+} from 'vue'
 
 type GetLocaleMessagesOptions<Messages = {}> = {
   messages?: { [K in keyof Messages]: Messages[K] }
   __i18n?: CustomBlocks<VueMessageType>
   messageResolver?: MessageResolver
   flatJson?: boolean
+}
+
+declare module 'vue' {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  interface VNode<HostNode = RendererNode, HostElement = RendererElement> {
+    toString: () => string // mark for vue-i18n message runtime
+  }
 }
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
@@ -187,6 +199,44 @@ export function adjustI18nResources(
         })
       }
     }
+  }
+}
+
+export function createTextNode(key: string): any {
+  return !__BRIDGE__
+    ? createVNode(Text, null, key, 0)
+    : createVNodeVue2Compatible(key)
+}
+
+function createVNodeVue2Compatible(key: string): any {
+  // shim Vue2 VNode interface
+  // see the https://github.com/vuejs/vue/blob/dev/src/core/vdom/vnode.js
+  const componentInstance = undefined
+  return {
+    tag: undefined,
+    data: undefined,
+    children: undefined,
+    text: key,
+    elm: undefined,
+    ns: undefined,
+    context: undefined,
+    fnContext: undefined,
+    fnOptions: undefined,
+    fnScopeId: undefined,
+    key: undefined,
+    componentOptions: undefined,
+    componentInstance,
+    parent: undefined,
+    raw: false,
+    isStatic: false,
+    isRootInsert: true,
+    isComment: false,
+    isCloned: false,
+    isOnce: false,
+    asyncFactory: undefined,
+    asyncMeta: undefined,
+    isAsyncPlaceholder: false,
+    child: () => componentInstance
   }
 }
 /* eslint-enable @typescript-eslint/no-explicit-any */

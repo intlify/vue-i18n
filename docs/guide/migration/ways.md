@@ -164,9 +164,10 @@ Vue.use(VueI18n, { bridge: true })
 ### Limitations
 - In Legacy API mode, You **cannot use [new message format syntax](https://vue-i18n.intlify.dev/guide/essentials/syntax.html)** by porting from `vue-i18n-next`
   - it use possible only Composition API mode
-- In Composition API mode, If you can use the following components, these can be referenced i18n resources, **only globally**
-  - i18n functional component `<i18n>`
-  - i18n-n functional component `<i18n-n>`
+- In Legacy API mode, You **cannot use back-ported components that are following components** by porting from `vue-i18n-next`
+  - Translation components: `<i18n-t>`
+  - DateTime format components: `<i18n-d>`
+  - Number format components: `<i18n-n>`
 
 ### Explanation of Different Builds
 In the [dist/ directory of the npm package](https://unpkg.com/browse/vue-i18n-bridge@9.2.0-beta.6/dist/) you will find many different builds of `vue-i18n-bridge`. Here is an overview of which dist file should be used depending on the use-case.
