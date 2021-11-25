@@ -1,4 +1,5 @@
-import { h, Fragment } from 'vue'
+import { h } from 'vue'
+import { getFragmentableTag } from './utils'
 import { isString, isObject, isArray, assign } from '@intlify/shared'
 
 import type {
@@ -92,7 +93,9 @@ export function renderFormatter<
 
     const assignedAttrs = assign({}, attrs)
     const tag =
-      isString(props.tag) || isObject(props.tag) ? props.tag : Fragment
+      isString(props.tag) || isObject(props.tag)
+        ? props.tag
+        : getFragmentableTag('span')
     return h(tag, assignedAttrs, children)
   }
 }

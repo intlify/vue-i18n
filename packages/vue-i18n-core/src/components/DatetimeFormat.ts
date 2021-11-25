@@ -3,23 +3,7 @@ import { DatetimePartsSymbol } from '../symbols'
 import { renderFormatter } from './formatRenderer'
 import { baseFormatProps } from './base'
 import { assign } from '@intlify/shared'
-import { defineComponent } from 'vue'
 
-/* eslint-disable @typescript-eslint/no-unused-vars */
-import type {
-  RenderFunction,
-  // NOTE: avoid https://github.com/microsoft/rushstack/issues/1050
-  // @ts-ignore
-  DefineComponent,
-  // @ts-ignore
-  ComponentOptionsMixin,
-  // @ts-ignore
-  AllowedComponentProps,
-  // @ts-ignore
-  VNodeProps,
-  // @ts-ignore
-  ComponentCustomProps
-} from 'vue'
 /* eslint-enable @typescript-eslint/no-unused-vars */
 import type { DateTimeOptions } from '@intlify/core-base'
 import type { Composer, ComposerInternal } from '../composer'
@@ -75,7 +59,7 @@ const DATETIME_FORMAT_KEYS = [
  *
  * @VueI18nComponent
  */
-export const DatetimeFormat = /* #__PURE__*/ defineComponent({
+export const DatetimeFormat = /* #__PURE__*/ /*defineComponent */ {
   /* eslint-disable */
   name: 'i18n-d',
   props: assign(
@@ -91,7 +75,8 @@ export const DatetimeFormat = /* #__PURE__*/ defineComponent({
     baseFormatProps
   ),
   /* eslint-enable */
-  setup(props, context): RenderFunction {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  setup(props: any, context: any): any {
     const i18n =
       props.i18n ||
       (useI18n({ useScope: 'parent', __useComponent: true }) as Composer &
@@ -112,4 +97,4 @@ export const DatetimeFormat = /* #__PURE__*/ defineComponent({
         (i18n as any)[DatetimePartsSymbol](...args)
     )
   }
-})
+}

@@ -168,26 +168,16 @@ function createConfig(format, output, plugins = []) {
 
   if (isBridge) {
     const replacingPaths = [
-      path.resolve(__dirname, './packages/vue-i18n-core/src/composer.ts'),
-      path.resolve(__dirname, './packages/vue-i18n-core/src/i18n.ts'),
-      path.resolve(__dirname, './packages/vue-i18n-core/src/mixins/next.ts'),
-      path.resolve(
-        __dirname,
-        './packages/vue-i18n-core/src/components/NumberFormat.ts'
-      ),
-      path.resolve(
-        __dirname,
-        './packages/vue-i18n-core/src/components/DatetimeFormat.ts'
-      ),
-      path.resolve(
-        __dirname,
-        './packages/vue-i18n-core/src/components/formatRenderer.ts'
-      ),
-      path.resolve(
-        __dirname,
-        './packages/vue-i18n-core/src/components/Translation.ts'
-      )
-    ]
+      './packages/vue-i18n-core/src/composer.ts',
+      './packages/vue-i18n-core/src/utils.ts',
+      './packages/vue-i18n-core/src/i18n.ts',
+      './packages/vue-i18n-core/src/mixins/next.ts',
+      './packages/vue-i18n-core/src/components/NumberFormat.ts',
+      './packages/vue-i18n-core/src/components/DatetimeFormat.ts',
+      './packages/vue-i18n-core/src/components/formatRenderer.ts',
+      './packages/vue-i18n-core/src/components/Translation.ts',
+      './packages/vue-i18n-core/src/components/utils.ts'
+    ].map(sourcePath => path.resolve(__dirname, sourcePath))
     plugins.push({
       transform(source, id) {
         if (replacingPaths.some(p => p === id)) {

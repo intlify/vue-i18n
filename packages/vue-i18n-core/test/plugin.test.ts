@@ -12,7 +12,7 @@ import { warn } from '@intlify/shared'
 
 import { createApp } from 'vue'
 import { I18n, I18nInternal } from '../src/i18n'
-import { apply } from '../src/plugin'
+import { apply } from '../src/plugin/next'
 import { getWarnMessage, I18nWarnCodes } from '../src/warnings'
 
 describe('useI18nComponentName option', () => {

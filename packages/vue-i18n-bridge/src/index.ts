@@ -95,6 +95,15 @@ export {
   UseI18nOptions,
   ExportedGlobalComposer
 } from '../../vue-i18n-core/src/i18n'
+export {
+  Translation,
+  TranslationProps,
+  BaseFormatProps,
+  DatetimeFormat,
+  DatetimeFormatProps,
+  NumberFormat,
+  NumberFormatProps
+} from '../../vue-i18n-core/src/components'
 export { I18nPluginOptions } from '../../vue-i18n-core/src/plugin'
 export { VERSION } from './../../vue-i18n-core/src/misc'
 

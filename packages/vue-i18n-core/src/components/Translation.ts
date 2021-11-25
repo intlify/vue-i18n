@@ -1,29 +1,14 @@
-import { h, Fragment, defineComponent } from 'vue'
+import { h } from 'vue'
 import { isNumber, isString, isObject } from '@intlify/shared'
 import { TransrateVNodeSymbol } from '../symbols'
 import { useI18n } from '../i18n'
 import { baseFormatProps } from './base'
 import { assign } from '@intlify/shared'
+import { getInterpolateArg, getFragmentableTag } from './utils'
 
-/* eslint-disable @typescript-eslint/no-unused-vars */
-import type {
-  SetupContext,
-  VNodeChild,
-  // NOTE: avoid https://github.com/microsoft/rushstack/issues/1050
-  // @ts-ignore
-  DefineComponent,
-  // @ts-ignore
-  ComponentOptionsMixin,
-  // @ts-ignore
-  AllowedComponentProps,
-  // @ts-ignore
-  VNodeProps,
-  // @ts-ignore
-  ComponentCustomProps
-} from 'vue'
-/* eslint-enable @typescript-eslint/no-unused-vars */
+import type { VNodeChild } from 'vue'
+import type { TranslateOptions } from '@intlify/core-base'
 import type { Composer, ComposerInternal } from '../composer'
-import type { TranslateOptions, NamedValue } from '@intlify/core-base'
 import type { BaseFormatProps } from './base'
 
 /**
@@ -93,7 +78,7 @@ export interface TranslationProps extends BaseFormatProps {
  *
  * @VueI18nComponent
  */
-export const Translation = /* #__PURE__*/ defineComponent({
+export const Translation = /* #__PURE__*/ /* defineComponent */ {
   /* eslint-disable */
   name: 'i18n-t',
   props: assign(
@@ -111,7 +96,8 @@ export const Translation = /* #__PURE__*/ defineComponent({
     baseFormatProps
   ),
   /* eslint-enable */
-  setup(props, context) {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  setup(props: any, context: any): any {
     const { slots, attrs } = context
     // NOTE: avoid https://github.com/microsoft/rushstack/issues/1050
     const i18n =
@@ -139,27 +125,10 @@ export const Translation = /* #__PURE__*/ defineComponent({
       )
       const assignedAttrs = assign({}, attrs)
       const tag =
-        isString(props.tag) || isObject(props.tag) ? props.tag : Fragment
+        isString(props.tag) || isObject(props.tag)
+          ? props.tag
+          : getFragmentableTag('span')
       return h(tag, assignedAttrs, children)
     }
-  }
-})
-
-function getInterpolateArg(
-  { slots }: SetupContext,
-  keys: string[]
-): NamedValue | unknown[] {
-  if (keys.length === 1 && keys[0] === 'default') {
-    // default slot only
-    return slots.default ? slots.default() : []
-  } else {
-    // named slots
-    return keys.reduce((arg, key) => {
-      const slot = slots[key]
-      if (slot) {
-        arg[key] = slot()
-      }
-      return arg
-    }, {} as NamedValue)
   }
 }
