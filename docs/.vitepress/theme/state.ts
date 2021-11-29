@@ -22,6 +22,11 @@ export const sponsors = {
     tier: TierLevel.Gold,
     link: 'https://rapidapi.com/',
     source: '/RapidAPI.svg'
+  }, {
+    name: 'Cypress',
+    tier: TierLevel.Gold,
+    link: 'https://cypress.io/',
+    source: '/cypress.svg'
   }],
   silvers: [],
   bronzes: [{
