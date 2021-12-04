@@ -3,7 +3,14 @@
  */
 
 import { mount } from '../helper'
-import { h, defineComponent, SetupContext, VNodeChild, ref } from 'vue'
+import {
+  h,
+  defineComponent,
+  SetupContext,
+  VNodeChild,
+  ref,
+  nextTick
+} from 'vue'
 import {
   compileToFunction,
   registerMessageCompiler,
@@ -14,6 +21,7 @@ import {
 } from '@intlify/core-base'
 import { createI18n, useI18n } from '../../src/index'
 
+import type { Ref } from 'vue'
 import type { Path, PathValue, MessageResolver } from '@intlify/core-base'
 
 const messages = {
@@ -22,6 +30,7 @@ const messages = {
       language: 'English',
       quantity: 'Quantity',
       list: 'hello, {0}!',
+      list_multi: 'hello, {0}! Do you like {1}?',
       named: 'hello, {name}!',
       linked: '@:message.named How are you?',
       plural: 'no bananas | {n} banana | {n} bananas'
@@ -275,6 +284,70 @@ test('message resolver', async () => {
   expect(mockMessageResolver).toHaveBeenCalledTimes(1)
   expect(mockMessageResolver.mock.calls[0][0]).toEqual(en)
   expect(mockMessageResolver.mock.calls[0][1]).toEqual('message.named')
+})
+
+test('v-if / v-else', async () => {
+  const i18n = createI18n({
+    legacy: false,
+    locale: 'en',
+    messages
+  })
+
+  let toggle: Ref<boolean>
+  const App = defineComponent({
+    setup() {
+      useI18n()
+      toggle = ref(true)
+      return { toggle }
+    },
+    template: `
+<i18n-t tag="p" class="name" keypath="message.named">
+  <template #name>
+    <span v-if="toggle">kazupon</span>
+    <span v-else="toggle">kazu_pon</span>
+  </template>
+</i18n-t>
+`
+  })
+  const wrapper = await mount(App, i18n)
+
+  expect(wrapper.html()).toEqual(
+    `<p class="name">hello, <span>kazupon</span>!</p>`
+  )
+
+  toggle!.value = false
+  await nextTick()
+  expect(wrapper.html()).toEqual(
+    `<p class="name">hello, <span>kazu_pon</span>!</p>`
+  )
+})
+
+test('v-for: issue #819', async () => {
+  const i18n = createI18n({
+    legacy: false,
+    locale: 'en',
+    messages
+  })
+
+  const App = defineComponent({
+    setup() {
+      useI18n()
+      const values = ref(['kazupon', 'oranges'])
+      return { values }
+    },
+    template: `
+<i18n-t keypath="message.list_multi" locale="en">
+  <span v-for="(value, index) in values" :key="index" class="bold">
+    {{ value }}
+  </span>
+</i18n-t>
+`
+  })
+  const wrapper = await mount(App, i18n)
+
+  expect(wrapper.html()).toEqual(
+    `hello, <span class="bold">kazupon</span>! Do you like <span class="bold">oranges</span>?`
+  )
 })
 
 test('issue #708', async () => {
