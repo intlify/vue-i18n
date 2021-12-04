@@ -1,4 +1,14 @@
 
+## v9.2.0-beta.23 (2021-12-04)
+
+#### :bug: Bug Fixes
+* `vue-i18n-core`
+  * [#820](https://github.com/intlify/vue-i18n-next/pull/820) fix: cannot work correctly v-for on Translation component ([@kazupon](https://github.com/kazupon))
+
+#### Committers: 1
+- kazuya kawaguchi ([@kazupon](https://github.com/kazupon))
+
+
 ## v9.2.0-beta.22 (2021-11-25)
 
 #### :star: Features
