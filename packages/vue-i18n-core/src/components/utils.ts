@@ -13,9 +13,10 @@ export function getInterpolateArg(
     const ret = slots.default ? slots.default() : []
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     return ret.reduce((slot: any[], current: any) => {
-      return (slot = isArray(current.children)
-        ? [...slot, ...current.children]
-        : [...slot, ...[current]])
+      return (slot = [
+        ...slot,
+        ...(isArray(current.children) ? current.children : [current])
+      ])
     }, [])
   } else {
     // named slots
