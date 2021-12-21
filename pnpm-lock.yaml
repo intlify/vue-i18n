@@ -322,13 +322,13 @@ importers:
     specifiers:
       '@vitejs/plugin-vue': ^1.3.0
       '@vue/compiler-sfc': ^3.1.0
-      monaco-editor: ^0.30.0
+      monaco-editor: ^0.31.0
       source-map: ^0.6.1
       vite: ^2.4.4
       vue: ^3.1.0
       vue-tsc: ^0.30.0
     dependencies:
-      monaco-editor: 0.30.0
+      monaco-editor: 0.31.1
       source-map: 0.6.1
       vue: 3.2.20
     devDependencies:
@@ -2841,12 +2841,6 @@ packages:
     dependencies:
       '@vue/shared': 3.2.20
 
-  /@vue/reactivity/3.2.23:
-    resolution: {integrity: sha512-8RGVr/5Kpgb/EkCjgHXqttgA5IMc6n0lIXFY4TVbMkzdXrvaIhzBd7Te44oIDsTSYVKZLpfHd6/wEnuDqE8vFw==}
-    dependencies:
-      '@vue/shared': 3.2.23
-    dev: true
-
   /@vue/reactivity/3.2.26:
     resolution: {integrity: sha512-h38bxCZLW6oFJVDlCcAiUKFnXI8xP8d+eO0pcDxx+7dQfSPje2AO6M9S9QO6MrxQB7fGP0DH0dYQ8ksf6hrXKQ==}
     dependencies:
@@ -2910,10 +2904,6 @@ packages:
 
   /@vue/shared/3.2.20:
     resolution: {integrity: sha512-FbpX+hD5BvXCQerEYO7jtAGHlhAkhTQ4KIV73kmLWNlawWhTiVuQxizgVb0BOkX5oG9cIRZ42EG++d/k/Efp0w==}
-
-  /@vue/shared/3.2.23:
-    resolution: {integrity: sha512-U+/Jefa0QfXUF2qVy9Dqlrb6HKJSr9/wJcM66wXmWcTOoqg7hOWzF4qruDle51pyF4x3wMn6TSH54UdjKjCKMA==}
-    dev: true
 
   /@vue/shared/3.2.26:
     resolution: {integrity: sha512-vPV6Cq+NIWbH5pZu+V+2QHE9y1qfuTq49uNWw4f7FDEeZaDU2H2cx5jcUZOAKW7qTrUS4k6qZPbMy1x4N96nbA==}
@@ -9697,8 +9687,8 @@ packages:
     engines: {node: '>=0.10.0'}
     dev: true
 
-  /monaco-editor/0.30.0:
-    resolution: {integrity: sha512-/k++/ofRmwnwWTpOWYOMGVcqBrqrlt3MP0Mt/cRTQojW7A9fnekcvPQ2iIFA0YSZdPWPN9yYXrYq0xqiUuxT/A==}
+  /monaco-editor/0.31.1:
+    resolution: {integrity: sha512-FYPwxGZAeP6mRRyrr5XTGHD9gRXVjy7GUzF4IPChnyt3fS5WrNxIkS8DNujWf6EQy0Zlzpxw8oTVE+mWI2/D1Q==}
     dev: false
 
   /mount-point/3.0.0:
@@ -13830,8 +13820,8 @@ packages:
       '@volar/transforms': 0.29.6
       '@volar/vue-code-gen': 0.29.6
       '@vscode/emmet-helper': 2.8.1
-      '@vue/reactivity': 3.2.23
-      '@vue/shared': 3.2.23
+      '@vue/reactivity': 3.2.26
+      '@vue/shared': 3.2.26
       request-light: 0.5.4
       upath: 2.0.1
       vscode-css-languageservice: 5.1.7
