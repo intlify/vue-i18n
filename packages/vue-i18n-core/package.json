@@ -42,7 +42,7 @@
     "@vue/devtools-api": "^6.0.0-beta.13"
   },
   "devDependencies": {
-    "@intlify/devtools-if": "9.2.0-beta.24"
+    "@intlify/devtools-if": "9.2.0-beta.23"
   },
   "peerDependencies": {
     "vue": "^3.0.0"

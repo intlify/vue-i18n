@@ -34,7 +34,7 @@
   "jsdelivr": "dist/core-base.global.js",
   "types": "dist/core-base.d.ts",
   "dependencies": {
-    "@intlify/devtools-if": "9.2.0-beta.24",
+    "@intlify/devtools-if": "9.2.0-beta.23",
     "@intlify/message-compiler": "9.2.0-beta.24",
     "@intlify/shared": "9.2.0-beta.24",
     "@intlify/vue-devtools": "9.2.0-beta.24"
