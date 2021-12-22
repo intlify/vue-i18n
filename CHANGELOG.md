@@ -1,4 +1,18 @@
 
+## v9.2.0-beta.24 (2021-12-22)
+
+#### :star: Features
+* `vue-i18n-core`
+  * [#838](https://github.com/intlify/vue-i18n-next/pull/838) feat: composer type definition extending (**experimental feature**) ([@kazupon](https://github.com/kazupon))
+
+#### :pencil: Documentation
+* [#839](https://github.com/intlify/vue-i18n-next/pull/839) doc: update package url ([@agoni1212](https://github.com/agoni1212))
+
+#### Committers: 2
+- [@agoni1212](https://github.com/agoni1212)
+- kazuya kawaguchi ([@kazupon](https://github.com/kazupon))
+
+
 ## v9.2.0-beta.23 (2021-12-04)
 
 #### :bug: Bug Fixes
