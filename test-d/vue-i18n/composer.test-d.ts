@@ -14,6 +14,12 @@ import {
 import { SchemaParams, LocaleParams } from '../../packages/core-base/src'
 import { ResourceSchema, MyDatetimeScehma, MyNumberSchema } from '../schema'
 
+declare module '../../packages/vue-i18n-core/src/composer' {
+  interface ComposerCustom {
+    localeCode: string[]
+  }
+}
+
 // loose options
 const looseOptions = {
   locale: 'en',
@@ -133,6 +139,7 @@ expectType<typeof looseComposer.messages.value.en>(
 expectType<{ japan: string }>(
   looseComposer.getLocaleMessage<{ japan: string }>('japan')
 )
+expectType<string[]>(looseComposer.localeCode)
 looseComposer.setLocaleMessage('en', {
   foo: 'foo',
   nest: {

@@ -1082,6 +1082,30 @@ export interface ComposerNumberFormatting<
 }
 
 /**
+ * The type custom definition of Composer
+ *
+ * @remarks
+ *
+ * The interface that can extend Composer.
+ *
+ * The type defined by 3rd party (e.g. nuxt/i18n)
+ *
+ * @example
+ * ```ts
+ * // vue-i18n.d.ts (`.d.ts` file at your app)
+ *
+ * declare module 'vue-i18n' {
+ *   interface ComposerCustom {
+ *     localeCodes: string[]
+ *   }
+ * }
+ * ```
+ *
+ * @VueI18nComposition
+ */
+export interface ComposerCustom {} // eslint-disable-line @typescript-eslint/no-empty-interface
+
+/**
  * Composer interfaces
  *
  * @remarks
@@ -1103,7 +1127,7 @@ export interface Composer<
       ? Locale
       : ResourceLocales
     : OptionLocale | ResourceLocales
-> {
+> extends ComposerCustom {
   /**
    * @remarks
    * Instance ID.
