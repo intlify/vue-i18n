@@ -113,9 +113,9 @@ npm run build  # or `yarn run build`
 :::tip 備考
 `vue-i18n.runtime.esm-bundler.js`を使用する場合、すべてのロケールメッセージを事前にコンパイルする必要があります。これは、i18nリソースを管理するためのi18nカスタムブロックである`.json`（`.json5`）または`.yaml`で行うことができます。したがって、バンドラーと以下のローダー/プラグインを使用して、すべてのロケールメッセージを事前にコンパイルすることになります。
 
-- [`@intlify/vue-i18n-loader`](https://github.com/intlify/vue-i18n-loader)
-- [`@intlify/rollup-plugin-vue-i18n`](https://github.com/intlify/rollup-plugin-vue-i18n)
-- [`@intlify/vite-plugin-vue-i18n`](https://github.com/intlify/vite-plugin-vue-i18n)
+- [`@intlify/vue-i18n-loader`](https://github.com/intlify/bundle-tools/tree/main/packages/vue-i18n-loader)
+- [`@intlify/rollup-plugin-vue-i18n`](https://github.com/intlify/bundle-tools/tree/main/packages/rollup-plugin-vue-i18n)
+- [`@intlify/vite-plugin-vue-i18n`](https://github.com/intlify/bundle-tools/tree/main/packages/vite-plugin-vue-i18n)
 :::
 
 ### Node.jsの場合（サーバーサイド）
