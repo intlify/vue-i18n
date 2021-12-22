@@ -1,4 +1,14 @@
 
+## v9.2.0-beta.25 (2021-12-22)
+
+#### :bug: Bug Fixes
+* `petite-vue-i18n`, `vue-i18n-bridge`, `vue-i18n-core`, `vue-i18n`
+  * [#843](https://github.com/intlify/vue-i18n-next/pull/843) fix: export composer custom type definition ([@kazupon](https://github.com/kazupon))
+
+#### Committers: 1
+- kazuya kawaguchi ([@kazupon](https://github.com/kazupon))
+
+
 ## v9.2.0-beta.24 (2021-12-22)
 
 #### :star: Features
