@@ -50,6 +50,7 @@ export {
   MissingHandler,
   ComposerOptions,
   Composer,
+  ComposerCustom,
   CustomBlock,
   CustomBlocks,
   ComposerTranslation,
