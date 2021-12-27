@@ -37,13 +37,13 @@ Small size subset of Vue I18n
 
 `vue-i18n` includes various i18n features such as translation, datetimes format and number formats. Some projects may only use translation and not datetime formats.  At the moment, even in that case, the code for that feature is included.
 
-If your project only uses `t` or `$t` API for translation, so we recommended you would use `petite-vue-i18n` better than `vue-i18n`. And your project needs the features of `vue-i18n`, you can smoothly migrate from `petitle-vue-i18n` to `vue-i18n`. This means that it’s progressive enhancement.
+If your project only uses `t` or `$t` API for translation, so we recommended you would use `petite-vue-i18n` better than `vue-i18n`. And your project needs the features of `vue-i18n`, you can smoothly migrate from `petite-vue-i18n` to `vue-i18n`. This means that it’s progressive enhancement.
 
 ## :warning: About the supporting of `petite-vue-i18n`
 
-Note that `petitle-vue-i18n` is still experimental, and you may encounter bugs and unsupported use cases. Proceed at your own risk.
+Note that `petite-vue-i18n` is still experimental, and you may encounter bugs and unsupported use cases. Proceed at your own risk.
 
-However, please don’t worry about it. Depending on the usage of `petitle-vue-i18n` and the feedback, we would like to use it refer to the development of the next version of `vue-i18n`. This means we will to maintain it.
+However, please don’t worry about it. Depending on the usage of `petite-vue-i18n` and the feedback, we would like to use it refer to the development of the next version of `vue-i18n`. This means we will to maintain it.
 
 We welcome your feedback on `petite-vue-i18n`.
 
@@ -124,7 +124,7 @@ const { createApp } = Vue
 const { createI18n, useI18n } = PetiteVueI18n
 // or for ES modules 
 // import { createApp } from 'vue'
-// import { createI18n } from 'petitle-vue-i18n'
+// import { createI18n } from 'petite-vue-i18n'
 
 const i18n = createI18n({
   locale: 'en',
@@ -180,7 +180,7 @@ Then, at the entry point of the application, configure the message resolver and 
 
 ```js
 import { createApp } from 'vue'
-import { createI18n } from 'petitle-vue-i18n'
+import { createI18n } from 'petite-vue-i18n'
 import {
   registerMessageResolver, // register the message resolver API
   resolveValue, // message resolver of vue-i18n which is used by default
