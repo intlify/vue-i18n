@@ -317,7 +317,7 @@ test('issue #819: v-for', async () => {
 describe('issue #853', () => {
   test('legacy', async () => {
     const mockWarn = warn as jest.MockedFunction<typeof warn>
-    mockWarn.mockImplementation(() => {})
+    mockWarn.mockImplementation(() => {}) // eslint-disable-line @typescript-eslint/no-empty-function
 
     const i18n = createI18n({
       locale: 'en',
@@ -357,7 +357,7 @@ describe('issue #853', () => {
 
   test('compostion', async () => {
     const mockWarn = warn as jest.MockedFunction<typeof warn>
-    mockWarn.mockImplementation(() => {})
+    mockWarn.mockImplementation(() => {}) // eslint-disable-line @typescript-eslint/no-empty-function
 
     const i18n = createI18n({
       legacy: false,
@@ -403,7 +403,7 @@ describe('issue #853', () => {
 
 test('issue #854', async () => {
   const mockWarn = warn as jest.MockedFunction<typeof warn>
-  mockWarn.mockImplementation(() => {})
+  mockWarn.mockImplementation(() => {}) // eslint-disable-line @typescript-eslint/no-empty-function
 
   const i18n = createI18n({
     legacy: false,
