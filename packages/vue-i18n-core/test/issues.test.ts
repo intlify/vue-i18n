@@ -1,0 +1,354 @@
+/**
+ * @jest-environment jsdom
+ */
+
+// utils
+jest.mock('@intlify/shared', () => ({
+  ...jest.requireActual<object>('@intlify/shared'),
+  warn: jest.fn()
+}))
+import { warn } from '@intlify/shared'
+
+import { ref, defineComponent } from 'vue'
+import {
+  setDevToolsHook,
+  compileToFunction,
+  registerMessageCompiler,
+  resolveValue,
+  registerMessageResolver,
+  fallbackWithLocaleChain,
+  registerLocaleFallbacker
+} from '@intlify/core-base'
+import { createI18n, useI18n } from '../src/i18n'
+import { mount } from './helper'
+
+const container = document.createElement('div')
+document.body.appendChild(container)
+
+beforeAll(() => {
+  registerMessageCompiler(compileToFunction)
+  registerMessageResolver(resolveValue)
+  registerLocaleFallbacker(fallbackWithLocaleChain)
+})
+
+let org: any // eslint-disable-line @typescript-eslint/no-explicit-any
+let spy: any // eslint-disable-line @typescript-eslint/no-explicit-any
+beforeEach(() => {
+  container.innerHTML = ''
+
+  org = console.warn
+  spy = jest.fn()
+  console.warn = spy
+})
+
+afterEach(() => {
+  setDevToolsHook(null)
+  console.warn = org
+})
+
+const messages = {
+  en: {
+    message: {
+      language: 'English',
+      quantity: 'Quantity',
+      list: 'hello, {0}!',
+      list_multi: 'hello, {0}! Do you like {1}?',
+      named: 'hello, {name}!',
+      linked: '@:message.named How are you?',
+      plural: 'no bananas | {n} banana | {n} bananas'
+    }
+  },
+  ja: {
+    message: {
+      language: '日本語',
+      list: 'こんにちは、{0}！',
+      named: 'こんにちは、{name}！',
+      linked: '@:message.named ごきげんいかが？'
+    }
+  }
+}
+
+test('issue #708', async () => {
+  const i18n = createI18n({
+    legacy: true,
+    locale: 'en',
+    messages
+  })
+
+  const C2 = defineComponent({
+    template: `<div>C2 slot: <slot></slot></div>`
+  })
+
+  const C1 = defineComponent({
+    components: {
+      C2
+    },
+    template: `<div>
+	C1:
+	<div>{{ $t("hello", { world: $t("world") }) }}</div>
+	<i18n-t keypath="hello" tag="div">
+	  <template #world>
+	    <strong>{{ $t("world") }}</strong>
+	  </template>
+	</i18n-t>
+      
+	<br />
+      
+	<C2>
+	  <div>{{ $t("hello", { world: $t("world") }) }}</div>
+	  <i18n-t keypath="hello" tag="div">
+	    <template #world>
+	      <strong>{{ $t("world") }}</strong>
+	    </template>
+	  </i18n-t>
+	</C2>
+      </div>`,
+    i18n: {
+      messages: {
+        en: {
+          hello: 'Hello {world}',
+          world: 'world!'
+        }
+      }
+    }
+  })
+
+  const App = defineComponent({
+    components: {
+      C1
+    },
+    template: `<C1 />`
+  })
+  const wrapper = await mount(App, i18n)
+
+  expect(wrapper.html()).toEqual(
+    `<div> C1: <div>Hello world!</div><div>Hello <strong>world!</strong></div><br><div>C2 slot: <div>Hello world!</div><div>Hello <strong>world!</strong></div></div></div>`
+  )
+})
+
+describe('issue #722', () => {
+  test('legacy', async () => {
+    const messages = {
+      en: { language: 'English' },
+      ja: { language: '日本語' }
+    }
+
+    const i18n = createI18n({
+      legacy: true,
+      locale: 'en',
+      messages
+    })
+
+    const App = defineComponent({
+      template: `<transition name="fade">
+	  <i18n-t keypath="hello" tag="p">
+	    <template #world>
+		<b>{{ $t("world") }}</b>
+	    </template>
+	  </i18n-t>
+      </transition>`,
+      i18n: {
+        messages: {
+          en: {
+            hello: 'Hello {world}',
+            world: 'world!'
+          }
+        }
+      }
+    })
+    const wrapper = await mount(App, i18n)
+
+    expect(wrapper.html()).toEqual(`<p>Hello <b>world!</b></p>`)
+  })
+
+  test('composition', async () => {
+    const messages = {
+      en: { language: 'English' },
+      ja: { language: '日本語' }
+    }
+
+    const i18n = createI18n({
+      legacy: false,
+      globalInjection: true,
+      locale: 'en',
+      messages
+    })
+
+    const App = defineComponent({
+      setup() {
+        const { t } = useI18n({
+          inheritLocale: true,
+          messages: {
+            en: {
+              hello: 'Hello {world}',
+              world: 'world!'
+            }
+          }
+        })
+        return { t }
+      },
+      template: `<transition name="fade">
+	  <i18n-t keypath="hello" tag="p">
+	    <template #world>
+		<b>{{ t("world") }}</b>
+	    </template>
+	  </i18n-t>
+      </transition>`
+    })
+    const wrapper = await mount(App, i18n)
+
+    expect(wrapper.html()).toEqual(`<p>Hello <b>world!</b></p>`)
+  })
+
+  test('v-if: legacy', async () => {
+    const messages = {
+      en: { language: 'English' },
+      ja: { language: '日本語' }
+    }
+
+    const i18n = createI18n({
+      legacy: true,
+      locale: 'en',
+      messages
+    })
+
+    const App = defineComponent({
+      data() {
+        return { flag: true }
+      },
+      template: `<div v-if="flag">
+	  <i18n-t keypath="hello" tag="p">
+	    <template #world>
+		<b>{{ $t("world") }}</b>
+	    </template>
+	  </i18n-t>
+      </div>`,
+      i18n: {
+        messages: {
+          en: {
+            hello: 'Hello {world}',
+            world: 'world!'
+          }
+        }
+      }
+    })
+    const wrapper = await mount(App, i18n)
+
+    expect(wrapper.html()).toEqual(`<div><p>Hello <b>world!</b></p></div>`)
+  })
+
+  test('v-if: composition', async () => {
+    const messages = {
+      en: { language: 'English' },
+      ja: { language: '日本語' }
+    }
+
+    const i18n = createI18n({
+      legacy: false,
+      globalInjection: true,
+      locale: 'en',
+      messages
+    })
+
+    const App = defineComponent({
+      setup() {
+        const { t } = useI18n({
+          inheritLocale: true,
+          messages: {
+            en: {
+              hello: 'Hello {world}',
+              world: 'world!'
+            }
+          }
+        })
+        const flag = ref(true)
+        return { t, flag }
+      },
+      template: `<div v-if="flag">
+	  <i18n-t keypath="hello" tag="p">
+	    <template #world>
+		<b>{{ t("world") }}</b>
+	    </template>
+	  </i18n-t>
+      </div>`,
+      i18n: {
+        messages: {
+          en: {
+            hello: 'Hello {world}',
+            world: 'world!'
+          }
+        }
+      }
+    })
+    const wrapper = await mount(App, i18n)
+
+    expect(wrapper.html()).toEqual(`<div><p>Hello <b>world!</b></p></div>`)
+  })
+})
+
+test('issue #819: v-for', async () => {
+  const i18n = createI18n({
+    legacy: false,
+    locale: 'en',
+    messages
+  })
+
+  const App = defineComponent({
+    setup() {
+      useI18n()
+      const values = ref(['kazupon', 'oranges'])
+      return { values }
+    },
+    template: `
+      <i18n-t keypath="message.list_multi" locale="en">
+	<span v-for="(value, index) in values" :key="index" class="bold">
+	  {{ value }}
+	</span>
+      </i18n-t>
+      `
+  })
+  const wrapper = await mount(App, i18n)
+
+  expect(wrapper.html()).toEqual(
+    `hello, <span class="bold">kazupon</span>! Do you like <span class="bold">oranges</span>?`
+  )
+})
+
+test('issue #854', async () => {
+  const mockWarn = warn as jest.MockedFunction<typeof warn>
+  mockWarn.mockImplementation(() => {})
+
+  const i18n = createI18n({
+    legacy: false,
+    locale: 'en',
+    fallbackLocale: 'en',
+    messages: {
+      en: {
+        hello: 'hello man!'
+      }
+    }
+  })
+
+  const App = defineComponent({
+    setup() {
+      const { t } = useI18n({
+        messages: {
+          en: {
+            hi: 'hi!'
+          }
+        }
+      })
+      return { t }
+    },
+    template: `<div>{{ t('hello') }}</div>`
+  })
+  await mount(App, i18n)
+
+  expect(mockWarn).toHaveBeenCalledTimes(2)
+  expect(mockWarn.mock.calls[0][0]).toEqual(
+    `Not found 'hello' key in 'en' locale messages.`
+  )
+  expect(mockWarn.mock.calls[1][0]).toEqual(
+    `Fall back to translate 'hello' with root locale.`
+  )
+})
