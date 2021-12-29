@@ -314,6 +314,93 @@ test('issue #819: v-for', async () => {
   )
 })
 
+describe('issue #853', () => {
+  test('legacy', async () => {
+    const mockWarn = warn as jest.MockedFunction<typeof warn>
+    mockWarn.mockImplementation(() => {})
+
+    const i18n = createI18n({
+      locale: 'en',
+      fallbackLocale: 'en',
+      warnHtmlInMessage: 'off',
+      messages: {
+        en: {
+          hello: '<p>hello</p>'
+        }
+      }
+    })
+
+    const Child = defineComponent({
+      i18n: {
+        messages: {
+          en: { child: '<p>child</p>' }
+        }
+      },
+      template: `<div v-html="$t('child')"></div>`
+    })
+
+    const App = defineComponent({
+      components: {
+        Child
+      },
+      template: `
+        <div>
+          <Child />
+          <div v-html="$t('hello')"></div>
+        </div>`
+    })
+
+    await mount(App, i18n)
+
+    expect(mockWarn).toHaveBeenCalledTimes(0)
+  })
+
+  test('compostion', async () => {
+    const mockWarn = warn as jest.MockedFunction<typeof warn>
+    mockWarn.mockImplementation(() => {})
+
+    const i18n = createI18n({
+      legacy: false,
+      locale: 'en',
+      fallbackLocale: 'en',
+      globalInjection: true,
+      warnHtmlMessage: false,
+      messages: {
+        en: {
+          hello: '<p>hello</p>'
+        }
+      }
+    })
+
+    const Child = defineComponent({
+      setup() {
+        const { t } = useI18n({
+          messages: {
+            en: { child: '<p>child</p>' }
+          }
+        })
+        return { t }
+      },
+      template: `<div v-html="t('child')"></div>`
+    })
+
+    const App = defineComponent({
+      components: {
+        Child
+      },
+      template: `
+        <div>
+          <Child />
+          <div v-html="$t('hello')"></div>
+        </div>`
+    })
+
+    await mount(App, i18n)
+
+    expect(mockWarn).toHaveBeenCalledTimes(0)
+  })
+})
+
 test('issue #854', async () => {
   const mockWarn = warn as jest.MockedFunction<typeof warn>
   mockWarn.mockImplementation(() => {})

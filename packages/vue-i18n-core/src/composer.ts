@@ -1847,9 +1847,12 @@ export function createComposer(options: any = {}, VueI18nLegacy?: any): any {
     ? options.postTranslation
     : null
 
-  let _warnHtmlMessage = isBoolean(options.warnHtmlMessage)
-    ? options.warnHtmlMessage
-    : true
+  // prettier-ignore
+  let _warnHtmlMessage = __root
+    ? __root.warnHtmlMessage
+    : isBoolean(options.warnHtmlMessage)
+      ? options.warnHtmlMessage
+      : true
 
   let _escapeParameter = !!options.escapeParameter
 
