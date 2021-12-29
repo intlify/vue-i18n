@@ -1,4 +1,21 @@
 
+## v9.2.0-beta.26 (2021-12-29)
+
+#### :bug: Bug Fixes
+* `vue-i18n-core`
+  * [#856](https://github.com/intlify/vue-i18n-next/pull/856) fix: inherit warn html message setting option ([@kazupon](https://github.com/kazupon))
+* `core-base`, `vue-i18n-core`
+  * [#855](https://github.com/intlify/vue-i18n-next/pull/855) fix: not correct error and warning codes ([@kazupon](https://github.com/kazupon))
+
+#### :pencil: Documentation
+* `petite-vue-i18n`
+  * [#848](https://github.com/intlify/vue-i18n-next/pull/848) fix typo petitle-vue-i18n ([@ElenaTv](https://github.com/ElenaTv))
+
+#### Committers: 2
+- Elena Tverdokhlib ([@ElenaTv](https://github.com/ElenaTv))
+- kazuya kawaguchi ([@kazupon](https://github.com/kazupon))
+
+
 ## v9.2.0-beta.25 (2021-12-22)
 
 #### :bug: Bug Fixes
