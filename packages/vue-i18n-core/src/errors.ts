@@ -9,7 +9,7 @@ export interface I18nError extends CompileError {
 }
 
 let code = CompileErrorCodes.__EXTEND_POINT__
-const inc = () => code++
+const inc = () => ++code
 
 export const I18nErrorCodes = {
   // composer module errors

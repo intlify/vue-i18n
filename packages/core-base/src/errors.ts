@@ -9,7 +9,7 @@ export interface CoreError extends CompileError {
 }
 
 let code = CompileErrorCodes.__EXTEND_POINT__
-const inc = () => code++
+const inc = () => ++code
 
 export const CoreErrorCodes = {
   INVALID_ARGUMENT: code, // 15
