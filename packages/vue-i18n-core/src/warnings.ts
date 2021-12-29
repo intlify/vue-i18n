@@ -2,7 +2,7 @@ import { format } from '@intlify/shared'
 import { CoreWarnCodes } from '@intlify/core-base'
 
 let code = CoreWarnCodes.__EXTEND_POINT__
-const inc = () => code++
+const inc = () => ++code
 
 export const I18nWarnCodes = {
   FALLBACK_TO_ROOT: code, // 7
