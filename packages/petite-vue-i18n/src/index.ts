@@ -75,6 +75,7 @@ export {
 export {
   createI18n,
   useI18n,
+  castToVueI18n,
   I18nOptions,
   I18nAdditionalOptions,
   I18n,
