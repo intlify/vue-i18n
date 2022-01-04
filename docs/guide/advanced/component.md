@@ -248,7 +248,7 @@ The [Scope](../essentials/scope.md) resolving of Translation component is `paren
 
 It meas that Translation component uses the scope that is enabled in the parent component that uses it.
 
-If the parent component has `useI18n` in `'useScope': 'global'`, it will use Global Scope, else if `'useScope': 'local'`, it will use the Local Scope of the parent component.
+If the parent component has `useI18n` in `useScope: 'global'`, it will use Global Scope, else if `useScope: 'local'`, it will use the Local Scope of the parent component.
 
 However, You sometimes meet the warning message on your browser console the following:
 
