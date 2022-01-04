@@ -241,3 +241,34 @@ The following output:
   <!-- ... -->
 </div>
 ```
+
+
+## Scope resolving
+
+The [Scope](../essentials/scope.md) resolving of Translation component is `parent` as default.
+
+It meas that Translation component uses the scope that is enabled in the parent component that uses it.
+
+If the parent component has `useI18n` in `'useScope': 'global'`, it will use Global Scope, else if `'useScope': 'local'`, it will use the Local Scope of the parent component.
+
+However, You sometimes meet the warning message on your browser console the following:
+
+```
+[intlify] Not found parent scope. use the global scope.
+```
+
+This message is displayed in the case that you have not run `useI18n` in the parent component that uses the Translation component.
+
+In that situation, the Scope of the Translation Component will be fallback to the global scope as said the warning message.
+
+A workaround to suppress this warning is to specify `global` as the `scope` property of Translation component.
+
+```html
+<i18n-t keypath="message.foo" scope="global">
+  ...
+</i18n-t>
+```
+
+:::tip NOTE
+This warning is not output to the browser console in production builds.
+:::
