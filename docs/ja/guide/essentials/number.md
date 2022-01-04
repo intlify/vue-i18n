@@ -144,3 +144,9 @@ NumberFormatコンポーネントにはいくつかのpropsがあります。
 :::tip 備考
 サポートされているスコープ付きスロットとその他`i18n-n`のプロパティの一覧は[API リファレンス](../../api/component.html#numberformat)で確認できます。
 :::
+
+## スコープの解決
+
+NumberFormat コンポーネントのスコープ解決は Translation コンポーネントと同じです。
+
+詳細は、[こちら](../advanced/component.md#scope-resolving)のドキュメントをお読みください。

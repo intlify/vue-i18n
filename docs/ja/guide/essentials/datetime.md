@@ -155,3 +155,9 @@ DatetimeFormatコンポーネントにはいくつかのpropsがあります。
 :::tip 備考
 サポートされているスコープ付きスロットやその他`i18n-d`のプロパティの一覧は[API リファレンス](../../api/component.html#datetimeformat)で確認できます。
 :::
+
+## スコープの解決
+
+DatetimeFormat コンポーネントのスコープ解決は Translation コンポーネントと同じです。
+
+詳細は、[こちら](../advanced/component.md#scope-resolving)のドキュメントをお読みください。

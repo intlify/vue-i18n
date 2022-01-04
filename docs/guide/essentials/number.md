@@ -168,3 +168,9 @@ It is possible to specify multiple scoped slots at the same time:
 :::tip NOTE
 Full list of the supported scoped slots as well as other `i18n-n`, properties can be found on [API Reference](../../api/component.html#numberformat).
 :::
+
+## Scope resolving
+
+The Scope resolving of NumberFormat component is same as Translation component.
+
+See the [here](../advanced/component.md#scope-resolving)
