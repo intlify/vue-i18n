@@ -158,6 +158,6 @@ DatetimeFormatコンポーネントにはいくつかのpropsがあります。
 
 ## スコープの解決
 
-DatetimeFormat コンポーネントのスコープ解決は Translation component と同じです。
+DatetimeFormat コンポーネントのスコープ解決は Translation コンポーネントと同じです。
 
 詳細は、[こちら](../advanced/component.md#scope-resolving)のドキュメントをお読みください。
