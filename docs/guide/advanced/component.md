@@ -150,7 +150,7 @@ const app = createApp({
   })
 })
 
-app.use(i18)
+app.use(i18n)
 app.mount('#app')
 ```
 
