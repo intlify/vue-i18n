@@ -12,7 +12,7 @@ And in development, you may not want to spoil the developer experience by preven
 
 ## Type-safe resources with schema
 
-You can support the type-safe resources with resoruce schema using TypeScript.
+You can support the type-safe resources with resource schema using TypeScript.
 
 ### Type-safe resources in `createI18n`
 
@@ -308,7 +308,7 @@ The following is an example with `createI18n`:
 import { createI18n } from 'vue-i18n'
 
 /**
- * import locale messages resoruce from json for global scope
+ * import locale messages resource from json for global scope
  */
 import enUS from './locales/en-US.json'
 import jaJP from './locales/ja-JP.json'
