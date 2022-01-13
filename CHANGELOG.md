@@ -1,4 +1,14 @@
 
+## v9.2.0-beta.28 (2022-01-13)
+
+#### :zap: Improvement Features
+* `vue-i18n-core`
+  * [#879](https://github.com/intlify/vue-i18n-next/pull/879) fix: null element access ([@kazupon](https://github.com/kazupon))
+
+#### Committers: 1
+- kazuya kawaguchi ([@kazupon](https://github.com/kazupon))
+
+
 ## v9.2.0-beta.27 (2022-01-13)
 
 #### :zap: Improvement Features
