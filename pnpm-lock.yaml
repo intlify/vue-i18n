@@ -296,16 +296,16 @@ importers:
 
   packages/core:
     specifiers:
-      '@intlify/core-base': 9.2.0-beta.26
+      '@intlify/core-base': 9.2.0-beta.27
     dependencies:
       '@intlify/core-base': link:../core-base
 
   packages/core-base:
     specifiers:
-      '@intlify/devtools-if': 9.2.0-beta.26
-      '@intlify/message-compiler': 9.2.0-beta.26
-      '@intlify/shared': 9.2.0-beta.26
-      '@intlify/vue-devtools': 9.2.0-beta.26
+      '@intlify/devtools-if': 9.2.0-beta.27
+      '@intlify/message-compiler': 9.2.0-beta.27
+      '@intlify/shared': 9.2.0-beta.27
+      '@intlify/vue-devtools': 9.2.0-beta.27
     dependencies:
       '@intlify/devtools-if': link:../devtools-if
       '@intlify/message-compiler': link:../message-compiler
@@ -314,7 +314,7 @@ importers:
 
   packages/devtools-if:
     specifiers:
-      '@intlify/shared': 9.2.0-beta.26
+      '@intlify/shared': 9.2.0-beta.27
     dependencies:
       '@intlify/shared': link:../shared
 
@@ -339,7 +339,7 @@ importers:
 
   packages/message-compiler:
     specifiers:
-      '@intlify/shared': 9.2.0-beta.26
+      '@intlify/shared': 9.2.0-beta.27
       source-map: 0.6.1
     dependencies:
       '@intlify/shared': link:../shared
@@ -347,10 +347,10 @@ importers:
 
   packages/petite-vue-i18n:
     specifiers:
-      '@intlify/core-base': 9.2.0-beta.26
-      '@intlify/devtools-if': 9.2.0-beta.26
-      '@intlify/shared': 9.2.0-beta.26
-      '@intlify/vue-devtools': 9.2.0-beta.26
+      '@intlify/core-base': 9.2.0-beta.27
+      '@intlify/devtools-if': 9.2.0-beta.27
+      '@intlify/shared': 9.2.0-beta.27
+      '@intlify/vue-devtools': 9.2.0-beta.27
       '@vue/devtools-api': ^6.0.0-beta.13
     dependencies:
       '@intlify/core-base': link:../core-base
@@ -408,18 +408,18 @@ importers:
 
   packages/vue-devtools:
     specifiers:
-      '@intlify/core-base': 9.2.0-beta.26
-      '@intlify/shared': 9.2.0-beta.26
+      '@intlify/core-base': 9.2.0-beta.27
+      '@intlify/shared': 9.2.0-beta.27
     dependencies:
       '@intlify/core-base': link:../core-base
       '@intlify/shared': link:../shared
 
   packages/vue-i18n:
     specifiers:
-      '@intlify/core-base': 9.2.0-beta.26
-      '@intlify/devtools-if': 9.2.0-beta.26
-      '@intlify/shared': 9.2.0-beta.26
-      '@intlify/vue-devtools': 9.2.0-beta.26
+      '@intlify/core-base': 9.2.0-beta.27
+      '@intlify/devtools-if': 9.2.0-beta.27
+      '@intlify/shared': 9.2.0-beta.27
+      '@intlify/vue-devtools': 9.2.0-beta.27
       '@vue/devtools-api': ^6.0.0-beta.13
     dependencies:
       '@intlify/core-base': link:../core-base
@@ -431,10 +431,10 @@ importers:
 
   packages/vue-i18n-bridge:
     specifiers:
-      '@intlify/core-base': 9.2.0-beta.26
-      '@intlify/devtools-if': 9.2.0-beta.26
-      '@intlify/shared': 9.2.0-beta.26
-      '@intlify/vue-devtools': 9.2.0-beta.26
+      '@intlify/core-base': 9.2.0-beta.27
+      '@intlify/devtools-if': 9.2.0-beta.27
+      '@intlify/shared': 9.2.0-beta.27
+      '@intlify/vue-devtools': 9.2.0-beta.27
       '@vue/composition-api': ^1.2.1
       '@vue/devtools-api': ^6.0.0-beta.13
     dependencies:
@@ -448,10 +448,10 @@ importers:
 
   packages/vue-i18n-core:
     specifiers:
-      '@intlify/core-base': 9.2.0-beta.26
-      '@intlify/devtools-if': 9.2.0-beta.26
-      '@intlify/shared': 9.2.0-beta.26
-      '@intlify/vue-devtools': 9.2.0-beta.26
+      '@intlify/core-base': 9.2.0-beta.27
+      '@intlify/devtools-if': 9.2.0-beta.27
+      '@intlify/shared': 9.2.0-beta.27
+      '@intlify/vue-devtools': 9.2.0-beta.27
       '@vue/devtools-api': ^6.0.0-beta.13
     dependencies:
       '@intlify/core-base': link:../core-base
@@ -2799,7 +2799,7 @@ packages:
       '@vue/shared': 3.2.26
       estree-walker: 2.0.2
       magic-string: 0.25.7
-      postcss: 8.3.9
+      postcss: 8.4.5
       source-map: 0.6.1
 
   /@vue/compiler-ssr/3.2.20:
@@ -9810,7 +9810,6 @@ packages:
     resolution: {integrity: sha512-zJpuPDwOv8D2zq2WRoMe1HsfZthVewpel9CAvTfc/2mBD1uUT/agc5f7GHGWXlYkFvi1mVxe4IjvP2HNrop7nQ==}
     engines: {node: ^10 || ^12 || ^13.7 || ^14 || >=15.0.1}
     hasBin: true
-    dev: true
 
   /nanomatch/1.2.13:
     resolution: {integrity: sha512-fpoe2T0RbHwBTBUOftAfBPaDEi06ufaUai0mE6Yn1kacc3SnTErfb/h+X94VXzI64rKFHYImXSvdwGGCmwOqCA==}
@@ -10541,7 +10540,6 @@ packages:
 
   /picocolors/1.0.0:
     resolution: {integrity: sha512-1fygroTLlHu66zi26VoTDv8yRgm0Fccecssto+MhsZ0D/DGW2sm8E8AjW7NU5VVTRt5GxbeZ5qBuJr+HyLYkjQ==}
-    dev: true
 
   /picomatch/2.3.0:
     resolution: {integrity: sha512-lY1Q/PiJGC2zOv/z391WOTD+Z02bCgsFfvxoXXf6h7kv9o+WmsmzYqrAwY63sNgOxE4xEdq0WyUnXfKeBrSvYw==}
@@ -10699,7 +10697,6 @@ packages:
       nanoid: 3.1.30
       picocolors: 1.0.0
       source-map-js: 1.0.1
-    dev: true
 
   /preact/10.5.14:
     resolution: {integrity: sha512-KojoltCrshZ099ksUZ2OQKfbH66uquFoxHSbnwKbTJHeQNvx42EmC7wQVWNuDt6vC5s3nudRHFtKbpY4ijKlaQ==}
@@ -12075,7 +12072,6 @@ packages:
   /source-map-js/1.0.1:
     resolution: {integrity: sha512-4+TN2b3tqOCd/kaGRJ/sTYA0tR0mdXx26ipdolxcwtJVqEnqNYvlCAt1q3ypy4QMlYus+Zh34RNtYLoq2oQ4IA==}
     engines: {node: '>=0.10.0'}
-    dev: true
 
   /source-map-resolve/0.5.3:
     resolution: {integrity: sha512-Htz+RnsXWk5+P2slx5Jh3Q66vhQj1Cllm0zvnaY98+NFx+Dv2CF/f5O/t8x+KaNdrdIAsruNzoh/KpialbqAnw==}
