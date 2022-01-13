@@ -102,7 +102,11 @@ export function defineMixin(
     mounted(): void {
       nextTick(() => {
         /* istanbul ignore if */
-        if ((__DEV__ || __FEATURE_PROD_VUE_DEVTOOLS__) && !__NODE_JS__) {
+        if (
+          (__DEV__ || __FEATURE_PROD_VUE_DEVTOOLS__) &&
+          !__NODE_JS__ &&
+          this.$el
+        ) {
           this.$el.__VUE_I18N__ = this.$i18n.__composer
           const emitter: VueDevToolsEmitter = (this.__v_emitter =
             createEmitter<VueDevToolsEmitterEvents>())
@@ -122,7 +126,12 @@ export function defineMixin(
 
       nextTick(() => {
         /* istanbul ignore if */
-        if ((__DEV__ || __FEATURE_PROD_VUE_DEVTOOLS__) && !__NODE_JS__) {
+        if (
+          (__DEV__ || __FEATURE_PROD_VUE_DEVTOOLS__) &&
+          !__NODE_JS__ &&
+          this.$el &&
+          this.$el.__VUE_I18N__
+        ) {
           if (this.__v_emitter) {
             this.__v_emitter.off('*', addTimelineEvent)
             delete this.__v_emitter
