@@ -13,7 +13,7 @@
   },
   "dependencies": {
     "vue": "^3.1.0",
-    "source-map": "^0.6.1",
+    "source-map": "^0.7.0",
     "monaco-editor": "^0.31.0"
   },
   "devDependencies": {
