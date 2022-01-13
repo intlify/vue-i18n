@@ -100,15 +100,17 @@ export function defineMixin(
     },
 
     mounted(): void {
-      /* istanbul ignore if */
-      if ((__DEV__ || __FEATURE_PROD_VUE_DEVTOOLS__) && !__NODE_JS__) {
-        this.$el.__VUE_I18N__ = this.$i18n.__composer
-        const emitter: VueDevToolsEmitter = (this.__v_emitter =
-          createEmitter<VueDevToolsEmitterEvents>())
-        const _vueI18n = this.$i18n as unknown as VueI18nInternal
-        _vueI18n.__enableEmitter && _vueI18n.__enableEmitter(emitter)
-        emitter.on('*', addTimelineEvent)
-      }
+      nextTick(() => {
+        /* istanbul ignore if */
+        if ((__DEV__ || __FEATURE_PROD_VUE_DEVTOOLS__) && !__NODE_JS__) {
+          this.$el.__VUE_I18N__ = this.$i18n.__composer
+          const emitter: VueDevToolsEmitter = (this.__v_emitter =
+            createEmitter<VueDevToolsEmitterEvents>())
+          const _vueI18n = this.$i18n as unknown as VueI18nInternal
+          _vueI18n.__enableEmitter && _vueI18n.__enableEmitter(emitter)
+          emitter.on('*', addTimelineEvent)
+        }
+      })
     },
 
     unmounted(): void {
