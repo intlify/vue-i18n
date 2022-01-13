@@ -1,4 +1,23 @@
 
+## v9.2.0-beta.27 (2022-01-13)
+
+#### :zap: Improvement Features
+* `vue-i18n-core`
+  * [#876](https://github.com/intlify/vue-i18n-next/pull/876) fix: null access on mount hook ([@kazupon](https://github.com/kazupon))
+* `petite-vue-i18n`, `vue-i18n`
+  * [#861](https://github.com/intlify/vue-i18n-next/pull/861) improvement: export castToVueI18n for @intlity/vue-i18n-bridge ([@kazupon](https://github.com/kazupon))
+
+#### :pencil: Documentation
+* [#869](https://github.com/intlify/vue-i18n-next/pull/869) docs: fix typos ([@AnPineau](https://github.com/AnPineau))
+* [#863](https://github.com/intlify/vue-i18n-next/pull/863) docs: fix typo in word ([@ItMaga](https://github.com/ItMaga))
+* [#862](https://github.com/intlify/vue-i18n-next/pull/862) docs: add scope resolving section ([@kazupon](https://github.com/kazupon))
+
+#### Committers: 3
+- Magomed Chemurziev ([@ItMaga](https://github.com/ItMaga))
+- [@AnPineau](https://github.com/AnPineau)
+- kazuya kawaguchi ([@kazupon](https://github.com/kazupon))
+
+
 ## v9.2.0-beta.26 (2021-12-29)
 
 #### :bug: Bug Fixes
