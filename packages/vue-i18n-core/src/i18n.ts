@@ -168,7 +168,7 @@ export interface I18n<
    * @remarks
    * If you specified `legacy: true` option in `createI18n`, return `legacy`, else `composition`
    *
-   * @defaultValue `'composition'`
+   * @defaultValue `'legacy'`
    */
   readonly mode: I18nMode
   // prettier-ignore
