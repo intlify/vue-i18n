@@ -1,0 +1,30 @@
+{
+  "name": "backend",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "vite",
+    "generate": "npx jiti ./scripts/generate.ts",
+    "build": "vite build",
+    "check": "vue-tsc --noEmit",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "vue": "next",
+    "vue-i18n": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.13",
+    "@types/body-parser": "^1.19.2",
+    "express": "^4.17.1",
+    "body-parser": "^1.19.1",
+    "jiti": "^1.12.9",
+    "ohmyfetch": "^0.4.15",
+    "@vitejs/plugin-vue": "^2.0.0",
+    "@intlify/vite-plugin-vue-i18n": "next",
+    "@intlify/bundle-utils": "latest",
+    "typescript": "^4.5.4",
+    "vite": "^2.7.2",
+    "vue-tsc": "^0.29.8"
+  }
+}
