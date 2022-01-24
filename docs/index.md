@@ -12,3 +12,9 @@ features:
   details: You can manage locale messages on single file component
 footer: MIT Licensed | Copyright © 2020 kazuya kawaguchi
 ---
+
+<HomeSponsors />
+
+<script setup>
+import HomeSponsors from './.vitepress/theme/components/HomeSponsors.vue'
+</script>

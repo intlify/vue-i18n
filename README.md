@@ -21,6 +21,19 @@ Vue I18n is part of the Vue Ecosystem and Intlify Project is an open source proj
   </a>
 </p>
 
+<h3 align="center">✨ Special Sponsors</h3>
+
+<p align="center">
+  <a
+    href="https://plaid.co.jp/"
+    target="_blank">
+    <img
+      src="https://raw.githubusercontent.com/intlify/vue-i18n-next/master/docs/public/plaid.svg"
+      width="240px"
+    />
+  </a>
+</p>
+
 <h3 align="center">🥇 Gold Sponsors</h3>
 
 <p align="center">
@@ -45,10 +58,10 @@ Vue I18n is part of the Vue Ecosystem and Intlify Project is an open source proj
 </p>
 <p align="center">
   <a
-    href="https://cypress.io/"
+    href="https://localazy.com/blog/how-to-localize-vuejs-app-with-vue-i18n-and-localazy?utm_source=kazupon&utm_medium=banner&utm_campaign=sponsorships_kazupon&utm_content=logo"
     target="_blank">
     <img
-      src="https://raw.githubusercontent.com/intlify/vue-i18n-next/master/docs/public/cypress.svg"
+      src="https://raw.githubusercontent.com/intlify/vue-i18n-next/master/docs/public/localazy.svg"
       width="240px"
     />
   </a>

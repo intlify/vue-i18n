@@ -15,6 +15,12 @@ Go to [Get Started](./guide/)
   <PlatinumSponsors />
 </p>
 
+### ✨ Special
+
+<p style="text-align: center;">
+  <SpecialSponsors />
+</p>
+
 ### 🥇 Gold
 
 <p style="text-align: center;">
