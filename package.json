@@ -112,7 +112,7 @@
     "rollup-plugin-node-globals": "^1.4.0",
     "rollup-plugin-terser": "^7.0.2",
     "rollup-plugin-typescript2": "^0.31.0",
-    "secretlint": "^3.2.0",
+    "secretlint": "^4.0.0",
     "set-tz": "^0.2.0",
     "shipjs": "^0.24.0",
     "textlint": "^12.0.0",
