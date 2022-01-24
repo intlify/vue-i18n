@@ -417,8 +417,8 @@ export function createI18n<
 ): typeof options['legacy'] extends true
   ? I18n<Messages, DateTimeFormats, NumberFormats, OptionLocale, true>
   : typeof options['legacy'] extends false
-    ? I18n<Messages, DateTimeFormats, NumberFormats, OptionLocale, false>
-    : I18n<Messages, DateTimeFormats, NumberFormats, OptionLocale, Legacy>
+  ? I18n<Messages, DateTimeFormats, NumberFormats, OptionLocale, false>
+  : I18n<Messages, DateTimeFormats, NumberFormats, OptionLocale, Legacy>
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/explicit-module-boundary-types
 export function createI18n(options: any = {}, VueI18nLegacy?: any): any {

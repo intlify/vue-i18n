@@ -267,7 +267,7 @@ expectType<
 // check loose i18n composer
 const looseI18nComposer = createI18n({
   ...looseOptions,
-  legacy:false,
+  legacy: false
 }).global
 expectType<'en' | 'ja' | 'en-US' | 'ja-JP'>(looseI18nComposer.locale.value)
 expectType<{
