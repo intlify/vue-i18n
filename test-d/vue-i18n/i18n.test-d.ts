@@ -264,6 +264,26 @@ expectType<
     LocaleParams<'en' | 'ja'>
   >
 >(strictOptions)
+// check loose i18n composer
+const looseI18nComposer = createI18n({
+  ...looseOptions,
+  legacy:false,
+}).global
+expectType<'en' | 'ja' | 'en-US' | 'ja-JP'>(looseI18nComposer.locale.value)
+expectType<{
+  en: {
+    foo: string
+    nest: {
+      bar: string
+    }
+  }
+  ja: {
+    bar: string
+    nest: {
+      bar: string
+    }
+  }
+}>(looseI18nComposer.messages.value)
 
 // check loose i18n
 const looseI18n = createI18n(looseOptions).global
@@ -376,7 +396,7 @@ looseI18n.mergeNumberFormat<{ echoes: { act: string } }>('ja-JP', {
 })
 
 // check strict i18n
-const strictI18n = createI18n<[ResourceSchema], 'en' | 'ja', false>(
+const strictI18n = createI18n<[ResourceSchema], 'en' | 'ja'>(
   strictOptions
 ).global
 expectType<'en' | 'ja'>(strictI18n.locale.value)
