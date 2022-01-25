@@ -396,7 +396,7 @@ looseI18n.mergeNumberFormat<{ echoes: { act: string } }>('ja-JP', {
 })
 
 // check strict i18n
-const strictI18n = createI18n<[ResourceSchema], 'en' | 'ja'>(
+const strictI18n = createI18n<[ResourceSchema], 'en' | 'ja', false>(
   strictOptions
 ).global
 expectType<'en' | 'ja'>(strictI18n.locale.value)
