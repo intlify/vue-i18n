@@ -1,4 +1,15 @@
 
+## v9.2.0-beta.29 (2022-01-25)
+
+#### :bug: Bug Fixes
+* `vue-i18n-core`
+  * [#897](https://github.com/intlify/vue-i18n-next/pull/897) improve types declaration ([@littleboarx](https://github.com/littleboarx))
+
+#### Committers: 2
+- [@littleboarx](https://github.com/littleboarx)
+- kazuya kawaguchi ([@kazupon](https://github.com/kazupon))
+
+
 ## v9.2.0-beta.28 (2022-01-13)
 
 #### :zap: Improvement Features
