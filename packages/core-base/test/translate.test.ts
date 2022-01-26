@@ -681,6 +681,23 @@ describe('escapeParameter', () => {
       translate(ctx, 'hello', ['<b>kazupon</b>'], { escapeParameter: true })
     ).toEqual('hello, &lt;b&gt;kazupon&lt;/b&gt;!')
   })
+
+  test('no escape', () => {
+    const ctx = context({
+      locale: 'en',
+      warnHtmlMessage: false,
+      escapeParameter: false,
+      messages: {
+        en: {
+          hello: 'hello, {name}!'
+        }
+      }
+    })
+
+    expect(translate(ctx, 'hello', { name: '<b>kazupon</b>' })).toEqual(
+      'hello, <b>kazupon</b>!'
+    )
+  })
 })
 
 describe('error', () => {
