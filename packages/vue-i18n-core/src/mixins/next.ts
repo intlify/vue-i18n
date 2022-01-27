@@ -125,32 +125,34 @@ export function defineMixin(
       }
 
       nextTick(() => {
-        /* istanbul ignore if */
-        if (
-          (__DEV__ || __FEATURE_PROD_VUE_DEVTOOLS__) &&
-          !__NODE_JS__ &&
-          this.$el &&
-          this.$el.__VUE_I18N__
-        ) {
-          if (this.__v_emitter) {
-            this.__v_emitter.off('*', addTimelineEvent)
-            delete this.__v_emitter
+        nextTick(() => {
+          /* istanbul ignore if */
+          if (
+            (__DEV__ || __FEATURE_PROD_VUE_DEVTOOLS__) &&
+            !__NODE_JS__ &&
+            this.$el &&
+            this.$el.__VUE_I18N__
+          ) {
+            if (this.__v_emitter) {
+              this.__v_emitter.off('*', addTimelineEvent)
+              delete this.__v_emitter
+            }
+            const _vueI18n = this.$i18n as unknown as VueI18nInternal
+            _vueI18n.__disableEmitter && _vueI18n.__disableEmitter()
+            delete this.$el.__VUE_I18N__
           }
-          const _vueI18n = this.$i18n as unknown as VueI18nInternal
-          _vueI18n.__disableEmitter && _vueI18n.__disableEmitter()
-          delete this.$el.__VUE_I18N__
-        }
 
-        delete this.$t
-        delete this.$rt
-        delete this.$tc
-        delete this.$te
-        delete this.$d
-        delete this.$n
-        delete this.$tm
+          delete this.$t
+          delete this.$rt
+          delete this.$tc
+          delete this.$te
+          delete this.$d
+          delete this.$n
+          delete this.$tm
 
-        i18n.__deleteInstance(instance)
-        delete this.$i18n
+          i18n.__deleteInstance(instance)
+          delete this.$i18n
+        })
       })
     }
   }
