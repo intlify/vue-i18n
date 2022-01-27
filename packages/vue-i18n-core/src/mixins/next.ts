@@ -1,4 +1,4 @@
-import { getCurrentInstance, nextTick } from 'vue'
+import { getCurrentInstance } from 'vue'
 import { createVueI18n } from '../legacy'
 import { createI18nError, I18nErrorCodes } from '../errors'
 import { SetPluralRulesSymbol } from '../symbols'
@@ -100,21 +100,20 @@ export function defineMixin(
     },
 
     mounted(): void {
-      nextTick(() => {
-        /* istanbul ignore if */
-        if (
-          (__DEV__ || __FEATURE_PROD_VUE_DEVTOOLS__) &&
-          !__NODE_JS__ &&
-          this.$el
-        ) {
-          this.$el.__VUE_I18N__ = this.$i18n.__composer
-          const emitter: VueDevToolsEmitter = (this.__v_emitter =
-            createEmitter<VueDevToolsEmitterEvents>())
-          const _vueI18n = this.$i18n as unknown as VueI18nInternal
-          _vueI18n.__enableEmitter && _vueI18n.__enableEmitter(emitter)
-          emitter.on('*', addTimelineEvent)
-        }
-      })
+      /* istanbul ignore if */
+      if (
+        (__DEV__ || __FEATURE_PROD_VUE_DEVTOOLS__) &&
+        !__NODE_JS__ &&
+        this.$el &&
+        this.$i18n
+      ) {
+        this.$el.__VUE_I18N__ = this.$i18n.__composer
+        const emitter: VueDevToolsEmitter = (this.__v_emitter =
+          createEmitter<VueDevToolsEmitterEvents>())
+        const _vueI18n = this.$i18n as unknown as VueI18nInternal
+        _vueI18n.__enableEmitter && _vueI18n.__enableEmitter(emitter)
+        emitter.on('*', addTimelineEvent)
+      }
     },
 
     unmounted(): void {
@@ -124,34 +123,34 @@ export function defineMixin(
         throw createI18nError(I18nErrorCodes.UNEXPECTED_ERROR)
       }
 
-      nextTick(() => {
-        /* istanbul ignore if */
-        if (
-          (__DEV__ || __FEATURE_PROD_VUE_DEVTOOLS__) &&
-          !__NODE_JS__ &&
-          this.$el &&
-          this.$el.__VUE_I18N__
-        ) {
-          if (this.__v_emitter) {
-            this.__v_emitter.off('*', addTimelineEvent)
-            delete this.__v_emitter
-          }
+      /* istanbul ignore if */
+      if (
+        (__DEV__ || __FEATURE_PROD_VUE_DEVTOOLS__) &&
+        !__NODE_JS__ &&
+        this.$el &&
+        this.$el.__VUE_I18N__
+      ) {
+        if (this.__v_emitter) {
+          this.__v_emitter.off('*', addTimelineEvent)
+          delete this.__v_emitter
+        }
+        if (this.$i18n) {
           const _vueI18n = this.$i18n as unknown as VueI18nInternal
           _vueI18n.__disableEmitter && _vueI18n.__disableEmitter()
           delete this.$el.__VUE_I18N__
         }
+      }
 
-        delete this.$t
-        delete this.$rt
-        delete this.$tc
-        delete this.$te
-        delete this.$d
-        delete this.$n
-        delete this.$tm
+      delete this.$t
+      delete this.$rt
+      delete this.$tc
+      delete this.$te
+      delete this.$d
+      delete this.$n
+      delete this.$tm
 
-        i18n.__deleteInstance(instance)
-        delete this.$i18n
-      })
+      i18n.__deleteInstance(instance)
+      delete this.$i18n
     }
   }
 }
