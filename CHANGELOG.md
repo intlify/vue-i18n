@@ -1,4 +1,17 @@
 
+## v9.2.0-beta.30 (2022-01-27)
+
+#### :zap: Improvement Features
+* `vue-i18n-core`
+  * [#907](https://github.com/intlify/vue-i18n-next/pull/907) fix: avoid undefined read ([@kazupon](https://github.com/kazupon))
+* Other
+  * [#903](https://github.com/intlify/vue-i18n-next/pull/903) fix: revert type test case change in strictI18n ([@littleboarx](https://github.com/littleboarx))
+
+#### Committers: 2
+- [@littleboarx](https://github.com/littleboarx)
+- kazuya kawaguchi ([@kazupon](https://github.com/kazupon))
+
+
 ## v9.2.0-beta.29 (2022-01-25)
 
 #### :bug: Bug Fixes
