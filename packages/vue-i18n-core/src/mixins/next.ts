@@ -1,4 +1,4 @@
-import { getCurrentInstance, nextTick } from 'vue'
+import { getCurrentInstance } from 'vue'
 import { createVueI18n } from '../legacy'
 import { createI18nError, I18nErrorCodes } from '../errors'
 import { SetPluralRulesSymbol } from '../symbols'
