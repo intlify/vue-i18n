@@ -121,6 +121,6 @@ The replacement value **must be boolean literals** and cannot be strings, otherw
 
 ## Pre translations with extensions
 
-You can pre-translation with vue-i18n-extensions.
+You can use pre-translation(server-side rendering) with vue-i18n-extensions package.
 
 About how to usage, see [here](https://github.com/intlify/vue-i18n-extensions).
