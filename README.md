@@ -1,6 +1,6 @@
 # vue-i18n-next
 
-> This is the repository for Vue I18n 9 (for Vue 3)
+> This is the repository for Vue I18n 9 for Vue 3
 
 Internationalization plugin for Vue.js
 
@@ -101,7 +101,7 @@ Vue I18n is part of the Vue Ecosystem and Intlify Project is an open source proj
 ## Status: [![Test](https://github.com/intlify/vue-i18n-next/actions/workflows/test.yml/badge.svg)](https://github.com/intlify/vue-i18n-next/actions/workflows/test.yml) [![Lint](https://github.com/intlify/vue-i18n-next/actions/workflows/lint.yml/badge.svg)](https://github.com/intlify/vue-i18n-next/actions/workflows/lint.yml)
 
 - [Documentation](https://vue-i18n.intlify.dev/)
-- If you use Vue I18n v8, see this [repository](https://github.com/kazupon/vue-i18n)
+- If you use Vue I18n v8 for Vue 2, see this [repository](https://github.com/kazupon/vue-i18n)
 
 ## Quickstart
 
@@ -117,7 +117,6 @@ Vue I18n is part of the Vue Ecosystem and Intlify Project is an open source proj
 Please consult the [Migration Guide](https://vue-i18n.intlify.dev/guide/migration/breaking.html).
 
 ## 🙋‍♂️ About support for v9 and earlier
-- v6 and earlier: drop supporting
 - v7 and v8: become LTS upon vue-i18n v9 release with an 12 months maintenance lifespan
 
 ## 🍭 Examples
