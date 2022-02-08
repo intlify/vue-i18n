@@ -64,6 +64,10 @@ const config = {
             link: '/ecosystem/official'
           },
           {
+            text: 'v9.x',
+            items: [{ text: 'v8.x', link: 'https://kazupon.github.io/vue-i18n/' }],
+          },
+          {
             text: 'Changelog',
             link: 'https://github.com/intlify/vue-i18n-next/blob/master/CHANGELOG.md'
           }
@@ -237,6 +241,10 @@ const config = {
           {
             text: 'エコシステム',
             link: '/ja/ecosystem/official'
+          },
+          {
+            text: 'v9.x',
+            items: [{ text: 'v8.x', link: 'https://kazupon.github.io/vue-i18n/' }],
           },
           {
             text: '変更ログ',
