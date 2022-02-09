@@ -10,7 +10,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "vue": "next",
+    "vue": "3",
     "vue-i18n": "workspace:*"
   },
   "devDependencies": {

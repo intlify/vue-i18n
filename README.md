@@ -109,7 +109,7 @@ Vue I18n is part of the Vue Ecosystem and Intlify Project is an open source proj
 - In-browser playground on [CodeSandbox](https://codesandbox.io/s/vue-i18n-9-template-h28c0)
 - Add it to an existing Vue Project:
   ```bash
-  npm install vue-i18n@next
+  npm install vue-i18n@9
   ```
 
 ## Changes from Vue I18n v8
@@ -117,7 +117,7 @@ Vue I18n is part of the Vue Ecosystem and Intlify Project is an open source proj
 Please consult the [Migration Guide](https://vue-i18n.intlify.dev/guide/migration/breaking.html).
 
 ## 🙋‍♂️ About support for v9 and earlier
-- v7 and v8: become LTS upon vue-i18n v9 release with an 12 months maintenance lifespan
+- v7 and v8: become LTS upon vue-i18n v9 release (latest tag) with an 12 months maintenance lifespan
 
 ## 🍭 Examples
 

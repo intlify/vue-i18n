@@ -13,8 +13,8 @@ Vue + Vue I18nでグローバルアプリケーションを作るのは非常に
 ## HTML
 
 ```html
-<script src="https://unpkg.com/vue@next"></script>
-<script src="https://unpkg.com/vue-i18n@next"></script>
+<script src="https://unpkg.com/vue@3"></script>
+<script src="https://unpkg.com/vue-i18n@9"></script>
 
 <div id="app">
   <p>{{ $t("message.hello") }}</p>
