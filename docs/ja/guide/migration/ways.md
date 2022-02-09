@@ -41,7 +41,7 @@ Include `vue-i18n-bridge` after `vue`, `@vue/composition-api` and it will instal
 <script src="https://cdn.jsdelivr.net/npm/vue@2.6"></script>
 <script src="https://unpkg.com/vue-i18n@8/dist/vue-i18n.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@vue/composition-api@1.2"></script>
-<script src="https://unpkg.com/vue-i18n-bridge@9.2.0-beta.6/dist/vue-i18n-bridge.global.prod.js"></script>
+<script src="https://unpkg.com/vue-i18n-bridge@9.2.0-beta.30/dist/vue-i18n-bridge.global.prod.js"></script>
 ```
 
 ### Usage

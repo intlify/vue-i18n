@@ -8,15 +8,15 @@
 
 ## 直接ダウンロード
 
-<https://unpkg.com/vue-i18n@next>
+<https://unpkg.com/vue-i18n@9>
 
 [unpkg.com](https://unpkg.com)はnpmに基づいたCDNリンクを提供します。上記リンクは常にnpmの最新版へのリンクです。
 
 ### グローバルインポート
 
 ```html
-<script src="https://unpkg.com/vue@next"></script>
-<script src="https://unpkg.com/vue-i18n@next"></script>
+<script src="https://unpkg.com/vue@3"></script>
+<script src="https://unpkg.com/vue-i18n@9"></script>
 ```
 
 <https://unpkg.com/vue-i18n@9.0.0-rc.1/dist/vue-i18n.global.js>のようにURLで特定のバージョン・タグを指定して使うこともできます。
@@ -24,8 +24,8 @@
 ### ES modules インポート
 
 ```html
-<script type="module" src="https://unpkg.com/vue@next/dist/vue.esm-browser.js">
-<script type="module" src="https://unpkg.com/vue-i18n@next/dist/vue-i18n.esm-browser.js">
+<script type="module" src="https://unpkg.com/vue@3/dist/vue.esm-browser.js">
+<script type="module" src="https://unpkg.com/vue-i18n@9/dist/vue-i18n.esm-browser.js">
 ```
 
 <https://unpkg.com/vue-i18n@9.0.0-rc.1/dist/vue-i18n.esm-browser.js>のようにURLで特定のバージョン・タグを指定して使うこともできます。
@@ -36,13 +36,13 @@
 ### NPM
 
 ```sh
-npm install vue-i18n@next
+npm install vue-i18n@9
 ```
 
 ### Yarn
 
 ```sh
-yarn add vue-i18n@next
+yarn add vue-i18n@9
 ```
 
 module方式で使う場合、`app.use()`を使って明示的に`vue-i18n`をインストールする必要があります：

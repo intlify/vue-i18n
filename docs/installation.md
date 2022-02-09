@@ -15,8 +15,8 @@
 ### Global import
 
 ```html
-<script src="https://unpkg.com/vue@next"></script>
-<script src="https://unpkg.com/vue-i18n@next"></script>
+<script src="https://unpkg.com/vue@3"></script>
+<script src="https://unpkg.com/vue-i18n@9"></script>
 ```
 
 You can also use a specific version/tag via URLs like <https://unpkg.com/vue-i18n@9.1.0/dist/vue-i18n.global.js>
@@ -24,8 +24,8 @@ You can also use a specific version/tag via URLs like <https://unpkg.com/vue-i18
 ### ES Modules import
 
 ```html
-<script type="module" src="https://unpkg.com/vue@next/dist/vue.esm-browser.js">
-<script type="module" src="https://unpkg.com/vue-i18n@next/dist/vue-i18n.esm-browser.js">
+<script type="module" src="https://unpkg.com/vue@3/dist/vue.esm-browser.js">
+<script type="module" src="https://unpkg.com/vue-i18n@9/dist/vue-i18n.esm-browser.js">
 ```
 
 You can also use a specific version/tag via URLs like <https://unpkg.com/vue-i18n@9.1.0/dist/vue-i18n.esm-browser.js>
@@ -36,13 +36,13 @@ You can also use a specific version/tag via URLs like <https://unpkg.com/vue-i18
 ### NPM
 
 ```sh
-npm install vue-i18n@next
+npm install vue-i18n@9
 ```
 
 ### Yarn
 
 ```sh
-yarn add vue-i18n@next
+yarn add vue-i18n@9
 ```
 
 When using with a module system, you must explicitly install the `vue-i18n`

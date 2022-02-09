@@ -8,9 +8,9 @@
     "serve": "vite preview"
   },
   "dependencies": {
-    "vue": "next",
+    "vue": "3",
     "vue-i18n": "workspace:*",
-    "vue-router": "next"
+    "vue-router": "4"
   },
   "devDependencies": {
     "@intlify/vite-plugin-vue-i18n": "next",
