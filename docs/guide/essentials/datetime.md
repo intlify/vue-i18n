@@ -40,6 +40,10 @@ const i18n = createI18n({
 
 To localize DateTime value with Vue I18n, use the `$d`.
 
+:::warning NOTICE
+Note that the option name is **`datetimeFormats`** in VueI18n v9, not `dateTimeFormats`. about see details [here](../../guide/migration/breaking#rename-to-datetimeformats-from-datetimeformats)
+:::
+
 :::tip NOTE
 `$d` has some overloads. About these overloads, see the [API Reference](../../api/injection#d-value)
 :::

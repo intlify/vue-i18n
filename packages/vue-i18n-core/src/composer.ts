@@ -10,7 +10,8 @@ import {
   isBoolean,
   isPlainObject,
   isObject,
-  assign
+  assign,
+  inBrowser
 } from '@intlify/shared'
 import {
   isTranslateFallbackWarn,
@@ -2346,7 +2347,7 @@ export function createComposer(options: any = {}, VueI18nLegacy?: any): any {
   composerID++
 
   // watch root locale & fallbackLocale
-  if (__root) {
+  if (__root && inBrowser) {
     watch(__root.locale, (val: Locale) => {
       if (_inheritLocale) {
         _locale.value = val
