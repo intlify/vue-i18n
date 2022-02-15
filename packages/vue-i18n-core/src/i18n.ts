@@ -8,6 +8,7 @@ import {
   isRef
 } from 'vue'
 import {
+  inBrowser,
   isEmptyObject,
   isBoolean,
   warn,
@@ -929,9 +930,13 @@ function setupLifeCycle(
     }
     vm._i18n = _i18n
     vm._i18n_bridge = true
-    vm._i18nWatcher = vm._i18n.watchI18nData()
-    if (vm._i18n._sync) {
-      vm._localeWatcher = vm._i18n.watchLocale()
+
+    // browser only
+    if (inBrowser) {
+      vm._i18nWatcher = vm._i18n.watchI18nData()
+      if (vm._i18n._sync) {
+        vm._localeWatcher = vm._i18n.watchLocale()
+      }
     }
 
     let subscribing = false
