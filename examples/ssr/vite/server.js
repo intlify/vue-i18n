@@ -2,6 +2,7 @@
 const fs = require('fs')
 const path = require('path')
 const express = require('express')
+const monitor = require('express-status-monitor')
 
 const isTest = process.env.NODE_ENV === 'test' || !!process.env.VITE_TEST_BUILD
 
@@ -42,6 +43,7 @@ async function createServer(
     })
     // use vite's connect instance as middleware
     app.use(vite.middlewares)
+    app.use(monitor())
   } else {
     app.use(require('compression')())
     app.use(
