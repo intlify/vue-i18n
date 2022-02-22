@@ -79,8 +79,12 @@ const config = {
               link: '/ecosystem/official'
             },
             {
+              text: '3rd Party Integrations',
+              link: '/ecosystem/integrations'
+            },
+            {
               text: '3rd Party Tooling',
-              link: '/ecosystem/third'
+              link: '/ecosystem/tools'
             },
           ],
           '/api/': [
@@ -258,8 +262,12 @@ const config = {
               link: '/ja/ecosystem/official'
             },
             {
+              text: '3rd Party Integrations',
+              link: '/ja/ecosystem/integrations'
+            },
+            {
               text: '3rd Party Tooling',
-              link: '/ja/ecosystem/third'
+              link: '/ja/ecosystem/tools'
             },
           ],
           '/ja/api/': [
