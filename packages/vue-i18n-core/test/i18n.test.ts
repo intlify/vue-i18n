@@ -93,6 +93,41 @@ describe('createI18n with flat json messages', () => {
   })
 })
 
+describe('allowComposition option', () => {
+  describe('legacy mode', () => {
+    test('default', () => {
+      const i18n = createI18n({})
+      expect(i18n.allowComposition).toEqual(false)
+    })
+
+    test('specify `true`', () => {
+      const i18n = createI18n({
+        allowComposition: true
+      })
+
+      expect(i18n.allowComposition).toEqual(true)
+    })
+  })
+
+  describe('composition mode', () => {
+    test('default', () => {
+      const i18n = createI18n({
+        legacy: false
+      })
+      expect(i18n.allowComposition).toEqual(true)
+    })
+
+    test('specify `false`', () => {
+      const i18n = createI18n({
+        legacy: false,
+        allowComposition: false
+      })
+
+      expect(i18n.allowComposition).toEqual(true)
+    })
+  })
+})
+
 describe('useI18n', () => {
   let org: any // eslint-disable-line @typescript-eslint/no-explicit-any
   let spy: any // eslint-disable-line @typescript-eslint/no-explicit-any
@@ -343,22 +378,155 @@ describe('useI18n', () => {
     expect(error).toEqual(errorMessages[I18nErrorCodes.NOT_INSLALLED])
   })
 
-  test(errorMessages[I18nErrorCodes.NOT_AVAILABLE_IN_LEGACY_MODE], async () => {
-    const i18n = createI18n({
-      legacy: true,
-      locale: 'ja',
-      messages: {
-        en: {
-          hello: 'hello!'
+  describe('On legacy', () => {
+    describe('default', () => {
+      test(
+        errorMessages[I18nErrorCodes.NOT_AVAILABLE_IN_LEGACY_MODE],
+        async () => {
+          const i18n = createI18n({
+            legacy: true,
+            locale: 'ja',
+            messages: {
+              en: {
+                hello: 'hello!'
+              }
+            }
+          })
+
+          let error = ''
+          const App = defineComponent({
+            setup() {
+              try {
+                useI18n({
+                  locale: 'en',
+                  messages: {
+                    en: {
+                      hello: 'hello!'
+                    }
+                  }
+                })
+              } catch (e) {
+                error = e.message
+              }
+              return {}
+            },
+            template: `<p>foo</p>`
+          })
+          await mount(App, i18n)
+          expect(error).toEqual(
+            errorMessages[I18nErrorCodes.NOT_AVAILABLE_IN_LEGACY_MODE]
+          )
         }
-      }
+      )
     })
 
-    let error = ''
-    const App = defineComponent({
-      setup() {
-        try {
-          useI18n({
+    describe('enable', () => {
+      describe('t', () => {
+        test('translation & locale changing', async () => {
+          const i18n = createI18n({
+            allowComposition: true,
+            locale: 'ja',
+            messages: {
+              en: {
+                hello: 'hello!'
+              },
+              ja: {
+                hello: 'こんにちは！'
+              }
+            }
+          })
+
+          const App = defineComponent({
+            setup() {
+              const { locale, t } = useI18n()
+              return { locale, t }
+            },
+            template: `<p>{{ t('hello') }}</p>`
+          })
+          const { html } = await mount(App, i18n)
+          expect(html()).toEqual('<p>こんにちは！</p>')
+
+          i18n.global.locale = 'en'
+          await nextTick()
+          expect(html()).toEqual('<p>hello!</p>')
+        })
+
+        test('local scope', async () => {
+          const i18n = createI18n({
+            allowComposition: true,
+            locale: 'en',
+            messages: {
+              en: {
+                hello: 'hello!'
+              },
+              ja: {}
+            }
+          })
+
+          const App = defineComponent({
+            setup() {
+              const { locale, t } = useI18n({
+                useScope: 'local',
+                messages: {
+                  en: {
+                    world: 'world!'
+                  },
+                  ja: {
+                    world: '世界！'
+                  }
+                }
+              })
+              return { locale, t }
+            },
+            i18n: {},
+            template: `<p>{{ locale }}:{{ t('world') }}</p>`
+          })
+          const { html } = await mount(App, i18n)
+          expect(html()).toEqual('<p>en:world!</p>')
+
+          i18n.global.locale = 'ja'
+          await nextTick()
+          expect(html()).toEqual('<p>ja:世界！</p>')
+        })
+
+        test('use i18n option', async () => {
+          const i18n = createI18n({
+            allowComposition: true,
+            locale: 'en',
+            messages: {
+              en: {
+                hello: 'hello!'
+              },
+              ja: {}
+            }
+          })
+
+          const App = defineComponent({
+            setup() {
+              const { locale, t } = useI18n({
+                useScope: 'local'
+              })
+              return { locale, t }
+            },
+            i18n: {
+              messages: {
+                en: {
+                  world: 'world!'
+                },
+                ja: {
+                  world: '世界！'
+                }
+              }
+            },
+            template: `<p>{{ locale }}:{{ t('world') }}</p>`
+          })
+          const { html } = await mount(App, i18n)
+          expect(html()).toEqual('<p>en:world!</p>')
+        })
+
+        test('not defined i18n option in local scope', async () => {
+          const i18n = createI18n({
+            allowComposition: true,
             locale: 'en',
             messages: {
               en: {
@@ -366,17 +534,127 @@ describe('useI18n', () => {
               }
             }
           })
-        } catch (e) {
-          error = e.message
-        }
-        return {}
-      },
-      template: `<p>foo</p>`
+
+          let error = ''
+          const App = defineComponent({
+            setup() {
+              try {
+                useI18n({ useScope: 'local' })
+              } catch (e) {
+                error = e.message
+              }
+              return {}
+            }
+          })
+          await mount(App, i18n)
+          expect(error).toEqual(
+            errorMessages[
+              I18nErrorCodes.MUST_DEFINE_I18N_OPTION_IN_ALLOW_COMPOSITION
+            ]
+          )
+        })
+      })
     })
-    await mount(App, i18n)
-    expect(error).toEqual(
-      errorMessages[I18nErrorCodes.NOT_AVAILABLE_IN_LEGACY_MODE]
-    )
+
+    describe('d', () => {
+      test('datetime formatting', async () => {
+        const i18n = createI18n({
+          allowComposition: true,
+          locale: 'en-US',
+          fallbackLocale: ['ja-JP'],
+          datetimeFormats: {
+            'en-US': {
+              short: {
+                year: 'numeric',
+                month: '2-digit',
+                day: '2-digit',
+                hour: '2-digit',
+                minute: '2-digit',
+                timeZone: 'America/New_York'
+              }
+            },
+            'ja-JP': {
+              long: {
+                year: 'numeric',
+                month: '2-digit',
+                day: '2-digit',
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit',
+                timeZone: 'Asia/Tokyo'
+              },
+              short: {
+                year: 'numeric',
+                month: '2-digit',
+                day: '2-digit',
+                hour: '2-digit',
+                minute: '2-digit',
+                timeZone: 'Asia/Tokyo'
+              }
+            }
+          }
+        })
+
+        const App = defineComponent({
+          setup() {
+            const { d } = useI18n()
+            const dt = new Date(Date.UTC(2012, 11, 20, 3, 0, 0))
+            return { d, dt }
+          },
+          template: `<p>{{ d(dt, 'long') }}</p>`
+        })
+        const { html } = await mount(App, i18n)
+        expect(html()).toEqual('<p>2012/12/20 12:00:00</p>')
+      })
+    })
+
+    describe('n', () => {
+      test('number formatting', async () => {
+        const i18n = createI18n({
+          allowComposition: true,
+          locale: 'en-US',
+          fallbackLocale: ['ja-JP'],
+          numberFormats: {
+            'en-US': {
+              currency: {
+                style: 'currency',
+                currency: 'USD',
+                currencyDisplay: 'symbol'
+              },
+              decimal: {
+                style: 'decimal',
+                useGrouping: false
+              }
+            },
+            'ja-JP': {
+              currency: {
+                style: 'currency',
+                currency: 'JPY' /*, currencyDisplay: 'symbol'*/
+              },
+              numeric: {
+                style: 'decimal',
+                useGrouping: false
+              },
+              percent: {
+                style: 'percent',
+                useGrouping: false
+              }
+            }
+          }
+        })
+
+        const App = defineComponent({
+          setup() {
+            const { n } = useI18n()
+            const value = 0.99
+            return { n, value }
+          },
+          template: `<p>{{ n(value, { key: 'percent' }) }}</p>`
+        })
+        const { html } = await mount(App, i18n)
+        expect(html()).toEqual('<p>99%</p>')
+      })
+    })
   })
 
   test(errorMessages[I18nErrorCodes.NOT_INSLALLED_WITH_PROVIDE], async () => {

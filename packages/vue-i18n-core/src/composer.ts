@@ -106,6 +106,8 @@ import type {
 import type { VueDevToolsEmitter } from '@intlify/vue-devtools'
 import { isLegacyVueI18n } from './utils'
 
+export { DEFAULT_LOCALE } from '@intlify/core-base'
+
 // extend VNode interface
 export const DEVTOOLS_META = '__INTLIFY_META__'
 

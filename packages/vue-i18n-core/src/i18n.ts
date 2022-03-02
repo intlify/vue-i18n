@@ -5,18 +5,26 @@ import {
   onUnmounted,
   InjectionKey,
   getCurrentInstance,
-  isRef
+  shallowRef,
+  isRef,
+  ref,
+  computed
 } from 'vue'
 import {
   inBrowser,
   isEmptyObject,
   isBoolean,
+  isString,
+  isArray,
+  isPlainObject,
+  isRegExp,
+  isFunction,
   warn,
   makeSymbol,
   createEmitter,
   assign
 } from '@intlify/shared'
-import { createComposer } from './composer'
+import { createComposer, DEFAULT_LOCALE } from './composer'
 import { createVueI18n } from './legacy'
 import { I18nWarnCodes, getWarnMessage } from './warnings'
 import { I18nErrorCodes, createI18nError } from './errors'
@@ -35,15 +43,28 @@ import { enableDevTools, addTimelineEvent } from './devtools'
 import {
   isLegacyVueI18n,
   getComponentOptions,
+  getLocaleMessages,
   adjustI18nResources
 } from './utils'
 
 import type { ComponentInternalInstance, App } from 'vue'
 import type {
   Locale,
+  Path,
   FallbackLocale,
   SchemaParams,
-  LocaleParams
+  LocaleMessages,
+  LocaleMessage,
+  LocaleMessageValue,
+  LocaleMessageDictionary,
+  PostTranslationHandler,
+  DateTimeFormats as DateTimeFormatsType,
+  NumberFormats as NumberFormatsType,
+  DateTimeFormat,
+  NumberFormat,
+  LocaleParams,
+  LinkedModifiers,
+  PluralizationRules
 } from '@intlify/core-base'
 import type {
   VueDevToolsEmitter,
@@ -51,6 +72,7 @@ import type {
 } from '@intlify/vue-devtools'
 import type {
   VueMessageType,
+  MissingHandler,
   DefaultLocaleMessageSchema,
   DefaultDateTimeFormatSchema,
   DefaultNumberFormatSchema,
@@ -137,6 +159,18 @@ export interface I18nAdditionalOptions {
    * @defaultValue `false`
    */
   globalInjection?: boolean
+  /**
+   * Whether to allow the Composition API to be used in Legacy API mode.
+   *
+   * @remarks
+   * If this option is enabled, you can use {@link useI18n} in Legacy API mode. This option is supported to support the migration from Legacy API mode to Composition API mode.
+   *
+   * @VueI18nWarning Note that the Composition API made available with this option doesn't work on SSR.
+   * @VueI18nSee [Composition API](../guide/advanced/composition)
+   *
+   * @defaultValue `false`
+   */
+  allowComposition?: boolean
 }
 
 /**
@@ -186,6 +220,13 @@ export interface I18n<
     : Legacy extends false
       ? Composer<Messages, DateTimeFormats, NumberFormats, OptionLocale>
       : unknown
+  /**
+   * The property whether or not the Composition API is available
+   *
+   * @remarks
+   * If you specified `allowComposition: true` option in Legacy API mode, return `true`, else `false`. else you use the Composition API mode, this property will always return `true`.
+   */
+  readonly allowComposition: boolean
   /**
    * Install entry point
    *
@@ -446,6 +487,12 @@ export function createI18n(options: any = {}, VueI18nLegacy?: any): any {
     : isBoolean(options.globalInjection)
       ? options.globalInjection
       : true
+  // prettier-ignore
+  const __allowComposition = __LITE__
+    ? true
+    :  __FEATURE_LEGACY_API__ && __legacyMode
+      ? !!options.allowComposition
+      : true
   const __instances = new Map<ComponentInternalInstance, VueI18n | Composer>()
   const __global = createGlobal(options, __legacyMode, VueI18nLegacy)
   const symbol: InjectionKey<I18n> | string = /* #__PURE__*/ makeSymbol(
@@ -474,6 +521,10 @@ export function createI18n(options: any = {}, VueI18nLegacy?: any): any {
         return !__LITE__ && __FEATURE_LEGACY_API__ && __legacyMode
           ? 'legacy'
           : 'composition'
+      },
+      // allowComposition
+      get allowComposition(): boolean {
+        return __allowComposition
       },
       // install plugin
       async install(app: App, ...options: unknown[]): Promise<void> {
@@ -557,6 +608,11 @@ export function createI18n(options: any = {}, VueI18nLegacy?: any): any {
     Object.defineProperty(i18n, 'mode', {
       get() {
         return __legacyMode ? 'legacy' : 'composition'
+      }
+    })
+    Object.defineProperty(i18n, 'allowComposition', {
+      get() {
+        return __allowComposition
       }
     })
     Object.defineProperty(i18n, '__instances', {
@@ -708,6 +764,14 @@ export function useI18n<
   const componentOptions = getComponentOptions(instance)
   const scope = getScope(options, componentOptions)
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  if (i18n.mode === 'legacy' && !(options as any).__useComponent) {
+    if (!i18n.allowComposition) {
+      throw createI18nError(I18nErrorCodes.NOT_AVAILABLE_IN_LEGACY_MODE)
+    }
+    return useI18nForLegacy(instance, scope, global, options)
+  }
+
   if (scope === 'global') {
     adjustI18nResources(global, options, componentOptions)
     return global as Composer<
@@ -733,11 +797,6 @@ export function useI18n<
       NumberFormats,
       OptionLocale
     >
-  }
-
-  // scope 'local' case
-  if (i18n.mode === 'legacy') {
-    throw createI18nError(I18nErrorCodes.NOT_AVAILABLE_IN_LEGACY_MODE)
   }
 
   const i18nInternal = i18n as unknown as I18nInternal
@@ -996,6 +1055,445 @@ function setupLifeCycle(
       i18n.__deleteInstance(target)
     }, target)
   }
+}
+
+function useI18nForLegacy(
+  instance: ComponentInternalInstance,
+  scope: I18nScope,
+  root: Composer,
+  options: any = {} // eslint-disable-line @typescript-eslint/no-explicit-any
+): Composer {
+  type Message = VueMessageType
+
+  const isLocale = scope === 'local'
+  const _composer = shallowRef<Composer | null>(null)
+
+  if (isLocale && instance.proxy && !instance.proxy.$options.i18n) {
+    throw createI18nError(
+      I18nErrorCodes.MUST_DEFINE_I18N_OPTION_IN_ALLOW_COMPOSITION
+    )
+  }
+
+  const _inheritLocale = isBoolean(options.inheritLocale)
+    ? options.inheritLocale
+    : true
+
+  const _locale = ref<Locale>(
+    // prettier-ignore
+    isLocale && _inheritLocale
+    ? root.locale.value
+    : isString(options.locale)
+      ? options.locale
+      : DEFAULT_LOCALE
+  )
+
+  const _fallbackLocale = ref<FallbackLocale>(
+    // prettier-ignore
+    isLocale && _inheritLocale
+      ? root.fallbackLocale.value
+      : isString(options.fallbackLocale) ||
+        isArray(options.fallbackLocale) ||
+        isPlainObject(options.fallbackLocale) ||
+        options.fallbackLocale === false
+        ? options.fallbackLocale
+        : _locale.value
+  )
+
+  const _messages = ref<LocaleMessages<LocaleMessage<Message>>>(
+    getLocaleMessages<LocaleMessages<LocaleMessage<Message>>>(
+      _locale.value as Locale,
+      options
+    )
+  )
+
+  // prettier-ignore
+  const _datetimeFormats = ref<DateTimeFormatsType>(
+    isPlainObject(options.datetimeFormats)
+      ? options.datetimeFormats
+      : { [_locale.value]: {} }
+  )
+
+  // prettier-ignore
+  const _numberFormats = ref<NumberFormatsType>(
+    isPlainObject(options.numberFormats)
+      ? options.numberFormats
+      : { [_locale.value]: {} }
+  )
+
+  // prettier-ignore
+  const _missingWarn = isLocale
+    ? root.missingWarn
+    : isBoolean(options.missingWarn) || isRegExp(options.missingWarn)
+      ? options.missingWarn
+      : true
+
+  // prettier-ignore
+  const _fallbackWarn = isLocale
+    ? root.fallbackWarn
+    : isBoolean(options.fallbackWarn) || isRegExp(options.fallbackWarn)
+      ? options.fallbackWarn
+      : true
+
+  // prettier-ignore
+  const _fallbackRoot = isLocale
+    ? root.fallbackRoot
+    : isBoolean(options.fallbackRoot)
+      ? options.fallbackRoot
+      : true
+
+  // configure fall back to root
+  const _fallbackFormat = !!options.fallbackFormat
+
+  // runtime missing
+  const _missing = isFunction(options.missing) ? options.missing : null
+
+  // postTranslation handler
+  const _postTranslation = isFunction(options.postTranslation)
+    ? options.postTranslation
+    : null
+
+  // prettier-ignore
+  const _warnHtmlMessage = isLocale
+    ? root.warnHtmlMessage
+    : isBoolean(options.warnHtmlMessage)
+      ? options.warnHtmlMessage
+      : true
+
+  const _escapeParameter = !!options.escapeParameter
+
+  // prettier-ignore
+  const _modifiers = isLocale
+    ? root.modifiers
+    : isPlainObject(options.modifiers)
+      ? options.modifiers
+      : {}
+
+  // pluralRules
+  const _pluralRules = options.pluralRules || (isLocale && root.pluralRules)
+
+  // track reactivity
+  function trackReactivityValues() {
+    return [
+      _locale.value,
+      _fallbackLocale.value,
+      _messages.value,
+      _datetimeFormats.value,
+      _numberFormats.value
+    ]
+  }
+
+  // locale
+  const locale = computed({
+    get: () => {
+      return _composer.value ? _composer.value.locale.value : _locale.value
+    },
+    set: val => {
+      if (_composer.value) {
+        _composer.value.locale.value = val
+      }
+      _locale.value = val
+    }
+  })
+
+  // fallbackLocale
+  const fallbackLocale = computed({
+    get: () => {
+      return _composer.value
+        ? _composer.value.fallbackLocale.value
+        : _fallbackLocale.value
+    },
+    set: val => {
+      if (_composer.value) {
+        _composer.value.fallbackLocale.value = val
+      }
+      _fallbackLocale.value = val
+    }
+  })
+
+  // messages
+  const messages = computed<LocaleMessages<LocaleMessage<Message>, Message>>(
+    () => {
+      if (_composer.value) {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        return _composer.value.messages.value as any
+      } else {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        return _messages.value as any
+      }
+    }
+  )
+
+  const datetimeFormats = computed<DateTimeFormatsType>(
+    () => _datetimeFormats.value
+  )
+
+  const numberFormats = computed<NumberFormatsType>(() => _numberFormats.value)
+
+  function getPostTranslationHandler(): PostTranslationHandler<Message> | null {
+    return _composer.value
+      ? _composer.value.getPostTranslationHandler()
+      : _postTranslation
+  }
+
+  function setPostTranslationHandler(
+    handler: PostTranslationHandler<Message> | null
+  ): void {
+    if (_composer.value) {
+      _composer.value.setPostTranslationHandler(handler)
+    }
+  }
+
+  function getMissingHandler(): MissingHandler | null {
+    return _composer.value ? _composer.value.getMissingHandler() : _missing
+  }
+
+  function setMissingHandler(handler: MissingHandler | null): void {
+    if (_composer.value) {
+      _composer.value.setMissingHandler(handler)
+    }
+  }
+
+  function warpWithDeps<R>(fn: () => unknown) {
+    trackReactivityValues()
+    return fn() as R
+  }
+
+  function t(...args: unknown[]): string {
+    return _composer.value
+      ? warpWithDeps<string>(
+          () => Reflect.apply(_composer.value!.t, null, [...args]) as string
+        )
+      : warpWithDeps<string>(() => '')
+  }
+
+  function rt(...args: unknown[]): string {
+    return _composer.value
+      ? Reflect.apply(_composer.value.rt, null, [...args])
+      : ''
+  }
+
+  function d(...args: unknown[]): string {
+    return _composer.value
+      ? warpWithDeps<string>(
+          () => Reflect.apply(_composer.value!.d, null, [...args]) as string
+        )
+      : warpWithDeps<string>(() => '')
+  }
+
+  function n(...args: unknown[]): string {
+    return _composer.value
+      ? warpWithDeps<string>(
+          () => Reflect.apply(_composer.value!.n, null, [...args]) as string
+        )
+      : warpWithDeps<string>(() => '')
+  }
+
+  function tm(key: Path): LocaleMessageValue<Message> | {} {
+    return _composer.value ? _composer.value.tm(key) : {}
+  }
+
+  function te(key: Path, locale?: Locale): boolean {
+    return _composer.value ? _composer.value.te(key, locale) : false
+  }
+
+  function getLocaleMessage(locale: Locale): LocaleMessage<Message> {
+    return _composer.value ? _composer.value.getLocaleMessage(locale) : {}
+  }
+
+  function setLocaleMessage(locale: Locale, message: LocaleMessage<Message>) {
+    if (_composer.value) {
+      _composer.value.setLocaleMessage(locale, message)
+      _messages.value[locale] = message
+    }
+  }
+
+  function mergeLocaleMessage(
+    locale: Locale,
+    message: LocaleMessageDictionary<Message>
+  ): void {
+    if (_composer.value) {
+      _composer.value.mergeLocaleMessage(locale, message)
+    }
+  }
+
+  function getDateTimeFormat(locale: Locale): DateTimeFormat {
+    return _composer.value ? _composer.value.getDateTimeFormat(locale) : {}
+  }
+
+  function setDateTimeFormat(locale: Locale, format: DateTimeFormat): void {
+    if (_composer.value) {
+      _composer.value.setDateTimeFormat(locale, format)
+      _datetimeFormats.value[locale] = format
+    }
+  }
+
+  function mergeDateTimeFormat(locale: Locale, format: DateTimeFormat): void {
+    if (_composer.value) {
+      _composer.value.mergeDateTimeFormat(locale, format)
+    }
+  }
+
+  function getNumberFormat(locale: Locale): NumberFormat {
+    return _composer.value ? _composer.value.getNumberFormat(locale) : {}
+  }
+
+  function setNumberFormat(locale: Locale, format: NumberFormat): void {
+    if (_composer.value) {
+      _composer.value.setNumberFormat(locale, format)
+      _numberFormats.value[locale] = format
+    }
+  }
+
+  function mergeNumberFormat(locale: Locale, format: NumberFormat): void {
+    if (_composer.value) {
+      _composer.value.mergeNumberFormat(locale, format)
+    }
+  }
+
+  const wrapper = {
+    get id(): number {
+      return _composer.value ? _composer.value.id : -1
+    },
+    locale,
+    fallbackLocale,
+    messages,
+    datetimeFormats,
+    numberFormats,
+    get inheritLocale(): boolean {
+      return _composer.value ? _composer.value.inheritLocale : _inheritLocale
+    },
+    set inheritLocale(val: boolean) {
+      if (_composer.value) {
+        _composer.value.inheritLocale = val
+      }
+    },
+    get availableLocales(): Locale[] {
+      return _composer.value
+        ? _composer.value.availableLocales
+        : Object.keys(_messages.value)
+    },
+    get modifiers(): LinkedModifiers {
+      return (
+        _composer.value ? _composer.value.modifiers : _modifiers
+      ) as LinkedModifiers
+    },
+    get pluralRules(): PluralizationRules {
+      return (
+        _composer.value ? _composer.value.pluralRules : _pluralRules
+      ) as PluralizationRules
+    },
+    get isGlobal(): boolean {
+      return _composer.value ? _composer.value.isGlobal : false
+    },
+    get missingWarn(): boolean | RegExp {
+      return _composer.value ? _composer.value.missingWarn : _missingWarn
+    },
+    set missingWarn(val: boolean | RegExp) {
+      if (_composer.value) {
+        _composer.value.missingWarn = val
+      }
+    },
+    get fallbackWarn(): boolean | RegExp {
+      return _composer.value ? _composer.value.fallbackWarn : _fallbackWarn
+    },
+    set fallbackWarn(val: boolean | RegExp) {
+      if (_composer.value) {
+        _composer.value.missingWarn = val
+      }
+    },
+    get fallbackRoot(): boolean {
+      return _composer.value ? _composer.value.fallbackRoot : _fallbackRoot
+    },
+    set fallbackRoot(val: boolean) {
+      if (_composer.value) {
+        _composer.value.fallbackRoot = val
+      }
+    },
+    get fallbackFormat(): boolean {
+      return _composer.value ? _composer.value.fallbackFormat : _fallbackFormat
+    },
+    set fallbackFormat(val: boolean) {
+      if (_composer.value) {
+        _composer.value.fallbackFormat = val
+      }
+    },
+    get warnHtmlMessage(): boolean {
+      return _composer.value
+        ? _composer.value.warnHtmlMessage
+        : _warnHtmlMessage
+    },
+    set warnHtmlMessage(val: boolean) {
+      if (_composer.value) {
+        _composer.value.warnHtmlMessage = val
+      }
+    },
+    get escapeParameter(): boolean {
+      return _composer.value
+        ? _composer.value.escapeParameter
+        : _escapeParameter
+    },
+    set escapeParameter(val: boolean) {
+      if (_composer.value) {
+        _composer.value.escapeParameter = val
+      }
+    },
+    t,
+    getPostTranslationHandler,
+    setPostTranslationHandler,
+    getMissingHandler,
+    setMissingHandler,
+    rt,
+    d,
+    n,
+    tm,
+    te,
+    getLocaleMessage,
+    setLocaleMessage,
+    mergeLocaleMessage,
+    getDateTimeFormat,
+    setDateTimeFormat,
+    mergeDateTimeFormat,
+    getNumberFormat,
+    setNumberFormat,
+    mergeNumberFormat
+  }
+
+  function sync(composer: Composer): void {
+    composer.locale.value = _locale.value
+    composer.fallbackLocale.value = _fallbackLocale.value
+    Object.keys(_messages.value).forEach(locale => {
+      composer.mergeLocaleMessage(locale, _messages.value[locale])
+    })
+    Object.keys(_datetimeFormats.value).forEach(locale => {
+      composer.mergeDateTimeFormat(locale, _datetimeFormats.value[locale])
+    })
+    Object.keys(_numberFormats.value).forEach(locale => {
+      composer.mergeNumberFormat(locale, _numberFormats.value[locale])
+    })
+    composer.escapeParameter = _escapeParameter
+    composer.fallbackFormat = _fallbackFormat
+    composer.fallbackRoot = _fallbackRoot
+    composer.fallbackWarn = _fallbackWarn
+    composer.missingWarn = _missingWarn
+    composer.warnHtmlMessage = _warnHtmlMessage
+  }
+
+  onBeforeMount(() => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const composer = (_composer.value = (instance.proxy?.$i18n as any)
+      .__composer as Composer)
+    if (scope === 'global') {
+      _locale.value = composer.locale.value
+      _fallbackLocale.value = composer.fallbackLocale.value
+      _messages.value = composer.messages.value
+      _datetimeFormats.value = composer.datetimeFormats.value
+      _numberFormats.value = composer.numberFormats.value
+    } else if (isLocale) {
+      sync(composer)
+    }
+  })
+
+  return wrapper as unknown as Composer
 }
 
 /**
