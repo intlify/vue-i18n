@@ -45,10 +45,6 @@ export function defineMixin(
       if (!instance) {
         throw createI18nError(I18nErrorCodes.UNEXPECTED_ERROR)
       }
-      // const $ = instance.proxy?.$
-      // console.log('beforeCreate proxy', instance.proxy)
-      // console.log('beforeCreate type', $?.type)
-      // console.log('beforeCreate $options', instance.proxy?.$options)
 
       const options = this.$options
       if (options.i18n) {
