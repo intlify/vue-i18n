@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Allow Composition API on legacy example</title>
+    <script src="../../node_modules/vue/dist/vue.global.js"></script>
+    <script src="../../packages/vue-i18n/dist/vue-i18n.global.js"></script>
+  </head>
+  <body>
+    <div id="app">
+      <h1>Root</h1>
+      <form>
+        <label for="locale-select">{{ $t('message.language') }}</label>
+        <select id="locale-select" v-model="$i18n.locale">
+          <option value="en">en</option>
+          <option value="ja">ja</option>
+        </select>
+      </form>
+      <p>{{ $t("message.hello") }}</p>
+      <Child />
+    </div>
+    <script>
+      const { createApp } = Vue
+      const { createI18n, useI18n } = VueI18n
+
+      const Child = {
+        template: `
+          <div class="child">
+            <h1>Child</h1>
+            <form>
+              <label>{{ t('message.language') }}</label>
+              <select v-model="locale">
+                <option value="en">en</option>
+                <option value="ja">ja</option>
+              </select>
+            </form>
+            <p>{{ t('message.hi') }}</p>
+          </div>
+        `,
+        setup() {
+          const { t, locale } = useI18n({
+            useScope: 'local',
+            locale: 'en',
+            messages: {
+              en: {
+                message: {
+                  language: 'Language',
+                  hello: 'hello earth!',
+                  hi: 'Hi there!'
+                }
+              },
+              ja: {
+                message: {
+                  language: '言語',
+                  hello: 'こんにちは、地球！',
+                  hi: 'やあ！'
+                }
+              }
+            }
+          })
+
+          return { t, locale }
+        },
+        // you need to define `i18n` option with `setup`
+        i18n: {}
+      }
+
+      const i18n = createI18n({
+        allowComposition: true,
+        locale: 'ja',
+        messages: {
+          en: {
+            message: {
+              language: 'Language',
+              hello: 'hello world!',
+              hi: 'Hi !'
+            }
+          },
+          ja: {
+            message: {
+              language: '言語',
+              hello: 'こんにちは、世界！',
+              hi: 'こんにちは！'
+            }
+          }
+        }
+      })
+
+      const app = createApp({
+        components: { Child }
+      })
+      app.use(i18n)
+      app.mount('#app')
+    </script>
+  </body>
+</html>
