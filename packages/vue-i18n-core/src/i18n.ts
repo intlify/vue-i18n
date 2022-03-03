@@ -764,12 +764,14 @@ export function useI18n<
   const componentOptions = getComponentOptions(instance)
   const scope = getScope(options, componentOptions)
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  if (i18n.mode === 'legacy' && !(options as any).__useComponent) {
-    if (!i18n.allowComposition) {
-      throw createI18nError(I18nErrorCodes.NOT_AVAILABLE_IN_LEGACY_MODE)
+  if (!__LITE__ && __FEATURE_LEGACY_API__) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    if (i18n.mode === 'legacy' && !(options as any).__useComponent) {
+      if (!i18n.allowComposition) {
+        throw createI18nError(I18nErrorCodes.NOT_AVAILABLE_IN_LEGACY_MODE)
+      }
+      return useI18nForLegacy(instance, scope, global, options)
     }
-    return useI18nForLegacy(instance, scope, global, options)
   }
 
   if (scope === 'global') {
