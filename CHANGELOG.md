@@ -1,4 +1,27 @@
 
+## v9.2.0-beta.31 (2022-03-04)
+
+#### :star: Features
+* `vue-i18n-core`
+  * [#940](https://github.com/intlify/vue-i18n-next/pull/940) feat: Support `useI18n` for Legacy API mode ([@kazupon](https://github.com/kazupon))
+
+#### :bug: Bug Fixes
+* `core-base`, `vue-i18n-core`
+  * [#945](https://github.com/intlify/vue-i18n-next/pull/945) fix: linked message fallbacking ([@kazupon](https://github.com/kazupon))
+
+#### :zap: Improvement Features
+* `vue-i18n-core`
+  * [#929](https://github.com/intlify/vue-i18n-next/pull/929) improvement: tweak vue-i18n for SSR ([@kazupon](https://github.com/kazupon))
+  * [#929](https://github.com/intlify/vue-i18n-next/pull/929) improvement: tweak vue-i18n for SSR ([@kazupon](https://github.com/kazupon))
+
+#### :pencil: Documentation
+* [#923](https://github.com/intlify/vue-i18n-next/pull/923) Update optimization.md ([@armingjazi](https://github.com/armingjazi))
+
+#### Committers: 2
+- armin g jazi ([@armingjazi](https://github.com/armingjazi))
+- kazuya kawaguchi ([@kazupon](https://github.com/kazupon))
+
+
 ## v9.2.0-beta.30 (2022-01-27)
 
 #### :zap: Improvement Features
