@@ -169,7 +169,7 @@ export interface CoreOptions<
   messageCompiler?: MessageCompiler<Message>
   messageResolver?: MessageResolver
   localeFallbacker?: LocaleFallbacker
-  fallbackContext?: CoreTranslationContext<MessagesLocales, Message>
+  fallbackContext?: CoreContext<Message, MessagesLocales, DateTimeFormatsLocales, NumberFormatsLocales>
   onWarn?: (msg: string, err?: Error) => void
 }
 
