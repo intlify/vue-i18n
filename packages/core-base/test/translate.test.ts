@@ -792,4 +792,22 @@ describe('edge cases', () => {
   })
 })
 
+test('fallback context', () => {
+  const parent = context({
+    locale: 'en',
+    messages: {
+      en: { hello: 'hello man!', hi: 'hi' }
+    }
+  })
+
+  const ctx = context({
+    locale: 'en',
+    messages: {
+      en: { hi: 'hi! @:hello' }
+    }
+  })
+  ctx.fallbackContext = parent
+
+  expect(translate(ctx, 'hi')).toEqual('hi! hello man!')
+})
 /* eslint-enable @typescript-eslint/no-empty-function, @typescript-eslint/no-explicit-any */

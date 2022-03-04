@@ -819,10 +819,32 @@ function getMessageContextOptions<Messages, Message = string>(
   message: LocaleMessageValue<Message>,
   options: TranslateOptions
 ): MessageContextOptions<Message> {
-  const { modifiers, pluralRules, messageResolver: resolveValue } = context
+  const {
+    modifiers,
+    pluralRules,
+    messageResolver: resolveValue,
+    fallbackLocale,
+    fallbackWarn,
+    missingWarn,
+    fallbackContext
+  } = context
 
   const resolveMessage = (key: string): MessageFunction<Message> => {
-    const val = resolveValue(message, key)
+    let val = resolveValue(message, key)
+
+    // fallback to root context
+    if (val == null && fallbackContext) {
+      const [, , message] = resolveMessageFormat(
+        fallbackContext,
+        key,
+        locale,
+        fallbackLocale as FallbackLocale,
+        fallbackWarn,
+        missingWarn
+      )
+      val = resolveValue(message, key)
+    }
+
     if (isString(val)) {
       let occurred = false
       const errorDetector = () => {

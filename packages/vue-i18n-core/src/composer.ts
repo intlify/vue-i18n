@@ -31,6 +31,8 @@ import {
   NOT_REOSLVED,
   MessageFunction,
   setAdditionalMeta,
+  getFallbackContext,
+  setFallbackContext,
   DEFAULT_LOCALE
 } from '@intlify/core-base'
 import { VueDevToolsTimelineEvents } from '@intlify/vue-devtools'
@@ -1913,6 +1915,8 @@ export function createComposer(options: any = {}, VueI18nLegacy?: any): any {
   let _context: CoreContext
 
   function getCoreContext(): CoreContext {
+    _isGlobal && setFallbackContext(null)
+
     const ctxOptions = {
       version: VERSION,
       locale: _locale.value,
@@ -1931,6 +1935,7 @@ export function createComposer(options: any = {}, VueI18nLegacy?: any): any {
       messageResolver: options.messageResolver,
       __meta: { framework: 'vue' }
     }
+
     if (!__LITE__) {
       ;(ctxOptions as any).datetimeFormats = _datetimeFormats.value
       ;(ctxOptions as any).numberFormats = _numberFormats.value
@@ -1946,7 +1951,11 @@ export function createComposer(options: any = {}, VueI18nLegacy?: any): any {
         ? (_context as unknown as CoreInternalContext).__v_emitter
         : undefined
     }
-    return createCoreContext(ctxOptions as any)
+
+    const ctx = createCoreContext(ctxOptions as any)
+    _isGlobal && setFallbackContext(ctx)
+
+    return ctx
   }
 
   _context = getCoreContext()
@@ -2057,9 +2066,17 @@ export function createComposer(options: any = {}, VueI18nLegacy?: any): any {
     if (__DEV__ || __FEATURE_PROD_INTLIFY_DEVTOOLS__) {
       try {
         setAdditionalMeta(getMetaInfo())
+        if (!_isGlobal) {
+          _context.fallbackContext = __root
+            ? (getFallbackContext() as any)
+            : undefined
+        }
         ret = fn(_context)
       } finally {
         setAdditionalMeta(null)
+        if (!_isGlobal) {
+          _context.fallbackContext = undefined
+        }
       }
     } else {
       ret = fn(_context)

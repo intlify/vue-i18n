@@ -169,6 +169,7 @@ export interface CoreOptions<
   messageCompiler?: MessageCompiler<Message>
   messageResolver?: MessageResolver
   localeFallbacker?: LocaleFallbacker
+  fallbackContext?: CoreTranslationContext<MessagesLocales, Message>
   onWarn?: (msg: string, err?: Error) => void
 }
 
@@ -228,7 +229,16 @@ export type CoreContext<
 > = CoreCommonContext<Message, Locales> &
   CoreTranslationContext<NonNullable<Messages>, Message> &
   CoreDateTimeContext<NonNullable<DateTimeFormats>> &
-  CoreNumberContext<NonNullable<NumberFormats>>
+  CoreNumberContext<NonNullable<NumberFormats>> & {
+    fallbackContext?: CoreContext<
+      Message,
+      Messages,
+      DateTimeFormats,
+      NumberFormats,
+      ResourceLocales,
+      Locales
+    >
+  }
 
 export interface CoreInternalContext {
   __datetimeFormatters: Map<string, Intl.DateTimeFormat>
@@ -311,6 +321,14 @@ export const setAdditionalMeta = /* #__PURE__*/ (
 
 export const getAdditionalMeta = /* #__PURE__*/ (): MetaInfo | null =>
   _additionalMeta
+
+let _fallbackContext: CoreContext | null = null
+
+export const setFallbackContext = (context: CoreContext | null): void => {
+  _fallbackContext = context
+}
+
+export const getFallbackContext = (): CoreContext | null => _fallbackContext
 
 // ID for CoreContext
 let _cid = 0
@@ -411,6 +429,9 @@ export function createCoreContext<Message = string>(options: any = {}): any {
   const localeFallbacker = isFunction(options.localeFallbacker)
     ? options.localeFallbacker
     : _fallbacker || fallbackWithSimple
+  const fallbackContext = isObject(options.fallbackContext)
+    ? options.fallbackContext
+    : undefined
   const onWarn = isFunction(options.onWarn) ? options.onWarn : warn
 
   // setup internal options
@@ -449,6 +470,7 @@ export function createCoreContext<Message = string>(options: any = {}): any {
     messageCompiler,
     messageResolver,
     localeFallbacker,
+    fallbackContext,
     onWarn,
     __meta
   }
