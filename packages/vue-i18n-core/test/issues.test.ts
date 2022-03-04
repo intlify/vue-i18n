@@ -439,3 +439,34 @@ test('issue #854', async () => {
     `Fall back to translate 'hello' with root locale.`
   )
 })
+
+test('issue #933', async () => {
+  const i18n = createI18n({
+    legacy: false,
+    locale: 'en',
+    fallbackLocale: 'en',
+    messages: {
+      en: {
+        hello: 'hello man!'
+      }
+    }
+  })
+
+  const App = defineComponent({
+    setup() {
+      const { t } = useI18n({
+        messages: {
+          en: {
+            hi: 'hi! @:hello - @:local',
+            local: 'local!'
+          }
+        }
+      })
+      return { t }
+    },
+    template: `<div>{{ t('hi') }}</div>`
+  })
+  const wrapper = await mount(App, i18n)
+
+  expect(wrapper.html()).toEqual('<div>hi! hello man! - local!</div>')
+})

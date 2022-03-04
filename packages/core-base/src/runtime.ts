@@ -178,7 +178,6 @@ export function createMessageContext<T = string, N = {}>(
   isNumber(options.pluralIndex) && normalizeNamed(pluralIndex, _named)
   const named = (key: string): unknown => _named[key]
 
-  // TODO: need to design resolve message function?
   function message(key: Path): MessageFunction<T> {
     // prettier-ignore
     const msg = isFunction(options.messages)
@@ -209,6 +208,11 @@ export function createMessageContext<T = string, N = {}>(
       ? options.processor.interpolate
       : (DEFAULT_INTERPOLATE as unknown as MessageInterpolate<T>)
 
+  const linked = (key: Path, modifier?: string): MessageType<T> => {
+    const msg = message(key)(ctx)
+    return isString(modifier) ? _modifier(modifier)(msg as T) : msg
+  }
+
   const type =
     isPlainObject(options.processor) && isString(options.processor.type)
       ? options.processor.type
@@ -218,11 +222,7 @@ export function createMessageContext<T = string, N = {}>(
     [HelperNameMap.LIST]: list,
     [HelperNameMap.NAMED]: named,
     [HelperNameMap.PLURAL]: plural,
-    [HelperNameMap.LINKED]: (key: Path, modifier?: string): MessageType<T> => {
-      // TODO: should check `key`
-      const msg = message(key)(ctx)
-      return isString(modifier) ? _modifier(modifier)(msg as T) : msg
-    },
+    [HelperNameMap.LINKED]: linked,
     [HelperNameMap.MESSAGE]: message,
     [HelperNameMap.TYPE]: type,
     [HelperNameMap.INTERPOLATE]: interpolate,
