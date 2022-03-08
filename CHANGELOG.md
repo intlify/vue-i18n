@@ -1,4 +1,14 @@
 
+## v9.2.0-beta.32 (2022-03-08)
+
+#### :bug: Bug Fixes
+* `vue-i18n-core`
+  * [#954](https://github.com/intlify/vue-i18n-next/pull/954) fix: nullish assignment ([@kazupon](https://github.com/kazupon))
+
+#### Committers: 1
+- kazuya kawaguchi ([@kazupon](https://github.com/kazupon))
+
+
 ## v9.2.0-beta.31 (2022-03-04)
 
 #### :star: Features
