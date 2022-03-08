@@ -1482,7 +1482,7 @@ function useI18nForLegacy(
 
   onBeforeMount(() => {
     if (instance.proxy == null || instance.proxy.$i18n == null) {
-      return
+      throw createI18nError(I18nErrorCodes.NOT_AVAILABLE_COMPOSITION_IN_LEGACY)
     }
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const composer = (_composer.value = (instance.proxy.$i18n as any)
