@@ -1481,8 +1481,11 @@ function useI18nForLegacy(
   }
 
   onBeforeMount(() => {
+    if (instance.proxy == null || instance.proxy.$i18n == null) {
+      return
+    }
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const composer = (_composer.value = (instance.proxy?.$i18n as any)
+    const composer = (_composer.value = (instance.proxy.$i18n as any)
       .__composer as Composer)
     if (scope === 'global') {
       _locale.value = composer.locale.value
