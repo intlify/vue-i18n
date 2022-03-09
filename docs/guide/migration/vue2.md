@@ -1,6 +1,4 @@
-# Migration ways
-
-
+# Migration from Vue 2
 
 ## `vue-i18n-bridge`
 
@@ -41,7 +39,7 @@ Include `vue-i18n-bridge` after `vue`, `@vue/composition-api` and it will instal
 <script src="https://cdn.jsdelivr.net/npm/vue@2.6"></script>
 <script src="https://unpkg.com/vue-i18n@8/dist/vue-i18n.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@vue/composition-api@1.2"></script>
-<script src="https://unpkg.com/vue-i18n-bridge@9.2.0-beta.30/dist/vue-i18n-bridge.global.prod.js"></script>
+<script src="https://unpkg.com/vue-i18n-bridge@9.2.0-beta.11/dist/vue-i18n-bridge.global.prod.js"></script>
 ```
 
 ### Usage
@@ -121,6 +119,38 @@ const app = new Vue({ i18n })
 app.$mount('#app')
 ```
 
+for TypeScript:
+```ts
+import Vue from 'vue'
+import VueCompositionAPI from '@vue/composition-api'
+import { createI18n, useI18n, castToVueI18n } from 'vue-i18n-bridge'
+
+Vue.use(VueCompositionAPI)
+Vue.use(VueI18n, { bridge: true })
+
+// you need to cast `i18n` instance
+const i18n = castToVueI18n(createI18n({
+  locale: 'ja',
+  messages: {
+    en: {
+      message: {
+        hello: 'hello, {name}!'
+      }
+    },
+    ja: {
+      message: {
+        hello: 'こんにちは、{name}！'
+      }
+    }
+  }
+}, VueI18n))
+
+Vue.use(i18n)
+
+const app = new Vue({ i18n })
+app.$mount('#app')
+```
+
 ### Usage UMD module in browser
 
 ```js
@@ -134,9 +164,10 @@ Vue.use(VueI18n, { bridge: true })
 ### Limitations
 - In Legacy API mode, You **cannot use [new message format syntax](https://vue-i18n.intlify.dev/guide/essentials/syntax.html)** by porting from `vue-i18n-next`
   - it use possible only Composition API mode
-- In Composition API mode, If you can use the following components, these can be referenced i18n resources, **only globally**
-  - i18n functional component `<i18n>`
-  - i18n-n functional component `<i18n-n>`
+- In Legacy API mode, You **cannot use back-ported components that are following components** by porting from `vue-i18n-next`
+  - Translation components: `<i18n-t>`
+  - DateTime format components: `<i18n-d>`
+  - Number format components: `<i18n-n>`
 
 ### Explanation of Different Builds
 In the [dist/ directory of the npm package](https://unpkg.com/browse/vue-i18n-bridge@9.2.0-beta.6/dist/) you will find many different builds of `vue-i18n-bridge`. Here is an overview of which dist file should be used depending on the use-case.
@@ -199,84 +230,3 @@ About how to usage, See the [here](https://github.com/intlify/vue-i18n-composabl
 :::warning NOTICE
 `vue-i18n-composable` allows the main API of Vue I18n v8.x to work with the Composition API. All of Composition API provided in Vue I18n v9 are not available.
 :::
-
-## Migration to Composition API from Legacy API
-
-### Summary
-
-Vue I18n supports both styles which are Legacy API mode and Composiyion API mode. Legacy API mode is Options API style, and Composition API mode support Vue Composition API that is able to compose with function.
-
-Legacy API mode is almost compatible with legacy Vue I18n v8.x, making it relatively easy to migrate Vue applications to Vue 3. Vue 3 supports the Options API style, so existing Vue 2 applications will be cases where applications will be migrated to Vue 3.
-
-Vue 3 allows you to make Vue applications using a mix of the Options API style and Composition API style, but Vue I18n has not allowed for a mix of these API styles since the v9 initial release, so you can use either one or the other API style only.
-
-Developing a Vue application with a mix of Options API styles and Compostion API styles is not a desirable software development project from a maintenance standpoint. This is because the cost of maintaining such code is high. However, there are advantages to using both styles. In particular, API style migration is easier to migrate step-by-step, since it works even when implemented in both API styles.
-
-From Vue I18n v9.2, the Legacy API mode can also be used with Composition API mode.
-
-### Limitations
-
-**The Composition API in Legacy API mode does not support SSR**, So You should understand as a limited feature for migration.
-
-### How to migration
-
-#### `createI18n`
-
-You need specify `allowComposition: true` to `createI18n` otpions. the below example:
-
-```js
-import { createI18n } from 'vue-i18n'
-
-const i18n = createI18n({
-  locale: 'en',
-  allowCompositoin: true, // you need to specify that!
-  messages: {
-    en: {
-      hello: 'hello!'
-    },
-    ja: {
-      hello: 'こんにちは！'
-    }
-  }
-})
-
-console.log(i18n.allowComposition) // output is true
-```
-
-### `useI18n` in Vue Component
-#### `setup` option
-
-```vue
-<script>
-import { defineComponent } from 'vue'
-import { useI18n } from 'vue-i18n'
-
-export default defineComponent({
-  name: 'Hello',
-  setup() {
-    const { t } = useI18n() // use as global scope
-    return { t }
-  }
-})
-</script>
-
-<template>
-  <p>{{ $t('hello') }}</p>
-  <p>{{ t('hello') }}</p>
-</template>
-```
-
-#### `<script setup>`
-
-```vue
-<script setup>
-import { useI18n } from 'vue-i18n'
-
-const { t } = useI18n() // use as global scope
-</script>
-
-<template>
-  <p>{{ $t('hello') }}</p>
-  <p>{{ t('hello') }}</p>
-</template>
-```

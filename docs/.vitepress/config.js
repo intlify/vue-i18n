@@ -203,7 +203,7 @@ const config = {
               ]
             },
             {
-              text: 'Migration from Vue 2',
+              text: 'Migrations',
               collapsable: false,
               children: [
                 {
@@ -215,8 +215,12 @@ const config = {
                   link: '/guide/migration/features'
                 },
                 {
-                  text: 'Migration ways',
-                  link: '/guide/migration/ways'
+                  text: 'Migration from Vue 2',
+                  link: '/guide/migration/vue2'
+                },
+                {
+                  text: 'Migration in Vue 3',
+                  link: '/guide/migration/vue3'
                 }
               ]
             },
@@ -386,7 +390,7 @@ const config = {
               ]
             },
             {
-              text: 'Migration from Vue 2',
+              text: 'Migrations',
               collapsable: false,
               children: [
                 {
@@ -398,8 +402,12 @@ const config = {
                   link: '/ja/guide/migration/features'
                 },
                 {
-                  text: 'Migration ways',
-                  link: '/ja/guide/migration/ways'
+                  text: 'Migration from Vue 2',
+                  link: '/guide/migration/vue2'
+                },
+                {
+                  text: 'Migration in Vue 3',
+                  link: '/guide/migration/vue3'
                 }
               ]
             },
