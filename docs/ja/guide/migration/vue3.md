@@ -18,7 +18,12 @@ From Vue I18n v9.2, the Legacy API mode can also be used with Composition API mo
 
 ### Limitations
 
-**The Composition API in Legacy API mode does not support SSR**, So You should understand as a limited feature for migration.
+:::warning NOTICE
+You should understand as a limited feature for migration.
+:::
+
+- The Composition API in Legacy API mode does not support SSR
+- If you want to use correctly Vue I18n Composition API (e.g `t`) on `setup` function context directly not `<template>`, you need to call via `nextTick` callback context.
 
 ### How to migration
 
@@ -31,7 +36,7 @@ import { createI18n } from 'vue-i18n'
 
 const i18n = createI18n({
   locale: 'en',
-  allowCompositoin: true, // you need to specify that!
+  allowComposition: true, // you need to specify that!
   messages: {
     en: {
       hello: 'hello!'
