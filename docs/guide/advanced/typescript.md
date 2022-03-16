@@ -25,7 +25,7 @@ Locale messages resource:
 }
 ```
 
-Application entripoint:
+Application entrypoint:
 ```typescript
 import { createI18n } from 'vue-i18n'
 import enUS from './locales/en-US.json'
