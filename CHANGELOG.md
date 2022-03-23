@@ -1,4 +1,19 @@
 
+## v9.2.0-beta.33 (2022-03-23)
+
+#### :bug: Bug Fixes
+* `core-base`, `vue-i18n-core`
+  * [#965](https://github.com/intlify/vue-i18n-next/pull/965) fix: resolve default message value ([@kazupon](https://github.com/kazupon))
+
+#### :pencil: Documentation
+* [#959](https://github.com/intlify/vue-i18n-next/pull/959) Fix typo ([@JesseSousa](https://github.com/JesseSousa))
+* [#956](https://github.com/intlify/vue-i18n-next/pull/956) docs: add composition api migration from legacy api ([@kazupon](https://github.com/kazupon))
+
+#### Committers: 2
+- Jesse Sousa ([@JesseSousa](https://github.com/JesseSousa))
+- kazuya kawaguchi ([@kazupon](https://github.com/kazupon))
+
+
 ## v9.2.0-beta.32 (2022-03-08)
 
 #### :bug: Bug Fixes
