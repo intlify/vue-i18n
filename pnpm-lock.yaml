@@ -359,7 +359,7 @@ importers:
 
   packages/format-explorer:
     specifiers:
-      '@vitejs/plugin-vue': ^1.3.0
+      '@vitejs/plugin-vue': ^2.0.0
       '@vue/compiler-sfc': ^3.1.0
       monaco-editor: ^0.32.0
       source-map: ^0.6.1
@@ -371,7 +371,7 @@ importers:
       source-map: 0.6.1
       vue: 3.2.20
     devDependencies:
-      '@vitejs/plugin-vue': 1.10.2_vite@2.6.14
+      '@vitejs/plugin-vue': 2.2.4_vite@2.6.14+vue@3.2.20
       '@vue/compiler-sfc': 3.2.29
       vite: 2.6.14
       vue-tsc: 0.32.1_typescript@4.2.3
@@ -413,7 +413,7 @@ importers:
 
   packages/size-check-petite-vue-i18n:
     specifiers:
-      '@vitejs/plugin-vue': ^1.9.3
+      '@vitejs/plugin-vue': ^2.0.0
       '@vue/compiler-sfc': ^3.2.0
       petite-vue-i18n: workspace:*
       vite: 2.6.14
@@ -423,14 +423,14 @@ importers:
       petite-vue-i18n: link:../petite-vue-i18n
       vue: 3.2.20
     devDependencies:
-      '@vitejs/plugin-vue': 1.10.2_vite@2.6.14
+      '@vitejs/plugin-vue': 2.2.4_vite@2.6.14+vue@3.2.20
       '@vue/compiler-sfc': 3.2.29
       vite: 2.6.14
       vue-tsc: 0.32.1_typescript@4.2.3
 
   packages/size-check-vue-i18n:
     specifiers:
-      '@vitejs/plugin-vue': ^1.9.3
+      '@vitejs/plugin-vue': ^2.0.0
       '@vue/compiler-sfc': ^3.2.0
       vite: 2.6.14
       vue: 3.2.20
@@ -440,7 +440,7 @@ importers:
       vue: 3.2.20
       vue-i18n: link:../vue-i18n
     devDependencies:
-      '@vitejs/plugin-vue': 1.10.2_vite@2.6.14
+      '@vitejs/plugin-vue': 2.2.4_vite@2.6.14+vue@3.2.20
       '@vue/compiler-sfc': 3.2.29
       vite: 2.6.14
       vue-tsc: 0.32.1_typescript@4.2.3
@@ -2674,6 +2674,17 @@ packages:
       vite: ^2.5.10
     dependencies:
       vite: 2.6.14
+    dev: true
+
+  /@vitejs/plugin-vue/2.2.4_vite@2.6.14+vue@3.2.20:
+    resolution: {integrity: sha512-ev9AOlp0ljCaDkFZF3JwC/pD2N4Hh+r5srl5JHM6BKg5+99jiiK0rE/XaRs3pVm1wzyKkjUy/StBSoXX5fFzcw==}
+    engines: {node: '>=12.0.0'}
+    peerDependencies:
+      vite: ^2.5.10
+      vue: ^3.2.25
+    dependencies:
+      vite: 2.6.14
+      vue: 3.2.20
     dev: true
 
   /@volar/code-gen/0.27.24:
