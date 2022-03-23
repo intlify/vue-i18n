@@ -367,7 +367,7 @@ export function translate<
     isString(options.default) || isBoolean(options.default) // default by function option
       ? !isBoolean(options.default)
         ? options.default
-        : key
+        : (!messageCompiler ? () => key : key)
       : fallbackFormat // default by `fallbackFormat` option
         ? (!messageCompiler ? () => key : key)
         : ''
@@ -646,6 +646,13 @@ function compileMessageFormat<Messages, Message>(
     return msg
   }
 
+  if (messageCompiler == null) {
+    const msg = (() => format) as MessageFunctionInternal
+    msg.locale = targetLocale
+    msg.key = key
+    return msg
+  }
+
   // for vue-devtools timeline event
   let start: number | null = null
   let startTag: string | undefined
@@ -657,7 +664,7 @@ function compileMessageFormat<Messages, Message>(
     mark && mark(startTag)
   }
 
-  const msg = messageCompiler!(
+  const msg = messageCompiler(
     format as string,
     getCompileOptions(
       context,
