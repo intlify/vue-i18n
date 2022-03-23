@@ -470,3 +470,24 @@ test('issue #933', async () => {
 
   expect(wrapper.html()).toEqual('<div>hi! hello man! - local!</div>')
 })
+
+test('issue #964', async () => {
+  const i18n = createI18n({
+    legacy: false,
+    locale: 'ja',
+    fallbackLocale: 'en',
+    messages: {
+      en: {
+        hello: 'hello man!'
+      }
+    }
+  })
+  const { t } = i18n.global
+
+  // set no compiler
+  registerMessageCompiler(null as any) // eslint-disable-line @typescript-eslint/no-explicit-any
+
+  const defaultMsg = t('foo')
+  expect(defaultMsg).toEqual('foo')
+  expect(t('bar', defaultMsg)).toEqual('foo')
+})
