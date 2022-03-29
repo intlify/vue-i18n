@@ -117,7 +117,7 @@ Vue I18n is part of the Vue Ecosystem and Intlify Project is an open source proj
 Please consult the [Migration Guide](https://vue-i18n.intlify.dev/guide/migration/breaking.html).
 
 ## 🙋‍♂️ About support for v9 and earlier
-- v7 and v8: become LTS upon vue-i18n v9 release (latest tag) with an 12 months maintenance lifespan
+- v7 and v8: we will follow Vue v2 maintenance lifespan
 
 ## 🍭 Examples
 
