@@ -1,6 +1,6 @@
 # Composition API
 
-The introduction of `setup` and Vue’s [Composition API](https://v3.vuejs.org/guide/composition-api-introduction.html) open up new possibilities. But to be able to get the full potential out of Vue I18n, we will need to use a few new functions to replace access to `this`.
+The introduction of `setup` and Vue’s [Composition API](https://v3.vuejs.org/guide/composition-api-introduction.html) opens up new possibilities. But to be able to get the full potential out of Vue I18n, we will need to use a few new functions to replace access to `this`.
 
 We have been describing the features of Vue I18n using the Legacy API, which is compatible with vue-i18n v8.x. Now let’s take a look at Vue I18n `useI18n` for Composition API.
 
@@ -37,7 +37,7 @@ The following properties of i18n instance created by `createI18n` change its beh
 - `global` property: VueI18n instance to Composer instance
 :::
 
-You are now ready to use `useI18n`. Now you are ready to use `useI18n` in the component `setup`. The code looks like this:
+You are now ready to use `useI18n` in the component `setup`. The code looks like this:
 
 ```js{5-8}
 // ...
@@ -57,7 +57,7 @@ You must call `useI18n` at top of the `setup`.
 
 The `useI18n` returns a Composer instance. The Composer instance provides a translation API such as the `t` function, as well as properties such as `locale` and `fallbackLocale`, just like the VueI18n instance. For more information on the Composer instance, see the [API Reference](../../api/composition#composer).
 
-In the above example, there are no options for `useI18n`, so it returns a Composer instance that works with the global scope. As such, it returns a Composer instance that works with the global scope, which means that the localized message referenced by the spread `t` function here is the one specified in `createI18n`. This means that the locale message referenced by the spread `t` function here will be the locale message specified in `createI18n`.
+In the above example, there are no options for `useI18n`, so it returns a Composer instance that works with the global scope. As such, it returns a Composer instance that works with the global scope, which means that the localized message referenced by the spread `t` function here is the one specified in `createI18n`.
 
 By returning `t` as render context in the `setup`, you can use `t` in the components template:
 
@@ -77,7 +77,7 @@ The output follows:
 
 ## Message Translation
 
-In the Legacy API mode, The messages were translated using either `$t` or the VueI18n instance of `t` to translate the message.
+In the Legacy API mode, the messages were translated using either `$t` or the VueI18n instance of `t`.
 
 In the Composition API mode, the Message Format Syntax remains the same as in the Legacy API mode. You can use the Composer instance `t` to translate a message as follows:
 
