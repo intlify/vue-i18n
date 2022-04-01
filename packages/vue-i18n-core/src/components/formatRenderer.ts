@@ -41,8 +41,8 @@ type FormatOverrideOptions =
   | Intl.NumberFormatOptions
   | Intl.DateTimeFormatOptions
 
-function isVNode(target: unknown, slot: unknown): target is VNode[] {
-  return isArray(target) && !slot
+function isVNode(target: unknown): target is VNode[] {
+  return isArray(target) && !isString(target[0])
 }
 
 export function renderFormatter<
@@ -91,7 +91,7 @@ export function renderFormatter<
         const node = slot
           ? slot({ [part.type]: part.value, index, parts })
           : [part.value]
-        if (isVNode(node, slot)) {
+        if (isVNode(node)) {
           node[0].key = `${part.type}-${index}`
         }
         return node
