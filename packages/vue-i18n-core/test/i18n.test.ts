@@ -32,6 +32,7 @@ import {
 } from '@intlify/devtools-if'
 
 import type { I18n } from '../src/i18n'
+import type { App } from 'vue'
 
 const container = document.createElement('div')
 document.body.appendChild(container)
@@ -1284,5 +1285,39 @@ describe('castToVueI18n', () => {
     expect(error).toEqual(
       errorMessages[I18nErrorCodes.NOT_COMPATIBLE_LEGACY_VUE_I18N]
     )
+  })
+})
+
+describe('release global scope', () => {
+  test('call dispose', () => {
+    let i18n: I18n | undefined
+    let error = ''
+    try {
+      i18n = createI18n({})
+    } catch (e) {
+      error = e.message
+    } finally {
+      i18n!.dispose()
+    }
+    expect(error).not.toEqual(errorMessages[I18nErrorCodes.UNEXPECTED_ERROR])
+  })
+
+  test('unmount', async () => {
+    let app: App | undefined
+    let error = ''
+    try {
+      const i18n = createI18n({
+        legacy: false,
+        locale: 'ja',
+        messages: {}
+      })
+      const wrapper = await mount({ template: '<p>unmound</p>' }, i18n)
+      app = wrapper.app
+    } catch (e) {
+      error = e.message
+    } finally {
+      app!.unmount()
+    }
+    expect(error).not.toEqual(errorMessages[I18nErrorCodes.UNEXPECTED_ERROR])
   })
 })

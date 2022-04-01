@@ -8,7 +8,8 @@ import {
   shallowRef,
   isRef,
   ref,
-  computed
+  computed,
+  effectScope
 } from 'vue'
 import {
   inBrowser,
@@ -47,7 +48,7 @@ import {
   adjustI18nResources
 } from './utils'
 
-import type { ComponentInternalInstance, App } from 'vue'
+import type { ComponentInternalInstance, App, EffectScope } from 'vue'
 import type {
   Locale,
   Path,
@@ -234,6 +235,10 @@ export interface I18n<
    * @param options - An install options
    */
   install(app: App, ...options: unknown[]): void
+  /**
+   * Release global scope resource
+   */
+  dispose(): void
 }
 
 /**
@@ -492,7 +497,11 @@ export function createI18n(options: any = {}, VueI18nLegacy?: any): any {
       ? !!options.allowComposition
       : true
   const __instances = new Map<ComponentInternalInstance, VueI18n | Composer>()
-  const __global = createGlobal(options, __legacyMode, VueI18nLegacy)
+  const [globalScope, __global] = createGlobal(
+    options,
+    __legacyMode,
+    VueI18nLegacy
+  )
   const symbol: InjectionKey<I18n> | string = /* #__PURE__*/ makeSymbol(
     __DEV__ ? 'vue-i18n' : ''
   )
@@ -559,6 +568,13 @@ export function createI18n(options: any = {}, VueI18nLegacy?: any): any {
           )
         }
 
+        // release global scope
+        const unmountApp = app.unmount
+        app.unmount = () => {
+          i18n.dispose()
+          unmountApp()
+        }
+
         // setup vue-devtools plugin
         if ((__DEV__ || __FEATURE_PROD_VUE_DEVTOOLS__) && !__NODE_JS__) {
           const ret = await enableDevTools(app, i18n as _I18n)
@@ -584,6 +600,9 @@ export function createI18n(options: any = {}, VueI18nLegacy?: any): any {
       get global() {
         return __global
       },
+      dispose(): void {
+        globalScope.stop()
+      },
       // @internal
       __instances,
       // @internal
@@ -598,6 +617,7 @@ export function createI18n(options: any = {}, VueI18nLegacy?: any): any {
     // extend legacy VueI18n instance
 
     const i18n = (__global as any)[LegacyInstanceSymbol] // eslint-disable-line @typescript-eslint/no-explicit-any
+    let _localeWatcher: Function | null = null
     Object.defineProperty(i18n, 'global', {
       get() {
         return __global
@@ -631,9 +651,19 @@ export function createI18n(options: any = {}, VueI18nLegacy?: any): any {
         __FEATURE_FULL_INSTALL__ && applyBridge(Vue, ...options)
 
         if (!__legacyMode && __globalInjection) {
-          injectGlobalFieldsForBridge(Vue, i18n, __global as Composer)
+          _localeWatcher = injectGlobalFieldsForBridge(
+            Vue,
+            i18n,
+            __global as Composer
+          )
         }
         Vue.mixin(defineMixinBridge(i18n, _legacyVueI18n))
+      }
+    })
+    Object.defineProperty(i18n, 'dispose', {
+      value: (): void => {
+        _localeWatcher && _localeWatcher()
+        globalScope.stop()
       }
     })
     const methodMap = {
@@ -861,16 +891,26 @@ function createGlobal(
   options: I18nOptions,
   legacyMode: boolean,
   VueI18nLegacy: any // eslint-disable-line @typescript-eslint/no-explicit-any
-): VueI18n | Composer {
+): [EffectScope, VueI18n | Composer] {
+  const scope = effectScope()
   if (!__BRIDGE__) {
-    return !__LITE__ && __FEATURE_LEGACY_API__ && legacyMode
-      ? createVueI18n(options, VueI18nLegacy)
-      : createComposer(options, VueI18nLegacy)
+    const obj =
+      !__LITE__ && __FEATURE_LEGACY_API__ && legacyMode
+        ? scope.run(() => createVueI18n(options, VueI18nLegacy))
+        : scope.run(() => createComposer(options, VueI18nLegacy))
+    if (obj == null) {
+      throw createI18nError(I18nErrorCodes.UNEXPECTED_ERROR)
+    }
+    return [scope, obj]
   } else {
     if (!isLegacyVueI18n(VueI18nLegacy)) {
       throw createI18nError(I18nErrorCodes.NOT_COMPATIBLE_LEGACY_VUE_I18N)
     }
-    return createComposer(options, VueI18nLegacy)
+    const obj = scope.run(() => createComposer(options, VueI18nLegacy))
+    if (obj == null) {
+      throw createI18nError(I18nErrorCodes.UNEXPECTED_ERROR)
+    }
+    return [scope, obj]
   }
 }
 
@@ -1578,11 +1618,11 @@ function injectGlobalFieldsForBridge(
   Vue: any, // eslint-disable-line @typescript-eslint/no-explicit-any
   i18n: any, // eslint-disable-line @typescript-eslint/no-explicit-any
   composer: Composer
-): void {
+): Function {
   // The composition mode in vue-i18n-bridge is `$18n` is the VueI18n instance.
   // so we need to tell composer to change the locale.
   // If we don't do, things like `$t` that are injected will not be reacted.
-  i18n.watchLocale(composer)
+  const watcher = i18n.watchLocale(composer) as Function
 
   // define fowardcompatible vue-i18n-next inject fields with `globalInjection`
   Vue.prototype.$t = function (...args: unknown[]) {
@@ -1596,4 +1636,6 @@ function injectGlobalFieldsForBridge(
   Vue.prototype.$n = function (...args: unknown[]) {
     return Reflect.apply(composer.n, composer, [...args])
   }
+
+  return watcher
 }
