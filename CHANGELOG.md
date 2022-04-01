@@ -1,4 +1,26 @@
 
+## v9.2.0-beta.34 (2022-04-01)
+
+#### :star: Features
+* `vue-i18n-core`
+  * [#974](https://github.com/intlify/vue-i18n-next/pull/974) feat: change `globalInjection` option default value ([@kazupon](https://github.com/kazupon))
+
+#### :bug: Bug Fixes
+* `vue-i18n-core`
+  * [#972](https://github.com/intlify/vue-i18n-next/pull/972) fix(components): strictly slot rendering ([@kazupon](https://github.com/kazupon))
+
+#### :zap: Improvement Features
+* `vue-i18n-core`
+  * [#973](https://github.com/intlify/vue-i18n-next/pull/973) fix(bridge): improvement writable install function for vue-i18n-routing ([@kazupon](https://github.com/kazupon))
+
+#### :pencil: Documentation
+* [#969](https://github.com/intlify/vue-i18n-next/pull/969) docs (composition): typos, duplication ([@docnoe](https://github.com/docnoe))
+
+#### Committers: 2
+- Johannes Noe ([@docnoe](https://github.com/docnoe))
+- kazuya kawaguchi ([@kazupon](https://github.com/kazupon))
+
+
 ## v9.2.0-beta.33 (2022-03-23)
 
 #### :bug: Bug Fixes
