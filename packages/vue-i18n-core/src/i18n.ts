@@ -622,6 +622,7 @@ export function createI18n(options: any = {}, VueI18nLegacy?: any): any {
     })
     Object.defineProperty(i18n, 'install', {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      writable: true,
       value: (Vue: any, ...options: unknown[]) => {
         const version =
           (Vue && Vue.version && Number(Vue.version.split('.')[0])) || -1
