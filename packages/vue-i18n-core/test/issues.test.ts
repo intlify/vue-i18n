@@ -491,3 +491,52 @@ test('issue #964', async () => {
   expect(defaultMsg).toEqual('foo')
   expect(t('bar', defaultMsg)).toEqual('foo')
 })
+
+test('issue #968', async () => {
+  const i18n = createI18n({
+    locale: 'en-GB',
+    numberFormats: {
+      'en-GB': {
+        currency: {
+          style: 'currency',
+          currency: 'GBP',
+          notation: 'standard',
+          useGrouping: true
+        }
+      }
+    }
+  })
+
+  const App = defineComponent({
+    data() {
+      return { amountFloat: parseFloat('115000120') / 100 }
+    },
+    template: `
+  <i18n-n :value="amountFloat" format="currency">
+    <template #currency="slotProps">
+      <div class="col-auto text-h6">{{ slotProps.currency }}</div>
+    </template>
+    <template #group="slotProps">
+      <div class="col-auto text-subtitle1 self-end text-amber">
+        {{ slotProps.group }}
+      </div>
+    </template>
+    <template #integer="slotProps">
+      <div class="col-auto text-h3">{{ slotProps.integer }}</div>
+    </template>
+    <template #fraction="slotProps">
+      <div class="col-auto text-subtitle1 self-end text-red">
+        {{ slotProps.fraction }}
+      </div>
+    </template>
+    <template #decimal="slotProps">
+      <div class="col-auto text-subtitle2 self-end text-primary">
+        {{ slotProps.decimal }}
+      </div>
+    </template>
+  </i18n-n>
+`
+  })
+  const wrapper = await mount(App, i18n)
+  expect(wrapper.html()).toMatchSnapshot()
+})
