@@ -169,7 +169,6 @@ describe('issue #722', () => {
 
     const i18n = createI18n({
       legacy: false,
-      globalInjection: true,
       locale: 'en',
       messages
     })
@@ -245,7 +244,6 @@ describe('issue #722', () => {
 
     const i18n = createI18n({
       legacy: false,
-      globalInjection: true,
       locale: 'en',
       messages
     })
@@ -363,7 +361,6 @@ describe('issue #853', () => {
       legacy: false,
       locale: 'en',
       fallbackLocale: 'en',
-      globalInjection: true,
       warnHtmlMessage: false,
       messages: {
         en: {
