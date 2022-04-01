@@ -156,7 +156,7 @@ export interface I18nAdditionalOptions {
    * @VueI18nSee [Implicit with injected properties and functions](../guide/advanced/composition#implicit-with-injected-properties-and-functions)
    * @VueI18nSee [ComponentCustomProperties](injection#componentcustomproperties)
    *
-   * @defaultValue `false`
+   * @defaultValue `true`
    */
   globalInjection?: boolean
   /**
@@ -482,9 +482,7 @@ export function createI18n(options: any = {}, VueI18nLegacy?: any): any {
       ? options.legacy
       : __FEATURE_LEGACY_API__
   // prettier-ignore
-  const __globalInjection = /* #__PURE__*/ !__BRIDGE__
-    ? !!options.globalInjection
-    : isBoolean(options.globalInjection)
+  const __globalInjection = isBoolean(options.globalInjection)
       ? options.globalInjection
       : true
   // prettier-ignore

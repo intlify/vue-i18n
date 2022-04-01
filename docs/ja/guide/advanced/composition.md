@@ -311,6 +311,10 @@ Another way to refer a global scope Composer instance is through properties and 
 
 You need to specify **`globalInjection: true`** together with `legacy: false` as an option for `createI18n`, because disabled by default.
 
+:::tip NOTE
+vue-i18n v9.2-beta.34 or later, `globalInjection` is `true` by default.
+:::
+
 This allows Vue I18n to inject the following properties and functions into the components:
 
 - `$i18n`: An object wrapped with the following global scope Composer instance properties
