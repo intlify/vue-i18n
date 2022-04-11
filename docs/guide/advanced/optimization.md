@@ -42,7 +42,7 @@ export default defineConfig({
 ```
 
 :::tip NOTE
-If you are using Vite, you can do the same thing by specifying the option in the [plugin provided officially](https://github.com/intlify/vite-plugin-vue-i18n).
+If you are using Vite, you can do the same thing by specifying the option in the [plugin provided officially](https://github.com/intlify/bundle-tools/tree/main/packages/vite-plugin-vue-i18n).
 :::
 
 ### webpack
