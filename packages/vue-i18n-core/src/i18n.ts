@@ -93,7 +93,6 @@ declare module 'vue' {
 
 // for bridge
 let _legacyVueI18n: any = /* #__PURE__*/ null // eslint-disable-line @typescript-eslint/no-explicit-any
-let _legacyI18n: I18n | null = /* #__PURE__*/ null // eslint-disable-line @typescript-eslint/no-explicit-any
 
 /**
  * I18n Options for `createI18n`
@@ -471,11 +470,6 @@ export function createI18n<
 export function createI18n(options: any = {}, VueI18nLegacy?: any): any {
   type _I18n = I18n & I18nInternal
 
-  if (__BRIDGE__ && _legacyI18n) {
-    __DEV__ &&
-      warn(getWarnMessage(I18nWarnCodes.NOT_SUPPORT_MULTI_I18N_INSTANCE))
-    return _legacyI18n
-  }
   if (__BRIDGE__) {
     _legacyVueI18n = VueI18nLegacy
   }
@@ -675,7 +669,6 @@ export function createI18n(options: any = {}, VueI18nLegacy?: any): any {
       key =>
         Object.defineProperty(i18n, key, { value: (methodMap as any)[key] }) // eslint-disable-line @typescript-eslint/no-explicit-any
     )
-    _legacyI18n = i18n
     return i18n
   }
 }
@@ -783,7 +776,7 @@ export function useI18n<
   }
 
   if (__BRIDGE__) {
-    if (_legacyVueI18n == null || _legacyI18n == null) {
+    if (_legacyVueI18n == null) {
       throw createI18nError(I18nErrorCodes.NOT_INSLALLED)
     }
   }
@@ -936,10 +929,7 @@ function getI18nInstance(instance: ComponentInternalInstance): I18n {
     if (vm == null) {
       throw createI18nError(I18nErrorCodes.UNEXPECTED_ERROR)
     }
-    let i18n = (vm as any)._i18nBridgeRoot // eslint-disable-line @typescript-eslint/no-explicit-any
-    if (!i18n) {
-      i18n = _legacyI18n
-    }
+    const i18n = (vm as any)._i18nBridgeRoot // eslint-disable-line @typescript-eslint/no-explicit-any
     /* istanbul ignore if */
     if (!i18n) {
       throw createI18nError(I18nErrorCodes.NOT_INSLALLED)
