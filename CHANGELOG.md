@@ -1,4 +1,19 @@
 
+## v9.2.0-beta.35 (2022-04-12)
+
+#### :zap: Improvement Features
+* `vue-i18n-core`
+  * [#983](https://github.com/intlify/vue-i18n-next/pull/983) fix(legacy): allow multi legacy i18n instance for bridge ([@kazupon](https://github.com/kazupon))
+  * [#977](https://github.com/intlify/vue-i18n-next/pull/977) feat: release global scope ([@kazupon](https://github.com/kazupon))
+
+#### :pencil: Documentation
+* [#982](https://github.com/intlify/vue-i18n-next/pull/982) fix: link to vite-plugin-vue-i18n ([@dpschen](https://github.com/dpschen))
+
+#### Committers: 2
+- Dominik Pschenitschni ([@dpschen](https://github.com/dpschen))
+- kazuya kawaguchi ([@kazupon](https://github.com/kazupon))
+
+
 ## v9.2.0-beta.34 (2022-04-01)
 
 #### :star: Features
