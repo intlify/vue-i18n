@@ -88,6 +88,22 @@ You can join them in supporting vue-i18n & Intlify project development by [pledg
   </a>
 </p>
 
+<p align="center">
+  <a
+    href="https://crowdin.com/teams/engineering?utm_source=vue-i18n.intlify.dev&utm_medium=referral"
+    style="margin: 1rem 1rem 0 1rem; width: 15rem; height: auto; display: inline-block; vertical-align: middle;"
+    target="_blank"
+    rel="noopener"
+  >
+    <img
+      style="max-width: 100%; vertical-align: midele;"
+      src="https://raw.githubusercontent.com/intlify/vue-i18n-next/master/docs/public/crowdin.png"
+      width="260px"
+      alt="Crowdin"
+    >
+  </a>
+</p>
+
 [It could be you!](https://github.com/sponsors/kazupon?o=esc)
 
 <h2 align="center">Sliver Sponsors</h2>
