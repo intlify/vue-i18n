@@ -1,4 +1,14 @@
 
+## v9.1.10 (2022-05-01)
+
+#### :zap: Improvement Features
+* `size-check-vue-i18n`, `vue-i18n`
+  * [#997](https://github.com/intlify/vue-i18n-next/pull/997) improvement: esm-bundler warning ([@kazupon](https://github.com/kazupon))
+
+#### Committers: 1
+- kazuya kawaguchi ([@kazupon](https://github.com/kazupon))
+
+
 ## v9.1.9 (2021-10-06)
 
 #### :bug: Bug Fixes
