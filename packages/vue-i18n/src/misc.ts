@@ -27,17 +27,8 @@ export function initFeatureFlags(): void {
     getGlobalThis().__VUE_I18N_LEGACY_API__ = true
   }
 
-  if (typeof __FEATURE_PROD_VUE_DEVTOOLS__ !== 'boolean') {
-    needWarn = true
-    getGlobalThis().__VUE_I18N_PROD_DEVTOOLS__ = false
-  }
-
   if (typeof __FEATURE_PROD_INTLIFY_DEVTOOLS__ !== 'boolean') {
     getGlobalThis().__INTLIFY_PROD_DEVTOOLS__ = false
-  }
-
-  if (__DEV__ && typeof __FEATURE_ESM_BUNDLER_WARN__ === 'boolean') {
-    needWarn = __FEATURE_ESM_BUNDLER_WARN__
   }
 
   if (__DEV__ && needWarn) {

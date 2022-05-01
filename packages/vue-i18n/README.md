@@ -52,7 +52,6 @@ The `esm-bundler` builds now exposes global feature flags that can be overwritte
 
 - `__VUE_I18N_FULL_INSTALL__` (enable/disable, in addition to vue-i18n APIs, components and directives all fully support installation: `true`)
 - `__VUE_I18N_LEGACY_API__` (enable/disable vue-i18n legacy style APIs support, default: `true`)
-- `__VUE_I18N_PROD_DEVTOOLS__` (enable/disable vue-devtools support in production, default: `false`)
 - `__INTLIFY_PROD_DEVTOOLS__` (enable/disable `@intlify/devtools` support in production, default: `false`)
 
 > NOTE: `__INTLIFY_PROD_DEVTOOLS__` flag is experimental, and `@intlify/devtools` is WIP yet.
@@ -64,10 +63,6 @@ The build will work without configuring these flags, however it is **strongly re
 - Vite: configured by default, but can be overwritten using the [`define` option](https://github.com/vitejs/vite/blob/a4133c073e640b17276b2de6e91a6857bdf382e1/src/node/config.ts#L72-L76)
 
 Note: the replacement value **must be boolean literals** and cannot be strings, otherwise the bundler/minifier will not be able to properly evaluate the conditions.
-
-## Other Feature Flags
-
-- `__FEATURE_ESM_BUNDLER_WARN__` (Suppress / Not suppress feature flags recommended warnings in build for `esm-bulder`)
 
 ## :copyright: License
 
