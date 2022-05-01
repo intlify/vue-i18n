@@ -230,12 +230,11 @@ function createReplacePlugin(
       ? `__VUE_I18N_LEGACY_API__`
       : true,
     __FEATURE_PROD_VUE_DEVTOOLS__: isBundlerESMBuild
-      ? `__VUE_I18N_PROD_DEVTOOLS__`
+      ? `__VUE_PROD_DEVTOOLS__`
       : false,
     __FEATURE_PROD_INTLIFY_DEVTOOLS__: isBundlerESMBuild
       ? `__INTLIFY_PROD_DEVTOOLS__`
       : false,
-    __FEATURE_ESM_BUNDLER_WARN__: true,
     preventAssignment: false,
     ...(isProduction && isBrowserBuild
       ? {
