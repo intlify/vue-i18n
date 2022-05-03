@@ -46,7 +46,7 @@ export default defineComponent({
   width: 15rem;
 }
 .banner {
-  max-width: 100%;
+  width: 240px;
   vertical-align: midele;
 }
 </style>

@@ -7,7 +7,7 @@
   },
   {
     "title": "Crowdin",
-    "source": "/crowdin.png",
+    "source": "/crowdin.svg",
     "link": "https://crowdin.com/teams/engineering?utm_source=vue-i18n.intlify.dev&utm_medium=referral",
     "description": "Crowdin is a cloud-based localization software for companies, teams, and individuals creating multilingual products. Stay agile when translating mobile, desktop & web apps, websites, games, help documentation, and other content. Crowdin has 2M+ registered user accounts, 130K+ localization projects, and customers from 160+ countries. We offer 280+ applications, so you can automate content sync between Crowdin and the tools you use."
   }

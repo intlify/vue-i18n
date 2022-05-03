@@ -97,7 +97,7 @@ You can join them in supporting vue-i18n & Intlify project development by [pledg
   >
     <img
       style="max-width: 100%; vertical-align: midele;"
-      src="https://raw.githubusercontent.com/intlify/vue-i18n-next/master/docs/public/crowdin.png"
+      src="https://raw.githubusercontent.com/intlify/vue-i18n-next/master/docs/public/crowdin.svg"
       width="260px"
       alt="Crowdin"
     >

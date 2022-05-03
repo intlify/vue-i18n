@@ -71,7 +71,7 @@ Vue I18n is part of the Vue Ecosystem and Intlify Project is an open source proj
     href="https://crowdin.com/teams/engineering?utm_source=vue-i18n.intlify.dev&utm_medium=referral"
     target="_blank">
     <img
-      src="https://raw.githubusercontent.com/intlify/vue-i18n-next/master/docs/public/crowdin.png"
+      src="https://raw.githubusercontent.com/intlify/vue-i18n-next/master/docs/public/crowdin.svg"
       width="240px"
     />
   </a>
