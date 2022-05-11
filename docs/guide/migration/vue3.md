@@ -4,7 +4,7 @@
 
 ### Summary
 
-Vue I18n supports both styles which are Legacy API mode and Composiyion API mode. Legacy API mode is Options API style, and Composition API mode support Vue Composition API that is able to compose with function.
+Vue I18n supports both styles which are Legacy API mode and Composition API mode. Legacy API mode is Options API style, and Composition API mode support Vue Composition API that is able to compose with function.
 
 Legacy API mode is almost compatible with legacy Vue I18n v8.x, making it relatively easy to migrate Vue applications to Vue 3. Vue 3 supports the Options API style, so existing Vue 2 applications will be cases where applications will be migrated to Vue 3.
 
