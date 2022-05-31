@@ -188,6 +188,9 @@ test('override format options with number function options', () => {
   expect(
     datetime(ctx, dt, { key: 'short', locale: 'ja-JP' }, { year: '2-digit' })
   ).toEqual('12/12/20 12:00')
+  expect(
+    datetime(ctx, dt, { key: 'short', locale: 'ja-JP', year: '2-digit' })
+  ).toEqual('12/12/20 12:00')
 })
 
 test('fallback', () => {

@@ -62,9 +62,9 @@ import type { CoreContext, CoreInternalContext } from './context'
  *    datetime(context, value, { key: 'short', part: true })
  *
  *    // orverride context.datetimeFormats[locale] options with functino options
- *    datetime(cnotext, value, 'short', { currency: 'EUR' })
- *    datetime(cnotext, value, 'short', 'ja-JP', { currency: 'EUR' })
- *    datetime(context, value, { key: 'short', part: true }, { currency: 'EUR'})
+ *    datetime(cnotext, value, 'short', { year: '2-digit' })
+ *    datetime(cnotext, value, 'short', 'ja-JP', { year: '2-digit' })
+ *    datetime(context, value, { key: 'short', part: true, year: '2-digit' })
  */
 
 /**
@@ -75,7 +75,8 @@ import type { CoreContext, CoreInternalContext } from './context'
  *
  * @VueI18nGeneral
  */
-export interface DateTimeOptions<Key = string, Locales = Locale> {
+export interface DateTimeOptions<Key = string, Locales = Locale>
+  extends Intl.DateTimeFormatOptions {
   /**
    * @remarks
    * The target format key
@@ -295,12 +296,35 @@ export function datetime<
   return !part ? formatter.format(value) : formatter.formatToParts(value)
 }
 
+const DATETIME_FORMAT_OPTIONS_KEYS = [
+  'localeMatcher',
+  'weekday',
+  'era',
+  'year',
+  'month',
+  'day',
+  'hour',
+  'minute',
+  'second',
+  'timeZoneName',
+  'formatMatcher',
+  'hour12',
+  'timeZone',
+  'dateStyle',
+  'timeStyle',
+  'calendar',
+  'dayPeriod',
+  'numberingSystem',
+  'hourCycle',
+  'fractionalSecondDigits'
+]
+
 /** @internal */
 export function parseDateTimeArgs(
   ...args: unknown[]
 ): [string, number | Date, DateTimeOptions, Intl.DateTimeFormatOptions] {
   const [arg1, arg2, arg3, arg4] = args
-  let options = {} as DateTimeOptions
+  const options = {} as DateTimeOptions
   let overrides = {} as Intl.DateTimeFormatOptions
 
   let value: number | Date
@@ -340,7 +364,15 @@ export function parseDateTimeArgs(
   if (isString(arg2)) {
     options.key = arg2
   } else if (isPlainObject(arg2)) {
-    options = arg2
+    Object.keys(arg2).forEach(key => {
+      if (DATETIME_FORMAT_OPTIONS_KEYS.includes(key)) {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        ;(overrides as any)[key] = (arg2 as any)[key]
+      } else {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        ;(options as any)[key] = (arg2 as any)[key]
+      }
+    })
   }
 
   if (isString(arg3)) {

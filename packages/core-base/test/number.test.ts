@@ -155,6 +155,9 @@ test('override format options with number function options', () => {
       { currency: 'EUR' }
     )
   ).toEqual('€10,100.00')
+  expect(
+    number(ctx, 10100, { key: 'currency', locale: 'ja-JP', currency: 'EUR' })
+  ).toEqual('€10,100.00')
 })
 
 test('fallback', () => {

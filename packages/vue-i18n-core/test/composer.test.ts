@@ -801,6 +801,9 @@ describe('d', () => {
     expect(d(dt, { key: 'long', fallbackWarn: false })).toEqual(
       '2012/12/20 12:00:00'
     )
+    expect(d(dt, { key: 'short', locale: 'ja-JP', year: '2-digit' })).toEqual(
+      '12/12/20 12:00'
+    )
   })
 
   test('missing', () => {
@@ -871,6 +874,10 @@ describe('n', () => {
       }
     })
     expect(n(0.99, { key: 'percent', fallbackWarn: false })).toEqual('99%')
+    // overrides
+    expect(
+      n(10100, { key: 'currency', locale: 'ja-JP', currency: 'EUR' })
+    ).toEqual('€10,100.00')
   })
 
   test('minimumFractionDigits, maximumFractionDigits', () => {
