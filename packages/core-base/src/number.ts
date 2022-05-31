@@ -62,7 +62,7 @@ import type { CoreContext, CoreInternalContext } from './context'
  *    // orverride context.numberFormats[locale] options with functino options
  *    number(cnotext, value, 'currency', { year: '2-digit' })
  *    number(cnotext, value, 'currency', 'ja-JP', { year: '2-digit' })
- *    number(context, value, { key: 'currenty', part: true }, { year: '2-digit'})
+ *    number(context, value, { key: 'currenty', locale: 'ja-JP', part: true, year: '2-digit'})
  */
 
 /**
@@ -73,7 +73,8 @@ import type { CoreContext, CoreInternalContext } from './context'
  *
  * @VueI18nGeneral
  */
-export interface NumberOptions<Key = string, Locales = Locale> {
+export interface NumberOptions<Key = string, Locales = Locale>
+  extends Intl.NumberFormatOptions {
   /**
    * @remarks
    * The target format key
@@ -290,12 +291,31 @@ export function number<
   return !part ? formatter.format(value) : formatter.formatToParts(value)
 }
 
+const NUMBER_FORMAT_OPTIONS_KEYS = [
+  'localeMatcher',
+  'style',
+  'currency',
+  'currencyDisplay',
+  'currencySign',
+  'useGrouping',
+  'minimumIntegerDigits',
+  'minimumFractionDigits',
+  'maximumFractionDigits',
+  'minimumSignificantDigits',
+  'maximumSignificantDigits',
+  'compactDisplay',
+  'notation',
+  'signDisplay',
+  'unit',
+  'unitDisplay'
+]
+
 /** @internal */
 export function parseNumberArgs(
   ...args: unknown[]
 ): [string, number, NumberOptions, Intl.NumberFormatOptions] {
   const [arg1, arg2, arg3, arg4] = args
-  let options = {} as NumberOptions
+  const options = {} as NumberOptions
   let overrides = {} as Intl.NumberFormatOptions
 
   if (!isNumber(arg1)) {
@@ -306,7 +326,15 @@ export function parseNumberArgs(
   if (isString(arg2)) {
     options.key = arg2
   } else if (isPlainObject(arg2)) {
-    options = arg2
+    Object.keys(arg2).forEach(key => {
+      if (NUMBER_FORMAT_OPTIONS_KEYS.includes(key)) {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        ;(overrides as any)[key] = (arg2 as any)[key]
+      } else {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        ;(options as any)[key] = (arg2 as any)[key]
+      }
+    })
   }
 
   if (isString(arg3)) {
