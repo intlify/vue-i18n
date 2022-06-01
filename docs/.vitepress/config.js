@@ -37,6 +37,11 @@ const config = {
     docsBranch: 'master',
     editLinks: true,
 
+    carbonAds: {
+      carbon: 'CEAIC53M',
+      placement: 'kazupongithubio',
+    },
+
     algolia: {
       apiKey: '3a9e93ba1069de0ece2ae100daf8f6ea',
       indexName: 'vue-i18n',
