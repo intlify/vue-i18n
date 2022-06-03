@@ -1099,7 +1099,11 @@ function useI18nForLegacy(
   const isLocale = scope === 'local'
   const _composer = shallowRef<Composer | null>(null)
 
-  if (isLocale && instance.proxy && !instance.proxy.$options.i18n) {
+  if (
+    isLocale &&
+    instance.proxy &&
+    !(instance.proxy.$options.i18n || instance.proxy.$options.__i18n)
+  ) {
     throw createI18nError(
       I18nErrorCodes.MUST_DEFINE_I18N_OPTION_IN_ALLOW_COMPOSITION
     )

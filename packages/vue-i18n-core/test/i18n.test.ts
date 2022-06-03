@@ -525,6 +525,45 @@ describe('useI18n', () => {
           expect(html()).toEqual('<p>en:world!</p>')
         })
 
+        test('use custom block', async () => {
+          const i18n = createI18n({
+            allowComposition: true,
+            locale: 'ja',
+            messages: {
+              en: {
+                hello: 'hello!'
+              },
+              ja: {}
+            }
+          })
+
+          const App = defineComponent({
+            setup() {
+              const instance = getCurrentInstance()
+              if (instance == null) {
+                throw new Error()
+              }
+              const options = instance.type as ComponentOptions
+              options.__i18n = [
+                {
+                  locale: 'ja',
+                  resource: {
+                    hello: 'こんにちは!'
+                  }
+                }
+              ]
+              const { locale, t } = useI18n({
+                inheritLocale: true,
+                useScope: 'local'
+              })
+              return { locale, t }
+            },
+            template: `<p>{{ locale }}:{{ t('hello') }}</p>`
+          })
+          const { html } = await mount(App, i18n)
+          expect(html()).toEqual('<p>ja:こんにちは!</p>')
+        })
+
         test('not defined i18n option in local scope', async () => {
           const i18n = createI18n({
             allowComposition: true,
