@@ -71,7 +71,7 @@ export const errorMessages: { [code: number]: string } = {
   [I18nErrorCodes.BRIDGE_SUPPORT_VUE_2_ONLY]:
     'vue-i18n-bridge support Vue 2.x only',
   [I18nErrorCodes.MUST_DEFINE_I18N_OPTION_IN_ALLOW_COMPOSITION]:
-    'Must define ‘i18n’ option in Composition API with using local scope in Legacy API mode',
+    'Must define ‘i18n’ option or custom block in Composition API with using local scope in Legacy API mode',
   [I18nErrorCodes.NOT_AVAILABLE_COMPOSITION_IN_LEGACY]:
     'Not available Compostion API in Legacy API mode. Please make sure that the legacy API mode is working properly'
 }
