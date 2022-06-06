@@ -2,7 +2,7 @@
 
 exports[`arrow mode complex:  apple mapping 1`] = `
 Object {
-  "generatedColumn": 233,
+  "generatedColumn": 253,
   "generatedLine": 1,
   "name": " apple",
   "originalColumn": 26,
@@ -11,11 +11,11 @@ Object {
 }
 `;
 
-exports[`arrow mode complex: @.caml:{'no apples'} | {0} apple | {n}　apples 1`] = `"(ctx) => {const { normalize: _normalize, linked: _linked, interpolate: _interpolate, list: _list, named: _named, plural: _plural } = ctx;return _plural([_normalize([_linked(\\"no apples\\", \\"caml\\")]), _normalize([_interpolate(_list(0)), \\" apple\\"]), _normalize([_interpolate(_named(\\"n\\")), \\"　apples\\"])])}"`;
+exports[`arrow mode complex: @.caml:{'no apples'} | {0} apple | {n}　apples 1`] = `"(ctx) => {const { normalize: _normalize, linked: _linked, type: _type, interpolate: _interpolate, list: _list, named: _named, plural: _plural } = ctx;return _plural([_normalize([_linked(\\"no apples\\", \\"caml\\", _type)]), _normalize([_interpolate(_list(0)), \\" apple\\"]), _normalize([_interpolate(_named(\\"n\\")), \\"　apples\\"])])}"`;
 
 exports[`arrow mode complex: 0 mapping 1`] = `
 Object {
-  "generatedColumn": 209,
+  "generatedColumn": 229,
   "generatedLine": 1,
   "name": "0",
   "originalColumn": 23,
@@ -26,7 +26,7 @@ Object {
 
 exports[`arrow mode complex: caml mapping 1`] = `
 Object {
-  "generatedColumn": 186,
+  "generatedColumn": 199,
   "generatedLine": 1,
   "name": "caml",
   "originalColumn": 1,
@@ -37,7 +37,7 @@ Object {
 
 exports[`arrow mode complex: n mapping 1`] = `
 Object {
-  "generatedColumn": 257,
+  "generatedColumn": 277,
   "generatedLine": 1,
   "name": "n",
   "originalColumn": 35,
@@ -48,7 +48,7 @@ Object {
 
 exports[`arrow mode complex: no apples mapping 1`] = `
 Object {
-  "generatedColumn": 173,
+  "generatedColumn": 186,
   "generatedLine": 1,
   "name": "no apples",
   "originalColumn": 7,
@@ -59,7 +59,7 @@ Object {
 
 exports[`arrow mode complex: 　apples mapping 1`] = `
 Object {
-  "generatedColumn": 284,
+  "generatedColumn": 304,
   "generatedLine": 1,
   "name": "　apples",
   "originalColumn": 38,
@@ -70,7 +70,7 @@ Object {
 
 exports[`linked key:  ! mapping 1`] = `
 Object {
-  "generatedColumn": 28,
+  "generatedColumn": 46,
   "generatedLine": 4,
   "name": " !",
   "originalColumn": 9,
@@ -92,9 +92,9 @@ Object {
 
 exports[`linked key: hi @:name ! 1`] = `
 "function __msg__ (ctx) {
-  const { normalize: _normalize, linked: _linked } = ctx
+  const { normalize: _normalize, linked: _linked, type: _type } = ctx
   return _normalize([
-    \\"hi \\", _linked(\\"name\\"), \\" !\\"
+    \\"hi \\", _linked(\\"name\\", undefined, _type), \\" !\\"
   ])
 }"
 `;
@@ -112,7 +112,7 @@ Object {
 
 exports[`linked list:  ! mapping 1`] = `
 Object {
-  "generatedColumn": 44,
+  "generatedColumn": 62,
   "generatedLine": 4,
   "name": " !",
   "originalColumn": 8,
@@ -145,16 +145,16 @@ Object {
 
 exports[`linked list: hi @:{0} ! 1`] = `
 "function __msg__ (ctx) {
-  const { normalize: _normalize, interpolate: _interpolate, list: _list, linked: _linked } = ctx
+  const { normalize: _normalize, interpolate: _interpolate, list: _list, linked: _linked, type: _type } = ctx
   return _normalize([
-    \\"hi \\", _linked(_interpolate(_list(0))), \\" !\\"
+    \\"hi \\", _linked(_interpolate(_list(0)), undefined, _type), \\" !\\"
   ])
 }"
 `;
 
 exports[`linked modifier:  ! mapping 1`] = `
 Object {
-  "generatedColumn": 37,
+  "generatedColumn": 44,
   "generatedLine": 4,
   "name": " !",
   "originalColumn": 19,
@@ -176,9 +176,9 @@ Object {
 
 exports[`linked modifier: hi @.upper:{'name'} ! 1`] = `
 "function __msg__ (ctx) {
-  const { normalize: _normalize, linked: _linked } = ctx
+  const { normalize: _normalize, linked: _linked, type: _type } = ctx
   return _normalize([
-    \\"hi \\", _linked(\\"name\\", \\"upper\\"), \\" !\\"
+    \\"hi \\", _linked(\\"name\\", \\"upper\\", _type), \\" !\\"
   ])
 }"
 `;
@@ -207,7 +207,7 @@ Object {
 
 exports[`linked named:  ! mapping 1`] = `
 Object {
-  "generatedColumn": 50,
+  "generatedColumn": 68,
   "generatedLine": 4,
   "name": " !",
   "originalColumn": 11,
@@ -229,9 +229,9 @@ Object {
 
 exports[`linked named: hi @:{name} ! 1`] = `
 "function __msg__ (ctx) {
-  const { normalize: _normalize, interpolate: _interpolate, named: _named, linked: _linked } = ctx
+  const { normalize: _normalize, interpolate: _interpolate, named: _named, linked: _linked, type: _type } = ctx
   return _normalize([
-    \\"hi \\", _linked(_interpolate(_named(\\"name\\"))), \\" !\\"
+    \\"hi \\", _linked(_interpolate(_named(\\"name\\")), undefined, _type), \\" !\\"
   ])
 }"
 `;
@@ -890,10 +890,10 @@ Object {
 
 exports[`plural complex: @.caml:{'no apples'} | {0} apple | {n}　apples 1`] = `
 "function __msg__ (ctx) {
-  const { normalize: _normalize, linked: _linked, interpolate: _interpolate, list: _list, named: _named, plural: _plural } = ctx
+  const { normalize: _normalize, linked: _linked, type: _type, interpolate: _interpolate, list: _list, named: _named, plural: _plural } = ctx
   return _plural([
     _normalize([
-      _linked(\\"no apples\\", \\"caml\\")
+      _linked(\\"no apples\\", \\"caml\\", _type)
     ]), _normalize([
       _interpolate(_list(0)), \\" apple\\"
     ]), _normalize([

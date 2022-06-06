@@ -260,19 +260,37 @@ export const DEFAULT_LOCALE = 'en-US'
 
 export const MISSING_RESOLVE_VALUE = ''
 
+const capitalize = (str: string) =>
+  `${str.charAt(0).toLocaleUpperCase()}${str.substr(1)}`
+
 function getDefaultLinkedModifiers<
   Message = string
 >(): LinkedModifiers<Message> {
   return {
-    upper: (val: Message): MessageType<Message> =>
-      (isString(val) ? val.toUpperCase() : val) as MessageType<Message>,
-    lower: (val: Message): MessageType<Message> =>
-      (isString(val) ? val.toLowerCase() : val) as MessageType<Message>,
-    // prettier-ignore
-    capitalize: (val: Message): MessageType<Message> =>
-      (isString(val)
-        ? `${val.charAt(0).toLocaleUpperCase()}${val.substr(1)}`
-        : val) as MessageType<Message>
+    upper: (val: Message, type: string): MessageType<Message> => {
+      // prettier-ignore
+      return type === 'text' && isString(val)
+        ? val.toUpperCase()
+        : type === 'vnode' && isObject(val) && '__v_isVNode' in val
+        ? (val as any).children.toUpperCase()
+          : val
+    },
+    lower: (val: Message, type: string): MessageType<Message> => {
+      // prettier-ignore
+      return type === 'text' && isString(val)
+        ? val.toLowerCase()
+        : type === 'vnode' && isObject(val) && '__v_isVNode' in val
+          ? (val as any).children.toLowerCase()
+          : val
+    },
+    capitalize: (val: Message, type: string): MessageType<Message> => {
+      // prettier-ignore
+      return (type === 'text' && isString(val)
+        ? capitalize(val)
+        : type === 'vnode' && isObject(val) && '__v_isVNode' in val
+          ? capitalize( (val as any).children)
+          : val) as MessageType<Message>
+    }
   }
 }
 

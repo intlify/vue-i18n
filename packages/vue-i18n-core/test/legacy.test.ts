@@ -370,7 +370,7 @@ test('getLocaleMessage / setLocaleMessage / mergeLocaleMessage', () => {
   })
   expect(i18n.getLocaleMessage('en')).toEqual({ hello: 'Hello!' })
 
-  i18n.setLocaleMessage('en', { hi: { hi: 'hi!' } })
+  i18n.setLocaleMessage<{ hi: { hi: string } }>('en', { hi: { hi: 'hi!' } })
   expect(i18n.getLocaleMessage('en')).toEqual({ hi: { hi: 'hi!' } })
 
   i18n.mergeLocaleMessage('en', { hi: { hello: 'hello!' } })
@@ -481,7 +481,16 @@ test('getDateTimeFormat / setDateTimeFormat / mergeDateTimeFormat', () => {
     }
   })
 
-  i18n.setDateTimeFormat('en-US', {
+  i18n.setDateTimeFormat<{
+    long: {
+      year: string
+      month: string
+      day: string
+      hour: string
+      minute: string
+      second: string
+    }
+  }>('en-US', {
     long: {
       year: 'numeric',
       month: '2-digit',
@@ -550,12 +559,15 @@ test('getNumberFormat / setNumberFormat / mergeNumberFormat', () => {
     }
   })
 
-  i18n.setNumberFormat('en-US', {
-    decimal: {
-      style: 'decimal',
-      useGrouping: false
+  i18n.setNumberFormat<{ decimal: { style: string; useGrouping: boolean } }>(
+    'en-US',
+    {
+      decimal: {
+        style: 'decimal',
+        useGrouping: false
+      }
     }
-  })
+  )
   expect(i18n.getNumberFormat('en-US')).toEqual({
     decimal: {
       style: 'decimal',

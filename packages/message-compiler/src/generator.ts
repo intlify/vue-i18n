@@ -150,6 +150,9 @@ function generateLinkedNode(generator: CodeGenerator, node: LinkedNode): void {
   if (node.modifier) {
     generator.push(`, `)
     generateNode(generator, node.modifier)
+    generator.push(`, _type`)
+  } else {
+    generator.push(`, undefined, _type`)
   }
   generator.push(`)`)
 }

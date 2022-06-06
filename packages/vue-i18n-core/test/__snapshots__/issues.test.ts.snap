@@ -1,3 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`issue #968 1`] = `"<div class=\\"col-auto text-h6\\">£</div><div class=\\"col-auto text-h3\\">1</div><div class=\\"col-auto text-subtitle1 self-end text-amber\\">,</div><div class=\\"col-auto text-h3\\">150</div><div class=\\"col-auto text-subtitle1 self-end text-amber\\">,</div><div class=\\"col-auto text-h3\\">001</div><div class=\\"col-auto text-subtitle2 self-end text-primary\\">.</div><div class=\\"col-auto text-subtitle1 self-end text-red\\">20</div>"`;
+
+exports[`issue #1014 1`] = `"<span>Add</span>"`;

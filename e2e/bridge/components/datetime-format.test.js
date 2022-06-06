@@ -1,5 +1,6 @@
 describe(`bridge: datetime format component`, () => {
   beforeAll(async () => {
+    await page.emulateTimezone('UTC')
     await page.goto(
       `http://localhost:8080/examples/bridge/composition/components/datetime-format.html`
     )

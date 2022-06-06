@@ -5,7 +5,7 @@ jest.mock('@intlify/shared', () => ({
   ...jest.requireActual<object>('@intlify/shared'),
   warn: jest.fn()
 }))
-import { warn } from '@intlify/shared'
+import { warn, isString, isNumber, isBoolean } from '@intlify/shared'
 
 import { createCoreContext as context, NOT_REOSLVED } from '../src/context'
 import { translate } from '../src/translate'
@@ -18,8 +18,12 @@ import {
 import { compileToFunction } from '../src/compile'
 import { fallbackWithLocaleChain } from '../src/fallbacker'
 import { resolveValue } from '../src/resolver'
+import { createTextNode } from './helper'
 
 import type { MessageContext } from '../src/runtime'
+import type { VNode } from './helper'
+import type { MessageType, MessageProcessor } from '../src/runtime'
+import type { PickupKeys } from '../src/types/utils'
 
 beforeEach(() => {
   registerMessageCompiler(compileToFunction)
@@ -810,4 +814,152 @@ test('fallback context', () => {
 
   expect(translate(ctx, 'hi')).toEqual('hi! hello man!')
 })
+
+describe('processor', () => {
+  // VNode processor
+  function normalize(
+    values: MessageType<string | VNode>[]
+  ): MessageType<VNode>[] {
+    return values.map(val =>
+      isString(val) || isNumber(val) || isBoolean(val)
+        ? createTextNode(String(val))
+        : val
+    )
+  }
+  const interpolate = (val: unknown): MessageType<VNode> => val as VNode
+  const processor = {
+    normalize,
+    interpolate,
+    type: 'vnode'
+  } as MessageProcessor<VNode>
+
+  test('basic', () => {
+    const ctx = context<VNode>({
+      locale: 'en',
+      messages: {
+        en: { hi: 'hi kazupon !' }
+      }
+    })
+    ctx.processor = processor
+    expect(
+      translate<typeof ctx, string, PickupKeys<typeof ctx.messages>, VNode>(
+        ctx,
+        'hi'
+      )
+    ).toEqual([{ __v_isVNode: true, children: 'hi kazupon !' }])
+  })
+
+  test('list', () => {
+    const ctx = context<VNode>({
+      locale: 'en',
+      messages: {
+        en: { hi: 'hi {0} !', nest: { foo: '' } }
+      }
+    })
+    ctx.processor = processor
+    expect(
+      translate<typeof ctx, string, PickupKeys<typeof ctx.messages>, VNode>(
+        ctx,
+        'hi',
+        ['kazupon']
+      )
+    ).toEqual([
+      { __v_isVNode: true, children: 'hi ' },
+      { __v_isVNode: true, children: 'kazupon' },
+      { __v_isVNode: true, children: ' !' }
+    ])
+  })
+
+  test('named', () => {
+    const ctx = context<VNode>({
+      locale: 'en',
+      messages: {
+        en: { hi: 'hi {name} !' }
+      }
+    })
+    ctx.processor = processor
+    expect(
+      translate<typeof ctx, string, PickupKeys<typeof ctx.messages>, VNode>(
+        ctx,
+        'hi',
+        { name: 'kazupon' }
+      )
+    ).toEqual([
+      { __v_isVNode: true, children: 'hi ' },
+      { __v_isVNode: true, children: 'kazupon' },
+      { __v_isVNode: true, children: ' !' }
+    ])
+  })
+
+  test('linked', () => {
+    const ctx = context<VNode>({
+      locale: 'en',
+      messages: {
+        en: {
+          name: 'kazupon',
+          hi: 'hi @.upper:name !'
+        }
+      }
+    })
+    ctx.processor = processor
+    expect(
+      translate<typeof ctx, string, PickupKeys<typeof ctx.messages>, VNode>(
+        ctx,
+        'hi'
+      )
+    ).toEqual([
+      { __v_isVNode: true, children: 'hi ' },
+      { __v_isVNode: true, children: 'KAZUPON' },
+      { __v_isVNode: true, children: ' !' }
+    ])
+  })
+
+  test('plural', () => {
+    const ctx = context<VNode>({
+      locale: 'en',
+      messages: {
+        en: { apple: 'no apples | one apple | {count} apples from {name}' }
+      }
+    })
+    ctx.processor = processor
+    expect(
+      translate<typeof ctx, string, PickupKeys<typeof ctx.messages>, VNode>(
+        ctx,
+        'apple',
+        0
+      )
+    ).toEqual([{ __v_isVNode: true, children: 'no apples' }])
+    expect(
+      translate<typeof ctx, string, PickupKeys<typeof ctx.messages>, VNode>(
+        ctx,
+        'apple',
+        1
+      )
+    ).toEqual([{ __v_isVNode: true, children: 'one apple' }])
+    expect(
+      translate<typeof ctx, string, PickupKeys<typeof ctx.messages>, VNode>(
+        ctx,
+        'apple',
+        10
+      )
+    ).toEqual([
+      { __v_isVNode: true, children: '10' },
+      { __v_isVNode: true, children: ' apples from ' },
+      undefined
+    ])
+    expect(
+      translate<typeof ctx, string, PickupKeys<typeof ctx.messages>, VNode>(
+        ctx,
+        'apple',
+        { count: 20, name: 'kazupon' },
+        10
+      )
+    ).toEqual([
+      { __v_isVNode: true, children: '20' },
+      { __v_isVNode: true, children: ' apples from ' },
+      { __v_isVNode: true, children: 'kazupon' }
+    ])
+  })
+})
+
 /* eslint-enable @typescript-eslint/no-empty-function, @typescript-eslint/no-explicit-any */

@@ -207,6 +207,7 @@ Object {
   "helpers": Array [
     "normalize",
     "linked",
+    "type",
     "interpolate",
     "list",
     "named",
@@ -234,6 +235,7 @@ exports[`transform: helpers 1`] = `
 Array [
   "normalize",
   "linked",
+  "type",
   "interpolate",
   "list",
   "named",

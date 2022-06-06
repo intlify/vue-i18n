@@ -1,6 +1,7 @@
 ;['composition', 'legacy'].forEach(pattern => {
   describe(`${pattern}`, () => {
     beforeAll(async () => {
+      await page.emulateTimezone('UTC')
       await page.goto(`http://localhost:8080/examples/${pattern}/datetime.html`)
     })
 
