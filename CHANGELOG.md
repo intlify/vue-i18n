@@ -1,4 +1,26 @@
 
+## v9.2.0-beta.36 (2022-06-06)
+
+#### :bug: Bug Fixes
+* `core-base`, `message-compiler`, `vue-i18n-core`
+  * [#1023](https://github.com/intlify/vue-i18n-next/pull/1023) fix: improvement processor for linked and pluralization ([@kazupon](https://github.com/kazupon))
+* `core-base`, `vue-i18n-core`
+  * [#1017](https://github.com/intlify/vue-i18n-next/pull/1017) fix: number & datetime format options ([@kazupon](https://github.com/kazupon))
+
+#### :zap: Improvement Features
+* `vue-i18n-core`
+  * [#1022](https://github.com/intlify/vue-i18n-next/pull/1022) improvement: allow custom block `useI18n` on Legacy API mode ([@kazupon](https://github.com/kazupon))
+
+#### :pencil: Documentation
+* [#1011](https://github.com/intlify/vue-i18n-next/pull/1011) docs: fix wrongly written ([@liyangworld](https://github.com/liyangworld))
+* [#1005](https://github.com/intlify/vue-i18n-next/pull/1005) docs: Update vue3.md ([@thomasschimbaeck](https://github.com/thomasschimbaeck))
+
+#### Committers: 3
+- [@thomasschimbaeck](https://github.com/thomasschimbaeck)
+- kazuya kawaguchi ([@kazupon](https://github.com/kazupon))
+- 李洋 ([@liyangworld](https://github.com/liyangworld))
+
+
 ## v9.2.0-beta.35 (2022-04-12)
 
 #### :zap: Improvement Features
