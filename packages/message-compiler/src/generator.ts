@@ -147,10 +147,12 @@ function generateLinkedNode(generator: CodeGenerator, node: LinkedNode): void {
   const { helper } = generator
   generator.push(`${helper(HelperNameMap.LINKED)}(`)
   generateNode(generator, node.key)
-  generator.push(`, _type`)
   if (node.modifier) {
     generator.push(`, `)
     generateNode(generator, node.modifier)
+    generator.push(`, _type`)
+  } else {
+    generator.push(`, undefined, _type`)
   }
   generator.push(`)`)
 }

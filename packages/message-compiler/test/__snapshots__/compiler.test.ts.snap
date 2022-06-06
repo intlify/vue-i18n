@@ -236,7 +236,7 @@ exports[`@.caml:{'no apples'} | {0} apple | {n}　apples: code 1`] = `
   const { normalize: _normalize, linked: _linked, type: _type, interpolate: _interpolate, list: _list, named: _named, plural: _plural } = ctx
   return _plural([
     _normalize([
-      _linked(\\"no apples\\", _type, \\"caml\\")
+      _linked(\\"no apples\\", \\"caml\\", _type)
     ]), _normalize([
       _interpolate(_list(0)), \\" apple\\"
     ]), _normalize([
@@ -252,13 +252,13 @@ exports[`arrow mode  | | | : code 1`] = `"(ctx) => {const { normalize: _normaliz
 
 exports[`arrow mode !#%^&*()-_+=[]:;?.<>"\`: code 1`] = `"(ctx) => {const { normalize: _normalize } = ctx;return _normalize([\\"hi \\", \\"!#%^&*()-_+=[]:;?.<>\\\\\\"\`\\", \\" !\\"])}"`;
 
-exports[`arrow mode @.caml:{'no apples'} | {0} apple | {n}　apples: code 1`] = `"(ctx) => {const { normalize: _normalize, linked: _linked, type: _type, interpolate: _interpolate, list: _list, named: _named, plural: _plural } = ctx;return _plural([_normalize([_linked(\\"no apples\\", _type, \\"caml\\")]), _normalize([_interpolate(_list(0)), \\" apple\\"]), _normalize([_interpolate(_named(\\"n\\")), \\"　apples\\"])])}"`;
+exports[`arrow mode @.caml:{'no apples'} | {0} apple | {n}　apples: code 1`] = `"(ctx) => {const { normalize: _normalize, linked: _linked, type: _type, interpolate: _interpolate, list: _list, named: _named, plural: _plural } = ctx;return _plural([_normalize([_linked(\\"no apples\\", \\"caml\\", _type)]), _normalize([_interpolate(_list(0)), \\" apple\\"]), _normalize([_interpolate(_named(\\"n\\")), \\"　apples\\"])])}"`;
 
 exports[`arrow mode hello world: code 1`] = `"(ctx) => {const { normalize: _normalize } = ctx;return _normalize([\\"hello world\\"])}"`;
 
 exports[`arrow mode hello\\n world: code 1`] = `"(ctx) => {const { normalize: _normalize } = ctx;return _normalize([\\"hello\\\\n world\\"])}"`;
 
-exports[`arrow mode hi @.upper:{'name'} !: code 1`] = `"(ctx) => {const { normalize: _normalize, linked: _linked, type: _type } = ctx;return _normalize([\\"hi \\", _linked(\\"name\\", _type, \\"upper\\"), \\" !\\"])}"`;
+exports[`arrow mode hi @.upper:{'name'} !: code 1`] = `"(ctx) => {const { normalize: _normalize, linked: _linked, type: _type } = ctx;return _normalize([\\"hi \\", _linked(\\"name\\", \\"upper\\", _type), \\" !\\"])}"`;
 
 exports[`arrow mode hi { 'kazupon' }!: code 1`] = `"(ctx) => {const { normalize: _normalize } = ctx;return _normalize([\\"hi \\", \\"kazupon\\", \\"!\\"])}"`;
 
@@ -334,7 +334,7 @@ exports[`edge cases hi @._upper:{_name} !: code 1`] = `
 "function __msg__ (ctx) {
   const { normalize: _normalize, interpolate: _interpolate, named: _named, linked: _linked, type: _type } = ctx
   return _normalize([
-    \\"hi \\", _linked(_interpolate(_named(\\"_name\\")), _type, \\"_upper\\"), \\" !\\"
+    \\"hi \\", _linked(_interpolate(_named(\\"_name\\")), \\"_upper\\", _type), \\" !\\"
   ])
 }"
 `;

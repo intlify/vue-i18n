@@ -97,12 +97,19 @@ export interface MessageContextOptions<T = string, N = {}> {
   processor?: MessageProcessor<T>
 }
 
+export interface LinkedOptions {
+  type?: string
+  modifier?: string
+}
+
 // TODO: list and named type definition more improvements
 export interface MessageContext<T = string> {
   list(index: number): unknown
   named(key: string): unknown
   plural(messages: T[]): T
-  linked(key: Path, type: string, modifier?: string): MessageType<T>
+  linked(key: Path, modifier?: string): MessageType<T>
+  linked(key: Path, modifier?: string, type?: string): MessageType<T>
+  linked(key: Path, optoins?: LinkedOptions): MessageType<T>
   message(key: Path): MessageFunction<T>
   type: string
   interpolate: MessageInterpolate<T>
@@ -218,17 +225,31 @@ export function createMessageContext<T = string, N = {}>(
       ? options.processor.type
       : DEFAULT_MESSAGE_DATA_TYPE
 
-  const linked = (
-    key: Path,
-    type: string,
-    modifier?: string
-  ): MessageType<T> => {
+  const linked = (key: Path, ...args: unknown[]): MessageType<T> => {
+    const [arg1, arg2] = args
+    let type = 'text'
+    let modifier = ''
+    if (args.length === 1) {
+      if (isObject(arg1)) {
+        modifier = arg1.modifier || modifier
+        type = arg1.type || type
+      } else if (isString(arg1)) {
+        modifier = arg1 || modifier
+      }
+    } else if (args.length === 2) {
+      if (isString(arg1)) {
+        modifier = arg1 || modifier
+      }
+      if (isString(arg2)) {
+        type = arg2 || type
+      }
+    }
     let msg = message(key)(ctx)
     // The message in vnode resolved with linked are returned as an array by processor.nomalize
     if (type === 'vnode' && isArray(msg) && modifier) {
       msg = msg[0]
     }
-    return isString(modifier) ? _modifier(modifier)(msg as T, type) : msg
+    return modifier ? _modifier(modifier)(msg as T, type) : msg
   }
 
   const ctx = {

@@ -135,7 +135,7 @@ module.exports = {
 
   // The test environment that will be used for testing
   // testEnvironment: 'node',
-  testEnvironment: './jest-e2e-environment.js',
+  // testEnvironment: './jest-e2e-environment.js',
 
   // Options that will be passed to the testEnvironment
   // testEnvironmentOptions: {},

@@ -144,7 +144,7 @@ const messages = {
   en: {
     the_world: 'the world',
     dio: 'DIO:',
-    linked: ({ linked }) => `${linked('message.dio')} ${linked('message.the_world')} !!!!`
+    linked: ({ linked, type }) => `${linked('message.dio', type)} ${linked('message.the_world', type)} !!!!`
   }
 }
 ```

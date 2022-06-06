@@ -741,7 +741,7 @@ describe('rt', () => {
             `hi ${ctx.named('name')}!`,
           name: 'dio',
           linked: (ctx: MessageContext<VueMessageType>) =>
-            `hi ${ctx.linked('name', 'text', 'upper')} !`,
+            `hi ${ctx.linked('name', 'upper')} !`,
           pural: (ctx: MessageContext<VueMessageType>) =>
             ctx.plural([
               'no apples',

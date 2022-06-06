@@ -59,7 +59,7 @@
     "serve:explorer": "cd packages/format-explorer && vite preview",
     "test": "npm-run-all lint clean:cache:jest test:cover test:type test:e2e",
     "test:cover": "npm run test:unit -- --coverage",
-    "test:e2e": "jest --runInBand --config ./jest.e2e.config.js",
+    "test:e2e": "TZ=UTC jest --runInBand --config ./jest.e2e.config.js",
     "test:type": "tsc -p ./test-d/tsconfig.json",
     "test:unit": "npm run clean:cache:jest && cross-env NODE_ICU_DATA=./node_modules/full-icu jest --env node"
   },
