@@ -25,15 +25,13 @@ import { mount } from './helper'
 const container = document.createElement('div')
 document.body.appendChild(container)
 
-beforeAll(() => {
-  registerMessageCompiler(compileToFunction)
-  registerMessageResolver(resolveValue)
-  registerLocaleFallbacker(fallbackWithLocaleChain)
-})
-
 let org: any // eslint-disable-line @typescript-eslint/no-explicit-any
 let spy: any // eslint-disable-line @typescript-eslint/no-explicit-any
 beforeEach(() => {
+  registerMessageCompiler(compileToFunction)
+  registerMessageResolver(resolveValue)
+  registerLocaleFallbacker(fallbackWithLocaleChain)
+
   container.innerHTML = ''
 
   org = console.warn
@@ -535,5 +533,28 @@ test('issue #968', async () => {
 `
   })
   const wrapper = await mount(App, i18n)
+  expect(wrapper.html()).toMatchSnapshot()
+})
+
+test('issue #1014', async () => {
+  const i18n = createI18n({
+    legacy: false,
+    locale: 'en',
+    messages: {
+      en: {
+        add_tpl: 'add',
+        add_tpl_u: '@.capitalize:add_tpl'
+      }
+    }
+  })
+
+  const App = defineComponent({
+    template: `
+      <i18n-t tag="span" keypath="add_tpl_u" scope="global"></i18n-t>
+    `
+  })
+
+  const wrapper = await mount(App, i18n)
+
   expect(wrapper.html()).toMatchSnapshot()
 })

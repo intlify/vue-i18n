@@ -352,7 +352,7 @@ describe('linked', () => {
 
     expect(code).toMatchSnapshot(msg)
     expect(code).toMatch(`return _normalize([`)
-    expect(code).toMatch(`"hi ", _linked("name"), " !"`)
+    expect(code).toMatch(`"hi ", _linked("name", _type), " !"`)
     expect(code).toMatch(`])`)
 
     expect(map!.sourcesContent).toEqual([msg])
@@ -371,7 +371,7 @@ describe('linked', () => {
 
     expect(code).toMatchSnapshot(msg)
     expect(code).toMatch(`return _normalize([`)
-    expect(code).toMatch(`"hi ", _linked(_interpolate(_list(0))), " !"`)
+    expect(code).toMatch(`"hi ", _linked(_interpolate(_list(0)), _type), " !"`)
     expect(code).toMatch(`])`)
 
     expect(map!.sourcesContent).toEqual([msg])
@@ -390,7 +390,9 @@ describe('linked', () => {
 
     expect(code).toMatchSnapshot(msg)
     expect(code).toMatch(`return _normalize([`)
-    expect(code).toMatch(`"hi ", _linked(_interpolate(_named("name"))), " !"`)
+    expect(code).toMatch(
+      `"hi ", _linked(_interpolate(_named("name")), _type), " !"`
+    )
     expect(code).toMatch(`])`)
 
     expect(map!.sourcesContent).toEqual([msg])
@@ -409,7 +411,7 @@ describe('linked', () => {
 
     expect(code).toMatchSnapshot(msg)
     expect(code).toMatch(`return _normalize([`)
-    expect(code).toMatch(`"hi ", _linked("name", "upper"), " !"`)
+    expect(code).toMatch(`"hi ", _linked("name", _type, "upper"), " !"`)
     expect(code).toMatch(`])`)
 
     expect(map!.sourcesContent).toEqual([msg])
@@ -456,7 +458,7 @@ describe('plural', () => {
     expect(code).toMatchSnapshot(msg)
     expect(code).toMatch(`return _plural([`)
     expect(code).toMatch(`_normalize([`)
-    expect(code).toMatch(`_linked("no apples", "caml")`)
+    expect(code).toMatch(`_linked("no apples", _type, "caml")`)
     expect(code).toMatch(` ]), _normalize([`)
     expect(code).toMatch(`_interpolate(_list(0)), " apple"`)
     expect(code).toMatch(` ]), _normalize([`)

@@ -4,6 +4,7 @@ import {
   toDisplayString,
   isObject,
   isString,
+  isArray,
   isPlainObject
 } from '@intlify/shared'
 import { HelperNameMap } from '@intlify/message-compiler'
@@ -73,7 +74,10 @@ export type PluralizationProps = {
   count?: number
 }
 
-export type LinkedModify<T = string> = (value: T) => MessageType<T>
+export type LinkedModify<T = string> = (
+  value: T,
+  type: string
+) => MessageType<T>
 /** @VueI18nGeneral */
 export type LinkedModifiers<T = string> = { [key: string]: LinkedModify<T> }
 
@@ -98,7 +102,7 @@ export interface MessageContext<T = string> {
   list(index: number): unknown
   named(key: string): unknown
   plural(messages: T[]): T
-  linked(key: Path, modifier?: string): MessageType<T>
+  linked(key: Path, type: string, modifier?: string): MessageType<T>
   message(key: Path): MessageFunction<T>
   type: string
   interpolate: MessageInterpolate<T>
@@ -167,8 +171,9 @@ export function createMessageContext<T = string, N = {}>(
     isFunction(options.pluralRules[locale])
       ? pluralDefault
       : undefined
-  const plural = (messages: T[]): T =>
-    messages[pluralRule(pluralIndex, messages.length, orgPluralRule)]
+  const plural = (messages: T[]): T => {
+    return messages[pluralRule(pluralIndex, messages.length, orgPluralRule)]
+  }
 
   const _list = options.list || []
   const list = (index: number): unknown => _list[index]
@@ -208,15 +213,23 @@ export function createMessageContext<T = string, N = {}>(
       ? options.processor.interpolate
       : (DEFAULT_INTERPOLATE as unknown as MessageInterpolate<T>)
 
-  const linked = (key: Path, modifier?: string): MessageType<T> => {
-    const msg = message(key)(ctx)
-    return isString(modifier) ? _modifier(modifier)(msg as T) : msg
-  }
-
   const type =
     isPlainObject(options.processor) && isString(options.processor.type)
       ? options.processor.type
       : DEFAULT_MESSAGE_DATA_TYPE
+
+  const linked = (
+    key: Path,
+    type: string,
+    modifier?: string
+  ): MessageType<T> => {
+    let msg = message(key)(ctx)
+    // The message in vnode resolved with linked are returned as an array by processor.nomalize
+    if (type === 'vnode' && isArray(msg) && modifier) {
+      msg = msg[0]
+    }
+    return isString(modifier) ? _modifier(modifier)(msg as T, type) : msg
+  }
 
   const ctx = {
     [HelperNameMap.LIST]: list,

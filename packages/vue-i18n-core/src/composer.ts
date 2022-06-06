@@ -2175,7 +2175,11 @@ export function createComposer(options: any = {}, VueI18nLegacy?: any): any {
   function normalize(
     values: MessageType<string | VNode>[]
   ): MessageType<VNode>[] {
-    return values.map(val => (isString(val) ? createTextNode(val) : val))
+    return values.map(val =>
+      isString(val) || isNumber(val) || isBoolean(val)
+        ? createTextNode(String(val))
+        : val
+    )
   }
   const interpolate = (val: unknown): MessageType<VNode> => val as VNode
   const processor = {

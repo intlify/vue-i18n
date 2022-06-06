@@ -63,6 +63,7 @@ function traverseNode(node: Node, transformer: Transformer): void {
       const linked = node as LinkedNode
       traverseNode(linked.key, transformer)
       transformer.helper(HelperNameMap.LINKED)
+      transformer.helper(HelperNameMap.TYPE)
       break
     case NodeTypes.List:
       transformer.helper(HelperNameMap.INTERPOLATE)
