@@ -13,7 +13,7 @@ For bundler, it’s configured to bundle `vue-i18n.esm-bundler.js` by default. I
 The use of this ES Module means that **all locale messages have to pre-compile to Message functions**.
 
 :::danger NOTE
-IF [CSP](https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP) is enabled, `vue-i18n.esm-bundler.js` would not work with compiler due to `eval` statements. These statements violite the `default-src 'self'` header. Instead you need to use `vue-i18n.runtime.esm-bundler.js`.
+IF [CSP](https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP) is enabled, `vue-i18n.esm-bundler.js` would not work with compiler due to `eval` statements. These statements violate the `default-src 'self'` header. Instead you need to use `vue-i18n.runtime.esm-bundler.js`.
 :::
 
 ### vite
