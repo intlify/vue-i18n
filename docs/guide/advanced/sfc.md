@@ -185,7 +185,7 @@ export default [
       format: 'cjs'
     },
     plugins: [
-      // set `customBlocks` opton to `rollup-plugin-vue`
+      // set `customBlocks` option to `rollup-plugin-vue`
       VuePlugin({ customBlocks: ['i18n'] }),
       // set `rollup-plugin-vue-i18n` after **`rollup-plugin-vue`**
       VueI18nPlugin({
