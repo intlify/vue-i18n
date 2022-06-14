@@ -141,7 +141,7 @@ const i18n = createI18n({
 When the template is as below:
 
 ```html
-<p>{{ $t('Hello {name}', { name: 'John' }}) }}</p>
+<p>{{ $t('Hello {name}', { name: 'John' }) }}</p>
 <p>{{ $t('The weather today is {condition}!', { condition: 'sunny' }) }}</p>
 ```
 
