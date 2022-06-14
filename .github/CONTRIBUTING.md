@@ -15,7 +15,7 @@ It is of course fine to use non-English language, when you open a PR to translat
 
 ## Pull Request Guidelines
 
-- The `master` branch is basically just a snapshot of the latest stable release. All development should be done in dedicated branches. **Do not submit PRs against the `master` branch.**
+- The `master` branch is the latest stable version release. All development should be done in dedicated branches.
 
 - Checkout a topic branch from the relevant branch, e.g. `master`, and merge back against that branch.
 
