@@ -323,6 +323,25 @@ describe('modifiers', () => {
     expect(modifiers).toEqual(_modifiers)
     expect(t('hi')).toEqual('hi hello-world')
   })
+
+  test('pascal case', () => {
+    const _modifiers = {
+      snakeCase: (str: VueMessageType) =>
+        isString(str) ? str.split(' ').join('-') : str
+    }
+    const { modifiers, t } = createComposer({
+      locale: 'en',
+      messages: {
+        en: {
+          address: 'home Address',
+          snakeAddress: '@.snakeCase:address'
+        }
+      },
+      modifiers: _modifiers
+    })
+    expect(modifiers).toEqual(_modifiers)
+    expect(t('snakeAddress')).toEqual('home-Address')
+  })
 })
 
 describe('pluralRules', () => {
