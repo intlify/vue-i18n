@@ -21,8 +21,9 @@ import { fuzzyMatchTarget } from './utils'
 import minimist from 'minimist'
 ;(async () => {
   const args = minimist(process.argv.slice(2))
-  const targets = await fuzzyMatchTarget(args._)
-  const target = args._.length ? targets[0] : 'vue-i18n'
+  const target = args._.length
+    ? (await fuzzyMatchTarget(args._))[0]
+    : 'vue-i18n'
   const formats = args.formats || args.f
   const sourceMap = args.sourcemap || args.s
   const { stdout } = await execa('git', ['rev-parse', 'HEAD'])
