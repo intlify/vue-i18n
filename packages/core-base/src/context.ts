@@ -95,7 +95,8 @@ export type CoreMissingHandler<Message = string> = (
 
 /** @VueI18nGeneral */
 export type PostTranslationHandler<Message = string> = (
-  translated: MessageType<Message>
+  translated: MessageType<Message>,
+  key: string
 ) => MessageType<Message>
 
 export type MessageCompiler<Message = string> = (

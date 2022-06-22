@@ -534,9 +534,14 @@ describe('postTranslation', () => {
       })
     expect(getPostTranslationHandler()).toEqual(null)
 
-    const handler = (str: VueMessageType) => (isString(str) ? str.trim() : str)
+    let key = ''
+    const handler = (str: VueMessageType, _key: string) => {
+      key = _key
+      return isString(str) ? str.trim() : str
+    }
     setPostTranslationHandler(handler)
     expect(t('hello')).toEqual('hello world!')
+    expect(key).toEqual('hello')
     expect(getPostTranslationHandler()).toEqual(handler)
   })
 
