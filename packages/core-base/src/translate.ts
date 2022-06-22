@@ -473,7 +473,9 @@ export function translate<
   )
 
   // if use post translation option, proceed it with handler
-  const ret = postTranslation ? postTranslation(messaged) : messaged
+  const ret = postTranslation
+    ? postTranslation(messaged, key as string)
+    : messaged
 
   // NOTE: experimental !!
   if (__DEV__ || __FEATURE_PROD_INTLIFY_DEVTOOLS__) {

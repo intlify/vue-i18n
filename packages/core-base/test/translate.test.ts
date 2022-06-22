@@ -618,7 +618,11 @@ describe('context pluralRule option', () => {
 
 describe('context postTranslation option', () => {
   test('basic', () => {
-    const postTranslation = (str: string) => str.trim()
+    let key = ''
+    const postTranslation = (str: string, _key: string) => {
+      key = _key
+      return str.trim()
+    }
     const ctx = context({
       locale: 'en',
       postTranslation,
@@ -629,6 +633,7 @@ describe('context postTranslation option', () => {
       }
     })
     expect(translate(ctx, 'hello')).toEqual('hello world!')
+    expect(key).toEqual('hello')
   })
 })
 
