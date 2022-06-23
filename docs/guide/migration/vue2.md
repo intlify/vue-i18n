@@ -168,6 +168,10 @@ Vue.use(VueI18n, { bridge: true })
   - Translation components: `<i18n-t>`
   - DateTime format components: `<i18n-d>`
   - Number format components: `<i18n-n>`
+- In Composition API mode, the below APIs is prefixed with `$` is **global scope**
+  - `$t`
+  - `$d`
+  - `$n`
 
 ### Explanation of Different Builds
 In the [dist/ directory of the npm package](https://unpkg.com/browse/vue-i18n-bridge@9.2.0-beta.6/dist/) you will find many different builds of `vue-i18n-bridge`. Here is an overview of which dist file should be used depending on the use-case.
