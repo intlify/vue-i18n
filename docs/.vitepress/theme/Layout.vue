@@ -44,7 +44,7 @@ export default {
     </template>
     <template #home-hero>
     </template>
-    <template #home-featuers>
+    <template #home-features>
     </template>
     <template #home-footer>
     </template>
