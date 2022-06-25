@@ -69,13 +69,17 @@ const rimraf = promisify(_rimraf)
     }
   }
 
-  async function buildAll(targets) {
+  async function buildAll(targets: string[]) {
     await runParallel(os.cpus().length, targets, build)
   }
 
-  async function runParallel(maxConcurrency, source, iteratorFn) {
-    const ret = []
-    const executing = []
+  async function runParallel(
+    maxConcurrency: number,
+    source: string[],
+    iteratorFn: (item: string, source: string[]) => Promise<void>
+  ) {
+    const ret: Promise<void>[] = []
+    const executing: Promise<void>[] = []
     for (const item of source) {
       const p = Promise.resolve().then(() => iteratorFn(item, source))
       ret.push(p)
@@ -91,15 +95,16 @@ const rimraf = promisify(_rimraf)
     return Promise.all(ret)
   }
 
-  async function isExist(filePath) {
-    const ret = false
+  async function isExist(filePath: string) {
     try {
       await fs.access(filePath)
-    } catch (e) {}
-    return ret
+      return true
+    } catch (e) {
+      return false
+    }
   }
 
-  async function build(target) {
+  async function build(target: string) {
     const pkgDir = path.resolve(path.dirname('.'), `./packages/${target}`)
     const pkg = await readJson(`${pkgDir}/package.json`)
 
@@ -160,9 +165,9 @@ const rimraf = promisify(_rimraf)
           const existing = await fs.readFile(dtsPath, 'utf-8')
           const typeFiles = await fs.readdir(typesDir)
           const toAdd = await Promise.all(
-            typeFiles.map(async file => {
-              return await fs.readFile(path.resolve(typesDir, file), 'utf-8')
-            })
+            typeFiles.map(file =>
+              fs.readFile(path.resolve(typesDir, file), 'utf-8')
+            )
           )
           await fs.writeFile(dtsPath, existing + '\n' + toAdd.join('\n'))
         }
@@ -182,7 +187,7 @@ const rimraf = promisify(_rimraf)
     }
   }
 
-  async function checkAllSizes(targets) {
+  async function checkAllSizes(targets: string[]) {
     if (devOnly) {
       return
     }
@@ -193,7 +198,7 @@ const rimraf = promisify(_rimraf)
     console.log()
   }
 
-  async function checkSize(target) {
+  async function checkSize(target: string) {
     const pkgDir = path.resolve(`packages/${target}`)
     const files = await checkSizeDistFiles(pkgDir)
     for (const file of files) {
@@ -201,8 +206,8 @@ const rimraf = promisify(_rimraf)
     }
   }
 
-  async function checkFileSize(filePath) {
-    if (await !isExist(filePath)) {
+  async function checkFileSize(filePath: string) {
+    if (!(await isExist(filePath))) {
       return
     }
     const file = await fs.readFile(filePath)
