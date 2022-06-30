@@ -44,13 +44,13 @@
     "docs:setup": "npm run build:typed && npm run docs:apigen",
     "example:ssr": "cd examples/ssr/vite && npm run dev",
     "fix": "run-p lint:fix format:fix",
-    "format:fix": "run-p \"format:prettier -- --write\" format:package",
+    "format:fix": "run-p \"format:prettier --write\" format:package",
     "format:package": "node -r esbuild-register ./scripts/fixpack.ts",
     "format:prettier": "prettier --config .prettierrc --ignore-path .prettierignore '**/*.{js,json,html}'",
     "lint": "run-p lint:secret lint:codes lint:docs",
     "lint:codes": "eslint ./packages ./test-d ./e2e ./benchmark --ext .js,.mjs,.ts,.vue",
     "lint:docs": "textlint --config .textlintrc.js docs/*.md docs/advanced/**/*.md docs/essentials/**/*.md docs/migration/**/*.md docs/api/injection.md packages/**/*.md",
-    "lint:fix": "run-p \"lint:codes -- --fix\" \"lint:docs -- --fix\"",
+    "lint:fix": "run-p \"lint:codes --fix\" \"lint:docs --fix\"",
     "lint:secret": "npx secretlint \"**/*\"",
     "prebuild": "test \"$CI\" = true && npx pnpm install -r --store=node_modules/.pnpm-store || echo skipping pnpm install",
     "preinstall": "node ./scripts/preinstall.js",
@@ -68,6 +68,7 @@
     "@intlify/message-compiler": "workspace:*",
     "@kazupon/lerna-changelog": "^4.3.0",
     "@microsoft/api-extractor": "7.15.2",
+    "@nexhome/yorkie": "^2.0.8",
     "@rollup/plugin-commonjs": "^21.0.0",
     "@rollup/plugin-json": "^4.1.0",
     "@rollup/plugin-node-resolve": "^13.0.0",
@@ -138,8 +139,7 @@
     "typescript-eslint-language-service": "^5.0.0",
     "vitepress": "^0.18.0",
     "vue": "^3.2.4",
-    "vue-i18n": "workspace:*",
-    "yorkie": "^2.0.0"
+    "vue-i18n": "workspace:*"
   },
   "peerDependencies": {
     "@microsoft/api-extractor": "7.15.2",
@@ -182,6 +182,7 @@
       "secretlint"
     ]
   },
+  "packageManager": "pnpm@7.4.0",
   "pnpm": {
     "overrides": {
       "vue": "3.2.20",

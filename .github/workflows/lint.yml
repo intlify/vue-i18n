@@ -25,9 +25,9 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
       - name: Install pnpm
-        uses: pnpm/action-setup@v2.2.1
+        uses: pnpm/action-setup@v2.2.2
         with:
-          version: 6.15.1
+          version: 7.4
       - name: Setup Node.js v14.x
         uses: actions/setup-node@v2
         with:
