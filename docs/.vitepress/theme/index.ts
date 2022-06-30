@@ -1,14 +1,18 @@
 import { h } from 'vue'
-import DefaultTheme from 'vitepress/dist/client/theme-default'
-import Layout from './Layout.vue'
+import Theme from 'vitepress/theme'
 import Sponsor from './components/Sponsor.vue'
 import Service from './components/Service.vue'
 import { sponsors } from './sponsor'
 import { integrations } from './integrations'
+import './style.css'
 
 export default {
-  ...DefaultTheme,
-  Layout,
+  ...Theme,
+  // Layout() {
+  //   return h(Theme.Layout, null, {
+  //     'home-features-after': () => h(Home),
+  //   })
+  // },
   enhanceApp({ app, router, siteData }) {
     app.component('PlatinumSponsors', () => sponsors.platinums.map(prop => h(Sponsor, prop)))
     app.component('SpecialSponsors', () => sponsors.specials.map(prop => h(Sponsor, prop)))
