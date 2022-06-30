@@ -50,7 +50,7 @@
     "@vue/composition-api": "^1.2.0"
   },
   "engines": {
-    "node": ">= 12"
+    "node": ">= 14"
   },
   "buildOptions": {
     "name": "VueI18nBridge",
