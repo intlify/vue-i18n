@@ -21,6 +21,8 @@ export default defineConfig({
   lastUpdated: true,
   head,
 
+  markdown: { attrs: { disable: true } },
+
   themeConfig: {
     logo: '/vue-i18n-logo.svg',
 
