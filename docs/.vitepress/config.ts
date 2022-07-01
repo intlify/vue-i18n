@@ -69,7 +69,7 @@ function nav() {
       link: '/guide/'
     },
     {
-      text: 'API Reference',
+      text: 'API',
       link: '/api/general'
     },
     {
