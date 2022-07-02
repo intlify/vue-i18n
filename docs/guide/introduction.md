@@ -1,3 +1,19 @@
+<script setup lang="ts">
+import { VPTeamMembers } from 'vitepress/theme'
+
+const members = [
+  {
+    avatar: 'https://www.github.com/kazupon.png',
+    name: "kazupon",
+    title: 'Creator',
+    links: [
+      { icon: 'github', link: 'https://github.com/kazupon' },
+      { icon: 'twitter', link: 'https://twitter.com/kazu_pon' }
+    ]
+  }
+]
+</script>
+
 # What is Vue I18n?
 
 :::tip NOTE
@@ -8,41 +24,7 @@ Vue I18n is internationalization plugin of Vue.js. It easily integrates some loc
 
 Go to [Get Started](./)
 
-## Sponsors
-### 🏅 Platinum
 
-<p style="text-align: center;">
-  <PlatinumSponsors />
-</p>
+## Meet the team
 
-### ✨ Special
-
-<p style="text-align: center;">
-  <SpecialSponsors />
-</p>
-
-### 🥇 Gold
-
-<p style="text-align: center;">
-  <GoldSponsors />
-</p>
-
-### 🥈 Silver
-
-<p style="text-align: center;">
-  <SilverSponsors />
-</p>
-
-### 🥉 Bronze
-
-<p style="text-align: center;">
-  <BronzeSponsors />
-</p>
-
-## Become a Sponsor
-
-Is your company using vue-i18n, vue-cli-plugin-i18n and other tools to build awesome apps? Join the GitHub and become a sponsor to add your logo on this documentation! Supporting me on Sponsor allows me to work less for a job and to work more on Free Open Source Software such as vue-i18n and [Intlify](https://github.com/intlify) projects! Thank you!
-
-<p style="text-align: center;">
-  <iframe src="https://github.com/sponsors/kazupon/card" title="Sponsor kazupon" height="225" width="600" style="border: 0;"></iframe>
-</p>
+<VPTeamMembers size="small" :members="members" />

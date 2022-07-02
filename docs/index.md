@@ -24,9 +24,3 @@ features:
 - title: Component-oriented
   details: You can manage locale messages on single file component
 ---
-
-<HomeSponsors />
-
-<script setup>
-import HomeSponsors from './.vitepress/theme/components/HomeSponsors.vue'
-</script>

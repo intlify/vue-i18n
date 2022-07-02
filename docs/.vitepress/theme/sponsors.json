@@ -1,52 +1,43 @@
 {
-  "platinums": [{
+  "platinum": [{
     "name": "Zen Architects",
-    "tier": "platinum",
-    "link": "https://zenarchitects.co.jp/",
-    "source": "/zenarchitects.png"
+    "url": "https://zenarchitects.co.jp/",
+    "img": "zenarchitects.png"
   }],
-  "specials": [{
+  "special": [{
     "name": "PLAID",
-    "tier": "special",
-    "link": "https://plaid.co.jp/",
-    "source": "/plaid.svg"
+    "url": "https://plaid.co.jp/",
+    "img": "plaid.svg"
   }],
-  "golds": [{
+  "gold": [{
     "name": "NuxtJS",
-    "tier": "gold",
-    "link": "https://nuxtjs.org/",
-    "source": "/nuxt.png"
+    "url": "https://nuxtjs.org/",
+    "img": "nuxt.png"
   }, {
     "name": "RapidAPI",
-    "tier": "gold",
-    "link": "https://rapidapi.com/",
-    "source": "/RapidAPI.svg"
+    "url": "https://rapidapi.com/",
+    "img": "RapidAPI.svg"
   }, {
     "name": "Localazy",
-    "tier": "gold",
-    "link": "https://localazy.com/blog/how-to-localize-vuejs-app-with-vue-i18n-and-localazy?utm_source=kazupon&utm_medium=banner&utm_campaign=sponsorships_kazupon&utm_content=logo",
-    "source": "/localazy.svg"
+    "url": "https://localazy.com/blog/how-to-localize-vuejs-app-with-vue-i18n-and-localazy?utm_source=kazupon&utm_medium=banner&utm_campaign=sponsorships_kazupon&utm_content=logo",
+    "img": "localazy.svg"
   }, {
     "name": "Crowdin",
-    "tier": "gold",
-    "link": "https://crowdin.com/teams/engineering?utm_source=vue-i18n.intlify.dev&utm_medium=referral",
-    "source": "/crowdin.svg"
+    "url": "https://crowdin.com/teams/engineering?utm_source=vue-i18n.intlify.dev&utm_medium=referral",
+    "img": "crowdin.svg"
   }],
-  "silvers": [],
-  "bronzes": [{
+  "silver": [],
+  "bronze": [{
     "name": "SendCloud",
-    "tier": "bronze",
-    "link": "https://www.sendcloud.com/",
-    "source": "/sendcloud.png"
+    "url": "https://www.sendcloud.com/",
+    "img": "sendcloud.png"
   }, {
     "name": "Vue Mastery",
-    "tier": "bronze",
-    "link": "https://www.vuemastery.com/",
-    "source": "/vuemastery.png"
+    "url": "https://www.vuemastery.com/",
+    "img": "vuemastery.png"
   }, {
     "name": "DECIBEL",
-    "tier": "bronze",
-    "link": "https://www.deci-bel.com/",
-    "source": "/decibel.png"
+    "url": "https://www.deci-bel.com/",
+    "img": "decibel.png"
   }]
 }
