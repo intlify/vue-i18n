@@ -208,7 +208,7 @@ const config = {
               ]
             },
             {
-              text: 'Integration for Framework',
+              text: 'Frameworks Integration',
               collapsable: false,
               children: [
                 {
