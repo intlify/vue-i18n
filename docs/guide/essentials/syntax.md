@@ -202,7 +202,7 @@ As result the below:
 
 ### Custom Modifiers
 
-If you want to use a non built-in modifiers, you can use your custom modifiers.
+If you want to use non built-in modifiers, you can use your custom modifiers.
 
 To use custom modifiers, you must specify them in `modifiers` option of `createI18n`:
 
