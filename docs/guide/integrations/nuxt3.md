@@ -307,7 +307,7 @@ Without the `@intlify/unplugin-vue-i18n` plugin to `vite.plugins`, locale resour
 
 Vue I18n just call the functions! if the locale resource is a function, since it has already been compiled.
 
-In this tutorial,  Nuxt 3 application is small, so we can not enough experience the performance of this optimization, but as the application gets larger, it will benefit from this optimization.
+In this tutorial,  the Nuxt 3 application is small, so we can not enough experience the performance of this optimization, but as the application gets larger, it will benefit from it.
 
 ### Example codes
 
