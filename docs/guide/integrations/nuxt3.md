@@ -236,15 +236,13 @@ Your Nuxt 3 application is now ready for basic internationalization!
 
 So far, you have been able to use Vue I18n to support language switching for your Nuxt 3 application. Also, by externalizing the locale resoruces, you have separated them from the code, making it easier to manage locale resources and integrate with the localization service.
 
-However, as described in the [Optimization](. /advanced/optimization), your Nuxt 3 application prepared so far is not optimized for bundle size.
+However, as described in the [Optimization](./advanced/optimization), your Nuxt 3 application prepared so far is not optimized for bundle size.
 
 Since Vue I18n v9, the message compiler allows pre-compiling of locale resources for improved performance, but has not yet been optimized for that performance.
 
 Finally, we would to introduce with you [@intlify/unplugin-vue-i18n](https://github.com/intlify/bundle-tools/tree/main/packages/unplugin-vue-i18n) a Vue I18n to optimize performance.
 
 ### Install `@intlify/unplugin-vue-i18n`
-
-Install `@intlify/unplugin-vue-i18n`:
 
 ```sh
 npm install --save-dev @intlify/unplugin-vue-i18n
@@ -283,7 +281,7 @@ The bundler for Nuxt 3 is vite by default. So we will use the `vite` option here
 
 In `vite.resolve.alias`, set the `vue-i18n` alias to use only the Vue I18n runtime (`vue-i18n/dist/vue-i18n.runtime.esm-bundler.js`). This setting reduces the bundle size since the message compiler used by Vue I18n is not included.
 
-In `vite.plugins`, the plugin for `@intlify/unplugin-vue-i18n` is configured. As an option for this plugin, the `include` option specifies locale resources in json format placed in the `locales` directory. This allows `@intlify/unplugin-vue-i18n` to pre-compile locale resoruces at bundle time using Vue I18n's message compiler internally. This improves the translation performance of Vue I18n and consequently the rendering performance of Nuxt 3 applications.
+In `vite.plugins`, the plugin for `@intlify/unplugin-vue-i18n` is configured. As an option for this plugin, the `include` option specifies locale resources in json format placed in the `locales` directory. This allows `@intlify/unplugin-vue-i18n` to pre-compile locale resoruces at bundle time using Vue I18n message compiler internally. This improves the translation performance of Vue I18n and consequently the rendering performance of Nuxt 3 applications.
 
 ### Inside of bundling with optimization
 
@@ -299,7 +297,7 @@ The area highlighted in blue is the code bundled by vite.
 
 `vite.resolve.alias` setting specifies a runtime-only module for Vue I18n, which reduces the bundle size.
 
-Also, you can see the changing in the banding of locale resources.
+Also, you can see the changing in the bandling of locale resources.
 
 Code for locale resources, depending on whether or not the `@intlify/unplugin-vue-i18n` plugin to `vite.plugins` is set. Below:
 
