@@ -303,7 +303,7 @@ Code for locale resources, depending on whether or not the `@intlify/unplugin-vu
 
 ![Pre-compile](/nuxt3-pre-compile.png)
 
-Without the `@intlify/unplugin-vue-i18n` plugin to `vite.plugins`, locale resources are banded as **json**, but with this plugin set, locale resources are **converted from json to JavaScript code** for banding.
+Without the `@intlify/unplugin-vue-i18n` plugin to `vite.plugins`, locale resources are banded as **json**, but with this plugin set, locale resources are **converted from json to JavaScript code** for bandwidth.
 
 Vue I18n just call the functions! if the locale resource is a function, since it has already been compiled.
 
