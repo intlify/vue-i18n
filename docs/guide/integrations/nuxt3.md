@@ -236,7 +236,7 @@ Your Nuxt 3 application is now ready for basic internationalization!
 
 So far, you have been able to use Vue I18n to support language switching for your Nuxt 3 application. Also, by externalizing the locale resoruces, you have separated them from the code, making it easier to manage locale resources and integrate with the localization service.
 
-However, as described in the [Optimization](./advanced/optimization), your Nuxt 3 application prepared so far is not optimized for bundle size.
+However, as described in the [Optimization](../advanced/optimization), your Nuxt 3 application prepared so far is not optimized for bundle size.
 
 Since Vue I18n v9, the message compiler allows pre-compiling of locale resources for improved performance, but has not yet been optimized for that performance.
 
