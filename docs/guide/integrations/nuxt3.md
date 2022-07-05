@@ -281,7 +281,7 @@ The bundler for Nuxt 3 is vite by default. So we will use the `vite` option here
 
 In `vite.resolve.alias`, set the `vue-i18n` alias to use only the Vue I18n runtime (`vue-i18n/dist/vue-i18n.runtime.esm-bundler.js`). This setting reduces the bundle size since the message compiler used by Vue I18n is not included.
 
-In `vite.plugins`, the plugin for `@intlify/unplugin-vue-i18n` is configured. As an option for this plugin, the `include` option specifies locale resources in json format placed in the `locales` directory. This allows `@intlify/unplugin-vue-i18n` to pre-compile locale resoruces at bundle time using Vue I18n message compiler internally. This improves the translation performance of Vue I18n and consequently the rendering performance of Nuxt 3 applications.
+In `vite.plugins`, the plugin for `@intlify/unplugin-vue-i18n` is configured. As an option for this plugin, the `include` option specifies locale resources in json format placed in the `locales` directory. This allows `@intlify/unplugin-vue-i18n` to pre-compile locale resources at bundle time using Vue I18n message compiler internally. This improves the translation performance of Vue I18n and consequently the rendering performance of Nuxt 3 applications.
 
 ### Inside of bundling with optimization
 
