@@ -2,3 +2,4 @@ packages:
   - 'packages/*'
   - 'examples/**/*'
   - '!examples/ssr/vite'
+  - '!examples/framework/nuxt3'
