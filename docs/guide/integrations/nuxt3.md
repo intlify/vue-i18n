@@ -287,7 +287,7 @@ In `vite.plugins`, the plugin for `@intlify/unplugin-vue-i18n` is configured. As
 
 When you have finished the setup, let’s run `npm run dev` to check it out!
 
-When you will access to `http://localhost:3000`, the behavior of the Nuxt 3 application remains the same, but there is a change in the banding of the Nuxt 3 application.
+When you will access to `http://localhost:3000`, the behavior of the Nuxt 3 application remains the same, but there is a change in the bandwidth of the Nuxt 3 application.
 
 The following is a comparison of bundle sizes measured in the network tab of devtools with and without `vite.resolve.alias`:
 
