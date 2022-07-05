@@ -311,4 +311,4 @@ In this tutorial,  the Nuxt 3 application is small, so we can not enough experie
 
 ### Example codes
 
-You can get the code for the tutorial so far [here](https://github.com/intlify/vue-i18n-next/tree/master/examples/framework/nuxt3).
+You can get the code for the tutorial below on [examples/framework/nuxt3](https://github.com/intlify/vue-i18n-next/tree/master/examples/framework/nuxt3).
