@@ -228,7 +228,7 @@ And then, change `plugins/i18n.ts` as follows:
  })
 ```
 
-It’s set locale resources for each imported language to `messages` option, so you can manage locale resources with seperating from code in the `locales` directory. It also facilitates integration with the localization service.
+It’s set locale resources for each imported language to `messages` option, so you can manage locale resources with separating from code in the `locales` directory. It also facilitates integration with the localization service.
 
 Let's run `npm run dev` to see if the fixes so far work. When we will have run the command and have be access to `http://localhost:3000`, you can see the display similar to the following:
 
