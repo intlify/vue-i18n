@@ -122,7 +122,7 @@ After we will run the command and access to `http://localhost:3000`, you can see
 So far we have been able to integrate Vue I18n into our Nuxt 3 application.
 Next, we will implement language switching and import locale resources from outside.
 
-By implementing language switching, we can i18n our Nuxt 3 application. Also, when we will be separating locale resoruces from the source code and externalizing them, we can be localized in a separate workflow using the Localization service.
+By implementing language switching, we can i18n our Nuxt 3 application. Also, when we will be separating locale resources from the source code and externalizing them, we can be localized in a separate workflow using the Localization service.
 
 In the following sections, we will work on Nuxt 3 applications that support English, French, and Japanese.
 
