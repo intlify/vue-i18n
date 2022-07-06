@@ -146,7 +146,7 @@ We will add language switching feature to `app.vue` as follows:
  </template>
 ```
 
-Language switching is implemented using the select element on form.
+Language switching is implemented using the `select` element on `form`.
 The value of each option is defined as the value of the locale code, which will be explained later in the externalization of locale resources.
 
 The value of each option defines the value of the locale code, which will be explained later in the externalization of locale resources.
