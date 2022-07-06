@@ -2,7 +2,7 @@
 
 We will introduce Vue I18n integration for Nuxt 3.
 
-The following is a tutorial on set up a Nuxt 3 application from the initial configuration.
+The following is a tutorial on setting up a Nuxt 3 application from the initial configuration.
 
 If you go through this tutorial, you can learn how to integrate Vue I18n with Nuxt plugin.
 
