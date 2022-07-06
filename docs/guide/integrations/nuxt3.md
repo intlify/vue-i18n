@@ -12,6 +12,10 @@ The Node.js requirement for this tutorial is the same environment as Nuxt 3.
 
 Please check [here](https://v3.nuxtjs.org/getting-started/quick-start#prerequisites) for Node.js version of Nuxt 3.
 
+## Example codes
+
+You can get the code for the tutorial below on [examples/frameworks/nuxt3](https://github.com/intlify/vue-i18n-next/tree/master/examples/framework/nuxt3).
+
 ## Setup vue-i18n on Nuxt 3 Application
 
 We will now set up the initial environment for using Vue I18n with Nuxt 3.
@@ -308,7 +312,3 @@ Without the `@intlify/unplugin-vue-i18n` plugin to `vite.plugins`, locale resour
 Vue I18n just call the functions! if the locale resource is a function, since it has already been compiled.
 
 In this tutorial,  the Nuxt 3 application is small, so we can not enough experience the performance of this optimization, but as the application gets larger, it will benefit from it.
-
-### Example codes
-
-You can get the code for the tutorial below on [examples/framework/nuxt3](https://github.com/intlify/vue-i18n-next/tree/master/examples/framework/nuxt3).
