@@ -142,7 +142,7 @@ We will add language switching feature to `app.vue` as follows:
 +        <option value="ja">ja</option>
 +      </select>
 +    </form>
-+  </div>
+   </div>
  </template>
 ```
 
@@ -214,7 +214,7 @@ And then, change `plugins/i18n.ts` as follows:
      legacy: false,
      globalInjection: true,
      locale: 'en',
--    messages: {
+     messages: {
 -      en: {
 -        hello: "Hello, {name}!"
 -      }
