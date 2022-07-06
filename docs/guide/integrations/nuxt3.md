@@ -28,7 +28,7 @@ Run the following command to create a Nuxt 3 application:
 npx nuxi init nuxt3-app-vue-i18n
 ```
 
-We will have run the above commmand, it will be created  Nuxt 3 initial project with the following directory structure:
+We will have run the above command, it will be created  Nuxt 3 initial project with the following directory structure:
 
 ```
 cd nuxt3-app-vue-i18n
