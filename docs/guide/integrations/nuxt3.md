@@ -238,7 +238,7 @@ Your Nuxt 3 application is now ready for basic internationalization!
 
 ## Optimize with `@intlify/unplugin-vue-i18n`
 
-So far, you have been able to use Vue I18n to support language switching for your Nuxt 3 application. Also, by externalizing the locale resoruces, you have separated them from the code, making it easier to manage locale resources and integrate with the localization service.
+So far, you have been able to use Vue I18n to support language switching for your Nuxt 3 application. Also, by externalizing the locale resources, you have separated them from the code, making it easier to manage locale resources and integrate with the localization service.
 
 However, as described in the [Optimization](../advanced/optimization), your Nuxt 3 application prepared so far is not optimized for bundle size.
 
