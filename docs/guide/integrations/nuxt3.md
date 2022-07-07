@@ -265,11 +265,6 @@ Configure `nuxt.config.ts` like the below:
  // https://v3.nuxtjs.org/api/configuration/nuxt.config
  export default defineNuxtConfig({
 +  vite: {
-+    resolve: {
-+      alias: {
-+        'vue-i18n': 'vue-i18n/dist/vue-i18n.runtime.esm-bundler.js'
-+      }
-+    },
 +    plugins: [
 +      VueI18nVitePlugin({
 +        include: [
@@ -283,8 +278,6 @@ Configure `nuxt.config.ts` like the below:
 
 The bundler for Nuxt 3 is vite by default. So we will use the `vite` option here for optimization.
 
-In `vite.resolve.alias`, set the `vue-i18n` alias to use only the Vue I18n runtime (`vue-i18n/dist/vue-i18n.runtime.esm-bundler.js`). This setting reduces the bundle size since the message compiler used by Vue I18n is not included.
-
 In `vite.plugins`, the plugin for `@intlify/unplugin-vue-i18n` is configured. As an option for this plugin, the `include` option specifies locale resources in json format placed in the `locales` directory. This allows `@intlify/unplugin-vue-i18n` to pre-compile locale resources at bundle time using Vue I18n message compiler internally. This improves the translation performance of Vue I18n and consequently the rendering performance of Nuxt 3 applications.
 
 ### Inside of bundling with optimization
@@ -293,13 +286,15 @@ When you have finished the setup, let’s run `npm run dev` to check it out!
 
 When you will access to `http://localhost:3000`, the behavior of the Nuxt 3 application remains the same, but there is a change in the bandwidth of the Nuxt 3 application.
 
-The following is a comparison of bundle sizes measured in the network tab of devtools with and without `vite.resolve.alias`:
+The following is a comparison of bundle sizes measured in the network tab of devtools with and without `@intlify/unplugin-vue-i18n`:
 
 ![Reduce bundle size](/nuxt3-reduce-bundle-size.png)
 
 The area highlighted in blue is the code bundled by vite.
 
-`vite.resolve.alias` setting specifies a runtime-only module for Vue I18n, which reduces the bundle size.
+By setting up this plugin, the plugin will internally set up a Vue I18n module that is runtime-only. Specifically, vite config `resolve.alias`, set the `vue-i18n` alias to use only the Vue I18n runtime (`vue-i18n/dist/vue-i18n.runtime.esm-bundler.js`). This setting reduces the bundle size since the message compiler used by Vue I18n is not included.
+
+About details, see `@intlify/unplugin-vue-i18n` [docs](https://github.com/intlify/bundle-tools/tree/main/packages/unplugin-vue-i18n#runtimeonly)
 
 Also, you can see the changing in the bandling of locale resources.
 
