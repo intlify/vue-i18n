@@ -87,7 +87,7 @@ app.mount('#object-syntax')
 Templates:
 
 ```html
-<div id="app">
+<div id="object-syntax">
   <!-- literal -->
   <p v-t="{ path: 'message.hi', args: { name: 'kazupon' } }"></p>
   <!-- data binding via data -->
