@@ -208,6 +208,16 @@ const config = {
               ]
             },
             {
+              text: 'Frameworks Integration',
+              collapsable: false,
+              children: [
+                {
+                  text: 'Nuxt 3',
+                  link: '/guide/integrations/nuxt3'
+                }
+              ]
+            },
+            {
               text: 'Migrations',
               collapsable: false,
               children: [
