@@ -224,7 +224,7 @@ export type DefaultNumberFormatSchema<
 export type MissingHandler = (
   locale: Locale,
   key: Path,
-  insttance?: ComponentInternalInstance,
+  instance?: ComponentInternalInstance,
   type?: string
 ) => string | void
 

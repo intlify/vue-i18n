@@ -313,17 +313,14 @@ export const generate = (
 function getMappingName(node: CodeGenNode): string | undefined {
   switch (node.type) {
     case NodeTypes.Text:
+    case NodeTypes.Literal:
+    case NodeTypes.LinkedModifier:
+    case NodeTypes.LinkedKey:
       return node.value
     case NodeTypes.List:
       return node.index.toString()
     case NodeTypes.Named:
       return node.key
-    case NodeTypes.Literal:
-      return node.value
-    case NodeTypes.LinkedModifier:
-      return node.value
-    case NodeTypes.LinkedKey:
-      return node.value
     default:
       return undefined
   }

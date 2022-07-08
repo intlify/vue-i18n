@@ -48,6 +48,7 @@ Include `vue-i18n-bridge` after `vue`, `@vue/composition-api` and it will instal
 
 ```js
 import Vue from 'vue'
+import VueI18n from 'vue-i18n'
 import VueCompositionAPI, { createApp } from '@vue/composition-api'
 import { createI18n, useI18n } from 'vue-i18n-bridge'
 
@@ -90,6 +91,7 @@ app.mount('#app')
 
 ```js
 import Vue from 'vue'
+import VueI18n from 'vue-i18n'
 import VueCompositionAPI from '@vue/composition-api'
 import { createI18n, useI18n } from 'vue-i18n-bridge'
 
@@ -122,31 +124,37 @@ app.$mount('#app')
 For TypeScript:
 ```ts
 import Vue from 'vue'
+import VueI18n from 'vue-i18n'
 import VueCompositionAPI from '@vue/composition-api'
 import { createI18n, useI18n, castToVueI18n } from 'vue-i18n-bridge'
 
 Vue.use(VueCompositionAPI)
 Vue.use(VueI18n, { bridge: true })
 
-const i18n = createI18n({
-  locale: 'ja',
-  messages: {
-    en: {
-      message: {
-        hello: 'hello, {name}!'
-      }
+const i18n = castToVueI18n(
+  createI18n(
+    {
+      locale: 'ja',
+      messages: {
+        en: {
+          message: {
+            hello: 'hello, {name}!',
+          },
+        },
+        ja: {
+          message: {
+            hello: 'こんにちは、{name}！',
+          },
+        },
+      },
     },
-    ja: {
-      message: {
-        hello: 'こんにちは、{name}！'
-      }
-    }
-  }
-}, VueI18n)
+    VueI18n
+  )
+)
 
 Vue.use(i18n)
 
-const app = new Vue({ i18n: castToVueI18n(i18n) }) // you need to cast `i18n` instance
+const app = new Vue({ i18n }) // you need to cast `i18n` instance
 app.$mount('#app')
 ```
 
