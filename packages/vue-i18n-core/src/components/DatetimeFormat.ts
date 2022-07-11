@@ -3,6 +3,7 @@ import { DatetimePartsSymbol } from '../symbols'
 import { renderFormatter } from './formatRenderer'
 import { baseFormatProps } from './base'
 import { assign } from '@intlify/shared'
+import { DATETIME_FORMAT_OPTIONS_KEYS } from '@intlify/core-base'
 
 /* eslint-enable @typescript-eslint/no-unused-vars */
 import type { DateTimeOptions } from '@intlify/core-base'
@@ -18,29 +19,6 @@ export type DatetimeFormatProps = FormattableProps<
   number | Date,
   Intl.DateTimeFormatOptions
 >
-
-const DATETIME_FORMAT_KEYS = [
-  'dateStyle',
-  'timeStyle',
-  'fractionalSecondDigits',
-  'calendar',
-  'dayPeriod',
-  'numberingSystem',
-  'localeMatcher',
-  'timeZone',
-  'hour12',
-  'hourCycle',
-  'formatMatcher',
-  'weekday',
-  'era',
-  'year',
-  'month',
-  'day',
-  'hour',
-  'minute',
-  'second',
-  'timeZoneName'
-]
 
 /**
  * Datetime Format Component
@@ -91,7 +69,7 @@ export const DatetimeFormat = /* #__PURE__*/ /*defineComponent */ {
     >(
       props as DatetimeFormatProps,
       context,
-      DATETIME_FORMAT_KEYS,
+      DATETIME_FORMAT_OPTIONS_KEYS,
       (...args: unknown[]) =>
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         (i18n as any)[DatetimePartsSymbol](...args)
