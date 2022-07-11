@@ -221,7 +221,7 @@ export function number<
   )
 
   if (!isString(key) || key === '') {
-    return new Intl.NumberFormat(locale).format(value)
+    return new Intl.NumberFormat(locale, overrides).format(value)
   }
 
   // resolve format
@@ -291,7 +291,8 @@ export function number<
   return !part ? formatter.format(value) : formatter.formatToParts(value)
 }
 
-const NUMBER_FORMAT_OPTIONS_KEYS = [
+/** @internal */
+export const NUMBER_FORMAT_OPTIONS_KEYS = [
   'localeMatcher',
   'style',
   'currency',
@@ -307,7 +308,11 @@ const NUMBER_FORMAT_OPTIONS_KEYS = [
   'notation',
   'signDisplay',
   'unit',
-  'unitDisplay'
+  'unitDisplay',
+  'roundingMode',
+  'roundingPriority',
+  'roundingIncrement',
+  'trailingZeroDisplay'
 ]
 
 /** @internal */

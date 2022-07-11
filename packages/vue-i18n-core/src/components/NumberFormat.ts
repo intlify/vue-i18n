@@ -3,6 +3,7 @@ import { NumberPartsSymbol } from '../symbols'
 import { renderFormatter } from './formatRenderer'
 import { baseFormatProps } from './base'
 import { assign } from '@intlify/shared'
+import { NUMBER_FORMAT_OPTIONS_KEYS } from '@intlify/core-base'
 
 import type { NumberOptions } from '@intlify/core-base'
 import type { Composer, ComposerInternal } from '../composer'
@@ -17,24 +18,6 @@ export type NumberFormatProps = FormattableProps<
   number,
   Intl.NumberFormatOptions
 >
-
-const NUMBER_FORMAT_KEYS = [
-  'localeMatcher',
-  'style',
-  'unit',
-  'unitDisplay',
-  'currency',
-  'currencyDisplay',
-  'useGrouping',
-  'numberingSystem',
-  'minimumIntegerDigits',
-  'minimumFractionDigits',
-  'maximumFractionDigits',
-  'minimumSignificantDigits',
-  'maximumSignificantDigits',
-  'notation',
-  'formatMatcher'
-]
 
 /**
  * Number Format Component
@@ -85,7 +68,7 @@ export const NumberFormat = /* #__PURE__*/ /* defineComponent */ {
     >(
       props as NumberFormatProps,
       context,
-      NUMBER_FORMAT_KEYS,
+      NUMBER_FORMAT_OPTIONS_KEYS,
       (...args: unknown[]) =>
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         (i18n as any)[NumberPartsSymbol](...args)

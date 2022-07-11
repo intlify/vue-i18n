@@ -558,3 +558,31 @@ test('issue #1014', async () => {
 
   expect(wrapper.html()).toMatchSnapshot()
 })
+
+test('issue #1054, #1053', async () => {
+  const i18n = createI18n({
+    legacy: false,
+    locale: 'en-US',
+    datetimeFormats: {}
+  })
+  const App = defineComponent({
+    setup() {
+      return {
+        amount: 123456.789,
+        format: {
+          style: 'currency',
+          currency: 'USD',
+          signDisplay: 'always'
+        }
+      }
+    },
+    template: `
+    <p>{{ $n(amount, format) }}</p>
+    <i18n-n tag="span" :value="amount" :format="format" scope="global"></i18n-n>
+    `
+  })
+
+  const wrapper = await mount(App, i18n)
+
+  expect(wrapper.html()).toMatchSnapshot()
+})
