@@ -14,7 +14,7 @@ Please check [here](https://v3.nuxtjs.org/getting-started/quick-start#prerequisi
 
 ## Example codes
 
-You can get the code for the tutorial below on [examples/frameworks/nuxt3](https://github.com/intlify/vue-i18n-next/tree/master/examples/framework/nuxt3).
+You can get the code for the tutorial below on [examples/frameworks/nuxt3](https://github.com/intlify/vue-i18n-next/tree/master/examples/frameworks/nuxt3).
 
 ## Setup vue-i18n on Nuxt 3 Application
 
