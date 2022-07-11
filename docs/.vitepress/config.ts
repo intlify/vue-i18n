@@ -187,6 +187,16 @@ function sidebarGuide() {
       ]
     },
     {
+      text: 'Frameworks Integration',
+      collapsible: false,
+      items: [
+        {
+          text: 'Nuxt 3',
+          link: '/guide/integrations/nuxt3'
+        }
+      ]
+    },
+    {
       text: 'Migrations',
       collapsible: true,
       items: [
