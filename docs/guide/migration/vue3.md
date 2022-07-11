@@ -27,7 +27,7 @@ You should understand as a limited feature for migration.
 
 #### `createI18n`
 
-You need specify `allowComposition: true` to `createI18n` otpions. the below example:
+You need specify `allowComposition: true` to `createI18n` options. the below example:
 
 ```js
 import { createI18n } from 'vue-i18n'
