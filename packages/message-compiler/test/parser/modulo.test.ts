@@ -179,3 +179,39 @@ test('no apples %| one apple % |  too much apples  ', () => {
     }
   ])
 })
+
+test(`%{nickname} %{action} issue %{code}`, () => {
+  const text = `%{nickname} %{action} issue %{code}`
+  const parser = createParser({ onError: spy })
+  const ast = parser.parse(text)
+
+  expect(ast).toMatchSnapshot()
+  expect(spy).not.toHaveBeenCalled()
+
+  expect(ast.type).toEqual(NodeTypes.Resource)
+  expect(ast.body.type).toEqual(NodeTypes.Message)
+  const message = ast.body as MessageNode
+  expect(message.items).toHaveLength(5)
+  expect(message.items).toMatchObject([
+    {
+      type: NodeTypes.Named,
+      key: 'nickname'
+    },
+    {
+      type: NodeTypes.Text,
+      value: ' '
+    },
+    {
+      type: NodeTypes.Named,
+      key: 'action'
+    },
+    {
+      type: NodeTypes.Text,
+      value: ' issue '
+    },
+    {
+      type: NodeTypes.Named,
+      key: 'code'
+    }
+  ])
+})
