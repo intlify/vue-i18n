@@ -312,6 +312,15 @@ exports[`edge cases %: code 1`] = `
 }"
 `;
 
+exports[`edge cases %{nickname} %{action} issue %{code}: code 1`] = `
+"function __msg__ (ctx) {
+  const { normalize: _normalize, interpolate: _interpolate, named: _named } = ctx
+  return _normalize([
+    _interpolate(_named(\\"nickname\\")), \\" \\", _interpolate(_named(\\"action\\")), \\" issue \\", _interpolate(_named(\\"code\\"))
+  ])
+}"
+`;
+
 exports[`edge cases {_field} with the same value already exists.: code 1`] = `
 "function __msg__ (ctx) {
   const { normalize: _normalize, interpolate: _interpolate, named: _named } = ctx

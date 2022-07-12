@@ -226,7 +226,7 @@ export function datetime<
   )
 
   if (!isString(key) || key === '') {
-    return new Intl.DateTimeFormat(locale).format(value)
+    return new Intl.DateTimeFormat(locale, overrides).format(value)
   }
 
   // resolve format
@@ -296,7 +296,8 @@ export function datetime<
   return !part ? formatter.format(value) : formatter.formatToParts(value)
 }
 
-const DATETIME_FORMAT_OPTIONS_KEYS = [
+/** @internal */
+export const DATETIME_FORMAT_OPTIONS_KEYS = [
   'localeMatcher',
   'weekday',
   'era',

@@ -441,6 +441,141 @@ describe('modulo cases', () => {
       }
     })
   })
+
+  describe('multiple', () => {
+    test(`%{nickname} %{action} issue %{code}`, () => {
+      const tokenizer = createTokenizer(`%{nickname} %{action} issue %{code}`)
+      expect(tokenizer.nextToken()).toEqual({
+        type: TokenTypes.Modulo,
+        value: '%',
+        loc: {
+          start: { line: 1, column: 1, offset: 0 },
+          end: { line: 1, column: 2, offset: 1 }
+        }
+      })
+      expect(tokenizer.nextToken()).toEqual({
+        type: TokenTypes.BraceLeft,
+        value: '{',
+        loc: {
+          start: { line: 1, column: 2, offset: 1 },
+          end: { line: 1, column: 3, offset: 2 }
+        }
+      })
+      expect(tokenizer.nextToken()).toEqual({
+        type: TokenTypes.Named,
+        value: 'nickname',
+        loc: {
+          start: { line: 1, column: 3, offset: 2 },
+          end: { line: 1, column: 11, offset: 10 }
+        }
+      })
+      expect(tokenizer.nextToken()).toEqual({
+        type: TokenTypes.BraceRight,
+        value: '}',
+        loc: {
+          start: { line: 1, column: 11, offset: 10 },
+          end: { line: 1, column: 12, offset: 11 }
+        }
+      })
+      expect(tokenizer.nextToken()).toEqual({
+        type: TokenTypes.Text,
+        value: ' ',
+        loc: {
+          start: { line: 1, column: 12, offset: 11 },
+          end: { line: 1, column: 13, offset: 12 }
+        }
+      })
+      expect(tokenizer.nextToken()).toEqual({
+        type: TokenTypes.Modulo,
+        value: '%',
+        loc: {
+          start: { line: 1, column: 13, offset: 12 },
+          end: { line: 1, column: 14, offset: 13 }
+        }
+      })
+      expect(tokenizer.nextToken()).toEqual({
+        type: TokenTypes.BraceLeft,
+        value: '{',
+        loc: {
+          start: { line: 1, column: 14, offset: 13 },
+          end: { line: 1, column: 15, offset: 14 }
+        }
+      })
+      expect(tokenizer.nextToken()).toEqual({
+        type: TokenTypes.Named,
+        value: 'action',
+        loc: {
+          start: { line: 1, column: 15, offset: 14 },
+          end: { line: 1, column: 21, offset: 20 }
+        }
+      })
+      expect(tokenizer.nextToken()).toEqual({
+        type: TokenTypes.BraceRight,
+        value: '}',
+        loc: {
+          start: { line: 1, column: 21, offset: 20 },
+          end: { line: 1, column: 22, offset: 21 }
+        }
+      })
+      expect(tokenizer.nextToken()).toEqual({
+        type: TokenTypes.Text,
+        value: ' issue ',
+        loc: {
+          start: { line: 1, column: 22, offset: 21 },
+          end: { line: 1, column: 29, offset: 28 }
+        }
+      })
+      expect(tokenizer.nextToken()).toEqual({
+        type: TokenTypes.Modulo,
+        value: '%',
+        loc: {
+          start: { line: 1, column: 29, offset: 28 },
+          end: { line: 1, column: 30, offset: 29 }
+        }
+      })
+      expect(tokenizer.nextToken()).toEqual({
+        type: TokenTypes.BraceLeft,
+        value: '{',
+        loc: {
+          start: { line: 1, column: 30, offset: 29 },
+          end: { line: 1, column: 31, offset: 30 }
+        }
+      })
+      expect(tokenizer.nextToken()).toEqual({
+        type: TokenTypes.Named,
+        value: 'code',
+        loc: {
+          start: { line: 1, column: 31, offset: 30 },
+          end: { line: 1, column: 35, offset: 34 }
+        }
+      })
+      expect(tokenizer.nextToken()).toEqual({
+        type: TokenTypes.BraceRight,
+        value: '}',
+        loc: {
+          start: { line: 1, column: 35, offset: 34 },
+          end: { line: 1, column: 36, offset: 35 }
+        }
+      })
+      expect(tokenizer.nextToken()).toEqual({
+        type: TokenTypes.EOF,
+        loc: {
+          start: { line: 1, column: 36, offset: 35 },
+          end: { line: 1, column: 36, offset: 35 }
+        }
+      })
+    })
+
+    test(` %{action} issue %s %{code} !`, () => {
+      const tokenizer = createTokenizer(` %{action} issue %s %{code} !`)
+      let token = tokenizer.nextToken()
+      while (token.type !== TokenTypes.EOF) {
+        expect(token).toMatchSnapshot()
+        token = tokenizer.nextToken()
+      }
+      expect(token).toMatchSnapshot()
+    })
+  })
 })
 
 test('underscore started', () => {

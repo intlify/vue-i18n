@@ -3,3 +3,7 @@
 exports[`issue #968 1`] = `"<div class=\\"col-auto text-h6\\">£</div><div class=\\"col-auto text-h3\\">1</div><div class=\\"col-auto text-subtitle1 self-end text-amber\\">,</div><div class=\\"col-auto text-h3\\">150</div><div class=\\"col-auto text-subtitle1 self-end text-amber\\">,</div><div class=\\"col-auto text-h3\\">001</div><div class=\\"col-auto text-subtitle2 self-end text-primary\\">.</div><div class=\\"col-auto text-subtitle1 self-end text-red\\">20</div>"`;
 
 exports[`issue #1014 1`] = `"<span>Add</span>"`;
+
+exports[`issue #1054, #1053 1`] = `"<p>+$123,456.79</p><span>+$123,456.79</span>"`;
+
+exports[`issue #1055 1`] = `"<p>John opened issue 123</p>"`;

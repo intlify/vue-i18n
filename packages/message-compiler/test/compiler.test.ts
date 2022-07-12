@@ -105,4 +105,9 @@ describe('edge cases', () => {
     const { code } = compile(`hi @._upper:{_name} !`)
     expect(code).toMatchSnapshot('code')
   })
+
+  test(`%{nickname} %{action} issue %{code}`, () => {
+    const { code } = compile(`%{nickname} %{action} issue %{code}`)
+    expect(code).toMatchSnapshot('code')
+  })
 })

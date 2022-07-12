@@ -1,5 +1,135 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`%{nickname} %{action} issue %{code} 1`] = `
+Object {
+  "body": Object {
+    "end": 35,
+    "items": Array [
+      Object {
+        "end": 11,
+        "key": "nickname",
+        "loc": Object {
+          "end": Object {
+            "column": 12,
+            "line": 1,
+            "offset": 11,
+          },
+          "start": Object {
+            "column": 2,
+            "line": 1,
+            "offset": 1,
+          },
+        },
+        "start": 1,
+        "type": 4,
+      },
+      Object {
+        "end": 12,
+        "loc": Object {
+          "end": Object {
+            "column": 13,
+            "line": 1,
+            "offset": 12,
+          },
+          "start": Object {
+            "column": 12,
+            "line": 1,
+            "offset": 11,
+          },
+        },
+        "start": 11,
+        "type": 3,
+        "value": " ",
+      },
+      Object {
+        "end": 21,
+        "key": "action",
+        "loc": Object {
+          "end": Object {
+            "column": 22,
+            "line": 1,
+            "offset": 21,
+          },
+          "start": Object {
+            "column": 14,
+            "line": 1,
+            "offset": 13,
+          },
+        },
+        "start": 13,
+        "type": 4,
+      },
+      Object {
+        "end": 28,
+        "loc": Object {
+          "end": Object {
+            "column": 29,
+            "line": 1,
+            "offset": 28,
+          },
+          "start": Object {
+            "column": 22,
+            "line": 1,
+            "offset": 21,
+          },
+        },
+        "start": 21,
+        "type": 3,
+        "value": " issue ",
+      },
+      Object {
+        "end": 35,
+        "key": "code",
+        "loc": Object {
+          "end": Object {
+            "column": 36,
+            "line": 1,
+            "offset": 35,
+          },
+          "start": Object {
+            "column": 30,
+            "line": 1,
+            "offset": 29,
+          },
+        },
+        "start": 29,
+        "type": 4,
+      },
+    ],
+    "loc": Object {
+      "end": Object {
+        "column": 36,
+        "line": 1,
+        "offset": 35,
+      },
+      "start": Object {
+        "column": 1,
+        "line": 1,
+        "offset": 0,
+      },
+    },
+    "start": 0,
+    "type": 2,
+  },
+  "end": 35,
+  "loc": Object {
+    "end": Object {
+      "column": 36,
+      "line": 1,
+      "offset": 35,
+    },
+    "source": "%{nickname} %{action} issue %{code}",
+    "start": Object {
+      "column": 1,
+      "line": 1,
+      "offset": 0,
+    },
+  },
+  "start": 0,
+  "type": 0,
+}
+`;
+
 exports[`hi % {name}! 1`] = `
 Object {
   "body": Object {
