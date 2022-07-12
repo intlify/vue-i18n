@@ -1,4 +1,37 @@
 
+## v9.2.0-beta.37 (2022-07-12)
+
+#### :bug: Bug Fixes
+* `message-compiler`, `vue-i18n-core`
+  * [#1057](https://github.com/intlify/vue-i18n-next/pull/1057) fix: cannot modulo parse hangup ([@kazupon](https://github.com/kazupon))
+* `core-base`, `vue-i18n-core`
+  * [#1056](https://github.com/intlify/vue-i18n-next/pull/1056) fix: number and datetime options override formatting ([@kazupon](https://github.com/kazupon))
+  * [#1037](https://github.com/intlify/vue-i18n-next/pull/1037) fix postTranslation option ([@kazupon](https://github.com/kazupon))
+
+#### :zap: Improvement Features
+* `message-compiler`, `vue-i18n-core`
+  * [#1043](https://github.com/intlify/vue-i18n-next/pull/1043) fix typo and polish ([@lazzzis](https://github.com/lazzzis))
+
+#### :pencil: Documentation
+* Other
+  * [#1050](https://github.com/intlify/vue-i18n-next/pull/1050) Fix spelling ([@fabretti](https://github.com/fabretti))
+  * [#1044](https://github.com/intlify/vue-i18n-next/pull/1044) nuxt3 integration ([@kazupon](https://github.com/kazupon))
+  * [#1047](https://github.com/intlify/vue-i18n-next/pull/1047) Fix the id of the app's container element ([@xfq](https://github.com/xfq))
+  * [#1039](https://github.com/intlify/vue-i18n-next/pull/1039) fix: typo in the layout slot ([@xfq](https://github.com/xfq))
+  * [#1032](https://github.com/intlify/vue-i18n-next/pull/1032) docs: typo ([@xfq](https://github.com/xfq))
+  * [#1028](https://github.com/intlify/vue-i18n-next/pull/1028) docs: typo ([@ashgo-x](https://github.com/ashgo-x))
+* `vue-i18n-bridge`
+  * [#1046](https://github.com/intlify/vue-i18n-next/pull/1046) docs: add missing imports and fix typescript example of vue-i18n-bridge ([@kingyue737](https://github.com/kingyue737))
+
+#### Committers: 6
+- Ash Go ([@ashgo-x](https://github.com/ashgo-x))
+- Fuqiao Xue ([@xfq](https://github.com/xfq))
+- Gleb ([@fabretti](https://github.com/fabretti))
+- Yue JIN ([@kingyue737](https://github.com/kingyue737))
+- kazuya kawaguchi ([@kazupon](https://github.com/kazupon))
+- lazzzis ([@lazzzis](https://github.com/lazzzis))
+
+
 ## v9.2.0-beta.36 (2022-06-06)
 
 #### :bug: Bug Fixes
