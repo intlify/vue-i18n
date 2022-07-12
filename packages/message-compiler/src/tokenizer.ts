@@ -344,6 +344,23 @@ export function createTokenizer(
     return ret
   }
 
+  function detectModuloStart(scnr: Scanner): {
+    isModulo: boolean
+    hasSpace: boolean
+  } {
+    const spaces = peekSpaces(scnr)
+
+    const ret =
+      scnr.currentPeek() === TokenChars.Modulo &&
+      scnr.peek() === TokenChars.BraceLeft
+    scnr.resetPeek()
+
+    return {
+      isModulo: ret,
+      hasSpace: spaces.length > 0
+    }
+  }
+
   function isTextStart(scnr: Scanner, reset = true): boolean {
     const fn = (hasSpace = false, prev = '', detectModulo = false): boolean => {
       const ch = scnr.currentPeek()
@@ -435,6 +452,16 @@ export function createTokenizer(
     }
 
     return num
+  }
+
+  function readModulo(scnr: Scanner): string {
+    skipSpaces(scnr)
+    const ch = scnr.currentChar()
+    if (ch !== TokenChars.Modulo) {
+      emitError(CompileErrorCodes.EXPECTED_TOKEN, currentPosition(), 0, ch)
+    }
+    scnr.next()
+    return TokenChars.Modulo
   }
 
   function readText(scnr: Scanner): string {
@@ -941,14 +968,17 @@ export function createTokenizer(
           return token
         }
 
+        const { isModulo, hasSpace } = detectModuloStart(scnr)
+        if (isModulo) {
+          return hasSpace
+            ? getToken(context, TokenTypes.Text, readText(scnr))
+            : getToken(context, TokenTypes.Modulo, readModulo(scnr))
+        }
+
         if (isTextStart(scnr)) {
           return getToken(context, TokenTypes.Text, readText(scnr))
         }
 
-        if (ch === TokenChars.Modulo) {
-          scnr.next()
-          return getToken(context, TokenTypes.Modulo, TokenChars.Modulo)
-        }
         break
     }
 

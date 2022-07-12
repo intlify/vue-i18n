@@ -586,3 +586,25 @@ test('issue #1054, #1053', async () => {
 
   expect(wrapper.html()).toMatchSnapshot()
 })
+
+test('issue #1055', async () => {
+  const i18n = createI18n({
+    legacy: false,
+    locale: 'en',
+    messages: {
+      en: {
+        issue: '%{nickname} %{action} issue %{code}'
+      }
+    }
+  })
+
+  const App = defineComponent({
+    template: `
+      <p>{{ $t('issue', { nickname: 'John', action: 'opened', code: '123' }) }}</p>
+    `
+  })
+
+  const wrapper = await mount(App, i18n)
+
+  expect(wrapper.html()).toMatchSnapshot()
+})

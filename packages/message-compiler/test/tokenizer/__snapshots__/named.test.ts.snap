@@ -1,0 +1,228 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`modulo cases multiple  %{action} issue %s %{code} ! 1`] = `
+Object {
+  "loc": Object {
+    "end": Object {
+      "column": 2,
+      "line": 1,
+      "offset": 1,
+    },
+    "start": Object {
+      "column": 1,
+      "line": 1,
+      "offset": 0,
+    },
+  },
+  "type": 0,
+  "value": " ",
+}
+`;
+
+exports[`modulo cases multiple  %{action} issue %s %{code} ! 2`] = `
+Object {
+  "loc": Object {
+    "end": Object {
+      "column": 3,
+      "line": 1,
+      "offset": 2,
+    },
+    "start": Object {
+      "column": 2,
+      "line": 1,
+      "offset": 1,
+    },
+  },
+  "type": 4,
+  "value": "%",
+}
+`;
+
+exports[`modulo cases multiple  %{action} issue %s %{code} ! 3`] = `
+Object {
+  "loc": Object {
+    "end": Object {
+      "column": 4,
+      "line": 1,
+      "offset": 3,
+    },
+    "start": Object {
+      "column": 3,
+      "line": 1,
+      "offset": 2,
+    },
+  },
+  "type": 2,
+  "value": "{",
+}
+`;
+
+exports[`modulo cases multiple  %{action} issue %s %{code} ! 4`] = `
+Object {
+  "loc": Object {
+    "end": Object {
+      "column": 10,
+      "line": 1,
+      "offset": 9,
+    },
+    "start": Object {
+      "column": 4,
+      "line": 1,
+      "offset": 3,
+    },
+  },
+  "type": 5,
+  "value": "action",
+}
+`;
+
+exports[`modulo cases multiple  %{action} issue %s %{code} ! 5`] = `
+Object {
+  "loc": Object {
+    "end": Object {
+      "column": 11,
+      "line": 1,
+      "offset": 10,
+    },
+    "start": Object {
+      "column": 10,
+      "line": 1,
+      "offset": 9,
+    },
+  },
+  "type": 3,
+  "value": "}",
+}
+`;
+
+exports[`modulo cases multiple  %{action} issue %s %{code} ! 6`] = `
+Object {
+  "loc": Object {
+    "end": Object {
+      "column": 21,
+      "line": 1,
+      "offset": 20,
+    },
+    "start": Object {
+      "column": 11,
+      "line": 1,
+      "offset": 10,
+    },
+  },
+  "type": 0,
+  "value": " issue %s ",
+}
+`;
+
+exports[`modulo cases multiple  %{action} issue %s %{code} ! 7`] = `
+Object {
+  "loc": Object {
+    "end": Object {
+      "column": 22,
+      "line": 1,
+      "offset": 21,
+    },
+    "start": Object {
+      "column": 21,
+      "line": 1,
+      "offset": 20,
+    },
+  },
+  "type": 4,
+  "value": "%",
+}
+`;
+
+exports[`modulo cases multiple  %{action} issue %s %{code} ! 8`] = `
+Object {
+  "loc": Object {
+    "end": Object {
+      "column": 23,
+      "line": 1,
+      "offset": 22,
+    },
+    "start": Object {
+      "column": 22,
+      "line": 1,
+      "offset": 21,
+    },
+  },
+  "type": 2,
+  "value": "{",
+}
+`;
+
+exports[`modulo cases multiple  %{action} issue %s %{code} ! 9`] = `
+Object {
+  "loc": Object {
+    "end": Object {
+      "column": 27,
+      "line": 1,
+      "offset": 26,
+    },
+    "start": Object {
+      "column": 23,
+      "line": 1,
+      "offset": 22,
+    },
+  },
+  "type": 5,
+  "value": "code",
+}
+`;
+
+exports[`modulo cases multiple  %{action} issue %s %{code} ! 10`] = `
+Object {
+  "loc": Object {
+    "end": Object {
+      "column": 28,
+      "line": 1,
+      "offset": 27,
+    },
+    "start": Object {
+      "column": 27,
+      "line": 1,
+      "offset": 26,
+    },
+  },
+  "type": 3,
+  "value": "}",
+}
+`;
+
+exports[`modulo cases multiple  %{action} issue %s %{code} ! 11`] = `
+Object {
+  "loc": Object {
+    "end": Object {
+      "column": 30,
+      "line": 1,
+      "offset": 29,
+    },
+    "start": Object {
+      "column": 28,
+      "line": 1,
+      "offset": 27,
+    },
+  },
+  "type": 0,
+  "value": " !",
+}
+`;
+
+exports[`modulo cases multiple  %{action} issue %s %{code} ! 12`] = `
+Object {
+  "loc": Object {
+    "end": Object {
+      "column": 30,
+      "line": 1,
+      "offset": 29,
+    },
+    "start": Object {
+      "column": 30,
+      "line": 1,
+      "offset": 29,
+    },
+  },
+  "type": 14,
+}
+`;
