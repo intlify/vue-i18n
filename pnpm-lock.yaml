@@ -5113,7 +5113,6 @@ packages:
         optional: true
     dependencies:
       ms: 2.0.0
-      supports-color: 6.1.0
     dev: true
 
   /debug/2.6.9_supports-color@6.1.0:
@@ -5137,7 +5136,6 @@ packages:
         optional: true
     dependencies:
       ms: 2.1.3
-      supports-color: 6.1.0
     dev: true
 
   /debug/3.2.7_supports-color@6.1.0:
