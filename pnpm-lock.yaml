@@ -2783,6 +2783,7 @@ packages:
 
   /@volar/html2pug/0.29.8:
     resolution: {integrity: sha512-bhSNXg8A2aD3w0B+CwmHjqCAaKtj5rORbE5C/q/UdGqptJbC6STCmi30KuRTdfPhR++Xb18Hauf3s/WCmtNAPA==}
+    deprecated: 'WARNING: This project has been renamed to @johnsoncodehk/html2pug. Install using @johnsoncodehk/html2pug instead.'
     dependencies:
       domelementtype: 2.3.0
       domhandler: 4.3.1
@@ -2792,6 +2793,7 @@ packages:
 
   /@volar/html2pug/0.32.1:
     resolution: {integrity: sha512-jWSaiB3W4HFP4wQh91r5kB6161QvSXQjBVE5XiCSFSOXep+FGZ1yyPN03RIznJQE45yv65eJnwW9yxKg+f1YWw==}
+    deprecated: 'WARNING: This project has been renamed to @johnsoncodehk/html2pug. Install using @johnsoncodehk/html2pug instead.'
     dependencies:
       domelementtype: 2.3.0
       domhandler: 4.3.1
