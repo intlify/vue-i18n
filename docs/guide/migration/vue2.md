@@ -10,9 +10,7 @@ It can be used in Vue 2 applications that you have already built with vue-i18n@v
 
 And, also some features are backported from vue-i18n@v9.x:
 
-- Vue I18n Compostion API, that is powered by `@vue/composition-api` and `vue-demi`
-  - for Vue 2.6, you need `@vue/composition-api` and `vue-demi`
-  - for Vue 2.7, you need `vue-demi` only
+- Vue I18n Composition API, that is powered by `@vue/composition-api` and `vue-demi`
 - Message format syntax, that is powered by `@intlify/message-compiler`
 
 ### Installation
@@ -31,13 +29,14 @@ pnpm add vue-i18n-bridge
 You must install the below packages before using this library:
 
 - vue-i18n: >= v8.26.1 < v9
-- @vue/composition-api: >= v1.2.0 (for Vue 2.6)
+- vue-demi: >= v1.3.5
+- @vue/composition-api: >= v1.2.0 (if you will use Vue 2.6)
 
 #### CDN
 
 **For Vue 2.7**:
 
-Include `vue-i18n-bridge` after `vue`, `vue-demo` and it will install.
+Include `vue-i18n-bridge` after `vue`, `vue-demi` and it will install.
 
 ```html
 <script src="https://cdn.jsdelivr.net/npm/vue@2.7"></script>
@@ -252,6 +251,19 @@ const { createApp } = VueDemi // exported UMD which is named by `VueDemi`
 const { createI18n, useI18n } = VueI18nBridge // exported UMD which is named by `VueI18nBridge`
 
 Vue.use(VueI18n, { bridge: true })
+
+const i18n = createI18n({
+  locale: 'ja',
+  messages: {
+    // ...
+  }
+}, VueI18n)
+
+const app = createApp({}, {
+  // ...
+})
+app.use(i18n)
+app.mount('#app') // Vue app host container element
 ```
 
 #### For Vue 2.6
@@ -261,6 +273,19 @@ const { createI18n, useI18n } = VueI18nBridge // exported UMD which is named by 
 
 Vue.use(VueCompositionAPI)
 Vue.use(VueI18n, { bridge: true })
+
+const i18n = createI18n({
+  locale: 'ja',
+  messages: {
+    // ...
+  }
+}, VueI18n)
+
+const app = createApp({}, {
+  // ...
+})
+app.use(i18n)
+app.mount('#app') // Vue app host container element
 ```
 
 ### Limitations
