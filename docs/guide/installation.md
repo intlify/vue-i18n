@@ -73,13 +73,13 @@ You will have to clone directly from GitHub and build `vue-i18n` yourself if you
 ```sh
 git clone git@github.com:intlify/vue-i18n-next.git node_modules/vue-i18n
 cd node_modules/vue-i18n
-npm install # or `yarn`
-npm run build  # or `yarn run build`
+npm install
+npm run build
 ```
 
 
 ## Explanation of Different Builds
-In the [dist/ directory of the npm package](https://cdn.jsdelivr.net/npm/vue-i18n@9.1.0/dist/) you will find many different builds of Vue I18n. Here is an overview of which dist file should be used depending on the use-case.
+In the [dist/ directory of the npm package](https://cdn.jsdelivr.net/npm/vue-i18n@9.1.10/dist/) you will find many different builds of Vue I18n. Here is an overview of which dist file should be used depending on the use-case.
 
 ### From CDN or without a Bundler
 
@@ -115,9 +115,9 @@ Global builds are not [UMD](https://github.com/umdjs/umd) builds. They are built
 :::tip NOTE
 If you use `vue-i18n.runtime.esm-bundler.js`, you will need to precompile all locale messages, and you can do that with `.json` (`.json5`) or `.yaml`, i18n custom blocks to manage i18n resources. Therefore, you can be going to pre-compile all locale messages with bundler and the following loader / plugin.
 
-- [`@intlify/vue-i18n-loader`](https://github.com/intlify/bundle-tools/tree/main/packages/vue-i18n-loader)
-- [`@intlify/rollup-plugin-vue-i18n`](https://github.com/intlify/bundle-tools/tree/main/packages/rollup-plugin-vue-i18n)
+- [`@intlify/unplugin-vue-i18n`](https://github.com/intlify/bundle-tools/tree/main/packages/unplugin-vue-i18n)
 - [`@intlify/vite-plugin-vue-i18n`](https://github.com/intlify/bundle-tools/tree/main/packages/vite-plugin-vue-i18n)
+- [`@intlify/vue-i18n-loader`](https://github.com/intlify/bundle-tools/tree/main/packages/vue-i18n-loader)
 :::
 
 ### For Node.js (Server-Side)

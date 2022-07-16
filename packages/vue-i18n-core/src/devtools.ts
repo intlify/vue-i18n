@@ -48,7 +48,7 @@ export async function enableDevTools(app: App, i18n: _I18n): Promise<boolean> {
           homepage: 'https://vue-i18n.intlify.dev',
           logo: 'https://vue-i18n.intlify.dev/vue-i18n-devtools-logo.png',
           componentStateTypes: [VUE_I18N_COMPONENT_TYPES],
-          app
+          app: app as any // eslint-disable-line @typescript-eslint/no-explicit-any
         },
         api => {
           devtoolsApi = api
