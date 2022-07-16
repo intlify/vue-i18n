@@ -3,10 +3,10 @@
   <head>
     <meta charset="utf-8" />
     <title>Translation component example</title>
-    <script src="https://cdn.jsdelivr.net/npm/vue@2.7.4/dist/vue.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.7.6/dist/vue.js"></script>
     <script src="https://unpkg.com/vue-i18n@8/dist/vue-i18n.js"></script>
     <script src="https://unpkg.com/vue-demi@0.13.5/lib/index.iife.js"></script>
-    <script src="../../../packages/vue-i18n-bridge/dist/vue-i18n-bridge.global.js"></script>
+    <script src="../../../../packages/vue-i18n-bridge/dist/vue-i18n-bridge.global.js"></script>
   </head>
   <body>
     <h1>Translation component example</h1>
@@ -54,7 +54,6 @@
       const { createApp, ref } = VueDemi
       const { createI18n, useI18n } = VueI18nBridge
 
-      // Vue.use(VueCompositionAPI)
       Vue.use(VueI18n, { bridge: true })
 
       const i18n = createI18n(

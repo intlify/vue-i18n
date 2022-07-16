@@ -3,15 +3,8 @@
   <head>
     <meta charset="utf-8" />
     <title>plural basic usage examples</title>
-    <!-- NOTE: for Vue 2.6
-    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
-    -->
     <script src="https://cdn.jsdelivr.net/npm/vue@2.7.4/dist/vue.js"></script>
     <script src="https://unpkg.com/vue-i18n@8/dist/vue-i18n.js"></script>
-    <!-- NOTE: if you want to use Vue 2.6, you need to install `@vue/composition-api`
-    <script src="https://cdn.jsdelivr.net/npm/@vue/composition-api@1.7.0"></script>
-    -->
-    <!-- NOTE: if you want to use Vue 2.7, you need to install `vue-demi` -->
     <script src="https://unpkg.com/vue-demi@0.13.4/lib/index.iife.js"></script>
     <script src="../../../packages/vue-i18n-bridge/dist/vue-i18n-bridge.global.js"></script>
   </head>
@@ -33,7 +26,6 @@
     <script>
       const { createI18n } = VueI18nBridge
 
-      // Vue.use(VueCompositionAPI)
       Vue.use(VueI18n, { bridge: true })
 
       const i18n = createI18n(
