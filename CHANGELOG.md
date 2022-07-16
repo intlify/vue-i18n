@@ -1,4 +1,18 @@
 
+## v9.2.0-beta.38 (2022-07-16)
+
+#### :star: Features
+* `vue-i18n-bridge`, `vue-i18n-core`
+  * [#1062](https://github.com/intlify/vue-i18n-next/pull/1062) feat: support  Vue 2.7 for vue-i18n-bridge ([@kazupon](https://github.com/kazupon))
+
+#### :zap: Improvement Features
+* `vue-i18n-core`
+  * [#1064](https://github.com/intlify/vue-i18n-next/pull/1064) fix: slot resolving in render function ([@kazupon](https://github.com/kazupon))
+
+#### Committers: 1
+- kazuya kawaguchi ([@kazupon](https://github.com/kazupon))
+
+
 ## v9.2.0-beta.37 (2022-07-12)
 
 #### :bug: Bug Fixes
