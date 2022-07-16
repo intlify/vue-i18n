@@ -43,7 +43,7 @@ Include `vue-i18n-bridge` after `vue`, `vue-demo` and it will install.
 <script src="https://cdn.jsdelivr.net/npm/vue@2.7"></script>
 <script src="https://unpkg.com/vue-i18n@8/dist/vue-i18n.min.js"></script>
 <script src="https://unpkg.com/vue-demi@0.13.5/lib/index.iife.js"></script>
-<script src="https://unpkg.com/vue-i18n-bridge@9.2.0-beta.37/dist/vue-i18n-bridge.global.prod.js"></script>
+<script src="https://unpkg.com/vue-i18n-bridge@9.2.0-beta.38/dist/vue-i18n-bridge.global.prod.js"></script>
 ```
 
 **For Vue 2.6**:
@@ -55,7 +55,7 @@ Include `vue-i18n-bridge` after `vue`, `@vue/composition-api`, `vue-demi` and it
 <script src="https://unpkg.com/vue-i18n@8/dist/vue-i18n.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@vue/composition-api@1.4"></script>
 <script src="https://unpkg.com/vue-demi@0.13.5/lib/index.iife.js"></script>
-<script src="https://unpkg.com/vue-i18n-bridge@9.2.0-beta.37/dist/vue-i18n-bridge.global.prod.js"></script>
+<script src="https://unpkg.com/vue-i18n-bridge@9.2.0-beta.38/dist/vue-i18n-bridge.global.prod.js"></script>
 ```
 
 ### Usage
