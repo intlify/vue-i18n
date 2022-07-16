@@ -112,7 +112,7 @@ function createConfig(format, output, plugins = []) {
   if (isGlobalBuild) {
     output.name = packageOptions.name
     if (isBridge) {
-      output.globals = { '@vue/composition-api': 'VueCompositionAPI' }
+      output.globals = { 'vue-demi': 'VueDemi' }
     }
   }
 
@@ -150,7 +150,7 @@ function createConfig(format, output, plugins = []) {
           ...Object.keys(pkg.peerDependencies || {})
         ]
   if (isBridge) {
-    external.push('@vue/composition-api')
+    external.push('vue-demi')
   }
 
   const nodePlugins =
@@ -181,7 +181,7 @@ function createConfig(format, output, plugins = []) {
     plugins.push({
       transform(source, id) {
         if (replacingPaths.some(p => p === id)) {
-          return source.replace(`from 'vue'`, `from '@vue/composition-api'`)
+          return source.replace(`from 'vue'`, `from 'vue-demi'`)
         }
         return source
       }

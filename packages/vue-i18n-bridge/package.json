@@ -40,8 +40,8 @@
     "@intlify/core-base": "9.2.0-beta.37",
     "@intlify/shared": "9.2.0-beta.37",
     "@intlify/vue-devtools": "9.2.0-beta.37",
-    "@vue/composition-api": "^1.2.1",
-    "@vue/devtools-api": "^6.2.1"
+    "@vue/devtools-api": "^6.2.1",
+    "vue-demi": "^0.13.4"
   },
   "devDependencies": {
     "@intlify/devtools-if": "9.2.0-beta.37"

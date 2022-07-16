@@ -10,7 +10,9 @@ It can be used in Vue 2 applications that you have already built with vue-i18n@v
 
 And, also some features are backported from vue-i18n@v9.x:
 
-- Vue I18n Compostion API, that is powered by `@vue/composition-api`
+- Vue I18n Compostion API, that is powered by `@vue/composition-api` and `vue-demi`
+  - for Vue 2.6, you need `@vue/composition-api` and `vue-demi`
+  - for Vue 2.7, you need `vue-demi` only
 - Message format syntax, that is powered by `@intlify/message-compiler`
 
 ### Installation
@@ -29,22 +31,79 @@ pnpm add vue-i18n-bridge
 You must install the below packages before using this library:
 
 - vue-i18n: >= v8.26.1 < v9
-- @vue/composition-api: >= v1.2.0
+- @vue/composition-api: >= v1.2.0 (for Vue 2.6)
 
 #### CDN
 
-Include `vue-i18n-bridge` after `vue`, `@vue/composition-api` and it will install.
+**For Vue 2.7**:
+
+Include `vue-i18n-bridge` after `vue`, `vue-demo` and it will install.
+
+```html
+<script src="https://cdn.jsdelivr.net/npm/vue@2.7"></script>
+<script src="https://unpkg.com/vue-i18n@8/dist/vue-i18n.min.js"></script>
+<script src="https://unpkg.com/vue-demi@0.13.5/lib/index.iife.js"></script>
+<script src="https://unpkg.com/vue-i18n-bridge@9.2.0-beta.38/dist/vue-i18n-bridge.global.prod.js"></script>
+```
+
+**For Vue 2.6**:
+
+Include `vue-i18n-bridge` after `vue`, `@vue/composition-api`, `vue-demi` and it will install.
 
 ```html
 <script src="https://cdn.jsdelivr.net/npm/vue@2.6"></script>
 <script src="https://unpkg.com/vue-i18n@8/dist/vue-i18n.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@vue/composition-api@1.2"></script>
-<script src="https://unpkg.com/vue-i18n-bridge@9.2.0-beta.11/dist/vue-i18n-bridge.global.prod.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@vue/composition-api@1.4"></script>
+<script src="https://unpkg.com/vue-demi@0.13.5/lib/index.iife.js"></script>
+<script src="https://unpkg.com/vue-i18n-bridge@9.2.0-beta.38/dist/vue-i18n-bridge.global.prod.js"></script>
 ```
 
 ### Usage
 
 #### Composition API
+
+**For Vue 2.7**:
+
+```js
+import Vue from 'vue'
+import { createApp } from 'vue-demi'
+import { createI18n, useI18n } from 'vue-i18n-bridge'
+
+Vue.use(VueI18n, { bridge: true }) // you must specify '{ bridge: true }' plugin option when install vue-i18n
+
+// `createI18n` options is almost same vue-i18n-next (vue-i18n@v9.x) API
+const i18n = createI18n({
+  legacy: false,
+  locale: 'ja',
+  messages: {
+    en: {
+      message: {
+        hello: 'hello, {name}!'
+      }
+    },
+    ja: {
+      message: {
+        hello: 'こんにちは、{name}！'
+      }
+    }
+  }
+}, VueI18n) // `createI18n` which is provide `vue-i18n-bridge` has second argument, you **must** pass `VueI18n` constructor which is provide `vue-i18n`
+
+const app = createApp({
+ setup() {
+   // `useI18n` options is almost same vue-i18n-next (vue-i18n@v9.x) API
+   const { t, locale } = useI18n()
+   // ... todo something
+
+   return { t, locale }
+ }
+})
+
+app.use(i18n) // you must install `i18n` instance which is created by `createI18n`
+app.mount('#app')
+```
+
+**For Vue 2.6**:
 
 ```js
 import Vue from 'vue'
@@ -88,6 +147,39 @@ app.mount('#app')
 
 #### Legacy API
 
+**For Vue 2.7**:
+
+```js
+import Vue from 'vue'
+import { createI18n, useI18n } from 'vue-i18n-bridge'
+
+Vue.use(VueI18n, { bridge: true }) // you must specify '{ bridge: true }' plugin option when install vue-i18n
+
+// `createI18n` options is almost same vue-i18n-next (vue-i18n@v9.x) API
+const i18n = createI18n({
+  locale: 'ja',
+  messages: {
+    en: {
+      message: {
+        hello: 'hello, {name}!'
+      }
+    },
+    ja: {
+      message: {
+        hello: 'こんにちは、{name}！'
+      }
+    }
+  }
+}, VueI18n) // `createI18n` which is provide `vue-i18n-bridge` has second argument, you **must** pass `VueI18n` constructor which is provide `vue-i18n`
+
+Vue.use(i18n) // you must install `i18n` instance which is created by `createI18n`
+
+const app = new Vue({ i18n })
+app.$mount('#app')
+```
+
+**For Vue 2.6**:
+
 ```js
 import Vue from 'vue'
 import VueCompositionAPI from '@vue/composition-api'
@@ -119,7 +211,8 @@ const app = new Vue({ i18n })
 app.$mount('#app')
 ```
 
-for TypeScript:
+**For TypeScript:**
+
 ```ts
 import Vue from 'vue'
 import VueCompositionAPI from '@vue/composition-api'
@@ -153,8 +246,17 @@ app.$mount('#app')
 
 ### Usage UMD module in browser
 
+#### For Vue 2.7
 ```js
-const { createApp } = VueCompositionAPI // exported UMD which is named by `VueCompositionAPI
+const { createApp } = VueDemi // exported UMD which is named by `VueDemi`
+const { createI18n, useI18n } = VueI18nBridge // exported UMD which is named by `VueI18nBridge`
+
+Vue.use(VueI18n, { bridge: true })
+```
+
+#### For Vue 2.6
+```js
+const { createApp } = VueCompositionAPI // exported UMD which is named by `VueCompositionAPI`
 const { createI18n, useI18n } = VueI18nBridge // exported UMD which is named by `VueI18nBridge`
 
 Vue.use(VueCompositionAPI)

@@ -470,14 +470,14 @@ importers:
       '@intlify/devtools-if': 9.2.0-beta.37
       '@intlify/shared': 9.2.0-beta.37
       '@intlify/vue-devtools': 9.2.0-beta.37
-      '@vue/composition-api': ^1.2.1
       '@vue/devtools-api': ^6.2.1
+      vue-demi: ^0.13.4
     dependencies:
       '@intlify/core-base': link:../core-base
       '@intlify/shared': link:../shared
       '@intlify/vue-devtools': link:../vue-devtools
-      '@vue/composition-api': 1.4.4
       '@vue/devtools-api': 6.2.1
+      vue-demi: 0.13.4
     devDependencies:
       '@intlify/devtools-if': link:../devtools-if
 
@@ -3015,14 +3015,6 @@ packages:
       '@vue/compiler-dom': 3.2.37
       '@vue/shared': 3.2.37
     dev: true
-
-  /@vue/composition-api/1.4.4:
-    resolution: {integrity: sha512-0AMpkSy28NG1BUqTPXLfQzJUnjSp+qUa4jaG7A2FBRSKHJOl1g10/xvNb44+OW5Jg9f79zKOb7PYhFhJG2vLyQ==}
-    peerDependencies:
-      vue: '>= 2.5 < 3'
-    dependencies:
-      tslib: 2.3.1
-    dev: false
 
   /@vue/devtools-api/6.0.0-beta.21.1:
     resolution: {integrity: sha512-FqC4s3pm35qGVeXRGOjTsRzlkJjrBLriDS9YXbflHLsfA9FrcKzIyWnLXoNm+/7930E8rRakXuAc2QkC50swAw==}
@@ -13700,6 +13692,7 @@ packages:
 
   /tslib/2.3.1:
     resolution: {integrity: sha512-77EbyPPpMz+FRFRuAFlWMtmgUWGe9UOG2Z25NqCwiIjRhOf5iKGuzSe5P2w1laq+FkRy4p+PCuVkJSGkzTEKVw==}
+    dev: true
 
   /tsutils/3.21.0_typescript@4.2.3:
     resolution: {integrity: sha512-mHKK3iUXL+3UF6xL5k0PEhKRUBKPBCv/+RkEOpjRWxxx27KKRBmmA60A9pgOUvMi8GKhRMPEmjBRPzs2W7O1OA==}
@@ -14454,6 +14447,19 @@ packages:
       vscode-pug-languageservice: 0.32.1
       vscode-typescript-languageservice: 0.32.1
     dev: true
+
+  /vue-demi/0.13.4:
+    resolution: {integrity: sha512-KP4lq9uSz0KZbaqCllRhnxMV3mYRsRWJfdsAhZyt5bV5O1RTpoeDptBRV9NOa/JgOpfaA9ane88VF7OjWNK/DA==}
+    engines: {node: '>=12'}
+    hasBin: true
+    requiresBuild: true
+    peerDependencies:
+      '@vue/composition-api': ^1.0.0-rc.1
+      vue: ^3.0.0-0 || ^2.6.0
+    peerDependenciesMeta:
+      '@vue/composition-api':
+        optional: true
+    dev: false
 
   /vue-eslint-parser/8.1.0_eslint@8.7.0:
     resolution: {integrity: sha512-R8Pl6MSvuU81JKyUguexcABQxfM51Q2ZJVBX0TrKiLltPB+haVLp4hfuR5msiu9oqpsQkaV+TF18r4CBw9c9qg==}
