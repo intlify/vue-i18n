@@ -1,4 +1,14 @@
 
+## v9.2.0-beta.39 (2022-07-17)
+
+#### :bug: Bug Fixes
+* `vue-i18n-bridge`
+  * [#1071](https://github.com/intlify/vue-i18n-next/pull/1071) fix(vue-i18n-bridge): install error cause by peer deps ([@kazupon](https://github.com/kazupon))
+
+#### Committers: 1
+- kazuya kawaguchi ([@kazupon](https://github.com/kazupon))
+
+
 ## v9.2.0-beta.38 (2022-07-16)
 
 #### :star: Features
