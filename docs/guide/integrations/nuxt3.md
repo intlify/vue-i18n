@@ -5,9 +5,9 @@ We will introduce Vue I18n integration for Nuxt 3.
 The following is a tutorial on setting up a Nuxt 3 application from the initial configuration.
 
 :::warning NOTICE
-This Nuxt3 application is set up in this tutorial doesn't support advanced i18n, such as URL (routing), SEO with head tags, and `lang` attribute in `html`tag.
+This Nuxt3 application is set up in this tutorial doesn't support advanced i18n, such as URL (routing), SEO with `head` tag, and `lang` attribute in `html`tag.
 
-To support for nuxt3 & nuxt bridge in [nuxtjs/i18n](https://i18n.nuxtjs.org/) is currently under development with Nuxt community.
+To support for Nuxt 3 & Nuxt Bridge in [nuxtjs/i18n](https://i18n.nuxtjs.org/) is currently under development with Nuxt community.
 See the about GitHub Discussion is [here](https://github.com/nuxt-community/i18n-module/discussions/1287)
 :::
 
