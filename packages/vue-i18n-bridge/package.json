@@ -76,6 +76,11 @@
     "./index.mjs": "./index.mjs",
     "./package.json": "./package.json"
   },
+  "peerDependenciesMeta": {
+    "@vue/composition-api": {
+      "optional": true
+    }
+  },
   "publishConfig": {
     "access": "public"
   },
