@@ -1,4 +1,14 @@
 
+## v9.2.0-beta.40 (2022-07-19)
+
+#### :bug: Bug Fixes
+* `vue-i18n-core`
+  * [#1076](https://github.com/intlify/vue-i18n-next/pull/1076) fix: lifecycle hook context binding ([@kazupon](https://github.com/kazupon))
+
+#### Committers: 1
+- kazuya kawaguchi ([@kazupon](https://github.com/kazupon))
+
+
 ## v9.2.0-beta.39 (2022-07-17)
 
 #### :bug: Bug Fixes
