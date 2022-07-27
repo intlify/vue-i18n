@@ -12,6 +12,7 @@ import {
 import type {
   DirectiveBinding,
   ObjectDirective,
+  WatchStopHandle,
   ComponentInternalInstance,
   VNode
 } from 'vue'
@@ -26,6 +27,13 @@ type VTDirectiveValue = {
   args?: NamedValue
   choice?: number
   plural?: number
+}
+
+declare global {
+  interface HTMLElement {
+    __i18nWatcher?: WatchStopHandle
+    __composer?: Composer
+  }
 }
 
 function getComposer(
@@ -96,36 +104,37 @@ export function vTDirective(i18n: I18n): TranslationDirective<HTMLElement> {
     }
 
     const parsedValue = parseValue(value)
-    ;(el as any).__composer = composer
     if (inBrowser) {
-      const watcher = watch(composer.locale, () => {
+      el.__i18nWatcher = watch(composer.locale, () => {
         instance.$forceUpdate()
       })
-      ;(el as any).__i18nWatcher = watcher
     }
+    el.__composer = composer
     el.textContent = Reflect.apply(composer.t, composer, [
       ...makeParams(parsedValue)
     ])
   }
 
   const unregister = (el: HTMLElement): void => {
-    if (inBrowser && (el as any).__i18nWatcher) {
-      ;(el as any).__i18nWatcher()
-      ;(el as any).__i18nWatcher = null
-      delete (el as any).__i18nWatcher
+    if (inBrowser && el.__i18nWatcher) {
+      el.__i18nWatcher()
+      el.__i18nWatcher = undefined
+      delete el.__i18nWatcher
     }
-    if ((el as any).__composer) {
-      ;(el as any).__composer = null
-      delete (el as any).__composer
+    if (el.__composer) {
+      el.__composer = undefined
+      delete el.__composer
     }
   }
 
   const update = (el: HTMLElement, { value }: DirectiveBinding): void => {
-    const composer = (el as any).__composer as Composer
-    const parsedValue = parseValue(value)
-    el.textContent = Reflect.apply(composer.t, composer, [
-      ...makeParams(parsedValue)
-    ])
+    if (el.__composer) {
+      const composer = el.__composer
+      const parsedValue = parseValue(value)
+      el.textContent = Reflect.apply(composer.t, composer, [
+        ...makeParams(parsedValue)
+      ])
+    }
   }
 
   return {
