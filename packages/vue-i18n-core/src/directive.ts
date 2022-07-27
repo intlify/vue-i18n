@@ -142,6 +142,7 @@ export function vTDirective(i18n: I18n): TranslationDirective<HTMLElement> {
     created: register,
     unmounted: unregister,
     beforeUpdate: update,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     getSSRProps: (binding: DirectiveBinding, vnode: VNode) => {
       // TODO: support SSR
       throw new Error('v-t still is not supported in SSR fully')
