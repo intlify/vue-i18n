@@ -1033,7 +1033,7 @@ function setupLifeCycle(
     onBeforeMount(() => {
       vm._i18n.subscribeDataChanging(vm)
       subscribing = true
-    }, vm)
+    })
 
     onUnmounted(() => {
       if (subscribing) {
@@ -1051,7 +1051,7 @@ function setupLifeCycle(
       }
       delete vm._i18n_bridge
       delete vm._i18n
-    }, vm)
+    })
   } else {
     onMounted(() => {
       // inject composer instance to DOM for intlify-devtools

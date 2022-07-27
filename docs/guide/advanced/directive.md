@@ -63,13 +63,15 @@ const i18n = createI18n({
     en: {
       message: {
         hi: 'Hi, {name}!',
-        bye: 'good bye!'
+        bye: 'good bye!',
+        apple: 'no apples | one apple | {count} apples'
       }
     },
     ja: {
       message: {
         hi: 'こんにちは、 {name}！',
-        bye: 'さようなら！'
+        bye: 'さようなら！',
+        apple: 'リンゴはありません | 一つのりんご | {count} りんご'
       }
     }
   }
@@ -77,7 +79,10 @@ const i18n = createI18n({
 
 const app = createApp({
   data() {
-    return { byePath: 'message.bye' }
+    return { 
+      byePath: 'message.bye',
+      appleCount: 7,
+    }
   }
 })
 app.use(i18n)
@@ -92,6 +97,8 @@ Templates:
   <p v-t="{ path: 'message.hi', args: { name: 'kazupon' } }"></p>
   <!-- data binding via data -->
   <p v-t="{ path: byePath, locale: 'en' }"></p>
+  <!-- pluralization -->
+  <p v-t="{ path: 'message.apple', plural: appleCount }"></p>
 </div>
 ```
 
@@ -101,6 +108,7 @@ Outputs:
 <div id="object-syntax">
   <p>こんにちは、 kazupon！</p>
   <p>good bye!</p>
+  <p>7 りんご</p>
 </div>
 ```
 

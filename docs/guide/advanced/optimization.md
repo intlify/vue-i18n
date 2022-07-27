@@ -29,7 +29,7 @@ Intlify project provides plugins/loaders for some bundlers, for simplicity
 
 Intlify project is providing [`@intlify/unplugin-vue-i18n`](https://github.com/intlify/bundle-tools/tree/main/packages/unplugin-vue-i18n) for vite and webpack.
 
-If you do a production build, Vue I18n will automatically bundle the runtime only module
+If you do the production build, Vue I18n will automatically bundle the runtime only module
 
 #### Install plugin
 
@@ -52,7 +52,7 @@ export default defineConfig({
     /* ... */
     VueI18nPlugin({
       /* options */
-      // locale messages resourece pre-compile option
+      // locale messages resource pre-compile option
       include: resolve(dirname(fileURLToPath(import.meta.url)), './path/to/src/locales/**'),
     }),
   ],
@@ -81,7 +81,7 @@ module.exports = {
 
 #### More configuration
 
-About optoins and features, see the deital [page](https://github.com/intlify/bundle-tools/tree/main/packages/unplugin-vue-i18n#intlifyunplugin-vue-i18n)
+About optoins and features, see the detail [page](https://github.com/intlify/bundle-tools/tree/main/packages/unplugin-vue-i18n#intlifyunplugin-vue-i18n)
 
 ### `@intlify/vite-plugin-vue-i18n`
 
@@ -125,7 +125,7 @@ export default defineConfig({
 
 #### More configuration
 
-About optoins and features, see the deital [page](https://github.com/intlify/bundle-tools/tree/main/packages/vite-plugin-vue-i18n)
+About optoins and features, see the detail [page](https://github.com/intlify/bundle-tools/tree/main/packages/vite-plugin-vue-i18n)
 
 ### `@intlify/vue-i18n-loader`
 
@@ -133,7 +133,7 @@ About optoins and features, see the deital [page](https://github.com/intlify/bun
 
 Intlify project is providing [`@intlify/vue-i18n-loader`](https://github.com/intlify/bundle-tools/tree/main/packages/vue-i18n-loader)
 
-:::danger NOTICE
+:::warning NOTICE
 This plugin will be deprecated in the near future, because we can replace `@intlify/unplugin-vue-i18n`.
 :::
 
@@ -176,7 +176,7 @@ module.exports = {
 
 #### More configuration
 
-About optoins and features, see the deital [page](https://github.com/intlify/bundle-tools/tree/main/packages/vue-i18n-loader)
+About optoins and features, see the detail [page](https://github.com/intlify/bundle-tools/tree/main/packages/vue-i18n-loader)
 
 ### Quasar CLI
 

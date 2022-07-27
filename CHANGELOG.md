@@ -1,4 +1,38 @@
 
+## v9.2.0-beta.40 (2022-07-19)
+
+#### :bug: Bug Fixes
+* `vue-i18n-core`
+  * [#1076](https://github.com/intlify/vue-i18n-next/pull/1076) fix: lifecycle hook context binding ([@kazupon](https://github.com/kazupon))
+
+#### Committers: 1
+- kazuya kawaguchi ([@kazupon](https://github.com/kazupon))
+
+
+## v9.2.0-beta.39 (2022-07-17)
+
+#### :bug: Bug Fixes
+* `vue-i18n-bridge`
+  * [#1071](https://github.com/intlify/vue-i18n-next/pull/1071) fix(vue-i18n-bridge): install error cause by peer deps ([@kazupon](https://github.com/kazupon))
+
+#### Committers: 1
+- kazuya kawaguchi ([@kazupon](https://github.com/kazupon))
+
+
+## v9.2.0-beta.38 (2022-07-16)
+
+#### :star: Features
+* `vue-i18n-bridge`, `vue-i18n-core`
+  * [#1062](https://github.com/intlify/vue-i18n-next/pull/1062) feat: support  Vue 2.7 for vue-i18n-bridge ([@kazupon](https://github.com/kazupon))
+
+#### :zap: Improvement Features
+* `vue-i18n-core`
+  * [#1064](https://github.com/intlify/vue-i18n-next/pull/1064) fix: slot resolving in render function ([@kazupon](https://github.com/kazupon))
+
+#### Committers: 1
+- kazuya kawaguchi ([@kazupon](https://github.com/kazupon))
+
+
 ## v9.2.0-beta.37 (2022-07-12)
 
 #### :bug: Bug Fixes

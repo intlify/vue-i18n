@@ -9,7 +9,14 @@ jest.mock('@intlify/shared', () => ({
 }))
 import { warn } from '@intlify/shared'
 
-import { ref, defineComponent } from 'vue'
+import {
+  ref,
+  defineComponent,
+  h,
+  withDirectives,
+  resolveDirective,
+  nextTick
+} from 'vue'
 import {
   setDevToolsHook,
   compileToFunction,
@@ -607,4 +614,74 @@ test('issue #1055', async () => {
   const wrapper = await mount(App, i18n)
 
   expect(wrapper.html()).toMatchSnapshot()
+})
+
+test('issue #1083', async () => {
+  const i18n = createI18n({
+    legacy: false,
+    locale: 'en',
+    messages: {
+      en: {
+        hello_world: 'Hello World!'
+      },
+      ja: {
+        hello_world: 'こんにちは世界！'
+      }
+    }
+  })
+
+  const LanguageSelector = defineComponent({
+    setup() {
+      const { locale, availableLocales } = useI18n({
+        useScope: 'global'
+      })
+      function selectLocale(newLocale: string) {
+        locale.value = newLocale
+      }
+      return { availableLocales, selectLocale, locale }
+    },
+    template: `<div>
+  <div :id="l" v-for="l in availableLocales" @click="selectLocale(l)">
+    {{ l }}
+  </div>
+  <p id="locale">{{ locale }}</p>
+<div>`
+  })
+
+  const HelloWorld = defineComponent({
+    setup() {
+      const t = resolveDirective('t')
+      return () => {
+        return withDirectives(h('h1', { id: 'v-t' }), [
+          [t!, { path: 'hello_world' }]
+        ])
+      }
+    }
+  })
+
+  const App = defineComponent({
+    components: {
+      LanguageSelector,
+      HelloWorld
+    },
+    template: `
+  <HelloWorld />
+  <LanguageSelector />
+`
+  })
+
+  const wrapper = await mount(App, i18n)
+
+  const enEl = wrapper.rootEl.querySelector('#en')
+  const jaEl = wrapper.rootEl.querySelector('#ja')
+  const dirEl = wrapper.rootEl.querySelector('#v-t')
+  expect(dirEl!.textContent).toEqual('Hello World!')
+
+  jaEl!.dispatchEvent(new Event('click'))
+  await nextTick()
+  expect(dirEl!.textContent).toEqual('こんにちは世界！')
+
+  enEl!.dispatchEvent(new Event('click'))
+  await nextTick()
+  expect(dirEl!.textContent).toEqual('Hello World!')
 })

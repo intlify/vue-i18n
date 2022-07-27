@@ -1,10 +1,18 @@
+import { watch } from 'vue'
 import { I18nWarnCodes, getWarnMessage } from './warnings'
 import { createI18nError, I18nErrorCodes } from './errors'
-import { isString, isPlainObject, isNumber, warn } from '@intlify/shared'
+import {
+  isString,
+  isPlainObject,
+  isNumber,
+  warn,
+  inBrowser
+} from '@intlify/shared'
 
 import type {
   DirectiveBinding,
   ObjectDirective,
+  WatchStopHandle,
   ComponentInternalInstance
 } from 'vue'
 import type { I18n, I18nInternal } from './i18n'
@@ -18,6 +26,13 @@ type VTDirectiveValue = {
   args?: NamedValue
   choice?: number
   plural?: number
+}
+
+declare global {
+  interface HTMLElement {
+    __i18nWatcher?: WatchStopHandle
+    __composer?: Composer
+  }
 }
 
 function getComposer(
@@ -73,10 +88,8 @@ function getComposer(
 export type TranslationDirective<T = HTMLElement> = ObjectDirective<T>
 
 export function vTDirective(i18n: I18n): TranslationDirective<HTMLElement> {
-  const bind = (
-    el: HTMLElement,
-    { instance, value, modifiers }: DirectiveBinding
-  ): void => {
+  function process(binding: DirectiveBinding): [string, Composer] {
+    const { instance, modifiers, value } = binding
     /* istanbul ignore if */
     if (!instance || !instance.$) {
       throw createI18nError(I18nErrorCodes.UNEXPECTED_ERROR)
@@ -88,15 +101,54 @@ export function vTDirective(i18n: I18n): TranslationDirective<HTMLElement> {
     }
 
     const parsedValue = parseValue(value)
-    // el.textContent = composer.t(...makeParams(parsedValue))
-    el.textContent = Reflect.apply(composer.t, composer, [
-      ...makeParams(parsedValue)
-    ])
+    return [
+      Reflect.apply(composer.t, composer, [...makeParams(parsedValue)]),
+      composer
+    ]
+  }
+
+  const register = (el: HTMLElement, binding: DirectiveBinding): void => {
+    const [textContent, composer] = process(binding)
+    if (inBrowser && i18n.global === composer) {
+      // global scope only
+      el.__i18nWatcher = watch(composer.locale, () => {
+        binding.instance && binding.instance.$forceUpdate()
+      })
+    }
+    el.__composer = composer
+    el.textContent = textContent
+  }
+
+  const unregister = (el: HTMLElement): void => {
+    if (inBrowser && el.__i18nWatcher) {
+      el.__i18nWatcher()
+      el.__i18nWatcher = undefined
+      delete el.__i18nWatcher
+    }
+    if (el.__composer) {
+      el.__composer = undefined
+      delete el.__composer
+    }
+  }
+
+  const update = (el: HTMLElement, { value }: DirectiveBinding): void => {
+    if (el.__composer) {
+      const composer = el.__composer
+      const parsedValue = parseValue(value)
+      el.textContent = Reflect.apply(composer.t, composer, [
+        ...makeParams(parsedValue)
+      ])
+    }
   }
 
   return {
-    beforeMount: bind,
-    beforeUpdate: bind
+    created: register,
+    unmounted: unregister,
+    beforeUpdate: update,
+    getSSRProps: (binding: DirectiveBinding) => {
+      const [textContent] = process(binding)
+      return { textContent }
+    }
   } as TranslationDirective<HTMLElement>
 }
 
