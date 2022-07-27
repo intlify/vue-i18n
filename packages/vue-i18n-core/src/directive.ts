@@ -1,11 +1,19 @@
+import { watch } from 'vue'
 import { I18nWarnCodes, getWarnMessage } from './warnings'
 import { createI18nError, I18nErrorCodes } from './errors'
-import { isString, isPlainObject, isNumber, warn } from '@intlify/shared'
+import {
+  isString,
+  isPlainObject,
+  isNumber,
+  warn,
+  inBrowser
+} from '@intlify/shared'
 
 import type {
   DirectiveBinding,
   ObjectDirective,
-  ComponentInternalInstance
+  ComponentInternalInstance,
+  VNode
 } from 'vue'
 import type { I18n, I18nInternal } from './i18n'
 import type { VueI18nInternal } from './legacy'
@@ -73,7 +81,7 @@ function getComposer(
 export type TranslationDirective<T = HTMLElement> = ObjectDirective<T>
 
 export function vTDirective(i18n: I18n): TranslationDirective<HTMLElement> {
-  const bind = (
+  const register = (
     el: HTMLElement,
     { instance, value, modifiers }: DirectiveBinding
   ): void => {
@@ -88,15 +96,46 @@ export function vTDirective(i18n: I18n): TranslationDirective<HTMLElement> {
     }
 
     const parsedValue = parseValue(value)
-    // el.textContent = composer.t(...makeParams(parsedValue))
+    ;(el as any).__composer = composer
+    if (inBrowser) {
+      const watcher = watch(composer.locale, () => {
+        instance.$forceUpdate()
+      })
+      ;(el as any).__i18nWatcher = watcher
+    }
+    el.textContent = Reflect.apply(composer.t, composer, [
+      ...makeParams(parsedValue)
+    ])
+  }
+
+  const unregister = (el: HTMLElement): void => {
+    if (inBrowser && (el as any).__i18nWatcher) {
+      ;(el as any).__i18nWatcher()
+      ;(el as any).__i18nWatcher = null
+      delete (el as any).__i18nWatcher
+    }
+    if ((el as any).__composer) {
+      ;(el as any).__composer = null
+      delete (el as any).__composer
+    }
+  }
+
+  const update = (el: HTMLElement, { value }: DirectiveBinding): void => {
+    const composer = (el as any).__composer as Composer
+    const parsedValue = parseValue(value)
     el.textContent = Reflect.apply(composer.t, composer, [
       ...makeParams(parsedValue)
     ])
   }
 
   return {
-    beforeMount: bind,
-    beforeUpdate: bind
+    created: register,
+    unmounted: unregister,
+    beforeUpdate: update,
+    getSSRProps: (binding: DirectiveBinding, vnode: VNode) => {
+      // TODO: support SSR
+      throw new Error('v-t still is not supported in SSR fully')
+    }
   } as TranslationDirective<HTMLElement>
 }
 

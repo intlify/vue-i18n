@@ -2,6 +2,9 @@ import App from './App.vue'
 import { createSSRApp } from 'vue'
 import { createRouter } from './router'
 import { createI18n } from './i18n'
+import messages from '@intlify/vite-plugin-vue-i18n/messages'
+
+console.log('messages', messages)
 
 // SSR requires a fresh app instance per request, therefore we export a function
 // that creates a fresh app instance. If using Vuex, we'd also be creating a
