@@ -89,10 +89,8 @@ function getComposer(
 export type TranslationDirective<T = HTMLElement> = ObjectDirective<T>
 
 export function vTDirective(i18n: I18n): TranslationDirective<HTMLElement> {
-  const register = (
-    el: HTMLElement,
-    { instance, value, modifiers }: DirectiveBinding
-  ): void => {
+  function process(binding: DirectiveBinding): [string, Composer] {
+    const { instance, modifiers, value } = binding
     /* istanbul ignore if */
     if (!instance || !instance.$) {
       throw createI18nError(I18nErrorCodes.UNEXPECTED_ERROR)
@@ -104,16 +102,22 @@ export function vTDirective(i18n: I18n): TranslationDirective<HTMLElement> {
     }
 
     const parsedValue = parseValue(value)
+    return [
+      Reflect.apply(composer.t, composer, [...makeParams(parsedValue)]),
+      composer
+    ]
+  }
+
+  const register = (el: HTMLElement, binding: DirectiveBinding): void => {
+    const [textContent, composer] = process(binding)
     if (inBrowser && i18n.global === composer) {
       // global scope only
       el.__i18nWatcher = watch(composer.locale, () => {
-        instance.$forceUpdate()
+        binding.instance && binding.instance.$forceUpdate()
       })
     }
     el.__composer = composer
-    el.textContent = Reflect.apply(composer.t, composer, [
-      ...makeParams(parsedValue)
-    ])
+    el.textContent = textContent
   }
 
   const unregister = (el: HTMLElement): void => {
@@ -142,10 +146,9 @@ export function vTDirective(i18n: I18n): TranslationDirective<HTMLElement> {
     created: register,
     unmounted: unregister,
     beforeUpdate: update,
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    getSSRProps: (binding: DirectiveBinding, vnode: VNode) => {
-      // TODO: support SSR
-      throw new Error('v-t still is not supported in SSR fully')
+    getSSRProps: (binding: DirectiveBinding) => {
+      const [textContent] = process(binding)
+      return { textContent }
     }
   } as TranslationDirective<HTMLElement>
 }
