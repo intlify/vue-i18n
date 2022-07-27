@@ -104,7 +104,8 @@ export function vTDirective(i18n: I18n): TranslationDirective<HTMLElement> {
     }
 
     const parsedValue = parseValue(value)
-    if (inBrowser) {
+    if (inBrowser && i18n.global === composer) {
+      // global scope only
       el.__i18nWatcher = watch(composer.locale, () => {
         instance.$forceUpdate()
       })
