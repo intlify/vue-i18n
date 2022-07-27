@@ -13,8 +13,7 @@ import type {
   DirectiveBinding,
   ObjectDirective,
   WatchStopHandle,
-  ComponentInternalInstance,
-  VNode
+  ComponentInternalInstance
 } from 'vue'
 import type { I18n, I18nInternal } from './i18n'
 import type { VueI18nInternal } from './legacy'
