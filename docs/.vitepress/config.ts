@@ -54,7 +54,7 @@ export default defineConfig({
       indexName: 'vue-i18n',
       // algoliaOptions: { facetFilters: ['tags:guide,api'] }
     },
-    
+
     nav: nav(),
 
     sidebar: {
@@ -87,7 +87,7 @@ function nav() {
       text: 'Changelog',
       link: 'https://github.com/intlify/vue-i18n-next/blob/master/CHANGELOG.md'
     }
-  ]  
+  ]
 }
 
 function sidebarGuide() {
@@ -223,7 +223,7 @@ function sidebarGuide() {
       collapsible: true,
       collapsed: true,
       items: [
-        { 
+        {
           text: 'Documentation for v8.x',
           link: '/guide/v8-docs'
         }
@@ -235,7 +235,7 @@ function sidebarGuide() {
 function sidebarApi() {
   return [
     {
-      text: 'API Refenrence',
+      text: 'API Reference',
       items: [
         {
           text: 'General',
