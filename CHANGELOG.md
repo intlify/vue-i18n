@@ -8,7 +8,7 @@ In the following, we introduce some of the new features:
 
 ### More TypeScript supporting
 
-Starting with Vue I18n v9.2, we have improved TypeScript support. This allows type checking of resources specified in the `messages` option of `createI18n` and complementing with APIs such as `t`.
+From Vue I18n v9.2, we have improved TypeScript support. This allows type checking of resources specified in the `messages` option of `createI18n` and complementing with APIs such as `t`.
 
 The following images is the resoureces type-checked:
 
@@ -45,7 +45,7 @@ About details, See more [the docs](https://vue-i18n.intlify.dev/guide/migration/
 
 ### `globalInjection` option **As default**
 
-Starting with Vue I18n v9.2, the `globalInjection` option defaults to `true`. If you localize by global scope using `$t` in your template, you no longer need to set this option.
+From Vue I18n v9.2, the `globalInjection` option defaults to `true`. If you localize by global scope using `$t` in your template, you no longer need to set this option.
 
 ### `useI18n` in Legacy API mode
 
