@@ -325,7 +325,7 @@ Global builds are not [UMD](https://github.com/umdjs/umd) builds. They are built
 
 - **`vue-i18n-bridge(.runtime).esm-bundler.js`**:
   - For use with bundlers like `webpack`, `rollup` and `parcel`
-  - Leaves prod/dev branches with `process\.env\.NODE_ENV` guards (must be replaced by bundler)
+  - Leaves prod/dev branches with `process.env`<wbr/>`.NODE_ENV` guards (must be replaced by bundler)
   - Does not ship minified builds (to be done together with the rest of the code after bundling)
   - Imports dependencies (e.g. `@intlify/core-base`, `@intlify/message-compiler`)
     - Imported dependencies are also `esm-bundler` builds and will in turn import their dependencies (e.g. `@intlify/message-compiler` imports `@intlify/shared`)
@@ -347,7 +347,7 @@ If you use `vue-i18n-bridge.runtime.esm-bundler.js`, you will need to precompile
 - **`vue-i18n-bridge.cjs(.prod).js`**:
   - For use in Node.js via `require()`
   - If you bundle your app with webpack with `target: 'node'` and properly externalize `vue-i18n-bridge`, this is the build that will be loaded
-  - The dev/prod files are pre-built, but the appropriate file is automatically required based on `process\.env\.NODE_ENV`
+  - The dev/prod files are pre-built, but the appropriate file is automatically required based on `process.env`<wbr/>`.NODE_ENV`
 
 
 ## `vue-i18n-composable`

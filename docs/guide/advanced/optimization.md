@@ -3,7 +3,7 @@
 
 ## Performance
 
-As described in "[installation](../../installation##from-cdn-or-without-a-bundler)" section, Vue I18n offer the following two built ES modules for Bundler.
+As described in "[installation](../installation##from-cdn-or-without-a-bundler)" section, Vue I18n offer the following two built ES modules for Bundler.
 
 - message compiler + runtime: **`vue-i18n.esm-bundler.js`**
 - runtime only: **`vue-i18n.runtime.esm-bundler.js`**
