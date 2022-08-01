@@ -331,16 +331,16 @@ importers:
 
   packages/core:
     specifiers:
-      '@intlify/core-base': 9.2.0-beta.40
+      '@intlify/core-base': 9.2.0
     dependencies:
       '@intlify/core-base': link:../core-base
 
   packages/core-base:
     specifiers:
-      '@intlify/devtools-if': 9.2.0-beta.40
-      '@intlify/message-compiler': 9.2.0-beta.40
-      '@intlify/shared': 9.2.0-beta.40
-      '@intlify/vue-devtools': 9.2.0-beta.40
+      '@intlify/devtools-if': 9.2.0
+      '@intlify/message-compiler': 9.2.0
+      '@intlify/shared': 9.2.0
+      '@intlify/vue-devtools': 9.2.0
     dependencies:
       '@intlify/devtools-if': link:../devtools-if
       '@intlify/message-compiler': link:../message-compiler
@@ -349,7 +349,7 @@ importers:
 
   packages/devtools-if:
     specifiers:
-      '@intlify/shared': 9.2.0-beta.40
+      '@intlify/shared': 9.2.0
     dependencies:
       '@intlify/shared': link:../shared
 
@@ -374,7 +374,7 @@ importers:
 
   packages/message-compiler:
     specifiers:
-      '@intlify/shared': 9.2.0-beta.40
+      '@intlify/shared': 9.2.0
       source-map: 0.6.1
     dependencies:
       '@intlify/shared': link:../shared
@@ -382,10 +382,10 @@ importers:
 
   packages/petite-vue-i18n:
     specifiers:
-      '@intlify/core-base': 9.2.0-beta.40
-      '@intlify/devtools-if': 9.2.0-beta.40
-      '@intlify/shared': 9.2.0-beta.40
-      '@intlify/vue-devtools': 9.2.0-beta.40
+      '@intlify/core-base': 9.2.0
+      '@intlify/devtools-if': 9.2.0
+      '@intlify/shared': 9.2.0
+      '@intlify/vue-devtools': 9.2.0
       '@vue/devtools-api': ^6.2.1
     dependencies:
       '@intlify/core-base': link:../core-base
@@ -443,18 +443,18 @@ importers:
 
   packages/vue-devtools:
     specifiers:
-      '@intlify/core-base': 9.2.0-beta.40
-      '@intlify/shared': 9.2.0-beta.40
+      '@intlify/core-base': 9.2.0
+      '@intlify/shared': 9.2.0
     dependencies:
       '@intlify/core-base': link:../core-base
       '@intlify/shared': link:../shared
 
   packages/vue-i18n:
     specifiers:
-      '@intlify/core-base': 9.2.0-beta.40
-      '@intlify/devtools-if': 9.2.0-beta.40
-      '@intlify/shared': 9.2.0-beta.40
-      '@intlify/vue-devtools': 9.2.0-beta.40
+      '@intlify/core-base': 9.2.0
+      '@intlify/devtools-if': 9.2.0
+      '@intlify/shared': 9.2.0
+      '@intlify/vue-devtools': 9.2.0
       '@vue/devtools-api': ^6.2.1
     dependencies:
       '@intlify/core-base': link:../core-base
@@ -466,10 +466,10 @@ importers:
 
   packages/vue-i18n-bridge:
     specifiers:
-      '@intlify/core-base': 9.2.0-beta.40
-      '@intlify/devtools-if': 9.2.0-beta.40
-      '@intlify/shared': 9.2.0-beta.40
-      '@intlify/vue-devtools': 9.2.0-beta.40
+      '@intlify/core-base': 9.2.0
+      '@intlify/devtools-if': 9.2.0
+      '@intlify/shared': 9.2.0
+      '@intlify/vue-devtools': 9.2.0
       '@vue/devtools-api': ^6.2.1
       vue-demi: ^0.13.4
     dependencies:
@@ -483,10 +483,10 @@ importers:
 
   packages/vue-i18n-core:
     specifiers:
-      '@intlify/core-base': 9.2.0-beta.40
-      '@intlify/devtools-if': 9.2.0-beta.40
-      '@intlify/shared': 9.2.0-beta.40
-      '@intlify/vue-devtools': 9.2.0-beta.40
+      '@intlify/core-base': 9.2.0
+      '@intlify/devtools-if': 9.2.0
+      '@intlify/shared': 9.2.0
+      '@intlify/vue-devtools': 9.2.0
       '@vue/devtools-api': ^6.2.1
     dependencies:
       '@intlify/core-base': link:../core-base

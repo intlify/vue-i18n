@@ -1,4 +1,22 @@
 
+## v9.2.0 (2022-08-01)
+
+#### :star: Features
+* `vue-i18n-core`
+  * [#1087](https://github.com/intlify/vue-i18n-next/pull/1087) feat: support SSR for v-t ([@kazupon](https://github.com/kazupon))
+
+#### :bug: Bug Fixes
+* `vue-i18n-core`
+  * [#1086](https://github.com/intlify/vue-i18n-next/pull/1086) fix: v-t directive reactivity ([@kazupon](https://github.com/kazupon))
+
+#### :pencil: Documentation
+* [#1084](https://github.com/intlify/vue-i18n-next/pull/1084) Added pluralization example to custom directive page ([@anatolykopyl](https://github.com/anatolykopyl))
+
+#### Committers: 2
+- Anatoly Kopyl ([@anatolykopyl](https://github.com/anatolykopyl))
+- kazuya kawaguchi ([@kazupon](https://github.com/kazupon))
+
+
 ## v9.2.0-beta.40 (2022-07-19)
 
 #### :bug: Bug Fixes
