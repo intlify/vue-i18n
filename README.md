@@ -145,12 +145,11 @@ The examples are offered in the following two API styles:
 
 | Package | NPM |
 | ------- | --- |
-| [vue-i18n](packages/vue-i18n) | [![vue-i18n](https://img.shields.io/npm/v/vue-i18n/next.svg)](https://www.npmjs.com/package/vue-i18n)
-| [@intlify/core](packages/core) | [![@intlify/core](https://img.shields.io/npm/v/@intlify/core/next.svg)](https://www.npmjs.com/package/@intlify/core)
+| [vue-i18n](packages/vue-i18n) | [![vue-i18n](https://img.shields.io/npm/v/vue-i18n.svg)](https://www.npmjs.com/package/vue-i18n)
+| [vue-i18n-bridge](packages/vue-i18n-bridge) | [![vue-i18n-bridge](https://img.shields.io/npm/v/vue-i18n-bridge.svg)](https://www.npmjs.com/package/vue-i18n)
+| [@intlify/core](packages/core) | [![@intlify/core](https://img.shields.io/npm/v/@intlify/core.svg)](https://www.npmjs.com/package/@intlify/core)
 | [@intlify/core-base](packages/core-base) | [![@intlify/core-base](https://img.shields.io/npm/v/@intlify/core-base.svg)](https://www.npmjs.com/package/@intlify/core-base)
-| [@intlify/runtime](packages/runtime) | [![@intlify/runtime](https://img.shields.io/npm/v/@intlify/runtime.svg)](https://www.npmjs.com/package/@intlify/runtime)
 | [@intlify/message-compiler](packages/message-compiler) | [![@intlify/message-compiler](https://img.shields.io/npm/v/@intlify/message-compiler.svg)](https://www.npmjs.com/package/@intlify/message-compiler)
-| [@intlify/message-resolver](packages/message-resolver) | [![@intlify/message-resolver](https://img.shields.io/npm/v/@intlify/message-resolver.svg)](https://www.npmjs.com/package/@intlify/message-resolver)
 | [@intlify/shared](packages/shared) | [![@intlify/shared](https://img.shields.io/npm/v/@intlify/shared.svg)](https://www.npmjs.com/package/@intlify/shared)
 
 ## 🏃 Other Projects
@@ -162,6 +161,7 @@ The examples are offered in the following two API styles:
 | ESLint Plugin | [![@intlify/eslint-plugin-vue-i18n](https://img.shields.io/npm/v/@intlify/eslint-plugin-vue-i18n.svg)](https://www.npmjs.com/package/@intlify/eslint-plugin-vue-i18n) | [intlify/eslint-plugin-vue-i18n](https://github.com/intlify/eslint-plugin-vue-i18n)
 | Composition API for Vue 2.x | [![vue-i18n-composable](https://img.shields.io/npm/v/vue-i18n-composable.svg)](https://www.npmjs.com/package/vue-i18n-composable) | [intlify/vue-i18n-composable](https://github.com/intlify/vue-i18n-composable)
 | CLI | [![intlify/cli](https://img.shields.io/npm/v/@intlify/cli.svg)](https://www.npmjs.com/package/@intlify/cli) | [intlify/cli](https://github.com/intlify/cli)
+| Unplugin plugin | [![@intlify/unplugin-vue-i18n](https://img.shields.io/npm/v/@intlify/unplugin-vue-i18n.svg)](https://www.npmjs.com/package/@intlify/unplugin-vue-i18n) | [intlify/unplugin-vue-i18n](https://github.com/intlify/unplugin-vue-i18n)
 | Vite Plugin | [![@intlify/vite-plugin-vue-i18n](https://img.shields.io/npm/v/@intlify/vite-plugin-vue-i18n.svg)](https://www.npmjs.com/package/@intlify/vite-plugin-vue-i18n) | [intlify/vite-plugin-vue-i18n](https://github.com/intlify/vite-plugin-vue-i18n)
 | Webpack Loader | [![@intlify/vue-i18n-loader](https://img.shields.io/npm/v/@intlify/vue-i18n-loader/next.svg)](https://www.npmjs.com/package/@intlify/vue-i18n-loader) | [intlify/vue-i18n-loader](https://github.com/intlify/vue-i18n-loader)
 | Rollup Plugin | [![@intlify/rollup-plugin-vue-i18n](https://img.shields.io/npm/v/@intlify/rollup-plugin-vue-i18n/next.svg)](https://www.npmjs.com/package/@intlify/rollup-plugin-vue-i18n) | [intlify/rollup-plugin-vue-i18n](https://github.com/intlify/rollup-plugin-vue-i18n)
