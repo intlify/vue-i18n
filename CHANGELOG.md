@@ -2,7 +2,66 @@
 
 We are excited to announce the release of Vue I18n v9.2 !! This release includes many new features, bug fixes, improvements, and  document fixes.
 
-We had commited with 35 contributors. Thanks for your contributing!
+We had commited with 35 contributors. Thanks for your contributing ❤️
+
+In the following, we introduce some of the new features:
+
+### More TypeScript supporting
+
+Starting with Vue I18n v9.2, we have improved TypeScript support. This allows type checking of resources specified in the `messages` option of `createI18n` and complementing with APIs such as `t`.
+
+The following images is the resoureces type-checked:
+
+![type check1](https://vue-i18n.intlify.dev/ts-support-1.png)
+![type check2](https://vue-i18n.intlify.dev/ts-support-2.png)
+
+The following gif image is the API completion working:
+
+![completion](https://vue-i18n.intlify.dev/ts-support-3.gif)
+
+For more information on how to setup the system, please read [the docs](https://vue-i18n.intlify.dev/guide/advanced/typescript.html)
+
+### Web Components
+
+WebComponents has been supported since Vue 3.2. You can support your Vue Component with Vue I18n as well.
+
+About details, See more [the docs](https://vue-i18n.intlify.dev/guide/advanced/wc.html)
+
+### Small size subset of Vue I18n
+
+We have released `petite-vue-i18n`, a small size subset version of Vue I18n, as an experimental feature.
+
+Only minimal functionality is provided in this module. you can reduce your Vue application bundle size with using this module. If you do not need to use all the features of Vue I18n, this module would be a good option.
+
+About details, See more [README](https://github.com/intlify/vue-i18n-next/tree/master/packages/petite-vue-i18n#petite-vue-i18n)
+
+### Bridging to Vue 3
+
+We have released a module called `vue-i18n-bridge` to support Vue 2 applications with Vue I18n v8.x migrate to Vue 3.
+
+`vue-i18n-bridge` is a module that is mostly compatible with the Vue I18n v9 API. It's an add-on to existing Vue I18n v8.26.1 or later + Vue 2 applications to take advantage of the Composition API provided in Vue I18n v9. This module would be able to support the progressive migration to Vue 3.
+
+About details, See more [the docs](https://vue-i18n.intlify.dev/guide/migration/vue2.html#what-is-vue-i18n-bridge)
+
+### `globalInjection` option **As default**
+
+Starting with Vue I18n v9.2, the `globalInjection` option defaults to `true`. If you localize by global scope using `$t` in your template, you no longer need to set this option.
+
+### `useI18n` in Legacy API mode
+
+We have supported for `useI18n` in Legacy API mode. This feature would be useful if you want to migrate from the options API style to the Composition API style in your Vue 3 application.
+
+About details, See more [the docs](https://vue-i18n.intlify.dev/guide/migration/vue3.html#migration-to-composition-api-from-legacy-api)
+
+### Vue 2.7
+
+`vue-i18n-bridge` module for migration to Vue 3 of course supports Vue 2.7.
+
+Instead of going from Vue 2.6 to Vue 3 directly, you can migrate your Vue applications using Vue I18n with a strategy of Vue 2.6, Vue 2.7, and then Vue 3 progressively.
+
+### SSR for `v-t`
+
+We have supported SSR for `v-t`. If your Vue application uses `v-t`, you can support SSR without having to be aware in your Vue application.
 
 
 #### :star: Features (15)
