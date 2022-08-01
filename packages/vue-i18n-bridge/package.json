@@ -1,6 +1,6 @@
 {
   "name": "vue-i18n-bridge",
-  "version": "9.2.0-beta.40",
+  "version": "9.2.0",
   "description": "A bridge for Vue I18n Legacy",
   "keywords": [
     "bridge",
@@ -37,14 +37,14 @@
   "jsdelivr": "dist/vue-i18n-bridge.global.js",
   "types": "dist/vue-i18n-bridge.d.ts",
   "dependencies": {
-    "@intlify/core-base": "9.2.0-beta.40",
-    "@intlify/shared": "9.2.0-beta.40",
-    "@intlify/vue-devtools": "9.2.0-beta.40",
+    "@intlify/core-base": "9.2.0",
+    "@intlify/shared": "9.2.0",
+    "@intlify/vue-devtools": "9.2.0",
     "@vue/devtools-api": "^6.2.1",
     "vue-demi": "^0.13.4"
   },
   "devDependencies": {
-    "@intlify/devtools-if": "9.2.0-beta.40"
+    "@intlify/devtools-if": "9.2.0"
   },
   "peerDependencies": {
     "@vue/composition-api": "^1.2.0"

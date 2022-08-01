@@ -1,6 +1,6 @@
 {
   "name": "vue-i18n-next",
-  "version": "9.2.0-beta.40",
+  "version": "9.2.0",
   "license": "MIT",
   "author": {
     "name": "kazuya kawaguchi",
@@ -180,7 +180,7 @@
       "secretlint"
     ]
   },
-  "packageManager": "pnpm@7.5.2",
+  "packageManager": "pnpm@7.8.0",
   "pnpm": {
     "overrides": {
       "vue": "3.2.20",
