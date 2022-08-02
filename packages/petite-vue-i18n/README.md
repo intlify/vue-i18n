@@ -4,7 +4,7 @@ Small size subset of Vue I18n
 
 `petite-vue-i18n` is an alternative distribution of Vue I18n, which provides only minimal features.
 
-## :question: What is defference from Vue I18n ?
+## :question: What is the difference from Vue I18n ?
 
 - The Size is smaller than vue-i18n
   - CDN or without a Bundler
@@ -18,14 +18,14 @@ Small size subset of Vue I18n
   - Bundle size
     - Reduce size from `vue-i18n`: runtime + compiler `~14%`, runtime only `~22%` (Code size check measurement of [vue-i18n](https://github.com/intlify/vue-i18n-next/tree/master/packages/size-check-vue-i18n) and [petite-vue-i18n](https://github.com/intlify/vue-i18n-next/tree/master/packages/size-check-petite-vue-i18n))
 - The legacy API is not supported, **only the composition API**
-- The APIs for the following DateTime Foramts, Number Formats, and utilities aren’t included. **Translation only**
+- The APIs for the following DateTime Formats, Number Formats, and utilities aren’t included. **Translation only**
   - `n`, `$n`
   - `d`, `$d`
   - `rt`, `$rt`
   - `tm`, `$tm`
   - `getDateTimeFormat`, `setDateTimeFormat`, `mergeDateTimeFormat`
   - `getNumberFormat`, `setNumberFormat`, `mergeNumberFormat`
-- **The only locale msssages that can be handled are simple key-values**. if you can handle hierarchical locale messages, you need to customize them using the API
+- **The only locale messages that can be handled are simple key-values**. if you can handle hierarchical locale messages, you need to customize them using the API
 - The algorithm of local fallback is **the array order** specified in `fallbackLocale`
 - Custom directive `v-t` isn’t included
 - The following components provided by `vue-i18n` aren’t included
@@ -59,7 +59,7 @@ You need to insert the following scripts to end of `<head>`:
 <script src="https://unpkg.com/petite-vue-i18n"></script>
 ```
 
-The following is the application code with script tag:
+The following is the application code with the script tag:
 
 ```html
 <script>
@@ -122,7 +122,7 @@ Scripts:
 ```js
 const { createApp } = Vue
 const { createI18n, useI18n } = PetiteVueI18n
-// or for ES modules 
+// or for ES modules
 // import { createApp } from 'vue'
 // import { createI18n } from 'petite-vue-i18n'
 
@@ -154,7 +154,7 @@ app.mount('#app')
 
 ### Use the same message resolver and locale fallbacker as `vue-i18n`
 
-In `petite-vue-i18n`, the message resolver and locale fallbacker use simple implementations to optimize code size, as described in the [differences section](https://github.com/intlify/vue-i18n-next/tree/master/packages/petite-vue-i18n#question-what-is-defference-from-vue-i18n-), as the belows:
+In `petite-vue-i18n`, the message resolver and locale fallbacker use simple implementations to optimize code size, as described in the [differences section](https://github.com/intlify/vue-i18n-next/tree/master/packages/petite-vue-i18n#question-what-is-the-difference-from-vue-i18n-), as the belows:
 
 - message resolver
   - Resolves key-value style locale messages
@@ -202,4 +202,4 @@ With the above settings, locale message resolving and locale fallbacking will be
 
 ## :copyright: License
 
-[MIT](http://opensource.org/licenses/MIT)
+[MIT](https://opensource.org/licenses/MIT)
