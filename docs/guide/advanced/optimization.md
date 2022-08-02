@@ -63,7 +63,7 @@ export default defineConfig({
 
 ```js
 // webpack.config.js
-const paht = require('path')
+const path = require('path')
 const VueI18nPlugin = require('@intlify/unplugin-vue-i18n/webpack')
 
 module.exports = {
@@ -147,7 +147,7 @@ npm install --save-dev @intlify/vue-i18n-loader
 
 ```js
 // webpack.config.js
-const paht = require('path')
+const path = require('path')
 
 module.exports = {
   /* ... */
