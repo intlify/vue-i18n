@@ -1,6 +1,6 @@
 # TypeScript Support
 
-:::tip Support Version
+:::tip Supported Versions
 :new: 9.2+
 :::
 
@@ -42,7 +42,7 @@ const i18n = createI18n<[MessageSchema], 'en-US' | 'ja-JP'>({
 
 上記のコードでは、`createI18n`の`messages`オプションに指定する`en-US`メッセージリソースから型を定義しています。この定義した型は、VueI18nで取り扱うメッセージリソースのマスター的なスキーマです。つまり、アプリケーションにおいて、**single-of-truth**のリソースとして定義できるようになります。メッセージリソースからスキーマとして定義した型を`createI18n`の型パラメータの第1引数に指定することで、他の locale において型安全なリソースを定義することが可能になります。
 
-`createI18n`の型パラメータの第2引数には、取り扱う locale を指定します。これにより、第1引数で指定されたリソースの型を元に、この第2引数に指定された locale ごとに型チェックをします。上記のコード例では、`locale`オプションにも指定されているメイン locale となる`en-US`、そして`ja-JP`が指定されています。この状態で、typescript のコンパイルすると以下のようなエラーが発生し、`messages`オプションに `ja-JP` のリソースが定義されていないことをチェックすることができます。 
+`createI18n`の型パラメータの第2引数には、取り扱う locale を指定します。これにより、第1引数で指定されたリソースの型を元に、この第2引数に指定された locale ごとに型チェックをします。上記のコード例では、`locale`オプションにも指定されているメイン locale となる`en-US`、そして`ja-JP`が指定されています。この状態で、typescript のコンパイルすると以下のようなエラーが発生し、`messages`オプションに `ja-JP` のリソースが定義されていないことをチェックすることができます。
 
 ```sh
 $ npx tsc
@@ -250,7 +250,7 @@ VueI18nでは、TypeScriptのinterfaceを拡張できる機能を利用して、
 
 VueI18nでは以下のinterfaceを提供しています。
 
-- `DefineLocaleMessage`: Locale messages のスキーマをグローバルに定義するための interface 
+- `DefineLocaleMessage`: Locale messages のスキーマをグローバルに定義するための interface
 - `DefineDateTimeFormat`: Datetime formats のスキーマをグローバルに定義するための interface
 - `DefineNumberFormat`: Number formats のスキーマをグローバルに定義するための interface
 

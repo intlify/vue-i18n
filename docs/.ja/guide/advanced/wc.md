@@ -1,6 +1,6 @@
 # Web components
 
-:::tip Support Version
+:::tip Supported Versions
 :new: 9.2+
 :::
 
@@ -82,7 +82,7 @@ import I18nHost from './components/I18nHost.ce.vue'
 
 const I18nHostElement = defineCustomElement(I18nHost)
 
-export { I18nHostElement }  
+export { I18nHostElement }
 ```
 
 以下のような `useI18n` が実装、そして exportされた Web Components を:
