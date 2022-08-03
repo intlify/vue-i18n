@@ -1,6 +1,6 @@
 # TypeScript Support
 
-:::tip Support Version
+:::tip Supported Versions
 :new: 9.2+
 :::
 
