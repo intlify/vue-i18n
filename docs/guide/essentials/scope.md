@@ -102,8 +102,8 @@ createApp({
 }).use(i18n).mount('#app')
 
 
-// change locale via `global` property
-i18n.global.locale = 'en'
+// change locale via `global` property (note that it's a ref, so we must access it via .value)
+i18n.global.locale.value = 'en'
 ```
 
 :::warning NOTICE
