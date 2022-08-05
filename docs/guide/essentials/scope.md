@@ -103,6 +103,11 @@ createApp({
 
 
 // change locale via `global` property
+
+// when vue-i18n is being used with legacy: false, note that i18n.global.locale is a ref, so we must set it via .value:
+i18n.global.locale.value = 'en'
+
+// otherwise - when using legacy: true, we set it like this:
 i18n.global.locale = 'en'
 ```
 
