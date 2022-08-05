@@ -88,7 +88,7 @@ function getComposer(
 export type TranslationDirective<T = HTMLElement> = ObjectDirective<T>
 
 export function vTDirective(i18n: I18n): TranslationDirective<HTMLElement> {
-  const process = (binding: DirectiveBinding): [string, Composer] => {
+  const _process = (binding: DirectiveBinding): [string, Composer] => {
     const { instance, modifiers, value } = binding
     /* istanbul ignore if */
     if (!instance || !instance.$) {
@@ -108,7 +108,7 @@ export function vTDirective(i18n: I18n): TranslationDirective<HTMLElement> {
   }
 
   const register = (el: HTMLElement, binding: DirectiveBinding): void => {
-    const [textContent, composer] = process(binding)
+    const [textContent, composer] = _process(binding)
     if (inBrowser && i18n.global === composer) {
       // global scope only
       el.__i18nWatcher = watch(composer.locale, () => {
@@ -141,7 +141,7 @@ export function vTDirective(i18n: I18n): TranslationDirective<HTMLElement> {
     }
   }
   const getSSRProps = (binding: DirectiveBinding) => {
-    const [textContent] = process(binding)
+    const [textContent] = _process(binding)
     return { textContent }
   }
 
