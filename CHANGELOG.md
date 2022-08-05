@@ -1,4 +1,14 @@
 
+## v9.2.2 (2022-08-05)
+
+#### :bug: Bug Fixes
+* `vue-i18n-core`
+  * [#1110](https://github.com/intlify/vue-i18n-next/pull/1110) fix: conflict process global object in vDirective function ([@kazupon](https://github.com/kazupon))
+
+#### Committers: 1
+- kazuya kawaguchi ([@kazupon](https://github.com/kazupon))
+
+
 ## v9.2.1 (2022-08-05)
 
 #### :bug: Bug Fixes
