@@ -1,3 +1,30 @@
+
+## v9.2.1 (2022-08-05)
+
+#### :bug: Bug Fixes
+* `vue-i18n-core`
+  * [#1108](https://github.com/intlify/vue-i18n-next/pull/1108) fix: scope execution context resolving ([@kazupon](https://github.com/kazupon))
+
+#### :pencil: Documentation
+* Other
+  * [#1106](https://github.com/intlify/vue-i18n-next/pull/1106) fix(typo): update IE note on date formatting section ([@jcfauchet](https://github.com/jcfauchet))
+  * [#1105](https://github.com/intlify/vue-i18n-next/pull/1105) i18n.global.locale is a ref ([@Cygnut](https://github.com/Cygnut))
+  * [#1099](https://github.com/intlify/vue-i18n-next/pull/1099) Editorial fixes ([@xfq](https://github.com/xfq))
+  * [#1098](https://github.com/intlify/vue-i18n-next/pull/1098) Editorial fix ([@xfq](https://github.com/xfq))
+  * [#1097](https://github.com/intlify/vue-i18n-next/pull/1097) Fix(docs): Fixing Typo in optimization.md ([@JULO01](https://github.com/JULO01))
+  * [#1094](https://github.com/intlify/vue-i18n-next/pull/1094) Fix documentation typography ([@sey](https://github.com/sey))
+  * [#1041](https://github.com/intlify/vue-i18n-next/pull/1041) replace docs site with vitepress v1 ([@kazupon](https://github.com/kazupon))
+* `petite-vue-i18n`
+  * [#1100](https://github.com/intlify/vue-i18n-next/pull/1100) Editorial fixes ([@xfq](https://github.com/xfq))
+
+#### Committers: 6
+- Florian Sey ([@sey](https://github.com/sey))
+- Fuqiao Xue ([@xfq](https://github.com/xfq))
+- Jean-Charles Fct ([@jcfauchet](https://github.com/jcfauchet))
+- Lee Crosby ([@Cygnut](https://github.com/Cygnut))
+- [@JULO01](https://github.com/JULO01)
+- kazuya kawaguchi ([@kazupon](https://github.com/kazupon))
+
 ## v9.2.0 (2022-08-01)
 
 We are excited to announce the release of Vue I18n v9.2 !! This release includes many new features, bug fixes, improvements, and  document fixes.

@@ -331,16 +331,16 @@ importers:
 
   packages/core:
     specifiers:
-      '@intlify/core-base': 9.2.0
+      '@intlify/core-base': 9.2.1
     dependencies:
       '@intlify/core-base': link:../core-base
 
   packages/core-base:
     specifiers:
-      '@intlify/devtools-if': 9.2.0
-      '@intlify/message-compiler': 9.2.0
-      '@intlify/shared': 9.2.0
-      '@intlify/vue-devtools': 9.2.0
+      '@intlify/devtools-if': 9.2.1
+      '@intlify/message-compiler': 9.2.1
+      '@intlify/shared': 9.2.1
+      '@intlify/vue-devtools': 9.2.1
     dependencies:
       '@intlify/devtools-if': link:../devtools-if
       '@intlify/message-compiler': link:../message-compiler
@@ -349,7 +349,7 @@ importers:
 
   packages/devtools-if:
     specifiers:
-      '@intlify/shared': 9.2.0
+      '@intlify/shared': 9.2.1
     dependencies:
       '@intlify/shared': link:../shared
 
@@ -374,7 +374,7 @@ importers:
 
   packages/message-compiler:
     specifiers:
-      '@intlify/shared': 9.2.0
+      '@intlify/shared': 9.2.1
       source-map: 0.6.1
     dependencies:
       '@intlify/shared': link:../shared
@@ -382,10 +382,10 @@ importers:
 
   packages/petite-vue-i18n:
     specifiers:
-      '@intlify/core-base': 9.2.0
-      '@intlify/devtools-if': 9.2.0
-      '@intlify/shared': 9.2.0
-      '@intlify/vue-devtools': 9.2.0
+      '@intlify/core-base': 9.2.1
+      '@intlify/devtools-if': 9.2.1
+      '@intlify/shared': 9.2.1
+      '@intlify/vue-devtools': 9.2.1
       '@vue/devtools-api': ^6.2.1
     dependencies:
       '@intlify/core-base': link:../core-base
@@ -443,18 +443,18 @@ importers:
 
   packages/vue-devtools:
     specifiers:
-      '@intlify/core-base': 9.2.0
-      '@intlify/shared': 9.2.0
+      '@intlify/core-base': 9.2.1
+      '@intlify/shared': 9.2.1
     dependencies:
       '@intlify/core-base': link:../core-base
       '@intlify/shared': link:../shared
 
   packages/vue-i18n:
     specifiers:
-      '@intlify/core-base': 9.2.0
-      '@intlify/devtools-if': 9.2.0
-      '@intlify/shared': 9.2.0
-      '@intlify/vue-devtools': 9.2.0
+      '@intlify/core-base': 9.2.1
+      '@intlify/devtools-if': 9.2.1
+      '@intlify/shared': 9.2.1
+      '@intlify/vue-devtools': 9.2.1
       '@vue/devtools-api': ^6.2.1
     dependencies:
       '@intlify/core-base': link:../core-base
@@ -466,10 +466,10 @@ importers:
 
   packages/vue-i18n-bridge:
     specifiers:
-      '@intlify/core-base': 9.2.0
-      '@intlify/devtools-if': 9.2.0
-      '@intlify/shared': 9.2.0
-      '@intlify/vue-devtools': 9.2.0
+      '@intlify/core-base': 9.2.1
+      '@intlify/devtools-if': 9.2.1
+      '@intlify/shared': 9.2.1
+      '@intlify/vue-devtools': 9.2.1
       '@vue/devtools-api': ^6.2.1
       vue-demi: ^0.13.4
     dependencies:
@@ -483,10 +483,10 @@ importers:
 
   packages/vue-i18n-core:
     specifiers:
-      '@intlify/core-base': 9.2.0
-      '@intlify/devtools-if': 9.2.0
-      '@intlify/shared': 9.2.0
-      '@intlify/vue-devtools': 9.2.0
+      '@intlify/core-base': 9.2.1
+      '@intlify/devtools-if': 9.2.1
+      '@intlify/shared': 9.2.1
+      '@intlify/vue-devtools': 9.2.1
       '@vue/devtools-api': ^6.2.1
     dependencies:
       '@intlify/core-base': link:../core-base
@@ -1129,7 +1129,7 @@ packages:
     engines: {node: '>= 12'}
     dependencies:
       '@intlify/core': 9.1.10
-      '@intlify/message-compiler': 9.1.10
+      '@intlify/message-compiler': 9.2.0
       '@intlify/shared': 9.2.0
       jsonc-eslint-parser: 1.4.1
       source-map: 0.6.1
@@ -1148,7 +1148,7 @@ packages:
       vue-i18n:
         optional: true
     dependencies:
-      '@intlify/message-compiler': 9.1.10
+      '@intlify/message-compiler': 9.2.0
       '@intlify/shared': 9.2.0
       jsonc-eslint-parser: 1.4.1
       source-map: 0.6.1
@@ -1248,7 +1248,7 @@ packages:
     engines: {node: '>= 12'}
     dependencies:
       '@intlify/bundle-utils': 1.0.0
-      '@intlify/shared': 9.1.10
+      '@intlify/shared': 9.2.0
       '@rollup/pluginutils': 4.2.1
       debug: 4.3.4
       fast-glob: 3.2.11
@@ -1299,7 +1299,7 @@ packages:
       vue: ^3.0.0 || ^2.6.0
     dependencies:
       '@intlify/bundle-utils': 1.0.0
-      '@intlify/shared': 9.1.10
+      '@intlify/shared': 9.2.0
       js-yaml: 4.1.0
       json5: 2.2.1
       loader-utils: 2.0.2
