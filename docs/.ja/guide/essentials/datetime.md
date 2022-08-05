@@ -71,7 +71,7 @@ Vue I18nで日時の値をローカライズするには、`$d`を使います�
 ## カスタムフォーマット
 
 :::danger 備考
-[IE](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/DateTimeFormat/formatToParts)では`Intl.DateTimeForamt#formatToParts`のサポートがないため、カスタムフォーマットは使えません。
+[IE](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/DateTimeFormat/formatToParts)では`Intl.DateTimeFormat#formatToParts`のサポートがないため、カスタムフォーマットは使えません。
 
 使いたい場合、[polyfill](https://github.com/formatjs/formatjs/tree/main/packages/intl-datetimeformat)を使う必要があります。
 :::
