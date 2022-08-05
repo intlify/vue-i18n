@@ -1914,7 +1914,7 @@ export function createComposer(options: any = {}, VueI18nLegacy?: any): any {
   // eslint-disable-next-line prefer-const
   let _context: CoreContext
 
-  function getCoreContext(): CoreContext {
+  const getCoreContext = (): CoreContext => {
     _isGlobal && setFallbackContext(null)
 
     const ctxOptions = {
@@ -2052,14 +2052,14 @@ export function createComposer(options: any = {}, VueI18nLegacy?: any): any {
     return type !== 'translate' || !arg.resolvedMessage
   }
 
-  function wrapWithDeps<T, U = T>(
+  const wrapWithDeps = <T, U = T>(
     fn: (context: unknown) => unknown,
     argumentParser: () => unknown[],
     warnType: ComposerWarnType,
     fallbackSuccess: (root: Composer<T> & ComposerInternal) => U,
     fallbackFail: (key: unknown) => U,
     successCondition: (val: unknown) => boolean
-  ): U {
+  ): U => {
     trackReactivityValues() // track reactive dependency
     // NOTE: experimental !!
     let ret: unknown
