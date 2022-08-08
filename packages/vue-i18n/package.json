@@ -53,10 +53,10 @@
   "buildOptions": {
     "name": "VueI18n",
     "formats": [
-      "esm-bundler.mjs",
-      "esm-bundler-runtime.mjs",
-      "esm-browser.mjs",
-      "esm-browser-runtime.mjs",
+      "esm-bundler",
+      "esm-bundler-runtime",
+      "esm-browser",
+      "esm-browser-runtime",
       "cjs",
       "global",
       "global-runtime"
