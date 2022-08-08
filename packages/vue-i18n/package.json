@@ -53,10 +53,10 @@
   "buildOptions": {
     "name": "VueI18n",
     "formats": [
-      "esm-bundler",
-      "esm-bundler-runtime",
-      "esm-browser",
-      "esm-browser-runtime",
+      "esm-bundler.mjs",
+      "esm-bundler-runtime.mjs",
+      "esm-browser.mjs",
+      "esm-browser-runtime.mjs",
       "cjs",
       "global",
       "global-runtime"
@@ -66,7 +66,7 @@
     ".": {
       "import": {
         "node": "./index.mjs",
-        "default": "./dist/vue-i18n.esm-bundler.js"
+        "default": "./dist/vue-i18n.esm-bundler.mjs"
       },
       "require": "./index.js"
     },
