@@ -34,7 +34,7 @@ importers:
       eslint: ^8.0.0
       eslint-config-prettier: ^8.3.0
       eslint-plugin-prettier: ^4.0.0
-      eslint-plugin-vue: ^8.0.0
+      eslint-plugin-vue: ^9.0.0
       execa: ^5.0.0
       fixpack: ^4.0.0
       http-server: ^14.0.0
@@ -109,7 +109,7 @@ importers:
       eslint: 8.19.0
       eslint-config-prettier: 8.5.0_eslint@8.19.0
       eslint-plugin-prettier: 4.2.1_7uxdfn2xinezdgvmbammh6ev5i
-      eslint-plugin-vue: 8.7.1_eslint@8.19.0
+      eslint-plugin-vue: 9.3.0_eslint@8.19.0
       execa: 5.1.1
       fixpack: 4.0.0
       http-server: 14.1.1
@@ -1130,7 +1130,7 @@ packages:
     dependencies:
       '@intlify/core': 9.1.10
       '@intlify/message-compiler': 9.2.0
-      '@intlify/shared': 9.2.1
+      '@intlify/shared': 9.2.2
       jsonc-eslint-parser: 1.4.1
       source-map: 0.6.1
       yaml-eslint-parser: 0.3.2
@@ -1243,11 +1243,6 @@ packages:
     engines: {node: '>= 14'}
     dev: true
 
-  /@intlify/shared/9.2.1:
-    resolution: {integrity: sha512-di+gNlo4M3El8maOX69swhxSrGbsSC+jaa936XhRu+JysnBMw0ivDrhsE5vcZ0iImmjEP5L1H7QjmUrypNEFUA==}
-    engines: {node: '>= 14'}
-    dev: true
-
   /@intlify/shared/9.2.2:
     resolution: {integrity: sha512-wRwTpsslgZS5HNyM7uDQYZtxnbI12aGiBZURX3BTR9RFIKKRWpllTsgzHWvj3HKm3Y2Sh5LPC1r0PDCKEhVn9Q==}
     engines: {node: '>= 14'}
@@ -1309,7 +1304,7 @@ packages:
       vue: ^3.0.0 || ^2.6.0
     dependencies:
       '@intlify/bundle-utils': 1.0.0
-      '@intlify/shared': 9.2.1
+      '@intlify/shared': 9.2.2
       js-yaml: 4.1.0
       json5: 2.2.1
       loader-utils: 2.0.2
@@ -5897,9 +5892,9 @@ packages:
       prettier-linter-helpers: 1.0.0
     dev: true
 
-  /eslint-plugin-vue/8.7.1_eslint@8.19.0:
-    resolution: {integrity: sha512-28sbtm4l4cOzoO1LtzQPxfxhQABararUb1JtqusQqObJpWX2e/gmVyeYVfepizPFne0Q5cILkYGiBoV36L12Wg==}
-    engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
+  /eslint-plugin-vue/9.3.0_eslint@8.19.0:
+    resolution: {integrity: sha512-iscKKkBZgm6fGZwFt6poRoWC0Wy2dQOlwUPW++CiPoQiw1enctV2Hj5DBzzjJZfyqs+FAXhgzL4q0Ww03AgSmQ==}
+    engines: {node: ^14.17.0 || >=16.0.0}
     peerDependencies:
       eslint: ^6.2.0 || ^7.0.0 || ^8.0.0
     dependencies:
@@ -5909,7 +5904,8 @@ packages:
       nth-check: 2.1.1
       postcss-selector-parser: 6.0.10
       semver: 7.3.7
-      vue-eslint-parser: 8.3.0_eslint@8.19.0
+      vue-eslint-parser: 9.0.3_eslint@8.19.0
+      xml-name-validator: 4.0.0
     transitivePeerDependencies:
       - supports-color
     dev: true
@@ -14215,9 +14211,9 @@ packages:
       vue: 3.2.20
     dev: true
 
-  /vue-eslint-parser/8.3.0_eslint@8.19.0:
-    resolution: {integrity: sha512-dzHGG3+sYwSf6zFBa0Gi9ZDshD7+ad14DGOdTLjruRVgZXe2J+DcZ9iUhyR48z5g1PqRa20yt3Njna/veLJL/g==}
-    engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
+  /vue-eslint-parser/9.0.3_eslint@8.19.0:
+    resolution: {integrity: sha512-yL+ZDb+9T0ELG4VIFo/2anAOz8SvBdlqEnQnvJ3M7Scq56DvtjY0VY88bByRZB0D4J0u8olBcfrXTVONXsh4og==}
+    engines: {node: ^14.17.0 || >=16.0.0}
     peerDependencies:
       eslint: '>=6.0.0'
     dependencies:
@@ -14761,6 +14757,11 @@ packages:
 
   /xml-name-validator/3.0.0:
     resolution: {integrity: sha512-A5CUptxDsvxKJEU3yO6DuWBSJz/qizqzJKOMIfUJHETbBw/sFaDxgd6fxm1ewUaM0jZ444Fc5vC5ROYurg/4Pw==}
+    dev: true
+
+  /xml-name-validator/4.0.0:
+    resolution: {integrity: sha512-ICP2e+jsHvAj2E2lIHxa5tjXRlKDJo4IdvPvCXbXQGdzSfmSpNVyIKMvoZHjDY9DP0zV17iI85o90vRFXNccRw==}
+    engines: {node: '>=12'}
     dev: true
 
   /xmlchars/2.2.0:

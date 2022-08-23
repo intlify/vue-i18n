@@ -90,7 +90,7 @@
     "eslint": "^8.0.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-prettier": "^4.0.0",
-    "eslint-plugin-vue": "^8.0.0",
+    "eslint-plugin-vue": "^9.0.0",
     "execa": "^5.0.0",
     "fixpack": "^4.0.0",
     "http-server": "^14.0.0",
