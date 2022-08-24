@@ -45,7 +45,7 @@
     "@intlify/devtools-if": "9.2.2"
   },
   "peerDependencies": {
-    "vue": "^3.0.0"
+    "vue": "^2.7.0 || ^3.0.0"
   },
   "engines": {
     "node": ">= 14"
