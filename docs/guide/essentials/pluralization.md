@@ -141,7 +141,7 @@ function customRule(choice, choicesLength, orgRule) {
 }
 ```
 
-To use the custom rules defined above, you need to set the `pluralizationRules` option of `createI18n` to a key like the following locale:
+To use the custom rules defined above, you need to set the `pluralizationRules` option of `createI18n` if you use the Options API or the `pluralRules` if you use the Composition API to a key like the following locale:
 
 ```js
 const i18n = createI18n({
