@@ -143,7 +143,7 @@ function customRule(choice, choicesLength, orgRule) {
 
 To use the custom rules defined above, inside of `createI18n` set either:
 
-1. `pluralizationRules` (for Options API)
+1. `pluralizationRules` (for Options API)  
 *or*
 2. `pluralRules` (for Composition API)
 
