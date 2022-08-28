@@ -1,4 +1,14 @@
 
+## v9.3.0-beta.1 (2022-08-28)
+
+#### :star: Features
+* `core-base`, `core`, `devtools-if`, `message-compiler`, `petite-vue-i18n`, `shared`, `size-check-core`, `size-check-petite-vue-i18n`, `size-check-vue-i18n`, `vue-devtools`, `vue-i18n-bridge`, `vue-i18n-core`, `vue-i18n`
+  * [#1137](https://github.com/intlify/vue-i18n-next/pull/1137) feat: support ESM file extension ([@kazupon](https://github.com/kazupon))
+
+#### Committers: 1
+- kazuya kawaguchi ([@kazupon](https://github.com/kazupon))
+
+
 ## v9.3.0-beta.0 (2022-08-28)
 
 This release is for native ESM support preparation.
