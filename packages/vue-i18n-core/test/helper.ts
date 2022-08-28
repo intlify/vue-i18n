@@ -13,7 +13,7 @@ import {
   ComponentOptions
 } from 'vue'
 import { compile } from '@vue/compiler-dom'
-import * as runtimeDom from '@vue/runtime-dom'
+import * as runtimeDom from 'vue'
 import { I18n } from '../src/i18n'
 import { isBoolean, assign } from '@intlify/shared'
 
