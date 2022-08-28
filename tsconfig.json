@@ -71,10 +71,5 @@
     "packages/*/src",
     "packages/*/test"
   ],
-  "exclude": ["node_modules"],
-  "plugins": [
-    {
-      "name": "typescript-eslint-language-service"
-    }
-  ]
+  "exclude": ["node_modules"]
 }
