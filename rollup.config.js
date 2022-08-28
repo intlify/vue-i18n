@@ -26,11 +26,11 @@ let hasTSChecked = false
 
 const outputConfigs = {
   'esm-bundler': {
-    file: resolve(`dist/${name}.esm-bundler.js`),
+    file: resolve(`dist/${name}.esm-bundler.mjs`),
     format: `es`
   },
   'esm-browser': {
-    file: resolve(`dist/${name}.esm-browser.js`),
+    file: resolve(`dist/${name}.esm-browser.mjs`),
     format: `es`
   },
   cjs: {
@@ -43,11 +43,11 @@ const outputConfigs = {
   },
   // runtime-only builds, for '@intlify/core' and 'vue-i18n' package only
   'esm-bundler-runtime': {
-    file: resolve(`dist/${name}.runtime.esm-bundler.js`),
+    file: resolve(`dist/${name}.runtime.esm-bundler.mjs`),
     format: `es`
   },
   'esm-browser-runtime': {
-    file: resolve(`dist/${name}.runtime.esm-browser.js`),
+    file: resolve(`dist/${name}.runtime.esm-browser.mjs`),
     format: 'es'
   },
   'global-runtime': {

@@ -68,7 +68,7 @@
     ".": {
       "import": {
         "node": "./index.mjs",
-        "default": "./dist/vue-i18n-bridge.esm-bundler.js"
+        "default": "./dist/vue-i18n-bridge.esm-bundler.mjs"
       },
       "require": "./index.js"
     },

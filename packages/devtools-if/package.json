@@ -28,7 +28,7 @@
     "dist"
   ],
   "main": "index.js",
-  "module": "dist/devtools-if.esm-bundler.js",
+  "module": "dist/devtools-if.esm-bundler.mjs",
   "types": "dist/devtools-if.d.ts",
   "dependencies": {
     "@intlify/shared": "9.3.0-beta.0"
@@ -47,7 +47,7 @@
     ".": {
       "import": {
         "node": "./index.mjs",
-        "default": "./dist/devtools-if.esm-bundler.js"
+        "default": "./dist/devtools-if.esm-bundler.mjs"
       },
       "require": "./index.js"
     },

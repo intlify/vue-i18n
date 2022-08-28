@@ -31,7 +31,7 @@
     "dist"
   ],
   "main": "index.js",
-  "module": "dist/vue-i18n-core.esm-bundler.js",
+  "module": "dist/vue-i18n-core.esm-bundler.mjs",
   "unpkg": "dist/vue-i18n-core.global.js",
   "jsdelivr": "dist/vue-i18n-core.global.js",
   "types": "dist/vue-i18n-core.d.ts",
@@ -63,7 +63,7 @@
     ".": {
       "import": {
         "node": "./index.mjs",
-        "default": "./dist/vue-i18n-core.esm-bundler.js"
+        "default": "./dist/vue-i18n-core.esm-bundler.mjs"
       },
       "require": "./index.js"
     },
