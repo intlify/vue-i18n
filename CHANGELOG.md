@@ -1,6 +1,8 @@
 
 ## v9.3.0-beta.0 (2022-08-28)
 
+This release is for native ESM support preparation.
+
 #### :pencil: Documentation
 * [#1129](https://github.com/intlify/vue-i18n-next/pull/1129) Add information about the pluralization option for the Composition API ([@domoratskii](https://github.com/domoratskii))
 
