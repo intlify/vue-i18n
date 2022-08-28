@@ -16,6 +16,11 @@ export default defineConfig({
     'process.env.NODE_ENV': JSON.stringify('production'),
     __INTLIFY_PROD_DEVTOOLS__: false
   },
+  resolve: {
+    alias: {
+      '@intlify/core': '@intlify/core/dist/core.runtime.esm-bundler.mjs'
+    }
+  },
   build: {
     rollupOptions: {
       output: {

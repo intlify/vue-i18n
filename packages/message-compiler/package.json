@@ -29,7 +29,7 @@
     "dist"
   ],
   "main": "index.js",
-  "module": "dist/message-compiler.esm-bundler.js",
+  "module": "dist/message-compiler.esm-bundler.mjs",
   "unpkg": "dist/message-compiler.global.js",
   "jsdelivr": "dist/message-compiler.global.js",
   "types": "dist/message-compiler.d.ts",
@@ -54,7 +54,7 @@
     ".": {
       "import": {
         "node": "./index.mjs",
-        "default": "./dist/message-compiler.esm-bundler.js"
+        "default": "./dist/message-compiler.esm-bundler.mjs"
       },
       "require": "./index.js"
     },

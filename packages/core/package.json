@@ -55,7 +55,7 @@
     ".": {
       "import": {
         "node": "./index.mjs",
-        "default": "./dist/core.esm-bundler.js"
+        "default": "./dist/core.esm-bundler.mjs"
       },
       "require": "./index.js"
     },
