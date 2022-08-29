@@ -15,28 +15,16 @@ export const VERSION = __VERSION__
  * istanbul-ignore-next
  */
 export function initFeatureFlags(): void {
-  let needWarn = false
-
   if (typeof __FEATURE_FULL_INSTALL__ !== 'boolean') {
-    needWarn = true
     getGlobalThis().__VUE_I18N_FULL_INSTALL__ = true
   }
 
   if (typeof __FEATURE_LEGACY_API__ !== 'boolean') {
-    needWarn = true
     getGlobalThis().__VUE_I18N_LEGACY_API__ = true
   }
 
   if (typeof __FEATURE_PROD_INTLIFY_DEVTOOLS__ !== 'boolean') {
     getGlobalThis().__INTLIFY_PROD_DEVTOOLS__ = false
-  }
-
-  if (__DEV__ && needWarn) {
-    console.warn(
-      `You are running the esm-bundler build of vue-i18n. It is recommended to ` +
-        `configure your bundler to explicitly replace feature flag globals ` +
-        `with boolean literals to get proper tree-shaking in the final bundle.`
-    )
   }
 }
 
