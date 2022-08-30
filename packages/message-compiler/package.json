@@ -25,11 +25,10 @@
   },
   "files": [
     "index.js",
-    "index.mjs",
     "dist"
   ],
   "main": "index.js",
-  "module": "dist/message-compiler.esm-bundler.mjs",
+  "module": "dist/message-compiler.mjs",
   "unpkg": "dist/message-compiler.global.js",
   "jsdelivr": "dist/message-compiler.global.js",
   "types": "dist/message-compiler.d.ts",
@@ -43,8 +42,8 @@
   "buildOptions": {
     "name": "IntlifyMessageCompiler",
     "formats": [
-      "esm-bundler",
-      "esm-browser",
+      "mjs",
+      "browser",
       "cjs",
       "global"
     ],
@@ -52,14 +51,22 @@
   },
   "exports": {
     ".": {
-      "import": {
-        "node": "./index.mjs",
-        "default": "./dist/message-compiler.esm-bundler.mjs"
-      },
-      "require": "./index.js"
+      "import": "./dist/message-compiler.mjs",
+      "browser": "./dist/message-compiler.esm-browser.js",
+      "node": {
+        "import": {
+          "production": "./dist/message-compiler.prod.cjs",
+          "development": "./dist/message-compiler.mjs",
+          "default": "./dist/message-compiler.mjs"
+        },
+        "require": {
+          "production": "./dist/message-compiler.prod.cjs",
+          "development": "./dist/message-compiler.cjs",
+          "default": "./index.js"
+        }
+      }
     },
     "./dist/*": "./dist/*",
-    "./index.mjs": "./index.mjs",
     "./package.json": "./package.json"
   },
   "publishConfig": {

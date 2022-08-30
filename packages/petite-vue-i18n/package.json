@@ -27,11 +27,10 @@
   },
   "files": [
     "index.js",
-    "index.mjs",
     "dist"
   ],
   "main": "index.js",
-  "module": "dist/petite-vue-i18n.esm-bundler.mjs",
+  "module": "dist/petite-vue-i18n.mjs",
   "unpkg": "dist/petite-vue-i18n.global.js",
   "jsdelivr": "dist/petite-vue-i18n.global.js",
   "types": "dist/petite-vue-i18n.d.ts",
@@ -53,10 +52,10 @@
   "buildOptions": {
     "name": "PetiteVueI18n",
     "formats": [
-      "esm-bundler",
-      "esm-bundler-runtime",
-      "esm-browser",
-      "esm-browser-runtime",
+      "mjs",
+      "mjs-runtime",
+      "browser",
+      "browser-runtime",
       "cjs",
       "global",
       "global-runtime"
@@ -64,14 +63,22 @@
   },
   "exports": {
     ".": {
-      "import": {
-        "node": "./index.mjs",
-        "default": "./dist/petite-vue-i18n.esm-bundler.mjs"
-      },
-      "require": "./index.js"
+      "import": "./dist/petite-vue-i18n.mjs",
+      "browser": "./dist/petite-vue-i18n.esm-browser.js",
+      "node": {
+        "import": {
+          "production": "./dist/petite-vue-i18n.node.mjs",
+          "development": "./dist/petite-vue-i18n.mjs",
+          "default": "./dist/petite-vue-i18n.mjs"
+        },
+        "require": {
+          "production": "./dist/petite-vue-i18n.prod.cjs",
+          "development": "./dist/petite-vue-i18n.cjs",
+          "default": "./index.js"
+        }
+      }
     },
     "./dist/*": "./dist/*",
-    "./index.mjs": "./index.mjs",
     "./package.json": "./package.json"
   },
   "sideEffects": false

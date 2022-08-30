@@ -1,6 +1,6 @@
 import { promises as fs } from 'fs'
 import { resolve, dirname } from 'pathe'
-import chalk from 'chalk'
+import pc from 'picocolors'
 
 export const targets = async () => {
   const packages = await fs.readdir('packages')
@@ -44,8 +44,8 @@ export const fuzzyMatchTarget = async (
   } else {
     console.log()
     console.error(
-      `  ${chalk.bgRed.white(' ERROR ')} ${chalk.red(
-        `Target ${chalk.underline(partialTargets)} not found!`
+      `  ${pc.bgRed(pc.white(' ERROR '))} ${pc.red(
+        `Target ${pc.underline(partialTargets.join(','))} not found!`
       )}`
     )
     console.log()
@@ -56,7 +56,7 @@ export const fuzzyMatchTarget = async (
 
 export async function checkSizeDistFiles(target) {
   const dirs = await fs.readdir(`${target}/dist`)
-  return dirs.filter(file => /prod.js$/.test(file))
+  return dirs.filter(file => /prod.[cm]js$/.test(file))
 }
 
 export async function readJson(path: string) {

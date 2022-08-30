@@ -25,11 +25,10 @@
   },
   "files": [
     "index.js",
-    "index.mjs",
     "dist"
   ],
   "main": "index.js",
-  "module": "dist/core.runtime.esm-bundler.js",
+  "module": "dist/core.runtime.mjs",
   "unpkg": "dist/core.global.js",
   "jsdelivr": "dist/core.global.js",
   "types": "dist/core.d.ts",
@@ -42,10 +41,10 @@
   "buildOptions": {
     "name": "IntlifyCore",
     "formats": [
-      "esm-bundler",
-      "esm-bundler-runtime",
-      "esm-browser",
-      "esm-browser-runtime",
+      "mjs",
+      "mjs-runtime",
+      "browser",
+      "browser-runtime",
       "cjs",
       "global",
       "global-runtime"
@@ -53,14 +52,22 @@
   },
   "exports": {
     ".": {
-      "import": {
-        "node": "./index.mjs",
-        "default": "./dist/core.esm-bundler.mjs"
-      },
-      "require": "./index.js"
+      "import": "./dist/core.runtime.mjs",
+      "browser": "./dist/core.esm-browser.js",
+      "node": {
+        "import": {
+          "production": "./dist/core.prod.cjs",
+          "development": "./dist/core.mjs",
+          "default": "./dist/core.mjs"
+        },
+        "require": {
+          "production": "./dist/core.prod.cjs",
+          "development": "./dist/core.cjs",
+          "default": "./index.js"
+        }
+      }
     },
     "./dist/*": "./dist/*",
-    "./index.mjs": "./index.mjs",
     "./package.json": "./package.json"
   },
   "publishConfig": {

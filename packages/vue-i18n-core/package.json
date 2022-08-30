@@ -27,11 +27,10 @@
   },
   "files": [
     "index.js",
-    "index.mjs",
     "dist"
   ],
   "main": "index.js",
-  "module": "dist/vue-i18n-core.esm-bundler.mjs",
+  "module": "dist/vue-i18n-core.mjs",
   "unpkg": "dist/vue-i18n-core.global.js",
   "jsdelivr": "dist/vue-i18n-core.global.js",
   "types": "dist/vue-i18n-core.d.ts",
@@ -53,22 +52,30 @@
   "buildOptions": {
     "name": "IntlifyVueI18nCore",
     "formats": [
-      "esm-bundler",
-      "esm-browser",
+      "mjs",
+      "browser",
       "cjs",
       "global"
     ]
   },
   "exports": {
     ".": {
-      "import": {
-        "node": "./index.mjs",
-        "default": "./dist/vue-i18n-core.esm-bundler.mjs"
-      },
-      "require": "./index.js"
+      "import": "./dist/vue-i18n-core.mjs",
+      "browser": "./dist/vue-i18n-core.esm-browser.js",
+      "node": {
+        "import": {
+          "production": "./dist/vue-i18n-core.prod.cjs",
+          "development": "./dist/vue-i18n-core.mjs",
+          "default": "./dist/vue-i18n-core.mjs"
+        },
+        "require": {
+          "production": "./dist/vue-i18n-core.prod.cjs",
+          "development": "./dist/vue-i18n-core.cjs",
+          "default": "./index.js"
+        }
+      }
     },
     "./dist/*": "./dist/*",
-    "./index.mjs": "./index.mjs",
     "./package.json": "./package.json"
   },
   "publishConfig": {
