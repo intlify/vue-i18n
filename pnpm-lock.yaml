@@ -17,7 +17,7 @@ importers:
       '@rollup/plugin-json': ^4.1.0
       '@rollup/plugin-node-resolve': ^13.0.5
       '@rollup/plugin-replace': ^4.0.0
-      '@secretlint/secretlint-rule-preset-recommend': ^3.1.0
+      '@secretlint/secretlint-rule-preset-recommend': ^5.0.0
       '@sucrase/jest-plugin': ^2.1.0
       '@textlint-rule/textlint-rule-no-unmatched-pair': ^1.0.7
       '@types/jest': ^26.0.14
@@ -91,7 +91,7 @@ importers:
       '@rollup/plugin-json': 4.1.0_rollup@2.78.1
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.78.1
       '@rollup/plugin-replace': 4.0.0_rollup@2.78.1
-      '@secretlint/secretlint-rule-preset-recommend': 3.3.0
+      '@secretlint/secretlint-rule-preset-recommend': 5.2.4
       '@sucrase/jest-plugin': 2.2.1
       '@textlint-rule/textlint-rule-no-unmatched-pair': 1.0.8
       '@types/jest': 26.0.24
@@ -2051,74 +2051,91 @@ packages:
     resolution: {integrity: sha512-+5PDVtWI6MtuM2YCj+NqGftbbPOVp0CJW+H0BXxPwi0JnKkf35MLPcVudNzi2si2Q4IGZqzrHoMWe7BYyW0N2g==}
     dev: true
 
-  /@secretlint/secretlint-rule-aws/3.3.0:
-    resolution: {integrity: sha512-UHvs4CT8Ny7Xy2zq/EAtNXE729MclwqHD7g89w9UGjrevmePqTFCz450g2BPBdPeFPwyb8P9gEE5FYoQ6eHfRQ==}
+  /@secretlint/secretlint-rule-aws/5.2.4:
+    resolution: {integrity: sha512-4kQjzd8a+US21wpVOIW/pZNRgkBJbZp6Mt7xW5fsffIve715V0bMPfAY0CUc319MtSfmWP1L8Kiu72xMluBsQQ==}
+    engines: {node: ^14.13.1 || >=16.0.0}
     dependencies:
-      '@secretlint/types': 3.3.0
-      '@textlint/regexp-string-matcher': 1.1.1
+      '@secretlint/types': 5.2.4
+      '@textlint/regexp-string-matcher': 2.0.2
       regx: 1.0.4
     dev: true
 
-  /@secretlint/secretlint-rule-basicauth/3.3.0:
-    resolution: {integrity: sha512-JfwBE1r9pINGN2g3QGFF3eEwdjBkwj4V1OW0bUOg1rrQIHR+eAydl+1AnTNEdEmpo1K9DFFmjZ1QeLJyGQplXw==}
+  /@secretlint/secretlint-rule-basicauth/5.2.4:
+    resolution: {integrity: sha512-vXuPi8EB2t0cS3HL4Qb3LWrTUN5ar57mEfzITulNdrWCOKqGegf+HowrEY+yBbAeACqUovFNxVpWmA5b6SlHoQ==}
+    engines: {node: ^14.13.1 || >=16.0.0}
     dependencies:
-      '@secretlint/types': 3.3.0
-      '@textlint/regexp-string-matcher': 1.1.1
+      '@secretlint/types': 5.2.4
+      '@textlint/regexp-string-matcher': 2.0.2
     dev: true
 
-  /@secretlint/secretlint-rule-gcp/3.3.0:
-    resolution: {integrity: sha512-ysvhDV7yDtWI8XmCRXTskyhnl+SrCJja/IJIaGyzt7r+fhd79sFWSSsj2ZlwopDDozKkuUr/DeoPI/RqJEbrfg==}
+  /@secretlint/secretlint-rule-filter-comments/5.2.4:
+    resolution: {integrity: sha512-wTyjwZhqTR67irrPhTf/+8f+ndoJ1o9P4aasKTAJIBP/swzCi4ggV2y4R0VjqmT2lcRex+E4uoa3J+Ra4zncrA==}
+    engines: {node: ^14.13.1 || >=16.0.0}
     dependencies:
-      '@secretlint/types': 3.3.0
-      '@textlint/regexp-string-matcher': 1.1.1
-      node-forge: 0.10.0
+      '@secretlint/types': 5.2.4
     dev: true
 
-  /@secretlint/secretlint-rule-github/3.3.0:
-    resolution: {integrity: sha512-gx+V18eklMFOnRW6iIon0WkQCBFfOAGpoM08yCqTweC28LVT9wsizqMFidR++20QY6oL64ldzfndSOEp7oBwPg==}
+  /@secretlint/secretlint-rule-gcp/5.2.4:
+    resolution: {integrity: sha512-Dv2Yf/8Kv+kJd2HPN4SFpi4Nhlt8emvI9sQ1LgaLS5F5eSKpBvVQbyUyXfJgC6olKS4Pt2qcIYTxkgCpHXmOPw==}
+    engines: {node: ^14.13.1 || >=16.0.0}
     dependencies:
-      '@secretlint/types': 3.3.0
-      '@textlint/regexp-string-matcher': 1.1.1
+      '@secretlint/types': 5.2.4
+      '@textlint/regexp-string-matcher': 2.0.2
+      node-forge: 1.3.1
     dev: true
 
-  /@secretlint/secretlint-rule-npm/3.3.0:
-    resolution: {integrity: sha512-KKhIszLhGMRCufzPXWMdFeUykCq02wnZINLgHdW5bCeMAlc+iU9h7/0t4Si4Qew26hKCcm65WqVfnuSRyTpHRg==}
+  /@secretlint/secretlint-rule-github/5.2.4:
+    resolution: {integrity: sha512-mdIbDGu/bNAbatuweivjCCG8Et72nb3nblwDNBAf1wRrOJwMYiu/ghUw6lYhmtQW4lOKrlUpYI/Hb8yKvDpK8A==}
+    engines: {node: ^14.13.1 || >=16.0.0}
     dependencies:
-      '@secretlint/types': 3.3.0
-      '@textlint/regexp-string-matcher': 1.1.1
+      '@secretlint/types': 5.2.4
+      '@textlint/regexp-string-matcher': 2.0.2
     dev: true
 
-  /@secretlint/secretlint-rule-preset-recommend/3.3.0:
-    resolution: {integrity: sha512-CEXRBP7wIvmWz0lsT1lBag5YEDn4IUPN6De8Q11Z0Fs/aF4DqsVFFT2UQP0gukzgKkd2ihJqkzDG+nfCA2u6tg==}
+  /@secretlint/secretlint-rule-npm/5.2.4:
+    resolution: {integrity: sha512-pYQuz7YckwVVQOk3kKAKza0OMQ5TXz+IghS2+70GZYBgzB+pTKOqV5hP9/C2qgeTzG0iJ1Ydd8DZKkV6k/8Ytg==}
+    engines: {node: ^14.13.1 || >=16.0.0}
     dependencies:
-      '@secretlint/secretlint-rule-aws': 3.3.0
-      '@secretlint/secretlint-rule-basicauth': 3.3.0
-      '@secretlint/secretlint-rule-gcp': 3.3.0
-      '@secretlint/secretlint-rule-github': 3.3.0
-      '@secretlint/secretlint-rule-npm': 3.3.0
-      '@secretlint/secretlint-rule-privatekey': 3.3.0
-      '@secretlint/secretlint-rule-sendgrid': 3.3.0
-      '@secretlint/secretlint-rule-slack': 3.3.0
+      '@secretlint/types': 5.2.4
+      '@textlint/regexp-string-matcher': 2.0.2
     dev: true
 
-  /@secretlint/secretlint-rule-privatekey/3.3.0:
-    resolution: {integrity: sha512-PsO8GkvK1Vnd9/0nidw30403KX8mGsZ81CYAlsGBv0ibUYOKkM06T5wud24psUmo7zbEgGMxH8Q7fsTKNK1omQ==}
+  /@secretlint/secretlint-rule-preset-recommend/5.2.4:
+    resolution: {integrity: sha512-5dM7vqmfgbWZJDLdiOWtKiaxp+VJsbGTg+B2TaKAgstGlJpghACLrKWUODUt5YRVuE3DRf+BJJ0J51ygU2EgiA==}
+    engines: {node: ^14.13.1 || >=16.0.0}
     dependencies:
-      '@textlint/regexp-string-matcher': 1.1.1
+      '@secretlint/secretlint-rule-aws': 5.2.4
+      '@secretlint/secretlint-rule-basicauth': 5.2.4
+      '@secretlint/secretlint-rule-filter-comments': 5.2.4
+      '@secretlint/secretlint-rule-gcp': 5.2.4
+      '@secretlint/secretlint-rule-github': 5.2.4
+      '@secretlint/secretlint-rule-npm': 5.2.4
+      '@secretlint/secretlint-rule-privatekey': 5.2.4
+      '@secretlint/secretlint-rule-sendgrid': 5.2.4
+      '@secretlint/secretlint-rule-slack': 5.2.4
     dev: true
 
-  /@secretlint/secretlint-rule-sendgrid/3.3.0:
-    resolution: {integrity: sha512-PvmtmpJ2w4wT8XkTcu+ImtgqLrOodK8hV6jHL8i7HAjseJFyFEyET7ODrtOWE5SO+NTCPK+3ffPyyxtzTyVrpw==}
+  /@secretlint/secretlint-rule-privatekey/5.2.4:
+    resolution: {integrity: sha512-+oopvwvFSEWy4GUiFXU79anabR9HJ3pD43MDZcUTMmch34azSKzA8lJ6HtGEI/Pn7YTLrLa3i/rhut0GN0MWoA==}
+    engines: {node: ^14.13.1 || >=16.0.0}
     dependencies:
-      '@secretlint/types': 3.3.0
-      '@textlint/regexp-string-matcher': 1.1.1
+      '@textlint/regexp-string-matcher': 2.0.2
     dev: true
 
-  /@secretlint/secretlint-rule-slack/3.3.0:
-    resolution: {integrity: sha512-SJG68fkgpkROzBF4BM9VNKO9YRbsdmy+pFCmSNUn3aQY7s4PZUd16paF1FHf4mGF2TMgHqrhRGKOnPhOCwa6Ow==}
+  /@secretlint/secretlint-rule-sendgrid/5.2.4:
+    resolution: {integrity: sha512-VombEmikqUgruNHoc83MfUrjkWOHp7Nth2UhbIULUWroKoN2JxF95fQp4/EppWTzpPTraiif3x9wtiaFKlVIVw==}
+    engines: {node: ^14.13.1 || >=16.0.0}
     dependencies:
-      '@secretlint/types': 3.3.0
-      '@textlint/regexp-string-matcher': 1.1.1
+      '@secretlint/types': 5.2.4
+      '@textlint/regexp-string-matcher': 2.0.2
+    dev: true
+
+  /@secretlint/secretlint-rule-slack/5.2.4:
+    resolution: {integrity: sha512-Sy4fai5YL4IKyXv3dGxNApXaT3c9KO47miYFjtDrimsxJQL+XGm6O6WOgNCmeV7j686Gfj2qbBbc7sikFg2Wyg==}
+    engines: {node: ^14.13.1 || >=16.0.0}
+    dependencies:
+      '@secretlint/types': 5.2.4
+      '@textlint/regexp-string-matcher': 2.0.2
     dev: true
 
   /@secretlint/source-creator/3.3.0:
@@ -2130,6 +2147,11 @@ packages:
 
   /@secretlint/types/3.3.0:
     resolution: {integrity: sha512-D9HEUy5l45b8mgyUc842BmEX/bKXjYnWSFk0up0s9fUfDlZga0LI4uFCzj5wvf9Ir9In2VBbd2kRmzu0+yiLAA==}
+    dev: true
+
+  /@secretlint/types/5.2.4:
+    resolution: {integrity: sha512-HevM03QnsnSkwYsAJRT81B+eKWGs0klss2SgwaSqYjL4cl7ORDPbfn8aAvl8GAFdFTi2NmWYW4pKI7cJHGGi7w==}
+    engines: {node: ^14.13.1 || >=16.0.0}
     dev: true
 
   /@sideway/address/4.1.4:
@@ -2347,15 +2369,13 @@ packages:
     resolution: {integrity: sha512-/SixwKngWuTvVl9AArK4FEWGrNAwD7/ABvLCy/pdFprljnUa87P5JvSi7/v1PjpAXcnMQ2r04wDJjegs9oblBA==}
     dev: true
 
-  /@textlint/regexp-string-matcher/1.1.1:
-    resolution: {integrity: sha512-rrNUCKGKYBrZALotSF8D5A8xD05VHX6kxv0BP805Ig2M73Ha6LK+de31+ZocGm4CO+sikVFYyMCPPJhp7bCXcw==}
+  /@textlint/regexp-string-matcher/2.0.2:
+    resolution: {integrity: sha512-OXLD9XRxMhd3S0LWuPHpiARQOI7z9tCOs0FsynccW2lmyZzHHFJ9/eR6kuK9xF459Qf+740qI5h+/0cx+NljzA==}
     dependencies:
-      escape-string-regexp: 2.0.0
-      execall: 2.0.0
+      escape-string-regexp: 4.0.0
       lodash.sortby: 4.7.0
       lodash.uniq: 4.5.0
       lodash.uniqwith: 4.5.0
-      to-regex: 3.0.2
     dev: true
 
   /@textlint/source-code-fixer/12.2.1:
@@ -4698,13 +4718,6 @@ packages:
       shallow-clone: 0.1.2
     dev: true
 
-  /clone-regexp/2.2.0:
-    resolution: {integrity: sha512-beMpP7BOtTipFuW8hrJvREQ2DrRu3BE7by0ZpibtfBA+qfHYvMGTc2Yb1JMYPKg/JUw0CHYvpg796aNTSW9z7Q==}
-    engines: {node: '>=6'}
-    dependencies:
-      is-regexp: 2.1.0
-    dev: true
-
   /clone/0.1.19:
     resolution: {integrity: sha512-IO78I0y6JcSpEPHzK4obKdsL7E7oLdRVDVOLwr2Hkbjsb+Eoz0dxW6tef0WizoKu0gLC4oZSZuEF4U2K6w1WQw==}
     dev: true
@@ -6299,13 +6312,6 @@ packages:
       strip-final-newline: 2.0.0
     dev: true
 
-  /execall/2.0.0:
-    resolution: {integrity: sha512-0FU2hZ5Hh6iQnarpRtQurM/aAvp3RIbfvgLHrcqJYzhXyV2KFruhuChf9NC6waAhiUR7FFtlugkI4p7f2Fqlow==}
-    engines: {node: '>=8'}
-    dependencies:
-      clone-regexp: 2.2.0
-    dev: true
-
   /exit/0.1.2:
     resolution: {integrity: sha512-Zk/eNKV2zbjpKzrsQ+n1G6poVbErQxJ0LBOJXaKZ1EViLzH+hrLu9cdXI4zw9dBQJslwBEpbQ2P1oS7nDxs6jQ==}
     engines: {node: '>= 0.8.0'}
@@ -6818,18 +6824,6 @@ packages:
     peerDependenciesMeta:
       debug:
         optional: true
-    dev: true
-
-  /follow-redirects/1.15.1_debug@4.3.4:
-    resolution: {integrity: sha512-yLAMQs+k0b2m7cVxpS1VKJVvoz7SS9Td1zss3XRwXj+ZDH00RJgnuLx7E44wx02kQLrdM3aOOy+FpzS7+8OizA==}
-    engines: {node: '>=4.0'}
-    peerDependencies:
-      debug: '*'
-    peerDependenciesMeta:
-      debug:
-        optional: true
-    dependencies:
-      debug: 4.3.4_supports-color@6.1.0
     dev: true
 
   /for-in/0.1.8:
@@ -7589,7 +7583,7 @@ packages:
     engines: {node: '>=8.0.0'}
     dependencies:
       eventemitter3: 4.0.7
-      follow-redirects: 1.15.1_debug@4.3.4
+      follow-redirects: 1.15.1
       requires-port: 1.0.0
     transitivePeerDependencies:
       - debug
@@ -8185,11 +8179,6 @@ packages:
     dependencies:
       call-bind: 1.0.2
       has-tostringtag: 1.0.0
-    dev: true
-
-  /is-regexp/2.1.0:
-    resolution: {integrity: sha512-OZ4IlER3zmRIoB9AqNhEggVxqIH4ofDns5nRrPS6yQxXE1TPCUpFznBfRQmQa8uC+pXqjMnukiJBxCisIxiLGA==}
-    engines: {node: '>=6'}
     dev: true
 
   /is-shared-array-buffer/1.0.2:
@@ -10280,6 +10269,11 @@ packages:
   /node-forge/0.10.0:
     resolution: {integrity: sha512-PPmu8eEeG9saEUvI97fm4OYxXVB6bFvyNTyiUOBichBpFG8A1Ljw3bY62+5oOjDEMHRnd0Y7HQ+x7uzxOzC6JA==}
     engines: {node: '>= 6.0.0'}
+    dev: true
+
+  /node-forge/1.3.1:
+    resolution: {integrity: sha512-dPEtOeMvF9VMcYV/1Wb8CPoVAXtp6MKMlcbAt4ddqmGqUJ6fQZFXkNZNkNlfevtNkGtaSoXf/vNNNSvgrdXwtA==}
+    engines: {node: '>= 6.13.0'}
     dev: true
 
   /node-int64/0.4.0:
