@@ -1,4 +1,4 @@
-import chalk from 'chalk'
+import pc from 'picocolors'
 import fixpack from 'fixpack'
 import { resolve, dirname } from 'pathe'
 import rc from 'rc'
@@ -20,12 +20,12 @@ import { targets, readJson } from './utils'
   // fix packages
   allPackages.forEach(({ fullPath, display }) => {
     fixpack(fullPath, config)
-    console.log(chalk.bold(`${display} fixed!`))
+    console.log(pc.bold(`${display} fixed!`))
   })
 
   // fix root
   config.quiet = true
   delete config.required
   fixpack('package.json', config)
-  console.log(chalk.bold(`./package.json fixed!`))
+  console.log(pc.bold(`./package.json fixed!`))
 })()

@@ -24,7 +24,6 @@
   },
   "files": [
     "index.js",
-    "index.mjs",
     "dist"
   ],
   "main": "index.js",
@@ -40,20 +39,27 @@
   "buildOptions": {
     "name": "IntlifyVueDevtools",
     "formats": [
-      "esm-bundler",
+      "mjs",
       "cjs"
     ]
   },
   "exports": {
     ".": {
-      "import": {
-        "node": "./index.mjs",
-        "default": "./dist/vue-devtools.esm-bundler.mjs"
-      },
-      "require": "./index.js"
+      "import": "./dist/vue-devtools.mjs",
+      "node": {
+        "import": {
+          "production": "./dist/vue-devtools.prod.cjs",
+          "development": "./dist/vue-devtools.mjs",
+          "default": "./dist/vue-devtools.mjs"
+        },
+        "require": {
+          "production": "./dist/vue-devtools.prod.cjs",
+          "development": "./dist/vue-devtools.cjs",
+          "default": "./index.js"
+        }
+      }
     },
     "./dist/*": "./dist/*",
-    "./index.mjs": "./index.mjs",
     "./package.json": "./package.json"
   },
   "publishConfig": {

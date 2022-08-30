@@ -25,11 +25,10 @@
   },
   "files": [
     "index.js",
-    "index.mjs",
     "dist"
   ],
   "main": "index.js",
-  "module": "dist/core-base.esm-bundler.mjs",
+  "module": "dist/core-base.mjs",
   "unpkg": "dist/core-base.global.js",
   "jsdelivr": "dist/core-base.global.js",
   "types": "dist/core-base.d.ts",
@@ -45,22 +44,30 @@
   "buildOptions": {
     "name": "IntlifyCoreBase",
     "formats": [
-      "esm-bundler",
-      "esm-browser",
+      "mjs",
+      "browser",
       "cjs",
       "global"
     ]
   },
   "exports": {
     ".": {
-      "import": {
-        "node": "./index.mjs",
-        "default": "./dist/core-base.esm-bundler.mjs"
-      },
-      "require": "./index.js"
+      "import": "./dist/core-base.mjs",
+      "browser": "./dist/core-base.esm-browser.js",
+      "node": {
+        "import": {
+          "production": "./dist/core-base.prod.cjs",
+          "development": "./dist/core-base.mjs",
+          "default": "./dist/core-base.mjs"
+        },
+        "require": {
+          "production": "./dist/core-base.prod.cjs",
+          "development": "./dist/core-base.cjs",
+          "default": "./index.js"
+        }
+      }
     },
     "./dist/*": "./dist/*",
-    "./index.mjs": "./index.mjs",
     "./package.json": "./package.json"
   },
   "publishConfig": {

@@ -17,7 +17,7 @@ pnpm build core --formats cjs
 import { promisify } from 'util'
 import { promises as fs } from 'fs'
 import path from 'pathe'
-import chalk from 'chalk'
+import pc from 'picocolors'
 import execa from 'execa'
 import os from 'os'
 import { gzip as _gzip } from 'zlib'
@@ -35,7 +35,7 @@ import { default as _rimraf } from 'rimraf'
 const gzip = promisify(_gzip)
 const rimraf = promisify(_rimraf)
 
-;(async () => {
+async function main() {
   const args = minimist(process.argv.slice(2))
   let targets = args._
   const formats = args.formats || args.f
@@ -145,7 +145,7 @@ const rimraf = promisify(_rimraf)
     if (buildTypes && pkg.types) {
       console.log()
       console.log(
-        chalk.bold(chalk.yellow(`Rolling up type definitions for ${target}...`))
+        pc.bold(pc.yellow(`Rolling up type definitions for ${target}...`))
       )
 
       // build types
@@ -171,9 +171,7 @@ const rimraf = promisify(_rimraf)
           )
           await fs.writeFile(dtsPath, existing + '\n' + toAdd.join('\n'))
         }
-        console.log(
-          chalk.bold(chalk.green(`API Extractor completed successfully.`))
-        )
+        console.log(pc.bold(pc.green(`API Extractor completed successfully.`)))
       } else {
         console.error(
           `API Extractor completed with ${extractorResult.errorCount} errors` +
@@ -218,9 +216,14 @@ const rimraf = promisify(_rimraf)
     const compressedSize =
       compressed != null ? (compressed.length / 1024).toFixed(2) + 'kb' : 'N/A'
     console.log(
-      `📦  ${chalk.gray(
-        chalk.bold(path.basename(filePath))
+      `📦  ${pc.gray(
+        pc.bold(path.basename(filePath))
       )} min:${minSize} / gzip:${gzippedSize} / brotli:${compressedSize}`
     )
   }
-})()
+}
+
+main().catch(err => {
+  console.error(err)
+  process.exit(1)
+})

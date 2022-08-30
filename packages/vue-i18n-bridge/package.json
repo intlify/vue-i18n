@@ -28,11 +28,10 @@
   },
   "files": [
     "index.js",
-    "index.mjs",
     "dist"
   ],
   "main": "index.js",
-  "module": "dist/vue-i18n-bridge.esm-bundler.js",
+  "module": "dist/vue-i18n-bridge.mjs",
   "unpkg": "dist/vue-i18n-bridge.global.js",
   "jsdelivr": "dist/vue-i18n-bridge.global.js",
   "types": "dist/vue-i18n-bridge.d.ts",
@@ -55,10 +54,10 @@
   "buildOptions": {
     "name": "VueI18nBridge",
     "formats": [
-      "esm-bundler",
-      "esm-bundler-runtime",
-      "esm-browser",
-      "esm-browser-runtime",
+      "mjs",
+      "mjs-runtime",
+      "browser",
+      "browser-runtime",
       "cjs",
       "global",
       "global-runtime"
@@ -66,14 +65,22 @@
   },
   "exports": {
     ".": {
-      "import": {
-        "node": "./index.mjs",
-        "default": "./dist/vue-i18n-bridge.esm-bundler.mjs"
-      },
-      "require": "./index.js"
+      "import": "./dist/vue-i18n-bridge.mjs",
+      "browser": "./dist/vue-i18n-bridge.esm-browser.js",
+      "node": {
+        "import": {
+          "production": "./dist/vue-i18n-bridge.node.mjs",
+          "development": "./dist/vue-i18n-bridge.mjs",
+          "default": "./dist/vue-i18n-bridge.mjs"
+        },
+        "require": {
+          "production": "./dist/vue-i18n-bridge.prod.cjs",
+          "development": "./dist/vue-i18n-bridge.cjs",
+          "default": "./index.js"
+        }
+      }
     },
     "./dist/*": "./dist/*",
-    "./index.mjs": "./index.mjs",
     "./package.json": "./package.json"
   },
   "peerDependenciesMeta": {

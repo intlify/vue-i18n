@@ -24,11 +24,10 @@
   },
   "files": [
     "index.js",
-    "index.mjs",
     "dist"
   ],
   "main": "index.js",
-  "module": "dist/shared.esm-bundler.mjs",
+  "module": "dist/shared.mjs",
   "types": "dist/shared.d.ts",
   "engines": {
     "node": ">= 14"
@@ -36,20 +35,27 @@
   "buildOptions": {
     "name": "IntlifyShared",
     "formats": [
-      "esm-bundler",
+      "mjs",
       "cjs"
     ]
   },
   "exports": {
     ".": {
-      "import": {
-        "node": "./index.mjs",
-        "default": "./dist/shared.esm-bundler.mjs"
-      },
-      "require": "./index.js"
+      "import": "./dist/shared.mjs",
+      "node": {
+        "import": {
+          "production": "./dist/shared.prod.cjs",
+          "development": "./dist/shared.mjs",
+          "default": "./dist/shared.mjs"
+        },
+        "require": {
+          "production": "./dist/shared.prod.cjs",
+          "development": "./dist/shared.cjs",
+          "default": "./index.js"
+        }
+      }
     },
     "./dist/*": "./dist/*",
-    "./index.mjs": "./index.mjs",
     "./package.json": "./package.json"
   },
   "publishConfig": {

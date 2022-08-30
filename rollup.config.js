@@ -1,7 +1,9 @@
 import path from 'path'
+import { promises as fs } from 'fs'
 import ts from 'rollup-plugin-typescript2'
 import replace from '@rollup/plugin-replace'
 import json from '@rollup/plugin-json'
+import pc from 'picocolors'
 
 if (!process.env.TARGET) {
   throw new Error('TARGET package must be specified via --environment flag.')
@@ -24,34 +26,62 @@ const banner = `/*!
 // ensure TS checks only once for each build
 let hasTSChecked = false
 
+const stubs = {
+  [`dist/${name}.cjs`]: `${name}.cjs.js`,
+  [`dist/${name}.mjs`]: `${name}.esm-bundler.js`,
+  [`dist/${name}.runtime.mjs`]: `${name}.runtime.esm-bundler.js`,
+  [`dist/${name}.prod.cjs`]: `${name}.cjs.prod.js`
+}
+
 const outputConfigs = {
+  mjs: {
+    file: `dist/${name}.mjs`,
+    format: `es`
+  },
+  browser: {
+    file: `dist/${name}.esm-browser.js`,
+    format: `es`
+  },
+  /*
   'esm-bundler': {
-    file: resolve(`dist/${name}.esm-bundler.mjs`),
+    file: `dist/${name}.esm-bundler.mjs`,
     format: `es`
   },
   'esm-browser': {
-    file: resolve(`dist/${name}.esm-browser.mjs`),
+    file: `dist/${name}.esm-browser.mjs`,
     format: `es`
   },
+  */
   cjs: {
-    file: resolve(`dist/${name}.cjs.js`),
+    // file: `dist/${name}.cjs.js`,
+    file: `dist/${name}.cjs`,
     format: `cjs`
   },
   global: {
-    file: resolve(`dist/${name}.global.js`),
+    file: `dist/${name}.global.js`,
     format: `iife`
   },
   // runtime-only builds, for '@intlify/core' and 'vue-i18n' package only
+  'mjs-runtime': {
+    file: `dist/${name}.runtime.mjs`,
+    format: `es`
+  },
+  'browser-runtime': {
+    file: `dist/${name}.runtime.esm-browser.js`,
+    format: 'es'
+  },
+  /*
   'esm-bundler-runtime': {
-    file: resolve(`dist/${name}.runtime.esm-bundler.mjs`),
+    file: `dist/${name}.runtime.esm-bundler.mjs`,
     format: `es`
   },
   'esm-browser-runtime': {
-    file: resolve(`dist/${name}.runtime.esm-browser.mjs`),
+    file: `dist/${name}.runtime.esm-browser.mjs`,
     format: 'es'
   },
+  */
   'global-runtime': {
-    file: resolve(`dist/${name}.runtime.global.js`),
+    file: `dist/${name}.runtime.global.js`,
     format: 'iife'
   }
 }
@@ -71,7 +101,7 @@ if (process.env.NODE_ENV === 'production') {
     if (format === 'cjs') {
       packageConfigs.push(createProductionConfig(format))
     }
-    if (/^(global|esm-browser)(-runtime)?/.test(format)) {
+    if (/^(global|browser)(-runtime)?/.test(format)) {
       packageConfigs.push(createMinifiedConfig(format))
     }
   })
@@ -79,9 +109,12 @@ if (process.env.NODE_ENV === 'production') {
 
 export default packageConfigs
 
-function createConfig(format, output, plugins = []) {
+function createConfig(format, _output, plugins = []) {
+  const rawFile = _output.file
+  const output = { format: _output.format, file: resolve(rawFile) }
+
   if (!output) {
-    console.log(require('chalk').yellow(`invalid format: "${format}"`))
+    console.log(pc.yellow(`invalid format: "${format}"`))
     process.exit(1)
   }
 
@@ -100,10 +133,12 @@ function createConfig(format, output, plugins = []) {
   }
 
   const isProductionBuild =
-    process.env.__DEV__ === 'false' || /\.prod\.js$/.test(output.file)
-  const isBundlerESMBuild = /esm-bundler/.test(format)
-  const isBrowserESMBuild = /esm-browser/.test(format)
-  const isNodeBuild = format === 'cjs' || format === 'cjs-lite'
+    process.env.__DEV__ === 'false' || /\.prod\.[cm]?js$/.test(output.file)
+  const isBundlerESMBuild = /mjs/.test(format)
+  const isBrowserESMBuild = /browser/.test(format)
+  // const isNodeBuild = format === 'cjs' || format === 'cjs-lite'
+  const isNodeBuild =
+    output.file.includes('.node.') || format === 'cjs' || format === 'cjs-lite'
   const isGlobalBuild = /global/.test(format)
   const isRuntimeOnlyBuild = /runtime/.test(format)
   const isLite = /petite-vue-i18n/.test(name)
@@ -213,7 +248,39 @@ function createConfig(format, output, plugins = []) {
         path.parse(output.file).base || ''
       ),
       ...nodePlugins,
-      ...plugins
+      ...plugins,
+      {
+        async writeBundle() {
+          const stub = stubs[rawFile]
+          if (!stub) return
+
+          const contents =
+            format === 'cjs'
+              ? `module.exports = require('../${rawFile}')`
+              : `export * from '../${rawFile}'`
+
+          await fs.writeFile(resolve(`dist/${stub}`), contents)
+          console.log(`created stub ${pc.bold(`dist/${stub}`)}`)
+
+          // add the node specific version
+          // NOTE:
+          //  https://github.com/vuejs/router/issues/1516
+          //  https://github.com/vuejs/router/commit/53f720622aa273e33c05517fa917cdcfbfba52bc
+          if (
+            format === 'mjs' &&
+            (name === 'vue-i18n' ||
+              name === 'vue-i18n-bridge' ||
+              name === 'petite-vue-i18n')
+          ) {
+            const outfile = `dist/${stub}`.replace('esm-bundler.js', 'node.mjs')
+            await fs.writeFile(
+              resolve(outfile),
+              `global.__VUE_PROD_DEVTOOLS__ = false;\n` + contents
+            )
+            console.log(`created stub ${pc.bold(outfile)}`)
+          }
+        }
+      }
     ],
     output,
     onwarn: (msg, warn) => {
@@ -298,8 +365,12 @@ function createReplacePlugin(
 }
 
 function createProductionConfig(format) {
+  // const extension = format === 'cjs' ? 'cjs' : 'js'
+  // const descriptor = format === 'cjs' ? '' : `.${format}`
+  const extension = format === 'cjs' || format === 'mjs' ? format : 'js'
+  const descriptor = format === 'cjs' || format === 'mjs' ? '' : `.${format}`
   return createConfig(format, {
-    file: resolve(`dist/${name}.${format}.prod.js`),
+    file: `dist/${name}${descriptor}.prod.${extension}`,
     format: outputConfigs[format].format
   })
 }
