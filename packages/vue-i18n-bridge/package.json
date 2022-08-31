@@ -65,6 +65,7 @@
   },
   "exports": {
     ".": {
+      "types": "./dist/vue-i18n-bridge.d.ts",
       "import": "./dist/vue-i18n-bridge.mjs",
       "browser": "./dist/vue-i18n-bridge.esm-browser.js",
       "node": {
@@ -83,6 +84,7 @@
     "./dist/*": "./dist/*",
     "./package.json": "./package.json"
   },
+  "funding": "https://github.com/sponsors/kazupon",
   "peerDependenciesMeta": {
     "@vue/composition-api": {
       "optional": true
