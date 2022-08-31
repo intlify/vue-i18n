@@ -1,4 +1,18 @@
 
+## v9.3.0-beta.2 (2022-08-31)
+
+#### :star: Features
+* `core-base`, `core`, `devtools-if`, `message-compiler`, `petite-vue-i18n`, `shared`, `vue-devtools`, `vue-i18n-bridge`, `vue-i18n-core`, `vue-i18n`
+  * [#1147](https://github.com/intlify/vue-i18n-next/pull/1147) feat: cjs/mjs file extension fully ([@kazupon](https://github.com/kazupon))
+
+#### :zap: Improvement Features
+* `vue-i18n-core`
+  * [#1140](https://github.com/intlify/vue-i18n-next/pull/1140) improvement: remove feature flag warning ([@kazupon](https://github.com/kazupon))
+
+#### Committers: 1
+- kazuya kawaguchi ([@kazupon](https://github.com/kazupon))
+
+
 ## v9.3.0-beta.1 (2022-08-28)
 
 #### :star: Features
