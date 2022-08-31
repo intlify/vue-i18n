@@ -1,6 +1,6 @@
 {
   "name": "@intlify/vue-i18n-core",
-  "version": "9.3.0-beta.2",
+  "version": "9.3.0-beta.3",
   "description": "@intlify/vue-i18n-core",
   "keywords": [
     "core",
@@ -35,13 +35,13 @@
   "jsdelivr": "dist/vue-i18n-core.global.js",
   "types": "dist/vue-i18n-core.d.ts",
   "dependencies": {
-    "@intlify/core-base": "9.3.0-beta.2",
-    "@intlify/shared": "9.3.0-beta.2",
-    "@intlify/vue-devtools": "9.3.0-beta.2",
+    "@intlify/core-base": "9.3.0-beta.3",
+    "@intlify/shared": "9.3.0-beta.3",
+    "@intlify/vue-devtools": "9.3.0-beta.3",
     "@vue/devtools-api": "^6.2.1"
   },
   "devDependencies": {
-    "@intlify/devtools-if": "9.3.0-beta.2"
+    "@intlify/devtools-if": "9.3.0-beta.3"
   },
   "peerDependencies": {
     "vue": "^3.0.0"
