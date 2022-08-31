@@ -44,6 +44,7 @@
   },
   "exports": {
     ".": {
+      "types": "./dist/devtools-if.d.ts",
       "import": "./dist/devtools-if.mjs",
       "node": {
         "import": {
@@ -61,6 +62,7 @@
     "./dist/*": "./dist/*",
     "./package.json": "./package.json"
   },
+  "funding": "https://github.com/sponsors/kazupon",
   "publishConfig": {
     "access": "public"
   },

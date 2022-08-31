@@ -51,6 +51,7 @@
   },
   "exports": {
     ".": {
+      "types": "./dist/message-compiler.d.ts",
       "import": "./dist/message-compiler.mjs",
       "browser": "./dist/message-compiler.esm-browser.js",
       "node": {
@@ -69,6 +70,7 @@
     "./dist/*": "./dist/*",
     "./package.json": "./package.json"
   },
+  "funding": "https://github.com/sponsors/kazupon",
   "publishConfig": {
     "access": "public"
   },

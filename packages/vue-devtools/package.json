@@ -27,7 +27,7 @@
     "dist"
   ],
   "main": "index.js",
-  "module": "dist/vue-devtools.esm-bundler.mjs",
+  "module": "dist/vue-devtools.mjs",
   "types": "dist/vue-devtools.d.ts",
   "dependencies": {
     "@intlify/core-base": "9.3.0-beta.2",
@@ -45,6 +45,7 @@
   },
   "exports": {
     ".": {
+      "types": "./dist/vue-devtools.d.ts",
       "import": "./dist/vue-devtools.mjs",
       "node": {
         "import": {
@@ -62,6 +63,7 @@
     "./dist/*": "./dist/*",
     "./package.json": "./package.json"
   },
+  "funding": "https://github.com/sponsors/kazupon",
   "publishConfig": {
     "access": "public"
   },

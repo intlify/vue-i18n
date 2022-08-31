@@ -63,6 +63,7 @@
   },
   "exports": {
     ".": {
+      "types": "./dist/petite-vue-i18n.d.ts",
       "import": "./dist/petite-vue-i18n.mjs",
       "browser": "./dist/petite-vue-i18n.esm-browser.js",
       "node": {
@@ -81,5 +82,6 @@
     "./dist/*": "./dist/*",
     "./package.json": "./package.json"
   },
+  "funding": "https://github.com/sponsors/kazupon",
   "sideEffects": false
 }

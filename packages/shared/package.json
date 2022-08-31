@@ -41,6 +41,7 @@
   },
   "exports": {
     ".": {
+      "types": "./dist/shared.d.ts",
       "import": "./dist/shared.mjs",
       "node": {
         "import": {
@@ -58,6 +59,7 @@
     "./dist/*": "./dist/*",
     "./package.json": "./package.json"
   },
+  "funding": "https://github.com/sponsors/kazupon",
   "publishConfig": {
     "access": "public"
   },

@@ -52,6 +52,7 @@
   },
   "exports": {
     ".": {
+      "types": "./dist/core-base.d.ts",
       "import": "./dist/core-base.mjs",
       "browser": "./dist/core-base.esm-browser.js",
       "node": {
@@ -70,6 +71,7 @@
     "./dist/*": "./dist/*",
     "./package.json": "./package.json"
   },
+  "funding": "https://github.com/sponsors/kazupon",
   "publishConfig": {
     "access": "public"
   },
