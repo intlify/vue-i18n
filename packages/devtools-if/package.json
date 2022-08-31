@@ -1,6 +1,6 @@
 {
   "name": "@intlify/devtools-if",
-  "version": "9.3.0-beta.2",
+  "version": "9.3.0-beta.3",
   "description": "@intlify/devtools-if",
   "keywords": [
     "devtools",
@@ -30,7 +30,7 @@
   "module": "dist/devtools-if.mjs",
   "types": "dist/devtools-if.d.ts",
   "dependencies": {
-    "@intlify/shared": "9.3.0-beta.2"
+    "@intlify/shared": "9.3.0-beta.3"
   },
   "engines": {
     "node": ">= 14"

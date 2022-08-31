@@ -1,4 +1,14 @@
 
+## v9.3.0-beta.3 (2022-08-31)
+
+#### :bug: Bug Fixes
+* `core-base`, `core`, `devtools-if`, `message-compiler`, `petite-vue-i18n`, `shared`, `vue-devtools`, `vue-i18n-bridge`, `vue-i18n`
+  * [#1152](https://github.com/intlify/vue-i18n-next/pull/1152) fix: module wrong exportings ([@kazupon](https://github.com/kazupon))
+
+#### Committers: 1
+- kazuya kawaguchi ([@kazupon](https://github.com/kazupon))
+
+
 ## v9.3.0-beta.2 (2022-08-31)
 
 #### :star: Features
