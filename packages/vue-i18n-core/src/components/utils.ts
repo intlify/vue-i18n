@@ -1,8 +1,6 @@
-import { Fragment } from 'vue'
-import { isArray } from '@intlify/shared'
+import { Fragment, VNode } from 'vue'
 
 import type { NamedValue } from '@intlify/core-base'
-
 export function getInterpolateArg(
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   { slots }: any, // SetupContext,
@@ -10,13 +8,13 @@ export function getInterpolateArg(
 ): NamedValue | unknown[] {
   if (keys.length === 1 && keys[0] === 'default') {
     // default slot with list
-    const ret = slots.default ? slots.default() : []
+    const ret: VNode[] = slots.default ? slots.default() : []
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    return ret.reduce((slot: any[], current: any) => {
-      return (slot = [
+    return ret.reduce((slot: (VNode | typeof Fragment)[], current: any) => {
+      return [
         ...slot,
-        ...(isArray(current.children) ? current.children : [current])
-      ])
+        ...(current.type === Fragment ? current.children : [current])
+      ]
     }, [])
   } else {
     // named slots
