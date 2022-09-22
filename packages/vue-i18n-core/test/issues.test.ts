@@ -96,9 +96,9 @@ test('issue #708', async () => {
 	    <strong>{{ $t("world") }}</strong>
 	  </template>
 	</i18n-t>
-      
+
 	<br />
-      
+
 	<C2>
 	  <div>{{ $t("hello", { world: $t("world") }) }}</div>
 	  <i18n-t keypath="hello" tag="div">
@@ -684,4 +684,35 @@ test('issue #1083', async () => {
   enEl!.dispatchEvent(new Event('click'))
   await nextTick()
   expect(dirEl!.textContent).toEqual('Hello World!')
+})
+
+test('issue #1123', async () => {
+  const i18n = createI18n({
+    legacy: false,
+    locale: 'en',
+    messages
+  })
+
+  const App = defineComponent({
+    setup() {
+      useI18n()
+      const values = ref(['kazupon', 'oranges'])
+      return { values }
+    },
+    template: `
+      <i18n-t keypath="message.list_multi" locale="en">
+      <span>Hello</span>
+      <a
+      >
+        <strong>Vue </strong>
+        I18n
+      </a>
+      </i18n-t>
+      `
+  })
+  const wrapper = await mount(App, i18n)
+
+  expect(wrapper.html()).toEqual(
+    `hello, <span>Hello</span>! Do you like <a><strong>Vue </strong> I18n </a>?`
+  )
 })
