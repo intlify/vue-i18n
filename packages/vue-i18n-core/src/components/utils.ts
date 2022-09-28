@@ -1,6 +1,8 @@
-import { Fragment, VNode } from 'vue'
+import { Fragment } from 'vue'
 
 import type { NamedValue } from '@intlify/core-base'
+import type { VNode } from 'vue'
+
 export function getInterpolateArg(
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   { slots }: any, // SetupContext,
@@ -13,7 +15,11 @@ export function getInterpolateArg(
     return ret.reduce((slot: (VNode | typeof Fragment)[], current: any) => {
       return [
         ...slot,
-        ...(current.type === Fragment ? current.children : [current])
+        // prettier-ignore
+        ...(!__BRIDGE__
+          ? current.type === Fragment ? current.children : [current]
+          : current.children ? current.children : [current]
+        )
       ]
     }, [])
   } else {
