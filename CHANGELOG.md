@@ -1,4 +1,14 @@
 
+## v9.3.0-beta.6 (2022-09-28)
+
+#### :bug: Bug Fixes
+* `vue-i18n-core`
+  * [#1187](https://github.com/intlify/vue-i18n-next/pull/1187) fix: tree-shaking Fragment with for vue-i18n-bridge ([@kazupon](https://github.com/kazupon))
+
+#### Committers: 1
+- kazuya kawaguchi ([@kazupon](https://github.com/kazupon))
+
+
 ## v9.3.0-beta.5 (2022-09-28)
 
 #### :zap: Improvement Features

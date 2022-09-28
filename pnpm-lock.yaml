@@ -329,16 +329,16 @@ importers:
 
   packages/core:
     specifiers:
-      '@intlify/core-base': 9.3.0-beta.5
+      '@intlify/core-base': 9.3.0-beta.6
     dependencies:
       '@intlify/core-base': link:../core-base
 
   packages/core-base:
     specifiers:
-      '@intlify/devtools-if': 9.3.0-beta.5
-      '@intlify/message-compiler': 9.3.0-beta.5
-      '@intlify/shared': 9.3.0-beta.5
-      '@intlify/vue-devtools': 9.3.0-beta.5
+      '@intlify/devtools-if': 9.3.0-beta.6
+      '@intlify/message-compiler': 9.3.0-beta.6
+      '@intlify/shared': 9.3.0-beta.6
+      '@intlify/vue-devtools': 9.3.0-beta.6
     dependencies:
       '@intlify/devtools-if': link:../devtools-if
       '@intlify/message-compiler': link:../message-compiler
@@ -347,7 +347,7 @@ importers:
 
   packages/devtools-if:
     specifiers:
-      '@intlify/shared': 9.3.0-beta.5
+      '@intlify/shared': 9.3.0-beta.6
     dependencies:
       '@intlify/shared': link:../shared
 
@@ -372,7 +372,7 @@ importers:
 
   packages/message-compiler:
     specifiers:
-      '@intlify/shared': 9.3.0-beta.5
+      '@intlify/shared': 9.3.0-beta.6
       source-map: 0.6.1
     dependencies:
       '@intlify/shared': link:../shared
@@ -380,10 +380,10 @@ importers:
 
   packages/petite-vue-i18n:
     specifiers:
-      '@intlify/core-base': 9.3.0-beta.5
-      '@intlify/devtools-if': 9.3.0-beta.5
-      '@intlify/shared': 9.3.0-beta.5
-      '@intlify/vue-devtools': 9.3.0-beta.5
+      '@intlify/core-base': 9.3.0-beta.6
+      '@intlify/devtools-if': 9.3.0-beta.6
+      '@intlify/shared': 9.3.0-beta.6
+      '@intlify/vue-devtools': 9.3.0-beta.6
       '@vue/devtools-api': ^6.2.1
     dependencies:
       '@intlify/core-base': link:../core-base
@@ -441,18 +441,18 @@ importers:
 
   packages/vue-devtools:
     specifiers:
-      '@intlify/core-base': 9.3.0-beta.5
-      '@intlify/shared': 9.3.0-beta.5
+      '@intlify/core-base': 9.3.0-beta.6
+      '@intlify/shared': 9.3.0-beta.6
     dependencies:
       '@intlify/core-base': link:../core-base
       '@intlify/shared': link:../shared
 
   packages/vue-i18n:
     specifiers:
-      '@intlify/core-base': 9.3.0-beta.5
-      '@intlify/devtools-if': 9.3.0-beta.5
-      '@intlify/shared': 9.3.0-beta.5
-      '@intlify/vue-devtools': 9.3.0-beta.5
+      '@intlify/core-base': 9.3.0-beta.6
+      '@intlify/devtools-if': 9.3.0-beta.6
+      '@intlify/shared': 9.3.0-beta.6
+      '@intlify/vue-devtools': 9.3.0-beta.6
       '@vue/devtools-api': ^6.2.1
     dependencies:
       '@intlify/core-base': link:../core-base
@@ -464,10 +464,10 @@ importers:
 
   packages/vue-i18n-bridge:
     specifiers:
-      '@intlify/core-base': 9.3.0-beta.5
-      '@intlify/devtools-if': 9.3.0-beta.5
-      '@intlify/shared': 9.3.0-beta.5
-      '@intlify/vue-devtools': 9.3.0-beta.5
+      '@intlify/core-base': 9.3.0-beta.6
+      '@intlify/devtools-if': 9.3.0-beta.6
+      '@intlify/shared': 9.3.0-beta.6
+      '@intlify/vue-devtools': 9.3.0-beta.6
       '@vue/composition-api': ^1.0.0-rc.1
       '@vue/devtools-api': ^6.2.1
       vue-demi: ^0.13.4
@@ -484,10 +484,10 @@ importers:
 
   packages/vue-i18n-core:
     specifiers:
-      '@intlify/core-base': 9.3.0-beta.5
-      '@intlify/devtools-if': 9.3.0-beta.5
-      '@intlify/shared': 9.3.0-beta.5
-      '@intlify/vue-devtools': 9.3.0-beta.5
+      '@intlify/core-base': 9.3.0-beta.6
+      '@intlify/devtools-if': 9.3.0-beta.6
+      '@intlify/shared': 9.3.0-beta.6
+      '@intlify/vue-devtools': 9.3.0-beta.6
       '@vue/devtools-api': ^6.2.1
     dependencies:
       '@intlify/core-base': link:../core-base
@@ -1178,8 +1178,8 @@ packages:
       vue-i18n:
         optional: true
     dependencies:
-      '@intlify/message-compiler': 9.3.0-beta.4
-      '@intlify/shared': 9.3.0-beta.4
+      '@intlify/message-compiler': 9.3.0-beta.5
+      '@intlify/shared': 9.3.0-beta.5
       jsonc-eslint-parser: 1.4.1
       source-map: 0.6.1
       vue-i18n: link:packages/vue-i18n
@@ -1229,11 +1229,11 @@ packages:
       source-map: 0.6.1
     dev: true
 
-  /@intlify/message-compiler/9.3.0-beta.4:
-    resolution: {integrity: sha512-w/wEm7XZEJs/IRmr1N4/Hn3QgcvVJ0PvWOxNoz3XUIIF/nuITzxIsjeRPHK2cHJyFg6XRRW4+lwwO3MfZ3nELQ==}
+  /@intlify/message-compiler/9.3.0-beta.5:
+    resolution: {integrity: sha512-FKc6VqgGr/Cw9qJe8oCgYVlSds0BUOpU7jF92TwXy6nllVTFeh+vHiri5jtkP6E9EGFflBPdU3O1B1NSwZUKzg==}
     engines: {node: '>= 14'}
     dependencies:
-      '@intlify/shared': 9.3.0-beta.4
+      '@intlify/shared': 9.3.0-beta.5
       source-map: 0.6.1
     dev: true
 
@@ -1271,8 +1271,8 @@ packages:
     engines: {node: '>= 14'}
     dev: true
 
-  /@intlify/shared/9.3.0-beta.4:
-    resolution: {integrity: sha512-L2SQDSpEqZOMlX/Xnw/wQbMmR2EacVHJicBjINfAdHJPkG4C/n6trDQKq2lBH6wFFn5Q/heZcWv6vROgCEEETQ==}
+  /@intlify/shared/9.3.0-beta.5:
+    resolution: {integrity: sha512-00r0xmu8QFshxUILo9AHd/i2G00H4aZIJCbx1HqGMVLVX+SdYKtsihedsZmZ6J+Uh/Kn0Nty/VvcTHpDkb3CFQ==}
     engines: {node: '>= 14'}
     dev: true
 
@@ -1305,7 +1305,7 @@ packages:
         optional: true
     dependencies:
       '@intlify/bundle-utils': 3.2.1_vue-i18n@packages+vue-i18n
-      '@intlify/shared': 9.3.0-beta.4
+      '@intlify/shared': 9.3.0-beta.5
       '@rollup/pluginutils': 4.2.1
       debug: 4.3.4
       fast-glob: 3.2.11
@@ -2894,11 +2894,11 @@ packages:
     dependencies:
       '@volar/code-gen': 0.40.1
       '@volar/source-map': 0.40.1
-      '@vue/compiler-core': 3.2.39
-      '@vue/compiler-dom': 3.2.39
+      '@vue/compiler-core': 3.2.40
+      '@vue/compiler-dom': 3.2.40
       '@vue/compiler-sfc': 3.2.40
       '@vue/reactivity': 3.2.37
-      '@vue/shared': 3.2.39
+      '@vue/shared': 3.2.40
     dev: true
 
   /@volar/vue-typescript/0.40.1:
@@ -2958,15 +2958,6 @@ packages:
       source-map: 0.6.1
     dev: true
 
-  /@vue/compiler-core/3.2.39:
-    resolution: {integrity: sha512-mf/36OWXqWn0wsC40nwRRGheR/qoID+lZXbIuLnr4/AngM0ov8Xvv8GHunC0rKRIkh60bTqydlqTeBo49rlbqw==}
-    dependencies:
-      '@babel/parser': 7.18.8
-      '@vue/shared': 3.2.39
-      estree-walker: 2.0.2
-      source-map: 0.6.1
-    dev: true
-
   /@vue/compiler-core/3.2.40:
     resolution: {integrity: sha512-2Dc3Stk0J/VyQ4OUr2yEC53kU28614lZS+bnrCbFSAIftBJ40g/2yQzf4mPBiFuqguMB7hyHaujdgZAQ67kZYA==}
     dependencies:
@@ -2987,13 +2978,6 @@ packages:
     dependencies:
       '@vue/compiler-core': 3.2.37
       '@vue/shared': 3.2.37
-    dev: true
-
-  /@vue/compiler-dom/3.2.39:
-    resolution: {integrity: sha512-HMFI25Be1C8vLEEv1hgEO1dWwG9QQ8LTTPmCkblVJY/O3OvWx6r1+zsox5mKPMGvqYEZa6l8j+xgOfUspgo7hw==}
-    dependencies:
-      '@vue/compiler-core': 3.2.39
-      '@vue/shared': 3.2.39
     dev: true
 
   /@vue/compiler-dom/3.2.40:
@@ -3154,10 +3138,6 @@ packages:
 
   /@vue/shared/3.2.37:
     resolution: {integrity: sha512-4rSJemR2NQIo9Klm1vabqWjD8rs/ZaJSzMxkMNeJS6lHiUjjUeYFbooN19NgFjztubEKh3WlZUeOLVdbbUWHsw==}
-    dev: true
-
-  /@vue/shared/3.2.39:
-    resolution: {integrity: sha512-D3dl2ZB9qE6mTuWPk9RlhDeP1dgNRUKC3NJxji74A4yL8M2MwlhLKUC/49WHjrNzSPug58fWx/yFbaTzGAQSBw==}
     dev: true
 
   /@vue/shared/3.2.40:
