@@ -1,6 +1,6 @@
 {
   "name": "vue-i18n-bridge",
-  "version": "9.3.0-beta.3",
+  "version": "9.3.0-beta.4",
   "description": "A bridge for Vue I18n Legacy",
   "keywords": [
     "bridge",
@@ -36,22 +36,17 @@
   "jsdelivr": "dist/vue-i18n-bridge.global.js",
   "types": "dist/vue-i18n-bridge.d.ts",
   "dependencies": {
-    "@intlify/core-base": "9.3.0-beta.3",
-    "@intlify/shared": "9.3.0-beta.3",
-    "@intlify/vue-devtools": "9.3.0-beta.3",
+    "@intlify/core-base": "9.3.0-beta.4",
+    "@intlify/shared": "9.3.0-beta.4",
+    "@intlify/vue-devtools": "9.3.0-beta.4",
     "@vue/devtools-api": "^6.2.1",
     "vue-demi": "^0.13.4"
   },
   "devDependencies": {
-    "@intlify/devtools-if": "9.3.0-beta.3"
+    "@intlify/devtools-if": "9.3.0-beta.4"
   },
   "peerDependencies": {
     "@vue/composition-api": "^1.0.0-rc.1"
-  },
-  "peerDependenciesMeta": {
-    "@vue/composition-api": {
-      "optional": true
-    }
   },
   "engines": {
     "node": ">= 14"
@@ -90,6 +85,11 @@
     "./package.json": "./package.json"
   },
   "funding": "https://github.com/sponsors/kazupon",
+  "peerDependenciesMeta": {
+    "@vue/composition-api": {
+      "optional": true
+    }
+  },
   "publishConfig": {
     "access": "public"
   },

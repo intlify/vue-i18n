@@ -1,4 +1,19 @@
 
+## v9.3.0-beta.4 (2022-09-28)
+
+#### :bug: Bug Fixes
+* `vue-i18n-core`
+  * [#1177](https://github.com/intlify/vue-i18n-next/pull/1177) fix:using the better Fragment detection(#1122) ([@littleboarx](https://github.com/littleboarx))
+
+#### :zap: Improvement Features
+* `vue-i18n-bridge`
+  * [#1180](https://github.com/intlify/vue-i18n-next/pull/1180) fix: peer deps on vue-i18n-bridge ([@kazupon](https://github.com/kazupon))
+
+#### Committers: 2
+- [@littleboarx](https://github.com/littleboarx)
+- kazuya kawaguchi ([@kazupon](https://github.com/kazupon))
+
+
 ## v9.3.0-beta.3 (2022-08-31)
 
 #### :bug: Bug Fixes
