@@ -1,4 +1,14 @@
 
+## v9.3.0-beta.5 (2022-09-28)
+
+#### :zap: Improvement Features
+* `vue-i18n-bridge`
+  * [#1184](https://github.com/intlify/vue-i18n-next/pull/1184) fix: change to `optionalDependencies` ([@kazupon](https://github.com/kazupon))
+
+#### Committers: 1
+- kazuya kawaguchi ([@kazupon](https://github.com/kazupon))
+
+
 ## v9.3.0-beta.4 (2022-09-28)
 
 #### :bug: Bug Fixes
