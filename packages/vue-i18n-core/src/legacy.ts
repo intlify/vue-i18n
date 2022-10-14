@@ -537,7 +537,7 @@ export interface VueI18nTranslation<
  * Resolve locale message translation functions for VueI18n legacy interfaces
  *
  * @remarks
- * This is the interface for {@link VueI18n}. This interfce is an alias of {@link ComposerResolveLocaleMessageTranslation}.
+ * This is the interface for {@link VueI18n}. This interface is an alias of {@link ComposerResolveLocaleMessageTranslation}.
  *
  * @VueI18nLegacy
  */
