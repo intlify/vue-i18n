@@ -12,7 +12,7 @@ export declare function createI18n<Options extends I18nOptions = {}, Messages ex
 
 **Details**
 
-If you use Legacy API mode, you need toto specify [VueI18nOptions](legacy#vuei18noptions) and `legacy: true` option.
+If you use Legacy API mode, you need to specify [VueI18nOptions](legacy#vuei18noptions) and `legacy: true` option.
 
 If you use composition API mode, you need to specify [ComposerOptions](composition#composeroptions).
 
