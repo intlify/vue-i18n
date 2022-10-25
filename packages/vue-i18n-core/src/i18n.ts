@@ -375,7 +375,7 @@ export function createI18n<
  * @returns {@link I18n} instance
  *
  * @remarks
- * If you use Legacy API mode, you need toto specify {@link VueI18nOptions} and `legacy: true` option.
+ * If you use Legacy API mode, you need to specify {@link VueI18nOptions} and `legacy: true` option.
  *
  * If you use composition API mode, you need to specify {@link ComposerOptions}.
  *
