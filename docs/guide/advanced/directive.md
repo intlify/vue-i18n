@@ -116,7 +116,7 @@ Outputs:
 
 ### `$t`
 
-`$t` is function of Vue18n instance. It has the following pros and cons:
+`$t` is function of VueI18n instance. It has the following pros and cons:
 
 #### Pros
 
