@@ -23,11 +23,11 @@ Also, the message compiler is not bundled, therefore **bundle size can be reduce
 We can configure these modules with module path using the module resolve alias feature (e.g. `resolve.alias` vite and webpack) of some bundler, but It takes time and effort.
 Intlify project provides plugins/loaders for some bundlers, for simplicity
 
-### `@intlify/unplugin-vue-i18n`
+### unplugin-vue-i18n
 
 [`unplugin`](https://github.com/unjs/unplugin) is an unified plugin system for bundle tool such as vite, webpack, rollup, esbuild and etc.
 
-Intlify project is providing [`@intlify/unplugin-vue-i18n`](https://github.com/intlify/bundle-tools/tree/main/packages/unplugin-vue-i18n) for vite and webpack.
+Intlify project is providing [`unplugin-vue-i18n`](https://github.com/intlify/bundle-tools/tree/main/packages/unplugin-vue-i18n) for vite and webpack.
 
 If you do the production build, Vue I18n will automatically bundle the runtime only module
 
@@ -83,11 +83,11 @@ module.exports = {
 
 About optoins and features, see the detail [page](https://github.com/intlify/bundle-tools/tree/main/packages/unplugin-vue-i18n#intlifyunplugin-vue-i18n)
 
-### `@intlify/vite-plugin-vue-i18n`
+### vite-plugin-vue-i18n
 
 [`vite`](https://vitejs.dev/) is next generation frontend tooling.
 
-Intlify project is providing [`@intlify/vite-plugin-vue-i18n`](https://github.com/intlify/bundle-tools/tree/main/packages/vite-plugin-vue-i18n)
+Intlify project is providing [`vite-plugin-vue-i18n`](https://github.com/intlify/bundle-tools/tree/main/packages/vite-plugin-vue-i18n)
 
 If you do a production build, Vue I18n will automatically bundle the runtime only module
 
@@ -127,11 +127,11 @@ export default defineConfig({
 
 About optoins and features, see the detail [page](https://github.com/intlify/bundle-tools/tree/main/packages/vite-plugin-vue-i18n)
 
-### `@intlify/vue-i18n-loader`
+### vue-i18n-loader
 
 [webpack](https://webpack.js.org/) is a static module bundler for modern JavaScript applications. 
 
-Intlify project is providing [`@intlify/vue-i18n-loader`](https://github.com/intlify/bundle-tools/tree/main/packages/vue-i18n-loader)
+Intlify project is providing [`vue-i18n-loader`](https://github.com/intlify/bundle-tools/tree/main/packages/vue-i18n-loader)
 
 :::warning NOTICE
 This plugin will be deprecated in the near future, because we can replace `@intlify/unplugin-vue-i18n`.
