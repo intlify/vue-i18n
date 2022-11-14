@@ -831,8 +831,7 @@ declare module '@vue/runtime-core' {
      * Translation message exist
      *
      * @remarks
-     * The input / output is the same as for VueI18n instance. About that details, see {@link VueI18n#te | `VueI18n.#te` }.
-     * Supported for Legacy API mode only.
+     * About that details, see {@link VueI18n#te | `VueI18n#te` } or {@link Composer#te | `Composer#te`}.
      *
      * @param key - A target locale message key
      * @param locale - A locale, optional, override locale that global scope or local scope
