@@ -888,13 +888,9 @@ Translation message exist
 $te(key: Path, locale?: Locale): boolean;
 ```
 
-:::warning NOTE
-Supported for **Legacy API mode only**.
-:::
-
 **Details**
 
-The input / output is the same as for VueI18n instance. About that details, see [VueI18n#te](legacy#te-key-locale)
+About that details, see [VueI18n#te](legacy#te-key-locale)
 
 #### Parameters
 | Parameter | Type | Description |
