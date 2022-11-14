@@ -51,6 +51,70 @@ To use i18n custom blocks, you need to use the following plugins for bundler.
 
 ## Bundling with Vite
 
+### unplugin-vue-i18n
+
+[`unplugin`](https://github.com/unjs/unplugin) is an unified plugin system for bundle tool such as vite, webpack, rollup, esbuild and etc.
+
+[`unplugin-vue-i18n`](https://github.com/intlify/bundle-tools/tree/main/packages/unplugin-vue-i18n) for vite and webpack.
+
+:::tip REQUIREMENTS
+- vite: **v3 or later**
+- @vitejs/plugin-vue: **v3.2.0 or later**.
+:::
+
+#### Installation
+
+```sh
+npm i --save-dev @intlify/unplugin-vue-i18n
+```
+
+#### Configure plugin for Vite
+
+See also [use global format](#use-global-format-with-vite-plugin) and [use global scope](#use-global-scope-with-vite-plugin).
+
+```js
+// vite.config.ts
+import { defineConfig } from 'vite'
+import { resolve, dirname } from 'node:path'
+import { fileURLToPath } from 'node:url'
+import VueI18nPlugin from '@intlify/unplugin-vue-i18n/vite'
+
+export default defineConfig({
+  /* ... */
+  plugins: [
+    /* ... */
+    VueI18nPlugin({
+      /* options */
+      // locale messages resource pre-compile option
+      include: resolve(dirname(fileURLToPath(import.meta.url)), './path/to/src/locales/**'),
+    }),
+  ],
+})
+```
+
+#### Configure plugin for Webpack
+
+See also [use global format](#use-global-format-with-vite-plugin) and [use global scope](#use-global-scope-with-vite-plugin).
+
+```js
+// webpack.config.js
+const path = require('path')
+const VueI18nPlugin = require('@intlify/unplugin-vue-i18n/webpack')
+
+module.exports = {
+  /* ... */
+  plugins: [
+    /* ... */
+    VueI18nPlugin({
+      /* options */
+      // locale messages resourece pre-compile option
+      include: path.resolve(__dirname, './path/to/src/locales/**'),
+    })
+  ]
+}
+```
+
+
 ### vite-plugin-vue-i18n
 
 [vite-plugin-vue-i18n](https://github.com/intlify/bundle-tools/tree/main/packages/vite-plugin-vue-i18n) is vite plugin for [Vite](https://github.com/vitejs/vite).
@@ -58,6 +122,10 @@ To use i18n custom blocks, you need to use the following plugins for bundler.
 :::tip REQUIREMENTS
 - vite: **v2-beta or later**
 - @vitejs/plugin-vue: **v1.0.4 or later**.
+:::
+
+:::warning NOTICE
+This plugin will be deprecated in the near future, because we can replace `unplugin-vue-i18n`.
 :::
 
 #### Installation
@@ -100,6 +168,10 @@ export default defineConfig({
 :::tip REQUIREMENTS
 - webpack: **v4 or later**
 - vue-loader: **v16 or later**.
+:::
+
+:::warning NOTICE
+This plugin will be deprecated in the near future, because we can replace `unplugin-vue-i18n`.
 :::
 
 #### Installation
@@ -156,6 +228,10 @@ module.exports = {
 :::tip REQUIREMENTS
 - rollup: **v2.32 or later**
 - rollup-plugin-vue: **v6 or later**.
+:::
+
+:::warning NOTICE
+This plugin will be deprecated in the near future, because we can replace `unplugin-vue-i18n`.
 :::
 
 #### Installation
@@ -303,7 +379,7 @@ The `i18n` custom blocks below of `json5` format:
 
 ### Define global format
 
-If you are using one of `@intlify/vite-plugin-vue-i18n` plugin on your project, you can also define the `lang` for all your inlined `i18n` custom blocks on all your SFC using the `defaultSFCLang` option.
+If you are using `unplugin-vue-i18n` and `vite-plugin-vue-i18n` on your project, you can also define the `lang` for all your inlined `i18n` custom blocks on all your SFC using the `defaultSFCLang` option.
 
 :::warning NOTICE
 `@intlify/vue-i18n-loader` and `@intlify/rollup-plugin-vue-i18n` are currently in progress to add this feature.
@@ -392,6 +468,20 @@ plugins: [
 You can use define locale messages for global scope with `global` attribute:
 
 ```html
+<script setup lang="ts">
+import { useI18n } from 'vue-i18n'
+// something imports ...
+
+/**
+ * NOTE: 
+ *  you **must always call `useI18n` in global scope.
+ *  If you do not call it, the resource defined in the custom block will not be enabled.
+ */
+const { t } = useI18n(/*{ useScope: 'global' }*/)
+
+// something todo ...
+</script>
+
 <i18n global>
 {
   "en": {
@@ -403,9 +493,14 @@ You can use define locale messages for global scope with `global` attribute:
 
 In the above example, since the `global` attribute is set, the locale messages defined in `i18n` custom blocks can be merged as a resource for locale messages of global scope.
 
+:::warning NOTICE
+you **must always call `useI18n` in global scope.
+If you do not call it, the resource defined in the custom block will not be enabled.
+:::
+
 ### Define global scope
 
-If you are using one of `@intlify/vite-plugin-vue-i18n` plugin on your project, you can also define the `global` scope for all your `i18n` custom blocks on all your SFC using the `globalSFCScope` option.
+If you are using `unplugin-vue-i18n` and `vite-plugin-vue-i18n` on your project, you can also define the `global` scope for all your `i18n` custom blocks on all your SFC using the `globalSFCScope` option.
 
 :::warning NOTICE
 `@intlify/vue-i18n-loader` and `@intlify/rollup-plugin-vue-i18n` are currently in progress to add this feature.
