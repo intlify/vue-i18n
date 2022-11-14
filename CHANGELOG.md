@@ -1,4 +1,25 @@
 
+## v9.3.0-beta.7 (2022-11-14)
+
+#### :star: Features
+* `petite-vue-i18n`, `vue-i18n-bridge`, `vue-i18n-core`, `vue-i18n`
+  * [#1222](https://github.com/intlify/vue-i18n-next/pull/1222) feat: export `$te` as global on composition mode ([@kazupon](https://github.com/kazupon))
+
+#### :pencil: Documentation
+* Other
+  * [#1221](https://github.com/intlify/vue-i18n-next/pull/1221) fix(docs): add more unplugin-vue-i18n docs and tweak some sections ([@kazupon](https://github.com/kazupon))
+  * [#1204](https://github.com/intlify/vue-i18n-next/pull/1204) Updated directive.md ([@sayan99614](https://github.com/sayan99614))
+* `vue-i18n-core`
+  * [#1209](https://github.com/intlify/vue-i18n-next/pull/1209) Fix typo in createI18n ([@azrikahar](https://github.com/azrikahar))
+  * [#1196](https://github.com/intlify/vue-i18n-next/pull/1196) fix typo in legacy API ([@Kurtil](https://github.com/Kurtil))
+
+#### Committers: 4
+- Azri Kahar ([@azrikahar](https://github.com/azrikahar))
+- Gaëtan LAGIER ([@Kurtil](https://github.com/Kurtil))
+- dheeman pati ([@sayan99614](https://github.com/sayan99614))
+- kazuya kawaguchi ([@kazupon](https://github.com/kazupon))
+
+
 ## v9.3.0-beta.6 (2022-09-28)
 
 #### :bug: Bug Fixes
