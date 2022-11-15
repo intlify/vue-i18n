@@ -1,0 +1,5 @@
+# Roadmap
+
+Discover our kaban board for Vue I18n development status
+
+<VoltaBoard token="eyJzdGF0dXNlcyI6WyJ0cmlhZ2UiLCJiYWNrbG9nIiwidG9kbyIsImluX3Byb2dyZXNzIiwiaW5fcmV2aWV3IiwiZG9uZSIsInJlbGVhc2VkIiwiY2FuY2VsbGVkIl0sImZpbHRlcnMiOnt9LCJvd25lciI6ImludGxpZnkiLCJuYW1lIjoidnVlLWkxOG4tbmV4dCJ9" />
