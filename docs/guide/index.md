@@ -76,7 +76,11 @@ Output the following:
 
 By calling `app.use(i18n)`, By default, we can access the VueI18n instance from each component with `this.$i18n`, which can be referenced from the `global` property of i18n instance that created with `createI18n`. As well as, translation API such as `this.$t` is also injected into each component, so these API can be used with templates.
 
-To use similar ways at the `setup` function, you need to call the `useI18n` functions. We will learn more about this in the [Composition API](https://v3.vuejs.org/guide/composition-api-introduction.html)
+To use similar ways at the `setup` function, you need to call the `useI18n` functions. We will learn more about this in the [Composition API](./advanced/composition).
+
+:::tip NOTE
+For more information on the Composition API, please refer to [documentation](https://v3.vuejs.org/guide/composition-api-introduction.html) of Vue.js
+:::
 
 Throughout the docs, we’ll use APIs like `this.$i18n` and `this.$t`, which are almost keep backward compatible from Vue I18n v8.x.
 
