@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`__transrateVNode missing 1`] = `
+exports[`__translateVNode missing 1`] = `
 Array [
   Object {
     "__v_isVNode": true,

@@ -18,7 +18,7 @@ import {
   VueMessageType
 } from '../src/composer'
 import {
-  TransrateVNodeSymbol,
+  TranslateVNodeSymbol,
   NumberPartsSymbol,
   DatetimePartsSymbol
 } from '../src/symbols'
@@ -1514,7 +1514,7 @@ describe('__i18n', () => {
   })
 })
 
-describe('__transrateVNode', () => {
+describe('__translateVNode', () => {
   test('basic', () => {
     const composer = createComposer({
       locale: 'en',
@@ -1525,7 +1525,7 @@ describe('__transrateVNode', () => {
       }
     })
     expect(
-      (composer as any)[TransrateVNodeSymbol]('hello', {
+      (composer as any)[TranslateVNodeSymbol]('hello', {
         name: createVNode(Text, null, 'kazupon', 0)
       })
     ).toMatchObject([
@@ -1543,7 +1543,7 @@ describe('__transrateVNode', () => {
       }
     })
     expect(
-      (composer as any)[TransrateVNodeSymbol]('hello', {
+      (composer as any)[TranslateVNodeSymbol]('hello', {
         name: createVNode(Text, null, 'kazupon', 0)
       })
     ).toMatchSnapshot()

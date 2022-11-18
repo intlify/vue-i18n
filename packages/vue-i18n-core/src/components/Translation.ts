@@ -1,6 +1,6 @@
 import { h } from 'vue'
 import { isNumber, isString, isObject } from '@intlify/shared'
-import { TransrateVNodeSymbol } from '../symbols'
+import { TranslateVNodeSymbol } from '../symbols'
 import { useI18n } from '../i18n'
 import { baseFormatProps } from './base'
 import { assign } from '@intlify/shared'
@@ -118,7 +118,7 @@ export const Translation = /* #__PURE__*/ /* defineComponent */ {
       }
       const arg = getInterpolateArg(context, keys)
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const children = (i18n as any)[TransrateVNodeSymbol](
+      const children = (i18n as any)[TranslateVNodeSymbol](
         props.keypath,
         arg,
         options
