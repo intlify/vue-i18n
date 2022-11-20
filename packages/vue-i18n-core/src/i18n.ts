@@ -241,6 +241,14 @@ export interface I18n<
 }
 
 /**
+ * @internal
+ */
+type ExtendHooks = {
+  __composerExtend?: (composer: Composer) => void
+  __vueI18nExtend?: (vueI18n: VueI18n) => void
+}
+
+/**
  * I18n interface for internal usage
  *
  * @internal
@@ -272,6 +280,8 @@ export interface I18nInternal<
     instance: Instance
   ): void
   __deleteInstance(component: ComponentInternalInstance): void
+  __composerExtend?: Required<ExtendHooks>['__composerExtend']
+  __vueI18nExtend?: Required<ExtendHooks>['__vueI18nExtend']
 }
 
 /**
@@ -540,6 +550,15 @@ export function createI18n(options: any = {}, VueI18nLegacy?: any): any {
         // setup global provider
         app.__VUE_I18N_SYMBOL__ = symbol
         app.provide(app.__VUE_I18N_SYMBOL__, i18n as unknown as I18n)
+
+        // set composer & vuei18n extend hook options from plugin options
+        if (isPlainObject(options[0])) {
+          const opts = options[0] as ExtendHooks
+          ;(i18n as unknown as I18nInternal).__composerExtend =
+            opts.__composerExtend
+          ;(i18n as unknown as I18nInternal).__vueI18nExtend =
+            opts.__vueI18nExtend
+        }
 
         // global method and properties injection for Composition API
         if (!__legacyMode && __globalInjection) {
@@ -838,6 +857,9 @@ export function useI18n<
     }
 
     composer = createComposer(composerOptions, _legacyVueI18n) as Composer
+    if (i18nInternal.__composerExtend) {
+      i18nInternal.__composerExtend(composer)
+    }
     setupLifeCycle(i18nInternal, instance, composer)
 
     i18nInternal.__setInstance(instance, composer)
