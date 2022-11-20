@@ -1,4 +1,20 @@
 
+## v9.3.0-beta.8 (2022-11-20)
+
+#### :zap: Improvement Features
+* `vue-i18n-core`
+  * [#1236](https://github.com/intlify/vue-i18n-next/pull/1236) fix: correct typo in `TranslateVNodeSymbol` ([@DamianGlowala](https://github.com/DamianGlowala))
+  * [#1237](https://github.com/intlify/vue-i18n-next/pull/1237) fix: exntending for Composer and VueI18n ([@kazupon](https://github.com/kazupon))
+
+#### :pencil: Documentation
+* [#1227](https://github.com/intlify/vue-i18n-next/pull/1227) docs: update introduction ([@kazupon](https://github.com/kazupon))
+* [#1226](https://github.com/intlify/vue-i18n-next/pull/1226) docs: add roadmap ([@kazupon](https://github.com/kazupon))
+
+#### Committers: 2
+- Damian Głowala ([@DamianGlowala](https://github.com/DamianGlowala))
+- kazuya kawaguchi ([@kazupon](https://github.com/kazupon))
+
+
 ## v9.3.0-beta.7 (2022-11-14)
 
 #### :star: Features

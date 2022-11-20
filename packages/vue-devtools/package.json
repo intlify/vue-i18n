@@ -1,6 +1,6 @@
 {
   "name": "@intlify/vue-devtools",
-  "version": "9.3.0-beta.7",
+  "version": "9.3.0-beta.8",
   "description": "@intlify/vue-devtools",
   "keywords": [
     "i18n",
@@ -30,8 +30,8 @@
   "module": "dist/vue-devtools.mjs",
   "types": "dist/vue-devtools.d.ts",
   "dependencies": {
-    "@intlify/core-base": "9.3.0-beta.7",
-    "@intlify/shared": "9.3.0-beta.7"
+    "@intlify/core-base": "9.3.0-beta.8",
+    "@intlify/shared": "9.3.0-beta.8"
   },
   "engines": {
     "node": ">= 14"
