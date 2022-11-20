@@ -39,7 +39,7 @@ import { VueDevToolsTimelineEvents } from '@intlify/vue-devtools'
 import { I18nWarnCodes, getWarnMessage } from './warnings'
 import { I18nErrorCodes, createI18nError } from './errors'
 import {
-  TransrateVNodeSymbol,
+  TranslateVNodeSymbol,
   DatetimePartsSymbol,
   NumberPartsSymbol,
   EnableEmitter,
@@ -1683,7 +1683,7 @@ export interface Composer<
  * @internal
  */
 export interface ComposerInternal {
-  __transrateVNode(...args: unknown[]): VNodeArrayChildren
+  __translateVNode(...args: unknown[]): VNodeArrayChildren
   __numberParts(...args: unknown[]): string | Intl.NumberFormatPart[]
   __datetimeParts(...args: unknown[]): string | Intl.DateTimeFormatPart[]
   __enableEmitter?: (emitter: VueDevToolsEmitter) => void
@@ -2188,8 +2188,8 @@ export function createComposer(options: any = {}, VueI18nLegacy?: any): any {
     type: 'vnode'
   } as MessageProcessor<VNode>
 
-  // transrateVNode, using for `i18n-t` component
-  function transrateVNode(...args: unknown[]): VNodeArrayChildren {
+  // translateVNode, using for `i18n-t` component
+  function translateVNode(...args: unknown[]): VNodeArrayChildren {
     return wrapWithDeps<VNode, VNodeArrayChildren>(
       context => {
         let ret: unknown
@@ -2208,7 +2208,7 @@ export function createComposer(options: any = {}, VueI18nLegacy?: any): any {
       () => parseTranslateArgs(...args),
       'translate',
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      root => (root as any)[TransrateVNodeSymbol](...args),
+      root => (root as any)[TranslateVNodeSymbol](...args),
       key => [createTextNode(key as string)],
       val => isArray(val)
     )
@@ -2504,7 +2504,7 @@ export function createComposer(options: any = {}, VueI18nLegacy?: any): any {
     ;(composer as any).setNumberFormat = setNumberFormat
     ;(composer as any).mergeNumberFormat = mergeNumberFormat
     ;(composer as any)[InejctWithOption] = options.__injectWithOption
-    ;(composer as any)[TransrateVNodeSymbol] = transrateVNode
+    ;(composer as any)[TranslateVNodeSymbol] = translateVNode
     ;(composer as any)[DatetimePartsSymbol] = datetimeParts
     ;(composer as any)[NumberPartsSymbol] = numberParts
   }
