@@ -4,6 +4,7 @@
 
 import {
   h,
+  ref,
   defineComponent,
   defineCustomElement,
   nextTick,
@@ -32,6 +33,7 @@ import {
 } from '@intlify/devtools-if'
 
 import type { I18n } from '../src/i18n'
+import type { VueI18n } from '../src/legacy'
 import type { App } from 'vue'
 
 const container = document.createElement('div')
@@ -1358,5 +1360,60 @@ describe('release global scope', () => {
       app!.unmount()
     }
     expect(error).not.toEqual(errorMessages[I18nErrorCodes.UNEXPECTED_ERROR])
+  })
+})
+
+describe('Composer & VueI18n extend hooking', () => {
+  test('composition', async () => {
+    const composerExtendSpy = jest
+      .fn()
+      .mockImplementation((composer: Composer) => {
+        ;(composer as any).foo = ref('hello world')
+      })
+    const vueI18nExtendSpy = jest.fn()
+    const i18n = createI18n({
+      legacy: false
+    })
+
+    const App = defineComponent({
+      setup() {
+        // @ts-ignore
+        const { foo } = useI18n({
+          useScope: 'local'
+        })
+        return { foo }
+      },
+      template: '<p>{{ foo }}</p>'
+    })
+    const { html } = await mount(App, i18n, {
+      pluginOptions: {
+        __composerExtend: composerExtendSpy,
+        __vueI18nExtend: vueI18nExtendSpy
+      } as any
+    })
+    expect(composerExtendSpy).toHaveBeenCalled()
+    expect(html()).toBe('<p>hello world</p>')
+    expect(vueI18nExtendSpy).not.toHaveBeenCalled()
+  })
+
+  test('legacy', async () => {
+    const composerExtendSpy = jest.fn()
+    const vueI18nExtendSpy = jest
+      .fn()
+      .mockImplementation((vueI18n: VueI18n) => {
+        ;(vueI18n as any).foo = 'hello world'
+      })
+    const i18n = createI18n({ legacy: true })
+
+    const App = defineComponent({ template: '<p>{{ $i18n.foo }}</p>' })
+    const { html } = await mount(App, i18n, {
+      pluginOptions: {
+        __composerExtend: composerExtendSpy,
+        __vueI18nExtend: vueI18nExtendSpy
+      } as any
+    })
+    expect(composerExtendSpy).not.toHaveBeenCalled()
+    expect(vueI18nExtendSpy).toHaveBeenCalled()
+    expect(html()).toBe('<p>hello world</p>')
   })
 })

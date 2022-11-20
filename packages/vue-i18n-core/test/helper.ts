@@ -15,7 +15,9 @@ import {
 import { compile } from '@vue/compiler-dom'
 import * as runtimeDom from 'vue'
 import { I18n } from '../src/i18n'
-import { isBoolean, assign } from '@intlify/shared'
+import { isBoolean, isPlainObject, assign } from '@intlify/shared'
+
+import type { I18nPluginOptions } from '../src/plugin/types'
 
 export interface MountOptions {
   propsData: Record<string, any> // eslint-disable-line @typescript-eslint/no-explicit-any
@@ -23,6 +25,7 @@ export interface MountOptions {
   components: ComponentOptions['components']
   slots: Record<string, string>
   installI18n: boolean
+  pluginOptions?: I18nPluginOptions
 }
 
 interface Wrapper {
@@ -85,6 +88,20 @@ export function mount(
   const installI18n = isBoolean(options.installI18n)
     ? options.installI18n
     : true
+
+  const pluginOptions: I18nPluginOptions = isPlainObject(options.pluginOptions)
+    ? options.pluginOptions
+    : {
+        globalInstall: true,
+        useI18nComponentName: false
+      }
+  if (pluginOptions.globalInstall == null) {
+    pluginOptions.globalInstall = true
+  }
+  if (pluginOptions.useI18nComponentName == null) {
+    pluginOptions.useI18nComponentName = false
+  }
+
   return new Promise((resolve, reject) => {
     // NOTE: only supports props as an object
     const propsData = reactive(
@@ -156,7 +173,7 @@ export function mount(
       }
     }
 
-    installI18n && app.use(i18n)
+    installI18n && app.use(i18n, pluginOptions)
 
     const rootEl = document.createElement('div')
     document.body.appendChild(rootEl)

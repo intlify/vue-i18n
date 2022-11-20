@@ -97,6 +97,11 @@ export function defineMixin(
         this.$i18n.n(...args)
       this.$tm = (key: Path): LocaleMessageValue<VueMessageType> | {} =>
         this.$i18n.tm(key)
+
+      // extend vue-i18n legacy APIs
+      if (i18n.__vueI18nExtend) {
+        i18n.__vueI18nExtend(this.$i18n)
+      }
     },
 
     mounted(): void {

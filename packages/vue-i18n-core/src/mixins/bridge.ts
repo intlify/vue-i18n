@@ -3,7 +3,7 @@ import { deepCopy } from '../utils'
 
 import type { ComponentOptions } from 'vue'
 import type { Locale } from '@intlify/core-base'
-import type { I18n } from '../i18n'
+import type { I18n, I18nInternal } from '../i18n'
 
 /**
  * Port from vue-i18n@v8.x
