@@ -1368,6 +1368,7 @@ describe('Composer & VueI18n extend hooking', () => {
     const composerExtendSpy = jest
       .fn()
       .mockImplementation((composer: Composer) => {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         ;(composer as any).foo = ref('hello world')
       })
     const vueI18nExtendSpy = jest.fn()
@@ -1389,31 +1390,64 @@ describe('Composer & VueI18n extend hooking', () => {
       pluginOptions: {
         __composerExtend: composerExtendSpy,
         __vueI18nExtend: vueI18nExtendSpy
-      } as any
+      } as any // eslint-disable-line @typescript-eslint/no-explicit-any
     })
     expect(composerExtendSpy).toHaveBeenCalled()
     expect(html()).toBe('<p>hello world</p>')
     expect(vueI18nExtendSpy).not.toHaveBeenCalled()
   })
 
-  test('legacy', async () => {
-    const composerExtendSpy = jest.fn()
-    const vueI18nExtendSpy = jest
-      .fn()
-      .mockImplementation((vueI18n: VueI18n) => {
-        ;(vueI18n as any).foo = 'hello world'
-      })
-    const i18n = createI18n({ legacy: true })
+  describe('legacy', () => {
+    test('basic', async () => {
+      const composerExtendSpy = jest.fn()
+      const vueI18nExtendSpy = jest
+        .fn()
+        .mockImplementation((vueI18n: VueI18n) => {
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          ;(vueI18n as any).foo = 'hello world'
+        })
+      const i18n = createI18n({ legacy: true })
 
-    const App = defineComponent({ template: '<p>{{ $i18n.foo }}</p>' })
-    const { html } = await mount(App, i18n, {
-      pluginOptions: {
-        __composerExtend: composerExtendSpy,
-        __vueI18nExtend: vueI18nExtendSpy
-      } as any
+      const App = defineComponent({ template: '<p>{{ $i18n.foo }}</p>' })
+      const { html } = await mount(App, i18n, {
+        pluginOptions: {
+          __composerExtend: composerExtendSpy,
+          __vueI18nExtend: vueI18nExtendSpy
+        } as any // eslint-disable-line @typescript-eslint/no-explicit-any
+      })
+      expect(composerExtendSpy).not.toHaveBeenCalled()
+      expect(vueI18nExtendSpy).toHaveBeenCalled()
+      expect(html()).toBe('<p>hello world</p>')
     })
-    expect(composerExtendSpy).not.toHaveBeenCalled()
-    expect(vueI18nExtendSpy).toHaveBeenCalled()
-    expect(html()).toBe('<p>hello world</p>')
+
+    test('use global vue i18n instance in components', async () => {
+      const composerExtendSpy = jest.fn()
+      const vueI18nExtendSpy = jest
+        .fn()
+        .mockImplementation((vueI18n: VueI18n) => {
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          ;(vueI18n as any).foo = 'hello world'
+        })
+      const i18n = createI18n({ legacy: true })
+
+      const Child = defineComponent({
+        template: '<span>{{ $i18n.foo }}</span>'
+      })
+      const App = defineComponent({
+        components: {
+          Child
+        },
+        template: '<p>{{ $i18n.foo }}</p><Child />'
+      })
+      const { html } = await mount(App, i18n, {
+        pluginOptions: {
+          __composerExtend: composerExtendSpy,
+          __vueI18nExtend: vueI18nExtendSpy
+        } as any // eslint-disable-line @typescript-eslint/no-explicit-any
+      })
+      expect(composerExtendSpy).not.toHaveBeenCalled()
+      expect(vueI18nExtendSpy).toHaveBeenCalledTimes(1)
+      expect(html()).toBe('<p>hello world</p><span>hello world</span>')
+    })
   })
 })
