@@ -1,6 +1,6 @@
 {
   "name": "@intlify/core",
-  "version": "9.3.0-beta.8",
+  "version": "9.3.0-beta.9",
   "description": "@intlify/core",
   "keywords": [
     "core",
@@ -33,7 +33,7 @@
   "jsdelivr": "dist/core.global.js",
   "types": "dist/core.d.ts",
   "dependencies": {
-    "@intlify/core-base": "9.3.0-beta.8"
+    "@intlify/core-base": "9.3.0-beta.9"
   },
   "engines": {
     "node": ">= 14"
