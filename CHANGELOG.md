@@ -1,4 +1,14 @@
 
+## v9.3.0-beta.9 (2022-11-21)
+
+#### :bug: Bug Fixes
+* `vue-i18n-core`
+  * [#1239](https://github.com/intlify/vue-i18n-next/pull/1239) fix: multiple VueI18n extending ([@kazupon](https://github.com/kazupon))
+
+#### Committers: 1
+- kazuya kawaguchi ([@kazupon](https://github.com/kazupon))
+
+
 ## v9.3.0-beta.8 (2022-11-20)
 
 #### :zap: Improvement Features
