@@ -99,8 +99,9 @@ export function defineMixin(
         this.$i18n.tm(key)
 
       // extend vue-i18n legacy APIs
-      if (i18n.__vueI18nExtend) {
+      if (i18n.__vueI18nExtend && !this.$i18n.__extened__) {
         i18n.__vueI18nExtend(this.$i18n)
+        this.$i18n.__extened__ = true
       }
     },
 
