@@ -1,4 +1,14 @@
 
+## v9.3.0-beta.10 (2022-11-21)
+
+#### :bug: Bug Fixes
+* `vue-i18n-core`
+  * [#1241](https://github.com/intlify/vue-i18n-next/pull/1241) fix: avoid VueI18n extending on root ([@kazupon](https://github.com/kazupon))
+
+#### Committers: 1
+- kazuya kawaguchi ([@kazupon](https://github.com/kazupon))
+
+
 ## v9.3.0-beta.9 (2022-11-21)
 
 #### :bug: Bug Fixes
