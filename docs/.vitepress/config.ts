@@ -52,6 +52,9 @@ export default defineConfig({
       appId: 'BH4D9OD16A',
       apiKey: '3a9e93ba1069de0ece2ae100daf8f6ea',
       indexName: 'vue-i18n',
+      searchParameters : {
+        facetFilters: ['language:en-US']
+      },
       // algoliaOptions: { facetFilters: ['tags:guide,api'] }
     },
 
