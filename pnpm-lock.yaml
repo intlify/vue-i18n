@@ -54,7 +54,7 @@ importers:
       rollup-plugin-node-builtins: ^2.1.2
       rollup-plugin-node-globals: ^1.4.0
       rollup-plugin-terser: ^7.0.2
-      rollup-plugin-typescript2: ^0.33.0
+      rollup-plugin-typescript2: ^0.34.0
       secretlint: ^3.2.0
       set-tz: ^0.2.0
       shipjs: ^0.24.0
@@ -128,7 +128,7 @@ importers:
       rollup-plugin-node-builtins: 2.1.2
       rollup-plugin-node-globals: 1.4.0
       rollup-plugin-terser: 7.0.2_rollup@2.78.1
-      rollup-plugin-typescript2: 0.33.0_gbie7zwms3xi63a5bzj446wuvy
+      rollup-plugin-typescript2: 0.34.1_gbie7zwms3xi63a5bzj446wuvy
       secretlint: 3.3.0
       set-tz: 0.2.0
       shipjs: 0.24.4
@@ -1178,8 +1178,8 @@ packages:
       vue-i18n:
         optional: true
     dependencies:
-      '@intlify/message-compiler': 9.3.0-beta.9
-      '@intlify/shared': 9.3.0-beta.9
+      '@intlify/message-compiler': 9.3.0-beta.10
+      '@intlify/shared': 9.3.0-beta.10
       jsonc-eslint-parser: 1.4.1
       source-map: 0.6.1
       vue-i18n: link:packages/vue-i18n
@@ -1229,11 +1229,11 @@ packages:
       source-map: 0.6.1
     dev: true
 
-  /@intlify/message-compiler/9.3.0-beta.9:
-    resolution: {integrity: sha512-Av0N4QT9qVldahtZDQ99ZAfpu1QWHjgQO3ILc8cGt5vx0lUKpB9TQ+Bw5+8QAztfQ9qnKCikK1GYvfGXlPEuCQ==}
+  /@intlify/message-compiler/9.3.0-beta.10:
+    resolution: {integrity: sha512-RoOC6yceOykLRhN0NlbkNOBUx1el6iphx3W8NfOx3jHVNtfT1FYokx14/5sU3F1F0uxeG4sp6q+ppKvaF8o+ww==}
     engines: {node: '>= 14'}
     dependencies:
-      '@intlify/shared': 9.3.0-beta.9
+      '@intlify/shared': 9.3.0-beta.10
       source-map: 0.6.1
     dev: true
 
@@ -1271,8 +1271,8 @@ packages:
     engines: {node: '>= 14'}
     dev: true
 
-  /@intlify/shared/9.3.0-beta.9:
-    resolution: {integrity: sha512-BQ6kYMeSQh6im7Za5V8iRx2GE5TP11T/cqov4ZZjlNYsuAImrqvyYkbTZ1rEdG+5mk0uMcLFBZeb3l5GPdRfuw==}
+  /@intlify/shared/9.3.0-beta.10:
+    resolution: {integrity: sha512-h93uAanbAt/XgjDHclrVB7xix6r7Uz11wx0iGNOCdHP7aA2LCJjUT3uNbekJjjbo+Fl5jzTSJZdm2SexzoqhRA==}
     engines: {node: '>= 14'}
     dev: true
 
@@ -1305,7 +1305,7 @@ packages:
         optional: true
     dependencies:
       '@intlify/bundle-utils': 3.2.1_vue-i18n@packages+vue-i18n
-      '@intlify/shared': 9.3.0-beta.9
+      '@intlify/shared': 9.3.0-beta.10
       '@rollup/pluginutils': 4.2.1
       debug: 4.3.4
       fast-glob: 3.2.11
@@ -6807,18 +6807,6 @@ packages:
         optional: true
     dev: true
 
-  /follow-redirects/1.15.1_debug@4.3.4:
-    resolution: {integrity: sha512-yLAMQs+k0b2m7cVxpS1VKJVvoz7SS9Td1zss3XRwXj+ZDH00RJgnuLx7E44wx02kQLrdM3aOOy+FpzS7+8OizA==}
-    engines: {node: '>=4.0'}
-    peerDependencies:
-      debug: '*'
-    peerDependenciesMeta:
-      debug:
-        optional: true
-    dependencies:
-      debug: 4.3.4_supports-color@6.1.0
-    dev: true
-
   /for-in/0.1.8:
     resolution: {integrity: sha512-F0to7vbBSHP8E3l6dCjxNOLuSFAACIxFy3UehTUlG7svlXi37HHsDkyVcHo0Pq8QwrE+pXvWSVX3ZT1T9wAZ9g==}
     engines: {node: '>=0.10.0'}
@@ -7576,7 +7564,7 @@ packages:
     engines: {node: '>=8.0.0'}
     dependencies:
       eventemitter3: 4.0.7
-      follow-redirects: 1.15.1_debug@4.3.4
+      follow-redirects: 1.15.1
       requires-port: 1.0.0
     transitivePeerDependencies:
       - debug
@@ -11920,8 +11908,8 @@ packages:
       terser: 5.14.2
     dev: true
 
-  /rollup-plugin-typescript2/0.33.0_gbie7zwms3xi63a5bzj446wuvy:
-    resolution: {integrity: sha512-7ZXoZeX93kNb4/ICzOi2AlperVV6cAsNz8THqrbz+KNvpn47P2F/nFdK/BGhkoOsOwuYDuY57vccdZZrcd8/dA==}
+  /rollup-plugin-typescript2/0.34.1_gbie7zwms3xi63a5bzj446wuvy:
+    resolution: {integrity: sha512-P4cHLtGikESmqi1CA+tdMDUv8WbQV48mzPYt77TSTOPJpERyZ9TXdDgjSDix8Fkqce6soYz3+fa4lrC93IEkcw==}
     peerDependencies:
       rollup: '>=1.26.3'
       typescript: '>=2.4.0'
@@ -11930,6 +11918,7 @@ packages:
       find-cache-dir: 3.3.2
       fs-extra: 10.1.0
       rollup: 2.78.1
+      semver: 7.3.7
       tslib: 2.4.0
       typescript: 4.2.3
     dev: true
@@ -12588,6 +12577,7 @@ packages:
 
   /sourcemap-codec/1.4.8:
     resolution: {integrity: sha512-9NykojV5Uih4lgo5So5dtw+f0JgJX30KCNI8gwhz2J9A15wD0Ml6tjHKwf6fTSa6fAdVBdZeNOs9eJ71qCk8vA==}
+    deprecated: Please use @jridgewell/sourcemap-codec instead
 
   /space-separated-tokens/1.1.5:
     resolution: {integrity: sha512-q/JSVd1Lptzhf5bkYm4ob4iWPjx0KiRe3sRFBNrVqbJkFaBm5vbbowy1mymoPNLRa52+oadOhJ+K49wsSeSjTA==}
