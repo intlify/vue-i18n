@@ -113,7 +113,7 @@
     "rollup-plugin-typescript2": "^0.34.0",
     "secretlint": "^3.2.0",
     "set-tz": "^0.2.0",
-    "shipjs": "^0.24.0",
+    "shipjs": "^0.25.0",
     "textlint": "^12.0.0",
     "textlint-filter-rule-comments": "^1.2.2",
     "textlint-rule-abbr-within-parentheses": "^1.0.2",
