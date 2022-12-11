@@ -48,11 +48,8 @@ export function format(message: string, ...args: any): string {
   )
 }
 
-const hasSymbol =
-  typeof Symbol === 'function' && typeof Symbol.toStringTag === 'symbol'
-
-export const makeSymbol = (name: string): symbol | string =>
-  hasSymbol ? Symbol(name) : name
+export const makeSymbol = (name: string, shareable = false): symbol =>
+  !shareable ? Symbol(name) : Symbol.for(name)
 
 export const generateFormatCacheKey = (
   locale: string,
