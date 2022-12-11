@@ -29,7 +29,7 @@ importers:
       api-docs-gen: ^0.4.0
       brotli: ^1.3.2
       convert-hrtime: ^5.0.0
-      esbuild-register: ^2.3.0
+      esbuild-register: ^3.0.0
       eslint: ^8.29.0
       eslint-config-prettier: ^8.5.0
       eslint-plugin-prettier: ^4.2.0
@@ -103,7 +103,7 @@ importers:
       api-docs-gen: 0.4.0
       brotli: 1.3.3
       convert-hrtime: 5.0.0
-      esbuild-register: 2.6.0
+      esbuild-register: 3.4.1
       eslint: 8.29.0
       eslint-config-prettier: 8.5.0_eslint@8.29.0
       eslint-plugin-prettier: 4.2.1_5dgjrgoi64tgrv3zzn3walur3u
@@ -1304,7 +1304,7 @@ packages:
       '@intlify/shared': 9.3.0-beta.10
       '@rollup/pluginutils': 4.2.1
       debug: 4.3.4
-      fast-glob: 3.2.11
+      fast-glob: 3.2.12
       source-map: 0.6.1
       vite: 2.6.14
       vue-i18n: link:packages/vue-i18n
@@ -5845,11 +5845,14 @@ packages:
     dev: true
     optional: true
 
-  /esbuild-register/2.6.0:
-    resolution: {integrity: sha512-2u4AtnCXP5nivtIxZryiZOUcEQkOzFS7UhAqibUEmaTAThJ48gDLYTBF/Fsz+5r0hbV1jrFE6PQvPDUrKZNt/Q==}
+  /esbuild-register/3.4.1:
+    resolution: {integrity: sha512-iCgs88/1wA5dIRx4i65eSjbkgrQQQJGpY6Z1eD2XPlzrSjbgNtfkw2/rfSMzJ4dTtlOD8EZTxrIA3fyYp0FsMA==}
+    peerDependencies:
+      esbuild: '>=0.12 <1'
     dependencies:
-      esbuild: 0.12.29
-      jsonc-parser: 3.1.0
+      debug: 4.3.4
+    transitivePeerDependencies:
+      - supports-color
     dev: true
 
   /esbuild-sunos-64/0.13.15:
@@ -5883,12 +5886,6 @@ packages:
     requiresBuild: true
     dev: true
     optional: true
-
-  /esbuild/0.12.29:
-    resolution: {integrity: sha512-w/XuoBCSwepyiZtIRsKsetiLDUVGPVw1E/R3VTFSecIy8UR7Cq3SOtwKHJMFoVqqVG36aGkzh4e8BvpO1Fdc7g==}
-    hasBin: true
-    requiresBuild: true
-    dev: true
 
   /esbuild/0.13.15:
     resolution: {integrity: sha512-raCxt02HBKv8RJxE8vkTSCXGIyKHdEdGfUmiYb8wnabnaEmHzyW7DCHb5tEN0xU8ryqg5xw54mcwnYkC4x3AIw==}
