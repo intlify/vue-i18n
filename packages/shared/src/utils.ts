@@ -51,7 +51,8 @@ export function format(message: string, ...args: any): string {
 const hasSymbol =
   typeof Symbol === 'function' && typeof Symbol.toStringTag === 'symbol'
 
-export const makeSymbol = (name: string): symbol | string => hasSymbol ? Symbol(name) : name
+export const makeSymbol = (name: string): symbol | string =>
+  hasSymbol ? Symbol(name) : name
 
 export const generateFormatCacheKey = (
   locale: string,
@@ -136,10 +137,12 @@ export const isString = (val: unknown): val is string => typeof val === 'string'
 export const isBoolean = (val: unknown): val is boolean =>
   typeof val === 'boolean'
 export const isSymbol = (val: unknown): val is symbol => typeof val === 'symbol'
-export const isObject = (val: unknown): val is Record<any, any> => // eslint-disable-line
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const isObject = (val: unknown): val is Record<any, any> =>
   val !== null && typeof val === 'object'
 
-export const isPromise = <T = any>(val: unknown): val is Promise<T> => { // eslint-disable-line
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const isPromise = <T = any>(val: unknown): val is Promise<T> => {
   return isObject(val) && isFunction(val.then) && isFunction(val.catch)
 }
 
