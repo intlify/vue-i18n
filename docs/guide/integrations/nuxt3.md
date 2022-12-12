@@ -7,8 +7,10 @@ The following is a tutorial on setting up a Nuxt 3 application from the initial 
 :::warning NOTICE
 This Nuxt3 application is set up in this tutorial doesn't support advanced i18n, such as URL (routing), SEO with `head` tag, and `lang` attribute in `html`tag.
 
-To support for Nuxt 3 & Nuxt Bridge in [nuxtjs/i18n](https://i18n.nuxtjs.org/) is currently under development with Nuxt community.
-See the about GitHub Discussion is [here](https://github.com/nuxt-community/i18n-module/discussions/1287)
+Support for Nuxt 3 & Nuxt Bridge in [nuxtjs/i18n](https://i18n.nuxtjs.org/) is currently under development with Nuxt community.
+You can check out the status of development and docs at[v8.i18n.nuxtjs.org](https://v8.i18n.nuxtjs.org/)
+
+See the GitHub Discussion [here](https://github.com/nuxt-community/i18n-module/discussions/1287)
 :::
 
 If you go through this tutorial, you can learn how to integrate Vue I18n with Nuxt plugin.
@@ -17,7 +19,7 @@ If you go through this tutorial, you can learn how to integrate Vue I18n with Nu
 
 Node.js requirement for this tutorial is the same environment as Nuxt 3.
 
-Please check [here](https://v3.nuxtjs.org/getting-started/quick-start#prerequisites) for Node.js version of Nuxt 3.
+Please check [here](https://nuxt.com/docs/getting-started/installation#prerequisites) for Node.js version of Nuxt 3.
 
 ## Example codes
 
