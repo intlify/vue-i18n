@@ -10,9 +10,9 @@
     "img": "plaid.svg"
   }],
   "gold": [{
-    "name": "NuxtJS",
-    "url": "https://nuxtjs.org/",
-    "img": "nuxt.png"
+    "name": "NuxtLabs",
+    "url": "https://nuxtlabs.com/",
+    "img": "nuxtlabs.svg"
   }, {
     "name": "RapidAPI",
     "url": "https://rapidapi.com/",

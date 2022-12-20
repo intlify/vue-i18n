@@ -42,16 +42,16 @@ You can join them in supporting vue-i18n & Intlify project development by [pledg
 
 <p align="center">
   <a
-    href="https://nuxtjs.org/"
+    href="https://nuxtlabs.com/"
     style="margin: 1rem 1rem 0 1rem; width: 15rem; height: auto; display: inline-block; vertical-align: middle;"
     target="_blank"
     rel="noopener"
   >
     <img
       style="max-width: 100%; vertical-align: midele;"
-      src="https://raw.githubusercontent.com/intlify/vue-i18n-next/master/docs/public/nuxt.png"
+      src="https://raw.githubusercontent.com/intlify/vue-i18n-next/master/docs/public/nuxtlabs.svg"
       width="260px"
-      alt="Nuxt.js"
+      alt="NuxtLabs"
     >
   </a>
 </p>

@@ -38,10 +38,10 @@ Vue I18n is part of the Vue Ecosystem and Intlify Project is an open source proj
 
 <p align="center">
   <a
-    href="https://nuxtjs.org/"
+    href="https://nuxtlabs.com/"
     target="_blank">
     <img
-      src="https://raw.githubusercontent.com/intlify/vue-i18n-next/master/docs/public/nuxt.png"
+      src="https://raw.githubusercontent.com/intlify/vue-i18n-next/master/docs/public/nuxtlabs.svg"
       width="240px"
     />
   </a>
