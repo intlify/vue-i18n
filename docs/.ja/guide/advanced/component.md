@@ -100,7 +100,7 @@ Is interpolated with `term` locale message.
 In the above example, the component interpolation follows the **list interpolation**. The children of translation component are interpolated by their order of appearance.
 
 <!-- textlint-disable -->
-You can choose the root node element type by specifying a `tag` prop. If omitted, it defaults to [Fragments](https://v3.vuejs.org/guide/migration/fragments.html#overview).
+You can choose the root node element type by specifying a `tag` prop. If omitted, it defaults to [Fragments](https://v3-migration.vuejs.org/new/fragments.html).
 <!-- textlint-enable -->
 
 ## Slots syntax usage

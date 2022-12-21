@@ -43,7 +43,7 @@ const app = createApp({
 app.use(i18n)
 ```
 
-**Reason**: Vue 3 [Global API changes](https://v3.vuejs.org/guide/migration/global-api.html#a-new-global-api-createapp), and Vue 3 API architecture changes related for component instances.
+**Reason**: Vue 3 [Global API changes](https://v3-migration.vuejs.org/breaking-changes/global-api.html), and Vue 3 API architecture changes related for component instances.
 
 ### Rename to `datetimeFormats` from `dateTimeFormats`
 
