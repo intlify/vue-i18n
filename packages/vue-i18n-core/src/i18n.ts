@@ -91,6 +91,17 @@ declare module 'vue' {
   }
 }
 
+// internal Component Instance API isCE
+declare module '@vue/runtime-core' {
+  export interface ComponentInternalInstance {
+    /**
+     * @internal
+     * is custom element?
+     */
+    isCE?: boolean
+  }
+}
+
 // for bridge
 let _legacyVueI18n: any = /* #__PURE__*/ null // eslint-disable-line @typescript-eslint/no-explicit-any
 
@@ -794,7 +805,6 @@ export function useI18n<
   NonNullable<Options['numberFormats']>,
   NonNullable<Options['locale']>
 >
-
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export function useI18n<
   Options extends UseI18nOptions = UseI18nOptions,

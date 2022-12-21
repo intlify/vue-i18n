@@ -9,6 +9,7 @@ Array [
     "appContext": null,
     "children": "hello",
     "component": null,
+    "ctx": null,
     "dirs": null,
     "dynamicChildren": null,
     "dynamicProps": null,
