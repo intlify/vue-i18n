@@ -17,7 +17,7 @@ If you go through this tutorial, you can learn how to integrate Vue I18n with Nu
 
 Node.js requirement for this tutorial is the same environment as Nuxt 3.
 
-Please check [here](https://v3.nuxtjs.org/getting-started/quick-start#prerequisites) for Node.js version of Nuxt 3.
+Please check [here](https://nuxt.com/docs/getting-started/installation#prerequisites) for Node.js version of Nuxt 3.
 
 ## Example codes
 
@@ -178,7 +178,7 @@ touch locales/ja.json # for japanese
 
 And more then, We will have saved each created locale resource file for each language as follows:
 
-For english at `locales/en.json`: 
+For english at `locales/en.json`:
 ```json
 {
   "hello": "Hello, {name}!",
@@ -186,7 +186,7 @@ For english at `locales/en.json`:
 }
 ```
 
-For french at `locales/fr.json`: 
+For french at `locales/fr.json`:
 ```json
 {
   "hello": "Bonjour, {name}!",
@@ -194,7 +194,7 @@ For french at `locales/fr.json`:
 }
 ```
 
-For japanese at `locales/ja.json`: 
+For japanese at `locales/ja.json`:
 ```json
 {
   "hello": "こんにちは、{name}！",
@@ -213,7 +213,7 @@ And then, change `plugins/i18n.ts` as follows:
 +import en from '../locales/en.json'
 +import fr from '../locales/fr.json'
 +import ja from '../locales/ja.json'
- 
+
  export default defineNuxtPlugin(({ vueApp }) => {
    const i18n = createI18n({
      legacy: false,
@@ -228,7 +228,7 @@ And then, change `plugins/i18n.ts` as follows:
 +      ja
      }
    })
- 
+
    vueApp.use(i18n)
  })
 ```
@@ -266,8 +266,8 @@ Configure `nuxt.config.ts` like the below:
 +import { resolve, dirname } from 'node:path'
 +import { fileURLToPath } from 'url'
 +import VueI18nVitePlugin from '@intlify/unplugin-vue-i18n/vite'
- 
- // https://v3.nuxtjs.org/api/configuration/nuxt.config
+
+ // https://nuxt.com/docs/api/configuration/nuxt-config
  export default defineNuxtConfig({
 +  vite: {
 +    plugins: [
