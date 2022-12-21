@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-// allow any in error
 /**
  * @jest-environment jsdom
  */
@@ -37,7 +35,8 @@ import {
 import type { I18n } from '../src/i18n'
 import type { VueI18n } from '../src/legacy'
 import type { App } from 'vue'
-
+/* eslint-disable @typescript-eslint/no-explicit-any */
+// allow any in error
 const container = document.createElement('div')
 document.body.appendChild(container)
 
