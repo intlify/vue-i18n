@@ -136,7 +136,7 @@ function pluralDefault(choice: number, choicesLength: number): number {
   return choice ? Math.min(choice, 2) : 0
 }
 
-function getPluralIndex<T>(options: MessageContextOptions<T>): number {
+function getPluralIndex<T, N>(options: MessageContextOptions<T, N>): number {
   // prettier-ignore
   const index = isNumber(options.pluralIndex)
 	  ? options.pluralIndex
@@ -164,7 +164,6 @@ export function createMessageContext<T = string, N = {}>(
   options: MessageContextOptions<T, N> = {}
 ): MessageContext<T> {
   const locale = options.locale
-
   const pluralIndex = getPluralIndex(options)
   const pluralRule =
     isObject(options.pluralRules) &&

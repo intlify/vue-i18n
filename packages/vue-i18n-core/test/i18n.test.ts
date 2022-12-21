@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+// allow any in error
 /**
  * @jest-environment jsdom
  */
@@ -349,7 +351,7 @@ describe('useI18n', () => {
     let error = ''
     try {
       useI18n({})
-    } catch (e) {
+    } catch (e: any) {
       error = e.message
     }
     expect(error).toEqual(errorMessages[I18nErrorCodes.MUST_BE_CALL_SETUP_TOP])
@@ -371,7 +373,7 @@ describe('useI18n', () => {
       setup() {
         try {
           useI18n({})
-        } catch (e) {
+        } catch (e: any) {
           error = e.message
         }
         return {}
@@ -408,7 +410,7 @@ describe('useI18n', () => {
                     }
                   }
                 })
-              } catch (e) {
+              } catch (e: any) {
                 error = e.message
               }
               return {}
@@ -582,7 +584,7 @@ describe('useI18n', () => {
             setup() {
               try {
                 useI18n({ useScope: 'local' })
-              } catch (e) {
+              } catch (e: any) {
                 error = e.message
               }
               return {}
@@ -713,7 +715,7 @@ describe('useI18n', () => {
       setup() {
         try {
           useI18n()
-        } catch (e) {
+        } catch (e: any) {
           error = e.message
         }
         return () => h('div')
@@ -1320,7 +1322,7 @@ describe('castToVueI18n', () => {
     let error
     try {
       castToVueI18n(mockVueI18n)
-    } catch (e) {
+    } catch (e: any) {
       error = e.message
     }
     expect(error).toEqual(
@@ -1335,7 +1337,7 @@ describe('release global scope', () => {
     let error = ''
     try {
       i18n = createI18n({})
-    } catch (e) {
+    } catch (e: any) {
       error = e.message
     } finally {
       i18n!.dispose()
@@ -1354,7 +1356,7 @@ describe('release global scope', () => {
       })
       const wrapper = await mount({ template: '<p>unmound</p>' }, i18n)
       app = wrapper.app
-    } catch (e) {
+    } catch (e: any) {
       error = e.message
     } finally {
       app!.unmount()

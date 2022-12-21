@@ -105,7 +105,7 @@ export const Translation = /* #__PURE__*/ /* defineComponent */ {
       (useI18n({
         useScope: props.scope as 'global' | 'parent',
         __useComponent: true
-      }) as Composer & ComposerInternal)
+      }) as unknown as Composer & ComposerInternal)
 
     return (): VNodeChild => {
       const keys = Object.keys(slots).filter(key => key !== '_')

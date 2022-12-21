@@ -1,7 +1,8 @@
 /**
  * @jest-environment jsdom
  */
-
+/* eslint-disable @typescript-eslint/no-explicit-any */
+// allow any in error
 /* eslint-disable @typescript-eslint/no-empty-function */
 
 // utils
@@ -245,7 +246,7 @@ describe('errors', () => {
     let error: Error | null = null
     try {
       await mount(App, i18n)
-    } catch (e) {
+    } catch (e: any) {
       error = e
     }
     expect(error!.message).toEqual(
@@ -274,7 +275,7 @@ describe('errors', () => {
     let error: Error | null = null
     try {
       await mount(App, i18n)
-    } catch (e) {
+    } catch (e: any) {
       error = e
     }
     expect(error!.message).toEqual(errorMessages[I18nErrorCodes.INVALID_VALUE])

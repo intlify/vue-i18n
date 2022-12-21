@@ -79,7 +79,9 @@ export interface Formatter {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   interpolate(message: string, values: any, path: string): Array<any> | null
 }
-export type ComponentInstanceCreatedListener = <Messages>(
+export type ComponentInstanceCreatedListener = <
+  Messages extends Record<string, any>
+>(
   target: VueI18n<Messages>,
   global: VueI18n<Messages>
 ) => void
@@ -410,7 +412,7 @@ export interface VueI18nOptions<
  * @VueI18nLegacy
  */
 export interface VueI18nTranslation<
-  Messages = {},
+  Messages extends Record<string, any> = {},
   Locales = 'en-US',
   DefinedLocaleMessage extends RemovedIndexResources<DefineLocaleMessage> = RemovedIndexResources<DefineLocaleMessage>,
   C = IsEmptyObject<DefinedLocaleMessage> extends false
@@ -553,7 +555,7 @@ export type VueI18nResolveLocaleMessageTranslation<Locales = 'en-US'> =
  * @VueI18nLegacy
  */
 export interface VueI18nTranslationChoice<
-  Messages = {},
+  Messages extends Record<string, any> = {},
   Locales = 'en-US',
   DefinedLocaleMessage extends RemovedIndexResources<DefineLocaleMessage> = RemovedIndexResources<DefineLocaleMessage>,
   C = IsEmptyObject<DefinedLocaleMessage> extends false
@@ -708,7 +710,7 @@ export interface VueI18nTranslationChoice<
  * @VueI18nLegacy
  */
 export interface VueI18nDateTimeFormatting<
-  DateTimeFormats = {},
+  DateTimeFormats extends Record<string, any> = {},
   Locales = 'en-US',
   DefinedDateTimeFormat extends RemovedIndexResources<DefineDateTimeFormat> = RemovedIndexResources<DefineDateTimeFormat>,
   C = IsEmptyObject<DefinedDateTimeFormat> extends false
@@ -802,7 +804,7 @@ export interface VueI18nDateTimeFormatting<
  * @VueI18nLegacy
  */
 export interface VueI18nNumberFormatting<
-  NumberFormats = {},
+  NumberFormats extends Record<string, any> = {},
   Locales = 'en-US',
   DefinedNumberFormat extends RemovedIndexResources<DefineNumberFormat> = RemovedIndexResources<DefineNumberFormat>,
   C = IsEmptyObject<DefinedNumberFormat> extends false
@@ -896,9 +898,9 @@ export interface VueI18nNumberFormatting<
  *  @VueI18nLegacy
  */
 export interface VueI18n<
-  Messages = {},
-  DateTimeFormats = {},
-  NumberFormats = {},
+  Messages extends Record<string, any> = {},
+  DateTimeFormats extends Record<string, any> = {},
+  NumberFormats extends Record<string, any> = {},
   OptionLocale = Locale,
   ResourceLocales =
     | PickupLocales<NonNullable<Messages>>
@@ -1293,9 +1295,9 @@ export interface VueI18n<
  * @internal
  */
 export interface VueI18nInternal<
-  Messages = {},
-  DateTimeFormats = {},
-  NumberFormats = {}
+  Messages extends Record<string, any> = {},
+  DateTimeFormats extends Record<string, any> = {},
+  NumberFormats extends Record<string, any> = {}
 > {
   __composer: Composer<Messages, DateTimeFormats, NumberFormats>
   __onComponentInstanceCreated(
@@ -1311,9 +1313,9 @@ export interface VueI18nInternal<
  * @internal
  */
 function convertComposerOptions<
-  Messages = {},
-  DateTimeFormats = {},
-  NumberFormats = {}
+  Messages extends Record<string, any> = {},
+  DateTimeFormats extends Record<string, any> = {},
+  NumberFormats extends Record<string, any> = {}
 >(
   options: VueI18nOptions &
     ComposerInternalOptions<Messages, DateTimeFormats, NumberFormats>
@@ -1404,11 +1406,22 @@ function convertComposerOptions<
 
 export function createVueI18n<
   Options extends VueI18nOptions = VueI18nOptions,
-  Messages = Options['messages'] extends object ? Options['messages'] : {},
-  DateTimeFormats = Options['datetimeFormats'] extends object
+  Messages extends Record<string, any> = Options['messages'] extends Record<
+    string,
+    any
+  >
+    ? Options['messages']
+    : {},
+  DateTimeFormats extends Record<
+    string,
+    any
+  > = Options['datetimeFormats'] extends Record<string, any>
     ? Options['datetimeFormats']
     : {},
-  NumberFormats = Options['numberFormats'] extends object
+  NumberFormats extends Record<
+    string,
+    any
+  > = Options['numberFormats'] extends Record<string, any>
     ? Options['numberFormats']
     : {}
 >(
@@ -1426,11 +1439,22 @@ export function createVueI18n<
     SchemaParams<Schema, VueMessageType>,
     LocaleParams<Locales>
   >,
-  Messages = Options['messages'] extends object ? Options['messages'] : {},
-  DateTimeFormats = Options['datetimeFormats'] extends object
+  Messages extends Record<string, any> = Options['messages'] extends Record<
+    string,
+    any
+  >
+    ? Options['messages']
+    : {},
+  DateTimeFormats extends Record<
+    string,
+    any
+  > = Options['datetimeFormats'] extends Record<string, any>
     ? Options['datetimeFormats']
     : {},
-  NumberFormats = Options['numberFormats'] extends object
+  NumberFormats extends Record<
+    string,
+    any
+  > = Options['numberFormats'] extends Record<string, any>
     ? Options['numberFormats']
     : {}
 >(
@@ -1758,7 +1782,7 @@ export function createVueI18n(options: any = {}, VueI18nLegacy?: any): any {
       },
 
       // for internal
-      __onComponentInstanceCreated(target: VueI18n<Message>): void {
+      __onComponentInstanceCreated(target: VueI18n<{}>): void {
         const { componentInstanceCreatedListener } = options
         if (componentInstanceCreatedListener) {
           componentInstanceCreatedListener(target, vueI18n)

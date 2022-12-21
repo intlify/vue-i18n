@@ -56,8 +56,10 @@ export const NumberFormat = /* #__PURE__*/ /* defineComponent */ {
   setup(props: any, context: any): any {
     const i18n =
       props.i18n ||
-      (useI18n({ useScope: 'parent', __useComponent: true }) as Composer &
-        ComposerInternal)
+      (useI18n({
+        useScope: 'parent',
+        __useComponent: true
+      }) as unknown as Composer & ComposerInternal)
 
     return renderFormatter<
       FormattableProps<number, Intl.NumberFormatOptions>,

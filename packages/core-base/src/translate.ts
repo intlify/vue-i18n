@@ -158,7 +158,7 @@ export interface TranslateOptions<Locales = Locale> {
  */
 
 export function translate<
-  Context extends CoreContext<Message, Context['messages'], {}, {}>,
+  Context extends CoreContext<Message>,
   Key extends string = string,
   ResourceKeys extends PickupKeys<Context['messages']> = PickupKeys<
     Context['messages']
@@ -170,7 +170,7 @@ export function translate<
 ): MessageType<Message> | number
 
 export function translate<
-  Context extends CoreContext<Message, Context['messages'], {}, {}>,
+  Context extends CoreContext<Message, {}, {}, {}>,
   Key extends string = string,
   ResourceKeys extends PickupKeys<Context['messages']> = PickupKeys<
     Context['messages']
@@ -183,7 +183,7 @@ export function translate<
 ): MessageType<Message> | number
 
 export function translate<
-  Context extends CoreContext<Message, Context['messages'], {}, {}>,
+  Context extends CoreContext<Message, {}, {}, {}>,
   Key extends string = string,
   ResourceKeys extends PickupKeys<Context['messages']> = PickupKeys<
     Context['messages']
@@ -197,7 +197,7 @@ export function translate<
 ): MessageType<Message> | number
 
 export function translate<
-  Context extends CoreContext<Message, Context['messages'], {}, {}>,
+  Context extends CoreContext<Message, {}, {}, {}>,
   Key extends string = string,
   ResourceKeys extends PickupKeys<Context['messages']> = PickupKeys<
     Context['messages']
@@ -210,7 +210,7 @@ export function translate<
 ): MessageType<Message> | number
 
 export function translate<
-  Context extends CoreContext<Message, Context['messages'], {}, {}>,
+  Context extends CoreContext<Message, {}, {}, {}>,
   Key extends string = string,
   ResourceKeys extends PickupKeys<Context['messages']> = PickupKeys<
     Context['messages']
@@ -224,7 +224,7 @@ export function translate<
 ): MessageType<Message> | number
 
 export function translate<
-  Context extends CoreContext<Message, Context['messages'], {}, {}>,
+  Context extends CoreContext<Message, {}, {}, {}>,
   Key extends string = string,
   ResourceKeys extends PickupKeys<Context['messages']> = PickupKeys<
     Context['messages']
@@ -237,7 +237,7 @@ export function translate<
 ): MessageType<Message> | number
 
 export function translate<
-  Context extends CoreContext<Message, Context['messages'], {}, {}>,
+  Context extends CoreContext<Message, {}, {}, {}>,
   Key extends string = string,
   ResourceKeys extends PickupKeys<Context['messages']> = PickupKeys<
     Context['messages']
@@ -251,7 +251,7 @@ export function translate<
 ): MessageType<Message> | number
 
 export function translate<
-  Context extends CoreContext<Message, Context['messages'], {}, {}>,
+  Context extends CoreContext<Message, {}, {}, {}>,
   Key extends string = string,
   ResourceKeys extends PickupKeys<Context['messages']> = PickupKeys<
     Context['messages']
@@ -265,7 +265,7 @@ export function translate<
 ): MessageType<Message> | number
 
 export function translate<
-  Context extends CoreContext<Message, Context['messages'], {}, {}>,
+  Context extends CoreContext<Message, {}, {}, {}>,
   Key extends string = string,
   ResourceKeys extends PickupKeys<Context['messages']> = PickupKeys<
     Context['messages']
@@ -279,7 +279,7 @@ export function translate<
 ): MessageType<Message> | number
 
 export function translate<
-  Context extends CoreContext<Message, Context['messages'], {}, {}>,
+  Context extends CoreContext<Message, {}, {}, {}>,
   Key extends string = string,
   ResourceKeys extends PickupKeys<Context['messages']> = PickupKeys<
     Context['messages']
@@ -292,7 +292,7 @@ export function translate<
 ): MessageType<Message> | number
 
 export function translate<
-  Context extends CoreContext<Message, Context['messages'], {}, {}>,
+  Context extends CoreContext<Message, {}, {}, {}>,
   Key extends string = string,
   ResourceKeys extends PickupKeys<Context['messages']> = PickupKeys<
     Context['messages']
@@ -306,7 +306,7 @@ export function translate<
 ): MessageType<Message> | number
 
 export function translate<
-  Context extends CoreContext<Message, Context['messages'], {}, {}>,
+  Context extends CoreContext<Message, {}, {}, {}>,
   Key extends string = string,
   ResourceKeys extends PickupKeys<Context['messages']> = PickupKeys<
     Context['messages']
@@ -320,7 +320,7 @@ export function translate<
 ): MessageType<Message> | number
 
 export function translate<
-  Context extends CoreContext<Message, Context['messages'], {}, {}>,
+  Context extends CoreContext<Message, {}, {}, {}>,
   Key extends string = string,
   ResourceKeys extends PickupKeys<Context['messages']> = PickupKeys<
     Context['messages']
@@ -335,7 +335,7 @@ export function translate<
 
 // implementation of `translate` function
 export function translate<
-  Context extends CoreContext<Message, Context['messages'], {}, {}>,
+  Context extends CoreContext<Message, {}, {}, {}>,
   Message = string
 >(context: Context, ...args: unknown[]): MessageType<Message> | number {
   const {
