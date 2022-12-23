@@ -1,4 +1,27 @@
 
+## v9.3.0-beta.11 (2022-12-23)
+
+#### :star: Features
+* `shared`
+  * [#1261](https://github.com/intlify/vue-i18n-next/pull/1261) feat(shared): sharable symbol ([@kazupon](https://github.com/kazupon))
+
+#### :zap: Improvement Features
+* `core-base`, `shared`, `vue-i18n-core`
+  * [#1277](https://github.com/intlify/vue-i18n-next/pull/1277) fix: update typescript version and fix type error ([@littleboarx](https://github.com/littleboarx))
+
+#### :pencil: Documentation
+* [#1266](https://github.com/intlify/vue-i18n-next/pull/1266) Fixed Links, added up-to-date link to v3 docs ([@maxtaube](https://github.com/maxtaube))
+* [#1275](https://github.com/intlify/vue-i18n-next/pull/1275) docs: update links ([@huynl-96](https://github.com/huynl-96))
+* [#1245](https://github.com/intlify/vue-i18n-next/pull/1245) Docs: search for "useI18n" yields non-existing /ja/api/composition.html  ([@Jinyoung-s](https://github.com/Jinyoung-s))
+
+#### Committers: 5
+- Jinyoung So ([@Jinyoung-s](https://github.com/Jinyoung-s))
+- Levi (Nguyễn Lương Huy) ([@huynl-96](https://github.com/huynl-96))
+- Maximilian Taube ([@maxtaube](https://github.com/maxtaube))
+- [@littleboarx](https://github.com/littleboarx)
+- kazuya kawaguchi ([@kazupon](https://github.com/kazupon))
+
+
 ## v9.3.0-beta.10 (2022-11-21)
 
 #### :bug: Bug Fixes
