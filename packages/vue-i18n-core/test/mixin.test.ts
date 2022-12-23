@@ -281,7 +281,7 @@ describe.skip('errors', () => {
     try {
       await mount(App, i18n)
     } catch (e) {
-      error = e
+      error = e as Error
     }
     expect(error!.message).toEqual(
       errorMessages[I18nErrorCodes.UNEXPECTED_ERROR]

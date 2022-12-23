@@ -554,9 +554,9 @@ export interface ComposerOptions<
  * @internal
  */
 export interface ComposerInternalOptions<
-  Messages = {},
-  DateTimeFormats = {},
-  NumberFormats = {}
+  Messages extends Record<string, any> = {},
+  DateTimeFormats extends Record<string, any> = {},
+  NumberFormats extends Record<string, any> = {}
 > {
   __i18n?: CustomBlocks<VueMessageType>
   __i18nGlobal?: CustomBlocks<VueMessageType>
@@ -573,7 +573,7 @@ export interface ComposerInternalOptions<
  * @VueI18nComposition
  */
 export interface ComposerTranslation<
-  Messages = {},
+  Messages extends Record<string, any> = {},
   Locales = 'en-US',
   DefinedLocaleMessage extends RemovedIndexResources<DefineLocaleMessage> = RemovedIndexResources<DefineLocaleMessage>,
   C = IsEmptyObject<DefinedLocaleMessage> extends false
@@ -917,7 +917,7 @@ export interface ComposerResolveLocaleMessageTranslation<Locales = 'en-US'> {
  * @VueI18nComposition
  */
 export interface ComposerDateTimeFormatting<
-  DateTimeFormats = {},
+  DateTimeFormats extends Record<string, any> = {},
   Locales = 'en-US',
   DefinedDateTimeFormat extends RemovedIndexResources<DefineDateTimeFormat> = RemovedIndexResources<DefineDateTimeFormat>,
   C = IsEmptyObject<DefinedDateTimeFormat> extends false
@@ -1006,7 +1006,7 @@ export interface ComposerDateTimeFormatting<
  * @VueI18nComposition
  */
 export interface ComposerNumberFormatting<
-  NumberFormats = {},
+  NumberFormats extends Record<string, any> = {},
   Locales = 'en-US',
   DefinedNumberFormat extends RemovedIndexResources<DefineNumberFormat> = RemovedIndexResources<DefineNumberFormat>,
   C = IsEmptyObject<DefinedNumberFormat> extends false
@@ -1119,9 +1119,9 @@ export interface ComposerCustom {} // eslint-disable-line @typescript-eslint/no-
  * @VueI18nComposition
  */
 export interface Composer<
-  Messages = {},
-  DateTimeFormats = {},
-  NumberFormats = {},
+  Messages extends Record<string, any> = {},
+  DateTimeFormats extends Record<string, any> = {},
+  NumberFormats extends Record<string, any> = {},
   OptionLocale = Locale,
   ResourceLocales =
     | PickupLocales<NonNullable<Messages>>
@@ -1717,11 +1717,22 @@ const getMetaInfo = /* #__PURE__*/ (): MetaInfo | null => {
 
 export function createComposer<
   Options extends ComposerOptions = ComposerOptions,
-  Messages = Options['messages'] extends object ? Options['messages'] : {},
-  DateTimeFormats = Options['datetimeFormats'] extends object
+  Messages extends Record<string, any> = Options['messages'] extends Record<
+    string,
+    any
+  >
+    ? Options['messages']
+    : {},
+  DateTimeFormats extends Record<
+    string,
+    any
+  > = Options['datetimeFormats'] extends Record<string, any>
     ? Options['datetimeFormats']
     : {},
-  NumberFormats = Options['numberFormats'] extends object
+  NumberFormats extends Record<
+    string,
+    any
+  > = Options['numberFormats'] extends Record<string, any>
     ? Options['numberFormats']
     : {}
 >(
@@ -1739,11 +1750,22 @@ export function createComposer<
     SchemaParams<Schema, VueMessageType>,
     LocaleParams<Locales>
   >,
-  Messages = Options['messages'] extends object ? Options['messages'] : {},
-  DateTimeFormats = Options['datetimeFormats'] extends object
+  Messages extends Record<string, any> = Options['messages'] extends Record<
+    string,
+    any
+  >
+    ? Options['messages']
+    : {},
+  DateTimeFormats extends Record<
+    string,
+    any
+  > = Options['datetimeFormats'] extends Record<string, any>
     ? Options['datetimeFormats']
     : {},
-  NumberFormats = Options['numberFormats'] extends object
+  NumberFormats extends Record<
+    string,
+    any
+  > = Options['numberFormats'] extends Record<string, any>
     ? Options['numberFormats']
     : {}
 >(
@@ -2052,7 +2074,7 @@ export function createComposer(options: any = {}, VueI18nLegacy?: any): any {
     return type !== 'translate' || !arg.resolvedMessage
   }
 
-  const wrapWithDeps = <T, U = T>(
+  const wrapWithDeps = <T extends Record<string, any>, U = T>(
     fn: (context: unknown) => unknown,
     argumentParser: () => unknown[],
     warnType: ComposerWarnType,
@@ -2128,7 +2150,7 @@ export function createComposer(options: any = {}, VueI18nLegacy?: any): any {
 
   // t
   function t(...args: unknown[]): string {
-    return wrapWithDeps<string>(
+    return wrapWithDeps<{}, string>(
       context => Reflect.apply(translate, null, [context, ...args]) as string,
       () => parseTranslateArgs(...args),
       'translate',
@@ -2149,7 +2171,7 @@ export function createComposer(options: any = {}, VueI18nLegacy?: any): any {
 
   // d
   function d(...args: unknown[]): string {
-    return wrapWithDeps<string>(
+    return wrapWithDeps<{}, string>(
       context => Reflect.apply(datetime, null, [context, ...args]) as string,
       () => parseDateTimeArgs(...args),
       'datetime format',
@@ -2161,7 +2183,7 @@ export function createComposer(options: any = {}, VueI18nLegacy?: any): any {
 
   // n
   function n(...args: unknown[]): string {
-    return wrapWithDeps<string>(
+    return wrapWithDeps<{}, string>(
       context => Reflect.apply(number, null, [context, ...args]) as string,
       () => parseNumberArgs(...args),
       'number format',
@@ -2216,7 +2238,7 @@ export function createComposer(options: any = {}, VueI18nLegacy?: any): any {
 
   // numberParts, using for `i18n-n` component
   function numberParts(...args: unknown[]): string | Intl.NumberFormatPart[] {
-    return wrapWithDeps<string | Intl.NumberFormatPart[]>(
+    return wrapWithDeps<{}, string | Intl.NumberFormatPart[]>(
       context => Reflect.apply(number, null, [context, ...args]),
       () => parseNumberArgs(...args),
       'number format',
@@ -2231,7 +2253,7 @@ export function createComposer(options: any = {}, VueI18nLegacy?: any): any {
   function datetimeParts(
     ...args: unknown[]
   ): string | Intl.DateTimeFormatPart[] {
-    return wrapWithDeps<string | Intl.DateTimeFormatPart[]>(
+    return wrapWithDeps<{}, string | Intl.DateTimeFormatPart[]>(
       context => Reflect.apply(datetime, null, [context, ...args]),
       () => parseDateTimeArgs(...args),
       'datetime format',

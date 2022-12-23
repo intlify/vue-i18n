@@ -14,14 +14,18 @@ export let measure: (
 
 if (__DEV__) {
   const perf = inBrowser && window.performance
+
   if (
     perf &&
     perf.mark &&
     perf.measure &&
     perf.clearMarks &&
+    // @ts-ignore browser compat
     perf.clearMeasures
   ) {
-    mark = (tag: string): void => perf.mark(tag)
+    mark = (tag: string): void => {
+      perf.mark(tag)
+    }
     measure = (name: string, startTag: string, endTag: string): void => {
       perf.measure(name, startTag, endTag)
       perf.clearMarks(startTag)

@@ -87,7 +87,10 @@ export function defineMixin(
               options.i18n.messages = localeMessages
             } catch (e) {
               if (__DEV__) {
-                warn(`Cannot parse locale messages via custom blocks.`, e)
+                warn(
+                  `Cannot parse locale messages via custom blocks.`,
+                  e as Error
+                )
               }
             }
           }

@@ -91,6 +91,17 @@ declare module 'vue' {
   }
 }
 
+// internal Component Instance API isCE
+declare module '@vue/runtime-core' {
+  export interface ComponentInternalInstance {
+    /**
+     * @internal
+     * is custom element?
+     */
+    isCE?: boolean
+  }
+}
+
 // for bridge
 let _legacyVueI18n: any = /* #__PURE__*/ null // eslint-disable-line @typescript-eslint/no-explicit-any
 
@@ -191,9 +202,9 @@ export type I18nMode = 'legacy' | 'composition'
  * @VueI18nGeneral
  */
 export interface I18n<
-  Messages = {},
-  DateTimeFormats = {},
-  NumberFormats = {},
+  Messages extends Record<string, unknown> = {},
+  DateTimeFormats extends Record<string, unknown> = {},
+  NumberFormats extends Record<string, unknown> = {},
   OptionLocale = Locale,
   Legacy = boolean
 > {
@@ -254,9 +265,9 @@ type ExtendHooks = {
  * @internal
  */
 export interface I18nInternal<
-  Messages = {},
-  DateTimeFormats = {},
-  NumberFormats = {},
+  Messages extends Record<string, unknown> = {},
+  DateTimeFormats extends Record<string, unknown> = {},
+  NumberFormats extends Record<string, unknown> = {},
   OptionLocale = Locale
 > {
   __instances: Map<
@@ -356,11 +367,22 @@ export const I18nInjectionKey: InjectionKey<I18n> | string =
 export function createI18n<
   Legacy extends boolean = true,
   Options extends I18nOptions = I18nOptions,
-  Messages = Options['messages'] extends object ? Options['messages'] : {},
-  DateTimeFormats = Options['datetimeFormats'] extends object
+  Messages extends Record<string, unknown> = Options['messages'] extends Record<
+    string,
+    unknown
+  >
+    ? Options['messages']
+    : {},
+  DateTimeFormats extends Record<
+    string,
+    unknown
+  > = Options['datetimeFormats'] extends Record<string, unknown>
     ? Options['datetimeFormats']
     : {},
-  NumberFormats = Options['numberFormats'] extends object
+  NumberFormats extends Record<
+    string,
+    unknown
+  > = Options['numberFormats'] extends Record<string, unknown>
     ? Options['numberFormats']
     : {},
   OptionLocale = Options['locale'] extends string ? Options['locale'] : Locale
@@ -459,11 +481,22 @@ export function createI18n<
     SchemaParams<Schema, VueMessageType>,
     LocaleParams<Locales>
   > = I18nOptions<SchemaParams<Schema, VueMessageType>, LocaleParams<Locales>>,
-  Messages = Options['messages'] extends object ? Options['messages'] : {},
-  DateTimeFormats = Options['datetimeFormats'] extends object
+  Messages extends Record<string, unknown> = Options['messages'] extends Record<
+    string,
+    unknown
+  >
+    ? Options['messages']
+    : {},
+  DateTimeFormats extends Record<
+    string,
+    unknown
+  > = Options['datetimeFormats'] extends Record<string, unknown>
     ? Options['datetimeFormats']
     : {},
-  NumberFormats = Options['numberFormats'] extends object
+  NumberFormats extends Record<
+    string,
+    unknown
+  > = Options['numberFormats'] extends Record<string, unknown>
     ? Options['numberFormats']
     : {},
   OptionLocale = Options['locale'] extends string ? Options['locale'] : Locale
@@ -772,13 +805,16 @@ export function useI18n<
   NonNullable<Options['numberFormats']>,
   NonNullable<Options['locale']>
 >
-
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export function useI18n<
   Options extends UseI18nOptions = UseI18nOptions,
-  Messages = NonNullable<Options['messages']>,
-  DateTimeFormats = NonNullable<Options['datetimeFormats']>,
-  NumberFormats = NonNullable<Options['numberFormats']>,
+  Messages extends Record<string, unknown> = NonNullable<Options['messages']>,
+  DateTimeFormats extends Record<string, unknown> = NonNullable<
+    Options['datetimeFormats']
+  >,
+  NumberFormats extends Record<string, unknown> = NonNullable<
+    Options['numberFormats']
+  >,
   OptionLocale = NonNullable<Options['locale']>
 >(options: Options = {} as Options) {
   const instance = getCurrentInstance()
@@ -817,7 +853,7 @@ export function useI18n<
 
   if (scope === 'global') {
     adjustI18nResources(global, options, componentOptions)
-    return global as Composer<
+    return global as unknown as Composer<
       Messages,
       DateTimeFormats,
       NumberFormats,
@@ -834,7 +870,7 @@ export function useI18n<
       }
       composer = global as unknown as Composer
     }
-    return composer as Composer<
+    return composer as unknown as Composer<
       Messages,
       DateTimeFormats,
       NumberFormats,
@@ -865,7 +901,7 @@ export function useI18n<
     i18nInternal.__setInstance(instance, composer)
   }
 
-  return composer as Composer<
+  return composer as unknown as Composer<
     Messages,
     DateTimeFormats,
     NumberFormats,

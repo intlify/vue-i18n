@@ -61,7 +61,7 @@ export type LocaleMessageType<T, Message = string> = T extends string
     ? LocaleMessageDictionary<P, Message>
     : T extends (...args: infer Arguments) => any
       ? (...args: Arguments) => ReturnType<T>
-      : T extends Record<string, any>
+      : T extends Record<string, unknown>
         ? LocaleMessageDictionary<T, Message>
         : T extends Array<T>
           ? { [K in keyof T]: T[K] }
@@ -107,7 +107,7 @@ export type MessageCompiler<Message = string> = (
 // prettier-ignore
 export interface CoreOptions<
   Message = string,
-  Schema extends 
+  Schema extends
     {
       message?: unknown
       datetime?: unknown

@@ -109,7 +109,7 @@ export interface DateTimeOptions<Key = string, Locales = Locale>
  */
 
 export function datetime<
-  Context extends CoreContext<Message, {}, Context['datetimeFormats'], {}>,
+  Context extends CoreContext<Message, {}, {}, {}>,
   Message = string
 >(
   context: Context,
@@ -117,7 +117,7 @@ export function datetime<
 ): string | number | Intl.DateTimeFormatPart[]
 
 export function datetime<
-  Context extends CoreContext<Message, {}, Context['datetimeFormats'], {}>,
+  Context extends CoreContext<Message, {}, {}, {}>,
   Value extends number | string | Date = number,
   Key extends string = string,
   ResourceKeys extends PickupFormatKeys<
@@ -134,7 +134,7 @@ export function datetime<
 ): string | number | Intl.DateTimeFormatPart[]
 
 export function datetime<
-  Context extends CoreContext<Message, {}, Context['datetimeFormats'], {}>,
+  Context extends CoreContext<Message, {}, {}, {}>,
   Value extends number | string | Date = number,
   Key extends string = string,
   ResourceKeys extends PickupFormatKeys<
@@ -152,7 +152,7 @@ export function datetime<
 ): string | number | Intl.DateTimeFormatPart[]
 
 export function datetime<
-  Context extends CoreContext<Message, {}, Context['datetimeFormats'], {}>,
+  Context extends CoreContext<Message, {}, {}, {}>,
   Value extends number | string | Date = number,
   Key extends string = string,
   ResourceKeys extends PickupFormatKeys<
@@ -170,7 +170,7 @@ export function datetime<
 ): string | number | Intl.DateTimeFormatPart[]
 
 export function datetime<
-  Context extends CoreContext<Message, {}, Context['datetimeFormats'], {}>,
+  Context extends CoreContext<Message, {}, {}, {}>,
   Value extends number | string | Date = number,
   Key extends string = string,
   ResourceKeys extends PickupFormatKeys<
@@ -190,7 +190,7 @@ export function datetime<
 
 // implementation of `datetime` function
 export function datetime<
-  Context extends CoreContext<Message, {}, Context['datetimeFormats'], {}>,
+  Context extends CoreContext<Message, {}, {}, {}>,
   Message = string
 >(
   context: Context,

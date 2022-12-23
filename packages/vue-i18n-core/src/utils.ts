@@ -98,11 +98,11 @@ export function getLocaleMessages<Messages = {}>(
   const { messages, __i18n, messageResolver, flatJson } = options
 
   // prettier-ignore
-  const ret = isPlainObject(messages)
+  const ret = (isPlainObject(messages)
     ? messages
     : isArray(__i18n)
       ? {}
-      : { [locale]: {} }
+      : { [locale]: {} } )as Record<string, any>
 
   // merge locale messages of i18n custom block
   if (isArray(__i18n)) {
