@@ -75,8 +75,66 @@ jobs:
           path: packages/*/dist
           key: build-vue-i18n-next-os-${{ matrix.os }}-${{ github.sha }}
 
-  test:
-    name: 'Test on Node.js ${{ matrix.node }} OS: ${{matrix.os}}'
+  test-unit:
+    name: 'Unit test on Node.js ${{ matrix.node }} OS: ${{matrix.os}}'
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        node: [14, 16, 18]
+
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - name: Checkout codes
+        uses: actions/checkout@v3
+
+      - name: Enable corepack
+        run: corepack enable
+
+      - name: Setup node
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node }}
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --no-frozen-lockfile
+
+      - name: Run unit tests
+        run: |
+          pnpm clean:cache:jest
+          pnpm test:cover
+
+  test-type:
+    name: Type checking
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+        node: [16]
+
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - name: Checkout codes
+        uses: actions/checkout@v3
+
+      - name: Enable corepack
+        run: corepack enable
+
+      - name: Setup node
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node }}
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --no-frozen-lockfile
+
+      - name: Run type checking
+        run: pnpm test:type
+
+  test-e2e:
+    name: 'E2E test on Node.js ${{ matrix.node }} OS: ${{matrix.os}}'
 
     needs:
       - build
@@ -110,8 +168,8 @@ jobs:
           path: packages/*/dist
           key: build-vue-i18n-next-os-${{ matrix.os }}-${{ github.sha }}
 
-      - name: Run test
-        run: pnpm test
+      - name: Run e2e tests
+        run: pnpm test:e2e
 
   edge-release:
     if: |
@@ -123,7 +181,9 @@ jobs:
     needs:
       - lint
       - build
-      - test
+      - test-unit
+      - test-type
+      - test-e2e
 
     strategy:
       matrix:

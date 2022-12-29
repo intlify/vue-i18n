@@ -65,7 +65,7 @@ async function loadWorkspaceData(path: string): Promise<string[]> {
 async function loadWorkspace(dir: string, workspaces: string[] = []) {
   const workspacePkg = await loadPackage(dir)
   const workspacesYaml = await loadWorkspaceData(
-    resolve(__dirname, '../pnpm-workspace.yaml')
+    resolve(__dirname, './pnpm-workspace.yaml')
   )
   workspacePkg.data.workspaces = [...workspaces, ...workspacesYaml]
 
