@@ -36,7 +36,7 @@
   "types": "dist/vue-i18n-core.d.ts",
   "dependencies": {
     "@intlify/core-base": "9.3.0-beta.11",
-    "@intlify/shared": "9.3.0-beta.11",
+    "@intlify/shared": "9.3.0-beta.12-1f15ce9",
     "@intlify/vue-devtools": "9.3.0-beta.11",
     "@vue/devtools-api": "^6.2.1"
   },
