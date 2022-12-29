@@ -76,7 +76,7 @@ jobs:
           key: build-vue-i18n-next-os-${{ matrix.os }}-${{ github.sha }}
 
   test-unit:
-    name: 'Unit test on Node.js ${{ matrix.node }} OS: ${{matrix.os}}'
+    name: Unit test
     strategy:
       matrix:
         os: [ubuntu-latest, windows-latest, macos-latest]
@@ -134,7 +134,7 @@ jobs:
         run: pnpm test:type
 
   test-e2e:
-    name: 'E2E test on Node.js ${{ matrix.node }} OS: ${{matrix.os}}'
+    name: E2E test
 
     needs:
       - build
