@@ -42,10 +42,10 @@ jobs:
         run: pnpm lint
 
   build:
-    name: Build
+    name: 'Build on Node.js ${{ matrix.node }} OS: ${{matrix.os}}'
     strategy:
       matrix:
-        os: [ubuntu-latest]
+        os: [ubuntu-latest, windows-latest, macos-latest]
         node: [14, 16, 18]
 
     runs-on: ${{ matrix.os }}
@@ -73,7 +73,7 @@ jobs:
         uses: actions/cache@v3
         with:
           path: packages/*/dist
-          key: ${{ matrix.os }}-node-v${{ matrix.node }}-${{ github.sha }}
+          key: ${{ matrix.os }}-node-v${{ matrix.node }}-os-${{ matrix.os }}-${{ github.sha }}
 
   test:
     name: 'Test on Node.js ${{ matrix.node }} OS: ${{matrix.os}}'
@@ -108,7 +108,7 @@ jobs:
         uses: actions/cache@v3
         with:
           path: packages/*/dist
-          key: ${{ matrix.os }}-node-v${{ matrix.node }}-${{ github.sha }}
+          key: ${{ matrix.os }}-node-v${{ matrix.node }}-os-${{ matrix.os }}-${{ github.sha }}
 
       - name: Run test
         run: pnpm test
@@ -152,7 +152,7 @@ jobs:
         uses: actions/cache@v3
         with:
           path: packages/*/dist
-          key: ${{ matrix.os }}-node-v${{ matrix.node }}-${{ github.sha }}
+          key: ${{ matrix.os }}-node-v${{ matrix.node }}-os-${{ matrix.os }}-${{ github.sha }}
 
       - name: Release edge version
         run: ./scripts/release-edge.sh

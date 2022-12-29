@@ -54,6 +54,7 @@
     "lint:secret": "npx secretlint \"**/*\"",
     "prebuild": "test \"$CI\" = true && npx pnpm install -r --store=node_modules/.pnpm-store || echo skipping pnpm install",
     "preinstall": "node ./scripts/preinstall.js",
+    "release": "bumpp package.json packages/**/package.json --commit \"release: v\" --push --tag",
     "release:prepare": "shipjs prepare",
     "release:trigger": "shipjs trigger",
     "serve:explorer": "cd packages/format-explorer && vite preview",

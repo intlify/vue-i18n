@@ -16,15 +16,13 @@ jobs:
         with:
           ref: ${{ github.head_ref }}
 
+      - name: Enable corepack
+        run: corepack enable
+
       - name: Setup Node
         uses: actions/setup-node@v3
         with:
           node-version: 16.x
-
-      - name: Install pnpm
-        uses: pnpm/action-setup@v2
-        with:
-          version: 7
 
       - name: Install dependencies
         run: pnpm install --no-frozen-lockfile
