@@ -42,11 +42,11 @@ jobs:
         run: pnpm lint
 
   build:
-    name: 'Build on Node.js ${{ matrix.node }} OS: ${{matrix.os}}'
+    name: Build
     strategy:
       matrix:
-        os: [ubuntu-latest, windows-latest, macos-latest]
-        node: [14, 16, 18]
+        os: [ubuntu-latest]
+        node: [16]
 
     runs-on: ${{ matrix.os }}
 
@@ -73,7 +73,7 @@ jobs:
         uses: actions/cache@v3
         with:
           path: packages/*/dist
-          key: ${{ matrix.os }}-node-v${{ matrix.node }}-os-${{ matrix.os }}-${{ github.sha }}
+          key: build-vue-i18n-next-${{ github.sha }}
 
   test:
     name: 'Test on Node.js ${{ matrix.node }} OS: ${{matrix.os}}'
@@ -108,7 +108,7 @@ jobs:
         uses: actions/cache@v3
         with:
           path: packages/*/dist
-          key: ${{ matrix.os }}-node-v${{ matrix.node }}-os-${{ matrix.os }}-${{ github.sha }}
+          key: build-vue-i18n-next-${{ github.sha }}
 
       - name: Run test
         run: pnpm test
@@ -128,7 +128,7 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest]
-        node: [16.x]
+        node: [16]
 
     runs-on: ${{ matrix.os }}
 
@@ -152,7 +152,7 @@ jobs:
         uses: actions/cache@v3
         with:
           path: packages/*/dist
-          key: ${{ matrix.os }}-node-v${{ matrix.node }}-os-${{ matrix.os }}-${{ github.sha }}
+          key: build-vue-i18n-next-${{ github.sha }}
 
       - name: Release edge version
         run: ./scripts/release-edge.sh
