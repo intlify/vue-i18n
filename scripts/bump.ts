@@ -62,19 +62,20 @@ async function loadWorkspaceData(path: string): Promise<string[]> {
   return Array.isArray(data) ? data : []
 }
 
-async function loadWorkspace(dir: string, workspaces: string[] = []) {
+async function loadWorkspace(dir: string, workspaces?: string[]) {
   const workspacePkg = await loadPackage(dir)
-  const workspacesYaml = await loadWorkspaceData(
-    resolve(__dirname, './pnpm-workspace.yaml')
-  )
-  workspacePkg.data.workspaces = [...workspaces, ...workspacesYaml]
+  if (workspaces) {
+    workspacePkg.data.workspaces = [...workspaces]
+  } else {
+    const workspacesYaml = await loadWorkspaceData(
+      resolve(__dirname, './pnpm-workspace.yaml')
+    )
+    workspacePkg.data.workspaces = [...workspacesYaml]
+  }
 
-  const pkgDirs = await globby(
-    [...(workspacePkg.data.workspaces || []), ...workspaces],
-    {
-      onlyDirectories: true
-    }
-  )
+  const pkgDirs = await globby(workspacePkg.data.workspaces, {
+    onlyDirectories: true
+  })
 
   const packages: Package[] = []
 
@@ -132,7 +133,7 @@ async function loadWorkspace(dir: string, workspaces: string[] = []) {
 }
 
 async function main() {
-  const workspace = await loadWorkspace(process.cwd())
+  const workspace = await loadWorkspace(process.cwd(), ['packages/*'])
 
   const commit = execSync('git rev-parse --short HEAD').toString('utf-8').trim()
   const release = `${workspace.workspacePkg.data.version}-${commit}`

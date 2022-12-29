@@ -20,6 +20,6 @@ fi
 for PKG in packages/* ; do
   pushd $PKG
   echo "⚡ Publishing $PKG with edge tag"
-  pnpm publish --access public --no-git-checks --tag edge
+  # pnpm publish --access public --no-git-checks --tag edge
   popd
 done
