@@ -43,7 +43,7 @@
     "vue-demi": "^0.13.4"
   },
   "devDependencies": {
-    "@intlify/devtools-if": "9.3.0-beta.11"
+    "@intlify/devtools-if": "9.3.0-beta.12-1f15ce9"
   },
   "optionalDependencies": {
     "@vue/composition-api": "^1.0.0-rc.1"
