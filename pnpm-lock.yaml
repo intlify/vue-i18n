@@ -14,7 +14,7 @@ importers:
       '@microsoft/api-extractor': 7.15.2
       '@nexhome/yorkie': ^2.0.8
       '@rollup/plugin-commonjs': ^22.0.2
-      '@rollup/plugin-json': ^4.1.0
+      '@rollup/plugin-json': ^6.0.0
       '@rollup/plugin-node-resolve': ^13.0.5
       '@rollup/plugin-replace': ^4.0.0
       '@secretlint/secretlint-rule-preset-recommend': ^3.1.0
@@ -92,7 +92,7 @@ importers:
       '@microsoft/api-extractor': 7.15.2
       '@nexhome/yorkie': 2.0.8
       '@rollup/plugin-commonjs': 22.0.2_rollup@2.78.1
-      '@rollup/plugin-json': 4.1.0_rollup@2.78.1
+      '@rollup/plugin-json': 6.0.0_rollup@2.78.1
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.78.1
       '@rollup/plugin-replace': 4.0.0_rollup@2.78.1
       '@secretlint/secretlint-rule-preset-recommend': 3.3.0
@@ -1897,12 +1897,16 @@ packages:
       rollup: 2.78.1
     dev: true
 
-  /@rollup/plugin-json/4.1.0_rollup@2.78.1:
-    resolution: {integrity: sha512-yfLbTdNS6amI/2OpmbiBoW12vngr5NW2jCJVZSBEz+H5KfUJZ2M7sDjk0U6GOOdCWFVScShte29o9NezJ53TPw==}
+  /@rollup/plugin-json/6.0.0_rollup@2.78.1:
+    resolution: {integrity: sha512-i/4C5Jrdr1XUarRhVu27EEwjt4GObltD7c+MkCIpO2QIbojw8MUs+CCTqOphQi3Qtg1FLmYt+l+6YeoIf51J7w==}
+    engines: {node: '>=14.0.0'}
     peerDependencies:
-      rollup: ^1.20.0 || ^2.0.0
+      rollup: ^1.20.0||^2.0.0||^3.0.0
+    peerDependenciesMeta:
+      rollup:
+        optional: true
     dependencies:
-      '@rollup/pluginutils': 3.1.0_rollup@2.78.1
+      '@rollup/pluginutils': 5.0.2_rollup@2.78.1
       rollup: 2.78.1
     dev: true
 
@@ -1949,6 +1953,21 @@ packages:
     dependencies:
       estree-walker: 2.0.2
       picomatch: 2.3.1
+    dev: true
+
+  /@rollup/pluginutils/5.0.2_rollup@2.78.1:
+    resolution: {integrity: sha512-pTd9rIsP92h+B6wWwFbW8RkZv4hiR/xKsqre4SIuAOaOEQRxi0lqLke9k2/7WegC85GgUs9pjmOjCUi3In4vwA==}
+    engines: {node: '>=14.0.0'}
+    peerDependencies:
+      rollup: ^1.20.0||^2.0.0||^3.0.0
+    peerDependenciesMeta:
+      rollup:
+        optional: true
+    dependencies:
+      '@types/estree': 1.0.0
+      estree-walker: 2.0.2
+      picomatch: 2.3.1
+      rollup: 2.78.1
     dev: true
 
   /@rushstack/node-core-library/3.38.0:
