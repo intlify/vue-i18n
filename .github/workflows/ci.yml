@@ -217,4 +217,4 @@ jobs:
       - name: Release edge version
         run: ./scripts/release-edge.sh
         env:
-          NODE_AUTH_TOKEN: ${{secrets.NODE_AUTH_TOKEN}}
+          NPM_AUTH_TOKEN: ${{secrets.NPM_AUTH_TOKEN}}
