@@ -18,7 +18,7 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest]
-        node: [16.x]
+        node: [16]
 
     runs-on: ${{ matrix.os }}
 
@@ -45,7 +45,7 @@ jobs:
     name: Build
     strategy:
       matrix:
-        os: [ubuntu-latest]
+        os: [ubuntu-latest, windows-latest, macos-latest]
         node: [16]
 
     runs-on: ${{ matrix.os }}
@@ -73,7 +73,7 @@ jobs:
         uses: actions/cache@v3
         with:
           path: packages/*/dist
-          key: build-vue-i18n-next-${{ github.sha }}
+          key: build-vue-i18n-next-os-${{ matrix.os }}-${{ github.sha }}
 
   test:
     name: 'Test on Node.js ${{ matrix.node }} OS: ${{matrix.os}}'
@@ -108,7 +108,7 @@ jobs:
         uses: actions/cache@v3
         with:
           path: packages/*/dist
-          key: build-vue-i18n-next-${{ github.sha }}
+          key: build-vue-i18n-next-os-${{ matrix.os }}-${{ github.sha }}
 
       - name: Run test
         run: pnpm test
@@ -152,7 +152,7 @@ jobs:
         uses: actions/cache@v3
         with:
           path: packages/*/dist
-          key: build-vue-i18n-next-${{ github.sha }}
+          key: build-vue-i18n-next-os-${{ matrix.os }}-${{ github.sha }}
 
       - name: Release edge version
         run: ./scripts/release-edge.sh
