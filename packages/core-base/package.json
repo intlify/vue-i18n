@@ -36,7 +36,7 @@
     "@intlify/devtools-if": "9.3.0-beta.11",
     "@intlify/message-compiler": "9.3.0-beta.11",
     "@intlify/shared": "9.3.0-beta.11",
-    "@intlify/vue-devtools": "9.3.0-beta.11"
+    "@intlify/vue-devtools": "9.3.0-beta.12-1f15ce9"
   },
   "engines": {
     "node": ">= 14"
