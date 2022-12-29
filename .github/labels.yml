@@ -1,0 +1,103 @@
+- name: 'Type: A11y'
+  description: An accessibility fixes
+  color: '#0000ff'
+- name: 'Type: Breaking'
+  description: Includes backwards-incompatible fixes
+  color: '#b60205'
+- name: 'Type: Bug'
+  description: Bug or Bug fixes
+  color: '#ee0701'
+- name: 'Type: Build'
+  description: A packaging or a building fixes
+  color: '#5319e7'
+- name: 'Type: Dependency'
+  description: Dependencies fixes
+  color: '#ffbce7'
+- name: 'Type: Deprecated'
+  description: Includes deprecate fixes
+  color: '#f7ffa8'
+- name: 'Type: Documentation'
+  description: A documetation fixes
+  color: '#5319e7'
+- name: 'Type: Example'
+  description: Includes example and demo code fixes
+  color: '#db0875'
+- name: 'Type: Feature'
+  description: Includes new features
+  color: '#ffff00'
+- name: 'Type: I18n'
+  description: An internationalization fixes
+  color: '#ffd412'
+- name: 'Type: Improvement'
+  description: Includes backwards-compatible fixes
+  color: '#1d76db'
+- name: 'Type: Maintenance'
+  description: Repository Maintenance
+  color: '#e5ef7a'
+- name: 'Type: Performance'
+  description: Includes performance fixes
+  color: '#cc317c'
+- name: 'Type: Refactoring'
+  description: A code change that neither fixes a bug nor adds a feature
+  color: '#fbca04'
+- name: 'Type: Security'
+  description: Security fixes
+  color: '#b60205'
+- name: 'Type: Testing'
+  description: Adding missing tests or correcting existing tests
+  color: '#0e8a16'
+- name: typescript
+  color: '#106FDF'
+- name: workaround
+  color: '#026172'
+- name: todo
+  color: '#c2e0c6'
+- name: tips
+  color: '#fbca04'
+- name: duplicate
+  description: This issue or Pull Request already exists
+  color: '#ededed'
+- name: good first issue
+  description: Good for newcomers
+  color: '#7057ff'
+- name: help wanted
+  description: Extra attention is needed
+  color: '#e99695'
+- name: release
+  color: '#581fba'
+- name: 'Status: Abandoned'
+  description: The issue or Pull Request is wontfix
+  color: '#000000'
+- name: 'Status: Blocked'
+  description: Progress on the issue is Blocked
+  color: '#ee0701'
+- name: 'Status: In Progress'
+  description: Work in Progress
+  color: '#cccccc'
+- name: 'Status: Need More Info'
+  description: Lacks enough info to make progress
+  color: '#F9C90A'
+- name: 'Status: PR Welcome'
+  description: Welcome to Pull Request
+  color: '#2E7733'
+- name: 'Status: Proposal '
+  description: Request for comments
+  color: '#d4c5f9'
+- name: 'Status: Review Needed'
+  description: Request for review comments
+  color: '#fbca04'
+- name: '🧹 p1-chore'
+  description: 'Priority 1: no change in change code behavior'
+  color: '#FDDFD7'
+- name: '🍰 p2-nice-to-have'
+  description: "Priority 2: nothing is broken but it's worth addressing"
+  color: '#0e8a16'
+- name: '🔨 p3-minor-bug'
+  description: 'Priority 3: a bug in an edge case that only affects very specific usage'
+  color: '#fbca04'
+- name: '❗ p4-important'
+  description: 'Priority 4: bugs that violate documented behavior, or significantly impact perf'
+  color: '#d93f0b'
+- name: '🔥 p5-urgent'
+  description: 'Priority 5: build-breaking bugs that affect most users and should be fixed ASAP'
+  color: '#ee0701'

@@ -1,0 +1,16 @@
+name: Label sync
+
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - .github/labels.yml
+      - .github/workflows/github-label-sync.yml
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: r7kamura/github-label-sync-action@v0
