@@ -77,6 +77,10 @@ jobs:
 
   test:
     name: 'Test on Node.js ${{ matrix.node }} OS: ${{matrix.os}}'
+
+    needs:
+      - build
+
     strategy:
       matrix:
         os: [ubuntu-latest, windows-latest, macos-latest]
