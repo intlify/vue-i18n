@@ -5,9 +5,18 @@
   "ignoreDeps": [
     "puppeteer",
     "jest",
-    "typescript",
     "@microsoft/api-extractor",
-    "ts-jest"
+    "ts-jest",
+    "@intlify/shared",
+    "@intlify/core-base",
+    "@intlify/core",
+    "@intlify/vue-devtools",
+    "@intlify/devtools-if",
+    "@intlify/message-compiler",
+    "@intlify/vue-i18n-core",
+    "vue-i18n",
+    "petite-vue-i18n",
+    "vue-i18n-bridge"
   ],
   "major": {
     "automerge": false
