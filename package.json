@@ -71,7 +71,7 @@
     "@nexhome/yorkie": "^2.0.8",
     "@rollup/plugin-commonjs": "^22.0.2",
     "@rollup/plugin-json": "^4.1.0",
-    "@rollup/plugin-node-resolve": "^13.0.5",
+    "@rollup/plugin-node-resolve": "^15.0.0",
     "@rollup/plugin-replace": "^4.0.0",
     "@secretlint/secretlint-rule-preset-recommend": "^3.1.0",
     "@sucrase/jest-plugin": "^2.1.0",
