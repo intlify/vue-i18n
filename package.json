@@ -55,8 +55,6 @@
     "prebuild": "test \"$CI\" = true && npx pnpm install -r --store=node_modules/.pnpm-store || echo skipping pnpm install",
     "preinstall": "node ./scripts/preinstall.js",
     "release": "bumpp package.json packages/**/package.json --commit \"release: v\" --push --tag",
-    "release:prepare": "shipjs prepare",
-    "release:trigger": "shipjs trigger",
     "serve:explorer": "cd packages/format-explorer && vite preview",
     "test": "npm-run-all lint clean:cache:jest test:cover test:type test:e2e",
     "test:cover": "npm run test:unit -- --coverage",
@@ -67,7 +65,6 @@
   "devDependencies": {
     "@intlify/core-base": "workspace:*",
     "@intlify/message-compiler": "workspace:*",
-    "@kazupon/lerna-changelog": "^4.3.0",
     "@microsoft/api-extractor": "7.15.2",
     "@nexhome/yorkie": "^2.0.8",
     "@rollup/plugin-commonjs": "^22.0.2",
@@ -118,7 +115,6 @@
     "rollup-plugin-typescript2": "^0.34.0",
     "secretlint": "^3.2.0",
     "set-tz": "^0.2.0",
-    "shipjs": "^0.25.0",
     "textlint": "^12.0.0",
     "textlint-filter-rule-comments": "^1.2.2",
     "textlint-rule-abbr-within-parentheses": "^1.0.2",
@@ -151,20 +147,6 @@
     "node": ">= 14"
   },
   "private": true,
-  "changelog": {
-    "labels": {
-      "Type: Feature": ":star: Features",
-      "Type: Bug": ":bug: Bug Fixes",
-      "Type: Security": ":lock: Security Fixes",
-      "Type: Performance": ":chart_with_upwards_trend: Performance Fixes",
-      "Type: Improvement": ":zap: Improvement Features",
-      "Type: Breaking": ":boom: Breaking Change",
-      "Type: Deprecated": ":warning: Deprecated Features",
-      "Type: I18n": ":globe_with_meridians: Internationalization",
-      "Type: A11y": ":wheelchair: Accessibility",
-      "Type: Documentation": ":pencil: Documentation"
-    }
-  },
   "gitHooks": {
     "pre-commit": "lint-staged"
   },
