@@ -18,8 +18,13 @@ fi
 
 # Release packages
 for PKG in packages/* ; do
-  pushd $PKG
-  echo "⚡ Publishing $PKG with edge tag"
-  pnpm publish --access public --no-git-checks --tag edge
-  popd
+  if [[ -d $PKG ]]; then
+    if [[ $PKG == packages/size-* || $PKG == packages/format-explorer ]]; then
+      continue
+    fi
+    pushd $PKG
+    echo "⚡ Publishing $PKG with edge tag"
+    pnpm publish --access public --no-git-checks --tag edge
+    popd
+  fi
 done

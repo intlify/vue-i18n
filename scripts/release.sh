@@ -18,9 +18,14 @@ fi
 
 # Release packages
 for PKG in packages/* ; do
-  pushd $PKG
-  TAG="next"
-  echo "⚡ Publishing $PKG with tag $TAG"
-  pnpm publish --access public --no-git-checks --tag $TAG
-  popd > /dev/null
+  if [[ -d $PKG ]]; then
+    if [[ $PKG == packages/size-* || $PKG == packages/format-explorer ]]; then
+      continue
+    fi
+    pushd $PKG
+    TAG="next"
+    echo "⚡ Publishing $PKG with tag $TAG"
+    pnpm publish --access public --no-git-checks --tag $TAG
+    popd > /dev/null
+  fi
 done
