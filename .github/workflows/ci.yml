@@ -1,0 +1,117 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+permissions:
+  contents: read
+env:
+  CI: true
+
+jobs:
+  lint:
+    name: Lint
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+        node: [16.x]
+
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - name: Checkout codes
+        uses: actions/checkout@v3
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 7
+
+      - name: Setup node
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node }}
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --no-frozen-lockfile
+
+      - name: Lint codes
+        run: pnpm lint
+
+  test:
+    name: 'Test on Node.js ${{ matrix.node }} OS: ${{matrix.os}}'
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        node: [14, 16, 18]
+
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - name: Checkout codes
+        uses: actions/checkout@v3
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 7
+
+      - name: Setup node
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node }}
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --no-frozen-lockfile
+
+      - name: Build
+        run: pnpm build --all -t
+
+      - name: Run test
+        run: pnpm test
+
+  edge-release:
+    needs:
+      - lint
+      - test
+
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+        node: [16.x]
+
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - name: Checkout codes
+        uses: actions/checkout@v3
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 7
+
+      - name: Setup node
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node }}
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --no-frozen-lockfile
+
+      - name: Release edge version
+        if: |
+          github.event_name == 'push' &&
+          !contains(github.event.head_commit.message, '[skip-release]') &&
+          !contains(github.event.head_commit.message, 'chore') &&
+          !contains(github.event.head_commit.message, 'docs')
+        run: ./scripts/release-edge.sh
+        env:
+          NODE_AUTH_TOKEN: ${{secrets.NODE_AUTH_TOKEN}}
