@@ -80,7 +80,7 @@
 - name: 'Status: PR Welcome'
   description: Welcome to Pull Request
   color: '#2E7733'
-- name: 'Status: Proposal '
+- name: 'Status: Proposal'
   description: Request for comments
   color: '#d4c5f9'
 - name: 'Status: Review Needed'
