@@ -48,7 +48,7 @@
     "format:package": "node -r esbuild-register ./scripts/fixpack.ts",
     "format:prettier": "prettier --config .prettierrc --ignore-path .prettierignore --list-different '**/*.{js,json,html}'",
     "lint": "run-p lint:secret lint:codes lint:docs",
-    "lint:codes": "eslint ./packages ./test-d ./e2e ./benchmark --ext .js,.mjs,.ts,.vue",
+    "lint:codes": "eslint --cache ./packages ./test-d ./e2e ./benchmark --ext .js,.mjs,.ts,.vue",
     "lint:docs": "textlint --config .textlintrc.js docs/*.md docs/advanced/**/*.md docs/essentials/**/*.md docs/migration/**/*.md docs/api/injection.md packages/**/*.md",
     "lint:fix": "run-p \"lint:codes --fix\" \"lint:docs --fix\"",
     "lint:secret": "npx secretlint \"**/*\"",
