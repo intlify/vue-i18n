@@ -26,10 +26,8 @@ jobs:
       - name: Checkout codes
         uses: actions/checkout@v3
 
-      - name: Install pnpm
-        uses: pnpm/action-setup@v2
-        with:
-          version: 7
+      - name: Enable corepack
+        run: corepack enable
 
       - name: Setup node
         uses: actions/setup-node@v3
@@ -42,6 +40,40 @@ jobs:
 
       - name: Lint codes
         run: pnpm lint
+
+  build:
+    name: Build
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+        node: [16.x]
+
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - name: Checkout codes
+        uses: actions/checkout@v3
+
+      - name: Enable corepack
+        run: corepack enable
+
+      - name: Setup node
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node }}
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --no-frozen-lockfile
+
+      - name: Build codes
+        run: pnpm build --all -t
+
+      - name: Cache dist
+        uses: actions/cache@v3
+        with:
+          path: packages/*/dist
+          key: ${{ matrix.os }}-node-v${{ matrix.node }}-${{ github.sha }}
 
   test:
     name: 'Test on Node.js ${{ matrix.node }} OS: ${{matrix.os}}'
@@ -56,10 +88,8 @@ jobs:
       - name: Checkout codes
         uses: actions/checkout@v3
 
-      - name: Install pnpm
-        uses: pnpm/action-setup@v2
-        with:
-          version: 7
+      - name: Enable corepack
+        run: corepack enable
 
       - name: Setup node
         uses: actions/setup-node@v3
@@ -70,15 +100,25 @@ jobs:
       - name: Install dependencies
         run: pnpm install --no-frozen-lockfile
 
-      - name: Build
-        run: pnpm build --all -t
+      - name: Restore dist cache
+        uses: actions/cache@v3
+        with:
+          path: packages/*/dist
+          key: ${{ matrix.os }}-node-v${{ matrix.node }}-${{ github.sha }}
 
       - name: Run test
         run: pnpm test
 
   edge-release:
+    if: |
+      github.event_name == 'push' &&
+      !contains(github.event.head_commit.message, '[skip-release]') &&
+      !contains(github.event.head_commit.message, 'chore') &&
+      !contains(github.event.head_commit.message, 'docs')
+
     needs:
       - lint
+      - build
       - test
 
     strategy:
@@ -92,10 +132,8 @@ jobs:
       - name: Checkout codes
         uses: actions/checkout@v3
 
-      - name: Install pnpm
-        uses: pnpm/action-setup@v2
-        with:
-          version: 7
+      - name: Enable corepack
+        run: corepack enable
 
       - name: Setup node
         uses: actions/setup-node@v3
@@ -106,12 +144,13 @@ jobs:
       - name: Install dependencies
         run: pnpm install --no-frozen-lockfile
 
+      - name: Restore dist cache
+        uses: actions/cache@v3
+        with:
+          path: packages/*/dist
+          key: ${{ matrix.os }}-node-v${{ matrix.node }}-${{ github.sha }}
+
       - name: Release edge version
-        if: |
-          github.event_name == 'push' &&
-          !contains(github.event.head_commit.message, '[skip-release]') &&
-          !contains(github.event.head_commit.message, 'chore') &&
-          !contains(github.event.head_commit.message, 'docs')
         run: ./scripts/release-edge.sh
         env:
           NODE_AUTH_TOKEN: ${{secrets.NODE_AUTH_TOKEN}}

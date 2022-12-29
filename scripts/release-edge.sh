@@ -5,9 +5,6 @@ set -xe
 # Restore all git changes
 git restore -s@ -SW  -- packages
 
-# Build
-pnpm build --all -t
-
 # Bump versions
 npx jiti ./scripts/bump.ts
 
