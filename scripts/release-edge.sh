@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -x
+set -xe
 
 # Restore all git changes
 git restore -s@ -SW  -- packages
