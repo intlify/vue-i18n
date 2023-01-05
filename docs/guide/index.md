@@ -26,6 +26,10 @@ In the HTML template, we use the `$t` translation API injected with Vue I18n, to
 ## JavaScript
 
 ```js
+import { createI18n } from 'vue-i18n';
+import { createApp } from 'vue'
+
+
 // 1. Ready translated locale messages
 // The structure of the locale message is the hierarchical object structure with each locale as the top property
 const messages = {
@@ -42,7 +46,7 @@ const messages = {
 }
 
 // 2. Create i18n instance with options
-const i18n = VueI18n.createI18n({
+const i18n = createI18n({
   locale: 'ja', // set locale
   fallbackLocale: 'en', // set fallback locale
   messages, // set locale messages
@@ -52,7 +56,7 @@ const i18n = VueI18n.createI18n({
 
 
 // 3. Create a vue root instance
-const app = Vue.createApp({
+const app = createApp({
   // set something options
   // ...
 })
