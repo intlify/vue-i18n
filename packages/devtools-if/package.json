@@ -30,7 +30,7 @@
   "module": "dist/devtools-if.mjs",
   "types": "dist/devtools-if.d.ts",
   "dependencies": {
-    "@intlify/shared": "9.3.0-beta.11"
+    "@intlify/shared": "workspace:*"
   },
   "engines": {
     "node": ">= 14"

@@ -106,7 +106,7 @@ async function loadWorkspace(dir: string, workspaces?: string[]) {
 
   const setVersion = (name: string, newVersion: string) => {
     find(name).data.version = newVersion
-    for (const pkg of packages) {
+    for (const pkg of packages.filter(p => !p.data.private)) {
       pkg.updateDeps(dep => {
         if (dep.name === name) {
           dep.range = newVersion
@@ -116,10 +116,7 @@ async function loadWorkspace(dir: string, workspaces?: string[]) {
     }
   }
 
-  const save = async () => {
-    await workspacePkg.save()
-    return Promise.all(packages.map(pkg => pkg.save()))
-  }
+  const save = async () => Promise.all(packages.map(pkg => pkg.save()))
 
   return {
     dir,
@@ -138,18 +135,9 @@ async function main() {
   const commit = execSync('git rev-parse --short HEAD').toString('utf-8').trim()
   const release = `${workspace.workspacePkg.data.version}-${commit}`
 
-  const filtered = [
-    'vue-i18n-next',
-    '@intlify/size-check-core',
-    '@intlify/size-check-petite-vue-i181n',
-    '@intlify/size-check-vue-i18n',
-    '@intlify/message-format-explorer'
-  ]
   for (const pkg of workspace.packages.filter(p => !p.data.private)) {
     workspace.setVersion(pkg.data.name, release)
-    if (!filtered.includes(pkg.data.name)) {
-      workspace.rename(pkg.data.name, pkg.data.name)
-    }
+    workspace.rename(pkg.data.name, pkg.data.name)
   }
 
   await workspace.save()

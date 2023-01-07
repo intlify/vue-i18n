@@ -35,13 +35,13 @@
   "jsdelivr": "dist/petite-vue-i18n.global.js",
   "types": "dist/petite-vue-i18n.d.ts",
   "dependencies": {
-    "@intlify/core-base": "9.3.0-beta.11",
-    "@intlify/shared": "9.3.0-beta.11",
-    "@intlify/vue-devtools": "9.3.0-beta.11",
+    "@intlify/core-base": "workspace:*",
+    "@intlify/shared": "workspace:*",
+    "@intlify/vue-devtools": "workspace:*",
     "@vue/devtools-api": "^6.2.1"
   },
   "devDependencies": {
-    "@intlify/devtools-if": "9.3.0-beta.11"
+    "@intlify/devtools-if": "workspace:*"
   },
   "peerDependencies": {
     "vue": "^3.0.0"

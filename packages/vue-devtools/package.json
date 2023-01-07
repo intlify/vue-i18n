@@ -30,8 +30,8 @@
   "module": "dist/vue-devtools.mjs",
   "types": "dist/vue-devtools.d.ts",
   "dependencies": {
-    "@intlify/core-base": "9.3.0-beta.11",
-    "@intlify/shared": "9.3.0-beta.11"
+    "@intlify/core-base": "workspace:*",
+    "@intlify/shared": "workspace:*"
   },
   "engines": {
     "node": ">= 14"
