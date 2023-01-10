@@ -6,14 +6,13 @@ import { globby } from 'globby'
 import yaml from 'js-yaml'
 
 const __dirname = dirname(fileURLToPath(new URL('.', import.meta.url)))
-console.log('__dirname', __dirname)
 
 type Deps = {
   name: string
   range: string
   type: string
 }
-type DepsReviver = (deps: Deps) => Deps | undefined
+type DepsReviver = (deps: Deps) => Deps | void
 
 async function loadPackage(dir: string) {
   const pkgPath = resolve(dir, 'package.json')
@@ -99,7 +98,9 @@ async function loadWorkspace(dir: string, workspaces?: string[]) {
     find(from).data.name = to
     for (const pkg of packages) {
       pkg.updateDeps(dep => {
-        return undefined
+        if (dep.name === from && !dep.range.startsWith('npm:')) {
+          dep.range = 'npm:' + to + '@' + dep.range
+        }
       })
     }
   }
@@ -111,7 +112,6 @@ async function loadWorkspace(dir: string, workspaces?: string[]) {
         if (dep.name === name) {
           dep.range = newVersion
         }
-        return undefined
       })
     }
   }
@@ -137,7 +137,8 @@ async function main() {
 
   for (const pkg of workspace.packages.filter(p => !p.data.private)) {
     workspace.setVersion(pkg.data.name, release)
-    workspace.rename(pkg.data.name, pkg.data.name)
+    const newname = pkg.data.name + '-edge'
+    workspace.rename(pkg.data.name, newname)
   }
 
   await workspace.save()
