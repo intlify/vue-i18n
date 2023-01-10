@@ -6,7 +6,7 @@ set -e
 git restore -s@ -SW  -- packages
 
 # Build
-pnpm build --all -t
+pnpm build:type
 
 # Update token
 if [[ ! -z ${NPM_AUTH_TOKEN} ]] ; then
