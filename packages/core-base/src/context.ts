@@ -355,11 +355,22 @@ let _cid = 0
 export function createCoreContext<
   Message = string,
   Options extends CoreOptions<Message> = CoreOptions<Message>,
-  Messages = Options['messages'] extends object ? Options['messages'] : {},
-  DateTimeFormats = Options['datetimeFormats'] extends object
+  Messages extends Record<string, any> = Options['messages'] extends Record<
+    string,
+    any
+  >
+    ? Options['messages']
+    : {},
+  DateTimeFormats extends Record<
+    string,
+    any
+  > = Options['datetimeFormats'] extends Record<string, any>
     ? Options['datetimeFormats']
     : {},
-  NumberFormats = Options['numberFormats'] extends object
+  NumberFormats extends Record<
+    string,
+    any
+  > = Options['numberFormats'] extends Record<string, any>
     ? Options['numberFormats']
     : {}
 >(
@@ -379,12 +390,20 @@ export function createCoreContext<
     SchemaParams<Schema, Message>,
     LocaleParams<Locales>
   >,
-  Messages = Options['messages'] extends object ? Options['messages'] : {},
-  DateTimeFormats = Options['datetimeFormats'] extends object
-    ? Options['datetimeFormats']
+  Messages extends Record<string, any> = NonNullable<
+    Options['messages']
+  > extends Record<string, any>
+    ? NonNullable<Options['messages']>
     : {},
-  NumberFormats = Options['numberFormats'] extends object
-    ? Options['numberFormats']
+  DateTimeFormats extends Record<string, any> = NonNullable<
+    Options['datetimeFormats']
+  > extends Record<string, any>
+    ? NonNullable<Options['datetimeFormats']>
+    : {},
+  NumberFormats extends Record<string, any> = NonNullable<
+    Options['numberFormats']
+  > extends Record<string, any>
+    ? NonNullable<Options['numberFormats']>
     : {}
 >(
   options: Options

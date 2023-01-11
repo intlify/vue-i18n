@@ -481,23 +481,20 @@ export function createI18n<
     SchemaParams<Schema, VueMessageType>,
     LocaleParams<Locales>
   > = I18nOptions<SchemaParams<Schema, VueMessageType>, LocaleParams<Locales>>,
-  Messages extends Record<string, unknown> = Options['messages'] extends Record<
-    string,
-    unknown
-  >
-    ? Options['messages']
+  Messages extends Record<string, unknown> = NonNullable<
+    Options['messages']
+  > extends Record<string, unknown>
+    ? NonNullable<Options['messages']>
     : {},
-  DateTimeFormats extends Record<
-    string,
-    unknown
-  > = Options['datetimeFormats'] extends Record<string, unknown>
-    ? Options['datetimeFormats']
+  DateTimeFormats extends Record<string, unknown> = NonNullable<
+    Options['datetimeFormats']
+  > extends Record<string, unknown>
+    ? NonNullable<Options['datetimeFormats']>
     : {},
-  NumberFormats extends Record<
-    string,
-    unknown
-  > = Options['numberFormats'] extends Record<string, unknown>
-    ? Options['numberFormats']
+  NumberFormats extends Record<string, unknown> = NonNullable<
+    Options['numberFormats']
+  > extends Record<string, unknown>
+    ? NonNullable<Options['numberFormats']>
     : {},
   OptionLocale = Options['locale'] extends string ? Options['locale'] : Locale
 >(
@@ -731,7 +728,7 @@ export function useI18n<Options extends UseI18nOptions = UseI18nOptions>(
   NonNullable<Options['messages']>,
   NonNullable<Options['datetimeFormats']>,
   NonNullable<Options['numberFormats']>,
-  NonNullable<Options['locale']>
+  Options['locale'] extends unknown ? string : Options['locale']
 >
 
 /**
@@ -803,7 +800,7 @@ export function useI18n<
   NonNullable<Options['messages']>,
   NonNullable<Options['datetimeFormats']>,
   NonNullable<Options['numberFormats']>,
-  NonNullable<Options['locale']>
+  Options['locale'] extends unknown ? string : Options['locale']
 >
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export function useI18n<

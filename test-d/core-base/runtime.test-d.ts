@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { expectType } from './index'
-import { MessageType } from '../packages/runtime/dist/runtime'
+import { expectType } from '../index'
+import { MessageType } from '../../packages/core-base/src'
 
 /**
  * Message Type
