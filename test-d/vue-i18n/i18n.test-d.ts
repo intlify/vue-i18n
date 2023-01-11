@@ -249,6 +249,13 @@ const globalComposer = useI18n<[ResourceSchema], 'en' | 'ja'>({
   useScope: 'global'
 })
 expect<string>(globalComposer.t('nest.bar', { foo: 1 }, { locale: 'ja' }))
+expect<'en' | 'ja'>(globalComposer.locale.value)
+
+// no annotation
+const localComposer = useI18n({
+  useScope: 'local'
+})
+expect<string>(localComposer.locale.value)
 
 expectType<I18nOptions>(looseOptions)
 expectType<

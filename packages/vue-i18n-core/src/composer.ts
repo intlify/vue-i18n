@@ -1750,23 +1750,20 @@ export function createComposer<
     SchemaParams<Schema, VueMessageType>,
     LocaleParams<Locales>
   >,
-  Messages extends Record<string, any> = Options['messages'] extends Record<
-    string,
-    any
-  >
-    ? Options['messages']
+  Messages extends Record<string, any> = NonNullable<
+    Options['messages']
+  > extends Record<string, any>
+    ? NonNullable<Options['messages']>
     : {},
-  DateTimeFormats extends Record<
-    string,
-    any
-  > = Options['datetimeFormats'] extends Record<string, any>
-    ? Options['datetimeFormats']
+  DateTimeFormats extends Record<string, any> = NonNullable<
+    Options['datetimeFormats']
+  > extends Record<string, any>
+    ? NonNullable<Options['datetimeFormats']>
     : {},
-  NumberFormats extends Record<
-    string,
-    any
-  > = Options['numberFormats'] extends Record<string, any>
-    ? Options['numberFormats']
+  NumberFormats extends Record<string, any> = NonNullable<
+    Options['numberFormats']
+  > extends Record<string, any>
+    ? NonNullable<Options['numberFormats']>
     : {}
 >(
   options: Options,
