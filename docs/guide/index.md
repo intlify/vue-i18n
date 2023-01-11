@@ -8,7 +8,7 @@ Also, all examples will be using the full version of Vue to make on-the-fly temp
 
 Creating a global application with Vue + Vue I18n is dead simple. With Vue.js, we are already composing our application with components. When adding Vue I18n to the mix, all we need to ready resource messages and simply use the localization API and they offered with Vue I18n.
 
-Here’s a basic example:
+Here’s a basic example via script tag:
 
 ## HTML
 
