@@ -1,5 +1,5 @@
 export { ComponetI18nScope, BaseFormatProps } from './base'
 export { FormattableProps } from './formatRenderer'
-export { Translation, TranslationProps } from './Translation'
-export { NumberFormat, NumberFormatProps } from './NumberFormat'
-export { DatetimeFormat, DatetimeFormatProps } from './DatetimeFormat'
+export { Translation, I18nT, TranslationProps } from './Translation'
+export { NumberFormat, I18nN, NumberFormatProps } from './NumberFormat'
+export { DatetimeFormat, I18nD, DatetimeFormatProps } from './DatetimeFormat'

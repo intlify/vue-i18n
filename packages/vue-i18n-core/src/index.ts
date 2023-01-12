@@ -84,8 +84,11 @@ export {
 } from './i18n'
 export {
   Translation,
+  I18nT,
   NumberFormat,
+  I18nN,
   DatetimeFormat,
+  I18nD,
   TranslationProps,
   NumberFormatProps,
   DatetimeFormatProps,

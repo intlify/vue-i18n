@@ -98,8 +98,11 @@ export {
 } from '../../vue-i18n-core/src/i18n'
 export {
   Translation,
+  I18nT,
   NumberFormat,
+  I18nN,
   DatetimeFormat,
+  I18nD,
   TranslationProps,
   NumberFormatProps,
   DatetimeFormatProps,
