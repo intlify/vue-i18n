@@ -65,6 +65,15 @@ app.use(i18n)
 app.mount('#app')
 ```
 
+## Edge version
+
+Add the following line to the `dependencies` in `package.json`:
+
+```json
+"vue-i18n": "npm:@vue-i18n-edge"
+```
+
+And then run `npm install` or `yarn install` or `pnpm install`.
 
 ## Dev Build
 
