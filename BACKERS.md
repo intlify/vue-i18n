@@ -114,22 +114,6 @@ You can join them in supporting vue-i18n & Intlify project development by [pledg
 
 <p align="center">
   <a
-    href="https://www.sendcloud.com/"
-    style="margin: 1rem 1rem 0 1rem; width: 9rem; height: auto; display: inline-block; vertical-align: middle;"
-    target="_blank"
-    rel="noopener"
-  >
-    <img
-      style="max-width: 100%; vertical-align: midele;"
-      src="https://raw.githubusercontent.com/intlify/vue-i18n-next/master/docs/public/sendcloud.png"
-      width="140px"
-      alt="Send Cloud"
-    >
-  </a>
-</p>
-
-<p align="center">
-  <a
     href="https://www.vuemastery.com/"
     style="margin: 1rem 1rem 0 1rem; width: 9rem; height: auto; display: inline-block; vertical-align: middle;"
     target="_blank"

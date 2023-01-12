@@ -28,10 +28,6 @@
   }],
   "silver": [],
   "bronze": [{
-    "name": "SendCloud",
-    "url": "https://www.sendcloud.com/",
-    "img": "sendcloud.png"
-  }, {
     "name": "Vue Mastery",
     "url": "https://www.vuemastery.com/",
     "img": "vuemastery.png"

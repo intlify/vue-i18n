@@ -82,14 +82,6 @@ Vue I18n is part of the Vue Ecosystem and Intlify Project is an open source proj
 <h3 align="center">🥉 Bronze Sponsors</h3>
 
 <p align="center">
-  <a href="https://www.sendcloud.com/" target="_blank">
-    <img
-      src="https://raw.githubusercontent.com/intlify/vue-i18n-next/master/docs/public/sendcloud.png"
-      width="144px"
-    />
-  </a>
-</p>
-<p align="center">
   <a href="https://www.vuemastery.com/" target="_blank">
     <img
       src="https://raw.githubusercontent.com/intlify/vue-i18n-next/master/docs/public/vuemastery.png"
