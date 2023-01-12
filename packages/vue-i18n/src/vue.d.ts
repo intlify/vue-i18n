@@ -29,6 +29,11 @@ import type {
   NumberFormatResult
 } from '../../vue-i18n-core/src/legacy'
 import type { ExportedGlobalComposer } from '../../vue-i18n-core/src/i18n'
+import type {
+  Translation,
+  DatetimeFormat,
+  NumberFormat
+} from '../../vue-i18n-core/src/components'
 
 declare module '@vue/runtime-core' {
   /**
@@ -1222,5 +1227,11 @@ declare module '@vue/runtime-core' {
     >(
       key: Key | ResourceKeys
     ): LocaleMessageValue<VueMessageType> | {}
+  }
+
+  export interface GlobalComponents {
+    ['i18n-t']: typeof Translation
+    ['i18n-d']: typeof DatetimeFormat
+    ['i18n-n']: typeof NumberFormat
   }
 }

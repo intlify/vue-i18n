@@ -1,12 +1,11 @@
-import { h } from 'vue'
-import { isNumber, isString, isObject } from '@intlify/shared'
+import { h, defineComponent } from 'vue'
+import { isNumber, isString, isObject, assign } from '@intlify/shared'
 import { TranslateVNodeSymbol } from '../symbols'
 import { useI18n } from '../i18n'
 import { baseFormatProps } from './base'
-import { assign } from '@intlify/shared'
 import { getInterpolateArg, getFragmentableTag } from './utils'
 
-import type { VNodeChild } from 'vue'
+import type { VNodeChild, VNodeProps } from 'vue'
 import type { TranslateOptions } from '@intlify/core-base'
 import type { Composer, ComposerInternal } from '../composer'
 import type { BaseFormatProps } from './base'
@@ -29,56 +28,7 @@ export interface TranslationProps extends BaseFormatProps {
   plural?: number | string
 }
 
-/**
- * Translation Component
- *
- * @remarks
- * See the following items for property about details
- *
- * @VueI18nSee [TranslationProps](component#translationprops)
- * @VueI18nSee [BaseFormatProps](component#baseformatprops)
- * @VueI18nSee [Component Interpolation](../guide/advanced/component)
- *
- * @example
- * ```html
- * <div id="app">
- *   <!-- ... -->
- *   <i18n path="term" tag="label" for="tos">
- *     <a :href="url" target="_blank">{{ $t('tos') }}</a>
- *   </i18n>
- *   <!-- ... -->
- * </div>
- * ```
- * ```js
- * import { createApp } from 'vue'
- * import { createI18n } from 'vue-i18n'
- *
- * const messages = {
- *   en: {
- *     tos: 'Term of Service',
- *     term: 'I accept xxx {0}.'
- *   },
- *   ja: {
- *     tos: '利用規約',
- *     term: '私は xxx の{0}に同意します。'
- *   }
- * }
- *
- * const i18n = createI18n({
- *   locale: 'en',
- *   messages
- * })
- *
- * const app = createApp({
- *   data: {
- *     url: '/term'
- *   }
- * }).use(i18n).mount('#app')
- * ```
- *
- * @VueI18nComponent
- */
-export const Translation = /* #__PURE__*/ /* defineComponent */ {
+export const TranslationImpl = /*#__PURE__*/ defineComponent({
   /* eslint-disable */
   name: 'i18n-t',
   props: assign(
@@ -131,4 +81,66 @@ export const Translation = /* #__PURE__*/ /* defineComponent */ {
       return h(tag, assignedAttrs, children)
     }
   }
+})
+
+/**
+ * export the public type for h/tsx inference
+ * also to avoid inline import() in generated d.ts files
+ */
+
+/**
+ * Translation Component
+ *
+ * @remarks
+ * See the following items for property about details
+ *
+ * @VueI18nSee [TranslationProps](component#translationprops)
+ * @VueI18nSee [BaseFormatProps](component#baseformatprops)
+ * @VueI18nSee [Component Interpolation](../guide/advanced/component)
+ *
+ * @example
+ * ```html
+ * <div id="app">
+ *   <!-- ... -->
+ *   <i18n path="term" tag="label" for="tos">
+ *     <a :href="url" target="_blank">{{ $t('tos') }}</a>
+ *   </i18n>
+ *   <!-- ... -->
+ * </div>
+ * ```
+ * ```js
+ * import { createApp } from 'vue'
+ * import { createI18n } from 'vue-i18n'
+ *
+ * const messages = {
+ *   en: {
+ *     tos: 'Term of Service',
+ *     term: 'I accept xxx {0}.'
+ *   },
+ *   ja: {
+ *     tos: '利用規約',
+ *     term: '私は xxx の{0}に同意します。'
+ *   }
+ * }
+ *
+ * const i18n = createI18n({
+ *   locale: 'en',
+ *   messages
+ * })
+ *
+ * const app = createApp({
+ *   data: {
+ *     url: '/term'
+ *   }
+ * }).use(i18n).mount('#app')
+ * ```
+ *
+ * @VueI18nComponent
+ */
+export const Translation = TranslationImpl as unknown as {
+  new (): {
+    $props: VNodeProps & TranslationProps
+  }
 }
+
+export const I18nT = Translation
