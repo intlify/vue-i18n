@@ -2,11 +2,7 @@
 
 ## Nuxt Module
 
-[nuxt-i18n](https://github.com/nuxt-community/nuxt-i18n/) is corresponding Nuxt.js module.
-
-:::warning NOTICE
-Still not supported.
-:::
+[nuxt-i18n](https://github.com/nuxt-modules/i18n) is corresponding Nuxt.js module.
 
 ## BabelEdit
 
