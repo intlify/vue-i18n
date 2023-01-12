@@ -42,3 +42,11 @@ Translation helper for IntelliJ IDEA based IDE's. Requires dedicated language fi
 It’s possible to show the output in the console or to write it in a json file.
 
 The missing keys can be also automatically added to the given language files.
+
+
+## huntersofbook i18n
+
+[Docs](https://opensource.huntersofbook.com/global/i18n) // [Github](https://github.com/huntersofbook/huntersofbook/tree/main/projects/i18n/packages) is a tool that takes a template with translation keys and syncs them to the given language. You can directly connect the outputs to the i18n libraries you use.
+
+How to works
+![alt text](https://raw.githubusercontent.com/huntersofbook/huntersofbook/main/docs/public/images/i18n/i18n_works.png)
