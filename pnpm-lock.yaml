@@ -59,7 +59,6 @@ importers:
       rollup-plugin-terser: ^7.0.2
       rollup-plugin-typescript2: ^0.34.0
       secretlint: ^3.2.0
-      set-tz: ^0.2.0
       textlint: ^12.0.0
       textlint-filter-rule-comments: ^1.2.2
       textlint-rule-abbr-within-parentheses: ^1.0.2
@@ -135,7 +134,6 @@ importers:
       rollup-plugin-terser: 7.0.2_rollup@2.78.1
       rollup-plugin-typescript2: 0.34.1_og7fvmhpooyscawmgb4pmvicxq
       secretlint: 3.3.0
-      set-tz: 0.2.0
       textlint: 12.2.1
       textlint-filter-rule-comments: 1.2.2_textlint@12.2.1
       textlint-rule-abbr-within-parentheses: 1.0.2
@@ -11340,13 +11338,6 @@ packages:
     resolution: {integrity: sha512-KiKBS8AnWGEyLzofFfmvKwpdPzqiy16LvQfK3yv/fVH7Bj13/wl3JSR1J+rfgRE9q7xUJK4qvgS8raSOeLUehw==}
     dev: true
 
-  /set-tz/0.2.0:
-    resolution: {integrity: sha512-LDEBBYjFt57i83bqWN5MFpff++56Q7VfY/m0/GpSfF9BgmjqnLO3Izaf44PDC5dsUDPy4kx1ZV2QDtuBq7MP+g==}
-    deprecated: Package no longer supported. Contact Support at https://www.npmjs.com/support for more info.
-    dependencies:
-      windows-iana: 3.1.0
-    dev: true
-
   /set-value/2.0.1:
     resolution: {integrity: sha512-JxHc1weCN68wRY0fhCoXpyK55m/XPHafOmK4UWD7m2CI14GMcFypt4w/0+NV5f/ZMby2F6S2wwA7fgynh9gWSw==}
     engines: {node: '>=0.10.0'}
@@ -13616,10 +13607,6 @@ packages:
     hasBin: true
     dependencies:
       isexe: 2.0.0
-    dev: true
-
-  /windows-iana/3.1.0:
-    resolution: {integrity: sha512-rCPf3AakAAgvapnbYVvG2bQyI3g6EDbPpjDJ72fdAu+XTzB1qvX4ZC6OnZ0I2+thaspjTb+8KwdyhdBl8Lt/QA==}
     dev: true
 
   /with/7.0.2:
