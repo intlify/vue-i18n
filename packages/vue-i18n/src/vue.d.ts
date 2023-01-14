@@ -1233,5 +1233,8 @@ declare module '@vue/runtime-core' {
     ['i18n-t']: typeof Translation
     ['i18n-d']: typeof DatetimeFormat
     ['i18n-n']: typeof NumberFormat
+    ['I18nT']: typeof Translation
+    ['I18nD']: typeof DatetimeFormat
+    ['I18nN']: typeof NumberFormat
   }
 }
