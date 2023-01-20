@@ -1151,11 +1151,11 @@ function useI18nForLegacy(
 ): Composer {
   type Message = VueMessageType
 
-  const isLocale = scope === 'local'
+  const isLocalScope = scope === 'local'
   const _composer = shallowRef<Composer | null>(null)
 
   if (
-    isLocale &&
+    isLocalScope &&
     instance.proxy &&
     !(instance.proxy.$options.i18n || instance.proxy.$options.__i18n)
   ) {
@@ -1166,11 +1166,11 @@ function useI18nForLegacy(
 
   const _inheritLocale = isBoolean(options.inheritLocale)
     ? options.inheritLocale
-    : true
+    : !isString(options.locale)
 
   const _locale = ref<Locale>(
     // prettier-ignore
-    isLocale && _inheritLocale
+    !isLocalScope || _inheritLocale
     ? root.locale.value
     : isString(options.locale)
       ? options.locale
@@ -1179,7 +1179,7 @@ function useI18nForLegacy(
 
   const _fallbackLocale = ref<FallbackLocale>(
     // prettier-ignore
-    isLocale && _inheritLocale
+    !isLocalScope || _inheritLocale
       ? root.fallbackLocale.value
       : isString(options.fallbackLocale) ||
         isArray(options.fallbackLocale) ||
@@ -1211,21 +1211,21 @@ function useI18nForLegacy(
   )
 
   // prettier-ignore
-  const _missingWarn = isLocale
+  const _missingWarn = isLocalScope
     ? root.missingWarn
     : isBoolean(options.missingWarn) || isRegExp(options.missingWarn)
       ? options.missingWarn
       : true
 
   // prettier-ignore
-  const _fallbackWarn = isLocale
+  const _fallbackWarn = isLocalScope
     ? root.fallbackWarn
     : isBoolean(options.fallbackWarn) || isRegExp(options.fallbackWarn)
       ? options.fallbackWarn
       : true
 
   // prettier-ignore
-  const _fallbackRoot = isLocale
+  const _fallbackRoot = isLocalScope
     ? root.fallbackRoot
     : isBoolean(options.fallbackRoot)
       ? options.fallbackRoot
@@ -1243,7 +1243,7 @@ function useI18nForLegacy(
     : null
 
   // prettier-ignore
-  const _warnHtmlMessage = isLocale
+  const _warnHtmlMessage = isLocalScope
     ? root.warnHtmlMessage
     : isBoolean(options.warnHtmlMessage)
       ? options.warnHtmlMessage
@@ -1252,14 +1252,14 @@ function useI18nForLegacy(
   const _escapeParameter = !!options.escapeParameter
 
   // prettier-ignore
-  const _modifiers = isLocale
+  const _modifiers = isLocalScope
     ? root.modifiers
     : isPlainObject(options.modifiers)
       ? options.modifiers
       : {}
 
   // pluralRules
-  const _pluralRules = options.pluralRules || (isLocale && root.pluralRules)
+  const _pluralRules = options.pluralRules || (isLocalScope && root.pluralRules)
 
   // track reactivity
   function trackReactivityValues() {
@@ -1581,7 +1581,7 @@ function useI18nForLegacy(
       _messages.value = composer.messages.value
       _datetimeFormats.value = composer.datetimeFormats.value
       _numberFormats.value = composer.numberFormats.value
-    } else if (isLocale) {
+    } else if (isLocalScope) {
       sync(composer)
     }
   })

@@ -202,6 +202,32 @@ describe('useI18n', () => {
     expect((composer as Composer).locale.value).toEqual('ja')
   })
 
+  test('global scope with legacy mode', async () => {
+    const i18n = createI18n({
+      allowComposition: true,
+      legacy: true,
+      locale: 'en',
+      messages: {
+        en: {
+          hello: 'hello!'
+        }
+      }
+    })
+
+    const App = defineComponent({
+      setup() {
+        const { locale, t } = useI18n({
+          useScope: 'global'
+        })
+        return { locale, t }
+      },
+      i18n: {},
+      template: `<p>{{ locale }}:{{ t('hello') }}</p>`
+    })
+    const { html } = await mount(App, i18n)
+    expect(html()).toEqual('<p>en:hello!</p>')
+  })
+
   test('parent scope', async () => {
     const i18n = createI18n({
       legacy: false,
