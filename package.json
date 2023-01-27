@@ -134,7 +134,7 @@
     "trash-cli": "^5.0.0",
     "ts-jest": "^26.5.4",
     "typescript": "^4.9.4",
-    "vitepress": "^1.0.0-alpha.4",
+    "vitepress": "^1.0.0-alpha.40",
     "vue": "^3.2.45",
     "vue-i18n": "workspace:*"
   },
@@ -169,7 +169,7 @@
   "pnpm": {
     "overrides": {
       "vue": "3.2.45",
-      "vite": "2.6.14"
+      "vite": "^4.0.0"
     }
   }
 }

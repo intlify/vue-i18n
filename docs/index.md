@@ -4,7 +4,7 @@ layout: home
 hero:
   name: Vue I18n
   text: Internationalization plugin for Vue.js
-  # tagline: Easy, powerful, and component-oriented based internationalization
+  tagline: Easy, powerful, and component-oriented for Vue.js
   image:
     src: /vue-i18n-logo.svg
     alt: Vue I18n
@@ -17,10 +17,13 @@ hero:
       link: https://github.com/intlify/vue-i18n-next
 
 features:
-- title: Easy
-  details: You can introduce internationalization into your app with simple API
-- title: Powerful
-  details: In addition to simple translation, support localization such as pluralization, number, datetime ... etc
-- title: Component-oriented
-  details: You can manage locale messages on single file component
+  - icon: 👌
+    title: Easy
+    details: You can introduce internationalization into your app with simple API
+  - icon: 💪
+    title: Powerful
+    details: In addition to simple translation, support localization such as pluralization, number, datetime ... etc
+  - icon: 🧩
+    title: Component-oriented
+    details: You can manage locale messages on single file component
 ---
