@@ -1,13 +1,19 @@
-import path from 'path'
-import { promises as fs } from 'fs'
+import { createRequire } from 'node:module'
+import { fileURLToPath } from 'node:url'
+import path from 'node:path'
+import { promises as fs } from 'node:fs'
 import ts from 'rollup-plugin-typescript2'
 import replace from '@rollup/plugin-replace'
 import json from '@rollup/plugin-json'
+import terser from '@rollup/plugin-terser'
 import pc from 'picocolors'
 
 if (!process.env.TARGET) {
   throw new Error('TARGET package must be specified via --environment flag.')
 }
+
+const require = createRequire(import.meta.url)
+const __dirname = fileURLToPath(new URL('.', import.meta.url))
 
 const masterVersion = require('./package.json').version
 const packagesDir = path.resolve(__dirname, 'packages')
@@ -159,6 +165,7 @@ function createConfig(format, _output, plugins = []) {
     cacheRoot: path.resolve(__dirname, 'node_modules/.rts2_cache'),
     tsconfigOverride: {
       compilerOptions: {
+        // target: isNodeBuild ? 'es2019' : 'es2015',
         sourceMap: output.sourcemap,
         declaration: shouldEmitDeclarations,
         declarationMap: shouldEmitDeclarations
@@ -200,6 +207,10 @@ function createConfig(format, _output, plugins = []) {
           require('rollup-plugin-node-globals')()
         ]
       : []
+
+  if (format === 'cjs') {
+    nodePlugins.push(cjsReExportsPatchPlugin())
+  }
 
   if (isBridge) {
     const replacingPaths = [
@@ -376,7 +387,6 @@ function createProductionConfig(format) {
 }
 
 function createMinifiedConfig(format) {
-  const { terser } = require('rollup-plugin-terser')
   return createConfig(
     format,
     {
@@ -388,8 +398,29 @@ function createMinifiedConfig(format) {
         module: /^esm/.test(format),
         compress: {
           ecma: 2015
-        }
+        },
+        safari10: true
       })
     ]
   )
+}
+
+// temporary patch for https://github.com/nodejs/cjs-module-lexer/issues/79
+function cjsReExportsPatchPlugin() {
+  const matcher =
+    /(Object.keys\((?:\w+)\).forEach\(function \(k\)\s+{)(\s+if \(k !== 'default') && !exports.hasOwnProperty\(k\)(\) exports\[k\] = (?:\w+)\[k\];\s+}\);)/
+  return {
+    name: 'patch-cjs-re-exports',
+    renderChunk(code, _, options) {
+      if (matcher.test(code)) {
+        return code.replace(matcher, (_, r1, r2, r3) => {
+          return `${r1}${r2}${r3}`
+        })
+      } else if (options.file.endsWith('packages/core/dist/core.cjs') || options.file.endsWith('packages/core/dist/core.prod.cjs')) {
+        // make sure we don't accidentally miss the rewrite in case Rollup
+        // changes the output again.
+        throw new Error('cjs build re-exports rewrite failed.')
+      }
+    }
+  }
 }

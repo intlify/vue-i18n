@@ -10,11 +10,14 @@ node_modules
 .vscode
 debug.log
 .eslintcache
+**/.vitepress/cache
 
 # jest dump files
 report*.json
 
 *.log
 *.swp
+*.tgz
+*.zip
 *~
 .env
