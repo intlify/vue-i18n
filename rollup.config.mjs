@@ -413,7 +413,7 @@ function cjsReExportsPatchPlugin() {
     name: 'patch-cjs-re-exports',
     renderChunk(code, _, options) {
       if (matcher.test(code)) {
-        return code.replace(matcher2, (_, r1, r2, r3) => {
+        return code.replace(matcher, (_, r1, r2, r3) => {
           return `${r1}${r2}${r3}`
         })
       } else if (options.file.endsWith('packages/core/dist/core.cjs') || options.file.endsWith('packages/core/dist/core.prod.cjs')) {
