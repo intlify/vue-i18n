@@ -73,7 +73,7 @@
     "@rollup/plugin-replace": "^5.0.2",
     "@rollup/plugin-terser": "^0.4.0",
     "@secretlint/secretlint-rule-preset-recommend": "^3.1.0",
-    "@sucrase/jest-plugin": "^2.1.0",
+    "@sucrase/jest-plugin": "^3.0.0",
     "@textlint-rule/textlint-rule-no-unmatched-pair": "^1.0.7",
     "@types/jest": "^26.0.14",
     "@types/js-yaml": "^4.0.5",
