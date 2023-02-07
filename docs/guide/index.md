@@ -6,7 +6,7 @@ We will be using [ES6](https://github.com/lukehoban/es6features) in the code sam
 Also, all examples will be using the full version of Vue to make on-the-fly template compilation possible. See more details [here](https://v3.vuejs.org/guide/installation.html#runtime-compiler-vs-runtime-only).
 :::
 
-Creating a global application with Vue + Vue I18n is dead simple. With Vue.js, we are already composing our application with components. When adding Vue I18n to the mix, all we need to ready resource messages and simply use the localization API and they offered with Vue I18n.
+Creating a global application with Vue + Vue I18n is dead simple. With Vue.js, we are already composing our application with components. When adding Vue I18n to the mix, all we need to do is ready resource messages and simply use the localization API that are offered with Vue I18n.
 
 Here’s a basic example via script tag:
 
@@ -21,7 +21,7 @@ Here’s a basic example via script tag:
 </div>
 ```
 
-In the HTML template, we use the `$t` translation API injected with Vue I18n, to localize. This allows Vue I18n to change the locale without rewriting the template, be able to support the global application.
+In the HTML template, we use the `$t` translation API injected with Vue I18n, to localize. This allows Vue I18n to change the locale without rewriting the template, also to be able to support the global application.
 
 ## JavaScript
 
@@ -74,9 +74,9 @@ Output the following:
 </div>
 ```
 
-By calling `app.use(i18n)`, By default, we can access the VueI18n instance from each component with `this.$i18n`, which can be referenced from the `global` property of i18n instance that created with `createI18n`. As well as, translation API such as `this.$t` is also injected into each component, so these API can be used with templates.
+By default, calling `app.use(i18n)` gives us access to the VueI18n instance from each component with `this.$i18n`, which can be referenced from the `global` property of i18n instance that created with `createI18n`. As well as, translation API such as `this.$t` is also injected into each component, so these API can be used with templates.
 
-To use similar ways at the `setup` function, you need to call the `useI18n` functions. We will learn more about this in the [Composition API](./advanced/composition).
+To use similar ways like the `setup` function, you need to call the `useI18n` functions. We will learn more about this in the [Composition API](./advanced/composition).
 
 :::tip NOTE
 For more information on the Composition API, please refer to [documentation](https://v3.vuejs.org/guide/composition-api-introduction.html) of Vue.js
