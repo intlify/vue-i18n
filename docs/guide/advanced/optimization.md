@@ -81,7 +81,7 @@ module.exports = {
 
 #### More configuration
 
-About optoins and features, see the detail [page](https://github.com/intlify/bundle-tools/tree/main/packages/unplugin-vue-i18n#intlifyunplugin-vue-i18n)
+About options and features, see the detail [page](https://github.com/intlify/bundle-tools/tree/main/packages/unplugin-vue-i18n#intlifyunplugin-vue-i18n)
 
 ### vite-plugin-vue-i18n
 
@@ -125,7 +125,7 @@ export default defineConfig({
 
 #### More configuration
 
-About optoins and features, see the detail [page](https://github.com/intlify/bundle-tools/tree/main/packages/vite-plugin-vue-i18n)
+About options and features, see the detail [page](https://github.com/intlify/bundle-tools/tree/main/packages/vite-plugin-vue-i18n)
 
 ### vue-i18n-loader
 
