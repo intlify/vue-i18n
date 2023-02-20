@@ -176,7 +176,7 @@ module.exports = {
 
 #### More configuration
 
-About optoins and features, see the detail [page](https://github.com/intlify/bundle-tools/tree/main/packages/vue-i18n-loader)
+About options and features, see the detail [page](https://github.com/intlify/bundle-tools/tree/main/packages/vue-i18n-loader)
 
 ### Quasar CLI
 
