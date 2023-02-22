@@ -110,8 +110,8 @@ When the following Vue application is registered as a custom element of Web Comp
 
 ```javascript
 import { createApp } from 'vue'
-import { I18nHostElement } from './paht/to/I18nHostElement'
-import { HelloI18nElement } from './paht/to/HelloI18nElement'
+import { I18nHostElement } from './path/to/I18nHostElement'
+import { HelloI18nElement } from './path/to/HelloI18nElement'
 import App from './App.vue'
 
 customElements.define('i18n-host', I18nHostElement)
