@@ -150,7 +150,7 @@ looseComposer.mergeLocaleMessage('en', {
 looseComposer.mergeLocaleMessage<{ dio: string }>('en', {
   dio: 'The world!'
 })
-expectType<typeof looseComposer.datetimeFormats.value['en-US']>(
+expectType<(typeof looseComposer.datetimeFormats.value)['en-US']>(
   looseComposer.getDateTimeFormat('en-US')
 )
 expectType<{ long: { hour: string } }>(
@@ -170,7 +170,7 @@ looseComposer.mergeDateTimeFormat('en-US', {
 looseComposer.mergeDateTimeFormat<{ stop: { hour: string } }>('en-US', {
   stop: { hour: 'infinity' }
 })
-expectType<typeof looseComposer.numberFormats.value['ja-JP']>(
+expectType<(typeof looseComposer.numberFormats.value)['ja-JP']>(
   looseComposer.getNumberFormat('ja-JP')
 )
 expectType<{ weight: { unit: string } }>(
@@ -359,7 +359,7 @@ looseI18n.mergeLocaleMessage('en', {
 looseI18n.mergeLocaleMessage<{ dio: string }>('en', {
   dio: 'The world!'
 })
-expectType<typeof looseI18n.datetimeFormats['en-US']>(
+expectType<(typeof looseI18n.datetimeFormats)['en-US']>(
   looseI18n.getDateTimeFormat('en-US')
 )
 expectType<{ long: { hour: string } }>(
@@ -379,7 +379,7 @@ looseI18n.mergeDateTimeFormat('en-US', {
 looseI18n.mergeDateTimeFormat<{ stop: { hour: string } }>('en-US', {
   stop: { hour: 'infinity' }
 })
-expectType<typeof looseI18n.numberFormats['ja-JP']>(
+expectType<(typeof looseI18n.numberFormats)['ja-JP']>(
   looseI18n.getNumberFormat('ja-JP')
 )
 expectType<{ weight: { unit: string } }>(

@@ -18,7 +18,8 @@ export const CoreErrorCodes = {
   __EXTEND_POINT__: inc() // 18
 } as const
 
-export type CoreErrorCodes = typeof CoreErrorCodes[keyof typeof CoreErrorCodes]
+export type CoreErrorCodes =
+  (typeof CoreErrorCodes)[keyof typeof CoreErrorCodes]
 
 export function createCoreError(code: CoreErrorCodes): CoreError {
   return createCompileError(

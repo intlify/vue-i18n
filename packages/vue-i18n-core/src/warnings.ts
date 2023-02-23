@@ -14,7 +14,7 @@ export const I18nWarnCodes = {
   NOT_FOUND_PARENT_SCOPE: inc() // 13
 } as const
 
-type I18nWarnCodes = typeof I18nWarnCodes[keyof typeof I18nWarnCodes]
+type I18nWarnCodes = (typeof I18nWarnCodes)[keyof typeof I18nWarnCodes]
 
 export const warnMessages: { [code: number]: string } = {
   [I18nWarnCodes.FALLBACK_TO_ROOT]: `Fall back to {type} '{key}' with root locale.`,

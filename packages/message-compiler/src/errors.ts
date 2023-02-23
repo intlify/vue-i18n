@@ -46,7 +46,7 @@ export const CompileErrorCodes = {
 } as const
 
 export type CompileErrorCodes =
-  typeof CompileErrorCodes[keyof typeof CompileErrorCodes]
+  (typeof CompileErrorCodes)[keyof typeof CompileErrorCodes]
 
 /** @internal */
 export const errorMessages: { [code: number]: string } = {

@@ -34,7 +34,7 @@ interface Wrapper {
   rootEl: HTMLDivElement
   setProps(props: MountOptions['propsData']): Promise<void>
   html(): string
-  find: typeof document['querySelector']
+  find: (typeof document)['querySelector']
 }
 
 export const pluralRules = {

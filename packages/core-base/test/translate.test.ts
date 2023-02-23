@@ -764,7 +764,7 @@ const ErrorCodes = {
   CODE1: 1
 } as const
 
-type ErrorCodes = typeof ErrorCodes[keyof typeof ErrorCodes]
+type ErrorCodes = (typeof ErrorCodes)[keyof typeof ErrorCodes]
 
 describe('edge cases', () => {
   test('multi bytes key', () => {

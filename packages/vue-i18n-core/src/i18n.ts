@@ -389,9 +389,9 @@ export function createI18n<
 >(
   options: Options,
   LegacyVueI18n?: any // eslint-disable-line @typescript-eslint/no-explicit-any
-): typeof options['legacy'] extends true
+): (typeof options)['legacy'] extends true
   ? I18n<Messages, DateTimeFormats, NumberFormats, OptionLocale, true>
-  : typeof options['legacy'] extends false
+  : (typeof options)['legacy'] extends false
   ? I18n<Messages, DateTimeFormats, NumberFormats, OptionLocale, false>
   : I18n<Messages, DateTimeFormats, NumberFormats, OptionLocale, Legacy>
 
@@ -500,9 +500,9 @@ export function createI18n<
 >(
   options: Options,
   LegacyVueI18n?: any // eslint-disable-line @typescript-eslint/no-explicit-any
-): typeof options['legacy'] extends true
+): (typeof options)['legacy'] extends true
   ? I18n<Messages, DateTimeFormats, NumberFormats, OptionLocale, true>
-  : typeof options['legacy'] extends false
+  : (typeof options)['legacy'] extends false
   ? I18n<Messages, DateTimeFormats, NumberFormats, OptionLocale, false>
   : I18n<Messages, DateTimeFormats, NumberFormats, OptionLocale, Legacy>
 

@@ -40,7 +40,7 @@ export const I18nErrorCodes = {
   __EXTEND_POINT__: inc() // 29
 } as const
 
-type I18nErrorCodes = typeof I18nErrorCodes[keyof typeof I18nErrorCodes]
+type I18nErrorCodes = (typeof I18nErrorCodes)[keyof typeof I18nErrorCodes]
 
 export function createI18nError(
   code: I18nErrorCodes,

@@ -163,7 +163,7 @@ looseVueI18n.mergeDateTimeFormat('en-US', {
 looseVueI18n.mergeDateTimeFormat<{ stop: { hour: string } }>('en-US', {
   stop: { hour: 'infinity' }
 })
-expectType<typeof looseVueI18n.numberFormats['ja-JP']>(
+expectType<(typeof looseVueI18n.numberFormats)['ja-JP']>(
   looseVueI18n.getNumberFormat('ja-JP')
 )
 expectType<{ weight: { unit: string } }>(

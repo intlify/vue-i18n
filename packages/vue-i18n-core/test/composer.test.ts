@@ -583,7 +583,7 @@ const ErrorCodes = {
   Code1: 1
 }
 
-type ErrorCodes = typeof ErrorCodes[keyof typeof ErrorCodes]
+type ErrorCodes = (typeof ErrorCodes)[keyof typeof ErrorCodes]
 
 describe('t', () => {
   test('basic', () => {

@@ -10,7 +10,7 @@ export const CoreWarnCodes = {
   __EXTEND_POINT__: 7
 } as const
 
-export type CoreWarnCodes = typeof CoreWarnCodes[keyof typeof CoreWarnCodes]
+export type CoreWarnCodes = (typeof CoreWarnCodes)[keyof typeof CoreWarnCodes]
 
 /** @internal */
 export const warnMessages: { [code: number]: string } = {
