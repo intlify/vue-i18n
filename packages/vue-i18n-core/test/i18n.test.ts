@@ -21,7 +21,7 @@ import {
   registerLocaleFallbacker
 } from '@intlify/core-base'
 import { createEmitter } from '@intlify/shared'
-import { mount, pluralRules as _pluralRules } from './helper'
+import { mount, pluralRules as _pluralRules, randStr } from './helper'
 import { createI18n, useI18n, castToVueI18n } from '../src/i18n'
 import { __VUE_I18N_BRIDGE__ } from '../src/symbols'
 import { errorMessages, I18nErrorCodes } from '../src/errors'
@@ -727,13 +727,15 @@ describe('useI18n', () => {
   })
 
   test(errorMessages[I18nErrorCodes.NOT_INSLALLED_WITH_PROVIDE], async () => {
+    const randCusumerTag = `my-consumer-${randStr()}`
+    const randProviderTag = `my-provider-${randStr()}`
     const Provider = defineCustomElement({
       setup() {
         createI18n<false>({ legacy: false })
-        return () => h('my-consumer')
+        return () => h(randCusumerTag)
       }
     })
-    customElements.define('my-provider', Provider)
+    customElements.define(randProviderTag, Provider)
 
     let error = ''
     const Consumer = defineCustomElement({
@@ -746,9 +748,9 @@ describe('useI18n', () => {
         return () => h('div')
       }
     })
-    customElements.define('my-consumer', Consumer)
+    customElements.define(randCusumerTag, Consumer)
 
-    container.innerHTML = `<my-provider><my-provider>`
+    container.innerHTML = `<${randProviderTag}></${randProviderTag}>`
     await nextTick()
 
     expect(error).toEqual(

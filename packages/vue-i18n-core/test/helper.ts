@@ -230,3 +230,7 @@ function compileSlot(template: string) {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   return (propsData: any) => h(ToRender, { ...propsData })
 }
+
+export function randStr(digit = 8) {
+  return Math.random().toString(32).substring(digit)
+}

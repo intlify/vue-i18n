@@ -18,6 +18,7 @@ import {
   registerLocaleFallbacker
 } from '@intlify/core-base'
 import { createI18n, useI18n, I18nInjectionKey } from '../src/index'
+import { randStr } from './helper'
 
 import type { VueElement, ComponentOptions } from 'vue'
 
@@ -48,22 +49,25 @@ test('basic', async () => {
     }
   })
 
+  const randCusumerTag = `my-consumer-${randStr()}`
+  const randProviderTag = `my-provider-${randStr()}`
+
   const Provider = defineCustomElement({
     setup() {
       provide(I18nInjectionKey, i18n)
-      return () => h('my-consumer')
+      return () => h(randCusumerTag)
     }
   })
-  customElements.define('my-provider', Provider)
+  customElements.define(randProviderTag, Provider)
   const Consumer = defineCustomElement({
     setup() {
       const { t } = useI18n()
       return () => h('div', t('hello'))
     }
   })
-  customElements.define('my-consumer', Consumer)
+  customElements.define(randCusumerTag, Consumer)
 
-  container.innerHTML = `<my-provider></my-provider>`
+  container.innerHTML = `<${randProviderTag}></${randProviderTag}>`
   await nextTick()
   const provider = container.childNodes[0] as VueElement
   const consumer = provider.shadowRoot!.childNodes[0] as VueElement
@@ -92,13 +96,16 @@ test('custom blocks', async () => {
     }
   })
 
+  const randChildBlockTag = `my-child-block-${randStr()}`
+  const randProviderBlockTag = `my-provider-block-${randStr()}`
+
   const Provider = defineCustomElement({
     setup() {
       provide(I18nInjectionKey, i18n)
-      return () => h('my-child-block')
+      return () => h(randChildBlockTag)
     }
   })
-  customElements.define('my-provider-block', Provider)
+  customElements.define(randProviderBlockTag, Provider)
   const Child = defineCustomElement({
     setup() {
       const instance = getCurrentInstance()
@@ -123,9 +130,9 @@ test('custom blocks', async () => {
       return () => h('div', t('foo'))
     }
   })
-  customElements.define('my-child-block', Child)
+  customElements.define(randChildBlockTag, Child)
 
-  container.innerHTML = `<my-provider-block></my-provider-block>`
+  container.innerHTML = `<${randProviderBlockTag}></${randProviderBlockTag}>`
   await nextTick()
   const provider = container.childNodes[0] as VueElement
   const child = provider.shadowRoot!.childNodes[0] as VueElement
