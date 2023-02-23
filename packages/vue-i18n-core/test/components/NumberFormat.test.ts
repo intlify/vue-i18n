@@ -1,5 +1,5 @@
 /**
- * @jest-environment jsdom
+ * @vitest-environment jsdom
  */
 
 import { mount } from '../helper'
@@ -53,7 +53,7 @@ let org: any // eslint-disable-line @typescript-eslint/no-explicit-any
 let spy: any // eslint-disable-line @typescript-eslint/no-explicit-any
 beforeEach(() => {
   org = console.warn
-  spy = jest.fn()
+  spy = vi.fn()
   console.warn = spy
 })
 afterEach(() => {

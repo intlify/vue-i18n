@@ -11,10 +11,11 @@
 
     <div id="app">
       <h2>basic usages:</h2>
-      <i18n-d tag="p" :value="new Date()"></i18n-d>
-      <i18n-d tag="p" :value="new Date()" format="long"></i18n-d>
+      <i18n-d tag="p" class="p1" :value="new Date()"></i18n-d>
+      <i18n-d tag="p" class="p2" :value="new Date()" format="long"></i18n-d>
       <i18n-d
         tag="p"
+        class="p3"
         :value="new Date()"
         format="long"
         locale="ja-JP-u-ca-japanese"
@@ -22,6 +23,8 @@
 
       <h2>slot usages:</h2>
       <i18n-d
+        tag="span"
+        class="p4"
         :value="new Date()"
         locale="ja-JP-u-ca-japanese"
         :format="{ key: 'long', era: 'narrow' }"

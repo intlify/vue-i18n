@@ -7,12 +7,10 @@ module.exports = {
     __COMMIT__: true,
     page: true,
     browser: true,
-    context: true,
-    jestPuppeteer: true
+    context: true
   },
   env: {
-    node: true,
-    jest: true
+    node: true
   },
   extends: [
     'plugin:vue/vue3-recommended',

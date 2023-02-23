@@ -7,7 +7,7 @@ import {
 
 let spy: any // eslint-disable-line @typescript-eslint/no-explicit-any
 beforeEach(() => {
-  spy = jest.fn()
+  spy = vi.fn()
 })
 
 describe('simple', () => {

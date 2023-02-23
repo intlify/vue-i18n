@@ -17,7 +17,7 @@
   <body>
     <div id="app">
       <h1>Root</h1>
-      <p>{{ t("message.hello") }}</p>
+      <p class="root">{{ t("message.hello") }}</p>
       <Component1 />
     </div>
     <script>
@@ -42,8 +42,8 @@
         template: `
           <div id="component">
             <h1>Component1</h1>
-            <p>Component1 locale messages: {{ t("message.hello") }}</p>
-            <p>Fallback global locale messages: {{ t("message.greeting") }}</p>
+            <p class="c1">Component1 locale messages: {{ t("message.hello") }}</p>
+            <p class="c2">Fallback global locale messages: {{ t("message.greeting") }}</p>
           </div>
         `,
         setup() {

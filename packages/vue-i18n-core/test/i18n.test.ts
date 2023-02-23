@@ -1,5 +1,5 @@
 /**
- * @jest-environment jsdom
+ * @vitest-environment jsdom
  */
 
 import {
@@ -137,7 +137,7 @@ describe('useI18n', () => {
   let spy: any // eslint-disable-line @typescript-eslint/no-explicit-any
   beforeEach(() => {
     org = console.warn
-    spy = jest.fn()
+    spy = vi.fn()
     console.warn = spy
   })
   afterEach(() => {
@@ -762,7 +762,7 @@ describe('slot reactivity', () => {
   let spy: any // eslint-disable-line @typescript-eslint/no-explicit-any
   beforeEach(() => {
     org = console.warn
-    spy = jest.fn()
+    spy = vi.fn()
     console.warn = spy
   })
   afterEach(() => {
@@ -1315,8 +1315,8 @@ test('Intlify devtools hooking', () => {
   const emitter = createEmitter<IntlifyDevToolsEmitterHooks>()
   setDevToolsHook(emitter)
 
-  const fnI18nInit = jest.fn()
-  const fnTranslate = jest.fn()
+  const fnI18nInit = vi.fn()
+  const fnTranslate = vi.fn()
   emitter.on(IntlifyDevToolsHooks.I18nInit, fnI18nInit)
   emitter.on(IntlifyDevToolsHooks.FunctionTranslate, fnTranslate)
 
@@ -1392,13 +1392,13 @@ describe('release global scope', () => {
 
 describe('Composer & VueI18n extend hooking', () => {
   test('composition', async () => {
-    const composerExtendSpy = jest
+    const composerExtendSpy = vi
       .fn()
       .mockImplementation((composer: Composer) => {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         ;(composer as any).foo = ref('hello world')
       })
-    const vueI18nExtendSpy = jest.fn()
+    const vueI18nExtendSpy = vi.fn()
     const i18n = createI18n({
       legacy: false
     })
@@ -1426,8 +1426,8 @@ describe('Composer & VueI18n extend hooking', () => {
 
   describe('legacy', () => {
     test('basic', async () => {
-      const composerExtendSpy = jest.fn()
-      const vueI18nExtendSpy = jest
+      const composerExtendSpy = vi.fn()
+      const vueI18nExtendSpy = vi
         .fn()
         .mockImplementation((vueI18n: VueI18n) => {
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -1448,8 +1448,8 @@ describe('Composer & VueI18n extend hooking', () => {
     })
 
     test('use global vue i18n instance in components', async () => {
-      const composerExtendSpy = jest.fn()
-      const vueI18nExtendSpy = jest
+      const composerExtendSpy = vi.fn()
+      const vueI18nExtendSpy = vi
         .fn()
         .mockImplementation((vueI18n: VueI18n) => {
           // eslint-disable-next-line @typescript-eslint/no-explicit-any

@@ -1,13 +1,16 @@
 /**
- * @jest-environment jsdom
+ * @vitest-environment jsdom
  */
 
 // utils
-jest.mock('@intlify/shared', () => ({
-  ...jest.requireActual<object>('@intlify/shared'),
-  warn: jest.fn()
-}))
-import { warn } from '@intlify/shared'
+import * as shared from '@intlify/shared'
+vi.mock('@intlify/shared', async () => {
+  const actual = await vi.importActual<object>('@intlify/shared')
+  return {
+    ...actual,
+    warn: vi.fn()
+  }
+})
 
 import {
   ref,
@@ -42,7 +45,7 @@ beforeEach(() => {
   container.innerHTML = ''
 
   org = console.warn
-  spy = jest.fn()
+  spy = vi.fn()
   console.warn = spy
 })
 
@@ -319,8 +322,9 @@ test('issue #819: v-for', async () => {
 
 describe('issue #853', () => {
   test('legacy', async () => {
-    const mockWarn = warn as jest.MockedFunction<typeof warn>
-    mockWarn.mockImplementation(() => {}) // eslint-disable-line @typescript-eslint/no-empty-function
+    const mockWarn = vi.spyOn(shared, 'warn')
+    // eslint-disable-next-line @typescript-eslint/no-empty-function
+    mockWarn.mockImplementation(() => {})
 
     const i18n = createI18n({
       locale: 'en',
@@ -359,8 +363,9 @@ describe('issue #853', () => {
   })
 
   test('compostion', async () => {
-    const mockWarn = warn as jest.MockedFunction<typeof warn>
-    mockWarn.mockImplementation(() => {}) // eslint-disable-line @typescript-eslint/no-empty-function
+    const mockWarn = vi.spyOn(shared, 'warn')
+    // eslint-disable-next-line @typescript-eslint/no-empty-function
+    mockWarn.mockImplementation(() => {})
 
     const i18n = createI18n({
       legacy: false,
@@ -404,8 +409,9 @@ describe('issue #853', () => {
 })
 
 test('issue #854', async () => {
-  const mockWarn = warn as jest.MockedFunction<typeof warn>
-  mockWarn.mockImplementation(() => {}) // eslint-disable-line @typescript-eslint/no-empty-function
+  const mockWarn = vi.spyOn(shared, 'warn')
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  mockWarn.mockImplementation(() => {})
 
   const i18n = createI18n({
     legacy: false,

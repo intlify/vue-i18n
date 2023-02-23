@@ -1,23 +1,23 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1
 
-exports[`@.caml:{'no apples'} | {0} apple | {n}　apples: ast 1`] = `
-Object {
-  "body": Object {
-    "cases": Array [
-      Object {
+exports[`@.caml:{'no apples'} | {0} apple | {n}　apples > ast 1`] = `
+{
+  "body": {
+    "cases": [
+      {
         "end": 19,
-        "items": Array [
-          Object {
+        "items": [
+          {
             "end": 20,
-            "key": Object {
+            "key": {
               "end": 20,
-              "loc": Object {
-                "end": Object {
+              "loc": {
+                "end": {
                   "column": 21,
                   "line": 1,
                   "offset": 20,
                 },
-                "start": Object {
+                "start": {
                   "column": 8,
                   "line": 1,
                   "offset": 7,
@@ -27,27 +27,27 @@ Object {
               "type": 9,
               "value": "no apples",
             },
-            "loc": Object {
-              "end": Object {
+            "loc": {
+              "end": {
                 "column": 21,
                 "line": 1,
                 "offset": 20,
               },
-              "start": Object {
+              "start": {
                 "column": 1,
                 "line": 1,
                 "offset": 0,
               },
             },
-            "modifier": Object {
+            "modifier": {
               "end": 6,
-              "loc": Object {
-                "end": Object {
+              "loc": {
+                "end": {
                   "column": 7,
                   "line": 1,
                   "offset": 6,
                 },
-                "start": Object {
+                "start": {
                   "column": 2,
                   "line": 1,
                   "offset": 1,
@@ -61,13 +61,13 @@ Object {
             "type": 6,
           },
         ],
-        "loc": Object {
-          "end": Object {
+        "loc": {
+          "end": {
             "column": 21,
             "line": 1,
             "offset": 20,
           },
-          "start": Object {
+          "start": {
             "column": 1,
             "line": 1,
             "offset": 0,
@@ -76,19 +76,19 @@ Object {
         "start": 0,
         "type": 2,
       },
-      Object {
+      {
         "end": 26,
-        "items": Array [
-          Object {
+        "items": [
+          {
             "end": 26,
             "index": 0,
-            "loc": Object {
-              "end": Object {
+            "loc": {
+              "end": {
                 "column": 27,
                 "line": 1,
                 "offset": 26,
               },
-              "start": Object {
+              "start": {
                 "column": 24,
                 "line": 1,
                 "offset": 23,
@@ -97,15 +97,15 @@ Object {
             "start": 23,
             "type": 5,
           },
-          Object {
+          {
             "end": 32,
-            "loc": Object {
-              "end": Object {
+            "loc": {
+              "end": {
                 "column": 33,
                 "line": 1,
                 "offset": 32,
               },
-              "start": Object {
+              "start": {
                 "column": 27,
                 "line": 1,
                 "offset": 26,
@@ -116,13 +116,13 @@ Object {
             "value": " apple",
           },
         ],
-        "loc": Object {
-          "end": Object {
+        "loc": {
+          "end": {
             "column": 33,
             "line": 1,
             "offset": 32,
           },
-          "start": Object {
+          "start": {
             "column": 24,
             "line": 1,
             "offset": 23,
@@ -131,19 +131,19 @@ Object {
         "start": 23,
         "type": 2,
       },
-      Object {
+      {
         "end": 45,
-        "items": Array [
-          Object {
+        "items": [
+          {
             "end": 38,
             "key": "n",
-            "loc": Object {
-              "end": Object {
+            "loc": {
+              "end": {
                 "column": 39,
                 "line": 1,
                 "offset": 38,
               },
-              "start": Object {
+              "start": {
                 "column": 36,
                 "line": 1,
                 "offset": 35,
@@ -152,15 +152,15 @@ Object {
             "start": 35,
             "type": 4,
           },
-          Object {
+          {
             "end": 45,
-            "loc": Object {
-              "end": Object {
+            "loc": {
+              "end": {
                 "column": 46,
                 "line": 1,
                 "offset": 45,
               },
-              "start": Object {
+              "start": {
                 "column": 39,
                 "line": 1,
                 "offset": 38,
@@ -171,13 +171,13 @@ Object {
             "value": "　apples",
           },
         ],
-        "loc": Object {
-          "end": Object {
+        "loc": {
+          "end": {
             "column": 46,
             "line": 1,
             "offset": 45,
           },
-          "start": Object {
+          "start": {
             "column": 36,
             "line": 1,
             "offset": 35,
@@ -188,13 +188,13 @@ Object {
       },
     ],
     "end": 45,
-    "loc": Object {
-      "end": Object {
+    "loc": {
+      "end": {
         "column": 46,
         "line": 1,
         "offset": 45,
       },
-      "start": Object {
+      "start": {
         "column": 1,
         "line": 1,
         "offset": 0,
@@ -204,7 +204,7 @@ Object {
     "type": 1,
   },
   "end": 45,
-  "helpers": Array [
+  "helpers": [
     "normalize",
     "linked",
     "type",
@@ -213,14 +213,14 @@ Object {
     "named",
     "plural",
   ],
-  "loc": Object {
-    "end": Object {
+  "loc": {
+    "end": {
       "column": 46,
       "line": 1,
       "offset": 45,
     },
     "source": "@.caml:{'no apples'} | {0} apple | {n}　apples",
-    "start": Object {
+    "start": {
       "column": 1,
       "line": 1,
       "offset": 0,
@@ -231,7 +231,7 @@ Object {
 }
 `;
 
-exports[`@.caml:{'no apples'} | {0} apple | {n}　apples: code 1`] = `
+exports[`@.caml:{'no apples'} | {0} apple | {n}　apples > code 1`] = `
 "function __msg__ (ctx) {
   const { normalize: _normalize, linked: _linked, type: _type, interpolate: _interpolate, list: _list, named: _named, plural: _plural } = ctx
   return _plural([
@@ -246,27 +246,27 @@ exports[`@.caml:{'no apples'} | {0} apple | {n}　apples: code 1`] = `
 }"
 `;
 
-exports[`@.caml:{'no apples'} | {0} apple | {n}　apples: map 1`] = `undefined`;
+exports[`@.caml:{'no apples'} | {0} apple | {n}　apples > map 1`] = `undefined`;
 
-exports[`arrow mode  | | | : code 1`] = `"(ctx) => {const { normalize: _normalize, plural: _plural } = ctx;return _plural([_normalize([]), _normalize([]), _normalize([]), _normalize([])])}"`;
+exports[`arrow mode >  | | |  > code 1`] = `"(ctx) => {const { normalize: _normalize, plural: _plural } = ctx;return _plural([_normalize([]), _normalize([]), _normalize([]), _normalize([])])}"`;
 
-exports[`arrow mode !#%^&*()-_+=[]:;?.<>"\`: code 1`] = `"(ctx) => {const { normalize: _normalize } = ctx;return _normalize([\\"hi \\", \\"!#%^&*()-_+=[]:;?.<>\\\\\\"\`\\", \\" !\\"])}"`;
+exports[`arrow mode > !#%^&*()-_+=[]:;?.<>"\` > code 1`] = `"(ctx) => {const { normalize: _normalize } = ctx;return _normalize([\\"hi \\", \\"!#%^&*()-_+=[]:;?.<>\\\\\\"\`\\", \\" !\\"])}"`;
 
-exports[`arrow mode @.caml:{'no apples'} | {0} apple | {n}　apples: code 1`] = `"(ctx) => {const { normalize: _normalize, linked: _linked, type: _type, interpolate: _interpolate, list: _list, named: _named, plural: _plural } = ctx;return _plural([_normalize([_linked(\\"no apples\\", \\"caml\\", _type)]), _normalize([_interpolate(_list(0)), \\" apple\\"]), _normalize([_interpolate(_named(\\"n\\")), \\"　apples\\"])])}"`;
+exports[`arrow mode > @.caml:{'no apples'} | {0} apple | {n}　apples > code 1`] = `"(ctx) => {const { normalize: _normalize, linked: _linked, type: _type, interpolate: _interpolate, list: _list, named: _named, plural: _plural } = ctx;return _plural([_normalize([_linked(\\"no apples\\", \\"caml\\", _type)]), _normalize([_interpolate(_list(0)), \\" apple\\"]), _normalize([_interpolate(_named(\\"n\\")), \\"　apples\\"])])}"`;
 
-exports[`arrow mode hello world: code 1`] = `"(ctx) => {const { normalize: _normalize } = ctx;return _normalize([\\"hello world\\"])}"`;
+exports[`arrow mode > hello world > code 1`] = `"(ctx) => {const { normalize: _normalize } = ctx;return _normalize([\\"hello world\\"])}"`;
 
-exports[`arrow mode hello\\n world: code 1`] = `"(ctx) => {const { normalize: _normalize } = ctx;return _normalize([\\"hello\\\\n world\\"])}"`;
+exports[`arrow mode > hello\\n world > code 1`] = `"(ctx) => {const { normalize: _normalize } = ctx;return _normalize([\\"hello\\\\n world\\"])}"`;
 
-exports[`arrow mode hi @.upper:{'name'} !: code 1`] = `"(ctx) => {const { normalize: _normalize, linked: _linked, type: _type } = ctx;return _normalize([\\"hi \\", _linked(\\"name\\", \\"upper\\", _type), \\" !\\"])}"`;
+exports[`arrow mode > hi @.upper:{'name'} ! > code 1`] = `"(ctx) => {const { normalize: _normalize, linked: _linked, type: _type } = ctx;return _normalize([\\"hi \\", _linked(\\"name\\", \\"upper\\", _type), \\" !\\"])}"`;
 
-exports[`arrow mode hi { 'kazupon' }!: code 1`] = `"(ctx) => {const { normalize: _normalize } = ctx;return _normalize([\\"hi \\", \\"kazupon\\", \\"!\\"])}"`;
+exports[`arrow mode > hi { 'kazupon' }! > code 1`] = `"(ctx) => {const { normalize: _normalize } = ctx;return _normalize([\\"hi \\", \\"kazupon\\", \\"!\\"])}"`;
 
-exports[`arrow mode hi {0}!: code 1`] = `"(ctx) => {const { normalize: _normalize, interpolate: _interpolate, list: _list } = ctx;return _normalize([\\"hi \\", _interpolate(_list(0)), \\"!\\"])}"`;
+exports[`arrow mode > hi {0}! > code 1`] = `"(ctx) => {const { normalize: _normalize, interpolate: _interpolate, list: _list } = ctx;return _normalize([\\"hi \\", _interpolate(_list(0)), \\"!\\"])}"`;
 
-exports[`arrow mode hi {name}!: code 1`] = `"(ctx) => {const { normalize: _normalize, interpolate: _interpolate, named: _named } = ctx;return _normalize([\\"hi \\", _interpolate(_named(\\"name\\")), \\"!\\"])}"`;
+exports[`arrow mode > hi {name}! > code 1`] = `"(ctx) => {const { normalize: _normalize, interpolate: _interpolate, named: _named } = ctx;return _normalize([\\"hi \\", _interpolate(_named(\\"name\\")), \\"!\\"])}"`;
 
-exports[`edge cases  | | | : code 1`] = `
+exports[`edge cases >  | | |  > code 1`] = `
 "function __msg__ (ctx) {
   const { normalize: _normalize, plural: _plural } = ctx
   return _plural([
@@ -283,17 +283,17 @@ exports[`edge cases  | | | : code 1`] = `
 }"
 `;
 
-exports[`edge cases  | | | : error 1`] = `
-Object {
+exports[`edge cases >  | | |  > error 1`] = `
+{
   "code": 11,
   "domain": "parser",
-  "location": Object {
-    "end": Object {
+  "location": {
+    "end": {
       "column": 8,
       "line": 1,
       "offset": 7,
     },
-    "start": Object {
+    "start": {
       "column": 1,
       "line": 1,
       "offset": 0,
@@ -303,7 +303,7 @@ Object {
 }
 `;
 
-exports[`edge cases %: code 1`] = `
+exports[`edge cases > % > code 1`] = `
 "function __msg__ (ctx) {
   const { normalize: _normalize } = ctx
   return _normalize([
@@ -312,7 +312,7 @@ exports[`edge cases %: code 1`] = `
 }"
 `;
 
-exports[`edge cases %{nickname} %{action} issue %{code}: code 1`] = `
+exports[`edge cases > %{nickname} %{action} issue %{code} > code 1`] = `
 "function __msg__ (ctx) {
   const { normalize: _normalize, interpolate: _interpolate, named: _named } = ctx
   return _normalize([
@@ -321,7 +321,7 @@ exports[`edge cases %{nickname} %{action} issue %{code}: code 1`] = `
 }"
 `;
 
-exports[`edge cases {_field} with the same value already exists.: code 1`] = `
+exports[`edge cases > {_field} with the same value already exists. > code 1`] = `
 "function __msg__ (ctx) {
   const { normalize: _normalize, interpolate: _interpolate, named: _named } = ctx
   return _normalize([
@@ -330,7 +330,7 @@ exports[`edge cases {_field} with the same value already exists.: code 1`] = `
 }"
 `;
 
-exports[`edge cases hi %s !: code 1`] = `
+exports[`edge cases > hi %s ! > code 1`] = `
 "function __msg__ (ctx) {
   const { normalize: _normalize } = ctx
   return _normalize([
@@ -339,7 +339,7 @@ exports[`edge cases hi %s !: code 1`] = `
 }"
 `;
 
-exports[`edge cases hi @._upper:{_name} !: code 1`] = `
+exports[`edge cases > hi @._upper:{_name} ! > code 1`] = `
 "function __msg__ (ctx) {
   const { normalize: _normalize, interpolate: _interpolate, named: _named, linked: _linked, type: _type } = ctx
   return _normalize([
@@ -348,7 +348,7 @@ exports[`edge cases hi @._upper:{_name} !: code 1`] = `
 }"
 `;
 
-exports[`edge cases no apples %| one apple % |  too much apples  : code 1`] = `
+exports[`edge cases > no apples %| one apple % |  too much apples   > code 1`] = `
 "function __msg__ (ctx) {
   const { normalize: _normalize, plural: _plural } = ctx
   return _plural([

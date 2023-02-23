@@ -8,7 +8,7 @@ import { CompileErrorCodes, errorMessages } from '../../src/errors'
 
 let spy: any // eslint-disable-line @typescript-eslint/no-explicit-any
 beforeEach(() => {
-  spy = jest.fn()
+  spy = vi.fn()
 })
 
 describe('basic', () => {

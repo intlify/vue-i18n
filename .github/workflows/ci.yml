@@ -103,7 +103,6 @@ jobs:
 
       - name: Run unit tests
         run: |
-          pnpm clean:cache:jest
           pnpm test:cover
 
   test-type:

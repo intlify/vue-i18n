@@ -1,11 +1,14 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
 
 // utils
-jest.mock('@intlify/shared', () => ({
-  ...jest.requireActual<object>('@intlify/shared'),
-  warn: jest.fn()
-}))
-import { isString, warn } from '@intlify/shared'
+import * as shared from '@intlify/shared'
+vi.mock('@intlify/shared', async () => {
+  const actual = await vi.importActual<object>('@intlify/shared')
+  return {
+    ...actual,
+    warn: vi.fn()
+  }
+})
 
 import { VueMessageType } from '../src/composer'
 import { createVueI18n } from '../src/legacy'
@@ -19,8 +22,7 @@ import {
   registerMessageResolver,
   MessageContext,
   Path,
-  PathValue,
-  MessageResolver
+  PathValue
 } from '@intlify/core-base'
 import { pluralRules as _pluralRules } from './helper'
 
@@ -56,7 +58,7 @@ test('availableLocales', () => {
 })
 
 test('formatter', () => {
-  const mockWarn = warn as jest.MockedFunction<typeof warn>
+  const mockWarn = vi.spyOn(shared, 'warn')
   mockWarn.mockImplementation(() => {})
 
   const i18n = createVueI18n({
@@ -140,7 +142,7 @@ test('postTranslation', () => {
   const i18n = createVueI18n()
   expect(i18n.postTranslation).toEqual(null)
   const postTranslation = (str: VueMessageType) =>
-    isString(str) ? str.trim() : str
+    shared.isString(str) ? str.trim() : str
   i18n.postTranslation = postTranslation
   expect(i18n.postTranslation).toEqual(postTranslation)
 })
@@ -596,7 +598,7 @@ test('getNumberFormat / setNumberFormat / mergeNumberFormat', () => {
 })
 
 test('getChoiceIndex', () => {
-  const mockWarn = warn as jest.MockedFunction<typeof warn>
+  const mockWarn = vi.spyOn(shared, 'warn')
   mockWarn.mockImplementation(() => {})
 
   const i18n = createVueI18n({})
@@ -607,7 +609,7 @@ test('getChoiceIndex', () => {
 })
 
 test('warnHtmlInMessage', () => {
-  const mockWarn = warn as jest.MockedFunction<typeof warn>
+  const mockWarn = vi.spyOn(shared, 'warn')
   mockWarn.mockImplementation(() => {})
 
   const i18n = createVueI18n({
@@ -630,8 +632,7 @@ test('warnHtmlInMessage', () => {
 })
 
 test('messageResolver', () => {
-  const fn = jest.fn()
-  const mockMessageResolver = fn as jest.MockedFunction<MessageResolver>
+  const mockMessageResolver = vi.fn()
   mockMessageResolver.mockImplementation(
     (obj: unknown, path: Path): PathValue => {
       return path
@@ -640,7 +641,7 @@ test('messageResolver', () => {
 
   const i18n = createVueI18n({
     locale: 'en',
-    messageResolver: fn,
+    messageResolver: mockMessageResolver,
     messages: {
       en: {}
     }

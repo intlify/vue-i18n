@@ -1,7 +1,7 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1
 
-exports[`arrow mode complex:  apple mapping 1`] = `
-Object {
+exports[`arrow mode > complex >  apple mapping 1`] = `
+{
   "generatedColumn": 253,
   "generatedLine": 1,
   "name": " apple",
@@ -11,10 +11,10 @@ Object {
 }
 `;
 
-exports[`arrow mode complex: @.caml:{'no apples'} | {0} apple | {n}　apples 1`] = `"(ctx) => {const { normalize: _normalize, linked: _linked, type: _type, interpolate: _interpolate, list: _list, named: _named, plural: _plural } = ctx;return _plural([_normalize([_linked(\\"no apples\\", \\"caml\\", _type)]), _normalize([_interpolate(_list(0)), \\" apple\\"]), _normalize([_interpolate(_named(\\"n\\")), \\"　apples\\"])])}"`;
+exports[`arrow mode > complex > @.caml:{'no apples'} | {0} apple | {n}　apples 1`] = `"(ctx) => {const { normalize: _normalize, linked: _linked, type: _type, interpolate: _interpolate, list: _list, named: _named, plural: _plural } = ctx;return _plural([_normalize([_linked(\\"no apples\\", \\"caml\\", _type)]), _normalize([_interpolate(_list(0)), \\" apple\\"]), _normalize([_interpolate(_named(\\"n\\")), \\"　apples\\"])])}"`;
 
-exports[`arrow mode complex: 0 mapping 1`] = `
-Object {
+exports[`arrow mode > complex > 0 mapping 1`] = `
+{
   "generatedColumn": 229,
   "generatedLine": 1,
   "name": "0",
@@ -24,8 +24,8 @@ Object {
 }
 `;
 
-exports[`arrow mode complex: caml mapping 1`] = `
-Object {
+exports[`arrow mode > complex > caml mapping 1`] = `
+{
   "generatedColumn": 199,
   "generatedLine": 1,
   "name": "caml",
@@ -35,8 +35,8 @@ Object {
 }
 `;
 
-exports[`arrow mode complex: n mapping 1`] = `
-Object {
+exports[`arrow mode > complex > n mapping 1`] = `
+{
   "generatedColumn": 277,
   "generatedLine": 1,
   "name": "n",
@@ -46,8 +46,8 @@ Object {
 }
 `;
 
-exports[`arrow mode complex: no apples mapping 1`] = `
-Object {
+exports[`arrow mode > complex > no apples mapping 1`] = `
+{
   "generatedColumn": 186,
   "generatedLine": 1,
   "name": "no apples",
@@ -57,8 +57,8 @@ Object {
 }
 `;
 
-exports[`arrow mode complex: 　apples mapping 1`] = `
-Object {
+exports[`arrow mode > complex > 　apples mapping 1`] = `
+{
   "generatedColumn": 304,
   "generatedLine": 1,
   "name": "　apples",
@@ -68,8 +68,8 @@ Object {
 }
 `;
 
-exports[`linked key:  ! mapping 1`] = `
-Object {
+exports[`linked > key >  ! mapping 1`] = `
+{
   "generatedColumn": 46,
   "generatedLine": 4,
   "name": " !",
@@ -79,8 +79,8 @@ Object {
 }
 `;
 
-exports[`linked key: hi  mapping 1`] = `
-Object {
+exports[`linked > key > hi  mapping 1`] = `
+{
   "generatedColumn": 4,
   "generatedLine": 4,
   "name": "hi ",
@@ -90,7 +90,7 @@ Object {
 }
 `;
 
-exports[`linked key: hi @:name ! 1`] = `
+exports[`linked > key > hi @:name ! 1`] = `
 "function __msg__ (ctx) {
   const { normalize: _normalize, linked: _linked, type: _type } = ctx
   return _normalize([
@@ -99,8 +99,8 @@ exports[`linked key: hi @:name ! 1`] = `
 }"
 `;
 
-exports[`linked key: name mapping 1`] = `
-Object {
+exports[`linked > key > name mapping 1`] = `
+{
   "generatedColumn": 19,
   "generatedLine": 4,
   "name": "name",
@@ -110,8 +110,8 @@ Object {
 }
 `;
 
-exports[`linked list:  ! mapping 1`] = `
-Object {
+exports[`linked > list >  ! mapping 1`] = `
+{
   "generatedColumn": 62,
   "generatedLine": 4,
   "name": " !",
@@ -121,8 +121,8 @@ Object {
 }
 `;
 
-exports[`linked list: 0 mapping 1`] = `
-Object {
+exports[`linked > list > 0 mapping 1`] = `
+{
   "generatedColumn": 19,
   "generatedLine": 4,
   "name": "0",
@@ -132,8 +132,8 @@ Object {
 }
 `;
 
-exports[`linked list: hi  mapping 1`] = `
-Object {
+exports[`linked > list > hi  mapping 1`] = `
+{
   "generatedColumn": 4,
   "generatedLine": 4,
   "name": "hi ",
@@ -143,7 +143,7 @@ Object {
 }
 `;
 
-exports[`linked list: hi @:{0} ! 1`] = `
+exports[`linked > list > hi @:{0} ! 1`] = `
 "function __msg__ (ctx) {
   const { normalize: _normalize, interpolate: _interpolate, list: _list, linked: _linked, type: _type } = ctx
   return _normalize([
@@ -152,8 +152,8 @@ exports[`linked list: hi @:{0} ! 1`] = `
 }"
 `;
 
-exports[`linked modifier:  ! mapping 1`] = `
-Object {
+exports[`linked > modifier >  ! mapping 1`] = `
+{
   "generatedColumn": 44,
   "generatedLine": 4,
   "name": " !",
@@ -163,8 +163,8 @@ Object {
 }
 `;
 
-exports[`linked modifier: hi  mapping 1`] = `
-Object {
+exports[`linked > modifier > hi  mapping 1`] = `
+{
   "generatedColumn": 4,
   "generatedLine": 4,
   "name": "hi ",
@@ -174,7 +174,7 @@ Object {
 }
 `;
 
-exports[`linked modifier: hi @.upper:{'name'} ! 1`] = `
+exports[`linked > modifier > hi @.upper:{'name'} ! 1`] = `
 "function __msg__ (ctx) {
   const { normalize: _normalize, linked: _linked, type: _type } = ctx
   return _normalize([
@@ -183,8 +183,8 @@ exports[`linked modifier: hi @.upper:{'name'} ! 1`] = `
 }"
 `;
 
-exports[`linked modifier: name mapping 1`] = `
-Object {
+exports[`linked > modifier > name mapping 1`] = `
+{
   "generatedColumn": 19,
   "generatedLine": 4,
   "name": "name",
@@ -194,8 +194,8 @@ Object {
 }
 `;
 
-exports[`linked modifier: upper mapping 1`] = `
-Object {
+exports[`linked > modifier > upper mapping 1`] = `
+{
   "generatedColumn": 27,
   "generatedLine": 4,
   "name": "upper",
@@ -205,8 +205,8 @@ Object {
 }
 `;
 
-exports[`linked named:  ! mapping 1`] = `
-Object {
+exports[`linked > named >  ! mapping 1`] = `
+{
   "generatedColumn": 68,
   "generatedLine": 4,
   "name": " !",
@@ -216,8 +216,8 @@ Object {
 }
 `;
 
-exports[`linked named: hi  mapping 1`] = `
-Object {
+exports[`linked > named > hi  mapping 1`] = `
+{
   "generatedColumn": 4,
   "generatedLine": 4,
   "name": "hi ",
@@ -227,7 +227,7 @@ Object {
 }
 `;
 
-exports[`linked named: hi @:{name} ! 1`] = `
+exports[`linked > named > hi @:{name} ! 1`] = `
 "function __msg__ (ctx) {
   const { normalize: _normalize, interpolate: _interpolate, named: _named, linked: _linked, type: _type } = ctx
   return _normalize([
@@ -236,8 +236,8 @@ exports[`linked named: hi @:{name} ! 1`] = `
 }"
 `;
 
-exports[`linked named: name mapping 1`] = `
-Object {
+exports[`linked > named > name mapping 1`] = `
+{
   "generatedColumn": 19,
   "generatedLine": 4,
   "name": "name",
@@ -247,8 +247,8 @@ Object {
 }
 `;
 
-exports[`list basic:  ! mapping 1`] = `
-Object {
+exports[`list > basic >  ! mapping 1`] = `
+{
   "generatedColumn": 35,
   "generatedLine": 4,
   "name": " !",
@@ -258,8 +258,8 @@ Object {
 }
 `;
 
-exports[`list basic: 0 mapping 1`] = `
-Object {
+exports[`list > basic > 0 mapping 1`] = `
+{
   "generatedColumn": 11,
   "generatedLine": 4,
   "name": "0",
@@ -269,8 +269,8 @@ Object {
 }
 `;
 
-exports[`list basic: hi  mapping 1`] = `
-Object {
+exports[`list > basic > hi  mapping 1`] = `
+{
   "generatedColumn": 4,
   "generatedLine": 4,
   "name": "hi ",
@@ -280,7 +280,7 @@ Object {
 }
 `;
 
-exports[`list basic: hi {0} ! 1`] = `
+exports[`list > basic > hi {0} ! 1`] = `
 "function __msg__ (ctx) {
   const { normalize: _normalize, interpolate: _interpolate, list: _list } = ctx
   return _normalize([
@@ -289,8 +289,8 @@ exports[`list basic: hi {0} ! 1`] = `
 }"
 `;
 
-exports[`list multiple:   mapping 1`] = `
-Object {
+exports[`list > multiple >   mapping 1`] = `
+{
   "generatedColumn": 28,
   "generatedLine": 4,
   "name": " ",
@@ -300,8 +300,8 @@ Object {
 }
 `;
 
-exports[`list multiple:  ! mapping 1`] = `
-Object {
+exports[`list > multiple >  ! mapping 1`] = `
+{
   "generatedColumn": 57,
   "generatedLine": 4,
   "name": " !",
@@ -311,7 +311,7 @@ Object {
 }
 `;
 
-exports[`list multiple: {0} {1} ! 1`] = `
+exports[`list > multiple > {0} {1} ! 1`] = `
 "function __msg__ (ctx) {
   const { normalize: _normalize, interpolate: _interpolate, list: _list } = ctx
   return _normalize([
@@ -320,8 +320,8 @@ exports[`list multiple: {0} {1} ! 1`] = `
 }"
 `;
 
-exports[`list multiple: 0 mapping 1`] = `
-Object {
+exports[`list > multiple > 0 mapping 1`] = `
+{
   "generatedColumn": 4,
   "generatedLine": 4,
   "name": "0",
@@ -331,8 +331,8 @@ Object {
 }
 `;
 
-exports[`list multiple: 1 mapping 1`] = `
-Object {
+exports[`list > multiple > 1 mapping 1`] = `
+{
   "generatedColumn": 33,
   "generatedLine": 4,
   "name": "1",
@@ -342,8 +342,8 @@ Object {
 }
 `;
 
-exports[`literal !#%^&*()-_+=[]:;?.<>"\`:  ! mapping 1`] = `
-Object {
+exports[`literal > !#%^&*()-_+=[]:;?.<>"\` >  ! mapping 1`] = `
+{
   "generatedColumn": 38,
   "generatedLine": 4,
   "name": " !",
@@ -353,8 +353,8 @@ Object {
 }
 `;
 
-exports[`literal !#%^&*()-_+=[]:;?.<>"\`: !#%^&*()-_+=[]:;?.<>"\` mapping 1`] = `
-Object {
+exports[`literal > !#%^&*()-_+=[]:;?.<>"\` > !#%^&*()-_+=[]:;?.<>"\` mapping 1`] = `
+{
   "generatedColumn": 11,
   "generatedLine": 4,
   "name": "!#%^&*()-_+=[]:;?.<>\\"\`",
@@ -364,8 +364,8 @@ Object {
 }
 `;
 
-exports[`literal !#%^&*()-_+=[]:;?.<>"\`: hi  mapping 1`] = `
-Object {
+exports[`literal > !#%^&*()-_+=[]:;?.<>"\` > hi  mapping 1`] = `
+{
   "generatedColumn": 4,
   "generatedLine": 4,
   "name": "hi ",
@@ -375,7 +375,7 @@ Object {
 }
 `;
 
-exports[`literal !#%^&*()-_+=[]:;?.<>"\`: hi {'!#%^&*()-_+=[]:;?.<>"\`'} ! 1`] = `
+exports[`literal > !#%^&*()-_+=[]:;?.<>"\` > hi {'!#%^&*()-_+=[]:;?.<>"\`'} ! 1`] = `
 "function __msg__ (ctx) {
   const { normalize: _normalize } = ctx
   return _normalize([
@@ -384,7 +384,7 @@ exports[`literal !#%^&*()-_+=[]:;?.<>"\`: hi {'!#%^&*()-_+=[]:;?.<>"\`'} ! 1`] =
 }"
 `;
 
-exports[`literal {}: {'{}'} 1`] = `
+exports[`literal > {} > {'{}'} 1`] = `
 "function __msg__ (ctx) {
   const { normalize: _normalize } = ctx
   return _normalize([
@@ -393,8 +393,8 @@ exports[`literal {}: {'{}'} 1`] = `
 }"
 `;
 
-exports[`literal {}: {} mapping 1`] = `
-Object {
+exports[`literal > {} > {} mapping 1`] = `
+{
   "generatedColumn": 4,
   "generatedLine": 4,
   "name": "{}",
@@ -404,8 +404,8 @@ Object {
 }
 `;
 
-exports[`literal ascii:  ! mapping 1`] = `
-Object {
+exports[`literal > ascii >  ! mapping 1`] = `
+{
   "generatedColumn": 22,
   "generatedLine": 4,
   "name": " !",
@@ -415,8 +415,8 @@ Object {
 }
 `;
 
-exports[`literal ascii: hi  mapping 1`] = `
-Object {
+exports[`literal > ascii > hi  mapping 1`] = `
+{
   "generatedColumn": 4,
   "generatedLine": 4,
   "name": "hi ",
@@ -426,7 +426,7 @@ Object {
 }
 `;
 
-exports[`literal ascii: hi {'kazupon'} ! 1`] = `
+exports[`literal > ascii > hi {'kazupon'} ! 1`] = `
 "function __msg__ (ctx) {
   const { normalize: _normalize } = ctx
   return _normalize([
@@ -435,8 +435,8 @@ exports[`literal ascii: hi {'kazupon'} ! 1`] = `
 }"
 `;
 
-exports[`literal ascii: kazupon mapping 1`] = `
-Object {
+exports[`literal > ascii > kazupon mapping 1`] = `
+{
   "generatedColumn": 11,
   "generatedLine": 4,
   "name": "kazupon",
@@ -446,8 +446,8 @@ Object {
 }
 `;
 
-exports[`literal emoji:  ! mapping 1`] = `
-Object {
+exports[`literal > emoji >  ! mapping 1`] = `
+{
   "generatedColumn": 17,
   "generatedLine": 4,
   "name": " !",
@@ -457,8 +457,8 @@ Object {
 }
 `;
 
-exports[`literal emoji: hi  mapping 1`] = `
-Object {
+exports[`literal > emoji > hi  mapping 1`] = `
+{
   "generatedColumn": 4,
   "generatedLine": 4,
   "name": "hi ",
@@ -468,7 +468,7 @@ Object {
 }
 `;
 
-exports[`literal emoji: hi {'😺'} ! 1`] = `
+exports[`literal > emoji > hi {'😺'} ! 1`] = `
 "function __msg__ (ctx) {
   const { normalize: _normalize } = ctx
   return _normalize([
@@ -477,8 +477,8 @@ exports[`literal emoji: hi {'😺'} ! 1`] = `
 }"
 `;
 
-exports[`literal emoji: 😺 mapping 1`] = `
-Object {
+exports[`literal > emoji > 😺 mapping 1`] = `
+{
   "generatedColumn": 11,
   "generatedLine": 4,
   "name": "😺",
@@ -488,8 +488,8 @@ Object {
 }
 `;
 
-exports[`literal escaped single quote:  ! mapping 1`] = `
-Object {
+exports[`literal > escaped single quote >  ! mapping 1`] = `
+{
   "generatedColumn": 16,
   "generatedLine": 4,
   "name": " !",
@@ -499,8 +499,8 @@ Object {
 }
 `;
 
-exports[`literal escaped single quote: ' mapping 1`] = `
-Object {
+exports[`literal > escaped single quote > ' mapping 1`] = `
+{
   "generatedColumn": 11,
   "generatedLine": 4,
   "name": "'",
@@ -510,8 +510,8 @@ Object {
 }
 `;
 
-exports[`literal escaped single quote: hi  mapping 1`] = `
-Object {
+exports[`literal > escaped single quote > hi  mapping 1`] = `
+{
   "generatedColumn": 4,
   "generatedLine": 4,
   "name": "hi ",
@@ -521,7 +521,7 @@ Object {
 }
 `;
 
-exports[`literal escaped single quote: hi {'\\''} ! 1`] = `
+exports[`literal > escaped single quote > hi {'\\''} ! 1`] = `
 "function __msg__ (ctx) {
   const { normalize: _normalize } = ctx
   return _normalize([
@@ -530,8 +530,8 @@ exports[`literal escaped single quote: hi {'\\''} ! 1`] = `
 }"
 `;
 
-exports[`literal escaped slash:  ! mapping 1`] = `
-Object {
+exports[`literal > escaped slash >  ! mapping 1`] = `
+{
   "generatedColumn": 17,
   "generatedLine": 4,
   "name": " !",
@@ -541,8 +541,8 @@ Object {
 }
 `;
 
-exports[`literal escaped slash: \\ mapping 1`] = `
-Object {
+exports[`literal > escaped slash > \\ mapping 1`] = `
+{
   "generatedColumn": 11,
   "generatedLine": 4,
   "name": "\\\\",
@@ -552,8 +552,8 @@ Object {
 }
 `;
 
-exports[`literal escaped slash: hi  mapping 1`] = `
-Object {
+exports[`literal > escaped slash > hi  mapping 1`] = `
+{
   "generatedColumn": 4,
   "generatedLine": 4,
   "name": "hi ",
@@ -563,7 +563,7 @@ Object {
 }
 `;
 
-exports[`literal escaped slash: hi {'\\\\'} ! 1`] = `
+exports[`literal > escaped slash > hi {'\\\\'} ! 1`] = `
 "function __msg__ (ctx) {
   const { normalize: _normalize } = ctx
   return _normalize([
@@ -572,8 +572,8 @@ exports[`literal escaped slash: hi {'\\\\'} ! 1`] = `
 }"
 `;
 
-exports[`literal escaped unicode 4 digits:  ! mapping 1`] = `
-Object {
+exports[`literal > escaped unicode 4 digits >  ! mapping 1`] = `
+{
   "generatedColumn": 22,
   "generatedLine": 4,
   "name": " !",
@@ -583,8 +583,8 @@ Object {
 }
 `;
 
-exports[`literal escaped unicode 4 digits: \\u0041 mapping 1`] = `
-Object {
+exports[`literal > escaped unicode 4 digits > \\u0041 mapping 1`] = `
+{
   "generatedColumn": 11,
   "generatedLine": 4,
   "name": "\\\\u0041",
@@ -594,8 +594,8 @@ Object {
 }
 `;
 
-exports[`literal escaped unicode 4 digits: hi  mapping 1`] = `
-Object {
+exports[`literal > escaped unicode 4 digits > hi  mapping 1`] = `
+{
   "generatedColumn": 4,
   "generatedLine": 4,
   "name": "hi ",
@@ -605,7 +605,7 @@ Object {
 }
 `;
 
-exports[`literal escaped unicode 4 digits: hi {'\\\\u0041'} ! 1`] = `
+exports[`literal > escaped unicode 4 digits > hi {'\\\\u0041'} ! 1`] = `
 "function __msg__ (ctx) {
   const { normalize: _normalize } = ctx
   return _normalize([
@@ -614,8 +614,8 @@ exports[`literal escaped unicode 4 digits: hi {'\\\\u0041'} ! 1`] = `
 }"
 `;
 
-exports[`literal escaped unicode 6 digits:  ! mapping 1`] = `
-Object {
+exports[`literal > escaped unicode 6 digits >  ! mapping 1`] = `
+{
   "generatedColumn": 24,
   "generatedLine": 4,
   "name": " !",
@@ -625,8 +625,8 @@ Object {
 }
 `;
 
-exports[`literal escaped unicode 6 digits: \\U01F602 mapping 1`] = `
-Object {
+exports[`literal > escaped unicode 6 digits > \\U01F602 mapping 1`] = `
+{
   "generatedColumn": 11,
   "generatedLine": 4,
   "name": "\\\\U01F602",
@@ -636,8 +636,8 @@ Object {
 }
 `;
 
-exports[`literal escaped unicode 6 digits: hi  mapping 1`] = `
-Object {
+exports[`literal > escaped unicode 6 digits > hi  mapping 1`] = `
+{
   "generatedColumn": 4,
   "generatedLine": 4,
   "name": "hi ",
@@ -647,7 +647,7 @@ Object {
 }
 `;
 
-exports[`literal escaped unicode 6 digits: hi {'\\\\U01F602'} ! 1`] = `
+exports[`literal > escaped unicode 6 digits > hi {'\\\\U01F602'} ! 1`] = `
 "function __msg__ (ctx) {
   const { normalize: _normalize } = ctx
   return _normalize([
@@ -656,8 +656,8 @@ exports[`literal escaped unicode 6 digits: hi {'\\\\U01F602'} ! 1`] = `
 }"
 `;
 
-exports[`literal multibytes:  ! mapping 1`] = `
-Object {
+exports[`literal > multibytes >  ! mapping 1`] = `
+{
   "generatedColumn": 19,
   "generatedLine": 4,
   "name": " !",
@@ -667,8 +667,8 @@ Object {
 }
 `;
 
-exports[`literal multibytes: hi  mapping 1`] = `
-Object {
+exports[`literal > multibytes > hi  mapping 1`] = `
+{
   "generatedColumn": 4,
   "generatedLine": 4,
   "name": "hi ",
@@ -678,7 +678,7 @@ Object {
 }
 `;
 
-exports[`literal multibytes: hi {'かずぽん'} ! 1`] = `
+exports[`literal > multibytes > hi {'かずぽん'} ! 1`] = `
 "function __msg__ (ctx) {
   const { normalize: _normalize } = ctx
   return _normalize([
@@ -687,8 +687,8 @@ exports[`literal multibytes: hi {'かずぽん'} ! 1`] = `
 }"
 `;
 
-exports[`literal multibytes: かずぽん mapping 1`] = `
-Object {
+exports[`literal > multibytes > かずぽん mapping 1`] = `
+{
   "generatedColumn": 11,
   "generatedLine": 4,
   "name": "かずぽん",
@@ -698,8 +698,8 @@ Object {
 }
 `;
 
-exports[`literal unicode 4 digits:  ! mapping 1`] = `
-Object {
+exports[`literal > unicode 4 digits >  ! mapping 1`] = `
+{
   "generatedColumn": 16,
   "generatedLine": 4,
   "name": " !",
@@ -709,8 +709,8 @@ Object {
 }
 `;
 
-exports[`literal unicode 4 digits: A mapping 1`] = `
-Object {
+exports[`literal > unicode 4 digits > A mapping 1`] = `
+{
   "generatedColumn": 11,
   "generatedLine": 4,
   "name": "A",
@@ -720,8 +720,8 @@ Object {
 }
 `;
 
-exports[`literal unicode 4 digits: hi  mapping 1`] = `
-Object {
+exports[`literal > unicode 4 digits > hi  mapping 1`] = `
+{
   "generatedColumn": 4,
   "generatedLine": 4,
   "name": "hi ",
@@ -731,7 +731,7 @@ Object {
 }
 `;
 
-exports[`literal unicode 4 digits: hi {'A'} ! 1`] = `
+exports[`literal > unicode 4 digits > hi {'A'} ! 1`] = `
 "function __msg__ (ctx) {
   const { normalize: _normalize } = ctx
   return _normalize([
@@ -740,8 +740,8 @@ exports[`literal unicode 4 digits: hi {'A'} ! 1`] = `
 }"
 `;
 
-exports[`literal unicode 6 digits:  ! mapping 1`] = `
-Object {
+exports[`literal > unicode 6 digits >  ! mapping 1`] = `
+{
   "generatedColumn": 22,
   "generatedLine": 4,
   "name": " !",
@@ -751,8 +751,8 @@ Object {
 }
 `;
 
-exports[`literal unicode 6 digits: U01F602 mapping 1`] = `
-Object {
+exports[`literal > unicode 6 digits > U01F602 mapping 1`] = `
+{
   "generatedColumn": 11,
   "generatedLine": 4,
   "name": "U01F602",
@@ -762,8 +762,8 @@ Object {
 }
 `;
 
-exports[`literal unicode 6 digits: hi  mapping 1`] = `
-Object {
+exports[`literal > unicode 6 digits > hi  mapping 1`] = `
+{
   "generatedColumn": 4,
   "generatedLine": 4,
   "name": "hi ",
@@ -773,7 +773,7 @@ Object {
 }
 `;
 
-exports[`literal unicode 6 digits: hi {'U01F602'} ! 1`] = `
+exports[`literal > unicode 6 digits > hi {'U01F602'} ! 1`] = `
 "function __msg__ (ctx) {
   const { normalize: _normalize } = ctx
   return _normalize([
@@ -782,8 +782,8 @@ exports[`literal unicode 6 digits: hi {'U01F602'} ! 1`] = `
 }"
 `;
 
-exports[`named basic:  ! mapping 1`] = `
-Object {
+exports[`named > basic >  ! mapping 1`] = `
+{
   "generatedColumn": 41,
   "generatedLine": 4,
   "name": " !",
@@ -793,8 +793,8 @@ Object {
 }
 `;
 
-exports[`named basic: hi  mapping 1`] = `
-Object {
+exports[`named > basic > hi  mapping 1`] = `
+{
   "generatedColumn": 4,
   "generatedLine": 4,
   "name": "hi ",
@@ -804,7 +804,7 @@ Object {
 }
 `;
 
-exports[`named basic: hi {name} ! 1`] = `
+exports[`named > basic > hi {name} ! 1`] = `
 "function __msg__ (ctx) {
   const { normalize: _normalize, interpolate: _interpolate, named: _named } = ctx
   return _normalize([
@@ -813,8 +813,8 @@ exports[`named basic: hi {name} ! 1`] = `
 }"
 `;
 
-exports[`named basic: name mapping 1`] = `
-Object {
+exports[`named > basic > name mapping 1`] = `
+{
   "generatedColumn": 11,
   "generatedLine": 4,
   "name": "name",
@@ -824,8 +824,8 @@ Object {
 }
 `;
 
-exports[`named multiple:   mapping 1`] = `
-Object {
+exports[`named > multiple >   mapping 1`] = `
+{
   "generatedColumn": 38,
   "generatedLine": 4,
   "name": " ",
@@ -835,8 +835,8 @@ Object {
 }
 `;
 
-exports[`named multiple:  ! mapping 1`] = `
-Object {
+exports[`named > multiple >  ! mapping 1`] = `
+{
   "generatedColumn": 73,
   "generatedLine": 4,
   "name": " !",
@@ -846,7 +846,7 @@ Object {
 }
 `;
 
-exports[`named multiple: {greeting} {name} ! 1`] = `
+exports[`named > multiple > {greeting} {name} ! 1`] = `
 "function __msg__ (ctx) {
   const { normalize: _normalize, interpolate: _interpolate, named: _named } = ctx
   return _normalize([
@@ -855,8 +855,8 @@ exports[`named multiple: {greeting} {name} ! 1`] = `
 }"
 `;
 
-exports[`named multiple: greeting mapping 1`] = `
-Object {
+exports[`named > multiple > greeting mapping 1`] = `
+{
   "generatedColumn": 4,
   "generatedLine": 4,
   "name": "greeting",
@@ -866,8 +866,8 @@ Object {
 }
 `;
 
-exports[`named multiple: name mapping 1`] = `
-Object {
+exports[`named > multiple > name mapping 1`] = `
+{
   "generatedColumn": 43,
   "generatedLine": 4,
   "name": "name",
@@ -877,8 +877,8 @@ Object {
 }
 `;
 
-exports[`plural complex:  apple mapping 1`] = `
-Object {
+exports[`plural > complex >  apple mapping 1`] = `
+{
   "generatedColumn": 30,
   "generatedLine": 7,
   "name": " apple",
@@ -888,7 +888,7 @@ Object {
 }
 `;
 
-exports[`plural complex: @.caml:{'no apples'} | {0} apple | {n}　apples 1`] = `
+exports[`plural > complex > @.caml:{'no apples'} | {0} apple | {n}　apples 1`] = `
 "function __msg__ (ctx) {
   const { normalize: _normalize, linked: _linked, type: _type, interpolate: _interpolate, list: _list, named: _named, plural: _plural } = ctx
   return _plural([
@@ -903,8 +903,8 @@ exports[`plural complex: @.caml:{'no apples'} | {0} apple | {n}　apples 1`] = `
 }"
 `;
 
-exports[`plural complex: 0 mapping 1`] = `
-Object {
+exports[`plural > complex > 0 mapping 1`] = `
+{
   "generatedColumn": 6,
   "generatedLine": 7,
   "name": "0",
@@ -914,8 +914,8 @@ Object {
 }
 `;
 
-exports[`plural complex: caml mapping 1`] = `
-Object {
+exports[`plural > complex > caml mapping 1`] = `
+{
   "generatedColumn": 27,
   "generatedLine": 5,
   "name": "caml",
@@ -925,8 +925,8 @@ Object {
 }
 `;
 
-exports[`plural complex: n mapping 1`] = `
-Object {
+exports[`plural > complex > n mapping 1`] = `
+{
   "generatedColumn": 6,
   "generatedLine": 9,
   "name": "n",
@@ -936,8 +936,8 @@ Object {
 }
 `;
 
-exports[`plural complex: no apples mapping 1`] = `
-Object {
+exports[`plural > complex > no apples mapping 1`] = `
+{
   "generatedColumn": 14,
   "generatedLine": 5,
   "name": "no apples",
@@ -947,8 +947,8 @@ Object {
 }
 `;
 
-exports[`plural complex: 　apples mapping 1`] = `
-Object {
+exports[`plural > complex > 　apples mapping 1`] = `
+{
   "generatedColumn": 33,
   "generatedLine": 9,
   "name": "　apples",
@@ -958,7 +958,7 @@ Object {
 }
 `;
 
-exports[`plural simple: no apples | one apple  |  too much apples   1`] = `
+exports[`plural > simple > no apples | one apple  |  too much apples   1`] = `
 "function __msg__ (ctx) {
   const { normalize: _normalize, plural: _plural } = ctx
   return _plural([
@@ -973,8 +973,8 @@ exports[`plural simple: no apples | one apple  |  too much apples   1`] = `
 }"
 `;
 
-exports[`plural simple: no apples mapping 1`] = `
-Object {
+exports[`plural > simple > no apples mapping 1`] = `
+{
   "generatedColumn": 6,
   "generatedLine": 5,
   "name": "no apples",
@@ -984,8 +984,8 @@ Object {
 }
 `;
 
-exports[`plural simple: one apple mapping 1`] = `
-Object {
+exports[`plural > simple > one apple mapping 1`] = `
+{
   "generatedColumn": 6,
   "generatedLine": 7,
   "name": "one apple",
@@ -995,8 +995,8 @@ Object {
 }
 `;
 
-exports[`plural simple: too much apples   mapping 1`] = `
-Object {
+exports[`plural > simple > too much apples   mapping 1`] = `
+{
   "generatedColumn": 6,
   "generatedLine": 9,
   "name": "too much apples  ",
@@ -1006,7 +1006,7 @@ Object {
 }
 `;
 
-exports[`text basic: hello world 1`] = `
+exports[`text > basic > hello world 1`] = `
 "function __msg__ (ctx) {
   const { normalize: _normalize } = ctx
   return _normalize([
@@ -1015,8 +1015,8 @@ exports[`text basic: hello world 1`] = `
 }"
 `;
 
-exports[`text basic: hello world mapping 1`] = `
-Object {
+exports[`text > basic > hello world mapping 1`] = `
+{
   "generatedColumn": 4,
   "generatedLine": 4,
   "name": "hello world",
@@ -1026,7 +1026,7 @@ Object {
 }
 `;
 
-exports[`text multline: hello
+exports[`text > multline > hello
  world 1`] = `
 "function __msg__ (ctx) {
   const { normalize: _normalize } = ctx
@@ -1036,9 +1036,9 @@ exports[`text multline: hello
 }"
 `;
 
-exports[`text multline: hello
+exports[`text > multline > hello
  world mapping 1`] = `
-Object {
+{
   "generatedColumn": 4,
   "generatedLine": 4,
   "name": "hello

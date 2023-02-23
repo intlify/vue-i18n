@@ -1,23 +1,23 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1
 
-exports[`transform: ast 1`] = `
-Object {
-  "body": Object {
-    "cases": Array [
-      Object {
+exports[`transform > ast 1`] = `
+{
+  "body": {
+    "cases": [
+      {
         "end": 20,
-        "items": Array [
-          Object {
+        "items": [
+          {
             "end": 21,
-            "key": Object {
+            "key": {
               "end": 21,
-              "loc": Object {
-                "end": Object {
+              "loc": {
+                "end": {
                   "column": 22,
                   "line": 1,
                   "offset": 21,
                 },
-                "start": Object {
+                "start": {
                   "column": 9,
                   "line": 1,
                   "offset": 8,
@@ -27,27 +27,27 @@ Object {
               "type": 9,
               "value": "no apples",
             },
-            "loc": Object {
-              "end": Object {
+            "loc": {
+              "end": {
                 "column": 22,
                 "line": 1,
                 "offset": 21,
               },
-              "start": Object {
+              "start": {
                 "column": 1,
                 "line": 1,
                 "offset": 0,
               },
             },
-            "modifier": Object {
+            "modifier": {
               "end": 7,
-              "loc": Object {
-                "end": Object {
+              "loc": {
+                "end": {
                   "column": 8,
                   "line": 1,
                   "offset": 7,
                 },
-                "start": Object {
+                "start": {
                   "column": 2,
                   "line": 1,
                   "offset": 1,
@@ -61,13 +61,13 @@ Object {
             "type": 6,
           },
         ],
-        "loc": Object {
-          "end": Object {
+        "loc": {
+          "end": {
             "column": 22,
             "line": 1,
             "offset": 21,
           },
-          "start": Object {
+          "start": {
             "column": 1,
             "line": 1,
             "offset": 0,
@@ -76,19 +76,19 @@ Object {
         "start": 0,
         "type": 2,
       },
-      Object {
+      {
         "end": 27,
-        "items": Array [
-          Object {
+        "items": [
+          {
             "end": 27,
             "index": 0,
-            "loc": Object {
-              "end": Object {
+            "loc": {
+              "end": {
                 "column": 28,
                 "line": 1,
                 "offset": 27,
               },
-              "start": Object {
+              "start": {
                 "column": 25,
                 "line": 1,
                 "offset": 24,
@@ -97,15 +97,15 @@ Object {
             "start": 24,
             "type": 5,
           },
-          Object {
+          {
             "end": 33,
-            "loc": Object {
-              "end": Object {
+            "loc": {
+              "end": {
                 "column": 34,
                 "line": 1,
                 "offset": 33,
               },
-              "start": Object {
+              "start": {
                 "column": 28,
                 "line": 1,
                 "offset": 27,
@@ -116,13 +116,13 @@ Object {
             "value": " apple",
           },
         ],
-        "loc": Object {
-          "end": Object {
+        "loc": {
+          "end": {
             "column": 34,
             "line": 1,
             "offset": 33,
           },
-          "start": Object {
+          "start": {
             "column": 25,
             "line": 1,
             "offset": 24,
@@ -131,19 +131,19 @@ Object {
         "start": 24,
         "type": 2,
       },
-      Object {
+      {
         "end": 50,
-        "items": Array [
-          Object {
+        "items": [
+          {
             "end": 43,
             "key": "count",
-            "loc": Object {
-              "end": Object {
+            "loc": {
+              "end": {
                 "column": 44,
                 "line": 1,
                 "offset": 43,
               },
-              "start": Object {
+              "start": {
                 "column": 37,
                 "line": 1,
                 "offset": 36,
@@ -152,15 +152,15 @@ Object {
             "start": 36,
             "type": 4,
           },
-          Object {
+          {
             "end": 50,
-            "loc": Object {
-              "end": Object {
+            "loc": {
+              "end": {
                 "column": 51,
                 "line": 1,
                 "offset": 50,
               },
-              "start": Object {
+              "start": {
                 "column": 44,
                 "line": 1,
                 "offset": 43,
@@ -171,13 +171,13 @@ Object {
             "value": "　apples",
           },
         ],
-        "loc": Object {
-          "end": Object {
+        "loc": {
+          "end": {
             "column": 51,
             "line": 1,
             "offset": 50,
           },
-          "start": Object {
+          "start": {
             "column": 37,
             "line": 1,
             "offset": 36,
@@ -188,13 +188,13 @@ Object {
       },
     ],
     "end": 50,
-    "loc": Object {
-      "end": Object {
+    "loc": {
+      "end": {
         "column": 51,
         "line": 1,
         "offset": 50,
       },
-      "start": Object {
+      "start": {
         "column": 1,
         "line": 1,
         "offset": 0,
@@ -204,7 +204,7 @@ Object {
     "type": 1,
   },
   "end": 50,
-  "helpers": Array [
+  "helpers": [
     "normalize",
     "linked",
     "type",
@@ -213,14 +213,14 @@ Object {
     "named",
     "plural",
   ],
-  "loc": Object {
-    "end": Object {
+  "loc": {
+    "end": {
       "column": 51,
       "line": 1,
       "offset": 50,
     },
     "source": "@.upper:{'no apples'} | {0} apple | {count}　apples",
-    "start": Object {
+    "start": {
       "column": 1,
       "line": 1,
       "offset": 0,
@@ -231,8 +231,8 @@ Object {
 }
 `;
 
-exports[`transform: helpers 1`] = `
-Array [
+exports[`transform > helpers 1`] = `
+[
   "normalize",
   "linked",
   "type",

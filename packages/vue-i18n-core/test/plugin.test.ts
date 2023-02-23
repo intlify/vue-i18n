@@ -1,14 +1,17 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
 
 // directive
-jest.mock('../src/directive')
+vitest.mock('../src/directive')
 
 // utils
-jest.mock('@intlify/shared', () => ({
-  ...jest.requireActual<object>('@intlify/shared'),
-  warn: jest.fn()
-}))
-import { warn } from '@intlify/shared'
+import * as shared from '@intlify/shared'
+vi.mock('@intlify/shared', async () => {
+  const actual = await vi.importActual<object>('@intlify/shared')
+  return {
+    ...actual,
+    warn: vi.fn()
+  }
+})
 
 import { createApp } from 'vue'
 import { I18n, I18nInternal } from '../src/i18n'
@@ -17,7 +20,7 @@ import { getWarnMessage, I18nWarnCodes } from '../src/warnings'
 
 describe('useI18nComponentName option', () => {
   test('default', () => {
-    const mockWarn = warn as jest.MockedFunction<typeof warn>
+    const mockWarn = vi.spyOn(shared, 'warn')
     mockWarn.mockImplementation(() => {})
 
     const app = createApp({})
@@ -28,7 +31,7 @@ describe('useI18nComponentName option', () => {
   })
 
   test('true', () => {
-    const mockWarn = warn as jest.MockedFunction<typeof warn>
+    const mockWarn = vi.spyOn(shared, 'warn')
     mockWarn.mockImplementation(() => {})
 
     const app = createApp({})
@@ -48,7 +51,7 @@ describe('globalInstall option', () => {
   test('default', () => {
     const app = createApp({})
     const i18n = {} as I18n & I18nInternal
-    const spy = jest.spyOn(app, 'component')
+    const spy = vi.spyOn(app, 'component')
 
     apply(app, i18n)
     expect(spy).toHaveBeenCalledTimes(3)
@@ -57,7 +60,7 @@ describe('globalInstall option', () => {
   test('false', () => {
     const app = createApp({})
     const i18n = {} as I18n & I18nInternal
-    const spy = jest.spyOn(app, 'component')
+    const spy = vi.spyOn(app, 'component')
 
     apply(app, i18n, { globalInstall: false })
     expect(spy).not.toHaveBeenCalled()

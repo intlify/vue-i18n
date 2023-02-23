@@ -11,12 +11,23 @@
 
     <div id="app">
       <h2>basic usages:</h2>
-      <i18n-n tag="p" :value="100"></i18n-n>
-      <i18n-n tag="p" :value="100" format="currency"></i18n-n>
-      <i18n-n tag="p" :value="100" format="currency" locale="ja-JP"></i18n-n>
+      <i18n-n tag="p" class="p1" :value="100"></i18n-n>
+      <i18n-n tag="p" class="p2" :value="100" format="currency"></i18n-n>
+      <i18n-n
+        tag="p"
+        class="p3"
+        :value="100"
+        format="currency"
+        locale="ja-JP"
+      ></i18n-n>
 
       <h2>slot usages:</h2>
-      <i18n-n :value="1234" :format="{ key: 'currency', currency: 'EUR' }">
+      <i18n-n
+        tag="div"
+        class="slot"
+        :value="1234"
+        :format="{ key: 'currency', currency: 'EUR' }"
+      >
         <template #currency="props"
           ><span style="color: green">{{ props.currency }}</span></template
         >
