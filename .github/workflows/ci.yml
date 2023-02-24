@@ -11,6 +11,7 @@ permissions:
   contents: read
 env:
   CI: true
+  NODE_OPTIONS: --max-old-space-size=6144
 
 jobs:
   lint:
