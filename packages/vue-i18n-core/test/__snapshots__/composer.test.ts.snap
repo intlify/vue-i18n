@@ -1,8 +1,8 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1
 
-exports[`__translateVNode missing 1`] = `
-Array [
-  Object {
+exports[`__translateVNode > missing 1`] = `
+[
+  {
     "__v_isVNode": true,
     "__v_skip": true,
     "anchor": null,

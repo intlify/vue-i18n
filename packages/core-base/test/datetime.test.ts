@@ -1,18 +1,24 @@
 /* eslint-disable @typescript-eslint/no-empty-function, @typescript-eslint/no-explicit-any */
 
 // utils
-jest.mock('@intlify/shared', () => ({
-  ...jest.requireActual<object>('@intlify/shared'),
-  warn: jest.fn()
-}))
-import { warn } from '@intlify/shared'
+import * as shared from '@intlify/shared'
+vi.mock('@intlify/shared', async () => {
+  const actual = await vi.importActual<object>('@intlify/shared')
+  return {
+    ...actual,
+    warn: vi.fn()
+  }
+})
 
 // runtime/types
-jest.mock('../src/intl', () => ({
-  ...jest.requireActual<object>('../src/intl'),
-  Availabilities: jest.fn()
-}))
 import { Availabilities } from '../src/intl'
+vi.mock('../src/intl', async () => {
+  const actual = await vi.importActual<object>('../src/intl')
+  return {
+    ...actual,
+    Availabilities: vi.fn()
+  }
+})
 
 import { createCoreContext as context, NOT_REOSLVED } from '../src/context'
 import { datetime } from '../src/datetime'
@@ -85,9 +91,7 @@ beforeEach(() => {
 })
 
 test('datetime value', () => {
-  const mockAvailabilities = Availabilities as jest.Mocked<
-    typeof Availabilities
-  >
+  const mockAvailabilities = Availabilities
   mockAvailabilities.dateTimeFormat = true
 
   const ctx = context({
@@ -100,9 +104,7 @@ test('datetime value', () => {
 })
 
 test('number value', () => {
-  const mockAvailabilities = Availabilities as jest.Mocked<
-    typeof Availabilities
-  >
+  const mockAvailabilities = Availabilities
   mockAvailabilities.dateTimeFormat = true
 
   const ctx = context({
@@ -115,9 +117,7 @@ test('number value', () => {
 })
 
 test('key argument', () => {
-  const mockAvailabilities = Availabilities as jest.Mocked<
-    typeof Availabilities
-  >
+  const mockAvailabilities = Availabilities
   mockAvailabilities.dateTimeFormat = true
 
   const ctx = context({
@@ -133,9 +133,7 @@ test('key argument', () => {
 })
 
 test('locale argument', () => {
-  const mockAvailabilities = Availabilities as jest.Mocked<
-    typeof Availabilities
-  >
+  const mockAvailabilities = Availabilities
   mockAvailabilities.dateTimeFormat = true
 
   const ctx = context({
@@ -151,9 +149,7 @@ test('locale argument', () => {
 })
 
 test('with object argument', () => {
-  const mockAvailabilities = Availabilities as jest.Mocked<
-    typeof Availabilities
-  >
+  const mockAvailabilities = Availabilities
   mockAvailabilities.dateTimeFormat = true
 
   const ctx = context({
@@ -168,9 +164,7 @@ test('with object argument', () => {
 })
 
 test('override format options with number function options', () => {
-  const mockAvailabilities = Availabilities as jest.Mocked<
-    typeof Availabilities
-  >
+  const mockAvailabilities = Availabilities
   mockAvailabilities.numberFormat = true
 
   const ctx = context({
@@ -194,11 +188,9 @@ test('override format options with number function options', () => {
 })
 
 test('fallback', () => {
-  const mockWarn = warn as jest.MockedFunction<typeof warn>
+  const mockWarn = vi.spyOn(shared, 'warn')
   mockWarn.mockImplementation(() => {})
-  const mockAvailabilities = Availabilities as jest.Mocked<
-    typeof Availabilities
-  >
+  const mockAvailabilities = Availabilities
   mockAvailabilities.dateTimeFormat = true
 
   const ctx = context({
@@ -219,11 +211,9 @@ test('fallback', () => {
 })
 
 test(`context fallbackWarn 'false' option`, () => {
-  const mockWarn = warn as jest.MockedFunction<typeof warn>
+  const mockWarn = vi.spyOn(shared, 'warn')
   mockWarn.mockImplementation(() => {})
-  const mockAvailabilities = Availabilities as jest.Mocked<
-    typeof Availabilities
-  >
+  const mockAvailabilities = Availabilities
   mockAvailabilities.dateTimeFormat = true
 
   const ctx = context({
@@ -242,11 +232,9 @@ test(`context fallbackWarn 'false' option`, () => {
 })
 
 test(`datetime function fallbackWarn 'false' option`, () => {
-  const mockWarn = warn as jest.MockedFunction<typeof warn>
+  const mockWarn = vi.spyOn(shared, 'warn')
   mockWarn.mockImplementation(() => {})
-  const mockAvailabilities = Availabilities as jest.Mocked<
-    typeof Availabilities
-  >
+  const mockAvailabilities = Availabilities
   mockAvailabilities.dateTimeFormat = true
 
   const ctx = context({
@@ -264,11 +252,9 @@ test(`datetime function fallbackWarn 'false' option`, () => {
 
 describe('context unresolving option', () => {
   test('not specify fallbackLocales', () => {
-    const mockWarn = warn as jest.MockedFunction<typeof warn>
+    const mockWarn = vi.spyOn(shared, 'warn')
     mockWarn.mockImplementation(() => {})
-    const mockAvailabilities = Availabilities as jest.Mocked<
-      typeof Availabilities
-    >
+    const mockAvailabilities = Availabilities
     mockAvailabilities.dateTimeFormat = true
 
     const ctx = context({
@@ -284,11 +270,9 @@ describe('context unresolving option', () => {
   })
 
   test('not found key in fallbackLocales', () => {
-    const mockWarn = warn as jest.MockedFunction<typeof warn>
+    const mockWarn = vi.spyOn(shared, 'warn')
     mockWarn.mockImplementation(() => {})
-    const mockAvailabilities = Availabilities as jest.Mocked<
-      typeof Availabilities
-    >
+    const mockAvailabilities = Availabilities
     mockAvailabilities.dateTimeFormat = true
 
     const ctx = context({
@@ -306,9 +290,7 @@ describe('context unresolving option', () => {
 })
 
 test('part', () => {
-  const mockAvailabilities = Availabilities as jest.Mocked<
-    typeof Availabilities
-  >
+  const mockAvailabilities = Availabilities
   mockAvailabilities.dateTimeFormat = true
 
   const ctx = context({
@@ -332,11 +314,9 @@ test('part', () => {
 })
 
 test('not available Intl API', () => {
-  const mockWarn = warn as jest.MockedFunction<typeof warn>
+  const mockWarn = vi.spyOn(shared, 'warn')
   mockWarn.mockImplementation(() => {})
-  const mockAvailabilities = Availabilities as jest.Mocked<
-    typeof Availabilities
-  >
+  const mockAvailabilities = Availabilities
   mockAvailabilities.dateTimeFormat = false
 
   const ctx = context({
@@ -353,11 +333,9 @@ test('not available Intl API', () => {
 
 describe('error', () => {
   test(errorMessages[CoreErrorCodes.INVALID_ARGUMENT], () => {
-    const mockWarn = warn as jest.MockedFunction<typeof warn>
+    const mockWarn = vi.spyOn(shared, 'warn')
     mockWarn.mockImplementation(() => {})
-    const mockAvailabilities = Availabilities as jest.Mocked<
-      typeof Availabilities
-    >
+    const mockAvailabilities = Availabilities
     mockAvailabilities.dateTimeFormat = true
     const ctx = context({
       locale: 'en-US',

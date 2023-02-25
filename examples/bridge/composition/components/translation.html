@@ -20,14 +20,14 @@
       </i18n-t>
 
       <h2>localize with DOM contents:</h2>
-      <i18n-t keypath="message.list" locale="en">
+      <i18n-t tag="p" class="list" keypath="message.list" locale="en">
         <span class="lang"
           >{{ t('message.language', {}, { locale: 'en' }) }}</span
         >
       </i18n-t>
 
       <h2>localize with using linked:</h2>
-      <i18n-t keypath="message.linked">
+      <i18n-t tag="p" class="linked" keypath="message.linked">
         <template #name>
           <span>かずぽん</span>
         </template>
@@ -44,7 +44,13 @@
           <option value="2">2</option>
         </select>
       </form>
-      <i18n-t keypath="message.plural" locale="en" :plural="count">
+      <i18n-t
+        tag="p"
+        class="plural"
+        keypath="message.plural"
+        locale="en"
+        :plural="count"
+      >
         <template #n>
           <b>{{ count }}</b>
         </template>

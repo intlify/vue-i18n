@@ -1,20 +1,20 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1
 
 exports[`%{nickname} %{action} issue %{code} 1`] = `
-Object {
-  "body": Object {
+{
+  "body": {
     "end": 35,
-    "items": Array [
-      Object {
+    "items": [
+      {
         "end": 11,
         "key": "nickname",
-        "loc": Object {
-          "end": Object {
+        "loc": {
+          "end": {
             "column": 12,
             "line": 1,
             "offset": 11,
           },
-          "start": Object {
+          "start": {
             "column": 2,
             "line": 1,
             "offset": 1,
@@ -23,15 +23,15 @@ Object {
         "start": 1,
         "type": 4,
       },
-      Object {
+      {
         "end": 12,
-        "loc": Object {
-          "end": Object {
+        "loc": {
+          "end": {
             "column": 13,
             "line": 1,
             "offset": 12,
           },
-          "start": Object {
+          "start": {
             "column": 12,
             "line": 1,
             "offset": 11,
@@ -41,16 +41,16 @@ Object {
         "type": 3,
         "value": " ",
       },
-      Object {
+      {
         "end": 21,
         "key": "action",
-        "loc": Object {
-          "end": Object {
+        "loc": {
+          "end": {
             "column": 22,
             "line": 1,
             "offset": 21,
           },
-          "start": Object {
+          "start": {
             "column": 14,
             "line": 1,
             "offset": 13,
@@ -59,15 +59,15 @@ Object {
         "start": 13,
         "type": 4,
       },
-      Object {
+      {
         "end": 28,
-        "loc": Object {
-          "end": Object {
+        "loc": {
+          "end": {
             "column": 29,
             "line": 1,
             "offset": 28,
           },
-          "start": Object {
+          "start": {
             "column": 22,
             "line": 1,
             "offset": 21,
@@ -77,16 +77,16 @@ Object {
         "type": 3,
         "value": " issue ",
       },
-      Object {
+      {
         "end": 35,
         "key": "code",
-        "loc": Object {
-          "end": Object {
+        "loc": {
+          "end": {
             "column": 36,
             "line": 1,
             "offset": 35,
           },
-          "start": Object {
+          "start": {
             "column": 30,
             "line": 1,
             "offset": 29,
@@ -96,13 +96,13 @@ Object {
         "type": 4,
       },
     ],
-    "loc": Object {
-      "end": Object {
+    "loc": {
+      "end": {
         "column": 36,
         "line": 1,
         "offset": 35,
       },
-      "start": Object {
+      "start": {
         "column": 1,
         "line": 1,
         "offset": 0,
@@ -112,14 +112,14 @@ Object {
     "type": 2,
   },
   "end": 35,
-  "loc": Object {
-    "end": Object {
+  "loc": {
+    "end": {
       "column": 36,
       "line": 1,
       "offset": 35,
     },
     "source": "%{nickname} %{action} issue %{code}",
-    "start": Object {
+    "start": {
       "column": 1,
       "line": 1,
       "offset": 0,
@@ -131,19 +131,19 @@ Object {
 `;
 
 exports[`hi % {name}! 1`] = `
-Object {
-  "body": Object {
+{
+  "body": {
     "end": 12,
-    "items": Array [
-      Object {
+    "items": [
+      {
         "end": 5,
-        "loc": Object {
-          "end": Object {
+        "loc": {
+          "end": {
             "column": 6,
             "line": 1,
             "offset": 5,
           },
-          "start": Object {
+          "start": {
             "column": 1,
             "line": 1,
             "offset": 0,
@@ -153,16 +153,16 @@ Object {
         "type": 3,
         "value": "hi % ",
       },
-      Object {
+      {
         "end": 11,
         "key": "name",
-        "loc": Object {
-          "end": Object {
+        "loc": {
+          "end": {
             "column": 12,
             "line": 1,
             "offset": 11,
           },
-          "start": Object {
+          "start": {
             "column": 6,
             "line": 1,
             "offset": 5,
@@ -171,15 +171,15 @@ Object {
         "start": 5,
         "type": 4,
       },
-      Object {
+      {
         "end": 12,
-        "loc": Object {
-          "end": Object {
+        "loc": {
+          "end": {
             "column": 13,
             "line": 1,
             "offset": 12,
           },
-          "start": Object {
+          "start": {
             "column": 12,
             "line": 1,
             "offset": 11,
@@ -190,13 +190,13 @@ Object {
         "value": "!",
       },
     ],
-    "loc": Object {
-      "end": Object {
+    "loc": {
+      "end": {
         "column": 13,
         "line": 1,
         "offset": 12,
       },
-      "start": Object {
+      "start": {
         "column": 1,
         "line": 1,
         "offset": 0,
@@ -206,14 +206,14 @@ Object {
     "type": 2,
   },
   "end": 12,
-  "loc": Object {
-    "end": Object {
+  "loc": {
+    "end": {
       "column": 13,
       "line": 1,
       "offset": 12,
     },
     "source": "hi % {name}!",
-    "start": Object {
+    "start": {
       "column": 1,
       "line": 1,
       "offset": 0,
@@ -225,19 +225,19 @@ Object {
 `;
 
 exports[`hi %% name ! 1`] = `
-Object {
-  "body": Object {
+{
+  "body": {
     "end": 12,
-    "items": Array [
-      Object {
+    "items": [
+      {
         "end": 12,
-        "loc": Object {
-          "end": Object {
+        "loc": {
+          "end": {
             "column": 13,
             "line": 1,
             "offset": 12,
           },
-          "start": Object {
+          "start": {
             "column": 1,
             "line": 1,
             "offset": 0,
@@ -248,13 +248,13 @@ Object {
         "value": "hi %% name !",
       },
     ],
-    "loc": Object {
-      "end": Object {
+    "loc": {
+      "end": {
         "column": 13,
         "line": 1,
         "offset": 12,
       },
-      "start": Object {
+      "start": {
         "column": 1,
         "line": 1,
         "offset": 0,
@@ -264,14 +264,14 @@ Object {
     "type": 2,
   },
   "end": 12,
-  "loc": Object {
-    "end": Object {
+  "loc": {
+    "end": {
       "column": 13,
       "line": 1,
       "offset": 12,
     },
     "source": "hi %% name !",
-    "start": Object {
+    "start": {
       "column": 1,
       "line": 1,
       "offset": 0,
@@ -283,19 +283,19 @@ Object {
 `;
 
 exports[`hi %@:name ! 1`] = `
-Object {
-  "body": Object {
+{
+  "body": {
     "end": 12,
-    "items": Array [
-      Object {
+    "items": [
+      {
         "end": 4,
-        "loc": Object {
-          "end": Object {
+        "loc": {
+          "end": {
             "column": 5,
             "line": 1,
             "offset": 4,
           },
-          "start": Object {
+          "start": {
             "column": 1,
             "line": 1,
             "offset": 0,
@@ -305,17 +305,17 @@ Object {
         "type": 3,
         "value": "hi %",
       },
-      Object {
+      {
         "end": 10,
-        "key": Object {
+        "key": {
           "end": 10,
-          "loc": Object {
-            "end": Object {
+          "loc": {
+            "end": {
               "column": 11,
               "line": 1,
               "offset": 10,
             },
-            "start": Object {
+            "start": {
               "column": 7,
               "line": 1,
               "offset": 6,
@@ -325,13 +325,13 @@ Object {
           "type": 7,
           "value": "name",
         },
-        "loc": Object {
-          "end": Object {
+        "loc": {
+          "end": {
             "column": 11,
             "line": 1,
             "offset": 10,
           },
-          "start": Object {
+          "start": {
             "column": 5,
             "line": 1,
             "offset": 4,
@@ -340,15 +340,15 @@ Object {
         "start": 4,
         "type": 6,
       },
-      Object {
+      {
         "end": 12,
-        "loc": Object {
-          "end": Object {
+        "loc": {
+          "end": {
             "column": 13,
             "line": 1,
             "offset": 12,
           },
-          "start": Object {
+          "start": {
             "column": 11,
             "line": 1,
             "offset": 10,
@@ -359,13 +359,13 @@ Object {
         "value": " !",
       },
     ],
-    "loc": Object {
-      "end": Object {
+    "loc": {
+      "end": {
         "column": 13,
         "line": 1,
         "offset": 12,
       },
-      "start": Object {
+      "start": {
         "column": 1,
         "line": 1,
         "offset": 0,
@@ -375,14 +375,14 @@ Object {
     "type": 2,
   },
   "end": 12,
-  "loc": Object {
-    "end": Object {
+  "loc": {
+    "end": {
       "column": 13,
       "line": 1,
       "offset": 12,
     },
     "source": "hi %@:name !",
-    "start": Object {
+    "start": {
       "column": 1,
       "line": 1,
       "offset": 0,
@@ -394,19 +394,19 @@ Object {
 `;
 
 exports[`hi %{name}! 1`] = `
-Object {
-  "body": Object {
+{
+  "body": {
     "end": 11,
-    "items": Array [
-      Object {
+    "items": [
+      {
         "end": 3,
-        "loc": Object {
-          "end": Object {
+        "loc": {
+          "end": {
             "column": 4,
             "line": 1,
             "offset": 3,
           },
-          "start": Object {
+          "start": {
             "column": 1,
             "line": 1,
             "offset": 0,
@@ -416,16 +416,16 @@ Object {
         "type": 3,
         "value": "hi ",
       },
-      Object {
+      {
         "end": 10,
         "key": "name",
-        "loc": Object {
-          "end": Object {
+        "loc": {
+          "end": {
             "column": 11,
             "line": 1,
             "offset": 10,
           },
-          "start": Object {
+          "start": {
             "column": 5,
             "line": 1,
             "offset": 4,
@@ -434,15 +434,15 @@ Object {
         "start": 4,
         "type": 4,
       },
-      Object {
+      {
         "end": 11,
-        "loc": Object {
-          "end": Object {
+        "loc": {
+          "end": {
             "column": 12,
             "line": 1,
             "offset": 11,
           },
-          "start": Object {
+          "start": {
             "column": 11,
             "line": 1,
             "offset": 10,
@@ -453,13 +453,13 @@ Object {
         "value": "!",
       },
     ],
-    "loc": Object {
-      "end": Object {
+    "loc": {
+      "end": {
         "column": 12,
         "line": 1,
         "offset": 11,
       },
-      "start": Object {
+      "start": {
         "column": 1,
         "line": 1,
         "offset": 0,
@@ -469,14 +469,14 @@ Object {
     "type": 2,
   },
   "end": 11,
-  "loc": Object {
-    "end": Object {
+  "loc": {
+    "end": {
       "column": 12,
       "line": 1,
       "offset": 11,
     },
     "source": "hi %{name}!",
-    "start": Object {
+    "start": {
       "column": 1,
       "line": 1,
       "offset": 0,
@@ -488,19 +488,19 @@ Object {
 `;
 
 exports[`hi %d %s ! 1`] = `
-Object {
-  "body": Object {
+{
+  "body": {
     "end": 10,
-    "items": Array [
-      Object {
+    "items": [
+      {
         "end": 10,
-        "loc": Object {
-          "end": Object {
+        "loc": {
+          "end": {
             "column": 11,
             "line": 1,
             "offset": 10,
           },
-          "start": Object {
+          "start": {
             "column": 1,
             "line": 1,
             "offset": 0,
@@ -511,13 +511,13 @@ Object {
         "value": "hi %d %s !",
       },
     ],
-    "loc": Object {
-      "end": Object {
+    "loc": {
+      "end": {
         "column": 11,
         "line": 1,
         "offset": 10,
       },
-      "start": Object {
+      "start": {
         "column": 1,
         "line": 1,
         "offset": 0,
@@ -527,14 +527,14 @@ Object {
     "type": 2,
   },
   "end": 10,
-  "loc": Object {
-    "end": Object {
+  "loc": {
+    "end": {
       "column": 11,
       "line": 1,
       "offset": 10,
     },
     "source": "hi %d %s !",
-    "start": Object {
+    "start": {
       "column": 1,
       "line": 1,
       "offset": 0,
@@ -546,21 +546,21 @@ Object {
 `;
 
 exports[`no apples %| one apple % |  too much apples   1`] = `
-Object {
-  "body": Object {
-    "cases": Array [
-      Object {
+{
+  "body": {
+    "cases": [
+      {
         "end": 0,
-        "items": Array [
-          Object {
+        "items": [
+          {
             "end": 11,
-            "loc": Object {
-              "end": Object {
+            "loc": {
+              "end": {
                 "column": 12,
                 "line": 1,
                 "offset": 11,
               },
-              "start": Object {
+              "start": {
                 "column": 1,
                 "line": 1,
                 "offset": 0,
@@ -571,13 +571,13 @@ Object {
             "value": "no apples %",
           },
         ],
-        "loc": Object {
-          "end": Object {
+        "loc": {
+          "end": {
             "column": 12,
             "line": 1,
             "offset": 11,
           },
-          "start": Object {
+          "start": {
             "column": 1,
             "line": 1,
             "offset": 0,
@@ -586,18 +586,18 @@ Object {
         "start": 0,
         "type": 2,
       },
-      Object {
+      {
         "end": 13,
-        "items": Array [
-          Object {
+        "items": [
+          {
             "end": 24,
-            "loc": Object {
-              "end": Object {
+            "loc": {
+              "end": {
                 "column": 25,
                 "line": 1,
                 "offset": 24,
               },
-              "start": Object {
+              "start": {
                 "column": 14,
                 "line": 1,
                 "offset": 13,
@@ -608,13 +608,13 @@ Object {
             "value": "one apple %",
           },
         ],
-        "loc": Object {
-          "end": Object {
+        "loc": {
+          "end": {
             "column": 25,
             "line": 1,
             "offset": 24,
           },
-          "start": Object {
+          "start": {
             "column": 14,
             "line": 1,
             "offset": 13,
@@ -623,18 +623,18 @@ Object {
         "start": 13,
         "type": 2,
       },
-      Object {
+      {
         "end": 45,
-        "items": Array [
-          Object {
+        "items": [
+          {
             "end": 45,
-            "loc": Object {
-              "end": Object {
+            "loc": {
+              "end": {
                 "column": 46,
                 "line": 1,
                 "offset": 45,
               },
-              "start": Object {
+              "start": {
                 "column": 29,
                 "line": 1,
                 "offset": 28,
@@ -645,13 +645,13 @@ Object {
             "value": "too much apples  ",
           },
         ],
-        "loc": Object {
-          "end": Object {
+        "loc": {
+          "end": {
             "column": 46,
             "line": 1,
             "offset": 45,
           },
-          "start": Object {
+          "start": {
             "column": 29,
             "line": 1,
             "offset": 28,
@@ -662,13 +662,13 @@ Object {
       },
     ],
     "end": 45,
-    "loc": Object {
-      "end": Object {
+    "loc": {
+      "end": {
         "column": 46,
         "line": 1,
         "offset": 45,
       },
-      "start": Object {
+      "start": {
         "column": 1,
         "line": 1,
         "offset": 0,
@@ -678,14 +678,14 @@ Object {
     "type": 1,
   },
   "end": 45,
-  "loc": Object {
-    "end": Object {
+  "loc": {
+    "end": {
       "column": 46,
       "line": 1,
       "offset": 45,
     },
     "source": "no apples %| one apple % |  too much apples  ",
-    "start": Object {
+    "start": {
       "column": 1,
       "line": 1,
       "offset": 0,

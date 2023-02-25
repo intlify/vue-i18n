@@ -3,10 +3,7 @@
   "labels": ["Type: Dependency"],
   "automerge": true,
   "ignoreDeps": [
-    "puppeteer",
-    "jest",
     "@microsoft/api-extractor",
-    "ts-jest",
     "@intlify/shared",
     "@intlify/core-base",
     "@intlify/core",

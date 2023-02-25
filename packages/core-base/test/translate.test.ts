@@ -1,11 +1,14 @@
 /* eslint-disable @typescript-eslint/no-empty-function, @typescript-eslint/no-explicit-any */
 
 // utils
-jest.mock('@intlify/shared', () => ({
-  ...jest.requireActual<object>('@intlify/shared'),
-  warn: jest.fn()
-}))
-import { warn, isString, isNumber, isBoolean } from '@intlify/shared'
+import * as shared from '@intlify/shared'
+vi.mock('@intlify/shared', async () => {
+  const actual = await vi.importActual<object>('@intlify/shared')
+  return {
+    ...actual,
+    warn: vi.fn()
+  }
+})
 
 import { createCoreContext as context, NOT_REOSLVED } from '../src/context'
 import { translate } from '../src/translate'
@@ -132,7 +135,7 @@ describe('default option', () => {
 
 describe('context fallbackLocale option', () => {
   test('false', () => {
-    const mockWarn = warn as jest.MockedFunction<typeof warn>
+    const mockWarn = vi.spyOn(shared, 'warn')
     mockWarn.mockImplementation(() => {})
 
     const ctx = context({
@@ -150,7 +153,7 @@ describe('context fallbackLocale option', () => {
   })
 
   test('string', () => {
-    const mockWarn = warn as jest.MockedFunction<typeof warn>
+    const mockWarn = vi.spyOn(shared, 'warn')
     mockWarn.mockImplementation(() => {})
 
     const ctx = context({
@@ -171,7 +174,7 @@ describe('context fallbackLocale option', () => {
   })
 
   test('array', () => {
-    const mockWarn = warn as jest.MockedFunction<typeof warn>
+    const mockWarn = vi.spyOn(shared, 'warn')
     mockWarn.mockImplementation(() => {})
 
     const ctx = context({
@@ -194,7 +197,7 @@ describe('context fallbackLocale option', () => {
 
 describe('context missing option', () => {
   test('not specified missing handler', () => {
-    const mockWarn = warn as jest.MockedFunction<typeof warn>
+    const mockWarn = vi.spyOn(shared, 'warn')
     mockWarn.mockImplementation(() => {})
 
     const ctx = context({
@@ -211,7 +214,7 @@ describe('context missing option', () => {
   })
 
   test('specified missing handler', () => {
-    const mockWarn = warn as jest.MockedFunction<typeof warn>
+    const mockWarn = vi.spyOn(shared, 'warn')
     mockWarn.mockImplementation(() => {})
 
     const ctx = context({
@@ -233,7 +236,7 @@ describe('context missing option', () => {
 
 describe('context missingWarn option', () => {
   test('false', () => {
-    const mockWarn = warn as jest.MockedFunction<typeof warn>
+    const mockWarn = vi.spyOn(shared, 'warn')
     mockWarn.mockImplementation(() => {})
 
     const ctx = context({
@@ -250,7 +253,7 @@ describe('context missingWarn option', () => {
   })
 
   test('regex', () => {
-    const mockWarn = warn as jest.MockedFunction<typeof warn>
+    const mockWarn = vi.spyOn(shared, 'warn')
     mockWarn.mockImplementation(() => {})
 
     const ctx = context({
@@ -271,7 +274,7 @@ describe('context missingWarn option', () => {
   })
 
   test('missingWarn option', () => {
-    const mockWarn = warn as jest.MockedFunction<typeof warn>
+    const mockWarn = vi.spyOn(shared, 'warn')
     mockWarn.mockImplementation(() => {})
 
     const ctx = context({
@@ -289,7 +292,7 @@ describe('context missingWarn option', () => {
 
 describe('context fallbackWarn option', () => {
   test('not specify fallbackLocale', () => {
-    const mockWarn = warn as jest.MockedFunction<typeof warn>
+    const mockWarn = vi.spyOn(shared, 'warn')
     mockWarn.mockImplementation(() => {})
 
     const ctx = context({
@@ -305,7 +308,7 @@ describe('context fallbackWarn option', () => {
   })
 
   test('specify fallbackLocale', () => {
-    const mockWarn = warn as jest.MockedFunction<typeof warn>
+    const mockWarn = vi.spyOn(shared, 'warn')
     mockWarn.mockImplementation(() => {})
 
     const ctx = context({
@@ -328,7 +331,7 @@ describe('context fallbackWarn option', () => {
   })
 
   test('not found fallback message', () => {
-    const mockWarn = warn as jest.MockedFunction<typeof warn>
+    const mockWarn = vi.spyOn(shared, 'warn')
     mockWarn.mockImplementation(() => {})
 
     const ctx = context({
@@ -352,7 +355,7 @@ describe('context fallbackWarn option', () => {
   })
 
   test('context option: false', () => {
-    const mockWarn = warn as jest.MockedFunction<typeof warn>
+    const mockWarn = vi.spyOn(shared, 'warn')
     mockWarn.mockImplementation(() => {})
 
     const ctx = context({
@@ -371,7 +374,7 @@ describe('context fallbackWarn option', () => {
   })
 
   test('context option: regex', () => {
-    const mockWarn = warn as jest.MockedFunction<typeof warn>
+    const mockWarn = vi.spyOn(shared, 'warn')
     mockWarn.mockImplementation(() => {})
 
     const ctx = context({
@@ -390,7 +393,7 @@ describe('context fallbackWarn option', () => {
   })
 
   test('specify fallbackWarn option to translate function', () => {
-    const mockWarn = warn as jest.MockedFunction<typeof warn>
+    const mockWarn = vi.spyOn(shared, 'warn')
     mockWarn.mockImplementation(() => {})
 
     const ctx = context({
@@ -413,7 +416,7 @@ describe('context fallbackWarn option', () => {
 
 describe('context fallbackFormat option', () => {
   test('specify true', () => {
-    const mockWarn = warn as jest.MockedFunction<typeof warn>
+    const mockWarn = vi.spyOn(shared, 'warn')
     mockWarn.mockImplementation(() => {})
 
     const ctx = context({
@@ -449,7 +452,7 @@ describe('context fallbackFormat option', () => {
   })
 
   test('overridden with default option', () => {
-    const mockWarn = warn as jest.MockedFunction<typeof warn>
+    const mockWarn = vi.spyOn(shared, 'warn')
     mockWarn.mockImplementation(() => {})
 
     const ctx = context({
@@ -485,7 +488,7 @@ describe('context fallbackFormat option', () => {
   })
 
   test('fallbackLocales is nothing', () => {
-    const mockWarn = warn as jest.MockedFunction<typeof warn>
+    const mockWarn = vi.spyOn(shared, 'warn')
     mockWarn.mockImplementation(() => {})
 
     const ctx = context({
@@ -506,7 +509,7 @@ describe('context fallbackFormat option', () => {
   })
 
   test('runtimeOnly', () => {
-    const mockWarn = warn as jest.MockedFunction<typeof warn>
+    const mockWarn = vi.spyOn(shared, 'warn')
     mockWarn.mockImplementation(() => {})
 
     const ctx = context({
@@ -560,7 +563,7 @@ describe('context unresolving option', () => {
   })
 
   test('fallbackFormat is true', () => {
-    const mockWarn = warn as jest.MockedFunction<typeof warn>
+    const mockWarn = vi.spyOn(shared, 'warn')
     mockWarn.mockImplementation(() => {})
 
     const ctx = context({
@@ -639,7 +642,7 @@ describe('context postTranslation option', () => {
 
 describe('warnHtmlMessage', () => {
   test('default', () => {
-    const mockWarn = warn as jest.MockedFunction<typeof warn>
+    const mockWarn = vi.spyOn(shared, 'warn')
     mockWarn.mockImplementation(() => {})
 
     const ctx = context({
@@ -761,7 +764,7 @@ const ErrorCodes = {
   CODE1: 1
 } as const
 
-type ErrorCodes = typeof ErrorCodes[keyof typeof ErrorCodes]
+type ErrorCodes = (typeof ErrorCodes)[keyof typeof ErrorCodes]
 
 describe('edge cases', () => {
   test('multi bytes key', () => {
@@ -826,7 +829,7 @@ describe('processor', () => {
     values: MessageType<string | VNode>[]
   ): MessageType<VNode>[] {
     return values.map(val =>
-      isString(val) || isNumber(val) || isBoolean(val)
+      shared.isString(val) || shared.isNumber(val) || shared.isBoolean(val)
         ? createTextNode(String(val))
         : val
     )

@@ -1,5 +1,5 @@
 /**
- * @jest-environment jsdom
+ * @vitest-environment jsdom
  */
 
 import { mount } from './helper'
@@ -223,7 +223,7 @@ test('$i18n', async () => {
 })
 
 test('VueI18n componentInstanceCreatedListener option', async () => {
-  const componentInstanceCreatedListener = jest.fn()
+  const componentInstanceCreatedListener = vi.fn()
   const i18n = createI18n({
     legacy: true,
     locale: 'en',

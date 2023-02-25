@@ -15,10 +15,12 @@
           <option value="ja">ja</option>
         </select>
       </form>
-      <p>{{ t('message.linked') }}</p>
+      <p class="linked">{{ t('message.linked') }}</p>
       <label>{{ t('message.homeAddress') }}</label>
       <p class="error">{{ t('message.missingHomeAddress') }}</p>
-      <p>{{ t('message.custom_modifier', { foo: 'message.snake' }) }}</p>
+      <p class="modifier">
+        {{ t('message.custom_modifier', { snake: 'message.snake' }) }}
+      </p>
     </div>
     <script>
       const { createApp } = Vue

@@ -1,14 +1,17 @@
 /**
- * @jest-environment jsdom
+ * @vitest-environment jsdom
  */
 /* eslint-disable @typescript-eslint/no-empty-function, @typescript-eslint/no-explicit-any */
 
 // utils
-jest.mock('@intlify/shared', () => ({
-  ...jest.requireActual<object>('@intlify/shared'),
-  warn: jest.fn()
-}))
-import { isString, warn } from '@intlify/shared'
+import * as shared from '@intlify/shared'
+vi.mock('@intlify/shared', async () => {
+  const actual = await vi.importActual<object>('@intlify/shared')
+  return {
+    ...actual,
+    warn: vi.fn()
+  }
+})
 import { pluralRules as _pluralRules } from './helper'
 
 import {
@@ -34,8 +37,7 @@ import {
   registerLocaleFallbacker,
   MessageContext,
   Path,
-  PathValue,
-  MessageResolver
+  PathValue
 } from '@intlify/core-base'
 
 beforeEach(() => {
@@ -56,7 +58,7 @@ describe('locale', () => {
   })
 
   test('reactivity', async () => {
-    const fn = jest.fn()
+    const fn = vi.fn()
 
     const { locale } = createComposer({})
     watch(locale, fn)
@@ -308,7 +310,7 @@ describe('modifiers', () => {
   test('initialize at composer creating', () => {
     const _modifiers = {
       kebab: (str: VueMessageType) =>
-        isString(str) ? str.replace(/\s+/g, '-').toLowerCase() : str
+        shared.isString(str) ? str.replace(/\s+/g, '-').toLowerCase() : str
     }
     const { modifiers, t } = createComposer({
       locale: 'en',
@@ -327,7 +329,7 @@ describe('modifiers', () => {
   test('pascal case', () => {
     const _modifiers = {
       snakeCase: (str: VueMessageType) =>
-        isString(str) ? str.split(' ').join('-') : str
+        shared.isString(str) ? str.split(' ').join('-') : str
     }
     const { modifiers, t } = createComposer({
       locale: 'en',
@@ -416,7 +418,7 @@ describe('fallbackFormat', () => {
   })
 
   test('interpolation', () => {
-    const mockWarn = warn as jest.MockedFunction<typeof warn>
+    const mockWarn = vi.spyOn(shared, 'warn')
     mockWarn.mockImplementation(() => {})
 
     const { t } = createComposer({
@@ -449,7 +451,7 @@ describe('fallbackRoot', () => {
   })
 
   test('warnings', () => {
-    const mockWarn = warn as jest.MockedFunction<typeof warn>
+    const mockWarn = vi.spyOn(shared, 'warn')
     mockWarn.mockImplementation(() => {})
 
     const root = createComposer({
@@ -482,7 +484,7 @@ describe('fallbackRoot', () => {
   })
 
   test('not warnings', () => {
-    const mockWarn = warn as jest.MockedFunction<typeof warn>
+    const mockWarn = vi.spyOn(shared, 'warn')
     mockWarn.mockImplementation(() => {})
 
     const root = createComposer({
@@ -537,7 +539,7 @@ describe('postTranslation', () => {
     let key = ''
     const handler = (str: VueMessageType, _key: string) => {
       key = _key
-      return isString(str) ? str.trim() : str
+      return shared.isString(str) ? str.trim() : str
     }
     setPostTranslationHandler(handler)
     expect(t('hello')).toEqual('hello world!')
@@ -546,7 +548,8 @@ describe('postTranslation', () => {
   })
 
   test('initialize at composer creating', () => {
-    const handler = (str: VueMessageType) => (isString(str) ? str.trim() : str)
+    const handler = (str: VueMessageType) =>
+      shared.isString(str) ? str.trim() : str
     const { getPostTranslationHandler, t } = createComposer({
       locale: 'en',
       messages: {
@@ -580,7 +583,7 @@ const ErrorCodes = {
   Code1: 1
 }
 
-type ErrorCodes = typeof ErrorCodes[keyof typeof ErrorCodes]
+type ErrorCodes = (typeof ErrorCodes)[keyof typeof ErrorCodes]
 
 describe('t', () => {
   test('basic', () => {
@@ -1323,8 +1326,7 @@ describe('getNumberFormat / setNumberFormat / mergeNumberFormat', () => {
 
 describe('messageResolver', () => {
   test('basic', () => {
-    const fn = jest.fn()
-    const mockMessageResolver = fn as jest.MockedFunction<MessageResolver>
+    const mockMessageResolver = vi.fn()
     mockMessageResolver.mockImplementation(
       (obj: unknown, path: Path): PathValue => {
         return (obj as any)[path]
@@ -1336,7 +1338,7 @@ describe('messageResolver', () => {
     }
     const { t } = createComposer({
       locale: 'en',
-      messageResolver: fn,
+      messageResolver: mockMessageResolver,
       messages: { en }
     })
 
@@ -1347,8 +1349,7 @@ describe('messageResolver', () => {
   })
 
   test('fallback', () => {
-    const fn = jest.fn()
-    const mockMessageResolver = fn as jest.MockedFunction<MessageResolver>
+    const mockMessageResolver = vi.fn()
     mockMessageResolver.mockImplementation(
       (obj: unknown, path: Path): PathValue => {
         return (obj as any)[path]
@@ -1362,7 +1363,7 @@ describe('messageResolver', () => {
     const { t, te, tm } = createComposer({
       locale: 'en',
       fallbackLocale: 'ja',
-      messageResolver: fn,
+      messageResolver: mockMessageResolver,
       messages: { ja }
     })
 

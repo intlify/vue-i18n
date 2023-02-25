@@ -17,7 +17,7 @@ export type AdditionalPayloads = {
 }
 
 export type IntlifyDevToolsHooks =
-  typeof IntlifyDevToolsHooks[keyof typeof IntlifyDevToolsHooks]
+  (typeof IntlifyDevToolsHooks)[keyof typeof IntlifyDevToolsHooks]
 
 export type IntlifyDevToolsHookPayloads = {
   [IntlifyDevToolsHooks.I18nInit]: {

@@ -156,7 +156,7 @@ looseComposer.mergeLocaleMessage('en', {
 looseComposer.mergeLocaleMessage<{ dio: string }>('en', {
   dio: 'The world!'
 })
-expectType<typeof looseComposer.datetimeFormats.value['en-US']>(
+expectType<(typeof looseComposer.datetimeFormats.value)['en-US']>(
   looseComposer.getDateTimeFormat('en-US')
 )
 expectType<{ long: { hour: string } }>(
@@ -176,7 +176,7 @@ looseComposer.mergeDateTimeFormat('en-US', {
 looseComposer.mergeDateTimeFormat<{ stop: { hour: string } }>('en-US', {
   stop: { hour: 'infinity' }
 })
-expectType<typeof looseComposer.numberFormats.value['ja-JP']>(
+expectType<(typeof looseComposer.numberFormats.value)['ja-JP']>(
   looseComposer.getNumberFormat('ja-JP')
 )
 expectType<{ weight: { unit: string } }>(

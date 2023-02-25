@@ -1,5 +1,5 @@
 /**
- * @jest-environment jsdom
+ * @vitest-environment jsdom
  */
 
 import {
@@ -21,7 +21,7 @@ import {
   registerLocaleFallbacker
 } from '@intlify/core-base'
 import { createEmitter } from '@intlify/shared'
-import { mount, pluralRules as _pluralRules } from './helper'
+import { mount, pluralRules as _pluralRules, randStr } from './helper'
 import { createI18n, useI18n, castToVueI18n } from '../src/i18n'
 import { __VUE_I18N_BRIDGE__ } from '../src/symbols'
 import { errorMessages, I18nErrorCodes } from '../src/errors'
@@ -137,7 +137,7 @@ describe('useI18n', () => {
   let spy: any // eslint-disable-line @typescript-eslint/no-explicit-any
   beforeEach(() => {
     org = console.warn
-    spy = jest.fn()
+    spy = vi.fn()
     console.warn = spy
   })
   afterEach(() => {
@@ -727,13 +727,15 @@ describe('useI18n', () => {
   })
 
   test(errorMessages[I18nErrorCodes.NOT_INSLALLED_WITH_PROVIDE], async () => {
+    const randCusumerTag = `my-consumer-${randStr()}`
+    const randProviderTag = `my-provider-${randStr()}`
     const Provider = defineCustomElement({
       setup() {
         createI18n<false>({ legacy: false })
-        return () => h('my-consumer')
+        return () => h(randCusumerTag)
       }
     })
-    customElements.define('my-provider', Provider)
+    customElements.define(randProviderTag, Provider)
 
     let error = ''
     const Consumer = defineCustomElement({
@@ -746,9 +748,9 @@ describe('useI18n', () => {
         return () => h('div')
       }
     })
-    customElements.define('my-consumer', Consumer)
+    customElements.define(randCusumerTag, Consumer)
 
-    container.innerHTML = `<my-provider><my-provider>`
+    container.innerHTML = `<${randProviderTag}></${randProviderTag}>`
     await nextTick()
 
     expect(error).toEqual(
@@ -762,7 +764,7 @@ describe('slot reactivity', () => {
   let spy: any // eslint-disable-line @typescript-eslint/no-explicit-any
   beforeEach(() => {
     org = console.warn
-    spy = jest.fn()
+    spy = vi.fn()
     console.warn = spy
   })
   afterEach(() => {
@@ -1315,8 +1317,8 @@ test('Intlify devtools hooking', () => {
   const emitter = createEmitter<IntlifyDevToolsEmitterHooks>()
   setDevToolsHook(emitter)
 
-  const fnI18nInit = jest.fn()
-  const fnTranslate = jest.fn()
+  const fnI18nInit = vi.fn()
+  const fnTranslate = vi.fn()
   emitter.on(IntlifyDevToolsHooks.I18nInit, fnI18nInit)
   emitter.on(IntlifyDevToolsHooks.FunctionTranslate, fnTranslate)
 
@@ -1392,13 +1394,13 @@ describe('release global scope', () => {
 
 describe('Composer & VueI18n extend hooking', () => {
   test('composition', async () => {
-    const composerExtendSpy = jest
+    const composerExtendSpy = vi
       .fn()
       .mockImplementation((composer: Composer) => {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         ;(composer as any).foo = ref('hello world')
       })
-    const vueI18nExtendSpy = jest.fn()
+    const vueI18nExtendSpy = vi.fn()
     const i18n = createI18n({
       legacy: false
     })
@@ -1426,8 +1428,8 @@ describe('Composer & VueI18n extend hooking', () => {
 
   describe('legacy', () => {
     test('basic', async () => {
-      const composerExtendSpy = jest.fn()
-      const vueI18nExtendSpy = jest
+      const composerExtendSpy = vi.fn()
+      const vueI18nExtendSpy = vi
         .fn()
         .mockImplementation((vueI18n: VueI18n) => {
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -1448,8 +1450,8 @@ describe('Composer & VueI18n extend hooking', () => {
     })
 
     test('use global vue i18n instance in components', async () => {
-      const composerExtendSpy = jest.fn()
-      const vueI18nExtendSpy = jest
+      const composerExtendSpy = vi.fn()
+      const vueI18nExtendSpy = vi
         .fn()
         .mockImplementation((vueI18n: VueI18n) => {
           // eslint-disable-next-line @typescript-eslint/no-explicit-any

@@ -1,5 +1,5 @@
 /**
- * @jest-environment jsdom
+ * @vitest-environment jsdom
  */
 
 import { mount } from '../helper'
@@ -22,7 +22,7 @@ import {
 import { createI18n, useI18n } from '../../src/index'
 
 import type { Ref } from 'vue'
-import type { Path, PathValue, MessageResolver } from '@intlify/core-base'
+import type { Path, PathValue } from '@intlify/core-base'
 
 const messages = {
   en: {
@@ -56,7 +56,7 @@ let org: any // eslint-disable-line @typescript-eslint/no-explicit-any
 let spy: any // eslint-disable-line @typescript-eslint/no-explicit-any
 beforeEach(() => {
   org = console.warn
-  spy = jest.fn()
+  spy = vi.fn()
   console.warn = spy
 })
 afterEach(() => {
@@ -243,8 +243,7 @@ test('component', async () => {
 })
 
 test('message resolver', async () => {
-  const fn = jest.fn()
-  const mockMessageResolver = fn as jest.MockedFunction<MessageResolver>
+  const mockMessageResolver = vi.fn()
   mockMessageResolver.mockImplementation(
     (obj: unknown, path: Path): PathValue => {
       const msg = (obj as any)[path] // eslint-disable-line @typescript-eslint/no-explicit-any
@@ -256,7 +255,7 @@ test('message resolver', async () => {
   }
   const i18n = createI18n({
     locale: 'en',
-    messageResolver: fn,
+    messageResolver: mockMessageResolver,
     messages: { en }
   })
 

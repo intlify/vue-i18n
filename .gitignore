@@ -12,9 +12,6 @@ debug.log
 .eslintcache
 **/.vitepress/cache
 
-# jest dump files
-report*.json
-
 *.log
 *.swp
 *.tgz

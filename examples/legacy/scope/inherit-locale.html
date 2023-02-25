@@ -16,7 +16,7 @@
           <option value="ja">ja</option>
         </select>
       </form>
-      <p>{{ $t("message.hello") }}</p>
+      <p class="parent">{{ $t("message.hello") }}</p>
       <Child />
     </div>
     <script>
@@ -36,7 +36,7 @@
               <input type="checkbox" id="checkbox" v-model="$i18n.sync">
               <label for="checkbox">{{ $t('message.inherit') }}</label>
             </form>
-            <p>{{ $t('message.hi') }}</p>
+            <p class="child">{{ $t('message.hi') }}</p>
           </div>
         `,
         i18n: {

@@ -22,7 +22,7 @@ afterEach(() => {
 })
 
 test('initI18nDevTools', () => {
-  const fn = jest.fn()
+  const fn = vi.fn()
   devtools!.on(IntlifyDevToolsHooks.I18nInit, fn)
 
   const meta = { framework: 'Vue' }
@@ -45,7 +45,7 @@ test('initI18nDevTools', () => {
 
 describe('translateDevTools', () => {
   test('basic', () => {
-    const fn = jest.fn()
+    const fn = vi.fn()
     devtools!.on(IntlifyDevToolsHooks.FunctionTranslate, fn)
 
     const meta = { __INTLIFY_META__: 'xxx', framework: 'Vue' }
@@ -72,7 +72,7 @@ describe('translateDevTools', () => {
   })
 
   test('fallback', () => {
-    const fn = jest.fn()
+    const fn = vi.fn()
     devtools!.on(IntlifyDevToolsHooks.FunctionTranslate, fn)
 
     const HELLO = 'やあ　{name}！'

@@ -1,7 +1,7 @@
 import { createEmitter } from '../src/emitter'
 
 test('basic', () => {
-  const handler = jest.fn()
+  const handler = vi.fn()
 
   const emitter = createEmitter<{ foo: number }>()
   emitter.on('foo', handler)
@@ -16,8 +16,8 @@ test('basic', () => {
 })
 
 test('mlutiple reigster', () => {
-  const handler1 = jest.fn()
-  const handler2 = jest.fn()
+  const handler1 = vi.fn()
+  const handler2 = vi.fn()
 
   const emitter = createEmitter<{ foo: string }>()
   emitter.on('foo', handler1)
@@ -38,8 +38,8 @@ test('mlutiple reigster', () => {
 })
 
 test('multiple event', () => {
-  const handler1 = jest.fn()
-  const handler2 = jest.fn()
+  const handler1 = vi.fn()
+  const handler2 = vi.fn()
 
   const emitter = createEmitter<{ foo: string; bar: { greeting: string } }>()
   emitter.on('foo', handler1)
@@ -62,7 +62,7 @@ test('multiple event', () => {
 })
 
 test('* event', () => {
-  const handler1 = jest.fn()
+  const handler1 = vi.fn()
 
   const emitter = createEmitter<{ foo: string; bar: number }>()
   emitter.on('*', handler1)
@@ -87,9 +87,9 @@ test('events', () => {
     NAME1_EVENT1 = 'name1:event1'
   }
 
-  const handler1 = jest.fn()
-  const handler2 = jest.fn()
-  const handler3 = jest.fn()
+  const handler1 = vi.fn()
+  const handler2 = vi.fn()
+  const handler3 = vi.fn()
 
   const emitter = createEmitter<{
     foo: number

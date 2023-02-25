@@ -1,16 +1,19 @@
 /**
- * @jest-environment jsdom
+ * @vitest-environment jsdom
  */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 // allow any in error
 /* eslint-disable @typescript-eslint/no-empty-function */
 
 // utils
-jest.mock('@intlify/shared', () => ({
-  ...jest.requireActual<object>('@intlify/shared'),
-  warn: jest.fn()
-}))
-import { warn } from '@intlify/shared'
+import * as shared from '@intlify/shared'
+vi.mock('@intlify/shared', async () => {
+  const actual = await vi.importActual<object>('@intlify/shared')
+  return {
+    ...actual,
+    warn: vi.fn()
+  }
+})
 
 import { mount } from './helper'
 import { defineComponent, ref, h, withDirectives, resolveDirective } from 'vue'
@@ -139,7 +142,7 @@ test('plural', async () => {
 })
 
 test('preserve modifier', async () => {
-  const mockWarn = warn as jest.MockedFunction<typeof warn>
+  const mockWarn = vi.spyOn(shared, 'warn')
   mockWarn.mockImplementation(() => {})
 
   const i18n = createI18n({
@@ -216,7 +219,7 @@ describe('errors', () => {
   let spy: any // eslint-disable-line @typescript-eslint/no-explicit-any
   beforeEach(() => {
     org = console.warn
-    spy = jest.fn()
+    spy = vi.fn()
     console.warn = spy
   })
   afterEach(() => {

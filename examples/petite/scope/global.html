@@ -16,7 +16,7 @@
           <option value="ja">ja</option>
         </select>
       </form>
-      <p>{{ $t('message.hello') }}</p>
+      <p class="parent">{{ $t('message.hello') }}</p>
       <Child />
     </div>
     <script>
@@ -40,7 +40,7 @@
                 <option value="ja">ja</option>
               </select>
             </form>
-            <p>{{ $t('message.hi') }}</p>
+            <p class="sub-child">{{ $t('message.hi') }}</p>
           </div>
         `
       }
@@ -60,7 +60,7 @@
                 <option value="ja">ja</option>
               </select>
             </form>
-            <p>{{ $t('message.hi') }}</p>
+            <p class="child">{{ $t('message.hi') }}</p>
             <SubChild />
             t inside of slot
             <SlotChild>

@@ -1,19 +1,19 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1
 
-exports[`basic hello {'world'} ! 1`] = `
-Object {
-  "body": Object {
+exports[`basic > hello {'world'} ! 1`] = `
+{
+  "body": {
     "end": 17,
-    "items": Array [
-      Object {
+    "items": [
+      {
         "end": 6,
-        "loc": Object {
-          "end": Object {
+        "loc": {
+          "end": {
             "column": 7,
             "line": 1,
             "offset": 6,
           },
-          "start": Object {
+          "start": {
             "column": 1,
             "line": 1,
             "offset": 0,
@@ -23,15 +23,15 @@ Object {
         "type": 3,
         "value": "hello ",
       },
-      Object {
+      {
         "end": 15,
-        "loc": Object {
-          "end": Object {
+        "loc": {
+          "end": {
             "column": 16,
             "line": 1,
             "offset": 15,
           },
-          "start": Object {
+          "start": {
             "column": 7,
             "line": 1,
             "offset": 6,
@@ -41,15 +41,15 @@ Object {
         "type": 9,
         "value": "world",
       },
-      Object {
+      {
         "end": 17,
-        "loc": Object {
-          "end": Object {
+        "loc": {
+          "end": {
             "column": 18,
             "line": 1,
             "offset": 17,
           },
-          "start": Object {
+          "start": {
             "column": 16,
             "line": 1,
             "offset": 15,
@@ -60,13 +60,13 @@ Object {
         "value": " !",
       },
     ],
-    "loc": Object {
-      "end": Object {
+    "loc": {
+      "end": {
         "column": 18,
         "line": 1,
         "offset": 17,
       },
-      "start": Object {
+      "start": {
         "column": 1,
         "line": 1,
         "offset": 0,
@@ -76,14 +76,14 @@ Object {
     "type": 2,
   },
   "end": 17,
-  "loc": Object {
-    "end": Object {
+  "loc": {
+    "end": {
       "column": 18,
       "line": 1,
       "offset": 17,
     },
     "source": "hello {'world'} !",
-    "start": Object {
+    "start": {
       "column": 1,
       "line": 1,
       "offset": 0,
@@ -94,20 +94,20 @@ Object {
 }
 `;
 
-exports[`emoji hi, {'😺'} ! 1`] = `
-Object {
-  "body": Object {
+exports[`emoji > hi, {'😺'} ! 1`] = `
+{
+  "body": {
     "end": 12,
-    "items": Array [
-      Object {
+    "items": [
+      {
         "end": 4,
-        "loc": Object {
-          "end": Object {
+        "loc": {
+          "end": {
             "column": 5,
             "line": 1,
             "offset": 4,
           },
-          "start": Object {
+          "start": {
             "column": 1,
             "line": 1,
             "offset": 0,
@@ -117,15 +117,15 @@ Object {
         "type": 3,
         "value": "hi, ",
       },
-      Object {
+      {
         "end": 10,
-        "loc": Object {
-          "end": Object {
+        "loc": {
+          "end": {
             "column": 11,
             "line": 1,
             "offset": 10,
           },
-          "start": Object {
+          "start": {
             "column": 5,
             "line": 1,
             "offset": 4,
@@ -135,15 +135,15 @@ Object {
         "type": 9,
         "value": "😺",
       },
-      Object {
+      {
         "end": 12,
-        "loc": Object {
-          "end": Object {
+        "loc": {
+          "end": {
             "column": 13,
             "line": 1,
             "offset": 12,
           },
-          "start": Object {
+          "start": {
             "column": 11,
             "line": 1,
             "offset": 10,
@@ -154,13 +154,13 @@ Object {
         "value": " !",
       },
     ],
-    "loc": Object {
-      "end": Object {
+    "loc": {
+      "end": {
         "column": 13,
         "line": 1,
         "offset": 12,
       },
-      "start": Object {
+      "start": {
         "column": 1,
         "line": 1,
         "offset": 0,
@@ -170,14 +170,14 @@ Object {
     "type": 2,
   },
   "end": 12,
-  "loc": Object {
-    "end": Object {
+  "loc": {
+    "end": {
       "column": 13,
       "line": 1,
       "offset": 12,
     },
     "source": "hi, {'😺'} !",
-    "start": Object {
+    "start": {
       "column": 1,
       "line": 1,
       "offset": 0,
@@ -188,20 +188,20 @@ Object {
 }
 `;
 
-exports[`errors include new line: hi { 'foo\\n' } 1`] = `
-Object {
-  "body": Object {
+exports[`errors > include new line: hi { 'foo\\n' } 1`] = `
+{
+  "body": {
     "end": 14,
-    "items": Array [
-      Object {
+    "items": [
+      {
         "end": 4,
-        "loc": Object {
-          "end": Object {
+        "loc": {
+          "end": {
             "column": 5,
             "line": 1,
             "offset": 4,
           },
-          "start": Object {
+          "start": {
             "column": 1,
             "line": 1,
             "offset": 0,
@@ -211,15 +211,15 @@ Object {
         "type": 3,
         "value": "hi, ",
       },
-      Object {
+      {
         "end": 14,
-        "loc": Object {
-          "end": Object {
+        "loc": {
+          "end": {
             "column": 4,
             "line": 2,
             "offset": 14,
           },
-          "start": Object {
+          "start": {
             "column": 5,
             "line": 1,
             "offset": 4,
@@ -230,13 +230,13 @@ Object {
         "value": "foo",
       },
     ],
-    "loc": Object {
-      "end": Object {
+    "loc": {
+      "end": {
         "column": 4,
         "line": 2,
         "offset": 14,
       },
-      "start": Object {
+      "start": {
         "column": 1,
         "line": 1,
         "offset": 0,
@@ -246,15 +246,15 @@ Object {
     "type": 2,
   },
   "end": 14,
-  "loc": Object {
-    "end": Object {
+  "loc": {
+    "end": {
       "column": 4,
       "line": 2,
       "offset": 14,
     },
     "source": "hi, { 'foo
 ' }",
-    "start": Object {
+    "start": {
       "column": 1,
       "line": 1,
       "offset": 0,
@@ -265,20 +265,20 @@ Object {
 }
 `;
 
-exports[`errors invalid unicode escape: hi { '\\uw' } 1`] = `
-Object {
-  "body": Object {
+exports[`errors > invalid unicode escape: hi { '\\uw' } 1`] = `
+{
+  "body": {
     "end": 13,
-    "items": Array [
-      Object {
+    "items": [
+      {
         "end": 4,
-        "loc": Object {
-          "end": Object {
+        "loc": {
+          "end": {
             "column": 5,
             "line": 1,
             "offset": 4,
           },
-          "start": Object {
+          "start": {
             "column": 1,
             "line": 1,
             "offset": 0,
@@ -288,15 +288,15 @@ Object {
         "type": 3,
         "value": "hi, ",
       },
-      Object {
+      {
         "end": 11,
-        "loc": Object {
-          "end": Object {
+        "loc": {
+          "end": {
             "column": 12,
             "line": 1,
             "offset": 11,
           },
-          "start": Object {
+          "start": {
             "column": 5,
             "line": 1,
             "offset": 4,
@@ -306,15 +306,15 @@ Object {
         "type": 9,
         "value": "\\\\uw",
       },
-      Object {
+      {
         "end": 13,
-        "loc": Object {
-          "end": Object {
+        "loc": {
+          "end": {
             "column": 14,
             "line": 1,
             "offset": 13,
           },
-          "start": Object {
+          "start": {
             "column": 12,
             "line": 1,
             "offset": 11,
@@ -325,13 +325,13 @@ Object {
         "value": " !",
       },
     ],
-    "loc": Object {
-      "end": Object {
+    "loc": {
+      "end": {
         "column": 14,
         "line": 1,
         "offset": 13,
       },
-      "start": Object {
+      "start": {
         "column": 1,
         "line": 1,
         "offset": 0,
@@ -341,14 +341,14 @@ Object {
     "type": 2,
   },
   "end": 13,
-  "loc": Object {
-    "end": Object {
+  "loc": {
+    "end": {
       "column": 14,
       "line": 1,
       "offset": 13,
     },
     "source": "hi, {'\\\\uw'} !",
-    "start": Object {
+    "start": {
       "column": 1,
       "line": 1,
       "offset": 0,
@@ -359,20 +359,20 @@ Object {
 }
 `;
 
-exports[`errors not close single quote at EOF: hi { 'foo 1`] = `
-Object {
-  "body": Object {
+exports[`errors > not close single quote at EOF: hi { 'foo 1`] = `
+{
+  "body": {
     "end": 9,
-    "items": Array [
-      Object {
+    "items": [
+      {
         "end": 4,
-        "loc": Object {
-          "end": Object {
+        "loc": {
+          "end": {
             "column": 5,
             "line": 1,
             "offset": 4,
           },
-          "start": Object {
+          "start": {
             "column": 1,
             "line": 1,
             "offset": 0,
@@ -382,15 +382,15 @@ Object {
         "type": 3,
         "value": "hi, ",
       },
-      Object {
+      {
         "end": 9,
-        "loc": Object {
-          "end": Object {
+        "loc": {
+          "end": {
             "column": 10,
             "line": 1,
             "offset": 9,
           },
-          "start": Object {
+          "start": {
             "column": 5,
             "line": 1,
             "offset": 4,
@@ -401,13 +401,13 @@ Object {
         "value": "foo",
       },
     ],
-    "loc": Object {
-      "end": Object {
+    "loc": {
+      "end": {
         "column": 10,
         "line": 1,
         "offset": 9,
       },
-      "start": Object {
+      "start": {
         "column": 1,
         "line": 1,
         "offset": 0,
@@ -417,14 +417,14 @@ Object {
     "type": 2,
   },
   "end": 9,
-  "loc": Object {
-    "end": Object {
+  "loc": {
+    "end": {
       "column": 10,
       "line": 1,
       "offset": 9,
     },
     "source": "hi, {'foo",
-    "start": Object {
+    "start": {
       "column": 1,
       "line": 1,
       "offset": 0,
@@ -435,20 +435,20 @@ Object {
 }
 `;
 
-exports[`errors not close single quote: hi { 'foo } 1`] = `
-Object {
-  "body": Object {
+exports[`errors > not close single quote: hi { 'foo } 1`] = `
+{
+  "body": {
     "end": 12,
-    "items": Array [
-      Object {
+    "items": [
+      {
         "end": 4,
-        "loc": Object {
-          "end": Object {
+        "loc": {
+          "end": {
             "column": 5,
             "line": 1,
             "offset": 4,
           },
-          "start": Object {
+          "start": {
             "column": 1,
             "line": 1,
             "offset": 0,
@@ -458,15 +458,15 @@ Object {
         "type": 3,
         "value": "hi, ",
       },
-      Object {
+      {
         "end": 12,
-        "loc": Object {
-          "end": Object {
+        "loc": {
+          "end": {
             "column": 13,
             "line": 1,
             "offset": 12,
           },
-          "start": Object {
+          "start": {
             "column": 5,
             "line": 1,
             "offset": 4,
@@ -477,13 +477,13 @@ Object {
         "value": "foo }",
       },
     ],
-    "loc": Object {
-      "end": Object {
+    "loc": {
+      "end": {
         "column": 13,
         "line": 1,
         "offset": 12,
       },
-      "start": Object {
+      "start": {
         "column": 1,
         "line": 1,
         "offset": 0,
@@ -493,14 +493,14 @@ Object {
     "type": 2,
   },
   "end": 12,
-  "loc": Object {
-    "end": Object {
+  "loc": {
+    "end": {
       "column": 13,
       "line": 1,
       "offset": 12,
     },
     "source": "hi, { 'foo }",
-    "start": Object {
+    "start": {
       "column": 1,
       "line": 1,
       "offset": 0,
@@ -511,20 +511,20 @@ Object {
 }
 `;
 
-exports[`errors unknown escape: '\\x41' 1`] = `
-Object {
-  "body": Object {
+exports[`errors > unknown escape: '\\x41' 1`] = `
+{
+  "body": {
     "end": 14,
-    "items": Array [
-      Object {
+    "items": [
+      {
         "end": 4,
-        "loc": Object {
-          "end": Object {
+        "loc": {
+          "end": {
             "column": 5,
             "line": 1,
             "offset": 4,
           },
-          "start": Object {
+          "start": {
             "column": 1,
             "line": 1,
             "offset": 0,
@@ -534,15 +534,15 @@ Object {
         "type": 3,
         "value": "hi, ",
       },
-      Object {
+      {
         "end": 12,
-        "loc": Object {
-          "end": Object {
+        "loc": {
+          "end": {
             "column": 13,
             "line": 1,
             "offset": 12,
           },
-          "start": Object {
+          "start": {
             "column": 5,
             "line": 1,
             "offset": 4,
@@ -552,15 +552,15 @@ Object {
         "type": 9,
         "value": "x41",
       },
-      Object {
+      {
         "end": 14,
-        "loc": Object {
-          "end": Object {
+        "loc": {
+          "end": {
             "column": 15,
             "line": 1,
             "offset": 14,
           },
-          "start": Object {
+          "start": {
             "column": 13,
             "line": 1,
             "offset": 12,
@@ -571,13 +571,13 @@ Object {
         "value": " !",
       },
     ],
-    "loc": Object {
-      "end": Object {
+    "loc": {
+      "end": {
         "column": 15,
         "line": 1,
         "offset": 14,
       },
-      "start": Object {
+      "start": {
         "column": 1,
         "line": 1,
         "offset": 0,
@@ -587,14 +587,14 @@ Object {
     "type": 2,
   },
   "end": 14,
-  "loc": Object {
-    "end": Object {
+  "loc": {
+    "end": {
       "column": 15,
       "line": 1,
       "offset": 14,
     },
     "source": "hi, {'\\\\x41'} !",
-    "start": Object {
+    "start": {
       "column": 1,
       "line": 1,
       "offset": 0,
@@ -605,20 +605,20 @@ Object {
 }
 `;
 
-exports[`escapes backslash baackslash: '\\\\' 1`] = `
-Object {
-  "body": Object {
+exports[`escapes > backslash baackslash: '\\\\' 1`] = `
+{
+  "body": {
     "end": 12,
-    "items": Array [
-      Object {
+    "items": [
+      {
         "end": 4,
-        "loc": Object {
-          "end": Object {
+        "loc": {
+          "end": {
             "column": 5,
             "line": 1,
             "offset": 4,
           },
-          "start": Object {
+          "start": {
             "column": 1,
             "line": 1,
             "offset": 0,
@@ -628,15 +628,15 @@ Object {
         "type": 3,
         "value": "hi, ",
       },
-      Object {
+      {
         "end": 10,
-        "loc": Object {
-          "end": Object {
+        "loc": {
+          "end": {
             "column": 11,
             "line": 1,
             "offset": 10,
           },
-          "start": Object {
+          "start": {
             "column": 5,
             "line": 1,
             "offset": 4,
@@ -646,15 +646,15 @@ Object {
         "type": 9,
         "value": "\\\\",
       },
-      Object {
+      {
         "end": 12,
-        "loc": Object {
-          "end": Object {
+        "loc": {
+          "end": {
             "column": 13,
             "line": 1,
             "offset": 12,
           },
-          "start": Object {
+          "start": {
             "column": 11,
             "line": 1,
             "offset": 10,
@@ -665,13 +665,13 @@ Object {
         "value": " !",
       },
     ],
-    "loc": Object {
-      "end": Object {
+    "loc": {
+      "end": {
         "column": 13,
         "line": 1,
         "offset": 12,
       },
-      "start": Object {
+      "start": {
         "column": 1,
         "line": 1,
         "offset": 0,
@@ -681,14 +681,14 @@ Object {
     "type": 2,
   },
   "end": 12,
-  "loc": Object {
-    "end": Object {
+  "loc": {
+    "end": {
       "column": 13,
       "line": 1,
       "offset": 12,
     },
     "source": "hi, {'\\\\\\\\'} !",
-    "start": Object {
+    "start": {
       "column": 1,
       "line": 1,
       "offset": 0,
@@ -699,20 +699,20 @@ Object {
 }
 `;
 
-exports[`escapes backslash quote: '\\'' 1`] = `
-Object {
-  "body": Object {
+exports[`escapes > backslash quote: '\\'' 1`] = `
+{
+  "body": {
     "end": 12,
-    "items": Array [
-      Object {
+    "items": [
+      {
         "end": 4,
-        "loc": Object {
-          "end": Object {
+        "loc": {
+          "end": {
             "column": 5,
             "line": 1,
             "offset": 4,
           },
-          "start": Object {
+          "start": {
             "column": 1,
             "line": 1,
             "offset": 0,
@@ -722,15 +722,15 @@ Object {
         "type": 3,
         "value": "hi, ",
       },
-      Object {
+      {
         "end": 10,
-        "loc": Object {
-          "end": Object {
+        "loc": {
+          "end": {
             "column": 11,
             "line": 1,
             "offset": 10,
           },
-          "start": Object {
+          "start": {
             "column": 5,
             "line": 1,
             "offset": 4,
@@ -740,15 +740,15 @@ Object {
         "type": 9,
         "value": "'",
       },
-      Object {
+      {
         "end": 12,
-        "loc": Object {
-          "end": Object {
+        "loc": {
+          "end": {
             "column": 13,
             "line": 1,
             "offset": 12,
           },
-          "start": Object {
+          "start": {
             "column": 11,
             "line": 1,
             "offset": 10,
@@ -759,13 +759,13 @@ Object {
         "value": " !",
       },
     ],
-    "loc": Object {
-      "end": Object {
+    "loc": {
+      "end": {
         "column": 13,
         "line": 1,
         "offset": 12,
       },
-      "start": Object {
+      "start": {
         "column": 1,
         "line": 1,
         "offset": 0,
@@ -775,14 +775,14 @@ Object {
     "type": 2,
   },
   "end": 12,
-  "loc": Object {
-    "end": Object {
+  "loc": {
+    "end": {
       "column": 13,
       "line": 1,
       "offset": 12,
     },
     "source": "hi, {'\\\\''} !",
-    "start": Object {
+    "start": {
       "column": 1,
       "line": 1,
       "offset": 0,
@@ -793,20 +793,20 @@ Object {
 }
 `;
 
-exports[`escapes unicode 4 digits: '\\\\u0041' 1`] = `
-Object {
-  "body": Object {
+exports[`escapes > unicode 4 digits: '\\\\u0041' 1`] = `
+{
+  "body": {
     "end": 17,
-    "items": Array [
-      Object {
+    "items": [
+      {
         "end": 4,
-        "loc": Object {
-          "end": Object {
+        "loc": {
+          "end": {
             "column": 5,
             "line": 1,
             "offset": 4,
           },
-          "start": Object {
+          "start": {
             "column": 1,
             "line": 1,
             "offset": 0,
@@ -816,15 +816,15 @@ Object {
         "type": 3,
         "value": "hi, ",
       },
-      Object {
+      {
         "end": 15,
-        "loc": Object {
-          "end": Object {
+        "loc": {
+          "end": {
             "column": 16,
             "line": 1,
             "offset": 15,
           },
-          "start": Object {
+          "start": {
             "column": 5,
             "line": 1,
             "offset": 4,
@@ -834,15 +834,15 @@ Object {
         "type": 9,
         "value": "\\\\u0041",
       },
-      Object {
+      {
         "end": 17,
-        "loc": Object {
-          "end": Object {
+        "loc": {
+          "end": {
             "column": 18,
             "line": 1,
             "offset": 17,
           },
-          "start": Object {
+          "start": {
             "column": 16,
             "line": 1,
             "offset": 15,
@@ -853,13 +853,13 @@ Object {
         "value": " !",
       },
     ],
-    "loc": Object {
-      "end": Object {
+    "loc": {
+      "end": {
         "column": 18,
         "line": 1,
         "offset": 17,
       },
-      "start": Object {
+      "start": {
         "column": 1,
         "line": 1,
         "offset": 0,
@@ -869,14 +869,14 @@ Object {
     "type": 2,
   },
   "end": 17,
-  "loc": Object {
-    "end": Object {
+  "loc": {
+    "end": {
       "column": 18,
       "line": 1,
       "offset": 17,
     },
     "source": "hi, {'\\\\\\\\u0041'} !",
-    "start": Object {
+    "start": {
       "column": 1,
       "line": 1,
       "offset": 0,
@@ -887,20 +887,20 @@ Object {
 }
 `;
 
-exports[`escapes unicode 6 digits: '\\\\U01F602' 1`] = `
-Object {
-  "body": Object {
+exports[`escapes > unicode 6 digits: '\\\\U01F602' 1`] = `
+{
+  "body": {
     "end": 19,
-    "items": Array [
-      Object {
+    "items": [
+      {
         "end": 4,
-        "loc": Object {
-          "end": Object {
+        "loc": {
+          "end": {
             "column": 5,
             "line": 1,
             "offset": 4,
           },
-          "start": Object {
+          "start": {
             "column": 1,
             "line": 1,
             "offset": 0,
@@ -910,15 +910,15 @@ Object {
         "type": 3,
         "value": "hi, ",
       },
-      Object {
+      {
         "end": 17,
-        "loc": Object {
-          "end": Object {
+        "loc": {
+          "end": {
             "column": 18,
             "line": 1,
             "offset": 17,
           },
-          "start": Object {
+          "start": {
             "column": 5,
             "line": 1,
             "offset": 4,
@@ -928,15 +928,15 @@ Object {
         "type": 9,
         "value": "\\\\U01F602",
       },
-      Object {
+      {
         "end": 19,
-        "loc": Object {
-          "end": Object {
+        "loc": {
+          "end": {
             "column": 20,
             "line": 1,
             "offset": 19,
           },
-          "start": Object {
+          "start": {
             "column": 18,
             "line": 1,
             "offset": 17,
@@ -947,13 +947,13 @@ Object {
         "value": " !",
       },
     ],
-    "loc": Object {
-      "end": Object {
+    "loc": {
+      "end": {
         "column": 20,
         "line": 1,
         "offset": 19,
       },
-      "start": Object {
+      "start": {
         "column": 1,
         "line": 1,
         "offset": 0,
@@ -963,14 +963,14 @@ Object {
     "type": 2,
   },
   "end": 19,
-  "loc": Object {
-    "end": Object {
+  "loc": {
+    "end": {
       "column": 20,
       "line": 1,
       "offset": 19,
     },
     "source": "hi, {'\\\\\\\\U01F602'} !",
-    "start": Object {
+    "start": {
       "column": 1,
       "line": 1,
       "offset": 0,
@@ -981,20 +981,20 @@ Object {
 }
 `;
 
-exports[`intlify message syntax special characters % 1`] = `
-Object {
-  "body": Object {
+exports[`intlify message syntax special characters > % 1`] = `
+{
+  "body": {
     "end": 11,
-    "items": Array [
-      Object {
+    "items": [
+      {
         "end": 4,
-        "loc": Object {
-          "end": Object {
+        "loc": {
+          "end": {
             "column": 5,
             "line": 1,
             "offset": 4,
           },
-          "start": Object {
+          "start": {
             "column": 1,
             "line": 1,
             "offset": 0,
@@ -1004,15 +1004,15 @@ Object {
         "type": 3,
         "value": "hi, ",
       },
-      Object {
+      {
         "end": 9,
-        "loc": Object {
-          "end": Object {
+        "loc": {
+          "end": {
             "column": 10,
             "line": 1,
             "offset": 9,
           },
-          "start": Object {
+          "start": {
             "column": 5,
             "line": 1,
             "offset": 4,
@@ -1022,15 +1022,15 @@ Object {
         "type": 9,
         "value": "%",
       },
-      Object {
+      {
         "end": 11,
-        "loc": Object {
-          "end": Object {
+        "loc": {
+          "end": {
             "column": 12,
             "line": 1,
             "offset": 11,
           },
-          "start": Object {
+          "start": {
             "column": 10,
             "line": 1,
             "offset": 9,
@@ -1041,13 +1041,13 @@ Object {
         "value": " !",
       },
     ],
-    "loc": Object {
-      "end": Object {
+    "loc": {
+      "end": {
         "column": 12,
         "line": 1,
         "offset": 11,
       },
-      "start": Object {
+      "start": {
         "column": 1,
         "line": 1,
         "offset": 0,
@@ -1057,14 +1057,14 @@ Object {
     "type": 2,
   },
   "end": 11,
-  "loc": Object {
-    "end": Object {
+  "loc": {
+    "end": {
       "column": 12,
       "line": 1,
       "offset": 11,
     },
     "source": "hi, {'%'} !",
-    "start": Object {
+    "start": {
       "column": 1,
       "line": 1,
       "offset": 0,
@@ -1075,20 +1075,20 @@ Object {
 }
 `;
 
-exports[`intlify message syntax special characters @ 1`] = `
-Object {
-  "body": Object {
+exports[`intlify message syntax special characters > @ 1`] = `
+{
+  "body": {
     "end": 11,
-    "items": Array [
-      Object {
+    "items": [
+      {
         "end": 4,
-        "loc": Object {
-          "end": Object {
+        "loc": {
+          "end": {
             "column": 5,
             "line": 1,
             "offset": 4,
           },
-          "start": Object {
+          "start": {
             "column": 1,
             "line": 1,
             "offset": 0,
@@ -1098,15 +1098,15 @@ Object {
         "type": 3,
         "value": "hi, ",
       },
-      Object {
+      {
         "end": 9,
-        "loc": Object {
-          "end": Object {
+        "loc": {
+          "end": {
             "column": 10,
             "line": 1,
             "offset": 9,
           },
-          "start": Object {
+          "start": {
             "column": 5,
             "line": 1,
             "offset": 4,
@@ -1116,15 +1116,15 @@ Object {
         "type": 9,
         "value": "@",
       },
-      Object {
+      {
         "end": 11,
-        "loc": Object {
-          "end": Object {
+        "loc": {
+          "end": {
             "column": 12,
             "line": 1,
             "offset": 11,
           },
-          "start": Object {
+          "start": {
             "column": 10,
             "line": 1,
             "offset": 9,
@@ -1135,13 +1135,13 @@ Object {
         "value": " !",
       },
     ],
-    "loc": Object {
-      "end": Object {
+    "loc": {
+      "end": {
         "column": 12,
         "line": 1,
         "offset": 11,
       },
-      "start": Object {
+      "start": {
         "column": 1,
         "line": 1,
         "offset": 0,
@@ -1151,14 +1151,14 @@ Object {
     "type": 2,
   },
   "end": 11,
-  "loc": Object {
-    "end": Object {
+  "loc": {
+    "end": {
       "column": 12,
       "line": 1,
       "offset": 11,
     },
     "source": "hi, {'@'} !",
-    "start": Object {
+    "start": {
       "column": 1,
       "line": 1,
       "offset": 0,
@@ -1169,20 +1169,20 @@ Object {
 }
 `;
 
-exports[`intlify message syntax special characters { 1`] = `
-Object {
-  "body": Object {
+exports[`intlify message syntax special characters > { 1`] = `
+{
+  "body": {
     "end": 11,
-    "items": Array [
-      Object {
+    "items": [
+      {
         "end": 4,
-        "loc": Object {
-          "end": Object {
+        "loc": {
+          "end": {
             "column": 5,
             "line": 1,
             "offset": 4,
           },
-          "start": Object {
+          "start": {
             "column": 1,
             "line": 1,
             "offset": 0,
@@ -1192,15 +1192,15 @@ Object {
         "type": 3,
         "value": "hi, ",
       },
-      Object {
+      {
         "end": 9,
-        "loc": Object {
-          "end": Object {
+        "loc": {
+          "end": {
             "column": 10,
             "line": 1,
             "offset": 9,
           },
-          "start": Object {
+          "start": {
             "column": 5,
             "line": 1,
             "offset": 4,
@@ -1210,15 +1210,15 @@ Object {
         "type": 9,
         "value": "{",
       },
-      Object {
+      {
         "end": 11,
-        "loc": Object {
-          "end": Object {
+        "loc": {
+          "end": {
             "column": 12,
             "line": 1,
             "offset": 11,
           },
-          "start": Object {
+          "start": {
             "column": 10,
             "line": 1,
             "offset": 9,
@@ -1229,13 +1229,13 @@ Object {
         "value": " !",
       },
     ],
-    "loc": Object {
-      "end": Object {
+    "loc": {
+      "end": {
         "column": 12,
         "line": 1,
         "offset": 11,
       },
-      "start": Object {
+      "start": {
         "column": 1,
         "line": 1,
         "offset": 0,
@@ -1245,14 +1245,14 @@ Object {
     "type": 2,
   },
   "end": 11,
-  "loc": Object {
-    "end": Object {
+  "loc": {
+    "end": {
       "column": 12,
       "line": 1,
       "offset": 11,
     },
     "source": "hi, {'{'} !",
-    "start": Object {
+    "start": {
       "column": 1,
       "line": 1,
       "offset": 0,
@@ -1263,20 +1263,20 @@ Object {
 }
 `;
 
-exports[`intlify message syntax special characters | 1`] = `
-Object {
-  "body": Object {
+exports[`intlify message syntax special characters > | 1`] = `
+{
+  "body": {
     "end": 11,
-    "items": Array [
-      Object {
+    "items": [
+      {
         "end": 4,
-        "loc": Object {
-          "end": Object {
+        "loc": {
+          "end": {
             "column": 5,
             "line": 1,
             "offset": 4,
           },
-          "start": Object {
+          "start": {
             "column": 1,
             "line": 1,
             "offset": 0,
@@ -1286,15 +1286,15 @@ Object {
         "type": 3,
         "value": "hi, ",
       },
-      Object {
+      {
         "end": 9,
-        "loc": Object {
-          "end": Object {
+        "loc": {
+          "end": {
             "column": 10,
             "line": 1,
             "offset": 9,
           },
-          "start": Object {
+          "start": {
             "column": 5,
             "line": 1,
             "offset": 4,
@@ -1304,15 +1304,15 @@ Object {
         "type": 9,
         "value": "|",
       },
-      Object {
+      {
         "end": 11,
-        "loc": Object {
-          "end": Object {
+        "loc": {
+          "end": {
             "column": 12,
             "line": 1,
             "offset": 11,
           },
-          "start": Object {
+          "start": {
             "column": 10,
             "line": 1,
             "offset": 9,
@@ -1323,13 +1323,13 @@ Object {
         "value": " !",
       },
     ],
-    "loc": Object {
-      "end": Object {
+    "loc": {
+      "end": {
         "column": 12,
         "line": 1,
         "offset": 11,
       },
-      "start": Object {
+      "start": {
         "column": 1,
         "line": 1,
         "offset": 0,
@@ -1339,14 +1339,14 @@ Object {
     "type": 2,
   },
   "end": 11,
-  "loc": Object {
-    "end": Object {
+  "loc": {
+    "end": {
       "column": 12,
       "line": 1,
       "offset": 11,
     },
     "source": "hi, {'|'} !",
-    "start": Object {
+    "start": {
       "column": 1,
       "line": 1,
       "offset": 0,
@@ -1357,20 +1357,20 @@ Object {
 }
 `;
 
-exports[`intlify message syntax special characters } 1`] = `
-Object {
-  "body": Object {
+exports[`intlify message syntax special characters > } 1`] = `
+{
+  "body": {
     "end": 11,
-    "items": Array [
-      Object {
+    "items": [
+      {
         "end": 4,
-        "loc": Object {
-          "end": Object {
+        "loc": {
+          "end": {
             "column": 5,
             "line": 1,
             "offset": 4,
           },
-          "start": Object {
+          "start": {
             "column": 1,
             "line": 1,
             "offset": 0,
@@ -1380,15 +1380,15 @@ Object {
         "type": 3,
         "value": "hi, ",
       },
-      Object {
+      {
         "end": 9,
-        "loc": Object {
-          "end": Object {
+        "loc": {
+          "end": {
             "column": 10,
             "line": 1,
             "offset": 9,
           },
-          "start": Object {
+          "start": {
             "column": 5,
             "line": 1,
             "offset": 4,
@@ -1398,15 +1398,15 @@ Object {
         "type": 9,
         "value": "}",
       },
-      Object {
+      {
         "end": 11,
-        "loc": Object {
-          "end": Object {
+        "loc": {
+          "end": {
             "column": 12,
             "line": 1,
             "offset": 11,
           },
-          "start": Object {
+          "start": {
             "column": 10,
             "line": 1,
             "offset": 9,
@@ -1417,13 +1417,13 @@ Object {
         "value": " !",
       },
     ],
-    "loc": Object {
-      "end": Object {
+    "loc": {
+      "end": {
         "column": 12,
         "line": 1,
         "offset": 11,
       },
-      "start": Object {
+      "start": {
         "column": 1,
         "line": 1,
         "offset": 0,
@@ -1433,14 +1433,14 @@ Object {
     "type": 2,
   },
   "end": 11,
-  "loc": Object {
-    "end": Object {
+  "loc": {
+    "end": {
       "column": 12,
       "line": 1,
       "offset": 11,
     },
     "source": "hi, {'}'} !",
-    "start": Object {
+    "start": {
       "column": 1,
       "line": 1,
       "offset": 0,
@@ -1451,20 +1451,20 @@ Object {
 }
 `;
 
-exports[`multi bytes こんにちは、{'世界'}！ 1`] = `
-Object {
-  "body": Object {
+exports[`multi bytes > こんにちは、{'世界'}！ 1`] = `
+{
+  "body": {
     "end": 13,
-    "items": Array [
-      Object {
+    "items": [
+      {
         "end": 6,
-        "loc": Object {
-          "end": Object {
+        "loc": {
+          "end": {
             "column": 7,
             "line": 1,
             "offset": 6,
           },
-          "start": Object {
+          "start": {
             "column": 1,
             "line": 1,
             "offset": 0,
@@ -1474,15 +1474,15 @@ Object {
         "type": 3,
         "value": "こんにちは、",
       },
-      Object {
+      {
         "end": 12,
-        "loc": Object {
-          "end": Object {
+        "loc": {
+          "end": {
             "column": 13,
             "line": 1,
             "offset": 12,
           },
-          "start": Object {
+          "start": {
             "column": 7,
             "line": 1,
             "offset": 6,
@@ -1492,15 +1492,15 @@ Object {
         "type": 9,
         "value": "世界",
       },
-      Object {
+      {
         "end": 13,
-        "loc": Object {
-          "end": Object {
+        "loc": {
+          "end": {
             "column": 14,
             "line": 1,
             "offset": 13,
           },
-          "start": Object {
+          "start": {
             "column": 13,
             "line": 1,
             "offset": 12,
@@ -1511,13 +1511,13 @@ Object {
         "value": "！",
       },
     ],
-    "loc": Object {
-      "end": Object {
+    "loc": {
+      "end": {
         "column": 14,
         "line": 1,
         "offset": 13,
       },
-      "start": Object {
+      "start": {
         "column": 1,
         "line": 1,
         "offset": 0,
@@ -1527,14 +1527,14 @@ Object {
     "type": 2,
   },
   "end": 13,
-  "loc": Object {
-    "end": Object {
+  "loc": {
+    "end": {
       "column": 14,
       "line": 1,
       "offset": 13,
     },
     "source": "こんにちは、{'世界'}！",
-    "start": Object {
+    "start": {
       "column": 1,
       "line": 1,
       "offset": 0,
@@ -1545,20 +1545,20 @@ Object {
 }
 `;
 
-exports[`other special characters !#%^&*()-_+=[]:;?.<>" 1`] = `
-Object {
-  "body": Object {
+exports[`other special characters > !#%^&*()-_+=[]:;?.<>" 1`] = `
+{
+  "body": {
     "end": 32,
-    "items": Array [
-      Object {
+    "items": [
+      {
         "end": 4,
-        "loc": Object {
-          "end": Object {
+        "loc": {
+          "end": {
             "column": 5,
             "line": 1,
             "offset": 4,
           },
-          "start": Object {
+          "start": {
             "column": 1,
             "line": 1,
             "offset": 0,
@@ -1568,15 +1568,15 @@ Object {
         "type": 3,
         "value": "hi, ",
       },
-      Object {
+      {
         "end": 30,
-        "loc": Object {
-          "end": Object {
+        "loc": {
+          "end": {
             "column": 31,
             "line": 1,
             "offset": 30,
           },
-          "start": Object {
+          "start": {
             "column": 5,
             "line": 1,
             "offset": 4,
@@ -1586,15 +1586,15 @@ Object {
         "type": 9,
         "value": "!#%^&*()-_+=[]:;?.<>\\"\`",
       },
-      Object {
+      {
         "end": 32,
-        "loc": Object {
-          "end": Object {
+        "loc": {
+          "end": {
             "column": 33,
             "line": 1,
             "offset": 32,
           },
-          "start": Object {
+          "start": {
             "column": 31,
             "line": 1,
             "offset": 30,
@@ -1605,13 +1605,13 @@ Object {
         "value": " !",
       },
     ],
-    "loc": Object {
-      "end": Object {
+    "loc": {
+      "end": {
         "column": 33,
         "line": 1,
         "offset": 32,
       },
-      "start": Object {
+      "start": {
         "column": 1,
         "line": 1,
         "offset": 0,
@@ -1621,14 +1621,14 @@ Object {
     "type": 2,
   },
   "end": 32,
-  "loc": Object {
-    "end": Object {
+  "loc": {
+    "end": {
       "column": 33,
       "line": 1,
       "offset": 32,
     },
     "source": "hi, {'!#%^&*()-_+=[]:;?.<>\\"\`'} !",
-    "start": Object {
+    "start": {
       "column": 1,
       "line": 1,
       "offset": 0,
@@ -1639,20 +1639,20 @@ Object {
 }
 `;
 
-exports[`unicode 4 digits: '\\u0041' 1`] = `
-Object {
-  "body": Object {
+exports[`unicode > 4 digits: '\\u0041' 1`] = `
+{
+  "body": {
     "end": 16,
-    "items": Array [
-      Object {
+    "items": [
+      {
         "end": 4,
-        "loc": Object {
-          "end": Object {
+        "loc": {
+          "end": {
             "column": 5,
             "line": 1,
             "offset": 4,
           },
-          "start": Object {
+          "start": {
             "column": 1,
             "line": 1,
             "offset": 0,
@@ -1662,15 +1662,15 @@ Object {
         "type": 3,
         "value": "hi, ",
       },
-      Object {
+      {
         "end": 14,
-        "loc": Object {
-          "end": Object {
+        "loc": {
+          "end": {
             "column": 15,
             "line": 1,
             "offset": 14,
           },
-          "start": Object {
+          "start": {
             "column": 5,
             "line": 1,
             "offset": 4,
@@ -1680,15 +1680,15 @@ Object {
         "type": 9,
         "value": "A",
       },
-      Object {
+      {
         "end": 16,
-        "loc": Object {
-          "end": Object {
+        "loc": {
+          "end": {
             "column": 17,
             "line": 1,
             "offset": 16,
           },
-          "start": Object {
+          "start": {
             "column": 15,
             "line": 1,
             "offset": 14,
@@ -1699,13 +1699,13 @@ Object {
         "value": " !",
       },
     ],
-    "loc": Object {
-      "end": Object {
+    "loc": {
+      "end": {
         "column": 17,
         "line": 1,
         "offset": 16,
       },
-      "start": Object {
+      "start": {
         "column": 1,
         "line": 1,
         "offset": 0,
@@ -1715,14 +1715,14 @@ Object {
     "type": 2,
   },
   "end": 16,
-  "loc": Object {
-    "end": Object {
+  "loc": {
+    "end": {
       "column": 17,
       "line": 1,
       "offset": 16,
     },
     "source": "hi, {'\\\\u0041'} !",
-    "start": Object {
+    "start": {
       "column": 1,
       "line": 1,
       "offset": 0,
@@ -1733,20 +1733,20 @@ Object {
 }
 `;
 
-exports[`unicode 6 digits: \\U01F602' 1`] = `
-Object {
-  "body": Object {
+exports[`unicode > 6 digits: \\U01F602' 1`] = `
+{
+  "body": {
     "end": 18,
-    "items": Array [
-      Object {
+    "items": [
+      {
         "end": 4,
-        "loc": Object {
-          "end": Object {
+        "loc": {
+          "end": {
             "column": 5,
             "line": 1,
             "offset": 4,
           },
-          "start": Object {
+          "start": {
             "column": 1,
             "line": 1,
             "offset": 0,
@@ -1756,15 +1756,15 @@ Object {
         "type": 3,
         "value": "hi, ",
       },
-      Object {
+      {
         "end": 16,
-        "loc": Object {
-          "end": Object {
+        "loc": {
+          "end": {
             "column": 17,
             "line": 1,
             "offset": 16,
           },
-          "start": Object {
+          "start": {
             "column": 5,
             "line": 1,
             "offset": 4,
@@ -1774,15 +1774,15 @@ Object {
         "type": 9,
         "value": "😂",
       },
-      Object {
+      {
         "end": 18,
-        "loc": Object {
-          "end": Object {
+        "loc": {
+          "end": {
             "column": 19,
             "line": 1,
             "offset": 18,
           },
-          "start": Object {
+          "start": {
             "column": 17,
             "line": 1,
             "offset": 16,
@@ -1793,13 +1793,13 @@ Object {
         "value": " !",
       },
     ],
-    "loc": Object {
-      "end": Object {
+    "loc": {
+      "end": {
         "column": 19,
         "line": 1,
         "offset": 18,
       },
-      "start": Object {
+      "start": {
         "column": 1,
         "line": 1,
         "offset": 0,
@@ -1809,14 +1809,14 @@ Object {
     "type": 2,
   },
   "end": 18,
-  "loc": Object {
-    "end": Object {
+  "loc": {
+    "end": {
       "column": 19,
       "line": 1,
       "offset": 18,
     },
     "source": "hi, {'\\\\U01F602'} !",
-    "start": Object {
+    "start": {
       "column": 1,
       "line": 1,
       "offset": 0,
