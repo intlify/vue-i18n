@@ -16,6 +16,8 @@ import { getText } from './helper'
     test('change locale', async () => {
       await page.selectOption('#app select', 'en-US')
       const text = await getText(page, 'p')
+      console.log('datetime', text)
+      console.log('env', process.versions)
       expect(text).include('Current Datetime')
       expect(text).toMatch(
         /(0[1-9]|1[0-2])\/(0[1-9]|[12]\d|3[01])\/([12]\d{3}), (0[0-9]|1[0-2]):([0-5][0-9]):([0-5][0-9]) (AM|PM)/
