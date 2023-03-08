@@ -43,7 +43,7 @@ const i18n = createI18n<[MessageSchema], 'en-US' | 'ja-JP'>({
 
 The above code defines a type from the `en-US` message resource specified in the `messages` option of `createI18n`. This defined type is the master-like schema for message resources handled with VueI18n. This means that you can define it **as a single source of truth** resource in your application. You can define a type-safe resource in other locales by specifying the type defined as a schema from a message resource as the first argument of the type parameter of `createI18n`.
 
-The second argument of the type parameter of `createI18n` is the locale to handle. The second argument of the type parameter of `createI18n` specifies the locale to be handled. With this, type checking is performed for each locale specified in the second argument, based on the type of the resource specified in the first argument. In the above code example, `en-US` and `ja-JP` are specified as the main locale, which is also specified in the `locale` option. If you compile typescript in this state, you will get the following error to check that no `ja-JP` resource is defined in the `messages` option.
+The second argument of the type parameter of `createI18n` is the locale to handle. With this, type checking is performed for each locale specified in the second argument, based on the type of the resource specified in the first argument. In the above code example, `en-US` and `ja-JP` are specified as the main locale, which is also specified in the `locale` option. If you compile typescript in this state, you will get the following error to check that no `ja-JP` resource is defined in the `messages` option.
 
 ```sh
 $ npx tsc
