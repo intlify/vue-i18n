@@ -3,16 +3,6 @@ import type { HeadConfig } from 'vitepress'
 
 const head: HeadConfig[] = []
 
-if (process.env.NODE_ENV === 'production') {
-  head.push([
-    'script',
-    {
-      src: 'https://unpkg.com/thesemetrics@latest',
-      async: ''
-    }
-  ])
-}
-
 export default defineConfig({
   title: 'Vue I18n',
   description: 'Internationalization plugin for Vue.js',
