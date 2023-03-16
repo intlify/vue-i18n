@@ -32,8 +32,8 @@ export default defineConfig({
     },
 
     carbonAds: {
-      code: 'CEAIC53M',
-      placement: 'kazupongithubio',
+      code: 'CWYDVK37',
+      placement: 'vue-i18nintlifydev',
     },
 
     // TODO: we need to upgrade?
