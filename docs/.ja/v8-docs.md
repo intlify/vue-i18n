@@ -2,7 +2,7 @@
 
 - [Introduction](https://github.com/intlify/vue-i18n-next/blob/master/docs-old/introduction.md)
 - [Getting started](https://github.com/intlify/vue-i18n-next/blob/master/docs-old/started.md)
-- [Installation](https://github.com/intlify/vue-i18n-next/blob/master/docs-oldinstallation.md)
+- [Installation](https://github.com/intlify/vue-i18n-next/blob/master/docs-old/installation.md)
 - Guide
   - [Formatting](https://github.com/intlify/vue-i18n-next/blob/master/docs-old/guide/formatting.md)
   - [Pluralization](https://github.com/intlify/vue-i18n-next/blob/master/docs-old/guide/pluralization.md)
