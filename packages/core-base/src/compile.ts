@@ -1,17 +1,17 @@
 import { warn, format, isBoolean } from '@intlify/shared'
-import { baseCompile, defaultOnError } from '@intlify/message-compiler'
+import {
+  baseCompile,
+  defaultOnError,
+  detectHtmlTag
+} from '@intlify/message-compiler'
 
 import type { CompileOptions, CompileError } from '@intlify/message-compiler'
 import type { MessageFunction, MessageFunctions } from './runtime'
 
-const RE_HTML_TAG = /<\/?[\w\s="/.':;#-\/]+>/
 const WARN_MESSAGE = `Detected HTML in '{source}' message. Recommend not using HTML messages to avoid XSS.`
 
-function checkHtmlMessage(source: string, options: CompileOptions): void {
-  const warnHtmlMessage = isBoolean(options.warnHtmlMessage)
-    ? options.warnHtmlMessage
-    : true
-  if (warnHtmlMessage && RE_HTML_TAG.test(source)) {
+function checkHtmlMessage(source: string, warnHtmlMessage?: boolean): void {
+  if (warnHtmlMessage && detectHtmlTag(source)) {
     warn(format(WARN_MESSAGE, { source }))
   }
 }
@@ -37,7 +37,10 @@ export function compileToFunction<T = string>(
     return (() => source) as MessageFunction<T>
   } else {
     // check HTML message
-    __DEV__ && checkHtmlMessage(source, options)
+    const warnHtmlMessage = isBoolean((options as any).warnHtmlMessage)
+      ? (options as any).warnHtmlMessage
+      : true
+    __DEV__ && checkHtmlMessage(source, warnHtmlMessage)
 
     // check caches
     const onCacheKey = options.onCacheKey || defaultOnCacheKey

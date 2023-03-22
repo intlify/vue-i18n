@@ -31,7 +31,6 @@ export interface CodeGenOptions {
 }
 
 export type CompileOptions = {
-  warnHtmlMessage?: boolean
   onCacheKey?: CompileCacheKeyHandler
 } & TransformOptions &
   CodeGenOptions &

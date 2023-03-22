@@ -8,3 +8,8 @@ export const enum HelperNameMap {
   INTERPOLATE = 'interpolate',
   NORMALIZE = 'normalize'
 }
+
+const RE_HTML_TAG = /<\/?[\w\s="/.':;#-\/]+>/
+
+export const detectHtmlTag = (source: string): boolean =>
+  RE_HTML_TAG.test(source)
