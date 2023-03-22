@@ -37,8 +37,10 @@ export function compileToFunction<T = string>(
     return (() => source) as MessageFunction<T>
   } else {
     // check HTML message
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const warnHtmlMessage = isBoolean((options as any).warnHtmlMessage)
-      ? (options as any).warnHtmlMessage
+      ? // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        (options as any).warnHtmlMessage
       : true
     __DEV__ && checkHtmlMessage(source, warnHtmlMessage)
 
