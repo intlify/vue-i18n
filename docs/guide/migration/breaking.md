@@ -61,7 +61,7 @@ const i18n = new VueI18n({
 Vue I18n v9 or later:
 
 ```js{3-5}
-const i18n = new createI18n({
+const i18n = createI18n({
   // ...
   datetimeFormats: {
     // ...
