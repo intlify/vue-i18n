@@ -102,7 +102,7 @@ export const TranslationImpl = /*#__PURE__*/ defineComponent({
  * ```html
  * <div id="app">
  *   <!-- ... -->
- *   <i18n path="term" tag="label" for="tos">
+ *   <i18n keypath="term" tag="label" for="tos">
  *     <a :href="url" target="_blank">{{ $t('tos') }}</a>
  *   </i18n>
  *   <!-- ... -->
