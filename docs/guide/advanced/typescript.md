@@ -305,7 +305,7 @@ This way, you don't need to do that.
 
 The following is an example with `createI18n`:
 ```ts
-import { createI18n } from 'vue-i18n'
+import { createI18n, type I18nOptions } from 'vue-i18n'
 
 /**
  * import locale messages resource from json for global scope
@@ -313,11 +313,7 @@ import { createI18n } from 'vue-i18n'
 import enUS from './locales/en-US.json'
 import jaJP from './locales/ja-JP.json'
 
-/**
- * setup vue-i18n with i18n resources with global type definition.
- * if you define the i18n resource schema in your `*.d.ts`, these is checked with typeScript.
- */
-const i18n = createI18n<false>({
+const options: I18nOptions = {
   legacy: false,
   locale: 'ja-JP',
   fallbackLocale: 'en-US',
@@ -345,11 +341,19 @@ const i18n = createI18n<false>({
       }
     }
   }
-})
+}
+
+/**
+ * setup vue-i18n with i18n resources with global type definition.
+ * if you define the i18n resource schema in your `*.d.ts`, these is checked with typeScript.
+ */
+const i18n = createI18n<false, typeof options>(options)
 ```
 
-The type parameter of `createI18n` above does not specify the type that is the schema of the resource. The above just specifies a type hint for the `global` property of the i18n instance created by `createI18n`.
+The first type parameter of `createI18n` above does not specify the type that is the schema of the resource. The above just specifies a type hint for the `global` property of the i18n instance created by `createI18n`.
 (If `false`, the type is a `Composer` instance for the Composition API, if `true`, the type is a `VueI18n` instance for the legacy API)
+
+The second type parameter of `createI18n` specifies a type hint for options.
 
 In the case of the `useI18n` case used by Vue components, it looks like this:
 ```html
