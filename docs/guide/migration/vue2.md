@@ -29,7 +29,7 @@ pnpm add vue-i18n-bridge
 You must install the below packages before using this library:
 
 - vue-i18n: >= v8.26.1 < v9
-- vue-demi: >= v1.3.5
+- vue-demi: >= v0.13.5
 - @vue/composition-api: >= v1.2.0 (if you will use Vue 2.6)
 
 #### CDN
