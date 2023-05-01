@@ -63,23 +63,18 @@
   },
   "exports": {
     ".": {
-      "types": "./dist/vue-i18n.d.ts",
-      "import": "./dist/vue-i18n.mjs",
-      "browser": "./dist/vue-i18n.esm-browser.js",
-      "node": {
-        "import": {
-          "production": "./dist/vue-i18n.node.mjs",
-          "development": "./dist/vue-i18n.mjs",
-          "default": "./dist/vue-i18n.mjs"
-        },
-        "require": {
-          "production": "./dist/vue-i18n.prod.cjs",
-          "development": "./dist/vue-i18n.cjs",
-          "default": "./index.js"
-        }
+      "import": {
+        "types": "./dist/vue-i18n.d.ts",
+        "node": "./index.mjs",
+        "default": "./dist/vue-i18n.esm-bundler.js"
+      },
+      "require": {
+        "types": "./dist/vue-i18n.d.cts",
+        "default": "./index.js"
       }
     },
     "./dist/*": "./dist/*",
+    "./index.mjs": "./index.mjs",
     "./package.json": "./package.json"
   },
   "funding": "https://github.com/sponsors/kazupon",
