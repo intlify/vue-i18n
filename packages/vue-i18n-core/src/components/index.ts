@@ -1,4 +1,4 @@
-export { ComponetI18nScope, BaseFormatProps } from './base'
+export { ComponentI18nScope, BaseFormatProps } from './base'
 export { FormattableProps } from './formatRenderer'
 export { Translation, I18nT, TranslationProps } from './Translation'
 export { NumberFormat, I18nN, NumberFormatProps } from './NumberFormat'

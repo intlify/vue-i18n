@@ -31,7 +31,7 @@ If specified, the global scope or the locale of the parent scope of the target c
 
 **Signature:**
 ```typescript
-scope?: ComponetI18nScope;
+scope?: ComponentI18nScope;
 ```
 
 **Details**

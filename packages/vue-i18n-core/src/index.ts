@@ -94,7 +94,7 @@ export {
   DatetimeFormatProps,
   FormattableProps,
   BaseFormatProps,
-  ComponetI18nScope
+  ComponentI18nScope
 } from './components'
 export { vTDirective, TranslationDirective } from './directive'
 export { I18nPluginOptions } from './plugin'
