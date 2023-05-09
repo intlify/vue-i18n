@@ -382,7 +382,7 @@ describe('useI18n', () => {
     expect(error).toEqual(errorMessages[I18nErrorCodes.MUST_BE_CALL_SETUP_TOP])
   })
 
-  test(errorMessages[I18nErrorCodes.NOT_INSLALLED], async () => {
+  test(errorMessages[I18nErrorCodes.NOT_INSTALLED], async () => {
     const i18n = createI18n({
       legacy: false,
       locale: 'ja',
@@ -405,7 +405,7 @@ describe('useI18n', () => {
       }
     })
     await mount(App, i18n, { installI18n: false })
-    expect(error).toEqual(errorMessages[I18nErrorCodes.NOT_INSLALLED])
+    expect(error).toEqual(errorMessages[I18nErrorCodes.NOT_INSTALLED])
   })
 
   describe('On legacy', () => {
@@ -726,7 +726,7 @@ describe('useI18n', () => {
     })
   })
 
-  test(errorMessages[I18nErrorCodes.NOT_INSLALLED_WITH_PROVIDE], async () => {
+  test(errorMessages[I18nErrorCodes.NOT_INSTALLED_WITH_PROVIDE], async () => {
     const randCusumerTag = `my-consumer-${randStr()}`
     const randProviderTag = `my-provider-${randStr()}`
     const Provider = defineCustomElement({
@@ -754,7 +754,7 @@ describe('useI18n', () => {
     await nextTick()
 
     expect(error).toEqual(
-      errorMessages[I18nErrorCodes.NOT_INSLALLED_WITH_PROVIDE]
+      errorMessages[I18nErrorCodes.NOT_INSTALLED_WITH_PROVIDE]
     )
   })
 })

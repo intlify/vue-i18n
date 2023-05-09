@@ -824,12 +824,12 @@ export function useI18n<
     instance.appContext.app != null &&
     !instance.appContext.app.__VUE_I18N_SYMBOL__
   ) {
-    throw createI18nError(I18nErrorCodes.NOT_INSLALLED)
+    throw createI18nError(I18nErrorCodes.NOT_INSTALLED)
   }
 
   if (__BRIDGE__) {
     if (_legacyVueI18n == null) {
-      throw createI18nError(I18nErrorCodes.NOT_INSLALLED)
+      throw createI18nError(I18nErrorCodes.NOT_INSTALLED)
     }
   }
 
@@ -974,7 +974,7 @@ function getI18nInstance(instance: ComponentInternalInstance): I18n {
       throw createI18nError(
         !instance.isCE
           ? I18nErrorCodes.UNEXPECTED_ERROR
-          : I18nErrorCodes.NOT_INSLALLED_WITH_PROVIDE
+          : I18nErrorCodes.NOT_INSTALLED_WITH_PROVIDE
       )
     }
     return i18n
@@ -987,7 +987,7 @@ function getI18nInstance(instance: ComponentInternalInstance): I18n {
     const i18n = (vm as any)._i18nBridgeRoot // eslint-disable-line @typescript-eslint/no-explicit-any
     /* istanbul ignore if */
     if (!i18n) {
-      throw createI18nError(I18nErrorCodes.NOT_INSLALLED)
+      throw createI18nError(I18nErrorCodes.NOT_INSTALLED)
     }
     return i18n as I18n
   }
