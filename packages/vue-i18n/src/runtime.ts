@@ -103,7 +103,7 @@ export {
   DatetimeFormatProps,
   FormattableProps,
   BaseFormatProps,
-  ComponetI18nScope
+  ComponentI18nScope
 } from '../../vue-i18n-core/src/components'
 export {
   vTDirective,
