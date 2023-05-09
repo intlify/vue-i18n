@@ -474,13 +474,13 @@ importers:
       '@intlify/vue-devtools': workspace:*
       '@vue/composition-api': ^1.0.0-rc.1
       '@vue/devtools-api': ^6.2.1
-      vue-demi: ^0.13.4
+      vue-demi: ^0.14.0
     dependencies:
       '@intlify/core-base': link:../core-base
       '@intlify/shared': link:../shared
       '@intlify/vue-devtools': link:../vue-devtools
       '@vue/devtools-api': 6.5.0
-      vue-demi: 0.13.11_@vue+composition-api@1.7.1
+      vue-demi: 0.14.1_@vue+composition-api@1.7.1
     optionalDependencies:
       '@vue/composition-api': 1.7.1
     devDependencies:
@@ -2756,7 +2756,7 @@ packages:
       '@types/web-bluetooth': 0.0.16
       '@vueuse/metadata': 9.13.0
       '@vueuse/shared': 9.13.0_vue@3.2.45
-      vue-demi: 0.13.11_vue@3.2.45
+      vue-demi: 0.14.1_vue@3.2.45
     transitivePeerDependencies:
       - '@vue/composition-api'
       - vue
@@ -2769,7 +2769,7 @@ packages:
   /@vueuse/shared/9.13.0_vue@3.2.45:
     resolution: {integrity: sha512-UrnhU+Cnufu4S6JLCPZnkWh0WwZGUp72ktOF2DFptMlOs3TOdVv8xJN53zhHGARmVOsz5KqOls09+J1NR6sBKw==}
     dependencies:
-      vue-demi: 0.13.11_vue@3.2.45
+      vue-demi: 0.14.1_vue@3.2.45
     transitivePeerDependencies:
       - '@vue/composition-api'
       - vue
@@ -11898,8 +11898,8 @@ packages:
       vscode-typescript-languageservice: 0.29.8
     dev: true
 
-  /vue-demi/0.13.11_@vue+composition-api@1.7.1:
-    resolution: {integrity: sha512-IR8HoEEGM65YY3ZJYAjMlKygDQn25D5ajNFNoKh9RSDMQtlzCxtfQjdQgv9jjK+m3377SsJXY8ysq8kLCZL25A==}
+  /vue-demi/0.14.1_@vue+composition-api@1.7.1:
+    resolution: {integrity: sha512-rt+yuCtXvscYot9SQQj3WKZJVSriPNqVkpVBNEHPzSgBv7QIYzsS410VqVgvx8f9AAPgjg+XPKvmV3vOqqkJQQ==}
     engines: {node: '>=12'}
     hasBin: true
     requiresBuild: true
@@ -11913,8 +11913,8 @@ packages:
       '@vue/composition-api': 1.7.1
     dev: false
 
-  /vue-demi/0.13.11_vue@3.2.45:
-    resolution: {integrity: sha512-IR8HoEEGM65YY3ZJYAjMlKygDQn25D5ajNFNoKh9RSDMQtlzCxtfQjdQgv9jjK+m3377SsJXY8ysq8kLCZL25A==}
+  /vue-demi/0.14.1_vue@3.2.45:
+    resolution: {integrity: sha512-rt+yuCtXvscYot9SQQj3WKZJVSriPNqVkpVBNEHPzSgBv7QIYzsS410VqVgvx8f9AAPgjg+XPKvmV3vOqqkJQQ==}
     engines: {node: '>=12'}
     hasBin: true
     requiresBuild: true
