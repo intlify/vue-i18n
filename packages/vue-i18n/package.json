@@ -47,7 +47,7 @@
     "vue": "^3.0.0"
   },
   "engines": {
-    "node": ">= 14"
+    "node": ">= 16"
   },
   "buildOptions": {
     "name": "VueI18n",

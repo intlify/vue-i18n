@@ -143,7 +143,7 @@
     "typescript": "^4.9.4"
   },
   "engines": {
-    "node": ">= 14"
+    "node": ">= 16"
   },
   "private": true,
   "gitHooks": {
