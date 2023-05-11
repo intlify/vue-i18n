@@ -25,6 +25,12 @@ You can pre-compile i18n resources (`json5?`, `ya?ml`) with `intlify compile` co
 
 You can use this extension to enable SSR and improve i18n performance.
 
-## Composition API for Vue 2.x 
+## Composition API for Vue 2.x
 
 [vue-i18n-composable](https://github.com/intlify/vue-i18n-composable) provides Composition API for Vue I18n in Vue 2.x.
+
+## Petite-Vue-I18n
+
+[petite-vue-i18n](https://github.com/intlify/vue-i18n-next/tree/master/packages/petite-vue-i18n) is an alternative distribution of Vue I18n, which provides only minimal features.
+
+Note that petite-vue-i18n is still experimental, so you may encounter bugs and unsupported use cases.
