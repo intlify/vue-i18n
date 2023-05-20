@@ -198,8 +198,8 @@ importers:
         specifier: ^1.0.1
         version: 1.0.1
       textlint-rule-period-in-list-item:
-        specifier: ^0.3.3
-        version: 0.3.3
+        specifier: ^1.0.0
+        version: 1.0.0
       textlint-rule-stop-words:
         specifier: ^3.0.1
         version: 3.0.1
@@ -872,7 +872,7 @@ packages:
       '@babel/traverse': 7.21.5
       '@babel/types': 7.21.5
       convert-source-map: 1.9.0
-      debug: 4.3.4(supports-color@6.1.0)
+      debug: 4.3.4(supports-color@9.0.2)
       gensync: 1.0.0-beta.2
       json5: 2.2.3
       semver: 6.3.0
@@ -1140,7 +1140,7 @@ packages:
       '@babel/helper-split-export-declaration': 7.18.6
       '@babel/parser': 7.21.8
       '@babel/types': 7.21.5
-      debug: 4.3.4(supports-color@6.1.0)
+      debug: 4.3.4(supports-color@9.0.2)
       globals: 11.12.0
     transitivePeerDependencies:
       - supports-color
@@ -1628,7 +1628,7 @@ packages:
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
     dependencies:
       ajv: 6.12.6
-      debug: 4.3.4(supports-color@6.1.0)
+      debug: 4.3.4(supports-color@9.0.2)
       espree: 9.5.2
       globals: 13.20.0
       ignore: 5.2.4
@@ -1650,7 +1650,7 @@ packages:
     engines: {node: '>=10.10.0'}
     dependencies:
       '@humanwhocodes/object-schema': 1.2.1
-      debug: 4.3.4(supports-color@6.1.0)
+      debug: 4.3.4(supports-color@9.0.2)
       minimatch: 3.1.2
     transitivePeerDependencies:
       - supports-color
@@ -1789,7 +1789,7 @@ packages:
       '@intlify/bundle-utils': 0.2.0
       '@intlify/shared': 9.2.2
       '@rollup/pluginutils': 4.2.1
-      debug: 4.3.4(supports-color@6.1.0)
+      debug: 4.3.4(supports-color@9.0.2)
       fast-glob: 3.2.12
       vite: 4.0.0(@types/node@18.16.13)
       vue-i18n: link:packages/vue-i18n
@@ -1815,7 +1815,7 @@ packages:
       '@intlify/bundle-utils': 3.4.0(vue-i18n@packages+vue-i18n)
       '@intlify/shared': 9.3.0-beta.17
       '@rollup/pluginutils': 4.2.1
-      debug: 4.3.4(supports-color@6.1.0)
+      debug: 4.3.4(supports-color@9.0.2)
       fast-glob: 3.2.12
       source-map: 0.6.1
       vite: 4.0.0(@types/node@18.16.13)
@@ -2157,7 +2157,7 @@ packages:
       '@secretlint/profiler': 3.1.0
       '@secretlint/types': 3.3.0
       '@textlint/module-interop': 1.2.5
-      debug: 4.3.4(supports-color@6.1.0)
+      debug: 4.3.4(supports-color@9.0.2)
       rc-config-loader: 3.0.0
       try-resolve: 1.0.1
     transitivePeerDependencies:
@@ -2176,7 +2176,7 @@ packages:
     dependencies:
       '@secretlint/profiler': 3.1.0
       '@secretlint/types': 3.3.0
-      debug: 4.3.4(supports-color@6.1.0)
+      debug: 4.3.4(supports-color@9.0.2)
       structured-source: 3.0.2
     transitivePeerDependencies:
       - supports-color
@@ -2189,7 +2189,7 @@ packages:
       '@textlint/linter-formatter': 3.3.5
       '@textlint/types': 1.5.5
       chalk: 4.1.2
-      debug: 4.3.4(supports-color@6.1.0)
+      debug: 4.3.4(supports-color@9.0.2)
       pluralize: 8.0.0
       strip-ansi: 6.0.1
       table: 6.8.1
@@ -2207,7 +2207,7 @@ packages:
       '@secretlint/formatter': 3.3.0
       '@secretlint/profiler': 3.1.0
       '@secretlint/source-creator': 3.3.0
-      debug: 4.3.4(supports-color@6.1.0)
+      debug: 4.3.4(supports-color@9.0.2)
       p-map: 4.0.0
     transitivePeerDependencies:
       - supports-color
@@ -2346,7 +2346,7 @@ packages:
     resolution: {integrity: sha512-Gxiq6xmDR3PnX0RqRGth/Lu5fyFWoXNPfGxXTLORPFpfs8JKPh/eXGhlwc1f0v4VQzPay2KwVl6SGXvJD5qLXw==}
     dependencies:
       '@textlint/ast-node-types': 12.6.1
-      debug: 4.3.4(supports-color@6.1.0)
+      debug: 4.3.4(supports-color@9.0.2)
     transitivePeerDependencies:
       - supports-color
     dev: true
@@ -2376,7 +2376,7 @@ packages:
       '@textlint/module-interop': 12.6.1
       '@textlint/types': 12.6.1
       '@textlint/utils': 12.6.1
-      debug: 4.3.4(supports-color@6.1.0)
+      debug: 4.3.4(supports-color@9.0.2)
       rc-config-loader: 4.1.2
       try-resolve: 1.0.1
     transitivePeerDependencies:
@@ -2399,7 +2399,7 @@ packages:
       '@textlint/module-interop': 12.6.1
       '@textlint/types': 12.6.1
       chalk: 4.1.2
-      debug: 4.3.4(supports-color@6.1.0)
+      debug: 4.3.4(supports-color@9.0.2)
       diff: 4.0.2
       is-file: 1.0.0
       string-width: 4.2.3
@@ -2416,7 +2416,7 @@ packages:
       '@textlint/module-interop': 1.2.5
       '@textlint/types': 1.5.5
       chalk: 1.1.3
-      debug: 4.3.4(supports-color@6.1.0)
+      debug: 4.3.4(supports-color@9.0.2)
       diff: 4.0.2
       is-file: 1.0.0
       string-width: 1.0.2
@@ -2437,7 +2437,7 @@ packages:
       '@textlint/source-code-fixer': 12.6.1
       '@textlint/types': 12.6.1
       '@textlint/utils': 12.6.1
-      debug: 4.3.4(supports-color@6.1.0)
+      debug: 4.3.4(supports-color@9.0.2)
       deep-equal: 1.1.1
       structured-source: 4.0.0
     transitivePeerDependencies:
@@ -2454,7 +2454,7 @@ packages:
       '@textlint/source-code-fixer': 3.4.5
       '@textlint/types': 1.5.5
       '@textlint/utils': 1.2.5
-      debug: 4.3.4(supports-color@6.1.0)
+      debug: 4.3.4(supports-color@9.0.2)
       deep-equal: 1.1.1
       map-like: 2.0.0
       structured-source: 3.0.2
@@ -2470,7 +2470,7 @@ packages:
       '@textlint/module-interop': 12.6.1
       '@textlint/types': 12.6.1
       chalk: 4.1.2
-      debug: 4.3.4(supports-color@6.1.0)
+      debug: 4.3.4(supports-color@9.0.2)
       is-file: 1.0.0
       js-yaml: 3.14.1
       lodash: 4.17.21
@@ -2495,7 +2495,7 @@ packages:
       '@textlint/types': 1.5.5
       chalk: 1.1.3
       concat-stream: 1.6.2
-      debug: 4.3.4(supports-color@6.1.0)
+      debug: 4.3.4(supports-color@9.0.2)
       is-file: 1.0.0
       js-yaml: 3.14.1
       optionator: 0.9.1
@@ -2514,7 +2514,7 @@ packages:
     resolution: {integrity: sha512-T0HO+VrU9VbLRiEx/kH4+gwGMHNMIGkp0Pok+p0I33saOOLyhfGvwOKQgvt2qkxzQEV2L5MtGB8EnW4r5d3CqQ==}
     dependencies:
       '@textlint/ast-node-types': 12.6.1
-      debug: 4.3.4(supports-color@6.1.0)
+      debug: 4.3.4(supports-color@9.0.2)
       mdast-util-gfm-autolink-literal: 0.1.3
       remark-footnotes: 3.0.0
       remark-frontmatter: 3.0.0
@@ -2530,7 +2530,7 @@ packages:
     resolution: {integrity: sha512-DjVEy61klC8OjQYP+iIukI95pjCM58jhpE046apqGWLo6JQSatfscJlcxmbRivfTQSVsa00RF2ciUFBmw3bobg==}
     dependencies:
       '@textlint/ast-node-types': 4.4.3
-      debug: 4.3.4(supports-color@6.1.0)
+      debug: 4.3.4(supports-color@9.0.2)
       remark-frontmatter: 1.3.3
       remark-parse: 5.0.0
       structured-source: 3.0.2
@@ -2563,7 +2563,7 @@ packages:
     resolution: {integrity: sha512-J9UZ3uitT+T50ug5X6AoIOwn6kTl54ZmPYBPB9bmH4lwBamN7e4gT65lSweHY1D21elOkq+3bO/OAJMfQfAVHg==}
     dependencies:
       '@textlint/types': 12.6.1
-      debug: 4.3.4(supports-color@6.1.0)
+      debug: 4.3.4(supports-color@9.0.2)
     transitivePeerDependencies:
       - supports-color
     dev: true
@@ -2572,7 +2572,7 @@ packages:
     resolution: {integrity: sha512-YUcBg6zs7H5ycLwWdfv5LHWlBx7iBAQL6vHY2uPw8AMPYgzU6/f91NGBU/QR7/FVw0e7v9zMngcRN1hMOxpFCw==}
     dependencies:
       '@textlint/types': 1.5.5
-      debug: 4.3.4(supports-color@6.1.0)
+      debug: 4.3.4(supports-color@9.0.2)
     transitivePeerDependencies:
       - supports-color
     dev: true
@@ -2818,7 +2818,7 @@ packages:
       '@typescript-eslint/scope-manager': 5.59.6
       '@typescript-eslint/type-utils': 5.59.6(eslint@8.41.0)(typescript@5.0.4)
       '@typescript-eslint/utils': 5.59.6(eslint@8.41.0)(typescript@5.0.4)
-      debug: 4.3.4(supports-color@6.1.0)
+      debug: 4.3.4(supports-color@9.0.2)
       eslint: 8.41.0
       grapheme-splitter: 1.0.4
       ignore: 5.2.4
@@ -2843,7 +2843,7 @@ packages:
       '@typescript-eslint/scope-manager': 5.59.6
       '@typescript-eslint/types': 5.59.6
       '@typescript-eslint/typescript-estree': 5.59.6(typescript@5.0.4)
-      debug: 4.3.4(supports-color@6.1.0)
+      debug: 4.3.4(supports-color@9.0.2)
       eslint: 8.41.0
       typescript: 5.0.4
     transitivePeerDependencies:
@@ -2870,7 +2870,7 @@ packages:
     dependencies:
       '@typescript-eslint/typescript-estree': 5.59.6(typescript@5.0.4)
       '@typescript-eslint/utils': 5.59.6(eslint@8.41.0)(typescript@5.0.4)
-      debug: 4.3.4(supports-color@6.1.0)
+      debug: 4.3.4(supports-color@9.0.2)
       eslint: 8.41.0
       tsutils: 3.21.0(typescript@5.0.4)
       typescript: 5.0.4
@@ -2894,7 +2894,7 @@ packages:
     dependencies:
       '@typescript-eslint/types': 5.59.6
       '@typescript-eslint/visitor-keys': 5.59.6
-      debug: 4.3.4(supports-color@6.1.0)
+      debug: 4.3.4(supports-color@9.0.2)
       globby: 11.1.0
       is-glob: 4.0.3
       semver: 7.5.1
@@ -3561,7 +3561,7 @@ packages:
     resolution: {integrity: sha512-RZNwNclF7+MS/8bDg70amg32dyeZGZxiDuQmZxKLAlQjr3jGyLx+4Kkk58UO7D2QdgFIQCovuSuZESne6RG6XQ==}
     engines: {node: '>= 6.0.0'}
     dependencies:
-      debug: 4.3.4(supports-color@6.1.0)
+      debug: 4.3.4(supports-color@9.0.2)
     transitivePeerDependencies:
       - supports-color
     dev: true
@@ -3761,7 +3761,7 @@ packages:
       '@microsoft/tsdoc': 0.13.2
       '@microsoft/tsdoc-config': 0.15.2
       chalk: 4.1.2
-      debug: 4.3.4(supports-color@6.1.0)
+      debug: 4.3.4(supports-color@9.0.2)
       meow: 9.0.0
     transitivePeerDependencies:
       - '@types/node'
@@ -4029,6 +4029,7 @@ packages:
 
   /bindings@1.5.0:
     resolution: {integrity: sha512-p2q/t/mhvuOj/UeLlV6566GD/guowlr0hHxClI0W9m7MWYkL1F0hLo+0Aexs9HSPCtR1SXQ0TD3MMKrXZajbiQ==}
+    requiresBuild: true
     dependencies:
       file-uri-to-path: 1.0.0
     dev: true
@@ -4505,8 +4506,8 @@ packages:
     resolution: {integrity: sha512-yrLQ/yVUFXkzg7EDQsPieE/53+0RlaWTs+wBrvW36cyilJ2SaDWfl4Yj7MtLTXleV9uEKefbAGUPv2/iWSooRA==}
     dev: true
 
-  /check-ends-with-period@2.0.1:
-    resolution: {integrity: sha512-ZXEB+OLEAnRu9JCt/aMHNU9Q/BNYDCJrhcQli+JN95K08rGGEMVZc+W75/op8JyKrCKk/WV8Whuo8qjLIDcPeA==}
+  /check-ends-with-period@3.0.2:
+    resolution: {integrity: sha512-/Bw+avucqqZ7PjKCVDod1QDGyZjo7Ht2701pdgcpTXzK5jI73/OUh3VR+m18jNUoJx5DSOUv0AxELZF7FYtcDA==}
     dependencies:
       emoji-regex: 10.2.1
     dev: true
@@ -5950,7 +5951,7 @@ packages:
       ajv: 6.12.6
       chalk: 4.1.2
       cross-spawn: 7.0.3
-      debug: 4.3.4(supports-color@6.1.0)
+      debug: 4.3.4(supports-color@9.0.2)
       doctrine: 3.0.0
       escape-string-regexp: 4.0.0
       eslint-scope: 7.2.0
@@ -6353,6 +6354,7 @@ packages:
 
   /file-uri-to-path@1.0.0:
     resolution: {integrity: sha512-0Zt+s3L7Vf1biwWZ29aARiVYLx7iMGnEUl9x33fbB/j3jR81u/O2LbqK+Bm1CDSNDKVtJ/YjwY7TUd5SkeLQLw==}
+    requiresBuild: true
     dev: true
     optional: true
 
@@ -7187,7 +7189,7 @@ packages:
     dependencies:
       '@tootallnate/once': 2.0.0
       agent-base: 6.0.2
-      debug: 4.3.4(supports-color@6.1.0)
+      debug: 4.3.4(supports-color@9.0.2)
     transitivePeerDependencies:
       - supports-color
     dev: true
@@ -7230,7 +7232,7 @@ packages:
     engines: {node: '>= 6'}
     dependencies:
       agent-base: 6.0.2
-      debug: 4.3.4(supports-color@6.1.0)
+      debug: 4.3.4(supports-color@9.0.2)
     transitivePeerDependencies:
       - supports-color
     dev: true
@@ -8786,7 +8788,7 @@ packages:
   /micromark@2.11.4:
     resolution: {integrity: sha512-+WoovN/ppKolQOFIAajxi7Lu9kInbPxFuTBVEavFcL8eAfVstoc5MocPmqBeAdBOJV00uaVjegzH4+MA0DN/uA==}
     dependencies:
-      debug: 4.3.4(supports-color@6.1.0)
+      debug: 4.3.4(supports-color@9.0.2)
       parse-entities: 2.0.0
     transitivePeerDependencies:
       - supports-color
@@ -9065,6 +9067,7 @@ packages:
 
   /nan@2.17.0:
     resolution: {integrity: sha512-2ZTgtl0nJsO0KQCjEpxcIr5D+Yv90plTitZt9JBfQvVJDS5seMl3FOvsh3+9CoYWXf/1l5OaZzzF6nDm4cagaQ==}
+    requiresBuild: true
     dev: true
     optional: true
 
@@ -10311,7 +10314,7 @@ packages:
   /rc-config-loader@3.0.0:
     resolution: {integrity: sha512-bwfUSB37TWkHfP+PPjb/x8BUjChFmmBK44JMfVnU7paisWqZl/o5k7ttCH+EQLnrbn2Aq8Fo1LAsyUiz+WF4CQ==}
     dependencies:
-      debug: 4.3.4(supports-color@6.1.0)
+      debug: 4.3.4(supports-color@9.0.2)
       js-yaml: 3.14.1
       json5: 2.2.3
       require-from-string: 2.0.2
@@ -10322,7 +10325,7 @@ packages:
   /rc-config-loader@4.1.2:
     resolution: {integrity: sha512-qKTnVWFl9OQYKATPzdfaZIbTxcHziQl92zYSxYC6umhOqyAsoj8H8Gq/+aFjAso68sBdjTz3A7omqeAkkF1MWg==}
     dependencies:
-      debug: 4.3.4(supports-color@6.1.0)
+      debug: 4.3.4(supports-color@9.0.2)
       js-yaml: 4.1.0
       json5: 2.2.3
       require-from-string: 2.0.2
@@ -10873,7 +10876,7 @@ packages:
       '@secretlint/formatter': 3.3.0
       '@secretlint/node': 3.3.0
       '@secretlint/profiler': 3.1.0
-      debug: 4.3.4(supports-color@6.1.0)
+      debug: 4.3.4(supports-color@9.0.2)
       globby: 11.1.0
       meow: 9.0.0
       read-pkg: 5.2.0
@@ -11904,10 +11907,10 @@ packages:
     resolution: {integrity: sha512-YwdvoBzUh/xiHgiyEEIw1IdD1yjs2GGr2UlE2tAdIF5aiqOVEy/gKg79xKp0cPO8c4DOOObmKvKTgs9Zv1tlNA==}
     dev: true
 
-  /textlint-rule-period-in-list-item@0.3.3:
-    resolution: {integrity: sha512-XVm7E2riBggmyMPiLPQZwXxwFngi5WozWrZqctjN43uz9GykOyrqaHACGsLou2cJqa6nwQxqxewl2OOf/G64eA==}
+  /textlint-rule-period-in-list-item@1.0.0:
+    resolution: {integrity: sha512-0K+eG9S8z64cbW8Z31uWmBTwqHjuWNuY1FLMEdkiZyGge8QqkqwfZOqWhM+Q9vQ+6oaY1qsQlF16neURdyS9qA==}
     dependencies:
-      check-ends-with-period: 2.0.1
+      check-ends-with-period: 3.0.2
     dev: true
 
   /textlint-rule-stop-words@3.0.1:
@@ -11983,7 +11986,7 @@ packages:
       '@textlint/textlint-plugin-text': 4.3.5
       '@textlint/types': 1.5.5
       '@textlint/utils': 1.2.5
-      debug: 4.3.4(supports-color@6.1.0)
+      debug: 4.3.4(supports-color@9.0.2)
       deep-equal: 1.1.1
       file-entry-cache: 5.0.1
       get-stdin: 5.0.1
@@ -12022,7 +12025,7 @@ packages:
       '@textlint/textlint-plugin-text': 12.6.1
       '@textlint/types': 12.6.1
       '@textlint/utils': 12.6.1
-      debug: 4.3.4(supports-color@6.1.0)
+      debug: 4.3.4(supports-color@9.0.2)
       deep-equal: 1.1.1
       file-entry-cache: 5.0.1
       get-stdin: 5.0.1
@@ -12701,7 +12704,7 @@ packages:
     hasBin: true
     dependencies:
       cac: 6.7.14
-      debug: 4.3.4(supports-color@6.1.0)
+      debug: 4.3.4(supports-color@9.0.2)
       mlly: 1.2.1
       pathe: 1.1.0
       picocolors: 1.0.0
@@ -12836,7 +12839,7 @@ packages:
       cac: 6.7.14
       chai: 4.3.7
       concordance: 5.0.4
-      debug: 4.3.4(supports-color@6.1.0)
+      debug: 4.3.4(supports-color@9.0.2)
       jsdom: 21.1.2
       local-pkg: 0.4.3
       magic-string: 0.30.0
@@ -13016,7 +13019,7 @@ packages:
     peerDependencies:
       eslint: '>=6.0.0'
     dependencies:
-      debug: 4.3.4(supports-color@6.1.0)
+      debug: 4.3.4(supports-color@9.0.2)
       eslint: 8.41.0
       eslint-scope: 7.2.0
       eslint-visitor-keys: 3.4.1

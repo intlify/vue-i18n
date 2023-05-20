@@ -125,7 +125,7 @@
     "textlint-rule-no-empty-section": "^1.1.0",
     "textlint-rule-no-start-duplicated-conjunction": "^2.0.2",
     "textlint-rule-no-surrogate-pair": "^1.0.1",
-    "textlint-rule-period-in-list-item": "^0.3.3",
+    "textlint-rule-period-in-list-item": "^1.0.0",
     "textlint-rule-stop-words": "^3.0.1",
     "textlint-rule-terminology": "^2.1.6",
     "textlint-rule-unexpanded-acronym": "^1.2.4",
