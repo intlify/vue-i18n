@@ -198,8 +198,8 @@ importers:
         specifier: ^1.0.1
         version: 1.0.1
       textlint-rule-period-in-list-item:
-        specifier: ^0.3.3
-        version: 0.3.3
+        specifier: ^1.0.0
+        version: 1.0.0
       textlint-rule-stop-words:
         specifier: ^3.0.1
         version: 3.0.1
@@ -4506,8 +4506,8 @@ packages:
     resolution: {integrity: sha512-yrLQ/yVUFXkzg7EDQsPieE/53+0RlaWTs+wBrvW36cyilJ2SaDWfl4Yj7MtLTXleV9uEKefbAGUPv2/iWSooRA==}
     dev: true
 
-  /check-ends-with-period@2.0.1:
-    resolution: {integrity: sha512-ZXEB+OLEAnRu9JCt/aMHNU9Q/BNYDCJrhcQli+JN95K08rGGEMVZc+W75/op8JyKrCKk/WV8Whuo8qjLIDcPeA==}
+  /check-ends-with-period@3.0.2:
+    resolution: {integrity: sha512-/Bw+avucqqZ7PjKCVDod1QDGyZjo7Ht2701pdgcpTXzK5jI73/OUh3VR+m18jNUoJx5DSOUv0AxELZF7FYtcDA==}
     dependencies:
       emoji-regex: 10.2.1
     dev: true
@@ -11913,10 +11913,10 @@ packages:
     resolution: {integrity: sha512-YwdvoBzUh/xiHgiyEEIw1IdD1yjs2GGr2UlE2tAdIF5aiqOVEy/gKg79xKp0cPO8c4DOOObmKvKTgs9Zv1tlNA==}
     dev: true
 
-  /textlint-rule-period-in-list-item@0.3.3:
-    resolution: {integrity: sha512-XVm7E2riBggmyMPiLPQZwXxwFngi5WozWrZqctjN43uz9GykOyrqaHACGsLou2cJqa6nwQxqxewl2OOf/G64eA==}
+  /textlint-rule-period-in-list-item@1.0.0:
+    resolution: {integrity: sha512-0K+eG9S8z64cbW8Z31uWmBTwqHjuWNuY1FLMEdkiZyGge8QqkqwfZOqWhM+Q9vQ+6oaY1qsQlF16neURdyS9qA==}
     dependencies:
-      check-ends-with-period: 2.0.1
+      check-ends-with-period: 3.0.2
     dev: true
 
   /textlint-rule-stop-words@3.0.1:
