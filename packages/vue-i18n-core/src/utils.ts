@@ -162,13 +162,13 @@ export function getComponentOptions(instance: ComponentInternalInstance): any {
 }
 
 export function adjustI18nResources(
-  global: Composer,
+  gl: Composer,
   options: ComposerOptions,
   componentOptions: any // eslint-disable-line @typescript-eslint/no-explicit-any
 ): void {
   let messages = isObject(options.messages) ? options.messages : {}
   if ('__i18nGlobal' in componentOptions) {
-    messages = getLocaleMessages(global.locale.value as Locale, {
+    messages = getLocaleMessages(gl.locale.value as Locale, {
       messages,
       __i18n: componentOptions.__i18nGlobal
     })
@@ -177,7 +177,7 @@ export function adjustI18nResources(
   const locales = Object.keys(messages)
   if (locales.length) {
     locales.forEach(locale => {
-      global.mergeLocaleMessage(locale, messages[locale])
+      gl.mergeLocaleMessage(locale, messages[locale])
     })
   }
   if (!__LITE__) {
@@ -186,7 +186,7 @@ export function adjustI18nResources(
       const locales = Object.keys(options.datetimeFormats)
       if (locales.length) {
         locales.forEach(locale => {
-          global.mergeDateTimeFormat(locale, options.datetimeFormats![locale])
+          gl.mergeDateTimeFormat(locale, options.datetimeFormats![locale])
         })
       }
     }
@@ -195,7 +195,7 @@ export function adjustI18nResources(
       const locales = Object.keys(options.numberFormats)
       if (locales.length) {
         locales.forEach(locale => {
-          global.mergeNumberFormat(locale, options.numberFormats![locale])
+          gl.mergeNumberFormat(locale, options.numberFormats![locale])
         })
       }
     }

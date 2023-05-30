@@ -834,7 +834,7 @@ export function useI18n<
   }
 
   const i18n = getI18nInstance(instance)
-  const global = getGlobalComposer(i18n)
+  const gl = getGlobalComposer(i18n)
   const componentOptions = getComponentOptions(instance)
   const scope = getScope(options, componentOptions)
 
@@ -844,13 +844,13 @@ export function useI18n<
       if (!i18n.allowComposition) {
         throw createI18nError(I18nErrorCodes.NOT_AVAILABLE_IN_LEGACY_MODE)
       }
-      return useI18nForLegacy(instance, scope, global, options)
+      return useI18nForLegacy(instance, scope, gl, options)
     }
   }
 
   if (scope === 'global') {
-    adjustI18nResources(global, options, componentOptions)
-    return global as unknown as Composer<
+    adjustI18nResources(gl, options, componentOptions)
+    return gl as unknown as Composer<
       Messages,
       DateTimeFormats,
       NumberFormats,
@@ -865,7 +865,7 @@ export function useI18n<
       if (__DEV__) {
         warn(getWarnMessage(I18nWarnCodes.NOT_FOUND_PARENT_SCOPE))
       }
-      composer = global as unknown as Composer
+      composer = gl as unknown as Composer
     }
     return composer as unknown as Composer<
       Messages,
@@ -885,8 +885,8 @@ export function useI18n<
       composerOptions.__i18n = componentOptions.__i18n
     }
 
-    if (global) {
-      composerOptions.__root = global
+    if (gl) {
+      composerOptions.__root = gl
     }
 
     composer = createComposer(composerOptions, _legacyVueI18n) as Composer
