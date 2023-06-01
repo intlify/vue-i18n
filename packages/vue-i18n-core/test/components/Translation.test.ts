@@ -189,7 +189,7 @@ test('scope', async () => {
 `
   })
 
-  const Root = defineComponent({
+  const App = defineComponent({
     components: {
       Container
     },
@@ -208,7 +208,7 @@ test('scope', async () => {
     template: `<Container>`
   })
 
-  const wrapper = await mount(Root, i18n)
+  const wrapper = await mount(App, i18n)
 
   expect(wrapper.html()).toEqual(`this is rootthis is global`)
 })

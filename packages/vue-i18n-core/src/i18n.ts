@@ -1021,7 +1021,10 @@ function getComposer(
 ): Composer | null {
   let composer: Composer | null = null
   const root = target.root
-  let current: ComponentInternalInstance | null = target.parent
+  let current: ComponentInternalInstance | null = getParentComponentInstance(
+    target,
+    useComponent
+  )
   while (current != null) {
     const i18nInternal = i18n as unknown as I18nInternal
     if (i18n.mode === 'composition') {
@@ -1051,6 +1054,19 @@ function getComposer(
     current = current.parent
   }
   return composer
+}
+
+function getParentComponentInstance(
+  target: ComponentInternalInstance | null,
+  useComponent = false
+) {
+  if (target == null) {
+    return null
+  }
+  // if `useComponent: true` will be specified, we get lexical scope owner instance for use-case slots
+  return !useComponent
+    ? target.parent
+    : (target.vnode as any).ctx || target.parent // eslint-disable-line @typescript-eslint/no-explicit-any
 }
 
 function setupLifeCycle(
