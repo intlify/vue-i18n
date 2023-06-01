@@ -18,7 +18,8 @@ import {
   h,
   withDirectives,
   resolveDirective,
-  nextTick
+  nextTick,
+  getCurrentInstance
 } from 'vue'
 import {
   setDevToolsHook,
@@ -31,6 +32,8 @@ import {
 } from '@intlify/core-base'
 import { createI18n, useI18n } from '../src/i18n'
 import { mount } from './helper'
+
+import type { ComponentOptions } from 'vue'
 
 const container = document.createElement('div')
 document.body.appendChild(container)
@@ -290,6 +293,92 @@ describe('issue #722', () => {
 
     expect(wrapper.html()).toEqual(`<div><p>Hello <b>world!</b></p></div>`)
   })
+})
+
+test('issue #729', async () => {
+  const i18n = createI18n({
+    legacy: true,
+    locale: 'en',
+    messages
+  })
+
+  const C3 = defineComponent({
+    template: `<div>C3 slot: <slot></slot></div>`,
+    i18n: {
+      messages: {
+        en: {
+          hello: 'Hello {world} - C3',
+          world: 'world! - C3'
+        }
+      }
+    }
+  })
+
+  const C2 = defineComponent({
+    template: `<div>C2 slot: <slot></slot></div>`,
+    i18n: {
+      messages: {
+        en: {
+          goodbuy: 'Goodbuy!'
+        }
+      }
+    }
+  })
+
+  const C1 = defineComponent({
+    components: {
+      C2,
+      C3
+    },
+    template: `<div>
+	C1:
+	<div>{{ $t("hello", { world: $t("world") }) }}</div>
+	<i18n-t keypath="hello" tag="div">
+	  <template #world>
+	    <strong>{{ $t("world") }}</strong>
+	  </template>
+	</i18n-t>
+
+	<br />
+
+	<C2>
+	  <div>{{ $t("hello", { world: $t("world") }) }}</div>
+	  <i18n-t keypath="hello" tag="div">
+	    <template #world>
+	      <strong>{{ $t("world") }}</strong>
+	    </template>
+	  </i18n-t>
+	</C2>
+  <C3>
+    <div>{{ $t("hello", { world: $t("world") }) }}</div>
+    <i18n-t keypath="hello" tag="div">
+      <template #world>
+        <strong>{{ $t("world") }}</strong>
+      </template>
+    </i18n-t>
+  </C3>
+      </div>`,
+    i18n: {
+      messages: {
+        en: {
+          hello: 'Hello {world}',
+          world: 'world!'
+        }
+      }
+    }
+  })
+
+  const App = defineComponent({
+    components: {
+      C1
+    },
+    template: `<C1 />`
+  })
+  const wrapper = await mount(App, i18n)
+
+  expect(wrapper.html()).toEqual(
+    `<div> C1: <div>Hello world!</div><div>Hello <strong>world!</strong></div><br><div>C2 slot: <div>Hello world!</div><div>Hello <strong>world!</strong></div></div><div>C3 slot: <div>Hello world!</div><div>Hello <strong>world!</strong></div></div></div>`
+  )
 })
 
 test('issue #819: v-for', async () => {
@@ -721,4 +810,72 @@ test('issue #1123', async () => {
   expect(wrapper.html()).toEqual(
     `hello, <span>Hello</span>! Do you like <a><strong>Vue </strong> I18n </a>?`
   )
+})
+
+test('issue #1392', async () => {
+  const i18n = createI18n({
+    legacy: false,
+    locale: 'en',
+    messages: {
+      en: { hello: 'world' }
+    }
+  })
+
+  const Test = defineComponent({
+    setup() {
+      const instance = getCurrentInstance()
+      if (instance == null) {
+        throw new Error()
+      }
+      // emulate i18n custom block
+      const options = instance.type as ComponentOptions
+      options.__i18n = [
+        {
+          locale: 'en',
+          resource: {
+            any: 'thing'
+          }
+        }
+      ]
+      const { t } = useI18n()
+      return { t }
+    },
+    template: `<slot />`
+  })
+
+  const App = defineComponent({
+    components: {
+      Test
+    },
+    setup() {
+      const instance = getCurrentInstance()
+      if (instance == null) {
+        throw new Error()
+      }
+      // emulate i18n custom block
+      const options = instance.type as ComponentOptions
+      options.__i18n = [
+        {
+          locale: 'en',
+          resource: {
+            doesNotWork: 'works'
+          }
+        }
+      ]
+      const { t } = useI18n()
+
+      return { t }
+    },
+    template: `<div>
+  <Test>
+    component: <i18n-t keypath="doesNotWork" />
+    <br />
+    t: {{ t('doesNotWork') }}
+  </Test>
+</div>`
+  })
+
+  const wrapper = await mount(App, i18n)
+
+  expect(wrapper.html()).toEqual(`<div> component: works<br> t: works</div>`)
 })
