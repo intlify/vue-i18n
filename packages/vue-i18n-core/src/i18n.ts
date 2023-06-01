@@ -1063,10 +1063,14 @@ function getParentComponentInstance(
   if (target == null) {
     return null
   }
-  // if `useComponent: true` will be specified, we get lexical scope owner instance for use-case slots
-  return !useComponent
-    ? target.parent
-    : (target.vnode as any).ctx || target.parent // eslint-disable-line @typescript-eslint/no-explicit-any
+  if (!__BRIDGE__) {
+    // if `useComponent: true` will be specified, we get lexical scope owner instance for use-case slots
+    return !useComponent
+      ? target.parent
+      : (target.vnode as any).ctx || target.parent // eslint-disable-line @typescript-eslint/no-explicit-any
+  } else {
+    return target.parent
+  }
 }
 
 function setupLifeCycle(
