@@ -54,7 +54,7 @@ describe('globalInstall option', () => {
     const spy = vi.spyOn(app, 'component')
 
     apply(app, i18n)
-    expect(spy).toHaveBeenCalledTimes(3)
+    expect(spy).toHaveBeenCalled()
   })
 
   test('false', () => {

@@ -28,12 +28,15 @@ export function apply(app: App, i18n: I18n, ...options: unknown[]): void {
 
   if (!(__LITE__ || __BRIDGE__) && globalInstall) {
     // install components
-    app.component(
-      !useI18nComponentName ? Translation.name : 'i18n',
-      Translation
+    ;[!useI18nComponentName ? Translation.name : 'i18n', 'I18nT'].forEach(
+      name => app.component(name, Translation)
     )
-    app.component(NumberFormat.name, NumberFormat)
-    app.component(DatetimeFormat.name, DatetimeFormat)
+    ;[NumberFormat.name, 'I18nN'].forEach(name =>
+      app.component(name, NumberFormat)
+    )
+    ;[DatetimeFormat.name, 'I18nD'].forEach(name =>
+      app.component(name, DatetimeFormat)
+    )
   }
 
   // install directive
