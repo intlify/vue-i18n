@@ -34,6 +34,7 @@ import { createI18n, useI18n } from '../src/i18n'
 import { mount } from './helper'
 
 import type { ComponentOptions } from 'vue'
+import type { IntlDateTimeFormats } from '../src/index'
 
 const container = document.createElement('div')
 document.body.appendChild(container)
@@ -75,6 +76,65 @@ const messages = {
       list: 'こんにちは、{0}！',
       named: 'こんにちは、{name}！',
       linked: '@:message.named ごきげんいかが？'
+    }
+  },
+  'en-US': {
+    named: 'hello, {name}!'
+  }
+}
+
+const datetimeFormats: IntlDateTimeFormats = {
+  'en-US': {
+    long: {
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit'
+    }
+  },
+  'ja-JP-u-ca-japanese': {
+    long: {
+      era: 'long',
+      year: 'numeric',
+      month: 'numeric',
+      day: 'numeric',
+      hour: 'numeric',
+      minute: 'numeric',
+      second: 'numeric',
+      weekday: 'long',
+      hour12: true,
+      timeZoneName: 'long'
+    }
+  }
+}
+
+const numberFormats = {
+  'en-US': {
+    currency: {
+      style: 'currency',
+      currency: 'USD',
+      currencyDisplay: 'symbol'
+    },
+    decimal: {
+      style: 'decimal',
+      useGrouping: false
+    }
+  },
+  'ja-JP': {
+    currency: {
+      style: 'currency',
+      currency: 'JPY',
+      currencyDisplay: 'symbol'
+    },
+    numeric: {
+      style: 'decimal',
+      useGrouping: false
+    },
+    percent: {
+      style: 'percent',
+      useGrouping: false
     }
   }
 }
@@ -810,6 +870,30 @@ test('issue #1123', async () => {
   expect(wrapper.html()).toEqual(
     `hello, <span>Hello</span>! Do you like <a><strong>Vue </strong> I18n </a>?`
   )
+})
+
+test('issue #1373', async () => {
+  const i18n = createI18n({
+    locale: 'en-US',
+    messages,
+    datetimeFormats,
+    numberFormats
+  })
+
+  const App = defineComponent({
+    template: `
+<I18nT tag="p" class="name" keypath="message.named">
+  <template #name>
+    <span>kazupon</span>
+  </template>
+</I18nT>
+<I18nD tag="p" :value="new Date()"></I18nD>
+<I18nN tag="p" :value="100" format="currency"></I18nN>
+`
+  })
+  const wrapper = await mount(App, i18n)
+
+  expect(wrapper.html()).toMatchSnapshot()
 })
 
 test('issue #1392', async () => {
