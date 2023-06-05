@@ -4,10 +4,12 @@ import {
   isObject,
   hasOwn,
   isPlainObject,
-  isString
+  isString,
+  warn
 } from '@intlify/shared'
 import { Text, createVNode } from 'vue'
 import { I18nErrorCodes, createI18nError } from './errors'
+import { I18nWarnCodes, getWarnMessage } from './warnings'
 
 import type { Locale, MessageResolver } from '@intlify/core-base'
 import type {
@@ -72,15 +74,28 @@ export function handleFlatJson(obj: unknown): unknown {
       const subKeys = key.split('.')
       const lastIndex = subKeys.length - 1
       let currentObj = obj
+      let hasStringValue = false
       for (let i = 0; i < lastIndex; i++) {
         if (!(subKeys[i] in currentObj)) {
           currentObj[subKeys[i]] = {}
         }
+        if (!isObject(currentObj[subKeys[i]])) {
+          __DEV__ &&
+            warn(
+              getWarnMessage(I18nWarnCodes.IGNORE_OBJ_FLATTEN, {
+                key: subKeys[i]
+              })
+            )
+          hasStringValue = true
+          break
+        }
         currentObj = currentObj[subKeys[i]]
       }
       // update last object value, delete old property
-      currentObj[subKeys[lastIndex]] = obj[key]
-      delete obj[key]
+      if (!hasStringValue) {
+        currentObj[subKeys[lastIndex]] = obj[key]
+        delete obj[key]
+      }
       // recursive process value if value is also a object
       if (isObject(currentObj[subKeys[lastIndex]])) {
         handleFlatJson(currentObj[subKeys[lastIndex]])
