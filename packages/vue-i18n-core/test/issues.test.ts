@@ -872,6 +872,29 @@ test('issue #1123', async () => {
   )
 })
 
+test('issue #1365', async () => {
+  const i18n = createI18n({
+    legacy: false,
+    locale: 'en',
+    flatJson: true,
+    messages: {
+      en: {
+        'animal.dog': 'Dog',
+        animal: 'Animal'
+      }
+    }
+  })
+  const App = defineComponent({
+    template: `
+    <p>{{ $t('animal') }}</p>
+    `
+  })
+
+  const wrapper = await mount(App, i18n)
+
+  expect(wrapper.html()).toMatchSnapshot()
+})
+
 test('issue #1373', async () => {
   const i18n = createI18n({
     locale: 'en-US',
@@ -887,7 +910,7 @@ test('issue #1373', async () => {
     <span>kazupon</span>
   </template>
 </I18nT>
-<I18nD tag="p" :value="new Date()"></I18nD>
+<I18nD tag="p" :value="new Date(1685951676578)"></I18nD>
 <I18nN tag="p" :value="100" format="currency"></I18nN>
 `
   })
