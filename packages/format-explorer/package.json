@@ -14,7 +14,7 @@
   "dependencies": {
     "vue": "^3.3.4",
     "source-map": "^0.6.1",
-    "monaco-editor": "^0.38.0"
+    "monaco-editor": "^0.39.0"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^4.2.0",
