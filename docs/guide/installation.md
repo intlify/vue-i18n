@@ -36,13 +36,13 @@ You can also use a specific version/tag via URLs like <https://unpkg.com/vue-i18
 ### NPM
 
 ```sh
-npm install vue-i18n@9
+npm install vue-i18n@9.x
 ```
 
 ### Yarn
 
 ```sh
-yarn add vue-i18n@9
+yarn add vue-i18n@9.x
 ```
 
 When using with a module system, you must explicitly install the `vue-i18n`
