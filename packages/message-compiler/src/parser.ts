@@ -112,7 +112,7 @@ function fromEscapeSequence(
       }
       // invalid ...
       // Replace them with U+FFFD REPLACEMENT CHARACTER.
-      return '�'
+      return '?' // '�' This character will cause character set decoding errors and execution exceptions under GBK encoding
     }
   }
 }
