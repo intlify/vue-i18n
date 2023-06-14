@@ -82,7 +82,7 @@ To use similar ways like the `setup` function, you need to call the `useI18n` fu
 For more information on the Composition API, please refer to [documentation](https://v3.vuejs.org/guide/composition-api-introduction.html) of Vue.js
 :::
 
-Throughout the docs, we’ll use APIs like `this.$i18n` and `this.$t`, which are almost keep backward compatible from Vue I18n v8.x.
+Throughout the docs, we’ll use APIs like `this.$i18n` and `this.$t`, which are almost backwards compatible from Vue I18n v8.x.
 
 :::tip NOTE
 In Vue I18n v9 and later, the API offered by Vue I18n v8.x is called **Legacy API** mode.
