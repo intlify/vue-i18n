@@ -19,7 +19,7 @@ function run(pattner) {
 
 ;(async () => {
   try {
-    for (const p of ['simple', 'complex']) {
+    for (const p of ['compile', 'simple', 'complex']) {
       await run(p)
     }
   } catch (e) {
