@@ -19,41 +19,38 @@ test('makeSymbol', () => {
 })
 
 test('join', () => {
-  expect(join([])).toEqual('')
-  expect(join(['a', ','])).toEqual('a,')
-  expect(join(['a', 'b', 'c'])).toEqual('abc')
-  expect(join(['a', 'b', 'c'], ' ')).toEqual('a b c')
-  expect(
-    join(
-      [
-        'a',
-        'b',
-        'c',
-        'd',
-        'e',
-        'f',
-        'g',
-        'h',
-        'i',
-        'j',
-        'k',
-        'l',
-        'm',
-        'n',
-        'o',
-        'p',
-        'q',
-        'r',
-        's',
-        't',
-        'u',
-        'v',
-        'w',
-        'x',
-        'y',
-        'z'
-      ],
-      ' '
-    )
-  ).toEqual('a b c d e f g h i j k l m n o p q r s t u v w x y z')
+  expect(join([])).toEqual([].join(''))
+  expect(join(['a'], ',')).toEqual(['a'].join(','))
+  expect(join(['a', 'b', 'c'])).toEqual(['a', 'b', 'c'].join(''))
+  expect(join(['a', 'b', 'c'], ' ')).toEqual(['a', 'b', 'c'].join(' '))
+
+  const longSize = [
+    'a',
+    'b',
+    'c',
+    'd',
+    'e',
+    'f',
+    'g',
+    'h',
+    'i',
+    'j',
+    'k',
+    'l',
+    'm',
+    'n',
+    'o',
+    'p',
+    'q',
+    'r',
+    's',
+    't',
+    'u',
+    'v',
+    'w',
+    'x',
+    'y',
+    'z'
+  ]
+  expect(join(longSize, ' ')).toEqual(longSize.join(' '))
 })

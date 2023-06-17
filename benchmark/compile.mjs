@@ -1,7 +1,7 @@
 import { createCommonJS } from 'mlly'
 import { baseCompile } from '@intlify/message-compiler'
 
-const { require } = createCommonJS(import.meta.url);
+const { require } = createCommonJS(import.meta.url)
 const { Suite } = require('benchmark')
 
 async function main() {
