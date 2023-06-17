@@ -166,6 +166,13 @@ export const toDisplayString = (val: unknown): string => {
     : String(val)
 }
 
+export function join(items: string[], separator = ''): string {
+  return items.reduce(
+    (str, item, index) => (index === 0 ? str + item : str + separator + item),
+    ''
+  )
+}
+
 const RANGE = 2
 
 export function generateCodeFrame(
