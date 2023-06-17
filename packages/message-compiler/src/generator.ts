@@ -1,4 +1,4 @@
-import { isString } from '@intlify/shared'
+import { isString, join } from '@intlify/shared'
 import { SourceMapGenerator, RawSourceMap } from 'source-map'
 import {
   ResourceNode,
@@ -292,7 +292,10 @@ export const generate = (
 
   if (helpers.length > 0) {
     generator.push(
-      `const { ${helpers.map(s => `${s}: _${s}`).join(', ')} } = ctx`
+      `const { ${join(
+        helpers.map(s => `${s}: _${s}`),
+        ', '
+      )} } = ctx`
     )
     generator.newline()
   }

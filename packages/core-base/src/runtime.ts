@@ -5,7 +5,8 @@ import {
   isObject,
   isString,
   isArray,
-  isPlainObject
+  isPlainObject,
+  join
 } from '@intlify/shared'
 import { HelperNameMap } from '@intlify/message-compiler'
 import { Path } from './resolver'
@@ -120,7 +121,7 @@ const DEFAULT_MODIFIER = (str: string): string => str
 const DEFAULT_MESSAGE = (ctx: MessageContext<string>): string => '' // eslint-disable-line
 export const DEFAULT_MESSAGE_DATA_TYPE = 'text'
 const DEFAULT_NORMALIZE = (values: string[]): string =>
-  values.length === 0 ? '' : values.join('')
+  values.length === 0 ? '' : join(values)
 const DEFAULT_INTERPOLATE = toDisplayString
 
 function pluralDefault(choice: number, choicesLength: number): number {
