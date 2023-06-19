@@ -1,4 +1,6 @@
-import { createParser, NodeTypes, MessageNode } from '../../src/parser'
+import { createParser, NodeTypes } from '../../src/parser'
+
+import type { MessageNode } from '../../src/parser'
 
 let spy: any // eslint-disable-line @typescript-eslint/no-explicit-any
 beforeEach(() => {

@@ -1,4 +1,4 @@
-import { CompileError } from './errors'
+import type { CompileError } from './errors'
 
 export type CompileErrorHandler = (error: CompileError) => void
 export type CompileCacheKeyHandler = (source: string) => string

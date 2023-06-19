@@ -1,17 +1,10 @@
-import {
-  Scanner,
-  createScanner,
-  CHAR_SP as SPACE,
-  CHAR_LF as NEW_LINE
-} from './scanner'
-import {
-  SourceLocation,
-  Position,
-  createLocation,
-  createPosition
-} from './location'
-import { TokenizeOptions } from './options'
+import { createScanner, CHAR_SP as SPACE, CHAR_LF as NEW_LINE } from './scanner'
+import { createLocation, createPosition } from './location'
 import { createCompileError, CompileErrorCodes } from './errors'
+
+import type { Scanner } from './scanner'
+import type { SourceLocation, Position } from './location'
+import type { TokenizeOptions } from './options'
 
 export const enum TokenTypes {
   Text, // 0
@@ -115,7 +108,7 @@ export function createTokenizer(
     pos.offset += offset
 
     if (onError) {
-      const loc = createLocation(ctx.startLoc, pos)
+      const loc = location ? createLocation(ctx.startLoc, pos) : null
       const err = createCompileError(code, loc, {
         domain: ERROR_DOMAIN,
         args

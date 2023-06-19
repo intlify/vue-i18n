@@ -1880,3 +1880,488 @@ exports[`parse > plural complex 1`] = `
   "type": 0,
 }
 `;
+
+exports[`parser options: location disable > EOF in linked modifier 1`] = `
+{
+  "body": {
+    "items": [
+      {
+        "key": {
+          "type": 7,
+          "value": "",
+        },
+        "modifier": {
+          "type": 8,
+          "value": "",
+        },
+        "type": 6,
+      },
+    ],
+    "type": 2,
+  },
+  "type": 0,
+}
+`;
+
+exports[`parser options: location disable > EOF in linked modifier errors 1`] = `
+[
+  {
+    "code": 12,
+    "domain": "parser",
+    "message": "Unexpected empty linked modifier",
+  },
+  {
+    "code": 14,
+    "domain": "parser",
+    "message": "Unexpected lexical analysis in token: 'EOF'",
+  },
+  {
+    "code": 13,
+    "domain": "parser",
+    "message": "Unexpected empty linked key",
+  },
+]
+`;
+
+exports[`parser options: location disable > empty plural 1`] = `
+{
+  "body": {
+    "cases": [
+      {
+        "items": [],
+        "type": 2,
+      },
+      {
+        "items": [],
+        "type": 2,
+      },
+    ],
+    "type": 1,
+  },
+  "type": 0,
+}
+`;
+
+exports[`parser options: location disable > empty plural errors 1`] = `
+[
+  {
+    "code": 11,
+    "domain": "parser",
+    "message": "Plural must have messages",
+  },
+]
+`;
+
+exports[`parser options: location disable > foo 1`] = `
+{
+  "body": {
+    "items": [
+      {
+        "type": 3,
+        "value": "hi ",
+      },
+      {
+        "key": {
+          "key": "_name",
+          "type": 4,
+        },
+        "modifier": {
+          "type": 8,
+          "value": "_upper",
+        },
+        "type": 6,
+      },
+      {
+        "type": 3,
+        "value": " !",
+      },
+    ],
+    "type": 2,
+  },
+  "type": 0,
+}
+`;
+
+exports[`parser options: location disable > linked 1`] = `
+{
+  "body": {
+    "items": [
+      {
+        "key": {
+          "type": 7,
+          "value": "apples",
+        },
+        "type": 6,
+      },
+    ],
+    "type": 2,
+  },
+  "type": 0,
+}
+`;
+
+exports[`parser options: location disable > linked error 1`] = `
+{
+  "body": {
+    "items": [
+      {
+        "key": {
+          "type": 7,
+          "value": "",
+        },
+        "modifier": {
+          "type": 8,
+          "value": "",
+        },
+        "type": 6,
+      },
+      {
+        "type": 3,
+        "value": " a",
+      },
+    ],
+    "type": 2,
+  },
+  "type": 0,
+}
+`;
+
+exports[`parser options: location disable > linked error errors 1`] = `
+[
+  {
+    "code": 12,
+    "domain": "parser",
+    "message": "Unexpected empty linked modifier",
+  },
+  {
+    "code": 10,
+    "domain": "tokenizer",
+    "message": "Invalid linked format",
+  },
+  {
+    "code": 13,
+    "domain": "parser",
+    "message": "Unexpected empty linked key",
+  },
+]
+`;
+
+exports[`parser options: location disable > linked key paren error 1`] = `
+{
+  "body": {
+    "items": [
+      {
+        "key": {
+          "type": 7,
+          "value": "",
+        },
+        "type": 6,
+      },
+      {
+        "type": 3,
+        "value": "(foo)",
+      },
+    ],
+    "type": 2,
+  },
+  "type": 0,
+}
+`;
+
+exports[`parser options: location disable > linked key paren error errors 1`] = `
+[
+  {
+    "code": 13,
+    "domain": "parser",
+    "message": "Unexpected empty linked key",
+  },
+]
+`;
+
+exports[`parser options: location disable > linked key paren error with modifier 1`] = `
+{
+  "body": {
+    "items": [
+      {
+        "key": {
+          "type": 7,
+          "value": "",
+        },
+        "modifier": {
+          "type": 8,
+          "value": "lower",
+        },
+        "type": 6,
+      },
+      {
+        "type": 3,
+        "value": "(foo)",
+      },
+    ],
+    "type": 2,
+  },
+  "type": 0,
+}
+`;
+
+exports[`parser options: location disable > linked key paren error with modifier errors 1`] = `
+[
+  {
+    "code": 13,
+    "domain": "parser",
+    "message": "Unexpected empty linked key",
+  },
+]
+`;
+
+exports[`parser options: location disable > linked modifier error 1`] = `
+{
+  "body": {
+    "items": [
+      {
+        "key": {
+          "type": 7,
+          "value": "foo",
+        },
+        "modifier": {
+          "type": 8,
+          "value": "",
+        },
+        "type": 6,
+      },
+    ],
+    "type": 2,
+  },
+  "type": 0,
+}
+`;
+
+exports[`parser options: location disable > linked modifier error errors 1`] = `
+[
+  {
+    "code": 12,
+    "domain": "parser",
+    "message": "Unexpected empty linked modifier",
+  },
+]
+`;
+
+exports[`parser options: location disable > linked modifier list 1`] = `
+{
+  "body": {
+    "items": [
+      {
+        "key": {
+          "index": 0,
+          "type": 5,
+        },
+        "modifier": {
+          "type": 8,
+          "value": "lower",
+        },
+        "type": 6,
+      },
+    ],
+    "type": 2,
+  },
+  "type": 0,
+}
+`;
+
+exports[`parser options: location disable > list 1`] = `
+{
+  "body": {
+    "items": [
+      {
+        "type": 3,
+        "value": "hello ",
+      },
+      {
+        "index": 0,
+        "type": 5,
+      },
+      {
+        "type": 3,
+        "value": " !",
+      },
+    ],
+    "type": 2,
+  },
+  "type": 0,
+}
+`;
+
+exports[`parser options: location disable > literal 1`] = `
+{
+  "body": {
+    "items": [
+      {
+        "type": 3,
+        "value": "hello ",
+      },
+      {
+        "type": 9,
+        "value": "kazupon",
+      },
+      {
+        "type": 3,
+        "value": " !",
+      },
+    ],
+    "type": 2,
+  },
+  "type": 0,
+}
+`;
+
+exports[`parser options: location disable > message 1`] = `
+{
+  "body": {
+    "items": [
+      {
+        "type": 3,
+        "value": "hello world",
+      },
+    ],
+    "type": 2,
+  },
+  "type": 0,
+}
+`;
+
+exports[`parser options: location disable > named 1`] = `
+{
+  "body": {
+    "items": [
+      {
+        "type": 3,
+        "value": "hello ",
+      },
+      {
+        "key": "name",
+        "type": 4,
+      },
+      {
+        "type": 3,
+        "value": " !",
+      },
+    ],
+    "type": 2,
+  },
+  "type": 0,
+}
+`;
+
+exports[`parser options: location disable > named 2`] = `
+{
+  "body": {
+    "items": [
+      {
+        "type": 3,
+        "value": "hello ",
+      },
+      {
+        "key": "_name",
+        "type": 4,
+      },
+      {
+        "type": 3,
+        "value": " !",
+      },
+    ],
+    "type": 2,
+  },
+  "type": 0,
+}
+`;
+
+exports[`parser options: location disable > plural 1`] = `
+{
+  "body": {
+    "cases": [
+      {
+        "items": [
+          {
+            "type": 3,
+            "value": "no apples",
+          },
+        ],
+        "type": 2,
+      },
+      {
+        "items": [
+          {
+            "type": 3,
+            "value": "one apple",
+          },
+        ],
+        "type": 2,
+      },
+      {
+        "items": [
+          {
+            "type": 3,
+            "value": "too much apples  ",
+          },
+        ],
+        "type": 2,
+      },
+    ],
+    "type": 1,
+  },
+  "type": 0,
+}
+`;
+
+exports[`parser options: location disable > plural complex 1`] = `
+{
+  "body": {
+    "cases": [
+      {
+        "items": [
+          {
+            "key": {
+              "type": 9,
+              "value": "no apples",
+            },
+            "modifier": {
+              "type": 8,
+              "value": "lower",
+            },
+            "type": 6,
+          },
+        ],
+        "type": 2,
+      },
+      {
+        "items": [
+          {
+            "index": 1,
+            "type": 5,
+          },
+          {
+            "type": 3,
+            "value": " apple",
+          },
+        ],
+        "type": 2,
+      },
+      {
+        "items": [
+          {
+            "key": "count",
+            "type": 4,
+          },
+          {
+            "type": 3,
+            "value": "　apples",
+          },
+        ],
+        "type": 2,
+      },
+    ],
+    "type": 1,
+  },
+  "type": 0,
+}
+`;

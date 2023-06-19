@@ -1,8 +1,11 @@
-import { Position, createLocation, SourceLocation } from './location'
-import { ParserOptions } from './options'
+import { createLocation, SourceLocation } from './location'
 import { createCompileError, CompileErrorCodes } from './errors'
-import { Tokenizer, createTokenizer, TokenTypes, Token } from './tokenizer'
+import { createTokenizer, TokenTypes } from './tokenizer'
 import { assign } from '@intlify/shared'
+
+import type { Position } from './location'
+import type { ParserOptions } from './options'
+import type { Tokenizer, Token } from './tokenizer'
 
 export const enum NodeTypes {
   Resource, // 0
@@ -22,8 +25,8 @@ export type Identifier = string
 
 export interface Node {
   type: NodeTypes
-  start: number
-  end: number
+  start?: number
+  end?: number
   loc?: SourceLocation
 }
 
@@ -132,7 +135,7 @@ export function createParser(options: ParserOptions = {}): Parser {
     end.offset += offset
     end.column += offset
     if (onError) {
-      const loc = createLocation(start, end)
+      const loc = location ? createLocation(start, end) : null
       const err = createCompileError(code, loc, {
         domain: ERROR_DOMAIN,
         args
@@ -142,13 +145,11 @@ export function createParser(options: ParserOptions = {}): Parser {
   }
 
   function startNode(type: NodeTypes, offset: number, loc: Position): Node {
-    const node = {
-      type,
-      start: offset,
-      end: offset
-    } as Node
+    const node = { type } as Node
 
     if (location) {
+      node.start = offset
+      node.end = offset
       node.loc = { start: loc, end: loc }
     }
 
@@ -161,14 +162,15 @@ export function createParser(options: ParserOptions = {}): Parser {
     pos: Position,
     type?: NodeTypes
   ): void {
-    node.end = offset
-
     if (type) {
       node.type = type
     }
 
-    if (location && node.loc) {
-      node.loc.end = pos
+    if (location) {
+      node.end = offset
+      if (node.loc) {
+        node.loc.end = pos
+      }
     }
   }
 

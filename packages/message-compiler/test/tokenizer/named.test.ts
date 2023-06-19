@@ -1,16 +1,14 @@
 import { format } from '@intlify/shared'
-import { TokenizeOptions } from '../../src/options'
-import {
-  CompileErrorCodes,
-  CompileError,
-  errorMessages
-} from '../../src/errors'
+import { CompileErrorCodes, errorMessages } from '../../src/errors'
 import {
   createTokenizer,
   TokenTypes,
   ERROR_DOMAIN,
   parse
 } from '../../src/tokenizer'
+
+import type { TokenizeOptions } from '../../src/options'
+import type { CompileError } from '../../src/errors'
 
 test('basic', () => {
   const tokenizer = createTokenizer('hi {name} !')

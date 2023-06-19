@@ -9269,3 +9269,2745 @@ exports[`token analysis > "😺" tokens 1`] = `
   },
 ]
 `;
+
+exports[`tokenize options: location disable > " | | |" tokens 1`] = `
+[
+  {
+    "type": 1,
+    "value": "|",
+  },
+  {
+    "type": 1,
+    "value": "|",
+  },
+  {
+    "type": 1,
+    "value": "|",
+  },
+  {
+    "type": 14,
+  },
+]
+`;
+
+exports[`tokenize options: location disable > " foo | | bar" tokens 1`] = `
+[
+  {
+    "type": 0,
+    "value": " foo",
+  },
+  {
+    "type": 1,
+    "value": "|",
+  },
+  {
+    "type": 1,
+    "value": "|",
+  },
+  {
+    "type": 0,
+    "value": "bar",
+  },
+  {
+    "type": 14,
+  },
+]
+`;
+
+exports[`tokenize options: location disable > " hello world " tokens 1`] = `
+[
+  {
+    "type": 0,
+    "value": " hello world ",
+  },
+  {
+    "type": 14,
+  },
+]
+`;
+
+exports[`tokenize options: location disable > "" tokens 1`] = `
+[
+  {
+    "type": 14,
+  },
+]
+`;
+
+exports[`tokenize options: location disable > "'single-quote'" tokens 1`] = `
+[
+  {
+    "type": 0,
+    "value": "'single-quote'",
+  },
+  {
+    "type": 14,
+  },
+]
+`;
+
+exports[`tokenize options: location disable > "..." tokens 1`] = `
+[
+  {
+    "type": 0,
+    "value": "...",
+  },
+  {
+    "type": 14,
+  },
+]
+`;
+
+exports[`tokenize options: location disable > "@.lower: {'no apples'} | {1 apple | @:{count　apples" errors 1`] = `
+[
+  {
+    "code": 10,
+    "domain": "tokenizer",
+    "message": "Invalid linked format",
+  },
+  {
+    "code": 7,
+    "domain": "tokenizer",
+    "message": "Unterminated closing brace",
+  },
+  {
+    "code": 7,
+    "domain": "tokenizer",
+    "message": "Unterminated closing brace",
+  },
+]
+`;
+
+exports[`tokenize options: location disable > "@.lower: {'no apples'} | {1 apple | @:{count　apples" tokens 1`] = `
+[
+  {
+    "type": 8,
+    "value": "@",
+  },
+  {
+    "type": 9,
+    "value": ".",
+  },
+  {
+    "type": 12,
+    "value": "lower",
+  },
+  {
+    "type": 10,
+    "value": ":",
+  },
+  {
+    "type": 0,
+    "value": " ",
+  },
+  {
+    "type": 2,
+    "value": "{",
+  },
+  {
+    "type": 7,
+    "value": "no apples",
+  },
+  {
+    "type": 3,
+    "value": "}",
+  },
+  {
+    "type": 1,
+    "value": "|",
+  },
+  {
+    "type": 2,
+    "value": "{",
+  },
+  {
+    "type": 6,
+    "value": "1",
+  },
+  {
+    "type": 0,
+    "value": "apple",
+  },
+  {
+    "type": 1,
+    "value": "|",
+  },
+  {
+    "type": 8,
+    "value": "@",
+  },
+  {
+    "type": 10,
+    "value": ":",
+  },
+  {
+    "type": 2,
+    "value": "{",
+  },
+  {
+    "type": 5,
+    "value": "count",
+  },
+  {
+    "type": 0,
+    "value": "　apples",
+  },
+  {
+    "type": 14,
+  },
+]
+`;
+
+exports[`tokenize options: location disable > "@.lower:{'no apples'} | {1} apple | {count}　apples" tokens 1`] = `
+[
+  {
+    "type": 8,
+    "value": "@",
+  },
+  {
+    "type": 9,
+    "value": ".",
+  },
+  {
+    "type": 12,
+    "value": "lower",
+  },
+  {
+    "type": 10,
+    "value": ":",
+  },
+  {
+    "type": 2,
+    "value": "{",
+  },
+  {
+    "type": 7,
+    "value": "no apples",
+  },
+  {
+    "type": 3,
+    "value": "}",
+  },
+  {
+    "type": 1,
+    "value": "|",
+  },
+  {
+    "type": 2,
+    "value": "{",
+  },
+  {
+    "type": 6,
+    "value": "1",
+  },
+  {
+    "type": 3,
+    "value": "}",
+  },
+  {
+    "type": 0,
+    "value": " apple",
+  },
+  {
+    "type": 1,
+    "value": "|",
+  },
+  {
+    "type": 2,
+    "value": "{",
+  },
+  {
+    "type": 5,
+    "value": "count",
+  },
+  {
+    "type": 3,
+    "value": "}",
+  },
+  {
+    "type": 0,
+    "value": "　apples",
+  },
+  {
+    "type": 14,
+  },
+]
+`;
+
+exports[`tokenize options: location disable > "\\"double-qoute\\"" tokens 1`] = `
+[
+  {
+    "type": 0,
+    "value": "\\"double-qoute\\"",
+  },
+  {
+    "type": 14,
+  },
+]
+`;
+
+exports[`tokenize options: location disable > "{0} {1}　{2}" tokens 1`] = `
+[
+  {
+    "type": 2,
+    "value": "{",
+  },
+  {
+    "type": 6,
+    "value": "0",
+  },
+  {
+    "type": 3,
+    "value": "}",
+  },
+  {
+    "type": 0,
+    "value": " ",
+  },
+  {
+    "type": 2,
+    "value": "{",
+  },
+  {
+    "type": 6,
+    "value": "1",
+  },
+  {
+    "type": 3,
+    "value": "}",
+  },
+  {
+    "type": 0,
+    "value": "　",
+  },
+  {
+    "type": 2,
+    "value": "{",
+  },
+  {
+    "type": 6,
+    "value": "2",
+  },
+  {
+    "type": 3,
+    "value": "}",
+  },
+  {
+    "type": 14,
+  },
+]
+`;
+
+exports[`tokenize options: location disable > "{0}\\n{1}\\r\\n{2}" tokens 1`] = `
+[
+  {
+    "type": 2,
+    "value": "{",
+  },
+  {
+    "type": 6,
+    "value": "0",
+  },
+  {
+    "type": 3,
+    "value": "}",
+  },
+  {
+    "type": 0,
+    "value": "
+",
+  },
+  {
+    "type": 2,
+    "value": "{",
+  },
+  {
+    "type": 6,
+    "value": "1",
+  },
+  {
+    "type": 3,
+    "value": "}",
+  },
+  {
+    "type": 0,
+    "value": "
+",
+  },
+  {
+    "type": 2,
+    "value": "{",
+  },
+  {
+    "type": 6,
+    "value": "2",
+  },
+  {
+    "type": 3,
+    "value": "}",
+  },
+  {
+    "type": 14,
+  },
+]
+`;
+
+exports[`tokenize options: location disable > "{first} {middle}　{last}" tokens 1`] = `
+[
+  {
+    "type": 2,
+    "value": "{",
+  },
+  {
+    "type": 5,
+    "value": "first",
+  },
+  {
+    "type": 3,
+    "value": "}",
+  },
+  {
+    "type": 0,
+    "value": " ",
+  },
+  {
+    "type": 2,
+    "value": "{",
+  },
+  {
+    "type": 5,
+    "value": "middle",
+  },
+  {
+    "type": 3,
+    "value": "}",
+  },
+  {
+    "type": 0,
+    "value": "　",
+  },
+  {
+    "type": 2,
+    "value": "{",
+  },
+  {
+    "type": 5,
+    "value": "last",
+  },
+  {
+    "type": 3,
+    "value": "}",
+  },
+  {
+    "type": 14,
+  },
+]
+`;
+
+exports[`tokenize options: location disable > "{first}\\n{middle}\\r\\n{last}" tokens 1`] = `
+[
+  {
+    "type": 2,
+    "value": "{",
+  },
+  {
+    "type": 5,
+    "value": "first",
+  },
+  {
+    "type": 3,
+    "value": "}",
+  },
+  {
+    "type": 0,
+    "value": "
+",
+  },
+  {
+    "type": 2,
+    "value": "{",
+  },
+  {
+    "type": 5,
+    "value": "middle",
+  },
+  {
+    "type": 3,
+    "value": "}",
+  },
+  {
+    "type": 0,
+    "value": "
+",
+  },
+  {
+    "type": 2,
+    "value": "{",
+  },
+  {
+    "type": 5,
+    "value": "last",
+  },
+  {
+    "type": 3,
+    "value": "}",
+  },
+  {
+    "type": 14,
+  },
+]
+`;
+
+exports[`tokenize options: location disable > "1 + 1" tokens 1`] = `
+[
+  {
+    "type": 0,
+    "value": "1 + 1",
+  },
+  {
+    "type": 14,
+  },
+]
+`;
+
+exports[`tokenize options: location disable > "foo@bar.com" errors 1`] = `
+[
+  {
+    "code": 10,
+    "domain": "tokenizer",
+    "message": "Invalid linked format",
+  },
+]
+`;
+
+exports[`tokenize options: location disable > "foo@bar.com" tokens 1`] = `
+[
+  {
+    "type": 0,
+    "value": "foo",
+  },
+  {
+    "type": 8,
+    "value": "@",
+  },
+  {
+    "type": 0,
+    "value": "bar.com",
+  },
+  {
+    "type": 14,
+  },
+]
+`;
+
+exports[`tokenize options: location disable > "hello world" tokens 1`] = `
+[
+  {
+    "type": 0,
+    "value": "hello world",
+  },
+  {
+    "type": 14,
+  },
+]
+`;
+
+exports[`tokenize options: location disable > "hello:" tokens 1`] = `
+[
+  {
+    "type": 0,
+    "value": "hello:",
+  },
+  {
+    "type": 14,
+  },
+]
+`;
+
+exports[`tokenize options: location disable > "hello\\\\nworld" tokens 1`] = `
+[
+  {
+    "type": 0,
+    "value": "hello\\\\nworld",
+  },
+  {
+    "type": 14,
+  },
+]
+`;
+
+exports[`tokenize options: location disable > "hello\\nworld" tokens 1`] = `
+[
+  {
+    "type": 0,
+    "value": "hello
+world",
+  },
+  {
+    "type": 14,
+  },
+]
+`;
+
+exports[`tokenize options: location disable > "hi %name" tokens 1`] = `
+[
+  {
+    "type": 0,
+    "value": "hi %name",
+  },
+  {
+    "type": 14,
+  },
+]
+`;
+
+exports[`tokenize options: location disable > "hi @ :name !" errors 1`] = `
+[
+  {
+    "code": 10,
+    "domain": "tokenizer",
+    "message": "Invalid linked format",
+  },
+]
+`;
+
+exports[`tokenize options: location disable > "hi @ :name !" tokens 1`] = `
+[
+  {
+    "type": 0,
+    "value": "hi ",
+  },
+  {
+    "type": 8,
+    "value": "@",
+  },
+  {
+    "type": 10,
+    "value": ":",
+  },
+  {
+    "type": 11,
+    "value": "name",
+  },
+  {
+    "type": 0,
+    "value": " !",
+  },
+  {
+    "type": 14,
+  },
+]
+`;
+
+exports[`tokenize options: location disable > "hi @. {name} !" errors 1`] = `
+[
+  {
+    "code": 10,
+    "domain": "tokenizer",
+    "message": "Invalid linked format",
+  },
+]
+`;
+
+exports[`tokenize options: location disable > "hi @. {name} !" tokens 1`] = `
+[
+  {
+    "type": 0,
+    "value": "hi ",
+  },
+  {
+    "type": 8,
+    "value": "@",
+  },
+  {
+    "type": 9,
+    "value": ".",
+  },
+  {
+    "type": 0,
+    "value": " ",
+  },
+  {
+    "type": 2,
+    "value": "{",
+  },
+  {
+    "type": 5,
+    "value": "name",
+  },
+  {
+    "type": 3,
+    "value": "}",
+  },
+  {
+    "type": 0,
+    "value": " !",
+  },
+  {
+    "type": 14,
+  },
+]
+`;
+
+exports[`tokenize options: location disable > "hi @.\\n{name} !" errors 1`] = `
+[
+  {
+    "code": 10,
+    "domain": "tokenizer",
+    "message": "Invalid linked format",
+  },
+]
+`;
+
+exports[`tokenize options: location disable > "hi @.\\n{name} !" tokens 1`] = `
+[
+  {
+    "type": 0,
+    "value": "hi ",
+  },
+  {
+    "type": 8,
+    "value": "@",
+  },
+  {
+    "type": 9,
+    "value": ".",
+  },
+  {
+    "type": 0,
+    "value": "
+",
+  },
+  {
+    "type": 2,
+    "value": "{",
+  },
+  {
+    "type": 5,
+    "value": "name",
+  },
+  {
+    "type": 3,
+    "value": "}",
+  },
+  {
+    "type": 0,
+    "value": " !",
+  },
+  {
+    "type": 14,
+  },
+]
+`;
+
+exports[`tokenize options: location disable > "hi @.upper {name} !" errors 1`] = `
+[
+  {
+    "code": 10,
+    "domain": "tokenizer",
+    "message": "Invalid linked format",
+  },
+]
+`;
+
+exports[`tokenize options: location disable > "hi @.upper {name} !" tokens 1`] = `
+[
+  {
+    "type": 0,
+    "value": "hi ",
+  },
+  {
+    "type": 8,
+    "value": "@",
+  },
+  {
+    "type": 9,
+    "value": ".",
+  },
+  {
+    "type": 12,
+    "value": "upper",
+  },
+  {
+    "type": 0,
+    "value": " ",
+  },
+  {
+    "type": 2,
+    "value": "{",
+  },
+  {
+    "type": 5,
+    "value": "name",
+  },
+  {
+    "type": 3,
+    "value": "}",
+  },
+  {
+    "type": 0,
+    "value": " !",
+  },
+  {
+    "type": 14,
+  },
+]
+`;
+
+exports[`tokenize options: location disable > "hi @.upper:name !" tokens 1`] = `
+[
+  {
+    "type": 0,
+    "value": "hi ",
+  },
+  {
+    "type": 8,
+    "value": "@",
+  },
+  {
+    "type": 9,
+    "value": ".",
+  },
+  {
+    "type": 12,
+    "value": "upper",
+  },
+  {
+    "type": 10,
+    "value": ":",
+  },
+  {
+    "type": 11,
+    "value": "name",
+  },
+  {
+    "type": 0,
+    "value": " !",
+  },
+  {
+    "type": 14,
+  },
+]
+`;
+
+exports[`tokenize options: location disable > "hi @.upper\\n{name} !" errors 1`] = `
+[
+  {
+    "code": 10,
+    "domain": "tokenizer",
+    "message": "Invalid linked format",
+  },
+]
+`;
+
+exports[`tokenize options: location disable > "hi @.upper\\n{name} !" tokens 1`] = `
+[
+  {
+    "type": 0,
+    "value": "hi ",
+  },
+  {
+    "type": 8,
+    "value": "@",
+  },
+  {
+    "type": 9,
+    "value": ".",
+  },
+  {
+    "type": 12,
+    "value": "upper",
+  },
+  {
+    "type": 0,
+    "value": "
+",
+  },
+  {
+    "type": 2,
+    "value": "{",
+  },
+  {
+    "type": 5,
+    "value": "name",
+  },
+  {
+    "type": 3,
+    "value": "}",
+  },
+  {
+    "type": 0,
+    "value": " !",
+  },
+  {
+    "type": 14,
+  },
+]
+`;
+
+exports[`tokenize options: location disable > "hi @: {'name'} !" errors 1`] = `
+[
+  {
+    "code": 10,
+    "domain": "tokenizer",
+    "message": "Invalid linked format",
+  },
+]
+`;
+
+exports[`tokenize options: location disable > "hi @: {'name'} !" tokens 1`] = `
+[
+  {
+    "type": 0,
+    "value": "hi ",
+  },
+  {
+    "type": 8,
+    "value": "@",
+  },
+  {
+    "type": 10,
+    "value": ":",
+  },
+  {
+    "type": 0,
+    "value": " ",
+  },
+  {
+    "type": 2,
+    "value": "{",
+  },
+  {
+    "type": 7,
+    "value": "name",
+  },
+  {
+    "type": 3,
+    "value": "}",
+  },
+  {
+    "type": 0,
+    "value": " !",
+  },
+  {
+    "type": 14,
+  },
+]
+`;
+
+exports[`tokenize options: location disable > "hi @:\\nname !" errors 1`] = `
+[
+  {
+    "code": 10,
+    "domain": "tokenizer",
+    "message": "Invalid linked format",
+  },
+]
+`;
+
+exports[`tokenize options: location disable > "hi @:\\nname !" tokens 1`] = `
+[
+  {
+    "type": 0,
+    "value": "hi ",
+  },
+  {
+    "type": 8,
+    "value": "@",
+  },
+  {
+    "type": 10,
+    "value": ":",
+  },
+  {
+    "type": 11,
+    "value": "name",
+  },
+  {
+    "type": 0,
+    "value": " !",
+  },
+  {
+    "type": 14,
+  },
+]
+`;
+
+exports[`tokenize options: location disable > "hi @:{ 'name' } !" tokens 1`] = `
+[
+  {
+    "type": 0,
+    "value": "hi ",
+  },
+  {
+    "type": 8,
+    "value": "@",
+  },
+  {
+    "type": 10,
+    "value": ":",
+  },
+  {
+    "type": 2,
+    "value": "{",
+  },
+  {
+    "type": 7,
+    "value": "name",
+  },
+  {
+    "type": 3,
+    "value": "}",
+  },
+  {
+    "type": 0,
+    "value": " !",
+  },
+  {
+    "type": 14,
+  },
+]
+`;
+
+exports[`tokenize options: location disable > "hi @:{ {name} } !" errors 1`] = `
+[
+  {
+    "code": 9,
+    "domain": "tokenizer",
+    "message": "Not allowed nest placeholder",
+  },
+]
+`;
+
+exports[`tokenize options: location disable > "hi @:{ {name} } !" tokens 1`] = `
+[
+  {
+    "type": 0,
+    "value": "hi ",
+  },
+  {
+    "type": 8,
+    "value": "@",
+  },
+  {
+    "type": 10,
+    "value": ":",
+  },
+  {
+    "type": 2,
+    "value": "{",
+  },
+  {
+    "type": 2,
+    "value": "{",
+  },
+  {
+    "type": 5,
+    "value": "name",
+  },
+  {
+    "type": 3,
+    "value": "}",
+  },
+  {
+    "type": 3,
+    "value": "}",
+  },
+  {
+    "type": 0,
+    "value": " !",
+  },
+  {
+    "type": 14,
+  },
+]
+`;
+
+exports[`tokenize options: location disable > "hi @:{ name } !" tokens 1`] = `
+[
+  {
+    "type": 0,
+    "value": "hi ",
+  },
+  {
+    "type": 8,
+    "value": "@",
+  },
+  {
+    "type": 10,
+    "value": ":",
+  },
+  {
+    "type": 2,
+    "value": "{",
+  },
+  {
+    "type": 5,
+    "value": "name",
+  },
+  {
+    "type": 3,
+    "value": "}",
+  },
+  {
+    "type": 0,
+    "value": " !",
+  },
+  {
+    "type": 14,
+  },
+]
+`;
+
+exports[`tokenize options: location disable > "hi @:{'hello world'} !" tokens 1`] = `
+[
+  {
+    "type": 0,
+    "value": "hi ",
+  },
+  {
+    "type": 8,
+    "value": "@",
+  },
+  {
+    "type": 10,
+    "value": ":",
+  },
+  {
+    "type": 2,
+    "value": "{",
+  },
+  {
+    "type": 7,
+    "value": "hello world",
+  },
+  {
+    "type": 3,
+    "value": "}",
+  },
+  {
+    "type": 0,
+    "value": " !",
+  },
+  {
+    "type": 14,
+  },
+]
+`;
+
+exports[`tokenize options: location disable > "hi @:{name} @:{0}!" tokens 1`] = `
+[
+  {
+    "type": 0,
+    "value": "hi ",
+  },
+  {
+    "type": 8,
+    "value": "@",
+  },
+  {
+    "type": 10,
+    "value": ":",
+  },
+  {
+    "type": 2,
+    "value": "{",
+  },
+  {
+    "type": 5,
+    "value": "name",
+  },
+  {
+    "type": 3,
+    "value": "}",
+  },
+  {
+    "type": 0,
+    "value": " ",
+  },
+  {
+    "type": 8,
+    "value": "@",
+  },
+  {
+    "type": 10,
+    "value": ":",
+  },
+  {
+    "type": 2,
+    "value": "{",
+  },
+  {
+    "type": 6,
+    "value": "0",
+  },
+  {
+    "type": 3,
+    "value": "}",
+  },
+  {
+    "type": 0,
+    "value": "!",
+  },
+  {
+    "type": 14,
+  },
+]
+`;
+
+exports[`tokenize options: location disable > "hi @:{name}\\n !" tokens 1`] = `
+[
+  {
+    "type": 0,
+    "value": "hi ",
+  },
+  {
+    "type": 8,
+    "value": "@",
+  },
+  {
+    "type": 10,
+    "value": ":",
+  },
+  {
+    "type": 2,
+    "value": "{",
+  },
+  {
+    "type": 5,
+    "value": "name",
+  },
+  {
+    "type": 3,
+    "value": "}",
+  },
+  {
+    "type": 0,
+    "value": "
+ !",
+  },
+  {
+    "type": 14,
+  },
+]
+`;
+
+exports[`tokenize options: location disable > "hi @:name !" tokens 1`] = `
+[
+  {
+    "type": 0,
+    "value": "hi ",
+  },
+  {
+    "type": 8,
+    "value": "@",
+  },
+  {
+    "type": 10,
+    "value": ":",
+  },
+  {
+    "type": 11,
+    "value": "name",
+  },
+  {
+    "type": 0,
+    "value": " !",
+  },
+  {
+    "type": 14,
+  },
+]
+`;
+
+exports[`tokenize options: location disable > "hi @\\n. upper\\n:  {'name'}\\n !" errors 1`] = `
+[
+  {
+    "code": 10,
+    "domain": "tokenizer",
+    "message": "Invalid linked format",
+  },
+  {
+    "code": 10,
+    "domain": "tokenizer",
+    "message": "Invalid linked format",
+  },
+  {
+    "code": 10,
+    "domain": "tokenizer",
+    "message": "Invalid linked format",
+  },
+  {
+    "code": 10,
+    "domain": "tokenizer",
+    "message": "Invalid linked format",
+  },
+]
+`;
+
+exports[`tokenize options: location disable > "hi @\\n. upper\\n:  {'name'}\\n !" tokens 1`] = `
+[
+  {
+    "type": 0,
+    "value": "hi ",
+  },
+  {
+    "type": 8,
+    "value": "@",
+  },
+  {
+    "type": 9,
+    "value": ".",
+  },
+  {
+    "type": 12,
+    "value": "upper",
+  },
+  {
+    "type": 10,
+    "value": ":",
+  },
+  {
+    "type": 0,
+    "value": "  ",
+  },
+  {
+    "type": 2,
+    "value": "{",
+  },
+  {
+    "type": 7,
+    "value": "name",
+  },
+  {
+    "type": 3,
+    "value": "}",
+  },
+  {
+    "type": 0,
+    "value": "
+ !",
+  },
+  {
+    "type": 14,
+  },
+]
+`;
+
+exports[`tokenize options: location disable > "hi @\\n:name !" errors 1`] = `
+[
+  {
+    "code": 10,
+    "domain": "tokenizer",
+    "message": "Invalid linked format",
+  },
+]
+`;
+
+exports[`tokenize options: location disable > "hi @\\n:name !" tokens 1`] = `
+[
+  {
+    "type": 0,
+    "value": "hi ",
+  },
+  {
+    "type": 8,
+    "value": "@",
+  },
+  {
+    "type": 10,
+    "value": ":",
+  },
+  {
+    "type": 11,
+    "value": "name",
+  },
+  {
+    "type": 0,
+    "value": " !",
+  },
+  {
+    "type": 14,
+  },
+]
+`;
+
+exports[`tokenize options: location disable > "hi {  | hello {name} !" errors 1`] = `
+[
+  {
+    "code": 7,
+    "domain": "tokenizer",
+    "message": "Unterminated closing brace",
+  },
+]
+`;
+
+exports[`tokenize options: location disable > "hi {  | hello {name} !" tokens 1`] = `
+[
+  {
+    "type": 0,
+    "value": "hi ",
+  },
+  {
+    "type": 2,
+    "value": "{",
+  },
+  {
+    "type": 1,
+    "value": "|",
+  },
+  {
+    "type": 0,
+    "value": "hello ",
+  },
+  {
+    "type": 2,
+    "value": "{",
+  },
+  {
+    "type": 5,
+    "value": "name",
+  },
+  {
+    "type": 3,
+    "value": "}",
+  },
+  {
+    "type": 0,
+    "value": " !",
+  },
+  {
+    "type": 14,
+  },
+]
+`;
+
+exports[`tokenize options: location disable > "hi {  } !" errors 1`] = `
+[
+  {
+    "code": 8,
+    "domain": "tokenizer",
+    "message": "Empty placeholder",
+  },
+]
+`;
+
+exports[`tokenize options: location disable > "hi {  } !" tokens 1`] = `
+[
+  {
+    "type": 0,
+    "value": "hi ",
+  },
+  {
+    "type": 2,
+    "value": "{",
+  },
+  {
+    "type": 3,
+    "value": "}",
+  },
+  {
+    "type": 0,
+    "value": " !",
+  },
+  {
+    "type": 14,
+  },
+]
+`;
+
+exports[`tokenize options: location disable > "hi {  -1 } !" tokens 1`] = `
+[
+  {
+    "type": 0,
+    "value": "hi ",
+  },
+  {
+    "type": 2,
+    "value": "{",
+  },
+  {
+    "type": 6,
+    "value": "-1",
+  },
+  {
+    "type": 3,
+    "value": "}",
+  },
+  {
+    "type": 0,
+    "value": " !",
+  },
+  {
+    "type": 14,
+  },
+]
+`;
+
+exports[`tokenize options: location disable > "hi {  0 !" errors 1`] = `
+[
+  {
+    "code": 7,
+    "domain": "tokenizer",
+    "message": "Unterminated closing brace",
+  },
+]
+`;
+
+exports[`tokenize options: location disable > "hi {  0 !" tokens 1`] = `
+[
+  {
+    "type": 0,
+    "value": "hi ",
+  },
+  {
+    "type": 2,
+    "value": "{",
+  },
+  {
+    "type": 6,
+    "value": "0",
+  },
+  {
+    "type": 0,
+    "value": "!",
+  },
+  {
+    "type": 14,
+  },
+]
+`;
+
+exports[`tokenize options: location disable > "hi {  name !" errors 1`] = `
+[
+  {
+    "code": 7,
+    "domain": "tokenizer",
+    "message": "Unterminated closing brace",
+  },
+]
+`;
+
+exports[`tokenize options: location disable > "hi {  name !" tokens 1`] = `
+[
+  {
+    "type": 0,
+    "value": "hi ",
+  },
+  {
+    "type": 2,
+    "value": "{",
+  },
+  {
+    "type": 5,
+    "value": "name",
+  },
+  {
+    "type": 0,
+    "value": "!",
+  },
+  {
+    "type": 14,
+  },
+]
+`;
+
+exports[`tokenize options: location disable > "hi {  name } !" tokens 1`] = `
+[
+  {
+    "type": 0,
+    "value": "hi ",
+  },
+  {
+    "type": 2,
+    "value": "{",
+  },
+  {
+    "type": 5,
+    "value": "name",
+  },
+  {
+    "type": 3,
+    "value": "}",
+  },
+  {
+    "type": 0,
+    "value": " !",
+  },
+  {
+    "type": 14,
+  },
+]
+`;
+
+exports[`tokenize options: location disable > "hi { '\\\\uw' }" errors 1`] = `
+[
+  {
+    "code": 5,
+    "domain": "tokenizer",
+    "message": "Invalid unicode escape sequence: \\\\uw",
+  },
+]
+`;
+
+exports[`tokenize options: location disable > "hi { '\\\\uw' }" tokens 1`] = `
+[
+  {
+    "type": 0,
+    "value": "hi ",
+  },
+  {
+    "type": 2,
+    "value": "{",
+  },
+  {
+    "type": 7,
+    "value": "\\\\uw",
+  },
+  {
+    "type": 3,
+    "value": "}",
+  },
+  {
+    "type": 14,
+  },
+]
+`;
+
+exports[`tokenize options: location disable > "hi { '\\\\x41' }" errors 1`] = `
+[
+  {
+    "code": 4,
+    "domain": "tokenizer",
+    "message": "Unknown escape sequence: \\\\x",
+  },
+]
+`;
+
+exports[`tokenize options: location disable > "hi { '\\\\x41' }" tokens 1`] = `
+[
+  {
+    "type": 0,
+    "value": "hi ",
+  },
+  {
+    "type": 2,
+    "value": "{",
+  },
+  {
+    "type": 7,
+    "value": "x41",
+  },
+  {
+    "type": 3,
+    "value": "}",
+  },
+  {
+    "type": 14,
+  },
+]
+`;
+
+exports[`tokenize options: location disable > "hi { 'foo }" errors 1`] = `
+[
+  {
+    "code": 3,
+    "domain": "tokenizer",
+    "message": "Unterminated single quote in placeholder",
+  },
+]
+`;
+
+exports[`tokenize options: location disable > "hi { 'foo }" tokens 1`] = `
+[
+  {
+    "type": 0,
+    "value": "hi ",
+  },
+  {
+    "type": 2,
+    "value": "{",
+  },
+  {
+    "type": 7,
+    "value": "foo }",
+  },
+  {
+    "type": 14,
+  },
+]
+`;
+
+exports[`tokenize options: location disable > "hi { 'foo" errors 1`] = `
+[
+  {
+    "code": 3,
+    "domain": "tokenizer",
+    "message": "Unterminated single quote in placeholder",
+  },
+]
+`;
+
+exports[`tokenize options: location disable > "hi { 'foo" tokens 1`] = `
+[
+  {
+    "type": 0,
+    "value": "hi ",
+  },
+  {
+    "type": 2,
+    "value": "{",
+  },
+  {
+    "type": 7,
+    "value": "foo",
+  },
+  {
+    "type": 14,
+  },
+]
+`;
+
+exports[`tokenize options: location disable > "hi { 'foo\\n' }" errors 1`] = `
+[
+  {
+    "code": 3,
+    "domain": "tokenizer",
+    "message": "Unterminated single quote in placeholder",
+  },
+]
+`;
+
+exports[`tokenize options: location disable > "hi { 'foo\\n' }" tokens 1`] = `
+[
+  {
+    "type": 0,
+    "value": "hi ",
+  },
+  {
+    "type": 2,
+    "value": "{",
+  },
+  {
+    "type": 7,
+    "value": "foo",
+  },
+  {
+    "type": 3,
+    "value": "}",
+  },
+  {
+    "type": 14,
+  },
+]
+`;
+
+exports[`tokenize options: location disable > "hi { @:name  | hello {name} !" errors 1`] = `
+[
+  {
+    "code": 7,
+    "domain": "tokenizer",
+    "message": "Unterminated closing brace",
+  },
+]
+`;
+
+exports[`tokenize options: location disable > "hi { @:name  | hello {name} !" tokens 1`] = `
+[
+  {
+    "type": 0,
+    "value": "hi ",
+  },
+  {
+    "type": 2,
+    "value": "{",
+  },
+  {
+    "type": 8,
+    "value": "@",
+  },
+  {
+    "type": 10,
+    "value": ":",
+  },
+  {
+    "type": 11,
+    "value": "name",
+  },
+  {
+    "type": 1,
+    "value": "|",
+  },
+  {
+    "type": 0,
+    "value": "hello ",
+  },
+  {
+    "type": 2,
+    "value": "{",
+  },
+  {
+    "type": 5,
+    "value": "name",
+  },
+  {
+    "type": 3,
+    "value": "}",
+  },
+  {
+    "type": 0,
+    "value": " !",
+  },
+  {
+    "type": 14,
+  },
+]
+`;
+
+exports[`tokenize options: location disable > "hi { @:name !" errors 1`] = `
+[
+  {
+    "code": 7,
+    "domain": "tokenizer",
+    "message": "Unterminated closing brace",
+  },
+]
+`;
+
+exports[`tokenize options: location disable > "hi { @:name !" tokens 1`] = `
+[
+  {
+    "type": 0,
+    "value": "hi ",
+  },
+  {
+    "type": 2,
+    "value": "{",
+  },
+  {
+    "type": 8,
+    "value": "@",
+  },
+  {
+    "type": 10,
+    "value": ":",
+  },
+  {
+    "type": 11,
+    "value": "name",
+  },
+  {
+    "type": 0,
+    "value": " !",
+  },
+  {
+    "type": 14,
+  },
+]
+`;
+
+exports[`tokenize options: location disable > "hi { { 0 } } !" errors 1`] = `
+[
+  {
+    "code": 9,
+    "domain": "tokenizer",
+    "message": "Not allowed nest placeholder",
+  },
+]
+`;
+
+exports[`tokenize options: location disable > "hi { { 0 } } !" tokens 1`] = `
+[
+  {
+    "type": 0,
+    "value": "hi ",
+  },
+  {
+    "type": 2,
+    "value": "{",
+  },
+  {
+    "type": 2,
+    "value": "{",
+  },
+  {
+    "type": 6,
+    "value": "0",
+  },
+  {
+    "type": 3,
+    "value": "}",
+  },
+  {
+    "type": 3,
+    "value": "}",
+  },
+  {
+    "type": 0,
+    "value": " !",
+  },
+  {
+    "type": 14,
+  },
+]
+`;
+
+exports[`tokenize options: location disable > "hi { { name } } !" errors 1`] = `
+[
+  {
+    "code": 9,
+    "domain": "tokenizer",
+    "message": "Not allowed nest placeholder",
+  },
+]
+`;
+
+exports[`tokenize options: location disable > "hi { { name } } !" tokens 1`] = `
+[
+  {
+    "type": 0,
+    "value": "hi ",
+  },
+  {
+    "type": 2,
+    "value": "{",
+  },
+  {
+    "type": 2,
+    "value": "{",
+  },
+  {
+    "type": 5,
+    "value": "name",
+  },
+  {
+    "type": 3,
+    "value": "}",
+  },
+  {
+    "type": 3,
+    "value": "}",
+  },
+  {
+    "type": 0,
+    "value": " !",
+  },
+  {
+    "type": 14,
+  },
+]
+`;
+
+exports[`tokenize options: location disable > "hi { name !" errors 1`] = `
+[
+  {
+    "code": 7,
+    "domain": "tokenizer",
+    "message": "Unterminated closing brace",
+  },
+]
+`;
+
+exports[`tokenize options: location disable > "hi { name !" tokens 1`] = `
+[
+  {
+    "type": 0,
+    "value": "hi ",
+  },
+  {
+    "type": 2,
+    "value": "{",
+  },
+  {
+    "type": 5,
+    "value": "name",
+  },
+  {
+    "type": 0,
+    "value": "!",
+  },
+  {
+    "type": 14,
+  },
+]
+`;
+
+exports[`tokenize options: location disable > "hi {$} !" errors 1`] = `
+[
+  {
+    "code": 2,
+    "domain": "tokenizer",
+    "message": "Invalid token in placeholder: '$'",
+  },
+]
+`;
+
+exports[`tokenize options: location disable > "hi {$} !" tokens 1`] = `
+[
+  {
+    "type": 0,
+    "value": "hi ",
+  },
+  {
+    "type": 2,
+    "value": "{",
+  },
+  {
+    "type": 13,
+    "value": "$",
+  },
+  {
+    "type": 3,
+    "value": "}",
+  },
+  {
+    "type": 0,
+    "value": " !",
+  },
+  {
+    "type": 14,
+  },
+]
+`;
+
+exports[`tokenize options: location disable > "hi {'kazupon'} !" tokens 1`] = `
+[
+  {
+    "type": 0,
+    "value": "hi ",
+  },
+  {
+    "type": 2,
+    "value": "{",
+  },
+  {
+    "type": 7,
+    "value": "kazupon",
+  },
+  {
+    "type": 3,
+    "value": "}",
+  },
+  {
+    "type": 0,
+    "value": " !",
+  },
+  {
+    "type": 14,
+  },
+]
+`;
+
+exports[`tokenize options: location disable > "hi {@.lower:name !" errors 1`] = `
+[
+  {
+    "code": 7,
+    "domain": "tokenizer",
+    "message": "Unterminated closing brace",
+  },
+]
+`;
+
+exports[`tokenize options: location disable > "hi {@.lower:name !" tokens 1`] = `
+[
+  {
+    "type": 0,
+    "value": "hi ",
+  },
+  {
+    "type": 2,
+    "value": "{",
+  },
+  {
+    "type": 8,
+    "value": "@",
+  },
+  {
+    "type": 9,
+    "value": ".",
+  },
+  {
+    "type": 12,
+    "value": "lower",
+  },
+  {
+    "type": 10,
+    "value": ":",
+  },
+  {
+    "type": 11,
+    "value": "name",
+  },
+  {
+    "type": 0,
+    "value": " !",
+  },
+  {
+    "type": 14,
+  },
+]
+`;
+
+exports[`tokenize options: location disable > "hi {\\nname\\n} !" tokens 1`] = `
+[
+  {
+    "type": 0,
+    "value": "hi ",
+  },
+  {
+    "type": 2,
+    "value": "{",
+  },
+  {
+    "type": 5,
+    "value": "name",
+  },
+  {
+    "type": 3,
+    "value": "}",
+  },
+  {
+    "type": 0,
+    "value": " !",
+  },
+  {
+    "type": 14,
+  },
+]
+`;
+
+exports[`tokenize options: location disable > "hi {{ !" errors 1`] = `
+[
+  {
+    "code": 9,
+    "domain": "tokenizer",
+    "message": "Not allowed nest placeholder",
+  },
+  {
+    "code": 2,
+    "domain": "tokenizer",
+    "message": "Invalid token in placeholder: '!'",
+  },
+]
+`;
+
+exports[`tokenize options: location disable > "hi {{ !" tokens 1`] = `
+[
+  {
+    "type": 0,
+    "value": "hi ",
+  },
+  {
+    "type": 2,
+    "value": "{",
+  },
+  {
+    "type": 2,
+    "value": "{",
+  },
+  {
+    "type": 13,
+    "value": "!",
+  },
+  {
+    "type": 14,
+  },
+]
+`;
+
+exports[`tokenize options: location disable > "hi {{}} !" errors 1`] = `
+[
+  {
+    "code": 9,
+    "domain": "tokenizer",
+    "message": "Not allowed nest placeholder",
+  },
+  {
+    "code": 8,
+    "domain": "tokenizer",
+    "message": "Empty placeholder",
+  },
+]
+`;
+
+exports[`tokenize options: location disable > "hi {{}} !" tokens 1`] = `
+[
+  {
+    "type": 0,
+    "value": "hi ",
+  },
+  {
+    "type": 2,
+    "value": "{",
+  },
+  {
+    "type": 2,
+    "value": "{",
+  },
+  {
+    "type": 3,
+    "value": "}",
+  },
+  {
+    "type": 3,
+    "value": "}",
+  },
+  {
+    "type": 0,
+    "value": " !",
+  },
+  {
+    "type": 14,
+  },
+]
+`;
+
+exports[`tokenize options: location disable > "hi {{0}} !" errors 1`] = `
+[
+  {
+    "code": 9,
+    "domain": "tokenizer",
+    "message": "Not allowed nest placeholder",
+  },
+]
+`;
+
+exports[`tokenize options: location disable > "hi {{0}} !" tokens 1`] = `
+[
+  {
+    "type": 0,
+    "value": "hi ",
+  },
+  {
+    "type": 2,
+    "value": "{",
+  },
+  {
+    "type": 2,
+    "value": "{",
+  },
+  {
+    "type": 6,
+    "value": "0",
+  },
+  {
+    "type": 3,
+    "value": "}",
+  },
+  {
+    "type": 3,
+    "value": "}",
+  },
+  {
+    "type": 0,
+    "value": " !",
+  },
+  {
+    "type": 14,
+  },
+]
+`;
+
+exports[`tokenize options: location disable > "hi {{name}} !" errors 1`] = `
+[
+  {
+    "code": 9,
+    "domain": "tokenizer",
+    "message": "Not allowed nest placeholder",
+  },
+]
+`;
+
+exports[`tokenize options: location disable > "hi {{name}} !" tokens 1`] = `
+[
+  {
+    "type": 0,
+    "value": "hi ",
+  },
+  {
+    "type": 2,
+    "value": "{",
+  },
+  {
+    "type": 2,
+    "value": "{",
+  },
+  {
+    "type": 5,
+    "value": "name",
+  },
+  {
+    "type": 3,
+    "value": "}",
+  },
+  {
+    "type": 3,
+    "value": "}",
+  },
+  {
+    "type": 0,
+    "value": " !",
+  },
+  {
+    "type": 14,
+  },
+]
+`;
+
+exports[`tokenize options: location disable > "hi {} !" errors 1`] = `
+[
+  {
+    "code": 8,
+    "domain": "tokenizer",
+    "message": "Empty placeholder",
+  },
+]
+`;
+
+exports[`tokenize options: location disable > "hi {} !" tokens 1`] = `
+[
+  {
+    "type": 0,
+    "value": "hi ",
+  },
+  {
+    "type": 2,
+    "value": "{",
+  },
+  {
+    "type": 3,
+    "value": "}",
+  },
+  {
+    "type": 0,
+    "value": " !",
+  },
+  {
+    "type": 14,
+  },
+]
+`;
+
+exports[`tokenize options: location disable > "hi {-} !" errors 1`] = `
+[
+  {
+    "code": 2,
+    "domain": "tokenizer",
+    "message": "Invalid token in placeholder: '-'",
+  },
+]
+`;
+
+exports[`tokenize options: location disable > "hi {-} !" tokens 1`] = `
+[
+  {
+    "type": 0,
+    "value": "hi ",
+  },
+  {
+    "type": 2,
+    "value": "{",
+  },
+  {
+    "type": 13,
+    "value": "-",
+  },
+  {
+    "type": 3,
+    "value": "}",
+  },
+  {
+    "type": 0,
+    "value": " !",
+  },
+  {
+    "type": 14,
+  },
+]
+`;
+
+exports[`tokenize options: location disable > "hi {0 !" errors 1`] = `
+[
+  {
+    "code": 7,
+    "domain": "tokenizer",
+    "message": "Unterminated closing brace",
+  },
+]
+`;
+
+exports[`tokenize options: location disable > "hi {0 !" tokens 1`] = `
+[
+  {
+    "type": 0,
+    "value": "hi ",
+  },
+  {
+    "type": 2,
+    "value": "{",
+  },
+  {
+    "type": 6,
+    "value": "0",
+  },
+  {
+    "type": 0,
+    "value": "!",
+  },
+  {
+    "type": 14,
+  },
+]
+`;
+
+exports[`tokenize options: location disable > "hi {0" errors 1`] = `
+[
+  {
+    "code": 7,
+    "domain": "tokenizer",
+    "message": "Unterminated closing brace",
+  },
+]
+`;
+
+exports[`tokenize options: location disable > "hi {0" tokens 1`] = `
+[
+  {
+    "type": 0,
+    "value": "hi ",
+  },
+  {
+    "type": 2,
+    "value": "{",
+  },
+  {
+    "type": 6,
+    "value": "0",
+  },
+  {
+    "type": 14,
+  },
+]
+`;
+
+exports[`tokenize options: location disable > "hi {0} !" tokens 1`] = `
+[
+  {
+    "type": 0,
+    "value": "hi ",
+  },
+  {
+    "type": 2,
+    "value": "{",
+  },
+  {
+    "type": 6,
+    "value": "0",
+  },
+  {
+    "type": 3,
+    "value": "}",
+  },
+  {
+    "type": 0,
+    "value": " !",
+  },
+  {
+    "type": 14,
+  },
+]
+`;
+
+exports[`tokenize options: location disable > "hi {name !" errors 1`] = `
+[
+  {
+    "code": 7,
+    "domain": "tokenizer",
+    "message": "Unterminated closing brace",
+  },
+]
+`;
+
+exports[`tokenize options: location disable > "hi {name !" tokens 1`] = `
+[
+  {
+    "type": 0,
+    "value": "hi ",
+  },
+  {
+    "type": 2,
+    "value": "{",
+  },
+  {
+    "type": 5,
+    "value": "name",
+  },
+  {
+    "type": 0,
+    "value": "!",
+  },
+  {
+    "type": 14,
+  },
+]
+`;
+
+exports[`tokenize options: location disable > "hi {name" errors 1`] = `
+[
+  {
+    "code": 7,
+    "domain": "tokenizer",
+    "message": "Unterminated closing brace",
+  },
+]
+`;
+
+exports[`tokenize options: location disable > "hi {name" tokens 1`] = `
+[
+  {
+    "type": 0,
+    "value": "hi ",
+  },
+  {
+    "type": 2,
+    "value": "{",
+  },
+  {
+    "type": 5,
+    "value": "name",
+  },
+  {
+    "type": 14,
+  },
+]
+`;
+
+exports[`tokenize options: location disable > "hi {name$} !" tokens 1`] = `
+[
+  {
+    "type": 0,
+    "value": "hi ",
+  },
+  {
+    "type": 2,
+    "value": "{",
+  },
+  {
+    "type": 5,
+    "value": "name$",
+  },
+  {
+    "type": 3,
+    "value": "}",
+  },
+  {
+    "type": 0,
+    "value": " !",
+  },
+  {
+    "type": 14,
+  },
+]
+`;
+
+exports[`tokenize options: location disable > "hi {name} !" tokens 1`] = `
+[
+  {
+    "type": 0,
+    "value": "hi ",
+  },
+  {
+    "type": 2,
+    "value": "{",
+  },
+  {
+    "type": 5,
+    "value": "name",
+  },
+  {
+    "type": 3,
+    "value": "}",
+  },
+  {
+    "type": 0,
+    "value": " !",
+  },
+  {
+    "type": 14,
+  },
+]
+`;
+
+exports[`tokenize options: location disable > "hi {snake_case} !" tokens 1`] = `
+[
+  {
+    "type": 0,
+    "value": "hi ",
+  },
+  {
+    "type": 2,
+    "value": "{",
+  },
+  {
+    "type": 5,
+    "value": "snake_case",
+  },
+  {
+    "type": 3,
+    "value": "}",
+  },
+  {
+    "type": 0,
+    "value": " !",
+  },
+  {
+    "type": 14,
+  },
+]
+`;
+
+exports[`tokenize options: location disable > "hi, :-) !" tokens 1`] = `
+[
+  {
+    "type": 0,
+    "value": "hi, :-) !",
+  },
+  {
+    "type": 14,
+  },
+]
+`;
+
+exports[`tokenize options: location disable > "hi, :-} !" errors 1`] = `
+[
+  {
+    "code": 6,
+    "domain": "tokenizer",
+    "message": "Unbalanced closing brace",
+  },
+]
+`;
+
+exports[`tokenize options: location disable > "hi, :-} !" tokens 1`] = `
+[
+  {
+    "type": 0,
+    "value": "hi, :-",
+  },
+  {
+    "type": 3,
+    "value": "}",
+  },
+  {
+    "type": 0,
+    "value": " !",
+  },
+  {
+    "type": 14,
+  },
+]
+`;
+
+exports[`tokenize options: location disable > "hypen-nate" tokens 1`] = `
+[
+  {
+    "type": 0,
+    "value": "hypen-nate",
+  },
+  {
+    "type": 14,
+  },
+]
+`;
+
+exports[`tokenize options: location disable > "name = foo" tokens 1`] = `
+[
+  {
+    "type": 0,
+    "value": "name = foo",
+  },
+  {
+    "type": 14,
+  },
+]
+`;
+
+exports[`tokenize options: location disable > "no apples | one apple  |  too much apples " tokens 1`] = `
+[
+  {
+    "type": 0,
+    "value": "no apples",
+  },
+  {
+    "type": 1,
+    "value": "|",
+  },
+  {
+    "type": 0,
+    "value": "one apple",
+  },
+  {
+    "type": 1,
+    "value": "|",
+  },
+  {
+    "type": 0,
+    "value": "too much apples ",
+  },
+  {
+    "type": 14,
+  },
+]
+`;
+
+exports[`tokenize options: location disable > "no apples |\\n one apple  |\\n  too much apples  " tokens 1`] = `
+[
+  {
+    "type": 0,
+    "value": "no apples",
+  },
+  {
+    "type": 1,
+    "value": "|",
+  },
+  {
+    "type": 0,
+    "value": "one apple",
+  },
+  {
+    "type": 1,
+    "value": "|",
+  },
+  {
+    "type": 0,
+    "value": "too much apples  ",
+  },
+  {
+    "type": 14,
+  },
+]
+`;
+
+exports[`tokenize options: location disable > "こんにちは、世界" tokens 1`] = `
+[
+  {
+    "type": 0,
+    "value": "こんにちは、世界",
+  },
+  {
+    "type": 14,
+  },
+]
+`;
+
+exports[`tokenize options: location disable > "😺" tokens 1`] = `
+[
+  {
+    "type": 0,
+    "value": "😺",
+  },
+  {
+    "type": 14,
+  },
+]
+`;

@@ -1,8 +1,10 @@
-import { CompileOptions } from './options'
 import { createParser } from './parser'
 import { transform } from './transformer'
-import { generate, CodeGenResult } from './generator'
+import { generate } from './generator'
 import { assign } from '@intlify/shared'
+
+import type { CompileOptions } from './options'
+import type { CodeGenResult } from './generator'
 
 export function baseCompile(
   source: string,

@@ -1,9 +1,13 @@
 import { isString, join } from '@intlify/shared'
-import { SourceMapGenerator, RawSourceMap } from 'source-map'
-import {
+import { SourceMapGenerator } from 'source-map'
+import { NodeTypes } from './parser'
+import { LOCATION_STUB } from './location'
+import { HelperNameMap } from './helpers'
+
+import type { RawSourceMap } from 'source-map'
+import type {
   ResourceNode,
   Node,
-  NodeTypes,
   PluralNode,
   MessageNode,
   TextNode,
@@ -14,9 +18,8 @@ import {
   LinkedModifierNode,
   LiteralNode
 } from './parser'
-import { Position, LocationStub } from './location'
-import { CodeGenOptions } from './options'
-import { HelperNameMap } from './helpers'
+import type { Position } from './location'
+import type { CodeGenOptions } from './options'
 
 export interface CodeGenResult {
   code: string
@@ -83,7 +86,7 @@ function createCodeGenerator(
   function push(code: string, node?: CodeGenNode): void {
     _context.code += code
     if (!__BROWSER__ && _context.map) {
-      if (node && node.loc && node.loc !== LocationStub) {
+      if (node && node.loc && node.loc !== LOCATION_STUB) {
         addMapping(node.loc.start, getMappingName(node))
       }
       advancePositionWithSource(_context, code)

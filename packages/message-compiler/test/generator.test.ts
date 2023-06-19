@@ -3,8 +3,10 @@
 import { createParser } from '../src/parser'
 import { transform } from '../src/transformer'
 import { generate } from '../src/generator'
-import { SourceMapConsumer, RawSourceMap } from 'source-map'
+import { SourceMapConsumer } from 'source-map'
 import { CHAR_CR, CHAR_LF, CHAR_LS, CHAR_PS } from '../src/scanner'
+
+import type { RawSourceMap } from 'source-map'
 
 interface Pos {
   line: number
