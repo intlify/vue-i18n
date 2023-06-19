@@ -14,7 +14,7 @@ import CssWorker from 'monaco-editor/esm/vs/language/css/css.worker?worker'
 import HtmlWorker from 'monaco-editor/esm/vs/language/html/html.worker?worker'
 import TsWorker from 'monaco-editor/esm/vs/language/typescript/ts.worker?worker'
 import theme from '../theme'
-import { debounce } from '../utils'
+import { debounce as _debounce } from '../utils'
 import type { PropType } from 'vue'
 import type { CompileError } from '@intlify/message-compiler'
 
@@ -106,7 +106,7 @@ onMounted(() => {
   window.addEventListener('resize', () => editor.layout())
 
   const changeEmitter = props.debounce
-    ? debounce(() => emit('change-model', editor.getValue()))
+    ? _debounce(() => emit('change-model', editor.getValue()))
     : () => emit('change-model', editor.getValue())
 
   editor.onDidChangeModelContent(changeEmitter)
