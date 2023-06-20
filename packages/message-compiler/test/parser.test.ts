@@ -1,6 +1,7 @@
-import { createParser } from '../src/parser'
+import { createParser, NodeTypes } from '../src/parser'
 
 import type { CompileError, ParserOptions } from '../src'
+import type { Node, PluralNode, MessageNode, LinkedNode } from '../src/parser'
 
 const cases = [
   { code: 'hello world', name: 'message' },
@@ -35,6 +36,7 @@ test('parse', () => {
     const parser = createParser(options)
     const ast = parser.parse(code)
     expect(ast).toMatchSnapshot(name || JSON.stringify(code))
+
     if (errors.length) {
       expect(errors).toMatchSnapshot(`${name || JSON.stringify(code)} errors`)
     }
@@ -52,7 +54,13 @@ test('parser options: location disable', () => {
     }
     const parser = createParser(options)
     const ast = parser.parse(code)
+    traverse(ast, node => {
+      expect(node.start).toBeUndefined()
+      expect(node.end).toBeUndefined()
+      expect(node.loc).toBeUndefined()
+    })
     expect(ast).toMatchSnapshot(name || JSON.stringify(code))
+
     if (errors.length) {
       expect(errors).toMatchSnapshot(`${name || JSON.stringify(code)} errors`)
       for (const error of errors) {
@@ -61,3 +69,14 @@ test('parser options: location disable', () => {
     }
   }
 })
+
+function traverse(node: Node, fn: (node: Node) => void) {
+  fn(node)
+  if (node.type === NodeTypes.Plural) {
+    ;(node as PluralNode).cases.forEach(c => traverse(c, fn))
+  } else if (node.type === NodeTypes.Message) {
+    ;(node as MessageNode).items.forEach(c => traverse(c, fn))
+  } else if (node.type === NodeTypes.Linked) {
+    traverse((node as LinkedNode).key, fn)
+  }
+}
