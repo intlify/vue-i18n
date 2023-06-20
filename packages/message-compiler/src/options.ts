@@ -18,6 +18,7 @@ export interface TransformOptions {
 }
 
 export interface CodeGenOptions {
+  location?: boolean
   mode?: 'normal' | 'arrow' // default normal
   breakLineCode?: '\n' | ';' // default newline
   needIndent?: boolean // default true

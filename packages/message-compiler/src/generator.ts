@@ -28,7 +28,7 @@ export interface CodeGenResult {
 }
 
 type CodeGenContext = {
-  source: string
+  source?: string
   code: string
   indentLevel: number
   filename: string
@@ -68,8 +68,9 @@ function createCodeGenerator(
     breakLineCode,
     needIndent: _needIndent
   } = options
+  const location = options.location !== false
+
   const _context = {
-    source: ast.loc!.source,
     filename,
     code: '',
     column: 1,
@@ -80,6 +81,10 @@ function createCodeGenerator(
     needIndent: _needIndent,
     indentLevel: 0
   } as CodeGenContext
+
+  if (location && ast.loc) {
+    _context.source = ast.loc.source
+  }
 
   const context = (): CodeGenContext => _context
 
@@ -130,9 +135,9 @@ function createCodeGenerator(
     })
   }
 
-  if (!__BROWSER__ && sourceMap) {
+  if (!__BROWSER__ && location && sourceMap) {
     _context.map = new SourceMapGenerator()
-    _context.map!.setSourceContent(filename!, _context.source)
+    _context.map!.setSourceContent(filename!, _context.source!)
   }
 
   return {
