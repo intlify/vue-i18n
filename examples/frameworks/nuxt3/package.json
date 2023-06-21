@@ -8,7 +8,7 @@
   },
   "devDependencies": {
     "@intlify/unplugin-vue-i18n": "^0.2.1",
-    "nuxt": "3.0.0-rc.4",
+    "nuxt": "3.4.3",
     "vue-i18n": "^9.1.10"
   }
 }
