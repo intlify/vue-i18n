@@ -16,7 +16,7 @@
   "scripts": {
     "benchmark": "node ./benchmark/index.mjs",
     "build": "node -r esbuild-register scripts/build.ts",
-    "build:explorer": "cd packages/format-explorer && vite build",
+    "build:explorer": "cd packages/format-explorer && pnpm build",
     "build:size": "pnpm build && run-p build:size-*",
     "build:size-core": "cd packages/size-check-core && pnpm build",
     "build:size-petite-vue-i18n": "cd packages/size-check-petite-vue-i18n && pnpm build",
@@ -33,7 +33,7 @@
     "coverage": "opener coverage/index.html",
     "dev": "node -r esbuild-register scripts/dev.ts",
     "dev:e2e": "cross-env TZ=UTC vitest -c ./vitest.e2e.config.ts",
-    "dev:explorer": "vite packages/format-explorer",
+    "dev:explorer": "cd packages/format-explorer && pnpm dev",
     "docs:apigen": "pnpm docs:apigen:core && pnpm docs:apigen:vue",
     "docs:apigen:core": "api-docs-gen ./temp/core-base.api.json -o ./docs/api -c ./docsgen.config.js -g noprefix -t ./tsdoc.json && mv ./docs/api/general.md ./docs/api/temp.md",
     "docs:apigen:vue": "api-docs-gen ./temp/vue-i18n-core.api.json -o ./docs/api -c ./docsgen.config.js -g noprefix -t ./tsdoc.json && tail -n +3 ./docs/api/temp.md >> ./docs/api/general.md && rm -rf ./docs/api/temp.md",

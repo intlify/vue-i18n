@@ -1,10 +1,10 @@
 import { isString, join } from '@intlify/shared'
-import { SourceMapGenerator } from 'source-map'
+import { SourceMapGenerator } from 'source-map-js'
 import { NodeTypes } from './nodes'
 import { LOCATION_STUB } from './location'
 import { HelperNameMap } from './helpers'
 
-import type { RawSourceMap } from 'source-map'
+import type { RawSourceMap } from 'source-map-js'
 import type {
   ResourceNode,
   Node,
