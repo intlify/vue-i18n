@@ -4,12 +4,12 @@ export type CompileErrorHandler = (error: CompileError) => void
 export type CacheKeyHandler = (source: string) => string
 
 export interface TokenizeOptions {
-  location?: boolean
+  location?: boolean // default true
   onError?: CompileErrorHandler
 }
 
 export interface ParserOptions {
-  location?: boolean
+  location?: boolean // default true
   onCacheKey?: (source: string) => string
   onError?: CompileErrorHandler
 }
@@ -19,7 +19,7 @@ export interface TransformOptions {
 }
 
 export interface CodeGenOptions {
-  location?: boolean
+  location?: boolean // default true
   mode?: 'normal' | 'arrow' // default normal
   breakLineCode?: '\n' | ';' // default newline
   needIndent?: boolean // default true
@@ -33,7 +33,7 @@ export interface CodeGenOptions {
 }
 
 export type CompileOptions = {
-  useJIT?: boolean
+  useJIT?: boolean // default false
 } & TransformOptions &
   CodeGenOptions &
   ParserOptions &
