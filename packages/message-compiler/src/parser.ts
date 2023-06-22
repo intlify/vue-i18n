@@ -474,8 +474,8 @@ export function createParser(options: ParserOptions = {}): Parser {
     }
     node.body = parseResource(tokenizer)
 
-    if (options.generateCacheId) {
-      node.cacheId = options.generateCacheId(source)
+    if (options.onCacheKey) {
+      node.cacheKey = options.onCacheKey(source)
     }
 
     // assert whether achieved to EOF

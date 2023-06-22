@@ -26,7 +26,7 @@ export interface Node {
 export interface ResourceNode extends Node {
   type: NodeTypes.Resource
   body: MessageNode | PluralNode
-  cacheId?: string
+  cacheKey?: string
   helpers?: string[]
 }
 

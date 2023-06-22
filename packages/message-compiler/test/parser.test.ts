@@ -71,12 +71,12 @@ describe('parser options', () => {
     }
   })
 
-  test('cacheId generation', () => {
+  test('cache key', () => {
     const options: ParserOptions = {
-      generateCacheId: source => source
+      onCacheKey: source => source
     }
     const parser = createParser(options)
     const ast = parser.parse('hello {name}!')
-    expect(ast.cacheId).toBeDefined()
+    expect(ast.cacheKey).toBeDefined()
   })
 })
