@@ -1,7 +1,8 @@
-import { createParser, NodeTypes, ERROR_DOMAIN } from '../../src/parser'
+import { createParser, ERROR_DOMAIN } from '../../src/parser'
+import { NodeTypes } from '../../src/nodes'
 import { CompileErrorCodes, errorMessages } from '../../src/errors'
 
-import type { PluralNode } from '../../src/parser'
+import type { PluralNode } from '../../src/nodes'
 
 let spy: any // eslint-disable-line @typescript-eslint/no-explicit-any
 beforeEach(() => {

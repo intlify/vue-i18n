@@ -6,19 +6,27 @@ import { assign } from '@intlify/shared'
 import type { CompileOptions } from './options'
 import type { CodeGenResult } from './generator'
 
+export type CompilerResult = CodeGenResult
+
 export function baseCompile(
   source: string,
   options: CompileOptions = {}
-): CodeGenResult {
+): CompilerResult {
   const assignedOptions = assign({}, options)
+  const useJIT = !!assignedOptions.useJIT
 
   // parse source codes
   const parser = createParser(assignedOptions)
   const ast = parser.parse(source)
 
-  // transform ASTs
-  transform(ast, assignedOptions)
+  if (!useJIT) {
+    // transform ASTs
+    transform(ast, assignedOptions)
 
-  // generate javascript codes
-  return generate(ast, assignedOptions)
+    // generate javascript codes
+    return generate(ast, assignedOptions)
+  } else {
+    // In JIT mode, no ast transform, no code generation.
+    return { ast, code: '' }
+  }
 }

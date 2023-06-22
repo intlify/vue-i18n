@@ -1,7 +1,7 @@
-import { createParser, NodeTypes } from '../src/parser'
+import { createParser } from '../src/parser'
+import { traverse } from './helper'
 
 import type { CompileError, ParserOptions } from '../src'
-import type { Node, PluralNode, MessageNode, LinkedNode } from '../src/parser'
 
 const cases = [
   { code: 'hello world', name: 'message' },
@@ -43,40 +43,40 @@ test('parse', () => {
   }
 })
 
-test('parser options: location disable', () => {
-  for (const { name, code } of cases) {
-    const errors: CompileError[] = []
-    const options: ParserOptions = {
-      location: false,
-      onError: err => {
-        errors.push({ ...err, message: err.message })
+describe('parser options', () => {
+  test('location disable', () => {
+    for (const { name, code } of cases) {
+      const errors: CompileError[] = []
+      const options: ParserOptions = {
+        location: false,
+        onError: err => {
+          errors.push({ ...err, message: err.message })
+        }
       }
+      const parser = createParser(options)
+      const ast = parser.parse(code)
+      traverse(ast, node => {
+        expect(node.start).toBeUndefined()
+        expect(node.end).toBeUndefined()
+        expect(node.loc).toBeUndefined()
+      })
+      expect(ast).toMatchSnapshot(name || JSON.stringify(code))
+
+      if (errors.length) {
+        expect(errors).toMatchSnapshot(`${name || JSON.stringify(code)} errors`)
+        for (const error of errors) {
+          expect(error.location).toBeUndefined()
+        }
+      }
+    }
+  })
+
+  test('cacheId generation', () => {
+    const options: ParserOptions = {
+      generateCacheId: source => source
     }
     const parser = createParser(options)
-    const ast = parser.parse(code)
-    traverse(ast, node => {
-      expect(node.start).toBeUndefined()
-      expect(node.end).toBeUndefined()
-      expect(node.loc).toBeUndefined()
-    })
-    expect(ast).toMatchSnapshot(name || JSON.stringify(code))
-
-    if (errors.length) {
-      expect(errors).toMatchSnapshot(`${name || JSON.stringify(code)} errors`)
-      for (const error of errors) {
-        expect(error.location).toBeUndefined()
-      }
-    }
-  }
+    const ast = parser.parse('hello {name}!')
+    expect(ast.cacheId).toBeDefined()
+  })
 })
-
-function traverse(node: Node, fn: (node: Node) => void) {
-  fn(node)
-  if (node.type === NodeTypes.Plural) {
-    ;(node as PluralNode).cases.forEach(c => traverse(c, fn))
-  } else if (node.type === NodeTypes.Message) {
-    ;(node as MessageNode).items.forEach(c => traverse(c, fn))
-  } else if (node.type === NodeTypes.Linked) {
-    traverse((node as LinkedNode).key, fn)
-  }
-}

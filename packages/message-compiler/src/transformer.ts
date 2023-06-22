@@ -1,4 +1,4 @@
-import { NodeTypes } from './parser'
+import { NodeTypes } from './nodes'
 import { HelperNameMap } from './helpers'
 
 import type {
@@ -7,7 +7,7 @@ import type {
   PluralNode,
   MessageNode,
   LinkedNode
-} from './parser'
+} from './nodes'
 import type { TransformOptions } from './options'
 
 // TODO: if we offer custom transform for uses, should be defined TransformOptions type to here

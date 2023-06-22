@@ -1881,7 +1881,7 @@ exports[`parse > plural complex 1`] = `
 }
 `;
 
-exports[`parser options: location disable > EOF in linked modifier 1`] = `
+exports[`parser options > location disable > EOF in linked modifier 1`] = `
 {
   "body": {
     "items": [
@@ -1903,7 +1903,7 @@ exports[`parser options: location disable > EOF in linked modifier 1`] = `
 }
 `;
 
-exports[`parser options: location disable > EOF in linked modifier errors 1`] = `
+exports[`parser options > location disable > EOF in linked modifier errors 1`] = `
 [
   {
     "code": 12,
@@ -1923,7 +1923,7 @@ exports[`parser options: location disable > EOF in linked modifier errors 1`] = 
 ]
 `;
 
-exports[`parser options: location disable > empty plural 1`] = `
+exports[`parser options > location disable > empty plural 1`] = `
 {
   "body": {
     "cases": [
@@ -1942,7 +1942,7 @@ exports[`parser options: location disable > empty plural 1`] = `
 }
 `;
 
-exports[`parser options: location disable > empty plural errors 1`] = `
+exports[`parser options > location disable > empty plural errors 1`] = `
 [
   {
     "code": 11,
@@ -1952,7 +1952,7 @@ exports[`parser options: location disable > empty plural errors 1`] = `
 ]
 `;
 
-exports[`parser options: location disable > foo 1`] = `
+exports[`parser options > location disable > foo 1`] = `
 {
   "body": {
     "items": [
@@ -1982,7 +1982,7 @@ exports[`parser options: location disable > foo 1`] = `
 }
 `;
 
-exports[`parser options: location disable > linked 1`] = `
+exports[`parser options > location disable > linked 1`] = `
 {
   "body": {
     "items": [
@@ -2000,7 +2000,7 @@ exports[`parser options: location disable > linked 1`] = `
 }
 `;
 
-exports[`parser options: location disable > linked error 1`] = `
+exports[`parser options > location disable > linked error 1`] = `
 {
   "body": {
     "items": [
@@ -2026,7 +2026,7 @@ exports[`parser options: location disable > linked error 1`] = `
 }
 `;
 
-exports[`parser options: location disable > linked error errors 1`] = `
+exports[`parser options > location disable > linked error errors 1`] = `
 [
   {
     "code": 12,
@@ -2046,7 +2046,7 @@ exports[`parser options: location disable > linked error errors 1`] = `
 ]
 `;
 
-exports[`parser options: location disable > linked key paren error 1`] = `
+exports[`parser options > location disable > linked key paren error 1`] = `
 {
   "body": {
     "items": [
@@ -2068,7 +2068,7 @@ exports[`parser options: location disable > linked key paren error 1`] = `
 }
 `;
 
-exports[`parser options: location disable > linked key paren error errors 1`] = `
+exports[`parser options > location disable > linked key paren error errors 1`] = `
 [
   {
     "code": 13,
@@ -2078,7 +2078,7 @@ exports[`parser options: location disable > linked key paren error errors 1`] = 
 ]
 `;
 
-exports[`parser options: location disable > linked key paren error with modifier 1`] = `
+exports[`parser options > location disable > linked key paren error with modifier 1`] = `
 {
   "body": {
     "items": [
@@ -2104,7 +2104,7 @@ exports[`parser options: location disable > linked key paren error with modifier
 }
 `;
 
-exports[`parser options: location disable > linked key paren error with modifier errors 1`] = `
+exports[`parser options > location disable > linked key paren error with modifier errors 1`] = `
 [
   {
     "code": 13,
@@ -2114,7 +2114,7 @@ exports[`parser options: location disable > linked key paren error with modifier
 ]
 `;
 
-exports[`parser options: location disable > linked modifier error 1`] = `
+exports[`parser options > location disable > linked modifier error 1`] = `
 {
   "body": {
     "items": [
@@ -2136,7 +2136,7 @@ exports[`parser options: location disable > linked modifier error 1`] = `
 }
 `;
 
-exports[`parser options: location disable > linked modifier error errors 1`] = `
+exports[`parser options > location disable > linked modifier error errors 1`] = `
 [
   {
     "code": 12,
@@ -2146,7 +2146,7 @@ exports[`parser options: location disable > linked modifier error errors 1`] = `
 ]
 `;
 
-exports[`parser options: location disable > linked modifier list 1`] = `
+exports[`parser options > location disable > linked modifier list 1`] = `
 {
   "body": {
     "items": [
@@ -2168,7 +2168,7 @@ exports[`parser options: location disable > linked modifier list 1`] = `
 }
 `;
 
-exports[`parser options: location disable > list 1`] = `
+exports[`parser options > location disable > list 1`] = `
 {
   "body": {
     "items": [
@@ -2191,7 +2191,7 @@ exports[`parser options: location disable > list 1`] = `
 }
 `;
 
-exports[`parser options: location disable > literal 1`] = `
+exports[`parser options > location disable > literal 1`] = `
 {
   "body": {
     "items": [
@@ -2214,7 +2214,7 @@ exports[`parser options: location disable > literal 1`] = `
 }
 `;
 
-exports[`parser options: location disable > message 1`] = `
+exports[`parser options > location disable > message 1`] = `
 {
   "body": {
     "items": [
@@ -2229,7 +2229,7 @@ exports[`parser options: location disable > message 1`] = `
 }
 `;
 
-exports[`parser options: location disable > named 1`] = `
+exports[`parser options > location disable > named 1`] = `
 {
   "body": {
     "items": [
@@ -2252,7 +2252,7 @@ exports[`parser options: location disable > named 1`] = `
 }
 `;
 
-exports[`parser options: location disable > named 2`] = `
+exports[`parser options > location disable > named 2`] = `
 {
   "body": {
     "items": [
@@ -2275,7 +2275,7 @@ exports[`parser options: location disable > named 2`] = `
 }
 `;
 
-exports[`parser options: location disable > plural 1`] = `
+exports[`parser options > location disable > plural 1`] = `
 {
   "body": {
     "cases": [
@@ -2313,7 +2313,7 @@ exports[`parser options: location disable > plural 1`] = `
 }
 `;
 
-exports[`parser options: location disable > plural complex 1`] = `
+exports[`parser options > location disable > plural complex 1`] = `
 {
   "body": {
     "cases": [

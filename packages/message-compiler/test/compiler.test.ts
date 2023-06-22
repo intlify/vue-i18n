@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-empty-function, no-irregular-whitespace */
 
 import { baseCompile as compile } from '../src/compiler'
+import { traverse } from './helper'
 
 test(`@.caml:{'no apples'} | {0} apple | {n}　apples`, () => {
   const { code, ast, map } = compile(
@@ -68,6 +69,28 @@ describe('arrow mode', () => {
     })
     new Function(code)
     expect(code).toMatchSnapshot('code')
+  })
+})
+
+describe('compiler options', () => {
+  test('location: false', () => {
+    const { ast } = compile(`hello world`, { location: false })
+    expect(ast).toMatchSnapshot('ast')
+    traverse(ast, node => {
+      expect(node.start).toBeUndefined()
+      expect(node.end).toBeUndefined()
+      expect(node.loc).toBeUndefined()
+    })
+  })
+
+  test('useJIT: true', () => {
+    const { ast, code, map } = compile(`hello world`, {
+      useJIT: true,
+      location: false
+    })
+    expect(ast).toMatchSnapshot('ast')
+    expect(code).toEqual('')
+    expect(map).toBeUndefined()
   })
 })
 

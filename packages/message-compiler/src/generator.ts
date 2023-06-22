@@ -1,6 +1,6 @@
 import { isString, join } from '@intlify/shared'
 import { SourceMapGenerator } from 'source-map'
-import { NodeTypes } from './parser'
+import { NodeTypes } from './nodes'
 import { LOCATION_STUB } from './location'
 import { HelperNameMap } from './helpers'
 
@@ -17,7 +17,7 @@ import type {
   LinkedKeyNode,
   LinkedModifierNode,
   LiteralNode
-} from './parser'
+} from './nodes'
 import type { Position } from './location'
 import type { CodeGenOptions } from './options'
 
@@ -312,6 +312,8 @@ export const generate = (
   generateNode(generator, ast)
   generator.deindent(needIndent)
   generator.push(`}`)
+
+  delete ast.helpers
 
   const { code, map } = generator.context()
   return {

@@ -204,15 +204,6 @@ exports[`@.caml:{'no apples'} | {0} apple | {n}　apples > ast 1`] = `
     "type": 1,
   },
   "end": 45,
-  "helpers": [
-    "normalize",
-    "linked",
-    "type",
-    "interpolate",
-    "list",
-    "named",
-    "plural",
-  ],
   "loc": {
     "end": {
       "column": 46,
@@ -265,6 +256,36 @@ exports[`arrow mode > hi { 'kazupon' }! > code 1`] = `"(ctx) => {const { normali
 exports[`arrow mode > hi {0}! > code 1`] = `"(ctx) => {const { normalize: _normalize, interpolate: _interpolate, list: _list } = ctx;return _normalize([\\"hi \\", _interpolate(_list(0)), \\"!\\"])}"`;
 
 exports[`arrow mode > hi {name}! > code 1`] = `"(ctx) => {const { normalize: _normalize, interpolate: _interpolate, named: _named } = ctx;return _normalize([\\"hi \\", _interpolate(_named(\\"name\\")), \\"!\\"])}"`;
+
+exports[`compiler options > location: false > ast 1`] = `
+{
+  "body": {
+    "items": [
+      {
+        "type": 3,
+        "value": "hello world",
+      },
+    ],
+    "type": 2,
+  },
+  "type": 0,
+}
+`;
+
+exports[`compiler options > useJIT: true > ast 1`] = `
+{
+  "body": {
+    "items": [
+      {
+        "type": 3,
+        "value": "hello world",
+      },
+    ],
+    "type": 2,
+  },
+  "type": 0,
+}
+`;
 
 exports[`edge cases >  | | |  > code 1`] = `
 "function __msg__ (ctx) {

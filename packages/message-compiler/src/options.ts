@@ -1,4 +1,5 @@
 import type { CompileError } from './errors'
+import type { ResourceNode } from './nodes'
 
 export type CompileErrorHandler = (error: CompileError) => void
 export type CompileCacheKeyHandler = (source: string) => string
@@ -10,6 +11,7 @@ export interface TokenizeOptions {
 
 export interface ParserOptions {
   location?: boolean
+  generateCacheId?: (source: string) => string
   onError?: CompileErrorHandler
 }
 
@@ -32,6 +34,7 @@ export interface CodeGenOptions {
 }
 
 export type CompileOptions = {
+  useJIT?: boolean
   onCacheKey?: CompileCacheKeyHandler
 } & TransformOptions &
   CodeGenOptions &
