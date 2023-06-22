@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import { SourceMapConsumer } from 'source-map'
+import { SourceMapConsumer } from 'source-map-js'
 import { baseCompile } from '@intlify/message-compiler'
 import * as monaco from 'monaco-editor'
 import Navigation from './components/Navigation.vue'

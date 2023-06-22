@@ -5,15 +5,15 @@
   "private": true,
   "scripts": {
     "dev": "vite",
-    "build": "vue-tsc --noEmit && vite build",
-    "serve": "vite preview",
+    "build": "vite build",
+    "preview": "vite preview",
     "clean": "yarn clean:dist && yarn clean:deps",
     "clean:dist": "rm -rf ./dist",
     "clean:deps": "rm -rf ./node_modules"
   },
   "dependencies": {
     "vue": "^3.3.4",
-    "source-map": "^0.6.1",
+    "source-map-js": "^1.0.2",
     "monaco-editor": "^0.39.0"
   },
   "devDependencies": {

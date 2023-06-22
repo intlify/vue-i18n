@@ -34,7 +34,7 @@
   "types": "dist/message-compiler.d.ts",
   "dependencies": {
     "@intlify/shared": "workspace:*",
-    "source-map-js": "1.0.1"
+    "source-map-js": "^1.0.2"
   },
   "engines": {
     "node": ">= 16"

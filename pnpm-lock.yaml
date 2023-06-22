@@ -500,9 +500,9 @@ importers:
       monaco-editor:
         specifier: ^0.39.0
         version: 0.39.0
-      source-map:
-        specifier: ^0.6.1
-        version: 0.6.1
+      source-map-js:
+        specifier: ^1.0.2
+        version: 1.0.2
       vue:
         specifier: 3.3.4
         version: 3.3.4
@@ -526,8 +526,8 @@ importers:
         specifier: workspace:*
         version: link:../shared
       source-map-js:
-        specifier: 1.0.1
-        version: 1.0.1
+        specifier: ^1.0.2
+        version: 1.0.2
 
   packages/petite-vue-i18n:
     dependencies:
@@ -11265,11 +11265,6 @@ packages:
   /source-list-map@2.0.1:
     resolution: {integrity: sha512-qnQ7gVMxGNxsiL4lEuJwe/To8UnK7fAnmbGEEH8RpLouuKbeEm0lhbQVFIrNSuB+G7tVrAlVsZgETT5nljf+Iw==}
     dev: true
-
-  /source-map-js@1.0.1:
-    resolution: {integrity: sha512-4+TN2b3tqOCd/kaGRJ/sTYA0tR0mdXx26ipdolxcwtJVqEnqNYvlCAt1q3ypy4QMlYus+Zh34RNtYLoq2oQ4IA==}
-    engines: {node: '>=0.10.0'}
-    dev: false
 
   /source-map-js@1.0.2:
     resolution: {integrity: sha512-R0XvVJ9WusLiqTCEiGCmICCMplcCkIwwR11mOSD9CR5u+IXYdiseeEuXCVAjS54zqwkLcPNnmU4OeJ6tUrWhDw==}
