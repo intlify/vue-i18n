@@ -1,6 +1,6 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`parse > EOF in linked modifier 1`] = `
+exports[`parse > EOF in linked modifier: "@." 1`] = `
 {
   "body": {
     "end": 2,
@@ -93,7 +93,7 @@ exports[`parse > EOF in linked modifier 1`] = `
 }
 `;
 
-exports[`parse > EOF in linked modifier errors 1`] = `
+exports[`parse > EOF in linked modifier: "@." errors 1`] = `
 [
   {
     "code": 12,
@@ -149,7 +149,7 @@ exports[`parse > EOF in linked modifier errors 1`] = `
 ]
 `;
 
-exports[`parse > empty plural 1`] = `
+exports[`parse > empty plural: "|" 1`] = `
 {
   "body": {
     "cases": [
@@ -225,7 +225,7 @@ exports[`parse > empty plural 1`] = `
 }
 `;
 
-exports[`parse > empty plural errors 1`] = `
+exports[`parse > empty plural: "|" errors 1`] = `
 [
   {
     "code": 11,
@@ -247,7 +247,422 @@ exports[`parse > empty plural errors 1`] = `
 ]
 `;
 
-exports[`parse > foo 1`] = `
+exports[`parse > linked error: "@.: a" 1`] = `
+{
+  "body": {
+    "end": 5,
+    "items": [
+      {
+        "end": 3,
+        "key": {
+          "end": 3,
+          "loc": {
+            "end": {
+              "column": 4,
+              "line": 1,
+              "offset": 3,
+            },
+            "start": {
+              "column": 4,
+              "line": 1,
+              "offset": 3,
+            },
+          },
+          "start": 3,
+          "type": 7,
+          "value": "",
+        },
+        "loc": {
+          "end": {
+            "column": 4,
+            "line": 1,
+            "offset": 3,
+          },
+          "start": {
+            "column": 1,
+            "line": 1,
+            "offset": 0,
+          },
+        },
+        "modifier": {
+          "end": 1,
+          "loc": {
+            "end": {
+              "column": 2,
+              "line": 1,
+              "offset": 1,
+            },
+            "start": {
+              "column": 2,
+              "line": 1,
+              "offset": 1,
+            },
+          },
+          "start": 1,
+          "type": 8,
+          "value": "",
+        },
+        "start": 0,
+        "type": 6,
+      },
+      {
+        "end": 5,
+        "loc": {
+          "end": {
+            "column": 6,
+            "line": 1,
+            "offset": 5,
+          },
+          "start": {
+            "column": 4,
+            "line": 1,
+            "offset": 3,
+          },
+        },
+        "start": 3,
+        "type": 3,
+        "value": " a",
+      },
+    ],
+    "loc": {
+      "end": {
+        "column": 6,
+        "line": 1,
+        "offset": 5,
+      },
+      "start": {
+        "column": 1,
+        "line": 1,
+        "offset": 0,
+      },
+    },
+    "start": 0,
+    "type": 2,
+  },
+  "end": 5,
+  "loc": {
+    "end": {
+      "column": 6,
+      "line": 1,
+      "offset": 5,
+    },
+    "source": "@.: a",
+    "start": {
+      "column": 1,
+      "line": 1,
+      "offset": 0,
+    },
+  },
+  "start": 0,
+  "type": 0,
+}
+`;
+
+exports[`parse > linked error: "@.: a" errors 1`] = `
+[
+  {
+    "code": 12,
+    "domain": "parser",
+    "location": {
+      "end": {
+        "column": 4,
+        "line": 1,
+        "offset": 3,
+      },
+      "start": {
+        "column": 2,
+        "line": 1,
+        "offset": 1,
+      },
+    },
+    "message": "Unexpected empty linked modifier",
+  },
+  {
+    "code": 10,
+    "domain": "tokenizer",
+    "location": {
+      "end": {
+        "column": 4,
+        "line": 1,
+        "offset": 3,
+      },
+      "start": {
+        "column": 4,
+        "line": 1,
+        "offset": 3,
+      },
+    },
+    "message": "Invalid linked format",
+  },
+  {
+    "code": 13,
+    "domain": "parser",
+    "location": {
+      "end": {
+        "column": 6,
+        "line": 1,
+        "offset": 5,
+      },
+      "start": {
+        "column": 3,
+        "line": 1,
+        "offset": 2,
+      },
+    },
+    "message": "Unexpected empty linked key",
+  },
+]
+`;
+
+exports[`parse > linked key paren error with modifier: "@.lower:(foo)" 1`] = `
+{
+  "body": {
+    "end": 13,
+    "items": [
+      {
+        "end": 8,
+        "key": {
+          "end": 8,
+          "loc": {
+            "end": {
+              "column": 9,
+              "line": 1,
+              "offset": 8,
+            },
+            "start": {
+              "column": 9,
+              "line": 1,
+              "offset": 8,
+            },
+          },
+          "start": 8,
+          "type": 7,
+          "value": "",
+        },
+        "loc": {
+          "end": {
+            "column": 9,
+            "line": 1,
+            "offset": 8,
+          },
+          "start": {
+            "column": 1,
+            "line": 1,
+            "offset": 0,
+          },
+        },
+        "modifier": {
+          "end": 7,
+          "loc": {
+            "end": {
+              "column": 8,
+              "line": 1,
+              "offset": 7,
+            },
+            "start": {
+              "column": 2,
+              "line": 1,
+              "offset": 1,
+            },
+          },
+          "start": 1,
+          "type": 8,
+          "value": "lower",
+        },
+        "start": 0,
+        "type": 6,
+      },
+      {
+        "end": 13,
+        "loc": {
+          "end": {
+            "column": 14,
+            "line": 1,
+            "offset": 13,
+          },
+          "start": {
+            "column": 9,
+            "line": 1,
+            "offset": 8,
+          },
+        },
+        "start": 8,
+        "type": 3,
+        "value": "(foo)",
+      },
+    ],
+    "loc": {
+      "end": {
+        "column": 14,
+        "line": 1,
+        "offset": 13,
+      },
+      "start": {
+        "column": 1,
+        "line": 1,
+        "offset": 0,
+      },
+    },
+    "start": 0,
+    "type": 2,
+  },
+  "end": 13,
+  "loc": {
+    "end": {
+      "column": 14,
+      "line": 1,
+      "offset": 13,
+    },
+    "source": "@.lower:(foo)",
+    "start": {
+      "column": 1,
+      "line": 1,
+      "offset": 0,
+    },
+  },
+  "start": 0,
+  "type": 0,
+}
+`;
+
+exports[`parse > linked key paren error with modifier: "@.lower:(foo)" errors 1`] = `
+[
+  {
+    "code": 13,
+    "domain": "parser",
+    "location": {
+      "end": {
+        "column": 14,
+        "line": 1,
+        "offset": 13,
+      },
+      "start": {
+        "column": 8,
+        "line": 1,
+        "offset": 7,
+      },
+    },
+    "message": "Unexpected empty linked key",
+  },
+]
+`;
+
+exports[`parse > linked key paren error: "@:(foo)" 1`] = `
+{
+  "body": {
+    "end": 7,
+    "items": [
+      {
+        "end": 2,
+        "key": {
+          "end": 2,
+          "loc": {
+            "end": {
+              "column": 3,
+              "line": 1,
+              "offset": 2,
+            },
+            "start": {
+              "column": 3,
+              "line": 1,
+              "offset": 2,
+            },
+          },
+          "start": 2,
+          "type": 7,
+          "value": "",
+        },
+        "loc": {
+          "end": {
+            "column": 3,
+            "line": 1,
+            "offset": 2,
+          },
+          "start": {
+            "column": 1,
+            "line": 1,
+            "offset": 0,
+          },
+        },
+        "start": 0,
+        "type": 6,
+      },
+      {
+        "end": 7,
+        "loc": {
+          "end": {
+            "column": 8,
+            "line": 1,
+            "offset": 7,
+          },
+          "start": {
+            "column": 3,
+            "line": 1,
+            "offset": 2,
+          },
+        },
+        "start": 2,
+        "type": 3,
+        "value": "(foo)",
+      },
+    ],
+    "loc": {
+      "end": {
+        "column": 8,
+        "line": 1,
+        "offset": 7,
+      },
+      "start": {
+        "column": 1,
+        "line": 1,
+        "offset": 0,
+      },
+    },
+    "start": 0,
+    "type": 2,
+  },
+  "end": 7,
+  "loc": {
+    "end": {
+      "column": 8,
+      "line": 1,
+      "offset": 7,
+    },
+    "source": "@:(foo)",
+    "start": {
+      "column": 1,
+      "line": 1,
+      "offset": 0,
+    },
+  },
+  "start": 0,
+  "type": 0,
+}
+`;
+
+exports[`parse > linked key paren error: "@:(foo)" errors 1`] = `
+[
+  {
+    "code": 13,
+    "domain": "parser",
+    "location": {
+      "end": {
+        "column": 8,
+        "line": 1,
+        "offset": 7,
+      },
+      "start": {
+        "column": 2,
+        "line": 1,
+        "offset": 1,
+      },
+    },
+    "message": "Unexpected empty linked key",
+  },
+]
+`;
+
+exports[`parse > linked key with named and modifier: "hi @._upper:{_name} !" 1`] = `
 {
   "body": {
     "end": 21,
@@ -376,497 +791,7 @@ exports[`parse > foo 1`] = `
 }
 `;
 
-exports[`parse > linked 1`] = `
-{
-  "body": {
-    "end": 8,
-    "items": [
-      {
-        "end": 8,
-        "key": {
-          "end": 8,
-          "loc": {
-            "end": {
-              "column": 9,
-              "line": 1,
-              "offset": 8,
-            },
-            "start": {
-              "column": 3,
-              "line": 1,
-              "offset": 2,
-            },
-          },
-          "start": 2,
-          "type": 7,
-          "value": "apples",
-        },
-        "loc": {
-          "end": {
-            "column": 9,
-            "line": 1,
-            "offset": 8,
-          },
-          "start": {
-            "column": 1,
-            "line": 1,
-            "offset": 0,
-          },
-        },
-        "start": 0,
-        "type": 6,
-      },
-    ],
-    "loc": {
-      "end": {
-        "column": 9,
-        "line": 1,
-        "offset": 8,
-      },
-      "start": {
-        "column": 1,
-        "line": 1,
-        "offset": 0,
-      },
-    },
-    "start": 0,
-    "type": 2,
-  },
-  "end": 8,
-  "loc": {
-    "end": {
-      "column": 9,
-      "line": 1,
-      "offset": 8,
-    },
-    "source": "@:apples",
-    "start": {
-      "column": 1,
-      "line": 1,
-      "offset": 0,
-    },
-  },
-  "start": 0,
-  "type": 0,
-}
-`;
-
-exports[`parse > linked error 1`] = `
-{
-  "body": {
-    "end": 5,
-    "items": [
-      {
-        "end": 3,
-        "key": {
-          "end": 3,
-          "loc": {
-            "end": {
-              "column": 4,
-              "line": 1,
-              "offset": 3,
-            },
-            "start": {
-              "column": 4,
-              "line": 1,
-              "offset": 3,
-            },
-          },
-          "start": 3,
-          "type": 7,
-          "value": "",
-        },
-        "loc": {
-          "end": {
-            "column": 4,
-            "line": 1,
-            "offset": 3,
-          },
-          "start": {
-            "column": 1,
-            "line": 1,
-            "offset": 0,
-          },
-        },
-        "modifier": {
-          "end": 1,
-          "loc": {
-            "end": {
-              "column": 2,
-              "line": 1,
-              "offset": 1,
-            },
-            "start": {
-              "column": 2,
-              "line": 1,
-              "offset": 1,
-            },
-          },
-          "start": 1,
-          "type": 8,
-          "value": "",
-        },
-        "start": 0,
-        "type": 6,
-      },
-      {
-        "end": 5,
-        "loc": {
-          "end": {
-            "column": 6,
-            "line": 1,
-            "offset": 5,
-          },
-          "start": {
-            "column": 4,
-            "line": 1,
-            "offset": 3,
-          },
-        },
-        "start": 3,
-        "type": 3,
-        "value": " a",
-      },
-    ],
-    "loc": {
-      "end": {
-        "column": 6,
-        "line": 1,
-        "offset": 5,
-      },
-      "start": {
-        "column": 1,
-        "line": 1,
-        "offset": 0,
-      },
-    },
-    "start": 0,
-    "type": 2,
-  },
-  "end": 5,
-  "loc": {
-    "end": {
-      "column": 6,
-      "line": 1,
-      "offset": 5,
-    },
-    "source": "@.: a",
-    "start": {
-      "column": 1,
-      "line": 1,
-      "offset": 0,
-    },
-  },
-  "start": 0,
-  "type": 0,
-}
-`;
-
-exports[`parse > linked error errors 1`] = `
-[
-  {
-    "code": 12,
-    "domain": "parser",
-    "location": {
-      "end": {
-        "column": 4,
-        "line": 1,
-        "offset": 3,
-      },
-      "start": {
-        "column": 2,
-        "line": 1,
-        "offset": 1,
-      },
-    },
-    "message": "Unexpected empty linked modifier",
-  },
-  {
-    "code": 10,
-    "domain": "tokenizer",
-    "location": {
-      "end": {
-        "column": 4,
-        "line": 1,
-        "offset": 3,
-      },
-      "start": {
-        "column": 4,
-        "line": 1,
-        "offset": 3,
-      },
-    },
-    "message": "Invalid linked format",
-  },
-  {
-    "code": 13,
-    "domain": "parser",
-    "location": {
-      "end": {
-        "column": 6,
-        "line": 1,
-        "offset": 5,
-      },
-      "start": {
-        "column": 3,
-        "line": 1,
-        "offset": 2,
-      },
-    },
-    "message": "Unexpected empty linked key",
-  },
-]
-`;
-
-exports[`parse > linked key paren error 1`] = `
-{
-  "body": {
-    "end": 7,
-    "items": [
-      {
-        "end": 2,
-        "key": {
-          "end": 2,
-          "loc": {
-            "end": {
-              "column": 3,
-              "line": 1,
-              "offset": 2,
-            },
-            "start": {
-              "column": 3,
-              "line": 1,
-              "offset": 2,
-            },
-          },
-          "start": 2,
-          "type": 7,
-          "value": "",
-        },
-        "loc": {
-          "end": {
-            "column": 3,
-            "line": 1,
-            "offset": 2,
-          },
-          "start": {
-            "column": 1,
-            "line": 1,
-            "offset": 0,
-          },
-        },
-        "start": 0,
-        "type": 6,
-      },
-      {
-        "end": 7,
-        "loc": {
-          "end": {
-            "column": 8,
-            "line": 1,
-            "offset": 7,
-          },
-          "start": {
-            "column": 3,
-            "line": 1,
-            "offset": 2,
-          },
-        },
-        "start": 2,
-        "type": 3,
-        "value": "(foo)",
-      },
-    ],
-    "loc": {
-      "end": {
-        "column": 8,
-        "line": 1,
-        "offset": 7,
-      },
-      "start": {
-        "column": 1,
-        "line": 1,
-        "offset": 0,
-      },
-    },
-    "start": 0,
-    "type": 2,
-  },
-  "end": 7,
-  "loc": {
-    "end": {
-      "column": 8,
-      "line": 1,
-      "offset": 7,
-    },
-    "source": "@:(foo)",
-    "start": {
-      "column": 1,
-      "line": 1,
-      "offset": 0,
-    },
-  },
-  "start": 0,
-  "type": 0,
-}
-`;
-
-exports[`parse > linked key paren error errors 1`] = `
-[
-  {
-    "code": 13,
-    "domain": "parser",
-    "location": {
-      "end": {
-        "column": 8,
-        "line": 1,
-        "offset": 7,
-      },
-      "start": {
-        "column": 2,
-        "line": 1,
-        "offset": 1,
-      },
-    },
-    "message": "Unexpected empty linked key",
-  },
-]
-`;
-
-exports[`parse > linked key paren error with modifier 1`] = `
-{
-  "body": {
-    "end": 13,
-    "items": [
-      {
-        "end": 8,
-        "key": {
-          "end": 8,
-          "loc": {
-            "end": {
-              "column": 9,
-              "line": 1,
-              "offset": 8,
-            },
-            "start": {
-              "column": 9,
-              "line": 1,
-              "offset": 8,
-            },
-          },
-          "start": 8,
-          "type": 7,
-          "value": "",
-        },
-        "loc": {
-          "end": {
-            "column": 9,
-            "line": 1,
-            "offset": 8,
-          },
-          "start": {
-            "column": 1,
-            "line": 1,
-            "offset": 0,
-          },
-        },
-        "modifier": {
-          "end": 7,
-          "loc": {
-            "end": {
-              "column": 8,
-              "line": 1,
-              "offset": 7,
-            },
-            "start": {
-              "column": 2,
-              "line": 1,
-              "offset": 1,
-            },
-          },
-          "start": 1,
-          "type": 8,
-          "value": "lower",
-        },
-        "start": 0,
-        "type": 6,
-      },
-      {
-        "end": 13,
-        "loc": {
-          "end": {
-            "column": 14,
-            "line": 1,
-            "offset": 13,
-          },
-          "start": {
-            "column": 9,
-            "line": 1,
-            "offset": 8,
-          },
-        },
-        "start": 8,
-        "type": 3,
-        "value": "(foo)",
-      },
-    ],
-    "loc": {
-      "end": {
-        "column": 14,
-        "line": 1,
-        "offset": 13,
-      },
-      "start": {
-        "column": 1,
-        "line": 1,
-        "offset": 0,
-      },
-    },
-    "start": 0,
-    "type": 2,
-  },
-  "end": 13,
-  "loc": {
-    "end": {
-      "column": 14,
-      "line": 1,
-      "offset": 13,
-    },
-    "source": "@.lower:(foo)",
-    "start": {
-      "column": 1,
-      "line": 1,
-      "offset": 0,
-    },
-  },
-  "start": 0,
-  "type": 0,
-}
-`;
-
-exports[`parse > linked key paren error with modifier errors 1`] = `
-[
-  {
-    "code": 13,
-    "domain": "parser",
-    "location": {
-      "end": {
-        "column": 14,
-        "line": 1,
-        "offset": 13,
-      },
-      "start": {
-        "column": 8,
-        "line": 1,
-        "offset": 7,
-      },
-    },
-    "message": "Unexpected empty linked key",
-  },
-]
-`;
-
-exports[`parse > linked modifier error 1`] = `
+exports[`parse > linked modifier error: "@.:foo" 1`] = `
 {
   "body": {
     "end": 6,
@@ -959,7 +884,7 @@ exports[`parse > linked modifier error 1`] = `
 }
 `;
 
-exports[`parse > linked modifier error errors 1`] = `
+exports[`parse > linked modifier error: "@.:foo" errors 1`] = `
 [
   {
     "code": 12,
@@ -981,7 +906,7 @@ exports[`parse > linked modifier error errors 1`] = `
 ]
 `;
 
-exports[`parse > linked modifier list 1`] = `
+exports[`parse > linked modifier list: "@.lower:{0}" 1`] = `
 {
   "body": {
     "end": 11,
@@ -1074,7 +999,82 @@ exports[`parse > linked modifier list 1`] = `
 }
 `;
 
-exports[`parse > list 1`] = `
+exports[`parse > linked: "@:apples" 1`] = `
+{
+  "body": {
+    "end": 8,
+    "items": [
+      {
+        "end": 8,
+        "key": {
+          "end": 8,
+          "loc": {
+            "end": {
+              "column": 9,
+              "line": 1,
+              "offset": 8,
+            },
+            "start": {
+              "column": 3,
+              "line": 1,
+              "offset": 2,
+            },
+          },
+          "start": 2,
+          "type": 7,
+          "value": "apples",
+        },
+        "loc": {
+          "end": {
+            "column": 9,
+            "line": 1,
+            "offset": 8,
+          },
+          "start": {
+            "column": 1,
+            "line": 1,
+            "offset": 0,
+          },
+        },
+        "start": 0,
+        "type": 6,
+      },
+    ],
+    "loc": {
+      "end": {
+        "column": 9,
+        "line": 1,
+        "offset": 8,
+      },
+      "start": {
+        "column": 1,
+        "line": 1,
+        "offset": 0,
+      },
+    },
+    "start": 0,
+    "type": 2,
+  },
+  "end": 8,
+  "loc": {
+    "end": {
+      "column": 9,
+      "line": 1,
+      "offset": 8,
+    },
+    "source": "@:apples",
+    "start": {
+      "column": 1,
+      "line": 1,
+      "offset": 0,
+    },
+  },
+  "start": 0,
+  "type": 0,
+}
+`;
+
+exports[`parse > list: "hello {0} !" 1`] = `
 {
   "body": {
     "end": 11,
@@ -1168,7 +1168,7 @@ exports[`parse > list 1`] = `
 }
 `;
 
-exports[`parse > literal 1`] = `
+exports[`parse > literal: "hello {'kazupon'} !" 1`] = `
 {
   "body": {
     "end": 19,
@@ -1262,7 +1262,7 @@ exports[`parse > literal 1`] = `
 }
 `;
 
-exports[`parse > message 1`] = `
+exports[`parse > message: "hello world" 1`] = `
 {
   "body": {
     "end": 11,
@@ -1320,101 +1320,7 @@ exports[`parse > message 1`] = `
 }
 `;
 
-exports[`parse > named 1`] = `
-{
-  "body": {
-    "end": 14,
-    "items": [
-      {
-        "end": 6,
-        "loc": {
-          "end": {
-            "column": 7,
-            "line": 1,
-            "offset": 6,
-          },
-          "start": {
-            "column": 1,
-            "line": 1,
-            "offset": 0,
-          },
-        },
-        "start": 0,
-        "type": 3,
-        "value": "hello ",
-      },
-      {
-        "end": 12,
-        "key": "name",
-        "loc": {
-          "end": {
-            "column": 13,
-            "line": 1,
-            "offset": 12,
-          },
-          "start": {
-            "column": 7,
-            "line": 1,
-            "offset": 6,
-          },
-        },
-        "start": 6,
-        "type": 4,
-      },
-      {
-        "end": 14,
-        "loc": {
-          "end": {
-            "column": 15,
-            "line": 1,
-            "offset": 14,
-          },
-          "start": {
-            "column": 13,
-            "line": 1,
-            "offset": 12,
-          },
-        },
-        "start": 12,
-        "type": 3,
-        "value": " !",
-      },
-    ],
-    "loc": {
-      "end": {
-        "column": 15,
-        "line": 1,
-        "offset": 14,
-      },
-      "start": {
-        "column": 1,
-        "line": 1,
-        "offset": 0,
-      },
-    },
-    "start": 0,
-    "type": 2,
-  },
-  "end": 14,
-  "loc": {
-    "end": {
-      "column": 15,
-      "line": 1,
-      "offset": 14,
-    },
-    "source": "hello {name} !",
-    "start": {
-      "column": 1,
-      "line": 1,
-      "offset": 0,
-    },
-  },
-  "start": 0,
-  "type": 0,
-}
-`;
-
-exports[`parse > named 2`] = `
+exports[`parse > named: "hello {_name} !" 1`] = `
 {
   "body": {
     "end": 15,
@@ -1508,37 +1414,18 @@ exports[`parse > named 2`] = `
 }
 `;
 
-exports[`parse > plural 1`] = `
+exports[`parse > named: "hello {name} !" 1`] = `
 {
   "body": {
-    "cases": [
+    "end": 14,
+    "items": [
       {
-        "end": 0,
-        "items": [
-          {
-            "end": 9,
-            "loc": {
-              "end": {
-                "column": 10,
-                "line": 1,
-                "offset": 9,
-              },
-              "start": {
-                "column": 1,
-                "line": 1,
-                "offset": 0,
-              },
-            },
-            "start": 0,
-            "type": 3,
-            "value": "no apples",
-          },
-        ],
+        "end": 6,
         "loc": {
           "end": {
-            "column": 10,
+            "column": 7,
             "line": 1,
-            "offset": 9,
+            "offset": 6,
           },
           "start": {
             "column": 1,
@@ -1547,35 +1434,34 @@ exports[`parse > plural 1`] = `
           },
         },
         "start": 0,
-        "type": 2,
+        "type": 3,
+        "value": "hello ",
       },
       {
         "end": 12,
-        "items": [
-          {
-            "end": 21,
-            "loc": {
-              "end": {
-                "column": 22,
-                "line": 1,
-                "offset": 21,
-              },
-              "start": {
-                "column": 13,
-                "line": 1,
-                "offset": 12,
-              },
-            },
-            "start": 12,
-            "type": 3,
-            "value": "one apple",
-          },
-        ],
+        "key": "name",
         "loc": {
           "end": {
-            "column": 22,
+            "column": 13,
             "line": 1,
-            "offset": 21,
+            "offset": 12,
+          },
+          "start": {
+            "column": 7,
+            "line": 1,
+            "offset": 6,
+          },
+        },
+        "start": 6,
+        "type": 4,
+      },
+      {
+        "end": 14,
+        "loc": {
+          "end": {
+            "column": 15,
+            "line": 1,
+            "offset": 14,
           },
           "start": {
             "column": 13,
@@ -1584,52 +1470,15 @@ exports[`parse > plural 1`] = `
           },
         },
         "start": 12,
-        "type": 2,
-      },
-      {
-        "end": 43,
-        "items": [
-          {
-            "end": 43,
-            "loc": {
-              "end": {
-                "column": 44,
-                "line": 1,
-                "offset": 43,
-              },
-              "start": {
-                "column": 27,
-                "line": 1,
-                "offset": 26,
-              },
-            },
-            "start": 26,
-            "type": 3,
-            "value": "too much apples  ",
-          },
-        ],
-        "loc": {
-          "end": {
-            "column": 44,
-            "line": 1,
-            "offset": 43,
-          },
-          "start": {
-            "column": 27,
-            "line": 1,
-            "offset": 26,
-          },
-        },
-        "start": 26,
-        "type": 2,
+        "type": 3,
+        "value": " !",
       },
     ],
-    "end": 43,
     "loc": {
       "end": {
-        "column": 44,
+        "column": 15,
         "line": 1,
-        "offset": 43,
+        "offset": 14,
       },
       "start": {
         "column": 1,
@@ -1638,16 +1487,16 @@ exports[`parse > plural 1`] = `
       },
     },
     "start": 0,
-    "type": 1,
+    "type": 2,
   },
-  "end": 43,
+  "end": 14,
   "loc": {
     "end": {
-      "column": 44,
+      "column": 15,
       "line": 1,
-      "offset": 43,
+      "offset": 14,
     },
-    "source": "no apples | one apple  |  too much apples  ",
+    "source": "hello {name} !",
     "start": {
       "column": 1,
       "line": 1,
@@ -1659,7 +1508,7 @@ exports[`parse > plural 1`] = `
 }
 `;
 
-exports[`parse > plural complex 1`] = `
+exports[`parse > plural complex: "@.lower:{'no apples'} | {1} apple | {count}　apples" 1`] = `
 {
   "body": {
     "cases": [
@@ -1881,7 +1730,158 @@ exports[`parse > plural complex 1`] = `
 }
 `;
 
-exports[`parser options > location disable > EOF in linked modifier 1`] = `
+exports[`parse > plural: "no apples | one apple  |  too much apples  " 1`] = `
+{
+  "body": {
+    "cases": [
+      {
+        "end": 0,
+        "items": [
+          {
+            "end": 9,
+            "loc": {
+              "end": {
+                "column": 10,
+                "line": 1,
+                "offset": 9,
+              },
+              "start": {
+                "column": 1,
+                "line": 1,
+                "offset": 0,
+              },
+            },
+            "start": 0,
+            "type": 3,
+            "value": "no apples",
+          },
+        ],
+        "loc": {
+          "end": {
+            "column": 10,
+            "line": 1,
+            "offset": 9,
+          },
+          "start": {
+            "column": 1,
+            "line": 1,
+            "offset": 0,
+          },
+        },
+        "start": 0,
+        "type": 2,
+      },
+      {
+        "end": 12,
+        "items": [
+          {
+            "end": 21,
+            "loc": {
+              "end": {
+                "column": 22,
+                "line": 1,
+                "offset": 21,
+              },
+              "start": {
+                "column": 13,
+                "line": 1,
+                "offset": 12,
+              },
+            },
+            "start": 12,
+            "type": 3,
+            "value": "one apple",
+          },
+        ],
+        "loc": {
+          "end": {
+            "column": 22,
+            "line": 1,
+            "offset": 21,
+          },
+          "start": {
+            "column": 13,
+            "line": 1,
+            "offset": 12,
+          },
+        },
+        "start": 12,
+        "type": 2,
+      },
+      {
+        "end": 43,
+        "items": [
+          {
+            "end": 43,
+            "loc": {
+              "end": {
+                "column": 44,
+                "line": 1,
+                "offset": 43,
+              },
+              "start": {
+                "column": 27,
+                "line": 1,
+                "offset": 26,
+              },
+            },
+            "start": 26,
+            "type": 3,
+            "value": "too much apples  ",
+          },
+        ],
+        "loc": {
+          "end": {
+            "column": 44,
+            "line": 1,
+            "offset": 43,
+          },
+          "start": {
+            "column": 27,
+            "line": 1,
+            "offset": 26,
+          },
+        },
+        "start": 26,
+        "type": 2,
+      },
+    ],
+    "end": 43,
+    "loc": {
+      "end": {
+        "column": 44,
+        "line": 1,
+        "offset": 43,
+      },
+      "start": {
+        "column": 1,
+        "line": 1,
+        "offset": 0,
+      },
+    },
+    "start": 0,
+    "type": 1,
+  },
+  "end": 43,
+  "loc": {
+    "end": {
+      "column": 44,
+      "line": 1,
+      "offset": 43,
+    },
+    "source": "no apples | one apple  |  too much apples  ",
+    "start": {
+      "column": 1,
+      "line": 1,
+      "offset": 0,
+    },
+  },
+  "start": 0,
+  "type": 0,
+}
+`;
+
+exports[`parser options > location disable > EOF in linked modifier: "@." 1`] = `
 {
   "body": {
     "items": [
@@ -1903,7 +1903,7 @@ exports[`parser options > location disable > EOF in linked modifier 1`] = `
 }
 `;
 
-exports[`parser options > location disable > EOF in linked modifier errors 1`] = `
+exports[`parser options > location disable > EOF in linked modifier: "@." errors 1`] = `
 [
   {
     "code": 12,
@@ -1923,7 +1923,7 @@ exports[`parser options > location disable > EOF in linked modifier errors 1`] =
 ]
 `;
 
-exports[`parser options > location disable > empty plural 1`] = `
+exports[`parser options > location disable > empty plural: "|" 1`] = `
 {
   "body": {
     "cases": [
@@ -1942,7 +1942,7 @@ exports[`parser options > location disable > empty plural 1`] = `
 }
 `;
 
-exports[`parser options > location disable > empty plural errors 1`] = `
+exports[`parser options > location disable > empty plural: "|" errors 1`] = `
 [
   {
     "code": 11,
@@ -1952,7 +1952,121 @@ exports[`parser options > location disable > empty plural errors 1`] = `
 ]
 `;
 
-exports[`parser options > location disable > foo 1`] = `
+exports[`parser options > location disable > linked error: "@.: a" 1`] = `
+{
+  "body": {
+    "items": [
+      {
+        "key": {
+          "type": 7,
+          "value": "",
+        },
+        "modifier": {
+          "type": 8,
+          "value": "",
+        },
+        "type": 6,
+      },
+      {
+        "type": 3,
+        "value": " a",
+      },
+    ],
+    "type": 2,
+  },
+  "type": 0,
+}
+`;
+
+exports[`parser options > location disable > linked error: "@.: a" errors 1`] = `
+[
+  {
+    "code": 12,
+    "domain": "parser",
+    "message": "Unexpected empty linked modifier",
+  },
+  {
+    "code": 10,
+    "domain": "tokenizer",
+    "message": "Invalid linked format",
+  },
+  {
+    "code": 13,
+    "domain": "parser",
+    "message": "Unexpected empty linked key",
+  },
+]
+`;
+
+exports[`parser options > location disable > linked key paren error with modifier: "@.lower:(foo)" 1`] = `
+{
+  "body": {
+    "items": [
+      {
+        "key": {
+          "type": 7,
+          "value": "",
+        },
+        "modifier": {
+          "type": 8,
+          "value": "lower",
+        },
+        "type": 6,
+      },
+      {
+        "type": 3,
+        "value": "(foo)",
+      },
+    ],
+    "type": 2,
+  },
+  "type": 0,
+}
+`;
+
+exports[`parser options > location disable > linked key paren error with modifier: "@.lower:(foo)" errors 1`] = `
+[
+  {
+    "code": 13,
+    "domain": "parser",
+    "message": "Unexpected empty linked key",
+  },
+]
+`;
+
+exports[`parser options > location disable > linked key paren error: "@:(foo)" 1`] = `
+{
+  "body": {
+    "items": [
+      {
+        "key": {
+          "type": 7,
+          "value": "",
+        },
+        "type": 6,
+      },
+      {
+        "type": 3,
+        "value": "(foo)",
+      },
+    ],
+    "type": 2,
+  },
+  "type": 0,
+}
+`;
+
+exports[`parser options > location disable > linked key paren error: "@:(foo)" errors 1`] = `
+[
+  {
+    "code": 13,
+    "domain": "parser",
+    "message": "Unexpected empty linked key",
+  },
+]
+`;
+
+exports[`parser options > location disable > linked key with named and modifier: "hi @._upper:{_name} !" 1`] = `
 {
   "body": {
     "items": [
@@ -1982,139 +2096,7 @@ exports[`parser options > location disable > foo 1`] = `
 }
 `;
 
-exports[`parser options > location disable > linked 1`] = `
-{
-  "body": {
-    "items": [
-      {
-        "key": {
-          "type": 7,
-          "value": "apples",
-        },
-        "type": 6,
-      },
-    ],
-    "type": 2,
-  },
-  "type": 0,
-}
-`;
-
-exports[`parser options > location disable > linked error 1`] = `
-{
-  "body": {
-    "items": [
-      {
-        "key": {
-          "type": 7,
-          "value": "",
-        },
-        "modifier": {
-          "type": 8,
-          "value": "",
-        },
-        "type": 6,
-      },
-      {
-        "type": 3,
-        "value": " a",
-      },
-    ],
-    "type": 2,
-  },
-  "type": 0,
-}
-`;
-
-exports[`parser options > location disable > linked error errors 1`] = `
-[
-  {
-    "code": 12,
-    "domain": "parser",
-    "message": "Unexpected empty linked modifier",
-  },
-  {
-    "code": 10,
-    "domain": "tokenizer",
-    "message": "Invalid linked format",
-  },
-  {
-    "code": 13,
-    "domain": "parser",
-    "message": "Unexpected empty linked key",
-  },
-]
-`;
-
-exports[`parser options > location disable > linked key paren error 1`] = `
-{
-  "body": {
-    "items": [
-      {
-        "key": {
-          "type": 7,
-          "value": "",
-        },
-        "type": 6,
-      },
-      {
-        "type": 3,
-        "value": "(foo)",
-      },
-    ],
-    "type": 2,
-  },
-  "type": 0,
-}
-`;
-
-exports[`parser options > location disable > linked key paren error errors 1`] = `
-[
-  {
-    "code": 13,
-    "domain": "parser",
-    "message": "Unexpected empty linked key",
-  },
-]
-`;
-
-exports[`parser options > location disable > linked key paren error with modifier 1`] = `
-{
-  "body": {
-    "items": [
-      {
-        "key": {
-          "type": 7,
-          "value": "",
-        },
-        "modifier": {
-          "type": 8,
-          "value": "lower",
-        },
-        "type": 6,
-      },
-      {
-        "type": 3,
-        "value": "(foo)",
-      },
-    ],
-    "type": 2,
-  },
-  "type": 0,
-}
-`;
-
-exports[`parser options > location disable > linked key paren error with modifier errors 1`] = `
-[
-  {
-    "code": 13,
-    "domain": "parser",
-    "message": "Unexpected empty linked key",
-  },
-]
-`;
-
-exports[`parser options > location disable > linked modifier error 1`] = `
+exports[`parser options > location disable > linked modifier error: "@.:foo" 1`] = `
 {
   "body": {
     "items": [
@@ -2136,7 +2118,7 @@ exports[`parser options > location disable > linked modifier error 1`] = `
 }
 `;
 
-exports[`parser options > location disable > linked modifier error errors 1`] = `
+exports[`parser options > location disable > linked modifier error: "@.:foo" errors 1`] = `
 [
   {
     "code": 12,
@@ -2146,7 +2128,7 @@ exports[`parser options > location disable > linked modifier error errors 1`] = 
 ]
 `;
 
-exports[`parser options > location disable > linked modifier list 1`] = `
+exports[`parser options > location disable > linked modifier list: "@.lower:{0}" 1`] = `
 {
   "body": {
     "items": [
@@ -2168,7 +2150,25 @@ exports[`parser options > location disable > linked modifier list 1`] = `
 }
 `;
 
-exports[`parser options > location disable > list 1`] = `
+exports[`parser options > location disable > linked: "@:apples" 1`] = `
+{
+  "body": {
+    "items": [
+      {
+        "key": {
+          "type": 7,
+          "value": "apples",
+        },
+        "type": 6,
+      },
+    ],
+    "type": 2,
+  },
+  "type": 0,
+}
+`;
+
+exports[`parser options > location disable > list: "hello {0} !" 1`] = `
 {
   "body": {
     "items": [
@@ -2191,7 +2191,7 @@ exports[`parser options > location disable > list 1`] = `
 }
 `;
 
-exports[`parser options > location disable > literal 1`] = `
+exports[`parser options > location disable > literal: "hello {'kazupon'} !" 1`] = `
 {
   "body": {
     "items": [
@@ -2214,7 +2214,7 @@ exports[`parser options > location disable > literal 1`] = `
 }
 `;
 
-exports[`parser options > location disable > message 1`] = `
+exports[`parser options > location disable > message: "hello world" 1`] = `
 {
   "body": {
     "items": [
@@ -2229,30 +2229,7 @@ exports[`parser options > location disable > message 1`] = `
 }
 `;
 
-exports[`parser options > location disable > named 1`] = `
-{
-  "body": {
-    "items": [
-      {
-        "type": 3,
-        "value": "hello ",
-      },
-      {
-        "key": "name",
-        "type": 4,
-      },
-      {
-        "type": 3,
-        "value": " !",
-      },
-    ],
-    "type": 2,
-  },
-  "type": 0,
-}
-`;
-
-exports[`parser options > location disable > named 2`] = `
+exports[`parser options > location disable > named: "hello {_name} !" 1`] = `
 {
   "body": {
     "items": [
@@ -2275,45 +2252,30 @@ exports[`parser options > location disable > named 2`] = `
 }
 `;
 
-exports[`parser options > location disable > plural 1`] = `
+exports[`parser options > location disable > named: "hello {name} !" 1`] = `
 {
   "body": {
-    "cases": [
+    "items": [
       {
-        "items": [
-          {
-            "type": 3,
-            "value": "no apples",
-          },
-        ],
-        "type": 2,
+        "type": 3,
+        "value": "hello ",
       },
       {
-        "items": [
-          {
-            "type": 3,
-            "value": "one apple",
-          },
-        ],
-        "type": 2,
+        "key": "name",
+        "type": 4,
       },
       {
-        "items": [
-          {
-            "type": 3,
-            "value": "too much apples  ",
-          },
-        ],
-        "type": 2,
+        "type": 3,
+        "value": " !",
       },
     ],
-    "type": 1,
+    "type": 2,
   },
   "type": 0,
 }
 `;
 
-exports[`parser options > location disable > plural complex 1`] = `
+exports[`parser options > location disable > plural complex: "@.lower:{'no apples'} | {1} apple | {count}　apples" 1`] = `
 {
   "body": {
     "cases": [
@@ -2355,6 +2317,44 @@ exports[`parser options > location disable > plural complex 1`] = `
           {
             "type": 3,
             "value": "　apples",
+          },
+        ],
+        "type": 2,
+      },
+    ],
+    "type": 1,
+  },
+  "type": 0,
+}
+`;
+
+exports[`parser options > location disable > plural: "no apples | one apple  |  too much apples  " 1`] = `
+{
+  "body": {
+    "cases": [
+      {
+        "items": [
+          {
+            "type": 3,
+            "value": "no apples",
+          },
+        ],
+        "type": 2,
+      },
+      {
+        "items": [
+          {
+            "type": 3,
+            "value": "one apple",
+          },
+        ],
+        "type": 2,
+      },
+      {
+        "items": [
+          {
+            "type": 3,
+            "value": "too much apples  ",
           },
         ],
         "type": 2,

@@ -19,7 +19,7 @@ const cases = [
   { code: `@.: a`, name: 'linked error' },
   { code: `@.:foo`, name: 'linked modifier error' },
   { code: `@:(foo)`, name: 'linked key paren error' },
-  { code: `hi @._upper:{_name} !`, name: 'foo' },
+  { code: `hi @._upper:{_name} !`, name: 'linked key with named and modifier' },
   { code: `@.lower:(foo)`, name: 'linked key paren error with modifier' },
   { code: `@.`, name: 'EOF in linked modifier' },
   { code: `|`, name: 'empty plural' }
@@ -35,10 +35,11 @@ test('parse', () => {
     }
     const parser = createParser(options)
     const ast = parser.parse(code)
-    expect(ast).toMatchSnapshot(name || JSON.stringify(code))
+    const title = `${name}: ${JSON.stringify(code)}`
+    expect(ast).toMatchSnapshot(title)
 
     if (errors.length) {
-      expect(errors).toMatchSnapshot(`${name || JSON.stringify(code)} errors`)
+      expect(errors).toMatchSnapshot(`${title} errors`)
     }
   }
 })
@@ -60,10 +61,12 @@ describe('parser options', () => {
         expect(node.end).toBeUndefined()
         expect(node.loc).toBeUndefined()
       })
-      expect(ast).toMatchSnapshot(name || JSON.stringify(code))
+
+      const title = `${name}: ${JSON.stringify(code)}`
+      expect(ast).toMatchSnapshot(title)
 
       if (errors.length) {
-        expect(errors).toMatchSnapshot(`${name || JSON.stringify(code)} errors`)
+        expect(errors).toMatchSnapshot(`${title} errors`)
         for (const error of errors) {
           expect(error.location).toBeUndefined()
         }
