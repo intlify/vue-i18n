@@ -18,38 +18,30 @@ async function main() {
   console.log(`simple pattern on ${len} resources:`)
   console.log()
 
-  let i18n
+  const ctx = createCoreContext({
+    locale: 'en',
+    messages: {
+      en: data
+    }
+  })
+  const i18n = createI18n({
+    legacy: false,
+    locale: 'en',
+    messages: {
+      en: data
+    }
+  })
 
   new Suite('complex pattern')
     .add(`resolve time with core`, () => {
-      const ctx = createCoreContext({
-        locale: 'en',
-        messages: {
-          en: data
-        }
-      })
-      for (const [key] of Object.entries(data)) {
-        translate(ctx, key)
-      }
+      translate(ctx, 'hello500')
     })
     .add(`resolve time on composition`, () => {
       clearCompileCache()
-
-      i18n = createI18n({
-        legacy: false,
-        locale: 'en',
-        messages: {
-          en: data
-        }
-      })
-      for (const [key] of Object.entries(data)) {
-        i18n.global.t(key)
-      }
+      i18n.global.t('hello500')
     })
     .add(`resolve time on composition with compile cache`, () => {
-      for (const [key] of Object.entries(data)) {
-        i18n.global.t(key)
-      }
+      i18n.global.t('hello500')
     })
     .on('error', event => {
       console.log(String(event.target))
