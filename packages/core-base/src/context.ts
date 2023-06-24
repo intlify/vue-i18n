@@ -28,6 +28,7 @@ import type {
   PluralizationRules,
   MessageProcessor,
   MessageFunction,
+  MessageFunctionReturn,
   MessageType
 } from './runtime'
 import type {
@@ -95,9 +96,9 @@ export type CoreMissingHandler<Message = string> = (
 
 /** @VueI18nGeneral */
 export type PostTranslationHandler<Message = string> = (
-  translated: MessageType<Message>,
+  translated: MessageFunctionReturn<Message>,
   key: string
-) => MessageType<Message>
+) => MessageFunctionReturn<Message>
 
 export type MessageCompiler<Message = string> = (
   source: string,

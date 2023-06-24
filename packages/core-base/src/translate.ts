@@ -37,6 +37,7 @@ import type {
   FallbackLocale,
   NamedValue,
   MessageFunction,
+  MessageFunctionReturn,
   MessageFunctionInternal,
   MessageContextOptions,
   MessageType,
@@ -167,7 +168,7 @@ export function translate<
 >(
   context: Context,
   key: Key | ResourceKeys | number | MessageFunction<Message>
-): MessageType<Message> | number
+): MessageFunctionReturn<Message> | number
 
 export function translate<
   Context extends CoreContext<Message, {}, {}, {}>,
@@ -180,7 +181,7 @@ export function translate<
   context: Context,
   key: Key | ResourceKeys | number | MessageFunction<Message>,
   plural: number
-): MessageType<Message> | number
+): MessageFunctionReturn<Message> | number
 
 export function translate<
   Context extends CoreContext<Message, {}, {}, {}>,
@@ -194,7 +195,7 @@ export function translate<
   key: Key | ResourceKeys | number | MessageFunction<Message>,
   plural: number,
   options: TranslateOptions<Context['locale']>
-): MessageType<Message> | number
+): MessageFunctionReturn<Message> | number
 
 export function translate<
   Context extends CoreContext<Message, {}, {}, {}>,
@@ -207,7 +208,7 @@ export function translate<
   context: Context,
   key: Key | ResourceKeys | number | MessageFunction<Message>,
   defaultMsg: string
-): MessageType<Message> | number
+): MessageFunctionReturn<Message> | number
 
 export function translate<
   Context extends CoreContext<Message, {}, {}, {}>,
@@ -221,7 +222,7 @@ export function translate<
   key: Key | ResourceKeys | number | MessageFunction<Message>,
   defaultMsg: string,
   options: TranslateOptions<Context['locale']>
-): MessageType<Message> | number
+): MessageFunctionReturn<Message> | number
 
 export function translate<
   Context extends CoreContext<Message, {}, {}, {}>,
@@ -234,7 +235,7 @@ export function translate<
   context: Context,
   key: Key | ResourceKeys | number | MessageFunction<Message>,
   list: unknown[]
-): MessageType<Message> | number
+): MessageFunctionReturn<Message> | number
 
 export function translate<
   Context extends CoreContext<Message, {}, {}, {}>,
@@ -248,7 +249,7 @@ export function translate<
   key: Key | ResourceKeys | number | MessageFunction<Message>,
   list: unknown[],
   plural: number
-): MessageType<Message> | number
+): MessageFunctionReturn<Message> | number
 
 export function translate<
   Context extends CoreContext<Message, {}, {}, {}>,
@@ -262,7 +263,7 @@ export function translate<
   key: Key | ResourceKeys | number | MessageFunction<Message>,
   list: unknown[],
   defaultMsg: string
-): MessageType<Message> | number
+): MessageFunctionReturn<Message> | number
 
 export function translate<
   Context extends CoreContext<Message, {}, {}, {}>,
@@ -276,7 +277,7 @@ export function translate<
   key: Key | ResourceKeys | number | MessageFunction<Message>,
   list: unknown[],
   options: TranslateOptions<Context['locale']>
-): MessageType<Message> | number
+): MessageFunctionReturn<Message> | number
 
 export function translate<
   Context extends CoreContext<Message, {}, {}, {}>,
@@ -289,7 +290,7 @@ export function translate<
   context: Context,
   key: Key | ResourceKeys | number | MessageFunction<Message>,
   named: NamedValue
-): MessageType<Message> | number
+): MessageFunctionReturn<Message> | number
 
 export function translate<
   Context extends CoreContext<Message, {}, {}, {}>,
@@ -303,7 +304,7 @@ export function translate<
   key: Key | ResourceKeys | number | MessageFunction<Message>,
   named: NamedValue,
   plural: number
-): MessageType<Message> | number
+): MessageFunctionReturn<Message> | number
 
 export function translate<
   Context extends CoreContext<Message, {}, {}, {}>,
@@ -317,7 +318,7 @@ export function translate<
   key: Key | ResourceKeys | number | MessageFunction<Message>,
   named: NamedValue,
   defaultMsg: string
-): MessageType<Message> | number
+): MessageFunctionReturn<Message> | number
 
 export function translate<
   Context extends CoreContext<Message, {}, {}, {}>,
@@ -331,13 +332,16 @@ export function translate<
   key: Key | ResourceKeys | number | MessageFunction<Message>,
   named: NamedValue,
   options: TranslateOptions<Context['locale']>
-): MessageType<Message> | number
+): MessageFunctionReturn<Message> | number
 
 // implementation of `translate` function
 export function translate<
   Context extends CoreContext<Message, {}, {}, {}>,
   Message = string
->(context: Context, ...args: unknown[]): MessageType<Message> | number {
+>(
+  context: Context,
+  ...args: unknown[]
+): MessageFunctionReturn<Message> | number {
   const {
     fallbackFormat,
     postTranslation,
@@ -422,7 +426,7 @@ export function translate<
     (!(isString(format) || isMessageFunction<Message>(format)) ||
       !isString(targetLocale))
   ) {
-    return unresolving ? NOT_REOSLVED : (key as MessageType<Message>)
+    return unresolving ? NOT_REOSLVED : (key as MessageFunctionReturn<Message>)
   }
 
   if (__DEV__ && isString(format) && context.messageCompiler == null) {
@@ -432,7 +436,7 @@ export function translate<
         `You need to pre-compilation all message format. ` +
         `So translate function return '${key}'.`
     )
-    return key as MessageType<Message>
+    return key as MessageFunctionReturn<Message>
   }
 
   // setup compile error detecting
@@ -455,7 +459,7 @@ export function translate<
 
   // if occurred compile error, return the message format
   if (occurred) {
-    return format as MessageType<Message>
+    return format as MessageFunctionReturn<Message>
   }
 
   // evaluate message with context
@@ -707,7 +711,7 @@ function evaluateMessage<Messages, Message>(
   context: CoreContext<Message, Messages>,
   msg: MessageFunction<Message>,
   msgCtx: MessageContext<Message>
-): MessageType<Message> {
+): MessageFunctionReturn<Message> {
   // for vue-devtools timeline event
   let start: number | null = null
   let startTag: string | undefined

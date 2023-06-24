@@ -18,12 +18,12 @@ import {
   registerMessageResolver,
   registerLocaleFallbacker
 } from '../src/context'
-import { compileToFunction } from '../src/compile'
+import { compileToFunction } from '../src/compilation'
 import { fallbackWithLocaleChain } from '../src/fallbacker'
 import { resolveValue } from '../src/resolver'
 import { createTextNode } from './helper'
 
-import type { MessageContext } from '../src/runtime'
+import type { MessageContext, MessageFunctionReturn } from '../src/runtime'
 import type { VNode } from './helper'
 import type { MessageType, MessageProcessor } from '../src/runtime'
 import type { PickupKeys } from '../src/types/utils'
@@ -622,7 +622,10 @@ describe('context pluralRule option', () => {
 describe('context postTranslation option', () => {
   test('basic', () => {
     let key = ''
-    const postTranslation = (str: string, _key: string) => {
+    const postTranslation = (
+      str: MessageFunctionReturn<string>,
+      _key: string
+    ) => {
       key = _key
       return str.trim()
     }
