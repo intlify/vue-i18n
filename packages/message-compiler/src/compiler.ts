@@ -1,5 +1,6 @@
 import { createParser } from './parser'
 import { transform } from './transformer'
+import { optimize } from './optimizer'
 import { generate } from './generator'
 import { assign } from '@intlify/shared'
 
@@ -14,6 +15,8 @@ export function baseCompile(
 ): CompilerResult {
   const assignedOptions = assign({}, options)
   const useJIT = !!assignedOptions.useJIT
+  const doOptimize =
+    assignedOptions.optimize == null ? true : assignedOptions.optimize
 
   // parse source codes
   const parser = createParser(assignedOptions)
@@ -23,9 +26,15 @@ export function baseCompile(
     // transform ASTs
     transform(ast, assignedOptions)
 
+    // optimize ASTs
+    doOptimize && optimize(ast)
+
     // generate javascript codes
     return generate(ast, assignedOptions)
   } else {
+    // optimize ASTs
+    doOptimize && optimize(ast)
+
     // In JIT mode, no ast transform, no code generation.
     return { ast, code: '' }
   }

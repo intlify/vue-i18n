@@ -83,6 +83,14 @@ describe('compiler options', () => {
     })
   })
 
+  test('optimize: false', () => {
+    const { ast } = compile(`hello world`, { location: false, optimize: false })
+    expect(ast).toMatchSnapshot('ast')
+    traverse(ast, node => {
+      expect((node as any).static).toBeUndefined()
+    })
+  })
+
   test('useJIT: true', () => {
     const { ast, code, map } = compile(`hello world`, {
       useJIT: true,

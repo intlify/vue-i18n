@@ -37,6 +37,7 @@ export interface PluralNode extends Node {
 
 export interface MessageNode extends Node {
   type: NodeTypes.Message
+  static?: string
   items: MessageElementNode[]
 }
 

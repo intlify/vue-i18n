@@ -1,0 +1,168 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`full text items: foo{'@'}domain.com 1`] = `
+{
+  "body": {
+    "items": [
+      {
+        "type": 3,
+        "value": "foo",
+      },
+      {
+        "type": 9,
+        "value": "@",
+      },
+      {
+        "type": 3,
+        "value": "domain.com",
+      },
+    ],
+    "static": "foo@domain.com",
+    "type": 2,
+  },
+  "type": 0,
+}
+`;
+
+exports[`full text message on plural: no apples | one apple | many apples 1`] = `
+{
+  "body": {
+    "cases": [
+      {
+        "items": [
+          {
+            "type": 3,
+            "value": "no apples",
+          },
+        ],
+        "static": "no apples",
+        "type": 2,
+      },
+      {
+        "items": [
+          {
+            "type": 3,
+            "value": "one apple",
+          },
+        ],
+        "static": "one apple",
+        "type": 2,
+      },
+      {
+        "items": [
+          {
+            "type": 3,
+            "value": "many apples",
+          },
+        ],
+        "static": "many apples",
+        "type": 2,
+      },
+    ],
+    "type": 1,
+  },
+  "type": 0,
+}
+`;
+
+exports[`incldue dynamic node in pluarl: no apples | {0} apple | {n} apples 1`] = `
+{
+  "body": {
+    "cases": [
+      {
+        "items": [
+          {
+            "type": 3,
+            "value": "no apples",
+          },
+        ],
+        "static": "no apples",
+        "type": 2,
+      },
+      {
+        "items": [
+          {
+            "index": 0,
+            "type": 5,
+          },
+          {
+            "type": 3,
+            "value": " apple",
+          },
+        ],
+        "type": 2,
+      },
+      {
+        "items": [
+          {
+            "key": "n",
+            "type": 4,
+          },
+          {
+            "type": 3,
+            "value": " apples",
+          },
+        ],
+        "type": 2,
+      },
+    ],
+    "type": 1,
+  },
+  "type": 0,
+}
+`;
+
+exports[`incldue dynamic node: hello, {name} ! 1`] = `
+{
+  "body": {
+    "items": [
+      {
+        "type": 3,
+        "value": "hello, ",
+      },
+      {
+        "key": "name",
+        "type": 4,
+      },
+      {
+        "type": 3,
+        "value": " !",
+      },
+    ],
+    "type": 2,
+  },
+  "type": 0,
+}
+`;
+
+exports[`literal only: {'hello world'} 1`] = `
+{
+  "body": {
+    "items": [
+      {
+        "type": 9,
+        "value": "hello world",
+      },
+    ],
+    "static": "hello world",
+    "type": 2,
+  },
+  "type": 0,
+}
+`;
+
+exports[`text only: hello world 1`] = `
+{
+  "body": {
+    "items": [
+      {
+        "type": 3,
+        "value": "hello world",
+      },
+    ],
+    "static": "hello world",
+    "type": 2,
+  },
+  "type": 0,
+}
+`;

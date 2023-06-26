@@ -266,6 +266,22 @@ exports[`compiler options > location: false > ast 1`] = `
         "value": "hello world",
       },
     ],
+    "static": "hello world",
+    "type": 2,
+  },
+  "type": 0,
+}
+`;
+
+exports[`compiler options > optimize: false > ast 1`] = `
+{
+  "body": {
+    "items": [
+      {
+        "type": 3,
+        "value": "hello world",
+      },
+    ],
     "type": 2,
   },
   "type": 0,
@@ -281,6 +297,7 @@ exports[`compiler options > useJIT: true > ast 1`] = `
         "value": "hello world",
       },
     ],
+    "static": "hello world",
     "type": 2,
   },
   "type": 0,

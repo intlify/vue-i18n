@@ -33,6 +33,7 @@ export interface CodeGenOptions {
 }
 
 export type CompileOptions = {
+  optimize?: boolean // default true
   useJIT?: boolean // default false
 } & TransformOptions &
   CodeGenOptions &
