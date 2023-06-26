@@ -53,11 +53,17 @@ function formatMessageParts<Message = string>(
   ctx: MessageContext<Message>,
   node: MessageNode
 ): MessageFunctionReturn<Message> {
-  const messages = node.items.reduce(
-    (acm, c) => [...acm, formatMessagePart(ctx, c)],
-    [] as MessageType<Message>[]
-  )
-  return ctx.normalize(messages) as MessageFunctionReturn<Message>
+  if (node.static) {
+    return ctx.type === 'text'
+      ? (node.static as MessageFunctionReturn<Message>)
+      : ctx.normalize([node.static] as MessageType<Message>[])
+  } else {
+    const messages = node.items.reduce(
+      (acm, c) => [...acm, formatMessagePart(ctx, c)],
+      [] as MessageType<Message>[]
+    )
+    return ctx.normalize(messages) as MessageFunctionReturn<Message>
+  }
 }
 
 function formatMessagePart<Message = string>(
