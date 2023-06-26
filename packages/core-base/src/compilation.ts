@@ -5,6 +5,7 @@ import {
   detectHtmlTag
 } from '@intlify/message-compiler'
 import { format as formatMessage } from './format'
+import { CoreErrorCodes, createCoreError } from './errors'
 
 import type {
   CompileOptions,
@@ -49,10 +50,17 @@ function baseCompile(
   return { ...baseCompileCore(message, options), detectError }
 }
 
-export function compileToFunction<Message = string>(
-  message: string,
+export function compileToFunction<
+  Message = string,
+  MessageSource extends string | ResourceNode = string
+>(
+  message: MessageSource,
   options: CoreBaseCompileOptions = {}
 ): MessageFunction<Message> {
+  if (!isString(message)) {
+    throw createCoreError(CoreErrorCodes.NOT_SUPPORT_AST)
+  }
+
   if (__RUNTIME__) {
     __DEV__ &&
       warn(

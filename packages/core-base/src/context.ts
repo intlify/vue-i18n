@@ -17,7 +17,7 @@ import { CoreWarnCodes, getWarnMessage } from './warnings'
 import { resolveWithKeyValue } from './resolver'
 import { fallbackWithSimple } from './fallbacker'
 
-import type { CompileOptions } from '@intlify/message-compiler'
+import type { CompileOptions, ResourceNode } from '@intlify/message-compiler'
 import type { VueDevToolsEmitter } from '@intlify/vue-devtools'
 import type { Path, MessageResolver } from './resolver'
 import type {
@@ -100,8 +100,11 @@ export type PostTranslationHandler<Message = string> = (
   key: string
 ) => MessageFunctionReturn<Message>
 
-export type MessageCompiler<Message = string> = (
-  source: string,
+export type MessageCompiler<
+  Message = string,
+  MessageSource extends string | ResourceNode = string
+> = (
+  mesasge: MessageSource,
   options?: CompileOptions
 ) => MessageFunction<Message>
 
