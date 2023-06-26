@@ -29,7 +29,11 @@ import { CoreErrorCodes, createCoreError } from './errors'
 import { translateDevTools } from './devtools'
 import { VueDevToolsTimelineEvents } from '@intlify/vue-devtools'
 
-import type { CompileOptions, CompileError } from '@intlify/message-compiler'
+import type {
+  CompileOptions,
+  CompileError,
+  ResourceNode
+} from '@intlify/message-compiler'
 import type { AdditionalPayloads } from '@intlify/devtools-if'
 import type { Path, PathValue } from './resolver'
 import type {
@@ -53,6 +57,9 @@ import type { PickupKeys } from './types'
 const NOOP_MESSAGE_FUNCTION = () => ''
 export const isMessageFunction = <T>(val: unknown): val is MessageFunction<T> =>
   isFunction(val)
+
+const isMessageAST = (val: unknown): val is ResourceNode =>
+  isObject(val) && val.type === 0 && 'body' in val
 
 /**
  *  # translate
@@ -412,7 +419,11 @@ export function translate<
   let cacheBaseKey = key
   if (
     !resolvedMessage &&
-    !(isString(format) || isMessageFunction<Message>(format))
+    !(
+      isString(format) ||
+      isMessageAST(format) ||
+      isMessageFunction<Message>(format)
+    )
   ) {
     if (enableDefaultMsg) {
       format = defaultMsgOrKey
@@ -423,7 +434,11 @@ export function translate<
   // checking message format and target locale
   if (
     !resolvedMessage &&
-    (!(isString(format) || isMessageFunction<Message>(format)) ||
+    (!(
+      isString(format) ||
+      isMessageAST(format) ||
+      isMessageFunction<Message>(format)
+    ) ||
       !isString(targetLocale))
   ) {
     return unresolving ? NOT_REOSLVED : (key as MessageFunctionReturn<Message>)
@@ -618,7 +633,10 @@ function resolveMessageFormat<Messages, Message>(
       }
     }
 
-    if (isString(format) || isFunction(format)) break
+    if (isString(format) || isMessageAST(format) || isMessageFunction(format)) {
+      break
+    }
+
     const missingRet = handleMissing(
       context as any, // eslint-disable-line @typescript-eslint/no-explicit-any
       key,
@@ -671,7 +689,7 @@ function compileMessageFormat<Messages, Message>(
   }
 
   const msg = messageCompiler(
-    format as string,
+    format as string, // TODO: typing!
     getCompileOptions(
       context,
       targetLocale,
@@ -858,7 +876,7 @@ function getMessageContextOptions<Messages, Message = string>(
       val = resolveValue(message, key)
     }
 
-    if (isString(val)) {
+    if (isString(val) || isMessageAST(val)) {
       let occurred = false
       const errorDetector = () => {
         occurred = true

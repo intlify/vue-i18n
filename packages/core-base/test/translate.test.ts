@@ -1,5 +1,7 @@
 /* eslint-disable @typescript-eslint/no-empty-function, @typescript-eslint/no-explicit-any */
 
+import { baseCompile } from '@intlify/message-compiler'
+
 // utils
 import * as shared from '@intlify/shared'
 vi.mock('@intlify/shared', async () => {
@@ -18,7 +20,7 @@ import {
   registerMessageResolver,
   registerLocaleFallbacker
 } from '../src/context'
-import { compileToFunction } from '../src/compilation'
+import { compileToFunction, compile } from '../src/compilation'
 import { fallbackWithLocaleChain } from '../src/fallbacker'
 import { resolveValue } from '../src/resolver'
 import { createTextNode } from './helper'
@@ -970,6 +972,23 @@ describe('processor', () => {
       { __v_isVNode: true, children: ' apples from ' },
       { __v_isVNode: true, children: 'kazupon' }
     ])
+  })
+})
+
+describe('AST passing', () => {
+  test('simple text', () => {
+    registerMessageCompiler(compile)
+
+    const msg = 'hi kazupon !'
+    const { ast } = baseCompile(msg, { useJIT: true, location: false })
+
+    const ctx = context({
+      locale: 'en',
+      messages: {
+        en: { hi: ast }
+      }
+    })
+    expect(translate(ctx, 'hi')).toEqual('hi kazupon !')
   })
 })
 
