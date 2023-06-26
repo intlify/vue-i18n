@@ -163,8 +163,8 @@ importers:
         specifier: ^0.35.0
         version: 0.35.0(rollup@3.22.0)(typescript@5.1.3)
       secretlint:
-        specifier: ^3.2.0
-        version: 3.2.0
+        specifier: ^6.0.0
+        version: 6.0.1
       serve-static:
         specifier: ^1.15.0
         version: 1.15.0
@@ -2169,50 +2169,46 @@ packages:
       string-argv: 0.3.2
     dev: true
 
-  /@secretlint/config-creator@3.3.0:
-    resolution: {integrity: sha512-B6mzD3jqXi8rwJ10K/21AV7cvVJhfu2HT8JgIdROgaNB5DMFWOGwDRrBsjOddANo6yF3dwcBgqhUqKkkobTCbA==}
+  /@secretlint/config-creator@6.2.3:
+    resolution: {integrity: sha512-S3a/rHu6RTZbF1p5i9X61xAVhS0s7Jb6/qAX2pnAGoR8PFIJg+Ape1pO6bqJ3ypNEe5v0c5sGVUyzuBgOyzUdg==}
+    engines: {node: ^14.13.1 || >=16.0.0}
     dependencies:
-      '@secretlint/types': 3.3.0
+      '@secretlint/types': 6.2.3
     dev: true
 
-  /@secretlint/config-loader@3.3.0:
-    resolution: {integrity: sha512-v1Fbr8wp38wEn0b2X45TdpmgcSTTNwbDkee9103DCn1J0QtDM7vQu3AytNQCUE5jltBQEkO/EF/Lfyx271KXGQ==}
+  /@secretlint/config-loader@6.2.3:
+    resolution: {integrity: sha512-SFiKo/mcy3U8YDYMTshsnrNPrilS4HLG9AQmex/QAXKebOl08jTgTR61S2sBZ+5D3BpigeFqIzCadgv6Y7FXdg==}
+    engines: {node: ^14.13.1 || >=16.0.0}
     dependencies:
-      '@secretlint/config-validator': 3.3.0
-      '@secretlint/profiler': 3.1.0
-      '@secretlint/types': 3.3.0
-      '@textlint/module-interop': 1.2.5
+      '@secretlint/profiler': 6.2.3
+      '@secretlint/types': 6.2.3
+      ajv: 8.12.0
       debug: 4.3.4(supports-color@9.0.2)
-      rc-config-loader: 3.0.0
+      rc-config-loader: 4.1.2
       try-resolve: 1.0.1
     transitivePeerDependencies:
       - supports-color
     dev: true
 
-  /@secretlint/config-validator@3.3.0:
-    resolution: {integrity: sha512-aglruJ1P/tlg+UrRhiEcer7vOHlaFZXCUjjkchjY/twkPnoDqj5AThoS+M3Bc+y1zYKSdzLs8zKNtRP8EUvpCQ==}
+  /@secretlint/core@6.2.3:
+    resolution: {integrity: sha512-FGbVweVHJGOa76RQLSwcOqNdvF80qYoAPYBkOy9SWF/ge9IQnvcjgCrhUf4a6qgBc2q8NofIvJVXQMCz/OVd4A==}
+    engines: {node: ^14.13.1 || >=16.0.0}
     dependencies:
-      '@secretlint/types': 3.3.0
-      ajv: 6.12.6
-    dev: true
-
-  /@secretlint/core@3.3.0:
-    resolution: {integrity: sha512-MZbL3FaNsBJCrVBbv4bUA0dfTxkPfaUa9UsKB3BQQCqzCSVA0EeKte5goWUa+si0YGqMuluFafURZYSeqrEbvA==}
-    dependencies:
-      '@secretlint/profiler': 3.1.0
-      '@secretlint/types': 3.3.0
+      '@secretlint/profiler': 6.2.3
+      '@secretlint/types': 6.2.3
       debug: 4.3.4(supports-color@9.0.2)
       structured-source: 3.0.2
     transitivePeerDependencies:
       - supports-color
     dev: true
 
-  /@secretlint/formatter@3.3.0:
-    resolution: {integrity: sha512-QAX4451ZnjYSgzyq5Y/T2coxkZZtJJWaUk3l7dUdXLYoLjUl5BUd0O5NRrEAO+Kd1+srcKLWWUYwV/PNZtXnWA==}
+  /@secretlint/formatter@6.2.3:
+    resolution: {integrity: sha512-aH/qG9Gyt49Q/a+as7j8sKfl3qgLMrb6BG5KjlW5R7QgZH8BC7kwvSyV9RFYb76SXYi18GLLnizCoEDh0ENBQQ==}
+    engines: {node: ^14.13.1 || >=16.0.0}
     dependencies:
-      '@secretlint/types': 3.3.0
-      '@textlint/linter-formatter': 3.3.5
-      '@textlint/types': 1.5.5
+      '@secretlint/types': 6.2.3
+      '@textlint/linter-formatter': 12.6.1
+      '@textlint/types': 12.6.1
       chalk: 4.1.2
       debug: 4.3.4(supports-color@9.0.2)
       pluralize: 8.0.0
@@ -2224,22 +2220,23 @@ packages:
       - supports-color
     dev: true
 
-  /@secretlint/node@3.3.0:
-    resolution: {integrity: sha512-Ek+zUNEDEfOm0iXuaMxLBT6al3g4SPnCiYS2ZEYslfIaYjBlIDXQBDcPfw8fGrqjv7va8KPwDsjT4ZwOKOHn7w==}
+  /@secretlint/node@6.2.3:
+    resolution: {integrity: sha512-iKD/bPkNz8J6f+0Vy41T/IeBSeZSN+kBo/pT1bHHqf+qH6/5I8r4HvCVkGlSY/jq3Z5UTqR6T+jFF/l55FsJzg==}
+    engines: {node: ^14.13.1 || >=16.0.0}
     dependencies:
-      '@secretlint/config-loader': 3.3.0
-      '@secretlint/core': 3.3.0
-      '@secretlint/formatter': 3.3.0
-      '@secretlint/profiler': 3.1.0
-      '@secretlint/source-creator': 3.3.0
+      '@secretlint/config-loader': 6.2.3
+      '@secretlint/core': 6.2.3
+      '@secretlint/formatter': 6.2.3
+      '@secretlint/profiler': 6.2.3
+      '@secretlint/source-creator': 6.2.3
       debug: 4.3.4(supports-color@9.0.2)
       p-map: 4.0.0
     transitivePeerDependencies:
       - supports-color
     dev: true
 
-  /@secretlint/profiler@3.1.0:
-    resolution: {integrity: sha512-+5PDVtWI6MtuM2YCj+NqGftbbPOVp0CJW+H0BXxPwi0JnKkf35MLPcVudNzi2si2Q4IGZqzrHoMWe7BYyW0N2g==}
+  /@secretlint/profiler@6.2.3:
+    resolution: {integrity: sha512-4WJuQ0AF+UV5IDi47ThxCeho9oKHDcpd11LrT1uYNBsc3tf8NyPayeWqyHepk/fr1VWcCd2CZdSAAIov7Af2qw==}
     dev: true
 
   /@secretlint/secretlint-rule-aws@3.3.0:
@@ -2312,15 +2309,21 @@ packages:
       '@textlint/regexp-string-matcher': 1.1.1
     dev: true
 
-  /@secretlint/source-creator@3.3.0:
-    resolution: {integrity: sha512-MQCdtJzhERyYPMSveV6oHB93C7kslx88/DXZVhpXvnnnqTBeGroyOHwxYFmV8q7yKXzjcMB7p1TRFR6UgFw58A==}
+  /@secretlint/source-creator@6.2.3:
+    resolution: {integrity: sha512-LZJ1fxEoZJ69J0LZOrMgXXT7sPB9D77Mc71zuEVX9oIIA/DkRMedjxrT9IeysySfSPLHOpUNznPrYW6+0USe/A==}
+    engines: {node: ^14.13.1 || >=16.0.0}
     dependencies:
-      '@secretlint/types': 3.3.0
-      istextorbinary: 3.3.0
+      '@secretlint/types': 6.2.3
+      istextorbinary: 6.0.0
     dev: true
 
   /@secretlint/types@3.3.0:
     resolution: {integrity: sha512-D9HEUy5l45b8mgyUc842BmEX/bKXjYnWSFk0up0s9fUfDlZga0LI4uFCzj5wvf9Ir9In2VBbd2kRmzu0+yiLAA==}
+    dev: true
+
+  /@secretlint/types@6.2.3:
+    resolution: {integrity: sha512-KiVeTz0xWbfZinjqxxd0yUbt3L5tCiyXC/wt44BNyYGE5xV/Ui+4Xvweab0rmBPFam3RS9UuyL0MG2BGPf4dxA==}
+    engines: {node: ^14.13.1 || >=16.0.0}
     dev: true
 
   /@sindresorhus/chunkify@0.2.0:
@@ -4041,8 +4044,8 @@ packages:
     engines: {node: '>=8'}
     dev: true
 
-  /binaryextensions@2.3.0:
-    resolution: {integrity: sha512-nAihlQsYGyc5Bwq6+EsubvANYGExeJKHDO3RjnvwU042fawQTQfM3Kxn7IHUXQOz4bzfwsGYYHGSvXyW4zOGLg==}
+  /binaryextensions@4.18.0:
+    resolution: {integrity: sha512-PQu3Kyv9dM4FnwB7XGj1+HucW+ShvJzJqjuw1JkKVs1mWdwOKVcRjOi+pV9X52A0tNvrPCsPkbFFQb+wE1EAXw==}
     engines: {node: '>=0.8'}
     dev: true
 
@@ -7844,12 +7847,12 @@ packages:
       istanbul-lib-report: 3.0.0
     dev: true
 
-  /istextorbinary@3.3.0:
-    resolution: {integrity: sha512-Tvq1W6NAcZeJ8op+Hq7tdZ434rqnMx4CCZ7H0ff83uEloDvVbqAwaMTZcafKGJT0VHkYzuXUiCY4hlXQg6WfoQ==}
-    engines: {node: '>=8'}
+  /istextorbinary@6.0.0:
+    resolution: {integrity: sha512-4j3UqQCa06GAf6QHlN3giz2EeFU7qc6Q5uB/aY7Gmb3xmLDLepDOtsZqkb4sCfJgFvTbLUinNw0kHgHs8XOHoQ==}
+    engines: {node: '>=10'}
     dependencies:
-      binaryextensions: 2.3.0
-      textextensions: 3.3.0
+      binaryextensions: 4.18.0
+      textextensions: 5.16.0
     dev: true
 
   /jiti@1.18.2:
@@ -10837,14 +10840,15 @@ packages:
       ajv-keywords: 3.5.2(ajv@6.12.6)
     dev: true
 
-  /secretlint@3.2.0:
-    resolution: {integrity: sha512-2NfyalClvPSTMUb1RozafIGs1mzDLc+n+Mta4zg2xPGks/XTR7xdnWEAMIaY8nkkpzUn9Af6Cx7wQft/JbkhSw==}
+  /secretlint@6.0.1:
+    resolution: {integrity: sha512-SU9PyqoKAiqYi2yQAB8eIbJaOT8kDhDBZxv7ZScvoU7HkrRy2FYa3j4T6IP7BoxsgwHK9Zrv6tcoSG+iCUOFeA==}
+    engines: {node: ^14.13.1 || >=16.0.0}
     hasBin: true
     dependencies:
-      '@secretlint/config-creator': 3.3.0
-      '@secretlint/formatter': 3.3.0
-      '@secretlint/node': 3.3.0
-      '@secretlint/profiler': 3.1.0
+      '@secretlint/config-creator': 6.2.3
+      '@secretlint/formatter': 6.2.3
+      '@secretlint/node': 6.2.3
+      '@secretlint/profiler': 6.2.3
       debug: 4.3.4(supports-color@9.0.2)
       globby: 11.1.0
       meow: 9.0.0
@@ -11784,9 +11788,9 @@ packages:
     resolution: {integrity: sha512-N+8UisAXDGk8PFXP4HAzVR9nbfmVJ3zYLAWiTIoqC5v5isinhr+r5uaO8+7r3BMfuNIufIsA7RdpVgacC2cSpw==}
     dev: true
 
-  /textextensions@3.3.0:
-    resolution: {integrity: sha512-mk82dS8eRABNbeVJrEiN5/UMSCliINAuz8mkUwH4SwslkNP//gbEzlWNS5au0z5Dpx40SQxzqZevZkn+WYJ9Dw==}
-    engines: {node: '>=8'}
+  /textextensions@5.16.0:
+    resolution: {integrity: sha512-7D/r3s6uPZyU//MCYrX6I14nzauDwJ5CxazouuRGNuvSCihW87ufN6VLoROLCrHg6FblLuJrT6N2BVaPVzqElw==}
+    engines: {node: '>=0.8'}
     dev: true
 
   /textlint-filter-rule-comments@1.2.2(textlint@12.6.1):
