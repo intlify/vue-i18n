@@ -112,8 +112,8 @@ importers:
         specifier: ^4.1.0
         version: 4.1.0
       jsdom:
-        specifier: ^21.1.2
-        version: 21.1.2
+        specifier: ^22.0.0
+        version: 22.0.0
       lint-staged:
         specifier: ^12.0.0
         version: 12.0.0
@@ -233,7 +233,7 @@ importers:
         version: 1.0.0-alpha.76(@algolia/client-search@4.17.2)(@types/node@18.16.18)
       vitest:
         specifier: ^0.31.1
-        version: 0.31.1(jsdom@21.1.2)(playwright@1.34.0)
+        version: 0.31.1(jsdom@22.0.0)(playwright@1.34.0)
       vue:
         specifier: 3.3.4
         version: 3.3.4
@@ -3009,7 +3009,7 @@ packages:
       magic-string: 0.30.0
       picocolors: 1.0.0
       std-env: 3.3.3
-      vitest: 0.31.1(jsdom@21.1.2)(playwright@1.34.0)
+      vitest: 0.31.1(jsdom@22.0.0)(playwright@1.34.0)
     dev: true
 
   /@vitest/expect@0.31.1:
@@ -3504,13 +3504,6 @@ packages:
     dependencies:
       mime-types: 2.1.35
       negotiator: 0.6.3
-    dev: true
-
-  /acorn-globals@7.0.1:
-    resolution: {integrity: sha512-umOSDSDrfHbTNPuNpC2NSnnA3LUrqpevPb4T9jRx4MagXNS0rs+gwiTcAvqCRmsD6utzsrzNt+ebm00SNWiC3Q==}
-    dependencies:
-      acorn: 8.9.0
-      acorn-walk: 8.2.0
     dev: true
 
   /acorn-jsx@5.3.2(acorn@7.4.1):
@@ -7889,9 +7882,9 @@ packages:
       argparse: 2.0.1
     dev: true
 
-  /jsdom@21.1.2:
-    resolution: {integrity: sha512-sCpFmK2jv+1sjff4u7fzft+pUh2KSUbUrEHYHyfSIbGTIcmnjyp83qg6qLwdJ/I3LpTXx33ACxeRL7Lsyc6lGQ==}
-    engines: {node: '>=14'}
+  /jsdom@22.0.0:
+    resolution: {integrity: sha512-p5ZTEb5h+O+iU02t0GfEjAnkdYPrQSkfuTSMkMYyIoMvUNEHsbG0bHHbfXIcfTqD2UfvjQX7mmgiFsyRwGscVw==}
+    engines: {node: '>=16'}
     peerDependencies:
       canvas: ^2.5.0
     peerDependenciesMeta:
@@ -7899,13 +7892,10 @@ packages:
         optional: true
     dependencies:
       abab: 2.0.6
-      acorn: 8.8.2
-      acorn-globals: 7.0.1
       cssstyle: 3.0.0
       data-urls: 4.0.0
       decimal.js: 10.4.3
       domexception: 4.0.0
-      escodegen: 2.0.0
       form-data: 4.0.0
       html-encoding-sniffer: 3.0.0
       http-proxy-agent: 5.0.0
@@ -12765,7 +12755,7 @@ packages:
       - universal-cookie
     dev: true
 
-  /vitest@0.31.1(jsdom@21.1.2)(playwright@1.34.0):
+  /vitest@0.31.1(jsdom@22.0.0)(playwright@1.34.0):
     resolution: {integrity: sha512-/dOoOgzoFk/5pTvg1E65WVaobknWREN15+HF+0ucudo3dDG/vCZoXTQrjIfEaWvQXmqScwkRodrTbM/ScMpRcQ==}
     engines: {node: '>=v14.18.0'}
     hasBin: true
@@ -12810,7 +12800,7 @@ packages:
       chai: 4.3.7
       concordance: 5.0.4
       debug: 4.3.4(supports-color@9.0.2)
-      jsdom: 21.1.2
+      jsdom: 22.0.0
       local-pkg: 0.4.3
       magic-string: 0.30.0
       pathe: 1.1.0
