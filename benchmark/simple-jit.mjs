@@ -14,10 +14,10 @@ const { require } = createCommonJS(import.meta.url)
 const { Suite } = require('benchmark')
 
 async function main() {
-  const data = await readJson(resolve(dirname('.'), './benchmark/simple.json'))
-  const len = Object.keys(data).length
+  const resources = await readJson(resolve(dirname('.'), './benchmark/simple.json'))
+  const len = Object.keys(resources).length
 
-  console.log(`simple pattern on ${len} resources on JIT:`)
+  console.log(`simple pattern on ${len} resources (JIT):`)
   console.log()
 
   registerMessageCompiler(compile)
@@ -25,14 +25,14 @@ async function main() {
   const ctx = createCoreContext({
     locale: 'en',
     messages: {
-      en: data
+      en: resources
     }
   })
   const i18n = createI18n({
     legacy: false,
     locale: 'en',
     messages: {
-      en: data
+      en: resources
     }
   })
 

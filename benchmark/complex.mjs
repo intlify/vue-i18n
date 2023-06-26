@@ -12,10 +12,10 @@ const { require } = createCommonJS(import.meta.url)
 const { Suite } = require('benchmark')
 
 async function main() {
-  const data = await readJson(resolve(dirname('.'), './benchmark/complex.json'))
-  const len = Object.keys(data).length
+  const resources = await readJson(resolve(dirname('.'), './benchmark/complex.json'))
+  const len = Object.keys(resources).length
 
-  console.log(`complex pattern on ${len} resources:`)
+  console.log(`complex pattern on ${len} resources (AOT):`)
   console.log()
 
   const ctx = createCoreContext({
@@ -24,7 +24,7 @@ async function main() {
       caml: val => val
     },
     messages: {
-      en: data
+      en: resources
     }
   })
 
@@ -35,7 +35,7 @@ async function main() {
       caml: val => val
     },
     messages: {
-      en: data
+      en: resources
     }
   })
 

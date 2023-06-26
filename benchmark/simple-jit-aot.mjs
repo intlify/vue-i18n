@@ -1,7 +1,10 @@
 import { createCommonJS } from 'mlly'
+import { baseCompile } from '@intlify/message-compiler'
 import {
   translate,
   createCoreContext,
+  compile,
+  registerMessageCompiler,
   clearCompileCache
 } from '@intlify/core-base'
 import { createI18n } from 'vue-i18n'
@@ -11,24 +14,36 @@ import { readJson } from './utils.mjs'
 const { require } = createCommonJS(import.meta.url)
 const { Suite } = require('benchmark')
 
+function precompile(data) {
+  const keys = Object.keys(data)
+  keys.forEach(key => {
+    const { ast } = baseCompile(data[key], { useJIT: true, location: false })
+    data[key] = ast
+  })
+  return data
+}
+
 async function main() {
   const resources = await readJson(resolve(dirname('.'), './benchmark/simple.json'))
   const len = Object.keys(resources).length
 
-  console.log(`simple pattern on ${len} resources (AOT):`)
+  console.log(`simple pattern on ${len} resources (JIT + AOT):`)
   console.log()
+
+  registerMessageCompiler(compile)
+  const precompiledResources = precompile(resources)
 
   const ctx = createCoreContext({
     locale: 'en',
     messages: {
-      en: resources
+      en: precompiledResources
     }
   })
   const i18n = createI18n({
     legacy: false,
     locale: 'en',
     messages: {
-      en: resources
+      en: precompiledResources
     }
   })
 

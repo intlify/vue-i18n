@@ -26,8 +26,10 @@ function run(pattner) {
       'compile',
       'simple',
       'simple-jit',
+      'simple-jit-aot',
       'complex',
-      'complex-jit'
+      'complex-jit',
+      'complex-jit-aot'
     ]) {
       await run(p)
       console.log()
