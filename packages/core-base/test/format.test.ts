@@ -2,25 +2,6 @@ import { baseCompile as compile } from '@intlify/message-compiler'
 import { format } from '../src/format'
 import { createMessageContext as context } from '../src/runtime'
 
-const cases = [
-  { code: 'hello world', name: 'message' },
-  { code: 'hello {name} !', name: 'named' },
-  { code: 'hello {_name} !', name: 'named' },
-  { code: 'hello {0} !', name: 'list' },
-  { code: `hello {'kazupon'} !`, name: 'literal' },
-  { code: '@:apples', name: 'linked' },
-  { code: '@.lower:{0}', name: 'linked modifier list' },
-  { code: 'no apples | one apple  |  too much apples  ', name: 'plural' },
-  {
-    code: `@.lower:{'no apples'} | {1} apple | {count}　apples`, // eslint-disable-line no-irregular-whitespace
-    name: 'plural complex'
-  },
-  { code: `hi @._upper:{_name} !`, name: 'foo' },
-  { code: `@.lower:(foo)`, name: 'linked key paren error with modifier' },
-  { code: `@.`, name: 'EOF in linked modifier' },
-  { code: `|`, name: 'empty plural' }
-]
-
 describe('features', () => {
   test('text: hello world', () => {
     const { ast } = compile('hello world', { useJIT: true })
