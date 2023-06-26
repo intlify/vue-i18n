@@ -2,6 +2,8 @@ import { createCommonJS } from 'mlly'
 import {
   translate,
   createCoreContext,
+  compile,
+  registerMessageCompiler,
   clearCompileCache
 } from '@intlify/core-base'
 import { createI18n } from 'vue-i18n'
@@ -15,8 +17,10 @@ async function main() {
   const data = await readJson(resolve(dirname('.'), './benchmark/simple.json'))
   const len = Object.keys(data).length
 
-  console.log(`simple pattern on ${len} resources:`)
+  console.log(`simple pattern on ${len} resources on JIT:`)
   console.log()
+
+  registerMessageCompiler(compile)
 
   const ctx = createCoreContext({
     locale: 'en',
