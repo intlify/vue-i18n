@@ -70,7 +70,10 @@ describe('features', () => {
       const { ast } = compile('hello @:{0} !', { useJIT: true })
       const msg = format(ast)
       const ctx = context({
-        list: ['kasupon']
+        list: ['kazupon'],
+        messages: {
+          kazupon: () => 'kazupon'
+        }
       })
       expect(msg(ctx)).toBe('hello kazupon !')
     })
@@ -79,7 +82,10 @@ describe('features', () => {
       const { ast } = compile('hello @:{name} !', { useJIT: true })
       const msg = format(ast)
       const ctx = context({
-        named: { name: 'kazupon' }
+        named: { name: 'kazupon' },
+        messages: {
+          kazupon: () => 'kazupon'
+        }
       })
       expect(msg(ctx)).toBe('hello kazupon !')
     })
@@ -102,9 +108,12 @@ describe('features', () => {
         modifiers: {
           upper: (val: string) => val.toUpperCase()
         },
-        named: { name: 'kazupon' }
+        named: { name: 'kazupon' },
+        messages: {
+          kazupon: () => 'kazupon'
+        }
       })
-      expect(msg(ctx)).toBe('hello kazupon !')
+      expect(msg(ctx)).toBe('hello KAZUPON !')
     })
   })
 
@@ -117,7 +126,7 @@ describe('features', () => {
       const ctx = context({
         pluralIndex: 1
       })
-      expect(msg(ctx)).toBe('hello kazupon !')
+      expect(msg(ctx)).toBe('one apple')
     })
 
     test(`@.upper:{'no apples'} | {0} apple | {n}　apples`, () => {
@@ -136,7 +145,7 @@ describe('features', () => {
           n: 3
         }
       })
-      expect(msg(ctx)).toBe('hello kazupon !')
+      expect(msg(ctx)).toBe('3　apples')
     })
   })
 })
