@@ -12,7 +12,9 @@ const { require } = createCommonJS(import.meta.url)
 const { Suite } = require('benchmark')
 
 async function main() {
-  const resources = await readJson(resolve(dirname('.'), './benchmark/simple.json'))
+  const resources = await readJson(
+    resolve(dirname('.'), './benchmark/simple.json')
+  )
   const len = Object.keys(resources).length
 
   console.log(`simple pattern on ${len} resources (AOT):`)

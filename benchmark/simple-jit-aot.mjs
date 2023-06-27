@@ -24,7 +24,9 @@ function precompile(data) {
 }
 
 async function main() {
-  const resources = await readJson(resolve(dirname('.'), './benchmark/simple.json'))
+  const resources = await readJson(
+    resolve(dirname('.'), './benchmark/simple.json')
+  )
   const len = Object.keys(resources).length
 
   console.log(`simple pattern on ${len} resources (JIT + AOT):`)
