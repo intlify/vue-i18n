@@ -57,7 +57,7 @@ const NOOP_MESSAGE_FUNCTION = () => ''
 export const isMessageFunction = <T>(val: unknown): val is MessageFunction<T> =>
   isFunction(val)
 
-const isMessageAST = (val: unknown): val is ResourceNode =>
+export const isMessageAST = (val: unknown): val is ResourceNode =>
   isObject(val) && val.type === 0 && 'body' in val
 
 /**
