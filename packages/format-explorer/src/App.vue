@@ -1,11 +1,14 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import { SourceMapConsumer } from 'source-map'
+import { SourceMapConsumer } from 'source-map-js'
 import { baseCompile } from '@intlify/message-compiler'
 import * as monaco from 'monaco-editor'
+import { debounce } from './utils'
+
 import Navigation from './components/Navigation.vue'
 import Editor from './components/Editor.vue'
-import { debounce } from './utils'
+import Options from './components/Options.vue'
+
 import type { CompileError, CompileOptions } from '@intlify/message-compiler'
 
 interface PersistedState {
@@ -16,6 +19,7 @@ interface PersistedState {
 /**
  * states
  */
+
 const genCodes = ref<string>('')
 const compileErrors = ref<CompileError[]>([])
 const persistedState: PersistedState = JSON.parse(
@@ -25,23 +29,35 @@ const persistedState: PersistedState = JSON.parse(
 )
 const initialCodes = persistedState.src || 'hello {name}!'
 
+let _message = initialCodes
+let _compilerOptions = {}
+
 /**
  * utilties
  */
+
 let lastSuccessCode: string
-let lastSuccessfulMap: SourceMapConsumer | undefined
-async function compile(message: string): Promise<string> {
+let lastSuccessfulMap: SourceMapConsumer | null = null
+async function compile(
+  message: string,
+  options: CompileOptions = {}
+): Promise<string> {
+  _message = message
   console.clear()
 
   try {
     const start = performance.now()
 
     const errors: CompileError[] = []
-    const options = {
-      sourceMap: true,
-      onError: (err: CompileError) => errors.push(err)
-    }
-    const { code, ast, map } = baseCompile(message, options)
+    const compilerOptions = Object.assign(
+      {
+        sourceMap: true,
+        onError: (err: CompileError) => errors.push(err)
+      },
+      options
+    )
+    console.log('compile options', compilerOptions)
+    const { code, ast, map } = baseCompile(message, compilerOptions)
     if (errors.length > 0) {
       console.error(errors)
     }
@@ -51,13 +67,17 @@ async function compile(message: string): Promise<string> {
     console.log(`AST: `, ast)
     console.log('sourcemap', map)
 
-    const evalCode = new Function(`return ${code}`)()
+    // const evalCode = new Function(`return ${code}`)()
+    const evalCode = code
     lastSuccessCode =
       evalCode.toString() + `\n\n// Check the console for the AST`
-    lastSuccessfulMap = await new SourceMapConsumer(map!)
-    lastSuccessfulMap!.computeColumnSpans()
-  } catch (e) {
-    lastSuccessCode = `/* ERROR: ${e.message} (see console for more info) */`
+    lastSuccessfulMap =
+      options.sourceMap && map ? await new SourceMapConsumer(map) : null
+    lastSuccessfulMap?.computeColumnSpans()
+  } catch (e: unknown) {
+    lastSuccessCode = `/* ERROR: ${
+      (e as Error).message
+    } (see console for more info) */`
     console.error(e)
   }
 
@@ -73,10 +93,11 @@ let outputEditor: monaco.editor.IStandaloneCodeEditor | null = null
 
 // input editor model change event
 const onChangeModel = async (message: string): Promise<void> => {
+  console.log('onChangeModel', message)
   const state = JSON.stringify({ src: message } as PersistedState)
   localStorage.setItem('state', state)
   window.location.hash = encodeURIComponent(state)
-  genCodes.value = await compile(message)
+  genCodes.value = await compile(message, _compilerOptions)
 }
 
 // highlight output codes
@@ -180,13 +201,17 @@ const onReadyOutput = (editor: monaco.editor.IStandaloneCodeEditor) => {
     }, 100)
   )
 }
+
+const onChangeOptions = async (options: CompileOptions) => {
+  _compilerOptions = options
+  await onChangeModel(_message)
+}
 </script>
 
 <template>
   <div class="container">
-    <nav class="navigation">
-      <Navigation class="navigation" />
-    </nav>
+    <Navigation class="navigation" />
+    <Options @change="onChangeOptions" />
     <div class="operation">
       <Editor
         class="input"
@@ -233,14 +258,15 @@ body {
   width: 100%;
   height: 100%;
 }
+
 .navigation {
-  width: 100%;
-  height: 5%;
+  height: 48px;
   box-sizing: border-box;
   background-color: var(--bg);
   border-bottom: 1px solid var(--border);
-  display: contents;
+  z-index: 1;
 }
+
 .operation {
   width: 100%;
   height: 100%;

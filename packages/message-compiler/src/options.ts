@@ -1,15 +1,16 @@
-import { CompileError } from './errors'
+import type { CompileError } from './errors'
 
 export type CompileErrorHandler = (error: CompileError) => void
-export type CompileCacheKeyHandler = (source: string) => string
+export type CacheKeyHandler = (source: string) => string
 
 export interface TokenizeOptions {
-  location?: boolean
+  location?: boolean // default true
   onError?: CompileErrorHandler
 }
 
 export interface ParserOptions {
-  location?: boolean
+  location?: boolean // default true
+  onCacheKey?: (source: string) => string
   onError?: CompileErrorHandler
 }
 
@@ -18,6 +19,7 @@ export interface TransformOptions {
 }
 
 export interface CodeGenOptions {
+  location?: boolean // default true
   mode?: 'normal' | 'arrow' // default normal
   breakLineCode?: '\n' | ';' // default newline
   needIndent?: boolean // default true
@@ -31,7 +33,8 @@ export interface CodeGenOptions {
 }
 
 export type CompileOptions = {
-  onCacheKey?: CompileCacheKeyHandler
+  optimize?: boolean // default true
+  jit?: boolean // default false
 } & TransformOptions &
   CodeGenOptions &
   ParserOptions &

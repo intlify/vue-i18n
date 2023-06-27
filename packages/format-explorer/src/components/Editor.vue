@@ -1,21 +1,18 @@
 <script setup lang="ts">
-import {
-  defineProps,
-  defineEmits,
-  ref,
-  onMounted,
-  onUnmounted,
-  watchEffect
-} from 'vue'
+import { ref, onMounted, onUnmounted, watchEffect } from 'vue'
 import * as monaco from 'monaco-editor'
+// @ts-ignore
 import EditorWorker from 'monaco-editor/esm/vs/editor/editor.worker?worker'
+// @ts-ignore
 import JsonWorker from 'monaco-editor/esm/vs/language/json/json.worker?worker'
+// @ts-ignore
 import CssWorker from 'monaco-editor/esm/vs/language/css/css.worker?worker'
+// @ts-ignore
 import HtmlWorker from 'monaco-editor/esm/vs/language/html/html.worker?worker'
+// @ts-ignore
 import TsWorker from 'monaco-editor/esm/vs/language/typescript/ts.worker?worker'
 import theme from '../theme'
 import { debounce as _debounce } from '../utils'
-import type { PropType } from 'vue'
 import type { CompileError } from '@intlify/message-compiler'
 
 // @ts-ignore
@@ -37,23 +34,18 @@ self.MonacoEnvironment = {
   }
 }
 
-const props = defineProps({
-  code: {
-    type: String,
-    default: () => ''
-  },
-  debounce: {
-    type: Boolean,
-    default: () => false
-  },
-  language: {
-    type: String,
-    default: () => 'javascript'
-  },
-  errors: {
-    type: Array as PropType<CompileError[]>,
-    default: () => []
-  }
+export interface Props {
+  code?: string
+  debounce?: boolean
+  language?: string
+  errors?: CompileError[]
+}
+
+const props = withDefaults(defineProps<Props>(), {
+  code: () => '',
+  debounce: () => false,
+  language: () => 'javascript',
+  errors: () => []
 })
 
 const emit = defineEmits({

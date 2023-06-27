@@ -1,11 +1,13 @@
-import { TokenizeOptions } from '../../src/options'
-import { CompileErrorCodes, CompileError } from '../../src/errors'
+import { CompileErrorCodes } from '../../src/errors'
 import {
   createTokenizer,
   TokenTypes,
   parse,
   ERROR_DOMAIN as ERROR_DOMAIN_TOKENIZE
 } from '../../src/tokenizer'
+
+import type { TokenizeOptions } from '../../src/options'
+import type { CompileError } from '../../src/errors'
 
 describe('string', () => {
   test(`ascii: 'kazuya kawaguchi'`, () => {

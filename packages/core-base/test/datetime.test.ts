@@ -27,7 +27,7 @@ import {
   registerMessageCompiler,
   registerLocaleFallbacker
 } from '../src/context'
-import { compileToFunction } from '../src/compile'
+import { compileToFunction } from '../src/compilation'
 import { fallbackWithLocaleChain } from '../src/fallbacker'
 
 import type { DateTimeFormats } from '../src/types'

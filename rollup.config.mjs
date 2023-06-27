@@ -355,6 +355,9 @@ function createReplacePlugin(
     __FEATURE_PROD_INTLIFY_DEVTOOLS__: isBundlerESMBuild
       ? `__INTLIFY_PROD_DEVTOOLS__`
       : false,
+    __FEATURE_JIT_COMPILATION__: isBundlerESMBuild
+      ? `__INTLIFY_JIT_COMPILATION__`
+      : false,
     preventAssignment: false,
     ...(isProduction && isBrowserBuild
       ? {

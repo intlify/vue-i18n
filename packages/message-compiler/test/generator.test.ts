@@ -3,8 +3,10 @@
 import { createParser } from '../src/parser'
 import { transform } from '../src/transformer'
 import { generate } from '../src/generator'
-import { SourceMapConsumer, RawSourceMap } from 'source-map'
+import { SourceMapConsumer } from 'source-map-js'
 import { CHAR_CR, CHAR_LF, CHAR_LS, CHAR_PS } from '../src/scanner'
+
+import type { RawSourceMap } from 'source-map-js'
 
 interface Pos {
   line: number
@@ -492,6 +494,20 @@ describe('arrow mode', () => {
     consumer.eachMapping(mapping => {
       expect(mapping).toMatchSnapshot(`${mapping.name} mapping`)
     })
+  })
+})
+
+test('disable source map with location: false', async () => {
+  const parser = createParser({ location: false })
+  const msg = 'hello world'
+  const ast = parser.parse(msg)
+  transform(ast)
+  const { code, map } = generate(ast, { sourceMap: true, location: false })
+
+  expect(map!.sourcesContent).toBeUndefined()
+  const consumer = await new SourceMapConsumer(map as RawSourceMap)
+  consumer.eachMapping(mapping => {
+    expect(mapping).toMatchSnapshot(`${mapping.name} mapping`)
   })
 })
 

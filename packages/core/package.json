@@ -28,11 +28,12 @@
     "dist"
   ],
   "main": "index.js",
-  "module": "dist/core.runtime.mjs",
+  "module": "dist/core.mjs",
   "unpkg": "dist/core.global.js",
   "jsdelivr": "dist/core.global.js",
   "types": "dist/core.d.ts",
   "dependencies": {
+    "@intlify/shared": "workspace:*",
     "@intlify/core-base": "workspace:*"
   },
   "engines": {
@@ -53,7 +54,7 @@
   "exports": {
     ".": {
       "types": "./dist/core.d.ts",
-      "import": "./dist/core.runtime.mjs",
+      "import": "./dist/core.mjs",
       "browser": "./dist/core.esm-browser.js",
       "node": {
         "import": {

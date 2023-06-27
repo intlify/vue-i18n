@@ -17,6 +17,7 @@ import {
   isObject,
   isArray
 } from '@intlify/shared'
+import { isMessageAST } from '@intlify/core-base'
 
 import type { App, ComponentInternalInstance } from 'vue'
 import type {
@@ -238,6 +239,8 @@ function getLocaleMessageValue(messages: any): Record<string, unknown> {
     const v: unknown = messages[key]
     if (isFunction(v) && 'source' in v) {
       value[key] = getMessageFunctionDetails(v)
+    } else if (isMessageAST(v) && v.loc && v.loc.source) {
+      value[key] = v.loc.source
     } else if (isObject(v)) {
       value[key] = getLocaleMessageValue(v)
     } else {

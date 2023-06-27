@@ -7,7 +7,7 @@ export interface SourceLocation {
   source?: string
 }
 
-export const LocationStub: SourceLocation = {
+export const LOCATION_STUB: SourceLocation = {
   start: { line: 1, column: 1, offset: 0 },
   end: { line: 1, column: 1, offset: 0 }
 }

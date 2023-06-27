@@ -17,7 +17,7 @@ import { CoreWarnCodes, getWarnMessage } from './warnings'
 import { resolveWithKeyValue } from './resolver'
 import { fallbackWithSimple } from './fallbacker'
 
-import type { CompileOptions } from '@intlify/message-compiler'
+import type { CompileOptions, ResourceNode } from '@intlify/message-compiler'
 import type { VueDevToolsEmitter } from '@intlify/vue-devtools'
 import type { Path, MessageResolver } from './resolver'
 import type {
@@ -28,6 +28,7 @@ import type {
   PluralizationRules,
   MessageProcessor,
   MessageFunction,
+  MessageFunctionReturn,
   MessageType
 } from './runtime'
 import type {
@@ -95,12 +96,15 @@ export type CoreMissingHandler<Message = string> = (
 
 /** @VueI18nGeneral */
 export type PostTranslationHandler<Message = string> = (
-  translated: MessageType<Message>,
+  translated: MessageFunctionReturn<Message>,
   key: string
-) => MessageType<Message>
+) => MessageFunctionReturn<Message>
 
-export type MessageCompiler<Message = string> = (
-  source: string,
+export type MessageCompiler<
+  Message = string,
+  MessageSource extends string | ResourceNode = string
+> = (
+  message: MessageSource,
   options?: CompileOptions
 ) => MessageFunction<Message>
 
@@ -167,7 +171,7 @@ export interface CoreOptions<
   processor?: MessageProcessor<Message>
   warnHtmlMessage?: boolean
   escapeParameter?: boolean
-  messageCompiler?: MessageCompiler<Message>
+  messageCompiler?: MessageCompiler<Message, string | ResourceNode>
   messageResolver?: MessageResolver
   localeFallbacker?: LocaleFallbacker
   fallbackContext?: CoreContext<Message, MessagesLocales, DateTimeFormatsLocales, NumberFormatsLocales>
@@ -205,7 +209,7 @@ export interface CoreTranslationContext<Messages = {}, Message = string> {
   processor: MessageProcessor<Message> | null
   warnHtmlMessage: boolean
   escapeParameter: boolean
-  messageCompiler: MessageCompiler<Message> | null
+  messageCompiler: MessageCompiler<Message, string | ResourceNode> | null
   messageResolver: MessageResolver
 }
 
@@ -298,7 +302,7 @@ function getDefaultLinkedModifiers<
 let _compiler: unknown | null
 
 export function registerMessageCompiler<Message>(
-  compiler: MessageCompiler<Message>
+  compiler: MessageCompiler<Message, string | ResourceNode>
 ): void {
   _compiler = compiler
 }

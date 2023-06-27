@@ -1,6 +1,6 @@
 import { createCoreContext, translate } from '../src/index'
 import { createEmitter } from '@intlify/shared'
-import { compileToFunction } from '../src/compile'
+import { compileToFunction } from '../src/compilation'
 import { IntlifyDevToolsHooks } from '@intlify/devtools-if'
 import { setDevToolsHook, getDevToolsHook } from '../src/devtools'
 

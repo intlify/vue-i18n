@@ -29,7 +29,11 @@ import { CoreErrorCodes, createCoreError } from './errors'
 import { translateDevTools } from './devtools'
 import { VueDevToolsTimelineEvents } from '@intlify/vue-devtools'
 
-import type { CompileOptions, CompileError } from '@intlify/message-compiler'
+import type {
+  CompileOptions,
+  CompileError,
+  ResourceNode
+} from '@intlify/message-compiler'
 import type { AdditionalPayloads } from '@intlify/devtools-if'
 import type { Path, PathValue } from './resolver'
 import type {
@@ -37,9 +41,9 @@ import type {
   FallbackLocale,
   NamedValue,
   MessageFunction,
+  MessageFunctionReturn,
   MessageFunctionInternal,
   MessageContextOptions,
-  MessageType,
   MessageContext
 } from './runtime'
 import type {
@@ -52,6 +56,9 @@ import type { PickupKeys } from './types'
 const NOOP_MESSAGE_FUNCTION = () => ''
 export const isMessageFunction = <T>(val: unknown): val is MessageFunction<T> =>
   isFunction(val)
+
+export const isMessageAST = (val: unknown): val is ResourceNode =>
+  isObject(val) && val.type === 0 && 'body' in val
 
 /**
  *  # translate
@@ -167,7 +174,7 @@ export function translate<
 >(
   context: Context,
   key: Key | ResourceKeys | number | MessageFunction<Message>
-): MessageType<Message> | number
+): MessageFunctionReturn<Message> | number
 
 export function translate<
   Context extends CoreContext<Message, {}, {}, {}>,
@@ -180,7 +187,7 @@ export function translate<
   context: Context,
   key: Key | ResourceKeys | number | MessageFunction<Message>,
   plural: number
-): MessageType<Message> | number
+): MessageFunctionReturn<Message> | number
 
 export function translate<
   Context extends CoreContext<Message, {}, {}, {}>,
@@ -194,7 +201,7 @@ export function translate<
   key: Key | ResourceKeys | number | MessageFunction<Message>,
   plural: number,
   options: TranslateOptions<Context['locale']>
-): MessageType<Message> | number
+): MessageFunctionReturn<Message> | number
 
 export function translate<
   Context extends CoreContext<Message, {}, {}, {}>,
@@ -207,7 +214,7 @@ export function translate<
   context: Context,
   key: Key | ResourceKeys | number | MessageFunction<Message>,
   defaultMsg: string
-): MessageType<Message> | number
+): MessageFunctionReturn<Message> | number
 
 export function translate<
   Context extends CoreContext<Message, {}, {}, {}>,
@@ -221,7 +228,7 @@ export function translate<
   key: Key | ResourceKeys | number | MessageFunction<Message>,
   defaultMsg: string,
   options: TranslateOptions<Context['locale']>
-): MessageType<Message> | number
+): MessageFunctionReturn<Message> | number
 
 export function translate<
   Context extends CoreContext<Message, {}, {}, {}>,
@@ -234,7 +241,7 @@ export function translate<
   context: Context,
   key: Key | ResourceKeys | number | MessageFunction<Message>,
   list: unknown[]
-): MessageType<Message> | number
+): MessageFunctionReturn<Message> | number
 
 export function translate<
   Context extends CoreContext<Message, {}, {}, {}>,
@@ -248,7 +255,7 @@ export function translate<
   key: Key | ResourceKeys | number | MessageFunction<Message>,
   list: unknown[],
   plural: number
-): MessageType<Message> | number
+): MessageFunctionReturn<Message> | number
 
 export function translate<
   Context extends CoreContext<Message, {}, {}, {}>,
@@ -262,7 +269,7 @@ export function translate<
   key: Key | ResourceKeys | number | MessageFunction<Message>,
   list: unknown[],
   defaultMsg: string
-): MessageType<Message> | number
+): MessageFunctionReturn<Message> | number
 
 export function translate<
   Context extends CoreContext<Message, {}, {}, {}>,
@@ -276,7 +283,7 @@ export function translate<
   key: Key | ResourceKeys | number | MessageFunction<Message>,
   list: unknown[],
   options: TranslateOptions<Context['locale']>
-): MessageType<Message> | number
+): MessageFunctionReturn<Message> | number
 
 export function translate<
   Context extends CoreContext<Message, {}, {}, {}>,
@@ -289,7 +296,7 @@ export function translate<
   context: Context,
   key: Key | ResourceKeys | number | MessageFunction<Message>,
   named: NamedValue
-): MessageType<Message> | number
+): MessageFunctionReturn<Message> | number
 
 export function translate<
   Context extends CoreContext<Message, {}, {}, {}>,
@@ -303,7 +310,7 @@ export function translate<
   key: Key | ResourceKeys | number | MessageFunction<Message>,
   named: NamedValue,
   plural: number
-): MessageType<Message> | number
+): MessageFunctionReturn<Message> | number
 
 export function translate<
   Context extends CoreContext<Message, {}, {}, {}>,
@@ -317,7 +324,7 @@ export function translate<
   key: Key | ResourceKeys | number | MessageFunction<Message>,
   named: NamedValue,
   defaultMsg: string
-): MessageType<Message> | number
+): MessageFunctionReturn<Message> | number
 
 export function translate<
   Context extends CoreContext<Message, {}, {}, {}>,
@@ -331,13 +338,16 @@ export function translate<
   key: Key | ResourceKeys | number | MessageFunction<Message>,
   named: NamedValue,
   options: TranslateOptions<Context['locale']>
-): MessageType<Message> | number
+): MessageFunctionReturn<Message> | number
 
 // implementation of `translate` function
 export function translate<
   Context extends CoreContext<Message, {}, {}, {}>,
   Message = string
->(context: Context, ...args: unknown[]): MessageType<Message> | number {
+>(
+  context: Context,
+  ...args: unknown[]
+): MessageFunctionReturn<Message> | number {
   const {
     fallbackFormat,
     postTranslation,
@@ -408,7 +418,11 @@ export function translate<
   let cacheBaseKey = key
   if (
     !resolvedMessage &&
-    !(isString(format) || isMessageFunction<Message>(format))
+    !(
+      isString(format) ||
+      isMessageAST(format) ||
+      isMessageFunction<Message>(format)
+    )
   ) {
     if (enableDefaultMsg) {
       format = defaultMsgOrKey
@@ -419,12 +433,17 @@ export function translate<
   // checking message format and target locale
   if (
     !resolvedMessage &&
-    (!(isString(format) || isMessageFunction<Message>(format)) ||
+    (!(
+      isString(format) ||
+      isMessageAST(format) ||
+      isMessageFunction<Message>(format)
+    ) ||
       !isString(targetLocale))
   ) {
-    return unresolving ? NOT_REOSLVED : (key as MessageType<Message>)
+    return unresolving ? NOT_REOSLVED : (key as MessageFunctionReturn<Message>)
   }
 
+  // TODO: refactor
   if (__DEV__ && isString(format) && context.messageCompiler == null) {
     warn(
       `The message format compilation is not supported in this build. ` +
@@ -432,7 +451,7 @@ export function translate<
         `You need to pre-compilation all message format. ` +
         `So translate function return '${key}'.`
     )
-    return key as MessageType<Message>
+    return key as MessageFunctionReturn<Message>
   }
 
   // setup compile error detecting
@@ -455,7 +474,7 @@ export function translate<
 
   // if occurred compile error, return the message format
   if (occurred) {
-    return format as MessageType<Message>
+    return format as MessageFunctionReturn<Message>
   }
 
   // evaluate message with context
@@ -614,7 +633,10 @@ function resolveMessageFormat<Messages, Message>(
       }
     }
 
-    if (isString(format) || isFunction(format)) break
+    if (isString(format) || isMessageAST(format) || isMessageFunction(format)) {
+      break
+    }
+
     const missingRet = handleMissing(
       context as any, // eslint-disable-line @typescript-eslint/no-explicit-any
       key,
@@ -667,12 +689,12 @@ function compileMessageFormat<Messages, Message>(
   }
 
   const msg = messageCompiler(
-    format as string,
+    format as string | ResourceNode,
     getCompileOptions(
       context,
       targetLocale,
       cacheBaseKey,
-      format as string,
+      format as string | ResourceNode,
       warnHtmlMessage,
       errorDetector
     )
@@ -707,7 +729,7 @@ function evaluateMessage<Messages, Message>(
   context: CoreContext<Message, Messages>,
   msg: MessageFunction<Message>,
   msgCtx: MessageContext<Message>
-): MessageType<Message> {
+): MessageFunctionReturn<Message> {
   // for vue-devtools timeline event
   let start: number | null = null
   let startTag: string | undefined
@@ -785,7 +807,7 @@ function getCompileOptions<Messages, Message>(
   context: CoreContext<Message, Messages>,
   locale: Locale,
   key: string,
-  source: string,
+  source: string | ResourceNode,
   warnHtmlMessage: boolean,
   errorDetector?: (err: CompileError) => void
 ): CompileOptions {
@@ -794,18 +816,20 @@ function getCompileOptions<Messages, Message>(
     onError: (err: CompileError): void => {
       errorDetector && errorDetector(err)
       if (!__BRIDGE__ && __DEV__) {
+        const _source = getSourceForCodeFrame(source)
         const message = `Message compilation error: ${err.message}`
         const codeFrame =
           err.location &&
+          _source &&
           generateCodeFrame(
-            source,
+            _source,
             err.location.start.offset,
             err.location.end.offset
           )
         const emitter = (context as unknown as CoreInternalContext).__v_emitter
-        if (emitter) {
+        if (emitter && _source) {
           emitter.emit(VueDevToolsTimelineEvents.COMPILE_ERROR, {
-            message: source,
+            message: _source,
             error: err.message,
             start: err.location && err.location.start.offset,
             end: err.location && err.location.end.offset,
@@ -820,6 +844,17 @@ function getCompileOptions<Messages, Message>(
     onCacheKey: (source: string): string =>
       generateFormatCacheKey(locale, key, source)
   } as CompileOptions
+}
+
+function getSourceForCodeFrame(
+  source: string | ResourceNode
+): string | undefined {
+  if (isString(source)) {
+  } else {
+    if (source.loc?.source) {
+      return source.loc.source
+    }
+  }
 }
 
 function getMessageContextOptions<Messages, Message = string>(
@@ -854,7 +889,7 @@ function getMessageContextOptions<Messages, Message = string>(
       val = resolveValue(message, key)
     }
 
-    if (isString(val)) {
+    if (isString(val) || isMessageAST(val)) {
       let occurred = false
       const errorDetector = () => {
         occurred = true

@@ -1,26 +1,38 @@
-import { exec } from 'child_process'
-import { dirname } from 'pathe'
+import { spawn } from 'child_process'
 
 function run(pattner) {
   return new Promise((resolve, reject) => {
-    exec(
-      `node ./benchmark/${pattner}.mjs`,
-      { cwd: dirname('.') },
-      (error, stdout) => {
-        if (error) {
-          return reject(error)
-        }
-        console.log(stdout)
+    const child = spawn('node', [`./benchmark/${pattner}.mjs`], {
+      stdio: 'inherit'
+    })
+
+    child.once('error', err => {
+      reject(err)
+    })
+
+    child.once('exit', code => {
+      if (code !== 0) {
+        reject(new Error(`exit with code ${code}`))
+      } else {
         resolve()
       }
-    )
+    })
   })
 }
 
 ;(async () => {
   try {
-    for (const p of ['compile', 'simple', 'complex']) {
+    for (const p of [
+      'compile',
+      'simple',
+      'simple-jit',
+      'simple-jit-aot',
+      'complex',
+      'complex-jit',
+      'complex-jit-aot'
+    ]) {
       await run(p)
+      console.log()
     }
   } catch (e) {
     console.error(e)

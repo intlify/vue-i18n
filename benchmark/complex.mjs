@@ -12,51 +12,45 @@ const { require } = createCommonJS(import.meta.url)
 const { Suite } = require('benchmark')
 
 async function main() {
-  const data = await readJson(resolve(dirname('.'), './benchmark/complex.json'))
-  const len = Object.keys(data).length
+  const resources = await readJson(
+    resolve(dirname('.'), './benchmark/complex.json')
+  )
+  const len = Object.keys(resources).length
 
-  console.log(`complex pattern on ${len} resources:`)
+  console.log(`complex pattern on ${len} resources (AOT):`)
   console.log()
 
-  let i18n
+  const ctx = createCoreContext({
+    locale: 'en',
+    modifiers: {
+      caml: val => val
+    },
+    messages: {
+      en: resources
+    }
+  })
+
+  const i18n = createI18n({
+    legacy: false,
+    locale: 'en',
+    modifiers: {
+      caml: val => val
+    },
+    messages: {
+      en: resources
+    }
+  })
 
   new Suite('complex pattern')
     .add(`resolve time with core`, () => {
-      const ctx = createCoreContext({
-        locale: 'en',
-        modifiers: {
-          caml: val => val
-        },
-        messages: {
-          en: data
-        }
-      })
-      for (const [key] of Object.entries(data)) {
-        translate(ctx, key, 2)
-      }
+      translate(ctx, 'complex500', 2)
     })
     .add(`resolve time on composition`, () => {
       clearCompileCache()
-
-      i18n = createI18n({
-        legacy: false,
-        locale: 'en',
-        modifiers: {
-          caml: val => val
-        },
-        messages: {
-          en: data
-        }
-      })
-
-      for (const [key] of Object.entries(data)) {
-        i18n.global.t(key, 2)
-      }
+      i18n.global.t('complex500', 2)
     })
     .add(`resolve time on composition with compile cache`, () => {
-      for (const [key] of Object.entries(data)) {
-        i18n.global.t(key, 2)
-      }
+      i18n.global.t('complex500', 2)
     })
     .on('error', event => {
       console.log(String(event.target))

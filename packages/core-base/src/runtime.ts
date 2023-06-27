@@ -36,11 +36,15 @@ export type MessageType<T = string> = T extends string
   ? string
   : StringConvertable<T>
 
+export type MessageFunctionReturn<T = string> = T extends string
+  ? MessageType<T>
+  : MessageType<T>[]
+
 export type MessageFunctionCallable = <T = string>(
   ctx: MessageContext<T>
-) => MessageType<T>
+) => MessageFunctionReturn<T>
 export type MessageFunctionInternal<T = string> = {
-  (ctx: MessageContext<T>): MessageType<T>
+  (ctx: MessageContext<T>): MessageFunctionReturn<T>
   key?: string
   locale?: string
   source?: string
@@ -54,8 +58,8 @@ export type MessageResolveFunction<T = string> = (
 ) => MessageFunction<T>
 
 export type MessageNormalize<T = string> = (
-  values: MessageType<string | T>[]
-) => MessageType<T | T[]>
+  values: MessageType<T>[]
+) => MessageFunctionReturn<T>
 export type MessageInterpolate<T = string> = (val: unknown) => MessageType<T>
 export interface MessageProcessor<T = string> {
   type?: string
@@ -244,11 +248,12 @@ export function createMessageContext<T = string, N = {}>(
         type = arg2 || type
       }
     }
-    let msg = message(key)(ctx)
-    // The message in vnode resolved with linked are returned as an array by processor.nomalize
-    if (type === 'vnode' && isArray(msg) && modifier) {
-      msg = msg[0]
-    }
+    const ret = message(key)(ctx)
+    const msg =
+      // The message in vnode resolved with linked are returned as an array by processor.nomalize
+      type === 'vnode' && isArray(ret) && modifier
+        ? ret[0]
+        : (ret as MessageType<T>)
     return modifier ? _modifier(modifier)(msg as T, type) : msg
   }
 
