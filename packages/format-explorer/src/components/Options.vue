@@ -20,7 +20,8 @@ const compilerOptions = reactive<CompileOptions>({
   location: true,
   needIndent: true,
   sourceMap: true,
-  jit: false
+  jit: false,
+  optimize: true
 })
 
 const emit = defineEmits<{
@@ -110,6 +111,20 @@ watch(compilerOptions, (val, old) => {
             "
           />
           <label for="jit">jit</label>
+        </li>
+        <li>
+          <input
+            id="optimize"
+            type="checkbox"
+            name="optimize"
+            :checked="compilerOptions.optimize"
+            @change="
+              compilerOptions.optimize = (
+                $event.target as HTMLInputElement
+              ).checked
+            "
+          />
+          <label for="optimize">optimize</label>
         </li>
       </ul>
     </div>
