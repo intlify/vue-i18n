@@ -1,4 +1,4 @@
-import { getGlobalThis } from '@intlify/shared'
+import { initFeatureFlags } from './misc'
 
 export {
   CompileError,
@@ -18,16 +18,6 @@ export { CoreError, CoreErrorCodes, createCoreError } from './errors'
 export * from './types'
 export * from './devtools'
 
-// TODO: we could not exports for Node native ES Moudles yet...
-
 if (__ESM_BUNDLER__ && !__TEST__) {
-  if (typeof __FEATURE_PROD_INTLIFY_DEVTOOLS__ !== 'boolean') {
-    getGlobalThis().__INTLIFY_PROD_DEVTOOLS__ = false
-  }
-}
-
-if (__ESM_BUNDLER__ && !__TEST__) {
-  if (typeof __FEATURE_JIT_COMPILATION__ !== 'boolean') {
-    getGlobalThis().__INTLIFY_JIT_COMPILATION__ = false
-  }
+  initFeatureFlags()
 }

@@ -473,6 +473,9 @@ importers:
       '@intlify/core-base':
         specifier: workspace:*
         version: link:../core-base
+      '@intlify/shared':
+        specifier: workspace:*
+        version: link:../shared
 
   packages/core-base:
     dependencies:

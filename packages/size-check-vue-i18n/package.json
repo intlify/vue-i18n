@@ -5,7 +5,7 @@
     "dev": "vite",
     "build": "vite build",
     "check": "vue-tsc",
-    "serve": "vite preview"
+    "preview": "vite preview"
   },
   "dependencies": {
     "vue": "^3.3.4",

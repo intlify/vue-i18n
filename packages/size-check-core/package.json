@@ -5,7 +5,7 @@
     "dev": "vite",
     "build": "vite build",
     "check": "tsc",
-    "serve": "vite preview"
+    "preview": "vite preview"
   },
   "dependencies": {
     "@intlify/core": "workspace:*"

@@ -14,14 +14,16 @@ export default defineConfig({
     // is targeting Node (SSR)?
     __NODE_JS__: false,
     'process.env.NODE_ENV': JSON.stringify('production'),
+    __INTLIFY_JIT_COMPILATION__: true,
     __INTLIFY_PROD_DEVTOOLS__: false
   },
   resolve: {
     alias: {
-      '@intlify/core': '@intlify/core/dist/core.runtime.esm-bundler.mjs'
+      '@intlify/core': '@intlify/core/dist/core.esm-bundler.js'
     }
   },
   build: {
+    minify: false,
     rollupOptions: {
       output: {
         entryFileNames: `assets/[name].js`,

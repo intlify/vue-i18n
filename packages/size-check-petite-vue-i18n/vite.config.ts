@@ -18,12 +18,13 @@ export default defineConfig({
     __VUE_I18N_LEGACY_API__: false,
     __VUE_I18N_FULL_INSTALL__: false,
     __VUE_PROD_DEVTOOLS__: false,
+    // __INTLIFY_JIT_COMPILATION__: true,
     __INTLIFY_PROD_DEVTOOLS__: false,
     'process.env.NODE_ENV': JSON.stringify('production')
   },
   resolve: {
     alias: {
-      'vue-i18n': 'petite-vue-i18n/dist/petite-vue-i18n.runtime.esm-bundler.mjs'
+      'vue-i18n': 'petite-vue-i18n/dist/petite-vue-i18n.esm-bundler.js'
     }
   },
   build: {
