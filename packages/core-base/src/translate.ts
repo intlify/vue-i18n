@@ -663,8 +663,6 @@ function compileMessageFormat<Messages, Message>(
 ): MessageFunctionInternal {
   const { messageCompiler, warnHtmlMessage } = context
 
-  // TODO: for AST format
-
   if (isMessageFunction<Message>(format)) {
     const msg = format as MessageFunctionInternal
     msg.locale = msg.locale || targetLocale
@@ -696,7 +694,7 @@ function compileMessageFormat<Messages, Message>(
       context,
       targetLocale,
       cacheBaseKey,
-      format as string, // TODO:
+      format as string | ResourceNode,
       warnHtmlMessage,
       errorDetector
     )
@@ -809,7 +807,7 @@ function getCompileOptions<Messages, Message>(
   context: CoreContext<Message, Messages>,
   locale: Locale,
   key: string,
-  source: string, // TODO: type for AST
+  source: string | ResourceNode,
   warnHtmlMessage: boolean,
   errorDetector?: (err: CompileError) => void
 ): CompileOptions {
@@ -818,19 +816,20 @@ function getCompileOptions<Messages, Message>(
     onError: (err: CompileError): void => {
       errorDetector && errorDetector(err)
       if (!__BRIDGE__ && __DEV__) {
+        const _source = getSourceForCodeFrame(source)
         const message = `Message compilation error: ${err.message}`
-        // TODO: for AST format
         const codeFrame =
           err.location &&
+          _source &&
           generateCodeFrame(
-            source,
+            _source,
             err.location.start.offset,
             err.location.end.offset
           )
         const emitter = (context as unknown as CoreInternalContext).__v_emitter
-        if (emitter) {
+        if (emitter && _source) {
           emitter.emit(VueDevToolsTimelineEvents.COMPILE_ERROR, {
-            message: source,
+            message: _source,
             error: err.message,
             start: err.location && err.location.start.offset,
             end: err.location && err.location.end.offset,
@@ -845,6 +844,17 @@ function getCompileOptions<Messages, Message>(
     onCacheKey: (source: string): string =>
       generateFormatCacheKey(locale, key, source)
   } as CompileOptions
+}
+
+function getSourceForCodeFrame(
+  source: string | ResourceNode
+): string | undefined {
+  if (isString(source)) {
+  } else {
+    if (source.loc?.source) {
+      return source.loc.source
+    }
+  }
 }
 
 function getMessageContextOptions<Messages, Message = string>(

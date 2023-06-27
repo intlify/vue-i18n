@@ -1,6 +1,7 @@
 import {
   registerMessageCompiler,
   compileToFunction,
+  compile,
   registerMessageResolver,
   resolveValue,
   registerLocaleFallbacker,
@@ -8,7 +9,11 @@ import {
 } from '@intlify/core-base'
 
 // register message compiler at @intlify/core
-registerMessageCompiler(compileToFunction)
+if (!__FEATURE_JIT_COMPILATION__) {
+  registerMessageCompiler(compileToFunction)
+} else {
+  registerMessageCompiler(compile)
+}
 
 // register message resolver at @intlify/core
 registerMessageResolver(resolveValue)

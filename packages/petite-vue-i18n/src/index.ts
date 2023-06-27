@@ -2,12 +2,21 @@ import { getGlobalThis } from '@intlify/shared'
 import {
   setDevToolsHook,
   registerMessageCompiler,
-  compileToFunction
+  compileToFunction,
+  compile
 } from '@intlify/core-base'
 import { initDev, initFeatureFlags } from '../../vue-i18n-core/src/misc'
 
+if (__ESM_BUNDLER__ && !__TEST__) {
+  initFeatureFlags()
+}
+
 // register message compiler at petite-vue-i18n
-registerMessageCompiler(compileToFunction)
+if (!__FEATURE_JIT_COMPILATION__) {
+  registerMessageCompiler(compileToFunction)
+} else {
+  registerMessageCompiler(compile)
+}
 
 export {
   Path,
@@ -95,10 +104,6 @@ export type {
   PickupKeys,
   PickupFormatPathKeys
 } from '@intlify/core-base'
-
-if (__ESM_BUNDLER__ && !__TEST__) {
-  initFeatureFlags()
-}
 
 // NOTE: experimental !!
 if (__DEV__ || __FEATURE_PROD_INTLIFY_DEVTOOLS__) {

@@ -106,7 +106,6 @@ export function compile<
   message: MessageSource,
   options: CoreBaseCompileOptions = {}
 ): MessageFunction<Message> {
-  // TODO: tree-shaking
   if (isString(message)) {
     // check HTML message
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -127,6 +126,7 @@ export function compile<
     // compile with JIT mode
     const { ast, detectError } = baseCompile(message, {
       ...options,
+      location: __DEV__,
       jit: true
     })
 

@@ -25,3 +25,9 @@ if (__ESM_BUNDLER__ && !__TEST__) {
     getGlobalThis().__INTLIFY_PROD_DEVTOOLS__ = false
   }
 }
+
+if (__ESM_BUNDLER__ && !__TEST__) {
+  if (typeof __FEATURE_JIT_COMPILATION__ !== 'boolean') {
+    getGlobalThis().__INTLIFY_JIT_COMPILATION__ = false
+  }
+}
