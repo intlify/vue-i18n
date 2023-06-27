@@ -51,9 +51,9 @@ The `esm-bundler` builds now exposes global feature flags that can be overwritte
 
 - `__VUE_I18N_FULL_INSTALL__` (enable/disable, in addition to vue-i18n APIs, components and directives all fully support installation: `true`)
 - `__VUE_I18N_LEGACY_API__` (enable/disable vue-i18n legacy style APIs support, default: `true`)
-- `__INTLIFY_PROD_DEVTOOLS__` (enable/disable `@intlify/devtools` support in production, default: `false`)
+- `__INTLIFY_JIT_COMPILATION__`  (enable/disable message compiler for JIT style, default: `false`)
 
-> NOTE: `__INTLIFY_PROD_DEVTOOLS__` flag is experimental, and `@intlify/devtools` is WIP yet.
+> NOTE: `__INTLIFY_JIT_COMPILATION__` flag support version, 9.3+
 
 The build will work without configuring these flags, however it is **strongly recommended** to properly configure them in order to get proper tree shaking in the final bundle. To configure these flags:
 

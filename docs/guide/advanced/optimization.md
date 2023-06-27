@@ -14,9 +14,20 @@ For bundler, it’s configured to bundle `vue-i18n.esm-bundler.js` with [`@intli
 IF [CSP](https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP) is enabled, `vue-i18n.esm-bundler.js` would not work with compiler due to `eval` statements. These statements violate the `default-src 'self'` header. Instead you need to use `vue-i18n.runtime.esm-bundler.js`.
 :::
 
+:::warning NOTICE
+From v9.3, the CSP issue can be worked around by JIT compilation of the vue-i18n message compiler. See [JIT compilation for details](#jit-compilation).
+:::
+
 The use of this ES Module means that **all locale messages have to pre-compile to Message functions**. what this means it improves performance because vue-i18n just only execute Message functions, so no compilation.
 
 Also, the message compiler is not bundled, therefore **bundle size can be reduced**
+
+:::warning NOTICE
+If you are using the JIT compilation, all locale messages will not necessarily be compiled with the Message function.
+
+Also, since the message compiler is also bundled, the bundle size cannot be reduced. **This is a trade-off**.
+:::
+
 
 ## How to configure
 
@@ -182,19 +193,49 @@ About options and features, see the detail [page](https://github.com/intlify/bun
 
 No need to do anything. [Quasar CLI](https://quasar.dev) takes care of the optimizations for you.
 
-## Reduce bundle size with feature build flags
+
+## Feature build flags
+
+### Reduce bundle size with tree-shaking
 
 The `esm-bundler` builds now exposes global feature flags that can be overwritten at compile time:
 
 - `__VUE_I18N_FULL_INSTALL__` (enable/disable, in addition to vue-i18n APIs, components and directives all fully support installation: `true`)
 - `__VUE_I18N_LEGACY_API__` (enable/disable vue-i18n legacy style APIs support, default: `true`)
-- `__INTLIFY_PROD_DEVTOOLS__` (enable/disable `@intlify/devtools` support in production, default: `false`)
 
-:::warning NOTICE
-`__INTLIFY_PROD_DEVTOOLS__` flag is experimental, and `@intlify/devtools` is WIP yet.
+The build will work without configuring these flags, however it is **strongly recommended** to properly configure them in order to get proper tree shaking in the final bundle.
+
+About how to configure for bundler, see the [here](#configure-feature-flags-for-bundler).
+
+### JIT compilation
+
+:::tip Support Version
+:new: 9.3+
 :::
 
-The build will work without configuring these flags, however it is **strongly recommended** to properly configure them in order to get proper tree shaking in the final bundle. To configure these flags:
+Before v9.3, vue-i18n message compiler precompiled locale messages like AOT.
+
+However, it had the following issues:
+
+- CSP issues: hard to work on service/web workers, edge-side runtimes of CDNs and etc.
+- Back-end integration: hard to get messages from back-end such as database via API and localize them dynamically
+
+To solve these issues, JIT style compilation is supported message compiler.
+
+the each time localization is performed in an application using `$t` or `t` functions, message resources will be compiled on message compiler.
+
+You need to configure the following feature flag with `esm-bundler` build and bundler such as vite:
+
+- `__INTLIFY_JIT_COMPILATION__`  (enable/disable message compiler for JIT style, default: `false`) 
+
+:::warning NOTICE
+This feature is opted out as default, because compatibility with previous version before v9.3.
+:::
+
+About how to configure for bundler, see the [here](#configure-feature-flags-for-bundler).
+
+
+### Configure feature flags for bundler
 
 - webpack: use [DefinePlugin](https://webpack.js.org/plugins/define-plugin/)
 - Rollup: use [@rollup/plugin-replace](https://github.com/rollup/plugins/tree/master/packages/replace)
@@ -210,6 +251,7 @@ Also, if you are using the Vue CLI, you can use the [officially provided plugin]
 :::tip NOTE
 The replacement value **must be boolean literals** and cannot be strings, otherwise the bundler/minifier will not be able to properly evaluate the conditions.
 :::
+
 
 ## Pre translations with extensions
 
