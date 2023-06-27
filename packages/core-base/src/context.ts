@@ -104,7 +104,7 @@ export type MessageCompiler<
   Message = string,
   MessageSource extends string | ResourceNode = string
 > = (
-  mesasge: MessageSource,
+  message: MessageSource,
   options?: CompileOptions
 ) => MessageFunction<Message>
 
@@ -171,7 +171,7 @@ export interface CoreOptions<
   processor?: MessageProcessor<Message>
   warnHtmlMessage?: boolean
   escapeParameter?: boolean
-  messageCompiler?: MessageCompiler<Message>
+  messageCompiler?: MessageCompiler<Message, string | ResourceNode>
   messageResolver?: MessageResolver
   localeFallbacker?: LocaleFallbacker
   fallbackContext?: CoreContext<Message, MessagesLocales, DateTimeFormatsLocales, NumberFormatsLocales>
@@ -209,7 +209,7 @@ export interface CoreTranslationContext<Messages = {}, Message = string> {
   processor: MessageProcessor<Message> | null
   warnHtmlMessage: boolean
   escapeParameter: boolean
-  messageCompiler: MessageCompiler<Message> | null
+  messageCompiler: MessageCompiler<Message, string | ResourceNode> | null
   messageResolver: MessageResolver
 }
 
@@ -302,7 +302,7 @@ function getDefaultLinkedModifiers<
 let _compiler: unknown | null
 
 export function registerMessageCompiler<Message>(
-  compiler: MessageCompiler<Message>
+  compiler: MessageCompiler<Message, string | ResourceNode>
 ): void {
   _compiler = compiler
 }
@@ -358,6 +358,7 @@ let _cid = 0
 
 export function createCoreContext<
   Message = string,
+  MessageSource extends string | ResourceNode = string,
   Options extends CoreOptions<Message> = CoreOptions<Message>,
   Messages extends Record<string, any> = Options['messages'] extends Record<
     string,
@@ -379,7 +380,7 @@ export function createCoreContext<
     : {}
 >(
   options: Options
-): CoreContext<Message, Messages, DateTimeFormats, NumberFormats>
+): CoreContext<Message, MessageSource, Messages, DateTimeFormats, NumberFormats>
 
 export function createCoreContext<
   Schema = LocaleMessage,

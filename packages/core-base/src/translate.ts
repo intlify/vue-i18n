@@ -44,7 +44,6 @@ import type {
   MessageFunctionReturn,
   MessageFunctionInternal,
   MessageContextOptions,
-  MessageType,
   MessageContext
 } from './runtime'
 import type {
@@ -444,6 +443,7 @@ export function translate<
     return unresolving ? NOT_REOSLVED : (key as MessageFunctionReturn<Message>)
   }
 
+  // TODO: refactor
   if (__DEV__ && isString(format) && context.messageCompiler == null) {
     warn(
       `The message format compilation is not supported in this build. ` +
@@ -663,6 +663,8 @@ function compileMessageFormat<Messages, Message>(
 ): MessageFunctionInternal {
   const { messageCompiler, warnHtmlMessage } = context
 
+  // TODO: for AST format
+
   if (isMessageFunction<Message>(format)) {
     const msg = format as MessageFunctionInternal
     msg.locale = msg.locale || targetLocale
@@ -689,12 +691,12 @@ function compileMessageFormat<Messages, Message>(
   }
 
   const msg = messageCompiler(
-    format as string, // TODO: typing!
+    format as string | ResourceNode,
     getCompileOptions(
       context,
       targetLocale,
       cacheBaseKey,
-      format as string,
+      format as string, // TODO:
       warnHtmlMessage,
       errorDetector
     )
@@ -807,7 +809,7 @@ function getCompileOptions<Messages, Message>(
   context: CoreContext<Message, Messages>,
   locale: Locale,
   key: string,
-  source: string,
+  source: string, // TODO: type for AST
   warnHtmlMessage: boolean,
   errorDetector?: (err: CompileError) => void
 ): CompileOptions {
@@ -817,6 +819,7 @@ function getCompileOptions<Messages, Message>(
       errorDetector && errorDetector(err)
       if (!__BRIDGE__ && __DEV__) {
         const message = `Message compilation error: ${err.message}`
+        // TODO: for AST format
         const codeFrame =
           err.location &&
           generateCodeFrame(
