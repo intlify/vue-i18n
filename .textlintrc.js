@@ -12,6 +12,8 @@ module.exports = {
     'max-doc-width': 360,
     'unexpanded-acronym': {
       ignore_acronyms: [
+        'JIT',
+        'AOT',
         'UMD',
         'NPM',
         'CDN',
