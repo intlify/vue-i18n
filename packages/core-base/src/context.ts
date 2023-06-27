@@ -358,7 +358,6 @@ let _cid = 0
 
 export function createCoreContext<
   Message = string,
-  MessageSource extends string | ResourceNode = string,
   Options extends CoreOptions<Message> = CoreOptions<Message>,
   Messages extends Record<string, any> = Options['messages'] extends Record<
     string,
@@ -380,7 +379,7 @@ export function createCoreContext<
     : {}
 >(
   options: Options
-): CoreContext<Message, MessageSource, Messages, DateTimeFormats, NumberFormats>
+): CoreContext<Message, Messages, DateTimeFormats, NumberFormats>
 
 export function createCoreContext<
   Schema = LocaleMessage,
