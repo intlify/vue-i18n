@@ -127,7 +127,7 @@ export function compile<
     // compile with JIT mode
     const { ast, detectError } = baseCompile(message, {
       ...options,
-      useJIT: true
+      jit: true
     })
 
     // compose message function from AST

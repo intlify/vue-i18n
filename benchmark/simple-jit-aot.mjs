@@ -17,7 +17,7 @@ const { Suite } = require('benchmark')
 function precompile(data) {
   const keys = Object.keys(data)
   keys.forEach(key => {
-    const { ast } = baseCompile(data[key], { useJIT: true, location: false })
+    const { ast } = baseCompile(data[key], { jit: true, location: false })
     data[key] = ast
   })
   return data

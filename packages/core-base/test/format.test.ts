@@ -4,14 +4,14 @@ import { createMessageContext as context } from '../src/runtime'
 
 describe('features', () => {
   test('text: hello world', () => {
-    const { ast } = compile('hello world', { useJIT: true })
+    const { ast } = compile('hello world', { jit: true })
     const msg = format(ast)
     const ctx = context()
     expect(msg(ctx)).toBe('hello world')
   })
 
   test('named: hello {name} !', () => {
-    const { ast } = compile('hello {name} !', { useJIT: true })
+    const { ast } = compile('hello {name} !', { jit: true })
     const msg = format(ast)
     const ctx = context({
       named: { name: 'kazupon' }
@@ -20,7 +20,7 @@ describe('features', () => {
   })
 
   test('list: hello {0} !', () => {
-    const { ast } = compile('hello {0} !', { useJIT: true })
+    const { ast } = compile('hello {0} !', { jit: true })
     const msg = format(ast)
     const ctx = context({
       list: ['kazupon']
@@ -29,7 +29,7 @@ describe('features', () => {
   })
 
   test("literal: hello {'kazupon'} !", () => {
-    const { ast } = compile("hello {'kazupon'} !", { useJIT: true })
+    const { ast } = compile("hello {'kazupon'} !", { jit: true })
     const msg = format(ast)
     const ctx = context({})
     expect(msg(ctx)).toBe('hello kazupon !')
@@ -37,7 +37,7 @@ describe('features', () => {
 
   describe('linked', () => {
     test('key: hello @:name !', () => {
-      const { ast } = compile('hello @:name !', { useJIT: true })
+      const { ast } = compile('hello @:name !', { jit: true })
       const msg = format(ast)
       const ctx = context({
         messages: {
@@ -48,7 +48,7 @@ describe('features', () => {
     })
 
     test('list: hello @:{0} !', () => {
-      const { ast } = compile('hello @:{0} !', { useJIT: true })
+      const { ast } = compile('hello @:{0} !', { jit: true })
       const msg = format(ast)
       const ctx = context({
         list: ['kazupon'],
@@ -60,7 +60,7 @@ describe('features', () => {
     })
 
     test('named: hello @:{name} !', () => {
-      const { ast } = compile('hello @:{name} !', { useJIT: true })
+      const { ast } = compile('hello @:{name} !', { jit: true })
       const msg = format(ast)
       const ctx = context({
         named: { name: 'kazupon' },
@@ -72,7 +72,7 @@ describe('features', () => {
     })
 
     test("literal: hello @:{'kazupon'} !", () => {
-      const { ast } = compile("hello @:{'kazupon'} !", { useJIT: true })
+      const { ast } = compile("hello @:{'kazupon'} !", { jit: true })
       const msg = format(ast)
       const ctx = context({
         messages: {
@@ -83,7 +83,7 @@ describe('features', () => {
     })
 
     test('modifier: hello @.upper:{name} !', () => {
-      const { ast } = compile('hello @.upper:{name} !', { useJIT: true })
+      const { ast } = compile('hello @.upper:{name} !', { jit: true })
       const msg = format(ast)
       const ctx = context({
         modifiers: {
@@ -101,7 +101,7 @@ describe('features', () => {
   describe('plural', () => {
     test('simple: no apples | one apple | too much apples', () => {
       const { ast } = compile('no apples | one apple | too much apples', {
-        useJIT: true
+        jit: true
       })
       const msg = format(ast)
       const ctx = context({
@@ -113,7 +113,7 @@ describe('features', () => {
     test(`@.upper:{'no apples'} | {0} apple | {n}　apples`, () => {
       const { ast } = compile(
         `@.upper:{'no apples'} | {0} apple | {n}　apples`,
-        { useJIT: true }
+        { jit: true }
       )
       const msg = format(ast)
       const ctx = context({

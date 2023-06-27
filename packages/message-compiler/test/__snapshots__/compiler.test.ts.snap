@@ -257,6 +257,22 @@ exports[`arrow mode > hi {0}! > code 1`] = `"(ctx) => {const { normalize: _norma
 
 exports[`arrow mode > hi {name}! > code 1`] = `"(ctx) => {const { normalize: _normalize, interpolate: _interpolate, named: _named } = ctx;return _normalize([\\"hi \\", _interpolate(_named(\\"name\\")), \\"!\\"])}"`;
 
+exports[`compiler options > jit: true > ast 1`] = `
+{
+  "body": {
+    "items": [
+      {
+        "type": 3,
+        "value": "hello world",
+      },
+    ],
+    "static": "hello world",
+    "type": 2,
+  },
+  "type": 0,
+}
+`;
+
 exports[`compiler options > location: false > ast 1`] = `
 {
   "body": {
@@ -282,22 +298,6 @@ exports[`compiler options > optimize: false > ast 1`] = `
         "value": "hello world",
       },
     ],
-    "type": 2,
-  },
-  "type": 0,
-}
-`;
-
-exports[`compiler options > useJIT: true > ast 1`] = `
-{
-  "body": {
-    "items": [
-      {
-        "type": 3,
-        "value": "hello world",
-      },
-    ],
-    "static": "hello world",
     "type": 2,
   },
   "type": 0,

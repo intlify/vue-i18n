@@ -20,7 +20,7 @@ const compilerOptions = reactive<CompileOptions>({
   location: true,
   needIndent: true,
   sourceMap: true,
-  useJIT: false
+  jit: false
 })
 
 const emit = defineEmits<{
@@ -104,14 +104,12 @@ watch(compilerOptions, (val, old) => {
             id="jit"
             type="checkbox"
             name="jit"
-            :checked="compilerOptions.useJIT"
+            :checked="compilerOptions.jit"
             @change="
-              compilerOptions.useJIT = (
-                $event.target as HTMLInputElement
-              ).checked
+              compilerOptions.jit = ($event.target as HTMLInputElement).checked
             "
           />
-          <label for="jit">useJIT</label>
+          <label for="jit">jit</label>
         </li>
       </ul>
     </div>

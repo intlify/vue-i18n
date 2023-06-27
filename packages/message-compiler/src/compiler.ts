@@ -14,7 +14,7 @@ export function baseCompile(
   options: CompileOptions = {}
 ): CompilerResult {
   const assignedOptions = assign({}, options)
-  const useJIT = !!assignedOptions.useJIT
+  const jit = !!assignedOptions.jit
   const doOptimize =
     assignedOptions.optimize == null ? true : assignedOptions.optimize
 
@@ -22,7 +22,7 @@ export function baseCompile(
   const parser = createParser(assignedOptions)
   const ast = parser.parse(source)
 
-  if (!useJIT) {
+  if (!jit) {
     // transform ASTs
     transform(ast, assignedOptions)
 

@@ -91,9 +91,9 @@ describe('compiler options', () => {
     })
   })
 
-  test('useJIT: true', () => {
+  test('jit: true', () => {
     const { ast, code, map } = compile(`hello world`, {
-      useJIT: true,
+      jit: true,
       location: false
     })
     expect(ast).toMatchSnapshot('ast')

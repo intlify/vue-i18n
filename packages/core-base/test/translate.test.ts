@@ -980,7 +980,7 @@ describe('AST passing', () => {
     registerMessageCompiler(compile)
 
     const msg = 'hi kazupon !'
-    const { ast } = baseCompile(msg, { useJIT: true, location: false })
+    const { ast } = baseCompile(msg, { jit: true, location: false })
 
     const ctx = context({
       locale: 'en',
