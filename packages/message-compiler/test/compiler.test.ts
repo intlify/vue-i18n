@@ -87,6 +87,7 @@ describe('compiler options', () => {
     const { ast } = compile(`hello world`, { location: false, optimize: false })
     expect(ast).toMatchSnapshot('ast')
     traverse(ast, node => {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       expect((node as any).static).toBeUndefined()
     })
   })

@@ -502,7 +502,7 @@ test('disable source map with location: false', async () => {
   const msg = 'hello world'
   const ast = parser.parse(msg)
   transform(ast)
-  const { code, map } = generate(ast, { sourceMap: true, location: false })
+  const { map } = generate(ast, { sourceMap: true, location: false })
 
   expect(map!.sourcesContent).toBeUndefined()
   const consumer = await new SourceMapConsumer(map as RawSourceMap)

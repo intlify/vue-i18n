@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { reactive, watch, watchEffect } from 'vue'
+import { reactive, watch } from 'vue'
 import type { CompileOptions } from '@intlify/message-compiler'
 
 /*
@@ -28,7 +28,7 @@ const emit = defineEmits<{
   change: [options: CompileOptions]
 }>()
 
-watch(compilerOptions, (val, old) => {
+watch(compilerOptions, val => {
   console.log('watch compilerOptions', val)
   emit('change', val)
 })

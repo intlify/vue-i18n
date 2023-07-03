@@ -33,8 +33,8 @@
   "jsdelivr": "dist/core.global.js",
   "types": "dist/core.d.ts",
   "dependencies": {
-    "@intlify/shared": "workspace:*",
-    "@intlify/core-base": "workspace:*"
+    "@intlify/core-base": "workspace:*",
+    "@intlify/shared": "workspace:*"
   },
   "engines": {
     "node": ">= 16"
