@@ -1,4 +1,6 @@
 import {
+  compile,
+  registerMessageCompiler,
   registerMessageResolver,
   resolveValue,
   registerLocaleFallbacker,
@@ -8,6 +10,11 @@ import { initFeatureFlags } from '../../core-base/src/misc'
 
 if (__ESM_BUNDLER__ && !__TEST__) {
   initFeatureFlags()
+}
+
+// register message compiler for jit compilation
+if (__FEATURE_JIT_COMPILATION__) {
+  registerMessageCompiler(compile)
 }
 
 // register message resolver at @intlify/core
