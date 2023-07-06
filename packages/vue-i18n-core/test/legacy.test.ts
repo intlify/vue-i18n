@@ -141,7 +141,7 @@ test('formatFallbackMessages', () => {
 test('postTranslation', () => {
   const i18n = createVueI18n()
   expect(i18n.postTranslation).toEqual(null)
-  const postTranslation = (str: VueMessageType) =>
+  const postTranslation = <VueMessageType>(str: VueMessageType) =>
     shared.isString(str) ? str.trim() : str
   i18n.postTranslation = postTranslation
   expect(i18n.postTranslation).toEqual(postTranslation)
@@ -268,7 +268,7 @@ describe('rt', () => {
               'no apples',
               'one apple',
               `${ctx.named('count')} apples`
-            ])
+            ]) as string
         }
       }
     })

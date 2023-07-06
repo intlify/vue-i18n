@@ -390,7 +390,7 @@ export function translate<
   // resolve message format
   // eslint-disable-next-line prefer-const
   let [formatScope, targetLocale, message]: [
-    PathValue | MessageFunction<Message>,
+    PathValue | MessageFunction<Message> | ResourceNode,
     Locale | undefined,
     LocaleMessageValue<Message>
   ] = !resolvedMessage
@@ -657,7 +657,7 @@ function compileMessageFormat<Messages, Message>(
   context: CoreContext<Message, Messages>,
   key: string,
   targetLocale: string,
-  format: PathValue,
+  format: PathValue | ResourceNode | MessageFunction<Message>,
   cacheBaseKey: string,
   errorDetector: () => void
 ): MessageFunctionInternal {
@@ -707,7 +707,7 @@ function compileMessageFormat<Messages, Message>(
     if (emitter && start) {
       emitter.emit(VueDevToolsTimelineEvents.MESSAGE_COMPILATION, {
         type: VueDevToolsTimelineEvents.MESSAGE_COMPILATION,
-        message: format,
+        message: format as string | ResourceNode | MessageFunction,
         time: end - start,
         groupId: `${'translate'}:${key}`
       })
@@ -767,11 +767,16 @@ function evaluateMessage<Messages, Message>(
 /** @internal */
 export function parseTranslateArgs<Message = string>(
   ...args: unknown[]
-): [Path | MessageFunction<Message>, TranslateOptions] {
+): [Path | MessageFunction<Message> | ResourceNode, TranslateOptions] {
   const [arg1, arg2, arg3] = args
   const options = {} as TranslateOptions
 
-  if (!isString(arg1) && !isNumber(arg1) && !isMessageFunction(arg1)) {
+  if (
+    !isString(arg1) &&
+    !isNumber(arg1) &&
+    !isMessageFunction(arg1) &&
+    !isMessageAST(arg1)
+  ) {
     throw createCoreError(CoreErrorCodes.INVALID_ARGUMENT)
   }
 
