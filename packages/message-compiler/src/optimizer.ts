@@ -18,6 +18,7 @@ function optimizeMessageNode(message: MessageNode) {
     const item = message.items[0]
     if (item.type === NodeTypes.Text || item.type === NodeTypes.Literal) {
       message.static = item.value
+      delete item.value // optimization for size
     }
   } else {
     const values: string[] = []
@@ -26,10 +27,19 @@ function optimizeMessageNode(message: MessageNode) {
       if (!(item.type === NodeTypes.Text || item.type === NodeTypes.Literal)) {
         break
       }
+      if (item.value == null) {
+        break
+      }
       values.push(item.value)
     }
     if (values.length === message.items.length) {
       message.static = join(values)
+      for (let i = 0; i < message.items.length; i++) {
+        const item = message.items[i]
+        if (item.type === NodeTypes.Text || item.type === NodeTypes.Literal) {
+          delete item.value // optimization for size
+        }
+      }
     }
   }
 }

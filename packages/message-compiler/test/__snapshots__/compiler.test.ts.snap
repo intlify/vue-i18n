@@ -263,7 +263,6 @@ exports[`compiler options > jit: true > ast 1`] = `
     "items": [
       {
         "type": 3,
-        "value": "hello world",
       },
     ],
     "static": "hello world",
@@ -282,7 +281,6 @@ exports[`compiler options > location: false > ast 1`] = `
         "value": "hello world",
       },
     ],
-    "static": "hello world",
     "type": 2,
   },
   "type": 0,
