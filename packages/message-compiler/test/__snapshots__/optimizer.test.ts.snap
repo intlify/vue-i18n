@@ -6,15 +6,12 @@ exports[`full text items: foo{'@'}domain.com 1`] = `
     "items": [
       {
         "type": 3,
-        "value": "foo",
       },
       {
         "type": 9,
-        "value": "@",
       },
       {
         "type": 3,
-        "value": "domain.com",
       },
     ],
     "static": "foo@domain.com",
@@ -32,7 +29,6 @@ exports[`full text message on plural: no apples | one apple | many apples 1`] = 
         "items": [
           {
             "type": 3,
-            "value": "no apples",
           },
         ],
         "static": "no apples",
@@ -42,7 +38,6 @@ exports[`full text message on plural: no apples | one apple | many apples 1`] = 
         "items": [
           {
             "type": 3,
-            "value": "one apple",
           },
         ],
         "static": "one apple",
@@ -52,7 +47,6 @@ exports[`full text message on plural: no apples | one apple | many apples 1`] = 
         "items": [
           {
             "type": 3,
-            "value": "many apples",
           },
         ],
         "static": "many apples",
@@ -73,7 +67,6 @@ exports[`incldue dynamic node in pluarl: no apples | {0} apple | {n} apples 1`] 
         "items": [
           {
             "type": 3,
-            "value": "no apples",
           },
         ],
         "static": "no apples",
@@ -141,7 +134,6 @@ exports[`literal only: {'hello world'} 1`] = `
     "items": [
       {
         "type": 9,
-        "value": "hello world",
       },
     ],
     "static": "hello world",
@@ -157,7 +149,6 @@ exports[`text only: hello world 1`] = `
     "items": [
       {
         "type": 3,
-        "value": "hello world",
       },
     ],
     "static": "hello world",

@@ -50,7 +50,7 @@ type MessageElementNode =
 
 export interface TextNode extends Node {
   type: NodeTypes.Text
-  value: string
+  value?: string
 }
 
 export interface NamedNode extends Node {
@@ -65,7 +65,7 @@ export interface ListNode extends Node {
 
 export interface LiteralNode extends Node {
   type: NodeTypes.Literal
-  value: string
+  value?: string
 }
 
 export interface LinkedNode extends Node {

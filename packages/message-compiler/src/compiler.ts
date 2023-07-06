@@ -26,9 +26,6 @@ export function baseCompile(
     // transform ASTs
     transform(ast, assignedOptions)
 
-    // optimize ASTs
-    doOptimize && optimize(ast)
-
     // generate javascript codes
     return generate(ast, assignedOptions)
   } else {
