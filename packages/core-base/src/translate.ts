@@ -771,7 +771,12 @@ export function parseTranslateArgs<Message = string>(
   const [arg1, arg2, arg3] = args
   const options = {} as TranslateOptions
 
-  if (!isString(arg1) && !isNumber(arg1) && !isMessageFunction(arg1)) {
+  if (
+    !isString(arg1) &&
+    !isNumber(arg1) &&
+    !isMessageFunction(arg1) &&
+    !isMessageAST(arg1)
+  ) {
     throw createCoreError(CoreErrorCodes.INVALID_ARGUMENT)
   }
 

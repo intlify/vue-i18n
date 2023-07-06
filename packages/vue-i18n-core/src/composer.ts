@@ -99,6 +99,7 @@ import type {
   LocaleParams,
   ResourceValue,
   ResourcePath,
+  ResourceNode,
   PickupPaths,
   PickupFormatPathKeys,
   RemoveIndexSignature,
@@ -114,7 +115,7 @@ export { DEFAULT_LOCALE } from '@intlify/core-base'
 export const DEVTOOLS_META = '__INTLIFY_META__'
 
 /** @VueI18nComposition */
-export type VueMessageType = string | VNode
+export type VueMessageType = string | ResourceNode | VNode
 
 /**
  * The type definition of Locale Message

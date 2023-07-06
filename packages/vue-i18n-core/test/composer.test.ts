@@ -30,6 +30,7 @@ import { watch, watchEffect, nextTick, Text, createVNode } from 'vue'
 import {
   Locale,
   compileToFunction,
+  compile,
   registerMessageCompiler,
   resolveValue,
   registerMessageResolver,
@@ -537,7 +538,7 @@ describe('postTranslation', () => {
     expect(getPostTranslationHandler()).toEqual(null)
 
     let key = ''
-    const handler = (str: VueMessageType, _key: string) => {
+    const handler = <VueMessageType>(str: VueMessageType, _key: string) => {
       key = _key
       return shared.isString(str) ? str.trim() : str
     }
@@ -548,7 +549,7 @@ describe('postTranslation', () => {
   })
 
   test('initialize at composer creating', () => {
-    const handler = (str: VueMessageType) =>
+    const handler = <VueMessageType>(str: VueMessageType) =>
       shared.isString(str) ? str.trim() : str
     const { getPostTranslationHandler, t } = createComposer({
       locale: 'en',
@@ -774,7 +775,159 @@ describe('rt', () => {
               'no apples',
               'one apple',
               `${ctx.named('count')} apples`
-            ])
+            ]) as string
+        }
+      }
+    })
+
+    expect(rt(messages.value.en.text)).toEqual('hi dio!')
+    expect(rt(messages.value.en.list, ['dio'])).toEqual('hi dio!')
+    expect(rt(messages.value.en.named, { name: 'dio' })).toEqual('hi dio!')
+    expect(rt(messages.value.en.linked)).toEqual('hi DIO !')
+    expect(rt(messages.value.en.pural, 2)).toEqual('2 apples')
+  })
+
+  test('AST', () => {
+    registerMessageCompiler(compile)
+
+    const { rt, messages } = createComposer({
+      locale: 'en',
+      messages: {
+        en: {
+          text: {
+            type: 0,
+            body: {
+              type: 2,
+              items: [
+                {
+                  type: 3,
+                  value: 'hi dio!'
+                }
+              ],
+              static: 'hi dio!'
+            }
+          },
+          list: {
+            type: 0,
+            body: {
+              type: 2,
+              items: [
+                {
+                  type: 3,
+                  value: 'hi '
+                },
+                {
+                  type: 5,
+                  index: 0
+                },
+                {
+                  type: 3,
+                  value: '!'
+                }
+              ]
+            }
+          },
+          named: {
+            type: 0,
+            body: {
+              type: 2,
+              items: [
+                {
+                  type: 3,
+                  value: 'hi '
+                },
+                {
+                  type: 4,
+                  key: 'name'
+                },
+                {
+                  type: 3,
+                  value: '!'
+                }
+              ]
+            }
+          },
+          name: {
+            type: 0,
+            body: {
+              type: 2,
+              items: [
+                {
+                  type: 3,
+                  value: 'dio'
+                }
+              ],
+              static: 'dio'
+            }
+          },
+          linked: {
+            type: 0,
+            body: {
+              type: 2,
+              items: [
+                {
+                  type: 3,
+                  value: 'hi '
+                },
+                {
+                  type: 6,
+                  modifier: {
+                    type: 8,
+                    value: 'upper'
+                  },
+                  key: {
+                    type: 7,
+                    value: 'name'
+                  }
+                },
+                {
+                  type: 3,
+                  value: ' !'
+                }
+              ]
+            }
+          },
+          pural: {
+            type: 0,
+            body: {
+              type: 1,
+              cases: [
+                {
+                  type: 2,
+                  items: [
+                    {
+                      type: 3,
+                      value: 'no apples'
+                    }
+                  ],
+                  static: 'no apples'
+                },
+                {
+                  type: 2,
+                  items: [
+                    {
+                      type: 3,
+                      value: 'one apple'
+                    }
+                  ],
+                  static: 'one apple'
+                },
+                {
+                  type: 2,
+                  items: [
+                    {
+                      type: 4,
+                      key: 'count'
+                    },
+                    {
+                      type: 3,
+                      value: ' apples'
+                    }
+                  ]
+                }
+              ]
+            }
+          }
         }
       }
     })

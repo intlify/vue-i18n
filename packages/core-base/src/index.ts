@@ -3,6 +3,7 @@ import { initFeatureFlags } from './misc'
 export {
   CompileError,
   CompileErrorCodes,
+  ResourceNode,
   createCompileError
 } from '@intlify/message-compiler'
 export * from './resolver'
