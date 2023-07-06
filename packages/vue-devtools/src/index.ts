@@ -3,6 +3,8 @@ import type {
   Path,
   PathValue,
   Locale,
+  MessageFunction,
+  ResourceNode,
   CoreMissingType
 } from '@intlify/core-base'
 
@@ -37,7 +39,7 @@ export const enum VueDevToolsTimelineEvents {
 
 export type VueDevToolsTimelineEventPayloads = {
   [VueDevToolsTimelineEvents.COMPILE_ERROR]: {
-    message: PathValue
+    message: string
     error: string
     start?: number
     end?: number
@@ -65,7 +67,7 @@ export type VueDevToolsTimelineEventPayloads = {
   }
   [VueDevToolsTimelineEvents.MESSAGE_COMPILATION]: {
     type: VueDevToolsTimelineEvents.MESSAGE_COMPILATION
-    message: PathValue
+    message: string | ResourceNode | MessageFunction
     time: number
     groupId?: string
   }
