@@ -53,7 +53,6 @@
   "exports": {
     ".": {
       "types": "./dist/message-compiler.d.ts",
-      "import": "./dist/message-compiler.mjs",
       "browser": "./dist/message-compiler.esm-browser.js",
       "node": {
         "import": {
@@ -66,7 +65,8 @@
           "development": "./dist/message-compiler.cjs",
           "default": "./index.js"
         }
-      }
+      },
+      "import": "./dist/message-compiler.mjs"
     },
     "./dist/*": "./dist/*",
     "./package.json": "./package.json"
