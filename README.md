@@ -90,6 +90,15 @@ Vue I18n is part of the Vue Ecosystem and Intlify Project is an open source proj
   </a>
 </p>
 
+<p align="center">
+  <a href="https://froggly.pl/" target="_blank">
+    <img
+      src="https://raw.githubusercontent.com/intlify/vue-i18n-next/master/docs/public/Froggly.svg"
+      width="144px"
+    />
+  </a>
+</p>
+
 <br/>
 
 ## Status: [![Test](https://github.com/intlify/vue-i18n-next/actions/workflows/test.yml/badge.svg)](https://github.com/intlify/vue-i18n-next/actions/workflows/test.yml) [![Lint](https://github.com/intlify/vue-i18n-next/actions/workflows/lint.yml/badge.svg)](https://github.com/intlify/vue-i18n-next/actions/workflows/lint.yml)

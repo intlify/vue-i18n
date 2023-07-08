@@ -31,5 +31,9 @@
     "name": "Vue Mastery",
     "url": "https://www.vuemastery.com/",
     "img": "vuemastery.png"
+  }, {
+    "name": "Froggly",
+    "url": "https://froggly.pl/",
+    "img": "Froggly.svg"
   }]
 }
