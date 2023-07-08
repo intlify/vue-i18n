@@ -90,7 +90,7 @@ function createCodeGenerator(
 
   function push(code: string, node?: CodeGenNode): void {
     _context.code += code
-    if (!__BROWSER__ && _context.map) {
+    if (__NODE_JS__ && _context.map) {
       if (node && node.loc && node.loc !== LOCATION_STUB) {
         addMapping(node.loc.start, getMappingName(node))
       }
@@ -135,7 +135,7 @@ function createCodeGenerator(
     })
   }
 
-  if (!__BROWSER__ && location && sourceMap) {
+  if (__NODE_JS__ && location && sourceMap) {
     _context.map = new SourceMapGenerator()
     _context.map!.setSourceContent(filename!, _context.source!)
   }
