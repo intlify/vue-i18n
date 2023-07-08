@@ -44,6 +44,10 @@ const outputConfigs = {
     file: `dist/${name}.mjs`,
     format: `es`
   },
+  'mjs-node': {
+    file: `dist/${name}.node.mjs`,
+    format: `es`
+  },
   browser: {
     file: `dist/${name}.esm-browser.js`,
     format: `es`
@@ -326,39 +330,38 @@ function createReplacePlugin(
       : // hard coded dev/prod builds
         !isProduction,
     // this is only used during Vue's internal tests
-    __TEST__: false,
+    __TEST__: `false`,
     // If the build is expected to run directly in the browser (global / esm builds)
-    __BROWSER__: isBrowserBuild,
-    __GLOBAL__: isGlobalBuild,
+    __BROWSER__: String(isBrowserBuild),
+    __GLOBAL__: String(isGlobalBuild),
     // for runtime only
-    __RUNTIME__: isRuntimeOnlyBuild,
+    __RUNTIME__: String(isRuntimeOnlyBuild),
     // bundle filename
     __BUNDLE_FILENAME__: `'${bundleFilename}'`,
-    __ESM_BUNDLER__: isBundlerESMBuild,
-    __ESM_BROWSER__: isBrowserESMBuild,
+    __ESM_BUNDLER__: String(isBundlerESMBuild),
+    __ESM_BROWSER__: String(isBrowserESMBuild),
     // is targeting Node (SSR)?
-    __NODE_JS__: isNodeBuild,
+    __NODE_JS__: String(isNodeBuild),
     // for lite version
-    __LITE__: isLite,
+    __LITE__: String(isLite),
     // for bridge version
-    __BRIDGE__: isBridge,
+    __BRIDGE__: String(isBridge),
     // feature flags
     __FEATURE_FULL_INSTALL__: isBundlerESMBuild
       ? `__VUE_I18N_FULL_INSTALL__`
-      : true,
+      : `true`,
     __FEATURE_LEGACY_API__: isBundlerESMBuild
       ? `__VUE_I18N_LEGACY_API__`
-      : true,
+      : `true`,
     __FEATURE_PROD_VUE_DEVTOOLS__: isBundlerESMBuild
       ? `__VUE_PROD_DEVTOOLS__`
-      : false,
+      : `false`,
     __FEATURE_PROD_INTLIFY_DEVTOOLS__: isBundlerESMBuild
       ? `__INTLIFY_PROD_DEVTOOLS__`
-      : false,
+      : `false`,
     __FEATURE_JIT_COMPILATION__: isBundlerESMBuild
       ? `__INTLIFY_JIT_COMPILATION__`
-      : false,
-    preventAssignment: false,
+      : `false`,
     ...(isProduction && isBrowserBuild
       ? {
           'emitError(': `/*#__PURE__*/ emitError(`,
@@ -375,7 +378,7 @@ function createReplacePlugin(
       replacements[key] = process.env[key]
     }
   })
-  return replace(replacements)
+  return replace({ values: replacements, preventAssignment: true })
 }
 
 function createProductionConfig(format) {

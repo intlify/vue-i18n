@@ -43,6 +43,7 @@
     "name": "IntlifyMessageCompiler",
     "formats": [
       "mjs",
+      "mjs-node",
       "browser",
       "cjs",
       "global"
@@ -56,9 +57,9 @@
       "browser": "./dist/message-compiler.esm-browser.js",
       "node": {
         "import": {
-          "production": "./dist/message-compiler.prod.cjs",
-          "development": "./dist/message-compiler.mjs",
-          "default": "./dist/message-compiler.mjs"
+          "production": "./dist/message-compiler.node.mjs",
+          "development": "./dist/message-compiler.node.mjs",
+          "default": "./dist/message-compiler.node.mjs"
         },
         "require": {
           "production": "./dist/message-compiler.prod.cjs",
