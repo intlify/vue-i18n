@@ -17,11 +17,8 @@ import { getText } from './helper'
       await page.selectOption('#app select', 'en-US')
       const text = await getText(page, 'p')
       expect(text).include('Current Datetime')
-      // TOOD:
-      //  skip this assertions because of the timezone issue
-      //  https://github.com/nodejs/node/issues/46123
       expect(text).toMatch(
-        /(0[1-9]|1[0-2])\/(0[1-9]|[12]\d|3[01])\/([12]\d{3}), (0[0-9]|1[0-2]):([0-5][0-9]):([0-5][0-9]) (AM|PM)/
+        /(0[1-9]|1[0-2])\/(0[1-9]|[12]\d|3[01])\/([12]\d{3}), (0[0-9]|1[0-2]):([0-5][0-9]):([0-5][0-9])/
       )
     })
   })

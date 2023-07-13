@@ -109,8 +109,8 @@ importers:
         specifier: ^4.1.0
         version: 4.1.0
       jsdom:
-        specifier: ^21.1.2
-        version: 21.1.2
+        specifier: ^22.1.0
+        version: 22.1.0
       lint-staged:
         specifier: ^12.0.0
         version: 12.0.0
@@ -230,7 +230,7 @@ importers:
         version: 1.0.0-alpha.76(@algolia/client-search@4.17.2)(@types/node@18.16.18)
       vitest:
         specifier: ^0.31.1
-        version: 0.31.1(jsdom@21.1.2)(playwright@1.34.0)
+        version: 0.31.1(jsdom@22.1.0)(playwright@1.34.0)
       vue:
         specifier: 3.3.4
         version: 3.3.4
@@ -249,7 +249,7 @@ importers:
     devDependencies:
       '@intlify/bundle-utils':
         specifier: latest
-        version: 7.0.1(vue-i18n@packages+vue-i18n)
+        version: 7.0.2(vue-i18n@packages+vue-i18n)
       '@intlify/vite-plugin-vue-i18n':
         specifier: next
         version: 7.0.0-beta.4(vite@4.3.9)(vue-i18n@packages+vue-i18n)
@@ -1708,16 +1708,16 @@ packages:
       vue-i18n:
         optional: true
     dependencies:
-      '@intlify/message-compiler': 9.3.0-beta.23
-      '@intlify/shared': 9.3.0-beta.23
+      '@intlify/message-compiler': 9.3.0-beta.24
+      '@intlify/shared': 9.3.0-beta.24
       jsonc-eslint-parser: 1.4.1
       source-map: 0.6.1
       vue-i18n: link:packages/vue-i18n
       yaml-eslint-parser: 0.3.2
     dev: true
 
-  /@intlify/bundle-utils@7.0.1(vue-i18n@packages+vue-i18n):
-    resolution: {integrity: sha512-D7XrFOR8hbKnukGCWFrbz1IJsTQy8VgZ0TIOTQTSQ/bGhRmpyaLMQs44lJqP782mAR0AbumLlF56+oXpZqWuzQ==}
+  /@intlify/bundle-utils@7.0.2(vue-i18n@packages+vue-i18n):
+    resolution: {integrity: sha512-8wbx9xhbawBFTE5LPTECiK26RRqrNS31jyWSur72ZXZZ4it5jiZTcG6eUJlNirr4+jXYio2DGY299JsGVT4cpw==}
     engines: {node: '>= 14.16'}
     peerDependencies:
       petite-vue-i18n: '*'
@@ -1728,8 +1728,8 @@ packages:
       vue-i18n:
         optional: true
     dependencies:
-      '@intlify/message-compiler': 9.3.0-beta.20
-      '@intlify/shared': 9.3.0-beta.20
+      '@intlify/message-compiler': 9.3.0-beta.24
+      '@intlify/shared': 9.3.0-beta.24
       acorn: 8.9.0
       escodegen: 2.0.0
       estree-walker: 2.0.2
@@ -1773,19 +1773,11 @@ packages:
       source-map: 0.6.1
     dev: true
 
-  /@intlify/message-compiler@9.3.0-beta.20:
-    resolution: {integrity: sha512-hwqQXyTnDzAVZ300SU31jO0+3OJbpOdfVU6iBkrmNpS7t2HRnVACo0EwcEXzJa++4EVDreqz5OeqJbt+PeSGGA==}
+  /@intlify/message-compiler@9.3.0-beta.24:
+    resolution: {integrity: sha512-prhHATkgp0mpPqoVgiAtLmUc1JMvs8fMH6w53AVEBn+VF87dLhzanfmWY5FoZWORG51ag54gBDBOoM/VFv3m3A==}
     engines: {node: '>= 16'}
     dependencies:
-      '@intlify/shared': 9.3.0-beta.20
-      source-map-js: 1.0.2
-    dev: true
-
-  /@intlify/message-compiler@9.3.0-beta.23:
-    resolution: {integrity: sha512-pJKk6OYBvuQuoHyoMsICMip8X1jfQVaSMzeqngGKfIowLXR/vz8rB7kHOPq2zGL4yFjo1vpLiEi2PpTLEp9nyA==}
-    engines: {node: '>= 16'}
-    dependencies:
-      '@intlify/shared': 9.3.0-beta.23
+      '@intlify/shared': 9.3.0-beta.24
       source-map-js: 1.0.2
     dev: true
 
@@ -1794,13 +1786,8 @@ packages:
     engines: {node: '>= 14'}
     dev: true
 
-  /@intlify/shared@9.3.0-beta.20:
-    resolution: {integrity: sha512-RucSPqh8O9FFxlYUysQTerSw0b9HIRpyoN1Zjogpm0qLiHK+lBNSa5sh1nCJ4wSsNcjphzgpLQCyR60GZlRV8g==}
-    engines: {node: '>= 16'}
-    dev: true
-
-  /@intlify/shared@9.3.0-beta.23:
-    resolution: {integrity: sha512-ozhS+OrHXY8WErxJIarlW7fwLvbMPr53JcXjlRiZr1IJUjDvAo5t40nUnBdyR3h/A8gHboLb45RvFJYU4qfuRA==}
+  /@intlify/shared@9.3.0-beta.24:
+    resolution: {integrity: sha512-AKxJ8s7eKIQWkNaf4wyyoLRwf4puCuQgjSChlDJm5JBEt6T8HGgnYTJLRXu6LD/JACn3Qwu6hM/XRX1c9yvjmQ==}
     engines: {node: '>= 16'}
     dev: true
 
@@ -1838,7 +1825,7 @@ packages:
         optional: true
     dependencies:
       '@intlify/bundle-utils': 3.4.0(vue-i18n@packages+vue-i18n)
-      '@intlify/shared': 9.3.0-beta.23
+      '@intlify/shared': 9.3.0-beta.24
       '@rollup/pluginutils': 4.2.1
       debug: 4.3.4(supports-color@9.0.2)
       fast-glob: 3.2.12
@@ -3009,7 +2996,7 @@ packages:
       magic-string: 0.30.0
       picocolors: 1.0.0
       std-env: 3.3.3
-      vitest: 0.31.1(jsdom@21.1.2)(playwright@1.34.0)
+      vitest: 0.31.1(jsdom@22.1.0)(playwright@1.34.0)
     dev: true
 
   /@vitest/expect@0.31.1:
@@ -3550,13 +3537,6 @@ packages:
     dependencies:
       mime-types: 2.1.35
       negotiator: 0.6.3
-    dev: true
-
-  /acorn-globals@7.0.1:
-    resolution: {integrity: sha512-umOSDSDrfHbTNPuNpC2NSnnA3LUrqpevPb4T9jRx4MagXNS0rs+gwiTcAvqCRmsD6utzsrzNt+ebm00SNWiC3Q==}
-    dependencies:
-      acorn: 8.9.0
-      acorn-walk: 8.2.0
     dev: true
 
   /acorn-jsx@5.3.2(acorn@7.4.1):
@@ -7918,9 +7898,9 @@ packages:
       argparse: 2.0.1
     dev: true
 
-  /jsdom@21.1.2:
-    resolution: {integrity: sha512-sCpFmK2jv+1sjff4u7fzft+pUh2KSUbUrEHYHyfSIbGTIcmnjyp83qg6qLwdJ/I3LpTXx33ACxeRL7Lsyc6lGQ==}
-    engines: {node: '>=14'}
+  /jsdom@22.1.0:
+    resolution: {integrity: sha512-/9AVW7xNbsBv6GfWho4TTNjEo9fe6Zhf9O7s0Fhhr3u+awPwAJMKwAMXnkk5vBxflqLW9hTHX/0cs+P3gW+cQw==}
+    engines: {node: '>=16'}
     peerDependencies:
       canvas: ^2.5.0
     peerDependenciesMeta:
@@ -7928,13 +7908,10 @@ packages:
         optional: true
     dependencies:
       abab: 2.0.6
-      acorn: 8.8.2
-      acorn-globals: 7.0.1
       cssstyle: 3.0.0
       data-urls: 4.0.0
       decimal.js: 10.4.3
       domexception: 4.0.0
-      escodegen: 2.0.0
       form-data: 4.0.0
       html-encoding-sniffer: 3.0.0
       http-proxy-agent: 5.0.0
@@ -12781,7 +12758,7 @@ packages:
       - universal-cookie
     dev: true
 
-  /vitest@0.31.1(jsdom@21.1.2)(playwright@1.34.0):
+  /vitest@0.31.1(jsdom@22.1.0)(playwright@1.34.0):
     resolution: {integrity: sha512-/dOoOgzoFk/5pTvg1E65WVaobknWREN15+HF+0ucudo3dDG/vCZoXTQrjIfEaWvQXmqScwkRodrTbM/ScMpRcQ==}
     engines: {node: '>=v14.18.0'}
     hasBin: true
@@ -12826,7 +12803,7 @@ packages:
       chai: 4.3.7
       concordance: 5.0.4
       debug: 4.3.4(supports-color@9.0.2)
-      jsdom: 21.1.2
+      jsdom: 22.1.0
       local-pkg: 0.4.3
       magic-string: 0.30.0
       pathe: 1.1.0

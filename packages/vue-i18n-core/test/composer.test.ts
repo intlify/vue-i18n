@@ -1753,6 +1753,7 @@ describe('__datetimeParts', () => {
             day: '2-digit',
             hour: '2-digit',
             minute: '2-digit',
+            dayPeriod: 'short',
             timeZone: 'America/New_York'
           }
         }
@@ -1765,17 +1766,17 @@ describe('__datetimeParts', () => {
         part: true
       })
     ).toMatchObject([
-      { value: '12' },
-      { value: '/' },
-      { value: '19' },
-      { value: '/' },
-      { value: '2012' },
-      { value: ', ' },
-      { value: '10' },
-      { value: ':' },
-      { value: '00' },
-      { value: ' ' },
-      { value: 'PM' }
+      { value: '12', type: 'month' },
+      { value: '/', type: 'literal' },
+      { value: '19', type: 'day' },
+      { value: '/', type: 'literal' },
+      { value: '2012', type: 'year' },
+      { value: ', ', type: 'literal' },
+      { value: '10', type: 'hour' },
+      { value: ':', type: 'literal' },
+      { value: '00', type: 'minute' },
+      { value: ' ', type: 'literal' },
+      { value: 'at night', type: 'dayPeriod' }
     ])
   })
 
