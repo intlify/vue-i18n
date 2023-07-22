@@ -54,6 +54,7 @@
     "lint:docs": "textlint --config .textlintrc.js docs/*.md docs/advanced/**/*.md docs/essentials/**/*.md docs/migration/**/*.md docs/api/injection.md packages/**/*.md",
     "lint:fix": "run-p \"lint:codes --fix\" \"lint:docs --fix\"",
     "lint:secret": "npx secretlint \"**/*\"",
+    "prepare": "git config --local core.hooksPath .githooks",
     "prebuild": "test \"$CI\" = true && npx pnpm install -r --store=node_modules/.pnpm-store || echo skipping pnpm install",
     "preinstall": "node ./scripts/preinstall.js",
     "preview:explorer": "pnpm --filter @intlify/message-format-explorer preview",
@@ -71,7 +72,6 @@
     "@intlify/core-base": "workspace:*",
     "@intlify/message-compiler": "workspace:*",
     "@microsoft/api-extractor": "7.15.2",
-    "@nexhome/yorkie": "^2.0.8",
     "@rollup/plugin-commonjs": "^25.0.0",
     "@rollup/plugin-json": "^6.0.0",
     "@rollup/plugin-node-resolve": "^15.0.2",
@@ -152,9 +152,6 @@
     "node": ">= 16"
   },
   "private": true,
-  "gitHooks": {
-    "pre-commit": "lint-staged"
-  },
   "lint-staged": {
     "*.{json,md,yml}": [
       "prettier --write"
