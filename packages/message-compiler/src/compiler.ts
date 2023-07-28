@@ -1,6 +1,7 @@
 import { createParser } from './parser'
 import { transform } from './transformer'
 import { optimize } from './optimizer'
+import { minify } from './minifier'
 import { generate } from './generator'
 import { assign } from '@intlify/shared'
 
@@ -15,7 +16,8 @@ export function baseCompile(
 ): CompilerResult {
   const assignedOptions = assign({}, options)
   const jit = !!assignedOptions.jit
-  const doOptimize =
+  const enalbeMinify = !!assignedOptions.minify
+  const enambeOptimize =
     assignedOptions.optimize == null ? true : assignedOptions.optimize
 
   // parse source codes
@@ -30,7 +32,10 @@ export function baseCompile(
     return generate(ast, assignedOptions)
   } else {
     // optimize ASTs
-    doOptimize && optimize(ast)
+    enambeOptimize && optimize(ast)
+
+    // minimize ASTs
+    enalbeMinify && minify(ast)
 
     // In JIT mode, no ast transform, no code generation.
     return { ast, code: '' }

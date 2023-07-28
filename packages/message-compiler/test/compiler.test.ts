@@ -101,6 +101,15 @@ describe('compiler options', () => {
     expect(code).toEqual('')
     expect(map).toBeUndefined()
   })
+
+  test('minify: true', () => {
+    const { ast } = compile(`hello world`, {
+      location: false,
+      jit: true,
+      minify: true
+    })
+    expect(ast).toMatchSnapshot('ast')
+  })
 })
 
 describe('edge cases', () => {

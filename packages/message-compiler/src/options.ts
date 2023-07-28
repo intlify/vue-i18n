@@ -34,6 +34,7 @@ export interface CodeGenOptions {
 
 export type CompileOptions = {
   optimize?: boolean // default true
+  minify?: boolean // default false
   jit?: boolean // default false
 } & TransformOptions &
   CodeGenOptions &

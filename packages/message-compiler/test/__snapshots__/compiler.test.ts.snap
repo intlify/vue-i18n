@@ -287,6 +287,21 @@ exports[`compiler options > location: false > ast 1`] = `
 }
 `;
 
+exports[`compiler options > minify: true > ast 1`] = `
+{
+  "b": {
+    "i": [
+      {
+        "t": 3,
+      },
+    ],
+    "s": "hello world",
+    "t": 2,
+  },
+  "t": 0,
+}
+`;
+
 exports[`compiler options > optimize: false > ast 1`] = `
 {
   "body": {
