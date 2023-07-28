@@ -10,6 +10,7 @@ import type {
   LinkedNode,
   LinkedKeyNode,
   LinkedModifierNode,
+  PluralNode,
   ResourceNode
 } from '@intlify/message-compiler'
 import type {
@@ -24,8 +25,6 @@ export function format<Message = string>(
 ): MessageFunction<Message> {
   const msg = (ctx: MessageContext<Message>): MessageFunctionReturn<Message> =>
     formatParts<Message>(ctx, ast)
-  // TODO: add meta data for vue-devtools debugging, such as `key`, `source` and `locale`
-  // TODO: optimization for static text message
   return msg
 }
 
@@ -33,9 +32,12 @@ function formatParts<Message = string>(
   ctx: MessageContext<Message>,
   ast: ResourceNode
 ): MessageFunctionReturn<Message> {
-  if (ast.body.type === NodeTypes.Plural) {
+  const body = ast.b || ast.body
+  if ((body.t || body.type) === NodeTypes.Plural) {
+    const plural = body as PluralNode
+    const cases = plural.c || plural.cases
     return ctx.plural(
-      ast.body.cases.reduce(
+      cases.reduce(
         (messages, c) =>
           [
             ...messages,
@@ -45,7 +47,7 @@ function formatParts<Message = string>(
       ) as Message[]
     ) as MessageFunctionReturn<Message>
   } else {
-    return formatMessageParts(ctx, ast.body)
+    return formatMessageParts(ctx, body as MessageNode)
   }
 }
 
@@ -53,12 +55,13 @@ function formatMessageParts<Message = string>(
   ctx: MessageContext<Message>,
   node: MessageNode
 ): MessageFunctionReturn<Message> {
-  if (node.static) {
+  const _static = node.s || node.static
+  if (_static) {
     return ctx.type === 'text'
-      ? (node.static as MessageFunctionReturn<Message>)
-      : ctx.normalize([node.static] as MessageType<Message>[])
+      ? (_static as MessageFunctionReturn<Message>)
+      : ctx.normalize([_static] as MessageType<Message>[])
   } else {
-    const messages = node.items.reduce(
+    const messages = (node.i || node.items).reduce(
       (acm, c) => [...acm, formatMessagePart(ctx, c)],
       [] as MessageType<Message>[]
     )
@@ -70,30 +73,35 @@ function formatMessagePart<Message = string>(
   ctx: MessageContext<Message>,
   node: Node
 ): MessageType<Message> {
-  switch (node.type) {
+  const type = node.t || node.type
+  switch (type) {
     case NodeTypes.Text:
-      return (node as TextNode).value as MessageType<Message>
+      const text = node as TextNode
+      return (text.v || text.value) as MessageType<Message>
     case NodeTypes.Literal:
-      return (node as LiteralNode).value as MessageType<Message>
+      const literal = node as LiteralNode
+      return (literal.v || literal.value) as MessageType<Message>
     case NodeTypes.Named:
-      return ctx.interpolate(ctx.named((node as NamedNode).key))
+      const named = node as NamedNode
+      return ctx.interpolate(ctx.named(named.k || named.key))
     case NodeTypes.List:
-      return ctx.interpolate(ctx.list((node as ListNode).index))
+      const list = node as ListNode
+      return ctx.interpolate(ctx.list(list.i || list.index))
     case NodeTypes.Linked:
+      const linked = node as LinkedNode
+      const modifier = linked.m || linked.modifier
       return ctx.linked(
-        formatMessagePart(ctx, (node as LinkedNode).key) as string,
-        (node as LinkedNode).modifier
-          ? (formatMessagePart(ctx, (node as LinkedNode).modifier!) as string)
-          : undefined,
+        formatMessagePart(ctx, linked.k || linked.key) as string,
+        modifier ? (formatMessagePart(ctx, modifier) as string) : undefined,
         ctx.type
       )
     case NodeTypes.LinkedKey:
-      return (node as LinkedKeyNode).value as MessageType<Message>
+      const linkedKey = node as LinkedKeyNode
+      return (linkedKey.v || linkedKey.value) as MessageType<Message>
     case NodeTypes.LinkedModifier:
-      return (node as LinkedModifierNode).value as MessageType<Message>
+      const linkedModifier = node as LinkedModifierNode
+      return (linkedModifier.v || linkedModifier.value) as MessageType<Message>
     default:
-      throw new Error(
-        `unhandled node type on format message part: ${node.type}`
-      )
+      throw new Error(`unhandled node type on format message part: ${type}`)
   }
 }
