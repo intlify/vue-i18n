@@ -576,7 +576,8 @@ export interface ComposerInternalOptions<
 export interface ComposerTranslation<
   Messages extends Record<string, any> = {},
   Locales = 'en-US',
-  DefinedLocaleMessage extends RemovedIndexResources<DefineLocaleMessage> = RemovedIndexResources<DefineLocaleMessage>,
+  DefinedLocaleMessage extends
+    RemovedIndexResources<DefineLocaleMessage> = RemovedIndexResources<DefineLocaleMessage>,
   C = IsEmptyObject<DefinedLocaleMessage> extends false
     ? PickupPaths<{
         [K in keyof DefinedLocaleMessage]: DefinedLocaleMessage[K]
@@ -920,7 +921,8 @@ export interface ComposerResolveLocaleMessageTranslation<Locales = 'en-US'> {
 export interface ComposerDateTimeFormatting<
   DateTimeFormats extends Record<string, any> = {},
   Locales = 'en-US',
-  DefinedDateTimeFormat extends RemovedIndexResources<DefineDateTimeFormat> = RemovedIndexResources<DefineDateTimeFormat>,
+  DefinedDateTimeFormat extends
+    RemovedIndexResources<DefineDateTimeFormat> = RemovedIndexResources<DefineDateTimeFormat>,
   C = IsEmptyObject<DefinedDateTimeFormat> extends false
     ? PickupFormatPathKeys<{
         [K in keyof DefinedDateTimeFormat]: DefinedDateTimeFormat[K]
@@ -1009,7 +1011,8 @@ export interface ComposerDateTimeFormatting<
 export interface ComposerNumberFormatting<
   NumberFormats extends Record<string, any> = {},
   Locales = 'en-US',
-  DefinedNumberFormat extends RemovedIndexResources<DefineNumberFormat> = RemovedIndexResources<DefineNumberFormat>,
+  DefinedNumberFormat extends
+    RemovedIndexResources<DefineNumberFormat> = RemovedIndexResources<DefineNumberFormat>,
   C = IsEmptyObject<DefinedNumberFormat> extends false
     ? PickupFormatPathKeys<{
         [K in keyof DefinedNumberFormat]: DefinedNumberFormat[K]
@@ -2083,23 +2086,23 @@ export function createComposer(options: any = {}, VueI18nLegacy?: any): any {
     trackReactivityValues() // track reactive dependency
     // NOTE: experimental !!
     let ret: unknown
-    if (__DEV__ || __FEATURE_PROD_INTLIFY_DEVTOOLS__) {
-      try {
+    try {
+      if (__DEV__ || __FEATURE_PROD_INTLIFY_DEVTOOLS__) {
         setAdditionalMeta(getMetaInfo())
-        if (!_isGlobal) {
-          _context.fallbackContext = __root
-            ? (getFallbackContext() as any)
-            : undefined
-        }
-        ret = fn(_context)
-      } finally {
-        setAdditionalMeta(null)
-        if (!_isGlobal) {
-          _context.fallbackContext = undefined
-        }
       }
-    } else {
+      if (!_isGlobal) {
+        _context.fallbackContext = __root
+          ? (getFallbackContext() as any)
+          : undefined
+      }
       ret = fn(_context)
+    } finally {
+      if (__DEV__ || __FEATURE_PROD_INTLIFY_DEVTOOLS__) {
+        setAdditionalMeta(null)
+      }
+      if (!_isGlobal) {
+        _context.fallbackContext = undefined
+      }
     }
     if (isNumber(ret) && ret === NOT_REOSLVED) {
       const [key, arg2] = argumentParser()

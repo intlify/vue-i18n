@@ -591,8 +591,13 @@ export function createI18n(options: any = {}, VueI18nLegacy?: any): any {
         }
 
         // global method and properties injection for Composition API
+        let globalReleaseHandler: ReturnType<typeof injectGlobalFields> | null =
+          null
         if (!__legacyMode && __globalInjection) {
-          injectGlobalFields(app, i18n.global as Composer)
+          globalReleaseHandler = injectGlobalFields(
+            app,
+            i18n.global as Composer
+          )
         }
 
         // install built-in components and directive
@@ -614,6 +619,7 @@ export function createI18n(options: any = {}, VueI18nLegacy?: any): any {
         // release global scope
         const unmountApp = app.unmount
         app.unmount = () => {
+          globalReleaseHandler && globalReleaseHandler()
           i18n.dispose()
           unmountApp()
         }
@@ -1650,7 +1656,12 @@ const globalExportMethods = !__LITE__
   ? ['t', 'rt', 'd', 'n', 'tm', 'te']
   : ['t']
 
-function injectGlobalFields(app: App, composer: Composer): void {
+type GlobalInjectionReleaseHandler = () => void
+
+function injectGlobalFields(
+  app: App,
+  composer: Composer
+): GlobalInjectionReleaseHandler {
   const i18n = Object.create(null)
   globalExportProps.forEach(prop => {
     const desc = Object.getOwnPropertyDescriptor(composer, prop)
@@ -1683,6 +1694,17 @@ function injectGlobalFields(app: App, composer: Composer): void {
     }
     Object.defineProperty(app.config.globalProperties, `$${method}`, desc)
   })
+
+  const release = () => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    delete (app as any).config.globalProperties.$i18n
+    globalExportMethods.forEach(method => {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      delete (app as any).config.globalProperties[`$${method}`]
+    })
+  }
+
+  return release
 }
 
 function injectGlobalFieldsForBridge(

@@ -37,13 +37,31 @@ describe('compile', () => {
     expect(msg(ctx)).toBe('hello kazupon!')
   })
 
-  test('AST passing', () => {
-    const { ast } = baseCompile('hello {name}!')
-    const msg = compile(ast)
-    const ctx = context({
-      named: { name: 'kazupon' }
+  describe('AST', () => {
+    test('basic', () => {
+      const { ast } = baseCompile('hello {name}!', {
+        location: false,
+        jit: true
+      })
+      const msg = compile(ast)
+      const ctx = context({
+        named: { name: 'kazupon' }
+      })
+      expect(msg(ctx)).toBe('hello kazupon!')
     })
-    expect(msg(ctx)).toBe('hello kazupon!')
+
+    test('minify', () => {
+      const { ast } = baseCompile('hello {name}!', {
+        location: false,
+        jit: true,
+        minify: true
+      })
+      const msg = compile(ast)
+      const ctx = context({
+        named: { name: 'kazupon' }
+      })
+      expect(msg(ctx)).toBe('hello kazupon!')
+    })
   })
 
   test('error', () => {
