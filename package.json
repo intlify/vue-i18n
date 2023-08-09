@@ -13,7 +13,6 @@
   "bugs": {
     "url": "https://github.com/inlitify/vue-i18n-next/issues"
   },
-  "type": "module",
   "scripts": {
     "benchmark": "node ./benchmark/index.mjs",
     "build": "node -r esbuild-register scripts/build.ts",
