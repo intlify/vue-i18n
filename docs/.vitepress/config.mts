@@ -18,11 +18,12 @@ export default defineConfig({
 
     socialLinks: [
       { icon: 'github', link: 'https://github.com/intlify/vue-i18n-next' },
-      { icon: 'twitter', link: 'https://twitter.com/intlify' },
+      { icon: 'twitter', link: 'https://twitter.com/intlify' }
     ],
 
     editLink: {
-      pattern: 'https://github.com/intlify/vue-i18n-next/edit/master/docs/:path',
+      pattern:
+        'https://github.com/intlify/vue-i18n-next/edit/master/docs/:path',
       text: 'Edit this page on GitHub'
     },
 
@@ -33,19 +34,11 @@ export default defineConfig({
 
     carbonAds: {
       code: 'CWYDVK37',
-      placement: 'vue-i18nintlifydev',
+      placement: 'vue-i18nintlifydev'
     },
 
-    // TODO: we need to upgrade?
-    // @ts-ignore
-    algolia: {
-      appId: 'BH4D9OD16A',
-      apiKey: '3a9e93ba1069de0ece2ae100daf8f6ea',
-      indexName: 'vue-i18n',
-      searchParameters : {
-        facetFilters: ['language:en-US']
-      },
-      // algoliaOptions: { facetFilters: ['tags:guide,api'] }
+    search: {
+      provider: 'local',
     },
 
     nav: nav(),
@@ -78,7 +71,7 @@ function nav() {
     },
     {
       text: 'v9.x',
-      items: [{ text: 'v8.x', link: 'https://kazupon.github.io/vue-i18n/' }],
+      items: [{ text: 'v8.x', link: 'https://kazupon.github.io/vue-i18n/' }]
     },
     {
       text: 'Changelog',
@@ -99,7 +92,7 @@ function sidebarGuide() {
         },
         {
           text: 'Getting Started',
-          link: '/guide/',
+          link: '/guide/'
         },
         {
           text: 'Installation',
@@ -117,7 +110,7 @@ function sidebarGuide() {
       items: [
         {
           text: 'Message Format Syntax',
-          link: '/guide/essentials/syntax',
+          link: '/guide/essentials/syntax'
         },
         {
           text: 'Pluralization',
@@ -171,19 +164,19 @@ function sidebarGuide() {
         },
         {
           text: 'Composition API',
-          link: '/guide/advanced/composition',
+          link: '/guide/advanced/composition'
         },
         {
           text: 'TypeScript Support',
-          link: '/guide/advanced/typescript',
+          link: '/guide/advanced/typescript'
         },
         {
           text: 'Web components',
-          link: '/guide/advanced/wc',
+          link: '/guide/advanced/wc'
         },
         {
           text: 'Optimization',
-          link: '/guide/advanced/optimization',
+          link: '/guide/advanced/optimization'
         }
       ]
     },
