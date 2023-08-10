@@ -107,13 +107,13 @@ Let's see if Vue I18n works with Nuxt 3.
 
 We will edit `app.vue` of the setup Nuxt 3 application as follows:
 
-```diff
- <template>
-   <div>
--   <NuxtWelcome />
-+   <h1>{{ $t('hello', { name: 'vue-i18n' }) }}</h1>
-   </div>
- </template>
+```vue
+<template>
+  <div>
+   <NuxtWelcome /> // [!code --]
+   <h1>{{ $t('hello', { name: 'vue-i18n' }) }}</h1> // [!code ++]
+  </div>
+</template>
 ```
 
 We have edited and saved, run the following command to run the Nuxt 3 application at local:
@@ -139,20 +139,20 @@ In the following sections, we will work on Nuxt 3 applications that support Engl
 
 We will add language switching feature to `app.vue` as follows:
 
-```diff
- <template>
-   <div>
-     <h1>{{ $t('hello', { name: 'vue-i18n' }) }}</h1>
-+    <form>
-+      <label for="locale-select">{{ $t('language') }}: </label>
-+      <select id="locale-select" v-model="$i18n.locale">
-+        <option value="en">en</option>
-+        <option value="fr">fr</option>
-+        <option value="ja">ja</option>
-+      </select>
-+    </form>
-   </div>
- </template>
+```vue
+<template>
+  <div>
+    <h1>{{ $t('hello', { name: 'vue-i18n' }) }}</h1>
+    <form> // [!code ++]
+      <label for="locale-select">{{ $t('language') }}: </label> // [!code ++]
+      <select id="locale-select" v-model="$i18n.locale"> // [!code ++]
+        <option value="en">en</option> // [!code ++]
+        <option value="fr">fr</option> // [!code ++]
+        <option value="ja">ja</option> // [!code ++]
+      </select> // [!code ++]
+    </form> // [!code ++]
+  </div>
+</template>
 ```
 
 Language switching is implemented using the `select` element on `form`.
@@ -183,6 +183,7 @@ touch locales/ja.json # for japanese
 And more then, We will have saved each created locale resource file for each language as follows:
 
 For english at `locales/en.json`:
+
 ```json
 {
   "hello": "Hello, {name}!",
@@ -191,6 +192,7 @@ For english at `locales/en.json`:
 ```
 
 For french at `locales/fr.json`:
+
 ```json
 {
   "hello": "Bonjour, {name}!",
@@ -199,6 +201,7 @@ For french at `locales/fr.json`:
 ```
 
 For japanese at `locales/ja.json`:
+
 ```json
 {
   "hello": "こんにちは、{name}！",
@@ -212,29 +215,29 @@ We will import locale resources that is defined in the `locales` directory for u
 
 And then, change `plugins/i18n.ts` as follows:
 
-```diff
- import { createI18n } from 'vue-i18n'
-+import en from '../locales/en.json'
-+import fr from '../locales/fr.json'
-+import ja from '../locales/ja.json'
+```js
+import { createI18n } from 'vue-i18n'
+import en from '../locales/en.json' // [!code ++]
+import fr from '../locales/fr.json' // [!code ++]
+import ja from '../locales/ja.json' // [!code ++]
 
- export default defineNuxtPlugin(({ vueApp }) => {
-   const i18n = createI18n({
-     legacy: false,
-     globalInjection: true,
-     locale: 'en',
-     messages: {
--      en: {
--        hello: "Hello, {name}!"
--      }
-+      en,
-+      fr,
-+      ja
-     }
-   })
+export default defineNuxtPlugin(({ vueApp }) => {
+  const i18n = createI18n({
+    legacy: false,
+    globalInjection: true,
+    locale: 'en',
+    messages: {
+      en: { // [!code --]
+        hello: "Hello, {name}!" // [!code --]
+      } // [!code --]
+      en, // [!code ++]
+      fr, // [!code ++]
+      ja // [!code ++]
+    }
+  })
 
-   vueApp.use(i18n)
- })
+  vueApp.use(i18n)
+})
 ```
 
 It’s set locale resources for each imported language to `messages` option, so you can manage locale resources with separating from code in the `locales` directory. It also facilitates integration with the localization service.
@@ -265,24 +268,24 @@ npm install --save-dev @intlify/unplugin-vue-i18n
 
 Configure `nuxt.config.ts` like the below:
 
-```diff
- import { defineNuxtConfig } from 'nuxt'
-+import { resolve, dirname } from 'node:path'
-+import { fileURLToPath } from 'url'
-+import VueI18nVitePlugin from '@intlify/unplugin-vue-i18n/vite'
+```js
+import { defineNuxtConfig } from 'nuxt'
+import { resolve, dirname } from 'node:path' // [!code ++]
+import { fileURLToPath } from 'url' // [!code ++]
+import VueI18nVitePlugin from '@intlify/unplugin-vue-i18n/vite' // [!code ++]
 
- // https://nuxt.com/docs/api/configuration/nuxt-config
- export default defineNuxtConfig({
-+  vite: {
-+    plugins: [
-+      VueI18nVitePlugin({
-+        include: [
-+          resolve(dirname(fileURLToPath(import.meta.url)), './locales/*.json')
-+        ]
-+      })
-+    ]
-+  }
- })
+// https://nuxt.com/docs/api/configuration/nuxt-config
+export default defineNuxtConfig({
+  vite: { // [!code ++]
+    plugins: [ // [!code ++]
+      VueI18nVitePlugin({ // [!code ++]
+        include: [ // [!code ++]
+          resolve(dirname(fileURLToPath(import.meta.url)), './locales/*.json') // [!code ++]
+        ] // [!code ++]
+      }) // [!code ++]
+    ] // [!code ++]
+  } // [!code ++]
+})
 ```
 
 The bundler for Nuxt 3 is vite by default. So we will use the `vite` option here for optimization.
