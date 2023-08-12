@@ -83,7 +83,7 @@ module.exports = {
     /* ... */
     VueI18nPlugin({
       /* options */
-      // locale messages resourece pre-compile option
+      // locale messages resource pre-compile option
       include: path.resolve(__dirname, './path/to/src/locales/**'),
     })
   ]
@@ -127,7 +127,7 @@ export default defineConfig({
     /* ... */
     vueI18n({
       /* options */
-      // locale messages resourece pre-compile option
+      // locale messages resource pre-compile option
       include: resolve(dirname(fileURLToPath(import.meta.url)), './path/to/src/locales/**'),
     }),
   ]
