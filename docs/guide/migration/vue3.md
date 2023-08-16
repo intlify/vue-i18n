@@ -14,6 +14,12 @@ Developing a Vue application with a mix of Options API styles and Compostion API
 
 From Vue I18n v9.2, the Legacy API mode can also be used with Composition API mode.
 
+### About supporting
+
+:::warning NOTICE
+This migration support will be removed in the next major version v10. If your Vue 3 application project has not yet been migrated, please migrate it to v9 and then upgrade to v10.
+:::
+
 ### Limitations
 
 :::warning NOTICE
