@@ -66,7 +66,6 @@ export {
   VueI18nDateTimeFormatting,
   VueI18nNumberFormatting,
   VueI18nResolveLocaleMessageTranslation,
-  ComponentInstanceCreatedListener,
   VueI18nExtender
 } from './legacy'
 export {

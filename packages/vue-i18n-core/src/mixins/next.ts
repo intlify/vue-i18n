@@ -98,11 +98,6 @@ export function defineMixin(
         adjustI18nResources(composer, options as ComposerOptions, options)
       }
 
-      // TODO: remove `__onComponentInstanceCreated`, because nuxt i18n v8 does not require it.
-      ;(vuei18n as unknown as VueI18nInternal).__onComponentInstanceCreated(
-        this.$i18n
-      )
-
       // defines vue-i18n legacy APIs
       this.$t = (...args: unknown[]): TranslateResult => this.$i18n.t(...args)
       this.$rt = (...args: unknown[]): TranslateResult => this.$i18n.rt(...args)

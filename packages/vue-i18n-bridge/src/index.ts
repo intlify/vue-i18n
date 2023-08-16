@@ -89,7 +89,6 @@ export {
   VueI18nDateTimeFormatting,
   VueI18nNumberFormatting,
   VueI18nResolveLocaleMessageTranslation,
-  ComponentInstanceCreatedListener,
   VueI18nExtender
 } from '../../vue-i18n-core/src/legacy'
 export {

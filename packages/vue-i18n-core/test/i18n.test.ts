@@ -1431,7 +1431,7 @@ describe('Composer & VueI18n extend hooking', () => {
         })
         return { foo }
       },
-      template: '<p class="child">{{ foo }}</p><GrandChild >'
+      template: '<p class="child">{{ foo }}</p><GrandChild />'
     })
 
     const App = defineComponent({

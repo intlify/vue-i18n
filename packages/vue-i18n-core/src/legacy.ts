@@ -80,13 +80,6 @@ export interface Formatter {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   interpolate(message: string, values: any, path: string): Array<any> | null
 }
-export type ComponentInstanceCreatedListener = <
-  Messages extends Record<string, any>
->(
-  target: VueI18n<Messages>,
-  global: VueI18n<Messages>
-) => void
-
 export type VueI18nExtender = (vueI18n: VueI18n) => Disposer | undefined
 
 /**
@@ -330,17 +323,6 @@ export interface VueI18nOptions<
    * @defaultValue `true`
    */
   sync?: boolean
-  /**
-   * @remarks
-   * A handler for getting notified when component-local instance was created.
-   *
-   * The handler gets called with new and old (root) VueI18n instances.
-   *
-   * This handler is useful when extending the root VueI18n instance and wanting to also apply those extensions to component-local instance.
-   *
-   * @defaultValue `null`
-   */
-  componentInstanceCreatedListener?: ComponentInstanceCreatedListener
   /**
    * @remarks
    * A message resolver to resolve [`messages`](legacy#messages).
@@ -1314,9 +1296,6 @@ export interface VueI18nInternal<
   NumberFormats extends Record<string, any> = {}
 > {
   __composer: Composer<Messages, DateTimeFormats, NumberFormats>
-  __onComponentInstanceCreated(
-    target: VueI18n<Messages, DateTimeFormats, NumberFormats>
-  ): void
   __enableEmitter?: (emitter: VueDevToolsEmitter) => void
   __disableEmitter?: () => void
   __extender?: VueI18nExtender
@@ -1796,14 +1775,6 @@ export function createVueI18n(options: any = {}, VueI18nLegacy?: any): any {
         __DEV__ &&
           warn(getWarnMessage(I18nWarnCodes.NOT_SUPPORTED_GET_CHOICE_INDEX))
         return -1
-      },
-
-      // for internal
-      __onComponentInstanceCreated(target: VueI18n<{}>): void {
-        const { componentInstanceCreatedListener } = options
-        if (componentInstanceCreatedListener) {
-          componentInstanceCreatedListener(target, vueI18n)
-        }
       }
     }
 
