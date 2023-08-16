@@ -1394,18 +1394,22 @@ describe('release global scope', () => {
 
 describe('Composer & VueI18n extend hooking', () => {
   test('composition', async () => {
+    const composerDisposeSpy = vi.fn()
+    let counter = 0
     const composerExtendSpy = vi
       .fn()
       .mockImplementation((composer: Composer) => {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        ;(composer as any).foo = ref('hello world')
+        counter += 1
+        ;(composer as any).foo = ref(`foo${counter}`)
+        return composerDisposeSpy
       })
     const vueI18nExtendSpy = vi.fn()
     const i18n = createI18n({
       legacy: false
     })
 
-    const App = defineComponent({
+    const GrandChild = defineComponent({
       setup() {
         // @ts-ignore
         const { foo } = useI18n({
@@ -1413,70 +1417,112 @@ describe('Composer & VueI18n extend hooking', () => {
         })
         return { foo }
       },
-      template: '<p>{{ foo }}</p>'
+      template: '<p class="grand-child">{{ foo }}</p>'
     })
-    const { html } = await mount(App, i18n, {
+
+    const Child = defineComponent({
+      components: {
+        GrandChild
+      },
+      setup() {
+        // @ts-ignore
+        const { foo } = useI18n({
+          useScope: 'local'
+        })
+        return { foo }
+      },
+      template: '<p class="child">{{ foo }}</p><GrandChild >'
+    })
+
+    const App = defineComponent({
+      components: {
+        Child
+      },
+      setup() {
+        // @ts-ignore
+        const { foo } = useI18n() // global scope
+        return { foo }
+      },
+      template: '<p>{{ foo }}</p><Child />'
+    })
+    const { html, app } = await mount(App, i18n, {
       pluginOptions: {
         __composerExtend: composerExtendSpy,
         __vueI18nExtend: vueI18nExtendSpy
       } as any // eslint-disable-line @typescript-eslint/no-explicit-any
     })
-    expect(composerExtendSpy).toHaveBeenCalled()
-    expect(html()).toBe('<p>hello world</p>')
+
+    // Check that global is not extended
+    expect((i18n.global as any).foo).toBeUndefined() // eslint-disable-line @typescript-eslint/no-explicit-any
+
+    expect(html()).toBe(
+      '<p></p><p class="child">foo1</p><p class="grand-child">foo2</p>'
+    )
+    expect(composerExtendSpy).toHaveBeenCalledTimes(2)
     expect(vueI18nExtendSpy).not.toHaveBeenCalled()
+
+    // dispose checking
+    app.unmount()
+    expect(composerDisposeSpy).toHaveBeenCalledTimes(2)
   })
 
-  describe('legacy', () => {
-    test('basic', async () => {
-      const composerExtendSpy = vi.fn()
-      const vueI18nExtendSpy = vi
-        .fn()
-        .mockImplementation((vueI18n: VueI18n) => {
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          ;(vueI18n as any).foo = 'hello world'
-        })
-      const i18n = createI18n({ legacy: true })
+  test('legacy', async () => {
+    const composerExtendSpy = vi.fn()
+    const vueI18nDisposeSpy = vi.fn()
+    let counter = 0
+    const vueI18nExtendSpy = vi.fn().mockImplementation((vueI18n: VueI18n) => {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      counter += 1
+      ;(vueI18n as any).foo = `foo${counter}`
+      return vueI18nDisposeSpy
+    })
+    const i18n = createI18n({ legacy: true })
 
-      const App = defineComponent({ template: '<p>{{ $i18n.foo }}</p>' })
-      const { html } = await mount(App, i18n, {
-        pluginOptions: {
-          __composerExtend: composerExtendSpy,
-          __vueI18nExtend: vueI18nExtendSpy
-        } as any // eslint-disable-line @typescript-eslint/no-explicit-any
-      })
-      expect(composerExtendSpy).not.toHaveBeenCalled()
-      expect(vueI18nExtendSpy).toHaveBeenCalled()
-      expect(html()).toBe('<p>hello world</p>')
+    const GrandChild = defineComponent({
+      i18n: {
+        messages: {
+          en: { hello: 'hello, grand child!' }
+        }
+      },
+      template: '<span class="grand-child">{{ $i18n.foo }}</span>'
     })
 
-    test('use global vue i18n instance in components', async () => {
-      const composerExtendSpy = vi.fn()
-      const vueI18nExtendSpy = vi
-        .fn()
-        .mockImplementation((vueI18n: VueI18n) => {
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          ;(vueI18n as any).foo = 'hello world'
-        })
-      const i18n = createI18n({ legacy: true })
-
-      const Child = defineComponent({
-        template: '<span>{{ $i18n.foo }}</span>'
-      })
-      const App = defineComponent({
-        components: {
-          Child
-        },
-        template: '<p>{{ $i18n.foo }}</p><Child />'
-      })
-      const { html } = await mount(App, i18n, {
-        pluginOptions: {
-          __composerExtend: composerExtendSpy,
-          __vueI18nExtend: vueI18nExtendSpy
-        } as any // eslint-disable-line @typescript-eslint/no-explicit-any
-      })
-      expect(composerExtendSpy).not.toHaveBeenCalled()
-      expect(vueI18nExtendSpy).toHaveBeenCalledTimes(1)
-      expect(html()).toBe('<p>hello world</p><span>hello world</span>')
+    const Child = defineComponent({
+      components: {
+        GrandChild
+      },
+      __i18n: [
+        {
+          locale: '',
+          resource: { en: { hello: 'hello, child!' } }
+        }
+      ] as any,
+      template: '<span class="child">{{ $i18n.foo }}</span><GrandChild />'
     })
+    const App = defineComponent({
+      components: {
+        Child
+      },
+      template: '<p>{{ $i18n.foo }}</p><Child />'
+    })
+    const { html, app } = await mount(App, i18n, {
+      pluginOptions: {
+        __composerExtend: composerExtendSpy,
+        __vueI18nExtend: vueI18nExtendSpy
+      } as any // eslint-disable-line @typescript-eslint/no-explicit-any
+    })
+
+    // Check that global is not extended
+    expect((i18n.global as any).foo).toBeUndefined() // eslint-disable-line @typescript-eslint/no-explicit-any
+
+    expect(composerExtendSpy).not.toHaveBeenCalled()
+    expect(vueI18nExtendSpy).toHaveBeenCalledTimes(2)
+    expect(html()).toBe(
+      '<p></p><span class="child">foo1</span><span class="grand-child">foo2</span>'
+    )
+
+    // dispose checking
+    app.unmount()
+    expect(vueI18nDisposeSpy).toHaveBeenCalledTimes(2)
   })
 })

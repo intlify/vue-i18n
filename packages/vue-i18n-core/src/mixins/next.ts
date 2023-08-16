@@ -23,6 +23,7 @@ import type {
   VueI18n,
   VueI18nInternal,
   VueI18nOptions,
+  VueI18nInternalOptions,
   TranslateResult,
   DateTimeFormatResult,
   NumberFormatResult
@@ -49,6 +50,7 @@ export function defineMixin(
       const options = this.$options
       if (options.i18n) {
         const optionsI18n = options.i18n as VueI18nOptions &
+          VueI18nInternalOptions &
           ComposerInternalOptions
 
         if (options.__i18n) {
@@ -56,23 +58,39 @@ export function defineMixin(
         }
         optionsI18n.__root = composer
         if (this === this.$root) {
-          this.$i18n = mergeToRoot(vuei18n, optionsI18n)
+          // merge option and gttach global
+          this.$i18n = mergeToGlobal(vuei18n, optionsI18n)
         } else {
           optionsI18n.__injectWithOption = true
+          optionsI18n.__extender = i18n.__vueI18nExtend
+          // atttach local VueI18n instance
           this.$i18n = createVueI18n(optionsI18n)
+          // extend VueI18n instance
+          const _vueI18n = this.$i18n as unknown as VueI18nInternal
+          if (_vueI18n.__extender) {
+            _vueI18n.__disposer = _vueI18n.__extender(this.$i18n)
+          }
         }
       } else if (options.__i18n) {
         if (this === this.$root) {
-          this.$i18n = mergeToRoot(vuei18n, options)
+          // merge option and gttach global
+          this.$i18n = mergeToGlobal(vuei18n, options)
         } else {
+          // atttach local VueI18n instance
           this.$i18n = createVueI18n({
             __i18n: (options as ComposerInternalOptions).__i18n,
             __injectWithOption: true,
+            __extender: i18n.__vueI18nExtend,
             __root: composer
-          } as VueI18nOptions)
+          } as VueI18nOptions & VueI18nInternalOptions)
+          // extend VueI18n instance
+          const _vueI18n = this.$i18n as unknown as VueI18nInternal
+          if (_vueI18n.__extender) {
+            _vueI18n.__disposer = _vueI18n.__extender(this.$i18n)
+          }
         }
       } else {
-        // set global
+        // attach global VueI18n instance
         this.$i18n = vuei18n
       }
 
@@ -80,10 +98,10 @@ export function defineMixin(
         adjustI18nResources(composer, options as ComposerOptions, options)
       }
 
+      // TODO: remove `__onComponentInstanceCreated`, because nuxt i18n v8 does not require it.
       ;(vuei18n as unknown as VueI18nInternal).__onComponentInstanceCreated(
         this.$i18n
       )
-      i18n.__setInstance(instance, this.$i18n as VueI18n)
 
       // defines vue-i18n legacy APIs
       this.$t = (...args: unknown[]): TranslateResult => this.$i18n.t(...args)
@@ -98,15 +116,7 @@ export function defineMixin(
       this.$tm = (key: Path): LocaleMessageValue<VueMessageType> | {} =>
         this.$i18n.tm(key)
 
-      // extend vue-i18n legacy APIs
-      if (
-        this !== this.$root &&
-        !this.$i18n.__extended__ &&
-        i18n.__vueI18nExtend
-      ) {
-        i18n.__vueI18nExtend(this.$i18n)
-        this.$i18n.__extended__ = true
-      }
+      i18n.__setInstance(instance, this.$i18n as VueI18n)
     },
 
     mounted(): void {
@@ -117,10 +127,10 @@ export function defineMixin(
         this.$el &&
         this.$i18n
       ) {
-        this.$el.__VUE_I18N__ = this.$i18n.__composer
+        const _vueI18n = this.$i18n as unknown as VueI18nInternal
+        this.$el.__VUE_I18N__ = _vueI18n.__composer
         const emitter: VueDevToolsEmitter = (this.__v_emitter =
           createEmitter<VueDevToolsEmitterEvents>())
-        const _vueI18n = this.$i18n as unknown as VueI18nInternal
         _vueI18n.__enableEmitter && _vueI18n.__enableEmitter(emitter)
         emitter.on('*', addTimelineEvent)
       }
@@ -132,6 +142,8 @@ export function defineMixin(
       if (!instance) {
         throw createI18nError(I18nErrorCodes.UNEXPECTED_ERROR)
       }
+
+      const _vueI18n = this.$i18n as unknown as VueI18nInternal
 
       /* istanbul ignore if */
       if (
@@ -145,7 +157,6 @@ export function defineMixin(
           delete this.__v_emitter
         }
         if (this.$i18n) {
-          const _vueI18n = this.$i18n as unknown as VueI18nInternal
           _vueI18n.__disableEmitter && _vueI18n.__disableEmitter()
           delete this.$el.__VUE_I18N__
         }
@@ -159,50 +170,54 @@ export function defineMixin(
       delete this.$n
       delete this.$tm
 
+      if (_vueI18n.__disposer) {
+        _vueI18n.__disposer()
+        delete _vueI18n.__disposer
+        delete _vueI18n.__extender
+      }
+
       i18n.__deleteInstance(instance)
       delete this.$i18n
     }
   }
 }
 
-function mergeToRoot(
-  root: VueI18n,
+function mergeToGlobal(
+  g: VueI18n,
   options: VueI18nOptions & ComposerInternalOptions
 ): VueI18n {
-  root.locale = options.locale || root.locale
-  root.fallbackLocale = options.fallbackLocale || root.fallbackLocale
-  root.missing = options.missing || root.missing
-  root.silentTranslationWarn =
-    options.silentTranslationWarn || root.silentFallbackWarn
-  root.silentFallbackWarn =
-    options.silentFallbackWarn || root.silentFallbackWarn
-  root.formatFallbackMessages =
-    options.formatFallbackMessages || root.formatFallbackMessages
-  root.postTranslation = options.postTranslation || root.postTranslation
-  root.warnHtmlInMessage = options.warnHtmlInMessage || root.warnHtmlInMessage
-  root.escapeParameterHtml =
-    options.escapeParameterHtml || root.escapeParameterHtml
-  root.sync = options.sync || root.sync
+  g.locale = options.locale || g.locale
+  g.fallbackLocale = options.fallbackLocale || g.fallbackLocale
+  g.missing = options.missing || g.missing
+  g.silentTranslationWarn =
+    options.silentTranslationWarn || g.silentFallbackWarn
+  g.silentFallbackWarn = options.silentFallbackWarn || g.silentFallbackWarn
+  g.formatFallbackMessages =
+    options.formatFallbackMessages || g.formatFallbackMessages
+  g.postTranslation = options.postTranslation || g.postTranslation
+  g.warnHtmlInMessage = options.warnHtmlInMessage || g.warnHtmlInMessage
+  g.escapeParameterHtml = options.escapeParameterHtml || g.escapeParameterHtml
+  g.sync = options.sync || g.sync
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  ;(root as any).__composer[SetPluralRulesSymbol](
-    options.pluralizationRules || root.pluralizationRules
+  ;(g as any).__composer[SetPluralRulesSymbol](
+    options.pluralizationRules || g.pluralizationRules
   )
-  const messages = getLocaleMessages(root.locale as Locale, {
+  const messages = getLocaleMessages(g.locale as Locale, {
     messages: options.messages,
     __i18n: options.__i18n
   })
   Object.keys(messages).forEach(locale =>
-    root.mergeLocaleMessage(locale, messages[locale])
+    g.mergeLocaleMessage(locale, messages[locale])
   )
   if (options.datetimeFormats) {
     Object.keys(options.datetimeFormats).forEach(locale =>
-      root.mergeDateTimeFormat(locale, options.datetimeFormats![locale])
+      g.mergeDateTimeFormat(locale, options.datetimeFormats![locale])
     )
   }
   if (options.numberFormats) {
     Object.keys(options.numberFormats).forEach(locale =>
-      root.mergeNumberFormat(locale, options.numberFormats![locale])
+      g.mergeNumberFormat(locale, options.numberFormats![locale])
     )
   }
-  return root
+  return g
 }

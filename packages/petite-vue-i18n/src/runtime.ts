@@ -76,7 +76,8 @@ export {
   VueI18nDateTimeFormatting,
   VueI18nNumberFormatting,
   VueI18nResolveLocaleMessageTranslation,
-  ComponentInstanceCreatedListener
+  ComponentInstanceCreatedListener,
+  VueI18nExtender
 } from '../../vue-i18n-core/src/legacy'
 export {
   createI18n,
@@ -89,10 +90,12 @@ export {
   I18nScope,
   ComposerAdditionalOptions,
   UseI18nOptions,
-  ExportedGlobalComposer
+  ExportedGlobalComposer,
+  ComposerExtender
 } from '../../vue-i18n-core/src/i18n'
 export { I18nPluginOptions } from '../../vue-i18n-core/src/plugin'
 export { VERSION } from './../../vue-i18n-core/src/misc'
+export { Disposer } from './../../vue-i18n-core/src/types'
 
 export type {
   IsNever,

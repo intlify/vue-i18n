@@ -32,7 +32,8 @@ import { I18nErrorCodes, createI18nError } from './errors'
 import {
   EnableEmitter,
   DisableEmitter,
-  InejctWithOption,
+  DisposeSymbol,
+  InejctWithOptionSymbol,
   LegacyInstanceSymbol,
   __VUE_I18N_BRIDGE__
 } from './symbols'
@@ -81,7 +82,13 @@ import type {
   ComposerOptions,
   ComposerInternalOptions
 } from './composer'
-import type { VueI18n, VueI18nOptions, VueI18nInternal } from './legacy'
+import type {
+  VueI18n,
+  VueI18nOptions,
+  VueI18nInternal,
+  VueI18nExtender
+} from './legacy'
+import type { Disposer } from './types'
 
 declare module 'vue' {
   // eslint-disable-next-line
@@ -251,12 +258,17 @@ export interface I18n<
   dispose(): void
 }
 
+export type ComposerExtender = (composer: Composer) => Disposer | undefined
+
 /**
+ * The hooks that give to extend Composer (Composition API) and VueI18n instance (Options API).
+ * This hook is mainly for vue-i18n-routing and nuxt i18n.
+ *
  * @internal
  */
 type ExtendHooks = {
-  __composerExtend?: (composer: Composer) => void
-  __vueI18nExtend?: (vueI18n: VueI18n) => void
+  __composerExtend?: ComposerExtender
+  __vueI18nExtend?: VueI18nExtender
 }
 
 /**
@@ -291,8 +303,8 @@ export interface I18nInternal<
     instance: Instance
   ): void
   __deleteInstance(component: ComponentInternalInstance): void
-  __composerExtend?: Required<ExtendHooks>['__composerExtend']
-  __vueI18nExtend?: Required<ExtendHooks>['__vueI18nExtend']
+  __composerExtend?: ComposerExtender
+  __vueI18nExtend?: VueI18nExtender
 }
 
 /**
@@ -584,6 +596,8 @@ export function createI18n(options: any = {}, VueI18nLegacy?: any): any {
         // set composer & vuei18n extend hook options from plugin options
         if (isPlainObject(options[0])) {
           const opts = options[0] as ExtendHooks
+          // Plugin options cannot be passed directly to the function that creates Composer & VueI18n,
+          // so we keep it temporary
           ;(i18n as unknown as I18nInternal).__composerExtend =
             opts.__composerExtend
           ;(i18n as unknown as I18nInternal).__vueI18nExtend =
@@ -897,7 +911,9 @@ export function useI18n<
 
     composer = createComposer(composerOptions, _legacyVueI18n) as Composer
     if (i18nInternal.__composerExtend) {
-      i18nInternal.__composerExtend(composer)
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      ;(composer as any)[DisposeSymbol] =
+        i18nInternal.__composerExtend(composer)
     }
     setupLifeCycle(i18nInternal, instance, composer)
 
@@ -1044,7 +1060,7 @@ function getComposer(
           if (
             useComponent &&
             composer &&
-            !(composer as any)[InejctWithOption] // eslint-disable-line @typescript-eslint/no-explicit-any
+            !(composer as any)[InejctWithOptionSymbol] // eslint-disable-line @typescript-eslint/no-explicit-any
           ) {
             composer = null
           }
@@ -1151,6 +1167,9 @@ function setupLifeCycle(
     }, target)
 
     onUnmounted(() => {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const _composer = composer as any
+
       // remove composer instance from DOM for intlify-devtools
       if (
         (__DEV__ || __FEATURE_PROD_VUE_DEVTOOLS__) &&
@@ -1159,12 +1178,17 @@ function setupLifeCycle(
         target.vnode.el.__VUE_I18N__
       ) {
         emitter && emitter.off('*', addTimelineEvent)
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        const _composer = composer as any
         _composer[DisableEmitter] && _composer[DisableEmitter]()
         delete target.vnode.el.__VUE_I18N__
       }
       i18n.__deleteInstance(target)
+
+      // dispose extended resources
+      const dispose = _composer[DisposeSymbol]
+      if (dispose) {
+        dispose()
+        delete _composer[DisposeSymbol]
+      }
     }, target)
   }
 }
@@ -1656,12 +1680,7 @@ const globalExportMethods = !__LITE__
   ? ['t', 'rt', 'd', 'n', 'tm', 'te']
   : ['t']
 
-type GlobalInjectionReleaseHandler = () => void
-
-function injectGlobalFields(
-  app: App,
-  composer: Composer
-): GlobalInjectionReleaseHandler {
+function injectGlobalFields(app: App, composer: Composer): Disposer {
   const i18n = Object.create(null)
   globalExportProps.forEach(prop => {
     const desc = Object.getOwnPropertyDescriptor(composer, prop)
@@ -1695,7 +1714,7 @@ function injectGlobalFields(
     Object.defineProperty(app.config.globalProperties, `$${method}`, desc)
   })
 
-  const release = () => {
+  const dispose = () => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     delete (app as any).config.globalProperties.$i18n
     globalExportMethods.forEach(method => {
@@ -1704,7 +1723,7 @@ function injectGlobalFields(
     })
   }
 
-  return release
+  return dispose
 }
 
 function injectGlobalFieldsForBridge(
