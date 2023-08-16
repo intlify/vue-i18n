@@ -552,6 +552,12 @@ export function createI18n(options: any = {}, VueI18nLegacy?: any): any {
     __DEV__ ? 'vue-i18n' : ''
   )
 
+  if (__DEV__) {
+    if (__legacyMode && __allowComposition) {
+      warn(getWarnMessage(I18nWarnCodes.NOTICE_DROP_ALLOW_COMPOSITION))
+    }
+  }
+
   function __getInstance<Instance extends VueI18n | Composer>(
     component: ComponentInternalInstance
   ): Instance | null {
