@@ -1363,25 +1363,6 @@ The list of available locales in messages in lexical order.
 
 `[]`
 
-### componentInstanceCreatedListener
-
-**Signature:**
-```typescript
-componentInstanceCreatedListener?: ComponentInstanceCreatedListener;
-```
-
-**Details**
-
-A handler for getting notified when component-local instance was created.
-
-The handler gets called with new and old (root) VueI18n instances.
-
-This handler is useful when extending the root VueI18n instance and wanting to also apply those extensions to component-local instance.
-
-**Default Value**
-
-`null`
-
 ### datetimeFormats
 
 **Signature:**
