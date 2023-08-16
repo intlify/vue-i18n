@@ -62,6 +62,7 @@ import type {
   ComposerInternalOptions,
   ComposerResolveLocaleMessageTranslation
 } from './composer'
+import type { Disposer } from './types'
 
 /** @VueI18nLegacy */
 export type TranslateResult = string
@@ -85,6 +86,8 @@ export type ComponentInstanceCreatedListener = <
   target: VueI18n<Messages>,
   global: VueI18n<Messages>
 ) => void
+
+export type VueI18nExtender = (vueI18n: VueI18n) => Disposer | undefined
 
 /**
  *  VueI18n Options
@@ -404,6 +407,13 @@ export interface VueI18nOptions<
 }
 
 /**
+ * @internal
+ */
+export interface VueI18nInternalOptions {
+  __extender?: VueI18nExtender
+}
+
+/**
  * Locale message translation functions for VueI18n legacy interfaces
  *
  * @remarks
@@ -414,7 +424,8 @@ export interface VueI18nOptions<
 export interface VueI18nTranslation<
   Messages extends Record<string, any> = {},
   Locales = 'en-US',
-  DefinedLocaleMessage extends RemovedIndexResources<DefineLocaleMessage> = RemovedIndexResources<DefineLocaleMessage>,
+  DefinedLocaleMessage extends
+    RemovedIndexResources<DefineLocaleMessage> = RemovedIndexResources<DefineLocaleMessage>,
   C = IsEmptyObject<DefinedLocaleMessage> extends false
     ? PickupPaths<{
         [K in keyof DefinedLocaleMessage]: DefinedLocaleMessage[K]
@@ -557,7 +568,8 @@ export type VueI18nResolveLocaleMessageTranslation<Locales = 'en-US'> =
 export interface VueI18nTranslationChoice<
   Messages extends Record<string, any> = {},
   Locales = 'en-US',
-  DefinedLocaleMessage extends RemovedIndexResources<DefineLocaleMessage> = RemovedIndexResources<DefineLocaleMessage>,
+  DefinedLocaleMessage extends
+    RemovedIndexResources<DefineLocaleMessage> = RemovedIndexResources<DefineLocaleMessage>,
   C = IsEmptyObject<DefinedLocaleMessage> extends false
     ? PickupPaths<{
         [K in keyof DefinedLocaleMessage]: DefinedLocaleMessage[K]
@@ -712,7 +724,8 @@ export interface VueI18nTranslationChoice<
 export interface VueI18nDateTimeFormatting<
   DateTimeFormats extends Record<string, any> = {},
   Locales = 'en-US',
-  DefinedDateTimeFormat extends RemovedIndexResources<DefineDateTimeFormat> = RemovedIndexResources<DefineDateTimeFormat>,
+  DefinedDateTimeFormat extends
+    RemovedIndexResources<DefineDateTimeFormat> = RemovedIndexResources<DefineDateTimeFormat>,
   C = IsEmptyObject<DefinedDateTimeFormat> extends false
     ? PickupFormatPathKeys<{
         [K in keyof DefinedDateTimeFormat]: DefinedDateTimeFormat[K]
@@ -806,7 +819,8 @@ export interface VueI18nDateTimeFormatting<
 export interface VueI18nNumberFormatting<
   NumberFormats extends Record<string, any> = {},
   Locales = 'en-US',
-  DefinedNumberFormat extends RemovedIndexResources<DefineNumberFormat> = RemovedIndexResources<DefineNumberFormat>,
+  DefinedNumberFormat extends
+    RemovedIndexResources<DefineNumberFormat> = RemovedIndexResources<DefineNumberFormat>,
   C = IsEmptyObject<DefinedNumberFormat> extends false
     ? PickupFormatPathKeys<{
         [K in keyof DefinedNumberFormat]: DefinedNumberFormat[K]
@@ -1305,6 +1319,8 @@ export interface VueI18nInternal<
   ): void
   __enableEmitter?: (emitter: VueDevToolsEmitter) => void
   __disableEmitter?: () => void
+  __extender?: VueI18nExtender
+  __disposer?: Disposer
 }
 
 /**
@@ -1367,11 +1383,14 @@ function convertComposerOptions<
   if (isPlainObject(options.sharedMessages)) {
     const sharedMessages = options.sharedMessages
     const locales: Locale[] = Object.keys(sharedMessages)
-    messages = locales.reduce((messages, locale) => {
-      const message = messages[locale] || (messages[locale] = {})
-      assign(message, sharedMessages[locale])
-      return messages
-    }, (messages || {}) as LocaleMessages<LocaleMessage<VueMessageType>>)
+    messages = locales.reduce(
+      (messages, locale) => {
+        const message = messages[locale] || (messages[locale] = {})
+        assign(message, sharedMessages[locale])
+        return messages
+      },
+      (messages || {}) as LocaleMessages<LocaleMessage<VueMessageType>>
+    )
   }
   const { __i18n, __root, __injectWithOption } = options
 
@@ -1473,6 +1492,7 @@ export function createVueI18n(options: any = {}, VueI18nLegacy?: any): any {
     return new VueI18nLegacy(options)
   } else {
     const composer = createComposer(convertComposerOptions(options)) as Composer
+    const { __extender } = options as unknown as VueI18nInternalOptions
 
     // defines VueI18n
     const vueI18n = {
@@ -1786,6 +1806,9 @@ export function createVueI18n(options: any = {}, VueI18nLegacy?: any): any {
         }
       }
     }
+
+    // custom extender for vue-i18n-routing and nuxt i18n
+    ;(vueI18n as unknown as VueI18nInternal).__extender = __extender
 
     // for vue-devtools timeline event
     if (!__BRIDGE__ && __DEV__) {

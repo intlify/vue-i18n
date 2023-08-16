@@ -66,7 +66,8 @@ export {
   VueI18nDateTimeFormatting,
   VueI18nNumberFormatting,
   VueI18nResolveLocaleMessageTranslation,
-  ComponentInstanceCreatedListener
+  ComponentInstanceCreatedListener,
+  VueI18nExtender
 } from './legacy'
 export {
   createI18n,
@@ -80,7 +81,8 @@ export {
   I18nScope,
   ComposerAdditionalOptions,
   UseI18nOptions,
-  ExportedGlobalComposer
+  ExportedGlobalComposer,
+  ComposerExtender
 } from './i18n'
 export {
   Translation,
@@ -99,6 +101,7 @@ export {
 export { vTDirective, TranslationDirective } from './directive'
 export { I18nPluginOptions } from './plugin'
 export { VERSION } from './misc'
+export { Disposer } from './types'
 
 export type {
   IsNever,

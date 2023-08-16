@@ -45,7 +45,7 @@ import {
   EnableEmitter,
   DisableEmitter,
   SetPluralRulesSymbol,
-  InejctWithOption,
+  InejctWithOptionSymbol,
   LegacyInstanceSymbol,
   __VUE_I18N_BRIDGE__
 } from './symbols'
@@ -1782,7 +1782,7 @@ export function createComposer<
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export function createComposer(options: any = {}, VueI18nLegacy?: any): any {
   type Message = VueMessageType
-  const { __root } = options as ComposerInternalOptions<
+  const { __root, __injectWithOption } = options as ComposerInternalOptions<
     LocaleMessages<LocaleMessage<Message>>,
     DateTimeFormatsType,
     NumberFormatsType
@@ -2526,7 +2526,7 @@ export function createComposer(options: any = {}, VueI18nLegacy?: any): any {
     ;(composer as any).getNumberFormat = getNumberFormat
     ;(composer as any).setNumberFormat = setNumberFormat
     ;(composer as any).mergeNumberFormat = mergeNumberFormat
-    ;(composer as any)[InejctWithOption] = options.__injectWithOption
+    ;(composer as any)[InejctWithOptionSymbol] = __injectWithOption
     ;(composer as any)[TranslateVNodeSymbol] = translateVNode
     ;(composer as any)[DatetimePartsSymbol] = datetimeParts
     ;(composer as any)[NumberPartsSymbol] = numberParts
@@ -2537,11 +2537,9 @@ export function createComposer(options: any = {}, VueI18nLegacy?: any): any {
 
   // for vue-devtools timeline event
   if (!__BRIDGE__ && __DEV__) {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     ;(composer as any)[EnableEmitter] = (emitter: VueDevToolsEmitter): void => {
       ;(_context as unknown as CoreInternalContext).__v_emitter = emitter
     }
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     ;(composer as any)[DisableEmitter] = (): void => {
       ;(_context as unknown as CoreInternalContext).__v_emitter = undefined
     }
