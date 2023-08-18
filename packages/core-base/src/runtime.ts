@@ -1,4 +1,5 @@
 import {
+  assign,
   isNumber,
   isFunction,
   toDisplayString,
@@ -119,6 +120,7 @@ export interface MessageContext<T = string> {
   type: string
   interpolate: MessageInterpolate<T>
   normalize: MessageNormalize<T>
+  values: Record<string, unknown>
 }
 
 const DEFAULT_MODIFIER = (str: string): string => str
@@ -265,7 +267,8 @@ export function createMessageContext<T = string, N = {}>(
     [HelperNameMap.MESSAGE]: message,
     [HelperNameMap.TYPE]: type,
     [HelperNameMap.INTERPOLATE]: interpolate,
-    [HelperNameMap.NORMALIZE]: normalize
+    [HelperNameMap.NORMALIZE]: normalize,
+    [HelperNameMap.VALUES]: assign({}, _list, _named)
   }
 
   return ctx

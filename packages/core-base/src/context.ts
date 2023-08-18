@@ -100,12 +100,21 @@ export type PostTranslationHandler<Message = string> = (
   key: string
 ) => MessageFunctionReturn<Message>
 
+export type MessageCompilerContext = Pick<
+  CompileOptions,
+  'onError' | 'onCacheKey'
+> & {
+  warnHtmlMessage?: boolean
+  key: string
+  locale: Locale
+}
+
 export type MessageCompiler<
   Message = string,
-  MessageSource extends string | ResourceNode = string
+  MessageSource = string | ResourceNode
 > = (
   message: MessageSource,
-  options?: CompileOptions
+  context: MessageCompilerContext
 ) => MessageFunction<Message>
 
 // prettier-ignore

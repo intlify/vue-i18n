@@ -14,10 +14,7 @@ import type {
   ResourceNode
 } from '@intlify/message-compiler'
 import type { MessageFunction, MessageFunctions } from './runtime'
-
-type CoreBaseCompileOptions = CompileOptions & {
-  warnHtmlMessage?: boolean
-}
+import type { MessageCompilerContext } from './context'
 
 const WARN_MESSAGE = `Detected HTML in '{source}' message. Recommend not using HTML messages to avoid XSS.`
 
@@ -36,7 +33,7 @@ export function clearCompileCache(): void {
 
 function baseCompile(
   message: string,
-  options: CoreBaseCompileOptions = {}
+  options: CompileOptions = {}
 ): CompilerResult & { detectError: boolean } {
   // error detecting on compile
   let detectError = false
@@ -52,13 +49,13 @@ function baseCompile(
 
 export function compileToFunction<
   Message = string,
-  MessageSource extends string | ResourceNode = string
+  MessageSource = string | ResourceNode
 >(
   message: MessageSource,
-  options: CoreBaseCompileOptions = {}
+  context: MessageCompilerContext
 ): MessageFunction<Message> {
   if (!isString(message)) {
-    throw createCoreError(CoreErrorCodes.NOT_SUPPORT_AST)
+    throw createCoreError(CoreErrorCodes.NOT_SUPPORT_NON_STRING_MESSAGE)
   }
 
   if (__RUNTIME__) {
@@ -71,15 +68,13 @@ export function compileToFunction<
     return (() => message) as MessageFunction<Message>
   } else {
     // check HTML message
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const warnHtmlMessage = isBoolean(options.warnHtmlMessage)
-      ? // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        options.warnHtmlMessage
+    const warnHtmlMessage = isBoolean(context.warnHtmlMessage)
+      ? context.warnHtmlMessage
       : true
     __DEV__ && checkHtmlMessage(message, warnHtmlMessage)
 
     // check caches
-    const onCacheKey = options.onCacheKey || defaultOnCacheKey
+    const onCacheKey = context.onCacheKey || defaultOnCacheKey
     const cacheKey = onCacheKey(message)
     const cached = (compileCache as MessageFunctions<Message>)[cacheKey]
     if (cached) {
@@ -87,7 +82,7 @@ export function compileToFunction<
     }
 
     // compile
-    const { code, detectError } = baseCompile(message, options)
+    const { code, detectError } = baseCompile(message, context)
 
     // evaluate function
     const msg = new Function(`return ${code}`)() as MessageFunction<Message>
@@ -101,22 +96,20 @@ export function compileToFunction<
 
 export function compile<
   Message = string,
-  MessageSource extends string | ResourceNode = string
+  MessageSource = string | ResourceNode
 >(
   message: MessageSource,
-  options: CoreBaseCompileOptions = {}
+  context: MessageCompilerContext
 ): MessageFunction<Message> {
   if (isString(message)) {
     // check HTML message
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const warnHtmlMessage = isBoolean(options.warnHtmlMessage)
-      ? // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        options.warnHtmlMessage
+    const warnHtmlMessage = isBoolean(context.warnHtmlMessage)
+      ? context.warnHtmlMessage
       : true
     __DEV__ && checkHtmlMessage(message, warnHtmlMessage)
 
     // check caches
-    const onCacheKey = options.onCacheKey || defaultOnCacheKey
+    const onCacheKey = context.onCacheKey || defaultOnCacheKey
     const cacheKey = onCacheKey(message)
     const cached = (compileCache as MessageFunctions<Message>)[cacheKey]
     if (cached) {
@@ -125,7 +118,7 @@ export function compile<
 
     // compile with JIT mode
     const { ast, detectError } = baseCompile(message, {
-      ...options,
+      ...context,
       location: __DEV__,
       jit: true
     })

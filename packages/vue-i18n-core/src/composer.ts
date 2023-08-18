@@ -67,6 +67,7 @@ import type {
 import type {
   Path,
   MessageResolver,
+  MessageCompiler,
   LinkedModifiers,
   PluralizationRules,
   NamedValue,
@@ -549,6 +550,10 @@ export interface ComposerOptions<
    * @defaultValue `undefined`
    */
   messageResolver?: MessageResolver
+  /**
+   * TODO:
+   */
+  messageCompiler?: MessageCompiler
 }
 
 /**
@@ -1956,6 +1961,7 @@ export function createComposer(options: any = {}, VueI18nLegacy?: any): any {
       warnHtmlMessage: _warnHtmlMessage,
       escapeParameter: _escapeParameter,
       messageResolver: options.messageResolver,
+      messageCompiler: options.messageCompiler,
       __meta: { framework: 'vue' }
     }
 
