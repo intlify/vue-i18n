@@ -132,7 +132,7 @@ export function compile<
       : msg
   } else {
     // AST case (passed from bundler)
-    const cacheKey = (message as ResourceNode).cacheKey
+    const cacheKey = (message as unknown as ResourceNode).cacheKey
     if (cacheKey) {
       const cached = (compileCache as MessageFunctions<Message>)[cacheKey]
       if (cached) {
@@ -140,9 +140,9 @@ export function compile<
       }
       // compose message function from message (AST)
       return ((compileCache as MessageFunctions<Message>)[cacheKey] =
-        formatMessage<Message>(message as ResourceNode))
+        formatMessage<Message>(message as unknown as ResourceNode))
     } else {
-      return formatMessage<Message>(message as ResourceNode)
+      return formatMessage<Message>(message as unknown as ResourceNode)
     }
   }
 }

@@ -7,7 +7,7 @@ const { t } = useI18n()
 <template>
   <div>
     <h1>{{ t('hello') }}</h1>
-    <h1>{{ t('greeting', { name: 'kazupon' }) }}</h1>
+    <h1>{{ t('greeting', { name: 'DIO' }) }}</h1>
     <h1>{{ t('photo', { numPhotos: 4 }) }}</h1>
   </div>
 </template>

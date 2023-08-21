@@ -271,18 +271,18 @@ export interface ComposerOptions<
   MessagesLocales = Locales extends { messages: infer M }
     ? M
     : Locales extends string
-      ? Locales
-      : Locale,
+    ? Locales
+    : Locale,
   DateTimeFormatsLocales = Locales extends { datetimeFormats: infer D }
     ? D
     : Locales extends string
-      ? Locales
-      : Locale,
+    ? Locales
+    : Locale,
   NumberFormatsLocales = Locales extends { numberFormats: infer N }
     ? N
     : Locales extends string
-      ? Locales
-      : Locale,
+    ? Locales
+    : Locale,
   MessageSchema = Schema extends { message: infer M }
     ? M
     : DefaultLocaleMessageSchema,
@@ -551,7 +551,65 @@ export interface ComposerOptions<
    */
   messageResolver?: MessageResolver
   /**
-   * TODO:
+   * @remarks
+   * A compiler for custom message format.
+   *
+   * If not specified, the vue-i18n default message compiler will be used.
+   *
+   * You will need to implement your own message compiler that returns Message Functions
+   *
+   * @example
+   * Here is an example of how to custom message compiler with `intl-messageformat`
+   *
+   * ```js
+   * import { createI18n } from 'vue-i18n'
+   * import IntlMessageFormat from 'intl-messageformat'
+   *
+   * function messageCompiler(message, { locale, key, onError }) {
+   *   if (typeof message === 'string') {
+   *     // You can tune your message compiler performance more with your cache strategy or also memoization at here
+   *     const formatter = new IntlMessageFormat(message, locale)
+   *     return ctx => formatter.format(ctx.values)
+   *   } else {
+   *     // If you would like to support it for AST,
+   *     // You need to transform locale mesages such as `json`, `yaml`, etc. with the bundle plugin.
+   *     onError && onError(new Error('not support for AST'))
+   *     return () => key // return default with `key`
+   *   }
+   * }
+   *
+   * // call with I18n option
+   * const i18n = createI18n({
+   *   legacy: false,
+   *   locale: 'ja',
+   *   messageCompiler, // set your message compiler
+   *   messages: {
+   *     en: {
+   *       hello: 'hello world!',
+   *       greeting: 'hi, {name}!',
+   *       // ICU Message format
+   *       photo: `You have {numPhotos, plural,
+   *         =0 {no photos.}
+   *         =1 {one photo.}
+   *         other {# photos.}
+   *       }`
+   *     },
+   *   }
+   * })
+   *
+   * // the below your something to do ...
+   * // ...
+   * ```
+   *
+   * @VueI18nTip
+   * :new: v9.3+
+   *
+   * @VueI18nWarning
+   * The Custom Message Compiler is an experimental feature. It may receive breaking changes or be removed in the future.
+   *
+   * @VueI18nSee [Custom Message Compiler](../guide/advanced/message-compiler)
+   *
+   * @defaultValue `undefined`
    */
   messageCompiler?: MessageCompiler
 }

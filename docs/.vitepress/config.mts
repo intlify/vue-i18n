@@ -177,6 +177,10 @@ function sidebarGuide() {
         {
           text: 'Optimization',
           link: '/guide/advanced/optimization'
+        },
+        {
+          text: 'Custom Message Format',
+          link: '/guide/advanced/format'
         }
       ]
     },

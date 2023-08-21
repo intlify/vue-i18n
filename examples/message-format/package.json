@@ -1,5 +1,5 @@
 {
-  "name": "custom-message-compiler",
+  "name": "message-format",
   "private": true,
   "version": "0.0.0",
   "type": "module",

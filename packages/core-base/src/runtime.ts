@@ -37,6 +37,7 @@ export type MessageType<T = string> = T extends string
   ? string
   : StringConvertable<T>
 
+/** @VueI18nGeneral */
 export type MessageFunctionReturn<T = string> = T extends string
   ? MessageType<T>
   : MessageType<T>[]
@@ -44,15 +45,28 @@ export type MessageFunctionReturn<T = string> = T extends string
 export type MessageFunctionCallable = <T = string>(
   ctx: MessageContext<T>
 ) => MessageFunctionReturn<T>
+
+/** * @internal */
 export type MessageFunctionInternal<T = string> = {
   (ctx: MessageContext<T>): MessageFunctionReturn<T>
   key?: string
   locale?: string
   source?: string
 }
+
+/**
+ * The Message Function.
+ *
+ * @param ctx - A {@link MessageContext}
+ *
+ * @return A resolved format message, that is string type basically.
+ *
+ * @VueI18nGeneral
+ */
 export type MessageFunction<T = string> =
   | MessageFunctionCallable
   | MessageFunctionInternal<T>
+
 export type MessageFunctions<T = string> = Record<string, MessageFunction<T>>
 export type MessageResolveFunction<T = string> = (
   key: string
@@ -104,22 +118,142 @@ export interface MessageContextOptions<T = string, N = {}> {
 }
 
 export interface LinkedOptions {
+  /**
+   * The message type of linked message
+   */
   type?: string
+  /**
+   * The modifier of linked message
+   */
   modifier?: string
 }
 
 // TODO: list and named type definition more improvements
+
+/**
+ * The message context.
+ *
+ * @VueI18nGeneral
+ */
 export interface MessageContext<T = string> {
+  /**
+   * Resolve message value from list.
+   *
+   * @param index - An index of message values.
+   *
+   * @returns A resolved message value.
+   *
+   * @example
+   * ```js
+   * const messages = {
+   *   en: {
+   *     greeting: ({ list }) => `hello, ${list(0)}!`
+   *   }
+   * }
+   * ```
+   */
   list(index: number): unknown
+  /**
+   * Resolve message value from named.
+   *
+   * @param key - A key of message value.
+   *
+   * @returns A resolved message value.
+   *
+   * @example
+   * ```js
+   * const messages = {
+   *   en: {
+   *     greeting: ({ named }) => `hello, ${named('name')}!`
+   *   }
+   * }
+   * ```
+   */
   named(key: string): unknown
+  /**
+   * Resolve message with plural index.
+   *
+   * @remarks
+   * That's resolved with plural index with translation function.
+   *
+   * @param messages - the messages, that is resolved with plural index with translation function.
+   *
+   * @returns A resolved message.
+   *
+   * @example
+   * ```js
+   * const messages = {
+   *   en: {
+   *     car: ({ plural }) => plural(['car', 'cars']),
+   *     apple: ({ plural, named }) =>
+   *       plural([
+   *         'no apples',
+   *         'one apple',
+   *         `${named('count')} apples`
+   *       ])
+   *   }
+   * }
+   * ```
+   */
   plural(messages: T[]): T
+  /**
+   * Resolve linked message.
+   *
+   * @param key - A message key
+   * @param modifier - A modifier
+   *
+   * @returns A resolve message.
+   */
   linked(key: Path, modifier?: string): MessageType<T>
+  /**
+   * Overloaded `linked`
+   *
+   * @param key - A message key
+   * @param modifier - A modifier
+   * @param type - A message type
+   *
+   * @returns A resolve message.
+   */
   linked(key: Path, modifier?: string, type?: string): MessageType<T>
+  /**
+   * Overloaded `linked`
+   *
+   * @param key - A message key
+   * @param optoins - An {@link LinkedOptions | linked options}
+   *
+   * @returns A resolve message.
+   */
   linked(key: Path, optoins?: LinkedOptions): MessageType<T>
+  /** @internal */
   message(key: Path): MessageFunction<T>
+  /**
+   * The message type to be handled by the message function.
+   *
+   * @remarks
+   * Usually `text`, you need to return **string** in message function.
+   */
   type: string
+  /** @internal */
   interpolate: MessageInterpolate<T>
+  /** @internal */
   normalize: MessageNormalize<T>
+  /**
+   * The message values.
+   *
+   * @remarks
+   * The message values are the argument values passed from translation fucntion, such as `$t`, `t`, or `translate`.
+   *
+   * @example
+   * vue-i18n `$t` (or `t`) case:
+   * ```html
+   * <p>{{ $t('greeting', { name: 'DIO' }) }}</p> <!-- `{ name: 'DIO' }` is message vlaues -->
+   * ```
+   *
+   * `@intlify/core` (`@intlify/core-base`) `translate` case:
+   * ```js
+   * translate(context, 'foo.bar', ['dio']) // `['dio']` is message values
+   * ```
+   */
   values: Record<string, unknown>
 }
 
