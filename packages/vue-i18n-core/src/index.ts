@@ -28,7 +28,12 @@ export {
   TranslateOptions,
   DateTimeOptions,
   NumberOptions,
-  PostTranslationHandler
+  PostTranslationHandler,
+  MessageResolver,
+  MessageCompiler,
+  MessageCompilerContext,
+  CompileError,
+  MessageContext
 } from '@intlify/core-base'
 export {
   VueMessageType,

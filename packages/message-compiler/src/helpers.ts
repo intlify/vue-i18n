@@ -6,7 +6,8 @@ export const enum HelperNameMap {
   MESSAGE = 'message',
   TYPE = 'type',
   INTERPOLATE = 'interpolate',
-  NORMALIZE = 'normalize'
+  NORMALIZE = 'normalize',
+  VALUES = 'values'
 }
 
 const RE_HTML_TAG = /<\/?[\w\s="/.':;#-\/]+>/

@@ -38,7 +38,8 @@ import {
   registerLocaleFallbacker,
   MessageContext,
   Path,
-  PathValue
+  PathValue,
+  MessageFunction
 } from '@intlify/core-base'
 
 beforeEach(() => {
@@ -1537,6 +1538,26 @@ describe('messageResolver', () => {
     expect(mockMessageResolver.mock.calls[4][0]).toEqual(ja)
     expect(mockMessageResolver.mock.calls[4][1]).toEqual('api.errors')
   })
+})
+
+test('messageCompiler', () => {
+  const mockMessageCompiler = vi.fn()
+  mockMessageCompiler.mockImplementation((message: string): MessageFunction => {
+    return () => `custom message compiler: ${message}`
+  })
+
+  const en = {
+    message: 'hello'
+  }
+  const { t } = createComposer({
+    locale: 'en',
+    messageCompiler: mockMessageCompiler,
+    messages: { en }
+  })
+
+  expect(t('message')).toEqual('custom message compiler: hello')
+  expect(mockMessageCompiler).toHaveBeenCalledTimes(1)
+  expect(mockMessageCompiler.mock.calls[0][0]).toEqual('hello')
 })
 
 describe('__i18n', () => {

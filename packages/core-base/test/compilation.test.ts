@@ -6,13 +6,15 @@ import {
 } from '../src/compilation'
 import { createMessageContext as context } from '../src/runtime'
 
+const DEFAULT_CONTEXT = { locale: 'en', key: 'key' }
+
 beforeAll(() => {
   clearCompileCache()
 })
 
 describe('compileToFunction', () => {
   test('basic', () => {
-    const msg = compileToFunction('hello {name}!')
+    const msg = compileToFunction('hello {name}!', DEFAULT_CONTEXT)
     const ctx = context({
       named: { name: 'kazupon' }
     })
@@ -22,6 +24,7 @@ describe('compileToFunction', () => {
   test('error', () => {
     let occured = false
     compileToFunction('hello {name!', {
+      ...DEFAULT_CONTEXT,
       onError: () => (occured = true)
     })
     expect(occured).toBe(true)
@@ -30,7 +33,7 @@ describe('compileToFunction', () => {
 
 describe('compile', () => {
   test('basic', () => {
-    const msg = compile('hello {name}!')
+    const msg = compile('hello {name}!', DEFAULT_CONTEXT)
     const ctx = context({
       named: { name: 'kazupon' }
     })
@@ -43,7 +46,7 @@ describe('compile', () => {
         location: false,
         jit: true
       })
-      const msg = compile(ast)
+      const msg = compile(ast, DEFAULT_CONTEXT)
       const ctx = context({
         named: { name: 'kazupon' }
       })
@@ -56,7 +59,7 @@ describe('compile', () => {
         jit: true,
         minify: true
       })
-      const msg = compile(ast)
+      const msg = compile(ast, DEFAULT_CONTEXT)
       const ctx = context({
         named: { name: 'kazupon' }
       })
@@ -67,6 +70,7 @@ describe('compile', () => {
   test('error', () => {
     let occured = false
     compile('hello {name!', {
+      ...DEFAULT_CONTEXT,
       onError: () => (occured = true)
     })
     expect(occured).toBe(true)

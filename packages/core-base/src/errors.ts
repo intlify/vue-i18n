@@ -15,7 +15,7 @@ export const CoreErrorCodes = {
   INVALID_ARGUMENT: code, // 15
   INVALID_DATE_ARGUMENT: inc(), // 16
   INVALID_ISO_DATE_ARGUMENT: inc(), // 17
-  NOT_SUPPORT_AST: inc(), // 18
+  NOT_SUPPORT_NON_STRING_MESSAGE: inc(), // 18
   __EXTEND_POINT__: inc() // 19
 } as const
 
@@ -38,5 +38,6 @@ export const errorMessages: { [code: number]: string } = {
     'Make sure your Date represents a valid date.',
   [CoreErrorCodes.INVALID_ISO_DATE_ARGUMENT]:
     'The argument provided is not a valid ISO date string',
-  [CoreErrorCodes.NOT_SUPPORT_AST]: 'Not support AST'
+  [CoreErrorCodes.NOT_SUPPORT_NON_STRING_MESSAGE]:
+    'Not support non-string message'
 }

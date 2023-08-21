@@ -13,7 +13,7 @@ import {
 } from '@intlify/shared'
 import { VueDevToolsTimelineEvents } from '@intlify/vue-devtools'
 import { initI18nDevTools } from './devtools'
-import { CoreWarnCodes, getWarnMessage } from './warnings'
+import { CoreWarnCodes, getWarnMessage, warnOnce } from './warnings'
 import { resolveWithKeyValue } from './resolver'
 import { fallbackWithSimple } from './fallbacker'
 
@@ -100,12 +100,45 @@ export type PostTranslationHandler<Message = string> = (
   key: string
 ) => MessageFunctionReturn<Message>
 
+/**
+ * The context that will pass the message compiler.
+ *
+ * @VueI18nGeneral
+ */
+export type MessageCompilerContext = Pick<
+  CompileOptions,
+  'onError' | 'onCacheKey'
+> & {
+  /**
+   * Whether to allow the use locale messages of HTML formatting.
+   */
+  warnHtmlMessage?: boolean
+  /**
+   * The resolved locale message key
+   */
+  key: string
+  /**
+   * The locale
+   */
+  locale: Locale
+}
+
+/**
+ * The message compiler
+ *
+ * @param message - A resolved message that ususally will be passed the string. if you can transform to it with bundler, will be passed the AST.
+ * @param context - A message context {@link MessageCompilerContext}
+ *
+ * @returns A {@link MessageFunction}
+ *
+ * @VueI18nGeneral
+ */
 export type MessageCompiler<
   Message = string,
-  MessageSource extends string | ResourceNode = string
+  MessageSource = string | ResourceNode
 > = (
   message: MessageSource,
-  options?: CompileOptions
+  context: MessageCompilerContext
 ) => MessageFunction<Message>
 
 // prettier-ignore
@@ -415,6 +448,7 @@ export function createCoreContext<
 
 export function createCoreContext<Message = string>(options: any = {}): any {
   // setup options
+  const onWarn = isFunction(options.onWarn) ? options.onWarn : warn
   const version = isString(options.version) ? options.version : VERSION
   const locale = isString(options.locale) ? options.locale : DEFAULT_LOCALE
   const fallbackLocale =
@@ -465,6 +499,14 @@ export function createCoreContext<Message = string>(options: any = {}): any {
   const messageCompiler = isFunction(options.messageCompiler)
     ? options.messageCompiler
     : _compiler
+  if (
+    __DEV__ &&
+    !__GLOBAL__ &&
+    !__TEST__ &&
+    isFunction(options.messageCompiler)
+  ) {
+    warnOnce(getWarnMessage(CoreWarnCodes.EXPERIMENTAL_CUSTOM_MESSAGE_COMPILER))
+  }
   const messageResolver = isFunction(options.messageResolver)
     ? options.messageResolver
     : _resolver || resolveWithKeyValue
@@ -474,7 +516,6 @@ export function createCoreContext<Message = string>(options: any = {}): any {
   const fallbackContext = isObject(options.fallbackContext)
     ? options.fallbackContext
     : undefined
-  const onWarn = isFunction(options.onWarn) ? options.onWarn : warn
 
   // setup internal options
   const internalOptions = options as CoreInternalOptions

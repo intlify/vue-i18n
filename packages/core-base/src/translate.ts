@@ -29,11 +29,7 @@ import { CoreErrorCodes, createCoreError } from './errors'
 import { translateDevTools } from './devtools'
 import { VueDevToolsTimelineEvents } from '@intlify/vue-devtools'
 
-import type {
-  CompileOptions,
-  CompileError,
-  ResourceNode
-} from '@intlify/message-compiler'
+import type { CompileError, ResourceNode } from '@intlify/message-compiler'
 import type { AdditionalPayloads } from '@intlify/devtools-if'
 import type { Path, PathValue } from './resolver'
 import type {
@@ -49,7 +45,8 @@ import type {
 import type {
   LocaleMessages,
   LocaleMessageValue,
-  CoreInternalContext
+  CoreInternalContext,
+  MessageCompilerContext
 } from './context'
 import type { PickupKeys } from './types'
 
@@ -456,7 +453,7 @@ export function translate<
 
   // setup compile error detecting
   let occurred = false
-  const errorDetector = () => {
+  const onError = () => {
     occurred = true
   }
 
@@ -468,7 +465,7 @@ export function translate<
         targetLocale!,
         format,
         cacheBaseKey as string,
-        errorDetector
+        onError
       )
     : format
 
@@ -659,7 +656,7 @@ function compileMessageFormat<Messages, Message>(
   targetLocale: string,
   format: PathValue | ResourceNode | MessageFunction<Message>,
   cacheBaseKey: string,
-  errorDetector: () => void
+  onError: () => void
 ): MessageFunctionInternal {
   const { messageCompiler, warnHtmlMessage } = context
 
@@ -690,13 +687,13 @@ function compileMessageFormat<Messages, Message>(
 
   const msg = messageCompiler(
     format as string | ResourceNode,
-    getCompileOptions(
+    getCompileContext(
       context,
       targetLocale,
       cacheBaseKey,
       format as string | ResourceNode,
       warnHtmlMessage,
-      errorDetector
+      onError
     )
   ) as MessageFunctionInternal
 
@@ -808,18 +805,20 @@ export function parseTranslateArgs<Message = string>(
   return [key, options]
 }
 
-function getCompileOptions<Messages, Message>(
+function getCompileContext<Messages, Message>(
   context: CoreContext<Message, Messages>,
   locale: Locale,
   key: string,
   source: string | ResourceNode,
   warnHtmlMessage: boolean,
-  errorDetector?: (err: CompileError) => void
-): CompileOptions {
+  onError: (err: CompileError) => void
+): MessageCompilerContext {
   return {
+    locale,
+    key,
     warnHtmlMessage,
     onError: (err: CompileError): void => {
-      errorDetector && errorDetector(err)
+      onError && onError(err)
       if (!__BRIDGE__ && __DEV__) {
         const _source = getSourceForCodeFrame(source)
         const message = `Message compilation error: ${err.message}`
@@ -848,7 +847,7 @@ function getCompileOptions<Messages, Message>(
     },
     onCacheKey: (source: string): string =>
       generateFormatCacheKey(locale, key, source)
-  } as CompileOptions
+  }
 }
 
 function getSourceForCodeFrame(
@@ -896,7 +895,7 @@ function getMessageContextOptions<Messages, Message = string>(
 
     if (isString(val) || isMessageAST(val)) {
       let occurred = false
-      const errorDetector = () => {
+      const onError = () => {
         occurred = true
       }
       const msg = compileMessageFormat<Messages, Message>(
@@ -905,7 +904,7 @@ function getMessageContextOptions<Messages, Message = string>(
         locale,
         val,
         key,
-        errorDetector
+        onError
       ) as unknown as MessageFunction<Message>
       return !occurred
         ? msg
