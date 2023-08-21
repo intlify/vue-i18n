@@ -1,7 +1,7 @@
 import { promises as fs } from 'fs'
 import path from 'path'
 import { createServer } from 'vite'
-import { $fetch } from 'ohmyfetch'
+import { $fetch } from 'ofetch'
 import { generateJSON } from '@intlify/bundle-utils'
 import { locales } from '../src/constants'
 
@@ -35,7 +35,7 @@ async function compile(locale: string, message: ResourceSchema) {
     const resource = await $fetch<ResourceSchema>(
       `http://localhost:3000/api/resources/${locale}`
     )
-    const { code, map, filename } = await compile(locale, resource)
+    const { code, filename } = await compile(locale, resource)
     await fs.writeFile(filename, code)
   }
 
