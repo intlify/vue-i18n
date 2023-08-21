@@ -103,7 +103,7 @@ Intlify project is providing [`vite-plugin-vue-i18n`](https://github.com/intlify
 If you do a production build, Vue I18n will automatically bundle the runtime only module
 
 :::warning NOTICE
-This plugin will be deprecated in the near future, because we can replace `@intlify/unplugin-vue-i18n`.
+This plugin support until `Vite 3`. If you would like to use on `Vite 4`, please use `@intlify/unplugin-vue-i18n`
 :::
 
 #### Install plugin
