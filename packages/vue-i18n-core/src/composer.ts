@@ -605,9 +605,9 @@ export interface ComposerOptions<
    * :new: v9.3+
    *
    * @VueI18nWarning
-   * The Custom Message Compiler is an experimental feature. It may receive breaking changes or be removed in the future.
+   * The Custom Message Format is an experimental feature. It may receive breaking changes or be removed in the future.
    *
-   * @VueI18nSee [Custom Message Compiler](../guide/advanced/message-compiler)
+   * @VueI18nSee [Custom Message Format](../guide/advanced/format)
    *
    * @defaultValue `undefined`
    */
