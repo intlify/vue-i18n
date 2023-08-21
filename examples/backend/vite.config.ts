@@ -46,6 +46,8 @@ export default defineConfig({
   plugins: [
     backend(),
     vue(),
-    vueI18n({ compositionOnly: true, fullInstall: false })
+    vueI18n({
+      jitCompilation: true
+    })
   ]
 })
