@@ -79,16 +79,6 @@ export const isRegExp = (val: unknown): val is RegExp =>
 export const isEmptyObject = (val: unknown): val is boolean =>
   isPlainObject(val) && Object.keys(val).length === 0
 
-export function warn(msg: string, err?: Error): void {
-  if (typeof console !== 'undefined') {
-    console.warn(`[intlify] ` + msg)
-    /* istanbul ignore if */
-    if (err) {
-      console.warn(err.stack)
-    }
-  }
-}
-
 export const assign = Object.assign
 
 let _globalThis: any
@@ -211,4 +201,9 @@ export function generateCodeFrame(
     }
   }
   return res.join('\n')
+}
+
+export function incrementer(code: number): () => number {
+  let current = code
+  return () => ++current
 }

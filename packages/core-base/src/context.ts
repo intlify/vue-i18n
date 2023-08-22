@@ -9,11 +9,12 @@ import {
   isFunction,
   isPlainObject,
   assign,
-  isObject
+  isObject,
+  warnOnce
 } from '@intlify/shared'
 import { VueDevToolsTimelineEvents } from '@intlify/vue-devtools'
 import { initI18nDevTools } from './devtools'
-import { CoreWarnCodes, getWarnMessage, warnOnce } from './warnings'
+import { CoreWarnCodes, getWarnMessage } from './warnings'
 import { resolveWithKeyValue } from './resolver'
 import { fallbackWithSimple } from './fallbacker'
 

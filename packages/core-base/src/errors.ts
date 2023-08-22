@@ -1,22 +1,22 @@
+import { incrementer } from '@intlify/shared'
 import {
   CompileErrorCodes,
   createCompileError
 } from '@intlify/message-compiler'
-import type { CompileError } from '@intlify/message-compiler'
 
-export interface CoreError extends CompileError {
-  code: CoreErrorCodes
-}
+import type { BaseError } from '@intlify/shared'
 
-let code = CompileErrorCodes.__EXTEND_POINT__
-const inc = () => ++code
+export interface CoreError extends BaseError {}
+
+const code = CompileErrorCodes.__EXTEND_POINT__
+const inc = incrementer(code)
 
 export const CoreErrorCodes = {
-  INVALID_ARGUMENT: code, // 15
-  INVALID_DATE_ARGUMENT: inc(), // 16
-  INVALID_ISO_DATE_ARGUMENT: inc(), // 17
-  NOT_SUPPORT_NON_STRING_MESSAGE: inc(), // 18
-  __EXTEND_POINT__: inc() // 19
+  INVALID_ARGUMENT: code, // 18
+  INVALID_DATE_ARGUMENT: inc(), // 19
+  INVALID_ISO_DATE_ARGUMENT: inc(), // 20
+  NOT_SUPPORT_NON_STRING_MESSAGE: inc(), // 21
+  __EXTEND_POINT__: inc() // 22
 } as const
 
 export type CoreErrorCodes =

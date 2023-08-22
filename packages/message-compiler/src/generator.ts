@@ -3,6 +3,7 @@ import { SourceMapGenerator } from 'source-map-js'
 import { NodeTypes } from './nodes'
 import { LOCATION_STUB } from './location'
 import { HelperNameMap } from './helpers'
+import { createCompileError, CompileErrorCodes } from './errors'
 
 import type { RawSourceMap } from 'source-map-js'
 import type {
@@ -57,6 +58,8 @@ type CodeGenerator = {
   helper(key: string): string
   needIndent(): boolean
 }
+
+export const ERROR_DOMAIN = 'parser'
 
 function createCodeGenerator(
   ast: ResourceNode,
@@ -264,7 +267,14 @@ function generateNode(generator: CodeGenerator, node: Node): void {
       break
     default:
       if (__DEV__) {
-        throw new Error(`unhandled codegen node type: ${node.type}`)
+        throw createCompileError(
+          CompileErrorCodes.UNHANDLED_CODEGEN_NODE_TYPE,
+          null,
+          {
+            domain: ERROR_DOMAIN,
+            args: [node.type]
+          }
+        )
       }
   }
 }

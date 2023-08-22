@@ -1,12 +1,15 @@
 /* eslint-disable no-irregular-whitespace */
 
+import { format } from '@intlify/shared'
 import { createParser } from '../src/parser'
 import { transform } from '../src/transformer'
 import { generate } from '../src/generator'
-import { SourceMapConsumer } from 'source-map-js'
 import { CHAR_CR, CHAR_LF, CHAR_LS, CHAR_PS } from '../src/scanner'
+import { CompileErrorCodes, errorMessages } from '../src/errors'
+import { SourceMapConsumer } from 'source-map-js'
 
 import type { RawSourceMap } from 'source-map-js'
+import type { ResourceNode } from '../src/nodes'
 
 interface Pos {
   line: number
@@ -509,6 +512,19 @@ test('disable source map with location: false', async () => {
   consumer.eachMapping(mapping => {
     expect(mapping).toMatchSnapshot(`${mapping.name} mapping`)
   })
+})
+
+test('unhandle error', () => {
+  // wrong node type
+  const type = 1024
+  const ast = {
+    type
+  } as unknown as ResourceNode
+  expect(() =>
+    generate(ast, { sourceMap: true, location: false })
+  ).toThrowError(
+    format(errorMessages[CompileErrorCodes.UNHANDLED_CODEGEN_NODE_TYPE], type)
+  )
 })
 
 /* eslint-enable no-irregular-whitespace */

@@ -1,3 +1,5 @@
 export * from './utils'
+export * from './warn'
+export * from './error'
 export * from './emittable'
 export * from './emitter'
