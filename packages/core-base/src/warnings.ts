@@ -1,4 +1,4 @@
-import { format, warn } from '@intlify/shared'
+import { format } from '@intlify/shared'
 
 export const CoreWarnCodes = {
   NOT_FOUND_KEY: 1,
@@ -22,15 +22,6 @@ export const warnMessages: { [code: number]: string } = {
   [CoreWarnCodes.CANNOT_FORMAT_DATE]: `Cannot format a date value due to not supported Intl.DateTimeFormat.`,
   [CoreWarnCodes.FALLBACK_TO_DATE_FORMAT]: `Fall back to datetime format '{key}' key with '{target}' locale.`,
   [CoreWarnCodes.EXPERIMENTAL_CUSTOM_MESSAGE_COMPILER]: `This project is using Custom Message Compiler, which is an experimental feature. It may receive breaking changes or be removed in the future.`
-}
-
-const hasWarned: Record<string, boolean> = {}
-
-export function warnOnce(msg: string) {
-  if (!hasWarned[msg]) {
-    hasWarned[msg] = true
-    warn(msg)
-  }
 }
 
 export function getWarnMessage(

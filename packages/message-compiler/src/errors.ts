@@ -1,5 +1,6 @@
 import { format } from '@intlify/shared'
 
+import type { BaseError } from '@intlify/shared'
 import type { SourceLocation } from './location'
 
 export type CompileDomain =
@@ -7,15 +8,15 @@ export type CompileDomain =
   | 'parser'
   | 'generator'
   | 'transformer'
-  | 'compiler'
+  | 'optimizer'
+  | 'minifier'
 
-export interface CompileError extends SyntaxError {
-  code: number
+export interface CompileError extends BaseError, SyntaxError {
   domain?: CompileDomain
   location?: SourceLocation
 }
 
-export interface CreateCompileErrorOptions {
+export interface CompileErrorOptions {
   domain?: CompileDomain
   messages?: { [code: number]: string }
   args?: unknown[]
@@ -40,10 +41,16 @@ export const CompileErrorCodes = {
   UNEXPECTED_EMPTY_LINKED_KEY: 13,
   UNEXPECTED_LEXICAL_ANALYSIS: 14,
 
+  // generator error codes
+  UNHANDLED_CODEGEN_NODE_TYPE: 15,
+
+  // minifier error codes
+  UNHANDLED_MINIFIER_NODE_TYPE: 16,
+
   // Special value for higher-order compilers to pick up the last code
   // to avoid collision of error codes. This should always be kept as the last
   // item.
-  __EXTEND_POINT__: 15
+  __EXTEND_POINT__: 17
 } as const
 
 export type CompileErrorCodes =
@@ -66,13 +73,17 @@ export const errorMessages: { [code: number]: string } = {
   [CompileErrorCodes.MUST_HAVE_MESSAGES_IN_PLURAL]: `Plural must have messages`,
   [CompileErrorCodes.UNEXPECTED_EMPTY_LINKED_MODIFIER]: `Unexpected empty linked modifier`,
   [CompileErrorCodes.UNEXPECTED_EMPTY_LINKED_KEY]: `Unexpected empty linked key`,
-  [CompileErrorCodes.UNEXPECTED_LEXICAL_ANALYSIS]: `Unexpected lexical analysis in token: '{0}'`
+  [CompileErrorCodes.UNEXPECTED_LEXICAL_ANALYSIS]: `Unexpected lexical analysis in token: '{0}'`,
+  // generator error messages
+  [CompileErrorCodes.UNHANDLED_CODEGEN_NODE_TYPE]: `unhandled codegen node type: '{0}'`,
+  // minimizer error messages
+  [CompileErrorCodes.UNHANDLED_MINIFIER_NODE_TYPE]: `unhandled mimifier node type: '{0}'`
 }
 
 export function createCompileError<T extends number>(
   code: T,
   loc: SourceLocation | null,
-  options: CreateCompileErrorOptions = {}
+  options: CompileErrorOptions = {}
 ): CompileError {
   const { domain, messages, args } = options
   const msg = __DEV__

@@ -1,4 +1,5 @@
 import { NodeTypes } from './nodes'
+import { createCompileError, CompileErrorCodes } from './errors'
 
 import type {
   MessageNode,
@@ -13,6 +14,8 @@ import type {
   ListNode,
   NamedNode
 } from './nodes'
+
+export const ERROR_DOMAIN = 'minifier'
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
@@ -85,7 +88,14 @@ export function minify(node: Node) {
       break
     default:
       if (__DEV__) {
-        throw new Error(`unhandled minify node type: ${node.type}`)
+        throw createCompileError(
+          CompileErrorCodes.UNHANDLED_MINIFIER_NODE_TYPE,
+          null,
+          {
+            domain: ERROR_DOMAIN,
+            args: [node.type]
+          }
+        )
       }
   }
 
