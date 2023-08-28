@@ -118,7 +118,7 @@
     "rollup-plugin-typescript2": "^0.35.0",
     "secretlint": "^3.2.0",
     "serve-static": "^1.15.0",
-    "textlint": "^12.6.1",
+    "textlint": "^13.0.0",
     "textlint-filter-rule-comments": "^1.2.2",
     "textlint-rule-abbr-within-parentheses": "^1.0.2",
     "textlint-rule-apostrophe": "^2.0.0",
