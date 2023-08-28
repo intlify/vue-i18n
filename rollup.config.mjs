@@ -212,10 +212,6 @@ function createConfig(format, _output, plugins = []) {
         ]
       : []
 
-  if (format === 'cjs') {
-    nodePlugins.push(cjsReExportsPatchPlugin())
-  }
-
   if (isBridge) {
     const replacingPaths = [
       './packages/vue-i18n-core/src/composer.ts',
@@ -409,24 +405,4 @@ function createMinifiedConfig(format) {
       })
     ]
   )
-}
-
-// temporary patch for https://github.com/nodejs/cjs-module-lexer/issues/79
-function cjsReExportsPatchPlugin() {
-  const matcher =
-    /(Object.keys\((?:\w+)\).forEach\(function \(k\)\s+{)(\s+if \(k !== 'default') && !exports.hasOwnProperty\(k\)(\) exports\[k\] = (?:\w+)\[k\];\s+}\);)/
-  return {
-    name: 'patch-cjs-re-exports',
-    renderChunk(code, _, options) {
-      if (matcher.test(code)) {
-        return code.replace(matcher, (_, r1, r2, r3) => {
-          return `${r1}${r2}${r3}`
-        })
-      } else if (options.file.endsWith('packages/core/dist/core.cjs') || options.file.endsWith('packages/core/dist/core.prod.cjs')) {
-        // make sure we don't accidentally miss the rewrite in case Rollup
-        // changes the output again.
-        throw new Error('cjs build re-exports rewrite failed.')
-      }
-    }
-  }
 }
