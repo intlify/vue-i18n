@@ -84,7 +84,7 @@ const CASES = [
   `hi @\n. upper\n:  {'name'}\n !`,
   ` | | |`,
   ` foo | | bar`,
-  `@.lower: {'no apples'} | {1 apple | @:{count　apples` // eslint-disable-line no-irregular-whitespace
+  `@.lower: {'no apples'} | {1 apple | @:{count　apples` // eslint-disable-line no-irregular-whitespace,
 ]
 
 test('token analysis', () => {

@@ -553,6 +553,156 @@ test('multiple', () => {
   })
 })
 
+test('wrap with paren', () => {
+  const tokenizer = createTokenizer(`Welcome (@.upper:foo)`)
+  expect(tokenizer.nextToken()).toEqual({
+    type: TokenTypes.Text,
+    value: 'Welcome (',
+    loc: {
+      start: { line: 1, column: 1, offset: 0 },
+      end: { line: 1, column: 10, offset: 9 }
+    }
+  })
+  expect(tokenizer.nextToken()).toEqual({
+    type: TokenTypes.LinkedAlias,
+    value: '@',
+    loc: {
+      start: { line: 1, column: 10, offset: 9 },
+      end: { line: 1, column: 11, offset: 10 }
+    }
+  })
+  expect(tokenizer.nextToken()).toEqual({
+    type: TokenTypes.LinkedDot,
+    value: '.',
+    loc: {
+      start: { line: 1, column: 11, offset: 10 },
+      end: { line: 1, column: 12, offset: 11 }
+    }
+  })
+  expect(tokenizer.nextToken()).toEqual({
+    type: TokenTypes.LinkedModifier,
+    value: 'upper',
+    loc: {
+      start: { line: 1, column: 12, offset: 11 },
+      end: { line: 1, column: 17, offset: 16 }
+    }
+  })
+  expect(tokenizer.nextToken()).toEqual({
+    type: TokenTypes.LinkedDelimiter,
+    value: ':',
+    loc: {
+      start: { line: 1, column: 17, offset: 16 },
+      end: { line: 1, column: 18, offset: 17 }
+    }
+  })
+  expect(tokenizer.nextToken()).toEqual({
+    type: TokenTypes.LinkedKey,
+    value: 'foo',
+    loc: {
+      start: { line: 1, column: 18, offset: 17 },
+      end: { line: 1, column: 21, offset: 20 }
+    }
+  })
+  expect(tokenizer.nextToken()).toEqual({
+    type: TokenTypes.Text,
+    value: ')',
+    loc: {
+      start: { line: 1, column: 21, offset: 20 },
+      end: { line: 1, column: 22, offset: 21 }
+    }
+  })
+  expect(tokenizer.nextToken()).toEqual({
+    type: TokenTypes.EOF,
+    loc: {
+      start: { line: 1, column: 22, offset: 21 },
+      end: { line: 1, column: 22, offset: 21 }
+    }
+  })
+})
+
+test('wrap with paren, inside brace', () => {
+  const tokenizer = createTokenizer(`Welcome (@.upper:{param} )`)
+  expect(tokenizer.nextToken()).toEqual({
+    type: TokenTypes.Text,
+    value: 'Welcome (',
+    loc: {
+      start: { line: 1, column: 1, offset: 0 },
+      end: { line: 1, column: 10, offset: 9 }
+    }
+  })
+  expect(tokenizer.nextToken()).toEqual({
+    type: TokenTypes.LinkedAlias,
+    value: '@',
+    loc: {
+      start: { line: 1, column: 10, offset: 9 },
+      end: { line: 1, column: 11, offset: 10 }
+    }
+  })
+  expect(tokenizer.nextToken()).toEqual({
+    type: TokenTypes.LinkedDot,
+    value: '.',
+    loc: {
+      start: { line: 1, column: 11, offset: 10 },
+      end: { line: 1, column: 12, offset: 11 }
+    }
+  })
+  expect(tokenizer.nextToken()).toEqual({
+    type: TokenTypes.LinkedModifier,
+    value: 'upper',
+    loc: {
+      start: { line: 1, column: 12, offset: 11 },
+      end: { line: 1, column: 17, offset: 16 }
+    }
+  })
+  expect(tokenizer.nextToken()).toEqual({
+    type: TokenTypes.LinkedDelimiter,
+    value: ':',
+    loc: {
+      start: { line: 1, column: 17, offset: 16 },
+      end: { line: 1, column: 18, offset: 17 }
+    }
+  })
+  expect(tokenizer.nextToken()).toEqual({
+    type: TokenTypes.BraceLeft,
+    value: '{',
+    loc: {
+      start: { line: 1, column: 18, offset: 17 },
+      end: { line: 1, column: 19, offset: 18 }
+    }
+  })
+  expect(tokenizer.nextToken()).toEqual({
+    type: TokenTypes.Named,
+    value: 'param',
+    loc: {
+      start: { line: 1, column: 19, offset: 18 },
+      end: { line: 1, column: 24, offset: 23 }
+    }
+  })
+  expect(tokenizer.nextToken()).toEqual({
+    type: TokenTypes.BraceRight,
+    value: '}',
+    loc: {
+      start: { line: 1, column: 24, offset: 23 },
+      end: { line: 1, column: 25, offset: 24 }
+    }
+  })
+  expect(tokenizer.nextToken()).toEqual({
+    type: TokenTypes.Text,
+    value: ' )',
+    loc: {
+      start: { line: 1, column: 25, offset: 24 },
+      end: { line: 1, column: 27, offset: 26 }
+    }
+  })
+  expect(tokenizer.nextToken()).toEqual({
+    type: TokenTypes.EOF,
+    loc: {
+      start: { line: 1, column: 27, offset: 26 },
+      end: { line: 1, column: 27, offset: 26 }
+    }
+  })
+})
+
 describe('errors', () => {
   let errors: CompileError[], options: TokenizeOptions
   beforeEach(() => {
