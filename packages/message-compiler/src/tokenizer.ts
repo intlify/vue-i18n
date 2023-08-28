@@ -35,6 +35,7 @@ const enum TokenChars {
 }
 
 const EOF = undefined
+const DOT = '.'
 const LITERAL_DELIMITER = "'"
 export const ERROR_DOMAIN = 'tokenizer'
 
@@ -659,10 +660,12 @@ export function createTokenizer(
         return buf
       } else if (ch === SPACE) {
         return buf
-      } else if (ch === NEW_LINE) {
+      } else if (ch === NEW_LINE || ch === DOT) {
         buf += ch
         scnr.next()
         return fn(detect, buf)
+      } else if (!isIdentifierStart(ch)) {
+        return buf
       } else {
         buf += ch
         scnr.next()
