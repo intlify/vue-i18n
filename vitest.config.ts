@@ -17,7 +17,9 @@ export default defineConfig({
     __LITE__: false,
     __BRIDGE__: false,
     __FEATURE_FULL_INSTALL__: true,
-    __FEATURE_LEGACY_API__: true
+    __FEATURE_LEGACY_API__: true,
+    __FEATURE_JIT_COMPILATION__: true,
+    __FEATURE_DROP_MESSAGE_COMPILER__: false
   },
   resolve: {
     alias: entries

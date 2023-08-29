@@ -1,4 +1,4 @@
-import { warn, format, isBoolean, isString } from '@intlify/shared'
+import { warn, format, isObject, isBoolean, isString } from '@intlify/shared'
 import {
   baseCompile as baseCompileCore,
   defaultOnError,
@@ -30,6 +30,11 @@ let compileCache: unknown = Object.create(null)
 export function clearCompileCache(): void {
   compileCache = Object.create(null)
 }
+
+export const isMessageAST = (val: unknown): val is ResourceNode =>
+  isObject(val) &&
+  (val.t === 0 || val.type === 0) &&
+  ('b' in val || 'body' in val)
 
 function baseCompile(
   message: string,
@@ -101,7 +106,11 @@ export function compile<
   message: MessageSource,
   context: MessageCompilerContext
 ): MessageFunction<Message> {
-  if (isString(message)) {
+  if (
+    __FEATURE_JIT_COMPILATION__ &&
+    !__FEATURE_DROP_MESSAGE_COMPILER__ &&
+    isString(message)
+  ) {
     // check HTML message
     const warnHtmlMessage = isBoolean(context.warnHtmlMessage)
       ? context.warnHtmlMessage
@@ -131,6 +140,13 @@ export function compile<
       ? ((compileCache as MessageFunctions<Message>)[cacheKey] = msg)
       : msg
   } else {
+    if (__DEV__ && !isMessageAST(message)) {
+      warn(
+        `the message that is resolve with key '${context.key}') is not supported for jit compilation`
+      )
+      return (() => message) as MessageFunction<Message>
+    }
+
     // AST case (passed from bundler)
     const cacheKey = (message as unknown as ResourceNode).cacheKey
     if (cacheKey) {

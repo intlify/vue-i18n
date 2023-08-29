@@ -2,6 +2,7 @@ import { baseCompile } from '@intlify/message-compiler'
 import {
   compileToFunction,
   compile,
+  isMessageAST,
   clearCompileCache
 } from '../src/compilation'
 import { createMessageContext as context } from '../src/runtime'
@@ -10,6 +11,26 @@ const DEFAULT_CONTEXT = { locale: 'en', key: 'key' }
 
 beforeAll(() => {
   clearCompileCache()
+})
+
+describe('isMessageAST', () => {
+  describe('basic AST', () => {
+    test('should be true', () => {
+      expect(isMessageAST({ type: 0, body: '' })).toBe(true)
+    })
+  })
+
+  describe('minify AST', () => {
+    test('should be true', () => {
+      expect(isMessageAST({ type: 0, b: '' })).toBe(true)
+    })
+  })
+
+  describe('not message compiler AST format', () => {
+    test('should be false', () => {
+      expect(isMessageAST({ b: '' })).toBe(false)
+    })
+  })
 })
 
 describe('compileToFunction', () => {

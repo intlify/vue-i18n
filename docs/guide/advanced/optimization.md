@@ -227,6 +227,7 @@ the each time localization is performed in an application using `$t` or `t` func
 You need to configure the following feature flag with `esm-bundler` build and bundler such as vite:
 
 - `__INTLIFY_JIT_COMPILATION__`  (enable/disable message compiler for JIT style, default: `false`) 
+- `__INTLIFY_DROP_MESSAGE_COMPILER__`  (enable/disable whether to tree-shake message compiler when we will be bundling, this flag works when `__INTLIFY_JIT_COMPILATION__` is enabled. default: `false`)
 
 :::warning NOTICE
 This feature is opted out as default, because compatibility with previous version before v9.3.

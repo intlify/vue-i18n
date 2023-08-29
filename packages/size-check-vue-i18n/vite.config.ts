@@ -19,6 +19,7 @@ export default defineConfig({
     __VUE_I18N_FULL_INSTALL__: false,
     __VUE_PROD_DEVTOOLS__: false,
     __INTLIFY_JIT_COMPILATION__: true,
+    __INTLIFY_DROP_MESSAGE_COMPILER__: true,
     __INTLIFY_PROD_DEVTOOLS__: false,
     'process.env.NODE_ENV': JSON.stringify('production')
     // 'process.env.NODE_ENV': JSON.stringify('development')

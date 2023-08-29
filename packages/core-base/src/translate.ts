@@ -16,6 +16,7 @@ import {
   assign,
   isObject
 } from '@intlify/shared'
+import { isMessageAST } from './compilation'
 import { createMessageContext } from './runtime'
 import {
   isTranslateFallbackWarn,
@@ -51,11 +52,9 @@ import type {
 import type { PickupKeys } from './types'
 
 const NOOP_MESSAGE_FUNCTION = () => ''
+
 export const isMessageFunction = <T>(val: unknown): val is MessageFunction<T> =>
   isFunction(val)
-
-export const isMessageAST = (val: unknown): val is ResourceNode =>
-  isObject(val) && val.type === 0 && ('body' in val || 'b' in val)
 
 /**
  *  # translate
