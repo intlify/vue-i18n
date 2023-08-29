@@ -55,7 +55,7 @@ export const isMessageFunction = <T>(val: unknown): val is MessageFunction<T> =>
   isFunction(val)
 
 export const isMessageAST = (val: unknown): val is ResourceNode =>
-  isObject(val) && val.type === 0 && 'body' in val
+  isObject(val) && val.type === 0 && ('body' in val || 'b' in val)
 
 /**
  *  # translate

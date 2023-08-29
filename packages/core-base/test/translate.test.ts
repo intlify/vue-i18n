@@ -13,7 +13,7 @@ vi.mock('@intlify/shared', async () => {
 })
 
 import { createCoreContext as context, NOT_REOSLVED } from '../src/context'
-import { translate } from '../src/translate'
+import { translate, isMessageAST } from '../src/translate'
 import { CoreErrorCodes, errorMessages } from '../src/errors'
 import {
   registerMessageCompiler,
@@ -989,6 +989,26 @@ describe('AST passing', () => {
       }
     })
     expect(translate(ctx, 'hi')).toEqual('hi kazupon !')
+  })
+})
+
+describe('isMessageAST', () => {
+  describe('basic AST', () => {
+    test('should be true', () => {
+      expect(isMessageAST({ type: 0, body: '' })).toBe(true)
+    })
+  })
+
+  describe('minify AST', () => {
+    test('should be true', () => {
+      expect(isMessageAST({ type: 0, b: '' })).toBe(true)
+    })
+  })
+
+  describe('not message compiler AST format', () => {
+    test('should be false', () => {
+      expect(isMessageAST({ b: '' })).toBe(false)
+    })
   })
 })
 
