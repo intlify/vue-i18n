@@ -358,6 +358,9 @@ function createReplacePlugin(
     __FEATURE_JIT_COMPILATION__: isBundlerESMBuild
       ? `__INTLIFY_JIT_COMPILATION__`
       : `false`,
+    __FEATURE_DROP_MESSAGE_COMPILER__: isBundlerESMBuild
+      ? `__INTLIFY_DROP_MESSAGE_COMPILER__`
+      : `false`,
     ...(isProduction && isBrowserBuild
       ? {
           'emitError(': `/*#__PURE__*/ emitError(`,
