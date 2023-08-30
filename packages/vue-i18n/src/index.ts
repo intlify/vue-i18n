@@ -127,6 +127,7 @@ export {
 } from '../../vue-i18n-core/src/components'
 export {
   vTDirective,
+  VTDirectiveValue,
   TranslationDirective
 } from '../../vue-i18n-core/src/directive'
 export { I18nPluginOptions } from '../../vue-i18n-core/src/plugin'
