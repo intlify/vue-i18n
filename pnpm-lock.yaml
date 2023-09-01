@@ -202,8 +202,8 @@ importers:
         specifier: ^3.0.1
         version: 3.0.1
       textlint-rule-terminology:
-        specifier: ^2.1.6
-        version: 2.1.6
+        specifier: ^4.0.0
+        version: 4.0.0
       textlint-rule-unexpanded-acronym:
         specifier: ^1.2.4
         version: 1.2.4
@@ -11021,9 +11021,9 @@ packages:
       textlint-rule-helper: 2.3.0
     dev: true
 
-  /textlint-rule-terminology@2.1.6:
-    resolution: {integrity: sha512-3OdV/0DE8RpIYcshz+5wFaDwNYIlqfsBA8TODgNd68T339rn+K69ak5hoXUBSSuTousbAbCFDPqTILG20os44A==}
-    engines: {node: '>=8.9'}
+  /textlint-rule-terminology@4.0.0:
+    resolution: {integrity: sha512-tbNpzDNLTVsqtDIMXEZNX2i1dvOqryME8Hknopq6Ze3TAjij5N0wBtG63frZLxJ9auE9fZse15sTi4Qe3arNZA==}
+    engines: {node: '>=18'}
     dependencies:
       lodash: 4.17.21
       strip-json-comments: 3.1.1
