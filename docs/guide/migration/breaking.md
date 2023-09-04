@@ -106,7 +106,7 @@ const ErrorMessage = {
 }
 ```
 
-In Vue I18n v9 or later, it change to be using `$tm` or `tm`. The following Composition API example:
+In Vue I18n v9 or later, it change to be getting locale messages with `$tm` / `tm`, and to resolve locale messages with `$rt` or `rt`. The following Composition API example:
 
 ```js{24}
 // e.g. Array structure locale messages
@@ -132,8 +132,8 @@ const ErrorMessage = {
   },
   template: `<p class="error">{{ errors(code) }}</p>`,
   setup() {
-    const { tm } = useI18n()
-    const errors = (code) => tm('errors')[code]
+    const { tm, rt } = useI18n()
+    const errors = (code) => rt(tm('errors')[code])
     return { errors }
   }
 }
