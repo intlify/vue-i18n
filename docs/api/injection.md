@@ -932,6 +932,10 @@ If there are no locale messages for the given `key` in the composer instance mes
 
 Locale messages
 
+:::warning NOTE
+You need to use `$rt` for the locale message returned by `$tm`.
+:::
+
 ### $d(value)
 
 Datetime formatting
