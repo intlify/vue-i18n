@@ -337,9 +337,7 @@ Global builds are not [UMD](https://github.com/umdjs/umd) builds. They are built
 :::warning NOTICE
 If you use `vue-i18n-bridge.runtime.esm-bundler.js`, you will need to precompile all locale messages, and you can do that with `.json` (`.json5`) or `.yaml`, i18n custom blocks to manage i18n resources. Therefore, you can be going to pre-compile all locale messages with bundler and the following loader / plugin.
 
-- [`@intlify/vite-plugin-vue-i18n`](https://github.com/intlify/bundle-tools/tree/main/packages/vite-plugin-vue-i18n)
-- [`@intlify/vue-i18n-loader`](https://github.com/intlify/bundle-tools/tree/main/packages/vue-i18n-loader)
-- [`@intlify/rollup-plugin-vue-i18n`](https://github.com/intlify/bundle-tools/tree/main/packages/rollup-plugin-vue-i18n)
+- [`@intlify/unplugin-vue-i18n`](https://github.com/intlify/bundle-tools/tree/main/packages/unplugin-vue-i18n)
 :::
 
 #### For Node.js (Server-Side)
