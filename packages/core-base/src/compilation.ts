@@ -142,7 +142,7 @@ export function compile<
   } else {
     if (__DEV__ && !isMessageAST(message)) {
       warn(
-        `the message that is resolve with key '${context.key}') is not supported for jit compilation`
+        `the message that is resolve with key '${context.key}' is not supported for jit compilation`
       )
       return (() => message) as MessageFunction<Message>
     }
