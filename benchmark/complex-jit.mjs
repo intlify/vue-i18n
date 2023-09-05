@@ -1,3 +1,5 @@
+global.__INTLIFY_JIT_COMPILATION__ = true // set JIT mode for Node.js
+
 import { createCommonJS } from 'mlly'
 import {
   translate,
