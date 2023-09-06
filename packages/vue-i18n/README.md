@@ -39,9 +39,16 @@ Internationalization plugin for Vue.js
 ### For Node.js (Server-Side)
 
 - **`vue-i18n.cjs(.prod).js`**:
+  - For CommonJS usage in Node.js
   - For use in Node.js via `require()`
   - If you bundle your app with webpack with `target: 'node'` and properly externalize `vue-i18n`, this is the build that will be loaded
   - The dev/prod files are pre-built, but the appropriate file is automatically required based on `process.env.NODE_ENV`
+
+- **`vue-i18n.node.mjs`**:
+  - For ES Moudles usage in Node.js
+  - For use in Node.js via `import`
+  - The dev/prod files are pre-built, but the appropriate file is automatically required based on `process.env`<wbr/>`.NODE_ENV`
+
 
 ## For Bundler feature flags
 
