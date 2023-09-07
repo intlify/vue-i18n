@@ -553,7 +553,7 @@ export function createI18n(options: any = {}, VueI18nLegacy?: any): any {
   )
 
   if (__DEV__) {
-    if (__legacyMode && __allowComposition) {
+    if (__legacyMode && __allowComposition && !__TEST__) {
       warn(getWarnMessage(I18nWarnCodes.NOTICE_DROP_ALLOW_COMPOSITION))
     }
   }
