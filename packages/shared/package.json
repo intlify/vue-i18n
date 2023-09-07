@@ -36,6 +36,7 @@
     "name": "IntlifyShared",
     "formats": [
       "mjs",
+      "browser",
       "cjs"
     ]
   },
@@ -43,6 +44,7 @@
     ".": {
       "types": "./dist/shared.d.ts",
       "import": "./dist/shared.mjs",
+      "browser": "./dist/shared.esm-browser.js",
       "node": {
         "import": {
           "production": "./dist/shared.prod.cjs",
