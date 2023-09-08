@@ -54,20 +54,20 @@
   "exports": {
     ".": {
       "types": "./dist/core.d.ts",
-      "import": "./dist/core.mjs",
-      "browser": "./dist/core.esm-browser.js",
       "node": {
         "import": {
-          "production": "./dist/core.prod.cjs",
-          "development": "./dist/core.mjs",
-          "default": "./dist/core.mjs"
+          "production": "./dist/core.prod.node.mjs",
+          "development": "./dist/core.node.mjs",
+          "default": "./dist/core.node.mjs"
         },
         "require": {
           "production": "./dist/core.prod.cjs",
           "development": "./dist/core.cjs",
           "default": "./index.js"
         }
-      }
+      },
+      "import": "./dist/core.mjs",
+      "browser": "./dist/core.esm-browser.js"
     },
     "./dist/*": "./dist/*",
     "./package.json": "./package.json"

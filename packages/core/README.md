@@ -37,9 +37,18 @@ The intlify core module for i18n
 ### For Node.js (Server-Side)
 
 - **`core.cjs(.prod).js`**:
+  - For CommonJS usage in Node.js
   - For use in Node.js via `require()`
   - If you bundle your app with webpack with `target: 'node'` and properly externalize `@intlify/core`, this is the build that will be loaded
   - The dev/prod files are pre-built, but the appropriate file is automatically required based on `process.env.NODE_ENV`
+
+- **`core.node.mjs`**:
+  - For ES Moudles usage in Node.js
+  - For use in Node.js via `import`
+  - The dev/prod files are pre-built, but the appropriate file is automatically required based on `process.env`<wbr/>`.NODE_ENV`
+
+> NOTE: ES Modules will be the future of the Node.js module system. The `core.cjs(.prod).js` will be deprecated in the future. We recommend you would use `core.node.mjs`. 9.3+
+
 
 ## :copyright: License
 
