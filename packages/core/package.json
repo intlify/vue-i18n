@@ -66,8 +66,8 @@
           "default": "./index.js"
         }
       },
-      "import": "./dist/core.mjs",
-      "browser": "./dist/core.esm-browser.js"
+      "browser": "./dist/core.esm-browser.js",
+      "import": "./dist/core.mjs"
     },
     "./dist/*": "./dist/*",
     "./package.json": "./package.json"

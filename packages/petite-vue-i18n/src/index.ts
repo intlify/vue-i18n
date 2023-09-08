@@ -12,10 +12,15 @@ if (__ESM_BUNDLER__ && !__TEST__) {
 }
 
 // register message compiler at petite-vue-i18n
-if (!__FEATURE_JIT_COMPILATION__) {
-  registerMessageCompiler(compileToFunction)
-} else {
+if (
+  __ESM_BROWSER__ ||
+  __NODE_JS__ ||
+  __GLOBAL__ ||
+  __FEATURE_JIT_COMPILATION__
+) {
   registerMessageCompiler(compile)
+} else {
+  registerMessageCompiler(compileToFunction)
 }
 
 export {
