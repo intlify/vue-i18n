@@ -52,13 +52,13 @@ function baseCompile(
   return { ...baseCompileCore(message, options), detectError }
 }
 
-export function compileToFunction<
+export const compileToFunction = /* #__PURE__*/ <
   Message = string,
   MessageSource = string | ResourceNode
 >(
   message: MessageSource,
   context: MessageCompilerContext
-): MessageFunction<Message> {
+): MessageFunction<Message> => {
   if (!isString(message)) {
     throw createCoreError(CoreErrorCodes.NOT_SUPPORT_NON_STRING_MESSAGE)
   }
@@ -107,8 +107,10 @@ export function compile<
   context: MessageCompilerContext
 ): MessageFunction<Message> {
   if (
-    __FEATURE_JIT_COMPILATION__ &&
-    !__FEATURE_DROP_MESSAGE_COMPILER__ &&
+    (__ESM_BROWSER__ ||
+      __NODE_JS__ ||
+      __GLOBAL__ ||
+      (__FEATURE_JIT_COMPILATION__ && !__FEATURE_DROP_MESSAGE_COMPILER__)) &&
     isString(message)
   ) {
     // check HTML message
