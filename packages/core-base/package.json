@@ -33,9 +33,11 @@
   "jsdelivr": "dist/core-base.global.js",
   "types": "dist/core-base.d.ts",
   "dependencies": {
-    "@intlify/devtools-if": "workspace:*",
     "@intlify/message-compiler": "workspace:*",
-    "@intlify/shared": "workspace:*",
+    "@intlify/shared": "workspace:*"
+  },
+  "devDependencies": {
+    "@intlify/devtools-if": "workspace:*",
     "@intlify/vue-devtools": "workspace:*"
   },
   "engines": {

@@ -492,15 +492,16 @@ importers:
 
   packages/core-base:
     dependencies:
-      '@intlify/devtools-if':
-        specifier: workspace:*
-        version: link:../devtools-if
       '@intlify/message-compiler':
         specifier: workspace:*
         version: link:../message-compiler
       '@intlify/shared':
         specifier: workspace:*
         version: link:../shared
+    devDependencies:
+      '@intlify/devtools-if':
+        specifier: workspace:*
+        version: link:../devtools-if
       '@intlify/vue-devtools':
         specifier: workspace:*
         version: link:../vue-devtools
@@ -640,9 +641,6 @@ importers:
       '@intlify/shared':
         specifier: workspace:*
         version: link:../shared
-      '@intlify/vue-devtools':
-        specifier: workspace:*
-        version: link:../vue-devtools
       '@vue/devtools-api':
         specifier: ^6.5.0
         version: 6.5.0
@@ -653,6 +651,9 @@ importers:
       '@intlify/devtools-if':
         specifier: workspace:*
         version: link:../devtools-if
+      '@intlify/vue-devtools':
+        specifier: workspace:*
+        version: link:../vue-devtools
 
   packages/vue-i18n-bridge:
     dependencies:
@@ -1684,7 +1685,7 @@ packages:
     dependencies:
       '@intlify/core': 9.2.2
       '@intlify/message-compiler': 9.2.2
-      '@intlify/shared': 9.2.2
+      '@intlify/shared': 9.3.0
       jsonc-eslint-parser: 1.4.1
       source-map: 0.6.1
       yaml-eslint-parser: 0.3.2
@@ -1793,6 +1794,11 @@ packages:
     engines: {node: '>= 14'}
     dev: true
 
+  /@intlify/shared@9.3.0:
+    resolution: {integrity: sha512-MMGRz6zWxtz7rHtxIIdnyb8SYOIaaseN1IvUhAEs9tOW4u77RD4DFp4qgPXesp2Gxo/5QitH9kwSs0jnxGUNEw==}
+    engines: {node: '>= 16'}
+    dev: true
+
   /@intlify/shared@9.3.0-beta.20:
     resolution: {integrity: sha512-RucSPqh8O9FFxlYUysQTerSw0b9HIRpyoN1Zjogpm0qLiHK+lBNSa5sh1nCJ4wSsNcjphzgpLQCyR60GZlRV8g==}
     engines: {node: '>= 16'}
@@ -1856,7 +1862,7 @@ packages:
       vue: 3.3.4
     dependencies:
       '@intlify/bundle-utils': 1.0.0
-      '@intlify/shared': 9.2.2
+      '@intlify/shared': 9.3.0
       js-yaml: 4.1.0
       json5: 2.2.3
       loader-utils: 2.0.4
@@ -3705,7 +3711,7 @@ packages:
     engines: {node: '>= 12'}
     hasBin: true
     dependencies:
-      '@intlify/shared': 9.2.2
+      '@intlify/shared': 9.3.0
       '@microsoft/api-extractor-model': 7.27.6(@types/node@18.17.12)
       '@microsoft/tsdoc': 0.13.2
       '@microsoft/tsdoc-config': 0.15.2
