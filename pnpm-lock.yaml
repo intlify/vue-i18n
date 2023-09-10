@@ -220,8 +220,8 @@ importers:
         specifier: ^5.2.2
         version: 5.2.2
       vitepress:
-        specifier: 1.0.0-rc.11
-        version: 1.0.0-rc.11(@algolia/client-search@4.19.1)(@types/node@18.17.12)(search-insights@2.7.0)
+        specifier: 1.0.0-rc.12
+        version: 1.0.0-rc.12(@algolia/client-search@4.19.1)(@types/node@18.17.12)(search-insights@2.7.0)
       vitest:
         specifier: ^0.34.0
         version: 0.34.3(jsdom@22.1.0)(playwright@1.37.1)
@@ -10251,8 +10251,8 @@ packages:
     resolution: {integrity: sha512-6j1W9l1iAs/4xYBI1SYOVZyFcCis9b4KCLQ8fgAGG07QvzaRLVVRQvAy85yNmmZSjYjg4MWh4gNvlPujU/5LpA==}
     dev: true
 
-  /shiki@0.14.3:
-    resolution: {integrity: sha512-U3S/a+b0KS+UkTyMjoNojvTgrBHjgp7L6ovhFVZsXmBGnVdQ4K4U9oK0z63w538S91ATngv1vXigHCSWOwnr+g==}
+  /shiki@0.14.4:
+    resolution: {integrity: sha512-IXCRip2IQzKwxArNNq1S+On4KPML3Yyn8Zzs/xRgcgOWIr8ntIK3IKzjFPfjy/7kt9ZMjc+FItfqHRBg8b6tNQ==}
     dependencies:
       ansi-sequence-parser: 1.1.1
       jsonc-parser: 3.2.0
@@ -11752,8 +11752,8 @@ packages:
       fsevents: 2.3.3
     dev: true
 
-  /vitepress@1.0.0-rc.11(@algolia/client-search@4.19.1)(@types/node@18.17.12)(search-insights@2.7.0):
-    resolution: {integrity: sha512-HUnfYOadqwLSahtgQxKt9/wiNHdd80BaUfQ+DIMpfq03Iv9CWX1SCBK4gxK/bMWns3Q0ArhXajQbU/fmBwYUMg==}
+  /vitepress@1.0.0-rc.12(@algolia/client-search@4.19.1)(@types/node@18.17.12)(search-insights@2.7.0):
+    resolution: {integrity: sha512-mZknN5l9lgbBjXwumwdOQQDM+gPivswFEykEQeenY0tv7eocS+bb801IpFZT3mFV6YRhSddmbutHlFgPPADjEg==}
     hasBin: true
     dependencies:
       '@docsearch/css': 3.5.2
@@ -11764,7 +11764,7 @@ packages:
       focus-trap: 7.5.2
       mark.js: 8.11.1
       minisearch: 6.1.0
-      shiki: 0.14.3
+      shiki: 0.14.4
       vite: 4.4.9(@types/node@18.17.12)
       vue: 3.3.4
     transitivePeerDependencies:
