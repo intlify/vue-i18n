@@ -45,7 +45,7 @@
   "devDependencies": {
     "@intlify/devtools-if": "workspace:*"
   },
-  "peerlDependencies": {
+  "peerDependencies": {
     "@vue/composition-api": "^1.0.0-rc.1"
   },
   "peerDependenciesMeta": {
