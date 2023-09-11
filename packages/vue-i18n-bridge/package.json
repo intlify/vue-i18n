@@ -45,8 +45,13 @@
   "devDependencies": {
     "@intlify/devtools-if": "workspace:*"
   },
-  "optionalDependencies": {
+  "peerDependencies": {
     "@vue/composition-api": "^1.0.0-rc.1"
+  },
+  "peerDependenciesMeta": {
+    "@vue/composition-api": {
+      "optional": true
+    }
   },
   "engines": {
     "node": ">= 16"

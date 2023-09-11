@@ -666,16 +666,15 @@ importers:
       '@intlify/vue-devtools':
         specifier: workspace:*
         version: link:../vue-devtools
+      '@vue/composition-api':
+        specifier: ^1.0.0-rc.1
+        version: 1.7.2(vue@3.3.4)
       '@vue/devtools-api':
         specifier: ^6.5.0
         version: 6.5.0
       vue-demi:
         specifier: ^0.14.0
         version: 0.14.6(@vue/composition-api@1.7.2)(vue@3.3.4)
-    optionalDependencies:
-      '@vue/composition-api':
-        specifier: ^1.0.0-rc.1
-        version: 1.7.2(vue@3.3.4)
     devDependencies:
       '@intlify/devtools-if':
         specifier: workspace:*
@@ -3151,7 +3150,6 @@ packages:
 
   /@vue/composition-api@1.7.2(vue@3.3.4):
     resolution: {integrity: sha512-M8jm9J/laYrYT02665HkZ5l2fWTK4dcVg3BsDHm/pfz+MjDYwX+9FUaZyGwEyXEDonQYRCo0H7aLgdklcIELjw==}
-    requiresBuild: true
     peerDependencies:
       vue: 3.3.4
     dependencies:
