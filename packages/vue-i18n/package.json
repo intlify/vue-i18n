@@ -40,8 +40,8 @@
     "@vue/devtools-api": "^6.5.0"
   },
   "devDependencies": {
-    "@intlify/vue-devtools": "workspace:*",
-    "@intlify/devtools-if": "workspace:*"
+    "@intlify/devtools-if": "workspace:*",
+    "@intlify/vue-devtools": "workspace:*"
   },
   "peerDependencies": {
     "vue": "^3.0.0"

@@ -48,11 +48,6 @@
   "peerDependencies": {
     "@vue/composition-api": "^1.0.0-rc.1"
   },
-  "peerDependenciesMeta": {
-    "@vue/composition-api": {
-      "optional": true
-    }
-  },
   "engines": {
     "node": ">= 16"
   },
@@ -90,6 +85,11 @@
     "./package.json": "./package.json"
   },
   "funding": "https://github.com/sponsors/kazupon",
+  "peerDependenciesMeta": {
+    "@vue/composition-api": {
+      "optional": true
+    }
+  },
   "publishConfig": {
     "access": "public"
   },

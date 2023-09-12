@@ -19,13 +19,13 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest]
-        node: [16]
+        node: [18]
 
     runs-on: ${{ matrix.os }}
 
     steps:
       - name: Checkout codes
-        uses: actions/checkout@3df4ab11eba7bda6032a0b82a6bb43b11571feac # v4
+        uses: actions/checkout@v4
 
       - name: Enable corepack
         run: corepack enable
@@ -47,13 +47,13 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest, windows-latest, macos-latest]
-        node: [16]
+        node: [18]
 
     runs-on: ${{ matrix.os }}
 
     steps:
       - name: Checkout codes
-        uses: actions/checkout@3df4ab11eba7bda6032a0b82a6bb43b11571feac # v4
+        uses: actions/checkout@v4
 
       - name: Enable corepack
         run: corepack enable
@@ -81,13 +81,13 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest, windows-latest, macos-latest]
-        node: [16, 18.16]
+        node: [18.16, 20]
 
     runs-on: ${{ matrix.os }}
 
     steps:
       - name: Checkout codes
-        uses: actions/checkout@3df4ab11eba7bda6032a0b82a6bb43b11571feac # v4
+        uses: actions/checkout@v4
 
       - name: Enable corepack
         run: corepack enable
@@ -110,13 +110,13 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest]
-        node: [16]
+        node: [18]
 
     runs-on: ${{ matrix.os }}
 
     steps:
       - name: Checkout codes
-        uses: actions/checkout@3df4ab11eba7bda6032a0b82a6bb43b11571feac # v4
+        uses: actions/checkout@v4
 
       - name: Enable corepack
         run: corepack enable
@@ -142,13 +142,13 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest, windows-latest, macos-latest]
-        node: [16, 18.16]
+        node: [18.16, 20]
 
     runs-on: ${{ matrix.os }}
 
     steps:
       - name: Checkout codes
-        uses: actions/checkout@3df4ab11eba7bda6032a0b82a6bb43b11571feac # v4
+        uses: actions/checkout@v4
 
       - name: Enable corepack
         run: corepack enable
@@ -209,13 +209,13 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest]
-        node: [16]
+        node: [18]
 
     runs-on: ${{ matrix.os }}
 
     steps:
       - name: Checkout codes
-        uses: actions/checkout@3df4ab11eba7bda6032a0b82a6bb43b11571feac # v4
+        uses: actions/checkout@v4
 
       - name: Enable corepack
         run: corepack enable
