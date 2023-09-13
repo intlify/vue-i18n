@@ -220,8 +220,8 @@ importers:
         specifier: ^5.2.2
         version: 5.2.2
       vitepress:
-        specifier: 1.0.0-rc.12
-        version: 1.0.0-rc.12(@algolia/client-search@4.19.1)(@types/node@18.17.12)(search-insights@2.7.0)
+        specifier: 1.0.0-rc.13
+        version: 1.0.0-rc.13(@algolia/client-search@4.19.1)(@types/node@18.17.12)(search-insights@2.7.0)
       vitest:
         specifier: ^0.34.0
         version: 0.34.3(jsdom@22.1.0)(playwright@1.37.1)
@@ -1810,6 +1810,11 @@ packages:
 
   /@intlify/shared@9.3.0-beta.27:
     resolution: {integrity: sha512-hPMsmVCs+ZUVHHU5VORG6LopzXZT7zmyVNqc9OQG80YpA/N4lT/pkJ4B6DTNIsv2C7mwfGM7RdK+0qPki43YgA==}
+    engines: {node: '>= 16'}
+    dev: true
+
+  /@intlify/shared@9.4.0:
+    resolution: {integrity: sha512-AFqymip2kToqA0B6KZPg5jSrdcVHoli9t/VhGKE2iiMq9utFuMoGdDC/JOCIZgwxo6aXAk86QyU2XtzEoMuZ6A==}
     engines: {node: '>= 16'}
     dev: true
 
@@ -3709,7 +3714,7 @@ packages:
     engines: {node: '>= 12'}
     hasBin: true
     dependencies:
-      '@intlify/shared': 9.3.0
+      '@intlify/shared': 9.4.0
       '@microsoft/api-extractor-model': 7.27.6(@types/node@18.17.12)
       '@microsoft/tsdoc': 0.13.2
       '@microsoft/tsdoc-config': 0.15.2
@@ -11750,8 +11755,8 @@ packages:
       fsevents: 2.3.3
     dev: true
 
-  /vitepress@1.0.0-rc.12(@algolia/client-search@4.19.1)(@types/node@18.17.12)(search-insights@2.7.0):
-    resolution: {integrity: sha512-mZknN5l9lgbBjXwumwdOQQDM+gPivswFEykEQeenY0tv7eocS+bb801IpFZT3mFV6YRhSddmbutHlFgPPADjEg==}
+  /vitepress@1.0.0-rc.13(@algolia/client-search@4.19.1)(@types/node@18.17.12)(search-insights@2.7.0):
+    resolution: {integrity: sha512-TnVydQOZE38rtXu9gHCb7EGdN03jTcmYkDdhCqox6+pfKYgiyfm1qk2Uy8BZatnM9wXpa64f+T5p30R8P/9Z+A==}
     hasBin: true
     dependencies:
       '@docsearch/css': 3.5.2
