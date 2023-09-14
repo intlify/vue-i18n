@@ -271,6 +271,9 @@ import VueI18nVitePlugin from '@intlify/unplugin-vue-i18n/vite' // [!code ++]
 
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
+  build: { // [!code ++]
+    transpile: ['vue-i18n'] // [!code ++]
+  }, // [!code ++]
   vite: { // [!code ++]
     plugins: [ // [!code ++]
       VueI18nVitePlugin({ // [!code ++]
