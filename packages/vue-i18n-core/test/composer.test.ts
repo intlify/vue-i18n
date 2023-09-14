@@ -1316,6 +1316,7 @@ test('te', async () => {
 
   expect(te(null as any)).toEqual(false)
   expect(te(undefined as any)).toEqual(false)
+  expect(te('')).toEqual(false)
 })
 
 describe('getLocaleMessage / setLocaleMessage / mergeLocaleMessage', () => {
