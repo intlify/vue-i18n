@@ -46,7 +46,6 @@ export type MessageFunctionCallable = <T = string>(
   ctx: MessageContext<T>
 ) => MessageFunctionReturn<T>
 
-/** * @internal */
 export type MessageFunctionInternal<T = string> = {
   (ctx: MessageContext<T>): MessageFunctionReturn<T>
   key?: string

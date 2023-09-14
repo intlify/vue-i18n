@@ -19,7 +19,9 @@ import { resolveWithKeyValue } from './resolver'
 import { fallbackWithSimple } from './fallbacker'
 
 import type { CompileOptions, ResourceNode } from '@intlify/message-compiler'
-import type { VueDevToolsEmitter } from '@intlify/vue-devtools'
+// HACK: embbed `@intlify/vue-devtools` types to `.d.ts`, because `@intlify/dev-tools` is devDependencies
+// TODO: Consider this type dependency when separating into intlify/core
+import type { VueDevToolsEmitter } from '../../vue-devtools/src/index'
 import type { Path, MessageResolver } from './resolver'
 import type {
   Locale,

@@ -1,9 +1,10 @@
-import { IntlifyDevToolsHooks } from '@intlify/devtools-if'
-
-import type {
+// HACK: embbed `@intlify/devtools-if` enum and type to `.d.ts`, because `@intlify/dev-tools` is devDependencies
+// TODO: Consider this type dependency when separating into intlify/core
+import {
+  IntlifyDevToolsHooks,
   IntlifyDevToolsEmitter,
   IntlifyDevToolsHookPayloads
-} from '@intlify/devtools-if'
+} from '../../devtools-if/src/index'
 
 let devtools: IntlifyDevToolsEmitter | null = null
 
