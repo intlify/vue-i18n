@@ -987,6 +987,34 @@ test('issue #1392', async () => {
   expect(wrapper.html()).toEqual(`<div> component: works<br> t: works</div>`)
 })
 
+test('issue #1538', async () => {
+  const i18n = createI18n({
+    legacy: false,
+    locale: 'en',
+    fallbackLocale: 'en',
+    messages: {
+      en: {
+        'my-message': {
+          the_world: 'the world',
+          dio: 'DIO:',
+          linked: '@:my-message.dio @:my-message.the_world !!!!'
+        }
+      }
+    }
+  })
+
+  const App = defineComponent({
+    setup() {
+      const { t } = useI18n()
+      return { t }
+    },
+    template: `<div>{{ t('my-message.linked') }}</div>`
+  })
+  const wrapper = await mount(App, i18n)
+
+  expect(wrapper.html()).toEqual('<div>DIO: the world !!!!</div>')
+})
+
 test('issue #1547', async () => {
   const i18n = createI18n({
     legacy: false,
