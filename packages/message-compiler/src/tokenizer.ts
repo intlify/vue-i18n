@@ -28,6 +28,8 @@ const enum TokenChars {
   Pipe = '|',
   BraceLeft = '{',
   BraceRight = '}',
+  ParenLeft = '(',
+  ParenRight = ')',
   Modulo = '%',
   LinkedAlias = '@',
   LinkedDot = '.',
@@ -655,6 +657,8 @@ export function createTokenizer(
         ch === TokenChars.Modulo ||
         ch === TokenChars.LinkedAlias ||
         ch === TokenChars.Pipe ||
+        ch === TokenChars.ParenLeft ||
+        ch === TokenChars.ParenRight ||
         !ch
       ) {
         return buf
@@ -664,8 +668,6 @@ export function createTokenizer(
         buf += ch
         scnr.next()
         return fn(detect, buf)
-      } else if (!isIdentifierStart(ch)) {
-        return buf
       } else {
         buf += ch
         scnr.next()

@@ -921,3 +921,38 @@ describe('errors', () => {
     ] as CompileError[])
   })
 })
+
+test('issue #1547', () => {
+  const tokenizer = createTokenizer('@:product.tc.howToUse.content1')
+  expect(tokenizer.nextToken()).toEqual({
+    type: TokenTypes.LinkedAlias,
+    value: '@',
+    loc: {
+      start: { line: 1, column: 1, offset: 0 },
+      end: { line: 1, column: 2, offset: 1 }
+    }
+  })
+  expect(tokenizer.nextToken()).toEqual({
+    type: TokenTypes.LinkedDelimiter,
+    value: ':',
+    loc: {
+      start: { line: 1, column: 2, offset: 1 },
+      end: { line: 1, column: 3, offset: 2 }
+    }
+  })
+  expect(tokenizer.nextToken()).toEqual({
+    type: TokenTypes.LinkedKey,
+    value: 'product.tc.howToUse.content1',
+    loc: {
+      start: { line: 1, column: 3, offset: 2 },
+      end: { line: 1, column: 31, offset: 30 }
+    }
+  })
+  expect(tokenizer.nextToken()).toEqual({
+    type: TokenTypes.EOF,
+    loc: {
+      start: { line: 1, column: 31, offset: 30 },
+      end: { line: 1, column: 31, offset: 30 }
+    }
+  })
+})
