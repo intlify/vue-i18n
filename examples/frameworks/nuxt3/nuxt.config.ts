@@ -5,6 +5,9 @@ import VueI18nVitePlugin from '@intlify/unplugin-vue-i18n/vite'
 
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
+  build: {
+  transpile: [/vue-i18n/]
+},
   vite: {
     resolve: {
       alias: {
