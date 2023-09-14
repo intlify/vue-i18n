@@ -986,3 +986,38 @@ test('issue #1392', async () => {
 
   expect(wrapper.html()).toEqual(`<div> component: works<br> t: works</div>`)
 })
+
+test('issue #1547', async () => {
+  const i18n = createI18n({
+    legacy: false,
+    locale: 'en',
+    fallbackLocale: 'en',
+    messages: {
+      en: {
+        product: {
+          tc: {
+            howToUse: {
+              content1: 'Deep Linked message'
+            },
+            usage: {
+              content2: {
+                content: '@:product.tc.howToUse.content1'
+              }
+            }
+          }
+        }
+      }
+    }
+  })
+
+  const App = defineComponent({
+    setup() {
+      const { t } = useI18n()
+      return { t }
+    },
+    template: `<div>{{ t('product.tc.usage.content2.content') }}</div>`
+  })
+  const wrapper = await mount(App, i18n)
+
+  expect(wrapper.html()).toEqual('<div>Deep Linked message</div>')
+})
