@@ -2336,6 +2336,7 @@ export function createComposer(options: any = {}, VueI18nLegacy?: any): any {
 
   // te
   function te(key: Path, locale?: Locale): boolean {
+    if (!key) return false
     const targetLocale = isString(locale) ? locale : _locale.value
     const message = getLocaleMessage(targetLocale)
     return _context.messageResolver(message, key) !== null
