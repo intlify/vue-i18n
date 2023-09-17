@@ -138,7 +138,7 @@
     "trash-cli": "^5.0.0",
     "tslib": "^2.6.2",
     "typescript": "^5.2.2",
-    "vitepress": "1.0.0-rc.13",
+    "vitepress": "1.0.0-rc.14",
     "vitest": "^0.34.0",
     "vue": "3.3.4",
     "vue-i18n": "workspace:*"

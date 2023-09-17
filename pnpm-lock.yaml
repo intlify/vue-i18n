@@ -220,8 +220,8 @@ importers:
         specifier: ^5.2.2
         version: 5.2.2
       vitepress:
-        specifier: 1.0.0-rc.13
-        version: 1.0.0-rc.13(@algolia/client-search@4.19.1)(@types/node@18.17.12)(search-insights@2.7.0)
+        specifier: 1.0.0-rc.14
+        version: 1.0.0-rc.14(@algolia/client-search@4.19.1)(@types/node@18.17.12)(search-insights@2.7.0)
       vitest:
         specifier: ^0.34.0
         version: 0.34.3(jsdom@22.1.0)(playwright@1.37.1)
@@ -1684,7 +1684,7 @@ packages:
     dependencies:
       '@intlify/core': 9.2.2
       '@intlify/message-compiler': 9.2.2
-      '@intlify/shared': 9.3.0
+      '@intlify/shared': 9.4.0
       jsonc-eslint-parser: 1.4.1
       source-map: 0.6.1
       yaml-eslint-parser: 0.3.2
@@ -1793,11 +1793,6 @@ packages:
     engines: {node: '>= 14'}
     dev: true
 
-  /@intlify/shared@9.3.0:
-    resolution: {integrity: sha512-MMGRz6zWxtz7rHtxIIdnyb8SYOIaaseN1IvUhAEs9tOW4u77RD4DFp4qgPXesp2Gxo/5QitH9kwSs0jnxGUNEw==}
-    engines: {node: '>= 16'}
-    dev: true
-
   /@intlify/shared@9.3.0-beta.20:
     resolution: {integrity: sha512-RucSPqh8O9FFxlYUysQTerSw0b9HIRpyoN1Zjogpm0qLiHK+lBNSa5sh1nCJ4wSsNcjphzgpLQCyR60GZlRV8g==}
     engines: {node: '>= 16'}
@@ -1815,6 +1810,11 @@ packages:
 
   /@intlify/shared@9.4.0:
     resolution: {integrity: sha512-AFqymip2kToqA0B6KZPg5jSrdcVHoli9t/VhGKE2iiMq9utFuMoGdDC/JOCIZgwxo6aXAk86QyU2XtzEoMuZ6A==}
+    engines: {node: '>= 16'}
+    dev: true
+
+  /@intlify/shared@9.4.1:
+    resolution: {integrity: sha512-A51elBmZWf1FS80inf/32diO9DeXoqg9GR9aUDHFcfHoNDuT46Q+fpPOdj8jiJnSHSBh8E1E+6qWRhAZXdK3Ng==}
     engines: {node: '>= 16'}
     dev: true
 
@@ -1866,7 +1866,7 @@ packages:
       vue: 3.3.4
     dependencies:
       '@intlify/bundle-utils': 1.0.0
-      '@intlify/shared': 9.3.0
+      '@intlify/shared': 9.4.0
       js-yaml: 4.1.0
       json5: 2.2.3
       loader-utils: 2.0.4
@@ -3714,7 +3714,7 @@ packages:
     engines: {node: '>= 12'}
     hasBin: true
     dependencies:
-      '@intlify/shared': 9.4.0
+      '@intlify/shared': 9.4.1
       '@microsoft/api-extractor-model': 7.27.6(@types/node@18.17.12)
       '@microsoft/tsdoc': 0.13.2
       '@microsoft/tsdoc-config': 0.15.2
@@ -11755,9 +11755,14 @@ packages:
       fsevents: 2.3.3
     dev: true
 
-  /vitepress@1.0.0-rc.13(@algolia/client-search@4.19.1)(@types/node@18.17.12)(search-insights@2.7.0):
-    resolution: {integrity: sha512-TnVydQOZE38rtXu9gHCb7EGdN03jTcmYkDdhCqox6+pfKYgiyfm1qk2Uy8BZatnM9wXpa64f+T5p30R8P/9Z+A==}
+  /vitepress@1.0.0-rc.14(@algolia/client-search@4.19.1)(@types/node@18.17.12)(search-insights@2.7.0):
+    resolution: {integrity: sha512-yChIeXOAcNvVnSVjhziH1vte0uhKb00PuZf7KdIMfx3ixTMAz73Nn+6gREvCv0SdH+anteGUKz5eljv0ygcgGQ==}
     hasBin: true
+    peerDependencies:
+      markdown-it-mathjax3: ^4.3.2
+    peerDependenciesMeta:
+      markdown-it-mathjax3:
+        optional: true
     dependencies:
       '@docsearch/css': 3.5.2
       '@docsearch/js': 3.5.2(@algolia/client-search@4.19.1)(search-insights@2.7.0)
