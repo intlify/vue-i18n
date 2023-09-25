@@ -128,7 +128,7 @@ However, it had the following issues:
 
 To solve these issues, JIT style compilation is supported message compiler.
 
-the each time localization is performed in an application using `$t` or `t` functions, message resources will be compiled on message compiler.
+Each time localization is performed in an application using `$t` or `t` functions, message resources will be compiled on message compiler.
 
 You need to configure the following feature flag with `esm-bundler` build and bundler such as vite:
 
