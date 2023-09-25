@@ -28,6 +28,7 @@ import {
 import { CoreWarnCodes, getWarnMessage } from './warnings'
 import { CoreErrorCodes, createCoreError } from './errors'
 import { translateDevTools } from './devtools'
+import { getLocale } from './fallbacker'
 import { VueDevToolsTimelineEvents } from '@intlify/vue-devtools'
 
 import type { CompileError, ResourceNode } from '@intlify/message-compiler'
@@ -49,6 +50,7 @@ import type {
   CoreInternalContext,
   MessageCompilerContext
 } from './context'
+import type { LocaleOptions } from './fallbacker'
 import type { PickupKeys } from './types'
 
 const NOOP_MESSAGE_FUNCTION = () => ''
@@ -108,7 +110,8 @@ export const isMessageFunction = <T>(val: unknown): val is MessageFunction<T> =>
  *
  * @VueI18nGeneral
  */
-export interface TranslateOptions<Locales = Locale> {
+export interface TranslateOptions<Locales = Locale>
+  extends LocaleOptions<Locales> {
   /**
    * @remarks
    * List interpolation
@@ -129,11 +132,6 @@ export interface TranslateOptions<Locales = Locale> {
    * Default message when is occurred translation missing
    */
   default?: string | boolean
-  /**
-   * @remarks
-   * The locale of localization
-   */
-  locale?: Locales
   /**
    * @remarks
    * Whether suppress warnings outputted when localization fails
@@ -378,7 +376,7 @@ export function translate<
         ? (!messageCompiler ? () => key : key)
         : ''
   const enableDefaultMsg = fallbackFormat || defaultMsgOrKey !== ''
-  const locale = isString(options.locale) ? options.locale : context.locale
+  const locale = getLocale(context, options)
 
   // escape params
   escapeParameter && escapeParams(options)

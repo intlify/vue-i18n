@@ -25,6 +25,12 @@ type StringConvertable<T> = ExtractToStringKey<T> extends never
 export type Locale = string
 
 /** @VueI18nGeneral */
+export interface LocaleDetector {
+  (): Locale
+  resolvedOnce?: boolean
+}
+
+/** @VueI18nGeneral */
 export type FallbackLocale =
   | Locale
   | Locale[]

@@ -14,8 +14,9 @@ import {
 } from './context'
 import { CoreWarnCodes, getWarnMessage } from './warnings'
 import { CoreErrorCodes, createCoreError } from './errors'
-import { VueDevToolsTimelineEvents } from '@intlify/vue-devtools'
 import { Availabilities } from './intl'
+import { getLocale } from './fallbacker'
+import { VueDevToolsTimelineEvents } from '@intlify/vue-devtools'
 
 import type { Locale, FallbackLocale } from './runtime'
 import type {
@@ -24,6 +25,7 @@ import type {
   NumberFormatOptions,
   PickupFormatKeys
 } from './types'
+import type { LocaleOptions } from './fallbacker'
 import type { CoreContext, CoreInternalContext } from './context'
 
 /**
@@ -74,17 +76,13 @@ import type { CoreContext, CoreInternalContext } from './context'
  * @VueI18nGeneral
  */
 export interface NumberOptions<Key = string, Locales = Locale>
-  extends Intl.NumberFormatOptions {
+  extends Intl.NumberFormatOptions,
+    LocaleOptions<Locales> {
   /**
    * @remarks
    * The target format key
    */
   key?: Key
-  /**
-   * @remarks
-   * The locale of localization
-   */
-  locale?: Locales
   /**
    * @remarks
    * Whether suppress warnings outputted when localization fails
@@ -213,7 +211,7 @@ export function number<
     ? options.fallbackWarn
     : context.fallbackWarn
   const part = !!options.part
-  const locale = isString(options.locale) ? options.locale : context.locale
+  const locale = getLocale(context, options)
   const locales = localeFallbacker(
     context as any, // eslint-disable-line @typescript-eslint/no-explicit-any
     fallbackLocale as FallbackLocale,
