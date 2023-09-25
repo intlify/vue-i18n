@@ -25,6 +25,7 @@ import type { VueDevToolsEmitter } from '../../vue-devtools/src/index'
 import type { Path, MessageResolver } from './resolver'
 import type {
   Locale,
+  LocaleDetector,
   FallbackLocale,
   CoreMissingType,
   LinkedModifiers,
@@ -191,7 +192,7 @@ export interface CoreOptions<
   _NumberFormats extends NumberFormatsType<NumberSchema, NumberFormatsLocales> = NumberFormatsType<NumberSchema, NumberFormatsLocales>,
 > {
   version?: string
-  locale?: Locale
+  locale?: Locale | LocaleDetector
   fallbackLocale?: FallbackLocale
   messages?: { [K in keyof _Messages]: MessageSchema }
   datetimeFormats?: { [K in keyof _DateTimeFormats]: DateTimeSchema }
@@ -257,16 +258,22 @@ export interface CoreNumberContext<NumberFormats = {}> {
   numberFormats: { [K in keyof NumberFormats]: NumberFormats[K] }
 }
 
+// prettier-ignore
 export type CoreContext<
   Message = string,
   Messages = {},
   DateTimeFormats = {},
   NumberFormats = {},
+  LocaleType = Locale,
   ResourceLocales =
     | PickupLocales<NonNullable<Messages>>
     | PickupLocales<NonNullable<DateTimeFormats>>
     | PickupLocales<NonNullable<NumberFormats>>,
-  Locales = [ResourceLocales] extends [never] ? Locale : ResourceLocales
+  Locales = LocaleType extends LocaleDetector
+    ? Locale
+    : [ResourceLocales] extends [never]
+      ? Locale
+      : ResourceLocales
 > = CoreCommonContext<Message, Locales> &
   CoreTranslationContext<NonNullable<Messages>, Message> &
   CoreDateTimeContext<NonNullable<DateTimeFormats>> &
@@ -276,6 +283,7 @@ export type CoreContext<
       Messages,
       DateTimeFormats,
       NumberFormats,
+      LocaleType,
       ResourceLocales,
       Locales
     >
@@ -412,10 +420,15 @@ export function createCoreContext<
     any
   > = Options['numberFormats'] extends Record<string, any>
     ? Options['numberFormats']
-    : {}
+    : {},
+  LocaleType extends LocaleDetector | Locale = NonNullable<
+    Options['locale']
+  > extends LocaleDetector
+    ? LocaleDetector
+    : Locale
 >(
   options: Options
-): CoreContext<Message, Messages, DateTimeFormats, NumberFormats>
+): CoreContext<Message, Messages, DateTimeFormats, NumberFormats, LocaleType>
 
 export function createCoreContext<
   Schema = LocaleMessage,
@@ -444,36 +457,45 @@ export function createCoreContext<
     Options['numberFormats']
   > extends Record<string, any>
     ? NonNullable<Options['numberFormats']>
-    : {}
+    : {},
+  LocaleType extends LocaleDetector | Locale = NonNullable<
+    Options['locale']
+  > extends LocaleDetector
+    ? LocaleDetector
+    : Locale
 >(
   options: Options
-): CoreContext<Message, Messages, DateTimeFormats, NumberFormats>
+): CoreContext<Message, Messages, DateTimeFormats, NumberFormats, LocaleType>
 
 export function createCoreContext<Message = string>(options: any = {}): any {
   // setup options
   const onWarn = isFunction(options.onWarn) ? options.onWarn : warn
   const version = isString(options.version) ? options.version : VERSION
-  const locale = isString(options.locale) ? options.locale : DEFAULT_LOCALE
+  const locale =
+    isString(options.locale) || isFunction(options.locale)
+      ? options.locale
+      : DEFAULT_LOCALE
+  const _locale = isFunction(locale) ? DEFAULT_LOCALE : locale
   const fallbackLocale =
     isArray(options.fallbackLocale) ||
     isPlainObject(options.fallbackLocale) ||
     isString(options.fallbackLocale) ||
     options.fallbackLocale === false
       ? options.fallbackLocale
-      : locale
+      : _locale
   const messages = isPlainObject(options.messages)
     ? options.messages
-    : { [locale]: {} }
+    : { [_locale]: {} }
   const datetimeFormats = !__LITE__
     ? isPlainObject(options.datetimeFormats)
       ? options.datetimeFormats
-      : { [locale]: {} }
-    : /* #__PURE__*/ { [locale]: {} }
+      : { [_locale]: {} }
+    : /* #__PURE__*/ { [_locale]: {} }
   const numberFormats = !__LITE__
     ? isPlainObject(options.numberFormats)
       ? options.numberFormats
-      : { [locale]: {} }
-    : /* #__PURE__*/ { [locale]: {} }
+      : { [_locale]: {} }
+    : /* #__PURE__*/ { [_locale]: {} }
   const modifiers = assign(
     {},
     options.modifiers || {},

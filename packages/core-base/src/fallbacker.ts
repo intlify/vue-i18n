@@ -7,8 +7,39 @@ import {
 } from '@intlify/shared'
 import { DEFAULT_LOCALE } from './context'
 
-import type { Locale, FallbackLocale } from './runtime'
+import type { Locale, LocaleDetector, FallbackLocale } from './runtime'
 import type { CoreContext, CoreInternalContext } from './context'
+
+/** @VueI18nGeneral */
+export interface LocaleOptions<Locales = Locale> {
+  /**
+   * @remarks
+   * The locale of localization
+   */
+  locale?: Locales | LocaleDetector
+}
+
+/** @internal */
+export function getLocale<Messages, Message>(
+  context: CoreContext<Message, Messages>,
+  options: LocaleOptions
+): string {
+  return options.locale != null
+    ? resolveLocale(options.locale)
+    : resolveLocale(context.locale)
+}
+
+let _resolveLocale: string
+
+/** @internal */
+export function resolveLocale(locale: Locale | LocaleDetector) {
+  // prettier-ignore
+  return isString(locale)
+    ? locale
+    : _resolveLocale != null && locale.resolvedOnce
+      ? _resolveLocale
+      : (_resolveLocale = locale())
+}
 
 /**
  * The locale fallbacker

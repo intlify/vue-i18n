@@ -991,3 +991,17 @@ describe('AST passing', () => {
     expect(translate(ctx, 'hi')).toEqual('hi kazupon !')
   })
 })
+
+test('locale detector', () => {
+  const locale = vi.fn().mockImplementation(() => 'en')
+  const ctx = context({
+    locale,
+    messages: {
+      en: { hi: 'hi kazupon !' },
+      ja: { hi: 'こんにちは　かずぽん！' }
+    }
+  })
+  expect(translate(ctx, 'hi')).toEqual('hi kazupon !')
+  expect(translate(ctx, 'hi')).toEqual('hi kazupon !')
+  expect(locale).toHaveBeenCalledTimes(2)
+})

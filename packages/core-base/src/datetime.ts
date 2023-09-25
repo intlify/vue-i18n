@@ -15,8 +15,9 @@ import {
 } from './context'
 import { CoreWarnCodes, getWarnMessage } from './warnings'
 import { CoreErrorCodes, createCoreError } from './errors'
-import { VueDevToolsTimelineEvents } from '@intlify/vue-devtools'
+import { getLocale } from './fallbacker'
 import { Availabilities } from './intl'
+import { VueDevToolsTimelineEvents } from '@intlify/vue-devtools'
 
 import type { Locale, FallbackLocale } from './runtime'
 import type {
@@ -25,6 +26,7 @@ import type {
   DateTimeFormatOptions,
   PickupFormatKeys
 } from './types/index'
+import type { LocaleOptions } from './fallbacker'
 import type { CoreContext, CoreInternalContext } from './context'
 
 /**
@@ -76,17 +78,13 @@ import type { CoreContext, CoreInternalContext } from './context'
  * @VueI18nGeneral
  */
 export interface DateTimeOptions<Key = string, Locales = Locale>
-  extends Intl.DateTimeFormatOptions {
+  extends Intl.DateTimeFormatOptions,
+    LocaleOptions<Locales> {
   /**
    * @remarks
    * The target format key
    */
   key?: Key
-  /**
-   * @remarks
-   * The locale of localization
-   */
-  locale?: Locales
   /**
    * @remarks
    * Whether suppress warnings outputted when localization fails
@@ -218,7 +216,7 @@ export function datetime<
     ? options.fallbackWarn
     : context.fallbackWarn
   const part = !!options.part
-  const locale = isString(options.locale) ? options.locale : context.locale
+  const locale = getLocale(context, options)
   const locales = localeFallbacker(
     context as any, // eslint-disable-line @typescript-eslint/no-explicit-any
     fallbackLocale as FallbackLocale,
