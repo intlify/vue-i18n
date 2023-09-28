@@ -106,7 +106,7 @@ const ErrorMessage = {
 }
 ```
 
-In Vue I18n v9 or later, it change to be getting locale messages with `$tm` / `tm`, and to resolve locale messages with `$rt` or `rt`. The following Composition API example:
+In Vue I18n v9 or later, it changed to getting locale messages with `$tm` / `tm`, and to resolve locale messages with `$rt` or `rt`. The following Composition API example:
 
 ```js{24}
 // e.g. Array structure locale messages
