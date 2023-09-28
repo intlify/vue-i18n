@@ -482,7 +482,7 @@ Vue I18n v9 or later:
 
 ### Remove place syntax with `place` attr and `places` prop
 
-In Vue I18n v9 or later, the `place` attr and `places` prop have been removed from component interpolation.
+In Vue I18n v9 and later, the `place` attr and `places` prop have been removed from component interpolation.
 
 Vue I18n v8.x:
 
