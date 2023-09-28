@@ -88,6 +88,19 @@ describe('compile', () => {
     })
   })
 
+  test('list issue', () => {
+    const { ast } = baseCompile('hello {0}!', {
+      location: false,
+      jit: true,
+      minify: true
+    })
+    const msg = compile(ast, DEFAULT_CONTEXT)
+    const ctx = context({
+      list: ['kazupon']
+    })
+    expect(msg(ctx)).toBe('hello kazupon!')
+  })
+
   test('error', () => {
     let occured = false
     compile('hello {name!', {
