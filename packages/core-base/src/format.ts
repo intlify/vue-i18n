@@ -86,7 +86,7 @@ function formatMessagePart<Message = string>(
       return ctx.interpolate(ctx.named(named.k || named.key))
     case NodeTypes.List:
       const list = node as ListNode
-      return ctx.interpolate(ctx.list(list.i || list.index))
+      return ctx.interpolate(ctx.list(list.i != null ? list.i : list.index))
     case NodeTypes.Linked:
       const linked = node as LinkedNode
       const modifier = linked.m || linked.modifier
