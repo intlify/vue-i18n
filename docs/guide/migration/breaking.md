@@ -106,7 +106,7 @@ const ErrorMessage = {
 }
 ```
 
-In Vue I18n v9 or later, it changed to getting locale messages with `$tm` / `tm`, and to resolve locale messages with `$rt` or `rt`. The following Composition API example:
+In Vue I18n v9 and later, it changed to getting locale messages with `$tm` / `tm`, and to resolve locale messages with `$rt` or `rt`. The following Composition API example:
 
 ```js{24}
 // e.g. Array structure locale messages
@@ -177,7 +177,7 @@ VueI18n.prototype.getChoiceIndex = function (choice, choicesLength) {
 }
 ```
 
-In Vue I18n v9 or later, you can customize it with the following options:
+In Vue I18n v9 and later, you can customize it with the following options:
 
 Legacy API mode:
 
@@ -255,7 +255,7 @@ const MyComp = {
 
 In Vue I18n v8.x, the value of `warnHtmlInMessage` was `"off"`. Therefore, by default, no warning is output to the console even if the message contains HTML.
 
-In Vue I18n v9 or later, change the default values as follows:
+In Vue I18n v9 and later, change the default values as follows:
 
 - Legacy API mode: `warnHtmlInMessage` property: `"warn"`
 - Composition API mode: `warnHtmlMessage` boolean property, default `true`
@@ -348,7 +348,7 @@ const i18n = new VueI18n({
 <p>{{ $t('greeting', { '0': 'kazupon' }) }}</p>
 ```
 
-In Vue I18n v9 or later, you can’t use array-like objects for list interpolation, you have to use array:
+In Vue I18n v9 and later, you can’t use array-like objects for list interpolation, you have to use array:
 
 ```html
 <p>{{ $t('greeting', ['kazupon']) }}</p>
@@ -394,7 +394,7 @@ const messages = {
 }
 ```
 
-In Vue I18n v9 or later, brackets are no longer needed as the message format compiler allows you to handle **named, list, and literal interpolations**.
+In Vue I18n v9 and later, brackets are no longer needed as the message format compiler allows you to handle **named, list, and literal interpolations**.
 
 Vue I18n v9 or later:
 ```js
