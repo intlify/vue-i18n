@@ -42,12 +42,15 @@ The intlify core module for i18n
   - If you bundle your app with webpack with `target: 'node'` and properly externalize `@intlify/core`, this is the build that will be loaded
   - The dev/prod files are pre-built, but the appropriate file is automatically required based on `process.env.NODE_ENV`
 
-- **`core.node.mjs`**:
+- **`core(.runtime).node.mjs`**:
   - For ES Moudles usage in Node.js
   - For use in Node.js via `import`
-  - The dev/prod files are pre-built, but the appropriate file is automatically required based on `process.env`<wbr/>`.NODE_ENV`
+  - The dev/prod files are pre-built, but the appropriate file is automatically required based on `process.env.NODE_ENV`
+  - This module is proxy module of `core(.runtime).mjs`
+    - **`core.runtime.node.mjs`**: is runtime only. proxy `core.runtime.mjs`
+    - **`core.node.mjs`**: includes the runtime compiler. proxy `core.mjs`
 
-> NOTE: ES Modules will be the future of the Node.js module system. The `core.cjs(.prod).js` will be deprecated in the future. We recommend you would use `core.node.mjs`. 9.3+
+> NOTE: ES Modules will be the future of the Node.js module system. The `core.cjs(.prod).js` will be deprecated in the future. We recommend you would use `core(.runtime).node.mjs`. 9.3+
 
 
 ## :copyright: License
