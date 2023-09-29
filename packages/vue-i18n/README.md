@@ -44,13 +44,15 @@ Internationalization plugin for Vue.js
   - If you bundle your app with webpack with `target: 'node'` and properly externalize `vue-i18n`, this is the build that will be loaded
   - The dev/prod files are pre-built, but the appropriate file is automatically required based on `process.env.NODE_ENV`
 
-- **`vue-i18n.node.mjs`**:
+- **`vue-i18n(.runtime).node.mjs`**:
   - For ES Moudles usage in Node.js
   - For use in Node.js via `import`
   - The dev/prod files are pre-built, but the appropriate file is automatically required based on `process.env`<wbr/>`.NODE_ENV`
+  - This module is proxy module of `vue-i18n(.runtime).mjs`
+    - **`vue-i18n.runtime.node.mjs`**: is runtime only. proxy `vue-i18n.runtime.mjs`.
+    - **`vue-i18n.node.mjs`**: includes the runtime compiler. proxy `vue-i18n.mjs`.
 
-
-> NOTE: ES Modules will be the future of the Node.js module system. The `vue-i18n.cjs(.prod).js` will be deprecated in the future. We recommend you would use `vue-i18n.node.mjs`. 9.3+
+> NOTE: ES Modules will be the future of the Node.js module system. The `vue-i18n.cjs(.prod).js` will be deprecated in the future. We recommend you would use `vue-i18n(.runtime).node.mjs`. 9.3+
 
 
 ## For Bundler feature flags

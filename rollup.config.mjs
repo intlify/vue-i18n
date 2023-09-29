@@ -274,26 +274,37 @@ function createConfig(format, _output, plugins = []) {
           console.log(`created stub ${pc.bold(`dist/${stub}`)}`)
 
           // add the node specific version
-          if (format === 'mjs') {
+          if (format === 'mjs' || format === 'mjs-runtime') {
             // NOTE:
             //  https://github.com/vuejs/router/issues/1516
             //  https://github.com/vuejs/router/commit/53f720622aa273e33c05517fa917cdcfbfba52bc
-            if (name === 'vue-i18n' || name === 'vue-i18n-bridge' || name === 'petite-vue-i18n') {
-              const outfile = `dist/${stub}`.replace('esm-bundler.js', 'node.mjs')
+            if (
+              name === 'vue-i18n' ||
+              name === 'vue-i18n-bridge' ||
+              name === 'petite-vue-i18n'
+            ) {
+              const outfile = `dist/${stub}`.replace(
+                'esm-bundler.js',
+                'node.mjs'
+              )
               await fs.writeFile(
                 resolve(outfile),
                 `global.__VUE_PROD_DEVTOOLS__ = false;\n` + contents
               )
               console.log(`created stub ${pc.bold(outfile)}`)
-            } else if(name === 'core') {
-              const outfile = `dist/${stub}`.replace('esm-bundler.js', 'node.mjs')
+            } else if (name === 'core') {
+              const outfile = `dist/${stub}`.replace(
+                'esm-bundler.js',
+                'node.mjs'
+              )
               await fs.writeFile(
                 resolve(outfile),
-                `global.__VUE_PROD_DEVTOOLS__ = false;\nglobal.__INTLIFY_JIT_COMPILATION__ = true;\n` + contents
+                `global.__VUE_PROD_DEVTOOLS__ = false;\nglobal.__INTLIFY_JIT_COMPILATION__ = true;\n` +
+                  contents
               )
               console.log(`created stub ${pc.bold(outfile)}`)
             }
-          } 
+          }
         }
       }
     ],
