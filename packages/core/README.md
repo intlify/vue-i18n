@@ -47,8 +47,8 @@ The intlify core module for i18n
   - For use in Node.js via `import`
   - The dev/prod files are pre-built, but the appropriate file is automatically required based on `process.env.NODE_ENV`
   - This module is proxy module of `core(.runtime).mjs`
-    - **`core.runtime.node.mjs`**: is runtime only. proxy `core.runtime.mjs`.
-    - **`core.node.mjs`**: includes the runtime compiler. proxy `core.mjs`.
+    - **`core.runtime.node.mjs`**: is runtime only. proxy `core.runtime.mjs`
+    - **`core.node.mjs`**: includes the runtime compiler. proxy `core.mjs`
 
 > NOTE: ES Modules will be the future of the Node.js module system. The `core.cjs(.prod).js` will be deprecated in the future. We recommend you would use `core(.runtime).node.mjs`. 9.3+
 
