@@ -1683,8 +1683,8 @@ packages:
     engines: {node: '>= 12'}
     dependencies:
       '@intlify/core': 9.2.2
-      '@intlify/message-compiler': 9.2.2
-      '@intlify/shared': 9.4.1
+      '@intlify/message-compiler': 9.5.0
+      '@intlify/shared': 9.5.0
       jsonc-eslint-parser: 1.4.1
       source-map: 0.6.1
       yaml-eslint-parser: 0.3.2
@@ -1788,6 +1788,14 @@ packages:
       source-map-js: 1.0.2
     dev: true
 
+  /@intlify/message-compiler@9.5.0:
+    resolution: {integrity: sha512-CAhVNfEZcOVFg0/5MNyt+OFjvs4J/ARjCj2b+54/FvFP0EDJI5lIqMTSDBE7k0atMROSP0SvWCkwu/AZ5xkK1g==}
+    engines: {node: '>= 16'}
+    dependencies:
+      '@intlify/shared': 9.5.0
+      source-map-js: 1.0.2
+    dev: true
+
   /@intlify/shared@9.2.2:
     resolution: {integrity: sha512-wRwTpsslgZS5HNyM7uDQYZtxnbI12aGiBZURX3BTR9RFIKKRWpllTsgzHWvj3HKm3Y2Sh5LPC1r0PDCKEhVn9Q==}
     engines: {node: '>= 14'}
@@ -1808,8 +1816,8 @@ packages:
     engines: {node: '>= 16'}
     dev: true
 
-  /@intlify/shared@9.4.1:
-    resolution: {integrity: sha512-A51elBmZWf1FS80inf/32diO9DeXoqg9GR9aUDHFcfHoNDuT46Q+fpPOdj8jiJnSHSBh8E1E+6qWRhAZXdK3Ng==}
+  /@intlify/shared@9.5.0:
+    resolution: {integrity: sha512-tAxV14LMXZDZbu32XzLMTsowNlgJNmLwWHYzvMUl6L8gvQeoYiZONjY7AUsqZW8TOZDX9lfvF6adPkk9FSRdDA==}
     engines: {node: '>= 16'}
     dev: true
 
@@ -1861,7 +1869,7 @@ packages:
       vue: 3.3.4
     dependencies:
       '@intlify/bundle-utils': 1.0.0
-      '@intlify/shared': 9.4.1
+      '@intlify/shared': 9.5.0
       js-yaml: 4.1.0
       json5: 2.2.3
       loader-utils: 2.0.4
@@ -3724,7 +3732,7 @@ packages:
     engines: {node: '>= 12'}
     hasBin: true
     dependencies:
-      '@intlify/shared': 9.4.1
+      '@intlify/shared': 9.5.0
       '@microsoft/api-extractor-model': 7.27.6(@types/node@18.17.12)
       '@microsoft/tsdoc': 0.13.2
       '@microsoft/tsdoc-config': 0.15.2
