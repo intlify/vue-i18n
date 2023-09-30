@@ -1,5 +1,4 @@
 dist
-public
 docs/api/*.md
 !docs/api/injection.md
 packages/vue-i18n/index.html
