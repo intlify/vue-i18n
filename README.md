@@ -48,16 +48,6 @@ Vue I18n is part of the Vue Ecosystem and Intlify Project is an open source proj
 </p>
 <p align="center">
   <a
-    href="https://rapidapi.com/"
-    target="_blank">
-    <img
-      src="https://raw.githubusercontent.com/intlify/vue-i18n-next/master/docs/public/RapidAPI.png"
-      width="240px"
-    />
-  </a>
-</p>
-<p align="center">
-  <a
     href="https://localazy.com/blog/how-to-localize-vuejs-app-with-vue-i18n-and-localazy?utm_source=kazupon&utm_medium=banner&utm_campaign=sponsorships_kazupon&utm_content=logo"
     target="_blank">
     <img

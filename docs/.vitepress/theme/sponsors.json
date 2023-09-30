@@ -14,10 +14,6 @@
     "url": "https://nuxtlabs.com/",
     "img": "nuxtlabs.svg"
   }, {
-    "name": "RapidAPI",
-    "url": "https://rapidapi.com/",
-    "img": "RapidAPI.svg"
-  }, {
     "name": "Localazy",
     "url": "https://localazy.com/blog/how-to-localize-vuejs-app-with-vue-i18n-and-localazy?utm_source=kazupon&utm_medium=banner&utm_campaign=sponsorships_kazupon&utm_content=logo",
     "img": "localazy.svg"
