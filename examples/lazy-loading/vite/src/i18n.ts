@@ -58,9 +58,9 @@ const getResourceMessages = (r: any) => r.default || r
 
 export async function loadLocaleMessages(i18n: I18n, locale: Locale) {
   // load locale messages
-  const messages = await import(
-    /* @vite-ignore */ `./locales/${locale}.json`
-  ).then(getResourceMessages)
+  const messages = await import(`./locales/${locale}.json`).then(
+    getResourceMessages
+  )
 
   // set locale and locale message
   i18n.global.setLocaleMessage(locale, messages)
