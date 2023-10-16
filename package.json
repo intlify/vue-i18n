@@ -112,7 +112,7 @@
     "prettier": "^3.0.3",
     "rc": "^1.2.8",
     "rimraf": "^3.0.2",
-    "rollup": "^3.22.0",
+    "rollup": "^3.29.2",
     "rollup-plugin-node-builtins": "^2.1.2",
     "rollup-plugin-node-globals": "^1.4.0",
     "rollup-plugin-typescript2": "^0.36.0",
@@ -139,7 +139,7 @@
     "tslib": "^2.6.2",
     "typescript": "^5.2.2",
     "vitepress": "1.0.0-rc.21",
-    "vitest": "^0.34.0",
+    "vitest": "^0.34.3",
     "vue": "3.3.4",
     "vue-i18n": "workspace:*"
   },
