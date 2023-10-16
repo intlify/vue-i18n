@@ -8,7 +8,7 @@ import {
   PickupFallbackLocales,
   createCoreContext,
   Locale,
-  FallbackLocale
+  LocaleDetector
 } from '../../packages/core-base/src'
 import type {
   ResourceSchema,
@@ -185,10 +185,30 @@ expectType<{ en: ResourceSchema }>(strictDirectCtx.messages)
 expectType<{ zh: {}; 'ja-JP': { short: {} } }>(strictDirectCtx.datetimeFormats)
 expectType<{ ca: { currency: {} } }>(strictDirectCtx.numberFormats)
 
-const nullCtx = createCoreContext({})
-expectType<Locale>(nullCtx.locale)
-nullCtx.locale = 'ja'
-expectType<FallbackLocale>(nullCtx.fallbackLocale)
-nullCtx.fallbackLocale = 'en'
+const nullCtx1 = createCoreContext({})
+expectType<Locale | LocaleDetector>(nullCtx1.locale)
+nullCtx1.locale = 'ja'
+nullCtx1.locale = () => 'ja'
+expectType<
+  | string
+  | string[]
+  | { [x in string]: PickupFallbackLocales<[string]>[] }
+  | false
+>(nullCtx1.fallbackLocale)
+nullCtx1.fallbackLocale = 'en'
+
+const nullCtx2 = createCoreContext({})
+const locale = nullCtx2.locale
+
+function detector1(arg: Locale): Locale {
+  return arg
+}
+// prettier-ignore
+const detector: LocaleDetector = typeof locale === 'function'
+  ? detector1.bind(null, 'foo')
+  : typeof locale === 'string'
+    ? () => locale
+    : (arg: Locale) => arg
+expect<LocaleDetector>(detector)
 
 /* eslint-enable @typescript-eslint/no-explicit-any */

@@ -25,8 +25,9 @@ type StringConvertable<T> = ExtractToStringKey<T> extends never
 export type Locale = string
 
 /** @VueI18nGeneral */
-export interface LocaleDetector {
-  (): Locale
+// prettier-ignore
+export interface LocaleDetector<Args extends any[] = any[]> { // eslint-disable-line @typescript-eslint/no-explicit-any
+  (...args: Args): Locale
   resolvedOnce?: boolean
 }
 
