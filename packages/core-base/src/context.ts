@@ -37,6 +37,7 @@ import type {
 } from './runtime'
 import type {
   UnionToTuple,
+  IsNever,
   LocaleRecord,
   NumberFormat,
   DateTimeFormat,
@@ -226,7 +227,7 @@ export interface CoreCommonContext<Message = string, Locales = 'en-US'> {
   cid: number
   version: string
   locale: Locales
-  fallbackLocale: FallbackLocales<Locales>
+  fallbackLocale: FallbackLocales<Exclude<Locales, LocaleDetector>>
   missing: CoreMissingHandler<Message> | null
   missingWarn: boolean | RegExp
   fallbackWarn: boolean | RegExp
@@ -269,11 +270,11 @@ export type CoreContext<
     | PickupLocales<NonNullable<Messages>>
     | PickupLocales<NonNullable<DateTimeFormats>>
     | PickupLocales<NonNullable<NumberFormats>>,
-  Locales = LocaleType extends LocaleDetector
-    ? Locale
-    : [ResourceLocales] extends [never]
-      ? Locale
-      : ResourceLocales
+  Locales = IsNever<ResourceLocales> extends true
+    ? LocaleType extends LocaleDetector | Locale
+      ? LocaleType
+      : Locale
+    : ResourceLocales
 > = CoreCommonContext<Message, Locales> &
   CoreTranslationContext<NonNullable<Messages>, Message> &
   CoreDateTimeContext<NonNullable<DateTimeFormats>> &
@@ -421,11 +422,7 @@ export function createCoreContext<
   > = Options['numberFormats'] extends Record<string, any>
     ? Options['numberFormats']
     : {},
-  LocaleType extends LocaleDetector | Locale = NonNullable<
-    Options['locale']
-  > extends LocaleDetector
-    ? LocaleDetector
-    : Locale
+  LocaleType = Locale | LocaleDetector
 >(
   options: Options
 ): CoreContext<Message, Messages, DateTimeFormats, NumberFormats, LocaleType>
@@ -458,11 +455,7 @@ export function createCoreContext<
   > extends Record<string, any>
     ? NonNullable<Options['numberFormats']>
     : {},
-  LocaleType extends LocaleDetector | Locale = NonNullable<
-    Options['locale']
-  > extends LocaleDetector
-    ? LocaleDetector
-    : Locale
+  LocaleType = Locale | LocaleDetector
 >(
   options: Options
 ): CoreContext<Message, Messages, DateTimeFormats, NumberFormats, LocaleType>

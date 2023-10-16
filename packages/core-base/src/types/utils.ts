@@ -132,9 +132,15 @@ export type LocaleParams<T, Default = 'en-US'> = T extends IsUnion<T>
 
 // prettier-ignore
 export type RemoveIndexSignature<T> = {
-  [K in keyof T as string extends K ? never : number extends K ? never : K]: T[K]
+  [K in keyof T as string extends K
+    ? never
+    : number extends K
+      ? never
+      : K
+  ]: T[K]
 }
 
-export type IsEmptyObject<T> = [keyof T] extends [never] ? true : false
 export type IsNever<T> = [T] extends [never] ? true : false
+export type IsEmptyObject<T> = IsNever<keyof T> extends true ? true : false
+
 /* eslint-enable @typescript-eslint/no-explicit-any */
