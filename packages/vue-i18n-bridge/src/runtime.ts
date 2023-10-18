@@ -53,7 +53,8 @@ export {
   MessageCompiler,
   MessageCompilerContext,
   CompileError,
-  MessageContext
+  MessageContext,
+  RemovedIndexResources
 } from '@intlify/core-base'
 export {
   VueMessageType,
@@ -72,8 +73,7 @@ export {
   ComposerTranslation,
   ComposerDateTimeFormatting,
   ComposerNumberFormatting,
-  ComposerResolveLocaleMessageTranslation,
-  RemovedIndexResources
+  ComposerResolveLocaleMessageTranslation
 } from '../../vue-i18n-core/src/composer'
 export {
   TranslateResult,

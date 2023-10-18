@@ -104,6 +104,7 @@ import type {
   PickupPaths,
   PickupFormatPathKeys,
   RemoveIndexSignature,
+  RemovedIndexResources,
   IsNever,
   IsEmptyObject
 } from '@intlify/core-base'
@@ -199,10 +200,6 @@ export interface DefineDateTimeFormat extends DateTimeFormat {} // eslint-disabl
  * @VueI18nGeneral
  */
 export interface DefineNumberFormat extends NumberFormat {} // eslint-disable-line @typescript-eslint/no-empty-interface
-
-export type RemovedIndexResources<T> = RemoveIndexSignature<{
-  [K in keyof T]: T[K]
-}>
 
 export type DefaultLocaleMessageSchema<
   Schema = RemoveIndexSignature<{
@@ -1195,7 +1192,7 @@ export interface Composer<
     | PickupLocales<NonNullable<DateTimeFormats>>
     | PickupLocales<NonNullable<NumberFormats>>,
   Locales = OptionLocale extends Locale
-    ? [ResourceLocales] extends [never]
+    ? IsNever<ResourceLocales> extends true
       ? Locale
       : ResourceLocales
     : OptionLocale | ResourceLocales
