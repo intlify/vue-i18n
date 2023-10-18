@@ -8,7 +8,10 @@ const ctx = createCoreContext({
   locale: 'en',
   messages: {
     en: {
-      hello: 'hello world!'
+      hello: 'hello world!',
+      nest: {
+        world: 'hello nest world!'
+      }
     }
   }
 })
@@ -39,5 +42,6 @@ expectType<string | number>(
     { locale: 'en', resolvedMessage: true }
   )
 )
+expectType<string | number>(translate(ctx, 'nest.world'))
 
 /* eslint-enable @typescript-eslint/no-explicit-any */

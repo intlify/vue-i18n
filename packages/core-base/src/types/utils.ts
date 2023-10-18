@@ -143,4 +143,8 @@ export type RemoveIndexSignature<T> = {
 export type IsNever<T> = [T] extends [never] ? true : false
 export type IsEmptyObject<T> = IsNever<keyof T> extends true ? true : false
 
+export type RemovedIndexResources<T> = RemoveIndexSignature<{
+  [K in keyof T]: T[K]
+}>
+
 /* eslint-enable @typescript-eslint/no-explicit-any */

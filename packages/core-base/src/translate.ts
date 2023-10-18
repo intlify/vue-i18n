@@ -51,7 +51,14 @@ import type {
   MessageCompilerContext
 } from './context'
 import type { LocaleOptions } from './fallbacker'
-import type { PickupKeys } from './types'
+import type {
+  PickupKeys,
+  IsEmptyObject,
+  RemovedIndexResources,
+  PickupPaths,
+  IsNever
+} from './types'
+import type { DefineCoreLocaleMessage } from './context'
 
 const NOOP_MESSAGE_FUNCTION = () => ''
 
@@ -155,27 +162,61 @@ export interface TranslateOptions<Locales = Locale>
 }
 
 /**
+ * TODO:
+ *  this type should be used (refactored) at `translate` type definition
+ *  (Unfortunately, using this type will result in key completion failure due to type mismatch...)
+ */
+/*
+type ResolveTranslateResourceKeys<
+  Context extends CoreContext<string, {}, {}, {}>,
+  DefinedLocaleMessage extends
+    RemovedIndexResources<DefineCoreLocaleMessage> = RemovedIndexResources<DefineCoreLocaleMessage>,
+  CoreMessages = IsEmptyObject<DefinedLocaleMessage> extends false
+    ? PickupPaths<{
+        [K in keyof DefinedLocaleMessage]: DefinedLocaleMessage[K]
+      }>
+    : never,
+  ContextMessages = IsEmptyObject<Context['messages']> extends false
+    ? PickupKeys<Context['messages']>
+    : never,
+  Result extends
+    | CoreMessages
+    | ContextMessages = IsNever<CoreMessages> extends false
+    ? IsNever<ContextMessages> extends false
+      ? CoreMessages | ContextMessages
+      : CoreMessages
+    : IsNever<ContextMessages> extends false
+    ? ContextMessages
+    : never
+> = Result
+*/
+
+/**
  * `translate` function overloads
  */
 
 export function translate<
   Context extends CoreContext<Message>,
   Key extends string = string,
-  ResourceKeys extends PickupKeys<Context['messages']> = PickupKeys<
-    Context['messages']
-  >,
-  Message = string
->(
-  context: Context,
-  key: Key | ResourceKeys | number | MessageFunction<Message>
-): MessageFunctionReturn<Message> | number
-
-export function translate<
-  Context extends CoreContext<Message, {}, {}, {}>,
-  Key extends string = string,
-  ResourceKeys extends PickupKeys<Context['messages']> = PickupKeys<
-    Context['messages']
-  >,
+  DefinedLocaleMessage extends
+    RemovedIndexResources<DefineCoreLocaleMessage> = RemovedIndexResources<DefineCoreLocaleMessage>,
+  CoreMessages = IsEmptyObject<DefinedLocaleMessage> extends false
+    ? PickupPaths<{
+        [K in keyof DefinedLocaleMessage]: DefinedLocaleMessage[K]
+      }>
+    : never,
+  ContextMessages = IsEmptyObject<Context['messages']> extends false
+    ? PickupKeys<Context['messages']>
+    : never,
+  ResourceKeys extends
+    | CoreMessages
+    | ContextMessages = IsNever<CoreMessages> extends false
+    ? IsNever<ContextMessages> extends false
+      ? CoreMessages | ContextMessages
+      : CoreMessages
+    : IsNever<ContextMessages> extends false
+    ? ContextMessages
+    : never,
   Message = string
 >(
   context: Context,
@@ -186,9 +227,82 @@ export function translate<
 export function translate<
   Context extends CoreContext<Message, {}, {}, {}>,
   Key extends string = string,
-  ResourceKeys extends PickupKeys<Context['messages']> = PickupKeys<
-    Context['messages']
-  >,
+  DefinedLocaleMessage extends
+    RemovedIndexResources<DefineCoreLocaleMessage> = RemovedIndexResources<DefineCoreLocaleMessage>,
+  CoreMessages = IsEmptyObject<DefinedLocaleMessage> extends false
+    ? PickupPaths<{
+        [K in keyof DefinedLocaleMessage]: DefinedLocaleMessage[K]
+      }>
+    : never,
+  ContextMessages = IsEmptyObject<Context['messages']> extends false
+    ? PickupKeys<Context['messages']>
+    : never,
+  ResourceKeys extends
+    | CoreMessages
+    | ContextMessages = IsNever<CoreMessages> extends false
+    ? IsNever<ContextMessages> extends false
+      ? CoreMessages | ContextMessages
+      : CoreMessages
+    : IsNever<ContextMessages> extends false
+    ? ContextMessages
+    : never,
+  Message = string
+>(
+  context: Context,
+  key: Key | ResourceKeys | number | MessageFunction<Message>
+): MessageFunctionReturn<Message> | number
+
+export function translate<
+  Context extends CoreContext<Message, {}, {}, {}>,
+  Key extends string = string,
+  DefinedLocaleMessage extends
+    RemovedIndexResources<DefineCoreLocaleMessage> = RemovedIndexResources<DefineCoreLocaleMessage>,
+  CoreMessages = IsEmptyObject<DefinedLocaleMessage> extends false
+    ? PickupPaths<{
+        [K in keyof DefinedLocaleMessage]: DefinedLocaleMessage[K]
+      }>
+    : never,
+  ContextMessages = IsEmptyObject<Context['messages']> extends false
+    ? PickupKeys<Context['messages']>
+    : never,
+  ResourceKeys extends
+    | CoreMessages
+    | ContextMessages = IsNever<CoreMessages> extends false
+    ? IsNever<ContextMessages> extends false
+      ? CoreMessages | ContextMessages
+      : CoreMessages
+    : IsNever<ContextMessages> extends false
+    ? ContextMessages
+    : never,
+  Message = string
+>(
+  context: Context,
+  key: Key | ResourceKeys | number | MessageFunction<Message>,
+  plural: number
+): MessageFunctionReturn<Message> | number
+
+export function translate<
+  Context extends CoreContext<Message, {}, {}, {}>,
+  Key extends string = string,
+  DefinedLocaleMessage extends
+    RemovedIndexResources<DefineCoreLocaleMessage> = RemovedIndexResources<DefineCoreLocaleMessage>,
+  CoreMessages = IsEmptyObject<DefinedLocaleMessage> extends false
+    ? PickupPaths<{
+        [K in keyof DefinedLocaleMessage]: DefinedLocaleMessage[K]
+      }>
+    : never,
+  ContextMessages = IsEmptyObject<Context['messages']> extends false
+    ? PickupKeys<Context['messages']>
+    : never,
+  ResourceKeys extends
+    | CoreMessages
+    | ContextMessages = IsNever<CoreMessages> extends false
+    ? IsNever<ContextMessages> extends false
+      ? CoreMessages | ContextMessages
+      : CoreMessages
+    : IsNever<ContextMessages> extends false
+    ? ContextMessages
+    : never,
   Message = string
 >(
   context: Context,
@@ -200,9 +314,25 @@ export function translate<
 export function translate<
   Context extends CoreContext<Message, {}, {}, {}>,
   Key extends string = string,
-  ResourceKeys extends PickupKeys<Context['messages']> = PickupKeys<
-    Context['messages']
-  >,
+  DefinedLocaleMessage extends
+    RemovedIndexResources<DefineCoreLocaleMessage> = RemovedIndexResources<DefineCoreLocaleMessage>,
+  CoreMessages = IsEmptyObject<DefinedLocaleMessage> extends false
+    ? PickupPaths<{
+        [K in keyof DefinedLocaleMessage]: DefinedLocaleMessage[K]
+      }>
+    : never,
+  ContextMessages = IsEmptyObject<Context['messages']> extends false
+    ? PickupKeys<Context['messages']>
+    : never,
+  ResourceKeys extends
+    | CoreMessages
+    | ContextMessages = IsNever<CoreMessages> extends false
+    ? IsNever<ContextMessages> extends false
+      ? CoreMessages | ContextMessages
+      : CoreMessages
+    : IsNever<ContextMessages> extends false
+    ? ContextMessages
+    : never,
   Message = string
 >(
   context: Context,
@@ -213,9 +343,25 @@ export function translate<
 export function translate<
   Context extends CoreContext<Message, {}, {}, {}>,
   Key extends string = string,
-  ResourceKeys extends PickupKeys<Context['messages']> = PickupKeys<
-    Context['messages']
-  >,
+  DefinedLocaleMessage extends
+    RemovedIndexResources<DefineCoreLocaleMessage> = RemovedIndexResources<DefineCoreLocaleMessage>,
+  CoreMessages = IsEmptyObject<DefinedLocaleMessage> extends false
+    ? PickupPaths<{
+        [K in keyof DefinedLocaleMessage]: DefinedLocaleMessage[K]
+      }>
+    : never,
+  ContextMessages = IsEmptyObject<Context['messages']> extends false
+    ? PickupKeys<Context['messages']>
+    : never,
+  ResourceKeys extends
+    | CoreMessages
+    | ContextMessages = IsNever<CoreMessages> extends false
+    ? IsNever<ContextMessages> extends false
+      ? CoreMessages | ContextMessages
+      : CoreMessages
+    : IsNever<ContextMessages> extends false
+    ? ContextMessages
+    : never,
   Message = string
 >(
   context: Context,
@@ -227,9 +373,25 @@ export function translate<
 export function translate<
   Context extends CoreContext<Message, {}, {}, {}>,
   Key extends string = string,
-  ResourceKeys extends PickupKeys<Context['messages']> = PickupKeys<
-    Context['messages']
-  >,
+  DefinedLocaleMessage extends
+    RemovedIndexResources<DefineCoreLocaleMessage> = RemovedIndexResources<DefineCoreLocaleMessage>,
+  CoreMessages = IsEmptyObject<DefinedLocaleMessage> extends false
+    ? PickupPaths<{
+        [K in keyof DefinedLocaleMessage]: DefinedLocaleMessage[K]
+      }>
+    : never,
+  ContextMessages = IsEmptyObject<Context['messages']> extends false
+    ? PickupKeys<Context['messages']>
+    : never,
+  ResourceKeys extends
+    | CoreMessages
+    | ContextMessages = IsNever<CoreMessages> extends false
+    ? IsNever<ContextMessages> extends false
+      ? CoreMessages | ContextMessages
+      : CoreMessages
+    : IsNever<ContextMessages> extends false
+    ? ContextMessages
+    : never,
   Message = string
 >(
   context: Context,
@@ -240,9 +402,25 @@ export function translate<
 export function translate<
   Context extends CoreContext<Message, {}, {}, {}>,
   Key extends string = string,
-  ResourceKeys extends PickupKeys<Context['messages']> = PickupKeys<
-    Context['messages']
-  >,
+  DefinedLocaleMessage extends
+    RemovedIndexResources<DefineCoreLocaleMessage> = RemovedIndexResources<DefineCoreLocaleMessage>,
+  CoreMessages = IsEmptyObject<DefinedLocaleMessage> extends false
+    ? PickupPaths<{
+        [K in keyof DefinedLocaleMessage]: DefinedLocaleMessage[K]
+      }>
+    : never,
+  ContextMessages = IsEmptyObject<Context['messages']> extends false
+    ? PickupKeys<Context['messages']>
+    : never,
+  ResourceKeys extends
+    | CoreMessages
+    | ContextMessages = IsNever<CoreMessages> extends false
+    ? IsNever<ContextMessages> extends false
+      ? CoreMessages | ContextMessages
+      : CoreMessages
+    : IsNever<ContextMessages> extends false
+    ? ContextMessages
+    : never,
   Message = string
 >(
   context: Context,
@@ -254,9 +432,25 @@ export function translate<
 export function translate<
   Context extends CoreContext<Message, {}, {}, {}>,
   Key extends string = string,
-  ResourceKeys extends PickupKeys<Context['messages']> = PickupKeys<
-    Context['messages']
-  >,
+  DefinedLocaleMessage extends
+    RemovedIndexResources<DefineCoreLocaleMessage> = RemovedIndexResources<DefineCoreLocaleMessage>,
+  CoreMessages = IsEmptyObject<DefinedLocaleMessage> extends false
+    ? PickupPaths<{
+        [K in keyof DefinedLocaleMessage]: DefinedLocaleMessage[K]
+      }>
+    : never,
+  ContextMessages = IsEmptyObject<Context['messages']> extends false
+    ? PickupKeys<Context['messages']>
+    : never,
+  ResourceKeys extends
+    | CoreMessages
+    | ContextMessages = IsNever<CoreMessages> extends false
+    ? IsNever<ContextMessages> extends false
+      ? CoreMessages | ContextMessages
+      : CoreMessages
+    : IsNever<ContextMessages> extends false
+    ? ContextMessages
+    : never,
   Message = string
 >(
   context: Context,
@@ -268,9 +462,25 @@ export function translate<
 export function translate<
   Context extends CoreContext<Message, {}, {}, {}>,
   Key extends string = string,
-  ResourceKeys extends PickupKeys<Context['messages']> = PickupKeys<
-    Context['messages']
-  >,
+  DefinedLocaleMessage extends
+    RemovedIndexResources<DefineCoreLocaleMessage> = RemovedIndexResources<DefineCoreLocaleMessage>,
+  CoreMessages = IsEmptyObject<DefinedLocaleMessage> extends false
+    ? PickupPaths<{
+        [K in keyof DefinedLocaleMessage]: DefinedLocaleMessage[K]
+      }>
+    : never,
+  ContextMessages = IsEmptyObject<Context['messages']> extends false
+    ? PickupKeys<Context['messages']>
+    : never,
+  ResourceKeys extends
+    | CoreMessages
+    | ContextMessages = IsNever<CoreMessages> extends false
+    ? IsNever<ContextMessages> extends false
+      ? CoreMessages | ContextMessages
+      : CoreMessages
+    : IsNever<ContextMessages> extends false
+    ? ContextMessages
+    : never,
   Message = string
 >(
   context: Context,
@@ -282,9 +492,25 @@ export function translate<
 export function translate<
   Context extends CoreContext<Message, {}, {}, {}>,
   Key extends string = string,
-  ResourceKeys extends PickupKeys<Context['messages']> = PickupKeys<
-    Context['messages']
-  >,
+  DefinedLocaleMessage extends
+    RemovedIndexResources<DefineCoreLocaleMessage> = RemovedIndexResources<DefineCoreLocaleMessage>,
+  CoreMessages = IsEmptyObject<DefinedLocaleMessage> extends false
+    ? PickupPaths<{
+        [K in keyof DefinedLocaleMessage]: DefinedLocaleMessage[K]
+      }>
+    : never,
+  ContextMessages = IsEmptyObject<Context['messages']> extends false
+    ? PickupKeys<Context['messages']>
+    : never,
+  ResourceKeys extends
+    | CoreMessages
+    | ContextMessages = IsNever<CoreMessages> extends false
+    ? IsNever<ContextMessages> extends false
+      ? CoreMessages | ContextMessages
+      : CoreMessages
+    : IsNever<ContextMessages> extends false
+    ? ContextMessages
+    : never,
   Message = string
 >(
   context: Context,
@@ -295,9 +521,25 @@ export function translate<
 export function translate<
   Context extends CoreContext<Message, {}, {}, {}>,
   Key extends string = string,
-  ResourceKeys extends PickupKeys<Context['messages']> = PickupKeys<
-    Context['messages']
-  >,
+  DefinedLocaleMessage extends
+    RemovedIndexResources<DefineCoreLocaleMessage> = RemovedIndexResources<DefineCoreLocaleMessage>,
+  CoreMessages = IsEmptyObject<DefinedLocaleMessage> extends false
+    ? PickupPaths<{
+        [K in keyof DefinedLocaleMessage]: DefinedLocaleMessage[K]
+      }>
+    : never,
+  ContextMessages = IsEmptyObject<Context['messages']> extends false
+    ? PickupKeys<Context['messages']>
+    : never,
+  ResourceKeys extends
+    | CoreMessages
+    | ContextMessages = IsNever<CoreMessages> extends false
+    ? IsNever<ContextMessages> extends false
+      ? CoreMessages | ContextMessages
+      : CoreMessages
+    : IsNever<ContextMessages> extends false
+    ? ContextMessages
+    : never,
   Message = string
 >(
   context: Context,
@@ -309,9 +551,25 @@ export function translate<
 export function translate<
   Context extends CoreContext<Message, {}, {}, {}>,
   Key extends string = string,
-  ResourceKeys extends PickupKeys<Context['messages']> = PickupKeys<
-    Context['messages']
-  >,
+  DefinedLocaleMessage extends
+    RemovedIndexResources<DefineCoreLocaleMessage> = RemovedIndexResources<DefineCoreLocaleMessage>,
+  CoreMessages = IsEmptyObject<DefinedLocaleMessage> extends false
+    ? PickupPaths<{
+        [K in keyof DefinedLocaleMessage]: DefinedLocaleMessage[K]
+      }>
+    : never,
+  ContextMessages = IsEmptyObject<Context['messages']> extends false
+    ? PickupKeys<Context['messages']>
+    : never,
+  ResourceKeys extends
+    | CoreMessages
+    | ContextMessages = IsNever<CoreMessages> extends false
+    ? IsNever<ContextMessages> extends false
+      ? CoreMessages | ContextMessages
+      : CoreMessages
+    : IsNever<ContextMessages> extends false
+    ? ContextMessages
+    : never,
   Message = string
 >(
   context: Context,
@@ -323,9 +581,25 @@ export function translate<
 export function translate<
   Context extends CoreContext<Message, {}, {}, {}>,
   Key extends string = string,
-  ResourceKeys extends PickupKeys<Context['messages']> = PickupKeys<
-    Context['messages']
-  >,
+  DefinedLocaleMessage extends
+    RemovedIndexResources<DefineCoreLocaleMessage> = RemovedIndexResources<DefineCoreLocaleMessage>,
+  CoreMessages = IsEmptyObject<DefinedLocaleMessage> extends false
+    ? PickupPaths<{
+        [K in keyof DefinedLocaleMessage]: DefinedLocaleMessage[K]
+      }>
+    : never,
+  ContextMessages = IsEmptyObject<Context['messages']> extends false
+    ? PickupKeys<Context['messages']>
+    : never,
+  ResourceKeys extends
+    | CoreMessages
+    | ContextMessages = IsNever<CoreMessages> extends false
+    ? IsNever<ContextMessages> extends false
+      ? CoreMessages | ContextMessages
+      : CoreMessages
+    : IsNever<ContextMessages> extends false
+    ? ContextMessages
+    : never,
   Message = string
 >(
   context: Context,

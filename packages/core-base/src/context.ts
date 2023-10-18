@@ -46,7 +46,9 @@ import type {
   SchemaParams,
   LocaleParams,
   PickupLocales,
-  FallbackLocales
+  FallbackLocales,
+  IsEmptyObject,
+  RemoveIndexSignature
 } from './types'
 import type { LocaleFallbacker } from './fallbacker'
 
@@ -90,6 +92,37 @@ export type LocaleMessages<
   Locales = Locale,
   Message = string // eslint-disable-line @typescript-eslint/no-unused-vars
 > = LocaleRecord<UnionToTuple<Locales>, Schema>
+
+/**
+ * The type definition of Locale Message for `@intlify/core-base` package
+ *
+ * @remarks
+ * The typealias is used to strictly define the type of the Locale message.
+ *
+ * @example
+ * ```ts
+ * // type.d.ts (`.d.ts` file at your app)
+ * import { DefineCoreLocaleMessage } from '@intlify/core-base'
+ *
+ * declare module '@intlify/core-base' {
+ *   export interface DefineCoreLocaleMessage {
+ *     title: string
+ *     menu: {
+ *       login: string
+ *     }
+ *   }
+ * }
+ * ```
+ *
+ * @VueI18nGeneral
+ */
+export interface DefineCoreLocaleMessage extends LocaleMessage<string> {} // eslint-disable-line @typescript-eslint/no-empty-interface
+
+export type DefaultCoreLocaleMessageSchema<
+  Schema = RemoveIndexSignature<{
+    [K in keyof DefineCoreLocaleMessage]: DefineCoreLocaleMessage[K]
+  }>
+> = IsEmptyObject<Schema> extends true ? LocaleMessage<string> : Schema
 
 export type CoreMissingHandler<Message = string> = (
   context: CoreContext<Message>,
@@ -155,7 +188,7 @@ export interface CoreOptions<
       datetime?: unknown
       number?: unknown
     } = {
-      message: LocaleMessage<Message>,
+      message: DefaultCoreLocaleMessageSchema,
       datetime: DateTimeFormat,
       number: NumberFormat
     },
@@ -181,7 +214,7 @@ export interface CoreOptions<
     : Locales extends string
       ? Locales
       : Locale,
-  MessageSchema = Schema extends { message: infer M } ? M : LocaleMessage<Message>,
+  MessageSchema = Schema extends { message: infer M } ? M : DefaultCoreLocaleMessageSchema,
   DateTimeSchema = Schema extends { datetime: infer D } ? D : DateTimeFormat,
   NumberSchema = Schema extends { number: infer N } ? N : NumberFormat,
   _Messages extends LocaleMessages<

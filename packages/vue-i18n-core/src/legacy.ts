@@ -41,6 +41,7 @@ import type {
   SchemaParams,
   LocaleParams,
   RemoveIndexSignature,
+  RemovedIndexResources,
   FallbackLocales,
   PickupPaths,
   PickupFormatPathKeys,
@@ -50,7 +51,6 @@ import type {
 import type { VueDevToolsEmitter } from '@intlify/vue-devtools'
 import type {
   VueMessageType,
-  RemovedIndexResources,
   DefaultLocaleMessageSchema,
   DefineDateTimeFormat,
   DefaultDateTimeFormatSchema,
