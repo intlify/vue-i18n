@@ -1049,3 +1049,119 @@ test('issue #1547', async () => {
 
   expect(wrapper.html()).toEqual('<div>Deep Linked message</div>')
 })
+
+test('issue #1595', async () => {
+  const i18n = createI18n({
+    legacy: false,
+    locale: 'en',
+    flatJson: true,
+    messages: {
+      en: {
+        simple: 'Simple',
+        'deep.key': 'Deep',
+        content: '@:simple @:deep.key'
+      }
+    }
+  })
+
+  const ja = {
+    simple: 'シンプル',
+    'deep.key': 'ディープ',
+    content: '@:simple @:deep.key'
+  }
+  i18n.global.setLocaleMessage('ja', ja)
+
+  const App = defineComponent({
+    setup() {
+      const { t, locale } = useI18n()
+      return { t, locale }
+    },
+    template: `<form>
+  <select v-model="locale">
+    <option value="en">en</option>
+    <option value="ja">ja</option>
+  </select>
+</form>
+{{ t('content') }}
+`
+  })
+
+  expect(i18n.global.getLocaleMessage('ja')).toEqual({
+    simple: 'シンプル',
+    deep: {
+      key: 'ディープ'
+    },
+    content: '@:simple @:deep.key'
+  })
+
+  const wrapper = await mount(App, i18n)
+  expect(wrapper.html()).toEqual(
+    '<form><select><option value="en">en</option><option value="ja">ja</option></select></form> Simple Deep'
+  )
+  // @ts-ignore
+  i18n.global.locale.value = 'ja'
+  await nextTick()
+
+  expect(wrapper.html()).toEqual(
+    '<form><select><option value="en">en</option><option value="ja">ja</option></select></form> シンプル ディープ'
+  )
+})
+
+test('issue #1595 merge case', async () => {
+  const i18n = createI18n({
+    legacy: false,
+    locale: 'en',
+    flatJson: true,
+    messages: {
+      en: {
+        simple: 'Simple',
+        'deep.key': 'Deep',
+        content: '@:simple @:deep.key'
+      },
+      ja: {
+        simple: 'シンプル',
+        content: '@:simple @:deep.key'
+      }
+    }
+  })
+
+  const ja = {
+    'deep.key': 'ディープ'
+  }
+  i18n.global.mergeLocaleMessage('ja', ja)
+
+  const App = defineComponent({
+    setup() {
+      const { t, locale } = useI18n()
+      return { t, locale }
+    },
+    template: `<form>
+  <select v-model="locale">
+    <option value="en">en</option>
+    <option value="ja">ja</option>
+  </select>
+</form>
+{{ $t('content') }}
+`
+  })
+
+  expect(i18n.global.getLocaleMessage('ja')).toEqual({
+    simple: 'シンプル',
+    deep: {
+      key: 'ディープ'
+    },
+    content: '@:simple @:deep.key'
+  })
+
+  const wrapper = await mount(App, i18n)
+  expect(wrapper.html()).toEqual(
+    '<form><select><option value="en">en</option><option value="ja">ja</option></select></form> Simple Deep'
+  )
+  // @ts-ignore
+  i18n.global.locale.value = 'ja'
+  await nextTick()
+
+  expect(wrapper.html()).toEqual(
+    '<form><select><option value="en">en</option><option value="ja">ja</option></select></form> シンプル ディープ'
+  )
+})

@@ -11,7 +11,8 @@ import {
   isPlainObject,
   isObject,
   assign,
-  inBrowser
+  inBrowser,
+  hasOwn
 } from '@intlify/shared'
 import {
   isTranslateFallbackWarn,
@@ -53,7 +54,8 @@ import {
   deepCopy,
   getLocaleMessages,
   getComponentOptions,
-  createTextNode
+  createTextNode,
+  handleFlatJson
 } from './utils'
 import { VERSION } from './misc'
 
@@ -1848,6 +1850,7 @@ export function createComposer(options: any = {}, VueI18nLegacy?: any): any {
     NumberFormatsType
   >
   const _isGlobal = __root === undefined
+  const flatJson = options.flatJson
 
   let _inheritLocale = isBoolean(options.inheritLocale)
     ? options.inheritLocale
@@ -2375,6 +2378,15 @@ export function createComposer(options: any = {}, VueI18nLegacy?: any): any {
 
   // setLocaleMessage
   function setLocaleMessage(locale: Locale, message: LocaleMessage<Message>) {
+    if (flatJson) {
+      const _message = { [locale]: message }
+      for (const key in _message) {
+        if (hasOwn(_message, key)) {
+          handleFlatJson(_message[key])
+        }
+      }
+      message = _message[locale]
+    }
     _messages.value[locale] = message
     if (__BRIDGE__) {
       __legacy && __legacy.setLocaleMessage(locale, message)
@@ -2391,6 +2403,13 @@ export function createComposer(options: any = {}, VueI18nLegacy?: any): any {
     if (__BRIDGE__) {
       __legacy && __legacy.mergeLocaleMessage(locale, message)
     }
+    const _message = { [locale]: message }
+    for (const key in _message) {
+      if (hasOwn(_message, key)) {
+        handleFlatJson(_message[key])
+      }
+    }
+    message = _message[locale]
     deepCopy(message, _messages.value[locale])
     _context.messages = _messages.value as typeof _context.messages
   }
