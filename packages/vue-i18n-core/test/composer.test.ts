@@ -1526,7 +1526,7 @@ describe('messageResolver', () => {
     })
 
     expect(t('path.to.message')).toEqual('こんにちは')
-    expect(te('path.to.message')).toEqual(true)
+    expect(te('path.to.message')).toEqual(false)
     expect(tm('api.errors')).toEqual(ja['api.errors'])
     expect(mockMessageResolver).toHaveBeenCalledTimes(5)
     expect(mockMessageResolver.mock.calls[0][0]).toEqual({})

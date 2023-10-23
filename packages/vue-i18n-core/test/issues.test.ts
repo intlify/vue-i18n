@@ -1050,6 +1050,38 @@ test('issue #1547', async () => {
   expect(wrapper.html()).toEqual('<div>Deep Linked message</div>')
 })
 
+test('issue #1559', async () => {
+  const i18n = createI18n({
+    legacy: false,
+    locale: 'en',
+    messages: {
+      en: {
+        hello: 'Hello, Vue I18n',
+        language: 'Languages',
+        keyAndNotTranslation: {
+          entry1: 'TRANSLATION FOR sub entry1',
+          entry2: 'TRANSLATION FOR sub entry2'
+        }
+      }
+    }
+  })
+
+  const App = defineComponent({
+    setup() {
+      const { t } = useI18n()
+      return { t }
+    },
+    template: `
+<h1>{{ t('keyAndNotTranslation.entry1') }}</h1>
+  <div v-if="$te('keyAndNotTranslation')">{{ $t('keyAndNotTranslation') }}</div>`
+  })
+  const wrapper = await mount(App, i18n)
+
+  expect(wrapper.html()).toEqual(
+    '<h1>TRANSLATION FOR sub entry1</h1><!--v-if-->'
+  )
+})
+
 test('issue #1595', async () => {
   const i18n = createI18n({
     legacy: false,
