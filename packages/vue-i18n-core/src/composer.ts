@@ -2339,7 +2339,7 @@ export function createComposer(options: any = {}, VueI18nLegacy?: any): any {
     if (!key) return false
     const targetLocale = isString(locale) ? locale : _locale.value
     const message = getLocaleMessage(targetLocale)
-    return _context.messageResolver(message, key) !== null
+    return isString(_context.messageResolver(message, key))
   }
 
   function resolveMessages(key: Path): LocaleMessageValue<Message> | null {
