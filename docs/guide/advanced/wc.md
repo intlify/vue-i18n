@@ -4,6 +4,10 @@
 :new: 9.2+
 :::
 
+:::tip
+The fully example codes of this chapter is [here](https://github.com/intlify/vue-i18n-next/tree/master/examples/web-components)
+:::
+
 Vue 3.2 later, we can use the WebComponents as described in the [official documentation](https://v3.vuejs.org/guide/web-components.html).
 
 This will support the use of Vue I18n in Web Components starting with Vue I18n v9.2.
