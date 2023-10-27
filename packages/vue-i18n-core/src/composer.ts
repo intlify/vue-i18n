@@ -1763,6 +1763,7 @@ export interface ComposerInternal {
 type ComposerWarnType = CoreMissingType
 
 const NOOP_RETURN_ARRAY = () => []
+const NOOP_RETURN_FALSE = () => false
 
 let composerID = 0
 
@@ -2173,7 +2174,12 @@ export function createComposer(options: any = {}, VueI18nLegacy?: any): any {
         _context.fallbackContext = undefined
       }
     }
-    if (isNumber(ret) && ret === NOT_REOSLVED) {
+    if (
+      (warnType !== 'translate exists' && // for not `te` (e.g `t`)
+        isNumber(ret) &&
+        ret === NOT_REOSLVED) ||
+      (warnType === 'translate exists' && !ret) // for `te`
+    ) {
       const [key, arg2] = argumentParser()
       if (
         __DEV__ &&
@@ -2341,6 +2347,30 @@ export function createComposer(options: any = {}, VueI18nLegacy?: any): any {
 
   // te
   function te(key: Path, locale?: Locale): boolean {
+    return wrapWithDeps<{}, boolean>(
+      () => {
+        if (!key) {
+          return false
+        }
+        const targetLocale = isString(locale) ? locale : _locale.value
+        const message = getLocaleMessage(targetLocale)
+        const resolved = _context.messageResolver(message, key)
+        return (
+          isMessageAST(resolved) ||
+          isMessageFunction(resolved) ||
+          isString(resolved)
+        )
+      },
+      () => [key],
+      'translate exists',
+      root => {
+        console.log('root ... te')
+        return Reflect.apply(root.te, root, [key, locale])
+      },
+      NOOP_RETURN_FALSE,
+      val => isBoolean(val)
+    )
+    /*
     if (!key) {
       return false
     }
@@ -2352,6 +2382,7 @@ export function createComposer(options: any = {}, VueI18nLegacy?: any): any {
       isMessageFunction(resolved) ||
       isString(resolved)
     )
+    */
   }
 
   function resolveMessages(key: Path): LocaleMessageValue<Message> | null {

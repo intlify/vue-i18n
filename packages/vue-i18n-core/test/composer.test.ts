@@ -1299,6 +1299,16 @@ describe('tm', () => {
 })
 
 test('te', async () => {
+  const __root = createComposer({
+    locale: 'en',
+    messages: {
+      en: {
+        message: {
+          fallback: 'fallback'
+        }
+      }
+    }
+  })
   const { te } = createComposer({
     locale: 'en',
     messages: {
@@ -1307,12 +1317,14 @@ test('te', async () => {
           hello: 'Hello!'
         }
       }
-    }
+    },
+    __root
   })
 
   expect(te('message.hello')).toEqual(true)
-  expect(te('message.hallo')).toEqual(false)
-  expect(te('message.hallo', 'ja' as any)).toEqual(false)
+  expect(te('message.fallback')).toEqual(true) // fallback
+  expect(te('message.hallo')).toEqual(false) // missing for 'en' and 'ja'
+  expect(te('message.hallo', 'ja' as any)).toEqual(false) // missing for 'ja'
 
   expect(te(null as any)).toEqual(false)
   expect(te(undefined as any)).toEqual(false)
