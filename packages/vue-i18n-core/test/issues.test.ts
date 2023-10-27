@@ -1197,3 +1197,33 @@ test('issue #1595 merge case', async () => {
     '<form><select><option value="en">en</option><option value="ja">ja</option></select></form> シンプル ディープ'
   )
 })
+
+test('issue #1610 merge case', async () => {
+  const en = {
+    hello: 'Hello, Vue I18n',
+    language: 'Languages'
+  }
+  const i18n = createI18n({
+    legacy: false,
+    locale: 'en',
+    globalInjection: true,
+    messages: {
+      en: {}
+    }
+  })
+
+  const App = defineComponent({
+    template: `
+<h1>{{ $t('hello') }}</h1>
+{{ $te('hello') }} (...but this should be true)
+`
+  })
+  const wrapper = await mount(App, i18n)
+
+  i18n.global.setLocaleMessage('en', en)
+  await nextTick()
+
+  expect(wrapper.html()).include(
+    `<h1>Hello, Vue I18n</h1> true (...but this should be true)`
+  )
+})
