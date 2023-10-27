@@ -34,7 +34,9 @@ import {
   setAdditionalMeta,
   getFallbackContext,
   setFallbackContext,
-  DEFAULT_LOCALE
+  DEFAULT_LOCALE,
+  isMessageAST,
+  isMessageFunction
 } from '@intlify/core-base'
 import { VueDevToolsTimelineEvents } from '@intlify/vue-devtools'
 import { I18nWarnCodes, getWarnMessage } from './warnings'
@@ -108,7 +110,8 @@ import type {
   RemoveIndexSignature,
   RemovedIndexResources,
   IsNever,
-  IsEmptyObject
+  IsEmptyObject,
+  CoreMissingType
 } from '@intlify/core-base'
 import type { VueDevToolsEmitter } from '@intlify/vue-devtools'
 import { isLegacyVueI18n } from './utils'
@@ -1757,7 +1760,9 @@ export interface ComposerInternal {
   __setPluralRules(rules: PluralizationRules): void
 }
 
-type ComposerWarnType = 'translate' | 'number format' | 'datetime format'
+type ComposerWarnType = CoreMissingType
+
+const NOOP_RETURN_ARRAY = () => []
 
 let composerID = 0
 
@@ -2309,7 +2314,7 @@ export function createComposer(options: any = {}, VueI18nLegacy?: any): any {
       'number format',
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       root => (root as any)[NumberPartsSymbol](...args),
-      () => [],
+      NOOP_RETURN_ARRAY,
       val => isString(val) || isArray(val)
     )
   }
@@ -2324,7 +2329,7 @@ export function createComposer(options: any = {}, VueI18nLegacy?: any): any {
       'datetime format',
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       root => (root as any)[DatetimePartsSymbol](...args),
-      () => [],
+      NOOP_RETURN_ARRAY,
       val => isString(val) || isArray(val)
     )
   }
@@ -2336,10 +2341,17 @@ export function createComposer(options: any = {}, VueI18nLegacy?: any): any {
 
   // te
   function te(key: Path, locale?: Locale): boolean {
-    if (!key) return false
+    if (!key) {
+      return false
+    }
     const targetLocale = isString(locale) ? locale : _locale.value
     const message = getLocaleMessage(targetLocale)
-    return isString(_context.messageResolver(message, key))
+    const resolved = _context.messageResolver(message, key)
+    return (
+      isMessageAST(resolved) ||
+      isMessageFunction(resolved) ||
+      isString(resolved)
+    )
   }
 
   function resolveMessages(key: Path): LocaleMessageValue<Message> | null {
