@@ -2364,25 +2364,11 @@ export function createComposer(options: any = {}, VueI18nLegacy?: any): any {
       () => [key],
       'translate exists',
       root => {
-        console.log('root ... te')
         return Reflect.apply(root.te, root, [key, locale])
       },
       NOOP_RETURN_FALSE,
       val => isBoolean(val)
     )
-    /*
-    if (!key) {
-      return false
-    }
-    const targetLocale = isString(locale) ? locale : _locale.value
-    const message = getLocaleMessage(targetLocale)
-    const resolved = _context.messageResolver(message, key)
-    return (
-      isMessageAST(resolved) ||
-      isMessageFunction(resolved) ||
-      isString(resolved)
-    )
-    */
   }
 
   function resolveMessages(key: Path): LocaleMessageValue<Message> | null {

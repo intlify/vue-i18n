@@ -1,4 +1,4 @@
-import { isObject } from '@intlify/shared'
+import { isObject, isFunction } from '@intlify/shared'
 
 /** @VueI18nGeneral */
 export type Path = string
@@ -346,6 +346,9 @@ export function resolveValue(obj: unknown, path: Path): PathValue {
   while (i < len) {
     const val = last[hit[i]]
     if (val === undefined) {
+      return null
+    }
+    if (isFunction(last)) {
       return null
     }
     last = val

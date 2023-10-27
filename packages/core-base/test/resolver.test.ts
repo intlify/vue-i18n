@@ -120,4 +120,9 @@ test('resolveValue', () => {
   expect(resolveValue({}, 'a.b.c[]')).toEqual(null)
   // blanket middle
   expect(resolveValue({}, 'a.b.c[]d')).toEqual(null)
+  // function
+  const fn = () => 1
+  expect(resolveValue({ a: fn }, 'a.name')).toEqual(null)
+  expect(resolveValue({ a: fn }, 'a.toString')).toEqual(null)
+  expect(resolveValue({ a: fn }, 'a')).toEqual(fn)
 })
