@@ -1198,7 +1198,7 @@ test('issue #1595 merge case', async () => {
   )
 })
 
-test('issue #1610 merge case', async () => {
+test('issue #1610', async () => {
   const en = {
     hello: 'Hello, Vue I18n',
     language: 'Languages'
@@ -1225,5 +1225,51 @@ test('issue #1610 merge case', async () => {
 
   expect(wrapper.html()).include(
     `<h1>Hello, Vue I18n</h1> true (...but this should be true)`
+  )
+})
+
+test('issue #1615', async () => {
+  console.log('----')
+  const en = {
+    hello: (() => {
+      const fn = ctx => {
+        const { normalize: _normalize } = ctx
+        return _normalize(['Hello, Vue I18n'])
+      }
+      fn.source = 'Hello, Vue I18n'
+      return fn
+    })(),
+    language: (() => {
+      const fn = ctx => {
+        const { normalize: _normalize } = ctx
+        return _normalize(['Languages'])
+      }
+      fn.source = 'Languages'
+      return fn
+    })()
+  }
+  const i18n = createI18n({
+    legacy: false,
+    locale: 'en',
+    globalInjection: true,
+    messages: {
+      en: {}
+    }
+  })
+
+  const App = defineComponent({
+    template: `
+<h1>{{ $t('hello.name') }}</h1>
+<p>(( "hello.name" does not exist. correct path would just be "hello")</p>
+<p id="te">{{ $te('hello.name') }} (...but this should be false)</p>
+`
+  })
+  const wrapper = await mount(App, i18n)
+
+  i18n.global.setLocaleMessage('en', en)
+  await nextTick()
+
+  expect(wrapper.find('#te')?.textContent).toEqual(
+    `false (...but this should be false)`
   )
 })
