@@ -38,7 +38,11 @@ export type FallbackLocale =
   | { [locale in string]: Locale[] }
   | false
 
-export type CoreMissingType = 'translate' | 'datetime format' | 'number format'
+export type CoreMissingType =
+  | 'translate'
+  | 'datetime format'
+  | 'number format'
+  | 'translate exists'
 
 export type MessageType<T = string> = T extends string
   ? string
