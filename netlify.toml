@@ -1,6 +1,0 @@
-[build.environment]
-  NODE_VERSION = "16"
-  NPM_FLAGS = "--version"
-[build]
-  publish = "docs/.vitepress/dist"
-  command = "npx pnpm@8 i --store=node_modules/.pnpm-store && npx pnpm@8 run docs:build"
