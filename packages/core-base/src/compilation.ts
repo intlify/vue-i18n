@@ -52,7 +52,8 @@ function baseCompile(
   return { ...baseCompileCore(message, options), detectError }
 }
 
-export const compileToFunction = /* #__NO_SIDE_EFFECTS__ */ <
+/* #__NO_SIDE_EFFECTS__ */
+export const compileToFunction = <
   Message = string,
   MessageSource = string | ResourceNode
 >(

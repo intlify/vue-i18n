@@ -950,7 +950,8 @@ export function useI18n<
  *
  * @VueI18nGeneral
  */
-export const castToVueI18n = /* #__NO_SIDE_EFFECTS__ */ (
+/* #__NO_SIDE_EFFECTS__ */
+export const castToVueI18n = (
   i18n: I18n
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
 ): VueI18n & { install: (Vue: any, options?: any) => void } => {

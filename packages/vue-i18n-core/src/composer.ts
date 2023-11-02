@@ -1779,7 +1779,8 @@ function defineCoreMissingHandler(missing: MissingHandler): CoreMissingHandler {
 }
 
 // for Intlify DevTools
-const getMetaInfo = /* #__NO_SIDE_EFFECTS__ */ (): MetaInfo | null => {
+/* #__NO_SIDE_EFFECTS__ */
+const getMetaInfo = (): MetaInfo | null => {
   const instance = getCurrentInstance()
   let meta: any = null // eslint-disable-line @typescript-eslint/no-explicit-any
   return instance && (meta = getComponentOptions(instance)[DEVTOOLS_META])
