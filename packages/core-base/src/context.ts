@@ -414,14 +414,14 @@ export function registerLocaleFallbacker(fallbacker: LocaleFallbacker): void {
 // Additional Meta for Intlify DevTools
 let _additionalMeta: MetaInfo | null = /* #__PURE__*/ null
 
-export const setAdditionalMeta = /* #__PURE__*/ (
+export const setAdditionalMeta = /* #__NO_SIDE_EFFECTS__ */ (
   meta: MetaInfo | null
 ): void => {
   _additionalMeta = meta
 }
 
-export const getAdditionalMeta = /* #__PURE__*/ (): MetaInfo | null =>
-  _additionalMeta
+export const getAdditionalMeta =
+  /* #__NO_SIDE_EFFECTS__ */ (): MetaInfo | null => _additionalMeta
 
 let _fallbackContext: CoreContext | null = null
 

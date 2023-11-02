@@ -52,7 +52,7 @@ function baseCompile(
   return { ...baseCompileCore(message, options), detectError }
 }
 
-export const compileToFunction = /* #__PURE__*/ <
+export const compileToFunction = /* #__NO_SIDE_EFFECTS__ */ <
   Message = string,
   MessageSource = string | ResourceNode
 >(
