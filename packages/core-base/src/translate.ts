@@ -1125,8 +1125,9 @@ function getSourceForCodeFrame(
   source: string | ResourceNode
 ): string | undefined {
   if (isString(source)) {
+    return source
   } else {
-    if (source.loc?.source) {
+    if (source.loc && source.loc.source) {
       return source.loc.source
     }
   }
