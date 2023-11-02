@@ -1228,7 +1228,9 @@ declare module '@vue/runtime-core' {
       key: Key | ResourceKeys
     ): LocaleMessageValue<VueMessageType> | {}
   }
+}
 
+declare module 'vue' {
   export interface GlobalComponents {
     ['i18n-t']: typeof Translation
     ['i18n-d']: typeof DatetimeFormat
