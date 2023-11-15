@@ -1,5 +1,4 @@
-import { isPlainObject, warn } from '@intlify/shared'
-import { deepCopy } from '../utils'
+import { deepCopy, isPlainObject, warn } from '@intlify/shared'
 
 import type { ComponentOptions } from 'vue'
 import type { Locale } from '@intlify/core-base'

@@ -5,10 +5,10 @@ import {
   hasOwn,
   isPlainObject,
   isString,
+  deepCopy,
   warn
 } from '@intlify/shared'
 import { Text, createVNode } from 'vue'
-import { I18nErrorCodes, createI18nError } from './errors'
 import { I18nWarnCodes, getWarnMessage } from './warnings'
 
 import type { Locale, MessageResolver } from '@intlify/core-base'
@@ -146,29 +146,6 @@ export function getLocaleMessages<Messages = {}>(
   }
 
   return ret as { [K in keyof Messages]: Messages[K] }
-}
-
-const isNotObjectOrIsArray = (val: unknown) => !isObject(val) || isArray(val)
-// eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/explicit-module-boundary-types
-export function deepCopy(src: any, des: any): void {
-  // src and des should both be objects, and non of then can be a array
-  if (isNotObjectOrIsArray(src) || isNotObjectOrIsArray(des)) {
-    throw createI18nError(I18nErrorCodes.INVALID_VALUE)
-  }
-
-  for (const key in src) {
-    if (hasOwn(src, key)) {
-      if (isNotObjectOrIsArray(src[key]) || isNotObjectOrIsArray(des[key])) {
-        // replace with src[key] when:
-        // src[key] or des[key] is not a object, or
-        // src[key] or des[key] is a array
-        des[key] = src[key]
-      } else {
-        // src[key] and des[key] are both object, merge them
-        deepCopy(src[key], des[key])
-      }
-    }
-  }
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
