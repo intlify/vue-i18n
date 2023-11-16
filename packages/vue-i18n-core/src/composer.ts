@@ -12,6 +12,7 @@ import {
   isObject,
   assign,
   inBrowser,
+  deepCopy,
   hasOwn
 } from '@intlify/shared'
 import {
@@ -53,7 +54,6 @@ import {
   __VUE_I18N_BRIDGE__
 } from './symbols'
 import {
-  deepCopy,
   getLocaleMessages,
   getComponentOptions,
   createTextNode,
