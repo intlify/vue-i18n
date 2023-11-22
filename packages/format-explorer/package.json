@@ -1,7 +1,7 @@
 {
   "name": "@intlify/message-format-explorer",
   "description": "Intlify message format explorer",
-  "version": "9.7.0",
+  "version": "9.7.1",
   "private": true,
   "scripts": {
     "dev": "vite",
