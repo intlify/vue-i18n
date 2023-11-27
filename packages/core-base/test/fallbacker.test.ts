@@ -1,5 +1,11 @@
 import { createCoreContext as context, CoreContext } from '../src/context'
-import { fallbackWithLocaleChain, fallbackWithSimple } from '../src/fallbacker'
+import {
+  fallbackWithLocaleChain,
+  fallbackWithSimple,
+  resolveLocale
+} from '../src/fallbacker'
+import { errorMessages, CoreErrorCodes } from '../src/errors'
+import { LocaleDetector } from '@intlify/core-base'
 
 describe('fallbackWithSimple', () => {
   let ctx: CoreContext<string>
@@ -281,5 +287,36 @@ describe('fallbackWithLocaleChain', () => {
         'da'
       ])
     })
+  })
+})
+
+describe('resolveLocale', () => {
+  test('string', () => {
+    expect(resolveLocale('en')).toEqual('en')
+  })
+
+  test('function return promise value', () => {
+    expect(() => resolveLocale(() => Promise.resolve('en'))).toThrowError(
+      errorMessages[CoreErrorCodes.NOT_SUPPORT_LOCALE_PROMISE_VALUE]
+    )
+  })
+
+  test('function return string', () => {
+    const fn = vi.fn(() => 'en')
+    expect(resolveLocale(fn)).toEqual('en')
+    expect(resolveLocale(fn)).toEqual('en')
+  })
+
+  test('async function', () => {
+    expect(() => resolveLocale(async () => Promise.resolve('en'))).toThrowError(
+      errorMessages[CoreErrorCodes.NOT_SUPPORT_LOCALE_ASYNC_FUNCTION]
+    )
+  })
+
+  test('other type value', () => {
+    const fn = 1 as unknown as LocaleDetector
+    expect(() => resolveLocale(fn)).toThrowError(
+      errorMessages[CoreErrorCodes.NOT_SUPPORT_LOCALE_TYPE]
+    )
   })
 })

@@ -3,9 +3,12 @@ import {
   isArray,
   isBoolean,
   isPlainObject,
-  isObject
+  isObject,
+  isPromise,
+  isFunction
 } from '@intlify/shared'
 import { DEFAULT_LOCALE } from './context'
+import { CoreErrorCodes, createCoreError } from './errors'
 
 import type { Locale, LocaleDetector, FallbackLocale } from './runtime'
 import type { CoreContext, CoreInternalContext } from './context'
@@ -33,12 +36,25 @@ let _resolveLocale: string
 
 /** @internal */
 export function resolveLocale(locale: Locale | LocaleDetector) {
-  // prettier-ignore
-  return isString(locale)
-    ? locale
-    : _resolveLocale != null && locale.resolvedOnce
-      ? _resolveLocale
-      : (_resolveLocale = locale())
+  if (isString(locale)) {
+    return locale
+  } else {
+    if (isFunction(locale)) {
+      if (locale.resolvedOnce && _resolveLocale != null) {
+        return _resolveLocale
+      } else if (locale.constructor.name === 'Function') {
+        const resolve = locale()
+        if (isPromise(resolve)) {
+          throw createCoreError(CoreErrorCodes.NOT_SUPPORT_LOCALE_PROMISE_VALUE)
+        }
+        return (_resolveLocale = resolve)
+      } else {
+        throw createCoreError(CoreErrorCodes.NOT_SUPPORT_LOCALE_ASYNC_FUNCTION)
+      }
+    } else {
+      throw createCoreError(CoreErrorCodes.NOT_SUPPORT_LOCALE_TYPE)
+    }
+  }
 }
 
 /**

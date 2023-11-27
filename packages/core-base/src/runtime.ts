@@ -27,7 +27,7 @@ export type Locale = string
 /** @VueI18nGeneral */
 // prettier-ignore
 export interface LocaleDetector<Args extends any[] = any[]> { // eslint-disable-line @typescript-eslint/no-explicit-any
-  (...args: Args): Locale
+  (...args: Args): Locale | Promise<Locale>
   resolvedOnce?: boolean
 }
 
