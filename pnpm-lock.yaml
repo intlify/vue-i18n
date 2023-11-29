@@ -40,8 +40,8 @@ importers:
         specifier: ^3.1.0
         version: 3.3.0
       '@textlint-rule/textlint-rule-no-unmatched-pair':
-        specifier: ^1.0.7
-        version: 1.0.9
+        specifier: ^2.0.0
+        version: 2.0.2
       '@types/js-yaml':
         specifier: ^4.0.5
         version: 4.0.5
@@ -1719,7 +1719,7 @@ packages:
     dependencies:
       '@intlify/core': 9.5.0
       '@intlify/message-compiler': 9.5.0
-      '@intlify/shared': 9.6.5
+      '@intlify/shared': 9.8.0
       jsonc-eslint-parser: 1.4.1
       source-map: 0.6.1
       yaml-eslint-parser: 0.3.2
@@ -1835,11 +1835,6 @@ packages:
     engines: {node: '>= 16'}
     dev: true
 
-  /@intlify/shared@9.6.5:
-    resolution: {integrity: sha512-gD7Ey47Xi4h/t6P+S04ymMSoA3wVRxGqjxuIMglwRO8POki9h164Epu2N8wk/GHXM/hR6ZGcsx2HArCCENjqSQ==}
-    engines: {node: '>= 16'}
-    dev: true
-
   /@intlify/shared@9.8.0:
     resolution: {integrity: sha512-TmgR0RCLjzrSo+W3wT0ALf9851iFMlVI9EYNGeWvZFUQTAJx0bvfsMlPdgVtV1tDNRiAfhkFsMKu6jtUY1ZLKQ==}
     engines: {node: '>= 16'}
@@ -1885,7 +1880,7 @@ packages:
       vue: 3.3.4
     dependencies:
       '@intlify/bundle-utils': 1.0.0
-      '@intlify/shared': 9.6.5
+      '@intlify/shared': 9.8.0
       js-yaml: 4.1.0
       json5: 2.2.3
       loader-utils: 2.0.4
@@ -2504,11 +2499,11 @@ packages:
     engines: {node: '>=8'}
     dev: true
 
-  /@textlint-rule/textlint-rule-no-unmatched-pair@1.0.9:
-    resolution: {integrity: sha512-uUZhMWs+4ZIXIDfmQcfKdSx17Yx/eGdEUSDs/0UCggzy1nGOi5GMNHo6sUV3NSjSx22vTySj1imsBaBZCyCWNA==}
+  /@textlint-rule/textlint-rule-no-unmatched-pair@2.0.2:
+    resolution: {integrity: sha512-oE7vVmjCsKcbLy2/igBh0qvDmfbcAgjFfOCbhaOxxgXqD9hDKbnG+vxIPmRl27u2PwijZCQI+5r7FyiVVS/kyw==}
     dependencies:
-      sentence-splitter: 3.2.3
-      textlint-rule-helper: 2.0.1
+      sentence-splitter: 5.0.0
+      textlint-rule-helper: 2.3.1
     dev: true
 
   /@textlint/ast-node-types@12.6.1:
@@ -2517,6 +2512,10 @@ packages:
 
   /@textlint/ast-node-types@13.3.3:
     resolution: {integrity: sha512-KCpJppfX3Km69twa6SmVEJ8mkyAZSrxw3XaaLQSlpc7PWnLUJSCHGPVECI1nSUDhiTd1r6zlRvWuyIAZJiov+A==}
+    dev: true
+
+  /@textlint/ast-node-types@13.4.1:
+    resolution: {integrity: sha512-qrZyhCh8Ekk6nwArx3BROybm9BnX6vF7VcZbijetV/OM3yfS4rTYhoMWISmhVEP2H2re0CtWEyMl/XF+WdvVLQ==}
     dev: true
 
   /@textlint/ast-node-types@4.4.3:
@@ -10395,6 +10394,13 @@ packages:
       structured-source: 4.0.0
     dev: true
 
+  /sentence-splitter@5.0.0:
+    resolution: {integrity: sha512-9Mvf7L8vwpPzkH0/HtXzCbmVkyj4aQXdeG7h8ighRvO0hvcZEy2OUEjeIlnM/z4EX4vBacEfpESC65Oa2rWOig==}
+    dependencies:
+      '@textlint/ast-node-types': 13.4.1
+      structured-source: 4.0.0
+    dev: true
+
   /serialize-javascript@4.0.0:
     resolution: {integrity: sha512-GaNA54380uFefWghODBWEGisLZFj00nS5ACs6yHa9nLqlLpVLO8ChDGeKRjZnV4Nh4n0Qi7nhYZD/9fCPzEqkw==}
     dependencies:
@@ -11230,16 +11236,18 @@ packages:
       unist-util-visit: 1.4.1
     dev: true
 
-  /textlint-rule-helper@2.0.1:
-    resolution: {integrity: sha512-QNGSOemLVxm1b0qnH5VpRY8uyHgfx/8M+St8wSy/d6mZh0abd+KAvhQSuO8cxmVeRKr/LRkhAB3+0QU5LKhLGw==}
-    dependencies:
-      unist-util-visit: 1.4.1
-    dev: true
-
   /textlint-rule-helper@2.3.0:
     resolution: {integrity: sha512-Ug78Saahb/qVImttL0NSFyT5/JJ5wXvOPepR2pYAjNi54BsQAAz/hAyyEgKuYeR0+yjFb0KPhby4f880X5vqHA==}
     dependencies:
       '@textlint/ast-node-types': 13.3.3
+      structured-source: 4.0.0
+      unist-util-visit: 2.0.3
+    dev: true
+
+  /textlint-rule-helper@2.3.1:
+    resolution: {integrity: sha512-b1bijvyiUmKinfFE5hkQMSXs3Ky8jyZ3Y6SOoTRJKV9HLL2LWUVFAUezO7z4FpAkVvYruDYWCwA5qWV8GmvyUw==}
+    dependencies:
+      '@textlint/ast-node-types': 13.4.1
       structured-source: 4.0.0
       unist-util-visit: 2.0.3
     dev: true
