@@ -119,6 +119,9 @@ import { isLegacyVueI18n } from './utils'
 export { DEFAULT_LOCALE } from '@intlify/core-base'
 
 type LocaleMessageKey = string
+type RecursiveKeys<T> = {
+  [K in keyof T]: T[K] extends object ? `${K}.${RecursiveKeys<T[K]>}` : K;
+}[keyof T];
 
 // extend VNode interface
 export const DEVTOOLS_META:LocaleMessageKey = '__INTLIFY_META__'
