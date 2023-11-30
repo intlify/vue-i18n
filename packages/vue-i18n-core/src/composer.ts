@@ -118,8 +118,10 @@ import { isLegacyVueI18n } from './utils'
 
 export { DEFAULT_LOCALE } from '@intlify/core-base'
 
+type LocaleMessageKey = string
+
 // extend VNode interface
-export const DEVTOOLS_META = '__INTLIFY_META__'
+export const DEVTOOLS_META:LocaleMessageKey = '__INTLIFY_META__'
 
 /** @VueI18nComposition */
 export type VueMessageType = string | ResourceNode | VNode
