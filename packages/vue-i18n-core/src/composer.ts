@@ -118,6 +118,8 @@ import { isLegacyVueI18n } from './utils'
 
 export { DEFAULT_LOCALE } from '@intlify/core-base'
 
+type LocalMessageKey=string
+
 // extend VNode interface
 export const DEVTOOLS_META = '__INTLIFY_META__'
 
