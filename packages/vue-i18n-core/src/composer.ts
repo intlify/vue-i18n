@@ -118,7 +118,6 @@ import { isLegacyVueI18n } from './utils'
 
 export { DEFAULT_LOCALE } from '@intlify/core-base'
 
-type LocaleMessageKey = string
 type FlattenKeys<T> = T extends object
   ? {
       [K in keyof T & string]: K extends string
@@ -129,7 +128,7 @@ type FlattenKeys<T> = T extends object
     }[keyof T & string]
   : "";
 // extend VNode interface
-export const DEVTOOLS_META:LocaleMessageKey = '__INTLIFY_META__'
+export const DEVTOOLS_META = '__INTLIFY_META__'
 
 /** @VueI18nComposition */
 export type VueMessageType = string | ResourceNode | VNode
