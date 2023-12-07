@@ -682,7 +682,7 @@ export interface ComposerTranslation<
    *
    * @VueI18nSee [Scope and Locale Changing](../guide/essentials/scope)
    */
-  <Key extends string>(key: Key | ResourceKeys | number): string
+  <Key extends FlattenKeys<Messages[Locale]>>(key: Key | ResourceKeys | number): string
   /**
    * Locale message translation for plurals
    *
