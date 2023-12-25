@@ -1,3 +1,4 @@
+import 'vue/jsx'
 import { expectType, expectError } from '..'
 
 import {
