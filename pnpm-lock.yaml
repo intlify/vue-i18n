@@ -525,8 +525,8 @@ importers:
         version: 3.3.4
     devDependencies:
       '@vitejs/plugin-vue':
-        specifier: ^4.2.3
-        version: 4.3.3(vite@4.4.9)(vue@3.3.4)
+        specifier: ^5.0.0
+        version: 5.0.2(vite@4.4.9)(vue@3.3.4)
       '@vue/compiler-sfc':
         specifier: ^3.3.4
         version: 3.3.4
@@ -590,8 +590,8 @@ importers:
         version: 3.3.4
     devDependencies:
       '@vitejs/plugin-vue':
-        specifier: ^4.2.0
-        version: 4.3.3(vite@4.4.9)(vue@3.3.4)
+        specifier: ^5.0.0
+        version: 5.0.2(vite@4.4.9)(vue@3.3.4)
       '@vue/compiler-sfc':
         specifier: ^3.3.4
         version: 3.3.4
@@ -612,8 +612,8 @@ importers:
         version: link:../vue-i18n
     devDependencies:
       '@vitejs/plugin-vue':
-        specifier: ^4.2.0
-        version: 4.3.3(vite@4.4.9)(vue@3.3.4)
+        specifier: ^5.0.0
+        version: 5.0.2(vite@4.4.9)(vue@3.3.4)
       '@vue/compiler-sfc':
         specifier: ^3.3.4
         version: 3.3.4
@@ -3066,6 +3066,17 @@ packages:
       vue: 3.3.4
     dependencies:
       vite: 4.4.12(@types/node@20.8.8)
+      vue: 3.3.4
+    dev: true
+
+  /@vitejs/plugin-vue@5.0.2(vite@4.4.9)(vue@3.3.4):
+    resolution: {integrity: sha512-kEjJHrLb5ePBvjD0SPZwJlw1QTRcjjCA9sB5VyfonoXVBxTS7TMnqL6EkLt1Eu61RDeiuZ/WN9Hf6PxXhPI2uA==}
+    engines: {node: ^18.0.0 || >=20.0.0}
+    peerDependencies:
+      vite: ^4.3.9
+      vue: 3.3.4
+    dependencies:
+      vite: 4.4.9(@types/node@20.8.8)
       vue: 3.3.4
     dev: true
 

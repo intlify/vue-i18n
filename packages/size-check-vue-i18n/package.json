@@ -12,7 +12,7 @@
     "vue-i18n": "workspace:*"
   },
   "devDependencies": {
-    "@vitejs/plugin-vue": "^4.2.0",
+    "@vitejs/plugin-vue": "^5.0.0",
     "@vue/compiler-sfc": "^3.3.4",
     "vite": "^4.4.12",
     "vue-tsc": "^1.6.5"
