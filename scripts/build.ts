@@ -180,6 +180,46 @@ async function main() {
         process.exitCode = 1
       }
 
+      if (
+        ['vue-i18n', 'vue-i18n-bridge', 'pretite-vue-i18n'].includes(target)
+      ) {
+        console.log()
+        console.log(
+          pc.bold(pc.yellow(`Appending Vue type definitions for ${target}...`))
+        )
+
+        let content = ''
+
+        try {
+          content = await fs.readFile(
+            path.resolve(pkgDir, 'src/vue.d.ts'),
+            'utf-8'
+          )
+        } catch (e) {
+          console.error(
+            `Failed in opening Vue type definition file with error code: ${e.code}`
+          )
+          process.exitCode = 1
+        }
+
+        try {
+          const marker =
+            '// --- THE CONTENT BELOW THIS LINE WILL BE APPENDED TO DTS FILE IN DIST DIRECTORY --- //'
+          const data = content.slice(content.indexOf(marker) + marker.length)
+
+          await fs.appendFile(path.resolve(pkgDir, `dist/${target}.d.ts`), data)
+        } catch (e) {
+          console.error('Failed in appending Vue type definitions')
+          process.exitCode = 1
+        }
+
+        console.log(
+          pc.bold(
+            pc.green(`Appending Vue type definitions completed successfully.`)
+          )
+        )
+      }
+
       // @ts-ignore
       await rimraf(`${pkgDir}/dist/packages`)
     }
