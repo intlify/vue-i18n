@@ -78,7 +78,7 @@
     "@rollup/plugin-replace": "^5.0.2",
     "@rollup/plugin-terser": "^0.4.3",
     "@secretlint/secretlint-rule-preset-recommend": "^3.1.0",
-    "@textlint-rule/textlint-rule-no-unmatched-pair": "^1.0.7",
+    "@textlint-rule/textlint-rule-no-unmatched-pair": "^2.0.0",
     "@types/js-yaml": "^4.0.5",
     "@types/jsdom": "^21.1.1",
     "@types/node": "^20.0.0",
