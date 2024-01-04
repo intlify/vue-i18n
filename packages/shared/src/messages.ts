@@ -1,24 +1,27 @@
 import { hasOwn, isArray, isObject } from './utils'
 
-const isNotObjectOrIsArray = (val: unknown) => !isObject(val) || isArray(val)
 // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/explicit-module-boundary-types
-export function deepCopy(src: any, des: any): void {
-  // src and des should both be objects, and none of them can be a array
-  if (isNotObjectOrIsArray(src) || isNotObjectOrIsArray(des)) {
-    throw new Error('Invalid value')
-  }
-
-  for (const key in src) {
-    if (hasOwn(src, key)) {
-      if (isNotObjectOrIsArray(src[key]) || isNotObjectOrIsArray(des[key])) {
-        // replace with src[key] when:
-        // src[key] or des[key] is not an object, or
-        // src[key] or des[key] is an array
-        des[key] = src[key]
+function deepCopy(src: any, des: any) {
+  if (Array.isArray(src) && Array.isArray(des)) {
+    for (let i = 0; i < src.length; i++) {
+      if (isObject(src[i])) {
+        des[i] = deepCopy(src[i], des[i] || (Array.isArray(src[i]) ? [] : {}));
       } else {
-        // src[key] and des[key] are both objects, merge them
-        deepCopy(src[key], des[key])
+        des[i] = src[i];
       }
     }
+  } else if (isObject(src) && isObject(des)) {
+    for (const key in src) {
+      if (hasOwn(src, key)) {
+        if (isObject(src[key])) {
+          des[key] = deepCopy(src[key], des[key] || {});
+        } else {
+          des[key] = src[key];
+        }
+      }
+    }
+  } else {
+    throw new Error("Invalid value");
   }
+  return des;
 }
