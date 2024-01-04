@@ -1,11 +1,11 @@
 import { hasOwn, isArray, isObject } from './utils'
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/explicit-module-boundary-types
-function deepCopy(src: any, des: any) {
-  if (Array.isArray(src) && Array.isArray(des)) {
+function deepCopy(src: any, des: any): any {
+  if (isArray(src) && isArray(des)) {
     for (let i = 0; i < src.length; i++) {
       if (isObject(src[i])) {
-        des[i] = deepCopy(src[i], des[i] || (Array.isArray(src[i]) ? [] : {}));
+        des[i] = deepCopy(src[i], des[i] || (isArray(src[i]) ? [] : {}));
       } else {
         des[i] = src[i];
       }
