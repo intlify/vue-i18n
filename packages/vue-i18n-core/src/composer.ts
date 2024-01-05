@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { ref, computed, getCurrentInstance, watch } from 'vue'
+import { ref, computed, getCurrentInstance, watch, shallowRef } from 'vue'
 import {
   warn,
   isArray,
@@ -1884,7 +1884,7 @@ export function createComposer(options: any = {}, VueI18nLegacy?: any): any {
         : _locale.value
   )
 
-  const _messages = ref<LocaleMessages<LocaleMessage<Message>>>(
+  const _messages = (inBrowser ? ref : shallowRef)(
     getLocaleMessages<LocaleMessages<LocaleMessage<Message>>>(
       _locale.value as Locale,
       options
