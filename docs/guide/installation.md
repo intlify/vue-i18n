@@ -45,6 +45,11 @@ npm install vue-i18n@9
 yarn add vue-i18n@9
 ```
 
+### PNPM
+```sh
+pnpm install vue-i18n@9
+```
+
 When using with a module system, you must explicitly install the `vue-i18n`
 via `app.use()`:
 
