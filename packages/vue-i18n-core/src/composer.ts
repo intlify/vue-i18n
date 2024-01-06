@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { ref, computed, getCurrentInstance, watch } from 'vue'
+import { ref, computed, getCurrentInstance, watch, shallowRef } from 'vue'
 import {
   warn,
   isArray,
@@ -1858,12 +1858,13 @@ export function createComposer(options: any = {}, VueI18nLegacy?: any): any {
   >
   const _isGlobal = __root === undefined
   const flatJson = options.flatJson
+  const _ref = inBrowser ? ref : shallowRef
 
   let _inheritLocale = isBoolean(options.inheritLocale)
     ? options.inheritLocale
     : true
 
-  const _locale = ref<Locale>(
+  const _locale = _ref<Locale>(
     // prettier-ignore
     __root && _inheritLocale
       ? __root.locale.value
@@ -1872,7 +1873,7 @@ export function createComposer(options: any = {}, VueI18nLegacy?: any): any {
         : DEFAULT_LOCALE
   )
 
-  const _fallbackLocale = ref<FallbackLocale>(
+  const _fallbackLocale = _ref<FallbackLocale>(
     // prettier-ignore
     __root && _inheritLocale
       ? __root.fallbackLocale.value
@@ -1884,7 +1885,7 @@ export function createComposer(options: any = {}, VueI18nLegacy?: any): any {
         : _locale.value
   )
 
-  const _messages = ref<LocaleMessages<LocaleMessage<Message>>>(
+  const _messages = _ref(
     getLocaleMessages<LocaleMessages<LocaleMessage<Message>>>(
       _locale.value as Locale,
       options
@@ -1893,7 +1894,7 @@ export function createComposer(options: any = {}, VueI18nLegacy?: any): any {
 
   // prettier-ignore
   const _datetimeFormats = !__LITE__
-    ? ref<DateTimeFormatsType>(
+    ? _ref<DateTimeFormatsType>(
         isPlainObject(options.datetimeFormats)
           ? options.datetimeFormats
           : { [_locale.value]: {} }
@@ -1902,12 +1903,12 @@ export function createComposer(options: any = {}, VueI18nLegacy?: any): any {
 
   // prettier-ignore
   const _numberFormats = !__LITE__
-    ? ref<NumberFormatsType>(
+    ? _ref<NumberFormatsType>(
         isPlainObject(options.numberFormats)
           ? options.numberFormats
           : { [_locale.value]: {} }
       )
-    : /* #__PURE__*/ ref<NumberFormatsType>({})
+    : /* #__PURE__*/ _ref<NumberFormatsType>({})
 
   // warning suppress options
   // prettier-ignore
