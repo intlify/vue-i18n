@@ -220,8 +220,8 @@ importers:
         specifier: ^5.2.2
         version: 5.2.2
       vitepress:
-        specifier: 1.0.0-rc.34
-        version: 1.0.0-rc.34(@algolia/client-search@4.20.0)(@types/node@20.8.8)(search-insights@2.9.0)
+        specifier: 1.0.0-rc.35
+        version: 1.0.0-rc.35(@algolia/client-search@4.20.0)(@types/node@20.8.8)(search-insights@2.9.0)
       vitest:
         specifier: ^0.34.3
         version: 0.34.6(jsdom@23.0.1)(playwright@1.37.1)
@@ -1837,6 +1837,11 @@ packages:
 
   /@intlify/shared@9.8.0:
     resolution: {integrity: sha512-TmgR0RCLjzrSo+W3wT0ALf9851iFMlVI9EYNGeWvZFUQTAJx0bvfsMlPdgVtV1tDNRiAfhkFsMKu6jtUY1ZLKQ==}
+    engines: {node: '>= 16'}
+    dev: true
+
+  /@intlify/shared@9.9.0:
+    resolution: {integrity: sha512-1ECUyAHRrzOJbOizyGufYP2yukqGrWXtkmTu4PcswVnWbkcjzk3YQGmJ0bLkM7JZ0ZYAaohLGdYvBYnTOGYJ9g==}
     engines: {node: '>= 16'}
     dev: true
 
@@ -3781,7 +3786,7 @@ packages:
     engines: {node: '>= 12'}
     hasBin: true
     dependencies:
-      '@intlify/shared': 9.8.0
+      '@intlify/shared': 9.9.0
       '@microsoft/api-extractor-model': 7.27.6(@types/node@20.8.8)
       '@microsoft/tsdoc': 0.13.2
       '@microsoft/tsdoc-config': 0.15.2
@@ -8525,11 +8530,6 @@ packages:
     engines: {node: '>=4'}
     dev: true
 
-  /mrmime@2.0.0:
-    resolution: {integrity: sha512-eu38+hdgojoyq63s+yTpN4XMBdt5l8HhMhc4VKLO9KM5caLIBvUm4thi7fFaxyTmCKeNnXZ5pAlBwCUnhA09uw==}
-    engines: {node: '>=10'}
-    dev: true
-
   /ms@2.0.0:
     resolution: {integrity: sha512-Tpp60P6IUJDTuOq/5Z8cdskzJujfwqfOTkrwIwj7IRISpnkJnT6SyJ4PCPnGMoFjC9ddhal5KVIYtAt97ix05A==}
     dev: true
@@ -10355,20 +10355,20 @@ packages:
     resolution: {integrity: sha512-6j1W9l1iAs/4xYBI1SYOVZyFcCis9b4KCLQ8fgAGG07QvzaRLVVRQvAy85yNmmZSjYjg4MWh4gNvlPujU/5LpA==}
     dev: true
 
-  /shikiji-core@0.9.15:
-    resolution: {integrity: sha512-7hqIcUKS15OMs/61Qp2GvO1fSajBB36bDqi8vexIg5kp80V6v6SGtBrlq+nLlo7erMG2d1kvIuTIq1bwKI6fEg==}
+  /shikiji-core@0.9.17:
+    resolution: {integrity: sha512-r1FWTXk6SO2aYqfWgcsJ11MuVQ1ymPSdXzJjK7q8EXuyqu8yc2N5qrQy5+BL6gTVOaF4yLjbxFjF+KTRM1Sp8Q==}
     dev: true
 
-  /shikiji-transformers@0.9.15:
-    resolution: {integrity: sha512-k0sQ6tX26/cdb8QV9CCwwr7QjRp6/AVP9C0oNIXNld3of+xCrpf74kD74piybG6vMfzBoHGsz/s60RVBJOUaYQ==}
+  /shikiji-transformers@0.9.17:
+    resolution: {integrity: sha512-2CCG9qSLS6Bn/jbeUTEuvC6YSuP8gm8VyX5VjmCvDKyCPGhlLJbH1k/kg9wfRt7cJqpYjhdMDgT5rkdYrOZnsA==}
     dependencies:
-      shikiji: 0.9.15
+      shikiji: 0.9.17
     dev: true
 
-  /shikiji@0.9.15:
-    resolution: {integrity: sha512-+inN4cN+nY7b0uCPOiqFHAk+cn2DEdM3AIQgPhAV7QKqhww/o7OGS5xvLh3SNnjke9C/HispALqGOQGYHVq7KQ==}
+  /shikiji@0.9.17:
+    resolution: {integrity: sha512-0z/1NfkhBkm3ijrfFeHg3G9yDNuHhXdAGbQm7tRxj4WQ5z2y0XDbnagFyKyuV2ebCTS1Mwy1I3n0Fzcc/4xdmw==}
     dependencies:
-      shikiji-core: 0.9.15
+      shikiji-core: 0.9.17
     dev: true
 
   /side-channel@1.0.4:
@@ -11915,8 +11915,8 @@ packages:
       fsevents: 2.3.3
     dev: true
 
-  /vitepress@1.0.0-rc.34(@algolia/client-search@4.20.0)(@types/node@20.8.8)(search-insights@2.9.0):
-    resolution: {integrity: sha512-TUbTiSdAZFni2XlHlpx61KikgkQ5uG4Wtmw2R0SXhIOG6qGqzDJczAFjkMc4i45I9c3KyatwOYe8oEfCnzVYwQ==}
+  /vitepress@1.0.0-rc.35(@algolia/client-search@4.20.0)(@types/node@20.8.8)(search-insights@2.9.0):
+    resolution: {integrity: sha512-+2VnFwtYIiKWWAnMjWg7ik0PfsUdrNoZIZKeu5dbJtrkzKO/mTvlA3owiT5VBKJsZAgI17B5UV37aYfUvGrN6g==}
     hasBin: true
     peerDependencies:
       markdown-it-mathjax3: ^4.3.2
@@ -11937,10 +11937,9 @@ packages:
       focus-trap: 7.5.4
       mark.js: 8.11.1
       minisearch: 6.3.0
-      mrmime: 2.0.0
-      shikiji: 0.9.15
-      shikiji-core: 0.9.15
-      shikiji-transformers: 0.9.15
+      shikiji: 0.9.17
+      shikiji-core: 0.9.17
+      shikiji-transformers: 0.9.17
       vite: 4.5.1(@types/node@20.8.8)
       vue: 3.3.4
     transitivePeerDependencies:
