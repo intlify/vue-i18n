@@ -181,8 +181,8 @@ importers:
         specifier: ^2.0.3
         version: 2.0.3
       textlint-rule-max-comma:
-        specifier: ^3.0.0
-        version: 3.0.1
+        specifier: ^4.0.0
+        version: 4.0.0
       textlint-rule-max-doc-width:
         specifier: ^1.4.0
         version: 1.4.0
@@ -10247,13 +10247,6 @@ packages:
       structured-source: 3.0.2
     dev: true
 
-  /sentence-splitter@4.2.1:
-    resolution: {integrity: sha512-zn7awgCg40lyb+fe6N/fRJS3r+Ag3SmrmiYHZZSM9oQ2HTnwSMooUgQXSMLeQdi5HWMYOnhrovE2JZ3pyGU0dg==}
-    dependencies:
-      '@textlint/ast-node-types': 13.3.3
-      structured-source: 4.0.0
-    dev: true
-
   /sentence-splitter@5.0.0:
     resolution: {integrity: sha512-9Mvf7L8vwpPzkH0/HtXzCbmVkyj4aQXdeG7h8ighRvO0hvcZEy2OUEjeIlnM/z4EX4vBacEfpESC65Oa2rWOig==}
     dependencies:
@@ -11105,11 +11098,11 @@ packages:
       unist-util-visit: 2.0.3
     dev: true
 
-  /textlint-rule-max-comma@3.0.1:
-    resolution: {integrity: sha512-VMht14U0+gxRhEnT3/Rfv7yUDF3YGhsSSODwXGnnicwe54Czs2CYALAZIlWA79R4LLqcYFc9pP1i8DeGWvaHeA==}
+  /textlint-rule-max-comma@4.0.0:
+    resolution: {integrity: sha512-2vKKXNg1YuTqr9/FrHvOGEHFe+6lNSDtzuEv+KRB+tuaj++UNa/YPvyY34UdDYuHUSKNcYdto8GlIUhAJDW9WQ==}
     dependencies:
-      sentence-splitter: 4.2.1
-      textlint-util-to-string: 3.3.2
+      sentence-splitter: 5.0.0
+      textlint-util-to-string: 3.3.4
     dev: true
 
   /textlint-rule-max-doc-width@1.4.0:
@@ -11176,10 +11169,10 @@ packages:
       write-good: 1.0.8
     dev: true
 
-  /textlint-util-to-string@3.3.2:
-    resolution: {integrity: sha512-TCnHX5xGDWIGQpcusLrctodid+n5t5G6ft9+KAVad+GmrOOkk9IiPej8FwH9Vq/uk1j44yTB20YYja0YnQ+z/w==}
+  /textlint-util-to-string@3.3.4:
+    resolution: {integrity: sha512-XF4Qfw0ES+czKy03BwuvBUoXC8NAg920VuRxW0pd72fW76zMeMbPI/bRN5PHq3SbCdOm7U69/Pk+DX34xqIYqA==}
     dependencies:
-      '@textlint/ast-node-types': 13.3.3
+      '@textlint/ast-node-types': 13.4.1
       rehype-parse: 6.0.2
       structured-source: 4.0.0
       unified: 8.4.2
