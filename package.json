@@ -140,7 +140,7 @@
     "typescript": "^5.2.2",
     "vitepress": "1.0.0-rc.36",
     "vitest": "^0.34.3",
-    "vue": "3.4.13",
+    "vue": "3.4.14",
     "vue-i18n": "workspace:*"
   },
   "peerDependencies": {
