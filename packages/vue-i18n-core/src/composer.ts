@@ -2435,9 +2435,11 @@ export function createComposer(options: any = {}, VueI18nLegacy?: any): any {
       __legacy && __legacy.mergeLocaleMessage(locale, message)
     }
     const _message = { [locale]: message }
-    for (const key in _message) {
-      if (hasOwn(_message, key)) {
-        handleFlatJson(_message[key])
+    if (flatJson) {
+      for (const key in _message) {
+        if (hasOwn(_message, key)) {
+          handleFlatJson(_message[key])
+        }
       }
     }
     message = _message[locale]
