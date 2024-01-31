@@ -199,8 +199,8 @@ importers:
         specifier: ^1.0.0
         version: 1.0.1
       textlint-rule-stop-words:
-        specifier: ^3.0.1
-        version: 3.0.1
+        specifier: ^4.0.0
+        version: 4.0.0
       textlint-rule-terminology:
         specifier: ^4.0.0
         version: 4.0.0
@@ -11126,13 +11126,13 @@ packages:
       check-ends-with-period: 3.0.2
     dev: true
 
-  /textlint-rule-stop-words@3.0.1:
-    resolution: {integrity: sha512-gO4N3OnPLvE6+fvJ1Y5m8MzDVrqMEWzW8pTGMXjL8VAXmQkD6YQ9eDMbsVN0/DzEe8tcsBqNgA/iIrQ64oECuQ==}
-    engines: {node: '>=14'}
+  /textlint-rule-stop-words@4.0.0:
+    resolution: {integrity: sha512-vP99cbTyapn+Hviom2doO3pJtjlhKlZvlHTf21zoB22CxJx2w3S7Ie169neB5U4Xsei+NodHf5tnwT933mO19A==}
+    engines: {node: '>=18'}
     dependencies:
       lodash: 4.17.21
       split-lines: 2.1.0
-      textlint-rule-helper: 2.3.0
+      textlint-rule-helper: 2.3.1
     dev: true
 
   /textlint-rule-terminology@4.0.0:
