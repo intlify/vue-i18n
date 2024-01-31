@@ -1273,3 +1273,19 @@ test('issue #1615', async () => {
     `false (...but this should be false)`
   )
 })
+
+test('issue #1717', async () => {
+  const en = {
+    'a.b.c': 'Hello, Vue I18n'
+  }
+  const i18n = createI18n({
+    locale: 'en',
+    messages: {
+      en: {}
+    }
+  })
+  i18n.global.mergeLocaleMessage('en', en)
+  expect(i18n.global.getLocaleMessage('en')).toEqual({
+    'a.b.c': 'Hello, Vue I18n' // should not be transformed to nested object like in issue
+  })
+})
