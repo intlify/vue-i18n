@@ -210,7 +210,7 @@ To use custom modifiers, you must specify them in `modifiers` option of `createI
 const i18n = createI18n({
   locale: 'en',
   messages: {
-    // set somethinig locale messages ...
+    // set something locale messages ...
   },
   // set custom modifiers at `modifiers` option
   modifiers: {
