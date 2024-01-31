@@ -238,7 +238,7 @@ $t(key: Path, plural: number): string;
 ```
 
 :::tip NOTE
-Supported for **Commposition API mode only**.
+Supported for **Composition API mode only**.
 :::
 
 **Details**
@@ -265,7 +265,7 @@ $t(key: Path, plural: number, options: TranslateOptions): string;
 ```
 
 :::tip NOTE
-Supported for **Commposition API mode only**.
+Supported for **Composition API mode only**.
 :::
 
 **Details**
@@ -293,7 +293,7 @@ $t(key: Path, defaultMsg: string): string;
 ```
 
 :::tip NOTE
-Supported for **Commposition API mode only**.
+Supported for **Composition API mode only**.
 :::
 
 **Details**
@@ -320,7 +320,7 @@ $t(key: Path, defaultMsg: string, options: TranslateOptions): string;
 ```
 
 :::tip NOTE
-Supported for **Commposition API mode only**.
+Supported for **Composition API mode only**.
 :::
 
 **Details**
@@ -371,7 +371,7 @@ $t(key: Path, list: unknown[], plural: number): string;
 ```
 
 :::tip NOTE
-Supported for **Commposition API mode only**.
+Supported for **Composition API mode only**.
 :::
 
 **Details**
@@ -399,7 +399,7 @@ $t(key: Path, list: unknown[], defaultMsg: string): string;
 ```
 
 :::tip NOTE
-Supported for **Commposition API mode only**.
+Supported for **Composition API mode only**.
 :::
 
 **Details**
@@ -427,7 +427,7 @@ $t(key: Path, list: unknown[], options: TranslateOptions): string;
 ```
 
 :::tip NOTE
-Supported for **Commposition API mode only**.
+Supported for **Composition API mode only**.
 :::
 
 **Details**
@@ -478,7 +478,7 @@ $t(key: Path, named: NamedValue, plural: number): string;
 ```
 
 :::tip NOTE
-Supported for **Commposition API mode only**.
+Supported for **Composition API mode only**.
 :::
 
 **Details**
@@ -506,7 +506,7 @@ $t(key: Path, named: NamedValue, defaultMsg: string): string;
 ```
 
 :::tip NOTE
-Supported for **Commposition API mode only**.
+Supported for **Composition API mode only**.
 :::
 
 **Details**
@@ -534,7 +534,7 @@ $t(key: Path, named: NamedValue, options: TranslateOptions): string;
 ```
 
 :::tip NOTE
-Supported for **Commposition API mode only**.
+Supported for **Composition API mode only**.
 :::
 
 **Details**
