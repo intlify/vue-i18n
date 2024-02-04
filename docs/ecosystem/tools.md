@@ -1,16 +1,11 @@
 # Third-party tooling
 
-## Nuxt Module
+## inlang
 
-[nuxt-i18n](https://github.com/nuxt-modules/i18n) is corresponding Nuxt.js module.
+inlang is the ecosystem to adapt and expand software products to new markets, and that has [VSCode extensions](https://marketplace.visualstudio.com/items?itemName=inlang.vs-code-extension).
 
-## BabelEdit
+inlang give awesome developer experience for your i18n development.
 
-[BabelEdit](https://www.codeandweb.com/babeledit) is translation editor for web apps.
-
-BabelEdit can translate `json` files, and it can also translate `i18n` custom block of Single-file components.
-
-Read more about BabelEdit in [tutorial page](https://www.codeandweb.com/babeledit/tutorials/how-to-translate-your-vue-app-with-vue-i18n).
 
 ## i18n Ally
 
@@ -32,6 +27,14 @@ Translation helper for IntelliJ IDEA based IDE's. Requires dedicated language fi
 
 [JetBrains Marketplace](https://plugins.jetbrains.com/plugin/16316-easy-i18n) // [GitHub Repository](https://github.com/marhali/easy-i18n)
 
+## BabelEdit
+
+[BabelEdit](https://www.codeandweb.com/babeledit) is translation editor for web apps.
+
+BabelEdit can translate `json` files, and it can also translate `i18n` custom block of Single-file components.
+
+Read more about BabelEdit in [tutorial page](https://www.codeandweb.com/babeledit/tutorials/how-to-translate-your-vue-app-with-vue-i18n).
+
 ## vue-i18n-extract
 
 [vue-i18n-extract](https://github.com/pixari/vue-i18n-extract) performs static analysis on a Vue.js project based on vue-i18n and reports the following information:
@@ -42,11 +45,3 @@ Translation helper for IntelliJ IDEA based IDE's. Requires dedicated language fi
 It’s possible to show the output in the console or to write it in a json file.
 
 The missing keys can be also automatically added to the given language files.
-
-
-## huntersofbook i18n
-
-[Docs](https://opensource.huntersofbook.com/global/i18n) // [Github](https://github.com/huntersofbook/huntersofbook/tree/main/projects/i18n/packages) is a tool that takes a template with translation keys and syncs them to the given language. You can directly connect the outputs to the i18n libraries you use.
-
-How to works
-![alt text](https://raw.githubusercontent.com/huntersofbook/huntersofbook/main/docs/public/images/i18n/i18n_works.png)
