@@ -8,7 +8,7 @@ With this plugin, you can setup the i18n environment for the Vue application, an
 
 ## ESLint Plugin
 
-[eslint-plugin-vue-i18n](https://intlify.github.io/eslint-plugin-vue-i18n/) is ESLint plugin for Vue I18n.
+[eslint-plugin-vue-i18n](https://github.com/intlify/eslint-plugin-vue-i18n) is ESLint plugin for Vue I18n.
 
 It easily integrates some localization lint features to your Vue.js Application.
 
