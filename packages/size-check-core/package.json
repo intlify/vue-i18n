@@ -11,7 +11,7 @@
     "@intlify/core": "workspace:*"
   },
   "devDependencies": {
-    "vite": "^4.4.9"
+    "vite": "^4.5.2"
   },
   "version": "9.9.1"
 }
