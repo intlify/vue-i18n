@@ -70,8 +70,6 @@ npm i --save-dev @intlify/unplugin-vue-i18n
 
 #### Configure plugin for Vite
 
-See also [use global format](#use-global-format-with-vite-plugin) and [use global scope](#use-global-scope-with-vite-plugin).
-
 ```js
 // vite.config.ts
 import { defineConfig } from 'vite'
@@ -93,8 +91,6 @@ export default defineConfig({
 ```
 
 #### Configure plugin for Webpack
-
-See also [use global format](#use-global-format-with-vite-plugin) and [use global scope](#use-global-scope-with-vite-plugin).
 
 ```js
 // webpack.config.js
