@@ -111,7 +111,7 @@
     "playwright": "^1.34.0",
     "prettier": "^3.0.3",
     "rc": "^1.2.8",
-    "rimraf": "^3.0.2",
+    "rimraf": "^5.0.0",
     "rollup": "^3.29.2",
     "rollup-plugin-node-builtins": "^2.1.2",
     "rollup-plugin-node-globals": "^1.4.0",
