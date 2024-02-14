@@ -1,12 +1,12 @@
 # Third-party tooling
 
-## Nuxt Module
+## Nuxt I18n Module
 
-[nuxt-i18n](https://github.com/nuxt-community/nuxt-i18n/) is corresponding Nuxt.js module.
+[Nuxt I18n (@nuxtjs/i18n)](https://github.com/nuxt-modules/i18n/) fully integrates Vue I18n for Nuxt 3 (v8 and higher). 
 
-:::warning NOTICE
-Still not supported.
-:::
+The module adds features such as localized routing, SEO tags and more.
+
+Read more about Nuxt I18n in the docs at [i18n.nuxtjs.org](https://i18n.nuxtjs.org/)
 
 ## BabelEdit
 
