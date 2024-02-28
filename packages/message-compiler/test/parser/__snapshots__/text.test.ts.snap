@@ -756,7 +756,7 @@ exports[`special characters > include double quote '"': '"awesome" !' 1`] = `
         },
         "start": 0,
         "type": 3,
-        "value": "\\"awesome\\" !",
+        "value": ""awesome" !",
       },
     ],
     "loc": {
@@ -781,7 +781,7 @@ exports[`special characters > include double quote '"': '"awesome" !' 1`] = `
       "line": 1,
       "offset": 11,
     },
-    "source": "\\"awesome\\" !",
+    "source": ""awesome" !",
     "start": {
       "column": 1,
       "line": 1,
@@ -872,7 +872,7 @@ exports[`special characters > include escase '\\': 'escase \\ escape !' 1`] = `
         },
         "start": 0,
         "type": 3,
-        "value": "escase \\\\ escape !",
+        "value": "escase \\ escape !",
       },
     ],
     "loc": {
@@ -897,7 +897,7 @@ exports[`special characters > include escase '\\': 'escase \\ escape !' 1`] = `
       "line": 1,
       "offset": 17,
     },
-    "source": "escase \\\\ escape !",
+    "source": "escase \\ escape !",
     "start": {
       "column": 1,
       "line": 1,
@@ -1278,7 +1278,7 @@ exports[`special characters > include new line '\\n': 'hello\\nworld' 1`] = `
         },
         "start": 0,
         "type": 3,
-        "value": "hello\\\\nworld",
+        "value": "hello\\nworld",
       },
     ],
     "loc": {
@@ -1303,7 +1303,7 @@ exports[`special characters > include new line '\\n': 'hello\\nworld' 1`] = `
       "line": 1,
       "offset": 12,
     },
-    "source": "hello\\\\nworld",
+    "source": "hello\\nworld",
     "start": {
       "column": 1,
       "line": 1,

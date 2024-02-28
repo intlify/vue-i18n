@@ -952,7 +952,7 @@ exports[`token analysis > "\\"double-qoute\\"" tokens 1`] = `
       },
     },
     "type": 0,
-    "value": "\\"double-qoute\\"",
+    "value": ""double-qoute"",
   },
   {
     "loc": {
@@ -1974,7 +1974,7 @@ exports[`token analysis > "hello\\\\nworld" tokens 1`] = `
       },
     },
     "type": 0,
-    "value": "hello\\\\nworld",
+    "value": "hello\\nworld",
   },
   {
     "loc": {
@@ -5451,7 +5451,7 @@ exports[`token analysis > "hi { '\\\\uw' }" errors 1`] = `
         "offset": 5,
       },
     },
-    "message": "Invalid unicode escape sequence: \\\\uw",
+    "message": "Invalid unicode escape sequence: \\uw",
   },
 ]
 `;
@@ -5504,7 +5504,7 @@ exports[`token analysis > "hi { '\\\\uw' }" tokens 1`] = `
       },
     },
     "type": 7,
-    "value": "\\\\uw",
+    "value": "\\uw",
   },
   {
     "loc": {
@@ -5557,7 +5557,7 @@ exports[`token analysis > "hi { '\\\\x41' }" errors 1`] = `
         "offset": 5,
       },
     },
-    "message": "Unknown escape sequence: \\\\x",
+    "message": "Unknown escape sequence: \\x",
   },
 ]
 `;
@@ -9538,7 +9538,7 @@ exports[`tokenize options: location disable > "\\"double-qoute\\"" tokens 1`] = 
 [
   {
     "type": 0,
-    "value": "\\"double-qoute\\"",
+    "value": ""double-qoute"",
   },
   {
     "type": 14,
@@ -9828,7 +9828,7 @@ exports[`tokenize options: location disable > "hello\\\\nworld" tokens 1`] = `
 [
   {
     "type": 0,
-    "value": "hello\\\\nworld",
+    "value": "hello\\nworld",
   },
   {
     "type": 14,
@@ -10845,7 +10845,7 @@ exports[`tokenize options: location disable > "hi { '\\\\uw' }" errors 1`] = `
   {
     "code": 5,
     "domain": "tokenizer",
-    "message": "Invalid unicode escape sequence: \\\\uw",
+    "message": "Invalid unicode escape sequence: \\uw",
   },
 ]
 `;
@@ -10862,7 +10862,7 @@ exports[`tokenize options: location disable > "hi { '\\\\uw' }" tokens 1`] = `
   },
   {
     "type": 7,
-    "value": "\\\\uw",
+    "value": "\\uw",
   },
   {
     "type": 3,
@@ -10879,7 +10879,7 @@ exports[`tokenize options: location disable > "hi { '\\\\x41' }" errors 1`] = `
   {
     "code": 4,
     "domain": "tokenizer",
-    "message": "Unknown escape sequence: \\\\x",
+    "message": "Unknown escape sequence: \\x",
   },
 ]
 `;

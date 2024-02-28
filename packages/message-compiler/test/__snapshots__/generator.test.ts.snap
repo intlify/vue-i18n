@@ -11,7 +11,7 @@ exports[`arrow mode > complex >  apple mapping 1`] = `
 }
 `;
 
-exports[`arrow mode > complex > @.caml:{'no apples'} | {0} apple | {n}　apples 1`] = `"(ctx) => {const { normalize: _normalize, linked: _linked, type: _type, interpolate: _interpolate, list: _list, named: _named, plural: _plural } = ctx;return _plural([_normalize([_linked(\\"no apples\\", \\"caml\\", _type)]), _normalize([_interpolate(_list(0)), \\" apple\\"]), _normalize([_interpolate(_named(\\"n\\")), \\"　apples\\"])])}"`;
+exports[`arrow mode > complex > @.caml:{'no apples'} | {0} apple | {n}　apples 1`] = `"(ctx) => {const { normalize: _normalize, linked: _linked, type: _type, interpolate: _interpolate, list: _list, named: _named, plural: _plural } = ctx;return _plural([_normalize([_linked("no apples", "caml", _type)]), _normalize([_interpolate(_list(0)), " apple"]), _normalize([_interpolate(_named("n")), "　apples"])])}"`;
 
 exports[`arrow mode > complex > 0 mapping 1`] = `
 {
@@ -94,7 +94,7 @@ exports[`linked > key > hi @:name ! 1`] = `
 "function __msg__ (ctx) {
   const { normalize: _normalize, linked: _linked, type: _type } = ctx
   return _normalize([
-    \\"hi \\", _linked(\\"name\\", undefined, _type), \\" !\\"
+    "hi ", _linked("name", undefined, _type), " !"
   ])
 }"
 `;
@@ -147,7 +147,7 @@ exports[`linked > list > hi @:{0} ! 1`] = `
 "function __msg__ (ctx) {
   const { normalize: _normalize, interpolate: _interpolate, list: _list, linked: _linked, type: _type } = ctx
   return _normalize([
-    \\"hi \\", _linked(_interpolate(_list(0)), undefined, _type), \\" !\\"
+    "hi ", _linked(_interpolate(_list(0)), undefined, _type), " !"
   ])
 }"
 `;
@@ -178,7 +178,7 @@ exports[`linked > modifier > hi @.upper:{'name'} ! 1`] = `
 "function __msg__ (ctx) {
   const { normalize: _normalize, linked: _linked, type: _type } = ctx
   return _normalize([
-    \\"hi \\", _linked(\\"name\\", \\"upper\\", _type), \\" !\\"
+    "hi ", _linked("name", "upper", _type), " !"
   ])
 }"
 `;
@@ -231,7 +231,7 @@ exports[`linked > named > hi @:{name} ! 1`] = `
 "function __msg__ (ctx) {
   const { normalize: _normalize, interpolate: _interpolate, named: _named, linked: _linked, type: _type } = ctx
   return _normalize([
-    \\"hi \\", _linked(_interpolate(_named(\\"name\\")), undefined, _type), \\" !\\"
+    "hi ", _linked(_interpolate(_named("name")), undefined, _type), " !"
   ])
 }"
 `;
@@ -284,7 +284,7 @@ exports[`list > basic > hi {0} ! 1`] = `
 "function __msg__ (ctx) {
   const { normalize: _normalize, interpolate: _interpolate, list: _list } = ctx
   return _normalize([
-    \\"hi \\", _interpolate(_list(0)), \\" !\\"
+    "hi ", _interpolate(_list(0)), " !"
   ])
 }"
 `;
@@ -315,7 +315,7 @@ exports[`list > multiple > {0} {1} ! 1`] = `
 "function __msg__ (ctx) {
   const { normalize: _normalize, interpolate: _interpolate, list: _list } = ctx
   return _normalize([
-    _interpolate(_list(0)), \\" \\", _interpolate(_list(1)), \\" !\\"
+    _interpolate(_list(0)), " ", _interpolate(_list(1)), " !"
   ])
 }"
 `;
@@ -357,7 +357,7 @@ exports[`literal > !#%^&*()-_+=[]:;?.<>"\` > !#%^&*()-_+=[]:;?.<>"\` mapping 1`]
 {
   "generatedColumn": 11,
   "generatedLine": 4,
-  "name": "!#%^&*()-_+=[]:;?.<>\\"\`",
+  "name": "!#%^&*()-_+=[]:;?.<>"\`",
   "originalColumn": 3,
   "originalLine": 1,
   "source": "message.intl",
@@ -379,7 +379,7 @@ exports[`literal > !#%^&*()-_+=[]:;?.<>"\` > hi {'!#%^&*()-_+=[]:;?.<>"\`'} ! 1`
 "function __msg__ (ctx) {
   const { normalize: _normalize } = ctx
   return _normalize([
-    \\"hi \\", \\"!#%^&*()-_+=[]:;?.<>\\\\\\"\`\\", \\" !\\"
+    "hi ", "!#%^&*()-_+=[]:;?.<>\\"\`", " !"
   ])
 }"
 `;
@@ -388,7 +388,7 @@ exports[`literal > {} > {'{}'} 1`] = `
 "function __msg__ (ctx) {
   const { normalize: _normalize } = ctx
   return _normalize([
-    \\"{}\\"
+    "{}"
   ])
 }"
 `;
@@ -430,7 +430,7 @@ exports[`literal > ascii > hi {'kazupon'} ! 1`] = `
 "function __msg__ (ctx) {
   const { normalize: _normalize } = ctx
   return _normalize([
-    \\"hi \\", \\"kazupon\\", \\" !\\"
+    "hi ", "kazupon", " !"
   ])
 }"
 `;
@@ -472,7 +472,7 @@ exports[`literal > emoji > hi {'😺'} ! 1`] = `
 "function __msg__ (ctx) {
   const { normalize: _normalize } = ctx
   return _normalize([
-    \\"hi \\", \\"😺\\", \\" !\\"
+    "hi ", "😺", " !"
   ])
 }"
 `;
@@ -525,7 +525,7 @@ exports[`literal > escaped single quote > hi {'\\''} ! 1`] = `
 "function __msg__ (ctx) {
   const { normalize: _normalize } = ctx
   return _normalize([
-    \\"hi \\", \\"'\\", \\" !\\"
+    "hi ", "'", " !"
   ])
 }"
 `;
@@ -545,7 +545,7 @@ exports[`literal > escaped slash > \\ mapping 1`] = `
 {
   "generatedColumn": 11,
   "generatedLine": 4,
-  "name": "\\\\",
+  "name": "\\",
   "originalColumn": 3,
   "originalLine": 1,
   "source": "message.intl",
@@ -567,7 +567,7 @@ exports[`literal > escaped slash > hi {'\\\\'} ! 1`] = `
 "function __msg__ (ctx) {
   const { normalize: _normalize } = ctx
   return _normalize([
-    \\"hi \\", \\"\\\\\\\\\\", \\" !\\"
+    "hi ", "\\\\", " !"
   ])
 }"
 `;
@@ -587,7 +587,7 @@ exports[`literal > escaped unicode 4 digits > \\u0041 mapping 1`] = `
 {
   "generatedColumn": 11,
   "generatedLine": 4,
-  "name": "\\\\u0041",
+  "name": "\\u0041",
   "originalColumn": 3,
   "originalLine": 1,
   "source": "message.intl",
@@ -609,7 +609,7 @@ exports[`literal > escaped unicode 4 digits > hi {'\\\\u0041'} ! 1`] = `
 "function __msg__ (ctx) {
   const { normalize: _normalize } = ctx
   return _normalize([
-    \\"hi \\", \\"\\\\\\\\u0041\\", \\" !\\"
+    "hi ", "\\\\u0041", " !"
   ])
 }"
 `;
@@ -629,7 +629,7 @@ exports[`literal > escaped unicode 6 digits > \\U01F602 mapping 1`] = `
 {
   "generatedColumn": 11,
   "generatedLine": 4,
-  "name": "\\\\U01F602",
+  "name": "\\U01F602",
   "originalColumn": 3,
   "originalLine": 1,
   "source": "message.intl",
@@ -651,7 +651,7 @@ exports[`literal > escaped unicode 6 digits > hi {'\\\\U01F602'} ! 1`] = `
 "function __msg__ (ctx) {
   const { normalize: _normalize } = ctx
   return _normalize([
-    \\"hi \\", \\"\\\\\\\\U01F602\\", \\" !\\"
+    "hi ", "\\\\U01F602", " !"
   ])
 }"
 `;
@@ -682,7 +682,7 @@ exports[`literal > multibytes > hi {'かずぽん'} ! 1`] = `
 "function __msg__ (ctx) {
   const { normalize: _normalize } = ctx
   return _normalize([
-    \\"hi \\", \\"かずぽん\\", \\" !\\"
+    "hi ", "かずぽん", " !"
   ])
 }"
 `;
@@ -735,7 +735,7 @@ exports[`literal > unicode 4 digits > hi {'A'} ! 1`] = `
 "function __msg__ (ctx) {
   const { normalize: _normalize } = ctx
   return _normalize([
-    \\"hi \\", \\"A\\", \\" !\\"
+    "hi ", "A", " !"
   ])
 }"
 `;
@@ -777,7 +777,7 @@ exports[`literal > unicode 6 digits > hi {'U01F602'} ! 1`] = `
 "function __msg__ (ctx) {
   const { normalize: _normalize } = ctx
   return _normalize([
-    \\"hi \\", \\"U01F602\\", \\" !\\"
+    "hi ", "U01F602", " !"
   ])
 }"
 `;
@@ -808,7 +808,7 @@ exports[`named > basic > hi {name} ! 1`] = `
 "function __msg__ (ctx) {
   const { normalize: _normalize, interpolate: _interpolate, named: _named } = ctx
   return _normalize([
-    \\"hi \\", _interpolate(_named(\\"name\\")), \\" !\\"
+    "hi ", _interpolate(_named("name")), " !"
   ])
 }"
 `;
@@ -850,7 +850,7 @@ exports[`named > multiple > {greeting} {name} ! 1`] = `
 "function __msg__ (ctx) {
   const { normalize: _normalize, interpolate: _interpolate, named: _named } = ctx
   return _normalize([
-    _interpolate(_named(\\"greeting\\")), \\" \\", _interpolate(_named(\\"name\\")), \\" !\\"
+    _interpolate(_named("greeting")), " ", _interpolate(_named("name")), " !"
   ])
 }"
 `;
@@ -893,11 +893,11 @@ exports[`plural > complex > @.caml:{'no apples'} | {0} apple | {n}　apples 1`] 
   const { normalize: _normalize, linked: _linked, type: _type, interpolate: _interpolate, list: _list, named: _named, plural: _plural } = ctx
   return _plural([
     _normalize([
-      _linked(\\"no apples\\", \\"caml\\", _type)
+      _linked("no apples", "caml", _type)
     ]), _normalize([
-      _interpolate(_list(0)), \\" apple\\"
+      _interpolate(_list(0)), " apple"
     ]), _normalize([
-      _interpolate(_named(\\"n\\")), \\"　apples\\"
+      _interpolate(_named("n")), "　apples"
     ])
   ])
 }"
@@ -963,11 +963,11 @@ exports[`plural > simple > no apples | one apple  |  too much apples   1`] = `
   const { normalize: _normalize, plural: _plural } = ctx
   return _plural([
     _normalize([
-      \\"no apples\\"
+      "no apples"
     ]), _normalize([
-      \\"one apple\\"
+      "one apple"
     ]), _normalize([
-      \\"too much apples  \\"
+      "too much apples  "
     ])
   ])
 }"
@@ -1010,7 +1010,7 @@ exports[`text > basic > hello world 1`] = `
 "function __msg__ (ctx) {
   const { normalize: _normalize } = ctx
   return _normalize([
-    \\"hello world\\"
+    "hello world"
   ])
 }"
 `;
@@ -1031,7 +1031,7 @@ exports[`text > multline > hello
 "function __msg__ (ctx) {
   const { normalize: _normalize } = ctx
   return _normalize([
-    \\"hello\\\\n world\\"
+    "hello\\n world"
   ])
 }"
 `;

@@ -304,7 +304,7 @@ exports[`errors > invalid unicode escape: hi { '\\uw' } 1`] = `
         },
         "start": 4,
         "type": 9,
-        "value": "\\\\uw",
+        "value": "\\uw",
       },
       {
         "end": 13,
@@ -347,7 +347,7 @@ exports[`errors > invalid unicode escape: hi { '\\uw' } 1`] = `
       "line": 1,
       "offset": 13,
     },
-    "source": "hi, {'\\\\uw'} !",
+    "source": "hi, {'\\uw'} !",
     "start": {
       "column": 1,
       "line": 1,
@@ -593,7 +593,7 @@ exports[`errors > unknown escape: '\\x41' 1`] = `
       "line": 1,
       "offset": 14,
     },
-    "source": "hi, {'\\\\x41'} !",
+    "source": "hi, {'\\x41'} !",
     "start": {
       "column": 1,
       "line": 1,
@@ -644,7 +644,7 @@ exports[`escapes > backslash baackslash: '\\\\' 1`] = `
         },
         "start": 4,
         "type": 9,
-        "value": "\\\\",
+        "value": "\\",
       },
       {
         "end": 12,
@@ -687,7 +687,7 @@ exports[`escapes > backslash baackslash: '\\\\' 1`] = `
       "line": 1,
       "offset": 12,
     },
-    "source": "hi, {'\\\\\\\\'} !",
+    "source": "hi, {'\\\\'} !",
     "start": {
       "column": 1,
       "line": 1,
@@ -781,7 +781,7 @@ exports[`escapes > backslash quote: '\\'' 1`] = `
       "line": 1,
       "offset": 12,
     },
-    "source": "hi, {'\\\\''} !",
+    "source": "hi, {'\\''} !",
     "start": {
       "column": 1,
       "line": 1,
@@ -832,7 +832,7 @@ exports[`escapes > unicode 4 digits: '\\\\u0041' 1`] = `
         },
         "start": 4,
         "type": 9,
-        "value": "\\\\u0041",
+        "value": "\\u0041",
       },
       {
         "end": 17,
@@ -875,7 +875,7 @@ exports[`escapes > unicode 4 digits: '\\\\u0041' 1`] = `
       "line": 1,
       "offset": 17,
     },
-    "source": "hi, {'\\\\\\\\u0041'} !",
+    "source": "hi, {'\\\\u0041'} !",
     "start": {
       "column": 1,
       "line": 1,
@@ -926,7 +926,7 @@ exports[`escapes > unicode 6 digits: '\\\\U01F602' 1`] = `
         },
         "start": 4,
         "type": 9,
-        "value": "\\\\U01F602",
+        "value": "\\U01F602",
       },
       {
         "end": 19,
@@ -969,7 +969,7 @@ exports[`escapes > unicode 6 digits: '\\\\U01F602' 1`] = `
       "line": 1,
       "offset": 19,
     },
-    "source": "hi, {'\\\\\\\\U01F602'} !",
+    "source": "hi, {'\\\\U01F602'} !",
     "start": {
       "column": 1,
       "line": 1,
@@ -1584,7 +1584,7 @@ exports[`other special characters > !#%^&*()-_+=[]:;?.<>" 1`] = `
         },
         "start": 4,
         "type": 9,
-        "value": "!#%^&*()-_+=[]:;?.<>\\"\`",
+        "value": "!#%^&*()-_+=[]:;?.<>"\`",
       },
       {
         "end": 32,
@@ -1627,7 +1627,7 @@ exports[`other special characters > !#%^&*()-_+=[]:;?.<>" 1`] = `
       "line": 1,
       "offset": 32,
     },
-    "source": "hi, {'!#%^&*()-_+=[]:;?.<>\\"\`'} !",
+    "source": "hi, {'!#%^&*()-_+=[]:;?.<>"\`'} !",
     "start": {
       "column": 1,
       "line": 1,
@@ -1721,7 +1721,7 @@ exports[`unicode > 4 digits: '\\u0041' 1`] = `
       "line": 1,
       "offset": 16,
     },
-    "source": "hi, {'\\\\u0041'} !",
+    "source": "hi, {'\\u0041'} !",
     "start": {
       "column": 1,
       "line": 1,
@@ -1815,7 +1815,7 @@ exports[`unicode > 6 digits: \\U01F602' 1`] = `
       "line": 1,
       "offset": 18,
     },
-    "source": "hi, {'\\\\U01F602'} !",
+    "source": "hi, {'\\U01F602'} !",
     "start": {
       "column": 1,
       "line": 1,
