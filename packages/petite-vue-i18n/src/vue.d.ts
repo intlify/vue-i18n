@@ -864,7 +864,7 @@ declare module '@vue/runtime-core' {
      * @param key - A target locale message key
      * @param locale - A locale, optional, override locale that global scope or local scope
      *
-     * @returns if found locale message, `true`, else `false`
+     * @returns If found locale message, `true`, else `false`, Note that `false` is returned even if the value present in the Key is not translatable.
      */
     $te<
       Key extends string,

@@ -264,36 +264,36 @@ export interface ComposerOptions<
     number: DefaultNumberFormatSchema
   },
   Locales extends
-    | {
-        messages: unknown
-        datetimeFormats: unknown
-        numberFormats: unknown
-      }
-    | string = Locale,
+  | {
+    messages: unknown
+    datetimeFormats: unknown
+    numberFormats: unknown
+  }
+  | string = Locale,
   MessagesLocales = Locales extends { messages: infer M }
-    ? M
-    : Locales extends string
-    ? Locales
-    : Locale,
+  ? M
+  : Locales extends string
+  ? Locales
+  : Locale,
   DateTimeFormatsLocales = Locales extends { datetimeFormats: infer D }
-    ? D
-    : Locales extends string
-    ? Locales
-    : Locale,
+  ? D
+  : Locales extends string
+  ? Locales
+  : Locale,
   NumberFormatsLocales = Locales extends { numberFormats: infer N }
-    ? N
-    : Locales extends string
-    ? Locales
-    : Locale,
+  ? N
+  : Locales extends string
+  ? Locales
+  : Locale,
   MessageSchema = Schema extends { message: infer M }
-    ? M
-    : DefaultLocaleMessageSchema,
+  ? M
+  : DefaultLocaleMessageSchema,
   DateTimeSchema = Schema extends { datetime: infer D }
-    ? D
-    : DefaultDateTimeFormatSchema,
+  ? D
+  : DefaultDateTimeFormatSchema,
   NumberSchema = Schema extends { number: infer N }
-    ? N
-    : DefaultNumberFormatSchema,
+  ? N
+  : DefaultNumberFormatSchema,
   _Messages extends LocaleMessages<
     MessageSchema,
     MessagesLocales,
@@ -654,8 +654,8 @@ export interface ComposerTranslation<
       ? C | M
       : C
     : IsNever<M> extends false
-    ? M
-    : never
+      ? M
+      : never
 > {
   /**
    * Locale message translation
@@ -1001,8 +1001,8 @@ export interface ComposerDateTimeFormatting<
       ? C | M
       : C
     : IsNever<M> extends false
-    ? M
-    : never
+      ? M
+      : never
 > {
   /**
    * Datetime formatting
@@ -1091,8 +1091,8 @@ export interface ComposerNumberFormatting<
       ? C | M
       : C
     : IsNever<M> extends false
-    ? M
-    : never
+      ? M
+      : never
 > {
   /**
    * Number Formatting
@@ -1383,7 +1383,7 @@ export interface Composer<
    * @param key - A target locale message key
    * @param locale - A locale, it will be used over than global scope or local scope
    *
-   * @returns If found locale message, `true`, else `false`
+   * @returns If found locale message, `true`, else `false`, Note that `false` is returned even if the value present in the Key is not translatable.
    */
   te<
     Str extends string,
@@ -1895,19 +1895,19 @@ export function createComposer(options: any = {}, VueI18nLegacy?: any): any {
   // prettier-ignore
   const _datetimeFormats = !__LITE__
     ? _ref<DateTimeFormatsType>(
-        isPlainObject(options.datetimeFormats)
-          ? options.datetimeFormats
-          : { [_locale.value]: {} }
-      )
+      isPlainObject(options.datetimeFormats)
+        ? options.datetimeFormats
+        : { [_locale.value]: {} }
+    )
     : /* #__PURE__*/ ref<DateTimeFormatsType>({})
 
   // prettier-ignore
   const _numberFormats = !__LITE__
     ? _ref<NumberFormatsType>(
-        isPlainObject(options.numberFormats)
-          ? options.numberFormats
-          : { [_locale.value]: {} }
-      )
+      isPlainObject(options.numberFormats)
+        ? options.numberFormats
+        : { [_locale.value]: {} }
+    )
     : /* #__PURE__*/ _ref<NumberFormatsType>({})
 
   // warning suppress options
