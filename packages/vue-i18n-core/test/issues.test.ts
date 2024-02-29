@@ -19,7 +19,8 @@ import {
   withDirectives,
   resolveDirective,
   nextTick,
-  getCurrentInstance
+  getCurrentInstance,
+  onMounted
 } from 'vue'
 import {
   setDevToolsHook,
@@ -1229,7 +1230,6 @@ test('issue #1610', async () => {
 })
 
 test('issue #1615', async () => {
-  console.log('----')
   const en = {
     hello: (() => {
       const fn = ctx => {
@@ -1288,4 +1288,73 @@ test('issue #1717', async () => {
   expect(i18n.global.getLocaleMessage('en')).toEqual({
     'a.b.c': 'Hello, Vue I18n' // should not be transformed to nested object like in issue
   })
+})
+
+test('issue #1738', async () => {
+  const resources = {
+    en: {
+      messages: {
+        common: {
+          actions: {
+            cancel: 'Cancel'
+          }
+        }
+      }
+    },
+    nl: {
+      messages: {
+        common: {
+          actions: {
+            cancel: 'Cancel'
+          }
+        }
+      }
+    }
+  }
+
+  function loadTranslations(): Promise<typeof resources> {
+    return new Promise(resolve => resolve(resources))
+  }
+
+  function delay(ms: number) {
+    return new Promise(resolve => setTimeout(resolve, ms))
+  }
+
+  const i18n = createI18n({
+    locale: 'nl',
+    legacy: false,
+    translateExistCompatible: true,
+    fallbackLocale: 'en',
+    missingWarn: false,
+    silentFallbackWarn: true
+  })
+
+  const App = defineComponent({
+    setup() {
+      const { mergeLocaleMessage, te } = useI18n()
+      onMounted(() => {
+        setTimeout(async () => {
+          const data = await loadTranslations()
+
+          for (const key in data) {
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            const { messages } = (data as any)[key]
+            mergeLocaleMessage(key, messages)
+          }
+        }, 100)
+      })
+      return { te }
+    },
+    template: `<div>
+  <p id="te1">{{ te('common') }} - expected true</p>
+  <p id="te2">{{ te('common.actions') }} - expected true</p>
+</div>`
+  })
+
+  const wrapper = await mount(App, i18n)
+
+  await delay(110)
+
+  expect(wrapper.find('#te1')?.textContent).toEqual(`true - expected true`)
+  expect(wrapper.find('#te2')?.textContent).toEqual(`true - expected true`)
 })
