@@ -419,8 +419,8 @@ export interface VueI18nTranslation<
       ? C | M
       : C
     : IsNever<M> extends false
-    ? M
-    : never
+      ? M
+      : never
 > {
   /**
    * Locale message translation.
@@ -563,8 +563,8 @@ export interface VueI18nTranslationChoice<
       ? C | M
       : C
     : IsNever<M> extends false
-    ? M
-    : never
+      ? M
+      : never
 > {
   /**
    * Locale message pluralization
@@ -721,8 +721,8 @@ export interface VueI18nDateTimeFormatting<
       ? C | M
       : C
     : IsNever<M> extends false
-    ? M
-    : never
+      ? M
+      : never
 > {
   /**
    * Datetime formatting
@@ -816,8 +816,8 @@ export interface VueI18nNumberFormatting<
       ? C | M
       : C
     : IsNever<M> extends false
-    ? M
-    : never
+      ? M
+      : never
 > {
   /**
    * Number formatting

@@ -446,9 +446,9 @@ export function addTimelineEvent(
           event === VueDevToolsTimelineEvents.COMPILE_ERROR
             ? 'error'
             : event === VueDevToolsTimelineEvents.FALBACK ||
-              event === VueDevToolsTimelineEvents.MISSING
-            ? 'warning'
-            : 'default'
+                event === VueDevToolsTimelineEvents.MISSING
+              ? 'warning'
+              : 'default'
       }
     })
   }

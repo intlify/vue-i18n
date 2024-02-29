@@ -215,8 +215,8 @@ export function translate<
       ? CoreMessages | ContextMessages
       : CoreMessages
     : IsNever<ContextMessages> extends false
-    ? ContextMessages
-    : never,
+      ? ContextMessages
+      : never,
   Message = string
 >(
   context: Context,
@@ -244,8 +244,8 @@ export function translate<
       ? CoreMessages | ContextMessages
       : CoreMessages
     : IsNever<ContextMessages> extends false
-    ? ContextMessages
-    : never,
+      ? ContextMessages
+      : never,
   Message = string
 >(
   context: Context,
@@ -272,8 +272,8 @@ export function translate<
       ? CoreMessages | ContextMessages
       : CoreMessages
     : IsNever<ContextMessages> extends false
-    ? ContextMessages
-    : never,
+      ? ContextMessages
+      : never,
   Message = string
 >(
   context: Context,
@@ -301,8 +301,8 @@ export function translate<
       ? CoreMessages | ContextMessages
       : CoreMessages
     : IsNever<ContextMessages> extends false
-    ? ContextMessages
-    : never,
+      ? ContextMessages
+      : never,
   Message = string
 >(
   context: Context,
@@ -331,8 +331,8 @@ export function translate<
       ? CoreMessages | ContextMessages
       : CoreMessages
     : IsNever<ContextMessages> extends false
-    ? ContextMessages
-    : never,
+      ? ContextMessages
+      : never,
   Message = string
 >(
   context: Context,
@@ -360,8 +360,8 @@ export function translate<
       ? CoreMessages | ContextMessages
       : CoreMessages
     : IsNever<ContextMessages> extends false
-    ? ContextMessages
-    : never,
+      ? ContextMessages
+      : never,
   Message = string
 >(
   context: Context,
@@ -390,8 +390,8 @@ export function translate<
       ? CoreMessages | ContextMessages
       : CoreMessages
     : IsNever<ContextMessages> extends false
-    ? ContextMessages
-    : never,
+      ? ContextMessages
+      : never,
   Message = string
 >(
   context: Context,
@@ -419,8 +419,8 @@ export function translate<
       ? CoreMessages | ContextMessages
       : CoreMessages
     : IsNever<ContextMessages> extends false
-    ? ContextMessages
-    : never,
+      ? ContextMessages
+      : never,
   Message = string
 >(
   context: Context,
@@ -449,8 +449,8 @@ export function translate<
       ? CoreMessages | ContextMessages
       : CoreMessages
     : IsNever<ContextMessages> extends false
-    ? ContextMessages
-    : never,
+      ? ContextMessages
+      : never,
   Message = string
 >(
   context: Context,
@@ -479,8 +479,8 @@ export function translate<
       ? CoreMessages | ContextMessages
       : CoreMessages
     : IsNever<ContextMessages> extends false
-    ? ContextMessages
-    : never,
+      ? ContextMessages
+      : never,
   Message = string
 >(
   context: Context,
@@ -509,8 +509,8 @@ export function translate<
       ? CoreMessages | ContextMessages
       : CoreMessages
     : IsNever<ContextMessages> extends false
-    ? ContextMessages
-    : never,
+      ? ContextMessages
+      : never,
   Message = string
 >(
   context: Context,
@@ -538,8 +538,8 @@ export function translate<
       ? CoreMessages | ContextMessages
       : CoreMessages
     : IsNever<ContextMessages> extends false
-    ? ContextMessages
-    : never,
+      ? ContextMessages
+      : never,
   Message = string
 >(
   context: Context,
@@ -568,8 +568,8 @@ export function translate<
       ? CoreMessages | ContextMessages
       : CoreMessages
     : IsNever<ContextMessages> extends false
-    ? ContextMessages
-    : never,
+      ? ContextMessages
+      : never,
   Message = string
 >(
   context: Context,
@@ -598,8 +598,8 @@ export function translate<
       ? CoreMessages | ContextMessages
       : CoreMessages
     : IsNever<ContextMessages> extends false
-    ? ContextMessages
-    : never,
+      ? ContextMessages
+      : never,
   Message = string
 >(
   context: Context,
