@@ -13,7 +13,8 @@ import {
   assign,
   inBrowser,
   deepCopy,
-  hasOwn
+  hasOwn,
+  warnOnce
 } from '@intlify/shared'
 import {
   isTranslateFallbackWarn,
@@ -1876,8 +1877,18 @@ export function createComposer(options: any = {}, VueI18nLegacy?: any): any {
   >
   const _isGlobal = __root === undefined
   const flatJson = options.flatJson
-  const translateExistCompatible = !!options.translateExistCompatible
   const _ref = inBrowser ? ref : shallowRef
+
+  const translateExistCompatible = !!options.translateExistCompatible
+  if (__DEV__) {
+    if (translateExistCompatible && !__TEST__) {
+      warnOnce(
+        getWarnMessage(
+          I18nWarnCodes.NOTICE_DROP_TRANSLATE_EXIST_COMPATIBLE_FLAG
+        )
+      )
+    }
+  }
 
   let _inheritLocale = isBoolean(options.inheritLocale)
     ? options.inheritLocale
