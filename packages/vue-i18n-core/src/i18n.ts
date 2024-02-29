@@ -234,10 +234,10 @@ export interface I18n<
    * An instance of this property is **global scope***.
    */
   readonly global: Legacy extends true
-    ? VueI18n<Messages, DateTimeFormats, NumberFormats, OptionLocale>
-    : Legacy extends false
-      ? Composer<Messages, DateTimeFormats, NumberFormats, OptionLocale>
-      : unknown
+  ? VueI18n<Messages, DateTimeFormats, NumberFormats, OptionLocale>
+  : Legacy extends false
+  ? Composer<Messages, DateTimeFormats, NumberFormats, OptionLocale>
+  : unknown
   /**
    * The property whether or not the Composition API is available
    *
@@ -529,17 +529,17 @@ export function createI18n(options: any = {}, VueI18nLegacy?: any): any {
   // prettier-ignore
   const __legacyMode = __LITE__
     ? false
-    :  __FEATURE_LEGACY_API__ && isBoolean(options.legacy)
+    : __FEATURE_LEGACY_API__ && isBoolean(options.legacy)
       ? options.legacy
       : __FEATURE_LEGACY_API__
   // prettier-ignore
   const __globalInjection = isBoolean(options.globalInjection)
-      ? options.globalInjection
-      : true
+    ? options.globalInjection
+    : true
   // prettier-ignore
   const __allowComposition = __LITE__
     ? true
-    :  __FEATURE_LEGACY_API__ && __legacyMode
+    : __FEATURE_LEGACY_API__ && __legacyMode
       ? !!options.allowComposition
       : true
   const __instances = new Map<ComponentInternalInstance, VueI18n | Composer>()
@@ -1228,10 +1228,10 @@ function useI18nForLegacy(
   const _locale = ref<Locale>(
     // prettier-ignore
     !isLocalScope || _inheritLocale
-    ? root.locale.value
-    : isString(options.locale)
-      ? options.locale
-      : DEFAULT_LOCALE
+      ? root.locale.value
+      : isString(options.locale)
+        ? options.locale
+        : DEFAULT_LOCALE
   )
 
   const _fallbackLocale = ref<FallbackLocale>(

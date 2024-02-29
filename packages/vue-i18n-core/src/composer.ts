@@ -13,7 +13,8 @@ import {
   assign,
   inBrowser,
   deepCopy,
-  hasOwn
+  hasOwn,
+  warnOnce
 } from '@intlify/shared'
 import {
   isTranslateFallbackWarn,
@@ -614,6 +615,24 @@ export interface ComposerOptions<
    * @defaultValue `undefined`
    */
   messageCompiler?: MessageCompiler
+  /**
+   * @remarks
+   * An option to make `te` behavior specification before v9.6
+   *
+   * @VueI18nTip
+   * :new: v9.10+
+   *
+   * @VueI18nWarning
+   * This flag will be removed in v10.
+   *
+   * @VueI18nSee [GitHub Issue](https://github.com/intlify/vue-i18n-next/issues/1738)
+   *
+   * @VueI18nSee [`te`](composition#te-key-locale)
+   *
+   * @defaultValue `false`
+   *
+   */
+  translateExistCompatible?: boolean
 }
 
 /**
@@ -1383,7 +1402,7 @@ export interface Composer<
    * @param key - A target locale message key
    * @param locale - A locale, it will be used over than global scope or local scope
    *
-   * @returns If found locale message, `true`, else `false`, Note that `false` is returned even if the value present in the Key is not translatable.
+   * @returns If found locale message, `true`, else `false`, Note that `false` is returned even if the value present in the key is not translatable, yet if `translateExistCompatible` is set to `true`, it will return `true` if the key is available, even if the value is translatable.
    */
   te<
     Str extends string,
@@ -1859,6 +1878,17 @@ export function createComposer(options: any = {}, VueI18nLegacy?: any): any {
   const _isGlobal = __root === undefined
   const flatJson = options.flatJson
   const _ref = inBrowser ? ref : shallowRef
+
+  const translateExistCompatible = !!options.translateExistCompatible
+  if (__DEV__) {
+    if (translateExistCompatible && !__TEST__) {
+      warnOnce(
+        getWarnMessage(
+          I18nWarnCodes.NOTICE_DROP_TRANSLATE_EXIST_COMPATIBLE_FLAG
+        )
+      )
+    }
+  }
 
   let _inheritLocale = isBoolean(options.inheritLocale)
     ? options.inheritLocale
@@ -2357,11 +2387,11 @@ export function createComposer(options: any = {}, VueI18nLegacy?: any): any {
         const targetLocale = isString(locale) ? locale : _locale.value
         const message = getLocaleMessage(targetLocale)
         const resolved = _context.messageResolver(message, key)
-        return (
-          isMessageAST(resolved) ||
-          isMessageFunction(resolved) ||
-          isString(resolved)
-        )
+        return !translateExistCompatible
+          ? isMessageAST(resolved) ||
+              isMessageFunction(resolved) ||
+              isString(resolved)
+          : resolved != null
       },
       () => [key],
       'translate exists',
