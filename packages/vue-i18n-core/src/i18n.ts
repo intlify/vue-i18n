@@ -681,6 +681,8 @@ export function createI18n(options: any = {}, VueI18nLegacy?: any): any {
       // @internal
       __deleteInstance
     }
+    // make the install function synchronous to be aligned with the Vue Plugin interface
+    i18n.install = (...args) => i18n.install(...args)
     return i18n
   } else {
     // extend legacy VueI18n instance
