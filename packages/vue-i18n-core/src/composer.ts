@@ -1402,7 +1402,7 @@ export interface Composer<
    * @param key - A target locale message key
    * @param locale - A locale, it will be used over than global scope or local scope
    *
-   * @returns If found locale message, `true`, else `false`, Note that `false` is returned even if the value present in the key is not translatable, yet if `translateExistCompatible` is set to `true`, it will return `true` if the key is available, even if the value is translatable.
+   * @returns If found locale message, `true`, else `false`, Note that `false` is returned even if the value present in the key is not translatable, yet if `translateExistCompatible` is set to `true`, it will return `true` if the key is available, even if the value is not translatable.
    */
   te<
     Str extends string,
