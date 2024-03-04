@@ -159,6 +159,7 @@ function buildFunction(model, builder) {
   model.examples && buildExamples(model, builder)
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function buildEnum(model, builder) {
   // TODO:
 }
@@ -230,6 +231,7 @@ function buildMethodSignature(model, builder) {
   model.examples && buildExamples(model, builder)
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function buildClass(model, builder) {
   // TODO:
 }
@@ -921,6 +923,7 @@ function parseInterface(style, model, pkg, resolver, item, customTags) {
   return genModel
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function parseClass() {
   // TODO:
 }

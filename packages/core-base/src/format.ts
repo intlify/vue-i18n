@@ -75,19 +75,23 @@ function formatMessagePart<Message = string>(
 ): MessageType<Message> {
   const type = node.t || node.type
   switch (type) {
-    case NodeTypes.Text:
+    case NodeTypes.Text: {
       const text = node as TextNode
       return (text.v || text.value) as MessageType<Message>
-    case NodeTypes.Literal:
+    }
+    case NodeTypes.Literal: {
       const literal = node as LiteralNode
       return (literal.v || literal.value) as MessageType<Message>
-    case NodeTypes.Named:
+    }
+    case NodeTypes.Named: {
       const named = node as NamedNode
       return ctx.interpolate(ctx.named(named.k || named.key))
-    case NodeTypes.List:
+    }
+    case NodeTypes.List: {
       const list = node as ListNode
       return ctx.interpolate(ctx.list(list.i != null ? list.i : list.index))
-    case NodeTypes.Linked:
+    }
+    case NodeTypes.Linked: {
       const linked = node as LinkedNode
       const modifier = linked.m || linked.modifier
       return ctx.linked(
@@ -95,12 +99,15 @@ function formatMessagePart<Message = string>(
         modifier ? (formatMessagePart(ctx, modifier) as string) : undefined,
         ctx.type
       )
-    case NodeTypes.LinkedKey:
+    }
+    case NodeTypes.LinkedKey: {
       const linkedKey = node as LinkedKeyNode
       return (linkedKey.v || linkedKey.value) as MessageType<Message>
-    case NodeTypes.LinkedModifier:
+    }
+    case NodeTypes.LinkedModifier: {
       const linkedModifier = node as LinkedModifierNode
       return (linkedModifier.v || linkedModifier.value) as MessageType<Message>
+    }
     default:
       throw new Error(`unhandled node type on format message part: ${type}`)
   }

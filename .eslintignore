@@ -1,5 +1,0 @@
-dist
-./api-extractor.json
-./test/fixtures
-./types
-shim.d.ts

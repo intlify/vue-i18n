@@ -50,7 +50,7 @@
     "format:package": "node -r esbuild-register ./scripts/fixpack.ts",
     "format:prettier": "prettier --config prettier.config.mjs --ignore-path .prettierignore --list-different '**/*.{ts,js,json,html}'",
     "lint": "run-p lint:secret lint:codes lint:docs",
-    "lint:codes": "eslint --cache ./packages ./test-dts ./e2e ./benchmark --ext .js,.mjs,.ts,.vue",
+    "lint:codes": "eslint . --cache",
     "lint:docs": "textlint --config .textlintrc.js docs/*.md docs/advanced/**/*.md docs/essentials/**/*.md docs/migration/**/*.md docs/api/injection.md packages/**/*.md",
     "lint:fix": "run-p \"lint:codes --fix\" \"lint:docs --fix\"",
     "lint:secret": "npx secretlint \"**/*\"",
@@ -69,6 +69,8 @@
     "test:unit": "cross-env TZ=UTC vitest run -c ./vitest.unit.config.ts"
   },
   "devDependencies": {
+    "@eslint/eslintrc": "^2.1.4",
+    "@eslint/js": "^8.57.0",
     "@intlify/core-base": "workspace:*",
     "@intlify/message-compiler": "workspace:*",
     "@microsoft/api-extractor": "7.15.2",
@@ -96,6 +98,7 @@
     "eslint-plugin-vue": "^9.22.0",
     "execa": "^5.0.0",
     "fixpack": "^4.0.0",
+    "globals": "^14.0.0",
     "globby": "^14.0.1",
     "jiti": "^1.21.0",
     "js-yaml": "^4.1.0",
@@ -158,11 +161,11 @@
     ],
     "*.{js,vue}": [
       "prettier --write",
-      "eslint --fix --ext .js,.vue"
+      "eslint --fix"
     ],
     "*.ts?(x)": [
       "prettier --parser=typescript --write",
-      "eslint --fix --ext .ts"
+      "eslint --fix"
     ],
     "*": [
       "secretlint"
