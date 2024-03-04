@@ -13,6 +13,7 @@ async function main() {
       baseCompile(`hello world`)
     })
     .add(`compile complex message`, () => {
+      // eslint-disable-next-line no-irregular-whitespace
       baseCompile(`@.caml:{'no apples'} 0 | {0} apple 0 | {n}　apples 0`)
     })
     .on('error', event => {

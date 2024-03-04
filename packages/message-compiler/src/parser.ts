@@ -38,7 +38,9 @@ function fromEscapeSequence(
   switch (match) {
     case `\\\\`:
       return `\\`
+    // eslint-disable-next-line no-useless-escape
     case `\\\'`:
+      // eslint-disable-next-line no-useless-escape
       return `\'`
     default: {
       const codePoint = parseInt(codePoint4 || codePoint6, 16)
@@ -288,7 +290,7 @@ export function createParser(options: ParserOptions = {}): Parser {
         }
         linkedNode.key = parseLiteral(tokenizer, token.value || '')
         break
-      default:
+      default: {
         // empty key
         emitError(
           tokenizer,
@@ -310,7 +312,7 @@ export function createParser(options: ParserOptions = {}): Parser {
           nextConsumeToken: token,
           node: linkedNode
         }
-        break
+      }
     }
 
     endNode(linkedNode, tokenizer.currentOffset(), tokenizer.currentPosition())
@@ -389,11 +391,12 @@ export function createParser(options: ParserOptions = {}): Parser {
           }
           node.items.push(parseLiteral(tokenizer, token.value || ''))
           break
-        case TokenTypes.LinkedAlias:
+        case TokenTypes.LinkedAlias: {
           const parsed = parseLinked(tokenizer)
           node.items.push(parsed.node)
           nextToken = parsed.nextConsumeToken || null
           break
+        }
       }
     } while (
       context.currentType !== TokenTypes.EOF &&

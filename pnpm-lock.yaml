@@ -12,6 +12,12 @@ importers:
 
   .:
     devDependencies:
+      '@eslint/eslintrc':
+        specifier: ^2.1.4
+        version: 2.1.4
+      '@eslint/js':
+        specifier: ^8.57.0
+        version: 8.57.0
       '@intlify/core-base':
         specifier: workspace:*
         version: link:packages/core-base
@@ -93,6 +99,9 @@ importers:
       fixpack:
         specifier: ^4.0.0
         version: 4.0.0
+      globals:
+        specifier: ^14.0.0
+        version: 14.0.0
       globby:
         specifier: ^14.0.1
         version: 14.0.1
@@ -1705,7 +1714,7 @@ packages:
     dependencies:
       '@intlify/core': 9.9.1
       '@intlify/message-compiler': 9.9.1
-      '@intlify/shared': 9.9.1
+      '@intlify/shared': 9.10.1
       jsonc-eslint-parser: 1.4.1
       source-map: 0.6.1
       yaml-eslint-parser: 0.3.2
@@ -1749,7 +1758,7 @@ packages:
         optional: true
     dependencies:
       '@intlify/message-compiler': 9.9.1
-      '@intlify/shared': 9.9.1
+      '@intlify/shared': 9.10.1
       acorn: 8.11.3
       escodegen: 2.1.0
       estree-walker: 2.0.2
@@ -1853,7 +1862,7 @@ packages:
       vue: 3.4.20
     dependencies:
       '@intlify/bundle-utils': 1.0.0
-      '@intlify/shared': 9.9.1
+      '@intlify/shared': 9.10.1
       js-yaml: 4.1.0
       json5: 2.2.3
       loader-utils: 2.0.4
@@ -6775,6 +6784,11 @@ packages:
     engines: {node: '>=8'}
     dependencies:
       type-fest: 0.20.2
+    dev: true
+
+  /globals@14.0.0:
+    resolution: {integrity: sha512-oahGvuMGQlPw/ivIYBjVSrWAfWLBeku5tpPE2fOPLi+WHffIWbuh2tCjhyQhTBPMf5E9jDEH4FOmTYgYwbKwtQ==}
+    engines: {node: '>=18'}
     dev: true
 
   /globalthis@1.0.3:

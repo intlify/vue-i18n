@@ -462,6 +462,7 @@ export function createTokenizer(
 
   function readText(scnr: Scanner): string {
     let buf = ''
+    // eslint-disable-next-line no-constant-condition
     while (true) {
       const ch = scnr.currentChar()
       if (
@@ -542,6 +543,7 @@ export function createTokenizer(
   function readLiteral(scnr: Scanner): string {
     skipSpaces(scnr)
 
+    // eslint-disable-next-line no-useless-escape
     eat(scnr, `\'`)
 
     let ch: string | undefined | null = ''
@@ -565,11 +567,13 @@ export function createTokenizer(
       // TODO: Is it correct really?
       if (current === NEW_LINE) {
         scnr.next()
+        // eslint-disable-next-line no-useless-escape
         eat(scnr, `\'`)
       }
       return literal
     }
 
+    // eslint-disable-next-line no-useless-escape
     eat(scnr, `\'`)
 
     return literal
@@ -579,7 +583,7 @@ export function createTokenizer(
     const ch = scnr.currentChar()
     switch (ch) {
       case '\\':
-      case `\'`:
+      case `\'`: // eslint-disable-line no-useless-escape
         scnr.next()
         return `\\${ch}`
       case 'u':
@@ -743,7 +747,7 @@ export function createTokenizer(
         context.braceNest = 0
         return token
 
-      default:
+      default: {
         let validNamedIdentifier = true
         let validListIdentifier = true
         let validLiteral = true
@@ -821,6 +825,7 @@ export function createTokenizer(
         }
 
         break
+      }
     }
 
     return token
@@ -957,7 +962,7 @@ export function createTokenizer(
       case TokenChars.LinkedAlias:
         return readTokenInLinked(scnr, context) || getEndToken(context)
 
-      default:
+      default: {
         if (isPluralStart(scnr)) {
           token = getToken(context, TokenTypes.Pipe, readPlural(scnr))
           // reset
@@ -978,6 +983,7 @@ export function createTokenizer(
         }
 
         break
+      }
     }
 
     return token

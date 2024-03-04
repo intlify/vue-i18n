@@ -47,7 +47,7 @@ watch(compilerOptions, val => {
             name="mode"
             :checked="compilerOptions.mode === 'normal'"
             @change="compilerOptions.mode = 'normal'"
-          />
+          >
           <label for="mode-normal">normal</label>
           <input
             id="mode-arrow"
@@ -55,7 +55,7 @@ watch(compilerOptions, val => {
             name="mode"
             :checked="compilerOptions.mode === 'arrow'"
             @change="compilerOptions.mode = 'arrow'"
-          />
+          >
           <label for="mode-arrow">arrow</label>
         </li>
         <li>
@@ -69,7 +69,7 @@ watch(compilerOptions, val => {
                 $event.target as HTMLInputElement
               ).checked
             "
-          />
+          >
           <label for="location">location</label>
         </li>
         <li>
@@ -83,7 +83,7 @@ watch(compilerOptions, val => {
                 $event.target as HTMLInputElement
               ).checked
             "
-          />
+          >
           <label for="indent">needIndent</label>
         </li>
         <li>
@@ -97,7 +97,7 @@ watch(compilerOptions, val => {
                 $event.target as HTMLInputElement
               ).checked
             "
-          />
+          >
           <label for="sourcemap">sourceMap</label>
         </li>
         <li>
@@ -109,7 +109,7 @@ watch(compilerOptions, val => {
             @change="
               compilerOptions.jit = ($event.target as HTMLInputElement).checked
             "
-          />
+          >
           <label for="jit">jit</label>
         </li>
         <li>
@@ -123,7 +123,7 @@ watch(compilerOptions, val => {
                 $event.target as HTMLInputElement
               ).checked
             "
-          />
+          >
           <label for="optimize">optimize</label>
         </li>
       </ul>

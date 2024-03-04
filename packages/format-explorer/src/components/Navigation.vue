@@ -7,9 +7,15 @@ const commitHistoryURL = 'https://app.netlify.com/sites/format-explorer/deploys'
 <template>
   <div>
     <h1>Intlify Message Format Explorer</h1>
-    <a :href="commitURL" target="_blank">{{ commitLabel }}</a>
+    <a
+      :href="commitURL"
+      target="_blank"
+    >{{ commitLabel }}</a>
     |
-    <a :href="commitHistoryURL" target="_blank">History</a>
+    <a
+      :href="commitHistoryURL"
+      target="_blank"
+    >History</a>
   </div>
 </template>
 

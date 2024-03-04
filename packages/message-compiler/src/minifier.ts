@@ -23,13 +23,14 @@ export function minify(node: Node) {
   node.t = node.type
 
   switch (node.type) {
-    case NodeTypes.Resource:
+    case NodeTypes.Resource: {
       const resource = node as ResourceNode
       minify(resource.body)
       resource.b = resource.body
       delete (resource as any).body
       break
-    case NodeTypes.Plural:
+    }
+    case NodeTypes.Plural: {
       const plural = node as PluralNode
       const cases = plural.cases
       for (let i = 0; i < cases.length; i++) {
@@ -38,7 +39,8 @@ export function minify(node: Node) {
       plural.c = cases
       delete (plural as any).cases
       break
-    case NodeTypes.Message:
+    }
+    case NodeTypes.Message: {
       const message = node as MessageNode
       const items = message.items
       for (let i = 0; i < items.length; i++) {
@@ -51,10 +53,11 @@ export function minify(node: Node) {
         delete (message as any).static
       }
       break
+    }
     case NodeTypes.Text:
     case NodeTypes.Literal:
     case NodeTypes.LinkedModifier:
-    case NodeTypes.LinkedKey:
+    case NodeTypes.LinkedKey: {
       const valueNode = node as
         | TextNode
         | LiteralNode
@@ -65,7 +68,8 @@ export function minify(node: Node) {
         delete (valueNode as any).value
       }
       break
-    case NodeTypes.Linked:
+    }
+    case NodeTypes.Linked: {
       const linked = node as LinkedNode
       minify(linked.key)
       linked.k = linked.key
@@ -76,16 +80,19 @@ export function minify(node: Node) {
         delete (linked as any).modifier
       }
       break
-    case NodeTypes.List:
+    }
+    case NodeTypes.List: {
       const list = node as ListNode
       list.i = list.index
       delete (list as any).index
       break
-    case NodeTypes.Named:
+    }
+    case NodeTypes.Named: {
       const named = node as NamedNode
       named.k = named.key
       delete (named as any).key
       break
+    }
     default:
       if (__DEV__) {
         throw createCompileError(
