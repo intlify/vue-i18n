@@ -69,7 +69,7 @@
     "test:unit": "cross-env TZ=UTC vitest run -c ./vitest.unit.config.ts"
   },
   "devDependencies": {
-    "@eslint/eslintrc": "^2.1.4",
+    "@eslint/eslintrc": "^3.0.0",
     "@eslint/js": "^8.57.0",
     "@intlify/core-base": "workspace:*",
     "@intlify/message-compiler": "workspace:*",
