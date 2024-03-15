@@ -1,3 +1,5 @@
+// eslint-disable-next-line @typescript-eslint/triple-slash-reference
+/// <reference types="source-map-js" />
 import { isString, join } from '@intlify/shared'
 import { SourceMapGenerator } from 'source-map-js'
 import { NodeTypes } from './nodes'
