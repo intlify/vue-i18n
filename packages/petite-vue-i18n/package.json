@@ -38,7 +38,7 @@
     "@intlify/core-base": "workspace:*",
     "@intlify/shared": "workspace:*",
     "@intlify/vue-devtools": "workspace:*",
-    "@vue/devtools-api": "^6.5.0"
+    "@vue/devtools-api": "^7.0.0"
   },
   "devDependencies": {
     "@intlify/devtools-if": "workspace:*"
