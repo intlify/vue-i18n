@@ -78,7 +78,7 @@ Add the following line to the `dependencies` in `package.json`:
 "vue-i18n": "npm:@vue-i18n-edge"
 ```
 
-And then run `npm install` or `yarn add` or `pnpm add`.
+And then run `npm install` or `yarn install` or `pnpm install`.
 
 ## Dev Build
 
