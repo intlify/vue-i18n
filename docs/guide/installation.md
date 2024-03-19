@@ -47,7 +47,7 @@ yarn add vue-i18n@9
 
 ### PNPM
 ```sh
-pnpm install vue-i18n@9
+pnpm add vue-i18n@9
 ```
 
 When using with a module system, you must explicitly install the `vue-i18n`
@@ -78,7 +78,7 @@ Add the following line to the `dependencies` in `package.json`:
 "vue-i18n": "npm:@vue-i18n-edge"
 ```
 
-And then run `npm install` or `yarn install` or `pnpm install`.
+And then run `npm install` or `yarn add` or `pnpm add`.
 
 ## Dev Build
 
