@@ -47,7 +47,7 @@ yarn add vue-i18n@9
 
 ### PNPM
 ```sh
-pnpm install vue-i18n@9
+pnpm add vue-i18n@9
 ```
 
 When using with a module system, you must explicitly install the `vue-i18n`
