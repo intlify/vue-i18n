@@ -98,7 +98,7 @@
     "eslint-plugin-vue": "^9.22.0",
     "execa": "^5.0.0",
     "fixpack": "^4.0.0",
-    "globals": "^14.0.0",
+    "globals": "^15.0.0",
     "globby": "^14.0.1",
     "jiti": "^1.21.0",
     "js-yaml": "^4.1.0",
