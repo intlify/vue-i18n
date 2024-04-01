@@ -232,8 +232,8 @@ importers:
         specifier: ^7.1.0
         version: 7.1.0(eslint@8.57.0)(typescript@5.3.3)
       vitepress:
-        specifier: 1.0.1
-        version: 1.0.1(@algolia/client-search@4.22.1)(@types/node@20.11.21)(search-insights@2.13.0)(typescript@5.3.3)
+        specifier: 1.0.2
+        version: 1.0.2(@algolia/client-search@4.22.1)(@types/node@20.11.21)(search-insights@2.13.0)(typescript@5.3.3)
       vitest:
         specifier: ^1.3.0
         version: 1.3.1(@types/node@20.11.21)(jsdom@24.0.0)
@@ -12381,8 +12381,8 @@ packages:
       fsevents: 2.3.3
     dev: true
 
-  /vitepress@1.0.1(@algolia/client-search@4.22.1)(@types/node@20.11.21)(search-insights@2.13.0)(typescript@5.3.3):
-    resolution: {integrity: sha512-eNr5pOBppYUUjEhv8S0S2t9Tv95LQ6mMeHj6ivaGwfHxpov70Vduuwl/QQMDRznKDSaP0WKV7a82Pb4JVOaqEw==}
+  /vitepress@1.0.2(@algolia/client-search@4.22.1)(@types/node@20.11.21)(search-insights@2.13.0)(typescript@5.3.3):
+    resolution: {integrity: sha512-bEj9yTEdWyewJFOhEREZF+mXuAgOq27etuJZT6DZSp+J3XpQstXMJc5piSVwhZBtuj8OfA0iXy+jdP1c71KMYQ==}
     hasBin: true
     peerDependencies:
       markdown-it-mathjax3: ^4
