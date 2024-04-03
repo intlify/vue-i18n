@@ -81,7 +81,7 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest, windows-latest, macos-latest]
-        node: [18.16, 20]
+        node: [18.19, 20]
 
     runs-on: ${{ matrix.os }}
 
@@ -142,7 +142,7 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest, windows-latest, macos-latest]
-        node: [18.16, 20]
+        node: [18.19, 20]
 
     runs-on: ${{ matrix.os }}
 
