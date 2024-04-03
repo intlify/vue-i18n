@@ -1,12 +1,12 @@
 import { defineConfig, UserConfig } from 'vitest/config'
-import pkg from './package.json'
+import { version } from './package.json'
 import { entries } from './scripts/aliases'
 
 export default defineConfig({
   define: {
     __DEV__: true,
     __TEST__: true,
-    __VERSION__: JSON.stringify(pkg.version),
+    __VERSION__: JSON.stringify(version),
     __BROWSER__: false,
     __GLOBAL__: false,
     __RUNTIME__: false,
@@ -27,6 +27,6 @@ export default defineConfig({
   test: {
     globals: true,
     // disable threads on GH actions to speed it up
-    threads: !process.env.GITHUB_ACTIONS
+    pool: process.env.GITHUB_ACTIONS ? undefined : 'threads'
   }
 }) as UserConfig

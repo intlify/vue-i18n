@@ -2,12 +2,12 @@ import { readdirSync, statSync } from 'node:fs'
 import { resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
-const resolveEntryForPkg = p =>
+const resolveEntryForPkg = (p: string) =>
   resolve(fileURLToPath(import.meta.url), `../../packages/${p}/src/index.ts`)
 
 const dirs = readdirSync(new URL('../packages', import.meta.url))
 
-const entries = {
+const entries: Record<string, string> = {
   'vue-i18n': resolveEntryForPkg('vue-i18n'),
   'vue-i18n-bridge': resolveEntryForPkg('vue-i18n-bridge'),
   'petite-vue-i18n': resolveEntryForPkg('petite-vue-i18n')

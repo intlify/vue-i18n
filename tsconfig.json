@@ -52,6 +52,7 @@
     "esModuleInterop": true,                  /* Enables emit interoperability between CommonJS and ES Modules via creation of namespace objects for all imports. Implies 'allowSyntheticDefaultImports'. */
     // "preserveSymlinks": true,              /* Do not resolve the real path of symlinks. */
     // "allowUmdGlobalAccess": true,          /* Allow accessing UMD globals from modules. */
+    "resolveJsonModule": true,                /* Include modules imported with '.json' extension. */
 
     /* Source Map Options */
     // "sourceRoot": "",                      /* Specify the location where debugger should locate TypeScript files instead of source locations. */
@@ -72,10 +73,12 @@
     "packages/global.d.ts",
     "packages/*/src",
     "packages/*/test",
+    "packages/*/*.config.ts",
     "test-dts",
-    "scripts/vitest.*.ts",
-    "e2e/**/*.ts",
-    "shim.d.ts"
+    "scripts",
+    "e2e",
+    "shim.d.ts",
+    "*.config.ts"
   ],
   "exclude": ["node_modules"]
 }

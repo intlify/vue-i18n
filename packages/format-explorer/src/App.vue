@@ -72,6 +72,7 @@ async function compile(
     lastSuccessCode =
       evalCode.toString() + `\n\n// Check the console for the AST`
     lastSuccessfulMap =
+      // eslint-disable-next-line @typescript-eslint/await-thenable
       options.sourceMap && map ? await new SourceMapConsumer(map) : null
     lastSuccessfulMap?.computeColumnSpans()
   } catch (e: unknown) {
@@ -222,11 +223,7 @@ const onChangeOptions = async (options: CompileOptions) => {
         @change-model="onChangeModel"
         @ready="onReadyInput"
       />
-      <Editor
-        class="output"
-        :code="genCodes"
-        @ready="onReadyOutput"
-      />
+      <Editor class="output" :code="genCodes" @ready="onReadyOutput" />
     </div>
   </div>
 </template>

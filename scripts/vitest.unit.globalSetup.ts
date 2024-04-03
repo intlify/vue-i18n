@@ -1,3 +1,3 @@
-export async function setup() {
+export function setup() {
   console.log('ICU version:', process.versions.icu)
 }

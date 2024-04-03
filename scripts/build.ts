@@ -14,13 +14,13 @@ pnpm build core --formats cjs
 ```
 */
 
-import { promisify } from 'util'
-import { promises as fs } from 'fs'
+import { promisify } from 'node:util'
+import { promises as fs } from 'node:fs'
 import path from 'pathe'
 import pc from 'picocolors'
 import execa from 'execa'
-import os from 'os'
-import { gzip as _gzip } from 'zlib'
+import os from 'node:os'
+import { gzip as _gzip } from 'node:zlib'
 import { compress } from 'brotli'
 import {
   targets as allTargets,
@@ -30,10 +30,9 @@ import {
 } from './utils'
 import minimist from 'minimist'
 import { Extractor, ExtractorConfig } from '@microsoft/api-extractor'
-import { default as _rimraf } from 'rimraf'
+import { rimrafSync } from 'rimraf'
 
 const gzip = promisify(_gzip)
-const rimraf = promisify(_rimraf)
 
 async function main() {
   const args = minimist(process.argv.slice(2))
@@ -53,10 +52,7 @@ async function main() {
   async function run() {
     if (isRelease) {
       // remove build cache for release builds to avoid outdated enum values
-      // @ts-ignore
-      await rimraf(
-        path.resolve(path.dirname('.'), './node_modules/.rts2_cache')
-      )
+      rimrafSync(path.resolve(path.dirname('.'), './node_modules/.rts2_cache'))
     }
     if (!targets.length) {
       targets = await allTargets()
@@ -85,6 +81,7 @@ async function main() {
       ret.push(p)
 
       if (maxConcurrency <= source.length) {
+        // @ts-expect-error
         const e = p.then(() => executing.splice(executing.indexOf(e), 1))
         executing.push(e)
         if (executing.length >= maxConcurrency) {
@@ -115,8 +112,7 @@ async function main() {
 
     // if building a specific format, do not remove dist.
     if (!formats) {
-      // @ts-ignore
-      await rimraf(`${pkgDir}/dist`)
+      rimrafSync(`${pkgDir}/dist`)
     }
 
     const env =
@@ -197,7 +193,7 @@ async function main() {
           )
         } catch (e) {
           console.error(
-            `Failed in opening Vue type definition file with error code: ${e.code}`
+            `Failed in opening Vue type definition file with error code: ${(e as NodeJS.ErrnoException).code}`
           )
           process.exitCode = 1
         }
@@ -220,8 +216,7 @@ async function main() {
         )
       }
 
-      // @ts-ignore
-      await rimraf(`${pkgDir}/dist/packages`)
+      rimrafSync(`${pkgDir}/dist/packages`)
     }
   }
 

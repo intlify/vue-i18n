@@ -10,6 +10,7 @@ declare global {
     interface ProcessEnv {
       E2E_BROWSER?: 'chromium' | 'firefox' | 'webkit'
       CI?: string
+      GITHUB_ACTIONS?: string
     }
   }
 }

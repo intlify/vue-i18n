@@ -2,7 +2,7 @@ import { JSDOM } from 'jsdom'
 
 import type { Page } from 'playwright'
 
-export async function sleep(delay: number) {
+export function sleep(delay: number) {
   return new Promise(resolve => setTimeout(resolve, delay))
 }
 
@@ -43,7 +43,7 @@ export async function assetLocaleHead(page: Page, headSelector: string) {
     },
     [headHandle, localeHeadValue]
   )
-  headHandle?.dispose()
+  await headHandle?.dispose()
 }
 
 export function getDom(html: string) {
@@ -57,10 +57,7 @@ export function getDataFromDom(dom: Document, selector: string) {
   )
 }
 
-export async function assertLocaleHeadWithDom(
-  dom: Document,
-  headSelector: string
-) {
+export function assertLocaleHeadWithDom(dom: Document, headSelector: string) {
   const localeHead = getDataFromDom(dom, headSelector)
   const headData = [...localeHead.link, ...localeHead.meta]
   for (const head of headData) {

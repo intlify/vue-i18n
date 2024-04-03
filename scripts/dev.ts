@@ -19,6 +19,8 @@ __DEV__=false pnpm run dev
 import execa from 'execa'
 import { fuzzyMatchTarget } from './utils'
 import minimist from 'minimist'
+
+// eslint-disable-next-line @typescript-eslint/no-floating-promises
 ;(async () => {
   const args = minimist(process.argv.slice(2))
   const target = args._.length
@@ -29,6 +31,7 @@ import minimist from 'minimist'
   const { stdout } = await execa('git', ['rev-parse', 'HEAD'])
   const commit = stdout.slice(0, 7)
 
+  // eslint-disable-next-line @typescript-eslint/no-floating-promises
   execa(
     'rollup',
     [

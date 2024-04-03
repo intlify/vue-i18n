@@ -1,4 +1,4 @@
-import { promises as fs } from 'fs'
+import { promises as fs } from 'node:fs'
 import { resolve, dirname } from 'pathe'
 import pc from 'picocolors'
 
@@ -54,7 +54,7 @@ export const fuzzyMatchTarget = async (
   }
 }
 
-export async function checkSizeDistFiles(target) {
+export async function checkSizeDistFiles(target: string) {
   const dirs = await fs.readdir(`${target}/dist`)
   return dirs.filter(file => /prod.[cm]js$/.test(file))
 }

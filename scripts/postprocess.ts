@@ -1,5 +1,5 @@
 import path from 'pathe'
-import { promises as fs } from 'fs'
+import { promises as fs } from 'node:fs'
 
 function replaceWithCompositionApi(source: string, target: string) {
   return source.replace(

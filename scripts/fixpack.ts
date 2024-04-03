@@ -1,8 +1,10 @@
 import pc from 'picocolors'
+// @ts-ignore
 import fixpack from 'fixpack'
 import { resolve, dirname } from 'pathe'
 import rc from 'rc'
 import { targets, readJson } from './utils'
+// eslint-disable-next-line @typescript-eslint/no-floating-promises
 ;(async () => {
   const allTargets = await targets()
   const defaultConfig = await readJson(

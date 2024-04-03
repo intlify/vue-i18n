@@ -1,12 +1,9 @@
 import globals from 'globals'
 import js from '@eslint/js'
-import { FlatCompat } from '@eslint/eslintrc'
 import ts from 'typescript-eslint'
-import eslintConfigPrettier from 'eslint-config-prettier'
+import pritter from 'eslint-config-prettier'
+import vue from 'eslint-plugin-vue'
 
-const vue = extendVuePlugin('plugin:vue/vue3-recommended', ts.parser)
-
-/** @type { import("eslint").Linter.FlatConfig[] } */
 export default [
   // ignore globally
   {
@@ -24,11 +21,6 @@ export default [
     ]
   },
 
-  js.configs.recommended,
-  ...ts.configs.recommended,
-  eslintConfigPrettier,
-  ...vue,
-
   // globals
   {
     // files: ['**/*.js', '**/*.ts', '**/*.vue', '**/*.json'],
@@ -44,6 +36,44 @@ export default [
       parserOptions: { sourceType: 'module' }
     }
   },
+
+  js.configs.recommended,
+
+  //...ts.configs.recommended,
+  ...ts.configs.recommendedTypeChecked,
+  {
+    files: ['**/*.ts', '**/*.tsx', '**/*.cts', '**/*.mts', '**/*.vue'],
+    languageOptions: {
+      parserOptions: {
+        project: true,
+        tsconfigRootDir: import.meta.dirname,
+        parser: ts.parser,
+        extraFileExtensions: ['.vue']
+      }
+    },
+    rules: {
+      '@typescript-eslint/no-unsafe-member-access': 'off',
+      '@typescript-eslint/no-unsafe-assignment': 'off',
+      '@typescript-eslint/no-unsafe-call': 'off',
+      '@typescript-eslint/no-unsafe-argument': 'off',
+      '@typescript-eslint/no-unsafe-return': 'off',
+      '@typescript-eslint/no-unsafe-enum-comparison': 'off',
+      '@typescript-eslint/no-unnecessary-type-assertion': 'off',
+      '@typescript-eslint/unbound-method': 'off',
+      '@typescript-eslint/no-implied-eval': 'off',
+      '@typescript-eslint/no-redundant-type-constituents': 'off',
+      '@typescript-eslint/restrict-template-expressions': 'off',
+      '@typescript-eslint/no-base-to-string': 'off'
+    }
+  },
+  {
+    files: ['**/*.js', '**/*.cjs', '**/*.mjs'],
+    ...ts.configs.disableTypeChecked
+  },
+
+  ...vue.configs['flat/recommended'],
+
+  pritter,
 
   // custom rules
   {
@@ -64,34 +94,3 @@ export default [
     }
   }
 ]
-
-/**
- * extend eslint-plugin-vue with @typescript-eslint/parser
- * (NOTE: eslint-plugin-vue flat config WIP currently https://github.com/vuejs/eslint-plugin-vue/issues/1291)
- *
- * @param { 'plugin:vue/vue3-essential' | 'plugin:vue/vue3-strongly-recommended' | 'plugin:vue/vue3-recommended' } vueConfigPattern
- * @param { import("typescript-eslint").Config.parser } tsParser
- *
- * @return { import("eslint").Linter.FlatConfig[] }
- */
-function extendVuePlugin(vueConfigPattern, tsParser) {
-  const compat = new FlatCompat()
-  const vuePlugin = compat.extends(vueConfigPattern)
-  const vueLangOptions = vuePlugin[2]
-  vueLangOptions.files = [
-    '**/*.vue',
-    '**/*.ts',
-    '**/*.tsx',
-    '**/*.mts',
-    '**/*.cts'
-  ]
-  vueLangOptions.languageOptions = {
-    // NOTE:
-    //  https://eslint.vuejs.org/user-guide/#how-to-use-a-custom-parser
-    parserOptions: {
-      parser: tsParser
-    },
-    ecmaVersion: 'latest'
-  }
-  return vuePlugin
-}
