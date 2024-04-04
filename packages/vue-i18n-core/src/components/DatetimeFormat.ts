@@ -44,7 +44,7 @@ export const DatetimeFormatImpl = /* #__PURE__*/ defineComponent({
     const i18n =
       props.i18n ||
       (useI18n({
-        useScope: 'parent',
+        useScope: props.scope as 'global' | 'parent',
         __useComponent: true
       }) as unknown as Composer & ComposerInternal)
 
