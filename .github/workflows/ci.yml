@@ -235,6 +235,12 @@ jobs:
           path: packages/*/dist
           key: build-vue-i18n-next-os-${{ matrix.os }}-${{ github.sha }}
 
+      - name: Upload message-compiler dist files (debug)
+        uses: actions/upload-artifact@v4
+        with:
+          name: message-compiler
+          path: packages/message-compiler/dist
+
       - name: Release edge version
         run: ./scripts/release-edge.sh
         env:
