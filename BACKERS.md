@@ -112,6 +112,20 @@ You can join them in supporting vue-i18n & Intlify project development by [pledg
   </a>
 </p>
 
+<p align="center">
+  <a href="https://froggly.pl/"
+      style="margin: 1rem 1rem 0 1rem; width: 9rem; height: auto; display: inline-block; vertical-align: middle;"
+    target="_blank"
+    rel="noopener"
+  >
+    <img
+      src="https://raw.githubusercontent.com/intlify/vue-i18n-next/master/docs/public/Froggly.svg"
+      width="140px"
+      alt="froggly"
+    />
+  </a>
+</p>
+
 [It could be you!](https://github.com/sponsors/kazupon?o=esc)
 
 <h2 align="center">Generous Supporters</h2>
@@ -119,7 +133,5 @@ You can join them in supporting vue-i18n & Intlify project development by [pledg
 [Currently vacant. It could be you!](https://github.com/sponsors/kazupon?o=esc)
 
 <h2 align="center">Awesome Supporters</h2>
-
-- Shinya Katayama
 
 [It could be you!](https://github.com/sponsors/kazupon?o=esc)
