@@ -317,6 +317,83 @@ exports[`compiler options > optimize: false > ast 1`] = `
 }
 `;
 
+exports[`compiler options > warning > ast 1`] = `
+{
+  "body": {
+    "end": 12,
+    "items": [
+      {
+        "end": 6,
+        "key": "msg",
+        "loc": {
+          "end": {
+            "column": 7,
+            "line": 1,
+            "offset": 6,
+          },
+          "start": {
+            "column": 2,
+            "line": 1,
+            "offset": 1,
+          },
+        },
+        "modulo": true,
+        "start": 1,
+        "type": 4,
+      },
+      {
+        "end": 12,
+        "loc": {
+          "end": {
+            "column": 13,
+            "line": 1,
+            "offset": 12,
+          },
+          "start": {
+            "column": 7,
+            "line": 1,
+            "offset": 6,
+          },
+        },
+        "start": 6,
+        "type": 3,
+        "value": " world",
+      },
+    ],
+    "loc": {
+      "end": {
+        "column": 13,
+        "line": 1,
+        "offset": 12,
+      },
+      "start": {
+        "column": 1,
+        "line": 1,
+        "offset": 0,
+      },
+    },
+    "start": 0,
+    "type": 2,
+  },
+  "end": 12,
+  "loc": {
+    "end": {
+      "column": 13,
+      "line": 1,
+      "offset": 12,
+    },
+    "source": "%{msg} world",
+    "start": {
+      "column": 1,
+      "line": 1,
+      "offset": 0,
+    },
+  },
+  "start": 0,
+  "type": 0,
+}
+`;
+
 exports[`edge cases >  | | |  > code 1`] = `
 "function __msg__ (ctx) {
   const { normalize: _normalize, plural: _plural } = ctx

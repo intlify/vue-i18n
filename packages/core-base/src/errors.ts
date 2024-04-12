@@ -12,14 +12,14 @@ const code = CompileErrorCodes.__EXTEND_POINT__
 const inc = incrementer(code)
 
 export const CoreErrorCodes = {
-  INVALID_ARGUMENT: code, // 18
-  INVALID_DATE_ARGUMENT: inc(), // 19
-  INVALID_ISO_DATE_ARGUMENT: inc(), // 20
-  NOT_SUPPORT_NON_STRING_MESSAGE: inc(), // 21
-  NOT_SUPPORT_LOCALE_PROMISE_VALUE: inc(), // 22
-  NOT_SUPPORT_LOCALE_ASYNC_FUNCTION: inc(), // 23
-  NOT_SUPPORT_LOCALE_TYPE: inc(), // 24
-  __EXTEND_POINT__: inc() // 25
+  INVALID_ARGUMENT: code, // 17
+  INVALID_DATE_ARGUMENT: inc(), // 18
+  INVALID_ISO_DATE_ARGUMENT: inc(), // 19
+  NOT_SUPPORT_NON_STRING_MESSAGE: inc(), // 20
+  NOT_SUPPORT_LOCALE_PROMISE_VALUE: inc(), // 21
+  NOT_SUPPORT_LOCALE_ASYNC_FUNCTION: inc(), // 22
+  NOT_SUPPORT_LOCALE_TYPE: inc(), // 23
+  __EXTEND_POINT__: inc() // 24
 } as const
 
 export type CoreErrorCodes =
