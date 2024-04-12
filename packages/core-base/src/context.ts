@@ -647,6 +647,12 @@ export function isTranslateMissingWarn(
   return missing instanceof RegExp ? missing.test(key) : missing
 }
 
+export function isSameLanguage(locale: Locale, fallback: Locale): boolean {
+  const languageCode1 = locale.split('-')[0]
+  const languageCode2 = fallback.split('-')[0]
+  return languageCode1 === languageCode2
+}
+
 /** @internal */
 export function handleMissing<Message = string>(
   context: CoreContext<Message>,
@@ -674,7 +680,11 @@ export function handleMissing<Message = string>(
     const ret = missing(context as any, locale, key, type)
     return isString(ret) ? ret : key
   } else {
-    if (__DEV__ && isTranslateMissingWarn(missingWarn, key)) {
+    if (
+      __DEV__ &&
+      isTranslateMissingWarn(missingWarn, key) &&
+      !isSameLanguage(locale, context.fallbackLocale as Locale)
+    ) {
       onWarn(getWarnMessage(CoreWarnCodes.NOT_FOUND_KEY, { key, locale }))
     }
     return key
