@@ -1,3 +1,13 @@
+// utils
+import * as shared from '@intlify/shared'
+vi.mock('@intlify/shared', async () => {
+  const actual = await vi.importActual<object>('@intlify/shared')
+  return {
+    ...actual,
+    warn: vi.fn()
+  }
+})
+
 import { baseCompile } from '@intlify/message-compiler'
 import {
   compileToFunction,
@@ -9,7 +19,7 @@ import { createMessageContext as context } from '../src/runtime'
 
 const DEFAULT_CONTEXT = { locale: 'en', key: 'key' }
 
-beforeAll(() => {
+beforeEach(() => {
   clearCompileCache()
 })
 
@@ -49,6 +59,19 @@ describe('compileToFunction', () => {
       onError: () => (occured = true)
     })
     expect(occured).toBe(true)
+  })
+
+  test('modulo syntax warning', () => {
+    const mockWarn = vi.spyOn(shared, 'warn')
+    mockWarn.mockImplementation(() => {})
+
+    compileToFunction('hello %{name}!', {
+      ...DEFAULT_CONTEXT
+    })
+    expect(mockWarn).toHaveBeenCalledTimes(1)
+    expect(mockWarn.mock.calls[0][0]).includes(
+      `The use of named interpolation with modulo syntax is deprecated. It will be removed in v10.`
+    )
   })
 })
 
@@ -108,5 +131,16 @@ describe('compile', () => {
       onError: () => (occured = true)
     })
     expect(occured).toBe(true)
+  })
+
+  test('modulo syntax warning', () => {
+    const mockWarn = vi.spyOn(shared, 'warn')
+    mockWarn.mockImplementation(() => {})
+
+    compile('%{msg} world!', DEFAULT_CONTEXT)
+    expect(mockWarn).toHaveBeenCalledTimes(1)
+    expect(mockWarn.mock.calls[0][0]).includes(
+      `The use of named interpolation with modulo syntax is deprecated. It will be removed in v10.`
+    )
   })
 })
