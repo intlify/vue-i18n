@@ -841,7 +841,7 @@ function resolveMessageFormat<Messages, Message>(
       __DEV__ &&
       locale !== targetLocale &&
       isTranslateFallbackWarn(fallbackWarn, key) &&
-      !isSameLanguage(locale, targetLocale)
+      !isSameLanguage(messages, key, locale, targetLocale)
     ) {
       onWarn(
         getWarnMessage(CoreWarnCodes.FALLBACK_TO_TRANSLATE, {
@@ -912,7 +912,8 @@ function resolveMessageFormat<Messages, Message>(
       key,
       targetLocale,
       missingWarn,
-      type
+      type,
+      locale
     )
     if (missingRet !== key) {
       format = missingRet as PathValue

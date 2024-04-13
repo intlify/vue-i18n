@@ -647,10 +647,23 @@ export function isTranslateMissingWarn(
   return missing instanceof RegExp ? missing.test(key) : missing
 }
 
-export function isSameLanguage(locale: Locale, fallback: Locale): boolean {
+/** @internal */
+export function isSameLanguage(
+  messages: any,
+  key: Path,
+  locale: Locale,
+  fallback: Locale | undefined
+): boolean {
   const languageCode1 = locale.split('-')[0]
-  const languageCode2 = fallback.split('-')[0]
-  return languageCode1 === languageCode2
+  const languageCode2 = fallback?.split('-')[0]
+
+  if (languageCode1 === languageCode2) {
+    const hasKey =
+      messages[languageCode1!] && messages[languageCode1!][key] !== undefined
+    return hasKey
+  } else {
+    return false
+  }
 }
 
 /** @internal */
@@ -659,7 +672,8 @@ export function handleMissing<Message = string>(
   key: Path,
   locale: Locale,
   missingWarn: boolean | RegExp,
-  type: CoreMissingType
+  type: CoreMissingType,
+  locale2?: Locale
 ): unknown {
   const { missing, onWarn } = context
 
@@ -683,7 +697,7 @@ export function handleMissing<Message = string>(
     if (
       __DEV__ &&
       isTranslateMissingWarn(missingWarn, key) &&
-      !isSameLanguage(locale, context.fallbackLocale as Locale)
+      !isSameLanguage(context.messages, key, locale, locale2)
     ) {
       onWarn(getWarnMessage(CoreWarnCodes.NOT_FOUND_KEY, { key, locale }))
     }
