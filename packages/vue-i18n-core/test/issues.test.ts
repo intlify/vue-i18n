@@ -1358,3 +1358,21 @@ test('issue #1738', async () => {
   expect(wrapper.find('#te1')?.textContent).toEqual(`true - expected true`)
   expect(wrapper.find('#te2')?.textContent).toEqual(`true - expected true`)
 })
+
+test('#1796', async () => {
+  const i18n = createI18n({
+    locale: 'en',
+    messages: {
+      en: {
+        hello: 'hello world',
+        'message-with-placeholder-using-hyphens':
+          'My message with {placeholder-hyphens}.'
+      }
+    }
+  })
+  expect(
+    i18n.global.t('message-with-placeholder-using-hyphens', {
+      'placeholder-hyphens': i18n.global.t('hello')
+    })
+  ).toEqual('My message with hello world.')
+})
