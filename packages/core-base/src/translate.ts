@@ -24,7 +24,7 @@ import {
   NOT_REOSLVED,
   getAdditionalMeta,
   CoreContext,
-  isSameLanguage
+  isImplicitFallback
 } from './context'
 import { CoreWarnCodes, getWarnMessage } from './warnings'
 import { CoreErrorCodes, createCoreError } from './errors'
@@ -841,7 +841,7 @@ function resolveMessageFormat<Messages, Message>(
       __DEV__ &&
       locale !== targetLocale &&
       isTranslateFallbackWarn(fallbackWarn, key) &&
-      !isSameLanguage(messages, key, locale, targetLocale)
+      !isImplicitFallback(messages, key, locale, targetLocale)
     ) {
       onWarn(
         getWarnMessage(CoreWarnCodes.FALLBACK_TO_TRANSLATE, {

@@ -648,19 +648,30 @@ export function isTranslateMissingWarn(
 }
 
 /** @internal */
-export function isSameLanguage(
+export function isImplicitFallback(
   messages: any,
   key: Path,
   locale: Locale,
   fallback: Locale | undefined
 ): boolean {
-  const languageCode1 = locale.split('-')[0]
-  const languageCode2 = fallback?.split('-')[0]
+  const localLanguageCode = locale.split('-')[0]
+  const fallbackLanguageCode = fallback?.split('-')[0]
 
-  if (languageCode1 === languageCode2) {
-    const hasKey =
-      messages[languageCode1!] && messages[languageCode1!][key] !== undefined
-    return hasKey
+  if (localLanguageCode === fallbackLanguageCode) {
+    const hasKeyInMessages = (obj: any, keyPath: string[]): boolean => {
+      const key = keyPath[0]
+      if (obj && key in obj) {
+        if (keyPath.length === 1) {
+          return true
+        }
+        return hasKeyInMessages(obj[key], keyPath.slice(1))
+      }
+      return false
+    }
+
+    const keyPathArray = key.split('.')
+
+    return hasKeyInMessages(messages[localLanguageCode], keyPathArray)
   } else {
     return false
   }
@@ -673,7 +684,7 @@ export function handleMissing<Message = string>(
   locale: Locale,
   missingWarn: boolean | RegExp,
   type: CoreMissingType,
-  locale2?: Locale
+  fallbackLocale?: Locale
 ): unknown {
   const { missing, onWarn } = context
 
@@ -697,7 +708,7 @@ export function handleMissing<Message = string>(
     if (
       __DEV__ &&
       isTranslateMissingWarn(missingWarn, key) &&
-      !isSameLanguage(context.messages, key, locale, locale2)
+      !isImplicitFallback(context.messages, key, locale, fallbackLocale)
     ) {
       onWarn(getWarnMessage(CoreWarnCodes.NOT_FOUND_KEY, { key, locale }))
     }
