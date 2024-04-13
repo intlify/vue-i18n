@@ -406,48 +406,57 @@ export function createTokenizer(
     return null
   }
 
-  function takeIdentifierChar(scnr: Scanner): string | undefined | null {
-    const closure = (ch: string) => {
-      const cc = ch.charCodeAt(0)
-      return (
-        (cc >= 97 && cc <= 122) || // a-z
-        (cc >= 65 && cc <= 90) || // A-Z
-        (cc >= 48 && cc <= 57) || // 0-9
-        cc === 95 || // _
-        cc === 36 // $
-      )
-    }
-    return takeChar(scnr, closure)
+  function isIdentifier(ch: string): boolean {
+    const cc = ch.charCodeAt(0)
+    return (
+      (cc >= 97 && cc <= 122) || // a-z
+      (cc >= 65 && cc <= 90) || // A-Z
+      (cc >= 48 && cc <= 57) || // 0-9
+      cc === 95 || // _
+      cc === 36 // $
+    )
   }
 
-  // NOTE: It is assumed that this function is used in conjunction with `takeIdentifierChar` for named.
-  // TODO: we need to refactor this function ...
+  function takeIdentifierChar(scnr: Scanner): string | undefined | null {
+    return takeChar(scnr, isIdentifier)
+  }
+
+  function isNamedIdentifier(ch: string): boolean {
+    const cc = ch.charCodeAt(0)
+    return (
+      (cc >= 97 && cc <= 122) || // a-z
+      (cc >= 65 && cc <= 90) || // A-Z
+      (cc >= 48 && cc <= 57) || // 0-9
+      cc === 95 || // _
+      cc === 36 || // $
+      cc === 45 // -
+    )
+  }
+
   function takeNamedIdentifierChar(scnr: Scanner): string | undefined | null {
-    const closure = (ch: string) => {
-      const cc = ch.charCodeAt(0)
-      return cc === 45 // -
-    }
-    return takeChar(scnr, closure)
+    return takeChar(scnr, isNamedIdentifier)
+  }
+
+  function isDigit(ch: string): boolean {
+    const cc = ch.charCodeAt(0)
+    return cc >= 48 && cc <= 57 // 0-9
   }
 
   function takeDigit(scnr: Scanner): string | undefined | null {
-    const closure = (ch: string) => {
-      const cc = ch.charCodeAt(0)
-      return cc >= 48 && cc <= 57 // 0-9
-    }
-    return takeChar(scnr, closure)
+    return takeChar(scnr, isDigit)
+  }
+
+  function isHexDigit(ch: string): boolean {
+    const cc = ch.charCodeAt(0)
+    return (
+      (cc >= 48 && cc <= 57) || // 0-9
+      (cc >= 65 && cc <= 70) || // A-F
+      (cc >= 97 && cc <= 102)
+    ) // a-f
   }
 
   function takeHexDigit(scnr: Scanner): string | undefined | null {
-    const closure = (ch: string) => {
-      const cc = ch.charCodeAt(0)
-      return (
-        (cc >= 48 && cc <= 57) || // 0-9
-        (cc >= 65 && cc <= 70) || // A-F
-        (cc >= 97 && cc <= 102)
-      ) // a-f
-    }
-    return takeChar(scnr, closure)
+    return takeChar(scnr, isHexDigit)
   }
 
   function getDigits(scnr: Scanner): string {
@@ -513,8 +522,7 @@ export function createTokenizer(
 
     let ch: string | undefined | null = ''
     let name = ''
-    // eslint-disable-next-line no-cond-assign
-    while ((ch = takeIdentifierChar(scnr) || takeNamedIdentifierChar(scnr))) {
+    while ((ch = takeNamedIdentifierChar(scnr))) {
       name += ch
     }
 
@@ -551,6 +559,10 @@ export function createTokenizer(
     return value
   }
 
+  function isLiteral(ch: string): boolean {
+    return ch !== LITERAL_DELIMITER && ch !== NEW_LINE
+  }
+
   function readLiteral(scnr: Scanner): string {
     skipSpaces(scnr)
 
@@ -559,8 +571,7 @@ export function createTokenizer(
 
     let ch: string | undefined | null = ''
     let literal = ''
-    const fn = (x: string) => x !== LITERAL_DELIMITER && x !== NEW_LINE
-    while ((ch = takeChar(scnr, fn))) {
+    while ((ch = takeChar(scnr, isLiteral))) {
       if (ch === '\\') {
         literal += readEscapeSequence(scnr)
       } else {
@@ -637,17 +648,21 @@ export function createTokenizer(
     return `\\${unicode}${sequence}`
   }
 
+  function isInvalidIdentifier(ch: string): boolean {
+    return (
+      ch !== TokenChars.BraceLeft &&
+      ch !== TokenChars.BraceRight &&
+      ch !== SPACE &&
+      ch !== NEW_LINE
+    )
+  }
+
   function readInvalidIdentifier(scnr: Scanner): string {
     skipSpaces(scnr)
 
     let ch: string | undefined | null = ''
     let identifiers = ''
-    const closure = (ch: string) =>
-      ch !== TokenChars.BraceLeft &&
-      ch !== TokenChars.BraceRight &&
-      ch !== SPACE &&
-      ch !== NEW_LINE
-    while ((ch = takeChar(scnr, closure))) {
+    while ((ch = takeChar(scnr, isInvalidIdentifier))) {
       identifiers += ch
     }
 
