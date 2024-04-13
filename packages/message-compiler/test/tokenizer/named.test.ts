@@ -310,6 +310,57 @@ test('new line', () => {
   })
 })
 
+test('include hyphen', () => {
+  const tokenizer = createTokenizer('My Nickname is {nick-name}.')
+  expect(tokenizer.nextToken()).toEqual({
+    type: TokenTypes.Text,
+    value: 'My Nickname is ',
+    loc: {
+      start: { line: 1, column: 1, offset: 0 },
+      end: { line: 1, column: 16, offset: 15 }
+    }
+  })
+  expect(tokenizer.nextToken()).toEqual({
+    type: TokenTypes.BraceLeft,
+    value: '{',
+    loc: {
+      start: { line: 1, column: 16, offset: 15 },
+      end: { line: 1, column: 17, offset: 16 }
+    }
+  })
+  expect(tokenizer.nextToken()).toEqual({
+    type: TokenTypes.Named,
+    value: 'nick-name',
+    loc: {
+      start: { line: 1, column: 17, offset: 16 },
+      end: { line: 1, column: 26, offset: 25 }
+    }
+  })
+  expect(tokenizer.nextToken()).toEqual({
+    type: TokenTypes.BraceRight,
+    value: '}',
+    loc: {
+      start: { line: 1, column: 26, offset: 25 },
+      end: { line: 1, column: 27, offset: 26 }
+    }
+  })
+  expect(tokenizer.nextToken()).toEqual({
+    type: TokenTypes.Text,
+    value: '.',
+    loc: {
+      start: { line: 1, column: 27, offset: 26 },
+      end: { line: 1, column: 28, offset: 27 }
+    }
+  })
+  expect(tokenizer.nextToken()).toEqual({
+    type: TokenTypes.EOF,
+    loc: {
+      start: { line: 1, column: 28, offset: 27 },
+      end: { line: 1, column: 28, offset: 27 }
+    }
+  })
+})
+
 describe('modulo cases', () => {
   test('basic named: hi %{name} !', () => {
     const tokenizer = createTokenizer('hi %{name} !')
