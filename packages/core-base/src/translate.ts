@@ -841,7 +841,12 @@ function resolveMessageFormat<Messages, Message>(
       __DEV__ &&
       locale !== targetLocale &&
       isTranslateFallbackWarn(fallbackWarn, key) &&
-      !isImplicitFallback(messages, key, locale, targetLocale)
+      !isImplicitFallback(
+        context as CoreContext<Message>,
+        key,
+        locale,
+        targetLocale
+      )
     ) {
       onWarn(
         getWarnMessage(CoreWarnCodes.FALLBACK_TO_TRANSLATE, {
