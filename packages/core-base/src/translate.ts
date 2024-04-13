@@ -20,7 +20,8 @@ import { isMessageAST } from './compilation'
 import { createMessageContext } from './runtime'
 import {
   isTranslateFallbackWarn,
-  isAlmostSameLanguage,
+  isAlmostSameLocale,
+  isImplicitFallback,
   handleMissing,
   NOT_REOSLVED,
   getAdditionalMeta,
@@ -840,7 +841,7 @@ function resolveMessageFormat<Messages, Message>(
     if (
       __DEV__ &&
       locale !== targetLocale &&
-      !isAlmostSameLanguage(targetLocale, locale) &&
+      !isAlmostSameLocale(locale, targetLocale) &&
       isTranslateFallbackWarn(fallbackWarn, key)
     ) {
       onWarn(
@@ -907,8 +908,7 @@ function resolveMessageFormat<Messages, Message>(
       break
     }
 
-    const fallback = locales[locales.length - 1]
-    if (!isAlmostSameLanguage(targetLocale, fallback)) {
+    if (!isImplicitFallback(targetLocale, fallbackLocale)) {
       const missingRet = handleMissing(
         context as any, // eslint-disable-line @typescript-eslint/no-explicit-any
         key,

@@ -648,15 +648,6 @@ export function isTranslateMissingWarn(
 }
 
 /** @internal */
-export function isAlmostSameLanguage(
-  locale: Locale,
-  compareLocale: Locale
-): boolean {
-  if (locale === compareLocale) return false
-  return locale.split('-')[0] === compareLocale.split('-')[0]
-}
-
-/** @internal */
 export function handleMissing<Message = string>(
   context: CoreContext<Message>,
   key: Path,
@@ -699,6 +690,37 @@ export function updateFallbackLocale<Message = string>(
   const context = ctx as unknown as CoreInternalContext
   context.__localeChainCache = new Map()
   ctx.localeFallbacker<Message>(ctx, fallback, locale)
+}
+
+/** @internal */
+export function isAlmostSameLocale(
+  locale: Locale,
+  compareLocale: Locale
+): boolean {
+  if (locale === compareLocale) return false
+  return locale.split('-')[0] === compareLocale.split('-')[0]
+}
+
+/** @internal */
+export function isImplicitFallback(
+  locale: Locale,
+  fallbackLocale: FallbackLocale
+): boolean {
+  if (isString(fallbackLocale)) {
+    return isAlmostSameLocale(locale, fallbackLocale)
+  }
+
+  if (isArray(fallbackLocale)) {
+    return fallbackLocale.some(fbLocale => isAlmostSameLocale(locale, fbLocale))
+  }
+
+  if (isObject(fallbackLocale)) {
+    return Object.values(fallbackLocale).some(fbLocales => {
+      return fbLocales.some(fbLocale => isAlmostSameLocale(locale, fbLocale))
+    })
+  }
+
+  return false
 }
 
 /* eslint-enable @typescript-eslint/no-explicit-any */
