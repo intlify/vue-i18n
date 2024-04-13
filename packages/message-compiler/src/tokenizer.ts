@@ -420,6 +420,16 @@ export function createTokenizer(
     return takeChar(scnr, closure)
   }
 
+  // NOTE: It is assumed that this function is used in conjunction with `takeIdentifierChar` for named.
+  // TODO: we need to refactor this function ...
+  function takeNamedIdentifierChar(scnr: Scanner): string | undefined | null {
+    const closure = (ch: string) => {
+      const cc = ch.charCodeAt(0)
+      return cc === 45 // -
+    }
+    return takeChar(scnr, closure)
+  }
+
   function takeDigit(scnr: Scanner): string | undefined | null {
     const closure = (ch: string) => {
       const cc = ch.charCodeAt(0)
@@ -503,7 +513,8 @@ export function createTokenizer(
 
     let ch: string | undefined | null = ''
     let name = ''
-    while ((ch = takeIdentifierChar(scnr))) {
+    // eslint-disable-next-line no-cond-assign
+    while ((ch = takeIdentifierChar(scnr) || takeNamedIdentifierChar(scnr))) {
       name += ch
     }
 

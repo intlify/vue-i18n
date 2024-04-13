@@ -1,5 +1,6 @@
 import { createLocation } from './location'
 import { createCompileError, CompileErrorCodes } from './errors'
+import { createCompileWarn, CompileWarnCodes } from './warnings'
 import { createTokenizer, TokenTypes } from './tokenizer'
 import { NodeTypes } from './nodes'
 import { assign } from '@intlify/shared'
@@ -57,7 +58,7 @@ function fromEscapeSequence(
 export function createParser(options: ParserOptions = {}): Parser {
   const location = options.location !== false
 
-  const { onError } = options
+  const { onError, onWarn } = options
   function emitError(
     tokenzer: Tokenizer,
     code: CompileErrorCodes,
@@ -75,6 +76,21 @@ export function createParser(options: ParserOptions = {}): Parser {
         args
       })
       onError(err)
+    }
+  }
+  function emitWarn(
+    tokenzer: Tokenizer,
+    code: CompileWarnCodes,
+    start: Position,
+    offset: number,
+    ...args: unknown[]
+  ): void {
+    const end = tokenzer.currentPosition()
+    end.offset += offset
+    end.column += offset
+    if (onWarn) {
+      const loc = location ? createLocation(start, end) : null
+      onWarn(createCompileWarn(code, loc, args))
     }
   }
 
@@ -130,11 +146,18 @@ export function createParser(options: ParserOptions = {}): Parser {
     return node
   }
 
-  function parseNamed(tokenizer: Tokenizer, key: string): NamedNode {
+  function parseNamed(
+    tokenizer: Tokenizer,
+    key: string,
+    modulo?: boolean
+  ): NamedNode {
     const context = tokenizer.context()
     const { lastOffset: offset, lastStartLoc: loc } = context // get brace left loc
     const node = startNode(NodeTypes.Named, offset, loc) as NamedNode
     node.key = key
+    if (modulo === true) {
+      node.modulo = true
+    }
     tokenizer.nextToken() // skip brach right
     endNode(node, tokenizer.currentOffset(), tokenizer.currentPosition())
     return node
@@ -339,6 +362,7 @@ export function createParser(options: ParserOptions = {}): Parser {
     node.items = []
 
     let nextToken: Token | null = null
+    let modulo: boolean | null = null
     do {
       const token = nextToken || tokenizer.nextToken()
       nextToken = null
@@ -367,6 +391,9 @@ export function createParser(options: ParserOptions = {}): Parser {
           }
           node.items.push(parseList(tokenizer, token.value || ''))
           break
+        case TokenTypes.Modulo:
+          modulo = true
+          break
         case TokenTypes.Named:
           if (token.value == null) {
             emitError(
@@ -377,7 +404,17 @@ export function createParser(options: ParserOptions = {}): Parser {
               getTokenCaption(token)
             )
           }
-          node.items.push(parseNamed(tokenizer, token.value || ''))
+          node.items.push(parseNamed(tokenizer, token.value || '', !!modulo))
+          if (modulo) {
+            emitWarn(
+              tokenizer,
+              CompileWarnCodes.USE_MODULO_SYNTAX,
+              context.lastStartLoc,
+              0,
+              getTokenCaption(token)
+            )
+            modulo = null
+          }
           break
         case TokenTypes.Literal:
           if (token.value == null) {

@@ -10,31 +10,31 @@ const inc = incrementer(code)
 
 export const I18nErrorCodes = {
   // composer module errors
-  UNEXPECTED_RETURN_TYPE: code, // 26
+  UNEXPECTED_RETURN_TYPE: code, // 24
   // legacy module errors
-  INVALID_ARGUMENT: inc(), // 27
+  INVALID_ARGUMENT: inc(), // 25
   // i18n module errors
-  MUST_BE_CALL_SETUP_TOP: inc(), // 28
-  NOT_INSTALLED: inc(), // 29
-  NOT_AVAILABLE_IN_LEGACY_MODE: inc(), // 30
+  MUST_BE_CALL_SETUP_TOP: inc(), // 26
+  NOT_INSTALLED: inc(), // 27
+  NOT_AVAILABLE_IN_LEGACY_MODE: inc(), // 28
   // directive module errors
-  REQUIRED_VALUE: inc(), // 31
-  INVALID_VALUE: inc(), // 32
+  REQUIRED_VALUE: inc(), // 29
+  INVALID_VALUE: inc(), // 30
   // vue-devtools errors
-  CANNOT_SETUP_VUE_DEVTOOLS_PLUGIN: inc(), // 33
-  NOT_INSTALLED_WITH_PROVIDE: inc(), // 34
+  CANNOT_SETUP_VUE_DEVTOOLS_PLUGIN: inc(), // 31
+  NOT_INSTALLED_WITH_PROVIDE: inc(), // 32
   // unexpected error
-  UNEXPECTED_ERROR: inc(), // 35
+  UNEXPECTED_ERROR: inc(), // 33
   // not compatible legacy vue-i18n constructor
-  NOT_COMPATIBLE_LEGACY_VUE_I18N: inc(), // 36
+  NOT_COMPATIBLE_LEGACY_VUE_I18N: inc(), // 34
   // bridge support vue 2.x only
-  BRIDGE_SUPPORT_VUE_2_ONLY: inc(), // 37
+  BRIDGE_SUPPORT_VUE_2_ONLY: inc(), // 35
   // need to define `i18n` option in `allowComposition: true` and `useScope: 'local' at `useI18n``
-  MUST_DEFINE_I18N_OPTION_IN_ALLOW_COMPOSITION: inc(), // 38
+  MUST_DEFINE_I18N_OPTION_IN_ALLOW_COMPOSITION: inc(), // 36
   // Not available Compostion API in Legacy API mode. Please make sure that the legacy API mode is working properly
-  NOT_AVAILABLE_COMPOSITION_IN_LEGACY: inc(), // 39
+  NOT_AVAILABLE_COMPOSITION_IN_LEGACY: inc(), // 37
   // for enhancement
-  __EXTEND_POINT__: inc() // 40
+  __EXTEND_POINT__: inc() // 38
 } as const
 
 type I18nErrorCodes = (typeof I18nErrorCodes)[keyof typeof I18nErrorCodes]
