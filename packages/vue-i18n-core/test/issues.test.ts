@@ -1358,3 +1358,27 @@ test('issue #1738', async () => {
   expect(wrapper.find('#te1')?.textContent).toEqual(`true - expected true`)
   expect(wrapper.find('#te2')?.textContent).toEqual(`true - expected true`)
 })
+
+test('issue #1768', async () => {
+  const mockWarn = vi.spyOn(shared, 'warn')
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  mockWarn.mockImplementation(() => {})
+
+  const i18n = createI18n({
+    locale: 'en-US',
+    fallbackLocale: 'en',
+    messages: {
+      en: {
+        hello: 'Hello, Vue I18n'
+      }
+    }
+  })
+
+  const App = defineComponent({
+    template: `<div>{{ $t('hello') }}</div>`
+  })
+  const wrapper = await mount(App, i18n)
+
+  expect(wrapper.html()).toEqual('<div>Hello, Vue I18n</div>')
+  expect(mockWarn).toHaveBeenCalledTimes(0)
+})
