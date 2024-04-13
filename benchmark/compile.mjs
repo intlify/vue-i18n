@@ -1,5 +1,6 @@
 import { createCommonJS } from 'mlly'
 import { baseCompile } from '@intlify/message-compiler'
+import { displayMemoryUsage } from './utils.mjs'
 
 const { require } = createCommonJS(import.meta.url)
 const { Suite } = require('benchmark')
@@ -23,6 +24,8 @@ async function main() {
       console.log(String(event.target))
     })
     .run()
+
+  displayMemoryUsage()
 }
 
 main().catch(err => {

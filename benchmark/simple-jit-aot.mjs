@@ -11,7 +11,7 @@ import {
 } from '@intlify/core-base'
 import { createI18n } from 'vue-i18n'
 import { resolve, dirname } from 'pathe'
-import { readJson } from './utils.mjs'
+import { readJson, displayMemoryUsage } from './utils.mjs'
 
 const { require } = createCommonJS(import.meta.url)
 const { Suite } = require('benchmark')
@@ -69,6 +69,8 @@ async function main() {
       console.log(String(event.target))
     })
     .run()
+
+  displayMemoryUsage()
 }
 
 main().catch(err => {
