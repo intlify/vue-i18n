@@ -1369,13 +1369,15 @@ test('issue #1768', async () => {
     fallbackLocale: 'en',
     messages: {
       en: {
-        hello: 'Hello, Vue I18n'
+        hello: {
+          'vue-i18n': 'Hello, Vue I18n'
+        }
       }
     }
   })
 
   const App = defineComponent({
-    template: `<div>{{ $t('hello') }}</div>`
+    template: `<div>{{ $t('hello.vue-i18n') }}</div>`
   })
   const wrapper = await mount(App, i18n)
 
