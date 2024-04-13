@@ -20,11 +20,11 @@ import { isMessageAST } from './compilation'
 import { createMessageContext } from './runtime'
 import {
   isTranslateFallbackWarn,
+  isAlmostSameLanguage,
   handleMissing,
   NOT_REOSLVED,
   getAdditionalMeta,
-  CoreContext,
-  isImplicitFallback
+  CoreContext
 } from './context'
 import { CoreWarnCodes, getWarnMessage } from './warnings'
 import { CoreErrorCodes, createCoreError } from './errors'
@@ -840,13 +840,8 @@ function resolveMessageFormat<Messages, Message>(
     if (
       __DEV__ &&
       locale !== targetLocale &&
-      isTranslateFallbackWarn(fallbackWarn, key) &&
-      !isImplicitFallback(
-        context as CoreContext<Message>,
-        key,
-        locale,
-        targetLocale
-      )
+      !isAlmostSameLanguage(targetLocale, locale) &&
+      isTranslateFallbackWarn(fallbackWarn, key)
     ) {
       onWarn(
         getWarnMessage(CoreWarnCodes.FALLBACK_TO_TRANSLATE, {
@@ -912,16 +907,18 @@ function resolveMessageFormat<Messages, Message>(
       break
     }
 
-    const missingRet = handleMissing(
-      context as any, // eslint-disable-line @typescript-eslint/no-explicit-any
-      key,
-      targetLocale,
-      missingWarn,
-      type,
-      locale
-    )
-    if (missingRet !== key) {
-      format = missingRet as PathValue
+    const fallback = locales[locales.length - 1]
+    if (!isAlmostSameLanguage(targetLocale, fallback)) {
+      const missingRet = handleMissing(
+        context as any, // eslint-disable-line @typescript-eslint/no-explicit-any
+        key,
+        targetLocale,
+        missingWarn,
+        type
+      )
+      if (missingRet !== key) {
+        format = missingRet as PathValue
+      }
     }
     from = to
   }

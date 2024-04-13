@@ -648,22 +648,12 @@ export function isTranslateMissingWarn(
 }
 
 /** @internal */
-export function isImplicitFallback<Message = string>(
-  context: CoreContext<Message>,
-  key: Path,
+export function isAlmostSameLanguage(
   locale: Locale,
-  fallback: Locale | undefined
+  compareLocale: Locale
 ): boolean {
-  const localLanguageCode = locale.split('-')[0]
-  const fallbackLanguageCode = fallback?.split('-')[0]
-  const messages: Record<string, any> = context.messages
-
-  if (localLanguageCode === fallbackLanguageCode) {
-    const message = context.messageResolver(messages[localLanguageCode], key)
-    return !!message
-  } else {
-    return false
-  }
+  if (locale === compareLocale) return false
+  return locale.split('-')[0] === compareLocale.split('-')[0]
 }
 
 /** @internal */
@@ -672,8 +662,7 @@ export function handleMissing<Message = string>(
   key: Path,
   locale: Locale,
   missingWarn: boolean | RegExp,
-  type: CoreMissingType,
-  fallbackLocale?: Locale
+  type: CoreMissingType
 ): unknown {
   const { missing, onWarn } = context
 
@@ -694,11 +683,7 @@ export function handleMissing<Message = string>(
     const ret = missing(context as any, locale, key, type)
     return isString(ret) ? ret : key
   } else {
-    if (
-      __DEV__ &&
-      isTranslateMissingWarn(missingWarn, key) &&
-      !isImplicitFallback(context, key, locale, fallbackLocale)
-    ) {
+    if (__DEV__ && isTranslateMissingWarn(missingWarn, key)) {
       onWarn(getWarnMessage(CoreWarnCodes.NOT_FOUND_KEY, { key, locale }))
     }
     return key
