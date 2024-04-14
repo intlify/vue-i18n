@@ -692,4 +692,32 @@ export function updateFallbackLocale<Message = string>(
   ctx.localeFallbacker<Message>(ctx, fallback, locale)
 }
 
+/** @internal */
+export function isAlmostSameLocale(
+  locale: Locale,
+  compareLocale: Locale
+): boolean {
+  if (locale === compareLocale) return false
+  return locale.split('-')[0] === compareLocale.split('-')[0]
+}
+
+/** @internal */
+export function isImplicitFallback(
+  targetLocale: Locale,
+  locales: Locale[]
+): boolean {
+  const index = locales.indexOf(targetLocale)
+  if (index === -1) {
+    return false
+  }
+
+  for (let i = index + 1; i < locales.length; i++) {
+    if (isAlmostSameLocale(targetLocale, locales[i])) {
+      return true
+    }
+  }
+
+  return false
+}
+
 /* eslint-enable @typescript-eslint/no-explicit-any */

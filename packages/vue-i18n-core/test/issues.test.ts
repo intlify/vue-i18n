@@ -1359,6 +1359,67 @@ test('issue #1738', async () => {
   expect(wrapper.find('#te2')?.textContent).toEqual(`true - expected true`)
 })
 
+describe('issue #1768', () => {
+  test('Implicit fallback using locales', async () => {
+    const mockWarn = vi.spyOn(shared, 'warn')
+    // eslint-disable-next-line @typescript-eslint/no-empty-function
+    mockWarn.mockImplementation(() => {})
+
+    const i18n = createI18n({
+      locale: 'en-US',
+      fallbackLocale: 'en',
+      messages: {
+        en: {
+          hello: {
+            'vue-i18n': 'Hello, Vue I18n'
+          }
+        }
+      }
+    })
+
+    const App = defineComponent({
+      template: `<div>{{ $t('hello.vue-i18n') }}</div>`
+    })
+    const wrapper = await mount(App, i18n)
+
+    expect(wrapper.html()).toEqual('<div>Hello, Vue I18n</div>')
+    expect(mockWarn).toHaveBeenCalledTimes(0)
+  })
+
+  test('Explicit fallback with decision maps', async () => {
+    const mockWarn = vi.spyOn(shared, 'warn')
+    // eslint-disable-next-line @typescript-eslint/no-empty-function
+    mockWarn.mockImplementation(() => {})
+
+    const i18n = createI18n({
+      locale: 'zh-Hant',
+      fallbackLocale: {
+        'de-CH': ['fr', 'it'],
+        'zh-Hant': ['zh-Hans'],
+        'es-CL': ['es-AR'],
+        es: ['en-GB'],
+        pt: ['es-AR'],
+        default: ['en', 'da']
+      },
+      messages: {
+        zh: {
+          hello: {
+            'vue-i18n': '你好，Vue I18n'
+          }
+        }
+      }
+    })
+
+    const App = defineComponent({
+      template: `<div>{{ $t('hello.vue-i18n') }}</div>`
+    })
+    const wrapper = await mount(App, i18n)
+
+    expect(wrapper.html()).toEqual('<div>你好，Vue I18n</div>')
+    expect(mockWarn).toHaveBeenCalledTimes(0)
+  })
+})
+
 test('#1796', async () => {
   const i18n = createI18n({
     locale: 'en',
