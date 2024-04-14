@@ -49,4 +49,9 @@ export function initDev(): void {
       )
     }
   }
+  if (__BRIDGE__) {
+    console.warn(
+      `vue-i18n-bridge v10 will not be released, since vue-i18n-bridge is for Vue 2, which is already past EOL.`
+    )
+  }
 }
