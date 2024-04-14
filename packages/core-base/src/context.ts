@@ -703,21 +703,18 @@ export function isAlmostSameLocale(
 
 /** @internal */
 export function isImplicitFallback(
-  locale: Locale,
-  fallbackLocale: FallbackLocale
+  targetLocale: Locale,
+  locales: Locale[]
 ): boolean {
-  if (isString(fallbackLocale)) {
-    return isAlmostSameLocale(locale, fallbackLocale)
+  const index = locales.indexOf(targetLocale)
+  if (index === -1) {
+    return false
   }
 
-  if (isArray(fallbackLocale)) {
-    return fallbackLocale.some(fbLocale => isAlmostSameLocale(locale, fbLocale))
-  }
-
-  if (isObject(fallbackLocale)) {
-    return Object.values(fallbackLocale).some(fbLocales => {
-      return fbLocales.some(fbLocale => isAlmostSameLocale(locale, fbLocale))
-    })
+  for (let i = index + 1; i < locales.length; i++) {
+    if (isAlmostSameLocale(targetLocale, locales[i])) {
+      return true
+    }
   }
 
   return false

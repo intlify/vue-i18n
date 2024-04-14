@@ -908,7 +908,7 @@ function resolveMessageFormat<Messages, Message>(
       break
     }
 
-    if (!isImplicitFallback(targetLocale, fallbackLocale)) {
+    if (!isImplicitFallback(targetLocale, locales)) {
       const missingRet = handleMissing(
         context as any, // eslint-disable-line @typescript-eslint/no-explicit-any
         key,
