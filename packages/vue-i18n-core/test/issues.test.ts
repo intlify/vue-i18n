@@ -1384,3 +1384,21 @@ test('issue #1768', async () => {
   expect(wrapper.html()).toEqual('<div>Hello, Vue I18n</div>')
   expect(mockWarn).toHaveBeenCalledTimes(0)
 })
+
+test('#1796', async () => {
+  const i18n = createI18n({
+    locale: 'en',
+    messages: {
+      en: {
+        hello: 'hello world',
+        'message-with-placeholder-using-hyphens':
+          'My message with {placeholder-hyphens}.'
+      }
+    }
+  })
+  expect(
+    i18n.global.t('message-with-placeholder-using-hyphens', {
+      'placeholder-hyphens': i18n.global.t('hello')
+    })
+  ).toEqual('My message with hello world.')
+})

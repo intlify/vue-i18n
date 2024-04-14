@@ -80,6 +80,7 @@ export interface TextNode extends Node {
 export interface NamedNode extends Node {
   type: NodeTypes.Named
   key: Identifier
+  modulo?: boolean
   /**
    * @internal `key` alias
    */

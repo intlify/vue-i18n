@@ -66,14 +66,14 @@ export type LocaleMessageValue<Message = string> =
 export type LocaleMessageType<T, Message = string> = T extends string
   ? string
   : T extends () => Promise<infer P>
-    ? LocaleMessageDictionary<P, Message>
-    : T extends (...args: infer Arguments) => any
-      ? (...args: Arguments) => ReturnType<T>
-      : T extends Record<string, unknown>
-        ? LocaleMessageDictionary<T, Message>
-        : T extends Array<T>
-          ? { [K in keyof T]: T[K] }
-          : T
+  ? LocaleMessageDictionary<P, Message>
+  : T extends (...args: infer Arguments) => any
+  ? (...args: Arguments) => ReturnType<T>
+  : T extends Record<string, unknown>
+  ? LocaleMessageDictionary<T, Message>
+  : T extends Array<T>
+  ? { [K in keyof T]: T[K] }
+  : T
 
 /** @VueI18nGeneral */
 export type LocaleMessageDictionary<T, Message = string> = {
@@ -145,7 +145,7 @@ export type PostTranslationHandler<Message = string> = (
  */
 export type MessageCompilerContext = Pick<
   CompileOptions,
-  'onError' | 'onCacheKey'
+  'onError' | 'onCacheKey' | 'onWarn'
 > & {
   /**
    * Whether to allow the use locale messages of HTML formatting.
@@ -183,37 +183,37 @@ export type MessageCompiler<
 export interface CoreOptions<
   Message = string,
   Schema extends
-    {
-      message?: unknown
-      datetime?: unknown
-      number?: unknown
-    } = {
-      message: DefaultCoreLocaleMessageSchema,
-      datetime: DateTimeFormat,
-      number: NumberFormat
-    },
+  {
+    message?: unknown
+    datetime?: unknown
+    number?: unknown
+  } = {
+    message: DefaultCoreLocaleMessageSchema,
+    datetime: DateTimeFormat,
+    number: NumberFormat
+  },
   Locales extends
-    | {
-        messages: unknown
-        datetimeFormats: unknown
-        numberFormats: unknown
-      }
-    | string = Locale,
+  | {
+    messages: unknown
+    datetimeFormats: unknown
+    numberFormats: unknown
+  }
+  | string = Locale,
   MessagesLocales = Locales extends { messages: infer M }
-    ? M
-    : Locales extends string
-      ? Locales
-      : Locale,
+  ? M
+  : Locales extends string
+  ? Locales
+  : Locale,
   DateTimeFormatsLocales = Locales extends { datetimeFormats: infer D }
-      ? D
-      : Locales extends string
-        ? Locales
-        : Locale,
+  ? D
+  : Locales extends string
+  ? Locales
+  : Locale,
   NumberFormatsLocales = Locales extends { numberFormats: infer N }
-    ? N
-    : Locales extends string
-      ? Locales
-      : Locale,
+  ? N
+  : Locales extends string
+  ? Locales
+  : Locale,
   MessageSchema = Schema extends { message: infer M } ? M : DefaultCoreLocaleMessageSchema,
   DateTimeSchema = Schema extends { datetime: infer D } ? D : DateTimeFormat,
   NumberSchema = Schema extends { number: infer N } ? N : NumberFormat,
@@ -300,14 +300,14 @@ export type CoreContext<
   NumberFormats = {},
   LocaleType = Locale,
   ResourceLocales =
-    | PickupLocales<NonNullable<Messages>>
-    | PickupLocales<NonNullable<DateTimeFormats>>
-    | PickupLocales<NonNullable<NumberFormats>>,
+  | PickupLocales<NonNullable<Messages>>
+  | PickupLocales<NonNullable<DateTimeFormats>>
+  | PickupLocales<NonNullable<NumberFormats>>,
   Locales = IsNever<ResourceLocales> extends true
-    ? LocaleType extends LocaleDetector | Locale
-      ? LocaleType
-      : Locale
-    : ResourceLocales
+  ? LocaleType extends LocaleDetector | Locale
+  ? LocaleType
+  : Locale
+  : ResourceLocales
 > = CoreCommonContext<Message, Locales> &
   CoreTranslationContext<NonNullable<Messages>, Message> &
   CoreDateTimeContext<NonNullable<DateTimeFormats>> &
@@ -355,7 +355,7 @@ function getDefaultLinkedModifiers<
       return type === 'text' && isString(val)
         ? val.toUpperCase()
         : type === 'vnode' && isObject(val) && '__v_isVNode' in val
-        ? (val as any).children.toUpperCase()
+          ? (val as any).children.toUpperCase()
           : val
     },
     lower: (val: Message, type: string): MessageType<Message> => {
@@ -371,7 +371,7 @@ function getDefaultLinkedModifiers<
       return (type === 'text' && isString(val)
         ? capitalize(val)
         : type === 'vnode' && isObject(val) && '__v_isVNode' in val
-          ? capitalize( (val as any).children)
+          ? capitalize((val as any).children)
           : val) as MessageType<Message>
     }
   }

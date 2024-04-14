@@ -68,7 +68,9 @@ jobs:
         run: pnpm install --no-frozen-lockfile
 
       - name: Build codes
-        run: pnpm build --all -t
+        run: |
+          pnpm build --all -t
+          node -r esbuild-register scripts/postprocess.ts
 
       - name: Cache dist
         uses: actions/cache@v4

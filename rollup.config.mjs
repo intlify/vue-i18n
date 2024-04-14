@@ -174,7 +174,7 @@ function createConfig(format, _output, plugins = []) {
         declaration: shouldEmitDeclarations,
         declarationMap: shouldEmitDeclarations
       },
-      exclude: ['**/test', 'test-dts', 'e2e', 'scripts']
+      exclude: ['**/test', 'test-dts', 'e2e', 'scripts', '*.config.ts']
     }
   })
   // we only need to check TS and generate declarations once for each build.
@@ -380,6 +380,8 @@ function createReplacePlugin(
       ? {
           'emitError(': `/*#__PURE__*/ emitError(`,
           'createCompileError(': `/*#__PURE__*/ createCompileError(`,
+          'emitWarn(': `/*#__PURE__*/ emitWarn(`,
+          'createCompileWarn(': `/*#__PURE__*/ createCompileWarn(`,
           'function createCoreError(': `/*#__PURE__*/ function createCoreError(`,
           'throw createCoreError(': `throw Error(`,
           'function createI18nError(': `/*#__PURE__*/ function createI18nError(`,
