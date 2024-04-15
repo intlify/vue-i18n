@@ -12,17 +12,25 @@ To compose with `useI18n` in `setup` of Vue 3, there is one thing you need to do
 
 The following is an example of adding the `legacy` option to `createI18n`:
 
-```js{5}
+```js{4}
 // ...
 
-// 2. Create i18n instance with options
 const i18n = VueI18n.createI18n({
-  legacy: false, // you must set `false`, to use Composition API
-  locale: 'ja', // set locale
-  fallbackLocale: 'en', // set fallback locale
-  messages, // set locale messages
-  // If you need to specify other options, you can set other options
-  // ...
+  legacy: false, // you must set `false`, to use Composition API // [!code ++]
+  locale: 'ja',
+  fallbackLocale: 'en',
+  messages: {
+    en: {
+      message: {
+        hello: 'hello world'
+      }
+    },
+    ja: {
+      message: {
+        hello: 'こんにちは、世界'
+      }
+    }
+  }
 })
 
 // ...
@@ -37,39 +45,42 @@ The following properties of i18n instance created by `createI18n` change its beh
 - `global` property: VueI18n instance to Composer instance
 :::
 
-You are now ready to use `useI18n` in the component `setup`. The code looks like this:
+You are now ready to use `useI18n` in the `App.vue` component. The code looks like this:
 
-```js{5-8}
-// ...
+```vue
+<script setup> // [!code ++]
+import { useI18n } from 'vue-i18n' // [!code ++]
+const { t } = useI18n() // [!code ++]
+</script> // [!code ++]
 
-// 3. Create a vue root instance
-const app = Vue.createApp({
-  setup() {
-    const { t } = VueI18n.useI18n() // call `useI18n`, and spread `t` from  `useI18n` returning
-    return { t } // return render context that included `t`
-  }
-})
-
-// ...
+<template>
+  <h1>{{ $t("message.hello") }}</h1>
+</template>
 ```
 
-You must call `useI18n` at top of the `setup`.
+You must call `useI18n` at top of the `<script setup>`.
 
 The `useI18n` returns a Composer instance. The Composer instance provides a translation API such as the `t` function, as well as properties such as `locale` and `fallbackLocale`, just like the VueI18n instance. For more information on the Composer instance, see the [API Reference](../../api/composition#composer).
 
 In the above example, there are no options for `useI18n`, so it returns a Composer instance that works with the global scope. As such, it returns a Composer instance that works with the global scope, which means that the localized message referenced by the spread `t` function here is the one specified in `createI18n`.
 
-By returning `t` as render context in the `setup`, you can use `t` in the components template:
+you can use `t` in the components template:
 
-```html{2}
-<div id="app">
-  <p>{{ t("message.hello") }}</p>
-</div>
+```vue
+<script setup>
+import { useI18n } from 'vue-i18n'
+const { t } = useI18n()
+</script>
+
+<template>
+  <h1>{{ $t("message.hello") }}</h1> // [!code --]
+  <h1>{{ t("message.hello") }}</h1> // [!code ++]
+</template>
 ```
 
 The output follows:
 
-```html{2}
+```vue
 <div id="app">
   <p>こんにちは、世界</p>
 </div>
@@ -81,7 +92,38 @@ In the Legacy API mode, the messages were translated using either `$t` or the Vu
 
 In the Composition API mode, the Message Format Syntax remains the same as in the Legacy API mode. You can use the Composer instance `t` to translate a message as follows:
 
-```html
+```vue
+<script setup>
+import { computed } from 'vue'
+import { useI18n } from 'vue-i18n'
+
+const { t } = useI18n({
+  locale: 'en',
+  messages: {
+    en: {
+      msg: 'hello',
+      named: '{msg} world!',
+      list: '{0} world!',
+      literal: "{'hello'} world!",
+      the_world: 'the world',
+      dio: 'DIO:',
+      linked: '@:dio @:the_world !!!!'
+    },
+    ja: {
+      msg: 'こんにちは',
+      named: '{msg} 世界！',
+      list: '{0} 世界！',
+      literal: "{'こんにちは'} 世界！",
+      the_world: 'ザ・ワールド！',
+      dio: 'ディオ:',
+      linked: '@:dio @:the_world ！！！！'
+    }
+  }
+})
+
+const msg = computed(() => t('msg'))
+</script>
+
 <template>
   <p>{{ t('named', { msg }) }}</p>
   <p>{{ t('list', [msg]) }}</p>
@@ -89,42 +131,6 @@ In the Composition API mode, the Message Format Syntax remains the same as in th
   <p>{{ t('linked') }}</p>
 </template>
 
-<script>
-import { computed } from 'vue'
-import { useI18n } from 'vue-i18n'
-
-export default {
-  setup() {
-    const { t } = useI18n({
-      locale: 'en',
-      messages: {
-        en: {
-          msg: 'hello',
-          named: '{msg} world!',
-          list: '{0} world!',
-          literal: "{'hello'} world!",
-          the_world: 'the world',
-          dio: 'DIO:',
-          linked: '@:dio @:the_world !!!!'
-        },
-        ja: {
-          msg: 'こんにちは',
-          named: '{msg} 世界！',
-          list: '{0} 世界！',
-          literal: "{'こんにちは'} 世界！",
-          the_world: 'ザ・ワールド！',
-          dio: 'ディオ:',
-          linked: '@:dio @:the_world ！！！！'
-        }
-      }
-    })
-
-    const msg = computed(() => t('msg'))
-
-    return { t, msg }
-  }
-}
-</script>
 ```
 
 For more details of `t`, see the [API Reference](../../api/composition#t-key).
@@ -135,7 +141,22 @@ In the Legacy API mode, the plural form of the message was translated using eith
 
 In the Composition API mode, the plural form of the message is left in syntax as in the Legacy API mode, but is translated using the `t` of the Composer instance:
 
-```html
+```vue
+<script setup>
+import { useI18n } from 'vue-i18n'
+
+const { t } = useI18n({
+  locale: 'en',
+  messages: {
+    en: {
+      car: 'car | cars',
+      apple: 'no apples | one apple | {count} apples',
+      banana: 'no bananas | {n} banana | {n} bananas'
+    }
+  }
+})
+</script>
+
 <template>
   <h2>Car:</h2>
   <p>{{ t('car', 1) }}</p>
@@ -150,27 +171,6 @@ In the Composition API mode, the plural form of the message is left in syntax as
   <p>{{ t('banana', 1) }}</p>
   <p>{{ t('banana', { n: 'too many' }, 100) }}</p>
 </template>
-
-<script>
-import { useI18n } from 'vue-i18n'
-
-export default {
-  setup() {
-    const { t } = useI18n({
-      locale: 'en',
-      messages: {
-        en: {
-          car: 'car | cars',
-          apple: 'no apples | one apple | {count} apples',
-          banana: 'no bananas | {n} banana | {n} bananas'
-        }
-      }
-    })
-
-    return { t }
-  }
-}
-</script>
 ```
 
 :::tip NOTE
@@ -183,44 +183,39 @@ In the Legacy API mode, Datetime value was formatted using `$d` or the VueI18n i
 
 In the Composition API mode, it uses the `d` of the Composer instance to format:
 
-```html
+```vue
+<script setup>
+import { ref } from 'vue'
+import { useI18n } from 'vue-i18n'
+
+const { t, d } = useI18n({
+  locale: 'en-US',
+  messages: {
+    'en-US': {
+      current: 'Current Datetime'
+    }
+  },
+  datetimeFormats: {
+    'en-US': {
+      long: {
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit'
+      }
+    }
+  }
+})
+
+const now = ref(new Date())
+</script>
+
 <template>
   <p>{{ t('current') }}: {{ d(now, 'long') }}</p>
 </template>
 
-<script>
-import { ref } from 'vue'
-import { useI18n } from 'vue-i18n'
-
-export default {
-  setup() {
-    const { t, d } = useI18n({
-      locale: 'en-US',
-      messages: {
-        'en-US': {
-          current: 'Current Datetime'
-        }
-      },
-      datetimeFormats: {
-        'en-US': {
-          long: {
-            year: 'numeric',
-            month: '2-digit',
-            day: '2-digit',
-            hour: '2-digit',
-            minute: '2-digit',
-            second: '2-digit'
-          }
-        }
-      }
-    })
-
-    const now = ref(new Date())
-
-    return { t, d, now }
-  }
-}
-</script>
 ```
 
 For more details of `d`, see the [API Reference](../../api/composition#d-value).
@@ -231,40 +226,34 @@ In the Legacy API mode, Number value is formatted using `$n` or the `n` of the V
 
 In the Composition API mode, it is formatted using the `n` of the Composer instance:
 
-```html
-<template>
-  <p>{{ t('money') }}: {{ n(money, 'currency') }}</p>
-</template>
-
-<script>
+```vue
+<script setup>
 import { ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 
-export default {
-  setup() {
-    const { t, n } = useI18n({
-      locale: 'en-US',
-      messages: {
-        'en-US': {
-          money: 'Money'
-        }
-      },
-      numberFormats: {
-        'en-US': {
-          currency: {
-            style: 'currency',
-            currency: 'USD'
-          }
-        }
+const { t, n } = useI18n({
+  locale: 'en-US',
+  messages: {
+    'en-US': {
+      money: 'Money'
+    }
+  },
+  numberFormats: {
+    'en-US': {
+      currency: {
+        style: 'currency',
+        currency: 'USD'
       }
-    })
-
-    const money = ref(1000)
-
-    return { t, n, money }
+    }
   }
-}
+})
+
+const money = ref(1000)
 </script>
+
+<template>
+  <p>{{ t('money') }}: {{ n(money, 'currency') }}</p>
+</template>
 ```
 
 For more details of `n`, see the [API Reference](../../api/composition#n-value).
@@ -279,20 +268,14 @@ There are two ways to refer the global scope Composer instance at the component.
 
 ### Explicit with `useI18n`
 
-As we have explained, `setup` in `useI18n` is a way.
+As we have explained, in `useI18n` is a way.
 
-```js
+```ts
 import { useI18n } from 'vue-i18n'
 
-export default {
-  setup() {
-    const { t } = useI18n({ useScope: 'global' })
+const { t } = useI18n({ useScope: 'global' })
 
-    // Something to do here ...
-
-    return { t }
-  }
-}
+// Something to do here ...
 ```
 
 The above code sets the `useI18n` option to `useScope: 'global'`, which allows `useI18n` to return a Composer instance that can be accessed by the i18n instance `global` property. This allows `useI18n` to return the Composer instance that can be accessed by i18n instance`global` property, which is a global scope. The Composer instance is a global scope.
@@ -362,42 +345,36 @@ The following example codes:
 ```js
 import { useI18n } from 'vue-i18n'
 
-export default {
-  setup() {
-    const { t, d, n, tm, locale } = useI18n({
-      locale: 'ja-JP',
-      fallbackLocale: 'en-US',
-      messages: {
-        'en-US': {
-          // ....
-        },
-        'ja-JP': {
-          // ...
-        }
-      },
-      datetimeFormats: {
-        'en-US': {
-          // ....
-        },
-        'ja-JP': {
-          // ...
-        }
-      },
-      numberFormats: {
-        'en-US': {
-          // ....
-        },
-        'ja-JP': {
-          // ...
-        }
-      }
-    })
-
-    // Something to do here ...
-
-    return { t, d, n, tm, locale }
+const { t, d, n, tm, locale } = useI18n({
+  locale: 'ja-JP',
+  fallbackLocale: 'en-US',
+  messages: {
+    'en-US': {
+      // ....
+    },
+    'ja-JP': {
+      // ...
+    }
+  },
+  datetimeFormats: {
+    'en-US': {
+      // ....
+    },
+    'ja-JP': {
+      // ...
+    }
+  },
+  numberFormats: {
+    'en-US': {
+      // ....
+    },
+    'ja-JP': {
+      // ...
+    }
   }
-}
+})
+
+// Something to do here ...
 ```
 
 
@@ -405,27 +382,21 @@ If you use i18n custom blocks  in SFC as i18n resource of locale messages, it  w
 
 The following is an example of using  i18n custom blocks and `useI18n` options:
 
-```html
-<script>
+```vue
+<script setup>
 import { useI18n } from 'vue-i18n'
 import en from './en.json'
 
-export default {
-  setup() {
-    const { t, availableLocales, getLocaleMessages } = useI18n({
-      locale: 'en',
-      messages: {
-        en
-      }
-    })
-
-    availableLocales.forEach(locale => {
-      console.log(`${locale} locale messages`, getLocaleMessages(locale))
-    })
-
-    return { t }
+const { t, availableLocales, getLocaleMessages } = useI18n({
+  locale: 'en',
+  messages: {
+    en
   }
-}
+})
+
+availableLocales.forEach(locale => {
+  console.log(`${locale} locale messages`, getLocaleMessages(locale))
+})
 </script>
 
 <i18n locale="ja">
@@ -443,21 +414,19 @@ In this example, the definition of resources is separated from i18n custom block
 
 ### Global Scope
 
-You want to change the locale with `setup`, just get a global Composer with `useI18n` and change it using the `locale` property of the instance.
+You want to change the locale with `<script setup>`, just get a global Composer with `useI18n` and change it using the `locale` property of the instance.
 
-```js
-setup() {
-  const { t, locale } = useI18n({ useScope: 'global' })
+```vue
+<script setup>
+const { t, locale } = useI18n({ useScope: 'global' })
 
-  locale.value = 'en' // change!
-
-  return { t, locale } // you can return it with render context!
-}
+locale.value = 'en' // change!
+</script>
 ```
 
 And you can also use the setup context in the template, which can be changed as follows:
 
-```html
+```vue
 <select v-model="locale">
   <option value="en">en</option>
   <option value="ja">ja</option>
@@ -468,7 +437,7 @@ When you change the locale of the global scope, components that depend on the gl
 
 If you are using the [implicit way](composition#implicit-with-injected-properties-and-functions), you can also change it in template with `$i18n.locale`, as follows:
 
-```html
+```vue
 <select v-model="$i18n.locale">
   <option value="en">en</option>
   <option value="ja">ja</option>

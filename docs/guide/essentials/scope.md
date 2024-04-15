@@ -62,7 +62,7 @@ createApp({
 
 Component:
 
-```html
+```vue
 <template>
   <div class="locale-changer">
     <select v-model="$i18n.locale">
