@@ -1,9 +1,7 @@
 # Getting started
 
 :::tip NOTE
-We will be using [ES6](https://github.com/lukehoban/es6features) in the code samples in the guide.
-
-Also, all examples will be using the full version of Vue to make on-the-fly template compilation possible. See more details [here](https://v3.vuejs.org/guide/installation.html#runtime-compiler-vs-runtime-only).
+This guide will assume that you are already familiar with Vue itself. You don't need to be a Vue expert, but you may occasionally need to refer back to the [core Vue documentation](https://vuejs.org/) for more information about certain features.
 :::
 
 Creating a global application with Vue + Vue I18n is dead simple. With Vue.js, we are already composing our application with components. When adding Vue I18n to the mix, all we need to do is ready resource messages and simply use the localization API that are offered with Vue I18n.
