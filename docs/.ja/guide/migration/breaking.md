@@ -372,7 +372,7 @@ Since Vue I18n v9 and later, message format syntax is now handled by the message
 
 ```
 // e.g. `@` use-case for mail address
-{emailItendity}{'@'}{emailDomain}
+{emailIdentity}{'@'}{emailDomain}
 ```
 
 **Reason**: In order for the message format compiler to correctly handle the special characters of the syntax used in the message format syntax, it is necessary to limit them.
