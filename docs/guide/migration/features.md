@@ -22,7 +22,24 @@ You can specify the number of messages to be pluralized.
 
 The below example:
 
-```html
+```vue
+<script setup>
+import { useI18n } from 'vue-i18n'
+
+const { t } = useI18n({
+  locale: 'en',
+  messages: {
+    en: {
+      message: {
+        plural: 'no bananas | {n} banana | {n} bananas'
+      }
+    }
+  }
+})
+
+const count = ref(0)
+</script>
+
 <template>
   <i18n-t keypath="message.plural" :plural="count">
     <template #n>
@@ -30,28 +47,6 @@ The below example:
     </template>
   </i18n-t>
 </template>
-
-<script>
-import { useI18n } from 'vue-i18n'
-
-export default {
-  setup() {
-    const { t } = useI18n({
-      locale: 'en',
-      messages: {
-        en: {
-          message: {
-            plural: 'no bananas | {n} banana | {n} bananas'
-          }
-        }
-      }
-    })
-    const count = ref(0)
-
-    return { count, t }
-  }
-}
-</script>
 ```
 
 ## DatetimeFormat Component

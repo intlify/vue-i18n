@@ -2,6 +2,10 @@
 
 ## `vue-i18n-bridge`
 
+:::danger NOTE
+vue-i18n-bridge will not be provided in v10 due to Vue 2 EOL. v9.x will be the last version.
+:::
+
 ### What is `vue-i18n-bridge`?
 
 `vue-i18n-bridge` is a bridge to make the upgrade as easy as possible between vue-i18n@v8.26.1 or later and vue-i18n@v9.x.
@@ -17,14 +21,22 @@ And, also some features are backported from vue-i18n@v9.x:
 
 #### Package manager
 
-```sh
-# npm
+::: code-group
+
+```sh [npm]
 npm install vue-i18n-bridge
-# yarn
+```
+
+```sh [yarn]
 yarn add vue-i18n-bridge
-# pnpm
+```
+
+```sh [pnpm]
 pnpm add vue-i18n-bridge
 ```
+
+:::
+
 
 You must install the below packages before using this library:
 

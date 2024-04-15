@@ -30,9 +30,18 @@ We will now set up the initial environment for using Vue I18n with Nuxt 3.
 
 Run the following command to create a Nuxt 3 application:
 
-```sh
+::: code-group
+
+```sh [npx]
 npx nuxi init nuxt3-app-vue-i18n
 ```
+
+```sh [pnpm]
+pnpm dlx nuxi init nuxt3-app-vue-i18n
+```
+
+:::
+
 
 Once we have run the above command, the created Nuxt 3 initial project will have the following directory structure:
 
@@ -51,9 +60,21 @@ tree -L 1
 
 Install Vue I18n with the following command:
 
-```sh
-npm install --save-dev vue-i18n
+::: code-group
+
+```sh [npm]
+npm install vue-i18n -D
 ```
+
+```sh [yarn]
+yarn add vue-i18n -D
+```
+
+```sh [pnpm]
+pnpm add -D vue-i18n
+```
+
+:::
 
 ### Setup Nuxt plugin
 
@@ -109,9 +130,22 @@ We will edit `app.vue` of the setup Nuxt 3 application as follows:
 
 We have edited and saved, run the following command to run the Nuxt 3 application in local:
 
-```sh
+::: code-group
+
+```sh [npm]
 npm run dev
 ```
+
+```sh [yarn]
+yarn dev
+```
+
+```sh [pnpm]
+pnpm dev
+```
+
+:::
+
 
 Once the application is served on `http://localhost:3000`, we'll see the following:
 
@@ -232,7 +266,7 @@ export default defineNuxtPlugin(({ vueApp }) => {
 
 The `messages` option will be the one holding the local resources we register to it and being as fine-grained as we want. This granularity facilitates integration with the localization service.
 
-Let's run `npm run dev` and head to `http://localhost:3000` to see if the changes so far work.
+Let's run `npm run dev` (or `yarn dev` or `pnpm dev`) and head to `http://localhost:3000` to see if the changes so far work.
 
 ![Setup i18n on Nuxt3](/nuxt3-setup-i18n.gif)
 
@@ -250,9 +284,21 @@ Enter [@intlify/unplugin-vue-i18n](https://github.com/intlify/bundle-tools/tree/
 
 ### Install `@intlify/unplugin-vue-i18n`
 
-```sh
-npm install --save-dev @intlify/unplugin-vue-i18n
+::: code-group
+
+```sh [npm]
+npm install @intlify/unplugin-vue-i18n -D
 ```
+
+```sh [yarn]
+yarn add @intlify/unplugin-vue-i18n -D
+```
+
+```sh [pnpm]
+pnpm add -D @intlify/unplugin-vue-i18n
+```
+
+:::
 
 ### Configure Nuxt config
 

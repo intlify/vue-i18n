@@ -67,7 +67,7 @@ function nav() {
     },
     {
       text: 'Roadmap',
-      link: '/guide/roadmap'
+      link: '/guide/extra/roadmap'
     },
     {
       text: 'v9.x',
@@ -91,16 +91,8 @@ function sidebarGuide() {
           link: '/guide/introduction'
         },
         {
-          text: 'Getting Started',
-          link: '/guide/'
-        },
-        {
           text: 'Installation',
           link: '/guide/installation'
-        },
-        {
-          text: 'Roadmap',
-          link: '/guide/roadmap'
         }
       ]
     },
@@ -108,6 +100,10 @@ function sidebarGuide() {
       text: 'Essentials',
       collapsible: true,
       items: [
+        {
+          text: 'Getting Started',
+          link: '/guide/essentials/started',
+        },
         {
           text: 'Message Format Syntax',
           link: '/guide/essentials/syntax'
@@ -217,13 +213,20 @@ function sidebarGuide() {
       ]
     },
     {
-      text: 'v8.x',
+      text: 'Extra Topics',
       collapsible: true,
-      collapsed: true,
       items: [
         {
+          text: 'Different Distribution files',
+          link: '/guide/extra/dist'
+        },
+        {
           text: 'Documentation for v8.x',
-          link: '/guide/v8-docs'
+          link: '/guide/extra/v8-docs'
+        },
+        {
+          text: 'Roadmap',
+          link: '/guide/extra/roadmap'
         }
       ]
     }

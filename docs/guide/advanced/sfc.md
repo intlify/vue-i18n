@@ -6,7 +6,7 @@ If you are building Vue component or Vue application using single file component
 
 The following in [single file components example](https://github.com/kazupon/vue-i18n/tree/dev/examples/sfc):
 
-```html
+```vue
 <script>
 export default {
   name: 'App'
@@ -64,9 +64,21 @@ To use i18n custom blocks, you need to use the following plugins for bundler.
 
 #### Installation
 
-```sh
-npm i --save-dev @intlify/unplugin-vue-i18n
+::: code-group
+
+```sh [npm]
+npm install @intlify/unplugin-vue-i18n -D
 ```
+
+```sh [yarn]
+yarn add @intlify/unplugin-vue-i18n -D
+```
+
+```sh [pnpm]
+pnpm add -D @intlify/unplugin-vue-i18n
+```
+
+:::
 
 #### Configure plugin for Vite
 
@@ -139,6 +151,18 @@ build: {
 
 We also need to make sure that we've installed `@intlify/vue-i18n-loader`:
 
-```sh
-npm i --save-dev @intlify/vue-i18n-loader
+::: code-group
+
+```sh [npm]
+npm install @intlify/vue-i18n-loader -D
 ```
+
+```sh [yarn]
+yarn add @intlify/vue-i18n-loader -D
+```
+
+```sh [pnpm]
+pnpm add -D @intlify/vue-i18n-loader
+```
+
+:::

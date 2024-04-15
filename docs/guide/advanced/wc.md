@@ -21,9 +21,10 @@ Using `defineCustomElement`, which is supported since Vue 3.2, we can provide Vu
 However, the provided Web Components cannot be inserted directly into HTML. You need to prepare the following Web Components to host the i18n instance created by `createI18n`.
 
 Web Components that host the i18n instance:
-```html
-<script lang="ts">
-import { defineComponent, provide } from 'vue'
+
+```vue
+<script setup lang="ts">
+import { provide } from 'vue'
 import { createI18n, I18nInjectionKey } from 'vue-i18n'
 
 /**
@@ -42,19 +43,10 @@ const i18n = createI18n<false>({
   }
 })
 
-export default defineComponent({
-  // ...
-  setup(props) {
-    /**
-     * provide i18n instance with `I18nInjectionKey` for other web components
-     */
-    provide(I18nInjectionKey, i18n)
-
-    // ...
-
-    return {}
-  }
-})
+/**
+ * provide i18n instance with `I18nInjectionKey` for other web components
+ */
+provide(I18nInjectionKey, i18n)
 </script>
 
 <!-- template to slot the content -->
@@ -79,7 +71,7 @@ Then, to host other Web Components, the `template` block makes it possible by us
 
 Export this hosted Web Components as follows:
 
-```javascript
+```js
 import { defineCustomElement } from 'vue'
 import I18nHost from './components/I18nHost.ce.vue'
 
@@ -90,7 +82,7 @@ export { I18nHostElement }
 
 The following `useI18n` implements and exports Web Components to:
 
-```html
+```vue
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n'
 
@@ -102,7 +94,7 @@ const { t } = useI18n()
 </template>
 ```
 
-```javascript
+```js
 import { defineCustomElement } from 'vue'
 import HelloI18n from './components/HelloI18n.ce.vue'
 
@@ -112,7 +104,7 @@ export { HelloI18nElement }
 
 When the following Vue application is registered as a custom element of Web Components:
 
-```javascript
+```js
 import { createApp } from 'vue'
 import { I18nHostElement } from './path/to/I18nHostElement'
 import { HelloI18nElement } from './path/to/HelloI18nElement'
@@ -126,7 +118,7 @@ createApp(App).mount('#app')
 
 So, In `App.vue`, which is the entry point of a Vue application, the following template will work:
 
-```html
+```vue
 <template>
   <i18n-host>
     <h1>Vue I18n in Web component</h1>
@@ -138,6 +130,7 @@ So, In `App.vue`, which is the entry point of a Vue application, the following t
 The complete example described so far can be looked [here](https://github.com/intlify/vue-i18n-next/tree/master/examples/web-components).
 
 ## Limitations
+
 1. The Vue I18n that can be used to implement Web Components is only **Composition API**.
 2. When implementing Web Components, **Vue components implemented with `useI18n` cannot be imported and used together**. This is due to the [Provide / Inject](https://v3.vuejs.org/guide/web-components.html#definecustomelement) limitations of Vue.js for Web Components.
 
