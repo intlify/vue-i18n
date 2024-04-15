@@ -44,9 +44,22 @@ If you do the production build, Vue I18n will automatically bundle the runtime o
 
 #### Install plugin
 
-```sh
-npm install --save-dev @intlify/unplugin-vue-i18n
+::: code-group
+
+```sh [npm]
+npm install @intlify/unplugin-vue-i18n -D
 ```
+
+```sh [yarn]
+yarn add @intlify/unplugin-vue-i18n -D
+```
+
+```sh [pnpm]
+pnpm add -D @intlify/unplugin-vue-i18n
+```
+
+:::
+
 
 #### Configure plugin for vite
 
@@ -132,7 +145,7 @@ Each time localization is performed in an application using `$t` or `t` function
 
 You need to configure the following feature flag with `esm-bundler` build and bundler such as vite:
 
-- `__INTLIFY_JIT_COMPILATION__`  (enable/disable message compiler for JIT style, default: `false`) 
+- `__INTLIFY_JIT_COMPILATION__`  (enable/disable message compiler for JIT style, default: `false`)
 - `__INTLIFY_DROP_MESSAGE_COMPILER__`  (enable/disable whether to tree-shake message compiler when we will be bundling, this flag works when `__INTLIFY_JIT_COMPILATION__` is enabled. default: `false`)
 
 :::warning NOTICE

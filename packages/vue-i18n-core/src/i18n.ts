@@ -423,7 +423,7 @@ export function createI18n<
  *
  * If you use composition API mode, you need to specify {@link ComposerOptions}.
  *
- * @VueI18nSee [Getting Started](../guide/)
+ * @VueI18nSee [Getting Started](../guide/essentials/started)
  * @VueI18nSee [Composition API](../guide/advanced/composition)
  *
  * @example

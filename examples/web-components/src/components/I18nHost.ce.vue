@@ -1,5 +1,5 @@
-<script lang="ts">
-import { defineComponent, provide, watchEffect } from 'vue'
+<script setup lang="ts">
+import { provide, watchEffect } from 'vue'
 import { createI18n, I18nInjectionKey } from 'vue-i18n'
 
 /**
@@ -31,24 +31,15 @@ const i18n = createI18n<false>({
   }
 })
 
-export default defineComponent({
-  props: {
-    locale: {
-      type: String,
-      default: 'en'
-    }
-  },
-  setup(props) {
-    /**
-     * provide i18n instance with `I18nInjectionKey` for other web components
-     */
-    provide(I18nInjectionKey, i18n)
+const props = defineProps<{ locale: string }>()
 
-    watchEffect(() => {
-      i18n.global.locale.value = props.locale
-    })
-    return {}
-  }
+/**
+ * provide i18n instance with `I18nInjectionKey` for other web components
+ */
+provide(I18nInjectionKey, i18n)
+
+watchEffect(() => {
+  i18n.global.locale.value = props.locale
 })
 </script>
 

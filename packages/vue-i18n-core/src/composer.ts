@@ -346,7 +346,7 @@ export interface ComposerOptions<
    * @remarks
    * The locale messages of localization.
    *
-   * @VueI18nSee [Getting Started](../guide/)
+   * @VueI18nSee [Getting Started](../guide/essentials/started)
    *
    * @defaultValue `{}`
    */
@@ -1258,7 +1258,7 @@ export interface Composer<
    * @remarks
    * The locale messages of localization.
    *
-   * @VueI18nSee [Getting Started](../guide/)
+   * @VueI18nSee [Getting Started](../guide/essentials/started)
    */
   readonly messages: ComputedRef<{ [K in keyof Messages]: Messages[K] }>
   /**

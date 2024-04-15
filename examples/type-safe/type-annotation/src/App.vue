@@ -1,21 +1,12 @@
+<script setup lang="ts">
+import LocalScope from './components/LocalScope.vue'
+import GlobalScope from './components/GlobalScope.vue'
+</script>
+
 <template>
   <LocalScope />
   <GlobalScope />
 </template>
-
-<script lang="ts">
-import { defineComponent } from 'vue'
-import LocalScope from './components/LocalScope.vue'
-import GlobalScope from './components/GlobalScope.vue'
-
-export default defineComponent({
-  name: 'App',
-  components: {
-    LocalScope,
-    GlobalScope
-  }
-})
-</script>
 
 <style>
 #app {

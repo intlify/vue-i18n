@@ -19,6 +19,7 @@ You can support the type-safe resources with resource schema using TypeScript.
 The following is an example code to define type-safe resources for `messages` defined with `createI18n` option.
 
 Locale messages resource:
+
 ```json
 {
   "world": "the world!"
@@ -26,7 +27,8 @@ Locale messages resource:
 ```
 
 Application entrypoint:
-```typescript
+
+```ts
 import { createI18n } from 'vue-i18n'
 import enUS from './locales/en-US.json'
 
@@ -76,6 +78,7 @@ In addition to local messages, the resource type definitions can also include da
 The following is an example of code that defines type-safe resources for locale messages and number formats on a per-component basis in `useI18n`.
 
 locale mesasges to import in Vue components:
+
 ```json
 {
   "messages": {
@@ -85,14 +88,9 @@ locale mesasges to import in Vue components:
 ```
 
 Vue components with type-safe resources:
-```html
-<template>
-  <p>message: {{ t('messages.hello', { name: 'kazupon' }) }}</p>
-  <p>currecy: {{ n(1000, 'currency') }}</p>
-</template>
 
-<script lang="ts">
-import { defineComponent } from 'vue'
+```vue
+<script setup lang="ts">
 import { useI18n } from 'vue-i18n'
 import enUS from './en-US.json' // import locale messages for Vue component
 
@@ -102,41 +100,40 @@ type MessageSchema = typeof enUS
 // define number format schema for Vue component
 type NumberSchema = {
   currency: {
-    style: 'currency',
+    style: 'currency'
     currencyDisplay: 'symbol'
     currency: string
   }
 }
 
-// define Vue component
-export default defineComponent({
-  setup() {
-    /**
-     * You can specify the your definition schema with object literal at first type parameters
-     * About type parameter, see the http://vue-i18n.intlify.dev/api/composition.html#usei18n
-     */
-    const { t, n } = useI18n<{
-      message: MessageSchema,
-      number: NumberSchema
-    }, 'en-US'>({
-      inheritLocale: true,
-      messages: {
-        'en-US': enUS
-      },
-      numberFormats: {
-        'en-US': {
-          currency: {
-            style: 'currency',
-            currencyDisplay: 'symbol',
-            currency: 'USD'
-          }
-        }
+/*
+ * You can specify the your definition schema with object literal at first type parameters
+ * About type parameter, see the http://vue-i18n.intlify.dev/api/composition.html#usei18n
+ */
+const { t, n } = useI18n<{
+  message: MessageSchema,
+  number: NumberSchema
+}, 'en-US'>({
+  inheritLocale: true,
+  messages: {
+    'en-US': enUS
+  },
+  numberFormats: {
+    'en-US': {
+      currency: {
+        style: 'currency',
+        currencyDisplay: 'symbol',
+        currency: 'USD'
       }
-    })
-    return { t, n }
+    }
   }
 })
 </script>
+
+<template>
+  <p>message: {{ t('messages.hello', { name: 'kazupon' }) }}</p>
+  <p>currecy: {{ n(1000, 'currency') }}</p>
+</template>
 ```
 
 the above codes, by specifying the defined schema as the first type parameter of `useI18n`, you can use TypeScript to check for undefined resources for locale messages and number formats. Also, by specifying the locale to be defined in the second type parameter, TypeScript can check for undefined locales.
@@ -186,6 +183,7 @@ Use-cases on your project, you may have Vue components that do not use local sco
 For that use case, you can also support interpolation of resource keys by explicitly specifying the schema defined for the global scope in the type parameter of `useI18n`.
 
 define schema for global scope:
+
 ```ts
 /**
  * define the resource schema
@@ -207,29 +205,24 @@ export type NumberSchema = {
 ```
 
 Then, just import the defined schema and use it as a type parameter of `useI18n`, as in the following Vue component:
-```html
-<template>
-  <p>message: {{ t('hello') }}</p>
-  <p>currecy: {{ n(1000, 'currency') }}</p>
-</template>
 
+```vue
 <script lang="ts">
-import { defineComponent } from 'vue'
 import { useI18n } from 'vue-i18n'
 
 // import resource schema for global scope
 import type { MessageSchema, NumberSchema } from '../locales/schema'
 
-// define Vue component
-export default defineComponent({
-  setup() {
-    const { t, n } = useI18n<{ message: MessageSchema, number: NumberSchema }>({
-      useScope: 'global'
-    })
-    return { t, n }
-  }
+const { t, n } = useI18n<{ message: MessageSchema, number: NumberSchema }>({
+  useScope: 'global'
 })
 </script>
+
+<template>
+  <p>message: {{ t('hello') }}</p>
+  <p>currecy: {{ n(1000, 'currency') }}</p>
+</template>
+
 ```
 
 As a result, you can use the interpolation of resource keys in the APIs provided by VueI18n, such as `t` and `n`.
@@ -256,6 +249,7 @@ VueI18n provides the following interfaces:
 With using these interfaces and the `declare module`, you can define a global schema for VueI18n.
 
 The following is an example of a global schema defined in `d.ts`:
+
 ```ts
 /**
  * you need to import the some interfaces
@@ -304,6 +298,7 @@ Previously, when using `createI18n` and `useI18n` with type definitions for glob
 This way, you don't need to do that.
 
 The following is an example with `createI18n`:
+
 ```ts
 import { createI18n, type I18nOptions } from 'vue-i18n'
 
@@ -356,28 +351,22 @@ The first type parameter of `createI18n` above does not specify the type that is
 The second type parameter of `createI18n` specifies a type hint for options.
 
 In the case of the `useI18n` case used by Vue components, it looks like this:
-```html
+
+```vue
+<script setup lang="ts">
+import { useI18n } from 'vue-i18n'
+
+// use global scope
+const { t, d, n } = useI18n({
+  inheritLocale: true
+})
+</script>
+
 <template>
   <p>`t` resource key completion: {{ t('menu.login') }}</p>
   <p>`d` resource key completion: {{ d(new Date(), 'short') }}</p>
   <p>`n` resource key completion: {{ n(1000, 'currency') }}</p>
 </template>
-
-<script lang="ts">
-import { defineComponent } from 'vue'
-import { useI18n } from 'vue-i18n'
-
-export default defineComponent({
-  name: 'HelloWorld',
-  setup() {
-    // use global scope
-    const { t, d, n } = useI18n({
-      inheritLocale: true
-    })
-    return { t, d, n }
-  }
-})
-</script>
 ```
 
 As you can see from the above code, you don't need to specify anything for the type parameter of `useI18n`. You can interpolate API Resource Keys such as `t`, `d`, and `n` without specifying them.

@@ -6,7 +6,7 @@ We have been describing the features of Vue I18n using the Legacy API, which is 
 
 ## Basic Usage
 
-Let’s look at the basic usage of Vue I18n Composition API! Here we will learn the basic usage by modifying the code in [Getting Started](../../guide/) to learn the basic usage.
+Let’s look at the basic usage of Vue I18n Composition API! Here we will learn the basic usage by modifying the code in [Getting Started](../../guide/essentials/started) to learn the basic usage.
 
 To compose with `useI18n` in `setup` of Vue 3, there is one thing you need to do, you need set the `legacy` option of the `createI18n` function to `false`.
 
