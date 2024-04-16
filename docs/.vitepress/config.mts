@@ -55,7 +55,7 @@ function nav() {
   return [
     {
       text: 'Guide',
-      link: '/guide/'
+      link: '/guide/installation'
     },
     {
       text: 'API',
