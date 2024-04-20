@@ -1437,3 +1437,16 @@ test('#1796', async () => {
     })
   ).toEqual('My message with hello world.')
 })
+
+test('#1809', async () => {
+  const i18n = createI18n({
+    locale: 'en',
+    messages: {
+      en: {
+        hi: 'hi @:名前',
+        名前: 'kazupon'
+      }
+    }
+  })
+  expect(i18n.global.t('hi')).toEqual('hi kazupon')
+})

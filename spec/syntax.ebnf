@@ -1,5 +1,5 @@
 (*
- * Inltify message syntax v0.3
+ * Inltify message syntax v0.4.0
  * (vue-i18n compatible)
  *)
 
@@ -18,7 +18,7 @@ Named ::= Modulo? "{" Space? (NamedIdentifier) Space? "}";
 List ::= "{" Space? (NumberLiteral) Space? "}";
 Linked ::= "@" (LinkedModifier)? LinkedDelimiter LinkedRefer;
 LinkedRefer ::= LinkedKey | Placeholder;
-LinkedKey ::= Identifier;
+LinkedKey ::= Text;
 LinkedModifier ::= LinkedDot Identifier;
 LinkedDelimiter ::= ":";
 LinkedDot ::= ".";
