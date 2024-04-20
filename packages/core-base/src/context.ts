@@ -116,7 +116,7 @@ export type LocaleMessages<
  *
  * @VueI18nGeneral
  */
-export interface DefineCoreLocaleMessage extends LocaleMessage<string> {} // eslint-disable-line @typescript-eslint/no-empty-interface
+export interface DefineCoreLocaleMessage extends LocaleMessage<string> {}
 
 export type DefaultCoreLocaleMessageSchema<
   Schema = RemoveIndexSignature<{
@@ -252,7 +252,7 @@ export interface CoreOptions<
 export interface CoreInternalOptions {
   __datetimeFormatters?: Map<string, Intl.DateTimeFormat>
   __numberFormatters?: Map<string, Intl.NumberFormat>
-  __v_emitter?: VueDevToolsEmitter // eslint-disable-line camelcase
+  __v_emitter?: VueDevToolsEmitter
   __meta?: MetaInfo
 }
 
@@ -327,7 +327,7 @@ export interface CoreInternalContext {
   __datetimeFormatters: Map<string, Intl.DateTimeFormat>
   __numberFormatters: Map<string, Intl.NumberFormat>
   __localeChainCache?: Map<Locale, Locale[]>
-  __v_emitter?: VueDevToolsEmitter // eslint-disable-line camelcase
+  __v_emitter?: VueDevToolsEmitter
   __meta: MetaInfo // for Intlify DevTools
 }
 

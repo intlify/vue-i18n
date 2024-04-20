@@ -39,7 +39,7 @@ export const TranslationImpl = /*#__PURE__*/ defineComponent({
       },
       plural: {
         type: [Number, String],
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
         validator: (val: any): boolean => isNumber(val) || !isNaN(val)
       }
     },

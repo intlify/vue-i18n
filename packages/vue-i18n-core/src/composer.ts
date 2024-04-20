@@ -150,7 +150,7 @@ export type VueMessageType = string | ResourceNode | VNode
  *
  * @VueI18nGeneral
  */
-export interface DefineLocaleMessage extends LocaleMessage<VueMessageType> {} // eslint-disable-line @typescript-eslint/no-empty-interface
+export interface DefineLocaleMessage extends LocaleMessage<VueMessageType> {}
 
 /**
  * The type definition of datetime format
@@ -177,7 +177,7 @@ export interface DefineLocaleMessage extends LocaleMessage<VueMessageType> {} //
  *
  * @VueI18nGeneral
  */
-export interface DefineDateTimeFormat extends DateTimeFormat {} // eslint-disable-line @typescript-eslint/no-empty-interface
+export interface DefineDateTimeFormat extends DateTimeFormat {}
 
 /**
  * The type definition of number format
@@ -205,7 +205,7 @@ export interface DefineDateTimeFormat extends DateTimeFormat {} // eslint-disabl
  *
  * @VueI18nGeneral
  */
-export interface DefineNumberFormat extends NumberFormat {} // eslint-disable-line @typescript-eslint/no-empty-interface
+export interface DefineNumberFormat extends NumberFormat {}
 
 export type DefaultLocaleMessageSchema<
   Schema = RemoveIndexSignature<{
@@ -1196,7 +1196,7 @@ export interface ComposerNumberFormatting<
  *
  * @VueI18nComposition
  */
-export interface ComposerCustom {} // eslint-disable-line @typescript-eslint/no-empty-interface
+export interface ComposerCustom {}
 
 /**
  * Composer interfaces
@@ -1801,9 +1801,9 @@ function defineCoreMissingHandler(missing: MissingHandler): CoreMissingHandler {
 /* #__NO_SIDE_EFFECTS__ */
 const getMetaInfo = (): MetaInfo | null => {
   const instance = getCurrentInstance()
-  let meta: any = null // eslint-disable-line @typescript-eslint/no-explicit-any
+  let meta: any = null
   return instance && (meta = getComponentOptions(instance)[DEVTOOLS_META])
-    ? { [DEVTOOLS_META]: meta } // eslint-disable-line @typescript-eslint/no-explicit-any
+    ? { [DEVTOOLS_META]: meta }
     : null
 }
 
@@ -1867,7 +1867,7 @@ export function createComposer<
  *
  * @internal
  */
-// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+
 export function createComposer(options: any = {}, VueI18nLegacy?: any): any {
   type Message = VueMessageType
   const { __root, __injectWithOption } = options as ComposerInternalOptions<
@@ -2172,7 +2172,7 @@ export function createComposer(options: any = {}, VueI18nLegacy?: any): any {
 
   function isResolvedTranslateMessage(
     type: ComposerWarnType,
-    arg: any // eslint-disable-line @typescript-eslint/no-explicit-any
+    arg: any
   ): boolean {
     return type !== 'translate' || !arg.resolvedMessage
   }
@@ -2337,7 +2337,7 @@ export function createComposer(options: any = {}, VueI18nLegacy?: any): any {
       },
       () => parseTranslateArgs(...args),
       'translate',
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
       root => (root as any)[TranslateVNodeSymbol](...args),
       key => [createTextNode(key as string)],
       val => isArray(val)
@@ -2350,7 +2350,7 @@ export function createComposer(options: any = {}, VueI18nLegacy?: any): any {
       context => Reflect.apply(number, null, [context, ...args]),
       () => parseNumberArgs(...args),
       'number format',
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
       root => (root as any)[NumberPartsSymbol](...args),
       NOOP_RETURN_ARRAY,
       val => isString(val) || isArray(val)
@@ -2365,7 +2365,7 @@ export function createComposer(options: any = {}, VueI18nLegacy?: any): any {
       context => Reflect.apply(datetime, null, [context, ...args]),
       () => parseDateTimeArgs(...args),
       'datetime format',
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
       root => (root as any)[DatetimePartsSymbol](...args),
       NOOP_RETURN_ARRAY,
       val => isString(val) || isArray(val)

@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { expectType } from '../index'
 
 import { createCoreContext } from '../../packages/core-base/src'
@@ -43,5 +42,3 @@ expectType<string | number>(
   )
 )
 expectType<string | number>(translate(ctx, 'nest.world'))
-
-/* eslint-enable @typescript-eslint/no-explicit-any */

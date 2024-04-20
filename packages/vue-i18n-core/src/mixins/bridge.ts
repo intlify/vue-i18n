@@ -10,7 +10,7 @@ import type { I18n } from '../i18n'
  */
 export function defineMixin(
   i18n: I18n,
-  VueI18n: any // eslint-disable-line @typescript-eslint/no-explicit-any, @typescript-eslint/explicit-module-boundary-types
+  VueI18n: any // eslint-disable-line @typescript-eslint/no-explicit-any
 ): ComponentOptions {
   return {
     beforeCreate(): void {

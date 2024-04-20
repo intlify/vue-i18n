@@ -79,7 +79,7 @@ export function createScanner(str: string): Scanner {
 
   function skipToPeek(): void {
     const target = _index + _peekOffset
-    // eslint-disable-next-line no-unmodified-loop-condition
+
     while (target !== _index) {
       next()
     }

@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { expectType } from '../index'
 
 import { createCoreContext } from '../../packages/core-base/src'
@@ -35,5 +34,3 @@ expectType<string | number | Intl.DateTimeFormatPart[]>(
 expectType<string | number | Intl.DateTimeFormatPart[]>(
   datetime(ctx, dt, { key: 'short' }, 'en-US', { hourCycle: 'h24' })
 )
-
-/* eslint-enable @typescript-eslint/no-explicit-any */

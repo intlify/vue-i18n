@@ -51,7 +51,6 @@ export function getDom(html: string) {
 }
 
 export function getDataFromDom(dom: Document, selector: string) {
-  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   return JSON.parse(
     dom.querySelector(selector)!.textContent!.replace('&quot;', '"')
   )
@@ -66,7 +65,7 @@ export function assertLocaleHeadWithDom(dom: Document, headSelector: string) {
       if (key === 'id') {
         continue
       }
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+
       const v = tag!.getAttribute(key)
       if (v !== value) {
         throw new Error(`${key} ${v} !== ${value}`)

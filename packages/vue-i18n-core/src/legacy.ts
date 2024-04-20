@@ -77,7 +77,6 @@ export type DateTimeFormatResult = string
 /** @VueI18nLegacy */
 export type NumberFormatResult = string
 export interface Formatter {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   interpolate(message: string, values: any, path: string): Array<any> | null
 }
 export type VueI18nExtender = (vueI18n: VueI18n) => Disposer | undefined
@@ -1465,7 +1464,7 @@ export function createVueI18n<
  *
  * @internal
  */
-// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+
 export function createVueI18n(options: any = {}, VueI18nLegacy?: any): any {
   type Message = VueMessageType
 

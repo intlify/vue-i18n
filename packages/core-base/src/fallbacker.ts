@@ -87,7 +87,7 @@ export type LocaleFallbacker = <Message = string>(
 export function fallbackWithSimple<Message = string>(
   ctx: CoreContext<Message>,
   fallback: FallbackLocale,
-  start: Locale // eslint-disable-line @typescript-eslint/no-unused-vars
+  start: Locale
 ): Locale[] {
   // prettier-ignore
   return [...new Set(

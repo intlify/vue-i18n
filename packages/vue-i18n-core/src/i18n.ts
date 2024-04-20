@@ -518,7 +518,7 @@ export function createI18n<
     ? I18n<Messages, DateTimeFormats, NumberFormats, OptionLocale, false>
     : I18n<Messages, DateTimeFormats, NumberFormats, OptionLocale, Legacy>
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/explicit-module-boundary-types
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function createI18n(options: any = {}, VueI18nLegacy?: any): any {
   type _I18n = I18n & I18nInternal
 
@@ -828,7 +828,7 @@ export function useI18n<
   NonNullable<Options['numberFormats']>,
   Options['locale'] extends unknown ? string : Options['locale']
 >
-// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+
 export function useI18n<
   Options extends UseI18nOptions = UseI18nOptions,
   Messages extends Record<string, unknown> = NonNullable<Options['messages']>,

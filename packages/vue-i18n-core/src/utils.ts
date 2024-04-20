@@ -38,7 +38,6 @@ declare module 'vue' {
   }
 }
 
-// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export function isLegacyVueI18n(VueI18n: any): boolean {
   if (VueI18n == null || VueI18n.version == null) {
     return false
@@ -148,7 +147,6 @@ export function getLocaleMessages<Messages = {}>(
   return ret as { [K in keyof Messages]: Messages[K] }
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function getComponentOptions(instance: ComponentInternalInstance): any {
   return !__BRIDGE__ ? instance.type : instance.proxy!.$options
 }
@@ -156,7 +154,7 @@ export function getComponentOptions(instance: ComponentInternalInstance): any {
 export function adjustI18nResources(
   gl: Composer,
   options: ComposerOptions,
-  componentOptions: any // eslint-disable-line @typescript-eslint/no-explicit-any
+  componentOptions: any
 ): void {
   let messages = isObject(options.messages) ? options.messages : {}
   if ('__i18nGlobal' in componentOptions) {

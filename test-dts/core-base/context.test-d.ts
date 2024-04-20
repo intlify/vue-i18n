@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { expectType } from '../index'
 
 import {
@@ -210,5 +209,3 @@ const detector: LocaleDetector = typeof locale === 'function'
     ? () => locale
     : (arg: Locale) => arg
 expect<LocaleDetector>(detector)
-
-/* eslint-enable @typescript-eslint/no-explicit-any */

@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { expectType } from '../index'
 
 import { createCoreContext } from '../../packages/core-base/src'
@@ -30,5 +29,3 @@ expectType<string | number | Intl.NumberFormatPart[]>(
 expectType<string | number | Intl.NumberFormatPart[]>(
   number(ctx, 10100, { key: 'currency' }, 'en-US', { unit: '' })
 )
-
-/* eslint-enable @typescript-eslint/no-explicit-any */

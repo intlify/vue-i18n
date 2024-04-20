@@ -6,7 +6,6 @@ import { DatetimePartsSymbol } from '../symbols'
 import { renderFormatter } from './formatRenderer'
 import { baseFormatProps } from './base'
 
-/* eslint-enable @typescript-eslint/no-unused-vars */
 import type { VNodeProps } from 'vue'
 import type { DateTimeOptions } from '@intlify/core-base'
 import type { Composer, ComposerInternal } from '../composer'

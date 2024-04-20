@@ -284,7 +284,7 @@ function generateNode(generator: CodeGenerator, node: Node): void {
 // generate code from AST
 export const generate = (
   ast: ResourceNode,
-  options: CodeGenOptions = {} // eslint-disable-line
+  options: CodeGenOptions = {}
 ): CodeGenResult => {
   const mode = isString(options.mode) ? options.mode : 'normal'
   const filename = isString(options.filename)

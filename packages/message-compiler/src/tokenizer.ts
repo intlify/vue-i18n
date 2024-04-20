@@ -481,7 +481,7 @@ export function createTokenizer(
 
   function readText(scnr: Scanner): string {
     let buf = ''
-    // eslint-disable-next-line no-constant-condition
+
     while (true) {
       const ch = scnr.currentChar()
       if (
