@@ -98,7 +98,7 @@
     "eslint": "^9.1.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-vue": "^9.25.0",
-    "execa": "^5.0.0",
+    "execa": "^8.0.0",
     "fixpack": "^4.0.0",
     "globals": "^15.0.0",
     "globby": "^14.0.1",
