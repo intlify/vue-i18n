@@ -321,7 +321,6 @@ export function createTokenizer(
         return fn()
       } else {
         // other characters
-        // return isIdentifierStart(ch)
         return isTextStart(scnr, false)
       }
     }
