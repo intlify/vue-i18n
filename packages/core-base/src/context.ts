@@ -145,7 +145,7 @@ export type PostTranslationHandler<Message = string> = (
  */
 export type MessageCompilerContext = Pick<
   CompileOptions,
-  'onError' | 'onCacheKey' | 'onWarn'
+  'onError' | 'onCacheKey'
 > & {
   /**
    * Whether to allow the use locale messages of HTML formatting.

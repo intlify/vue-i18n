@@ -1,18 +1,17 @@
 import { format, incrementer } from '@intlify/shared'
-import { CompileWarnCodes } from '@intlify/message-compiler'
 
-const code = CompileWarnCodes.__EXTEND_POINT__
+const code = 1
 const inc = incrementer(code)
 
 export const CoreWarnCodes = {
-  NOT_FOUND_KEY: code, // 2
-  FALLBACK_TO_TRANSLATE: inc(), // 3
-  CANNOT_FORMAT_NUMBER: inc(), // 4
-  FALLBACK_TO_NUMBER_FORMAT: inc(), // 5
-  CANNOT_FORMAT_DATE: inc(), // 6
-  FALLBACK_TO_DATE_FORMAT: inc(), // 7
-  EXPERIMENTAL_CUSTOM_MESSAGE_COMPILER: inc(), // 8
-  __EXTEND_POINT__: inc() // 9
+  NOT_FOUND_KEY: code, // 1
+  FALLBACK_TO_TRANSLATE: inc(), // 2
+  CANNOT_FORMAT_NUMBER: inc(), // 3
+  FALLBACK_TO_NUMBER_FORMAT: inc(), // 4
+  CANNOT_FORMAT_DATE: inc(), // 5
+  FALLBACK_TO_DATE_FORMAT: inc(), // 6
+  EXPERIMENTAL_CUSTOM_MESSAGE_COMPILER: inc(), // 7
+  __EXTEND_POINT__: inc() // 8
 } as const
 
 export type CoreWarnCodes = (typeof CoreWarnCodes)[keyof typeof CoreWarnCodes]

@@ -1,7 +1,6 @@
 import { warn, format, isObject, isBoolean, isString } from '@intlify/shared'
 import {
   baseCompile as baseCompileCore,
-  CompileWarnCodes,
   defaultOnError,
   detectHtmlTag
 } from '@intlify/message-compiler'
@@ -12,8 +11,7 @@ import type {
   CompileOptions,
   CompileError,
   CompilerResult,
-  ResourceNode,
-  CompileWarn
+  ResourceNode
 } from '@intlify/message-compiler'
 import type { MessageFunction, MessageFunctions } from './runtime'
 import type { MessageCompilerContext } from './context'
@@ -28,17 +26,6 @@ function checkHtmlMessage(source: string, warnHtmlMessage?: boolean): void {
 
 const defaultOnCacheKey = (message: string): string => message
 let compileCache: unknown = Object.create(null)
-
-function onCompileWarn(_warn: CompileWarn): void {
-  if (_warn.code === CompileWarnCodes.USE_MODULO_SYNTAX) {
-    warn(
-      `The use of named interpolation with modulo syntax is deprecated. ` +
-        `It will be removed in v10.\n` +
-        `reference: https://vue-i18n.intlify.dev/guide/essentials/syntax#rails-i18n-format \n` +
-        `(message compiler warning message: ${_warn.message})`
-    )
-  }
-}
 
 export function clearCompileCache(): void {
   compileCache = Object.create(null)
@@ -75,11 +62,6 @@ export const compileToFunction = <
 ): MessageFunction<Message> => {
   if (!isString(message)) {
     throw createCoreError(CoreErrorCodes.NOT_SUPPORT_NON_STRING_MESSAGE)
-  }
-
-  // set onWarn
-  if (__DEV__) {
-    context.onWarn = onCompileWarn
   }
 
   if (__RUNTIME__) {
@@ -125,11 +107,6 @@ export function compile<
   message: MessageSource,
   context: MessageCompilerContext
 ): MessageFunction<Message> {
-  // set onWarn
-  if (__DEV__) {
-    context.onWarn = onCompileWarn
-  }
-
   if (
     (__ESM_BROWSER__ ||
       __NODE_JS__ ||

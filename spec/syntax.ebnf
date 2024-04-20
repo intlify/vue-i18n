@@ -1,5 +1,5 @@
 (*
- * Inltify message syntax v0.4.0
+ * Inltify message syntax v0.5.0
  * (vue-i18n compatible)
  *)
 
@@ -13,8 +13,7 @@ Message ::= (Text? (Placeholder | Linked)? Text?)+;
 (* primitives *)
 Text ::= TextChar+;
 Placeholder ::= Named | List | StringLiteral;
-Modulo ::= "%";
-Named ::= Modulo? "{" Space? (NamedIdentifier) Space? "}";
+Named ::= "{" Space? (NamedIdentifier) Space? "}";
 List ::= "{" Space? (NumberLiteral) Space? "}";
 Linked ::= "@" (LinkedModifier)? LinkedDelimiter LinkedRefer;
 LinkedRefer ::= LinkedKey | Placeholder;

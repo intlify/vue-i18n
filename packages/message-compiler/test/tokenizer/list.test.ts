@@ -309,21 +309,13 @@ test('multi lines', () => {
   })
 })
 
-test('with modulo', () => {
+test('has modulo', () => {
   const tokenizer = createTokenizer('hi %{0} !')
   expect(tokenizer.nextToken()).toEqual({
     type: TokenTypes.Text,
-    value: 'hi ',
+    value: 'hi %',
     loc: {
       start: { line: 1, column: 1, offset: 0 },
-      end: { line: 1, column: 4, offset: 3 }
-    }
-  })
-  expect(tokenizer.nextToken()).toEqual({
-    type: TokenTypes.Modulo,
-    value: '%',
-    loc: {
-      start: { line: 1, column: 4, offset: 3 },
       end: { line: 1, column: 5, offset: 4 }
     }
   })

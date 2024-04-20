@@ -23,7 +23,7 @@ test('hi %{name}!', () => {
   expect(message.items).toMatchObject([
     {
       type: NodeTypes.Text,
-      value: 'hi '
+      value: 'hi %'
     },
     {
       type: NodeTypes.Named,
@@ -189,15 +189,19 @@ test(`%{nickname} %{action} issue %{code}`, () => {
   expect(ast.type).toEqual(NodeTypes.Resource)
   expect(ast.body.type).toEqual(NodeTypes.Message)
   const message = ast.body as MessageNode
-  expect(message.items).toHaveLength(5)
+  expect(message.items).toHaveLength(6)
   expect(message.items).toMatchObject([
+    {
+      type: NodeTypes.Text,
+      value: '%'
+    },
     {
       type: NodeTypes.Named,
       key: 'nickname'
     },
     {
       type: NodeTypes.Text,
-      value: ' '
+      value: ' %'
     },
     {
       type: NodeTypes.Named,
@@ -205,7 +209,7 @@ test(`%{nickname} %{action} issue %{code}`, () => {
     },
     {
       type: NodeTypes.Text,
-      value: ' issue '
+      value: ' issue %'
     },
     {
       type: NodeTypes.Named,
