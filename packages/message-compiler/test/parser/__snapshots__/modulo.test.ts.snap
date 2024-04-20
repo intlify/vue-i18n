@@ -6,6 +6,24 @@ exports[`%{nickname} %{action} issue %{code} 1`] = `
     "end": 35,
     "items": [
       {
+        "end": 1,
+        "loc": {
+          "end": {
+            "column": 2,
+            "line": 1,
+            "offset": 1,
+          },
+          "start": {
+            "column": 1,
+            "line": 1,
+            "offset": 0,
+          },
+        },
+        "start": 0,
+        "type": 3,
+        "value": "%",
+      },
+      {
         "end": 11,
         "key": "nickname",
         "loc": {
@@ -20,17 +38,16 @@ exports[`%{nickname} %{action} issue %{code} 1`] = `
             "offset": 1,
           },
         },
-        "modulo": true,
         "start": 1,
         "type": 4,
       },
       {
-        "end": 12,
+        "end": 13,
         "loc": {
           "end": {
-            "column": 13,
+            "column": 14,
             "line": 1,
-            "offset": 12,
+            "offset": 13,
           },
           "start": {
             "column": 12,
@@ -40,7 +57,7 @@ exports[`%{nickname} %{action} issue %{code} 1`] = `
         },
         "start": 11,
         "type": 3,
-        "value": " ",
+        "value": " %",
       },
       {
         "end": 21,
@@ -57,17 +74,16 @@ exports[`%{nickname} %{action} issue %{code} 1`] = `
             "offset": 13,
           },
         },
-        "modulo": true,
         "start": 13,
         "type": 4,
       },
       {
-        "end": 28,
+        "end": 29,
         "loc": {
           "end": {
-            "column": 29,
+            "column": 30,
             "line": 1,
-            "offset": 28,
+            "offset": 29,
           },
           "start": {
             "column": 22,
@@ -77,7 +93,7 @@ exports[`%{nickname} %{action} issue %{code} 1`] = `
         },
         "start": 21,
         "type": 3,
-        "value": " issue ",
+        "value": " issue %",
       },
       {
         "end": 35,
@@ -94,7 +110,6 @@ exports[`%{nickname} %{action} issue %{code} 1`] = `
             "offset": 29,
           },
         },
-        "modulo": true,
         "start": 29,
         "type": 4,
       },
@@ -402,12 +417,12 @@ exports[`hi %{name}! 1`] = `
     "end": 11,
     "items": [
       {
-        "end": 3,
+        "end": 4,
         "loc": {
           "end": {
-            "column": 4,
+            "column": 5,
             "line": 1,
-            "offset": 3,
+            "offset": 4,
           },
           "start": {
             "column": 1,
@@ -417,7 +432,7 @@ exports[`hi %{name}! 1`] = `
         },
         "start": 0,
         "type": 3,
-        "value": "hi ",
+        "value": "hi %",
       },
       {
         "end": 10,
@@ -434,7 +449,6 @@ exports[`hi %{name}! 1`] = `
             "offset": 4,
           },
         },
-        "modulo": true,
         "start": 4,
         "type": 4,
       },

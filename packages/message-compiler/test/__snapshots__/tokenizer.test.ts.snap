@@ -63,7 +63,7 @@ exports[`token analysis > " | | |" tokens 1`] = `
         "offset": 6,
       },
     },
-    "type": 14,
+    "type": 13,
   },
 ]
 `;
@@ -147,7 +147,7 @@ exports[`token analysis > " foo | | bar" tokens 1`] = `
         "offset": 12,
       },
     },
-    "type": 14,
+    "type": 13,
   },
 ]
 `;
@@ -183,7 +183,7 @@ exports[`token analysis > " hello world " tokens 1`] = `
         "offset": 13,
       },
     },
-    "type": 14,
+    "type": 13,
   },
 ]
 `;
@@ -203,7 +203,7 @@ exports[`token analysis > "" tokens 1`] = `
         "offset": 0,
       },
     },
-    "type": 14,
+    "type": 13,
   },
 ]
 `;
@@ -239,7 +239,7 @@ exports[`token analysis > "'single-quote'" tokens 1`] = `
         "offset": 14,
       },
     },
-    "type": 14,
+    "type": 13,
   },
 ]
 `;
@@ -275,7 +275,7 @@ exports[`token analysis > "..." tokens 1`] = `
         "offset": 3,
       },
     },
-    "type": 14,
+    "type": 13,
   },
 ]
 `;
@@ -351,7 +351,7 @@ exports[`token analysis > "@.lower: {'no apples'} | {1 apple | @:{count　apples
         "offset": 0,
       },
     },
-    "type": 8,
+    "type": 7,
     "value": "@",
   },
   {
@@ -367,7 +367,7 @@ exports[`token analysis > "@.lower: {'no apples'} | {1 apple | @:{count　apples
         "offset": 1,
       },
     },
-    "type": 9,
+    "type": 8,
     "value": ".",
   },
   {
@@ -383,7 +383,7 @@ exports[`token analysis > "@.lower: {'no apples'} | {1 apple | @:{count　apples
         "offset": 2,
       },
     },
-    "type": 12,
+    "type": 11,
     "value": "lower",
   },
   {
@@ -399,7 +399,7 @@ exports[`token analysis > "@.lower: {'no apples'} | {1 apple | @:{count　apples
         "offset": 7,
       },
     },
-    "type": 10,
+    "type": 9,
     "value": ":",
   },
   {
@@ -447,7 +447,7 @@ exports[`token analysis > "@.lower: {'no apples'} | {1 apple | @:{count　apples
         "offset": 10,
       },
     },
-    "type": 7,
+    "type": 6,
     "value": "no apples",
   },
   {
@@ -511,7 +511,7 @@ exports[`token analysis > "@.lower: {'no apples'} | {1 apple | @:{count　apples
         "offset": 26,
       },
     },
-    "type": 6,
+    "type": 5,
     "value": "1",
   },
   {
@@ -559,7 +559,7 @@ exports[`token analysis > "@.lower: {'no apples'} | {1 apple | @:{count　apples
         "offset": 36,
       },
     },
-    "type": 8,
+    "type": 7,
     "value": "@",
   },
   {
@@ -575,7 +575,7 @@ exports[`token analysis > "@.lower: {'no apples'} | {1 apple | @:{count　apples
         "offset": 37,
       },
     },
-    "type": 10,
+    "type": 9,
     "value": ":",
   },
   {
@@ -607,7 +607,7 @@ exports[`token analysis > "@.lower: {'no apples'} | {1 apple | @:{count　apples
         "offset": 39,
       },
     },
-    "type": 5,
+    "type": 4,
     "value": "count",
   },
   {
@@ -639,7 +639,7 @@ exports[`token analysis > "@.lower: {'no apples'} | {1 apple | @:{count　apples
         "offset": 51,
       },
     },
-    "type": 14,
+    "type": 13,
   },
 ]
 `;
@@ -659,7 +659,7 @@ exports[`token analysis > "@.lower:{'no apples'} | {1} apple | {count}　apples"
         "offset": 0,
       },
     },
-    "type": 8,
+    "type": 7,
     "value": "@",
   },
   {
@@ -675,7 +675,7 @@ exports[`token analysis > "@.lower:{'no apples'} | {1} apple | {count}　apples"
         "offset": 1,
       },
     },
-    "type": 9,
+    "type": 8,
     "value": ".",
   },
   {
@@ -691,7 +691,7 @@ exports[`token analysis > "@.lower:{'no apples'} | {1} apple | {count}　apples"
         "offset": 2,
       },
     },
-    "type": 12,
+    "type": 11,
     "value": "lower",
   },
   {
@@ -707,7 +707,7 @@ exports[`token analysis > "@.lower:{'no apples'} | {1} apple | {count}　apples"
         "offset": 7,
       },
     },
-    "type": 10,
+    "type": 9,
     "value": ":",
   },
   {
@@ -739,7 +739,7 @@ exports[`token analysis > "@.lower:{'no apples'} | {1} apple | {count}　apples"
         "offset": 9,
       },
     },
-    "type": 7,
+    "type": 6,
     "value": "no apples",
   },
   {
@@ -803,7 +803,7 @@ exports[`token analysis > "@.lower:{'no apples'} | {1} apple | {count}　apples"
         "offset": 25,
       },
     },
-    "type": 6,
+    "type": 5,
     "value": "1",
   },
   {
@@ -883,7 +883,7 @@ exports[`token analysis > "@.lower:{'no apples'} | {1} apple | {count}　apples"
         "offset": 37,
       },
     },
-    "type": 5,
+    "type": 4,
     "value": "count",
   },
   {
@@ -931,7 +931,7 @@ exports[`token analysis > "@.lower:{'no apples'} | {1} apple | {count}　apples"
         "offset": 50,
       },
     },
-    "type": 14,
+    "type": 13,
   },
 ]
 `;
@@ -967,7 +967,7 @@ exports[`token analysis > "\\"double-qoute\\"" tokens 1`] = `
         "offset": 14,
       },
     },
-    "type": 14,
+    "type": 13,
   },
 ]
 `;
@@ -1003,7 +1003,7 @@ exports[`token analysis > "{0} {1}　{2}" tokens 1`] = `
         "offset": 1,
       },
     },
-    "type": 6,
+    "type": 5,
     "value": "0",
   },
   {
@@ -1067,7 +1067,7 @@ exports[`token analysis > "{0} {1}　{2}" tokens 1`] = `
         "offset": 5,
       },
     },
-    "type": 6,
+    "type": 5,
     "value": "1",
   },
   {
@@ -1131,7 +1131,7 @@ exports[`token analysis > "{0} {1}　{2}" tokens 1`] = `
         "offset": 9,
       },
     },
-    "type": 6,
+    "type": 5,
     "value": "2",
   },
   {
@@ -1163,7 +1163,7 @@ exports[`token analysis > "{0} {1}　{2}" tokens 1`] = `
         "offset": 11,
       },
     },
-    "type": 14,
+    "type": 13,
   },
 ]
 `;
@@ -1199,7 +1199,7 @@ exports[`token analysis > "{0}\\n{1}\\r\\n{2}" tokens 1`] = `
         "offset": 1,
       },
     },
-    "type": 6,
+    "type": 5,
     "value": "0",
   },
   {
@@ -1264,7 +1264,7 @@ exports[`token analysis > "{0}\\n{1}\\r\\n{2}" tokens 1`] = `
         "offset": 5,
       },
     },
-    "type": 6,
+    "type": 5,
     "value": "1",
   },
   {
@@ -1329,7 +1329,7 @@ exports[`token analysis > "{0}\\n{1}\\r\\n{2}" tokens 1`] = `
         "offset": 10,
       },
     },
-    "type": 6,
+    "type": 5,
     "value": "2",
   },
   {
@@ -1361,7 +1361,7 @@ exports[`token analysis > "{0}\\n{1}\\r\\n{2}" tokens 1`] = `
         "offset": 12,
       },
     },
-    "type": 14,
+    "type": 13,
   },
 ]
 `;
@@ -1397,7 +1397,7 @@ exports[`token analysis > "{first} {middle}　{last}" tokens 1`] = `
         "offset": 1,
       },
     },
-    "type": 5,
+    "type": 4,
     "value": "first",
   },
   {
@@ -1461,7 +1461,7 @@ exports[`token analysis > "{first} {middle}　{last}" tokens 1`] = `
         "offset": 9,
       },
     },
-    "type": 5,
+    "type": 4,
     "value": "middle",
   },
   {
@@ -1525,7 +1525,7 @@ exports[`token analysis > "{first} {middle}　{last}" tokens 1`] = `
         "offset": 18,
       },
     },
-    "type": 5,
+    "type": 4,
     "value": "last",
   },
   {
@@ -1557,7 +1557,7 @@ exports[`token analysis > "{first} {middle}　{last}" tokens 1`] = `
         "offset": 23,
       },
     },
-    "type": 14,
+    "type": 13,
   },
 ]
 `;
@@ -1593,7 +1593,7 @@ exports[`token analysis > "{first}\\n{middle}\\r\\n{last}" tokens 1`] = `
         "offset": 1,
       },
     },
-    "type": 5,
+    "type": 4,
     "value": "first",
   },
   {
@@ -1658,7 +1658,7 @@ exports[`token analysis > "{first}\\n{middle}\\r\\n{last}" tokens 1`] = `
         "offset": 9,
       },
     },
-    "type": 5,
+    "type": 4,
     "value": "middle",
   },
   {
@@ -1723,7 +1723,7 @@ exports[`token analysis > "{first}\\n{middle}\\r\\n{last}" tokens 1`] = `
         "offset": 19,
       },
     },
-    "type": 5,
+    "type": 4,
     "value": "last",
   },
   {
@@ -1755,7 +1755,7 @@ exports[`token analysis > "{first}\\n{middle}\\r\\n{last}" tokens 1`] = `
         "offset": 24,
       },
     },
-    "type": 14,
+    "type": 13,
   },
 ]
 `;
@@ -1791,7 +1791,7 @@ exports[`token analysis > "1 + 1" tokens 1`] = `
         "offset": 5,
       },
     },
-    "type": 14,
+    "type": 13,
   },
 ]
 `;
@@ -1849,7 +1849,7 @@ exports[`token analysis > "foo@bar.com" tokens 1`] = `
         "offset": 3,
       },
     },
-    "type": 8,
+    "type": 7,
     "value": "@",
   },
   {
@@ -1881,7 +1881,7 @@ exports[`token analysis > "foo@bar.com" tokens 1`] = `
         "offset": 11,
       },
     },
-    "type": 14,
+    "type": 13,
   },
 ]
 `;
@@ -1917,7 +1917,7 @@ exports[`token analysis > "hello world" tokens 1`] = `
         "offset": 11,
       },
     },
-    "type": 14,
+    "type": 13,
   },
 ]
 `;
@@ -1953,7 +1953,7 @@ exports[`token analysis > "hello:" tokens 1`] = `
         "offset": 6,
       },
     },
-    "type": 14,
+    "type": 13,
   },
 ]
 `;
@@ -1989,7 +1989,7 @@ exports[`token analysis > "hello\\\\nworld" tokens 1`] = `
         "offset": 12,
       },
     },
-    "type": 14,
+    "type": 13,
   },
 ]
 `;
@@ -2026,7 +2026,7 @@ world",
         "offset": 11,
       },
     },
-    "type": 14,
+    "type": 13,
   },
 ]
 `;
@@ -2062,7 +2062,7 @@ exports[`token analysis > "hi %name" tokens 1`] = `
         "offset": 8,
       },
     },
-    "type": 14,
+    "type": 13,
   },
 ]
 `;
@@ -2120,7 +2120,7 @@ exports[`token analysis > "hi @ :name !" tokens 1`] = `
         "offset": 3,
       },
     },
-    "type": 8,
+    "type": 7,
     "value": "@",
   },
   {
@@ -2136,7 +2136,7 @@ exports[`token analysis > "hi @ :name !" tokens 1`] = `
         "offset": 4,
       },
     },
-    "type": 10,
+    "type": 9,
     "value": ":",
   },
   {
@@ -2152,7 +2152,7 @@ exports[`token analysis > "hi @ :name !" tokens 1`] = `
         "offset": 6,
       },
     },
-    "type": 11,
+    "type": 10,
     "value": "name",
   },
   {
@@ -2184,7 +2184,7 @@ exports[`token analysis > "hi @ :name !" tokens 1`] = `
         "offset": 12,
       },
     },
-    "type": 14,
+    "type": 13,
   },
 ]
 `;
@@ -2242,7 +2242,7 @@ exports[`token analysis > "hi @. {name} !" tokens 1`] = `
         "offset": 3,
       },
     },
-    "type": 8,
+    "type": 7,
     "value": "@",
   },
   {
@@ -2258,7 +2258,7 @@ exports[`token analysis > "hi @. {name} !" tokens 1`] = `
         "offset": 4,
       },
     },
-    "type": 9,
+    "type": 8,
     "value": ".",
   },
   {
@@ -2306,7 +2306,7 @@ exports[`token analysis > "hi @. {name} !" tokens 1`] = `
         "offset": 7,
       },
     },
-    "type": 5,
+    "type": 4,
     "value": "name",
   },
   {
@@ -2354,7 +2354,7 @@ exports[`token analysis > "hi @. {name} !" tokens 1`] = `
         "offset": 14,
       },
     },
-    "type": 14,
+    "type": 13,
   },
 ]
 `;
@@ -2412,7 +2412,7 @@ exports[`token analysis > "hi @.\\n{name} !" tokens 1`] = `
         "offset": 3,
       },
     },
-    "type": 8,
+    "type": 7,
     "value": "@",
   },
   {
@@ -2428,7 +2428,7 @@ exports[`token analysis > "hi @.\\n{name} !" tokens 1`] = `
         "offset": 4,
       },
     },
-    "type": 9,
+    "type": 8,
     "value": ".",
   },
   {
@@ -2477,7 +2477,7 @@ exports[`token analysis > "hi @.\\n{name} !" tokens 1`] = `
         "offset": 7,
       },
     },
-    "type": 5,
+    "type": 4,
     "value": "name",
   },
   {
@@ -2525,7 +2525,7 @@ exports[`token analysis > "hi @.\\n{name} !" tokens 1`] = `
         "offset": 14,
       },
     },
-    "type": 14,
+    "type": 13,
   },
 ]
 `;
@@ -2583,7 +2583,7 @@ exports[`token analysis > "hi @.upper {name} !" tokens 1`] = `
         "offset": 3,
       },
     },
-    "type": 8,
+    "type": 7,
     "value": "@",
   },
   {
@@ -2599,7 +2599,7 @@ exports[`token analysis > "hi @.upper {name} !" tokens 1`] = `
         "offset": 4,
       },
     },
-    "type": 9,
+    "type": 8,
     "value": ".",
   },
   {
@@ -2615,7 +2615,7 @@ exports[`token analysis > "hi @.upper {name} !" tokens 1`] = `
         "offset": 5,
       },
     },
-    "type": 12,
+    "type": 11,
     "value": "upper",
   },
   {
@@ -2663,7 +2663,7 @@ exports[`token analysis > "hi @.upper {name} !" tokens 1`] = `
         "offset": 12,
       },
     },
-    "type": 5,
+    "type": 4,
     "value": "name",
   },
   {
@@ -2711,7 +2711,7 @@ exports[`token analysis > "hi @.upper {name} !" tokens 1`] = `
         "offset": 19,
       },
     },
-    "type": 14,
+    "type": 13,
   },
 ]
 `;
@@ -2747,7 +2747,7 @@ exports[`token analysis > "hi @.upper:name !" tokens 1`] = `
         "offset": 3,
       },
     },
-    "type": 8,
+    "type": 7,
     "value": "@",
   },
   {
@@ -2763,7 +2763,7 @@ exports[`token analysis > "hi @.upper:name !" tokens 1`] = `
         "offset": 4,
       },
     },
-    "type": 9,
+    "type": 8,
     "value": ".",
   },
   {
@@ -2779,7 +2779,7 @@ exports[`token analysis > "hi @.upper:name !" tokens 1`] = `
         "offset": 5,
       },
     },
-    "type": 12,
+    "type": 11,
     "value": "upper",
   },
   {
@@ -2795,7 +2795,7 @@ exports[`token analysis > "hi @.upper:name !" tokens 1`] = `
         "offset": 10,
       },
     },
-    "type": 10,
+    "type": 9,
     "value": ":",
   },
   {
@@ -2811,7 +2811,7 @@ exports[`token analysis > "hi @.upper:name !" tokens 1`] = `
         "offset": 11,
       },
     },
-    "type": 11,
+    "type": 10,
     "value": "name",
   },
   {
@@ -2843,7 +2843,7 @@ exports[`token analysis > "hi @.upper:name !" tokens 1`] = `
         "offset": 17,
       },
     },
-    "type": 14,
+    "type": 13,
   },
 ]
 `;
@@ -2901,7 +2901,7 @@ exports[`token analysis > "hi @.upper\\n{name} !" tokens 1`] = `
         "offset": 3,
       },
     },
-    "type": 8,
+    "type": 7,
     "value": "@",
   },
   {
@@ -2917,7 +2917,7 @@ exports[`token analysis > "hi @.upper\\n{name} !" tokens 1`] = `
         "offset": 4,
       },
     },
-    "type": 9,
+    "type": 8,
     "value": ".",
   },
   {
@@ -2933,7 +2933,7 @@ exports[`token analysis > "hi @.upper\\n{name} !" tokens 1`] = `
         "offset": 5,
       },
     },
-    "type": 12,
+    "type": 11,
     "value": "upper",
   },
   {
@@ -2982,7 +2982,7 @@ exports[`token analysis > "hi @.upper\\n{name} !" tokens 1`] = `
         "offset": 12,
       },
     },
-    "type": 5,
+    "type": 4,
     "value": "name",
   },
   {
@@ -3030,7 +3030,7 @@ exports[`token analysis > "hi @.upper\\n{name} !" tokens 1`] = `
         "offset": 19,
       },
     },
-    "type": 14,
+    "type": 13,
   },
 ]
 `;
@@ -3088,7 +3088,7 @@ exports[`token analysis > "hi @: {'name'} !" tokens 1`] = `
         "offset": 3,
       },
     },
-    "type": 8,
+    "type": 7,
     "value": "@",
   },
   {
@@ -3104,7 +3104,7 @@ exports[`token analysis > "hi @: {'name'} !" tokens 1`] = `
         "offset": 4,
       },
     },
-    "type": 10,
+    "type": 9,
     "value": ":",
   },
   {
@@ -3152,7 +3152,7 @@ exports[`token analysis > "hi @: {'name'} !" tokens 1`] = `
         "offset": 7,
       },
     },
-    "type": 7,
+    "type": 6,
     "value": "name",
   },
   {
@@ -3200,7 +3200,7 @@ exports[`token analysis > "hi @: {'name'} !" tokens 1`] = `
         "offset": 16,
       },
     },
-    "type": 14,
+    "type": 13,
   },
 ]
 `;
@@ -3258,7 +3258,7 @@ exports[`token analysis > "hi @:\\nname !" tokens 1`] = `
         "offset": 3,
       },
     },
-    "type": 8,
+    "type": 7,
     "value": "@",
   },
   {
@@ -3274,7 +3274,7 @@ exports[`token analysis > "hi @:\\nname !" tokens 1`] = `
         "offset": 4,
       },
     },
-    "type": 10,
+    "type": 9,
     "value": ":",
   },
   {
@@ -3290,7 +3290,7 @@ exports[`token analysis > "hi @:\\nname !" tokens 1`] = `
         "offset": 5,
       },
     },
-    "type": 11,
+    "type": 10,
     "value": "name",
   },
   {
@@ -3322,7 +3322,7 @@ exports[`token analysis > "hi @:\\nname !" tokens 1`] = `
         "offset": 12,
       },
     },
-    "type": 14,
+    "type": 13,
   },
 ]
 `;
@@ -3358,7 +3358,7 @@ exports[`token analysis > "hi @:{ 'name' } !" tokens 1`] = `
         "offset": 3,
       },
     },
-    "type": 8,
+    "type": 7,
     "value": "@",
   },
   {
@@ -3374,7 +3374,7 @@ exports[`token analysis > "hi @:{ 'name' } !" tokens 1`] = `
         "offset": 4,
       },
     },
-    "type": 10,
+    "type": 9,
     "value": ":",
   },
   {
@@ -3406,7 +3406,7 @@ exports[`token analysis > "hi @:{ 'name' } !" tokens 1`] = `
         "offset": 7,
       },
     },
-    "type": 7,
+    "type": 6,
     "value": "name",
   },
   {
@@ -3454,7 +3454,7 @@ exports[`token analysis > "hi @:{ 'name' } !" tokens 1`] = `
         "offset": 17,
       },
     },
-    "type": 14,
+    "type": 13,
   },
 ]
 `;
@@ -3512,7 +3512,7 @@ exports[`token analysis > "hi @:{ {name} } !" tokens 1`] = `
         "offset": 3,
       },
     },
-    "type": 8,
+    "type": 7,
     "value": "@",
   },
   {
@@ -3528,7 +3528,7 @@ exports[`token analysis > "hi @:{ {name} } !" tokens 1`] = `
         "offset": 4,
       },
     },
-    "type": 10,
+    "type": 9,
     "value": ":",
   },
   {
@@ -3576,7 +3576,7 @@ exports[`token analysis > "hi @:{ {name} } !" tokens 1`] = `
         "offset": 8,
       },
     },
-    "type": 5,
+    "type": 4,
     "value": "name",
   },
   {
@@ -3640,7 +3640,7 @@ exports[`token analysis > "hi @:{ {name} } !" tokens 1`] = `
         "offset": 17,
       },
     },
-    "type": 14,
+    "type": 13,
   },
 ]
 `;
@@ -3676,7 +3676,7 @@ exports[`token analysis > "hi @:{ name } !" tokens 1`] = `
         "offset": 3,
       },
     },
-    "type": 8,
+    "type": 7,
     "value": "@",
   },
   {
@@ -3692,7 +3692,7 @@ exports[`token analysis > "hi @:{ name } !" tokens 1`] = `
         "offset": 4,
       },
     },
-    "type": 10,
+    "type": 9,
     "value": ":",
   },
   {
@@ -3724,7 +3724,7 @@ exports[`token analysis > "hi @:{ name } !" tokens 1`] = `
         "offset": 7,
       },
     },
-    "type": 5,
+    "type": 4,
     "value": "name",
   },
   {
@@ -3772,7 +3772,7 @@ exports[`token analysis > "hi @:{ name } !" tokens 1`] = `
         "offset": 15,
       },
     },
-    "type": 14,
+    "type": 13,
   },
 ]
 `;
@@ -3808,7 +3808,7 @@ exports[`token analysis > "hi @:{'hello world'} !" tokens 1`] = `
         "offset": 3,
       },
     },
-    "type": 8,
+    "type": 7,
     "value": "@",
   },
   {
@@ -3824,7 +3824,7 @@ exports[`token analysis > "hi @:{'hello world'} !" tokens 1`] = `
         "offset": 4,
       },
     },
-    "type": 10,
+    "type": 9,
     "value": ":",
   },
   {
@@ -3856,7 +3856,7 @@ exports[`token analysis > "hi @:{'hello world'} !" tokens 1`] = `
         "offset": 6,
       },
     },
-    "type": 7,
+    "type": 6,
     "value": "hello world",
   },
   {
@@ -3904,7 +3904,7 @@ exports[`token analysis > "hi @:{'hello world'} !" tokens 1`] = `
         "offset": 22,
       },
     },
-    "type": 14,
+    "type": 13,
   },
 ]
 `;
@@ -3940,7 +3940,7 @@ exports[`token analysis > "hi @:{name} @:{0}!" tokens 1`] = `
         "offset": 3,
       },
     },
-    "type": 8,
+    "type": 7,
     "value": "@",
   },
   {
@@ -3956,7 +3956,7 @@ exports[`token analysis > "hi @:{name} @:{0}!" tokens 1`] = `
         "offset": 4,
       },
     },
-    "type": 10,
+    "type": 9,
     "value": ":",
   },
   {
@@ -3988,7 +3988,7 @@ exports[`token analysis > "hi @:{name} @:{0}!" tokens 1`] = `
         "offset": 6,
       },
     },
-    "type": 5,
+    "type": 4,
     "value": "name",
   },
   {
@@ -4036,7 +4036,7 @@ exports[`token analysis > "hi @:{name} @:{0}!" tokens 1`] = `
         "offset": 12,
       },
     },
-    "type": 8,
+    "type": 7,
     "value": "@",
   },
   {
@@ -4052,7 +4052,7 @@ exports[`token analysis > "hi @:{name} @:{0}!" tokens 1`] = `
         "offset": 13,
       },
     },
-    "type": 10,
+    "type": 9,
     "value": ":",
   },
   {
@@ -4084,7 +4084,7 @@ exports[`token analysis > "hi @:{name} @:{0}!" tokens 1`] = `
         "offset": 15,
       },
     },
-    "type": 6,
+    "type": 5,
     "value": "0",
   },
   {
@@ -4132,7 +4132,7 @@ exports[`token analysis > "hi @:{name} @:{0}!" tokens 1`] = `
         "offset": 18,
       },
     },
-    "type": 14,
+    "type": 13,
   },
 ]
 `;
@@ -4168,7 +4168,7 @@ exports[`token analysis > "hi @:{name}\\n !" tokens 1`] = `
         "offset": 3,
       },
     },
-    "type": 8,
+    "type": 7,
     "value": "@",
   },
   {
@@ -4184,7 +4184,7 @@ exports[`token analysis > "hi @:{name}\\n !" tokens 1`] = `
         "offset": 4,
       },
     },
-    "type": 10,
+    "type": 9,
     "value": ":",
   },
   {
@@ -4216,7 +4216,7 @@ exports[`token analysis > "hi @:{name}\\n !" tokens 1`] = `
         "offset": 6,
       },
     },
-    "type": 5,
+    "type": 4,
     "value": "name",
   },
   {
@@ -4265,7 +4265,7 @@ exports[`token analysis > "hi @:{name}\\n !" tokens 1`] = `
         "offset": 14,
       },
     },
-    "type": 14,
+    "type": 13,
   },
 ]
 `;
@@ -4301,7 +4301,7 @@ exports[`token analysis > "hi @:name !" tokens 1`] = `
         "offset": 3,
       },
     },
-    "type": 8,
+    "type": 7,
     "value": "@",
   },
   {
@@ -4317,7 +4317,7 @@ exports[`token analysis > "hi @:name !" tokens 1`] = `
         "offset": 4,
       },
     },
-    "type": 10,
+    "type": 9,
     "value": ":",
   },
   {
@@ -4333,7 +4333,7 @@ exports[`token analysis > "hi @:name !" tokens 1`] = `
         "offset": 5,
       },
     },
-    "type": 11,
+    "type": 10,
     "value": "name",
   },
   {
@@ -4365,7 +4365,7 @@ exports[`token analysis > "hi @:name !" tokens 1`] = `
         "offset": 11,
       },
     },
-    "type": 14,
+    "type": 13,
   },
 ]
 `;
@@ -4401,7 +4401,7 @@ exports[`token analysis > "hi @:名前" tokens 1`] = `
         "offset": 3,
       },
     },
-    "type": 8,
+    "type": 7,
     "value": "@",
   },
   {
@@ -4417,7 +4417,7 @@ exports[`token analysis > "hi @:名前" tokens 1`] = `
         "offset": 4,
       },
     },
-    "type": 10,
+    "type": 9,
     "value": ":",
   },
   {
@@ -4433,7 +4433,7 @@ exports[`token analysis > "hi @:名前" tokens 1`] = `
         "offset": 5,
       },
     },
-    "type": 11,
+    "type": 10,
     "value": "名前",
   },
   {
@@ -4449,7 +4449,7 @@ exports[`token analysis > "hi @:名前" tokens 1`] = `
         "offset": 7,
       },
     },
-    "type": 14,
+    "type": 13,
   },
 ]
 `;
@@ -4558,7 +4558,7 @@ exports[`token analysis > "hi @\\n. upper\\n:  {'name'}\\n !" tokens 1`] = `
         "offset": 3,
       },
     },
-    "type": 8,
+    "type": 7,
     "value": "@",
   },
   {
@@ -4574,7 +4574,7 @@ exports[`token analysis > "hi @\\n. upper\\n:  {'name'}\\n !" tokens 1`] = `
         "offset": 4,
       },
     },
-    "type": 9,
+    "type": 8,
     "value": ".",
   },
   {
@@ -4590,7 +4590,7 @@ exports[`token analysis > "hi @\\n. upper\\n:  {'name'}\\n !" tokens 1`] = `
         "offset": 6,
       },
     },
-    "type": 12,
+    "type": 11,
     "value": "upper",
   },
   {
@@ -4606,7 +4606,7 @@ exports[`token analysis > "hi @\\n. upper\\n:  {'name'}\\n !" tokens 1`] = `
         "offset": 12,
       },
     },
-    "type": 10,
+    "type": 9,
     "value": ":",
   },
   {
@@ -4654,7 +4654,7 @@ exports[`token analysis > "hi @\\n. upper\\n:  {'name'}\\n !" tokens 1`] = `
         "offset": 17,
       },
     },
-    "type": 7,
+    "type": 6,
     "value": "name",
   },
   {
@@ -4703,7 +4703,7 @@ exports[`token analysis > "hi @\\n. upper\\n:  {'name'}\\n !" tokens 1`] = `
         "offset": 27,
       },
     },
-    "type": 14,
+    "type": 13,
   },
 ]
 `;
@@ -4761,7 +4761,7 @@ exports[`token analysis > "hi @\\n:name !" tokens 1`] = `
         "offset": 3,
       },
     },
-    "type": 8,
+    "type": 7,
     "value": "@",
   },
   {
@@ -4777,7 +4777,7 @@ exports[`token analysis > "hi @\\n:name !" tokens 1`] = `
         "offset": 4,
       },
     },
-    "type": 10,
+    "type": 9,
     "value": ":",
   },
   {
@@ -4793,7 +4793,7 @@ exports[`token analysis > "hi @\\n:name !" tokens 1`] = `
         "offset": 6,
       },
     },
-    "type": 11,
+    "type": 10,
     "value": "name",
   },
   {
@@ -4825,7 +4825,7 @@ exports[`token analysis > "hi @\\n:name !" tokens 1`] = `
         "offset": 12,
       },
     },
-    "type": 14,
+    "type": 13,
   },
 ]
 `;
@@ -4947,7 +4947,7 @@ exports[`token analysis > "hi {  | hello {name} !" tokens 1`] = `
         "offset": 15,
       },
     },
-    "type": 5,
+    "type": 4,
     "value": "name",
   },
   {
@@ -4995,7 +4995,7 @@ exports[`token analysis > "hi {  | hello {name} !" tokens 1`] = `
         "offset": 22,
       },
     },
-    "type": 14,
+    "type": 13,
   },
 ]
 `;
@@ -5101,7 +5101,7 @@ exports[`token analysis > "hi {  } !" tokens 1`] = `
         "offset": 9,
       },
     },
-    "type": 14,
+    "type": 13,
   },
 ]
 `;
@@ -5153,7 +5153,7 @@ exports[`token analysis > "hi {  -1 } !" tokens 1`] = `
         "offset": 6,
       },
     },
-    "type": 6,
+    "type": 5,
     "value": "-1",
   },
   {
@@ -5201,7 +5201,7 @@ exports[`token analysis > "hi {  -1 } !" tokens 1`] = `
         "offset": 12,
       },
     },
-    "type": 14,
+    "type": 13,
   },
 ]
 `;
@@ -5275,7 +5275,7 @@ exports[`token analysis > "hi {  0 !" tokens 1`] = `
         "offset": 6,
       },
     },
-    "type": 6,
+    "type": 5,
     "value": "0",
   },
   {
@@ -5307,7 +5307,7 @@ exports[`token analysis > "hi {  0 !" tokens 1`] = `
         "offset": 9,
       },
     },
-    "type": 14,
+    "type": 13,
   },
 ]
 `;
@@ -5381,7 +5381,7 @@ exports[`token analysis > "hi {  name !" tokens 1`] = `
         "offset": 6,
       },
     },
-    "type": 5,
+    "type": 4,
     "value": "name",
   },
   {
@@ -5413,7 +5413,7 @@ exports[`token analysis > "hi {  name !" tokens 1`] = `
         "offset": 12,
       },
     },
-    "type": 14,
+    "type": 13,
   },
 ]
 `;
@@ -5465,7 +5465,7 @@ exports[`token analysis > "hi {  name } !" tokens 1`] = `
         "offset": 6,
       },
     },
-    "type": 5,
+    "type": 4,
     "value": "name",
   },
   {
@@ -5513,7 +5513,7 @@ exports[`token analysis > "hi {  name } !" tokens 1`] = `
         "offset": 14,
       },
     },
-    "type": 14,
+    "type": 13,
   },
 ]
 `;
@@ -5587,7 +5587,7 @@ exports[`token analysis > "hi { '\\\\uw' }" tokens 1`] = `
         "offset": 5,
       },
     },
-    "type": 7,
+    "type": 6,
     "value": "\\uw",
   },
   {
@@ -5619,7 +5619,7 @@ exports[`token analysis > "hi { '\\\\uw' }" tokens 1`] = `
         "offset": 12,
       },
     },
-    "type": 14,
+    "type": 13,
   },
 ]
 `;
@@ -5693,7 +5693,7 @@ exports[`token analysis > "hi { '\\\\x41' }" tokens 1`] = `
         "offset": 5,
       },
     },
-    "type": 7,
+    "type": 6,
     "value": "x41",
   },
   {
@@ -5725,7 +5725,7 @@ exports[`token analysis > "hi { '\\\\x41' }" tokens 1`] = `
         "offset": 13,
       },
     },
-    "type": 14,
+    "type": 13,
   },
 ]
 `;
@@ -5799,7 +5799,7 @@ exports[`token analysis > "hi { 'foo }" tokens 1`] = `
         "offset": 5,
       },
     },
-    "type": 7,
+    "type": 6,
     "value": "foo }",
   },
   {
@@ -5815,7 +5815,7 @@ exports[`token analysis > "hi { 'foo }" tokens 1`] = `
         "offset": 11,
       },
     },
-    "type": 14,
+    "type": 13,
   },
 ]
 `;
@@ -5889,7 +5889,7 @@ exports[`token analysis > "hi { 'foo" tokens 1`] = `
         "offset": 5,
       },
     },
-    "type": 7,
+    "type": 6,
     "value": "foo",
   },
   {
@@ -5905,7 +5905,7 @@ exports[`token analysis > "hi { 'foo" tokens 1`] = `
         "offset": 9,
       },
     },
-    "type": 14,
+    "type": 13,
   },
 ]
 `;
@@ -5979,7 +5979,7 @@ exports[`token analysis > "hi { 'foo\\n' }" tokens 1`] = `
         "offset": 5,
       },
     },
-    "type": 7,
+    "type": 6,
     "value": "foo",
   },
   {
@@ -6011,7 +6011,7 @@ exports[`token analysis > "hi { 'foo\\n' }" tokens 1`] = `
         "offset": 13,
       },
     },
-    "type": 14,
+    "type": 13,
   },
 ]
 `;
@@ -6085,7 +6085,7 @@ exports[`token analysis > "hi { @:name  | hello {name} !" tokens 1`] = `
         "offset": 5,
       },
     },
-    "type": 8,
+    "type": 7,
     "value": "@",
   },
   {
@@ -6101,7 +6101,7 @@ exports[`token analysis > "hi { @:name  | hello {name} !" tokens 1`] = `
         "offset": 6,
       },
     },
-    "type": 10,
+    "type": 9,
     "value": ":",
   },
   {
@@ -6117,7 +6117,7 @@ exports[`token analysis > "hi { @:name  | hello {name} !" tokens 1`] = `
         "offset": 7,
       },
     },
-    "type": 11,
+    "type": 10,
     "value": "name",
   },
   {
@@ -6181,7 +6181,7 @@ exports[`token analysis > "hi { @:name  | hello {name} !" tokens 1`] = `
         "offset": 22,
       },
     },
-    "type": 5,
+    "type": 4,
     "value": "name",
   },
   {
@@ -6229,7 +6229,7 @@ exports[`token analysis > "hi { @:name  | hello {name} !" tokens 1`] = `
         "offset": 29,
       },
     },
-    "type": 14,
+    "type": 13,
   },
 ]
 `;
@@ -6303,7 +6303,7 @@ exports[`token analysis > "hi { @:name !" tokens 1`] = `
         "offset": 5,
       },
     },
-    "type": 8,
+    "type": 7,
     "value": "@",
   },
   {
@@ -6319,7 +6319,7 @@ exports[`token analysis > "hi { @:name !" tokens 1`] = `
         "offset": 6,
       },
     },
-    "type": 10,
+    "type": 9,
     "value": ":",
   },
   {
@@ -6335,7 +6335,7 @@ exports[`token analysis > "hi { @:name !" tokens 1`] = `
         "offset": 7,
       },
     },
-    "type": 11,
+    "type": 10,
     "value": "name",
   },
   {
@@ -6367,7 +6367,7 @@ exports[`token analysis > "hi { @:name !" tokens 1`] = `
         "offset": 13,
       },
     },
-    "type": 14,
+    "type": 13,
   },
 ]
 `;
@@ -6457,7 +6457,7 @@ exports[`token analysis > "hi { { 0 } } !" tokens 1`] = `
         "offset": 7,
       },
     },
-    "type": 6,
+    "type": 5,
     "value": "0",
   },
   {
@@ -6521,7 +6521,7 @@ exports[`token analysis > "hi { { 0 } } !" tokens 1`] = `
         "offset": 14,
       },
     },
-    "type": 14,
+    "type": 13,
   },
 ]
 `;
@@ -6611,7 +6611,7 @@ exports[`token analysis > "hi { { name } } !" tokens 1`] = `
         "offset": 7,
       },
     },
-    "type": 5,
+    "type": 4,
     "value": "name",
   },
   {
@@ -6675,7 +6675,7 @@ exports[`token analysis > "hi { { name } } !" tokens 1`] = `
         "offset": 17,
       },
     },
-    "type": 14,
+    "type": 13,
   },
 ]
 `;
@@ -6749,7 +6749,7 @@ exports[`token analysis > "hi { name !" tokens 1`] = `
         "offset": 5,
       },
     },
-    "type": 5,
+    "type": 4,
     "value": "name",
   },
   {
@@ -6781,7 +6781,7 @@ exports[`token analysis > "hi { name !" tokens 1`] = `
         "offset": 11,
       },
     },
-    "type": 14,
+    "type": 13,
   },
 ]
 `;
@@ -6855,7 +6855,7 @@ exports[`token analysis > "hi {$} !" tokens 1`] = `
         "offset": 4,
       },
     },
-    "type": 13,
+    "type": 12,
     "value": "$",
   },
   {
@@ -6903,7 +6903,7 @@ exports[`token analysis > "hi {$} !" tokens 1`] = `
         "offset": 8,
       },
     },
-    "type": 14,
+    "type": 13,
   },
 ]
 `;
@@ -6955,7 +6955,7 @@ exports[`token analysis > "hi {'kazupon'} !" tokens 1`] = `
         "offset": 4,
       },
     },
-    "type": 7,
+    "type": 6,
     "value": "kazupon",
   },
   {
@@ -7003,7 +7003,7 @@ exports[`token analysis > "hi {'kazupon'} !" tokens 1`] = `
         "offset": 16,
       },
     },
-    "type": 14,
+    "type": 13,
   },
 ]
 `;
@@ -7077,7 +7077,7 @@ exports[`token analysis > "hi {@.lower:name !" tokens 1`] = `
         "offset": 4,
       },
     },
-    "type": 8,
+    "type": 7,
     "value": "@",
   },
   {
@@ -7093,7 +7093,7 @@ exports[`token analysis > "hi {@.lower:name !" tokens 1`] = `
         "offset": 5,
       },
     },
-    "type": 9,
+    "type": 8,
     "value": ".",
   },
   {
@@ -7109,7 +7109,7 @@ exports[`token analysis > "hi {@.lower:name !" tokens 1`] = `
         "offset": 6,
       },
     },
-    "type": 12,
+    "type": 11,
     "value": "lower",
   },
   {
@@ -7125,7 +7125,7 @@ exports[`token analysis > "hi {@.lower:name !" tokens 1`] = `
         "offset": 11,
       },
     },
-    "type": 10,
+    "type": 9,
     "value": ":",
   },
   {
@@ -7141,7 +7141,7 @@ exports[`token analysis > "hi {@.lower:name !" tokens 1`] = `
         "offset": 12,
       },
     },
-    "type": 11,
+    "type": 10,
     "value": "name",
   },
   {
@@ -7173,7 +7173,7 @@ exports[`token analysis > "hi {@.lower:name !" tokens 1`] = `
         "offset": 18,
       },
     },
-    "type": 14,
+    "type": 13,
   },
 ]
 `;
@@ -7225,7 +7225,7 @@ exports[`token analysis > "hi {\\nname\\n} !" tokens 1`] = `
         "offset": 5,
       },
     },
-    "type": 5,
+    "type": 4,
     "value": "name",
   },
   {
@@ -7273,7 +7273,7 @@ exports[`token analysis > "hi {\\nname\\n} !" tokens 1`] = `
         "offset": 13,
       },
     },
-    "type": 14,
+    "type": 13,
   },
 ]
 `;
@@ -7380,7 +7380,7 @@ exports[`token analysis > "hi {{ !" tokens 1`] = `
         "offset": 6,
       },
     },
-    "type": 13,
+    "type": 12,
     "value": "!",
   },
   {
@@ -7396,7 +7396,7 @@ exports[`token analysis > "hi {{ !" tokens 1`] = `
         "offset": 7,
       },
     },
-    "type": 14,
+    "type": 13,
   },
 ]
 `;
@@ -7551,7 +7551,7 @@ exports[`token analysis > "hi {{}} !" tokens 1`] = `
         "offset": 9,
       },
     },
-    "type": 14,
+    "type": 13,
   },
 ]
 `;
@@ -7641,7 +7641,7 @@ exports[`token analysis > "hi {{0}} !" tokens 1`] = `
         "offset": 5,
       },
     },
-    "type": 6,
+    "type": 5,
     "value": "0",
   },
   {
@@ -7705,7 +7705,7 @@ exports[`token analysis > "hi {{0}} !" tokens 1`] = `
         "offset": 10,
       },
     },
-    "type": 14,
+    "type": 13,
   },
 ]
 `;
@@ -7795,7 +7795,7 @@ exports[`token analysis > "hi {{name}} !" tokens 1`] = `
         "offset": 5,
       },
     },
-    "type": 5,
+    "type": 4,
     "value": "name",
   },
   {
@@ -7859,7 +7859,7 @@ exports[`token analysis > "hi {{name}} !" tokens 1`] = `
         "offset": 13,
       },
     },
-    "type": 14,
+    "type": 13,
   },
 ]
 `;
@@ -7965,7 +7965,7 @@ exports[`token analysis > "hi {} !" tokens 1`] = `
         "offset": 7,
       },
     },
-    "type": 14,
+    "type": 13,
   },
 ]
 `;
@@ -8039,7 +8039,7 @@ exports[`token analysis > "hi {-} !" tokens 1`] = `
         "offset": 4,
       },
     },
-    "type": 13,
+    "type": 12,
     "value": "-",
   },
   {
@@ -8087,7 +8087,7 @@ exports[`token analysis > "hi {-} !" tokens 1`] = `
         "offset": 8,
       },
     },
-    "type": 14,
+    "type": 13,
   },
 ]
 `;
@@ -8161,7 +8161,7 @@ exports[`token analysis > "hi {0 !" tokens 1`] = `
         "offset": 4,
       },
     },
-    "type": 6,
+    "type": 5,
     "value": "0",
   },
   {
@@ -8193,7 +8193,7 @@ exports[`token analysis > "hi {0 !" tokens 1`] = `
         "offset": 7,
       },
     },
-    "type": 14,
+    "type": 13,
   },
 ]
 `;
@@ -8267,7 +8267,7 @@ exports[`token analysis > "hi {0" tokens 1`] = `
         "offset": 4,
       },
     },
-    "type": 6,
+    "type": 5,
     "value": "0",
   },
   {
@@ -8283,7 +8283,7 @@ exports[`token analysis > "hi {0" tokens 1`] = `
         "offset": 5,
       },
     },
-    "type": 14,
+    "type": 13,
   },
 ]
 `;
@@ -8335,7 +8335,7 @@ exports[`token analysis > "hi {0} !" tokens 1`] = `
         "offset": 4,
       },
     },
-    "type": 6,
+    "type": 5,
     "value": "0",
   },
   {
@@ -8383,7 +8383,7 @@ exports[`token analysis > "hi {0} !" tokens 1`] = `
         "offset": 8,
       },
     },
-    "type": 14,
+    "type": 13,
   },
 ]
 `;
@@ -8457,7 +8457,7 @@ exports[`token analysis > "hi {name !" tokens 1`] = `
         "offset": 4,
       },
     },
-    "type": 5,
+    "type": 4,
     "value": "name",
   },
   {
@@ -8489,7 +8489,7 @@ exports[`token analysis > "hi {name !" tokens 1`] = `
         "offset": 10,
       },
     },
-    "type": 14,
+    "type": 13,
   },
 ]
 `;
@@ -8563,7 +8563,7 @@ exports[`token analysis > "hi {name" tokens 1`] = `
         "offset": 4,
       },
     },
-    "type": 5,
+    "type": 4,
     "value": "name",
   },
   {
@@ -8579,7 +8579,7 @@ exports[`token analysis > "hi {name" tokens 1`] = `
         "offset": 8,
       },
     },
-    "type": 14,
+    "type": 13,
   },
 ]
 `;
@@ -8631,7 +8631,7 @@ exports[`token analysis > "hi {name$} !" tokens 1`] = `
         "offset": 4,
       },
     },
-    "type": 5,
+    "type": 4,
     "value": "name$",
   },
   {
@@ -8679,7 +8679,7 @@ exports[`token analysis > "hi {name$} !" tokens 1`] = `
         "offset": 12,
       },
     },
-    "type": 14,
+    "type": 13,
   },
 ]
 `;
@@ -8731,7 +8731,7 @@ exports[`token analysis > "hi {name} !" tokens 1`] = `
         "offset": 4,
       },
     },
-    "type": 5,
+    "type": 4,
     "value": "name",
   },
   {
@@ -8779,7 +8779,7 @@ exports[`token analysis > "hi {name} !" tokens 1`] = `
         "offset": 11,
       },
     },
-    "type": 14,
+    "type": 13,
   },
 ]
 `;
@@ -8831,7 +8831,7 @@ exports[`token analysis > "hi {snake_case} !" tokens 1`] = `
         "offset": 4,
       },
     },
-    "type": 5,
+    "type": 4,
     "value": "snake_case",
   },
   {
@@ -8879,7 +8879,7 @@ exports[`token analysis > "hi {snake_case} !" tokens 1`] = `
         "offset": 17,
       },
     },
-    "type": 14,
+    "type": 13,
   },
 ]
 `;
@@ -8915,7 +8915,7 @@ exports[`token analysis > "hi, :-) !" tokens 1`] = `
         "offset": 9,
       },
     },
-    "type": 14,
+    "type": 13,
   },
 ]
 `;
@@ -9005,7 +9005,7 @@ exports[`token analysis > "hi, :-} !" tokens 1`] = `
         "offset": 9,
       },
     },
-    "type": 14,
+    "type": 13,
   },
 ]
 `;
@@ -9041,7 +9041,7 @@ exports[`token analysis > "hypen-nate" tokens 1`] = `
         "offset": 10,
       },
     },
-    "type": 14,
+    "type": 13,
   },
 ]
 `;
@@ -9077,7 +9077,7 @@ exports[`token analysis > "name = foo" tokens 1`] = `
         "offset": 10,
       },
     },
-    "type": 14,
+    "type": 13,
   },
 ]
 `;
@@ -9177,7 +9177,7 @@ exports[`token analysis > "no apples | one apple  |  too much apples " tokens 1`
         "offset": 42,
       },
     },
-    "type": 14,
+    "type": 13,
   },
 ]
 `;
@@ -9277,7 +9277,7 @@ exports[`token analysis > "no apples |\\n one apple  |\\n  too much apples  " to
         "offset": 45,
       },
     },
-    "type": 14,
+    "type": 13,
   },
 ]
 `;
@@ -9313,7 +9313,7 @@ exports[`token analysis > "こんにちは、世界" tokens 1`] = `
         "offset": 8,
       },
     },
-    "type": 14,
+    "type": 13,
   },
 ]
 `;
@@ -9349,7 +9349,7 @@ exports[`token analysis > "😺" tokens 1`] = `
         "offset": 2,
       },
     },
-    "type": 14,
+    "type": 13,
   },
 ]
 `;
@@ -9369,7 +9369,7 @@ exports[`tokenize options: location disable > " | | |" tokens 1`] = `
     "value": "|",
   },
   {
-    "type": 14,
+    "type": 13,
   },
 ]
 `;
@@ -9393,7 +9393,7 @@ exports[`tokenize options: location disable > " foo | | bar" tokens 1`] = `
     "value": "bar",
   },
   {
-    "type": 14,
+    "type": 13,
   },
 ]
 `;
@@ -9405,7 +9405,7 @@ exports[`tokenize options: location disable > " hello world " tokens 1`] = `
     "value": " hello world ",
   },
   {
-    "type": 14,
+    "type": 13,
   },
 ]
 `;
@@ -9413,7 +9413,7 @@ exports[`tokenize options: location disable > " hello world " tokens 1`] = `
 exports[`tokenize options: location disable > "" tokens 1`] = `
 [
   {
-    "type": 14,
+    "type": 13,
   },
 ]
 `;
@@ -9425,7 +9425,7 @@ exports[`tokenize options: location disable > "'single-quote'" tokens 1`] = `
     "value": "'single-quote'",
   },
   {
-    "type": 14,
+    "type": 13,
   },
 ]
 `;
@@ -9437,7 +9437,7 @@ exports[`tokenize options: location disable > "..." tokens 1`] = `
     "value": "...",
   },
   {
-    "type": 14,
+    "type": 13,
   },
 ]
 `;
@@ -9465,19 +9465,19 @@ exports[`tokenize options: location disable > "@.lower: {'no apples'} | {1 apple
 exports[`tokenize options: location disable > "@.lower: {'no apples'} | {1 apple | @:{count　apples" tokens 1`] = `
 [
   {
-    "type": 8,
+    "type": 7,
     "value": "@",
   },
   {
-    "type": 9,
+    "type": 8,
     "value": ".",
   },
   {
-    "type": 12,
+    "type": 11,
     "value": "lower",
   },
   {
-    "type": 10,
+    "type": 9,
     "value": ":",
   },
   {
@@ -9489,7 +9489,7 @@ exports[`tokenize options: location disable > "@.lower: {'no apples'} | {1 apple
     "value": "{",
   },
   {
-    "type": 7,
+    "type": 6,
     "value": "no apples",
   },
   {
@@ -9505,7 +9505,7 @@ exports[`tokenize options: location disable > "@.lower: {'no apples'} | {1 apple
     "value": "{",
   },
   {
-    "type": 6,
+    "type": 5,
     "value": "1",
   },
   {
@@ -9517,11 +9517,11 @@ exports[`tokenize options: location disable > "@.lower: {'no apples'} | {1 apple
     "value": "|",
   },
   {
-    "type": 8,
+    "type": 7,
     "value": "@",
   },
   {
-    "type": 10,
+    "type": 9,
     "value": ":",
   },
   {
@@ -9529,7 +9529,7 @@ exports[`tokenize options: location disable > "@.lower: {'no apples'} | {1 apple
     "value": "{",
   },
   {
-    "type": 5,
+    "type": 4,
     "value": "count",
   },
   {
@@ -9537,7 +9537,7 @@ exports[`tokenize options: location disable > "@.lower: {'no apples'} | {1 apple
     "value": "　apples",
   },
   {
-    "type": 14,
+    "type": 13,
   },
 ]
 `;
@@ -9545,19 +9545,19 @@ exports[`tokenize options: location disable > "@.lower: {'no apples'} | {1 apple
 exports[`tokenize options: location disable > "@.lower:{'no apples'} | {1} apple | {count}　apples" tokens 1`] = `
 [
   {
-    "type": 8,
+    "type": 7,
     "value": "@",
   },
   {
-    "type": 9,
+    "type": 8,
     "value": ".",
   },
   {
-    "type": 12,
+    "type": 11,
     "value": "lower",
   },
   {
-    "type": 10,
+    "type": 9,
     "value": ":",
   },
   {
@@ -9565,7 +9565,7 @@ exports[`tokenize options: location disable > "@.lower:{'no apples'} | {1} apple
     "value": "{",
   },
   {
-    "type": 7,
+    "type": 6,
     "value": "no apples",
   },
   {
@@ -9581,7 +9581,7 @@ exports[`tokenize options: location disable > "@.lower:{'no apples'} | {1} apple
     "value": "{",
   },
   {
-    "type": 6,
+    "type": 5,
     "value": "1",
   },
   {
@@ -9601,7 +9601,7 @@ exports[`tokenize options: location disable > "@.lower:{'no apples'} | {1} apple
     "value": "{",
   },
   {
-    "type": 5,
+    "type": 4,
     "value": "count",
   },
   {
@@ -9613,7 +9613,7 @@ exports[`tokenize options: location disable > "@.lower:{'no apples'} | {1} apple
     "value": "　apples",
   },
   {
-    "type": 14,
+    "type": 13,
   },
 ]
 `;
@@ -9625,7 +9625,7 @@ exports[`tokenize options: location disable > "\\"double-qoute\\"" tokens 1`] = 
     "value": ""double-qoute"",
   },
   {
-    "type": 14,
+    "type": 13,
   },
 ]
 `;
@@ -9637,7 +9637,7 @@ exports[`tokenize options: location disable > "{0} {1}　{2}" tokens 1`] = `
     "value": "{",
   },
   {
-    "type": 6,
+    "type": 5,
     "value": "0",
   },
   {
@@ -9653,7 +9653,7 @@ exports[`tokenize options: location disable > "{0} {1}　{2}" tokens 1`] = `
     "value": "{",
   },
   {
-    "type": 6,
+    "type": 5,
     "value": "1",
   },
   {
@@ -9669,7 +9669,7 @@ exports[`tokenize options: location disable > "{0} {1}　{2}" tokens 1`] = `
     "value": "{",
   },
   {
-    "type": 6,
+    "type": 5,
     "value": "2",
   },
   {
@@ -9677,7 +9677,7 @@ exports[`tokenize options: location disable > "{0} {1}　{2}" tokens 1`] = `
     "value": "}",
   },
   {
-    "type": 14,
+    "type": 13,
   },
 ]
 `;
@@ -9689,7 +9689,7 @@ exports[`tokenize options: location disable > "{0}\\n{1}\\r\\n{2}" tokens 1`] = 
     "value": "{",
   },
   {
-    "type": 6,
+    "type": 5,
     "value": "0",
   },
   {
@@ -9706,7 +9706,7 @@ exports[`tokenize options: location disable > "{0}\\n{1}\\r\\n{2}" tokens 1`] = 
     "value": "{",
   },
   {
-    "type": 6,
+    "type": 5,
     "value": "1",
   },
   {
@@ -9723,7 +9723,7 @@ exports[`tokenize options: location disable > "{0}\\n{1}\\r\\n{2}" tokens 1`] = 
     "value": "{",
   },
   {
-    "type": 6,
+    "type": 5,
     "value": "2",
   },
   {
@@ -9731,7 +9731,7 @@ exports[`tokenize options: location disable > "{0}\\n{1}\\r\\n{2}" tokens 1`] = 
     "value": "}",
   },
   {
-    "type": 14,
+    "type": 13,
   },
 ]
 `;
@@ -9743,7 +9743,7 @@ exports[`tokenize options: location disable > "{first} {middle}　{last}" tokens
     "value": "{",
   },
   {
-    "type": 5,
+    "type": 4,
     "value": "first",
   },
   {
@@ -9759,7 +9759,7 @@ exports[`tokenize options: location disable > "{first} {middle}　{last}" tokens
     "value": "{",
   },
   {
-    "type": 5,
+    "type": 4,
     "value": "middle",
   },
   {
@@ -9775,7 +9775,7 @@ exports[`tokenize options: location disable > "{first} {middle}　{last}" tokens
     "value": "{",
   },
   {
-    "type": 5,
+    "type": 4,
     "value": "last",
   },
   {
@@ -9783,7 +9783,7 @@ exports[`tokenize options: location disable > "{first} {middle}　{last}" tokens
     "value": "}",
   },
   {
-    "type": 14,
+    "type": 13,
   },
 ]
 `;
@@ -9795,7 +9795,7 @@ exports[`tokenize options: location disable > "{first}\\n{middle}\\r\\n{last}" t
     "value": "{",
   },
   {
-    "type": 5,
+    "type": 4,
     "value": "first",
   },
   {
@@ -9812,7 +9812,7 @@ exports[`tokenize options: location disable > "{first}\\n{middle}\\r\\n{last}" t
     "value": "{",
   },
   {
-    "type": 5,
+    "type": 4,
     "value": "middle",
   },
   {
@@ -9829,7 +9829,7 @@ exports[`tokenize options: location disable > "{first}\\n{middle}\\r\\n{last}" t
     "value": "{",
   },
   {
-    "type": 5,
+    "type": 4,
     "value": "last",
   },
   {
@@ -9837,7 +9837,7 @@ exports[`tokenize options: location disable > "{first}\\n{middle}\\r\\n{last}" t
     "value": "}",
   },
   {
-    "type": 14,
+    "type": 13,
   },
 ]
 `;
@@ -9849,7 +9849,7 @@ exports[`tokenize options: location disable > "1 + 1" tokens 1`] = `
     "value": "1 + 1",
   },
   {
-    "type": 14,
+    "type": 13,
   },
 ]
 `;
@@ -9871,7 +9871,7 @@ exports[`tokenize options: location disable > "foo@bar.com" tokens 1`] = `
     "value": "foo",
   },
   {
-    "type": 8,
+    "type": 7,
     "value": "@",
   },
   {
@@ -9879,7 +9879,7 @@ exports[`tokenize options: location disable > "foo@bar.com" tokens 1`] = `
     "value": "bar.com",
   },
   {
-    "type": 14,
+    "type": 13,
   },
 ]
 `;
@@ -9891,7 +9891,7 @@ exports[`tokenize options: location disable > "hello world" tokens 1`] = `
     "value": "hello world",
   },
   {
-    "type": 14,
+    "type": 13,
   },
 ]
 `;
@@ -9903,7 +9903,7 @@ exports[`tokenize options: location disable > "hello:" tokens 1`] = `
     "value": "hello:",
   },
   {
-    "type": 14,
+    "type": 13,
   },
 ]
 `;
@@ -9915,7 +9915,7 @@ exports[`tokenize options: location disable > "hello\\\\nworld" tokens 1`] = `
     "value": "hello\\nworld",
   },
   {
-    "type": 14,
+    "type": 13,
   },
 ]
 `;
@@ -9928,7 +9928,7 @@ exports[`tokenize options: location disable > "hello\\nworld" tokens 1`] = `
 world",
   },
   {
-    "type": 14,
+    "type": 13,
   },
 ]
 `;
@@ -9940,7 +9940,7 @@ exports[`tokenize options: location disable > "hi %name" tokens 1`] = `
     "value": "hi %name",
   },
   {
-    "type": 14,
+    "type": 13,
   },
 ]
 `;
@@ -9962,15 +9962,15 @@ exports[`tokenize options: location disable > "hi @ :name !" tokens 1`] = `
     "value": "hi ",
   },
   {
-    "type": 8,
+    "type": 7,
     "value": "@",
   },
   {
-    "type": 10,
+    "type": 9,
     "value": ":",
   },
   {
-    "type": 11,
+    "type": 10,
     "value": "name",
   },
   {
@@ -9978,7 +9978,7 @@ exports[`tokenize options: location disable > "hi @ :name !" tokens 1`] = `
     "value": " !",
   },
   {
-    "type": 14,
+    "type": 13,
   },
 ]
 `;
@@ -10000,11 +10000,11 @@ exports[`tokenize options: location disable > "hi @. {name} !" tokens 1`] = `
     "value": "hi ",
   },
   {
-    "type": 8,
+    "type": 7,
     "value": "@",
   },
   {
-    "type": 9,
+    "type": 8,
     "value": ".",
   },
   {
@@ -10016,7 +10016,7 @@ exports[`tokenize options: location disable > "hi @. {name} !" tokens 1`] = `
     "value": "{",
   },
   {
-    "type": 5,
+    "type": 4,
     "value": "name",
   },
   {
@@ -10028,7 +10028,7 @@ exports[`tokenize options: location disable > "hi @. {name} !" tokens 1`] = `
     "value": " !",
   },
   {
-    "type": 14,
+    "type": 13,
   },
 ]
 `;
@@ -10050,11 +10050,11 @@ exports[`tokenize options: location disable > "hi @.\\n{name} !" tokens 1`] = `
     "value": "hi ",
   },
   {
-    "type": 8,
+    "type": 7,
     "value": "@",
   },
   {
-    "type": 9,
+    "type": 8,
     "value": ".",
   },
   {
@@ -10067,7 +10067,7 @@ exports[`tokenize options: location disable > "hi @.\\n{name} !" tokens 1`] = `
     "value": "{",
   },
   {
-    "type": 5,
+    "type": 4,
     "value": "name",
   },
   {
@@ -10079,7 +10079,7 @@ exports[`tokenize options: location disable > "hi @.\\n{name} !" tokens 1`] = `
     "value": " !",
   },
   {
-    "type": 14,
+    "type": 13,
   },
 ]
 `;
@@ -10101,15 +10101,15 @@ exports[`tokenize options: location disable > "hi @.upper {name} !" tokens 1`] =
     "value": "hi ",
   },
   {
-    "type": 8,
+    "type": 7,
     "value": "@",
   },
   {
-    "type": 9,
+    "type": 8,
     "value": ".",
   },
   {
-    "type": 12,
+    "type": 11,
     "value": "upper",
   },
   {
@@ -10121,7 +10121,7 @@ exports[`tokenize options: location disable > "hi @.upper {name} !" tokens 1`] =
     "value": "{",
   },
   {
-    "type": 5,
+    "type": 4,
     "value": "name",
   },
   {
@@ -10133,7 +10133,7 @@ exports[`tokenize options: location disable > "hi @.upper {name} !" tokens 1`] =
     "value": " !",
   },
   {
-    "type": 14,
+    "type": 13,
   },
 ]
 `;
@@ -10145,23 +10145,23 @@ exports[`tokenize options: location disable > "hi @.upper:name !" tokens 1`] = `
     "value": "hi ",
   },
   {
-    "type": 8,
+    "type": 7,
     "value": "@",
   },
   {
-    "type": 9,
+    "type": 8,
     "value": ".",
   },
   {
-    "type": 12,
+    "type": 11,
     "value": "upper",
   },
   {
-    "type": 10,
+    "type": 9,
     "value": ":",
   },
   {
-    "type": 11,
+    "type": 10,
     "value": "name",
   },
   {
@@ -10169,7 +10169,7 @@ exports[`tokenize options: location disable > "hi @.upper:name !" tokens 1`] = `
     "value": " !",
   },
   {
-    "type": 14,
+    "type": 13,
   },
 ]
 `;
@@ -10191,15 +10191,15 @@ exports[`tokenize options: location disable > "hi @.upper\\n{name} !" tokens 1`]
     "value": "hi ",
   },
   {
-    "type": 8,
+    "type": 7,
     "value": "@",
   },
   {
-    "type": 9,
+    "type": 8,
     "value": ".",
   },
   {
-    "type": 12,
+    "type": 11,
     "value": "upper",
   },
   {
@@ -10212,7 +10212,7 @@ exports[`tokenize options: location disable > "hi @.upper\\n{name} !" tokens 1`]
     "value": "{",
   },
   {
-    "type": 5,
+    "type": 4,
     "value": "name",
   },
   {
@@ -10224,7 +10224,7 @@ exports[`tokenize options: location disable > "hi @.upper\\n{name} !" tokens 1`]
     "value": " !",
   },
   {
-    "type": 14,
+    "type": 13,
   },
 ]
 `;
@@ -10246,11 +10246,11 @@ exports[`tokenize options: location disable > "hi @: {'name'} !" tokens 1`] = `
     "value": "hi ",
   },
   {
-    "type": 8,
+    "type": 7,
     "value": "@",
   },
   {
-    "type": 10,
+    "type": 9,
     "value": ":",
   },
   {
@@ -10262,7 +10262,7 @@ exports[`tokenize options: location disable > "hi @: {'name'} !" tokens 1`] = `
     "value": "{",
   },
   {
-    "type": 7,
+    "type": 6,
     "value": "name",
   },
   {
@@ -10274,7 +10274,7 @@ exports[`tokenize options: location disable > "hi @: {'name'} !" tokens 1`] = `
     "value": " !",
   },
   {
-    "type": 14,
+    "type": 13,
   },
 ]
 `;
@@ -10296,15 +10296,15 @@ exports[`tokenize options: location disable > "hi @:\\nname !" tokens 1`] = `
     "value": "hi ",
   },
   {
-    "type": 8,
+    "type": 7,
     "value": "@",
   },
   {
-    "type": 10,
+    "type": 9,
     "value": ":",
   },
   {
-    "type": 11,
+    "type": 10,
     "value": "name",
   },
   {
@@ -10312,7 +10312,7 @@ exports[`tokenize options: location disable > "hi @:\\nname !" tokens 1`] = `
     "value": " !",
   },
   {
-    "type": 14,
+    "type": 13,
   },
 ]
 `;
@@ -10324,11 +10324,11 @@ exports[`tokenize options: location disable > "hi @:{ 'name' } !" tokens 1`] = `
     "value": "hi ",
   },
   {
-    "type": 8,
+    "type": 7,
     "value": "@",
   },
   {
-    "type": 10,
+    "type": 9,
     "value": ":",
   },
   {
@@ -10336,7 +10336,7 @@ exports[`tokenize options: location disable > "hi @:{ 'name' } !" tokens 1`] = `
     "value": "{",
   },
   {
-    "type": 7,
+    "type": 6,
     "value": "name",
   },
   {
@@ -10348,7 +10348,7 @@ exports[`tokenize options: location disable > "hi @:{ 'name' } !" tokens 1`] = `
     "value": " !",
   },
   {
-    "type": 14,
+    "type": 13,
   },
 ]
 `;
@@ -10370,11 +10370,11 @@ exports[`tokenize options: location disable > "hi @:{ {name} } !" tokens 1`] = `
     "value": "hi ",
   },
   {
-    "type": 8,
+    "type": 7,
     "value": "@",
   },
   {
-    "type": 10,
+    "type": 9,
     "value": ":",
   },
   {
@@ -10386,7 +10386,7 @@ exports[`tokenize options: location disable > "hi @:{ {name} } !" tokens 1`] = `
     "value": "{",
   },
   {
-    "type": 5,
+    "type": 4,
     "value": "name",
   },
   {
@@ -10402,7 +10402,7 @@ exports[`tokenize options: location disable > "hi @:{ {name} } !" tokens 1`] = `
     "value": " !",
   },
   {
-    "type": 14,
+    "type": 13,
   },
 ]
 `;
@@ -10414,11 +10414,11 @@ exports[`tokenize options: location disable > "hi @:{ name } !" tokens 1`] = `
     "value": "hi ",
   },
   {
-    "type": 8,
+    "type": 7,
     "value": "@",
   },
   {
-    "type": 10,
+    "type": 9,
     "value": ":",
   },
   {
@@ -10426,7 +10426,7 @@ exports[`tokenize options: location disable > "hi @:{ name } !" tokens 1`] = `
     "value": "{",
   },
   {
-    "type": 5,
+    "type": 4,
     "value": "name",
   },
   {
@@ -10438,7 +10438,7 @@ exports[`tokenize options: location disable > "hi @:{ name } !" tokens 1`] = `
     "value": " !",
   },
   {
-    "type": 14,
+    "type": 13,
   },
 ]
 `;
@@ -10450,11 +10450,11 @@ exports[`tokenize options: location disable > "hi @:{'hello world'} !" tokens 1`
     "value": "hi ",
   },
   {
-    "type": 8,
+    "type": 7,
     "value": "@",
   },
   {
-    "type": 10,
+    "type": 9,
     "value": ":",
   },
   {
@@ -10462,7 +10462,7 @@ exports[`tokenize options: location disable > "hi @:{'hello world'} !" tokens 1`
     "value": "{",
   },
   {
-    "type": 7,
+    "type": 6,
     "value": "hello world",
   },
   {
@@ -10474,7 +10474,7 @@ exports[`tokenize options: location disable > "hi @:{'hello world'} !" tokens 1`
     "value": " !",
   },
   {
-    "type": 14,
+    "type": 13,
   },
 ]
 `;
@@ -10486,11 +10486,11 @@ exports[`tokenize options: location disable > "hi @:{name} @:{0}!" tokens 1`] = 
     "value": "hi ",
   },
   {
-    "type": 8,
+    "type": 7,
     "value": "@",
   },
   {
-    "type": 10,
+    "type": 9,
     "value": ":",
   },
   {
@@ -10498,7 +10498,7 @@ exports[`tokenize options: location disable > "hi @:{name} @:{0}!" tokens 1`] = 
     "value": "{",
   },
   {
-    "type": 5,
+    "type": 4,
     "value": "name",
   },
   {
@@ -10510,11 +10510,11 @@ exports[`tokenize options: location disable > "hi @:{name} @:{0}!" tokens 1`] = 
     "value": " ",
   },
   {
-    "type": 8,
+    "type": 7,
     "value": "@",
   },
   {
-    "type": 10,
+    "type": 9,
     "value": ":",
   },
   {
@@ -10522,7 +10522,7 @@ exports[`tokenize options: location disable > "hi @:{name} @:{0}!" tokens 1`] = 
     "value": "{",
   },
   {
-    "type": 6,
+    "type": 5,
     "value": "0",
   },
   {
@@ -10534,7 +10534,7 @@ exports[`tokenize options: location disable > "hi @:{name} @:{0}!" tokens 1`] = 
     "value": "!",
   },
   {
-    "type": 14,
+    "type": 13,
   },
 ]
 `;
@@ -10546,11 +10546,11 @@ exports[`tokenize options: location disable > "hi @:{name}\\n !" tokens 1`] = `
     "value": "hi ",
   },
   {
-    "type": 8,
+    "type": 7,
     "value": "@",
   },
   {
-    "type": 10,
+    "type": 9,
     "value": ":",
   },
   {
@@ -10558,7 +10558,7 @@ exports[`tokenize options: location disable > "hi @:{name}\\n !" tokens 1`] = `
     "value": "{",
   },
   {
-    "type": 5,
+    "type": 4,
     "value": "name",
   },
   {
@@ -10571,7 +10571,7 @@ exports[`tokenize options: location disable > "hi @:{name}\\n !" tokens 1`] = `
  !",
   },
   {
-    "type": 14,
+    "type": 13,
   },
 ]
 `;
@@ -10583,15 +10583,15 @@ exports[`tokenize options: location disable > "hi @:name !" tokens 1`] = `
     "value": "hi ",
   },
   {
-    "type": 8,
+    "type": 7,
     "value": "@",
   },
   {
-    "type": 10,
+    "type": 9,
     "value": ":",
   },
   {
-    "type": 11,
+    "type": 10,
     "value": "name",
   },
   {
@@ -10599,7 +10599,7 @@ exports[`tokenize options: location disable > "hi @:name !" tokens 1`] = `
     "value": " !",
   },
   {
-    "type": 14,
+    "type": 13,
   },
 ]
 `;
@@ -10611,19 +10611,19 @@ exports[`tokenize options: location disable > "hi @:名前" tokens 1`] = `
     "value": "hi ",
   },
   {
-    "type": 8,
+    "type": 7,
     "value": "@",
   },
   {
-    "type": 10,
+    "type": 9,
     "value": ":",
   },
   {
-    "type": 11,
+    "type": 10,
     "value": "名前",
   },
   {
-    "type": 14,
+    "type": 13,
   },
 ]
 `;
@@ -10660,19 +10660,19 @@ exports[`tokenize options: location disable > "hi @\\n. upper\\n:  {'name'}\\n !
     "value": "hi ",
   },
   {
-    "type": 8,
+    "type": 7,
     "value": "@",
   },
   {
-    "type": 9,
+    "type": 8,
     "value": ".",
   },
   {
-    "type": 12,
+    "type": 11,
     "value": "upper",
   },
   {
-    "type": 10,
+    "type": 9,
     "value": ":",
   },
   {
@@ -10684,7 +10684,7 @@ exports[`tokenize options: location disable > "hi @\\n. upper\\n:  {'name'}\\n !
     "value": "{",
   },
   {
-    "type": 7,
+    "type": 6,
     "value": "name",
   },
   {
@@ -10697,7 +10697,7 @@ exports[`tokenize options: location disable > "hi @\\n. upper\\n:  {'name'}\\n !
  !",
   },
   {
-    "type": 14,
+    "type": 13,
   },
 ]
 `;
@@ -10719,15 +10719,15 @@ exports[`tokenize options: location disable > "hi @\\n:name !" tokens 1`] = `
     "value": "hi ",
   },
   {
-    "type": 8,
+    "type": 7,
     "value": "@",
   },
   {
-    "type": 10,
+    "type": 9,
     "value": ":",
   },
   {
-    "type": 11,
+    "type": 10,
     "value": "name",
   },
   {
@@ -10735,7 +10735,7 @@ exports[`tokenize options: location disable > "hi @\\n:name !" tokens 1`] = `
     "value": " !",
   },
   {
-    "type": 14,
+    "type": 13,
   },
 ]
 `;
@@ -10773,7 +10773,7 @@ exports[`tokenize options: location disable > "hi {  | hello {name} !" tokens 1`
     "value": "{",
   },
   {
-    "type": 5,
+    "type": 4,
     "value": "name",
   },
   {
@@ -10785,7 +10785,7 @@ exports[`tokenize options: location disable > "hi {  | hello {name} !" tokens 1`
     "value": " !",
   },
   {
-    "type": 14,
+    "type": 13,
   },
 ]
 `;
@@ -10819,7 +10819,7 @@ exports[`tokenize options: location disable > "hi {  } !" tokens 1`] = `
     "value": " !",
   },
   {
-    "type": 14,
+    "type": 13,
   },
 ]
 `;
@@ -10835,7 +10835,7 @@ exports[`tokenize options: location disable > "hi {  -1 } !" tokens 1`] = `
     "value": "{",
   },
   {
-    "type": 6,
+    "type": 5,
     "value": "-1",
   },
   {
@@ -10847,7 +10847,7 @@ exports[`tokenize options: location disable > "hi {  -1 } !" tokens 1`] = `
     "value": " !",
   },
   {
-    "type": 14,
+    "type": 13,
   },
 ]
 `;
@@ -10873,7 +10873,7 @@ exports[`tokenize options: location disable > "hi {  0 !" tokens 1`] = `
     "value": "{",
   },
   {
-    "type": 6,
+    "type": 5,
     "value": "0",
   },
   {
@@ -10881,7 +10881,7 @@ exports[`tokenize options: location disable > "hi {  0 !" tokens 1`] = `
     "value": "!",
   },
   {
-    "type": 14,
+    "type": 13,
   },
 ]
 `;
@@ -10907,7 +10907,7 @@ exports[`tokenize options: location disable > "hi {  name !" tokens 1`] = `
     "value": "{",
   },
   {
-    "type": 5,
+    "type": 4,
     "value": "name",
   },
   {
@@ -10915,7 +10915,7 @@ exports[`tokenize options: location disable > "hi {  name !" tokens 1`] = `
     "value": "!",
   },
   {
-    "type": 14,
+    "type": 13,
   },
 ]
 `;
@@ -10931,7 +10931,7 @@ exports[`tokenize options: location disable > "hi {  name } !" tokens 1`] = `
     "value": "{",
   },
   {
-    "type": 5,
+    "type": 4,
     "value": "name",
   },
   {
@@ -10943,7 +10943,7 @@ exports[`tokenize options: location disable > "hi {  name } !" tokens 1`] = `
     "value": " !",
   },
   {
-    "type": 14,
+    "type": 13,
   },
 ]
 `;
@@ -10969,7 +10969,7 @@ exports[`tokenize options: location disable > "hi { '\\\\uw' }" tokens 1`] = `
     "value": "{",
   },
   {
-    "type": 7,
+    "type": 6,
     "value": "\\uw",
   },
   {
@@ -10977,7 +10977,7 @@ exports[`tokenize options: location disable > "hi { '\\\\uw' }" tokens 1`] = `
     "value": "}",
   },
   {
-    "type": 14,
+    "type": 13,
   },
 ]
 `;
@@ -11003,7 +11003,7 @@ exports[`tokenize options: location disable > "hi { '\\\\x41' }" tokens 1`] = `
     "value": "{",
   },
   {
-    "type": 7,
+    "type": 6,
     "value": "x41",
   },
   {
@@ -11011,7 +11011,7 @@ exports[`tokenize options: location disable > "hi { '\\\\x41' }" tokens 1`] = `
     "value": "}",
   },
   {
-    "type": 14,
+    "type": 13,
   },
 ]
 `;
@@ -11037,11 +11037,11 @@ exports[`tokenize options: location disable > "hi { 'foo }" tokens 1`] = `
     "value": "{",
   },
   {
-    "type": 7,
+    "type": 6,
     "value": "foo }",
   },
   {
-    "type": 14,
+    "type": 13,
   },
 ]
 `;
@@ -11067,11 +11067,11 @@ exports[`tokenize options: location disable > "hi { 'foo" tokens 1`] = `
     "value": "{",
   },
   {
-    "type": 7,
+    "type": 6,
     "value": "foo",
   },
   {
-    "type": 14,
+    "type": 13,
   },
 ]
 `;
@@ -11097,7 +11097,7 @@ exports[`tokenize options: location disable > "hi { 'foo\\n' }" tokens 1`] = `
     "value": "{",
   },
   {
-    "type": 7,
+    "type": 6,
     "value": "foo",
   },
   {
@@ -11105,7 +11105,7 @@ exports[`tokenize options: location disable > "hi { 'foo\\n' }" tokens 1`] = `
     "value": "}",
   },
   {
-    "type": 14,
+    "type": 13,
   },
 ]
 `;
@@ -11131,15 +11131,15 @@ exports[`tokenize options: location disable > "hi { @:name  | hello {name} !" to
     "value": "{",
   },
   {
-    "type": 8,
+    "type": 7,
     "value": "@",
   },
   {
-    "type": 10,
+    "type": 9,
     "value": ":",
   },
   {
-    "type": 11,
+    "type": 10,
     "value": "name",
   },
   {
@@ -11155,7 +11155,7 @@ exports[`tokenize options: location disable > "hi { @:name  | hello {name} !" to
     "value": "{",
   },
   {
-    "type": 5,
+    "type": 4,
     "value": "name",
   },
   {
@@ -11167,7 +11167,7 @@ exports[`tokenize options: location disable > "hi { @:name  | hello {name} !" to
     "value": " !",
   },
   {
-    "type": 14,
+    "type": 13,
   },
 ]
 `;
@@ -11193,15 +11193,15 @@ exports[`tokenize options: location disable > "hi { @:name !" tokens 1`] = `
     "value": "{",
   },
   {
-    "type": 8,
+    "type": 7,
     "value": "@",
   },
   {
-    "type": 10,
+    "type": 9,
     "value": ":",
   },
   {
-    "type": 11,
+    "type": 10,
     "value": "name",
   },
   {
@@ -11209,7 +11209,7 @@ exports[`tokenize options: location disable > "hi { @:name !" tokens 1`] = `
     "value": " !",
   },
   {
-    "type": 14,
+    "type": 13,
   },
 ]
 `;
@@ -11239,7 +11239,7 @@ exports[`tokenize options: location disable > "hi { { 0 } } !" tokens 1`] = `
     "value": "{",
   },
   {
-    "type": 6,
+    "type": 5,
     "value": "0",
   },
   {
@@ -11255,7 +11255,7 @@ exports[`tokenize options: location disable > "hi { { 0 } } !" tokens 1`] = `
     "value": " !",
   },
   {
-    "type": 14,
+    "type": 13,
   },
 ]
 `;
@@ -11285,7 +11285,7 @@ exports[`tokenize options: location disable > "hi { { name } } !" tokens 1`] = `
     "value": "{",
   },
   {
-    "type": 5,
+    "type": 4,
     "value": "name",
   },
   {
@@ -11301,7 +11301,7 @@ exports[`tokenize options: location disable > "hi { { name } } !" tokens 1`] = `
     "value": " !",
   },
   {
-    "type": 14,
+    "type": 13,
   },
 ]
 `;
@@ -11327,7 +11327,7 @@ exports[`tokenize options: location disable > "hi { name !" tokens 1`] = `
     "value": "{",
   },
   {
-    "type": 5,
+    "type": 4,
     "value": "name",
   },
   {
@@ -11335,7 +11335,7 @@ exports[`tokenize options: location disable > "hi { name !" tokens 1`] = `
     "value": "!",
   },
   {
-    "type": 14,
+    "type": 13,
   },
 ]
 `;
@@ -11361,7 +11361,7 @@ exports[`tokenize options: location disable > "hi {$} !" tokens 1`] = `
     "value": "{",
   },
   {
-    "type": 13,
+    "type": 12,
     "value": "$",
   },
   {
@@ -11373,7 +11373,7 @@ exports[`tokenize options: location disable > "hi {$} !" tokens 1`] = `
     "value": " !",
   },
   {
-    "type": 14,
+    "type": 13,
   },
 ]
 `;
@@ -11389,7 +11389,7 @@ exports[`tokenize options: location disable > "hi {'kazupon'} !" tokens 1`] = `
     "value": "{",
   },
   {
-    "type": 7,
+    "type": 6,
     "value": "kazupon",
   },
   {
@@ -11401,7 +11401,7 @@ exports[`tokenize options: location disable > "hi {'kazupon'} !" tokens 1`] = `
     "value": " !",
   },
   {
-    "type": 14,
+    "type": 13,
   },
 ]
 `;
@@ -11427,23 +11427,23 @@ exports[`tokenize options: location disable > "hi {@.lower:name !" tokens 1`] = 
     "value": "{",
   },
   {
-    "type": 8,
+    "type": 7,
     "value": "@",
   },
   {
-    "type": 9,
+    "type": 8,
     "value": ".",
   },
   {
-    "type": 12,
+    "type": 11,
     "value": "lower",
   },
   {
-    "type": 10,
+    "type": 9,
     "value": ":",
   },
   {
-    "type": 11,
+    "type": 10,
     "value": "name",
   },
   {
@@ -11451,7 +11451,7 @@ exports[`tokenize options: location disable > "hi {@.lower:name !" tokens 1`] = 
     "value": " !",
   },
   {
-    "type": 14,
+    "type": 13,
   },
 ]
 `;
@@ -11467,7 +11467,7 @@ exports[`tokenize options: location disable > "hi {\\nname\\n} !" tokens 1`] = `
     "value": "{",
   },
   {
-    "type": 5,
+    "type": 4,
     "value": "name",
   },
   {
@@ -11479,7 +11479,7 @@ exports[`tokenize options: location disable > "hi {\\nname\\n} !" tokens 1`] = `
     "value": " !",
   },
   {
-    "type": 14,
+    "type": 13,
   },
 ]
 `;
@@ -11514,11 +11514,11 @@ exports[`tokenize options: location disable > "hi {{ !" tokens 1`] = `
     "value": "{",
   },
   {
-    "type": 13,
+    "type": 12,
     "value": "!",
   },
   {
-    "type": 14,
+    "type": 13,
   },
 ]
 `;
@@ -11565,7 +11565,7 @@ exports[`tokenize options: location disable > "hi {{}} !" tokens 1`] = `
     "value": " !",
   },
   {
-    "type": 14,
+    "type": 13,
   },
 ]
 `;
@@ -11595,7 +11595,7 @@ exports[`tokenize options: location disable > "hi {{0}} !" tokens 1`] = `
     "value": "{",
   },
   {
-    "type": 6,
+    "type": 5,
     "value": "0",
   },
   {
@@ -11611,7 +11611,7 @@ exports[`tokenize options: location disable > "hi {{0}} !" tokens 1`] = `
     "value": " !",
   },
   {
-    "type": 14,
+    "type": 13,
   },
 ]
 `;
@@ -11641,7 +11641,7 @@ exports[`tokenize options: location disable > "hi {{name}} !" tokens 1`] = `
     "value": "{",
   },
   {
-    "type": 5,
+    "type": 4,
     "value": "name",
   },
   {
@@ -11657,7 +11657,7 @@ exports[`tokenize options: location disable > "hi {{name}} !" tokens 1`] = `
     "value": " !",
   },
   {
-    "type": 14,
+    "type": 13,
   },
 ]
 `;
@@ -11691,7 +11691,7 @@ exports[`tokenize options: location disable > "hi {} !" tokens 1`] = `
     "value": " !",
   },
   {
-    "type": 14,
+    "type": 13,
   },
 ]
 `;
@@ -11717,7 +11717,7 @@ exports[`tokenize options: location disable > "hi {-} !" tokens 1`] = `
     "value": "{",
   },
   {
-    "type": 13,
+    "type": 12,
     "value": "-",
   },
   {
@@ -11729,7 +11729,7 @@ exports[`tokenize options: location disable > "hi {-} !" tokens 1`] = `
     "value": " !",
   },
   {
-    "type": 14,
+    "type": 13,
   },
 ]
 `;
@@ -11755,7 +11755,7 @@ exports[`tokenize options: location disable > "hi {0 !" tokens 1`] = `
     "value": "{",
   },
   {
-    "type": 6,
+    "type": 5,
     "value": "0",
   },
   {
@@ -11763,7 +11763,7 @@ exports[`tokenize options: location disable > "hi {0 !" tokens 1`] = `
     "value": "!",
   },
   {
-    "type": 14,
+    "type": 13,
   },
 ]
 `;
@@ -11789,11 +11789,11 @@ exports[`tokenize options: location disable > "hi {0" tokens 1`] = `
     "value": "{",
   },
   {
-    "type": 6,
+    "type": 5,
     "value": "0",
   },
   {
-    "type": 14,
+    "type": 13,
   },
 ]
 `;
@@ -11809,7 +11809,7 @@ exports[`tokenize options: location disable > "hi {0} !" tokens 1`] = `
     "value": "{",
   },
   {
-    "type": 6,
+    "type": 5,
     "value": "0",
   },
   {
@@ -11821,7 +11821,7 @@ exports[`tokenize options: location disable > "hi {0} !" tokens 1`] = `
     "value": " !",
   },
   {
-    "type": 14,
+    "type": 13,
   },
 ]
 `;
@@ -11847,7 +11847,7 @@ exports[`tokenize options: location disable > "hi {name !" tokens 1`] = `
     "value": "{",
   },
   {
-    "type": 5,
+    "type": 4,
     "value": "name",
   },
   {
@@ -11855,7 +11855,7 @@ exports[`tokenize options: location disable > "hi {name !" tokens 1`] = `
     "value": "!",
   },
   {
-    "type": 14,
+    "type": 13,
   },
 ]
 `;
@@ -11881,11 +11881,11 @@ exports[`tokenize options: location disable > "hi {name" tokens 1`] = `
     "value": "{",
   },
   {
-    "type": 5,
+    "type": 4,
     "value": "name",
   },
   {
-    "type": 14,
+    "type": 13,
   },
 ]
 `;
@@ -11901,7 +11901,7 @@ exports[`tokenize options: location disable > "hi {name$} !" tokens 1`] = `
     "value": "{",
   },
   {
-    "type": 5,
+    "type": 4,
     "value": "name$",
   },
   {
@@ -11913,7 +11913,7 @@ exports[`tokenize options: location disable > "hi {name$} !" tokens 1`] = `
     "value": " !",
   },
   {
-    "type": 14,
+    "type": 13,
   },
 ]
 `;
@@ -11929,7 +11929,7 @@ exports[`tokenize options: location disable > "hi {name} !" tokens 1`] = `
     "value": "{",
   },
   {
-    "type": 5,
+    "type": 4,
     "value": "name",
   },
   {
@@ -11941,7 +11941,7 @@ exports[`tokenize options: location disable > "hi {name} !" tokens 1`] = `
     "value": " !",
   },
   {
-    "type": 14,
+    "type": 13,
   },
 ]
 `;
@@ -11957,7 +11957,7 @@ exports[`tokenize options: location disable > "hi {snake_case} !" tokens 1`] = `
     "value": "{",
   },
   {
-    "type": 5,
+    "type": 4,
     "value": "snake_case",
   },
   {
@@ -11969,7 +11969,7 @@ exports[`tokenize options: location disable > "hi {snake_case} !" tokens 1`] = `
     "value": " !",
   },
   {
-    "type": 14,
+    "type": 13,
   },
 ]
 `;
@@ -11981,7 +11981,7 @@ exports[`tokenize options: location disable > "hi, :-) !" tokens 1`] = `
     "value": "hi, :-) !",
   },
   {
-    "type": 14,
+    "type": 13,
   },
 ]
 `;
@@ -12011,7 +12011,7 @@ exports[`tokenize options: location disable > "hi, :-} !" tokens 1`] = `
     "value": " !",
   },
   {
-    "type": 14,
+    "type": 13,
   },
 ]
 `;
@@ -12023,7 +12023,7 @@ exports[`tokenize options: location disable > "hypen-nate" tokens 1`] = `
     "value": "hypen-nate",
   },
   {
-    "type": 14,
+    "type": 13,
   },
 ]
 `;
@@ -12035,7 +12035,7 @@ exports[`tokenize options: location disable > "name = foo" tokens 1`] = `
     "value": "name = foo",
   },
   {
-    "type": 14,
+    "type": 13,
   },
 ]
 `;
@@ -12063,7 +12063,7 @@ exports[`tokenize options: location disable > "no apples | one apple  |  too muc
     "value": "too much apples ",
   },
   {
-    "type": 14,
+    "type": 13,
   },
 ]
 `;
@@ -12091,7 +12091,7 @@ exports[`tokenize options: location disable > "no apples |\\n one apple  |\\n  t
     "value": "too much apples  ",
   },
   {
-    "type": 14,
+    "type": 13,
   },
 ]
 `;
@@ -12103,7 +12103,7 @@ exports[`tokenize options: location disable > "こんにちは、世界" tokens 
     "value": "こんにちは、世界",
   },
   {
-    "type": 14,
+    "type": 13,
   },
 ]
 `;
@@ -12115,7 +12115,7 @@ exports[`tokenize options: location disable > "😺" tokens 1`] = `
     "value": "😺",
   },
   {
-    "type": 14,
+    "type": 13,
   },
 ]
 `;

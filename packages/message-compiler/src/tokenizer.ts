@@ -11,14 +11,13 @@ export const enum TokenTypes {
   Pipe,
   BraceLeft,
   BraceRight,
-  Modulo,
-  Named, // 5
-  List,
+  Named,
+  List, // 5
   Literal,
   LinkedAlias,
   LinkedDot,
-  LinkedDelimiter, // 10
-  LinkedKey,
+  LinkedDelimiter,
+  LinkedKey, // 10
   LinkedModifier,
   InvalidPlace,
   EOF
@@ -30,7 +29,6 @@ const enum TokenChars {
   BraceRight = '}',
   ParenLeft = '(',
   ParenRight = ')',
-  Modulo = '%',
   LinkedAlias = '@',
   LinkedDot = '.',
   LinkedDelimiter = ':'
@@ -308,7 +306,6 @@ export function createTokenizer(
         return isIdentifierStart(scnr.peek())
       } else if (
         ch === TokenChars.LinkedAlias ||
-        ch === TokenChars.Modulo ||
         ch === TokenChars.Pipe ||
         ch === TokenChars.LinkedDelimiter ||
         ch === TokenChars.LinkedDot ||
@@ -340,43 +337,21 @@ export function createTokenizer(
     return ret
   }
 
-  function detectModuloStart(scnr: Scanner): {
-    isModulo: boolean
-    hasSpace: boolean
-  } {
-    const spaces = peekSpaces(scnr)
-
-    const ret =
-      scnr.currentPeek() === TokenChars.Modulo &&
-      scnr.peek() === TokenChars.BraceLeft
-    scnr.resetPeek()
-
-    return {
-      isModulo: ret,
-      hasSpace: spaces.length > 0
-    }
-  }
-
   function isTextStart(scnr: Scanner, reset = true): boolean {
-    const fn = (hasSpace = false, prev = '', detectModulo = false): boolean => {
+    const fn = (hasSpace = false, prev = ''): boolean => {
       const ch = scnr.currentPeek()
       if (ch === TokenChars.BraceLeft) {
-        return prev === TokenChars.Modulo ? false : hasSpace
+        return hasSpace
       } else if (ch === TokenChars.LinkedAlias || !ch) {
-        return prev === TokenChars.Modulo ? true : hasSpace
-      } else if (ch === TokenChars.Modulo) {
-        scnr.peek()
-        return fn(hasSpace, TokenChars.Modulo, true)
+        return hasSpace
       } else if (ch === TokenChars.Pipe) {
-        return prev === TokenChars.Modulo || detectModulo
-          ? true
-          : !(prev === SPACE || prev === NEW_LINE)
+        return !(prev === SPACE || prev === NEW_LINE)
       } else if (ch === SPACE) {
         scnr.peek()
-        return fn(true, SPACE, detectModulo)
+        return fn(true, SPACE)
       } else if (ch === NEW_LINE) {
         scnr.peek()
-        return fn(true, NEW_LINE, detectModulo)
+        return fn(true, NEW_LINE)
       } else {
         return true
       }
@@ -469,16 +444,6 @@ export function createTokenizer(
     return num
   }
 
-  function readModulo(scnr: Scanner): string {
-    skipSpaces(scnr)
-    const ch = scnr.currentChar()
-    if (ch !== TokenChars.Modulo) {
-      emitError(CompileErrorCodes.EXPECTED_TOKEN, currentPosition(), 0, ch)
-    }
-    scnr.next()
-    return TokenChars.Modulo
-  }
-
   function readText(scnr: Scanner): string {
     let buf = ''
 
@@ -492,13 +457,6 @@ export function createTokenizer(
         !ch
       ) {
         break
-      } else if (ch === TokenChars.Modulo) {
-        if (isTextStart(scnr)) {
-          buf += ch
-          scnr.next()
-        } else {
-          break
-        }
       } else if (ch === SPACE || ch === NEW_LINE) {
         if (isTextStart(scnr)) {
           buf += ch
@@ -684,7 +642,6 @@ export function createTokenizer(
       const ch = scnr.currentChar()
       if (
         ch === TokenChars.BraceLeft ||
-        ch === TokenChars.Modulo ||
         ch === TokenChars.LinkedAlias ||
         ch === TokenChars.Pipe ||
         ch === TokenChars.ParenLeft ||
@@ -995,13 +952,6 @@ export function createTokenizer(
           context.braceNest = 0
           context.inLinked = false
           return token
-        }
-
-        const { isModulo, hasSpace } = detectModuloStart(scnr)
-        if (isModulo) {
-          return hasSpace
-            ? getToken(context, TokenTypes.Text, readText(scnr))
-            : getToken(context, TokenTypes.Modulo, readModulo(scnr))
         }
 
         if (isTextStart(scnr)) {

@@ -110,13 +110,6 @@ describe('compiler options', () => {
     })
     expect(ast).toMatchSnapshot('ast')
   })
-
-  test('warning', () => {
-    const onWarn = vi.fn()
-    const { ast } = compile(`%{msg} world`, { onWarn })
-    expect(ast).toMatchSnapshot('ast')
-    expect(onWarn.mock.calls[0][0].message).toBe(`Use modulo before '{msg}'.`)
-  })
 })
 
 describe('edge cases', () => {
