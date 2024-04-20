@@ -525,28 +525,6 @@ exports[`parse > linked key paren error with modifier: "@.lower:(foo)" 1`] = `
 }
 `;
 
-exports[`parse > linked key paren error with modifier: "@.lower:(foo)" errors 1`] = `
-[
-  {
-    "code": 13,
-    "domain": "parser",
-    "location": {
-      "end": {
-        "column": 14,
-        "line": 1,
-        "offset": 13,
-      },
-      "start": {
-        "column": 8,
-        "line": 1,
-        "offset": 7,
-      },
-    },
-    "message": "Unexpected empty linked key",
-  },
-]
-`;
-
 exports[`parse > linked key paren error: "@:(foo)" 1`] = `
 {
   "body": {
@@ -638,28 +616,6 @@ exports[`parse > linked key paren error: "@:(foo)" 1`] = `
   "start": 0,
   "type": 0,
 }
-`;
-
-exports[`parse > linked key paren error: "@:(foo)" errors 1`] = `
-[
-  {
-    "code": 13,
-    "domain": "parser",
-    "location": {
-      "end": {
-        "column": 8,
-        "line": 1,
-        "offset": 7,
-      },
-      "start": {
-        "column": 2,
-        "line": 1,
-        "offset": 1,
-      },
-    },
-    "message": "Unexpected empty linked key",
-  },
-]
 `;
 
 exports[`parse > linked key with named and modifier: "hi @._upper:{_name} !" 1`] = `
@@ -2024,16 +1980,6 @@ exports[`parser options > location disable > linked key paren error with modifie
 }
 `;
 
-exports[`parser options > location disable > linked key paren error with modifier: "@.lower:(foo)" errors 1`] = `
-[
-  {
-    "code": 13,
-    "domain": "parser",
-    "message": "Unexpected empty linked key",
-  },
-]
-`;
-
 exports[`parser options > location disable > linked key paren error: "@:(foo)" 1`] = `
 {
   "body": {
@@ -2054,16 +2000,6 @@ exports[`parser options > location disable > linked key paren error: "@:(foo)" 1
   },
   "type": 0,
 }
-`;
-
-exports[`parser options > location disable > linked key paren error: "@:(foo)" errors 1`] = `
-[
-  {
-    "code": 13,
-    "domain": "parser",
-    "message": "Unexpected empty linked key",
-  },
-]
 `;
 
 exports[`parser options > location disable > linked key with named and modifier: "hi @._upper:{_name} !" 1`] = `

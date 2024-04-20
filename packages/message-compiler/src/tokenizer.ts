@@ -321,7 +321,8 @@ export function createTokenizer(
         return fn()
       } else {
         // other characters
-        return isIdentifierStart(ch)
+        // return isIdentifierStart(ch)
+        return isTextStart(scnr, false)
       }
     }
 
@@ -680,7 +681,7 @@ export function createTokenizer(
   }
 
   function readLinkedRefer(scnr: Scanner): string {
-    const fn = (detect = false, buf: string): string => {
+    const fn = (buf: string): string => {
       const ch = scnr.currentChar()
       if (
         ch === TokenChars.BraceLeft ||
@@ -697,15 +698,15 @@ export function createTokenizer(
       } else if (ch === NEW_LINE || ch === DOT) {
         buf += ch
         scnr.next()
-        return fn(detect, buf)
+        return fn(buf)
       } else {
         buf += ch
         scnr.next()
-        return fn(true, buf)
+        return fn(buf)
       }
     }
 
-    return fn(false, '')
+    return fn('')
   }
 
   function readPlural(scnr: Scanner): string {

@@ -4370,6 +4370,90 @@ exports[`token analysis > "hi @:name !" tokens 1`] = `
 ]
 `;
 
+exports[`token analysis > "hi @:名前" tokens 1`] = `
+[
+  {
+    "loc": {
+      "end": {
+        "column": 4,
+        "line": 1,
+        "offset": 3,
+      },
+      "start": {
+        "column": 1,
+        "line": 1,
+        "offset": 0,
+      },
+    },
+    "type": 0,
+    "value": "hi ",
+  },
+  {
+    "loc": {
+      "end": {
+        "column": 5,
+        "line": 1,
+        "offset": 4,
+      },
+      "start": {
+        "column": 4,
+        "line": 1,
+        "offset": 3,
+      },
+    },
+    "type": 8,
+    "value": "@",
+  },
+  {
+    "loc": {
+      "end": {
+        "column": 6,
+        "line": 1,
+        "offset": 5,
+      },
+      "start": {
+        "column": 5,
+        "line": 1,
+        "offset": 4,
+      },
+    },
+    "type": 10,
+    "value": ":",
+  },
+  {
+    "loc": {
+      "end": {
+        "column": 8,
+        "line": 1,
+        "offset": 7,
+      },
+      "start": {
+        "column": 6,
+        "line": 1,
+        "offset": 5,
+      },
+    },
+    "type": 11,
+    "value": "名前",
+  },
+  {
+    "loc": {
+      "end": {
+        "column": 8,
+        "line": 1,
+        "offset": 7,
+      },
+      "start": {
+        "column": 8,
+        "line": 1,
+        "offset": 7,
+      },
+    },
+    "type": 14,
+  },
+]
+`;
+
 exports[`token analysis > "hi @\\n. upper\\n:  {'name'}\\n !" errors 1`] = `
 [
   {
@@ -10513,6 +10597,30 @@ exports[`tokenize options: location disable > "hi @:name !" tokens 1`] = `
   {
     "type": 0,
     "value": " !",
+  },
+  {
+    "type": 14,
+  },
+]
+`;
+
+exports[`tokenize options: location disable > "hi @:名前" tokens 1`] = `
+[
+  {
+    "type": 0,
+    "value": "hi ",
+  },
+  {
+    "type": 8,
+    "value": "@",
+  },
+  {
+    "type": 10,
+    "value": ":",
+  },
+  {
+    "type": 11,
+    "value": "名前",
   },
   {
     "type": 14,

@@ -80,6 +80,7 @@ const CASES = [
   `hi @.upper\n{name} !`,
   `hi @.upper {name} !`,
   `hi @:\nname !`,
+  `hi @:名前`,
   `hi @: {'name'} !`,
   `hi @\n. upper\n:  {'name'}\n !`,
   ` | | |`,
