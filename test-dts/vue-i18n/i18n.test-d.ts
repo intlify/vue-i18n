@@ -10,6 +10,7 @@ import {
   useI18n,
   createI18n
 } from '../../packages/vue-i18n-core/src/i18n'
+import * as vueI18n from '../../packages/vue-i18n-core/src/i18n'
 import { SchemaParams, LocaleParams } from '../../packages/core-base/src'
 import { ResourceSchema, MyDatetimeScehma, MyNumberSchema } from '../schema'
 
@@ -505,3 +506,8 @@ expectType<{ zh: {}; 'ja-JP': { short: {} } }>(
   strictDirectI18n.datetimeFormats.value
 )
 expectType<{ ca: { currency: {} } }>(strictDirectI18n.numberFormats.value)
+
+// allow mocking
+vi.spyOn(vueI18n, 'useI18n').mockReturnValue(<ReturnType<typeof useI18n>>{
+  t: (key: string) => `{{${key}}}`
+})

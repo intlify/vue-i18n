@@ -826,7 +826,7 @@ export function useI18n<
   NonNullable<Options['messages']>,
   NonNullable<Options['datetimeFormats']>,
   NonNullable<Options['numberFormats']>,
-  Options['locale'] extends unknown ? string : Options['locale']
+  NonNullable<Options['locale']>
 >
 
 export function useI18n<
