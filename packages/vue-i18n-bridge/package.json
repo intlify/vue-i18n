@@ -1,6 +1,6 @@
 {
   "name": "vue-i18n-bridge",
-  "version": "9.13.1",
+  "version": "10.0.0-alpha.1",
   "description": "A bridge for Vue I18n Legacy",
   "keywords": [
     "bridge",
