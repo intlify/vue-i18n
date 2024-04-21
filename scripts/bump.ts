@@ -137,7 +137,7 @@ async function main() {
 
   for (const pkg of workspace.packages.filter(p => !p.data.private)) {
     workspace.setVersion(pkg.data.name, release)
-    const newname = pkg.data.name + '-edge'
+    const newname = pkg.data.name + '-nightly'
     workspace.rename(pkg.data.name, newname)
   }
 

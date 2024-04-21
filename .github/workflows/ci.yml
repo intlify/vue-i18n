@@ -194,7 +194,7 @@ jobs:
       - name: Run e2e tests
         run: pnpm test:e2e
 
-  edge-release:
+  nightly-release:
     if: |
       github.event_name == 'push' &&
       !contains(github.event.head_commit.message, '[skip-release]') &&
@@ -243,7 +243,7 @@ jobs:
           name: message-compiler
           path: packages/message-compiler/dist
 
-      - name: Release edge version
-        run: ./scripts/release-edge.sh
+      - name: Release nightly version
+        run: ./scripts/release-nightly.sh
         env:
           NPM_AUTH_TOKEN: ${{secrets.NPM_AUTH_TOKEN}}
