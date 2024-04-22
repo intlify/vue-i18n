@@ -104,7 +104,7 @@ export function renderFormatter<
     const tag =
       isString(props.tag) || isObject(props.tag)
         ? props.tag
-        : getFragmentableTag('span')
+        : getFragmentableTag()
     return h(tag, assignedAttrs, children)
   }
 }

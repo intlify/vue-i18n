@@ -104,7 +104,6 @@ export {
 export {
   createI18n,
   useI18n,
-  castToVueI18n,
   I18nInjectionKey,
   I18nOptions,
   I18nAdditionalOptions,

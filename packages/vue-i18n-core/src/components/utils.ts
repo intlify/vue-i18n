@@ -16,10 +16,7 @@ export function getInterpolateArg(
       return [
         ...slot,
         // prettier-ignore
-        ...(!__BRIDGE__
-          ? current.type === Fragment ? current.children : [current]
-          : current.children ? current.children : [current]
-        )
+        ...(current.type === Fragment ? current.children : [current])
       ]
     }, [])
   } else {
@@ -35,6 +32,6 @@ export function getInterpolateArg(
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export function getFragmentableTag(tag: string): any {
-  return !__BRIDGE__ ? Fragment : tag
+export function getFragmentableTag(): any {
+  return Fragment
 }

@@ -13,7 +13,6 @@
     "@intlify/vue-i18n-core",
     "vue-i18n",
     "petite-vue-i18n",
-    "vue-i18n-bridge",
     "pnpm"
   ],
   "major": {

@@ -12,7 +12,6 @@ import {
   effectScope
 } from 'vue'
 import {
-  inBrowser,
   isEmptyObject,
   isBoolean,
   isString,
@@ -33,17 +32,12 @@ import {
   EnableEmitter,
   DisableEmitter,
   DisposeSymbol,
-  InejctWithOptionSymbol,
-  LegacyInstanceSymbol,
-  __VUE_I18N_BRIDGE__
+  InejctWithOptionSymbol
 } from './symbols'
-import { apply as applyNext } from './plugin/next'
-import { apply as applyBridge } from './plugin/bridge'
-import { defineMixin as defineMixinNext } from './mixins/next'
-import { defineMixin as defineMixinBridge } from './mixins/bridge'
+import { apply as applyPlugin } from './plugin/next'
+import { defineMixin } from './mixins'
 import { enableDevTools, addTimelineEvent } from './devtools'
 import {
-  isLegacyVueI18n,
   getComponentOptions,
   getLocaleMessages,
   adjustI18nResources
@@ -110,7 +104,7 @@ declare module '@vue/runtime-core' {
 }
 
 // for bridge
-let _legacyVueI18n: any = /* #__PURE__*/ null // eslint-disable-line @typescript-eslint/no-explicit-any
+const _legacyVueI18n: any = /* #__PURE__*/ null // eslint-disable-line @typescript-eslint/no-explicit-any
 
 /**
  * I18n Options for `createI18n`
@@ -522,10 +516,6 @@ export function createI18n<
 export function createI18n(options: any = {}, VueI18nLegacy?: any): any {
   type _I18n = I18n & I18nInternal
 
-  if (__BRIDGE__) {
-    _legacyVueI18n = VueI18nLegacy
-  }
-
   // prettier-ignore
   const __legacyMode = __LITE__
     ? false
@@ -573,179 +563,105 @@ export function createI18n(options: any = {}, VueI18nLegacy?: any): any {
     __instances.delete(component)
   }
 
-  if (!__BRIDGE__) {
-    const i18n = {
-      // mode
-      get mode(): I18nMode {
-        return !__LITE__ && __FEATURE_LEGACY_API__ && __legacyMode
-          ? 'legacy'
-          : 'composition'
-      },
-      // allowComposition
-      get allowComposition(): boolean {
-        return __allowComposition
-      },
-      // install plugin
-      async install(app: App, ...options: unknown[]): Promise<void> {
-        if (
-          !__BRIDGE__ &&
-          (__DEV__ || __FEATURE_PROD_VUE_DEVTOOLS__) &&
-          !__NODE_JS__
-        ) {
-          app.__VUE_I18N__ = i18n as unknown as _I18n
-        }
+  const i18n = {
+    // mode
+    get mode(): I18nMode {
+      return !__LITE__ && __FEATURE_LEGACY_API__ && __legacyMode
+        ? 'legacy'
+        : 'composition'
+    },
+    // allowComposition
+    get allowComposition(): boolean {
+      return __allowComposition
+    },
+    // install plugin
+    async install(app: App, ...options: unknown[]): Promise<void> {
+      if ((__DEV__ || __FEATURE_PROD_VUE_DEVTOOLS__) && !__NODE_JS__) {
+        app.__VUE_I18N__ = i18n as unknown as _I18n
+      }
 
-        // setup global provider
-        app.__VUE_I18N_SYMBOL__ = symbol
-        app.provide(app.__VUE_I18N_SYMBOL__, i18n as unknown as I18n)
+      // setup global provider
+      app.__VUE_I18N_SYMBOL__ = symbol
+      app.provide(app.__VUE_I18N_SYMBOL__, i18n as unknown as I18n)
 
-        // set composer & vuei18n extend hook options from plugin options
-        if (isPlainObject(options[0])) {
-          const opts = options[0] as ExtendHooks
-          // Plugin options cannot be passed directly to the function that creates Composer & VueI18n,
-          // so we keep it temporary
-          ;(i18n as unknown as I18nInternal).__composerExtend =
-            opts.__composerExtend
-          ;(i18n as unknown as I18nInternal).__vueI18nExtend =
-            opts.__vueI18nExtend
-        }
+      // set composer & vuei18n extend hook options from plugin options
+      if (isPlainObject(options[0])) {
+        const opts = options[0] as ExtendHooks
+        // Plugin options cannot be passed directly to the function that creates Composer & VueI18n,
+        // so we keep it temporary
+        ;(i18n as unknown as I18nInternal).__composerExtend =
+          opts.__composerExtend
+        ;(i18n as unknown as I18nInternal).__vueI18nExtend =
+          opts.__vueI18nExtend
+      }
 
-        // global method and properties injection for Composition API
-        let globalReleaseHandler: ReturnType<typeof injectGlobalFields> | null =
-          null
-        if (!__legacyMode && __globalInjection) {
-          globalReleaseHandler = injectGlobalFields(
-            app,
-            i18n.global as Composer
+      // global method and properties injection for Composition API
+      let globalReleaseHandler: ReturnType<typeof injectGlobalFields> | null =
+        null
+      if (!__legacyMode && __globalInjection) {
+        globalReleaseHandler = injectGlobalFields(app, i18n.global as Composer)
+      }
+
+      // install built-in components and directive
+      if (!__LITE__ && __FEATURE_FULL_INSTALL__) {
+        applyPlugin(app, i18n as I18n, ...options)
+      }
+
+      // setup mixin for Legacy API
+      if (!__LITE__ && __FEATURE_LEGACY_API__ && __legacyMode) {
+        app.mixin(
+          defineMixin(
+            __global as unknown as VueI18n,
+            (__global as unknown as VueI18nInternal).__composer as Composer,
+            i18n as unknown as I18nInternal
           )
-        }
-
-        // install built-in components and directive
-        if (!__LITE__ && __FEATURE_FULL_INSTALL__) {
-          applyNext(app, i18n as I18n, ...options)
-        }
-
-        // setup mixin for Legacy API
-        if (!__LITE__ && __FEATURE_LEGACY_API__ && __legacyMode) {
-          app.mixin(
-            defineMixinNext(
-              __global as unknown as VueI18n,
-              (__global as unknown as VueI18nInternal).__composer as Composer,
-              i18n as unknown as I18nInternal
-            )
-          )
-        }
-
-        // release global scope
-        const unmountApp = app.unmount
-        app.unmount = () => {
-          globalReleaseHandler && globalReleaseHandler()
-          i18n.dispose()
-          unmountApp()
-        }
-
-        // setup vue-devtools plugin
-        if ((__DEV__ || __FEATURE_PROD_VUE_DEVTOOLS__) && !__NODE_JS__) {
-          const ret = await enableDevTools(app, i18n as _I18n)
-          if (!ret) {
-            throw createI18nError(
-              I18nErrorCodes.CANNOT_SETUP_VUE_DEVTOOLS_PLUGIN
-            )
-          }
-          const emitter: VueDevToolsEmitter =
-            createEmitter<VueDevToolsEmitterEvents>()
-          if (__legacyMode) {
-            const _vueI18n = __global as unknown as VueI18nInternal
-            _vueI18n.__enableEmitter && _vueI18n.__enableEmitter(emitter)
-          } else {
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            const _composer = __global as any
-            _composer[EnableEmitter] && _composer[EnableEmitter](emitter)
-          }
-          emitter.on('*', addTimelineEvent)
-        }
-      },
-      // global accessor
-      get global() {
-        return __global
-      },
-      dispose(): void {
-        globalScope.stop()
-      },
-      // @internal
-      __instances,
-      // @internal
-      __getInstance,
-      // @internal
-      __setInstance,
-      // @internal
-      __deleteInstance
-    }
-    return i18n
-  } else {
-    // extend legacy VueI18n instance
-
-    const i18n = (__global as any)[LegacyInstanceSymbol] // eslint-disable-line @typescript-eslint/no-explicit-any
-    let _localeWatcher: Function | null = null
-    Object.defineProperty(i18n, 'global', {
-      get() {
-        return __global
+        )
       }
-    })
-    Object.defineProperty(i18n, 'mode', {
-      get() {
-        return __legacyMode ? 'legacy' : 'composition'
-      }
-    })
-    Object.defineProperty(i18n, 'allowComposition', {
-      get() {
-        return __allowComposition
-      }
-    })
-    Object.defineProperty(i18n, '__instances', {
-      get() {
-        return __instances
-      }
-    })
-    Object.defineProperty(i18n, 'install', {
-      writable: true,
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      value: (Vue: any, ...options: unknown[]) => {
-        const version =
-          (Vue && Vue.version && Number(Vue.version.split('.')[0])) || -1
-        if (version !== 2) {
-          throw createI18nError(I18nErrorCodes.BRIDGE_SUPPORT_VUE_2_ONLY)
-        }
 
-        __FEATURE_FULL_INSTALL__ && applyBridge(Vue, ...options)
+      // release global scope
+      const unmountApp = app.unmount
+      app.unmount = () => {
+        globalReleaseHandler && globalReleaseHandler()
+        i18n.dispose()
+        unmountApp()
+      }
 
-        if (!__legacyMode && __globalInjection) {
-          _localeWatcher = injectGlobalFieldsForBridge(
-            Vue,
-            i18n,
-            __global as Composer
-          )
+      // setup vue-devtools plugin
+      if ((__DEV__ || __FEATURE_PROD_VUE_DEVTOOLS__) && !__NODE_JS__) {
+        const ret = await enableDevTools(app, i18n as _I18n)
+        if (!ret) {
+          throw createI18nError(I18nErrorCodes.CANNOT_SETUP_VUE_DEVTOOLS_PLUGIN)
         }
-        Vue.mixin(defineMixinBridge(i18n, _legacyVueI18n))
+        const emitter: VueDevToolsEmitter =
+          createEmitter<VueDevToolsEmitterEvents>()
+        if (__legacyMode) {
+          const _vueI18n = __global as unknown as VueI18nInternal
+          _vueI18n.__enableEmitter && _vueI18n.__enableEmitter(emitter)
+        } else {
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          const _composer = __global as any
+          _composer[EnableEmitter] && _composer[EnableEmitter](emitter)
+        }
+        emitter.on('*', addTimelineEvent)
       }
-    })
-    Object.defineProperty(i18n, 'dispose', {
-      value: (): void => {
-        _localeWatcher && _localeWatcher()
-        globalScope.stop()
-      }
-    })
-    const methodMap = {
-      __getInstance,
-      __setInstance,
-      __deleteInstance
-    }
-    Object.keys(methodMap).forEach(
-      key =>
-        Object.defineProperty(i18n, key, { value: (methodMap as any)[key] }) // eslint-disable-line @typescript-eslint/no-explicit-any
-    )
-    return i18n
+    },
+    // global accessor
+    get global() {
+      return __global
+    },
+    dispose(): void {
+      globalScope.stop()
+    },
+    // @internal
+    __instances,
+    // @internal
+    __getInstance,
+    // @internal
+    __setInstance,
+    // @internal
+    __deleteInstance
   }
+  return i18n
 }
 
 export function useI18n<Options extends UseI18nOptions = UseI18nOptions>(
@@ -845,18 +761,11 @@ export function useI18n<
     throw createI18nError(I18nErrorCodes.MUST_BE_CALL_SETUP_TOP)
   }
   if (
-    !__BRIDGE__ &&
     !instance.isCE &&
     instance.appContext.app != null &&
     !instance.appContext.app.__VUE_I18N_SYMBOL__
   ) {
     throw createI18nError(I18nErrorCodes.NOT_INSTALLED)
-  }
-
-  if (__BRIDGE__) {
-    if (_legacyVueI18n == null) {
-      throw createI18nError(I18nErrorCodes.NOT_INSTALLED)
-    }
   }
 
   const i18n = getI18nInstance(instance)
@@ -934,92 +843,37 @@ export function useI18n<
   >
 }
 
-/**
- * Cast to VueI18n legacy compatible type
- *
- * @remarks
- * This API is provided only with [vue-i18n-bridge](https://vue-i18n.intlify.dev/guide/migration/ways.html#what-is-vue-i18n-bridge).
- *
- * The purpose of this function is to convert an {@link I18n} instance created with {@link createI18n | createI18n(legacy: true)} into a `vue-i18n@v8.x` compatible instance of `new VueI18n` in a TypeScript environment.
- *
- * @param i18n - An instance of {@link I18n}
- * @returns A i18n instance which is casted to {@link VueI18n} type
- *
- * @VueI18nTip
- * :new: provided by **vue-i18n-bridge only**
- *
- * @VueI18nGeneral
- */
-/* #__NO_SIDE_EFFECTS__ */
-export const castToVueI18n = (
-  i18n: I18n
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-): VueI18n & { install: (Vue: any, options?: any) => void } => {
-  if (!(__VUE_I18N_BRIDGE__ in i18n)) {
-    throw createI18nError(I18nErrorCodes.NOT_COMPATIBLE_LEGACY_VUE_I18N)
-  }
-  return i18n as unknown as VueI18n & {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    install: (Vue: any, options?: any) => void
-  }
-}
-
 function createGlobal(
   options: I18nOptions,
   legacyMode: boolean,
   VueI18nLegacy: any // eslint-disable-line @typescript-eslint/no-explicit-any
 ): [EffectScope, VueI18n | Composer] {
   const scope = effectScope()
-  if (!__BRIDGE__) {
-    const obj =
-      !__LITE__ && __FEATURE_LEGACY_API__ && legacyMode
-        ? scope.run(() => createVueI18n(options, VueI18nLegacy))
-        : scope.run(() => createComposer(options, VueI18nLegacy))
-    if (obj == null) {
-      throw createI18nError(I18nErrorCodes.UNEXPECTED_ERROR)
-    }
-    return [scope, obj]
-  } else {
-    if (!isLegacyVueI18n(VueI18nLegacy)) {
-      throw createI18nError(I18nErrorCodes.NOT_COMPATIBLE_LEGACY_VUE_I18N)
-    }
-    const obj = scope.run(() => createComposer(options, VueI18nLegacy))
-    if (obj == null) {
-      throw createI18nError(I18nErrorCodes.UNEXPECTED_ERROR)
-    }
-    return [scope, obj]
+  const obj =
+    !__LITE__ && __FEATURE_LEGACY_API__ && legacyMode
+      ? scope.run(() => createVueI18n(options, VueI18nLegacy))
+      : scope.run(() => createComposer(options, VueI18nLegacy))
+  if (obj == null) {
+    throw createI18nError(I18nErrorCodes.UNEXPECTED_ERROR)
   }
+  return [scope, obj]
 }
 
 function getI18nInstance(instance: ComponentInternalInstance): I18n {
-  if (!__BRIDGE__) {
-    const i18n = inject(
+  const i18n = inject(
+    !instance.isCE
+      ? instance.appContext.app.__VUE_I18N_SYMBOL__!
+      : I18nInjectionKey
+  )
+  /* istanbul ignore if */
+  if (!i18n) {
+    throw createI18nError(
       !instance.isCE
-        ? instance.appContext.app.__VUE_I18N_SYMBOL__!
-        : I18nInjectionKey
+        ? I18nErrorCodes.UNEXPECTED_ERROR
+        : I18nErrorCodes.NOT_INSTALLED_WITH_PROVIDE
     )
-    /* istanbul ignore if */
-    if (!i18n) {
-      throw createI18nError(
-        !instance.isCE
-          ? I18nErrorCodes.UNEXPECTED_ERROR
-          : I18nErrorCodes.NOT_INSTALLED_WITH_PROVIDE
-      )
-    }
-    return i18n
-  } else {
-    const vm = instance.proxy
-    /* istanbul ignore if */
-    if (vm == null) {
-      throw createI18nError(I18nErrorCodes.UNEXPECTED_ERROR)
-    }
-    const i18n = (vm as any)._i18nBridgeRoot // eslint-disable-line @typescript-eslint/no-explicit-any
-    /* istanbul ignore if */
-    if (!i18n) {
-      throw createI18nError(I18nErrorCodes.NOT_INSTALLED)
-    }
-    return i18n as I18n
   }
+  return i18n
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -1036,11 +890,9 @@ function getScope(options: UseI18nOptions, componentOptions: any): I18nScope {
 
 function getGlobalComposer(i18n: I18n): Composer {
   // prettier-ignore
-  return !__BRIDGE__
-    ? i18n.mode === 'composition'
-      ? (i18n.global as unknown as Composer)
-      : (i18n.global as unknown as VueI18nInternal).__composer
-    : (i18n.global as unknown as Composer)
+  return i18n.mode === 'composition'
+    ? (i18n.global as unknown as Composer)
+    : (i18n.global as unknown as VueI18nInternal).__composer
 }
 
 function getComposer(
@@ -1092,14 +944,10 @@ function getParentComponentInstance(
   if (target == null) {
     return null
   }
-  if (!__BRIDGE__) {
-    // if `useComponent: true` will be specified, we get lexical scope owner instance for use-case slots
-    return !useComponent
-      ? target.parent
-      : (target.vnode as any).ctx || target.parent // eslint-disable-line @typescript-eslint/no-explicit-any
-  } else {
-    return target.parent
-  }
+  // if `useComponent: true` will be specified, we get lexical scope owner instance for use-case slots
+  return !useComponent
+    ? target.parent
+    : (target.vnode as any).ctx || target.parent // eslint-disable-line @typescript-eslint/no-explicit-any
 }
 
 function setupLifeCycle(
@@ -1109,95 +957,46 @@ function setupLifeCycle(
 ): void {
   let emitter: VueDevToolsEmitter | null = null
 
-  if (__BRIDGE__) {
-    // assign legacy VueI18n instance to Vue2 instance
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const vm = target.proxy as any
-    if (vm == null) {
-      throw createI18nError(I18nErrorCodes.UNEXPECTED_ERROR)
-    }
-
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const _i18n = (composer as any)[LegacyInstanceSymbol]
-    if (_i18n === i18n) {
-      throw createI18nError(I18nErrorCodes.UNEXPECTED_ERROR)
-    }
-    vm._i18n = _i18n
-    vm._i18n_bridge = true
-
-    // browser only
-    if (inBrowser) {
-      vm._i18nWatcher = vm._i18n.watchI18nData()
-      if (vm._i18n._sync) {
-        vm._localeWatcher = vm._i18n.watchLocale()
-      }
-    }
-
-    let subscribing = false
-    onBeforeMount(() => {
-      vm._i18n.subscribeDataChanging(vm)
-      subscribing = true
-    })
-
-    onUnmounted(() => {
-      if (subscribing) {
-        vm._i18n.unsubscribeDataChanging(vm)
-        subscribing = false
-      }
-      if (vm._i18nWatcher) {
-        vm._i18nWatcher()
-        vm._i18n.destroyVM()
-        delete vm._i18nWatcher
-      }
-      if (vm._localeWatcher) {
-        vm._localeWatcher()
-        delete vm._localeWatcher
-      }
-      delete vm._i18n_bridge
-      delete vm._i18n
-    })
-  } else {
-    onMounted(() => {
-      // inject composer instance to DOM for intlify-devtools
-      if (
-        (__DEV__ || __FEATURE_PROD_VUE_DEVTOOLS__) &&
-        !__NODE_JS__ &&
-        target.vnode.el
-      ) {
-        target.vnode.el.__VUE_I18N__ = composer
-        emitter = createEmitter<VueDevToolsEmitterEvents>()
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        const _composer = composer as any
-        _composer[EnableEmitter] && _composer[EnableEmitter](emitter)
-        emitter.on('*', addTimelineEvent)
-      }
-    }, target)
-
-    onUnmounted(() => {
+  onMounted(() => {
+    // inject composer instance to DOM for intlify-devtools
+    if (
+      (__DEV__ || __FEATURE_PROD_VUE_DEVTOOLS__) &&
+      !__NODE_JS__ &&
+      target.vnode.el
+    ) {
+      target.vnode.el.__VUE_I18N__ = composer
+      emitter = createEmitter<VueDevToolsEmitterEvents>()
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const _composer = composer as any
+      _composer[EnableEmitter] && _composer[EnableEmitter](emitter)
+      emitter.on('*', addTimelineEvent)
+    }
+  }, target)
 
-      // remove composer instance from DOM for intlify-devtools
-      if (
-        (__DEV__ || __FEATURE_PROD_VUE_DEVTOOLS__) &&
-        !__NODE_JS__ &&
-        target.vnode.el &&
-        target.vnode.el.__VUE_I18N__
-      ) {
-        emitter && emitter.off('*', addTimelineEvent)
-        _composer[DisableEmitter] && _composer[DisableEmitter]()
-        delete target.vnode.el.__VUE_I18N__
-      }
-      i18n.__deleteInstance(target)
+  onUnmounted(() => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const _composer = composer as any
 
-      // dispose extended resources
-      const dispose = _composer[DisposeSymbol]
-      if (dispose) {
-        dispose()
-        delete _composer[DisposeSymbol]
-      }
-    }, target)
-  }
+    // remove composer instance from DOM for intlify-devtools
+    if (
+      (__DEV__ || __FEATURE_PROD_VUE_DEVTOOLS__) &&
+      !__NODE_JS__ &&
+      target.vnode.el &&
+      target.vnode.el.__VUE_I18N__
+    ) {
+      emitter && emitter.off('*', addTimelineEvent)
+      _composer[DisableEmitter] && _composer[DisableEmitter]()
+      delete target.vnode.el.__VUE_I18N__
+    }
+    i18n.__deleteInstance(target)
+
+    // dispose extended resources
+    const dispose = _composer[DisposeSymbol]
+    if (dispose) {
+      dispose()
+      delete _composer[DisposeSymbol]
+    }
+  }, target)
 }
 
 function useI18nForLegacy(
@@ -1731,30 +1530,4 @@ function injectGlobalFields(app: App, composer: Composer): Disposer {
   }
 
   return dispose
-}
-
-function injectGlobalFieldsForBridge(
-  Vue: any, // eslint-disable-line @typescript-eslint/no-explicit-any
-  i18n: any, // eslint-disable-line @typescript-eslint/no-explicit-any
-  composer: Composer
-): Function {
-  // The composition mode in vue-i18n-bridge is `$18n` is the VueI18n instance.
-  // so we need to tell composer to change the locale.
-  // If we don't do, things like `$t` that are injected will not be reacted.
-  const watcher = i18n.watchLocale(composer) as Function
-
-  // define fowardcompatible vue-i18n-next inject fields with `globalInjection`
-  Vue.prototype.$t = function (...args: unknown[]) {
-    return Reflect.apply(composer.t, composer, [...args])
-  }
-
-  Vue.prototype.$d = function (...args: unknown[]) {
-    return Reflect.apply(composer.d, composer, [...args])
-  }
-
-  Vue.prototype.$n = function (...args: unknown[]) {
-    return Reflect.apply(composer.n, composer, [...args])
-  }
-
-  return watcher
 }

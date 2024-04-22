@@ -246,7 +246,7 @@ export function number<
     }
 
     // for vue-devtools timeline event
-    if (!__BRIDGE__ && __DEV__ && locale !== targetLocale) {
+    if (__DEV__ && locale !== targetLocale) {
       const emitter = (context as unknown as CoreInternalContext).__v_emitter
       if (emitter) {
         emitter.emit(VueDevToolsTimelineEvents.FALBACK, {

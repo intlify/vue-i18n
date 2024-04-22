@@ -26,7 +26,7 @@ export function apply(app: App, i18n: I18n, ...options: unknown[]): void {
     )
   }
 
-  if (!(__LITE__ || __BRIDGE__) && globalInstall) {
+  if (!__LITE__ && globalInstall) {
     // install components
     ;[!useI18nComponentName ? Translation.name : 'i18n', 'I18nT'].forEach(
       name => app.component(name, Translation)
@@ -40,7 +40,7 @@ export function apply(app: App, i18n: I18n, ...options: unknown[]): void {
   }
 
   // install directive
-  if (!__LITE__ || !__BRIDGE__) {
+  if (!__LITE__) {
     app.directive('t', vTDirective(i18n))
   }
 }

@@ -38,13 +38,6 @@ declare module 'vue' {
   }
 }
 
-export function isLegacyVueI18n(VueI18n: any): boolean {
-  if (VueI18n == null || VueI18n.version == null) {
-    return false
-  }
-  return (Number(VueI18n.version.split('.')[0]) || -1) >= 8
-}
-
 /**
  * Transform flat json in obj to normal json in obj
  */
@@ -116,7 +109,7 @@ export function getLocaleMessages<Messages = {}>(
     ? messages
     : isArray(__i18n)
       ? {}
-      : { [locale]: {} } )as Record<string, any>
+      : { [locale]: {} }) as Record<string, any>
 
   // merge locale messages of i18n custom block
   if (isArray(__i18n)) {
@@ -148,7 +141,7 @@ export function getLocaleMessages<Messages = {}>(
 }
 
 export function getComponentOptions(instance: ComponentInternalInstance): any {
-  return !__BRIDGE__ ? instance.type : instance.proxy!.$options
+  return instance.type
 }
 
 export function adjustI18nResources(
@@ -193,40 +186,5 @@ export function adjustI18nResources(
 }
 
 export function createTextNode(key: string): any {
-  return !__BRIDGE__
-    ? createVNode(Text, null, key, 0)
-    : createVNodeVue2Compatible(key)
+  return createVNode(Text, null, key, 0)
 }
-
-function createVNodeVue2Compatible(key: string): any {
-  // shim Vue2 VNode interface
-  // see the https://github.com/vuejs/vue/blob/dev/src/core/vdom/vnode.js
-  const componentInstance = undefined
-  return {
-    tag: undefined,
-    data: undefined,
-    children: undefined,
-    text: key,
-    elm: undefined,
-    ns: undefined,
-    context: undefined,
-    fnContext: undefined,
-    fnOptions: undefined,
-    fnScopeId: undefined,
-    key: undefined,
-    componentOptions: undefined,
-    componentInstance,
-    parent: undefined,
-    raw: false,
-    isStatic: false,
-    isRootInsert: true,
-    isComment: false,
-    isCloned: false,
-    isOnce: false,
-    asyncFactory: undefined,
-    asyncMeta: undefined,
-    isAsyncPlaceholder: false,
-    child: () => componentInstance
-  }
-}
-/* eslint-enable @typescript-eslint/no-explicit-any */
