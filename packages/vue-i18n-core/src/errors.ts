@@ -16,23 +16,20 @@ export const I18nErrorCodes = {
   // i18n module errors
   MUST_BE_CALL_SETUP_TOP: inc(), // 26
   NOT_INSTALLED: inc(), // 27
-  NOT_AVAILABLE_IN_LEGACY_MODE: inc(), // 28
   // directive module errors
-  REQUIRED_VALUE: inc(), // 29
-  INVALID_VALUE: inc(), // 30
+  REQUIRED_VALUE: inc(), // 28
+  INVALID_VALUE: inc(), // 29
   // vue-devtools errors
-  CANNOT_SETUP_VUE_DEVTOOLS_PLUGIN: inc(), // 31
-  NOT_INSTALLED_WITH_PROVIDE: inc(), // 32
+  CANNOT_SETUP_VUE_DEVTOOLS_PLUGIN: inc(), // 30
+  NOT_INSTALLED_WITH_PROVIDE: inc(), // 31
   // unexpected error
-  UNEXPECTED_ERROR: inc(), // 33
+  UNEXPECTED_ERROR: inc(), // 32
   // not compatible legacy vue-i18n constructor
-  NOT_COMPATIBLE_LEGACY_VUE_I18N: inc(), // 34
-  // need to define `i18n` option in `allowComposition: true` and `useScope: 'local' at `useI18n``
-  MUST_DEFINE_I18N_OPTION_IN_ALLOW_COMPOSITION: inc(), // 35
+  NOT_COMPATIBLE_LEGACY_VUE_I18N: inc(), // 33
   // Not available Compostion API in Legacy API mode. Please make sure that the legacy API mode is working properly
-  NOT_AVAILABLE_COMPOSITION_IN_LEGACY: inc(), // 36
+  NOT_AVAILABLE_COMPOSITION_IN_LEGACY: inc(), // 34
   // for enhancement
-  __EXTEND_POINT__: inc() // 3
+  __EXTEND_POINT__: inc() // 35
 } as const
 
 type I18nErrorCodes = (typeof I18nErrorCodes)[keyof typeof I18nErrorCodes]
@@ -55,7 +52,6 @@ export const errorMessages: { [code: number]: string } = {
     'Must be called at the top of a `setup` function',
   [I18nErrorCodes.NOT_INSTALLED]: 'Need to install with `app.use` function',
   [I18nErrorCodes.UNEXPECTED_ERROR]: 'Unexpected error',
-  [I18nErrorCodes.NOT_AVAILABLE_IN_LEGACY_MODE]: 'Not available in legacy mode',
   [I18nErrorCodes.REQUIRED_VALUE]: `Required in value: {0}`,
   [I18nErrorCodes.INVALID_VALUE]: `Invalid value`,
   [I18nErrorCodes.CANNOT_SETUP_VUE_DEVTOOLS_PLUGIN]: `Cannot setup vue-devtools plugin`,
@@ -63,8 +59,6 @@ export const errorMessages: { [code: number]: string } = {
     'Need to install with `provide` function',
   [I18nErrorCodes.NOT_COMPATIBLE_LEGACY_VUE_I18N]:
     'Not compatible legacy VueI18n.',
-  [I18nErrorCodes.MUST_DEFINE_I18N_OPTION_IN_ALLOW_COMPOSITION]:
-    'Must define ‘i18n’ option or custom block in Composition API with using local scope in Legacy API mode',
   [I18nErrorCodes.NOT_AVAILABLE_COMPOSITION_IN_LEGACY]:
     'Not available Compostion API in Legacy API mode. Please make sure that the legacy API mode is working properly'
 }
