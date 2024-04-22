@@ -139,15 +139,10 @@ The examples are offered in the following two API styles:
 
 | Project | NPM | Repo |
 | ------- | --- | ---- |
-| Vue CLI Plugin | [![vue-cli-plugin-i18n](https://img.shields.io/npm/v/vue-cli-plugin-i18n.svg)](https://www.npmjs.com/package/vue-cli-plugin-i18n) | [intlify/vue-cli-plugin-i18n](https://github.com/intlify/vue-cli-plugin-i18n)
 | Vue I18n Extensions | [![@intlify/vue-i18n-extensions](https://img.shields.io/npm/v/@intlify/vue-i18n-extensions/next.svg)](https://www.npmjs.com/package/@intlify/vue-i18n-extensions) | [intlify/vue-i18n-extentions](https://github.com/intlify/vue-i18n-extensions)
 | ESLint Plugin | [![@intlify/eslint-plugin-vue-i18n](https://img.shields.io/npm/v/@intlify/eslint-plugin-vue-i18n.svg)](https://www.npmjs.com/package/@intlify/eslint-plugin-vue-i18n) | [intlify/eslint-plugin-vue-i18n](https://github.com/intlify/eslint-plugin-vue-i18n)
-| Composition API for Vue 2.x | [![vue-i18n-composable](https://img.shields.io/npm/v/vue-i18n-composable.svg)](https://www.npmjs.com/package/vue-i18n-composable) | [intlify/vue-i18n-composable](https://github.com/intlify/vue-i18n-composable)
 | CLI | [![intlify/cli](https://img.shields.io/npm/v/@intlify/cli.svg)](https://www.npmjs.com/package/@intlify/cli) | [intlify/cli](https://github.com/intlify/cli)
-| Unplugin plugin | [![@intlify/unplugin-vue-i18n](https://img.shields.io/npm/v/@intlify/unplugin-vue-i18n.svg)](https://www.npmjs.com/package/@intlify/unplugin-vue-i18n) | [intlify/unplugin-vue-i18n](https://github.com/intlify/bundle-tools/tree/main/packages/unplugin-vue-i18n)
-| Vite Plugin | [![@intlify/vite-plugin-vue-i18n](https://img.shields.io/npm/v/@intlify/vite-plugin-vue-i18n.svg)](https://www.npmjs.com/package/@intlify/vite-plugin-vue-i18n) | [intlify/vite-plugin-vue-i18n](https://github.com/intlify/bundle-tools/tree/main/packages/vite-plugin-vue-i18n)
-| Webpack Loader | [![@intlify/vue-i18n-loader](https://img.shields.io/npm/v/@intlify/vue-i18n-loader/next.svg)](https://www.npmjs.com/package/@intlify/vue-i18n-loader) | [intlify/vue-i18n-loader](https://github.com/intlify/bundle-tools/tree/main/packages/vue-i18n-loader)
-| Rollup Plugin | [![@intlify/rollup-plugin-vue-i18n](https://img.shields.io/npm/v/@intlify/rollup-plugin-vue-i18n/next.svg)](https://www.npmjs.com/package/@intlify/rollup-plugin-vue-i18n) | [intlify/rollup-plugin-vue-i18n](https://github.com/intlify/bundle-tools/tree/main/packages/rollup-plugin-vue-i18n)
+| Unplugin (Vite) plugin | [![@intlify/unplugin-vue-i18n](https://img.shields.io/npm/v/@intlify/unplugin-vue-i18n.svg)](https://www.npmjs.com/package/@intlify/unplugin-vue-i18n) | [intlify/unplugin-vue-i18n](https://github.com/intlify/bundle-tools/tree/main/packages/unplugin-vue-i18n)
 | Vue Jest Plugin | [![vue-i18n-jest](https://img.shields.io/npm/v/vue-i18n-jest.svg)](https://www.npmjs.com/package/vue-i18n-jest) | [intlify/vue-i18n-jest](https://github.com/intlify/vue-i18n-jest)
 | Vue I18n Locale Message Tools | [![vue-i18n-locale-message](https://img.shields.io/npm/v/vue-i18n-locale-message.svg)](https://www.npmjs.com/package/vue-i18n-locale-message) | [intlify/vue-i18n-locale-message](https://github.com/intlify/vue-i18n-locale-message)
 
