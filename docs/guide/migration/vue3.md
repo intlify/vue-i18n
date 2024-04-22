@@ -16,7 +16,7 @@ From Vue I18n v9.2, the Legacy API mode can also be used with Composition API mo
 
 ### About supporting
 
-:::warning NOTICE
+:::danger NOTICE
 This migration support will be removed in the next major version v10. If your Vue 3 application project has not yet been migrated, please migrate it to v9 and then upgrade to v10.
 :::
 
