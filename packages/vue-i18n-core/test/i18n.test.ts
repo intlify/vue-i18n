@@ -22,8 +22,7 @@ import {
 } from '@intlify/core-base'
 import { createEmitter } from '@intlify/shared'
 import { mount, pluralRules as _pluralRules, randStr } from './helper'
-import { createI18n, useI18n, castToVueI18n } from '../src/i18n'
-import { __VUE_I18N_BRIDGE__ } from '../src/symbols'
+import { createI18n, useI18n } from '../src/i18n'
 import { errorMessages, I18nErrorCodes } from '../src/errors'
 import { Composer } from '../src/composer'
 
@@ -1334,28 +1333,6 @@ test('Intlify devtools hooking', () => {
 
   expect(fnI18nInit).toHaveBeenCalled()
   expect(fnTranslate).toHaveBeenCalled()
-})
-
-describe('castToVueI18n', () => {
-  test('succeeded', () => {
-    const mockVueI18n = {
-      __VUE_I18N_BRIDGE__
-    } as unknown as I18n
-    expect(castToVueI18n(mockVueI18n)).toBe(mockVueI18n)
-  })
-
-  test('failed', () => {
-    const mockVueI18n = {} as unknown as I18n
-    let error
-    try {
-      castToVueI18n(mockVueI18n)
-    } catch (e: any) {
-      error = e.message
-    }
-    expect(error).toEqual(
-      errorMessages[I18nErrorCodes.NOT_COMPATIBLE_LEGACY_VUE_I18N]
-    )
-  })
 })
 
 describe('release global scope', () => {

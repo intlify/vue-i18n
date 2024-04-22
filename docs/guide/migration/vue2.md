@@ -3,7 +3,7 @@
 ## `vue-i18n-bridge`
 
 :::danger NOTE
-vue-i18n-bridge will not be provided in v10 due to Vue 2 EOL. v9.x will be the last version.
+vue-i18n-bridge will not be provided in v10 due to Vue 2 EOL. v9.13 will be the last version.
 :::
 
 ### What is `vue-i18n-bridge`?

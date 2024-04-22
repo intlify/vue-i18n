@@ -777,14 +777,14 @@ export function translate<
           ? (format as MessageFunctionInternal).key!
           : '',
       locale: targetLocale || (isMessageFunction(format)
-          ? (format as MessageFunctionInternal).locale!
-          : ''),
+        ? (format as MessageFunctionInternal).locale!
+        : ''),
       format:
         isString(format)
-        ? format
-        : isMessageFunction(format)
-          ? (format as MessageFunctionInternal).source!
-          : '',
+          ? format
+          : isMessageFunction(format)
+            ? (format as MessageFunctionInternal).source!
+            : '',
       message: ret as string
     }
     ;(payloads as AdditionalPayloads).meta = assign(
@@ -853,7 +853,7 @@ function resolveMessageFormat<Messages, Message>(
     }
 
     // for vue-devtools timeline event
-    if (!__BRIDGE__ && __DEV__ && locale !== targetLocale) {
+    if (__DEV__ && locale !== targetLocale) {
       const emitter = (context as unknown as CoreInternalContext).__v_emitter
       if (emitter) {
         emitter.emit(VueDevToolsTimelineEvents.FALBACK, {
@@ -886,7 +886,7 @@ function resolveMessageFormat<Messages, Message>(
     }
 
     // for vue-devtools timeline event
-    if (!__BRIDGE__ && __DEV__ && inBrowser) {
+    if (__DEV__ && inBrowser) {
       const end = window.performance.now()
       const emitter = (context as unknown as CoreInternalContext).__v_emitter
       if (emitter && start && format) {
@@ -974,7 +974,7 @@ function compileMessageFormat<Messages, Message>(
   ) as MessageFunctionInternal
 
   // for vue-devtools timeline event
-  if (!__BRIDGE__ && __DEV__ && inBrowser) {
+  if (__DEV__ && inBrowser) {
     const end = window.performance.now()
     const emitter = (context as unknown as CoreInternalContext).__v_emitter
     if (emitter && start) {
@@ -1017,7 +1017,7 @@ function evaluateMessage<Messages, Message>(
   const messaged = msg(msgCtx)
 
   // for vue-devtools timeline event
-  if (!__BRIDGE__ && __DEV__ && inBrowser) {
+  if (__DEV__ && inBrowser) {
     const end = window.performance.now()
     const emitter = (context as unknown as CoreInternalContext).__v_emitter
     if (emitter && start) {
@@ -1095,7 +1095,7 @@ function getCompileContext<Messages, Message>(
     warnHtmlMessage,
     onError: (err: CompileError): void => {
       onError && onError(err)
-      if (!__BRIDGE__ && __DEV__) {
+      if (__DEV__) {
         const _source = getSourceForCodeFrame(source)
         const message = `Message compilation error: ${err.message}`
         const codeFrame =

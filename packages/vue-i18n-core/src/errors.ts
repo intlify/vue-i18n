@@ -27,14 +27,12 @@ export const I18nErrorCodes = {
   UNEXPECTED_ERROR: inc(), // 33
   // not compatible legacy vue-i18n constructor
   NOT_COMPATIBLE_LEGACY_VUE_I18N: inc(), // 34
-  // bridge support vue 2.x only
-  BRIDGE_SUPPORT_VUE_2_ONLY: inc(), // 35
   // need to define `i18n` option in `allowComposition: true` and `useScope: 'local' at `useI18n``
-  MUST_DEFINE_I18N_OPTION_IN_ALLOW_COMPOSITION: inc(), // 36
+  MUST_DEFINE_I18N_OPTION_IN_ALLOW_COMPOSITION: inc(), // 35
   // Not available Compostion API in Legacy API mode. Please make sure that the legacy API mode is working properly
-  NOT_AVAILABLE_COMPOSITION_IN_LEGACY: inc(), // 37
+  NOT_AVAILABLE_COMPOSITION_IN_LEGACY: inc(), // 36
   // for enhancement
-  __EXTEND_POINT__: inc() // 38
+  __EXTEND_POINT__: inc() // 3
 } as const
 
 type I18nErrorCodes = (typeof I18nErrorCodes)[keyof typeof I18nErrorCodes]
@@ -65,8 +63,6 @@ export const errorMessages: { [code: number]: string } = {
     'Need to install with `provide` function',
   [I18nErrorCodes.NOT_COMPATIBLE_LEGACY_VUE_I18N]:
     'Not compatible legacy VueI18n.',
-  [I18nErrorCodes.BRIDGE_SUPPORT_VUE_2_ONLY]:
-    'vue-i18n-bridge support Vue 2.x only',
   [I18nErrorCodes.MUST_DEFINE_I18N_OPTION_IN_ALLOW_COMPOSITION]:
     'Must define ‘i18n’ option or custom block in Composition API with using local scope in Legacy API mode',
   [I18nErrorCodes.NOT_AVAILABLE_COMPOSITION_IN_LEGACY]:

@@ -152,13 +152,9 @@ function createConfig(format, _output, plugins = []) {
   const isGlobalBuild = /global/.test(format)
   const isRuntimeOnlyBuild = /runtime/.test(format)
   const isLite = /petite-vue-i18n/.test(name)
-  const isBridge = /vue-i18n-bridge/.test(name)
 
   if (isGlobalBuild) {
     output.name = packageOptions.name
-    if (isBridge) {
-      output.globals = { 'vue-demi': 'VueDemi' }
-    }
   }
 
   const shouldEmitDeclarations = process.env.TYPES != null && !hasTSChecked
@@ -195,9 +191,6 @@ function createConfig(format, _output, plugins = []) {
           ...Object.keys(pkg.dependencies || {}),
           ...Object.keys(pkg.peerDependencies || {})
         ]
-  if (isBridge) {
-    external.push('vue-demi')
-  }
 
   const nodePlugins =
     // packageOptions.enableNonBrowserBranches && format !== 'cjs'
@@ -211,28 +204,6 @@ function createConfig(format, _output, plugins = []) {
           require('rollup-plugin-node-globals')()
         ]
       : []
-
-  if (isBridge) {
-    const replacingPaths = [
-      './packages/vue-i18n-core/src/composer.ts',
-      './packages/vue-i18n-core/src/utils.ts',
-      './packages/vue-i18n-core/src/i18n.ts',
-      './packages/vue-i18n-core/src/mixins/next.ts',
-      './packages/vue-i18n-core/src/components/NumberFormat.ts',
-      './packages/vue-i18n-core/src/components/DatetimeFormat.ts',
-      './packages/vue-i18n-core/src/components/formatRenderer.ts',
-      './packages/vue-i18n-core/src/components/Translation.ts',
-      './packages/vue-i18n-core/src/components/utils.ts'
-    ].map(sourcePath => path.resolve(__dirname, sourcePath))
-    plugins.push({
-      transform(source, id) {
-        if (replacingPaths.some(p => p === id)) {
-          return source.replace(`from 'vue'`, `from 'vue-demi'`)
-        }
-        return source
-      }
-    })
-  }
 
   return {
     input: resolve(entryFile),
@@ -255,7 +226,6 @@ function createConfig(format, _output, plugins = []) {
         isNodeBuild,
         isRuntimeOnlyBuild,
         isLite,
-        isBridge,
         path.parse(output.file).base || ''
       ),
       ...nodePlugins,
@@ -278,11 +248,7 @@ function createConfig(format, _output, plugins = []) {
             // NOTE:
             //  https://github.com/vuejs/router/issues/1516
             //  https://github.com/vuejs/router/commit/53f720622aa273e33c05517fa917cdcfbfba52bc
-            if (
-              name === 'vue-i18n' ||
-              name === 'vue-i18n-bridge' ||
-              name === 'petite-vue-i18n'
-            ) {
+            if (name === 'vue-i18n' || name === 'petite-vue-i18n') {
               const outfile = `dist/${stub}`.replace(
                 'esm-bundler.js',
                 'node.mjs'
@@ -329,7 +295,6 @@ function createReplacePlugin(
   isNodeBuild,
   isRuntimeOnlyBuild,
   isLite,
-  isBridge,
   bundleFilename
 ) {
   const replacements = {
@@ -355,8 +320,6 @@ function createReplacePlugin(
     __NODE_JS__: String(isNodeBuild),
     // for lite version
     __LITE__: String(isLite),
-    // for bridge version
-    __BRIDGE__: String(isBridge),
     // feature flags
     __FEATURE_FULL_INSTALL__: isBundlerESMBuild
       ? `__VUE_I18N_FULL_INSTALL__`

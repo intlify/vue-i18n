@@ -14,7 +14,6 @@ PKGS=(
   @intlify/vue-devtools
   @intlify/vue-i18n-core
   petite-vue-i18n
-  vue-i18n-bridge
   vue-i18n
 )
 

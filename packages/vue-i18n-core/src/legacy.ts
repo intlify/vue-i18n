@@ -2,7 +2,7 @@
 import { createComposer, DefineLocaleMessage } from './composer'
 import { I18nWarnCodes, getWarnMessage } from './warnings'
 import { createI18nError, I18nErrorCodes } from './errors'
-import { EnableEmitter, DisableEmitter, __VUE_I18N_BRIDGE__ } from './symbols'
+import { EnableEmitter, DisableEmitter } from './symbols'
 import { DEFAULT_LOCALE } from '@intlify/core-base'
 import {
   isString,
@@ -1465,340 +1465,333 @@ export function createVueI18n<
  * @internal
  */
 
-export function createVueI18n(options: any = {}, VueI18nLegacy?: any): any {
+export function createVueI18n(options: any = {}): any {
   type Message = VueMessageType
 
-  if (__BRIDGE__) {
-    options[__VUE_I18N_BRIDGE__] = __VUE_I18N_BRIDGE__ // marking
-    return new VueI18nLegacy(options)
-  } else {
-    const composer = createComposer(convertComposerOptions(options)) as Composer
-    const { __extender } = options as unknown as VueI18nInternalOptions
+  const composer = createComposer(convertComposerOptions(options)) as Composer
+  const { __extender } = options as unknown as VueI18nInternalOptions
 
-    // defines VueI18n
-    const vueI18n = {
-      // id
-      id: composer.id,
+  // defines VueI18n
+  const vueI18n = {
+    // id
+    id: composer.id,
 
-      // locale
-      get locale(): Locale {
-        return composer.locale.value as Locale
-      },
-      set locale(val: Locale) {
-        composer.locale.value = val as any
-      },
+    // locale
+    get locale(): Locale {
+      return composer.locale.value as Locale
+    },
+    set locale(val: Locale) {
+      composer.locale.value = val as any
+    },
 
-      // fallbackLocale
-      get fallbackLocale(): FallbackLocale {
-        return composer.fallbackLocale.value as FallbackLocale
-      },
-      set fallbackLocale(val: FallbackLocale) {
-        composer.fallbackLocale.value = val as any
-      },
+    // fallbackLocale
+    get fallbackLocale(): FallbackLocale {
+      return composer.fallbackLocale.value as FallbackLocale
+    },
+    set fallbackLocale(val: FallbackLocale) {
+      composer.fallbackLocale.value = val as any
+    },
 
-      // messages
-      get messages(): LocaleMessages<Message> {
-        return composer.messages.value
-      },
+    // messages
+    get messages(): LocaleMessages<Message> {
+      return composer.messages.value
+    },
 
-      // datetimeFormats
-      get datetimeFormats(): DateTimeFormatsType {
-        return composer.datetimeFormats.value
-      },
+    // datetimeFormats
+    get datetimeFormats(): DateTimeFormatsType {
+      return composer.datetimeFormats.value
+    },
 
-      // numberFormats
-      get numberFormats(): NumberFormatsType {
-        return composer.numberFormats.value
-      },
+    // numberFormats
+    get numberFormats(): NumberFormatsType {
+      return composer.numberFormats.value
+    },
 
-      // availableLocales
-      get availableLocales(): Locale[] {
-        return composer.availableLocales as Locale[]
-      },
+    // availableLocales
+    get availableLocales(): Locale[] {
+      return composer.availableLocales as Locale[]
+    },
 
-      // formatter
-      get formatter(): Formatter {
-        __DEV__ && warn(getWarnMessage(I18nWarnCodes.NOT_SUPPORTED_FORMATTER))
-        // dummy
-        return {
-          interpolate() {
-            return []
-          }
+    // formatter
+    get formatter(): Formatter {
+      __DEV__ && warn(getWarnMessage(I18nWarnCodes.NOT_SUPPORTED_FORMATTER))
+      // dummy
+      return {
+        interpolate() {
+          return []
         }
-      },
-      set formatter(val: Formatter) {
-        __DEV__ && warn(getWarnMessage(I18nWarnCodes.NOT_SUPPORTED_FORMATTER))
-      },
-
-      // missing
-      get missing(): MissingHandler | null {
-        return composer.getMissingHandler()
-      },
-      set missing(handler: MissingHandler | null) {
-        composer.setMissingHandler(handler)
-      },
-
-      // silentTranslationWarn
-      get silentTranslationWarn(): boolean | RegExp {
-        return isBoolean(composer.missingWarn)
-          ? !composer.missingWarn
-          : composer.missingWarn
-      },
-      set silentTranslationWarn(val: boolean | RegExp) {
-        composer.missingWarn = isBoolean(val) ? !val : val
-      },
-
-      // silentFallbackWarn
-      get silentFallbackWarn(): boolean | RegExp {
-        return isBoolean(composer.fallbackWarn)
-          ? !composer.fallbackWarn
-          : composer.fallbackWarn
-      },
-      set silentFallbackWarn(val: boolean | RegExp) {
-        composer.fallbackWarn = isBoolean(val) ? !val : val
-      },
-
-      // modifiers
-      get modifiers(): LinkedModifiers<Message> {
-        return composer.modifiers
-      },
-
-      // formatFallbackMessages
-      get formatFallbackMessages(): boolean {
-        return composer.fallbackFormat
-      },
-      set formatFallbackMessages(val: boolean) {
-        composer.fallbackFormat = val
-      },
-
-      // postTranslation
-      get postTranslation(): PostTranslationHandler<Message> | null {
-        return composer.getPostTranslationHandler()
-      },
-      set postTranslation(handler: PostTranslationHandler<Message> | null) {
-        composer.setPostTranslationHandler(handler)
-      },
-
-      // sync
-      get sync(): boolean {
-        return composer.inheritLocale
-      },
-      set sync(val: boolean) {
-        composer.inheritLocale = val
-      },
-
-      // warnInHtmlMessage
-      get warnHtmlInMessage(): WarnHtmlInMessageLevel {
-        return composer.warnHtmlMessage ? 'warn' : 'off'
-      },
-      set warnHtmlInMessage(val: WarnHtmlInMessageLevel) {
-        composer.warnHtmlMessage = val !== 'off'
-      },
-
-      // escapeParameterHtml
-      get escapeParameterHtml(): boolean {
-        return composer.escapeParameter
-      },
-      set escapeParameterHtml(val: boolean) {
-        composer.escapeParameter = val
-      },
-
-      // preserveDirectiveContent
-      get preserveDirectiveContent(): boolean {
-        __DEV__ &&
-          warn(getWarnMessage(I18nWarnCodes.NOT_SUPPORTED_PRESERVE_DIRECTIVE))
-        return true
-      },
-      set preserveDirectiveContent(val: boolean) {
-        __DEV__ &&
-          warn(getWarnMessage(I18nWarnCodes.NOT_SUPPORTED_PRESERVE_DIRECTIVE))
-      },
-
-      // pluralizationRules
-      get pluralizationRules(): PluralizationRules {
-        return composer.pluralRules || {}
-      },
-
-      // for internal
-      __composer: composer,
-
-      // t
-      t(...args: unknown[]): TranslateResult {
-        const [arg1, arg2, arg3] = args
-        const options = {} as TranslateOptions
-        let list: unknown[] | null = null
-        let named: NamedValue | null = null
-
-        if (!isString(arg1)) {
-          throw createI18nError(I18nErrorCodes.INVALID_ARGUMENT)
-        }
-        const key = arg1
-
-        if (isString(arg2)) {
-          options.locale = arg2
-        } else if (isArray(arg2)) {
-          list = arg2
-        } else if (isPlainObject(arg2)) {
-          named = arg2 as NamedValue
-        }
-
-        if (isArray(arg3)) {
-          list = arg3
-        } else if (isPlainObject(arg3)) {
-          named = arg3 as NamedValue
-        }
-
-        // return composer.t(key, (list || named || {}) as any, options)
-        return Reflect.apply(composer.t, composer, [
-          key,
-          (list || named || {}) as any,
-          options
-        ])
-      },
-
-      rt(...args: unknown[]): TranslateResult {
-        return Reflect.apply(composer.rt, composer, [...args])
-      },
-
-      // tc
-      tc(...args: unknown[]): TranslateResult {
-        const [arg1, arg2, arg3] = args
-        const options = { plural: 1 } as TranslateOptions
-        let list: unknown[] | null = null
-        let named: NamedValue | null = null
-
-        if (!isString(arg1)) {
-          throw createI18nError(I18nErrorCodes.INVALID_ARGUMENT)
-        }
-        const key = arg1
-
-        if (isString(arg2)) {
-          options.locale = arg2
-        } else if (isNumber(arg2)) {
-          options.plural = arg2
-        } else if (isArray(arg2)) {
-          list = arg2
-        } else if (isPlainObject(arg2)) {
-          named = arg2 as NamedValue
-        }
-
-        if (isString(arg3)) {
-          options.locale = arg3
-        } else if (isArray(arg3)) {
-          list = arg3
-        } else if (isPlainObject(arg3)) {
-          named = arg3 as NamedValue
-        }
-
-        // return composer.t(key, (list || named || {}) as any, options)
-        return Reflect.apply(composer.t, composer, [
-          key,
-          (list || named || {}) as any,
-          options
-        ])
-      },
-
-      // te
-      te(key: Path, locale?: Locale): boolean {
-        return composer.te(key, locale)
-      },
-
-      // tm
-      tm(key: Path): LocaleMessageValue<VueMessageType> | {} {
-        return composer.tm(key)
-      },
-
-      // getLocaleMessage
-      getLocaleMessage(
-        locale: Locale
-      ): LocaleMessageDictionary<VueMessageType> {
-        return composer.getLocaleMessage(locale)
-      },
-
-      // setLocaleMessage
-      setLocaleMessage(
-        locale: Locale,
-        message: LocaleMessageDictionary<VueMessageType>
-      ): void {
-        composer.setLocaleMessage(locale, message)
-      },
-
-      // mergeLocaleMessage
-      mergeLocaleMessage(
-        locale: Locale,
-        message: LocaleMessageDictionary<VueMessageType>
-      ): void {
-        composer.mergeLocaleMessage(locale, message as any)
-      },
-
-      // d
-      d(...args: unknown[]): DateTimeFormatResult {
-        return Reflect.apply(composer.d, composer, [...args])
-      },
-
-      // getDateTimeFormat
-      getDateTimeFormat(locale: Locale): DateTimeFormat {
-        return composer.getDateTimeFormat(locale)
-      },
-
-      // setDateTimeFormat
-      setDateTimeFormat(locale: Locale, format: DateTimeFormat): void {
-        composer.setDateTimeFormat(locale, format)
-      },
-
-      // mergeDateTimeFormat
-      mergeDateTimeFormat(locale: Locale, format: DateTimeFormat): void {
-        composer.mergeDateTimeFormat(locale, format)
-      },
-
-      // n
-      n(...args: unknown[]): NumberFormatResult {
-        return Reflect.apply(composer.n, composer, [...args])
-      },
-
-      // getNumberFormat
-      getNumberFormat(locale: Locale): NumberFormat {
-        return composer.getNumberFormat(locale)
-      },
-
-      // setNumberFormat
-      setNumberFormat(locale: Locale, format: NumberFormat): void {
-        composer.setNumberFormat(locale, format)
-      },
-
-      // mergeNumberFormat
-      mergeNumberFormat(locale: Locale, format: NumberFormat): void {
-        composer.mergeNumberFormat(locale, format)
-      },
-
-      // getChoiceIndex
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      getChoiceIndex(choice: Choice, choicesLength: number): number {
-        __DEV__ &&
-          warn(getWarnMessage(I18nWarnCodes.NOT_SUPPORTED_GET_CHOICE_INDEX))
-        return -1
       }
+    },
+    set formatter(val: Formatter) {
+      __DEV__ && warn(getWarnMessage(I18nWarnCodes.NOT_SUPPORTED_FORMATTER))
+    },
+
+    // missing
+    get missing(): MissingHandler | null {
+      return composer.getMissingHandler()
+    },
+    set missing(handler: MissingHandler | null) {
+      composer.setMissingHandler(handler)
+    },
+
+    // silentTranslationWarn
+    get silentTranslationWarn(): boolean | RegExp {
+      return isBoolean(composer.missingWarn)
+        ? !composer.missingWarn
+        : composer.missingWarn
+    },
+    set silentTranslationWarn(val: boolean | RegExp) {
+      composer.missingWarn = isBoolean(val) ? !val : val
+    },
+
+    // silentFallbackWarn
+    get silentFallbackWarn(): boolean | RegExp {
+      return isBoolean(composer.fallbackWarn)
+        ? !composer.fallbackWarn
+        : composer.fallbackWarn
+    },
+    set silentFallbackWarn(val: boolean | RegExp) {
+      composer.fallbackWarn = isBoolean(val) ? !val : val
+    },
+
+    // modifiers
+    get modifiers(): LinkedModifiers<Message> {
+      return composer.modifiers
+    },
+
+    // formatFallbackMessages
+    get formatFallbackMessages(): boolean {
+      return composer.fallbackFormat
+    },
+    set formatFallbackMessages(val: boolean) {
+      composer.fallbackFormat = val
+    },
+
+    // postTranslation
+    get postTranslation(): PostTranslationHandler<Message> | null {
+      return composer.getPostTranslationHandler()
+    },
+    set postTranslation(handler: PostTranslationHandler<Message> | null) {
+      composer.setPostTranslationHandler(handler)
+    },
+
+    // sync
+    get sync(): boolean {
+      return composer.inheritLocale
+    },
+    set sync(val: boolean) {
+      composer.inheritLocale = val
+    },
+
+    // warnInHtmlMessage
+    get warnHtmlInMessage(): WarnHtmlInMessageLevel {
+      return composer.warnHtmlMessage ? 'warn' : 'off'
+    },
+    set warnHtmlInMessage(val: WarnHtmlInMessageLevel) {
+      composer.warnHtmlMessage = val !== 'off'
+    },
+
+    // escapeParameterHtml
+    get escapeParameterHtml(): boolean {
+      return composer.escapeParameter
+    },
+    set escapeParameterHtml(val: boolean) {
+      composer.escapeParameter = val
+    },
+
+    // preserveDirectiveContent
+    get preserveDirectiveContent(): boolean {
+      __DEV__ &&
+        warn(getWarnMessage(I18nWarnCodes.NOT_SUPPORTED_PRESERVE_DIRECTIVE))
+      return true
+    },
+    set preserveDirectiveContent(val: boolean) {
+      __DEV__ &&
+        warn(getWarnMessage(I18nWarnCodes.NOT_SUPPORTED_PRESERVE_DIRECTIVE))
+    },
+
+    // pluralizationRules
+    get pluralizationRules(): PluralizationRules {
+      return composer.pluralRules || {}
+    },
+
+    // for internal
+    __composer: composer,
+
+    // t
+    t(...args: unknown[]): TranslateResult {
+      const [arg1, arg2, arg3] = args
+      const options = {} as TranslateOptions
+      let list: unknown[] | null = null
+      let named: NamedValue | null = null
+
+      if (!isString(arg1)) {
+        throw createI18nError(I18nErrorCodes.INVALID_ARGUMENT)
+      }
+      const key = arg1
+
+      if (isString(arg2)) {
+        options.locale = arg2
+      } else if (isArray(arg2)) {
+        list = arg2
+      } else if (isPlainObject(arg2)) {
+        named = arg2 as NamedValue
+      }
+
+      if (isArray(arg3)) {
+        list = arg3
+      } else if (isPlainObject(arg3)) {
+        named = arg3 as NamedValue
+      }
+
+      // return composer.t(key, (list || named || {}) as any, options)
+      return Reflect.apply(composer.t, composer, [
+        key,
+        (list || named || {}) as any,
+        options
+      ])
+    },
+
+    rt(...args: unknown[]): TranslateResult {
+      return Reflect.apply(composer.rt, composer, [...args])
+    },
+
+    // tc
+    tc(...args: unknown[]): TranslateResult {
+      const [arg1, arg2, arg3] = args
+      const options = { plural: 1 } as TranslateOptions
+      let list: unknown[] | null = null
+      let named: NamedValue | null = null
+
+      if (!isString(arg1)) {
+        throw createI18nError(I18nErrorCodes.INVALID_ARGUMENT)
+      }
+      const key = arg1
+
+      if (isString(arg2)) {
+        options.locale = arg2
+      } else if (isNumber(arg2)) {
+        options.plural = arg2
+      } else if (isArray(arg2)) {
+        list = arg2
+      } else if (isPlainObject(arg2)) {
+        named = arg2 as NamedValue
+      }
+
+      if (isString(arg3)) {
+        options.locale = arg3
+      } else if (isArray(arg3)) {
+        list = arg3
+      } else if (isPlainObject(arg3)) {
+        named = arg3 as NamedValue
+      }
+
+      // return composer.t(key, (list || named || {}) as any, options)
+      return Reflect.apply(composer.t, composer, [
+        key,
+        (list || named || {}) as any,
+        options
+      ])
+    },
+
+    // te
+    te(key: Path, locale?: Locale): boolean {
+      return composer.te(key, locale)
+    },
+
+    // tm
+    tm(key: Path): LocaleMessageValue<VueMessageType> | {} {
+      return composer.tm(key)
+    },
+
+    // getLocaleMessage
+    getLocaleMessage(locale: Locale): LocaleMessageDictionary<VueMessageType> {
+      return composer.getLocaleMessage(locale)
+    },
+
+    // setLocaleMessage
+    setLocaleMessage(
+      locale: Locale,
+      message: LocaleMessageDictionary<VueMessageType>
+    ): void {
+      composer.setLocaleMessage(locale, message)
+    },
+
+    // mergeLocaleMessage
+    mergeLocaleMessage(
+      locale: Locale,
+      message: LocaleMessageDictionary<VueMessageType>
+    ): void {
+      composer.mergeLocaleMessage(locale, message as any)
+    },
+
+    // d
+    d(...args: unknown[]): DateTimeFormatResult {
+      return Reflect.apply(composer.d, composer, [...args])
+    },
+
+    // getDateTimeFormat
+    getDateTimeFormat(locale: Locale): DateTimeFormat {
+      return composer.getDateTimeFormat(locale)
+    },
+
+    // setDateTimeFormat
+    setDateTimeFormat(locale: Locale, format: DateTimeFormat): void {
+      composer.setDateTimeFormat(locale, format)
+    },
+
+    // mergeDateTimeFormat
+    mergeDateTimeFormat(locale: Locale, format: DateTimeFormat): void {
+      composer.mergeDateTimeFormat(locale, format)
+    },
+
+    // n
+    n(...args: unknown[]): NumberFormatResult {
+      return Reflect.apply(composer.n, composer, [...args])
+    },
+
+    // getNumberFormat
+    getNumberFormat(locale: Locale): NumberFormat {
+      return composer.getNumberFormat(locale)
+    },
+
+    // setNumberFormat
+    setNumberFormat(locale: Locale, format: NumberFormat): void {
+      composer.setNumberFormat(locale, format)
+    },
+
+    // mergeNumberFormat
+    mergeNumberFormat(locale: Locale, format: NumberFormat): void {
+      composer.mergeNumberFormat(locale, format)
+    },
+
+    // getChoiceIndex
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    getChoiceIndex(choice: Choice, choicesLength: number): number {
+      __DEV__ &&
+        warn(getWarnMessage(I18nWarnCodes.NOT_SUPPORTED_GET_CHOICE_INDEX))
+      return -1
     }
-
-    // custom extender for vue-i18n-routing and nuxt i18n
-    ;(vueI18n as unknown as VueI18nInternal).__extender = __extender
-
-    // for vue-devtools timeline event
-    if (!__BRIDGE__ && __DEV__) {
-      ;(vueI18n as unknown as VueI18nInternal).__enableEmitter = (
-        emitter: VueDevToolsEmitter
-      ): void => {
-        const __composer = composer as any
-        __composer[EnableEmitter] && __composer[EnableEmitter](emitter)
-      }
-      ;(vueI18n as unknown as VueI18nInternal).__disableEmitter = (): void => {
-        const __composer = composer as any
-        __composer[DisableEmitter] && __composer[DisableEmitter]()
-      }
-    }
-
-    return vueI18n
   }
+
+  // custom extender for vue-i18n-routing and nuxt i18n
+  ;(vueI18n as unknown as VueI18nInternal).__extender = __extender
+
+  // for vue-devtools timeline event
+  if (__DEV__) {
+    ;(vueI18n as unknown as VueI18nInternal).__enableEmitter = (
+      emitter: VueDevToolsEmitter
+    ): void => {
+      const __composer = composer as any
+      __composer[EnableEmitter] && __composer[EnableEmitter](emitter)
+    }
+    ;(vueI18n as unknown as VueI18nInternal).__disableEmitter = (): void => {
+      const __composer = composer as any
+      __composer[DisableEmitter] && __composer[DisableEmitter]()
+    }
+  }
+
+  return vueI18n
 }
 
 /* eslint-enable @typescript-eslint/no-explicit-any */

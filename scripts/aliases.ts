@@ -9,7 +9,6 @@ const dirs = readdirSync(new URL('../packages', import.meta.url))
 
 const entries: Record<string, string> = {
   'vue-i18n': resolveEntryForPkg('vue-i18n'),
-  'vue-i18n-bridge': resolveEntryForPkg('vue-i18n-bridge'),
   'petite-vue-i18n': resolveEntryForPkg('petite-vue-i18n')
 }
 
@@ -23,11 +22,7 @@ const nonSrcPackages = [
 for (const dir of dirs) {
   const key = `@intlify/${dir}`
   if (
-    !(
-      dir === 'vue-i18n' ||
-      dir === 'vue-i18n-bridge' ||
-      dir === 'petite-vue-i18n'
-    ) &&
+    !(dir === 'vue-i18n' || dir === 'petite-vue-i18n') &&
     !nonSrcPackages.includes(dir) &&
     !(key in entries) &&
     statSync(new URL(`../packages/${dir}`, import.meta.url)).isDirectory()

@@ -1,9 +1,9 @@
 import { getCurrentInstance } from 'vue'
-import { createVueI18n } from '../legacy'
-import { createI18nError, I18nErrorCodes } from '../errors'
-import { SetPluralRulesSymbol } from '../symbols'
-import { addTimelineEvent } from '../devtools'
-import { getLocaleMessages, adjustI18nResources } from '../utils'
+import { createVueI18n } from './legacy'
+import { createI18nError, I18nErrorCodes } from './errors'
+import { SetPluralRulesSymbol } from './symbols'
+import { addTimelineEvent } from './devtools'
+import { getLocaleMessages, adjustI18nResources } from './utils'
 import { createEmitter } from '@intlify/shared'
 
 import type { ComponentOptions } from 'vue'
@@ -18,7 +18,7 @@ import type {
   ComposerInternalOptions,
   ComposerOptions,
   VueMessageType
-} from '../composer'
+} from './composer'
 import type {
   VueI18n,
   VueI18nInternal,
@@ -27,8 +27,8 @@ import type {
   TranslateResult,
   DateTimeFormatResult,
   NumberFormatResult
-} from '../legacy'
-import type { I18nInternal } from '../i18n'
+} from './legacy'
+import type { I18nInternal } from './i18n'
 
 /**
  * Supports compatibility for legacy vue-i18n APIs

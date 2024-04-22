@@ -15,7 +15,6 @@ export default defineConfig({
     __ESM_BROWSER__: false,
     __NODE_JS__: true,
     __LITE__: false,
-    __BRIDGE__: false,
     __FEATURE_FULL_INSTALL__: true,
     __FEATURE_LEGACY_API__: true,
     __FEATURE_JIT_COMPILATION__: true,

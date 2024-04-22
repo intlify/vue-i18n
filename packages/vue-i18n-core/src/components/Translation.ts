@@ -77,7 +77,7 @@ export const TranslationImpl = /*#__PURE__*/ defineComponent({
       const tag =
         isString(props.tag) || isObject(props.tag)
           ? props.tag
-          : getFragmentableTag('span')
+          : getFragmentableTag()
       return h(tag, assignedAttrs, children)
     }
   }
