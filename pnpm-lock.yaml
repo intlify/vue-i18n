@@ -518,12 +518,6 @@ importers:
         specifier: workspace:*
         version: link:../devtools-types
 
-  packages/devtools-if:
-    dependencies:
-      '@intlify/shared':
-        specifier: workspace:*
-        version: link:../shared
-
   packages/devtools-types:
     dependencies:
       '@intlify/core-base':
@@ -641,15 +635,6 @@ importers:
       vue-tsc:
         specifier: ^2.0.0
         version: 2.0.0(typescript@5.4.3)
-
-  packages/vue-devtools:
-    dependencies:
-      '@intlify/core-base':
-        specifier: workspace:*
-        version: link:../core-base
-      '@intlify/shared':
-        specifier: workspace:*
-        version: link:../shared
 
   packages/vue-i18n:
     dependencies:
