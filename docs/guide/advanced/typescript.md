@@ -132,7 +132,7 @@ const { t, n } = useI18n<{
 
 <template>
   <p>message: {{ t('messages.hello', { name: 'kazupon' }) }}</p>
-  <p>currecy: {{ n(1000, 'currency') }}</p>
+  <p>currency: {{ n(1000, 'currency') }}</p>
 </template>
 ```
 
@@ -191,7 +191,7 @@ define schema for global scope:
 
 import enUS from './en-US.json'
 
-// define message schema as master mesage schema
+// define message schema as master message schema
 export type MessageSchema = typeof enUS
 
 // define number format schema
@@ -220,7 +220,7 @@ const { t, n } = useI18n<{ message: MessageSchema, number: NumberSchema }>({
 
 <template>
   <p>message: {{ t('hello') }}</p>
-  <p>currecy: {{ n(1000, 'currency') }}</p>
+  <p>currency: {{ n(1000, 'currency') }}</p>
 </template>
 
 ```

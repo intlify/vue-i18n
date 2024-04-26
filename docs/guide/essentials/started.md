@@ -109,4 +109,4 @@ In Vue I18n v9 and later, the API offered by Vue I18n v8.x is called **Legacy AP
 
 The following sections will be explained using the Legacy API.
 
-If you wuold like to use it in Composition API style and already understand Vue I18n, you can step to [here](../advanced/composition).
+If you would like to use it in Composition API style and already understand Vue I18n, you can step to [here](../advanced/composition).

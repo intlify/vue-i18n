@@ -14,7 +14,7 @@ This will support the use of Vue I18n in Web Components starting with Vue I18n v
 
 There are a few things to keep in mind when using Vue I18n with Web Components.
 
-## Make preparetion for Web Components to host the I18n instance
+## Make preparation for Web Components to host the I18n instance
 
 Using `defineCustomElement`, which is supported since Vue 3.2, we can provide Vue components implemented in SFC as Web Components. This means that Vue components implemented using `useI18n` can be served as Web Components with i18n support.
 
