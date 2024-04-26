@@ -17,7 +17,6 @@ import { CoreWarnCodes, getWarnMessage } from './warnings'
 import { CoreErrorCodes, createCoreError } from './errors'
 import { getLocale } from './fallbacker'
 import { Availabilities } from './intl'
-import { VueDevToolsTimelineEvents } from '@intlify/vue-devtools'
 
 import type { Locale, FallbackLocale } from './runtime'
 import type {
@@ -254,7 +253,7 @@ export function datetime<
     if (__DEV__ && locale !== targetLocale) {
       const emitter = (context as unknown as CoreInternalContext).__v_emitter
       if (emitter) {
-        emitter.emit(VueDevToolsTimelineEvents.FALBACK, {
+        emitter.emit('fallback', {
           type,
           key,
           from,

@@ -26,10 +26,7 @@ import { createI18n, useI18n } from '../src/i18n'
 import { errorMessages, I18nErrorCodes } from '../src/errors'
 import { Composer } from '../src/composer'
 
-import {
-  IntlifyDevToolsEmitterHooks,
-  IntlifyDevToolsHooks
-} from '@intlify/devtools-if'
+import { IntlifyDevToolsEmitterHooks } from '@intlify/devtools-types'
 
 import type { I18n } from '../src/i18n'
 import type { VueI18n } from '../src/legacy'
@@ -1177,8 +1174,8 @@ test('Intlify devtools hooking', () => {
 
   const fnI18nInit = vi.fn()
   const fnTranslate = vi.fn()
-  emitter.on(IntlifyDevToolsHooks.I18nInit, fnI18nInit)
-  emitter.on(IntlifyDevToolsHooks.FunctionTranslate, fnTranslate)
+  emitter.on('i18n:init', fnI18nInit)
+  emitter.on('function:translate', fnTranslate)
 
   const i18n = createI18n({
     locale: 'en',

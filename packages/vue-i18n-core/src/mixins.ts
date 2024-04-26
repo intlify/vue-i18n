@@ -12,7 +12,7 @@ import type { Locale, LocaleMessageValue } from '@intlify/core'
 import type {
   VueDevToolsEmitter,
   VueDevToolsEmitterEvents
-} from '@intlify/vue-devtools'
+} from '@intlify/devtools-types'
 import type {
   Composer,
   ComposerInternalOptions,

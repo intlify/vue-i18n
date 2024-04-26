@@ -8,10 +8,9 @@ TAG=$2
 PKGS=(
   @intlify/core
   @intlify/core-base
-  @intlify/devtools-if
+  @intlify/devtools-types
   @intlify/message-compiler
   @intlify/shared
-  @intlify/vue-devtools
   @intlify/vue-i18n-core
   petite-vue-i18n
   vue-i18n

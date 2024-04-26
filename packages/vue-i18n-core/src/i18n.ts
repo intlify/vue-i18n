@@ -41,7 +41,7 @@ import type {
 import type {
   VueDevToolsEmitter,
   VueDevToolsEmitterEvents
-} from '@intlify/vue-devtools'
+} from '@intlify/devtools-types'
 import type {
   VueMessageType,
   DefaultLocaleMessageSchema,

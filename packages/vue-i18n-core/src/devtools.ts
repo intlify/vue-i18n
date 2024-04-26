@@ -4,13 +4,6 @@ import {
   ComponentTreeNode
 } from '@vue/devtools-api'
 import {
-  VueDevToolsIDs,
-  VueDevToolsTimelineColors,
-  VueDevToolsLabels,
-  VueDevToolsPlaceholders,
-  VueDevToolsTimelineEvents
-} from '@intlify/vue-devtools'
-import {
   isFunction,
   isString,
   isBoolean,
@@ -27,7 +20,11 @@ import type {
   ComponentStateBase,
   HookPayloads
 } from '@vue/devtools-api'
-import type { VueDevToolsTimelineEventPayloads } from '@intlify/vue-devtools'
+import type {
+  VueDevToolsIDs,
+  VueDevToolsTimelineEvents,
+  VueDevToolsTimelineEventPayloads
+} from '@intlify/devtools-types'
 import type { I18n, I18nInternal } from './i18n'
 import type { Composer } from './composer'
 import type { VueI18nInternal } from './legacy'
@@ -36,6 +33,20 @@ type _I18n = I18n & I18nInternal
 
 const VUE_I18N_COMPONENT_TYPES = 'vue-i18n: composer properties'
 
+const VueDevToolsLabels: Record<VueDevToolsIDs, string> = {
+  'vue-devtools-plugin-vue-i18n': 'Vue I18n devtools',
+  'vue-i18n-resource-inspector': 'I18n Resources',
+  'vue-i18n-timeline': 'Vue I18n'
+}
+
+const VueDevToolsPlaceholders: Record<'vue-i18n-resource-inspector', string> = {
+  'vue-i18n-resource-inspector': 'Search for scopes ...'
+}
+
+const VueDevToolsTimelineColors: Record<'vue-i18n-timeline', number> = {
+  'vue-i18n-timeline': 0xffcd19
+}
+
 let devtoolsApi: DevtoolsPluginApi<{}>
 
 export async function enableDevTools(app: App, i18n: _I18n): Promise<boolean> {
@@ -43,8 +54,8 @@ export async function enableDevTools(app: App, i18n: _I18n): Promise<boolean> {
     try {
       setupDevtoolsPlugin(
         {
-          id: VueDevToolsIDs.PLUGIN,
-          label: VueDevToolsLabels[VueDevToolsIDs.PLUGIN],
+          id: 'vue-devtools-plugin-vue-i18n',
+          label: VueDevToolsLabels['vue-devtools-plugin-vue-i18n'],
           packageName: 'vue-i18n',
           homepage: 'https://vue-i18n.intlify.dev',
           logo: 'https://vue-i18n.intlify.dev/vue-i18n-devtools-logo.png',
@@ -85,17 +96,17 @@ export async function enableDevTools(app: App, i18n: _I18n): Promise<boolean> {
           })
 
           api.addInspector({
-            id: VueDevToolsIDs.CUSTOM_INSPECTOR,
-            label: VueDevToolsLabels[VueDevToolsIDs.CUSTOM_INSPECTOR],
+            id: 'vue-i18n-resource-inspector',
+            label: VueDevToolsLabels['vue-i18n-resource-inspector'],
             icon: 'language',
             treeFilterPlaceholder:
-              VueDevToolsPlaceholders[VueDevToolsIDs.CUSTOM_INSPECTOR]
+              VueDevToolsPlaceholders['vue-i18n-resource-inspector']
           })
 
           api.on.getInspectorTree(payload => {
             if (
               payload.app === app &&
-              payload.inspectorId === VueDevToolsIDs.CUSTOM_INSPECTOR
+              payload.inspectorId === 'vue-i18n-resource-inspector'
             ) {
               registerScope(payload, i18n)
             }
@@ -105,7 +116,7 @@ export async function enableDevTools(app: App, i18n: _I18n): Promise<boolean> {
           api.on.getInspectorState(async payload => {
             if (
               payload.app === app &&
-              payload.inspectorId === VueDevToolsIDs.CUSTOM_INSPECTOR
+              payload.inspectorId === 'vue-i18n-resource-inspector'
             ) {
               api.unhighlightElement()
 
@@ -127,16 +138,16 @@ export async function enableDevTools(app: App, i18n: _I18n): Promise<boolean> {
           api.on.editInspectorState(payload => {
             if (
               payload.app === app &&
-              payload.inspectorId === VueDevToolsIDs.CUSTOM_INSPECTOR
+              payload.inspectorId === 'vue-i18n-resource-inspector'
             ) {
               editScope(payload, i18n)
             }
           })
 
           api.addTimelineLayer({
-            id: VueDevToolsIDs.TIMELINE,
-            label: VueDevToolsLabels[VueDevToolsIDs.TIMELINE],
-            color: VueDevToolsTimelineColors[VueDevToolsIDs.TIMELINE]
+            id: 'vue-i18n-timeline',
+            label: VueDevToolsLabels['vue-i18n-timeline'],
+            color: VueDevToolsTimelineColors['vue-i18n-timeline']
           })
 
           resolve(true)
@@ -435,7 +446,7 @@ export function addTimelineEvent(
       delete payload.groupId
     }
     devtoolsApi.addTimelineEvent({
-      layerId: VueDevToolsIDs.TIMELINE,
+      layerId: 'vue-i18n-timeline',
       event: {
         title: event,
         groupId,
@@ -443,10 +454,9 @@ export function addTimelineEvent(
         meta: {},
         data: payload || {},
         logType:
-          event === VueDevToolsTimelineEvents.COMPILE_ERROR
+          event === 'compile-error'
             ? 'error'
-            : event === VueDevToolsTimelineEvents.FALBACK ||
-                event === VueDevToolsTimelineEvents.MISSING
+            : event === 'fallback' || event === 'missing'
               ? 'warning'
               : 'default'
       }
