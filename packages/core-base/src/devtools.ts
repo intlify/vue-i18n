@@ -1,10 +1,8 @@
-// HACK: embbed `@intlify/devtools-if` enum and type to `.d.ts`, because `@intlify/dev-tools` is devDependencies
-// TODO: Consider this type dependency when separating into intlify/core
-import {
+import type {
   IntlifyDevToolsHooks,
-  IntlifyDevToolsEmitter,
-  IntlifyDevToolsHookPayloads
-} from '../../devtools-if/src/index'
+  IntlifyDevToolsHookPayloads,
+  IntlifyDevToolsEmitter
+} from '@intlify/devtools-types'
 
 let devtools: IntlifyDevToolsEmitter | null = null
 
@@ -23,7 +21,7 @@ export function initI18nDevTools(
 ): void {
   // TODO: queue if devtools is undefined
   devtools &&
-    devtools.emit(IntlifyDevToolsHooks.I18nInit, {
+    devtools.emit('i18n:init', {
       timestamp: Date.now(),
       i18n,
       version,
@@ -31,9 +29,8 @@ export function initI18nDevTools(
     })
 }
 
-export const translateDevTools = /* #__PURE__*/ createDevToolsHook(
-  IntlifyDevToolsHooks.FunctionTranslate
-)
+export const translateDevTools =
+  /* #__PURE__*/ createDevToolsHook('function:translate')
 
 function createDevToolsHook(hook: IntlifyDevToolsHooks) {
   return (payloads: IntlifyDevToolsHookPayloads[IntlifyDevToolsHooks]) =>

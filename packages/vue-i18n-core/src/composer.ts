@@ -40,7 +40,6 @@ import {
   isMessageAST,
   isMessageFunction
 } from '@intlify/core-base'
-import { VueDevToolsTimelineEvents } from '@intlify/vue-devtools'
 import { I18nWarnCodes, getWarnMessage } from './warnings'
 import { I18nErrorCodes, createI18nError } from './errors'
 import {
@@ -112,7 +111,7 @@ import type {
   IsEmptyObject,
   CoreMissingType
 } from '@intlify/core-base'
-import type { VueDevToolsEmitter } from '@intlify/vue-devtools'
+import type { VueDevToolsEmitter } from '@intlify/devtools-types'
 
 export { DEFAULT_LOCALE } from '@intlify/core-base'
 
@@ -2185,7 +2184,7 @@ export function createComposer(options: any = {}): any {
           const { __v_emitter: emitter } =
             _context as unknown as CoreInternalContext
           if (emitter && _fallbackRoot) {
-            emitter.emit(VueDevToolsTimelineEvents.FALBACK, {
+            emitter.emit('fallback', {
               type: warnType,
               key,
               to: 'global',

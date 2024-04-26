@@ -31,10 +31,9 @@ import { CoreWarnCodes, getWarnMessage } from './warnings'
 import { CoreErrorCodes, createCoreError } from './errors'
 import { translateDevTools } from './devtools'
 import { getLocale } from './fallbacker'
-import { VueDevToolsTimelineEvents } from '@intlify/vue-devtools'
 
 import type { CompileError, ResourceNode } from '@intlify/message-compiler'
-import type { AdditionalPayloads } from '@intlify/devtools-if'
+import type { AdditionalPayloads } from '@intlify/devtools-types'
 import type { Path, PathValue } from './resolver'
 import type {
   Locale,
@@ -856,7 +855,7 @@ function resolveMessageFormat<Messages, Message>(
     if (__DEV__ && locale !== targetLocale) {
       const emitter = (context as unknown as CoreInternalContext).__v_emitter
       if (emitter) {
-        emitter.emit(VueDevToolsTimelineEvents.FALBACK, {
+        emitter.emit('fallback', {
           type,
           key,
           from,
@@ -890,8 +889,8 @@ function resolveMessageFormat<Messages, Message>(
       const end = window.performance.now()
       const emitter = (context as unknown as CoreInternalContext).__v_emitter
       if (emitter && start && format) {
-        emitter.emit(VueDevToolsTimelineEvents.MESSAGE_RESOLVE, {
-          type: VueDevToolsTimelineEvents.MESSAGE_RESOLVE,
+        emitter.emit('message-resolve', {
+          type: 'message-resolve',
           key,
           message: format,
           time: end - start,
@@ -978,8 +977,8 @@ function compileMessageFormat<Messages, Message>(
     const end = window.performance.now()
     const emitter = (context as unknown as CoreInternalContext).__v_emitter
     if (emitter && start) {
-      emitter.emit(VueDevToolsTimelineEvents.MESSAGE_COMPILATION, {
-        type: VueDevToolsTimelineEvents.MESSAGE_COMPILATION,
+      emitter.emit('message-compilation', {
+        type: 'message-compilation',
         message: format as string | ResourceNode | MessageFunction,
         time: end - start,
         groupId: `${'translate'}:${key}`
@@ -1021,8 +1020,8 @@ function evaluateMessage<Messages, Message>(
     const end = window.performance.now()
     const emitter = (context as unknown as CoreInternalContext).__v_emitter
     if (emitter && start) {
-      emitter.emit(VueDevToolsTimelineEvents.MESSAGE_EVALUATION, {
-        type: VueDevToolsTimelineEvents.MESSAGE_EVALUATION,
+      emitter.emit('message-evaluation', {
+        type: 'message-evaluation',
         value: messaged,
         time: end - start,
         groupId: `${'translate'}:${(msg as MessageFunctionInternal).key}`
@@ -1108,7 +1107,7 @@ function getCompileContext<Messages, Message>(
           )
         const emitter = (context as unknown as CoreInternalContext).__v_emitter
         if (emitter && _source) {
-          emitter.emit(VueDevToolsTimelineEvents.COMPILE_ERROR, {
+          emitter.emit('compile-error', {
             message: _source,
             error: err.message,
             start: err.location && err.location.start.offset,

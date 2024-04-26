@@ -1,13 +1,12 @@
-import { createCoreContext, translate } from '../src/index'
 import { createEmitter } from '@intlify/shared'
+import { createCoreContext, translate } from '../src/index'
 import { compileToFunction } from '../src/compilation'
-import { IntlifyDevToolsHooks } from '@intlify/devtools-if'
 import { setDevToolsHook, getDevToolsHook } from '../src/devtools'
 
 import type {
   IntlifyDevToolsEmitterHooks,
   IntlifyDevToolsEmitter
-} from '@intlify/devtools-if'
+} from '@intlify/devtools-types'
 
 let devtools: IntlifyDevToolsEmitter | null = null
 beforeEach(() => {
@@ -23,7 +22,7 @@ afterEach(() => {
 
 test('initI18nDevTools', () => {
   const fn = vi.fn()
-  devtools!.on(IntlifyDevToolsHooks.I18nInit, fn)
+  devtools!.on('i18n:init', fn)
 
   const meta = { framework: 'Vue' }
   const ctx = createCoreContext({
@@ -46,7 +45,7 @@ test('initI18nDevTools', () => {
 describe('translateDevTools', () => {
   test('basic', () => {
     const fn = vi.fn()
-    devtools!.on(IntlifyDevToolsHooks.FunctionTranslate, fn)
+    devtools!.on('function:translate', fn)
 
     const meta = { __INTLIFY_META__: 'xxx', framework: 'Vue' }
     const HELLO = 'Hello {name}!'
@@ -73,7 +72,7 @@ describe('translateDevTools', () => {
 
   test('fallback', () => {
     const fn = vi.fn()
-    devtools!.on(IntlifyDevToolsHooks.FunctionTranslate, fn)
+    devtools!.on('function:translate', fn)
 
     const HELLO = 'やあ　{name}！'
     const ctx = createCoreContext({

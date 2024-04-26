@@ -48,7 +48,7 @@ import type {
   IsEmptyObject,
   IsNever
 } from '@intlify/core-base'
-import type { VueDevToolsEmitter } from '@intlify/vue-devtools'
+import type { VueDevToolsEmitter } from '@intlify/devtools-types'
 import type {
   VueMessageType,
   DefaultLocaleMessageSchema,

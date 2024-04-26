@@ -514,15 +514,21 @@ importers:
         specifier: workspace:*
         version: link:../shared
     devDependencies:
-      '@intlify/devtools-if':
+      '@intlify/devtools-types':
         specifier: workspace:*
-        version: link:../devtools-if
-      '@intlify/vue-devtools':
-        specifier: workspace:*
-        version: link:../vue-devtools
+        version: link:../devtools-types
 
   packages/devtools-if:
     dependencies:
+      '@intlify/shared':
+        specifier: workspace:*
+        version: link:../shared
+
+  packages/devtools-types:
+    dependencies:
+      '@intlify/core-base':
+        specifier: workspace:*
+        version: link:../core-base
       '@intlify/shared':
         specifier: workspace:*
         version: link:../shared
@@ -569,9 +575,6 @@ importers:
       '@intlify/shared':
         specifier: workspace:*
         version: link:../shared
-      '@intlify/vue-devtools':
-        specifier: workspace:*
-        version: link:../vue-devtools
       '@vue/devtools-api':
         specifier: ^6.5.0
         version: 6.5.1
@@ -579,9 +582,9 @@ importers:
         specifier: 3.4.20
         version: 3.4.20(typescript@5.4.3)
     devDependencies:
-      '@intlify/devtools-if':
+      '@intlify/devtools-types':
         specifier: workspace:*
-        version: link:../devtools-if
+        version: link:../devtools-types
 
   packages/shared: {}
 
@@ -663,37 +666,9 @@ importers:
         specifier: 3.4.20
         version: 3.4.20(typescript@5.4.3)
     devDependencies:
-      '@intlify/devtools-if':
+      '@intlify/devtools-types':
         specifier: workspace:*
-        version: link:../devtools-if
-      '@intlify/vue-devtools':
-        specifier: workspace:*
-        version: link:../vue-devtools
-
-  packages/vue-i18n-bridge:
-    dependencies:
-      '@intlify/core-base':
-        specifier: workspace:*
-        version: link:../core-base
-      '@intlify/shared':
-        specifier: workspace:*
-        version: link:../shared
-      '@intlify/vue-devtools':
-        specifier: workspace:*
-        version: link:../vue-devtools
-      '@vue/composition-api':
-        specifier: ^1.0.0-rc.1
-        version: 1.7.2(vue@3.4.20(typescript@5.4.3))
-      '@vue/devtools-api':
-        specifier: ^6.5.0
-        version: 6.5.1
-      vue-demi:
-        specifier: ^0.14.0
-        version: 0.14.7(@vue/composition-api@1.7.2(vue@3.4.20(typescript@5.4.3)))(vue@3.4.20(typescript@5.4.3))
-    devDependencies:
-      '@intlify/devtools-if':
-        specifier: workspace:*
-        version: link:../devtools-if
+        version: link:../devtools-types
 
   packages/vue-i18n-core:
     dependencies:
@@ -703,9 +678,6 @@ importers:
       '@intlify/shared':
         specifier: workspace:*
         version: link:../shared
-      '@intlify/vue-devtools':
-        specifier: workspace:*
-        version: link:../vue-devtools
       '@vue/devtools-api':
         specifier: ^6.5.0
         version: 6.5.1
@@ -713,9 +685,9 @@ importers:
         specifier: 3.4.20
         version: 3.4.20(typescript@5.4.3)
     devDependencies:
-      '@intlify/devtools-if':
+      '@intlify/devtools-types':
         specifier: workspace:*
-        version: link:../devtools-if
+        version: link:../devtools-types
 
 packages:
 
@@ -8907,10 +8879,6 @@ snapshots:
       vue: 3.4.20(typescript@5.3.3)
     optional: true
 
-  '@vue/composition-api@1.7.2(vue@3.4.20(typescript@5.4.3))':
-    dependencies:
-      vue: 3.4.20(typescript@5.4.3)
-
   '@vue/devtools-api@6.5.1': {}
 
   '@vue/devtools-api@7.0.27(vue@3.4.20(typescript@5.3.3))':
@@ -14503,12 +14471,6 @@ snapshots:
       vue: 3.4.20(typescript@5.3.3)
     optionalDependencies:
       '@vue/composition-api': 1.7.2(vue@3.4.20(typescript@5.3.3))
-
-  vue-demi@0.14.7(@vue/composition-api@1.7.2(vue@3.4.20(typescript@5.4.3)))(vue@3.4.20(typescript@5.4.3)):
-    dependencies:
-      vue: 3.4.20(typescript@5.4.3)
-    optionalDependencies:
-      '@vue/composition-api': 1.7.2(vue@3.4.20(typescript@5.4.3))
 
   vue-eslint-parser@9.4.2(eslint@9.1.0):
     dependencies:

@@ -12,16 +12,13 @@ import {
   isObject,
   warnOnce
 } from '@intlify/shared'
-import { VueDevToolsTimelineEvents } from '@intlify/vue-devtools'
 import { initI18nDevTools } from './devtools'
 import { CoreWarnCodes, getWarnMessage } from './warnings'
 import { resolveWithKeyValue } from './resolver'
 import { fallbackWithSimple } from './fallbacker'
 
 import type { CompileOptions, ResourceNode } from '@intlify/message-compiler'
-// HACK: embbed `@intlify/vue-devtools` types to `.d.ts`, because `@intlify/dev-tools` is devDependencies
-// TODO: Consider this type dependency when separating into intlify/core
-import type { VueDevToolsEmitter } from '../../vue-devtools/src/index'
+import type { VueDevToolsEmitter } from '@intlify/devtools-types'
 import type { Path, MessageResolver } from './resolver'
 import type {
   Locale,
@@ -661,7 +658,7 @@ export function handleMissing<Message = string>(
   if (__DEV__) {
     const emitter = (context as unknown as CoreInternalContext).__v_emitter
     if (emitter) {
-      emitter.emit(VueDevToolsTimelineEvents.MISSING, {
+      emitter.emit('missing', {
         locale,
         key,
         type,

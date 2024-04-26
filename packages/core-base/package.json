@@ -37,8 +37,7 @@
     "@intlify/shared": "workspace:*"
   },
   "devDependencies": {
-    "@intlify/devtools-if": "workspace:*",
-    "@intlify/vue-devtools": "workspace:*"
+    "@intlify/devtools-types": "workspace:*"
   },
   "engines": {
     "node": ">= 16"
