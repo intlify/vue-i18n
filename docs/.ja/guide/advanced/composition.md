@@ -516,7 +516,6 @@ Below is the mapping table:
 | `sync` | `inheritLocale` |
 | `warnHtmlInMessage` | `warnHtmlMessage` |
 | `escapeParameterHtml` | `escapeParameter` |
-| `preserveDirectiveContent` | N/A |
 | `t` | `t` |
 | `tc` | `t` |
 | `te` | `te` |
