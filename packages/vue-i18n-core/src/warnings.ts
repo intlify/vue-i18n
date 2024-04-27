@@ -6,19 +6,17 @@ const inc = incrementer(code)
 
 export const I18nWarnCodes = {
   FALLBACK_TO_ROOT: code, // 8
-  NOT_SUPPORTED_PRESERVE: inc(), // 9
-  NOT_SUPPORTED_GET_CHOICE_INDEX: inc(), // 10
-  COMPONENT_NAME_LEGACY_COMPATIBLE: inc(), // 11
-  NOT_FOUND_PARENT_SCOPE: inc(), // 12
-  IGNORE_OBJ_FLATTEN: inc(), // 13
-  NOTICE_DROP_TRANSLATE_EXIST_COMPATIBLE_FLAG: inc() // 14
+  NOT_SUPPORTED_GET_CHOICE_INDEX: inc(), // 9
+  COMPONENT_NAME_LEGACY_COMPATIBLE: inc(), // 10
+  NOT_FOUND_PARENT_SCOPE: inc(), // 11
+  IGNORE_OBJ_FLATTEN: inc(), // 12
+  NOTICE_DROP_TRANSLATE_EXIST_COMPATIBLE_FLAG: inc() // 13
 } as const
 
 type I18nWarnCodes = (typeof I18nWarnCodes)[keyof typeof I18nWarnCodes]
 
 export const warnMessages: { [code: number]: string } = {
   [I18nWarnCodes.FALLBACK_TO_ROOT]: `Fall back to {type} '{key}' with root locale.`,
-  [I18nWarnCodes.NOT_SUPPORTED_PRESERVE]: `Not supported 'preserve'.`,
   [I18nWarnCodes.NOT_SUPPORTED_GET_CHOICE_INDEX]: `Not supported 'getChoiceIndex'.`,
   [I18nWarnCodes.COMPONENT_NAME_LEGACY_COMPATIBLE]: `Component name legacy compatible: '{name}' -> 'i18n'`,
   [I18nWarnCodes.NOT_FOUND_PARENT_SCOPE]: `Not found parent scope. use the global scope.`,

@@ -141,36 +141,6 @@ test('plural', async () => {
   expect(wrapper.html()).toEqual('<p>2 bananas</p>')
 })
 
-test('preserve modifier', async () => {
-  const mockWarn = vi.spyOn(shared, 'warn')
-  mockWarn.mockImplementation(() => {})
-
-  const i18n = createI18n({
-    locale: 'en',
-    messages: {
-      en: {
-        hello: 'hello!'
-      }
-    }
-  })
-
-  const App = defineComponent({
-    setup() {
-      // <p v-t.preserve="'hello'"></p>
-      const t = resolveDirective('t')
-      return () => {
-        return withDirectives(h('p'), [[t!, 'hello', '', { preserve: true }]])
-      }
-    }
-  })
-  await mount(App, i18n)
-
-  expect(mockWarn).toHaveBeenCalledTimes(1)
-  expect(mockWarn.mock.calls[0][0]).toEqual(
-    getWarnMessage(I18nWarnCodes.NOT_SUPPORTED_PRESERVE)
-  )
-})
-
 test('legacy mode', async () => {
   const i18n = createI18n({
     legacy: true,
