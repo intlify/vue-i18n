@@ -1,13 +1,6 @@
 import { watch } from 'vue'
-import { I18nWarnCodes, getWarnMessage } from './warnings'
 import { createI18nError, I18nErrorCodes } from './errors'
-import {
-  isString,
-  isPlainObject,
-  isNumber,
-  warn,
-  inBrowser
-} from '@intlify/shared'
+import { isString, isPlainObject, isNumber, inBrowser } from '@intlify/shared'
 
 import type {
   DirectiveBinding,
@@ -89,16 +82,13 @@ export type TranslationDirective<T = HTMLElement> = ObjectDirective<T>
 
 export function vTDirective(i18n: I18n): TranslationDirective<HTMLElement> {
   const _process = (binding: DirectiveBinding): [string, Composer] => {
-    const { instance, modifiers, value } = binding
+    const { instance, value } = binding
     /* istanbul ignore if */
     if (!instance || !instance.$) {
       throw createI18nError(I18nErrorCodes.UNEXPECTED_ERROR)
     }
 
     const composer = getComposer(i18n, instance.$)
-    if (__DEV__ && modifiers.preserve) {
-      warn(getWarnMessage(I18nWarnCodes.NOT_SUPPORTED_PRESERVE))
-    }
 
     const parsedValue = parseValue(value)
     return [

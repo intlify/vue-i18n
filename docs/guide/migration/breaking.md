@@ -314,7 +314,6 @@ console.log(VueI18n.availability)
 
 > [!CAUTION]
 > `preserveDirectiveContent` option implementation code is be going to fully remove in v10.
-> As an alternative.
 
 The `v-t` directive for Vue 3 now preserves the default content. Therefore, this option and its properties have been removed from the VueI18n instance.
 
@@ -419,6 +418,9 @@ const messages = {
 ## `v-t` directive
 
 ### Remove `preserve` modifier
+
+> [!CAUTION]
+> `preserve` modifier implementation code is be going to fully remove in v10.
 
 Similar to *[Remove `preserveDirectiveContent` option](#remove-preservedirectivecontent-option)*, the `v-t` directive for Vue 3 now preserves the default content. Therefore, `preserve` modifier and it’s have been removed from `v-t` directive.
 
