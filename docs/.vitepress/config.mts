@@ -1,7 +1,7 @@
 import { defineConfig } from 'vitepress'
 import type { HeadConfig } from 'vitepress'
 
-const head: HeadConfig[] = []
+const head: HeadConfig[] = [['link', { rel: 'icon', href: '/vue-i18n-logo.png' }]]
 
 export default defineConfig({
   title: 'Vue I18n',
