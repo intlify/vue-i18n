@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { createComposer, DefineLocaleMessage } from './composer'
-import { I18nWarnCodes, getWarnMessage } from './warnings'
 import { createI18nError, I18nErrorCodes } from './errors'
 import { EnableEmitter, DisableEmitter } from './symbols'
 import { DEFAULT_LOCALE } from '@intlify/core-base'
@@ -12,8 +11,7 @@ import {
   isBoolean,
   isFunction,
   isRegExp,
-  assign,
-  warn
+  assign
 } from '@intlify/shared'
 
 import type {
@@ -1236,15 +1234,6 @@ export interface VueI18n<
    * @param format - A target number format
    */
   mergeNumberFormat: Composition['mergeNumberFormat']
-  /**
-   * Get choice index
-   *
-   * @remarks
-   * Get pluralization index for current pluralizing number and a given amount of choices.
-   *
-   * @deprecated Use `pluralizationRules` option instead of `getChoiceIndex`.
-   */
-  getChoiceIndex: (choice: Choice, choicesLength: number) => number
 }
 
 /**
@@ -1691,14 +1680,6 @@ export function createVueI18n(options: any = {}): any {
     // mergeNumberFormat
     mergeNumberFormat(locale: Locale, format: NumberFormat): void {
       composer.mergeNumberFormat(locale, format)
-    },
-
-    // getChoiceIndex
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    getChoiceIndex(choice: Choice, choicesLength: number): number {
-      __DEV__ &&
-        warn(getWarnMessage(I18nWarnCodes.NOT_SUPPORTED_GET_CHOICE_INDEX))
-      return -1
     }
   }
 

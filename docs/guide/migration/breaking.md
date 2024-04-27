@@ -149,6 +149,9 @@ Similar to *[Translation API return value](#translation-api-return-value)*, the 
 
 ### Remove `getChoiceIndex`
 
+> [!CAUTION]
+> `getChoiceIndex` option implementation code is be going to fully remove in v10.
+
 To customize the pluralization rules, Vue I18n v8.x extends `getChoiceIndex` of VueI18n class.
 
 Vue I18n v8.x:
