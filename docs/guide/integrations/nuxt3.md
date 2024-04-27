@@ -206,7 +206,7 @@ touch locales/fr.json # for french
 touch locales/ja.json # for japanese
 ```
 
-Let's populate them with the follwing:
+Let's populate them with the following:
 
 For english at `locales/en.json`:
 
