@@ -477,7 +477,6 @@ Below is the mapping table:
 | `datetimeFormats` | `datetimeFormats` |
 | `numberFormats` | `numberFormats` |
 | `modifiers` | `modifiers` |
-| `formatter` | N/A |
 | `missing` | `getMissingHandler` / `setMissingHandler` |
 | `postTranslation` | `getPostTranslationHandler` / `setPostTranslationHandler`|
 | `silentTranslationWarn` | `missingWarn` |

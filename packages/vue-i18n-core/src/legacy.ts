@@ -76,9 +76,6 @@ export type WarnHtmlInMessageLevel = 'off' | 'warn' | 'error'
 export type DateTimeFormatResult = string
 /** @VueI18nLegacy */
 export type NumberFormatResult = string
-export interface Formatter {
-  interpolate(message: string, values: any, path: string): Array<any> | null
-}
 export type VueI18nExtender = (vueI18n: VueI18n) => Disposer | undefined
 
 /**
@@ -181,13 +178,6 @@ export interface VueI18nOptions<
    * @VueI18nSee [Custom Modifiers](../guide/essentials/syntax#custom-modifiers)
    */
   modifiers?: Options['modifiers']
-  /**
-   * @remarks
-   * The formatter that implemented with Formatter interface.
-   *
-   * @deprecated See the [here](../guide/migration/breaking#remove-custom-formatter)
-   */
-  formatter?: Formatter
   /**
    * @remarks
    * A handler for localization missing.
@@ -970,13 +960,6 @@ export interface VueI18n<
   readonly modifiers: Composition['modifiers']
   /**
    * @remarks
-   * The formatter that implemented with Formatter interface.
-   *
-   * @deprecated See the [here](../guide/migration/breaking#remove-custom-formatter)
-   */
-  formatter: Formatter
-  /**
-   * @remarks
    * A handler for localization missing.
    */
   missing: MissingHandler | null
@@ -1349,10 +1332,6 @@ function convertComposerOptions<
   const escapeParameter = !!options.escapeParameterHtml
   const inheritLocale = isBoolean(options.sync) ? options.sync : true
 
-  if (__DEV__ && options.formatter) {
-    warn(getWarnMessage(I18nWarnCodes.NOT_SUPPORTED_FORMATTER))
-  }
-
   if (__DEV__ && options.preserveDirectiveContent) {
     warn(getWarnMessage(I18nWarnCodes.NOT_SUPPORTED_PRESERVE_DIRECTIVE))
   }
@@ -1510,20 +1489,6 @@ export function createVueI18n(options: any = {}): any {
     // availableLocales
     get availableLocales(): Locale[] {
       return composer.availableLocales as Locale[]
-    },
-
-    // formatter
-    get formatter(): Formatter {
-      __DEV__ && warn(getWarnMessage(I18nWarnCodes.NOT_SUPPORTED_FORMATTER))
-      // dummy
-      return {
-        interpolate() {
-          return []
-        }
-      }
-    },
-    set formatter(val: Formatter) {
-      __DEV__ && warn(getWarnMessage(I18nWarnCodes.NOT_SUPPORTED_FORMATTER))
     },
 
     // missing

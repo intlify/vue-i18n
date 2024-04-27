@@ -63,7 +63,6 @@ export {
   WarnHtmlInMessageLevel,
   DateTimeFormatResult,
   NumberFormatResult,
-  Formatter,
   VueI18nOptions,
   VueI18n,
   VueI18nTranslation,

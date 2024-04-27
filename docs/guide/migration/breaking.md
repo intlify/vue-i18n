@@ -306,6 +306,10 @@ console.log(VueI18n.availability)
 
 **Reason**: Due to hard to provide custom formats in the new compiler and runtime APIs. We are planning to support it in the next major version to support in these APIs. If you would like to use ICU message format, you can use the [@formatjs/vue-intl](https://formatjs.io/docs/vue-intl/)
 
+> [!CAUTION]
+> `formatter` option implementation code is be going to fully remove in v10.
+> As an alternative, vue-i18n has the [custome message format](../advanced/format.md) as an experimental feature.
+
 ### Remove `preserveDirectiveContent` option
 
 The `v-t` directive for Vue 3 now preserves the default content. Therefore, this option and its properties have been removed from the VueI18n instance.
