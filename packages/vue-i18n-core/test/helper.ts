@@ -14,8 +14,8 @@ import {
 } from 'vue'
 import { compile } from '@vue/compiler-dom'
 import * as runtimeDom from 'vue'
-import { I18n } from '../src/i18n'
 import { isBoolean, isPlainObject, assign } from '@intlify/shared'
+import { I18n } from '../src/i18n'
 
 import type { I18nPluginOptions } from '../src/plugin/types'
 

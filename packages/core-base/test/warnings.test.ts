@@ -1,5 +1,5 @@
 import { CoreWarnCodes } from '../src/warnings'
 
 test('CoreWarnCodes', () => {
-  expect(CoreWarnCodes.NOT_FOUND_KEY).toBe(1)
+  expect(CoreWarnCodes.__EXTEND_POINT__).toBe(8)
 })

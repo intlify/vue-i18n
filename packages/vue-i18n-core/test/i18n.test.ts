@@ -26,8 +26,7 @@ import { createI18n, useI18n } from '../src/i18n'
 import { errorMessages, I18nErrorCodes } from '../src/errors'
 import { Composer } from '../src/composer'
 
-import { IntlifyDevToolsEmitterHooks } from '@intlify/devtools-types'
-
+import type { IntlifyDevToolsEmitterHooks } from '@intlify/devtools-types'
 import type { I18n } from '../src/i18n'
 import type { VueI18n } from '../src/legacy'
 import type { App } from 'vue'

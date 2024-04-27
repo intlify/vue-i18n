@@ -13,7 +13,6 @@ vi.mock('@intlify/shared', async () => {
 import { VueMessageType } from '../src/composer'
 import { createVueI18n } from '../src/legacy'
 import { errorMessages, I18nErrorCodes } from '../src/errors'
-import { getWarnMessage, I18nWarnCodes } from '../src/warnings'
 import { watchEffect, nextTick } from 'vue'
 import {
   compileToFunction,
