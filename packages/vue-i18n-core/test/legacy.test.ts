@@ -567,17 +567,6 @@ test('getNumberFormat / setNumberFormat / mergeNumberFormat', () => {
   })
 })
 
-test('getChoiceIndex', () => {
-  const mockWarn = vi.spyOn(shared, 'warn')
-  mockWarn.mockImplementation(() => {})
-
-  const i18n = createVueI18n({})
-  i18n.getChoiceIndex(1, 2)
-  expect(mockWarn.mock.calls[0][0]).toEqual(
-    getWarnMessage(I18nWarnCodes.NOT_SUPPORTED_GET_CHOICE_INDEX)
-  )
-})
-
 test('warnHtmlInMessage', () => {
   const mockWarn = vi.spyOn(shared, 'warn')
   mockWarn.mockImplementation(() => {})

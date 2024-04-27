@@ -500,4 +500,3 @@ Below is the mapping table:
 | `getNumberFormat` | `getNumberFormat` |
 | `setNumberFormat` | `setNumberFormat` |
 | `mergeNumberFormat` | `mergeNumberFormat` |
-| `getChoiceIndex` | N/A |
