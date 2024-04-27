@@ -37,6 +37,7 @@
     "dev:size-core": "pnpm --filter @intlify/size-check-core dev",
     "dev:size-petite-vue-i18n": "pnpm --filter @intlify/size-check-petite-vue-i18n dev",
     "dev:size-vue-i18n": "pnpm --filter @intlify/size-check-vue-i18n dev",
+    "dev:eslint": "npx @eslint/config-inspector",
     "docs:apigen": "pnpm docs:apigen:core && pnpm docs:apigen:vue",
     "docs:apigen:core": "api-docs-gen ./temp/core-base.api.json -o ./docs/api -c ./docsgen.config.js -g noprefix -t ./tsdoc.json && mv ./docs/api/general.md ./docs/api/temp.md",
     "docs:apigen:vue": "api-docs-gen ./temp/vue-i18n-core.api.json -o ./docs/api -c ./docsgen.config.js -g noprefix -t ./tsdoc.json && tail -n +3 ./docs/api/temp.md >> ./docs/api/general.md && rm -rf ./docs/api/temp.md",
