@@ -235,18 +235,6 @@ export interface VueI18nOptions<
   formatFallbackMessages?: Options['fallbackFormat']
   /**
    * @remarks
-   * Whether `v-t` directive's element should preserve `textContent` after directive is unbinded.
-   *
-   * @VueI18nSee [Custom Directive](../guide/advanced/directive)
-   * @VueI18nSee [Remove `preserveDirectiveContent` option](../guide/migration/breaking#remove-preservedirectivecontent-option)
-   *
-   * @defaultValue `false`
-   *
-   * @deprecated The `v-t` directive for Vue 3 now preserves the default content. Therefore, this option and its properties have been removed from the VueI18n instance.
-   */
-  preserveDirectiveContent?: boolean
-  /**
-   * @remarks
    * Whether to allow the use locale messages of HTML formatting.
    *
    * See the warnHtmlInMessage property.
@@ -1016,16 +1004,6 @@ export interface VueI18n<
    */
   escapeParameterHtml: Composition['escapeParameter']
   /**
-   * @remarks
-   * Whether `v-t` directive's element should preserve `textContent` after directive is unbinded.
-   *
-   * @VueI18nSee [Custom Directive](../guide/advanced/directive)
-   * @VueI18nSee [Remove preserveDirectiveContent option](../guide/migration/breaking#remove-preservedirectivecontent-option)
-   *
-   * @deprecated The `v-t` directive for Vue 3 now preserves the default content. Therefore, this option and its properties have been removed from the VueI18n instance.
-   */
-  preserveDirectiveContent: boolean
-  /**
    * A set of rules for word pluralization
    *
    * @VueI18nSee [Custom Pluralization](../guide/essentials/pluralization#custom-pluralization)
@@ -1332,10 +1310,6 @@ function convertComposerOptions<
   const escapeParameter = !!options.escapeParameterHtml
   const inheritLocale = isBoolean(options.sync) ? options.sync : true
 
-  if (__DEV__ && options.preserveDirectiveContent) {
-    warn(getWarnMessage(I18nWarnCodes.NOT_SUPPORTED_PRESERVE_DIRECTIVE))
-  }
-
   let messages = options.messages
   if (isPlainObject(options.sharedMessages)) {
     const sharedMessages = options.sharedMessages
@@ -1562,17 +1536,6 @@ export function createVueI18n(options: any = {}): any {
     },
     set escapeParameterHtml(val: boolean) {
       composer.escapeParameter = val
-    },
-
-    // preserveDirectiveContent
-    get preserveDirectiveContent(): boolean {
-      __DEV__ &&
-        warn(getWarnMessage(I18nWarnCodes.NOT_SUPPORTED_PRESERVE_DIRECTIVE))
-      return true
-    },
-    set preserveDirectiveContent(val: boolean) {
-      __DEV__ &&
-        warn(getWarnMessage(I18nWarnCodes.NOT_SUPPORTED_PRESERVE_DIRECTIVE))
     },
 
     // pluralizationRules
