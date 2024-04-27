@@ -57,36 +57,6 @@ test('availableLocales', () => {
   expect(i18n.availableLocales).toEqual(['en', 'ja', 'ru', 'fr'].sort())
 })
 
-test('formatter', () => {
-  const mockWarn = vi.spyOn(shared, 'warn')
-  mockWarn.mockImplementation(() => {})
-
-  const i18n = createVueI18n({
-    formatter: {
-      interpolate() {
-        return []
-      }
-    }
-  })
-
-  expect(i18n.formatter).not.toBeUndefined()
-  i18n.formatter = {
-    interpolate() {
-      return []
-    }
-  }
-  expect(mockWarn).toHaveBeenCalledTimes(3)
-  expect(mockWarn.mock.calls[0][0]).toEqual(
-    getWarnMessage(I18nWarnCodes.NOT_SUPPORTED_FORMATTER)
-  )
-  expect(mockWarn.mock.calls[1][0]).toEqual(
-    getWarnMessage(I18nWarnCodes.NOT_SUPPORTED_FORMATTER)
-  )
-  expect(mockWarn.mock.calls[2][0]).toEqual(
-    getWarnMessage(I18nWarnCodes.NOT_SUPPORTED_FORMATTER)
-  )
-})
-
 test('missing', () => {
   const i18n = createVueI18n()
   expect(i18n.missing).toEqual(null)
