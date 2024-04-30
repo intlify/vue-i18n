@@ -195,11 +195,15 @@ function sidebarGuide() {
       collapsible: true,
       items: [
         {
-          text: 'Breaking Changes',
+          text: 'Breaking Changes in v9',
           link: '/guide/migration/breaking'
         },
         {
-          text: 'New Features',
+          text: 'Breaking Changes in v10',
+          link: '/guide/migration/breaking10'
+        },
+        {
+          text: 'New Features in v9',
           link: '/guide/migration/features'
         },
         {

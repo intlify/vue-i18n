@@ -19,7 +19,9 @@
 
       <h2>localize with DOM contents:</h2>
       <i18n-t tag="p" class="list" keypath="message.list" locale="en">
-        <span class="lang">{{ $t('message.language','en') }}</span>
+        <span class="lang"
+          >{{ $t('message.language', [], { locale: 'en' }) }}</span
+        >
       </i18n-t>
 
       <h2>localize with using linked:</h2>
@@ -31,7 +33,9 @@
 
       <h2>localize with using plural:</h2>
       <form>
-        <label for="locale-select">{{ $t('message.quantity', 'en') }}</label>
+        <label for="locale-select"
+          >{{ $t('message.quantity', {}, { locale: 'en' }) }}</label
+        >
         <select id="locale-select" v-model="count">
           <option value="0">0</option>
           <option value="1">1</option>

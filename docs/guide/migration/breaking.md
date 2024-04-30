@@ -1,4 +1,4 @@
-# Breaking Changes
+# Breaking Changes in v9
 
 Most of the APIs offered in Vue I18n v9 (for Vue 3) strive to maintain compatibility, to ease the pain of migration from v8 (for Vue 2). But there are still a few breaking changes that you might encounter while migrating your application. This guide is how to adapt your application to make it work with Vue I18n v9.
 

@@ -90,6 +90,10 @@ Translation message
 
 ### $t(key, locale)
 
+:::danger NOTICE
+**This API signature is available in Legacy API mode only and is supported until v9**.
+:::
+
 Locale message translation
 
 **Signature:**
@@ -112,6 +116,10 @@ Overloaded `$t`. About details, see the [$t](injection#t-key) remarks.
 Translation message
 
 ### $t(key, locale, list)
+
+:::danger NOTICE
+**This API signature is available in Legacy API mode only and is supported until v9**.
+:::
 
 Locale message translation
 
@@ -137,6 +145,10 @@ Translation message
 
 ### $t(key, locale, named)
 
+:::danger NOTICE
+**This API signature is available in Legacy API mode only and is supported until v9**.
+:::
+
 Locale message translation
 
 **Signature:**
@@ -154,6 +166,116 @@ Overloaded `$t`. About details, see the [$t](injection#t-key) remarks.
 | key | Path | A target locale message key |
 | locale | Locale | A locale, override locale that global scope or local scope |
 | named | object | A values of named interpolation |
+
+#### Returns
+
+Translation message
+
+### $t(key, plural)
+
+Locale message translation
+
+**Signature:**
+```typescript
+$t(key: Path, plural: number): TranslateResult;
+```
+
+:::tip NOTE
+Supported for **Composition API mode only until v9. v10 or later can also be used in Legacy API mode**.
+:::
+
+**Details**
+
+Overloaded `$t`. About details, see the [$t](injection#t-key) remarks.
+
+#### Parameters
+| Parameter | Type | Description |
+| --- | --- | --- |
+| key | Path | A target locale message key |
+| plural | number | A choice number of plural |
+
+#### Returns
+
+Translation message
+
+### $t(key, plural, options)
+
+Locale message translation
+
+**Signature:**
+```typescript
+$t(key: Path, plural: number, options: TranslateOptions): TranslateResult;
+```
+
+:::tip NOTE
+Supported for **Composition API mode only until v9. v10 or later can also be used in Legacy API mode**.
+:::
+
+**Details**
+
+Overloaded `$t`. About details, see the [$t](injection#t-key) remarks.
+
+#### Parameters
+| Parameter | Type | Description |
+| --- | --- | --- |
+| key | Path | A target locale message key |
+| plural | number | A choice number of plural |
+| options | TranslateOptions | An options, see the [TranslateOptions](general#translateoptions) |
+
+#### Returns
+
+Translation message
+
+### $t(key, defaultMsg)
+
+Locale message translation
+
+**Signature:**
+```typescript
+$t(key: Path, defaultMsg: string): TranslateResult;
+```
+
+:::tip NOTE
+Supported for **Composition API mode only until v9. v10 or later can also be used in Legacy API mode**.
+:::
+
+**Details**
+
+Overloaded `$t`. About details, see the [$t](injection#t-key) remarks.
+
+#### Parameters
+| Parameter | Type | Description |
+| --- | --- | --- |
+| key | Path | A target locale message key |
+| defaultMsg | string | A default message to return if no translation was found |
+
+#### Returns
+
+Translation message
+
+### $t(key, defaultMsg, options)
+
+Locale message translation
+
+**Signature:**
+```typescript
+$t(key: Path, defaultMsg: string, options: TranslateOptions): TranslateResult;
+```
+
+:::tip NOTE
+Supported for **Composition API mode only until v9. v10 or later can also be used in Legacy API mode**.
+:::
+
+**Details**
+
+Overloaded `$t`. About details, see the [$t](injection#t-key) remarks.
+
+#### Parameters
+| Parameter | Type | Description |
+| --- | --- | --- |
+| key | Path | A target locale message key |
+| defaultMsg | string | A default message to return if no translation was found |
+| options | TranslateOptions | An options, see the [TranslateOptions](general#translateoptions) |
 
 #### Returns
 
@@ -182,196 +304,17 @@ Overloaded `$t`. About details, see the [$t](injection#t-key) remarks.
 
 Translation message
 
-### $t(key, named)
-
-Locale message translation
-
-**Signature:**
-```typescript
-$t(key: Path, named: Record<string, unknown>): TranslateResult;
-```
-
-**Details**
-
-Overloaded `$t`. About details, see the [$t](injection#t-key) remarks.
-
-#### Parameters
-| Parameter | Type | Description |
-| --- | --- | --- |
-| key | Path | A target locale message key |
-| locale | Locale | A locale, override locale that global scope or local scope |
-| named | Record&lt;string, unknown&gt; | A values of named interpolation |
-
-#### Returns
-
-Translation message
-
-### $t(key)
-
-Locale message translation
-
-**Signature:**
-```typescript
-$t(key: Path): string;
-```
-
-**Details**
-
-Overloaded `$t`. About details, see the [$t](injection#t-key) remarks.
-
-#### Parameters
-| Parameter | Type | Description |
-| --- | --- | --- |
-| key | Path | A target locale message key |
-
-#### Returns
-
-Translation message
-
-### $t(key, plural)
-
-Locale message translation
-
-**Signature:**
-```typescript
-$t(key: Path, plural: number): string;
-```
-
-:::tip NOTE
-Supported for **Composition API mode only**.
-:::
-
-**Details**
-
-Overloaded `$t`. About details, see the [$t](injection#t-key) remarks.
-
-#### Parameters
-| Parameter | Type | Description |
-| --- | --- | --- |
-| key | Path | A target locale message key |
-| plural | number | A choice number of plural |
-
-#### Returns
-
-Translation message
-
-### $t(key, plural, options)
-
-Locale message translation
-
-**Signature:**
-```typescript
-$t(key: Path, plural: number, options: TranslateOptions): string;
-```
-
-:::tip NOTE
-Supported for **Composition API mode only**.
-:::
-
-**Details**
-
-Overloaded `$t`. About details, see the [$t](injection#t-key) remarks.
-
-#### Parameters
-| Parameter | Type | Description |
-| --- | --- | --- |
-| key | Path | A target locale message key |
-| plural | number | A choice number of plural |
-| options | TranslateOptions | An options, see the [TranslateOptions](general#translateoptions) |
-
-#### Returns
-
-Translation message
-
-### $t(key, defaultMsg)
-
-Locale message translation
-
-**Signature:**
-```typescript
-$t(key: Path, defaultMsg: string): string;
-```
-
-:::tip NOTE
-Supported for **Composition API mode only**.
-:::
-
-**Details**
-
-Overloaded `$t`. About details, see the [$t](injection#t-key) remarks.
-
-#### Parameters
-| Parameter | Type | Description |
-| --- | --- | --- |
-| key | Path | A target locale message key |
-| defaultMsg | string | A default message to return if no translation was found |
-
-#### Returns
-
-Translation message
-
-### $t(key, defaultMsg, options)
-
-Locale message translation
-
-**Signature:**
-```typescript
-$t(key: Path, defaultMsg: string, options: TranslateOptions): string;
-```
-
-:::tip NOTE
-Supported for **Composition API mode only**.
-:::
-
-**Details**
-
-Overloaded `$t`. About details, see the [$t](injection#t-key) remarks.
-
-#### Parameters
-| Parameter | Type | Description |
-| --- | --- | --- |
-| key | Path | A target locale message key |
-| defaultMsg | string | A default message to return if no translation was found |
-| options | TranslateOptions | An options, see the [TranslateOptions](general#translateoptions) |
-
-#### Returns
-
-Translation message
-
-### $t(key, list)
-
-Locale message translation
-
-**Signature:**
-```typescript
-$t(key: Path, list: unknown[]): string;
-```
-
-**Details**
-
-Overloaded `$t`. About details, see the [$t](injection#t-key) remarks.
-
-#### Parameters
-| Parameter | Type | Description |
-| --- | --- | --- |
-| key | Path | A target locale message key |
-| list | unknown[] | A values of list interpolation |
-
-#### Returns
-
-Translation message
-
 ### $t(key, list, plural)
 
 Locale message translation
 
 **Signature:**
 ```typescript
-$t(key: Path, list: unknown[], plural: number): string;
+$t(key: Path, list: unknown[], plural: number): TranslateResult;
 ```
 
 :::tip NOTE
-Supported for **Composition API mode only**.
+Supported for **Composition API mode only until v9. v10 or later can also be used in Legacy API mode**.
 :::
 
 **Details**
@@ -395,11 +338,11 @@ Locale message translation
 
 **Signature:**
 ```typescript
-$t(key: Path, list: unknown[], defaultMsg: string): string;
+$t(key: Path, list: unknown[], defaultMsg: string): TranslateResult;
 ```
 
 :::tip NOTE
-Supported for **Composition API mode only**.
+Supported for **Composition API mode only until v9. v10 or later can also be used in Legacy API mode**.
 :::
 
 **Details**
@@ -423,11 +366,11 @@ Locale message translation
 
 **Signature:**
 ```typescript
-$t(key: Path, list: unknown[], options: TranslateOptions): string;
+$t(key: Path, list: unknown[], options: TranslateOptions): TranslateResult;
 ```
 
 :::tip NOTE
-Supported for **Composition API mode only**.
+Supported for **Composition API mode only until v9. v10 or later can also be used in Legacy API mode**.
 :::
 
 **Details**
@@ -451,7 +394,7 @@ Locale message translation
 
 **Signature:**
 ```typescript
-$t(key: Path, named: NamedValue): string;
+$t(key: Path, named: NamedValue): TranslateResult;
 ```
 
 **Details**
@@ -474,11 +417,11 @@ Locale message translation
 
 **Signature:**
 ```typescript
-$t(key: Path, named: NamedValue, plural: number): string;
+$t(key: Path, named: NamedValue, plural: number): TranslateResult;
 ```
 
 :::tip NOTE
-Supported for **Composition API mode only**.
+Supported for **Composition API mode only until v9. v10 or later can also be used in Legacy API mode**.
 :::
 
 **Details**
@@ -502,11 +445,11 @@ Locale message translation
 
 **Signature:**
 ```typescript
-$t(key: Path, named: NamedValue, defaultMsg: string): string;
+$t(key: Path, named: NamedValue, defaultMsg: string): TranslateResult;
 ```
 
 :::tip NOTE
-Supported for **Composition API mode only**.
+Supported for **Composition API mode only until v9. v10 or later can also be used in Legacy API mode**.
 :::
 
 **Details**
@@ -530,11 +473,11 @@ Locale message translation
 
 **Signature:**
 ```typescript
-$t(key: Path, named: NamedValue, options: TranslateOptions): string;
+$t(key: Path, named: NamedValue, options: TranslateOptions): TranslateResult;
 ```
 
 :::tip NOTE
-Supported for **Composition API mode only**.
+Supported for **Composition API mode only until v9. v10 or later can also be used in Legacy API mode**.
 :::
 
 **Details**

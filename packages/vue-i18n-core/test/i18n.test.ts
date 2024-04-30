@@ -2,6 +2,16 @@
  * @vitest-environment jsdom
  */
 
+// utils
+import * as shared from '@intlify/shared'
+vi.mock('@intlify/shared', async () => {
+  const actual = await vi.importActual<object>('@intlify/shared')
+  return {
+    ...actual,
+    warn: vi.fn()
+  }
+})
+
 import {
   h,
   ref,
@@ -1356,5 +1366,94 @@ describe('Composer & VueI18n extend hooking', () => {
     // dispose checking
     app.unmount()
     expect(vueI18nDisposeSpy).toHaveBeenCalledTimes(2)
+  })
+})
+
+describe('component injections', () => {
+  const mockWarn = vi.spyOn(shared, 'warn')
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  mockWarn.mockImplementation(() => {})
+
+  const messages = {
+    en: {
+      hello: 'hello world!',
+      list: 'hello, {0}!',
+      named: 'hello, {name}!',
+      plural: 'no apples | one apple | {count} apples'
+    },
+    ja: {
+      hello: 'こんにちは、世界！',
+      list: 'こんにちは、{0}！',
+      named: 'こんにちは、{name}！',
+      plural: 'りんご無い | りんご1個 | りんご{count}個'
+    }
+  }
+
+  test('composition mode', async () => {
+    const i18n = createI18n({
+      legacy: false,
+      locale: 'en',
+      messages
+    })
+    const App = defineComponent({
+      setup() {
+        useI18n()
+        return {}
+      },
+      template: `<div>
+<p>{{ $t('hello') }}</p>
+<p>{{ $t('list', ['world']) }}</p>
+<p>{{ $t('named', { name: 'world' }) }}</p>
+<p>{{ $t('plural', 0) }}</p>
+<p>{{ $t('plural', 1, { locale: 'ja' }) }}</p>
+<p>{{ $t('default', 'default message') }}</p>
+<p>{{ $t('default', 'default {msg}', { named: { msg: 'msg' } }) }}</p>
+<p>{{ $t('plural', ['many'], 4) }}</p>
+<p>{{ $t('default', ['list msg'], 'default {0}') }}</p>
+<p>{{ $t('list', ['世界'], { locale: 'ja' }) }}</p>
+<p>{{ $t('plural', { count: 'many' }, 4) }}</p>
+<p>{{ $t('default', { msg: 'named msg' }, 'default {msg}') }}</p>
+<p>{{ $t('named', { name: '世界' }, { locale: 'ja' }) }}</p>
+<p>{{ $t('hello', {}, { locale: 'en' }) }}</p>
+<p>{{ $t('hello', [], { locale: 'ja' }) }}</p>
+</div>`
+    })
+    const wrapper = await mount(App, i18n)
+
+    expect(wrapper.html()).toEqual(
+      '<div><p>hello world!</p><p>hello, world!</p><p>hello, world!</p><p>no apples</p><p>りんご1個</p><p>default message</p><p>default msg</p><p>4 apples</p><p>default list msg</p><p>こんにちは、世界！</p><p>many apples</p><p>default named msg</p><p>こんにちは、世界！</p><p>hello world!</p><p>こんにちは、世界！</p></div>'
+    )
+  })
+
+  test('legacy mode', async () => {
+    const i18n = createI18n({
+      legacy: true,
+      locale: 'en',
+      messages
+    })
+    const App = defineComponent({
+      template: `<div>
+<p>{{ $t('hello') }}</p>
+<p>{{ $t('list', ['world']) }}</p>
+<p>{{ $t('named', { name: 'world' }) }}</p>
+<p>{{ $t('plural', 0) }}</p>
+<p>{{ $t('plural', 1, { locale: 'ja' }) }}</p>
+<p>{{ $t('default', 'default message') }}</p>
+<p>{{ $t('default', 'default {msg}', { named: { msg: 'msg' } }) }}</p>
+<p>{{ $t('plural', ['many'], 4) }}</p>
+<p>{{ $t('default', ['list msg'], 'default {0}') }}</p>
+<p>{{ $t('list', ['世界'], { locale: 'ja' }) }}</p>
+<p>{{ $t('plural', { count: 'many' }, 4) }}</p>
+<p>{{ $t('default', { msg: 'named msg' }, 'default {msg}') }}</p>
+<p>{{ $t('named', { name: '世界' }, { locale: 'ja' }) }}</p>
+<p>{{ $t('hello', {}, { locale: 'en' }) }}</p>
+<p>{{ $t('hello', [], { locale: 'ja' }) }}</p>
+</div>`
+    })
+    const wrapper = await mount(App, i18n)
+
+    expect(wrapper.html()).toEqual(
+      '<div><p>hello world!</p><p>hello, world!</p><p>hello, world!</p><p>no apples</p><p>りんご1個</p><p>default message</p><p>default msg</p><p>4 apples</p><p>default list msg</p><p>こんにちは、世界！</p><p>many apples</p><p>default named msg</p><p>こんにちは、世界！</p><p>hello world!</p><p>こんにちは、世界！</p></div>'
+    )
   })
 })

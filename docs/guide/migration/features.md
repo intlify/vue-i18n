@@ -1,4 +1,4 @@
-# New Features
+# New Features in v9
 
 Vue I18n v9 offers not only Vue 3 support, but this version also is included new features.
 
