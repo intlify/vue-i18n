@@ -1537,38 +1537,10 @@ export function createVueI18n(options: any = {}): any {
 
     // t
     t(...args: unknown[]): TranslateResult {
-      const [arg1, arg2, arg3] = args
-      const options = {} as TranslateOptions
-      let list: unknown[] | null = null
-      let named: NamedValue | null = null
-
-      if (!isString(arg1)) {
-        throw createI18nError(I18nErrorCodes.INVALID_ARGUMENT)
-      }
-      const key = arg1
-
-      if (isString(arg2)) {
-        options.locale = arg2
-      } else if (isArray(arg2)) {
-        list = arg2
-      } else if (isPlainObject(arg2)) {
-        named = arg2 as NamedValue
-      }
-
-      if (isArray(arg3)) {
-        list = arg3
-      } else if (isPlainObject(arg3)) {
-        named = arg3 as NamedValue
-      }
-
-      // return composer.t(key, (list || named || {}) as any, options)
-      return Reflect.apply(composer.t, composer, [
-        key,
-        (list || named || {}) as any,
-        options
-      ])
+      return Reflect.apply(composer.t, composer, [...args])
     },
 
+    // rt
     rt(...args: unknown[]): TranslateResult {
       return Reflect.apply(composer.rt, composer, [...args])
     },

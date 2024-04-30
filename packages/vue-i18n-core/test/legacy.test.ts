@@ -176,25 +176,6 @@ describe('t', () => {
     expect(i18n.t('morning', ['kazupon'])).toEqual('good morning kazupon')
     expect(i18n.t('linked')).toEqual('hi KAZUPON')
   })
-
-  test(errorMessages[I18nErrorCodes.INVALID_ARGUMENT], () => {
-    const i18n = createVueI18n({
-      locale: 'en',
-      messages: {
-        en: {
-          name: 'kazupon',
-          hello: 'Hello!',
-          hi: 'hi {name}!',
-          morning: 'good morning {0}',
-          linked: 'hi @.upper:name'
-        }
-      }
-    })
-
-    expect(() => {
-      i18n.t(4 as any) // eslint-disable-line @typescript-eslint/no-explicit-any
-    }).toThrowError(errorMessages[I18nErrorCodes.INVALID_ARGUMENT])
-  })
 })
 
 describe('rt', () => {

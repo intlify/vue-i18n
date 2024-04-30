@@ -112,157 +112,6 @@ declare module '@vue/runtime-core' {
      * @remarks
      * Overloaded `$t`. About details, see the {@link $t} remarks.
      *
-     * @param key -  A target locale message key
-     * @param locale - A locale, override locale that global scope or local scope
-     *
-     * @returns translation message
-     */
-    $t<
-      Key extends string,
-      DefinedLocaleMessage extends
-        RemovedIndexResources<DefineLocaleMessage> = RemovedIndexResources<DefineLocaleMessage>,
-      Keys = IsEmptyObject<DefinedLocaleMessage> extends false
-        ? PickupPaths<{
-            [K in keyof DefinedLocaleMessage]: DefinedLocaleMessage[K]
-          }>
-        : never,
-      ResourceKeys extends Keys = IsNever<Keys> extends false ? Keys : never
-    >(
-      key: Key | ResourceKeys | Path
-    ): TranslateResult
-    /**
-     * Locale message translation
-     *
-     * @remarks
-     * Overloaded `$t`. About details, see the {@link $t} remarks.
-     *
-     * @param key - A target locale message key
-     * @param locale - A locale, override locale that global scope or local scope
-     * @param list - A values of list interpolation
-     *
-     * @returns translation message
-     */
-    $t<
-      Key extends string,
-      DefinedLocaleMessage extends
-        RemovedIndexResources<DefineLocaleMessage> = RemovedIndexResources<DefineLocaleMessage>,
-      Keys = IsEmptyObject<DefinedLocaleMessage> extends false
-        ? PickupPaths<{
-            [K in keyof DefinedLocaleMessage]: DefinedLocaleMessage[K]
-          }>
-        : never,
-      ResourceKeys extends Keys = IsNever<Keys> extends false ? Keys : never
-    >(
-      key: Key | ResourceKeys | Path,
-      locale: Locale,
-      list: unknown[]
-    ): TranslateResult
-    /**
-     * Locale message translation
-     *
-     * @remarks
-     * Overloaded `$t`. About details, see the {@link $t} remarks.
-     *
-     * @param key - A target locale message key
-     * @param locale - A locale, override locale that global scope or local scope
-     * @param named - A values of named interpolation
-     *
-     * @returns translation message
-     */
-    $t<
-      Key extends string,
-      DefinedLocaleMessage extends
-        RemovedIndexResources<DefineLocaleMessage> = RemovedIndexResources<DefineLocaleMessage>,
-      Keys = IsEmptyObject<DefinedLocaleMessage> extends false
-        ? PickupPaths<{
-            [K in keyof DefinedLocaleMessage]: DefinedLocaleMessage[K]
-          }>
-        : never,
-      ResourceKeys extends Keys = IsNever<Keys> extends false ? Keys : never
-    >(
-      key: Key | ResourceKeys | Path,
-      locale: Locale,
-      named: object
-    ): TranslateResult
-    /**
-     * Locale message translation
-     *
-     * @remarks
-     * Overloaded `$t`. About details, see the {@link $t} remarks.
-     *
-     * @param key - A target locale message key
-     * @param list - A values of list interpolation
-     *
-     * @returns translation message
-     */
-    $t<
-      Key extends string,
-      DefinedLocaleMessage extends
-        RemovedIndexResources<DefineLocaleMessage> = RemovedIndexResources<DefineLocaleMessage>,
-      Keys = IsEmptyObject<DefinedLocaleMessage> extends false
-        ? PickupPaths<{
-            [K in keyof DefinedLocaleMessage]: DefinedLocaleMessage[K]
-          }>
-        : never,
-      ResourceKeys extends Keys = IsNever<Keys> extends false ? Keys : never
-    >(
-      key: Key | ResourceKeys | Path,
-      list: unknown[]
-    ): TranslateResult
-    /**
-     * Locale message translation
-     *
-     * @remarks
-     * Overloaded `$t`. About details, see the {@link $t} remarks.
-     *
-     * @param key - A target locale message key
-     * @param named - A values of named interpolation
-     *
-     * @returns translation message
-     */
-    $t<
-      Key extends string,
-      DefinedLocaleMessage extends
-        RemovedIndexResources<DefineLocaleMessage> = RemovedIndexResources<DefineLocaleMessage>,
-      Keys = IsEmptyObject<DefinedLocaleMessage> extends false
-        ? PickupPaths<{
-            [K in keyof DefinedLocaleMessage]: DefinedLocaleMessage[K]
-          }>
-        : never,
-      ResourceKeys extends Keys = IsNever<Keys> extends false ? Keys : never
-    >(
-      key: Key | ResourceKeys | Path,
-      named: Record<string, unknown>
-    ): TranslateResult
-    /**
-     * Locale message translation
-     *
-     * @remarks
-     * Overloaded `$t`. About details, see the {@link $t} remarks.
-     *
-     * @param key - A target locale message key
-     *
-     * @returns translation message
-     */
-    $t<
-      Key extends string,
-      DefinedLocaleMessage extends
-        RemovedIndexResources<DefineLocaleMessage> = RemovedIndexResources<DefineLocaleMessage>,
-      Keys = IsEmptyObject<DefinedLocaleMessage> extends false
-        ? PickupPaths<{
-            [K in keyof DefinedLocaleMessage]: DefinedLocaleMessage[K]
-          }>
-        : never,
-      ResourceKeys extends Keys = IsNever<Keys> extends false ? Keys : never
-    >(
-      key: Key | ResourceKeys | Path
-    ): string
-    /**
-     * Locale message translation
-     *
-     * @remarks
-     * Overloaded `$t`. About details, see the {@link $t} remarks.
-     *
      * @param key - A target locale message key
      * @param plural - A choice number of plural
      *
@@ -281,7 +130,7 @@ declare module '@vue/runtime-core' {
     >(
       key: Key | ResourceKeys | Path,
       plural: number
-    ): string
+    ): TranslateResult
     /**
      * Locale message translation
      *
@@ -308,7 +157,7 @@ declare module '@vue/runtime-core' {
       key: Key | ResourceKeys | Path,
       plural: number,
       options: TranslateOptions
-    ): string
+    ): TranslateResult
     /**
      * Locale message translation
      *
@@ -333,7 +182,7 @@ declare module '@vue/runtime-core' {
     >(
       key: Key | ResourceKeys | Path,
       defaultMsg: string
-    ): string
+    ): TranslateResult
     /**
      * Locale message translation
      *
@@ -360,7 +209,7 @@ declare module '@vue/runtime-core' {
       key: Key | ResourceKeys | Path,
       defaultMsg: string,
       options: TranslateOptions
-    ): string
+    ): TranslateResult
     /**
      * Locale message translation
      *
@@ -385,7 +234,7 @@ declare module '@vue/runtime-core' {
     >(
       key: Key | ResourceKeys | Path,
       list: unknown[]
-    ): string
+    ): TranslateResult
     /**
      * Locale message translation
      *
@@ -412,7 +261,7 @@ declare module '@vue/runtime-core' {
       key: Key | ResourceKeys | Path,
       list: unknown[],
       plural: number
-    ): string
+    ): TranslateResult
     /**
      * Locale message translation
      *
@@ -439,7 +288,7 @@ declare module '@vue/runtime-core' {
       key: Key | ResourceKeys | Path,
       list: unknown[],
       defaultMsg: string
-    ): string
+    ): TranslateResult
     /**
      * Locale message translation
      *
@@ -466,7 +315,7 @@ declare module '@vue/runtime-core' {
       key: Key | ResourceKeys | Path,
       list: unknown[],
       options: TranslateOptions
-    ): string
+    ): TranslateResult
     /**
      * Locale message translation
      *
@@ -491,7 +340,7 @@ declare module '@vue/runtime-core' {
     >(
       key: Key | ResourceKeys | Path,
       named: NamedValue
-    ): string
+    ): TranslateResult
     /**
      * Locale message translation
      *
@@ -518,7 +367,7 @@ declare module '@vue/runtime-core' {
       key: Key | ResourceKeys | Path,
       named: NamedValue,
       plural: number
-    ): string
+    ): TranslateResult
     /**
      * Locale message translation
      *
@@ -545,7 +394,7 @@ declare module '@vue/runtime-core' {
       key: Key | ResourceKeys | Path,
       named: NamedValue,
       defaultMsg: string
-    ): string
+    ): TranslateResult
     /**
      * Locale message translation
      *
@@ -572,7 +421,7 @@ declare module '@vue/runtime-core' {
       key: Key | ResourceKeys | Path,
       named: NamedValue,
       options: TranslateOptions
-    ): string
+    ): TranslateResult
     /**
      * Resolve locale message translation
      *
