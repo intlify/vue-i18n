@@ -8,7 +8,7 @@ Vue I18n v10 **is still an alpha version**.
 
 ### Change `$t` overloaded signature for Legacy API mode
 
-In Vue I18n v9, it has a different interface from the Composition API mode and Legacy API mode of the `$t` overloade signature.
+In Vue I18n v9, it has a different interface from the Composition API mode and Legacy API mode of the `$t` overloaded signature.
 
 Especially, `$t` signature in Legacy API mode has fewer overloaded signatures than in Composition API mode, as shown below:
 
