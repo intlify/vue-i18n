@@ -28,7 +28,6 @@ import {
 } from '@intlify/core-base'
 import { createI18n } from '../src/index'
 import { errorMessages, I18nErrorCodes } from '../src/errors'
-import { getWarnMessage, I18nWarnCodes } from '../src/warnings'
 
 beforeAll(() => {
   registerMessageCompiler(compileToFunction)
