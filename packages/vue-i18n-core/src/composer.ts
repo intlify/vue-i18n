@@ -699,6 +699,24 @@ export interface ComposerTranslation<
    *
    * You can also suppress the warning, when the translation missing according to the options.
    *
+   * @param key - A target locale message key
+   * @param plural - Which plural string to get. 1 returns the first one.
+   *
+   * @returns Translated message
+   *
+   * @VueI18nSee [Pluralization](../guide/essentials/pluralization)
+   */
+  <Key extends string>(key: Key | ResourceKeys | number, plural: number): string
+  /**
+   * Locale message translation for plurals
+   *
+   * @remarks
+   * Overloaded `t`. About details, see the [call signature](composition#key-key-resourcekeys-number-string) details.
+   *
+   * In this overloaded `t`, return a pluralized translation message.
+   *
+   * You can also suppress the warning, when the translation missing according to the options.
+   *
    * About details of options, see the {@link TranslateOptions}.
    *
    * @param key - A target locale message key
@@ -712,7 +730,26 @@ export interface ComposerTranslation<
   <Key extends string>(
     key: Key | ResourceKeys | number,
     plural: number,
-    options?: TranslateOptions<Locales>
+    options: TranslateOptions<Locales>
+  ): string
+  /**
+   * Locale message translation for missing default message
+   *
+   * @remarks
+   * Overloaded `t`. About details, see the [call signature](composition#key-key-resourcekeys-number-string) details.
+   *
+   * In this overloaded `t`, if no translation was found, return a default message.
+   *
+   * You can also suppress the warning, when the translation missing according to the options.
+   *
+   * @param key - A target locale message key
+   * @param defaultMsg - A default message to return if no translation was found
+   *
+   * @returns Translated message
+   */
+  <Key extends string>(
+    key: Key | ResourceKeys | number,
+    defaultMsg: string
   ): string
   /**
    * Locale message translation for missing default message
@@ -735,7 +772,7 @@ export interface ComposerTranslation<
   <Key extends string>(
     key: Key | ResourceKeys | number,
     defaultMsg: string,
-    options?: TranslateOptions<Locales>
+    options: TranslateOptions<Locales>
   ): string
   /**
    * Locale message translation for list interpolations
@@ -747,11 +784,8 @@ export interface ComposerTranslation<
    *
    * You can also suppress the warning, when the translation missing according to the options.
    *
-   * About details of options, see the {@link TranslateOptions}.
-   *
    * @param key - A target locale message key
    * @param list - A values of list interpolation
-   * @param options - Additional {@link TranslateOptions | options} for translation
    *
    * @returns Translated message
    *
@@ -759,8 +793,7 @@ export interface ComposerTranslation<
    */
   <Key extends string>(
     key: Key | ResourceKeys | number,
-    list: unknown[],
-    options?: TranslateOptions<Locales>
+    list: unknown[]
   ): string
   /**
    * Locale message translation for list interpolations and plurals
@@ -806,6 +839,31 @@ export interface ComposerTranslation<
     defaultMsg: string
   ): string
   /**
+   * Locale message translation for list interpolations
+   *
+   * @remarks
+   * Overloaded `t`. About details, see the [call signature](composition#key-key-resourcekeys-number-string) details.
+   *
+   * In this overloaded `t`, the locale messages should contain a `{0}`, `{1}`, … for each placeholder in the list.
+   *
+   * You can also suppress the warning, when the translation missing according to the options.
+   *
+   * About details of options, see the {@link TranslateOptions}.
+   *
+   * @param key - A target locale message key
+   * @param list - A values of list interpolation
+   * @param options - Additional {@link TranslateOptions | options} for translation
+   *
+   * @returns Translated message
+   *
+   * @VueI18nSee [List interpolation](../guide/essentials/syntax#list-interpolation)
+   */
+  <Key extends string>(
+    key: Key | ResourceKeys | number,
+    list: unknown[],
+    options: TranslateOptions<Locales>
+  ): string
+  /**
    * Locale message translation for named interpolations
    *
    * @remarks
@@ -815,11 +873,8 @@ export interface ComposerTranslation<
    *
    * You can also suppress the warning, when the translation missing according to the options.
    *
-   * About details of options, see the {@link TranslateOptions}.
-   *
    * @param key - A target locale message key
    * @param named - A values of named interpolation
-   * @param options - Additional {@link TranslateOptions | options} for translation
    *
    * @returns Translated message
    *
@@ -827,8 +882,7 @@ export interface ComposerTranslation<
    */
   <Key extends string>(
     key: Key | ResourceKeys | number,
-    named: NamedValue,
-    options?: TranslateOptions<Locales>
+    named: NamedValue
   ): string
   /**
    * Locale message translation for named interpolations and plurals
@@ -872,6 +926,31 @@ export interface ComposerTranslation<
     key: Key | ResourceKeys | number,
     named: NamedValue,
     defaultMsg: string
+  ): string
+  /**
+   * Locale message translation for named interpolations
+   *
+   * @remarks
+   * Overloaded `t`. About details, see the [call signature](composition#key-key-resourcekeys-number-string) details.
+   *
+   * In this overloaded `t`, for each placeholder x, the locale messages should contain a `{x}` token.
+   *
+   * You can also suppress the warning, when the translation missing according to the options.
+   *
+   * About details of options, see the {@link TranslateOptions}.
+   *
+   * @param key - A target locale message key
+   * @param named - A values of named interpolation
+   * @param options - Additional {@link TranslateOptions | options} for translation
+   *
+   * @returns Translated message
+   *
+   * @VueI18nSee [Named interpolation](../guide/essentials/syntax#named-interpolation)
+   */
+  <Key extends string>(
+    key: Key | ResourceKeys | number,
+    named: NamedValue,
+    options: TranslateOptions<Locales>
   ): string
 }
 
