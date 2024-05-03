@@ -415,19 +415,89 @@ export interface VueI18nTranslation<
    */
   <Key extends string>(key: Key | ResourceKeys): TranslateResult
   /**
-   * Locale message translation.
+   * Locale message translation for plurals
    *
    * @remarks
    * Overloaded `t`. About details, see the [call signature](legacy#key-key-resourcekeys-translateresult) details.
    *
+   * In this overloaded `t`, return a pluralized translation message.
+   *
+   * You can also suppress the warning, when the translation missing according to the options.
+   *
    * @param key - A target locale message key
-   * @param locale - A locale, it will be used over than global scope or local scope.
+   * @param plural - Which plural string to get. 1 returns the first one.
+   *
+   * @returns Translated message
+   *
+   * @VueI18nSee [Pluralization](../guide/essentials/pluralization)
+   */
+  <Key extends string>(key: Key | ResourceKeys, plural: number): TranslateResult
+  /**
+   * Locale message translation for plurals
+   *
+   * @remarks
+   * Overloaded `t`. About details, see the [call signature](legacy#key-key-resourcekeys-translateresult) details.
+   *
+   * In this overloaded `t`, return a pluralized translation message.
+   *
+   * You can also suppress the warning, when the translation missing according to the options.
+   *
+   * About details of options, see the {@link TranslateOptions}.
+   *
+   * @param key - A target locale message key
+   * @param plural - Which plural string to get. 1 returns the first one.
+   * @param options - Additional {@link TranslateOptions | options} for translation
+   *
+   * @returns Translated message
+   *
+   * @VueI18nSee [Pluralization](../guide/essentials/pluralization)
+   */
+  <Key extends string>(
+    key: Key | ResourceKeys,
+    plural: number,
+    options: TranslateOptions<Locales>
+  ): TranslateResult
+  /**
+   * Locale message translation for missing default message
+   *
+   * @remarks
+   * Overloaded `t`. About details, see the [call signature](legacy#key-key-resourcekeys-translateresult) details.
+   *
+   * In this overloaded `t`, if no translation was found, return a default message.
+   *
+   * You can also suppress the warning, when the translation missing according to the options.
+   *
+   * @param key - A target locale message key
+   * @param defaultMsg - A default message to return if no translation was found
    *
    * @returns Translated message
    */
   <Key extends string>(
     key: Key | ResourceKeys,
-    locale: Locales | Locale
+    defaultMsg: string
+  ): TranslateResult
+  /**
+   * Locale message translation for missing default message
+   *
+   * @remarks
+   * Overloaded `t`. About details, see the [call signature](legacy#key-key-resourcekeys-translateresult) details.
+   *
+   * In this overloaded `t`, if no translation was found, return a default message.
+   *
+   * You can also suppress the warning, when the translation missing according to the options.
+   *
+   * About details of options, see the {@link TranslateOptions}.
+   *
+   * @param key - A target locale message key
+   * @param defaultMsg - A default message to return if no translation was found
+   * @param options - Additional {@link TranslateOptions | options} for translation
+   *
+   * @returns Translated message
+   */
+  <Key extends string>(
+    key: Key | ResourceKeys,
+    defaultMsg: string,
+    options: TranslateOptions<Locales>
   ): TranslateResult
   /**
    * Locale message translation.
@@ -436,7 +506,6 @@ export interface VueI18nTranslation<
    * Overloaded `t`. About details, see the [call signature](legacy#key-key-resourcekeys-translateresult) details.
    *
    * @param key - A target locale message key
-   * @param locale - A locale, it will be used over than global scope or local scope.
    * @param list - A values of list interpolation
    *
    * @returns Translated message
@@ -445,36 +514,41 @@ export interface VueI18nTranslation<
    */
   <Key extends string>(
     key: Key | ResourceKeys,
-    locale: Locales | Locale,
     list: unknown[]
   ): TranslateResult
   /**
-   * Locale message translation.
+   * Locale message translation for list interpolations and plurals
    *
    * @remarks
    * Overloaded `t`. About details, see the [call signature](legacy#key-key-resourcekeys-translateresult) details.
    *
-   * @param key - A target locale message key
-   * @param locale - A locale, it will be used over than global scope or local scope.
-   * @param named - A values of named interpolation
-   *
-   * @returns Translated message
-   *
-   * @VueI18nSee [Named interpolation](../guide/essentials/syntax#named-interpolation)
-   */
-  <Key extends string>(
-    key: Key | ResourceKeys,
-    locale: Locales | Locale,
-    named: Record<string, unknown>
-  ): TranslateResult
-  /**
-   * Locale message translation.
-   *
-   * @remarks
-   * Overloaded `t`. About details, see the [call signature](legacy#key-key-resourcekeys-translateresult) details.
+   * In this overloaded `t`, the locale messages should contain a `{0}`, `{1}`, … for each placeholder in the list, and return a pluralized translation message.
    *
    * @param key - A target locale message key
    * @param list - A values of list interpolation
+   * @param plural - Which plural string to get. 1 returns the first one.
+   *
+   * @returns Translated message
+   *
+   * @VueI18nSee [Pluralization](../guide/essentials/pluralization)
+   * @VueI18nSee [List interpolation](../guide/essentials/syntax#list-interpolation)
+   */
+  <Key extends string>(
+    key: Key | ResourceKeys,
+    list: unknown[],
+    plural: number
+  ): TranslateResult
+  /**
+   * Locale message translation for list interpolations and missing default message
+   *
+   * @remarks
+   * Overloaded `t`. About details, see the [call signature](legacy#key-key-resourcekeys-translateresult) details.
+   *
+   * In this overloaded `t`, the locale messages should contain a `{0}`, `{1}`, … for each placeholder in the list, and if no translation was found, return a default message.
+   *
+   * @param key - A target locale message key
+   * @param list - A values of list interpolation
+   * @param defaultMsg - A default message to return if no translation was found
    *
    * @returns Translated message
    *
@@ -482,7 +556,33 @@ export interface VueI18nTranslation<
    */
   <Key extends string>(
     key: Key | ResourceKeys,
-    list: unknown[]
+    list: unknown[],
+    defaultMsg: string
+  ): TranslateResult
+  /**
+   * Locale message translation for list interpolations
+   *
+   * @remarks
+   * Overloaded `t`. About details, see the [call signature](legacy#key-key-resourcekeys-translateresult) details.
+   *
+   * In this overloaded `t`, the locale messages should contain a `{0}`, `{1}`, … for each placeholder in the list.
+   *
+   * You can also suppress the warning, when the translation missing according to the options.
+   *
+   * About details of options, see the {@link TranslateOptions}.
+   *
+   * @param key - A target locale message key
+   * @param list - A values of list interpolation
+   * @param options - Additional {@link TranslateOptions | options} for translation
+   *
+   * @returns Translated message
+   *
+   * @VueI18nSee [List interpolation](../guide/essentials/syntax#list-interpolation)
+   */
+  <Key extends string>(
+    key: Key | ResourceKeys,
+    list: unknown[],
+    options: TranslateOptions<Locales>
   ): TranslateResult
   /**
    * Locale message translation.
@@ -500,6 +600,74 @@ export interface VueI18nTranslation<
   <Key extends string>(
     key: Key | ResourceKeys,
     named: Record<string, unknown>
+  ): TranslateResult
+  /**
+   * Locale message translation for named interpolations and plurals
+   *
+   * @remarks
+   * Overloaded `t`. About details, see the [call signature](legacy#key-key-resourcekeys-translateresult) details.
+   *
+   * In this overloaded `t`, for each placeholder x, the locale messages should contain a `{x}` token, and return a pluralized translation message.
+   *
+   * @param key - A target locale message key
+   * @param named - A values of named interpolation
+   * @param plural - Which plural string to get. 1 returns the first one.
+   *
+   * @returns Translated message
+   *
+   * @VueI18nSee [Pluralization](../guide/essentials/pluralization)
+   * @VueI18nSee [Named interpolation](../guide/essentials/syntax#named-interpolation)
+   */
+  <Key extends string>(
+    key: Key | ResourceKeys,
+    named: NamedValue,
+    plural: number
+  ): TranslateResult
+  /**
+   * Locale message translation for named interpolations and plurals
+   *
+   * @remarks
+   * Overloaded `t`. About details, see the [call signature](legacy#key-key-resourcekeys-translateresult) details.
+   *
+   * In this overloaded `t`, for each placeholder x, the locale messages should contain a `{x}` token, and if no translation was found, return a default message.
+   *
+   * @param key - A target locale message key
+   * @param named - A values of named interpolation
+   * @param defaultMsg - A default message to return if no translation was found
+   *
+   * @returns Translated message
+   *
+   * @VueI18nSee [Named interpolation](../guide/essentials/syntax#named-interpolation)
+   */
+  <Key extends string>(
+    key: Key | ResourceKeys,
+    named: NamedValue,
+    defaultMsg: string
+  ): TranslateResult
+  /**
+   * Locale message translation for named interpolations
+   *
+   * @remarks
+   * Overloaded `t`. About details, see the [call signature](legacy#key-key-resourcekeys-translateresult) details.
+   *
+   * In this overloaded `t`, for each placeholder x, the locale messages should contain a `{x}` token.
+   *
+   * You can also suppress the warning, when the translation missing according to the options.
+   *
+   * About details of options, see the {@link TranslateOptions}.
+   *
+   * @param key - A target locale message key
+   * @param named - A values of named interpolation
+   * @param options - Additional {@link TranslateOptions | options} for translation
+   *
+   * @returns Translated message
+   *
+   * @VueI18nSee [Named interpolation](../guide/essentials/syntax#named-interpolation)
+   */
+  <Key extends string>(
+    key: Key | ResourceKeys,
+    named: NamedValue,
+    options: TranslateOptions<Locales>
   ): TranslateResult
 }
 

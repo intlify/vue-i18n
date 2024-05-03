@@ -64,7 +64,7 @@ Locale message translation
 
 **Signature:**
 ```typescript
-$t(key: Path): TranslateResult;
+$t(key: Key): TranslateResult;
 ```
 
 **Details**
@@ -82,7 +82,7 @@ In [Legacy API mode](general#mode), the input / output is the same as for VueI18
 #### Parameters
 | Parameter | Type | Description |
 | --- | --- | --- |
-| key | Path | A target locale message key |
+| key | Key | A target locale message key |
 
 #### Returns
 
@@ -98,7 +98,7 @@ Locale message translation
 
 **Signature:**
 ```typescript
-$t(key: Path, locale: Locale): TranslateResult;
+$t(key: Key, locale: Locale): TranslateResult;
 ```
 
 **Details**
@@ -108,7 +108,7 @@ Overloaded `$t`. About details, see the [$t](injection#t-key) remarks.
 #### Parameters
 | Parameter | Type | Description |
 | --- | --- | --- |
-| key | Path | A target locale message key |
+| key | Key | A target locale message key |
 | locale | Locale | A locale, override locale that global scope or local scope |
 
 #### Returns
@@ -125,7 +125,7 @@ Locale message translation
 
 **Signature:**
 ```typescript
-$t(key: Path, locale: Locale, list: unknown[]): TranslateResult;
+$t(key: Key, locale: Locale, list: unknown[]): TranslateResult;
 ```
 
 **Details**
@@ -135,7 +135,7 @@ Overloaded `$t`. About details, see the [$t](injection#t-key) remarks.
 #### Parameters
 | Parameter | Type | Description |
 | --- | --- | --- |
-| key | Path | A target locale message key |
+| key | Key | A target locale message key |
 | locale | Locale | A locale, override locale that global scope or local scope |
 | list | unknown[] | A values of list interpolation |
 
@@ -153,7 +153,7 @@ Locale message translation
 
 **Signature:**
 ```typescript
-$t(key: Path, locale: Locale, named: object): TranslateResult;
+$t(key: Key, locale: Locale, named: object): TranslateResult;
 ```
 
 **Details**
@@ -163,7 +163,7 @@ Overloaded `$t`. About details, see the [$t](injection#t-key) remarks.
 #### Parameters
 | Parameter | Type | Description |
 | --- | --- | --- |
-| key | Path | A target locale message key |
+| key | Key | A target locale message key |
 | locale | Locale | A locale, override locale that global scope or local scope |
 | named | object | A values of named interpolation |
 
@@ -177,7 +177,7 @@ Locale message translation
 
 **Signature:**
 ```typescript
-$t(key: Path, plural: number): TranslateResult;
+$t(key: Key, plural: number): TranslateResult;
 ```
 
 :::tip NOTE
@@ -191,7 +191,7 @@ Overloaded `$t`. About details, see the [$t](injection#t-key) remarks.
 #### Parameters
 | Parameter | Type | Description |
 | --- | --- | --- |
-| key | Path | A target locale message key |
+| key | Key | A target locale message key |
 | plural | number | A choice number of plural |
 
 #### Returns
@@ -204,7 +204,7 @@ Locale message translation
 
 **Signature:**
 ```typescript
-$t(key: Path, plural: number, options: TranslateOptions): TranslateResult;
+$t(key: Key, plural: number, options: TranslateOptions): TranslateResult;
 ```
 
 :::tip NOTE
@@ -218,7 +218,7 @@ Overloaded `$t`. About details, see the [$t](injection#t-key) remarks.
 #### Parameters
 | Parameter | Type | Description |
 | --- | --- | --- |
-| key | Path | A target locale message key |
+| key | Key | A target locale message key |
 | plural | number | A choice number of plural |
 | options | TranslateOptions | An options, see the [TranslateOptions](general#translateoptions) |
 
@@ -232,7 +232,7 @@ Locale message translation
 
 **Signature:**
 ```typescript
-$t(key: Path, defaultMsg: string): TranslateResult;
+$t(key: Key, defaultMsg: string): TranslateResult;
 ```
 
 :::tip NOTE
@@ -246,7 +246,7 @@ Overloaded `$t`. About details, see the [$t](injection#t-key) remarks.
 #### Parameters
 | Parameter | Type | Description |
 | --- | --- | --- |
-| key | Path | A target locale message key |
+| key | Key | A target locale message key |
 | defaultMsg | string | A default message to return if no translation was found |
 
 #### Returns
@@ -259,7 +259,7 @@ Locale message translation
 
 **Signature:**
 ```typescript
-$t(key: Path, defaultMsg: string, options: TranslateOptions): TranslateResult;
+$t(key: Key, defaultMsg: string, options: TranslateOptions): TranslateResult;
 ```
 
 :::tip NOTE
@@ -273,7 +273,7 @@ Overloaded `$t`. About details, see the [$t](injection#t-key) remarks.
 #### Parameters
 | Parameter | Type | Description |
 | --- | --- | --- |
-| key | Path | A target locale message key |
+| key | Key | A target locale message key |
 | defaultMsg | string | A default message to return if no translation was found |
 | options | TranslateOptions | An options, see the [TranslateOptions](general#translateoptions) |
 
@@ -287,7 +287,7 @@ Locale message translation
 
 **Signature:**
 ```typescript
-$t(key: Path, list: unknown[]): TranslateResult;
+$t(key: Key, list: unknown[]): TranslateResult;
 ```
 
 **Details**
@@ -297,7 +297,7 @@ Overloaded `$t`. About details, see the [$t](injection#t-key) remarks.
 #### Parameters
 | Parameter | Type | Description |
 | --- | --- | --- |
-| key | Path | A target locale message key |
+| key | Key | A target locale message key |
 | list | unknown[] | A values of list interpolation |
 
 #### Returns
@@ -310,7 +310,7 @@ Locale message translation
 
 **Signature:**
 ```typescript
-$t(key: Path, list: unknown[], plural: number): TranslateResult;
+$t(key: Key, list: unknown[], plural: number): TranslateResult;
 ```
 
 :::tip NOTE
@@ -324,7 +324,7 @@ Overloaded `$t`. About details, see the [$t](injection#t-key) remarks.
 #### Parameters
 | Parameter | Type | Description |
 | --- | --- | --- |
-| key | Path | A target locale message key |
+| key | Key | A target locale message key |
 | list | unknown[] | A values of list interpolation |
 | plural | number | A choice number of plural |
 
@@ -338,7 +338,7 @@ Locale message translation
 
 **Signature:**
 ```typescript
-$t(key: Path, list: unknown[], defaultMsg: string): TranslateResult;
+$t(key: Key, list: unknown[], defaultMsg: string): TranslateResult;
 ```
 
 :::tip NOTE
@@ -352,7 +352,7 @@ Overloaded `$t`. About details, see the [$t](injection#t-key) remarks.
 #### Parameters
 | Parameter | Type | Description |
 | --- | --- | --- |
-| key | Path | A target locale message key |
+| key | Key | A target locale message key |
 | list | unknown[] | A values of list interpolation |
 | defaultMsg | string | A default message to return if no translation was found |
 
@@ -366,7 +366,7 @@ Locale message translation
 
 **Signature:**
 ```typescript
-$t(key: Path, list: unknown[], options: TranslateOptions): TranslateResult;
+$t(key: Key, list: unknown[], options: TranslateOptions): TranslateResult;
 ```
 
 :::tip NOTE
@@ -380,7 +380,7 @@ Overloaded `$t`. About details, see the [$t](injection#t-key) remarks.
 #### Parameters
 | Parameter | Type | Description |
 | --- | --- | --- |
-| key | Path | A target locale message key |
+| key | Key | A target locale message key |
 | list | unknown[] | A values of list interpolation |
 | options | TranslateOptions | An options, see the [TranslateOptions](general#translateoptions) |
 
@@ -394,7 +394,7 @@ Locale message translation
 
 **Signature:**
 ```typescript
-$t(key: Path, named: NamedValue): TranslateResult;
+$t(key: Key, named: NamedValue): TranslateResult;
 ```
 
 **Details**
@@ -404,7 +404,7 @@ Overloaded `$t`. About details, see the [$t](injection#t-key) remarks.
 #### Parameters
 | Parameter | Type | Description |
 | --- | --- | --- |
-| key | Path | A target locale message key |
+| key | Key | A target locale message key |
 | named | NamedValue | A values of named interpolation |
 
 #### Returns
@@ -417,7 +417,7 @@ Locale message translation
 
 **Signature:**
 ```typescript
-$t(key: Path, named: NamedValue, plural: number): TranslateResult;
+$t(key: Key, named: NamedValue, plural: number): TranslateResult;
 ```
 
 :::tip NOTE
@@ -431,7 +431,7 @@ Overloaded `$t`. About details, see the [$t](injection#t-key) remarks.
 #### Parameters
 | Parameter | Type | Description |
 | --- | --- | --- |
-| key | Path | A target locale message key |
+| key | Key | A target locale message key |
 | named | NamedValue | A values of named interpolation |
 | plural | number | A choice number of plural |
 
@@ -445,7 +445,7 @@ Locale message translation
 
 **Signature:**
 ```typescript
-$t(key: Path, named: NamedValue, defaultMsg: string): TranslateResult;
+$t(key: Key, named: NamedValue, defaultMsg: string): TranslateResult;
 ```
 
 :::tip NOTE
@@ -459,7 +459,7 @@ Overloaded `$t`. About details, see the [$t](injection#t-key) remarks.
 #### Parameters
 | Parameter | Type | Description |
 | --- | --- | --- |
-| key | Path | A target locale message key |
+| key | Key | A target locale message key |
 | named | NamedValue | A values of named interpolation |
 | defaultMsg | string | A default message to return if no translation was found |
 
@@ -473,7 +473,7 @@ Locale message translation
 
 **Signature:**
 ```typescript
-$t(key: Path, named: NamedValue, options: TranslateOptions): TranslateResult;
+$t(key: Key, named: NamedValue, options: TranslateOptions): TranslateResult;
 ```
 
 :::tip NOTE
@@ -487,7 +487,7 @@ Overloaded `$t`. About details, see the [$t](injection#t-key) remarks.
 #### Parameters
 | Parameter | Type | Description |
 | --- | --- | --- |
-| key | Path | A target locale message key |
+| key | Key | A target locale message key |
 | named | NamedValue | A values of named interpolation |
 | options | TranslateOptions | An options, see the [TranslateOptions](general#translateoptions) |
 
@@ -603,7 +603,7 @@ Locale message pluralization
 
 **Signature:**
 ```typescript
-$tc(key: Path): TranslateResult;
+$tc(key: Key): TranslateResult;
 ```
 
 :::warning NOTE
@@ -624,7 +624,7 @@ The value of plural is handled with default `1`.
 #### Parameters
 | Parameter | Type | Description |
 | --- | --- | --- |
-| key | Path | A target locale message key |
+| key | Key | A target locale message key |
 
 #### Returns
 
@@ -636,7 +636,7 @@ Locale message pluralization
 
 **Signature:**
 ```typescript
-$tc(key: Path, locale: Locale): TranslateResult;
+$tc(key: Key, locale: Locale): TranslateResult;
 ```
 
 :::warning NOTE
@@ -650,7 +650,7 @@ Overloaded `$tc`. About details, see the [$tc](injection#tc-key) remarks.
 #### Parameters
 | Parameter | Type | Description |
 | --- | --- | --- |
-| key | Path | A target locale message key |
+| key | Key | A target locale message key |
 | locale | Locale | A locale, override locale that global scope or local scope |
 
 #### Returns
@@ -663,7 +663,7 @@ Locale message pluralization
 
 **Signature:**
 ```typescript
-$tc(key: Path, list: unknown[]): TranslateResult;
+$tc(key: Key, list: unknown[]): TranslateResult;
 ```
 
 :::warning NOTE
@@ -677,7 +677,7 @@ Overloaded `$tc`. About details, see the [$tc](injection#tc-key) remarks.
 #### Parameters
 | Parameter | Type | Description |
 | --- | --- | --- |
-| key | Path | A target locale message key |
+| key | Key | A target locale message key |
 | list | unknown[] | A values of list interpolation |
 
 #### Returns
@@ -690,7 +690,7 @@ Locale message pluralization
 
 **Signature:**
 ```typescript
-$tc(key: Path, named: Record<string, unknown>): TranslateResult;
+$tc(key: Key, named: Record<string, unknown>): TranslateResult;
 ```
 
 :::warning NOTE
@@ -704,7 +704,7 @@ Overloaded `$tc`. About details, see the [$tc](injection#tc-key) remarks.
 #### Parameters
 | Parameter | Type | Description |
 | --- | --- | --- |
-| key | Path | A target locale message key |
+| key | Key | A target locale message key |
 | named | Record&lt;string, unknown&gt; | A values of named interpolation |
 
 #### Returns
@@ -717,7 +717,7 @@ Locale message pluralization
 
 **Signature:**
 ```typescript
-$tc(key: Path, choice: number): TranslateResult;
+$tc(key: Key, choice: number): TranslateResult;
 ```
 
 :::warning NOTE
@@ -731,7 +731,7 @@ Overloaded `$tc`. About details, see the [$tc](injection#tc-key) remarks.
 #### Parameters
 | Parameter | Type | Description |
 | --- | --- | --- |
-| key | Path | A target locale message key |
+| key | Key | A target locale message key |
 | choice | number | Which plural string to get. 1 returns the first one |
 
 #### Returns
@@ -744,7 +744,7 @@ Locale message pluralization
 
 **Signature:**
 ```typescript
-$tc(key: Path, choice: number, locale: Locale): TranslateResult;
+$tc(key: Key, choice: number, locale: Locale): TranslateResult;
 ```
 
 :::warning NOTE
@@ -758,7 +758,7 @@ Overloaded `$tc`. About details, see the [$tc](injection#tc-key) remarks.
 #### Parameters
 | Parameter | Type | Description |
 | --- | --- | --- |
-| key | Path | A target locale message key |
+| key | Key | A target locale message key |
 | choice | number | Which plural string to get. 1 returns the first one |
 | locale | Locale | A locale, override locale that global scope or local scope |
 
@@ -772,7 +772,7 @@ Locale message pluralization
 
 **Signature:**
 ```typescript
-$tc(key: Path, choice: number, list: unknown[]): TranslateResult;
+$tc(key: Key, choice: number, list: unknown[]): TranslateResult;
 ```
 
 :::warning NOTE
@@ -786,7 +786,7 @@ Overloaded `$tc`. About details, see the [$tc](injection#tc-key) remarks.
 #### Parameters
 | Parameter | Type | Description |
 | --- | --- | --- |
-| key | Path | A target locale message key |
+| key | Key | A target locale message key |
 | choice | number | Which plural string to get. 1 returns the first one |
 | list | unknown[] | A values of list interpolation |
 
@@ -800,7 +800,7 @@ Locale message pluralization
 
 **Signature:**
 ```typescript
-$tc(key: Path, choice: number, named: Record<string, unknown>): TranslateResult;
+$tc(key: Key, choice: number, named: Record<string, unknown>): TranslateResult;
 ```
 
 :::warning NOTE
@@ -814,7 +814,7 @@ Overloaded `$tc`. About details, see the [$tc](injection#tc-key) remarks.
 #### Parameters
 | Parameter | Type | Description |
 | --- | --- | --- |
-| key | Path | A target locale message key |
+| key | Key | A target locale message key |
 | choice | number | Which plural string to get. 1 returns the first one |
 | named | Record&lt;string, unknown&gt; | A values of named interpolation |
 
@@ -828,7 +828,7 @@ Translation message exist
 
 **Signature:**
 ```typescript
-$te(key: Path, locale?: Locale): boolean;
+$te(key: Key, locale?: Locale): boolean;
 ```
 
 **Details**
@@ -838,7 +838,7 @@ About that details, see [VueI18n#te](legacy#te-key-locale)
 #### Parameters
 | Parameter | Type | Description |
 | --- | --- | --- |
-| key | Path | A target locale message key |
+| key | Key | A target locale message key |
 | locale | Locale | Optional, A locale, override locale that global scope or local scope |
 
 #### Returns
@@ -851,7 +851,7 @@ Locale messages getter
 
 **Signature:**
 ```typescript
-$tm(key: Path): LocaleMessageValue<VueMessageType> | {}
+$tm(key: Key): LocaleMessageValue<VueMessageType> | {}
 ```
 
 **Details**
@@ -869,7 +869,7 @@ If there are no locale messages for the given `key` in the composer instance mes
 #### Parameters
 | Parameter | Type | Description |
 | --- | --- | --- |
-| key | Path | A target locale message key |
+| key | Key | A target locale message key |
 
 #### Returns
 

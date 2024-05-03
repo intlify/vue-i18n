@@ -1369,7 +1369,7 @@ describe('Composer & VueI18n extend hooking', () => {
   })
 })
 
-describe('component injections', () => {
+describe('dollar prefixed API (component injections)', () => {
   const mockWarn = vi.spyOn(shared, 'warn')
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   mockWarn.mockImplementation(() => {})
@@ -1456,4 +1456,106 @@ describe('component injections', () => {
       '<div><p>hello world!</p><p>hello, world!</p><p>hello, world!</p><p>no apples</p><p>りんご1個</p><p>default message</p><p>default msg</p><p>4 apples</p><p>default list msg</p><p>こんにちは、世界！</p><p>many apples</p><p>default named msg</p><p>こんにちは、世界！</p><p>hello world!</p><p>こんにちは、世界！</p></div>'
     )
   })
+})
+
+test('`t` on Legacy API mode', async () => {
+  const messages = {
+    en: {
+      hello: 'hello world!',
+      list: 'hello, {0}!',
+      named: 'hello, {name}!',
+      plural: 'no apples | one apple | {count} apples'
+    },
+    ja: {
+      hello: 'こんにちは、世界！',
+      list: 'こんにちは、{0}！',
+      named: 'こんにちは、{name}！',
+      plural: 'りんご無い | りんご1個 | りんご{count}個'
+    }
+  }
+
+  const i18n = createI18n({
+    legacy: true,
+    locale: 'en',
+    messages
+  })
+
+  expect(i18n.global.t('hello')).toEqual('hello world!')
+  expect(i18n.global.t('list', ['world'])).toEqual('hello, world!')
+  expect(i18n.global.t('named', { name: 'world' })).toEqual('hello, world!')
+  expect(i18n.global.t('plural', 0)).toEqual('no apples')
+  expect(i18n.global.t('plural', 1)).toEqual('one apple')
+  expect(i18n.global.t('default', 'default message')).toEqual('default message')
+  expect(
+    i18n.global.t('default', 'default {msg}', { named: { msg: 'msg' } })
+  ).toEqual('default msg')
+  expect(i18n.global.t('plural', ['many'], 4)).toEqual('4 apples')
+  expect(i18n.global.t('default', ['list msg'], 'default {0}')).toEqual(
+    'default list msg'
+  )
+  expect(i18n.global.t('list', ['世界'], { locale: 'ja' })).toEqual(
+    'こんにちは、世界！'
+  )
+  expect(i18n.global.t('plural', { count: 'many' }, 4)).toEqual('many apples')
+  expect(
+    i18n.global.t('default', { msg: 'named msg' }, 'default {msg}')
+  ).toEqual('default named msg')
+  expect(i18n.global.t('named', { name: '世界' }, { locale: 'ja' })).toEqual(
+    'こんにちは、世界！'
+  )
+  expect(i18n.global.t('hello', {}, { locale: 'en' })).toEqual('hello world!')
+  expect(i18n.global.t('hello', [], { locale: 'ja' })).toEqual(
+    'こんにちは、世界！'
+  )
+})
+
+test('`t` on Composition API mode', async () => {
+  const messages = {
+    en: {
+      hello: 'hello world!',
+      list: 'hello, {0}!',
+      named: 'hello, {name}!',
+      plural: 'no apples | one apple | {count} apples'
+    },
+    ja: {
+      hello: 'こんにちは、世界！',
+      list: 'こんにちは、{0}！',
+      named: 'こんにちは、{name}！',
+      plural: 'りんご無い | りんご1個 | りんご{count}個'
+    }
+  }
+
+  const i18n = createI18n({
+    legacy: false,
+    locale: 'en',
+    messages
+  })
+
+  expect(i18n.global.t('hello')).toEqual('hello world!')
+  expect(i18n.global.t('list', ['world'])).toEqual('hello, world!')
+  expect(i18n.global.t('named', { name: 'world' })).toEqual('hello, world!')
+  expect(i18n.global.t('plural', 0)).toEqual('no apples')
+  expect(i18n.global.t('plural', 1)).toEqual('one apple')
+  expect(i18n.global.t('default', 'default message')).toEqual('default message')
+  expect(
+    i18n.global.t('default', 'default {msg}', { named: { msg: 'msg' } })
+  ).toEqual('default msg')
+  expect(i18n.global.t('plural', ['many'], 4)).toEqual('4 apples')
+  expect(i18n.global.t('default', ['list msg'], 'default {0}')).toEqual(
+    'default list msg'
+  )
+  expect(i18n.global.t('list', ['世界'], { locale: 'ja' })).toEqual(
+    'こんにちは、世界！'
+  )
+  expect(i18n.global.t('plural', { count: 'many' }, 4)).toEqual('many apples')
+  expect(
+    i18n.global.t('default', { msg: 'named msg' }, 'default {msg}')
+  ).toEqual('default named msg')
+  expect(i18n.global.t('named', { name: '世界' }, { locale: 'ja' })).toEqual(
+    'こんにちは、世界！'
+  )
+  expect(i18n.global.t('hello', {}, { locale: 'en' })).toEqual('hello world!')
+  expect(i18n.global.t('hello', [], { locale: 'ja' })).toEqual(
+    'こんにちは、世界！'
+  )
 })
