@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { createComposer, DefineLocaleMessage } from './composer'
 import { createI18nError, I18nErrorCodes } from './errors'
+import { I18nWarnCodes, getWarnMessage } from './warnings'
 import { EnableEmitter, DisableEmitter } from './symbols'
 import { DEFAULT_LOCALE } from '@intlify/core-base'
 import {
@@ -11,7 +12,8 @@ import {
   isBoolean,
   isFunction,
   isRegExp,
-  assign
+  assign,
+  warnOnce
 } from '@intlify/shared'
 
 import type {
@@ -1719,6 +1721,10 @@ export function createVueI18n(options: any = {}): any {
       const options = { plural: 1 } as TranslateOptions
       let list: unknown[] | null = null
       let named: NamedValue | null = null
+
+      if (__DEV__) {
+        warnOnce(getWarnMessage(I18nWarnCodes.DEPRECATE_TC))
+      }
 
       if (!isString(arg1)) {
         throw createI18nError(I18nErrorCodes.INVALID_ARGUMENT)

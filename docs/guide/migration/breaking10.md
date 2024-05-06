@@ -197,3 +197,382 @@ const i18n = createI18n({
 
 console.log(i18n.global.t('message.hello', { name: 'dio' }, { locale: 'ja' }))
 ```
+
+### Deprecate `tc` and `$tc` for Legacy API mode
+
+The following APIs are deprecated in v10:
+
+- `tc(key: Key | ResourceKeys): TranslateResult;`
+- `tc(key: Key | ResourceKeys, locale: Locales | Locale): TranslateResult;`
+- `tc(key: Key | ResourceKeys, list: unknown[]): TranslateResult;`
+- `tc(key: Key | ResourceKeys, named: Record<string, unknown>): TranslateResult;`
+- `tc(key: Key | ResourceKeys, choice: number): TranslateResult;`
+- `tc(key: Key | ResourceKeys, choice: number, locale: Locales | Locale): TranslateResult;`
+- `tc(key: Key | ResourceKeys, choice: number, list: unknown[]): TranslateResult;`
+- `tc(key: Key | ResourceKeys, choice: number, named: Record<string, unknown>): TranslateResult;`
+- `$tc(key: Key): TranslateResult;`
+- `$tc(key: Key, locale: Locale): TranslateResult;`
+- `$tc(key: Key, list: unknown[]): TranslateResult;`
+- `$tc(key: Key, named: Record<string, unknown>): TranslateResult;`
+- `$tc(key: Key, choice: number): TranslateResult;`
+- `$tc(key: Key, choice: number, locale: Locale): TranslateResult;`
+- `$tc(key: Key, choice: number, list: unknown[]): TranslateResult;`
+- `$tc(key: Key, choice: number, named: Record<string, unknown>): TranslateResult;`
+
+**Reason**: Legacy API mode has `t` and `$t` support plural interfaces, so they can be replaced.
+
+In v10, `tc` and `$tc` still exist to give benefit migration. These will be dropped completely in v11.
+
+If you will use them, Vue I18n will output the console warning in your application.
+
+
+#### `tc(key: Key | ResourceKeys): TranslateResult;`
+
+Vue I18n v9.x:
+
+```ts
+const i18n = createI18n({
+  legacy: true,
+  // something options ...
+})
+console.log(i18n.global.tc('banana'))
+```
+
+Vue I18n v10 or later:
+
+use `t(key: Key | ResourceKeys, plural: number): TranslateResult;`
+
+```ts
+const i18n = createI18n({
+  legacy: true,
+  // something options ...
+})
+console.log(i18n.global.t('banana', 1))
+```
+
+#### `tc(key: Key | ResourceKeys, locale: Locales | Locale): TranslateResult;`
+
+Vue I18n v9.x:
+
+```ts
+const i18n = createI18n({
+  legacy: true,
+  // something options ...
+})
+console.log(i18n.global.tc('banana', 'ja'))
+```
+
+Vue I18n v10 or later:
+
+use `t(key: Key | ResourceKeys, plural: number, options: TranslateOptions<Locales>): TranslateResult;`
+
+```ts
+const i18n = createI18n({
+  legacy: true,
+  // something options ...
+})
+console.log(i18n.global.t('banana', 1, { locale: 'ja' }))
+```
+
+#### `tc(key: Key | ResourceKeys, list: unknown[]): TranslateResult;`
+
+
+Vue I18n v9.x:
+
+```ts
+const i18n = createI18n({
+  legacy: true,
+  // something options ...
+})
+console.log(i18n.global.tc('banana', ['dio']))
+```
+
+Vue I18n v10 or later:
+
+use `t(key: Key | ResourceKeys, list: unknown[], plural: number): TranslateResult;`
+
+```ts
+const i18n = createI18n({
+  legacy: true,
+  // something options ...
+})
+console.log(i18n.global.t('banana', ['dio'], 1))
+```
+
+#### `tc(key: Key | ResourceKeys, named: Record<string, unknown>): TranslateResult;`
+
+Vue I18n v9.x:
+
+```ts
+const i18n = createI18n({
+  legacy: true,
+  // something options ...
+})
+console.log(i18n.global.tc('banana', { name: 'dio' }))
+```
+
+Vue I18n v10 or later:
+
+use `t(key: Key | ResourceKeys, named: NamedValue, plural: number): TranslateResult;`
+
+```ts
+const i18n = createI18n({
+  legacy: true,
+  // something options ...
+})
+console.log(i18n.global.t('banana', { name: 'dio' }, 1))
+```
+
+#### `tc(key: Key | ResourceKeys, choice: number): TranslateResult;`
+
+Vue I18n v9.x:
+
+```ts
+const i18n = createI18n({
+  legacy: true,
+  // something options ...
+})
+console.log(i18n.global.tc('banana', 2))
+```
+
+Vue I18n v10 or later:
+
+use `t(key: Key | ResourceKeys, plural: number): TranslateResult;`
+
+```ts
+const i18n = createI18n({
+  legacy: true,
+  // something options ...
+})
+console.log(i18n.global.t('banana', 2))
+```
+
+#### `tc(key: Key | ResourceKeys, choice: number, locale: Locales | Locale): TranslateResult;`
+
+Vue I18n v9.x:
+
+```ts
+const i18n = createI18n({
+  legacy: true,
+  // something options ...
+})
+console.log(i18n.global.tc('banana', 2, 'ja'))
+```
+
+Vue I18n v10 or later:
+
+use `t(key: Key | ResourceKeys, plural: number, options: TranslateOptions<Locales>): TranslateResult;`
+
+```ts
+const i18n = createI18n({
+  legacy: true,
+  // something options ...
+})
+console.log(i18n.global.t('banana', 2, { locale: 'ja' }))
+```
+
+#### `tc(key: Key | ResourceKeys, choice: number, list: unknown[]): TranslateResult;`
+
+Vue I18n v9.x:
+
+```ts
+const i18n = createI18n({
+  legacy: true,
+  // something options ...
+})
+console.log(i18n.global.t('banana', 2, ['dio']))
+```
+
+Vue I18n v10 or later:
+
+use `t(key: Key | ResourceKeys, list: unknown[], plural: number): TranslateResult;`
+
+```ts
+const i18n = createI18n({
+  legacy: true,
+  // something options ...
+})
+console.log(i18n.global.t('banana', ['dio'], 2))
+```
+
+#### `tc(key: Key | ResourceKeys, choice: number, named: Record<string, unknown>): TranslateResult;`
+
+```ts
+const i18n = createI18n({
+  legacy: true,
+  // something options ...
+})
+console.log(i18n.global.tc('banana', 2, { name: 'dio' }))
+```
+
+Vue I18n v10 or later:
+
+use `t(key: Key | ResourceKeys, named: NamedValue, plural: number): TranslateResult;`
+
+```ts
+const i18n = createI18n({
+  legacy: true,
+  // something options ...
+})
+console.log(i18n.global.tc('banana', { name: 'dio' }, 2))
+```
+
+#### `$tc(key: Key): TranslateResult;`
+
+Vue I18n v9.x:
+
+```vue
+<template>
+  <p>{{ $tc('banana') }}</p>
+</template>
+```
+
+Vue I18n v10 or later:
+
+use `$t(key: Key, plural: number): TranslateResult;`
+
+```vue
+<template>
+  <p>{{ $t('banana', 1) }}</p>
+</template>
+```
+
+#### `$tc(key: Key, locale: Locale): TranslateResult;`
+
+Vue I18n v9.x:
+
+```vue
+<template>
+  <p>{{ $tc('banana', 'ja') }}</p>
+</template>
+```
+
+Vue I18n v10 or later:
+
+use `$t(key: Key, plural: number, options: TranslateOptions): TranslateResult;`
+
+```vue
+<template>
+  <p>{{ $t('banana', 1, { locale: 'ja' }) }}</p>
+</template>
+```
+
+#### `$tc(key: Key, list: unknown[]): TranslateResult;`
+
+Vue I18n v9.x:
+
+```vue
+<template>
+  <p>{{ $tc('banana', ['dio']) }}</p>
+</template>
+```
+
+Vue I18n v10 or later:
+
+use `$t(key: Key, list: unknown[], plural: number): TranslateResult;`
+
+```vue
+<template>
+  <p>{{ $t('banana', ['dio'], 1) }}</p>
+</template>
+```
+
+#### `$tc(key: Key, named: Record<string, unknown>): TranslateResult;`
+
+Vue I18n v9.x:
+
+```vue
+<template>
+  <p>{{ $tc('banana', { name: 'dio' }) }}</p>
+</template>
+```
+
+Vue I18n v10 or later:
+
+use `$t(key: Key, named: NamedValue, plural: number): TranslateResult;`
+
+```vue
+<template>
+  <p>{{ $t('banana', { name: 'dio' }, 1) }}</p>
+</template>
+```
+
+#### `$tc(key: Key, choice: number): TranslateResult;`
+
+Vue I18n v9.x:
+
+```vue
+<template>
+  <p>{{ $tc('banana', 2) }}</p>
+</template>
+```
+
+Vue I18n v10 or later:
+
+use `$t(key: Key, plural: number): TranslateResult;`
+
+```vue
+<template>
+  <p>{{ $t('banana', 2) }}</p>
+</template>
+```
+
+#### `$tc(key: Key, choice: number, locale: Locale): TranslateResult;`
+
+Vue I18n v9.x:
+
+```vue
+<template>
+  <p>{{ $tc('banana', 2, 'ja') }}</p>
+</template>
+```
+
+Vue I18n v10 or later:
+
+use `$t(key: Key, plural: number, options: TranslateOptions): TranslateResult;`
+
+```vue
+<template>
+  <p>{{ $t('banana', 2, { locale: 'ja' }) }}</p>
+</template>
+```
+
+#### `$tc(key: Key, choice: number, list: unknown[]): TranslateResult;`
+
+Vue I18n v9.x:
+
+```vue
+<template>
+  <p>{{ $tc('banana', 2, ['dio']) }}</p>
+</template>
+```
+
+Vue I18n v10 or later:
+
+use `$t(key: Key, list: unknown[], plural: number): TranslateResult;`
+
+```vue
+<template>
+  <p>{{ $t('banana', ['dio'], 2) }}</p>
+</template>
+```
+
+#### `$tc(key: Key, choice: number, named: Record<string, unknown>): TranslateResult;`
+
+Vue I18n v9.x:
+
+```vue
+<template>
+  <p>{{ $tc('banana', 2,  { name: 'dio' }) }}</p>
+</template>
+```
+
+Vue I18n v10 or later:
+
+use `$t(key: Key, named: NamedValue, plural: number): TranslateResult;`
+
+```vue
+<template>
+  <p>{{ $t('banana', { name: 'dio' }, 2) }}</p>
+</template>
+```

@@ -599,6 +599,10 @@ Translation message
 
 ### $tc(key)
 
+:::danger NOTICE
+**`$tc` has been deprecated in v10. Use `$t` instead. `$tc` is going to remove in v11.**
+:::
+
 Locale message pluralization
 
 **Signature:**
@@ -632,6 +636,10 @@ Translation message that is pluraled
 
 ### $tc(key, locale)
 
+:::danger NOTICE
+**`$tc` has been deprecated in v10. Use `$t` instead. `$tc` is going to remove in v11.**
+:::
+
 Locale message pluralization
 
 **Signature:**
@@ -658,6 +666,10 @@ Overloaded `$tc`. About details, see the [$tc](injection#tc-key) remarks.
 Translation message that is pluraled
 
 ### $tc(key, list)
+
+:::danger NOTICE
+**`$tc` has been deprecated in v10. Use `$t` instead. `$tc` is going to remove in v11.**
+:::
 
 Locale message pluralization
 
@@ -686,6 +698,10 @@ Translation message that is pluraled
 
 ### $tc(key, named)
 
+:::danger NOTICE
+**`$tc` has been deprecated in v10. Use `$t` instead. `$tc` is going to remove in v11.**
+:::
+
 Locale message pluralization
 
 **Signature:**
@@ -713,6 +729,10 @@ Translation message that is pluraled
 
 ### $tc(key, choice)
 
+:::danger NOTICE
+**`$tc` has been deprecated in v10. Use `$t` instead. `$tc` is going to remove in v11.**
+:::
+
 Locale message pluralization
 
 **Signature:**
@@ -739,6 +759,10 @@ Overloaded `$tc`. About details, see the [$tc](injection#tc-key) remarks.
 Translation message that is pluraled
 
 ### $tc(key, choice, locale)
+
+:::danger NOTICE
+**`$tc` has been deprecated in v10. Use `$t` instead. `$tc` is going to remove in v11.**
+:::
 
 Locale message pluralization
 
@@ -768,6 +792,10 @@ Translation message that is pluraled
 
 ### $tc(key, choice, list)
 
+:::danger NOTICE
+**`$tc` has been deprecated in v10. Use `$t` instead. `$tc` is going to remove in v11.**
+:::
+
 Locale message pluralization
 
 **Signature:**
@@ -795,6 +823,10 @@ Overloaded `$tc`. About details, see the [$tc](injection#tc-key) remarks.
 Translation message that is pluraled
 
 ### $tc(key, choice, named)
+
+:::danger NOTICE
+**`$tc` has been deprecated in v10. Use `$t` instead. `$tc` is going to remove in v11.**
+:::
 
 Locale message pluralization
 
