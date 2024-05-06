@@ -2,6 +2,16 @@
  * @vitest-environment jsdom
  */
 
+// utils
+import * as shared from '@intlify/shared'
+vi.mock('@intlify/shared', async () => {
+  const actual = await vi.importActual<object>('@intlify/shared')
+  return {
+    ...actual,
+    warnOnce: vi.fn()
+  }
+})
+
 import { mount } from './helper'
 import { defineComponent, nextTick } from 'vue'
 import {
@@ -126,6 +136,10 @@ test('$rt', async () => {
 })
 
 test('$tc', async () => {
+  const mockWarn = vi.spyOn(shared, 'warnOnce')
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  mockWarn.mockImplementation(() => {})
+
   const i18n = createI18n({
     legacy: true,
     locale: 'en',
@@ -140,6 +154,7 @@ test('$tc', async () => {
   const { vm } = await mount(App, i18n)
 
   expect(vm.$tc!('banana', 2)).toEqual('2 bananas')
+  expect(mockWarn).toHaveBeenCalled()
 })
 
 test('$te', async () => {

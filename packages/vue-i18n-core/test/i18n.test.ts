@@ -8,7 +8,8 @@ vi.mock('@intlify/shared', async () => {
   const actual = await vi.importActual<object>('@intlify/shared')
   return {
     ...actual,
-    warn: vi.fn()
+    warn: vi.fn(),
+    warnOnce: vi.fn()
   }
 })
 
@@ -1036,6 +1037,10 @@ describe('merge i18n custom blocks to global scope', () => {
 })
 
 describe('custom pluralization', () => {
+  const mockWarn = vi.spyOn(shared, 'warnOnce')
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  mockWarn.mockImplementation(() => {})
+
   test('legacy', async () => {
     const i18n = createI18n({
       locale: 'ru',

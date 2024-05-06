@@ -6,7 +6,8 @@ vi.mock('@intlify/shared', async () => {
   const actual = await vi.importActual<object>('@intlify/shared')
   return {
     ...actual,
-    warn: vi.fn()
+    warn: vi.fn(),
+    warnOnce: vi.fn()
   }
 })
 
@@ -117,6 +118,10 @@ test('postTranslation', () => {
 })
 
 test('pluralizationRules', () => {
+  const mockWarn = vi.spyOn(shared, 'warnOnce')
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  mockWarn.mockImplementation(() => {})
+
   const i18n = createVueI18n({
     locale: 'ru',
     pluralizationRules: _pluralRules,
@@ -133,6 +138,8 @@ test('pluralizationRules', () => {
   expect(i18n.tc('car', 4)).toEqual('4 машины')
   expect(i18n.tc('car', 12)).toEqual('12 машин')
   expect(i18n.tc('car', 21)).toEqual('21 машина')
+
+  expect(mockWarn).toHaveBeenCalled()
 })
 
 test('messages', () => {
