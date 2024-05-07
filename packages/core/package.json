@@ -43,7 +43,9 @@
     "name": "IntlifyCore",
     "formats": [
       "mjs",
+      "mjs-node",
       "mjs-runtime",
+      "mjs-node-runtime",
       "browser",
       "browser-runtime",
       "cjs",

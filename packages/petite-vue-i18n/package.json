@@ -52,7 +52,9 @@
     "name": "PetiteVueI18n",
     "formats": [
       "mjs",
+      "mjs-node",
       "mjs-runtime",
+      "mjs-node-runtime",
       "browser",
       "browser-runtime",
       "cjs",
@@ -68,8 +70,8 @@
       "node": {
         "import": {
           "production": "./dist/petite-vue-i18n.node.mjs",
-          "development": "./dist/petite-vue-i18n.mjs",
-          "default": "./dist/petite-vue-i18n.mjs"
+          "development": "./dist/petite-vue-i18n.node.mjs",
+          "default": "./dist/petite-vue-i18n.node.mjs"
         },
         "require": {
           "production": "./dist/petite-vue-i18n.prod.cjs",
