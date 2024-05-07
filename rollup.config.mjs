@@ -52,16 +52,6 @@ const outputConfigs = {
     file: `dist/${name}.esm-browser.js`,
     format: `es`
   },
-  /*
-  'esm-bundler': {
-    file: `dist/${name}.esm-bundler.mjs`,
-    format: `es`
-  },
-  'esm-browser': {
-    file: `dist/${name}.esm-browser.mjs`,
-    format: `es`
-  },
-  */
   cjs: {
     // file: `dist/${name}.cjs.js`,
     file: `dist/${name}.cjs`,
@@ -76,20 +66,14 @@ const outputConfigs = {
     file: `dist/${name}.runtime.mjs`,
     format: `es`
   },
+  'mjs-node-runtime': {
+    file: `dist/${name}.runtime.node.mjs`,
+    format: `es`
+  },
   'browser-runtime': {
     file: `dist/${name}.runtime.esm-browser.js`,
     format: 'es'
   },
-  /*
-  'esm-bundler-runtime': {
-    file: `dist/${name}.runtime.esm-bundler.mjs`,
-    format: `es`
-  },
-  'esm-browser-runtime': {
-    file: `dist/${name}.runtime.esm-browser.mjs`,
-    format: 'es'
-  },
-  */
   'global-runtime': {
     file: `dist/${name}.runtime.global.js`,
     format: 'iife'
@@ -216,6 +200,7 @@ function createConfig(format, _output, plugins = []) {
       }),
       tsPlugin,
       createReplacePlugin(
+        name,
         isProductionBuild,
         isBundlerESMBuild,
         isBrowserESMBuild,
@@ -243,6 +228,7 @@ function createConfig(format, _output, plugins = []) {
           await fs.writeFile(resolve(`dist/${stub}`), contents)
           console.log(`created stub ${pc.bold(`dist/${stub}`)}`)
 
+          /*
           // add the node specific version
           if (format === 'mjs' || format === 'mjs-runtime') {
             // NOTE:
@@ -271,6 +257,7 @@ function createConfig(format, _output, plugins = []) {
               console.log(`created stub ${pc.bold(outfile)}`)
             }
           }
+          */
         }
       }
     ],
@@ -287,6 +274,7 @@ function createConfig(format, _output, plugins = []) {
 }
 
 function createReplacePlugin(
+  name,
   isProduction,
   isBundlerESMBuild,
   isBrowserESMBuild,
@@ -300,11 +288,14 @@ function createReplacePlugin(
   const replacements = {
     __COMMIT__: `"${process.env.COMMIT}"`,
     __VERSION__: `'${masterVersion}'`,
-    __DEV__: isBundlerESMBuild
-      ? // preserve to be handled by bundlers
-        `(process.env.NODE_ENV !== 'production')`
-      : // hard coded dev/prod builds
-        !isProduction,
+    __DEV__:
+      ['vue-i18n', 'petite-vue-i18n'].includes(name) && isNodeBuild
+        ? 'false' // tree-shake devtools
+        : isBundlerESMBuild
+          ? // preserve to be handled by bundlers
+            `(process.env.NODE_ENV !== 'production')`
+          : // hard coded dev/prod builds
+            !isProduction,
     // this is only used during Vue's internal tests
     __TEST__: `false`,
     // If the build is expected to run directly in the browser (global / esm builds)
@@ -327,9 +318,12 @@ function createReplacePlugin(
     __FEATURE_LEGACY_API__: isBundlerESMBuild
       ? `__VUE_I18N_LEGACY_API__`
       : `true`,
-    __FEATURE_PROD_VUE_DEVTOOLS__: isBundlerESMBuild
-      ? `__VUE_PROD_DEVTOOLS__`
-      : `false`,
+    __FEATURE_PROD_VUE_DEVTOOLS__:
+      ['vue-i18n', 'petite-vue-i18n'].includes(name) && isNodeBuild
+        ? 'false' // tree-shake devtools
+        : isBundlerESMBuild
+          ? `__VUE_PROD_DEVTOOLS__`
+          : `false`,
     __FEATURE_PROD_INTLIFY_DEVTOOLS__: isBundlerESMBuild
       ? `__INTLIFY_PROD_DEVTOOLS__`
       : `false`,
