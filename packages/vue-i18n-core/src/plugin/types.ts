@@ -8,17 +8,6 @@
  */
 export interface I18nPluginOptions {
   /**
-   * Whether to use the tag name `i18n` for Translation Component
-   *
-   * @remarks
-   * This option is used for compatibility with Vue I18n v8.x.
-   *
-   * If you can't migrate right away, you can temporarily enable this option, and you can work Translation Component.
-   *
-   * @defaultValue `false`
-   */
-  useI18nComponentName?: boolean
-  /**
    * Whether to globally install the components that is offered by Vue I18n
    *
    * @remarks

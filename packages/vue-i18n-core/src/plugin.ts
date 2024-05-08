@@ -2,8 +2,7 @@ import { Translation } from './components/Translation'
 import { NumberFormat } from './components/NumberFormat'
 import { DatetimeFormat } from './components/DatetimeFormat'
 import { vTDirective } from './directive'
-import { I18nWarnCodes, getWarnMessage } from './warnings'
-import { isPlainObject, warn, isBoolean } from '@intlify/shared'
+import { isPlainObject, isBoolean } from '@intlify/shared'
 
 import type { App } from 'vue'
 import type { I18n } from './i18n'
@@ -17,17 +16,6 @@ import type { I18n } from './i18n'
  * @VueI18nGeneral
  */
 export interface I18nPluginOptions {
-  /**
-   * Whether to use the tag name `i18n` for Translation Component
-   *
-   * @remarks
-   * This option is used for compatibility with Vue I18n v8.x.
-   *
-   * If you can't migrate right away, you can temporarily enable this option, and you can work Translation Component.
-   *
-   * @defaultValue `false`
-   */
-  useI18nComponentName?: boolean
   /**
    * Whether to globally install the components that is offered by Vue I18n
    *
@@ -45,25 +33,13 @@ export function apply(app: App, i18n: I18n, ...options: unknown[]): void {
   const pluginOptions = isPlainObject(options[0])
     ? (options[0] as I18nPluginOptions)
     : {}
-  const useI18nComponentName = !!pluginOptions.useI18nComponentName
   const globalInstall = isBoolean(pluginOptions.globalInstall)
     ? pluginOptions.globalInstall
     : true
 
-  if (__DEV__ && globalInstall && useI18nComponentName) {
-    warn(
-      getWarnMessage(I18nWarnCodes.COMPONENT_NAME_LEGACY_COMPATIBLE, {
-        name: Translation.name
-      })
-    )
-  }
-
   if (!__LITE__ && globalInstall) {
     // install components
-    app.component(
-      !useI18nComponentName ? Translation.name : 'i18n',
-      Translation
-    )
+    app.component(Translation.name, Translation)
     app.component(NumberFormat.name, NumberFormat)
     app.component(DatetimeFormat.name, DatetimeFormat)
   }
