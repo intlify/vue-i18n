@@ -1487,8 +1487,6 @@ function convertComposerOptions<
   const datetimeFormats = options.datetimeFormats
   const numberFormats = options.numberFormats
   const flatJson = options.flatJson
-  const translateExistCompatible = (options as unknown as ComposerOptions)
-    .translateExistCompatible
 
   return {
     locale,
@@ -1509,7 +1507,6 @@ function convertComposerOptions<
     escapeParameter,
     messageResolver: options.messageResolver,
     inheritLocale,
-    translateExistCompatible,
     __i18n,
     __root,
     __injectWithOption
