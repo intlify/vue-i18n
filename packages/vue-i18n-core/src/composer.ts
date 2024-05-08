@@ -13,8 +13,7 @@ import {
   assign,
   inBrowser,
   deepCopy,
-  hasOwn,
-  warnOnce
+  hasOwn
 } from '@intlify/shared'
 import {
   isTranslateFallbackWarn,
@@ -611,24 +610,6 @@ export interface ComposerOptions<
    * @defaultValue `undefined`
    */
   messageCompiler?: MessageCompiler
-  /**
-   * @remarks
-   * An option to make `te` behavior specification before v9.6
-   *
-   * @VueI18nTip
-   * :new: v9.10+
-   *
-   * @VueI18nWarning
-   * This flag will be removed in v10.
-   *
-   * @VueI18nSee [GitHub Issue](https://github.com/intlify/vue-i18n-next/issues/1738)
-   *
-   * @VueI18nSee [`te`](composition#te-key-locale)
-   *
-   * @defaultValue `false`
-   *
-   */
-  translateExistCompatible?: boolean
 }
 
 /**
@@ -1954,17 +1935,6 @@ export function createComposer(options: any = {}): any {
   const flatJson = options.flatJson
   const _ref = inBrowser ? ref : shallowRef
 
-  const translateExistCompatible = !!options.translateExistCompatible
-  if (__DEV__) {
-    if (translateExistCompatible && !__TEST__) {
-      warnOnce(
-        getWarnMessage(
-          I18nWarnCodes.NOTICE_DROP_TRANSLATE_EXIST_COMPATIBLE_FLAG
-        )
-      )
-    }
-  }
-
   let _inheritLocale = isBoolean(options.inheritLocale)
     ? options.inheritLocale
     : true
@@ -2414,11 +2384,11 @@ export function createComposer(options: any = {}): any {
         const targetLocale = isString(locale) ? locale : _locale.value
         const message = getLocaleMessage(targetLocale)
         const resolved = _context.messageResolver(message, key)
-        return !translateExistCompatible
-          ? isMessageAST(resolved) ||
-              isMessageFunction(resolved) ||
-              isString(resolved)
-          : resolved != null
+        return (
+          isMessageAST(resolved) ||
+          isMessageFunction(resolved) ||
+          isString(resolved)
+        )
       },
       () => [key],
       'translate exists',
