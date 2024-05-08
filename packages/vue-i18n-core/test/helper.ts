@@ -96,14 +96,10 @@ export function mount<
   const pluginOptions: I18nPluginOptions = isPlainObject(options.pluginOptions)
     ? options.pluginOptions
     : {
-        globalInstall: true,
-        useI18nComponentName: false
+        globalInstall: true
       }
   if (pluginOptions.globalInstall == null) {
     pluginOptions.globalInstall = true
-  }
-  if (pluginOptions.useI18nComponentName == null) {
-    pluginOptions.useI18nComponentName = false
   }
 
   return new Promise((resolve, reject) => {
