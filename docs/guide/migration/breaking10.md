@@ -576,3 +576,56 @@ use `$t(key: Key, named: NamedValue, plural: number): TranslateResult;`
   <p>{{ $t('banana', { name: 'dio' }, 2) }}</p>
 </template>
 ```
+
+### Drop modulo `%` syntax
+
+Named interpolation using modulo `%` is no longer supported in v10.
+
+**Reason**: module syntax has already deprecated in v9 with a warning.
+
+#### for migration
+
+You can use `eslint-plugin-vue-i18n`.
+
+`eslint-plugin-vue-i18n` has `@intlify/vue-i18n/no-deprecated-modulo-syntax` rule.
+https://eslint-plugin-vue-i18n.intlify.dev/rules/no-deprecated-modulo-syntax.html
+
+You can fixed with using `eslint --fix`
+
+You must have migrated with eslint before upgrading to vue-i18n v10
+
+### Drop `vue-i18n-bridge`
+
+**Reason**: vue-i18n-bridge is a bridge library for migrating vue-i18n from Vue 2 to Vue 3, and Vue 2 is no longer past EOL.
+
+### Drop `allowComposition` option
+
+**Reason**: This option already deprecated in warning about being dropped in v10. docs says, https://vue-i18n.intlify.dev/guide/migration/vue3.html#about-supporting
+
+This option was added to support the migration from the Legacy API to the composition API on v9.
+
+### Drop `formatter` option on Legacy API
+
+**Reason**: This option was deprecated in warning on v9.
+
+### Drop `preserveDirectiveContent` option on Legacy API
+
+**Reason**: This option was deprecated in warning on v9.
+
+### Drop `preserve` modifier codes on `v-t` directive
+
+**Reason**: This option was deprecated in warning on v9.
+
+### Drop `getChoiceIndex` on Legacy API
+
+**Reason**: This option was deprecated in warning on v9.
+
+### Drop translation component `<i18n>` v8.x compatibility
+
+**Reason**: This option was deprecated in warning on v9.
+
+### Drop `te` behavior v8.x compatibility
+
+**Reason**: This option was deprecated in warning on v9.
+
+This option was introduced in this issue for supporting te behavior v8.x compatibility on v9
