@@ -4,9 +4,7 @@
 Vue I18n v10 **is still an alpha version**.
 :::
 
-## APIs
-
-### Change `$t` and `t` overloaded signature for Legacy API mode
+## Change `$t` and `t` overloaded signature for Legacy API mode
 
 In Vue I18n v9, it has a different interface from the Composition API mode and Legacy API mode of `$t` and `t` overloaded signature.
 
@@ -60,7 +58,7 @@ If you are using the following APIs in Legacy API mode, you must change to anoth
 - `t(key: Key, locale: Locale, list: unknown[]): TranslateResult;`
 - `t(key: Key, locale: Locale, named: NamedValue): TranslateResult;`
 
-#### `$t(key: Key, locale: Locale): TranslateResult;`
+### `$t(key: Key, locale: Locale): TranslateResult;`
 
 Vue I18n v9.x:
 
@@ -80,7 +78,7 @@ use `$t(key: Key, list: unknown[], options: TranslateOptions): TranslateResult;`
 </template>
 ```
 
-#### `$t(key: Key, locale: Locale, list: unknown[]): TranslateResult;`
+### `$t(key: Key, locale: Locale, list: unknown[]): TranslateResult;`
 
 Vue I18n v9.x:
 
@@ -100,7 +98,7 @@ use `$t(key: Key, list: unknown[], options: TranslateOptions): TranslateResult;`
 </template>
 ```
 
-#### `$t(key: Key, locale: Locale, named: NamedValue): TranslateResult;`
+### `$t(key: Key, locale: Locale, named: NamedValue): TranslateResult;`
 
 Vue I18n v9.x:
 
@@ -120,7 +118,7 @@ use `$t(key: Key, named: NamedValue, options: TranslateOptions): TranslateResult
 </template>
 ```
 
-#### `t(key: Key, locale: Locale): TranslateResult;`
+### `t(key: Key, locale: Locale): TranslateResult;`
 
 Vue I18n v9.x:
 
@@ -146,7 +144,7 @@ const i18n = createI18n({
 console.log(i18n.global.t('message.hello', {}, { locale: 'ja' })
 ```
 
-#### `t(key: Key, locale: Locale, list: unknown[]): TranslateResult;`
+### `t(key: Key, locale: Locale, list: unknown[]): TranslateResult;`
 
 Vue I18n v9.x:
 
@@ -172,7 +170,7 @@ const i18n = createI18n({
 console.log(i18n.global.t('message.hello', ['dio'], { locale: 'ja' }))
 ```
 
-#### `t(key: Key, locale: Locale, named: NamedValue): TranslateResult;`
+### `t(key: Key, locale: Locale, named: NamedValue): TranslateResult;`
 
 Vue I18n v9.x:
 
@@ -198,7 +196,7 @@ const i18n = createI18n({
 console.log(i18n.global.t('message.hello', { name: 'dio' }, { locale: 'ja' }))
 ```
 
-### Deprecate `tc` and `$tc` for Legacy API mode
+## Deprecate `tc` and `$tc` for Legacy API mode
 
 The following APIs are deprecated in v10:
 
@@ -226,7 +224,7 @@ In v10, `tc` and `$tc` still exist to give benefit migration. These will be drop
 If you will use them, Vue I18n will output the console warning in your application.
 
 
-#### `tc(key: Key | ResourceKeys): TranslateResult;`
+### `tc(key: Key | ResourceKeys): TranslateResult;`
 
 Vue I18n v9.x:
 
@@ -250,7 +248,7 @@ const i18n = createI18n({
 console.log(i18n.global.t('banana', 1))
 ```
 
-#### `tc(key: Key | ResourceKeys, locale: Locales | Locale): TranslateResult;`
+### `tc(key: Key | ResourceKeys, locale: Locales | Locale): TranslateResult;`
 
 Vue I18n v9.x:
 
@@ -274,7 +272,7 @@ const i18n = createI18n({
 console.log(i18n.global.t('banana', 1, { locale: 'ja' }))
 ```
 
-#### `tc(key: Key | ResourceKeys, list: unknown[]): TranslateResult;`
+### `tc(key: Key | ResourceKeys, list: unknown[]): TranslateResult;`
 
 
 Vue I18n v9.x:
@@ -299,7 +297,7 @@ const i18n = createI18n({
 console.log(i18n.global.t('banana', ['dio'], 1))
 ```
 
-#### `tc(key: Key | ResourceKeys, named: Record<string, unknown>): TranslateResult;`
+### `tc(key: Key | ResourceKeys, named: Record<string, unknown>): TranslateResult;`
 
 Vue I18n v9.x:
 
@@ -323,7 +321,7 @@ const i18n = createI18n({
 console.log(i18n.global.t('banana', { name: 'dio' }, 1))
 ```
 
-#### `tc(key: Key | ResourceKeys, choice: number): TranslateResult;`
+### `tc(key: Key | ResourceKeys, choice: number): TranslateResult;`
 
 Vue I18n v9.x:
 
@@ -347,7 +345,7 @@ const i18n = createI18n({
 console.log(i18n.global.t('banana', 2))
 ```
 
-#### `tc(key: Key | ResourceKeys, choice: number, locale: Locales | Locale): TranslateResult;`
+### `tc(key: Key | ResourceKeys, choice: number, locale: Locales | Locale): TranslateResult;`
 
 Vue I18n v9.x:
 
@@ -371,7 +369,7 @@ const i18n = createI18n({
 console.log(i18n.global.t('banana', 2, { locale: 'ja' }))
 ```
 
-#### `tc(key: Key | ResourceKeys, choice: number, list: unknown[]): TranslateResult;`
+### `tc(key: Key | ResourceKeys, choice: number, list: unknown[]): TranslateResult;`
 
 Vue I18n v9.x:
 
@@ -395,7 +393,7 @@ const i18n = createI18n({
 console.log(i18n.global.t('banana', ['dio'], 2))
 ```
 
-#### `tc(key: Key | ResourceKeys, choice: number, named: Record<string, unknown>): TranslateResult;`
+### `tc(key: Key | ResourceKeys, choice: number, named: Record<string, unknown>): TranslateResult;`
 
 ```ts
 const i18n = createI18n({
@@ -417,7 +415,7 @@ const i18n = createI18n({
 console.log(i18n.global.tc('banana', { name: 'dio' }, 2))
 ```
 
-#### `$tc(key: Key): TranslateResult;`
+### `$tc(key: Key): TranslateResult;`
 
 Vue I18n v9.x:
 
@@ -437,7 +435,7 @@ use `$t(key: Key, plural: number): TranslateResult;`
 </template>
 ```
 
-#### `$tc(key: Key, locale: Locale): TranslateResult;`
+### `$tc(key: Key, locale: Locale): TranslateResult;`
 
 Vue I18n v9.x:
 
@@ -457,7 +455,7 @@ use `$t(key: Key, plural: number, options: TranslateOptions): TranslateResult;`
 </template>
 ```
 
-#### `$tc(key: Key, list: unknown[]): TranslateResult;`
+### `$tc(key: Key, list: unknown[]): TranslateResult;`
 
 Vue I18n v9.x:
 
@@ -477,7 +475,7 @@ use `$t(key: Key, list: unknown[], plural: number): TranslateResult;`
 </template>
 ```
 
-#### `$tc(key: Key, named: Record<string, unknown>): TranslateResult;`
+### `$tc(key: Key, named: Record<string, unknown>): TranslateResult;`
 
 Vue I18n v9.x:
 
@@ -497,7 +495,7 @@ use `$t(key: Key, named: NamedValue, plural: number): TranslateResult;`
 </template>
 ```
 
-#### `$tc(key: Key, choice: number): TranslateResult;`
+### `$tc(key: Key, choice: number): TranslateResult;`
 
 Vue I18n v9.x:
 
@@ -517,7 +515,7 @@ use `$t(key: Key, plural: number): TranslateResult;`
 </template>
 ```
 
-#### `$tc(key: Key, choice: number, locale: Locale): TranslateResult;`
+### `$tc(key: Key, choice: number, locale: Locale): TranslateResult;`
 
 Vue I18n v9.x:
 
@@ -537,7 +535,7 @@ use `$t(key: Key, plural: number, options: TranslateOptions): TranslateResult;`
 </template>
 ```
 
-#### `$tc(key: Key, choice: number, list: unknown[]): TranslateResult;`
+### `$tc(key: Key, choice: number, list: unknown[]): TranslateResult;`
 
 Vue I18n v9.x:
 
@@ -557,7 +555,7 @@ use `$t(key: Key, list: unknown[], plural: number): TranslateResult;`
 </template>
 ```
 
-#### `$tc(key: Key, choice: number, named: Record<string, unknown>): TranslateResult;`
+### `$tc(key: Key, choice: number, named: Record<string, unknown>): TranslateResult;`
 
 Vue I18n v9.x:
 
@@ -577,13 +575,13 @@ use `$t(key: Key, named: NamedValue, plural: number): TranslateResult;`
 </template>
 ```
 
-### Drop modulo `%` syntax
+## Drop modulo `%` syntax
 
 Named interpolation using modulo `%` is no longer supported in v10.
 
 **Reason**: module syntax has already deprecated in v9 with a warning.
 
-#### for migration
+### for migration
 
 You can use `eslint-plugin-vue-i18n`.
 
@@ -594,37 +592,37 @@ You can fixed with using `eslint --fix`
 
 You must have migrated with eslint before upgrading to vue-i18n v10
 
-### Drop `vue-i18n-bridge`
+## Drop `vue-i18n-bridge`
 
 **Reason**: vue-i18n-bridge is a bridge library for migrating vue-i18n from Vue 2 to Vue 3, and Vue 2 is no longer past EOL.
 
-### Drop `allowComposition` option
+## Drop `allowComposition` option
 
 **Reason**: This option already deprecated in warning about being dropped in v10. docs says, https://vue-i18n.intlify.dev/guide/migration/vue3.html#about-supporting
 
 This option was added to support the migration from the Legacy API to the composition API on v9.
 
-### Drop `formatter` option on Legacy API
+## Drop `formatter` option on Legacy API
 
 **Reason**: This option was deprecated in warning on v9.
 
-### Drop `preserveDirectiveContent` option on Legacy API
+## Drop `preserveDirectiveContent` option on Legacy API
 
 **Reason**: This option was deprecated in warning on v9.
 
-### Drop `preserve` modifier codes on `v-t` directive
+## Drop `preserve` modifier codes on `v-t` directive
 
 **Reason**: This option was deprecated in warning on v9.
 
-### Drop `getChoiceIndex` on Legacy API
+## Drop `getChoiceIndex` on Legacy API
 
 **Reason**: This option was deprecated in warning on v9.
 
-### Drop translation component `<i18n>` v8.x compatibility
+## Drop translation component `<i18n>` v8.x compatibility
 
 **Reason**: This option was deprecated in warning on v9.
 
-### Drop `te` behavior v8.x compatibility
+## Drop `te` behavior v8.x compatibility
 
 **Reason**: This option was deprecated in warning on v9.
 
