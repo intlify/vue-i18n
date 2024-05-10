@@ -55,8 +55,8 @@ If you use `vue-i18n.runtime.esm-bundler.js`, you will need to precompile all lo
   - For use in Node.js via `import`
   - The dev/prod files are pre-built, but the appropriate file is automatically required based on `process.env`<wbr/>`.NODE_ENV`
   - This module is proxy module of `vue-i18n(.runtime).mjs`
-    - **`vue-i18n.runtime.node.mjs`**: is runtime only. proxy `vue-i18n.runtime.mjs`.
-    - **`vue-i18n.node.mjs`**: includes the runtime compiler. proxy `vue-i18n.mjs`.
+    - **`vue-i18n.runtime.node.mjs`**: is runtime only.
+    - **`vue-i18n.node.mjs`**: includes the runtime compiler.
 
 :::tip NOTE
 ES Modules will be the future of the Node.js module system. The `vue-i18n.cjs(.prod).js` will be deprecated in the future. We recommend you would use `vue-i18n(.runtime).node.mjs`.
