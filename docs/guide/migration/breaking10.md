@@ -378,7 +378,7 @@ const i18n = createI18n({
   legacy: true,
   // something options ...
 })
-console.log(i18n.global.t('banana', 2, ['dio']))
+console.log(i18n.global.tc('banana', 2, ['dio']))
 ```
 
 Vue I18n v10 or later:
@@ -412,7 +412,7 @@ const i18n = createI18n({
   legacy: true,
   // something options ...
 })
-console.log(i18n.global.tc('banana', { name: 'dio' }, 2))
+console.log(i18n.global.t('banana', { name: 'dio' }, 2))
 ```
 
 ### `$tc(key: Key): TranslateResult;`
