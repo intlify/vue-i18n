@@ -734,6 +734,16 @@ describe('t', () => {
     await nextTick()
     expect(t('hello')).toEqual(JA_HELLO)
   })
+
+  test('default msg', () => {
+    const { t } = createComposer({
+      locale: 'en',
+      messages: {
+        en: { hello: 'Hello!' }
+      }
+    })
+    expect(t('foo', '')).toEqual('')
+  })
 })
 
 describe('rt', () => {
