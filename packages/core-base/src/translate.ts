@@ -649,8 +649,11 @@ export function translate<
         : (!messageCompiler ? () => key : key)
       : fallbackFormat // default by `fallbackFormat` option
         ? (!messageCompiler ? () => key : key)
-        : ''
-  const enableDefaultMsg = fallbackFormat || defaultMsgOrKey !== ''
+        : null
+  const enableDefaultMsg =
+    fallbackFormat ||
+    (defaultMsgOrKey != null &&
+      (isString(defaultMsgOrKey) || isFunction(defaultMsgOrKey)))
   const locale = getLocale(context, options)
 
   // escape params

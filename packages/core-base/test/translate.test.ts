@@ -120,6 +120,7 @@ describe('default option', () => {
     expect(translate(ctx, 'hello', 'hello, default message!')).toEqual(
       'hello, default message!'
     )
+    expect(translate(ctx, 'hello', '')).toEqual('')
   })
 
   test('boolean true', () => {
