@@ -1,5 +1,5 @@
-import { CoreWarnCodes } from '../src/warnings'
+import { CORE_WARN_CODES_EXTEND_POINT } from '../src/warnings'
 
 test('CoreWarnCodes', () => {
-  expect(CoreWarnCodes.__EXTEND_POINT__).toBe(8)
+  expect(CORE_WARN_CODES_EXTEND_POINT).toBe(8)
 })

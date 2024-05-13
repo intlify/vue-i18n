@@ -1,35 +1,32 @@
-import { incrementer } from '@intlify/shared'
-import { CoreErrorCodes, createCompileError } from '@intlify/core-base'
+import {
+  createCompileError,
+  CORE_ERROR_CODES_EXTEND_POINT
+} from '@intlify/core-base'
 
 import type { BaseError } from '@intlify/shared'
 
 export interface I18nError extends BaseError {}
 
-const code = CoreErrorCodes.__EXTEND_POINT__
-const inc = incrementer(code)
-
 export const I18nErrorCodes = {
   // composer module errors
-  UNEXPECTED_RETURN_TYPE: code, // 24
+  UNEXPECTED_RETURN_TYPE: CORE_ERROR_CODES_EXTEND_POINT, // 24
   // legacy module errors
-  INVALID_ARGUMENT: inc(), // 25
+  INVALID_ARGUMENT: 25,
   // i18n module errors
-  MUST_BE_CALL_SETUP_TOP: inc(), // 26
-  NOT_INSTALLED: inc(), // 27
+  MUST_BE_CALL_SETUP_TOP: 26,
+  NOT_INSTALLED: 27,
   // directive module errors
-  REQUIRED_VALUE: inc(), // 28
-  INVALID_VALUE: inc(), // 29
+  REQUIRED_VALUE: 28,
+  INVALID_VALUE: 29,
   // vue-devtools errors
-  CANNOT_SETUP_VUE_DEVTOOLS_PLUGIN: inc(), // 30
-  NOT_INSTALLED_WITH_PROVIDE: inc(), // 31
+  CANNOT_SETUP_VUE_DEVTOOLS_PLUGIN: 30,
+  NOT_INSTALLED_WITH_PROVIDE: 31,
   // unexpected error
-  UNEXPECTED_ERROR: inc(), // 32
+  UNEXPECTED_ERROR: 32,
   // not compatible legacy vue-i18n constructor
-  NOT_COMPATIBLE_LEGACY_VUE_I18N: inc(), // 33
+  NOT_COMPATIBLE_LEGACY_VUE_I18N: 33,
   // Not available Compostion API in Legacy API mode. Please make sure that the legacy API mode is working properly
-  NOT_AVAILABLE_COMPOSITION_IN_LEGACY: inc(), // 34
-  // for enhancement
-  __EXTEND_POINT__: inc() // 35
+  NOT_AVAILABLE_COMPOSITION_IN_LEGACY: 34
 } as const
 
 type I18nErrorCodes = (typeof I18nErrorCodes)[keyof typeof I18nErrorCodes]

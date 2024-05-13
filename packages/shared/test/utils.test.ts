@@ -1,10 +1,4 @@
-import {
-  format,
-  generateCodeFrame,
-  makeSymbol,
-  join,
-  incrementer
-} from '../src/index'
+import { format, generateCodeFrame, makeSymbol, join } from '../src/index'
 
 test('format', () => {
   expect(format(`foo: {0}`, 'x')).toEqual('foo: x')
@@ -59,14 +53,4 @@ test('join', () => {
     'z'
   ]
   expect(join(longSize, ' ')).toEqual(longSize.join(' '))
-})
-
-test('incrementer', () => {
-  const inc1 = incrementer(1)
-  const inc2 = incrementer(2)
-
-  expect(inc1()).toBe(2)
-  expect(inc1()).toBe(3)
-  expect(inc2()).toBe(3)
-  expect(inc2()).toBe(4)
 })

@@ -1,15 +1,11 @@
-import { format, incrementer } from '@intlify/shared'
-import { CoreWarnCodes } from '@intlify/core-base'
-
-const code = CoreWarnCodes.__EXTEND_POINT__
-const inc = incrementer(code)
+import { format } from '@intlify/shared'
+import { CORE_WARN_CODES_EXTEND_POINT } from '@intlify/core-base'
 
 export const I18nWarnCodes = {
-  FALLBACK_TO_ROOT: code, // 8
-  NOT_FOUND_PARENT_SCOPE: inc(), // 9
-  IGNORE_OBJ_FLATTEN: inc(), // 10
-  DEPRECATE_TC: inc(), // 11
-  __EXTEND_POINT__: inc() // 12
+  FALLBACK_TO_ROOT: CORE_WARN_CODES_EXTEND_POINT, // 8
+  NOT_FOUND_PARENT_SCOPE: 9,
+  IGNORE_OBJ_FLATTEN: 10,
+  DEPRECATE_TC: 11
 } as const
 
 type I18nWarnCodes = (typeof I18nWarnCodes)[keyof typeof I18nWarnCodes]

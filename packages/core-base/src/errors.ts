@@ -1,26 +1,23 @@
-import { incrementer } from '@intlify/shared'
 import {
-  CompileErrorCodes,
-  createCompileError
+  createCompileError,
+  COMPILE_ERROR_CODES_EXTEND_POINT
 } from '@intlify/message-compiler'
 
 import type { BaseError } from '@intlify/shared'
 
 export interface CoreError extends BaseError {}
 
-const code = CompileErrorCodes.__EXTEND_POINT__
-const inc = incrementer(code)
-
 export const CoreErrorCodes = {
-  INVALID_ARGUMENT: code, // 17
-  INVALID_DATE_ARGUMENT: inc(), // 18
-  INVALID_ISO_DATE_ARGUMENT: inc(), // 19
-  NOT_SUPPORT_NON_STRING_MESSAGE: inc(), // 20
-  NOT_SUPPORT_LOCALE_PROMISE_VALUE: inc(), // 21
-  NOT_SUPPORT_LOCALE_ASYNC_FUNCTION: inc(), // 22
-  NOT_SUPPORT_LOCALE_TYPE: inc(), // 23
-  __EXTEND_POINT__: inc() // 24
+  INVALID_ARGUMENT: COMPILE_ERROR_CODES_EXTEND_POINT, // 17
+  INVALID_DATE_ARGUMENT: 18,
+  INVALID_ISO_DATE_ARGUMENT: 19,
+  NOT_SUPPORT_NON_STRING_MESSAGE: 20,
+  NOT_SUPPORT_LOCALE_PROMISE_VALUE: 21,
+  NOT_SUPPORT_LOCALE_ASYNC_FUNCTION: 22,
+  NOT_SUPPORT_LOCALE_TYPE: 23
 } as const
+
+export const CORE_ERROR_CODES_EXTEND_POINT = 24
 
 export type CoreErrorCodes =
   (typeof CoreErrorCodes)[keyof typeof CoreErrorCodes]
