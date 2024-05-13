@@ -1,5 +1,5 @@
-import { CoreErrorCodes } from '../src/errors'
+import { CORE_ERROR_CODES_EXTEND_POINT } from '../src/errors'
 
 test('CoreErrorCodes', () => {
-  expect(CoreErrorCodes.__EXTEND_POINT__).toBe(24)
+  expect(CORE_ERROR_CODES_EXTEND_POINT).toBe(24)
 })

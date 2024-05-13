@@ -202,8 +202,3 @@ export function generateCodeFrame(
   }
   return res.join('\n')
 }
-
-export function incrementer(code: number): () => number {
-  let current = code
-  return () => ++current
-}

@@ -34,24 +34,21 @@ export const CompileErrorCodes = {
   EMPTY_PLACEHOLDER: 8,
   NOT_ALLOW_NEST_PLACEHOLDER: 9,
   INVALID_LINKED_FORMAT: 10,
-
   // parser error codes
   MUST_HAVE_MESSAGES_IN_PLURAL: 11,
   UNEXPECTED_EMPTY_LINKED_MODIFIER: 12,
   UNEXPECTED_EMPTY_LINKED_KEY: 13,
   UNEXPECTED_LEXICAL_ANALYSIS: 14,
-
   // generator error codes
   UNHANDLED_CODEGEN_NODE_TYPE: 15,
-
   // minifier error codes
-  UNHANDLED_MINIFIER_NODE_TYPE: 16,
-
-  // Special value for higher-order compilers to pick up the last code
-  // to avoid collision of error codes. This should always be kept as the last
-  // item.
-  __EXTEND_POINT__: 17
+  UNHANDLED_MINIFIER_NODE_TYPE: 16
 } as const
+
+// Special value for higher-order compilers to pick up the last code
+// to avoid collision of error codes.
+// This should always be kept as the last item.
+export const COMPILE_ERROR_CODES_EXTEND_POINT = 17
 
 export type CompileErrorCodes =
   (typeof CompileErrorCodes)[keyof typeof CompileErrorCodes]
