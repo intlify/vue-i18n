@@ -3,31 +3,33 @@
 
 ## Performance
 
-As described in "[installation](../installation##from-cdn-or-without-a-bundler)" section, Vue I18n offer the following two built ES modules for Bundler.
+As described in "[Different Distribution files](../extra/dist##from-cdn-or-without-a-bundler)" section, Vue I18n offer the following two built ES modules for Bundler.
 
 - message compiler + runtime: **`vue-i18n.esm-bundler.js`**
 - runtime only: **`vue-i18n.runtime.esm-bundler.js`**
 
-For bundler, it’s configured to bundle `vue-i18n.esm-bundler.js` with [`@intlify/bundle-tools`](https://github.com/intlify/bundle-tools#intlifybundle-tools) as default. If you want to reduce the bundle size further, you can configure the bundler to use `vue-i18n.runtime.esm-bundler.js`, which is runtime only.
+For bundler, it’s configured to bundle `vue-i18n.esm-bundler.js` with [`@intlify/unplugin-vue-i18n`](https://github.com/intlify/bundle-tools/tree/main/packages/unplugin-vue-i18n) as default. If you want to reduce the bundle size further, you can configure the bundler to use `vue-i18n.runtime.esm-bundler.js`, which is runtime only.
+
+The use of ES Module `vue-i18n.runtime.esm-bundler.js` means that **all locale messages have to pre-compile to Message functions or AST resources**. what this means it improves performance because vue-i18n just only execute Message functions, so no compilation.
+
+:::tip NOTE
+Before v9.3, the locale messages will be compiled to Message functions, after v9.3 or later these will be compiled to AST with `@intlify/bundle-tools`.
+:::
+
+:::tip NOTE
+Before v9.3, all locale messages are compiled with `@intlify/unplugin-vue-i18n`, so the message compiler is not bundled, **bundle size can be reduced**.
+
+After v9.3, since the message compiler is also bundled, the bundle size cannot be reduced. **This is a trade-off**.
+About the reason, See [JIT compilation for details](#jit-compilation).
+:::
 
 :::danger NOTE
-IF [CSP](https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP) is enabled, `vue-i18n.esm-bundler.js` would not work with compiler due to `eval` statements. These statements violate the `default-src 'self'` header. Instead you need to use `vue-i18n.runtime.esm-bundler.js`.
+If [CSP](https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP) is enabled in before v9.3, `vue-i18n.esm-bundler.js` would not work with compiler due to `eval` statements. These statements violate the `default-src 'self'` header. Instead you need to use `vue-i18n.runtime.esm-bundler.js`.
 :::
 
 :::warning NOTICE
 From v9.3, the CSP issue can be worked around by JIT compilation of the vue-i18n message compiler. See [JIT compilation for details](#jit-compilation).
 :::
-
-The use of this ES Module means that **all locale messages have to pre-compile to Message functions**. what this means it improves performance because vue-i18n just only execute Message functions, so no compilation.
-
-Also, the message compiler is not bundled, therefore **bundle size can be reduced**
-
-:::warning NOTICE
-If you are using the JIT compilation, all locale messages will not necessarily be compiled with the Message function.
-
-Also, since the message compiler is also bundled, the bundle size cannot be reduced. **This is a trade-off**.
-:::
-
 
 ## How to configure
 
@@ -132,14 +134,14 @@ About how to configure for bundler, see the [here](#configure-feature-flags-for-
 :new: 9.3+
 :::
 
-Before v9.3, vue-i18n message compiler precompiled locale messages like AOT.
+Before v9.3, vue-i18n message compiler precompiled locale messages like AOT (Ahead Of Time).
 
 However, it had the following issues:
 
 - CSP issues: hard to work on service/web workers, edge-side runtimes of CDNs and etc.
 - Back-end integration: hard to get messages from back-end such as database via API and localize them dynamically
 
-To solve these issues, JIT style compilation is supported message compiler.
+To solve these issues, JIT (Just In Time) style compilation is supported message compiler.
 
 Each time localization is performed in an application using `$t` or `t` functions, message resources will be compiled on message compiler.
 
@@ -150,6 +152,10 @@ You need to configure the following feature flag with `esm-bundler` build and bu
 
 :::warning NOTICE
 This feature is opted out as default, because compatibility with previous version before v9.3.
+:::
+
+:::warning NOTICE
+From v10, JIT compilation is enabled by default, so it is no longer necessary to set the `__INTLIFY_JIT_COMPILATION__` flag in the bundler.
 :::
 
 About how to configure for bundler, see the [here](#configure-feature-flags-for-bundler).

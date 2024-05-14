@@ -23,10 +23,6 @@ export function initFeatureFlags(): void {
     getGlobalThis().__VUE_I18N_LEGACY_API__ = true
   }
 
-  if (typeof __FEATURE_JIT_COMPILATION__ !== 'boolean') {
-    getGlobalThis().__INTLIFY_JIT_COMPILATION__ = false
-  }
-
   if (typeof __FEATURE_DROP_MESSAGE_COMPILER__ !== 'boolean') {
     getGlobalThis().__INTLIFY_DROP_MESSAGE_COMPILER__ = false
   }

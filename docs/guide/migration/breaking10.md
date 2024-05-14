@@ -4,6 +4,22 @@
 Vue I18n v10 **is still an alpha version**.
 :::
 
+## Default enable for JIT compilation
+
+**Reason**: CSP problems can be solved and dynamic resources can be supported
+
+JIT compilation was introduced in v9.3. It was not enabled by default.
+
+Nuxt I18n, which integrates vue-i18n, already has this feature enabled and stable by default.
+https://i18n.nuxtjs.org/docs/options/compilation#jit
+
+To use this feature in Vue I18n, we had to use bundler and `@intlify/unplugin-vue-i18n` to enable the `__INTLIFY_JIT_COMPILATION__` flag.
+By default in the JIT compilation, this flag is no longer needed starting with v10.
+
+If you would not still using the JIT compilation and would be moving up to v10 or later, **you will need to rebuild your application once**.
+
+About JIT compilation details, See "[Optimazation](../advanced/optimization.md)".
+
 ## Change `$t` and `t` overloaded signature for Legacy API mode
 
 In Vue I18n v9, it has a different interface from the Composition API mode and Legacy API mode of `$t` and `t` overloaded signature.

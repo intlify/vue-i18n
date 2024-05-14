@@ -15,9 +15,7 @@ if (__ESM_BUNDLER__ && !__TEST__) {
 }
 
 // register message compiler for jit compilation
-if (__FEATURE_JIT_COMPILATION__) {
-  registerMessageCompiler(compile)
-}
+registerMessageCompiler(compile)
 
 // register message resolver at vue-i18n
 registerMessageResolver(resolveValue)

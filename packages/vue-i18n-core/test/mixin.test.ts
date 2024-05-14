@@ -15,7 +15,7 @@ vi.mock('@intlify/shared', async () => {
 import { mount } from './helper'
 import { defineComponent, nextTick } from 'vue'
 import {
-  compileToFunction,
+  compile,
   registerMessageCompiler,
   resolveValue,
   registerMessageResolver,
@@ -27,7 +27,7 @@ import { errorMessages, I18nErrorCodes } from '../src/errors'
 import { VueI18n } from '../src/legacy'
 
 beforeAll(() => {
-  registerMessageCompiler(compileToFunction)
+  registerMessageCompiler(compile)
   registerMessageResolver(resolveValue)
   registerLocaleFallbacker(fallbackWithLocaleChain)
 })

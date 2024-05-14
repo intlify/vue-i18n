@@ -24,7 +24,7 @@ import {
 } from 'vue'
 import {
   setDevToolsHook,
-  compileToFunction,
+  compile,
   registerMessageCompiler,
   resolveValue,
   registerMessageResolver,
@@ -43,7 +43,7 @@ document.body.appendChild(container)
 let org: any // eslint-disable-line @typescript-eslint/no-explicit-any
 let spy: any // eslint-disable-line @typescript-eslint/no-explicit-any
 beforeEach(() => {
-  registerMessageCompiler(compileToFunction)
+  registerMessageCompiler(compile)
   registerMessageResolver(resolveValue)
   registerLocaleFallbacker(fallbackWithLocaleChain)
 
