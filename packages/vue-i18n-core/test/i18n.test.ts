@@ -24,7 +24,7 @@ import {
 } from 'vue'
 import {
   setDevToolsHook,
-  compileToFunction,
+  compile,
   registerMessageCompiler,
   resolveValue,
   registerMessageResolver,
@@ -47,7 +47,7 @@ const container = document.createElement('div')
 document.body.appendChild(container)
 
 beforeAll(() => {
-  registerMessageCompiler(compileToFunction)
+  registerMessageCompiler(compile)
   registerMessageResolver(resolveValue)
   registerLocaleFallbacker(fallbackWithLocaleChain)
 })

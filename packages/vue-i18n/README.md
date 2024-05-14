@@ -49,8 +49,8 @@ Internationalization plugin for Vue.js
   - For use in Node.js via `import`
   - The dev/prod files are pre-built, but the appropriate file is automatically required based on `process.env.NODE_ENV`
   - This module is proxy module of `vue-i18n(.runtime).mjs`
-    - **`vue-i18n.runtime.node.mjs`**: is runtime only. proxy `vue-i18n.runtime.mjs`
-    - **`vue-i18n.node.mjs`**: includes the runtime compiler. proxy `vue-i18n.mjs`
+    - **`vue-i18n.runtime.node.mjs`**: is runtime only
+    - **`vue-i18n.node.mjs`**: includes the runtime compiler
 
 > NOTE: ES Modules will be the future of the Node.js module system. The `vue-i18n.cjs(.prod).js` will be deprecated in the future. We recommend you would use `vue-i18n(.runtime).node.mjs`. 9.3+
 
@@ -63,10 +63,7 @@ The `esm-bundler` builds now exposes global feature flags that can be overwritte
 
 - `__VUE_I18N_FULL_INSTALL__` (enable/disable, in addition to vue-i18n APIs, components and directives all fully support installation: `true`)
 - `__VUE_I18N_LEGACY_API__` (enable/disable vue-i18n legacy style APIs support, default: `true`)
-- `__INTLIFY_JIT_COMPILATION__`  (enable/disable message compiler for JIT style, default: `false`)
-- `__INTLIFY_DROP_MESSAGE_COMPILER__`  (enable/disable whether to tree-shake message compiler when we will be bundling, this flag works when `__INTLIFY_JIT_COMPILATION__` is enabled. default: `false`)
-
-> NOTE: `__INTLIFY_JIT_COMPILATION__`, `__INTLIFY_DROP_MESSAGE_COMPILER__` flag support version, 9.3+
+- `__INTLIFY_DROP_MESSAGE_COMPILER__`  (enable/disable whether to tree-shake message compiler when we will be bundling)
 
 The build will work without configuring these flags, however it is **strongly recommended** to properly configure them in order to get proper tree shaking in the final bundle. To configure these flags:
 
@@ -76,6 +73,6 @@ The build will work without configuring these flags, however it is **strongly re
 
 Note: the replacement value **must be boolean literals** and cannot be strings, otherwise the bundler/minifier will not be able to properly evaluate the conditions.
 
-## :copyright: License
+## ©️ License
 
 [MIT](http://opensource.org/licenses/MIT)

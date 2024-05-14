@@ -5,7 +5,6 @@ import {
   detectHtmlTag
 } from '@intlify/message-compiler'
 import { format as formatMessage } from './format'
-import { CoreErrorCodes, createCoreError } from './errors'
 
 import type {
   CompileOptions,
@@ -53,53 +52,6 @@ function baseCompile(
 }
 
 /* #__NO_SIDE_EFFECTS__ */
-export const compileToFunction = <
-  Message = string,
-  MessageSource = string | ResourceNode
->(
-  message: MessageSource,
-  context: MessageCompilerContext
-): MessageFunction<Message> => {
-  if (!isString(message)) {
-    throw createCoreError(CoreErrorCodes.NOT_SUPPORT_NON_STRING_MESSAGE)
-  }
-
-  if (__RUNTIME__) {
-    __DEV__ &&
-      warn(
-        `Runtime compilation is not supported in ${
-          __BUNDLE_FILENAME__ || 'N/A'
-        }.`
-      )
-    return (() => message) as MessageFunction<Message>
-  } else {
-    // check HTML message
-    const warnHtmlMessage = isBoolean(context.warnHtmlMessage)
-      ? context.warnHtmlMessage
-      : true
-    __DEV__ && checkHtmlMessage(message, warnHtmlMessage)
-
-    // check caches
-    const onCacheKey = context.onCacheKey || defaultOnCacheKey
-    const cacheKey = onCacheKey(message)
-    const cached = (compileCache as MessageFunctions<Message>)[cacheKey]
-    if (cached) {
-      return cached
-    }
-
-    // compile
-    const { code, detectError } = baseCompile(message, context)
-
-    // evaluate function
-    const msg = new Function(`return ${code}`)() as MessageFunction<Message>
-
-    // if occurred compile error, don't cache
-    return !detectError
-      ? ((compileCache as MessageFunctions<Message>)[cacheKey] = msg)
-      : msg
-  }
-}
-
 export function compile<
   Message = string,
   MessageSource = string | ResourceNode
@@ -111,7 +63,7 @@ export function compile<
     (__ESM_BROWSER__ ||
       __NODE_JS__ ||
       __GLOBAL__ ||
-      (__FEATURE_JIT_COMPILATION__ && !__FEATURE_DROP_MESSAGE_COMPILER__)) &&
+      !__FEATURE_DROP_MESSAGE_COMPILER__) &&
     isString(message)
   ) {
     // check HTML message

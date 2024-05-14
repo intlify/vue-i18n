@@ -13,7 +13,6 @@ export default defineConfig({
     __RUNTIME__: true,
     // is targeting Node (SSR)?
     __NODE_JS__: false,
-    __INTLIFY_JIT_COMPILATION__: false,
     __INTLIFY_DROP_MESSAGE_COMPILER__: false,
     __INTLIFY_PROD_DEVTOOLS__: false,
     'process.env.NODE_ENV': JSON.stringify('production')

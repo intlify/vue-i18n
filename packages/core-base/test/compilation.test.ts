@@ -9,12 +9,7 @@ vi.mock('@intlify/shared', async () => {
 })
 
 import { baseCompile } from '@intlify/message-compiler'
-import {
-  compileToFunction,
-  compile,
-  isMessageAST,
-  clearCompileCache
-} from '../src/compilation'
+import { compile, isMessageAST, clearCompileCache } from '../src/compilation'
 import { createMessageContext as context } from '../src/runtime'
 
 const DEFAULT_CONTEXT = { locale: 'en', key: 'key' }
@@ -40,25 +35,6 @@ describe('isMessageAST', () => {
     test('should be false', () => {
       expect(isMessageAST({ b: '' })).toBe(false)
     })
-  })
-})
-
-describe('compileToFunction', () => {
-  test('basic', () => {
-    const msg = compileToFunction('hello {name}!', DEFAULT_CONTEXT)
-    const ctx = context({
-      named: { name: 'kazupon' }
-    })
-    expect(msg(ctx)).toBe('hello kazupon!')
-  })
-
-  test('error', () => {
-    let occured = false
-    compileToFunction('hello {name!', {
-      ...DEFAULT_CONTEXT,
-      onError: () => (occured = true)
-    })
-    expect(occured).toBe(true)
   })
 })
 

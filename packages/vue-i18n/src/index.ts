@@ -2,7 +2,6 @@ import { getGlobalThis } from '@intlify/shared'
 import {
   setDevToolsHook,
   registerMessageCompiler,
-  compileToFunction,
   compile,
   registerMessageResolver,
   resolveValue,
@@ -16,16 +15,7 @@ if (__ESM_BUNDLER__ && !__TEST__) {
 }
 
 // register message compiler at vue-i18n
-if (
-  __ESM_BROWSER__ ||
-  __NODE_JS__ ||
-  __GLOBAL__ ||
-  __FEATURE_JIT_COMPILATION__
-) {
-  registerMessageCompiler(compile)
-} else {
-  registerMessageCompiler(compileToFunction)
-}
+registerMessageCompiler(compile)
 
 // register message resolver at vue-i18n
 registerMessageResolver(resolveValue)

@@ -20,7 +20,7 @@ import {
   registerMessageResolver,
   registerLocaleFallbacker
 } from '../src/context'
-import { compileToFunction, compile } from '../src/compilation'
+import { compile } from '../src/compilation'
 import { fallbackWithLocaleChain } from '../src/fallbacker'
 import { resolveValue } from '../src/resolver'
 import { createTextNode } from './helper'
@@ -31,7 +31,7 @@ import type { MessageType, MessageProcessor } from '../src/runtime'
 import type { PickupKeys } from '../src/types/utils'
 
 beforeEach(() => {
-  registerMessageCompiler(compileToFunction)
+  registerMessageCompiler(compile)
   registerMessageResolver(resolveValue)
   registerLocaleFallbacker(fallbackWithLocaleChain)
 })
@@ -978,8 +978,6 @@ describe('processor', () => {
 
 describe('AST passing', () => {
   test('simple text', () => {
-    registerMessageCompiler(compile)
-
     const msg = 'hi kazupon !'
     const { ast } = baseCompile(msg, { jit: true, location: false })
 

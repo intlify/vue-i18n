@@ -16,7 +16,7 @@ import { createVueI18n } from '../src/legacy'
 import { errorMessages, I18nErrorCodes } from '../src/errors'
 import { watchEffect, nextTick } from 'vue'
 import {
-  compileToFunction,
+  compile,
   registerMessageCompiler,
   resolveValue,
   registerMessageResolver,
@@ -27,7 +27,7 @@ import {
 import { pluralRules as _pluralRules } from './helper'
 
 beforeEach(() => {
-  registerMessageCompiler(compileToFunction)
+  registerMessageCompiler(compile)
   registerMessageResolver(resolveValue)
 })
 

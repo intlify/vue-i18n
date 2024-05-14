@@ -9,7 +9,7 @@ import {
 } from 'vue'
 import { renderToString } from '@vue/server-renderer'
 import {
-  compileToFunction,
+  compile,
   registerMessageCompiler,
   resolveValue,
   registerMessageResolver,
@@ -19,7 +19,7 @@ import {
 import { createI18n, useI18n } from '../src/index'
 
 beforeAll(() => {
-  registerMessageCompiler(compileToFunction)
+  registerMessageCompiler(compile)
   registerMessageResolver(resolveValue)
   registerLocaleFallbacker(fallbackWithLocaleChain)
 })

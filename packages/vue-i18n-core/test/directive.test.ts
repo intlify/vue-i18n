@@ -19,7 +19,7 @@ import { mount } from './helper'
 import { defineComponent, ref, h, withDirectives, resolveDirective } from 'vue'
 import { format } from '@intlify/shared'
 import {
-  compileToFunction,
+  compile,
   registerMessageCompiler,
   resolveValue,
   registerMessageResolver,
@@ -30,7 +30,7 @@ import { createI18n } from '../src/index'
 import { errorMessages, I18nErrorCodes } from '../src/errors'
 
 beforeAll(() => {
-  registerMessageCompiler(compileToFunction)
+  registerMessageCompiler(compile)
   registerMessageResolver(resolveValue)
   registerLocaleFallbacker(fallbackWithLocaleChain)
 })

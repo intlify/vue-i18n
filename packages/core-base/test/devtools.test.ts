@@ -1,6 +1,6 @@
 import { createEmitter } from '@intlify/shared'
 import { createCoreContext, translate } from '../src/index'
-import { compileToFunction } from '../src/compilation'
+import { compile } from '../src/compilation'
 import { setDevToolsHook, getDevToolsHook } from '../src/devtools'
 
 import type {
@@ -51,7 +51,7 @@ describe('translateDevTools', () => {
     const HELLO = 'Hello {name}!'
     const ctx = createCoreContext({
       locale: 'en',
-      messageCompiler: compileToFunction,
+      messageCompiler: compile,
       messages: {
         en: {
           hello: HELLO
@@ -78,7 +78,7 @@ describe('translateDevTools', () => {
     const ctx = createCoreContext({
       locale: 'en',
       fallbackLocale: ['ja'],
-      messageCompiler: compileToFunction,
+      messageCompiler: compile,
       messages: {
         ja: {
           hello: HELLO

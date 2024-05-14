@@ -29,7 +29,6 @@ import { getWarnMessage, I18nWarnCodes } from '../src/warnings'
 import { watch, watchEffect, nextTick, Text, createVNode } from 'vue'
 import {
   Locale,
-  compileToFunction,
   compile,
   registerMessageCompiler,
   resolveValue,
@@ -43,7 +42,7 @@ import {
 } from '@intlify/core-base'
 
 beforeEach(() => {
-  registerMessageCompiler(compileToFunction)
+  registerMessageCompiler(compile)
   registerMessageResolver(resolveValue)
   registerLocaleFallbacker(fallbackWithLocaleChain)
 })
@@ -799,8 +798,6 @@ describe('rt', () => {
   })
 
   test('AST', () => {
-    registerMessageCompiler(compile)
-
     const { rt, messages } = createComposer({
       locale: 'en',
       messages: {

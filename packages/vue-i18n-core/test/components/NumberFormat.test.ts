@@ -5,7 +5,7 @@
 import { mount } from '../helper'
 import { defineComponent, SetupContext, VNodeChild, h } from 'vue'
 import {
-  compileToFunction,
+  compile,
   registerMessageCompiler,
   resolveValue,
   registerMessageResolver,
@@ -44,7 +44,7 @@ const numberFormats = {
 }
 
 beforeAll(() => {
-  registerMessageCompiler(compileToFunction)
+  registerMessageCompiler(compile)
   registerMessageResolver(resolveValue)
   registerLocaleFallbacker(fallbackWithLocaleChain)
 })

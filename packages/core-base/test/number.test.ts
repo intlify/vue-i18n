@@ -27,7 +27,7 @@ import {
   registerMessageCompiler,
   registerLocaleFallbacker
 } from '../src/context'
-import { compileToFunction } from '../src/compilation'
+import { compile } from '../src/compilation'
 import { fallbackWithLocaleChain } from '../src/fallbacker'
 import { NumberFormats } from '../src/types/index'
 
@@ -69,7 +69,7 @@ const numberFormats: NumberFormats<MyNumberSchema, 'en-US' | 'ja-JP'> = {
 }
 
 beforeEach(() => {
-  registerMessageCompiler(compileToFunction)
+  registerMessageCompiler(compile)
   registerLocaleFallbacker(fallbackWithLocaleChain)
 })
 
