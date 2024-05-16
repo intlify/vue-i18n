@@ -18,7 +18,7 @@ By default in the JIT compilation, this flag is no longer needed starting with v
 
 If you would not still using the JIT compilation and would be moving up to v10 or later, **you will need to rebuild your application once**.
 
-About JIT compilation details, See "[Optimazation](../advanced/optimization.md)".
+About JIT compilation details, See "[Optimization](../advanced/optimization.md)".
 
 ## Change `$t` and `t` overloaded signature for Legacy API mode
 
