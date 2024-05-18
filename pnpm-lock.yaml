@@ -570,8 +570,8 @@ importers:
         specifier: workspace:*
         version: link:../shared
       '@vue/devtools-api':
-        specifier: ^6.5.0
-        version: 6.5.1
+        specifier: ^7.0.0
+        version: 7.2.0(vue@3.4.27(typescript@5.4.3))
       vue:
         specifier: 3.4.27
         version: 3.4.27(typescript@5.4.3)
@@ -645,8 +645,8 @@ importers:
         specifier: workspace:*
         version: link:../shared
       '@vue/devtools-api':
-        specifier: ^6.5.0
-        version: 6.5.1
+        specifier: ^7.0.0
+        version: 7.2.0(vue@3.4.27(typescript@5.4.3))
       vue:
         specifier: 3.4.27
         version: 3.4.27(typescript@5.4.3)
@@ -664,8 +664,8 @@ importers:
         specifier: workspace:*
         version: link:../shared
       '@vue/devtools-api':
-        specifier: ^6.5.0
-        version: 6.5.1
+        specifier: ^7.0.0
+        version: 7.2.0(vue@3.4.27(typescript@5.4.3))
       vue:
         specifier: 3.4.27
         version: 3.4.27(typescript@5.4.3)
@@ -8929,6 +8929,12 @@ snapshots:
     transitivePeerDependencies:
       - vue
 
+  '@vue/devtools-api@7.2.0(vue@3.4.27(typescript@5.4.3))':
+    dependencies:
+      '@vue/devtools-kit': 7.2.0(vue@3.4.27(typescript@5.4.3))
+    transitivePeerDependencies:
+      - vue
+
   '@vue/devtools-kit@7.2.0(vue@3.4.27(typescript@5.3.3))':
     dependencies:
       '@vue/devtools-shared': 7.2.0
@@ -8937,6 +8943,15 @@ snapshots:
       perfect-debounce: 1.0.0
       speakingurl: 14.0.1
       vue: 3.4.27(typescript@5.3.3)
+
+  '@vue/devtools-kit@7.2.0(vue@3.4.27(typescript@5.4.3))':
+    dependencies:
+      '@vue/devtools-shared': 7.2.0
+      hookable: 5.5.3
+      mitt: 3.0.1
+      perfect-debounce: 1.0.0
+      speakingurl: 14.0.1
+      vue: 3.4.27(typescript@5.4.3)
 
   '@vue/devtools-shared@7.2.0':
     dependencies:
