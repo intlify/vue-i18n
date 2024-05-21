@@ -60,6 +60,7 @@ export function compile<
   context: MessageCompilerContext
 ): MessageFunction<Message> {
   if (
+    !__RUNTIME__ &&
     (__ESM_BROWSER__ ||
       __NODE_JS__ ||
       __GLOBAL__ ||
