@@ -4,19 +4,19 @@ Small size subset of Vue I18n
 
 `petite-vue-i18n` is an alternative distribution of Vue I18n, which provides only minimal features.
 
-## :question: What is the difference from Vue I18n ?
+## ❓ What is the difference from Vue I18n ?
 
 - The Size is smaller than vue-i18n
   - CDN or without a Bundler
-    - Reduce size: runtime + compiler `~36%`, runtime only `~49%`
-    - `petite-vue-i18n`: runtime + compiler `~7.48KB`, runtime only `~4.07KB` (production build, brotli compression)
-    - `vue-i18n`: runtime + compiler `~11.71KB`, runtime only `~8.30KB` (production build, brotli compression)
+    - Package reduce size: runtime + compiler `~32%`, runtime only `~45%`
+    - `petite-vue-i18n`: runtime + compiler `~9.61KB`, runtime only `~5.51KB` (production build, brotli compression)
+    - `vue-i18n`: runtime + compiler `~14.18KB`, runtime only `~10.12KB` (production build, brotli compression)
   - ES Modules for browser
-    - Reduce size: runtime + compiler `~35%`, runtime only `~49%`
-    - `petite-vue-i18n`: runtime + compiler `~7.51KB`, runtime only `~4.09KB` (production build, brotli compression)
-    - `vue-i18n`: runtime + compiler `~11.73KB`, runtime only `~8.34KB` (production build, brotli compression)
-  - Bundle size
-    - Reduce size from `vue-i18n`: runtime + compiler `~14%`, runtime only `~22%` (Code size check measurement of [vue-i18n](https://github.com/intlify/vue-i18n-next/tree/master/packages/size-check-vue-i18n) and [petite-vue-i18n](https://github.com/intlify/vue-i18n-next/tree/master/packages/size-check-petite-vue-i18n))
+    - Package reduce size: runtime + compiler `~32%`, runtime only `~45%`
+    - `petite-vue-i18n`: runtime + compiler `~10.51KB`, runtime only `~6.20KB` (production build, brotli compression)
+    - `vue-i18n`: runtime + compiler `~15.40KB`, runtime only `~11.12KB` (production build, brotli compression)
+  - Application bundle size
+    - Reduce size from `vue-i18n`: `~10%` (Code size check measurement of [vue-i18n](https://github.com/intlify/vue-i18n-next/tree/master/packages/size-check-vue-i18n) and [petite-vue-i18n](https://github.com/intlify/vue-i18n-next/tree/master/packages/size-check-petite-vue-i18n))
 - The legacy API is not supported, **only the composition API**
 - The APIs for the following DateTime Formats, Number Formats, and utilities aren’t included. **Translation only**
   - `n`, `$n`
@@ -33,21 +33,13 @@ Small size subset of Vue I18n
   - DatetimeFormat `i18n-d`
   - NumberFormat `i18n-n`
 
-## :hammer: The use case of `petite-vue-i18n`
+## 🔨 The use case of `petite-vue-i18n`
 
 `vue-i18n` includes various i18n features such as translation, datetimes format and number formats. Some projects may only use translation and not datetime formats.  At the moment, even in that case, the code for that feature is included.
 
 If your project only uses `t` or `$t` API for translation, so we recommended you would use `petite-vue-i18n` better than `vue-i18n`. And your project needs the features of `vue-i18n`, you can smoothly migrate from `petite-vue-i18n` to `vue-i18n`. This means that it’s progressive enhancement.
 
-## :warning: About the supporting of `petite-vue-i18n`
-
-Note that `petite-vue-i18n` is still experimental, and you may encounter bugs and unsupported use cases. Proceed at your own risk.
-
-However, please don’t worry about it. Depending on the usage of `petite-vue-i18n` and the feedback, we would like to use it refer to the development of the next version of `vue-i18n`. This means we will to maintain it.
-
-We welcome your feedback on `petite-vue-i18n`.
-
-## :cd: Installation
+## 💿 Installation
 
 Basically, it’s the same as installing `vue-i18n`. The only difference is that the part of URL or part of path are changed from `vue-i18n` to `petite-vue-i18n`.
 
@@ -83,7 +75,12 @@ app.mount('#app')
 
 NPM:
 ```sh
-npm install petite-vue-i18n
+npm install petite-vue-i18n --save
+```
+
+PNPM:
+```sh
+pnpm add petite-vue-i18n
 ```
 
 Yarn:
@@ -107,7 +104,7 @@ app.use(i18n)
 app.mount('#app')
 ```
 
-## :rocket: Usage
+## 🚀 Usages
 
 ### Hello world
 
@@ -171,9 +168,11 @@ Note that at this time, only bundlers like vite and webpack are supported.
 You need to install `@intlify/core-base` to your project with package manager.
 
 ```sh
-$ npm install --save @intlify/core-base@alpha
-# or
-# yarn add @intlify/core-base@alpha
+npm install --save @intlify/core-base
+# for pnpm
+# pnpm add @intlify/core-base
+# for yarn
+# yarn add @intlify/core-base
 ```
 
 Then, at the entry point of the application, configure the message resolver and locale fallbacker using the API as the below:
@@ -200,6 +199,24 @@ registerLocaleFallbacker(fallbackWithLocaleChain)
 
 With the above settings, locale message resolving and locale fallbacking will be handled in the same way as in vue-i18n, note that the code size will increase slightly.
 
-## :copyright: License
+### Switch without changing import id
+
+You can switch from vue-i18n to petite-vue-i18n in your application using npm alias without changing the import id.
+
+package.json:
+```diff
+ {
+   // ...
+   "dependencies": {
+     "vue": "^3.4.14",
+-     "vue-i18n": "^10.0.0"
++     "vue-i18n": "npm:petite-vue-i18n@^10.0.0"
+   },
+ }
+```
+
+You need `@intlify/unplugin-vue-i18n` to build your application.
+
+## ©️ License
 
 [MIT](https://opensource.org/licenses/MIT)
