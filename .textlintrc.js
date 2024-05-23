@@ -36,7 +36,8 @@ module.exports = {
         'SFC',
         'PHP',
         'SSR',
-        'MIT'
+        'MIT',
+        'PNPM'
       ]
     },
     'abbr-within-parentheses': true,

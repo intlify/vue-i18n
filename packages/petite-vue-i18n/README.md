@@ -199,11 +199,11 @@ registerLocaleFallbacker(fallbackWithLocaleChain)
 
 With the above settings, locale message resolving and locale fallbacking will be handled in the same way as in vue-i18n, note that the code size will increase slightly.
 
-### Switch without changing import id
+### Switch without changing import ID
 
-You can switch from vue-i18n to petite-vue-i18n in your application using npm alias without changing the import id.
+You can switch from vue-i18n to petite-vue-i18n in your application using npm alias without changing the import ID.
 
-package.json:
+Package.json:
 ```diff
  {
    // ...
