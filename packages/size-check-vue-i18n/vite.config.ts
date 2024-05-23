@@ -25,8 +25,8 @@ export default defineConfig({
   },
   resolve: {
     alias: {
-      // 'vue-i18n': 'vue-i18n/dist/vue-i18n.runtime.esm-bundler.js'
-      'vue-i18n': 'vue-i18n/dist/vue-i18n.esm-bundler.js'
+      'vue-i18n': 'vue-i18n/dist/vue-i18n.runtime.esm-bundler.js'
+      // 'vue-i18n': 'vue-i18n/dist/vue-i18n.esm-bundler.js'
     }
   },
   build: {

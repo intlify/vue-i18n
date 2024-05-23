@@ -177,6 +177,10 @@ function sidebarGuide() {
         {
           text: 'Custom Message Format',
           link: '/guide/advanced/format'
+        },
+        {
+          text: 'Petite Vue I18n',
+          link: '/guide/advanced/lite'
         }
       ]
     },

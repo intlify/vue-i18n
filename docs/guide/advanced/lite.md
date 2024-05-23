@@ -1,10 +1,13 @@
-# petite-vue-i18n
+# Small size subset of Vue I18n
 
-Small size subset of Vue I18n
+:::warning NOTICE
+`petite-vue-i18n` **is not still GA.
+It will be GA with the release of Vue I18n v10.
+:::
 
 `petite-vue-i18n` is an alternative distribution of Vue I18n, which provides only minimal features.
 
-## ❓ What is the difference from Vue I18n ?
+## What is the difference from Vue I18n ?
 
 - The Size is smaller than vue-i18n
   - CDN or without a Bundler
@@ -33,13 +36,13 @@ Small size subset of Vue I18n
   - DatetimeFormat `i18n-d`
   - NumberFormat `i18n-n`
 
-## 🔨 The use case of `petite-vue-i18n`
+## The use case of `petite-vue-i18n`
 
 `vue-i18n` includes various i18n features such as translation, datetimes format and number formats. Some projects may only use translation and not datetime formats.  At the moment, even in that case, the code for that feature is included.
 
 If your project only uses `t` or `$t` API for translation, so we recommended you would use `petite-vue-i18n` better than `vue-i18n`. And your project needs the features of `vue-i18n`, you can smoothly migrate from `petite-vue-i18n` to `vue-i18n`. This means that it’s progressive enhancement.
 
-## 💿 Installation
+## Installation
 
 Basically, it’s the same as installing `vue-i18n`. The only difference is that the part of URL or part of path are changed from `vue-i18n` to `petite-vue-i18n`.
 
@@ -73,20 +76,21 @@ app.mount('#app')
 
 ### Package managers
 
-NPM:
-```sh
-npm install petite-vue-i18n --save
+::: code-group
+
+```sh [npm]
+npm install petite-vue-i18n@next --save
 ```
 
-PNPM:
-```sh
-pnpm add petite-vue-i18n
+```sh [yarn]
+yarn add petite-vue-i18n@next
 ```
 
-Yarn:
-```sh
-yarn add petite-vue-i18n
+```sh [pnpm]
+pnpm add petite-vue-i18n@next
 ```
+:::
+
 
 ```js
 import { createApp } from 'vue'
@@ -104,7 +108,7 @@ app.use(i18n)
 app.mount('#app')
 ```
 
-## 🚀 Usages
+## Usages
 
 ### Hello world
 
@@ -167,13 +171,20 @@ Note that at this time, only bundlers like vite and webpack are supported.
 
 You need to install `@intlify/core-base` to your project with package manager.
 
-```sh
-npm install --save @intlify/core-base
-# for pnpm
-# pnpm add @intlify/core-base
-# for yarn
-# yarn add @intlify/core-base
+::: code-group
+
+```sh [npm]
+npm install --save @intlify/core-base@next
 ```
+
+```sh [yarn]
+yarn add @intlify/core-base@next
+```
+
+```sh [pnpm]
+pnpm add @intlify/core-base@next
+```
+:::
 
 Then, at the entry point of the application, configure the message resolver and locale fallbacker using the API as the below:
 
@@ -199,11 +210,11 @@ registerLocaleFallbacker(fallbackWithLocaleChain)
 
 With the above settings, locale message resolving and locale fallbacking will be handled in the same way as in vue-i18n, note that the code size will increase slightly.
 
-### Switch without changing import ID
+### Switch without changing import id
 
-You can switch from vue-i18n to petite-vue-i18n in your application using npm alias without changing the import ID.
+You can switch from vue-i18n to petite-vue-i18n in your application using npm alias without changing the import id.
 
-Package.json:
+package.json:
 ```diff
  {
    // ...
@@ -216,7 +227,3 @@ Package.json:
 ```
 
 You need `@intlify/unplugin-vue-i18n` to build your application.
-
-## ©️ License
-
-[MIT](https://opensource.org/licenses/MIT)
