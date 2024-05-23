@@ -2,7 +2,7 @@
 
 ## Basic Usage
 
-If you are building Vue component or Vue application using single file components, you can manage the locale messages with using i18n custom block.
+If you are building Vue component or Vue application using single file components, you can manage the locale messages using i18n custom block.
 
 The following in [single file components example](https://github.com/kazupon/vue-i18n/tree/dev/examples/sfc):
 

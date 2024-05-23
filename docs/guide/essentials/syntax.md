@@ -260,7 +260,7 @@ Vue I18n supports the message format that is compatible with [Ruby on Rails i18n
 You can interpolate message format syntax with `%` prefixing:
 
 :::danger IMPORTANT
-In v10 and later, Rails i18n format will be deprecated. We recommended using Named interpolation.
+In v10 and later, Rails i18n format will be deprecated. We recommend using Named interpolation.
 :::
 
 As an example, the following locale messages resource:
