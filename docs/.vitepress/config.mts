@@ -17,13 +17,13 @@ export default defineConfig({
     logo: '/vue-i18n-logo.svg',
 
     socialLinks: [
-      { icon: 'github', link: 'https://github.com/intlify/vue-i18n-next' },
+      { icon: 'github', link: 'https://github.com/intlify/vue-i18n' },
       { icon: 'twitter', link: 'https://twitter.com/intlify' }
     ],
 
     editLink: {
       pattern:
-        'https://github.com/intlify/vue-i18n-next/edit/master/docs/:path',
+        'https://github.com/intlify/vue-i18n/edit/master/docs/:path',
       text: 'Edit this page on GitHub'
     },
 
@@ -75,7 +75,7 @@ function nav() {
     },
     {
       text: 'Changelog',
-      link: 'https://github.com/intlify/vue-i18n-next/blob/master/CHANGELOG.md'
+      link: 'https://github.com/intlify/vue-i18n/blob/master/CHANGELOG.md'
     }
   ]
 }

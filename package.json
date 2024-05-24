@@ -1,5 +1,5 @@
 {
-  "name": "vue-i18n-next",
+  "name": "vue-i18n-root",
   "version": "10.0.0-beta.1",
   "license": "MIT",
   "author": {
@@ -8,10 +8,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/intlify/vue-i18n-next.git"
+    "url": "git+https://github.com/intlify/vue-i18n.git"
   },
   "bugs": {
-    "url": "https://github.com/inlitify/vue-i18n-next/issues"
+    "url": "https://github.com/inlitify/vue-i18n/issues"
   },
   "scripts": {
     "benchmark": "node ./benchmark/index.mjs",

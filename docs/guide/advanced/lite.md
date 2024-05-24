@@ -19,7 +19,7 @@ It will be GA with the release of Vue I18n v10.
     - `petite-vue-i18n`: runtime + compiler `~10.51KB`, runtime only `~6.20KB` (production build, brotli compression)
     - `vue-i18n`: runtime + compiler `~15.40KB`, runtime only `~11.12KB` (production build, brotli compression)
   - Application bundle size
-    - Reduce size from `vue-i18n`: `~10%` (Code size check measurement of [vue-i18n](https://github.com/intlify/vue-i18n-next/tree/master/packages/size-check-vue-i18n) and [petite-vue-i18n](https://github.com/intlify/vue-i18n-next/tree/master/packages/size-check-petite-vue-i18n))
+    - Reduce size from `vue-i18n`: `~10%` (Code size check measurement of [vue-i18n](https://github.com/intlify/vue-i18n/tree/master/packages/size-check-vue-i18n) and [petite-vue-i18n](https://github.com/intlify/vue-i18n/tree/master/packages/size-check-petite-vue-i18n))
 - The legacy API is not supported, **only the composition API**
 - The APIs for the following DateTime Formats, Number Formats, and utilities aren’t included. **Translation only**
   - `n`, `$n`
@@ -155,15 +155,15 @@ app.mount('#app')
 
 ### Use the same message resolver and locale fallbacker as `vue-i18n`
 
-In `petite-vue-i18n`, the message resolver and locale fallbacker use simple implementations to optimize code size, as described in the [differences section](https://github.com/intlify/vue-i18n-next/tree/master/packages/petite-vue-i18n#question-what-is-the-difference-from-vue-i18n-), as the belows:
+In `petite-vue-i18n`, the message resolver and locale fallbacker use simple implementations to optimize code size, as described in the [differences section](https://github.com/intlify/vue-i18n/tree/master/packages/petite-vue-i18n#question-what-is-the-difference-from-vue-i18n-), as the belows:
 
 - message resolver
   - Resolves key-value style locale messages
-  - About implementation, see the [here](https://github.com/intlify/vue-i18n-next/blob/2d4d2a342f8bae134665a0b7cd945fb8b638839a/packages/core-base/src/resolver.ts#L305-L307)
+  - About implementation, see the [here](https://github.com/intlify/vue-i18n/blob/2d4d2a342f8bae134665a0b7cd945fb8b638839a/packages/core-base/src/resolver.ts#L305-L307)
 - locale fallbacker
   - Fallback according to the array order specified in `fallbackLocale`
   - If a simple string locale is specified, fallback to that locale
-  - About implementation, see the [here](https://github.com/intlify/vue-i18n-next/blob/2d4d2a342f8bae134665a0b7cd945fb8b638839a/packages/core-base/src/fallbacker.ts#L40-L58)
+  - About implementation, see the [here](https://github.com/intlify/vue-i18n/blob/2d4d2a342f8bae134665a0b7cd945fb8b638839a/packages/core-base/src/fallbacker.ts#L40-L58)
 
 If you want to use the same message resolver and locale fallbacker as `vue-i18n`, you can change them using the API.
 

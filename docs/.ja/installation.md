@@ -69,7 +69,7 @@ app.mount('#app')
 最新の開発ビルドを使いたい場合、GitHubから直接クローンしてあなた自身で`vue-i18n`をビルドする必要があります。
 
 ```sh
-git clone git@github.com:intlify/vue-i18n-next.git node_modules/vue-i18n
+git clone git@github.com:intlify/vue-i18n.git node_modules/vue-i18n
 cd node_modules/vue-i18n
 npm install # or `yarn`
 npm run build  # or `yarn run build`

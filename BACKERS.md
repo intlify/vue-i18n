@@ -13,7 +13,7 @@ You can join them in supporting vue-i18n & Intlify project development by [pledg
   >
     <img
       style="max-width: 100%; vertical-align: midele;"
-      src="https://raw.githubusercontent.com/intlify/vue-i18n-next/master/docs/public/zenarchitects.png"
+      src="https://raw.githubusercontent.com/intlify/vue-i18n/master/docs/public/zenarchitects.png"
       width="400px"
       alt="Zen Architects"
     >
@@ -31,7 +31,7 @@ You can join them in supporting vue-i18n & Intlify project development by [pledg
   >
     <img
       style="max-width: 100%; vertical-align: midele;"
-      src="https://raw.githubusercontent.com/intlify/vue-i18n-next/master/docs/public/plaid.svg"
+      src="https://raw.githubusercontent.com/intlify/vue-i18n/master/docs/public/plaid.svg"
       width="260px"
       alt="PLAID"
     >
@@ -49,7 +49,7 @@ You can join them in supporting vue-i18n & Intlify project development by [pledg
   >
     <img
       style="max-width: 100%; vertical-align: midele;"
-      src="https://raw.githubusercontent.com/intlify/vue-i18n-next/master/docs/public/nuxtlabs.svg"
+      src="https://raw.githubusercontent.com/intlify/vue-i18n/master/docs/public/nuxtlabs.svg"
       width="260px"
       alt="NuxtLabs"
     >
@@ -65,7 +65,7 @@ You can join them in supporting vue-i18n & Intlify project development by [pledg
   >
     <img
       style="max-width: 100%; vertical-align: midele;"
-      src="https://raw.githubusercontent.com/intlify/vue-i18n-next/master/docs/public/localazy.svg"
+      src="https://raw.githubusercontent.com/intlify/vue-i18n/master/docs/public/localazy.svg"
       width="260px"
       alt="Localazy"
     >
@@ -81,7 +81,7 @@ You can join them in supporting vue-i18n & Intlify project development by [pledg
   >
     <img
       style="max-width: 100%; vertical-align: midele;"
-      src="https://raw.githubusercontent.com/intlify/vue-i18n-next/master/docs/public/crowdin.svg"
+      src="https://raw.githubusercontent.com/intlify/vue-i18n/master/docs/public/crowdin.svg"
       width="260px"
       alt="Crowdin"
     >
@@ -105,7 +105,7 @@ You can join them in supporting vue-i18n & Intlify project development by [pledg
   >
     <img
       style="max-width: 100%; vertical-align: midele;"
-      src="https://raw.githubusercontent.com/intlify/vue-i18n-next/master/docs/public/vuemastery.png"
+      src="https://raw.githubusercontent.com/intlify/vue-i18n/master/docs/public/vuemastery.png"
       width="140px"
       alt="Vue Mastery"
     >
@@ -119,7 +119,7 @@ You can join them in supporting vue-i18n & Intlify project development by [pledg
     rel="noopener"
   >
     <img
-      src="https://raw.githubusercontent.com/intlify/vue-i18n-next/master/docs/public/Froggly.svg"
+      src="https://raw.githubusercontent.com/intlify/vue-i18n/master/docs/public/Froggly.svg"
       width="140px"
       alt="froggly"
     />

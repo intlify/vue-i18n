@@ -13,14 +13,14 @@
     "name": "kazuya kawaguchi",
     "email": "kawakazu80@gmail.com"
   },
-  "homepage": "https://github.com/intlify/vue-i18n-next/tree/master/packages/shared#readme",
+  "homepage": "https://github.com/intlify/vue-i18n/tree/master/packages/shared#readme",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/intlify/vue-i18n-next.git",
+    "url": "git+https://github.com/intlify/vue-i18n.git",
     "directory": "packages/shared"
   },
   "bugs": {
-    "url": "https://github.com/intlify/vue-i18n-next/issues"
+    "url": "https://github.com/intlify/vue-i18n/issues"
   },
   "files": [
     "index.js",

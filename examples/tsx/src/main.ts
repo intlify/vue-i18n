@@ -8,7 +8,7 @@ const i18n = createI18n({
   messages: {
     en: {
       hello: 'Hello world',
-      tos: 'vue-i18n-next docs',
+      tos: 'vue-i18n docs',
       term: 'access to {0}'
     }
   }

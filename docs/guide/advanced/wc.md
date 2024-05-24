@@ -5,7 +5,7 @@
 :::
 
 :::tip
-The fully example codes of this chapter is [here](https://github.com/intlify/vue-i18n-next/tree/master/examples/web-components)
+The fully example codes of this chapter is [here](https://github.com/intlify/vue-i18n/tree/master/examples/web-components)
 :::
 
 Vue 3.2 later, we can use the WebComponents as described in the [official documentation](https://v3.vuejs.org/guide/web-components.html).
@@ -127,7 +127,7 @@ So, In `App.vue`, which is the entry point of a Vue application, the following t
 </template>
 ```
 
-The complete example described so far can be looked [here](https://github.com/intlify/vue-i18n-next/tree/master/examples/web-components).
+The complete example described so far can be looked [here](https://github.com/intlify/vue-i18n/tree/master/examples/web-components).
 
 ## Limitations
 

@@ -18,7 +18,7 @@ Please check [here](https://nuxt.com/docs/getting-started/installation#prerequis
 
 ## Example codes
 
-You can get the code for the tutorial below on [examples/frameworks/nuxt3](https://github.com/intlify/vue-i18n-next/tree/master/examples/frameworks/nuxt3).
+You can get the code for the tutorial below on [examples/frameworks/nuxt3](https://github.com/intlify/vue-i18n/tree/master/examples/frameworks/nuxt3).
 
 You can also see a deployed app made following this tutorial with a custom GitHub action to provide translations from DeepL in this [nuxt3-app-vue-i18n](https://github.com/lyqht/nuxt3-app-vue-i18n) project.
 

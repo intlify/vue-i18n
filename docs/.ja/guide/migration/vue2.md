@@ -56,7 +56,7 @@ import { createI18n, useI18n } from 'vue-i18n-bridge'
 Vue.use(VueCompositionAPI)
 Vue.use(VueI18n, { bridge: true }) // you must specify '{ bridge: true }' plugin option when install vue-i18n
 
-// `createI18n` options is almost same vue-i18n-next (vue-i18n@v9.x) API
+// `createI18n` options is almost same vue-i18n (vue-i18n@v9.x) API
 const i18n = createI18n({
   legacy: false,
   locale: 'ja',
@@ -76,7 +76,7 @@ const i18n = createI18n({
 
 const app = createApp({
  setup() {
-   // `useI18n` options is almost same vue-i18n-next (vue-i18n@v9.x) API
+   // `useI18n` options is almost same vue-i18n (vue-i18n@v9.x) API
    const { t, locale } = useI18n()
    // ... todo something
 
@@ -98,7 +98,7 @@ import { createI18n, useI18n } from 'vue-i18n-bridge'
 Vue.use(VueCompositionAPI)
 Vue.use(VueI18n, { bridge: true }) // you must specify '{ bridge: true }' plugin option when install vue-i18n
 
-// `createI18n` options is almost same vue-i18n-next (vue-i18n@v9.x) API
+// `createI18n` options is almost same vue-i18n (vue-i18n@v9.x) API
 const i18n = createI18n({
   locale: 'ja',
   messages: {
@@ -132,7 +132,7 @@ Vue.use(VueI18n, { bridge: true })
 ```
 
 ### Limitations
-- In Legacy API mode, You **cannot use [new message format syntax](https://vue-i18n.intlify.dev/guide/essentials/syntax.html)** by porting from `vue-i18n-next`
+- In Legacy API mode, You **cannot use [new message format syntax](https://vue-i18n.intlify.dev/guide/essentials/syntax.html)** by porting from `vue-i18n`
   - it use possible only Composition API mode
 - In Composition API mode, If you can use the following components, these can be referenced i18n resources, **only globally**
   - i18n functional component `<i18n>`

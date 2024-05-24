@@ -82,7 +82,7 @@ import { createI18n, useI18n } from 'vue-i18n-bridge'
 
 Vue.use(VueI18n, { bridge: true }) // you must specify '{ bridge: true }' plugin option when install vue-i18n
 
-// `createI18n` options is almost same vue-i18n-next (vue-i18n@v9.x) API
+// `createI18n` options is almost same vue-i18n (vue-i18n@v9.x) API
 const i18n = createI18n({
   legacy: false,
   locale: 'ja',
@@ -102,7 +102,7 @@ const i18n = createI18n({
 
 const app = createApp({
  setup() {
-   // `useI18n` options is almost same vue-i18n-next (vue-i18n@v9.x) API
+   // `useI18n` options is almost same vue-i18n (vue-i18n@v9.x) API
    const { t, locale } = useI18n()
    // ... todo something
 
@@ -124,7 +124,7 @@ import { createI18n, useI18n } from 'vue-i18n-bridge'
 Vue.use(VueCompositionAPI)
 Vue.use(VueI18n, { bridge: true }) // you must specify '{ bridge: true }' plugin option when install vue-i18n
 
-// `createI18n` options is almost same vue-i18n-next (vue-i18n@v9.x) API
+// `createI18n` options is almost same vue-i18n (vue-i18n@v9.x) API
 const i18n = createI18n({
   legacy: false,
   locale: 'ja',
@@ -144,7 +144,7 @@ const i18n = createI18n({
 
 const app = createApp({
  setup() {
-   // `useI18n` options is almost same vue-i18n-next (vue-i18n@v9.x) API
+   // `useI18n` options is almost same vue-i18n (vue-i18n@v9.x) API
    const { t, locale } = useI18n()
    // ... todo something
 
@@ -166,7 +166,7 @@ import { createI18n, useI18n } from 'vue-i18n-bridge'
 
 Vue.use(VueI18n, { bridge: true }) // you must specify '{ bridge: true }' plugin option when install vue-i18n
 
-// `createI18n` options is almost same vue-i18n-next (vue-i18n@v9.x) API
+// `createI18n` options is almost same vue-i18n (vue-i18n@v9.x) API
 const i18n = createI18n({
   locale: 'ja',
   messages: {
@@ -199,7 +199,7 @@ import { createI18n, useI18n } from 'vue-i18n-bridge'
 Vue.use(VueCompositionAPI)
 Vue.use(VueI18n, { bridge: true }) // you must specify '{ bridge: true }' plugin option when install vue-i18n
 
-// `createI18n` options is almost same vue-i18n-next (vue-i18n@v9.x) API
+// `createI18n` options is almost same vue-i18n (vue-i18n@v9.x) API
 const i18n = createI18n({
   locale: 'ja',
   messages: {
@@ -301,9 +301,9 @@ app.mount('#app') // Vue app host container element
 ```
 
 ### Limitations
-- In Legacy API mode, You **cannot use [new message format syntax](https://vue-i18n.intlify.dev/guide/essentials/syntax.html)** by porting from `vue-i18n-next`
+- In Legacy API mode, You **cannot use [new message format syntax](https://vue-i18n.intlify.dev/guide/essentials/syntax.html)** by porting from `vue-i18n`
   - it use possible only Composition API mode
-- In Legacy API mode, You **cannot use back-ported components that are following components** by porting from `vue-i18n-next`
+- In Legacy API mode, You **cannot use back-ported components that are following components** by porting from `vue-i18n`
   - Translation components: `<i18n-t>`
   - DateTime format components: `<i18n-d>`
   - Number format components: `<i18n-n>`
