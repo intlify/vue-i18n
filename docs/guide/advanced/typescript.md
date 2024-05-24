@@ -77,7 +77,7 @@ In addition to local messages, the resource type definitions can also include da
 
 The following is an example of code that defines type-safe resources for locale messages and number formats on a per-component basis in `useI18n`.
 
-locale mesasges to import in Vue components:
+locale messages to import in Vue components:
 
 ```json
 {
