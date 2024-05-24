@@ -1,5 +1,5 @@
 <script setup lang="ts">
-const commitURL = `https://github.com/intlify/vue-i18n-next/tree/${__COMMIT__}`
+const commitURL = `https://github.com/intlify/vue-i18n/tree/${__COMMIT__}`
 const commitLabel = `@${__COMMIT__}`
 const commitHistoryURL = 'https://app.netlify.com/sites/format-explorer/deploys'
 </script>
@@ -7,15 +7,9 @@ const commitHistoryURL = 'https://app.netlify.com/sites/format-explorer/deploys'
 <template>
   <div>
     <h1>Intlify Message Format Explorer</h1>
-    <a
-      :href="commitURL"
-      target="_blank"
-    >{{ commitLabel }}</a>
+    <a :href="commitURL" target="_blank">{{ commitLabel }}</a>
     |
-    <a
-      :href="commitHistoryURL"
-      target="_blank"
-    >History</a>
+    <a :href="commitHistoryURL" target="_blank">History</a>
   </div>
 </template>
 

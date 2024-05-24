@@ -37,12 +37,12 @@ It is of course fine to use non-English language, when you open a PR to translat
 
 ### Work Step Example
 
-- Fork the repository from [intlify/vue-i18n-next](https://github.com/intlify/vue-i18n-next) !
+- Fork the repository from [intlify/vue-i18n](https://github.com/intlify/vue-i18n) !
 - Create your topic branch from `master`: `git branch my-new-topic origin/master`
 - Add codes and pass tests !
 - Commit your changes: `git commit -am 'Add some topic'`
 - Push to the branch: `git push origin my-new-topic`
-- Submit a pull request to `master` branch of `intlify/vue-i18n-next` repository !
+- Submit a pull request to `master` branch of `intlify/vue-i18n` repository !
 
 ## Development Setup
 

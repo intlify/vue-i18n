@@ -87,7 +87,7 @@ The following output:
 </div>
 ```
 
-About the above example, see the [example](https://github.com/intlify/vue-i18n-next/blob/master/examples/legacy/components/translation.html)
+About the above example, see the [example](https://github.com/intlify/vue-i18n/blob/master/examples/legacy/components/translation.html)
 
 The children of translation component are interpolated with locale message of `keypath` prop. In the above example,
 

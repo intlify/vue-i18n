@@ -36,7 +36,7 @@ body:
       label: Validations
       description: Before submitting the issue, please make sure you do the following
       options:
-        - label: Read the [Contributing Guidelines](https://github.com/intlify/vue-i18n-next/blob/master/.github/CONTRIBUTING.md)
+        - label: Read the [Contributing Guidelines](https://github.com/intlify/vue-i18n/blob/master/.github/CONTRIBUTING.md)
           required: true
         - label: Read the [Documentation](https://vue-i18n.intlify.dev/)
           required: true

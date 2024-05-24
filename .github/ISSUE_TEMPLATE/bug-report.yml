@@ -62,11 +62,11 @@ body:
       label: Validations
       description: Before submitting the issue, please make sure you do the following
       options:
-        - label: Read the [Contributing Guidelines](https://github.com/intlify/vue-i18n-next/blob/master/.github/CONTRIBUTING.md)
+        - label: Read the [Contributing Guidelines](https://github.com/intlify/vue-i18n/blob/master/.github/CONTRIBUTING.md)
           required: true
         - label: Read the [Documentation](https://vue-i18n.intlify.dev/)
           required: true
-        - label: Check that there isn't [already an issue](https://github.com/intlify/vue-i18n-next/issues) that reports the same bug to avoid creating a duplicate.
+        - label: Check that there isn't [already an issue](https://github.com/intlify/vue-i18n/issues) that reports the same bug to avoid creating a duplicate.
           required: true
-        - label: Check that this is a concrete bug. For Q&A open a [GitHub Discussions](https://github.com/intlify/vue-i18n-next/discussions)
+        - label: Check that this is a concrete bug. For Q&A open a [GitHub Discussions](https://github.com/intlify/vue-i18n/discussions)
           required: true

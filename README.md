@@ -1,4 +1,4 @@
-# vue-i18n-next
+# vue-i18n
 
 > This is the repository for Vue I18n 9 for Vue 3
 
@@ -15,7 +15,7 @@ Vue I18n is part of the Vue Ecosystem and Intlify Project is an open source proj
 <p align="center">
   <a href="https://zenarchitects.co.jp/" target="_blank">
     <img
-      src="https://raw.githubusercontent.com/intlify/vue-i18n-next/master/docs/public/zenarchitects.png"
+      src="https://raw.githubusercontent.com/intlify/vue-i18n/master/docs/public/zenarchitects.png"
       width="400px"
     />
   </a>
@@ -28,7 +28,7 @@ Vue I18n is part of the Vue Ecosystem and Intlify Project is an open source proj
     href="https://plaid.co.jp/"
     target="_blank">
     <img
-      src="https://raw.githubusercontent.com/intlify/vue-i18n-next/master/docs/public/plaid.svg"
+      src="https://raw.githubusercontent.com/intlify/vue-i18n/master/docs/public/plaid.svg"
       width="240px"
     />
   </a>
@@ -41,7 +41,7 @@ Vue I18n is part of the Vue Ecosystem and Intlify Project is an open source proj
     href="https://nuxtlabs.com/"
     target="_blank">
     <img
-      src="https://raw.githubusercontent.com/intlify/vue-i18n-next/master/docs/public/nuxtlabs.svg"
+      src="https://raw.githubusercontent.com/intlify/vue-i18n/master/docs/public/nuxtlabs.svg"
       width="240px"
     />
   </a>
@@ -51,7 +51,7 @@ Vue I18n is part of the Vue Ecosystem and Intlify Project is an open source proj
     href="https://localazy.com/blog/how-to-localize-vuejs-app-with-vue-i18n-and-localazy?utm_source=kazupon&utm_medium=banner&utm_campaign=sponsorships_kazupon&utm_content=logo"
     target="_blank">
     <img
-      src="https://raw.githubusercontent.com/intlify/vue-i18n-next/master/docs/public/localazy.svg"
+      src="https://raw.githubusercontent.com/intlify/vue-i18n/master/docs/public/localazy.svg"
       width="240px"
     />
   </a>
@@ -61,7 +61,7 @@ Vue I18n is part of the Vue Ecosystem and Intlify Project is an open source proj
     href="https://crowdin.com/teams/engineering?utm_source=vue-i18n.intlify.dev&utm_medium=referral"
     target="_blank">
     <img
-      src="https://raw.githubusercontent.com/intlify/vue-i18n-next/master/docs/public/crowdin.svg"
+      src="https://raw.githubusercontent.com/intlify/vue-i18n/master/docs/public/crowdin.svg"
       width="240px"
     />
   </a>
@@ -74,7 +74,7 @@ Vue I18n is part of the Vue Ecosystem and Intlify Project is an open source proj
 <p align="center">
   <a href="https://www.vuemastery.com/" target="_blank">
     <img
-      src="https://raw.githubusercontent.com/intlify/vue-i18n-next/master/docs/public/vuemastery.png"
+      src="https://raw.githubusercontent.com/intlify/vue-i18n/master/docs/public/vuemastery.png"
       width="144px"
     />
   </a>
@@ -83,7 +83,7 @@ Vue I18n is part of the Vue Ecosystem and Intlify Project is an open source proj
 <p align="center">
   <a href="https://froggly.pl/" target="_blank">
     <img
-      src="https://raw.githubusercontent.com/intlify/vue-i18n-next/master/docs/public/Froggly.svg"
+      src="https://raw.githubusercontent.com/intlify/vue-i18n/master/docs/public/Froggly.svg"
       width="144px"
     />
   </a>
@@ -91,7 +91,7 @@ Vue I18n is part of the Vue Ecosystem and Intlify Project is an open source proj
 
 <br/>
 
-## Status: [![Test](https://github.com/intlify/vue-i18n-next/actions/workflows/test.yml/badge.svg)](https://github.com/intlify/vue-i18n-next/actions/workflows/test.yml) [![Lint](https://github.com/intlify/vue-i18n-next/actions/workflows/lint.yml/badge.svg)](https://github.com/intlify/vue-i18n-next/actions/workflows/lint.yml)
+## Status: [![Test](https://github.com/intlify/vue-i18n/actions/workflows/test.yml/badge.svg)](https://github.com/intlify/vue-i18n/actions/workflows/test.yml) [![Lint](https://github.com/intlify/vue-i18n/actions/workflows/lint.yml/badge.svg)](https://github.com/intlify/vue-i18n/actions/workflows/lint.yml)
 
 - [Documentation](https://vue-i18n.intlify.dev/)
 - If you use Vue I18n v8 for Vue 2, see this [repository](https://github.com/kazupon/vue-i18n)
@@ -114,7 +114,7 @@ Please consult the [Migration Guide](https://vue-i18n.intlify.dev/guide/migratio
 
 ## 🍭 Examples
 
-See the [`examples`](https://github.com/intlify/vue-i18n-next/tree/master/examples) directory.
+See the [`examples`](https://github.com/intlify/vue-i18n/tree/master/examples) directory.
 
 The examples are offered in the following two API styles:
 
@@ -148,7 +148,7 @@ The examples are offered in the following two API styles:
 
 ## 💪 Contribution
 
-Please make sure to read the [Contributing Guide](https://github.com/intlify/vue-i18n-next/blob/master/.github/CONTRIBUTING.md) before making a pull request.
+Please make sure to read the [Contributing Guide](https://github.com/intlify/vue-i18n/blob/master/.github/CONTRIBUTING.md) before making a pull request.
 
 ## ©️ License
 

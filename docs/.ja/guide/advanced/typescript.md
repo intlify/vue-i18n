@@ -147,7 +147,7 @@ export default defineComponent({
 - Currently support for `JSON` format only.
 :::
 
-これまで説明したコードは、[example](https://github.com/intlify/vue-i18n-next/tree/master/examples/type-safe) として公開しています。実際に確認してみましょう！
+これまで説明したコードは、[example](https://github.com/intlify/vue-i18n/tree/master/examples/type-safe) として公開しています。実際に確認してみましょう！
 
 ### Type-Safe supporting APIs
 他にも、以下のAPIに対して、型安全なリソースの操作ができるようリソースのスキーマを指定できる型パラメータをサポートしています。

@@ -90,8 +90,8 @@ const i18n = createI18n({
 
 ## Reference
 
-In implementing the message compiler, we recommend you would read and understand the [compilation codes](https://github.com/intlify/vue-i18n-next/blob/master/packages/core-base/src/compilation.ts)
+In implementing the message compiler, we recommend you would read and understand the [compilation codes](https://github.com/intlify/vue-i18n/blob/master/packages/core-base/src/compilation.ts)
 
 :::info
-You can get the code for the tutorial below on [examples/message-format](https://github.com/intlify/vue-i18n-next/tree/master/examples/message-format).
+You can get the code for the tutorial below on [examples/message-format](https://github.com/intlify/vue-i18n/tree/master/examples/message-format).
 :::

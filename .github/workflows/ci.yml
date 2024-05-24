@@ -76,7 +76,7 @@ jobs:
         uses: actions/cache@v4
         with:
           path: packages/*/dist
-          key: build-vue-i18n-next-os-${{ matrix.os }}-${{ github.sha }}
+          key: build-vue-i18n-os-${{ matrix.os }}-${{ github.sha }}
 
   test-unit:
     name: Unit test
@@ -189,7 +189,7 @@ jobs:
         uses: actions/cache@v4
         with:
           path: packages/*/dist
-          key: build-vue-i18n-next-os-${{ matrix.os }}-${{ github.sha }}
+          key: build-vue-i18n-os-${{ matrix.os }}-${{ github.sha }}
 
       - name: Run e2e tests
         run: pnpm test:e2e
@@ -235,7 +235,7 @@ jobs:
         uses: actions/cache@v4
         with:
           path: packages/*/dist
-          key: build-vue-i18n-next-os-${{ matrix.os }}-${{ github.sha }}
+          key: build-vue-i18n-os-${{ matrix.os }}-${{ github.sha }}
 
       - name: Upload message-compiler dist files (debug)
         uses: actions/upload-artifact@v4

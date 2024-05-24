@@ -31,6 +31,6 @@ You can use this extension to enable SSR and improve i18n performance.
 
 ## Petite-Vue-I18n
 
-[petite-vue-i18n](https://github.com/intlify/vue-i18n-next/tree/master/packages/petite-vue-i18n) is an alternative distribution of Vue I18n, which provides only minimal features.
+[petite-vue-i18n](https://github.com/intlify/vue-i18n/tree/master/packages/petite-vue-i18n) is an alternative distribution of Vue I18n, which provides only minimal features.
 
 Note that petite-vue-i18n is still experimental, so you may encounter bugs and unsupported use cases.

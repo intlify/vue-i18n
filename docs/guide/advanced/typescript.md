@@ -143,7 +143,7 @@ the above codes, by specifying the defined schema as the first type parameter of
 - Currently support for `JSON` format only.
 :::
 
-The code described so far is available as [example](https://github.com/intlify/vue-i18n-next/tree/master/examples/type-safe). Let's check it!
+The code described so far is available as [example](https://github.com/intlify/vue-i18n/tree/master/examples/type-safe). Let's check it!
 
 ### Type-Safe supporting APIs
 

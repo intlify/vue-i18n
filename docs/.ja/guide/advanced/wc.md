@@ -132,7 +132,7 @@ Vue アプリケーションのエントリポイントとなる `App.vue` で�
 </template>
 ```
 
-ここまで説明した完全なexampleは、[こちら](https://github.com/intlify/vue-i18n-next/tree/master/examples/web-components)にあります。
+ここまで説明した完全なexampleは、[こちら](https://github.com/intlify/vue-i18n/tree/master/examples/web-components)にあります。
 
 ## 制限事項
 1. Web Components を実装する際に利用できる Vue I18n は **Composition API のみ**です。
