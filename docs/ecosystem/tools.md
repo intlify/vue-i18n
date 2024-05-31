@@ -1,10 +1,10 @@
 # Third-party tooling
 
-## inlang
+## Sherlock – i18n inspector (VS Code extension)
 
-inlang is the ecosystem to adapt and expand software products to new markets, and that has [VSCode extensions](https://marketplace.visualstudio.com/items?itemName=inlang.vs-code-extension).
+Sherlock is a VS Code extension that helps you to extract, edit & inspect your i18n keys in your codebase. It is available in the [VS Code Marketplace](https://marketplace.visualstudio.com/items?itemName=inlang.sherlock).
 
-inlang give awesome developer experience for your i18n development.
+Sherlock is part of the inlang ecosystem, which gives you multiple apps with awesome developer experience for your i18n development, like a [Figma plugin](https://inlang.com/m/gkrpgoir/app-parrot-figmaPlugin), a [web editor](https://inlang.com/m/tdozzpar/app-inlang-finkLocalizationEditor) or a [GitHub Action](https://inlang.com/m/3gk8n4n4/app-inlang-ninjaI18nAction).
 
 
 ## i18n Ally
