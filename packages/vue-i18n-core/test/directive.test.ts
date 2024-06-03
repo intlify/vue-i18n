@@ -165,6 +165,36 @@ test('legacy mode', async () => {
   expect(wrapper.html()).toEqual('<p>hello!</p>')
 })
 
+test('fallback to global scope', async () => {
+  const i18n = createI18n({
+    locale: 'en',
+    messages: {
+      en: {
+        hello: 'hello!'
+      }
+    }
+  })
+
+  const Child = defineComponent({
+    setup() {
+      // <p v-t="'hello'"></p>
+      const t = resolveDirective('t')
+      return () => {
+        return withDirectives(h('p'), [[t!, 'hello']])
+      }
+    }
+  })
+
+  const App = defineComponent({
+    setup() {
+      return () => h('div', [h(Child)])
+    }
+  })
+  const wrapper = await mount(App, i18n)
+
+  expect(wrapper.html()).toEqual('<div><p>hello!</p></div>')
+})
+
 test('using in template', async () => {
   const i18n = createI18n({
     locale: 'en',
