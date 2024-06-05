@@ -16,7 +16,7 @@ pnpm build core --formats cjs
 
 import { promisify } from 'node:util'
 import { promises as fs } from 'node:fs'
-import path from 'pathe'
+import path from 'node:path'
 import pc from 'picocolors'
 import execa from 'execa'
 import os from 'node:os'

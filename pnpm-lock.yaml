@@ -105,9 +105,6 @@ importers:
       globby:
         specifier: ^14.0.1
         version: 14.0.1
-      jiti:
-        specifier: ^1.21.0
-        version: 1.21.0
       js-yaml:
         specifier: ^4.1.0
         version: 4.1.0

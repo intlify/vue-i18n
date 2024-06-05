@@ -1,4 +1,4 @@
-import path from 'pathe'
+import path from 'node:path'
 import { promises as fs } from 'node:fs'
 
 const RE_TRIPLE_SLASH_REFERENCE = /\/\/\/ <reference types="([^"]*)" \/>/

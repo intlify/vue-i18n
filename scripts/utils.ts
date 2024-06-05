@@ -1,5 +1,5 @@
 import { promises as fs } from 'node:fs'
-import { resolve, dirname } from 'pathe'
+import { resolve, dirname } from 'node:path'
 import pc from 'picocolors'
 
 export const targets = async () => {

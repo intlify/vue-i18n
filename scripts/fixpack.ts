@@ -1,7 +1,7 @@
 import pc from 'picocolors'
 // @ts-ignore
 import fixpack from 'fixpack'
-import { resolve, dirname } from 'pathe'
+import { resolve, dirname } from 'node:path'
 import rc from 'rc'
 import { targets, readJson } from './utils'
 // eslint-disable-next-line @typescript-eslint/no-floating-promises

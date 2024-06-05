@@ -10,7 +10,7 @@ import {
   clearCompileCache
 } from '@intlify/core-base'
 import { createI18n } from 'vue-i18n'
-import { resolve, dirname } from 'pathe'
+import { resolve, dirname } from 'path'
 import { readJson, displayMemoryUsage } from './utils.mjs'
 
 const { require } = createCommonJS(import.meta.url)
