@@ -70,7 +70,7 @@ jobs:
       - name: Build codes
         run: |
           pnpm build --all -t
-          node -r esbuild-register scripts/postprocess.ts
+          npx tsx ./scripts/postprocess.ts
 
       - name: Cache dist
         uses: actions/cache@v4
