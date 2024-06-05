@@ -176,41 +176,38 @@ This repository employs a [monorepo](https://en.wikipedia.org/wiki/Monorepo) set
 
 ```mermaid
 flowchart TD
-  shared["@intlify/shared"]
-  message-compiler["@intlify/message-compiler"]
-  core-base["@intlify/core-base"]
-  core["@intlify/core"]
-  vue-i18n-core["@intlify/vue-i18n-core"]
-  petite-vue-i18n["petite-vue-i18n"]
-  vue-i18n["vue-i18n"]
+  message-compiler
+  core-base
+  core
+  vue-i18n-core
+  petite-vue-i18n
+  vue-i18n
 
   subgraph Framework Agnostice Packages
-    message-compiler --> shared
-    core-base --> shared
     core-base --> message-compiler
-    core --> shared
     core --> core-base
   end
 
   subgraph Vue Layer Packages
-    vue-i18n-core --> shared
     vue-i18n-core --> core-base
-    vue-i18n --> shared
     vue-i18n --> core-base
     vue-i18n --> vue-i18n-core
-    petite-vue-i18n --> shared
     petite-vue-i18n --> core-base
     petite-vue-i18n --> vue-i18n-core
   end
 ```
 
-- `shared`: Internal utilities shared across multiple packages.
 - `message-compiler`: The intlify message format compiler.
-- `core-base`: The inlitfy core base.
+- `core-base`: The inlitfy core logic implementation.
 - `core`: The intlify core "full build" which includes both the runtime AND the compiler.
-- `vue-i18n-core`: The vue-i18n core implementation package.
-- `vue-i18n`: The vue-i18n "full build" which includes both the runtime AND the compiler.
+- `vue-i18n-core`: The vue-i18n core implementation.
 - `petite-vue-i18n`: The vue-i18n "small build" which includes both the runtime AND the compiler.
+- `vue-i18n`: The vue-i18n "full build" which includes both the runtime AND the compiler.
+
+There are some caveats to these packages:
+
+- The modules `vue-i18n` and `vue-i18n-core`, the core logic of `petite-vue-i18n`, should be imported with relative paths.
+- Similarly for `core`, modules of `core-base`, which is the core logic implemented, should be imported with relative paths.
 
 ### Importing Packages
 
@@ -223,7 +220,6 @@ import { baseCompile } from '@intlify/compiler'
 This is made possible via several configurations:
 
 - For TypeScript, `compilerOptions.path` in `tsconfig.json`
-- For Jest, `moduleNameMapper` in `jest.config.js`
 - For plain Node.js, they are linked using [PNPM Workspaces](https://pnpm.io/workspaces).
 
 ## Contributing Tests
