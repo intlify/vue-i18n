@@ -60,8 +60,8 @@ A high level overview of tools used:
 
 - [TypeScript](https://www.typescriptlang.org/) as the development language
 - [Rollup](https://rollupjs.org) for bundling
-- [Jest](https://jestjs.io/) for unit testing
-- [Puppeteer](https://pptr.dev/) for e2e testing
+- [Vitest](https://vitest.dev/) for unit testing
+- [Playwright](https://playwright.dev/) for e2e testing
 - [ESLint](https://eslint.org/) for code linting
 - [Prettier](https://prettier.io/) for code formatting
 
@@ -174,13 +174,42 @@ $ pnpm test -- fileName -t 'test name'
 
 This repository employs a [monorepo](https://en.wikipedia.org/wiki/Monorepo) setup which hosts a number of associated packages under the `packages` directory:
 
+```mermaid
+flowchart TD
+  shared["@intlify/shared"]
+  message-compiler["@intlify/message-compiler"]
+  core-base["@intlify/core-base"]
+  core["@intlify/core"]
+  vue-i18n-core["@intlify/vue-i18n-core"]
+  petite-vue-i18n["petite-vue-i18n"]
+  vue-i18n["vue-i18n"]
+
+  subgraph Framework Agnostice Packages
+    message-compiler --> shared
+    core-base --> shared
+    core-base --> message-compiler
+    core --> shared
+    core --> core-base
+  end
+
+  subgraph Vue Layer Packages
+    vue-i18n-core --> shared
+    vue-i18n-core --> core-base
+    vue-i18n --> shared
+    vue-i18n --> core-base
+    vue-i18n --> vue-i18n-core
+    petite-vue-i18n --> shared
+    petite-vue-i18n --> core-base
+    petite-vue-i18n --> vue-i18n-core
+  end
+```
+
 - `shared`: Internal utilities shared across multiple packages.
 - `message-compiler`: The intlify message format compiler.
 - `core-base`: The inlitfy core base.
 - `core`: The intlify core "full build" which includes both the runtime AND the compiler.
 - `vue-i18n-core`: The vue-i18n core implementation package.
 - `vue-i18n`: The vue-i18n "full build" which includes both the runtime AND the compiler.
-- `vue-i18n-bridge`: The birdge package for migrating from vue-i18n@v8.26.1 or later.
 - `petite-vue-i18n`: The vue-i18n "small build" which includes both the runtime AND the compiler.
 
 ### Importing Packages
