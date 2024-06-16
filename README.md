@@ -21,6 +21,15 @@ Vue I18n is part of the Vue Ecosystem and Intlify Project is an open source proj
   </a>
 </p>
 
+<p align="center">
+  <a href="https://www.microsoft.com/" target="_blank">
+    <img
+      src="https://raw.githubusercontent.com/intlify/vue-i18n/master/docs/public/microsoft.webp"
+      width="400px"
+    />
+  </a>
+</p>
+
 <h3 align="center">✨ Special Sponsors</h3>
 
 <p align="center">

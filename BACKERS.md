@@ -20,6 +20,22 @@ You can join them in supporting vue-i18n & Intlify project development by [pledg
   </a>
 </p>
 
+<p align="center">
+  <a
+    href="https://www.microsoft.com/"
+    style="margin: 1rem 1rem 0 1rem; width: 30rem; height: auto; display: inline-block; vertical-align: middle;"
+    target="_blank"
+    rel="noopener"
+  >
+    <img
+      style="max-width: 100%; vertical-align: midele;"
+      src="https://raw.githubusercontent.com/intlify/vue-i18n/master/docs/public/microsoft.webp"
+      width="400px"
+      alt="Microsoft"
+    >
+  </a>
+</p>
+
 <h2 align="center">Special Sponsors</h2>
 
 <p align="center">

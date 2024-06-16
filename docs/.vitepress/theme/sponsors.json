@@ -3,6 +3,10 @@
     "name": "Zen Architects",
     "url": "https://zenarchitects.co.jp/",
     "img": "zenarchitects.png"
+  }, {
+    "name": "Microsoft",
+    "url": "https://www.microsoft.com/",
+    "img": "microsoft.webp"
   }],
   "special": [{
     "name": "PLAID",
