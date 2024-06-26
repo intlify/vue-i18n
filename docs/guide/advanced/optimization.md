@@ -10,7 +10,7 @@ As described in "[Different Distribution files](../extra/dist##from-cdn-or-witho
 
 For bundler, it’s configured to bundle `vue-i18n.esm-bundler.js` with [`@intlify/unplugin-vue-i18n`](https://github.com/intlify/bundle-tools/tree/main/packages/unplugin-vue-i18n) as default. If you want to reduce the bundle size further, you can configure the bundler to use `vue-i18n.runtime.esm-bundler.js`, which is runtime only.
 
-The use of ES Module `vue-i18n.runtime.esm-bundler.js` means that **all locale messages have to pre-compile to Message functions or AST resources**. what this means it improves performance because vue-i18n just only execute Message functions, so no compilation.
+The use of ES Module `vue-i18n.runtime.esm-bundler.js` means that **all locale messages have to pre-compile to Message functions or AST resources**. What that means, is that it improves performance because vue-i18n only executes Message functions, so no compilation.
 
 :::tip NOTE
 Before v9.3, the locale messages will be compiled to Message functions, after v9.3 or later these will be compiled to AST with `@intlify/bundle-tools`.
