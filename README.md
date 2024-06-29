@@ -99,6 +99,15 @@ Vue I18n is part of the Vue Ecosystem and Intlify Project is an open source proj
   </a>
 </p>
 
+<p align="center">
+  <a href="https://languagemonster.com/" target="_blank">
+    <img
+      src="https://raw.githubusercontent.com/intlify/vue-i18n/master/docs/public/LanguageMonster.svg"
+      width="144px"
+    />
+  </a>
+</p>
+
 <br/>
 
 ## Status: [![CI](https://github.com/intlify/vue-i18n/actions/workflows/ci.yml/badge.svg)](https://github.com/intlify/vue-i18n/actions/workflows/ci.yml)

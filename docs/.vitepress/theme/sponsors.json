@@ -35,5 +35,9 @@
     "name": "Froggly",
     "url": "https://froggly.pl/",
     "img": "Froggly.svg"
+  }, {
+    "name": "LanguageMonster",
+    "url": "https://languagemonster.com/",
+    "img": "LanguageMonster.svg"
   }]
 }
