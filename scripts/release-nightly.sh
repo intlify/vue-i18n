@@ -6,7 +6,7 @@ set -xe
 git restore -s@ -SW  -- packages
 
 # Bump versions
-tsx ./scripts/bump.ts
+npx tsx ./scripts/bump.ts
 
 # Update token
 if [[ ! -z ${NPM_AUTH_TOKEN} ]] ; then
