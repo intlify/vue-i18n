@@ -30,6 +30,14 @@ export type LocaleRecord<T extends any[], R> = {
 
 export type First<T extends readonly any[]> = T[0]
 
+export declare type JsonPaths<T, Key extends keyof T = keyof T> = Key extends string ? 
+  T[Key] extends Record<string, any> ?
+    `${Key}.${JsonPaths<T[Key]>}`
+  : `${Key}`
+: never;
+export declare type TranslationsPaths<T extends object, K extends keyof T = keyof T> = K extends string
+  ? JsonPaths<T[K]> : never;
+
 export type __ResourcePath<T, Key extends keyof T> = Key extends string
   ? T[Key] extends Record<string, any>
     ?

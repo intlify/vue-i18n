@@ -102,13 +102,14 @@ import type {
   ResourceValue,
   ResourcePath,
   ResourceNode,
-  PickupPaths,
   PickupFormatPathKeys,
   RemoveIndexSignature,
   RemovedIndexResources,
   IsNever,
   IsEmptyObject,
-  CoreMissingType
+  CoreMissingType,
+  JsonPaths,
+  TranslationsPaths
 } from '@intlify/core-base'
 import type { VueDevToolsEmitter } from '@intlify/devtools-types'
 
@@ -640,11 +641,13 @@ export interface ComposerTranslation<
   DefinedLocaleMessage extends
     RemovedIndexResources<DefineLocaleMessage> = RemovedIndexResources<DefineLocaleMessage>,
   C = IsEmptyObject<DefinedLocaleMessage> extends false
-    ? PickupPaths<{
+    ? JsonPaths<{
         [K in keyof DefinedLocaleMessage]: DefinedLocaleMessage[K]
       }>
     : never,
-  M = IsEmptyObject<Messages> extends false ? PickupKeys<Messages> : never,
+  M = IsEmptyObject<Messages> extends false
+    ? TranslationsPaths<Messages>
+    : never,
   ResourceKeys extends C | M = IsNever<C> extends false
     ? IsNever<M> extends false
       ? C | M
