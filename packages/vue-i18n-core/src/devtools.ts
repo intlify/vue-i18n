@@ -34,8 +34,8 @@ type _I18n = I18n & I18nInternal
 const VUE_I18N_COMPONENT_TYPES = 'vue-i18n: composer properties'
 
 const VueDevToolsLabels: Record<VueDevToolsIDs, string> = {
-  'vue-devtools-plugin-vue-i18n': 'Vue I18n devtools',
-  'vue-i18n-resource-inspector': 'I18n Resources',
+  'vue-devtools-plugin-vue-i18n': 'Vue I18n DevTools',
+  'vue-i18n-resource-inspector': 'Vue I18n DevTools',
   'vue-i18n-timeline': 'Vue I18n'
 }
 
