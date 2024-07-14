@@ -66,6 +66,7 @@ export {
   ComposerOptions,
   Composer,
   ComposerCustom,
+  ComposerGeneratedTypeConfig,
   CustomBlock,
   CustomBlocks,
   ComposerTranslation,
