@@ -68,7 +68,7 @@ declare module 'vue' {
 }
 
 // internal Component Instance API isCE
-declare module '@vue/runtime-core' {
+declare module 'vue' {
   export interface ComponentInternalInstance {
     /**
      * @internal
