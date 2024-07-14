@@ -1280,12 +1280,12 @@ export interface ComposerCustom {}
 export interface ComposerGeneratedTypeConfig {}
 
 /**
- * Generated locale which falls back to `Locale` if left unset
+ * Generated locale which resolves to `never` if left unset
  */
 export type GeneratedLocale =
   ComposerGeneratedTypeConfig extends Record<'locale', infer CustomLocale>
     ? CustomLocale
-    : Locale
+    : never
 
 /**
  * Composer interfaces
@@ -1299,7 +1299,9 @@ export interface Composer<
   Messages extends Record<string, any> = {},
   DateTimeFormats extends Record<string, any> = {},
   NumberFormats extends Record<string, any> = {},
-  OptionLocale = GeneratedLocale,
+  OptionLocale = IsNever<GeneratedLocale> extends true
+    ? Locale
+    : GeneratedLocale,
   ResourceLocales =
     | PickupLocales<NonNullable<Messages>>
     | PickupLocales<NonNullable<DateTimeFormats>>
