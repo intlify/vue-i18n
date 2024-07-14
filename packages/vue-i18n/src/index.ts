@@ -52,7 +52,8 @@ export {
   MessageCompilerContext,
   CompileError,
   MessageContext,
-  RemovedIndexResources
+  RemovedIndexResources,
+  IntlifyGeneratedTypeConfig
 } from '@intlify/core-base'
 export {
   VueMessageType,
@@ -66,7 +67,6 @@ export {
   ComposerOptions,
   Composer,
   ComposerCustom,
-  ComposerGeneratedTypeConfig,
   CustomBlock,
   CustomBlocks,
   ComposerTranslation,
