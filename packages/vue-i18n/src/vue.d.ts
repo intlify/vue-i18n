@@ -35,7 +35,7 @@ import type {
 } from '../../vue-i18n-core/src/components'
 
 // --- THE CONTENT BELOW THIS LINE WILL BE APPENDED TO DTS FILE IN DIST DIRECTORY --- //
-declare module '@vue/runtime-core' {
+declare module 'vue' {
   /**
    * Component Custom Options for Vue I18n
    *
