@@ -152,7 +152,7 @@ like the the following locale:
 ```js
 const i18n = createI18n({
   locale: 'ru',
-  // the custom rules here ...
+  // use pluralRules for Composition api
   pluralizationRules: {
     ru: customRule
   },
