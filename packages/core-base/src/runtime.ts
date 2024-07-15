@@ -32,22 +32,22 @@ type StringConvertable<T> = ExtractToStringKey<T> extends never
  *
  * @example
  * ```ts
- * // generated-intlify-core.d.ts (`.d.ts` file at your app)
+ * // generated-i18n-types.d.ts (`.d.ts` file at your app)
  *
  * declare module '@intlify/core' {
- *   interface IntlifyGeneratedTypeConfig {
+ *   interface GeneratedTypeConfig {
  *     locale: "en" | "ja"
  *   }
  * }
  * ```
  */
-export interface IntlifyGeneratedTypeConfig {}
+export interface GeneratedTypeConfig {}
 
 /**
  * Generated locale which resolves to `never` if left unset
  */
 export type GeneratedLocale =
-  IntlifyGeneratedTypeConfig extends Record<'locale', infer CustomLocale>
+  GeneratedTypeConfig extends Record<'locale', infer CustomLocale>
     ? CustomLocale
     : never
 

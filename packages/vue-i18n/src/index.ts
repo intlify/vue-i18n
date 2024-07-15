@@ -53,7 +53,7 @@ export {
   CompileError,
   MessageContext,
   RemovedIndexResources,
-  IntlifyGeneratedTypeConfig
+  GeneratedTypeConfig
 } from '@intlify/core-base'
 export {
   VueMessageType,
