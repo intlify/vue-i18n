@@ -46,7 +46,8 @@ import type {
   PickupPaths,
   PickupFormatPathKeys,
   IsEmptyObject,
-  IsNever
+  IsNever,
+  GeneratedLocale
 } from '@intlify/core-base'
 import type { VueDevToolsEmitter } from '@intlify/devtools-types'
 import type {
@@ -1047,11 +1048,13 @@ export interface VueI18n<
     | PickupLocales<NonNullable<Messages>>
     | PickupLocales<NonNullable<DateTimeFormats>>
     | PickupLocales<NonNullable<NumberFormats>>,
-  Locales = OptionLocale extends string
-    ? [ResourceLocales] extends [never]
-      ? Locale
-      : ResourceLocales
-    : OptionLocale | ResourceLocales,
+  Locales = Locale extends GeneratedLocale
+    ? GeneratedLocale
+    : OptionLocale extends string
+      ? [ResourceLocales] extends [never]
+        ? Locale
+        : ResourceLocales
+      : OptionLocale | ResourceLocales,
   Composition extends Composer<
     Messages,
     DateTimeFormats,

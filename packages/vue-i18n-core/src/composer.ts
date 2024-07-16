@@ -109,7 +109,8 @@ import type {
   IsEmptyObject,
   CoreMissingType,
   JsonPaths,
-  TranslationsPaths
+  TranslationsPaths,
+  GeneratedLocale
 } from '@intlify/core-base'
 import type { VueDevToolsEmitter } from '@intlify/devtools-types'
 
@@ -1274,11 +1275,13 @@ export interface Composer<
     | PickupLocales<NonNullable<Messages>>
     | PickupLocales<NonNullable<DateTimeFormats>>
     | PickupLocales<NonNullable<NumberFormats>>,
-  Locales = OptionLocale extends Locale
-    ? IsNever<ResourceLocales> extends true
-      ? Locale
-      : ResourceLocales
-    : OptionLocale | ResourceLocales
+  Locales = Locale extends GeneratedLocale
+    ? GeneratedLocale
+    : OptionLocale extends Locale
+      ? IsNever<ResourceLocales> extends true
+        ? Locale
+        : ResourceLocales
+      : OptionLocale | ResourceLocales
 > extends ComposerCustom {
   /**
    * @remarks
