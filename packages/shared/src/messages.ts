@@ -19,7 +19,9 @@ export function deepCopy(src: any, des: any, isRetainExistMessage?: boolean): vo
         // src[key] or des[key] is an array
         // if you need to keep the existing message on the i18n instance when merging, 
         // you do not need to perform the following replacement
-        !isRetainExistMessage && (des[key] = src[key])
+        if (!isRetainExistMessage || typeof des[key] === 'undefined') {
+          des[key] = src[key]
+        }
       } else {
         // src[key] and des[key] are both objects, merge them
         stack.push({ src: src[key], des: des[key] })
