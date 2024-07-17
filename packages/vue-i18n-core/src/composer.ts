@@ -2458,7 +2458,8 @@ export function createComposer(options: any = {}): any {
   // mergeLocaleMessage
   function mergeLocaleMessage(
     locale: Locale,
-    message: LocaleMessageDictionary<Message>
+    message: LocaleMessageDictionary<Message>,
+    isRetainExistMessage: boolean = false
   ): void {
     _messages.value[locale] = _messages.value[locale] || {}
     const _message = { [locale]: message }
@@ -2470,7 +2471,7 @@ export function createComposer(options: any = {}): any {
       }
     }
     message = _message[locale]
-    deepCopy(message, _messages.value[locale])
+    deepCopy(message, _messages.value[locale], isRetainExistMessage)
     _context.messages = _messages.value as typeof _context.messages
   }
 
