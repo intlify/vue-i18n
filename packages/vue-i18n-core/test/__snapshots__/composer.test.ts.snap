@@ -27,6 +27,7 @@ exports[`__translateVNode > missing 1`] = `
     "suspense": null,
     "target": null,
     "targetAnchor": null,
+    "targetStart": null,
     "transition": null,
     "type": Symbol(v-txt),
   },
