@@ -34,7 +34,7 @@ type StringConvertable<T> = ExtractToStringKey<T> extends never
  * ```ts
  * // generated-i18n-types.d.ts (`.d.ts` file at your app)
  *
- * declare module '@intlify/core' {
+ * declare module '@intlify/core-base' {
  *   interface GeneratedTypeConfig {
  *     locale: "en" | "ja"
  *   }
