@@ -108,6 +108,16 @@ Vue I18n is part of the Vue Ecosystem and Intlify Project is an open source proj
   </a>
 </p>
 
+<p align="center">
+  <a href="https://route4me.com" target="_blank">
+    <img
+      src="https://raw.githubusercontent.com/intlify/vue-i18n/master/docs/public/Route4Me.png"
+      width="144px"
+      alt="Route Optimizer and Route Planner Software"
+    />
+  </a>
+</p>
+
 <br/>
 
 ## Status: [![CI](https://github.com/intlify/vue-i18n/actions/workflows/ci.yml/badge.svg)](https://github.com/intlify/vue-i18n/actions/workflows/ci.yml)
