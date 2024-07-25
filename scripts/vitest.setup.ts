@@ -1,7 +1,7 @@
 import { afterAll, beforeAll } from 'vitest'
-import playwright from 'playwright'
+import playwright from 'playwright-core'
 
-import type { LaunchOptions } from 'playwright'
+import type { LaunchOptions } from 'playwright-core'
 
 beforeAll(async () => {
   const type = process.env.E2E_BROWSER || 'chromium'

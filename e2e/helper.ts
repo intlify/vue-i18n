@@ -1,6 +1,6 @@
 import { JSDOM } from 'jsdom'
 
-import type { Page } from 'playwright'
+import type { Page } from 'playwright-core'
 
 export function sleep(delay: number) {
   return new Promise(resolve => setTimeout(resolve, delay))
