@@ -208,8 +208,8 @@ importers:
         specifier: ^4.0.0
         version: 4.0.0
       textlint-rule-terminology:
-        specifier: ^4.0.0
-        version: 4.0.1
+        specifier: ^5.0.0
+        version: 5.2.2
       textlint-rule-unexpanded-acronym:
         specifier: ^1.2.4
         version: 1.2.4
@@ -6322,6 +6322,10 @@ packages:
     resolution: {integrity: sha512-6fPc+R4ihwqP6N/aIv2f1gMH8lOVtWQHoqC4yK6oSDVVocumAsfCqjkXnqiYMhmMwS/mEHLp7Vehlt3ql6lEig==}
     engines: {node: '>=8'}
 
+  strip-json-comments@5.0.1:
+    resolution: {integrity: sha512-0fk9zBqO67Nq5M/m45qHCJxylV/DhBlIOVExqgOMiCCrzrhU6tCibRXNqE3jwJLftzE9SNuZtYbpzcO+i9FiKw==}
+    engines: {node: '>=14.16'}
+
   strip-literal@2.1.0:
     resolution: {integrity: sha512-Op+UycaUt/8FbN/Z2TWPBLge3jWrP3xj10f3fnYxf052bKuS3EKs1ZQcVGjnEMdsNVAM+plXRdmjrZ/KgG3Skw==}
 
@@ -6468,9 +6472,9 @@ packages:
     resolution: {integrity: sha512-vP99cbTyapn+Hviom2doO3pJtjlhKlZvlHTf21zoB22CxJx2w3S7Ie169neB5U4Xsei+NodHf5tnwT933mO19A==}
     engines: {node: '>=18'}
 
-  textlint-rule-terminology@4.0.1:
-    resolution: {integrity: sha512-wKiVhc2B9HP2MFU4x7ZDx+oM5u43ETpKWTLHKvdhPRZ0+davi4M8mFmkZVovDIMO7igsGjixikcvFmnCMg3kmQ==}
-    engines: {node: '>=18'}
+  textlint-rule-terminology@5.2.2:
+    resolution: {integrity: sha512-QTGX6CyKvKvMpj+lUOwOMDzmL7XuXjowrdTxDGk11qMeYNiOzwy6/bT0HHeK1Ah/nndOtqKSCUvzWR4VRYJUXQ==}
+    engines: {node: '>=20'}
 
   textlint-rule-unexpanded-acronym@1.2.4:
     resolution: {integrity: sha512-F1kV06CdonOM2awtXjCSRYUsRJfDfZIujQQo4zEMqNqD6UwpkapxpZOiwcwbeaQz00+17ljbJEoGqIe2XeiU+w==}
@@ -9051,8 +9055,8 @@ snapshots:
     dependencies:
       '@volar/language-core': 1.11.1
       '@volar/source-map': 1.11.1
-      '@vue/compiler-dom': 3.4.33
-      '@vue/shared': 3.4.33
+      '@vue/compiler-dom': 3.4.19
+      '@vue/shared': 3.4.19
       computeds: 0.0.1
       minimatch: 9.0.3
       muggle-string: 0.3.1
@@ -13903,6 +13907,8 @@ snapshots:
 
   strip-json-comments@3.1.1: {}
 
+  strip-json-comments@5.0.1: {}
+
   strip-literal@2.1.0:
     dependencies:
       js-tokens: 9.0.0
@@ -14086,10 +14092,10 @@ snapshots:
       split-lines: 2.1.0
       textlint-rule-helper: 2.3.1
 
-  textlint-rule-terminology@4.0.1:
+  textlint-rule-terminology@5.2.2:
     dependencies:
       lodash: 4.17.21
-      strip-json-comments: 3.1.1
+      strip-json-comments: 5.0.1
       textlint-rule-helper: 2.3.1
 
   textlint-rule-unexpanded-acronym@1.2.4:
