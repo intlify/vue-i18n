@@ -205,8 +205,8 @@ importers:
         specifier: ^1.0.0
         version: 1.0.1
       textlint-rule-stop-words:
-        specifier: ^4.0.0
-        version: 4.0.0
+        specifier: ^5.0.0
+        version: 5.0.8
       textlint-rule-terminology:
         specifier: ^4.0.0
         version: 4.0.1
@@ -6464,9 +6464,9 @@ packages:
   textlint-rule-period-in-list-item@1.0.1:
     resolution: {integrity: sha512-dNPa4WzePcgsz8A+CxFGQgKNZCEvjjwMCu3DFcpYB4eKuhcSISEiS/mvEO42oGAALJluYdYVZxN3yMD6XzkLBA==}
 
-  textlint-rule-stop-words@4.0.0:
-    resolution: {integrity: sha512-vP99cbTyapn+Hviom2doO3pJtjlhKlZvlHTf21zoB22CxJx2w3S7Ie169neB5U4Xsei+NodHf5tnwT933mO19A==}
-    engines: {node: '>=18'}
+  textlint-rule-stop-words@5.0.8:
+    resolution: {integrity: sha512-Ng/qepntW5NFBBkUt91zqMEfB0/lb0KjMAI0QbOpy0hz9enGPQmO8J5PnDcUPeT+rstwieC1Ha4fWnR0aOawsw==}
+    engines: {node: '>=20'}
 
   textlint-rule-terminology@4.0.1:
     resolution: {integrity: sha512-wKiVhc2B9HP2MFU4x7ZDx+oM5u43ETpKWTLHKvdhPRZ0+davi4M8mFmkZVovDIMO7igsGjixikcvFmnCMg3kmQ==}
@@ -9051,8 +9051,8 @@ snapshots:
     dependencies:
       '@volar/language-core': 1.11.1
       '@volar/source-map': 1.11.1
-      '@vue/compiler-dom': 3.4.33
-      '@vue/shared': 3.4.33
+      '@vue/compiler-dom': 3.4.19
+      '@vue/shared': 3.4.19
       computeds: 0.0.1
       minimatch: 9.0.3
       muggle-string: 0.3.1
@@ -14080,7 +14080,7 @@ snapshots:
     dependencies:
       check-ends-with-period: 3.0.2
 
-  textlint-rule-stop-words@4.0.0:
+  textlint-rule-stop-words@5.0.8:
     dependencies:
       lodash: 4.17.21
       split-lines: 2.1.0
