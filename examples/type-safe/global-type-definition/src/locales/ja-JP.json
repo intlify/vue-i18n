@@ -1,7 +1,7 @@
 {
-  "hello": "hello world!",
+  "hello": "こんにちは、世界！",
   "menu": {
-    "login": "login"
+    "login": "ログイン"
   },
-  "errors": ["Error!"]
+  "errors": ["エラー！"]
 }
