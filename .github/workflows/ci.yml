@@ -3,10 +3,10 @@ name: CI
 on:
   push:
     branches:
-      - master
+      - v9
   pull_request:
     branches:
-      - master
+      - v9
 permissions:
   contents: read
 env:
