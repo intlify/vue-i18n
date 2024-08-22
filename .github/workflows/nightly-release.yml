@@ -1,0 +1,28 @@
+name: nightly release
+on: [push, pull_request]
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Enable corepack
+        run: corepack enable
+
+      - name: Setup node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18.18
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build
+        run: pnpm build:type
+
+      - name: Release with pkg-pr-new
+        run: pnpx pkg-pr-new publish --compact './packages/shared' './packages/message-compiler' './packages/devtools-types' './packages/core-base' './packages/core' './packages/vue-i18n-core' './packages/petite-vue-i18n' './packages/vue-i18n'
