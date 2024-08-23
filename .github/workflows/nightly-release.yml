@@ -33,4 +33,4 @@ jobs:
         run: pnpm build:type
 
       - name: Release with pkg-pr-new
-        run: pnpx pkg-pr-new publish --compact --pnpm './packages/shared' './packages/message-compiler' './packages/devtools-types' './packages/core-base' './packages/core' './packages/vue-i18n-core' './packages/petite-vue-i18n' './packages/vue-i18n'
+        run: pnpx pkg-pr-new publish --compact --pnpm './packages/*'
