@@ -24,7 +24,7 @@ If the i18n option is not specified in a component, the global scope is automati
 
 ### Local Scope
 
-The local scope in Vue allows you to manage i18n resources on a per-component basis, similar to how <style scoped> works in single-file components. When a component has a local scope, only that component's i18n resources are active. This is particularly useful when you want to manage locale messages specific to each component.
+The local scope in Vue allows you to manage i18n resources on a per-component basis, similar to how `<style scoped>` works in single-file components. When a component has a local scope, only that component's i18n resources are active. This is particularly useful when you want to manage locale messages specific to each component.
 
 Local scope is enabled by specifying the i18n option within the component. This creates a new VueI18n instance when the component is initialized. As a result, the VueI18n instance accessed through this.$i18n in that component is distinct from the global VueI18n instance available through the global property of the i18n instance.
 
