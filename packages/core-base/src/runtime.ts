@@ -17,10 +17,10 @@ type ExtractToStringKey<T> = Extract<keyof T, 'toString'>
 type ExtractToStringFunction<T> = T[ExtractToStringKey<T>]
 // prettier-ignore
 type StringConvertable<T> = ExtractToStringKey<T> extends never
-	? unknown
-	: ExtractToStringFunction<T> extends (...args: any) => string // eslint-disable-line @typescript-eslint/no-explicit-any
-	  ? T
-	  : unknown
+  ? unknown
+  : ExtractToStringFunction<T> extends (...args: any) => string // eslint-disable-line @typescript-eslint/no-explicit-any
+  ? T
+  : unknown
 
 /**
  *
@@ -110,7 +110,8 @@ export type MessageFunction<T = string> =
 
 export type MessageFunctions<T = string> = Record<string, MessageFunction<T>>
 export type MessageResolveFunction<T = string> = (
-  key: string
+  key: string,
+  useLinked: boolean
 ) => MessageFunction<T>
 
 export type MessageNormalize<T = string> = (
@@ -310,10 +311,10 @@ function pluralDefault(choice: number, choicesLength: number): number {
   if (choicesLength === 2) {
     // prettier-ignore
     return choice
-	    ? choice > 1
-	      ? 1
-	      : 0
-	    : 1
+      ? choice > 1
+        ? 1
+        : 0
+      : 1
   }
   return choice ? Math.min(choice, 2) : 0
 }
@@ -321,16 +322,16 @@ function pluralDefault(choice: number, choicesLength: number): number {
 function getPluralIndex<T, N>(options: MessageContextOptions<T, N>): number {
   // prettier-ignore
   const index = isNumber(options.pluralIndex)
-	  ? options.pluralIndex
-	  : -1
+    ? options.pluralIndex
+    : -1
   // prettier-ignore
   return options.named && (isNumber(options.named.count) || isNumber(options.named.n))
-	  ? isNumber(options.named.count)
-	    ? options.named.count
-	    : isNumber(options.named.n)
-	      ? options.named.n
-	      : index
-	  : index
+    ? isNumber(options.named.count)
+      ? options.named.count
+      : isNumber(options.named.n)
+        ? options.named.n
+        : index
+    : index
 }
 
 function normalizeNamed(pluralIndex: number, props: PluralizationProps): void {
@@ -371,13 +372,13 @@ export function createMessageContext<T = string, N = {}>(
   isNumber(options.pluralIndex) && normalizeNamed(pluralIndex, _named)
   const named = (key: string): unknown => _named[key]
 
-  function message(key: Path): MessageFunction<T> {
+  function message(key: Path, useLinked?: boolean): MessageFunction<T> {
     // prettier-ignore
     const msg = isFunction(options.messages)
-	    ? options.messages(key)
-	    : isObject(options.messages)
-	      ? options.messages[key]
-	      : false
+      ? options.messages(key, !!useLinked)
+      : isObject(options.messages)
+        ? options.messages[key]
+        : false
     return !msg
       ? options.parent
         ? options.parent.message(key) // resolve from parent messages
@@ -425,7 +426,7 @@ export function createMessageContext<T = string, N = {}>(
         type = arg2 || type
       }
     }
-    const ret = message(key)(ctx)
+    const ret = message(key, true)(ctx)
     const msg =
       // The message in vnode resolved with linked are returned as an array by processor.nomalize
       type === 'vnode' && isArray(ret) && modifier

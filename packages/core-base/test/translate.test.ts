@@ -810,23 +810,45 @@ describe('edge cases', () => {
   })
 })
 
-test('fallback context', () => {
-  const parent = context({
-    locale: 'en',
-    messages: {
-      en: { hello: 'hello man!', hi: 'hi' }
-    }
+describe('fallback context', () => {
+  test('root (parent context)', () => {
+    const parent = context({
+      locale: 'en',
+      messages: {
+        en: { hello: 'hello man!', hi: 'hi' }
+      }
+    })
+
+    const ctx = context({
+      locale: 'en',
+      messages: {
+        en: { hi: 'hi! @:hello' }
+      }
+    })
+    ctx.fallbackContext = parent
+
+    expect(translate(ctx, 'hi')).toEqual('hi! hello man!')
   })
 
-  const ctx = context({
-    locale: 'en',
-    messages: {
-      en: { hi: 'hi! @:hello' }
-    }
-  })
-  ctx.fallbackContext = parent
+  test('local (self context)', () => {
+    const ctx = context({
+      locale: 'en',
+      messages: {
+        en: {
+          apples: 'Apples',
+          no_results: 'No @.lower:{0} found'
+        },
+        'en-variant': {
+          no_results: 'No @.lower:{0} found'
+        }
+      }
+    })
 
-  expect(translate(ctx, 'hi')).toEqual('hi! hello man!')
+    expect(translate(ctx, 'no_results', ['apples'])).toEqual('No apples found')
+    expect(
+      translate(ctx, 'no_results', ['apples'], { locale: 'en-variant' })
+    ).toEqual('No apples found')
+  })
 })
 
 describe('processor', () => {

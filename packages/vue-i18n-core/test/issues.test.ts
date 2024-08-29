@@ -1359,3 +1359,50 @@ test('#1809', async () => {
   })
   expect(i18n.global.t('hi')).toEqual('hi kazupon')
 })
+
+test('#1912', async () => {
+  const i18n = createI18n({
+    legacy: false,
+    locale: 'en',
+    messages: {
+      en: {
+        hello: 'Hello, Vue I18n',
+        language: 'Languages',
+        apples: 'Apples',
+        no_results: 'No @.lower:{0} found'
+      },
+      'en-variant': {
+        no_results: 'No @.lower:{0} found'
+      }
+    }
+  })
+
+  let loc: ReturnType<typeof useI18n>['locale']
+  const App = defineComponent({
+    template: `
+  <form>
+    <select v-model="locale">
+      <option value="en">en</option>
+      <option value="en-variant">en-variant</option>
+    </select>
+  </form>
+  <p>{{ t('no_results', ['apples']) }}</p>
+`,
+    setup() {
+      const { t, locale } = useI18n()
+      // @ts-ignore
+      loc = locale
+      return { t, locale }
+    }
+  })
+  const wrapper = await mount(App, i18n)
+  await nextTick()
+
+  const el = wrapper.find('p')
+  expect(el?.innerHTML).include(`No apples found`)
+  // @ts-ignore
+  loc.value = 'en-variant'
+  await nextTick()
+
+  expect(el?.innerHTML).include(`No apples found`)
+})
