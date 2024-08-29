@@ -1156,13 +1156,16 @@ function getMessageContextOptions<Messages, Message = string>(
     fallbackContext
   } = context
 
-  const resolveMessage = (key: string): MessageFunction<Message> => {
+  const resolveMessage = (
+    key: string,
+    useLinked: boolean
+  ): MessageFunction<Message> => {
     let val = resolveValue(message, key)
 
-    // fallback to root context
-    if (val == null && fallbackContext) {
+    // fallback
+    if (val == null && (fallbackContext || useLinked)) {
       const [, , message] = resolveMessageFormat(
-        fallbackContext,
+        fallbackContext || context, // NOTE: if has fallbackContext, fallback to root, else if use linked, fallback to local context
         key,
         locale,
         fallbackLocale as FallbackLocale,
