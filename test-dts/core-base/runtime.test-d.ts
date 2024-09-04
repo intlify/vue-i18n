@@ -39,6 +39,7 @@ expectType<string>('' as MessageType<''>) // string literal
 expectType<number>(1 as MessageType<number>) // number type
 expectType<1>(1 as MessageType<1>) // number literal
 expectType<Date>(new Date() as MessageType<Date>) // Date
+// TODO:
 // expectType<object>(Object.create(null) as MessageType<object>) // Object type
 expectType<{ toString: () => '' }>(
   Object.create({ toString: () => '' }) as MessageType<{ toString: () => '' }>
