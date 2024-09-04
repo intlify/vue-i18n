@@ -1,17 +1,22 @@
 import { expectType } from '..'
-
 import {
-  Locale,
   FallbackLocale,
+  Locale,
   LocaleMessageValue,
-  PickupFallbackLocales
+  LocaleParams,
+  PickupFallbackLocales,
+  SchemaParams
 } from '../../packages/core-base/src'
 import {
   VueI18nOptions,
   createVueI18n
 } from '../../packages/vue-i18n-core/src/legacy'
-import { SchemaParams, LocaleParams } from '../../packages/core-base/src'
-import { ResourceSchema, MyDatetimeScehma, MyNumberSchema } from '../schema'
+
+import type {
+  MyDatetimeScehma,
+  MyNumberSchema,
+  ResourceSchema
+} from '../schema'
 
 // loose options
 const looseOptions = {
@@ -196,7 +201,9 @@ expectType<
   | false
 >(strictVueI18n.fallbackLocale)
 expectType<{ en: ResourceSchema; ja: ResourceSchema }>(strictVueI18n.messages)
+
 expectType<{ en: {}; ja: {} }>(strictVueI18n.datetimeFormats)
+
 expectType<{ en: {}; ja: {} }>(strictVueI18n.numberFormats)
 expectType<string>(strictVueI18n.t('nest.bar'))
 expectType<string>(strictVueI18n.t('nest', 'en'))

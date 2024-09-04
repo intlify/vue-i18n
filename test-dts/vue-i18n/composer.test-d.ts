@@ -1,18 +1,23 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { expectType } from '..'
-
 import {
-  Locale,
   FallbackLocale,
+  Locale,
   LocaleMessageValue,
-  PickupFallbackLocales
+  LocaleParams,
+  PickupFallbackLocales,
+  SchemaParams
 } from '../../packages/core-base/src'
 import {
   ComposerOptions,
   createComposer
 } from '../../packages/vue-i18n-core/src/composer'
-import { SchemaParams, LocaleParams } from '../../packages/core-base/src'
-import { ResourceSchema, MyDatetimeScehma, MyNumberSchema } from '../schema'
+
+import type {
+  MyDatetimeScehma,
+  MyNumberSchema,
+  ResourceSchema
+} from '../schema'
 
 declare module '../../packages/vue-i18n-core/src/composer' {
   interface ComposerCustom {
@@ -214,7 +219,9 @@ expectType<
 expectType<{ en: ResourceSchema; ja: ResourceSchema }>(
   strictComposer.messages.value
 )
+
 expectType<{ en: {}; ja: {} }>(strictComposer.datetimeFormats.value)
+
 expectType<{ en: {}; ja: {} }>(strictComposer.numberFormats.value)
 expectType<string>(strictComposer.t('nest.bar'))
 expectType<string>(strictComposer.t('nest', 1, { locale: 'en' }))

@@ -1,10 +1,9 @@
 import 'vue/jsx'
-import { expectType, expectError } from '..'
-
+import { expectError, expectType } from '..'
 import {
-  Translation,
+  DatetimeFormat,
   NumberFormat,
-  DatetimeFormat
+  Translation
 } from '../../packages/vue-i18n-core/src/components'
 
 // @ts-expect-error missing keypath

@@ -2,17 +2,18 @@ import { expectType } from '../index'
 
 import {
   CoreOptions,
-  SchemaParams,
-  LocaleParams,
-  PickupFallbackLocales,
   createCoreContext,
   Locale,
-  LocaleDetector
+  LocaleDetector,
+  LocaleParams,
+  PickupFallbackLocales,
+  SchemaParams
 } from '../../packages/core-base/src'
+
 import type {
-  ResourceSchema,
   MyDatetimeScehma,
-  MyNumberSchema
+  MyNumberSchema,
+  ResourceSchema
 } from '../schema'
 
 // loose options

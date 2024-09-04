@@ -1,15 +1,15 @@
+import { HelperNameMap } from '@intlify/message-compiler'
 import {
   assign,
-  isNumber,
-  isFunction,
-  toDisplayString,
-  isObject,
-  isString,
   isArray,
+  isFunction,
+  isNumber,
+  isObject,
   isPlainObject,
-  join
+  isString,
+  join,
+  toDisplayString
 } from '@intlify/shared'
-import { HelperNameMap } from '@intlify/message-compiler'
 import { Path } from './resolver'
 import { IsNever } from './types'
 
@@ -369,6 +369,7 @@ export function createMessageContext<T = string, N = {}>(
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const _named = options.named || ({} as any)
+
   isNumber(options.pluralIndex) && normalizeNamed(pluralIndex, _named)
   const named = (key: string): unknown => _named[key]
 

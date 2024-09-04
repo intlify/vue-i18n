@@ -1,7 +1,7 @@
 import type {
-  IntlifyDevToolsHooks,
+  IntlifyDevToolsEmitter,
   IntlifyDevToolsHookPayloads,
-  IntlifyDevToolsEmitter
+  IntlifyDevToolsHooks
 } from '@intlify/devtools-types'
 
 let devtools: IntlifyDevToolsEmitter | null = null
@@ -20,6 +20,7 @@ export function initI18nDevTools(
   meta?: Record<string, unknown>
 ): void {
   // TODO: queue if devtools is undefined
+
   devtools &&
     devtools.emit('i18n:init', {
       timestamp: Date.now(),

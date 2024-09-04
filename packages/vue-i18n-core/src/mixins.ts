@@ -1,34 +1,34 @@
-import { getCurrentInstance } from 'vue'
-import { createVueI18n } from './legacy'
-import { createI18nError, I18nErrorCodes } from './errors'
-import { SetPluralRulesSymbol } from './symbols'
-import { addTimelineEvent } from './devtools'
-import { getLocaleMessages, adjustI18nResources } from './utils'
 import { createEmitter } from '@intlify/shared'
+import { getCurrentInstance } from 'vue'
+import { addTimelineEvent } from './devtools'
+import { createI18nError, I18nErrorCodes } from './errors'
+import { createVueI18n } from './legacy'
+import { SetPluralRulesSymbol } from './symbols'
+import { adjustI18nResources, getLocaleMessages } from './utils'
 
-import type { ComponentOptions } from 'vue'
-import type { Path } from '@intlify/core-base'
 import type { Locale, LocaleMessageValue } from '@intlify/core'
+import type { Path } from '@intlify/core-base'
 import type {
   VueDevToolsEmitter,
   VueDevToolsEmitterEvents
 } from '@intlify/devtools-types'
+import type { ComponentOptions } from 'vue'
 import type {
   Composer,
   ComposerInternalOptions,
   ComposerOptions,
   VueMessageType
 } from './composer'
+import type { I18nInternal } from './i18n'
 import type {
+  DateTimeFormatResult,
+  NumberFormatResult,
+  TranslateResult,
   VueI18n,
   VueI18nInternal,
-  VueI18nOptions,
   VueI18nInternalOptions,
-  TranslateResult,
-  DateTimeFormatResult,
-  NumberFormatResult
+  VueI18nOptions
 } from './legacy'
-import type { I18nInternal } from './i18n'
 
 /**
  * Supports compatibility for legacy vue-i18n APIs

@@ -1,26 +1,10 @@
-import globals from 'globals'
 import js from '@eslint/js'
-import ts from 'typescript-eslint'
 import pritter from 'eslint-config-prettier'
 import vue from 'eslint-plugin-vue'
+import globals from 'globals'
+import ts from 'typescript-eslint'
 
 export default [
-  // ignore globally
-  {
-    ignores: [
-      '**/dist/**',
-      '**/fixtures/**',
-      '**/coverage/**',
-      '**/.vitepress/**',
-      '**/.vuepress/**',
-      '**/test/**',
-      '**/examples/**',
-      'shim.d.ts',
-      '.eslintcache',
-      '.eslintrc.cjs'
-    ]
-  },
-
   // globals
   {
     // files: ['**/*.js', '**/*.ts', '**/*.vue', '**/*.json'],
@@ -87,10 +71,33 @@ export default [
       '@typescript-eslint/no-use-before-define': 'off',
       '@typescript-eslint/no-var-requires': 'off',
       '@typescript-eslint/no-non-null-assertion': 'off',
+      '@typescript-eslint/no-empty-object-type': 'off', // FIXME: enable this rule
+      '@typescript-eslint/no-unused-expressions': 'off',
+      '@typescript-eslint/only-throw-error': 'off',
+      '@typescript-eslint/no-unsafe-function-type': 'off',
       'vue/one-component-per-file': 'off',
       'vue/multi-word-component-names': 'off',
       'vue/experimental-script-setup-vars': 'off',
       'vue/no-deprecated-props-default-this': 'off'
     }
+  },
+
+  // ignore globally
+  {
+    ignores: [
+      '**/dist/**',
+      '**/fixtures/**',
+      '**/coverage/**',
+      '**/.vitepress/**',
+      '**/.vuepress/**',
+      '**/test/**',
+      '**/examples/**',
+      'shim.d.ts',
+      '.eslintcache',
+      '.eslintrc.cjs',
+      'packages/*/index.js',
+      'docsgen.config.js',
+      'scripts/api/*.js'
+    ]
   }
 ]

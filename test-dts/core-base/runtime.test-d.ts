@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { expectType } from '../index'
+
 import { MessageType } from '../../packages/core-base/src'
 
 /**
@@ -38,13 +39,14 @@ expectType<string>('' as MessageType<''>) // string literal
 expectType<number>(1 as MessageType<number>) // number type
 expectType<1>(1 as MessageType<1>) // number literal
 expectType<Date>(new Date() as MessageType<Date>) // Date
-expectType<Object>(Object.create(null) as MessageType<Object>) // Object type
+expectType<object>(Object.create(null) as MessageType<object>) // Object type
 expectType<{ toString: () => '' }>(
   Object.create({ toString: () => '' }) as MessageType<{ toString: () => '' }>
 ) // object literal
 expectType<Array<number>>([0] as MessageType<Array<number>>) // Array type
 expectType<[1, 2]>([1, 2] as MessageType<[1, 2]>) // Array literal
 expectType<[number, string]>([1, ''] as MessageType<[number, string]>) // Tuple
+
 expectType<Function>((() => '') as MessageType<Function>) // Function
 expectType<symbol>(Symbol('foo') as MessageType<symbol>) // Symbol
 expectType<HaveToString>({} as MessageType<HaveToString>) // interface have toString

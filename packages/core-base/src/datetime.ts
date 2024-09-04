@@ -1,32 +1,32 @@
 import {
-  isString,
+  assign,
   isBoolean,
-  isPlainObject,
   isDate,
-  isNumber,
   isEmptyObject,
-  assign
+  isNumber,
+  isPlainObject,
+  isString
 } from '@intlify/shared'
 import {
   handleMissing,
   isTranslateFallbackWarn,
-  NOT_REOSLVED,
-  MISSING_RESOLVE_VALUE
+  MISSING_RESOLVE_VALUE,
+  NOT_REOSLVED
 } from './context'
-import { CoreWarnCodes, getWarnMessage } from './warnings'
 import { CoreErrorCodes, createCoreError } from './errors'
 import { getLocale } from './fallbacker'
 import { Availabilities } from './intl'
+import { CoreWarnCodes, getWarnMessage } from './warnings'
 
-import type { Locale, FallbackLocale } from './runtime'
+import type { CoreContext, CoreInternalContext } from './context'
+import type { LocaleOptions } from './fallbacker'
+import type { FallbackLocale, Locale } from './runtime'
 import type {
   DateTimeFormat,
-  DateTimeFormats as DateTimeFormatsType,
   DateTimeFormatOptions,
+  DateTimeFormats as DateTimeFormatsType,
   PickupFormatKeys
 } from './types/index'
-import type { LocaleOptions } from './fallbacker'
-import type { CoreContext, CoreInternalContext } from './context'
 
 /**
  *  # datetime
@@ -345,7 +345,7 @@ export function parseDateTimeArgs(
     try {
       // This will fail if the date is not valid
       value.toISOString()
-    } catch (e) {
+    } catch {
       throw createCoreError(CoreErrorCodes.INVALID_ISO_DATE_ARGUMENT)
     }
   } else if (isDate(arg1)) {

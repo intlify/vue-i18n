@@ -14,23 +14,23 @@ pnpm build core --formats cjs
 ```
 */
 
-import { promisify } from 'node:util'
-import { promises as fs } from 'node:fs'
-import path from 'node:path'
-import pc from 'picocolors'
-import execa from 'execa'
-import os from 'node:os'
-import { gzip as _gzip } from 'node:zlib'
+import { Extractor, ExtractorConfig } from '@microsoft/api-extractor'
 import { compress } from 'brotli'
+import execa from 'execa'
+import minimist from 'minimist'
+import { promises as fs } from 'node:fs'
+import os from 'node:os'
+import path from 'node:path'
+import { promisify } from 'node:util'
+import { gzip as _gzip } from 'node:zlib'
+import pc from 'picocolors'
+import { rimrafSync } from 'rimraf'
 import {
   targets as allTargets,
-  fuzzyMatchTarget,
   checkSizeDistFiles,
+  fuzzyMatchTarget,
   readJson
 } from './utils'
-import minimist from 'minimist'
-import { Extractor, ExtractorConfig } from '@microsoft/api-extractor'
-import { rimrafSync } from 'rimraf'
 
 const gzip = promisify(_gzip)
 
@@ -96,7 +96,7 @@ async function main() {
     try {
       await fs.access(filePath)
       return true
-    } catch (e) {
+    } catch {
       return false
     }
   }
@@ -203,7 +203,7 @@ async function main() {
 
           await fs.appendFile(path.resolve(pkgDir, `dist/${target}.d.ts`), data)
         } catch (e) {
-          console.error('Failed in appending Vue type definitions')
+          console.error('Failed in appending Vue type definitions', e)
           process.exitCode = 1
         }
 

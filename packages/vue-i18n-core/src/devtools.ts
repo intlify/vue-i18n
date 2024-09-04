@@ -1,32 +1,32 @@
-import {
-  setupDevtoolsPlugin,
-  Hooks,
-  ComponentTreeNode
-} from '@vue/devtools-api'
-import {
-  isFunction,
-  isString,
-  isBoolean,
-  isObject,
-  isArray
-} from '@intlify/shared'
 import { isMessageAST } from '@intlify/core-base'
-
-import type { App, ComponentInternalInstance } from 'vue'
-import type {
-  DevtoolsPluginApi,
-  InspectedComponentData,
-  CustomInspectorState,
-  ComponentStateBase,
-  HookPayloads
+import {
+  isArray,
+  isBoolean,
+  isFunction,
+  isObject,
+  isString
+} from '@intlify/shared'
+import {
+  ComponentTreeNode,
+  Hooks,
+  setupDevtoolsPlugin
 } from '@vue/devtools-api'
+
 import type {
   VueDevToolsIDs,
-  VueDevToolsTimelineEvents,
-  VueDevToolsTimelineEventPayloads
+  VueDevToolsTimelineEventPayloads,
+  VueDevToolsTimelineEvents
 } from '@intlify/devtools-types'
-import type { I18n, I18nInternal } from './i18n'
+import type {
+  ComponentStateBase,
+  CustomInspectorState,
+  DevtoolsPluginApi,
+  HookPayloads,
+  InspectedComponentData
+} from '@vue/devtools-api'
+import type { App, ComponentInternalInstance } from 'vue'
 import type { Composer } from './composer'
+import type { I18n, I18nInternal } from './i18n'
 import type { VueI18nInternal } from './legacy'
 
 type _I18n = I18n & I18nInternal
@@ -155,6 +155,7 @@ export async function enableDevTools(app: App, i18n: _I18n): Promise<boolean> {
       )
     } catch (e) {
       console.error(e)
+      // eslint-disable-next-line @typescript-eslint/prefer-promise-reject-errors
       reject(false)
     }
   })

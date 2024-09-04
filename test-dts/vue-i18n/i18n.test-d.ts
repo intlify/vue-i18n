@@ -1,18 +1,23 @@
 import { expectType } from '..'
-
 import {
   LocaleMessageValue,
-  PickupFallbackLocales
+  LocaleParams,
+  PickupFallbackLocales,
+  SchemaParams
 } from '../../packages/core-base/src'
+import * as vueI18n from '../../packages/vue-i18n-core/src/i18n'
 import {
-  UseI18nOptions,
+  createI18n,
   I18nOptions,
   useI18n,
-  createI18n
+  UseI18nOptions
 } from '../../packages/vue-i18n-core/src/i18n'
-import * as vueI18n from '../../packages/vue-i18n-core/src/i18n'
-import { SchemaParams, LocaleParams } from '../../packages/core-base/src'
-import { ResourceSchema, MyDatetimeScehma, MyNumberSchema } from '../schema'
+
+import type {
+  MyDatetimeScehma,
+  MyNumberSchema,
+  ResourceSchema
+} from '../schema'
 
 // loose options
 const looseOptions = {
@@ -206,7 +211,9 @@ expectType<
 expectType<{ en: ResourceSchema; ja: ResourceSchema }>(
   strictComposer.messages.value
 )
+
 expectType<{ en: {}; ja: {} }>(strictComposer.datetimeFormats.value)
+
 expectType<{ en: {}; ja: {} }>(strictComposer.numberFormats.value)
 expectType<string>(strictComposer.t('nest.bar'))
 expectType<string>(strictComposer.t('nest', 1, { locale: 'en' }))
@@ -320,7 +327,9 @@ expectType<{
     }
   }
 }>(looseI18n.messages)
+
 expectType<{ 'en-US': { short: {} } }>(looseI18n.datetimeFormats)
+
 expectType<{ 'ja-JP': { currency: {} } }>(looseI18n.numberFormats)
 expectType<string>(looseI18n.t('nest.bar'))
 expectType<string>(looseI18n.t('nest', 'en'))
@@ -415,7 +424,9 @@ expectType<
 expectType<{ en: ResourceSchema; ja: ResourceSchema }>(
   strictI18n.messages.value
 )
+
 expectType<{ en: {}; ja: {} }>(strictI18n.datetimeFormats.value)
+
 expectType<{ en: {}; ja: {} }>(strictI18n.numberFormats.value)
 expectType<string>(strictI18n.t('nest.bar'))
 expectType<string>(strictI18n.t('nest', 1, { locale: 'en' }))

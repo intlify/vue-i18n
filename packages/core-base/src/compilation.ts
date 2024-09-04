@@ -1,19 +1,19 @@
-import { warn, format, isObject, isBoolean, isString } from '@intlify/shared'
 import {
   baseCompile as baseCompileCore,
   defaultOnError,
   detectHtmlTag
 } from '@intlify/message-compiler'
+import { format, isBoolean, isObject, isString, warn } from '@intlify/shared'
 import { format as formatMessage } from './format'
 
 import type {
-  CompileOptions,
   CompileError,
+  CompileOptions,
   CompilerResult,
   ResourceNode
 } from '@intlify/message-compiler'
-import type { MessageFunction, MessageFunctions } from './runtime'
 import type { MessageCompilerContext } from './context'
+import type { MessageFunction, MessageFunctions } from './runtime'
 
 const WARN_MESSAGE = `Detected HTML in '{source}' message. Recommend not using HTML messages to avoid XSS.`
 
@@ -71,6 +71,7 @@ export function compile<
     const warnHtmlMessage = isBoolean(context.warnHtmlMessage)
       ? context.warnHtmlMessage
       : true
+
     __DEV__ && checkHtmlMessage(message, warnHtmlMessage)
 
     // check caches

@@ -1,53 +1,53 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 import {
-  warn,
-  isString,
+  assign,
   isArray,
   isBoolean,
-  isRegExp,
   isFunction,
-  isPlainObject,
-  assign,
   isObject,
+  isPlainObject,
+  isRegExp,
+  isString,
+  warn,
   warnOnce
 } from '@intlify/shared'
 import { initI18nDevTools } from './devtools'
-import { CoreWarnCodes, getWarnMessage } from './warnings'
-import { resolveWithKeyValue } from './resolver'
 import { fallbackWithSimple } from './fallbacker'
+import { resolveWithKeyValue } from './resolver'
+import { CoreWarnCodes, getWarnMessage } from './warnings'
 
-import type { CompileOptions, ResourceNode } from '@intlify/message-compiler'
 import type { VueDevToolsEmitter } from '@intlify/devtools-types'
-import type { Path, MessageResolver } from './resolver'
+import type { CompileOptions, ResourceNode } from '@intlify/message-compiler'
+import type { LocaleFallbacker } from './fallbacker'
+import type { MessageResolver, Path } from './resolver'
 import type {
+  CoreMissingType,
+  FallbackLocale,
+  LinkedModifiers,
   Locale,
   LocaleDetector,
-  FallbackLocale,
-  CoreMissingType,
-  LinkedModifiers,
-  PluralizationRules,
-  MessageProcessor,
   MessageFunction,
   MessageFunctionReturn,
-  MessageType
+  MessageProcessor,
+  MessageType,
+  PluralizationRules
 } from './runtime'
 import type {
-  UnionToTuple,
-  IsNever,
-  LocaleRecord,
-  NumberFormat,
   DateTimeFormat,
   DateTimeFormats as DateTimeFormatsType,
-  NumberFormats as NumberFormatsType,
-  SchemaParams,
-  LocaleParams,
-  PickupLocales,
   FallbackLocales,
   IsEmptyObject,
-  RemoveIndexSignature
+  IsNever,
+  LocaleParams,
+  LocaleRecord,
+  NumberFormat,
+  NumberFormats as NumberFormatsType,
+  PickupLocales,
+  RemoveIndexSignature,
+  SchemaParams,
+  UnionToTuple
 } from './types'
-import type { LocaleFallbacker } from './fallbacker'
 
 export interface MetaInfo {
   [field: string]: unknown

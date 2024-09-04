@@ -12,7 +12,7 @@ export interface IntlifyRecord {
   id: number
   i18n: unknown // TODO:
   version: string
-  types: Record<string, string | Symbol> // TODO
+  types: Record<string, string | symbol> // TODO
 }
 
 export type IntlifyDevToolsHooks = 'i18n:init' | 'function:translate'

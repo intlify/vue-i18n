@@ -1,7 +1,6 @@
 import { expectType } from '../index'
 
-import { createCoreContext } from '../../packages/core-base/src'
-import { datetime } from '../../packages/core-base/src'
+import { createCoreContext, datetime } from '../../packages/core-base/src'
 
 const ctx = createCoreContext({
   locale: 'en-US',
