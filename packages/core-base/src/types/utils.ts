@@ -189,13 +189,5 @@ export type StringConvertable<T, Extracted = ExtractToStringKey<T>> = IsNever<Ex
   ? T
   : unknown
   : T
-// : ExtractToStringFunction<T> extends (...args: any) => string
-// ? T
-// : unknown
-// export type StringConvertable<T> = IsNever<ExtractToStringKey<T>> extends true
-//   ? unknown
-//   : ExtractToStringFunction<T> extends (...args: any) => string
-//   ? T
-//   : unknown
 
 /* eslint-enable @typescript-eslint/no-explicit-any */
