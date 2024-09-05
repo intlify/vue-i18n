@@ -236,22 +236,13 @@ importers:
         version: 8.4.0(eslint@9.9.1(jiti@1.21.0))(typescript@5.5.4)
       vitepress:
         specifier: 1.3.4
-<<<<<<< HEAD
-        version: 1.3.4(@algolia/client-search@4.23.2)(@types/node@22.5.3)(@vue/composition-api@1.7.2(vue@3.4.38(typescript@5.5.4)))(postcss@8.4.41)(search-insights@2.13.0)(terser@5.27.0)(typescript@5.5.4)
-=======
-        version: 1.3.4(@algolia/client-search@4.23.2)(@types/node@22.5.3)(@vue/composition-api@1.7.2(vue@3.5.1(typescript@5.3.3)))(postcss@8.4.41)(search-insights@2.13.0)(terser@5.27.0)(typescript@5.3.3)
->>>>>>> master
+        version: 1.3.4(@algolia/client-search@4.23.2)(@types/node@22.5.3)(@vue/composition-api@1.7.2(vue@3.5.1(typescript@5.5.4)))(postcss@8.4.45)(search-insights@2.13.0)(terser@5.27.0)(typescript@5.5.4)
       vitest:
         specifier: ^2.0.4
         version: 2.0.4(@types/node@22.5.3)(jsdom@24.0.0)(terser@5.27.0)
       vue:
-<<<<<<< HEAD
-        specifier: 3.4.38
-        version: 3.4.38(typescript@5.5.4)
-=======
         specifier: 3.5.1
-        version: 3.5.1(typescript@5.3.3)
->>>>>>> master
+        version: 3.5.1(typescript@5.5.4)
       vue-i18n:
         specifier: workspace:*
         version: link:packages/vue-i18n
@@ -336,31 +327,18 @@ importers:
   examples/lazy-loading/webpack:
     dependencies:
       vue:
-<<<<<<< HEAD
-        specifier: 3.4.38
-        version: 3.4.38(typescript@5.5.4)
-=======
         specifier: 3.5.1
-        version: 3.5.1(typescript@5.4.3)
->>>>>>> master
+        version: 3.5.1(typescript@5.5.4)
       vue-i18n:
         specifier: workspace:*
         version: link:../../../packages/vue-i18n
       vue-router:
         specifier: ^4.0.5
-<<<<<<< HEAD
-        version: 4.2.5(vue@3.4.38(typescript@5.5.4))
+        version: 4.2.5(vue@3.5.1(typescript@5.5.4))
     devDependencies:
       '@intlify/vue-i18n-loader':
         specifier: ^3.2.0
-        version: 3.3.0(vue@3.4.38(typescript@5.5.4))
-=======
-        version: 4.2.5(vue@3.5.1(typescript@5.4.3))
-    devDependencies:
-      '@intlify/vue-i18n-loader':
-        specifier: ^3.2.0
-        version: 3.3.0(vue@3.5.1(typescript@5.4.3))
->>>>>>> master
+        version: 3.3.0(vue@3.5.1(typescript@5.5.4))
       '@vue/compiler-sfc':
         specifier: ^3.2.0
         version: 3.4.19
@@ -378,11 +356,7 @@ importers:
         version: 4.1.1(file-loader@6.2.0(webpack@4.47.0(webpack-cli@3.3.12)))(webpack@4.47.0(webpack-cli@3.3.12))
       vue-loader:
         specifier: ^16.8.0
-<<<<<<< HEAD
-        version: 16.8.3(@vue/compiler-sfc@3.4.19)(vue@3.4.38(typescript@5.5.4))(webpack@4.47.0(webpack-cli@3.3.12))
-=======
-        version: 16.8.3(@vue/compiler-sfc@3.4.19)(vue@3.5.1(typescript@5.4.3))(webpack@4.47.0(webpack-cli@3.3.12))
->>>>>>> master
+        version: 16.8.3(@vue/compiler-sfc@3.4.19)(vue@3.5.1(typescript@5.5.4))(webpack@4.47.0(webpack-cli@3.3.12))
       webpack:
         specifier: ^4.44.0
         version: 4.47.0(webpack-cli@3.3.12)
@@ -425,30 +399,18 @@ importers:
   examples/tsx:
     dependencies:
       vue:
-<<<<<<< HEAD
-        specifier: 3.4.38
-        version: 3.4.38(typescript@5.5.4)
-=======
         specifier: 3.5.1
-        version: 3.5.1(typescript@5.4.3)
->>>>>>> master
+        version: 3.5.1(typescript@5.5.4)
       vue-i18n:
         specifier: workspace:*
         version: link:../../packages/vue-i18n
     devDependencies:
       '@vitejs/plugin-vue':
         specifier: ^4.2.3
-<<<<<<< HEAD
-        version: 4.6.2(vite@5.1.7(@types/node@22.5.3)(terser@5.27.0))(vue@3.4.38(typescript@5.5.4))
+        version: 4.6.2(vite@5.1.7(@types/node@22.5.3)(terser@5.27.0))(vue@3.5.1(typescript@5.5.4))
       '@vitejs/plugin-vue-jsx':
         specifier: ^3.0.2
-        version: 3.1.0(vite@5.1.7(@types/node@22.5.3)(terser@5.27.0))(vue@3.4.38(typescript@5.5.4))
-=======
-        version: 4.6.2(vite@5.1.7(@types/node@22.5.3)(terser@5.27.0))(vue@3.5.1(typescript@5.4.3))
-      '@vitejs/plugin-vue-jsx':
-        specifier: ^3.0.2
-        version: 3.1.0(vite@5.1.7(@types/node@22.5.3)(terser@5.27.0))(vue@3.5.1(typescript@5.4.3))
->>>>>>> master
+        version: 3.1.0(vite@5.1.7(@types/node@22.5.3)(terser@5.27.0))(vue@3.5.1(typescript@5.5.4))
       '@vue/compiler-sfc':
         specifier: ^3.3.4
         version: 3.4.19
@@ -574,21 +536,12 @@ importers:
         specifier: ^1.0.2
         version: 1.0.2
       vue:
-<<<<<<< HEAD
-        specifier: 3.4.38
-        version: 3.4.38(typescript@5.5.4)
-    devDependencies:
-      '@vitejs/plugin-vue':
-        specifier: ^5.0.0
-        version: 5.0.4(vite@5.1.7(@types/node@22.5.3)(terser@5.27.0))(vue@3.4.38(typescript@5.5.4))
-=======
         specifier: 3.5.1
-        version: 3.5.1(typescript@5.4.3)
+        version: 3.5.1(typescript@5.5.4)
     devDependencies:
       '@vitejs/plugin-vue':
         specifier: ^5.0.0
-        version: 5.0.4(vite@5.1.7(@types/node@22.5.3)(terser@5.27.0))(vue@3.5.1(typescript@5.4.3))
->>>>>>> master
+        version: 5.0.4(vite@5.1.7(@types/node@22.5.3)(terser@5.27.0))(vue@3.5.1(typescript@5.5.4))
       '@vue/compiler-sfc':
         specifier: ^3.3.4
         version: 3.4.19
@@ -620,13 +573,8 @@ importers:
         specifier: ^6.5.0
         version: 6.5.1
       vue:
-<<<<<<< HEAD
-        specifier: 3.4.38
-        version: 3.4.38(typescript@5.5.4)
-=======
         specifier: 3.5.1
-        version: 3.5.1(typescript@5.4.3)
->>>>>>> master
+        version: 3.5.1(typescript@5.5.4)
     devDependencies:
       '@intlify/devtools-types':
         specifier: workspace:*
@@ -650,21 +598,12 @@ importers:
         specifier: workspace:*
         version: link:../petite-vue-i18n
       vue:
-<<<<<<< HEAD
-        specifier: 3.4.38
-        version: 3.4.38(typescript@5.5.4)
-    devDependencies:
-      '@vitejs/plugin-vue':
-        specifier: ^5.0.0
-        version: 5.0.4(vite@5.1.7(@types/node@22.5.3)(terser@5.27.0))(vue@3.4.38(typescript@5.5.4))
-=======
         specifier: 3.5.1
-        version: 3.5.1(typescript@5.4.3)
+        version: 3.5.1(typescript@5.5.4)
     devDependencies:
       '@vitejs/plugin-vue':
         specifier: ^5.0.0
-        version: 5.0.4(vite@5.1.7(@types/node@22.5.3)(terser@5.27.0))(vue@3.5.1(typescript@5.4.3))
->>>>>>> master
+        version: 5.0.4(vite@5.1.7(@types/node@22.5.3)(terser@5.27.0))(vue@3.5.1(typescript@5.5.4))
       '@vue/compiler-sfc':
         specifier: ^3.3.4
         version: 3.4.19
@@ -678,24 +617,15 @@ importers:
   packages/size-check-vue-i18n:
     dependencies:
       vue:
-<<<<<<< HEAD
-        specifier: 3.4.38
-        version: 3.4.38(typescript@5.5.4)
-=======
         specifier: 3.5.1
-        version: 3.5.1(typescript@5.4.3)
->>>>>>> master
+        version: 3.5.1(typescript@5.5.4)
       vue-i18n:
         specifier: workspace:*
         version: link:../vue-i18n
     devDependencies:
       '@vitejs/plugin-vue':
         specifier: ^5.0.0
-<<<<<<< HEAD
-        version: 5.0.4(vite@5.1.7(@types/node@22.5.3)(terser@5.27.0))(vue@3.4.38(typescript@5.5.4))
-=======
-        version: 5.0.4(vite@5.1.7(@types/node@22.5.3)(terser@5.27.0))(vue@3.5.1(typescript@5.4.3))
->>>>>>> master
+        version: 5.0.4(vite@5.1.7(@types/node@22.5.3)(terser@5.27.0))(vue@3.5.1(typescript@5.5.4))
       '@vue/compiler-sfc':
         specifier: ^3.3.4
         version: 3.4.19
@@ -718,13 +648,8 @@ importers:
         specifier: ^6.5.0
         version: 6.5.1
       vue:
-<<<<<<< HEAD
-        specifier: 3.4.38
-        version: 3.4.38(typescript@5.5.4)
-=======
         specifier: 3.5.1
-        version: 3.5.1(typescript@5.4.3)
->>>>>>> master
+        version: 3.5.1(typescript@5.5.4)
     devDependencies:
       '@intlify/devtools-types':
         specifier: workspace:*
@@ -742,13 +667,8 @@ importers:
         specifier: ^6.5.0
         version: 6.5.1
       vue:
-<<<<<<< HEAD
-        specifier: 3.4.38
-        version: 3.4.38(typescript@5.5.4)
-=======
         specifier: 3.5.1
-        version: 3.5.1(typescript@5.4.3)
->>>>>>> master
+        version: 3.5.1(typescript@5.5.4)
     devDependencies:
       '@intlify/devtools-types':
         specifier: workspace:*
@@ -8194,22 +8114,14 @@ snapshots:
       '@intlify/shared': 9.13.1
     optional: true
 
-<<<<<<< HEAD
-  '@intlify/vue-i18n-loader@3.3.0(vue@3.4.38(typescript@5.5.4))':
-=======
-  '@intlify/vue-i18n-loader@3.3.0(vue@3.5.1(typescript@5.4.3))':
->>>>>>> master
+  '@intlify/vue-i18n-loader@3.3.0(vue@3.5.1(typescript@5.5.4))':
     dependencies:
       '@intlify/bundle-utils': 1.0.0
       '@intlify/shared': 9.11.0
       js-yaml: 4.1.0
       json5: 2.2.3
       loader-utils: 2.0.4
-<<<<<<< HEAD
-      vue: 3.4.38(typescript@5.5.4)
-=======
-      vue: 3.5.1(typescript@5.4.3)
->>>>>>> master
+      vue: 3.5.1(typescript@5.5.4)
 
   '@isaacs/cliui@8.0.2':
     dependencies:
@@ -9101,21 +9013,13 @@ snapshots:
       '@typescript-eslint/types': 8.4.0
       eslint-visitor-keys: 3.4.3
 
-<<<<<<< HEAD
-  '@vitejs/plugin-vue-jsx@3.1.0(vite@5.1.7(@types/node@22.5.3)(terser@5.27.0))(vue@3.4.38(typescript@5.5.4))':
-=======
-  '@vitejs/plugin-vue-jsx@3.1.0(vite@5.1.7(@types/node@22.5.3)(terser@5.27.0))(vue@3.5.1(typescript@5.4.3))':
->>>>>>> master
+  '@vitejs/plugin-vue-jsx@3.1.0(vite@5.1.7(@types/node@22.5.3)(terser@5.27.0))(vue@3.5.1(typescript@5.5.4))':
     dependencies:
       '@babel/core': 7.23.9
       '@babel/plugin-transform-typescript': 7.23.6(@babel/core@7.23.9)
       '@vue/babel-plugin-jsx': 1.2.1(@babel/core@7.23.9)
       vite: 5.1.7(@types/node@22.5.3)(terser@5.27.0)
-<<<<<<< HEAD
-      vue: 3.4.38(typescript@5.5.4)
-=======
-      vue: 3.5.1(typescript@5.4.3)
->>>>>>> master
+      vue: 3.5.1(typescript@5.5.4)
     transitivePeerDependencies:
       - supports-color
 
@@ -9124,37 +9028,20 @@ snapshots:
       vite: 5.1.7(@types/node@22.5.3)(terser@5.27.0)
       vue: 3.5.1(typescript@5.3.3)
 
-<<<<<<< HEAD
-  '@vitejs/plugin-vue@4.6.2(vite@5.1.7(@types/node@22.5.3)(terser@5.27.0))(vue@3.4.38(typescript@5.5.4))':
+  '@vitejs/plugin-vue@4.6.2(vite@5.1.7(@types/node@22.5.3)(terser@5.27.0))(vue@3.5.1(typescript@5.5.4))':
     dependencies:
       vite: 5.1.7(@types/node@22.5.3)(terser@5.27.0)
-      vue: 3.4.38(typescript@5.5.4)
+      vue: 3.5.1(typescript@5.5.4)
 
-  '@vitejs/plugin-vue@5.0.4(vite@5.1.7(@types/node@22.5.3)(terser@5.27.0))(vue@3.4.38(typescript@5.5.4))':
+  '@vitejs/plugin-vue@5.0.4(vite@5.1.7(@types/node@22.5.3)(terser@5.27.0))(vue@3.5.1(typescript@5.5.4))':
     dependencies:
       vite: 5.1.7(@types/node@22.5.3)(terser@5.27.0)
-      vue: 3.4.38(typescript@5.5.4)
+      vue: 3.5.1(typescript@5.5.4)
 
-  '@vitejs/plugin-vue@5.1.2(vite@5.2.8(@types/node@22.5.3)(terser@5.27.0))(vue@3.4.38(typescript@5.5.4))':
+  '@vitejs/plugin-vue@5.1.2(vite@5.2.8(@types/node@22.5.3)(terser@5.27.0))(vue@3.5.1(typescript@5.5.4))':
     dependencies:
       vite: 5.2.8(@types/node@22.5.3)(terser@5.27.0)
-      vue: 3.4.38(typescript@5.5.4)
-=======
-  '@vitejs/plugin-vue@4.6.2(vite@5.1.7(@types/node@22.5.3)(terser@5.27.0))(vue@3.5.1(typescript@5.4.3))':
-    dependencies:
-      vite: 5.1.7(@types/node@22.5.3)(terser@5.27.0)
-      vue: 3.5.1(typescript@5.4.3)
-
-  '@vitejs/plugin-vue@5.0.4(vite@5.1.7(@types/node@22.5.3)(terser@5.27.0))(vue@3.5.1(typescript@5.4.3))':
-    dependencies:
-      vite: 5.1.7(@types/node@22.5.3)(terser@5.27.0)
-      vue: 3.5.1(typescript@5.4.3)
-
-  '@vitejs/plugin-vue@5.1.2(vite@5.2.8(@types/node@22.5.3)(terser@5.27.0))(vue@3.5.1(typescript@5.3.3))':
-    dependencies:
-      vite: 5.2.8(@types/node@22.5.3)(terser@5.27.0)
-      vue: 3.5.1(typescript@5.3.3)
->>>>>>> master
+      vue: 3.5.1(typescript@5.5.4)
 
   '@vitest/coverage-v8@2.0.0(vitest@2.0.4(@types/node@22.5.3)(jsdom@24.0.0)(terser@5.27.0))':
     dependencies:
@@ -9348,20 +9235,14 @@ snapshots:
       '@vue/compiler-dom': 3.4.38
       '@vue/shared': 3.4.38
 
-<<<<<<< HEAD
-  '@vue/composition-api@1.7.2(vue@3.4.38(typescript@5.5.4))':
-    dependencies:
-      vue: 3.4.38(typescript@5.5.4)
-=======
   '@vue/compiler-ssr@3.5.1':
     dependencies:
       '@vue/compiler-dom': 3.5.1
       '@vue/shared': 3.5.1
 
-  '@vue/composition-api@1.7.2(vue@3.5.1(typescript@5.3.3))':
+  '@vue/composition-api@1.7.2(vue@3.5.1(typescript@5.5.4))':
     dependencies:
-      vue: 3.5.1(typescript@5.3.3)
->>>>>>> master
+      vue: 3.5.1(typescript@5.5.4)
     optional: true
 
   '@vue/devtools-api@6.5.1': {}
@@ -9446,58 +9327,33 @@ snapshots:
       '@vue/shared': 3.5.1
       vue: 3.5.1(typescript@5.3.3)
 
-<<<<<<< HEAD
-  '@vue/server-renderer@3.4.38(vue@3.4.38(typescript@5.5.4))':
-    dependencies:
-      '@vue/compiler-ssr': 3.4.38
-      '@vue/shared': 3.4.38
-      vue: 3.4.38(typescript@5.5.4)
-=======
-  '@vue/server-renderer@3.5.1(vue@3.5.1(typescript@5.4.3))':
+  '@vue/server-renderer@3.5.1(vue@3.5.1(typescript@5.5.4))':
     dependencies:
       '@vue/compiler-ssr': 3.5.1
       '@vue/shared': 3.5.1
-      vue: 3.5.1(typescript@5.4.3)
->>>>>>> master
+      vue: 3.5.1(typescript@5.5.4)
 
   '@vue/shared@3.4.19': {}
 
   '@vue/shared@3.4.38': {}
 
-<<<<<<< HEAD
-  '@vueuse/core@11.0.3(@vue/composition-api@1.7.2(vue@3.4.38(typescript@5.5.4)))(vue@3.4.38(typescript@5.5.4))':
-    dependencies:
-      '@types/web-bluetooth': 0.0.20
-      '@vueuse/metadata': 11.0.3
-      '@vueuse/shared': 11.0.3(@vue/composition-api@1.7.2(vue@3.4.38(typescript@5.5.4)))(vue@3.4.38(typescript@5.5.4))
-      vue-demi: 0.14.10(@vue/composition-api@1.7.2(vue@3.4.38(typescript@5.5.4)))(vue@3.4.38(typescript@5.5.4))
-=======
   '@vue/shared@3.5.1': {}
 
-  '@vueuse/core@11.0.3(@vue/composition-api@1.7.2(vue@3.5.1(typescript@5.3.3)))(vue@3.5.1(typescript@5.3.3))':
+  '@vueuse/core@11.0.3(@vue/composition-api@1.7.2(vue@3.5.1(typescript@5.5.4)))(vue@3.5.1(typescript@5.5.4))':
     dependencies:
       '@types/web-bluetooth': 0.0.20
       '@vueuse/metadata': 11.0.3
-      '@vueuse/shared': 11.0.3(@vue/composition-api@1.7.2(vue@3.5.1(typescript@5.3.3)))(vue@3.5.1(typescript@5.3.3))
-      vue-demi: 0.14.10(@vue/composition-api@1.7.2(vue@3.5.1(typescript@5.3.3)))(vue@3.5.1(typescript@5.3.3))
->>>>>>> master
+      '@vueuse/shared': 11.0.3(@vue/composition-api@1.7.2(vue@3.5.1(typescript@5.5.4)))(vue@3.5.1(typescript@5.5.4))
+      vue-demi: 0.14.10(@vue/composition-api@1.7.2(vue@3.5.1(typescript@5.5.4)))(vue@3.5.1(typescript@5.5.4))
     transitivePeerDependencies:
       - '@vue/composition-api'
       - vue
 
-<<<<<<< HEAD
-  '@vueuse/integrations@11.0.3(@vue/composition-api@1.7.2(vue@3.4.38(typescript@5.5.4)))(focus-trap@7.5.4)(vue@3.4.38(typescript@5.5.4))':
+  '@vueuse/integrations@11.0.3(@vue/composition-api@1.7.2(vue@3.5.1(typescript@5.5.4)))(focus-trap@7.5.4)(vue@3.5.1(typescript@5.5.4))':
     dependencies:
-      '@vueuse/core': 11.0.3(@vue/composition-api@1.7.2(vue@3.4.38(typescript@5.5.4)))(vue@3.4.38(typescript@5.5.4))
-      '@vueuse/shared': 11.0.3(@vue/composition-api@1.7.2(vue@3.4.38(typescript@5.5.4)))(vue@3.4.38(typescript@5.5.4))
-      vue-demi: 0.14.10(@vue/composition-api@1.7.2(vue@3.4.38(typescript@5.5.4)))(vue@3.4.38(typescript@5.5.4))
-=======
-  '@vueuse/integrations@11.0.3(@vue/composition-api@1.7.2(vue@3.5.1(typescript@5.3.3)))(focus-trap@7.5.4)(vue@3.5.1(typescript@5.3.3))':
-    dependencies:
-      '@vueuse/core': 11.0.3(@vue/composition-api@1.7.2(vue@3.5.1(typescript@5.3.3)))(vue@3.5.1(typescript@5.3.3))
-      '@vueuse/shared': 11.0.3(@vue/composition-api@1.7.2(vue@3.5.1(typescript@5.3.3)))(vue@3.5.1(typescript@5.3.3))
-      vue-demi: 0.14.10(@vue/composition-api@1.7.2(vue@3.5.1(typescript@5.3.3)))(vue@3.5.1(typescript@5.3.3))
->>>>>>> master
+      '@vueuse/core': 11.0.3(@vue/composition-api@1.7.2(vue@3.5.1(typescript@5.5.4)))(vue@3.5.1(typescript@5.5.4))
+      '@vueuse/shared': 11.0.3(@vue/composition-api@1.7.2(vue@3.5.1(typescript@5.5.4)))(vue@3.5.1(typescript@5.5.4))
+      vue-demi: 0.14.10(@vue/composition-api@1.7.2(vue@3.5.1(typescript@5.5.4)))(vue@3.5.1(typescript@5.5.4))
     optionalDependencies:
       focus-trap: 7.5.4
     transitivePeerDependencies:
@@ -9506,15 +9362,9 @@ snapshots:
 
   '@vueuse/metadata@11.0.3': {}
 
-<<<<<<< HEAD
-  '@vueuse/shared@11.0.3(@vue/composition-api@1.7.2(vue@3.4.38(typescript@5.5.4)))(vue@3.4.38(typescript@5.5.4))':
+  '@vueuse/shared@11.0.3(@vue/composition-api@1.7.2(vue@3.5.1(typescript@5.5.4)))(vue@3.5.1(typescript@5.5.4))':
     dependencies:
-      vue-demi: 0.14.10(@vue/composition-api@1.7.2(vue@3.4.38(typescript@5.5.4)))(vue@3.4.38(typescript@5.5.4))
-=======
-  '@vueuse/shared@11.0.3(@vue/composition-api@1.7.2(vue@3.5.1(typescript@5.3.3)))(vue@3.5.1(typescript@5.3.3))':
-    dependencies:
-      vue-demi: 0.14.10(@vue/composition-api@1.7.2(vue@3.5.1(typescript@5.3.3)))(vue@3.5.1(typescript@5.3.3))
->>>>>>> master
+      vue-demi: 0.14.10(@vue/composition-api@1.7.2(vue@3.5.1(typescript@5.5.4)))(vue@3.5.1(typescript@5.5.4))
     transitivePeerDependencies:
       - '@vue/composition-api'
       - vue
@@ -14971,42 +14821,26 @@ snapshots:
       fsevents: 2.3.3
       terser: 5.27.0
 
-<<<<<<< HEAD
-  vitepress@1.3.4(@algolia/client-search@4.23.2)(@types/node@22.5.3)(@vue/composition-api@1.7.2(vue@3.4.38(typescript@5.5.4)))(postcss@8.4.41)(search-insights@2.13.0)(terser@5.27.0)(typescript@5.5.4):
-=======
-  vitepress@1.3.4(@algolia/client-search@4.23.2)(@types/node@22.5.3)(@vue/composition-api@1.7.2(vue@3.5.1(typescript@5.3.3)))(postcss@8.4.41)(search-insights@2.13.0)(terser@5.27.0)(typescript@5.3.3):
->>>>>>> master
+  vitepress@1.3.4(@algolia/client-search@4.23.2)(@types/node@22.5.3)(@vue/composition-api@1.7.2(vue@3.5.1(typescript@5.5.4)))(postcss@8.4.45)(search-insights@2.13.0)(terser@5.27.0)(typescript@5.5.4):
     dependencies:
       '@docsearch/css': 3.6.1
       '@docsearch/js': 3.6.1(@algolia/client-search@4.23.2)(search-insights@2.13.0)
       '@shikijs/core': 1.14.1
       '@shikijs/transformers': 1.14.1
       '@types/markdown-it': 14.1.2
-<<<<<<< HEAD
-      '@vitejs/plugin-vue': 5.1.2(vite@5.2.8(@types/node@22.5.3)(terser@5.27.0))(vue@3.4.38(typescript@5.5.4))
+      '@vitejs/plugin-vue': 5.1.2(vite@5.2.8(@types/node@22.5.3)(terser@5.27.0))(vue@3.5.1(typescript@5.5.4))
       '@vue/devtools-api': 7.3.9
       '@vue/shared': 3.4.38
-      '@vueuse/core': 11.0.3(@vue/composition-api@1.7.2(vue@3.4.38(typescript@5.5.4)))(vue@3.4.38(typescript@5.5.4))
-      '@vueuse/integrations': 11.0.3(@vue/composition-api@1.7.2(vue@3.4.38(typescript@5.5.4)))(focus-trap@7.5.4)(vue@3.4.38(typescript@5.5.4))
-=======
-      '@vitejs/plugin-vue': 5.1.2(vite@5.2.8(@types/node@22.5.3)(terser@5.27.0))(vue@3.5.1(typescript@5.3.3))
-      '@vue/devtools-api': 7.3.9
-      '@vue/shared': 3.4.38
-      '@vueuse/core': 11.0.3(@vue/composition-api@1.7.2(vue@3.5.1(typescript@5.3.3)))(vue@3.5.1(typescript@5.3.3))
-      '@vueuse/integrations': 11.0.3(@vue/composition-api@1.7.2(vue@3.5.1(typescript@5.3.3)))(focus-trap@7.5.4)(vue@3.5.1(typescript@5.3.3))
->>>>>>> master
+      '@vueuse/core': 11.0.3(@vue/composition-api@1.7.2(vue@3.5.1(typescript@5.5.4)))(vue@3.5.1(typescript@5.5.4))
+      '@vueuse/integrations': 11.0.3(@vue/composition-api@1.7.2(vue@3.5.1(typescript@5.5.4)))(focus-trap@7.5.4)(vue@3.5.1(typescript@5.5.4))
       focus-trap: 7.5.4
       mark.js: 8.11.1
       minisearch: 7.1.0
       shiki: 1.14.1
       vite: 5.2.8(@types/node@22.5.3)(terser@5.27.0)
-<<<<<<< HEAD
-      vue: 3.4.38(typescript@5.5.4)
-=======
-      vue: 3.5.1(typescript@5.3.3)
->>>>>>> master
+      vue: 3.5.1(typescript@5.5.4)
     optionalDependencies:
-      postcss: 8.4.41
+      postcss: 8.4.45
     transitivePeerDependencies:
       - '@algolia/client-search'
       - '@types/node'
@@ -15071,19 +14905,11 @@ snapshots:
 
   vm-browserify@1.1.2: {}
 
-<<<<<<< HEAD
-  vue-demi@0.14.10(@vue/composition-api@1.7.2(vue@3.4.38(typescript@5.5.4)))(vue@3.4.38(typescript@5.5.4)):
+  vue-demi@0.14.10(@vue/composition-api@1.7.2(vue@3.5.1(typescript@5.5.4)))(vue@3.5.1(typescript@5.5.4)):
     dependencies:
-      vue: 3.4.38(typescript@5.5.4)
+      vue: 3.5.1(typescript@5.5.4)
     optionalDependencies:
-      '@vue/composition-api': 1.7.2(vue@3.4.38(typescript@5.5.4))
-=======
-  vue-demi@0.14.10(@vue/composition-api@1.7.2(vue@3.5.1(typescript@5.3.3)))(vue@3.5.1(typescript@5.3.3)):
-    dependencies:
-      vue: 3.5.1(typescript@5.3.3)
-    optionalDependencies:
-      '@vue/composition-api': 1.7.2(vue@3.5.1(typescript@5.3.3))
->>>>>>> master
+      '@vue/composition-api': 1.7.2(vue@3.5.1(typescript@5.5.4))
 
   vue-eslint-parser@9.4.3(eslint@9.9.1(jiti@1.21.0)):
     dependencies:
@@ -15098,11 +14924,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-<<<<<<< HEAD
-  vue-loader@16.8.3(@vue/compiler-sfc@3.4.19)(vue@3.4.38(typescript@5.5.4))(webpack@4.47.0(webpack-cli@3.3.12)):
-=======
-  vue-loader@16.8.3(@vue/compiler-sfc@3.4.19)(vue@3.5.1(typescript@5.4.3))(webpack@4.47.0(webpack-cli@3.3.12)):
->>>>>>> master
+  vue-loader@16.8.3(@vue/compiler-sfc@3.4.19)(vue@3.5.1(typescript@5.5.4))(webpack@4.47.0(webpack-cli@3.3.12)):
     dependencies:
       chalk: 4.1.2
       hash-sum: 2.0.0
@@ -15110,28 +14932,17 @@ snapshots:
       webpack: 4.47.0(webpack-cli@3.3.12)
     optionalDependencies:
       '@vue/compiler-sfc': 3.4.19
-<<<<<<< HEAD
-      vue: 3.4.38(typescript@5.5.4)
-=======
-      vue: 3.5.1(typescript@5.4.3)
->>>>>>> master
+      vue: 3.5.1(typescript@5.5.4)
 
   vue-router@4.2.5(vue@3.5.1(typescript@5.3.3)):
     dependencies:
       '@vue/devtools-api': 6.5.1
       vue: 3.5.1(typescript@5.3.3)
 
-<<<<<<< HEAD
-  vue-router@4.2.5(vue@3.4.38(typescript@5.5.4)):
+  vue-router@4.2.5(vue@3.5.1(typescript@5.5.4)):
     dependencies:
       '@vue/devtools-api': 6.5.1
-      vue: 3.4.38(typescript@5.5.4)
-=======
-  vue-router@4.2.5(vue@3.5.1(typescript@5.4.3)):
-    dependencies:
-      '@vue/devtools-api': 6.5.1
-      vue: 3.5.1(typescript@5.4.3)
->>>>>>> master
+      vue: 3.5.1(typescript@5.5.4)
 
   vue-template-compiler@2.7.16:
     dependencies:
@@ -15169,23 +14980,13 @@ snapshots:
     optionalDependencies:
       typescript: 5.3.3
 
-<<<<<<< HEAD
-  vue@3.4.38(typescript@5.5.4):
-    dependencies:
-      '@vue/compiler-dom': 3.4.38
-      '@vue/compiler-sfc': 3.4.38
-      '@vue/runtime-dom': 3.4.38
-      '@vue/server-renderer': 3.4.38(vue@3.4.38(typescript@5.5.4))
-      '@vue/shared': 3.4.38
-=======
-  vue@3.5.1(typescript@5.4.3):
+  vue@3.5.1(typescript@5.5.4):
     dependencies:
       '@vue/compiler-dom': 3.5.1
       '@vue/compiler-sfc': 3.5.1
       '@vue/runtime-dom': 3.5.1
-      '@vue/server-renderer': 3.5.1(vue@3.5.1(typescript@5.4.3))
+      '@vue/server-renderer': 3.5.1(vue@3.5.1(typescript@5.5.4))
       '@vue/shared': 3.5.1
->>>>>>> master
     optionalDependencies:
       typescript: 5.5.4
 
