@@ -74,7 +74,6 @@
     "packages/*/src",
     "packages/*/test",
     "packages/*/*.config.ts",
-    "test-dts",
     "scripts",
     "e2e",
     "shim.d.ts",

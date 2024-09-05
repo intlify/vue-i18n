@@ -12,19 +12,19 @@ vi.mock('@intlify/shared', async () => {
   }
 })
 
-import { mount } from './helper'
-import { defineComponent, nextTick } from 'vue'
 import {
   compile,
-  registerMessageCompiler,
-  resolveValue,
-  registerMessageResolver,
   fallbackWithLocaleChain,
-  registerLocaleFallbacker
+  registerLocaleFallbacker,
+  registerMessageCompiler,
+  registerMessageResolver,
+  resolveValue
 } from '@intlify/core-base'
-import { createI18n } from '../src/index'
+import { defineComponent, nextTick } from 'vue'
 import { errorMessages, I18nErrorCodes } from '../src/errors'
+import { createI18n } from '../src/index'
 import { VueI18n } from '../src/legacy'
+import { mount } from './helper'
 
 beforeAll(() => {
   registerMessageCompiler(compile)

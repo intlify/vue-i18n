@@ -12,23 +12,28 @@ vi.mock('@intlify/shared', async () => {
   }
 })
 
-import { createCoreContext as context, NOT_REOSLVED } from '../src/context'
-import { translate } from '../src/translate'
-import { CoreErrorCodes, errorMessages } from '../src/errors'
-import {
-  registerMessageCompiler,
-  registerMessageResolver,
-  registerLocaleFallbacker
-} from '../src/context'
 import { compile } from '../src/compilation'
+import {
+  createCoreContext as context,
+  NOT_REOSLVED,
+  registerLocaleFallbacker,
+  registerMessageCompiler,
+  registerMessageResolver
+} from '../src/context'
+import { CoreErrorCodes, errorMessages } from '../src/errors'
 import { fallbackWithLocaleChain } from '../src/fallbacker'
 import { resolveValue } from '../src/resolver'
+import { translate } from '../src/translate'
 import { createTextNode } from './helper'
 
-import type { MessageContext, MessageFunctionReturn } from '../src/runtime'
-import type { VNode } from './helper'
-import type { MessageType, MessageProcessor } from '../src/runtime'
+import type {
+  MessageContext,
+  MessageFunctionReturn,
+  MessageProcessor,
+  MessageType
+} from '../src/runtime'
 import type { PickupKeys } from '../src/types/utils'
+import type { VNode } from './helper'
 
 beforeEach(() => {
   registerMessageCompiler(compile)
@@ -878,6 +883,7 @@ describe('processor', () => {
     })
     ctx.processor = processor
     expect(
+      // @ts-expect-error -- FIXME
       translate<typeof ctx, string, PickupKeys<typeof ctx.messages>, VNode>(
         ctx,
         'hi'
@@ -894,6 +900,7 @@ describe('processor', () => {
     })
     ctx.processor = processor
     expect(
+      // @ts-expect-error -- FIXME
       translate<typeof ctx, string, PickupKeys<typeof ctx.messages>, VNode>(
         ctx,
         'hi',
@@ -915,6 +922,7 @@ describe('processor', () => {
     })
     ctx.processor = processor
     expect(
+      // @ts-expect-error -- FIXME
       translate<typeof ctx, string, PickupKeys<typeof ctx.messages>, VNode>(
         ctx,
         'hi',
@@ -939,6 +947,7 @@ describe('processor', () => {
     })
     ctx.processor = processor
     expect(
+      // @ts-expect-error -- FIXME
       translate<typeof ctx, string, PickupKeys<typeof ctx.messages>, VNode>(
         ctx,
         'hi'
@@ -959,6 +968,7 @@ describe('processor', () => {
     })
     ctx.processor = processor
     expect(
+      // @ts-expect-error -- FIXME
       translate<typeof ctx, string, PickupKeys<typeof ctx.messages>, VNode>(
         ctx,
         'apple',
@@ -966,6 +976,7 @@ describe('processor', () => {
       )
     ).toEqual([{ __v_isVNode: true, children: 'no apples' }])
     expect(
+      // @ts-expect-error -- FIXME
       translate<typeof ctx, string, PickupKeys<typeof ctx.messages>, VNode>(
         ctx,
         'apple',
@@ -973,6 +984,7 @@ describe('processor', () => {
       )
     ).toEqual([{ __v_isVNode: true, children: 'one apple' }])
     expect(
+      // @ts-expect-error -- FIXME
       translate<typeof ctx, string, PickupKeys<typeof ctx.messages>, VNode>(
         ctx,
         'apple',
@@ -984,6 +996,7 @@ describe('processor', () => {
       undefined
     ])
     expect(
+      // @ts-expect-error -- FIXME
       translate<typeof ctx, string, PickupKeys<typeof ctx.messages>, VNode>(
         ctx,
         'apple',

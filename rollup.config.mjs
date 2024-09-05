@@ -1,12 +1,12 @@
-import { createRequire } from 'node:module'
-import { fileURLToPath } from 'node:url'
-import path from 'node:path'
-import { promises as fs } from 'node:fs'
-import ts from 'rollup-plugin-typescript2'
-import replace from '@rollup/plugin-replace'
 import json from '@rollup/plugin-json'
+import replace from '@rollup/plugin-replace'
 import terser from '@rollup/plugin-terser'
+import { promises as fs } from 'node:fs'
+import { createRequire } from 'node:module'
+import path from 'node:path'
+import { fileURLToPath } from 'node:url'
 import pc from 'picocolors'
+import ts from 'rollup-plugin-typescript2'
 
 if (!process.env.TARGET) {
   throw new Error('TARGET package must be specified via --environment flag.')
@@ -154,7 +154,7 @@ function createConfig(format, _output, plugins = []) {
         declaration: shouldEmitDeclarations,
         declarationMap: shouldEmitDeclarations
       },
-      exclude: ['**/test', 'test-dts', 'e2e', 'scripts', '*.config.ts']
+      exclude: ['**/test', 'e2e', 'scripts', '*.config.ts']
     }
   })
   // we only need to check TS and generate declarations once for each build.
