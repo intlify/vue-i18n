@@ -10,17 +10,9 @@ import {
   join,
   toDisplayString
 } from '@intlify/shared'
-import { Path } from './resolver'
-import { IsNever } from './types'
 
-type ExtractToStringKey<T> = Extract<keyof T, 'toString'>
-type ExtractToStringFunction<T> = T[ExtractToStringKey<T>]
-// prettier-ignore
-type StringConvertable<T> = ExtractToStringKey<T> extends never
-  ? unknown
-  : ExtractToStringFunction<T> extends (...args: any) => string // eslint-disable-line @typescript-eslint/no-explicit-any
-  ? T
-  : unknown
+import type { Path } from './resolver'
+import type { IsNever, StringConvertable } from './types'
 
 /**
  *

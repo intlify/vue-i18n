@@ -107,34 +107,6 @@ jobs:
         run: |
           pnpm test:cover
 
-  test-type:
-    name: Type checking
-    strategy:
-      matrix:
-        os: [ubuntu-latest]
-        node: [18]
-
-    runs-on: ${{ matrix.os }}
-
-    steps:
-      - name: Checkout codes
-        uses: actions/checkout@v4
-
-      - name: Enable corepack
-        run: corepack enable
-
-      - name: Setup node
-        uses: actions/setup-node@v4
-        with:
-          node-version: ${{ matrix.node }}
-          cache: 'pnpm'
-
-      - name: Install dependencies
-        run: pnpm install --no-frozen-lockfile
-
-      - name: Run type checking
-        run: pnpm test:type
-
   test-e2e:
     name: E2E test
 

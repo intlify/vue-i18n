@@ -14,6 +14,7 @@ export type MyDatetimeScehma = {
 
 export type MyNumberSchema = {
   currency: {
-    style: 'symbol'
+    style: 'currency'
+    currencyDisplay: 'symbol'
   }
 }

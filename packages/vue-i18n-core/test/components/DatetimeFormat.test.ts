@@ -2,17 +2,19 @@
  * @vitest-environment jsdom
  */
 
-import { mount } from '../helper'
-import { defineComponent, SetupContext, VNodeChild, h } from 'vue'
 import {
   compile,
-  registerMessageCompiler,
-  resolveValue,
-  registerMessageResolver,
   fallbackWithLocaleChain,
-  registerLocaleFallbacker
+  registerLocaleFallbacker,
+  registerMessageCompiler,
+  registerMessageResolver,
+  resolveValue
 } from '@intlify/core-base'
-import { createI18n, IntlDateTimeFormats } from '../../src/index'
+import { defineComponent, h, SetupContext, VNodeChild } from 'vue'
+import { createI18n } from '../../src/index'
+import { mount } from '../helper'
+
+import type { IntlDateTimeFormats } from '../../src/index'
 
 const datetimeFormats: IntlDateTimeFormats = {
   'en-US': {

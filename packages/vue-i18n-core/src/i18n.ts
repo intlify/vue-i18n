@@ -1,61 +1,61 @@
 import {
-  inject,
-  onMounted,
-  onUnmounted,
-  InjectionKey,
-  getCurrentInstance,
-  isRef,
-  effectScope
-} from 'vue'
-import {
-  isEmptyObject,
-  isBoolean,
-  isPlainObject,
-  warn,
-  makeSymbol,
+  assign,
   createEmitter,
-  assign
+  isBoolean,
+  isEmptyObject,
+  isPlainObject,
+  makeSymbol,
+  warn
 } from '@intlify/shared'
-import { createComposer } from './composer'
-import { createVueI18n } from './legacy'
-import { I18nWarnCodes, getWarnMessage } from './warnings'
-import { I18nErrorCodes, createI18nError } from './errors'
 import {
-  EnableEmitter,
+  InjectionKey,
+  effectScope,
+  getCurrentInstance,
+  inject,
+  isRef,
+  onMounted,
+  onUnmounted
+} from 'vue'
+import { createComposer } from './composer'
+import { addTimelineEvent, enableDevTools } from './devtools'
+import { I18nErrorCodes, createI18nError } from './errors'
+import { createVueI18n } from './legacy'
+import { defineMixin } from './mixins'
+import { apply as applyPlugin } from './plugin/next'
+import {
   DisableEmitter,
   DisposeSymbol,
+  EnableEmitter,
   InejctWithOptionSymbol
 } from './symbols'
-import { apply as applyPlugin } from './plugin/next'
-import { defineMixin } from './mixins'
-import { enableDevTools, addTimelineEvent } from './devtools'
-import { getComponentOptions, adjustI18nResources } from './utils'
+import { adjustI18nResources, getComponentOptions } from './utils'
+import { I18nWarnCodes, getWarnMessage } from './warnings'
 
-import type { ComponentInternalInstance, App, EffectScope } from 'vue'
 import type {
-  Locale,
   FallbackLocale,
-  SchemaParams,
-  LocaleParams
+  Locale,
+  LocaleParams,
+  SchemaParams
 } from '@intlify/core-base'
 import type {
   VueDevToolsEmitter,
   VueDevToolsEmitterEvents
 } from '@intlify/devtools-types'
+import type { App, ComponentInternalInstance, EffectScope } from 'vue'
 import type {
-  VueMessageType,
-  DefaultLocaleMessageSchema,
-  DefaultDateTimeFormatSchema,
-  DefaultNumberFormatSchema,
   Composer,
+  ComposerInternalOptions,
   ComposerOptions,
-  ComposerInternalOptions
+  DefaultDateTimeFormatSchema,
+  DefaultLocaleMessageSchema,
+  DefaultNumberFormatSchema,
+  VueMessageType
 } from './composer'
 import type {
   VueI18n,
-  VueI18nOptions,
+  VueI18nExtender,
   VueI18nInternal,
-  VueI18nExtender
+  VueI18nOptions
 } from './legacy'
 import type { Disposer } from './types'
 

@@ -2,19 +2,21 @@
  * @vitest-environment jsdom
  */
 
-import { mount } from '../helper'
-import { defineComponent, SetupContext, VNodeChild, h } from 'vue'
 import {
   compile,
-  registerMessageCompiler,
-  resolveValue,
-  registerMessageResolver,
   fallbackWithLocaleChain,
-  registerLocaleFallbacker
+  registerLocaleFallbacker,
+  registerMessageCompiler,
+  registerMessageResolver,
+  resolveValue
 } from '@intlify/core-base'
+import { defineComponent, h, SetupContext, VNodeChild } from 'vue'
 import { createI18n } from '../../src/index'
+import { mount } from '../helper'
 
-const numberFormats = {
+import type { IntlNumberFormats } from '../../src/index'
+
+const numberFormats: IntlNumberFormats = {
   'en-US': {
     currency: {
       style: 'currency',

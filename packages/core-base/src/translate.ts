@@ -1,65 +1,65 @@
 import {
-  isString,
-  isNumber,
-  isFunction,
-  isBoolean,
-  isArray,
-  isPlainObject,
-  isEmptyObject,
-  generateFormatCacheKey,
-  generateCodeFrame,
+  assign,
   escapeHtml,
+  generateCodeFrame,
+  generateFormatCacheKey,
   inBrowser,
-  warn,
+  isArray,
+  isBoolean,
+  isEmptyObject,
+  isFunction,
+  isNumber,
+  isObject,
+  isPlainObject,
+  isString,
   mark,
   measure,
-  assign,
-  isObject
+  warn
 } from '@intlify/shared'
 import { isMessageAST } from './compilation'
-import { createMessageContext } from './runtime'
 import {
-  isTranslateFallbackWarn,
+  CoreContext,
+  getAdditionalMeta,
+  handleMissing,
   isAlmostSameLocale,
   isImplicitFallback,
-  handleMissing,
-  NOT_REOSLVED,
-  getAdditionalMeta,
-  CoreContext
+  isTranslateFallbackWarn,
+  NOT_REOSLVED
 } from './context'
-import { CoreWarnCodes, getWarnMessage } from './warnings'
-import { CoreErrorCodes, createCoreError } from './errors'
 import { translateDevTools } from './devtools'
+import { CoreErrorCodes, createCoreError } from './errors'
 import { getLocale } from './fallbacker'
+import { createMessageContext } from './runtime'
+import { CoreWarnCodes, getWarnMessage } from './warnings'
 
-import type { CompileError, ResourceNode } from '@intlify/message-compiler'
 import type { AdditionalPayloads } from '@intlify/devtools-types'
-import type { Path, PathValue } from './resolver'
+import type { CompileError, ResourceNode } from '@intlify/message-compiler'
 import type {
-  Locale,
-  FallbackLocale,
-  NamedValue,
-  MessageFunction,
-  MessageFunctionReturn,
-  MessageFunctionInternal,
-  MessageContextOptions,
-  MessageContext
-} from './runtime'
-import type {
+  CoreInternalContext,
+  DefineCoreLocaleMessage,
   LocaleMessages,
   LocaleMessageValue,
-  CoreInternalContext,
   MessageCompilerContext
 } from './context'
 import type { LocaleOptions } from './fallbacker'
+import type { Path, PathValue } from './resolver'
 import type {
-  PickupKeys,
+  FallbackLocale,
+  Locale,
+  MessageContext,
+  MessageContextOptions,
+  MessageFunction,
+  MessageFunctionInternal,
+  MessageFunctionReturn,
+  NamedValue
+} from './runtime'
+import type {
   IsEmptyObject,
-  RemovedIndexResources,
+  IsNever,
+  PickupKeys,
   PickupPaths,
-  IsNever
+  RemovedIndexResources
 } from './types'
-import type { DefineCoreLocaleMessage } from './context'
 
 const NOOP_MESSAGE_FUNCTION = () => ''
 

@@ -13,29 +13,28 @@ vi.mock('@intlify/shared', async () => {
 })
 
 import {
-  ref,
-  defineComponent,
-  h,
-  withDirectives,
-  resolveDirective,
-  nextTick,
-  getCurrentInstance,
-  onMounted
-} from 'vue'
-import {
-  setDevToolsHook,
   compile,
-  registerMessageCompiler,
-  resolveValue,
-  registerMessageResolver,
   fallbackWithLocaleChain,
-  registerLocaleFallbacker
+  registerLocaleFallbacker,
+  registerMessageCompiler,
+  registerMessageResolver,
+  resolveValue,
+  setDevToolsHook
 } from '@intlify/core-base'
+import {
+  defineComponent,
+  getCurrentInstance,
+  h,
+  nextTick,
+  ref,
+  resolveDirective,
+  withDirectives
+} from 'vue'
 import { createI18n, useI18n } from '../src/i18n'
 import { mount } from './helper'
 
 import type { ComponentOptions } from 'vue'
-import type { IntlDateTimeFormats } from '../src/index'
+import type { IntlDateTimeFormats, IntlNumberFormats } from '../src/index'
 
 const container = document.createElement('div')
 document.body.appendChild(container)
@@ -111,7 +110,7 @@ const datetimeFormats: IntlDateTimeFormats = {
   }
 }
 
-const numberFormats = {
+const numberFormats: IntlNumberFormats = {
   'en-US': {
     currency: {
       style: 'currency',
@@ -1210,7 +1209,7 @@ test('issue #1610', async () => {
 test('issue #1615', async () => {
   const en = {
     hello: (() => {
-      const fn = ctx => {
+      const fn = (ctx: any) => {
         const { normalize: _normalize } = ctx
         return _normalize(['Hello, Vue I18n'])
       }
@@ -1218,7 +1217,7 @@ test('issue #1615', async () => {
       return fn
     })(),
     language: (() => {
-      const fn = ctx => {
+      const fn = (ctx: any) => {
         const { normalize: _normalize } = ctx
         return _normalize(['Languages'])
       }
