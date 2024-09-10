@@ -1,6 +1,6 @@
 {
   "name": "@intlify/shared",
-  "version": "10.0.0-rc.1",
+  "version": "10.0.0",
   "description": "@intlify/shared",
   "keywords": [
     "i18n",
