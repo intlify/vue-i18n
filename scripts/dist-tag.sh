@@ -27,5 +27,5 @@ if [ -z "$TAG" ]; then
 fi
 
 for PKG in ${PKGS[@]} ; do
-  npm dist-tag add $PKG@$VERSION $TAG
+  pnpm dist-tag add $PKG@$VERSION $TAG
 done
