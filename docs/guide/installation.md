@@ -10,15 +10,15 @@
 ::: code-group
 
 ```sh [npm]
-npm install vue-i18n@9
+npm install vue-i18n@10
 ```
 
 ```sh [yarn]
-yarn add vue-i18n@9
+yarn add vue-i18n@10
 ```
 
 ```sh [pnpm]
-pnpm add vue-i18n@9
+pnpm add vue-i18n@10
 ```
 
 :::
@@ -46,7 +46,7 @@ app.mount('#app')
 
 ## Direct Download
 
-<https://unpkg.com/vue-i18n@9>
+<https://unpkg.com/vue-i18n@10>
 
 [unpkg.com](https://unpkg.com) provides a npm-based CDN links. The above link will always point to the latest release on npm.
 
@@ -54,10 +54,10 @@ app.mount('#app')
 
 ```html
 <script src="https://unpkg.com/vue@3"></script>
-<script src="https://unpkg.com/vue-i18n@9"></script>
+<script src="https://unpkg.com/vue-i18n@10"></script>
 ```
 
-You can also use a specific version/tag via URLs like <https://unpkg.com/vue-i18n@9.12.0/dist/vue-i18n.global.js>
+You can also use a specific version/tag via URLs like <https://unpkg.com/vue-i18n@10.0.0/dist/vue-i18n.global.js>
 
 ### ES Modules import
 
@@ -66,5 +66,5 @@ You can also use a specific version/tag via URLs like <https://unpkg.com/vue-i18
 <script type="module" src="https://unpkg.com/vue-i18n@9/dist/vue-i18n.esm-browser.js">
 ```
 
-You can also use a specific version/tag via URLs like <https://unpkg.com/vue-i18n@9.12.0/dist/vue-i18n.esm-browser.js>
+You can also use a specific version/tag via URLs like <https://unpkg.com/vue-i18n@10.0.0/dist/vue-i18n.esm-browser.js>
 
