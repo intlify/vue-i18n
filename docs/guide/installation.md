@@ -68,13 +68,3 @@ You can also use a specific version/tag via URLs like <https://unpkg.com/vue-i18
 
 You can also use a specific version/tag via URLs like <https://unpkg.com/vue-i18n@9.12.0/dist/vue-i18n.esm-browser.js>
 
-
-## Nightly version
-
-Add the following line to the `dependencies` in `package.json`:
-
-```json
-"vue-i18n": "npm:@vue-i18n-nightly"
-```
-
-And then run `npm install` or `yarn install` or `pnpm install`.

@@ -1,9 +1,5 @@
 # Breaking Changes in v10
 
-:::warning NOTICE
-Vue I18n v10 **is still an alpha version**.
-:::
-
 ## Default enable for JIT compilation
 
 **Reason**: CSP problems can be solved and dynamic resources can be supported

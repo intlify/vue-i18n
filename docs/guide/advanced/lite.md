@@ -1,10 +1,5 @@
 # Small size subset of Vue I18n
 
-:::warning NOTICE
-`petite-vue-i18n` **is not still GA.
-It will be GA with the release of Vue I18n v10.
-:::
-
 `petite-vue-i18n` is an alternative distribution of Vue I18n, which provides only minimal features.
 
 ## What is the difference from Vue I18n ?
