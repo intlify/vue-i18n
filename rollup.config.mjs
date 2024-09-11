@@ -334,9 +334,7 @@ function createReplacePlugin(
       ? {
           'emitError(': `/*#__PURE__*/ emitError(`,
           'createCompileError(': `/*#__PURE__*/ createCompileError(`,
-          'function createCoreError(': `/*#__PURE__*/ function createCoreError(`,
           'throw createCoreError(': `throw Error(`,
-          'function createI18nError(': `/*#__PURE__*/ function createI18nError(`,
           'throw createI18nError(': `throw Error(`
         }
       : {})
@@ -346,7 +344,15 @@ function createReplacePlugin(
       replacements[key] = process.env[key]
     }
   })
-  return replace({ values: replacements, preventAssignment: true })
+  return replace({
+    values: replacements,
+    preventAssignment: true,
+    /**
+     * we need this delimiter to prevent adding PURE comments at function declarations
+     * https://rollupjs.org/configuration-options/#pure
+     */
+    delimiters: ['\\b(?<!function )', '']
+  })
 }
 
 function createProductionConfig(format) {

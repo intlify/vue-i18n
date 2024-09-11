@@ -1,4 +1,4 @@
-import { isObject, isFunction } from '@intlify/shared'
+import { isFunction, isObject } from '@intlify/shared'
 
 /** @VueI18nGeneral */
 export type Path = string
@@ -43,7 +43,7 @@ const enum PathCharTypes {
 type PathState = StateAction | States.ERROR
 type PathStateMachine = Record<string, PathState>
 
-const pathStateMachine = /* #__PURE__*/ [] as PathStateMachine[]
+const pathStateMachine = [] as PathStateMachine[]
 
 pathStateMachine[States.BEFORE_PATH] = {
   [PathCharTypes.WORKSPACE]: [States.BEFORE_PATH],

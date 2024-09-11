@@ -79,7 +79,7 @@ declare module 'vue' {
 }
 
 // for bridge
-const _legacyVueI18n: any = /* #__PURE__*/ null // eslint-disable-line @typescript-eslint/no-explicit-any
+const _legacyVueI18n: any = null // eslint-disable-line @typescript-eslint/no-explicit-any
 
 /**
  * I18n Options for `createI18n`
