@@ -409,7 +409,7 @@ export function registerLocaleFallbacker(fallbacker: LocaleFallbacker): void {
 }
 
 // Additional Meta for Intlify DevTools
-let _additionalMeta: MetaInfo | null = /* #__PURE__*/ null
+let _additionalMeta: MetaInfo | null = null
 
 /* #__NO_SIDE_EFFECTS__ */
 export const setAdditionalMeta = (meta: MetaInfo | null): void => {
@@ -512,12 +512,12 @@ export function createCoreContext<Message = string>(options: any = {}): any {
     ? isPlainObject(options.datetimeFormats)
       ? options.datetimeFormats
       : { [_locale]: {} }
-    : /* #__PURE__*/ { [_locale]: {} }
+    : { [_locale]: {} }
   const numberFormats = !__LITE__
     ? isPlainObject(options.numberFormats)
       ? options.numberFormats
       : { [_locale]: {} }
-    : /* #__PURE__*/ { [_locale]: {} }
+    : { [_locale]: {} }
   const modifiers = assign(
     {},
     options.modifiers || {},
