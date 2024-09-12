@@ -1,9 +1,8 @@
-import type { Path, NamedValue } from '@intlify/core-base'
+import type { NamedValue, JsonPaths } from '@intlify/core-base'
 import type {
   TranslateOptions,
   IsNever,
-  IsEmptyObject,
-  PickupPaths
+  IsEmptyObject
 } from '@intlify/core-base'
 import type { CustomBlocks } from '../../vue-i18n-core/src/composer'
 import type {
@@ -80,13 +79,13 @@ declare module 'vue' {
       DefinedLocaleMessage extends
         RemovedIndexResources<DefineLocaleMessage> = RemovedIndexResources<DefineLocaleMessage>,
       Keys = IsEmptyObject<DefinedLocaleMessage> extends false
-        ? PickupPaths<{
+        ? JsonPaths<{
             [K in keyof DefinedLocaleMessage]: DefinedLocaleMessage[K]
           }>
         : never,
       ResourceKeys extends Keys = IsNever<Keys> extends false ? Keys : never
     >(
-      key: Key | ResourceKeys | Path
+      key: Key | ResourceKeys
     ): TranslateResult
     /**
      * Locale message translation
@@ -104,13 +103,13 @@ declare module 'vue' {
       DefinedLocaleMessage extends
         RemovedIndexResources<DefineLocaleMessage> = RemovedIndexResources<DefineLocaleMessage>,
       Keys = IsEmptyObject<DefinedLocaleMessage> extends false
-        ? PickupPaths<{
+        ? JsonPaths<{
             [K in keyof DefinedLocaleMessage]: DefinedLocaleMessage[K]
           }>
         : never,
       ResourceKeys extends Keys = IsNever<Keys> extends false ? Keys : never
     >(
-      key: Key | ResourceKeys | Path,
+      key: Key | ResourceKeys,
       plural: number
     ): TranslateResult
     /**
@@ -130,13 +129,13 @@ declare module 'vue' {
       DefinedLocaleMessage extends
         RemovedIndexResources<DefineLocaleMessage> = RemovedIndexResources<DefineLocaleMessage>,
       Keys = IsEmptyObject<DefinedLocaleMessage> extends false
-        ? PickupPaths<{
+        ? JsonPaths<{
             [K in keyof DefinedLocaleMessage]: DefinedLocaleMessage[K]
           }>
         : never,
       ResourceKeys extends Keys = IsNever<Keys> extends false ? Keys : never
     >(
-      key: Key | ResourceKeys | Path,
+      key: Key | ResourceKeys,
       plural: number,
       options: TranslateOptions
     ): TranslateResult
@@ -156,13 +155,13 @@ declare module 'vue' {
       DefinedLocaleMessage extends
         RemovedIndexResources<DefineLocaleMessage> = RemovedIndexResources<DefineLocaleMessage>,
       Keys = IsEmptyObject<DefinedLocaleMessage> extends false
-        ? PickupPaths<{
+        ? JsonPaths<{
             [K in keyof DefinedLocaleMessage]: DefinedLocaleMessage[K]
           }>
         : never,
       ResourceKeys extends Keys = IsNever<Keys> extends false ? Keys : never
     >(
-      key: Key | ResourceKeys | Path,
+      key: Key | ResourceKeys,
       defaultMsg: string
     ): TranslateResult
     /**
@@ -182,13 +181,13 @@ declare module 'vue' {
       DefinedLocaleMessage extends
         RemovedIndexResources<DefineLocaleMessage> = RemovedIndexResources<DefineLocaleMessage>,
       Keys = IsEmptyObject<DefinedLocaleMessage> extends false
-        ? PickupPaths<{
+        ? JsonPaths<{
             [K in keyof DefinedLocaleMessage]: DefinedLocaleMessage[K]
           }>
         : never,
       ResourceKeys extends Keys = IsNever<Keys> extends false ? Keys : never
     >(
-      key: Key | ResourceKeys | Path,
+      key: Key | ResourceKeys,
       defaultMsg: string,
       options: TranslateOptions
     ): TranslateResult
@@ -208,13 +207,13 @@ declare module 'vue' {
       DefinedLocaleMessage extends
         RemovedIndexResources<DefineLocaleMessage> = RemovedIndexResources<DefineLocaleMessage>,
       Keys = IsEmptyObject<DefinedLocaleMessage> extends false
-        ? PickupPaths<{
+        ? JsonPaths<{
             [K in keyof DefinedLocaleMessage]: DefinedLocaleMessage[K]
           }>
         : never,
       ResourceKeys extends Keys = IsNever<Keys> extends false ? Keys : never
     >(
-      key: Key | ResourceKeys | Path,
+      key: Key | ResourceKeys,
       list: unknown[]
     ): TranslateResult
     /**
@@ -234,13 +233,13 @@ declare module 'vue' {
       DefinedLocaleMessage extends
         RemovedIndexResources<DefineLocaleMessage> = RemovedIndexResources<DefineLocaleMessage>,
       Keys = IsEmptyObject<DefinedLocaleMessage> extends false
-        ? PickupPaths<{
+        ? JsonPaths<{
             [K in keyof DefinedLocaleMessage]: DefinedLocaleMessage[K]
           }>
         : never,
       ResourceKeys extends Keys = IsNever<Keys> extends false ? Keys : never
     >(
-      key: Key | ResourceKeys | Path,
+      key: Key | ResourceKeys,
       list: unknown[],
       plural: number
     ): TranslateResult
@@ -261,16 +260,16 @@ declare module 'vue' {
       DefinedLocaleMessage extends
         RemovedIndexResources<DefineLocaleMessage> = RemovedIndexResources<DefineLocaleMessage>,
       Keys = IsEmptyObject<DefinedLocaleMessage> extends false
-        ? PickupPaths<{
+        ? JsonPaths<{
             [K in keyof DefinedLocaleMessage]: DefinedLocaleMessage[K]
           }>
         : never,
       ResourceKeys extends Keys = IsNever<Keys> extends false ? Keys : never
     >(
-      key: Key | ResourceKeys | Path,
+      key: Key | ResourceKeys,
       list: unknown[],
       defaultMsg: string
-    ): string
+    ): TranslateResult
     /**
      * Locale message translation
      *
@@ -288,13 +287,13 @@ declare module 'vue' {
       DefinedLocaleMessage extends
         RemovedIndexResources<DefineLocaleMessage> = RemovedIndexResources<DefineLocaleMessage>,
       Keys = IsEmptyObject<DefinedLocaleMessage> extends false
-        ? PickupPaths<{
+        ? JsonPaths<{
             [K in keyof DefinedLocaleMessage]: DefinedLocaleMessage[K]
           }>
         : never,
       ResourceKeys extends Keys = IsNever<Keys> extends false ? Keys : never
     >(
-      key: Key | ResourceKeys | Path,
+      key: Key | ResourceKeys,
       list: unknown[],
       options: TranslateOptions
     ): TranslateResult
@@ -314,13 +313,13 @@ declare module 'vue' {
       DefinedLocaleMessage extends
         RemovedIndexResources<DefineLocaleMessage> = RemovedIndexResources<DefineLocaleMessage>,
       Keys = IsEmptyObject<DefinedLocaleMessage> extends false
-        ? PickupPaths<{
+        ? JsonPaths<{
             [K in keyof DefinedLocaleMessage]: DefinedLocaleMessage[K]
           }>
         : never,
       ResourceKeys extends Keys = IsNever<Keys> extends false ? Keys : never
     >(
-      key: Key | ResourceKeys | Path,
+      key: Key | ResourceKeys,
       named: NamedValue
     ): TranslateResult
     /**
@@ -340,13 +339,13 @@ declare module 'vue' {
       DefinedLocaleMessage extends
         RemovedIndexResources<DefineLocaleMessage> = RemovedIndexResources<DefineLocaleMessage>,
       Keys = IsEmptyObject<DefinedLocaleMessage> extends false
-        ? PickupPaths<{
+        ? JsonPaths<{
             [K in keyof DefinedLocaleMessage]: DefinedLocaleMessage[K]
           }>
         : never,
       ResourceKeys extends Keys = IsNever<Keys> extends false ? Keys : never
     >(
-      key: Key | ResourceKeys | Path,
+      key: Key | ResourceKeys,
       named: NamedValue,
       plural: number
     ): TranslateResult
@@ -367,13 +366,13 @@ declare module 'vue' {
       DefinedLocaleMessage extends
         RemovedIndexResources<DefineLocaleMessage> = RemovedIndexResources<DefineLocaleMessage>,
       Keys = IsEmptyObject<DefinedLocaleMessage> extends false
-        ? PickupPaths<{
+        ? JsonPaths<{
             [K in keyof DefinedLocaleMessage]: DefinedLocaleMessage[K]
           }>
         : never,
       ResourceKeys extends Keys = IsNever<Keys> extends false ? Keys : never
     >(
-      key: Key | ResourceKeys | Path,
+      key: Key | ResourceKeys,
       named: NamedValue,
       defaultMsg: string
     ): TranslateResult
@@ -394,13 +393,13 @@ declare module 'vue' {
       DefinedLocaleMessage extends
         RemovedIndexResources<DefineLocaleMessage> = RemovedIndexResources<DefineLocaleMessage>,
       Keys = IsEmptyObject<DefinedLocaleMessage> extends false
-        ? PickupPaths<{
+        ? JsonPaths<{
             [K in keyof DefinedLocaleMessage]: DefinedLocaleMessage[K]
           }>
         : never,
       ResourceKeys extends Keys = IsNever<Keys> extends false ? Keys : never
     >(
-      key: Key | ResourceKeys | Path,
+      key: Key | ResourceKeys,
       named: NamedValue,
       options: TranslateOptions
     ): TranslateResult
