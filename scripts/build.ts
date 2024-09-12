@@ -176,7 +176,7 @@ async function main() {
         process.exitCode = 1
       }
 
-      if (['vue-i18n', 'pretite-vue-i18n'].includes(target)) {
+      if (['vue-i18n', 'petite-vue-i18n'].includes(target)) {
         console.log()
         console.log(
           pc.bold(pc.yellow(`Appending Vue type definitions for ${target}...`))
