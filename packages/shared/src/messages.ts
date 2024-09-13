@@ -12,6 +12,7 @@ export function deepCopy(src: any, des: any): void {
   while (stack.length) {
     const { src, des } = stack.pop()!
 
+    // using `Object.keys` which skips prototype properties
     Object.keys(src).forEach(key => {
       // if src[key] is an object/array, set des[key]
       // to empty object/array to prevent setting by reference
@@ -19,14 +20,14 @@ export function deepCopy(src: any, des: any): void {
         des[key] = Array.isArray(src[key]) ? [] : {}
       }
 
-      if (isObject(des[key]) && isObject(src[key])) {
-        // src[key] and des[key] are both objects, merge them
-        stack.push({ src: src[key], des: des[key] })
-      } else {
+      if (isNotObjectOrIsArray(des[key]) || isNotObjectOrIsArray(src[key])) {
         // replace with src[key] when:
         // src[key] or des[key] is not an object, or
         // src[key] or des[key] is an array
         des[key] = src[key]
+      } else {
+        // src[key] and des[key] are both objects, merge them
+        stack.push({ src: src[key], des: des[key] })
       }
     })
   }
