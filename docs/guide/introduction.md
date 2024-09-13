@@ -5,10 +5,31 @@ const members = [
   {
     avatar: 'https://www.github.com/kazupon.png',
     name: "kazupon",
-    title: 'Creator',
+    title: 'Creator of Vue I18n & Intlify project',
+    sponsor: 'https://github.com/sponsors/kazupon',
     links: [
       { icon: 'github', link: 'https://github.com/kazupon' },
       { icon: 'twitter', link: 'https://twitter.com/kazu_pon' }
+    ]
+  },
+  {
+    avatar: 'https://www.github.com/BobbieGoede.png',
+    name: "BobbieGoede",
+    title: 'Intlify Core member',
+    sponsor: 'https://github.com/sponsors/BobbieGoede',
+    links: [
+      { icon: 'github', link: 'https://github.com/BobbieGoede' },
+      { icon: 'twitter', link: 'https://twitter.com/BobbieGoede' }
+    ]
+  },
+  {
+    avatar: 'https://www.github.com/ota-meshi.png',
+    name: "Yosuke Ota",
+    title: 'Intlify Core member',
+    sponsor: 'https://github.com/sponsors/ota-meshi',
+    links: [
+      { icon: 'github', link: 'https://github.com/ota-meshi' },
+      { icon: 'twitter', link: 'https://twitter.com/omoteota' }
     ]
   }
 ]
@@ -20,7 +41,7 @@ const members = [
 Already know Vue I18n v8.x and just want to learn about what’s new in Vue I18n v9? Check out the [Migration Guide](./migration/breaking)!
 :::
 
-Vue I18n is internationalization plugin of Vue.js. It easily integrates some localization features to your Vue.js Application.
+Vue I18n is internationalization plugin of Vue.js. And that is one of [Intlify projects](https://intlify.dev/). It easily integrates some localization features to your Vue.js Application.
 
 Go to [Installation](./installation)
 
