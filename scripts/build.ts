@@ -16,7 +16,7 @@ pnpm build core --formats cjs
 
 import { Extractor, ExtractorConfig } from '@microsoft/api-extractor'
 import { compress } from 'brotli'
-import execa from 'execa'
+import { execa } from 'execa'
 import minimist from 'minimist'
 import { promises as fs } from 'node:fs'
 import os from 'node:os'
