@@ -1,10 +1,10 @@
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
-import execa from 'execa'
+import { execaSync } from 'execa'
 import path from 'node:path'
 import { URL } from 'node:url'
 
-const commit = execa.sync('git', ['rev-parse', 'HEAD']).stdout.slice(0, 7)
+const commit = execaSync('git', ['rev-parse', 'HEAD']).stdout.slice(0, 7)
 console.log('commit', commit)
 
 const __dirname = path.dirname(new URL(import.meta.url).pathname)

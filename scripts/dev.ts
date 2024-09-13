@@ -16,7 +16,7 @@ __DEV__=false pnpm run dev
 ```
 */
 
-import execa from 'execa'
+import { execa } from 'execa'
 import { fuzzyMatchTarget } from './utils'
 import minimist from 'minimist'
 
