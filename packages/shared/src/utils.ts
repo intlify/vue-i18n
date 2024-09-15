@@ -141,11 +141,8 @@ export const objectToString = Object.prototype.toString
 export const toTypeString = (value: unknown): string =>
   objectToString.call(value)
 
-export const isPlainObject = (val: unknown): val is object => {
-  if (!isObject(val)) return false
-  const proto = Object.getPrototypeOf(val)
-  return proto === null || proto.constructor === Object
-}
+export const isPlainObject = (val: unknown): val is object =>
+  toTypeString(val) === '[object Object]'
 
 // for converting list and named values to displayed strings.
 export const toDisplayString = (val: unknown): string => {
