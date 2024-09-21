@@ -377,10 +377,11 @@ const { t, d, n, tm, locale } = useI18n({
 // Something to do here ...
 ```
 
+### Locale messages
 
-If you use i18n custom blocks  in SFC as i18n resource of locale messages, it  will be merged with the locale messages specified by the `messages` option of `useI18n`.
+If you use i18n custom blocks in SFC as i18n resource of locale messages, it will be merged with the locale messages specified by the `messages` option of `useI18n`.
 
-The following is an example of using  i18n custom blocks and `useI18n` options:
+The following is an example of using i18n custom blocks and `useI18n` options:
 
 ```vue
 <script setup>
@@ -409,6 +410,56 @@ availableLocales.forEach(locale => {
 :::tip NOTE
 In this example, the definition of resources is separated from i18n custom blocks and the `messages` option of `useI18n`, but in local scope, resource messages are specified in the `messages` option in a lump sum for administrative purposes in resource messages or define all resource messages in the i18n custom blocks, which is preferable.
 :::
+
+### Shared locale messages for components
+
+In Leacy API mode, shared locale messages are used in components with the `sharedMessages` option.
+
+In composition API mode, use `mergeLocaleMessage` exported by `useI18n`.
+
+Common locale messages example:
+
+```js
+export default {
+  en: {
+    buttons: {
+      save: "Save",
+      // ...
+    }
+  },
+  ja: {
+    buttons: {
+      save: "保存",
+      // ...
+    }
+  }
+}
+```
+
+use `mergeLocaleMessage` on Components:
+
+```vue
+<script setup>
+import { useI18n } from 'vue-i18n'
+import commonMessages from './locales/common'
+
+const { t, mergeLocaleMessage } = useI18n({
+  locale: 'en',
+  messages: {
+    en: {
+      hello: 'Hello!'
+    },
+    ja: {
+      hello: 'こんにちは！'
+    }
+  }
+})
+
+for (const locale of ['en', 'ja']) {
+  mergeLocaleMessage(locale, commonMessages[locale])
+}
+</script>
+```
 
 ## Locale Changing
 

@@ -110,6 +110,8 @@ jobs:
   test-e2e:
     name: E2E test
 
+    if: github.event_name == 'push' &&
+      !startsWith(github.event.head_commit.message, 'docs')
     needs:
       - build
 
