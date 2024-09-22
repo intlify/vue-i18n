@@ -207,6 +207,38 @@ registerLocaleFallbacker(fallbackWithLocaleChain)
 
 With the above settings, locale message resolving and locale fallbacking will be handled in the same way as in vue-i18n, note that the code size will increase slightly.
 
+### Setting bundler plugin
+
+If you are building your application with a build toolchain like vite, you must configure it.
+Please set the [‘module’ option in `@intlify/unplugin-vue-i18n`](https://github.com/intlify/bundle-tools/tree/main/packages/unplugin-vue-i18n#module) configuration as follows.
+
+> [!NOTE]
+> About `@intlify/unplugin-vue-i18n` setting, see the ['performance' section](./optimization.md) and [`@intlify/unplugin-vue-i18n` docs](https://github.com/intlify/bundle-tools/blob/main/packages/unplugin-vue-i18n/README.md)
+
+> [!IMPORTANT]
+> `@intlify/unplugin-vue-i18n` version must **5.1.0 and later**
+
+```diff
+ // vite.config.ts
+ import { defineConfig } from 'vite'
+ import { resolve, dirname } from 'node:path'
+ import { fileURLToPath } from 'url'
+ import VueI18nPlugin from '@intlify/unplugin-vue-i18n/vite'
+
+ export default defineConfig({
+   /* ... */
+   plugins: [
+     /* ... */
+     VueI18nPlugin({
+       /* options */
++      module: 'petite-vue-i18n',
+       // locale messages resource pre-compile option
+       include: resolve(dirname(fileURLToPath(import.meta.url)), './path/to/src/locales/**'),
+     }),
+   ],
+ })
+```
+
 ### Switch without changing import id
 
 You can switch from vue-i18n to petite-vue-i18n in your application using npm alias without changing the import id.
