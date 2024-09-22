@@ -185,11 +185,13 @@ Then, at the entry point of the application, configure the message resolver and 
 
 ```js
 import { createApp } from 'vue'
-import { createI18n } from 'petite-vue-i18n'
 import {
+  createI18n,
   registerMessageResolver, // register the message resolver API
-  resolveValue, // message resolver of vue-i18n which is used by default
   registerLocaleFallbacker, // register the locale fallbacker API
+} from 'petite-vue-i18n'
+import {
+  resolveValue, // message resolver of vue-i18n which is used by default
   fallbackWithLocaleChain // locale fallbacker of vue-i18n which is used by default
 } from '@intlify/core-base'
 
