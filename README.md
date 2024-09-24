@@ -153,17 +153,17 @@ The examples are offered in the following two API styles:
 - legacy
   - Examples using the Vue I18n API that are almost compatible with Vue I18n v8.x
 
-
 ## 📦 Main Packages
 
 | Package | NPM |
 | ------- | --- |
-| [vue-i18n](packages/vue-i18n) | [![vue-i18n](https://img.shields.io/npm/v/vue-i18n.svg)](https://www.npmjs.com/package/vue-i18n)
-| [vue-i18n-bridge](packages/vue-i18n-bridge) | [![vue-i18n-bridge](https://img.shields.io/npm/v/vue-i18n-bridge.svg)](https://www.npmjs.com/package/vue-i18n)
-| [@intlify/core](packages/core) | [![@intlify/core](https://img.shields.io/npm/v/@intlify/core.svg)](https://www.npmjs.com/package/@intlify/core)
-| [@intlify/core-base](packages/core-base) | [![@intlify/core-base](https://img.shields.io/npm/v/@intlify/core-base.svg)](https://www.npmjs.com/package/@intlify/core-base)
-| [@intlify/message-compiler](packages/message-compiler) | [![@intlify/message-compiler](https://img.shields.io/npm/v/@intlify/message-compiler.svg)](https://www.npmjs.com/package/@intlify/message-compiler)
-| [@intlify/shared](packages/shared) | [![@intlify/shared](https://img.shields.io/npm/v/@intlify/shared.svg)](https://www.npmjs.com/package/@intlify/shared)
+| [vue-i18n](packages/vue-i18n) | [![vue-i18n](https://img.shields.io/npm/v/vue-i18n.svg)](https://www.npmjs.com/package/vue-i18n) |
+| [petite-vue-i18n](packages/petite-vue-i18n) | [![petite-vue-i18n](https://img.shields.io/npm/v/petite-vue-i18n.svg)](https://www.npmjs.com/package/petite-vue-i18n) |
+| [vue-i18n-bridge](packages/vue-i18n-bridge) | [![vue-i18n-bridge](https://img.shields.io/npm/v/vue-i18n-bridge.svg)](https://www.npmjs.com/package/vue-i18n-bridge) |
+| [@intlify/core](packages/core) | [![@intlify/core](https://img.shields.io/npm/v/@intlify/core.svg)](https://www.npmjs.com/package/@intlify/core) |
+| [@intlify/core-base](packages/core-base) | [![@intlify/core-base](https://img.shields.io/npm/v/@intlify/core-base.svg)](https://www.npmjs.com/package/@intlify/core-base) |
+| [@intlify/message-compiler](packages/message-compiler) | [![@intlify/message-compiler](https://img.shields.io/npm/v/@intlify/message-compiler.svg)](https://www.npmjs.com/package/@intlify/message-compiler) |
+| [@intlify/shared](packages/shared) | [![@intlify/shared](https://img.shields.io/npm/v/@intlify/shared.svg)](https://www.npmjs.com/package/@intlify/shared) |
 
 ## 🏃 Other Projects
 
