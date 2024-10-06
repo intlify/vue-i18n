@@ -62,3 +62,12 @@ test(`incldue dynamic node in pluarl: no apples | {0} apple | {n} apples`, () =>
     .filter(Boolean)
   expect(messages).toEqual(['no apples'])
 })
+
+test('empty literal string in interpolation', () => {
+  const parser = createParser({ location: false })
+  const msg = `{''}`
+  const ast = optimize(parser.parse(msg))
+
+  expect(ast).toMatchSnapshot()
+  expect((ast.body as MessageNode).static).toBe('')
+})

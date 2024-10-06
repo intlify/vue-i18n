@@ -1,5 +1,20 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
+exports[`empty literal string in interpolation 1`] = `
+{
+  "body": {
+    "items": [
+      {
+        "type": 9,
+      },
+    ],
+    "static": "",
+    "type": 2,
+  },
+  "type": 0,
+}
+`;
+
 exports[`full text items: foo{'@'}domain.com 1`] = `
 {
   "body": {

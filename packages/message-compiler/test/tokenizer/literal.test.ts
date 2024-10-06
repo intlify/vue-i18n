@@ -604,6 +604,41 @@ describe('escapes', () => {
       }
     })
   })
+
+  test('empty string', () => {
+    const tokenizer = createTokenizer(`{''}`)
+    expect(tokenizer.nextToken()).toEqual({
+      type: TokenTypes.BraceLeft,
+      value: '{',
+      loc: {
+        start: { line: 1, column: 1, offset: 0 },
+        end: { line: 1, column: 2, offset: 1 }
+      }
+    })
+    expect(tokenizer.nextToken()).toEqual({
+      type: TokenTypes.Literal,
+      value: '',
+      loc: {
+        start: { line: 1, column: 2, offset: 1 },
+        end: { line: 1, column: 4, offset: 3 }
+      }
+    })
+    expect(tokenizer.nextToken()).toEqual({
+      type: TokenTypes.BraceRight,
+      value: '}',
+      loc: {
+        start: { line: 1, column: 4, offset: 3 },
+        end: { line: 1, column: 5, offset: 4 }
+      }
+    })
+    expect(tokenizer.nextToken()).toEqual({
+      type: TokenTypes.EOF,
+      loc: {
+        start: { line: 1, column: 5, offset: 4 },
+        end: { line: 1, column: 5, offset: 4 }
+      }
+    })
+  })
 })
 
 describe('errors', () => {

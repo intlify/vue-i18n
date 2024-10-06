@@ -56,7 +56,7 @@ function formatMessageParts<Message = string>(
   node: MessageNode
 ): MessageFunctionReturn<Message> {
   const _static = node.s || node.static
-  if (_static) {
+  if (_static != null) {
     return ctx.type === 'text'
       ? (_static as MessageFunctionReturn<Message>)
       : ctx.normalize([_static] as MessageType<Message>[])

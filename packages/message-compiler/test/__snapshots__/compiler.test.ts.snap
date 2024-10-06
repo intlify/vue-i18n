@@ -381,6 +381,15 @@ exports[`edge cases > {_field} with the same value already exists. > code 1`] = 
 }"
 `;
 
+exports[`edge cases > empty literal string in interpolation > code 1`] = `
+"function __msg__ (ctx) {
+  const { normalize: _normalize } = ctx
+  return _normalize([
+    ""
+  ])
+}"
+`;
+
 exports[`edge cases > hi %s ! > code 1`] = `
 "function __msg__ (ctx) {
   const { normalize: _normalize } = ctx

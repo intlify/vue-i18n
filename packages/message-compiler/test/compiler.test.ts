@@ -151,4 +151,9 @@ describe('edge cases', () => {
     const { code } = compile(`%{nickname} %{action} issue %{code}`)
     expect(code).toMatchSnapshot('code')
   })
+
+  test('empty literal string in interpolation', () => {
+    const { code } = compile(`{''}`)
+    expect(code).toMatchSnapshot('code')
+  })
 })
