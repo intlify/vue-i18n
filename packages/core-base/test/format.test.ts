@@ -130,3 +130,16 @@ describe('features', () => {
     })
   })
 })
+
+describe('edge cases', () => {
+  test('empty string in interpolation', () => {
+    const { ast } = compile(`{''} | {n} test | {n} tests`, {
+      jit: true
+    })
+    const msg = format(ast)
+    const ctx = context({
+      pluralIndex: 0
+    })
+    expect(msg(ctx)).toBe('')
+  })
+})

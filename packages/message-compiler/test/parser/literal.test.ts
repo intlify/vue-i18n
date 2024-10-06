@@ -152,6 +152,25 @@ describe('unicode', () => {
   })
 })
 
+test('empty string', () => {
+  const text = `{''}`
+  const parser = createParser({ onError: spy })
+  const ast = parser.parse(text)
+
+  expect(ast).toMatchSnapshot()
+  expect(spy).not.toHaveBeenCalled()
+  expect(ast.type).toEqual(NodeTypes.Resource)
+  expect(ast.body.type).toEqual(NodeTypes.Message)
+  const message = ast.body as MessageNode
+  expect(message.items).toHaveLength(1)
+  expect(message.items).toMatchObject([
+    {
+      type: NodeTypes.Literal,
+      value: ''
+    }
+  ])
+})
+
 describe('intlify message syntax special characters', () => {
   const items = ['{', '}', '@', '|', '%']
   for (const ch of items) {

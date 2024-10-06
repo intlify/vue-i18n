@@ -188,6 +188,64 @@ exports[`emoji > hi, {'😺'} ! 1`] = `
 }
 `;
 
+exports[`empty string 1`] = `
+{
+  "body": {
+    "end": 4,
+    "items": [
+      {
+        "end": 4,
+        "loc": {
+          "end": {
+            "column": 5,
+            "line": 1,
+            "offset": 4,
+          },
+          "start": {
+            "column": 1,
+            "line": 1,
+            "offset": 0,
+          },
+        },
+        "start": 0,
+        "type": 9,
+        "value": "",
+      },
+    ],
+    "loc": {
+      "end": {
+        "column": 5,
+        "line": 1,
+        "offset": 4,
+      },
+      "start": {
+        "column": 1,
+        "line": 1,
+        "offset": 0,
+      },
+    },
+    "start": 0,
+    "type": 2,
+  },
+  "end": 4,
+  "loc": {
+    "end": {
+      "column": 5,
+      "line": 1,
+      "offset": 4,
+    },
+    "source": "{''}",
+    "start": {
+      "column": 1,
+      "line": 1,
+      "offset": 0,
+    },
+  },
+  "start": 0,
+  "type": 0,
+}
+`;
+
 exports[`errors > include new line: hi { 'foo\\n' } 1`] = `
 {
   "body": {

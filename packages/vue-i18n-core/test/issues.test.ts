@@ -1405,3 +1405,16 @@ test('#1912', async () => {
 
   expect(el?.innerHTML).include(`No apples found`)
 })
+
+test('#1972', async () => {
+  const i18n = createI18n({
+    legacy: false,
+    locale: 'en',
+    messages: {
+      en: {
+        test: "{''} | {n} test | {n} tests"
+      }
+    }
+  })
+  expect(i18n.global.t('test', 0)).toEqual('')
+})
