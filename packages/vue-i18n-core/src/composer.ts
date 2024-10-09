@@ -116,6 +116,15 @@ import type { VueDevToolsEmitter } from '@intlify/devtools-types'
 
 export { DEFAULT_LOCALE } from '@intlify/core-base'
 
+type FlattenKeys<T> = T extends object
+  ? {
+      [K in keyof T & string]: K extends string
+        ? T[K] extends object
+          ? `${K}.${FlattenKeys<T[K]>}`
+          : K
+        : never;
+    }[keyof T & string]
+  : "";
 // extend VNode interface
 export const DEVTOOLS_META = '__INTLIFY_META__'
 
@@ -673,7 +682,7 @@ export interface ComposerTranslation<
    *
    * @VueI18nSee [Scope and Locale Changing](../guide/essentials/scope)
    */
-  <Key extends string>(key: Key | ResourceKeys | number): string
+  <Key extends FlattenKeys<Messages[Locale]>>(key: Key | ResourceKeys | number): string
   /**
    * Locale message translation for plurals
    *
