@@ -102,7 +102,7 @@
     "globals": "^15.9.0",
     "globby": "^14.0.1",
     "js-yaml": "^4.1.0",
-    "jsdom": "^24.0.0",
+    "jsdom": "^25.0.0",
     "lint-staged": "^15.2.2",
     "listhen": "^1.7.2",
     "minimist": "^1.2.6",
