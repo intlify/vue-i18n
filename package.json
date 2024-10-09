@@ -136,7 +136,7 @@
     "textlint-rule-no-surrogate-pair": "^1.0.1",
     "textlint-rule-period-in-list-item": "^1.0.0",
     "textlint-rule-stop-words": "^4.0.0",
-    "textlint-rule-terminology": "^4.0.0",
+    "textlint-rule-terminology": "^5.0.0",
     "textlint-rule-unexpanded-acronym": "^1.2.4",
     "textlint-rule-write-good": "^2.0.0",
     "trash-cli": "^6.0.0",
