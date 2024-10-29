@@ -19,13 +19,13 @@ const messages = {
 }
 ```
 
-It’s `en` locale an object that has `car` and `apple`.
+Here, we have an `en` locale object that has `car` and `apple`.
 
-The `car` has `car | cars` pluralization message, and the `apple` has `no apples | one apple | {count} apples` pluralization message.
+The `car` has `car | cars` pluralization message, while the `apple` has `no apples | one apple | {count} apples` pluralization message.
 
 These plural messages are selected by the logic of the choice rule for each language in the translaton API according to the numeric value you specify at the translation API.
 
-Vue I18n will be offered some pluralization ways. Here we’ll use the `$tc`.
+Vue I18n offers some ways to support pluralization. Here we’ll use the `$tc`.
 
 :::tip NOTE
 `$tc` has some overloads. About these overloads, see the [API Reference](../../api/injection#tc-key)
@@ -82,7 +82,7 @@ const messages = {
 }
 ```
 
-It’s `en` locale an object that has `apple` and `banana`.
+Here, we have an `en` locale object that has `apple` and `banana`.
 
 The `apple` has `no apples | one apple | {count} apples` pluralization message, and the `banana` has `no bananas | {n} banana | {n} bananas` pluralization message.
 
@@ -143,7 +143,7 @@ function customRule(choice, choicesLength, orgRule) {
 
 To use the custom rules defined above, inside of `createI18n` set either:
 
-1. `pluralizationRules` (for Options API)  
+1. `pluralizationRules` (for Options API)
 *or*
 2. `pluralRules` (for Composition API)
 
