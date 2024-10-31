@@ -4,8 +4,7 @@ import {
   isBoolean,
   isEmptyObject,
   isPlainObject,
-  makeSymbol,
-  warn
+  makeSymbol
 } from '@intlify/shared'
 import {
   InjectionKey,
@@ -727,8 +726,8 @@ export function useI18n<
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     let composer = getComposer(i18n, instance, (options as any).__useComponent)
     if (composer == null) {
-      if (__DEV__) {
-        warn(getWarnMessage(I18nWarnCodes.NOT_FOUND_PARENT_SCOPE))
+      if (__DEV__ && console && console.debug) {
+        console.debug(getWarnMessage(I18nWarnCodes.NOT_FOUND_PARENT_SCOPE))
       }
       composer = gl as unknown as Composer
     }
