@@ -107,7 +107,7 @@
     "listhen": "^1.7.2",
     "minimist": "^1.2.6",
     "mlly": "^1.6.1",
-    "npm-run-all2": "^6.1.2",
+    "npm-run-all2": "^7.0.0",
     "opener": "^1.5.2",
     "pathe": "^1.1.2",
     "picocolors": "^1.0.0",
