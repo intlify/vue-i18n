@@ -144,7 +144,7 @@
     "tsx": "^4.11.2",
     "typescript": "^5.5.3",
     "typescript-eslint": "^8.4.0",
-    "vitepress": "1.4.0",
+    "vitepress": "1.5.0",
     "vitest": "^2.0.4",
     "vue": "3.5.12",
     "vue-i18n": "workspace:*"
