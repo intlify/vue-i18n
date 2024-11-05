@@ -166,7 +166,7 @@ About how to configure for bundler, see the [here](#configure-feature-flags-for-
 - webpack: use [DefinePlugin](https://webpack.js.org/plugins/define-plugin/)
 - Rollup: use [@rollup/plugin-replace](https://github.com/rollup/plugins/tree/master/packages/replace)
 - Vite: configured by default, but can be overwritten using the [`define` option](https://github.com/vitejs/vite/blob/a4133c073e640b17276b2de6e91a6857bdf382e1/src/node/config.ts#L72-L76)
-- Quasar CLI: configured by default, but can be overwritten using quasar.conf.js > build > [env option](https://quasar.dev/quasar-cli/handling-process-env#adding-to-process-env)
+- Quasar CLI: configured by default, but can be overwritten using quasar.conf.js > build > rawDefine
 
 :::tip NOTE
 The replacement value **must be boolean literals** and cannot be strings, otherwise the bundler/minifier will not be able to properly evaluate the conditions.
