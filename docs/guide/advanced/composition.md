@@ -278,7 +278,7 @@ const { t } = useI18n({ useScope: 'global' })
 // Something to do here ...
 ```
 
-The above code sets the `useI18n` option to `useScope: 'global'`, which allows `useI18n` to return a Composer instance that can be accessed by the i18n instance `global` property. This allows `useI18n` to return the Composer instance that can be accessed by i18n instance`global` property, which is a global scope. The Composer instance is a global scope.
+The above code sets the `useI18n` option to `useScope: 'global'`, which allows `useI18n` to return a Composer instance that can be accessed by the i18n instance `global` property. The Composer instance is a global scope.
 
 Then you can compose using the functions and properties exposed from the Composer instance.
 
@@ -413,7 +413,7 @@ In this example, the definition of resources is separated from i18n custom block
 
 ### Shared locale messages for components
 
-In Leacy API mode, shared locale messages are used in components with the `sharedMessages` option.
+In Legacy API mode, shared locale messages are used in components with the `sharedMessages` option.
 
 In composition API mode, use `mergeLocaleMessage` exported by `useI18n`.
 
@@ -484,7 +484,7 @@ And you can also use the setup context in the template, which can be changed as 
 </select>
 ```
 
-When you change the locale of the global scope, components that depend on the global scope, such as `t` translation API can work reactive and switch the display messages to those of the target locale.
+When you change the locale of the global scope, components that depend on the global scope, such as `t` translation API can work reactively and switch the display messages to those of the target locale.
 
 If you are using the [implicit way](composition#implicit-with-injected-properties-and-functions), you can also change it in template with `$i18n.locale`, as follows:
 
