@@ -193,7 +193,7 @@ Template:
 
 <p>{{ $t('apple', 0) }}</p>
 <p>{{ $t('apple', 1) }}</p>
-<p>{{ $t('apple', 10, { count: 10 }) }}</p>
+<p>{{ $t('apple', { count: 10 }, 10) }}</p>
 ```
 
 Output is the below:
