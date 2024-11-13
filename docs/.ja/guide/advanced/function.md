@@ -188,12 +188,12 @@ const messages = {
 Template:
 
 ```html
-<p>{{ $tc('car', 1) }}</p>
-<p>{{ $tc('car', 2) }}</p>
+<p>{{ $t('car', 1) }}</p>
+<p>{{ $t('car', 2) }}</p>
 
-<p>{{ $tc('apple', 0) }}</p>
-<p>{{ $tc('apple', 1) }}</p>
-<p>{{ $tc('apple', 10, { count: 10 }) }}</p>
+<p>{{ $t('apple', 0) }}</p>
+<p>{{ $t('apple', 1) }}</p>
+<p>{{ $t('apple', { count: 10 }, 10) }}</p>
 ```
 
 Output is the below:
@@ -207,4 +207,4 @@ Output is the below:
 <p>10 apples</p>
 ```
 
-You need to specify the key that resolves the value specified with `$tc` or `tc`.
+You need to specify the key that resolves the value specified with `$t` or `t`.

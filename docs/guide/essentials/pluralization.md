@@ -25,34 +25,33 @@ The `car` has `car | cars` pluralization message, while the `apple` has `no appl
 
 These plural messages are selected by the logic of the choice rule for each language in the translaton API according to the numeric value you specify at the translation API.
 
-Vue I18n offers some ways to support pluralization. Here we’ll use the `$tc`.
+Vue I18n offers some ways to support pluralization. Here we’ll use the `$t`.
 
 :::tip NOTE
-`$tc` has some overloads. About these overloads, see the [API Reference](../../api/injection#tc-key)
+`$t` has some overloads. About these overloads, see the [API Reference](../../api/injection#t-key)
 :::
 
 :::tip NOTE
 Some ways to support pluralization are:
 
-- `$tc` (for Legacy API mode)
+- injected gloal `$t`
 - `v-t` custom directive
 - built-in Translation component (`i18n-t`)
 - exported `t` from `useI18n` (for Composition API mode)
-- injected global `$t` (for Composition API mode)
 :::
 
 The following is an example of using the translation API.
 
 ```html
-<p>{{ $tc('car', 1) }}</p>
-<p>{{ $tc('car', 2) }}</p>
+<p>{{ $t('car', 1) }}</p>
+<p>{{ $t('car', 2) }}</p>
 
-<p>{{ $tc('apple', 0) }}</p>
-<p>{{ $tc('apple', 1) }}</p>
-<p>{{ $tc('apple', 10, { count: 10 }) }}</p>
+<p>{{ $t('apple', 0) }}</p>
+<p>{{ $t('apple', 1) }}</p>
+<p>{{ $t('apple', 10, { count: 10 }) }}</p>
 ```
 
-In the above example of using the `$tc`, the first argument is the locale messages key and the second argument is a number. The `$tc` returns the choice message as a result.
+In the above example of using the `$t`, the first argument is the locale messages key and the second argument is a number. The `$t` returns the choice message as a result.
 
 As result the below:
 
@@ -91,12 +90,12 @@ The number can be accessed within locale messages via predefined named arguments
 The following is an example of using `$tc`:
 
 ```html
-<p>{{ $tc('apple', 10, { count: 10 }) }}</p>
-<p>{{ $tc('apple', 10) }}</p>
+<p>{{ $t('apple', 10, { count: 10 }) }}</p>
+<p>{{ $t('apple', 10) }}</p>
 
-<p>{{ $tc('banana', 1, { n: 1 }) }}</p>
-<p>{{ $tc('banana', 1) }}</p>
-<p>{{ $tc('banana', 100, { n: 'too many' }) }}</p>
+<p>{{ $t('banana', 1, { n: 1 }) }}</p>
+<p>{{ $t('banana', 1) }}</p>
+<p>{{ $t('banana', 100, { n: 'too many' }) }}</p>
 ```
 
 In the above some examples, the first argument is the locale messages key and the second argument is the numeric value or object.
@@ -169,17 +168,17 @@ With the following template:
 
 ```html
 <h2>Car:</h2>
-<p>{{ $tc('car', 1) }}</p>
-<p>{{ $tc('car', 2) }}</p>
-<p>{{ $tc('car', 4) }}</p>
-<p>{{ $tc('car', 12) }}</p>
-<p>{{ $tc('car', 21) }}</p>
+<p>{{ $t('car', 1) }}</p>
+<p>{{ $t('car', 2) }}</p>
+<p>{{ $t('car', 4) }}</p>
+<p>{{ $t('car', 12) }}</p>
+<p>{{ $t('car', 21) }}</p>
 
 <h2>Banana:</h2>
-<p>{{ $tc('banana', 0) }}</p>
-<p>{{ $tc('banana', 4) }}</p>
-<p>{{ $tc('banana', 11) }}</p>
-<p>{{ $tc('banana', 31) }}</p>
+<p>{{ $t('banana', 0) }}</p>
+<p>{{ $t('banana', 4) }}</p>
+<p>{{ $t('banana', 11) }}</p>
+<p>{{ $t('banana', 31) }}</p>
 ```
 
 As result the below:
