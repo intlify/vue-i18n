@@ -82,7 +82,7 @@ The output follows:
 
 ```vue
 <div id="app">
-  <p>こんにちは、世界</p>
+  <h1>こんにちは、世界</h1>
 </div>
 ```
 
