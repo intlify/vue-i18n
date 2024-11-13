@@ -19,7 +19,7 @@
       <h2>Banana:</h2>
       <p class="p7">{{ $t('banana', 1, { n: 1 }) }}</p>
       <p class="p8">{{ $t('banana', 1) }}</p>
-      <p class="p9">{{ $t('banana', 100, { n: 'too many' }) }}</p>
+      <p class="p9">{{ $t('banana', { n: 'too many' }, 100) }}</p>
     </div>
     <script>
       const { createApp } = Vue
