@@ -8,7 +8,6 @@ import type {
   NumberOptions,
   IsNever,
   IsEmptyObject,
-  PickupKeys,
   PickupFormatPathKeys
 } from '@intlify/core-base'
 import type {
@@ -1107,8 +1106,14 @@ declare module 'vue' {
      */
     $tm<
       Key extends string,
-      Messages extends object = {},
-      ResourceKeys extends PickupKeys<Messages> = PickupKeys<Messages>
+      DefinedLocaleMessage extends
+        RemovedIndexResources<DefineLocaleMessage> = RemovedIndexResources<DefineLocaleMessage>,
+      Keys = IsEmptyObject<DefinedLocaleMessage> extends false
+        ? JsonPaths<{
+            [K in keyof DefinedLocaleMessage]: DefinedLocaleMessage[K]
+          }>
+        : never,
+      ResourceKeys extends Keys = IsNever<Keys> extends false ? Keys : never
     >(
       key: Key | ResourceKeys
     ): LocaleMessageValue<VueMessageType> | {}
