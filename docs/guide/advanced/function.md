@@ -165,7 +165,7 @@ You need to specify the key that resolves the value specified with `$t` or `t`.
 
 ## Pluralization
 
-Vue I18n supports [pluralization](../essentials/pluralization) as a string-based message format. Vue I18n interpolate the parameter values with `$tc` or `tc`, and it can be output it.
+Vue I18n supports [pluralization](../essentials/pluralization) as a string-based message format. Vue I18n interpolate the parameter values with `$t` or `t`, and it can be output it.
 
 You can use the `plural` function of the message context to do the same thing.
 
