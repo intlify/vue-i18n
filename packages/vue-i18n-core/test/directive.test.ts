@@ -11,23 +11,24 @@ vi.mock('@intlify/shared', async () => {
   const actual = await vi.importActual<object>('@intlify/shared')
   return {
     ...actual,
-    warn: vi.fn()
+    warn: vi.fn(),
+    warnOnce: vi.fn()
   }
 })
 
-import { mount } from './helper'
-import { defineComponent, ref, h, withDirectives, resolveDirective } from 'vue'
-import { format } from '@intlify/shared'
 import {
   compile,
-  registerMessageCompiler,
-  resolveValue,
-  registerMessageResolver,
   fallbackWithLocaleChain,
-  registerLocaleFallbacker
+  registerLocaleFallbacker,
+  registerMessageCompiler,
+  registerMessageResolver,
+  resolveValue
 } from '@intlify/core-base'
-import { createI18n } from '../src/index'
+import { format } from '@intlify/shared'
+import { defineComponent, h, ref, resolveDirective, withDirectives } from 'vue'
 import { errorMessages, I18nErrorCodes } from '../src/errors'
+import { createI18n } from '../src/index'
+import { mount } from './helper'
 
 beforeAll(() => {
   registerMessageCompiler(compile)
@@ -141,6 +142,10 @@ test('plural', async () => {
 })
 
 test('legacy mode', async () => {
+  const mockWarn = vi.spyOn(shared, 'warnOnce')
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  mockWarn.mockImplementation(() => {})
+
   const i18n = createI18n({
     legacy: true,
     locale: 'en',
