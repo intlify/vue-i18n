@@ -5,7 +5,8 @@ import {
   isEmptyObject,
   isPlainObject,
   makeSymbol,
-  warn
+  warn,
+  warnOnce
 } from '@intlify/shared'
 import {
   InjectionKey,
@@ -78,9 +79,6 @@ declare module 'vue' {
   }
 }
 
-// for bridge
-const _legacyVueI18n: any = null // eslint-disable-line @typescript-eslint/no-explicit-any
-
 /**
  * I18n Options for `createI18n`
  *
@@ -129,6 +127,8 @@ export interface I18nAdditionalOptions {
    * @remarks
    * The default is to use the Legacy API mode. If you want to use the Composition API mode, you need to set it to `false`.
    *
+   * @deprecated will be removed at vue-i18n v12
+   *
    * @VueI18nSee [Composition API](../guide/advanced/composition)
    *
    * @defaultValue `true`
@@ -150,6 +150,8 @@ export interface I18nAdditionalOptions {
 
 /**
  * Vue I18n API mode
+ *
+ * @deprecated will be removed at vue-i18n v12
  *
  * @VueI18nSee [I18n#mode](general#mode)
  *
@@ -177,6 +179,8 @@ export interface I18n<
    *
    * @remarks
    * If you specified `legacy: true` option in `createI18n`, return `legacy`, else `composition`
+   *
+   * @deprecated will be removed at vue-i18n v12
    *
    * @defaultValue `'legacy'`
    */
@@ -218,6 +222,9 @@ export type ComposerExtender = (composer: Composer) => Disposer | undefined
  */
 type ExtendHooks = {
   __composerExtend?: ComposerExtender
+  /**
+   * @deprecated will be removed at vue-i18n v12
+   */
   __vueI18nExtend?: VueI18nExtender
 }
 
@@ -254,6 +261,9 @@ export interface I18nInternal<
   ): void
   __deleteInstance(component: ComponentInternalInstance): void
   __composerExtend?: ComposerExtender
+  /**
+   * @deprecated will be removed at vue-i18n v12
+   */
   __vueI18nExtend?: VueI18nExtender
 }
 
@@ -349,8 +359,7 @@ export function createI18n<
     : {},
   OptionLocale = Options['locale'] extends string ? Options['locale'] : Locale
 >(
-  options: Options,
-  LegacyVueI18n?: any // eslint-disable-line @typescript-eslint/no-explicit-any
+  options: Options
 ): (typeof options)['legacy'] extends true
   ? I18n<Messages, DateTimeFormats, NumberFormats, OptionLocale, true>
   : (typeof options)['legacy'] extends false
@@ -460,8 +469,7 @@ export function createI18n<
     : {},
   OptionLocale = Options['locale'] extends string ? Options['locale'] : Locale
 >(
-  options: Options,
-  LegacyVueI18n?: any // eslint-disable-line @typescript-eslint/no-explicit-any
+  options: Options
 ): (typeof options)['legacy'] extends true
   ? I18n<Messages, DateTimeFormats, NumberFormats, OptionLocale, true>
   : (typeof options)['legacy'] extends false
@@ -469,7 +477,7 @@ export function createI18n<
     : I18n<Messages, DateTimeFormats, NumberFormats, OptionLocale, Legacy>
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export function createI18n(options: any = {}, VueI18nLegacy?: any): any {
+export function createI18n(options: any = {}): any {
   type _I18n = I18n & I18nInternal
 
   // prettier-ignore
@@ -478,16 +486,17 @@ export function createI18n(options: any = {}, VueI18nLegacy?: any): any {
     : __FEATURE_LEGACY_API__ && isBoolean(options.legacy)
       ? options.legacy
       : __FEATURE_LEGACY_API__
+
+  if (__DEV__ && __legacyMode) {
+    warnOnce(getWarnMessage(I18nWarnCodes.DEPRECATE_LEGACY_MODE))
+  }
+
   // prettier-ignore
   const __globalInjection = isBoolean(options.globalInjection)
     ? options.globalInjection
     : true
   const __instances = new Map<ComponentInternalInstance, VueI18n | Composer>()
-  const [globalScope, __global] = createGlobal(
-    options,
-    __legacyMode,
-    VueI18nLegacy
-  )
+  const [globalScope, __global] = createGlobal(options, __legacyMode)
   const symbol: InjectionKey<I18n> | string = /* #__PURE__*/ makeSymbol(
     __DEV__ ? 'vue-i18n' : ''
   )
@@ -754,7 +763,7 @@ export function useI18n<
       composerOptions.__root = gl
     }
 
-    composer = createComposer(composerOptions, _legacyVueI18n) as Composer
+    composer = createComposer(composerOptions) as Composer
     if (i18nInternal.__composerExtend) {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       ;(composer as any)[DisposeSymbol] =
@@ -775,14 +784,13 @@ export function useI18n<
 
 function createGlobal(
   options: I18nOptions,
-  legacyMode: boolean,
-  VueI18nLegacy: any // eslint-disable-line @typescript-eslint/no-explicit-any
+  legacyMode: boolean
 ): [EffectScope, VueI18n | Composer] {
   const scope = effectScope()
   const obj =
     !__LITE__ && __FEATURE_LEGACY_API__ && legacyMode
-      ? scope.run(() => createVueI18n(options, VueI18nLegacy))
-      : scope.run(() => createComposer(options, VueI18nLegacy))
+      ? scope.run(() => createVueI18n(options))
+      : scope.run(() => createComposer(options))
   if (obj == null) {
     throw createI18nError(I18nErrorCodes.UNEXPECTED_ERROR)
   }

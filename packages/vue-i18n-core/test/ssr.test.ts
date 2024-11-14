@@ -1,22 +1,32 @@
 import {
-  h,
-  ref,
-  defineComponent,
-  resolveComponent,
-  resolveDirective,
-  withDirectives,
-  createSSRApp
-} from 'vue'
+  compile,
+  fallbackWithLocaleChain,
+  registerLocaleFallbacker,
+  registerMessageCompiler,
+  registerMessageResolver,
+  resolveValue
+} from '@intlify/core-base'
 import { renderToString } from '@vue/server-renderer'
 import {
-  compile,
-  registerMessageCompiler,
-  resolveValue,
-  registerMessageResolver,
-  fallbackWithLocaleChain,
-  registerLocaleFallbacker
-} from '@intlify/core-base'
+  createSSRApp,
+  defineComponent,
+  h,
+  ref,
+  resolveComponent,
+  resolveDirective,
+  withDirectives
+} from 'vue'
 import { createI18n, useI18n } from '../src/index'
+
+// utils
+import * as shared from '@intlify/shared'
+vi.mock('@intlify/shared', async () => {
+  const actual = await vi.importActual<object>('@intlify/shared')
+  return {
+    ...actual,
+    warnOnce: vi.fn()
+  }
+})
 
 beforeAll(() => {
   registerMessageCompiler(compile)
@@ -51,6 +61,10 @@ test('composition mode', async () => {
 })
 
 test('legacy mode', async () => {
+  const mockWarn = vi.spyOn(shared, 'warnOnce')
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  mockWarn.mockImplementation(() => {})
+
   const i18n = createI18n({
     locale: 'ja',
     messages: {

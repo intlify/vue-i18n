@@ -1,118 +1,118 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { ref, computed, getCurrentInstance, watch, shallowRef } from 'vue'
 import {
-  warn,
-  isArray,
-  isFunction,
-  isNumber,
-  isString,
-  isRegExp,
-  isBoolean,
-  isPlainObject,
-  isObject,
-  assign,
-  inBrowser,
-  deepCopy,
-  hasOwn
-} from '@intlify/shared'
-import {
+  DEFAULT_LOCALE,
+  MISSING_RESOLVE_VALUE,
+  MessageFunction,
+  NOT_REOSLVED,
+  clearDateTimeFormat,
+  clearNumberFormat,
+  createCoreContext,
+  datetime,
+  fallbackWithLocaleChain,
+  getFallbackContext,
+  isMessageAST,
+  isMessageFunction,
   isTranslateFallbackWarn,
   isTranslateMissingWarn,
-  createCoreContext,
-  MISSING_RESOLVE_VALUE,
-  updateFallbackLocale,
-  translate,
-  parseTranslateArgs,
-  datetime,
-  parseDateTimeArgs,
-  clearDateTimeFormat,
   number,
+  parseDateTimeArgs,
   parseNumberArgs,
-  clearNumberFormat,
-  fallbackWithLocaleChain,
-  NOT_REOSLVED,
-  MessageFunction,
+  parseTranslateArgs,
   setAdditionalMeta,
-  getFallbackContext,
   setFallbackContext,
-  DEFAULT_LOCALE,
-  isMessageAST,
-  isMessageFunction
+  translate,
+  updateFallbackLocale
 } from '@intlify/core-base'
-import { I18nWarnCodes, getWarnMessage } from './warnings'
-import { I18nErrorCodes, createI18nError } from './errors'
 import {
-  TranslateVNodeSymbol,
+  assign,
+  deepCopy,
+  hasOwn,
+  inBrowser,
+  isArray,
+  isBoolean,
+  isFunction,
+  isNumber,
+  isObject,
+  isPlainObject,
+  isRegExp,
+  isString,
+  warn
+} from '@intlify/shared'
+import { computed, getCurrentInstance, ref, shallowRef, watch } from 'vue'
+import { I18nErrorCodes, createI18nError } from './errors'
+import { VERSION } from './misc'
+import {
   DatetimePartsSymbol,
-  NumberPartsSymbol,
-  EnableEmitter,
   DisableEmitter,
+  EnableEmitter,
+  InejctWithOptionSymbol,
+  NumberPartsSymbol,
   SetPluralRulesSymbol,
-  InejctWithOptionSymbol
+  TranslateVNodeSymbol
 } from './symbols'
 import {
-  getLocaleMessages,
-  getComponentOptions,
   createTextNode,
+  getComponentOptions,
+  getLocaleMessages,
   handleFlatJson
 } from './utils'
-import { VERSION } from './misc'
+import { I18nWarnCodes, getWarnMessage } from './warnings'
 
 import type {
-  ComponentInternalInstance,
-  VNode,
-  VNodeArrayChildren,
-  WritableComputedRef,
-  ComputedRef
-} from 'vue'
-import type {
-  Path,
-  MessageResolver,
-  MessageCompiler,
+  CoreContext,
+  CoreInternalContext,
+  CoreMissingHandler,
+  CoreMissingType,
+  DateTimeFormat,
+  DateTimeFormats as DateTimeFormatsType,
+  DateTimeOptions,
+  FallbackLocale,
+  FallbackLocales,
+  GeneratedLocale,
+  IsEmptyObject,
+  IsNever,
+  JsonPaths,
   LinkedModifiers,
-  PluralizationRules,
-  NamedValue,
+  Locale,
+  LocaleMessage,
+  LocaleMessageDictionary,
+  LocaleMessageValue,
+  LocaleMessages,
+  LocaleParams,
+  MessageCompiler,
   MessageFunctions,
   MessageProcessor,
+  MessageResolver,
   MessageType,
-  Locale,
-  LocaleMessageValue,
-  LocaleMessage,
-  LocaleMessages,
-  CoreContext,
-  CoreMissingHandler,
-  LocaleMessageDictionary,
-  PostTranslationHandler,
-  FallbackLocale,
-  CoreInternalContext,
-  TranslateOptions,
-  DateTimeOptions,
-  NumberOptions,
-  DateTimeFormats as DateTimeFormatsType,
-  NumberFormats as NumberFormatsType,
-  DateTimeFormat,
-  NumberFormat,
   MetaInfo,
-  PickupLocales,
-  PickupKeys,
+  NamedValue,
+  NumberFormat,
+  NumberFormats as NumberFormatsType,
+  NumberOptions,
+  Path,
   PickupFormatKeys,
-  FallbackLocales,
-  SchemaParams,
-  LocaleParams,
-  ResourceValue,
-  ResourcePath,
-  ResourceNode,
   PickupFormatPathKeys,
+  PickupKeys,
+  PickupLocales,
+  PluralizationRules,
+  PostTranslationHandler,
   RemoveIndexSignature,
   RemovedIndexResources,
-  IsNever,
-  IsEmptyObject,
-  CoreMissingType,
-  JsonPaths,
-  TranslationsPaths,
-  GeneratedLocale
+  ResourceNode,
+  ResourcePath,
+  ResourceValue,
+  SchemaParams,
+  TranslateOptions,
+  TranslationsPaths
 } from '@intlify/core-base'
 import type { VueDevToolsEmitter } from '@intlify/devtools-types'
+import type {
+  ComponentInternalInstance,
+  ComputedRef,
+  VNode,
+  VNodeArrayChildren,
+  WritableComputedRef
+} from 'vue'
 
 export { DEFAULT_LOCALE } from '@intlify/core-base'
 
@@ -1889,10 +1889,7 @@ export function createComposer<
   > = Options['numberFormats'] extends Record<string, any>
     ? Options['numberFormats']
     : {}
->(
-  options: Options,
-  VueI18nLegacy?: any
-): Composer<Messages, DateTimeFormats, NumberFormats>
+>(options: Options): Composer<Messages, DateTimeFormats, NumberFormats>
 
 export function createComposer<
   Schema extends object = DefaultLocaleMessageSchema,
@@ -1919,10 +1916,7 @@ export function createComposer<
   > extends Record<string, any>
     ? NonNullable<Options['numberFormats']>
     : {}
->(
-  options: Options,
-  VueI18nLegacy?: any
-): Composer<Messages, DateTimeFormats, NumberFormats>
+>(options: Options): Composer<Messages, DateTimeFormats, NumberFormats>
 
 /**
  * Create composer interface factory

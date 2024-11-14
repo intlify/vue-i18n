@@ -1,82 +1,109 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { createComposer, DefineLocaleMessage } from './composer'
-import { createI18nError, I18nErrorCodes } from './errors'
-import { I18nWarnCodes, getWarnMessage } from './warnings'
-import { EnableEmitter, DisableEmitter } from './symbols'
 import { DEFAULT_LOCALE } from '@intlify/core-base'
 import {
-  isString,
+  assign,
   isArray,
-  isPlainObject,
-  isNumber,
   isBoolean,
   isFunction,
+  isNumber,
+  isPlainObject,
   isRegExp,
-  assign,
+  isString,
   warnOnce
 } from '@intlify/shared'
+import { createComposer, DefineLocaleMessage } from './composer'
+import { createI18nError, I18nErrorCodes } from './errors'
+import { DisableEmitter, EnableEmitter } from './symbols'
+import { getWarnMessage, I18nWarnCodes } from './warnings'
 
 import type {
-  Path,
-  MessageResolver,
-  PluralizationRule,
-  PluralizationRules,
-  LinkedModifiers,
-  NamedValue,
-  Locale,
-  LocaleMessage,
-  LocaleMessages,
-  LocaleMessageDictionary,
-  PostTranslationHandler,
-  FallbackLocale,
-  LocaleMessageValue,
-  TranslateOptions,
-  DateTimeFormats as DateTimeFormatsType,
-  NumberFormats as NumberFormatsType,
   DateTimeFormat,
-  NumberFormat,
-  PickupKeys,
-  PickupFormatKeys,
-  PickupLocales,
-  SchemaParams,
-  LocaleParams,
-  RemoveIndexSignature,
-  RemovedIndexResources,
+  DateTimeFormats as DateTimeFormatsType,
+  FallbackLocale,
   FallbackLocales,
-  PickupPaths,
-  PickupFormatPathKeys,
+  GeneratedLocale,
   IsEmptyObject,
   IsNever,
-  GeneratedLocale
+  LinkedModifiers,
+  Locale,
+  LocaleMessage,
+  LocaleMessageDictionary,
+  LocaleMessages,
+  LocaleMessageValue,
+  LocaleParams,
+  MessageResolver,
+  NamedValue,
+  NumberFormat,
+  NumberFormats as NumberFormatsType,
+  Path,
+  PickupFormatKeys,
+  PickupFormatPathKeys,
+  PickupKeys,
+  PickupLocales,
+  PickupPaths,
+  PluralizationRule,
+  PluralizationRules,
+  PostTranslationHandler,
+  RemovedIndexResources,
+  RemoveIndexSignature,
+  SchemaParams,
+  TranslateOptions
 } from '@intlify/core-base'
 import type { VueDevToolsEmitter } from '@intlify/devtools-types'
 import type {
-  VueMessageType,
-  DefaultLocaleMessageSchema,
-  DefineDateTimeFormat,
-  DefaultDateTimeFormatSchema,
-  DefineNumberFormat,
-  DefaultNumberFormatSchema,
-  MissingHandler,
   Composer,
-  ComposerOptions,
   ComposerInternalOptions,
-  ComposerResolveLocaleMessageTranslation
+  ComposerOptions,
+  ComposerResolveLocaleMessageTranslation,
+  DefaultDateTimeFormatSchema,
+  DefaultLocaleMessageSchema,
+  DefaultNumberFormatSchema,
+  DefineDateTimeFormat,
+  DefineNumberFormat,
+  MissingHandler,
+  VueMessageType
 } from './composer'
 import type { Disposer } from './types'
 
-/** @VueI18nLegacy */
+/**
+ * @deprecated will be removed at vue-i18n v12
+ * @VueI18nLegacy
+ */
 export type TranslateResult = string
+/**
+ * @deprecated will be removed at vue-i18n v12
+ * @VueI18nLegacy
+ */
 export type Choice = number
-/** @VueI18nLegacy */
+/**
+ * @deprecated will be removed at vue-i18n v12
+ * @VueI18nLegacy
+ */
 export type LocaleMessageObject<Message = string> =
   LocaleMessageDictionary<Message>
+/**
+ * @deprecated will be removed at vue-i18n v12
+ * @VueI18nLegacy
+ */
 export type PluralizationRulesMap = { [locale: string]: PluralizationRule }
+/**
+ * @deprecated will be removed at vue-i18n v12
+ * @VueI18nLegacy
+ */
 export type WarnHtmlInMessageLevel = 'off' | 'warn' | 'error'
-/** @VueI18nLegacy */
+/**
+ * @deprecated will be removed at vue-i18n v12
+ * @VueI18nLegacy
+ */
 export type DateTimeFormatResult = string
-/** @VueI18nLegacy */
+/**
+ * @deprecated will be removed at vue-i18n v12
+ * @VueI18nLegacy
+ */
 export type NumberFormatResult = string
+/**
+ * @deprecated will be removed at vue-i18n v12
+ */
 export type VueI18nExtender = (vueI18n: VueI18n) => Disposer | undefined
 
 /**
@@ -84,6 +111,8 @@ export type VueI18nExtender = (vueI18n: VueI18n) => Disposer | undefined
  *
  *  @remarks
  *  This option is compatible with `VueI18n` class constructor options (offered with Vue I18n v8.x)
+ *
+ * @deprecated will be removed at vue-i18n v12
  *
  *  @VueI18nLegacy
  */
@@ -368,6 +397,8 @@ export interface VueI18nOptions<
 
 /**
  * @internal
+ *
+ * @deprecated will be removed at vue-i18n v12
  */
 export interface VueI18nInternalOptions {
   __extender?: VueI18nExtender
@@ -378,6 +409,8 @@ export interface VueI18nInternalOptions {
  *
  * @remarks
  * This is the interface for {@link VueI18n}
+ *
+ * @deprecated will be removed at vue-i18n v12
  *
  * @VueI18nLegacy
  */
@@ -677,6 +710,8 @@ export interface VueI18nTranslation<
 /**
  * Resolve locale message translation functions for VueI18n legacy interfaces
  *
+ * @deprecated will be removed at vue-i18n v12
+ *
  * @remarks
  * This is the interface for {@link VueI18n}. This interface is an alias of {@link ComposerResolveLocaleMessageTranslation}.
  *
@@ -690,6 +725,8 @@ export type VueI18nResolveLocaleMessageTranslation<Locales = 'en-US'> =
  *
  * @remarks
  * This is the interface for {@link VueI18n}
+ *
+ * @deprecated will be removed at vue-i18n v12
  *
  * @VueI18nLegacy
  */
@@ -847,6 +884,8 @@ export interface VueI18nTranslationChoice<
  * @remarks
  * This is the interface for {@link VueI18n}
  *
+ * @deprecated will be removed at vue-i18n v12
+ *
  * @VueI18nLegacy
  */
 export interface VueI18nDateTimeFormatting<
@@ -942,6 +981,8 @@ export interface VueI18nDateTimeFormatting<
  * @remarks
  * This is the interface for {@link VueI18n}
  *
+ * @deprecated will be removed at vue-i18n v12
+ *
  * @VueI18nLegacy
  */
 export interface VueI18nNumberFormatting<
@@ -1036,6 +1077,8 @@ export interface VueI18nNumberFormatting<
  *
  *  @remarks
  *  This interface is compatible with interface of `VueI18n` class (offered with Vue I18n v8.x).
+ *
+ * @deprecated will be removed at vue-i18n v12
  *
  *  @VueI18nLegacy
  */
@@ -1411,6 +1454,8 @@ export interface VueI18n<
 
 /**
  * @internal
+ *
+ * @deprecated will be removed at vue-i18n v12
  */
 export interface VueI18nInternal<
   Messages extends Record<string, any> = {},
@@ -1536,10 +1581,7 @@ export function createVueI18n<
   > = Options['numberFormats'] extends Record<string, any>
     ? Options['numberFormats']
     : {}
->(
-  options?: Options,
-  VueI18nLegacy?: any
-): VueI18n<Messages, DateTimeFormats, NumberFormats>
+>(options?: Options): VueI18n<Messages, DateTimeFormats, NumberFormats>
 
 export function createVueI18n<
   Schema extends object = DefaultLocaleMessageSchema,
@@ -1566,15 +1608,14 @@ export function createVueI18n<
   > extends Record<string, any>
     ? NonNullable<Options['numberFormats']>
     : {}
->(
-  options?: Options,
-  VueI18nLegacy?: any
-): VueI18n<Messages, DateTimeFormats, NumberFormats>
+>(options?: Options): VueI18n<Messages, DateTimeFormats, NumberFormats>
 
 /**
  * create VueI18n interface factory
  *
  * @internal
+ *
+ * @deprecated will be removed at vue-i18n v12
  */
 
 export function createVueI18n(options: any = {}): any {
