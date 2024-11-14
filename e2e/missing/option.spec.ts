@@ -5,7 +5,10 @@ import { getText } from '../helper'
     beforeAll(async () => {
       page.on('console', msg => {
         if (msg.type() === 'warning') {
-          warnings.push(msg.text())
+          const text = msg.text()
+          if (!text.match(/^\[intlify\] Legacy API mode has been/)) {
+            warnings.push(msg.text())
+          }
         }
       })
       await page.goto(
