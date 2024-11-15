@@ -11,19 +11,18 @@ vi.mock('@intlify/shared', async () => {
   }
 })
 
-import { VueMessageType } from '../src/composer'
-import { createVueI18n } from '../src/legacy'
-import { errorMessages, I18nErrorCodes } from '../src/errors'
-import { watchEffect, nextTick } from 'vue'
 import {
   compile,
-  registerMessageCompiler,
-  resolveValue,
-  registerMessageResolver,
   MessageContext,
   Path,
-  PathValue
+  PathValue,
+  registerMessageCompiler,
+  registerMessageResolver,
+  resolveValue
 } from '@intlify/core-base'
+import { nextTick, watchEffect } from 'vue'
+import { VueMessageType } from '../src/composer'
+import { createVueI18n } from '../src/legacy'
 import { pluralRules as _pluralRules } from './helper'
 
 beforeEach(() => {
@@ -118,10 +117,6 @@ test('postTranslation', () => {
 })
 
 test('pluralizationRules', () => {
-  const mockWarn = vi.spyOn(shared, 'warnOnce')
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
-  mockWarn.mockImplementation(() => {})
-
   const i18n = createVueI18n({
     locale: 'ru',
     pluralizationRules: _pluralRules,
@@ -133,13 +128,11 @@ test('pluralizationRules', () => {
   })
 
   expect(i18n.pluralizationRules).toEqual(_pluralRules)
-  expect(i18n.tc('car', 1)).toEqual('1 машина')
-  expect(i18n.tc('car', 2)).toEqual('2 машины')
-  expect(i18n.tc('car', 4)).toEqual('4 машины')
-  expect(i18n.tc('car', 12)).toEqual('12 машин')
-  expect(i18n.tc('car', 21)).toEqual('21 машина')
-
-  expect(mockWarn).toHaveBeenCalled()
+  expect(i18n.t('car', 1)).toEqual('1 машина')
+  expect(i18n.t('car', 2)).toEqual('2 машины')
+  expect(i18n.t('car', 4)).toEqual('4 машины')
+  expect(i18n.t('car', 12)).toEqual('12 машин')
+  expect(i18n.t('car', 21)).toEqual('21 машина')
 })
 
 test('messages', () => {
@@ -235,36 +228,6 @@ describe('rt', () => {
     expect(i18n.rt(i18n.messages.en.named, { name: 'dio' })).toEqual('hi dio!')
     expect(i18n.rt(i18n.messages.en.linked)).toEqual('hi DIO !')
     expect(i18n.rt(i18n.messages.en.pural, 2)).toEqual('2 apples')
-  })
-})
-
-describe('tc', () => {
-  test('basic', () => {
-    const i18n = createVueI18n({
-      locale: 'en',
-      messages: {
-        en: {
-          apple: 'no apples | one apple | {count} apples'
-        }
-      }
-    })
-
-    expect(i18n.tc('apple', 4)).toEqual('4 apples')
-  })
-
-  test(errorMessages[I18nErrorCodes.INVALID_ARGUMENT], () => {
-    const i18n = createVueI18n({
-      locale: 'en',
-      messages: {
-        en: {
-          apple: 'no apples | one apple | {count} apples'
-        }
-      }
-    })
-
-    expect(() => {
-      i18n.tc(4 as any, 4) // eslint-disable-line @typescript-eslint/no-explicit-any
-    }).toThrowError(errorMessages[I18nErrorCodes.INVALID_ARGUMENT])
   })
 })
 

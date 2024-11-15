@@ -3,7 +3,6 @@
  */
 
 // utils
-import * as shared from '@intlify/shared'
 vi.mock('@intlify/shared', async () => {
   const actual = await vi.importActual<object>('@intlify/shared')
   return {
@@ -133,28 +132,6 @@ test('$rt', async () => {
   const { html } = await mount(App, i18n)
 
   expect(html()).toEqual('<p>Title 1</p><p>Title 2</p>')
-})
-
-test('$tc', async () => {
-  const mockWarn = vi.spyOn(shared, 'warnOnce')
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
-  mockWarn.mockImplementation(() => {})
-
-  const i18n = createI18n({
-    legacy: true,
-    locale: 'en',
-    messages: {
-      en: {
-        banana: 'no bananas | {n} banana | {n} bananas'
-      }
-    }
-  })
-
-  const App = defineComponent({ template: '<br/>' })
-  const { vm } = await mount(App, i18n)
-
-  expect(vm.$tc!('banana', 2)).toEqual('2 bananas')
-  expect(mockWarn).toHaveBeenCalled()
 })
 
 test('$te', async () => {

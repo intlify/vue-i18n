@@ -92,7 +92,6 @@ export {
   VueI18nOptions,
   VueI18nResolveLocaleMessageTranslation,
   VueI18nTranslation,
-  VueI18nTranslationChoice,
   WarnHtmlInMessageLevel
 } from '../../vue-i18n-core/src/legacy'
 export { I18nPluginOptions } from '../../vue-i18n-core/src/plugin'

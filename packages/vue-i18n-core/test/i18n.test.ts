@@ -14,33 +14,33 @@ vi.mock('@intlify/shared', async () => {
 })
 
 import {
-  h,
-  ref,
-  defineComponent,
-  defineCustomElement,
-  nextTick,
-  getCurrentInstance,
-  ComponentOptions
-} from 'vue'
-import {
-  setDevToolsHook,
   compile,
-  registerMessageCompiler,
-  resolveValue,
-  registerMessageResolver,
   fallbackWithLocaleChain,
-  registerLocaleFallbacker
+  registerLocaleFallbacker,
+  registerMessageCompiler,
+  registerMessageResolver,
+  resolveValue,
+  setDevToolsHook
 } from '@intlify/core-base'
 import { createEmitter } from '@intlify/shared'
-import { mount, pluralRules as _pluralRules, randStr } from './helper'
-import { createI18n, useI18n } from '../src/i18n'
-import { errorMessages, I18nErrorCodes } from '../src/errors'
+import {
+  ComponentOptions,
+  defineComponent,
+  defineCustomElement,
+  getCurrentInstance,
+  h,
+  nextTick,
+  ref
+} from 'vue'
 import { Composer } from '../src/composer'
+import { errorMessages, I18nErrorCodes } from '../src/errors'
+import { createI18n, useI18n } from '../src/i18n'
+import { pluralRules as _pluralRules, mount, randStr } from './helper'
 
 import type { IntlifyDevToolsEmitterHooks } from '@intlify/devtools-types'
+import type { App } from 'vue'
 import type { I18n } from '../src/i18n'
 import type { VueI18n } from '../src/legacy'
-import type { App } from 'vue'
 /* eslint-disable @typescript-eslint/no-explicit-any */
 // allow any in error
 const container = document.createElement('div')
@@ -1054,11 +1054,11 @@ describe('custom pluralization', () => {
 
     const App = defineComponent({
       template: `
-        <p>{{ $tc('car', 1) }}</p>
-        <p>{{ $tc('car', 2) }}</p>
-        <p>{{ $tc('car', 4) }}</p>
-        <p>{{ $tc('car', 12) }}</p>
-        <p>{{ $tc('car', 21) }}</p>
+        <p>{{ $t('car', 1) }}</p>
+        <p>{{ $t('car', 2) }}</p>
+        <p>{{ $t('car', 4) }}</p>
+        <p>{{ $t('car', 12) }}</p>
+        <p>{{ $t('car', 21) }}</p>
       `
     })
     const { find } = await mount(App, i18n)
@@ -1086,11 +1086,11 @@ describe('custom pluralization', () => {
         }
       ],
       template: `
-        <p>{{ $tc('car', 1) }}</p>
-        <p>{{ $tc('car', 2) }}</p>
-        <p>{{ $tc('car', 4) }}</p>
-        <p>{{ $tc('car', 12) }}</p>
-        <p>{{ $tc('car', 21) }}</p>
+        <p>{{ $t('car', 1) }}</p>
+        <p>{{ $t('car', 2) }}</p>
+        <p>{{ $t('car', 4) }}</p>
+        <p>{{ $t('car', 12) }}</p>
+        <p>{{ $t('car', 21) }}</p>
       `
     })
     const { find } = await mount(App, i18n)
