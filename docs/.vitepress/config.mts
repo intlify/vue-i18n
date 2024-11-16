@@ -1,5 +1,5 @@
-import { defineConfig } from 'vitepress'
 import type { HeadConfig } from 'vitepress'
+import { defineConfig } from 'vitepress'
 
 const head: HeadConfig[] = [['link', { rel: 'icon', href: '/vue-i18n-logo.png' }]]
 
@@ -205,6 +205,10 @@ function sidebarGuide() {
         {
           text: 'Breaking Changes in v10',
           link: '/guide/migration/breaking10'
+        },
+        {
+          text: 'Breaking Changes in v11',
+          link: '/guide/migration/breaking11'
         },
         {
           text: 'New Features in v9',
