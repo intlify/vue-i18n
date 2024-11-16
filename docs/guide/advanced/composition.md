@@ -137,8 +137,6 @@ For more details of `t`, see the [API Reference](../../api/composition#t-key).
 
 ## Pluralization
 
-In the Legacy API mode, the plural form of the message was translated using either `$tc` or the VueI18n instance of `tc` to translate the message.
-
 In the Composition API mode, the plural form of the message is left in syntax as in the Legacy API mode, but is translated using the `t` of the Composer instance:
 
 ```vue

@@ -385,15 +385,6 @@ test('loose i18n', () => {
   expectTypeOf(looseI18n.t('nest', 'en')).toEqualTypeOf<string>()
   expectTypeOf(looseI18n.t('foo', [1])).toEqualTypeOf<string>()
   expectTypeOf(looseI18n.t('nest', { foo: 1 })).toEqualTypeOf<string>()
-  expectTypeOf(looseI18n.tc('nest')).toEqualTypeOf<string>()
-  expectTypeOf(looseI18n.tc('bar', 'en')).toEqualTypeOf<string>()
-  expectTypeOf(looseI18n.tc('bar', ['foo'])).toEqualTypeOf<string>()
-  expectTypeOf(looseI18n.tc('bar', { foo: 'foo' })).toEqualTypeOf<string>()
-  expectTypeOf(looseI18n.tc('nest.bar', 1)).toEqualTypeOf<string>()
-  expectTypeOf(looseI18n.tc('nest.bar', 1, ['bar'])).toEqualTypeOf<string>()
-  expectTypeOf(
-    looseI18n.tc('nest.bar', 1, { foo: 'bar' })
-  ).toEqualTypeOf<string>()
   expectTypeOf(looseI18n.te('errors', 'en')).toEqualTypeOf<boolean>()
   expectTypeOf(looseI18n.tm('nest')).toEqualTypeOf<{ bar: string }>()
   expectTypeOf(looseI18n.tm('errors')).toEqualTypeOf<

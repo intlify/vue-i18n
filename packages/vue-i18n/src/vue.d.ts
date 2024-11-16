@@ -1,37 +1,36 @@
-import type { NamedValue, JsonPaths } from '@intlify/core-base'
 import type {
+  DateTimeOptions,
+  IsEmptyObject,
+  IsNever,
+  JsonPaths,
   Locale,
   LocaleMessageValue,
   MessageFunction,
-  TranslateOptions,
-  DateTimeOptions,
+  NamedValue,
   NumberOptions,
-  IsNever,
-  IsEmptyObject,
-  PickupFormatPathKeys
+  PickupFormatPathKeys,
+  TranslateOptions
 } from '@intlify/core-base'
 import type {
+  DatetimeFormat,
+  NumberFormat,
+  Translation
+} from '../../vue-i18n-core/src/components'
+import type {
   CustomBlocks,
+  DefineDateTimeFormat,
+  DefineLocaleMessage,
+  RemovedIndexResources,
   VueMessageType
 } from '../../vue-i18n-core/src/composer'
-import type {
-  DefineLocaleMessage,
-  DefineDateTimeFormat,
-  RemovedIndexResources
-} from '../../vue-i18n-core/src/composer'
-import type {
-  VueI18n,
-  VueI18nOptions,
-  TranslateResult,
-  DateTimeFormatResult,
-  NumberFormatResult
-} from '../../vue-i18n-core/src/legacy'
 import type { ExportedGlobalComposer } from '../../vue-i18n-core/src/i18n'
 import type {
-  Translation,
-  DatetimeFormat,
-  NumberFormat
-} from '../../vue-i18n-core/src/components'
+  DateTimeFormatResult,
+  NumberFormatResult,
+  TranslateResult,
+  VueI18n,
+  VueI18nOptions
+} from '../../vue-i18n-core/src/legacy'
 
 // --- THE CONTENT BELOW THIS LINE WILL BE APPENDED TO DTS FILE IN DIST DIRECTORY --- //
 declare module 'vue' {
@@ -487,226 +486,6 @@ declare module 'vue' {
       named: NamedValue,
       options?: TranslateOptions
     ): string
-    /**
-     * Locale message pluralization
-     *
-     * @remarks
-     * If this is used in a reactive context, it will re-evaluate once the locale changes.
-     *
-     * The input / output is the same as for VueI18n instance. About that details, see {@link VueI18n#tc | `VueI18n#tc` }.
-     * The value of plural is handled with default `1`.
-     * Supported for Legacy API mode only.
-     *
-     * @param key - A target locale message key
-     *
-     * @returns translation message that is pluraled
-     */
-    $tc<
-      Key extends string,
-      DefinedLocaleMessage extends
-        RemovedIndexResources<DefineLocaleMessage> = RemovedIndexResources<DefineLocaleMessage>,
-      Keys = IsEmptyObject<DefinedLocaleMessage> extends false
-        ? JsonPaths<{
-            [K in keyof DefinedLocaleMessage]: DefinedLocaleMessage[K]
-          }>
-        : never,
-      ResourceKeys extends Keys = IsNever<Keys> extends false ? Keys : never
-    >(
-      key: Key | ResourceKeys
-    ): TranslateResult
-    /**
-     * Locale message pluralization
-     *
-     * @remarks
-     * Overloaded `$tc`. About details, see the {@link $tc} remarks.
-     * Supported for Legacy API mode only.
-     *
-     * @param key - A target locale message key
-     * @param locale - A locale, override locale that global scope or local scope
-     *
-     * @returns translation message that is pluraled
-     */
-    $tc<
-      Key extends string,
-      DefinedLocaleMessage extends
-        RemovedIndexResources<DefineLocaleMessage> = RemovedIndexResources<DefineLocaleMessage>,
-      Keys = IsEmptyObject<DefinedLocaleMessage> extends false
-        ? JsonPaths<{
-            [K in keyof DefinedLocaleMessage]: DefinedLocaleMessage[K]
-          }>
-        : never,
-      ResourceKeys extends Keys = IsNever<Keys> extends false ? Keys : never
-    >(
-      key: Key | ResourceKeys,
-      locale: Locale
-    ): TranslateResult
-    /**
-     * Locale message pluralization
-     *
-     * @remarks
-     * Overloaded `$tc`. About details, see the {@link $tc} remarks.
-     * Supported for Legacy API mode only.
-     *
-     * @param key - A target locale message key
-     * @param list - A values of list interpolation
-     *
-     * @returns translation message that is pluraled
-     */
-    $tc<
-      Key extends string,
-      DefinedLocaleMessage extends
-        RemovedIndexResources<DefineLocaleMessage> = RemovedIndexResources<DefineLocaleMessage>,
-      Keys = IsEmptyObject<DefinedLocaleMessage> extends false
-        ? JsonPaths<{
-            [K in keyof DefinedLocaleMessage]: DefinedLocaleMessage[K]
-          }>
-        : never,
-      ResourceKeys extends Keys = IsNever<Keys> extends false ? Keys : never
-    >(
-      key: Key | ResourceKeys,
-      list: unknown[]
-    ): TranslateResult
-    /**
-     * Locale message pluralization
-     * Supported for Legacy API mode only.
-     *
-     * @remarks
-     * Overloaded `$tc`. About details, see the {@link $tc} remarks.
-     * Supported for Legacy API mode only.
-     *
-     * @param key - A target locale message key
-     * @param named - A values of named interpolation
-     *
-     * @returns translation message that is pluraled
-     */
-    $tc<
-      Key extends string,
-      DefinedLocaleMessage extends
-        RemovedIndexResources<DefineLocaleMessage> = RemovedIndexResources<DefineLocaleMessage>,
-      Keys = IsEmptyObject<DefinedLocaleMessage> extends false
-        ? JsonPaths<{
-            [K in keyof DefinedLocaleMessage]: DefinedLocaleMessage[K]
-          }>
-        : never,
-      ResourceKeys extends Keys = IsNever<Keys> extends false ? Keys : never
-    >(
-      key: Key | ResourceKeys,
-      named: Record<string, unknown>
-    ): TranslateResult
-    /**
-     * Locale message pluralization
-     * Supported for Legacy API mode only.
-     *
-     * @remarks
-     * Overloaded `$tc`. About details, see the {@link $tc} remarks.
-     * Supported for Legacy API mode only.
-     *
-     * @param key - A target locale message key
-     * @param choice - Which plural string to get. 1 returns the first one.
-     *
-     * @returns translation message that is pluraled
-     */
-    $tc<
-      Key extends string,
-      DefinedLocaleMessage extends
-        RemovedIndexResources<DefineLocaleMessage> = RemovedIndexResources<DefineLocaleMessage>,
-      Keys = IsEmptyObject<DefinedLocaleMessage> extends false
-        ? JsonPaths<{
-            [K in keyof DefinedLocaleMessage]: DefinedLocaleMessage[K]
-          }>
-        : never,
-      ResourceKeys extends Keys = IsNever<Keys> extends false ? Keys : never
-    >(
-      key: Key | ResourceKeys,
-      choice: number
-    ): TranslateResult
-    /**
-     * Locale message pluralization
-     * Supported for Legacy API mode only.
-     *
-     * @remarks
-     * Overloaded `$tc`. About details, see the {@link $tc} remarks.
-     * Supported for Legacy API mode only.
-     *
-     * @param key - A target locale message key
-     * @param choice - Which plural string to get. 1 returns the first one.
-     * @param locale - A locale, override locale that global scope or local scope
-     *
-     * @returns translation message that is pluraled
-     */
-    $tc<
-      Key extends string,
-      DefinedLocaleMessage extends
-        RemovedIndexResources<DefineLocaleMessage> = RemovedIndexResources<DefineLocaleMessage>,
-      Keys = IsEmptyObject<DefinedLocaleMessage> extends false
-        ? JsonPaths<{
-            [K in keyof DefinedLocaleMessage]: DefinedLocaleMessage[K]
-          }>
-        : never,
-      ResourceKeys extends Keys = IsNever<Keys> extends false ? Keys : never
-    >(
-      key: Key | ResourceKeys,
-      choice: number,
-      locale: Locale
-    ): TranslateResult
-    /**
-     * Locale message pluralization
-     * Supported for Legacy API mode only.
-     *
-     * @remarks
-     * Overloaded `$tc`. About details, see the {@link $tc} remarks.
-     * Supported for Legacy API mode only.
-     *
-     * @param key - A target locale message key
-     * @param choice - Which plural string to get. 1 returns the first one.
-     * @param list - A values of list interpolation
-     *
-     * @returns translation message that is pluraled
-     */
-    $tc<
-      Key extends string,
-      DefinedLocaleMessage extends
-        RemovedIndexResources<DefineLocaleMessage> = RemovedIndexResources<DefineLocaleMessage>,
-      Keys = IsEmptyObject<DefinedLocaleMessage> extends false
-        ? JsonPaths<{
-            [K in keyof DefinedLocaleMessage]: DefinedLocaleMessage[K]
-          }>
-        : never,
-      ResourceKeys extends Keys = IsNever<Keys> extends false ? Keys : never
-    >(
-      key: Key | ResourceKeys,
-      choice: number,
-      list: unknown[]
-    ): TranslateResult
-    /**
-     * Locale message pluralization
-     * Supported for Legacy API mode only.
-     *
-     * @remarks
-     * Overloaded `$tc`. About details, see the {@link $tc} remarks.
-     * Supported for Legacy API mode only.
-     *
-     * @param key - A target locale message key
-     * @param choice - Which plural string to get. 1 returns the first one.
-     * @param named - A values of named interpolation
-     *
-     * @returns translation message that is pluraled
-     */
-    $tc<
-      Key extends string,
-      DefinedLocaleMessage extends
-        RemovedIndexResources<DefineLocaleMessage> = RemovedIndexResources<DefineLocaleMessage>,
-      Keys = IsEmptyObject<DefinedLocaleMessage> extends false
-        ? JsonPaths<{
-            [K in keyof DefinedLocaleMessage]: DefinedLocaleMessage[K]
-          }>
-        : never,
-      ResourceKeys extends Keys = IsNever<Keys> extends false ? Keys : never
-    >(
-      key: Key | ResourceKeys,
-      choice: number,
-      named: Record<string, unknown>
-    ): TranslateResult
     /**
      * Translation message exist
      *

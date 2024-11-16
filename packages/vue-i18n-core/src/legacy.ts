@@ -5,16 +5,12 @@ import {
   isArray,
   isBoolean,
   isFunction,
-  isNumber,
   isPlainObject,
   isRegExp,
-  isString,
-  warnOnce
+  isString
 } from '@intlify/shared'
 import { createComposer, DefineLocaleMessage } from './composer'
-import { createI18nError, I18nErrorCodes } from './errors'
 import { DisableEmitter, EnableEmitter } from './symbols'
-import { getWarnMessage, I18nWarnCodes } from './warnings'
 
 import type {
   DateTimeFormat,
@@ -312,7 +308,7 @@ export interface VueI18nOptions<
   pluralizationRules?: Options['pluralRules']
   /**
    * @remarks
-   * A handler for post processing of translation. The handler gets after being called with the `$t`, `t`, `$tc`, and `tc`.
+   * A handler for post processing of translation. The handler gets after being called with the `$t`, and `t`.
    *
    * This handler is useful if you want to filter on translated text such as space trimming.
    *
@@ -347,8 +343,6 @@ export interface VueI18nOptions<
    * The message resolver is called indirectly by the following APIs:
    *
    * - [`t`](legacy#t-key)
-   *
-   * - [`tc`](legacy#tc-key)
    *
    * - [`te`](legacy#te-key-locale)
    *
@@ -721,164 +715,6 @@ export type VueI18nResolveLocaleMessageTranslation<Locales = 'en-US'> =
   ComposerResolveLocaleMessageTranslation<Locales>
 
 /**
- * Locale message pluralization functions for VueI18n legacy interfaces
- *
- * @remarks
- * This is the interface for {@link VueI18n}
- *
- * @deprecated will be removed at vue-i18n v12
- *
- * @VueI18nLegacy
- */
-export interface VueI18nTranslationChoice<
-  Messages extends Record<string, any> = {},
-  Locales = 'en-US',
-  DefinedLocaleMessage extends
-    RemovedIndexResources<DefineLocaleMessage> = RemovedIndexResources<DefineLocaleMessage>,
-  C = IsEmptyObject<DefinedLocaleMessage> extends false
-    ? PickupPaths<{
-        [K in keyof DefinedLocaleMessage]: DefinedLocaleMessage[K]
-      }>
-    : never,
-  M = IsEmptyObject<Messages> extends false ? PickupKeys<Messages> : never,
-  ResourceKeys extends C | M = IsNever<C> extends false
-    ? IsNever<M> extends false
-      ? C | M
-      : C
-    : IsNever<M> extends false
-      ? M
-      : never
-> {
-  /**
-   * Locale message pluralization
-   *
-   * @remarks
-   * If this is used in a reactive context, it will re-evaluate once the locale changes.
-   *
-   * If [i18n component options](injection#i18n) is specified, it’s pluraled in preferentially local scope locale messages than global scope locale messages.
-   *
-   * If [i18n component options](injection#i18n) isn't specified, it’s pluraled with global scope locale messages.
-   *
-   * The plural choice number is handled with default `1`.
-   *
-   * @param key - A target locale message key
-   *
-   * @returns Pluraled message
-   *
-   * @VueI18nSee [Pluralization](../guide/essentials/pluralization)
-   */
-  <Key extends string = string>(key: Key | ResourceKeys): TranslateResult
-  /**
-   * Locale message pluralization
-   *
-   * @remarks
-   * Overloaded `tc`. About details, see the [call signature](legacy#key-key-resourcekeys-translateresult-2) details.
-   *
-   * @param key - A target locale message key
-   * @param locale - A locale, it will be used over than global scope or local scope.
-   *
-   * @returns Pluraled message
-   */
-  <Key extends string = string>(
-    key: Key | ResourceKeys,
-    locale: Locales | Locale
-  ): TranslateResult
-  /**
-   * Locale message pluralization
-   *
-   * @remarks
-   * Overloaded `tc`. About details, see the [call signature](legacy#key-key-resourcekeys-translateresult-2) details.
-   *
-   * @param key - A target locale message key
-   * @param list - A values of list interpolation
-   *
-   * @returns Pluraled message
-   */
-  <Key extends string>(
-    key: Key | ResourceKeys,
-    list: unknown[]
-  ): TranslateResult
-  /**
-   * Locale message pluralization
-   *
-   * @remarks
-   * Overloaded `tc`. About details, see the [call signature](legacy#key-key-resourcekeys-translateresult-2) details.
-   *
-   * @param key - A target locale message key
-   * @param named - A values of named interpolation
-   *
-   * @returns Pluraled message
-   */
-  <Key extends string>(
-    key: Key | ResourceKeys,
-    named: Record<string, unknown>
-  ): TranslateResult
-  /**
-   * Locale message pluralization
-   *
-   * @remarks
-   * Overloaded `tc`. About details, see the [call signature](legacy#key-key-resourcekeys-translateresult-2) details.
-   *
-   * @param key - A target locale message key
-   * @param choice - Which plural string to get. 1 returns the first one.
-   *
-   * @returns Pluraled message
-   */
-  <Key extends string>(key: Key | ResourceKeys, choice: number): TranslateResult
-  /**
-   * Locale message pluralization
-   *
-   * @remarks
-   * Overloaded `tc`. About details, see the [call signature](legacy#key-key-resourcekeys-translateresult-2) details.
-   *
-   * @param key - A target locale message key
-   * @param choice - Which plural string to get. 1 returns the first one.
-   * @param locale - A locale, it will be used over than global scope or local scope.
-   *
-   * @returns Pluraled message
-   */
-  <Key extends string>(
-    key: Key | ResourceKeys,
-    choice: number,
-    locale: Locales | Locale
-  ): TranslateResult
-  /**
-   * Locale message pluralization
-   *
-   * @remarks
-   * Overloaded `tc`. About details, see the [call signature](legacy#key-key-resourcekeys-translateresult-2) details.
-   *
-   * @param key - A target locale message key
-   * @param choice - Which plural string to get. 1 returns the first one.
-   * @param list - A values of list interpolation
-   *
-   * @returns Pluraled message
-   */
-  <Key extends string>(
-    key: Key | ResourceKeys,
-    choice: number,
-    list: unknown[]
-  ): TranslateResult
-  /**
-   * Locale message pluralization
-   *
-   * @remarks
-   * Overloaded `tc`. About details, see the [call signature](legacy#key-key-resourcekeys-translateresult-2) details.
-   *
-   * @param key - A target locale message key
-   * @param choice - Which plural string to get. 1 returns the first one.
-   * @param named - A values of named interpolation
-   *
-   * @returns Pluraled message
-   */
-  <Key extends string>(
-    key: Key | ResourceKeys,
-    choice: number,
-    named: Record<string, unknown>
-  ): TranslateResult
-}
-
-/**
  * Datetime formatting functions for VueI18n legacy interfaces
  *
  * @remarks
@@ -1243,19 +1079,6 @@ export interface VueI18n<
    * About details functions, See the {@link VueI18nResolveLocaleMessageTranslation}
    */
   rt: VueI18nResolveLocaleMessageTranslation<Locales>
-  /**
-   * Locale message pluralization
-   *
-   * @remarks
-   * About details functions, See the {@link VueI18nTranslationChoice}
-   */
-  tc: VueI18nTranslationChoice<
-    Messages,
-    Locales,
-    RemoveIndexSignature<{
-      [K in keyof DefineLocaleMessage]: DefineLocaleMessage[K]
-    }>
-  >
   /**
    * Translation locale message exist
    *
@@ -1754,48 +1577,6 @@ export function createVueI18n(options: any = {}): any {
     // rt
     rt(...args: unknown[]): TranslateResult {
       return Reflect.apply(composer.rt, composer, [...args])
-    },
-
-    // tc
-    tc(...args: unknown[]): TranslateResult {
-      const [arg1, arg2, arg3] = args
-      const options = { plural: 1 } as TranslateOptions
-      let list: unknown[] | null = null
-      let named: NamedValue | null = null
-
-      if (__DEV__) {
-        warnOnce(getWarnMessage(I18nWarnCodes.DEPRECATE_TC))
-      }
-
-      if (!isString(arg1)) {
-        throw createI18nError(I18nErrorCodes.INVALID_ARGUMENT)
-      }
-      const key = arg1
-
-      if (isString(arg2)) {
-        options.locale = arg2
-      } else if (isNumber(arg2)) {
-        options.plural = arg2
-      } else if (isArray(arg2)) {
-        list = arg2
-      } else if (isPlainObject(arg2)) {
-        named = arg2 as NamedValue
-      }
-
-      if (isString(arg3)) {
-        options.locale = arg3
-      } else if (isArray(arg3)) {
-        list = arg3
-      } else if (isPlainObject(arg3)) {
-        named = arg3 as NamedValue
-      }
-
-      // return composer.t(key, (list || named || {}) as any, options)
-      return Reflect.apply(composer.t, composer, [
-        key,
-        (list || named || {}) as any,
-        options
-      ])
     },
 
     // te

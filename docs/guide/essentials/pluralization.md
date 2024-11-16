@@ -87,7 +87,7 @@ The `apple` has `no apples | one apple | {count} apples` pluralization message, 
 
 The number can be accessed within locale messages via predefined named arguments `{count}` and/or `{n}`. You can overwrite those predefined named arguments if necessary.
 
-The following is an example of using `$tc`:
+The following is an example of using `$t`:
 
 ```html
 <p>{{ $t('apple', 10, { count: 10 }) }}</p>
