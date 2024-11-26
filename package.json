@@ -111,7 +111,7 @@
     "opener": "^1.5.2",
     "pathe": "^1.1.2",
     "picocolors": "^1.0.0",
-    "pkg-pr-new": "^0.0.32",
+    "pkg-pr-new": "^0.0.33",
     "playwright-core": "^1.45.3",
     "prettier": "^3.3.3",
     "rc": "^1.2.8",
