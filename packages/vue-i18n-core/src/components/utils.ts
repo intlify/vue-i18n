@@ -1,3 +1,4 @@
+import { create } from '@intlify/shared'
 import { Fragment } from 'vue'
 
 import type { NamedValue } from '@intlify/core-base'
@@ -27,7 +28,7 @@ export function getInterpolateArg(
         arg[key] = slot()
       }
       return arg
-    }, {} as NamedValue)
+    }, create() as NamedValue)
   }
 }
 

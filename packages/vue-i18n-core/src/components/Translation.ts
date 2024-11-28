@@ -1,12 +1,12 @@
-import { h, defineComponent } from 'vue'
-import { isNumber, isString, isObject, assign } from '@intlify/shared'
-import { TranslateVNodeSymbol } from '../symbols'
+import { assign, create, isNumber, isObject, isString } from '@intlify/shared'
+import { defineComponent, h } from 'vue'
 import { useI18n } from '../i18n'
+import { TranslateVNodeSymbol } from '../symbols'
 import { baseFormatProps } from './base'
-import { getInterpolateArg, getFragmentableTag } from './utils'
+import { getFragmentableTag, getInterpolateArg } from './utils'
 
-import type { VNodeChild, VNodeProps } from 'vue'
 import type { TranslateOptions } from '@intlify/core-base'
+import type { VNodeChild, VNodeProps } from 'vue'
 import type { Composer, ComposerInternal } from '../composer'
 import type { BaseFormatProps } from './base'
 
@@ -59,7 +59,7 @@ export const TranslationImpl = /*#__PURE__*/ defineComponent({
 
     return (): VNodeChild => {
       const keys = Object.keys(slots).filter(key => key !== '_')
-      const options = {} as TranslateOptions
+      const options = create() as TranslateOptions
       if (props.locale) {
         options.locale = props.locale
       }
@@ -73,7 +73,7 @@ export const TranslationImpl = /*#__PURE__*/ defineComponent({
         arg,
         options
       )
-      const assignedAttrs = assign({}, attrs)
+      const assignedAttrs = assign(create(), attrs)
       const tag =
         isString(props.tag) || isObject(props.tag)
           ? props.tag

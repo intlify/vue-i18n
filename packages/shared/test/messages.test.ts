@@ -48,3 +48,34 @@ test('deepCopy merges without mutating src argument', () => {
   // should not mutate source object
   expect(msg1).toStrictEqual(copy1)
 })
+
+describe('CVE-2024-52810', () => {
+  test('__proto__', () => {
+    const source = '{ "__proto__": { "pollutedKey": 123 } }'
+    const dest = {}
+
+    deepCopy(JSON.parse(source), dest)
+    expect(dest).toEqual({})
+    // @ts-ignore -- initialize polluted property
+    expect(JSON.parse(JSON.stringify({}.__proto__))).toEqual({})
+  })
+
+  test('nest __proto__', () => {
+    const source = '{ "foo": { "__proto__": { "pollutedKey": 123 } } }'
+    const dest = {}
+
+    deepCopy(JSON.parse(source), dest)
+    expect(dest).toEqual({ foo: {} })
+    // @ts-ignore -- initialize polluted property
+    expect(JSON.parse(JSON.stringify({}.__proto__))).toEqual({})
+  })
+
+  test('constructor prototype', () => {
+    const source = '{ "constructor": { "prototype": { "polluted": 1 } } }'
+    const dest = {}
+
+    deepCopy(JSON.parse(source), dest)
+    // @ts-ignore -- initialize polluted property
+    expect({}.polluted).toBeUndefined()
+  })
+})
