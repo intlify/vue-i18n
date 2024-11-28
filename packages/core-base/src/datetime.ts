@@ -5,6 +5,7 @@ import {
   isDate,
   isNumber,
   isEmptyObject,
+  create,
   assign
 } from '@intlify/shared'
 import {
@@ -323,8 +324,8 @@ export function parseDateTimeArgs(
   ...args: unknown[]
 ): [string, number | Date, DateTimeOptions, Intl.DateTimeFormatOptions] {
   const [arg1, arg2, arg3, arg4] = args
-  const options = {} as DateTimeOptions
-  let overrides = {} as Intl.DateTimeFormatOptions
+  const options = create() as DateTimeOptions
+  let overrides = create() as Intl.DateTimeFormatOptions
 
   let value: number | Date
   if (isString(arg1)) {

@@ -1,5 +1,6 @@
 import {
   assign,
+  create,
   isNumber,
   isFunction,
   toDisplayString,
@@ -16,10 +17,10 @@ type ExtractToStringKey<T> = Extract<keyof T, 'toString'>
 type ExtractToStringFunction<T> = T[ExtractToStringKey<T>]
 // prettier-ignore
 type StringConvertable<T> = ExtractToStringKey<T> extends never
-	? unknown
-	: ExtractToStringFunction<T> extends (...args: any) => string // eslint-disable-line @typescript-eslint/no-explicit-any
-	  ? T
-	  : unknown
+  ? unknown
+  : ExtractToStringFunction<T> extends (...args: any) => string // eslint-disable-line @typescript-eslint/no-explicit-any
+  ? T
+  : unknown
 
 /** @VueI18nGeneral */
 export type Locale = string
@@ -279,10 +280,10 @@ function pluralDefault(choice: number, choicesLength: number): number {
   if (choicesLength === 2) {
     // prettier-ignore
     return choice
-	    ? choice > 1
-	      ? 1
-	      : 0
-	    : 1
+      ? choice > 1
+        ? 1
+        : 0
+      : 1
   }
   return choice ? Math.min(choice, 2) : 0
 }
@@ -290,16 +291,16 @@ function pluralDefault(choice: number, choicesLength: number): number {
 function getPluralIndex<T, N>(options: MessageContextOptions<T, N>): number {
   // prettier-ignore
   const index = isNumber(options.pluralIndex)
-	  ? options.pluralIndex
-	  : -1
+    ? options.pluralIndex
+    : -1
   // prettier-ignore
   return options.named && (isNumber(options.named.count) || isNumber(options.named.n))
-	  ? isNumber(options.named.count)
-	    ? options.named.count
-	    : isNumber(options.named.n)
-	      ? options.named.n
-	      : index
-	  : index
+    ? isNumber(options.named.count)
+      ? options.named.count
+      : isNumber(options.named.n)
+        ? options.named.n
+        : index
+    : index
 }
 
 function normalizeNamed(pluralIndex: number, props: PluralizationProps): void {
@@ -336,17 +337,17 @@ export function createMessageContext<T = string, N = {}>(
   const list = (index: number): unknown => _list[index]
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const _named = options.named || ({} as any)
+  const _named = options.named || (create() as any)
   isNumber(options.pluralIndex) && normalizeNamed(pluralIndex, _named)
   const named = (key: string): unknown => _named[key]
 
   function message(key: Path): MessageFunction<T> {
     // prettier-ignore
     const msg = isFunction(options.messages)
-	    ? options.messages(key)
-	    : isObject(options.messages)
-	      ? options.messages[key]
-	      : false
+      ? options.messages(key)
+      : isObject(options.messages)
+        ? options.messages[key]
+        : false
     return !msg
       ? options.parent
         ? options.parent.message(key) // resolve from parent messages
@@ -412,7 +413,7 @@ export function createMessageContext<T = string, N = {}>(
     [HelperNameMap.TYPE]: type,
     [HelperNameMap.INTERPOLATE]: interpolate,
     [HelperNameMap.NORMALIZE]: normalize,
-    [HelperNameMap.VALUES]: assign({}, _list, _named)
+    [HelperNameMap.VALUES]: assign(create(), _list, _named)
   }
 
   return ctx

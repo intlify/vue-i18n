@@ -1,4 +1,4 @@
-import { isArray, isObject } from './utils'
+import { isArray, isObject, create } from './utils'
 
 const isNotObjectOrIsArray = (val: unknown) => !isObject(val) || isArray(val)
 // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/explicit-module-boundary-types
@@ -14,10 +14,13 @@ export function deepCopy(src: any, des: any): void {
 
     // using `Object.keys` which skips prototype properties
     Object.keys(src).forEach(key => {
+      if (key === '__proto__') {
+        return
+      }
       // if src[key] is an object/array, set des[key]
       // to empty object/array to prevent setting by reference
       if (isObject(src[key]) && !isObject(des[key])) {
-        des[key] = Array.isArray(src[key]) ? [] : {}
+        des[key] = Array.isArray(src[key]) ? [] : create()
       }
 
       if (isNotObjectOrIsArray(des[key]) || isNotObjectOrIsArray(src[key])) {

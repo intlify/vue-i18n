@@ -4,6 +4,7 @@ import {
   isBoolean,
   isObject,
   isString,
+  create,
   warn
 } from '@intlify/shared'
 import { format as formatMessage, resolveType } from './format'
@@ -35,7 +36,7 @@ function checkHtmlMessage(source: string, warnHtmlMessage?: boolean): void {
 }
 
 const defaultOnCacheKey = (message: string): string => message
-let compileCache: unknown = Object.create(null)
+let compileCache: unknown = create()
 
 function onCompileWarn(_warn: CompileWarn): void {
   if (_warn.code === CompileWarnCodes.USE_MODULO_SYNTAX) {
@@ -49,7 +50,7 @@ function onCompileWarn(_warn: CompileWarn): void {
 }
 
 export function clearCompileCache(): void {
-  compileCache = Object.create(null)
+  compileCache = create()
 }
 
 export function isMessageAST(val: unknown): val is ResourceNode {

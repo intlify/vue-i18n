@@ -4,6 +4,7 @@ import {
   isPlainObject,
   isNumber,
   isEmptyObject,
+  create,
   assign
 } from '@intlify/shared'
 import {
@@ -318,8 +319,8 @@ export function parseNumberArgs(
   ...args: unknown[]
 ): [string, number, NumberOptions, Intl.NumberFormatOptions] {
   const [arg1, arg2, arg3, arg4] = args
-  const options = {} as NumberOptions
-  let overrides = {} as Intl.NumberFormatOptions
+  const options = create() as NumberOptions
+  let overrides = create() as Intl.NumberFormatOptions
 
   if (!isNumber(arg1)) {
     throw createCoreError(CoreErrorCodes.INVALID_ARGUMENT)

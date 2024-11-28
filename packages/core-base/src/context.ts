@@ -9,6 +9,7 @@ import {
   isFunction,
   isPlainObject,
   assign,
+  create,
   isObject,
   warnOnce
 } from '@intlify/shared'
@@ -510,23 +511,23 @@ export function createCoreContext<Message = string>(options: any = {}): any {
       : _locale
   const messages = isPlainObject(options.messages)
     ? options.messages
-    : { [_locale]: {} }
+    : createResources(_locale)
   const datetimeFormats = !__LITE__
     ? isPlainObject(options.datetimeFormats)
       ? options.datetimeFormats
-      : { [_locale]: {} }
-    : /* #__PURE__*/ { [_locale]: {} }
+      : createResources(_locale)
+    : /* #__PURE__*/ createResources(_locale)
   const numberFormats = !__LITE__
     ? isPlainObject(options.numberFormats)
       ? options.numberFormats
-      : { [_locale]: {} }
-    : /* #__PURE__*/ { [_locale]: {} }
+      : createResources(_locale)
+    : /* #__PURE__*/ createResources(_locale)
   const modifiers = assign(
-    {},
-    options.modifiers || {},
+    create(),
+    options.modifiers,
     getDefaultLinkedModifiers<Message>()
   )
-  const pluralRules = options.pluralRules || {}
+  const pluralRules = options.pluralRules || create()
   const missing = isFunction(options.missing) ? options.missing : null
   const missingWarn =
     isBoolean(options.missingWarn) || isRegExp(options.missingWarn)
@@ -630,6 +631,8 @@ export function createCoreContext<Message = string>(options: any = {}): any {
 
   return context
 }
+
+const createResources = (locale: Locale) => ({ [locale]: create() })
 
 /** @internal */
 export function isTranslateFallbackWarn(

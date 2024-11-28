@@ -1,5 +1,5 @@
 import { h, defineComponent } from 'vue'
-import { isNumber, isString, isObject, assign } from '@intlify/shared'
+import { isNumber, isString, isObject, assign, create } from '@intlify/shared'
 import { TranslateVNodeSymbol } from '../symbols'
 import { useI18n } from '../i18n'
 import { baseFormatProps } from './base'
@@ -59,7 +59,7 @@ export const TranslationImpl = /*#__PURE__*/ defineComponent({
 
     return (): VNodeChild => {
       const keys = Object.keys(slots).filter(key => key !== '_')
-      const options = {} as TranslateOptions
+      const options = create() as TranslateOptions
       if (props.locale) {
         options.locale = props.locale
       }
@@ -73,7 +73,7 @@ export const TranslationImpl = /*#__PURE__*/ defineComponent({
         arg,
         options
       )
-      const assignedAttrs = assign({}, attrs)
+      const assignedAttrs = assign(create(), attrs)
       const tag =
         isString(props.tag) || isObject(props.tag)
           ? props.tag
