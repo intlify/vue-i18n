@@ -25,6 +25,7 @@ import {
 import {
   setDevToolsHook,
   compileToFunction,
+  compile,
   registerMessageCompiler,
   resolveValue,
   registerMessageResolver,
@@ -1438,7 +1439,7 @@ test('#1796', async () => {
   ).toEqual('My message with hello world.')
 })
 
-test('#1809', async () => {
+test('#1809', () => {
   const i18n = createI18n({
     locale: 'en',
     messages: {
@@ -1449,4 +1450,76 @@ test('#1809', async () => {
     }
   })
   expect(i18n.global.t('hi')).toEqual('hi kazupon')
+})
+
+describe('CVE-2024-52809', () => {
+  function attackGetter() {
+    return 'polluted'
+  }
+
+  beforeEach(() => {
+    registerMessageCompiler(compile)
+  })
+
+  afterEach(() => {
+    // @ts-ignore -- initialize polluted property
+    delete Object.prototype.static
+  })
+
+  test('success', () => {
+    Object.defineProperty(Object.prototype, 'static', {
+      configurable: true,
+      get: attackGetter
+    })
+    const en = {
+      hello: {
+        type: 0,
+        body: {
+          type: 2,
+          static: 'hello world',
+          items: [
+            {
+              type: 3
+            }
+          ]
+        }
+      }
+    }
+    const i18n = createI18n({
+      legacy: false,
+      locale: 'en',
+      messages: {
+        en
+      }
+    })
+    expect(i18n.global.t('hello')).toEqual('hello world')
+  })
+
+  test('error', () => {
+    Object.defineProperty(Object.prototype, 'static', {
+      configurable: true,
+      get: attackGetter
+    })
+    const en = {
+      hello: {
+        type: 0,
+        body: {
+          type: 2,
+          items: [
+            {
+              type: 3
+            }
+          ]
+        }
+      }
+    }
+    const i18n = createI18n({
+      legacy: false,
+      locale: 'en',
+      messages: {
+        en
+      }
+    })
+    expect(() => i18n.global.t('hello')).toThrow(`unhandled node type: 3`)
+  })
 })

@@ -1,23 +1,21 @@
 import { NodeTypes } from '@intlify/message-compiler'
+import { hasOwn, isNumber } from '@intlify/shared'
 
 import type {
-  Node,
-  TextNode,
-  LiteralNode,
+  LinkedModifierNode,
+  LinkedNode,
   ListNode,
   MessageNode,
   NamedNode,
-  LinkedNode,
-  LinkedKeyNode,
-  LinkedModifierNode,
+  Node,
   PluralNode,
   ResourceNode
 } from '@intlify/message-compiler'
 import type {
   MessageContext,
   MessageFunction,
-  MessageType,
-  MessageFunctionReturn
+  MessageFunctionReturn,
+  MessageType
 } from './runtime'
 
 export function format<Message = string>(
@@ -28,14 +26,18 @@ export function format<Message = string>(
   return msg
 }
 
-function formatParts<Message = string>(
+export function formatParts<Message = string>(
   ctx: MessageContext<Message>,
   ast: ResourceNode
 ): MessageFunctionReturn<Message> {
-  const body = ast.b || ast.body
-  if ((body.t || body.type) === NodeTypes.Plural) {
+  const body = resolveBody(ast)
+  if (body == null) {
+    throw createUnhandleNodeError(NodeTypes.Resource)
+  }
+  const type = resolveType(body)
+  if (type === NodeTypes.Plural) {
     const plural = body as PluralNode
-    const cases = plural.c || plural.cases
+    const cases = resolveCases(plural)
     return ctx.plural(
       cases.reduce(
         (messages, c) =>
@@ -51,17 +53,33 @@ function formatParts<Message = string>(
   }
 }
 
-function formatMessageParts<Message = string>(
+const PROPS_BODY = ['b', 'body']
+
+function resolveBody(node: ResourceNode) {
+  return resolveProps<MessageNode | PluralNode>(node, PROPS_BODY)
+}
+
+const PROPS_CASES = ['c', 'cases']
+
+function resolveCases(node: PluralNode) {
+  return resolveProps<PluralNode['cases'], PluralNode['cases']>(
+    node,
+    PROPS_CASES,
+    []
+  )
+}
+
+export function formatMessageParts<Message = string>(
   ctx: MessageContext<Message>,
   node: MessageNode
 ): MessageFunctionReturn<Message> {
-  const _static = node.s || node.static
-  if (_static) {
+  const static_ = resolveStatic(node)
+  if (static_ != null) {
     return ctx.type === 'text'
-      ? (_static as MessageFunctionReturn<Message>)
-      : ctx.normalize([_static] as MessageType<Message>[])
+      ? (static_ as MessageFunctionReturn<Message>)
+      : ctx.normalize([static_] as MessageType<Message>[])
   } else {
-    const messages = (node.i || node.items).reduce(
+    const messages = resolveItems(node).reduce(
       (acm, c) => [...acm, formatMessagePart(ctx, c)],
       [] as MessageType<Message>[]
     )
@@ -69,46 +87,136 @@ function formatMessageParts<Message = string>(
   }
 }
 
-function formatMessagePart<Message = string>(
+const PROPS_STATIC = ['s', 'static']
+
+function resolveStatic(node: MessageNode) {
+  return resolveProps(node, PROPS_STATIC)
+}
+
+const PROPS_ITEMS = ['i', 'items']
+
+function resolveItems(node: MessageNode) {
+  return resolveProps<MessageNode['items'], MessageNode['items']>(
+    node,
+    PROPS_ITEMS,
+    []
+  )
+}
+
+type NodeValue<Message> = {
+  v?: MessageType<Message>
+  value?: MessageType<Message>
+}
+
+export function formatMessagePart<Message = string>(
   ctx: MessageContext<Message>,
   node: Node
 ): MessageType<Message> {
-  const type = node.t || node.type
+  const type = resolveType(node)
   switch (type) {
     case NodeTypes.Text: {
-      const text = node as TextNode
-      return (text.v || text.value) as MessageType<Message>
+      return resolveValue<Message>(node as NodeValue<Message>, type)
     }
     case NodeTypes.Literal: {
-      const literal = node as LiteralNode
-      return (literal.v || literal.value) as MessageType<Message>
+      return resolveValue<Message>(node as NodeValue<Message>, type)
     }
     case NodeTypes.Named: {
       const named = node as NamedNode
-      return ctx.interpolate(ctx.named(named.k || named.key))
+      if (hasOwn(named, 'k') && named.k) {
+        return ctx.interpolate(ctx.named(named.k))
+      }
+      if (hasOwn(named, 'key') && named.key) {
+        return ctx.interpolate(ctx.named(named.key))
+      }
+      throw createUnhandleNodeError(type)
     }
     case NodeTypes.List: {
       const list = node as ListNode
-      return ctx.interpolate(ctx.list(list.i != null ? list.i : list.index))
+      if (hasOwn(list, 'i') && isNumber(list.i)) {
+        return ctx.interpolate(ctx.list(list.i))
+      }
+      if (hasOwn(list, 'index') && isNumber(list.index)) {
+        return ctx.interpolate(ctx.list(list.index))
+      }
+      throw createUnhandleNodeError(type)
     }
     case NodeTypes.Linked: {
       const linked = node as LinkedNode
-      const modifier = linked.m || linked.modifier
+      const modifier = resolveLinkedModifier(linked)
+      const key = resolveLinkedKey(linked)
       return ctx.linked(
-        formatMessagePart(ctx, linked.k || linked.key) as string,
+        formatMessagePart(ctx, key!) as string,
         modifier ? (formatMessagePart(ctx, modifier) as string) : undefined,
         ctx.type
       )
     }
     case NodeTypes.LinkedKey: {
-      const linkedKey = node as LinkedKeyNode
-      return (linkedKey.v || linkedKey.value) as MessageType<Message>
+      return resolveValue<Message>(node as NodeValue<Message>, type)
     }
     case NodeTypes.LinkedModifier: {
-      const linkedModifier = node as LinkedModifierNode
-      return (linkedModifier.v || linkedModifier.value) as MessageType<Message>
+      return resolveValue<Message>(node as NodeValue<Message>, type)
     }
     default:
-      throw new Error(`unhandled node type on format message part: ${type}`)
+      throw new Error(`unhandled node on format message part: ${type}`)
   }
+}
+
+const PROPS_TYPE = ['t', 'type']
+
+export function resolveType(node: Node) {
+  return resolveProps<NodeTypes>(node, PROPS_TYPE)
+}
+
+const PROPS_VALUE = ['v', 'value']
+
+function resolveValue<Message = string>(
+  node: { v?: MessageType<Message>; value?: MessageType<Message> },
+  type: NodeTypes
+): MessageType<Message> {
+  const resolved = resolveProps<Message>(
+    node as Node,
+    PROPS_VALUE
+  ) as MessageType<Message>
+  if (resolved) {
+    return resolved
+  } else {
+    throw createUnhandleNodeError(type)
+  }
+}
+
+const PROPS_MODIFIER = ['m', 'modifier']
+
+function resolveLinkedModifier(node: LinkedNode) {
+  return resolveProps<LinkedModifierNode>(node, PROPS_MODIFIER)
+}
+
+const PROPS_KEY = ['k', 'key']
+
+function resolveLinkedKey(node: LinkedNode) {
+  const resolved = resolveProps<LinkedNode['key']>(node, PROPS_KEY)
+  if (resolved) {
+    return resolved
+  } else {
+    throw createUnhandleNodeError(NodeTypes.Linked)
+  }
+}
+
+function resolveProps<T = string, Default = undefined>(
+  node: Node,
+  props: string[],
+  defaultValue?: Default
+): T | Default {
+  for (let i = 0; i < props.length; i++) {
+    const prop = props[i]
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    if (hasOwn(node, prop) && (node as any)[prop] != null) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      return (node as any)[prop] as T
+    }
+  }
+  return defaultValue as Default
+}
+
+function createUnhandleNodeError(type: NodeTypes) {
+  return new Error(`unhandled node type: ${type}`)
 }
