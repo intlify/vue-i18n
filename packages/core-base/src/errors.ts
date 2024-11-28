@@ -1,6 +1,6 @@
 import {
-  createCompileError,
-  COMPILE_ERROR_CODES_EXTEND_POINT
+  COMPILE_ERROR_CODES_EXTEND_POINT,
+  createCompileError
 } from '@intlify/message-compiler'
 
 import type { BaseError } from '@intlify/shared'

@@ -3,13 +3,21 @@ import {
   defaultOnError,
   detectHtmlTag
 } from '@intlify/message-compiler'
-import { format, isBoolean, isObject, isString, warn } from '@intlify/shared'
-import { format as formatMessage } from './format'
+import {
+  format,
+  hasOwn,
+  isBoolean,
+  isObject,
+  isString,
+  warn
+} from '@intlify/shared'
+import { format as formatMessage, resolveType } from './format'
 
 import type {
   CompileError,
   CompileOptions,
   CompilerResult,
+  Node,
   ResourceNode
 } from '@intlify/message-compiler'
 import type { MessageCompilerContext } from './context'
@@ -30,10 +38,13 @@ export function clearCompileCache(): void {
   compileCache = Object.create(null)
 }
 
-export const isMessageAST = (val: unknown): val is ResourceNode =>
-  isObject(val) &&
-  (val.t === 0 || val.type === 0) &&
-  ('b' in val || 'body' in val)
+export function isMessageAST(val: unknown): val is ResourceNode {
+  return (
+    isObject(val) &&
+    resolveType(val as Node) === 0 &&
+    (hasOwn(val, 'b') || hasOwn(val, 'body'))
+  )
+}
 
 function baseCompile(
   message: string,

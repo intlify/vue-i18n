@@ -1406,7 +1406,7 @@ test('#1912', async () => {
   expect(el?.innerHTML).include(`No apples found`)
 })
 
-test('#1972', async () => {
+test('#1972', () => {
   const i18n = createI18n({
     legacy: false,
     locale: 'en',
@@ -1417,4 +1417,72 @@ test('#1972', async () => {
     }
   })
   expect(i18n.global.t('test', 0)).toEqual('')
+})
+
+describe('CVE-2024-52809', () => {
+  function attackGetter() {
+    return 'polluted'
+  }
+
+  afterEach(() => {
+    // @ts-ignore -- initialize polluted property
+    delete Object.prototype.static
+  })
+
+  test('success', () => {
+    Object.defineProperty(Object.prototype, 'static', {
+      configurable: true,
+      get: attackGetter
+    })
+    const en = {
+      hello: {
+        type: 0,
+        body: {
+          type: 2,
+          static: 'hello world',
+          items: [
+            {
+              type: 3
+            }
+          ]
+        }
+      }
+    }
+    const i18n = createI18n({
+      legacy: false,
+      locale: 'en',
+      messages: {
+        en
+      }
+    })
+    expect(i18n.global.t('hello')).toEqual('hello world')
+  })
+
+  test('error', () => {
+    Object.defineProperty(Object.prototype, 'static', {
+      configurable: true,
+      get: attackGetter
+    })
+    const en = {
+      hello: {
+        type: 0,
+        body: {
+          type: 2,
+          items: [
+            {
+              type: 3
+            }
+          ]
+        }
+      }
+    }
+    const i18n = createI18n({
+      legacy: false,
+      locale: 'en',
+      messages: {
+        en
+      }
+    })
+    expect(() => i18n.global.t('hello')).toThrow(`unhandled node type: 3`)
+  })
 })
