@@ -90,12 +90,12 @@ The number can be accessed within locale messages via predefined named arguments
 The following is an example of using `$t`:
 
 ```html
-<p>{{ $t('apple', 10, { count: 10 }) }}</p>
+<p>{{ $t('apple', 10, { named: { count: 10 } }) }}</p>
 <p>{{ $t('apple', 10) }}</p>
 
-<p>{{ $t('banana', 1, { n: 1 }) }}</p>
+<p>{{ $t('banana', 1, { named: { n: 1 } }) }}</p>
 <p>{{ $t('banana', 1) }}</p>
-<p>{{ $t('banana', 100, { n: 'too many' }) }}</p>
+<p>{{ $t('banana', 100, { named: { n: 'too many' } }) }}</p>
 ```
 
 In the above some examples, the first argument is the locale messages key and the second argument is the numeric value or object.
