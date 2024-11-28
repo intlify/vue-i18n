@@ -139,8 +139,8 @@ importers:
         specifier: ^1.0.0
         version: 1.0.0
       pkg-pr-new:
-        specifier: ^0.0.33
-        version: 0.0.33
+        specifier: ^0.0.35
+        version: 0.0.35
       playwright-core:
         specifier: ^1.45.3
         version: 1.45.3
@@ -5810,8 +5810,8 @@ packages:
     resolution: {integrity: sha512-HRDzbaKjC+AOWVXxAU/x54COGeIv9eb+6CkDSQoNTt4XyWoIJvuPsXizxu/Fr23EiekbtZwmh1IcIG/l/a10GQ==}
     engines: {node: '>=8'}
 
-  pkg-pr-new@0.0.33:
-    resolution: {integrity: sha512-jdjMKKQNzhbBZATiZwK5YtA8aaWW6dX1AVhVxScqitSJPgHTr9Y5Izn2d7HQpe1iLek8OvEego39xbcE5FrWYg==}
+  pkg-pr-new@0.0.35:
+    resolution: {integrity: sha512-ljR1Axx1Vb4uY8NZ+QItj1PpuBtLDJcgEbWsdscDdif1I3YJUpfSRWmdULPkTbNxhfbG8TnPmheAZSmqh2QzcQ==}
     hasBin: true
 
   pkg-types@1.0.3:
@@ -9662,8 +9662,8 @@ snapshots:
     dependencies:
       '@volar/language-core': 1.11.1
       '@volar/source-map': 1.11.1
-      '@vue/compiler-dom': 3.5.12
-      '@vue/shared': 3.5.12
+      '@vue/compiler-dom': 3.4.19
+      '@vue/shared': 3.4.19
       computeds: 0.0.1
       minimatch: 9.0.3
       muggle-string: 0.3.1
@@ -13616,7 +13616,7 @@ snapshots:
     dependencies:
       find-up: 4.1.0
 
-  pkg-pr-new@0.0.33:
+  pkg-pr-new@0.0.35:
     dependencies:
       '@jsdevtools/ez-spawn': 3.0.4
       '@octokit/action': 6.1.0
