@@ -1,10 +1,8 @@
-import { getText } from '../helper'
+import { getText, url } from '../helper'
 ;['composition', 'petite', 'legacy'].forEach(pattern => {
   describe(`${pattern}`, () => {
     beforeAll(async () => {
-      await page.goto(
-        `http://localhost:8080/examples/${pattern}/scope/inherit-locale.html`
-      )
+      await page.goto(url(`/examples/${pattern}/scope/inherit-locale.html`))
     })
 
     test('initial rendering', async () => {

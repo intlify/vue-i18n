@@ -1,4 +1,5 @@
 import { JSDOM } from 'jsdom'
+import { useTestContext } from '../scripts/test-utils'
 
 import type { Page } from 'playwright-core'
 
@@ -72,4 +73,18 @@ export function assertLocaleHeadWithDom(dom: Document, headSelector: string) {
       }
     }
   }
+}
+
+export function url(path: string) {
+  const ctx = useTestContext()
+
+  if (!ctx.url) {
+    throw new Error('url is not available (is server option enabled?)')
+  }
+
+  if (path.startsWith(ctx.url)) {
+    return path
+  }
+
+  return ctx.url + path
 }
