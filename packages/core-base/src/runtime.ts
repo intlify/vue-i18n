@@ -1,6 +1,7 @@
 import { HelperNameMap } from '@intlify/message-compiler'
 import {
   assign,
+  create,
   isArray,
   isFunction,
   isNumber,
@@ -360,7 +361,7 @@ export function createMessageContext<T = string, N = {}>(
   const list = (index: number): unknown => _list[index]
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const _named = options.named || ({} as any)
+  const _named = options.named || (create() as any)
 
   isNumber(options.pluralIndex) && normalizeNamed(pluralIndex, _named)
   const named = (key: string): unknown => _named[key]
@@ -437,7 +438,7 @@ export function createMessageContext<T = string, N = {}>(
     [HelperNameMap.TYPE]: type,
     [HelperNameMap.INTERPOLATE]: interpolate,
     [HelperNameMap.NORMALIZE]: normalize,
-    [HelperNameMap.VALUES]: assign({}, _list, _named)
+    [HelperNameMap.VALUES]: assign(create(), _list, _named)
   }
 
   return ctx

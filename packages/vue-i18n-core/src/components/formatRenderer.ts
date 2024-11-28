@@ -1,15 +1,15 @@
+import { assign, create, isArray, isObject, isString } from '@intlify/shared'
 import { h } from 'vue'
 import { getFragmentableTag } from './utils'
-import { isString, isObject, isArray, assign } from '@intlify/shared'
 
+import type { DateTimeOptions, NumberOptions } from '@intlify/core-base'
 import type {
   RenderFunction,
   SetupContext,
   VNode,
-  VNodeChild,
-  VNodeArrayChildren
+  VNodeArrayChildren,
+  VNodeChild
 } from 'vue'
-import type { NumberOptions, DateTimeOptions } from '@intlify/core-base'
 import type { BaseFormatProps } from './base'
 
 /**
@@ -61,7 +61,7 @@ export function renderFormatter<
 
   return (): VNodeChild => {
     const options = { part: true } as Arg
-    let overrides = {} as FormatOverrideOptions
+    let overrides = create() as FormatOverrideOptions
 
     if (props.locale) {
       options.locale = props.locale
@@ -78,9 +78,9 @@ export function renderFormatter<
       // Filter out number format options only
       overrides = Object.keys(props.format).reduce((options, prop) => {
         return slotKeys.includes(prop)
-          ? assign({}, options, { [prop]: (props.format as any)[prop] }) // eslint-disable-line @typescript-eslint/no-explicit-any
+          ? assign(create(), options, { [prop]: (props.format as any)[prop] }) // eslint-disable-line @typescript-eslint/no-explicit-any
           : options
-      }, {})
+      }, create())
     }
 
     const parts = partFormatter(...[props.value, options, overrides])
@@ -100,7 +100,7 @@ export function renderFormatter<
       children = [parts]
     }
 
-    const assignedAttrs = assign({}, attrs)
+    const assignedAttrs = assign(create(), attrs)
     const tag =
       isString(props.tag) || isObject(props.tag)
         ? props.tag

@@ -1,5 +1,6 @@
 import {
   assign,
+  create,
   escapeHtml,
   generateCodeFrame,
   generateFormatCacheKey,
@@ -677,7 +678,7 @@ export function translate<
     : [
         key,
         locale,
-        (messages as unknown as LocaleMessages<Message>)[locale] || {}
+        (messages as unknown as LocaleMessages<Message>)[locale] || create()
       ]
   // NOTE:
   //  Fix to work around `ssrTransfrom` bug in Vite.
@@ -830,7 +831,7 @@ function resolveMessageFormat<Messages, Message>(
   } = context
   const locales = localeFallbacker(context as any, fallbackLocale, locale) // eslint-disable-line @typescript-eslint/no-explicit-any
 
-  let message: LocaleMessageValue<Message> = {}
+  let message: LocaleMessageValue<Message> = create()
   let targetLocale: Locale | undefined
   let format: PathValue = null
   let from: Locale = locale
@@ -869,7 +870,7 @@ function resolveMessageFormat<Messages, Message>(
     }
 
     message =
-      (messages as unknown as LocaleMessages<Message>)[targetLocale] || {}
+      (messages as unknown as LocaleMessages<Message>)[targetLocale] || create()
 
     // for vue-devtools timeline event
     let start: number | null = null
@@ -1044,7 +1045,7 @@ export function parseTranslateArgs<Message = string>(
   ...args: unknown[]
 ): [Path | MessageFunction<Message> | ResourceNode, TranslateOptions] {
   const [arg1, arg2, arg3] = args
-  const options = {} as TranslateOptions
+  const options = create() as TranslateOptions
 
   if (
     !isString(arg1) &&

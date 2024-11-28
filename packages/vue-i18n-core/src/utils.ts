@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import {
+  create,
   deepCopy,
   hasOwn,
   isArray,
@@ -69,7 +70,7 @@ export function handleFlatJson(obj: unknown): unknown {
       let hasStringValue = false
       for (let i = 0; i < lastIndex; i++) {
         if (!(subKeys[i] in currentObj)) {
-          currentObj[subKeys[i]] = {}
+          currentObj[subKeys[i]] = create()
         }
         if (!isObject(currentObj[subKeys[i]])) {
           __DEV__ &&
@@ -108,8 +109,8 @@ export function getLocaleMessages<Messages = {}>(
   const ret = (isPlainObject(messages)
     ? messages
     : isArray(__i18n)
-      ? {}
-      : { [locale]: {} }) as Record<string, any>
+      ? create()
+      : { [locale]: create() }) as Record<string, any>
 
   // merge locale messages of i18n custom block
   if (isArray(__i18n)) {
@@ -117,7 +118,7 @@ export function getLocaleMessages<Messages = {}>(
       if ('locale' in custom && 'resource' in custom) {
         const { locale, resource } = custom
         if (locale) {
-          ret[locale] = ret[locale] || {}
+          ret[locale] = ret[locale] || create()
           deepCopy(resource, ret[locale])
         } else {
           deepCopy(resource, ret)
@@ -149,7 +150,10 @@ export function adjustI18nResources(
   options: ComposerOptions,
   componentOptions: any
 ): void {
-  let messages = isObject(options.messages) ? options.messages : {}
+  // prettier-ignore
+  let messages = isObject(options.messages)
+    ? options.messages
+    : create() as NonNullable<ComposerOptions['messages']>
   if ('__i18nGlobal' in componentOptions) {
     messages = getLocaleMessages(gl.locale.value as Locale, {
       messages,

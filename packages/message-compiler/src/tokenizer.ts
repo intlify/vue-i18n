@@ -1,10 +1,10 @@
-import { createScanner, CHAR_SP as SPACE, CHAR_LF as NEW_LINE } from './scanner'
+import { CompileErrorCodes, createCompileError } from './errors'
 import { createLocation, createPosition } from './location'
-import { createCompileError, CompileErrorCodes } from './errors'
+import { createScanner, CHAR_LF as NEW_LINE, CHAR_SP as SPACE } from './scanner'
 
-import type { Scanner } from './scanner'
-import type { SourceLocation, Position } from './location'
+import type { Position, SourceLocation } from './location'
 import type { TokenizeOptions } from './options'
+import type { Scanner } from './scanner'
 
 export const enum TokenTypes {
   Text, // 0
