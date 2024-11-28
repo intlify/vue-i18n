@@ -1,4 +1,4 @@
-import { getText } from '../helper'
+import { getText, url } from '../helper'
 ;['composition', 'petite'].forEach(pattern => {
   describe(`${pattern}`, () => {
     const warnings: string[] = []
@@ -8,9 +8,7 @@ import { getText } from '../helper'
           warnings.push(msg.text())
         }
       })
-      await page.goto(
-        `http://localhost:8080/examples/${pattern}/fallback/default-format.html`
-      )
+      await page.goto(url(`/examples/${pattern}/fallback/default-format.html`))
     })
 
     test('warning', () => {

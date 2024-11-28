@@ -1,13 +1,14 @@
-import { getText } from '../helper'
+import { getText, url } from '../helper'
 ;['composition', 'legacy'].forEach(pattern => {
   describe(`${pattern}`, () => {
     beforeAll(async () => {
       await page.goto(
-        `http://localhost:8080/examples/${pattern}/components/datetime-format.html`
+        url(`/examples/${pattern}/components/datetime-format.html`)
       )
     })
 
     test('rendering', async () => {
+      console.log(new Date())
       expect(await getText(page, '#app p.p1')).toMatch(
         /([1-9]|1[0-2])\/([1-9]|[12]\d|3[01])\/([12]\d{3})/
       )

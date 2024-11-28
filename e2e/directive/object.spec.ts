@@ -1,10 +1,8 @@
-import { getText } from '../helper'
+import { getText, url } from '../helper'
 ;['composition', 'legacy'].forEach(pattern => {
   describe(`${pattern}`, () => {
     beforeAll(async () => {
-      await page.goto(
-        `http://localhost:8080/examples/${pattern}/directive/object.html`
-      )
+      await page.goto(url(`/examples/${pattern}/directive/object.html`))
     })
 
     test('rendering', async () => {
