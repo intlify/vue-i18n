@@ -81,6 +81,9 @@ export const isEmptyObject = (val: unknown): val is boolean =>
 
 export const assign = Object.assign
 
+const _create = Object.create
+export const create = (obj: object | null = null): object => _create(obj)
+
 let _globalThis: any
 export const getGlobalThis = (): any => {
   // prettier-ignore
@@ -95,7 +98,7 @@ export const getGlobalThis = (): any => {
             ? window
             : typeof global !== 'undefined'
               ? global
-              : {})
+              : create())
   )
 }
 

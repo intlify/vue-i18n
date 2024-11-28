@@ -4,6 +4,7 @@ import {
   detectHtmlTag
 } from '@intlify/message-compiler'
 import {
+  create,
   format,
   hasOwn,
   isBoolean,
@@ -32,10 +33,10 @@ function checkHtmlMessage(source: string, warnHtmlMessage?: boolean): void {
 }
 
 const defaultOnCacheKey = (message: string): string => message
-let compileCache: unknown = Object.create(null)
+let compileCache: unknown = create()
 
 export function clearCompileCache(): void {
-  compileCache = Object.create(null)
+  compileCache = create()
 }
 
 export function isMessageAST(val: unknown): val is ResourceNode {

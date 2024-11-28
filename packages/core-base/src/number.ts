@@ -1,31 +1,32 @@
 import {
-  isString,
+  assign,
+  create,
   isBoolean,
-  isPlainObject,
-  isNumber,
   isEmptyObject,
-  assign
+  isNumber,
+  isPlainObject,
+  isString
 } from '@intlify/shared'
 import {
   handleMissing,
   isTranslateFallbackWarn,
-  NOT_REOSLVED,
-  MISSING_RESOLVE_VALUE
+  MISSING_RESOLVE_VALUE,
+  NOT_REOSLVED
 } from './context'
-import { CoreWarnCodes, getWarnMessage } from './warnings'
 import { CoreErrorCodes, createCoreError } from './errors'
-import { Availabilities } from './intl'
 import { getLocale } from './fallbacker'
+import { Availabilities } from './intl'
+import { CoreWarnCodes, getWarnMessage } from './warnings'
 
-import type { Locale, FallbackLocale } from './runtime'
+import type { CoreContext, CoreInternalContext } from './context'
+import type { LocaleOptions } from './fallbacker'
+import type { FallbackLocale, Locale } from './runtime'
 import type {
   NumberFormat,
-  NumberFormats as NumberFormatsType,
   NumberFormatOptions,
+  NumberFormats as NumberFormatsType,
   PickupFormatKeys
 } from './types'
-import type { LocaleOptions } from './fallbacker'
-import type { CoreContext, CoreInternalContext } from './context'
 
 /**
  *  # number
@@ -317,8 +318,8 @@ export function parseNumberArgs(
   ...args: unknown[]
 ): [string, number, NumberOptions, Intl.NumberFormatOptions] {
   const [arg1, arg2, arg3, arg4] = args
-  const options = {} as NumberOptions
-  let overrides = {} as Intl.NumberFormatOptions
+  const options = create() as NumberOptions
+  let overrides = create() as Intl.NumberFormatOptions
 
   if (!isNumber(arg1)) {
     throw createCoreError(CoreErrorCodes.INVALID_ARGUMENT)

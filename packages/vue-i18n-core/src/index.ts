@@ -1,120 +1,120 @@
-import { getGlobalThis } from '@intlify/shared'
 import { setDevToolsHook } from '@intlify/core-base'
+import { getGlobalThis } from '@intlify/shared'
 import { initDev, initFeatureFlags } from './misc'
 
 export {
-  SchemaParams,
-  LocaleParams,
-  Path,
-  PathValue,
-  NamedValue,
-  Locale,
+  CompileError,
+  DateTimeOptions,
   FallbackLocale,
-  LocaleMessageValue,
-  LocaleMessageDictionary,
-  LocaleMessageType,
-  LocaleMessages,
-  LocaleMessage,
-  NumberFormat as IntlNumberFormat,
   DateTimeFormat as IntlDateTimeFormat,
   DateTimeFormats as IntlDateTimeFormats,
-  NumberFormats as IntlNumberFormats,
-  LocaleMatcher as IntlLocaleMatcher,
   FormatMatcher as IntlFormatMatcher,
-  MessageFunction,
-  MessageFunctions,
-  PluralizationRule,
+  LocaleMatcher as IntlLocaleMatcher,
+  NumberFormat as IntlNumberFormat,
+  NumberFormats as IntlNumberFormats,
   LinkedModifiers,
-  TranslateOptions,
-  DateTimeOptions,
-  NumberOptions,
-  PostTranslationHandler,
-  MessageResolver,
+  Locale,
+  LocaleMessage,
+  LocaleMessageDictionary,
+  LocaleMessages,
+  LocaleMessageType,
+  LocaleMessageValue,
+  LocaleParams,
   MessageCompiler,
   MessageCompilerContext,
-  CompileError,
   MessageContext,
-  RemovedIndexResources
+  MessageFunction,
+  MessageFunctions,
+  MessageResolver,
+  NamedValue,
+  NumberOptions,
+  Path,
+  PathValue,
+  PluralizationRule,
+  PostTranslationHandler,
+  RemovedIndexResources,
+  SchemaParams,
+  TranslateOptions
 } from '@intlify/core-base'
 export {
-  VueMessageType,
-  DefineLocaleMessage,
-  DefaultLocaleMessageSchema,
-  DefineDateTimeFormat,
-  DefaultDateTimeFormatSchema,
-  DefineNumberFormat,
-  DefaultNumberFormatSchema,
-  MissingHandler,
-  ComposerOptions,
-  Composer,
-  ComposerCustom,
-  CustomBlock,
-  CustomBlocks,
-  ComposerTranslation,
-  ComposerDateTimeFormatting,
-  ComposerNumberFormatting,
-  ComposerResolveLocaleMessageTranslation
-} from './composer'
-export {
-  TranslateResult,
-  Choice,
-  LocaleMessageObject,
-  PluralizationRulesMap,
-  WarnHtmlInMessageLevel,
-  DateTimeFormatResult,
-  NumberFormatResult,
-  VueI18nOptions,
-  VueI18n,
-  VueI18nTranslation,
-  VueI18nTranslationChoice,
-  VueI18nDateTimeFormatting,
-  VueI18nNumberFormatting,
-  VueI18nResolveLocaleMessageTranslation,
-  VueI18nExtender
-} from './legacy'
-export {
-  createI18n,
-  useI18n,
-  I18nInjectionKey,
-  I18nOptions,
-  I18nAdditionalOptions,
-  I18n,
-  I18nMode,
-  I18nScope,
-  ComposerAdditionalOptions,
-  UseI18nOptions,
-  ExportedGlobalComposer,
-  ComposerExtender
-} from './i18n'
-export {
-  Translation,
-  I18nT,
-  NumberFormat,
-  I18nN,
+  BaseFormatProps,
+  ComponentI18nScope,
   DatetimeFormat,
-  I18nD,
-  TranslationProps,
-  NumberFormatProps,
   DatetimeFormatProps,
   FormattableProps,
-  BaseFormatProps,
-  ComponentI18nScope
+  I18nD,
+  I18nN,
+  I18nT,
+  NumberFormat,
+  NumberFormatProps,
+  Translation,
+  TranslationProps
 } from './components'
 export {
+  Composer,
+  ComposerCustom,
+  ComposerDateTimeFormatting,
+  ComposerNumberFormatting,
+  ComposerOptions,
+  ComposerResolveLocaleMessageTranslation,
+  ComposerTranslation,
+  CustomBlock,
+  CustomBlocks,
+  DefaultDateTimeFormatSchema,
+  DefaultLocaleMessageSchema,
+  DefaultNumberFormatSchema,
+  DefineDateTimeFormat,
+  DefineLocaleMessage,
+  DefineNumberFormat,
+  MissingHandler,
+  VueMessageType
+} from './composer'
+export {
+  TranslationDirective,
   vTDirective,
-  VTDirectiveValue,
-  TranslationDirective
+  VTDirectiveValue
 } from './directive'
-export { I18nPluginOptions } from './plugin'
+export {
+  ComposerAdditionalOptions,
+  ComposerExtender,
+  createI18n,
+  ExportedGlobalComposer,
+  I18n,
+  I18nAdditionalOptions,
+  I18nInjectionKey,
+  I18nMode,
+  I18nOptions,
+  I18nScope,
+  useI18n,
+  UseI18nOptions
+} from './i18n'
+export {
+  Choice,
+  DateTimeFormatResult,
+  LocaleMessageObject,
+  NumberFormatResult,
+  PluralizationRulesMap,
+  TranslateResult,
+  VueI18n,
+  VueI18nDateTimeFormatting,
+  VueI18nExtender,
+  VueI18nNumberFormatting,
+  VueI18nOptions,
+  VueI18nResolveLocaleMessageTranslation,
+  VueI18nTranslation,
+  VueI18nTranslationChoice,
+  WarnHtmlInMessageLevel
+} from './legacy'
 export { VERSION } from './misc'
+export { I18nPluginOptions } from './plugin'
 export { Disposer } from './types'
 
 export type {
-  IsNever,
   IsEmptyObject,
-  PickupPaths,
+  IsNever,
+  PickupFormatPathKeys,
   PickupKeys,
-  PickupFormatPathKeys
+  PickupPaths
 } from '@intlify/core-base'
 
 if (__ESM_BUNDLER__ && !__TEST__) {

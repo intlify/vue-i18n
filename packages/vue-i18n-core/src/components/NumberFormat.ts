@@ -1,16 +1,16 @@
-import { defineComponent } from 'vue'
-import { assign } from '@intlify/shared'
 import { NUMBER_FORMAT_OPTIONS_KEYS } from '@intlify/core-base'
+import { assign } from '@intlify/shared'
+import { defineComponent } from 'vue'
 import { useI18n } from '../i18n'
 import { NumberPartsSymbol } from '../symbols'
-import { renderFormatter } from './formatRenderer'
 import { baseFormatProps } from './base'
+import { renderFormatter } from './formatRenderer'
 
-import type { VNodeProps } from 'vue'
 import type { NumberOptions } from '@intlify/core-base'
+import type { VNodeProps } from 'vue'
 import type { Composer, ComposerInternal } from '../composer'
-import type { FormattableProps } from './formatRenderer'
 import type { BaseFormatProps } from './base'
+import type { FormattableProps } from './formatRenderer'
 
 /**
  * NumberFormat Component Props

@@ -1,5 +1,5 @@
-import { format } from '@intlify/shared'
 import { CORE_WARN_CODES_EXTEND_POINT } from '@intlify/core-base'
+import { format } from '@intlify/shared'
 
 export const I18nWarnCodes = {
   FALLBACK_TO_ROOT: CORE_WARN_CODES_EXTEND_POINT, // 8
