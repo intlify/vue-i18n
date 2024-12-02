@@ -281,7 +281,7 @@ export interface MessageContext<T = string> {
    * @example
    * vue-i18n `$t` (or `t`) case:
    * ```html
-   * <p>{{ $t('greeting', { name: 'DIO' }) }}</p> <!-- `{ name: 'DIO' }` is message vlaues -->
+   * <p>{{ $t('greeting', { name: 'DIO' }) }}</p> <!-- `{ name: 'DIO' }` is message values -->
    * ```
    *
    * `@intlify/core` (`@intlify/core-base`) `translate` case:
