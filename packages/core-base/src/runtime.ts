@@ -276,7 +276,7 @@ export interface MessageContext<T = string> {
    * The message values.
    *
    * @remarks
-   * The message values are the argument values passed from translation fucntion, such as `$t`, `t`, or `translate`.
+   * The message values are the argument values passed from translation function, such as `$t`, `t`, or `translate`.
    *
    * @example
    * vue-i18n `$t` (or `t`) case:
