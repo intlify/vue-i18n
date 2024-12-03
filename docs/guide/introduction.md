@@ -38,6 +38,10 @@ const members = [
 # What is Vue I18n?
 
 :::tip NOTE
+If you would like to know more about the maintenance status of each version of Vue I18n, please see [here](./extra/maintenance).
+:::
+
+:::tip NOTE
 Already know Vue I18n v8.x and just want to learn about what’s new in Vue I18n v9? Check out the [Migration Guide](./migration/breaking)!
 :::
 
