@@ -70,7 +70,7 @@ function nav() {
       link: '/guide/extra/roadmap'
     },
     {
-      text: 'v9.x',
+      text: 'Version',
       items: [{ text: 'v8.x', link: 'https://kazupon.github.io/vue-i18n/' }]
     },
     {
