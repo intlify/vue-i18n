@@ -8,3 +8,6 @@ The following is the maintenance status for each version:
 
 > [!IMPORTANT]
 The lifecycle of Vue I18n v10 has not yet been decided. It will be decided after the release of Vue I18n v11.
+
+> [!NOTE]
+The lifecycle period after v10 may change depending on the frequency of major releases.
