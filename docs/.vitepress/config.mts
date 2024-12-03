@@ -66,10 +66,6 @@ function nav() {
       link: '/ecosystem/official'
     },
     {
-      text: 'Roadmap',
-      link: '/guide/extra/roadmap'
-    },
-    {
       text: 'Version',
       items: [{ text: 'v8.x', link: 'https://kazupon.github.io/vue-i18n/' }]
     },
@@ -235,10 +231,6 @@ function sidebarGuide() {
         {
           text: 'Documentation for v8.x',
           link: '/guide/extra/v8-docs'
-        },
-        {
-          text: 'Roadmap',
-          link: '/guide/extra/roadmap'
         }
       ]
     }
