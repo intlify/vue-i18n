@@ -159,7 +159,6 @@ The examples are offered in the following two API styles:
 | ------- | --- |
 | [vue-i18n](packages/vue-i18n) | [![vue-i18n](https://img.shields.io/npm/v/vue-i18n.svg)](https://www.npmjs.com/package/vue-i18n) |
 | [petite-vue-i18n](packages/petite-vue-i18n) | [![petite-vue-i18n](https://img.shields.io/npm/v/petite-vue-i18n.svg)](https://www.npmjs.com/package/petite-vue-i18n) |
-| [vue-i18n-bridge](packages/vue-i18n-bridge) | [![vue-i18n-bridge](https://img.shields.io/npm/v/vue-i18n-bridge.svg)](https://www.npmjs.com/package/vue-i18n-bridge) |
 | [@intlify/core](packages/core) | [![@intlify/core](https://img.shields.io/npm/v/@intlify/core.svg)](https://www.npmjs.com/package/@intlify/core) |
 | [@intlify/core-base](packages/core-base) | [![@intlify/core-base](https://img.shields.io/npm/v/@intlify/core-base.svg)](https://www.npmjs.com/package/@intlify/core-base) |
 | [@intlify/message-compiler](packages/message-compiler) | [![@intlify/message-compiler](https://img.shields.io/npm/v/@intlify/message-compiler.svg)](https://www.npmjs.com/package/@intlify/message-compiler) |
@@ -173,7 +172,6 @@ The examples are offered in the following two API styles:
 | ESLint Plugin | [![@intlify/eslint-plugin-vue-i18n](https://img.shields.io/npm/v/@intlify/eslint-plugin-vue-i18n.svg)](https://www.npmjs.com/package/@intlify/eslint-plugin-vue-i18n) | [intlify/eslint-plugin-vue-i18n](https://github.com/intlify/eslint-plugin-vue-i18n)
 | CLI | [![intlify/cli](https://img.shields.io/npm/v/@intlify/cli.svg)](https://www.npmjs.com/package/@intlify/cli) | [intlify/cli](https://github.com/intlify/cli)
 | Unplugin (Vite) plugin | [![@intlify/unplugin-vue-i18n](https://img.shields.io/npm/v/@intlify/unplugin-vue-i18n.svg)](https://www.npmjs.com/package/@intlify/unplugin-vue-i18n) | [intlify/unplugin-vue-i18n](https://github.com/intlify/bundle-tools/tree/main/packages/unplugin-vue-i18n)
-| Vue Jest Plugin | [![vue-i18n-jest](https://img.shields.io/npm/v/vue-i18n-jest.svg)](https://www.npmjs.com/package/vue-i18n-jest) | [intlify/vue-i18n-jest](https://github.com/intlify/vue-i18n-jest)
 | Vue I18n Locale Message Tools | [![vue-i18n-locale-message](https://img.shields.io/npm/v/vue-i18n-locale-message.svg)](https://www.npmjs.com/package/vue-i18n-locale-message) | [intlify/vue-i18n-locale-message](https://github.com/intlify/vue-i18n-locale-message)
 
 ## 💪 Contribution
