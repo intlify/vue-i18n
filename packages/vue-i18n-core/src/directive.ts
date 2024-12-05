@@ -1,17 +1,24 @@
+import {
+  inBrowser,
+  isNumber,
+  isPlainObject,
+  isString,
+  warnOnce
+} from '@intlify/shared'
 import { watch } from 'vue'
 import { createI18nError, I18nErrorCodes } from './errors'
-import { isString, isPlainObject, isNumber, inBrowser } from '@intlify/shared'
+import { getWarnMessage, I18nWarnCodes } from './warnings'
 
+import type { Locale, NamedValue, TranslateOptions } from '@intlify/core-base'
 import type {
+  ComponentInternalInstance,
   DirectiveBinding,
   ObjectDirective,
-  WatchStopHandle,
-  ComponentInternalInstance
+  WatchStopHandle
 } from 'vue'
+import type { Composer } from './composer'
 import type { I18n, I18nInternal } from './i18n'
 import type { VueI18nInternal } from './legacy'
-import type { Composer } from './composer'
-import type { Locale, TranslateOptions, NamedValue } from '@intlify/core-base'
 
 export type VTDirectiveValue = {
   path: string
@@ -80,7 +87,16 @@ function getComposer(
  */
 export type TranslationDirective<T = HTMLElement> = ObjectDirective<T>
 
+/**
+ * @deprecated will be removed at vue-i18n v12
+ */
 export function vTDirective(i18n: I18n): TranslationDirective<HTMLElement> {
+  if (__DEV__) {
+    warnOnce(
+      getWarnMessage(I18nWarnCodes.DEPRECATE_TRANSLATE_CUSTOME_DIRECTIVE)
+    )
+  }
+
   const _process = (binding: DirectiveBinding): [string, Composer] => {
     const { instance, value } = binding
     /* istanbul ignore if */
