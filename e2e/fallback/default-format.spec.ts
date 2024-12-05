@@ -5,7 +5,13 @@ import { getText, url } from '../helper'
     beforeAll(async () => {
       page.on('console', msg => {
         if (msg.type() === 'warning') {
-          warnings.push(msg.text())
+          const text = msg.text()
+          if (
+            !text.match(/^\[intlify\] Legacy API mode has been/) &&
+            !text.match(/^\[intlify\] 'v-t' has been deprecated in v11/)
+          ) {
+            warnings.push(msg.text())
+          }
         }
       })
       await page.goto(url(`/examples/${pattern}/fallback/default-format.html`))
