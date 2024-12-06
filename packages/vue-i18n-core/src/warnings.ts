@@ -8,7 +8,11 @@ export const I18nWarnCodes = {
   /**
    * @deprecated will be removed at vue-i18n v12
    */
-  DEPRECATE_LEGACY_MODE: 11
+  DEPRECATE_LEGACY_MODE: 11,
+  /**
+   * @deprecated will be removed at vue-i18n v12
+   */
+  DEPRECATE_TRANSLATE_CUSTOME_DIRECTIVE: 12
 } as const
 
 type I18nWarnCodes = (typeof I18nWarnCodes)[keyof typeof I18nWarnCodes]
@@ -20,7 +24,11 @@ export const warnMessages: { [code: number]: string } = {
   /**
    * @deprecated will be removed at vue-i18n v12
    */
-  [I18nWarnCodes.DEPRECATE_LEGACY_MODE]: `Legacy API mode has been deprecated in v11. Use Composition API mode instead.\nAbout how to use the Composition API mode, see https://vue-i18n.intlify.dev/guide/advanced/composition.html`
+  [I18nWarnCodes.DEPRECATE_LEGACY_MODE]: `Legacy API mode has been deprecated in v11. Use Composition API mode instead.\nAbout how to use the Composition API mode, see https://vue-i18n.intlify.dev/guide/advanced/composition.html`,
+  /**
+   * @deprecated will be removed at vue-i18n v12
+   */
+  [I18nWarnCodes.DEPRECATE_TRANSLATE_CUSTOME_DIRECTIVE]: `'v-t' has been deprecated in v11. Use translate APIs ('t' or '$t') instead.`
 }
 
 export function getWarnMessage(

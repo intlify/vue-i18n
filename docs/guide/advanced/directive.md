@@ -1,5 +1,9 @@
 # Custom Directive
 
+:::danger NOTE
+`v-t` will be deprecated at v11, and will be dropped at v12. This section is for those who are still using v10.
+:::
+
 You can translate not only with `$t`, but also with the `v-t` custom directive.
 
 ## String syntax
