@@ -1,4 +1,5 @@
 import fs from 'node:fs/promises'
+import { parseArgs as _parseArgs } from 'node:util'
 
 export async function readJson(path) {
   const data = await fs.readFile(path, 'utf8')
@@ -22,4 +23,19 @@ export function displayMemoryUsage() {
   }
   console.log()
   console.log('memory usage:', msg.join(', '))
+}
+
+export function parseArgs() {
+  const args = process.argv.slice(2)
+  const options = {
+    format: {
+      type: 'string',
+      short: 'f'
+    }
+  }
+  const { values } = _parseArgs({ args, options })
+  if (values.format == null) {
+    values.format = 'mitata'
+  }
+  return values
 }

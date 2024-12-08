@@ -8,14 +8,12 @@ import {
   translate
 } from '@intlify/core-base'
 import { baseCompile } from '@intlify/message-compiler'
-import { createCommonJS } from 'mlly'
+import { bench, run } from 'mitata'
 import { dirname, resolve } from 'node:path'
 import { createI18n } from 'vue-i18n'
-import { displayMemoryUsage, readJson } from './utils.mjs'
+import { displayMemoryUsage, parseArgs, readJson } from './utils.mjs'
 
-const { require } = createCommonJS(import.meta.url)
-const { Suite } = require('benchmark')
-
+const args = parseArgs()
 function precompile(data) {
   const keys = Object.keys(data)
   keys.forEach(key => {
@@ -25,64 +23,51 @@ function precompile(data) {
   return data
 }
 
-async function main() {
-  const resources = await readJson(
-    resolve(dirname('.'), './benchmark/complex.json')
-  )
-  const len = Object.keys(resources).length
+const resources = await readJson(
+  resolve(dirname('.'), './benchmark/complex.json')
+)
+const len = Object.keys(resources).length
+console.log(`complex pattern on ${len} resources (JIT + AOT):`)
 
-  console.log(`complex pattern on ${len} resources (JIT + AOT):`)
-  console.log()
+resources['no apples'] = 'no apples'
 
-  resources['no apples'] = 'no apples'
+registerMessageCompiler(compile)
+const precompiledResources = precompile(resources)
 
-  registerMessageCompiler(compile)
-  const precompiledResources = precompile(resources)
-
-  const ctx = createCoreContext({
-    locale: 'en',
-    modifiers: {
-      caml: val => val
-    },
-    messages: {
-      en: precompiledResources
-    }
-  })
-
-  const i18n = createI18n({
-    legacy: false,
-    locale: 'en',
-    modifiers: {
-      caml: val => val
-    },
-    messages: {
-      en: precompiledResources
-    }
-  })
-
-  new Suite('complex pattern')
-    .add(`resolve time with core`, () => {
-      translate(ctx, 'complex500', 2)
-    })
-    .add(`resolve time on composition`, () => {
-      clearCompileCache()
-      i18n.global.t('complex500', 2)
-    })
-    .add(`resolve time on composition with compile cache`, () => {
-      i18n.global.t('complex500', 2)
-    })
-    .on('error', event => {
-      console.log(String(event.target))
-    })
-    .on('cycle', event => {
-      console.log(String(event.target))
-    })
-    .run()
-
-  displayMemoryUsage()
-}
-
-main().catch(err => {
-  console.error(err)
-  process.exit(1)
+const ctx = createCoreContext({
+  locale: 'en',
+  modifiers: {
+    caml: val => val
+  },
+  messages: {
+    en: precompiledResources
+  }
 })
+
+const i18n = createI18n({
+  legacy: false,
+  locale: 'en',
+  modifiers: {
+    caml: val => val
+  },
+  messages: {
+    en: precompiledResources
+  }
+})
+
+bench(`resolve time with core`, () => {
+  translate(ctx, 'complex500', 2)
+})
+
+bench(`resolve time on composition`, () => {
+  clearCompileCache()
+  i18n.global.t('complex500', 2)
+})
+
+bench(`resolve time on composition with compile cache`, () => {
+  i18n.global.t('complex500', 2)
+})
+
+await run(args)
+
+displayMemoryUsage()
