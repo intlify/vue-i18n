@@ -1,5 +1,5 @@
-import { createCommonJS } from 'mlly'
 import { baseCompile } from '@intlify/message-compiler'
+import { createCommonJS } from 'mlly'
 import { displayMemoryUsage } from './utils.mjs'
 
 const { require } = createCommonJS(import.meta.url)

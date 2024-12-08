@@ -1,12 +1,12 @@
-import { createCommonJS } from 'mlly'
 import {
-  translate,
+  clearCompileCache,
   createCoreContext,
-  clearCompileCache
+  translate
 } from '@intlify/core-base'
+import { createCommonJS } from 'mlly'
+import { dirname, resolve } from 'node:path'
 import { createI18n } from 'vue-i18n'
-import { resolve, dirname } from 'path'
-import { readJson, displayMemoryUsage } from './utils.mjs'
+import { displayMemoryUsage, readJson } from './utils.mjs'
 
 const { require } = createCommonJS(import.meta.url)
 const { Suite } = require('benchmark')

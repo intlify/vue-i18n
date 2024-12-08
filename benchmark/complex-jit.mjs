@@ -1,16 +1,16 @@
 global.__INTLIFY_JIT_COMPILATION__ = true // set JIT mode for Node.js
 
-import { createCommonJS } from 'mlly'
 import {
-  translate,
-  createCoreContext,
+  clearCompileCache,
   compile,
+  createCoreContext,
   registerMessageCompiler,
-  clearCompileCache
+  translate
 } from '@intlify/core-base'
+import { createCommonJS } from 'mlly'
+import { dirname, resolve } from 'node:path'
 import { createI18n } from 'vue-i18n'
-import { resolve, dirname } from 'path'
-import { readJson, displayMemoryUsage } from './utils.mjs'
+import { displayMemoryUsage, readJson } from './utils.mjs'
 
 const { require } = createCommonJS(import.meta.url)
 const { Suite } = require('benchmark')
@@ -23,6 +23,8 @@ async function main() {
 
   console.log(`complex pattern on ${len} resources (JIT):`)
   console.log()
+
+  resources['no apples'] = 'no apples'
 
   registerMessageCompiler(compile)
 

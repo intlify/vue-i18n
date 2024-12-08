@@ -1,17 +1,17 @@
 global.__INTLIFY_JIT_COMPILATION__ = true // set JIT mode for Node.js
 
-import { createCommonJS } from 'mlly'
-import { baseCompile } from '@intlify/message-compiler'
 import {
-  translate,
-  createCoreContext,
+  clearCompileCache,
   compile,
+  createCoreContext,
   registerMessageCompiler,
-  clearCompileCache
+  translate
 } from '@intlify/core-base'
+import { baseCompile } from '@intlify/message-compiler'
+import { createCommonJS } from 'mlly'
+import { dirname, resolve } from 'node:path'
 import { createI18n } from 'vue-i18n'
-import { resolve, dirname } from 'path'
-import { readJson, displayMemoryUsage } from './utils.mjs'
+import { displayMemoryUsage, readJson } from './utils.mjs'
 
 const { require } = createCommonJS(import.meta.url)
 const { Suite } = require('benchmark')

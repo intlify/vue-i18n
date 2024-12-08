@@ -1,4 +1,4 @@
-import fs from 'fs/promises'
+import fs from 'node:fs/promises'
 
 export async function readJson(path) {
   const data = await fs.readFile(path, 'utf8')
