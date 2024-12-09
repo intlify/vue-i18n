@@ -67,7 +67,7 @@ function nav() {
     },
     {
       text: 'Version',
-      items: [{ text: 'Maintenance Status', link: '/guide/extra/maintenance' }, { text: 'v8.x', link: 'https://kazupon.github.io/vue-i18n/' }]
+      items: [{ text: 'Maintenance Status', link: '/guide/maintenance' }, { text: 'v8.x', link: 'https://kazupon.github.io/vue-i18n/' }]
     },
     {
       text: 'Changelog',
@@ -89,7 +89,11 @@ function sidebarGuide() {
         {
           text: 'Installation',
           link: '/guide/installation'
-        }
+        },
+        {
+          text: 'Maintenance Status',
+          link: '/guide/maintenance'
+        },
       ]
     },
     {
@@ -224,10 +228,6 @@ function sidebarGuide() {
       text: 'Extra Topics',
       collapsible: true,
       items: [
-        {
-          text: 'Maintenance Status',
-          link: '/guide/extra/maintenance'
-        },
         {
           text: 'Different Distribution files',
           link: '/guide/extra/dist'
