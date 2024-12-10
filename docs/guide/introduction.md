@@ -38,7 +38,7 @@ const members = [
 # What is Vue I18n?
 
 :::tip NOTE
-If you would like to know more about the maintenance status of each version of Vue I18n, please see [here](./extra/maintenance).
+If you would like to know more about the maintenance status of each version of Vue I18n, please see [here](./maintenance).
 :::
 
 :::tip NOTE
