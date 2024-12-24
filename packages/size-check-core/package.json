@@ -13,5 +13,5 @@
   "devDependencies": {
     "vite": "^6.0.0"
   },
-  "version": "11.0.0-rc.1"
+  "version": "11.0.0"
 }
