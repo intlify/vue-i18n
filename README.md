@@ -121,8 +121,7 @@ Vue I18n is part of the Vue Ecosystem and Intlify Project is an open source proj
 <br/>
 
 ## Status: [![CI](https://github.com/intlify/vue-i18n/actions/workflows/ci.yml/badge.svg)](https://github.com/intlify/vue-i18n/actions/workflows/ci.yml)
-- v9: Stable
-- v10: Beta
+- v10: stable (About maintenance status, see the [here](https://vue-i18n.intlify.dev/guide/maintenance.html))
 - [Documentation](https://vue-i18n.intlify.dev/)
 - If you use Vue I18n v8 for Vue 2, see this [repository](https://github.com/kazupon/vue-i18n)
 

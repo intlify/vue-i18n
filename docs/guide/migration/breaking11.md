@@ -1,9 +1,5 @@
 # Breaking Changes in v11
 
-:::warning NOTICE
-Vue I18n v11 is still beta
-:::
-
 ## Deprecate Legacy API mode
 
 ### Reason

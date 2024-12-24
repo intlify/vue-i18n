@@ -4,10 +4,7 @@ Vue I18n and related intlify packages has a lifecycle.
 
 The following is the maintenance status for each version:
 
-<img src="/lifecycle2024.svg" alt="Vue I18n Maintenance Status" />
+<img src="/lifecycle2025.svg" alt="Vue I18n Maintenance Status" />
 
 > [!IMPORTANT]
-The lifecycle of Vue I18n v10 has not yet been decided. It will be decided after the release of Vue I18n v11.
-
-> [!NOTE]
-The lifecycle period after v10 may change depending on the frequency of major releases.
+Vue I18n v8 is no longer supported after 2025. Vue I18n v9 is in maintenance mode after 2025.
