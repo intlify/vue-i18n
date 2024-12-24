@@ -139,10 +139,6 @@ function sidebarGuide() {
       collapsible: true,
       items: [
         {
-          text: 'Custom Directive',
-          link: '/guide/advanced/directive'
-        },
-        {
           text: 'Component Interpolation',
           link: '/guide/advanced/component'
         },
@@ -181,6 +177,10 @@ function sidebarGuide() {
         {
           text: 'Petite Vue I18n',
           link: '/guide/advanced/lite'
+        },
+        {
+          text: 'Custom Directive',
+          link: '/guide/advanced/directive'
         }
       ]
     },

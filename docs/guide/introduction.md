@@ -41,10 +41,6 @@ const members = [
 If you would like to know more about the maintenance status of each version of Vue I18n, please see [here](./maintenance).
 :::
 
-:::tip NOTE
-Already know Vue I18n v8.x and just want to learn about what’s new in Vue I18n v9? Check out the [Migration Guide](./migration/breaking)!
-:::
-
 Vue I18n is internationalization plugin of Vue.js. And that is one of [Intlify projects](https://intlify.dev/). It easily integrates some localization features to your Vue.js Application.
 
 Go to [Installation](./installation)
