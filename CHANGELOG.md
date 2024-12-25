@@ -36,7 +36,7 @@ These APIs had already deprecated in warning about being dropped in v11. docs [s
 
 ### Vue I18n maintenance Status
 
-Vue I18n v8 is no longer supported after 2025. Vue I18n v9 is in maintenance mode after 2025.
+Vue I18n v8 is no longer supported after 2025. Vue I18n v9 and Vue I18n v10 is in maintenance mode after 2025 July.
 
 With the release of Vue I18n v11, that version will become mainstream.
 
