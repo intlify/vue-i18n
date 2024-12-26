@@ -91,13 +91,13 @@ export type TranslationDirective<T = HTMLElement> = ObjectDirective<T>
  * @deprecated will be removed at vue-i18n v12
  */
 export function vTDirective(i18n: I18n): TranslationDirective<HTMLElement> {
-  if (__DEV__) {
-    warnOnce(
-      getWarnMessage(I18nWarnCodes.DEPRECATE_TRANSLATE_CUSTOME_DIRECTIVE)
-    )
-  }
-
   const _process = (binding: DirectiveBinding): [string, Composer] => {
+    if (__DEV__) {
+      warnOnce(
+        getWarnMessage(I18nWarnCodes.DEPRECATE_TRANSLATE_CUSTOME_DIRECTIVE)
+      )
+    }
+
     const { instance, value } = binding
     /* istanbul ignore if */
     if (!instance || !instance.$) {
