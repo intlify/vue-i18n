@@ -1315,7 +1315,7 @@ export interface Composer<
    * @remarks
    * The list of available locales in `messages` in lexical order.
    */
-  readonly availableLocales: Locales[]
+  readonly availableLocales: ComputedRef<Locales[]>
   /**
    * @remarks
    * The locale messages of localization.
@@ -2130,6 +2130,11 @@ export function createComposer(options: any = {}): any {
     () => _messages.value as any
   )
 
+  // availableLocales
+  const availableLocales = computed<Locale[]>(() =>
+    Object.keys(_messages.value).sort()
+  )
+
   // datetimeFormats
   const datetimeFormats = /* #__PURE__*/ computed<DateTimeFormatsType>(
     () => _datetimeFormats.value
@@ -2549,9 +2554,7 @@ export function createComposer(options: any = {}): any {
         updateFallbackLocale(_context, _locale.value, _fallbackLocale.value)
       }
     },
-    get availableLocales(): Locale[] {
-      return Object.keys(_messages.value).sort()
-    },
+    availableLocales,
     messages,
     get modifiers(): LinkedModifiers<Message> {
       return _modifiers

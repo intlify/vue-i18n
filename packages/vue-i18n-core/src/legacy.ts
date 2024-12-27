@@ -967,7 +967,7 @@ export interface VueI18n<
    * @remarks
    * The list of available locales in `messages` in lexical order.
    */
-  readonly availableLocales: Composition['availableLocales']
+  readonly availableLocales: Locales[]
   /**
    * @remarks
    * The locale messages of localization.
@@ -1485,7 +1485,7 @@ export function createVueI18n(options: any = {}): any {
 
     // availableLocales
     get availableLocales(): Locale[] {
-      return composer.availableLocales as Locale[]
+      return composer.availableLocales.value
     },
 
     // missing

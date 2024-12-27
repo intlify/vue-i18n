@@ -44,16 +44,28 @@ test('fallbackLocale', () => {
   expect(i18n.fallbackLocale).toEqual('ja')
 })
 
-test('availableLocales', () => {
-  const i18n = createVueI18n({
-    messages: {
-      en: {},
-      ja: {},
-      ru: {},
-      fr: {}
-    }
+describe('availableLocales', () => {
+  test('initialize messages', async () => {
+    const i18n = createVueI18n({
+      messages: {
+        en: {},
+        ja: {},
+        fr: {}
+      }
+    })
+    expect(i18n.availableLocales).toEqual(['en', 'ja', 'fr'].sort())
   })
-  expect(i18n.availableLocales).toEqual(['en', 'ja', 'ru', 'fr'].sort())
+  test('reactive update', () => {
+    const i18n = createVueI18n({
+      messages: {
+        en: {},
+        ja: {},
+        fr: {}
+      }
+    })
+    i18n.setLocaleMessage('ru', { hello: 'Привет мир!' })
+    expect(i18n.availableLocales).toEqual(['en', 'ja', 'fr', 'ru'].sort())
+  })
 })
 
 test('missing', () => {
