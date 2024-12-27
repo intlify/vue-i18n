@@ -103,8 +103,9 @@ If you need a refresher about the two styles, see [Vue - API Styles](https://vue
 
 Vue I18n works with both Vue composition API and Options API. Vue I18n has two APIs style like Vue, Composition API and Legacy API for options API using.
 
-:::tip NOTE
+:::danger IMPORTANT
 In Vue I18n v9 and later, the API offered by Vue I18n v8.x is called **Legacy API** mode.
+Legacy API is deprecated Vue I18n v11, and drop Vue I18n v12. We recommend use Composition API mode.
 :::
 
 The following sections will be explained using the Legacy API.

@@ -83,6 +83,8 @@ function getComposer(
  * <p v-t="{ path: greeting, args: { name: fullName } }"></p>
  * ```
  *
+ * @deprecated will be removed at vue-i18n v12
+ *
  * @VueI18nDirective
  */
 export type TranslationDirective<T = HTMLElement> = ObjectDirective<T>

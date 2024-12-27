@@ -35,7 +35,6 @@ Vue I18n offers some ways to support pluralization. Here we’ll use the `$t`.
 Some ways to support pluralization are:
 
 - injected global `$t`
-- `v-t` custom directive
 - built-in Translation component (`i18n-t`)
 - exported `t` from `useI18n` (for Composition API mode)
 :::

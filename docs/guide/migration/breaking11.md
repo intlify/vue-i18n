@@ -28,6 +28,14 @@ In addition, Vue 3 Virtual DOM optimization has been introduced, and the optimiz
 
 For compatibility, `v-t` mode still works in v11, but will be removed entirely in v12, so `v-t` will not work after that version.
 
+### for migration
+
+You can use `eslint-plugin-vue-i18n`.
+
+`eslint-plugin-vue-i18n` has `@intlify/vue-i18n/no-deprecated-v-t` rule. https://eslint-plugin-vue-i18n.intlify.dev/rules/no-deprecated-v-t.html
+
+You must have migrated with eslint before upgrading to vue-i18n v11
+
 ## Drop `tc` and `$tc` for Legacy API mode
 
 **Reason**: These APIs had already deprecated in warning about being dropped in v11. docs says, https://vue-i18n.intlify.dev/guide/migration/breaking10.html#deprecate-tc-and-tc-for-legacy-api-mode
