@@ -1,6 +1,6 @@
 dist
-docs/api/*.md
-!docs/api/injection.md
+docs/api/v11/*.md
+!docs/api/v11/injection.md
 packages/vue-i18n/index.html
 temp
 coverage
