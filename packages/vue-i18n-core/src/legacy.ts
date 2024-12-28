@@ -140,7 +140,7 @@ export interface VueI18nOptions<
    *
    * If the locale contains a territory and a dialect, this locale contains an implicit fallback.
    *
-   * @VueI18nSee [Scope and Locale Changing](../guide/essentials/scope)
+   * @VueI18nSee [Scope and Locale Changing](../../guide/essentials/scope)
    *
    * @defaultValue `'en-US'`
    */
@@ -151,7 +151,7 @@ export interface VueI18nOptions<
    *
    * For more complex fallback definitions see fallback.
    *
-   * @VueI18nSee [Fallbacking](../guide/essentials/fallback)
+   * @VueI18nSee [Fallbacking](../../guide/essentials/fallback)
    *
    * @defaultValue The default `'en-US'` for the `locale` if it's not specified, or it's `locale` value
    */
@@ -160,7 +160,7 @@ export interface VueI18nOptions<
    * @remarks
    * The locale messages of localization.
    *
-   * @VueI18nSee [Getting Started](../guide/essentials/started)
+   * @VueI18nSee [Getting Started](../../guide/essentials/started)
    *
    * @defaultValue `{}`
    */
@@ -176,7 +176,7 @@ export interface VueI18nOptions<
    * @remarks
    * The datetime formats of localization.
    *
-   * @VueI18nSee [Datetime Formatting](../guide/essentials/datetime)
+   * @VueI18nSee [Datetime Formatting](../../guide/essentials/datetime)
    *
    * @defaultValue `{}`
    */
@@ -185,7 +185,7 @@ export interface VueI18nOptions<
    * @remarks
    * The number formats of localization.
    *
-   * @VueI18nSee [Number Formatting](../guide/essentials/number)
+   * @VueI18nSee [Number Formatting](../../guide/essentials/number)
    *
    * @defaultValue `{}`
    */
@@ -201,7 +201,7 @@ export interface VueI18nOptions<
    * @remarks
    * Custom Modifiers for linked messages.
    *
-   * @VueI18nSee [Custom Modifiers](../guide/essentials/syntax#custom-modifiers)
+   * @VueI18nSee [Custom Modifiers](../../guide/essentials/syntax#custom-modifiers)
    */
   modifiers?: Options['modifiers']
   /**
@@ -221,7 +221,7 @@ export interface VueI18nOptions<
    *
    * If `false`, it's not fallback to root.
    *
-   * @VueI18nSee [Fallbacking](../guide/essentials/fallback)
+   * @VueI18nSee [Fallbacking](../../guide/essentials/fallback)
    *
    * @defaultValue `true`
    */
@@ -234,7 +234,7 @@ export interface VueI18nOptions<
    *
    * If you use regular expression, you can suppress localization fail warnings that it match with translation key (e.g. `t`).
    *
-   * @VueI18nSee [Fallbacking](../guide/essentials/fallback)
+   * @VueI18nSee [Fallbacking](../../guide/essentials/fallback)
    *
    * @defaultValue `false`
    */
@@ -245,7 +245,7 @@ export interface VueI18nOptions<
    *
    * If `true`, skip writing templates for your "base" language; the keys are your templates.
    *
-   * @VueI18nSee [Fallbacking](../guide/essentials/fallback)
+   * @VueI18nSee [Fallbacking](../../guide/essentials/fallback)
    *
    * @defaultValue `false`
    */
@@ -254,7 +254,7 @@ export interface VueI18nOptions<
    * @remarks
    * Whether suppress warnings when falling back to either `fallbackLocale` or root.
    *
-   * @VueI18nSee [Fallbacking](../guide/essentials/fallback)
+   * @VueI18nSee [Fallbacking](../../guide/essentials/fallback)
    *
    * @defaultValue `false`
    */
@@ -265,8 +265,8 @@ export interface VueI18nOptions<
    *
    * See the warnHtmlInMessage property.
    *
-   * @VueI18nSee [HTML Message](../guide/essentials/syntax#html-message)
-   * @VueI18nSee [Change `warnHtmlInMessage` option default value](../guide/migration/breaking#change-warnhtmlinmessage-option-default-value)
+   * @VueI18nSee [HTML Message](../../guide/essentials/syntax#html-message)
+   * @VueI18nSee [Change `warnHtmlInMessage` option default value](../../guide/migration/breaking#change-warnhtmlinmessage-option-default-value)
    *
    * @defaultValue `'off'`
    */
@@ -283,7 +283,7 @@ export interface VueI18nOptions<
    *
    * Setting `escapeParameterHtml` as true should not break existing functionality but provides a safeguard against a subtle type of XSS attack vectors.
    *
-   * @VueI18nSee [HTML Message](../guide/essentials/syntax#html-message)
+   * @VueI18nSee [HTML Message](../../guide/essentials/syntax#html-message)
    *
    * @defaultValue `false`
    */
@@ -292,7 +292,7 @@ export interface VueI18nOptions<
    * @remarks
    * The shared locale messages of localization for components. More detail see Component based localization.
    *
-   * @VueI18nSee [Shared locale messages for components](../guide/essentials/local#shared-locale-messages-for-components)
+   * @VueI18nSee [Shared locale messages for components](../../guide/essentials/local#shared-locale-messages-for-components)
    *
    * @defaultValue `undefined`
    */
@@ -301,7 +301,7 @@ export interface VueI18nOptions<
    * @remarks
    * A set of rules for word pluralization
    *
-   * @VueI18nSee [Custom Pluralization](../guide/essentials/pluralization#custom-pluralization)
+   * @VueI18nSee [Custom Pluralization](../../guide/essentials/pluralization#custom-pluralization)
    *
    * @defaultValue `{}`
    */
@@ -321,7 +321,7 @@ export interface VueI18nOptions<
    *
    * If `false`, regardless of the root level locale, localize for each component locale.
    *
-   * @VueI18nSee [Local Scope](../guide/essentials/scope#local-scope-2)
+   * @VueI18nSee [Local Scope](../../guide/essentials/scope#local-scope-2)
    *
    * @defaultValue `true`
    */
@@ -382,7 +382,7 @@ export interface VueI18nOptions<
    * @VueI18nWarning
    * If you use the message resolver, the [`flatJson`](legacy#flatjson) setting will be ignored. That is, you need to resolve the flat JSON by yourself.
    *
-   * @VueI18nSee [Fallbacking](../guide/essentials/fallback)
+   * @VueI18nSee [Fallbacking](../../guide/essentials/fallback)
    *
    * @defaultValue `undefined`
    */
@@ -441,7 +441,7 @@ export interface VueI18nTranslation<
    *
    * @returns Translated message
    *
-   * @VueI18nSee [Scope and Locale Changing](../guide/essentials/scope)
+   * @VueI18nSee [Scope and Locale Changing](../../guide/essentials/scope)
    */
   <Key extends string>(key: Key | ResourceKeys): TranslateResult
   /**
@@ -459,7 +459,7 @@ export interface VueI18nTranslation<
    *
    * @returns Translated message
    *
-   * @VueI18nSee [Pluralization](../guide/essentials/pluralization)
+   * @VueI18nSee [Pluralization](../../guide/essentials/pluralization)
    */
   <Key extends string>(key: Key | ResourceKeys, plural: number): TranslateResult
   /**
@@ -480,7 +480,7 @@ export interface VueI18nTranslation<
    *
    * @returns Translated message
    *
-   * @VueI18nSee [Pluralization](../guide/essentials/pluralization)
+   * @VueI18nSee [Pluralization](../../guide/essentials/pluralization)
    */
   <Key extends string>(
     key: Key | ResourceKeys,
@@ -540,7 +540,7 @@ export interface VueI18nTranslation<
    *
    * @returns Translated message
    *
-   * @VueI18nSee [List interpolation](../guide/essentials/syntax#list-interpolation)
+   * @VueI18nSee [List interpolation](../../guide/essentials/syntax#list-interpolation)
    */
   <Key extends string>(
     key: Key | ResourceKeys,
@@ -560,8 +560,8 @@ export interface VueI18nTranslation<
    *
    * @returns Translated message
    *
-   * @VueI18nSee [Pluralization](../guide/essentials/pluralization)
-   * @VueI18nSee [List interpolation](../guide/essentials/syntax#list-interpolation)
+   * @VueI18nSee [Pluralization](../../guide/essentials/pluralization)
+   * @VueI18nSee [List interpolation](../../guide/essentials/syntax#list-interpolation)
    */
   <Key extends string>(
     key: Key | ResourceKeys,
@@ -582,7 +582,7 @@ export interface VueI18nTranslation<
    *
    * @returns Translated message
    *
-   * @VueI18nSee [List interpolation](../guide/essentials/syntax#list-interpolation)
+   * @VueI18nSee [List interpolation](../../guide/essentials/syntax#list-interpolation)
    */
   <Key extends string>(
     key: Key | ResourceKeys,
@@ -607,7 +607,7 @@ export interface VueI18nTranslation<
    *
    * @returns Translated message
    *
-   * @VueI18nSee [List interpolation](../guide/essentials/syntax#list-interpolation)
+   * @VueI18nSee [List interpolation](../../guide/essentials/syntax#list-interpolation)
    */
   <Key extends string>(
     key: Key | ResourceKeys,
@@ -625,7 +625,7 @@ export interface VueI18nTranslation<
    *
    * @returns Translated message
    *
-   * @VueI18nSee [Named interpolation](../guide/essentials/syntax#named-interpolation)
+   * @VueI18nSee [Named interpolation](../../guide/essentials/syntax#named-interpolation)
    */
   <Key extends string>(
     key: Key | ResourceKeys,
@@ -645,8 +645,8 @@ export interface VueI18nTranslation<
    *
    * @returns Translated message
    *
-   * @VueI18nSee [Pluralization](../guide/essentials/pluralization)
-   * @VueI18nSee [Named interpolation](../guide/essentials/syntax#named-interpolation)
+   * @VueI18nSee [Pluralization](../../guide/essentials/pluralization)
+   * @VueI18nSee [Named interpolation](../../guide/essentials/syntax#named-interpolation)
    */
   <Key extends string>(
     key: Key | ResourceKeys,
@@ -667,7 +667,7 @@ export interface VueI18nTranslation<
    *
    * @returns Translated message
    *
-   * @VueI18nSee [Named interpolation](../guide/essentials/syntax#named-interpolation)
+   * @VueI18nSee [Named interpolation](../../guide/essentials/syntax#named-interpolation)
    */
   <Key extends string>(
     key: Key | ResourceKeys,
@@ -692,7 +692,7 @@ export interface VueI18nTranslation<
    *
    * @returns Translated message
    *
-   * @VueI18nSee [Named interpolation](../guide/essentials/syntax#named-interpolation)
+   * @VueI18nSee [Named interpolation](../../guide/essentials/syntax#named-interpolation)
    */
   <Key extends string>(
     key: Key | ResourceKeys,
@@ -759,7 +759,7 @@ export interface VueI18nDateTimeFormatting<
    *
    * @returns Formatted value
    *
-   * @VueI18nSee [Datetime formatting](../guide/essentials/datetime)
+   * @VueI18nSee [Datetime formatting](../../guide/essentials/datetime)
    */
   (value: number | Date): DateTimeFormatResult
   /**
@@ -856,7 +856,7 @@ export interface VueI18nNumberFormatting<
    *
    * @returns Formatted value
    *
-   * @VueI18nSee [Number formatting](../guide/essentials/number)
+   * @VueI18nSee [Number formatting](../../guide/essentials/number)
    */
   (value: number): NumberFormatResult
   /**
@@ -952,7 +952,7 @@ export interface VueI18n<
    *
    * If the locale contains a territory and a dialect, this locale contains an implicit fallback.
    *
-   * @VueI18nSee [Scope and Locale Changing](../guide/essentials/scope)
+   * @VueI18nSee [Scope and Locale Changing](../../guide/essentials/scope)
    */
   // locale: Locales
   locale: Locales
@@ -960,7 +960,7 @@ export interface VueI18n<
    * @remarks
    * The current fallback locales this VueI18n instance is using.
    *
-   * @VueI18nSee [Fallbacking](../guide/essentials/fallback)
+   * @VueI18nSee [Fallbacking](../../guide/essentials/fallback)
    */
   fallbackLocale: FallbackLocales<Locales>
   /**
@@ -972,28 +972,28 @@ export interface VueI18n<
    * @remarks
    * The locale messages of localization.
    *
-   * @VueI18nSee [Getting Started](../guide/essentials/started)
+   * @VueI18nSee [Getting Started](../../guide/essentials/started)
    */
   readonly messages: { [K in keyof Messages]: Messages[K] }
   /**
    * @remarks
    * The datetime formats of localization.
    *
-   * @VueI18nSee [Datetime Formatting](../guide/essentials/datetime)
+   * @VueI18nSee [Datetime Formatting](../../guide/essentials/datetime)
    */
   readonly datetimeFormats: { [K in keyof DateTimeFormats]: DateTimeFormats[K] }
   /**
    * @remarks
    * The number formats of localization.
    *
-   * @VueI18nSee [Number Formatting](../guide/essentials/number)
+   * @VueI18nSee [Number Formatting](../../guide/essentials/number)
    */
   readonly numberFormats: { [K in keyof NumberFormats]: NumberFormats[K] }
   /**
    * @remarks
    * Custom Modifiers for linked messages.
    *
-   * @VueI18nSee [Custom Modifiers](../guide/essentials/syntax#custom-modifiers)
+   * @VueI18nSee [Custom Modifiers](../../guide/essentials/syntax#custom-modifiers)
    */
   readonly modifiers: Composition['modifiers']
   /**
@@ -1010,7 +1010,7 @@ export interface VueI18n<
    * @remarks
    * Whether suppress warnings outputted when localization fails.
    *
-   * @VueI18nSee [Fallbacking](../guide/essentials/fallback)
+   * @VueI18nSee [Fallbacking](../../guide/essentials/fallback)
    */
   silentTranslationWarn: Composition['missingWarn']
   /**
@@ -1022,14 +1022,14 @@ export interface VueI18n<
    * @remarks
    * Whether suppress warnings when falling back to either `fallbackLocale` or root.
    *
-   * @VueI18nSee [Fallbacking](../guide/essentials/fallback)
+   * @VueI18nSee [Fallbacking](../../guide/essentials/fallback)
    */
   formatFallbackMessages: Composition['fallbackFormat']
   /**
    * @remarks
    * Whether synchronize the root level locale to the component localization locale.
    *
-   * @VueI18nSee [Local Scope](../guide/essentials/scope#local-scope-2)
+   * @VueI18nSee [Local Scope](../../guide/essentials/scope#local-scope-2)
    */
   sync: Composition['inheritLocale']
   /**
@@ -1042,21 +1042,21 @@ export interface VueI18n<
    *
    * If you are specified `error` will occurred an Error.
    *
-   * @VueI18nSee [HTML Message](../guide/essentials/syntax#html-message)
-   * @VueI18nSee [Change `warnHtmlInMessage` option default value](../guide/migration/breaking#change-warnhtmlinmessage-option-default-value)
+   * @VueI18nSee [HTML Message](../../guide/essentials/syntax#html-message)
+   * @VueI18nSee [Change `warnHtmlInMessage` option default value](../../guide/migration/breaking#change-warnhtmlinmessage-option-default-value)
    */
   warnHtmlInMessage: WarnHtmlInMessageLevel
   /**
    * @remarks
    * Whether interpolation parameters are escaped before the message is translated.
    *
-   * @VueI18nSee [HTML Message](../guide/essentials/syntax#html-message)
+   * @VueI18nSee [HTML Message](../../guide/essentials/syntax#html-message)
    */
   escapeParameterHtml: Composition['escapeParameter']
   /**
    * A set of rules for word pluralization
    *
-   * @VueI18nSee [Custom Pluralization](../guide/essentials/pluralization#custom-pluralization)
+   * @VueI18nSee [Custom Pluralization](../../guide/essentials/pluralization#custom-pluralization)
    */
   pluralizationRules: Composition['pluralRules']
   /**
@@ -1111,7 +1111,7 @@ export interface VueI18n<
    *
    * If you change the `locale`, the locale messages returned will also correspond to the locale.
    *
-   * If there are no locale messages for the given `key` in the composer instance messages, they will be returned with [fallbacking](../guide/essentials/fallback).
+   * If there are no locale messages for the given `key` in the composer instance messages, they will be returned with [fallbacking](../../guide/essentials/fallback).
    *
    * @VueI18nWarning
    * You need to use `rt` for the locale message returned by `tm`. see the [rt](legacy#rt-message) details.

@@ -46,6 +46,7 @@ export default defineConfig({
     sidebar: {
       '/guide/': sidebarGuide(),
       '/api/': sidebarApi(),
+      // NOTE: if we need to support multiple versions, we can be enble the following sidebar items
       // '/api/v11/': sidebarApi('v11/'),
       '/ecosystem/': sidebarEcosystem()
     }
@@ -61,6 +62,7 @@ function nav() {
     {
       text: 'API',
       link: '/api/general',
+      // NOTE: if we need to support multiple versions, we can be enble the following navigation items
       // items: [{ text: 'latest', link: '/api/general' }, { text: 'v9 ~ v11', link: '/api/v11/general' }]
     },
     {

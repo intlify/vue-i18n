@@ -1,17 +1,17 @@
 import {
-  isString,
   isArray,
   isBoolean,
-  isPlainObject,
+  isFunction,
   isObject,
+  isPlainObject,
   isPromise,
-  isFunction
+  isString
 } from '@intlify/shared'
 import { DEFAULT_LOCALE } from './context'
 import { CoreErrorCodes, createCoreError } from './errors'
 
-import type { Locale, LocaleDetector, FallbackLocale } from './runtime'
 import type { CoreContext, CoreInternalContext } from './context'
+import type { FallbackLocale, Locale, LocaleDetector } from './runtime'
 
 /** @VueI18nGeneral */
 export interface LocaleOptions<Locales = Locale> {
@@ -116,7 +116,7 @@ export function fallbackWithSimple<Message = string>(
  *
  * @returns Fallback locales
  *
- * @VueI18nSee [Fallbacking](../guide/essentials/fallback)
+ * @VueI18nSee [Fallbacking](../../guide/essentials/fallback)
  *
  * @VueI18nGeneral
  */
