@@ -66,6 +66,22 @@ describe('availableLocales', () => {
     i18n.setLocaleMessage('ru', { hello: 'Привет мир!' })
     expect(i18n.availableLocales).toEqual(['en', 'ja', 'fr', 'ru'].sort())
   })
+  test('trigger new value with watchEffect', async () => {
+    const i18n = createVueI18n({
+      messages: {
+        ja: {}
+      }
+    })
+    let locales = [] as string[]
+
+    watchEffect(() => {
+      locales = i18n.availableLocales
+    })
+
+    i18n.setLocaleMessage('en', { hello: 'Hello' })
+    await nextTick()
+    expect(locales.sort()).toEqual(['en', 'ja'].sort())
+  })
 })
 
 test('missing', () => {
