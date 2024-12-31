@@ -215,10 +215,6 @@ function sidebarGuide() {
           link: '/guide/migration/features'
         },
         {
-          text: 'Migration from Vue 2',
-          link: '/guide/migration/vue2'
-        },
-        {
           text: 'Migration in Vue 3',
           link: '/guide/migration/vue3'
         }
@@ -233,8 +229,8 @@ function sidebarGuide() {
           link: '/guide/extra/dist'
         },
         {
-          text: 'Documentation for v8.x',
-          link: '/guide/extra/v8-docs'
+          text: 'Migration from Vue 2',
+          link: '/guide/migration/vue2'
         }
       ]
     }

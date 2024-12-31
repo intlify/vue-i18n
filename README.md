@@ -103,25 +103,22 @@ Vue I18n is part of the Vue Ecosystem and Intlify Project is an open source proj
 <br/>
 
 ## Status: [![CI](https://github.com/intlify/vue-i18n/actions/workflows/ci.yml/badge.svg)](https://github.com/intlify/vue-i18n/actions/workflows/ci.yml)
-- v10: stable (About maintenance status, see the [here](https://vue-i18n.intlify.dev/guide/maintenance.html))
+- v11: stable (About maintenance status, see the [here](https://vue-i18n.intlify.dev/guide/maintenance.html))
 - [Documentation](https://vue-i18n.intlify.dev/)
-- If you use Vue I18n v8 for Vue 2, see this [repository](https://github.com/kazupon/vue-i18n)
 
 ## Quickstart
 
-- Via CDN: `<script src="https://unpkg.com/vue-i18n@9"></script>`
+- Via CDN: `<script src="https://unpkg.com/vue-i18n@11"></script>`
 - In-browser playground on [CodeSandbox](https://codesandbox.io/s/vue-i18n-9-template-h28c0)
 - Add it to an existing Vue Project:
   ```bash
-  npm install vue-i18n@9
+  npm install vue-i18n@11
   ```
 
-## Changes from Vue I18n v8
+## Vue I18n v8
 
-Please consult the [Migration Guide](https://vue-i18n.intlify.dev/guide/migration/breaking.html).
+Vue I18n v8 has reached EOL and is no longer actively maintained. Upgrade to Vue I18n v9 or later.
 
-## 🙋‍♂️ About support for v9 and earlier
-- v7 and v8: we will follow Vue v2 maintenance lifespan
 
 ## 🍭 Examples
 
