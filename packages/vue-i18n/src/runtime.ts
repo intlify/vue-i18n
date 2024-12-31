@@ -88,11 +88,6 @@ export {
   VueMessageType
 } from '../../vue-i18n-core/src/composer'
 export {
-  TranslationDirective,
-  vTDirective,
-  VTDirectiveValue
-} from '../../vue-i18n-core/src/directive'
-export {
   ComposerAdditionalOptions,
   ComposerExtender,
   createI18n,

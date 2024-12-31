@@ -21,15 +21,7 @@ import {
   resolveValue,
   setDevToolsHook
 } from '@intlify/core-base'
-import {
-  defineComponent,
-  getCurrentInstance,
-  h,
-  nextTick,
-  ref,
-  resolveDirective,
-  withDirectives
-} from 'vue'
+import { defineComponent, getCurrentInstance, nextTick, ref } from 'vue'
 import { createI18n, useI18n } from '../src/i18n'
 import { mount } from './helper'
 
@@ -781,24 +773,11 @@ test('issue #1083', async () => {
 <div>`
   })
 
-  const HelloWorld = defineComponent({
-    setup() {
-      const t = resolveDirective('t')
-      return () => {
-        return withDirectives(h('h1', { id: 'v-t' }), [
-          [t!, { path: 'hello_world' }]
-        ])
-      }
-    }
-  })
-
   const App = defineComponent({
     components: {
-      LanguageSelector,
-      HelloWorld
+      LanguageSelector
     },
     template: `
-  <HelloWorld />
   <LanguageSelector />
 `
   })
@@ -807,16 +786,12 @@ test('issue #1083', async () => {
 
   const enEl = wrapper.rootEl.querySelector('#en')
   const jaEl = wrapper.rootEl.querySelector('#ja')
-  const dirEl = wrapper.rootEl.querySelector('#v-t')
-  expect(dirEl!.textContent).toEqual('Hello World!')
 
   jaEl!.dispatchEvent(new Event('click'))
   await nextTick()
-  expect(dirEl!.textContent).toEqual('こんにちは世界！')
 
   enEl!.dispatchEvent(new Event('click'))
   await nextTick()
-  expect(dirEl!.textContent).toEqual('Hello World!')
 })
 
 test('issue #1123', async () => {

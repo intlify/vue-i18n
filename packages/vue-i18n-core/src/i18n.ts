@@ -553,7 +553,7 @@ export function createI18n(options: any = {}): any {
 
       // install built-in components and directive
       if (!__LITE__ && __FEATURE_FULL_INSTALL__) {
-        applyPlugin(app, i18n as I18n, ...options)
+        applyPlugin(app, ...options)
       }
 
       // setup mixin for Legacy API
