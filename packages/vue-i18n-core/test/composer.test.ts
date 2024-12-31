@@ -150,7 +150,7 @@ describe('inheritLocale', () => {
 describe('availableLocales', () => {
   test('not initialize messages at composer creating', () => {
     const { availableLocales } = createComposer({})
-    expect(availableLocales).toEqual(['en-US'])
+    expect(availableLocales.value).toEqual(['en-US'])
   })
 
   test('initialize messages at composer creating', () => {
@@ -162,10 +162,18 @@ describe('availableLocales', () => {
         fr: {}
       }
     })
-    expect(availableLocales).toEqual(['en', 'ja', 'ru', 'fr'].sort())
+    expect(availableLocales.value).toEqual(['en', 'ja', 'ru', 'fr'].sort())
+  })
+  test('reactive update', () => {
+    const { availableLocales, setLocaleMessage } = createComposer({
+      messages: {
+        en: {}
+      }
+    })
+    setLocaleMessage('ja', { hello: 'こんにちは、世界!' })
+    expect(availableLocales.value).toEqual(['en', 'ja'].sort())
   })
 })
-
 describe('messages', () => {
   test('default value', () => {
     const { messages } = createComposer({})
