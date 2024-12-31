@@ -70,11 +70,6 @@ export {
   VueMessageType
 } from './composer'
 export {
-  TranslationDirective,
-  vTDirective,
-  VTDirectiveValue
-} from './directive'
-export {
   ComposerAdditionalOptions,
   ComposerExtender,
   createI18n,

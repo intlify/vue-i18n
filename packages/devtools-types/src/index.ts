@@ -1,12 +1,12 @@
-import type { Emittable } from '@intlify/shared'
 import type {
-  Path,
-  PathValue,
+  CoreMissingType,
   Locale,
   MessageFunction,
-  ResourceNode,
-  CoreMissingType
+  Path,
+  PathValue,
+  ResourceNode
 } from '@intlify/core-base'
+import type { Emittable } from '@intlify/shared'
 
 export interface IntlifyRecord {
   id: number

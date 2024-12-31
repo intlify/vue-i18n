@@ -203,6 +203,10 @@ function sidebarGuide() {
       collapsible: true,
       items: [
         {
+          text: 'Breaking Changes in v12',
+          link: '/guide/migration/breaking12'
+        },
+        {
           text: 'Breaking Changes in v11',
           link: '/guide/migration/breaking11'
         },
