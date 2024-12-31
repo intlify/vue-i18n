@@ -16,8 +16,8 @@ export interface Scanner {
 export const CHAR_SP = ' '
 export const CHAR_CR = '\r'
 export const CHAR_LF = '\n'
-export const CHAR_LS = String.fromCharCode(0x2028)
-export const CHAR_PS = String.fromCharCode(0x2029)
+export const CHAR_LS: string = String.fromCharCode(0x2028)
+export const CHAR_PS: string = String.fromCharCode(0x2029)
 
 export function createScanner(str: string): Scanner {
   const _buf = str

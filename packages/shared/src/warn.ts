@@ -10,7 +10,7 @@ export function warn(msg: string, err?: Error): void {
 
 const hasWarned: Record<string, boolean> = {}
 
-export function warnOnce(msg: string) {
+export function warnOnce(msg: string): void {
   if (!hasWarned[msg]) {
     hasWarned[msg] = true
     warn(msg)

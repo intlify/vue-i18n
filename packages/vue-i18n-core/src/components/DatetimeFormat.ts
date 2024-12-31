@@ -7,7 +7,7 @@ import { baseFormatProps } from './base'
 import { renderFormatter } from './formatRenderer'
 
 import type { DateTimeOptions } from '@intlify/core-base'
-import type { VNodeProps } from 'vue'
+import type { SetupContext, VNodeProps } from 'vue'
 import type { Composer, ComposerInternal } from '../composer'
 import type { BaseFormatProps } from './base'
 import type { FormattableProps } from './formatRenderer'
@@ -25,7 +25,7 @@ export type DatetimeFormatProps = FormattableProps<
 export const DatetimeFormatImpl = /* #__PURE__*/ defineComponent({
   /* eslint-disable */
   name: 'i18n-d',
-  props: assign(
+  props: /* #__PURE__*/ assign(
     {
       value: {
         type: [Number, Date],
@@ -38,8 +38,7 @@ export const DatetimeFormatImpl = /* #__PURE__*/ defineComponent({
     baseFormatProps
   ),
   /* eslint-enable */
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  setup(props: any, context: any): any {
+  setup(props: DatetimeFormatProps, context: SetupContext) {
     const i18n =
       props.i18n ||
       (useI18n({
@@ -53,13 +52,9 @@ export const DatetimeFormatImpl = /* #__PURE__*/ defineComponent({
       Intl.DateTimeFormatOptions,
       DateTimeOptions,
       Intl.DateTimeFormatPart
-    >(
-      props as DatetimeFormatProps,
-      context,
-      DATETIME_FORMAT_OPTIONS_KEYS,
-      (...args: unknown[]) =>
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        (i18n as any)[DatetimePartsSymbol](...args)
+    >(props, context, DATETIME_FORMAT_OPTIONS_KEYS, (...args: unknown[]) =>
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      (i18n as any)[DatetimePartsSymbol](...args)
     )
   }
 })
@@ -87,4 +82,4 @@ export const DatetimeFormat = DatetimeFormatImpl as unknown as {
   }
 }
 
-export const I18nD = DatetimeFormat
+export const I18nD: typeof DatetimeFormat = DatetimeFormat

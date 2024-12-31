@@ -1,25 +1,25 @@
+import { CompileErrorCodes, createCompileError } from './errors'
 import { NodeTypes } from './nodes'
-import { createCompileError, CompileErrorCodes } from './errors'
 
 import type {
-  MessageNode,
-  ResourceNode,
-  Node,
-  PluralNode,
-  TextNode,
-  LiteralNode,
-  LinkedNode,
   LinkedKeyNode,
   LinkedModifierNode,
+  LinkedNode,
   ListNode,
-  NamedNode
+  LiteralNode,
+  MessageNode,
+  NamedNode,
+  Node,
+  PluralNode,
+  ResourceNode,
+  TextNode
 } from './nodes'
 
 export const ERROR_DOMAIN = 'minifier'
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-export function minify(node: Node) {
+export function minify(node: Node): void {
   node.t = node.type
 
   switch (node.type) {

@@ -7,7 +7,7 @@ import { baseFormatProps } from './base'
 import { renderFormatter } from './formatRenderer'
 
 import type { NumberOptions } from '@intlify/core-base'
-import type { VNodeProps } from 'vue'
+import type { SetupContext, VNodeProps } from 'vue'
 import type { Composer, ComposerInternal } from '../composer'
 import type { BaseFormatProps } from './base'
 import type { FormattableProps } from './formatRenderer'
@@ -25,7 +25,7 @@ export type NumberFormatProps = FormattableProps<
 export const NumberFormatImpl = /*#__PURE__*/ defineComponent({
   /* eslint-disable */
   name: 'i18n-n',
-  props: assign(
+  props: /*#__PURE__*/ assign(
     {
       value: {
         type: Number,
@@ -38,8 +38,8 @@ export const NumberFormatImpl = /*#__PURE__*/ defineComponent({
     baseFormatProps
   ),
   /* eslint-enable */
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  setup(props: any, context: any): any {
+
+  setup(props: NumberFormatProps, context: SetupContext) {
     const i18n =
       props.i18n ||
       (useI18n({
@@ -53,13 +53,9 @@ export const NumberFormatImpl = /*#__PURE__*/ defineComponent({
       Intl.NumberFormatOptions,
       NumberOptions,
       Intl.NumberFormatPart
-    >(
-      props as NumberFormatProps,
-      context,
-      NUMBER_FORMAT_OPTIONS_KEYS,
-      (...args: unknown[]) =>
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        (i18n as any)[NumberPartsSymbol](...args)
+    >(props, context, NUMBER_FORMAT_OPTIONS_KEYS, (...args: unknown[]) =>
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      (i18n as any)[NumberPartsSymbol](...args)
     )
   }
 })
@@ -92,4 +88,4 @@ export const NumberFormat = NumberFormatImpl as unknown as {
   }
 }
 
-export const I18nN = NumberFormat
+export const I18nN: typeof NumberFormat = NumberFormat

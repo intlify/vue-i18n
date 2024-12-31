@@ -1,14 +1,22 @@
 import { makeSymbol } from '@intlify/shared'
 
-export const TranslateVNodeSymbol =
+export const TranslateVNodeSymbol: ReturnType<typeof makeSymbol> =
   /* #__PURE__*/ makeSymbol('__translateVNode')
-export const DatetimePartsSymbol = /* #__PURE__*/ makeSymbol('__datetimeParts')
-export const NumberPartsSymbol = /* #__PURE__*/ makeSymbol('__numberParts')
-export const EnableEmitter = /* #__PURE__*/ makeSymbol('__enableEmitter')
-export const DisableEmitter = /* #__PURE__*/ makeSymbol('__disableEmitter')
-export const SetPluralRulesSymbol = makeSymbol('__setPluralRules')
-export const DevToolsMetaSymbol = makeSymbol('__intlifyMeta')
-export const InejctWithOptionSymbol =
+export const DatetimePartsSymbol: ReturnType<typeof makeSymbol> =
+  /* #__PURE__*/ makeSymbol('__datetimeParts')
+export const NumberPartsSymbol: ReturnType<typeof makeSymbol> =
+  /* #__PURE__*/ makeSymbol('__numberParts')
+export const EnableEmitter: ReturnType<typeof makeSymbol> =
+  /* #__PURE__*/ makeSymbol('__enableEmitter')
+export const DisableEmitter: ReturnType<typeof makeSymbol> =
+  /* #__PURE__*/ makeSymbol('__disableEmitter')
+export const SetPluralRulesSymbol: ReturnType<typeof makeSymbol> =
+  makeSymbol('__setPluralRules')
+export const DevToolsMetaSymbol: ReturnType<typeof makeSymbol> =
+  makeSymbol('__intlifyMeta')
+export const InejctWithOptionSymbol: ReturnType<typeof makeSymbol> =
   /* #__PURE__*/ makeSymbol('__injectWithOption')
-export const ExtendSymbol = /* #__PURE__*/ makeSymbol('__extend')
-export const DisposeSymbol = /* #__PURE__*/ makeSymbol('__dispose')
+export const ExtendSymbol: ReturnType<typeof makeSymbol> =
+  /* #__PURE__*/ makeSymbol('__extend')
+export const DisposeSymbol: ReturnType<typeof makeSymbol> =
+  /* #__PURE__*/ makeSymbol('__dispose')

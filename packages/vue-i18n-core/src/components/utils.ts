@@ -2,11 +2,10 @@ import { create } from '@intlify/shared'
 import { Fragment } from 'vue'
 
 import type { NamedValue } from '@intlify/core-base'
-import type { VNode } from 'vue'
+import type { SetupContext, VNode } from 'vue'
 
 export function getInterpolateArg(
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  { slots }: any, // SetupContext,
+  { slots }: SetupContext,
   keys: string[]
 ): NamedValue | unknown[] {
   if (keys.length === 1 && keys[0] === 'default') {

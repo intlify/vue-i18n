@@ -97,6 +97,7 @@ export default [
       '.eslintrc.cjs',
       'packages/*/index.js',
       'docsgen.config.js',
+      'packages/format-explorer/vite.config.ts',
       'scripts/api/*.js'
     ]
   }

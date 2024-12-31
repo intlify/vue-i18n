@@ -241,4 +241,4 @@ export default {
     'editorCursor.foreground': '#AEAFAD',
     'editorWhitespace.foreground': '#4B4E55'
   }
-}
+} as const

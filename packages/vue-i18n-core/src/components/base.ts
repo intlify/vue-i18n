@@ -48,7 +48,22 @@ export interface BaseFormatProps {
   i18n?: Composer
 }
 
-export const baseFormatProps = {
+export const baseFormatProps: {
+  tag: {
+    type: (StringConstructor | ObjectConstructor)[]
+  }
+  locale: {
+    type: StringConstructor
+  }
+  scope: {
+    type: StringConstructor
+    validator: (val: Exclude<I18nScope, 'local'>) => boolean
+    default: Exclude<I18nScope, 'local'>
+  }
+  i18n: {
+    type: ObjectConstructor
+  }
+} = {
   tag: {
     type: [String, Object]
   },

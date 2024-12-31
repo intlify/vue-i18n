@@ -53,6 +53,7 @@
     // "preserveSymlinks": true,              /* Do not resolve the real path of symlinks. */
     // "allowUmdGlobalAccess": true,          /* Allow accessing UMD globals from modules. */
     "resolveJsonModule": true,                /* Include modules imported with '.json' extension. */
+    "isolatedDeclarations": true,
 
     /* Source Map Options */
     // "sourceRoot": "",                      /* Specify the location where debugger should locate TypeScript files instead of source locations. */
@@ -73,7 +74,7 @@
     "packages/global.d.ts",
     "packages/*/src",
     "packages/*/test",
-    "packages/*/*.config.ts",
+    // TODO: "packages/*/*.config.ts",
     "scripts",
     "e2e",
     "shim.d.ts",

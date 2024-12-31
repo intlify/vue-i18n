@@ -6,7 +6,7 @@ import { baseFormatProps } from './base'
 import { getFragmentableTag, getInterpolateArg } from './utils'
 
 import type { TranslateOptions } from '@intlify/core-base'
-import type { VNodeChild, VNodeProps } from 'vue'
+import type { SetupContext, VNodeChild, VNodeProps } from 'vue'
 import type { Composer, ComposerInternal } from '../composer'
 import type { BaseFormatProps } from './base'
 
@@ -31,7 +31,7 @@ export interface TranslationProps extends BaseFormatProps {
 export const TranslationImpl = /*#__PURE__*/ defineComponent({
   /* eslint-disable */
   name: 'i18n-t',
-  props: assign(
+  props: /*#__PURE__*/ assign(
     {
       keypath: {
         type: String,
@@ -46,8 +46,7 @@ export const TranslationImpl = /*#__PURE__*/ defineComponent({
     baseFormatProps
   ),
   /* eslint-enable */
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  setup(props: any, context: any): any {
+  setup(props: TranslationProps, context: SetupContext) {
     const { slots, attrs } = context
     // NOTE: avoid https://github.com/microsoft/rushstack/issues/1050
     const i18n =
@@ -143,4 +142,4 @@ export const Translation = TranslationImpl as unknown as {
   }
 }
 
-export const I18nT = Translation
+export const I18nT: typeof Translation = Translation

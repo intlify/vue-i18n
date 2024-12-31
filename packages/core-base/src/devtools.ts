@@ -30,10 +30,14 @@ export function initI18nDevTools(
     })
 }
 
-export const translateDevTools =
+export const translateDevTools: ReturnType<typeof createDevToolsHook> =
   /* #__PURE__*/ createDevToolsHook('function:translate')
 
-function createDevToolsHook(hook: IntlifyDevToolsHooks) {
+function createDevToolsHook(
+  hook: IntlifyDevToolsHooks
+): (
+  payloads: IntlifyDevToolsHookPayloads[IntlifyDevToolsHooks]
+) => void | null {
   return (payloads: IntlifyDevToolsHookPayloads[IntlifyDevToolsHooks]) =>
     devtools && devtools.emit(hook, payloads)
 }

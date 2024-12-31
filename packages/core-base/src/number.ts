@@ -290,7 +290,7 @@ export function number<
 }
 
 /** @internal */
-export const NUMBER_FORMAT_OPTIONS_KEYS = [
+export const NUMBER_FORMAT_OPTIONS_KEYS: string[] = [
   'localeMatcher',
   'style',
   'currency',
