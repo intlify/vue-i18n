@@ -129,7 +129,7 @@ export interface I18nAdditionalOptions {
    *
    * @deprecated will be removed at vue-i18n v12
    *
-   * @VueI18nSee [Composition API](../guide/advanced/composition)
+   * @VueI18nSee [Composition API](../../guide/advanced/composition)
    *
    * @defaultValue `true`
    */
@@ -140,7 +140,7 @@ export interface I18nAdditionalOptions {
    * @remarks
    * If set to `true`, then properties and methods prefixed with `$` are injected into Vue Component.
    *
-   * @VueI18nSee [Implicit with injected properties and functions](../guide/advanced/composition#implicit-with-injected-properties-and-functions)
+   * @VueI18nSee [Implicit with injected properties and functions](../../guide/advanced/composition#implicit-with-injected-properties-and-functions)
    * @VueI18nSee [ComponentCustomProperties](injection#componentcustomproperties)
    *
    * @defaultValue `true`
@@ -382,8 +382,8 @@ export function createI18n<
  *
  * If you use composition API mode, you need to specify {@link ComposerOptions}.
  *
- * @VueI18nSee [Getting Started](../guide/essentials/started)
- * @VueI18nSee [Composition API](../guide/advanced/composition)
+ * @VueI18nSee [Getting Started](../../guide/essentials/started)
+ * @VueI18nSee [Composition API](../../guide/advanced/composition)
  *
  * @example
  * case: for Legacy API

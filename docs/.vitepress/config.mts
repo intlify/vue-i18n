@@ -46,6 +46,8 @@ export default defineConfig({
     sidebar: {
       '/guide/': sidebarGuide(),
       '/api/': sidebarApi(),
+      // NOTE: if we need to support multiple versions, we can be enble the following sidebar items
+      // '/api/v11/': sidebarApi('v11/'),
       '/ecosystem/': sidebarEcosystem()
     }
   }
@@ -59,7 +61,9 @@ function nav() {
     },
     {
       text: 'API',
-      link: '/api/general'
+      link: '/api/general',
+      // NOTE: if we need to support multiple versions, we can be enble the following navigation items
+      // items: [{ text: 'latest', link: '/api/general' }, { text: 'v9 ~ v11', link: '/api/v11/general' }]
     },
     {
       text: 'Ecosystem',
@@ -241,34 +245,34 @@ function sidebarGuide() {
   ]
 }
 
-function sidebarApi() {
+function sidebarApi(ns = '') {
   return [
     {
       text: 'API Reference',
       items: [
         {
           text: 'General',
-          link: '/api/general'
+          link: `/api/${ns}general`
         },
         {
           text: 'Legacy API',
-          link: '/api/legacy'
+          link: `/api/${ns}legacy`
         },
         {
           text: 'Composition API',
-          link: '/api/composition'
+          link: `/api/${ns}composition`
         },
         {
           text: 'Components',
-          link: '/api/component'
+          link: `/api/${ns}component`
         },
         {
           text: 'Directives',
-          link: '/api/directive'
+          link: `/api/${ns}directive`
         },
         {
           text: 'Component Injections',
-          link: '/api/injection'
+          link: `/api/${ns}injection`
         }
       ]
     }
