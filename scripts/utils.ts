@@ -1,5 +1,5 @@
 import { promises as fs } from 'node:fs'
-import { resolve, dirname } from 'node:path'
+import { dirname, resolve } from 'node:path'
 import pc from 'picocolors'
 
 export const targets = async () => {
@@ -24,7 +24,7 @@ export const targets = async () => {
 
 export const fuzzyMatchTarget = async (
   partialTargets: string[],
-  includeAllMatching = null
+  includeAllMatching?: boolean
 ) => {
   const matched: string[] = []
   const _targets = await targets()

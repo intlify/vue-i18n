@@ -15,16 +15,15 @@ pnpm build core --formats cjs
 */
 
 import { Extractor, ExtractorConfig } from '@microsoft/api-extractor'
-import { compress } from 'brotli'
 import { execa } from 'execa'
-import minimist from 'minimist'
-import { promises as fs } from 'node:fs'
+import { spawnSync } from 'node:child_process'
+import { existsSync, promises as fs } from 'node:fs'
 import os from 'node:os'
 import path from 'node:path'
-import { promisify } from 'node:util'
-import { gzip as _gzip } from 'node:zlib'
+import { fileURLToPath } from 'node:url'
+import { parseArgs } from 'node:util'
+import { brotliCompressSync, gzipSync } from 'node:zlib'
 import pc from 'picocolors'
-import { rimrafSync } from 'rimraf'
 import {
   targets as allTargets,
   checkSizeDistFiles,
@@ -32,41 +31,82 @@ import {
   readJson
 } from './utils'
 
-const gzip = promisify(_gzip)
+const __dirname = fileURLToPath(new URL('.', import.meta.url))
+const commit = spawnSync('git', ['rev-parse', '--short=7', 'HEAD'])
+  .stdout.toString()
+  .trim()
+
+const { values, positionals: targets } = parseArgs({
+  allowPositionals: true,
+  options: {
+    formats: {
+      type: 'string',
+      short: 'f'
+    },
+    devOnly: {
+      type: 'boolean',
+      short: 'd'
+    },
+    prodOnly: {
+      type: 'boolean',
+      short: 'p'
+    },
+    withTypes: {
+      type: 'boolean',
+      short: 't'
+    },
+    sourceMap: {
+      type: 'boolean',
+      short: 's'
+    },
+    release: {
+      type: 'boolean'
+    },
+    all: {
+      type: 'boolean',
+      short: 'a'
+    },
+    size: {
+      type: 'boolean'
+    }
+  }
+})
+
+const {
+  formats: rawFormats,
+  all: buildAllMatching,
+  devOnly,
+  prodOnly,
+  withTypes: buildTypes,
+  sourceMap,
+  release: isRelease,
+  size
+} = values
+
+const formats = rawFormats?.split(',')
 
 async function main() {
-  const args = minimist(process.argv.slice(2))
-  let targets = args._
-  const formats = args.formats || args.f
-  const devOnly = args.devOnly || args.d
-  const prodOnly = !devOnly && (args.prodOnly || args.p)
-  const sourceMap = args.sourcemap || args.s
-  const isRelease = args.release
-  const buildTypes = args.t || args.types
-  const buildAllMatching = args.all || args.a
-  const { stdout } = await execa('git', ['rev-parse', 'HEAD'])
-  const commit = stdout.slice(0, 7)
-
   await run()
 
   async function run() {
-    if (isRelease) {
+    const rtsCachePath = path.resolve(__dirname, './node_modules/.rts2_cache')
+    if (isRelease && existsSync(rtsCachePath)) {
       // remove build cache for release builds to avoid outdated enum values
-      rimrafSync(path.resolve(path.dirname('.'), './node_modules/.rts2_cache'))
+      await fs.rm(rtsCachePath, { recursive: true })
     }
-    if (!targets.length) {
-      targets = await allTargets()
-      await buildAll(targets)
-      await checkAllSizes(targets)
-    } else {
-      targets = await fuzzyMatchTarget(targets, buildAllMatching)
-      await buildAll(targets)
-      await checkAllSizes(targets)
+    const resolvedTargets = targets.length
+      ? await fuzzyMatchTarget(targets, buildAllMatching)
+      : await allTargets()
+    await buildAll(resolvedTargets)
+    if (size) {
+      await checkAllSizes(resolvedTargets)
     }
   }
 
   async function buildAll(targets: string[]) {
+    const start = performance.now()
     await runParallel(os.cpus().length, targets, build)
+    console.log(`\nbuilt in ${(performance.now() - start).toFixed(2)}ms.`)
   }
 
   async function runParallel(
@@ -92,17 +132,8 @@ async function main() {
     return Promise.all(ret)
   }
 
-  async function isExist(filePath: string) {
-    try {
-      await fs.access(filePath)
-      return true
-    } catch {
-      return false
-    }
-  }
-
   async function build(target: string) {
-    const pkgDir = path.resolve(path.dirname('.'), `./packages/${target}`)
+    const pkgDir = path.resolve(__dirname, `../packages/${target}`)
     const pkg = await readJson(`${pkgDir}/package.json`)
 
     // only build published packages for release
@@ -111,8 +142,8 @@ async function main() {
     }
 
     // if building a specific format, do not remove dist.
-    if (!formats) {
-      rimrafSync(`${pkgDir}/dist`)
+    if (!formats && existsSync(`${pkgDir}/dist`)) {
+      await fs.rm(`${pkgDir}/dist`, { recursive: true })
     }
 
     const env =
@@ -156,7 +187,7 @@ async function main() {
       if (extractorResult.succeeded) {
         // concat additional d.ts to rolled-up dts
         const typesDir = path.resolve(pkgDir, 'types')
-        if (await isExist(typesDir)) {
+        if (existsSync(typesDir)) {
           const dtsPath = path.resolve(pkgDir, pkg.types)
           const existing = await fs.readFile(dtsPath, 'utf-8')
           const typeFiles = await fs.readdir(typesDir)
@@ -214,7 +245,7 @@ async function main() {
         )
       }
 
-      rimrafSync(`${pkgDir}/dist/packages`)
+      await fs.rm(`${pkgDir}/dist/packages`, { recursive: true })
     }
   }
 
@@ -238,14 +269,14 @@ async function main() {
   }
 
   async function checkFileSize(filePath: string) {
-    if (!(await isExist(filePath))) {
+    if (!existsSync(filePath)) {
       return
     }
     const file = await fs.readFile(filePath)
     const minSize = (file.length / 1024).toFixed(2) + 'kb'
-    const gzipped = await gzip(file)
+    const gzipped = gzipSync(file)
     const gzippedSize = (gzipped.length / 1024).toFixed(2) + 'kb'
-    const compressed = compress(file)
+    const compressed = brotliCompressSync(file)
     const compressedSize =
       compressed != null ? (compressed.length / 1024).toFixed(2) + 'kb' : 'N/A'
     console.log(

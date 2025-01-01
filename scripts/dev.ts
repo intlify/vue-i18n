@@ -17,19 +17,36 @@ __DEV__=false pnpm run dev
 */
 
 import { execa } from 'execa'
+import { spawnSync } from 'node:child_process'
+import { parseArgs } from 'node:util'
 import { fuzzyMatchTarget } from './utils'
-import minimist from 'minimist'
 
-// eslint-disable-next-line @typescript-eslint/no-floating-promises
-;(async () => {
-  const args = minimist(process.argv.slice(2))
-  const target = args._.length
-    ? (await fuzzyMatchTarget(args._))[0]
+const commit = spawnSync('git', ['rev-parse', '--short=7', 'HEAD'])
+  .stdout.toString()
+  .trim()
+
+const { values, positionals: targets } = parseArgs({
+  allowPositionals: true,
+  options: {
+    formats: {
+      type: 'string',
+      short: 'f'
+    },
+    sourceMap: {
+      type: 'boolean',
+      short: 's'
+    }
+  }
+})
+
+const { formats: rawFormats, sourceMap } = values
+
+const formats = rawFormats?.split(',')
+
+async function main() {
+  const resolveTarget = targets.length
+    ? (await fuzzyMatchTarget(targets))[0]
     : 'vue-i18n'
-  const formats = args.formats || args.f
-  const sourceMap = args.sourcemap || args.s
-  const { stdout } = await execa('git', ['rev-parse', 'HEAD'])
-  const commit = stdout.slice(0, 7)
 
   // eslint-disable-next-line @typescript-eslint/no-floating-promises
   execa(
@@ -39,7 +56,7 @@ import minimist from 'minimist'
       '--environment',
       [
         `COMMIT:${commit}`,
-        `TARGET:${target}`,
+        `TARGET:${resolveTarget}`,
         `FORMATS:${formats || 'global'}`,
         sourceMap ? `SOURCE_MAP:true` : ``
       ]
@@ -50,4 +67,9 @@ import minimist from 'minimist'
       stdio: 'inherit'
     }
   )
-})()
+}
+
+main().catch(err => {
+  console.error(err)
+  process.exit(1)
+})
