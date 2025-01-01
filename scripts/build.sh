@@ -1,7 +1,7 @@
 #!/bin/bash
 
-set -xe
+set -e
 
-pnpm build --types
+pnpm build --withTypes --size
 
 tsx ./scripts/postprocess.ts
