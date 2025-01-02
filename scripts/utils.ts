@@ -56,7 +56,11 @@ export const fuzzyMatchTarget = async (
 
 export async function checkSizeDistFiles(target: string) {
   const dirs = await fs.readdir(`${target}/dist`)
-  return dirs.filter(file => /prod.(cjs|js)$/.test(file))
+  // prettier-ignore
+  return dirs.filter(file => /^(message-compiler|core|vue-i18n|petite-vue-i18n)/.test(file))
+    .filter(file => !/^core-base/.test(file))
+    .filter(file => /prod.(cjs|js)$/.test(file))
+    .filter(file => !/cjs.prod.js$/.test(file))
 }
 
 export async function readJson(path: string) {
