@@ -64,7 +64,7 @@ jobs:
           if_no_artifact_found: warn
 
       - name: Prepare report
-        run: npx tsx scripts/size-report.ts > size-report.md
+        run: npx tsx scripts/report-size.ts > size-report.md
 
       - name: Read Size Report
         id: size-report
