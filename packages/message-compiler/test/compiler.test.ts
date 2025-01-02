@@ -102,11 +102,11 @@ describe('compiler options', () => {
     expect(map).toBeUndefined()
   })
 
-  test('minify: true', () => {
+  test('mangle: true', () => {
     const { ast } = compile(`hello world`, {
       location: false,
       jit: true,
-      minify: true
+      mangle: true
     })
     expect(ast).toMatchSnapshot('ast')
   })

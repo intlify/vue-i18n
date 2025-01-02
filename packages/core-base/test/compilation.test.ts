@@ -1,5 +1,4 @@
 // utils
-import * as shared from '@intlify/shared'
 vi.mock('@intlify/shared', async () => {
   const actual = await vi.importActual<object>('@intlify/shared')
   return {
@@ -9,7 +8,7 @@ vi.mock('@intlify/shared', async () => {
 })
 
 import { baseCompile } from '@intlify/message-compiler'
-import { compile, isMessageAST, clearCompileCache } from '../src/compilation'
+import { clearCompileCache, compile, isMessageAST } from '../src/compilation'
 import { createMessageContext as context } from '../src/runtime'
 
 const DEFAULT_CONTEXT = { locale: 'en', key: 'key' }
@@ -25,7 +24,7 @@ describe('isMessageAST', () => {
     })
   })
 
-  describe('minify AST', () => {
+  describe('mangle AST', () => {
     test('should be true', () => {
       expect(isMessageAST({ type: 0, b: '' })).toBe(true)
     })
@@ -60,11 +59,11 @@ describe('compile', () => {
       expect(msg(ctx)).toBe('hello kazupon!')
     })
 
-    test('minify', () => {
+    test('mangle', () => {
       const { ast } = baseCompile('hello {name}!', {
         location: false,
         jit: true,
-        minify: true
+        mangle: true
       })
       const msg = compile(ast, DEFAULT_CONTEXT)
       const ctx = context({
@@ -78,7 +77,7 @@ describe('compile', () => {
     const { ast } = baseCompile('hello {0}!', {
       location: false,
       jit: true,
-      minify: true
+      mangle: true
     })
     const msg = compile(ast, DEFAULT_CONTEXT)
     const ctx = context({

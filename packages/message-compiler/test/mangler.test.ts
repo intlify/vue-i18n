@@ -1,16 +1,16 @@
 import { format } from '@intlify/shared'
-import { createParser } from '../src/parser'
-import { optimize } from '../src/optimizer'
-import { minify } from '../src/minifier'
 import { CompileErrorCodes, errorMessages } from '../src/errors'
+import { mangle } from '../src/mangler'
+import { optimize } from '../src/optimizer'
+import { createParser } from '../src/parser'
 
 import type { MessageNode, PluralNode, ResourceNode } from '../src/nodes'
 
-test('minify', () => {
+test('mangle', () => {
   const parser = createParser({ location: false })
   const msg = `no apples | {0} apple | {n} apples`
   const ast = optimize(parser.parse(msg))
-  minify(ast)
+  mangle(ast)
 
   expect(ast).toMatchSnapshot()
   const messages = (ast.b! as PluralNode)
@@ -25,7 +25,7 @@ test('unhandle error', () => {
   const ast = {
     type
   } as unknown as ResourceNode
-  expect(() => minify(ast)).toThrowError(
+  expect(() => mangle(ast)).toThrowError(
     format(errorMessages[CompileErrorCodes.UNHANDLED_MINIFIER_NODE_TYPE], type)
   )
 })
