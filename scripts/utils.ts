@@ -2,6 +2,13 @@ import { promises as fs } from 'node:fs'
 import { dirname, resolve } from 'node:path'
 import pc from 'picocolors'
 
+export type BundleReport = {
+  name: string
+  size: number
+  gzip: number
+  brotli: number
+}
+
 export const targets = async () => {
   const packages = await fs.readdir('packages')
   const files = await Promise.all(

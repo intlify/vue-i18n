@@ -5,15 +5,10 @@ import { fileURLToPath } from 'node:url'
 import pc from 'picocolors'
 import { displaySize, sizeTargets } from './utils'
 
+import type { BundleReport } from './utils'
+
 const __dirname = fileURLToPath(new URL('.', import.meta.url))
 const sizeDir = path.resolve(__dirname, '../temp/size')
-
-type BundleReport = {
-  name: string
-  size: number
-  gzip: number
-  brotli: number
-}
 
 async function main() {
   console.log('📏 Checking bundle sizes ...')

@@ -111,6 +111,9 @@ importers:
       listhen:
         specifier: ^1.7.2
         version: 1.7.2
+      markdown-table:
+        specifier: ^3.0.4
+        version: 3.0.4
       mitata:
         specifier: ^1.0.20
         version: 1.0.20
@@ -5014,6 +5017,9 @@ packages:
 
   markdown-table@2.0.0:
     resolution: {integrity: sha512-Ezda85ToJUBhM6WGaG6veasyym+Tbs3cMAw/ZhOPqXiYsr0jgocBV3j3nx+4lk47plLlIqjwuTm/ywVI+zjJ/A==}
+
+  markdown-table@3.0.4:
+    resolution: {integrity: sha512-wiYz4+JrLyb/DqW2hkFJxP7Vd7JuTDm77fvbM8VfEQdmSMqcImWeeRbHwZjBjIFki/VaMK2BhFi7oUUZeM5bqw==}
 
   match-casing@1.0.3:
     resolution: {integrity: sha512-oMyC3vUVCFbGu+M2Zxl212LPJThcaw7QxB5lFuJPQCgV/dsGBP0yZeCoLmX6CiBkoBcVbAKDJZrBpJVu0XcLMw==}
@@ -12702,6 +12708,8 @@ snapshots:
   markdown-table@2.0.0:
     dependencies:
       repeat-string: 1.6.1
+
+  markdown-table@3.0.4: {}
 
   match-casing@1.0.3: {}
 
