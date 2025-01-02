@@ -5,6 +5,7 @@ on:
     workflows: ['Size data']
     types:
       - completed
+  workflow_dispatch:
 
 permissions:
   contents: read
