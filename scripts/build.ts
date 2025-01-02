@@ -27,6 +27,7 @@ import pc from 'picocolors'
 import {
   targets as allTargets,
   checkSizeDistFiles,
+  displaySize,
   fuzzyMatchTarget,
   readJson
 } from './utils'
@@ -282,16 +283,12 @@ async function main() {
     const file = await fs.readFile(filePath)
     const filename = path.basename(filePath)
 
-    const minSize = (file.length / 1024).toFixed(2) + 'kb'
     const gzipped = gzipSync(file)
-    const gzippedSize = (gzipped.length / 1024).toFixed(2) + 'kb'
-    const compressed = brotliCompressSync(file)
-    const compressedSize =
-      compressed != null ? (compressed.length / 1024).toFixed(2) + 'kb' : 'N/A'
+    const brotli = brotliCompressSync(file)
     console.log(
-      `📦  ${pc.gray(
+      `📦  ${pc.green(
         pc.bold(path.basename(filePath))
-      )} min:${minSize} / gzip:${gzippedSize} / brotli:${compressedSize}`
+      )} - min: ${displaySize(file.length)} / gzip: ${displaySize(gzipped.length)} / brotli: ${displaySize(brotli.length)}`
     )
 
     if (size) {
@@ -300,7 +297,7 @@ async function main() {
           file: filename,
           size: file.length,
           gzip: gzipped.length,
-          brotli: compressed.length
+          brotli: brotli.length
         },
         null,
         2
