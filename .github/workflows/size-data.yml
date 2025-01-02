@@ -1,0 +1,48 @@
+name: Size data
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+
+permissions:
+  contents: read
+
+jobs:
+  upload:
+    if: github.repository == 'intlify/vue-i18n'
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout codes
+        uses: actions/checkout@v4
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4.0.0
+
+      - name: Setup node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 23
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Check size
+        run: pnpm size
+
+      - name: Save PR number & base branch
+        if: ${{github.event_name == 'pull_request'}}
+        run: |
+          echo ${{ github.event.number }} > ./temp/size/number.txt
+          echo ${{ github.base_ref }} > ./temp/size/base.txt
+
+      - name: Upload Size Data
+        uses: actions/upload-artifact@v4
+        with:
+          name: size-data
+          path: temp/size

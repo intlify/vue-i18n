@@ -2,6 +2,6 @@
 
 set -e
 
-pnpm build --withTypes --size
+pnpm build --withTypes
 
 tsx ./scripts/postprocess.ts

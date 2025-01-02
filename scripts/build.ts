@@ -27,6 +27,7 @@ import pc from 'picocolors'
 import {
   targets as allTargets,
   checkSizeDistFiles,
+  displaySize,
   fuzzyMatchTarget,
   readJson
 } from './utils'
@@ -84,20 +85,27 @@ const {
 } = values
 
 const formats = rawFormats?.split(',')
+const sizeDir = path.resolve(__dirname, '../temp/size')
 
 async function main() {
   await run()
 
   async function run() {
+    if (size) {
+      await fs.mkdir(sizeDir, { recursive: true })
+    }
+
     const rtsCachePath = path.resolve(__dirname, './node_modules/.rts2_cache')
     if (isRelease && existsSync(rtsCachePath)) {
       // remove build cache for release builds to avoid outdated enum values
       await fs.rm(rtsCachePath, { recursive: true })
     }
+
     const resolvedTargets = targets.length
       ? await fuzzyMatchTarget(targets, buildAllMatching)
       : await allTargets()
     await buildAll(resolvedTargets)
+
     if (size) {
       await checkAllSizes(resolvedTargets)
     }
@@ -273,17 +281,33 @@ async function main() {
       return
     }
     const file = await fs.readFile(filePath)
-    const minSize = (file.length / 1024).toFixed(2) + 'kb'
+    const filename = path.basename(filePath)
+
     const gzipped = gzipSync(file)
-    const gzippedSize = (gzipped.length / 1024).toFixed(2) + 'kb'
-    const compressed = brotliCompressSync(file)
-    const compressedSize =
-      compressed != null ? (compressed.length / 1024).toFixed(2) + 'kb' : 'N/A'
+    const brotli = brotliCompressSync(file)
     console.log(
-      `📦  ${pc.gray(
+      `📦  ${pc.green(
         pc.bold(path.basename(filePath))
-      )} min:${minSize} / gzip:${gzippedSize} / brotli:${compressedSize}`
+      )} - min: ${displaySize(file.length)} / gzip: ${displaySize(gzipped.length)} / brotli: ${displaySize(brotli.length)}`
     )
+
+    if (size) {
+      const sizeContents = JSON.stringify(
+        {
+          file: filename,
+          size: file.length,
+          gzip: gzipped.length,
+          brotli: brotli.length
+        },
+        null,
+        2
+      )
+      await fs.writeFile(
+        path.resolve(sizeDir, `${filename}.json`),
+        sizeContents,
+        'utf-8'
+      )
+    }
   }
 }
 
