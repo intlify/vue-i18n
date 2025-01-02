@@ -196,8 +196,8 @@ importers:
         specifier: ^1.0.0
         version: 1.0.1
       textlint-rule-stop-words:
-        specifier: ^4.0.0
-        version: 4.0.0
+        specifier: ^5.0.0
+        version: 5.1.0
       textlint-rule-terminology:
         specifier: ^4.0.0
         version: 4.0.1
@@ -6497,9 +6497,9 @@ packages:
     resolution: {integrity: sha512-1POYv7uv2gXoyGFpBCmpDVSNV74IfsWlDW216UPjbWufNf+bSU6GdbDsxdcxtfwb4xlI3yxzOTKClUosxARYrQ==}
     engines: {node: '>=0.10.0'}
 
-  split-lines@2.1.0:
-    resolution: {integrity: sha512-8dv+1zKgTpfTkOy8XZLFyWrfxO0NV/bj/3EaQ+hBrBxGv2DwiroljPjU8NlCr+59nLnsVm9WYT7lXKwe4TC6bw==}
-    engines: {node: '>=6'}
+  split-lines@3.0.0:
+    resolution: {integrity: sha512-d0TpRBL/VfKDXsk8JxPF7zgF5pCUDdBMSlEL36xBgVeaX448t+yGXcJaikUyzkoKOJ0l6KpMfygzJU9naIuivw==}
+    engines: {node: '>=12'}
 
   split-on-first@3.0.0:
     resolution: {integrity: sha512-qxQJTx2ryR0Dw0ITYyekNQWpz6f8dGd7vffGNflQQ3Iqj9NJ6qiZ7ELpZsJ/QBhIVAiDfXdag3+Gp8RvWa62AA==}
@@ -6800,9 +6800,9 @@ packages:
   textlint-rule-period-in-list-item@1.0.1:
     resolution: {integrity: sha512-dNPa4WzePcgsz8A+CxFGQgKNZCEvjjwMCu3DFcpYB4eKuhcSISEiS/mvEO42oGAALJluYdYVZxN3yMD6XzkLBA==}
 
-  textlint-rule-stop-words@4.0.0:
-    resolution: {integrity: sha512-vP99cbTyapn+Hviom2doO3pJtjlhKlZvlHTf21zoB22CxJx2w3S7Ie169neB5U4Xsei+NodHf5tnwT933mO19A==}
-    engines: {node: '>=18'}
+  textlint-rule-stop-words@5.1.0:
+    resolution: {integrity: sha512-Ii1UXka8V6ceh+nrtVBwdZzQ2OoPkl7zBDK+OgwkaPVqqkm84if19kou0RzXtgtV8R+tQlW4BSC4x2pTHYq/Xg==}
+    engines: {node: '>=20'}
 
   textlint-rule-terminology@4.0.1:
     resolution: {integrity: sha512-wKiVhc2B9HP2MFU4x7ZDx+oM5u43ETpKWTLHKvdhPRZ0+davi4M8mFmkZVovDIMO7igsGjixikcvFmnCMg3kmQ==}
@@ -14453,7 +14453,7 @@ snapshots:
 
   speakingurl@14.0.1: {}
 
-  split-lines@2.1.0: {}
+  split-lines@3.0.0: {}
 
   split-on-first@3.0.0: {}
 
@@ -14791,10 +14791,10 @@ snapshots:
     dependencies:
       check-ends-with-period: 3.0.2
 
-  textlint-rule-stop-words@4.0.0:
+  textlint-rule-stop-words@5.1.0:
     dependencies:
       lodash: 4.17.21
-      split-lines: 2.1.0
+      split-lines: 3.0.0
       textlint-rule-helper: 2.3.1
 
   textlint-rule-terminology@4.0.1:
