@@ -1,8 +1,8 @@
-name: size report
+name: Size report
 
 on:
   workflow_run:
-    workflows: ['size data']
+    workflows: ['Size data']
     types:
       - completed
 
