@@ -86,6 +86,7 @@ export async function checkSizeDistFiles(target: string) {
   // prettier-ignore
   return dirs.filter(file => /^(message-compiler|core|vue-i18n|petite-vue-i18n)/.test(file))
     .filter(file => !/^core-base/.test(file))
+    .filter(file => !/^vue-i18n-core/.test(file))
     .filter(file => /prod.(cjs|js)$/.test(file))
     .filter(file => !/cjs.prod.js$/.test(file))
 }

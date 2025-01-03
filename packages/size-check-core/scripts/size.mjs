@@ -14,7 +14,7 @@ const gzip = gzipSync(bundled).length
 const brotli = brotliCompressSync(bundled).length
 
 const report = {
-  name: '@intlify/core',
+  name: 'packages/size-check-core (@intlify/core)',
   size,
   gzip,
   brotli

@@ -14,7 +14,7 @@ const gzip = gzipSync(bundled).length
 const brotli = brotliCompressSync(bundled).length
 
 const report = {
-  name: 'vue-i18n',
+  name: 'packages/size-check-vue-i18n (vue-i18n)',
   size,
   gzip,
   brotli
