@@ -25,7 +25,7 @@ const packageOptions = pkg.buildOptions || {}
 
 const banner = `/*!
   * ${name} v${pkg.version}
-  * (c) ${new Date().getFullYear()} ${pkg.author.name}
+  * (c) 2016-present ${pkg.author.name} and contributors
   * Released under the ${pkg.license} License.
   */`
 
