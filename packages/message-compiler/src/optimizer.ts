@@ -1,5 +1,5 @@
-import { NodeTypes } from './nodes'
 import { join } from '@intlify/shared'
+import { NodeTypes } from './nodes'
 
 import type { MessageNode, ResourceNode } from './nodes'
 

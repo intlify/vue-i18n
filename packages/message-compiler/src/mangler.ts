@@ -15,7 +15,7 @@ import type {
   TextNode
 } from './nodes'
 
-export const ERROR_DOMAIN = 'minifier'
+const ERROR_DOMAIN = 'minifier'
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 

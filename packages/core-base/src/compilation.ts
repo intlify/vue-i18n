@@ -1,7 +1,9 @@
 import {
-  baseCompile as baseCompileCore,
+  createParser,
   defaultOnError,
-  detectHtmlTag
+  detectHtmlTag,
+  mangle,
+  optimize
 } from '@intlify/message-compiler'
 import {
   create,
@@ -59,8 +61,17 @@ function baseCompile(
     onError(err)
   }
 
-  // compile with mesasge-compiler
-  return { ...baseCompileCore(message, options), detectError }
+  // parse source codes
+  const parser = createParser(options)
+  const ast = parser.parse(message)
+
+  // optimize ASTs
+  options.optimize && optimize(ast)
+
+  // minimize ASTs
+  options.mangle && mangle(ast)
+
+  return { ast, detectError, code: '' }
 }
 
 /* #__NO_SIDE_EFFECTS__ */
@@ -94,11 +105,12 @@ export function compile<
       return cached
     }
 
-    // compile with JIT mode
+    // compile message
     const { ast, detectError } = baseCompile(message, {
       ...context,
       location: __DEV__,
-      jit: true
+      mangle: !__DEV__,
+      optimize: !__DEV__
     })
 
     // compose message function from AST

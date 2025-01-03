@@ -24,6 +24,9 @@ export function baseCompile(
   const parser = createParser(assignedOptions)
   const ast = parser.parse(source)
 
+  // TODO:
+  // With the introduction of Jit compilation, code generation is no longer necessary. This function may no longer be needed since tree-shaking is not possible.
+
   if (!jit) {
     // transform ASTs
     transform(ast, assignedOptions)
