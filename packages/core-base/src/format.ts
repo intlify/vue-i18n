@@ -177,7 +177,7 @@ function resolveValue<Message = string>(
     node as Node,
     PROPS_VALUE
   ) as MessageType<Message>
-  if (resolved) {
+  if (resolved != null) {
     return resolved
   } else {
     throw createUnhandleNodeError(type)
