@@ -1,31 +1,31 @@
+import { CompileErrorCodes, createCompileError } from './errors'
 import { NodeTypes } from './nodes'
-import { createCompileError, CompileErrorCodes } from './errors'
 
 import type {
-  MessageNode,
-  ResourceNode,
-  Node,
-  PluralNode,
-  TextNode,
-  LiteralNode,
-  LinkedNode,
   LinkedKeyNode,
   LinkedModifierNode,
+  LinkedNode,
   ListNode,
-  NamedNode
+  LiteralNode,
+  MessageNode,
+  NamedNode,
+  Node,
+  PluralNode,
+  ResourceNode,
+  TextNode
 } from './nodes'
 
 export const ERROR_DOMAIN = 'minifier'
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-export function minify(node: Node) {
+export function mangle(node: Node) {
   node.t = node.type
 
   switch (node.type) {
     case NodeTypes.Resource: {
       const resource = node as ResourceNode
-      minify(resource.body)
+      mangle(resource.body)
       resource.b = resource.body
       delete (resource as any).body
       break
@@ -34,7 +34,7 @@ export function minify(node: Node) {
       const plural = node as PluralNode
       const cases = plural.cases
       for (let i = 0; i < cases.length; i++) {
-        minify(cases[i])
+        mangle(cases[i])
       }
       plural.c = cases
       delete (plural as any).cases
@@ -44,7 +44,7 @@ export function minify(node: Node) {
       const message = node as MessageNode
       const items = message.items
       for (let i = 0; i < items.length; i++) {
-        minify(items[i])
+        mangle(items[i])
       }
       message.i = items
       delete (message as any).items
@@ -71,11 +71,11 @@ export function minify(node: Node) {
     }
     case NodeTypes.Linked: {
       const linked = node as LinkedNode
-      minify(linked.key)
+      mangle(linked.key)
       linked.k = linked.key
       delete (linked as any).key
       if (linked.modifier) {
-        minify(linked.modifier)
+        mangle(linked.modifier)
         linked.m = linked.modifier
         delete (linked as any).modifier
       }

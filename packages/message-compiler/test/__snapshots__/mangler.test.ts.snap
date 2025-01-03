@@ -1,0 +1,47 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`mangle 1`] = `
+{
+  "b": {
+    "c": [
+      {
+        "i": [
+          {
+            "t": 3,
+          },
+        ],
+        "s": "no apples",
+        "t": 2,
+      },
+      {
+        "i": [
+          {
+            "i": 0,
+            "t": 5,
+          },
+          {
+            "t": 3,
+            "v": " apple",
+          },
+        ],
+        "t": 2,
+      },
+      {
+        "i": [
+          {
+            "k": "n",
+            "t": 4,
+          },
+          {
+            "t": 3,
+            "v": " apples",
+          },
+        ],
+        "t": 2,
+      },
+    ],
+    "t": 1,
+  },
+  "t": 0,
+}
+`;
