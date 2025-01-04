@@ -1,21 +1,17 @@
 import { initFeatureFlags } from './misc'
 
-export {
+export { createCompileError } from '@intlify/message-compiler'
+export type {
   CompileError,
   CompileErrorCodes,
-  createCompileError,
   ResourceNode
 } from '@intlify/message-compiler'
 export * from './compilation'
 export * from './context'
 export * from './datetime'
 export * from './devtools'
-export {
-  CORE_ERROR_CODES_EXTEND_POINT,
-  CoreError,
-  CoreErrorCodes,
-  createCoreError
-} from './errors'
+export { CORE_ERROR_CODES_EXTEND_POINT, createCoreError } from './errors'
+export type { CoreError, CoreErrorCodes } from './errors'
 export * from './fallbacker'
 export * from './number'
 export * from './resolver'

@@ -13,7 +13,7 @@ if (__ESM_BUNDLER__ && !__TEST__) {
 // register message compiler at petite-vue-i18n
 registerMessageCompiler(compile)
 
-export {
+export type {
   CompileError,
   DateTimeOptions,
   FallbackLocale,
@@ -47,7 +47,7 @@ export {
   RemovedIndexResources,
   TranslateOptions
 } from '@intlify/core-base'
-export {
+export type {
   Composer,
   ComposerCustom,
   ComposerDateTimeFormatting,
@@ -66,20 +66,19 @@ export {
   MissingHandler,
   VueMessageType
 } from '../../vue-i18n-core/src/composer'
-export {
+export { createI18n, useI18n } from '../../vue-i18n-core/src/i18n'
+export type {
   ComposerAdditionalOptions,
   ComposerExtender,
-  createI18n,
   ExportedGlobalComposer,
   I18n,
   I18nAdditionalOptions,
   I18nMode,
   I18nOptions,
   I18nScope,
-  useI18n,
   UseI18nOptions
 } from '../../vue-i18n-core/src/i18n'
-export {
+export type {
   Choice,
   DateTimeFormatResult,
   LocaleMessageObject,
@@ -95,9 +94,9 @@ export {
   VueI18nTranslation,
   WarnHtmlInMessageLevel
 } from '../../vue-i18n-core/src/legacy'
-export { I18nPluginOptions } from '../../vue-i18n-core/src/plugin'
+export type { I18nPluginOptions } from '../../vue-i18n-core/src/plugin'
 export { VERSION } from './../../vue-i18n-core/src/misc'
-export { Disposer } from './../../vue-i18n-core/src/types'
+export type { Disposer } from './../../vue-i18n-core/src/types'
 
 export type {
   IsEmptyObject,
