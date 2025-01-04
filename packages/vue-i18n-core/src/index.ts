@@ -2,7 +2,7 @@ import { setDevToolsHook } from '@intlify/core-base'
 import { getGlobalThis } from '@intlify/shared'
 import { initDev, initFeatureFlags } from './misc'
 
-export {
+export type {
   CompileError,
   DateTimeOptions,
   FallbackLocale,
@@ -36,7 +36,7 @@ export {
   SchemaParams,
   TranslateOptions
 } from '@intlify/core-base'
-export {
+export type {
   BaseFormatProps,
   ComponentI18nScope,
   DatetimeFormat,
@@ -50,7 +50,7 @@ export {
   Translation,
   TranslationProps
 } from './components'
-export {
+export type {
   Composer,
   ComposerCustom,
   ComposerDateTimeFormatting,
@@ -69,10 +69,10 @@ export {
   MissingHandler,
   VueMessageType
 } from './composer'
-export {
+export { createI18n, useI18n } from './i18n'
+export type {
   ComposerAdditionalOptions,
   ComposerExtender,
-  createI18n,
   ExportedGlobalComposer,
   I18n,
   I18nAdditionalOptions,
@@ -80,10 +80,9 @@ export {
   I18nMode,
   I18nOptions,
   I18nScope,
-  useI18n,
   UseI18nOptions
 } from './i18n'
-export {
+export type {
   Choice,
   DateTimeFormatResult,
   LocaleMessageObject,
@@ -100,8 +99,8 @@ export {
   WarnHtmlInMessageLevel
 } from './legacy'
 export { VERSION } from './misc'
-export { I18nPluginOptions } from './plugin'
-export { Disposer } from './types'
+export type { I18nPluginOptions } from './plugin'
+export type { Disposer } from './types'
 
 export type {
   IsEmptyObject,

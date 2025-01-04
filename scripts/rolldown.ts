@@ -144,7 +144,9 @@ export function createConfigsForPackage({
       process.env.__DEV__ === 'false' ||
       /\.prod\.[cm]?js$/.test(String(output.file) || '')
     const isBundlerESMBuild = /mjs/.test(format)
-    const isBrowserESMBuild = /browser/.test(format)
+    const isBrowserESMBuild =
+      /browser/.test(format) && !packageOptions.enableNonBrowserBranches
+    // const isCJSBuild = format === 'cjs'
     const isNodeBuild =
       String(output.file).includes('.node.') ||
       format === 'cjs' ||
@@ -157,6 +159,9 @@ export function createConfigsForPackage({
     output.sourcemap = sourceMap
     output.banner = banner
     output.externalLiveBindings = false
+    // if (isCJSBuild) {
+    //   output.esModule = true
+    // }
     if (
       name === 'vue-i18n' ||
       name === 'vue-i18n-core' ||
