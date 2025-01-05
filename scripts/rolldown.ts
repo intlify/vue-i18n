@@ -1,5 +1,6 @@
 import polyfillNode from '@rolldown/plugin-node-polyfills'
 import { minify as minifySwc } from '@swc/core'
+import { promises as fs } from 'node:fs'
 import { createRequire } from 'node:module'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
@@ -52,15 +53,14 @@ export function createConfigsForPackage({
 * Released under the ${pkg.license} License.
 */`
 
-  // TODO:
-  /*
   const stubs = {
-    [`dist/${name}.cjs`]: `${name}.cjs.js`,
-    [`dist/${name}.mjs`]: `${name}.esm-bundler.js`,
-    [`dist/${name}.runtime.mjs`]: `${name}.runtime.esm-bundler.js`,
-    [`dist/${name}.prod.cjs`]: `${name}.cjs.prod.js`
+    [resolve(`dist/${name}.cjs`)]: resolve(`dist/${name}.cjs.js`),
+    [resolve(`dist/${name}.mjs`)]: resolve(`dist/${name}.esm-bundler.js`),
+    [resolve(`dist/${name}.runtime.mjs`)]: resolve(
+      `dist/${name}.runtime.esm-bundler.js`
+    ),
+    [resolve(`dist/${name}.prod.cjs`)]: resolve(`dist/${name}.cjs.prod.js`)
   }
-  */
 
   const outputConfigs: Record<string, OutputOptions> = {
     mjs: {
@@ -138,6 +138,7 @@ export function createConfigsForPackage({
       console.log(pc.yellow(`invalid format: "${format}"`))
       process.exit(1)
     }
+    const rawFile = output.file
 
     const isProductionBuild =
       process.env.__DEV__ === 'false' ||
@@ -303,8 +304,28 @@ export function createConfigsForPackage({
       plugins: [
         ...resolveReplace(),
         ...resolveNodePlugins(),
-        ...plugins
-        // TODO: stub
+        ...plugins,
+        {
+          name: 'write-stub',
+          async writeBundle() {
+            if (rawFile == null) {
+              return
+            }
+            const stub = stubs[rawFile]
+            if (!stub) {
+              return
+            }
+
+            const filename = path.basename(rawFile)
+            const contents =
+              format === 'cjs'
+                ? `module.exports = require('./${filename}')`
+                : `export * from './${filename}'`
+
+            await fs.writeFile(stub, contents)
+            // console.log(`created stub ${pc.bold(path.join('packages', target, 'dist', path.basename(stub)))}`)
+          }
+        }
       ],
       output,
       treeshake: {
