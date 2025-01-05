@@ -112,7 +112,7 @@ async function main() {
     }
 
     if (buildTypes) {
-      // TODO: build types
+      await import('./build-types')
     }
   }
 
