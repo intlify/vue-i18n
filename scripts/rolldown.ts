@@ -47,7 +47,7 @@ export function createConfigsForPackage({
   const name = path.basename(packageDir)
 
   const banner = `/*!
-* ${name} v${pkg.version}
+* ${pkg.name} v${pkg.version}
 * (c) 2016-present ${pkg.author.name} and contributors
 * Released under the ${pkg.license} License.
 */`
@@ -64,41 +64,40 @@ export function createConfigsForPackage({
 
   const outputConfigs: Record<string, OutputOptions> = {
     mjs: {
-      file: `dist/${name}.mjs`,
+      file: resolve(`dist/${name}.mjs`),
       format: `es`
     },
     'mjs-node': {
-      file: `dist/${name}.node.mjs`,
+      file: resolve(`dist/${name}.node.mjs`),
       format: `es`
     },
     browser: {
-      file: `dist/${name}.esm-browser.js`,
+      file: resolve(`dist/${name}.esm-browser.js`),
       format: `es`
     },
     cjs: {
-      // file: `dist/${name}.cjs.js`,
-      file: `dist/${name}.cjs`,
+      file: resolve(`dist/${name}.cjs`),
       format: `cjs`
     },
     global: {
-      file: `dist/${name}.global.js`,
+      file: resolve(`dist/${name}.global.js`),
       format: `iife`
     },
     // runtime-only builds, for '@intlify/core' and 'vue-i18n' package only
     'mjs-runtime': {
-      file: `dist/${name}.runtime.mjs`,
+      file: resolve(`dist/${name}.runtime.mjs`),
       format: `es`
     },
     'mjs-node-runtime': {
-      file: `dist/${name}.runtime.node.mjs`,
+      file: resolve(`dist/${name}.runtime.node.mjs`),
       format: `es`
     },
     'browser-runtime': {
-      file: `dist/${name}.runtime.esm-browser.js`,
+      file: resolve(`dist/${name}.runtime.esm-browser.js`),
       format: 'es'
     },
     'global-runtime': {
-      file: `dist/${name}.runtime.global.js`,
+      file: resolve(`dist/${name}.runtime.global.js`),
       format: 'iife'
     }
   }
@@ -155,7 +154,7 @@ export function createConfigsForPackage({
     const isRuntimeOnlyBuild = /runtime/.test(format)
     const isLite = /petite-vue-i18n/.test(name)
 
-    output.dir = resolve('dist')
+    // output.dir = resolve('dist')
     output.sourcemap = sourceMap
     output.banner = banner
     output.externalLiveBindings = false
@@ -182,16 +181,6 @@ export function createConfigsForPackage({
       const defines: Record<string, string> = {
         __COMMIT__: `"${commit}"`,
         __VERSION__: `'${masterVersion}'`,
-        /*
-        __DEV__:
-          ['vue-i18n', 'petite-vue-i18n'].includes(name) && isNodeBuild
-            ? 'false' // tree-shake devtools
-            : isBundlerESMBuild
-              ? // preserve to be handled by bundlers
-              `(process.env.NODE_ENV !== 'production')`
-              : // hard coded dev/prod builds
-              !isProductionBuild,
-              */
         // this is only used during Vue's internal tests
         __TEST__: `false`,
         // If the build is expected to run directly in the browser (global / esm builds)
@@ -226,14 +215,6 @@ export function createConfigsForPackage({
         __FEATURE_DROP_MESSAGE_COMPILER__: isBundlerESMBuild
           ? `__INTLIFY_DROP_MESSAGE_COMPILER__`
           : `false`
-        // ...(isProductionBuild && isBrowserESMBuild
-        //   ? {
-        //     'emitError(': `/*#__PURE__*/ emitError(`,
-        //     'createCompileError(': `/*#__PURE__*/ createCompileError(`,
-        //     'throw createCoreError(': `throw Error(`,
-        //     'throw createI18nError(': `throw Error(`
-        //   }
-        //   : {})
       }
 
       if (!isBundlerESMBuild) {
@@ -337,7 +318,7 @@ export function createConfigsForPackage({
     const extension = format === 'cjs' || format === 'mjs' ? format : 'js'
     const descriptor = format === 'cjs' || format === 'mjs' ? '' : `.${format}`
     return createConfig(format, {
-      file: `dist/${name}${descriptor}.prod.${extension}`,
+      file: resolve(`dist/${name}${descriptor}.prod.${extension}`),
       format: outputConfigs[format].format
     })
   }
@@ -346,7 +327,9 @@ export function createConfigsForPackage({
     return createConfig(
       format,
       {
-        file: String(outputConfigs[format].file).replace(/\.js$/, '.prod.js'),
+        file: resolve(
+          String(outputConfigs[format].file).replace(/\.js$/, '.prod.js')
+        ),
         format: outputConfigs[format].format
       },
       [

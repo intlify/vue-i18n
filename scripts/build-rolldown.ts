@@ -129,7 +129,12 @@ async function main() {
               rolldown(c).then(bundle => {
                 return bundle.write(c.output as OutputOptions).then(() => {
                   // @ts-expect-error
-                  return path.join('packages', target, c.output.file)
+                  return path.join(
+                    'packages',
+                    target,
+                    'dist',
+                    path.basename(c.output.file)
+                  )
                 })
               })
             )
