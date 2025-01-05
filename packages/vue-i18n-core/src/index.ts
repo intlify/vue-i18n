@@ -69,14 +69,13 @@ export type {
   MissingHandler,
   VueMessageType
 } from './composer'
-export { createI18n, useI18n } from './i18n'
+export { createI18n, I18nInjectionKey, useI18n } from './i18n'
 export type {
   ComposerAdditionalOptions,
   ComposerExtender,
   ExportedGlobalComposer,
   I18n,
   I18nAdditionalOptions,
-  I18nInjectionKey,
   I18nMode,
   I18nOptions,
   I18nScope,
