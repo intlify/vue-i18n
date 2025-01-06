@@ -8,12 +8,12 @@ import type { Plugin, RollupOptions } from 'rollup'
 
 const __dirname = fileURLToPath(new URL('.', import.meta.url))
 
-if (!existsSync(path.resolve(__dirname, '../temp/packages'))) {
-  console.warn('no temp dts files found. run `pnpm build:rolldown` first')
-  process.exit(1)
-}
-
 export async function createDtsConfig(targets: string[]) {
+  if (!existsSync(path.resolve(__dirname, '../temp/packages'))) {
+    console.warn('no temp dts files found. run `pnpm build:rolldown` first')
+    process.exit(1)
+  }
+
   const packages = await fs.readdir(path.resolve(__dirname, '../temp/packages'))
   const targetPackages = targets
     ? packages.filter(pkg => targets.includes(pkg))
