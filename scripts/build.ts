@@ -182,37 +182,47 @@ async function main() {
       console.log(
         pc.bold(pc.yellow(`Rolling up type definitions for ${target}...`))
       )
-
       // build types
-      const extractorConfigPath = path.resolve(pkgDir, `api-extractor.json`)
-      const extractorConfig =
-        ExtractorConfig.loadFileAndPrepare(extractorConfigPath)
-      const extractorResult = Extractor.invoke(extractorConfig, {
-        localBuild: true,
-        showVerboseMessages: true
-      })
-
-      if (extractorResult.succeeded) {
-        // concat additional d.ts to rolled-up dts
-        const typesDir = path.resolve(pkgDir, 'types')
-        if (existsSync(typesDir)) {
-          const dtsPath = path.resolve(pkgDir, pkg.types)
-          const existing = await fs.readFile(dtsPath, 'utf-8')
-          const typeFiles = await fs.readdir(typesDir)
-          const toAdd = await Promise.all(
-            typeFiles.map(file =>
-              fs.readFile(path.resolve(typesDir, file), 'utf-8')
-            )
-          )
-          await fs.writeFile(dtsPath, existing + '\n' + toAdd.join('\n'))
-        }
-        console.log(pc.bold(pc.green(`API Extractor completed successfully.`)))
-      } else {
-        console.error(
-          `API Extractor completed with ${extractorResult.errorCount} errors` +
-            ` and ${extractorResult.warningCount} warnings`
+      const _extractorConfigPath = path.resolve(pkgDir, `api-extractor.json`)
+      const extractorConfigPaths = [_extractorConfigPath]
+      if (target === 'vue-i18n-core') {
+        extractorConfigPaths.push(
+          path.resolve(pkgDir, `api-extractor-petite.json`)
         )
-        process.exitCode = 1
+      }
+
+      for (const extractorConfigPath of extractorConfigPaths) {
+        const extractorConfig =
+          ExtractorConfig.loadFileAndPrepare(extractorConfigPath)
+        const extractorResult = Extractor.invoke(extractorConfig, {
+          localBuild: true,
+          showVerboseMessages: true
+        })
+
+        if (extractorResult.succeeded) {
+          // concat additional d.ts to rolled-up dts
+          const typesDir = path.resolve(pkgDir, 'types')
+          if (existsSync(typesDir)) {
+            const dtsPath = path.resolve(pkgDir, pkg.types)
+            const existing = await fs.readFile(dtsPath, 'utf-8')
+            const typeFiles = await fs.readdir(typesDir)
+            const toAdd = await Promise.all(
+              typeFiles.map(file =>
+                fs.readFile(path.resolve(typesDir, file), 'utf-8')
+              )
+            )
+            await fs.writeFile(dtsPath, existing + '\n' + toAdd.join('\n'))
+          }
+          console.log(
+            pc.bold(pc.green(`API Extractor completed successfully.`))
+          )
+        } else {
+          console.error(
+            `API Extractor completed with ${extractorResult.errorCount} errors` +
+              ` and ${extractorResult.warningCount} warnings`
+          )
+          process.exitCode = 1
+        }
       }
 
       if (['vue-i18n', 'petite-vue-i18n'].includes(target)) {

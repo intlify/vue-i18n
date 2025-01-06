@@ -59,6 +59,7 @@
   },
   "exports": {
     ".": {
+      "types": "./dist/vue-i18n-core.d.ts",
       "import": "./dist/vue-i18n-core.mjs",
       "browser": "./dist/vue-i18n-core.esm-browser.js",
       "node": {
@@ -71,6 +72,23 @@
           "production": "./dist/vue-i18n-core.prod.cjs",
           "development": "./dist/vue-i18n-core.cjs",
           "default": "./index.js"
+        }
+      }
+    },
+    "./petite": {
+      "types": "./dist/petite-vue-i18n-core.d.ts",
+      "import": "./dist/petite-vue-i18n-core.mjs",
+      "browser": "./dist/petite-vue-i18n-core.esm-browser.js",
+      "node": {
+        "import": {
+          "production": "./petite-dist/vue-i18n-core.prod.cjs",
+          "development": "./petite-dist/vue-i18n-core.mjs",
+          "default": "./dist/petite-vue-i18n-core.mjs"
+        },
+        "require": {
+          "production": "./dist/petite-vue-i18n-core.prod.cjs",
+          "development": "./dist/petite-vue-i18n-core.cjs",
+          "default": "./petite.js"
         }
       }
     },

@@ -4,7 +4,7 @@ import {
   setDevToolsHook
 } from '@intlify/core-base'
 import { getGlobalThis } from '@intlify/shared'
-import { initDev, initFeatureFlags } from '../../vue-i18n-core/src/misc'
+import { initDev, initFeatureFlags } from '@intlify/vue-i18n-core/petite'
 
 if (__ESM_BUNDLER__ && !__TEST__) {
   initFeatureFlags()
@@ -46,44 +46,41 @@ export type {
   RemovedIndexResources,
   TranslateOptions
 } from '@intlify/core-base'
+export { createI18n, useI18n, VERSION } from '@intlify/vue-i18n-core/petite'
 export type {
+  Choice,
   Composer,
+  ComposerAdditionalOptions,
   ComposerCustom,
   ComposerDateTimeFormatting,
+  ComposerExtender,
   ComposerNumberFormatting,
   ComposerOptions,
   ComposerResolveLocaleMessageTranslation,
   ComposerTranslation,
   CustomBlock,
   CustomBlocks,
+  DateTimeFormatResult,
   DefaultDateTimeFormatSchema,
   DefaultLocaleMessageSchema,
   DefaultNumberFormatSchema,
   DefineDateTimeFormat,
   DefineLocaleMessage,
   DefineNumberFormat,
-  MissingHandler,
-  VueMessageType
-} from '../../vue-i18n-core/src/composer'
-export { createI18n, useI18n } from '../../vue-i18n-core/src/i18n'
-export type {
-  ComposerAdditionalOptions,
-  ComposerExtender,
+  Disposer,
   ExportedGlobalComposer,
   I18n,
   I18nAdditionalOptions,
   I18nMode,
   I18nOptions,
+  I18nPluginOptions,
   I18nScope,
-  UseI18nOptions
-} from '../../vue-i18n-core/src/i18n'
-export type {
-  Choice,
-  DateTimeFormatResult,
   LocaleMessageObject,
+  MissingHandler,
   NumberFormatResult,
   PluralizationRulesMap,
   TranslateResult,
+  UseI18nOptions,
   VueI18n,
   VueI18nDateTimeFormatting,
   VueI18nExtender,
@@ -91,11 +88,9 @@ export type {
   VueI18nOptions,
   VueI18nResolveLocaleMessageTranslation,
   VueI18nTranslation,
+  VueMessageType,
   WarnHtmlInMessageLevel
-} from '../../vue-i18n-core/src/legacy'
-export type { I18nPluginOptions } from '../../vue-i18n-core/src/plugin'
-export { VERSION } from './../../vue-i18n-core/src/misc'
-export type { Disposer } from './../../vue-i18n-core/src/types'
+} from '@intlify/vue-i18n-core/petite'
 
 export type {
   IsEmptyObject,

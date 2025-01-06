@@ -1,23 +1,7 @@
-import {
-  compile,
-  registerMessageCompiler,
-  setDevToolsHook
-} from '@intlify/core-base'
-import { getGlobalThis } from '@intlify/shared'
-import { initDev, initFeatureFlags } from '@intlify/vue-i18n-core/petite'
-
-if (__ESM_BUNDLER__ && !__TEST__) {
-  initFeatureFlags()
-}
-
-// register message compiler at petite-vue-i18n
-registerMessageCompiler(compile)
-
 export type {
   CompileError,
   DateTimeOptions,
   FallbackLocale,
-  GeneratedTypeConfig,
   DateTimeFormat as IntlDateTimeFormat,
   DateTimeFormats as IntlDateTimeFormats,
   FormatMatcher as IntlFormatMatcher,
@@ -26,10 +10,12 @@ export type {
   NumberFormats as IntlNumberFormats,
   LinkedModifiers,
   Locale,
+  LocaleMessage,
   LocaleMessageDictionary,
   LocaleMessages,
   LocaleMessageType,
   LocaleMessageValue,
+  LocaleParams,
   MessageCompiler,
   MessageCompilerContext,
   MessageContext,
@@ -42,18 +28,14 @@ export type {
   PathValue,
   PluralizationRule,
   PostTranslationHandler,
-  registerLocaleFallbacker,
-  registerMessageResolver,
   RemovedIndexResources,
+  SchemaParams,
   TranslateOptions
 } from '@intlify/core-base'
-export { createI18n, useI18n, VERSION } from '@intlify/vue-i18n-core/petite'
 export type {
   Composer,
-  ComposerAdditionalOptions,
   ComposerCustom,
   ComposerDateTimeFormatting,
-  ComposerExtender,
   ComposerNumberFormatting,
   ComposerOptions,
   ComposerResolveLocaleMessageTranslation,
@@ -66,19 +48,21 @@ export type {
   DefineDateTimeFormat,
   DefineLocaleMessage,
   DefineNumberFormat,
-  Disposer,
+  MissingHandler,
+  VueMessageType
+} from './composer'
+export { createI18n, useI18n } from './i18n'
+export type {
+  ComposerAdditionalOptions,
+  ComposerExtender,
   ExportedGlobalComposer,
   I18n,
   I18nAdditionalOptions,
   I18nMode,
   I18nOptions,
-  I18nPluginOptions,
   I18nScope,
-  MissingHandler,
-  UseI18nOptions,
-  VueMessageType
-} from '@intlify/vue-i18n-core/petite'
-
+  UseI18nOptions
+} from './i18n'
 export type {
   Choice,
   DateTimeFormatResult,
@@ -94,7 +78,10 @@ export type {
   VueI18nResolveLocaleMessageTranslation,
   VueI18nTranslation,
   WarnHtmlInMessageLevel
-} from '@intlify/vue-i18n-core/petite'
+} from './legacy'
+export { initDev, initFeatureFlags, VERSION } from './misc'
+export type { I18nPluginOptions } from './plugin'
+export type { Disposer } from './types'
 
 export type {
   IsEmptyObject,
@@ -103,14 +90,3 @@ export type {
   PickupKeys,
   PickupPaths
 } from '@intlify/core-base'
-
-// NOTE: experimental !!
-if (__DEV__ || __FEATURE_PROD_INTLIFY_DEVTOOLS__) {
-  const target = getGlobalThis()
-  target.__INTLIFY__ = true
-  setDevToolsHook(target.__INTLIFY_DEVTOOLS_GLOBAL_HOOK__)
-}
-
-if (__DEV__) {
-  initDev()
-}

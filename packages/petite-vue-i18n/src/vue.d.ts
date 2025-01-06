@@ -1,22 +1,23 @@
-import type { NamedValue, JsonPaths } from '@intlify/core-base'
 import type {
-  TranslateOptions,
+  IsEmptyObject,
   IsNever,
-  IsEmptyObject
+  NamedValue,
+  TranslateOptions
 } from '@intlify/core-base'
-import type { CustomBlocks } from '../../vue-i18n-core/src/composer'
 import type {
+  CustomBlocks,
   DefineLocaleMessage,
-  RemovedIndexResources
-} from '../../vue-i18n-core/src/composer'
-import type {
+  ExportedGlobalComposer,
+  RemovedIndexResources,
+  TranslateResult,
   VueI18n,
-  VueI18nOptions,
-  TranslateResult
-} from '../../vue-i18n-core/src/legacy'
-import type { ExportedGlobalComposer } from '../../vue-i18n-core/src/i18n'
+  VueI18nOptions
+} from '@intlify/vue-i18n-core/petite'
 
 // --- THE CONTENT BELOW THIS LINE WILL BE APPENDED TO DTS FILE IN DIST DIRECTORY --- //
+
+import type { JsonPaths } from '@intlify/core-base'
+
 declare module 'vue' {
   /**
    * Component Custom Options for Vue I18n

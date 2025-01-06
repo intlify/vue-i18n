@@ -95,7 +95,9 @@ export default [
       'shim.d.ts',
       '.eslintcache',
       '.eslintrc.cjs',
+      'packages/*/vite.config.ts',
       'packages/*/index.js',
+      'packages/vue-i18n-core/petite.js',
       'docsgen.config.js',
       'scripts/api/*.js'
     ]

@@ -8,7 +8,7 @@ import {
   setDevToolsHook
 } from '@intlify/core-base'
 import { getGlobalThis } from '@intlify/shared'
-import { initDev, initFeatureFlags } from '../../vue-i18n-core/src/misc'
+import { initDev, initFeatureFlags } from '@intlify/vue-i18n-core'
 
 if (__ESM_BUNDLER__ && !__TEST__) {
   initFeatureFlags()
@@ -55,62 +55,58 @@ export type {
   RemovedIndexResources,
   TranslateOptions
 } from '@intlify/core-base'
+export {
+  createI18n,
+  I18nInjectionKey,
+  useI18n,
+  VERSION
+} from '@intlify/vue-i18n-core'
 export type {
   BaseFormatProps,
+  Choice,
   ComponentI18nScope,
-  DatetimeFormat,
-  DatetimeFormatProps,
-  FormattableProps,
-  I18nD,
-  I18nN,
-  I18nT,
-  NumberFormat,
-  NumberFormatProps,
-  Translation,
-  TranslationProps
-} from '../../vue-i18n-core/src/components'
-export type {
   Composer,
+  ComposerAdditionalOptions,
   ComposerCustom,
   ComposerDateTimeFormatting,
+  ComposerExtender,
   ComposerNumberFormatting,
   ComposerOptions,
   ComposerResolveLocaleMessageTranslation,
   ComposerTranslation,
   CustomBlock,
   CustomBlocks,
+  DatetimeFormat,
+  DatetimeFormatProps,
+  DateTimeFormatResult,
   DefaultDateTimeFormatSchema,
   DefaultLocaleMessageSchema,
   DefaultNumberFormatSchema,
   DefineDateTimeFormat,
   DefineLocaleMessage,
   DefineNumberFormat,
-  MissingHandler,
-  VueMessageType
-} from '../../vue-i18n-core/src/composer'
-export {
-  createI18n,
-  I18nInjectionKey,
-  useI18n
-} from '../../vue-i18n-core/src/i18n'
-export type {
-  ComposerAdditionalOptions,
-  ComposerExtender,
+  Disposer,
   ExportedGlobalComposer,
+  FormattableProps,
   I18n,
   I18nAdditionalOptions,
+  I18nD,
   I18nMode,
+  I18nN,
   I18nOptions,
+  I18nPluginOptions,
   I18nScope,
-  UseI18nOptions
-} from '../../vue-i18n-core/src/i18n'
-export type {
-  Choice,
-  DateTimeFormatResult,
+  I18nT,
   LocaleMessageObject,
+  MissingHandler,
+  NumberFormat,
+  NumberFormatProps,
   NumberFormatResult,
   PluralizationRulesMap,
   TranslateResult,
+  Translation,
+  TranslationProps,
+  UseI18nOptions,
   VueI18n,
   VueI18nDateTimeFormatting,
   VueI18nExtender,
@@ -118,11 +114,9 @@ export type {
   VueI18nOptions,
   VueI18nResolveLocaleMessageTranslation,
   VueI18nTranslation,
+  VueMessageType,
   WarnHtmlInMessageLevel
-} from '../../vue-i18n-core/src/legacy'
-export type { I18nPluginOptions } from '../../vue-i18n-core/src/plugin'
-export { VERSION } from './../../vue-i18n-core/src/misc'
-export type { Disposer } from './../../vue-i18n-core/src/types'
+} from '@intlify/vue-i18n-core'
 
 export type {
   IsEmptyObject,

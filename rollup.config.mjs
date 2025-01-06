@@ -39,53 +39,68 @@ const stubs = {
   [`dist/${name}.prod.cjs`]: `${name}.cjs.prod.js`
 }
 
-const outputConfigs = {
-  mjs: {
-    file: `dist/${name}.mjs`,
-    format: `es`
-  },
-  'mjs-node': {
-    file: `dist/${name}.node.mjs`,
-    format: `es`
-  },
-  browser: {
-    file: `dist/${name}.esm-browser.js`,
-    format: `es`
-  },
-  cjs: {
-    // file: `dist/${name}.cjs.js`,
-    file: `dist/${name}.cjs`,
-    format: `cjs`
-  },
-  global: {
-    file: `dist/${name}.global.js`,
-    format: `iife`
-  },
-  // runtime-only builds, for '@intlify/core' and 'vue-i18n' package only
-  'mjs-runtime': {
-    file: `dist/${name}.runtime.mjs`,
-    format: `es`
-  },
-  'mjs-node-runtime': {
-    file: `dist/${name}.runtime.node.mjs`,
-    format: `es`
-  },
-  'browser-runtime': {
-    file: `dist/${name}.runtime.esm-browser.js`,
-    format: 'es'
-  },
-  'global-runtime': {
-    file: `dist/${name}.runtime.global.js`,
-    format: 'iife'
+function resolveOutputConfigs(name, ns = '') {
+  return {
+    mjs: {
+      file: `dist/${ns}${name}.mjs`,
+      format: `es`
+    },
+    'mjs-node': {
+      file: `dist/${ns}${name}.node.mjs`,
+      format: `es`
+    },
+    browser: {
+      file: `dist/${ns}${name}.esm-browser.js`,
+      format: `es`
+    },
+    cjs: {
+      file: `dist/${ns}${name}.cjs`,
+      format: `cjs`
+    },
+    global: {
+      file: `dist/${ns}${name}.global.js`,
+      format: `iife`
+    },
+    // runtime-only builds, for '@intlify/core' and 'vue-i18n' package only
+    'mjs-runtime': {
+      file: `dist/${ns}${name}.runtime.mjs`,
+      format: `es`
+    },
+    'mjs-node-runtime': {
+      file: `dist/${ns}${name}.runtime.node.mjs`,
+      format: `es`
+    },
+    'browser-runtime': {
+      file: `dist/${ns}${name}.runtime.esm-browser.js`,
+      format: 'es'
+    },
+    'global-runtime': {
+      file: `dist/${ns}${name}.runtime.global.js`,
+      format: 'iife'
+    }
   }
 }
 
+const outputConfigs = resolveOutputConfigs(name)
 const defaultFormats = ['esm-bundler', 'cjs']
 const inlineFormats = process.env.FORMATS && process.env.FORMATS.split(',')
 const packageFormats = inlineFormats || packageOptions.formats || defaultFormats
-const packageConfigs = process.env.PROD_ONLY
+
+let packageConfigs = process.env.PROD_ONLY
   ? []
   : packageFormats.map(format => createConfig(format, outputConfigs[format]))
+
+const petiteOutputConfigs =
+  name === 'vue-i18n-core' ? resolveOutputConfigs(name, 'petite-') : {}
+
+if (name === 'vue-i18n-core') {
+  packageConfigs = [
+    ...packageConfigs,
+    ...packageFormats.map(format =>
+      createConfig(format, petiteOutputConfigs[format])
+    )
+  ]
+}
 
 if (process.env.NODE_ENV === 'production') {
   packageFormats.forEach(format => {
@@ -93,10 +108,18 @@ if (process.env.NODE_ENV === 'production') {
       return
     }
     if (format === 'cjs') {
-      packageConfigs.push(createProductionConfig(format))
+      packageConfigs.push(createProductionConfig(format, name))
+      if (name === 'vue-i18n-core') {
+        packageConfigs.push(createProductionConfig(format, name, 'petite-'))
+      }
     }
     if (/^(global|browser)(-runtime)?/.test(format)) {
-      packageConfigs.push(createMinifiedConfig(format))
+      packageConfigs.push(createMinifiedConfig(format, outputConfigs[format]))
+      if (name === 'vue-i18n-core') {
+        packageConfigs.push(
+          createMinifiedConfig(format, petiteOutputConfigs[format])
+        )
+      }
     }
   })
 }
@@ -135,7 +158,8 @@ function createConfig(format, _output, plugins = []) {
     output.file.includes('.node.') || format === 'cjs' || format === 'cjs-lite'
   const isGlobalBuild = /global/.test(format)
   const isRuntimeOnlyBuild = /runtime/.test(format)
-  const isLite = /petite-vue-i18n/.test(name)
+  // const isLite = /petite-vue-i18n/.test(name)
+  const isLite = /petite-vue-i18n/.test(output.file)
 
   if (isGlobalBuild) {
     output.name = packageOptions.name
@@ -162,7 +186,14 @@ function createConfig(format, _output, plugins = []) {
   // during a single build.
   hasTSChecked = true
 
-  const entryFile = /runtime/.test(format) ? `src/runtime.ts` : `src/index.ts`
+  const entryFile =
+    name !== 'vue-i18n-core'
+      ? /runtime/.test(format)
+        ? `src/runtime.ts`
+        : `src/index.ts`
+      : !/petite-vue-i18n/.test(output.file)
+        ? `src/index.ts`
+        : `src/petite.ts`
 
   const external =
     isGlobalBuild || isBrowserESMBuild
@@ -355,32 +386,27 @@ function createReplacePlugin(
   })
 }
 
-function createProductionConfig(format) {
-  // const extension = format === 'cjs' ? 'cjs' : 'js'
-  // const descriptor = format === 'cjs' ? '' : `.${format}`
+function createProductionConfig(format, name, ns = '') {
   const extension = format === 'cjs' || format === 'mjs' ? format : 'js'
   const descriptor = format === 'cjs' || format === 'mjs' ? '' : `.${format}`
   return createConfig(format, {
-    file: `dist/${name}${descriptor}.prod.${extension}`,
+    file: `dist/${ns}${name}${descriptor}.prod.${extension}`,
     format: outputConfigs[format].format
   })
 }
 
-function createMinifiedConfig(format) {
-  return createConfig(
-    format,
-    {
-      file: outputConfigs[format].file.replace(/\.js$/, '.prod.js'),
-      format: outputConfigs[format].format
-    },
-    [
-      terser({
-        module: /^esm/.test(format),
-        compress: {
-          ecma: 2015
-        },
-        safari10: true
-      })
-    ]
-  )
+function createMinifiedConfig(format, output) {
+  const newOutput = {
+    file: output.file.replace(/\.js$/, '.prod.js'),
+    format: output.format
+  }
+  return createConfig(format, newOutput, [
+    terser({
+      module: /^esm/.test(format),
+      compress: {
+        ecma: 2015
+      },
+      safari10: true
+    })
+  ])
 }

@@ -97,7 +97,7 @@ export type {
   VueI18nTranslation,
   WarnHtmlInMessageLevel
 } from './legacy'
-export { VERSION } from './misc'
+export { initDev, initFeatureFlags, VERSION } from './misc'
 export type { I18nPluginOptions } from './plugin'
 export type { Disposer } from './types'
 
