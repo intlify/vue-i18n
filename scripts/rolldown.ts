@@ -53,54 +53,66 @@ export function createConfigsForPackage({
 * Released under the ${pkg.license} License.
 */`
 
-  const stubs = {
-    [resolve(`dist/${name}.cjs`)]: resolve(`dist/${name}.cjs.js`),
-    [resolve(`dist/${name}.mjs`)]: resolve(`dist/${name}.esm-bundler.js`),
-    [resolve(`dist/${name}.runtime.mjs`)]: resolve(
-      `dist/${name}.runtime.esm-bundler.js`
-    ),
-    [resolve(`dist/${name}.prod.cjs`)]: resolve(`dist/${name}.cjs.prod.js`)
-  }
-
-  const outputConfigs: Record<string, OutputOptions> = {
-    mjs: {
-      file: resolve(`dist/${name}.mjs`),
-      format: `es`
-    },
-    'mjs-node': {
-      file: resolve(`dist/${name}.node.mjs`),
-      format: `es`
-    },
-    browser: {
-      file: resolve(`dist/${name}.esm-browser.js`),
-      format: `es`
-    },
-    cjs: {
-      file: resolve(`dist/${name}.cjs`),
-      format: `cjs`
-    },
-    global: {
-      file: resolve(`dist/${name}.global.js`),
-      format: `iife`
-    },
-    // runtime-only builds, for '@intlify/core' and 'vue-i18n' package only
-    'mjs-runtime': {
-      file: resolve(`dist/${name}.runtime.mjs`),
-      format: `es`
-    },
-    'mjs-node-runtime': {
-      file: resolve(`dist/${name}.runtime.node.mjs`),
-      format: `es`
-    },
-    'browser-runtime': {
-      file: resolve(`dist/${name}.runtime.esm-browser.js`),
-      format: 'es'
-    },
-    'global-runtime': {
-      file: resolve(`dist/${name}.runtime.global.js`),
-      format: 'iife'
+  function resolveStubs(name: string, ns = '') {
+    return {
+      [`dist/${ns}${name}.cjs`]: `${ns}${name}.cjs.js`,
+      [`dist/${ns}${name}.mjs`]: `${ns}${name}.esm-bundler.js`,
+      [`dist/${ns}${name}.runtime.mjs`]: `${ns}${name}.runtime.esm-bundler.js`,
+      [`dist/${ns}${name}.prod.cjs`]: `${ns}${name}.cjs.prod.js`
     }
   }
+
+  function resolveOutputConfigs(
+    name: string,
+    ns = ''
+  ): Record<string, OutputOptions> {
+    return {
+      mjs: {
+        file: resolve(`dist/${ns}${name}.mjs`),
+        format: `es`
+      },
+      'mjs-node': {
+        file: resolve(`dist/${ns}${name}.node.mjs`),
+        format: `es`
+      },
+      browser: {
+        file: resolve(`dist/${ns}${name}.esm-browser.js`),
+        format: `es`
+      },
+      cjs: {
+        file: resolve(`dist/${ns}${name}.cjs`),
+        format: `cjs`
+      },
+      global: {
+        file: resolve(`dist/${ns}${name}.global.js`),
+        format: `iife`
+      },
+      // runtime-only builds, for '@intlify/core' and 'vue-i18n' package only
+      'mjs-runtime': {
+        file: resolve(`dist/${ns}${name}.runtime.mjs`),
+        format: `es`
+      },
+      'mjs-node-runtime': {
+        file: resolve(`dist/${ns}${name}.runtime.node.mjs`),
+        format: `es`
+      },
+      'browser-runtime': {
+        file: resolve(`dist/${ns}${name}.runtime.esm-browser.js`),
+        format: 'es'
+      },
+      'global-runtime': {
+        file: resolve(`dist/${ns}${name}.runtime.global.js`),
+        format: 'iife'
+      }
+    }
+  }
+
+  let stubs = resolveStubs(name)
+  if (name === 'vue-i18n-core') {
+    stubs = Object.assign({}, stubs, resolveStubs(name, 'petite-'))
+  }
+
+  const outputConfigs = resolveOutputConfigs(name)
 
   const resolvedFormats = (
     formats ||
@@ -109,11 +121,23 @@ export function createConfigsForPackage({
     .filter(Boolean)
     .filter((format: string) => outputConfigs[format])
 
-  const packageConfigs = prodOnly
+  let packageConfigs = prodOnly
     ? []
     : resolvedFormats.map((format: string) =>
         createConfig(format, outputConfigs[format])
       )
+
+  const petiteOutputConfigs =
+    name === 'vue-i18n-core' ? resolveOutputConfigs(name, 'petite-') : {}
+
+  if (name === 'vue-i18n-core') {
+    packageConfigs = [
+      ...packageConfigs,
+      ...resolvedFormats.map(format =>
+        createConfig(format, petiteOutputConfigs[format])
+      )
+    ]
+  }
 
   if (!devOnly) {
     resolvedFormats.forEach((format: string) => {
@@ -121,10 +145,18 @@ export function createConfigsForPackage({
         return
       }
       if (format === 'cjs') {
-        packageConfigs.push(createProductionConfig(format))
+        packageConfigs.push(createProductionConfig(format, name))
+        if (name === 'vue-i18n-core') {
+          packageConfigs.push(createProductionConfig(format, name, 'petite-'))
+        }
       }
       if (/^(global|browser)(-runtime)?/.test(format)) {
-        packageConfigs.push(createMinifiedConfig(format))
+        packageConfigs.push(createMinifiedConfig(format, outputConfigs[format]))
+        if (name === 'vue-i18n-core') {
+          packageConfigs.push(
+            createMinifiedConfig(format, petiteOutputConfigs[format])
+          )
+        }
       }
     })
   }
@@ -148,12 +180,10 @@ export function createConfigsForPackage({
       /browser/.test(format) && !packageOptions.enableNonBrowserBranches
     // const isCJSBuild = format === 'cjs'
     const isNodeBuild =
-      String(output.file).includes('.node.') ||
-      format === 'cjs' ||
-      format === 'cjs-lite'
+      String(output.file).includes('.node.') || format === 'cjs'
     const isGlobalBuild = /global/.test(format)
     const isRuntimeOnlyBuild = /runtime/.test(format)
-    const isLite = /petite-vue-i18n/.test(name)
+    const isLite = /petite-vue-i18n/.test(String(output.file))
 
     // output.dir = resolve('dist')
     output.sourcemap = sourceMap
@@ -176,7 +206,14 @@ export function createConfigsForPackage({
       output.name = packageOptions.name
     }
 
-    const entryFile = /runtime/.test(format) ? `src/runtime.ts` : `src/index.ts`
+    const entryFile =
+      name !== 'vue-i18n-core'
+        ? /runtime/.test(format)
+          ? `src/runtime.ts`
+          : `src/index.ts`
+        : !/petite-vue-i18n/.test(String(output.file))
+          ? `src/index.ts`
+          : `src/petite.ts`
 
     function resolveDefine() {
       const defines: Record<string, string> = {
@@ -335,46 +372,48 @@ export function createConfigsForPackage({
     }
   }
 
-  function createProductionConfig(format: string): RolldownOptions {
+  function createProductionConfig(
+    format: string,
+    name: string,
+    ns = ''
+  ): RolldownOptions {
     const extension = format === 'cjs' || format === 'mjs' ? format : 'js'
     const descriptor = format === 'cjs' || format === 'mjs' ? '' : `.${format}`
     return createConfig(format, {
-      file: resolve(`dist/${name}${descriptor}.prod.${extension}`),
+      file: resolve(`dist/${ns}${name}${descriptor}.prod.${extension}`),
       format: outputConfigs[format].format
     })
   }
 
-  function createMinifiedConfig(format: string): RolldownOptions {
-    return createConfig(
-      format,
+  function createMinifiedConfig(
+    format: string,
+    output: OutputOptions
+  ): RolldownOptions {
+    const newOutput = {
+      file: String(output.file).replace(/\.js$/, '.prod.js'),
+      format: output.format
+    }
+    return createConfig(format, newOutput, [
       {
-        file: resolve(
-          String(outputConfigs[format].file).replace(/\.js$/, '.prod.js')
-        ),
-        format: outputConfigs[format].format
-      },
-      [
-        {
-          name: 'swc-minify',
-          async renderChunk(contents, _, { format }) {
-            const { code } = await minifySwc(contents, {
-              module: format === 'es',
-              format: {
-                comments: false
-              },
-              compress: {
-                ecma: 2016,
-                pure_getters: true
-              },
-              safari10: true,
-              mangle: true
-            })
-            // swc removes banner
-            return { code: banner + code, map: null }
-          }
+        name: 'swc-minify',
+        async renderChunk(contents, _, { format }) {
+          const { code } = await minifySwc(contents, {
+            module: format === 'es',
+            format: {
+              comments: false
+            },
+            compress: {
+              ecma: 2016,
+              pure_getters: true
+            },
+            safari10: true,
+            mangle: true
+          })
+          // swc removes banner
+          return { code: banner + code, map: null }
         }
-      ]
-    )
+      }
+    ])
   }
 
   return packageConfigs
