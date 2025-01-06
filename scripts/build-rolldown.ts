@@ -97,12 +97,6 @@ async function main() {
       await fs.mkdir(sizeDir, { recursive: true })
     }
 
-    // const rtsCachePath = path.resolve(__dirname, './node_modules/.rts2_cache')
-    // if (isRelease && existsSync(rtsCachePath)) {
-    //   // remove build cache for release builds to avoid outdated enum values
-    //   await fs.rm(rtsCachePath, { recursive: true })
-    // }
-
     const resolvedTargets = targets.length
       ? await fuzzyMatchTarget(targets, buildAllMatching)
       : await allTargets()
@@ -175,109 +169,6 @@ async function main() {
       prodOnly,
       sourceMap
     })
-    // const env =
-    //   (pkg.buildOptions && pkg.buildOptions.env) ||
-    //   (devOnly ? 'development' : 'production')
-    // await execa(
-    //   'rollup',
-    //   [
-    //     '-c',
-    //     '--environment',
-    //     [
-    //       `COMMIT:${commit}`,
-    //       `NODE_ENV:${env}`,
-    //       `TARGET:${target}`,
-    //       formats ? `FORMATS:${formats}` : ``,
-    //       buildTypes ? `TYPES:true` : ``,
-    //       prodOnly ? `PROD_ONLY:true` : ``,
-    //       sourceMap ? `SOURCE_MAP:true` : ``
-    //     ]
-    //       .filter(Boolean)
-    //       .join(',')
-    //   ],
-    //   { stdio: 'inherit' }
-    // )
-
-    /*
-    if (buildTypes && pkg.types) {
-      console.log()
-      console.log(
-        pc.bold(pc.yellow(`Rolling up type definitions for ${target}...`))
-      )
-
-      // build types
-      const extractorConfigPath = path.resolve(pkgDir, `api-extractor.json`)
-      const extractorConfig =
-        ExtractorConfig.loadFileAndPrepare(extractorConfigPath)
-      const extractorResult = Extractor.invoke(extractorConfig, {
-        localBuild: true,
-        showVerboseMessages: true
-      })
-
-      if (extractorResult.succeeded) {
-        // concat additional d.ts to rolled-up dts
-        const typesDir = path.resolve(pkgDir, 'types')
-        if (existsSync(typesDir)) {
-          const dtsPath = path.resolve(pkgDir, pkg.types)
-          const existing = await fs.readFile(dtsPath, 'utf-8')
-          const typeFiles = await fs.readdir(typesDir)
-          const toAdd = await Promise.all(
-            typeFiles.map(file =>
-              fs.readFile(path.resolve(typesDir, file), 'utf-8')
-            )
-          )
-          await fs.writeFile(dtsPath, existing + '\n' + toAdd.join('\n'))
-        }
-        console.log(pc.bold(pc.green(`API Extractor completed successfully.`)))
-      } else {
-        console.error(
-          `API Extractor completed with ${extractorResult.errorCount} errors` +
-          ` and ${extractorResult.warningCount} warnings`
-        )
-        process.exitCode = 1
-      }
-
-      if (['vue-i18n', 'petite-vue-i18n'].includes(target)) {
-        console.log()
-        console.log(
-          pc.bold(pc.yellow(`Appending Vue type definitions for ${target}...`))
-        )
-
-        let content = ''
-
-        try {
-          content = await fs.readFile(
-            path.resolve(pkgDir, 'src/vue.d.ts'),
-            'utf-8'
-          )
-        } catch (e) {
-          console.error(
-            `Failed in opening Vue type definition file with error code: ${(e as NodeJS.ErrnoException).code}`
-          )
-          process.exitCode = 1
-        }
-
-        try {
-          const marker =
-            '// --- THE CONTENT BELOW THIS LINE WILL BE APPENDED TO DTS FILE IN DIST DIRECTORY --- //'
-          const data = content.slice(content.indexOf(marker) + marker.length)
-
-          await fs.appendFile(path.resolve(pkgDir, `dist/${target}.d.ts`), data)
-        } catch (e) {
-          console.error('Failed in appending Vue type definitions', e)
-          process.exitCode = 1
-        }
-
-        console.log(
-          pc.bold(
-            pc.green(`Appending Vue type definitions completed successfully.`)
-          )
-        )
-      }
-
-      await fs.rm(`${pkgDir}/dist/packages`, { recursive: true })
-    }
-    */
   }
 
   async function checkAllSizes(targets: string[]) {
