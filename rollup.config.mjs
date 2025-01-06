@@ -32,11 +32,13 @@ const banner = `/*!
 // ensure TS checks only once for each build
 let hasTSChecked = false
 
-const stubs = {
-  [`dist/${name}.cjs`]: `${name}.cjs.js`,
-  [`dist/${name}.mjs`]: `${name}.esm-bundler.js`,
-  [`dist/${name}.runtime.mjs`]: `${name}.runtime.esm-bundler.js`,
-  [`dist/${name}.prod.cjs`]: `${name}.cjs.prod.js`
+function resolveStubs(name, ns = '') {
+  return {
+    [`dist/${ns}${name}.cjs`]: `${ns}${name}.cjs.js`,
+    [`dist/${ns}${name}.mjs`]: `${ns}${name}.esm-bundler.js`,
+    [`dist/${ns}${name}.runtime.mjs`]: `${ns}${name}.runtime.esm-bundler.js`,
+    [`dist/${ns}${name}.prod.cjs`]: `${ns}${name}.cjs.prod.js`
+  }
 }
 
 function resolveOutputConfigs(name, ns = '') {
@@ -102,6 +104,9 @@ if (name === 'vue-i18n-core') {
   ]
 }
 
+let stubs = resolveStubs(name)
+stubs = Object.assign({}, stubs, resolveStubs(name, 'petite-'))
+
 if (process.env.NODE_ENV === 'production') {
   packageFormats.forEach(format => {
     if (packageOptions.prod === false) {
@@ -153,12 +158,9 @@ function createConfig(format, _output, plugins = []) {
     process.env.__DEV__ === 'false' || /\.prod\.[cm]?js$/.test(output.file)
   const isBundlerESMBuild = /mjs/.test(format)
   const isBrowserESMBuild = /browser/.test(format)
-  // const isNodeBuild = format === 'cjs' || format === 'cjs-lite'
-  const isNodeBuild =
-    output.file.includes('.node.') || format === 'cjs' || format === 'cjs-lite'
+  const isNodeBuild = output.file.includes('.node.') || format === 'cjs'
   const isGlobalBuild = /global/.test(format)
   const isRuntimeOnlyBuild = /runtime/.test(format)
-  // const isLite = /petite-vue-i18n/.test(name)
   const isLite = /petite-vue-i18n/.test(output.file)
 
   if (isGlobalBuild) {
