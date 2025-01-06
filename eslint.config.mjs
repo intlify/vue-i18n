@@ -93,6 +93,7 @@ export default [
       '**/test/**',
       '**/examples/**',
       'shim.d.ts',
+      'temp/**',
       '.eslintcache',
       '.eslintrc.cjs',
       'packages/*/vite.config.ts',
