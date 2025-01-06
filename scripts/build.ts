@@ -109,12 +109,22 @@ async function main() {
     if (size) {
       await checkAllSizes(resolvedTargets)
     }
+
+    if (buildTypes) {
+      await buildTypingsAll(resolvedTargets)
+    }
   }
 
   async function buildAll(targets: string[]) {
     const start = performance.now()
     await runParallel(os.cpus().length, targets, build)
     console.log(`\nbuilt in ${(performance.now() - start).toFixed(2)}ms.`)
+  }
+
+  async function buildTypingsAll(targets: string[]) {
+    const start = performance.now()
+    await runParallel(os.cpus().length, targets, buildTypings)
+    console.log(`\nbundle dts in ${(performance.now() - start).toFixed(2)}ms.`)
   }
 
   async function runParallel(
@@ -176,8 +186,18 @@ async function main() {
       ],
       { stdio: 'inherit' }
     )
+  }
 
-    if (buildTypes && pkg.types) {
+  async function buildTypings(target: string) {
+    const pkgDir = path.resolve(__dirname, `../packages/${target}`)
+    const pkg = await readJson(`${pkgDir}/package.json`)
+
+    // only build published packages for release
+    if (isRelease && pkg.private) {
+      return
+    }
+
+    if (pkg.types) {
       console.log()
       console.log(
         pc.bold(pc.yellow(`Rolling up type definitions for ${target}...`))

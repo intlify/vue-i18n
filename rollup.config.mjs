@@ -296,7 +296,13 @@ function createConfig(format, _output, plugins = []) {
     ],
     output,
     onwarn: (msg, warn) => {
-      if (!/Circular/.test(msg)) {
+      if (
+        !(
+          msg.code == 'CIRCULAR_DEPENDENCY' ||
+          msg.code == 'EMPTY_BUNDLE' ||
+          msg.code == 'UNRESOLVED_IMPORT'
+        )
+      ) {
         warn(msg)
       }
     },
