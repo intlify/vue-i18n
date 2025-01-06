@@ -2,7 +2,6 @@ import type {
   DateTimeOptions,
   IsEmptyObject,
   IsNever,
-  JsonPaths,
   Locale,
   LocaleMessageValue,
   MessageFunction,
@@ -12,27 +11,26 @@ import type {
   TranslateOptions
 } from '@intlify/core-base'
 import type {
-  DatetimeFormat,
-  NumberFormat,
-  Translation
-} from '../../vue-i18n-core/src/components'
-import type {
   CustomBlocks,
+  DatetimeFormat,
+  DateTimeFormatResult,
   DefineDateTimeFormat,
   DefineLocaleMessage,
-  RemovedIndexResources,
-  VueMessageType
-} from '../../vue-i18n-core/src/composer'
-import type { ExportedGlobalComposer } from '../../vue-i18n-core/src/i18n'
-import type {
-  DateTimeFormatResult,
+  ExportedGlobalComposer,
+  NumberFormat,
   NumberFormatResult,
+  RemovedIndexResources,
   TranslateResult,
+  Translation,
   VueI18n,
-  VueI18nOptions
-} from '../../vue-i18n-core/src/legacy'
+  VueI18nOptions,
+  VueMessageType
+} from '@intlify/vue-i18n-core'
 
 // --- THE CONTENT BELOW THIS LINE WILL BE APPENDED TO DTS FILE IN DIST DIRECTORY --- //
+
+import type { JsonPaths } from '@intlify/core-base'
+
 declare module 'vue' {
   /**
    * Component Custom Options for Vue I18n
