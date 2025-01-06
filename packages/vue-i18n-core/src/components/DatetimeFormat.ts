@@ -3,11 +3,11 @@ import { assign } from '@intlify/shared'
 import { defineComponent } from 'vue'
 import { useI18n } from '../i18n'
 import { DatetimePartsSymbol } from '../symbols'
-import { baseFormatProps } from './base'
+import { BaseFormatPropsValidators } from './base'
 import { renderFormatter } from './formatRenderer'
 
 import type { DateTimeOptions } from '@intlify/core-base'
-import type { VNodeProps } from 'vue'
+import type { ComponentOptions, SetupContext, VNodeProps } from 'vue'
 import type { Composer, ComposerInternal } from '../composer'
 import type { BaseFormatProps } from './base'
 import type { FormattableProps } from './formatRenderer'
@@ -22,47 +22,47 @@ export type DatetimeFormatProps = FormattableProps<
   Intl.DateTimeFormatOptions
 >
 
-export const DatetimeFormatImpl = /* #__PURE__*/ defineComponent({
-  /* eslint-disable */
-  name: 'i18n-d',
-  props: assign(
-    {
-      value: {
-        type: [Number, Date],
-        required: true
+// TODO:
+export const DatetimeFormatImpl: ComponentOptions<DatetimeFormatProps> =
+  /* #__PURE__*/ defineComponent({
+    name: 'i18n-d', // eslint-disable-line vue/component-definition-name-casing
+    props: /*#__PURE__*/ assign(
+      {
+        value: {
+          type: [Number, Date],
+          required: true
+        },
+        format: {
+          type: [String, Object]
+        }
       },
-      format: {
-        type: [String, Object]
-      }
-    },
-    baseFormatProps
-  ),
-  /* eslint-enable */
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  setup(props: any, context: any): any {
-    const i18n =
-      props.i18n ||
-      (useI18n({
-        useScope: props.scope as 'global' | 'parent',
-        __useComponent: true
-      }) as unknown as Composer & ComposerInternal)
+      BaseFormatPropsValidators
+    ),
 
-    return renderFormatter<
-      FormattableProps<number | Date, Intl.DateTimeFormatOptions>,
-      number | Date,
-      Intl.DateTimeFormatOptions,
-      DateTimeOptions,
-      Intl.DateTimeFormatPart
-    >(
-      props as DatetimeFormatProps,
-      context,
-      DATETIME_FORMAT_OPTIONS_KEYS,
-      (...args: unknown[]) =>
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        (i18n as any)[DatetimePartsSymbol](...args)
-    )
-  }
-})
+    setup(props: DatetimeFormatProps, context: SetupContext) {
+      const i18n =
+        props.i18n ||
+        (useI18n({
+          useScope: props.scope as 'global' | 'parent',
+          __useComponent: true
+        }) as unknown as Composer & ComposerInternal)
+
+      return renderFormatter<
+        FormattableProps<number | Date, Intl.DateTimeFormatOptions>,
+        number | Date,
+        Intl.DateTimeFormatOptions,
+        DateTimeOptions,
+        Intl.DateTimeFormatPart
+      >(
+        props as DatetimeFormatProps,
+        context,
+        DATETIME_FORMAT_OPTIONS_KEYS,
+        (...args: unknown[]) =>
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          (i18n as any)[DatetimePartsSymbol](...args)
+      )
+    }
+  })
 
 /**
  * Datetime Format Component
@@ -87,4 +87,4 @@ export const DatetimeFormat = DatetimeFormatImpl as unknown as {
   }
 }
 
-export const I18nD = DatetimeFormat
+export const I18nD: typeof DatetimeFormat = DatetimeFormat

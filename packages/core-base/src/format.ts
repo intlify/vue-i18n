@@ -163,7 +163,7 @@ export function formatMessagePart<Message = string>(
 
 const PROPS_TYPE = ['t', 'type']
 
-export function resolveType(node: Node) {
+export function resolveType(node: Node): ReturnType<typeof resolveProps> {
   return resolveProps<NodeTypes>(node, PROPS_TYPE)
 }
 

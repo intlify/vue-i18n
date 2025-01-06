@@ -8,10 +8,12 @@ import { getGlobalThis } from '@intlify/shared'
  *
  * @VueI18nGeneral
  */
-export const VERSION = __VERSION__
+export const VERSION: string = __VERSION__
 
 /**
  * This is only called in esm-bundler builds.
+ * @description **Don't use this function in your application code.**
+ *
  * istanbul-ignore-next
  */
 export function initFeatureFlags(): void {
@@ -34,6 +36,8 @@ export function initFeatureFlags(): void {
 
 /**
  * This is only called development env
+ * @description **Don't use this function in your application code.**
+ *
  * istanbul-ignore-next
  */
 export function initDev(): void {

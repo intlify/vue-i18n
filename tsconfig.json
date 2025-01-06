@@ -43,6 +43,7 @@
     "baseUrl": ".",                           /* Base directory to resolve non-absolute module names. */
     "paths": {
       "@intlify/*": ["packages/*/src"],
+      "@intlify/vue-i18n-core/petite": ["packages/vue-i18n-core/src/petite"],
       "vue-i18n": ["packages/vue-i18n/src"]
     },                           /* A series of entries which re-map imports to lookup locations relative to the 'baseUrl'. */
     // "rootDirs": [],                        /* List of root folders whose combined content represents the structure of the project at runtime. */
@@ -53,6 +54,7 @@
     // "preserveSymlinks": true,              /* Do not resolve the real path of symlinks. */
     // "allowUmdGlobalAccess": true,          /* Allow accessing UMD globals from modules. */
     "resolveJsonModule": true,                /* Include modules imported with '.json' extension. */
+    // "isolatedDeclarations": true,
 
     /* Source Map Options */
     // "sourceRoot": "",                      /* Specify the location where debugger should locate TypeScript files instead of source locations. */
@@ -73,7 +75,7 @@
     "packages/global.d.ts",
     "packages/*/src",
     "packages/*/test",
-    "packages/*/*.config.ts",
+    // TODO: "packages/*/*.config.ts",
     "scripts",
     "e2e",
     "shim.d.ts",

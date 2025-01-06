@@ -48,7 +48,7 @@ export const CompileErrorCodes = {
 // Special value for higher-order compilers to pick up the last code
 // to avoid collision of error codes.
 // This should always be kept as the last item.
-export const COMPILE_ERROR_CODES_EXTEND_POINT = 17
+export const COMPILE_ERROR_CODES_EXTEND_POINT: number = 17
 
 export type CompileErrorCodes =
   (typeof CompileErrorCodes)[keyof typeof CompileErrorCodes]

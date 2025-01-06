@@ -2,11 +2,16 @@ import { assign, create, isNumber, isObject, isString } from '@intlify/shared'
 import { defineComponent, h } from 'vue'
 import { useI18n } from '../i18n'
 import { TranslateVNodeSymbol } from '../symbols'
-import { baseFormatProps } from './base'
+import { BaseFormatPropsValidators } from './base'
 import { getFragmentableTag, getInterpolateArg } from './utils'
 
 import type { TranslateOptions } from '@intlify/core-base'
-import type { VNodeChild, VNodeProps } from 'vue'
+import type {
+  ComponentOptions,
+  SetupContext,
+  VNodeChild,
+  VNodeProps
+} from 'vue'
 import type { Composer, ComposerInternal } from '../composer'
 import type { BaseFormatProps } from './base'
 
@@ -28,60 +33,59 @@ export interface TranslationProps extends BaseFormatProps {
   plural?: number | string
 }
 
-export const TranslationImpl = /*#__PURE__*/ defineComponent({
-  /* eslint-disable */
-  name: 'i18n-t',
-  props: assign(
-    {
-      keypath: {
-        type: String,
-        required: true
+export const TranslationImpl: ComponentOptions<TranslationProps> =
+  /*#__PURE__*/ defineComponent({
+    name: 'i18n-t', // eslint-disable-line vue/component-definition-name-casing
+    props: /*#__PURE__*/ assign(
+      {},
+      {
+        keypath: {
+          type: String,
+          required: true
+        },
+        plural: {
+          type: [Number, String],
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          validator: (val: any): boolean => isNumber(val) || !isNaN(val)
+        }
       },
-      plural: {
-        type: [Number, String],
+      BaseFormatPropsValidators
+    ),
+    setup(props: TranslationProps, context: SetupContext) {
+      const { slots, attrs } = context
+      // NOTE: avoid https://github.com/microsoft/rushstack/issues/1050
+      const i18n =
+        props.i18n ||
+        (useI18n({
+          useScope: props.scope as 'global' | 'parent',
+          __useComponent: true
+        }) as unknown as Composer & ComposerInternal)
 
-        validator: (val: any): boolean => isNumber(val) || !isNaN(val)
+      return (): VNodeChild => {
+        const keys = Object.keys(slots).filter(key => key !== '_')
+        const options = create() as TranslateOptions
+        if (props.locale) {
+          options.locale = props.locale
+        }
+        if (props.plural !== undefined) {
+          options.plural = isString(props.plural) ? +props.plural : props.plural
+        }
+        const arg = getInterpolateArg(context, keys)
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const children = (i18n as any)[TranslateVNodeSymbol](
+          props.keypath,
+          arg,
+          options
+        )
+        const assignedAttrs = assign(create(), attrs)
+        const tag =
+          isString(props.tag) || isObject(props.tag)
+            ? props.tag
+            : getFragmentableTag()
+        return h(tag, assignedAttrs, children)
       }
-    },
-    baseFormatProps
-  ),
-  /* eslint-enable */
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  setup(props: any, context: any): any {
-    const { slots, attrs } = context
-    // NOTE: avoid https://github.com/microsoft/rushstack/issues/1050
-    const i18n =
-      props.i18n ||
-      (useI18n({
-        useScope: props.scope as 'global' | 'parent',
-        __useComponent: true
-      }) as unknown as Composer & ComposerInternal)
-
-    return (): VNodeChild => {
-      const keys = Object.keys(slots).filter(key => key !== '_')
-      const options = create() as TranslateOptions
-      if (props.locale) {
-        options.locale = props.locale
-      }
-      if (props.plural !== undefined) {
-        options.plural = isString(props.plural) ? +props.plural : props.plural
-      }
-      const arg = getInterpolateArg(context, keys)
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const children = (i18n as any)[TranslateVNodeSymbol](
-        props.keypath,
-        arg,
-        options
-      )
-      const assignedAttrs = assign(create(), attrs)
-      const tag =
-        isString(props.tag) || isObject(props.tag)
-          ? props.tag
-          : getFragmentableTag()
-      return h(tag, assignedAttrs, children)
     }
-  }
-})
+  })
 
 /**
  * export the public type for h/tsx inference
@@ -143,4 +147,4 @@ export const Translation = TranslationImpl as unknown as {
   }
 }
 
-export const I18nT = Translation
+export const I18nT: typeof Translation = Translation

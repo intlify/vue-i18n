@@ -333,7 +333,7 @@ export interface CoreInternalContext {
  * Intlify core-base version
  * @internal
  */
-export const VERSION = __VERSION__
+export const VERSION: string = __VERSION__
 
 export const NOT_REOSLVED = -1
 

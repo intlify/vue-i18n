@@ -8,7 +8,7 @@ import type { BaseError } from '@intlify/shared'
 export interface CoreError extends BaseError {}
 
 export const CoreErrorCodes = {
-  INVALID_ARGUMENT: COMPILE_ERROR_CODES_EXTEND_POINT, // 17
+  INVALID_ARGUMENT: COMPILE_ERROR_CODES_EXTEND_POINT as number, // 17
   INVALID_DATE_ARGUMENT: 18,
   INVALID_ISO_DATE_ARGUMENT: 19,
   NOT_SUPPORT_NON_STRING_MESSAGE: 20,

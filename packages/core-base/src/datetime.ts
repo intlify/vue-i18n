@@ -295,7 +295,7 @@ export function datetime<
 }
 
 /** @internal */
-export const DATETIME_FORMAT_OPTIONS_KEYS = [
+export const DATETIME_FORMAT_OPTIONS_KEYS: string[] = [
   'localeMatcher',
   'weekday',
   'era',

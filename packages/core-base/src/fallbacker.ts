@@ -35,7 +35,7 @@ export function getLocale<Messages, Message>(
 let _resolveLocale: string
 
 /** @internal */
-export function resolveLocale(locale: Locale | LocaleDetector) {
+export function resolveLocale(locale: Locale | LocaleDetector): string {
   if (isString(locale)) {
     return locale
   } else {

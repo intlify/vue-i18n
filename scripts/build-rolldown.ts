@@ -14,16 +14,16 @@ pnpm build core --formats cjs
 ```
 */
 
-import { Extractor, ExtractorConfig } from '@microsoft/api-extractor'
-import { execa } from 'execa'
 import { spawnSync } from 'node:child_process'
 import { existsSync, promises as fs } from 'node:fs'
-import os from 'node:os'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { parseArgs } from 'node:util'
 import { brotliCompressSync, gzipSync } from 'node:zlib'
 import pc from 'picocolors'
+import { rolldown } from 'rolldown'
+import { buildTypings } from './build-types'
+import { createConfigsForPackage } from './rolldown'
 import {
   targets as allTargets,
   checkSizeDistFiles,
@@ -31,6 +31,8 @@ import {
   fuzzyMatchTarget,
   readJson
 } from './utils'
+
+import type { OutputOptions } from 'rolldown'
 
 const __dirname = fileURLToPath(new URL('.', import.meta.url))
 const commit = spawnSync('git', ['rev-parse', '--short=7', 'HEAD'])
@@ -95,11 +97,11 @@ async function main() {
       await fs.mkdir(sizeDir, { recursive: true })
     }
 
-    const rtsCachePath = path.resolve(__dirname, './node_modules/.rts2_cache')
-    if (isRelease && existsSync(rtsCachePath)) {
-      // remove build cache for release builds to avoid outdated enum values
-      await fs.rm(rtsCachePath, { recursive: true })
-    }
+    // const rtsCachePath = path.resolve(__dirname, './node_modules/.rts2_cache')
+    // if (isRelease && existsSync(rtsCachePath)) {
+    //   // remove build cache for release builds to avoid outdated enum values
+    //   await fs.rm(rtsCachePath, { recursive: true })
+    // }
 
     const resolvedTargets = targets.length
       ? await fuzzyMatchTarget(targets, buildAllMatching)
@@ -111,46 +113,48 @@ async function main() {
     }
 
     if (buildTypes) {
-      await buildTypingsAll(resolvedTargets)
+      await buildTypings(resolvedTargets)
     }
   }
 
   async function buildAll(targets: string[]) {
     const start = performance.now()
-    await runParallel(os.cpus().length, targets, build)
-    console.log(`\nbuilt in ${(performance.now() - start).toFixed(2)}ms.`)
-  }
-
-  async function buildTypingsAll(targets: string[]) {
-    const start = performance.now()
-    await runParallel(os.cpus().length, targets, buildTypings)
-    console.log(`\nbundle dts in ${(performance.now() - start).toFixed(2)}ms.`)
-  }
-
-  async function runParallel(
-    maxConcurrency: number,
-    source: string[],
-    iteratorFn: (item: string, source: string[]) => Promise<void>
-  ) {
-    const ret: Promise<void>[] = []
-    const executing: Promise<void>[] = []
-    for (const item of source) {
-      const p = Promise.resolve().then(() => iteratorFn(item, source))
-      ret.push(p)
-
-      if (maxConcurrency <= source.length) {
-        // @ts-expect-error
-        const e = p.then(() => executing.splice(executing.indexOf(e), 1))
-        executing.push(e)
-        if (executing.length >= maxConcurrency) {
-          await Promise.race(executing)
-        }
+    const all = []
+    let count = 0
+    for (const target of targets) {
+      const configs = await createConfigsForTarget(target)
+      if (configs) {
+        all.push(
+          Promise.all(
+            configs.map(c =>
+              rolldown(c).then(bundle => {
+                return bundle.write(c.output as OutputOptions).then(() => {
+                  return path.join(
+                    'packages',
+                    target,
+                    'dist',
+                    // @ts-expect-error
+                    path.basename(c.output.file)
+                  )
+                })
+              })
+            )
+          ).then(files => {
+            files.forEach(f => {
+              count++
+              console.log(pc.gray('built: ') + pc.green(f))
+            })
+          })
+        )
       }
     }
-    return Promise.all(ret)
+    await Promise.all(all)
+    console.log(
+      `\n${count} files built in ${(performance.now() - start).toFixed(2)}ms.`
+    )
   }
 
-  async function build(target: string) {
+  async function createConfigsForTarget(target: string) {
     const pkgDir = path.resolve(__dirname, `../packages/${target}`)
     const pkg = await readJson(`${pkgDir}/package.json`)
 
@@ -164,85 +168,73 @@ async function main() {
       await fs.rm(`${pkgDir}/dist`, { recursive: true })
     }
 
-    const env =
-      (pkg.buildOptions && pkg.buildOptions.env) ||
-      (devOnly ? 'development' : 'production')
-    await execa(
-      'rollup',
-      [
-        '-c',
-        '--environment',
-        [
-          `COMMIT:${commit}`,
-          `NODE_ENV:${env}`,
-          `TARGET:${target}`,
-          formats ? `FORMATS:${formats}` : ``,
-          buildTypes ? `TYPES:true` : ``,
-          prodOnly ? `PROD_ONLY:true` : ``,
-          sourceMap ? `SOURCE_MAP:true` : ``
-        ]
-          .filter(Boolean)
-          .join(',')
-      ],
-      { stdio: 'inherit' }
-    )
-  }
+    return createConfigsForPackage({
+      target,
+      commit,
+      formats,
+      prodOnly,
+      sourceMap
+    })
+    // const env =
+    //   (pkg.buildOptions && pkg.buildOptions.env) ||
+    //   (devOnly ? 'development' : 'production')
+    // await execa(
+    //   'rollup',
+    //   [
+    //     '-c',
+    //     '--environment',
+    //     [
+    //       `COMMIT:${commit}`,
+    //       `NODE_ENV:${env}`,
+    //       `TARGET:${target}`,
+    //       formats ? `FORMATS:${formats}` : ``,
+    //       buildTypes ? `TYPES:true` : ``,
+    //       prodOnly ? `PROD_ONLY:true` : ``,
+    //       sourceMap ? `SOURCE_MAP:true` : ``
+    //     ]
+    //       .filter(Boolean)
+    //       .join(',')
+    //   ],
+    //   { stdio: 'inherit' }
+    // )
 
-  async function buildTypings(target: string) {
-    const pkgDir = path.resolve(__dirname, `../packages/${target}`)
-    const pkg = await readJson(`${pkgDir}/package.json`)
-
-    // only build published packages for release
-    if (isRelease && pkg.private) {
-      return
-    }
-
-    if (pkg.types) {
+    /*
+    if (buildTypes && pkg.types) {
       console.log()
       console.log(
         pc.bold(pc.yellow(`Rolling up type definitions for ${target}...`))
       )
+
       // build types
-      const _extractorConfigPath = path.resolve(pkgDir, `api-extractor.json`)
-      const extractorConfigPaths = [_extractorConfigPath]
-      if (target === 'vue-i18n-core') {
-        extractorConfigPaths.push(
-          path.resolve(pkgDir, `api-extractor-petite.json`)
-        )
-      }
+      const extractorConfigPath = path.resolve(pkgDir, `api-extractor.json`)
+      const extractorConfig =
+        ExtractorConfig.loadFileAndPrepare(extractorConfigPath)
+      const extractorResult = Extractor.invoke(extractorConfig, {
+        localBuild: true,
+        showVerboseMessages: true
+      })
 
-      for (const extractorConfigPath of extractorConfigPaths) {
-        const extractorConfig =
-          ExtractorConfig.loadFileAndPrepare(extractorConfigPath)
-        const extractorResult = Extractor.invoke(extractorConfig, {
-          localBuild: true,
-          showVerboseMessages: true
-        })
-
-        if (extractorResult.succeeded) {
-          // concat additional d.ts to rolled-up dts
-          const typesDir = path.resolve(pkgDir, 'types')
-          if (existsSync(typesDir)) {
-            const dtsPath = path.resolve(pkgDir, pkg.types)
-            const existing = await fs.readFile(dtsPath, 'utf-8')
-            const typeFiles = await fs.readdir(typesDir)
-            const toAdd = await Promise.all(
-              typeFiles.map(file =>
-                fs.readFile(path.resolve(typesDir, file), 'utf-8')
-              )
+      if (extractorResult.succeeded) {
+        // concat additional d.ts to rolled-up dts
+        const typesDir = path.resolve(pkgDir, 'types')
+        if (existsSync(typesDir)) {
+          const dtsPath = path.resolve(pkgDir, pkg.types)
+          const existing = await fs.readFile(dtsPath, 'utf-8')
+          const typeFiles = await fs.readdir(typesDir)
+          const toAdd = await Promise.all(
+            typeFiles.map(file =>
+              fs.readFile(path.resolve(typesDir, file), 'utf-8')
             )
-            await fs.writeFile(dtsPath, existing + '\n' + toAdd.join('\n'))
-          }
-          console.log(
-            pc.bold(pc.green(`API Extractor completed successfully.`))
           )
-        } else {
-          console.error(
-            `API Extractor completed with ${extractorResult.errorCount} errors` +
-              ` and ${extractorResult.warningCount} warnings`
-          )
-          process.exitCode = 1
+          await fs.writeFile(dtsPath, existing + '\n' + toAdd.join('\n'))
         }
+        console.log(pc.bold(pc.green(`API Extractor completed successfully.`)))
+      } else {
+        console.error(
+          `API Extractor completed with ${extractorResult.errorCount} errors` +
+          ` and ${extractorResult.warningCount} warnings`
+        )
+        process.exitCode = 1
       }
 
       if (['vue-i18n', 'petite-vue-i18n'].includes(target)) {
@@ -285,6 +277,7 @@ async function main() {
 
       await fs.rm(`${pkgDir}/dist/packages`, { recursive: true })
     }
+    */
   }
 
   async function checkAllSizes(targets: string[]) {

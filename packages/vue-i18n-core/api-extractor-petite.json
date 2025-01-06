@@ -1,0 +1,7 @@
+{
+  "extends": "../../api-extractor.json",
+  "mainEntryPointFilePath": "./dist/packages/<unscopedPackageName>/src/petite.d.ts",
+  "dtsRollup": {
+    "publicTrimmedFilePath": "./dist/petite-vue-i18n-core.d.ts"
+  }
+}

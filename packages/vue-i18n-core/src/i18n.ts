@@ -60,25 +60,6 @@ import type {
 } from './legacy'
 import type { Disposer } from './types'
 
-declare module 'vue' {
-  // eslint-disable-next-line
-  interface App<HostElement = any> {
-    __VUE_I18N__?: I18n & I18nInternal
-    __VUE_I18N_SYMBOL__?: InjectionKey<I18n> | string
-  }
-}
-
-// internal Component Instance API isCE
-declare module 'vue' {
-  export interface ComponentInternalInstance {
-    /**
-     * @internal
-     * is custom element?
-     */
-    isCE?: boolean
-  }
-}
-
 /**
  * I18n Options for `createI18n`
  *
