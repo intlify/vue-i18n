@@ -12,9 +12,9 @@ export const VERSION: string = __VERSION__
 
 /**
  * This is only called in esm-bundler builds.
- * istanbul-ignore-next
+ * @description **Don't use this function in your application code.**
  *
- * @internal
+ * istanbul-ignore-next
  */
 export function initFeatureFlags(): void {
   if (typeof __FEATURE_FULL_INSTALL__ !== 'boolean') {
@@ -36,9 +36,9 @@ export function initFeatureFlags(): void {
 
 /**
  * This is only called development env
- * istanbul-ignore-next
+ * @description **Don't use this function in your application code.**
  *
- * @internal
+ * istanbul-ignore-next
  */
 export function initDev(): void {
   if (__BROWSER__) {
