@@ -21,6 +21,9 @@ importers:
       '@intlify/message-compiler':
         specifier: workspace:*
         version: link:packages/message-compiler
+      '@intlify/vue-i18n-core':
+        specifier: workspace:*
+        version: link:packages/vue-i18n-core
       '@microsoft/api-extractor':
         specifier: 7.15.2
         version: 7.15.2

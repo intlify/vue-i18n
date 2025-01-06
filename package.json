@@ -85,6 +85,7 @@
     "@eslint/js": "^9.9.1",
     "@intlify/core-base": "workspace:*",
     "@intlify/message-compiler": "workspace:*",
+    "@intlify/vue-i18n-core": "workspace:*",
     "@microsoft/api-extractor": "7.15.2",
     "@rolldown/plugin-node-polyfills": "^1.0.0",
     "@rollup/plugin-commonjs": "^25.0.0",
