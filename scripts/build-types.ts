@@ -27,9 +27,7 @@ const IGNORES = [
   'size-check-vue-i18n'
 ]
 
-for (const file of globSync(
-  path.resolve(__dirname, '../packages/*/src/**/*.ts')
-)) {
+for (const file of globSync('packages/*/src/**/*.ts')) {
   for (const ignore of IGNORES) {
     if (file.includes(ignore)) {
       continue

@@ -10,7 +10,7 @@ export const CoreWarnCodes = {
   EXPERIMENTAL_CUSTOM_MESSAGE_COMPILER: 7
 } as const
 
-export const CORE_WARN_CODES_EXTEND_POINT = 8
+export const CORE_WARN_CODES_EXTEND_POINT: number = 8
 
 export type CoreWarnCodes = (typeof CoreWarnCodes)[keyof typeof CoreWarnCodes]
 

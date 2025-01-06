@@ -3,11 +3,11 @@ import { assign } from '@intlify/shared'
 import { defineComponent } from 'vue'
 import { useI18n } from '../i18n'
 import { NumberPartsSymbol } from '../symbols'
-import { baseFormatProps } from './base'
+import { BaseFormatPropsValidators } from './base'
 import { renderFormatter } from './formatRenderer'
 
 import type { NumberOptions } from '@intlify/core-base'
-import type { VNodeProps } from 'vue'
+import type { ComponentOptions, SetupContext, VNodeProps } from 'vue'
 import type { Composer, ComposerInternal } from '../composer'
 import type { BaseFormatProps } from './base'
 import type { FormattableProps } from './formatRenderer'
@@ -22,47 +22,46 @@ export type NumberFormatProps = FormattableProps<
   Intl.NumberFormatOptions
 >
 
-export const NumberFormatImpl = /*#__PURE__*/ defineComponent({
-  /* eslint-disable */
-  name: 'i18n-n',
-  props: assign(
-    {
-      value: {
-        type: Number,
-        required: true
+// TODO:
+export const NumberFormatImpl: ComponentOptions<NumberFormatProps> =
+  /*#__PURE__*/ defineComponent({
+    name: 'i18n-n', // eslint-disable-line vue/component-definition-name-casing
+    props: /*#__PURE__*/ assign(
+      {
+        value: {
+          type: Number,
+          required: true
+        },
+        format: {
+          type: [String, Object]
+        }
       },
-      format: {
-        type: [String, Object]
-      }
-    },
-    baseFormatProps
-  ),
-  /* eslint-enable */
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  setup(props: any, context: any): any {
-    const i18n =
-      props.i18n ||
-      (useI18n({
-        useScope: props.scope as 'global' | 'parent',
-        __useComponent: true
-      }) as unknown as Composer & ComposerInternal)
+      BaseFormatPropsValidators
+    ),
+    setup(props: NumberFormatProps, context: SetupContext) {
+      const i18n =
+        props.i18n ||
+        (useI18n({
+          useScope: props.scope as 'global' | 'parent',
+          __useComponent: true
+        }) as unknown as Composer & ComposerInternal)
 
-    return renderFormatter<
-      FormattableProps<number, Intl.NumberFormatOptions>,
-      number,
-      Intl.NumberFormatOptions,
-      NumberOptions,
-      Intl.NumberFormatPart
-    >(
-      props as NumberFormatProps,
-      context,
-      NUMBER_FORMAT_OPTIONS_KEYS,
-      (...args: unknown[]) =>
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        (i18n as any)[NumberPartsSymbol](...args)
-    )
-  }
-})
+      return renderFormatter<
+        FormattableProps<number, Intl.NumberFormatOptions>,
+        number,
+        Intl.NumberFormatOptions,
+        NumberOptions,
+        Intl.NumberFormatPart
+      >(
+        props as NumberFormatProps,
+        context,
+        NUMBER_FORMAT_OPTIONS_KEYS,
+        (...args: unknown[]) =>
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          (i18n as any)[NumberPartsSymbol](...args)
+      )
+    }
+  })
 
 /**
  * export the public type for h/tsx inference
@@ -92,4 +91,4 @@ export const NumberFormat = NumberFormatImpl as unknown as {
   }
 }
 
-export const I18nN = NumberFormat
+export const I18nN: typeof NumberFormat = NumberFormat

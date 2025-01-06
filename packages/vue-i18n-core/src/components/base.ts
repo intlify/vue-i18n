@@ -48,7 +48,8 @@ export interface BaseFormatProps {
   i18n?: Composer
 }
 
-export const baseFormatProps = {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const BaseFormatPropsValidators: Record<string, any> = {
   tag: {
     type: [String, Object]
   },

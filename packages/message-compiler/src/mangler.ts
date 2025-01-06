@@ -19,7 +19,7 @@ const ERROR_DOMAIN = 'minifier'
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-export function mangle(node: Node) {
+export function mangle(node: Node): void {
   node.t = node.type
 
   switch (node.type) {

@@ -1,6 +1,6 @@
 import {
-  createCompileError,
-  CORE_ERROR_CODES_EXTEND_POINT
+  CORE_ERROR_CODES_EXTEND_POINT,
+  createCompileError
 } from '@intlify/core-base'
 
 import type { BaseError } from '@intlify/shared'
@@ -9,7 +9,7 @@ export interface I18nError extends BaseError {}
 
 export const I18nErrorCodes = {
   // composer module errors
-  UNEXPECTED_RETURN_TYPE: CORE_ERROR_CODES_EXTEND_POINT, // 24
+  UNEXPECTED_RETURN_TYPE: CORE_ERROR_CODES_EXTEND_POINT as number, // 24
   // legacy module errors
   INVALID_ARGUMENT: 25,
   // i18n module errors
