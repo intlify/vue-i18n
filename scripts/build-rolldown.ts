@@ -22,6 +22,7 @@ import { parseArgs } from 'node:util'
 import { brotliCompressSync, gzipSync } from 'node:zlib'
 import pc from 'picocolors'
 import { rolldown } from 'rolldown'
+import { buildTypings } from './build-types'
 import { createConfigsForPackage } from './rolldown'
 import {
   targets as allTargets,
@@ -112,7 +113,7 @@ async function main() {
     }
 
     if (buildTypes) {
-      await import('./build-types')
+      await buildTypings(resolvedTargets)
     }
   }
 
@@ -148,7 +149,6 @@ async function main() {
       }
     }
     await Promise.all(all)
-    // await runParallel(os.cpus().length, targets, build)
     console.log(
       `\n${count} files built in ${(performance.now() - start).toFixed(2)}ms.`
     )
