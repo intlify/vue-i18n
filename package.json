@@ -91,7 +91,7 @@
     "@rollup/plugin-commonjs": "^25.0.0",
     "@rollup/plugin-json": "^6.0.0",
     "@rollup/plugin-node-resolve": "^16.0.0",
-    "@rollup/plugin-replace": "^5.0.2",
+    "@rollup/plugin-replace": "^6.0.0",
     "@rollup/plugin-terser": "^0.4.3",
     "@secretlint/secretlint-rule-preset-recommend": "^3.1.0",
     "@swc/core": "^1.10.4",
