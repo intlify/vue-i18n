@@ -113,9 +113,9 @@ async function main() {
 
   async function buildAll(targets: string[]) {
     const start = performance.now()
-    const all = []
     let count = 0
     for (const target of targets) {
+      const all = []
       const configs = await createConfigsForTarget(target)
       if (configs) {
         all.push(
@@ -141,8 +141,8 @@ async function main() {
           })
         )
       }
+      await Promise.all(all)
     }
-    await Promise.all(all)
     console.log(
       `\n${count} files built in ${(performance.now() - start).toFixed(2)}ms.`
     )

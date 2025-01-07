@@ -9,24 +9,48 @@ export type BundleReport = {
   brotli: number
 }
 
+const PKG_TARGET_ORDER = [
+  'shared',
+  'message-compiler',
+  'devtools-types',
+  'core-base',
+  'core',
+  'vue-i18n-core',
+  'petite-vue-i18n',
+  'vue-i18n'
+]
+
+function resolveTargets(targets: string[]) {
+  return targets.sort((a, b) => {
+    const ia = PKG_TARGET_ORDER.indexOf(a)
+    const ib = PKG_TARGET_ORDER.indexOf(b)
+    return ia > ib ? 1 : ia < ib ? -1 : 0
+  })
+}
+
 export const targets = async () => {
   const packages = await fs.readdir('packages')
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const pkgCaches = new Map<string, any>()
   const files = await Promise.all(
     packages.map(async f => {
       const stat = await fs.stat(`packages/${f}`)
       if (!stat.isDirectory()) {
         return ''
       }
-      const pkg = await readJson(
-        resolve(dirname(''), `./packages/${f}/package.json`)
-      )
+      const pkgfile = resolve(dirname(''), `./packages/${f}/package.json`)
+      let pkg = pkgCaches.get(pkgfile)
+      if (pkg == null) {
+        pkg = await readJson(pkgfile)
+        pkgCaches.set(pkgfile, pkg)
+      }
       if (pkg.private || !pkg.buildOptions) {
         return ''
       }
       return f
     })
   )
-  return files.filter((_, f) => files[f])
+  return resolveTargets(files.filter((_, f) => files[f]))
 }
 
 export const fuzzyMatchTarget = async (
@@ -78,7 +102,9 @@ export async function sizeTargets() {
       return f
     })
   )
-  return files.filter((_, f) => files[f]).filter(f => /size-check/.test(f))
+  return resolveTargets(
+    files.filter((_, f) => files[f]).filter(f => /size-check/.test(f))
+  )
 }
 
 export async function checkSizeDistFiles(target: string) {
