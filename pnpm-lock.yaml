@@ -184,8 +184,8 @@ importers:
         specifier: ^1.0.2
         version: 1.0.2
       textlint-rule-apostrophe:
-        specifier: ^2.0.0
-        version: 2.0.0
+        specifier: ^3.0.0
+        version: 3.0.0
       textlint-rule-common-misspellings:
         specifier: ^1.0.1
         version: 1.0.1
@@ -7027,9 +7027,9 @@ packages:
   textlint-rule-abbr-within-parentheses@1.0.2:
     resolution: {integrity: sha512-GcAtxXttLsZfN75tSCo3V8/RTlglvhnn7McNTgI0uS4ADr67RoD64bSVIs4p/nY3sMNsf1taPjKnhZIQLuVjZg==}
 
-  textlint-rule-apostrophe@2.0.0:
-    resolution: {integrity: sha512-iA0YlUBLS4/YNswvOzG44zo/tJ+xhcLYjyzI9iPia9+jxCQ5NGLlRXHTdtwWPvTTpCk3cn9vlcxYma7wdYyWzg==}
-    engines: {node: '>=8.9'}
+  textlint-rule-apostrophe@3.0.0:
+    resolution: {integrity: sha512-V6NQsIeAw/suqCCN2bXLbCUQa40a5Z9CwJdE6yLS7RyzVYSrhwI8sYpNJxazvigJQNbeO+lneghdv0XSNP7jbw==}
+    engines: {node: '>=20'}
 
   textlint-rule-common-misspellings@1.0.1:
     resolution: {integrity: sha512-f5KWhQFJzJBUX3RirAS25aSkAaaOHeSHtBeb7d49O+vxnAX3dZBS5DB/e5M1kR4tifW4qae64oqWZygoGYWkjQ==}
@@ -15211,7 +15211,7 @@ snapshots:
     dependencies:
       match-index: 1.0.3
 
-  textlint-rule-apostrophe@2.0.0: {}
+  textlint-rule-apostrophe@3.0.0: {}
 
   textlint-rule-common-misspellings@1.0.1:
     dependencies:
