@@ -55,7 +55,7 @@
     // "allowUmdGlobalAccess": true,          /* Allow accessing UMD globals from modules. */
     "resolveJsonModule": true,                /* Include modules imported with '.json' extension. */
     // "isolatedDeclarations": true,
-    "verbatimModuleSyntax": true,
+    // "verbatimModuleSyntax": true,
 
     /* Source Map Options */
     // "sourceRoot": "",                      /* Specify the location where debugger should locate TypeScript files instead of source locations. */
