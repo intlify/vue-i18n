@@ -9,7 +9,6 @@ import {
   warnOnce
 } from '@intlify/shared'
 import {
-  InjectionKey,
   effectScope,
   getCurrentInstance,
   inject,
@@ -42,7 +41,12 @@ import type {
   VueDevToolsEmitter,
   VueDevToolsEmitterEvents
 } from '@intlify/devtools-types'
-import type { App, ComponentInternalInstance, EffectScope } from 'vue'
+import type {
+  App,
+  ComponentInternalInstance,
+  EffectScope,
+  InjectionKey
+} from 'vue'
 import type {
   Composer,
   ComposerInternalOptions,

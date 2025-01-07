@@ -1,6 +1,5 @@
-import { Composer } from '../composer'
-
 import type { Locale } from '@intlify/core-base'
+import type { Composer } from '../composer'
 import type { I18nScope } from '../i18n'
 
 export type ComponentI18nScope = Exclude<I18nScope, 'local'>

@@ -19,7 +19,6 @@ import {
 } from '@intlify/shared'
 import { isMessageAST } from './compilation'
 import {
-  CoreContext,
   getAdditionalMeta,
   handleMissing,
   isAlmostSameLocale,
@@ -36,6 +35,7 @@ import { CoreWarnCodes, getWarnMessage } from './warnings'
 import type { AdditionalPayloads } from '@intlify/devtools-types'
 import type { CompileError, ResourceNode } from '@intlify/message-compiler'
 import type {
+  CoreContext,
   CoreInternalContext,
   DefineCoreLocaleMessage,
   LocaleMessages,

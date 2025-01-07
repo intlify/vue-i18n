@@ -6,11 +6,7 @@ import {
   isObject,
   isString
 } from '@intlify/shared'
-import {
-  ComponentTreeNode,
-  Hooks,
-  setupDevtoolsPlugin
-} from '@vue/devtools-api'
+import { setupDevtoolsPlugin } from '@vue/devtools-api'
 
 import type {
   VueDevToolsIDs,
@@ -19,9 +15,11 @@ import type {
 } from '@intlify/devtools-types'
 import type {
   ComponentStateBase,
+  ComponentTreeNode,
   CustomInspectorState,
   DevtoolsPluginApi,
   HookPayloads,
+  Hooks,
   InspectedComponentData
 } from '@vue/devtools-api'
 import type { App, ComponentInternalInstance } from 'vue'

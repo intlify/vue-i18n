@@ -20,16 +20,18 @@ vi.mock('../src/intl', async () => {
   }
 })
 
-import { createCoreContext as context, NOT_REOSLVED } from '../src/context'
-import { number } from '../src/number'
-import { CoreErrorCodes, errorMessages } from '../src/errors'
-import {
-  registerMessageCompiler,
-  registerLocaleFallbacker
-} from '../src/context'
 import { compile } from '../src/compilation'
+import {
+  createCoreContext as context,
+  NOT_REOSLVED,
+  registerLocaleFallbacker,
+  registerMessageCompiler
+} from '../src/context'
+import { CoreErrorCodes, errorMessages } from '../src/errors'
 import { fallbackWithLocaleChain } from '../src/fallbacker'
-import { NumberFormats } from '../src/types/index'
+import { number } from '../src/number'
+
+import type { NumberFormats } from '../src/types/index'
 
 type MyNumberSchema = {
   currency: {} // loose schema

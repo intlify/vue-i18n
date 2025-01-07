@@ -5,6 +5,7 @@
 
 // utils
 import * as shared from '@intlify/shared'
+import { pluralRules as _pluralRules } from './helper'
 vi.mock('@intlify/shared', async () => {
   const actual = await vi.importActual<object>('@intlify/shared')
   return {
@@ -12,34 +13,36 @@ vi.mock('@intlify/shared', async () => {
     warn: vi.fn()
   }
 })
-import { pluralRules as _pluralRules } from './helper'
 
 import {
-  createComposer,
-  MissingHandler,
-  ComposerOptions,
-  VueMessageType
-} from '../src/composer'
-import {
-  TranslateVNodeSymbol,
-  NumberPartsSymbol,
-  DatetimePartsSymbol
-} from '../src/symbols'
-import { getWarnMessage, I18nWarnCodes } from '../src/warnings'
-import { watch, watchEffect, nextTick, Text, createVNode } from 'vue'
-import {
-  Locale,
   compile,
-  registerMessageCompiler,
-  resolveValue,
-  registerMessageResolver,
   fallbackWithLocaleChain,
   registerLocaleFallbacker,
-  MessageContext,
-  Path,
-  PathValue,
-  MessageFunction
+  registerMessageCompiler,
+  registerMessageResolver,
+  resolveValue
 } from '@intlify/core-base'
+import { createVNode, nextTick, Text, watch, watchEffect } from 'vue'
+import { createComposer } from '../src/composer'
+import {
+  DatetimePartsSymbol,
+  NumberPartsSymbol,
+  TranslateVNodeSymbol
+} from '../src/symbols'
+import { getWarnMessage, I18nWarnCodes } from '../src/warnings'
+
+import type {
+  Locale,
+  MessageContext,
+  MessageFunction,
+  Path,
+  PathValue
+} from '@intlify/core-base'
+import type {
+  ComposerOptions,
+  MissingHandler,
+  VueMessageType
+} from '../src/composer'
 
 beforeEach(() => {
   registerMessageCompiler(compile)

@@ -24,7 +24,6 @@ import {
 } from '@intlify/core-base'
 import { createEmitter } from '@intlify/shared'
 import {
-  ComponentOptions,
   defineComponent,
   defineCustomElement,
   getCurrentInstance,
@@ -32,13 +31,13 @@ import {
   nextTick,
   ref
 } from 'vue'
-import { Composer } from '../src/composer'
 import { errorMessages, I18nErrorCodes } from '../src/errors'
 import { createI18n, useI18n } from '../src/i18n'
 import { pluralRules as _pluralRules, mount, randStr } from './helper'
 
 import type { IntlifyDevToolsEmitterHooks } from '@intlify/devtools-types'
-import type { App } from 'vue'
+import type { App, ComponentOptions } from 'vue'
+import type { Composer } from '../src/composer'
 import type { I18n } from '../src/i18n'
 import type { VueI18n } from '../src/legacy'
 /* eslint-disable @typescript-eslint/no-explicit-any */

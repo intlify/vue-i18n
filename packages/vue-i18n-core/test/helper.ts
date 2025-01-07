@@ -1,22 +1,24 @@
+import { assign, isBoolean, isPlainObject } from '@intlify/shared'
+import { compile } from '@vue/compiler-dom'
+import * as runtimeDom from 'vue'
 import {
   createApp,
   defineComponent,
   h,
-  ComponentPublicInstance,
-  reactive,
   nextTick,
-  ComponentObjectPropsOptions,
-  App,
-  VNode,
-  shallowRef,
   onErrorCaptured,
-  ComponentOptions
+  reactive,
+  shallowRef
 } from 'vue'
-import { compile } from '@vue/compiler-dom'
-import * as runtimeDom from 'vue'
-import { isBoolean, isPlainObject, assign } from '@intlify/shared'
-import { I18n } from '../src/i18n'
 
+import type {
+  App,
+  ComponentObjectPropsOptions,
+  ComponentOptions,
+  ComponentPublicInstance,
+  VNode
+} from 'vue'
+import type { I18n } from '../src/i18n'
 import type { I18nPluginOptions } from '../src/plugin/types'
 
 export interface MountOptions {

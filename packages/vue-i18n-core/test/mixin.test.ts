@@ -22,8 +22,9 @@ import {
 import { defineComponent, nextTick } from 'vue'
 import { errorMessages, I18nErrorCodes } from '../src/errors'
 import { createI18n } from '../src/index'
-import { VueI18n } from '../src/legacy'
 import { mount } from './helper'
+
+import type { VueI18n } from '../src/legacy'
 
 beforeAll(() => {
   registerMessageCompiler(compile)

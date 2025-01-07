@@ -1,6 +1,8 @@
-import { defineConfig, UserConfig } from 'vitest/config'
+import { defineConfig } from 'vitest/config'
 import { version } from './package.json'
 import { entries } from './scripts/aliases'
+
+import type { ViteUserConfig } from 'vitest/config'
 
 export default defineConfig({
   define: {
@@ -27,4 +29,4 @@ export default defineConfig({
     // disable threads on GH actions to speed it up
     pool: process.env.GITHUB_ACTIONS ? undefined : 'threads'
   }
-}) as UserConfig
+}) as ViteUserConfig

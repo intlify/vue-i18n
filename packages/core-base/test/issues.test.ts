@@ -1,7 +1,8 @@
+import { NodeTypes } from '@intlify/message-compiler'
 import { format } from '../src/format'
 import { createMessageContext as context } from '../src/runtime'
 
-import { NodeTypes, ResourceNode } from '@intlify/message-compiler'
+import type { ResourceNode } from '@intlify/message-compiler'
 
 describe('CVE-2024-52809', () => {
   function attackGetter() {

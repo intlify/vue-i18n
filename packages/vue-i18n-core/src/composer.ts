@@ -2,7 +2,6 @@
 import {
   DEFAULT_LOCALE,
   MISSING_RESOLVE_VALUE,
-  MessageFunction,
   NOT_REOSLVED,
   clearDateTimeFormat,
   clearNumberFormat,
@@ -80,6 +79,7 @@ import type {
   LocaleMessages,
   LocaleParams,
   MessageCompiler,
+  MessageFunction,
   MessageFunctions,
   MessageProcessor,
   MessageResolver,

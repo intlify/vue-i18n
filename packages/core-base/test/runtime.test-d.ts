@@ -1,4 +1,4 @@
-import { MessageType } from '../src/runtime'
+import type { MessageType } from '../src/runtime'
 
 /**
  * Message Type

@@ -1,5 +1,7 @@
-import { UserConfig, configDefaults } from 'vitest/config'
+import { configDefaults } from 'vitest/config'
 import config from './vitest.config'
+
+import type { ViteUserConfig } from 'vitest/config'
 
 export default {
   ...config,
@@ -9,4 +11,4 @@ export default {
     globalSetup: ['./scripts/vitest.unit.globalSetup.ts'],
     exclude: [...configDefaults.exclude, '**/e2e/**']
   }
-} as UserConfig
+} as ViteUserConfig

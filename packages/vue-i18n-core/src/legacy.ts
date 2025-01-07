@@ -9,7 +9,7 @@ import {
   isRegExp,
   isString
 } from '@intlify/shared'
-import { createComposer, DefineLocaleMessage } from './composer'
+import { createComposer } from './composer'
 import { DisableEmitter, EnableEmitter } from './symbols'
 
 import type {
@@ -55,6 +55,7 @@ import type {
   DefaultLocaleMessageSchema,
   DefaultNumberFormatSchema,
   DefineDateTimeFormat,
+  DefineLocaleMessage,
   DefineNumberFormat,
   MissingHandler,
   VueMessageType

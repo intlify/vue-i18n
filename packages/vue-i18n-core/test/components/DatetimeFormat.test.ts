@@ -10,10 +10,11 @@ import {
   registerMessageResolver,
   resolveValue
 } from '@intlify/core-base'
-import { defineComponent, h, SetupContext, VNodeChild } from 'vue'
+import { defineComponent, h } from 'vue'
 import { createI18n } from '../../src/index'
 import { mount } from '../helper'
 
+import type { SetupContext, VNodeChild } from 'vue'
 import type { IntlDateTimeFormats } from '../../src/index'
 
 const datetimeFormats: IntlDateTimeFormats = {

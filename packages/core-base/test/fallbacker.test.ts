@@ -1,11 +1,13 @@
-import { createCoreContext as context, CoreContext } from '../src/context'
+import { createCoreContext as context } from '../src/context'
+import { CoreErrorCodes, errorMessages } from '../src/errors'
 import {
   fallbackWithLocaleChain,
   fallbackWithSimple,
   resolveLocale
 } from '../src/fallbacker'
-import { errorMessages, CoreErrorCodes } from '../src/errors'
-import { LocaleDetector } from '@intlify/core-base'
+
+import type { LocaleDetector } from '@intlify/core-base'
+import type { CoreContext } from '../src/context'
 
 describe('fallbackWithSimple', () => {
   let ctx: CoreContext<string>

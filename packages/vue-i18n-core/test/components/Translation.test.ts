@@ -10,19 +10,12 @@ import {
   registerMessageResolver,
   resolveValue
 } from '@intlify/core-base'
-import {
-  defineComponent,
-  h,
-  nextTick,
-  ref,
-  SetupContext,
-  VNodeChild
-} from 'vue'
+import { defineComponent, h, nextTick, ref } from 'vue'
 import { createI18n, useI18n } from '../../src/index'
 import { mount } from '../helper'
 
 import type { Path, PathValue } from '@intlify/core-base'
-import type { Ref } from 'vue'
+import type { Ref, SetupContext, VNodeChild } from 'vue'
 
 const messages = {
   en: {

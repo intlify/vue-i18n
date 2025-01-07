@@ -1,12 +1,12 @@
-import {
-  createCoreContext,
+import { createCoreContext } from '../src'
+
+import type {
   DateTimeFormat,
   Locale,
   LocaleDetector,
   NumberFormat,
   PickupFallbackLocales
 } from '../src'
-
 import type { MyDatetimeScehma, MyNumberSchema, ResourceSchema } from './schema'
 
 // loose options

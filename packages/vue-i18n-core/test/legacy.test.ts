@@ -13,17 +13,16 @@ vi.mock('@intlify/shared', async () => {
 
 import {
   compile,
-  MessageContext,
-  Path,
-  PathValue,
   registerMessageCompiler,
   registerMessageResolver,
   resolveValue
 } from '@intlify/core-base'
 import { nextTick, watchEffect } from 'vue'
-import { VueMessageType } from '../src/composer'
 import { createVueI18n } from '../src/legacy'
 import { pluralRules as _pluralRules } from './helper'
+
+import type { MessageContext, Path, PathValue } from '@intlify/core-base'
+import type { VueMessageType } from '../src/composer'
 
 beforeEach(() => {
   registerMessageCompiler(compile)
