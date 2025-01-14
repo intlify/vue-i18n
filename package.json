@@ -121,7 +121,7 @@
     "mitata": "^1.0.20",
     "npm-run-all2": "^7.0.0",
     "opener": "^1.5.2",
-    "oxc-parser": "^0.44.0",
+    "oxc-parser": "^0.46.0",
     "oxc-transform": "^0.44.0",
     "picocolors": "^1.0.0",
     "pkg-pr-new": "^0.0.39",
