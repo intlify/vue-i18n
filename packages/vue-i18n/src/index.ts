@@ -110,6 +110,7 @@ export type {
   VueI18n,
   VueI18nDateTimeFormatting,
   VueI18nExtender,
+  VueI18nInstance,
   VueI18nNumberFormatting,
   VueI18nOptions,
   VueI18nResolveLocaleMessageTranslation,

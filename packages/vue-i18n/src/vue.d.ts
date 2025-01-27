@@ -16,13 +16,12 @@ import type {
   DateTimeFormatResult,
   DefineDateTimeFormat,
   DefineLocaleMessage,
-  ExportedGlobalComposer,
   NumberFormat,
   NumberFormatResult,
   RemovedIndexResources,
   TranslateResult,
   Translation,
-  VueI18n,
+  VueI18nInstance,
   VueI18nOptions,
   VueMessageType
 } from '@intlify/vue-i18n-core'
@@ -72,7 +71,7 @@ declare module 'vue' {
      * The locales, locale messages, and other resources managed by the instance referenced by this property are valid as global scope.
      * If the `i18n` component custom option is not specified, it's the same as the VueI18n instance that can be referenced by the i18n instance {@link I18n.global | global} property.
      */
-    $i18n: VueI18n | ExportedGlobalComposer
+    $i18n: VueI18nInstance
     /**
      * Locale message translation
      *
