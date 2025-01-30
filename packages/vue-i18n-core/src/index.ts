@@ -106,7 +106,12 @@ export {
 } from './legacy'
 export { VERSION } from './misc'
 export { I18nPluginOptions } from './plugin'
-export { Disposer } from './types'
+export {
+  Disposer,
+  GeneratedInstanceType,
+  GeneratedTypeConfig,
+  VueI18nInstance
+} from './types'
 
 export type {
   IsEmptyObject,

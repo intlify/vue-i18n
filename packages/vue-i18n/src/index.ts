@@ -125,7 +125,7 @@ export {
 } from '../../vue-i18n-core/src/legacy'
 export { I18nPluginOptions } from '../../vue-i18n-core/src/plugin'
 export { VERSION } from './../../vue-i18n-core/src/misc'
-export { Disposer } from './../../vue-i18n-core/src/types'
+export { Disposer, VueI18nInstance } from './../../vue-i18n-core/src/types'
 
 export type {
   IsEmptyObject,
