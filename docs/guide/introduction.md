@@ -41,7 +41,7 @@ const members = [
 If you would like to know more about the maintenance status of each version of Vue I18n, please see [here](./maintenance).
 :::
 
-Vue I18n is internationalization plugin of Vue.js. And that is one of [Intlify projects](https://intlify.dev/). It easily integrates some localization features to your Vue.js Application.
+Vue I18n is a Vue.js internationalization plugin and part of the [Intlify projects](https://intlify.dev/). It easily integrates localization features to your Vue.js application.
 
 Go to [Installation](./installation)
 
