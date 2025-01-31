@@ -99,7 +99,12 @@ export type {
 } from './legacy'
 export { initDev, initFeatureFlags, VERSION } from './misc'
 export type { I18nPluginOptions } from './plugin'
-export type { Disposer } from './types'
+export type {
+  Disposer,
+  GeneratedInstanceType,
+  GeneratedTypeConfig,
+  VueI18nInstance
+} from './types'
 
 export type {
   IsEmptyObject,
