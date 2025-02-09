@@ -19,7 +19,9 @@ jobs:
           ref: ${{ github.head_ref }}
 
       - name: Enable corepack
-        run: corepack enable
+        run: |
+          npm install -g corepack
+          corepack enable
 
       - name: Setup Node
         uses: actions/setup-node@v4
