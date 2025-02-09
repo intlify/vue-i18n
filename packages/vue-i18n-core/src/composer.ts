@@ -2110,8 +2110,8 @@ export function createComposer(options: any = {}): any {
   const locale = computed({
     get: () => _locale.value,
     set: val => {
+      _context.locale = val
       _locale.value = val
-      _context.locale = _locale.value
     }
   })
 
@@ -2119,8 +2119,8 @@ export function createComposer(options: any = {}): any {
   const fallbackLocale = computed({
     get: () => _fallbackLocale.value,
     set: val => {
+      _context.fallbackLocale = val
       _fallbackLocale.value = val
-      _context.fallbackLocale = _fallbackLocale.value
       updateFallbackLocale(_context, _locale.value, val)
     }
   })
