@@ -27,10 +27,8 @@ jobs:
       - name: Checkout codes
         uses: actions/checkout@v4
 
-      - name: Enable corepack
-        run: |
-          npm install -g corepack
-          corepack enable
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
 
       - name: Setup node
         uses: actions/setup-node@v4
@@ -57,10 +55,8 @@ jobs:
       - name: Checkout codes
         uses: actions/checkout@v4
 
-      - name: Enable corepack
-        run: |
-          npm install -g corepack
-          corepack enable
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
 
       - name: Setup node
         uses: actions/setup-node@v4
@@ -95,10 +91,8 @@ jobs:
       - name: Checkout codes
         uses: actions/checkout@v4
 
-      - name: Enable corepack
-        run: |
-          npm install -g corepack
-          corepack enable
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
 
       - name: Setup node
         uses: actions/setup-node@v4
@@ -132,10 +126,8 @@ jobs:
       - name: Checkout codes
         uses: actions/checkout@v4
 
-      - name: Enable corepack
-        run: |
-          npm install -g corepack
-          corepack enable
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
 
       - name: Setup node
         uses: actions/setup-node@v4
@@ -167,10 +159,8 @@ jobs:
       - name: Checkout codes
         uses: actions/checkout@v4
 
-      - name: Enable corepack
-        run: |
-          npm install -g corepack
-          corepack enable
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
 
       - name: Setup node
         uses: actions/setup-node@v4
@@ -210,10 +200,8 @@ jobs:
       - name: Checkout codes
         uses: actions/checkout@v4
 
-      - name: Enable corepack
-        run: |
-          npm install -g corepack
-          corepack enable
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
 
       - name: Setup node
         uses: actions/setup-node@v4
