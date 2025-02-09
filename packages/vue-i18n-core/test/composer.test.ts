@@ -64,7 +64,16 @@ describe('locale', () => {
   test('reactivity', async () => {
     const fn = vi.fn()
 
-    const { locale } = createComposer({})
+    const { locale, t } = createComposer({
+      messages: {
+        en: {
+          test: 'en'
+        },
+        'en-US': {
+          test: 'en-US'
+        }
+      }
+    })
     watch(locale, fn)
     locale.value = 'en'
     await nextTick()
@@ -72,6 +81,18 @@ describe('locale', () => {
     expect(fn).toBeCalled()
     expect(fn.mock.calls[0][0]).toEqual('en')
     expect(fn.mock.calls[0][1]).toEqual('en-US')
+
+    let result = ''
+    locale.value = 'en'
+
+    watch(locale, () => (result = t('test')), {
+      immediate: true,
+      flush: 'sync'
+    })
+    expect(result).toEqual('en')
+    locale.value = 'en-US'
+    await nextTick()
+    expect(result).toEqual('en-US')
   })
 })
 
