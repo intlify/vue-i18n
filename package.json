@@ -159,7 +159,7 @@
     "typescript": "^5.6.3",
     "typescript-eslint": "^8.4.0",
     "vitepress": "1.6.3",
-    "vitest": "^2.1.5",
+    "vitest": "^2.1.9",
     "vue": "3.5.13",
     "vue-i18n": "workspace:*"
   },
