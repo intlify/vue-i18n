@@ -187,7 +187,7 @@
       "secretlint"
     ]
   },
-  "packageManager": "pnpm@9.0.4",
+  "packageManager": "pnpm@10.2.0",
   "pnpm": {
     "overrides": {
       "vue": "3.5.13",
