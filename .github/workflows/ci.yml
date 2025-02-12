@@ -19,7 +19,7 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest]
-        node: [18]
+        node: [20]
 
     runs-on: ${{ matrix.os }}
 
@@ -47,7 +47,7 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest, windows-latest, macos-latest]
-        node: [18]
+        node: [20]
 
     runs-on: ${{ matrix.os }}
 
@@ -83,7 +83,7 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest, windows-latest, macos-latest]
-        node: [18]
+        node: [20]
 
     runs-on: ${{ matrix.os }}
 
@@ -118,7 +118,7 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest, windows-latest, macos-latest]
-        node: [18.19, 20, 22]
+        node: [20, 22]
 
     runs-on: ${{ matrix.os }}
 
@@ -151,7 +151,7 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest, windows-latest, macos-latest]
-        node: [18.19, 20, 22]
+        node: [20, 22]
 
     runs-on: ${{ matrix.os }}
 
@@ -192,7 +192,7 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest, windows-latest, macos-latest]
-        node: [18.19, 20, 22]
+        node: [20, 22]
 
     runs-on: ${{ matrix.os }}
 
