@@ -53,10 +53,6 @@ import type { Disposer } from './types'
 /**
  * I18n Options for `createI18n`
  *
- * @remarks
- * `I18nOptions` is inherited {@link I18nAdditionalOptions}, {@link ComposerOptions} and {@link VueI18nOptions},
- * so you can specify these options.
- *
  * @VueI18nGeneral
  */
 export type I18nOptions<
@@ -118,7 +114,7 @@ export interface I18n<
 > {
   // prettier-ignore
   /**
-   * The property accessible to the global Composer instance or VueI18n instance
+   * The property accessible to the global Composer instance
    *
    * An instance of this property is **global scope***.
    */
@@ -139,7 +135,7 @@ export interface I18n<
 export type ComposerExtender = (composer: Composer) => Disposer | undefined
 
 /**
- * The hooks that give to extend Composer (Composition API) and VueI18n instance (Options API).
+ * The hooks that give to extend Composer (Composition API)
  * This hook is mainly for vue-i18n-routing and nuxt i18n.
  *
  * @internal
@@ -393,10 +389,10 @@ export function createI18n(options: any = {}): any {
       app.__VUE_I18N_SYMBOL__ = symbol
       app.provide(app.__VUE_I18N_SYMBOL__, i18n as unknown as I18n)
 
-      // set composer & vuei18n extend hook options from plugin options
+      // set composer extend hook options from plugin options
       if (isPlainObject(options[0])) {
         const opts = options[0] as ExtendHooks
-        // Plugin options cannot be passed directly to the function that creates Composer & VueI18n,
+        // Plugin options cannot be passed directly to the function that creates Composer
         // so we keep it temporary
         ;(i18n as unknown as I18nInternal).__composerExtend =
           opts.__composerExtend

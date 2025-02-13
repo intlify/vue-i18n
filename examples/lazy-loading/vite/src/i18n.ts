@@ -1,4 +1,4 @@
-import { nextTick, isRef } from 'vue'
+import { nextTick } from 'vue'
 import { createI18n } from 'vue-i18n'
 
 import type { I18n, I18nOptions, Locale } from 'vue-i18n'
