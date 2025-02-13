@@ -383,10 +383,6 @@ export function createI18n(options: any = {}): any {
   }
 
   const i18n = {
-    // mode
-    get mode() {
-      return 'composition'
-    },
     // install plugin
     async install(app: App, ...options: unknown[]): Promise<void> {
       if ((__DEV__ || __FEATURE_PROD_VUE_DEVTOOLS__) && !__NODE_JS__) {
