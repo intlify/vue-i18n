@@ -71,7 +71,6 @@ export type {
   ExportedGlobalComposer,
   I18n,
   I18nAdditionalOptions,
-  I18nMode,
   I18nOptions,
   I18nPluginOptions,
   I18nScope,

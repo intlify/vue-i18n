@@ -25,7 +25,6 @@ import type {
 import type { App, ComponentInternalInstance } from 'vue'
 import type { Composer } from './composer'
 import type { I18n, I18nInternal } from './i18n'
-import type { VueI18nInternal } from './legacy'
 
 type _I18n = I18n & I18nInternal
 
@@ -73,23 +72,10 @@ export async function enableDevTools(app: App, i18n: _I18n): Promise<boolean> {
               componentInstance.vnode.el.__VUE_I18N__ &&
               instanceData
             ) {
-              if (i18n.mode === 'legacy') {
-                // ignore global scope on legacy mode
-                if (
-                  componentInstance.vnode.el.__VUE_I18N__ !==
-                  (i18n.global as unknown as VueI18nInternal).__composer
-                ) {
-                  inspectComposer(
-                    instanceData,
-                    componentInstance.vnode.el.__VUE_I18N__ as Composer
-                  )
-                }
-              } else {
-                inspectComposer(
-                  instanceData,
-                  componentInstance.vnode.el.__VUE_I18N__ as Composer
-                )
-              }
+              inspectComposer(
+                instanceData,
+                componentInstance.vnode.el.__VUE_I18N__ as Composer
+              )
             }
           })
 
@@ -175,9 +161,7 @@ function updateComponentTreeTags(
   i18n: _I18n
 ): void {
   // prettier-ignore
-  const global = i18n.mode === 'composition'
-    ? i18n.global
-    : (i18n.global as unknown as VueI18nInternal).__composer
+  const global = i18n.global
   if (instance && instance.vnode.el && instance.vnode.el.__VUE_I18N__) {
     // add custom tags local scope only
     if (instance.vnode.el.__VUE_I18N__ !== global) {
@@ -295,14 +279,10 @@ function registerScope(
     label: 'Global Scope'
   })
   // prettier-ignore
-  const global = i18n.mode === 'composition'
-    ? i18n.global
-    : (i18n.global as unknown as VueI18nInternal).__composer
+  const global = i18n.global
   for (const [keyInstance, instance] of i18n.__instances) {
     // prettier-ignore
-    const composer = i18n.mode === 'composition'
-      ? instance
-      : (instance as unknown as VueI18nInternal).__composer
+    const composer = instance
     if (global === composer) {
       continue
     }
@@ -333,17 +313,13 @@ function getComponentInstance(
 
 function getComposer(nodeId: string, i18n: _I18n): Composer | null {
   if (nodeId === 'global') {
-    return i18n.mode === 'composition'
-      ? (i18n.global as unknown as Composer)
-      : (i18n.global as unknown as VueI18nInternal).__composer
+    return i18n.global
   } else {
     const instance = Array.from(i18n.__instances.values()).find(
       item => item.id.toString() === nodeId
     )
     if (instance) {
-      return i18n.mode === 'composition'
-        ? (instance as unknown as Composer)
-        : (instance as unknown as VueI18nInternal).__composer
+      return instance
     } else {
       return null
     }

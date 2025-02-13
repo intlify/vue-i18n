@@ -91,7 +91,6 @@ export type {
   I18n,
   I18nAdditionalOptions,
   I18nD,
-  I18nMode,
   I18nN,
   I18nOptions,
   I18nPluginOptions,
