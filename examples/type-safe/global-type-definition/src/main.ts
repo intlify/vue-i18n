@@ -3,7 +3,7 @@ import { createI18n } from 'vue-i18n'
 import App from './App.vue'
 
 /**
- * import locale messages resoruce from json for global scope
+ * import locale messages resource from json for global scope
  */
 import enUS from './locales/en-US.json'
 import jaJP from './locales/ja-JP.json'
@@ -11,9 +11,9 @@ import jaJP from './locales/ja-JP.json'
 /**
  * setup vue-i18n with i18n resources with global type definition.
  * if you define the i18n resource schema in your `*.d.ts`, these is checked with typeScript.
- * you can check global type defition at `./vue-i18n.d.ts`
+ * you can check global type definition at `./vue-i18n.d.ts`
  */
-const i18n = createI18n<false>({
+const i18n = createI18n({
   locale: 'ja-JP',
   fallbackLocale: 'en-US',
   messages: {
