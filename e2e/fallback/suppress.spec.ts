@@ -6,10 +6,7 @@ import { getText, url } from '../helper'
       page.on('console', msg => {
         if (msg.type() === 'warning') {
           const text = msg.text()
-          if (
-            !text.match(/^\[intlify\] Legacy API mode has been/) &&
-            !text.match(/^\[intlify\] 'v-t' has been deprecated in v11/)
-          ) {
+          if (!text.match(/^\[intlify\] 'v-t' has been deprecated in v11/)) {
             warnings.push(msg.text())
           }
         }
