@@ -7,6 +7,7 @@ import type {
   PickupFallbackLocales
 } from '@intlify/core-base'
 import type { MyDatetimeScehma, MyNumberSchema, ResourceSchema } from './schema'
+import { ComputedRef, WritableComputedRef } from 'vue'
 
 beforeEach(() => {
   // allow mocking
@@ -54,7 +55,6 @@ const looseOptions = {
 // strict options
 const strictOptions = {
   locale: 'en',
-  legacy: false,
   fallbackLocale: {
     ja: ['en']
   },
@@ -309,8 +309,7 @@ test('local scope without type annotation at useI18n', () => {
 test('loose i18n', () => {
   // with object spread and composer
   const looseI18nComposer = createI18n({
-    ...looseOptions,
-    legacy: false
+    ...looseOptions
   }).global
 
   expectTypeOf(looseI18nComposer.locale.value).toEqualTypeOf<
@@ -346,41 +345,49 @@ test('loose i18n', () => {
 
   const looseI18n = createI18n(looseOptions).global
   expectTypeOf(looseI18n.locale).toEqualTypeOf<
-    'en' | 'ja' | 'en-US' | 'ja-JP'
+    WritableComputedRef<'en' | 'ja' | 'en-US' | 'ja-JP'>
   >()
   expectTypeOf(looseI18n.fallbackLocale).toEqualTypeOf<
-    | 'en'
-    | 'ja'
-    | 'en-US'
-    | 'ja-JP'
-    | ('en' | 'ja' | 'en-US' | 'ja-JP')[]
-    | {
-        [x in string]: PickupFallbackLocales<
-          ['en' | 'ja' | 'en-US' | 'ja-JP']
-        >[]
-      }
-    | false
+    WritableComputedRef<
+      | 'en'
+      | 'ja'
+      | 'en-US'
+      | 'ja-JP'
+      | ('en' | 'ja' | 'en-US' | 'ja-JP')[]
+      | {
+          [x in string]: PickupFallbackLocales<
+            ['en' | 'ja' | 'en-US' | 'ja-JP']
+          >[]
+        }
+      | false
+    >
   >()
-  expectTypeOf(looseI18n.messages).toEqualTypeOf<{
-    en: {
-      foo: string
-      nest: {
-        bar: string
+  expectTypeOf(looseI18n.messages).toEqualTypeOf<
+    ComputedRef<{
+      en: {
+        foo: string
+        nest: {
+          bar: string
+        }
       }
-    }
-    ja: {
-      bar: string
-      nest: {
+      ja: {
         bar: string
+        nest: {
+          bar: string
+        }
       }
-    }
-  }>()
-  expectTypeOf(looseI18n.datetimeFormats).toEqualTypeOf<{
-    'en-US': { short: {} }
-  }>()
-  expectTypeOf(looseI18n.numberFormats).toEqualTypeOf<{
-    'ja-JP': { currency: {} }
-  }>()
+    }>
+  >()
+  expectTypeOf(looseI18n.datetimeFormats).toEqualTypeOf<
+    ComputedRef<{
+      'en-US': { short: {} }
+    }>
+  >()
+  expectTypeOf(looseI18n.numberFormats).toEqualTypeOf<
+    ComputedRef<{
+      'ja-JP': { currency: {} }
+    }>
+  >()
   expectTypeOf(looseI18n.t('nest.bar')).toEqualTypeOf<string>()
   expectTypeOf(looseI18n.t('nest', 'en')).toEqualTypeOf<string>()
   expectTypeOf(looseI18n.t('foo', [1])).toEqualTypeOf<string>()
@@ -399,7 +406,7 @@ test('loose i18n', () => {
   >()
   expectTypeOf(looseI18n.rt('foo')).toEqualTypeOf<string>()
   expectTypeOf(looseI18n.getLocaleMessage('en')).toEqualTypeOf<
-    typeof looseI18n.messages.en
+    typeof looseI18n.messages.value.en
   >()
   expectTypeOf(
     looseI18n.getLocaleMessage<{ japan: string }>('japan')
@@ -423,7 +430,7 @@ test('loose i18n', () => {
   })
 
   expectTypeOf(looseI18n.getDateTimeFormat('en-US')).toEqualTypeOf<
-    (typeof looseI18n.datetimeFormats)['en-US']
+    (typeof looseI18n.datetimeFormats.value)['en-US']
   >()
   expectTypeOf(
     looseI18n.getLocaleMessage<{ long: { hour: string } }>('en-US')
@@ -445,7 +452,7 @@ test('loose i18n', () => {
   })
 
   expectTypeOf(looseI18n.getNumberFormat('ja-JP')).toEqualTypeOf<
-    (typeof looseI18n.numberFormats)['ja-JP']
+    (typeof looseI18n.numberFormats.value)['ja-JP']
   >()
   expectTypeOf(
     looseI18n.getNumberFormat<{ weight: { unit: string } }>('en-US')
@@ -470,7 +477,7 @@ test('loose i18n', () => {
 })
 
 test('strict i18n', () => {
-  const strictI18n = createI18n<[ResourceSchema], 'en' | 'ja', false>(
+  const strictI18n = createI18n<[ResourceSchema], 'en' | 'ja'>(
     strictOptions
   ).global
 
@@ -548,8 +555,7 @@ test('strict i18n with direct i18n options', () => {
       datetime: MyDatetimeScehma
       number: MyNumberSchema
     },
-    { messages: 'en'; datetimeFormats: 'ja-JP' | 'zh'; numberFormats: 'ca' },
-    false
+    { messages: 'en'; datetimeFormats: 'ja-JP' | 'zh'; numberFormats: 'ca' }
   >({
     messages: {
       en: {

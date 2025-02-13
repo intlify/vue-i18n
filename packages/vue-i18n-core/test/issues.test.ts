@@ -131,99 +131,7 @@ const numberFormats: IntlNumberFormats = {
   }
 }
 
-test('issue #708', async () => {
-  const i18n = createI18n({
-    legacy: true,
-    locale: 'en',
-    messages
-  })
-
-  const C2 = defineComponent({
-    template: `<div>C2 slot: <slot></slot></div>`
-  })
-
-  const C1 = defineComponent({
-    components: {
-      C2
-    },
-    template: `<div>
-	C1:
-	<div>{{ $t("hello", { world: $t("world") }) }}</div>
-	<i18n-t keypath="hello" tag="div">
-	  <template #world>
-	    <strong>{{ $t("world") }}</strong>
-	  </template>
-	</i18n-t>
-
-	<br />
-
-	<C2>
-	  <div>{{ $t("hello", { world: $t("world") }) }}</div>
-	  <i18n-t keypath="hello" tag="div">
-	    <template #world>
-	      <strong>{{ $t("world") }}</strong>
-	    </template>
-	  </i18n-t>
-	</C2>
-      </div>`,
-    i18n: {
-      messages: {
-        en: {
-          hello: 'Hello {world}',
-          world: 'world!'
-        }
-      }
-    }
-  })
-
-  const App = defineComponent({
-    components: {
-      C1
-    },
-    template: `<C1 />`
-  })
-  const wrapper = await mount(App, i18n)
-
-  expect(wrapper.html()).toEqual(
-    `<div> C1: <div>Hello world!</div><div>Hello <strong>world!</strong></div><br><div>C2 slot: <div>Hello world!</div><div>Hello <strong>world!</strong></div></div></div>`
-  )
-})
-
 describe('issue #722', () => {
-  test('legacy', async () => {
-    const messages = {
-      en: { language: 'English' },
-      ja: { language: '日本語' }
-    }
-
-    const i18n = createI18n({
-      legacy: true,
-      locale: 'en',
-      messages
-    })
-
-    const App = defineComponent({
-      template: `<transition name="fade">
-	  <i18n-t keypath="hello" tag="p">
-	    <template #world>
-		<b>{{ $t("world") }}</b>
-	    </template>
-	  </i18n-t>
-      </transition>`,
-      i18n: {
-        messages: {
-          en: {
-            hello: 'Hello {world}',
-            world: 'world!'
-          }
-        }
-      }
-    })
-    const wrapper = await mount(App, i18n)
-
-    expect(wrapper.html()).toEqual(`<p>Hello <b>world!</b></p>`)
-  })
-
   test('composition', async () => {
     const messages = {
       en: { language: 'English' },
@@ -231,7 +139,6 @@ describe('issue #722', () => {
     }
 
     const i18n = createI18n({
-      legacy: false,
       locale: 'en',
       messages
     })
@@ -262,43 +169,6 @@ describe('issue #722', () => {
     expect(wrapper.html()).toEqual(`<p>Hello <b>world!</b></p>`)
   })
 
-  test('v-if: legacy', async () => {
-    const messages = {
-      en: { language: 'English' },
-      ja: { language: '日本語' }
-    }
-
-    const i18n = createI18n({
-      legacy: true,
-      locale: 'en',
-      messages
-    })
-
-    const App = defineComponent({
-      data() {
-        return { flag: true }
-      },
-      template: `<div v-if="flag">
-	  <i18n-t keypath="hello" tag="p">
-	    <template #world>
-		<b>{{ $t("world") }}</b>
-	    </template>
-	  </i18n-t>
-      </div>`,
-      i18n: {
-        messages: {
-          en: {
-            hello: 'Hello {world}',
-            world: 'world!'
-          }
-        }
-      }
-    })
-    const wrapper = await mount(App, i18n)
-
-    expect(wrapper.html()).toEqual(`<div><p>Hello <b>world!</b></p></div>`)
-  })
-
   test('v-if: composition', async () => {
     const messages = {
       en: { language: 'English' },
@@ -306,7 +176,6 @@ describe('issue #722', () => {
     }
 
     const i18n = createI18n({
-      legacy: false,
       locale: 'en',
       messages
     })
@@ -347,95 +216,8 @@ describe('issue #722', () => {
   })
 })
 
-test('issue #729', async () => {
-  const i18n = createI18n({
-    legacy: true,
-    locale: 'en',
-    messages
-  })
-
-  const C3 = defineComponent({
-    template: `<div>C3 slot: <slot></slot></div>`,
-    i18n: {
-      messages: {
-        en: {
-          hello: 'Hello {world} - C3',
-          world: 'world! - C3'
-        }
-      }
-    }
-  })
-
-  const C2 = defineComponent({
-    template: `<div>C2 slot: <slot></slot></div>`,
-    i18n: {
-      messages: {
-        en: {
-          goodbuy: 'Goodbuy!'
-        }
-      }
-    }
-  })
-
-  const C1 = defineComponent({
-    components: {
-      C2,
-      C3
-    },
-    template: `<div>
-	C1:
-	<div>{{ $t("hello", { world: $t("world") }) }}</div>
-	<i18n-t keypath="hello" tag="div">
-	  <template #world>
-	    <strong>{{ $t("world") }}</strong>
-	  </template>
-	</i18n-t>
-
-	<br />
-
-	<C2>
-	  <div>{{ $t("hello", { world: $t("world") }) }}</div>
-	  <i18n-t keypath="hello" tag="div">
-	    <template #world>
-	      <strong>{{ $t("world") }}</strong>
-	    </template>
-	  </i18n-t>
-	</C2>
-  <C3>
-    <div>{{ $t("hello", { world: $t("world") }) }}</div>
-    <i18n-t keypath="hello" tag="div">
-      <template #world>
-        <strong>{{ $t("world") }}</strong>
-      </template>
-    </i18n-t>
-  </C3>
-      </div>`,
-    i18n: {
-      messages: {
-        en: {
-          hello: 'Hello {world}',
-          world: 'world!'
-        }
-      }
-    }
-  })
-
-  const App = defineComponent({
-    components: {
-      C1
-    },
-    template: `<C1 />`
-  })
-  const wrapper = await mount(App, i18n)
-
-  expect(wrapper.html()).toEqual(
-    `<div> C1: <div>Hello world!</div><div>Hello <strong>world!</strong></div><br><div>C2 slot: <div>Hello world!</div><div>Hello <strong>world!</strong></div></div><div>C3 slot: <div>Hello world!</div><div>Hello <strong>world!</strong></div></div></div>`
-  )
-})
-
 test('issue #819: v-for', async () => {
   const i18n = createI18n({
-    legacy: false,
     locale: 'en',
     messages
   })
@@ -462,54 +244,12 @@ test('issue #819: v-for', async () => {
 })
 
 describe('issue #853', () => {
-  test('legacy', async () => {
-    const mockWarn = vi.spyOn(shared, 'warn')
-    // eslint-disable-next-line @typescript-eslint/no-empty-function
-    mockWarn.mockImplementation(() => {})
-
-    const i18n = createI18n({
-      locale: 'en',
-      fallbackLocale: 'en',
-      warnHtmlInMessage: 'off',
-      messages: {
-        en: {
-          hello: '<p>hello</p>'
-        }
-      }
-    })
-
-    const Child = defineComponent({
-      i18n: {
-        messages: {
-          en: { child: '<p>child</p>' }
-        }
-      },
-      template: `<div v-html="$t('child')"></div>`
-    })
-
-    const App = defineComponent({
-      components: {
-        Child
-      },
-      template: `
-        <div>
-          <Child />
-          <div v-html="$t('hello')"></div>
-        </div>`
-    })
-
-    await mount(App, i18n)
-
-    expect(mockWarn).toHaveBeenCalledTimes(0)
-  })
-
   test('compostion', async () => {
     const mockWarn = vi.spyOn(shared, 'warn')
     // eslint-disable-next-line @typescript-eslint/no-empty-function
     mockWarn.mockImplementation(() => {})
 
     const i18n = createI18n({
-      legacy: false,
       locale: 'en',
       fallbackLocale: 'en',
       warnHtmlMessage: false,
@@ -555,7 +295,6 @@ test('issue #854', async () => {
   mockWarn.mockImplementation(() => {})
 
   const i18n = createI18n({
-    legacy: false,
     locale: 'en',
     fallbackLocale: 'en',
     messages: {
@@ -591,7 +330,6 @@ test('issue #854', async () => {
 
 test('issue #933', async () => {
   const i18n = createI18n({
-    legacy: false,
     locale: 'en',
     fallbackLocale: 'en',
     messages: {
@@ -622,7 +360,6 @@ test('issue #933', async () => {
 
 test('issue #964', async () => {
   const i18n = createI18n({
-    legacy: false,
     locale: 'ja',
     fallbackLocale: 'en',
     messages: {
@@ -692,7 +429,6 @@ test('issue #968', async () => {
 
 test('issue #1014', async () => {
   const i18n = createI18n({
-    legacy: false,
     locale: 'en',
     messages: {
       en: {
@@ -715,7 +451,6 @@ test('issue #1014', async () => {
 
 test('issue #1054, #1053', async () => {
   const i18n = createI18n({
-    legacy: false,
     locale: 'en-US',
     datetimeFormats: {}
   })
@@ -743,7 +478,6 @@ test('issue #1054, #1053', async () => {
 
 test('issue #1083', async () => {
   const i18n = createI18n({
-    legacy: false,
     locale: 'en',
     messages: {
       en: {
@@ -796,7 +530,6 @@ test('issue #1083', async () => {
 
 test('issue #1123', async () => {
   const i18n = createI18n({
-    legacy: false,
     locale: 'en',
     messages
   })
@@ -827,7 +560,6 @@ test('issue #1123', async () => {
 
 test('issue #1365', async () => {
   const i18n = createI18n({
-    legacy: false,
     locale: 'en',
     flatJson: true,
     messages: {
@@ -874,7 +606,6 @@ test('issue #1373', async () => {
 
 test('issue #1392', async () => {
   const i18n = createI18n({
-    legacy: false,
     locale: 'en',
     messages: {
       en: { hello: 'world' }
@@ -942,7 +673,6 @@ test('issue #1392', async () => {
 
 test('issue #1538', async () => {
   const i18n = createI18n({
-    legacy: false,
     locale: 'en',
     fallbackLocale: 'en',
     messages: {
@@ -970,7 +700,6 @@ test('issue #1538', async () => {
 
 test('issue #1547', async () => {
   const i18n = createI18n({
-    legacy: false,
     locale: 'en',
     fallbackLocale: 'en',
     messages: {
@@ -1005,7 +734,6 @@ test('issue #1547', async () => {
 
 test('issue #1559', async () => {
   const i18n = createI18n({
-    legacy: false,
     locale: 'en',
     messages: {
       en: {
@@ -1037,7 +765,6 @@ test('issue #1559', async () => {
 
 test('issue #1595', async () => {
   const i18n = createI18n({
-    legacy: false,
     locale: 'en',
     flatJson: true,
     messages: {
@@ -1094,7 +821,6 @@ test('issue #1595', async () => {
 
 test('issue #1595 merge case', async () => {
   const i18n = createI18n({
-    legacy: false,
     locale: 'en',
     flatJson: true,
     messages: {
@@ -1157,7 +883,6 @@ test('issue #1610', async () => {
     language: 'Languages'
   }
   const i18n = createI18n({
-    legacy: false,
     locale: 'en',
     globalInjection: true,
     messages: {
@@ -1201,7 +926,6 @@ test('issue #1615', async () => {
     })()
   }
   const i18n = createI18n({
-    legacy: false,
     locale: 'en',
     globalInjection: true,
     messages: {
@@ -1336,7 +1060,6 @@ test('#1809', async () => {
 
 test('#1912', async () => {
   const i18n = createI18n({
-    legacy: false,
     locale: 'en',
     messages: {
       en: {
@@ -1383,7 +1106,6 @@ test('#1912', async () => {
 
 test('#1972', () => {
   const i18n = createI18n({
-    legacy: false,
     locale: 'en',
     messages: {
       en: {
@@ -1424,7 +1146,6 @@ describe('CVE-2024-52809', () => {
       }
     }
     const i18n = createI18n({
-      legacy: false,
       locale: 'en',
       messages: {
         en
@@ -1452,7 +1173,6 @@ describe('CVE-2024-52809', () => {
       }
     }
     const i18n = createI18n({
-      legacy: false,
       locale: 'en',
       messages: {
         en
