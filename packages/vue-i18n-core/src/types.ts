@@ -16,7 +16,6 @@ export type Disposer = () => void
  *
  * declare module '@intlify/vue-i18n-core' {
  *   interface GeneratedTypeConfig {
- *     legacy: false
  *   }
  * }
  * ```
