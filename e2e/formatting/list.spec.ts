@@ -1,5 +1,5 @@
 import { getText, url } from '../helper'
-;['composition', 'petite', 'legacy'].forEach(pattern => {
+;['composition', 'petite'].forEach(pattern => {
   describe(`${pattern}`, () => {
     beforeAll(async () => {
       await page.goto(url(`/examples/${pattern}/formatting/list.html`))

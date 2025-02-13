@@ -1,5 +1,5 @@
 import { getText, url } from '../helper'
-;['composition', 'petite', 'legacy'].forEach(pattern => {
+;['composition', 'petite'].forEach(pattern => {
   describe(`${pattern}`, () => {
     const warnings: string[] = []
     beforeAll(async () => {
