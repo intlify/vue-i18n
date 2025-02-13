@@ -28,7 +28,6 @@ beforeAll(() => {
 
 test('composition mode', async () => {
   const i18n = createI18n({
-    legacy: false,
     locale: 'en',
     messages: {}
   })
@@ -75,7 +74,6 @@ test('legacy mode', async () => {
 
 test('component: i18n-t', async () => {
   const i18n = createI18n({
-    legacy: false,
     locale: 'en',
     messages: {}
   })

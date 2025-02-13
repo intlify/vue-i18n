@@ -19,7 +19,6 @@ import { createI18n, I18nInjectionKey } from 'vue-i18n'
  *  It will not work in legacy API mode.
  */
 const i18n = createI18n<false>({
-  legacy: false, // must set to `false`
   locale: 'en',
   messages: {
     en: {

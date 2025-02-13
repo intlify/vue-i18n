@@ -14,7 +14,6 @@ import jaJP from './locales/ja-JP.json'
  * you can check global type defition at `./vue-i18n.d.ts`
  */
 const i18n = createI18n<false>({
-  legacy: false,
   locale: 'ja-JP',
   fallbackLocale: 'en-US',
   messages: {

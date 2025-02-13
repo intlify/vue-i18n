@@ -5,7 +5,6 @@ export default {
   extends: DefaultTheme,
   enhanceApp({ app, router, siteData }) {
     const i18n = createI18n({
-      legacy: false,
       locale: 'en',
       messages: {
         en: {

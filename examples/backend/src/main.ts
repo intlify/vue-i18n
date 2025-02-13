@@ -12,7 +12,6 @@ const messages = await load<Locales>(locales)
 
 // create i18n instance
 const i18n = createI18n<[ResourceSchema], Locales, false>({
-  legacy: false,
   locale: 'en',
   messages
 })

@@ -20,7 +20,6 @@ const i18n = createI18n<
   false
 >({
   locale: 'en-US',
-  legacy: false,
   messages: {
     'en-US': enUS
   },

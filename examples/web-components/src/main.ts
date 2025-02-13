@@ -13,7 +13,6 @@ customElements.define('hello-i18n', HelloI18nElement)
 customElements.define('hello-block', HelloBlockElement)
 
 const i18n = createI18n<false>({
-  legacy: false,
   locale: 'en',
   messages: {}
 })
