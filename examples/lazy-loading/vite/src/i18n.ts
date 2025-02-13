@@ -1,38 +1,16 @@
 import { nextTick, isRef } from 'vue'
 import { createI18n } from 'vue-i18n'
 
-import type {
-  I18n,
-  I18nOptions,
-  Locale,
-  VueI18n,
-  Composer,
-  I18nMode
-} from 'vue-i18n'
+import type { I18n, I18nOptions, Locale } from 'vue-i18n'
 
 export const SUPPORT_LOCALES = ['en', 'ja']
 
-function isComposer(
-  instance: VueI18n | Composer,
-  mode: I18nMode
-): instance is Composer {
-  return mode === 'composition' && isRef(instance.locale)
-}
-
 export function getLocale(i18n: I18n): string {
-  if (isComposer(i18n.global, i18n.mode)) {
-    return i18n.global.locale.value
-  } else {
-    return i18n.global.locale
-  }
+  return i18n.global.locale.value
 }
 
 export function setLocale(i18n: I18n, locale: Locale): void {
-  if (isComposer(i18n.global, i18n.mode)) {
-    i18n.global.locale.value = locale
-  } else {
-    i18n.global.locale = locale
-  }
+  i18n.global.locale.value = locale
 }
 
 export function setupI18n(options: I18nOptions = { locale: 'en' }): I18n {
