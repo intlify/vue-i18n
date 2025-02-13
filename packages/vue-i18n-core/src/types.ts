@@ -1,6 +1,4 @@
-import type { IsNever } from '@intlify/core-base'
 import type { ExportedGlobalComposer } from './i18n'
-import type { VueI18n } from './legacy'
 
 export type Disposer = () => void
 
@@ -26,20 +24,5 @@ export type Disposer = () => void
 
 export interface GeneratedTypeConfig {}
 
-/**
- * Narrowed i18n instance type based on `GeneratedTypeConfig['legacy']`
- *
- * - `never` (unset) resolves to `VueI18n | ExportedGlobalComposer`
- * - `true` resolves to `VueI18n`
- * - `false` resolves to `ExportedGlobalComposer`
- */
-export type GeneratedInstanceType =
-  GeneratedTypeConfig extends Record<'legacy', infer Legacy> ? Legacy : never
-
 /** @VueI18nGeneral */
-export type VueI18nInstance =
-  IsNever<GeneratedInstanceType> extends true
-    ? VueI18n | ExportedGlobalComposer
-    : GeneratedInstanceType extends true
-      ? VueI18n
-      : ExportedGlobalComposer
+export type VueI18nInstance = ExportedGlobalComposer

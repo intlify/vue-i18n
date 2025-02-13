@@ -79,23 +79,6 @@ export type {
 } from '@intlify/vue-i18n-core/petite'
 
 export type {
-  Choice,
-  DateTimeFormatResult,
-  LocaleMessageObject,
-  NumberFormatResult,
-  PluralizationRulesMap,
-  TranslateResult,
-  VueI18n,
-  VueI18nDateTimeFormatting,
-  VueI18nExtender,
-  VueI18nNumberFormatting,
-  VueI18nOptions,
-  VueI18nResolveLocaleMessageTranslation,
-  VueI18nTranslation,
-  WarnHtmlInMessageLevel
-} from '@intlify/vue-i18n-core/petite'
-
-export type {
   IsEmptyObject,
   IsNever,
   PickupFormatPathKeys,
