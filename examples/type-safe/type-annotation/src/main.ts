@@ -16,8 +16,7 @@ const i18n = createI18n<
     message: MessageSchema
     number: NumberSchema
   },
-  'en-US',
-  false
+  'en-US'
 >({
   locale: 'en-US',
   messages: {

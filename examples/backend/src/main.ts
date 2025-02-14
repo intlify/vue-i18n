@@ -11,7 +11,7 @@ import type { Locales } from './constants'
 const messages = await load<Locales>(locales)
 
 // create i18n instance
-const i18n = createI18n<[ResourceSchema], Locales, false>({
+const i18n = createI18n<[ResourceSchema], Locales>({
   locale: 'en',
   messages
 })
