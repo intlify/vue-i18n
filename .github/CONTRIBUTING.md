@@ -46,7 +46,7 @@ It is of course fine to use non-English language, when you open a PR to translat
 
 ## Development Setup
 
-You will need [Node.js](http://nodejs.org) **version 16+**, and [PNPM](https://pnpm.io).
+You will need [Node.js](http://nodejs.org) **version 20+**, and [PNPM](https://pnpm.io).
 
 We also recommend installing [ni](https://github.com/antfu/ni) to help switching between repos using different package managers. `ni` also provides the handy `nr` command which running npm scripts easier.
 
