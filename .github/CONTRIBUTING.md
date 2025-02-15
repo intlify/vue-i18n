@@ -103,11 +103,6 @@ By default, each package will be built in multiple distribution formats as speci
     - This means you **must** import everything from this file and this file only to ensure you are getting the same instance of code.
   - Hard-coded prod/dev branches, and the prod build is pre-minified (you will have to use different paths/aliases for dev/prod)
 
-- **`cjs`**
-
-  - For use in Node.js server-side rendering via `require()`.
-  - The dev/prod files are pre-built, but are dynamically required based on `process.env.NODE_ENV` in `index.js`, which is the default entry when you do `require('vue-i18n')`.
-
 For example, to build `compiler` with the global build only:
 
 ```bash
@@ -117,7 +112,7 @@ pnpm build -- message-compiler -f global
 Multiple formats can be specified as a comma-separated list:
 
 ```bash
-pnpm build -- message-compiler -f esm-browser,cjs
+pnpm build -- message-compiler -f esm-browser,global
 ```
 
 #### Build with Source Maps
