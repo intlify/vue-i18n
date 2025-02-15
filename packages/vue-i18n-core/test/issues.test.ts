@@ -132,7 +132,7 @@ const numberFormats: IntlNumberFormats = {
 }
 
 describe('issue #722', () => {
-  test('composition', async () => {
+  test('issue #722', async () => {
     const messages = {
       en: { language: 'English' },
       ja: { language: '日本語' }
@@ -169,7 +169,7 @@ describe('issue #722', () => {
     expect(wrapper.html()).toEqual(`<p>Hello <b>world!</b></p>`)
   })
 
-  test('v-if: composition', async () => {
+  test('v-if', async () => {
     const messages = {
       en: { language: 'English' },
       ja: { language: '日本語' }

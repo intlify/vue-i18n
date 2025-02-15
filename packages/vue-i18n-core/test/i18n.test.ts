@@ -58,18 +58,16 @@ afterEach(() => {
   setDevToolsHook(null)
 })
 
-describe('createI18n with flat json messages', () => {
-  test('composition mode', () => {
-    const i18n = createI18n({
-      flatJson: true,
-      messages: {
-        en: { 'mainMenu.buttonStart': 'Start!' }
-      }
-    })
-    const messages = i18n.global.messages.value
-    // @ts-ignore
-    expect(messages.en.mainMenu.buttonStart).toEqual('Start!')
+test('createI18n with flat json messages', () => {
+  const i18n = createI18n({
+    flatJson: true,
+    messages: {
+      en: { 'mainMenu.buttonStart': 'Start!' }
+    }
   })
+  const messages = i18n.global.messages.value
+  // @ts-ignore
+  expect(messages.en.mainMenu.buttonStart).toEqual('Start!')
 })
 
 describe('useI18n', () => {
@@ -348,7 +346,7 @@ describe('useI18n', () => {
   })
 })
 
-describe('slot reactivity', () => {
+test('slot reactivity', async () => {
   let org: any // eslint-disable-line @typescript-eslint/no-explicit-any
   let spy: any // eslint-disable-line @typescript-eslint/no-explicit-any
   beforeEach(() => {
@@ -360,98 +358,96 @@ describe('slot reactivity', () => {
     console.warn = org
   })
 
-  test('composable', async () => {
-    const i18n = createI18n({
-      locale: 'ja',
-      fallbackLocale: ['en'],
-      messages: {
-        en: {
-          hello: 'hello!'
-        },
-        ja: {
-          hello: 'こんにちは！'
-        }
-      }
-    })
-
-    const SlotChild = {
-      template: `<p><slot/></p>`
-    }
-
-    const SubChild = {
-      template: `
-        <div class="sub-child">
-          <h1>Sub Child</h1>
-          <form>
-            <select v-model="locale">
-              <option value="en">en</option>
-              <option value="ja">ja</option>
-            </select>
-          </form>
-          <p>{{ t('hello') }}</p>
-        </div>
-      `,
-      setup() {
-        return useI18n()
+  const i18n = createI18n({
+    locale: 'ja',
+    fallbackLocale: ['en'],
+    messages: {
+      en: {
+        hello: 'hello!'
+      },
+      ja: {
+        hello: 'こんにちは！'
       }
     }
-
-    const Child = {
-      components: {
-        SubChild,
-        SlotChild
-      },
-      template: `
-        <div class="child">
-          <h1>Child</h1>
-          <form>
-            <select v-model="locale">
-              <option value="en">en</option>
-              <option value="ja">ja</option>
-            </select>
-          </form>
-          <p>{{ t('hello') }}</p>
-          <SubChild />
-          t inside of slot
-          <SlotChild>
-            {{ t('hello') }}
-          </SlotChild>
-          i18n-t inside of slot
-          <SlotChild>
-            <i18n-t keypath='hello'/>
-          </SlotChild>
-        </div>
-      `,
-      setup() {
-        return useI18n()
-      }
-    }
-
-    const App = defineComponent({
-      components: {
-        Child
-      },
-      setup() {
-        return useI18n()
-      },
-      template: `
-        <h1>Root</h1>
-          <form>
-            <select v-model="locale">
-              <option value="en">en</option>
-              <option value="ja">ja</option>
-            </select>
-          </form>
-          <p>{{ t('hello') }}</p>
-        <Child />
-      `
-    })
-    const { html } = await mount(App, i18n as any) // eslint-disable-line @typescript-eslint/no-explicit-any
-    expect(html()).toMatchSnapshot('ja')
-    i18n.global.locale.value = 'en'
-    await nextTick()
-    expect(html()).toMatchSnapshot('en')
   })
+
+  const SlotChild = {
+    template: `<p><slot/></p>`
+  }
+
+  const SubChild = {
+    template: `
+      <div class="sub-child">
+        <h1>Sub Child</h1>
+        <form>
+          <select v-model="locale">
+            <option value="en">en</option>
+            <option value="ja">ja</option>
+          </select>
+        </form>
+        <p>{{ t('hello') }}</p>
+      </div>
+    `,
+    setup() {
+      return useI18n()
+    }
+  }
+
+  const Child = {
+    components: {
+      SubChild,
+      SlotChild
+    },
+    template: `
+      <div class="child">
+        <h1>Child</h1>
+        <form>
+          <select v-model="locale">
+            <option value="en">en</option>
+            <option value="ja">ja</option>
+          </select>
+        </form>
+        <p>{{ t('hello') }}</p>
+        <SubChild />
+        t inside of slot
+        <SlotChild>
+          {{ t('hello') }}
+        </SlotChild>
+        i18n-t inside of slot
+        <SlotChild>
+          <i18n-t keypath='hello' />
+        </SlotChild>
+      </div>
+    `,
+    setup() {
+      return useI18n()
+    }
+  }
+
+  const App = defineComponent({
+    components: {
+      Child
+    },
+    setup() {
+      return useI18n()
+    },
+    template: `
+      <h1>Root</h1>
+      <form>
+        <select v-model="locale">
+          <option value="en">en</option>
+          <option value="ja">ja</option>
+        </select>
+      </form>
+      <p>{{ t('hello') }}</p>
+      <Child />
+    `
+  })
+  const { html } = await mount(App, i18n as any) // eslint-disable-line @typescript-eslint/no-explicit-any
+  expect(html()).toMatchSnapshot('ja')
+  i18n.global.locale.value = 'en'
+  await nextTick()
+  expect(html()).toMatchSnapshot('en')
 })
 
 test('multi instance', async () => {
@@ -567,62 +563,60 @@ test('merge useI18n resources to global scope', async () => {
   })
 })
 
-describe('merge i18n custom blocks to global scope', () => {
-  test('composition mode', async () => {
-    const i18n = createI18n({
-      locale: 'ja',
-      messages: {
-        en: {
-          hi: { hello: 'hello!' }
-        }
+test('merge i18n custom blocks to global scope', async () => {
+  const i18n = createI18n({
+    locale: 'ja',
+    messages: {
+      en: {
+        hi: { hello: 'hello!' }
       }
-    })
+    }
+  })
 
-    const App = defineComponent({
-      setup() {
-        const instance = getCurrentInstance()
-        if (instance == null) {
-          throw new Error()
+  const App = defineComponent({
+    setup() {
+      const instance = getCurrentInstance()
+      if (instance == null) {
+        throw new Error()
+      }
+      const options = instance.type as ComponentOptions
+      options.__i18nGlobal = [
+        {
+          locale: 'en',
+          resource: {
+            hi: { hi: 'hi!' },
+            foo: 'foo!'
+          }
+        },
+        {
+          locale: 'ja',
+          resource: { foo: 'ふー！' }
         }
-        const options = instance.type as ComponentOptions
-        options.__i18nGlobal = [
-          {
-            locale: 'en',
-            resource: {
-              hi: { hi: 'hi!' },
-              foo: 'foo!'
-            }
-          },
-          {
-            locale: 'ja',
-            resource: { foo: 'ふー！' }
+      ]
+      useI18n({
+        useScope: 'global',
+        messages: {
+          ja: {
+            hello: 'こんにちは！'
           }
-        ]
-        useI18n({
-          useScope: 'global',
-          messages: {
-            ja: {
-              hello: 'こんにちは！'
-            }
-          }
-        })
-        return {}
-      },
-      template: `<p>foo</p>`
-    })
-    await mount(App, i18n)
+        }
+      })
+      return {}
+    },
+    template: `<p>foo</p>`
+  })
+  await mount(App, i18n)
 
-    expect(i18n.global.getLocaleMessage('en')).toEqual({
-      hi: {
-        hi: 'hi!',
-        hello: 'hello!'
-      },
-      foo: 'foo!'
-    })
-    expect(i18n.global.getLocaleMessage('ja')).toEqual({
-      hello: 'こんにちは！',
-      foo: 'ふー！'
-    })
+  expect(i18n.global.getLocaleMessage('en')).toEqual({
+    hi: {
+      hi: 'hi!',
+      hello: 'hello!'
+    },
+    foo: 'foo!'
+  })
+  expect(i18n.global.getLocaleMessage('ja')).toEqual({
+    hello: 'こんにちは！',
+    foo: 'ふー！'
   })
 })
 
@@ -631,7 +625,7 @@ describe('custom pluralization', () => {
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   mockWarn.mockImplementation(() => {})
 
-  test('composition', async () => {
+  test('pluralization', async () => {
     const i18n = createI18n({
       locale: 'ru',
       pluralRules: _pluralRules,
@@ -664,7 +658,7 @@ describe('custom pluralization', () => {
     expect(find('p:nth-child(5)')!.innerHTML).toEqual('21 машина')
   })
 
-  test('composition + custom block', async () => {
+  test('custom block', async () => {
     const i18n = createI18n({
       locale: 'ru'
     })
@@ -765,80 +759,76 @@ describe('release global scope', () => {
   })
 })
 
-describe('Composer & VueI18n extend hooking', () => {
-  test('composition', async () => {
-    const composerDisposeSpy = vi.fn()
-    let counter = 0
-    const composerExtendSpy = vi
-      .fn()
-      .mockImplementation((composer: Composer) => {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        counter += 1
-        ;(composer as any).foo = ref(`foo${counter}`)
-        return composerDisposeSpy
-      })
-    const vueI18nExtendSpy = vi.fn()
-    const i18n = createI18n({})
-
-    const GrandChild = defineComponent({
-      setup() {
-        // @ts-ignore
-        const { foo } = useI18n({
-          useScope: 'local'
-        })
-        return { foo }
-      },
-      template: '<p class="grand-child">{{ foo }}</p>'
-    })
-
-    const Child = defineComponent({
-      components: {
-        GrandChild
-      },
-      setup() {
-        // @ts-ignore
-        const { foo } = useI18n({
-          useScope: 'local'
-        })
-        return { foo }
-      },
-      template: '<p class="child">{{ foo }}</p><GrandChild />'
-    })
-
-    const App = defineComponent({
-      components: {
-        Child
-      },
-      setup() {
-        // @ts-ignore
-        const { foo } = useI18n() // global scope
-        return { foo }
-      },
-      template: '<p>{{ foo }}</p><Child />'
-    })
-    const { html, app } = await mount(App, i18n, {
-      pluginOptions: {
-        __composerExtend: composerExtendSpy,
-        __vueI18nExtend: vueI18nExtendSpy
-      } as any // eslint-disable-line @typescript-eslint/no-explicit-any
-    })
-
-    // Check that global is not extended
-    expect((i18n.global as any).foo).toBeUndefined() // eslint-disable-line @typescript-eslint/no-explicit-any
-
-    expect(html()).toBe(
-      '<p></p><p class="child">foo1</p><p class="grand-child">foo2</p>'
-    )
-    expect(composerExtendSpy).toHaveBeenCalledTimes(2)
-    expect(vueI18nExtendSpy).not.toHaveBeenCalled()
-
-    // dispose checking
-    app.unmount()
-    expect(composerDisposeSpy).toHaveBeenCalledTimes(2)
+test('Composer & VueI18n extend hooking', async () => {
+  const composerDisposeSpy = vi.fn()
+  let counter = 0
+  const composerExtendSpy = vi.fn().mockImplementation((composer: Composer) => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    counter += 1
+    ;(composer as any).foo = ref(`foo${counter}`)
+    return composerDisposeSpy
   })
+  const vueI18nExtendSpy = vi.fn()
+  const i18n = createI18n({})
+
+  const GrandChild = defineComponent({
+    setup() {
+      // @ts-ignore
+      const { foo } = useI18n({
+        useScope: 'local'
+      })
+      return { foo }
+    },
+    template: '<p class="grand-child">{{ foo }}</p>'
+  })
+
+  const Child = defineComponent({
+    components: {
+      GrandChild
+    },
+    setup() {
+      // @ts-ignore
+      const { foo } = useI18n({
+        useScope: 'local'
+      })
+      return { foo }
+    },
+    template: '<p class="child">{{ foo }}</p><GrandChild />'
+  })
+
+  const App = defineComponent({
+    components: {
+      Child
+    },
+    setup() {
+      // @ts-ignore
+      const { foo } = useI18n() // global scope
+      return { foo }
+    },
+    template: '<p>{{ foo }}</p><Child />'
+  })
+  const { html, app } = await mount(App, i18n, {
+    pluginOptions: {
+      __composerExtend: composerExtendSpy,
+      __vueI18nExtend: vueI18nExtendSpy
+    } as any // eslint-disable-line @typescript-eslint/no-explicit-any
+  })
+
+  // Check that global is not extended
+  expect((i18n.global as any).foo).toBeUndefined() // eslint-disable-line @typescript-eslint/no-explicit-any
+
+  expect(html()).toBe(
+    '<p></p><p class="child">foo1</p><p class="grand-child">foo2</p>'
+  )
+  expect(composerExtendSpy).toHaveBeenCalledTimes(2)
+  expect(vueI18nExtendSpy).not.toHaveBeenCalled()
+
+  // dispose checking
+  app.unmount()
+  expect(composerDisposeSpy).toHaveBeenCalledTimes(2)
 })
 
-describe('dollar prefixed API (component injections)', () => {
+test('dollar prefixed API (component injections)', async () => {
   const mockWarn = vi.spyOn(shared, 'warn')
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   mockWarn.mockImplementation(() => {})
@@ -858,17 +848,16 @@ describe('dollar prefixed API (component injections)', () => {
     }
   }
 
-  test('composition mode', async () => {
-    const i18n = createI18n({
-      locale: 'en',
-      messages
-    })
-    const App = defineComponent({
-      setup() {
-        useI18n()
-        return {}
-      },
-      template: `<div>
+  const i18n = createI18n({
+    locale: 'en',
+    messages
+  })
+  const App = defineComponent({
+    setup() {
+      useI18n()
+      return {}
+    },
+    template: `<div>
 <p>{{ $t('hello') }}</p>
 <p>{{ $t('list', ['world']) }}</p>
 <p>{{ $t('named', { name: 'world' }) }}</p>
@@ -885,16 +874,15 @@ describe('dollar prefixed API (component injections)', () => {
 <p>{{ $t('hello', {}, { locale: 'en' }) }}</p>
 <p>{{ $t('hello', [], { locale: 'ja' }) }}</p>
 </div>`
-    })
-    const wrapper = await mount(App, i18n)
-
-    expect(wrapper.html()).toEqual(
-      '<div><p>hello world!</p><p>hello, world!</p><p>hello, world!</p><p>no apples</p><p>りんご1個</p><p>default message</p><p>default msg</p><p>4 apples</p><p>default list msg</p><p>こんにちは、世界！</p><p>many apples</p><p>default named msg</p><p>こんにちは、世界！</p><p>hello world!</p><p>こんにちは、世界！</p></div>'
-    )
   })
+  const wrapper = await mount(App, i18n)
+
+  expect(wrapper.html()).toEqual(
+    '<div><p>hello world!</p><p>hello, world!</p><p>hello, world!</p><p>no apples</p><p>りんご1個</p><p>default message</p><p>default msg</p><p>4 apples</p><p>default list msg</p><p>こんにちは、世界！</p><p>many apples</p><p>default named msg</p><p>こんにちは、世界！</p><p>hello world!</p><p>こんにちは、世界！</p></div>'
+  )
 })
 
-test('`t` on Composition API mode', async () => {
+test('`t`', async () => {
   const messages = {
     en: {
       hello: 'hello world!',

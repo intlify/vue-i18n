@@ -26,7 +26,7 @@ beforeAll(() => {
   registerLocaleFallbacker(fallbackWithLocaleChain)
 })
 
-test('composition mode', async () => {
+test('ssr', async () => {
   const i18n = createI18n({
     locale: 'en',
     messages: {}
