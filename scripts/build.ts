@@ -10,7 +10,7 @@ or "esm"):
 pnpm build core-base
 
 # specify the format to output
-pnpm build core --formats esm
+pnpm build core --formats mjs
 ```
 */
 
