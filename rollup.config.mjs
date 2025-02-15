@@ -34,10 +34,8 @@ let hasTSChecked = false
 
 function resolveStubs(name, ns = '') {
   return {
-    [`dist/${ns}${name}.cjs`]: `${ns}${name}.cjs.js`,
     [`dist/${ns}${name}.mjs`]: `${ns}${name}.esm-bundler.js`,
     [`dist/${ns}${name}.runtime.mjs`]: `${ns}${name}.runtime.esm-bundler.js`,
-    [`dist/${ns}${name}.prod.cjs`]: `${ns}${name}.cjs.prod.js`
   }
 }
 
@@ -54,10 +52,6 @@ function resolveOutputConfigs(name, ns = '') {
     browser: {
       file: `dist/${ns}${name}.esm-browser.js`,
       format: `es`
-    },
-    cjs: {
-      file: `dist/${ns}${name}.cjs`,
-      format: `cjs`
     },
     global: {
       file: `dist/${ns}${name}.global.js`,
@@ -84,7 +78,7 @@ function resolveOutputConfigs(name, ns = '') {
 }
 
 const outputConfigs = resolveOutputConfigs(name)
-const defaultFormats = ['esm-bundler', 'cjs']
+const defaultFormats = ['esm-bundler']
 const inlineFormats = process.env.FORMATS && process.env.FORMATS.split(',')
 const packageFormats = inlineFormats || packageOptions.formats || defaultFormats
 
@@ -111,12 +105,6 @@ if (process.env.NODE_ENV === 'production') {
   packageFormats.forEach(format => {
     if (packageOptions.prod === false) {
       return
-    }
-    if (format === 'cjs') {
-      packageConfigs.push(createProductionConfig(format, name))
-      if (name === 'vue-i18n-core') {
-        packageConfigs.push(createProductionConfig(format, name, 'petite-'))
-      }
     }
     if (/^(global|browser)(-runtime)?/.test(format)) {
       packageConfigs.push(createMinifiedConfig(format, outputConfigs[format]))
@@ -158,7 +146,7 @@ function createConfig(format, _output, plugins = []) {
     process.env.__DEV__ === 'false' || /\.prod\.[cm]?js$/.test(output.file)
   const isBundlerESMBuild = /mjs/.test(format)
   const isBrowserESMBuild = /browser/.test(format)
-  const isNodeBuild = output.file.includes('.node.') || format === 'cjs'
+  const isNodeBuild = output.file.includes('.node.')
   const isGlobalBuild = /global/.test(format)
   const isRuntimeOnlyBuild = /runtime/.test(format)
   const isLite = /petite-vue-i18n/.test(output.file)
@@ -209,10 +197,7 @@ function createConfig(format, _output, plugins = []) {
           ...Object.keys(pkg.peerDependencies || {})
         ]
 
-  const nodePlugins =
-    // packageOptions.enableNonBrowserBranches && format !== 'cjs'
-    format !== 'cjs'
-      ? [
+  const nodePlugins = [
           require('@rollup/plugin-node-resolve').nodeResolve(),
           require('@rollup/plugin-commonjs')({
             sourceMap: false
@@ -220,7 +205,6 @@ function createConfig(format, _output, plugins = []) {
           require('rollup-plugin-node-builtins')(),
           require('rollup-plugin-node-globals')()
         ]
-      : []
 
   return {
     input: resolve(entryFile),
@@ -253,10 +237,7 @@ function createConfig(format, _output, plugins = []) {
           const stub = stubs[rawFile]
           if (!stub) return
 
-          const contents =
-            format === 'cjs'
-              ? `module.exports = require('../${rawFile}')`
-              : `export * from '../${rawFile}'`
+          const contents = `export * from '../${rawFile}'`
 
           await fs.writeFile(resolve(`dist/${stub}`), contents)
           console.log(`created stub ${pc.bold(`dist/${stub}`)}`)
@@ -391,15 +372,6 @@ function createReplacePlugin(
      * https://rollupjs.org/configuration-options/#pure
      */
     delimiters: ['\\b(?<!function )', '']
-  })
-}
-
-function createProductionConfig(format, name, ns = '') {
-  const extension = format === 'cjs' || format === 'mjs' ? format : 'js'
-  const descriptor = format === 'cjs' || format === 'mjs' ? '' : `.${format}`
-  return createConfig(format, {
-    file: `dist/${ns}${name}${descriptor}.prod.${extension}`,
-    format: outputConfigs[format].format
   })
 }
 

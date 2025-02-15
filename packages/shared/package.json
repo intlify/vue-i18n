@@ -23,10 +23,8 @@
     "url": "https://github.com/intlify/vue-i18n/issues"
   },
   "files": [
-    "index.js",
     "dist"
   ],
-  "main": "index.js",
   "module": "dist/shared.mjs",
   "types": "dist/shared.d.ts",
   "engines": {
@@ -36,8 +34,7 @@
     "name": "IntlifyShared",
     "formats": [
       "mjs",
-      "browser",
-      "cjs"
+      "browser"
     ]
   },
   "exports": {
@@ -47,14 +44,8 @@
       "browser": "./dist/shared.esm-browser.js",
       "node": {
         "import": {
-          "production": "./dist/shared.prod.cjs",
           "development": "./dist/shared.mjs",
           "default": "./dist/shared.mjs"
-        },
-        "require": {
-          "production": "./dist/shared.prod.cjs",
-          "development": "./dist/shared.cjs",
-          "default": "./index.js"
         }
       }
     },

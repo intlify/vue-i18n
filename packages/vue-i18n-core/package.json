@@ -26,10 +26,8 @@
     "url": "https://github.com/intlify/vue-i18n/issues"
   },
   "files": [
-    "index.js",
     "dist"
   ],
-  "main": "index.js",
   "module": "dist/vue-i18n-core.mjs",
   "unpkg": "dist/vue-i18n-core.global.js",
   "jsdelivr": "dist/vue-i18n-core.global.js",
@@ -53,7 +51,6 @@
     "formats": [
       "mjs",
       "browser",
-      "cjs",
       "global"
     ]
   },
@@ -64,14 +61,8 @@
       "browser": "./dist/vue-i18n-core.esm-browser.js",
       "node": {
         "import": {
-          "production": "./dist/vue-i18n-core.prod.cjs",
           "development": "./dist/vue-i18n-core.mjs",
           "default": "./dist/vue-i18n-core.mjs"
-        },
-        "require": {
-          "production": "./dist/vue-i18n-core.prod.cjs",
-          "development": "./dist/vue-i18n-core.cjs",
-          "default": "./index.js"
         }
       }
     },
@@ -81,14 +72,8 @@
       "browser": "./dist/petite-vue-i18n-core.esm-browser.js",
       "node": {
         "import": {
-          "production": "./petite-dist/vue-i18n-core.prod.cjs",
           "development": "./petite-dist/vue-i18n-core.mjs",
           "default": "./dist/petite-vue-i18n-core.mjs"
-        },
-        "require": {
-          "production": "./dist/petite-vue-i18n-core.prod.cjs",
-          "development": "./dist/petite-vue-i18n-core.cjs",
-          "default": "./petite.js"
         }
       }
     },

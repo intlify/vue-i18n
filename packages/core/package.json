@@ -24,10 +24,8 @@
     "url": "https://github.com/intlify/vue-i18n/issues"
   },
   "files": [
-    "index.js",
     "dist"
   ],
-  "main": "index.js",
   "module": "dist/core.mjs",
   "unpkg": "dist/core.global.js",
   "jsdelivr": "dist/core.global.js",
@@ -48,7 +46,6 @@
       "mjs-node-runtime",
       "browser",
       "browser-runtime",
-      "cjs",
       "global",
       "global-runtime"
     ]
@@ -63,11 +60,6 @@
           "production": "./dist/core.prod.node.mjs",
           "development": "./dist/core.node.mjs",
           "default": "./dist/core.node.mjs"
-        },
-        "require": {
-          "production": "./dist/core.prod.cjs",
-          "development": "./dist/core.cjs",
-          "default": "./index.js"
         }
       }
     },

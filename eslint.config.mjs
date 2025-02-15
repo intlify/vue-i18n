@@ -51,7 +51,7 @@ export default [
     }
   },
   {
-    files: ['**/*.js', '**/*.cjs', '**/*.mjs'],
+    files: ['**/*.js', '**/*.mjs'],
     ...ts.configs.disableTypeChecked
   },
 
@@ -95,7 +95,6 @@ export default [
       'shim.d.ts',
       'temp/**',
       '.eslintcache',
-      '.eslintrc.cjs',
       'packages/*/vite.config.ts',
       'packages/*/index.js',
       'packages/vue-i18n-core/petite.js',

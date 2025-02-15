@@ -24,10 +24,8 @@
     "url": "https://github.com/intlify/vue-i18n/issues"
   },
   "files": [
-    "index.js",
     "dist"
   ],
-  "main": "index.js",
   "module": "dist/core-base.mjs",
   "unpkg": "dist/core-base.global.js",
   "jsdelivr": "dist/core-base.global.js",
@@ -47,7 +45,6 @@
     "formats": [
       "mjs",
       "browser",
-      "cjs",
       "global"
     ]
   },
@@ -58,14 +55,9 @@
       "browser": "./dist/core-base.esm-browser.js",
       "node": {
         "import": {
-          "production": "./dist/core-base.prod.cjs",
+          "production": "./dist/core-base.prod.mjs",
           "development": "./dist/core-base.mjs",
           "default": "./dist/core-base.mjs"
-        },
-        "require": {
-          "production": "./dist/core-base.prod.cjs",
-          "development": "./dist/core-base.cjs",
-          "default": "./index.js"
         }
       }
     },

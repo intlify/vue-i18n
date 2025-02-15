@@ -24,10 +24,8 @@
     "url": "https://github.com/intlify/vue-i18n/issues"
   },
   "files": [
-    "index.js",
     "dist"
   ],
-  "main": "index.js",
   "module": "dist/message-compiler.mjs",
   "unpkg": "dist/message-compiler.global.js",
   "jsdelivr": "dist/message-compiler.global.js",
@@ -45,7 +43,6 @@
       "mjs",
       "mjs-node",
       "browser",
-      "cjs",
       "global"
     ],
     "enableFullBundleForEsmBrowser": true
@@ -60,11 +57,6 @@
           "production": "./dist/message-compiler.node.mjs",
           "development": "./dist/message-compiler.node.mjs",
           "default": "./dist/message-compiler.node.mjs"
-        },
-        "require": {
-          "production": "./dist/message-compiler.prod.cjs",
-          "development": "./dist/message-compiler.cjs",
-          "default": "./index.js"
         }
       }
     },

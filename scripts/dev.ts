@@ -9,7 +9,7 @@ formats to watch (defaults to "global"):
 pnpm dev core-base
 
 # specify the format to output
-pnpm dev core --formats cjs
+pnpm dev core --formats mjs
 
 # Can also drop all __DEV__ blocks with:
 __DEV__=false pnpm run dev
