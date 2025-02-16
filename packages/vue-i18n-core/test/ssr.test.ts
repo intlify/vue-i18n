@@ -26,9 +26,8 @@ beforeAll(() => {
   registerLocaleFallbacker(fallbackWithLocaleChain)
 })
 
-test('composition mode', async () => {
+test('ssr', async () => {
   const i18n = createI18n({
-    legacy: false,
     locale: 'en',
     messages: {}
   })
@@ -52,30 +51,8 @@ test('composition mode', async () => {
   expect(await renderToString(app)).toMatch(`<p>こんにちは！</p>`)
 })
 
-test('legacy mode', async () => {
-  const mockWarn = vi.spyOn(shared, 'warnOnce')
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
-  mockWarn.mockImplementation(() => {})
-
-  const i18n = createI18n({
-    locale: 'ja',
-    messages: {
-      ja: { hello: 'こんにちは！' },
-      en: { hello: 'hello!' }
-    }
-  })
-
-  // NOTE: template: `<p>{{ $t('hello') }}</p>`
-  const App = () => h('p', i18n.global.t('hello'))
-  const app = createSSRApp(App)
-  app.use(i18n)
-
-  expect(await renderToString(app)).toMatch(`<p>こんにちは！</p>`)
-})
-
 test('component: i18n-t', async () => {
   const i18n = createI18n({
-    legacy: false,
     locale: 'en',
     messages: {}
   })

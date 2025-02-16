@@ -9,7 +9,6 @@ export const SUPPORT_LOCALES = ['en', 'ja']
 
 export function createI18n() {
   return _createI18n({
-    legacy: false,
     globalInjection: true,
     locale: 'ja',
     fallbackLocale: 'en',

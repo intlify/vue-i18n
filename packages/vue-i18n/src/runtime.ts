@@ -62,7 +62,6 @@ export {
 } from '@intlify/vue-i18n-core'
 export type {
   BaseFormatProps,
-  Choice,
   ComponentI18nScope,
   Composer,
   ComposerAdditionalOptions,
@@ -77,7 +76,6 @@ export type {
   CustomBlocks,
   DatetimeFormat,
   DatetimeFormatProps,
-  DateTimeFormatResult,
   DefaultDateTimeFormatSchema,
   DefaultLocaleMessageSchema,
   DefaultNumberFormatSchema,
@@ -90,31 +88,18 @@ export type {
   I18n,
   I18nAdditionalOptions,
   I18nD,
-  I18nMode,
   I18nN,
   I18nOptions,
   I18nPluginOptions,
   I18nScope,
   I18nT,
-  LocaleMessageObject,
   MissingHandler,
   NumberFormat,
   NumberFormatProps,
-  NumberFormatResult,
-  PluralizationRulesMap,
-  TranslateResult,
   Translation,
   TranslationProps,
   UseI18nOptions,
-  VueI18n,
-  VueI18nDateTimeFormatting,
-  VueI18nExtender,
-  VueI18nNumberFormatting,
-  VueI18nOptions,
-  VueI18nResolveLocaleMessageTranslation,
-  VueI18nTranslation,
-  VueMessageType,
-  WarnHtmlInMessageLevel
+  VueMessageType
 } from '@intlify/vue-i18n-core'
 
 export type {

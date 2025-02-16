@@ -58,27 +58,10 @@ export type {
   ExportedGlobalComposer,
   I18n,
   I18nAdditionalOptions,
-  I18nMode,
   I18nOptions,
   I18nScope,
   UseI18nOptions
 } from './i18n'
-export type {
-  Choice,
-  DateTimeFormatResult,
-  LocaleMessageObject,
-  NumberFormatResult,
-  PluralizationRulesMap,
-  TranslateResult,
-  VueI18n,
-  VueI18nDateTimeFormatting,
-  VueI18nExtender,
-  VueI18nNumberFormatting,
-  VueI18nOptions,
-  VueI18nResolveLocaleMessageTranslation,
-  VueI18nTranslation,
-  WarnHtmlInMessageLevel
-} from './legacy'
 export { initDev, initFeatureFlags, VERSION } from './misc'
 export type { I18nPluginOptions } from './plugin'
 export type { Disposer } from './types'

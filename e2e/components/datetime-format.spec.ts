@@ -1,5 +1,5 @@
 import { getText, url } from '../helper'
-;['composition', 'legacy'].forEach(pattern => {
+;['composition'].forEach(pattern => {
   describe(`${pattern}`, () => {
     beforeAll(async () => {
       await page.goto(

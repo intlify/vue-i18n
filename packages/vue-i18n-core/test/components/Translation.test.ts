@@ -80,7 +80,6 @@ test('slot contents', async () => {
 
 test('DOM contents', async () => {
   const i18n = createI18n({
-    legacy: false,
     locale: 'en',
     messages
   })
@@ -104,7 +103,6 @@ test('DOM contents', async () => {
 
 test('linked contents', async () => {
   const i18n = createI18n({
-    legacy: false,
     locale: 'en',
     messages
   })
@@ -128,7 +126,6 @@ test('linked contents', async () => {
 
 test('plural contents', async () => {
   const i18n = createI18n({
-    legacy: false,
     locale: 'en',
     messages
   })
@@ -153,7 +150,6 @@ test('plural contents', async () => {
 
 test('scope', async () => {
   const i18n = createI18n({
-    legacy: false,
     locale: 'en',
     messages: {
       en: {
@@ -280,7 +276,6 @@ test('message resolver', async () => {
 
 test('v-if / v-else', async () => {
   const i18n = createI18n({
-    legacy: false,
     locale: 'en',
     messages
   })

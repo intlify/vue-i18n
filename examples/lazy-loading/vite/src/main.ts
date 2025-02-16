@@ -6,7 +6,6 @@ import { setupI18n } from './i18n'
 import en from './locales/en.json'
 
 const i18n = setupI18n({
-  legacy: false,
   locale: 'en',
   fallbackLocale: 'en',
   messages: {
