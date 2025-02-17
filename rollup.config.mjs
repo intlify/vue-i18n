@@ -34,19 +34,19 @@ let hasTSChecked = false
 
 function resolveStubs(name, ns = '') {
   return {
-    [`dist/${ns}${name}.mjs`]: `${ns}${name}.esm-bundler.js`,
-    [`dist/${ns}${name}.runtime.mjs`]: `${ns}${name}.runtime.esm-bundler.js`,
+    [`dist/${ns}${name}.js`]: `${ns}${name}.esm-bundler.js`,
+    [`dist/${ns}${name}.runtime.js`]: `${ns}${name}.runtime.esm-bundler.js`,
   }
 }
 
 function resolveOutputConfigs(name, ns = '') {
   return {
     mjs: {
-      file: `dist/${ns}${name}.mjs`,
+      file: `dist/${ns}${name}.js`,
       format: `es`
     },
     'mjs-node': {
-      file: `dist/${ns}${name}.node.mjs`,
+      file: `dist/${ns}${name}.node.js`,
       format: `es`
     },
     browser: {
@@ -59,11 +59,11 @@ function resolveOutputConfigs(name, ns = '') {
     },
     // runtime-only builds, for '@intlify/core' and 'vue-i18n' package only
     'mjs-runtime': {
-      file: `dist/${ns}${name}.runtime.mjs`,
+      file: `dist/${ns}${name}.runtime.js`,
       format: `es`
     },
     'mjs-node-runtime': {
-      file: `dist/${ns}${name}.runtime.node.mjs`,
+      file: `dist/${ns}${name}.runtime.node.js`,
       format: `es`
     },
     'browser-runtime': {

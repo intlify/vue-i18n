@@ -38,13 +38,13 @@ Internationalization plugin for Vue.js
 
 ### For Node.js (Server-Side)
 
-- **`vue-i18n(.runtime).node.mjs`**:
-  - For ES Moudles usage in Node.js
+- **`vue-i18n(.runtime).node.js`**:
+  - For ES Modules usage in Node.js
   - For use in Node.js via `import`
   - The dev/prod files are pre-built, but the appropriate file is automatically required based on `process.env.NODE_ENV`
-  - This module is proxy module of `vue-i18n(.runtime).mjs`
-    - **`vue-i18n.runtime.node.mjs`**: is runtime only
-    - **`vue-i18n.node.mjs`**: includes the runtime compiler
+  - This module is proxy module of `vue-i18n(.runtime).js`
+    - **`vue-i18n.runtime.node.js`**: is runtime only
+    - **`vue-i18n.node.js`**: includes the runtime compiler
 
 
 ## For Bundler feature flags

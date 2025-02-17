@@ -25,7 +25,7 @@
   "files": [
     "dist"
   ],
-  "module": "dist/shared.mjs",
+  "module": "dist/shared.js",
   "types": "dist/shared.d.ts",
   "engines": {
     "node": ">= 16"
@@ -40,12 +40,12 @@
   "exports": {
     ".": {
       "types": "./dist/shared.d.ts",
-      "import": "./dist/shared.mjs",
+      "import": "./dist/shared.js",
       "browser": "./dist/shared.esm-browser.js",
       "node": {
         "import": {
-          "development": "./dist/shared.mjs",
-          "default": "./dist/shared.mjs"
+          "development": "./dist/shared.js",
+          "default": "./dist/shared.js"
         }
       }
     },

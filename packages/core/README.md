@@ -36,13 +36,13 @@ The intlify core module for i18n
 
 ### For Node.js (Server-Side)
 
-- **`core(.runtime).node.mjs`**:
-  - For ES Moudles usage in Node.js
+- **`core(.runtime).node.js`**:
+  - For ES Modules usage in Node.js
   - For use in Node.js via `import`
   - The dev/prod files are pre-built, but the appropriate file is automatically required based on `process.env.NODE_ENV`
-  - This module is proxy module of `core(.runtime).mjs`
-    - **`core.runtime.node.mjs`**: is runtime only. proxy `core.runtime.mjs`
-    - **`core.node.mjs`**: includes the runtime compiler. proxy `core.mjs`
+  - This module is proxy module of `core(.runtime).js`
+    - **`core.runtime.node.js`**: is runtime only. proxy `core.runtime.js`
+    - **`core.node.js`**: includes the runtime compiler. proxy `core.js`
 
 ## :copyright: License
 

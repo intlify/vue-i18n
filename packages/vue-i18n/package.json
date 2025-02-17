@@ -28,7 +28,7 @@
     "dist",
     "vetur"
   ],
-  "module": "dist/vue-i18n.mjs",
+  "module": "dist/vue-i18n.js",
   "unpkg": "dist/vue-i18n.global.js",
   "jsdelivr": "dist/vue-i18n.global.js",
   "types": "dist/vue-i18n.d.ts",
@@ -63,13 +63,13 @@
   "exports": {
     ".": {
       "types": "./dist/vue-i18n.d.ts",
-      "import": "./dist/vue-i18n.mjs",
+      "import": "./dist/vue-i18n.js",
       "browser": "./dist/vue-i18n.esm-browser.js",
       "node": {
         "import": {
-          "production": "./dist/vue-i18n.node.mjs",
-          "development": "./dist/vue-i18n.node.mjs",
-          "default": "./dist/vue-i18n.node.mjs"
+          "production": "./dist/vue-i18n.node.js",
+          "development": "./dist/vue-i18n.node.js",
+          "default": "./dist/vue-i18n.node.js"
         }
       }
     },

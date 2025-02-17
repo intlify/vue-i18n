@@ -26,7 +26,7 @@
   "files": [
     "dist"
   ],
-  "module": "dist/message-compiler.mjs",
+  "module": "dist/message-compiler.js",
   "unpkg": "dist/message-compiler.global.js",
   "jsdelivr": "dist/message-compiler.global.js",
   "types": "dist/message-compiler.d.ts",
@@ -50,13 +50,13 @@
   "exports": {
     ".": {
       "types": "./dist/message-compiler.d.ts",
-      "import": "./dist/message-compiler.mjs",
+      "import": "./dist/message-compiler.js",
       "browser": "./dist/message-compiler.esm-browser.js",
       "node": {
         "import": {
-          "production": "./dist/message-compiler.node.mjs",
-          "development": "./dist/message-compiler.node.mjs",
-          "default": "./dist/message-compiler.node.mjs"
+          "production": "./dist/message-compiler.node.js",
+          "development": "./dist/message-compiler.node.js",
+          "default": "./dist/message-compiler.node.js"
         }
       }
     },

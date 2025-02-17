@@ -26,7 +26,7 @@
   "files": [
     "dist"
   ],
-  "module": "dist/core.mjs",
+  "module": "dist/core.js",
   "unpkg": "dist/core.global.js",
   "jsdelivr": "dist/core.global.js",
   "types": "dist/core.d.ts",
@@ -53,13 +53,13 @@
   "exports": {
     ".": {
       "types": "./dist/core.d.ts",
-      "import": "./dist/core.mjs",
+      "import": "./dist/core.js",
       "browser": "./dist/core.esm-browser.js",
       "node": {
         "import": {
-          "production": "./dist/core.prod.node.mjs",
-          "development": "./dist/core.node.mjs",
-          "default": "./dist/core.node.mjs"
+          "production": "./dist/core.prod.node.js",
+          "development": "./dist/core.node.js",
+          "default": "./dist/core.node.js"
         }
       }
     },

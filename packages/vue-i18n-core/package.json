@@ -57,23 +57,23 @@
   "exports": {
     ".": {
       "types": "./dist/vue-i18n-core.d.ts",
-      "import": "./dist/vue-i18n-core.mjs",
+      "import": "./dist/vue-i18n-core.js",
       "browser": "./dist/vue-i18n-core.esm-browser.js",
       "node": {
         "import": {
-          "development": "./dist/vue-i18n-core.mjs",
-          "default": "./dist/vue-i18n-core.mjs"
+          "development": "./dist/vue-i18n-core.js",
+          "default": "./dist/vue-i18n-core.js"
         }
       }
     },
     "./petite": {
       "types": "./dist/petite-vue-i18n-core.d.ts",
-      "import": "./dist/petite-vue-i18n-core.mjs",
+      "import": "./dist/petite-vue-i18n-core.js",
       "browser": "./dist/petite-vue-i18n-core.esm-browser.js",
       "node": {
         "import": {
-          "development": "./petite-dist/vue-i18n-core.mjs",
-          "default": "./dist/petite-vue-i18n-core.mjs"
+          "development": "./petite-dist/vue-i18n-core.js",
+          "default": "./dist/petite-vue-i18n-core.js"
         }
       }
     },

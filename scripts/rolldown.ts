@@ -55,8 +55,8 @@ export function createConfigsForPackage({
 
   function resolveStubs(name: string, ns = '') {
     return {
-      [`dist/${ns}${name}.mjs`]: `${ns}${name}.esm-bundler.js`,
-      [`dist/${ns}${name}.runtime.mjs`]: `${ns}${name}.runtime.esm-bundler.js`
+      [`dist/${ns}${name}.js`]: `${ns}${name}.esm-bundler.js`,
+      [`dist/${ns}${name}.runtime.js`]: `${ns}${name}.runtime.esm-bundler.js`
     }
   }
 
@@ -66,11 +66,11 @@ export function createConfigsForPackage({
   ): Record<string, OutputOptions> {
     return {
       mjs: {
-        file: resolve(`dist/${ns}${name}.mjs`),
+        file: resolve(`dist/${ns}${name}.js`),
         format: `es`
       },
       'mjs-node': {
-        file: resolve(`dist/${ns}${name}.node.mjs`),
+        file: resolve(`dist/${ns}${name}.node.js`),
         format: `es`
       },
       browser: {
@@ -83,11 +83,11 @@ export function createConfigsForPackage({
       },
       // runtime-only builds, for '@intlify/core' and 'vue-i18n' package only
       'mjs-runtime': {
-        file: resolve(`dist/${ns}${name}.runtime.mjs`),
+        file: resolve(`dist/${ns}${name}.runtime.js`),
         format: `es`
       },
       'mjs-node-runtime': {
-        file: resolve(`dist/${ns}${name}.runtime.node.mjs`),
+        file: resolve(`dist/${ns}${name}.runtime.node.js`),
         format: `es`
       },
       'browser-runtime': {

@@ -25,7 +25,7 @@
   "files": [
     "dist"
   ],
-  "module": "dist/devtools-types.mjs",
+  "module": "dist/devtools-types.js",
   "types": "dist/devtools-types.d.ts",
   "dependencies": {
     "@intlify/core-base": "workspace:*",
@@ -43,12 +43,12 @@
   "exports": {
     ".": {
       "types": "./dist/devtools-types.d.ts",
-      "import": "./dist/devtools-types.mjs",
+      "import": "./dist/devtools-types.js",
       "node": {
         "import": {
-          "production": "./dist/devtools-types.prod.mjs",
-          "development": "./dist/devtools-types.mjs",
-          "default": "./dist/devtools-types.mjs"
+          "production": "./dist/devtools-types.prod.js",
+          "development": "./dist/devtools-types.js",
+          "default": "./dist/devtools-types.js"
         }
       }
     },
