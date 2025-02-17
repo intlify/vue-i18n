@@ -18,7 +18,6 @@ export default defineConfig({
     __NODE_JS__: true,
     __LITE__: false,
     __FEATURE_FULL_INSTALL__: true,
-    __FEATURE_LEGACY_API__: true,
     __FEATURE_DROP_MESSAGE_COMPILER__: false
   },
   resolve: {

@@ -12,8 +12,7 @@ customElements.define('i18n-host', I18nHostElement)
 customElements.define('hello-i18n', HelloI18nElement)
 customElements.define('hello-block', HelloBlockElement)
 
-const i18n = createI18n<false>({
-  legacy: false,
+const i18n = createI18n({
   locale: 'en',
   messages: {}
 })

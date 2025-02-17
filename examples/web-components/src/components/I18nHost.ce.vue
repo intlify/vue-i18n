@@ -16,10 +16,8 @@ import { createI18n, I18nInjectionKey } from 'vue-i18n'
  *
  * NOTE:
  *  In web components only supports the composition API.
- *  It will not work in legacy API mode.
  */
-const i18n = createI18n<false>({
-  legacy: false, // must set to `false`
+const i18n = createI18n({
   locale: 'en',
   messages: {
     en: {

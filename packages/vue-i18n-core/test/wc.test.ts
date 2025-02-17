@@ -36,8 +36,7 @@ beforeEach(() => {
 })
 
 test('basic', async () => {
-  const i18n = createI18n<false>({
-    legacy: false,
+  const i18n = createI18n({
     locale: 'en',
     messages: {
       en: {
@@ -83,8 +82,7 @@ test('basic', async () => {
 })
 
 test('custom blocks', async () => {
-  const i18n = createI18n<false>({
-    legacy: false,
+  const i18n = createI18n({
     locale: 'en',
     messages: {
       en: {

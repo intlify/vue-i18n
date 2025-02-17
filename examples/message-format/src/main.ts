@@ -6,7 +6,6 @@ import App from './App.vue'
 import { messageCompiler } from './compilation'
 
 const i18n = createI18n({
-  legacy: false,
   locale: 'en',
   messageCompiler,
   messages: {

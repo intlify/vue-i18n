@@ -21,10 +21,6 @@ export function initFeatureFlags(): void {
     getGlobalThis().__VUE_I18N_FULL_INSTALL__ = true
   }
 
-  if (typeof __FEATURE_LEGACY_API__ !== 'boolean') {
-    getGlobalThis().__VUE_I18N_LEGACY_API__ = true
-  }
-
   if (typeof __FEATURE_DROP_MESSAGE_COMPILER__ !== 'boolean') {
     getGlobalThis().__INTLIFY_DROP_MESSAGE_COMPILER__ = false
   }

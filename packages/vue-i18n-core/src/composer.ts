@@ -526,7 +526,6 @@ export interface ComposerOptions<
    *
    * // call with I18n option
    * const i18n = createI18n({
-   *   legacy: false,
    *   locale: 'ja',
    *   messageResolver, // set your message resolver
    *   messages: {
@@ -580,7 +579,6 @@ export interface ComposerOptions<
    *
    * // call with I18n option
    * const i18n = createI18n({
-   *   legacy: false,
    *   locale: 'ja',
    *   messageCompiler, // set your message compiler
    *   messages: {

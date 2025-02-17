@@ -335,9 +335,6 @@ function createReplacePlugin(
     __FEATURE_FULL_INSTALL__: isBundlerESMBuild
       ? `__VUE_I18N_FULL_INSTALL__`
       : `true`,
-    __FEATURE_LEGACY_API__: isBundlerESMBuild
-      ? `__VUE_I18N_LEGACY_API__`
-      : `true`,
     __FEATURE_PROD_VUE_DEVTOOLS__:
       ['vue-i18n', 'petite-vue-i18n'].includes(name) && isNodeBuild
         ? 'false' // tree-shake devtools

@@ -7,7 +7,6 @@ import en from './locales/en.json'
 
 const i18n = setupI18n({
   globalInjection: true,
-  legacy: false,
   locale: 'en',
   fallbackLocale: 'en',
   messages: {

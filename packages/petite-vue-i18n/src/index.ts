@@ -70,30 +70,12 @@ export type {
   ExportedGlobalComposer,
   I18n,
   I18nAdditionalOptions,
-  I18nMode,
   I18nOptions,
   I18nPluginOptions,
   I18nScope,
   MissingHandler,
   UseI18nOptions,
   VueMessageType
-} from '@intlify/vue-i18n-core/petite'
-
-export type {
-  Choice,
-  DateTimeFormatResult,
-  LocaleMessageObject,
-  NumberFormatResult,
-  PluralizationRulesMap,
-  TranslateResult,
-  VueI18n,
-  VueI18nDateTimeFormatting,
-  VueI18nExtender,
-  VueI18nNumberFormatting,
-  VueI18nOptions,
-  VueI18nResolveLocaleMessageTranslation,
-  VueI18nTranslation,
-  WarnHtmlInMessageLevel
 } from '@intlify/vue-i18n-core/petite'
 
 export type {

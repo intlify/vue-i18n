@@ -28,7 +28,6 @@ const ctx = createCoreContext({
 })
 
 const i18n = createI18n({
-  legacy: false,
   locale: 'en',
   modifiers: {
     caml: val => val

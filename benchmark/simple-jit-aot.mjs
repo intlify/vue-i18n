@@ -40,7 +40,6 @@ const ctx = createCoreContext({
 })
 
 const i18n = createI18n({
-  legacy: false,
   locale: 'en',
   messages: {
     en: precompiledResources
