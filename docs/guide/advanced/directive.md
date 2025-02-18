@@ -1,16 +1,16 @@
 # Custom Directive
 
 :::danger NOTE
-`v-t` will be deprecated at v11, and will be dropped at v12. This section is for those who are still using v10.
+The `v-t` directive will be deprecated in version 11 and removed in version 12. This section is intended for users still working with version 10.
 :::
 
-You can translate not only with `$t`, but also with the `v-t` custom directive.
+In addition to using `$t`, you can also use the `v-t` custom directive for translations.
 
-## String syntax
+## String Syntax
 
-You can pass the keypath of locale messages with string syntax.
+You can pass the key path of locale messages using string syntax.
 
-Javascript:
+### JavaScript:
 
 ```js
 import { createApp } from 'vue'
@@ -31,18 +31,18 @@ app.use(i18n)
 app.mount('#app')
 ```
 
-Templates:
+### Template:
 
 ```html
 <div id="string-syntax">
-  <!-- string literal -->
+  <!-- Using a string literal -->
   <p v-t="'hello'"></p>
-  <!-- keypath binding via data -->
+  <!-- Binding a key path via data -->
   <p v-t="path"></p>
 </div>
 ```
 
-Outputs:
+### Output:
 
 ```html
 <div id="string-syntax">
@@ -51,11 +51,11 @@ Outputs:
 </div>
 ```
 
-## Object syntax
+## Object Syntax
 
-You can use object syntax.
+Alternatively, you can use object syntax.
 
-Javascript:
+### JavaScript:
 
 ```js
 import { createApp } from 'vue'
@@ -66,14 +66,14 @@ const i18n = createI18n({
   messages: {
     en: {
       message: {
-        hi: 'Hi, {name}!',
-        bye: 'good bye!',
+        hi: 'Hi, {name}!'
+        bye: 'Goodbye!',
         apple: 'no apples | one apple | {count} apples'
       }
     },
     ja: {
       message: {
-        hi: 'こんにちは、 {name}！',
+        hi: 'こんにちは、{name}！',
         bye: 'さようなら！',
         apple: 'リンゴはありません | 一つのりんご | {count} りんご'
       }
@@ -93,63 +93,61 @@ app.use(i18n)
 app.mount('#object-syntax')
 ```
 
-Templates:
+### Template:
 
 ```html
 <div id="object-syntax">
-  <!-- literal -->
+  <!-- Using an object with arguments -->
   <p v-t="{ path: 'message.hi', args: { name: 'kazupon' } }"></p>
-  <!-- data binding via data -->
+  <!-- Binding a key path via data -->
   <p v-t="{ path: byePath, locale: 'en' }"></p>
-  <!-- pluralization -->
+  <!-- Pluralization -->
   <p v-t="{ path: 'message.apple', plural: appleCount }"></p>
 </div>
 ```
 
-Outputs:
+### Output:
 
 ```html
 <div id="object-syntax">
-  <p>こんにちは、 kazupon！</p>
-  <p>good bye!</p>
+  <p>こんにちは、kazupon！</p>
+  <p>Goodbye!</p>
   <p>7 りんご</p>
 </div>
 ```
 
-## scoping
+## Scope
 
-As mentioned in [the scope section](../essentials/scope.md), vue-i18n has a global scope and a local scope.
+As explained in [the scope section](../essentials/scope.md), `vue-i18n` supports both global and local scopes.
 
-The scope under which `v-t` is also affected by scope when it works.
+The behavior of `v-t` depends on the scope in which it is used:
 
-- local scope: using the i18n option in Legacy API style or using `useScope: ‘local'` in `useI18n`.
-- global scope: all cases other than the above.
-
+- **Local scope**: Applied when using the i18n option in Legacy API style or setting `useScope: 'local'` in `useI18n`.
+- **Global scope**: Used in all other cases.
 
 ## `$t` vs `v-t`
 
 ### `$t`
 
-`$t` is function of VueI18n instance. It has the following pros and cons:
+`$t` is a function of the `VueI18n` instance with the following advantages and disadvantages:
 
-#### Pros
+#### Pros:
+- Allows for **flexible usage** within templates, including mustache syntax `{}`.
+- Supports computed properties and methods within Vue components.
 
-You can **flexibly** use mustache syntax `{}` in templates and also computed props and methods in Vue component instance.
-
-#### Cons
-
-`$t` is executed **every time** when re-render occurs, so it does have translation costs.
+#### Cons:
+- `$t` is executed **on every re-render**, which can add translation overhead.
 
 ### `v-t`
 
-`v-t` is a custom directive. It has the following pros and cons:
+`v-t` is a custom directive with its own set of pros and cons:
 
-#### Pros
+#### Pros:
+- Offers **better performance** than `$t`, as translations can be preprocessed by the Vue compiler module provided by [vue-i18n-extensions](https://github.com/intlify/vue-i18n-extensions).
+- Enables **performance optimizations** by reducing runtime translation overhead.
 
-`v-t` has **better performance** than the `$t` function due to its pre-translation is possible with the Vue compiler module which was provided by [vue-i18n-extensions](https://github.com/intlify/vue-i18n-extensions).
+#### Cons:
+- Less flexible than `$t`; it’s **more complex** to use.
+- Inserts translated content directly into the element’s `textContent`, which means it cannot be used inside inline HTML structures or combined with other dynamic template expressions.
+- When using server-side rendering (SSR), you must configure a [custom transform](https://github.com/intlify/vue-i18n-extensions#server-side-rendering-for-v-t-custom-directive) by setting the `directiveTransforms` option in the `compile` function of `@vue/compiler-ssr`.
 
-Therefore it’s possible to make **more performance optimizations**.
-
-#### Cons
-
-`v-t` cannot be flexibly used like `$t`, it’s rather **complex**. The translated content with `v-t` is inserted into the `textContent` of the element. Also, when you use server-side rendering, you need to set the [custom transform](https://github.com/intlify/vue-i18n-extensions#server-side-rendering-for-v-t-custom-directive) to `directiveTransforms` option of the `compile` function of `@vue/compiler-ssr`.
