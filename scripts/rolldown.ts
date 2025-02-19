@@ -55,10 +55,8 @@ export function createConfigsForPackage({
 
   function resolveStubs(name: string, ns = '') {
     return {
-      [`dist/${ns}${name}.cjs`]: `${ns}${name}.cjs.js`,
-      [`dist/${ns}${name}.mjs`]: `${ns}${name}.esm-bundler.js`,
-      [`dist/${ns}${name}.runtime.mjs`]: `${ns}${name}.runtime.esm-bundler.js`,
-      [`dist/${ns}${name}.prod.cjs`]: `${ns}${name}.cjs.prod.js`
+      [`dist/${ns}${name}.js`]: `${ns}${name}.esm-bundler.js`,
+      [`dist/${ns}${name}.runtime.js`]: `${ns}${name}.runtime.esm-bundler.js`
     }
   }
 
@@ -68,20 +66,16 @@ export function createConfigsForPackage({
   ): Record<string, OutputOptions> {
     return {
       mjs: {
-        file: resolve(`dist/${ns}${name}.mjs`),
+        file: resolve(`dist/${ns}${name}.js`),
         format: `es`
       },
       'mjs-node': {
-        file: resolve(`dist/${ns}${name}.node.mjs`),
+        file: resolve(`dist/${ns}${name}.node.js`),
         format: `es`
       },
       browser: {
         file: resolve(`dist/${ns}${name}.esm-browser.js`),
         format: `es`
-      },
-      cjs: {
-        file: resolve(`dist/${ns}${name}.cjs`),
-        format: `cjs`
       },
       global: {
         file: resolve(`dist/${ns}${name}.global.js`),
@@ -89,11 +83,11 @@ export function createConfigsForPackage({
       },
       // runtime-only builds, for '@intlify/core' and 'vue-i18n' package only
       'mjs-runtime': {
-        file: resolve(`dist/${ns}${name}.runtime.mjs`),
+        file: resolve(`dist/${ns}${name}.runtime.js`),
         format: `es`
       },
       'mjs-node-runtime': {
-        file: resolve(`dist/${ns}${name}.runtime.node.mjs`),
+        file: resolve(`dist/${ns}${name}.runtime.node.js`),
         format: `es`
       },
       'browser-runtime': {
@@ -114,10 +108,7 @@ export function createConfigsForPackage({
 
   const outputConfigs = resolveOutputConfigs(name)
 
-  const resolvedFormats = (
-    formats ||
-    packageOptions.formats || ['esm-bundler', 'cjs']
-  )
+  const resolvedFormats = (formats || packageOptions.formats || ['esm-bundler'])
     .filter(Boolean)
     .filter((format: string) => outputConfigs[format])
 
@@ -143,12 +134,6 @@ export function createConfigsForPackage({
     resolvedFormats.forEach((format: string) => {
       if (packageOptions.prod === false) {
         return
-      }
-      if (format === 'cjs') {
-        packageConfigs.push(createProductionConfig(format, name))
-        if (name === 'vue-i18n-core') {
-          packageConfigs.push(createProductionConfig(format, name, 'petite-'))
-        }
       }
       if (/^(global|browser)(-runtime)?/.test(format)) {
         packageConfigs.push(createMinifiedConfig(format, outputConfigs[format]))
@@ -178,9 +163,7 @@ export function createConfigsForPackage({
     const isBundlerESMBuild = /mjs/.test(format)
     const isBrowserESMBuild =
       /browser/.test(format) && !packageOptions.enableNonBrowserBranches
-    // const isCJSBuild = format === 'cjs'
-    const isNodeBuild =
-      String(output.file).includes('.node.') || format === 'cjs'
+    const isNodeBuild = String(output.file).includes('.node.')
     const isGlobalBuild = /global/.test(format)
     const isRuntimeOnlyBuild = /runtime/.test(format)
     const isLite = /petite-vue-i18n/.test(String(output.file))
@@ -189,9 +172,6 @@ export function createConfigsForPackage({
     output.sourcemap = sourceMap
     output.banner = banner
     output.externalLiveBindings = false
-    // if (isCJSBuild) {
-    //   output.esModule = true
-    // }
     if (
       name === 'vue-i18n' ||
       name === 'vue-i18n-core' ||
@@ -317,11 +297,9 @@ export function createConfigsForPackage({
     }
 
     function resolveNodePlugins() {
-      const nodePlugins =
-        (format === 'cjs' && Object.keys(pkg.devDependencies || {}).length) ||
-        packageOptions.enableNonBrowserBranches
-          ? [...(format === 'cjs' ? [] : [polyfillNode()])]
-          : []
+      const nodePlugins = packageOptions.enableNonBrowserBranches
+        ? [...[polyfillNode()]]
+        : []
       return nodePlugins
     }
 
@@ -331,7 +309,7 @@ export function createConfigsForPackage({
       // used alone.
       external: resolveExternal(),
       define: resolveDefine(),
-      platform: format === 'cjs' ? 'node' : 'browser',
+      platform: 'browser',
       resolve: {
         alias: entries
       },
@@ -351,10 +329,7 @@ export function createConfigsForPackage({
             }
 
             const filename = path.basename(rawFile)
-            const contents =
-              format === 'cjs'
-                ? `module.exports = require('./${filename}')`
-                : `export * from './${filename}'`
+            const contents = `export * from './${filename}'`
 
             await fs.writeFile(stub, contents)
             // console.log(`created stub ${pc.bold(path.join('packages', target, 'dist', path.basename(stub)))}`)
@@ -367,19 +342,6 @@ export function createConfigsForPackage({
         moduleSideEffects: false
       }
     }
-  }
-
-  function createProductionConfig(
-    format: string,
-    name: string,
-    ns = ''
-  ): RolldownOptions {
-    const extension = format === 'cjs' || format === 'mjs' ? format : 'js'
-    const descriptor = format === 'cjs' || format === 'mjs' ? '' : `.${format}`
-    return createConfig(format, {
-      file: resolve(`dist/${ns}${name}${descriptor}.prod.${extension}`),
-      format: outputConfigs[format].format
-    })
   }
 
   function createMinifiedConfig(

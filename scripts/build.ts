@@ -3,14 +3,14 @@ Produces production builds and stitches together d.ts files.
 
 To specify the package to build, simply pass its name and the desired build
 formats to output (defaults to `buildOptions.formats` specified in that package,
-or "esm,cjs"):
+or "esm"):
 
 ```
 # name supports fuzzy match. will build all packages with name containing "core-base":
 pnpm build core-base
 
 # specify the format to output
-pnpm build core --formats cjs
+pnpm build core --formats mjs
 ```
 */
 

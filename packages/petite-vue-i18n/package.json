@@ -26,11 +26,9 @@
     "url": "https://github.com/intlify/vue-i18n/issues"
   },
   "files": [
-    "index.js",
     "dist"
   ],
-  "main": "index.js",
-  "module": "dist/petite-vue-i18n.mjs",
+  "module": "dist/petite-vue-i18n.js",
   "unpkg": "dist/petite-vue-i18n.global.js",
   "jsdelivr": "dist/petite-vue-i18n.global.js",
   "types": "dist/petite-vue-i18n.d.ts",
@@ -58,7 +56,6 @@
       "mjs-node-runtime",
       "browser",
       "browser-runtime",
-      "cjs",
       "global",
       "global-runtime"
     ]
@@ -66,18 +63,13 @@
   "exports": {
     ".": {
       "types": "./dist/petite-vue-i18n.d.ts",
-      "import": "./dist/petite-vue-i18n.mjs",
+      "import": "./dist/petite-vue-i18n.js",
       "browser": "./dist/petite-vue-i18n.esm-browser.js",
       "node": {
         "import": {
-          "production": "./dist/petite-vue-i18n.node.mjs",
-          "development": "./dist/petite-vue-i18n.node.mjs",
-          "default": "./dist/petite-vue-i18n.node.mjs"
-        },
-        "require": {
-          "production": "./dist/petite-vue-i18n.prod.cjs",
-          "development": "./dist/petite-vue-i18n.cjs",
-          "default": "./index.js"
+          "production": "./dist/petite-vue-i18n.node.js",
+          "development": "./dist/petite-vue-i18n.node.js",
+          "default": "./dist/petite-vue-i18n.node.js"
         }
       }
     },

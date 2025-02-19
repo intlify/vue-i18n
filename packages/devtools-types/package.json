@@ -23,11 +23,9 @@
     "url": "https://github.com/intlify/vue-i18n/issues"
   },
   "files": [
-    "index.js",
     "dist"
   ],
-  "main": "index.js",
-  "module": "dist/devtools-types.mjs",
+  "module": "dist/devtools-types.js",
   "types": "dist/devtools-types.d.ts",
   "dependencies": {
     "@intlify/core-base": "workspace:*",
@@ -39,24 +37,18 @@
   "buildOptions": {
     "name": "IntlifyDevToolsTypes",
     "formats": [
-      "mjs",
-      "cjs"
+      "mjs"
     ]
   },
   "exports": {
     ".": {
       "types": "./dist/devtools-types.d.ts",
-      "import": "./dist/devtools-types.mjs",
+      "import": "./dist/devtools-types.js",
       "node": {
         "import": {
-          "production": "./dist/devtools-types.prod.cjs",
-          "development": "./dist/devtools-types.mjs",
-          "default": "./dist/devtools-types.mjs"
-        },
-        "require": {
-          "production": "./dist/devtools-types.prod.cjs",
-          "development": "./dist/devtools-types.cjs",
-          "default": "./index.js"
+          "production": "./dist/devtools-types.prod.js",
+          "development": "./dist/devtools-types.js",
+          "default": "./dist/devtools-types.js"
         }
       }
     },
