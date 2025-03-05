@@ -59,3 +59,4 @@ jobs:
           ./scripts/release.sh
         env:
           NPM_AUTH_TOKEN: ${{secrets.NPM_AUTH_TOKEN}}
+          NPM_CONFIG_PROVENANCE: true
