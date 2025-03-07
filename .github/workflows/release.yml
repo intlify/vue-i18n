@@ -21,8 +21,8 @@ jobs:
         with:
           ref: ${{ github.head_ref }}
 
-      - name: Enable corepack
-        run: corepack enable
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
 
       - name: Setup Node
         uses: actions/setup-node@v4
