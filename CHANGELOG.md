@@ -1,106 +1,125 @@
+## v9.1.11 (2025-03-07)
+
+### 🔒 Security Fixes
+
+- fix: prototype pollution in `handleFlatJson`, about details see https://github.com/intlify/vue-i18n/security/advisories/GHSA-p2ph-7g93-hw3m
+
+**Full Changelog**: https://github.com/intlify/vue-i18n/compare/v9.1.10...v9.1.11
 
 ## v9.1.10 (2022-05-01)
 
 #### :zap: Improvement Features
-* `size-check-vue-i18n`, `vue-i18n`
-  * [#997](https://github.com/intlify/vue-i18n-next/pull/997) improvement: esm-bundler warning ([@kazupon](https://github.com/kazupon))
+
+- `size-check-vue-i18n`, `vue-i18n`
+  - [#997](https://github.com/intlify/vue-i18n-next/pull/997) improvement: esm-bundler warning ([@kazupon](https://github.com/kazupon))
 
 #### Committers: 1
-- kazuya kawaguchi ([@kazupon](https://github.com/kazupon))
 
+- kazuya kawaguchi ([@kazupon](https://github.com/kazupon))
 
 ## v9.1.9 (2021-10-06)
 
 #### :bug: Bug Fixes
-* `vue-i18n`
-  * [#723](https://github.com/intlify/vue-i18n-next/pull/723) fix: Built-in components bugs ([@kazupon](https://github.com/kazupon))
+
+- `vue-i18n`
+  - [#723](https://github.com/intlify/vue-i18n-next/pull/723) fix: Built-in components bugs ([@kazupon](https://github.com/kazupon))
 
 #### Committers: 1
-- kazuya kawaguchi ([@kazupon](https://github.com/kazupon))
 
+- kazuya kawaguchi ([@kazupon](https://github.com/kazupon))
 
 ## v9.1.8 (2021-10-04)
 
 #### :bug: Bug Fixes
-* `message-compiler`, `vue-i18n`
-  * [#720](https://github.com/intlify/vue-i18n-next/pull/720) fix: bring bug fixes from v9.2.0-beta.11 ([@kazupon](https://github.com/kazupon))
+
+- `message-compiler`, `vue-i18n`
+  - [#720](https://github.com/intlify/vue-i18n-next/pull/720) fix: bring bug fixes from v9.2.0-beta.11 ([@kazupon](https://github.com/kazupon))
 
 #### Committers: 1
-- kazuya kawaguchi ([@kazupon](https://github.com/kazupon))
 
+- kazuya kawaguchi ([@kazupon](https://github.com/kazupon))
 
 ## v9.1.7 (2021-07-13)
 
 #### :bug: Bug Fixes
-* `core-base`
-  * [#570](https://github.com/intlify/vue-i18n-next/pull/570) fix: __INTLIFY_PROD_DEVTOOLS__ is not defined (#532) ([@kazupon](https://github.com/kazupon))
+
+- `core-base`
+  - [#570](https://github.com/intlify/vue-i18n-next/pull/570) fix: **INTLIFY_PROD_DEVTOOLS** is not defined (#532) ([@kazupon](https://github.com/kazupon))
 
 #### Committers: 1
-- kazuya kawaguchi ([@kazupon](https://github.com/kazupon))
 
+- kazuya kawaguchi ([@kazupon](https://github.com/kazupon))
 
 ## v9.1.6 (2021-04-15)
 
 #### :bug: Bug Fixes
-* `vue-i18n`
-  * [#459](https://github.com/intlify/vue-i18n-next/pull/459) fix vue-i18n type definition broken ([@kazupon](https://github.com/kazupon))
+
+- `vue-i18n`
+  - [#459](https://github.com/intlify/vue-i18n-next/pull/459) fix vue-i18n type definition broken ([@kazupon](https://github.com/kazupon))
 
 #### Committers: 1
-- kazuya kawaguchi ([@kazupon](https://github.com/kazupon))
 
+- kazuya kawaguchi ([@kazupon](https://github.com/kazupon))
 
 ## v9.1.5 (2021-04-15)
 
 #### :zap: Improvement Features
-* `vue-i18n`
-  * [#453](https://github.com/intlify/vue-i18n-next/pull/453) Support passing composer instance to Translation component ([@andresberrios](https://github.com/andresberrios))
+
+- `vue-i18n`
+  - [#453](https://github.com/intlify/vue-i18n-next/pull/453) Support passing composer instance to Translation component ([@andresberrios](https://github.com/andresberrios))
 
 #### Committers: 2
+
 - Andrés Berríos ([@andresberrios](https://github.com/andresberrios))
 - kazuya kawaguchi ([@kazupon](https://github.com/kazupon))
-
 
 ## v9.1.4 (2021-04-11)
 
 #### :zap: Improvement Features
-* `core-base`, `devtools-if`, `vue-i18n`
-  * [#450](https://github.com/intlify/vue-i18n-next/pull/450) experimental: fix devtools-if ([@kazupon](https://github.com/kazupon))
+
+- `core-base`, `devtools-if`, `vue-i18n`
+  - [#450](https://github.com/intlify/vue-i18n-next/pull/450) experimental: fix devtools-if ([@kazupon](https://github.com/kazupon))
 
 #### :pencil: Documentation
-* [#449](https://github.com/intlify/vue-i18n-next/pull/449) Japanese translation (~essential) ([@noy4](https://github.com/noy4))
+
+- [#449](https://github.com/intlify/vue-i18n-next/pull/449) Japanese translation (~essential) ([@noy4](https://github.com/noy4))
 
 #### Committers: 2
+
 - [@noy4](https://github.com/noy4)
 - kazuya kawaguchi ([@kazupon](https://github.com/kazupon))
-
 
 ## v9.1.3 (2021-04-09)
 
 #### :zap: Improvement Features
-* `core-base`, `vue-i18n`
-  * [#446](https://github.com/intlify/vue-i18n-next/pull/446) experimental: improve meta for intlify devtools ([@kazupon](https://github.com/kazupon))
+
+- `core-base`, `vue-i18n`
+  - [#446](https://github.com/intlify/vue-i18n-next/pull/446) experimental: improve meta for intlify devtools ([@kazupon](https://github.com/kazupon))
 
 #### Committers: 1
-- kazuya kawaguchi ([@kazupon](https://github.com/kazupon))
 
+- kazuya kawaguchi ([@kazupon](https://github.com/kazupon))
 
 ## v9.1.2 (2021-04-08)
 
 #### :bug: Bug Fixes
-* `vue-i18n`
-  * [#441](https://github.com/intlify/vue-i18n-next/pull/441) fix: typing errors ([@kazupon](https://github.com/kazupon))
+
+- `vue-i18n`
+  - [#441](https://github.com/intlify/vue-i18n-next/pull/441) fix: typing errors ([@kazupon](https://github.com/kazupon))
 
 #### Committers: 1
-- kazuya kawaguchi ([@kazupon](https://github.com/kazupon))
 
+- kazuya kawaguchi ([@kazupon](https://github.com/kazupon))
 
 ## v9.1.1 (2021-04-07)
 
 #### :bug: Bug Fixes
-* `vue-i18n`
-  * [#436](https://github.com/intlify/vue-i18n-next/pull/436) fix: cannot defined feature flags accessing ([@kazupon](https://github.com/kazupon))
+
+- `vue-i18n`
+  - [#436](https://github.com/intlify/vue-i18n-next/pull/436) fix: cannot defined feature flags accessing ([@kazupon](https://github.com/kazupon))
 
 #### Committers: 1
+
 - kazuya kawaguchi ([@kazupon](https://github.com/kazupon))
 
 ## v9.1.0 (2021-04-07)
