@@ -8,6 +8,9 @@ on:
       - 'v*'
 env:
   NODE_OPTIONS: --max-old-space-size=6144
+permissions:
+  id-token: write
+  contents: write
 
 jobs:
   release:
@@ -59,3 +62,4 @@ jobs:
           ./scripts/release.sh
         env:
           NPM_AUTH_TOKEN: ${{secrets.NPM_AUTH_TOKEN}}
+          NPM_CONFIG_PROVENANCE: true
