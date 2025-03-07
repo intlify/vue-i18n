@@ -3,10 +3,10 @@ name: CI
 on:
   push:
     branches:
-      - v10
+      - v9
   pull_request:
     branches:
-      - v10
+      - v9
 permissions:
   contents: read
 env:
@@ -27,8 +27,8 @@ jobs:
       - name: Checkout codes
         uses: actions/checkout@v4
 
-      - name: Install pnpm
-        uses: pnpm/action-setup@v4
+      - name: Enable corepack
+        run: corepack enable
 
       - name: Setup node
         uses: actions/setup-node@v4
@@ -55,8 +55,8 @@ jobs:
       - name: Checkout codes
         uses: actions/checkout@v4
 
-      - name: Install pnpm
-        uses: pnpm/action-setup@v4
+      - name: Enable corepack
+        run: corepack enable
 
       - name: Setup node
         uses: actions/setup-node@v4
@@ -70,20 +70,20 @@ jobs:
       - name: Build codes
         run: |
           pnpm build --all -t
-          npx tsx ./scripts/postprocess.ts
+          node -r esbuild-register scripts/postprocess.ts
 
       - name: Cache dist
         uses: actions/cache@v4
         with:
           path: packages/*/dist
-          key: build-vue-i18n-os-${{ matrix.os }}-${{ github.sha }}
+          key: build-vue-i18n-next-os-${{ matrix.os }}-${{ github.sha }}
 
   test-unit:
     name: Unit test
     strategy:
       matrix:
         os: [ubuntu-latest, windows-latest, macos-latest]
-        node: [18.19, 20, 22]
+        node: [18.19, 20]
 
     runs-on: ${{ matrix.os }}
 
@@ -91,8 +91,8 @@ jobs:
       - name: Checkout codes
         uses: actions/checkout@v4
 
-      - name: Install pnpm
-        uses: pnpm/action-setup@v4
+      - name: Enable corepack
+        run: corepack enable
 
       - name: Setup node
         uses: actions/setup-node@v4
@@ -107,16 +107,12 @@ jobs:
         run: |
           pnpm test:cover
 
-  test-e2e:
-    name: E2E test
-
-    needs:
-      - build
-
+  test-type:
+    name: Type checking
     strategy:
       matrix:
-        os: [ubuntu-latest, windows-latest, macos-latest]
-        node: [18.19, 20, 22]
+        os: [ubuntu-latest]
+        node: [18]
 
     runs-on: ${{ matrix.os }}
 
@@ -124,8 +120,8 @@ jobs:
       - name: Checkout codes
         uses: actions/checkout@v4
 
-      - name: Install pnpm
-        uses: pnpm/action-setup@v4
+      - name: Enable corepack
+        run: corepack enable
 
       - name: Setup node
         uses: actions/setup-node@v4
@@ -136,14 +132,118 @@ jobs:
       - name: Install dependencies
         run: pnpm install --no-frozen-lockfile
 
+      - name: Run type checking
+        run: pnpm test:type
+
+  test-e2e:
+    name: E2E test
+
+    needs:
+      - build
+
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        node: [18.19, 20]
+
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - name: Checkout codes
+        uses: actions/checkout@v4
+
+      - name: Enable corepack
+        run: corepack enable
+
+      - name: Setup node
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --no-frozen-lockfile
+
+      # https://github.com/vitejs/vite/blob/main/.github/workflows/ci.yml#L62
+      # Install playwright's binary under custom directory to cache
+      - name: Set Playwright path
+        if: runner.os != 'Windows'
+        run: echo "PLAYWRIGHT_BROWSERS_PATH=$HOME/.cache/playwright-bin" >> $GITHUB_ENV
+      - name: Set Playwright path (windows)
+        if: runner.os == 'Windows'
+        run: echo "PLAYWRIGHT_BROWSERS_PATH=$HOME\.cache\playwright-bin" >> $env:GITHUB_ENV
+
+      - name: Cache Playwright's binary
+        uses: actions/cache@v4
+        with:
+          # Playwright removes unused browsers automatically
+          # So does not need to add playwright version to key
+          key: ${{ runner.os }}-playwright-bin-v1
+          path: ${{ env.PLAYWRIGHT_BROWSERS_PATH }}
+
       - name: Install Playwright
-        run: pnpm playwright-core install chromium
+        # does not need to explicitly set chromium after https://github.com/microsoft/playwright/issues/14862 is solved
+        run: pnpm playwright install chromium
 
       - name: Restore dist cache
         uses: actions/cache@v4
         with:
           path: packages/*/dist
-          key: build-vue-i18n-os-${{ matrix.os }}-${{ github.sha }}
+          key: build-vue-i18n-next-os-${{ matrix.os }}-${{ github.sha }}
 
       - name: Run e2e tests
         run: pnpm test:e2e
+
+  edge-release:
+    if: |
+      github.event_name == 'push' &&
+      !contains(github.event.head_commit.message, '[skip-release]') &&
+      !contains(github.event.head_commit.message, 'chore') &&
+      !contains(github.event.head_commit.message, 'docs')
+
+    needs:
+      - lint
+      - build
+      - test-unit
+      - test-type
+      - test-e2e
+
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+        node: [18]
+
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - name: Checkout codes
+        uses: actions/checkout@v4
+
+      - name: Enable corepack
+        run: corepack enable
+
+      - name: Setup node
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --no-frozen-lockfile
+
+      - name: Restore dist cache
+        uses: actions/cache@v4
+        with:
+          path: packages/*/dist
+          key: build-vue-i18n-next-os-${{ matrix.os }}-${{ github.sha }}
+
+      - name: Upload message-compiler dist files (debug)
+        uses: actions/upload-artifact@v4
+        with:
+          name: message-compiler
+          path: packages/message-compiler/dist
+
+      - name: Release edge version
+        run: ./scripts/release-edge.sh
+        env:
+          NPM_AUTH_TOKEN: ${{secrets.NPM_AUTH_TOKEN}}
