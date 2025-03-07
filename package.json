@@ -8,10 +8,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/intlify/vue-i18n-next.git"
+    "url": "git+https://github.com/intlify/vue-i18n.git"
   },
   "bugs": {
-    "url": "https://github.com/inlitify/vue-i18n-next/issues"
+    "url": "https://github.com/inlitify/vue-i18n/issues"
   },
   "scripts": {
     "benchmark": "node ./benchmark/index.mjs",
