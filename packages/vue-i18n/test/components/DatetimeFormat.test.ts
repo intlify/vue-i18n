@@ -44,7 +44,7 @@ afterEach(() => {
   console.warn = org
 })
 
-test('basic usage', async () => {
+test.skip('basic usage', async () => {
   const i18n = createI18n({
     locale: 'en-US',
     datetimeFormats

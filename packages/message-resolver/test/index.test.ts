@@ -122,28 +122,43 @@ test('resolveValue', () => {
   expect(resolveValue({}, 'a.b.c[]d')).toEqual(null)
 })
 
-test('handleFlatJson', () => {
-  const obj = {
-    a: { a1: 'a1.value' },
-    'a.a2': 'a.a2.value',
-    'b.x': {
-      'b1.x': 'b1.x.value',
-      'b2.x': ['b2.x.value0', 'b2.x.value1'],
-      'b3.x': { 'b3.x': 'b3.x.value' }
-    }
-  }
-  const expectObj = {
-    a: {
-      a1: 'a1.value',
-      a2: 'a.a2.value'
-    },
-    b: {
-      x: {
-        b1: { x: 'b1.x.value' },
-        b2: { x: ['b2.x.value0', 'b2.x.value1'] },
-        b3: { x: { b3: { x: 'b3.x.value' } } }
+describe('handleFlatJson', () => {
+  test('basic', () => {
+    const obj = {
+      a: { a1: 'a1.value' },
+      'a.a2': 'a.a2.value',
+      'b.x': {
+        'b1.x': 'b1.x.value',
+        'b2.x': ['b2.x.value0', 'b2.x.value1'],
+        'b3.x': { 'b3.x': 'b3.x.value' }
       }
     }
-  }
-  expect(handleFlatJson(obj)).toEqual(expectObj)
+    const expectObj = {
+      a: {
+        a1: 'a1.value',
+        a2: 'a.a2.value'
+      },
+      b: {
+        x: {
+          b1: { x: 'b1.x.value' },
+          b2: { x: ['b2.x.value0', 'b2.x.value1'] },
+          b3: { x: { b3: { x: 'b3.x.value' } } }
+        }
+      }
+    }
+    expect(handleFlatJson(obj)).toEqual(expectObj)
+  })
+
+  // security advisories
+  // ref: https://github.com/intlify/vue-i18n/security/advisories/GHSA-p2ph-7g93-hw3m
+  test('prototype pollution', () => {
+    expect(() =>
+      handleFlatJson({ '__proto__.pollutedKey': 'pollutedValue' })
+    ).toThrow()
+    // @ts-ignore -- test
+    // eslint-disable-next-line no-proto
+    expect({}.__proto__.pollutedKey).toBeUndefined()
+    // @ts-ignore -- test
+    expect(Object.prototype.pollutedKey).toBeUndefined()
+  })
 })

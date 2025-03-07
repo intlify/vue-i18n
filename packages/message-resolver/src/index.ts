@@ -351,8 +351,11 @@ export function handleFlatJson(obj: unknown): unknown {
       const lastIndex = subKeys.length - 1
       let currentObj = obj
       for (let i = 0; i < lastIndex; i++) {
+        if (subKeys[i] === '__proto__') {
+          throw new Error(`unsafe key: ${subKeys[i]}`)
+        }
         if (!(subKeys[i] in currentObj)) {
-          currentObj[subKeys[i]] = {}
+          currentObj[subKeys[i]] = Object.create(null)
         }
         currentObj = currentObj[subKeys[i]]
       }
