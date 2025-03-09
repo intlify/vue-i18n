@@ -13,8 +13,8 @@ import {
 
 import type {
   App,
+  Component,
   ComponentObjectPropsOptions,
-  ComponentOptions,
   ComponentPublicInstance,
   VNode
 } from 'vue'
@@ -24,7 +24,7 @@ import type { I18nPluginOptions } from '../src/plugin/types'
 export interface MountOptions {
   propsData: Record<string, any> // eslint-disable-line @typescript-eslint/no-explicit-any
   provide: Record<string | symbol, any> // eslint-disable-line @typescript-eslint/no-explicit-any
-  components: ComponentOptions['components']
+  components: Record<string, Component>
   slots: Record<string, string>
   installI18n: boolean
   pluginOptions?: I18nPluginOptions
