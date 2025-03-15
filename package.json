@@ -122,7 +122,7 @@
     "npm-run-all2": "^7.0.0",
     "opener": "^1.5.2",
     "oxc-parser": "^0.58.0",
-    "oxc-transform": "^0.51.0",
+    "oxc-transform": "^0.58.0",
     "picocolors": "^1.0.0",
     "pkg-pr-new": "^0.0.41",
     "playwright-core": "^1.45.3",
