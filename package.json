@@ -124,7 +124,7 @@
     "oxc-parser": "^0.51.0",
     "oxc-transform": "^0.51.0",
     "picocolors": "^1.0.0",
-    "pkg-pr-new": "^0.0.39",
+    "pkg-pr-new": "^0.0.41",
     "playwright-core": "^1.45.3",
     "prettier": "^3.3.3",
     "rc": "^1.2.8",
