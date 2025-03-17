@@ -634,7 +634,7 @@ export function createCoreContext<Message = string>(options: any = {}): any {
 const createResources = (locale: Locale) => ({ [locale]: create() })
 
 // TODO: API documentation, if `@intlify/core` will be documented as a separate package
-export function getMessages<
+export function getLocaleMessage<
   Context extends CoreContext,
   Locales = keyof Context['messages'],
   Return = Context['messages'][keyof Context['messages']]
@@ -649,7 +649,7 @@ export function getMessages<
 }
 
 // TODO: API documentation, if `@intlify/core` will be documented as a separate package
-export function setMessages<
+export function setLocaleMessage<
   Context extends CoreContext,
   Locales = keyof Context['messages']
 >(

@@ -1,7 +1,7 @@
 import {
   createCoreContext as context,
-  getMessages,
-  setMessages
+  getLocaleMessage,
+  setLocaleMessage
 } from '../src/context'
 
 describe('locale', () => {
@@ -175,7 +175,7 @@ describe('escapeParameter', () => {
   })
 })
 
-describe('getMessages', () => {
+describe('getLocaleMessage', () => {
   test('exist locale', () => {
     const ctx = context({
       messages: {
@@ -183,7 +183,7 @@ describe('getMessages', () => {
         ja: { hello: 'こんにちは！' }
       }
     })
-    const messages = getMessages(ctx, 'en')
+    const messages = getLocaleMessage(ctx, 'en')
     expect(messages).toEqual({ hello: 'hello' })
   })
 
@@ -194,7 +194,7 @@ describe('getMessages', () => {
         en: { hello: 'hello' }
       }
     })
-    const messages = getMessages(ctx, 'ja')
+    const messages = getLocaleMessage(ctx, 'ja')
     expect(messages).toBeUndefined()
   })
 })
@@ -207,6 +207,6 @@ test('setMessages', () => {
     }
   })
 
-  setMessages(ctx, 'ja', { hello: 'こんにちは！' })
-  expect(getMessages(ctx, 'ja')).toMatchObject({ hello: 'こんにちは！' })
+  setLocaleMessage(ctx, 'ja', { hello: 'こんにちは！' })
+  expect(getLocaleMessage(ctx, 'ja')).toMatchObject({ hello: 'こんにちは！' })
 })

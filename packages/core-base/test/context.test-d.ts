@@ -1,4 +1,4 @@
-import { createCoreContext, getMessages } from '../src'
+import { createCoreContext, getLocaleMessage } from '../src'
 
 import type {
   DateTimeFormat,
@@ -130,7 +130,7 @@ test('strict context', () => {
     ja: NumberFormat
   }>()
 
-  expectTypeOf(getMessages(strictCtx, 'en')).toEqualTypeOf<
+  expectTypeOf(getLocaleMessage(strictCtx, 'en')).toEqualTypeOf<
     ResourceSchema | undefined
   >()
 })
@@ -202,7 +202,7 @@ test('strict context with direct options', () => {
     }
   }>()
 
-  expectTypeOf(getMessages(strictDirectCtx, 'en')).toEqualTypeOf<
+  expectTypeOf(getLocaleMessage(strictDirectCtx, 'en')).toEqualTypeOf<
     ResourceSchema | undefined
   >()
 
