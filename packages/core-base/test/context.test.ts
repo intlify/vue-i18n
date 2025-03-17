@@ -1,4 +1,8 @@
-import { createCoreContext as context } from '../src/context'
+import {
+  createCoreContext as context,
+  getLocaleMessage,
+  setLocaleMessage
+} from '../src/context'
 
 describe('locale', () => {
   test('default', () => {
@@ -169,4 +173,40 @@ describe('escapeParameter', () => {
     const ctx = context({ escapeParameter: true })
     expect(ctx.escapeParameter).toEqual(true)
   })
+})
+
+describe('getLocaleMessage', () => {
+  test('exist locale', () => {
+    const ctx = context({
+      messages: {
+        en: { hello: 'hello' },
+        ja: { hello: 'こんにちは！' }
+      }
+    })
+    const messages = getLocaleMessage(ctx, 'en')
+    expect(messages).toEqual({ hello: 'hello' })
+  })
+
+  test('not exist locale', () => {
+    const ctx = context({
+      locale: 'en',
+      messages: {
+        en: { hello: 'hello' }
+      }
+    })
+    const messages = getLocaleMessage(ctx, 'ja')
+    expect(messages).toBeUndefined()
+  })
+})
+
+test('setMessages', () => {
+  const ctx = context({
+    locale: 'en',
+    messages: {
+      en: { hello: 'hello' }
+    }
+  })
+
+  setLocaleMessage(ctx, 'ja', { hello: 'こんにちは！' })
+  expect(getLocaleMessage(ctx, 'ja')).toMatchObject({ hello: 'こんにちは！' })
 })

@@ -3,6 +3,7 @@
 import {
   assign,
   create,
+  deepCopy,
   isArray,
   isBoolean,
   isFunction,
@@ -431,6 +432,7 @@ export const getFallbackContext = (): CoreContext | null => _fallbackContext
 // ID for CoreContext
 let _cid = 0
 
+// TODO: API documentation, if `@intlify/core` will be documented as a separate package
 export function createCoreContext<
   Message = string,
   Options extends CoreOptions<Message> = CoreOptions<Message>,
@@ -630,6 +632,33 @@ export function createCoreContext<Message = string>(options: any = {}): any {
 }
 
 const createResources = (locale: Locale) => ({ [locale]: create() })
+
+// TODO: API documentation, if `@intlify/core` will be documented as a separate package
+export function getLocaleMessage<
+  Context extends CoreContext,
+  Locales = keyof Context['messages'],
+  Return = Context['messages'][keyof Context['messages']]
+>(ctx: Context, locale: Locales): Return | undefined {
+  const src = (ctx.messages as any)[locale]
+  if (src == null) {
+    return undefined
+  }
+  const dest = create()
+  deepCopy(src, dest)
+  return dest as Return
+}
+
+// TODO: API documentation, if `@intlify/core` will be documented as a separate package
+export function setLocaleMessage<
+  Context extends CoreContext,
+  Locales = keyof Context['messages']
+>(
+  ctx: Context,
+  locale: Locales,
+  messages: Context['messages'][keyof Context['messages']]
+): void {
+  ;(ctx.messages as any)[locale] = messages
+}
 
 /** @internal */
 export function isTranslateFallbackWarn(
