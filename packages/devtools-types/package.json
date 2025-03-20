@@ -25,6 +25,7 @@
   "files": [
     "dist"
   ],
+  "type": "module",
   "module": "dist/devtools-types.js",
   "types": "dist/devtools-types.d.ts",
   "dependencies": {

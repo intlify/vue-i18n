@@ -25,6 +25,7 @@
   "files": [
     "dist"
   ],
+  "type": "module",
   "module": "dist/shared.js",
   "types": "dist/shared.d.ts",
   "engines": {
