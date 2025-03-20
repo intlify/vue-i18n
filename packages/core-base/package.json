@@ -26,6 +26,7 @@
   "files": [
     "dist"
   ],
+  "type": "module",
   "module": "dist/core-base.js",
   "unpkg": "dist/core-base.global.js",
   "jsdelivr": "dist/core-base.global.js",

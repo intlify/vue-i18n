@@ -26,6 +26,7 @@
   "files": [
     "dist"
   ],
+  "type": "module",
   "module": "dist/core.js",
   "unpkg": "dist/core.global.js",
   "jsdelivr": "dist/core.global.js",

@@ -26,6 +26,7 @@
   "files": [
     "dist"
   ],
+  "type": "module",
   "module": "dist/message-compiler.js",
   "unpkg": "dist/message-compiler.global.js",
   "jsdelivr": "dist/message-compiler.global.js",
