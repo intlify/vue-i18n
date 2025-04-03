@@ -127,7 +127,7 @@ The maintenance detail status of Vue I18n v9 and Vue I18n v10 is as follows:
 
 You can check the maintenance status on the [docs](https://vue-i18n.intlify.dev/guide/maintenance.html)
 
-### ❗ Braeking Changes
+### ❗ Breaking Changes
 
 - feat!: deprecate Legacy API mode by @kazupon in https://github.com/intlify/vue-i18n/pull/2016
 - breaking: drop `$tc` and `tc` by @kazupon in https://github.com/intlify/vue-i18n/pull/2017
@@ -403,7 +403,7 @@ For more details on the deprecated features, see the [docs](https://vue-i18n.int
 - feat: support generated locale type by @BobbieGoede in https://github.com/intlify/vue-i18n/pull/1890
 - feat!: change `$t` overloaded signature for Legacy API mode by @kazupon in https://github.com/intlify/vue-i18n-next/pull/1832
 
-# ❗ Braeking Changes
+# ❗ Breaking Changes
 
 - breaking: drop translation component `<i18n>` v8.x compatibility by @kazupon in https://github.com/intlify/vue-i18n-next/pull/1844
 - breaking: drop `te` behavior v8.x compatibility on v9 by @kazupon in https://github.com/intlify/vue-i18n-next/pull/1845
