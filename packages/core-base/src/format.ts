@@ -1,8 +1,18 @@
 import { NodeTypes } from '@intlify/message-compiler'
 import { hasOwn, isNumber } from '@intlify/shared'
+import {
+  createUnhandleNodeError,
+  resolveBody,
+  resolveCases,
+  resolveItems,
+  resolveLinkedKey,
+  resolveLinkedModifier,
+  resolveStatic,
+  resolveType,
+  resolveValue
+} from './ast'
 
 import type {
-  LinkedModifierNode,
   LinkedNode,
   ListNode,
   MessageNode,
@@ -53,22 +63,6 @@ export function formatParts<Message = string>(
   }
 }
 
-const PROPS_BODY = ['b', 'body']
-
-function resolveBody(node: ResourceNode) {
-  return resolveProps<MessageNode | PluralNode>(node, PROPS_BODY)
-}
-
-const PROPS_CASES = ['c', 'cases']
-
-function resolveCases(node: PluralNode) {
-  return resolveProps<PluralNode['cases'], PluralNode['cases']>(
-    node,
-    PROPS_CASES,
-    []
-  )
-}
-
 export function formatMessageParts<Message = string>(
   ctx: MessageContext<Message>,
   node: MessageNode
@@ -85,22 +79,6 @@ export function formatMessageParts<Message = string>(
     )
     return ctx.normalize(messages) as MessageFunctionReturn<Message>
   }
-}
-
-const PROPS_STATIC = ['s', 'static']
-
-function resolveStatic(node: MessageNode) {
-  return resolveProps(node, PROPS_STATIC)
-}
-
-const PROPS_ITEMS = ['i', 'items']
-
-function resolveItems(node: MessageNode) {
-  return resolveProps<MessageNode['items'], MessageNode['items']>(
-    node,
-    PROPS_ITEMS,
-    []
-  )
 }
 
 type NodeValue<Message> = {
@@ -159,64 +137,4 @@ export function formatMessagePart<Message = string>(
     default:
       throw new Error(`unhandled node on format message part: ${type}`)
   }
-}
-
-const PROPS_TYPE = ['t', 'type']
-
-export function resolveType(node: Node) {
-  return resolveProps<NodeTypes>(node, PROPS_TYPE)
-}
-
-const PROPS_VALUE = ['v', 'value']
-
-function resolveValue<Message = string>(
-  node: { v?: MessageType<Message>; value?: MessageType<Message> },
-  type: NodeTypes
-): MessageType<Message> {
-  const resolved = resolveProps<Message>(
-    node as Node,
-    PROPS_VALUE
-  ) as MessageType<Message>
-  if (resolved) {
-    return resolved
-  } else {
-    throw createUnhandleNodeError(type)
-  }
-}
-
-const PROPS_MODIFIER = ['m', 'modifier']
-
-function resolveLinkedModifier(node: LinkedNode) {
-  return resolveProps<LinkedModifierNode>(node, PROPS_MODIFIER)
-}
-
-const PROPS_KEY = ['k', 'key']
-
-function resolveLinkedKey(node: LinkedNode) {
-  const resolved = resolveProps<LinkedNode['key']>(node, PROPS_KEY)
-  if (resolved) {
-    return resolved
-  } else {
-    throw createUnhandleNodeError(NodeTypes.Linked)
-  }
-}
-
-function resolveProps<T = string, Default = undefined>(
-  node: Node,
-  props: string[],
-  defaultValue?: Default
-): T | Default {
-  for (let i = 0; i < props.length; i++) {
-    const prop = props[i]
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    if (hasOwn(node, prop) && (node as any)[prop] != null) {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      return (node as any)[prop] as T
-    }
-  }
-  return defaultValue as Default
-}
-
-function createUnhandleNodeError(type: NodeTypes) {
-  return new Error(`unhandled node type: ${type}`)
 }

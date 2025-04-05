@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-empty-function, @typescript-eslint/no-explicit-any */
 
 import { baseCompile } from '@intlify/message-compiler'
+import { ast } from './fixtures/ast'
 
 // utils
 import * as shared from '@intlify/shared'
@@ -989,6 +990,19 @@ describe('AST passing', () => {
       }
     })
     expect(translate(ctx, 'hi')).toEqual('hi kazupon !')
+  })
+
+  test.skip('json path key', () => {
+    const ctx = context({
+      locale: 'en',
+      messages: {
+        en: ast
+      }
+    })
+    expect(translate(ctx, 'languages')).toEqual('languages')
+    expect(translate(ctx, 'product')).toEqual('Product')
+    expect(translate(ctx, 'product.type')).toEqual('Product type')
+    expect(translate(ctx, 'product.test.type')).toEqual('Product test type')
   })
 })
 

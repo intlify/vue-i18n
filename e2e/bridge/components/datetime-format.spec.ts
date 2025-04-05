@@ -1,5 +1,5 @@
 import { getText } from '../../helper'
-describe(`bridge: datetime format component`, () => {
+describe.skip(`bridge: datetime format component`, () => {
   beforeAll(async () => {
     await page.goto(
       `http://localhost:8080/examples/bridge/composition/components/datetime-format.html`

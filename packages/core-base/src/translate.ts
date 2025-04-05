@@ -17,7 +17,7 @@ import {
   create,
   isObject
 } from '@intlify/shared'
-import { isMessageAST } from './compilation'
+import { isMessageAST } from './ast'
 import { createMessageContext } from './runtime'
 import {
   isTranslateFallbackWarn,

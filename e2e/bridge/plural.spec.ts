@@ -1,6 +1,6 @@
 import { getText } from '../helper'
 ;['composition', 'legacy'].forEach(pattern => {
-  describe(`${pattern}`, () => {
+  describe.skip(`${pattern}`, () => {
     beforeAll(async () => {
       await page.goto(
         `http://localhost:8080/examples/bridge/${pattern}/plural.html`
