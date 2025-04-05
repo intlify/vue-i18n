@@ -1,5 +1,4 @@
 // utils
-import * as shared from '@intlify/shared'
 vi.mock('@intlify/shared', async () => {
   const actual = await vi.importActual<object>('@intlify/shared')
   return {
@@ -9,7 +8,8 @@ vi.mock('@intlify/shared', async () => {
 })
 
 import { baseCompile } from '@intlify/message-compiler'
-import { compile, isMessageAST, clearCompileCache } from '../src/compilation'
+import { isMessageAST } from '../src/ast'
+import { clearCompileCache, compile } from '../src/compilation'
 import { createMessageContext as context } from '../src/runtime'
 
 const DEFAULT_CONTEXT = { locale: 'en', key: 'key' }

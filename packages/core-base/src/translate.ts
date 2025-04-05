@@ -17,7 +17,7 @@ import {
   measure,
   warn
 } from '@intlify/shared'
-import { isMessageAST } from './compilation'
+import { isMessageAST } from './ast'
 import {
   CoreContext,
   getAdditionalMeta,

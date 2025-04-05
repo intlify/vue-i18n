@@ -6,6 +6,7 @@ export {
   createCompileError,
   ResourceNode
 } from '@intlify/message-compiler'
+export { AST_NODE_PROPS_KEYS, isMessageAST } from './ast'
 export * from './compilation'
 export * from './context'
 export * from './datetime'
