@@ -77,4 +77,9 @@ describe('handleFlatJson', () => {
     // @ts-ignore -- test
     expect(Object.prototype.pollutedKey).toBeUndefined()
   })
+
+  test('ast has json path', async () => {
+    const { ast } = await import('./fixtures/ast')
+    expect(handleFlatJson(ast)).toStrictEqual(ast)
+  })
 })
