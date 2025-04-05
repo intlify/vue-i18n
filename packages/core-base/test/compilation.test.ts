@@ -8,7 +8,8 @@ vi.mock('@intlify/shared', async () => {
 })
 
 import { baseCompile } from '@intlify/message-compiler'
-import { clearCompileCache, compile, isMessageAST } from '../src/compilation'
+import { isMessageAST } from '../src/ast'
+import { clearCompileCache, compile } from '../src/compilation'
 import { createMessageContext as context } from '../src/runtime'
 
 const DEFAULT_CONTEXT = { locale: 'en', key: 'key' }
