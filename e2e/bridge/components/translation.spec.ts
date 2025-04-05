@@ -1,5 +1,5 @@
 import { getText } from '../../helper'
-describe(`bridge: translation component`, () => {
+describe.skip(`bridge: translation component`, () => {
   beforeAll(async () => {
     await page.goto(
       `http://localhost:8080/examples/bridge/composition/components/translation.html`

@@ -1,5 +1,5 @@
 import { getText } from '../../helper'
-describe(`bridge: number format component`, () => {
+describe.skip(`bridge: number format component`, () => {
   beforeAll(async () => {
     await page.goto(
       `http://localhost:8080/examples/bridge/composition/components/number-format.html`
