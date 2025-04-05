@@ -1,4 +1,4 @@
-import type { IsNever } from '@intlify/core-base'
+import type { GeneratedTypeConfig, IsNever } from '@intlify/core-base'
 import type { ExportedGlobalComposer } from './i18n'
 import type { VueI18n } from './legacy'
 
@@ -16,14 +16,14 @@ export type Disposer = () => void
  * ```ts
  * // generated-i18n-types.d.ts (`.d.ts` file at your app)
  *
- * declare module '@intlify/vue-i18n-core' {
+ * declare module '@intlify/core-base' {
  *   interface GeneratedTypeConfig {
  *     legacy: false
  *   }
  * }
  * ```
  */
-export interface GeneratedTypeConfig {}
+export { GeneratedTypeConfig }
 
 /**
  * Narrowed i18n instance type based on `GeneratedTypeConfig['legacy']`
