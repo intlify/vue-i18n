@@ -1,4 +1,5 @@
 import { parse, resolveValue } from '../src/resolver'
+import { ast } from './fixtures/ast'
 
 test('parse', () => {
   expect(parse('a')).toEqual(['a'])
@@ -89,40 +90,51 @@ test('parse', () => {
   expect(parse('🌐.🌐')).toEqual(['🌐', '🌐'])
 })
 
-test('resolveValue', () => {
-  // primitive
-  expect(resolveValue({ a: { b: 1 } }, 'a.b')).toEqual(1)
-  // whitespace
-  expect(resolveValue({ 'a c': 1 }, 'a c')).toEqual(1)
-  expect(resolveValue({ 'a\tc': 1 }, 'a\tc')).toEqual(null)
-  // object
-  expect(resolveValue({ a: { b: 1 } }, 'a')).toEqual({ b: 1 })
-  expect(resolveValue({ a: { 'b c d': 1 } }, 'a.b c d')).toEqual(1)
-  // number key in object
-  expect(
-    resolveValue({ errors: { '1': 'error number 1' } }, 'errors[1]')
-  ).toEqual('error number 1')
-  // array index path
-  expect(resolveValue({ errors: ['error number 0'] }, 'errors[0]')).toEqual(
-    'error number 0'
-  )
-  // array path
-  expect(resolveValue({ errors: ['error number 0'] }, 'errors')).toEqual([
-    'error number 0'
-  ])
-  // not found
-  expect(resolveValue({}, 'a.b')).toEqual(null)
-  // object primitive
-  expect(resolveValue(10, 'a.b')).toEqual(null)
-  // object null
-  expect(resolveValue(null, 'a.b')).toEqual(null)
-  // blanket term
-  expect(resolveValue({}, 'a.b.c[]')).toEqual(null)
-  // blanket middle
-  expect(resolveValue({}, 'a.b.c[]d')).toEqual(null)
-  // function
-  const fn = () => 1
-  expect(resolveValue({ a: fn }, 'a.name')).toEqual(null)
-  expect(resolveValue({ a: fn }, 'a.toString')).toEqual(null)
-  expect(resolveValue({ a: fn }, 'a')).toEqual(fn)
+describe('resolveValue', () => {
+  test('basic', () => {
+    // primitive
+    expect(resolveValue({ a: { b: 1 } }, 'a.b')).toEqual(1)
+    // whitespace
+    expect(resolveValue({ 'a c': 1 }, 'a c')).toEqual(1)
+    expect(resolveValue({ 'a\tc': 1 }, 'a\tc')).toEqual(null)
+    // object
+    expect(resolveValue({ a: { b: 1 } }, 'a')).toEqual({ b: 1 })
+    expect(resolveValue({ a: { 'b c d': 1 } }, 'a.b c d')).toEqual(1)
+    // number key in object
+    expect(
+      resolveValue({ errors: { '1': 'error number 1' } }, 'errors[1]')
+    ).toEqual('error number 1')
+    // array index path
+    expect(resolveValue({ errors: ['error number 0'] }, 'errors[0]')).toEqual(
+      'error number 0'
+    )
+    // array path
+    expect(resolveValue({ errors: ['error number 0'] }, 'errors')).toEqual([
+      'error number 0'
+    ])
+    // not found
+    expect(resolveValue({}, 'a.b')).toEqual(null)
+    // object primitive
+    expect(resolveValue(10, 'a.b')).toEqual(null)
+    // object null
+    expect(resolveValue(null, 'a.b')).toEqual(null)
+    // blanket term
+    expect(resolveValue({}, 'a.b.c[]')).toEqual(null)
+    // blanket middle
+    expect(resolveValue({}, 'a.b.c[]d')).toEqual(null)
+    // function
+    const fn = () => 1
+    expect(resolveValue({ a: fn }, 'a.name')).toEqual(null)
+    expect(resolveValue({ a: fn }, 'a.toString')).toEqual(null)
+    expect(resolveValue({ a: fn }, 'a')).toEqual(fn)
+    // json path
+    expect(resolveValue({ 'a.b': 1 }, 'a.b')).toEqual(null)
+  })
+
+  test('ast', () => {
+    expect(resolveValue(ast, 'language')).toEqual(ast.language)
+    expect(resolveValue(ast, 'product')).toEqual(ast.product)
+    expect(resolveValue(ast, 'product.type')).toEqual(null)
+    expect(resolveValue(ast, 'product.test.type')).toEqual(null)
+  })
 })
