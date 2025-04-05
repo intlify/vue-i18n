@@ -23,6 +23,7 @@ import {
 } from '@intlify/core-base'
 import { defineComponent, getCurrentInstance, nextTick, ref } from 'vue'
 import { createI18n, useI18n } from '../src/i18n'
+import { ast } from './fixtures/ast'
 import { mount } from './helper'
 
 import type { ComponentOptions } from 'vue'
@@ -1179,5 +1180,32 @@ describe('CVE-2024-52809', () => {
       }
     })
     expect(() => i18n.global.t('hello')).toThrow(`unhandled node type: 3`)
+  })
+})
+
+describe('#2156', () => {
+  test('flatJson: false', () => {
+    const i18n = createI18n({
+      locale: 'en',
+      messages: {
+        en: ast
+      }
+    })
+    expect(i18n.global.t('product')).toEqual('Product')
+    expect(i18n.global.t('product.type')).toEqual('Product type')
+    expect(i18n.global.t('product.test.type')).toEqual('Product test type')
+  })
+
+  test('flatJson: true', () => {
+    const i18n = createI18n({
+      locale: 'en',
+      flatJson: true,
+      messages: {
+        en: ast
+      }
+    })
+    expect(i18n.global.t('product')).toEqual('Product')
+    expect(i18n.global.t('product.type')).toEqual('Product type')
+    expect(i18n.global.t('product.test.type')).toEqual('Product test type')
   })
 })
