@@ -1,13 +1,6 @@
-import {
-  format,
-  hasOwn,
-  isBoolean,
-  isObject,
-  isString,
-  create,
-  warn
-} from '@intlify/shared'
-import { format as formatMessage, resolveType } from './format'
+import { format, isBoolean, isString, create, warn } from '@intlify/shared'
+import { isMessageAST } from './ast'
+import { format as formatMessage } from './format'
 import {
   baseCompile as baseCompileCore,
   CompileWarnCodes,
@@ -21,7 +14,6 @@ import type {
   CompileError,
   CompilerResult,
   ResourceNode,
-  Node,
   CompileWarn
 } from '@intlify/message-compiler'
 import type { MessageFunction, MessageFunctions } from './runtime'
@@ -51,14 +43,6 @@ function onCompileWarn(_warn: CompileWarn): void {
 
 export function clearCompileCache(): void {
   compileCache = create()
-}
-
-export function isMessageAST(val: unknown): val is ResourceNode {
-  return (
-    isObject(val) &&
-    resolveType(val as Node) === 0 &&
-    (hasOwn(val, 'b') || hasOwn(val, 'body'))
-  )
 }
 
 function baseCompile(

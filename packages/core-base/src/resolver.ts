@@ -1,4 +1,5 @@
-import { isObject, isFunction } from '@intlify/shared'
+import { isFunction, isObject } from '@intlify/shared'
+import { AST_NODE_PROPS_KEYS, isMessageAST } from './ast'
 
 /** @VueI18nGeneral */
 export type Path = string
@@ -344,7 +345,16 @@ export function resolveValue(obj: unknown, path: Path): PathValue {
   let last = obj
   let i = 0
   while (i < len) {
-    const val = last[hit[i]]
+    const key = hit[i]
+    /**
+     * NOTE:
+     * if `key` is intlify message format AST node key and `last` is intlify message format AST, skip it.
+     * because the AST node is not a key-value structure.
+     */
+    if (AST_NODE_PROPS_KEYS.includes(key) && isMessageAST(last)) {
+      return null
+    }
+    const val = last[key]
     if (val === undefined) {
       return null
     }

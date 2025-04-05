@@ -9,11 +9,11 @@ vi.mock('@intlify/shared', async () => {
 })
 
 import { baseCompile } from '@intlify/message-compiler'
+import { isMessageAST } from '../src/ast'
 import {
   compileToFunction,
-  compile,
-  isMessageAST,
-  clearCompileCache
+  clearCompileCache,
+  compile
 } from '../src/compilation'
 import { createMessageContext as context } from '../src/runtime'
 

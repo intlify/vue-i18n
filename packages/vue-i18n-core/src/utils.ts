@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { AST_NODE_PROPS_KEYS, isMessageAST } from '@intlify/core-base'
 import {
   isArray,
   isObject,
@@ -56,6 +57,10 @@ export function handleFlatJson(obj: unknown): unknown {
     return obj
   }
 
+  if (isMessageAST(obj)) {
+    return obj
+  }
+
   for (const key in obj as object) {
     // check key
     if (!hasOwn(obj, key)) {
@@ -97,12 +102,26 @@ export function handleFlatJson(obj: unknown): unknown {
       }
       // update last object value, delete old property
       if (!hasStringValue) {
-        currentObj[subKeys[lastIndex]] = obj[key]
-        delete obj[key]
+        if (!isMessageAST(currentObj)) {
+          currentObj[subKeys[lastIndex]] = obj[key]
+          delete obj[key]
+        } else {
+          /**
+           * NOTE:
+           * if the last object is a message AST and subKeys[lastIndex] has message AST prop key, ignore to copy and key deletion
+           */
+          if (!AST_NODE_PROPS_KEYS.includes(subKeys[lastIndex])) {
+            delete obj[key]
+          }
+        }
       }
+
       // recursive process value if value is also a object
-      if (isObject(currentObj[subKeys[lastIndex]])) {
-        handleFlatJson(currentObj[subKeys[lastIndex]])
+      if (!isMessageAST(currentObj)) {
+        const target = currentObj[subKeys[lastIndex]]
+        if (isObject(target)) {
+          handleFlatJson(target)
+        }
       }
     }
   }
