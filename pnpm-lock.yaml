@@ -1633,6 +1633,10 @@ packages:
     resolution: {integrity: sha512-ntY/kfBwQRtX5Zh6wL8cSATujPzWW2ZQd1QwKyWwAy5fMqJyyixHMeovN4fmEyCqSu+hFfYOE63nU94evsy4YA==}
     engines: {node: '>= 16'}
 
+  '@intlify/message-compiler@9.14.4':
+    resolution: {integrity: sha512-vcyCLiVRN628U38c3PbahrhbbXrckrM9zpy0KZVlDk2Z0OnGwv8uQNNXP3twwGtfLsCf4gu3ci6FMIZnPaqZsw==}
+    engines: {node: '>= 16'}
+
   '@intlify/shared@11.0.1':
     resolution: {integrity: sha512-lH164+aDDptHZ3dBDbIhRa1dOPQUp+83iugpc+1upTOWCnwyC1PVis6rSWNMMJ8VQxvtHQB9JMib48K55y0PvQ==}
     engines: {node: '>= 16'}
@@ -9193,7 +9197,7 @@ snapshots:
   '@intlify/bundle-utils@1.0.0':
     dependencies:
       '@intlify/core': 9.10.2
-      '@intlify/message-compiler': 9.10.2
+      '@intlify/message-compiler': 9.14.4
       '@intlify/shared': 9.11.0
       jsonc-eslint-parser: 1.4.1
       source-map: 0.6.1
@@ -9263,6 +9267,11 @@ snapshots:
   '@intlify/message-compiler@9.10.2':
     dependencies:
       '@intlify/shared': 9.10.2
+      source-map-js: 1.2.1
+
+  '@intlify/message-compiler@9.14.4':
+    dependencies:
+      '@intlify/shared': 9.14.4
       source-map-js: 1.2.1
 
   '@intlify/shared@11.0.1':
