@@ -9,31 +9,8 @@
     "url": "https://plaid.co.jp/",
     "img": "plaid.svg"
   }],
-  "gold": [{
-    "name": "NuxtLabs",
-    "url": "https://nuxtlabs.com/",
-    "img": "nuxtlabs.svg"
-  }, {
-    "name": "Localazy",
-    "url": "https://localazy.com/blog/how-to-localize-vuejs-app-with-vue-i18n-and-localazy?utm_source=kazupon&utm_medium=banner&utm_campaign=sponsorships_kazupon&utm_content=logo",
-    "img": "localazy.svg"
-  }, {
-    "name": "Crowdin",
-    "url": "https://crowdin.com/teams/engineering?utm_source=vue-i18n.intlify.dev&utm_medium=referral",
-    "img": "crowdin.svg"
-  }],
+  "gold": [
+  ],
   "silver": [],
-  "bronze": [{
-    "name": "Froggly",
-    "url": "https://froggly.pl/",
-    "img": "Froggly.svg"
-  }, {
-    "name": "LanguageMonster",
-    "url": "https://languagemonster.com/",
-    "img": "LanguageMonster.svg"
-  }, {
-    "name": "Route Optimizer and Route Planner Software",
-    "url": "https://route4me.com",
-    "img": "Route4Me.png"
-  }]
+  "bronze": []
 }
