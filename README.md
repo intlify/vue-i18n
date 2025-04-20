@@ -11,96 +11,12 @@ Vue I18n is part of the Vue Ecosystem and Intlify Project is an open source proj
 
 - [Become a Sponsor on GitHub](https://github.com/sponsors/kazupon)
 
-<h3 align="center">🏅 Platinum Sponsors</h3>
 
 <p align="center">
-  <a href="https://zenarchitects.co.jp/" target="_blank">
-    <img
-      src="https://raw.githubusercontent.com/intlify/vue-i18n/master/docs/public/zenarchitects.png"
-      width="400px"
-    />
+  <a href="https://cdn.jsdelivr.net/gh/kazupon/sponsors/sponsors.svg">
+    <img src='https://cdn.jsdelivr.net/gh/kazupon/sponsors/sponsors.svg'/>
   </a>
 </p>
-
-<h3 align="center">✨ Special Sponsors</h3>
-
-<p align="center">
-  <a
-    href="https://plaid.co.jp/"
-    target="_blank">
-    <img
-      src="https://raw.githubusercontent.com/intlify/vue-i18n/master/docs/public/plaid.svg"
-      width="240px"
-    />
-  </a>
-</p>
-
-<h3 align="center">🥇 Gold Sponsors</h3>
-
-<p align="center">
-  <a
-    href="https://nuxtlabs.com/"
-    target="_blank">
-    <img
-      src="https://raw.githubusercontent.com/intlify/vue-i18n/master/docs/public/nuxtlabs.svg"
-      width="240px"
-    />
-  </a>
-</p>
-<p align="center">
-  <a
-    href="https://localazy.com/blog/how-to-localize-vuejs-app-with-vue-i18n-and-localazy?utm_source=kazupon&utm_medium=banner&utm_campaign=sponsorships_kazupon&utm_content=logo"
-    target="_blank">
-    <img
-      src="https://raw.githubusercontent.com/intlify/vue-i18n/master/docs/public/localazy.svg"
-      width="240px"
-    />
-  </a>
-</p>
-<p align="center">
-  <a
-    href="https://crowdin.com/teams/engineering?utm_source=vue-i18n.intlify.dev&utm_medium=referral"
-    target="_blank">
-    <img
-      src="https://raw.githubusercontent.com/intlify/vue-i18n/master/docs/public/crowdin.svg"
-      width="240px"
-    />
-  </a>
-</p>
-
-<h3 align="center">🥈 Silver Sponsors</h3>
-
-<h3 align="center">🥉 Bronze Sponsors</h3>
-
-<p align="center">
-  <a href="https://froggly.pl/" target="_blank">
-    <img
-      src="https://raw.githubusercontent.com/intlify/vue-i18n/master/docs/public/Froggly.svg"
-      width="144px"
-    />
-  </a>
-</p>
-
-<p align="center">
-  <a href="https://languagemonster.com/" target="_blank">
-    <img
-      src="https://raw.githubusercontent.com/intlify/vue-i18n/master/docs/public/LanguageMonster.svg"
-      width="144px"
-    />
-  </a>
-</p>
-
-<p align="center">
-  <a href="https://route4me.com" target="_blank">
-    <img
-      src="https://raw.githubusercontent.com/intlify/vue-i18n/master/docs/public/Route4Me.png"
-      width="144px"
-      alt="Route Optimizer and Route Planner Software"
-    />
-  </a>
-</p>
-
-<br/>
 
 ## Status: [![CI](https://github.com/intlify/vue-i18n/actions/workflows/ci.yml/badge.svg)](https://github.com/intlify/vue-i18n/actions/workflows/ci.yml)
 - v11: stable (About maintenance status, see the [here](https://vue-i18n.intlify.dev/guide/maintenance.html))
