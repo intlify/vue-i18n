@@ -1,5 +1,6 @@
 import type { HeadConfig } from 'vitepress'
 import { defineConfig } from 'vitepress'
+import llmstxt from 'vitepress-plugin-llms'
 
 const head: HeadConfig[] = [['link', { rel: 'icon', href: '/vue-i18n-logo.png' }]]
 
@@ -12,6 +13,10 @@ export default defineConfig({
   head,
 
   markdown: { attrs: { disable: true } },
+
+  vite: {
+    plugins: [llmstxt()]
+  },
 
   themeConfig: {
     logo: '/vue-i18n-logo.svg',
