@@ -1213,6 +1213,83 @@ describe('n', () => {
     })
     expect(n(0.99, { key: 'percent' })).toEqual('')
   })
+
+  test('part formating with n', () => {
+    const { n } = createComposer({
+      locale: 'en-US',
+      fallbackLocale: ['ja-JP'],
+      numberFormats: {
+        'en-US': {
+          currency: {
+            style: 'currency',
+            currency: 'USD',
+            currencyDisplay: 'symbol'
+          },
+          decimal: {
+            style: 'decimal',
+            useGrouping: true
+          }
+        },
+        'ja-JP': {
+          currency: {
+            style: 'currency',
+            currency: 'JPY' /*, currencyDisplay: 'symbol'*/
+          },
+          numeric: {
+            style: 'decimal',
+            useGrouping: false
+          },
+          percent: {
+            style: 'percent',
+            useGrouping: true
+          }
+        }
+      }
+    })
+    expect(n(0.99, { key: 'currency', part: true })).toEqual([
+      { type: 'currency', value: '$' },
+      { type: 'integer', value: '0' },
+      { type: 'decimal', value: '.' },
+      { type: 'fraction', value: '99' }
+    ])
+    expect(
+      n(10100, {
+        key: 'currency',
+        locale: 'ja-JP',
+        currency: 'EUR',
+        part: true
+      })
+    ).toEqual([
+      { type: 'currency', value: '€' },
+      { type: 'integer', value: '10' },
+      { type: 'group', value: ',' },
+      { type: 'integer', value: '100' },
+      { type: 'decimal', value: '.' },
+      { type: 'fraction', value: '00' }
+    ])
+    // expect(n(12145281111, 'decimal', 'ja-JP')).toEqual([])
+    expect(n(12145281000, { key: 'percent', part: true })).toEqual([
+      { type: 'integer', value: '1' },
+      { type: 'group', value: ',' },
+      { type: 'integer', value: '214' },
+      { type: 'group', value: ',' },
+      { type: 'integer', value: '528' },
+      { type: 'group', value: ',' },
+      { type: 'integer', value: '100' },
+      { type: 'group', value: ',' },
+      { type: 'integer', value: '000' },
+      { type: 'percentSign', value: '%' }
+    ])
+    expect(n(12145281111, { key: 'decimal', part: true })).toEqual([
+      { type: 'integer', value: '12' },
+      { type: 'group', value: ',' },
+      { type: 'integer', value: '145' },
+      { type: 'group', value: ',' },
+      { type: 'integer', value: '281' },
+      { type: 'group', value: ',' },
+      { type: 'integer', value: '111' }
+    ])
+  })
 })
 
 describe('tm', () => {
