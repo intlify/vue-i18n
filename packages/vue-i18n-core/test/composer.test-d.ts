@@ -353,15 +353,15 @@ test('strict composer with direct options', () => {
     strictDirectComposer.d(new Date(), 'custom' as any)
   ).toEqualTypeOf<string>()
   expectTypeOf(strictDirectComposer.n(1)).toEqualTypeOf<string>()
-  expectTypeOf(
-    strictDirectComposer.n(1, 'currency', 'zh')
-  ).toEqualTypeOf<string>()
+  expectTypeOf(strictDirectComposer.n(1, 'currency', 'zh')).toEqualTypeOf<
+    string | Intl.NumberFormatPart[]
+  >()
   expectTypeOf(
     strictDirectComposer.n(1, { key: 'currency', locale: 'en' })
-  ).toEqualTypeOf<string>()
-  expectTypeOf(
-    strictDirectComposer.n(1, 'custom' as any)
-  ).toEqualTypeOf<string>()
+  ).toEqualTypeOf<string | Intl.NumberFormatPart[]>()
+  expectTypeOf(strictDirectComposer.n(1, 'custom' as any)).toEqualTypeOf<
+    string | Intl.NumberFormatPart[]
+  >()
 
   // const noOptionsComposer = createComposer({ missingWarn: true })
   const noOptionsComposer = createComposer({ locale: 'en' })

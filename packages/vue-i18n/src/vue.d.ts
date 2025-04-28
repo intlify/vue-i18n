@@ -865,7 +865,10 @@ declare module 'vue' {
      *
      * @returns formatted value
      */
-    $n(value: number, options: NumberOptions): string
+    $n<OptionsType extends NumberOptions>(
+      value: number,
+      options: OptionsType
+    ): OptionsType['type'] extends true ? Intl.NumberFormatPart[] : string
     /**
      * Locale messages getter
      *

@@ -5,6 +5,7 @@
 
 // utils
 import * as shared from '@intlify/shared'
+import { pluralRules as _pluralRules } from './helper'
 vi.mock('@intlify/shared', async () => {
   const actual = await vi.importActual<object>('@intlify/shared')
   return {
@@ -12,34 +13,33 @@ vi.mock('@intlify/shared', async () => {
     warn: vi.fn()
   }
 })
-import { pluralRules as _pluralRules } from './helper'
 
 import {
+  compile,
+  fallbackWithLocaleChain,
+  Locale,
+  MessageContext,
+  MessageFunction,
+  Path,
+  PathValue,
+  registerLocaleFallbacker,
+  registerMessageCompiler,
+  registerMessageResolver,
+  resolveValue
+} from '@intlify/core-base'
+import { createVNode, nextTick, Text, watch, watchEffect } from 'vue'
+import {
+  ComposerOptions,
   createComposer,
   MissingHandler,
-  ComposerOptions,
   VueMessageType
 } from '../src/composer'
 import {
-  TranslateVNodeSymbol,
+  DatetimePartsSymbol,
   NumberPartsSymbol,
-  DatetimePartsSymbol
+  TranslateVNodeSymbol
 } from '../src/symbols'
 import { getWarnMessage, I18nWarnCodes } from '../src/warnings'
-import { watch, watchEffect, nextTick, Text, createVNode } from 'vue'
-import {
-  Locale,
-  compile,
-  registerMessageCompiler,
-  resolveValue,
-  registerMessageResolver,
-  fallbackWithLocaleChain,
-  registerLocaleFallbacker,
-  MessageContext,
-  Path,
-  PathValue,
-  MessageFunction
-} from '@intlify/core-base'
 
 beforeEach(() => {
   registerMessageCompiler(compile)
@@ -1201,6 +1201,79 @@ describe('n', () => {
       }
     })
     expect(n(0.99, { key: 'percent' })).toEqual('')
+  })
+
+  test('part formatting with n', () => {
+    const { n } = createComposer({
+      locale: 'en-US',
+      fallbackLocale: ['ja-JP'],
+      numberFormats: {
+        'en-US': {
+          currency: {
+            style: 'currency',
+            currency: 'USD',
+            currencyDisplay: 'symbol'
+          },
+          decimal: {
+            style: 'decimal',
+            useGrouping: true
+          }
+        },
+        'ja-JP': {
+          currency: {
+            style: 'currency',
+            currency: 'JPY' /*, currencyDisplay: 'symbol'*/
+          },
+          numeric: {
+            style: 'decimal',
+            useGrouping: false
+          },
+          percent: {
+            style: 'percent',
+            useGrouping: true
+          }
+        }
+      }
+    })
+    expect(n(0.99, { key: 'currency', part: true })).toEqual([
+      { type: 'currency', value: '$' },
+      { type: 'integer', value: '0' },
+      { type: 'decimal', value: '.' },
+      { type: 'fraction', value: '99' }
+    ])
+    expect(
+      n(10100, {
+        key: 'currency',
+        locale: 'ja-JP',
+        part: true
+      })
+    ).toEqual([
+      { type: 'currency', value: '￥' },
+      { type: 'integer', value: '10' },
+      { type: 'group', value: ',' },
+      { type: 'integer', value: '100' }
+    ])
+    expect(n(12145281000, { key: 'percent', part: true })).toEqual([
+      { type: 'integer', value: '1' },
+      { type: 'group', value: ',' },
+      { type: 'integer', value: '214' },
+      { type: 'group', value: ',' },
+      { type: 'integer', value: '528' },
+      { type: 'group', value: ',' },
+      { type: 'integer', value: '100' },
+      { type: 'group', value: ',' },
+      { type: 'integer', value: '000' },
+      { type: 'percentSign', value: '%' }
+    ])
+    expect(n(12145281111, { key: 'decimal', part: true })).toEqual([
+      { type: 'integer', value: '12' },
+      { type: 'group', value: ',' },
+      { type: 'integer', value: '145' },
+      { type: 'group', value: ',' },
+      { type: 'integer', value: '281' },
+      { type: 'group', value: ',' },
+      { type: 'integer', value: '111' }
+    ])
   })
 })
 
