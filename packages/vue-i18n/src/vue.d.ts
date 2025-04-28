@@ -705,10 +705,10 @@ declare module 'vue' {
      * @returns formatted value
      */
     $n<
-      PartType extends string | Intl.NumberFormatPart[] =
+      Key extends string = string,
+      Return extends string | Intl.NumberFormatPart[] =
         | string
         | Intl.NumberFormatPart[],
-      Key extends string = string,
       DefinedNumberFormat extends
         RemovedIndexResources<DefineDateTimeFormat> = RemovedIndexResources<DefineDateTimeFormat>,
       Keys = IsEmptyObject<DefinedNumberFormat> extends false
@@ -720,7 +720,7 @@ declare module 'vue' {
     >(
       value: number,
       options: NumberOptions<Key, ResourceKeys>
-    ): PartType
+    ): Return
     /**
      * Number formatting
      *
@@ -761,10 +761,10 @@ declare module 'vue' {
      * @returns formatted value
      */
     $n<
-      PartType extends string | Intl.NumberFormatPart[] =
+      Key extends string = string,
+      Return extends string | Intl.NumberFormatPart[] =
         | string
         | Intl.NumberFormatPart[],
-      Key extends string = string,
       DefinedNumberFormat extends
         RemovedIndexResources<DefineDateTimeFormat> = RemovedIndexResources<DefineDateTimeFormat>,
       Keys = IsEmptyObject<DefinedNumberFormat> extends false
@@ -777,7 +777,7 @@ declare module 'vue' {
       value: number,
       options: NumberOptions<Key, ResourceKeys>,
       locale: Locale
-    ): PartType
+    ): Return
 
     /**
      * Locale messages getter
