@@ -13,14 +13,12 @@ import type {
 import type {
   CustomBlocks,
   DatetimeFormat,
-  DateTimeFormatResult,
   DefineDateTimeFormat,
   DefineLocaleMessage,
+  ExportedGlobalComposer,
   NumberFormat,
   RemovedIndexResources,
-  TranslateResult,
   Translation,
-  VueI18nInstance,
   VueMessageType
 } from '@intlify/vue-i18n-core'
 
@@ -58,10 +56,11 @@ declare module 'vue' {
      *
      * @remarks
      * You can get the {@link ExportedGlobalComposer | exported composer instance} which are exported from global {@link Composer | composer instance} created with {@link createI18n}
+     * You can get the exported composer instance in {@link I18nMode | Composition API mode}
      * The locales, locale messages, and other resources managed by the instance referenced by this property are valid as global scope.
      * If the `i18n` component custom option is not specified, it's the same as the VueI18n instance that can be referenced by the i18n instance {@link I18n.global | global} property.
      */
-    $i18n: VueI18nInstance
+    $i18n: ExportedGlobalComposer
     /**
      * Locale message translation
      *
@@ -86,8 +85,8 @@ declare module 'vue' {
         : never,
       ResourceKeys extends Keys = IsNever<Keys> extends false ? Keys : never
     >(
-      key: Key | ResourceKeys
-    ): TranslateResult
+      key: Key | ResourceKeys | number
+    ): string
     /**
      * Locale message translation
      *
@@ -110,9 +109,9 @@ declare module 'vue' {
         : never,
       ResourceKeys extends Keys = IsNever<Keys> extends false ? Keys : never
     >(
-      key: Key | ResourceKeys,
+      key: Key | ResourceKeys | number,
       plural: number
-    ): TranslateResult
+    ): string
     /**
      * Locale message translation
      *
@@ -136,10 +135,10 @@ declare module 'vue' {
         : never,
       ResourceKeys extends Keys = IsNever<Keys> extends false ? Keys : never
     >(
-      key: Key | ResourceKeys,
+      key: Key | ResourceKeys | number,
       plural: number,
       options: TranslateOptions
-    ): TranslateResult
+    ): string
     /**
      * Locale message translation
      *
@@ -162,9 +161,9 @@ declare module 'vue' {
         : never,
       ResourceKeys extends Keys = IsNever<Keys> extends false ? Keys : never
     >(
-      key: Key | ResourceKeys,
+      key: Key | ResourceKeys | number,
       defaultMsg: string
-    ): TranslateResult
+    ): string
     /**
      * Locale message translation
      *
@@ -188,10 +187,10 @@ declare module 'vue' {
         : never,
       ResourceKeys extends Keys = IsNever<Keys> extends false ? Keys : never
     >(
-      key: Key | ResourceKeys,
+      key: Key | ResourceKeys | number,
       defaultMsg: string,
       options: TranslateOptions
-    ): TranslateResult
+    ): string
     /**
      * Locale message translation
      *
@@ -214,9 +213,9 @@ declare module 'vue' {
         : never,
       ResourceKeys extends Keys = IsNever<Keys> extends false ? Keys : never
     >(
-      key: Key | ResourceKeys,
+      key: Key | ResourceKeys | number,
       list: unknown[]
-    ): TranslateResult
+    ): string
     /**
      * Locale message translation
      *
@@ -240,10 +239,10 @@ declare module 'vue' {
         : never,
       ResourceKeys extends Keys = IsNever<Keys> extends false ? Keys : never
     >(
-      key: Key | ResourceKeys,
+      key: Key | ResourceKeys | number,
       list: unknown[],
       plural: number
-    ): TranslateResult
+    ): string
     /**
      * Locale message translation
      *
@@ -267,10 +266,10 @@ declare module 'vue' {
         : never,
       ResourceKeys extends Keys = IsNever<Keys> extends false ? Keys : never
     >(
-      key: Key | ResourceKeys,
+      key: Key | ResourceKeys | number,
       list: unknown[],
       defaultMsg: string
-    ): TranslateResult
+    ): string
     /**
      * Locale message translation
      *
@@ -294,10 +293,10 @@ declare module 'vue' {
         : never,
       ResourceKeys extends Keys = IsNever<Keys> extends false ? Keys : never
     >(
-      key: Key | ResourceKeys,
+      key: Key | ResourceKeys | number,
       list: unknown[],
       options: TranslateOptions
-    ): TranslateResult
+    ): string
     /**
      * Locale message translation
      *
@@ -320,9 +319,9 @@ declare module 'vue' {
         : never,
       ResourceKeys extends Keys = IsNever<Keys> extends false ? Keys : never
     >(
-      key: Key | ResourceKeys,
+      key: Key | ResourceKeys | number,
       named: NamedValue
-    ): TranslateResult
+    ): string
     /**
      * Locale message translation
      *
@@ -346,10 +345,10 @@ declare module 'vue' {
         : never,
       ResourceKeys extends Keys = IsNever<Keys> extends false ? Keys : never
     >(
-      key: Key | ResourceKeys,
+      key: Key | ResourceKeys | number,
       named: NamedValue,
       plural: number
-    ): TranslateResult
+    ): string
     /**
      * Locale message translation
      *
@@ -373,10 +372,10 @@ declare module 'vue' {
         : never,
       ResourceKeys extends Keys = IsNever<Keys> extends false ? Keys : never
     >(
-      key: Key | ResourceKeys,
+      key: Key | ResourceKeys | number,
       named: NamedValue,
       defaultMsg: string
-    ): TranslateResult
+    ): string
     /**
      * Locale message translation
      *
@@ -400,10 +399,10 @@ declare module 'vue' {
         : never,
       ResourceKeys extends Keys = IsNever<Keys> extends false ? Keys : never
     >(
-      key: Key | ResourceKeys,
+      key: Key | ResourceKeys | number,
       named: NamedValue,
       options: TranslateOptions
-    ): TranslateResult
+    ): string
     /**
      * Resolve locale message translation
      *
@@ -507,7 +506,7 @@ declare module 'vue' {
      *
      * @returns formatted value
      */
-    $d(value: number | Date): DateTimeFormatResult
+    $d(value: number | Date | string): string
     /**
      * Datetime formatting
      *
@@ -520,87 +519,7 @@ declare module 'vue' {
      * @returns formatted value
      */
     $d<
-      Value extends number | Date = number,
-      Key extends string = string,
-      DefinedDateTimeFormat extends
-        RemovedIndexResources<DefineDateTimeFormat> = RemovedIndexResources<DefineDateTimeFormat>,
-      Keys = IsEmptyObject<DefinedDateTimeFormat> extends false
-        ? PickupFormatPathKeys<{
-            [K in keyof DefinedDateTimeFormat]: DefinedDateTimeFormat[K]
-          }>
-        : never,
-      ResourceKeys extends Keys = IsNever<Keys> extends false ? Keys : never
-    >(
-      value: Value,
-      key: Key | ResourceKeys
-    ): DateTimeFormatResult
-    /**
-     * Datetime formatting
-     *
-     * @remarks
-     * Overloaded `$d`. About details, see the {@link $d} remarks.
-     *
-     * @param value - A value, timestamp number or `Date` instance
-     * @param key - A key of datetime formats
-     * @param locale - A locale, optional, override locale that global scope or local scope
-     *
-     * @returns formatted value
-     */
-    $d<
-      Value extends number | Date = number,
-      Key extends string = string,
-      DefinedDateTimeFormat extends
-        RemovedIndexResources<DefineDateTimeFormat> = RemovedIndexResources<DefineDateTimeFormat>,
-      Keys = IsEmptyObject<DefinedDateTimeFormat> extends false
-        ? PickupFormatPathKeys<{
-            [K in keyof DefinedDateTimeFormat]: DefinedDateTimeFormat[K]
-          }>
-        : never,
-      ResourceKeys extends Keys = IsNever<Keys> extends false ? Keys : never
-    >(
-      value: Value,
-      key: Key | ResourceKeys,
-      locale: Locale
-    ): DateTimeFormatResult
-    /**
-     * Datetime formatting
-     *
-     * @remarks
-     * Overloaded `$d`. About details, see the {@link $d} remarks.
-     *
-     * @param value - A value, timestamp number or `Date` instance
-     * @param args - An argument values
-     *
-     * @returns formatted value
-     */
-    $d(
-      value: number | Date,
-      args: { [key: string]: string }
-    ): DateTimeFormatResult
-    /**
-     * Datetime formatting
-     *
-     * @remarks
-     * Overloaded `$d`. About details, see the {@link $d} remarks.
-     *
-     * @param value - A value, timestamp number or `Date` instance
-     *
-     * @returns formatted value
-     */
-    $d(value: number | Date): string
-    /**
-     * Datetime formatting
-     *
-     * @remarks
-     * Overloaded `$d`. About details, see the {@link $d} remarks.
-     *
-     * @param value - A value, timestamp number or `Date` instance
-     * @param key - A key of datetime formats
-     *
-     * @returns formatted value
-     */
-    $d<
-      Value extends number | Date = number,
+      Value extends number | Date | string = number,
       Key extends string = string,
       DefinedDateTimeFormat extends
         RemovedIndexResources<DefineDateTimeFormat> = RemovedIndexResources<DefineDateTimeFormat>,
@@ -621,13 +540,39 @@ declare module 'vue' {
      * Overloaded `$d`. About details, see the {@link $d} remarks.
      *
      * @param value - A value, timestamp number or `Date` instance
+     * @param options - An {@link DateTimeOptions | options}
+     *
+     * @returns formatted value
+     */
+    $d<
+      Value extends number | Date | string = number,
+      Key extends string = string,
+      DefinedDateTimeFormat extends
+        RemovedIndexResources<DefineDateTimeFormat> = RemovedIndexResources<DefineDateTimeFormat>,
+      Keys = IsEmptyObject<DefinedDateTimeFormat> extends false
+        ? PickupFormatPathKeys<{
+            [K in keyof DefinedDateTimeFormat]: DefinedDateTimeFormat[K]
+          }>
+        : never,
+      ResourceKeys extends Keys = IsNever<Keys> extends false ? Keys : never
+    >(
+      value: Value,
+      options: DateTimeOptions<Key | ResourceKeys>
+    ): string
+    /**
+     * Datetime formatting
+     *
+     * @remarks
+     * Overloaded `$d`. About details, see the {@link $d} remarks.
+     *
+     * @param value - A value, timestamp number or `Date` instance
      * @param key - A key of datetime formats
      * @param locale - A locale, optional, override locale that global scope or local scope
      *
      * @returns formatted value
      */
     $d<
-      Value extends number | Date = number,
+      Value extends number | Date | string = number,
       Key extends string = string,
       DefinedDateTimeFormat extends
         RemovedIndexResources<DefineDateTimeFormat> = RemovedIndexResources<DefineDateTimeFormat>,
@@ -649,11 +594,27 @@ declare module 'vue' {
      * Overloaded `$d`. About details, see the {@link $d} remarks.
      *
      * @param value - A value, timestamp number or `Date` instance
-     * @param options - An options, see the {@link DateTimeOptions}
+     * @param options - An {@link DateTimeOptions | options}
+     * @param locale - A locale, optional, override locale that global scope or local scope
      *
      * @returns formatted value
      */
-    $d(value: number | Date, options: DateTimeOptions): string
+    $d<
+      Value extends number | Date | string = number,
+      Key extends string = string,
+      DefinedDateTimeFormat extends
+        RemovedIndexResources<DefineDateTimeFormat> = RemovedIndexResources<DefineDateTimeFormat>,
+      Keys = IsEmptyObject<DefinedDateTimeFormat> extends false
+        ? PickupFormatPathKeys<{
+            [K in keyof DefinedDateTimeFormat]: DefinedDateTimeFormat[K]
+          }>
+        : never,
+      ResourceKeys extends Keys = IsNever<Keys> extends false ? Keys : never
+    >(
+      value: Value,
+      options: DateTimeOptions<Key | ResourceKeys>,
+      locale: Locale
+    ): string
     /**
      * Number formatting
      *
@@ -719,7 +680,7 @@ declare module 'vue' {
       ResourceKeys extends Keys = IsNever<Keys> extends false ? Keys : never
     >(
       value: number,
-      options: NumberOptions<Key, ResourceKeys>
+      options: NumberOptions<Key | ResourceKeys>
     ): Return
     /**
      * Number formatting
@@ -775,7 +736,7 @@ declare module 'vue' {
       ResourceKeys extends Keys = IsNever<Keys> extends false ? Keys : never
     >(
       value: number,
-      options: NumberOptions<Key, ResourceKeys>,
+      options: NumberOptions<Key | ResourceKeys>,
       locale: Locale
     ): Return
 
