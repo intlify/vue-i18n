@@ -1207,7 +1207,7 @@ export interface ComposerNumberFormatting<
       | Key
       | ResourceKeys
       | NumberOptions<Key | ResourceKeys, Locales>
-  ): string
+  ): string | Intl.NumberFormatPart[]
   /**
    * Number Formatting
    *
@@ -1229,7 +1229,7 @@ export interface ComposerNumberFormatting<
       | ResourceKeys
       | NumberOptions<Key | ResourceKeys, Locales>,
     locale: Locales
-  ): string
+  ): string | Intl.NumberFormatPart[]
 }
 
 /**
@@ -2290,14 +2290,14 @@ export function createComposer(options: any = {}): any {
   }
 
   // n
-  function n(...args: unknown[]): string {
-    return wrapWithDeps<{}, string>(
-      context => Reflect.apply(number, null, [context, ...args]) as string,
+  function n(...args: unknown[]): string | Intl.NumberFormatPart[] {
+    return wrapWithDeps<{}, string | Intl.NumberFormatPart[]>(
+      context => Reflect.apply(number, null, [context, ...args]),
       () => parseNumberArgs(...args),
       'number format',
       root => Reflect.apply(root.n, root, [...args]),
       () => MISSING_RESOLVE_VALUE,
-      val => isString(val)
+      val => isString(val) || isArray(val)
     )
   }
 
