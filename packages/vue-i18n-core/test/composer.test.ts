@@ -1214,7 +1214,7 @@ describe('n', () => {
     expect(n(0.99, { key: 'percent' })).toEqual('')
   })
 
-  test('part formating with n', () => {
+  test('part formatting with n', () => {
     const { n } = createComposer({
       locale: 'en-US',
       fallbackLocale: ['ja-JP'],
