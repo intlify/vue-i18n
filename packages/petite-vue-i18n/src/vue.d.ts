@@ -8,8 +8,7 @@ import type {
   CustomBlocks,
   DefineLocaleMessage,
   ExportedGlobalComposer,
-  RemovedIndexResources,
-  TranslateResult
+  RemovedIndexResources
 } from '@intlify/vue-i18n-core/petite'
 
 // --- THE CONTENT BELOW THIS LINE WILL BE APPENDED TO DTS FILE IN DIST DIRECTORY --- //
@@ -75,8 +74,8 @@ declare module 'vue' {
         : never,
       ResourceKeys extends Keys = IsNever<Keys> extends false ? Keys : never
     >(
-      key: Key | ResourceKeys
-    ): TranslateResult
+      key: Key | ResourceKeys | number
+    ): string
     /**
      * Locale message translation
      *
@@ -99,9 +98,9 @@ declare module 'vue' {
         : never,
       ResourceKeys extends Keys = IsNever<Keys> extends false ? Keys : never
     >(
-      key: Key | ResourceKeys,
+      key: Key | ResourceKeys | number,
       plural: number
-    ): TranslateResult
+    ): string
     /**
      * Locale message translation
      *
@@ -125,10 +124,10 @@ declare module 'vue' {
         : never,
       ResourceKeys extends Keys = IsNever<Keys> extends false ? Keys : never
     >(
-      key: Key | ResourceKeys,
+      key: Key | ResourceKeys | number,
       plural: number,
       options: TranslateOptions
-    ): TranslateResult
+    ): string
     /**
      * Locale message translation
      *
@@ -151,9 +150,9 @@ declare module 'vue' {
         : never,
       ResourceKeys extends Keys = IsNever<Keys> extends false ? Keys : never
     >(
-      key: Key | ResourceKeys,
+      key: Key | ResourceKeys | number,
       defaultMsg: string
-    ): TranslateResult
+    ): string
     /**
      * Locale message translation
      *
@@ -177,10 +176,10 @@ declare module 'vue' {
         : never,
       ResourceKeys extends Keys = IsNever<Keys> extends false ? Keys : never
     >(
-      key: Key | ResourceKeys,
+      key: Key | ResourceKeys | number,
       defaultMsg: string,
       options: TranslateOptions
-    ): TranslateResult
+    ): string
     /**
      * Locale message translation
      *
@@ -203,9 +202,9 @@ declare module 'vue' {
         : never,
       ResourceKeys extends Keys = IsNever<Keys> extends false ? Keys : never
     >(
-      key: Key | ResourceKeys,
+      key: Key | ResourceKeys | number,
       list: unknown[]
-    ): TranslateResult
+    ): string
     /**
      * Locale message translation
      *
@@ -229,10 +228,10 @@ declare module 'vue' {
         : never,
       ResourceKeys extends Keys = IsNever<Keys> extends false ? Keys : never
     >(
-      key: Key | ResourceKeys,
+      key: Key | ResourceKeys | number,
       list: unknown[],
       plural: number
-    ): TranslateResult
+    ): string
     /**
      * Locale message translation
      *
@@ -256,10 +255,10 @@ declare module 'vue' {
         : never,
       ResourceKeys extends Keys = IsNever<Keys> extends false ? Keys : never
     >(
-      key: Key | ResourceKeys,
+      key: Key | ResourceKeys | number,
       list: unknown[],
       defaultMsg: string
-    ): TranslateResult
+    ): string
     /**
      * Locale message translation
      *
@@ -283,10 +282,10 @@ declare module 'vue' {
         : never,
       ResourceKeys extends Keys = IsNever<Keys> extends false ? Keys : never
     >(
-      key: Key | ResourceKeys,
+      key: Key | ResourceKeys | number,
       list: unknown[],
       options: TranslateOptions
-    ): TranslateResult
+    ): string
     /**
      * Locale message translation
      *
@@ -309,9 +308,9 @@ declare module 'vue' {
         : never,
       ResourceKeys extends Keys = IsNever<Keys> extends false ? Keys : never
     >(
-      key: Key | ResourceKeys,
+      key: Key | ResourceKeys | number,
       named: NamedValue
-    ): TranslateResult
+    ): string
     /**
      * Locale message translation
      *
@@ -335,10 +334,10 @@ declare module 'vue' {
         : never,
       ResourceKeys extends Keys = IsNever<Keys> extends false ? Keys : never
     >(
-      key: Key | ResourceKeys,
+      key: Key | ResourceKeys | number,
       named: NamedValue,
       plural: number
-    ): TranslateResult
+    ): string
     /**
      * Locale message translation
      *
@@ -362,10 +361,10 @@ declare module 'vue' {
         : never,
       ResourceKeys extends Keys = IsNever<Keys> extends false ? Keys : never
     >(
-      key: Key | ResourceKeys,
+      key: Key | ResourceKeys | number,
       named: NamedValue,
       defaultMsg: string
-    ): TranslateResult
+    ): string
     /**
      * Locale message translation
      *
@@ -389,9 +388,9 @@ declare module 'vue' {
         : never,
       ResourceKeys extends Keys = IsNever<Keys> extends false ? Keys : never
     >(
-      key: Key | ResourceKeys,
+      key: Key | ResourceKeys | number,
       named: NamedValue,
       options: TranslateOptions
-    ): TranslateResult
+    ): string
   }
 }
