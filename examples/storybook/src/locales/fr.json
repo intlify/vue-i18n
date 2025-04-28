@@ -1,0 +1,23 @@
+{
+  "hello": "Bonjour !",
+  "Button": "Bouton",
+  "signUp": "S'inscrire",
+  "logIn": "Se connecter",
+  "logOut": "Se déconnecter",
+  "welcome": "Bienvenue",
+  "name": "John Doe",
+  "pagesInStorybook": "Pages dans Storybook",
+  "recommendBuildingUIs": "Nous recommandons de construire des interfaces utilisateur avec un {link} commençant par des composants atomiques et se terminant par des pages.",
+  "componentDriven": "processus axé sur les composants",
+  "renderPagesWithMockData": "Rendez les pages avec des données fictives. Cela permet de créer et de revoir les états de page sans avoir besoin de naviguer vers elles dans votre application. Voici quelques modèles pratiques pour gérer les données des pages dans Storybook :",
+  "useHigherLevelConnectedComponent": "Utilisez un composant connecté de niveau supérieur. Storybook vous aide à composer ces données à partir des \"args\" des histoires des composants enfants",
+  "assembleDataFromServices": "Assemblez les données dans le composant de page à partir de vos services. Vous pouvez simuler ces services à l'aide de Storybook.",
+  "guidedTutorial": "Obtenez un tutoriel guidé sur le développement axé sur les composants à",
+  "storybookTutorials": "Tutoriels Storybook",
+  "readMoreDocs": "En savoir plus dans les",
+  "docs": "docs",
+  "tip": "Astuce",
+  "adjustCanvasWidth": "Ajustez la largeur de la toile avec le {icon} Addon Viewports dans la barre d'outils",
+  "localizationMsg": "Choisissez la langue en cliquant sur l'icône du globe dans l'addon Viewport de la barre d'outils",
+  "navigating": "Après la sélection de la langue, accédez à l'histoire des pages d'exemple"
+}

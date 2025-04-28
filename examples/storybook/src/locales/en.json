@@ -1,0 +1,23 @@
+{
+  "hello": "Hello !",
+  "Button": "Button",
+  "signUp": "Sign Up",
+  "logIn": "Log In",
+  "logOut": "Log out",
+  "welcome": "Welcome",
+  "name": "John Doe",
+  "pagesInStorybook": "Pages in Storybook",
+  "recommendBuildingUIs": "We recommend building UIs with a {link} process starting with atomic components and ending with pages.",
+  "componentDriven": "component-driven",
+  "renderPagesWithMockData": "Render pages with mock data. This makes it easy to build and review page states without needing to navigate to them in your app. Here are some handy patterns for managing page data in Storybook:",
+  "useHigherLevelConnectedComponent": "Use a higher-level connected component. Storybook helps you compose such data from the \"args\" of child component stories",
+  "assembleDataFromServices": "Assemble data in the page component from your services. You can mock these services out using Storybook.",
+  "guidedTutorial": "Get a guided tutorial on component-driven development at",
+  "storybookTutorials": "Storybook tutorials",
+  "readMoreDocs": "Read more in the",
+  "docs": "docs",
+  "tip": "Tip",
+  "adjustCanvasWidth": "Adjust the width of the canvas with the {icon} Viewports addon in the toolbar",
+  "localizationMsg": "Choose the language by clicking on the globe icon viewport addon in the toolbar",
+  "navigating": "After language selection, navigate to example pages story"
+}
