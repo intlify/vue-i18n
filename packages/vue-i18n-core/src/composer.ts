@@ -1201,13 +1201,18 @@ export interface ComposerNumberFormatting<
    *
    * @returns Formatted value
    */
-  <Key extends string = string>(
+  <
+    PartType extends string | Intl.NumberFormatPart[] =
+      | string
+      | Intl.NumberFormatPart[],
+    Key extends string = string
+  >(
     value: number,
     keyOrOptions:
       | Key
       | ResourceKeys
       | NumberOptions<Key | ResourceKeys, Locales>
-  ): string | Intl.NumberFormatPart[]
+  ): PartType
   /**
    * Number Formatting
    *
@@ -1222,14 +1227,19 @@ export interface ComposerNumberFormatting<
    *
    * @returns Formatted value
    */
-  <Key extends string = string>(
+  <
+    PartType extends string | Intl.NumberFormatPart[] =
+      | string
+      | Intl.NumberFormatPart[],
+    Key extends string = string
+  >(
     value: number,
     keyOrOptions:
       | Key
       | ResourceKeys
       | NumberOptions<Key | ResourceKeys, Locales>,
     locale: Locales
-  ): string | Intl.NumberFormatPart[]
+  ): PartType
 }
 
 /**

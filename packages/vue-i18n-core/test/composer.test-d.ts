@@ -357,9 +357,19 @@ test('strict composer with direct options', () => {
     string | Intl.NumberFormatPart[]
   >()
   expectTypeOf(
-    strictDirectComposer.n(1, { key: 'currency', locale: 'en' })
+    strictDirectComposer.n<string, 'foo' | 'bar'>(1, 'currency', 'zh')
+  ).toEqualTypeOf<string>()
+  expectTypeOf(
+    strictDirectComposer.n(1, { key: 'currency', locale: 'en', part: true })
   ).toEqualTypeOf<string | Intl.NumberFormatPart[]>()
-  expectTypeOf(strictDirectComposer.n(1, 'custom' as any)).toEqualTypeOf<
+  expectTypeOf(
+    strictDirectComposer.n<Intl.NumberFormatPart[]>(1, {
+      key: 'currency',
+      locale: 'en',
+      part: true
+    })
+  ).toEqualTypeOf<Intl.NumberFormatPart[]>()
+  expectTypeOf(strictDirectComposer.n(1, 'custom')).toEqualTypeOf<
     string | Intl.NumberFormatPart[]
   >()
 

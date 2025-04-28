@@ -17,7 +17,6 @@ import type {
   DefineDateTimeFormat,
   DefineLocaleMessage,
   NumberFormat,
-  NumberFormatResult,
   RemovedIndexResources,
   TranslateResult,
   Translation,
@@ -668,120 +667,6 @@ declare module 'vue' {
      *
      * @returns formatted value
      */
-    $n(value: number): NumberFormatResult
-    /**
-     * Number formatting
-     *
-     * @remarks
-     * Overloaded `$n`. About details, see the {@link $n} remarks.
-     *
-     * @param value - A number value
-     * @param key - A key of number formats
-     *
-     * @returns formatted value
-     */
-    $n<
-      Key extends string = string,
-      DefinedNumberFormat extends
-        RemovedIndexResources<DefineDateTimeFormat> = RemovedIndexResources<DefineDateTimeFormat>,
-      Keys = IsEmptyObject<DefinedNumberFormat> extends false
-        ? PickupFormatPathKeys<{
-            [K in keyof DefinedNumberFormat]: DefinedNumberFormat[K]
-          }>
-        : never,
-      ResourceKeys extends Keys = IsNever<Keys> extends false ? Keys : never
-    >(
-      value: number,
-      key: Key | ResourceKeys
-    ): NumberFormatResult
-    /**
-     * Number formatting
-     *
-     * @remarks
-     * Overloaded `$n`. About details, see the {@link $n} remarks.
-     *
-     * @param value - A number value
-     * @param key - A key of number formats
-     * @param locale - A locale, optional, override locale that global scope or local scope
-     *
-     * @returns formatted value
-     */
-    $n<
-      Key extends string = string,
-      DefinedNumberFormat extends
-        RemovedIndexResources<DefineDateTimeFormat> = RemovedIndexResources<DefineDateTimeFormat>,
-      Keys = IsEmptyObject<DefinedNumberFormat> extends false
-        ? PickupFormatPathKeys<{
-            [K in keyof DefinedNumberFormat]: DefinedNumberFormat[K]
-          }>
-        : never,
-      ResourceKeys extends Keys = IsNever<Keys> extends false ? Keys : never
-    >(
-      value: number,
-      key: Key | ResourceKeys,
-      locale: Locale
-    ): NumberFormatResult
-    /**
-     * Number formatting
-     *
-     * @remarks
-     * Overloaded `$n`. About details, see the {@link $n} remarks.
-     *
-     * @param value - A number value
-     * @param args - An argument values
-     *
-     * @returns formatted value
-     */
-    $n(
-      value: number,
-      args: { [key: string]: string | boolean | number }
-    ): NumberFormatResult
-    /**
-     * Number formatting
-     *
-     * @remarks
-     * Overloaded `$n`. About details, see the {@link $n} remarks.
-     *
-     * @param value - A number value
-     * @param key - A key of number formats
-     * @param args - An argument values
-     *
-     * @returns formatted value
-     */
-    $n(
-      value: number,
-      key: string,
-      args: { [key: string]: string | boolean | number }
-    ): NumberFormatResult
-    /**
-     * Number formatting
-     *
-     * @remarks
-     * Overloaded `$n`. About details, see the {@link $n} remarks.
-     *
-     * @param value - A number value
-     * @param key - A key of number formats
-     * @param locale - A locale, optional, override locale that global scope or local scope
-     * @param args - An argument values
-     *
-     * @returns formatted value
-     */
-    $n(
-      value: number,
-      key: string,
-      locale: Locale,
-      args: { [key: string]: string | boolean | number }
-    ): NumberFormatResult
-    /**
-     * Number formatting
-     *
-     * @remarks
-     * Overloaded `$n`. About details, see the {@link $n} remarks.
-     *
-     * @param value - A number value
-     *
-     * @returns formatted value
-     */
     $n(value: number): string
     /**
      * Number formatting
@@ -808,6 +693,34 @@ declare module 'vue' {
       value: number,
       key: Key | ResourceKeys
     ): string
+    /**
+     * Number formatting
+     *
+     * @remarks
+     * Overloaded `$n`. About details, see the {@link $n} remarks.
+     *
+     * @param value - A number value
+     * @param options - An options, see the {@link NumberOptions}
+     *
+     * @returns formatted value
+     */
+    $n<
+      PartType extends string | Intl.NumberFormatPart[] =
+        | string
+        | Intl.NumberFormatPart[],
+      Key extends string = string,
+      DefinedNumberFormat extends
+        RemovedIndexResources<DefineDateTimeFormat> = RemovedIndexResources<DefineDateTimeFormat>,
+      Keys = IsEmptyObject<DefinedNumberFormat> extends false
+        ? PickupFormatPathKeys<{
+            [K in keyof DefinedNumberFormat]: DefinedNumberFormat[K]
+          }>
+        : never,
+      ResourceKeys extends Keys = IsNever<Keys> extends false ? Keys : never
+    >(
+      value: number,
+      options: NumberOptions<Key, ResourceKeys>
+    ): PartType
     /**
      * Number formatting
      *
@@ -843,13 +756,29 @@ declare module 'vue' {
      *
      * @param value - A number value
      * @param options - An options, see the {@link NumberOptions}
+     * @param locale - A locale, optional, override locale that global scope or local scope
      *
      * @returns formatted value
      */
-    $n<OptionsType extends NumberOptions>(
+    $n<
+      PartType extends string | Intl.NumberFormatPart[] =
+        | string
+        | Intl.NumberFormatPart[],
+      Key extends string = string,
+      DefinedNumberFormat extends
+        RemovedIndexResources<DefineDateTimeFormat> = RemovedIndexResources<DefineDateTimeFormat>,
+      Keys = IsEmptyObject<DefinedNumberFormat> extends false
+        ? PickupFormatPathKeys<{
+            [K in keyof DefinedNumberFormat]: DefinedNumberFormat[K]
+          }>
+        : never,
+      ResourceKeys extends Keys = IsNever<Keys> extends false ? Keys : never
+    >(
       value: number,
-      options: OptionsType
-    ): OptionsType['part'] extends true ? Intl.NumberFormatPart[] : string
+      options: NumberOptions<Key, ResourceKeys>,
+      locale: Locale
+    ): PartType
+
     /**
      * Locale messages getter
      *
