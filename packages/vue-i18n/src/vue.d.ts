@@ -865,7 +865,23 @@ declare module 'vue' {
      *
      * @returns formatted value
      */
-    $n(value: number, options: NumberOptions): string
+    $n<
+      Key extends string,
+      Return extends string | Intl.NumberFormatPart[] =
+        | string
+        | Intl.NumberFormatPart[],
+      DefinedNumberFormat extends
+        RemovedIndexResources<DefineDateTimeFormat> = RemovedIndexResources<DefineDateTimeFormat>,
+      Keys = IsEmptyObject<DefinedNumberFormat> extends false
+        ? PickupFormatPathKeys<{
+            [K in keyof DefinedNumberFormat]: DefinedNumberFormat[K]
+          }>
+        : never,
+      ResourceKeys extends Keys = IsNever<Keys> extends false ? Keys : never
+    >(
+      value: number,
+      options: NumberOptions<Key, ResourceKeys>
+    ): Return
     /**
      * Locale messages getter
      *

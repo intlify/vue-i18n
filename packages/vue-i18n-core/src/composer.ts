@@ -1203,13 +1203,18 @@ export interface ComposerNumberFormatting<
    *
    * @returns Formatted value
    */
-  <Key extends string = string>(
+  <
+    Key extends string = string,
+    Return extends string | Intl.NumberFormatPart[] =
+      | string
+      | Intl.NumberFormatPart[]
+  >(
     value: number,
     keyOrOptions:
       | Key
       | ResourceKeys
       | NumberOptions<Key | ResourceKeys, Locales>
-  ): string
+  ): Return
   /**
    * Number Formatting
    *
@@ -1224,14 +1229,19 @@ export interface ComposerNumberFormatting<
    *
    * @returns Formatted value
    */
-  <Key extends string = string>(
+  <
+    Key extends string = string,
+    Return extends string | Intl.NumberFormatPart[] =
+      | string
+      | Intl.NumberFormatPart[]
+  >(
     value: number,
     keyOrOptions:
       | Key
       | ResourceKeys
       | NumberOptions<Key | ResourceKeys, Locales>,
     locale: Locales
-  ): string
+  ): Return
 }
 
 /**
@@ -2287,14 +2297,17 @@ export function createComposer(options: any = {}): any {
   }
 
   // n
-  function n(...args: unknown[]): string {
-    return wrapWithDeps<{}, string>(
-      context => Reflect.apply(number, null, [context, ...args]) as string,
+  function n(...args: unknown[]): string | Intl.NumberFormatPart[] {
+    return wrapWithDeps<{}, string | Intl.NumberFormatPart[]>(
+      context =>
+        Reflect.apply(number, null, [context, ...args]) as
+          | string
+          | Intl.NumberFormatPart[],
       () => parseNumberArgs(...args),
       'number format',
       root => Reflect.apply(root.n, root, [...args]),
       () => MISSING_RESOLVE_VALUE,
-      val => isString(val)
+      val => isString(val) || isArray(val)
     )
   }
 
