@@ -1058,6 +1058,83 @@ describe('d', () => {
       '12/20/2012, 07:00 AM'
     )
   })
+
+  test.only('parts formatting', () => {
+    const { d } = createComposer({
+      locale: 'en-US',
+      datetimeFormats: {
+        'en-US': {
+          short: {
+            year: 'numeric',
+            month: '2-digit',
+            day: '2-digit',
+            hour: '2-digit',
+            minute: '2-digit',
+            timeZone: 'America/New_York'
+          }
+        },
+        'ja-JP': {
+          long: {
+            year: 'numeric',
+            month: '2-digit',
+            day: '2-digit',
+            hour: '2-digit',
+            minute: '2-digit',
+            second: '2-digit',
+            timeZone: 'America/New_York'
+          },
+          short: {
+            year: 'numeric',
+            month: '2-digit',
+            day: '2-digit',
+            hour: '2-digit',
+            minute: '2-digit',
+            timeZone: 'Asia/Tokyo'
+          }
+        }
+      }
+    })
+    const dt = new Date(2015, 12)
+    expect(d(dt, { key: 'short', part: true, year: '2-digit' })).toEqual([
+      { type: 'month', value: '12' },
+      { type: 'literal', value: '/' },
+      { type: 'day', value: '31' },
+      { type: 'literal', value: '/' },
+      { type: 'year', value: '15' },
+      { type: 'literal', value: ', ' },
+      { type: 'hour', value: '07' },
+      { type: 'literal', value: ':' },
+      { type: 'minute', value: '00' },
+      { type: 'literal', value: ' ' },
+      { type: 'dayPeriod', value: 'PM' }
+    ])
+    expect(d(dt, { key: 'short', locale: 'en-US', part: true })).toEqual([
+      { type: 'month', value: '12' },
+      { type: 'literal', value: '/' },
+      { type: 'day', value: '31' },
+      { type: 'literal', value: '/' },
+      { type: 'year', value: '2015' },
+      { type: 'literal', value: ', ' },
+      { type: 'hour', value: '07' },
+      { type: 'literal', value: ':' },
+      { type: 'minute', value: '00' },
+      { type: 'literal', value: ' ' },
+      { type: 'dayPeriod', value: 'PM' }
+    ])
+    expect(d(dt, { key: 'long', locale: 'ja-JP', part: true })).toEqual([
+      { type: 'year', value: '2015' },
+      { type: 'literal', value: '/' },
+      { type: 'month', value: '12' },
+      { type: 'literal', value: '/' },
+      { type: 'day', value: '31' },
+      { type: 'literal', value: ' ' },
+      { type: 'hour', value: '19' },
+      { type: 'literal', value: ':' },
+      { type: 'minute', value: '00' },
+      { type: 'literal', value: ':' },
+      { type: 'second', value: '00' }
+    ])
+  })
 })
 
 describe('n', () => {
