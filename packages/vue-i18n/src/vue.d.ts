@@ -671,7 +671,24 @@ declare module 'vue' {
      *
      * @returns formatted value
      */
-    $d(value: number | Date, options: DateTimeOptions): string
+    $d<
+      value extends number | Date = number,
+      Key extends string = string,
+      Return extends string | Intl.DateTimeFormatPart[] =
+        | string
+        | Intl.DateTimeFormatPart[],
+      DefinedDateTimeFormat extends
+        RemovedIndexResources<DefineDateTimeFormat> = RemovedIndexResources<DefineDateTimeFormat>,
+      Keys = IsEmptyObject<DefinedDateTimeFormat> extends false
+        ? PickupFormatPathKeys<{
+            [K in keyof DefinedDateTimeFormat]: DefinedDateTimeFormat[K]
+          }>
+        : never,
+      ResourceKeys extends Keys = IsNever<Keys> extends false ? Keys : never
+    >(
+      value: number | Date,
+      options: DateTimeOptions<Key, ResourceKeys>
+    ): Return
     /**
      * Number formatting
      *
