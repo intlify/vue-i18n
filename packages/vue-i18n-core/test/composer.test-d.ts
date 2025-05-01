@@ -344,13 +344,23 @@ test('strict composer with direct options', () => {
   }>()
   expectTypeOf(strictDirectComposer.d(new Date())).toEqualTypeOf<string>()
   expectTypeOf(
-    strictDirectComposer.d(new Date(), 'short', 'ja-JP')
+    strictDirectComposer.d<Date, string, string>(new Date(), 'short', 'ja-JP')
   ).toEqualTypeOf<string>()
   expectTypeOf(
     strictDirectComposer.d(new Date(), { key: 'short', locale: 'zh' })
-  ).toEqualTypeOf<string>()
+  ).toEqualTypeOf<string | Intl.DateTimeFormatPart[]>()
   expectTypeOf(
-    strictDirectComposer.d(new Date(), 'custom' as any)
+    strictDirectComposer.d<Date, string, Intl.DateTimeFormatPart[]>(
+      new Date(),
+      {
+        key: 'short',
+        locale: 'zh',
+        part: true
+      }
+    )
+  ).toEqualTypeOf<Intl.DateTimeFormatPart[]>()
+  expectTypeOf(
+    strictDirectComposer.d<Date, string, string>(new Date(), 'custom' as any)
   ).toEqualTypeOf<string>()
   expectTypeOf(strictDirectComposer.n(1)).toEqualTypeOf<string>()
   expectTypeOf(strictDirectComposer.n(1, 'currency', 'zh')).toEqualTypeOf<
