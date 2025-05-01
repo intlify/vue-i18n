@@ -600,8 +600,11 @@ declare module 'vue' {
      * @returns formatted value
      */
     $d<
-      Value extends number | Date | string = number,
+      Value extends number | Date = number,
       Key extends string = string,
+      Return extends string | Intl.DateTimeFormatPart[] =
+        | string
+        | Intl.DateTimeFormatPart[],
       DefinedDateTimeFormat extends
         RemovedIndexResources<DefineDateTimeFormat> = RemovedIndexResources<DefineDateTimeFormat>,
       Keys = IsEmptyObject<DefinedDateTimeFormat> extends false
@@ -614,7 +617,7 @@ declare module 'vue' {
       value: Value,
       options: DateTimeOptions<Key | ResourceKeys>,
       locale: Locale
-    ): string
+    ): Return
     /**
      * Number formatting
      *
