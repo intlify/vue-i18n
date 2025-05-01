@@ -1059,7 +1059,7 @@ describe('d', () => {
     )
   })
 
-  test.only('parts formatting', () => {
+  test('parts formatting', () => {
     const { d } = createComposer({
       locale: 'en-US',
       datetimeFormats: {
