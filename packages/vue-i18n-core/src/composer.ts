@@ -1113,13 +1113,19 @@ export interface ComposerDateTimeFormatting<
    *
    * @returns Formatted value
    */
-  <Value extends number | Date | string = number, Key extends string = string>(
+  <
+    Value extends number | Date | string = number,
+    Key extends string = string,
+    Return extends string | Intl.DateTimeFormatPart[] =
+      | string
+      | Intl.DateTimeFormatPart[]
+  >(
     value: Value,
     keyOrOptions:
       | Key
       | ResourceKeys
       | DateTimeOptions<Key | ResourceKeys, Locales>
-  ): string
+  ): Return
   /**
    * Datetime formatting
    *
@@ -1134,14 +1140,20 @@ export interface ComposerDateTimeFormatting<
    *
    * @returns Formatted value
    */
-  <Value extends number | Date | string = number, Key extends string = string>(
+  <
+    Value extends number | Date | string = number,
+    Key extends string = string,
+    Return extends string | Intl.DateTimeFormatPart[] =
+      | string
+      | Intl.DateTimeFormatPart[]
+  >(
     value: Value,
     keyOrOptions:
       | Key
       | ResourceKeys
       | DateTimeOptions<Key | ResourceKeys, Locales>,
     locale: Locales
-  ): string
+  ): Return
 }
 
 /**
@@ -2285,14 +2297,17 @@ export function createComposer(options: any = {}): any {
   }
 
   // d
-  function d(...args: unknown[]): string {
-    return wrapWithDeps<{}, string>(
-      context => Reflect.apply(datetime, null, [context, ...args]) as string,
+  function d(...args: unknown[]): string | Intl.DateTimeFormatPart[] {
+    return wrapWithDeps<{}, string | Intl.DateTimeFormatPart[]>(
+      context =>
+        Reflect.apply(datetime, null, [context, ...args]) as
+          | string
+          | Intl.DateTimeFormatPart[],
       () => parseDateTimeArgs(...args),
       'datetime format',
       root => Reflect.apply(root.d, root, [...args]),
       () => MISSING_RESOLVE_VALUE,
-      val => isString(val)
+      val => isString(val) || isArray(val)
     )
   }
 
