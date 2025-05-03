@@ -10,15 +10,15 @@
 ::: code-group
 
 ```sh [npm]
-npm install vue-i18n@10
+npm install vue-i18n@11
 ```
 
 ```sh [yarn]
-yarn add vue-i18n@10
+yarn add vue-i18n@11
 ```
 
 ```sh [pnpm]
-pnpm add vue-i18n@10
+pnpm add vue-i18n@11
 ```
 
 :::
