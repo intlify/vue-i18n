@@ -1,19 +1,20 @@
 # Third-party tooling
 
-## Sherlock – i18n inspector (VS Code extension)
+## Loccy (VS Code extension)
 
-Sherlock is a VS Code extension that helps you to extract, edit & inspect your i18n keys in your codebase. It is available in the [VS Code Marketplace](https://marketplace.visualstudio.com/items?itemName=inlang.vs-code-extension).
+[Loccy](https://loccy.dev/) is lightning-fast i18n management in Vue projects.
 
-Sherlock is part of the inlang ecosystem, which gives you multiple apps with awesome developer experience for your i18n development, like a [Figma plugin](https://inlang.com/m/gkrpgoir/app-parrot-figmaPlugin), a [web editor](https://inlang.com/m/tdozzpar/app-inlang-finkLocalizationEditor) or a [GitHub Action](https://inlang.com/m/3gk8n4n4/app-inlang-ninjaI18nAction).
+This VS Code extension helps you manage multilingual Vue projects extremely quickly and effortlessly with top-tier AI translations and a thoughtfully designed UX down to every minor detail.
 
+See more about Loccy in [Demo Video](https://loccy.dev/)
 
-## i18n Ally
+## i18n Ally (VS Code extension)
 
-[i18n Ally](https://marketplace.visualstudio.com/items?itemName=antfu.i18n-ally) is i18n extension for VSCode.
+[i18n Ally](https://marketplace.visualstudio.com/items?itemName=lokalise.i18n-ally) is i18n extension for VSCode.
 
 The i18n Ally give awesome developer experience for your i18n development.
 
-Read more about i18n Ally in [README](https://github.com/antfu/i18n-ally/blob/master/README.md).
+Read more about i18n Ally in [README](https://github.com/lokalise/i18n-ally).
 
 ## i18nPlugin (intellij platform)
 
@@ -26,6 +27,13 @@ Plugin for i18n typescript/javascript/PHP. Supports vue-i18n. To enable vue-i18n
 Translation helper for IntelliJ IDEA based IDE's. Requires dedicated language files. Features: `Tree-/Table-View` / `Search filter` / `Indication of missing translations` / `Quick CRUD operations`.
 
 [JetBrains Marketplace](https://plugins.jetbrains.com/plugin/16316-easy-i18n) // [GitHub Repository](https://github.com/marhali/easy-i18n)
+
+## Sherlock – i18n inspector (VS Code extension)
+
+Sherlock is a VS Code extension that helps you to extract, edit & inspect your i18n keys in your codebase. It is available in the [VS Code Marketplace](https://marketplace.visualstudio.com/items?itemName=inlang.vs-code-extension).
+
+Sherlock is part of the inlang ecosystem, which gives you multiple apps with awesome developer experience for your i18n development, like a [Figma plugin](https://inlang.com/m/gkrpgoir/app-parrot-figmaPlugin), a [web editor](https://inlang.com/m/tdozzpar/app-inlang-finkLocalizationEditor) or a [GitHub Action](https://inlang.com/m/3gk8n4n4/app-inlang-ninjaI18nAction).
+
 
 ## BabelEdit
 
