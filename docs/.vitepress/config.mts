@@ -12,7 +12,11 @@ export default defineConfig({
   lastUpdated: true,
   head,
 
-  markdown: { attrs: { disable: true } },
+  markdown: {
+    attrs: {
+      disable: true
+    },
+  },
 
   vite: {
     plugins: [llmstxt()]

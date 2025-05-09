@@ -2,11 +2,11 @@
 
 ## Loccy (VS Code extension)
 
-[Loccy](https://loccy.dev/) is lightning-fast i18n management in Vue projects.
+<a href="https://loccy.dev" target="_blank" rel="noopener">Loccy</a> is lightning-fast i18n management in Vue projects.
 
 This VS Code extension helps you manage multilingual Vue projects extremely quickly and effortlessly with top-tier AI translations and a thoughtfully designed UX down to every minor detail.
 
-See more about Loccy in [Demo Video](https://loccy.dev/)
+See more about Loccy in <a href="https://loccy.dev" target="_blank" rel="noopener">Demo Video</a>.
 
 ## i18n Ally (VS Code extension)
 
