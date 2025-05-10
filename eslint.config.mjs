@@ -85,6 +85,7 @@ export default [
   // ignore globally
   {
     ignores: [
+      'tools/mcp/**',
       '**/dist/**',
       '**/fixtures/**',
       '**/coverage/**',
