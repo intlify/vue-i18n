@@ -237,9 +237,76 @@ It’s `en` locale that has hierarchical structure in the object.
 The `message.snake` has `snake case`. The `message.custom_modifier` has `custom modifiers example: @.snakeCase:{'message.snake'}`, and it’s linked to the locale messages key, which is interpolated with literal.
 
 :::tip NOTE
-You can use the interpolations (Named, List, and Literal) for the key of Linked messages.
+You can use the interpolations (Named, List, and Literal) for the key of Linked messages shown below.
 :::
 
+
+This example shows the use of modifiers (`@.lower`, `@.upper`, `@.capitalize`) combined with named, list, and literal interpolations.
+
+
+```js
+const messages = {
+  en: {
+    message: {
+      greeting: "Hello, @.lower:{'message.name'}! You have {count} new messages.",
+      name:"{name}"
+    },
+
+    welcome: "Welcome, @.upper:{'name'}! Today is @.capitalize:{'day'}.",
+    name: '{0}',
+    day: '{1}',
+
+    literalMessage: "This is an email: foo{'@'}@.lower:domain",
+    domain: 'SHOUTING'
+  }
+}
+```
+### Named interpolation with modifier
+
+In `message.greeting`, we use a named interpolation for `{count}` and link to `message.name`, applying the .lower modifier.
+
+The key `message.name` contains `{name}`, which will be interpolated with the passed `name` param.
+
+The `message.greeting` is linked to the locale message key `message.name`. 
+
+```html
+<p>{{ $t('message.greeting', { name: 'Alice', count: 5 }) }}</p>
+```
+As result, the below
+
+```html
+<p>Hello, alice! You have 5 new messages.</p>
+```
+
+### List interpolation with modifier
+
+In this case, the values for `{0}` and `{1}` are passed as an array. The keys `name` and `day` are resolved using list interpolation and transformed with modifiers.
+
+```html
+<p>{{ $t('welcome', ['bob', 'MONDAY']) }}</p>
+```
+
+As result, the below
+
+```html
+<p>Welcome, BOB! Today is Monday.</p>
+```
+
+### Literal interpolation with modifier
+
+In this example, we use a literal string inside the message and apply the `.lower` modifier.
+
+```html
+<p>{{ $t('literalMessage') }}</p>
+```
+
+Here, the modifier is applied to the content inside `domain`, and the `@` is preserved as literal output.
+
+As result, the below
+
+```html
+<p>This is an email: foo@shouting</p>
+```
 
 ## Special Characters
 
