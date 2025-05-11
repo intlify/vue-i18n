@@ -23,7 +23,7 @@ Here, we have an `en` locale object that has `car` and `apple`.
 
 The `car` has `car | cars` pluralization message, while the `apple` has `no apples | one apple | {count} apples` pluralization message.
 
-These plural messages are selected by the logic of the choice rule for each language in the translaton API according to the numeric value you specify at the translation API.
+These plural messages are selected by the logic of the choice rule for each language in the translation API according to the numeric value you specify at the translation API.
 
 Vue I18n offers some ways to support pluralization. Here we’ll use the `$t`.
 
