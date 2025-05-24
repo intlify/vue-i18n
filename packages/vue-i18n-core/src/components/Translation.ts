@@ -58,7 +58,7 @@ export const TranslationImpl = /*#__PURE__*/ defineComponent({
       }) as unknown as Composer & ComposerInternal)
 
     return (): VNodeChild => {
-      const keys = Object.keys(slots).filter(key => key !== '_')
+      const keys = Object.keys(slots).filter(key => key[0] !== '_')
       const options = create() as TranslateOptions
       if (props.locale) {
         options.locale = props.locale
