@@ -27,6 +27,7 @@ import type { Ref } from 'vue'
 const messages = {
   en: {
     message: {
+      hello: 'hello',
       language: 'English',
       quantity: 'Quantity',
       list: 'hello, {0}!',
@@ -38,6 +39,7 @@ const messages = {
   },
   ja: {
     message: {
+      hello: 'こんにちは',
       language: '日本語',
       list: 'こんにちは、{0}！',
       named: 'こんにちは、{name}！',
@@ -318,5 +320,55 @@ test('v-if / v-else', async () => {
   await nextTick()
   expect(wrapper.html()).toEqual(
     `<p class="name">hello, <span>kazu_pon</span>!</p>`
+  )
+})
+
+test('vue/core slot changing', async () => {
+  const i18n = createI18n({
+    locale: 'en',
+    messages
+  })
+
+  const App = defineComponent({
+    setup() {
+      const { t, locale } = useI18n()
+      return { t, locale }
+    },
+    template: `<h1>{{ t('hello') }}</h1>
+<form>
+  <label>{{ t('language') }}: </label>
+  <select v-model="locale">
+    <option value="en">en</option>
+    <option value="ja">ja</option>
+  </select>
+
+  <br />
+  First slot <br />
+  <i18n-t tag="div" keypath="with_single_slot">
+    <template #name>
+      <h1>name</h1>
+    </template>
+  </i18n-t>
+
+  <br />
+  Second slot <br />
+  <i18n-t tag="div" keypath="with_double_slot">
+    <template #a>
+      <h1>a</h1>
+    </template>
+
+    <template #blaha>
+      <h1>b</h1>
+    </template>
+
+    <template> testa </template>
+  </i18n-t>
+</form>
+`
+  })
+  const wrapper = await mount(App, i18n)
+
+  expect(wrapper.html()).toEqual(
+    `<h1>hello</h1><form><label>language: </label><select><option value="en">en</option><option value="ja">ja</option></select><br> First slot <br><div>with_single_slot</div><br> Second slot <br><div>with_double_slot</div></form>`
   )
 })
