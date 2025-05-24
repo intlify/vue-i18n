@@ -359,6 +359,36 @@ describe('modifiers', () => {
     expect(t('hi')).toEqual('hi hello-world')
   })
 
+  test('Modifiers with Named, List and Literal Interpolation', () => {
+    const { t } = createComposer({
+      locale: 'en',
+      messages: {
+        en: {
+          message: {
+            greeting:
+              "Hello, @.lower:{'message.name'}! You have {count} new messages.",
+            name: '{name}'
+          },
+
+          welcome: "Welcome, @.upper:{'name'}! Today is @.capitalize:{'day'}.",
+          name: '{0}',
+          day: '{1}',
+
+          literalMessage: "This is an email: foo{'@'}@.lower:domain",
+          domain: 'SHOUTING'
+        }
+      }
+    })
+
+    expect(t('message.greeting', { name: 'Alice', count: 5 })).toEqual(
+      'Hello, alice! You have 5 new messages.'
+    )
+    expect(t('welcome', ['bob', 'monday'])).toEqual(
+      'Welcome, BOB! Today is Monday.'
+    )
+    expect(t('literalMessage')).toEqual('This is an email: foo@shouting')
+  })
+
   test('pascal case', () => {
     const _modifiers = {
       snakeCase: (str: VueMessageType) =>
