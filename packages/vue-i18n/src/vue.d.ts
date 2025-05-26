@@ -26,6 +26,8 @@ import type {
 
 import type { JsonPaths } from '@intlify/core-base'
 
+type IsPart<O> = O extends { part: infer P } ? P : false
+
 declare module 'vue' {
   /**
    * Component Custom Options for Vue I18n
@@ -602,9 +604,7 @@ declare module 'vue' {
     $d<
       Value extends number | Date = number,
       Key extends string = string,
-      Return extends string | Intl.DateTimeFormatPart[] =
-        | string
-        | Intl.DateTimeFormatPart[],
+      OptionsType = DateTimeOptions<Key | ResourceKeys>,
       DefinedDateTimeFormat extends
         RemovedIndexResources<DefineDateTimeFormat> = RemovedIndexResources<DefineDateTimeFormat>,
       Keys = IsEmptyObject<DefinedDateTimeFormat> extends false
@@ -615,9 +615,9 @@ declare module 'vue' {
       ResourceKeys extends Keys = IsNever<Keys> extends false ? Keys : never
     >(
       value: Value,
-      options: DateTimeOptions<Key | ResourceKeys>,
+      options: OptionsType,
       locale: Locale
-    ): Return
+    ): IsPart<OptionsType> extends true ? Intl.DateTimeFormatPart[] : string
     /**
      * Number formatting
      *
@@ -670,9 +670,7 @@ declare module 'vue' {
      */
     $n<
       Key extends string = string,
-      Return extends string | Intl.NumberFormatPart[] =
-        | string
-        | Intl.NumberFormatPart[],
+      OptionsType = NumberOptions<Key | ResourceKeys>,
       DefinedNumberFormat extends
         RemovedIndexResources<DefineDateTimeFormat> = RemovedIndexResources<DefineDateTimeFormat>,
       Keys = IsEmptyObject<DefinedNumberFormat> extends false
@@ -683,8 +681,8 @@ declare module 'vue' {
       ResourceKeys extends Keys = IsNever<Keys> extends false ? Keys : never
     >(
       value: number,
-      options: NumberOptions<Key | ResourceKeys>
-    ): Return
+      options: OptionsType
+    ): IsPart<OptionsType> extends true ? Intl.NumberFormatPart[] : string
     /**
      * Number formatting
      *
@@ -726,9 +724,7 @@ declare module 'vue' {
      */
     $n<
       Key extends string = string,
-      Return extends string | Intl.NumberFormatPart[] =
-        | string
-        | Intl.NumberFormatPart[],
+      OptionsType = NumberOptions<Key | ResourceKeys>,
       DefinedNumberFormat extends
         RemovedIndexResources<DefineDateTimeFormat> = RemovedIndexResources<DefineDateTimeFormat>,
       Keys = IsEmptyObject<DefinedNumberFormat> extends false
@@ -739,9 +735,9 @@ declare module 'vue' {
       ResourceKeys extends Keys = IsNever<Keys> extends false ? Keys : never
     >(
       value: number,
-      options: NumberOptions<Key | ResourceKeys>,
+      options: OptionsType,
       locale: Locale
-    ): Return
+    ): IsPart<OptionsType> extends true ? Intl.NumberFormatPart[] : string
 
     /**
      * Locale messages getter
