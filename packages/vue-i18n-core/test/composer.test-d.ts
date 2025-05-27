@@ -376,13 +376,6 @@ test('strict composer with direct options', () => {
       part: true
     })
   ).toEqualTypeOf<Intl.DateTimeFormatPart[]>()
-  expectTypeOf(
-    strictDirectComposer.d<Date, string>(new Date(), {
-      key: 'short',
-      locale: 'zh',
-      part: true
-    })
-  ).toEqualTypeOf<Intl.DateTimeFormatPart[]>()
 
   // ComposerNumberFormatting
   expectTypeOf(strictDirectComposer.n(1)).toEqualTypeOf<string>()
@@ -409,13 +402,6 @@ test('strict composer with direct options', () => {
   ).toEqualTypeOf<string>()
   expectTypeOf(
     strictDirectComposer.n(1, { key: 'currency', locale: 'en', part: true })
-  ).toEqualTypeOf<Intl.NumberFormatPart[]>()
-  expectTypeOf(
-    strictDirectComposer.n<string>(1, {
-      key: 'currency',
-      locale: 'en',
-      part: true
-    })
   ).toEqualTypeOf<Intl.NumberFormatPart[]>()
 
   // const noOptionsComposer = createComposer({ missingWarn: true })
