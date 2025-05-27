@@ -242,6 +242,8 @@ export interface CustomBlock<Message = VueMessageType> {
 
 export type CustomBlocks<Message = VueMessageType> = Array<CustomBlock<Message>>
 
+type IsPart<O> = O extends { part: infer P } ? P : false
+
 // prettier-ignore
 /**
  * Composer Options
@@ -1116,16 +1118,17 @@ export interface ComposerDateTimeFormatting<
   <
     Value extends number | Date | string = number,
     Key extends string = string,
-    Return extends string | Intl.DateTimeFormatPart[] =
-      | string
-      | Intl.DateTimeFormatPart[]
-  >(
-    value: Value,
-    keyOrOptions:
+    OptionsType extends
+      | Key
+      | ResourceKeys
+      | DateTimeOptions<Key | ResourceKeys, Locales> =
       | Key
       | ResourceKeys
       | DateTimeOptions<Key | ResourceKeys, Locales>
-  ): Return
+  >(
+    value: Value,
+    keyOrOptions: OptionsType
+  ): IsPart<OptionsType> extends true ? Intl.DateTimeFormatPart[] : string
   /**
    * Datetime formatting
    *
@@ -1143,17 +1146,18 @@ export interface ComposerDateTimeFormatting<
   <
     Value extends number | Date | string = number,
     Key extends string = string,
-    Return extends string | Intl.DateTimeFormatPart[] =
-      | string
-      | Intl.DateTimeFormatPart[]
-  >(
-    value: Value,
-    keyOrOptions:
+    OptionsType extends
       | Key
       | ResourceKeys
-      | DateTimeOptions<Key | ResourceKeys, Locales>,
+      | DateTimeOptions<Key | ResourceKeys, Locales> =
+      | Key
+      | ResourceKeys
+      | DateTimeOptions<Key | ResourceKeys, Locales>
+  >(
+    value: Value,
+    keyOrOptions: OptionsType,
     locale: Locales
-  ): Return
+  ): IsPart<OptionsType> extends true ? Intl.DateTimeFormatPart[] : string
 }
 
 /**
@@ -1217,16 +1221,17 @@ export interface ComposerNumberFormatting<
    */
   <
     Key extends string = string,
-    Return extends string | Intl.NumberFormatPart[] =
-      | string
-      | Intl.NumberFormatPart[]
-  >(
-    value: number,
-    keyOrOptions:
+    OptionsType extends
+      | Key
+      | ResourceKeys
+      | NumberOptions<Key | ResourceKeys, Locales> =
       | Key
       | ResourceKeys
       | NumberOptions<Key | ResourceKeys, Locales>
-  ): Return
+  >(
+    value: number,
+    keyOrOptions: OptionsType
+  ): IsPart<OptionsType> extends true ? Intl.NumberFormatPart[] : string
   /**
    * Number Formatting
    *
@@ -1243,17 +1248,18 @@ export interface ComposerNumberFormatting<
    */
   <
     Key extends string = string,
-    Return extends string | Intl.NumberFormatPart[] =
-      | string
-      | Intl.NumberFormatPart[]
-  >(
-    value: number,
-    keyOrOptions:
+    OptionsType extends
       | Key
       | ResourceKeys
-      | NumberOptions<Key | ResourceKeys, Locales>,
+      | NumberOptions<Key | ResourceKeys, Locales> =
+      | Key
+      | ResourceKeys
+      | NumberOptions<Key | ResourceKeys, Locales>
+  >(
+    value: number,
+    keyOrOptions: OptionsType,
     locale: Locales
-  ): Return
+  ): IsPart<OptionsType> extends true ? Intl.NumberFormatPart[] : string
 }
 
 /**

@@ -31,6 +31,8 @@ import type {
   VueI18nOptions
 } from '../../vue-i18n-core/src/legacy'
 
+type IsPart<O> = O extends { part: infer P } ? P : false
+
 // --- THE CONTENT BELOW THIS LINE WILL BE APPENDED TO DTS FILE IN DIST DIRECTORY --- //
 declare module 'vue' {
   /**
@@ -674,9 +676,7 @@ declare module 'vue' {
     $d<
       value extends number | Date = number,
       Key extends string = string,
-      Return extends string | Intl.DateTimeFormatPart[] =
-        | string
-        | Intl.DateTimeFormatPart[],
+      OptionsType = DateTimeOptions<Key | ResourceKeys>,
       DefinedDateTimeFormat extends
         RemovedIndexResources<DefineDateTimeFormat> = RemovedIndexResources<DefineDateTimeFormat>,
       Keys = IsEmptyObject<DefinedDateTimeFormat> extends false
@@ -687,8 +687,8 @@ declare module 'vue' {
       ResourceKeys extends Keys = IsNever<Keys> extends false ? Keys : never
     >(
       value: number | Date,
-      options: DateTimeOptions<Key, ResourceKeys>
-    ): Return
+      options: OptionsType
+    ): IsPart<OptionsType> extends true ? Intl.DateTimeFormatPart[] : string
     /**
      * Number formatting
      *
@@ -884,9 +884,7 @@ declare module 'vue' {
      */
     $n<
       Key extends string,
-      Return extends string | Intl.NumberFormatPart[] =
-        | string
-        | Intl.NumberFormatPart[],
+      OptionsType = NumberOptions<Key | ResourceKeys>,
       DefinedNumberFormat extends
         RemovedIndexResources<DefineDateTimeFormat> = RemovedIndexResources<DefineDateTimeFormat>,
       Keys = IsEmptyObject<DefinedNumberFormat> extends false
@@ -897,8 +895,8 @@ declare module 'vue' {
       ResourceKeys extends Keys = IsNever<Keys> extends false ? Keys : never
     >(
       value: number,
-      options: NumberOptions<Key, ResourceKeys>
-    ): Return
+      options: OptionsType
+    ): IsPart<OptionsType> extends true ? Intl.NumberFormatPart[] : string
     /**
      * Locale messages getter
      *

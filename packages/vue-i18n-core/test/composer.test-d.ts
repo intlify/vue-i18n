@@ -342,55 +342,63 @@ test('strict composer with direct options', () => {
   expectTypeOf(strictDirectComposer.numberFormats.value).toEqualTypeOf<{
     ca: { currency: { style: 'currency'; currencyDisplay: 'symbol' } }
   }>()
+
+  // ComposerDateTimeFormatting
   expectTypeOf(strictDirectComposer.d(new Date())).toEqualTypeOf<string>()
   expectTypeOf(
-    strictDirectComposer.d<Date, string, string>(new Date(), 'short', 'ja-JP')
+    strictDirectComposer.d<Date, string>(new Date(), 'short', 'ja-JP')
   ).toEqualTypeOf<string>()
   expectTypeOf(
     strictDirectComposer.d(new Date(), { key: 'short', locale: 'zh' })
-  ).toEqualTypeOf<string | Intl.DateTimeFormatPart[]>()
-  expectTypeOf(
-    strictDirectComposer.d<Date, string, Intl.DateTimeFormatPart[]>(
-      new Date(),
-      {
-        key: 'short',
-        locale: 'zh',
-        part: true
-      }
-    )
-  ).toEqualTypeOf<Intl.DateTimeFormatPart[]>()
-  expectTypeOf(
-    strictDirectComposer.d<Date, string, string>(new Date(), 'custom' as any)
   ).toEqualTypeOf<string>()
+  expectTypeOf(
+    strictDirectComposer.d<Date, string>(new Date(), 'custom' as any)
+  ).toEqualTypeOf<string>()
+  expectTypeOf(
+    strictDirectComposer.d(new Date(), {
+      key: 'short',
+      locale: 'zh'
+      //part: undefined
+    })
+  ).toEqualTypeOf<string>()
+  expectTypeOf(
+    strictDirectComposer.d(new Date(), {
+      key: 'short',
+      locale: 'zh',
+      part: false
+    })
+  ).toEqualTypeOf<string>()
+  expectTypeOf(
+    strictDirectComposer.d(new Date(), {
+      key: 'short',
+      locale: 'zh',
+      part: true
+    })
+  ).toEqualTypeOf<Intl.DateTimeFormatPart[]>()
+
+  // ComposerNumberFormatting
   expectTypeOf(strictDirectComposer.n(1)).toEqualTypeOf<string>()
-  expectTypeOf(strictDirectComposer.n(1, 'currency', 'zh')).toEqualTypeOf<
-    string | Intl.NumberFormatPart[]
-  >()
   expectTypeOf(
     strictDirectComposer.n<string, string>(1, 'currency', 'zh')
   ).toEqualTypeOf<string>()
+  expectTypeOf(strictDirectComposer.n(1, 'currency')).toEqualTypeOf<string>()
   expectTypeOf(
-    strictDirectComposer.n<string, string>(1, { key: 'currency', locale: 'en' })
+    strictDirectComposer.n<string>(1, 'currency')
   ).toEqualTypeOf<string>()
+  // part & return type
   expectTypeOf(
-    strictDirectComposer.n<string, string>(1, { key: 'currency', locale: 'en' })
-  ).toEqualTypeOf<string>()
-  expectTypeOf(
-    strictDirectComposer.n<string, Intl.NumberFormatPart[]>(1, {
+    strictDirectComposer.n(1, {
       key: 'currency',
-      locale: 'en',
-      part: true
+      locale: 'en'
+      //part: undefined
     })
-  ).toEqualTypeOf<Intl.NumberFormatPart[]>()
-  expectTypeOf(strictDirectComposer.n(1, 'currency')).toEqualTypeOf<
-    string | Intl.NumberFormatPart[]
-  >()
-  expectTypeOf(
-    strictDirectComposer.n<string, string>(1, 'currency')
   ).toEqualTypeOf<string>()
-  expectTypeOf(strictDirectComposer.n(1, 'custom' as any)).toEqualTypeOf<
-    string | Intl.NumberFormatPart[]
-  >()
+  expectTypeOf(
+    strictDirectComposer.n(1, { key: 'currency', locale: 'en', part: false })
+  ).toEqualTypeOf<string>()
+  expectTypeOf(
+    strictDirectComposer.n(1, { key: 'currency', locale: 'en', part: true })
+  ).toEqualTypeOf<Intl.NumberFormatPart[]>()
 
   // const noOptionsComposer = createComposer({ missingWarn: true })
   const noOptionsComposer = createComposer({ locale: 'en' })
