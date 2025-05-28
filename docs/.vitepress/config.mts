@@ -1,6 +1,8 @@
+import { ViteMcp as mcp } from 'vite-plugin-mcp'
 import type { HeadConfig } from 'vitepress'
 import { defineConfig } from 'vitepress'
 import llmstxt from 'vitepress-plugin-llms'
+import pkg from '../../package.json' with { type: 'json' }
 
 const head: HeadConfig[] = [['link', { rel: 'icon', href: '/vue-i18n-logo.png' }]]
 
@@ -15,7 +17,14 @@ export default defineConfig({
   markdown: { attrs: { disable: true } },
 
   vite: {
-    plugins: [llmstxt()]
+    plugins: [llmstxt(), mcp(
+      {
+        mcpServerInfo: {
+          name: 'Vue I18n Docs',
+          version: pkg.version
+        }
+      }
+    )]
   },
 
   themeConfig: {

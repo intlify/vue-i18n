@@ -55,6 +55,7 @@
     "docs:dev": "vitepress dev docs",
     "docs:serve": "vitepress serve docs",
     "docs:setup": "pnpm build:typed && pnpm docs:apigen",
+    "docs:dev:mcp": "tsx docs/.vitepress/client.ts",
     "eslint:inspector": "npx @eslint/config-inspector",
     "example:ssr": "cd examples/ssr/vite && pnpm dev",
     "fix": "run-p lint:fix format:fix",
@@ -160,6 +161,8 @@
     "typescript-eslint": "^8.4.0",
     "vitepress": "1.6.3",
     "vitepress-plugin-llms": "^1.1.0",
+    "vite-plugin-mcp": "^0.2.2",
+    "@modelcontextprotocol/sdk": "^1.12.0",
     "vitest": "^2.1.5",
     "vue": "3.5.13",
     "vue-i18n": "workspace:*"
