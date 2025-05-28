@@ -1,8 +1,9 @@
 import { ViteMcp as mcp } from 'vite-plugin-mcp'
-import type { HeadConfig } from 'vitepress'
 import { defineConfig } from 'vitepress'
 import llmstxt from 'vitepress-plugin-llms'
 import pkg from '../../package.json' with { type: 'json' }
+
+import type { HeadConfig } from 'vitepress'
 
 const head: HeadConfig[] = [['link', { rel: 'icon', href: '/vue-i18n-logo.png' }]]
 
@@ -20,8 +21,12 @@ export default defineConfig({
     plugins: [llmstxt(), mcp(
       {
         mcpServerInfo: {
-          name: 'Vue I18n Docs',
+          name: 'Vue I18n MCP Docs',
           version: pkg.version
+        },
+        mcpServerSetup(mcpServer, viteServer) {
+          console.log('Setting up MCP server for Vue I18n docs...', viteServer.config.vitepress)
+          return mcpServer
         }
       }
     )]

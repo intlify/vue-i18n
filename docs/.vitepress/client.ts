@@ -35,6 +35,9 @@ async function main() {
     console.log('Connected using SSE transport')
   }
 
+  const version = await client.getServerVersion()
+  console.log('Server version:', version)
+
   // List tools
   const tools = await client.listTools()
   console.log('list tools', tools)
