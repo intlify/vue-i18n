@@ -106,7 +106,7 @@ Will result in the following fallback chains:
 
 ## Fallback interpolation
 
-Set `formatFallbackMessages: true` to do template interpolation on translation keys when your language lacks a translation for a key.
+Set `fallbackFormat: true` to do template interpolation on translation keys when your language lacks a translation for a key.
 
 Since the keys to the translations are strings, you can use a user-readable message (for a particular language) as a key.
 E.g.
@@ -121,7 +121,7 @@ const messages = {
 
 This is useful because you don’t have to specify a translation for the string "Hello, world!" into English.
 
-In fact, you can even include template parameters in a key. Together with `formatFallbackMessages: true`, this lets you skip writing templates for your "base" language; the keys *are* your templates.
+In fact, you can even include template parameters in a key. Together with `fallbackFormat: true`, this lets you skip writing templates for your "base" language; the keys *are* your templates.
 
 ```javascript
 const messages = {
@@ -133,7 +133,7 @@ const messages = {
 const i18n = createI18n({
   locale: 'ru',
   fallbackLocale: 'en',
-  formatFallbackMessages: true,
+  fallbackFormat: true,
   messages
 })
 ```
