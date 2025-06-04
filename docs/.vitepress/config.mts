@@ -2,6 +2,7 @@ import { ViteMcp as mcp } from 'vite-plugin-mcp'
 import { defineConfig } from 'vitepress'
 import llmstxt from 'vitepress-plugin-llms'
 import pkg from '../../package.json' with { type: 'json' }
+import mcpServer from './mcp'
 
 import type { HeadConfig } from 'vitepress'
 
@@ -24,10 +25,7 @@ export default defineConfig({
           name: 'Vue I18n MCP Docs',
           version: pkg.version
         },
-        mcpServerSetup(mcpServer, viteServer) {
-          console.log('Setting up MCP server for Vue I18n docs...', viteServer.config.vitepress)
-          return mcpServer
-        }
+        mcpServerSetup: mcpServer
       }
     )]
   },

@@ -41,6 +41,14 @@ async function main() {
   // List tools
   const tools = await client.listTools()
   console.log('list tools', tools)
+
+  // List resources
+  const resources = await client.listResources()
+  console.log('list resources', resources)
+  const contents = await client.readResource({
+    uri: 'vue-i18n://contents'
+  })
+  console.log('read resource', contents)
 }
 
 main()

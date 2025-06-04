@@ -243,6 +243,9 @@ importers:
       typescript-eslint:
         specifier: ^8.4.0
         version: 8.4.0(eslint@9.9.1(jiti@2.4.2))(typescript@5.7.2)
+      vite:
+        specifier: ^6.0.0
+        version: 6.2.4(@types/node@22.10.3)(jiti@2.4.2)(terser@5.27.0)(tsx@4.11.2)(yaml@2.7.1)
       vite-plugin-mcp:
         specifier: ^0.2.2
         version: 0.2.2(vite@6.2.4(@types/node@22.10.3)(jiti@2.4.2)(terser@5.27.0)(tsx@4.11.2)(yaml@2.7.1))
