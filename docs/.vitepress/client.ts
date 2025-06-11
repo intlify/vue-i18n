@@ -45,10 +45,19 @@ async function main() {
   // List resources
   const resources = await client.listResources()
   console.log('list resources', resources)
+  const resourceTemplates = await client.listResourceTemplates()
+  console.log('list resource templates', resourceTemplates)
   const contents = await client.readResource({
-    uri: 'vue-i18n://contents'
+    uri: 'vue-i18n://docs'
   })
-  console.log('read resource', contents)
+  // console.log('read resource', contents)
+  // const page = await client.readResource({
+  //   uri: 'vue-i18n://docs{page}',
+  //   params: {
+  //     page: '/guide/installation.md'
+  //   }
+  // })
+  // console.log('read page', page)
 }
 
 main()

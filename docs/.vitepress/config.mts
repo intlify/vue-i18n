@@ -8,7 +8,7 @@ import type { HeadConfig } from 'vitepress'
 
 const head: HeadConfig[] = [['link', { rel: 'icon', href: '/vue-i18n-logo.png' }]]
 
-export default defineConfig({
+const config = defineConfig({
   title: 'Vue I18n',
   description: 'Internationalization plugin for Vue.js',
 
@@ -316,3 +316,5 @@ function sidebarEcosystem() {
     }
   ]
 }
+
+export default config
