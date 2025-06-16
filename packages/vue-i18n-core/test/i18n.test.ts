@@ -679,8 +679,8 @@ describe('useI18n', () => {
           <p>{{ error }}</p>
       `
     })
-    const { html } = await mount(App, i18n as any) // eslint-disable-line @typescript-eslint/no-explicit-any
-    expect(html()).toMatchSnapshot()
+    await mount(App, i18n as any) // eslint-disable-line @typescript-eslint/no-explicit-any
+    expect(error).toBe(errorMessages[I18nErrorCodes.DUPLICATE_USE_I18N_CALLING])
   })
 })
 
