@@ -53,5 +53,5 @@ export const errorMessages: { [code: number]: string } = {
   [I18nErrorCodes.NOT_INSTALLED_WITH_PROVIDE]:
     'Need to install with `provide` function',
   [I18nErrorCodes.DUPLICATE_USE_I18N_CALLING]:
-    "Duplicate `useI18n` calling by local scope. Please don't call it on local scope"
+    'Duplicate local-scope `useI18n` call detected. Call `useI18n` only once per component.'
 }
