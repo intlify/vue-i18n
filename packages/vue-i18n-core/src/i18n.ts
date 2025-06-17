@@ -772,6 +772,10 @@ export function useI18n<
     setupLifeCycle(i18nInternal, instance, composer)
 
     i18nInternal.__setInstance(instance, composer)
+  } else {
+    if (__DEV__ && scope === 'local') {
+      throw createI18nError(I18nErrorCodes.DUPLICATE_USE_I18N_CALLING)
+    }
   }
 
   return composer as unknown as Composer<
