@@ -22,7 +22,9 @@ export const I18nErrorCodes = {
   CANNOT_SETUP_VUE_DEVTOOLS_PLUGIN: 30,
   NOT_INSTALLED_WITH_PROVIDE: 31,
   // unexpected error
-  UNEXPECTED_ERROR: 32
+  UNEXPECTED_ERROR: 32,
+  // duplicate `useI18n` calling
+  DUPLICATE_USE_I18N_CALLING: 33
 } as const
 
 type I18nErrorCodes = (typeof I18nErrorCodes)[keyof typeof I18nErrorCodes]
@@ -49,5 +51,7 @@ export const errorMessages: { [code: number]: string } = {
   [I18nErrorCodes.INVALID_VALUE]: `Invalid value`,
   [I18nErrorCodes.CANNOT_SETUP_VUE_DEVTOOLS_PLUGIN]: `Cannot setup vue-devtools plugin`,
   [I18nErrorCodes.NOT_INSTALLED_WITH_PROVIDE]:
-    'Need to install with `provide` function'
+    'Need to install with `provide` function',
+  [I18nErrorCodes.DUPLICATE_USE_I18N_CALLING]:
+    "Duplicate `useI18n` calling by local scope. Please don't call it on local scope"
 }
