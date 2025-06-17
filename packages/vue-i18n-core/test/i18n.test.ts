@@ -344,6 +344,66 @@ describe('useI18n', () => {
       errorMessages[I18nErrorCodes.NOT_INSTALLED_WITH_PROVIDE]
     )
   })
+
+  test(errorMessages[I18nErrorCodes.DUPLICATE_USE_I18N_CALLING], async () => {
+    const i18n = createI18n({
+      legacy: false,
+      locale: 'en',
+      fallbackLocale: ['en'],
+      messages: {
+        en: { hello: 'hello!' }
+      }
+    })
+
+    const useMyComposable = () => {
+      const count = ref(0)
+      const { t } = useI18n({
+        messages: {
+          en: {
+            there: 'hi there! {count}'
+          }
+        }
+      })
+      return { message: t('there', { count: count.value }) }
+    }
+
+    let error = ''
+    const App = defineComponent({
+      setup() {
+        let message: string = ''
+        let t: any // eslint-disable-line @typescript-eslint/no-explicit-any
+        try {
+          const i18n = useI18n({
+            messages: {
+              en: {
+                hi: 'hi!'
+              }
+            }
+          })
+          t = i18n.t
+          const ret = useMyComposable()
+          message = ret.message
+        } catch (e: any) {
+          error = e.message
+        }
+        return { t, message, error }
+      },
+      template: `
+        <h1>Root</h1>
+          <form>
+            <select v-model="locale">
+              <option value="en">en</option>
+              <option value="ja">ja</option>
+            </select>
+          </form>
+          <p>{{ t('hi') }}</p>
+          <p>{{ message }}</p>
+          <p>{{ error }}</p>
+      `
+    })
+    await mount(App, i18n as any) // eslint-disable-line @typescript-eslint/no-explicit-any
+    expect(error).toBe(errorMessages[I18nErrorCodes.DUPLICATE_USE_I18N_CALLING])
+  })
 })
 
 test('slot reactivity', async () => {
