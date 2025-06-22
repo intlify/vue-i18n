@@ -676,7 +676,6 @@ declare module 'vue' {
     $d<
       value extends number | Date = number,
       Key extends string = string,
-      OptionsType = DateTimeOptions<Key | ResourceKeys>,
       DefinedDateTimeFormat extends
         RemovedIndexResources<DefineDateTimeFormat> = RemovedIndexResources<DefineDateTimeFormat>,
       Keys = IsEmptyObject<DefinedDateTimeFormat> extends false
@@ -684,7 +683,8 @@ declare module 'vue' {
             [K in keyof DefinedDateTimeFormat]: DefinedDateTimeFormat[K]
           }>
         : never,
-      ResourceKeys extends Keys = IsNever<Keys> extends false ? Keys : never
+      ResourceKeys extends Keys = IsNever<Keys> extends false ? Keys : never,
+      OptionsType = DateTimeOptions<Key | ResourceKeys>
     >(
       value: number | Date,
       options: OptionsType
@@ -884,7 +884,6 @@ declare module 'vue' {
      */
     $n<
       Key extends string,
-      OptionsType = NumberOptions<Key | ResourceKeys>,
       DefinedNumberFormat extends
         RemovedIndexResources<DefineDateTimeFormat> = RemovedIndexResources<DefineDateTimeFormat>,
       Keys = IsEmptyObject<DefinedNumberFormat> extends false
@@ -892,7 +891,8 @@ declare module 'vue' {
             [K in keyof DefinedNumberFormat]: DefinedNumberFormat[K]
           }>
         : never,
-      ResourceKeys extends Keys = IsNever<Keys> extends false ? Keys : never
+      ResourceKeys extends Keys = IsNever<Keys> extends false ? Keys : never,
+      OptionsType = NumberOptions<Key | ResourceKeys>
     >(
       value: number,
       options: OptionsType
