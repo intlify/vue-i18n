@@ -161,7 +161,7 @@
     "vitepress": "1.6.3",
     "vitepress-plugin-llms": "^1.1.0",
     "vitest": "^2.1.5",
-    "vue": "3.5.13",
+    "vue": "3.5.17",
     "vue-i18n": "workspace:*"
   },
   "peerDependencies": {
@@ -191,7 +191,7 @@
   "packageManager": "pnpm@10.2.0",
   "pnpm": {
     "overrides": {
-      "vue": "3.5.13",
+      "vue": "3.5.17",
       "vite": "^6.0.0"
     }
   }
