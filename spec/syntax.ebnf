@@ -1,10 +1,10 @@
 (*
- * Inltify message syntax v0.5.0
+ * Intlify message syntax v0.5.0
  * (vue-i18n compatible)
  *)
 
 (* entrypoint *)
-Resource ::= Plural | Mesasge;
+Resource ::= Plural | Message;
 
 (* main structure *)
 Plural ::= Message Space* "|" Space* (Message (Space* "|" Space*)?)+;
