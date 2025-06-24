@@ -10,7 +10,7 @@ This guide will assume that you are already familiar with Vue itself. You don't 
 
 we're going to consider this example:
 
-- [StackBlitz example](https://stackblitz.com/edit/vue-i18n-get-started?file=main.js)
+- [StackBlitz example](https://stackblitz.com/edit/vue-i18n-get-started-jtknregd?file=main.js)
 
 Let's start by looking at the root component, `App.vue`.
 
