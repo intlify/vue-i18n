@@ -323,16 +323,22 @@ export function createConfigsForPackage({
             if (rawFile == null) {
               return
             }
-            const stub = stubs[rawFile]
+            const filename = path.basename(rawFile)
+            const stub = stubs[`dist/${filename}`]
             if (!stub) {
               return
             }
 
-            const filename = path.basename(rawFile)
             const contents = `export * from './${filename}'`
 
-            await fs.writeFile(stub, contents)
-            // console.log(`created stub ${pc.bold(path.join('packages', target, 'dist', path.basename(stub)))}`)
+            const fullpath = path.join(
+              'packages',
+              target,
+              'dist',
+              path.basename(stub)
+            )
+            await fs.writeFile(fullpath, contents)
+            console.log(`created stub ${pc.bold(fullpath)}`)
           }
         }
       ],
