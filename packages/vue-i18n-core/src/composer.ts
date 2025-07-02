@@ -2,7 +2,7 @@
 import {
   DEFAULT_LOCALE,
   MISSING_RESOLVE_VALUE,
-  NOT_REOSLVED,
+  NOT_RESOLVED,
   clearDateTimeFormat,
   clearNumberFormat,
   createCoreContext,
@@ -2237,7 +2237,7 @@ export function createComposer(options: any = {}): any {
     if (
       (warnType !== 'translate exists' && // for not `te` (e.g `t`)
         isNumber(ret) &&
-        ret === NOT_REOSLVED) ||
+        ret === NOT_RESOLVED) ||
       (warnType === 'translate exists' && !ret) // for `te`
     ) {
       const [key, arg2] = argumentParser()

@@ -28,7 +28,6 @@
   "files": [
     "dist"
   ],
-  "type": "module",
   "module": "dist/petite-vue-i18n.js",
   "unpkg": "dist/petite-vue-i18n.global.js",
   "jsdelivr": "dist/petite-vue-i18n.global.js",
@@ -78,5 +77,6 @@
     "./package.json": "./package.json"
   },
   "funding": "https://github.com/sponsors/kazupon",
-  "sideEffects": false
+  "sideEffects": false,
+  "type": "module"
 }

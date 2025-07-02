@@ -11,7 +11,7 @@ import {
   handleMissing,
   isTranslateFallbackWarn,
   MISSING_RESOLVE_VALUE,
-  NOT_REOSLVED
+  NOT_RESOLVED
 } from './context'
 import { CoreErrorCodes, createCoreError } from './errors'
 import { getLocale } from './fallbacker'
@@ -270,7 +270,7 @@ export function number<
 
   // checking format and target locale
   if (!isPlainObject(format) || !isString(targetLocale)) {
-    return unresolving ? NOT_REOSLVED : key
+    return unresolving ? NOT_RESOLVED : key
   }
 
   let id = `${targetLocale}__${key}`
