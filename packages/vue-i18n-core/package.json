@@ -28,7 +28,6 @@
   "files": [
     "dist"
   ],
-  "type": "module",
   "module": "dist/vue-i18n-core.mjs",
   "unpkg": "dist/vue-i18n-core.global.js",
   "jsdelivr": "dist/vue-i18n-core.global.js",
@@ -84,5 +83,6 @@
   "publishConfig": {
     "access": "public"
   },
-  "sideEffects": false
+  "sideEffects": false,
+  "type": "module"
 }

@@ -20,14 +20,15 @@ vi.mock('../src/intl', async () => {
   }
 })
 
-import { createCoreContext as context, NOT_REOSLVED } from '../src/context'
+import { compile } from '../src/compilation'
+import {
+  createCoreContext as context,
+  NOT_RESOLVED,
+  registerLocaleFallbacker,
+  registerMessageCompiler
+} from '../src/context'
 import { datetime } from '../src/datetime'
 import { CoreErrorCodes, errorMessages } from '../src/errors'
-import {
-  registerMessageCompiler,
-  registerLocaleFallbacker
-} from '../src/context'
-import { compile } from '../src/compilation'
 import { fallbackWithLocaleChain } from '../src/fallbacker'
 
 import type { DateTimeFormats } from '../src/types'
@@ -265,7 +266,7 @@ describe('context unresolving option', () => {
       datetimeFormats
     })
 
-    expect(datetime(ctx, dt, 'long')).toEqual(NOT_REOSLVED)
+    expect(datetime(ctx, dt, 'long')).toEqual(NOT_RESOLVED)
     expect(mockWarn).not.toHaveBeenCalled()
   })
 
@@ -284,7 +285,7 @@ describe('context unresolving option', () => {
       datetimeFormats
     })
 
-    expect(datetime(ctx, dt, 'custom')).toEqual(NOT_REOSLVED)
+    expect(datetime(ctx, dt, 'custom')).toEqual(NOT_RESOLVED)
     expect(mockWarn).not.toHaveBeenCalled()
   })
 })

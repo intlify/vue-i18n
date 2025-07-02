@@ -28,7 +28,6 @@
     "dist",
     "vetur"
   ],
-  "type": "module",
   "module": "dist/vue-i18n.js",
   "unpkg": "dist/vue-i18n.global.js",
   "jsdelivr": "dist/vue-i18n.global.js",
@@ -79,6 +78,7 @@
   },
   "funding": "https://github.com/sponsors/kazupon",
   "sideEffects": false,
+  "type": "module",
   "vetur": {
     "tags": "vetur/tags.json",
     "attributes": "vetur/attributes.json"

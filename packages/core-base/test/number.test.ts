@@ -23,7 +23,7 @@ vi.mock('../src/intl', async () => {
 import { compile } from '../src/compilation'
 import {
   createCoreContext as context,
-  NOT_REOSLVED,
+  NOT_RESOLVED,
   registerLocaleFallbacker,
   registerMessageCompiler
 } from '../src/context'
@@ -240,7 +240,7 @@ describe('context unresolving option', () => {
       numberFormats
     })
 
-    expect(number(ctx, 0.99, 'percent')).toEqual(NOT_REOSLVED)
+    expect(number(ctx, 0.99, 'percent')).toEqual(NOT_RESOLVED)
     expect(mockWarn).not.toHaveBeenCalled()
   })
 
@@ -259,7 +259,7 @@ describe('context unresolving option', () => {
       numberFormats
     })
 
-    expect(number(ctx, 123456789, 'custom')).toEqual(NOT_REOSLVED)
+    expect(number(ctx, 123456789, 'custom')).toEqual(NOT_RESOLVED)
     expect(mockWarn).not.toHaveBeenCalled()
   })
 })

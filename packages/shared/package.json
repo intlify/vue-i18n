@@ -25,7 +25,6 @@
   "files": [
     "dist"
   ],
-  "type": "module",
   "module": "dist/shared.js",
   "types": "dist/shared.d.ts",
   "engines": {
@@ -57,5 +56,6 @@
   "publishConfig": {
     "access": "public"
   },
-  "sideEffects": false
+  "sideEffects": false,
+  "type": "module"
 }
