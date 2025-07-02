@@ -20,15 +20,15 @@ vi.mock('../src/intl', async () => {
   }
 })
 
-import { createCoreContext as context, NOT_REOSLVED } from '../src/context'
-import { number } from '../src/number'
-import { CoreErrorCodes, errorMessages } from '../src/errors'
-import {
-  registerMessageCompiler,
-  registerLocaleFallbacker
-} from '../src/context'
 import { compile } from '../src/compilation'
+import {
+  createCoreContext as context,
+  registerLocaleFallbacker,
+  registerMessageCompiler
+} from '../src/context'
+import { CoreErrorCodes, errorMessages } from '../src/errors'
 import { fallbackWithLocaleChain } from '../src/fallbacker'
+import { number } from '../src/number'
 import { NumberFormats } from '../src/types/index'
 
 type MyNumberSchema = {
@@ -238,7 +238,7 @@ describe('context unresolving option', () => {
       numberFormats
     })
 
-    expect(number(ctx, 0.99, 'percent')).toEqual(NOT_REOSLVED)
+    expect(number(ctx, 0.99, 'percent')).toEqual(NOT_RESOLVED)
     expect(mockWarn).not.toHaveBeenCalled()
   })
 
@@ -257,7 +257,7 @@ describe('context unresolving option', () => {
       numberFormats
     })
 
-    expect(number(ctx, 123456789, 'custom')).toEqual(NOT_REOSLVED)
+    expect(number(ctx, 123456789, 'custom')).toEqual(NOT_RESOLVED)
     expect(mockWarn).not.toHaveBeenCalled()
   })
 })

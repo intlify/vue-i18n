@@ -335,7 +335,7 @@ export interface CoreInternalContext {
  */
 export const VERSION = __VERSION__
 
-export const NOT_REOSLVED = -1
+export const NOT_RESOLVED = -1
 
 export const DEFAULT_LOCALE = 'en-US'
 
