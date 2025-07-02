@@ -23,6 +23,7 @@ vi.mock('../src/intl', async () => {
 import { compile } from '../src/compilation'
 import {
   createCoreContext as context,
+  NOT_RESOLVED,
   registerLocaleFallbacker,
   registerMessageCompiler
 } from '../src/context'
