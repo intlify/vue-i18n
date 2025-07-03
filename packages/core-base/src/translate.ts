@@ -25,7 +25,7 @@ import {
   isAlmostSameLocale,
   isImplicitFallback,
   isTranslateFallbackWarn,
-  NOT_RESOLVED
+  NOT_REOSLVED
 } from './context'
 import { translateDevTools } from './devtools'
 import { CoreErrorCodes, createCoreError } from './errors'
@@ -713,7 +713,7 @@ export function translate<
     ) ||
       !isString(targetLocale))
   ) {
-    return unresolving ? NOT_RESOLVED : (key as MessageFunctionReturn<Message>)
+    return unresolving ? NOT_REOSLVED : (key as MessageFunctionReturn<Message>)
   }
 
   // TODO: refactor
