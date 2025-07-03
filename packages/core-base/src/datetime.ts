@@ -12,7 +12,7 @@ import {
   handleMissing,
   isTranslateFallbackWarn,
   MISSING_RESOLVE_VALUE,
-  NOT_RESOLVED
+  NOT_REOSLVED
 } from './context'
 import { CoreErrorCodes, createCoreError } from './errors'
 import { getLocale } from './fallbacker'
@@ -275,7 +275,7 @@ export function datetime<
 
   // checking format and target locale
   if (!isPlainObject(format) || !isString(targetLocale)) {
-    return unresolving ? NOT_RESOLVED : key
+    return unresolving ? NOT_REOSLVED : key
   }
 
   let id = `${targetLocale}__${key}`

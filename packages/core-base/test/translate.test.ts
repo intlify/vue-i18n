@@ -16,7 +16,7 @@ vi.mock('@intlify/shared', async () => {
 import { compile } from '../src/compilation'
 import {
   createCoreContext as context,
-  NOT_RESOLVED,
+  NOT_REOSLVED,
   registerLocaleFallbacker,
   registerMessageCompiler,
   registerMessageResolver
@@ -553,7 +553,7 @@ describe('context unresolving option', () => {
         ja: {}
       }
     })
-    expect(translate(ctx, 'hello.world')).toEqual(NOT_RESOLVED)
+    expect(translate(ctx, 'hello.world')).toEqual(NOT_REOSLVED)
   })
 
   test('fallbackWarn is false', () => {
@@ -568,7 +568,7 @@ describe('context unresolving option', () => {
         ja: {}
       }
     })
-    expect(translate(ctx, 'hello.world')).toEqual(NOT_RESOLVED)
+    expect(translate(ctx, 'hello.world')).toEqual(NOT_REOSLVED)
   })
 
   test('fallbackFormat is true', () => {
