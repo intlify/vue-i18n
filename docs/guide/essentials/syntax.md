@@ -334,3 +334,82 @@ As result, the below:
 <!--<br> exists but is rendered as html and not a string-->
 world</p>
 ```
+
+### Using the escape parameter option
+
+To help mitigate XSS risks when using HTML messages, Vue I18n provides escape parameter options. When enabled, this option escapes interpolation parameters and sanitizes the final translated HTML.
+
+:::tip NOTE
+The option name depends on which API mode you're using:
+- **Legacy API**: use `escapeParameterHtml`
+- **Composition API**: use `escapeParameter`
+:::
+
+#### Legacy API
+
+```js
+// enable `escapeParameterHtml` globally
+const i18n = createI18n({
+  locale: 'en',
+  legacy: true,
+  escapeParameterHtml: true,
+  messages: {
+    en: {
+      message: {
+        welcome: 'Welcome <strong>{name}</strong>!'
+      }
+    }
+  }
+})
+
+// or enable it per translation
+this.$t('message.welcome', { name: userInput }, { escapeParameter: true })
+```
+
+#### Composition API
+
+```js
+// enable `escapeParameter` globally
+const i18n = createI18n({
+  locale: 'en',
+  escapeParameter: true,
+  messages: {
+    en: {
+      message: {
+        welcome: 'Welcome <strong>{name}</strong>!'
+      }
+    }
+  }
+})
+
+// or enable it per translation
+const { t } = useI18n()
+t('message.welcome', { name: userInput }, { escapeParameter: true })
+```
+
+#### How it works
+
+When the escape parameter option is enabled:
+- HTML special characters (`<`, `>`, `"`, `'`, `&`, `/`, `=`) in interpolation parameters are escaped
+- The final translated HTML is sanitized to prevent XSS attacks:
+  - Dangerous characters in HTML attribute values are escaped
+  - Event handler attributes (`onclick`, `onerror`, etc.) are neutralized
+  - JavaScript URLs in href, src, action, formaction, and style attributes are disabled
+
+#### Example
+
+```js
+const userInput = '<img src=x onerror=alert(1)>'
+
+// Without escape parameter (DANGEROUS):
+$t('message.welcome', { name: userInput })
+// Result: Welcome <strong><img src=x onerror=alert(1)></strong>!
+
+// With escape parameter (SAFE):
+$t('message.welcome', { name: userInput }, { escapeParameter: true })
+// Result: Welcome <strong>&lt;img src=x &#111;nerror=alert(1)&gt;</strong>!
+```
+
+:::warning IMPORTANT
+Even with the escape parameter option enabled, you should still be cautious about using HTML in translations. Always validate and sanitize user input before using it in translations, and prefer [Component interpolation](../advanced/component) when possible.
+:::
