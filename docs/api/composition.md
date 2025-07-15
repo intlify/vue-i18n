@@ -1468,7 +1468,7 @@ See the warnHtmlMessage property.
 
 **Default Value**
 
-`'off'`
+`true`
 
 **See Also**
 - [HTML Message](../guide/essentials/syntax#html-message)
