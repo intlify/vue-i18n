@@ -270,17 +270,21 @@ export interface VueI18nOptions<
   warnHtmlInMessage?: WarnHtmlInMessageLevel
   /**
    * @remarks
-   * If `escapeParameterHtml` is configured as true then interpolation parameters are escaped before the message is translated.
+   * Whether to escape parameters for list or named interpolation values.
+   * When enabled, this option:
+   * - Escapes HTML special characters (`<`, `>`, `"`, `'`, `&`, `/`, `=`) in interpolation parameters
+   * - Sanitizes the final translated HTML to prevent XSS attacks by:
+   *   - Escaping dangerous characters in HTML attribute values
+   *   - Neutralizing event handler attributes (onclick, onerror, etc.)
+   *   - Disabling javascript: URLs in href, src, action, formaction, and style attributes
    *
    * This is useful when translation output is used in `v-html` and the translation resource contains html markup (e.g. <b> around a user provided value).
    *
    * This usage pattern mostly occurs when passing precomputed text strings into UI components.
    *
-   * The escape process involves replacing the following symbols with their respective HTML character entities: `<`, `>`, `"`, `'`.
-   *
    * Setting `escapeParameterHtml` as true should not break existing functionality but provides a safeguard against a subtle type of XSS attack vectors.
    *
-   * @VueI18nSee [HTML Message](../guide/essentials/syntax#html-message)
+   * @VueI18nSee [HTML Message - Using the escapeParameter option](../guide/essentials/syntax#using-the-escapeparameter-option)
    *
    * @defaultValue `false`
    */
