@@ -9,6 +9,6 @@
   "devDependencies": {
     "@intlify/unplugin-vue-i18n": "^1.0.1",
     "nuxt": "^3.7.1",
-    "vue-i18n": "^9.14.3"
+    "vue-i18n": "^9.14.5"
   }
 }
