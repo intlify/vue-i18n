@@ -470,7 +470,7 @@ export interface ComposerOptions<
    * @VueI18nSee [HTML Message](../../guide/essentials/syntax#html-message)
    * @VueI18nSee [Change `warnHtmlInMessage` option default value](../../guide/migration/breaking#change-warnhtmlinmessage-option-default-value)
    *
-   * @defaultValue `'off'`
+   * @defaultValue `true`
    */
   warnHtmlMessage?: boolean
   /**
