@@ -679,7 +679,7 @@ describe('escapeParameter', () => {
     })
 
     expect(translate(ctx, 'hello', { name: '<b>kazupon</b>' })).toEqual(
-      'hello, &lt;b&gt;kazupon&lt;/b&gt;!'
+      'hello, &lt;b&gt;kazupon&lt;&#x2F;b&gt;!'
     )
   })
 
@@ -697,7 +697,7 @@ describe('escapeParameter', () => {
 
     expect(
       translate(ctx, 'hello', ['<b>kazupon</b>'], { escapeParameter: true })
-    ).toEqual('hello, &lt;b&gt;kazupon&lt;/b&gt;!')
+    ).toEqual('hello, &lt;b&gt;kazupon&lt;&#x2F;b&gt;!')
   })
 
   test('no escape', () => {
@@ -715,6 +715,72 @@ describe('escapeParameter', () => {
     expect(translate(ctx, 'hello', { name: '<b>kazupon</b>' })).toEqual(
       'hello, <b>kazupon</b>!'
     )
+  })
+
+  test('vulnerable case from GHSA report - img onerror attack', () => {
+    // Mock console.warn to suppress warnings for this test
+    const originalWarn = console.warn
+    console.warn = vi.fn()
+
+    const ctx = context({
+      locale: 'en',
+      warnHtmlMessage: false,
+      escapeParameter: true,
+      messages: {
+        en: {
+          vulnerable: 'Caution: <img src=x onerror="{payload}">'
+        }
+      }
+    })
+
+    const result = translate(ctx, 'vulnerable', {
+      payload: '<script>alert("xss")</script>'
+    })
+
+    // with the fix, the payload should be escaped, preventing the attack
+    // The onerror attribute is neutralized by converting 'o' to &#111;
+    expect(result).toEqual(
+      'Caution: <img src=x &#111;nerror="&lt;script&gt;alert(&quot;xss&quot;)&lt;&#x2F;script&gt;">'
+    )
+
+    // result should NOT contain executable script tags
+    expect(result).not.toContain('<script>')
+    expect(result).not.toContain('</script>')
+
+    // Restore console.warn
+    console.warn = originalWarn
+  })
+
+  test('vulnerable case - attribute injection attack', () => {
+    const ctx = context({
+      locale: 'en',
+      warnHtmlMessage: false,
+      escapeParameter: true,
+      messages: {
+        en: {
+          message: 'Click <a href="{url}">here</a>'
+        }
+      }
+    })
+
+    const result = translate(ctx, 'message', {
+      url: 'javascript:alert(1)'
+    })
+
+    // with the fix, javascript: URL scheme is neutralized
+    expect(result).toEqual('Click <a href="javascript&#58;alert(1)">here</a>')
+
+    // another attack vector with quotes
+    const result2 = translate(ctx, 'message', {
+      url: '" onclick="alert(1)"'
+    })
+
+    expect(result2).toEqual(
+      'Click <a href="&quot; onclick&#x3D;&quot;alert(1)&quot;">here</a>'
+    )
+
+    // `onclick` attribute should be escaped
+    expect(result2).not.toContain('onclick=')
   })
 })
 
