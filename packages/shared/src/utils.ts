@@ -3,6 +3,8 @@
  * written by kazuya kawaguchi
  */
 
+import { warn } from './warn'
+
 export const inBrowser = typeof window !== 'undefined'
 
 export let mark: (tag: string) => void | undefined
@@ -104,10 +106,66 @@ export const getGlobalThis = (): any => {
 
 export function escapeHtml(rawText: string): string {
   return rawText
+    .replace(/&/g, '&amp;') // escape `&` first to avoid double escaping
     .replace(/</g, '&lt;')
     .replace(/>/g, '&gt;')
     .replace(/"/g, '&quot;')
     .replace(/'/g, '&apos;')
+    .replace(/\//g, '&#x2F;') // escape `/` to prevent closing tags or JavaScript URLs
+    .replace(/=/g, '&#x3D;') // escape `=` to prevent attribute injection
+}
+
+function escapeAttributeValue(value: string): string {
+  return value
+    .replace(/&(?![a-zA-Z0-9#]{2,6};)/g, '&amp;') // escape unescaped `&`
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&apos;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+}
+
+export function sanitizeTranslatedHtml(html: string): string {
+  // Escape dangerous characters in attribute values
+  // Process attributes with double quotes
+  html = html.replace(
+    /(\w+)\s*=\s*"([^"]*)"/g,
+    (_, attrName, attrValue) =>
+      `${attrName}="${escapeAttributeValue(attrValue)}"`
+  )
+
+  // Process attributes with single quotes
+  html = html.replace(
+    /(\w+)\s*=\s*'([^']*)'/g,
+    (_, attrName, attrValue) =>
+      `${attrName}='${escapeAttributeValue(attrValue)}'`
+  )
+
+  // Detect and neutralize event handler attributes
+  const eventHandlerPattern = /\s*on\w+\s*=\s*["']?[^"'>]+["']?/gi
+  if (eventHandlerPattern.test(html)) {
+    if (__DEV__) {
+      warn(
+        'Potentially dangerous event handlers detected in translation. ' +
+          'Consider removing onclick, onerror, etc. from your translation messages.'
+      )
+    }
+    // Neutralize event handler attributes by escaping 'on'
+    html = html.replace(/(\s+)(on)(\w+\s*=)/gi, '$1&#111;n$3')
+  }
+
+  // Disable javascript: URLs in various contexts
+  const javascriptUrlPattern = [
+    // In href, src, action, formaction attributes
+    /(\s+(?:href|src|action|formaction)\s*=\s*["']?)\s*javascript:/gi,
+    // In style attributes within url()
+    /(style\s*=\s*["'][^"']*url\s*\(\s*)javascript:/gi
+  ]
+
+  javascriptUrlPattern.forEach(pattern => {
+    html = html.replace(pattern, '$1javascript&#58;')
+  })
+
+  return html
 }
 
 const hasOwnProperty = Object.prototype.hasOwnProperty
