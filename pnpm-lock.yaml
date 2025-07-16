@@ -664,8 +664,8 @@ importers:
         specifier: workspace:*
         version: link:../vue-i18n-core
       '@vue/devtools-api':
-        specifier: ^6.5.0
-        version: 6.5.1
+        specifier: ^7.0.0
+        version: 7.6.3
       vue:
         specifier: 3.5.17
         version: 3.5.17(typescript@5.8.3)
@@ -742,8 +742,8 @@ importers:
         specifier: workspace:*
         version: link:../vue-i18n-core
       '@vue/devtools-api':
-        specifier: ^6.5.0
-        version: 6.5.1
+        specifier: ^7.0.0
+        version: 7.6.3
       vue:
         specifier: 3.5.17
         version: 3.5.17(typescript@5.8.3)
@@ -761,8 +761,8 @@ importers:
         specifier: workspace:*
         version: link:../shared
       '@vue/devtools-api':
-        specifier: ^6.5.0
-        version: 6.5.1
+        specifier: ^7.0.0
+        version: 7.6.3
       vue:
         specifier: 3.5.17
         version: 3.5.17(typescript@5.8.3)
