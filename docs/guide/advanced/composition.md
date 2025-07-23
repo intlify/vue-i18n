@@ -375,6 +375,100 @@ const { t, d, n, tm, locale } = useI18n({
 // Something to do here ...
 ```
 
+### Implicit `useScope` Resolution
+
+When using `useI18n`, the `useScope` option has implicit resolution behavior that you should be aware of:
+
+:::info Default Behavior
+If you don't explicitly specify `useScope`, Vue I18n will implicitly determine the scope based on whether the component has an i18n block:
+- **With i18n block**: Defaults to `local` scope
+- **Without i18n block**: Defaults to `global` scope
+:::
+
+```js
+// In a component WITH i18n block
+
+// This implicitly uses local scope
+const { t } = useI18n() // same as useI18n({ useScope: 'local' })
+
+
+// In a component WITHOUT i18n block (e.g., composables, stores)
+
+// This implicitly uses global scope
+const { t } = useI18n() // same as useI18n({ useScope: 'global' })
+```
+
+This explicit approach prevents unexpected behavior and makes your code more maintainable.
+
+### Avoiding Multiple useI18n Calls
+
+:::warning IMPORTANT
+**Do not call `useI18n` with local scope multiple times within the same component.** When you call `useI18n` with local scope more than once in the same component, it will not work properly and Vue I18n will emit a warning.
+:::
+
+#### Bad: Multiple calls to useI18n with local scope
+
+```js
+export default {
+  setup() {
+    // First call - creates a new Composer instance
+    const { t } = useI18n({
+      locale: 'en',
+      messages: {
+        en: { hello: 'Hello' },
+        ja: { hello: 'こんにちは' }
+      }
+    })
+
+    // Second call - creates another Composer instance (triggers warning)
+    const { locale } = useI18n({
+      locale: 'en',
+      messages: {
+        en: { world: 'World' },
+        ja: { world: '世界' }
+      }
+    })
+
+    // These instances are not synchronized!
+    return { t, locale }
+  }
+}
+```
+
+#### Good: Single call to useI18n
+
+```js
+export default {
+  setup() {
+    // Destructure all needed properties from a single call
+    const { t, locale, tm, d, n } = useI18n({
+      locale: 'en',
+      messages: {
+        en: {
+          hello: 'Hello',
+          world: 'World'
+        },
+        ja: {
+          hello: 'こんにちは',
+          world: '世界'
+        }
+      }
+    })
+
+    return { t, locale }
+  }
+}
+```
+
+When you violate this rule, you'll see the following warning in development mode:
+
+```
+[Vue I18n warn]: Duplicate `useI18n` calling by local scope. Please don't call it on local scope, due to it does not work properly in component.
+```
+
+If you need to use i18n features in multiple places within your component, destructure all the needed properties from a single `useI18n` call or store the returned object and access its properties as needed.
+
+
 ### Locale messages
 
 If you use i18n custom blocks in SFC as i18n resource of locale messages, it will be merged with the locale messages specified by the `messages` option of `useI18n`.

@@ -12,7 +12,9 @@ export const I18nWarnCodes = {
   /**
    * @deprecated will be removed at vue-i18n v12
    */
-  DEPRECATE_TRANSLATE_CUSTOME_DIRECTIVE: 12
+  DEPRECATE_TRANSLATE_CUSTOME_DIRECTIVE: 12,
+  // duplicate `useI18n` calling
+  DUPLICATE_USE_I18N_CALLING: 13
 } as const
 
 type I18nWarnCodes = (typeof I18nWarnCodes)[keyof typeof I18nWarnCodes]
@@ -28,7 +30,9 @@ export const warnMessages: { [code: number]: string } = {
   /**
    * @deprecated will be removed at vue-i18n v12
    */
-  [I18nWarnCodes.DEPRECATE_TRANSLATE_CUSTOME_DIRECTIVE]: `'v-t' has been deprecated in v11. Use translate APIs ('t' or '$t') instead.`
+  [I18nWarnCodes.DEPRECATE_TRANSLATE_CUSTOME_DIRECTIVE]: `'v-t' has been deprecated in v11. Use translate APIs ('t' or '$t') instead.`,
+  [I18nWarnCodes.DUPLICATE_USE_I18N_CALLING]:
+    "Duplicate `useI18n` calling by local scope. Please don't call it on local scope, due to it does not work properly in component."
 }
 
 export function getWarnMessage(
