@@ -774,7 +774,7 @@ export function useI18n<
     i18nInternal.__setInstance(instance, composer)
   } else {
     if (__DEV__ && scope === 'local') {
-      throw createI18nError(I18nErrorCodes.DUPLICATE_USE_I18N_CALLING)
+      warn(getWarnMessage(I18nWarnCodes.DUPLICATE_USE_I18N_CALLING))
     }
   }
 

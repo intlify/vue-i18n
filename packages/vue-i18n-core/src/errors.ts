@@ -26,9 +26,7 @@ export const I18nErrorCodes = {
   // not compatible legacy vue-i18n constructor
   NOT_COMPATIBLE_LEGACY_VUE_I18N: 33,
   // Not available Compostion API in Legacy API mode. Please make sure that the legacy API mode is working properly
-  NOT_AVAILABLE_COMPOSITION_IN_LEGACY: 34,
-  // duplicate `useI18n` calling
-  DUPLICATE_USE_I18N_CALLING: 35
+  NOT_AVAILABLE_COMPOSITION_IN_LEGACY: 34
 } as const
 
 type I18nErrorCodes = (typeof I18nErrorCodes)[keyof typeof I18nErrorCodes]
@@ -59,7 +57,5 @@ export const errorMessages: { [code: number]: string } = {
   [I18nErrorCodes.NOT_COMPATIBLE_LEGACY_VUE_I18N]:
     'Not compatible legacy VueI18n.',
   [I18nErrorCodes.NOT_AVAILABLE_COMPOSITION_IN_LEGACY]:
-    'Not available Compostion API in Legacy API mode. Please make sure that the legacy API mode is working properly',
-  [I18nErrorCodes.DUPLICATE_USE_I18N_CALLING]:
-    "Duplicate `useI18n` calling by local scope. Please don't call it on local scope"
+    'Not available Compostion API in Legacy API mode. Please make sure that the legacy API mode is working properly'
 }

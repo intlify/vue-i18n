@@ -35,6 +35,7 @@ import {
 import { Composer } from '../src/composer'
 import { errorMessages, I18nErrorCodes } from '../src/errors'
 import { createI18n, useI18n } from '../src/i18n'
+import { I18nWarnCodes, warnMessages } from '../src/warnings'
 import { pluralRules as _pluralRules, mount, randStr } from './helper'
 
 import type { IntlifyDevToolsEmitterHooks } from '@intlify/devtools-types'
@@ -623,7 +624,11 @@ describe('useI18n', () => {
     )
   })
 
-  test(errorMessages[I18nErrorCodes.DUPLICATE_USE_I18N_CALLING], async () => {
+  test(warnMessages[I18nWarnCodes.DUPLICATE_USE_I18N_CALLING], async () => {
+    const mockWarn = vi.spyOn(shared, 'warn')
+    // eslint-disable-next-line @typescript-eslint/no-empty-function
+    mockWarn.mockImplementation(() => {})
+
     const i18n = createI18n<false>({
       legacy: false,
       locale: 'en',
@@ -645,26 +650,22 @@ describe('useI18n', () => {
       return { message: t('there', { count: count.value }) }
     }
 
-    let error = ''
     const App = defineComponent({
       setup() {
         let message: string = ''
         let t: any // eslint-disable-line @typescript-eslint/no-explicit-any
-        try {
-          const i18n = useI18n({
-            messages: {
-              en: {
-                hi: 'hi!'
-              }
+        const i18n = useI18n({
+          messages: {
+            en: {
+              hi: 'hi!'
             }
-          })
-          t = i18n.t
-          const ret = useMyComposable()
-          message = ret.message
-        } catch (e: any) {
-          error = e.message
-        }
-        return { t, message, error }
+          }
+        })
+        t = i18n.t
+        const ret = useMyComposable()
+        useMyComposable()
+        message = ret.message
+        return { t, message }
       },
       template: `
         <h1>Root</h1>
@@ -676,11 +677,12 @@ describe('useI18n', () => {
           </form>
           <p>{{ t('hi') }}</p>
           <p>{{ message }}</p>
-          <p>{{ error }}</p>
       `
     })
     await mount(App, i18n as any) // eslint-disable-line @typescript-eslint/no-explicit-any
-    expect(error).toBe(errorMessages[I18nErrorCodes.DUPLICATE_USE_I18N_CALLING])
+    expect(mockWarn.mock.calls[0][0]).toBe(
+      warnMessages[I18nWarnCodes.DUPLICATE_USE_I18N_CALLING]
+    )
   })
 })
 
