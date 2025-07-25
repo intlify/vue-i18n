@@ -1053,3 +1053,16 @@ test('locale detector', () => {
   expect(translate(ctx, 'hi')).toEqual('hi kazupon !')
   expect(locale).toHaveBeenCalledTimes(2)
 })
+
+test('linked nested key', () => {
+  const ctx = context({
+    locale: 'en',
+    messages: {
+      en: {
+        'nested.key': 'Nested key',
+        'message.linkedWithNested': '@:nested.key'
+      }
+    }
+  })
+  expect(translate(ctx, 'message.linkedWithNested')).toEqual('Nested key')
+})

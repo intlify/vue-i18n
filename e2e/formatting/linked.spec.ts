@@ -15,6 +15,7 @@ import { getText, url } from '../helper'
       expect(await getText(page, '#app p.modifier')).toMatch(
         'custom modifiers example: snake-case'
       )
+      expect(await getText(page, '#app p.linked-nested')).toMatch('Nested key')
     })
 
     test('change locale', async () => {
@@ -27,6 +28,9 @@ import { getText, url } from '../helper'
       )
       expect(await getText(page, '#app p.modifier')).toMatch(
         'カスタム修飾子の例: スネーク-ケース'
+      )
+      expect(await getText(page, '#app p.linked-nested')).toMatch(
+        'ネストされたキー'
       )
     })
   })
