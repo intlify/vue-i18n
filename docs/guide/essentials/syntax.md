@@ -26,6 +26,10 @@ The locale messages is the resource specified by the `messages` option of `creat
 
 Named interpolation allows you to specify variables defined in JavaScript. In the locale message above, you can localize it by giving the JavaScript defined `msg` as a parameter to the translation function.
 
+The variable name inside `{}` must starts with a letter (a-z, A-Z) or an underscore (`_`), followed by any combination of letters, digits, underscores (`_`), hyphens (`-`), or dollar signs (`$`).
+
+Examples: `{msg}`, `{_userName}`, `{user-id}`, `{total$}`
+
 The following is an example of the use of `$t` in a template:
 
 ```html
@@ -267,7 +271,7 @@ In `message.greeting`, we use a named interpolation for `{count}` and link to `m
 
 The key `message.name` contains `{name}`, which will be interpolated with the passed `name` param.
 
-The `message.greeting` is linked to the locale message key `message.name`. 
+The `message.greeting` is linked to the locale message key `message.name`.
 
 ```html
 <p>{{ $t('message.greeting', { name: 'Alice', count: 5 }) }}</p>
