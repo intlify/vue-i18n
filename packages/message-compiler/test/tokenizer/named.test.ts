@@ -2,13 +2,13 @@ import { format } from '@intlify/shared'
 import { CompileErrorCodes, errorMessages } from '../../src/errors'
 import {
   createTokenizer,
-  TokenTypes,
   ERROR_DOMAIN,
-  parse
+  parse,
+  TokenTypes
 } from '../../src/tokenizer'
 
-import type { TokenizeOptions } from '../../src/options'
 import type { CompileError } from '../../src/errors'
+import type { TokenizeOptions } from '../../src/options'
 
 test('basic', () => {
   const tokenizer = createTokenizer('hi {name} !')
@@ -645,32 +645,80 @@ describe('errors', () => {
       }
     ] as CompileError[])
   })
-  const items = [`$`, `-`]
-  for (const ch of items) {
-    test(`invalid '${ch}' in placeholder`, () => {
-      parse(`hi {${ch}} !`, options)
-      expect(errors).toEqual([
-        {
-          code: CompileErrorCodes.INVALID_TOKEN_IN_PLACEHOLDER,
-          domain: ERROR_DOMAIN,
-          message: format(
-            errorMessages[CompileErrorCodes.INVALID_TOKEN_IN_PLACEHOLDER],
-            ch
-          ),
-          location: {
-            start: {
-              line: 1,
-              offset: 4,
-              column: 5
-            },
-            end: {
-              line: 1,
-              offset: 5,
-              column: 6
-            }
-          }
+
+  test.each([
+    [
+      '$',
+      {
+        start: {
+          line: 1,
+          offset: 4,
+          column: 5
+        },
+        end: {
+          line: 1,
+          offset: 5,
+          column: 6
         }
-      ] as CompileError[])
-    })
-  }
+      }
+    ],
+    [
+      '-',
+      {
+        start: {
+          line: 1,
+          offset: 4,
+          column: 5
+        },
+        end: {
+          line: 1,
+          offset: 5,
+          column: 6
+        }
+      }
+    ],
+    [
+      'àaa',
+      {
+        start: {
+          line: 1,
+          offset: 4,
+          column: 5
+        },
+        end: {
+          line: 1,
+          offset: 7,
+          column: 8
+        }
+      }
+    ],
+    [
+      'aàa',
+      {
+        start: {
+          line: 1,
+          offset: 4,
+          column: 5
+        },
+        end: {
+          line: 1,
+          offset: 7,
+          column: 8
+        }
+      }
+    ]
+  ])(`invalid '%s' in placeholder`, (ch, location) => {
+    parse(`hi {${ch}} !`, options)
+    expect(errors).toEqual([
+      {
+        code: CompileErrorCodes.INVALID_TOKEN_IN_PLACEHOLDER,
+        domain: ERROR_DOMAIN,
+        message: format(
+          errorMessages[CompileErrorCodes.INVALID_TOKEN_IN_PLACEHOLDER],
+          ch
+        ),
+        location
+      }
+    ] as CompileError[])
+  })
 })
