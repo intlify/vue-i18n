@@ -26,6 +26,10 @@ The locale messages is the resource specified by the `messages` option of `creat
 
 Named interpolation allows you to specify variables defined in JavaScript. In the locale message above, you can localize it by giving the JavaScript defined `msg` as a parameter to the translation function.
 
+The variable name inside `{}` must starts with a letter (a-z, A-Z) or an underscore (`_`), followed by any combination of letters, digits, underscores (`_`), hyphens (`-`), or dollar signs (`$`).
+
+Examples: `{msg}`, `{_userName}`, `{user-id}`, `{total$}`
+
 The following is an example of the use of `$t` in a template:
 
 ```html
@@ -240,6 +244,73 @@ The `message.snake` has `snake case`. The `message.custom_modifier` has `custom 
 You can use the interpolations (Named, List, and Literal) for the key of Linked messages.
 :::
 
+
+This example shows the use of modifiers (`@.lower`, `@.upper`, `@.capitalize`) combined with named, list, and literal interpolations.
+
+
+```js
+const messages = {
+  en: {
+    message: {
+      greeting: "Hello, @.lower:{'message.name'}! You have {count} new messages.",
+      name:"{name}"
+    },
+
+    welcome: "Welcome, @.upper:{'name'}! Today is @.capitalize:{'day'}.",
+    name: '{0}',
+    day: '{1}',
+
+    literalMessage: "This is an email: foo{'@'}@.lower:domain",
+    domain: 'SHOUTING'
+  }
+}
+```
+### Named interpolation with modifier
+
+In `message.greeting`, we use a named interpolation for `{count}` and link to `message.name`, applying the .lower modifier.
+
+The key `message.name` contains `{name}`, which will be interpolated with the passed `name` param.
+
+The `message.greeting` is linked to the locale message key `message.name`.
+
+```html
+<p>{{ $t('message.greeting', { name: 'Alice', count: 5 }) }}</p>
+```
+As result, the below
+
+```html
+<p>Hello, alice! You have 5 new messages.</p>
+```
+
+### List interpolation with modifier
+
+In this case, the values for `{0}` and `{1}` are passed as an array. The keys `name` and `day` are resolved using list interpolation and transformed with modifiers.
+
+```html
+<p>{{ $t('welcome', ['bob', 'MONDAY']) }}</p>
+```
+
+As result, the below
+
+```html
+<p>Welcome, BOB! Today is Monday.</p>
+```
+
+### Literal interpolation with modifier
+
+In this example, we use a literal string inside the message and apply the `.lower` modifier.
+
+```html
+<p>{{ $t('literalMessage') }}</p>
+```
+
+Here, the modifier is applied to the content inside `domain`, and the `@` is preserved as literal output.
+
+As result, the below
+
+```html
+<p>This is an email: foo@shouting</p>
+```
 
 ## Special Characters
 
