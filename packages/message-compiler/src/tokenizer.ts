@@ -484,6 +484,26 @@ export function createTokenizer(
       name += ch
     }
 
+    // Check if takeNamedIdentifierChar stoped because of invalid characters
+    const currentChar = scnr.currentChar()
+    if (
+      currentChar &&
+      currentChar !== '}' &&
+      currentChar !== EOF &&
+      currentChar !== SPACE &&
+      currentChar !== NEW_LINE &&
+      currentChar !== '\u3000'
+    ) {
+      const invalidPart = readInvalidIdentifier(scnr)
+      emitError(
+        CompileErrorCodes.INVALID_TOKEN_IN_PLACEHOLDER,
+        currentPosition(),
+        0,
+        name + invalidPart
+      )
+      return name + invalidPart
+    }
+
     if (scnr.currentChar() === EOF) {
       emitError(
         CompileErrorCodes.UNTERMINATED_CLOSING_BRACE,
