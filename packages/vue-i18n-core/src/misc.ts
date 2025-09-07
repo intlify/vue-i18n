@@ -28,6 +28,10 @@ export function initFeatureFlags(): void {
   if (typeof __FEATURE_PROD_INTLIFY_DEVTOOLS__ !== 'boolean') {
     getGlobalThis().__INTLIFY_PROD_DEVTOOLS__ = false
   }
+
+  if (typeof __FEATURE_PROD_VUE_DEVTOOLS__ !== 'boolean') {
+    getGlobalThis().__VUE_PROD_DEVTOOLS__ = false
+  }
 }
 
 /**
