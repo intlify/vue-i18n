@@ -178,3 +178,23 @@ The replacement value **must be boolean literals** and cannot be strings, otherw
 You can use pre-translation(server-side rendering) with vue-i18n-extensions package.
 
 About how to usage, see [here](https://github.com/intlify/vue-i18n-extensions).
+
+## SSR (Server-Side Rendering)
+
+### Configure plugin for SSR
+
+For SSR applications, you need to configure the `ssr` option in [@intlify/unplugin-vue-i18n](https://github.com/intlify/bundle-tools/tree/main/packages/unplugin-vue-i18n#ssr):
+
+```js
+// vite.config.ts
+import { defineConfig } from 'vite'
+import VueI18nPlugin from '@intlify/unplugin-vue-i18n/vite'
+
+export default defineConfig({
+  plugins: [
+    VueI18nPlugin({
+      ssr: true, // Enable SSR support
+    }),
+  ],
+})
+```
