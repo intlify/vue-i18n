@@ -271,3 +271,8 @@ A workaround to suppress this warning is to specify `global` as the `scope` prop
 :::tip NOTE
 This warning is not output to the browser console in production builds.
 :::
+
+:::warning NOTE
+This is not available in petite-vue-i18n
+:::
+
