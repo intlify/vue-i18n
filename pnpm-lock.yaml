@@ -241,8 +241,8 @@ importers:
         specifier: ^8.4.0
         version: 8.4.0(eslint@9.9.1(jiti@2.4.2))(typescript@5.7.2)
       vitepress:
-        specifier: 1.6.3
-        version: 1.6.3(@algolia/client-search@5.20.0)(@types/node@22.10.3)(jiti@2.4.2)(postcss@8.5.6)(search-insights@2.13.0)(terser@5.27.0)(tsx@4.11.2)(typescript@5.7.2)(yaml@2.7.1)
+        specifier: 1.6.4
+        version: 1.6.4(@algolia/client-search@5.20.0)(@types/node@22.10.3)(jiti@2.4.2)(postcss@8.5.6)(search-insights@2.13.0)(terser@5.27.0)(tsx@4.11.2)(typescript@5.7.2)(yaml@2.7.1)
       vitepress-plugin-llms:
         specifier: ^1.1.0
         version: 1.1.0
@@ -3529,14 +3529,8 @@ packages:
     peerDependencies:
       vue: 3.5.18
 
-  '@vue/devtools-kit@7.7.1':
-    resolution: {integrity: sha512-yhZ4NPnK/tmxGtLNQxmll90jIIXdb2jAhPF76anvn5M/UkZCiLJy28bYgPIACKZ7FCosyKoaope89/RsFJll1w==}
-
   '@vue/devtools-kit@7.7.5':
     resolution: {integrity: sha512-S9VAVJYVAe4RPx2JZb9ZTEi0lqTySz2CBeF0wHT5D3dkTLnT9yMMGegKNl4b2EIELwLSkcI9bl2qp0/jW+upqA==}
-
-  '@vue/devtools-shared@7.7.1':
-    resolution: {integrity: sha512-BtgF7kHq4BHG23Lezc/3W2UhK2ga7a8ohAIAGJMBr4BkxUFzhqntQtCiuL1ijo2ztWnmusymkirgqUrXoQKumA==}
 
   '@vue/devtools-shared@7.7.5':
     resolution: {integrity: sha512-QBjG72RfpM0DKtpns2RZOxBltO226kOAls9e4Lri6YxS2gWTgL0H+wj1R2K76lxxIeOrqo4+2Ty6RQnzv+WSTQ==}
@@ -4037,9 +4031,6 @@ packages:
 
   bindings@1.5.0:
     resolution: {integrity: sha512-p2q/t/mhvuOj/UeLlV6566GD/guowlr0hHxClI0W9m7MWYkL1F0hLo+0Aexs9HSPCtR1SXQ0TD3MMKrXZajbiQ==}
-
-  birpc@0.2.19:
-    resolution: {integrity: sha512-5WeXXAvTmitV1RqJFppT5QtUiz2p1mRSYU000Jkft5ZUCLJIk4uQriYNO50HknxKwM6jd8utNc66K1qGIwwWBQ==}
 
   birpc@2.3.0:
     resolution: {integrity: sha512-ijbtkn/F3Pvzb6jHypHRyve2QApOCZDR25D/VnkY2G/lBNcXCTsnsCxgY4k4PkVB7zfwzYbY3O9Lcqe3xufS5g==}
@@ -8442,10 +8433,6 @@ packages:
   structured-source@4.0.0:
     resolution: {integrity: sha512-qGzRFNJDjFieQkl/sVOI2dUjHKRyL9dAJi2gCPGJLbJHBIkyOHxjuocpIEfbLioX+qSJpvbYdT49/YCdMznKxA==}
 
-  superjson@2.2.1:
-    resolution: {integrity: sha512-8iGv75BYOa0xRJHK5vRLEjE2H/i4lulTjzpUXic3Eg8akftYjkmQDa8JARQ42rlczXyFR3IeRoeFCc7RxHsYZA==}
-    engines: {node: '>=16'}
-
   superjson@2.2.2:
     resolution: {integrity: sha512-5JRxVqC8I8NuOUjzBbvVJAKNM8qoVuH0O77h4WInc/qC2q5IreqKxYwgkga3PfA22OayK2ikceb/B26dztPl+Q==}
     engines: {node: '>=16'}
@@ -9185,8 +9172,8 @@ packages:
   vitepress-plugin-llms@1.1.0:
     resolution: {integrity: sha512-nb7bG/lBDihlcFTzqxRxQIyzeBWQW9F6OwuUWQ7PFUNK5kVbybxXGISU4wvAV8osQmfrD9xNIGJQfuOLj5CzHg==}
 
-  vitepress@1.6.3:
-    resolution: {integrity: sha512-fCkfdOk8yRZT8GD9BFqusW3+GggWYZ/rYncOfmgcDtP3ualNHCAg+Robxp2/6xfH1WwPHtGpPwv7mbA3qomtBw==}
+  vitepress@1.6.4:
+    resolution: {integrity: sha512-+2ym1/+0VVrbhNyRoFFesVvBvHAVMZMK0rw60E3X/5349M1GuVdKeazuksqopEdvkKwKGs21Q729jX81/bkBJg==}
     hasBin: true
     peerDependencies:
       markdown-it-mathjax3: ^4
@@ -12526,7 +12513,7 @@ snapshots:
 
   '@vue/devtools-api@7.7.1':
     dependencies:
-      '@vue/devtools-kit': 7.7.1
+      '@vue/devtools-kit': 7.7.5
 
   '@vue/devtools-core@7.7.5(vite@6.3.6(@types/node@22.15.2)(jiti@2.4.2)(terser@5.27.0)(tsx@4.11.2)(yaml@2.7.1))(vue@3.5.18(typescript@5.8.3))':
     dependencies:
@@ -12540,16 +12527,6 @@ snapshots:
     transitivePeerDependencies:
       - vite
 
-  '@vue/devtools-kit@7.7.1':
-    dependencies:
-      '@vue/devtools-shared': 7.7.1
-      birpc: 0.2.19
-      hookable: 5.5.3
-      mitt: 3.0.1
-      perfect-debounce: 1.0.0
-      speakingurl: 14.0.1
-      superjson: 2.2.1
-
   '@vue/devtools-kit@7.7.5':
     dependencies:
       '@vue/devtools-shared': 7.7.5
@@ -12559,10 +12536,6 @@ snapshots:
       perfect-debounce: 1.0.0
       speakingurl: 14.0.1
       superjson: 2.2.2
-
-  '@vue/devtools-shared@7.7.1':
-    dependencies:
-      rfdc: 1.4.1
 
   '@vue/devtools-shared@7.7.5':
     dependencies:
@@ -13110,8 +13083,6 @@ snapshots:
     dependencies:
       file-uri-to-path: 1.0.0
     optional: true
-
-  birpc@0.2.19: {}
 
   birpc@2.3.0: {}
 
@@ -18491,10 +18462,6 @@ snapshots:
     dependencies:
       boundary: 2.0.0
 
-  superjson@2.2.1:
-    dependencies:
-      copy-anything: 3.0.5
-
   superjson@2.2.2:
     dependencies:
       copy-anything: 3.0.5
@@ -19373,7 +19340,7 @@ snapshots:
       - '@75lb/nature'
       - supports-color
 
-  vitepress@1.6.3(@algolia/client-search@5.20.0)(@types/node@22.10.3)(jiti@2.4.2)(postcss@8.5.6)(search-insights@2.13.0)(terser@5.27.0)(tsx@4.11.2)(typescript@5.7.2)(yaml@2.7.1):
+  vitepress@1.6.4(@algolia/client-search@5.20.0)(@types/node@22.10.3)(jiti@2.4.2)(postcss@8.5.6)(search-insights@2.13.0)(terser@5.27.0)(tsx@4.11.2)(typescript@5.7.2)(yaml@2.7.1):
     dependencies:
       '@docsearch/css': 3.8.2
       '@docsearch/js': 3.8.2(@algolia/client-search@5.20.0)(search-insights@2.13.0)
@@ -19384,7 +19351,7 @@ snapshots:
       '@types/markdown-it': 14.1.2
       '@vitejs/plugin-vue': 5.2.3(vite@6.3.6(@types/node@22.10.3)(jiti@2.4.2)(terser@5.27.0)(tsx@4.11.2)(yaml@2.7.1))(vue@3.5.18(typescript@5.7.2))
       '@vue/devtools-api': 7.7.1
-      '@vue/shared': 3.5.13
+      '@vue/shared': 3.5.18
       '@vueuse/core': 12.5.0(typescript@5.7.2)
       '@vueuse/integrations': 12.5.0(focus-trap@7.6.4)(typescript@5.7.2)
       focus-trap: 7.6.4
