@@ -20,13 +20,16 @@ jobs:
       github.event.workflow_run.event == 'pull_request' &&
       github.event.workflow_run.conclusion == 'success'
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
+        with:
+          fetch-depth: 0
 
       - name: Install pnpm
-        uses: pnpm/action-setup@v4.1.0
+        uses: pnpm/action-setup@a7487c7e89a18df4991f7f222e4898a00d66ddda # v4.1.0
 
       - name: Install Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5.0.0
         with:
           node-version: 23
           cache: pnpm
@@ -35,7 +38,7 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: Download Size Data
-        uses: dawidd6/action-download-artifact@v8
+        uses: dawidd6/action-download-artifact@20319c5641d495c8a52e688b7dc5fada6c3a9fbc # v8
         with:
           name: size-data
           run_id: ${{ github.event.workflow_run.id }}
@@ -43,18 +46,18 @@ jobs:
 
       - name: Read PR Number
         id: pr-number
-        uses: juliangruber/read-file-action@v1
+        uses: juliangruber/read-file-action@e0a316da496006ffd19142f0fd594a1783f3b512 # v1.0.0
         with:
           path: temp/size/number.txt
 
       - name: Read base branch
         id: pr-base
-        uses: juliangruber/read-file-action@v1
+        uses: juliangruber/read-file-action@e0a316da496006ffd19142f0fd594a1783f3b512 # v1.0.0
         with:
           path: temp/size/base.txt
 
       - name: Download Previous Size Data
-        uses: dawidd6/action-download-artifact@v8
+        uses: dawidd6/action-download-artifact@20319c5641d495c8a52e688b7dc5fada6c3a9fbc # v8
         with:
           branch: ${{ steps.pr-base.outputs.content }}
           workflow: size-data.yml
@@ -68,12 +71,12 @@ jobs:
 
       - name: Read Size Report
         id: size-report
-        uses: juliangruber/read-file-action@v1
+        uses: juliangruber/read-file-action@e0a316da496006ffd19142f0fd594a1783f3b512 # v1.0.0
         with:
           path: ./size-report.md
 
       - name: Create Comment
-        uses: actions-cool/maintain-one-comment@v3
+        uses: actions-cool/maintain-one-comment@de04bd2a3750d86b324829a3ff34d47e48e16f4b # v3.0.0
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           number: ${{ steps.pr-number.outputs.content }}
