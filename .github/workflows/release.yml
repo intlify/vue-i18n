@@ -16,16 +16,16 @@ jobs:
   release:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout codes
-        uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
         with:
           ref: ${{ github.head_ref }}
 
       - name: Install pnpm
-        uses: pnpm/action-setup@v4
+        uses: pnpm/action-setup@a7487c7e89a18df4991f7f222e4898a00d66ddda # v4.1.0
 
       - name: Setup Node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5.0.0
         with:
           node-version: 20
 
@@ -34,7 +34,7 @@ jobs:
 
       - name: Extract version tag
         if: startsWith( github.ref, 'refs/tags/v' )
-        uses: jungwinter/split@v2
+        uses: jungwinter/split@397a50dadb89335ec4ef406c53105c3c4d407c63 # v2.0.0
         id: split
         with:
           msg: ${{ github.ref }}
@@ -51,7 +51,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Commit changelog
-        uses: stefanzweifel/git-auto-commit-action@v5
+        uses: stefanzweifel/git-auto-commit-action@8756aa072ef5b4a080af5dc8fef36c5d586e521d # v5.0.0
         with:
           branch: v11
           file_pattern: '*.md'
