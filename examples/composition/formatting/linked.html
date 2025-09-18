@@ -21,6 +21,7 @@
       <p class="modifier">
         {{ t('message.custom_modifier', { snake: 'message.snake' }) }}
       </p>
+      <p class="linked-nested">{{ t('message.linkedWithNested') }}</p>
     </div>
     <script>
       const { createApp } = Vue
@@ -30,6 +31,7 @@
         locale: 'en',
         messages: {
           en: {
+            'nested.key': 'Nested key',
             message: {
               language: 'Language',
               the_world: 'the world',
@@ -39,10 +41,12 @@
               missingHomeAddress: 'Please provide @.lower:message.homeAddress',
               snake: 'snake case',
               custom_modifier:
-                "custom modifiers example: @.snakeCase:{'message.snake'}"
+                "custom modifiers example: @.snakeCase:{'message.snake'}",
+              linkedWithNested: '@:nested.key'
             }
           },
           ja: {
+            'nested.key': 'ネストされたキー',
             message: {
               language: '言語',
               the_world: 'ザ・ワールド',
@@ -54,7 +58,8 @@
               snake: 'スネーク ケース',
               foo: 'message.snake',
               custom_modifier:
-                "カスタム修飾子の例: @.snakeCase:{'message.snake'}"
+                "カスタム修飾子の例: @.snakeCase:{'message.snake'}",
+              linkedWithNested: '@:nested.key'
             }
           }
         },
