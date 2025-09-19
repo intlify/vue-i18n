@@ -1246,7 +1246,7 @@ function messageCompiler(message, { locale, key, onError }) {
     return ctx => formatter.format(ctx.values)
   } else {
     // If you would like to support it for AST,
-    // You need to transform locale mesages such as `json`, `yaml`, etc. with the bundle plugin.
+    // You need to transform locale messages such as `json`, `yaml`, etc. with the bundle plugin.
     onError && onError(new Error('not support for AST'))
     return () => key // return default with `key`
   }
@@ -1512,7 +1512,7 @@ The use-case for `rt` is for programmatic locale messages translation with using
 :::
 
 :::warning
-`rt` differs from `t` in that it processes the locale message directly, not the key of the locale message. There is no internal fallback with `rt`. You need to understand and use the structure of the locale messge returned by `tm`.
+`rt` differs from `t` in that it processes the locale message directly, not the key of the locale message. There is no internal fallback with `rt`. You need to understand and use the structure of the locale message returned by `tm`.
 :::
 
 #### Parameters
@@ -1548,7 +1548,7 @@ The use-case for `rt` is for programmatic locale messages translation with using
 :::
 
 :::warning
-`rt` differs from `t` in that it processes the locale message directly, not the key of the locale message. There is no internal fallback with `rt`. You need to understand and use the structure of the locale messge returned by `tm`.
+`rt` differs from `t` in that it processes the locale message directly, not the key of the locale message. There is no internal fallback with `rt`. You need to understand and use the structure of the locale message returned by `tm`.
 :::
 
 #### Parameters
@@ -1586,7 +1586,7 @@ The use-case for `rt` is for programmatic locale messages translation with using
 :::
 
 :::warning
-`rt` differs from `t` in that it processes the locale message directly, not the key of the locale message. There is no internal fallback with `rt`. You need to understand and use the structure of the locale messge returned by `tm`.
+`rt` differs from `t` in that it processes the locale message directly, not the key of the locale message. There is no internal fallback with `rt`. You need to understand and use the structure of the locale message returned by `tm`.
 :::
 
 #### Parameters
@@ -1624,7 +1624,7 @@ The use-case for `rt` is for programmatic locale messages translation with using
 :::
 
 :::warning
-`rt` differs from `t` in that it processes the locale message directly, not the key of the locale message. There is no internal fallback with `rt`. You need to understand and use the structure of the locale messge returned by `tm`.
+`rt` differs from `t` in that it processes the locale message directly, not the key of the locale message. There is no internal fallback with `rt`. You need to understand and use the structure of the locale message returned by `tm`.
 :::
 
 #### Parameters
