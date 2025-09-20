@@ -639,7 +639,7 @@ A fallback locale function implemented with a fallback chain algorithm. It's use
 
 ## fallbackWithSimple
 
-Fallback with simple implemenation
+Fallback with simple implementation
 
 **Signature:**
 ```typescript
@@ -870,13 +870,13 @@ linked(key: Path, modifier?: string, type?: string): MessageType<T>;
 
  A resolve message.
 
-### linked(key, optoins)
+### linked(key, options)
 
 Overloaded `linked`
 
 **Signature:**
 ```typescript
-linked(key: Path, optoins?: LinkedOptions): MessageType<T>;
+linked(key: Path, options?: LinkedOptions): MessageType<T>;
 ```
 
 #### Parameters
@@ -884,7 +884,7 @@ linked(key: Path, optoins?: LinkedOptions): MessageType<T>;
 | Parameter | Type | Description |
 | --- | --- | --- |
 | key | Path | A message key |
-| optoins | LinkedOptions | An [linked options](#linkedoptions) |
+| options | LinkedOptions | An [linked options](#linkedoptions) |
 
 #### Returns
 
