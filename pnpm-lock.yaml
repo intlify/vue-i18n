@@ -184,8 +184,8 @@ importers:
         specifier: ^1.0.2
         version: 1.0.2
       textlint-rule-apostrophe:
-        specifier: ^2.0.0
-        version: 2.0.0
+        specifier: ^3.0.0
+        version: 3.0.0
       textlint-rule-common-misspellings:
         specifier: ^1.0.1
         version: 1.0.1
@@ -8516,9 +8516,9 @@ packages:
   textlint-rule-abbr-within-parentheses@1.0.2:
     resolution: {integrity: sha512-GcAtxXttLsZfN75tSCo3V8/RTlglvhnn7McNTgI0uS4ADr67RoD64bSVIs4p/nY3sMNsf1taPjKnhZIQLuVjZg==}
 
-  textlint-rule-apostrophe@2.0.0:
-    resolution: {integrity: sha512-iA0YlUBLS4/YNswvOzG44zo/tJ+xhcLYjyzI9iPia9+jxCQ5NGLlRXHTdtwWPvTTpCk3cn9vlcxYma7wdYyWzg==}
-    engines: {node: '>=8.9'}
+  textlint-rule-apostrophe@3.0.0:
+    resolution: {integrity: sha512-V6NQsIeAw/suqCCN2bXLbCUQa40a5Z9CwJdE6yLS7RyzVYSrhwI8sYpNJxazvigJQNbeO+lneghdv0XSNP7jbw==}
+    engines: {node: '>=20'}
 
   textlint-rule-common-misspellings@1.0.1:
     resolution: {integrity: sha512-f5KWhQFJzJBUX3RirAS25aSkAaaOHeSHtBeb7d49O+vxnAX3dZBS5DB/e5M1kR4tifW4qae64oqWZygoGYWkjQ==}
@@ -9220,8 +9220,8 @@ packages:
   vue-component-type-helpers@2.2.10:
     resolution: {integrity: sha512-iDUO7uQK+Sab2tYuiP9D1oLujCWlhHELHMgV/cB13cuGbG4qwkLHvtfWb6FzvxrIOPDnU0oHsz2MlQjhYDeaHA==}
 
-  vue-component-type-helpers@3.0.7:
-    resolution: {integrity: sha512-TvyUcFXmjZcXUvU+r1MOyn4/vv4iF+tPwg5Ig33l/FJ3myZkxeQpzzQMLMFWcQAjr6Xs7BRwVy/TwbmNZUA/4w==}
+  vue-component-type-helpers@3.0.8:
+    resolution: {integrity: sha512-WyR30Eq15Y/+odrUUMax6FmPbZwAp/HnC7qgR1r3lVFAcqwQ4wUoV79Mbh4SxDy3NiqDa+G4TOKD5xXSgBHo5A==}
 
   vue-docgen-api@4.79.2:
     resolution: {integrity: sha512-n9ENAcs+40awPZMsas7STqjkZiVlIjxIKgiJr5rSohDP0/JCrD9VtlzNojafsA1MChm/hz2h3PDtUedx3lbgfA==}
@@ -11569,7 +11569,7 @@ snapshots:
       ts-dedent: 2.2.0
       type-fest: 2.19.0
       vue: 3.5.21(typescript@5.8.3)
-      vue-component-type-helpers: 3.0.7
+      vue-component-type-helpers: 3.0.8
 
   '@stroncium/procfs@1.2.1': {}
 
@@ -18539,7 +18539,7 @@ snapshots:
     dependencies:
       match-index: 1.0.3
 
-  textlint-rule-apostrophe@2.0.0: {}
+  textlint-rule-apostrophe@3.0.0: {}
 
   textlint-rule-common-misspellings@1.0.1:
     dependencies:
@@ -19414,7 +19414,7 @@ snapshots:
 
   vue-component-type-helpers@2.2.10: {}
 
-  vue-component-type-helpers@3.0.7: {}
+  vue-component-type-helpers@3.0.8: {}
 
   vue-docgen-api@4.79.2(vue@3.5.21(typescript@5.8.3)):
     dependencies:
