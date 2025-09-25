@@ -17,7 +17,7 @@
     "monaco-editor": "^0.53.0"
   },
   "devDependencies": {
-    "@vitejs/plugin-vue": "^5.0.0",
+    "@vitejs/plugin-vue": "^6.0.0",
     "@vue/compiler-sfc": "^3.3.4",
     "vite": "^6.0.0",
     "vue-tsc": "^2.0.0"
