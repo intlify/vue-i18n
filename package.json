@@ -101,7 +101,7 @@
     "cross-env": "^7.0.3",
     "eslint": "^9.9.1",
     "eslint-config-prettier": "^9.1.0",
-    "eslint-plugin-vue": "^9.28.0",
+    "eslint-plugin-vue": "^10.0.0",
     "fast-glob": "^3.3.3",
     "get-port-please": "^3.1.2",
     "gh-changelogen": "^0.2.8",
