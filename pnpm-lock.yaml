@@ -57,9 +57,6 @@ importers:
       '@types/node':
         specifier: ^22.10.3
         version: 22.10.3
-      '@types/rc':
-        specifier: ^1.2.4
-        version: 1.2.4
       '@types/serve-handler':
         specifier: ^6.1.4
         version: 6.1.4
@@ -2966,9 +2963,6 @@ packages:
 
   '@types/range-parser@1.2.7':
     resolution: {integrity: sha512-hKormJbkJqzQGhziax5PItDUTMAM9uE2XXQmM37dyd4hVM+5aVl7oVxMVUiVQn2oCQFN/LKCZdvSM0pFRqbSmQ==}
-
-  '@types/rc@1.2.4':
-    resolution: {integrity: sha512-xD6+epQoMH79A1uwmJIq25D+XZ57jUzCQ1DGSvs3tGKdx7QDYOOaMh6m5KBkEIW4+Cy5++bZ7NLDfdpNiYVKYA==}
 
   '@types/react@19.1.2':
     resolution: {integrity: sha512-oxLPMytKchWGbnQM9O7D67uPa9paTNxO7jVoNMXgkkErULBPhPARCfkKL9ytcIJJRGjbsVwW4ugJzyFFvm/Tiw==}
@@ -10598,10 +10592,6 @@ snapshots:
   '@types/qs@6.9.11': {}
 
   '@types/range-parser@1.2.7': {}
-
-  '@types/rc@1.2.4':
-    dependencies:
-      '@types/minimist': 1.2.5
 
   '@types/react@19.1.2':
     dependencies:
