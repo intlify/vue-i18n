@@ -19,13 +19,17 @@ export function isMessageAST(val: unknown): val is ResourceNode {
 
 const PROPS_BODY = ['b', 'body']
 
-export function resolveBody(node: ResourceNode): ReturnType<typeof resolveProps> {
+export function resolveBody(
+  node: ResourceNode
+): ReturnType<typeof resolveProps<MessageNode | PluralNode>> {
   return resolveProps<MessageNode | PluralNode>(node, PROPS_BODY)
 }
 
 const PROPS_CASES = ['c', 'cases']
 
-export function resolveCases(node: PluralNode): ReturnType<typeof resolveProps> {
+export function resolveCases(
+  node: PluralNode
+): ReturnType<typeof resolveProps<PluralNode['cases'], PluralNode['cases']>> {
   return resolveProps<PluralNode['cases'], PluralNode['cases']>(node, PROPS_CASES, [])
 }
 
@@ -37,13 +41,15 @@ export function resolveStatic(node: MessageNode): ReturnType<typeof resolveProps
 
 const PROPS_ITEMS = ['i', 'items']
 
-export function resolveItems(node: MessageNode): ReturnType<typeof resolveProps> {
+export function resolveItems(
+  node: MessageNode
+): ReturnType<typeof resolveProps<MessageNode['items'], MessageNode['items']>> {
   return resolveProps<MessageNode['items'], MessageNode['items']>(node, PROPS_ITEMS, [])
 }
 
 const PROPS_TYPE = ['t', 'type']
 
-export function resolveType(node: Node): ReturnType<typeof resolveProps> {
+export function resolveType(node: Node): ReturnType<typeof resolveProps<NodeTypes>> {
   return resolveProps<NodeTypes>(node, PROPS_TYPE)
 }
 
@@ -63,13 +69,17 @@ export function resolveValue<Message = string>(
 
 const PROPS_MODIFIER = ['m', 'modifier']
 
-export function resolveLinkedModifier(node: LinkedNode): ReturnType<typeof resolveProps> {
+export function resolveLinkedModifier(
+  node: LinkedNode
+): ReturnType<typeof resolveProps<LinkedModifierNode>> {
   return resolveProps<LinkedModifierNode>(node, PROPS_MODIFIER)
 }
 
 const PROPS_KEY = ['k', 'key']
 
-export function resolveLinkedKey(node: LinkedNode): ReturnType<typeof resolveProps> {
+export function resolveLinkedKey(
+  node: LinkedNode
+): ReturnType<typeof resolveProps<LinkedNode['key']>> {
   const resolved = resolveProps<LinkedNode['key']>(node, PROPS_KEY)
   if (resolved) {
     return resolved
