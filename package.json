@@ -78,7 +78,7 @@
     "test:unit": "cross-env TZ=UTC vitest run -c ./vitest.unit.config.ts --typecheck"
   },
   "devDependencies": {
-    "@eslint/js": "^9.9.1",
+    "@eslint/js": "^9.38.0",
     "@intlify/core-base": "workspace:*",
     "@intlify/message-compiler": "workspace:*",
     "@intlify/vue-i18n-core": "workspace:*",
@@ -99,9 +99,9 @@
     "api-docs-gen": "^0.4.0",
     "bumpp": "^10.0.0",
     "cross-env": "^7.0.3",
-    "eslint": "^9.9.1",
-    "eslint-config-prettier": "^9.1.0",
-    "eslint-plugin-vue": "^9.28.0",
+    "eslint": "^9.38.0",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-vue": "^10.5.1",
     "fast-glob": "^3.3.3",
     "get-port-please": "^3.1.2",
     "gh-changelogen": "^0.2.8",

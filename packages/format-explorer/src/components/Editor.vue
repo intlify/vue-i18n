@@ -16,6 +16,7 @@ import theme from '../theme'
 import { debounce as _debounce } from '../utils'
 
 // @ts-ignore
+// eslint-disable-next-line -- FIXME:
 self.MonacoEnvironment = {
   getWorker(_: unknown, label: string) {
     if (label === 'json') {
@@ -95,6 +96,7 @@ onMounted(() => {
     throw new Error('editor is null')
   }
 
+  // eslint-disable-next-line -- FIXME:
   window.addEventListener('resize', () => editor.layout())
 
   const changeEmitter = props.debounce

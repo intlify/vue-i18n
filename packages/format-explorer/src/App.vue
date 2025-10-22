@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import { ref } from 'vue'
-import { SourceMapConsumer } from 'source-map-js'
 import { baseCompile } from '@intlify/message-compiler'
 import * as monaco from 'monaco-editor'
+import { SourceMapConsumer } from 'source-map-js'
+import { ref } from 'vue'
 import { debounce } from './utils'
 
-import Navigation from './components/Navigation.vue'
 import Editor from './components/Editor.vue'
+import Navigation from './components/Navigation.vue'
 import Options from './components/Options.vue'
 
 import type { CompileError, CompileOptions } from '@intlify/message-compiler'
@@ -23,6 +23,7 @@ interface PersistedState {
 const genCodes = ref<string>('')
 const compileErrors = ref<CompileError[]>([])
 const persistedState: PersistedState = JSON.parse(
+  // eslint-disable-next-line -- FIXME:
   decodeURIComponent(window.location.hash.slice(1)) || localStorage.getItem('state') || `{}`
 )
 const initialCodes = persistedState.src || 'hello {name}!'
@@ -88,7 +89,9 @@ let outputEditor: monaco.editor.IStandaloneCodeEditor | null = null
 const onChangeModel = async (message: string): Promise<void> => {
   console.log('onChangeModel', message)
   const state = JSON.stringify({ src: message } as PersistedState)
+  // eslint-disable-next-line -- FIXME:
   localStorage.setItem('state', state)
+  // eslint-disable-next-line -- FIXME:
   window.location.hash = encodeURIComponent(state)
   genCodes.value = await compile(message, _compilerOptions)
 }
