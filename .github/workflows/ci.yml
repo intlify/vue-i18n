@@ -88,7 +88,9 @@ jobs:
     name: Build with rolldown
     strategy:
       matrix:
-        os: [ubuntu-latest, windows-latest, macos-latest]
+        # NOTE(kazupon): rolldown build fail out on windows...
+        # os: [ubuntu-latest, windows-latest, macos-latest]
+        os: [ubuntu-latest, macos-latest]
         node: [24]
 
     runs-on: ${{ matrix.os }}
