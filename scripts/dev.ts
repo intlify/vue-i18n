@@ -16,9 +16,9 @@ __DEV__=false pnpm run dev
 ```
 */
 
-import { execa } from 'execa'
 import { spawnSync } from 'node:child_process'
 import { parseArgs } from 'node:util'
+import { x } from 'tinyexec'
 import { fuzzyMatchTarget } from './utils'
 
 const commit = spawnSync('git', ['rev-parse', '--short=7', 'HEAD']).stdout.toString().trim()
@@ -44,8 +44,7 @@ const formats = rawFormats?.split(',')
 async function main() {
   const resolveTarget = targets.length ? (await fuzzyMatchTarget(targets))[0] : 'vue-i18n'
 
-  // eslint-disable-next-line @typescript-eslint/no-floating-promises
-  execa(
+  await x(
     'rollup',
     [
       '-wc',
@@ -60,7 +59,7 @@ async function main() {
         .join(',')
     ],
     {
-      stdio: 'inherit'
+      nodeOptions: { stdio: 'inherit' }
     }
   )
 }

@@ -15,7 +15,6 @@ pnpm build core --formats mjs
 */
 
 import { Extractor, ExtractorConfig } from '@microsoft/api-extractor'
-import { execa } from 'execa'
 import { spawnSync } from 'node:child_process'
 import { existsSync, promises as fs } from 'node:fs'
 import os from 'node:os'
@@ -24,6 +23,7 @@ import { fileURLToPath } from 'node:url'
 import { parseArgs } from 'node:util'
 import { brotliCompressSync, gzipSync } from 'node:zlib'
 import pc from 'picocolors'
+import { x } from 'tinyexec'
 import {
   targets as allTargets,
   checkSizeDistFiles,
@@ -164,7 +164,8 @@ async function main() {
 
     const env =
       (pkg.buildOptions && pkg.buildOptions.env) || (devOnly ? 'development' : 'production')
-    await execa(
+
+    await x(
       'rollup',
       [
         '-c',
@@ -181,7 +182,9 @@ async function main() {
           .filter(Boolean)
           .join(',')
       ],
-      { stdio: 'inherit' }
+      {
+        nodeOptions: { stdio: 'inherit' }
+      }
     )
   }
 

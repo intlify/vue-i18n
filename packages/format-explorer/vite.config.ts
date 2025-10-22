@@ -1,10 +1,10 @@
 import vue from '@vitejs/plugin-vue'
-import { execaSync } from 'execa'
 import path from 'node:path'
 import { URL } from 'node:url'
 import { defineConfig } from 'vite'
+import { execSync } from 'node:child_process'
 
-const commit = execaSync('git', ['rev-parse', 'HEAD']).stdout.slice(0, 7)
+const commit = execSync('git rev-parse HEAD', { encoding: 'utf-8' }).slice(0, 7)
 console.log('commit', commit)
 
 const __dirname = path.dirname(new URL(import.meta.url).pathname)
