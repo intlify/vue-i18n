@@ -155,7 +155,7 @@
       "eslint --fix"
     ]
   },
-  "packageManager": "pnpm@10.2.0",
+  "packageManager": "pnpm@10.19.0",
   "pnpm": {
     "overrides": {
       "vue": "3.5.21",
