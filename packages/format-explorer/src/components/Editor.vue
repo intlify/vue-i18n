@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted, watchEffect } from 'vue'
 import * as monaco from 'monaco-editor'
+import { onMounted, onUnmounted, ref, watchEffect } from 'vue'
 // @ts-ignore
 import EditorWorker from 'monaco-editor/esm/vs/editor/editor.worker?worker'
 // @ts-ignore
@@ -10,10 +10,10 @@ import CssWorker from 'monaco-editor/esm/vs/language/css/css.worker?worker'
 // @ts-ignore
 import HtmlWorker from 'monaco-editor/esm/vs/language/html/html.worker?worker'
 // @ts-ignore
+import type { CompileError } from '@intlify/message-compiler'
 import TsWorker from 'monaco-editor/esm/vs/language/typescript/ts.worker?worker'
 import theme from '../theme'
 import { debounce as _debounce } from '../utils'
-import type { CompileError } from '@intlify/message-compiler'
 
 // @ts-ignore
 self.MonacoEnvironment = {
@@ -34,7 +34,7 @@ self.MonacoEnvironment = {
   }
 }
 
-export interface Props {
+interface Props {
   code?: string
   debounce?: boolean
   language?: string

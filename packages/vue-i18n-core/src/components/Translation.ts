@@ -28,6 +28,7 @@ export interface TranslationProps extends BaseFormatProps {
   plural?: number | string
 }
 
+/** @alias */
 export const TranslationImpl: ComponentOptions<TranslationProps> = /*#__PURE__*/ defineComponent({
   name: 'i18n-t', // eslint-disable-line vue/component-definition-name-casing
   props: /*#__PURE__*/ assign(
@@ -134,4 +135,5 @@ export const Translation = TranslationImpl as unknown as {
   }
 }
 
+/** @alias */
 export const I18nT: typeof Translation = Translation

@@ -72,7 +72,7 @@
       "browser": "./dist/petite-vue-i18n-core.esm-browser.js",
       "node": {
         "import": {
-          "development": "./petite-dist/vue-i18n-core.js",
+          "development": "./dist/petite-vue-i18n-core.js",
           "default": "./dist/petite-vue-i18n-core.js"
         }
       }

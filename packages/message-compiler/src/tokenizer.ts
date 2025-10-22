@@ -45,7 +45,7 @@ export interface Token {
   loc?: SourceLocation
 }
 
-export interface TokenizeContext {
+interface TokenizeContext {
   currentType: TokenTypes
   offset: number
   startLoc: Position

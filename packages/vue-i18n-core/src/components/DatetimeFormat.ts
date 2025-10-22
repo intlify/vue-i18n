@@ -20,6 +20,7 @@ import type { FormattableProps } from './formatRenderer'
 export type DatetimeFormatProps = FormattableProps<number | Date, Intl.DateTimeFormatOptions>
 
 // TODO:
+/** @alias */
 export const DatetimeFormatImpl: ComponentOptions<DatetimeFormatProps> =
   /* #__PURE__*/ defineComponent({
     name: 'i18n-d', // eslint-disable-line vue/component-definition-name-casing
@@ -80,4 +81,5 @@ export const DatetimeFormat = DatetimeFormatImpl as unknown as {
   }
 }
 
+/** @alias */
 export const I18nD: typeof DatetimeFormat = DatetimeFormat

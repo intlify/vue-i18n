@@ -20,6 +20,7 @@ import type { FormattableProps } from './formatRenderer'
 export type NumberFormatProps = FormattableProps<number, Intl.NumberFormatOptions>
 
 // TODO:
+/** @alias */
 export const NumberFormatImpl: ComponentOptions<NumberFormatProps> = /*#__PURE__*/ defineComponent({
   name: 'i18n-n', // eslint-disable-line vue/component-definition-name-casing
   props: /*#__PURE__*/ assign(
@@ -83,4 +84,5 @@ export const NumberFormat = NumberFormatImpl as unknown as {
   }
 }
 
+/** @alias */
 export const I18nN: typeof NumberFormat = NumberFormat
