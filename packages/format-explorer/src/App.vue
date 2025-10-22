@@ -23,9 +23,7 @@ interface PersistedState {
 const genCodes = ref<string>('')
 const compileErrors = ref<CompileError[]>([])
 const persistedState: PersistedState = JSON.parse(
-  decodeURIComponent(window.location.hash.slice(1)) ||
-    localStorage.getItem('state') ||
-    `{}`
+  decodeURIComponent(window.location.hash.slice(1)) || localStorage.getItem('state') || `{}`
 )
 const initialCodes = persistedState.src || 'hello {name}!'
 
@@ -38,10 +36,7 @@ let _compilerOptions = {}
 
 let lastSuccessCode: string
 let lastSuccessfulMap: SourceMapConsumer | null = null
-async function compile(
-  message: string,
-  options: CompileOptions = {}
-): Promise<string> {
+async function compile(message: string, options: CompileOptions = {}): Promise<string> {
   _message = message
   console.clear()
 
@@ -69,16 +64,13 @@ async function compile(
 
     // const evalCode = new Function(`return ${code}`)()
     const evalCode = code
-    lastSuccessCode =
-      evalCode.toString() + `\n\n// Check the console for the AST`
+    lastSuccessCode = evalCode.toString() + `\n\n// Check the console for the AST`
     lastSuccessfulMap =
       // eslint-disable-next-line @typescript-eslint/await-thenable
       options.sourceMap && map ? await new SourceMapConsumer(map) : null
     lastSuccessfulMap?.computeColumnSpans()
   } catch (e: unknown) {
-    lastSuccessCode = `/* ERROR: ${
-      (e as Error).message
-    } (see console for more info) */`
+    lastSuccessCode = `/* ERROR: ${(e as Error).message} (see console for more info) */`
     console.error(e)
   }
 
@@ -182,12 +174,7 @@ const onReadyOutput = (editor: monaco.editor.IStandaloneCodeEditor) => {
           }
           prevInputDecos = inputEditor!.deltaDecorations(prevInputDecos, [
             {
-              range: new monaco.Range(
-                pos.line,
-                pos.column + 1,
-                pos.line,
-                pos.column + 1
-              ),
+              range: new monaco.Range(pos.line, pos.column + 1, pos.line, pos.column + 1),
               options: {
                 isWholeLine: true,
                 className: `highlight`

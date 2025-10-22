@@ -2,13 +2,7 @@
  * @vitest-environment jsdom
  */
 
-import {
-  h,
-  provide,
-  nextTick,
-  defineCustomElement,
-  getCurrentInstance
-} from 'vue'
+import { h, provide, nextTick, defineCustomElement, getCurrentInstance } from 'vue'
 import {
   compile,
   registerMessageCompiler,
@@ -70,15 +64,11 @@ test('basic', async () => {
   await nextTick()
   const provider = container.childNodes[0] as VueElement
   const consumer = provider.shadowRoot!.childNodes[0] as VueElement
-  expect(consumer.shadowRoot!.innerHTML).toBe(
-    `<div>hello web components!</div>`
-  )
+  expect(consumer.shadowRoot!.innerHTML).toBe(`<div>hello web components!</div>`)
 
   i18n.global.locale.value = 'ja'
   await nextTick()
-  expect(consumer.shadowRoot!.innerHTML).toBe(
-    `<div>こんにちは Web コンポーネント！</div>`
-  )
+  expect(consumer.shadowRoot!.innerHTML).toBe(`<div>こんにちは Web コンポーネント！</div>`)
 })
 
 test('custom blocks', async () => {

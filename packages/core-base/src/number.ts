@@ -104,43 +104,37 @@ export interface NumberOptions<Key = string, Locales = Locale>
  * `number` function overloads
  */
 
-export function number<
-  Context extends CoreContext<Message, {}, {}, {}>,
-  Message = string
->(context: Context, value: number): string | number | Intl.NumberFormatPart[]
-
-export function number<
-  Context extends CoreContext<Message, {}, {}, {}>,
-  Value extends number = number,
-  Key extends string = string,
-  ResourceKeys extends PickupFormatKeys<
-    Context['numberFormats']
-  > = PickupFormatKeys<Context['numberFormats']>,
-  Message = string
->(
+export function number<Context extends CoreContext<Message, {}, {}, {}>, Message = string>(
   context: Context,
-  value: Value,
-  keyOrOptions:
-    | Key
-    | ResourceKeys
-    | NumberOptions<Key | ResourceKeys, Context['locale']>
+  value: number
 ): string | number | Intl.NumberFormatPart[]
 
 export function number<
   Context extends CoreContext<Message, {}, {}, {}>,
   Value extends number = number,
   Key extends string = string,
-  ResourceKeys extends PickupFormatKeys<
+  ResourceKeys extends PickupFormatKeys<Context['numberFormats']> = PickupFormatKeys<
     Context['numberFormats']
-  > = PickupFormatKeys<Context['numberFormats']>,
+  >,
   Message = string
 >(
   context: Context,
   value: Value,
-  keyOrOptions:
-    | Key
-    | ResourceKeys
-    | NumberOptions<Key | ResourceKeys, Context['locale']>,
+  keyOrOptions: Key | ResourceKeys | NumberOptions<Key | ResourceKeys, Context['locale']>
+): string | number | Intl.NumberFormatPart[]
+
+export function number<
+  Context extends CoreContext<Message, {}, {}, {}>,
+  Value extends number = number,
+  Key extends string = string,
+  ResourceKeys extends PickupFormatKeys<Context['numberFormats']> = PickupFormatKeys<
+    Context['numberFormats']
+  >,
+  Message = string
+>(
+  context: Context,
+  value: Value,
+  keyOrOptions: Key | ResourceKeys | NumberOptions<Key | ResourceKeys, Context['locale']>,
   locale: Context['locale']
 ): string | number | Intl.NumberFormatPart[]
 
@@ -148,17 +142,14 @@ export function number<
   Context extends CoreContext<Message, {}, {}, {}>,
   Value extends number = number,
   Key extends string = string,
-  ResourceKeys extends PickupFormatKeys<
+  ResourceKeys extends PickupFormatKeys<Context['numberFormats']> = PickupFormatKeys<
     Context['numberFormats']
-  > = PickupFormatKeys<Context['numberFormats']>,
+  >,
   Message = string
 >(
   context: Context,
   value: Value,
-  keyOrOptions:
-    | Key
-    | ResourceKeys
-    | NumberOptions<Key | ResourceKeys, Context['locale']>,
+  keyOrOptions: Key | ResourceKeys | NumberOptions<Key | ResourceKeys, Context['locale']>,
   override: Intl.NumberFormatOptions
 ): string | number | Intl.NumberFormatPart[]
 
@@ -166,36 +157,24 @@ export function number<
   Context extends CoreContext<Message, {}, {}, {}>,
   Value extends number = number,
   Key extends string = string,
-  ResourceKeys extends PickupFormatKeys<
+  ResourceKeys extends PickupFormatKeys<Context['numberFormats']> = PickupFormatKeys<
     Context['numberFormats']
-  > = PickupFormatKeys<Context['numberFormats']>,
+  >,
   Message = string
 >(
   context: Context,
   value: Value,
-  keyOrOptions:
-    | Key
-    | ResourceKeys
-    | NumberOptions<Key | ResourceKeys, Context['locale']>,
+  keyOrOptions: Key | ResourceKeys | NumberOptions<Key | ResourceKeys, Context['locale']>,
   locale: Context['locale'],
   override: Intl.NumberFormatOptions
 ): string | number | Intl.NumberFormatPart[]
 
 // implementation of `number` function
-export function number<
-  Context extends CoreContext<Message, {}, {}, {}>,
-  Message = string
->(
+export function number<Context extends CoreContext<Message, {}, {}, {}>, Message = string>(
   context: Context,
   ...args: unknown[]
 ): string | number | Intl.NumberFormatPart[] {
-  const {
-    numberFormats,
-    unresolving,
-    fallbackLocale,
-    onWarn,
-    localeFallbacker
-  } = context
+  const { numberFormats, unresolving, fallbackLocale, onWarn, localeFallbacker } = context
   const { __numberFormatters } = context as unknown as CoreInternalContext
 
   if (__DEV__ && !Availabilities.numberFormat) {
@@ -204,12 +183,8 @@ export function number<
   }
 
   const [key, value, options, overrides] = parseNumberArgs(...args)
-  const missingWarn = isBoolean(options.missingWarn)
-    ? options.missingWarn
-    : context.missingWarn
-  const fallbackWarn = isBoolean(options.fallbackWarn)
-    ? options.fallbackWarn
-    : context.fallbackWarn
+  const missingWarn = isBoolean(options.missingWarn) ? options.missingWarn : context.missingWarn
+  const fallbackWarn = isBoolean(options.fallbackWarn) ? options.fallbackWarn : context.fallbackWarn
   const part = !!options.part
   const locale = getLocale(context, options)
   const locales = localeFallbacker(
@@ -232,11 +207,7 @@ export function number<
 
   for (let i = 0; i < locales.length; i++) {
     targetLocale = to = locales[i]
-    if (
-      __DEV__ &&
-      locale !== targetLocale &&
-      isTranslateFallbackWarn(fallbackWarn, key)
-    ) {
+    if (__DEV__ && locale !== targetLocale && isTranslateFallbackWarn(fallbackWarn, key)) {
       onWarn(
         getWarnMessage(CoreWarnCodes.FALLBACK_TO_NUMBER_FORMAT, {
           key,
@@ -259,8 +230,7 @@ export function number<
       }
     }
 
-    numberFormat =
-      (numberFormats as unknown as NumberFormatsType)[targetLocale] || {}
+    numberFormat = (numberFormats as unknown as NumberFormatsType)[targetLocale] || {}
 
     format = numberFormat[key]
     if (isPlainObject(format)) break
@@ -280,10 +250,7 @@ export function number<
 
   let formatter = __numberFormatters.get(id)
   if (!formatter) {
-    formatter = new Intl.NumberFormat(
-      targetLocale,
-      assign({}, format, overrides)
-    )
+    formatter = new Intl.NumberFormat(targetLocale, assign({}, format, overrides))
     __numberFormatters.set(id, formatter)
   }
   return !part ? formatter.format(value) : formatter.formatToParts(value)

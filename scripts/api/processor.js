@@ -24,30 +24,22 @@ function process(model, pkg, style, resolver, customTags) {
       const { kind } = item
       switch (kind) {
         case 'Function':
-          models.push(
-            parseFunction(style, model, pkg, resolver, item, customTags)
-          )
+          models.push(parseFunction(style, model, pkg, resolver, item, customTags))
           break
         case 'Enum':
           models.push(parseEnum(style, model, pkg, resolver, item, customTags))
           break
         case 'Interface':
-          models.push(
-            parseInterface(style, model, pkg, resolver, item, customTags)
-          )
+          models.push(parseInterface(style, model, pkg, resolver, item, customTags))
           break
         case 'Class':
           // TODO:
           break
         case 'TypeAlias':
-          models.push(
-            parseTypeAlias(style, model, pkg, resolver, item, customTags)
-          )
+          models.push(parseTypeAlias(style, model, pkg, resolver, item, customTags))
           break
         case 'Variable':
-          models.push(
-            parseVariable(style, model, pkg, resolver, item, customTags)
-          )
+          models.push(parseVariable(style, model, pkg, resolver, item, customTags))
           break
         default:
           break
@@ -91,9 +83,7 @@ function process(model, pkg, style, resolver, customTags) {
     ]
 
     return targets.map(t => {
-      const targetModels = models.filter(
-        m => m.modifierTags && m.modifierTags.includes(t.tag)
-      )
+      const targetModels = models.filter(m => m.modifierTags && m.modifierTags.includes(t.tag))
       return buildContents(targetModels, t.title, t.file)
     })
   }
@@ -347,11 +337,7 @@ function buildParameters(model, builder, level = 3) {
   builder.pushline(`| Parameter | Type | Description |`)
   builder.pushline(`| --- | --- | --- |`)
   for (const p of model.parameters) {
-    builder.pushline(
-      `| ${p.name} | ${normalize(escapeTextForTable(p.type))} | ${
-        p.description
-      } |`
-    )
+    builder.pushline(`| ${p.name} | ${normalize(escapeTextForTable(p.type))} | ${p.description} |`)
   }
   builder.newline()
 }
@@ -416,131 +402,43 @@ function parseFunction(style, model, pkg, resolver, item, customTags) {
   genModel.modifierTags = getModifierTags(docs)
 
   // summary
-  genModel.summary = getSummary(
-    docs,
-    style,
-    model,
-    pkg,
-    resolver,
-    item,
-    customTags
-  )
+  genModel.summary = getSummary(docs, style, model, pkg, resolver, item, customTags)
 
   // signature
   genModel.signature = getSignature(item)
 
   // type parameters
-  genModel.typeParameters = getTypeParameters(
-    docs,
-    style,
-    model,
-    pkg,
-    resolver,
-    item,
-    customTags
-  )
+  genModel.typeParameters = getTypeParameters(docs, style, model, pkg, resolver, item, customTags)
 
   // deprecated
-  genModel.deprecated = getDeprecated(
-    docs,
-    style,
-    model,
-    pkg,
-    resolver,
-    item,
-    customTags
-  )
+  genModel.deprecated = getDeprecated(docs, style, model, pkg, resolver, item, customTags)
 
   // remarks
-  genModel.remarks = getRamrks(
-    docs,
-    style,
-    model,
-    pkg,
-    resolver,
-    item,
-    customTags
-  )
+  genModel.remarks = getRamrks(docs, style, model, pkg, resolver, item, customTags)
 
   // see also
-  genModel.seeAlso = getSeeAlso(
-    docs,
-    style,
-    model,
-    pkg,
-    resolver,
-    item,
-    customTags
-  )
+  genModel.seeAlso = getSeeAlso(docs, style, model, pkg, resolver, item, customTags)
 
   // tips
   genModel.tips = getTips(docs, style, model, pkg, resolver, item, customTags)
 
   // dangers
-  genModel.dangers = getDangers(
-    docs,
-    style,
-    model,
-    pkg,
-    resolver,
-    item,
-    customTags
-  )
+  genModel.dangers = getDangers(docs, style, model, pkg, resolver, item, customTags)
 
   // warnings
-  genModel.warnings = getWarnings(
-    docs,
-    style,
-    model,
-    pkg,
-    resolver,
-    item,
-    customTags
-  )
+  genModel.warnings = getWarnings(docs, style, model, pkg, resolver, item, customTags)
 
   // parameters
-  genModel.parameters = getParameters(
-    docs,
-    style,
-    model,
-    pkg,
-    resolver,
-    item,
-    customTags
-  )
+  genModel.parameters = getParameters(docs, style, model, pkg, resolver, item, customTags)
 
   // returns
-  genModel.returns = getReturns(
-    docs,
-    style,
-    model,
-    pkg,
-    resolver,
-    item,
-    customTags
-  )
+  genModel.returns = getReturns(docs, style, model, pkg, resolver, item, customTags)
 
   // throws
-  genModel.throws = getThrows(
-    docs,
-    style,
-    model,
-    pkg,
-    resolver,
-    item,
-    customTags
-  )
+  genModel.throws = getThrows(docs, style, model, pkg, resolver, item, customTags)
 
   // examples
-  genModel.examples = getExamples(
-    docs,
-    style,
-    model,
-    pkg,
-    resolver,
-    item,
-    customTags
-  )
+  genModel.examples = getExamples(docs, style, model, pkg, resolver, item, customTags)
 
   // console.log('function genmodel', genModel)
   return genModel
@@ -561,76 +459,28 @@ function parseEnum(style, model, pkg, resolver, item, customTags) {
   genModel.modifierTags = getModifierTags(docs)
 
   // summary
-  genModel.summary = getSummary(
-    docs,
-    style,
-    model,
-    pkg,
-    resolver,
-    item,
-    customTags
-  )
+  genModel.summary = getSummary(docs, style, model, pkg, resolver, item, customTags)
 
   // signature
   genModel.signature = getSignature(item)
 
   // deprecated
-  genModel.deprecated = getDeprecated(
-    docs,
-    style,
-    model,
-    pkg,
-    resolver,
-    item,
-    customTags
-  )
+  genModel.deprecated = getDeprecated(docs, style, model, pkg, resolver, item, customTags)
 
   // remarks
-  genModel.remarks = getRamrks(
-    docs,
-    style,
-    model,
-    pkg,
-    resolver,
-    item,
-    customTags
-  )
+  genModel.remarks = getRamrks(docs, style, model, pkg, resolver, item, customTags)
 
   // see also
-  genModel.seeAlso = getSeeAlso(
-    docs,
-    style,
-    model,
-    pkg,
-    resolver,
-    item,
-    customTags
-  )
+  genModel.seeAlso = getSeeAlso(docs, style, model, pkg, resolver, item, customTags)
 
   // tips
   genModel.tips = getTips(docs, style, model, pkg, resolver, item, customTags)
 
   // dangers
-  genModel.dangers = getDangers(
-    docs,
-    style,
-    model,
-    pkg,
-    resolver,
-    item,
-    customTags
-  )
+  genModel.dangers = getDangers(docs, style, model, pkg, resolver, item, customTags)
 
   // warnings
-  genModel.warnings = getWarnings(
-    docs,
-    style,
-    model,
-    pkg,
-    resolver,
-    item,
-    customTags
-  )
+  genModel.warnings = getWarnings(docs, style, model, pkg, resolver, item, customTags)
 
   // members
   if (item.members) {
@@ -656,15 +506,7 @@ function parseEnum(style, model, pkg, resolver, item, customTags) {
   }
 
   // examples
-  genModel.examples = getExamples(
-    docs,
-    style,
-    model,
-    pkg,
-    resolver,
-    item,
-    customTags
-  )
+  genModel.examples = getExamples(docs, style, model, pkg, resolver, item, customTags)
 
   // console.log('enum genmodel', genModel)
   return genModel
@@ -683,15 +525,7 @@ function getNameSignature(item, type) {
   }
 }
 
-function parseContentForClassinizable(
-  style,
-  model,
-  pkg,
-  resolver,
-  item,
-  type,
-  customTags
-) {
+function parseContentForClassinizable(style, model, pkg, resolver, item, type, customTags) {
   const genModel = {
     name: getNameSignature(item, type),
     type: item.kind
@@ -706,150 +540,54 @@ function parseContentForClassinizable(
   genModel.modifierTags = getModifierTags(docs)
 
   // summary
-  genModel.summary = getSummary(
-    docs,
-    style,
-    model,
-    pkg,
-    resolver,
-    item,
-    customTags
-  )
+  genModel.summary = getSummary(docs, style, model, pkg, resolver, item, customTags)
 
   // signature
   genModel.signature = getSignature(item)
 
   // type parameters
-  genModel.typeParameters = getTypeParameters(
-    docs,
-    style,
-    model,
-    pkg,
-    resolver,
-    item,
-    customTags
-  )
+  genModel.typeParameters = getTypeParameters(docs, style, model, pkg, resolver, item, customTags)
 
   // deprecated
-  genModel.deprecated = getDeprecated(
-    docs,
-    style,
-    model,
-    pkg,
-    resolver,
-    item,
-    customTags
-  )
+  genModel.deprecated = getDeprecated(docs, style, model, pkg, resolver, item, customTags)
 
   // remarks
-  genModel.remarks = getRamrks(
-    docs,
-    style,
-    model,
-    pkg,
-    resolver,
-    item,
-    customTags
-  )
+  genModel.remarks = getRamrks(docs, style, model, pkg, resolver, item, customTags)
 
   // defaultValue
   if (type === 'property') {
-    genModel.defaultValue = getDefaultValue(
-      docs,
-      style,
-      model,
-      pkg,
-      resolver,
-      item,
-      customTags
-    )
+    genModel.defaultValue = getDefaultValue(docs, style, model, pkg, resolver, item, customTags)
   }
 
   // see also
-  genModel.seeAlso = getSeeAlso(
-    docs,
-    style,
-    model,
-    pkg,
-    resolver,
-    item,
-    customTags
-  )
+  genModel.seeAlso = getSeeAlso(docs, style, model, pkg, resolver, item, customTags)
 
   // tips
   genModel.tips = getTips(docs, style, model, pkg, resolver, item, customTags)
 
   // dangers
-  genModel.dangers = getDangers(
-    docs,
-    style,
-    model,
-    pkg,
-    resolver,
-    item,
-    customTags
-  )
+  genModel.dangers = getDangers(docs, style, model, pkg, resolver, item, customTags)
 
   // warnings
-  genModel.warnings = getWarnings(
-    docs,
-    style,
-    model,
-    pkg,
-    resolver,
-    item,
-    customTags
-  )
+  genModel.warnings = getWarnings(docs, style, model, pkg, resolver, item, customTags)
 
   // parameters
   if (type === 'constrcutor' || type === 'method' || type === 'function') {
-    genModel.parameters = getParameters(
-      docs,
-      style,
-      model,
-      pkg,
-      resolver,
-      item,
-      customTags
-    )
+    genModel.parameters = getParameters(docs, style, model, pkg, resolver, item, customTags)
   }
 
   // returns
   if (type === 'method' || type === 'function') {
-    genModel.returns = getReturns(
-      docs,
-      style,
-      model,
-      pkg,
-      resolver,
-      item,
-      customTags
-    )
+    genModel.returns = getReturns(docs, style, model, pkg, resolver, item, customTags)
   }
 
   // throws
   if (type === 'constructor' || type === 'method' || type === 'function') {
-    genModel.throws = getThrows(
-      docs,
-      style,
-      model,
-      pkg,
-      resolver,
-      item,
-      customTags
-    )
+    genModel.throws = getThrows(docs, style, model, pkg, resolver, item, customTags)
   }
 
   // examples
-  genModel.examples = getExamples(
-    docs,
-    style,
-    model,
-    pkg,
-    resolver,
-    item,
-    customTags
-  )
+  genModel.examples = getExamples(docs, style, model, pkg, resolver, item, customTags)
 
   return genModel
 }
@@ -870,15 +608,7 @@ function parseInterface(style, model, pkg, resolver, item, customTags) {
     genModel.functions = []
     for (const func of functions) {
       genModel.functions.push(
-        parseContentForClassinizable(
-          style,
-          model,
-          pkg,
-          resolver,
-          func,
-          'function',
-          customTags
-        )
+        parseContentForClassinizable(style, model, pkg, resolver, func, 'function', customTags)
       )
     }
   }
@@ -888,15 +618,7 @@ function parseInterface(style, model, pkg, resolver, item, customTags) {
     genModel.methods = []
     for (const method of methods) {
       genModel.methods.push(
-        parseContentForClassinizable(
-          style,
-          model,
-          pkg,
-          resolver,
-          method,
-          'method',
-          customTags
-        )
+        parseContentForClassinizable(style, model, pkg, resolver, method, 'method', customTags)
       )
     }
   }
@@ -906,15 +628,7 @@ function parseInterface(style, model, pkg, resolver, item, customTags) {
     genModel.properties = []
     for (const property of properties) {
       genModel.properties.push(
-        parseContentForClassinizable(
-          style,
-          model,
-          pkg,
-          resolver,
-          property,
-          'property',
-          customTags
-        )
+        parseContentForClassinizable(style, model, pkg, resolver, property, 'property', customTags)
       )
     }
   }
@@ -943,98 +657,34 @@ function parseTypeAlias(style, model, pkg, resolver, item, customTags) {
   genModel.modifierTags = getModifierTags(docs)
 
   // sumarry
-  genModel.summary = getSummary(
-    docs,
-    style,
-    model,
-    pkg,
-    resolver,
-    item,
-    customTags
-  )
+  genModel.summary = getSummary(docs, style, model, pkg, resolver, item, customTags)
 
   // signature
   genModel.signature = getSignature(item)
 
   // type parameters
-  genModel.typeParameters = getTypeParameters(
-    docs,
-    style,
-    model,
-    pkg,
-    resolver,
-    item,
-    customTags
-  )
+  genModel.typeParameters = getTypeParameters(docs, style, model, pkg, resolver, item, customTags)
 
   // deprecated
-  genModel.deprecated = getDeprecated(
-    docs,
-    style,
-    model,
-    pkg,
-    resolver,
-    item,
-    customTags
-  )
+  genModel.deprecated = getDeprecated(docs, style, model, pkg, resolver, item, customTags)
 
   // remarks
-  genModel.remarks = getRamrks(
-    docs,
-    style,
-    model,
-    pkg,
-    resolver,
-    item,
-    customTags
-  )
+  genModel.remarks = getRamrks(docs, style, model, pkg, resolver, item, customTags)
 
   // see also
-  genModel.seeAlso = getSeeAlso(
-    docs,
-    style,
-    model,
-    pkg,
-    resolver,
-    item,
-    customTags
-  )
+  genModel.seeAlso = getSeeAlso(docs, style, model, pkg, resolver, item, customTags)
 
   // tips
   genModel.tips = getTips(docs, style, model, pkg, resolver, item, customTags)
 
   // dangers
-  genModel.dangers = getDangers(
-    docs,
-    style,
-    model,
-    pkg,
-    resolver,
-    item,
-    customTags
-  )
+  genModel.dangers = getDangers(docs, style, model, pkg, resolver, item, customTags)
 
   // warnings
-  genModel.warnings = getWarnings(
-    docs,
-    style,
-    model,
-    pkg,
-    resolver,
-    item,
-    customTags
-  )
+  genModel.warnings = getWarnings(docs, style, model, pkg, resolver, item, customTags)
 
   // examples
-  genModel.examples = getExamples(
-    docs,
-    style,
-    model,
-    pkg,
-    resolver,
-    item,
-    customTags
-  )
+  genModel.examples = getExamples(docs, style, model, pkg, resolver, item, customTags)
 
   // console.log('typealias genmodel', genModel)
   return genModel
@@ -1055,143 +705,59 @@ function parseVariable(style, model, pkg, resolver, item, customTags) {
   genModel.modifierTags = getModifierTags(docs)
 
   // summary
-  genModel.summary = getSummary(
-    docs,
-    style,
-    model,
-    pkg,
-    resolver,
-    item,
-    customTags
-  )
+  genModel.summary = getSummary(docs, style, model, pkg, resolver, item, customTags)
 
   // signature
   genModel.signature = getSignature(item)
 
   // deprecated
-  genModel.deprecated = getDeprecated(
-    docs,
-    style,
-    model,
-    pkg,
-    resolver,
-    item,
-    customTags
-  )
+  genModel.deprecated = getDeprecated(docs, style, model, pkg, resolver, item, customTags)
 
   // remarks
-  genModel.remarks = getRamrks(
-    docs,
-    style,
-    model,
-    pkg,
-    resolver,
-    item,
-    customTags
-  )
+  genModel.remarks = getRamrks(docs, style, model, pkg, resolver, item, customTags)
 
   // see also
-  genModel.seeAlso = getSeeAlso(
-    docs,
-    style,
-    model,
-    pkg,
-    resolver,
-    item,
-    customTags
-  )
+  genModel.seeAlso = getSeeAlso(docs, style, model, pkg, resolver, item, customTags)
 
   // tips
   genModel.tips = getTips(docs, style, model, pkg, resolver, item, customTags)
 
   // dangers
-  genModel.dangers = getDangers(
-    docs,
-    style,
-    model,
-    pkg,
-    resolver,
-    item,
-    customTags
-  )
+  genModel.dangers = getDangers(docs, style, model, pkg, resolver, item, customTags)
 
   // warnings
-  genModel.warnings = getWarnings(
-    docs,
-    style,
-    model,
-    pkg,
-    resolver,
-    item,
-    customTags
-  )
+  genModel.warnings = getWarnings(docs, style, model, pkg, resolver, item, customTags)
 
   // examples
-  genModel.examples = getExamples(
-    docs,
-    style,
-    model,
-    pkg,
-    resolver,
-    item,
-    customTags
-  )
+  genModel.examples = getExamples(docs, style, model, pkg, resolver, item, customTags)
 
   // console.log('variable genmodel', genModel)
   return genModel
 }
 
 function getModifierTags(docs) {
-  return docs.modifierTagSet.nodes
-    ? docs.modifierTagSet.nodes.map(n => n.tagName)
-    : []
+  return docs.modifierTagSet.nodes ? docs.modifierTagSet.nodes.map(n => n.tagName) : []
 }
 
 function getSummary(docs, style, model, pkg, resolver, item, customTags) {
   if (docs.summarySection) {
-    return getDocSectionContent(
-      model,
-      pkg,
-      docs.summarySection,
-      item,
-      style,
-      resolver,
-      customTags
-    )
+    return getDocSectionContent(model, pkg, docs.summarySection, item, style, resolver, customTags)
   } else {
     return undefined
   }
 }
 
 function getSignature(item) {
-  return item.excerptTokens
-    ? item.excerptTokens.map(token => token.text).join('')
-    : undefined
+  return item.excerptTokens ? item.excerptTokens.map(token => token.text).join('') : undefined
 }
 
-function getTypeParameters(
-  docs,
-  style,
-  model,
-  pkg,
-  resolver,
-  item,
-  customTags
-) {
+function getTypeParameters(docs, style, model, pkg, resolver, item, customTags) {
   if (docs.typeParams && docs.typeParams.count > 0) {
     return docs.typeParams.blocks.map(b => {
       return {
         name: b.parameterName,
         description: b.content
-          ? getDocSectionContent(
-              model,
-              pkg,
-              b.content,
-              item,
-              style,
-              resolver,
-              customTags
-            )
+          ? getDocSectionContent(model, pkg, b.content, item, style, resolver, customTags)
           : ''
       }
     })
@@ -1233,29 +799,11 @@ function getRamrks(docs, style, model, pkg, resolver, item, customTags) {
 }
 
 function getSeeAlso(docs, style, model, pkg, resolver, item, customTags) {
-  return getCustomBlockContents(
-    '@VueI18nSee',
-    docs,
-    style,
-    model,
-    pkg,
-    resolver,
-    item,
-    customTags
-  )
+  return getCustomBlockContents('@VueI18nSee', docs, style, model, pkg, resolver, item, customTags)
 }
 
 function getTips(docs, style, model, pkg, resolver, item, customTags) {
-  return getCustomBlockContents(
-    '@VueI18nTip',
-    docs,
-    style,
-    model,
-    pkg,
-    resolver,
-    item,
-    customTags
-  )
+  return getCustomBlockContents('@VueI18nTip', docs, style, model, pkg, resolver, item, customTags)
 }
 
 function getDangers(docs, style, model, pkg, resolver, item, customTags) {
@@ -1326,29 +874,11 @@ function getReturns(docs, style, model, pkg, resolver, item, customTags) {
 }
 
 function getThrows(docs, style, model, pkg, resolver, item, customTags) {
-  return getCustomBlockContents(
-    '@throws',
-    docs,
-    style,
-    model,
-    pkg,
-    resolver,
-    item,
-    customTags
-  )
+  return getCustomBlockContents('@throws', docs, style, model, pkg, resolver, item, customTags)
 }
 
 function getExamples(docs, style, model, pkg, resolver, item, customTags) {
-  return getCustomBlockContents(
-    '@example',
-    docs,
-    style,
-    model,
-    pkg,
-    resolver,
-    item,
-    customTags
-  )
+  return getCustomBlockContents('@example', docs, style, model, pkg, resolver, item, customTags)
 }
 
 function getDefaultValue(docs, style, model, pkg, resolver, item, customTags) {
@@ -1368,28 +898,11 @@ function getDefaultValue(docs, style, model, pkg, resolver, item, customTags) {
   }
 }
 
-function getCustomBlockContents(
-  tag,
-  docs,
-  style,
-  model,
-  pkg,
-  resolver,
-  item,
-  customTags
-) {
+function getCustomBlockContents(tag, docs, style, model, pkg, resolver, item, customTags) {
   const blocks = findCustomTags(docs.customBlocks, tag)
   if (blocks.length > 0) {
     return blocks.map(b => {
-      return getDocSectionContent(
-        model,
-        pkg,
-        b.content,
-        item,
-        style,
-        resolver,
-        customTags
-      )
+      return getDocSectionContent(model, pkg, b.content, item, style, resolver, customTags)
     })
   } else {
     return undefined

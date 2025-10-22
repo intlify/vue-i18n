@@ -16,7 +16,7 @@ export default defineComponent({
     return () => (
       <>
         <HelloWorld msg="Vue I18n v9 + TSX + Vite" />
-        <p>{ t('hello') }</p>
+        <p>{t('hello')}</p>
       </>
     )
   }

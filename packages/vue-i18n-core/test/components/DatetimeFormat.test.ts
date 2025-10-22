@@ -81,9 +81,7 @@ test('basic usage', async () => {
   })
   const wrapper = await mount(App, i18n)
 
-  expect(wrapper.html()).toMatch(
-    /([1-9]|1[0-2])\/([1-9]|[12]\d|3[01])\/([12]\d{3})/
-  )
+  expect(wrapper.html()).toMatch(/([1-9]|1[0-2])\/([1-9]|[12]\d|3[01])\/([12]\d{3})/)
   expect(wrapper.html()).toMatch(
     /(0[1-9]|1[0-2])\/(0[1-9]|[12]\d|3[01])\/([12]\d{3}), (0[0-9]|1[0-2]):([0-5][0-9]):([0-5][0-9])/
   )

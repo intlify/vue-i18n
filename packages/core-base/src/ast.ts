@@ -13,9 +13,7 @@ import type { MessageType } from './runtime'
 
 export function isMessageAST(val: unknown): val is ResourceNode {
   return (
-    isObject(val) &&
-    resolveType(val as Node) === 0 &&
-    (hasOwn(val, 'b') || hasOwn(val, 'body'))
+    isObject(val) && resolveType(val as Node) === 0 && (hasOwn(val, 'b') || hasOwn(val, 'body'))
   )
 }
 
@@ -28,11 +26,7 @@ export function resolveBody(node: ResourceNode) {
 const PROPS_CASES = ['c', 'cases']
 
 export function resolveCases(node: PluralNode) {
-  return resolveProps<PluralNode['cases'], PluralNode['cases']>(
-    node,
-    PROPS_CASES,
-    []
-  )
+  return resolveProps<PluralNode['cases'], PluralNode['cases']>(node, PROPS_CASES, [])
 }
 
 const PROPS_STATIC = ['s', 'static']
@@ -44,11 +38,7 @@ export function resolveStatic(node: MessageNode) {
 const PROPS_ITEMS = ['i', 'items']
 
 export function resolveItems(node: MessageNode) {
-  return resolveProps<MessageNode['items'], MessageNode['items']>(
-    node,
-    PROPS_ITEMS,
-    []
-  )
+  return resolveProps<MessageNode['items'], MessageNode['items']>(node, PROPS_ITEMS, [])
 }
 
 const PROPS_TYPE = ['t', 'type']
@@ -63,10 +53,7 @@ export function resolveValue<Message = string>(
   node: { v?: MessageType<Message>; value?: MessageType<Message> },
   type: NodeTypes
 ): MessageType<Message> {
-  const resolved = resolveProps<Message>(
-    node as Node,
-    PROPS_VALUE
-  ) as MessageType<Message>
+  const resolved = resolveProps<Message>(node as Node, PROPS_VALUE) as MessageType<Message>
   if (resolved != null) {
     return resolved
   } else {

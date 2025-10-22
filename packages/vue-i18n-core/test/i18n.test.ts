@@ -23,14 +23,7 @@ import {
   setDevToolsHook
 } from '@intlify/core-base'
 import { createEmitter } from '@intlify/shared'
-import {
-  defineComponent,
-  defineCustomElement,
-  getCurrentInstance,
-  h,
-  nextTick,
-  ref
-} from 'vue'
+import { defineComponent, defineCustomElement, getCurrentInstance, h, nextTick, ref } from 'vue'
 import { errorMessages, I18nErrorCodes } from '../src/errors'
 import { createI18n, useI18n } from '../src/i18n'
 import { pluralRules as _pluralRules, mount, randStr } from './helper'
@@ -340,9 +333,7 @@ describe('useI18n', () => {
     container.innerHTML = `<${randProviderTag}></${randProviderTag}>`
     await nextTick()
 
-    expect(error).toEqual(
-      errorMessages[I18nErrorCodes.NOT_INSTALLED_WITH_PROVIDE]
-    )
+    expect(error).toEqual(errorMessages[I18nErrorCodes.NOT_INSTALLED_WITH_PROVIDE])
   })
 
   test(errorMessages[I18nErrorCodes.DUPLICATE_USE_I18N_CALLING], async () => {
@@ -877,9 +868,7 @@ test('Composer & VueI18n extend hooking', async () => {
   // Check that global is not extended
   expect((i18n.global as any).foo).toBeUndefined() // eslint-disable-line @typescript-eslint/no-explicit-any
 
-  expect(html()).toBe(
-    '<p></p><p class="child">foo1</p><p class="grand-child">foo2</p>'
-  )
+  expect(html()).toBe('<p></p><p class="child">foo1</p><p class="grand-child">foo2</p>')
   expect(composerExtendSpy).toHaveBeenCalledTimes(2)
   expect(vueI18nExtendSpy).not.toHaveBeenCalled()
 
@@ -969,25 +958,17 @@ test('`t`', async () => {
   expect(i18n.global.t('plural', 0)).toEqual('no apples')
   expect(i18n.global.t('plural', 1)).toEqual('one apple')
   expect(i18n.global.t('default', 'default message')).toEqual('default message')
-  expect(
-    i18n.global.t('default', 'default {msg}', { named: { msg: 'msg' } })
-  ).toEqual('default msg')
+  expect(i18n.global.t('default', 'default {msg}', { named: { msg: 'msg' } })).toEqual(
+    'default msg'
+  )
   expect(i18n.global.t('plural', ['many'], 4)).toEqual('4 apples')
-  expect(i18n.global.t('default', ['list msg'], 'default {0}')).toEqual(
-    'default list msg'
-  )
-  expect(i18n.global.t('list', ['世界'], { locale: 'ja' })).toEqual(
-    'こんにちは、世界！'
-  )
+  expect(i18n.global.t('default', ['list msg'], 'default {0}')).toEqual('default list msg')
+  expect(i18n.global.t('list', ['世界'], { locale: 'ja' })).toEqual('こんにちは、世界！')
   expect(i18n.global.t('plural', { count: 'many' }, 4)).toEqual('many apples')
-  expect(
-    i18n.global.t('default', { msg: 'named msg' }, 'default {msg}')
-  ).toEqual('default named msg')
-  expect(i18n.global.t('named', { name: '世界' }, { locale: 'ja' })).toEqual(
-    'こんにちは、世界！'
+  expect(i18n.global.t('default', { msg: 'named msg' }, 'default {msg}')).toEqual(
+    'default named msg'
   )
+  expect(i18n.global.t('named', { name: '世界' }, { locale: 'ja' })).toEqual('こんにちは、世界！')
   expect(i18n.global.t('hello', {}, { locale: 'en' })).toEqual('hello world!')
-  expect(i18n.global.t('hello', [], { locale: 'ja' })).toEqual(
-    'こんにちは、世界！'
-  )
+  expect(i18n.global.t('hello', [], { locale: 'ja' })).toEqual('こんにちは、世界！')
 })

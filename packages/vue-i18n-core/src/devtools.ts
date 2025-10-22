@@ -1,11 +1,5 @@
 import { isMessageAST } from '@intlify/core-base'
-import {
-  isArray,
-  isBoolean,
-  isFunction,
-  isObject,
-  isString
-} from '@intlify/shared'
+import { isArray, isBoolean, isFunction, isObject, isString } from '@intlify/shared'
 import { setupDevtoolsPlugin } from '@vue/devtools-api'
 
 import type {
@@ -72,10 +66,7 @@ export async function enableDevTools(app: App, i18n: _I18n): Promise<boolean> {
               componentInstance.vnode.el.__VUE_I18N__ &&
               instanceData
             ) {
-              inspectComposer(
-                instanceData,
-                componentInstance.vnode.el.__VUE_I18N__ as Composer
-              )
+              inspectComposer(instanceData, componentInstance.vnode.el.__VUE_I18N__ as Composer)
             }
           })
 
@@ -83,25 +74,18 @@ export async function enableDevTools(app: App, i18n: _I18n): Promise<boolean> {
             id: 'vue-i18n-resource-inspector',
             label: VueDevToolsLabels['vue-i18n-resource-inspector'],
             icon: 'language',
-            treeFilterPlaceholder:
-              VueDevToolsPlaceholders['vue-i18n-resource-inspector']
+            treeFilterPlaceholder: VueDevToolsPlaceholders['vue-i18n-resource-inspector']
           })
 
           api.on.getInspectorTree(payload => {
-            if (
-              payload.app === app &&
-              payload.inspectorId === 'vue-i18n-resource-inspector'
-            ) {
+            if (payload.app === app && payload.inspectorId === 'vue-i18n-resource-inspector') {
               registerScope(payload, i18n)
             }
           })
 
           const roots = new Map<App, ComponentInternalInstance>()
           api.on.getInspectorState(async payload => {
-            if (
-              payload.app === app &&
-              payload.inspectorId === 'vue-i18n-resource-inspector'
-            ) {
+            if (payload.app === app && payload.inspectorId === 'vue-i18n-resource-inspector') {
               api.unhighlightElement()
 
               inspectScope(payload, i18n)
@@ -120,10 +104,7 @@ export async function enableDevTools(app: App, i18n: _I18n): Promise<boolean> {
           })
 
           api.on.editInspectorState(payload => {
-            if (
-              payload.app === app &&
-              payload.inspectorId === 'vue-i18n-resource-inspector'
-            ) {
+            if (payload.app === app && payload.inspectorId === 'vue-i18n-resource-inspector') {
               editScope(payload, i18n)
             }
           })
@@ -147,12 +128,7 @@ export async function enableDevTools(app: App, i18n: _I18n): Promise<boolean> {
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 function getI18nScopeLable(instance: any): string {
-  return (
-    instance.type.name ||
-    instance.type.displayName ||
-    instance.type.__file ||
-    'Anonymous'
-  )
+  return instance.type.name || instance.type.displayName || instance.type.__file || 'Anonymous'
 }
 
 function updateComponentTreeTags(
@@ -175,10 +151,7 @@ function updateComponentTreeTags(
   }
 }
 
-function inspectComposer(
-  instanceData: InspectedComponentData,
-  composer: Composer
-): void {
+function inspectComposer(instanceData: InspectedComponentData, composer: Composer): void {
   const type = VUE_I18N_COMPONENT_TYPES
   instanceData.state.push({
     type,
@@ -270,10 +243,7 @@ function getMessageFunctionDetails(func: any): Record<string, unknown> {
   }
 }
 
-function registerScope(
-  payload: HookPayloads[Hooks.GET_INSPECTOR_TREE],
-  i18n: _I18n
-): void {
+function registerScope(payload: HookPayloads[Hooks.GET_INSPECTOR_TREE], i18n: _I18n): void {
   payload.rootNodes.push({
     id: 'global',
     label: 'Global Scope'
@@ -293,10 +263,7 @@ function registerScope(
   }
 }
 
-function getComponentInstance(
-  nodeId: string,
-  i18n: _I18n
-): ComponentInternalInstance | null {
+function getComponentInstance(nodeId: string, i18n: _I18n): ComponentInternalInstance | null {
   let instance: ComponentInternalInstance | null = null
 
   if (nodeId !== 'global') {
@@ -439,10 +406,7 @@ export function addTimelineEvent(
   }
 }
 
-function editScope(
-  payload: HookPayloads[Hooks.EDIT_INSPECTOR_STATE],
-  i18n: _I18n
-): void {
+function editScope(payload: HookPayloads[Hooks.EDIT_INSPECTOR_STATE], i18n: _I18n): void {
   const composer = getComposer(payload.nodeId, i18n)
   if (composer) {
     const [field] = payload.path

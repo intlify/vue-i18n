@@ -15,34 +15,24 @@ export async function createDtsConfig(targets: string[]) {
   }
 
   const packages = await fs.readdir(path.resolve(__dirname, '../temp/packages'))
-  const targetPackages = targets
-    ? packages.filter(pkg => targets.includes(pkg))
-    : packages
+  const targetPackages = targets ? packages.filter(pkg => targets.includes(pkg)) : packages
 
   return targetPackages.reduce(
     (acc, pkg) => {
       const key = `packages/${pkg}/dist/${pkg}.d.ts`
       acc[key] = {
-        input: path.resolve(
-          __dirname,
-          `../temp/packages/${pkg}/src/index.d.ts`
-        ),
+        input: path.resolve(__dirname, `../temp/packages/${pkg}/src/index.d.ts`),
         output: {
           file: path.resolve(__dirname, `../packages/${pkg}/dist/${pkg}.d.ts`),
           format: 'es'
         },
         plugins: [
           dts(),
-          ...(pkg === 'vue-i18n' || pkg === 'petite-vue-i18n'
-            ? [appendTypes(pkg)]
-            : []),
+          ...(pkg === 'vue-i18n' || pkg === 'petite-vue-i18n' ? [appendTypes(pkg)] : []),
           ...(pkg === 'vue-i18n-core' ? [copyDts()] : [])
         ],
         onwarn(warning, warn) {
-          if (
-            warning.code === 'UNRESOLVED_IMPORT' &&
-            !warning.exporter?.startsWith('.')
-          ) {
+          if (warning.code === 'UNRESOLVED_IMPORT' && !warning.exporter?.startsWith('.')) {
             return
           }
           warn(warning)
@@ -58,10 +48,7 @@ function appendTypes(pkg: string): Plugin {
   return {
     name: 'append-types',
     async renderChunk(code) {
-      const template = path.resolve(
-        __dirname,
-        `../packages/${pkg}/src/vue.d.ts`
-      )
+      const template = path.resolve(__dirname, `../packages/${pkg}/src/vue.d.ts`)
       const s = new MagicString(code)
       const ts = await fs.readFile(template, 'utf-8')
       s.prepend(ts + `\n`)

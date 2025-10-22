@@ -2,9 +2,7 @@ async function main() {
   try {
     await import('playwright-core')
   } catch (e) {
-    console.error(
-      'Playwright is not installed. Please run `pnpm playwright-core install chromium`'
-    )
+    console.error('Playwright is not installed. Please run `pnpm playwright-core install chromium`')
     throw e
   }
 }

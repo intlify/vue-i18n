@@ -2,10 +2,7 @@ import { customRef } from 'vue'
 import type { Ref } from 'vue'
 
 /* eslint-disable */
-export function debounce<T extends (...args: any[]) => any>(
-  fn: T,
-  delay: number = 300
-): T {
+export function debounce<T extends (...args: any[]) => any>(fn: T, delay: number = 300): T {
   let prevTimer: number | null = null
   return ((...args: any[]) => {
     if (prevTimer) {

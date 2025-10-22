@@ -10,9 +10,7 @@ export async function load<Locales>(locales: readonly Locale[]) {
   const host = import.meta.env.PROD ? 'http://localhost:3000' : ''
   for (const locale of locales) {
     // load from back-end server
-    const resource = await (
-      await fetch(`${host}/api/resources/${locale}`)
-    ).json()
+    const resource = await (await fetch(`${host}/api/resources/${locale}`)).json()
     messages[locale] = resource
 
     /**

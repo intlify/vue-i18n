@@ -18,19 +18,11 @@ export interface Position {
   column: number
 }
 
-export function createPosition(
-  line: number,
-  column: number,
-  offset: number
-): Position {
+export function createPosition(line: number, column: number, offset: number): Position {
   return { line, column, offset } as Position
 }
 
-export function createLocation(
-  start: Position,
-  end: Position,
-  source?: string
-): SourceLocation {
+export function createLocation(start: Position, end: Position, source?: string): SourceLocation {
   const loc = { start, end } as SourceLocation
   if (source != null) {
     loc.source = source

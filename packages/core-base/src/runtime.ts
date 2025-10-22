@@ -40,13 +40,10 @@ export interface GeneratedTypeConfig {}
  * Generated locale which resolves to `never` if left unset
  */
 export type GeneratedLocale =
-  GeneratedTypeConfig extends Record<'locale', infer CustomLocale>
-    ? CustomLocale
-    : never
+  GeneratedTypeConfig extends Record<'locale', infer CustomLocale> ? CustomLocale : never
 
 /** @VueI18nGeneral */
-export type Locale =
-  IsNever<GeneratedLocale> extends true ? string : GeneratedLocale
+export type Locale = IsNever<GeneratedLocale> extends true ? string : GeneratedLocale
 
 /** @VueI18nGeneral */
 // prettier-ignore
@@ -56,26 +53,14 @@ export interface LocaleDetector<Args extends any[] = any[]> { // eslint-disable-
 }
 
 /** @VueI18nGeneral */
-export type FallbackLocale =
-  | Locale
-  | Locale[]
-  | { [locale in string]: Locale[] }
-  | false
+export type FallbackLocale = Locale | Locale[] | { [locale in string]: Locale[] } | false
 
-export type CoreMissingType =
-  | 'translate'
-  | 'datetime format'
-  | 'number format'
-  | 'translate exists'
+export type CoreMissingType = 'translate' | 'datetime format' | 'number format' | 'translate exists'
 
-export type MessageType<T = string> = T extends string
-  ? string
-  : StringConvertable<T>
+export type MessageType<T = string> = T extends string ? string : StringConvertable<T>
 
 /** @VueI18nGeneral */
-export type MessageFunctionReturn<T = string> = T extends string
-  ? MessageType<T>
-  : MessageType<T>[]
+export type MessageFunctionReturn<T = string> = T extends string ? MessageType<T> : MessageType<T>[]
 
 export type MessageFunctionCallable = <T = string>(
   ctx: MessageContext<T>
@@ -97,9 +82,7 @@ export type MessageFunctionInternal<T = string> = {
  *
  * @VueI18nGeneral
  */
-export type MessageFunction<T = string> =
-  | MessageFunctionCallable
-  | MessageFunctionInternal<T>
+export type MessageFunction<T = string> = MessageFunctionCallable | MessageFunctionInternal<T>
 
 export type MessageFunctions<T = string> = Record<string, MessageFunction<T>>
 export type MessageResolveFunction<T = string> = (
@@ -107,9 +90,7 @@ export type MessageResolveFunction<T = string> = (
   useLinked: boolean
 ) => MessageFunction<T>
 
-export type MessageNormalize<T = string> = (
-  values: MessageType<T>[]
-) => MessageFunctionReturn<T>
+export type MessageNormalize<T = string> = (values: MessageType<T>[]) => MessageFunctionReturn<T>
 export type MessageInterpolate<T = string> = (val: unknown) => MessageType<T>
 export interface MessageProcessor<T = string> {
   type?: string
@@ -129,10 +110,7 @@ export type PluralizationProps = {
   count?: number
 }
 
-export type LinkedModify<T = string> = (
-  value: T,
-  type: string
-) => MessageType<T>
+export type LinkedModify<T = string> = (value: T, type: string) => MessageType<T>
 /** @VueI18nGeneral */
 export type LinkedModifiers<T = string> = { [key: string]: LinkedModify<T> }
 
@@ -295,8 +273,7 @@ export interface MessageContext<T = string> {
 const DEFAULT_MODIFIER = (str: string): string => str
 const DEFAULT_MESSAGE = (ctx: MessageContext<string>): string => '' // eslint-disable-line
 export const DEFAULT_MESSAGE_DATA_TYPE = 'text'
-const DEFAULT_NORMALIZE = (values: string[]): string =>
-  values.length === 0 ? '' : join(values)
+const DEFAULT_NORMALIZE = (values: string[]): string => (values.length === 0 ? '' : join(values))
 const DEFAULT_INTERPOLATE = toDisplayString
 
 function pluralDefault(choice: number, choicesLength: number): number {
@@ -342,15 +319,11 @@ export function createMessageContext<T = string, N = {}>(
   const locale = options.locale
   const pluralIndex = getPluralIndex(options)
   const pluralRule =
-    isObject(options.pluralRules) &&
-    isString(locale) &&
-    isFunction(options.pluralRules[locale])
+    isObject(options.pluralRules) && isString(locale) && isFunction(options.pluralRules[locale])
       ? options.pluralRules[locale]
       : pluralDefault
   const orgPluralRule =
-    isObject(options.pluralRules) &&
-    isString(locale) &&
-    isFunction(options.pluralRules[locale])
+    isObject(options.pluralRules) && isString(locale) && isFunction(options.pluralRules[locale])
       ? pluralDefault
       : undefined
   const plural = (messages: T[]): T => {
@@ -381,9 +354,7 @@ export function createMessageContext<T = string, N = {}>(
   }
 
   const _modifier = (name: string): LinkedModify<T> =>
-    options.modifiers
-      ? options.modifiers[name]
-      : (DEFAULT_MODIFIER as unknown as LinkedModify<T>)
+    options.modifiers ? options.modifiers[name] : (DEFAULT_MODIFIER as unknown as LinkedModify<T>)
 
   const normalize =
     isPlainObject(options.processor) && isFunction(options.processor.normalize)
@@ -391,8 +362,7 @@ export function createMessageContext<T = string, N = {}>(
       : (DEFAULT_NORMALIZE as unknown as MessageNormalize<T>)
 
   const interpolate =
-    isPlainObject(options.processor) &&
-    isFunction(options.processor.interpolate)
+    isPlainObject(options.processor) && isFunction(options.processor.interpolate)
       ? options.processor.interpolate
       : (DEFAULT_INTERPOLATE as unknown as MessageInterpolate<T>)
 
@@ -423,9 +393,7 @@ export function createMessageContext<T = string, N = {}>(
     const ret = message(key, true)(ctx)
     const msg =
       // The message in vnode resolved with linked are returned as an array by processor.nomalize
-      type === 'vnode' && isArray(ret) && modifier
-        ? ret[0]
-        : (ret as MessageType<T>)
+      type === 'vnode' && isArray(ret) && modifier ? ret[0] : (ret as MessageType<T>)
     return modifier ? _modifier(modifier)(msg as T, type) : msg
   }
 

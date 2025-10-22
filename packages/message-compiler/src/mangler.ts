@@ -58,11 +58,7 @@ export function mangle(node: Node): void {
     case NodeTypes.Literal:
     case NodeTypes.LinkedModifier:
     case NodeTypes.LinkedKey: {
-      const valueNode = node as
-        | TextNode
-        | LiteralNode
-        | LinkedKeyNode
-        | LinkedModifierNode
+      const valueNode = node as TextNode | LiteralNode | LinkedKeyNode | LinkedModifierNode
       if (valueNode.value) {
         valueNode.v = valueNode.value
         delete (valueNode as any).value
@@ -95,14 +91,10 @@ export function mangle(node: Node): void {
     }
     default:
       if (__DEV__) {
-        throw createCompileError(
-          CompileErrorCodes.UNHANDLED_MINIFIER_NODE_TYPE,
-          null,
-          {
-            domain: ERROR_DOMAIN,
-            args: [node.type]
-          }
-        )
+        throw createCompileError(CompileErrorCodes.UNHANDLED_MINIFIER_NODE_TYPE, null, {
+          domain: ERROR_DOMAIN,
+          args: [node.type]
+        })
       }
   }
 

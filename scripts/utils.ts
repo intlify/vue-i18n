@@ -53,10 +53,7 @@ export const targets = async () => {
   return resolveTargets(files.filter((_, f) => files[f]))
 }
 
-export const fuzzyMatchTarget = async (
-  partialTargets: string[],
-  includeAllMatching?: boolean
-) => {
+export const fuzzyMatchTarget = async (partialTargets: string[], includeAllMatching?: boolean) => {
   const matched: string[] = []
   const _targets = await targets()
   partialTargets.forEach(partialTarget => {
@@ -93,18 +90,14 @@ export async function sizeTargets() {
       if (!stat.isDirectory()) {
         return ''
       }
-      const pkg = await readJson(
-        resolve(dirname(''), `./packages/${f}/package.json`)
-      )
+      const pkg = await readJson(resolve(dirname(''), `./packages/${f}/package.json`))
       if (!pkg.private) {
         return ''
       }
       return f
     })
   )
-  return resolveTargets(
-    files.filter((_, f) => files[f]).filter(f => /size-check/.test(f))
-  )
+  return resolveTargets(files.filter((_, f) => files[f]).filter(f => /size-check/.test(f)))
 }
 
 export async function checkSizeDistFiles(target: string) {

@@ -2,9 +2,7 @@ import { getText, url } from '../helper'
 ;['composition'].forEach(pattern => {
   describe(`${pattern}`, () => {
     beforeAll(async () => {
-      await page.goto(
-        url(`/examples/${pattern}/components/datetime-format.html`)
-      )
+      await page.goto(url(`/examples/${pattern}/components/datetime-format.html`))
     })
 
     test('rendering', async () => {

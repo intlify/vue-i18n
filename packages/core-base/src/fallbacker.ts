@@ -27,9 +27,7 @@ export function getLocale<Messages, Message>(
   context: CoreContext<Message, Messages>,
   options: LocaleOptions
 ): string {
-  return options.locale != null
-    ? resolveLocale(options.locale)
-    : resolveLocale(context.locale)
+  return options.locale != null ? resolveLocale(options.locale) : resolveLocale(context.locale)
 }
 
 let _resolveLocale: string
@@ -163,11 +161,7 @@ export function fallbackWithLocaleChain<Message = string>(
   return chain
 }
 
-function appendBlockToChain(
-  chain: Locale[],
-  block: Locale[],
-  blocks: FallbackLocale
-): unknown {
+function appendBlockToChain(chain: Locale[], block: Locale[], blocks: FallbackLocale): unknown {
   let follow: unknown = true
   for (let i = 0; i < block.length && isBoolean(follow); i++) {
     const locale = block[i]
@@ -178,11 +172,7 @@ function appendBlockToChain(
   return follow
 }
 
-function appendLocaleToChain(
-  chain: Locale[],
-  locale: Locale,
-  blocks: FallbackLocale
-): unknown {
+function appendLocaleToChain(chain: Locale[], locale: Locale, blocks: FallbackLocale): unknown {
   let follow: unknown
   const tokens = locale.split('-')
   do {
@@ -193,11 +183,7 @@ function appendLocaleToChain(
   return follow
 }
 
-function appendItemToChain(
-  chain: Locale[],
-  target: Locale,
-  blocks: FallbackLocale
-): unknown {
+function appendItemToChain(chain: Locale[], target: Locale, blocks: FallbackLocale): unknown {
   let follow: unknown = false
   if (!chain.includes(target)) {
     follow = true

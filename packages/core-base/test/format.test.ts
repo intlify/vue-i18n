@@ -1,10 +1,5 @@
 import { baseCompile as compile, NodeTypes } from '@intlify/message-compiler'
-import {
-  format,
-  formatMessagePart,
-  formatMessageParts,
-  formatParts
-} from '../src/format'
+import { format, formatMessagePart, formatMessageParts, formatParts } from '../src/format'
 import { createMessageContext as context } from '../src/runtime'
 
 import type {
@@ -128,10 +123,7 @@ describe('features', () => {
     })
 
     test(`@.upper:{'no apples'} | {0} apple | {n}　apples`, () => {
-      const { ast } = compile(
-        `@.upper:{'no apples'} | {0} apple | {n}　apples`,
-        { jit: true }
-      )
+      const { ast } = compile(`@.upper:{'no apples'} | {0} apple | {n}　apples`, { jit: true })
       const msg = format(ast)
       const ctx = context({
         pluralIndex: 2,
@@ -274,9 +266,7 @@ describe('formatParts', () => {
     }
 
     const ctx = context()
-    expect(() => formatParts(ctx, node)).toThrow(
-      `unhandled node type: ${NodeTypes.Resource}`
-    )
+    expect(() => formatParts(ctx, node)).toThrow(`unhandled node type: ${NodeTypes.Resource}`)
   })
 })
 
@@ -364,9 +354,7 @@ describe('formatMessagePart', () => {
         type: NodeTypes.Text
       }
       const ctx = context()
-      expect(() => formatMessagePart(ctx, node)).toThrow(
-        `unhandled node type: ${NodeTypes.Text}`
-      )
+      expect(() => formatMessagePart(ctx, node)).toThrow(`unhandled node type: ${NodeTypes.Text}`)
     })
   })
 
@@ -430,9 +418,7 @@ describe('formatMessagePart', () => {
         type: NodeTypes.Named
       }
       const ctx = context()
-      expect(() => formatMessagePart(ctx, node)).toThrow(
-        `unhandled node type: ${NodeTypes.Named}`
-      )
+      expect(() => formatMessagePart(ctx, node)).toThrow(`unhandled node type: ${NodeTypes.Named}`)
     })
   })
 
@@ -466,9 +452,7 @@ describe('formatMessagePart', () => {
         type: NodeTypes.List
       }
       const ctx = context()
-      expect(() => formatMessagePart(ctx, node)).toThrow(
-        `unhandled node type: ${NodeTypes.List}`
-      )
+      expect(() => formatMessagePart(ctx, node)).toThrow(`unhandled node type: ${NodeTypes.List}`)
     })
   })
 
@@ -597,9 +581,7 @@ describe('formatMessagePart', () => {
           name: () => 'kazupon'
         }
       })
-      expect(() => formatMessagePart(ctx, node)).toThrow(
-        `unhandled node type: ${NodeTypes.Linked}`
-      )
+      expect(() => formatMessagePart(ctx, node)).toThrow(`unhandled node type: ${NodeTypes.Linked}`)
     })
   })
 
@@ -608,8 +590,6 @@ describe('formatMessagePart', () => {
       type: -1
     }
     const ctx = context()
-    expect(() => formatMessagePart(ctx, node)).toThrow(
-      `unhandled node on format message part: -1`
-    )
+    expect(() => formatMessagePart(ctx, node)).toThrow(`unhandled node on format message part: -1`)
   })
 })

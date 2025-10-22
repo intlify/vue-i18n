@@ -35,9 +35,7 @@ import {
 import type { OutputOptions } from 'rolldown'
 
 const __dirname = fileURLToPath(new URL('.', import.meta.url))
-const commit = spawnSync('git', ['rev-parse', '--short=7', 'HEAD'])
-  .stdout.toString()
-  .trim()
+const commit = spawnSync('git', ['rev-parse', '--short=7', 'HEAD']).stdout.toString().trim()
 
 const { values, positionals: targets } = parseArgs({
   allowPositionals: true,
@@ -143,9 +141,7 @@ async function main() {
       }
       await Promise.all(all)
     }
-    console.log(
-      `\n${count} files built in ${(performance.now() - start).toFixed(2)}ms.`
-    )
+    console.log(`\n${count} files built in ${(performance.now() - start).toFixed(2)}ms.`)
   }
 
   async function createConfigsForTarget(target: string) {
@@ -216,11 +212,7 @@ async function main() {
         null,
         2
       )
-      await fs.writeFile(
-        path.resolve(sizeDir, `${filename}.json`),
-        sizeContents,
-        'utf-8'
-      )
+      await fs.writeFile(path.resolve(sizeDir, `${filename}.json`), sizeContents, 'utf-8')
     }
   }
 }

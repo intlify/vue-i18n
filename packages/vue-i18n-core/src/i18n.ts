@@ -7,14 +7,7 @@ import {
   makeSymbol,
   warn
 } from '@intlify/shared'
-import {
-  effectScope,
-  getCurrentInstance,
-  inject,
-  isRef,
-  onMounted,
-  onUnmounted
-} from 'vue'
+import { effectScope, getCurrentInstance, inject, isRef, onMounted, onUnmounted } from 'vue'
 import { createComposer } from './composer'
 import { addTimelineEvent, enableDevTools } from './devtools'
 import { I18nErrorCodes, createI18nError } from './errors'
@@ -23,22 +16,9 @@ import { DisableEmitter, DisposeSymbol, EnableEmitter } from './symbols'
 import { adjustI18nResources, getComponentOptions } from './utils'
 import { I18nWarnCodes, getWarnMessage } from './warnings'
 
-import type {
-  FallbackLocale,
-  Locale,
-  LocaleParams,
-  SchemaParams
-} from '@intlify/core-base'
-import type {
-  VueDevToolsEmitter,
-  VueDevToolsEmitterEvents
-} from '@intlify/devtools-types'
-import type {
-  App,
-  ComponentInternalInstance,
-  EffectScope,
-  InjectionKey
-} from 'vue'
+import type { FallbackLocale, Locale, LocaleParams, SchemaParams } from '@intlify/core-base'
+import type { VueDevToolsEmitter, VueDevToolsEmitterEvents } from '@intlify/devtools-types'
+import type { App, ComponentInternalInstance, EffectScope, InjectionKey } from 'vue'
 import type {
   Composer,
   ComposerInternalOptions,
@@ -159,24 +139,10 @@ export interface I18nInternal<
     ComponentInternalInstance,
     Composer<Messages, DateTimeFormats, NumberFormats, OptionLocale>
   >
-  __getInstance<
-    Instance extends Composer<
-      Messages,
-      DateTimeFormats,
-      NumberFormats,
-      OptionLocale
-    >
-  >(
+  __getInstance<Instance extends Composer<Messages, DateTimeFormats, NumberFormats, OptionLocale>>(
     component: ComponentInternalInstance
   ): Instance | null
-  __setInstance<
-    Instance extends Composer<
-      Messages,
-      DateTimeFormats,
-      NumberFormats,
-      OptionLocale
-    >
-  >(
+  __setInstance<Instance extends Composer<Messages, DateTimeFormats, NumberFormats, OptionLocale>>(
     component: ComponentInternalInstance,
     instance: Instance
   ): void
@@ -221,10 +187,7 @@ export type UseI18nOptions<
         numberFormats: unknown
       }
     | string = Locale,
-  Options extends ComposerOptions<Schema, Locales> = ComposerOptions<
-    Schema,
-    Locales
-  >
+  Options extends ComposerOptions<Schema, Locales> = ComposerOptions<Schema, Locales>
 > = ComposerAdditionalOptions & Options
 
 /**
@@ -255,28 +218,23 @@ export const I18nInjectionKey: InjectionKey<I18n> | string =
 
 export function createI18n<
   Options extends I18nOptions = I18nOptions,
-  Messages extends Record<string, unknown> = Options['messages'] extends Record<
+  Messages extends Record<string, unknown> = Options['messages'] extends Record<string, unknown>
+    ? Options['messages']
+    : {},
+  DateTimeFormats extends Record<string, unknown> = Options['datetimeFormats'] extends Record<
     string,
     unknown
   >
-    ? Options['messages']
-    : {},
-  DateTimeFormats extends Record<
-    string,
-    unknown
-  > = Options['datetimeFormats'] extends Record<string, unknown>
     ? Options['datetimeFormats']
     : {},
-  NumberFormats extends Record<
+  NumberFormats extends Record<string, unknown> = Options['numberFormats'] extends Record<
     string,
     unknown
-  > = Options['numberFormats'] extends Record<string, unknown>
+  >
     ? Options['numberFormats']
     : {},
   OptionLocale = Options['locale'] extends string ? Options['locale'] : Locale
->(
-  options: Options
-): I18n<Messages, DateTimeFormats, NumberFormats, OptionLocale>
+>(options: Options): I18n<Messages, DateTimeFormats, NumberFormats, OptionLocale>
 
 /**
  * Vue I18n factory
@@ -329,9 +287,10 @@ export function createI18n<
     SchemaParams<Schema, VueMessageType>,
     LocaleParams<Locales>
   > = I18nOptions<SchemaParams<Schema, VueMessageType>, LocaleParams<Locales>>,
-  Messages extends Record<string, unknown> = NonNullable<
-    Options['messages']
-  > extends Record<string, unknown>
+  Messages extends Record<string, unknown> = NonNullable<Options['messages']> extends Record<
+    string,
+    unknown
+  >
     ? NonNullable<Options['messages']>
     : {},
   DateTimeFormats extends Record<string, unknown> = NonNullable<
@@ -345,9 +304,7 @@ export function createI18n<
     ? NonNullable<Options['numberFormats']>
     : {},
   OptionLocale = Options['locale'] extends string ? Options['locale'] : Locale
->(
-  options: Options
-): I18n<Messages, DateTimeFormats, NumberFormats, OptionLocale>
+>(options: Options): I18n<Messages, DateTimeFormats, NumberFormats, OptionLocale>
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function createI18n(options: any = {}): any {
@@ -359,19 +316,12 @@ export function createI18n(options: any = {}): any {
     : true
   const __instances = new Map<ComponentInternalInstance, Composer>()
   const [globalScope, __global] = createGlobal(options)
-  const symbol: InjectionKey<I18n> | string = /* #__PURE__*/ makeSymbol(
-    __DEV__ ? 'vue-i18n' : ''
-  )
+  const symbol: InjectionKey<I18n> | string = /* #__PURE__*/ makeSymbol(__DEV__ ? 'vue-i18n' : '')
 
-  function __getInstance(
-    component: ComponentInternalInstance
-  ): Composer | null {
+  function __getInstance(component: ComponentInternalInstance): Composer | null {
     return __instances.get(component) || null
   }
-  function __setInstance(
-    component: ComponentInternalInstance,
-    instance: Composer
-  ): void {
+  function __setInstance(component: ComponentInternalInstance, instance: Composer): void {
     __instances.set(component, instance)
   }
   function __deleteInstance(component: ComponentInternalInstance): void {
@@ -394,13 +344,11 @@ export function createI18n(options: any = {}): any {
         const opts = options[0] as ExtendHooks
         // Plugin options cannot be passed directly to the function that creates Composer
         // so we keep it temporary
-        ;(i18n as unknown as I18nInternal).__composerExtend =
-          opts.__composerExtend
+        ;(i18n as unknown as I18nInternal).__composerExtend = opts.__composerExtend
       }
 
       // global method and properties injection for Composition API
-      let globalReleaseHandler: ReturnType<typeof injectGlobalFields> | null =
-        null
+      let globalReleaseHandler: ReturnType<typeof injectGlobalFields> | null = null
       if (__globalInjection) {
         globalReleaseHandler = injectGlobalFields(app, i18n.global as Composer)
       }
@@ -424,8 +372,7 @@ export function createI18n(options: any = {}): any {
         if (!ret) {
           throw createI18nError(I18nErrorCodes.CANNOT_SETUP_VUE_DEVTOOLS_PLUGIN)
         }
-        const emitter: VueDevToolsEmitter =
-          createEmitter<VueDevToolsEmitterEvents>()
+        const emitter: VueDevToolsEmitter = createEmitter<VueDevToolsEmitterEvents>()
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const _composer = __global as any
         _composer[EnableEmitter] && _composer[EnableEmitter](emitter)
@@ -519,10 +466,7 @@ export function useI18n<
   Options extends UseI18nOptions<
     SchemaParams<Schema, VueMessageType>,
     LocaleParams<Locales>
-  > = UseI18nOptions<
-    SchemaParams<Schema, VueMessageType>,
-    LocaleParams<Locales>
-  >
+  > = UseI18nOptions<SchemaParams<Schema, VueMessageType>, LocaleParams<Locales>>
 >(
   options?: Options
 ): Composer<
@@ -535,12 +479,8 @@ export function useI18n<
 export function useI18n<
   Options extends UseI18nOptions = UseI18nOptions,
   Messages extends Record<string, unknown> = NonNullable<Options['messages']>,
-  DateTimeFormats extends Record<string, unknown> = NonNullable<
-    Options['datetimeFormats']
-  >,
-  NumberFormats extends Record<string, unknown> = NonNullable<
-    Options['numberFormats']
-  >,
+  DateTimeFormats extends Record<string, unknown> = NonNullable<Options['datetimeFormats']>,
+  NumberFormats extends Record<string, unknown> = NonNullable<Options['numberFormats']>,
   OptionLocale = NonNullable<Options['locale']>
 >(options: Options = {} as Options) {
   const instance = getCurrentInstance()
@@ -562,12 +502,7 @@ export function useI18n<
 
   if (scope === 'global') {
     adjustI18nResources(gl, options, componentOptions)
-    return gl as unknown as Composer<
-      Messages,
-      DateTimeFormats,
-      NumberFormats,
-      OptionLocale
-    >
+    return gl as unknown as Composer<Messages, DateTimeFormats, NumberFormats, OptionLocale>
   }
 
   if (scope === 'parent') {
@@ -579,19 +514,13 @@ export function useI18n<
       }
       composer = gl as unknown as Composer
     }
-    return composer as unknown as Composer<
-      Messages,
-      DateTimeFormats,
-      NumberFormats,
-      OptionLocale
-    >
+    return composer as unknown as Composer<Messages, DateTimeFormats, NumberFormats, OptionLocale>
   }
 
   const i18nInternal = i18n as unknown as I18nInternal
   let composer = i18nInternal.__getInstance(instance)
   if (composer == null) {
-    const composerOptions = assign({}, options) as ComposerOptions &
-      ComposerInternalOptions
+    const composerOptions = assign({}, options) as ComposerOptions & ComposerInternalOptions
 
     if ('__i18n' in componentOptions) {
       composerOptions.__i18n = componentOptions.__i18n
@@ -604,8 +533,7 @@ export function useI18n<
     composer = createComposer(composerOptions) as Composer
     if (i18nInternal.__composerExtend) {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      ;(composer as any)[DisposeSymbol] =
-        i18nInternal.__composerExtend(composer)
+      ;(composer as any)[DisposeSymbol] = i18nInternal.__composerExtend(composer)
     }
     setupLifeCycle(i18nInternal, instance, composer)
 
@@ -616,12 +544,7 @@ export function useI18n<
     }
   }
 
-  return composer as unknown as Composer<
-    Messages,
-    DateTimeFormats,
-    NumberFormats,
-    OptionLocale
-  >
+  return composer as unknown as Composer<Messages, DateTimeFormats, NumberFormats, OptionLocale>
 }
 
 function createGlobal(options: I18nOptions): [EffectScope, Composer] {
@@ -635,16 +558,12 @@ function createGlobal(options: I18nOptions): [EffectScope, Composer] {
 
 function getI18nInstance(instance: ComponentInternalInstance): I18n {
   const i18n = inject(
-    !instance.isCE
-      ? instance.appContext.app.__VUE_I18N_SYMBOL__!
-      : I18nInjectionKey
+    !instance.isCE ? instance.appContext.app.__VUE_I18N_SYMBOL__! : I18nInjectionKey
   )
   /* istanbul ignore if */
   if (!i18n) {
     throw createI18nError(
-      !instance.isCE
-        ? I18nErrorCodes.UNEXPECTED_ERROR
-        : I18nErrorCodes.NOT_INSTALLED_WITH_PROVIDE
+      !instance.isCE ? I18nErrorCodes.UNEXPECTED_ERROR : I18nErrorCodes.NOT_INSTALLED_WITH_PROVIDE
     )
   }
   return i18n
@@ -674,10 +593,7 @@ function getComposer(
 ): Composer | null {
   let composer: Composer | null = null
   const root = target.root
-  let current: ComponentInternalInstance | null = getParentComponentInstance(
-    target,
-    useComponent
-  )
+  let current: ComponentInternalInstance | null = getParentComponentInstance(target, useComponent)
   while (current != null) {
     const i18nInternal = i18n as unknown as I18nInternal
     composer = i18nInternal.__getInstance(current)
@@ -701,9 +617,7 @@ function getParentComponentInstance(
     return null
   }
   // if `useComponent: true` will be specified, we get lexical scope owner instance for use-case slots
-  return !useComponent
-    ? target.parent
-    : (target.vnode as any).ctx || target.parent // eslint-disable-line @typescript-eslint/no-explicit-any
+  return !useComponent ? target.parent : (target.vnode as any).ctx || target.parent // eslint-disable-line @typescript-eslint/no-explicit-any
 }
 
 function setupLifeCycle(
@@ -715,11 +629,7 @@ function setupLifeCycle(
 
   onMounted(() => {
     // inject composer instance to DOM for intlify-devtools
-    if (
-      (__DEV__ || __FEATURE_PROD_VUE_DEVTOOLS__) &&
-      !__NODE_JS__ &&
-      target.vnode.el
-    ) {
+    if ((__DEV__ || __FEATURE_PROD_VUE_DEVTOOLS__) && !__NODE_JS__ && target.vnode.el) {
       target.vnode.el.__VUE_I18N__ = composer
       emitter = createEmitter<VueDevToolsEmitterEvents>()
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -787,14 +697,8 @@ export interface ExportedGlobalComposer {
   readonly availableLocales: Locale[]
 }
 
-const globalExportProps = [
-  'locale',
-  'fallbackLocale',
-  'availableLocales'
-] as const
-const globalExportMethods = !__LITE__
-  ? ['t', 'rt', 'd', 'n', 'tm', 'te']
-  : ['t']
+const globalExportProps = ['locale', 'fallbackLocale', 'availableLocales'] as const
+const globalExportMethods = !__LITE__ ? ['t', 'rt', 'd', 'n', 'tm', 'te'] : ['t']
 
 function injectGlobalFields(app: App, composer: Composer): Disposer {
   const i18n = Object.create(null)

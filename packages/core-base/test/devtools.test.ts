@@ -3,10 +3,7 @@ import { createCoreContext, translate } from '../src/index'
 import { compile } from '../src/compilation'
 import { setDevToolsHook, getDevToolsHook } from '../src/devtools'
 
-import type {
-  IntlifyDevToolsEmitterHooks,
-  IntlifyDevToolsEmitter
-} from '@intlify/devtools-types'
+import type { IntlifyDevToolsEmitterHooks, IntlifyDevToolsEmitter } from '@intlify/devtools-types'
 
 let devtools: IntlifyDevToolsEmitter | null = null
 beforeEach(() => {
@@ -86,12 +83,7 @@ describe('translateDevTools', () => {
       }
     })
 
-    const translated = translate(
-      ctx,
-      'hello',
-      { name: 'ディオ' },
-      { locale: 'ja' }
-    )
+    const translated = translate(ctx, 'hello', { name: 'ディオ' }, { locale: 'ja' })
     expect(fn.mock.calls[0][0]).toMatchObject({
       key: 'hello',
       message: translated,

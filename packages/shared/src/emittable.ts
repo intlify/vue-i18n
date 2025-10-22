@@ -24,9 +24,7 @@ export type EventHandlerList<T = unknown> = Array<EventHandler<T>>
 /**
  * Wildcard event handler list
  */
-export type WildcardEventHandlerList<T = Record<string, unknown>> = Array<
-  WildcardEventHandler<T>
->
+export type WildcardEventHandlerList<T = Record<string, unknown>> = Array<WildcardEventHandler<T>>
 
 /**
  * Event handler map
@@ -76,8 +74,5 @@ export interface Emittable<Events extends Record<EventType, unknown> = {}> {
    * @param event - An {@link EventType}
    * @param payload - An event payload, optional
    */
-  emit<Key extends keyof Events>(
-    event: Key,
-    payload?: Events[keyof Events]
-  ): void
+  emit<Key extends keyof Events>(event: Key, payload?: Events[keyof Events]): void
 }

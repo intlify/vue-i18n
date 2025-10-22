@@ -1,9 +1,4 @@
-import type {
-  IsEmptyObject,
-  IsNever,
-  NamedValue,
-  TranslateOptions
-} from '@intlify/core-base'
+import type { IsEmptyObject, IsNever, NamedValue, TranslateOptions } from '@intlify/core-base'
 import type {
   CustomBlocks,
   DefineLocaleMessage,

@@ -159,9 +159,7 @@ test('with object argument', () => {
     datetimeFormats
   })
 
-  expect(datetime(ctx, dt, { key: 'short', locale: 'ja-JP' })).toEqual(
-    '2012/12/20 12:00'
-  )
+  expect(datetime(ctx, dt, { key: 'short', locale: 'ja-JP' })).toEqual('2012/12/20 12:00')
 })
 
 test('override format options with number function options', () => {
@@ -174,18 +172,14 @@ test('override format options with number function options', () => {
     datetimeFormats
   })
 
-  expect(datetime(ctx, dt, 'short', { year: '2-digit' })).toEqual(
-    '12/19/12, 10:00 PM'
-  )
-  expect(datetime(ctx, dt, 'short', 'ja-JP', { year: '2-digit' })).toEqual(
+  expect(datetime(ctx, dt, 'short', { year: '2-digit' })).toEqual('12/19/12, 10:00 PM')
+  expect(datetime(ctx, dt, 'short', 'ja-JP', { year: '2-digit' })).toEqual('12/12/20 12:00')
+  expect(datetime(ctx, dt, { key: 'short', locale: 'ja-JP' }, { year: '2-digit' })).toEqual(
     '12/12/20 12:00'
   )
-  expect(
-    datetime(ctx, dt, { key: 'short', locale: 'ja-JP' }, { year: '2-digit' })
-  ).toEqual('12/12/20 12:00')
-  expect(
-    datetime(ctx, dt, { key: 'short', locale: 'ja-JP', year: '2-digit' })
-  ).toEqual('12/12/20 12:00')
+  expect(datetime(ctx, dt, { key: 'short', locale: 'ja-JP', year: '2-digit' })).toEqual(
+    '12/12/20 12:00'
+  )
 })
 
 test('fallback', () => {
@@ -245,9 +239,7 @@ test(`datetime function fallbackWarn 'false' option`, () => {
     datetimeFormats
   })
 
-  expect(datetime(ctx, dt, { key: 'long', fallbackWarn: false })).toEqual(
-    '2012/12/20 12:00:00'
-  )
+  expect(datetime(ctx, dt, { key: 'long', fallbackWarn: false })).toEqual('2012/12/20 12:00:00')
   expect(mockWarn).not.toHaveBeenCalled()
 })
 
@@ -299,9 +291,7 @@ test('part', () => {
     datetimeFormats
   })
 
-  expect(
-    datetime(ctx, dt, { key: 'short', locale: 'ja-JP', part: true })
-  ).toEqual([
+  expect(datetime(ctx, dt, { key: 'short', locale: 'ja-JP', part: true })).toEqual([
     { type: 'year', value: '2012' },
     { type: 'literal', value: '/' },
     { type: 'month', value: '12' },

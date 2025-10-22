@@ -18,9 +18,7 @@
       <p class="linked">{{ t('message.linked') }}</p>
       <label>{{ t('message.homeAddress') }}</label>
       <p class="error">{{ t('message.missingHomeAddress') }}</p>
-      <p class="modifier">
-        {{ t('message.custom_modifier', { snake: 'message.snake' }) }}
-      </p>
+      <p class="modifier">{{ t('message.custom_modifier', { snake: 'message.snake' }) }}</p>
     </div>
     <script>
       const { createApp } = Vue
@@ -38,8 +36,7 @@
               homeAddress: 'Home address',
               missingHomeAddress: 'Please provide @.lower:message.homeAddress',
               snake: 'snake case',
-              custom_modifier:
-                "custom modifiers example: @.snakeCase:{'message.snake'}"
+              custom_modifier: "custom modifiers example: @.snakeCase:{'message.snake'}"
             }
           },
           ja: {
@@ -49,12 +46,10 @@
               dio: 'ディオ:',
               linked: '@:message.dio @:message.the_world ！！！！',
               homeAddress: 'ホームアドレス',
-              missingHomeAddress:
-                'どうか、@.lower:message.homeAddress を提供してください。',
+              missingHomeAddress: 'どうか、@.lower:message.homeAddress を提供してください。',
               snake: 'スネーク ケース',
               foo: 'message.snake',
-              custom_modifier:
-                "カスタム修飾子の例: @.snakeCase:{'message.snake'}"
+              custom_modifier: "カスタム修飾子の例: @.snakeCase:{'message.snake'}"
             }
           }
         },

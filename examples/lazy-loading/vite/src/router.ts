@@ -1,10 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import {
-  getLocale,
-  setI18nLanguage,
-  loadLocaleMessages,
-  SUPPORT_LOCALES
-} from './i18n'
+import { getLocale, setI18nLanguage, loadLocaleMessages, SUPPORT_LOCALES } from './i18n'
 
 import type { Router, RouteRecordRaw } from 'vue-router'
 import type { I18n, Composer } from 'vue-i18n'

@@ -21,16 +21,9 @@ import type {
   PluralNode,
   ResourceNode
 } from '@intlify/message-compiler'
-import type {
-  MessageContext,
-  MessageFunction,
-  MessageFunctionReturn,
-  MessageType
-} from './runtime'
+import type { MessageContext, MessageFunction, MessageFunctionReturn, MessageType } from './runtime'
 
-export function format<Message = string>(
-  ast: ResourceNode
-): MessageFunction<Message> {
+export function format<Message = string>(ast: ResourceNode): MessageFunction<Message> {
   const msg = (ctx: MessageContext<Message>): MessageFunctionReturn<Message> =>
     formatParts<Message>(ctx, ast)
   return msg
@@ -51,10 +44,7 @@ export function formatParts<Message = string>(
     return ctx.plural(
       cases.reduce(
         (messages, c) =>
-          [
-            ...messages,
-            formatMessageParts(ctx, c)
-          ] as MessageFunctionReturn<Message>,
+          [...messages, formatMessageParts(ctx, c)] as MessageFunctionReturn<Message>,
         [] as MessageFunctionReturn<Message>
       ) as Message[]
     ) as MessageFunctionReturn<Message>

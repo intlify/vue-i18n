@@ -1,8 +1,4 @@
-import {
-  compile,
-  registerMessageCompiler,
-  setDevToolsHook
-} from '@intlify/core-base'
+import { compile, registerMessageCompiler, setDevToolsHook } from '@intlify/core-base'
 import { getGlobalThis } from '@intlify/shared'
 import { initDev, initFeatureFlags } from '@intlify/vue-i18n-core/petite'
 

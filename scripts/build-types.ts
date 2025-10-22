@@ -9,12 +9,7 @@ import { createDtsConfig } from './dts'
 
 const __dirname = fileURLToPath(new URL('.', import.meta.url))
 
-const IGNORES = [
-  /format-explorer/,
-  /size-check-core/,
-  /size-check-vue-i18n/,
-  /size-check-vue-i18n/
-]
+const IGNORES = [/format-explorer/, /size-check-core/, /size-check-vue-i18n/, /size-check-vue-i18n/]
 
 function isIgnore(file: string) {
   let ignored = false
@@ -58,9 +53,7 @@ export async function buildTypings(targets: string[]) {
       })
     }
 
-    const filepath = /\.d\.ts$/.test(file)
-      ? file
-      : file.replace(/\.ts$/, '.d.ts')
+    const filepath = /\.d\.ts$/.test(file) ? file : file.replace(/\.ts$/, '.d.ts')
     await write(path.join('temp', filepath), dts.code)
     count++
   }
@@ -99,9 +92,7 @@ export async function buildTypings(targets: string[]) {
   }
   await Promise.all(all)
 
-  console.log(
-    `${all.length} bundled dts generated in ${(performance.now() - start).toFixed(2)}ms.`
-  )
+  console.log(`${all.length} bundled dts generated in ${(performance.now() - start).toFixed(2)}ms.`)
 }
 
 async function write(file: string, content: string) {

@@ -18,11 +18,7 @@ interface Pos {
 }
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-function getPositionInCode(
-  code: string,
-  token: string,
-  expectName: string | boolean = false
-): Pos {
+function getPositionInCode(code: string, token: string, expectName: string | boolean = false): Pos {
   const generatedOffset = code.indexOf(token)
   // console.log('getPositionInCode', code, token, generatedOffset)
   const pos: Pos = {
@@ -125,9 +121,7 @@ describe('list', () => {
 
     expect(code).toMatchSnapshot(msg)
     expect(code).toMatch(`return _normalize([`)
-    expect(code).toMatch(
-      `_interpolate(_list(0)), " ", _interpolate(_list(1)), " !"`
-    )
+    expect(code).toMatch(`_interpolate(_list(0)), " ", _interpolate(_list(1)), " !"`)
     expect(code).toMatch(`])`)
 
     expect(map!.sourcesContent).toEqual([msg])
@@ -376,9 +370,7 @@ describe('linked', () => {
 
     expect(code).toMatchSnapshot(msg)
     expect(code).toMatch(`return _normalize([`)
-    expect(code).toMatch(
-      `"hi ", _linked(_interpolate(_list(0)), undefined, _type), " !"`
-    )
+    expect(code).toMatch(`"hi ", _linked(_interpolate(_list(0)), undefined, _type), " !"`)
     expect(code).toMatch(`])`)
 
     expect(map!.sourcesContent).toEqual([msg])
@@ -397,9 +389,7 @@ describe('linked', () => {
 
     expect(code).toMatchSnapshot(msg)
     expect(code).toMatch(`return _normalize([`)
-    expect(code).toMatch(
-      `"hi ", _linked(_interpolate(_named("name")), undefined, _type), " !"`
-    )
+    expect(code).toMatch(`"hi ", _linked(_interpolate(_named("name")), undefined, _type), " !"`)
     expect(code).toMatch(`])`)
 
     expect(map!.sourcesContent).toEqual([msg])
@@ -520,9 +510,7 @@ test('unhandle error', () => {
   const ast = {
     type
   } as unknown as ResourceNode
-  expect(() =>
-    generate(ast, { sourceMap: true, location: false })
-  ).toThrowError(
+  expect(() => generate(ast, { sourceMap: true, location: false })).toThrowError(
     format(errorMessages[CompileErrorCodes.UNHANDLED_CODEGEN_NODE_TYPE], type)
   )
 })

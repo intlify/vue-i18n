@@ -6,9 +6,7 @@ export function useTestContext(): TestContext {
   recoverContextFromEnv()
 
   if (!currentContext) {
-    throw new Error(
-      'No context is available. (Forgot calling setup or createContext?)'
-    )
+    throw new Error('No context is available. (Forgot calling setup or createContext?)')
   }
   return currentContext
 }

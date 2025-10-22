@@ -52,9 +52,7 @@ export function getDom(html: string) {
 }
 
 export function getDataFromDom(dom: Document, selector: string) {
-  return JSON.parse(
-    dom.querySelector(selector)!.textContent!.replace('&quot;', '"')
-  )
+  return JSON.parse(dom.querySelector(selector)!.textContent!.replace('&quot;', '"'))
 }
 
 export function assertLocaleHeadWithDom(dom: Document, headSelector: string) {

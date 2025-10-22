@@ -15,9 +15,6 @@ export const warnMessages: { [code: number]: string } = {
   [I18nWarnCodes.IGNORE_OBJ_FLATTEN]: `Ignore object flatten: '{key}' key has an string value`
 }
 
-export function getWarnMessage(
-  code: I18nWarnCodes,
-  ...args: unknown[]
-): string {
+export function getWarnMessage(code: I18nWarnCodes, ...args: unknown[]): string {
   return format(warnMessages[code], ...args)
 }

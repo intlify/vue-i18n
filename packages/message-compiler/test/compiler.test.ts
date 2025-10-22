@@ -4,9 +4,7 @@ import { baseCompile as compile } from '../src/compiler'
 import { traverse } from './helper'
 
 test(`@.caml:{'no apples'} | {0} apple | {n}　apples`, () => {
-  const { code, ast, map } = compile(
-    `@.caml:{'no apples'} | {0} apple | {n}　apples`
-  )
+  const { code, ast, map } = compile(`@.caml:{'no apples'} | {0} apple | {n}　apples`)
   expect(code).toMatchSnapshot('code')
   expect(ast).toMatchSnapshot('ast')
   expect(map).toMatchSnapshot('map')

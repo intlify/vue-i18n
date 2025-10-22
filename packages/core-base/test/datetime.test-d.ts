@@ -19,19 +19,17 @@ test('datetime type check', () => {
 
   const dt = new Date(Date.UTC(2012, 11, 20, 3, 0, 0))
 
-  expectTypeOf(datetime(ctx, dt)).toEqualTypeOf<
+  expectTypeOf(datetime(ctx, dt)).toEqualTypeOf<string | number | Intl.DateTimeFormatPart[]>()
+  expectTypeOf(datetime(ctx, dt, { locale: 'en-US', key: 'short' })).toEqualTypeOf<
     string | number | Intl.DateTimeFormatPart[]
   >()
-  expectTypeOf(
-    datetime(ctx, dt, { locale: 'en-US', key: 'short' })
-  ).toEqualTypeOf<string | number | Intl.DateTimeFormatPart[]>()
   expectTypeOf(datetime(ctx, dt, { key: 'short' }, 'en-US')).toEqualTypeOf<
     string | number | Intl.DateTimeFormatPart[]
   >()
-  expectTypeOf(
-    datetime(ctx, dt, { key: 'short' }, { hourCycle: 'h24' })
-  ).toEqualTypeOf<string | number | Intl.DateTimeFormatPart[]>()
-  expectTypeOf(
-    datetime(ctx, dt, { key: 'short' }, 'en-US', { hourCycle: 'h24' })
-  ).toEqualTypeOf<string | number | Intl.DateTimeFormatPart[]>()
+  expectTypeOf(datetime(ctx, dt, { key: 'short' }, { hourCycle: 'h24' })).toEqualTypeOf<
+    string | number | Intl.DateTimeFormatPart[]
+  >()
+  expectTypeOf(datetime(ctx, dt, { key: 'short' }, 'en-US', { hourCycle: 'h24' })).toEqualTypeOf<
+    string | number | Intl.DateTimeFormatPart[]
+  >()
 })

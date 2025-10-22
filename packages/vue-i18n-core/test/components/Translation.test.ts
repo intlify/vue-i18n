@@ -73,9 +73,7 @@ test('slot contents', async () => {
   })
   const wrapper = await mount(App, i18n)
 
-  expect(wrapper.html()).toEqual(
-    `<p class="name">hello, <span>kazupon</span>!</p>`
-  )
+  expect(wrapper.html()).toEqual(`<p class="name">hello, <span>kazupon</span>!</p>`)
 })
 
 test('DOM contents', async () => {
@@ -226,19 +224,15 @@ test('component', async () => {
   })
   const wrapper = await mount(App, i18n)
 
-  expect(wrapper.html()).toEqual(
-    `<p class="name">hello, <span>kazupon</span>!</p>`
-  )
+  expect(wrapper.html()).toEqual(`<p class="name">hello, <span>kazupon</span>!</p>`)
 })
 
 test('message resolver', async () => {
   const mockMessageResolver = vi.fn()
-  mockMessageResolver.mockImplementation(
-    (obj: unknown, path: Path): PathValue => {
-      const msg = (obj as any)[path] // eslint-disable-line @typescript-eslint/no-explicit-any
-      return msg != null ? msg : null
-    }
-  )
+  mockMessageResolver.mockImplementation((obj: unknown, path: Path): PathValue => {
+    const msg = (obj as any)[path] // eslint-disable-line @typescript-eslint/no-explicit-any
+    return msg != null ? msg : null
+  })
   const en = {
     'message.named': 'hello, {name}!'
   }
@@ -266,9 +260,7 @@ test('message resolver', async () => {
   })
   const wrapper = await mount(App, i18n)
 
-  expect(wrapper.html()).toEqual(
-    `<p class="name">hello, <span>kazupon</span>!</p>`
-  )
+  expect(wrapper.html()).toEqual(`<p class="name">hello, <span>kazupon</span>!</p>`)
   expect(mockMessageResolver).toHaveBeenCalledTimes(1)
   expect(mockMessageResolver.mock.calls[0][0]).toEqual(en)
   expect(mockMessageResolver.mock.calls[0][1]).toEqual('message.named')
@@ -298,13 +290,9 @@ test('v-if / v-else', async () => {
   })
   const wrapper = await mount(App, i18n)
 
-  expect(wrapper.html()).toEqual(
-    `<p class="name">hello, <span>kazupon</span>!</p>`
-  )
+  expect(wrapper.html()).toEqual(`<p class="name">hello, <span>kazupon</span>!</p>`)
 
   toggle!.value = false
   await nextTick()
-  expect(wrapper.html()).toEqual(
-    `<p class="name">hello, <span>kazu_pon</span>!</p>`
-  )
+  expect(wrapper.html()).toEqual(`<p class="name">hello, <span>kazu_pon</span>!</p>`)
 })

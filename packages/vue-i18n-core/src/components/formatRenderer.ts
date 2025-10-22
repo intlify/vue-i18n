@@ -3,13 +3,7 @@ import { h } from 'vue'
 import { getFragmentableTag } from './utils'
 
 import type { DateTimeOptions, NumberOptions } from '@intlify/core-base'
-import type {
-  RenderFunction,
-  SetupContext,
-  VNode,
-  VNodeArrayChildren,
-  VNodeChild
-} from 'vue'
+import type { RenderFunction, SetupContext, VNode, VNodeArrayChildren, VNodeChild } from 'vue'
 import type { BaseFormatProps } from './base'
 
 /**
@@ -37,9 +31,7 @@ export interface FormattableProps<Value, Format> extends BaseFormatProps {
 
 type FormatOptions = NumberOptions | DateTimeOptions
 type FormatPartReturn = Intl.NumberFormatPart | Intl.DateTimeFormatPart
-type FormatOverrideOptions =
-  | Intl.NumberFormatOptions
-  | Intl.DateTimeFormatOptions
+type FormatOverrideOptions = Intl.NumberFormatOptions | Intl.DateTimeFormatOptions
 
 function isVNode(target: unknown): target is VNode[] {
   return isArray(target) && !isString(target[0])
@@ -88,9 +80,7 @@ export function renderFormatter<
     if (isArray(parts)) {
       children = parts.map((part, index) => {
         const slot = slots[part.type]
-        const node = slot
-          ? slot({ [part.type]: part.value, index, parts })
-          : [part.value]
+        const node = slot ? slot({ [part.type]: part.value, index, parts }) : [part.value]
         if (isVNode(node)) {
           node[0].key = `${part.type}-${index}`
         }
@@ -101,10 +91,7 @@ export function renderFormatter<
     }
 
     const assignedAttrs = assign(create(), attrs)
-    const tag =
-      isString(props.tag) || isObject(props.tag)
-        ? props.tag
-        : getFragmentableTag()
+    const tag = isString(props.tag) || isObject(props.tag) ? props.tag : getFragmentableTag()
     return h(tag, assignedAttrs, children)
   }
 }

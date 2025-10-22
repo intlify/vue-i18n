@@ -51,15 +51,11 @@ test('object', () => {
 })
 
 test('record', () => {
-  expectTypeOf<MessageType<Record<string, number>>>().toEqualTypeOf<
-    Record<string, number>
-  >()
+  expectTypeOf<MessageType<Record<string, number>>>().toEqualTypeOf<Record<string, number>>()
 })
 
 test('tuple', () => {
-  expectTypeOf<MessageType<[number, string]>>().toEqualTypeOf<
-    [number, string]
-  >()
+  expectTypeOf<MessageType<[number, string]>>().toEqualTypeOf<[number, string]>()
 })
 
 test('undefined', () => {
@@ -84,9 +80,7 @@ test('boolean literal', () => {
 })
 
 test('bingint literal', () => {
-  expectTypeOf<
-    MessageType<9007199254740992n>
-  >().toEqualTypeOf<9007199254740992n>()
+  expectTypeOf<MessageType<9007199254740992n>>().toEqualTypeOf<9007199254740992n>()
 })
 
 test('object literal', () => {
@@ -108,15 +102,9 @@ test('empty object', () => {
 })
 
 test('class', () => {
-  expectTypeOf<
-    MessageType<HaveToStringClass>
-  >().toEqualTypeOf<HaveToStringClass>()
-  expectTypeOf<
-    MessageType<NotHaveToStringClass>
-  >().toEqualTypeOf<NotHaveToStringClass>()
-  expectTypeOf<
-    MessageType<HaveToStringTypeAlias>
-  >().toEqualTypeOf<HaveToStringTypeAlias>()
+  expectTypeOf<MessageType<HaveToStringClass>>().toEqualTypeOf<HaveToStringClass>()
+  expectTypeOf<MessageType<NotHaveToStringClass>>().toEqualTypeOf<NotHaveToStringClass>()
+  expectTypeOf<MessageType<HaveToStringTypeAlias>>().toEqualTypeOf<HaveToStringTypeAlias>()
 })
 
 test('enum', () => {

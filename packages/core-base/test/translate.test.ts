@@ -109,9 +109,7 @@ describe('locale option', () => {
         ja: { hi: 'こんにちは　かずぽん！' }
       }
     })
-    expect(translate(ctx, 'hi', {}, { locale: 'ja' })).toEqual(
-      'こんにちは　かずぽん！'
-    )
+    expect(translate(ctx, 'hi', {}, { locale: 'ja' })).toEqual('こんにちは　かずぽん！')
   })
 })
 
@@ -123,9 +121,7 @@ describe('default option', () => {
         en: {}
       }
     })
-    expect(translate(ctx, 'hello', 'hello, default message!')).toEqual(
-      'hello, default message!'
-    )
+    expect(translate(ctx, 'hello', 'hello, default message!')).toEqual('hello, default message!')
     expect(translate(ctx, 'hello', '')).toEqual('')
   })
 
@@ -136,9 +132,9 @@ describe('default option', () => {
         en: {}
       }
     })
-    expect(
-      translate(ctx, 'hi {name}!', { name: 'kazupon' }, { default: true })
-    ).toEqual('hi kazupon!')
+    expect(translate(ctx, 'hi {name}!', { name: 'kazupon' }, { default: true })).toEqual(
+      'hi kazupon!'
+    )
   })
 })
 
@@ -156,9 +152,7 @@ describe('context fallbackLocale option', () => {
     })
 
     expect(translate(ctx, 'hello')).toEqual('hello')
-    expect(mockWarn.mock.calls[0][0]).toEqual(
-      `Not found 'hello' key in 'en' locale messages.`
-    )
+    expect(mockWarn.mock.calls[0][0]).toEqual(`Not found 'hello' key in 'en' locale messages.`)
   })
 
   test('string', () => {
@@ -177,9 +171,7 @@ describe('context fallbackLocale option', () => {
     })
 
     expect(translate(ctx, 'hello')).toEqual('こんにちは！')
-    expect(mockWarn.mock.calls[0][0]).toEqual(
-      `Not found 'hello' key in 'en' locale messages.`
-    )
+    expect(mockWarn.mock.calls[0][0]).toEqual(`Not found 'hello' key in 'en' locale messages.`)
   })
 
   test('array', () => {
@@ -198,9 +190,7 @@ describe('context fallbackLocale option', () => {
     })
 
     expect(translate(ctx, 'hello')).toEqual('こんにちは！')
-    expect(mockWarn.mock.calls[0][0]).toEqual(
-      `Not found 'hello' key in 'en' locale messages.`
-    )
+    expect(mockWarn.mock.calls[0][0]).toEqual(`Not found 'hello' key in 'en' locale messages.`)
   })
 })
 
@@ -217,9 +207,7 @@ describe('context missing option', () => {
     })
 
     expect(translate(ctx, 'hello')).toEqual('hello')
-    expect(mockWarn.mock.calls[0][0]).toEqual(
-      `Not found 'hello' key in 'en' locale messages.`
-    )
+    expect(mockWarn.mock.calls[0][0]).toEqual(`Not found 'hello' key in 'en' locale messages.`)
   })
 
   test('specified missing handler', () => {
@@ -277,9 +265,7 @@ describe('context missingWarn option', () => {
     expect(translate(ctx, 'hi kazupon!')).toEqual('hi kazupon!')
     expect(translate(ctx, 'hello')).toEqual('hello')
     expect(mockWarn).toHaveBeenCalledTimes(1)
-    expect(mockWarn.mock.calls[0][0]).not.toEqual(
-      `Not found 'hello' key in 'en' locale messages.`
-    )
+    expect(mockWarn.mock.calls[0][0]).not.toEqual(`Not found 'hello' key in 'en' locale messages.`)
   })
 
   test('missingWarn option', () => {
@@ -439,9 +425,7 @@ describe('context fallbackFormat option', () => {
       }
     })
 
-    expect(translate(ctx, 'hi, {name}!', { name: 'kazupon' })).toEqual(
-      'hi, kazupon!'
-    )
+    expect(translate(ctx, 'hi, {name}!', { name: 'kazupon' })).toEqual('hi, kazupon!')
     expect(mockWarn).toHaveBeenCalledTimes(5)
     expect(mockWarn.mock.calls[0][0]).toEqual(
       `Not found 'hi, {name}!' key in 'en' locale messages.`
@@ -475,9 +459,9 @@ describe('context fallbackFormat option', () => {
       }
     })
 
-    expect(
-      translate(ctx, 'hi, {name}!', { name: 'kazupon' }, 'hello, {name}!')
-    ).toEqual('hello, kazupon!')
+    expect(translate(ctx, 'hi, {name}!', { name: 'kazupon' }, 'hello, {name}!')).toEqual(
+      'hello, kazupon!'
+    )
     expect(mockWarn).toHaveBeenCalledTimes(5)
     expect(mockWarn.mock.calls[0][0]).toEqual(
       `Not found 'hi, {name}!' key in 'en' locale messages.`
@@ -508,9 +492,9 @@ describe('context fallbackFormat option', () => {
       }
     })
 
-    expect(
-      translate(ctx, 'hi, {name}!', { name: 'kazupon' }, 'hello, {name}!')
-    ).toEqual('hello, kazupon!')
+    expect(translate(ctx, 'hi, {name}!', { name: 'kazupon' }, 'hello, {name}!')).toEqual(
+      'hello, kazupon!'
+    )
     expect(mockWarn).toHaveBeenCalledTimes(1)
     expect(mockWarn.mock.calls[0][0]).toEqual(
       `Not found 'hi, {name}!' key in 'en' locale messages.`
@@ -530,9 +514,7 @@ describe('context fallbackFormat option', () => {
     })
     ctx.messageCompiler = null
 
-    expect(translate(ctx, 'hi, {name}!', { name: 'kazupon' })).toEqual(
-      'hi, {name}!'
-    )
+    expect(translate(ctx, 'hi, {name}!', { name: 'kazupon' })).toEqual('hi, {name}!')
     expect(mockWarn).toHaveBeenCalledTimes(1)
     expect(mockWarn.mock.calls[0][0]).toEqual(
       `Not found 'hi, {name}!' key in 'en' locale messages.`
@@ -585,9 +567,7 @@ describe('context unresolving option', () => {
         ja: {}
       }
     })
-    expect(translate(ctx, 'hi, {name}!', { name: 'kazupon' })).toEqual(
-      'hi, kazupon!'
-    )
+    expect(translate(ctx, 'hi, {name}!', { name: 'kazupon' })).toEqual('hi, kazupon!')
   })
 })
 
@@ -631,10 +611,7 @@ describe('context pluralRule option', () => {
 describe('context postTranslation option', () => {
   test('basic', () => {
     let key = ''
-    const postTranslation = (
-      str: MessageFunctionReturn<string>,
-      _key: string
-    ) => {
+    const postTranslation = (str: MessageFunctionReturn<string>, _key: string) => {
       key = _key
       return str.trim()
     }
@@ -701,9 +678,9 @@ describe('escapeParameter', () => {
       }
     })
 
-    expect(
-      translate(ctx, 'hello', ['<b>kazupon</b>'], { escapeParameter: true })
-    ).toEqual('hello, &lt;b&gt;kazupon&lt;/b&gt;!')
+    expect(translate(ctx, 'hello', ['<b>kazupon</b>'], { escapeParameter: true })).toEqual(
+      'hello, &lt;b&gt;kazupon&lt;/b&gt;!'
+    )
   })
 
   test('no escape', () => {
@@ -718,9 +695,7 @@ describe('escapeParameter', () => {
       }
     })
 
-    expect(translate(ctx, 'hello', { name: '<b>kazupon</b>' })).toEqual(
-      'hello, <b>kazupon</b>!'
-    )
+    expect(translate(ctx, 'hello', { name: '<b>kazupon</b>' })).toEqual('hello, <b>kazupon</b>!')
   })
 })
 
@@ -751,17 +726,15 @@ test('resolvedMessage', () => {
       resolvedMessage: true
     })
   ).toEqual('hello!')
-  expect(translate(ctx, 'list {0}', [1], { resolvedMessage: true })).toEqual(
-    'list 1'
-  )
+  expect(translate(ctx, 'list {0}', [1], { resolvedMessage: true })).toEqual('list 1')
   expect(
     translate(ctx, (ctx: MessageContext) => `list ${ctx.list(0)}`, [1], {
       resolvedMessage: true
     })
   ).toEqual('list 1')
-  expect(
-    translate(ctx, 'named {name}', { name: 'dio' }, { resolvedMessage: true })
-  ).toEqual('named dio')
+  expect(translate(ctx, 'named {name}', { name: 'dio' }, { resolvedMessage: true })).toEqual(
+    'named dio'
+  )
   expect(
     translate(
       ctx,
@@ -851,17 +824,15 @@ describe('fallback context', () => {
     })
 
     expect(translate(ctx, 'no_results', ['apples'])).toEqual('No apples found')
-    expect(
-      translate(ctx, 'no_results', ['apples'], { locale: 'en-variant' })
-    ).toEqual('No apples found')
+    expect(translate(ctx, 'no_results', ['apples'], { locale: 'en-variant' })).toEqual(
+      'No apples found'
+    )
   })
 })
 
 describe('processor', () => {
   // VNode processor
-  function normalize(
-    values: MessageType<string | VNode>[]
-  ): MessageType<VNode>[] {
+  function normalize(values: MessageType<string | VNode>[]): MessageType<VNode>[] {
     return values.map(val =>
       shared.isString(val) || shared.isNumber(val) || shared.isBoolean(val)
         ? createTextNode(String(val))
@@ -885,10 +856,7 @@ describe('processor', () => {
     ctx.processor = processor
     expect(
       // @ts-expect-error -- FIXME
-      translate<typeof ctx, string, PickupKeys<typeof ctx.messages>, VNode>(
-        ctx,
-        'hi'
-      )
+      translate<typeof ctx, string, PickupKeys<typeof ctx.messages>, VNode>(ctx, 'hi')
     ).toEqual([{ __v_isVNode: true, children: 'hi kazupon !' }])
   })
 
@@ -902,11 +870,7 @@ describe('processor', () => {
     ctx.processor = processor
     expect(
       // @ts-expect-error -- FIXME
-      translate<typeof ctx, string, PickupKeys<typeof ctx.messages>, VNode>(
-        ctx,
-        'hi',
-        ['kazupon']
-      )
+      translate<typeof ctx, string, PickupKeys<typeof ctx.messages>, VNode>(ctx, 'hi', ['kazupon'])
     ).toEqual([
       { __v_isVNode: true, children: 'hi ' },
       { __v_isVNode: true, children: 'kazupon' },
@@ -924,11 +888,9 @@ describe('processor', () => {
     ctx.processor = processor
     expect(
       // @ts-expect-error -- FIXME
-      translate<typeof ctx, string, PickupKeys<typeof ctx.messages>, VNode>(
-        ctx,
-        'hi',
-        { name: 'kazupon' }
-      )
+      translate<typeof ctx, string, PickupKeys<typeof ctx.messages>, VNode>(ctx, 'hi', {
+        name: 'kazupon'
+      })
     ).toEqual([
       { __v_isVNode: true, children: 'hi ' },
       { __v_isVNode: true, children: 'kazupon' },
@@ -949,10 +911,7 @@ describe('processor', () => {
     ctx.processor = processor
     expect(
       // @ts-expect-error -- FIXME
-      translate<typeof ctx, string, PickupKeys<typeof ctx.messages>, VNode>(
-        ctx,
-        'hi'
-      )
+      translate<typeof ctx, string, PickupKeys<typeof ctx.messages>, VNode>(ctx, 'hi')
     ).toEqual([
       { __v_isVNode: true, children: 'hi ' },
       { __v_isVNode: true, children: 'KAZUPON' },
@@ -970,27 +929,15 @@ describe('processor', () => {
     ctx.processor = processor
     expect(
       // @ts-expect-error -- FIXME
-      translate<typeof ctx, string, PickupKeys<typeof ctx.messages>, VNode>(
-        ctx,
-        'apple',
-        0
-      )
+      translate<typeof ctx, string, PickupKeys<typeof ctx.messages>, VNode>(ctx, 'apple', 0)
     ).toEqual([{ __v_isVNode: true, children: 'no apples' }])
     expect(
       // @ts-expect-error -- FIXME
-      translate<typeof ctx, string, PickupKeys<typeof ctx.messages>, VNode>(
-        ctx,
-        'apple',
-        1
-      )
+      translate<typeof ctx, string, PickupKeys<typeof ctx.messages>, VNode>(ctx, 'apple', 1)
     ).toEqual([{ __v_isVNode: true, children: 'one apple' }])
     expect(
       // @ts-expect-error -- FIXME
-      translate<typeof ctx, string, PickupKeys<typeof ctx.messages>, VNode>(
-        ctx,
-        'apple',
-        10
-      )
+      translate<typeof ctx, string, PickupKeys<typeof ctx.messages>, VNode>(ctx, 'apple', 10)
     ).toEqual([
       { __v_isVNode: true, children: '10' },
       { __v_isVNode: true, children: ' apples from ' },

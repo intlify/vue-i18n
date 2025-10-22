@@ -134,7 +134,5 @@ test('component', async () => {
   })
   const wrapper = await mount(App, i18n)
 
-  expect(wrapper.html()).toEqual(
-    `<span>100</span><span>$100.00</span><span>￥100</span>`
-  )
+  expect(wrapper.html()).toEqual(`<span>100</span><span>$100.00</span><span>￥100</span>`)
 })

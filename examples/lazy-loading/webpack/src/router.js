@@ -5,8 +5,7 @@ import Home from './pages/Home.vue'
 import About from './pages/About.vue'
 
 export function setupRouter(i18n) {
-  const locale =
-    i18n.mode === 'legacy' ? i18n.global.locale : i18n.global.locale.value
+  const locale = i18n.mode === 'legacy' ? i18n.global.locale : i18n.global.locale.value
 
   // setup routes
   const routes = [

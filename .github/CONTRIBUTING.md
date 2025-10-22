@@ -22,12 +22,10 @@ It is of course fine to use non-English language, when you open a PR to translat
 - Work in the `src` folder and **DO NOT** checkin `dist` in the commits.
 
 - If adding new feature:
-
   - Add accompanying test case.
   - Provide convincing reason to add this feature. Ideally you should open a suggestion issue first and have it greenlighted before working on it.
 
 - If fixing a bug:
-
   - Provide detailed description of the bug in the PR. Live demo preferred.
   - Add appropriate test coverage if applicable.
 
@@ -86,18 +84,15 @@ pnpm build -- --all
 By default, each package will be built in multiple distribution formats as specified in the `buildOptions.formats` field in its `package.json`. These can be overwritten via the `-f` flag. The following formats are supported:
 
 - **`global`**
-
   - For direct use via `<script>` in the browser.
   - Note: global builds are not [UMD](https://github.com/umdjs/umd) builds. Instead they are built as [IIFEs](https://developer.mozilla.org/en-US/docs/Glossary/IIFE).
 
 - **`esm-bundler`**
-
   - Leaves prod/dev branches with `process.env.NODE_ENV` guards (to be replaced by bundler)
   - Does not ship a minified build (to be done together with the rest of the code after bundling)
   - For use with bundlers like `webpack`, `rollup` and `parcel`.
 
 - **`esm-browser`**
-
   - For usage via native ES modules imports (in browser via `<script type="module">`, or via Node.js native ES modules support in the future)
   - Inlines all dependencies - i.e. it's a single ES module with no imports from other files
     - This means you **must** import everything from this file and this file only to ensure you are getting the same instance of code.

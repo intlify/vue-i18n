@@ -64,8 +64,7 @@ import type {
 
 const NOOP_MESSAGE_FUNCTION = () => ''
 
-export const isMessageFunction = <T>(val: unknown): val is MessageFunction<T> =>
-  isFunction(val)
+export const isMessageFunction = <T>(val: unknown): val is MessageFunction<T> => isFunction(val)
 
 /**
  *  # translate
@@ -119,8 +118,7 @@ export const isMessageFunction = <T>(val: unknown): val is MessageFunction<T> =>
  *
  * @VueI18nGeneral
  */
-export interface TranslateOptions<Locales = Locale>
-  extends LocaleOptions<Locales> {
+export interface TranslateOptions<Locales = Locale> extends LocaleOptions<Locales> {
   /**
    * @remarks
    * List interpolation
@@ -210,9 +208,7 @@ export function translate<
   ContextMessages = IsEmptyObject<Context['messages']> extends false
     ? PickupKeys<Context['messages']>
     : never,
-  ResourceKeys extends
-    | CoreMessages
-    | ContextMessages = IsNever<CoreMessages> extends false
+  ResourceKeys extends CoreMessages | ContextMessages = IsNever<CoreMessages> extends false
     ? IsNever<ContextMessages> extends false
       ? CoreMessages | ContextMessages
       : CoreMessages
@@ -239,9 +235,7 @@ export function translate<
   ContextMessages = IsEmptyObject<Context['messages']> extends false
     ? PickupKeys<Context['messages']>
     : never,
-  ResourceKeys extends
-    | CoreMessages
-    | ContextMessages = IsNever<CoreMessages> extends false
+  ResourceKeys extends CoreMessages | ContextMessages = IsNever<CoreMessages> extends false
     ? IsNever<ContextMessages> extends false
       ? CoreMessages | ContextMessages
       : CoreMessages
@@ -267,9 +261,7 @@ export function translate<
   ContextMessages = IsEmptyObject<Context['messages']> extends false
     ? PickupKeys<Context['messages']>
     : never,
-  ResourceKeys extends
-    | CoreMessages
-    | ContextMessages = IsNever<CoreMessages> extends false
+  ResourceKeys extends CoreMessages | ContextMessages = IsNever<CoreMessages> extends false
     ? IsNever<ContextMessages> extends false
       ? CoreMessages | ContextMessages
       : CoreMessages
@@ -296,9 +288,7 @@ export function translate<
   ContextMessages = IsEmptyObject<Context['messages']> extends false
     ? PickupKeys<Context['messages']>
     : never,
-  ResourceKeys extends
-    | CoreMessages
-    | ContextMessages = IsNever<CoreMessages> extends false
+  ResourceKeys extends CoreMessages | ContextMessages = IsNever<CoreMessages> extends false
     ? IsNever<ContextMessages> extends false
       ? CoreMessages | ContextMessages
       : CoreMessages
@@ -326,9 +316,7 @@ export function translate<
   ContextMessages = IsEmptyObject<Context['messages']> extends false
     ? PickupKeys<Context['messages']>
     : never,
-  ResourceKeys extends
-    | CoreMessages
-    | ContextMessages = IsNever<CoreMessages> extends false
+  ResourceKeys extends CoreMessages | ContextMessages = IsNever<CoreMessages> extends false
     ? IsNever<ContextMessages> extends false
       ? CoreMessages | ContextMessages
       : CoreMessages
@@ -355,9 +343,7 @@ export function translate<
   ContextMessages = IsEmptyObject<Context['messages']> extends false
     ? PickupKeys<Context['messages']>
     : never,
-  ResourceKeys extends
-    | CoreMessages
-    | ContextMessages = IsNever<CoreMessages> extends false
+  ResourceKeys extends CoreMessages | ContextMessages = IsNever<CoreMessages> extends false
     ? IsNever<ContextMessages> extends false
       ? CoreMessages | ContextMessages
       : CoreMessages
@@ -385,9 +371,7 @@ export function translate<
   ContextMessages = IsEmptyObject<Context['messages']> extends false
     ? PickupKeys<Context['messages']>
     : never,
-  ResourceKeys extends
-    | CoreMessages
-    | ContextMessages = IsNever<CoreMessages> extends false
+  ResourceKeys extends CoreMessages | ContextMessages = IsNever<CoreMessages> extends false
     ? IsNever<ContextMessages> extends false
       ? CoreMessages | ContextMessages
       : CoreMessages
@@ -414,9 +398,7 @@ export function translate<
   ContextMessages = IsEmptyObject<Context['messages']> extends false
     ? PickupKeys<Context['messages']>
     : never,
-  ResourceKeys extends
-    | CoreMessages
-    | ContextMessages = IsNever<CoreMessages> extends false
+  ResourceKeys extends CoreMessages | ContextMessages = IsNever<CoreMessages> extends false
     ? IsNever<ContextMessages> extends false
       ? CoreMessages | ContextMessages
       : CoreMessages
@@ -444,9 +426,7 @@ export function translate<
   ContextMessages = IsEmptyObject<Context['messages']> extends false
     ? PickupKeys<Context['messages']>
     : never,
-  ResourceKeys extends
-    | CoreMessages
-    | ContextMessages = IsNever<CoreMessages> extends false
+  ResourceKeys extends CoreMessages | ContextMessages = IsNever<CoreMessages> extends false
     ? IsNever<ContextMessages> extends false
       ? CoreMessages | ContextMessages
       : CoreMessages
@@ -474,9 +454,7 @@ export function translate<
   ContextMessages = IsEmptyObject<Context['messages']> extends false
     ? PickupKeys<Context['messages']>
     : never,
-  ResourceKeys extends
-    | CoreMessages
-    | ContextMessages = IsNever<CoreMessages> extends false
+  ResourceKeys extends CoreMessages | ContextMessages = IsNever<CoreMessages> extends false
     ? IsNever<ContextMessages> extends false
       ? CoreMessages | ContextMessages
       : CoreMessages
@@ -504,9 +482,7 @@ export function translate<
   ContextMessages = IsEmptyObject<Context['messages']> extends false
     ? PickupKeys<Context['messages']>
     : never,
-  ResourceKeys extends
-    | CoreMessages
-    | ContextMessages = IsNever<CoreMessages> extends false
+  ResourceKeys extends CoreMessages | ContextMessages = IsNever<CoreMessages> extends false
     ? IsNever<ContextMessages> extends false
       ? CoreMessages | ContextMessages
       : CoreMessages
@@ -533,9 +509,7 @@ export function translate<
   ContextMessages = IsEmptyObject<Context['messages']> extends false
     ? PickupKeys<Context['messages']>
     : never,
-  ResourceKeys extends
-    | CoreMessages
-    | ContextMessages = IsNever<CoreMessages> extends false
+  ResourceKeys extends CoreMessages | ContextMessages = IsNever<CoreMessages> extends false
     ? IsNever<ContextMessages> extends false
       ? CoreMessages | ContextMessages
       : CoreMessages
@@ -563,9 +537,7 @@ export function translate<
   ContextMessages = IsEmptyObject<Context['messages']> extends false
     ? PickupKeys<Context['messages']>
     : never,
-  ResourceKeys extends
-    | CoreMessages
-    | ContextMessages = IsNever<CoreMessages> extends false
+  ResourceKeys extends CoreMessages | ContextMessages = IsNever<CoreMessages> extends false
     ? IsNever<ContextMessages> extends false
       ? CoreMessages | ContextMessages
       : CoreMessages
@@ -593,9 +565,7 @@ export function translate<
   ContextMessages = IsEmptyObject<Context['messages']> extends false
     ? PickupKeys<Context['messages']>
     : never,
-  ResourceKeys extends
-    | CoreMessages
-    | ContextMessages = IsNever<CoreMessages> extends false
+  ResourceKeys extends CoreMessages | ContextMessages = IsNever<CoreMessages> extends false
     ? IsNever<ContextMessages> extends false
       ? CoreMessages | ContextMessages
       : CoreMessages
@@ -611,10 +581,7 @@ export function translate<
 ): MessageFunctionReturn<Message> | number
 
 // implementation of `translate` function
-export function translate<
-  Context extends CoreContext<Message, {}, {}, {}>,
-  Message = string
->(
+export function translate<Context extends CoreContext<Message, {}, {}, {}>, Message = string>(
   context: Context,
   ...args: unknown[]
 ): MessageFunctionReturn<Message> | number {
@@ -628,13 +595,9 @@ export function translate<
   } = context
   const [key, options] = parseTranslateArgs<Message>(...args)
 
-  const missingWarn = isBoolean(options.missingWarn)
-    ? options.missingWarn
-    : context.missingWarn
+  const missingWarn = isBoolean(options.missingWarn) ? options.missingWarn : context.missingWarn
 
-  const fallbackWarn = isBoolean(options.fallbackWarn)
-    ? options.fallbackWarn
-    : context.fallbackWarn
+  const fallbackWarn = isBoolean(options.fallbackWarn) ? options.fallbackWarn : context.fallbackWarn
 
   const escapeParameter = isBoolean(options.escapeParameter)
     ? options.escapeParameter
@@ -653,8 +616,7 @@ export function translate<
         : null
   const enableDefaultMsg =
     fallbackFormat ||
-    (defaultMsgOrKey != null &&
-      (isString(defaultMsgOrKey) || isFunction(defaultMsgOrKey)))
+    (defaultMsgOrKey != null && (isString(defaultMsgOrKey) || isFunction(defaultMsgOrKey)))
   const locale = getLocale(context, options)
 
   // escape params
@@ -675,11 +637,7 @@ export function translate<
         fallbackWarn,
         missingWarn
       )
-    : [
-        key,
-        locale,
-        (messages as unknown as LocaleMessages<Message>)[locale] || create()
-      ]
+    : [key, locale, (messages as unknown as LocaleMessages<Message>)[locale] || create()]
   // NOTE:
   //  Fix to work around `ssrTransfrom` bug in Vite.
   //  https://github.com/vitejs/vite/issues/4306
@@ -691,11 +649,7 @@ export function translate<
   let cacheBaseKey = key
   if (
     !resolvedMessage &&
-    !(
-      isString(format) ||
-      isMessageAST(format) ||
-      isMessageFunction<Message>(format)
-    )
+    !(isString(format) || isMessageAST(format) || isMessageFunction<Message>(format))
   ) {
     if (enableDefaultMsg) {
       format = defaultMsgOrKey
@@ -706,11 +660,7 @@ export function translate<
   // checking message format and target locale
   if (
     !resolvedMessage &&
-    (!(
-      isString(format) ||
-      isMessageAST(format) ||
-      isMessageFunction<Message>(format)
-    ) ||
+    (!(isString(format) || isMessageAST(format) || isMessageFunction<Message>(format)) ||
       !isString(targetLocale))
   ) {
     return unresolving ? NOT_RESOLVED : (key as MessageFunctionReturn<Message>)
@@ -751,23 +701,12 @@ export function translate<
   }
 
   // evaluate message with context
-  const ctxOptions = getMessageContextOptions(
-    context,
-    targetLocale!,
-    message,
-    options
-  )
+  const ctxOptions = getMessageContextOptions(context, targetLocale!, message, options)
   const msgContext = createMessageContext<Message>(ctxOptions)
-  const messaged = evaluateMessage(
-    context,
-    msg as MessageFunction<Message>,
-    msgContext
-  )
+  const messaged = evaluateMessage(context, msg as MessageFunction<Message>, msgContext)
 
   // if use post translation option, proceed it with handler
-  const ret = postTranslation
-    ? postTranslation(messaged, key as string)
-    : messaged
+  const ret = postTranslation ? postTranslation(messaged, key as string) : messaged
 
   // NOTE: experimental !!
   if (__DEV__ || __FEATURE_PROD_INTLIFY_DEVTOOLS__) {
@@ -803,9 +742,7 @@ export function translate<
 
 function escapeParams(options: TranslateOptions) {
   if (isArray(options.list)) {
-    options.list = options.list.map(item =>
-      isString(item) ? escapeHtml(item) : item
-    )
+    options.list = options.list.map(item => (isString(item) ? escapeHtml(item) : item))
   } else if (isObject(options.named)) {
     Object.keys(options.named).forEach(key => {
       if (isString(options.named![key])) {
@@ -823,12 +760,7 @@ function resolveMessageFormat<Messages, Message>(
   fallbackWarn: boolean | RegExp,
   missingWarn: boolean | RegExp
 ): [PathValue, Locale | undefined, LocaleMessageValue<Message>] {
-  const {
-    messages,
-    onWarn,
-    messageResolver: resolveValue,
-    localeFallbacker
-  } = context
+  const { messages, onWarn, messageResolver: resolveValue, localeFallbacker } = context
   const locales = localeFallbacker(context as any, fallbackLocale, locale) // eslint-disable-line @typescript-eslint/no-explicit-any
 
   let message: LocaleMessageValue<Message> = create()
@@ -869,8 +801,7 @@ function resolveMessageFormat<Messages, Message>(
       }
     }
 
-    message =
-      (messages as unknown as LocaleMessages<Message>)[targetLocale] || create()
+    message = (messages as unknown as LocaleMessages<Message>)[targetLocale] || create()
 
     // for vue-devtools timeline event
     let start: number | null = null
@@ -1047,12 +978,7 @@ export function parseTranslateArgs<Message = string>(
   const [arg1, arg2, arg3] = args
   const options = create() as TranslateOptions
 
-  if (
-    !isString(arg1) &&
-    !isNumber(arg1) &&
-    !isMessageFunction(arg1) &&
-    !isMessageAST(arg1)
-  ) {
+  if (!isString(arg1) && !isNumber(arg1) && !isMessageFunction(arg1) && !isMessageAST(arg1)) {
     throw createCoreError(CoreErrorCodes.INVALID_ARGUMENT)
   }
 
@@ -1104,11 +1030,7 @@ function getCompileContext<Messages, Message>(
         const codeFrame =
           err.location &&
           _source &&
-          generateCodeFrame(
-            _source,
-            err.location.start.offset,
-            err.location.end.offset
-          )
+          generateCodeFrame(_source, err.location.start.offset, err.location.end.offset)
         const emitter = (context as unknown as CoreInternalContext).__v_emitter
         if (emitter && _source) {
           emitter.emit('compile-error', {
@@ -1124,14 +1046,11 @@ function getCompileContext<Messages, Message>(
         throw err
       }
     },
-    onCacheKey: (source: string): string =>
-      generateFormatCacheKey(locale, key, source)
+    onCacheKey: (source: string): string => generateFormatCacheKey(locale, key, source)
   }
 }
 
-function getSourceForCodeFrame(
-  source: string | ResourceNode
-): string | undefined {
+function getSourceForCodeFrame(source: string | ResourceNode): string | undefined {
   if (isString(source)) {
     return source
   } else {
@@ -1157,10 +1076,7 @@ function getMessageContextOptions<Messages, Message = string>(
     fallbackContext
   } = context
 
-  const resolveMessage = (
-    key: string,
-    useLinked: boolean
-  ): MessageFunction<Message> => {
+  const resolveMessage = (key: string, useLinked: boolean): MessageFunction<Message> => {
     let val = resolveValue(message, key)
 
     // fallback
@@ -1189,9 +1105,7 @@ function getMessageContextOptions<Messages, Message = string>(
         key,
         onError
       ) as unknown as MessageFunction<Message>
-      return !occurred
-        ? msg
-        : (NOOP_MESSAGE_FUNCTION as MessageFunction<Message>)
+      return !occurred ? msg : (NOOP_MESSAGE_FUNCTION as MessageFunction<Message>)
     } else if (isMessageFunction<Message>(val)) {
       return val
     } else {

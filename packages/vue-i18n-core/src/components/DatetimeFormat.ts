@@ -17,10 +17,7 @@ import type { FormattableProps } from './formatRenderer'
  *
  * @VueI18nComponent
  */
-export type DatetimeFormatProps = FormattableProps<
-  number | Date,
-  Intl.DateTimeFormatOptions
->
+export type DatetimeFormatProps = FormattableProps<number | Date, Intl.DateTimeFormatOptions>
 
 // TODO:
 export const DatetimeFormatImpl: ComponentOptions<DatetimeFormatProps> =
@@ -53,13 +50,9 @@ export const DatetimeFormatImpl: ComponentOptions<DatetimeFormatProps> =
         Intl.DateTimeFormatOptions,
         DateTimeOptions,
         Intl.DateTimeFormatPart
-      >(
-        props as DatetimeFormatProps,
-        context,
-        DATETIME_FORMAT_OPTIONS_KEYS,
-        (...args: unknown[]) =>
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          (i18n as any)[DatetimePartsSymbol](...args)
+      >(props as DatetimeFormatProps, context, DATETIME_FORMAT_OPTIONS_KEYS, (...args: unknown[]) =>
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        (i18n as any)[DatetimePartsSymbol](...args)
       )
     }
   })

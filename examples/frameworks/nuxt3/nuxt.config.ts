@@ -16,9 +16,7 @@ export default defineNuxtConfig({
     },
     plugins: [
       VueI18nVitePlugin({
-        include: [
-          resolve(dirname(fileURLToPath(import.meta.url)), './locales/*.json')
-        ]
+        include: [resolve(dirname(fileURLToPath(import.meta.url)), './locales/*.json')]
       })
     ]
   }

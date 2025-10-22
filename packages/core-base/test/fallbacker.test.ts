@@ -1,10 +1,6 @@
 import { createCoreContext as context } from '../src/context'
 import { CoreErrorCodes, errorMessages } from '../src/errors'
-import {
-  fallbackWithLocaleChain,
-  fallbackWithSimple,
-  resolveLocale
-} from '../src/fallbacker'
+import { fallbackWithLocaleChain, fallbackWithSimple, resolveLocale } from '../src/fallbacker'
 
 import type { LocaleDetector } from '@intlify/core-base'
 import type { CoreContext } from '../src/context'
@@ -43,18 +39,11 @@ describe('fallbackWithSimple', () => {
 
   describe('object locales: { en: [], ja: [] }', () => {
     test('en', () => {
-      expect(fallbackWithSimple(ctx, { en: [], ja: [] }, 'en')).toEqual([
-        'en',
-        'ja'
-      ])
+      expect(fallbackWithSimple(ctx, { en: [], ja: [] }, 'en')).toEqual(['en', 'ja'])
     })
 
     test('ca', () => {
-      expect(fallbackWithSimple(ctx, { en: [], ja: [] }, 'ca')).toEqual([
-        'ca',
-        'en',
-        'ja'
-      ])
+      expect(fallbackWithSimple(ctx, { en: [], ja: [] }, 'ca')).toEqual(['ca', 'en', 'ja'])
     })
   })
 })
@@ -71,10 +60,7 @@ describe('fallbackWithLocaleChain', () => {
     })
 
     test('en-GB', () => {
-      expect(fallbackWithLocaleChain(ctx, false, 'en-GB')).toEqual([
-        'en-GB',
-        'en'
-      ])
+      expect(fallbackWithLocaleChain(ctx, false, 'en-GB')).toEqual(['en-GB', 'en'])
     })
 
     test('en-GB!', () => {
@@ -104,17 +90,11 @@ describe('fallbackWithLocaleChain', () => {
     })
 
     test('en-GB', () => {
-      expect(fallbackWithLocaleChain(ctx, 'en', 'en-GB')).toEqual([
-        'en-GB',
-        'en'
-      ])
+      expect(fallbackWithLocaleChain(ctx, 'en', 'en-GB')).toEqual(['en-GB', 'en'])
     })
 
     test('en-GB!', () => {
-      expect(fallbackWithLocaleChain(ctx, 'en', 'en-GB!')).toEqual([
-        'en-GB',
-        'en'
-      ])
+      expect(fallbackWithLocaleChain(ctx, 'en', 'en-GB!')).toEqual(['en-GB', 'en'])
     })
 
     test('de-DE-bavarian', () => {
@@ -131,50 +111,35 @@ describe('fallbackWithLocaleChain', () => {
     })
 
     test('de-CH', () => {
-      expect(fallbackWithLocaleChain(ctx, 'en', 'de-CH')).toEqual([
-        'de-CH',
-        'de',
-        'en'
-      ])
+      expect(fallbackWithLocaleChain(ctx, 'en', 'de-CH')).toEqual(['de-CH', 'de', 'en'])
     })
   })
 
   describe(`array: ['en', 'ja']`, () => {
     test('en', () => {
-      expect(fallbackWithLocaleChain(ctx, ['en', 'ja'], 'en')).toEqual([
-        'en',
-        'ja'
-      ])
+      expect(fallbackWithLocaleChain(ctx, ['en', 'ja'], 'en')).toEqual(['en', 'ja'])
     })
 
     test('en-GB', () => {
-      expect(fallbackWithLocaleChain(ctx, ['en', 'ja'], 'en-GB')).toEqual([
-        'en-GB',
-        'en',
-        'ja'
-      ])
+      expect(fallbackWithLocaleChain(ctx, ['en', 'ja'], 'en-GB')).toEqual(['en-GB', 'en', 'ja'])
     })
 
     test('en-GB!', () => {
-      expect(fallbackWithLocaleChain(ctx, ['en', 'ja'], 'en-GB!')).toEqual([
-        'en-GB',
-        'en',
-        'ja'
-      ])
+      expect(fallbackWithLocaleChain(ctx, ['en', 'ja'], 'en-GB!')).toEqual(['en-GB', 'en', 'ja'])
     })
 
     test('de-DE-bavarian', () => {
-      expect(
-        fallbackWithLocaleChain(ctx, ['en', 'ja'], 'de-DE-bavarian')
-      ).toEqual(['de-DE-bavarian', 'de-DE', 'de', 'en', 'ja'])
-    })
-
-    test('de', () => {
-      expect(fallbackWithLocaleChain(ctx, ['en', 'ja'], 'de')).toEqual([
+      expect(fallbackWithLocaleChain(ctx, ['en', 'ja'], 'de-DE-bavarian')).toEqual([
+        'de-DE-bavarian',
+        'de-DE',
         'de',
         'en',
         'ja'
       ])
+    })
+
+    test('de', () => {
+      expect(fallbackWithLocaleChain(ctx, ['en', 'ja'], 'de')).toEqual(['de', 'en', 'ja'])
     })
 
     test('de-CH', () => {
@@ -218,17 +183,17 @@ describe('fallbackWithLocaleChain', () => {
     })
 
     test('de-DE-bavarian', () => {
-      expect(
-        fallbackWithLocaleChain(ctx, fallbackLocale, 'de-DE-bavarian')
-      ).toEqual(['de-DE-bavarian', 'de-DE', 'de', 'en', 'da'])
-    })
-
-    test('de', () => {
-      expect(fallbackWithLocaleChain(ctx, fallbackLocale, 'de')).toEqual([
+      expect(fallbackWithLocaleChain(ctx, fallbackLocale, 'de-DE-bavarian')).toEqual([
+        'de-DE-bavarian',
+        'de-DE',
         'de',
         'en',
         'da'
       ])
+    })
+
+    test('de', () => {
+      expect(fallbackWithLocaleChain(ctx, fallbackLocale, 'de')).toEqual(['de', 'en', 'da'])
     })
 
     test('zh-Hant', () => {
@@ -252,19 +217,11 @@ describe('fallbackWithLocaleChain', () => {
     })
 
     test('es-SP!', () => {
-      expect(fallbackWithLocaleChain(ctx, fallbackLocale, 'es-SP!')).toEqual([
-        'es-SP',
-        'en',
-        'da'
-      ])
+      expect(fallbackWithLocaleChain(ctx, fallbackLocale, 'es-SP!')).toEqual(['es-SP', 'en', 'da'])
     })
 
     test('fr', () => {
-      expect(fallbackWithLocaleChain(ctx, fallbackLocale, 'fr')).toEqual([
-        'fr',
-        'en',
-        'da'
-      ])
+      expect(fallbackWithLocaleChain(ctx, fallbackLocale, 'fr')).toEqual(['fr', 'en', 'da'])
     })
 
     test('pt-BR', () => {

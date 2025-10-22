@@ -30,11 +30,7 @@ export const ERROR_DOMAIN = 'parser'
 // Backslash backslash, backslash quote, uHHHH, UHHHHHH.
 const KNOWN_ESCAPES = /(?:\\\\|\\'|\\u([0-9a-fA-F]{4})|\\U([0-9a-fA-F]{6}))/g
 
-function fromEscapeSequence(
-  match: string,
-  codePoint4: string,
-  codePoint6: string
-): string {
+function fromEscapeSequence(match: string, codePoint4: string, codePoint6: string): string {
   switch (match) {
     case `\\\\`:
       return `\\`
@@ -90,12 +86,7 @@ export function createParser(options: ParserOptions = {}): Parser {
     return node
   }
 
-  function endNode(
-    node: Node,
-    offset: number,
-    pos: Position,
-    type?: NodeTypes
-  ): void {
+  function endNode(node: Node, offset: number, pos: Position, type?: NodeTypes): void {
     if (type) {
       node.type = type
     }
@@ -110,11 +101,7 @@ export function createParser(options: ParserOptions = {}): Parser {
 
   function parseText(tokenizer: Tokenizer, value: string): TextNode {
     const context = tokenizer.context()
-    const node = startNode(
-      NodeTypes.Text,
-      context.offset,
-      context.startLoc
-    ) as TextNode
+    const node = startNode(NodeTypes.Text, context.offset, context.startLoc) as TextNode
     node.value = value
     endNode(node, tokenizer.currentOffset(), tokenizer.currentPosition())
     return node
@@ -157,11 +144,7 @@ export function createParser(options: ParserOptions = {}): Parser {
     const token = tokenizer.nextToken()
     const context = tokenizer.context()
     const { lastOffset: offset, lastStartLoc: loc } = context // get linked dot loc
-    const node = startNode(
-      NodeTypes.LinkedModifier,
-      offset,
-      loc
-    ) as LinkedModifierNode
+    const node = startNode(NodeTypes.LinkedModifier, offset, loc) as LinkedModifierNode
     if (token.type !== TokenTypes.LinkedModifier) {
       // empty modifier
       emitError(
@@ -196,11 +179,7 @@ export function createParser(options: ParserOptions = {}): Parser {
 
   function parseLinkedKey(tokenizer: Tokenizer, value: string): LinkedKeyNode {
     const context = tokenizer.context()
-    const node = startNode(
-      NodeTypes.LinkedKey,
-      context.offset,
-      context.startLoc
-    ) as LinkedKeyNode
+    const node = startNode(NodeTypes.LinkedKey, context.offset, context.startLoc) as LinkedKeyNode
     node.value = value
     endNode(node, tokenizer.currentOffset(), tokenizer.currentPosition())
     return node
@@ -211,11 +190,7 @@ export function createParser(options: ParserOptions = {}): Parser {
     node: LinkedNode
   } {
     const context = tokenizer.context()
-    const linkedNode = startNode(
-      NodeTypes.Linked,
-      context.offset,
-      context.startLoc
-    ) as LinkedNode
+    const linkedNode = startNode(NodeTypes.Linked, context.offset, context.startLoc) as LinkedNode
 
     let token = tokenizer.nextToken()
     if (token.type === TokenTypes.LinkedDot) {
@@ -292,12 +267,7 @@ export function createParser(options: ParserOptions = {}): Parser {
         break
       default: {
         // empty key
-        emitError(
-          tokenizer,
-          CompileErrorCodes.UNEXPECTED_EMPTY_LINKED_KEY,
-          context.lastStartLoc,
-          0
-        )
+        emitError(tokenizer, CompileErrorCodes.UNEXPECTED_EMPTY_LINKED_KEY, context.lastStartLoc, 0)
         const nextContext = tokenizer.context()
         const emptyLinkedKeyNode = startNode(
           NodeTypes.LinkedKey,
@@ -324,18 +294,9 @@ export function createParser(options: ParserOptions = {}): Parser {
   function parseMessage(tokenizer: Tokenizer): MessageNode {
     const context = tokenizer.context()
     const startOffset =
-      context.currentType === TokenTypes.Pipe
-        ? tokenizer.currentOffset()
-        : context.offset
-    const startLoc =
-      context.currentType === TokenTypes.Pipe
-        ? context.endLoc
-        : context.startLoc
-    const node = startNode(
-      NodeTypes.Message,
-      startOffset,
-      startLoc
-    ) as MessageNode
+      context.currentType === TokenTypes.Pipe ? tokenizer.currentOffset() : context.offset
+    const startLoc = context.currentType === TokenTypes.Pipe ? context.endLoc : context.startLoc
+    const node = startNode(NodeTypes.Message, startOffset, startLoc) as MessageNode
     node.items = []
 
     let nextToken: Token | null = null
@@ -398,20 +359,13 @@ export function createParser(options: ParserOptions = {}): Parser {
           break
         }
       }
-    } while (
-      context.currentType !== TokenTypes.EOF &&
-      context.currentType !== TokenTypes.Pipe
-    )
+    } while (context.currentType !== TokenTypes.EOF && context.currentType !== TokenTypes.Pipe)
 
     // adjust message node loc
     const endOffset =
-      context.currentType === TokenTypes.Pipe
-        ? context.lastOffset
-        : tokenizer.currentOffset()
+      context.currentType === TokenTypes.Pipe ? context.lastOffset : tokenizer.currentOffset()
     const endLoc =
-      context.currentType === TokenTypes.Pipe
-        ? context.lastEndLoc
-        : tokenizer.currentPosition()
+      context.currentType === TokenTypes.Pipe ? context.lastEndLoc : tokenizer.currentPosition()
 
     endNode(node, endOffset, endLoc)
     return node
@@ -439,12 +393,7 @@ export function createParser(options: ParserOptions = {}): Parser {
     } while (context.currentType !== TokenTypes.EOF)
 
     if (hasEmptyMessage) {
-      emitError(
-        tokenizer,
-        CompileErrorCodes.MUST_HAVE_MESSAGES_IN_PLURAL,
-        loc,
-        0
-      )
+      emitError(tokenizer, CompileErrorCodes.MUST_HAVE_MESSAGES_IN_PLURAL, loc, 0)
     }
 
     endNode(node, tokenizer.currentOffset(), tokenizer.currentPosition())
@@ -467,11 +416,7 @@ export function createParser(options: ParserOptions = {}): Parser {
     const tokenizer = createTokenizer(source, assign({}, options))
     const context = tokenizer.context()
 
-    const node = startNode(
-      NodeTypes.Resource,
-      context.offset,
-      context.startLoc
-    ) as ResourceNode
+    const node = startNode(NodeTypes.Resource, context.offset, context.startLoc) as ResourceNode
     if (location && node.loc) {
       node.loc.source = source
     }

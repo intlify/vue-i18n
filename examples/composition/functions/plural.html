@@ -35,11 +35,7 @@
             },
             apple: ({ plural, named }) => {
               // 'no apples | one apple | {count} apples'
-              return plural([
-                'no apples',
-                'one apple',
-                `${named('count')} apples`
-              ])
+              return plural(['no apples', 'one apple', `${named('count')} apples`])
             },
             banana: ({ plural, named }) => {
               const n = named('n')

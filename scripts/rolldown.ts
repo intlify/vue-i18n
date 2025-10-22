@@ -60,10 +60,7 @@ export function createConfigsForPackage({
     }
   }
 
-  function resolveOutputConfigs(
-    name: string,
-    ns = ''
-  ): Record<string, OutputOptions> {
+  function resolveOutputConfigs(name: string, ns = ''): Record<string, OutputOptions> {
     return {
       mjs: {
         file: resolve(`dist/${ns}${name}.js`),
@@ -114,19 +111,14 @@ export function createConfigsForPackage({
 
   let packageConfigs = prodOnly
     ? []
-    : resolvedFormats.map((format: string) =>
-        createConfig(format, outputConfigs[format])
-      )
+    : resolvedFormats.map((format: string) => createConfig(format, outputConfigs[format]))
 
-  const petiteOutputConfigs =
-    name === 'vue-i18n-core' ? resolveOutputConfigs(name, 'petite-') : {}
+  const petiteOutputConfigs = name === 'vue-i18n-core' ? resolveOutputConfigs(name, 'petite-') : {}
 
   if (name === 'vue-i18n-core') {
     packageConfigs = [
       ...packageConfigs,
-      ...resolvedFormats.map(format =>
-        createConfig(format, petiteOutputConfigs[format])
-      )
+      ...resolvedFormats.map(format => createConfig(format, petiteOutputConfigs[format]))
     ]
   }
 
@@ -138,9 +130,7 @@ export function createConfigsForPackage({
       if (/^(global|browser)(-runtime)?/.test(format)) {
         packageConfigs.push(createMinifiedConfig(format, outputConfigs[format]))
         if (name === 'vue-i18n-core') {
-          packageConfigs.push(
-            createMinifiedConfig(format, petiteOutputConfigs[format])
-          )
+          packageConfigs.push(createMinifiedConfig(format, petiteOutputConfigs[format]))
         }
       }
     })
@@ -158,11 +148,9 @@ export function createConfigsForPackage({
     const rawFile = output.file
 
     const isProductionBuild =
-      process.env.__DEV__ === 'false' ||
-      /\.prod\.[cm]?js$/.test(String(output.file) || '')
+      process.env.__DEV__ === 'false' || /\.prod\.[cm]?js$/.test(String(output.file) || '')
     const isBundlerESMBuild = /mjs/.test(format)
-    const isBrowserESMBuild =
-      /browser/.test(format) && !packageOptions.enableNonBrowserBranches
+    const isBrowserESMBuild = /browser/.test(format) && !packageOptions.enableNonBrowserBranches
     const isNodeBuild = String(output.file).includes('.node.')
     const isGlobalBuild = /global/.test(format)
     const isRuntimeOnlyBuild = /runtime/.test(format)
@@ -172,11 +160,7 @@ export function createConfigsForPackage({
     output.sourcemap = sourceMap
     output.banner = banner
     output.externalLiveBindings = false
-    if (
-      name === 'vue-i18n' ||
-      name === 'vue-i18n-core' ||
-      name === 'petite-vue-i18n'
-    ) {
+    if (name === 'vue-i18n' || name === 'vue-i18n-core' || name === 'petite-vue-i18n') {
       output.globals = {
         vue: 'Vue',
         '@vue/devtools-api': 'VueDevtoolsApi'
@@ -215,9 +199,7 @@ export function createConfigsForPackage({
         // for lite version
         __LITE__: String(isLite),
         // feature flags
-        __FEATURE_FULL_INSTALL__: isBundlerESMBuild
-          ? `__VUE_I18N_FULL_INSTALL__`
-          : `true`,
+        __FEATURE_FULL_INSTALL__: isBundlerESMBuild ? `__VUE_I18N_FULL_INSTALL__` : `true`,
         __FEATURE_PROD_VUE_DEVTOOLS__:
           ['vue-i18n', 'petite-vue-i18n'].includes(name) && isNodeBuild
             ? 'false' // tree-shake devtools
@@ -290,16 +272,11 @@ export function createConfigsForPackage({
           //   ? []
           //   : ['vue'] // packageOptions.enableNonBrowserBranches
           // Node / esm-bundler builds. Externalize everything.
-          [
-            ...Object.keys(pkg.dependencies || {}),
-            ...Object.keys(pkg.peerDependencies || {})
-          ]
+          [...Object.keys(pkg.dependencies || {}), ...Object.keys(pkg.peerDependencies || {})]
     }
 
     function resolveNodePlugins() {
-      const nodePlugins = packageOptions.enableNonBrowserBranches
-        ? [...[polyfillNode()]]
-        : []
+      const nodePlugins = packageOptions.enableNonBrowserBranches ? [...[polyfillNode()]] : []
       return nodePlugins
     }
 
@@ -331,12 +308,7 @@ export function createConfigsForPackage({
 
             const contents = `export * from './${filename}'`
 
-            const fullpath = path.join(
-              'packages',
-              target,
-              'dist',
-              path.basename(stub)
-            )
+            const fullpath = path.join('packages', target, 'dist', path.basename(stub))
             await fs.writeFile(fullpath, contents)
             console.log(`created stub ${pc.bold(fullpath)}`)
           }
@@ -350,10 +322,7 @@ export function createConfigsForPackage({
     }
   }
 
-  function createMinifiedConfig(
-    format: string,
-    output: OutputOptions
-  ): RolldownOptions {
+  function createMinifiedConfig(format: string, output: OutputOptions): RolldownOptions {
     const newOutput = {
       file: String(output.file).replace(/\.js$/, '.prod.js'),
       format: output.format

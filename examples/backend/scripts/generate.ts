@@ -32,9 +32,7 @@ async function compile(locale: string, message: ResourceSchema) {
 
   // compile reousrces
   for (const locale of locales) {
-    const resource = await $fetch<ResourceSchema>(
-      `http://localhost:3000/api/resources/${locale}`
-    )
+    const resource = await $fetch<ResourceSchema>(`http://localhost:3000/api/resources/${locale}`)
     const { code, filename } = await compile(locale, resource)
     await fs.writeFile(filename, code)
   }

@@ -59,25 +59,17 @@ function baseCompile(
 }
 
 /* #__NO_SIDE_EFFECTS__ */
-export function compile<
-  Message = string,
-  MessageSource = string | ResourceNode
->(
+export function compile<Message = string, MessageSource = string | ResourceNode>(
   message: MessageSource,
   context: MessageCompilerContext
 ): MessageFunction<Message> {
   if (
     !__RUNTIME__ &&
-    (__ESM_BROWSER__ ||
-      __NODE_JS__ ||
-      __GLOBAL__ ||
-      !__FEATURE_DROP_MESSAGE_COMPILER__) &&
+    (__ESM_BROWSER__ || __NODE_JS__ || __GLOBAL__ || !__FEATURE_DROP_MESSAGE_COMPILER__) &&
     isString(message)
   ) {
     // check HTML message
-    const warnHtmlMessage = isBoolean(context.warnHtmlMessage)
-      ? context.warnHtmlMessage
-      : true
+    const warnHtmlMessage = isBoolean(context.warnHtmlMessage) ? context.warnHtmlMessage : true
 
     __DEV__ && checkHtmlMessage(message, warnHtmlMessage)
 
@@ -101,9 +93,7 @@ export function compile<
     const msg = formatMessage<Message>(ast)
 
     // if occurred compile error, don't cache
-    return !detectError
-      ? ((compileCache as MessageFunctions<Message>)[cacheKey] = msg)
-      : msg
+    return !detectError ? ((compileCache as MessageFunctions<Message>)[cacheKey] = msg) : msg
   } else {
     if (__DEV__ && !isMessageAST(message)) {
       warn(
@@ -120,8 +110,9 @@ export function compile<
         return cached
       }
       // compose message function from message (AST)
-      return ((compileCache as MessageFunctions<Message>)[cacheKey] =
-        formatMessage<Message>(message as unknown as ResourceNode))
+      return ((compileCache as MessageFunctions<Message>)[cacheKey] = formatMessage<Message>(
+        message as unknown as ResourceNode
+      ))
     } else {
       return formatMessage<Message>(message as unknown as ResourceNode)
     }

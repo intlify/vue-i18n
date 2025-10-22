@@ -63,16 +63,8 @@ type CodeGenerator = {
 
 export const ERROR_DOMAIN = 'parser'
 
-function createCodeGenerator(
-  ast: ResourceNode,
-  options: CodeGenOptions
-): CodeGenerator {
-  const {
-    sourceMap,
-    filename,
-    breakLineCode,
-    needIndent: _needIndent
-  } = options
+function createCodeGenerator(ast: ResourceNode, options: CodeGenOptions): CodeGenerator {
+  const { sourceMap, filename, breakLineCode, needIndent: _needIndent } = options
   const location = options.location !== false
 
   const _context = {
@@ -170,10 +162,7 @@ function generateLinkedNode(generator: CodeGenerator, node: LinkedNode): void {
   generator.push(`)`)
 }
 
-function generateMessageNode(
-  generator: CodeGenerator,
-  node: MessageNode
-): void {
+function generateMessageNode(generator: CodeGenerator, node: MessageNode): void {
   const { helper, needIndent } = generator
   generator.push(`${helper(HelperNameMap.NORMALIZE)}([`)
   generator.indent(needIndent())
@@ -231,16 +220,10 @@ function generateNode(generator: CodeGenerator, node: Node): void {
       generateLinkedNode(generator, node as LinkedNode)
       break
     case NodeTypes.LinkedModifier:
-      generator.push(
-        JSON.stringify((node as LinkedModifierNode).value),
-        node as LinkedModifierNode
-      )
+      generator.push(JSON.stringify((node as LinkedModifierNode).value), node as LinkedModifierNode)
       break
     case NodeTypes.LinkedKey:
-      generator.push(
-        JSON.stringify((node as LinkedKeyNode).value),
-        node as LinkedKeyNode
-      )
+      generator.push(JSON.stringify((node as LinkedKeyNode).value), node as LinkedKeyNode)
       break
     case NodeTypes.List:
       generator.push(
@@ -259,37 +242,25 @@ function generateNode(generator: CodeGenerator, node: Node): void {
       )
       break
     case NodeTypes.Literal:
-      generator.push(
-        JSON.stringify((node as LiteralNode).value),
-        node as LiteralNode
-      )
+      generator.push(JSON.stringify((node as LiteralNode).value), node as LiteralNode)
       break
     case NodeTypes.Text:
       generator.push(JSON.stringify((node as TextNode).value), node as TextNode)
       break
     default:
       if (__DEV__) {
-        throw createCompileError(
-          CompileErrorCodes.UNHANDLED_CODEGEN_NODE_TYPE,
-          null,
-          {
-            domain: ERROR_DOMAIN,
-            args: [node.type]
-          }
-        )
+        throw createCompileError(CompileErrorCodes.UNHANDLED_CODEGEN_NODE_TYPE, null, {
+          domain: ERROR_DOMAIN,
+          args: [node.type]
+        })
       }
   }
 }
 
 // generate code from AST
-export const generate = (
-  ast: ResourceNode,
-  options: CodeGenOptions = {}
-): CodeGenResult => {
+export const generate = (ast: ResourceNode, options: CodeGenOptions = {}): CodeGenResult => {
   const mode = isString(options.mode) ? options.mode : 'normal'
-  const filename = isString(options.filename)
-    ? options.filename
-    : 'message.intl'
+  const filename = isString(options.filename) ? options.filename : 'message.intl'
   const sourceMap = !!options.sourceMap
   // prettier-ignore
   const breakLineCode = options.breakLineCode != null
@@ -368,9 +339,7 @@ function advancePositionWithSource(
   pos.offset += numberOfCharacters
   pos.line += linesCount
   pos.column =
-    lastNewLinePos === -1
-      ? pos.column + numberOfCharacters
-      : numberOfCharacters - lastNewLinePos
+    lastNewLinePos === -1 ? pos.column + numberOfCharacters : numberOfCharacters - lastNewLinePos
 
   return pos
 }

@@ -1,15 +1,7 @@
 import { assign, isBoolean, isPlainObject } from '@intlify/shared'
 import { compile } from '@vue/compiler-dom'
 import * as runtimeDom from 'vue'
-import {
-  createApp,
-  defineComponent,
-  h,
-  nextTick,
-  onErrorCaptured,
-  reactive,
-  shallowRef
-} from 'vue'
+import { createApp, defineComponent, h, nextTick, onErrorCaptured, reactive, shallowRef } from 'vue'
 
 import type {
   App,
@@ -91,9 +83,7 @@ export function mount<
   options: Partial<MountOptions> = {}
 ): Promise<Wrapper> {
   const TargetComponent = targetComponent
-  const installI18n = isBoolean(options.installI18n)
-    ? options.installI18n
-    : true
+  const installI18n = isBoolean(options.installI18n) ? options.installI18n : true
 
   const pluginOptions: I18nPluginOptions = isPlainObject(options.pluginOptions)
     ? options.pluginOptions

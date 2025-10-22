@@ -9,18 +9,11 @@
   <body>
     <div id="app">
       <!-- string argument -->
-      <p class="p1">
-        {{ t("messages.hello", { name: 'kazupon' }, 'hello, {name}!') }}
-      </p>
+      <p class="p1">{{ t("messages.hello", { name: 'kazupon' }, 'hello, {name}!') }}</p>
       <!-- `default` option (string) -->
-      <p class="p2">
-        {{ t("messages.hello", { name: 'kazupon' }, { default: 'hi, {name}!' })
-        }}
-      </p>
+      <p class="p2">{{ t("messages.hello", { name: 'kazupon' }, { default: 'hi, {name}!' }) }}</p>
       <!-- `default` option (true) -->
-      <p class="p3">
-        {{ t("good morning, {name}!", { name: 'kazupon' }, { default: true }) }}
-      </p>
+      <p class="p3">{{ t("good morning, {name}!", { name: 'kazupon' }, { default: true }) }}</p>
     </div>
     <script>
       const { createApp } = Vue

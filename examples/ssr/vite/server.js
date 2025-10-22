@@ -6,15 +6,10 @@ const monitor = require('express-status-monitor')
 
 const isTest = process.env.NODE_ENV === 'test' || !!process.env.VITE_TEST_BUILD
 
-async function createServer(
-  root = process.cwd(),
-  isProd = process.env.NODE_ENV === 'production'
-) {
+async function createServer(root = process.cwd(), isProd = process.env.NODE_ENV === 'production') {
   const resolve = p => path.resolve(__dirname, p)
 
-  const indexProd = isProd
-    ? fs.readFileSync(resolve('dist/client/index.html'), 'utf-8')
-    : ''
+  const indexProd = isProd ? fs.readFileSync(resolve('dist/client/index.html'), 'utf-8') : ''
 
   const manifest = isProd
     ? // @ts-ignore

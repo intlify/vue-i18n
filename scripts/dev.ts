@@ -21,9 +21,7 @@ import { spawnSync } from 'node:child_process'
 import { parseArgs } from 'node:util'
 import { fuzzyMatchTarget } from './utils'
 
-const commit = spawnSync('git', ['rev-parse', '--short=7', 'HEAD'])
-  .stdout.toString()
-  .trim()
+const commit = spawnSync('git', ['rev-parse', '--short=7', 'HEAD']).stdout.toString().trim()
 
 const { values, positionals: targets } = parseArgs({
   allowPositionals: true,
@@ -44,9 +42,7 @@ const { formats: rawFormats, sourceMap } = values
 const formats = rawFormats?.split(',')
 
 async function main() {
-  const resolveTarget = targets.length
-    ? (await fuzzyMatchTarget(targets))[0]
-    : 'vue-i18n'
+  const resolveTarget = targets.length ? (await fuzzyMatchTarget(targets))[0] : 'vue-i18n'
 
   // eslint-disable-next-line @typescript-eslint/no-floating-promises
   execa(

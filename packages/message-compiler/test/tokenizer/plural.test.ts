@@ -1,9 +1,7 @@
 import { createTokenizer, TokenTypes } from '../../src/tokenizer'
 
 test('basic', () => {
-  const tokenizer = createTokenizer(
-    'no apples | one apple  |  too much apples  '
-  )
+  const tokenizer = createTokenizer('no apples | one apple  |  too much apples  ')
   expect(tokenizer.nextToken()).toEqual({
     type: TokenTypes.Text,
     value: 'no apples',
@@ -47,9 +45,7 @@ test('basic', () => {
 })
 
 test('multi lines', () => {
-  const tokenizer = createTokenizer(
-    'no apples |\n one apple  |\n  too much apples  '
-  )
+  const tokenizer = createTokenizer('no apples |\n one apple  |\n  too much apples  ')
   expect(tokenizer.nextToken()).toEqual({
     type: TokenTypes.Text,
     value: 'no apples',
@@ -100,9 +96,7 @@ test('multi lines', () => {
 })
 
 test('include modulo', () => {
-  const tokenizer = createTokenizer(
-    'no apples %| one apple % |  too much apples  '
-  )
+  const tokenizer = createTokenizer('no apples %| one apple % |  too much apples  ')
   expect(tokenizer.nextToken()).toEqual({
     type: TokenTypes.Text,
     value: 'no apples %',

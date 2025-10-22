@@ -58,9 +58,8 @@ export const BaseFormatPropsValidators: Record<string, any> = {
   scope: {
     type: String,
     // NOTE: avoid https://github.com/microsoft/rushstack/issues/1050
-    validator: (
-      val: Exclude<I18nScope, 'local'> /* ComponentI18nScope */
-    ): boolean => val === 'parent' || val === 'global',
+    validator: (val: Exclude<I18nScope, 'local'> /* ComponentI18nScope */): boolean =>
+      val === 'parent' || val === 'global',
     default: 'parent' as Exclude<I18nScope, 'local'> /* ComponentI18nScope */
   },
   i18n: {

@@ -2,10 +2,7 @@ import IntlMessageFormat from 'intl-messageformat'
 
 import type { MessageCompiler, CompileError, MessageContext } from 'vue-i18n'
 
-export const messageCompiler: MessageCompiler = (
-  message,
-  { locale, key, onError }
-) => {
+export const messageCompiler: MessageCompiler = (message, { locale, key, onError }) => {
   if (typeof message === 'string') {
     /**
      * You can tune your message compiler performance more with your cache strategy or also memoization at here

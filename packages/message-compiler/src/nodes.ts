@@ -61,12 +61,7 @@ export interface MessageNode extends Node {
   i?: MessageElementNode[]
 }
 
-type MessageElementNode =
-  | TextNode
-  | NamedNode
-  | ListNode
-  | LiteralNode
-  | LinkedNode
+type MessageElementNode = TextNode | NamedNode | ListNode | LiteralNode | LinkedNode
 
 export interface TextNode extends Node {
   type: NodeTypes.Text

@@ -68,9 +68,7 @@ describe('handleFlatJson', () => {
   // security advisories
   // ref: https://github.com/intlify/vue-i18n/security/advisories/GHSA-p2ph-7g93-hw3m
   test('prototype pollution', () => {
-    expect(() =>
-      handleFlatJson({ '__proto__.pollutedKey': 'pollutedValue' })
-    ).toThrow()
+    expect(() => handleFlatJson({ '__proto__.pollutedKey': 'pollutedValue' })).toThrow()
     // @ts-ignore -- test
     // eslint-disable-next-line no-proto
     expect({}.__proto__.pollutedKey).toBeUndefined()

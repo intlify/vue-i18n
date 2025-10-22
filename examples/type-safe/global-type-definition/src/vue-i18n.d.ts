@@ -6,11 +6,7 @@
 /**
  * you need to import the some interfaces
  */
-import {
-  DefineLocaleMessage,
-  DefineDateTimeFormat,
-  DefineNumberFormat
-} from 'vue-i18n'
+import { DefineLocaleMessage, DefineDateTimeFormat, DefineNumberFormat } from 'vue-i18n'
 
 declare module 'vue-i18n' {
   // define the locale messages schema

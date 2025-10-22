@@ -50,8 +50,7 @@ export const CompileErrorCodes = {
 // This should always be kept as the last item.
 export const COMPILE_ERROR_CODES_EXTEND_POINT: number = 17
 
-export type CompileErrorCodes =
-  (typeof CompileErrorCodes)[keyof typeof CompileErrorCodes]
+export type CompileErrorCodes = (typeof CompileErrorCodes)[keyof typeof CompileErrorCodes]
 
 /** @internal */
 export const errorMessages: { [code: number]: string } = {
@@ -83,9 +82,7 @@ export function createCompileError<T extends number>(
   options: CompileErrorOptions = {}
 ): CompileError {
   const { domain, messages, args } = options
-  const msg = __DEV__
-    ? format((messages || errorMessages)[code] || '', ...(args || []))
-    : code
+  const msg = __DEV__ ? format((messages || errorMessages)[code] || '', ...(args || [])) : code
   const error = new SyntaxError(String(msg)) as CompileError
   error.code = code
   if (loc) {

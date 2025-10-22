@@ -33,9 +33,7 @@ import {
 } from './utils'
 
 const __dirname = fileURLToPath(new URL('.', import.meta.url))
-const commit = spawnSync('git', ['rev-parse', '--short=7', 'HEAD'])
-  .stdout.toString()
-  .trim()
+const commit = spawnSync('git', ['rev-parse', '--short=7', 'HEAD']).stdout.toString().trim()
 
 const { values, positionals: targets } = parseArgs({
   allowPositionals: true,
@@ -165,8 +163,7 @@ async function main() {
     }
 
     const env =
-      (pkg.buildOptions && pkg.buildOptions.env) ||
-      (devOnly ? 'development' : 'production')
+      (pkg.buildOptions && pkg.buildOptions.env) || (devOnly ? 'development' : 'production')
     await execa(
       'rollup',
       [
@@ -199,21 +196,16 @@ async function main() {
 
     if (pkg.types) {
       console.log()
-      console.log(
-        pc.bold(pc.yellow(`Rolling up type definitions for ${target}...`))
-      )
+      console.log(pc.bold(pc.yellow(`Rolling up type definitions for ${target}...`)))
       // build types
       const _extractorConfigPath = path.resolve(pkgDir, `api-extractor.json`)
       const extractorConfigPaths = [_extractorConfigPath]
       if (target === 'vue-i18n-core') {
-        extractorConfigPaths.push(
-          path.resolve(pkgDir, `api-extractor-petite.json`)
-        )
+        extractorConfigPaths.push(path.resolve(pkgDir, `api-extractor-petite.json`))
       }
 
       for (const extractorConfigPath of extractorConfigPaths) {
-        const extractorConfig =
-          ExtractorConfig.loadFileAndPrepare(extractorConfigPath)
+        const extractorConfig = ExtractorConfig.loadFileAndPrepare(extractorConfigPath)
         const extractorResult = Extractor.invoke(extractorConfig, {
           localBuild: true,
           showVerboseMessages: true
@@ -227,15 +219,11 @@ async function main() {
             const existing = await fs.readFile(dtsPath, 'utf-8')
             const typeFiles = await fs.readdir(typesDir)
             const toAdd = await Promise.all(
-              typeFiles.map(file =>
-                fs.readFile(path.resolve(typesDir, file), 'utf-8')
-              )
+              typeFiles.map(file => fs.readFile(path.resolve(typesDir, file), 'utf-8'))
             )
             await fs.writeFile(dtsPath, existing + '\n' + toAdd.join('\n'))
           }
-          console.log(
-            pc.bold(pc.green(`API Extractor completed successfully.`))
-          )
+          console.log(pc.bold(pc.green(`API Extractor completed successfully.`)))
         } else {
           console.error(
             `API Extractor completed with ${extractorResult.errorCount} errors` +
@@ -247,17 +235,12 @@ async function main() {
 
       if (['vue-i18n', 'petite-vue-i18n'].includes(target)) {
         console.log()
-        console.log(
-          pc.bold(pc.yellow(`Appending Vue type definitions for ${target}...`))
-        )
+        console.log(pc.bold(pc.yellow(`Appending Vue type definitions for ${target}...`)))
 
         let content = ''
 
         try {
-          content = await fs.readFile(
-            path.resolve(pkgDir, 'src/vue.d.ts'),
-            'utf-8'
-          )
+          content = await fs.readFile(path.resolve(pkgDir, 'src/vue.d.ts'), 'utf-8')
         } catch (e) {
           console.error(
             `Failed in opening Vue type definition file with error code: ${(e as NodeJS.ErrnoException).code}`
@@ -276,11 +259,7 @@ async function main() {
           process.exitCode = 1
         }
 
-        console.log(
-          pc.bold(
-            pc.green(`Appending Vue type definitions completed successfully.`)
-          )
-        )
+        console.log(pc.bold(pc.green(`Appending Vue type definitions completed successfully.`)))
       }
 
       await fs.rm(`${pkgDir}/dist/packages`, { recursive: true })
@@ -332,11 +311,7 @@ async function main() {
         null,
         2
       )
-      await fs.writeFile(
-        path.resolve(sizeDir, `${filename}.json`),
-        sizeContents,
-        'utf-8'
-      )
+      await fs.writeFile(path.resolve(sizeDir, `${filename}.json`), sizeContents, 'utf-8')
     }
   }
 }

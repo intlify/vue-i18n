@@ -124,9 +124,7 @@ test('with object argument', () => {
     numberFormats
   })
 
-  expect(number(ctx, 10100, { key: 'currency', locale: 'ja-JP' })).toEqual(
-    '￥10,100'
-  )
+  expect(number(ctx, 10100, { key: 'currency', locale: 'ja-JP' })).toEqual('￥10,100')
 })
 
 test('override format options with number function options', () => {
@@ -139,23 +137,14 @@ test('override format options with number function options', () => {
     numberFormats
   })
 
-  expect(number(ctx, 10100, 'currency', { currency: 'EUR' })).toEqual(
+  expect(number(ctx, 10100, 'currency', { currency: 'EUR' })).toEqual('€10,100.00')
+  expect(number(ctx, 10100, 'currency', 'ja-JP', { currency: 'EUR' })).toEqual('€10,100.00')
+  expect(number(ctx, 10100, { key: 'currency', locale: 'ja-JP' }, { currency: 'EUR' })).toEqual(
     '€10,100.00'
   )
-  expect(number(ctx, 10100, 'currency', 'ja-JP', { currency: 'EUR' })).toEqual(
+  expect(number(ctx, 10100, { key: 'currency', locale: 'ja-JP', currency: 'EUR' })).toEqual(
     '€10,100.00'
   )
-  expect(
-    number(
-      ctx,
-      10100,
-      { key: 'currency', locale: 'ja-JP' },
-      { currency: 'EUR' }
-    )
-  ).toEqual('€10,100.00')
-  expect(
-    number(ctx, 10100, { key: 'currency', locale: 'ja-JP', currency: 'EUR' })
-  ).toEqual('€10,100.00')
   expect(
     number(ctx, 123456.789, {
       style: 'currency',
@@ -219,9 +208,7 @@ test(`number function fallbackWarn 'false' option`, () => {
     numberFormats
   })
 
-  expect(number(ctx, 0.99, { key: 'percent', fallbackWarn: false })).toEqual(
-    '99%'
-  )
+  expect(number(ctx, 0.99, { key: 'percent', fallbackWarn: false })).toEqual('99%')
   expect(mockWarn).not.toHaveBeenCalled()
 })
 
@@ -273,9 +260,7 @@ test('part', () => {
     numberFormats
   })
 
-  expect(
-    number(ctx, 10100, { key: 'currency', locale: 'ja-JP', part: true })
-  ).toEqual([
+  expect(number(ctx, 10100, { key: 'currency', locale: 'ja-JP', part: true })).toEqual([
     { type: 'currency', value: '￥' },
     { type: 'integer', value: '10' },
     { type: 'group', value: ',' },

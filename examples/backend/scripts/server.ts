@@ -1,11 +1,5 @@
 import { createServer } from 'node:http'
-import {
-  createApp,
-  eventHandler,
-  createRouter,
-  toNodeListener,
-  setHeaders
-} from 'h3'
+import { createApp, eventHandler, createRouter, toNodeListener, setHeaders } from 'h3'
 
 const app = createApp()
 const router = createRouter()

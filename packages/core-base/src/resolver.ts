@@ -78,10 +78,7 @@ pathStateMachine[States.IN_IDENT] = {
 pathStateMachine[States.IN_SUB_PATH] = {
   [PathCharTypes.SINGLE_QUOTE]: [States.IN_SINGLE_QUOTE, Actions.APPEND],
   [PathCharTypes.DOUBLE_QUOTE]: [States.IN_DOUBLE_QUOTE, Actions.APPEND],
-  [PathCharTypes.LEFT_BRACKET]: [
-    States.IN_SUB_PATH,
-    Actions.INC_SUB_PATH_DEPTH
-  ],
+  [PathCharTypes.LEFT_BRACKET]: [States.IN_SUB_PATH, Actions.INC_SUB_PATH_DEPTH],
   [PathCharTypes.RIGHT_BRACKET]: [States.IN_PATH, Actions.PUSH_SUB_PATH],
   [PathCharTypes.END_OF_FAIL]: States.ERROR,
   [PathCharTypes.ELSE]: [States.IN_SUB_PATH, Actions.APPEND]
@@ -164,9 +161,7 @@ function formatSubPath(path: string): boolean | string {
     return false
   }
 
-  return isLiteral(trimmed)
-    ? stripQuotes(trimmed)
-    : PathCharTypes.ASTARISK + trimmed
+  return isLiteral(trimmed) ? stripQuotes(trimmed) : PathCharTypes.ASTARISK + trimmed
 }
 
 /**
@@ -228,10 +223,8 @@ export function parse(path: Path): string[] | undefined {
   function maybeUnescapeQuote() {
     const nextChar = path[index + 1]
     if (
-      (mode === States.IN_SINGLE_QUOTE &&
-        nextChar === PathCharTypes.SINGLE_QUOTE) ||
-      (mode === States.IN_DOUBLE_QUOTE &&
-        nextChar === PathCharTypes.DOUBLE_QUOTE)
+      (mode === States.IN_SINGLE_QUOTE && nextChar === PathCharTypes.SINGLE_QUOTE) ||
+      (mode === States.IN_DOUBLE_QUOTE && nextChar === PathCharTypes.DOUBLE_QUOTE)
     ) {
       index++
       newChar = '\\' + nextChar

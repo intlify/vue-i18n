@@ -49,12 +49,7 @@ import {
   SetPluralRulesSymbol,
   TranslateVNodeSymbol
 } from './symbols'
-import {
-  createTextNode,
-  getComponentOptions,
-  getLocaleMessages,
-  handleFlatJson
-} from './utils'
+import { createTextNode, getComponentOptions, getLocaleMessages, handleFlatJson } from './utils'
 import { I18nWarnCodes, getWarnMessage } from './warnings'
 
 import type {
@@ -646,9 +641,7 @@ export interface ComposerTranslation<
         [K in keyof DefinedLocaleMessage]: DefinedLocaleMessage[K]
       }>
     : never,
-  M = IsEmptyObject<Messages> extends false
-    ? TranslationsPaths<Messages>
-    : never,
+  M = IsEmptyObject<Messages> extends false ? TranslationsPaths<Messages> : never,
   ResourceKeys extends C | M = IsNever<C> extends false
     ? IsNever<M> extends false
       ? C | M
@@ -732,10 +725,7 @@ export interface ComposerTranslation<
    *
    * @returns Translated message
    */
-  <Key extends string>(
-    key: Key | ResourceKeys | number,
-    defaultMsg: string
-  ): string
+  <Key extends string>(key: Key | ResourceKeys | number, defaultMsg: string): string
   /**
    * Locale message translation for missing default message
    *
@@ -776,10 +766,7 @@ export interface ComposerTranslation<
    *
    * @VueI18nSee [List interpolation](../../guide/essentials/syntax#list-interpolation)
    */
-  <Key extends string>(
-    key: Key | ResourceKeys | number,
-    list: unknown[]
-  ): string
+  <Key extends string>(key: Key | ResourceKeys | number, list: unknown[]): string
   /**
    * Locale message translation for list interpolations and plurals
    *
@@ -797,11 +784,7 @@ export interface ComposerTranslation<
    * @VueI18nSee [Pluralization](../../guide/essentials/pluralization)
    * @VueI18nSee [List interpolation](../../guide/essentials/syntax#list-interpolation)
    */
-  <Key extends string>(
-    key: Key | ResourceKeys | number,
-    list: unknown[],
-    plural: number
-  ): string
+  <Key extends string>(key: Key | ResourceKeys | number, list: unknown[], plural: number): string
   /**
    * Locale message translation for list interpolations and missing default message
    *
@@ -865,10 +848,7 @@ export interface ComposerTranslation<
    *
    * @VueI18nSee [Named interpolation](../../guide/essentials/syntax#named-interpolation)
    */
-  <Key extends string>(
-    key: Key | ResourceKeys | number,
-    named: NamedValue
-  ): string
+  <Key extends string>(key: Key | ResourceKeys | number, named: NamedValue): string
   /**
    * Locale message translation for named interpolations and plurals
    *
@@ -886,11 +866,7 @@ export interface ComposerTranslation<
    * @VueI18nSee [Pluralization](../../guide/essentials/pluralization)
    * @VueI18nSee [Named interpolation](../../guide/essentials/syntax#named-interpolation)
    */
-  <Key extends string>(
-    key: Key | ResourceKeys | number,
-    named: NamedValue,
-    plural: number
-  ): string
+  <Key extends string>(key: Key | ResourceKeys | number, named: NamedValue, plural: number): string
   /**
    * Locale message translation for named interpolations and plurals
    *
@@ -1072,9 +1048,7 @@ export interface ComposerDateTimeFormatting<
         [K in keyof DefinedDateTimeFormat]: DefinedDateTimeFormat[K]
       }>
     : never,
-  M = IsEmptyObject<DateTimeFormats> extends false
-    ? PickupFormatKeys<DateTimeFormats>
-    : never,
+  M = IsEmptyObject<DateTimeFormats> extends false ? PickupFormatKeys<DateTimeFormats> : never,
   ResourceKeys extends C | M = IsNever<C> extends false
     ? IsNever<M> extends false
       ? C | M
@@ -1116,10 +1090,7 @@ export interface ComposerDateTimeFormatting<
   <
     Value extends number | Date | string = number,
     Key extends string = string,
-    OptionsType extends
-      | Key
-      | ResourceKeys
-      | DateTimeOptions<Key | ResourceKeys, Locales> =
+    OptionsType extends Key | ResourceKeys | DateTimeOptions<Key | ResourceKeys, Locales> =
       | Key
       | ResourceKeys
       | DateTimeOptions<Key | ResourceKeys, Locales>
@@ -1144,10 +1115,7 @@ export interface ComposerDateTimeFormatting<
   <
     Value extends number | Date | string = number,
     Key extends string = string,
-    OptionsType extends
-      | Key
-      | ResourceKeys
-      | DateTimeOptions<Key | ResourceKeys, Locales> =
+    OptionsType extends Key | ResourceKeys | DateTimeOptions<Key | ResourceKeys, Locales> =
       | Key
       | ResourceKeys
       | DateTimeOptions<Key | ResourceKeys, Locales>
@@ -1176,9 +1144,7 @@ export interface ComposerNumberFormatting<
         [K in keyof DefinedNumberFormat]: DefinedNumberFormat[K]
       }>
     : never,
-  M = IsEmptyObject<NumberFormats> extends false
-    ? PickupFormatKeys<NumberFormats>
-    : never,
+  M = IsEmptyObject<NumberFormats> extends false ? PickupFormatKeys<NumberFormats> : never,
   ResourceKeys extends C | M = IsNever<C> extends false
     ? IsNever<M> extends false
       ? C | M
@@ -1219,10 +1185,7 @@ export interface ComposerNumberFormatting<
    */
   <
     Key extends string = string,
-    OptionsType extends
-      | Key
-      | ResourceKeys
-      | NumberOptions<Key | ResourceKeys, Locales> =
+    OptionsType extends Key | ResourceKeys | NumberOptions<Key | ResourceKeys, Locales> =
       | Key
       | ResourceKeys
       | NumberOptions<Key | ResourceKeys, Locales>
@@ -1246,10 +1209,7 @@ export interface ComposerNumberFormatting<
    */
   <
     Key extends string = string,
-    OptionsType extends
-      | Key
-      | ResourceKeys
-      | NumberOptions<Key | ResourceKeys, Locales> =
+    OptionsType extends Key | ResourceKeys | NumberOptions<Key | ResourceKeys, Locales> =
       | Key
       | ResourceKeys
       | NumberOptions<Key | ResourceKeys, Locales>
@@ -1492,10 +1452,7 @@ export interface Composer<
    *
    * @returns If found locale message, `true`, else `false`, Note that `false` is returned even if the value present in the key is not translatable, yet if `translateExistCompatible` is set to `true`, it will return `true` if the key is available, even if the value is not translatable.
    */
-  te<
-    Str extends string,
-    Key extends PickupKeys<Messages> = PickupKeys<Messages>
-  >(
+  te<Str extends string, Key extends PickupKeys<Messages> = PickupKeys<Messages>>(
     key: Str | Key,
     locale?: Locales
   ): boolean
@@ -1562,9 +1519,7 @@ export interface Composer<
   tm<
     Key extends string,
     ResourceKeys extends PickupKeys<Messages> = PickupKeys<Messages>,
-    Locale extends PickupLocales<NonNullable<Messages>> = PickupLocales<
-      NonNullable<Messages>
-    >,
+    Locale extends PickupLocales<NonNullable<Messages>> = PickupLocales<NonNullable<Messages>>,
     Target = IsEmptyObject<Messages> extends false
       ? NonNullable<Messages>[Locale]
       : RemoveIndexSignature<{
@@ -1591,9 +1546,7 @@ export interface Composer<
   getLocaleMessage<
     MessageSchema extends LocaleMessage<VueMessageType> = never,
     LocaleSchema extends string = string,
-    Locale extends PickupLocales<NonNullable<Messages>> = PickupLocales<
-      NonNullable<Messages>
-    >,
+    Locale extends PickupLocales<NonNullable<Messages>> = PickupLocales<NonNullable<Messages>>,
     Return = IsNever<MessageSchema> extends true
       ? IsEmptyObject<Messages> extends true
         ? RemoveIndexSignature<{
@@ -1618,9 +1571,7 @@ export interface Composer<
   setLocaleMessage<
     MessageSchema extends LocaleMessage<VueMessageType> = never,
     LocaleSchema extends string = string,
-    Locale extends PickupLocales<NonNullable<Messages>> = PickupLocales<
-      NonNullable<Messages>
-    >,
+    Locale extends PickupLocales<NonNullable<Messages>> = PickupLocales<NonNullable<Messages>>,
     MessageType = IsNever<MessageSchema> extends true
       ? IsEmptyObject<Messages> extends true
         ? RemoveIndexSignature<{
@@ -1647,12 +1598,8 @@ export interface Composer<
   mergeLocaleMessage<
     MessageSchema extends LocaleMessage<VueMessageType> = never,
     LocaleSchema extends string = string,
-    Locale extends PickupLocales<NonNullable<Messages>> = PickupLocales<
-      NonNullable<Messages>
-    >,
-    Message = IsNever<MessageSchema> extends true
-      ? Record<string, any>
-      : MessageSchema
+    Locale extends PickupLocales<NonNullable<Messages>> = PickupLocales<NonNullable<Messages>>,
+    Message = IsNever<MessageSchema> extends true ? Record<string, any> : MessageSchema
   >(
     locale: LocaleSchema | Locale,
     message: Message
@@ -1731,9 +1678,7 @@ export interface Composer<
     Locale extends PickupLocales<NonNullable<DateTimeFormats>> = PickupLocales<
       NonNullable<DateTimeFormats>
     >,
-    Formats = IsNever<DateTimeSchema> extends true
-      ? Record<string, any>
-      : DateTimeSchema
+    Formats = IsNever<DateTimeSchema> extends true ? Record<string, any> : DateTimeSchema
   >(
     locale: LocaleSchema | Locale,
     format: Formats
@@ -1812,9 +1757,7 @@ export interface Composer<
     Locale extends PickupLocales<NonNullable<NumberFormats>> = PickupLocales<
       NonNullable<NumberFormats>
     >,
-    Formats = IsNever<NumberSchema> extends true
-      ? Record<string, any>
-      : NumberSchema
+    Formats = IsNever<NumberSchema> extends true ? Record<string, any> : NumberSchema
   >(
     locale: LocaleSchema | Locale,
     format: Formats
@@ -1834,9 +1777,7 @@ export interface Composer<
    *
    * @VueI18nSee [missing](composition#posttranslation)
    */
-  setPostTranslationHandler(
-    handler: PostTranslationHandler<VueMessageType> | null
-  ): void
+  setPostTranslationHandler(handler: PostTranslationHandler<VueMessageType> | null): void
   /**
    * Get missing handler
    *
@@ -1875,12 +1816,7 @@ const NOOP_RETURN_FALSE = () => false
 let composerID = 0
 
 function defineCoreMissingHandler(missing: MissingHandler): CoreMissingHandler {
-  return ((
-    ctx: CoreContext,
-    locale: Locale,
-    key: Path,
-    type: string
-  ): string | void => {
+  return ((ctx: CoreContext, locale: Locale, key: Path, type: string): string | void => {
     return missing(locale, key, getCurrentInstance() || undefined, type)
   }) as CoreMissingHandler
 }
@@ -1897,22 +1833,16 @@ const getMetaInfo = (): MetaInfo | null => {
 
 export function createComposer<
   Options extends ComposerOptions = ComposerOptions,
-  Messages extends Record<string, any> = Options['messages'] extends Record<
+  Messages extends Record<string, any> = Options['messages'] extends Record<string, any>
+    ? Options['messages']
+    : {},
+  DateTimeFormats extends Record<string, any> = Options['datetimeFormats'] extends Record<
     string,
     any
   >
-    ? Options['messages']
-    : {},
-  DateTimeFormats extends Record<
-    string,
-    any
-  > = Options['datetimeFormats'] extends Record<string, any>
     ? Options['datetimeFormats']
     : {},
-  NumberFormats extends Record<
-    string,
-    any
-  > = Options['numberFormats'] extends Record<string, any>
+  NumberFormats extends Record<string, any> = Options['numberFormats'] extends Record<string, any>
     ? Options['numberFormats']
     : {}
 >(options: Options): Composer<Messages, DateTimeFormats, NumberFormats>
@@ -1923,13 +1853,11 @@ export function createComposer<
   Options extends ComposerOptions<
     SchemaParams<Schema, VueMessageType>,
     LocaleParams<Locales>
-  > = ComposerOptions<
-    SchemaParams<Schema, VueMessageType>,
-    LocaleParams<Locales>
-  >,
-  Messages extends Record<string, any> = NonNullable<
-    Options['messages']
-  > extends Record<string, any>
+  > = ComposerOptions<SchemaParams<Schema, VueMessageType>, LocaleParams<Locales>>,
+  Messages extends Record<string, any> = NonNullable<Options['messages']> extends Record<
+    string,
+    any
+  >
     ? NonNullable<Options['messages']>
     : {},
   DateTimeFormats extends Record<string, any> = NonNullable<
@@ -1937,9 +1865,10 @@ export function createComposer<
   > extends Record<string, any>
     ? NonNullable<Options['datetimeFormats']>
     : {},
-  NumberFormats extends Record<string, any> = NonNullable<
-    Options['numberFormats']
-  > extends Record<string, any>
+  NumberFormats extends Record<string, any> = NonNullable<Options['numberFormats']> extends Record<
+    string,
+    any
+  >
     ? NonNullable<Options['numberFormats']>
     : {}
 >(options: Options): Composer<Messages, DateTimeFormats, NumberFormats>
@@ -1961,9 +1890,7 @@ export function createComposer(options: any = {}): any {
   const flatJson = options.flatJson
   const _ref = inBrowser ? ref : shallowRef
 
-  let _inheritLocale = isBoolean(options.inheritLocale)
-    ? options.inheritLocale
-    : true
+  let _inheritLocale = isBoolean(options.inheritLocale) ? options.inheritLocale : true
 
   const _locale = _ref<Locale>(
     // prettier-ignore
@@ -1987,10 +1914,7 @@ export function createComposer(options: any = {}): any {
   )
 
   const _messages = _ref(
-    getLocaleMessages<LocaleMessages<LocaleMessage<Message>>>(
-      _locale.value as Locale,
-      options
-    )
+    getLocaleMessages<LocaleMessages<LocaleMessage<Message>>>(_locale.value as Locale, options)
   )
 
   // prettier-ignore
@@ -2043,9 +1967,7 @@ export function createComposer(options: any = {}): any {
     : null
 
   // postTranslation handler
-  let _postTranslation = isFunction(options.postTranslation)
-    ? options.postTranslation
-    : null
+  let _postTranslation = isFunction(options.postTranslation) ? options.postTranslation : null
 
   // prettier-ignore
   let _warnHtmlMessage = __root
@@ -2157,19 +2079,13 @@ export function createComposer(options: any = {}): any {
   )
 
   // availableLocales
-  const availableLocales = computed<Locale[]>(() =>
-    Object.keys(_messages.value).sort()
-  )
+  const availableLocales = computed<Locale[]>(() => Object.keys(_messages.value).sort())
 
   // datetimeFormats
-  const datetimeFormats = /* #__PURE__*/ computed<DateTimeFormatsType>(
-    () => _datetimeFormats.value
-  )
+  const datetimeFormats = /* #__PURE__*/ computed<DateTimeFormatsType>(() => _datetimeFormats.value)
 
   // numberFormats
-  const numberFormats = /* #__PURE__*/ computed<NumberFormatsType>(
-    () => _numberFormats.value
-  )
+  const numberFormats = /* #__PURE__*/ computed<NumberFormatsType>(() => _numberFormats.value)
 
   // getPostTranslationHandler
   function getPostTranslationHandler(): PostTranslationHandler<Message> | null {
@@ -2177,9 +2093,7 @@ export function createComposer(options: any = {}): any {
   }
 
   // setPostTranslationHandler
-  function setPostTranslationHandler(
-    handler: PostTranslationHandler | null
-  ): void {
+  function setPostTranslationHandler(handler: PostTranslationHandler | null): void {
     _postTranslation = handler
     _context.postTranslation = handler
   }
@@ -2198,10 +2112,7 @@ export function createComposer(options: any = {}): any {
     _context.missing = _runtimeMissing
   }
 
-  function isResolvedTranslateMessage(
-    type: ComposerWarnType,
-    arg: any
-  ): boolean {
+  function isResolvedTranslateMessage(type: ComposerWarnType, arg: any): boolean {
     return type !== 'translate' || !arg.resolvedMessage
   }
 
@@ -2221,9 +2132,7 @@ export function createComposer(options: any = {}): any {
         setAdditionalMeta(getMetaInfo())
       }
       if (!_isGlobal) {
-        _context.fallbackContext = __root
-          ? (getFallbackContext() as any)
-          : undefined
+        _context.fallbackContext = __root ? (getFallbackContext() as any) : undefined
       }
       ret = fn(_context)
     } finally {
@@ -2241,16 +2150,10 @@ export function createComposer(options: any = {}): any {
       (warnType === 'translate exists' && !ret) // for `te`
     ) {
       const [key, arg2] = argumentParser()
-      if (
-        __DEV__ &&
-        __root &&
-        isString(key) &&
-        isResolvedTranslateMessage(warnType, arg2)
-      ) {
+      if (__DEV__ && __root && isString(key) && isResolvedTranslateMessage(warnType, arg2)) {
         if (
           _fallbackRoot &&
-          (isTranslateFallbackWarn(_fallbackWarn, key) ||
-            isTranslateMissingWarn(_missingWarn, key))
+          (isTranslateFallbackWarn(_fallbackWarn, key) || isTranslateMissingWarn(_missingWarn, key))
         ) {
           warn(
             getWarnMessage(I18nWarnCodes.FALLBACK_TO_ROOT, {
@@ -2261,8 +2164,7 @@ export function createComposer(options: any = {}): any {
         }
         // for vue-devtools timeline event
         if (__DEV__) {
-          const { __v_emitter: emitter } =
-            _context as unknown as CoreInternalContext
+          const { __v_emitter: emitter } = _context as unknown as CoreInternalContext
           if (emitter && _fallbackRoot) {
             emitter.emit('fallback', {
               type: warnType,
@@ -2309,9 +2211,7 @@ export function createComposer(options: any = {}): any {
   function d(...args: unknown[]): string | Intl.DateTimeFormatPart[] {
     return wrapWithDeps<{}, string | Intl.DateTimeFormatPart[]>(
       context =>
-        Reflect.apply(datetime, null, [context, ...args]) as
-          | string
-          | Intl.DateTimeFormatPart[],
+        Reflect.apply(datetime, null, [context, ...args]) as string | Intl.DateTimeFormatPart[],
       () => parseDateTimeArgs(...args),
       'datetime format',
       root => Reflect.apply(root.d, root, [...args]),
@@ -2333,13 +2233,9 @@ export function createComposer(options: any = {}): any {
   }
 
   // for custom processor
-  function normalize(
-    values: MessageType<string | VNode>[]
-  ): MessageType<VNode>[] {
+  function normalize(values: MessageType<string | VNode>[]): MessageType<VNode>[] {
     return values.map(val =>
-      isString(val) || isNumber(val) || isBoolean(val)
-        ? createTextNode(String(val))
-        : val
+      isString(val) || isNumber(val) || isBoolean(val) ? createTextNode(String(val)) : val
     )
   }
   const interpolate = (val: unknown): MessageType<VNode> => val as VNode
@@ -2354,10 +2250,7 @@ export function createComposer(options: any = {}): any {
     return wrapWithDeps<VNode, VNodeArrayChildren>(
       context => {
         let ret: unknown
-        const _context = context as CoreContext<
-          VNode,
-          LocaleMessages<LocaleMessage<Message>>
-        >
+        const _context = context as CoreContext<VNode, LocaleMessages<LocaleMessage<Message>>>
         try {
           _context.processor = processor
           ret = Reflect.apply(translate, null, [_context, ...args])
@@ -2389,9 +2282,7 @@ export function createComposer(options: any = {}): any {
   }
 
   // datetimeParts, using for `i18n-d` component
-  function datetimeParts(
-    ...args: unknown[]
-  ): string | Intl.DateTimeFormatPart[] {
+  function datetimeParts(...args: unknown[]): string | Intl.DateTimeFormatPart[] {
     return wrapWithDeps<{}, string | Intl.DateTimeFormatPart[]>(
       context => Reflect.apply(datetime, null, [context, ...args]),
       () => parseDateTimeArgs(...args),
@@ -2418,11 +2309,7 @@ export function createComposer(options: any = {}): any {
         const targetLocale = isString(locale) ? locale : _locale.value
         const message = getLocaleMessage(targetLocale)
         const resolved = _context.messageResolver(message, key)
-        return (
-          isMessageAST(resolved) ||
-          isMessageFunction(resolved) ||
-          isString(resolved)
-        )
+        return isMessageAST(resolved) || isMessageFunction(resolved) || isString(resolved)
       },
       () => [key],
       'translate exists',
@@ -2436,11 +2323,7 @@ export function createComposer(options: any = {}): any {
 
   function resolveMessages(key: Path): LocaleMessageValue<Message> | null {
     let messages: LocaleMessageValue<Message> | null = null
-    const locales = fallbackWithLocaleChain(
-      _context,
-      _fallbackLocale.value,
-      _locale.value
-    )
+    const locales = fallbackWithLocaleChain(_context, _fallbackLocale.value, _locale.value)
     for (let i = 0; i < locales.length; i++) {
       const targetLocaleMessages = _messages.value[locales[i]] || {}
       const messageValue = _context.messageResolver(targetLocaleMessages, key)
@@ -2484,10 +2367,7 @@ export function createComposer(options: any = {}): any {
   }
 
   // mergeLocaleMessage
-  function mergeLocaleMessage(
-    locale: Locale,
-    message: LocaleMessageDictionary<Message>
-  ): void {
+  function mergeLocaleMessage(locale: Locale, message: LocaleMessageDictionary<Message>): void {
     _messages.value[locale] = _messages.value[locale] || {}
     const _message = { [locale]: message }
     if (flatJson) {
@@ -2516,10 +2396,7 @@ export function createComposer(options: any = {}): any {
 
   // mergeDateTimeFormat
   function mergeDateTimeFormat(locale: Locale, format: DateTimeFormat): void {
-    _datetimeFormats.value[locale] = assign(
-      _datetimeFormats.value[locale] || {},
-      format
-    )
+    _datetimeFormats.value[locale] = assign(_datetimeFormats.value[locale] || {}, format)
     _context.datetimeFormats = _datetimeFormats.value
     clearDateTimeFormat(_context, locale, format)
   }
@@ -2538,10 +2415,7 @@ export function createComposer(options: any = {}): any {
 
   // mergeNumberFormat
   function mergeNumberFormat(locale: Locale, format: NumberFormat): void {
-    _numberFormats.value[locale] = assign(
-      _numberFormats.value[locale] || {},
-      format
-    )
+    _numberFormats.value[locale] = assign(_numberFormats.value[locale] || {}, format)
     _context.numberFormats = _numberFormats.value
     clearNumberFormat(_context, locale, format)
   }

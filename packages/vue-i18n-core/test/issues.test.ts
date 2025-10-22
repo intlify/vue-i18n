@@ -321,12 +321,8 @@ test('issue #854', async () => {
   await mount(App, i18n)
 
   expect(mockWarn).toHaveBeenCalledTimes(2)
-  expect(mockWarn.mock.calls[0][0]).toEqual(
-    `Not found 'hello' key in 'en' locale messages.`
-  )
-  expect(mockWarn.mock.calls[1][0]).toEqual(
-    `Fall back to translate 'hello' with root locale.`
-  )
+  expect(mockWarn.mock.calls[0][0]).toEqual(`Not found 'hello' key in 'en' locale messages.`)
+  expect(mockWarn.mock.calls[1][0]).toEqual(`Fall back to translate 'hello' with root locale.`)
 })
 
 test('issue #933', async () => {
@@ -759,9 +755,7 @@ test('issue #1559', async () => {
   })
   const wrapper = await mount(App, i18n)
 
-  expect(wrapper.html()).toEqual(
-    '<h1>TRANSLATION FOR sub entry1</h1><!--v-if-->'
-  )
+  expect(wrapper.html()).toEqual('<h1>TRANSLATION FOR sub entry1</h1><!--v-if-->')
 })
 
 test('issue #1595', async () => {
@@ -902,9 +896,7 @@ test('issue #1610', async () => {
   i18n.global.setLocaleMessage('en', en)
   await nextTick()
 
-  expect(wrapper.html()).include(
-    `<h1>Hello, Vue I18n</h1> true (...but this should be true)`
-  )
+  expect(wrapper.html()).include(`<h1>Hello, Vue I18n</h1> true (...but this should be true)`)
 })
 
 test('issue #1615', async () => {
@@ -946,9 +938,7 @@ test('issue #1615', async () => {
   i18n.global.setLocaleMessage('en', en)
   await nextTick()
 
-  expect(wrapper.find('#te')?.textContent).toEqual(
-    `false (...but this should be false)`
-  )
+  expect(wrapper.find('#te')?.textContent).toEqual(`false (...but this should be false)`)
 })
 
 test('issue #1717', async () => {
@@ -1034,8 +1024,7 @@ test('#1796', async () => {
     messages: {
       en: {
         hello: 'hello world',
-        'message-with-placeholder-using-hyphens':
-          'My message with {placeholder-hyphens}.'
+        'message-with-placeholder-using-hyphens': 'My message with {placeholder-hyphens}.'
       }
     }
   })

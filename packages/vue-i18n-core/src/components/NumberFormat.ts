@@ -17,51 +17,43 @@ import type { FormattableProps } from './formatRenderer'
  *
  * @VueI18nComponent
  */
-export type NumberFormatProps = FormattableProps<
-  number,
-  Intl.NumberFormatOptions
->
+export type NumberFormatProps = FormattableProps<number, Intl.NumberFormatOptions>
 
 // TODO:
-export const NumberFormatImpl: ComponentOptions<NumberFormatProps> =
-  /*#__PURE__*/ defineComponent({
-    name: 'i18n-n', // eslint-disable-line vue/component-definition-name-casing
-    props: /*#__PURE__*/ assign(
-      {
-        value: {
-          type: Number,
-          required: true
-        },
-        format: {
-          type: [String, Object]
-        }
+export const NumberFormatImpl: ComponentOptions<NumberFormatProps> = /*#__PURE__*/ defineComponent({
+  name: 'i18n-n', // eslint-disable-line vue/component-definition-name-casing
+  props: /*#__PURE__*/ assign(
+    {
+      value: {
+        type: Number,
+        required: true
       },
-      BaseFormatPropsValidators
-    ),
-    setup(props: NumberFormatProps, context: SetupContext) {
-      const i18n =
-        props.i18n ||
-        (useI18n({
-          useScope: props.scope as 'global' | 'parent',
-          __useComponent: true
-        }) as unknown as Composer & ComposerInternal)
+      format: {
+        type: [String, Object]
+      }
+    },
+    BaseFormatPropsValidators
+  ),
+  setup(props: NumberFormatProps, context: SetupContext) {
+    const i18n =
+      props.i18n ||
+      (useI18n({
+        useScope: props.scope as 'global' | 'parent',
+        __useComponent: true
+      }) as unknown as Composer & ComposerInternal)
 
-      return renderFormatter<
-        FormattableProps<number, Intl.NumberFormatOptions>,
-        number,
-        Intl.NumberFormatOptions,
-        NumberOptions,
-        Intl.NumberFormatPart
-      >(
-        props as NumberFormatProps,
-        context,
-        NUMBER_FORMAT_OPTIONS_KEYS,
-        (...args: unknown[]) =>
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          (i18n as any)[NumberPartsSymbol](...args)
-      )
-    }
-  })
+    return renderFormatter<
+      FormattableProps<number, Intl.NumberFormatOptions>,
+      number,
+      Intl.NumberFormatOptions,
+      NumberOptions,
+      Intl.NumberFormatPart
+    >(props as NumberFormatProps, context, NUMBER_FORMAT_OPTIONS_KEYS, (...args: unknown[]) =>
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      (i18n as any)[NumberPartsSymbol](...args)
+    )
+  }
+})
 
 /**
  * export the public type for h/tsx inference

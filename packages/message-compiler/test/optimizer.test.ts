@@ -36,9 +36,7 @@ test(`full text message on plural: no apples | one apple | many apples`, () => {
   const ast = optimize(parser.parse(msg))
 
   expect(ast).toMatchSnapshot()
-  const messages = (ast.body as PluralNode).cases.map(
-    node => (node as MessageNode).static
-  )
+  const messages = (ast.body as PluralNode).cases.map(node => (node as MessageNode).static)
   expect(messages).toEqual(['no apples', 'one apple', 'many apples'])
 })
 

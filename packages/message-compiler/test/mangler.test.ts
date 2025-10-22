@@ -13,9 +13,7 @@ test('mangle', () => {
   mangle(ast)
 
   expect(ast).toMatchSnapshot()
-  const messages = (ast.b! as PluralNode)
-    .c!.map(node => (node as MessageNode).s)
-    .filter(Boolean)
+  const messages = (ast.b! as PluralNode).c!.map(node => (node as MessageNode).s).filter(Boolean)
   expect(messages).toEqual(['no apples'])
 })
 

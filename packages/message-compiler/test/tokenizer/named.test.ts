@@ -1,11 +1,6 @@
 import { format } from '@intlify/shared'
 import { CompileErrorCodes, errorMessages } from '../../src/errors'
-import {
-  createTokenizer,
-  ERROR_DOMAIN,
-  parse,
-  TokenTypes
-} from '../../src/tokenizer'
+import { createTokenizer, ERROR_DOMAIN, parse, TokenTypes } from '../../src/tokenizer'
 
 import type { CompileError } from '../../src/errors'
 import type { TokenizeOptions } from '../../src/options'
@@ -413,9 +408,7 @@ test('has modulo', () => {
 })
 
 test('underscore started', () => {
-  const tokenizer = createTokenizer(
-    `{_field} with the same value already exists.`
-  )
+  const tokenizer = createTokenizer(`{_field} with the same value already exists.`)
   expect(tokenizer.nextToken()).toEqual({
     type: TokenTypes.BraceLeft,
     value: '{',
@@ -713,10 +706,7 @@ describe('errors', () => {
       {
         code: CompileErrorCodes.INVALID_TOKEN_IN_PLACEHOLDER,
         domain: ERROR_DOMAIN,
-        message: format(
-          errorMessages[CompileErrorCodes.INVALID_TOKEN_IN_PLACEHOLDER],
-          ch
-        ),
+        message: format(errorMessages[CompileErrorCodes.INVALID_TOKEN_IN_PLACEHOLDER], ch),
         location
       }
     ] as CompileError[])

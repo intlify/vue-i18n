@@ -35,9 +35,7 @@ export const translateDevTools: ReturnType<typeof createDevToolsHook> =
 
 function createDevToolsHook(
   hook: IntlifyDevToolsHooks
-): (
-  payloads: IntlifyDevToolsHookPayloads[IntlifyDevToolsHooks]
-) => void | null {
+): (payloads: IntlifyDevToolsHookPayloads[IntlifyDevToolsHooks]) => void | null {
   return (payloads: IntlifyDevToolsHookPayloads[IntlifyDevToolsHooks]) =>
     devtools && devtools.emit(hook, payloads)
 }

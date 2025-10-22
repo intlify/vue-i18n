@@ -35,7 +35,7 @@ let hasTSChecked = false
 function resolveStubs(name, ns = '') {
   return {
     [`dist/${ns}${name}.js`]: `${ns}${name}.esm-bundler.js`,
-    [`dist/${ns}${name}.runtime.js`]: `${ns}${name}.runtime.esm-bundler.js`,
+    [`dist/${ns}${name}.runtime.js`]: `${ns}${name}.runtime.esm-bundler.js`
   }
 }
 
@@ -86,15 +86,12 @@ let packageConfigs = process.env.PROD_ONLY
   ? []
   : packageFormats.map(format => createConfig(format, outputConfigs[format]))
 
-const petiteOutputConfigs =
-  name === 'vue-i18n-core' ? resolveOutputConfigs(name, 'petite-') : {}
+const petiteOutputConfigs = name === 'vue-i18n-core' ? resolveOutputConfigs(name, 'petite-') : {}
 
 if (name === 'vue-i18n-core') {
   packageConfigs = [
     ...packageConfigs,
-    ...packageFormats.map(format =>
-      createConfig(format, petiteOutputConfigs[format])
-    )
+    ...packageFormats.map(format => createConfig(format, petiteOutputConfigs[format]))
   ]
 }
 
@@ -109,9 +106,7 @@ if (process.env.NODE_ENV === 'production') {
     if (/^(global|browser)(-runtime)?/.test(format)) {
       packageConfigs.push(createMinifiedConfig(format, outputConfigs[format]))
       if (name === 'vue-i18n-core') {
-        packageConfigs.push(
-          createMinifiedConfig(format, petiteOutputConfigs[format])
-        )
+        packageConfigs.push(createMinifiedConfig(format, petiteOutputConfigs[format]))
       }
     }
   })
@@ -131,19 +126,14 @@ function createConfig(format, _output, plugins = []) {
   output.sourcemap = !!process.env.SOURCE_MAP
   output.banner = banner
   output.externalLiveBindings = false
-  if (
-    name === 'vue-i18n' ||
-    name === 'vue-i18n-core' ||
-    name === 'petite-vue-i18n'
-  ) {
+  if (name === 'vue-i18n' || name === 'vue-i18n-core' || name === 'petite-vue-i18n') {
     output.globals = {
       vue: 'Vue',
       '@vue/devtools-api': 'VueDevtoolsApi'
     }
   }
 
-  const isProductionBuild =
-    process.env.__DEV__ === 'false' || /\.prod\.[cm]?js$/.test(output.file)
+  const isProductionBuild = process.env.__DEV__ === 'false' || /\.prod\.[cm]?js$/.test(output.file)
   const isBundlerESMBuild = /mjs/.test(format)
   const isBrowserESMBuild = /browser/.test(format)
   const isNodeBuild = output.file.includes('.node.')
@@ -192,19 +182,16 @@ function createConfig(format, _output, plugins = []) {
         //   ? []
         //   : ['vue'] // packageOptions.enableNonBrowserBranches
         // Node / esm-bundler builds. Externalize everything.
-        [
-          ...Object.keys(pkg.dependencies || {}),
-          ...Object.keys(pkg.peerDependencies || {})
-        ]
+        [...Object.keys(pkg.dependencies || {}), ...Object.keys(pkg.peerDependencies || {})]
 
   const nodePlugins = [
-          require('@rollup/plugin-node-resolve').nodeResolve(),
-          require('@rollup/plugin-commonjs')({
-            sourceMap: false
-          }),
-          require('rollup-plugin-node-builtins')(),
-          require('rollup-plugin-node-globals')()
-        ]
+    require('@rollup/plugin-node-resolve').nodeResolve(),
+    require('@rollup/plugin-commonjs')({
+      sourceMap: false
+    }),
+    require('rollup-plugin-node-builtins')(),
+    require('rollup-plugin-node-globals')()
+  ]
 
   return {
     input: resolve(entryFile),
@@ -332,18 +319,14 @@ function createReplacePlugin(
     // for lite version
     __LITE__: String(isLite),
     // feature flags
-    __FEATURE_FULL_INSTALL__: isBundlerESMBuild
-      ? `__VUE_I18N_FULL_INSTALL__`
-      : `true`,
+    __FEATURE_FULL_INSTALL__: isBundlerESMBuild ? `__VUE_I18N_FULL_INSTALL__` : `true`,
     __FEATURE_PROD_VUE_DEVTOOLS__:
       ['vue-i18n', 'petite-vue-i18n'].includes(name) && isNodeBuild
         ? 'false' // tree-shake devtools
         : isBundlerESMBuild
           ? `__VUE_PROD_DEVTOOLS__`
           : `false`,
-    __FEATURE_PROD_INTLIFY_DEVTOOLS__: isBundlerESMBuild
-      ? `__INTLIFY_PROD_DEVTOOLS__`
-      : `false`,
+    __FEATURE_PROD_INTLIFY_DEVTOOLS__: isBundlerESMBuild ? `__INTLIFY_PROD_DEVTOOLS__` : `false`,
     __FEATURE_DROP_MESSAGE_COMPILER__: isBundlerESMBuild
       ? `__INTLIFY_DROP_MESSAGE_COMPILER__`
       : `false`,

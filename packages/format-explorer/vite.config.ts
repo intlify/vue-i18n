@@ -17,10 +17,7 @@ const config = defineConfig({
   },
   resolve: {
     alias: {
-      '@intlify/message-compiler': path.resolve(
-        __dirname,
-        '../message-compiler/src/index.ts'
-      )
+      '@intlify/message-compiler': path.resolve(__dirname, '../message-compiler/src/index.ts')
     }
   },
   plugins: [vue()]

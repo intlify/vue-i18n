@@ -1,11 +1,7 @@
 import * as vueI18n from '../src/i18n'
 import { createI18n, useI18n } from '../src/i18n'
 
-import type {
-  DateTimeFormat,
-  NumberFormat,
-  PickupFallbackLocales
-} from '@intlify/core-base'
+import type { DateTimeFormat, NumberFormat, PickupFallbackLocales } from '@intlify/core-base'
 import type { MyDatetimeScehma, MyNumberSchema, ResourceSchema } from './schema'
 import { ComputedRef, WritableComputedRef } from 'vue'
 
@@ -79,9 +75,7 @@ const strictOptions = {
 test('loose composer with useI18n', () => {
   const looseI18n = useI18n(looseOptions)
 
-  expectTypeOf(looseI18n.locale.value).toEqualTypeOf<
-    'en' | 'ja' | 'en-US' | 'ja-JP'
-  >()
+  expectTypeOf(looseI18n.locale.value).toEqualTypeOf<'en' | 'ja' | 'en-US' | 'ja-JP'>()
   expectTypeOf(looseI18n.fallbackLocale.value).toEqualTypeOf<
     | 'en'
     | 'ja'
@@ -89,9 +83,7 @@ test('loose composer with useI18n', () => {
     | 'ja-JP'
     | ('en' | 'ja' | 'en-US' | 'ja-JP')[]
     | {
-        [x in string]: PickupFallbackLocales<
-          ['en' | 'ja' | 'en-US' | 'ja-JP']
-        >[]
+        [x in string]: PickupFallbackLocales<['en' | 'ja' | 'en-US' | 'ja-JP']>[]
       }
     | false
   >()
@@ -118,19 +110,11 @@ test('loose composer with useI18n', () => {
   }>()
   expectTypeOf(looseI18n.t('nest.bar')).toEqualTypeOf<string>()
   expectTypeOf(looseI18n.t('nest', 1, { locale: 'en' })).toEqualTypeOf<string>()
-  expectTypeOf(
-    looseI18n.t('foo', 'default msg', { locale: 'en' })
-  ).toEqualTypeOf<string>()
-  expectTypeOf(
-    looseI18n.t('errors', [1], { plural: 1 })
-  ).toEqualTypeOf<string>()
+  expectTypeOf(looseI18n.t('foo', 'default msg', { locale: 'en' })).toEqualTypeOf<string>()
+  expectTypeOf(looseI18n.t('errors', [1], { plural: 1 })).toEqualTypeOf<string>()
   expectTypeOf(looseI18n.t('errors', [1], 1)).toEqualTypeOf<string>()
-  expectTypeOf(
-    looseI18n.t('errors', [1], 'default msg')
-  ).toEqualTypeOf<string>()
-  expectTypeOf(
-    looseI18n.t(1, { foo: 1 }, { locale: 'en' })
-  ).toEqualTypeOf<string>()
+  expectTypeOf(looseI18n.t('errors', [1], 'default msg')).toEqualTypeOf<string>()
+  expectTypeOf(looseI18n.t(1, { foo: 1 }, { locale: 'en' })).toEqualTypeOf<string>()
   expectTypeOf(looseI18n.t('nest', { foo: 1 }, 'msg')).toEqualTypeOf<string>()
   expectTypeOf(looseI18n.te('errors', 'en')).toEqualTypeOf<boolean>()
   expectTypeOf(looseI18n.tm('nest')).toEqualTypeOf<{ bar: string }>()
@@ -145,12 +129,10 @@ test('loose composer with useI18n', () => {
     | Record<string, any>
   >()
   expectTypeOf(looseI18n.rt('foo')).toEqualTypeOf<string>()
-  expectTypeOf(looseI18n.getLocaleMessage('en')).toEqualTypeOf<
-    typeof looseI18n.messages.value.en
-  >()
-  expectTypeOf(
-    looseI18n.getLocaleMessage<{ japan: string }>('japan')
-  ).toEqualTypeOf<{ japan: string }>()
+  expectTypeOf(looseI18n.getLocaleMessage('en')).toEqualTypeOf<typeof looseI18n.messages.value.en>()
+  expectTypeOf(looseI18n.getLocaleMessage<{ japan: string }>('japan')).toEqualTypeOf<{
+    japan: string
+  }>()
 
   looseI18n.setLocaleMessage('en', {
     foo: 'foo',
@@ -172,9 +154,9 @@ test('loose composer with useI18n', () => {
   expectTypeOf(looseI18n.getDateTimeFormat('en-US')).toEqualTypeOf<
     (typeof looseI18n.datetimeFormats.value)['en-US']
   >()
-  expectTypeOf(
-    looseI18n.getLocaleMessage<{ long: { hour: string } }>('en-US')
-  ).toEqualTypeOf<{ long: { hour: string } }>()
+  expectTypeOf(looseI18n.getLocaleMessage<{ long: { hour: string } }>('en-US')).toEqualTypeOf<{
+    long: { hour: string }
+  }>()
 
   looseI18n.setDateTimeFormat('ja-JP', {
     short: {
@@ -194,9 +176,9 @@ test('loose composer with useI18n', () => {
   expectTypeOf(looseI18n.getNumberFormat('ja-JP')).toEqualTypeOf<
     (typeof looseI18n.numberFormats.value)['ja-JP']
   >()
-  expectTypeOf(
-    looseI18n.getNumberFormat<{ weight: { unit: string } }>('en-US')
-  ).toEqualTypeOf<{ weight: { unit: string } }>()
+  expectTypeOf(looseI18n.getNumberFormat<{ weight: { unit: string } }>('en-US')).toEqualTypeOf<{
+    weight: { unit: string }
+  }>()
 
   looseI18n.setNumberFormat('en-US', {
     currency: {
@@ -241,22 +223,12 @@ test('strict composer with useI18n', () => {
   }>()
 
   expectTypeOf(strictI18n.t('nest.bar')).toEqualTypeOf<string>()
-  expectTypeOf(
-    strictI18n.t('nest', 1, { locale: 'en' })
-  ).toEqualTypeOf<string>()
-  expectTypeOf(
-    strictI18n.t('foo', 'default msg', { locale: 'en' })
-  ).toEqualTypeOf<string>()
-  expectTypeOf(
-    strictI18n.t('errors', [1], { plural: 1 })
-  ).toEqualTypeOf<string>()
+  expectTypeOf(strictI18n.t('nest', 1, { locale: 'en' })).toEqualTypeOf<string>()
+  expectTypeOf(strictI18n.t('foo', 'default msg', { locale: 'en' })).toEqualTypeOf<string>()
+  expectTypeOf(strictI18n.t('errors', [1], { plural: 1 })).toEqualTypeOf<string>()
   expectTypeOf(strictI18n.t('errors', [1], 1)).toEqualTypeOf<string>()
-  expectTypeOf(
-    strictI18n.t('errors', [1], 'default msg')
-  ).toEqualTypeOf<string>()
-  expectTypeOf(
-    strictI18n.t(1, { foo: 1 }, { locale: 'en' })
-  ).toEqualTypeOf<string>()
+  expectTypeOf(strictI18n.t('errors', [1], 'default msg')).toEqualTypeOf<string>()
+  expectTypeOf(strictI18n.t(1, { foo: 1 }, { locale: 'en' })).toEqualTypeOf<string>()
   expectTypeOf(strictI18n.t('nestt', { foo: 1 }, 'msg')).toEqualTypeOf<string>()
   expectTypeOf(strictI18n.te('errors', 'en')).toEqualTypeOf<boolean>()
   expectTypeOf(strictI18n.tm('nest')).toEqualTypeOf<{ bar: string }>()
@@ -265,9 +237,9 @@ test('strict composer with useI18n', () => {
   expectTypeOf(strictI18n.getLocaleMessage('en')).toEqualTypeOf<
     typeof strictI18n.messages.value.en
   >()
-  expectTypeOf(
-    strictI18n.getLocaleMessage<{ japan: string }>('japan')
-  ).toEqualTypeOf<{ japan: string }>()
+  expectTypeOf(strictI18n.getLocaleMessage<{ japan: string }>('japan')).toEqualTypeOf<{
+    japan: string
+  }>()
 
   strictI18n.setLocaleMessage('en', {
     foo: 'foo',
@@ -294,9 +266,7 @@ test('global scope with type annotation at useI18n', () => {
   })
 
   expectTypeOf(globalComposer.locale.value).toEqualTypeOf<'en' | 'ja'>()
-  expectTypeOf(
-    globalComposer.t('nest.bar', { foo: 1 }, { locale: 'en' })
-  ).toEqualTypeOf<string>()
+  expectTypeOf(globalComposer.t('nest.bar', { foo: 1 }, { locale: 'en' })).toEqualTypeOf<string>()
 })
 
 test('local scope without type annotation at useI18n', () => {
@@ -312,9 +282,7 @@ test('loose i18n', () => {
     ...looseOptions
   }).global
 
-  expectTypeOf(looseI18nComposer.locale.value).toEqualTypeOf<
-    'en' | 'ja' | 'en-US' | 'ja-JP'
-  >()
+  expectTypeOf(looseI18nComposer.locale.value).toEqualTypeOf<'en' | 'ja' | 'en-US' | 'ja-JP'>()
   expectTypeOf(looseI18nComposer.fallbackLocale.value).toEqualTypeOf<
     | 'en'
     | 'ja'
@@ -322,9 +290,7 @@ test('loose i18n', () => {
     | 'ja-JP'
     | ('en' | 'ja' | 'en-US' | 'ja-JP')[]
     | {
-        [x in string]: PickupFallbackLocales<
-          ['en' | 'ja' | 'en-US' | 'ja-JP']
-        >[]
+        [x in string]: PickupFallbackLocales<['en' | 'ja' | 'en-US' | 'ja-JP']>[]
       }
     | false
   >()
@@ -355,9 +321,7 @@ test('loose i18n', () => {
       | 'ja-JP'
       | ('en' | 'ja' | 'en-US' | 'ja-JP')[]
       | {
-          [x in string]: PickupFallbackLocales<
-            ['en' | 'ja' | 'en-US' | 'ja-JP']
-          >[]
+          [x in string]: PickupFallbackLocales<['en' | 'ja' | 'en-US' | 'ja-JP']>[]
         }
       | false
     >
@@ -405,12 +369,10 @@ test('loose i18n', () => {
     | Record<string, any>
   >()
   expectTypeOf(looseI18n.rt('foo')).toEqualTypeOf<string>()
-  expectTypeOf(looseI18n.getLocaleMessage('en')).toEqualTypeOf<
-    typeof looseI18n.messages.value.en
-  >()
-  expectTypeOf(
-    looseI18n.getLocaleMessage<{ japan: string }>('japan')
-  ).toEqualTypeOf<{ japan: string }>()
+  expectTypeOf(looseI18n.getLocaleMessage('en')).toEqualTypeOf<typeof looseI18n.messages.value.en>()
+  expectTypeOf(looseI18n.getLocaleMessage<{ japan: string }>('japan')).toEqualTypeOf<{
+    japan: string
+  }>()
 
   looseI18n.setLocaleMessage('en', {
     foo: 'foo',
@@ -432,9 +394,9 @@ test('loose i18n', () => {
   expectTypeOf(looseI18n.getDateTimeFormat('en-US')).toEqualTypeOf<
     (typeof looseI18n.datetimeFormats.value)['en-US']
   >()
-  expectTypeOf(
-    looseI18n.getLocaleMessage<{ long: { hour: string } }>('en-US')
-  ).toEqualTypeOf<{ long: { hour: string } }>()
+  expectTypeOf(looseI18n.getLocaleMessage<{ long: { hour: string } }>('en-US')).toEqualTypeOf<{
+    long: { hour: string }
+  }>()
 
   looseI18n.setDateTimeFormat('ja-JP', {
     short: {
@@ -454,9 +416,9 @@ test('loose i18n', () => {
   expectTypeOf(looseI18n.getNumberFormat('ja-JP')).toEqualTypeOf<
     (typeof looseI18n.numberFormats.value)['ja-JP']
   >()
-  expectTypeOf(
-    looseI18n.getNumberFormat<{ weight: { unit: string } }>('en-US')
-  ).toEqualTypeOf<{ weight: { unit: string } }>()
+  expectTypeOf(looseI18n.getNumberFormat<{ weight: { unit: string } }>('en-US')).toEqualTypeOf<{
+    weight: { unit: string }
+  }>()
 
   looseI18n.setNumberFormat('en-US', {
     currency: {
@@ -477,9 +439,7 @@ test('loose i18n', () => {
 })
 
 test('strict i18n', () => {
-  const strictI18n = createI18n<[ResourceSchema], 'en' | 'ja'>(
-    strictOptions
-  ).global
+  const strictI18n = createI18n<[ResourceSchema], 'en' | 'ja'>(strictOptions).global
 
   expectTypeOf(strictI18n.locale.value).toEqualTypeOf<'en' | 'ja'>()
   expectTypeOf(strictI18n.fallbackLocale.value).toEqualTypeOf<
@@ -502,22 +462,12 @@ test('strict i18n', () => {
     ja: NumberFormat
   }>()
   expectTypeOf(strictI18n.t('nest.bar')).toEqualTypeOf<string>()
-  expectTypeOf(
-    strictI18n.t('nest', 1, { locale: 'en' })
-  ).toEqualTypeOf<string>()
-  expectTypeOf(
-    strictI18n.t('foo', 'default msg', { locale: 'en' })
-  ).toEqualTypeOf<string>()
-  expectTypeOf(
-    strictI18n.t('errors', [1], { plural: 1 })
-  ).toEqualTypeOf<string>()
+  expectTypeOf(strictI18n.t('nest', 1, { locale: 'en' })).toEqualTypeOf<string>()
+  expectTypeOf(strictI18n.t('foo', 'default msg', { locale: 'en' })).toEqualTypeOf<string>()
+  expectTypeOf(strictI18n.t('errors', [1], { plural: 1 })).toEqualTypeOf<string>()
   expectTypeOf(strictI18n.t('errors', [1], 1)).toEqualTypeOf<string>()
-  expectTypeOf(
-    strictI18n.t('errors', [1], 'default msg')
-  ).toEqualTypeOf<string>()
-  expectTypeOf(
-    strictI18n.t(1, { foo: 1 }, { locale: 'en' })
-  ).toEqualTypeOf<string>()
+  expectTypeOf(strictI18n.t('errors', [1], 'default msg')).toEqualTypeOf<string>()
+  expectTypeOf(strictI18n.t(1, { foo: 1 }, { locale: 'en' })).toEqualTypeOf<string>()
   expectTypeOf(strictI18n.t('nest', { foo: 1 }, 'msg')).toEqualTypeOf<string>()
   expectTypeOf(strictI18n.te('errors', 'en')).toEqualTypeOf<boolean>()
   expectTypeOf(strictI18n.tm('nest')).toEqualTypeOf<{ bar: string }>()
@@ -526,9 +476,9 @@ test('strict i18n', () => {
   expectTypeOf(strictI18n.getLocaleMessage('en')).toEqualTypeOf<
     typeof strictI18n.messages.value.en
   >()
-  expectTypeOf(
-    strictI18n.getLocaleMessage<{ japan: string }>('japan')
-  ).toEqualTypeOf<{ japan: string }>()
+  expectTypeOf(strictI18n.getLocaleMessage<{ japan: string }>('japan')).toEqualTypeOf<{
+    japan: string
+  }>()
 
   strictI18n.setLocaleMessage('en', {
     foo: 'foo',
@@ -588,9 +538,7 @@ test('strict i18n with direct i18n options', () => {
     }
   }).global
 
-  expectTypeOf(strictDirectI18n.locale.value).toEqualTypeOf<
-    'en' | 'zh' | 'ca' | 'ja-JP'
-  >()
+  expectTypeOf(strictDirectI18n.locale.value).toEqualTypeOf<'en' | 'zh' | 'ca' | 'ja-JP'>()
   expectTypeOf(strictDirectI18n.fallbackLocale.value).toEqualTypeOf<
     | 'en'
     | 'zh'

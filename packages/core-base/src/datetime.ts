@@ -106,10 +106,7 @@ export interface DateTimeOptions<Key = string, Locales = Locale>
  * `datetime` function overloads
  */
 
-export function datetime<
-  Context extends CoreContext<Message, {}, {}, {}>,
-  Message = string
->(
+export function datetime<Context extends CoreContext<Message, {}, {}, {}>, Message = string>(
   context: Context,
   value: number | string | Date
 ): string | number | Intl.DateTimeFormatPart[]
@@ -118,34 +115,28 @@ export function datetime<
   Context extends CoreContext<Message, {}, {}, {}>,
   Value extends number | string | Date = number,
   Key extends string = string,
-  ResourceKeys extends PickupFormatKeys<
+  ResourceKeys extends PickupFormatKeys<Context['datetimeFormats']> = PickupFormatKeys<
     Context['datetimeFormats']
-  > = PickupFormatKeys<Context['datetimeFormats']>,
+  >,
   Message = string
 >(
   context: Context,
   value: Value,
-  keyOrOptions:
-    | Key
-    | ResourceKeys
-    | DateTimeOptions<Key | ResourceKeys, Context['locale']>
+  keyOrOptions: Key | ResourceKeys | DateTimeOptions<Key | ResourceKeys, Context['locale']>
 ): string | number | Intl.DateTimeFormatPart[]
 
 export function datetime<
   Context extends CoreContext<Message, {}, {}, {}>,
   Value extends number | string | Date = number,
   Key extends string = string,
-  ResourceKeys extends PickupFormatKeys<
+  ResourceKeys extends PickupFormatKeys<Context['datetimeFormats']> = PickupFormatKeys<
     Context['datetimeFormats']
-  > = PickupFormatKeys<Context['datetimeFormats']>,
+  >,
   Message = string
 >(
   context: Context,
   value: Value,
-  keyOrOptions:
-    | Key
-    | ResourceKeys
-    | DateTimeOptions<Key | ResourceKeys, Context['locale']>,
+  keyOrOptions: Key | ResourceKeys | DateTimeOptions<Key | ResourceKeys, Context['locale']>,
   locale: Context['locale']
 ): string | number | Intl.DateTimeFormatPart[]
 
@@ -153,17 +144,14 @@ export function datetime<
   Context extends CoreContext<Message, {}, {}, {}>,
   Value extends number | string | Date = number,
   Key extends string = string,
-  ResourceKeys extends PickupFormatKeys<
+  ResourceKeys extends PickupFormatKeys<Context['datetimeFormats']> = PickupFormatKeys<
     Context['datetimeFormats']
-  > = PickupFormatKeys<Context['datetimeFormats']>,
+  >,
   Message = string
 >(
   context: Context,
   value: Value,
-  keyOrOptions:
-    | Key
-    | ResourceKeys
-    | DateTimeOptions<Key | ResourceKeys, Context['locale']>,
+  keyOrOptions: Key | ResourceKeys | DateTimeOptions<Key | ResourceKeys, Context['locale']>,
   override: Intl.DateTimeFormatOptions
 ): string | number | Intl.DateTimeFormatPart[]
 
@@ -171,36 +159,24 @@ export function datetime<
   Context extends CoreContext<Message, {}, {}, {}>,
   Value extends number | string | Date = number,
   Key extends string = string,
-  ResourceKeys extends PickupFormatKeys<
+  ResourceKeys extends PickupFormatKeys<Context['datetimeFormats']> = PickupFormatKeys<
     Context['datetimeFormats']
-  > = PickupFormatKeys<Context['datetimeFormats']>,
+  >,
   Message = string
 >(
   context: Context,
   value: Value,
-  keyOrOptions:
-    | Key
-    | ResourceKeys
-    | DateTimeOptions<Key | ResourceKeys, Context['locale']>,
+  keyOrOptions: Key | ResourceKeys | DateTimeOptions<Key | ResourceKeys, Context['locale']>,
   locale: Context['locale'],
   override: Intl.DateTimeFormatOptions
 ): string | number | Intl.DateTimeFormatPart[]
 
 // implementation of `datetime` function
-export function datetime<
-  Context extends CoreContext<Message, {}, {}, {}>,
-  Message = string
->(
+export function datetime<Context extends CoreContext<Message, {}, {}, {}>, Message = string>(
   context: Context,
   ...args: unknown[]
 ): string | number | Intl.DateTimeFormatPart[] {
-  const {
-    datetimeFormats,
-    unresolving,
-    fallbackLocale,
-    onWarn,
-    localeFallbacker
-  } = context
+  const { datetimeFormats, unresolving, fallbackLocale, onWarn, localeFallbacker } = context
   const { __datetimeFormatters } = context as unknown as CoreInternalContext
 
   if (__DEV__ && !Availabilities.dateTimeFormat) {
@@ -209,12 +185,8 @@ export function datetime<
   }
 
   const [key, value, options, overrides] = parseDateTimeArgs(...args)
-  const missingWarn = isBoolean(options.missingWarn)
-    ? options.missingWarn
-    : context.missingWarn
-  const fallbackWarn = isBoolean(options.fallbackWarn)
-    ? options.fallbackWarn
-    : context.fallbackWarn
+  const missingWarn = isBoolean(options.missingWarn) ? options.missingWarn : context.missingWarn
+  const fallbackWarn = isBoolean(options.fallbackWarn) ? options.fallbackWarn : context.fallbackWarn
   const part = !!options.part
   const locale = getLocale(context, options)
   const locales = localeFallbacker(
@@ -237,11 +209,7 @@ export function datetime<
 
   for (let i = 0; i < locales.length; i++) {
     targetLocale = to = locales[i]
-    if (
-      __DEV__ &&
-      locale !== targetLocale &&
-      isTranslateFallbackWarn(fallbackWarn, key)
-    ) {
+    if (__DEV__ && locale !== targetLocale && isTranslateFallbackWarn(fallbackWarn, key)) {
       onWarn(
         getWarnMessage(CoreWarnCodes.FALLBACK_TO_DATE_FORMAT, {
           key,
@@ -264,8 +232,7 @@ export function datetime<
       }
     }
 
-    datetimeFormat =
-      (datetimeFormats as unknown as DateTimeFormatsType)[targetLocale] || {}
+    datetimeFormat = (datetimeFormats as unknown as DateTimeFormatsType)[targetLocale] || {}
     format = datetimeFormat[key]
 
     if (isPlainObject(format)) break
@@ -285,10 +252,7 @@ export function datetime<
 
   let formatter = __datetimeFormatters.get(id)
   if (!formatter) {
-    formatter = new Intl.DateTimeFormat(
-      targetLocale,
-      assign({}, format, overrides)
-    )
+    formatter = new Intl.DateTimeFormat(targetLocale, assign({}, format, overrides))
     __datetimeFormatters.set(id, formatter)
   }
   return !part ? formatter.format(value) : formatter.formatToParts(value)

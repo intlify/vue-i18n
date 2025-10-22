@@ -6,9 +6,7 @@ import { getText, url } from '../helper'
     })
 
     test('rendering', async () => {
-      expect(await getText(page, '#app p.name')).toMatch(
-        'こんにちは、kazupon！'
-      )
+      expect(await getText(page, '#app p.name')).toMatch('こんにちは、kazupon！')
       expect(await getText(page, '#app p.list')).toMatch('hello, English!')
       expect(await getText(page, '#app p.linked')).toMatch(
         'こんにちは、かずぽん！ ごきげんいかが？'

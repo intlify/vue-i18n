@@ -28,12 +28,8 @@ export interface I18nPluginOptions {
 }
 
 export function apply(app: App, ...options: unknown[]): void {
-  const pluginOptions = isPlainObject(options[0])
-    ? (options[0] as I18nPluginOptions)
-    : {}
-  const globalInstall = isBoolean(pluginOptions.globalInstall)
-    ? pluginOptions.globalInstall
-    : true
+  const pluginOptions = isPlainObject(options[0]) ? (options[0] as I18nPluginOptions) : {}
+  const globalInstall = isBoolean(pluginOptions.globalInstall) ? pluginOptions.globalInstall : true
 
   if (!__LITE__ && globalInstall) {
     // install components

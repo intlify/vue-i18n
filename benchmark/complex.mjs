@@ -1,17 +1,11 @@
-import {
-  clearCompileCache,
-  createCoreContext,
-  translate
-} from '@intlify/core-base'
+import { clearCompileCache, createCoreContext, translate } from '@intlify/core-base'
 import { bench, run } from 'mitata'
 import { dirname, resolve } from 'node:path'
 import { createI18n } from 'vue-i18n'
 import { displayMemoryUsage, parseArgs, readJson } from './utils.mjs'
 
 const args = parseArgs()
-const resources = await readJson(
-  resolve(dirname('.'), './benchmark/complex.json')
-)
+const resources = await readJson(resolve(dirname('.'), './benchmark/complex.json'))
 const len = Object.keys(resources).length
 console.log(`complex pattern on ${len} resources (AOT):`)
 

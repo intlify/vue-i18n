@@ -1,13 +1,7 @@
 import { NodeTypes } from './nodes'
 import { HelperNameMap } from './helpers'
 
-import type {
-  ResourceNode,
-  Node,
-  PluralNode,
-  MessageNode,
-  LinkedNode
-} from './nodes'
+import type { ResourceNode, Node, PluralNode, MessageNode, LinkedNode } from './nodes'
 import type { TransformOptions } from './options'
 
 // TODO: if we offer custom transform for uses, should be defined TransformOptions type to here

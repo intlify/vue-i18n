@@ -55,12 +55,7 @@ export type {
   RemovedIndexResources,
   TranslateOptions
 } from '@intlify/core-base'
-export {
-  createI18n,
-  I18nInjectionKey,
-  useI18n,
-  VERSION
-} from '@intlify/vue-i18n-core'
+export { createI18n, I18nInjectionKey, useI18n, VERSION } from '@intlify/vue-i18n-core'
 export type {
   BaseFormatProps,
   ComponentI18nScope,

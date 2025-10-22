@@ -13,5 +13,4 @@ export const enum HelperNameMap {
 // eslint-disable-next-line no-useless-escape
 const RE_HTML_TAG = /<\/?[\w\s="/.':;#-\/]+>/
 
-export const detectHtmlTag = (source: string): boolean =>
-  RE_HTML_TAG.test(source)
+export const detectHtmlTag = (source: string): boolean => RE_HTML_TAG.test(source)

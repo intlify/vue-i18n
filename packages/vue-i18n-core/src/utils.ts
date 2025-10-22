@@ -14,17 +14,8 @@ import { Text, createVNode } from 'vue'
 import { I18nWarnCodes, getWarnMessage } from './warnings'
 
 import type { Locale, MessageResolver } from '@intlify/core-base'
-import type {
-  ComponentInternalInstance,
-  RendererElement,
-  RendererNode
-} from 'vue'
-import type {
-  Composer,
-  ComposerOptions,
-  CustomBlocks,
-  VueMessageType
-} from './composer'
+import type { ComponentInternalInstance, RendererElement, RendererNode } from 'vue'
+import type { Composer, ComposerOptions, CustomBlocks, VueMessageType } from './composer'
 
 type GetLocaleMessagesOptions<Messages = {}> = {
   messages?: { [K in keyof Messages]: Messages[K] }

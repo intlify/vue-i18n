@@ -24,25 +24,11 @@ import {
 } from '@intlify/core-base'
 import { createVNode, nextTick, Text, watch, watchEffect } from 'vue'
 import { createComposer } from '../src/composer'
-import {
-  DatetimePartsSymbol,
-  NumberPartsSymbol,
-  TranslateVNodeSymbol
-} from '../src/symbols'
+import { DatetimePartsSymbol, NumberPartsSymbol, TranslateVNodeSymbol } from '../src/symbols'
 import { getWarnMessage, I18nWarnCodes } from '../src/warnings'
 
-import type {
-  Locale,
-  MessageContext,
-  MessageFunction,
-  Path,
-  PathValue
-} from '@intlify/core-base'
-import type {
-  ComposerOptions,
-  MissingHandler,
-  VueMessageType
-} from '../src/composer'
+import type { Locale, MessageContext, MessageFunction, Path, PathValue } from '@intlify/core-base'
+import type { ComposerOptions, MissingHandler, VueMessageType } from '../src/composer'
 
 beforeEach(() => {
   registerMessageCompiler(compile)
@@ -365,8 +351,7 @@ describe('modifiers', () => {
       messages: {
         en: {
           message: {
-            greeting:
-              "Hello, @.lower:{'message.name'}! You have {count} new messages.",
+            greeting: "Hello, @.lower:{'message.name'}! You have {count} new messages.",
             name: '{name}'
           },
 
@@ -383,16 +368,13 @@ describe('modifiers', () => {
     expect(t('message.greeting', { name: 'Alice', count: 5 })).toEqual(
       'Hello, alice! You have 5 new messages.'
     )
-    expect(t('welcome', ['bob', 'monday'])).toEqual(
-      'Welcome, BOB! Today is Monday.'
-    )
+    expect(t('welcome', ['bob', 'monday'])).toEqual('Welcome, BOB! Today is Monday.')
     expect(t('literalMessage')).toEqual('This is an email: foo@shouting')
   })
 
   test('pascal case', () => {
     const _modifiers = {
-      snakeCase: (str: VueMessageType) =>
-        shared.isString(str) ? str.split(' ').join('-') : str
+      snakeCase: (str: VueMessageType) => (shared.isString(str) ? str.split(' ').join('-') : str)
     }
     const { modifiers, t } = createComposer({
       locale: 'en',
@@ -590,13 +572,12 @@ describe('warnHtmlMessage', () => {
 
 describe('postTranslation', () => {
   test('default', () => {
-    const { getPostTranslationHandler, setPostTranslationHandler, t } =
-      createComposer({
-        locale: 'en',
-        messages: {
-          en: { hello: ' hello world! ' }
-        }
-      })
+    const { getPostTranslationHandler, setPostTranslationHandler, t } = createComposer({
+      locale: 'en',
+      messages: {
+        en: { hello: ' hello world! ' }
+      }
+    })
     expect(getPostTranslationHandler()).toEqual(null)
 
     let key = ''
@@ -837,17 +818,11 @@ describe('rt', () => {
         en: {
           text: () => 'hi dio!',
           list: (ctx: MessageContext<VueMessageType>) => `hi ${ctx.list(0)}!`,
-          named: (ctx: MessageContext<VueMessageType>) =>
-            `hi ${ctx.named('name')}!`,
+          named: (ctx: MessageContext<VueMessageType>) => `hi ${ctx.named('name')}!`,
           name: 'dio',
-          linked: (ctx: MessageContext<VueMessageType>) =>
-            `hi ${ctx.linked('name', 'upper')} !`,
+          linked: (ctx: MessageContext<VueMessageType>) => `hi ${ctx.linked('name', 'upper')} !`,
           pural: (ctx: MessageContext<VueMessageType>) =>
-            ctx.plural([
-              'no apples',
-              'one apple',
-              `${ctx.named('count')} apples`
-            ]) as string
+            ctx.plural(['no apples', 'one apple', `${ctx.named('count')} apples`]) as string
         }
       }
     })
@@ -1048,12 +1023,8 @@ describe('d', () => {
       }
     })
     const dt = new Date(Date.UTC(2012, 11, 20, 3, 0, 0))
-    expect(d(dt, { key: 'long', fallbackWarn: false })).toEqual(
-      '2012/12/20 12:00:00'
-    )
-    expect(d(dt, { key: 'short', locale: 'ja-JP', year: '2-digit' })).toEqual(
-      '12/12/20 12:00'
-    )
+    expect(d(dt, { key: 'long', fallbackWarn: false })).toEqual('2012/12/20 12:00:00')
+    expect(d(dt, { key: 'short', locale: 'ja-JP', year: '2-digit' })).toEqual('12/12/20 12:00')
   })
 
   test('missing', () => {
@@ -1084,9 +1055,7 @@ describe('d', () => {
       }
     })
     const dt = '2012-12-20T12:00:00Z'
-    expect(d(dt, { key: 'short', fallbackWarn: false })).toEqual(
-      '12/20/2012, 07:00 AM'
-    )
+    expect(d(dt, { key: 'short', fallbackWarn: false })).toEqual('12/20/2012, 07:00 AM')
   })
 
   test('parts formatting', () => {
@@ -1202,9 +1171,7 @@ describe('n', () => {
     })
     expect(n(0.99, { key: 'percent', fallbackWarn: false })).toEqual('99%')
     // overrides
-    expect(
-      n(10100, { key: 'currency', locale: 'ja-JP', currency: 'EUR' })
-    ).toEqual('€10,100.00')
+    expect(n(10100, { key: 'currency', locale: 'ja-JP', currency: 'EUR' })).toEqual('€10,100.00')
   })
 
   test('minimumFractionDigits, maximumFractionDigits', () => {
@@ -1244,9 +1211,7 @@ describe('n', () => {
     })
     expect(n(0.99, { key: 'currency', fallbackWarn: false })).toEqual('$0.99')
     expect(n(1.1111, { key: 'decimal', fallbackWarn: false })).toEqual('1.11')
-    expect(n(12345.1161, { key: 'decimal', fallbackWarn: false })).toEqual(
-      '12,345.12'
-    )
+    expect(n(12345.1161, { key: 'decimal', fallbackWarn: false })).toEqual('12,345.12')
   })
   test('minimumSignificantDigits, maximumSignificantDigits', () => {
     const { n } = createComposer({
@@ -1272,9 +1237,7 @@ describe('n', () => {
       }
     })
     expect(n(1, { key: 'decimal', fallbackWarn: false })).toEqual('1.00')
-    expect(n(214528.1161, { key: 'decimal', fallbackWarn: false })).toEqual(
-      '214,530'
-    )
+    expect(n(214528.1161, { key: 'decimal', fallbackWarn: false })).toEqual('214,530')
     expect(n(12145281111, 'decimal')).toEqual('12,145,000,000')
   })
 
@@ -1556,12 +1519,11 @@ test('te', async () => {
 
 describe('getLocaleMessage / setLocaleMessage / mergeLocaleMessage', () => {
   test('basic', () => {
-    const { getLocaleMessage, setLocaleMessage, mergeLocaleMessage } =
-      createComposer({
-        messages: {
-          en: { hello: 'Hello!' }
-        }
-      })
+    const { getLocaleMessage, setLocaleMessage, mergeLocaleMessage } = createComposer({
+      messages: {
+        en: { hello: 'Hello!' }
+      }
+    })
     expect(getLocaleMessage('en')).toEqual({ hello: 'Hello!' })
 
     setLocaleMessage<{ hi: { hi: string } }>('en', { hi: { hi: 'Hi!' } })
@@ -1570,9 +1532,7 @@ describe('getLocaleMessage / setLocaleMessage / mergeLocaleMessage', () => {
     })
 
     mergeLocaleMessage('en', { hi: { hello: 'Hello!' } })
-    expect(
-      getLocaleMessage<{ hi: { hi: string; hello: string } }>('en')
-    ).toEqual({
+    expect(getLocaleMessage<{ hi: { hi: string; hello: string } }>('en')).toEqual({
       hi: {
         hi: 'Hi!',
         hello: 'Hello!'
@@ -1583,21 +1543,20 @@ describe('getLocaleMessage / setLocaleMessage / mergeLocaleMessage', () => {
 
 describe('getDateTimeFormat / setDateTimeFormat / mergeDateTimeFormat', () => {
   test('basic', () => {
-    const { getDateTimeFormat, setDateTimeFormat, mergeDateTimeFormat } =
-      createComposer({
-        locale: 'en-US',
-        datetimeFormats: {
-          'en-US': {
-            short: {
-              year: 'numeric',
-              month: '2-digit',
-              day: '2-digit',
-              hour: '2-digit',
-              minute: '2-digit'
-            }
+    const { getDateTimeFormat, setDateTimeFormat, mergeDateTimeFormat } = createComposer({
+      locale: 'en-US',
+      datetimeFormats: {
+        'en-US': {
+          short: {
+            year: 'numeric',
+            month: '2-digit',
+            day: '2-digit',
+            hour: '2-digit',
+            minute: '2-digit'
           }
         }
-      })
+      }
+    })
     expect(getDateTimeFormat('en-US')).toEqual({
       short: {
         year: 'numeric',
@@ -1660,18 +1619,17 @@ describe('getDateTimeFormat / setDateTimeFormat / mergeDateTimeFormat', () => {
 
 describe('getNumberFormat / setNumberFormat / mergeNumberFormat', () => {
   test('basic', () => {
-    const { getNumberFormat, setNumberFormat, mergeNumberFormat } =
-      createComposer({
-        numberFormats: {
-          'en-US': {
-            currency: {
-              style: 'currency',
-              currency: 'USD',
-              currencyDisplay: 'symbol'
-            }
+    const { getNumberFormat, setNumberFormat, mergeNumberFormat } = createComposer({
+      numberFormats: {
+        'en-US': {
+          currency: {
+            style: 'currency',
+            currency: 'USD',
+            currencyDisplay: 'symbol'
           }
         }
-      })
+      }
+    })
     expect(getNumberFormat('en-US')).toEqual({
       currency: {
         style: 'currency',
@@ -1680,15 +1638,12 @@ describe('getNumberFormat / setNumberFormat / mergeNumberFormat', () => {
       }
     })
 
-    setNumberFormat<{ decimal: { style: string; useGrouping: boolean } }>(
-      'en-US',
-      {
-        decimal: {
-          style: 'decimal',
-          useGrouping: false
-        }
+    setNumberFormat<{ decimal: { style: string; useGrouping: boolean } }>('en-US', {
+      decimal: {
+        style: 'decimal',
+        useGrouping: false
       }
-    )
+    })
     expect(getNumberFormat('en-US')).toEqual({
       decimal: {
         style: 'decimal',
@@ -1720,11 +1675,9 @@ describe('getNumberFormat / setNumberFormat / mergeNumberFormat', () => {
 describe('messageResolver', () => {
   test('basic', () => {
     const mockMessageResolver = vi.fn()
-    mockMessageResolver.mockImplementation(
-      (obj: unknown, path: Path): PathValue => {
-        return (obj as any)[path]
-      }
-    )
+    mockMessageResolver.mockImplementation((obj: unknown, path: Path): PathValue => {
+      return (obj as any)[path]
+    })
 
     const en = {
       'path.to.message': 'hello'
@@ -1743,11 +1696,9 @@ describe('messageResolver', () => {
 
   test('fallback', () => {
     const mockMessageResolver = vi.fn()
-    mockMessageResolver.mockImplementation(
-      (obj: unknown, path: Path): PathValue => {
-        return (obj as any)[path]
-      }
-    )
+    mockMessageResolver.mockImplementation((obj: unknown, path: Path): PathValue => {
+      return (obj as any)[path]
+    })
 
     const ja = {
       'path.to.message': 'こんにちは',
@@ -1942,11 +1893,7 @@ describe('__translateVNode', () => {
       (composer as any)[TranslateVNodeSymbol]('hello', {
         name: createVNode(Text, null, 'kazupon', 0)
       })
-    ).toMatchObject([
-      { children: 'hello, ' },
-      { children: 'kazupon' },
-      { children: '!' }
-    ])
+    ).toMatchObject([{ children: 'hello, ' }, { children: 'kazupon' }, { children: '!' }])
   })
 
   test('missing', () => {

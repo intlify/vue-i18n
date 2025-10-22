@@ -1,8 +1,4 @@
-import {
-  createCoreContext as context,
-  getLocaleMessage,
-  setLocaleMessage
-} from '../src/context'
+import { createCoreContext as context, getLocaleMessage, setLocaleMessage } from '../src/context'
 
 describe('locale', () => {
   test('default', () => {
@@ -52,9 +48,7 @@ describe('messages', () => {
 describe('modifiers', () => {
   test('default', () => {
     const ctx = context({})
-    expect(Object.keys(ctx.modifiers).sort()).toEqual(
-      ['upper', 'lower', 'capitalize'].sort()
-    )
+    expect(Object.keys(ctx.modifiers).sort()).toEqual(['upper', 'lower', 'capitalize'].sort())
   })
 
   test('specify', () => {

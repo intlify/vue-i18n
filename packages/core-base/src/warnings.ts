@@ -25,9 +25,6 @@ export const warnMessages: { [code: number]: string } = {
   [CoreWarnCodes.EXPERIMENTAL_CUSTOM_MESSAGE_COMPILER]: `This project is using Custom Message Compiler, which is an experimental feature. It may receive breaking changes or be removed in the future.`
 }
 
-export function getWarnMessage(
-  code: CoreWarnCodes,
-  ...args: unknown[]
-): string {
+export function getWarnMessage(code: CoreWarnCodes, ...args: unknown[]): string {
   return format(warnMessages[code], ...args)
 }
