@@ -285,10 +285,12 @@ export function createConfigsForPackage({
       // Global and Browser ESM builds inlines everything so that they can be
       // used alone.
       external: resolveExternal(),
-      define: resolveDefine(),
       platform: 'browser',
       resolve: {
         alias: entries
+      },
+      transform: {
+        define: resolveDefine()
       },
       plugins: [
         ...resolveReplace(),
