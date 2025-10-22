@@ -10,13 +10,13 @@
   },
   "dependencies": {
     "vue": "^3.3.4",
-    "vue-i18n": "workspace:*"
+    "vue-i18n": "11.1.12"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^4.2.3",
     "typescript": "^5.0.2",
     "vite": "^4.5.2",
     "vue-tsc": "^1.8.5",
-    "@intlify/unplugin-vue-i18n": "^0.12.0"
+    "@intlify/unplugin-vue-i18n": "^11.0.1"
   }
 }

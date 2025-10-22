@@ -12,7 +12,7 @@
   },
   "dependencies": {
     "vue": "^3.3.4",
-    "vue-i18n": "workspace:*"
+    "vue-i18n": "11.1.12"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^4.2.3",
@@ -26,7 +26,7 @@
     "body-parser": "^1.20.3",
     "jiti": "^1.19.3",
     "ofetch": "^1.1.1",
-    "@intlify/unplugin-vue-i18n": "^0.12.0",
-    "@intlify/bundle-utils": "next"
+    "@intlify/unplugin-vue-i18n": "^11.0.1",
+    "@intlify/bundle-utils": "^10.0.1"
   }
 }

@@ -5,7 +5,7 @@ const config: StorybookConfig = {
   addons: ['@storybook/addon-essentials', '@storybook/addon-interactions'],
   framework: {
     name: '@storybook/vue3-vite',
-    options: {},
-  },
+    options: {}
+  }
 }
 export default config

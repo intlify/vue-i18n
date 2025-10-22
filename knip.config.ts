@@ -10,6 +10,7 @@ export default {
         '@intlify/core-base',
         '@intlify/vue-i18n-core',
         '@vitest/coverage-v8',
+        '@types/eslint',
         'oxc-parser',
         'tslib',
         'vitepress-plugin-llms'

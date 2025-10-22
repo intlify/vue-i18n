@@ -8,14 +8,14 @@ const meta = {
   component: MyPage,
   render: () => ({
     components: { MyPage },
-    template: '<my-page />',
+    template: '<my-page />'
   }),
   parameters: {
     // More on how to position stories at: https://storybook.js.org/docs/configure/story-layout
-    layout: 'fullscreen',
+    layout: 'fullscreen'
   },
   // This component will have an automatically generated docsPage entry: https://storybook.js.org/docs/writing-docs/autodocs
-  tags: ['autodocs'],
+  tags: ['autodocs']
 } satisfies Meta<typeof MyPage>
 
 export default meta
@@ -32,7 +32,7 @@ export const LoggedIn: Story = {
 
     const logoutButton = canvas.getByRole('button', { name: /Log out/i })
     await expect(logoutButton).toBeInTheDocument()
-  },
+  }
 }
 
 export const LoggedOut: Story = {}
