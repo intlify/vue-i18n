@@ -54,7 +54,6 @@
     "docs:dev": "vitepress dev docs",
     "docs:serve": "vitepress serve docs",
     "docs:setup": "pnpm build:typed && pnpm docs:apigen",
-    "eslint:inspector": "npx @eslint/config-inspector",
     "example:ssr": "cd examples/ssr/vite && pnpm dev",
     "fix": "run-p lint:fix format:fix",
     "format:fix": "run-p \"format:prettier --write\"",
