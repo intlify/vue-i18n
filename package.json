@@ -55,12 +55,12 @@
     "docs:serve": "vitepress serve docs",
     "docs:setup": "pnpm build:typed && pnpm docs:apigen",
     "example:ssr": "cd examples/ssr/vite && pnpm dev",
-    "fix": "run-p lint:fix format:fix",
-    "format:fix": "run-p \"format:prettier --write\"",
-    "format:prettier": "prettier --config prettier.config.mjs --ignore-path .prettierignore --list-different '**/*.{ts,js,json,html}'",
-    "lint": "run-p lint:eslint",
+    "fix": "pnpm run --color \"/^fix:/\"",
+    "fix:eslint": "eslint . --fix --cache",
+    "fix:prettier": "prettier --write . --experimental-cli",
+    "lint": "pnpm run --color \"/^lint:/\"",
     "lint:eslint": "eslint . --cache",
-    "lint:fix": "run-p \"lint:eslint --fix\"",
+    "lint:prettier": "prettier --check . --experimental-cli",
     "prebuild": "test \"$CI\" = true && npx pnpm install -r --store=node_modules/.pnpm-store || echo skipping pnpm install",
     "preinstall": "node ./scripts/preinstall.js",
     "prepare": "git config --local core.hooksPath .githooks",
@@ -81,6 +81,7 @@
     "@intlify/core-base": "workspace:*",
     "@intlify/message-compiler": "workspace:*",
     "@intlify/vue-i18n-core": "workspace:*",
+    "@kazupon/prettier-config": "^0.1.1",
     "@microsoft/api-extractor": "7.15.2",
     "@rolldown/plugin-node-polyfills": "^1.0.0",
     "@rollup/plugin-commonjs": "^28.0.0",
@@ -116,7 +117,7 @@
     "picocolors": "^1.0.0",
     "pkg-pr-new": "^0.0.60",
     "playwright-core": "^1.45.3",
-    "prettier": "^3.3.3",
+    "prettier": "^3.6.2",
     "rolldown": "1.0.0-beta.38",
     "rollup": "^4.21.2",
     "rollup-plugin-dts": "^6.1.1",
@@ -142,6 +143,7 @@
     "node": ">= 20"
   },
   "private": true,
+  "prettier": "@kazupon/prettier-config",
   "lint-staged": {
     "*.{json,md,yml}": [
       "prettier --write"
