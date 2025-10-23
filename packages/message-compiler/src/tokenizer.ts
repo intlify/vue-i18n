@@ -505,7 +505,6 @@ export function createTokenizer(source: string, options: TokenizeOptions = {}): 
   function readLiteral(scnr: Scanner): string {
     skipSpaces(scnr)
 
-    // eslint-disable-next-line no-useless-escape
     eat(scnr, `\'`)
 
     let ch: string | undefined | null = ''
@@ -524,13 +523,12 @@ export function createTokenizer(source: string, options: TokenizeOptions = {}): 
       // TODO: Is it correct really?
       if (current === NEW_LINE) {
         scnr.next()
-        // eslint-disable-next-line no-useless-escape
+
         eat(scnr, `\'`)
       }
       return literal
     }
 
-    // eslint-disable-next-line no-useless-escape
     eat(scnr, `\'`)
 
     return literal
@@ -540,7 +538,7 @@ export function createTokenizer(source: string, options: TokenizeOptions = {}): 
     const ch = scnr.currentChar()
     switch (ch) {
       case '\\':
-      case `\'`: // eslint-disable-line no-useless-escape
+      case `\'`:
         scnr.next()
         return `\\${ch}`
       case 'u':

@@ -6,11 +6,11 @@ import {
   createCoreContext,
   registerMessageCompiler,
   translate
-} from '@intlify/core-base'
-import { bench, run } from 'mitata'
+} from '@intlify/core-base' // eslint-disable-line import/namespace -- FIXME:
+import { bench, run } from 'mitata' // eslint-disable-line import/namespace -- FIXME:
 import { dirname, resolve } from 'node:path'
 import { createI18n } from 'vue-i18n'
-import { displayMemoryUsage, parseArgs, readJson } from './utils.mjs'
+import { displayMemoryUsage, parseArgs, readJson } from './utils.mjs' // eslint-disable-line import/extensions -- FIXME:
 
 const args = parseArgs()
 const resources = await readJson(resolve(dirname('.'), './benchmark/complex.json'))

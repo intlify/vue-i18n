@@ -8,7 +8,8 @@ import type {
   NamedValue,
   NumberOptions,
   PickupFormatPathKeys,
-  TranslateOptions
+  TranslateOptions,
+  JsonPaths
 } from '@intlify/core-base'
 import type {
   CustomBlocks,
@@ -23,8 +24,6 @@ import type {
 } from '@intlify/vue-i18n-core'
 
 // --- THE CONTENT BELOW THIS LINE WILL BE APPENDED TO DTS FILE IN DIST DIRECTORY --- //
-
-import type { JsonPaths } from '@intlify/core-base'
 
 type IsPart<O> = O extends { part: infer P } ? P : false
 

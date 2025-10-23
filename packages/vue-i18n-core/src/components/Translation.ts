@@ -29,9 +29,9 @@ export interface TranslationProps extends BaseFormatProps {
 }
 
 /** @alias */
-export const TranslationImpl: ComponentOptions<TranslationProps> = /*#__PURE__*/ defineComponent({
+export const TranslationImpl: ComponentOptions<TranslationProps> = /* #__PURE__*/ defineComponent({
   name: 'i18n-t', // eslint-disable-line vue/component-definition-name-casing
-  props: /*#__PURE__*/ assign(
+  props: /* #__PURE__*/ assign(
     {},
     {
       keypath: {

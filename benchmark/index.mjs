@@ -1,5 +1,5 @@
 import { spawn } from 'node:child_process'
-import { parseArgs } from './utils.mjs'
+import { parseArgs } from './utils.mjs' // eslint-disable-line import/extensions -- FIXME:
 
 const args = parseArgs()
 

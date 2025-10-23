@@ -1,6 +1,7 @@
+<!-- eslint-disable vue/multi-word-component-names -->
 <script setup lang="ts">
-import { reactive, watch } from 'vue'
 import type { CompileOptions } from '@intlify/message-compiler'
+import { reactive, watch } from 'vue'
 
 /*
   location?: boolean

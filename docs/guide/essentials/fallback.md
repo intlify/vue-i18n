@@ -51,7 +51,7 @@ Output:
 
 By default, falling back to `fallbackLocale` generates two console warnings:
 
-```
+```txt
 [intlify] Not found 'hello' key in 'ja' locale messages.
 [intlify] Fall back to translate 'hello' key with 'en' locale.
 ```
@@ -70,6 +70,8 @@ To suppress the second warning(`Fall back to...`), set `silentFallbackWarn: true
 
 It is possible to set more than one fallback locale by using an array of locales. For example
 
+<!-- eslint-skip -->
+
 ```javascript
 fallbackLocale: [ 'fr', 'en' ],
 ```
@@ -79,6 +81,8 @@ fallbackLocale: [ 'fr', 'en' ],
 If more complex decision maps for fallback locales are required, it is possible to define decision maps with according fallback locales.
 
 Using the following decision map:
+
+<!-- eslint-skip -->
 
 ```javascript
 fallbackLocale: {

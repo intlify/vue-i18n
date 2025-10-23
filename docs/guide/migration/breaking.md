@@ -149,8 +149,12 @@ Similar to *[Translation API return value](#translation-api-return-value)*, the 
 
 ### Remove `getChoiceIndex`
 
+<!-- eslint-disable markdown/no-missing-label-refs -->
+
 > [!CAUTION]
 > `getChoiceIndex` option implementation code is be going to fully remove in v10.
+
+<!-- eslint-enable markdown/no-missing-label-refs -->
 
 To customize the pluralization rules, Vue I18n v8.x extends `getChoiceIndex` of VueI18n class.
 
@@ -307,16 +311,24 @@ console.log(VueI18n.availability)
 
 ### Remove Custom formatter
 
+<!-- eslint-disable markdown/no-missing-label-refs -->
+
 > [!CAUTION]
 > `formatter` option implementation code is be going to fully remove in v10.
 > As an alternative, vue-i18n has the [custome message format](../advanced/format.md) as an experimental feature.
+
+<!-- eslint-enable markdown/no-missing-label-refs -->
 
 **Reason**: Due to hard to provide custom formats in the new compiler and runtime APIs. We are planning to support it in the next major version to support in these APIs. If you would like to use ICU message format, you can use the [@formatjs/vue-intl](https://formatjs.io/docs/vue-intl/)
 
 ### Remove `preserveDirectiveContent` option
 
+<!-- eslint-disable markdown/no-missing-label-refs -->
+
 > [!CAUTION]
 > `preserveDirectiveContent` option implementation code is be going to fully remove in v10.
+
+<!-- eslint-enable markdown/no-missing-label-refs -->
 
 The `v-t` directive for Vue 3 now preserves the default content. Therefore, this option and its properties have been removed from the VueI18n instance.
 
@@ -370,7 +382,7 @@ In Vue I18n v9 and later, you can’t use array-like objects for list interpolat
 
 The messages that can be translated by Vue I18n can be highly translated using message format syntax, such as the following:
 
-```
+```txt
 @.caml:{'no apples'} | {0} apple | {n}　apples
 ```
 
@@ -380,7 +392,7 @@ The message format syntax can be expressed using the following special character
 
 Since Vue I18n v9 and later, message format syntax is now handled by the message format compiler, if you use these special characters as part of a message, the message will occur error at compile. If you want to use these special characters, you **have to use literal interpolation**.
 
-```
+```txt
 // e.g. `@` use-case for mail address
 {emailIdentity}{'@'}{emailDomain}
 ```
@@ -407,12 +419,13 @@ const messages = {
 In Vue I18n v9 and later, brackets are no longer needed as the message format compiler allows you to handle **named, list, and literal interpolations**.
 
 Vue I18n v9 or later:
+
 ```js
 const messages = {
   en: {
     message: {
       dio: 'DIO',
-      linked: "There\'s a reason, you lost, @:{'message.dio'}."
+      linked: "There's a reason, you lost, @:{'message.dio'}."
     }
   }
 }
@@ -422,8 +435,12 @@ const messages = {
 
 ### Remove `preserve` modifier
 
+<!-- eslint-disable markdown/no-missing-label-refs -->
+
 > [!CAUTION]
 > `preserve` modifier implementation code is be going to fully remove in v10.
+
+<!-- eslint-enable markdown/no-missing-label-refs -->
 
 Similar to *[Remove `preserveDirectiveContent` option](#remove-preservedirectivecontent-option)*, the `v-t` directive for Vue 3 now preserves the default content. Therefore, `preserve` modifier and it’s have been removed from `v-t` directive.
 
@@ -443,11 +460,15 @@ The tag name of the translation component (called *i18n functional component* in
 
 Vue I18n v8.x:
 
+<!-- eslint-skip -->
+
 ```html
 <i18n path="message.greeting" />
 ```
 
 Vue I18n v9 or later:
+
+<!-- eslint-skip -->
 
 ```html
 <i18n-t keypath="message.greeting" />
@@ -483,11 +504,15 @@ Vue I18n v9 or later:
 
 Vue I18n v8.x:
 
+<!-- eslint-skip -->
+
 ```html
 <i18n path="message.greeting" />
 ```
 
 Vue I18n v9 or later:
+
+<!-- eslint-skip -->
 
 ```html
 <i18n-t keypath="message.greeting" />
@@ -507,6 +532,8 @@ Vue I18n v8.x:
 ```
 
 Vue I18n v9 or later:
+
+<!-- eslint-skip -->
 
 ```html
 <i18n-t keypath="info" tag="p">

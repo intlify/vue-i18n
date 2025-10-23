@@ -38,7 +38,7 @@ jobs:
         id: split
         with:
           msg: ${{ github.ref }}
-          separator: '/'
+          separator: '/' # eslint-disable-line yml/plain-scalar
 
       - name: Create Github Release
         run: gh release create ${{ steps.split.outputs._2 }} --generate-notes

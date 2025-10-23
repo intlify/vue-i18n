@@ -294,7 +294,7 @@ export function parseDateTimeArgs(
   if (isString(arg1)) {
     // Only allow ISO strings - other date formats are often supported,
     // but may cause different results in different browsers.
-    const matches = arg1.match(/(\d{4}-\d{2}-\d{2})(T|\s)?(.*)/)
+    const matches = arg1.match(/(\d{4}-\d{2}-\d{2})(T|\s)?(.*)/) // eslint-disable-line regexp/no-unused-capturing-group -- FIXME:
     if (!matches) {
       throw createCoreError(CoreErrorCodes.INVALID_ISO_DATE_ARGUMENT)
     }

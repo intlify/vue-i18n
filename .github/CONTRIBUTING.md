@@ -203,6 +203,8 @@ There are some caveats to these packages:
 
 The packages can import each other directly using their package names. Note that when importing a package, the name listed in its `package.json` should be used. Most of the time the `@intlify/` prefix is needed:
 
+<!-- eslint-skip -->
+
 ```js
 import { baseCompile } from '@intlify/compiler'
 ```

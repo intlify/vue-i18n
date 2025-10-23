@@ -627,6 +627,7 @@ function setupLifeCycle(
 ): void {
   let emitter: VueDevToolsEmitter | null = null
 
+  // eslint-disable-next-line vue-composable/lifecycle-placement -- NOTE(kazupon): not Vue component
   onMounted(() => {
     // inject composer instance to DOM for intlify-devtools
     if ((__DEV__ || __FEATURE_PROD_VUE_DEVTOOLS__) && !__NODE_JS__ && target.vnode.el) {
@@ -639,6 +640,7 @@ function setupLifeCycle(
     }
   }, target)
 
+  // eslint-disable-next-line vue-composable/lifecycle-placement -- NOTE(kazupon): not Vue component
   onUnmounted(() => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const _composer = composer as any

@@ -83,7 +83,7 @@ export type LocaleFallbacker = <Message = string>(
  * @VueI18nGeneral
  */
 export function fallbackWithSimple<Message = string>(
-  ctx: CoreContext<Message>,
+  _ctx: CoreContext<Message>,
   fallback: FallbackLocale,
   start: Locale
 ): Locale[] {

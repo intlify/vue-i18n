@@ -24,7 +24,7 @@ export type DatetimeFormatProps = FormattableProps<number | Date, Intl.DateTimeF
 export const DatetimeFormatImpl: ComponentOptions<DatetimeFormatProps> =
   /* #__PURE__*/ defineComponent({
     name: 'i18n-d', // eslint-disable-line vue/component-definition-name-casing
-    props: /*#__PURE__*/ assign(
+    props: /* #__PURE__*/ assign(
       {
         value: {
           type: [Number, Date],

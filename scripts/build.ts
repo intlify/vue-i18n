@@ -1,18 +1,18 @@
-/*
-Produces production builds and stitches together d.ts files.
-
-To specify the package to build, simply pass its name and the desired build
-formats to output (defaults to `buildOptions.formats` specified in that package,
-or "esm"):
-
-```
-# name supports fuzzy match. will build all packages with name containing "core-base":
-pnpm build core-base
-
-# specify the format to output
-pnpm build core --formats mjs
-```
-*/
+//
+// Produces production builds and stitches together d.ts files.
+//
+// To specify the package to build, simply pass its name and the desired build
+// formats to output (defaults to `buildOptions.formats` specified in that package,
+// or "esm"):
+//
+// ```
+// # name supports fuzzy match. will build all packages with name containing "core-base":
+// pnpm build core-base
+//
+// # specify the format to output
+// pnpm build core --formats mjs
+// ```
+//
 
 import { Extractor, ExtractorConfig } from '@microsoft/api-extractor'
 import { spawnSync } from 'node:child_process'
@@ -137,7 +137,7 @@ async function main() {
       ret.push(p)
 
       if (maxConcurrency <= source.length) {
-        // @ts-expect-error
+        // @ts-expect-error -- NOTE(kazupon): ignore
         const e = p.then(() => executing.splice(executing.indexOf(e), 1))
         executing.push(e)
         if (executing.length >= maxConcurrency) {

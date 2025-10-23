@@ -1,6 +1,7 @@
-import path from 'node:path'
 import { promises as fs } from 'node:fs'
+import path from 'node:path'
 
+// eslint-disable-next-line regexp/no-unused-capturing-group
 const RE_TRIPLE_SLASH_REFERENCE = /\/\/\/ <reference types="([^"]*)" \/>/
 
 function replaceTripleSlashReference(source: string) {

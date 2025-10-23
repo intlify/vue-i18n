@@ -47,6 +47,8 @@ The following properties of i18n instance created by `createI18n` change its beh
 
 You are now ready to use `useI18n` in the `App.vue` component. The code looks like this:
 
+<!-- eslint-skip -->
+
 ```vue
 <script setup> // [!code ++]
 import { useI18n } from 'vue-i18n' // [!code ++]
@@ -268,6 +270,8 @@ There are two ways to refer the global scope Composer instance at the component.
 
 As we have explained, in `useI18n` is a way.
 
+<!-- eslint-skip -->
+
 ```ts
 import { useI18n } from 'vue-i18n'
 
@@ -340,6 +344,8 @@ You can explicit specify `useScope: ‘local’` option.
 
 The following example codes:
 
+<!-- eslint-skip -->
+
 ```js
 import { useI18n } from 'vue-i18n'
 
@@ -380,6 +386,8 @@ const { t, d, n, tm, locale } = useI18n({
 If you use i18n custom blocks in SFC as i18n resource of locale messages, it will be merged with the locale messages specified by the `messages` option of `useI18n`.
 
 The following is an example of using i18n custom blocks and `useI18n` options:
+
+<!-- eslint-skip -->
 
 ```vue
 <script setup>
@@ -436,6 +444,8 @@ export default {
 
 use `mergeLocaleMessage` on Components:
 
+<!-- eslint-skip -->
+
 ```vue
 <script setup>
 import { useI18n } from 'vue-i18n'
@@ -464,6 +474,8 @@ for (const locale of ['en', 'ja']) {
 ### Global Scope
 
 You want to change the locale with `<script setup>`, just get a global Composer with `useI18n` and change it using the `locale` property of the instance.
+
+<!-- eslint-skip -->
 
 ```vue
 <script setup>

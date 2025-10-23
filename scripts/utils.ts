@@ -103,7 +103,7 @@ export async function sizeTargets() {
 export async function checkSizeDistFiles(target: string) {
   const dirs = await fs.readdir(`${target}/dist`)
   // prettier-ignore
-  return dirs.filter(file => /^(message-compiler|core|vue-i18n|petite-vue-i18n)/.test(file))
+  return dirs.filter(file => /^(message-compiler|core|vue-i18n|petite-vue-i18n)/.test(file)) // eslint-disable-line regexp/no-unused-capturing-group
     .filter(file => !/^core-base/.test(file))
     .filter(file => !/^vue-i18n-core/.test(file))
     .filter(file => /prod\.js$/.test(file))

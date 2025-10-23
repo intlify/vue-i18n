@@ -153,7 +153,7 @@ const i18n = createI18n({
   // something options ...
 })
 
-console.log(i18n.global.t('message.hello', {}, { locale: 'ja' })
+console.log(i18n.global.t('message.hello', {}, { locale: 'ja' }))
 ```
 
 ### `t(key: Key, locale: Locale, list: unknown[]): TranslateResult;`

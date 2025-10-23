@@ -1,7 +1,21 @@
 {
   "name": "vue-i18n",
-  "version": "12.0.0-alpha.3",
   "description": "Internationalization plugin for Vue.js",
+  "version": "12.0.0-alpha.3",
+  "author": {
+    "name": "kazuya kawaguchi",
+    "email": "kawakazu80@gmail.com"
+  },
+  "license": "MIT",
+  "funding": "https://github.com/sponsors/kazupon",
+  "bugs": {
+    "url": "https://github.com/intlify/vue-i18n/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/intlify/vue-i18n.git",
+    "directory": "packages/vue-i18n"
+  },
   "keywords": [
     "i18n",
     "internationalization",
@@ -10,20 +24,12 @@
     "vue",
     "vue.js"
   ],
-  "license": "MIT",
-  "author": {
-    "name": "kazuya kawaguchi",
-    "email": "kawakazu80@gmail.com"
-  },
   "homepage": "https://github.com/intlify/vue-i18n/tree/master/packages/vue-i18n#readme",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/intlify/vue-i18n.git",
-    "directory": "packages/vue-i18n"
+  "engines": {
+    "node": ">= 16"
   },
-  "bugs": {
-    "url": "https://github.com/intlify/vue-i18n/issues"
-  },
+  "type": "module",
+  "sideEffects": false,
   "files": [
     "dist",
     "vetur"
@@ -31,35 +37,6 @@
   "module": "dist/vue-i18n.js",
   "unpkg": "dist/vue-i18n.global.js",
   "jsdelivr": "dist/vue-i18n.global.js",
-  "types": "dist/vue-i18n.d.ts",
-  "dependencies": {
-    "@intlify/core-base": "workspace:*",
-    "@intlify/shared": "workspace:*",
-    "@intlify/vue-i18n-core": "workspace:*",
-    "@vue/devtools-api": "^6.5.0"
-  },
-  "devDependencies": {
-    "@intlify/devtools-types": "workspace:*"
-  },
-  "peerDependencies": {
-    "vue": "^3.0.0"
-  },
-  "engines": {
-    "node": ">= 16"
-  },
-  "buildOptions": {
-    "name": "VueI18n",
-    "formats": [
-      "mjs",
-      "mjs-node",
-      "mjs-runtime",
-      "mjs-node-runtime",
-      "browser",
-      "browser-runtime",
-      "global",
-      "global-runtime"
-    ]
-  },
   "exports": {
     ".": {
       "types": "./dist/vue-i18n.d.ts",
@@ -76,9 +53,32 @@
     "./dist/*": "./dist/*",
     "./package.json": "./package.json"
   },
-  "funding": "https://github.com/sponsors/kazupon",
-  "sideEffects": false,
-  "type": "module",
+  "types": "dist/vue-i18n.d.ts",
+  "dependencies": {
+    "@intlify/core-base": "workspace:*",
+    "@intlify/shared": "workspace:*",
+    "@intlify/vue-i18n-core": "workspace:*",
+    "@vue/devtools-api": "^6.5.0"
+  },
+  "peerDependencies": {
+    "vue": "^3.0.0"
+  },
+  "devDependencies": {
+    "@intlify/devtools-types": "workspace:*"
+  },
+  "buildOptions": {
+    "name": "VueI18n",
+    "formats": [
+      "mjs",
+      "mjs-node",
+      "mjs-runtime",
+      "mjs-node-runtime",
+      "browser",
+      "browser-runtime",
+      "global",
+      "global-runtime"
+    ]
+  },
   "vetur": {
     "tags": "vetur/tags.json",
     "attributes": "vetur/attributes.json"

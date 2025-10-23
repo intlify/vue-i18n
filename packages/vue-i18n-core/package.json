@@ -1,7 +1,20 @@
 {
   "name": "@intlify/vue-i18n-core",
-  "version": "12.0.0-alpha.3",
   "description": "@intlify/vue-i18n-core",
+  "version": "12.0.0-alpha.3",
+  "author": {
+    "name": "kazuya kawaguchi",
+    "email": "kawakazu80@gmail.com"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/intlify/vue-i18n/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/intlify/vue-i18n.git",
+    "directory": "packages/vue-i18n-core"
+  },
   "keywords": [
     "core",
     "fundamental",
@@ -11,49 +24,21 @@
     "vue",
     "vue.js"
   ],
-  "license": "MIT",
-  "author": {
-    "name": "kazuya kawaguchi",
-    "email": "kawakazu80@gmail.com"
-  },
   "homepage": "https://github.com/intlify/vue-i18n/tree/master/packages/vue-i18n-core#readme",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/intlify/vue-i18n.git",
-    "directory": "packages/vue-i18n-core"
+  "publishConfig": {
+    "access": "public"
   },
-  "bugs": {
-    "url": "https://github.com/intlify/vue-i18n/issues"
+  "engines": {
+    "node": ">= 16"
   },
+  "type": "module",
+  "sideEffects": false,
   "files": [
     "dist"
   ],
   "module": "dist/vue-i18n-core.mjs",
   "unpkg": "dist/vue-i18n-core.global.js",
   "jsdelivr": "dist/vue-i18n-core.global.js",
-  "types": "dist/vue-i18n-core.d.ts",
-  "dependencies": {
-    "@intlify/core-base": "workspace:*",
-    "@intlify/shared": "workspace:*",
-    "@vue/devtools-api": "^6.5.0"
-  },
-  "devDependencies": {
-    "@intlify/devtools-types": "workspace:*"
-  },
-  "peerDependencies": {
-    "vue": "^3.0.0"
-  },
-  "engines": {
-    "node": ">= 16"
-  },
-  "buildOptions": {
-    "name": "IntlifyVueI18nCore",
-    "formats": [
-      "mjs",
-      "browser",
-      "global"
-    ]
-  },
   "exports": {
     ".": {
       "types": "./dist/vue-i18n-core.d.ts",
@@ -80,9 +65,24 @@
     "./dist/*": "./dist/*",
     "./package.json": "./package.json"
   },
-  "publishConfig": {
-    "access": "public"
+  "types": "dist/vue-i18n-core.d.ts",
+  "dependencies": {
+    "@intlify/core-base": "workspace:*",
+    "@intlify/shared": "workspace:*",
+    "@vue/devtools-api": "^6.5.0"
   },
-  "sideEffects": false,
-  "type": "module"
+  "peerDependencies": {
+    "vue": "^3.0.0"
+  },
+  "devDependencies": {
+    "@intlify/devtools-types": "workspace:*"
+  },
+  "buildOptions": {
+    "name": "IntlifyVueI18nCore",
+    "formats": [
+      "mjs",
+      "browser",
+      "global"
+    ]
+  }
 }

@@ -1,3 +1,4 @@
+<!-- eslint-disable vue/multi-word-component-names -->
 <script setup lang="ts">
 const commitURL = `https://github.com/intlify/vue-i18n/tree/${__COMMIT__}`
 const commitLabel = `@${__COMMIT__}`

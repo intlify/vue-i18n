@@ -166,30 +166,30 @@ export interface TranslateOptions<Locales = Locale> extends LocaleOptions<Locale
  *  this type should be used (refactored) at `translate` type definition
  *  (Unfortunately, using this type will result in key completion failure due to type mismatch...)
  */
-/*
-type ResolveTranslateResourceKeys<
-  Context extends CoreContext<string, {}, {}, {}>,
-  DefinedLocaleMessage extends
-    RemovedIndexResources<DefineCoreLocaleMessage> = RemovedIndexResources<DefineCoreLocaleMessage>,
-  CoreMessages = IsEmptyObject<DefinedLocaleMessage> extends false
-    ? PickupPaths<{
-        [K in keyof DefinedLocaleMessage]: DefinedLocaleMessage[K]
-      }>
-    : never,
-  ContextMessages = IsEmptyObject<Context['messages']> extends false
-    ? PickupKeys<Context['messages']>
-    : never,
-  Result extends
-    | CoreMessages
-    | ContextMessages = IsNever<CoreMessages> extends false
-    ? IsNever<ContextMessages> extends false
-      ? CoreMessages | ContextMessages
-      : CoreMessages
-    : IsNever<ContextMessages> extends false
-    ? ContextMessages
-    : never
-> = Result
-*/
+//
+// type ResolveTranslateResourceKeys<
+// Context extends CoreContext<string, {}, {}, {}>,
+// DefinedLocaleMessage extends
+//     RemovedIndexResources<DefineCoreLocaleMessage> = RemovedIndexResources<DefineCoreLocaleMessage>,
+// CoreMessages = IsEmptyObject<DefinedLocaleMessage> extends false
+//     ? PickupPaths<{
+//         [K in keyof DefinedLocaleMessage]: DefinedLocaleMessage[K]
+//       }>
+//     : never,
+// ContextMessages = IsEmptyObject<Context['messages']> extends false
+//     ? PickupKeys<Context['messages']>
+//     : never,
+// Result extends
+//     | CoreMessages
+//     | ContextMessages = IsNever<CoreMessages> extends false
+//     ? IsNever<ContextMessages> extends false
+//       ? CoreMessages | ContextMessages
+//       : CoreMessages
+//     : IsNever<ContextMessages> extends false
+//     ? ContextMessages
+//     : never
+// > = Result
+//
 
 /**
  * `translate` function overloads

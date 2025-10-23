@@ -82,6 +82,8 @@ pnpm add -D @intlify/unplugin-vue-i18n
 
 #### Configure plugin for Vite
 
+<!-- eslint-skip -->
+
 ```js
 // vite.config.ts
 import { defineConfig } from 'vite'
@@ -103,6 +105,8 @@ export default defineConfig({
 ```
 
 #### Configure plugin for Webpack
+
+<!-- eslint-skip -->
 
 ```js
 // webpack.config.js
@@ -129,8 +133,8 @@ If we want to add support to the `<i18n>` tag inside a single file component in 
 In order to do that we need to edit `quasar.conf.js` at the root of our project:
 
 ```js
-build: {
-  chainWebpack: chain => {
+{
+  chain => {
     chain.module
       .rule('i18n-resource')
         .test(/\.(json5?|ya?ml)$/)

@@ -1,10 +1,11 @@
 {
   "name": "@intlify/size-check-vue-i18n",
   "private": true,
+  "version": "12.0.0-alpha.3",
   "scripts": {
-    "dev": "vite",
     "build": "vite build",
     "check": "vue-tsc",
+    "dev": "vite",
     "preview": "vite preview"
   },
   "dependencies": {
@@ -16,6 +17,5 @@
     "@vue/compiler-sfc": "^3.3.4",
     "vite": "^6.0.0",
     "vue-tsc": "^2.0.0"
-  },
-  "version": "12.0.0-alpha.3"
+  }
 }

@@ -1,7 +1,21 @@
 {
   "name": "@intlify/core",
-  "version": "12.0.0-alpha.3",
   "description": "@intlify/core",
+  "version": "12.0.0-alpha.3",
+  "author": {
+    "name": "kazuya kawaguchi",
+    "email": "kawakazu80@gmail.com"
+  },
+  "license": "MIT",
+  "funding": "https://github.com/sponsors/kazupon",
+  "bugs": {
+    "url": "https://github.com/intlify/vue-i18n/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/intlify/vue-i18n.git",
+    "directory": "packages/core"
+  },
   "keywords": [
     "core",
     "fundamental",
@@ -9,47 +23,21 @@
     "internationalization",
     "intlify"
   ],
-  "license": "MIT",
-  "author": {
-    "name": "kazuya kawaguchi",
-    "email": "kawakazu80@gmail.com"
-  },
   "homepage": "https://github.com/intlify/vue-i18n/tree/master/packages/core#readme",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/intlify/vue-i18n.git",
-    "directory": "packages/core"
+  "publishConfig": {
+    "access": "public"
   },
-  "bugs": {
-    "url": "https://github.com/intlify/vue-i18n/issues"
+  "engines": {
+    "node": ">= 16"
   },
+  "type": "module",
+  "sideEffects": false,
   "files": [
     "dist"
   ],
   "module": "dist/core.js",
   "unpkg": "dist/core.global.js",
   "jsdelivr": "dist/core.global.js",
-  "types": "dist/core.d.ts",
-  "dependencies": {
-    "@intlify/core-base": "workspace:*",
-    "@intlify/shared": "workspace:*"
-  },
-  "engines": {
-    "node": ">= 16"
-  },
-  "buildOptions": {
-    "name": "IntlifyCore",
-    "formats": [
-      "mjs",
-      "mjs-node",
-      "mjs-runtime",
-      "mjs-node-runtime",
-      "browser",
-      "browser-runtime",
-      "global",
-      "global-runtime"
-    ]
-  },
   "exports": {
     ".": {
       "types": "./dist/core.d.ts",
@@ -66,10 +54,22 @@
     "./dist/*": "./dist/*",
     "./package.json": "./package.json"
   },
-  "funding": "https://github.com/sponsors/kazupon",
-  "publishConfig": {
-    "access": "public"
+  "types": "dist/core.d.ts",
+  "dependencies": {
+    "@intlify/core-base": "workspace:*",
+    "@intlify/shared": "workspace:*"
   },
-  "sideEffects": false,
-  "type": "module"
+  "buildOptions": {
+    "name": "IntlifyCore",
+    "formats": [
+      "mjs",
+      "mjs-node",
+      "mjs-runtime",
+      "mjs-node-runtime",
+      "browser",
+      "browser-runtime",
+      "global",
+      "global-runtime"
+    ]
+  }
 }

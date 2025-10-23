@@ -1,42 +1,40 @@
 {
   "name": "@intlify/shared",
-  "version": "12.0.0-alpha.3",
   "description": "@intlify/shared",
+  "version": "12.0.0-alpha.3",
+  "author": {
+    "name": "kazuya kawaguchi",
+    "email": "kawakazu80@gmail.com"
+  },
+  "license": "MIT",
+  "funding": "https://github.com/sponsors/kazupon",
+  "bugs": {
+    "url": "https://github.com/intlify/vue-i18n/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/intlify/vue-i18n.git",
+    "directory": "packages/shared"
+  },
   "keywords": [
     "i18n",
     "internationalization",
     "intlify",
     "utitlity"
   ],
-  "license": "MIT",
-  "author": {
-    "name": "kazuya kawaguchi",
-    "email": "kawakazu80@gmail.com"
-  },
   "homepage": "https://github.com/intlify/vue-i18n/tree/master/packages/shared#readme",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/intlify/vue-i18n.git",
-    "directory": "packages/shared"
+  "publishConfig": {
+    "access": "public"
   },
-  "bugs": {
-    "url": "https://github.com/intlify/vue-i18n/issues"
+  "engines": {
+    "node": ">= 16"
   },
+  "type": "module",
+  "sideEffects": false,
   "files": [
     "dist"
   ],
   "module": "dist/shared.js",
-  "types": "dist/shared.d.ts",
-  "engines": {
-    "node": ">= 16"
-  },
-  "buildOptions": {
-    "name": "IntlifyShared",
-    "formats": [
-      "mjs",
-      "browser"
-    ]
-  },
   "exports": {
     ".": {
       "types": "./dist/shared.d.ts",
@@ -52,10 +50,12 @@
     "./dist/*": "./dist/*",
     "./package.json": "./package.json"
   },
-  "funding": "https://github.com/sponsors/kazupon",
-  "publishConfig": {
-    "access": "public"
-  },
-  "sideEffects": false,
-  "type": "module"
+  "types": "dist/shared.d.ts",
+  "buildOptions": {
+    "name": "IntlifyShared",
+    "formats": [
+      "mjs",
+      "browser"
+    ]
+  }
 }

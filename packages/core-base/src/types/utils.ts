@@ -183,7 +183,7 @@ export type ExtractToStringKey<T> = Extract<keyof T, 'toString'>
 export type StringConvertable<T, Extracted = ExtractToStringKey<T>> = IsNever<Extracted> extends true
   ? T extends boolean
   ? T
-  : T extends Function
+  : T extends Function // eslint-disable-line @typescript-eslint/no-unsafe-function-type -- NOTE(kazupon): for generic function type
   ? T
   : IsObject<T> extends true
   ? T

@@ -23,7 +23,7 @@ The feature is experimental. It may receive breaking changes or be removed in th
 You can make a message compiler by implementing functions with the following interfaces.
 
 The following is a TypeScript type definition:
-```js
+```ts
 export declare type MessageCompiler<Message = string, MessageSource = string | ResourceNode> = (message: MessageSource, context: MessageCompilerContext) => MessageFunction<Message>;
 ```
 
@@ -62,6 +62,8 @@ export const messageCompiler: MessageCompiler = (
 ## Message compiler registration
 
 After implementing message compiler, set the `messageCompiler` option of `createI18n` as follows, and you can use your message format for the `messages` option:
+
+<!-- eslint-skip -->
 
 ```ts
 import { createI18n } from 'vue-i18n'

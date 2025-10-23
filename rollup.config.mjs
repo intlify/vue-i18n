@@ -1,6 +1,6 @@
 import json from '@rollup/plugin-json'
 import replace from '@rollup/plugin-replace'
-import terser from '@rollup/plugin-terser'
+import terser from '@rollup/plugin-terser' // eslint-disable-line -- NOTE(kazupon): ignore
 import { promises as fs } from 'node:fs'
 import { createRequire } from 'node:module'
 import path from 'node:path'
@@ -103,6 +103,7 @@ if (process.env.NODE_ENV === 'production') {
     if (packageOptions.prod === false) {
       return
     }
+    // eslint-disable-next-line regexp/no-unused-capturing-group -- NOTE(kazupon): ignore
     if (/^(global|browser)(-runtime)?/.test(format)) {
       packageConfigs.push(createMinifiedConfig(format, outputConfigs[format]))
       if (name === 'vue-i18n-core') {
@@ -229,36 +230,36 @@ function createConfig(format, _output, plugins = []) {
           await fs.writeFile(resolve(`dist/${stub}`), contents)
           console.log(`created stub ${pc.bold(`dist/${stub}`)}`)
 
-          /*
-          // add the node specific version
-          if (format === 'mjs' || format === 'mjs-runtime') {
-            // NOTE:
-            //  https://github.com/vuejs/router/issues/1516
-            //  https://github.com/vuejs/router/commit/53f720622aa273e33c05517fa917cdcfbfba52bc
-            if (name === 'vue-i18n' || name === 'petite-vue-i18n') {
-              const outfile = `dist/${stub}`.replace(
-                'esm-bundler.js',
-                'node.mjs'
-              )
-              await fs.writeFile(
-                resolve(outfile),
-                `global.__VUE_PROD_DEVTOOLS__ = false;\n` + contents
-              )
-              console.log(`created stub ${pc.bold(outfile)}`)
-            } else if (name === 'core') {
-              const outfile = `dist/${stub}`.replace(
-                'esm-bundler.js',
-                'node.mjs'
-              )
-              await fs.writeFile(
-                resolve(outfile),
-                `global.__VUE_PROD_DEVTOOLS__ = false;\nglobal.__INTLIFY_JIT_COMPILATION__ = true;\n` +
-                  contents
-              )
-              console.log(`created stub ${pc.bold(outfile)}`)
-            }
-          }
-          */
+          //
+          // // add the node specific version
+          // if (format === 'mjs' || format === 'mjs-runtime') {
+          // // NOTE:
+          // //  https://github.com/vuejs/router/issues/1516
+          // //  https://github.com/vuejs/router/commit/53f720622aa273e33c05517fa917cdcfbfba52bc
+          // if (name === 'vue-i18n' || name === 'petite-vue-i18n') {
+          //     const outfile = `dist/${stub}`.replace(
+          //       'esm-bundler.js',
+          //       'node.mjs'
+          //     )
+          //     await fs.writeFile(
+          //       resolve(outfile),
+          //       `global.__VUE_PROD_DEVTOOLS__ = false;\n` + contents
+          //     )
+          //     console.log(`created stub ${pc.bold(outfile)}`)
+          // } else if (name === 'core') {
+          //     const outfile = `dist/${stub}`.replace(
+          //       'esm-bundler.js',
+          //       'node.mjs'
+          //     )
+          //     await fs.writeFile(
+          //       resolve(outfile),
+          //       `global.__VUE_PROD_DEVTOOLS__ = false;\nglobal.__INTLIFY_JIT_COMPILATION__ = true;\n` +
+          //         contents
+          //     )
+          //     console.log(`created stub ${pc.bold(outfile)}`)
+          // }
+          // }
+          //
         }
       }
     ],

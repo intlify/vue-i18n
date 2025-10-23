@@ -104,6 +104,8 @@ export { HelloI18nElement }
 
 When the following Vue application is registered as a custom element of Web Components:
 
+<!-- eslint-skip -->
+
 ```js
 import { createApp } from 'vue'
 import { I18nHostElement } from './path/to/I18nHostElement'

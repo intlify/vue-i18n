@@ -1,4 +1,10 @@
-import type { IsEmptyObject, IsNever, NamedValue, TranslateOptions } from '@intlify/core-base'
+import type {
+  IsEmptyObject,
+  IsNever,
+  NamedValue,
+  TranslateOptions,
+  JsonPaths
+} from '@intlify/core-base'
 import type {
   CustomBlocks,
   DefineLocaleMessage,
@@ -7,8 +13,6 @@ import type {
 } from '@intlify/vue-i18n-core/petite'
 
 // --- THE CONTENT BELOW THIS LINE WILL BE APPENDED TO DTS FILE IN DIST DIRECTORY --- //
-
-import type { JsonPaths } from '@intlify/core-base'
 
 declare module 'vue' {
   /**

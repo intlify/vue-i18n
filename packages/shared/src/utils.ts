@@ -30,7 +30,7 @@ if (__DEV__) {
   }
 }
 
-const RE_ARGS = /\{([0-9a-zA-Z]+)\}/g
+const RE_ARGS = /\{([0-9a-z]+)\}/gi
 
 /* eslint-disable */
 export function format(message: string, ...args: any): string {
@@ -112,6 +112,7 @@ export function hasOwn(obj: object | Array<any>, key: string): boolean {
  * https://github.com/vuejs/vue-next/blob/master/packages/shared/src/codeframe.ts
  */
 export const isArray: typeof Array.isArray = Array.isArray
+// eslint-disable-next-line @typescript-eslint/no-unsafe-function-type -- NOTE(kazupon): for generic function type
 export const isFunction = (val: unknown): val is Function => typeof val === 'function'
 export const isString = (val: unknown): val is string => typeof val === 'string'
 export const isBoolean = (val: unknown): val is boolean => typeof val === 'boolean'

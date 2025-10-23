@@ -1,22 +1,23 @@
+<!-- eslint-disable vue/multi-word-component-names -->
 <script setup lang="ts">
 import * as monaco from 'monaco-editor'
 import { onMounted, onUnmounted, ref, watchEffect } from 'vue'
-// @ts-ignore
+// @ts-ignore -- NOTE(kazupon): ignore
 import EditorWorker from 'monaco-editor/esm/vs/editor/editor.worker?worker'
-// @ts-ignore
-import JsonWorker from 'monaco-editor/esm/vs/language/json/json.worker?worker'
-// @ts-ignore
-import CssWorker from 'monaco-editor/esm/vs/language/css/css.worker?worker'
-// @ts-ignore
-import HtmlWorker from 'monaco-editor/esm/vs/language/html/html.worker?worker'
-// @ts-ignore
+// @ts-ignore -- NOTE(kazupon): ignore
+import JsonWorker from 'monaco-editor/esm/vs/language/json/json.worker?worker' // eslint-disable-line import/default -- NOTE(kazupon): ignore
+// @ts-ignore -- NOTE(kazupon): ignore
+import CssWorker from 'monaco-editor/esm/vs/language/css/css.worker?worker' // eslint-disable-line import/default -- NOTE(kazupon): ignore
+// @ts-ignore -- NOTE(kazupon): ignore
+import HtmlWorker from 'monaco-editor/esm/vs/language/html/html.worker?worker' // eslint-disable-line import/default -- NOTE(kazupon): ignore
+// @ts-ignore -- NOTE(kazupon): ignore
 import type { CompileError } from '@intlify/message-compiler'
+// @ts-ignore -- NOTE(kazupon): ignore
 import TsWorker from 'monaco-editor/esm/vs/language/typescript/ts.worker?worker'
 import theme from '../theme'
 import { debounce as _debounce } from '../utils'
 
-// @ts-ignore
-// eslint-disable-next-line -- FIXME:
+// @ts-ignore -- FIXME: detect type errors
 self.MonacoEnvironment = {
   getWorker(_: unknown, label: string) {
     if (label === 'json') {
@@ -96,7 +97,6 @@ onMounted(() => {
     throw new Error('editor is null')
   }
 
-  // eslint-disable-next-line -- FIXME:
   window.addEventListener('resize', () => editor.layout())
 
   const changeEmitter = props.debounce

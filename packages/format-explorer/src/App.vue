@@ -23,7 +23,6 @@ interface PersistedState {
 const genCodes = ref<string>('')
 const compileErrors = ref<CompileError[]>([])
 const persistedState: PersistedState = JSON.parse(
-  // eslint-disable-next-line -- FIXME:
   decodeURIComponent(window.location.hash.slice(1)) || localStorage.getItem('state') || `{}`
 )
 const initialCodes = persistedState.src || 'hello {name}!'
@@ -89,9 +88,9 @@ let outputEditor: monaco.editor.IStandaloneCodeEditor | null = null
 const onChangeModel = async (message: string): Promise<void> => {
   console.log('onChangeModel', message)
   const state = JSON.stringify({ src: message } as PersistedState)
-  // eslint-disable-next-line -- FIXME:
+
   localStorage.setItem('state', state)
-  // eslint-disable-next-line -- FIXME:
+
   window.location.hash = encodeURIComponent(state)
   genCodes.value = await compile(message, _compilerOptions)
 }

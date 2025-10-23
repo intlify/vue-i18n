@@ -74,6 +74,7 @@ export function assertLocaleHeadWithDom(dom: Document, headSelector: string) {
 }
 
 export function url(path: string) {
+  // eslint-disable-next-line vue-composable/composable-placement -- NOTE(kazupon): not a composable
   const ctx = useTestContext()
 
   if (!ctx.url) {

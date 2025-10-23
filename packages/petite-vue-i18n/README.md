@@ -177,9 +177,9 @@ npm install --save @intlify/core-base
 
 Then, at the entry point of the application, configure the message resolver and locale fallbacker using the API as the below:
 
+<!-- eslint-skip -->
+
 ```js
-import { createApp } from 'vue'
-import { createI18n } from 'petite-vue-i18n'
 import {
   registerMessageResolver, // register the message resolver API
   resolveValue, // message resolver of vue-i18n which is used by default

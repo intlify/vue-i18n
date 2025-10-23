@@ -60,6 +60,8 @@ app.mount('#app')
 Template:
 
 
+<!-- eslint-skip -->
+
 ```html
 <div id="app">
   <h1>Root</h1>
@@ -85,7 +87,7 @@ As in the example above, if the component doesn't have the locale message, it fa
 
 And also, as explained the [here](fallback#explicit-fallback-with-one-locale), note that, by default, falling back to global scope generates two warnings in the console:
 
-```
+```txt
 [intlify] Not found 'message.greeting' key in 'ja' locale messages.
 [intlify] Fall back to translate 'message.greeting' with root locale.
 ```
@@ -118,6 +120,8 @@ export default {
 ```
 
 Components:
+
+<!-- eslint-skip -->
 
 ```js
 import commonMessage from './locales/common' // import common locale messages

@@ -1,4 +1,4 @@
-name: "\U0001F680 New feature proposal"
+name: "\U0001F680 New feature proposal" # eslint-disable-line  yml/plain-scalar
 description: Propose a new feature
 labels: ['Status: Proposal']
 body:

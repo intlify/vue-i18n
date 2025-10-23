@@ -81,11 +81,10 @@ export type LocaleMessageDictionary<T, Message = string> = {
 export type LocaleMessage<Message = string> = Record<string, LocaleMessageValue<Message>>
 
 /** @VueI18nGeneral */
-export type LocaleMessages<
-  Schema,
-  Locales = Locale,
-  Message = string // eslint-disable-line @typescript-eslint/no-unused-vars
-> = LocaleRecord<UnionToTuple<Locales>, Schema>
+export type LocaleMessages<Schema, Locales = Locale, _Message = string> = LocaleRecord<
+  UnionToTuple<Locales>,
+  Schema
+>
 
 /**
  * The type definition of Locale Message for `@intlify/core-base` package
@@ -338,18 +337,18 @@ function getDefaultLinkedModifiers<Message = string>(): LinkedModifiers<Message>
     upper: (val: Message, type: string): MessageType<Message> => {
       // prettier-ignore
       return type === 'text' && isString(val)
-        ? val.toUpperCase()
+        ? val.toUpperCase() as MessageType<Message>
         : type === 'vnode' && isObject(val) && '__v_isVNode' in val
           ? (val as any).children.toUpperCase()
-          : val
+          : val as MessageType<Message>
     },
     lower: (val: Message, type: string): MessageType<Message> => {
       // prettier-ignore
       return type === 'text' && isString(val)
-        ? val.toLowerCase()
+        ? val.toLowerCase() as MessageType<Message>
         : type === 'vnode' && isObject(val) && '__v_isVNode' in val
           ? (val as any).children.toLowerCase()
-          : val
+          : val as MessageType<Message>
     },
     capitalize: (val: Message, type: string): MessageType<Message> => {
       // prettier-ignore

@@ -4,3 +4,6 @@ packages:
   - '!examples/ssr/vite'
   - '!examples/ssr/vitepress'
   - '!examples/frameworks/nuxt3'
+minimumReleaseAge: 1440
+minimumReleaseAgeExclude:
+  - '@kazupon/eslint-config'

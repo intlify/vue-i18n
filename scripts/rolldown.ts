@@ -127,6 +127,7 @@ export function createConfigsForPackage({
       if (packageOptions.prod === false) {
         return
       }
+      // eslint-disable-next-line regexp/no-unused-capturing-group
       if (/^(global|browser)(-runtime)?/.test(format)) {
         packageConfigs.push(createMinifiedConfig(format, outputConfigs[format]))
         if (name === 'vue-i18n-core') {
@@ -220,7 +221,7 @@ export function createConfigsForPackage({
       }
 
       // allow inline overrides like
-      //__LITE__=true pnpm build core-base
+      // __LITE__=true pnpm build core-base
       Object.keys(defines).forEach(key => {
         if (key in process.env) {
           const value = process.env[key]

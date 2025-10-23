@@ -83,6 +83,7 @@ export async function buildTypings(targets: string[]) {
         throw new Error('output must be an object')
       }
       const output = config.output
+      // eslint-disable-next-line promise/no-nesting -- FIXME:
       return bundle.write(output).then(() => {
         console.log(pc.gray('built: ') + pc.blue(dtsPath))
         return dtsPath

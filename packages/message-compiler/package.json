@@ -1,7 +1,21 @@
 {
   "name": "@intlify/message-compiler",
-  "version": "12.0.0-alpha.3",
   "description": "@intlify/message-compiler",
+  "version": "12.0.0-alpha.3",
+  "author": {
+    "name": "kazuya kawaguchi",
+    "email": "kawakazu80@gmail.com"
+  },
+  "license": "MIT",
+  "funding": "https://github.com/sponsors/kazupon",
+  "bugs": {
+    "url": "https://github.com/intlify/vue-i18n/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/intlify/vue-i18n.git",
+    "directory": "packages/message-compiler"
+  },
   "keywords": [
     "compiler",
     "i18n",
@@ -9,44 +23,21 @@
     "intlify",
     "message-format"
   ],
-  "license": "MIT",
-  "author": {
-    "name": "kazuya kawaguchi",
-    "email": "kawakazu80@gmail.com"
-  },
   "homepage": "https://github.com/intlify/vue-i18n/tree/master/packages/message-compiler#readme",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/intlify/vue-i18n.git",
-    "directory": "packages/message-compiler"
+  "publishConfig": {
+    "access": "public"
   },
-  "bugs": {
-    "url": "https://github.com/intlify/vue-i18n/issues"
+  "engines": {
+    "node": ">= 16"
   },
+  "type": "module",
+  "sideEffects": false,
   "files": [
     "dist"
   ],
   "module": "dist/message-compiler.js",
   "unpkg": "dist/message-compiler.global.js",
   "jsdelivr": "dist/message-compiler.global.js",
-  "types": "dist/message-compiler.d.ts",
-  "dependencies": {
-    "@intlify/shared": "workspace:*",
-    "source-map-js": "^1.0.2"
-  },
-  "engines": {
-    "node": ">= 16"
-  },
-  "buildOptions": {
-    "name": "IntlifyMessageCompiler",
-    "formats": [
-      "mjs",
-      "mjs-node",
-      "browser",
-      "global"
-    ],
-    "enableFullBundleForEsmBrowser": true
-  },
   "exports": {
     ".": {
       "types": "./dist/message-compiler.d.ts",
@@ -63,10 +54,19 @@
     "./dist/*": "./dist/*",
     "./package.json": "./package.json"
   },
-  "funding": "https://github.com/sponsors/kazupon",
-  "publishConfig": {
-    "access": "public"
+  "types": "dist/message-compiler.d.ts",
+  "dependencies": {
+    "@intlify/shared": "workspace:*",
+    "source-map-js": "^1.0.2"
   },
-  "sideEffects": false,
-  "type": "module"
+  "buildOptions": {
+    "name": "IntlifyMessageCompiler",
+    "formats": [
+      "mjs",
+      "mjs-node",
+      "browser",
+      "global"
+    ],
+    "enableFullBundleForEsmBrowser": true
+  }
 }

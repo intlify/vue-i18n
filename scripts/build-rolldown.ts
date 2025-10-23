@@ -1,18 +1,18 @@
-/*
-Produces production builds and stitches together d.ts files.
-
-To specify the package to build, simply pass its name and the desired build
-formats to output (defaults to `buildOptions.formats` specified in that package,
-or "esm"):
-
-```
-# name supports fuzzy match. will build all packages with name containing "core-base":
-pnpm build core-base
-
-# specify the format to output
-pnpm build core --formats mjs
-```
-*/
+//
+// Produces production builds and stitches together d.ts files.
+//
+// To specify the package to build, simply pass its name and the desired build
+// formats to output (defaults to `buildOptions.formats` specified in that package,
+// or "esm"):
+//
+// ```
+// # name supports fuzzy match. will build all packages with name containing "core-base":
+// pnpm build core-base
+//
+// # specify the format to output
+// pnpm build core --formats mjs
+// ```
+//
 
 import { spawnSync } from 'node:child_process'
 import { existsSync, promises as fs } from 'node:fs'
@@ -120,17 +120,19 @@ async function main() {
           Promise.all(
             configs.map(c =>
               rolldown(c).then(bundle => {
+                // eslint-disable-next-line promise/no-nesting
                 return bundle.write(c.output as OutputOptions).then(() => {
                   return path.join(
                     'packages',
                     target,
                     'dist',
-                    // @ts-expect-error
+                    // @ts-expect-error -- FIXME: need to fix OutputOptions type
                     path.basename(c.output.file)
                   )
                 })
               })
             )
+            // eslint-disable-next-line promise/always-return -- FIXME:
           ).then(files => {
             files.forEach(f => {
               count++

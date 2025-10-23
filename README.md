@@ -1,7 +1,11 @@
 # vue-i18n
 
+<!-- eslint-disable markdown/no-missing-label-refs -->
+
 > [!NOTE]
 > This is the repository for Vue I18n 9 for Vue 3
+
+<!-- eslint-enable markdown/no-missing-label-refs -->
 
 Internationalization plugin for Vue.js
 
@@ -14,7 +18,7 @@ Vue I18n is part of the Vue Ecosystem and Intlify Project is an open source proj
 
 <p align="center">
   <a href="https://cdn.jsdelivr.net/gh/kazupon/sponsors/sponsors.svg">
-    <img src='https://cdn.jsdelivr.net/gh/kazupon/sponsors/sponsors.svg'/>
+    <img alt="sponsors" src='https://cdn.jsdelivr.net/gh/kazupon/sponsors/sponsors.svg'/>
   </a>
 </p>
 

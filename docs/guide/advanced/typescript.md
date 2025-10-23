@@ -28,6 +28,8 @@ Locale messages resource:
 
 Application entrypoint:
 
+<!-- eslint-skip -->
+
 ```ts
 import { createI18n } from 'vue-i18n'
 import enUS from './locales/en-US.json'
@@ -88,6 +90,8 @@ locale messages to import in Vue components:
 ```
 
 Vue components with type-safe resources:
+
+<!-- eslint-skip -->
 
 ```vue
 <script setup lang="ts">
@@ -184,6 +188,8 @@ For that use case, you can also support interpolation of resource keys by explic
 
 define schema for global scope:
 
+<!-- eslint-skip -->
+
 ```ts
 /**
  * define the resource schema
@@ -205,6 +211,8 @@ export type NumberSchema = {
 ```
 
 Then, just import the defined schema and use it as a type parameter of `useI18n`, as in the following Vue component:
+
+<!-- eslint-skip -->
 
 ```vue
 <script lang="ts">
@@ -254,11 +262,8 @@ The following is an example of a global schema defined in `d.ts`:
 /**
  * you need to import the some interfaces
  */
-import {
-  DefineLocaleMessage,
-  DefineDateTimeFormat,
-  DefineNumberFormat
-} from 'vue-i18n'
+
+
 
 declare module 'vue-i18n' {
   // define the locale messages schema
@@ -298,6 +303,8 @@ Previously, when using `createI18n` and `useI18n` with type definitions for glob
 This way, you don't need to do that.
 
 The following is an example with `createI18n`:
+
+<!-- eslint-skip -->
 
 ```ts
 import { createI18n, type I18nOptions } from 'vue-i18n'

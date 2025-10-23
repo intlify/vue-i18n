@@ -25,8 +25,7 @@ type GetLocaleMessagesOptions<Messages = {}> = {
 }
 
 declare module 'vue' {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  interface VNode<HostNode = RendererNode, HostElement = RendererElement> {
+  interface VNode<_HostNode = RendererNode, _HostElement = RendererElement> {
     toString: () => string // mark for vue-i18n message runtime
   }
 }

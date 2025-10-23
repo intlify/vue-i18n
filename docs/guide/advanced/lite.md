@@ -183,6 +183,8 @@ pnpm add @intlify/core-base@next
 
 Then, at the entry point of the application, configure the message resolver and locale fallbacker using the API as the below:
 
+<!-- eslint-skip -->
+
 ```js
 import { createApp } from 'vue'
 import {
@@ -212,11 +214,15 @@ With the above settings, locale message resolving and locale fallbacking will be
 If you are building your application with a build toolchain like vite, you must configure it.
 Please set the [‘module’ option in `@intlify/unplugin-vue-i18n`](https://github.com/intlify/bundle-tools/tree/main/packages/unplugin-vue-i18n#module) configuration as follows.
 
+<!-- eslint-disable markdown/no-missing-label-refs -->
+
 > [!NOTE]
 > About `@intlify/unplugin-vue-i18n` setting, see the ['performance' section](./optimization.md) and [`@intlify/unplugin-vue-i18n` docs](https://github.com/intlify/bundle-tools/blob/main/packages/unplugin-vue-i18n/README.md)
 
 > [!IMPORTANT]
 > `@intlify/unplugin-vue-i18n` version must **5.1.0 and later**
+
+<!-- eslint-enable markdown/no-missing-label-refs -->
 
 ```diff
  // vite.config.ts

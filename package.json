@@ -1,17 +1,22 @@
 {
   "name": "vue-i18n-root",
+  "private": true,
   "version": "12.0.0-alpha.3",
-  "license": "MIT",
   "author": {
     "name": "kazuya kawaguchi",
     "email": "kawakazu80@gmail.com"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/inlitify/vue-i18n/issues"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/intlify/vue-i18n.git"
   },
-  "bugs": {
-    "url": "https://github.com/inlitify/vue-i18n/issues"
+  "packageManager": "pnpm@10.19.0",
+  "engines": {
+    "node": ">= 20"
   },
   "scripts": {
     "bench": "node ./benchmark/index.mjs",
@@ -56,12 +61,12 @@
     "example:ssr": "cd examples/ssr/vite && pnpm dev",
     "fix": "pnpm run --color \"/^fix:/\"",
     "fix:eslint": "eslint . --fix --cache",
-    "fix:prettier": "prettier --write . --experimental-cli",
     "fix:knip": "knip --fix",
+    "fix:prettier": "prettier --write . --experimental-cli",
     "lint": "pnpm run --color \"/^lint:/\"",
     "lint:eslint": "eslint . --cache",
-    "lint:prettier": "prettier --check . --experimental-cli",
     "lint:knip": "knip",
+    "lint:prettier": "prettier --check . --experimental-cli",
     "prebuild": "test \"$CI\" = true && npx pnpm install -r --store=node_modules/.pnpm-store || echo skipping pnpm install",
     "preinstall": "node ./scripts/preinstall.js",
     "prepare": "git config --local core.hooksPath .githooks",
@@ -77,11 +82,18 @@
     "test:e2e": "cross-env TZ=UTC vitest run -c ./vitest.e2e.config.ts",
     "test:unit": "cross-env TZ=UTC vitest run -c ./vitest.unit.config.ts --typecheck"
   },
+  "peerDependencies": {
+    "@microsoft/api-extractor": "7.15.2",
+    "typescript": "^5.0.4"
+  },
   "devDependencies": {
-    "@eslint/js": "^9.38.0",
+    "@eslint/compat": "^1.4.0",
+    "@eslint/markdown": "^7.4.0",
+    "@html-eslint/eslint-plugin": "^0.47.0",
     "@intlify/core-base": "workspace:*",
     "@intlify/message-compiler": "workspace:*",
     "@intlify/vue-i18n-core": "workspace:*",
+    "@kazupon/eslint-config": "^0.38.0",
     "@kazupon/prettier-config": "^0.1.1",
     "@microsoft/api-extractor": "7.15.2",
     "@rolldown/plugin-node-polyfills": "^1.0.0",
@@ -101,11 +113,21 @@
     "cross-env": "^7.0.3",
     "eslint": "^9.38.0",
     "eslint-config-prettier": "^10.1.8",
+    "eslint-import-resolver-typescript": "^4.4.4",
+    "eslint-plugin-import": "^2.32.0",
+    "eslint-plugin-jsonc": "^2.21.0",
+    "eslint-plugin-markdown-preferences": "^0.36.2",
+    "eslint-plugin-module-interop": "^0.3.1",
+    "eslint-plugin-promise": "^7.2.1",
+    "eslint-plugin-regexp": "^2.10.0",
+    "eslint-plugin-unicorn": "^61.0.2",
+    "eslint-plugin-unused-imports": "^4.3.0",
     "eslint-plugin-vue": "^10.5.1",
+    "eslint-plugin-vue-composable": "^1.0.0",
+    "eslint-plugin-yml": "^1.19.0",
     "fast-glob": "^3.3.3",
     "get-port-please": "^3.1.2",
     "gh-changelogen": "^0.2.8",
-    "globals": "^15.9.0",
     "jsdom": "^25.0.0",
     "knip": "^5.66.2",
     "lint-staged": "^15.2.2",
@@ -126,25 +148,30 @@
     "rollup-plugin-node-globals": "^1.4.0",
     "rollup-plugin-typescript2": "^0.36.0",
     "serve-handler": "^6.1.6",
+    "tinyexec": "^1.0.1",
     "tslib": "^2.6.2",
     "tsx": "^4.20.6",
-    "tinyexec": "^1.0.1",
     "typescript": "5.6.3",
-    "typescript-eslint": "^8.4.0",
+    "typescript-eslint": "^8.46.2",
     "vitepress": "1.6.4",
     "vitepress-plugin-llms": "^1.1.0",
     "vitest": "^2.1.5",
     "vue": "3.5.22",
     "vue-i18n": "workspace:*"
   },
-  "peerDependencies": {
-    "@microsoft/api-extractor": "7.15.2",
-    "typescript": "^5.0.4"
+  "pnpm": {
+    "overrides": {
+      "vite": "^6.0.0",
+      "vue": "3.5.22"
+    },
+    "onlyBuiltDependencies": [
+      "@parcel/watcher",
+      "@swc/core",
+      "esbuild",
+      "fsevents",
+      "unrs-resolver"
+    ]
   },
-  "engines": {
-    "node": ">= 20"
-  },
-  "private": true,
   "prettier": "@kazupon/prettier-config",
   "lint-staged": {
     "*.{json,md,yml}": [
@@ -157,19 +184,6 @@
     "*.ts?(x)": [
       "prettier --parser=typescript --write",
       "eslint --fix"
-    ]
-  },
-  "packageManager": "pnpm@10.19.0",
-  "pnpm": {
-    "overrides": {
-      "vue": "3.5.22",
-      "vite": "^6.0.0"
-    },
-    "onlyBuiltDependencies": [
-      "@parcel/watcher",
-      "@swc/core",
-      "esbuild",
-      "fsevents"
     ]
   }
 }

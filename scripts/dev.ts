@@ -1,20 +1,20 @@
-/*
-Run Rollup in watch mode for development.
-
-To specific the package to watch, simply pass its name and the desired build
-formats to watch (defaults to "global"):
-
-```
-# name supports fuzzy match. will watch all packages with name containing "core-base"
-pnpm dev core-base
-
-# specify the format to output
-pnpm dev core --formats mjs
-
-# Can also drop all __DEV__ blocks with:
-__DEV__=false pnpm run dev
-```
-*/
+//
+// Run Rollup in watch mode for development.
+//
+// To specific the package to watch, simply pass its name and the desired build
+// formats to watch (defaults to "global"):
+//
+// ```
+// # name supports fuzzy match. will watch all packages with name containing "core-base"
+// pnpm dev core-base
+//
+// # specify the format to output
+// pnpm dev core --formats mjs
+//
+// # Can also drop all __DEV__ blocks with:
+// __DEV__=false pnpm run dev
+// ```
+//
 
 import { spawnSync } from 'node:child_process'
 import { parseArgs } from 'node:util'

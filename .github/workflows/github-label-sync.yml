@@ -7,10 +7,10 @@ on:
     paths:
       - .github/labels.yml
       - .github/workflows/github-label-sync.yml
-  workflow_dispatch:
+  workflow_dispatch: # eslint-disable-line yml/no-empty-mapping-value
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: r7kamura/github-label-sync-action@061649dd3b80eb5bafad0316466f72962e62c300 #v0.1.0
+      - uses: r7kamura/github-label-sync-action@061649dd3b80eb5bafad0316466f72962e62c300 # v0.1.0

@@ -1,45 +1,40 @@
 {
   "name": "@intlify/devtools-types",
-  "version": "12.0.0-alpha.3",
   "description": "@intlify/devtools-types",
+  "version": "12.0.0-alpha.3",
+  "author": {
+    "name": "kazuya kawaguchi",
+    "email": "kawakazu80@gmail.com"
+  },
+  "license": "MIT",
+  "funding": "https://github.com/sponsors/kazupon",
+  "bugs": {
+    "url": "https://github.com/intlify/vue-i18n/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/intlify/vue-i18n.git",
+    "directory": "packages/devtools-types"
+  },
   "keywords": [
     "devtools",
     "i18n",
     "internationalization",
     "intlify"
   ],
-  "license": "MIT",
-  "author": {
-    "name": "kazuya kawaguchi",
-    "email": "kawakazu80@gmail.com"
-  },
   "homepage": "https://github.com/intlify/vue-i18n/tree/master/packages/devtools-types#readme",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/intlify/vue-i18n.git",
-    "directory": "packages/devtools-types"
-  },
-  "bugs": {
-    "url": "https://github.com/intlify/vue-i18n/issues"
-  },
-  "files": [
-    "dist"
-  ],
-  "module": "dist/devtools-types.js",
-  "types": "dist/devtools-types.d.ts",
-  "dependencies": {
-    "@intlify/core-base": "workspace:*",
-    "@intlify/shared": "workspace:*"
+  "publishConfig": {
+    "access": "public"
   },
   "engines": {
     "node": ">= 16"
   },
-  "buildOptions": {
-    "name": "IntlifyDevToolsTypes",
-    "formats": [
-      "mjs"
-    ]
-  },
+  "type": "module",
+  "sideEffects": false,
+  "files": [
+    "dist"
+  ],
+  "module": "dist/devtools-types.js",
   "exports": {
     ".": {
       "types": "./dist/devtools-types.d.ts",
@@ -55,10 +50,15 @@
     "./dist/*": "./dist/*",
     "./package.json": "./package.json"
   },
-  "funding": "https://github.com/sponsors/kazupon",
-  "publishConfig": {
-    "access": "public"
+  "types": "dist/devtools-types.d.ts",
+  "dependencies": {
+    "@intlify/core-base": "workspace:*",
+    "@intlify/shared": "workspace:*"
   },
-  "sideEffects": false,
-  "type": "module"
+  "buildOptions": {
+    "name": "IntlifyDevToolsTypes",
+    "formats": [
+      "mjs"
+    ]
+  }
 }

@@ -10,7 +10,7 @@ export const enum HelperNameMap {
   VALUES = 'values'
 }
 
-// eslint-disable-next-line no-useless-escape
-const RE_HTML_TAG = /<\/?[\w\s="/.':;#-\/]+>/
+// eslint-disable-next-line regexp/no-obscure-range -- FIXME:
+const RE_HTML_TAG = /<[\w\s=":;#-/]+>/
 
 export const detectHtmlTag = (source: string): boolean => RE_HTML_TAG.test(source)

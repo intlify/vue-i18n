@@ -1816,7 +1816,7 @@ const NOOP_RETURN_FALSE = () => false
 let composerID = 0
 
 function defineCoreMissingHandler(missing: MissingHandler): CoreMissingHandler {
-  return ((ctx: CoreContext, locale: Locale, key: Path, type: string): string | void => {
+  return ((_ctx: CoreContext, locale: Locale, key: Path, type: string): string | void => {
     return missing(locale, key, getCurrentInstance() || undefined, type)
   }) as CoreMissingHandler
 }

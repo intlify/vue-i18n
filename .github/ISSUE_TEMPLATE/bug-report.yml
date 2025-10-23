@@ -1,4 +1,4 @@
-name: "\U0001F41E Bug report"
+name: "\U0001F41E Bug report" # eslint-disable-line  yml/plain-scalar
 description: Report an issue
 labels: ['Status: Review Needed']
 body:

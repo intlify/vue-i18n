@@ -28,15 +28,14 @@ export interface Parser {
 export const ERROR_DOMAIN = 'parser'
 
 // Backslash backslash, backslash quote, uHHHH, UHHHHHH.
-const KNOWN_ESCAPES = /(?:\\\\|\\'|\\u([0-9a-fA-F]{4})|\\U([0-9a-fA-F]{6}))/g
+const KNOWN_ESCAPES = /\\\\|\\'|\\u([0-9a-fA-F]{4})|\\U([0-9a-fA-F]{6})/g
 
 function fromEscapeSequence(match: string, codePoint4: string, codePoint6: string): string {
   switch (match) {
     case `\\\\`:
       return `\\`
-    // eslint-disable-next-line no-useless-escape
+
     case `\\\'`:
-      // eslint-disable-next-line no-useless-escape
       return `\'`
     default: {
       const codePoint = parseInt(codePoint4 || codePoint6, 16)

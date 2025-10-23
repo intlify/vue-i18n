@@ -65,6 +65,8 @@ pnpm add -D @intlify/unplugin-vue-i18n
 
 #### Configure plugin for vite
 
+<!-- eslint-skip -->
+
 ```js
 // vite.config.ts
 import { defineConfig } from 'vite'
@@ -86,6 +88,8 @@ export default defineConfig({
 ```
 
 #### Configure plugin for webpack
+
+<!-- eslint-skip -->
 
 ```js
 // webpack.config.js
@@ -185,7 +189,9 @@ About how to usage, see [here](https://github.com/intlify/vue-i18n-extensions).
 
 For SSR applications, you need to configure the `ssr` option in [@intlify/unplugin-vue-i18n](https://github.com/intlify/bundle-tools/tree/main/packages/unplugin-vue-i18n#ssr):
 
-```js
+<!-- eslint-skip -->
+
+```ts
 // vite.config.ts
 import { defineConfig } from 'vite'
 import VueI18nPlugin from '@intlify/unplugin-vue-i18n/vite'

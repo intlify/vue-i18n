@@ -1,21 +1,21 @@
 {
   "name": "@intlify/size-check-petite-vue-i18n",
   "private": true,
+  "version": "12.0.0-alpha.3",
   "scripts": {
-    "dev": "vite",
     "build": "vite build",
     "check": "vue-tsc",
+    "dev": "vite",
     "preview": "vite preview"
   },
   "dependencies": {
-    "vue": "^3.3.4",
-    "petite-vue-i18n": "workspace:*"
+    "petite-vue-i18n": "workspace:*",
+    "vue": "^3.3.4"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^5.0.0",
     "@vue/compiler-sfc": "^3.3.4",
     "vite": "^6.0.0",
     "vue-tsc": "^2.0.0"
-  },
-  "version": "12.0.0-alpha.3"
+  }
 }

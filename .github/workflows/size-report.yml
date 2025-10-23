@@ -2,10 +2,10 @@ name: Size report
 
 on:
   workflow_run:
-    workflows: ['Size data']
+    workflows: ['Size data'] # eslint-disable-line yml/plain-scalar
     types:
       - completed
-  workflow_dispatch:
+  workflow_dispatch: # eslint-disable-line yml/no-empty-mapping-value
 
 permissions:
   contents: read
@@ -83,4 +83,4 @@ jobs:
           body: |
             ${{ steps.size-report.outputs.content }}
             <!-- INTLIFY_VUE_I18N_SIZE -->
-          body-include: '<!-- INTLIFY_VUE_I18N_SIZE -->'
+          body-include: '<!-- INTLIFY_VUE_I18N_SIZE -->' # eslint-disable-line yml/plain-scalar

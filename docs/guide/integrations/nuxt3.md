@@ -45,7 +45,7 @@ pnpm dlx nuxi init nuxt3-app-vue-i18n
 
 Once we have run the above command, the created Nuxt 3 initial project will have the following directory structure:
 
-```
+```txt
 cd nuxt3-app-vue-i18n
 tree -L 1
 .
@@ -239,6 +239,8 @@ For japanese at `locales/ja.json`:
 
 Let's "register" the locales in our plugin (`plugins/i18n.ts`) as follows:
 
+<!-- eslint-skip -->
+
 ```js
 import { createI18n } from 'vue-i18n'
 import en from '../locales/en.json' // [!code ++]
@@ -303,6 +305,8 @@ pnpm add -D @intlify/unplugin-vue-i18n
 ### Configure Nuxt config
 
 Configure `nuxt.config.ts` like the below:
+
+<!-- eslint-skip -->
 
 ```js
 import { defineNuxtConfig } from 'nuxt'

@@ -33,6 +33,8 @@ app.mount('#app')
 
 ### Template:
 
+<!-- eslint-skip -->
+
 ```html
 <div id="string-syntax">
   <!-- Using a string literal -->
@@ -56,6 +58,8 @@ app.mount('#app')
 Alternatively, you can use object syntax.
 
 ### JavaScript:
+
+<!-- eslint-skip -->
 
 ```js
 import { createApp } from 'vue'
@@ -94,6 +98,8 @@ app.mount('#object-syntax')
 ```
 
 ### Template:
+
+<!-- eslint-skip -->
 
 ```html
 <div id="object-syntax">

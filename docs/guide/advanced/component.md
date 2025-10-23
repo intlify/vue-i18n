@@ -21,6 +21,8 @@ const messages = {
 
 And your localized template may look like this:
 
+<!-- esline-skip -->
+
 ```html
 <p>{{ $t('term1') }}<a href="/term">{{ $t('term2') }}</a></p>
 ```
@@ -252,7 +254,7 @@ If the parent component has `useI18n` in `useScope: 'global'`, it will use Globa
 
 However, You sometimes meet the warning message on your browser console the following:
 
-```
+```txt
 [intlify] Not found parent scope. use the global scope.
 ```
 

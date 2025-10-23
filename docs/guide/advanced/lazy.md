@@ -6,7 +6,7 @@ Lazy loading or asynchronously loading the localization files is really easy whe
 
 Let´s assume we have a project directory similar to the one below:
 
-```
+```txt
 ├── dist
 ├── index.html
 ├── package.json

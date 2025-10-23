@@ -6,12 +6,12 @@ import {
   createCoreContext,
   registerMessageCompiler,
   translate
-} from '@intlify/core-base'
+} from '@intlify/core-base' // eslint-disable-line import/namespace -- FIXME:
 import { baseCompile } from '@intlify/message-compiler'
-import { bench, run } from 'mitata'
+import { bench, run } from 'mitata' // eslint-disable-line import/namespace -- FIXME:
 import { dirname, resolve } from 'node:path'
 import { createI18n } from 'vue-i18n'
-import { displayMemoryUsage, parseArgs, readJson } from './utils.mjs'
+import { displayMemoryUsage, parseArgs, readJson } from './utils.mjs' // eslint-disable-line import/extensions -- FIXME:
 
 const args = parseArgs()
 function precompile(data) {

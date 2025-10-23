@@ -38,6 +38,8 @@ The message function accept the **Message context** as the first argument, which
 
 The use of the message function is very easy! You just specify the key of the message function with `$t` or `t`:
 
+<!-- eslint-skip -->
+
 ```html
 <p>{{ $t('greeting') }}</p>
 ```
@@ -88,6 +90,8 @@ const messages = {
 
 Template:
 
+<!-- eslint-skip -->
+
 ```html
 <p>{{ $t('greeting', { name: 'DIO' }) }}</p>
 ```
@@ -117,6 +121,8 @@ const messages = {
 ```
 
 Template:
+
+<!-- eslint-skip -->
 
 ```html
 <p>{{ $t('greeting', ['DIO']) }}</p>
@@ -150,6 +156,8 @@ const messages = {
 ```
 
 Template:
+
+<!-- eslint-skip -->
 
 ```html
 <p>{{ $t('linked') }}</p>
@@ -186,6 +194,8 @@ const messages = {
 ```
 
 Template:
+
+<!-- eslint-skip -->
 
 ```html
 <p>{{ $t('car', 1) }}</p>
