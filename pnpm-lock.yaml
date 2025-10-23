@@ -461,17 +461,17 @@ importers:
     dependencies:
       vue:
         specifier: 3.5.22
-        version: 3.5.22(typescript@5.8.3)
+        version: 3.5.22(typescript@5.6.3)
       vue-i18n:
         specifier: workspace:*
         version: link:../../packages/vue-i18n
     devDependencies:
       '@vitejs/plugin-vue':
         specifier: ^4.2.3
-        version: 4.6.2(vite@6.4.1(@types/node@22.18.12)(jiti@2.6.1)(terser@5.44.0)(tsx@4.20.6)(yaml@2.8.1))(vue@3.5.22(typescript@5.8.3))
+        version: 4.6.2(vite@6.4.1(@types/node@22.18.12)(jiti@2.6.1)(terser@5.44.0)(tsx@4.20.6)(yaml@2.8.1))(vue@3.5.22(typescript@5.6.3))
       '@vitejs/plugin-vue-jsx':
         specifier: ^3.0.2
-        version: 3.1.0(vite@6.4.1(@types/node@22.18.12)(jiti@2.6.1)(terser@5.44.0)(tsx@4.20.6)(yaml@2.8.1))(vue@3.5.22(typescript@5.8.3))
+        version: 3.1.0(vite@6.4.1(@types/node@22.18.12)(jiti@2.6.1)(terser@5.44.0)(tsx@4.20.6)(yaml@2.8.1))(vue@3.5.22(typescript@5.6.3))
       '@vue/compiler-sfc':
         specifier: ^3.3.4
         version: 3.5.22
@@ -480,7 +480,7 @@ importers:
         version: 6.4.1(@types/node@22.18.12)(jiti@2.6.1)(terser@5.44.0)(tsx@4.20.6)(yaml@2.8.1)
       vue-tsc:
         specifier: ^1.8.5
-        version: 1.8.27(typescript@5.8.3)
+        version: 1.8.27(typescript@5.6.3)
 
   examples/type-safe/global-type-definition:
     dependencies:
@@ -591,18 +591,18 @@ importers:
   packages/format-explorer:
     dependencies:
       monaco-editor:
-        specifier: ^0.53.0
-        version: 0.53.0
+        specifier: ^0.54.0
+        version: 0.54.0
       source-map-js:
         specifier: ^1.0.2
         version: 1.2.1
       vue:
         specifier: 3.5.22
-        version: 3.5.22(typescript@5.8.3)
+        version: 3.5.22(typescript@5.6.3)
     devDependencies:
       '@vitejs/plugin-vue':
         specifier: ^5.0.0
-        version: 5.2.4(vite@6.4.1(@types/node@22.18.12)(jiti@2.6.1)(terser@5.44.0)(tsx@4.20.6)(yaml@2.8.1))(vue@3.5.22(typescript@5.8.3))
+        version: 5.2.4(vite@6.4.1(@types/node@22.18.12)(jiti@2.6.1)(terser@5.44.0)(tsx@4.20.6)(yaml@2.8.1))(vue@3.5.22(typescript@5.6.3))
       '@vue/compiler-sfc':
         specifier: ^3.3.4
         version: 3.5.22
@@ -611,7 +611,7 @@ importers:
         version: 6.4.1(@types/node@22.18.12)(jiti@2.6.1)(terser@5.44.0)(tsx@4.20.6)(yaml@2.8.1)
       vue-tsc:
         specifier: ^2.0.0
-        version: 2.2.12(typescript@5.8.3)
+        version: 2.2.12(typescript@5.6.3)
 
   packages/message-compiler:
     dependencies:
@@ -663,11 +663,11 @@ importers:
         version: link:../petite-vue-i18n
       vue:
         specifier: 3.5.22
-        version: 3.5.22(typescript@5.8.3)
+        version: 3.5.22(typescript@5.6.3)
     devDependencies:
       '@vitejs/plugin-vue':
         specifier: ^5.0.0
-        version: 5.2.4(vite@6.4.1(@types/node@22.18.12)(jiti@2.6.1)(terser@5.44.0)(tsx@4.20.6)(yaml@2.8.1))(vue@3.5.22(typescript@5.8.3))
+        version: 5.2.4(vite@6.4.1(@types/node@22.18.12)(jiti@2.6.1)(terser@5.44.0)(tsx@4.20.6)(yaml@2.8.1))(vue@3.5.22(typescript@5.6.3))
       '@vue/compiler-sfc':
         specifier: ^3.3.4
         version: 3.5.22
@@ -676,20 +676,20 @@ importers:
         version: 6.4.1(@types/node@22.18.12)(jiti@2.6.1)(terser@5.44.0)(tsx@4.20.6)(yaml@2.8.1)
       vue-tsc:
         specifier: ^2.0.0
-        version: 2.2.12(typescript@5.8.3)
+        version: 2.2.12(typescript@5.6.3)
 
   packages/size-check-vue-i18n:
     dependencies:
       vue:
         specifier: 3.5.22
-        version: 3.5.22(typescript@5.8.3)
+        version: 3.5.22(typescript@5.6.3)
       vue-i18n:
         specifier: workspace:*
         version: link:../vue-i18n
     devDependencies:
       '@vitejs/plugin-vue':
         specifier: ^5.0.0
-        version: 5.2.4(vite@6.4.1(@types/node@22.18.12)(jiti@2.6.1)(terser@5.44.0)(tsx@4.20.6)(yaml@2.8.1))(vue@3.5.22(typescript@5.8.3))
+        version: 5.2.4(vite@6.4.1(@types/node@22.18.12)(jiti@2.6.1)(terser@5.44.0)(tsx@4.20.6)(yaml@2.8.1))(vue@3.5.22(typescript@5.6.3))
       '@vue/compiler-sfc':
         specifier: ^3.3.4
         version: 3.5.22
@@ -698,7 +698,7 @@ importers:
         version: 6.4.1(@types/node@22.18.12)(jiti@2.6.1)(terser@5.44.0)(tsx@4.20.6)(yaml@2.8.1)
       vue-tsc:
         specifier: ^2.0.0
-        version: 2.2.12(typescript@5.8.3)
+        version: 2.2.12(typescript@5.6.3)
 
   packages/vue-i18n:
     dependencies:
@@ -2838,9 +2838,6 @@ packages:
   '@types/tough-cookie@4.0.5':
     resolution: {integrity: sha512-/Ad8+nIOV7Rl++6f1BdKxFSMgmoqEoYbHRpPcx3JEfv8VRsQe9Z4mCXeJBzxs7mbHY/XOZZuXlRNfhpVPbs6ZA==}
 
-  '@types/trusted-types@1.0.6':
-    resolution: {integrity: sha512-230RC8sFeHoT6sSUlRO6a8cAnclO06eeiq1QDfiv2FGCLWFvvERWgwIQD4FWqD9A69BN7Lzee4OXwoMVnnsWDw==}
-
   '@types/unist@3.0.3':
     resolution: {integrity: sha512-ko/gIFJRv177XgZsZcBwnqJN5x/Gien8qNOn0D5bQU/zAzVf9Zt3BlcUiLqhV9y4ARk0GbT3tnUiPNgnTXzc/Q==}
 
@@ -4286,6 +4283,9 @@ packages:
   domain-browser@1.2.0:
     resolution: {integrity: sha512-jnjyiM6eRyZl2H+W8Q/zLMA481hzi0eszAaBUzIVnmYVDBbnLxVNnfu1HgEBvCbL+71FrxMl3E6lpKH7Ge3OXA==}
     engines: {node: '>=0.4', npm: '>=1.2'}
+
+  dompurify@3.1.7:
+    resolution: {integrity: sha512-VaTstWtsneJY8xzy7DekmYWEOZcmzIe3Qb3zPd4STve1OBTa+e+WmS1ITQec1fZYXI3HCsOZZiSMpG6oxoWMWQ==}
 
   dotenv@17.2.3:
     resolution: {integrity: sha512-JVUnt+DUIzu87TABbhPmNfVdBDt18BLOWjMUFJMSi/Qqg7NTYtabbvSNJGOJ7afbRuv9D/lngizHtP7QyLQ+9w==}
@@ -6021,6 +6021,11 @@ packages:
     resolution: {integrity: sha512-MqIQVVkz+uGEHi3TsHx/czcxxCbRIL7sv5K5DnYw/tI+apY54IbPefV/cmgxp6LoJSEx/TqcHdLs/298afG5QQ==}
     engines: {node: '>=6'}
 
+  marked@14.0.0:
+    resolution: {integrity: sha512-uIj4+faQ+MgHgwUW1l2PsPglZLOLOT1uErt06dAPtx2kjteLAkbsd/0FiYg/MGS+i7ZKLb7w2WClxHkzOOuryQ==}
+    engines: {node: '>= 18'}
+    hasBin: true
+
   math-intrinsics@1.1.0:
     resolution: {integrity: sha512-/IXtbwEk5HTPyEwyKX6hGkYXxM9nbj64B+ilVJnC/R6B0pH5G4V3b0pVbL7DBj4tkhBAppbQUlf6F6Xl9LHu1g==}
     engines: {node: '>= 0.4'}
@@ -6317,8 +6322,8 @@ packages:
   mlly@1.8.0:
     resolution: {integrity: sha512-l8D9ODSRWLe2KHJSifWGwBqpTZXIXTeo8mlKjY+E2HAakaTeNpqAyBZ8GSqLzHgw4XmHmC8whvpjJNMbFZN7/g==}
 
-  monaco-editor@0.53.0:
-    resolution: {integrity: sha512-0WNThgC6CMWNXXBxTbaYYcunj08iB5rnx4/G56UOPeL9UVIUGGHA1GR0EWIh9Ebabj7NpCRawQ5b0hfN1jQmYQ==}
+  monaco-editor@0.54.0:
+    resolution: {integrity: sha512-hx45SEUoLatgWxHKCmlLJH81xBo0uXP4sRkESUpmDQevfi+e7K1VuiSprK6UpQ8u4zOcKNiH0pMvHvlMWA/4cw==}
 
   move-concurrently@1.0.1:
     resolution: {integrity: sha512-hdrFxZOycD/g6A6SoI2bB5NA/5NEqD0569+S47WZhPvm46sD50ZHdYaFmnua5lndde9rCHGjmfK7Z8BuCt/PcQ==}
@@ -10715,8 +10720,6 @@ snapshots:
 
   '@types/tough-cookie@4.0.5': {}
 
-  '@types/trusted-types@1.0.6': {}
-
   '@types/unist@3.0.3': {}
 
   '@types/uuid@9.0.8': {}
@@ -10962,13 +10965,13 @@ snapshots:
   '@unrs/resolver-binding-win32-x64-msvc@1.11.1':
     optional: true
 
-  '@vitejs/plugin-vue-jsx@3.1.0(vite@6.4.1(@types/node@22.18.12)(jiti@2.6.1)(terser@5.44.0)(tsx@4.20.6)(yaml@2.8.1))(vue@3.5.22(typescript@5.8.3))':
+  '@vitejs/plugin-vue-jsx@3.1.0(vite@6.4.1(@types/node@22.18.12)(jiti@2.6.1)(terser@5.44.0)(tsx@4.20.6)(yaml@2.8.1))(vue@3.5.22(typescript@5.6.3))':
     dependencies:
       '@babel/core': 7.28.4
       '@babel/plugin-transform-typescript': 7.28.0(@babel/core@7.28.4)
       '@vue/babel-plugin-jsx': 1.5.0(@babel/core@7.28.4)
       vite: 6.4.1(@types/node@22.18.12)(jiti@2.6.1)(terser@5.44.0)(tsx@4.20.6)(yaml@2.8.1)
-      vue: 3.5.22(typescript@5.8.3)
+      vue: 3.5.22(typescript@5.6.3)
     transitivePeerDependencies:
       - supports-color
 
@@ -10976,6 +10979,11 @@ snapshots:
     dependencies:
       vite: 6.4.1(@types/node@22.18.12)(jiti@1.21.7)(terser@5.44.0)(tsx@4.20.6)(yaml@2.8.1)
       vue: 3.5.22(typescript@5.8.3)
+
+  '@vitejs/plugin-vue@4.6.2(vite@6.4.1(@types/node@22.18.12)(jiti@2.6.1)(terser@5.44.0)(tsx@4.20.6)(yaml@2.8.1))(vue@3.5.22(typescript@5.6.3))':
+    dependencies:
+      vite: 6.4.1(@types/node@22.18.12)(jiti@2.6.1)(terser@5.44.0)(tsx@4.20.6)(yaml@2.8.1)
+      vue: 3.5.22(typescript@5.6.3)
 
   '@vitejs/plugin-vue@4.6.2(vite@6.4.1(@types/node@22.18.12)(jiti@2.6.1)(terser@5.44.0)(tsx@4.20.6)(yaml@2.8.1))(vue@3.5.22(typescript@5.8.3))':
     dependencies:
@@ -11215,6 +11223,20 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
+  '@vue/language-core@1.8.27(typescript@5.6.3)':
+    dependencies:
+      '@volar/language-core': 1.11.1
+      '@volar/source-map': 1.11.1
+      '@vue/compiler-dom': 3.5.22
+      '@vue/shared': 3.5.22
+      computeds: 0.0.1
+      minimatch: 9.0.5
+      muggle-string: 0.3.1
+      path-browserify: 1.0.1
+      vue-template-compiler: 2.7.16
+    optionalDependencies:
+      typescript: 5.6.3
+
   '@vue/language-core@1.8.27(typescript@5.8.3)':
     dependencies:
       '@volar/language-core': 1.11.1
@@ -11228,6 +11250,19 @@ snapshots:
       vue-template-compiler: 2.7.16
     optionalDependencies:
       typescript: 5.8.3
+
+  '@vue/language-core@2.2.12(typescript@5.6.3)':
+    dependencies:
+      '@volar/language-core': 2.4.15
+      '@vue/compiler-dom': 3.5.22
+      '@vue/compiler-vue2': 2.7.16
+      '@vue/shared': 3.5.22
+      alien-signals: 1.0.13
+      minimatch: 9.0.5
+      muggle-string: 0.4.1
+      path-browserify: 1.0.1
+    optionalDependencies:
+      typescript: 5.6.3
 
   '@vue/language-core@2.2.12(typescript@5.8.3)':
     dependencies:
@@ -12463,6 +12498,8 @@ snapshots:
   dom-accessibility-api@0.6.3: {}
 
   domain-browser@1.2.0: {}
+
+  dompurify@3.1.7: {}
 
   dotenv@17.2.3: {}
 
@@ -14524,6 +14561,8 @@ snapshots:
 
   markdown-title@1.0.2: {}
 
+  marked@14.0.0: {}
+
   math-intrinsics@1.1.0: {}
 
   md5.js@1.3.5:
@@ -15056,9 +15095,10 @@ snapshots:
       pkg-types: 1.3.1
       ufo: 1.6.1
 
-  monaco-editor@0.53.0:
+  monaco-editor@0.54.0:
     dependencies:
-      '@types/trusted-types': 1.0.6
+      dompurify: 3.1.7
+      marked: 14.0.0
 
   move-concurrently@1.0.1:
     dependencies:
@@ -17570,12 +17610,25 @@ snapshots:
       de-indent: 1.0.2
       he: 1.2.0
 
+  vue-tsc@1.8.27(typescript@5.6.3):
+    dependencies:
+      '@volar/typescript': 1.11.1
+      '@vue/language-core': 1.8.27(typescript@5.6.3)
+      semver: 7.7.3
+      typescript: 5.6.3
+
   vue-tsc@1.8.27(typescript@5.8.3):
     dependencies:
       '@volar/typescript': 1.11.1
       '@vue/language-core': 1.8.27(typescript@5.8.3)
       semver: 7.7.3
       typescript: 5.8.3
+
+  vue-tsc@2.2.12(typescript@5.6.3):
+    dependencies:
+      '@volar/typescript': 2.4.15
+      '@vue/language-core': 2.2.12(typescript@5.6.3)
+      typescript: 5.6.3
 
   vue-tsc@2.2.12(typescript@5.8.3):
     dependencies:
