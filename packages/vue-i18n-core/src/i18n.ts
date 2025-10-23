@@ -7,18 +7,24 @@ import {
   makeSymbol,
   warn
 } from '@intlify/shared'
-import { effectScope, getCurrentInstance, inject, isRef, onMounted, onUnmounted } from 'vue'
+import { effectScope, inject, isRef, onMounted, onUnmounted } from 'vue'
 import { createComposer } from './composer'
 import { addTimelineEvent, enableDevTools } from './devtools'
 import { I18nErrorCodes, createI18nError } from './errors'
 import { apply as applyPlugin } from './plugin/next'
 import { DisableEmitter, DisposeSymbol, EnableEmitter } from './symbols'
-import { adjustI18nResources, getComponentOptions } from './utils'
+import { adjustI18nResources, getComponentOptions, getCurrentInstance } from './utils'
 import { I18nWarnCodes, getWarnMessage } from './warnings'
 
 import type { FallbackLocale, Locale, LocaleParams, SchemaParams } from '@intlify/core-base'
 import type { VueDevToolsEmitter, VueDevToolsEmitterEvents } from '@intlify/devtools-types'
-import type { App, ComponentInternalInstance, EffectScope, InjectionKey } from 'vue'
+import type {
+  App,
+  ComponentInternalInstance,
+  EffectScope,
+  GenericComponentInstance,
+  InjectionKey
+} from 'vue'
 import type {
   Composer,
   ComposerInternalOptions,
@@ -136,17 +142,17 @@ export interface I18nInternal<
   OptionLocale = Locale
 > {
   __instances: Map<
-    ComponentInternalInstance,
+    ComponentInternalInstance | GenericComponentInstance,
     Composer<Messages, DateTimeFormats, NumberFormats, OptionLocale>
   >
   __getInstance<Instance extends Composer<Messages, DateTimeFormats, NumberFormats, OptionLocale>>(
-    component: ComponentInternalInstance
+    component: ComponentInternalInstance | GenericComponentInstance
   ): Instance | null
   __setInstance<Instance extends Composer<Messages, DateTimeFormats, NumberFormats, OptionLocale>>(
-    component: ComponentInternalInstance,
+    component: ComponentInternalInstance | GenericComponentInstance,
     instance: Instance
   ): void
-  __deleteInstance(component: ComponentInternalInstance): void
+  __deleteInstance(component: ComponentInternalInstance | GenericComponentInstance): void
   __composerExtend?: ComposerExtender
 }
 
@@ -488,6 +494,7 @@ export function useI18n<
     throw createI18nError(I18nErrorCodes.MUST_BE_CALL_SETUP_TOP)
   }
   if (
+    // @ts-expect-error -- TODO(kazupon): need to fix types
     !instance.isCE &&
     instance.appContext.app != null &&
     !instance.appContext.app.__VUE_I18N_SYMBOL__
@@ -556,13 +563,15 @@ function createGlobal(options: I18nOptions): [EffectScope, Composer] {
   return [scope, obj]
 }
 
-function getI18nInstance(instance: ComponentInternalInstance): I18n {
+function getI18nInstance(instance: ComponentInternalInstance | GenericComponentInstance): I18n {
   const i18n = inject(
+    // @ts-expect-error -- TODO(kazupon): need to fix types
     !instance.isCE ? instance.appContext.app.__VUE_I18N_SYMBOL__! : I18nInjectionKey
   )
   /* istanbul ignore if */
   if (!i18n) {
     throw createI18nError(
+      // @ts-expect-error -- TODO(kazupon): need to fix types
       !instance.isCE ? I18nErrorCodes.UNEXPECTED_ERROR : I18nErrorCodes.NOT_INSTALLED_WITH_PROVIDE
     )
   }
@@ -588,12 +597,13 @@ function getGlobalComposer(i18n: I18n): Composer {
 
 function getComposer(
   i18n: I18n,
-  target: ComponentInternalInstance,
+  target: ComponentInternalInstance | GenericComponentInstance,
   useComponent = false
 ): Composer | null {
   let composer: Composer | null = null
   const root = target.root
-  let current: ComponentInternalInstance | null = getParentComponentInstance(target, useComponent)
+  let current: ComponentInternalInstance | GenericComponentInstance | null =
+    getParentComponentInstance(target, useComponent)
   while (current != null) {
     const i18nInternal = i18n as unknown as I18nInternal
     composer = i18nInternal.__getInstance(current)
@@ -610,7 +620,7 @@ function getComposer(
 }
 
 function getParentComponentInstance(
-  target: ComponentInternalInstance | null,
+  target: ComponentInternalInstance | GenericComponentInstance | null,
   useComponent = false
 ) {
   if (target == null) {
@@ -622,7 +632,7 @@ function getParentComponentInstance(
 
 function setupLifeCycle(
   i18n: I18nInternal,
-  target: ComponentInternalInstance,
+  target: ComponentInternalInstance | GenericComponentInstance,
   composer: Composer
 ): void {
   let emitter: VueDevToolsEmitter | null = null
@@ -630,7 +640,9 @@ function setupLifeCycle(
   // eslint-disable-next-line vue-composable/lifecycle-placement -- NOTE(kazupon): not Vue component
   onMounted(() => {
     // inject composer instance to DOM for intlify-devtools
+    // @ts-expect-error -- TODO(kazupon): need to fix types
     if ((__DEV__ || __FEATURE_PROD_VUE_DEVTOOLS__) && !__NODE_JS__ && target.vnode.el) {
+      // @ts-expect-error -- TODO(kazupon): need to fix types
       target.vnode.el.__VUE_I18N__ = composer
       emitter = createEmitter<VueDevToolsEmitterEvents>()
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -649,11 +661,14 @@ function setupLifeCycle(
     if (
       (__DEV__ || __FEATURE_PROD_VUE_DEVTOOLS__) &&
       !__NODE_JS__ &&
+      // @ts-expect-error -- TODO(kazupon): need to fix types
       target.vnode.el &&
+      // @ts-expect-error -- TODO(kazupon): need to fix types
       target.vnode.el.__VUE_I18N__
     ) {
       emitter && emitter.off('*', addTimelineEvent)
       _composer[DisableEmitter] && _composer[DisableEmitter]()
+      // @ts-expect-error -- TODO(kazupon): need to fix types
       delete target.vnode.el.__VUE_I18N__
     }
     i18n.__deleteInstance(target)

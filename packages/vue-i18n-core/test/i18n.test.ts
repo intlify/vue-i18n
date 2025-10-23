@@ -23,9 +23,10 @@ import {
   setDevToolsHook
 } from '@intlify/core-base'
 import { createEmitter } from '@intlify/shared'
-import { defineComponent, defineCustomElement, getCurrentInstance, h, nextTick, ref } from 'vue'
+import { defineComponent, defineCustomElement, h, nextTick, ref } from 'vue'
 import { errorMessages, I18nErrorCodes } from '../src/errors'
 import { createI18n, useI18n } from '../src/i18n'
+import { getCurrentInstance } from '../src/utils'
 import { pluralRules as _pluralRules, mount, randStr } from './helper'
 
 import type { IntlifyDevToolsEmitterHooks } from '@intlify/devtools-types'
