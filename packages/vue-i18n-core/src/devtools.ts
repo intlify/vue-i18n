@@ -16,7 +16,7 @@ import type {
   Hooks,
   InspectedComponentData
 } from '@vue/devtools-api'
-import type { App, ComponentInternalInstance } from 'vue'
+import type { App, ComponentInternalInstance, GenericComponentInstance } from 'vue'
 import type { Composer } from './composer'
 import type { I18n, I18nInternal } from './i18n'
 
@@ -83,7 +83,7 @@ export async function enableDevTools(app: App, i18n: _I18n): Promise<boolean> {
             }
           })
 
-          const roots = new Map<App, ComponentInternalInstance>()
+          const roots = new Map<App, ComponentInternalInstance | GenericComponentInstance>()
           api.on.getInspectorState(async payload => {
             if (payload.app === app && payload.inspectorId === 'vue-i18n-resource-inspector') {
               api.unhighlightElement()
@@ -263,12 +263,16 @@ function registerScope(payload: HookPayloads[Hooks.GET_INSPECTOR_TREE], i18n: _I
   }
 }
 
-function getComponentInstance(nodeId: string, i18n: _I18n): ComponentInternalInstance | null {
+function getComponentInstance(
+  nodeId: string,
+  i18n: _I18n
+): ComponentInternalInstance | GenericComponentInstance | null {
   let instance: ComponentInternalInstance | null = null
 
   if (nodeId !== 'global') {
     for (const [component, composer] of i18n.__instances.entries()) {
       if (composer.id.toString() === nodeId) {
+        // @ts-expect-error -- TODO(kazupon): need to fix types
         instance = component
         break
       }
