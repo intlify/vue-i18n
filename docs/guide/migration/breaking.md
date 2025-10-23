@@ -279,6 +279,8 @@ Version information is now accessible in import syntax instead of the VueI18n cl
 
 Vue I18n v8.x:
 
+<!-- eslint-skip -->
+
 ```js
 import VueI18n from 'vue-i18n'
 
@@ -300,6 +302,8 @@ console.log(VERSION)
 Removed as major browsers now support the [ECMAScript Internationalization API](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl).
 
 Vue I18n v8.x:
+
+<!-- eslint-skip -->
 
 ```js
 import VueI18n from 'vue-i18n'
@@ -334,6 +338,8 @@ The `v-t` directive for Vue 3 now preserves the default content. Therefore, this
 
 Vue I18n v8.x:
 
+<!-- eslint-skip -->
+
 ```js
 import VueI18n from 'vue-i18n'
 
@@ -351,6 +357,8 @@ const i18n = new VueI18n({
 ### Remove array-like object for List interpolation
 
 In Vue I18n v8.x, List interpolation could use an array-like object as a parameter, such as the following:
+
+<!-- eslint-skip -->
 
 ```js
 import VueI18n from 'vue-i18n'
