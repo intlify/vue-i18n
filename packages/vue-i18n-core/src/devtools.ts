@@ -267,12 +267,11 @@ function getComponentInstance(
   nodeId: string,
   i18n: _I18n
 ): ComponentInternalInstance | GenericComponentInstance | null {
-  let instance: ComponentInternalInstance | null = null
+  let instance: ComponentInternalInstance | GenericComponentInstance | null = null
 
   if (nodeId !== 'global') {
     for (const [component, composer] of i18n.__instances.entries()) {
       if (composer.id.toString() === nodeId) {
-        // @ts-expect-error -- TODO(kazupon): need to fix types
         instance = component
         break
       }

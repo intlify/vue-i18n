@@ -14,7 +14,15 @@ declare module 'vue' {
   export interface ComponentInternalInstance {
     /**
      * @internal
-     * iskk custom element?
+     * whether target component is custom element
+     */
+    isCE?: boolean
+  }
+
+  export interface GenericComponentInstance {
+    /**
+     * @internal
+     * whether target component is custom element
      */
     isCE?: boolean
   }

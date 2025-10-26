@@ -494,7 +494,6 @@ export function useI18n<
     throw createI18nError(I18nErrorCodes.MUST_BE_CALL_SETUP_TOP)
   }
   if (
-    // @ts-expect-error -- TODO(kazupon): need to fix types
     !instance.isCE &&
     instance.appContext.app != null &&
     !instance.appContext.app.__VUE_I18N_SYMBOL__
@@ -565,13 +564,11 @@ function createGlobal(options: I18nOptions): [EffectScope, Composer] {
 
 function getI18nInstance(instance: ComponentInternalInstance | GenericComponentInstance): I18n {
   const i18n = inject(
-    // @ts-expect-error -- TODO(kazupon): need to fix types
     !instance.isCE ? instance.appContext.app.__VUE_I18N_SYMBOL__! : I18nInjectionKey
   )
   /* istanbul ignore if */
   if (!i18n) {
     throw createI18nError(
-      // @ts-expect-error -- TODO(kazupon): need to fix types
       !instance.isCE ? I18nErrorCodes.UNEXPECTED_ERROR : I18nErrorCodes.NOT_INSTALLED_WITH_PROVIDE
     )
   }
