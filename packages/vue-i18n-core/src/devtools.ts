@@ -61,12 +61,8 @@ export async function enableDevTools(app: App, i18n: _I18n): Promise<boolean> {
           })
 
           api.on.inspectComponent(({ componentInstance, instanceData }) => {
-            if (
-              componentInstance.vnode.el &&
-              componentInstance.vnode.el.__VUE_I18N__ &&
-              instanceData
-            ) {
-              inspectComposer(instanceData, componentInstance.vnode.el.__VUE_I18N__ as Composer)
+            if (componentInstance.__VUE_I18N__ && instanceData) {
+              inspectComposer(instanceData, componentInstance.__VUE_I18N__ as Composer)
             }
           })
 
@@ -138,9 +134,9 @@ function updateComponentTreeTags(
 ): void {
   // prettier-ignore
   const global = i18n.global
-  if (instance && instance.vnode.el && instance.vnode.el.__VUE_I18N__) {
+  if (instance && instance.__VUE_I18N__) {
     // add custom tags local scope only
-    if (instance.vnode.el.__VUE_I18N__ !== global) {
+    if (instance.__VUE_I18N__ !== global) {
       const tag = {
         label: `i18n (${getI18nScopeLable(instance)} Scope)`,
         textColor: 0x000000,

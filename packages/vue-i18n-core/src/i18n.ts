@@ -637,10 +637,8 @@ function setupLifeCycle(
   // eslint-disable-next-line vue-composable/lifecycle-placement -- NOTE(kazupon): not Vue component
   onMounted(() => {
     // inject composer instance to DOM for intlify-devtools
-    // @ts-expect-error -- TODO(kazupon): need to fix types
-    if ((__DEV__ || __FEATURE_PROD_VUE_DEVTOOLS__) && !__NODE_JS__ && target.vnode.el) {
-      // @ts-expect-error -- TODO(kazupon): need to fix types
-      target.vnode.el.__VUE_I18N__ = composer
+    if ((__DEV__ || __FEATURE_PROD_VUE_DEVTOOLS__) && !__NODE_JS__) {
+      target.__VUE_I18N__ = composer
       emitter = createEmitter<VueDevToolsEmitterEvents>()
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const _composer = composer as any
@@ -655,18 +653,10 @@ function setupLifeCycle(
     const _composer = composer as any
 
     // remove composer instance from DOM for intlify-devtools
-    if (
-      (__DEV__ || __FEATURE_PROD_VUE_DEVTOOLS__) &&
-      !__NODE_JS__ &&
-      // @ts-expect-error -- TODO(kazupon): need to fix types
-      target.vnode.el &&
-      // @ts-expect-error -- TODO(kazupon): need to fix types
-      target.vnode.el.__VUE_I18N__
-    ) {
+    if ((__DEV__ || __FEATURE_PROD_VUE_DEVTOOLS__) && !__NODE_JS__ && target.__VUE_I18N__) {
       emitter && emitter.off('*', addTimelineEvent)
       _composer[DisableEmitter] && _composer[DisableEmitter]()
-      // @ts-expect-error -- TODO(kazupon): need to fix types
-      delete target.vnode.el.__VUE_I18N__
+      delete target.__VUE_I18N__
     }
     i18n.__deleteInstance(target)
 
