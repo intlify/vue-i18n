@@ -7,3 +7,12 @@ packages:
 minimumReleaseAge: 1440
 minimumReleaseAgeExclude:
   - '@kazupon/eslint-config'
+  - vitest
+  - '@vitest/mocker'
+  - '@vitest/pretty-format'
+  - '@vitest/snapshot'
+  - '@vitest/spy'
+  - '@vitest/runner'
+  - '@vitest/expect'
+  - '@vitest/utils'
+  - '@vitest/coverage-v8'

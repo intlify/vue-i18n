@@ -36,6 +36,10 @@ beforeEach(() => {
   registerLocaleFallbacker(fallbackWithLocaleChain)
 })
 
+afterEach(() => {
+  vi.clearAllMocks()
+})
+
 describe('locale', () => {
   test('default value', () => {
     const { locale } = createComposer({})

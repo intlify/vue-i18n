@@ -42,6 +42,10 @@ beforeEach(() => {
   registerLocaleFallbacker(fallbackWithLocaleChain)
 })
 
+afterEach(() => {
+  vi.clearAllMocks()
+})
+
 describe('features', () => {
   test('simple text', () => {
     const ctx = context({

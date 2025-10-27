@@ -91,6 +91,10 @@ beforeEach(() => {
   registerLocaleFallbacker(fallbackWithLocaleChain)
 })
 
+afterEach(() => {
+  vi.clearAllMocks()
+})
+
 test('datetime value', () => {
   const mockAvailabilities = Availabilities
   mockAvailabilities.dateTimeFormat = true

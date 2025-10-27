@@ -75,6 +75,10 @@ beforeEach(() => {
   registerLocaleFallbacker(fallbackWithLocaleChain)
 })
 
+afterEach(() => {
+  vi.clearAllMocks()
+})
+
 test('value argument only', () => {
   const mockAvailabilities = Availabilities
   mockAvailabilities.numberFormat = true

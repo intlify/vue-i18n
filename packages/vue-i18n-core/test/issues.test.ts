@@ -50,6 +50,7 @@ beforeEach(() => {
 afterEach(() => {
   setDevToolsHook(null)
   console.warn = org
+  vi.clearAllMocks()
 })
 
 const messages = {
