@@ -320,17 +320,22 @@ export function createI18n(options: any = {}): any {
   const __globalInjection = isBoolean(options.globalInjection)
     ? options.globalInjection
     : true
-  const __instances = new Map<ComponentInternalInstance, Composer>()
+  const __instances = new Map<ComponentInternalInstance | GenericComponentInstance, Composer>()
   const [globalScope, __global] = createGlobal(options)
   const symbol: InjectionKey<I18n> | string = /* #__PURE__*/ makeSymbol(__DEV__ ? 'vue-i18n' : '')
 
-  function __getInstance(component: ComponentInternalInstance): Composer | null {
+  function __getInstance(
+    component: ComponentInternalInstance | GenericComponentInstance
+  ): Composer | null {
     return __instances.get(component) || null
   }
-  function __setInstance(component: ComponentInternalInstance, instance: Composer): void {
+  function __setInstance(
+    component: ComponentInternalInstance | GenericComponentInstance,
+    instance: Composer
+  ): void {
     __instances.set(component, instance)
   }
-  function __deleteInstance(component: ComponentInternalInstance): void {
+  function __deleteInstance(component: ComponentInternalInstance | GenericComponentInstance): void {
     __instances.delete(component)
   }
 
