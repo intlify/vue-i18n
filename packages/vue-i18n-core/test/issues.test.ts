@@ -21,8 +21,9 @@ import {
   resolveValue,
   setDevToolsHook
 } from '@intlify/core-base'
-import { defineComponent, getCurrentInstance, nextTick, ref } from 'vue'
+import { defineComponent, nextTick, ref } from 'vue'
 import { createI18n, useI18n } from '../src/i18n'
+import { getCurrentInstance } from '../src/utils'
 import { ast } from './fixtures/ast'
 import { mount } from './helper'
 

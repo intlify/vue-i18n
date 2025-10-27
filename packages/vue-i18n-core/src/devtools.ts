@@ -16,7 +16,7 @@ import type {
   Hooks,
   InspectedComponentData
 } from '@vue/devtools-api'
-import type { App, ComponentInternalInstance } from 'vue'
+import type { App, ComponentInternalInstance, GenericComponentInstance } from 'vue'
 import type { Composer } from './composer'
 import type { I18n, I18nInternal } from './i18n'
 
@@ -61,12 +61,8 @@ export async function enableDevTools(app: App, i18n: _I18n): Promise<boolean> {
           })
 
           api.on.inspectComponent(({ componentInstance, instanceData }) => {
-            if (
-              componentInstance.vnode.el &&
-              componentInstance.vnode.el.__VUE_I18N__ &&
-              instanceData
-            ) {
-              inspectComposer(instanceData, componentInstance.vnode.el.__VUE_I18N__ as Composer)
+            if (componentInstance.__VUE_I18N__ && instanceData) {
+              inspectComposer(instanceData, componentInstance.__VUE_I18N__ as Composer)
             }
           })
 
@@ -83,7 +79,7 @@ export async function enableDevTools(app: App, i18n: _I18n): Promise<boolean> {
             }
           })
 
-          const roots = new Map<App, ComponentInternalInstance>()
+          const roots = new Map<App, ComponentInternalInstance | GenericComponentInstance>()
           api.on.getInspectorState(async payload => {
             if (payload.app === app && payload.inspectorId === 'vue-i18n-resource-inspector') {
               api.unhighlightElement()
@@ -138,9 +134,9 @@ function updateComponentTreeTags(
 ): void {
   // prettier-ignore
   const global = i18n.global
-  if (instance && instance.vnode.el && instance.vnode.el.__VUE_I18N__) {
+  if (instance && instance.__VUE_I18N__) {
     // add custom tags local scope only
-    if (instance.vnode.el.__VUE_I18N__ !== global) {
+    if (instance.__VUE_I18N__ !== global) {
       const tag = {
         label: `i18n (${getI18nScopeLable(instance)} Scope)`,
         textColor: 0x000000,
@@ -263,8 +259,11 @@ function registerScope(payload: HookPayloads[Hooks.GET_INSPECTOR_TREE], i18n: _I
   }
 }
 
-function getComponentInstance(nodeId: string, i18n: _I18n): ComponentInternalInstance | null {
-  let instance: ComponentInternalInstance | null = null
+function getComponentInstance(
+  nodeId: string,
+  i18n: _I18n
+): ComponentInternalInstance | GenericComponentInstance | null {
+  let instance: ComponentInternalInstance | GenericComponentInstance | null = null
 
   if (nodeId !== 'global') {
     for (const [component, composer] of i18n.__instances.entries()) {

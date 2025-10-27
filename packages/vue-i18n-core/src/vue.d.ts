@@ -1,4 +1,5 @@
 import type { InjectionKey } from 'vue'
+import type { Composer } from './composer'
 import type { I18n, I18nInternal } from './i18n'
 
 declare module 'vue' {
@@ -14,8 +15,26 @@ declare module 'vue' {
   export interface ComponentInternalInstance {
     /**
      * @internal
-     * iskk custom element?
+     * whether target component is custom element
      */
     isCE?: boolean
+    /**
+     * @internal
+     * for vue/devtools i18n composer hook
+     */
+    __VUE_I18N__?: Composer
+  }
+
+  export interface GenericComponentInstance {
+    /**
+     * @internal
+     * whether target component is custom element
+     */
+    isCE?: boolean
+    /**
+     * @internal
+     * for vue/devtools i18n composer hook
+     */
+    __VUE_I18N__?: Composer
   }
 }

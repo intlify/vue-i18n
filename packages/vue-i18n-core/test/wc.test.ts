@@ -2,19 +2,20 @@
  * @vitest-environment jsdom
  */
 
-import { h, provide, nextTick, defineCustomElement, getCurrentInstance } from 'vue'
 import {
   compile,
-  registerMessageCompiler,
-  resolveValue,
-  registerMessageResolver,
   fallbackWithLocaleChain,
-  registerLocaleFallbacker
+  registerLocaleFallbacker,
+  registerMessageCompiler,
+  registerMessageResolver,
+  resolveValue
 } from '@intlify/core-base'
-import { createI18n, useI18n, I18nInjectionKey } from '../src/index'
+import { defineCustomElement, h, nextTick, provide } from 'vue'
+import { createI18n, I18nInjectionKey, useI18n } from '../src/index'
+import { getCurrentInstance } from '../src/utils'
 import { randStr } from './helper'
 
-import type { VueElement, ComponentOptions } from 'vue'
+import type { ComponentOptions, VueElement } from 'vue'
 
 const container = document.createElement('div')
 document.body.appendChild(container)
