@@ -1,14 +1,19 @@
 {
+  "name": "nuxt3",
   "private": true,
+  "type": "module",
   "scripts": {
     "build": "nuxt build",
     "dev": "nuxt dev",
     "generate": "nuxt generate",
-    "preview": "nuxt preview"
+    "preview": "nuxt preview",
+    "postinstall": "nuxt prepare"
   },
   "devDependencies": {
-    "@intlify/unplugin-vue-i18n": "^1.0.1",
-    "nuxt": "^3.19.0",
-    "vue-i18n": "^9.14.3"
+    "@intlify/unplugin-vue-i18n": "^11.0.1",
+    "nuxt": "^4.2.0",
+    "vue": "^3.5.22",
+    "vue-router": "^4.6.3",
+    "vue-i18n": "11.1.12"
   }
 }

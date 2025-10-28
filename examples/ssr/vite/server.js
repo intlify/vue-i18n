@@ -1,19 +1,17 @@
-// @ts-check
-const fs = require('fs')
-const path = require('path')
-const express = require('express')
-const monitor = require('express-status-monitor')
+import express from 'express'
+import monitor from 'express-status-monitor'
+import fs from 'node:fs'
+import path from 'node:path'
 
 const isTest = process.env.NODE_ENV === 'test' || !!process.env.VITE_TEST_BUILD
 
 async function createServer(root = process.cwd(), isProd = process.env.NODE_ENV === 'production') {
-  const resolve = p => path.resolve(__dirname, p)
+  const resolve = p => path.resolve(import.meta.dirname, p)
 
   const indexProd = isProd ? fs.readFileSync(resolve('dist/client/index.html'), 'utf-8') : ''
 
   const manifest = isProd
-    ? // @ts-ignore
-      require('./dist/client/ssr-manifest.json')
+    ? (await import('./dist/client/.vite/ssr-manifest.json', { with: { type: 'json' } })).default
     : {}
 
   const app = express()
@@ -23,7 +21,9 @@ async function createServer(root = process.cwd(), isProd = process.env.NODE_ENV 
    */
   let vite
   if (!isProd) {
-    vite = await require('vite').createServer({
+    vite = await (
+      await import('vite')
+    ).createServer({
       root,
       logLevel: isTest ? 'error' : 'info',
       server: {
@@ -40,9 +40,9 @@ async function createServer(root = process.cwd(), isProd = process.env.NODE_ENV 
     app.use(vite.middlewares)
     app.use(monitor())
   } else {
-    app.use(require('compression')())
+    app.use((await import('compression')).default)
     app.use(
-      require('serve-static')(resolve('dist/client'), {
+      (await import('serve-static')).default(resolve('dist/client'), {
         index: false
       })
     )
@@ -60,7 +60,7 @@ async function createServer(root = process.cwd(), isProd = process.env.NODE_ENV 
         render = (await vite.ssrLoadModule('/src/entry-server.js')).render
       } else {
         template = indexProd
-        render = require('./dist/server/entry-server.js').render
+        render = await import('./dist/server/entry-server.js').render
       }
 
       const [appHtml, preloadLinks] = await render(url, manifest)
@@ -82,11 +82,11 @@ async function createServer(root = process.cwd(), isProd = process.env.NODE_ENV 
 
 if (!isTest) {
   createServer().then(({ app, vite }) =>
-    app.listen(3000, () => {
-      console.log('http://localhost:3000')
+    app.listen(5173, () => {
+      console.log('http://localhost:5173')
     })
   )
 }
 
 // for test use
-exports.createServer = createServer
+export { createServer }

@@ -33,7 +33,7 @@ npm run preview # start preview
 ### i18n resource pre-compilation
 
 ```sh
-npm run generate # i18n resources pre-compilation 
+npm run generate # i18n resources pre-compilation
 npm run preview  # start preview
 ```
 

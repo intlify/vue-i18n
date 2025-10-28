@@ -1,4 +1,4 @@
-import { createMemoryHistory, createRouter as _createRouter, createWebHistory } from 'vue-router'
+import { createRouter as _createRouter, createMemoryHistory, createWebHistory } from 'vue-router'
 
 // Auto generates routes from vue files under ./pages
 // https://vitejs.dev/guide/features.html#glob-import

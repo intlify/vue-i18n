@@ -1,9 +1,9 @@
 import { createApp, defineCustomElement } from 'vue'
 import { createI18n } from 'vue-i18n'
 import App from './App.vue'
-import I18nHost from './components/I18nHost.ce.vue'
-import HelloI18n from './components/HelloI18n.ce.vue'
 import HelloBlock from './components/HelloBlock.ce.vue'
+import HelloI18n from './components/HelloI18n.ce.vue'
+import I18nHost from './components/I18nHost.ce.vue'
 
 const I18nHostElement = defineCustomElement(I18nHost)
 const HelloI18nElement = defineCustomElement(HelloI18n)

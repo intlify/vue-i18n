@@ -1,8 +1,8 @@
-# :lollipop: lazy-loading-vite
+# lazy-loading-vite
 
 i18n locale messages lazy loading examples for Vite
 
 
-## :copyright: License
+## License
 
 [MIT](http://opensource.org/licenses/MIT)

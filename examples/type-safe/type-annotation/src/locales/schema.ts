@@ -2,7 +2,7 @@
  * define the resource schema
  */
 
-import enUS from './en-US.json'
+import enUS from './en-US.json' with { type: 'json' }
 
 // define the locale message schema as master
 export type MessageSchema = typeof enUS

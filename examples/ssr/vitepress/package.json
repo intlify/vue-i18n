@@ -3,11 +3,11 @@
   "module": "index.ts",
   "type": "module",
   "dependencies": {
-    "vitepress": "^1.0.0-rc.20",
-    "vue-i18n": "^9.5.0"
+    "vitepress": "^1.6.4",
+    "vue-i18n": "workspace:*"
   },
   "devDependencies": {
-    "@intlify/unplugin-vue-i18n": "^1.4.0",
+    "@intlify/unplugin-vue-i18n": "^11.0.1",
     "typescript": "^5.0.0"
   },
   "scripts": {

@@ -1,9 +1,9 @@
 import { createApp } from 'vue'
 import App from './App.vue'
-import './index.css'
-import { setupRouter } from './router'
 import { setupI18n } from './i18n'
-import en from './locales/en.json'
+import './index.css' with { type: 'css' }
+import en from './locales/en.json' with { type: 'json' }
+import { setupRouter } from './router'
 
 const i18n = setupI18n({
   locale: 'en',

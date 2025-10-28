@@ -1,5 +1,5 @@
-import { defineConfig } from 'vitepress'
 import vueI18n from '@intlify/unplugin-vue-i18n/vite'
+import { defineConfig } from 'vitepress'
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({

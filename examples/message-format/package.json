@@ -14,9 +14,10 @@
     "intl-messageformat": "^10.5.0"
   },
   "devDependencies": {
-    "@vitejs/plugin-vue": "^4.2.3",
+    "@vitejs/plugin-vue": "^6.0.1",
+    "@vue/tsconfig": "^0.8.1",
     "typescript": "^5.0.2",
-    "vite": "^4.5.2",
-    "vue-tsc": "^1.8.5"
+    "vite": "^7.1.7",
+    "vue-tsc": "^3.0.7"
   }
 }

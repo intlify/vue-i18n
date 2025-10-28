@@ -1,7 +1,7 @@
-import { defineConfig } from 'vite'
-import vue from '@vitejs/plugin-vue'
 import vueI18n from '@intlify/unplugin-vue-i18n/vite'
+import vue from '@vitejs/plugin-vue'
 import bodyParser from 'body-parser'
+import { defineConfig } from 'vite'
 
 /**
  * These imports simulate the loading of resources from the database
@@ -9,8 +9,8 @@ import bodyParser from 'body-parser'
 import en from './db/en.json' // english resources
 import ja from './db/ja.json' // japanese resources
 
-import type { Plugin } from 'vite'
 import type { ServerResponse } from 'http'
+import type { Plugin } from 'vite'
 import type { ResourceSchema } from './db/message'
 
 function serialize(res: ServerResponse, locales: ResourceSchema): void {
@@ -43,11 +43,5 @@ export default defineConfig({
   build: {
     target: 'esnext'
   },
-  plugins: [
-    backend(),
-    vue(),
-    vueI18n({
-      jitCompilation: true
-    })
-  ]
+  plugins: [backend(), vue(), vueI18n()]
 })

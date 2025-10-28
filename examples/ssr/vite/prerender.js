@@ -1,14 +1,13 @@
 // Pre-render the app into static HTML.
 // run `npm run generate` and then `dist/static` can be served as a static site.
 
-const fs = require('fs')
-const path = require('path')
+import fs from 'node:fs'
+import path from 'node:path'
+import { render } from './dist/server/entry-server.js'
+import manifest from './dist/static/.vite/ssr-manifest.json' with { type: 'json' }
 
-const toAbsolute = p => path.resolve(__dirname, p)
-
-const manifest = require('./dist/static/ssr-manifest.json')
+const toAbsolute = p => path.resolve(import.meta.dirname, p)
 const template = fs.readFileSync(toAbsolute('dist/static/index.html'), 'utf-8')
-const { render } = require('./dist/server/entry-server.js')
 
 // determine routes to pre-render from src/pages
 const routesToPrerender = fs.readdirSync(toAbsolute('src/pages')).map(file => {
@@ -16,7 +15,7 @@ const routesToPrerender = fs.readdirSync(toAbsolute('src/pages')).map(file => {
   return name === 'home' ? `/` : `/${name}`
 })
 
-;(async () => {
+async function main() {
   // pre-render each route...
   for (const url of routesToPrerender) {
     const [appHtml, preloadLinks] = await render(url, manifest)
@@ -32,4 +31,6 @@ const routesToPrerender = fs.readdirSync(toAbsolute('src/pages')).map(file => {
 
   // done, delete ssr manifest
   fs.unlinkSync(toAbsolute('dist/static/ssr-manifest.json'))
-})()
+}
+
+await main()

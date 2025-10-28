@@ -9,7 +9,7 @@ import type { Locale } from 'vue-i18n'
 import type { ResourceSchema } from '../db/message'
 
 async function compile(locale: string, message: ResourceSchema) {
-  const filename = path.join(__dirname, `../public/${locale}.js`)
+  const filename = path.join(import.meta.dirname, `../public/${locale}.js`)
   const ret = generateJSON(JSON.stringify(message), {
     type: 'plain',
     filename,
@@ -24,7 +24,7 @@ async function compile(locale: string, message: ResourceSchema) {
   return { ...ret, filename }
 }
 
-;(async (locales: readonly Locale[]) => {
+async function main(locales: readonly Locale[]) {
   // start vite server
   const vite = await createServer({ root: process.cwd() })
   await vite.listen(3000)
@@ -48,4 +48,6 @@ async function compile(locale: string, message: ResourceSchema) {
   })
 
   process.exit(0)
-})(locales)
+}
+
+await main(locales as readonly Locale[])
