@@ -378,23 +378,23 @@ importers:
         version: link:example-external-component
       vue:
         specifier: 3.6.0-alpha.2
-        version: 3.6.0-alpha.2(typescript@5.8.3)
+        version: 3.6.0-alpha.2(typescript@5.6.3)
       vue-i18n:
         specifier: workspace:*
         version: link:../../../packages/vue-i18n
       vue-router:
         specifier: ^4.1.2
-        version: 4.6.3(vue@3.6.0-alpha.2(typescript@5.8.3))
+        version: 4.6.3(vue@3.6.0-alpha.2(typescript@5.6.3))
     devDependencies:
       '@intlify/unplugin-vue-i18n':
         specifier: ^11.0.1
-        version: 11.0.1(@vue/compiler-dom@3.5.22)(eslint@9.38.0(jiti@2.6.1))(rollup@4.52.5)(typescript@5.8.3)(vue-i18n@packages+vue-i18n)(vue@3.6.0-alpha.2(typescript@5.8.3))
+        version: 11.0.1(@vue/compiler-dom@3.5.22)(eslint@9.38.0(jiti@2.6.1))(rollup@4.52.5)(typescript@5.6.3)(vue-i18n@packages+vue-i18n)(vue@3.6.0-alpha.2(typescript@5.6.3))
       '@vitejs/plugin-vue':
         specifier: ^6.0.1
-        version: 6.0.1(vite@7.1.12(@types/node@22.18.12)(jiti@2.6.1)(terser@5.44.0)(tsx@4.20.6)(yaml@2.8.1))(vue@3.6.0-alpha.2(typescript@5.8.3))
+        version: 6.0.1(vite@7.1.12(@types/node@22.18.12)(jiti@2.6.1)(terser@5.44.0)(tsx@4.20.6)(yaml@2.8.1))(vue@3.6.0-alpha.2(typescript@5.6.3))
       '@vitejs/plugin-vue-jsx':
         specifier: ^5.1.1
-        version: 5.1.1(vite@7.1.12(@types/node@22.18.12)(jiti@2.6.1)(terser@5.44.0)(tsx@4.20.6)(yaml@2.8.1))(vue@3.6.0-alpha.2(typescript@5.8.3))
+        version: 5.1.1(vite@7.1.12(@types/node@22.18.12)(jiti@2.6.1)(terser@5.44.0)(tsx@4.20.6)(yaml@2.8.1))(vue@3.6.0-alpha.2(typescript@5.6.3))
       compression:
         specifier: ^1.7.4
         version: 1.8.1
@@ -675,11 +675,11 @@ importers:
         version: 1.2.1
       vue:
         specifier: 3.6.0-alpha.2
-        version: 3.6.0-alpha.2(typescript@5.8.3)
+        version: 3.6.0-alpha.2(typescript@5.6.3)
     devDependencies:
       '@vitejs/plugin-vue':
         specifier: ^5.0.0
-        version: 5.2.4(vite@7.1.12(@types/node@22.18.12)(jiti@2.6.1)(terser@5.44.0)(tsx@4.20.6)(yaml@2.8.1))(vue@3.6.0-alpha.2(typescript@5.8.3))
+        version: 5.2.4(vite@7.1.12(@types/node@22.18.12)(jiti@2.6.1)(terser@5.44.0)(tsx@4.20.6)(yaml@2.8.1))(vue@3.6.0-alpha.2(typescript@5.6.3))
       '@vue/compiler-sfc':
         specifier: ^3.3.4
         version: 3.5.22
@@ -688,7 +688,7 @@ importers:
         version: 7.1.12(@types/node@22.18.12)(jiti@2.6.1)(terser@5.44.0)(tsx@4.20.6)(yaml@2.8.1)
       vue-tsc:
         specifier: ^2.0.0
-        version: 2.2.12(typescript@5.8.3)
+        version: 2.2.12(typescript@5.6.3)
 
   packages/message-compiler:
     dependencies:
@@ -740,11 +740,11 @@ importers:
         version: link:../petite-vue-i18n
       vue:
         specifier: 3.6.0-alpha.2
-        version: 3.6.0-alpha.2(typescript@5.8.3)
+        version: 3.6.0-alpha.2(typescript@5.6.3)
     devDependencies:
       '@vitejs/plugin-vue':
         specifier: ^5.0.0
-        version: 5.2.4(vite@7.1.12(@types/node@22.18.12)(jiti@2.6.1)(terser@5.44.0)(tsx@4.20.6)(yaml@2.8.1))(vue@3.6.0-alpha.2(typescript@5.8.3))
+        version: 5.2.4(vite@7.1.12(@types/node@22.18.12)(jiti@2.6.1)(terser@5.44.0)(tsx@4.20.6)(yaml@2.8.1))(vue@3.6.0-alpha.2(typescript@5.6.3))
       '@vue/compiler-sfc':
         specifier: ^3.3.4
         version: 3.5.22
@@ -753,20 +753,20 @@ importers:
         version: 7.1.12(@types/node@22.18.12)(jiti@2.6.1)(terser@5.44.0)(tsx@4.20.6)(yaml@2.8.1)
       vue-tsc:
         specifier: ^2.0.0
-        version: 2.2.12(typescript@5.8.3)
+        version: 2.2.12(typescript@5.6.3)
 
   packages/size-check-vue-i18n:
     dependencies:
       vue:
         specifier: 3.6.0-alpha.2
-        version: 3.6.0-alpha.2(typescript@5.8.3)
+        version: 3.6.0-alpha.2(typescript@5.6.3)
       vue-i18n:
         specifier: workspace:*
         version: link:../vue-i18n
     devDependencies:
       '@vitejs/plugin-vue':
         specifier: ^5.0.0
-        version: 5.2.4(vite@7.1.12(@types/node@22.18.12)(jiti@2.6.1)(terser@5.44.0)(tsx@4.20.6)(yaml@2.8.1))(vue@3.6.0-alpha.2(typescript@5.8.3))
+        version: 5.2.4(vite@7.1.12(@types/node@22.18.12)(jiti@2.6.1)(terser@5.44.0)(tsx@4.20.6)(yaml@2.8.1))(vue@3.6.0-alpha.2(typescript@5.6.3))
       '@vue/compiler-sfc':
         specifier: ^3.3.4
         version: 3.5.22
@@ -775,7 +775,7 @@ importers:
         version: 7.1.12(@types/node@22.18.12)(jiti@2.6.1)(terser@5.44.0)(tsx@4.20.6)(yaml@2.8.1)
       vue-tsc:
         specifier: ^2.0.0
-        version: 2.2.12(typescript@5.8.3)
+        version: 2.2.12(typescript@5.6.3)
 
   packages/vue-i18n:
     dependencies:
@@ -9615,6 +9615,30 @@ snapshots:
 
   '@intlify/shared@9.14.5': {}
 
+  '@intlify/unplugin-vue-i18n@11.0.1(@vue/compiler-dom@3.5.22)(eslint@9.38.0(jiti@2.6.1))(rollup@4.52.5)(typescript@5.6.3)(vue-i18n@packages+vue-i18n)(vue@3.6.0-alpha.2(typescript@5.6.3))':
+    dependencies:
+      '@eslint-community/eslint-utils': 4.9.0(eslint@9.38.0(jiti@2.6.1))
+      '@intlify/bundle-utils': 11.0.1(vue-i18n@packages+vue-i18n)
+      '@intlify/shared': 11.1.12
+      '@intlify/vue-i18n-extensions': 8.0.0(@intlify/shared@11.1.12)(@vue/compiler-dom@3.5.22)(vue-i18n@packages+vue-i18n)(vue@3.6.0-alpha.2(typescript@5.6.3))
+      '@rollup/pluginutils': 5.3.0(rollup@4.52.5)
+      '@typescript-eslint/scope-manager': 8.46.2
+      '@typescript-eslint/typescript-estree': 8.46.2(typescript@5.6.3)
+      debug: 4.4.3
+      fast-glob: 3.3.3
+      pathe: 2.0.3
+      picocolors: 1.1.1
+      unplugin: 2.3.10
+      vue: 3.6.0-alpha.2(typescript@5.6.3)
+    optionalDependencies:
+      vue-i18n: link:packages/vue-i18n
+    transitivePeerDependencies:
+      - '@vue/compiler-dom'
+      - eslint
+      - rollup
+      - supports-color
+      - typescript
+
   '@intlify/unplugin-vue-i18n@11.0.1(@vue/compiler-dom@3.5.22)(eslint@9.38.0(jiti@2.6.1))(rollup@4.52.5)(typescript@5.8.3)(vue-i18n@11.1.12(vue@3.6.0-alpha.2(typescript@5.8.3)))(vue@3.6.0-alpha.2(typescript@5.8.3))':
     dependencies:
       '@eslint-community/eslint-utils': 4.9.0(eslint@9.38.0(jiti@2.6.1))
@@ -9671,6 +9695,15 @@ snapshots:
       '@vue/compiler-dom': 3.5.22
       vue: 3.6.0-alpha.2(typescript@5.8.3)
       vue-i18n: 11.1.12(vue@3.6.0-alpha.2(typescript@5.8.3))
+
+  '@intlify/vue-i18n-extensions@8.0.0(@intlify/shared@11.1.12)(@vue/compiler-dom@3.5.22)(vue-i18n@packages+vue-i18n)(vue@3.6.0-alpha.2(typescript@5.6.3))':
+    dependencies:
+      '@babel/parser': 7.28.4
+    optionalDependencies:
+      '@intlify/shared': 11.1.12
+      '@vue/compiler-dom': 3.5.22
+      vue: 3.6.0-alpha.2(typescript@5.6.3)
+      vue-i18n: link:packages/vue-i18n
 
   '@intlify/vue-i18n-extensions@8.0.0(@intlify/shared@11.1.12)(@vue/compiler-dom@3.5.22)(vue-i18n@packages+vue-i18n)(vue@3.6.0-alpha.2(typescript@5.8.3))':
     dependencies:
@@ -11172,6 +11205,18 @@ snapshots:
   '@unrs/resolver-binding-win32-x64-msvc@1.11.1':
     optional: true
 
+  '@vitejs/plugin-vue-jsx@5.1.1(vite@7.1.12(@types/node@22.18.12)(jiti@2.6.1)(terser@5.44.0)(tsx@4.20.6)(yaml@2.8.1))(vue@3.6.0-alpha.2(typescript@5.6.3))':
+    dependencies:
+      '@babel/core': 7.28.4
+      '@babel/plugin-syntax-typescript': 7.27.1(@babel/core@7.28.4)
+      '@babel/plugin-transform-typescript': 7.28.0(@babel/core@7.28.4)
+      '@rolldown/pluginutils': 1.0.0-beta.44
+      '@vue/babel-plugin-jsx': 1.5.0(@babel/core@7.28.4)
+      vite: 7.1.12(@types/node@22.18.12)(jiti@2.6.1)(terser@5.44.0)(tsx@4.20.6)(yaml@2.8.1)
+      vue: 3.6.0-alpha.2(typescript@5.6.3)
+    transitivePeerDependencies:
+      - supports-color
+
   '@vitejs/plugin-vue-jsx@5.1.1(vite@7.1.12(@types/node@22.18.12)(jiti@2.6.1)(terser@5.44.0)(tsx@4.20.6)(yaml@2.8.1))(vue@3.6.0-alpha.2(typescript@5.8.3))':
     dependencies:
       '@babel/core': 7.28.4
@@ -11193,6 +11238,12 @@ snapshots:
     dependencies:
       vite: 7.1.12(@types/node@22.18.12)(jiti@2.6.1)(terser@5.44.0)(tsx@4.20.6)(yaml@2.8.1)
       vue: 3.6.0-alpha.2(typescript@5.8.3)
+
+  '@vitejs/plugin-vue@6.0.1(vite@7.1.12(@types/node@22.18.12)(jiti@2.6.1)(terser@5.44.0)(tsx@4.20.6)(yaml@2.8.1))(vue@3.6.0-alpha.2(typescript@5.6.3))':
+    dependencies:
+      '@rolldown/pluginutils': 1.0.0-beta.29
+      vite: 7.1.12(@types/node@22.18.12)(jiti@2.6.1)(terser@5.44.0)(tsx@4.20.6)(yaml@2.8.1)
+      vue: 3.6.0-alpha.2(typescript@5.6.3)
 
   '@vitejs/plugin-vue@6.0.1(vite@7.1.12(@types/node@22.18.12)(jiti@2.6.1)(terser@5.44.0)(tsx@4.20.6)(yaml@2.8.1))(vue@3.6.0-alpha.2(typescript@5.8.3))':
     dependencies:
@@ -11468,6 +11519,19 @@ snapshots:
       typescript: 5.8.3
     transitivePeerDependencies:
       - supports-color
+
+  '@vue/language-core@2.2.12(typescript@5.6.3)':
+    dependencies:
+      '@volar/language-core': 2.4.15
+      '@vue/compiler-dom': 3.5.22
+      '@vue/compiler-vue2': 2.7.16
+      '@vue/shared': 3.5.22
+      alien-signals: 1.0.13
+      minimatch: 9.0.5
+      muggle-string: 0.4.1
+      path-browserify: 1.0.1
+    optionalDependencies:
+      typescript: 5.6.3
 
   '@vue/language-core@2.2.12(typescript@5.8.3)':
     dependencies:
@@ -17982,10 +18046,21 @@ snapshots:
       '@vue/compiler-sfc': 3.5.22
       vue: 3.6.0-alpha.2(typescript@5.8.3)
 
+  vue-router@4.6.3(vue@3.6.0-alpha.2(typescript@5.6.3)):
+    dependencies:
+      '@vue/devtools-api': 6.6.4
+      vue: 3.6.0-alpha.2(typescript@5.6.3)
+
   vue-router@4.6.3(vue@3.6.0-alpha.2(typescript@5.8.3)):
     dependencies:
       '@vue/devtools-api': 6.6.4
       vue: 3.6.0-alpha.2(typescript@5.8.3)
+
+  vue-tsc@2.2.12(typescript@5.6.3):
+    dependencies:
+      '@volar/typescript': 2.4.15
+      '@vue/language-core': 2.2.12(typescript@5.6.3)
+      typescript: 5.6.3
 
   vue-tsc@2.2.12(typescript@5.8.3):
     dependencies:
