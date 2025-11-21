@@ -130,7 +130,7 @@
     "gh-changelogen": "^0.2.8",
     "jsdom": "^27.0.0",
     "knip": "^5.66.2",
-    "lint-staged": "^15.2.2",
+    "lint-staged": "^16.0.0",
     "listhen": "^1.7.2",
     "magic-string": "^0.30.17",
     "markdown-table": "^3.0.4",
