@@ -687,8 +687,8 @@ importers:
         specifier: ^7.1.12
         version: 7.1.12(@types/node@22.18.12)(jiti@2.6.1)(terser@5.44.0)(tsx@4.20.6)(yaml@2.8.1)
       vue-tsc:
-        specifier: ^2.0.0
-        version: 2.2.12(typescript@5.9.3)
+        specifier: ^3.0.0
+        version: 3.1.2(typescript@5.9.3)
 
   packages/message-compiler:
     dependencies:
@@ -752,8 +752,8 @@ importers:
         specifier: ^7.1.12
         version: 7.1.12(@types/node@22.18.12)(jiti@2.6.1)(terser@5.44.0)(tsx@4.20.6)(yaml@2.8.1)
       vue-tsc:
-        specifier: ^2.0.0
-        version: 2.2.12(typescript@5.9.3)
+        specifier: ^3.0.0
+        version: 3.1.2(typescript@5.9.3)
 
   packages/size-check-vue-i18n:
     dependencies:
@@ -774,8 +774,8 @@ importers:
         specifier: ^7.1.12
         version: 7.1.12(@types/node@22.18.12)(jiti@2.6.1)(terser@5.44.0)(tsx@4.20.6)(yaml@2.8.1)
       vue-tsc:
-        specifier: ^2.0.0
-        version: 2.2.12(typescript@5.9.3)
+        specifier: ^3.0.0
+        version: 3.1.2(typescript@5.9.3)
 
   packages/vue-i18n:
     dependencies:
@@ -11575,19 +11575,6 @@ snapshots:
     optionalDependencies:
       typescript: 5.8.3
 
-  '@vue/language-core@2.2.12(typescript@5.9.3)':
-    dependencies:
-      '@volar/language-core': 2.4.15
-      '@vue/compiler-dom': 3.5.22
-      '@vue/compiler-vue2': 2.7.16
-      '@vue/shared': 3.5.22
-      alien-signals: 1.0.13
-      minimatch: 9.0.5
-      muggle-string: 0.4.1
-      path-browserify: 1.0.1
-    optionalDependencies:
-      typescript: 5.9.3
-
   '@vue/language-core@3.1.2(typescript@5.8.3)':
     dependencies:
       '@volar/language-core': 2.4.23
@@ -11611,7 +11598,6 @@ snapshots:
       picomatch: 4.0.3
     optionalDependencies:
       typescript: 5.9.3
-    optional: true
 
   '@vue/reactivity@3.5.22':
     dependencies:
@@ -18090,12 +18076,6 @@ snapshots:
       '@vue/language-core': 2.2.12(typescript@5.8.3)
       typescript: 5.8.3
 
-  vue-tsc@2.2.12(typescript@5.9.3):
-    dependencies:
-      '@volar/typescript': 2.4.15
-      '@vue/language-core': 2.2.12(typescript@5.9.3)
-      typescript: 5.9.3
-
   vue-tsc@3.1.2(typescript@5.8.3):
     dependencies:
       '@volar/typescript': 2.4.23
@@ -18107,7 +18087,6 @@ snapshots:
       '@volar/typescript': 2.4.23
       '@vue/language-core': 3.1.2(typescript@5.9.3)
       typescript: 5.9.3
-    optional: true
 
   vue@3.6.0-alpha.4(typescript@5.8.3):
     dependencies:
