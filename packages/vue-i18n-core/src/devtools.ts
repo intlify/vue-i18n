@@ -24,7 +24,11 @@ import type {
   HookPayloads,
   InspectedComponentData
 } from '@vue/devtools-api'
-import type { App, ComponentInternalInstance } from 'vue'
+import type {
+  App,
+  ComponentInternalInstance,
+  GenericComponentInstance
+} from 'vue'
 import type { Composer } from './composer'
 import type { I18n, I18nInternal } from './i18n'
 import type { VueI18nInternal } from './legacy'
@@ -70,26 +74,22 @@ export async function enableDevTools(app: App, i18n: _I18n): Promise<boolean> {
           })
 
           api.on.inspectComponent(({ componentInstance, instanceData }) => {
-            if (
-              componentInstance.vnode.el &&
-              componentInstance.vnode.el.__VUE_I18N__ &&
-              instanceData
-            ) {
+            if (componentInstance.__VUE_I18N__ && instanceData) {
               if (i18n.mode === 'legacy') {
                 // ignore global scope on legacy mode
                 if (
-                  componentInstance.vnode.el.__VUE_I18N__ !==
+                  componentInstance.__VUE_I18N__ !==
                   (i18n.global as unknown as VueI18nInternal).__composer
                 ) {
                   inspectComposer(
                     instanceData,
-                    componentInstance.vnode.el.__VUE_I18N__ as Composer
+                    componentInstance.__VUE_I18N__ as Composer
                   )
                 }
               } else {
                 inspectComposer(
                   instanceData,
-                  componentInstance.vnode.el.__VUE_I18N__ as Composer
+                  componentInstance.__VUE_I18N__ as Composer
                 )
               }
             }
@@ -112,7 +112,10 @@ export async function enableDevTools(app: App, i18n: _I18n): Promise<boolean> {
             }
           })
 
-          const roots = new Map<App, ComponentInternalInstance>()
+          const roots = new Map<
+            App,
+            ComponentInternalInstance | GenericComponentInstance
+          >()
           api.on.getInspectorState(async payload => {
             if (
               payload.app === app &&
@@ -180,9 +183,9 @@ function updateComponentTreeTags(
   const global = i18n.mode === 'composition'
     ? i18n.global
     : (i18n.global as unknown as VueI18nInternal).__composer
-  if (instance && instance.vnode.el && instance.vnode.el.__VUE_I18N__) {
+  if (instance && instance.__VUE_I18N__) {
     // add custom tags local scope only
-    if (instance.vnode.el.__VUE_I18N__ !== global) {
+    if (instance.__VUE_I18N__ !== global) {
       const tag = {
         label: `i18n (${getI18nScopeLable(instance)} Scope)`,
         textColor: 0x000000,
@@ -318,8 +321,9 @@ function registerScope(
 function getComponentInstance(
   nodeId: string,
   i18n: _I18n
-): ComponentInternalInstance | null {
-  let instance: ComponentInternalInstance | null = null
+): ComponentInternalInstance | GenericComponentInstance | null {
+  let instance: ComponentInternalInstance | GenericComponentInstance | null =
+    null
 
   if (nodeId !== 'global') {
     for (const [component, composer] of i18n.__instances.entries()) {
