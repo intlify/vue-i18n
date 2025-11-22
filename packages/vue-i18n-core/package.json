@@ -69,7 +69,7 @@
   "dependencies": {
     "@intlify/core-base": "workspace:*",
     "@intlify/shared": "workspace:*",
-    "@vue/devtools-api": "^6.5.0"
+    "@vue/devtools-api": "^8.0.0"
   },
   "peerDependencies": {
     "vue": "^3.0.0"
