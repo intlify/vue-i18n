@@ -38,7 +38,7 @@ import {
   isString,
   warn
 } from '@intlify/shared'
-import { computed, getCurrentInstance, ref, shallowRef, watch } from 'vue'
+import { computed, ref, shallowRef, watch } from 'vue'
 import { I18nErrorCodes, createI18nError } from './errors'
 import { VERSION } from './misc'
 import {
@@ -53,6 +53,7 @@ import {
 import {
   createTextNode,
   getComponentOptions,
+  getCurrentInstance,
   getLocaleMessages,
   handleFlatJson
 } from './utils'
@@ -109,6 +110,7 @@ import type { VueDevToolsEmitter } from '@intlify/devtools-types'
 import type {
   ComponentInternalInstance,
   ComputedRef,
+  GenericComponentInstance,
   VNode,
   VNodeArrayChildren,
   WritableComputedRef
@@ -226,7 +228,7 @@ export type DefaultNumberFormatSchema<
 export type MissingHandler = (
   locale: Locale,
   key: Path,
-  instance?: ComponentInternalInstance,
+  instance?: ComponentInternalInstance | GenericComponentInstance,
   type?: string
 ) => string | void
 

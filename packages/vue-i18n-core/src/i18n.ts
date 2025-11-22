@@ -11,7 +11,6 @@ import {
 import {
   InjectionKey,
   effectScope,
-  getCurrentInstance,
   inject,
   isRef,
   onMounted,
@@ -29,7 +28,11 @@ import {
   EnableEmitter,
   InejctWithOptionSymbol
 } from './symbols'
-import { adjustI18nResources, getComponentOptions } from './utils'
+import {
+  adjustI18nResources,
+  getComponentOptions,
+  getCurrentInstance
+} from './utils'
 import { I18nWarnCodes, getWarnMessage } from './warnings'
 
 import type {
@@ -42,7 +45,12 @@ import type {
   VueDevToolsEmitter,
   VueDevToolsEmitterEvents
 } from '@intlify/devtools-types'
-import type { App, ComponentInternalInstance, EffectScope } from 'vue'
+import type {
+  App,
+  ComponentInternalInstance,
+  EffectScope,
+  GenericComponentInstance
+} from 'vue'
 import type {
   Composer,
   ComposerInternalOptions,
@@ -73,9 +81,27 @@ declare module 'vue' {
   export interface ComponentInternalInstance {
     /**
      * @internal
-     * is custom element?
+     * whether target component is custom element
      */
     isCE?: boolean
+    /**
+     * @internal
+     * for vue/devtools i18n composer hook
+     */
+    __VUE_I18N__?: Composer
+  }
+
+  export interface GenericComponentInstance {
+    /**
+     * @internal
+     * whether target component is custom element
+     */
+    isCE?: boolean
+    /**
+     * @internal
+     * for vue/devtools i18n composer hook
+     */
+    __VUE_I18N__?: Composer
   }
 }
 
@@ -240,7 +266,7 @@ export interface I18nInternal<
   OptionLocale = Locale
 > {
   __instances: Map<
-    ComponentInternalInstance,
+    ComponentInternalInstance | GenericComponentInstance,
     | VueI18n<Messages, DateTimeFormats, NumberFormats, OptionLocale>
     | Composer<Messages, DateTimeFormats, NumberFormats, OptionLocale>
   >
@@ -249,17 +275,19 @@ export interface I18nInternal<
       | VueI18n<Messages, DateTimeFormats, NumberFormats, OptionLocale>
       | Composer<Messages, DateTimeFormats, NumberFormats, OptionLocale>
   >(
-    component: ComponentInternalInstance
+    component: ComponentInternalInstance | GenericComponentInstance
   ): Instance | null
   __setInstance<
     Instance extends
       | VueI18n<Messages, DateTimeFormats, NumberFormats, OptionLocale>
       | Composer<Messages, DateTimeFormats, NumberFormats, OptionLocale>
   >(
-    component: ComponentInternalInstance,
+    component: ComponentInternalInstance | GenericComponentInstance,
     instance: Instance
   ): void
-  __deleteInstance(component: ComponentInternalInstance): void
+  __deleteInstance(
+    component: ComponentInternalInstance | GenericComponentInstance
+  ): void
   __composerExtend?: ComposerExtender
   /**
    * @deprecated will be removed at vue-i18n v12
@@ -495,24 +523,29 @@ export function createI18n(options: any = {}): any {
   const __globalInjection = isBoolean(options.globalInjection)
     ? options.globalInjection
     : true
-  const __instances = new Map<ComponentInternalInstance, VueI18n | Composer>()
+  const __instances = new Map<
+    ComponentInternalInstance | GenericComponentInstance,
+    VueI18n | Composer
+  >()
   const [globalScope, __global] = createGlobal(options, __legacyMode)
   const symbol: InjectionKey<I18n> | string = /* #__PURE__*/ makeSymbol(
     __DEV__ ? 'vue-i18n' : ''
   )
 
   function __getInstance<Instance extends VueI18n | Composer>(
-    component: ComponentInternalInstance
+    component: ComponentInternalInstance | GenericComponentInstance
   ): Instance | null {
     return (__instances.get(component) as unknown as Instance) || null
   }
   function __setInstance<Instance extends VueI18n | Composer>(
-    component: ComponentInternalInstance,
+    component: ComponentInternalInstance | GenericComponentInstance,
     instance: Instance
   ): void {
     __instances.set(component, instance)
   }
-  function __deleteInstance(component: ComponentInternalInstance): void {
+  function __deleteInstance(
+    component: ComponentInternalInstance | GenericComponentInstance
+  ): void {
     __instances.delete(component)
   }
 
@@ -801,7 +834,9 @@ function createGlobal(
   return [scope, obj]
 }
 
-function getI18nInstance(instance: ComponentInternalInstance): I18n {
+function getI18nInstance(
+  instance: ComponentInternalInstance | GenericComponentInstance
+): I18n {
   const i18n = inject(
     !instance.isCE
       ? instance.appContext.app.__VUE_I18N_SYMBOL__!
@@ -839,15 +874,13 @@ function getGlobalComposer(i18n: I18n): Composer {
 
 function getComposer(
   i18n: I18n,
-  target: ComponentInternalInstance,
+  target: ComponentInternalInstance | GenericComponentInstance,
   useComponent = false
 ): Composer | null {
   let composer: Composer | null = null
   const root = target.root
-  let current: ComponentInternalInstance | null = getParentComponentInstance(
-    target,
-    useComponent
-  )
+  let current: ComponentInternalInstance | GenericComponentInstance | null =
+    getParentComponentInstance(target, useComponent)
   while (current != null) {
     const i18nInternal = i18n as unknown as I18nInternal
     if (i18n.mode === 'composition') {
@@ -880,7 +913,7 @@ function getComposer(
 }
 
 function getParentComponentInstance(
-  target: ComponentInternalInstance | null,
+  target: ComponentInternalInstance | GenericComponentInstance | null,
   useComponent = false
 ) {
   if (target == null) {
@@ -894,19 +927,15 @@ function getParentComponentInstance(
 
 function setupLifeCycle(
   i18n: I18nInternal,
-  target: ComponentInternalInstance,
+  target: ComponentInternalInstance | GenericComponentInstance,
   composer: Composer
 ): void {
   let emitter: VueDevToolsEmitter | null = null
 
   onMounted(() => {
     // inject composer instance to DOM for intlify-devtools
-    if (
-      (__DEV__ || __FEATURE_PROD_VUE_DEVTOOLS__) &&
-      !__NODE_JS__ &&
-      target.vnode.el
-    ) {
-      target.vnode.el.__VUE_I18N__ = composer
+    if ((__DEV__ || __FEATURE_PROD_VUE_DEVTOOLS__) && !__NODE_JS__) {
+      target.__VUE_I18N__ = composer
       emitter = createEmitter<VueDevToolsEmitterEvents>()
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const _composer = composer as any
@@ -920,15 +949,10 @@ function setupLifeCycle(
     const _composer = composer as any
 
     // remove composer instance from DOM for intlify-devtools
-    if (
-      (__DEV__ || __FEATURE_PROD_VUE_DEVTOOLS__) &&
-      !__NODE_JS__ &&
-      target.vnode.el &&
-      target.vnode.el.__VUE_I18N__
-    ) {
+    if ((__DEV__ || __FEATURE_PROD_VUE_DEVTOOLS__) && !__NODE_JS__) {
       emitter && emitter.off('*', addTimelineEvent)
       _composer[DisableEmitter] && _composer[DisableEmitter]()
-      delete target.vnode.el.__VUE_I18N__
+      delete target.__VUE_I18N__
     }
     i18n.__deleteInstance(target)
 

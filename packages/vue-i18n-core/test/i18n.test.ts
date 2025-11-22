@@ -27,7 +27,6 @@ import {
   ComponentOptions,
   defineComponent,
   defineCustomElement,
-  getCurrentInstance,
   h,
   nextTick,
   ref
@@ -35,6 +34,7 @@ import {
 import { Composer } from '../src/composer'
 import { errorMessages, I18nErrorCodes } from '../src/errors'
 import { createI18n, useI18n } from '../src/i18n'
+import { getCurrentInstance } from '../src/utils'
 import { I18nWarnCodes, warnMessages } from '../src/warnings'
 import { pluralRules as _pluralRules, mount, randStr } from './helper'
 
