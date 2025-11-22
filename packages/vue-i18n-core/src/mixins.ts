@@ -1,10 +1,13 @@
 import { createEmitter } from '@intlify/shared'
-import { getCurrentInstance } from 'vue'
 import { addTimelineEvent } from './devtools'
 import { createI18nError, I18nErrorCodes } from './errors'
 import { createVueI18n } from './legacy'
 import { SetPluralRulesSymbol } from './symbols'
-import { adjustI18nResources, getLocaleMessages } from './utils'
+import {
+  adjustI18nResources,
+  getCurrentInstance,
+  getLocaleMessages
+} from './utils'
 
 import type { Locale, LocaleMessageValue } from '@intlify/core'
 import type { Path } from '@intlify/core-base'
@@ -118,11 +121,14 @@ export function defineMixin(
       if (
         (__DEV__ || __FEATURE_PROD_VUE_DEVTOOLS__) &&
         !__NODE_JS__ &&
-        this.$el &&
         this.$i18n
       ) {
+        const instance = getCurrentInstance()
+        if (!instance) {
+          return
+        }
         const _vueI18n = this.$i18n as unknown as VueI18nInternal
-        this.$el.__VUE_I18N__ = _vueI18n.__composer
+        instance.__VUE_I18N__ = _vueI18n.__composer
         const emitter: VueDevToolsEmitter = (this.__v_emitter =
           createEmitter<VueDevToolsEmitterEvents>())
         _vueI18n.__enableEmitter && _vueI18n.__enableEmitter(emitter)
@@ -143,8 +149,7 @@ export function defineMixin(
       if (
         (__DEV__ || __FEATURE_PROD_VUE_DEVTOOLS__) &&
         !__NODE_JS__ &&
-        this.$el &&
-        this.$el.__VUE_I18N__
+        instance.__VUE_I18N__
       ) {
         if (this.__v_emitter) {
           this.__v_emitter.off('*', addTimelineEvent)
@@ -152,7 +157,7 @@ export function defineMixin(
         }
         if (this.$i18n) {
           _vueI18n.__disableEmitter && _vueI18n.__disableEmitter()
-          delete this.$el.__VUE_I18N__
+          delete instance.__VUE_I18N__
         }
       }
 
