@@ -34,7 +34,7 @@ jobs:
 
       - name: Extract version tag
         if: startsWith( github.ref, 'refs/tags/v' )
-        uses: jungwinter/split@397a50dadb89335ec4ef406c53105c3c4d407c63 # v2.0.0
+        uses: jungwinter/split@7f51d99e7cc1f147f6f99be75acf5e641930af88 # v2.1.0
         id: split
         with:
           msg: ${{ github.ref }}
