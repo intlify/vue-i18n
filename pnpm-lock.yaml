@@ -240,7 +240,7 @@ importers:
         version: 11.0.1(vue-i18n@11.1.12(vue@3.6.0-alpha.4(typescript@5.8.3)))
       '@intlify/unplugin-vue-i18n':
         specifier: ^11.0.1
-        version: 11.0.1(@vue/compiler-dom@3.5.22)(eslint@9.38.0(jiti@2.6.1))(rollup@4.52.5)(typescript@5.8.3)(vue-i18n@11.1.12(vue@3.6.0-alpha.4(typescript@5.8.3)))(vue@3.6.0-alpha.4(typescript@5.8.3))
+        version: 11.0.1(@vue/compiler-dom@3.5.22)(eslint@9.39.1(jiti@2.6.1))(rollup@4.52.5)(typescript@5.8.3)(vue-i18n@11.1.12(vue@3.6.0-alpha.4(typescript@5.8.3)))(vue@3.6.0-alpha.4(typescript@5.8.3))
       '@types/body-parser':
         specifier: ^1.19.2
         version: 1.19.6
@@ -286,7 +286,7 @@ importers:
     devDependencies:
       '@intlify/unplugin-vue-i18n':
         specifier: ^11.0.1
-        version: 11.0.1(@vue/compiler-dom@3.5.22)(eslint@9.38.0(jiti@2.6.1))(rollup@4.52.5)(typescript@5.8.3)(vue-i18n@11.1.12(vue@3.6.0-alpha.4(typescript@5.8.3)))(vue@3.6.0-alpha.4(typescript@5.8.3))
+        version: 11.0.1(@vue/compiler-dom@3.5.22)(eslint@9.39.1(jiti@2.6.1))(rollup@4.52.5)(typescript@5.8.3)(vue-i18n@11.1.12(vue@3.6.0-alpha.4(typescript@5.8.3)))(vue@3.6.0-alpha.4(typescript@5.8.3))
       '@vitejs/plugin-vue':
         specifier: ^6.0.1
         version: 6.0.1(vite@7.1.12(@types/node@22.18.12)(jiti@2.6.1)(terser@5.44.0)(tsx@4.20.6)(yaml@2.8.1))(vue@3.6.0-alpha.4(typescript@5.8.3))
@@ -388,7 +388,7 @@ importers:
     devDependencies:
       '@intlify/unplugin-vue-i18n':
         specifier: ^11.0.1
-        version: 11.0.1(@vue/compiler-dom@3.5.22)(eslint@9.38.0(jiti@2.6.1))(rollup@4.52.5)(typescript@5.9.3)(vue-i18n@packages+vue-i18n)(vue@3.6.0-alpha.4(typescript@5.9.3))
+        version: 11.0.1(@vue/compiler-dom@3.5.22)(eslint@9.39.1(jiti@2.6.1))(rollup@4.52.5)(typescript@5.9.3)(vue-i18n@packages+vue-i18n)(vue@3.6.0-alpha.4(typescript@5.9.3))
       '@vitejs/plugin-vue':
         specifier: ^6.0.1
         version: 6.0.1(vite@7.1.12(@types/node@22.18.12)(jiti@2.6.1)(terser@5.44.0)(tsx@4.20.6)(yaml@2.8.1))(vue@3.6.0-alpha.4(typescript@5.9.3))
@@ -432,7 +432,7 @@ importers:
     devDependencies:
       '@intlify/unplugin-vue-i18n':
         specifier: ^11.0.1
-        version: 11.0.1(@vue/compiler-dom@3.5.22)(eslint@9.38.0(jiti@2.6.1))(rollup@4.52.5)(typescript@5.8.3)(vue-i18n@packages+vue-i18n)(vue@3.6.0-alpha.4(typescript@5.8.3))
+        version: 11.0.1(@vue/compiler-dom@3.5.22)(eslint@9.39.1(jiti@2.6.1))(rollup@4.52.5)(typescript@5.8.3)(vue-i18n@packages+vue-i18n)(vue@3.6.0-alpha.4(typescript@5.8.3))
       typescript:
         specifier: ^5.0.0
         version: 5.8.3
@@ -617,7 +617,7 @@ importers:
     devDependencies:
       '@intlify/unplugin-vue-i18n':
         specifier: ^11.0.1
-        version: 11.0.1(@vue/compiler-dom@3.5.22)(eslint@9.38.0(jiti@2.6.1))(rollup@4.52.5)(typescript@5.8.3)(vue-i18n@11.1.12(vue@3.6.0-alpha.4(typescript@5.8.3)))(vue@3.6.0-alpha.4(typescript@5.8.3))
+        version: 11.0.1(@vue/compiler-dom@3.5.22)(eslint@9.39.1(jiti@2.6.1))(rollup@4.52.5)(typescript@5.8.3)(vue-i18n@11.1.12(vue@3.6.0-alpha.4(typescript@5.8.3)))(vue@3.6.0-alpha.4(typescript@5.8.3))
       '@vitejs/plugin-vue':
         specifier: ^6.0.1
         version: 6.0.1(vite@7.1.12(@types/node@22.18.12)(jiti@2.6.1)(terser@5.44.0)(tsx@4.20.6)(yaml@2.8.1))(vue@3.6.0-alpha.4(typescript@5.8.3))
@@ -9692,9 +9692,9 @@ snapshots:
 
   '@intlify/shared@9.14.5': {}
 
-  '@intlify/unplugin-vue-i18n@11.0.1(@vue/compiler-dom@3.5.22)(eslint@9.38.0(jiti@2.6.1))(rollup@4.52.5)(typescript@5.8.3)(vue-i18n@11.1.12(vue@3.6.0-alpha.4(typescript@5.8.3)))(vue@3.6.0-alpha.4(typescript@5.8.3))':
+  '@intlify/unplugin-vue-i18n@11.0.1(@vue/compiler-dom@3.5.22)(eslint@9.39.1(jiti@2.6.1))(rollup@4.52.5)(typescript@5.8.3)(vue-i18n@11.1.12(vue@3.6.0-alpha.4(typescript@5.8.3)))(vue@3.6.0-alpha.4(typescript@5.8.3))':
     dependencies:
-      '@eslint-community/eslint-utils': 4.9.0(eslint@9.38.0(jiti@2.6.1))
+      '@eslint-community/eslint-utils': 4.9.0(eslint@9.39.1(jiti@2.6.1))
       '@intlify/bundle-utils': 11.0.1(vue-i18n@11.1.12(vue@3.6.0-alpha.4(typescript@5.8.3)))
       '@intlify/shared': 11.1.12
       '@intlify/vue-i18n-extensions': 8.0.0(@intlify/shared@11.1.12)(@vue/compiler-dom@3.5.22)(vue-i18n@11.1.12(vue@3.6.0-alpha.4(typescript@5.8.3)))(vue@3.6.0-alpha.4(typescript@5.8.3))
@@ -9716,9 +9716,9 @@ snapshots:
       - supports-color
       - typescript
 
-  '@intlify/unplugin-vue-i18n@11.0.1(@vue/compiler-dom@3.5.22)(eslint@9.38.0(jiti@2.6.1))(rollup@4.52.5)(typescript@5.8.3)(vue-i18n@packages+vue-i18n)(vue@3.6.0-alpha.4(typescript@5.8.3))':
+  '@intlify/unplugin-vue-i18n@11.0.1(@vue/compiler-dom@3.5.22)(eslint@9.39.1(jiti@2.6.1))(rollup@4.52.5)(typescript@5.8.3)(vue-i18n@packages+vue-i18n)(vue@3.6.0-alpha.4(typescript@5.8.3))':
     dependencies:
-      '@eslint-community/eslint-utils': 4.9.0(eslint@9.38.0(jiti@2.6.1))
+      '@eslint-community/eslint-utils': 4.9.0(eslint@9.39.1(jiti@2.6.1))
       '@intlify/bundle-utils': 11.0.1(vue-i18n@packages+vue-i18n)
       '@intlify/shared': 11.1.12
       '@intlify/vue-i18n-extensions': 8.0.0(@intlify/shared@11.1.12)(@vue/compiler-dom@3.5.22)(vue-i18n@packages+vue-i18n)(vue@3.6.0-alpha.4(typescript@5.8.3))
@@ -9740,9 +9740,9 @@ snapshots:
       - supports-color
       - typescript
 
-  '@intlify/unplugin-vue-i18n@11.0.1(@vue/compiler-dom@3.5.22)(eslint@9.38.0(jiti@2.6.1))(rollup@4.52.5)(typescript@5.9.3)(vue-i18n@packages+vue-i18n)(vue@3.6.0-alpha.4(typescript@5.9.3))':
+  '@intlify/unplugin-vue-i18n@11.0.1(@vue/compiler-dom@3.5.22)(eslint@9.39.1(jiti@2.6.1))(rollup@4.52.5)(typescript@5.9.3)(vue-i18n@packages+vue-i18n)(vue@3.6.0-alpha.4(typescript@5.9.3))':
     dependencies:
-      '@eslint-community/eslint-utils': 4.9.0(eslint@9.38.0(jiti@2.6.1))
+      '@eslint-community/eslint-utils': 4.9.0(eslint@9.39.1(jiti@2.6.1))
       '@intlify/bundle-utils': 11.0.1(vue-i18n@packages+vue-i18n)
       '@intlify/shared': 11.1.12
       '@intlify/vue-i18n-extensions': 8.0.0(@intlify/shared@11.1.12)(@vue/compiler-dom@3.5.22)(vue-i18n@packages+vue-i18n)(vue@3.6.0-alpha.4(typescript@5.9.3))
