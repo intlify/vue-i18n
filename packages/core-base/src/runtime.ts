@@ -271,7 +271,7 @@ export interface MessageContext<T = string> {
 }
 
 const DEFAULT_MODIFIER = (str: string): string => str
-const DEFAULT_MESSAGE = (ctx: MessageContext<string>): string => '' // eslint-disable-line
+const DEFAULT_MESSAGE = (_ctx: MessageContext<string>): string => ''
 export const DEFAULT_MESSAGE_DATA_TYPE = 'text'
 const DEFAULT_NORMALIZE = (values: string[]): string => (values.length === 0 ? '' : join(values))
 const DEFAULT_INTERPOLATE = toDisplayString

@@ -8,7 +8,7 @@ import type { Plugin, RollupOptions } from 'rollup'
 
 const __dirname = fileURLToPath(new URL('.', import.meta.url))
 
-export async function createDtsConfig(targets: string[]) {
+export async function createDtsConfig(targets: string[]): Promise<Record<string, RollupOptions>> {
   if (!existsSync(path.resolve(__dirname, '../temp/packages'))) {
     console.warn('no temp dts files found. run `pnpm build:rolldown` first')
     process.exit(1)

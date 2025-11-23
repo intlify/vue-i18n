@@ -1,8 +1,8 @@
 import { NodeTypes } from '../src/nodes'
 
-import type { Node, PluralNode, MessageNode, LinkedNode } from '../src/nodes'
+import type { LinkedNode, MessageNode, Node, PluralNode } from '../src/nodes'
 
-export function traverse(node: Node, fn: (node: Node) => void) {
+export function traverse(node: Node, fn: (node: Node) => void): void {
   fn(node)
   if (node.type === NodeTypes.Plural) {
     ;(node as PluralNode).cases.forEach(c => traverse(c, fn))

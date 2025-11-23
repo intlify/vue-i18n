@@ -16,13 +16,13 @@ export function setTestContext(context?: TestContext): TestContext | undefined {
   return currentContext
 }
 
-export function recoverContextFromEnv() {
+export function recoverContextFromEnv(): void {
   if (!currentContext && process.env.INTLIFY_TEST_CONTEXT) {
     setTestContext(JSON.parse(process.env.INTLIFY_TEST_CONTEXT || '{}'))
   }
 }
 
-export function exposeContextToEnv() {
+export function exposeContextToEnv(): void {
   const { url } = currentContext!
   process.env.INTLIFY_TEST_CONTEXT = JSON.stringify({ url })
 }

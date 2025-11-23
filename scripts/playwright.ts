@@ -1,4 +1,4 @@
-async function main() {
+async function main(): Promise<void> {
   try {
     await import('playwright-core')
   } catch (e) {

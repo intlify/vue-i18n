@@ -732,7 +732,7 @@ describe('t', () => {
   })
 
   test('missing', () => {
-    const missing = (locale: Locale, key: string) => {
+    const missing = (_locale: Locale, key: string) => {
       return key.toUpperCase()
     }
     const { t } = createComposer({

@@ -209,7 +209,7 @@ function compileSlot(template: string) {
 
   const ToRender = defineComponent({
     inheritAttrs: false,
-    setup(props, { attrs }) {
+    setup(_props, { attrs }) {
       return { ...attrs }
     },
     render
@@ -219,6 +219,6 @@ function compileSlot(template: string) {
   return (propsData: any) => h(ToRender, { ...propsData })
 }
 
-export function randStr(digit = 8) {
+export function randStr(digit = 8): string {
   return Math.random().toString(32).substring(digit)
 }

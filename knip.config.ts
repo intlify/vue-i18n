@@ -1,6 +1,6 @@
 import type { KnipConfig } from 'knip'
 
-export default {
+const config: KnipConfig = {
   workspaces: {
     '.': {
       entry: ['scripts/*.ts'],
@@ -56,4 +56,6 @@ export default {
   },
   ignoreDependencies: ['lint-staged', 'mitata'],
   ignoreBinaries: ['tail']
-} satisfies KnipConfig
+}
+
+export default config

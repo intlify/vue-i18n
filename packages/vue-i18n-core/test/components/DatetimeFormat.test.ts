@@ -124,7 +124,7 @@ test('component', async () => {
   })
 
   const MyComponent = defineComponent({
-    setup(props, context: SetupContext) {
+    setup(_props, context: SetupContext) {
       return (): VNodeChild => h('span', context.slots.default!())
     }
   })

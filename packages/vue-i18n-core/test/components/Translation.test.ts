@@ -207,7 +207,7 @@ test('component', async () => {
   })
 
   const MyComponent = defineComponent({
-    setup(props, context: SetupContext) {
+    setup(_props, context: SetupContext) {
       return (): VNodeChild => h('p', context.slots.default!())
     }
   })
@@ -243,7 +243,7 @@ test('message resolver', async () => {
   })
 
   const MyComponent = defineComponent({
-    setup(props, context: SetupContext) {
+    setup(_props, context: SetupContext) {
       return (): VNodeChild => h('p', context.slots.default!())
     }
   })

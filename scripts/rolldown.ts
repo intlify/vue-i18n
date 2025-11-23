@@ -34,7 +34,7 @@ export function createConfigsForPackage({
   sourceMap?: boolean
   localDev?: boolean
   inlineDeps?: boolean
-}) {
+}): RolldownOptions[] {
   const packageDir = path.resolve(packagesDir, target)
   const resolve = (p: string) => path.resolve(packageDir, p)
   const pkg = require(resolve(`package.json`))

@@ -80,7 +80,8 @@
     "test": "pnpm test:cover && pnpm check-install && pnpm test:e2e",
     "test:cover": "pnpm test:unit --coverage",
     "test:e2e": "cross-env TZ=UTC vitest run -c ./vitest.e2e.config.ts",
-    "test:unit": "cross-env TZ=UTC vitest run -c ./vitest.unit.config.ts --typecheck"
+    "test:unit": "cross-env TZ=UTC vitest run -c ./vitest.unit.config.ts --typecheck",
+    "typecheck": "tsc --noEmit --diagnostics"
   },
   "peerDependencies": {
     "@microsoft/api-extractor": "7.15.2",

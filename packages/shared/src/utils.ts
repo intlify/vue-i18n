@@ -40,7 +40,7 @@ export function format(message: string, ...args: any): string {
   if (!args || !args.hasOwnProperty) {
     args = {}
   }
-  return message.replace(RE_ARGS, (match: string, identifier: string): string => {
+  return message.replace(RE_ARGS, (_match: string, identifier: string): string => {
     return args.hasOwnProperty(identifier) ? args[identifier] : ''
   })
 }

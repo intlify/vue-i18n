@@ -1,12 +1,12 @@
 /* eslint-disable no-irregular-whitespace */
 
 import { format } from '@intlify/shared'
-import { createParser } from '../src/parser'
-import { transform } from '../src/transformer'
-import { generate } from '../src/generator'
-import { CHAR_CR, CHAR_LF, CHAR_LS, CHAR_PS } from '../src/scanner'
-import { CompileErrorCodes, errorMessages } from '../src/errors'
 import { SourceMapConsumer } from 'source-map-js'
+import { CompileErrorCodes, errorMessages } from '../src/errors'
+import { generate } from '../src/generator'
+import { createParser } from '../src/parser'
+import { CHAR_CR, CHAR_LF, CHAR_LS, CHAR_PS } from '../src/scanner'
+import { transform } from '../src/transformer'
 
 import type { RawSourceMap } from 'source-map-js'
 import type { ResourceNode } from '../src/nodes'
@@ -17,6 +17,7 @@ interface Pos {
   name?: string
 }
 
+// @ts-ignore -- NOTE(kazupon): keep unused function, because it will be used in future
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 function getPositionInCode(code: string, token: string, expectName: string | boolean = false): Pos {
   const generatedOffset = code.indexOf(token)

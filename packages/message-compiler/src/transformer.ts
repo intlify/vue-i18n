@@ -1,7 +1,7 @@
-import { NodeTypes } from './nodes'
 import { HelperNameMap } from './helpers'
+import { NodeTypes } from './nodes'
 
-import type { ResourceNode, Node, PluralNode, MessageNode, LinkedNode } from './nodes'
+import type { LinkedNode, MessageNode, Node, PluralNode, ResourceNode } from './nodes'
 import type { TransformOptions } from './options'
 
 // TODO: if we offer custom transform for uses, should be defined TransformOptions type to here
@@ -19,10 +19,7 @@ type Transformer = Readonly<{
   helper(name: string): string
 }>
 
-function createTransformer(
-  ast: ResourceNode,
-  options: TransformOptions = {} // eslint-disable-line
-): Transformer {
+function createTransformer(ast: ResourceNode, _options: TransformOptions = {}): Transformer {
   const _context = {
     ast,
     helpers: new Set()
@@ -75,10 +72,7 @@ function traverseNode(node: Node, transformer: Transformer): void {
 }
 
 // transform AST
-export function transform(
-  ast: ResourceNode,
-  options: TransformOptions = {} // eslint-disable-line
-): void {
+export function transform(ast: ResourceNode, _options: TransformOptions = {}): void {
   const transformer = createTransformer(ast)
   transformer.helper(HelperNameMap.NORMALIZE)
 

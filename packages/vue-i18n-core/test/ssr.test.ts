@@ -10,8 +10,8 @@ import { renderToString } from '@vue/server-renderer'
 import { createSSRApp, defineComponent, h, resolveComponent } from 'vue'
 import { createI18n, useI18n } from '../src/index'
 
+// @ts-ignore -- NOTE(kazupon): import mock
 // utils
-import * as shared from '@intlify/shared'
 vi.mock('@intlify/shared', async () => {
   const actual = await vi.importActual<object>('@intlify/shared')
   return {

@@ -2,8 +2,8 @@ import * as vueI18n from '../src/i18n'
 import { createI18n, useI18n } from '../src/i18n'
 
 import type { DateTimeFormat, NumberFormat, PickupFallbackLocales } from '@intlify/core-base'
+import type { ComputedRef, WritableComputedRef } from 'vue'
 import type { MyDatetimeScehma, MyNumberSchema, ResourceSchema } from './schema'
-import { ComputedRef, WritableComputedRef } from 'vue'
 
 beforeEach(() => {
   // allow mocking

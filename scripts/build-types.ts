@@ -22,7 +22,7 @@ function isIgnore(file: string) {
   return ignored
 }
 
-export async function buildTypings(targets: string[]) {
+export async function buildTypings(targets: string[]): Promise<void> {
   if (existsSync(path.resolve(__dirname, '../temp/packages'))) {
     await fs.rm(path.resolve(__dirname, '../temp/packages'), {
       recursive: true

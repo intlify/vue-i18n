@@ -123,4 +123,4 @@ export const ast = {
       static: 'Product test type'
     }
   }
-}
+} as const

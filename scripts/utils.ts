@@ -28,7 +28,7 @@ function resolveTargets(targets: string[]) {
   })
 }
 
-export const targets = async () => {
+export const targets = async (): Promise<string[]> => {
   const packages = await fs.readdir('packages')
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const pkgCaches = new Map<string, any>()
@@ -53,7 +53,10 @@ export const targets = async () => {
   return resolveTargets(files.filter((_, f) => files[f]))
 }
 
-export const fuzzyMatchTarget = async (partialTargets: string[], includeAllMatching?: boolean) => {
+export const fuzzyMatchTarget = async (
+  partialTargets: string[],
+  includeAllMatching?: boolean
+): Promise<string[]> => {
   const matched: string[] = []
   const _targets = await targets()
   partialTargets.forEach(partialTarget => {
@@ -82,7 +85,7 @@ export const fuzzyMatchTarget = async (partialTargets: string[], includeAllMatch
   }
 }
 
-export async function sizeTargets() {
+export async function sizeTargets(): Promise<string[]> {
   const packages = await fs.readdir('packages')
   const files = await Promise.all(
     packages.map(async f => {
@@ -100,7 +103,7 @@ export async function sizeTargets() {
   return resolveTargets(files.filter((_, f) => files[f]).filter(f => /size-check/.test(f)))
 }
 
-export async function checkSizeDistFiles(target: string) {
+export async function checkSizeDistFiles(target: string): Promise<string[]> {
   const dirs = await fs.readdir(`${target}/dist`)
   // prettier-ignore
   return dirs.filter(file => /^(message-compiler|core|vue-i18n|petite-vue-i18n)/.test(file)) // eslint-disable-line regexp/no-unused-capturing-group
@@ -109,7 +112,8 @@ export async function checkSizeDistFiles(target: string) {
     .filter(file => /prod\.js$/.test(file))
 }
 
-export async function readJson(path: string) {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export async function readJson(path: string): Promise<any> {
   const data = await fs.readFile(path, 'utf8')
   return JSON.parse(data)
 }
