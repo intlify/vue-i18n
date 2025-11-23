@@ -1,4 +1,3 @@
-import polyfillNode from '@rolldown/plugin-node-polyfills'
 import { minify as minifySwc } from '@swc/core'
 import { promises as fs } from 'node:fs'
 import { createRequire } from 'node:module'
@@ -7,7 +6,7 @@ import { fileURLToPath } from 'node:url'
 import pc from 'picocolors'
 import { entries } from './aliases'
 // @ts-expect-error -- experimental
-import { replacePlugin } from 'rolldown/experimental'
+import { replacePlugin } from 'rolldown/plugins'
 
 import type { OutputOptions, Plugin, RolldownOptions } from 'rolldown'
 
@@ -276,11 +275,6 @@ export function createConfigsForPackage({
           [...Object.keys(pkg.dependencies || {}), ...Object.keys(pkg.peerDependencies || {})]
     }
 
-    function resolveNodePlugins() {
-      const nodePlugins = packageOptions.enableNonBrowserBranches ? [...[polyfillNode()]] : []
-      return nodePlugins
-    }
-
     return {
       input: resolve(entryFile),
       // Global and Browser ESM builds inlines everything so that they can be
@@ -295,7 +289,6 @@ export function createConfigsForPackage({
       },
       plugins: [
         ...resolveReplace(),
-        ...resolveNodePlugins(),
         ...plugins,
         {
           name: 'write-stub',

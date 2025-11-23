@@ -45,10 +45,6 @@ export async function buildTypings(targets: string[]) {
     })
     if (dts.errors.length) {
       dts.errors.forEach(err => {
-        // temporary workaround for https://github.com/oxc-project/oxc/issues/5668
-        if (!err.message.includes('set value(_: S)')) {
-          console.error(err)
-        }
         errs += err.message + '\n'
       })
     }
