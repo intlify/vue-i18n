@@ -223,6 +223,13 @@ export function getCurrentInstance():
   | GenericComponentInstance
   | ComponentInternalInstance
   | null {
-  // @ts-ignore -- NOTE(kazupon): for Vue 3.6
-  return Vue.currentInstance || Vue.getCurrentInstance()
+  if ('currentInstance' in Vue) {
+    // NOTE(kazupon): avoid bundler static analysis
+    const name = 'current' + 'Instance'
+    return (Vue as any)[name] as GenericComponentInstance | null
+  } else {
+    return Vue.getCurrentInstance()
+  }
 }
+
+/* eslint-enable @typescript-eslint/no-explicit-any */
