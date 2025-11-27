@@ -29,18 +29,17 @@ import type {
 declare module 'vue' {
   /**
    * Component Custom Options for Vue I18n
+   * @internal
    *
    * @VueI18nInjection
    */
   export interface ComponentCustomOptions {
     /**
      * For custom blocks options
-     * @internal
      */
     __i18n?: CustomBlocks
     /**
      * For devtools
-     * @internal
      */
     __INTLIFY_META__?: string
   }

@@ -1,13 +1,13 @@
 // @ts-check
-
 /** @type {import('typedoc').TypeDocOptions & import('typedoc-plugin-markdown').PluginOptions & { docsRoot?: string } } */
 export default {
   /**
    * typedoc options
    * ref: https://typedoc.org/documents/Options.html
    */
-  entryPoints: ['./packages/vue-i18n/src/index.ts'],
-  out: 'docs/api-v12',
+  entryPoints: ['./packages/vue-i18n/src/index.ts', './packages/vue-i18n/src/vue.ts'],
+  out: 'docs/api',
+  cleanOutputDir: false,
   plugin: ['typedoc-plugin-markdown', 'typedoc-vitepress-theme'],
   readme: 'none',
   groupOrder: ['Variables', 'Functions', 'Class'],

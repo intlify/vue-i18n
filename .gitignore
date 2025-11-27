@@ -8,7 +8,13 @@ node_modules
 .vscode
 debug.log
 .eslintcache
+
+# VitePress related
 **/.vitepress/cache
+docs/api/general
+docs/api/vue
+docs/api/index.md
+!docs/api/typedoc-sidebar.json
 
 *.log
 *.swp
