@@ -2,14 +2,15 @@ import type {
   DateTimeOptions,
   IsEmptyObject,
   IsNever,
+  IsPart,
+  JsonPaths,
   Locale,
   LocaleMessageValue,
   MessageFunction,
   NamedValue,
   NumberOptions,
   PickupFormatPathKeys,
-  TranslateOptions,
-  JsonPaths
+  TranslateOptions
 } from '@intlify/core-base'
 import type {
   CustomBlocks,
@@ -24,8 +25,6 @@ import type {
 } from '@intlify/vue-i18n-core'
 
 // --- THE CONTENT BELOW THIS LINE WILL BE APPENDED TO DTS FILE IN DIST DIRECTORY --- //
-
-type IsPart<O> = O extends { part: infer P } ? P : false
 
 declare module 'vue' {
   /**
@@ -723,7 +722,6 @@ declare module 'vue' {
      */
     $n<
       Key extends string = string,
-      OptionsType = NumberOptions<Key | ResourceKeys>,
       DefinedNumberFormat extends
         RemovedIndexResources<DefineDateTimeFormat> = RemovedIndexResources<DefineDateTimeFormat>,
       Keys = IsEmptyObject<DefinedNumberFormat> extends false
@@ -731,7 +729,8 @@ declare module 'vue' {
             [K in keyof DefinedNumberFormat]: DefinedNumberFormat[K]
           }>
         : never,
-      ResourceKeys extends Keys = IsNever<Keys> extends false ? Keys : never
+      ResourceKeys extends Keys = IsNever<Keys> extends false ? Keys : never,
+      OptionsType = NumberOptions<Key | ResourceKeys>
     >(
       value: number,
       options: OptionsType,

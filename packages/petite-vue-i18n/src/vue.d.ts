@@ -1,9 +1,9 @@
 import type {
   IsEmptyObject,
   IsNever,
+  JsonPaths,
   NamedValue,
-  TranslateOptions,
-  JsonPaths
+  TranslateOptions
 } from '@intlify/core-base'
 import type {
   CustomBlocks,

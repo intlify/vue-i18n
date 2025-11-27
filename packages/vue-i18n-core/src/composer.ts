@@ -71,6 +71,7 @@ import type {
   GeneratedLocale,
   IsEmptyObject,
   IsNever,
+  IsPart,
   JsonPaths,
   LinkedModifiers,
   Locale,
@@ -244,9 +245,6 @@ export interface CustomBlock<Message = VueMessageType> {
 
 export type CustomBlocks<Message = VueMessageType> = Array<CustomBlock<Message>>
 
-type IsPart<O> = O extends { part: infer P } ? P : false
-
-// prettier-ignore
 /**
  * Composer Options
  *
@@ -266,49 +264,43 @@ export interface ComposerOptions<
     number: DefaultNumberFormatSchema
   },
   Locales extends
-  | {
-    messages: unknown
-    datetimeFormats: unknown
-    numberFormats: unknown
-  }
-  | string = Locale,
+    | {
+        messages: unknown
+        datetimeFormats: unknown
+        numberFormats: unknown
+      }
+    | string = Locale,
   MessagesLocales = Locales extends { messages: infer M }
-  ? M
-  : Locales extends string
-  ? Locales
-  : Locale,
+    ? M
+    : Locales extends string
+      ? Locales
+      : Locale,
   DateTimeFormatsLocales = Locales extends { datetimeFormats: infer D }
-  ? D
-  : Locales extends string
-  ? Locales
-  : Locale,
+    ? D
+    : Locales extends string
+      ? Locales
+      : Locale,
   NumberFormatsLocales = Locales extends { numberFormats: infer N }
-  ? N
-  : Locales extends string
-  ? Locales
-  : Locale,
-  MessageSchema = Schema extends { message: infer M }
-  ? M
-  : DefaultLocaleMessageSchema,
-  DateTimeSchema = Schema extends { datetime: infer D }
-  ? D
-  : DefaultDateTimeFormatSchema,
-  NumberSchema = Schema extends { number: infer N }
-  ? N
-  : DefaultNumberFormatSchema,
-  _Messages extends LocaleMessages<
+    ? N
+    : Locales extends string
+      ? Locales
+      : Locale,
+  MessageSchema = Schema extends { message: infer M } ? M : DefaultLocaleMessageSchema,
+  DateTimeSchema = Schema extends { datetime: infer D } ? D : DefaultDateTimeFormatSchema,
+  NumberSchema = Schema extends { number: infer N } ? N : DefaultNumberFormatSchema,
+  _Messages extends LocaleMessages<MessageSchema, MessagesLocales, VueMessageType> = LocaleMessages<
     MessageSchema,
     MessagesLocales,
     VueMessageType
-  > = LocaleMessages<MessageSchema, MessagesLocales, VueMessageType>,
+  >,
   _DateTimeFormats extends DateTimeFormatsType<
     DateTimeSchema,
     DateTimeFormatsLocales
   > = DateTimeFormatsType<DateTimeSchema, DateTimeFormatsLocales>,
-  _NumberFormats extends NumberFormatsType<
+  _NumberFormats extends NumberFormatsType<NumberSchema, NumberFormatsLocales> = NumberFormatsType<
     NumberSchema,
     NumberFormatsLocales
-  > = NumberFormatsType<NumberSchema, NumberFormatsLocales>
+  >
 > {
   /**
    * @remarks
