@@ -1513,7 +1513,7 @@ export interface Composer<
    *
    * @param key - A target locale message key
    *
-   * @return Locale messages
+   * @returns Locale messages
    */
   tm<
     Key extends string,

@@ -78,7 +78,7 @@ export type MessageFunctionInternal<T = string> = {
  *
  * @param ctx - A {@link MessageContext}
  *
- * @return A resolved format message, that is string type basically.
+ * @returns A resolved format message, that is string type basically.
  *
  * @VueI18nGeneral
  */

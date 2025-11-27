@@ -1,7 +1,6 @@
 /**
  * Vue I18n General APIs
  *
- * @description
  * This is providing APIs for internationalization functionalities.
  *
  * @module general

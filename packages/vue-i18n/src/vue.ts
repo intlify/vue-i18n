@@ -1,7 +1,6 @@
 /**
  * Component Injection APIs
  *
- * @description
  * Provide component injections for Vue Component Custom Options and Properties
  *
  * @module vue
