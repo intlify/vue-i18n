@@ -39,7 +39,7 @@ export async function buildTypings(targets: string[]): Promise<void> {
     }
 
     const ts = await fs.readFile(file, 'utf-8')
-    const dts = isolatedDeclaration(file, ts, {
+    const dts = await isolatedDeclaration(file, ts, {
       sourcemap: false,
       stripInternal: true
     })
