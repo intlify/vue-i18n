@@ -27,17 +27,19 @@ These plural messages are selected by the logic of the choice rule for each lang
 
 Vue I18n offers some ways to support pluralization. Here we’ll use the `$t`.
 
-:::tip NOTE
-`$t` has some overloads. About these overloads, see the [API Reference](../../api/injection#t-key)
-:::
+<!-- eslint-disable markdown/no-missing-label-refs -->
 
-:::tip NOTE
-Some ways to support pluralization are:
+> [!TIP]
+> `$t` has some overloads. About these overloads, see the [API Reference](../../api/vue/interfaces/ComponentCustomProperties.md#t)
 
-- injected global `$t`
-- built-in Translation component (`i18n-t`)
-- exported `t` from `useI18n` (for Composition API mode)
-:::
+> [!NOTE]
+> Some ways to support pluralization are:
+>
+> - injected global `$t`
+> - built-in Translation component (`i18n-t`)
+> - exported `t` from `useI18n` (for Composition API mode)
+
+<!-- eslint-enable markdown/no-missing-label-refs -->
 
 The following is an example of using the translation API.
 

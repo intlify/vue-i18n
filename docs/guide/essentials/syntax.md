@@ -38,13 +38,15 @@ The following is an example of the use of `$t` in a template:
 
 The first argument is `message.hello` as the locale messages key, and the second argument is an object with `msg` property as a parameter to `$t`.
 
-:::tip NOTE
-The locale message resource key for the translation function can be specified for a specific resource namespace with using `.` (dot), just like a JavaScript object.
-::::
+<!-- eslint-disable markdown/no-missing-label-refs -->
 
-:::tip NOTE
-`$t` has some overloads. About these overloads, see the [API Reference](../../api/injection#t-key)
-:::
+> [!TIP]
+> The locale message resource key for the translation function can be specified for a specific resource namespace with using `.` (dot), just like a JavaScript object.
+
+> [!TIP]
+> `$t` has some overloads. About these overloads, see the [API Reference](../../api/vue/interfaces/ComponentCustomProperties.md#t)
+
+<!-- eslint-enable markdown/no-missing-label-refs -->
 
 As result the below:
 

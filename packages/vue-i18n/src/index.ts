@@ -1,3 +1,11 @@
+/**
+ * Vue I18n General APIs
+ *
+ * This is providing APIs for internationalization functionalities.
+ *
+ * @module general
+ */
+
 import {
   compile,
   fallbackWithLocaleChain,
@@ -102,6 +110,8 @@ export type {
 export type {
   IsEmptyObject,
   IsNever,
+  IsPart,
+  JsonPaths,
   PickupFormatPathKeys,
   PickupKeys,
   PickupPaths

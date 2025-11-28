@@ -40,6 +40,7 @@ const config: KnipConfig = {
     },
     'packages/vue-i18n': {
       ignore: ['src/runtime.ts'],
+      ignoreFiles: ['src/vue.d.ts', 'src/vue.ts'],
       ignoreDependencies: ['@vue/devtools-api', '@intlify/devtools-types']
     },
     'packages/size-check-core': {

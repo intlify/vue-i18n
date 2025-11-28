@@ -1,6 +1,8 @@
-import type { HeadConfig } from 'vitepress'
 import { defineConfig } from 'vitepress'
 import llmstxt from 'vitepress-plugin-llms'
+import typedocSidebarApi from '../api/typedoc-sidebar.json' with { type: 'json' }
+
+import type { HeadConfig } from 'vitepress'
 
 const head: HeadConfig[] = [['link', { rel: 'icon', href: '/vue-i18n-logo.png' }]]
 
@@ -48,13 +50,12 @@ export default defineConfig({
 
     nav: nav(),
 
-    sidebar: {
-      '/guide/': sidebarGuide(),
-      '/api/': sidebarApi(),
-      // NOTE: if we need to support multiple versions, we can be enble the following sidebar items
-      // '/api/v11/': sidebarApi('v11/'),
-      '/ecosystem/': sidebarEcosystem()
-    }
+    sidebar: [
+      ...sidebarGuide(),
+      ...sidebarApi(),
+      ...sidebarEcosystem(),
+      ...sidebarApiV11('v11/'),
+    ]
   }
 })
 
@@ -250,10 +251,10 @@ function sidebarGuide() {
   ]
 }
 
-function sidebarApi(ns = '') {
+function sidebarApiV11(ns = '') {
   return [
     {
-      text: 'API Reference',
+      text: 'API Reference v11',
       items: [
         {
           text: 'General',
@@ -283,6 +284,15 @@ function sidebarApi(ns = '') {
     }
   ]
 }
+
+function sidebarApi() {
+  return [{
+    text: 'API Reference',
+    collapsed: false,
+    items: typedocSidebarApi
+  }]
+}
+
 function sidebarEcosystem() {
   return [
     {

@@ -2,20 +2,22 @@ import type {
   DateTimeOptions,
   IsEmptyObject,
   IsNever,
+  IsPart,
+  JsonPaths,
   Locale,
   LocaleMessageValue,
   MessageFunction,
   NamedValue,
   NumberOptions,
   PickupFormatPathKeys,
-  TranslateOptions,
-  JsonPaths
+  TranslateOptions
 } from '@intlify/core-base'
 import type {
   CustomBlocks,
   DatetimeFormat,
   DefineDateTimeFormat,
   DefineLocaleMessage,
+  DefineNumberFormat,
   ExportedGlobalComposer,
   NumberFormat,
   RemovedIndexResources,
@@ -25,23 +27,20 @@ import type {
 
 // --- THE CONTENT BELOW THIS LINE WILL BE APPENDED TO DTS FILE IN DIST DIRECTORY --- //
 
-type IsPart<O> = O extends { part: infer P } ? P : false
-
 declare module 'vue' {
   /**
    * Component Custom Options for Vue I18n
+   * @internal
    *
    * @VueI18nInjection
    */
   export interface ComponentCustomOptions {
     /**
      * For custom blocks options
-     * @internal
      */
     __i18n?: CustomBlocks
     /**
      * For devtools
-     * @internal
      */
     __INTLIFY_META__?: string
   }
@@ -645,7 +644,7 @@ declare module 'vue' {
     $n<
       Key extends string = string,
       DefinedNumberFormat extends
-        RemovedIndexResources<DefineDateTimeFormat> = RemovedIndexResources<DefineDateTimeFormat>,
+        RemovedIndexResources<DefineNumberFormat> = RemovedIndexResources<DefineNumberFormat>,
       Keys = IsEmptyObject<DefinedNumberFormat> extends false
         ? PickupFormatPathKeys<{
             [K in keyof DefinedNumberFormat]: DefinedNumberFormat[K]
@@ -723,7 +722,6 @@ declare module 'vue' {
      */
     $n<
       Key extends string = string,
-      OptionsType = NumberOptions<Key | ResourceKeys>,
       DefinedNumberFormat extends
         RemovedIndexResources<DefineDateTimeFormat> = RemovedIndexResources<DefineDateTimeFormat>,
       Keys = IsEmptyObject<DefinedNumberFormat> extends false
@@ -731,7 +729,8 @@ declare module 'vue' {
             [K in keyof DefinedNumberFormat]: DefinedNumberFormat[K]
           }>
         : never,
-      ResourceKeys extends Keys = IsNever<Keys> extends false ? Keys : never
+      ResourceKeys extends Keys = IsNever<Keys> extends false ? Keys : never,
+      OptionsType = NumberOptions<Key | ResourceKeys>
     >(
       value: number,
       options: OptionsType,

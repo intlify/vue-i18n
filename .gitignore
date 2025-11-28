@@ -1,6 +1,4 @@
 dist
-docs/api/v11/*.md
-!docs/api/v11/injection.md
 packages/vue-i18n/index.html
 temp
 coverage
@@ -10,7 +8,13 @@ node_modules
 .vscode
 debug.log
 .eslintcache
+
+# VitePress related
 **/.vitepress/cache
+docs/api/general
+docs/api/vue
+docs/api/index.md
+!docs/api/typedoc-sidebar.json
 
 *.log
 *.swp

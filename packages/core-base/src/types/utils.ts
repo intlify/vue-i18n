@@ -190,4 +190,5 @@ export type StringConvertable<T, Extracted = ExtractToStringKey<T>> = IsNever<Ex
   : unknown
   : T
 
+export type IsPart<O> = O extends { part: infer P } ? P : false
 /* eslint-enable @typescript-eslint/no-explicit-any */

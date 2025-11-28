@@ -78,7 +78,7 @@ export type MessageFunctionInternal<T = string> = {
  *
  * @param ctx - A {@link MessageContext}
  *
- * @return A resolved format message, that is string type basically.
+ * @returns A resolved format message, that is string type basically.
  *
  * @VueI18nGeneral
  */
@@ -232,11 +232,11 @@ export interface MessageContext<T = string> {
    * Overloaded `linked`
    *
    * @param key - A message key
-   * @param optoins - An {@link LinkedOptions | linked options}
+   * @param options - An {@link LinkedOptions | linked options}
    *
    * @returns A resolve message.
    */
-  linked(key: Path, optoins?: LinkedOptions): MessageType<T>
+  linked(key: Path, options?: LinkedOptions): MessageType<T>
   /** @internal */
   message(key: Path): MessageFunction<T>
   /**

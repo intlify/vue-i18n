@@ -112,6 +112,7 @@ const config: ReturnType<typeof defineConfig> = defineConfig(
     '.eslintcache',
     'packages/*/vite.config.ts',
     'packages/*/index.js',
+    'packages/vue-i18n/src/vue.d.ts',
     'packages/vue-i18n-core/petite.js',
     'docsgen.config.js',
     'tsconfig.json',

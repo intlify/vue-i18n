@@ -6,7 +6,7 @@ BaseFormat Props for Components that is offered Vue I18n
 
 **Signature:**
 ```typescript
-export interface BaseFormatProps 
+export interface BaseFormatProps
 ```
 
 **Details**
@@ -95,7 +95,7 @@ If you want to use it, you need to use [polyfill](https://github.com/formatjs/fo
 **See Also**
 - [FormattableProps](component#formattableprops)
 - [BaseFormatProps](component#baseformatprops)
-- [Custom Formatting](../guide/essentials/datetime#custom-formatting)
+- [Custom Formatting](../../guide/essentials/datetime#custom-formatting)
 
 ## DatetimeFormatProps
 
@@ -112,7 +112,7 @@ Formattable Props
 
 **Signature:**
 ```typescript
-export interface FormattableProps<Value, Format> extends BaseFormatProps 
+export interface FormattableProps<Value, Format> extends BaseFormatProps
 ```
 
 **Details**
@@ -169,7 +169,7 @@ If you want to use it, you need to use [polyfill](https://github.com/formatjs/fo
 **See Also**
 - [FormattableProps](component#formattableprops)
 - [BaseFormatProps](component#baseformatprops)
-- [Custom Formatting](../guide/essentials/number#custom-formatting)
+- [Custom Formatting](../../guide/essentials/number#custom-formatting)
 
 ## NumberFormatProps
 
@@ -200,7 +200,7 @@ See the following items for property about details
 **See Also**
 - [TranslationProps](component#translationprops)
 - [BaseFormatProps](component#baseformatprops)
-- [Component Interpolation](../guide/advanced/component)
+- [Component Interpolation](../../guide/advanced/component)
 
 **Examples**
 
@@ -252,7 +252,7 @@ Translation Component Props
 
 **Signature:**
 ```typescript
-export interface TranslationProps extends BaseFormatProps 
+export interface TranslationProps extends BaseFormatProps
 ```
 
 ### keypath

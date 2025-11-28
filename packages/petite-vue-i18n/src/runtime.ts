@@ -76,6 +76,7 @@ export type {
 export type {
   IsEmptyObject,
   IsNever,
+  JsonPaths,
   PickupFormatPathKeys,
   PickupKeys,
   PickupPaths

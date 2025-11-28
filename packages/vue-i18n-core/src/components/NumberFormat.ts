@@ -67,16 +67,16 @@ export const NumberFormatImpl: ComponentOptions<NumberFormatProps> = /* #__PURE_
  * Number Format Component
  *
  * @remarks
- * See the following items for property about details
+ * See the following items for property about details:
  *
- * @VueI18nSee [FormattableProps](component#formattableprops)
- * @VueI18nSee [BaseFormatProps](component#baseformatprops)
- * @VueI18nSee [Custom Formatting](../../guide/essentials/number#custom-formatting)
+ * - {@linkcode FormattableProps}
+ * - {@linkcode BaseFormatProps}
+ * - [Custom Formatting](../../../guide/essentials/number#custom-formatting)
  *
- * @VueI18nDanger
- * Not supported IE, due to no support `Intl.NumberFormat#formatToParts` in [IE](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/NumberFormat/formatToParts)
- *
- * If you want to use it, you need to use [polyfill](https://github.com/formatjs/formatjs/tree/main/packages/intl-numberformat)
+ * > [!CAUTION]
+ * > Not supported IE, due to no support `Intl.NumberFormat#formatToParts` in [IE](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/NumberFormat/formatToParts)
+ * >
+ * > If you want to use it, you need to use [polyfill](https://github.com/formatjs/formatjs/tree/main/packages/intl-numberformat)
  *
  * @VueI18nComponent
  */
