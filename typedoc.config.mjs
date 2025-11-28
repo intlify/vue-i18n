@@ -11,6 +11,9 @@ export default {
   plugin: ['typedoc-plugin-markdown', 'typedoc-vitepress-theme'],
   readme: 'none',
   groupOrder: ['Variables', 'Functions', 'Class'],
+  validation: {
+    invalidLink: false
+  },
   /**
    * typedoc-plugin-markdown options
    * ref: https://typedoc-plugin-markdown.org/docs/options
@@ -21,7 +24,7 @@ export default {
   disableSources: true,
   indexFormat: 'table',
   parametersFormat: 'table',
-  interfacePropertiesFormat: 'table',
+  interfacePropertiesFormat: 'list',
   classPropertiesFormat: 'table',
   propertyMembersFormat: 'table',
   typeAliasPropertiesFormat: 'table',

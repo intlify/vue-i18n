@@ -74,10 +74,13 @@ The following three functions are exported:
 - `setI18nLanguage`
 - `loadLocaleMessages`
 
-:::tip NOTE
-This code example also shows how to handle it outside of the component using the [`global` property of i18n instance](../../api/general#global).
-About i18n instance, see the [API Reference](../../api/general)
-:::
+<!-- eslint-disable markdown/no-missing-label-refs -->
+
+> [!TIP]
+> This code example also shows how to handle it outside of the component using the [`global` property of i18n instance](../../api/general/interfaces/I18n.md#global).
+> About i18n instance, see the [API Reference](../../api/general/interfaces/I18n.md)
+
+<!-- eslint-enable markdown/no-missing-label-refs -->
 
 The `setupI18n` function takes the same options as `createI18n`, creates an instance of i18n with those options, executes the `setI18nLanguage` function, and returns the i18n instance.
 

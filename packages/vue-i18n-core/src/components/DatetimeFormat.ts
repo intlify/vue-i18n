@@ -62,16 +62,16 @@ export const DatetimeFormatImpl: ComponentOptions<DatetimeFormatProps> =
  * Datetime Format Component
  *
  * @remarks
- * See the following items for property about details
+ * See the following items for property about details:
  *
- * @VueI18nSee [FormattableProps](component#formattableprops)
- * @VueI18nSee [BaseFormatProps](component#baseformatprops)
- * @VueI18nSee [Custom Formatting](../../guide/essentials/datetime#custom-formatting)
+ * - {@linkcode FormattableProps}
+ * - {@linkcode BaseFormatProps}
+ * - [Custom Formatting](../../../guide/essentials/datetime#custom-formatting)
  *
- * @VueI18nDanger
- * Not supported IE, due to no support `Intl.DateTimeFormat#formatToParts` in [IE](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/DateTimeFormat/formatToParts)
- *
- * If you want to use it, you need to use [polyfill](https://github.com/formatjs/formatjs/tree/main/packages/intl-datetimeformat)
+ * > [!CAUTION]
+ * > Not supported IE, due to no support `Intl.DateTimeFormat#formatToParts` in [IE](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/DateTimeFormat/formatToParts)
+ * >
+ * > If you want to use it, you need to use [polyfill](https://github.com/formatjs/formatjs/tree/main/packages/intl-datetimeformat)
  *
  * @VueI18nComponent
  */

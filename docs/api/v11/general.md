@@ -6,7 +6,7 @@ Vue I18n factory
 
 **Signature:**
 ```typescript
-export declare function createI18n<Schema extends object = DefaultLocaleMessageSchema, Locales extends string | object = 'en-US', Legacy extends boolean = true, Options extends I18nOptions<SchemaParams<Schema, VueMessageType>, LocaleParams<Locales>> = I18nOptions<SchemaParams<Schema, VueMessageType>, LocaleParams<Locales>>, Messages extends Record<string, unknown> = NonNullable<Options['messages']> extends Record<string, unknown> ? NonNullable<Options['messages']> : {}, DateTimeFormats extends Record<string, unknown> = NonNullable<Options['datetimeFormats']> extends Record<string, unknown> ? NonNullable<Options['datetimeFormats']> : {}, NumberFormats extends Record<string, unknown> = NonNullable<Options['numberFormats']> extends Record<string, unknown> ? NonNullable<Options['numberFormats']> : {}, OptionLocale = Options['locale'] extends string ? Options['locale'] : Locale>(options: Options): (typeof options)['legacy'] extends true ? I18n<Messages, DateTimeFormats, NumberFormats, OptionLocale, true> : (typeof options)['legacy'] extends false ? I18n<Messages, DateTimeFormats, NumberFormats, OptionLocale, false> : I18n<Messages, DateTimeFormats, NumberFormats, OptionLocale, Legacy>;
+export declare function createI18n<Schema extends object = DefaultLocaleMessageSchema, Locales extends string | object = 'en-US', Options extends I18nOptions<SchemaParams<Schema, VueMessageType>, LocaleParams<Locales>> = I18nOptions<SchemaParams<Schema, VueMessageType>, LocaleParams<Locales>>, Messages extends Record<string, unknown> = NonNullable<Options['messages']> extends Record<string, unknown> ? NonNullable<Options['messages']> : {}, DateTimeFormats extends Record<string, unknown> = NonNullable<Options['datetimeFormats']> extends Record<string, unknown> ? NonNullable<Options['datetimeFormats']> : {}, NumberFormats extends Record<string, unknown> = NonNullable<Options['numberFormats']> extends Record<string, unknown> ? NonNullable<Options['numberFormats']> : {}, OptionLocale = Options['locale'] extends string ? Options['locale'] : Locale>(options: Options): I18n<Messages, DateTimeFormats, NumberFormats, OptionLocale>;
 ```
 
 ### Type Parameters
@@ -15,17 +15,6 @@ export declare function createI18n<Schema extends object = DefaultLocaleMessageS
 | --- | --- |
 | Schema | The i18n resources (messages, datetimeFormats, numberFormats) schema, default  |
 | Locales | The locales of i18n resource schema, default `en-US` |
-| Legacy | Whether legacy mode is enabled or disabled, default `true` |
-
-**Details**
-
-If you use Legacy API mode, you need to specify [VueI18nOptions](legacy#vuei18noptions) and `legacy: true` option.
-
-If you use composition API mode, you need to specify [ComposerOptions](composition#composeroptions).
-
-**See Also**
-- [Getting Started](../../guide/essentials/started)
-- [Composition API](../../guide/advanced/composition)
 
 ### Parameters
 
@@ -37,47 +26,19 @@ If you use composition API mode, you need to specify [ComposerOptions](compositi
 
  [I18n](general#i18n) instance
 
+See about:
+- [Getting Started](../../guide/essentials/started)
+- [Composition API](../../guide/advanced/composition)
+
 **Examples**
 
-**Example 1:**
 
-case: for Legacy API
-```js
-import { createApp } from 'vue'
-import { createI18n } from 'vue-i18n'
-
-// call with I18n option
-const i18n = createI18n({
-  locale: 'ja',
-  messages: {
-    en: { ... },
-    ja: { ... }
-  }
-})
-
-const App = {
-  // ...
-}
-
-const app = createApp(App)
-
-// install!
-app.use(i18n)
-app.mount('#app')
-```
-
-
-
-**Example 2:**
-
-case: for composition API
 ```js
 import { createApp } from 'vue'
 import { createI18n, useI18n } from 'vue-i18n'
 
 // call with I18n option
 const i18n = createI18n({
-  legacy: false, // you must specify 'legacy: false' option
   locale: 'ja',
   messages: {
     en: { ... },
@@ -220,7 +181,7 @@ export interface ExportedGlobalComposer
 
 **Details**
 
-This interface is the [global composer](general#global) that is provided interface that is injected into each component with `app.config.globalProperties`.
+This interface is the  that is provided interface that is injected into each component with `app.config.globalProperties`.
 
 ### availableLocales
 
@@ -233,7 +194,7 @@ readonly availableLocales: Locale[];
 
 **Details**
 
-This property is proxy-like property for `Composer#availableLocales`. About details, see the [Composer#availableLocales](composition#availablelocales)
+This property is proxy-like property for `Composer#availableLocales`. About details, see the
 
 ### fallbackLocale
 
@@ -246,7 +207,7 @@ fallbackLocale: FallbackLocale;
 
 **Details**
 
-This property is proxy-like property for `Composer#fallbackLocale`. About details, see the [Composer#fallbackLocale](composition#fallbacklocale)
+This property is proxy-like property for `Composer#fallbackLocale`. About details, see the
 
 ### locale
 
@@ -259,7 +220,7 @@ locale: Locale;
 
 **Details**
 
-This property is proxy-like property for `Composer#locale`. About details, see the [Composer#locale](composition#locale)
+This property is proxy-like property for `Composer#locale`. About details, see the
 
 ## I18n
 
@@ -267,7 +228,7 @@ I18n instance
 
 **Signature:**
 ```typescript
-export interface I18n<Messages extends Record<string, unknown> = {}, DateTimeFormats extends Record<string, unknown> = {}, NumberFormats extends Record<string, unknown> = {}, OptionLocale = Locale, Legacy = boolean>
+export interface I18n<Messages extends Record<string, unknown> = {}, DateTimeFormats extends Record<string, unknown> = {}, NumberFormats extends Record<string, unknown> = {}, OptionLocale = Locale>
 ```
 
 **Details**
@@ -276,39 +237,14 @@ The instance required for installation as the Vue plugin
 
 ### global
 
-The property accessible to the global Composer instance or VueI18n instance
-
-**Signature:**
-```typescript
-readonly global: Legacy extends true ? VueI18n<Messages, DateTimeFormats, NumberFormats, OptionLocale> : Legacy extends false ? Composer<Messages, DateTimeFormats, NumberFormats, OptionLocale> : unknown;
-```
-
-**Details**
-
-If the [I18n#mode](general#mode) is `'legacy'`, then you can access to a global [VueI18n](legacy#vuei18n) instance, else then [I18n#mode](general#mode) is `'composition' `, you can access to the global [Composer](composition#composer) instance.
+The property accessible to the global Composer instance
 
 An instance of this property is **global scope***.
 
-### mode
-
-Vue I18n API mode
-
 **Signature:**
 ```typescript
-readonly mode: I18nMode;
+readonly global: Composer<Messages, DateTimeFormats, NumberFormats, OptionLocale>;
 ```
-
-:::danger DEPRECATED
-will be removed at vue-i18n v12
-:::
-
-**Details**
-
-If you specified `legacy: true` option in `createI18n`, return `legacy`, else `composition`
-
-**Default Value**
-
-`'legacy'`
 
 ### dispose()
 
@@ -366,66 +302,11 @@ globalInjection?: boolean;
 
 If set to `true`, then properties and methods prefixed with `$` are injected into Vue Component.
 
-**Default Value**
-
-`true`
-
-**See Also**
+See about:
 - [Implicit with injected properties and functions](../../guide/advanced/composition#implicit-with-injected-properties-and-functions)
-- [ComponentCustomProperties](injection#componentcustomproperties)
+- link ComponentCustomProperties
 
-### legacy
-
-Whether vue-i18n Legacy API mode use on your Vue App
-
-**Signature:**
-```typescript
-legacy?: boolean;
-```
-
-:::danger DEPRECATED
-will be removed at vue-i18n v12
-:::
-
-**Details**
-
-The default is to use the Legacy API mode. If you want to use the Composition API mode, you need to set it to `false`.
-
-**Default Value**
-
-`true`
-
-**See Also**
-- [Composition API](../../guide/advanced/composition)
-
-## I18nInjectionKey
-
-Injection key for
-
-**Signature:**
-```typescript
-I18nInjectionKey: InjectionKey<I18n> | string
-```
-
-**Details**
-
-The global injection key for I18n instances with `useI18n`. this injection key is used in Web Components. Specify the i18n instance created by  together with `provide` function.
-
-## I18nMode
-
-Vue I18n API mode
-
-**Signature:**
-```typescript
-export type I18nMode = 'legacy' | 'composition';
-```
-
-:::danger DEPRECATED
-will be removed at vue-i18n v12
-:::
-
-**See Also**
-- [I18n#mode](general#mode)
+ `true`
 
 ## I18nOptions
 
@@ -445,12 +326,8 @@ export type I18nOptions<Schema extends {
     messages: unknown;
     datetimeFormats: unknown;
     numberFormats: unknown;
-} | string = Locale, Options extends ComposerOptions<Schema, Locales> | VueI18nOptions<Schema, Locales> = ComposerOptions<Schema, Locales> | VueI18nOptions<Schema, Locales>> = I18nAdditionalOptions & Options;
+} | string = Locale, Options = ComposerOptions<Schema, Locales>> = I18nAdditionalOptions & Options;
 ```
-
-**Details**
-
-`I18nOptions` is inherited [I18nAdditionalOptions](general#i18nadditionaloptions), [ComposerOptions](composition#composeroptions) and [VueI18nOptions](legacy#vuei18noptions), so you can specify these options.
 
 ## I18nPluginOptions
 
@@ -480,22 +357,18 @@ If this option is enabled, the components will be installed globally at `app.use
 
 If you want to install manually in the `import` syntax, you can set it to `false` to install when needed.
 
-**Default Value**
-
-`true`
+ `true`
 
 ## I18nScope
 
 I18n Scope
 
+See about: -  -
+
 **Signature:**
 ```typescript
 export type I18nScope = 'local' | 'parent' | 'global';
 ```
-
-**See Also**
-- [ComposerAdditionalOptions#useScope](composition#usescope)
-- [useI18n](composition#usei18n)
 
 ## VERSION
 
@@ -509,13 +382,6 @@ VERSION: string
 **Details**
 
 Semver format. Same format as the package.json `version` field.
-
-## VueI18nInstance
-
-**Signature:**
-```typescript
-export type VueI18nInstance = IsNever<GeneratedInstanceType> extends true ? VueI18n | ExportedGlobalComposer : GeneratedInstanceType extends true ? VueI18n : ExportedGlobalComposer;
-```
 
 ## DateTimeOptions
 
@@ -650,7 +516,7 @@ Fallback with simple implemenation
 
 **Signature:**
 ```typescript
-export declare function fallbackWithSimple<Message = string>(ctx: CoreContext<Message>, fallback: FallbackLocale, start: Locale): Locale[];
+export declare function fallbackWithSimple<Message = string>(_ctx: CoreContext<Message>, fallback: FallbackLocale, start: Locale): Locale[];
 ```
 
 **Details**
@@ -663,7 +529,7 @@ Basically, it returns the value as specified in the `fallbackLocale` props, and 
 
 | Parameter | Type | Description |
 | --- | --- | --- |
-| ctx | CoreContext&lt;Message&gt; | A [context](#corecontext) |
+| _ctx | CoreContext&lt;Message&gt; |  |
 | fallback | FallbackLocale | A [fallback locale](general#fallbacklocale) |
 | start | Locale | A starting [locale](general#locale) |
 
@@ -727,7 +593,7 @@ export type LocaleMessageDictionary<T, Message = string> = {
 
 **Signature:**
 ```typescript
-export type LocaleMessages<Schema, Locales = Locale, Message = string> = LocaleRecord<UnionToTuple<Locales>, Schema>;
+export type LocaleMessages<Schema, Locales = Locale, _Message = string> = LocaleRecord<UnionToTuple<Locales>, Schema>;
 ```
 
 ## LocaleMessageType
@@ -1236,11 +1102,7 @@ escapeParameter?: boolean;
 
 **Details**
 
-Whether to escape parameters for list or named interpolation values. When enabled, this option: - Escapes HTML special characters (`<`, `>`, `"`, `'`, `&`, `/`, `=`) in interpolation parameters - Sanitizes the final translated HTML to prevent XSS attacks by: - Escaping dangerous characters in HTML attribute values - Neutralizing event handler attributes (onclick, onerror, etc.) - Disabling javascript: URLs in href, src, action, formaction, and style attributes
-
-**Default Value**
-
-false
+Whether do escape parameter for list or named interpolation values
 
 ### fallbackWarn
 

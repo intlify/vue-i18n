@@ -62,7 +62,7 @@ const { t } = useI18n() // [!code ++]
 
 You must call `useI18n` at top of the `<script setup>`.
 
-The `useI18n` returns a Composer instance. The Composer instance provides a translation API such as the `t` function, as well as properties such as `locale` and `fallbackLocale`, just like the VueI18n instance. For more information on the Composer instance, see the [API Reference](../../api/composition#composer).
+The `useI18n` returns a Composer instance. The Composer instance provides a translation API such as the `t` function, as well as properties such as `locale` and `fallbackLocale`, just like the VueI18n instance. For more information on the Composer instance, see the [API Reference](../../api/general/interfaces/Composer.md).
 
 In the above example, there are no options for `useI18n`, so it returns a Composer instance that works with the global scope. As such, it returns a Composer instance that works with the global scope, which means that the localized message referenced by the spread `t` function here is the one specified in `createI18n`.
 
@@ -135,7 +135,7 @@ const msg = computed(() => t('msg'))
 
 ```
 
-For more details of `t`, see the [API Reference](../../api/composition#t-key).
+For more details of `t`, see the [API Reference](../../api/general/interfaces/Composer.md#t)
 
 ## Pluralization
 
@@ -218,7 +218,7 @@ const now = ref(new Date())
 
 ```
 
-For more details of `d`, see the [API Reference](../../api/composition#d-value).
+For more details of `d`, see the [API Reference](../../api/general/interfaces/Composer.md#d)
 
 ## Number Formatting
 
@@ -256,7 +256,7 @@ const money = ref(1000)
 </template>
 ```
 
-For more details of `n`, see the [API Reference](../../api/composition#n-value).
+For more details of `n`, see the [API Reference](../../api/general/interfaces/Composer.md#n)
 
 ## Global scope
 

@@ -15,7 +15,7 @@ export interface I18nPluginOptions {
    *
    * If you want to install manually in the `import` syntax, you can set it to `false` to install when needed.
    *
-   * @defaultValue `true`
+   * @default `true`
    */
   globalInstall?: boolean
 }

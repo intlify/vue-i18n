@@ -84,11 +84,11 @@ export const TranslationImpl: ComponentOptions<TranslationProps> = /* #__PURE__*
  * Translation Component
  *
  * @remarks
- * See the following items for property about details
+ * See the following items for property about details:
  *
- * @VueI18nSee [TranslationProps](component#translationprops)
- * @VueI18nSee [BaseFormatProps](component#baseformatprops)
- * @VueI18nSee [Component Interpolation](../../guide/advanced/component)
+ * - {@linkcode TranslationProps}
+ * - {@linkcode BaseFormatProps}
+ * - [Component Interpolation](../../../guide/advanced/component)
  *
  * @example
  * ```html

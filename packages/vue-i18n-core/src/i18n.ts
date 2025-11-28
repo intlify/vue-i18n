@@ -76,10 +76,11 @@ export interface I18nAdditionalOptions {
    * @remarks
    * If set to `true`, then properties and methods prefixed with `$` are injected into Vue Component.
    *
-   * @VueI18nSee [Implicit with injected properties and functions](../../guide/advanced/composition#implicit-with-injected-properties-and-functions)
-   * @VueI18nSee [ComponentCustomProperties](injection#componentcustomproperties)
+   * See about:
+   * - [Implicit with injected properties and functions](../../../guide/advanced/composition#implicit-with-injected-properties-and-functions)
+   * - {@link ComponentCustomProperties
    *
-   * @defaultValue `true`
+   * @default `true`
    */
   globalInjection?: boolean
 }
@@ -159,8 +160,9 @@ export interface I18nInternal<
 /**
  * I18n Scope
  *
- * @VueI18nSee [ComposerAdditionalOptions#useScope](composition#usescope)
- * @VueI18nSee [useI18n](composition#usei18n)
+ * See about:
+ * - {@link ComposerAdditionalOptions#useScope}
+ * - {@link useI18n}
  *
  * @VueI18nGeneral
  */
@@ -172,7 +174,8 @@ export type I18nScope = 'local' | 'parent' | 'global'
  * @remarks
  * `UseI18nOptions` is inherited {@link ComposerAdditionalOptions} and {@link ComposerOptions}, so you can specify these options.
  *
- * @VueI18nSee [useI18n](composition#usei18n)
+ * See about:
+ * - {@link useI18n}
  *
  * @VueI18nComposition
  */
@@ -202,7 +205,8 @@ export type UseI18nOptions<
  * @remarks
  * `ComposerAdditionalOptions` is extend for {@link ComposerOptions}, so you can specify these options.
  *
- * @VueI18nSee [useI18n](composition#usei18n)
+ * See about:
+ * - {@link useI18n}
  *
  * @VueI18nComposition
  */
@@ -252,8 +256,9 @@ export function createI18n<
  *
  * @returns {@link I18n} instance
  *
- * @VueI18nSee [Getting Started](../../guide/essentials/started)
- * @VueI18nSee [Composition API](../../guide/advanced/composition)
+ * See about:
+ * - [Getting Started](../../../guide/essentials/started)
+ * - [Composition API](../../../guide/advanced/composition)
  *
  * @example
  * ```js
@@ -678,7 +683,7 @@ function setupLifeCycle(
  * Exported global composer instance
  *
  * @remarks
- * This interface is the [global composer](general#global) that is provided interface that is injected into each component with `app.config.globalProperties`.
+ * This interface is the {@link I18n#global | global composer} that is provided interface that is injected into each component with `app.config.globalProperties`.
  *
  * @VueI18nGeneral
  */
@@ -687,21 +692,21 @@ export interface ExportedGlobalComposer {
    * Locale
    *
    * @remarks
-   * This property is proxy-like property for `Composer#locale`. About details, see the [Composer#locale](composition#locale)
+   * This property is proxy-like property for `Composer#locale`. About details, see the {@link Composer#locale}
    */
   locale: Locale
   /**
    * Fallback locale
    *
    * @remarks
-   * This property is proxy-like property for `Composer#fallbackLocale`. About details, see the [Composer#fallbackLocale](composition#fallbacklocale)
+   * This property is proxy-like property for `Composer#fallbackLocale`. About details, see the {@link Composer#fallbackLocale}
    */
   fallbackLocale: FallbackLocale
   /**
    * Available locales
    *
    * @remarks
-   * This property is proxy-like property for `Composer#availableLocales`. About details, see the [Composer#availableLocales](composition#availablelocales)
+   * This property is proxy-like property for `Composer#availableLocales`. About details, see the {@link Composer#availableLocales}
    */
   readonly availableLocales: Locale[]
 }

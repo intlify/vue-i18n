@@ -17,7 +17,7 @@ This is the interface for being used for Vue 3 Composition API.
 
 **Signature:**
 ```typescript
-readonly availableLocales: Locales[];
+readonly availableLocales: ComputedRef<Locales[]>;
 ```
 
 **Details**
@@ -52,7 +52,7 @@ readonly datetimeFormats: ComputedRef<{
 
 The datetime formats of localization.
 
-**See Also**
+See about:
 - [Datetime Formatting](../../guide/essentials/datetime)
 
 ### escapeParameter
@@ -66,7 +66,7 @@ escapeParameter: boolean;
 
 Whether interpolation parameters are escaped before the message is translated.
 
-**See Also**
+See about:
 - [HTML Message](../../guide/essentials/syntax#html-message)
 
 ### fallbackFormat
@@ -80,7 +80,7 @@ fallbackFormat: boolean;
 
 Whether suppress warnings when falling back to either `fallbackLocale` or root.
 
-**See Also**
+See about:
 - [Fallbacking](../../guide/essentials/fallback)
 
 ### fallbackLocale
@@ -94,7 +94,7 @@ fallbackLocale: WritableComputedRef<FallbackLocales<Locales>>;
 
 The current fallback locales this Composer instance is using.
 
-**See Also**
+See about:
 - [Fallbacking](../../guide/essentials/fallback)
 
 ### fallbackRoot
@@ -108,7 +108,7 @@ fallbackRoot: boolean;
 
 Whether to fall back to root level (global scope) localization when localization fails.
 
-**See Also**
+See about:
 - [Fallbacking](../../guide/essentials/fallback)
 
 ### fallbackWarn
@@ -122,7 +122,7 @@ fallbackWarn: boolean | RegExp;
 
 Whether suppress fall back warnings when localization fails.
 
-**See Also**
+See about:
 - [Fallbacking](../../guide/essentials/fallback)
 
 ### id
@@ -147,8 +147,8 @@ inheritLocale: boolean;
 
 Whether inherit the root level locale to the component localization locale.
 
-**See Also**
-- [Local Scope](../../guide/essentials/scope#local-scope-2)
+See about:
+ - [Local Scope](../../guide/essentials/scope#local-scope-2)
 
 ### isGlobal
 
@@ -174,7 +174,7 @@ The current locale this Composer instance is using.
 
 If the locale contains a territory and a dialect, this locale contains an implicit fallback.
 
-**See Also**
+See about:
 - [Scope and Locale Changing](../../guide/essentials/scope)
 
 ### messages
@@ -190,7 +190,7 @@ readonly messages: ComputedRef<{
 
 The locale messages of localization.
 
-**See Also**
+See about:
 - [Getting Started](../../guide/essentials/started)
 
 ### missingWarn
@@ -204,7 +204,7 @@ missingWarn: boolean | RegExp;
 
 Whether suppress warnings outputted when localization fails.
 
-**See Also**
+See about:
 - [Fallbacking](../../guide/essentials/fallback)
 
 ### modifiers
@@ -218,8 +218,8 @@ readonly modifiers: LinkedModifiers<VueMessageType>;
 
 Custom Modifiers for linked messages.
 
-**See Also**
-- [Custom Modifiers](../../guide/essentials/syntax#custom-modifiers)
+See about:
+ - [Custom Modifiers](../../guide/essentials/syntax#custom-modifiers)
 
 ### n
 
@@ -249,7 +249,7 @@ readonly numberFormats: ComputedRef<{
 
 The number formats of localization.
 
-**See Also**
+See about:
 - [Number Formatting](../../guide/essentials/number)
 
 ### pluralRules
@@ -263,7 +263,7 @@ readonly pluralRules: PluralizationRules;
 
 A set of rules for word pluralization
 
-**See Also**
+See about:
 - [Custom Pluralization](../../guide/essentials/pluralization#custom-pluralization)
 
 ### rt
@@ -309,9 +309,9 @@ If you set `false`, will check the locale messages on the Composer instance.
 
 If you are specified `true`, a warning will be output at console.
 
-**See Also**
+See about:
 - [HTML Message](../../guide/essentials/syntax#html-message)
-- [Change `warnHtmlInMessage` option default value](../../guide/migration/breaking#change-warnhtmlinmessage-option-default-value)
+- - [Change `warnHtmlInMessage` option default value](../../guide/migration/breaking#change-warnhtmlinmessage-option-default-value)
 
 ### getDateTimeFormat(locale)
 
@@ -332,7 +332,7 @@ getDateTimeFormat<DateTimeSchema extends Record<string, any> = never, LocaleSche
 
 **Details**
 
-get datetime format from Composer instance [datetimeFormats](composition#datetimeformats).
+get datetime format from Composer instance .
 
 #### Parameters
 
@@ -363,7 +363,7 @@ getLocaleMessage<MessageSchema extends LocaleMessage<VueMessageType> = never, Lo
 
 **Details**
 
-get locale message from Composer instance [messages](composition#messages).
+get locale message from Composer instance .
 
 #### Parameters
 
@@ -379,13 +379,12 @@ get locale message from Composer instance [messages](composition#messages).
 
 Get missing handler
 
+See about: -
+
 **Signature:**
 ```typescript
 getMissingHandler(): MissingHandler | null;
 ```
-
-**See Also**
-- [missing](composition#missing)
 
 #### Parameters
 
@@ -415,7 +414,7 @@ getNumberFormat<NumberSchema extends Record<string, any> = never, LocaleSchema e
 
 **Details**
 
-get number format from Composer instance [numberFormats](composition#numberFormats).
+get number format from Composer instance .
 
 #### Parameters
 
@@ -431,13 +430,12 @@ get number format from Composer instance [numberFormats](composition#numberForma
 
 Get post translation handler
 
+See about: -
+
 **Signature:**
 ```typescript
 getPostTranslationHandler(): PostTranslationHandler<VueMessageType> | null;
 ```
-
-**See Also**
-- [missing](composition#posttranslation)
 
 #### Parameters
 
@@ -465,7 +463,7 @@ mergeDateTimeFormat<DateTimeSchema extends Record<string, any> = never, LocaleSc
 
 **Details**
 
-Merge datetime format to Composer instance [datetimeFormats](composition#datetimeformats).
+Merge datetime format to Composer instance .
 
 #### Parameters
 
@@ -491,7 +489,7 @@ mergeLocaleMessage<MessageSchema extends LocaleMessage<VueMessageType> = never, 
 
 **Details**
 
-Merge locale message to Composer instance [messages](composition#messages).
+Merge locale message to Composer instance .
 
 #### Parameters
 
@@ -517,7 +515,7 @@ mergeNumberFormat<NumberSchema extends Record<string, any> = never, LocaleSchema
 
 **Details**
 
-Merge number format to Composer instance [numberFormats](composition#numberFormats).
+Merge number format to Composer instance .
 
 #### Parameters
 
@@ -545,7 +543,7 @@ setDateTimeFormat<DateTimeSchema extends Record<string, any> = never, LocaleSche
 
 **Details**
 
-Set datetime format to Composer instance [datetimeFormats](composition#datetimeformats).
+Set datetime format to Composer instance .
 
 #### Parameters
 
@@ -573,7 +571,7 @@ setLocaleMessage<MessageSchema extends LocaleMessage<VueMessageType> = never, Lo
 
 **Details**
 
-Set locale message to Composer instance [messages](composition#messages).
+Set locale message to Composer instance .
 
 #### Parameters
 
@@ -586,13 +584,12 @@ Set locale message to Composer instance [messages](composition#messages).
 
 Set missing handler
 
+See about: -
+
 **Signature:**
 ```typescript
 setMissingHandler(handler: MissingHandler | null): void;
 ```
-
-**See Also**
-- [missing](composition#missing)
 
 #### Parameters
 
@@ -619,7 +616,7 @@ setNumberFormat<NumberSchema extends Record<string, any> = never, LocaleSchema e
 
 **Details**
 
-Set number format to Composer instance [numberFormats](composition#numberFormats).
+Set number format to Composer instance .
 
 #### Parameters
 
@@ -632,13 +629,12 @@ Set number format to Composer instance [numberFormats](composition#numberFormats
 
 Set post translation handler
 
+See about: -
+
 **Signature:**
 ```typescript
 setPostTranslationHandler(handler: PostTranslationHandler<VueMessageType> | null): void;
 ```
-
-**See Also**
-- [missing](composition#posttranslation)
 
 #### Parameters
 
@@ -657,7 +653,7 @@ te<Str extends string, Key extends PickupKeys<Messages> = PickupKeys<Messages>>(
 
 **Details**
 
-whether do exist locale message on Composer instance [messages](composition#messages).
+whether do exist locale message on Composer instance .
 
 If you specified `locale`, check the locale messages of `locale`.
 
@@ -685,7 +681,7 @@ tm<Key extends string, ResourceKeys extends PickupKeys<Messages> = PickupKeys<Me
 
 **Details**
 
-If [UseI18nScope](general#usei18nscope) `'local'` or Some [UseI18nOptions](composition#usei18noptions) are specified at `useI18n`, it’s translated in preferentially local scope locale messages than global scope locale messages.
+If [I18nScope](general#i18nscope) `'local'` or Some [UseI18nOptions](composition#usei18noptions) are specified at `useI18n`, it’s translated in preferentially local scope locale messages than global scope locale messages.
 
 Based on the current `locale`, locale messages will be returned from Composer instance messages.
 
@@ -693,17 +689,17 @@ If you change the `locale`, the locale messages returned will also correspond to
 
 If there are no locale messages for the given `key` in the composer instance messages, they will be returned with [fallbacking](../../guide/essentials/fallback).
 
-:::warning
-You need to use `rt` for the locale message returned by `tm`. see the [rt](composition#rt-message) details.
-:::
+ [!WARNING]  You need to use `rt` for the locale message returned by `tm`. see the `rt` details.
 
 #### Parameters
 
 | Parameter | Type | Description |
 | --- | --- | --- |
-| key | Key &#124; ResourceKeys | A target locale message key
+| key | Key &#124; ResourceKeys | A target locale message key |
 
- Locale messages |
+#### Returns
+
+ Locale messages
 
 **Examples**
 
@@ -764,8 +760,7 @@ export interface ComposerAdditionalOptions
 
 `ComposerAdditionalOptions` is extend for [ComposerOptions](composition#composeroptions), so you can specify these options.
 
-**See Also**
-- [useI18n](composition#usei18n)
+See about: -
 
 ### useScope
 
@@ -828,11 +823,11 @@ Datetime formatting
 
 If this is used in a reactive context, it will re-evaluate once the locale changes.
 
-If [UseI18nScope](general#usei18nscope) `'local'` or Some [UseI18nOptions](composition#usei18noptions) are specified at `useI18n`, it’s translated in preferentially local scope datetime formats than global scope datetime formats.
+If  `'local'` or Some [UseI18nOptions](composition#usei18noptions) are specified at `useI18n`, it’s translated in preferentially local scope datetime formats than global scope datetime formats.
 
 If not, then it’s formatted with global scope datetime formats.
 
-**See Also**
+See about:
 - [Datetime formatting](../../guide/essentials/datetime)
 
 #### Parameters
@@ -856,7 +851,7 @@ Datetime formatting
 
 **Details**
 
-Overloaded `d`. About details, see the [call signature](composition#value-number-date-string-string) details.
+Overloaded `d`.
 
 In this overloaded `d`, format in datetime format for a key registered in datetime formats.
 
@@ -882,7 +877,7 @@ Datetime formatting
 
 **Details**
 
-Overloaded `d`. About details, see the [call signature](composition#value-number-date-string-string) details.
+Overloaded `d`.
 
 In this overloaded `d`, format in datetime format for a key registered in datetime formats at target locale
 
@@ -926,11 +921,11 @@ Number Formatting
 
 If this is used in a reactive context, it will re-evaluate once the locale changes.
 
-If [UseI18nScope](general#usei18nscope) `'local'` or Some [UseI18nOptions](composition#usei18noptions) are specified at `useI18n`, it’s translated in preferentially local scope datetime formats than global scope datetime formats.
+If  `'local'` or Some [UseI18nOptions](composition#usei18noptions) are specified at `useI18n`, it’s translated in preferentially local scope datetime formats than global scope datetime formats.
 
 If not, then it’s formatted with global scope number formats.
 
-**See Also**
+See about:
 - [Number formatting](../../guide/essentials/number)
 
 #### Parameters
@@ -954,7 +949,7 @@ Number Formatting
 
 **Details**
 
-Overloaded `n`. About details, see the [call signature](composition#value-number-string) details.
+Overloaded `n`.
 
 In this overloaded `n`, format in number format for a key registered in number formats.
 
@@ -980,7 +975,7 @@ Number Formatting
 
 **Details**
 
-Overloaded `n`. About details, see the [call signature](composition#value-number-string) details.
+Overloaded `n`.
 
 In this overloaded `n`, format in number format for a key registered in number formats at target locale.
 
@@ -1046,20 +1041,20 @@ escapeParameter?: boolean;
 
 **Details**
 
-Whether to escape parameters for list or named interpolation values. When enabled, this option: - Escapes HTML special characters (`<`, `>`, `"`, `'`, `&`, `/`, `=`) in interpolation parameters - Sanitizes the final translated HTML to prevent XSS attacks by: - Escaping dangerous characters in HTML attribute values - Neutralizing event handler attributes (onclick, onerror, etc.) - Disabling javascript: URLs in href, src, action, formaction, and style attributes
+If `escapeParameter` is configured as true then interpolation parameters are escaped before the message is translated.
 
-This is useful when translation output is used in `v-html` and the translation resource contains html markup (e.g.  around a user provided value).
+This is useful when translation output is used in `v-html` and the translation resource contains html markup (e.g. around a user provided value).
 
 This usage pattern mostly occurs when passing precomputed text strings into UI components.
 
+The escape process involves replacing the following symbols with their respective HTML character entities: `<`, `>`, `"`, `'`.
+
 Setting `escapeParameter` as true should not break existing functionality but provides a safeguard against a subtle type of XSS attack vectors.
 
-**Default Value**
+See about:
+- [HTML Message](../../guide/essentials/syntax#html-message)
 
-`false`
-
-**See Also**
-- [HTML Message - Using the escapeParameter option](../../guide/essentials/syntax#using-the-escapeparameter-option)
+ `false`
 
 ### fallbackFormat
 
@@ -1074,12 +1069,10 @@ Whether do template interpolation on translation keys when your language lacks a
 
 If `true`, skip writing templates for your "base" language; the keys are your templates.
 
-**Default Value**
-
-`false`
-
-**See Also**
+See about:
 - [Fallbacking](../../guide/essentials/fallback)
+
+ `false`
 
 ### fallbackLocale
 
@@ -1094,12 +1087,10 @@ The locale of fallback localization.
 
 For more complex fallback definitions see fallback.
 
-**Default Value**
-
-The default `'en-US'` for the `locale` if it's not specified, or it's `locale` value
-
-**See Also**
+See about:
 - [Fallbacking](../../guide/essentials/fallback)
+
+ The default `'en-US'` for the `locale` if it's not specified, or it's `locale` value
 
 ### fallbackRoot
 
@@ -1114,12 +1105,10 @@ In the component localization, whether to fallback to root level (global scope) 
 
 If `false`, it's not fallback to root.
 
-**Default Value**
-
-`true`
-
-**See Also**
+See about:
 - [Fallbacking](../../guide/essentials/fallback)
+
+ `true`
 
 ### fallbackWarn
 
@@ -1136,12 +1125,10 @@ If `false`, suppress fall back warnings.
 
 If you use regular expression, you can suppress fallback warnings that it match with translation key (e.g. `t`).
 
-**Default Value**
-
-`true`
-
-**See Also**
+See about:
 - [Fallbacking](../../guide/essentials/fallback)
+
+ `true`
 
 ### flatJson
 
@@ -1154,9 +1141,7 @@ flatJson?: boolean;
 
 Allow use flat json messages or not
 
-**Default Value**
-
-`false`
+ `false`
 
 ### inheritLocale
 
@@ -1171,12 +1156,10 @@ Whether inheritance the root level locale to the component localization locale.
 
 If `false`, regardless of the root level locale, localize for each component locale.
 
-**Default Value**
-
-`true`
-
-**See Also**
+See about:
 - [Local Scope](../../guide/essentials/scope#local-scope-2)
+
+ `true`
 
 ### locale
 
@@ -1191,12 +1174,10 @@ The locale of localization.
 
 If the locale contains a territory and a dialect, this locale contains an implicit fallback.
 
-**Default Value**
-
-`'en-US'`
-
-**See Also**
+See about:
 - [Scope and Locale Changing](../../guide/essentials/scope)
+
+ `'en-US'`
 
 ### message
 
@@ -1214,21 +1195,6 @@ A compiler for custom message format.
 If not specified, the vue-i18n default message compiler will be used.
 
 You will need to implement your own message compiler that returns Message Functions
-
-:::tip
-:new: v9.3+
-:::
-
-:::warning
-The Custom Message Format is an experimental feature. It may receive breaking changes or be removed in the future.
-:::
-
-**Default Value**
-
-`undefined`
-
-**See Also**
-- [Custom Message Format](../../guide/advanced/format)
 
 **Examples**
 
@@ -1252,7 +1218,6 @@ function messageCompiler(message, { locale, key, onError }) {
 
 // call with I18n option
 const i18n = createI18n({
-  legacy: false,
   locale: 'ja',
   messageCompiler, // set your message compiler
   messages: {
@@ -1273,7 +1238,14 @@ const i18n = createI18n({
 // ...
 ```
 
+ [!TIP] :new: v9.3+
 
+ [!WARNING]  The Custom Message Format is an experimental feature. It may receive breaking changes or be removed in the future.
+
+See about:
+- [Custom Message Format](../../guide/advanced/format)
+
+ `undefined`
 
 
 ### messageResolver
@@ -1285,42 +1257,21 @@ messageResolver?: MessageResolver;
 
 **Details**
 
-A message resolver to resolve [`messages`](composition#messages).
+A message resolver to resolve .
 
 If not specified, the vue-i18n internal message resolver will be used by default.
 
 You need to implement a message resolver yourself that supports the following requirements:
 
-- Resolve the message using the locale message of [`locale`](composition#locale) passed as the first argument of the message resolver, and the path passed as the second argument.
+- Resolve the message using the locale message of  passed as the first argument of the message resolver, and the path passed as the second argument.
 
 - If the message could not be resolved, you need to return `null`.
 
-- If you will be returned `null`, the message resolver will also be called on fallback if [`fallbackLocale`](composition#fallbacklocale-2) is enabled, so the message will need to be resolved as well.
+- If you will be returned `null`, the message resolver will also be called on fallback if  is enabled, so the message will need to be resolved as well.
 
 The message resolver is called indirectly by the following APIs:
 
-- [`t`](composition#t-key)
-
-- [`te`](composition#te-key-locale)
-
-- [`tm`](composition#tm-key)
-
-- [Translation component](component#translation)
-
-:::tip
-:new: v9.2+
-:::
-
-:::warning
-If you use the message resolver, the [`flatJson`](composition#flatjson) setting will be ignored. That is, you need to resolve the flat JSON by yourself.
-:::
-
-**Default Value**
-
-`undefined`
-
-**See Also**
-- [Fallbacking](../../guide/essentials/fallback)
+-  -  -  -
 
 **Examples**
 
@@ -1337,7 +1288,6 @@ function messageResolver(obj, path) {
 
 // call with I18n option
 const i18n = createI18n({
-  legacy: false,
   locale: 'ja',
   messageResolver, // set your message resolver
   messages: {
@@ -1350,7 +1300,14 @@ const i18n = createI18n({
 // ...
 ```
 
+ [!TIP]  :new: v9.2+
 
+ [!WARNING]  If you use the message resolver, the  setting will be ignored. That is, you need to resolve the flat JSON by yourself.
+
+See about:
+- [Fallbacking](../../guide/essentials/fallback)
+
+ `undefined`
 
 
 ### messages
@@ -1370,9 +1327,7 @@ The handler gets called with the localization target locale, localization path k
 
 If missing handler is assigned, and occurred localization missing, it's not warned.
 
-**Default Value**
-
-`null`
+ `null`
 
 ### missingWarn
 
@@ -1389,12 +1344,10 @@ If `false`, suppress localization fail warnings.
 
 If you use regular expression, you can suppress localization fail warnings that it match with translation key (e.g. `t`).
 
-**Default Value**
-
-`true`
-
-**See Also**
+See about:
 - [Fallbacking](../../guide/essentials/fallback)
+
+ `true`
 
 ### modifiers
 
@@ -1407,7 +1360,7 @@ modifiers?: LinkedModifiers<VueMessageType>;
 
 Custom Modifiers for linked messages.
 
-**See Also**
+See about:
 - [Custom Modifiers](../../guide/essentials/syntax#custom-modifiers)
 
 ### number
@@ -1425,12 +1378,10 @@ pluralRules?: PluralizationRules;
 
 A set of rules for word pluralization
 
-**Default Value**
-
-`{}`
-
-**See Also**
+See about:
 - [Custom Pluralization](../../guide/essentials/pluralization#custom-pluralization)
+
+ `{}`
 
 ### postTranslation
 
@@ -1447,9 +1398,7 @@ The handler gets after being called with the `t`.
 
 This handler is useful if you want to filter on translated text such as space trimming.
 
-**Default Value**
-
-`null`
+ `null`
 
 ### warnHtmlMessage
 
@@ -1464,13 +1413,11 @@ Whether to allow the use locale messages of HTML formatting.
 
 See the warnHtmlMessage property.
 
-**Default Value**
-
-`'off'`
-
-**See Also**
+See about:
 - [HTML Message](../../guide/essentials/syntax#html-message)
 - [Change `warnHtmlInMessage` option default value](../../guide/migration/breaking#change-warnhtmlinmessage-option-default-value)
+
+ `true`
 
 ## ComposerResolveLocaleMessageTranslation
 
@@ -1498,20 +1445,16 @@ Resolve locale message translation
 
 If this is used in a reactive context, it will re-evaluate once the locale changes.
 
-If [UseI18nScope](general#usei18nscope) `'local'` or Some [UseI18nOptions](composition#usei18noptions) are specified at `useI18n`, it’s translated in preferentially local scope locale messages than global scope locale messages.
+If  `'local'` or Some [UseI18nOptions](composition#usei18noptions) are specified at `useI18n`, it’s translated in preferentially local scope locale messages than global scope locale messages.
 
 If not, then it’s translated with global scope locale messages.
 
-**See Also**
+ [!TIP]  The use-case for `rt` is for programmatic locale messages translation with using `tm`, `v-for`, javascript `for` statement.
+
+ [!WARNING]  `rt` differs from `t` in that it processes the locale message directly, not the key of the locale message. There is no internal fallback with `rt`. You need to understand and use the structure of the locale messge returned by `tm`.
+
+See about:
 - [Scope and Locale Changing](../../guide/essentials/scope)
-
-:::tip
-The use-case for `rt` is for programmatic locale messages translation with using `tm`, `v-for`, javascript `for` statement.
-:::
-
-:::warning
-`rt` differs from `t` in that it processes the locale message directly, not the key of the locale message. There is no internal fallback with `rt`. You need to understand and use the structure of the locale messge returned by `tm`.
-:::
 
 #### Parameters
 
@@ -1534,20 +1477,16 @@ Resolve locale message translation for plurals
 
 **Details**
 
-Overloaded `rt`. About details, see the [call signature](composition#message-messagefunction-message-message-string) details.
+Overloaded `rt`.
 
 In this overloaded `rt`, return a pluralized translation message.
 
-**See Also**
+ [!TIP]  The use-case for `rt` is for programmatic locale messages translation with using `tm`, `v-for`, javascript `for` statement.
+
+ [!WARNING]  `rt` differs from `t` in that it processes the locale message directly, not the key of the locale message. There is no internal fallback with `rt`. You need to understand and use the structure of the locale messge returned by `tm`.
+
+See about:
 - [Pluralization](../../guide/essentials/pluralization)
-
-:::tip
-The use-case for `rt` is for programmatic locale messages translation with using `tm`, `v-for`, javascript `for` statement.
-:::
-
-:::warning
-`rt` differs from `t` in that it processes the locale message directly, not the key of the locale message. There is no internal fallback with `rt`. You need to understand and use the structure of the locale messge returned by `tm`.
-:::
 
 #### Parameters
 
@@ -1572,20 +1511,16 @@ Resolve locale message translation for list interpolations
 
 **Details**
 
-Overloaded `rt`. About details, see the [call signature](composition#message-messagefunction-message-message-string) details.
+Overloaded `rt`.
 
 In this overloaded `rt`, return a pluralized translation message.
 
-**See Also**
+ [!TIP]  The use-case for `rt` is for programmatic locale messages translation with using `tm`, `v-for`, javascript `for` statement.
+
+ [!WARNING]  `rt` differs from `t` in that it processes the locale message directly, not the key of the locale message. There is no internal fallback with `rt`. You need to understand and use the structure of the locale messge returned by `tm`.
+
+See about:
 - [List interpolation](../../guide/essentials/syntax#list-interpolation)
-
-:::tip
-The use-case for `rt` is for programmatic locale messages translation with using `tm`, `v-for`, javascript `for` statement.
-:::
-
-:::warning
-`rt` differs from `t` in that it processes the locale message directly, not the key of the locale message. There is no internal fallback with `rt`. You need to understand and use the structure of the locale messge returned by `tm`.
-:::
 
 #### Parameters
 
@@ -1610,20 +1545,16 @@ Resolve locale message translation for named interpolations
 
 **Details**
 
-Overloaded `rt`. About details, see the [call signature](composition#message-messagefunction-message-message-string) details.
+Overloaded `rt`.
 
 In this overloaded `rt`, for each placeholder x, the locale messages should contain a `{x}` token.
 
-**See Also**
+ [!TIP]  The use-case for `rt` is for programmatic locale messages translation with using `tm`, `v-for`, javascript `for` statement.
+
+ [!WARNING]  `rt` differs from `t` in that it processes the locale message directly, not the key of the locale message. There is no internal fallback with `rt`. You need to understand and use the structure of the locale messge returned by `tm`.
+
+See about:
 - [Named interpolation](../../guide/essentials/syntax#named-interpolation)
-
-:::tip
-The use-case for `rt` is for programmatic locale messages translation with using `tm`, `v-for`, javascript `for` statement.
-:::
-
-:::warning
-`rt` differs from `t` in that it processes the locale message directly, not the key of the locale message. There is no internal fallback with `rt`. You need to understand and use the structure of the locale messge returned by `tm`.
-:::
 
 #### Parameters
 
@@ -1665,11 +1596,11 @@ Locale message translation
 
 If this is used in a reactive context, it will re-evaluate once the locale changes.
 
-If [UseI18nScope](general#usei18nscope) `'local'` or Some [UseI18nOptions](composition#usei18noptions) are specified at `useI18n`, it’s translated in preferentially local scope locale messages than global scope locale messages.
+If [I18nScope](general#i18nscope) `'local'` or Some [UseI18nOptions](composition#usei18noptions) are specified at `useI18n`, it’s translated in preferentially local scope locale messages than global scope locale messages.
 
 If not, then it’s translated with global scope locale messages.
 
-**See Also**
+See about:
 - [Scope and Locale Changing](../../guide/essentials/scope)
 
 #### Parameters
@@ -1693,13 +1624,13 @@ Locale message translation for named interpolations
 
 **Details**
 
-Overloaded `t`. About details, see the [call signature](composition#key-key-resourcekeys-number-string) details.
+Overloaded `t`.
 
 In this overloaded `t`, for each placeholder x, the locale messages should contain a `{x}` token.
 
 You can also suppress the warning, when the translation missing according to the options.
 
-**See Also**
+See about:
 - [Named interpolation](../../guide/essentials/syntax#named-interpolation)
 
 #### Parameters
@@ -1724,11 +1655,11 @@ Locale message translation for named interpolations and plurals
 
 **Details**
 
-Overloaded `t`. About details, see the [call signature](composition#key-key-resourcekeys-number-string) details.
+Overloaded `t`.
 
 In this overloaded `t`, for each placeholder x, the locale messages should contain a `{x}` token, and return a pluralized translation message.
 
-**See Also**
+See about:
 - [Pluralization](../../guide/essentials/pluralization)
 - [Named interpolation](../../guide/essentials/syntax#named-interpolation)
 
@@ -1755,11 +1686,11 @@ Locale message translation for named interpolations and plurals
 
 **Details**
 
-Overloaded `t`. About details, see the [call signature](composition#key-key-resourcekeys-number-string) details.
+Overloaded `t`.
 
 In this overloaded `t`, for each placeholder x, the locale messages should contain a `{x}` token, and if no translation was found, return a default message.
 
-**See Also**
+See about:
 - [Named interpolation](../../guide/essentials/syntax#named-interpolation)
 
 #### Parameters
@@ -1785,7 +1716,7 @@ Locale message translation for named interpolations
 
 **Details**
 
-Overloaded `t`. About details, see the [call signature](composition#key-key-resourcekeys-number-string) details.
+Overloaded `t`.
 
 In this overloaded `t`, for each placeholder x, the locale messages should contain a `{x}` token.
 
@@ -1793,7 +1724,7 @@ You can also suppress the warning, when the translation missing according to the
 
 About details of options, see the .
 
-**See Also**
+How to usage for details:
 - [Named interpolation](../../guide/essentials/syntax#named-interpolation)
 
 #### Parameters
@@ -1819,13 +1750,13 @@ Locale message translation for plurals
 
 **Details**
 
-Overloaded `t`. About details, see the [call signature](composition#key-key-resourcekeys-number-string) details.
+Overloaded `t`.
 
 In this overloaded `t`, return a pluralized translation message.
 
 You can also suppress the warning, when the translation missing according to the options.
 
-**See Also**
+See about:
 - [Pluralization](../../guide/essentials/pluralization)
 
 #### Parameters
@@ -1850,7 +1781,7 @@ Locale message translation for plurals
 
 **Details**
 
-Overloaded `t`. About details, see the [call signature](composition#key-key-resourcekeys-number-string) details.
+Overloaded `t`.
 
 In this overloaded `t`, return a pluralized translation message.
 
@@ -1858,7 +1789,7 @@ You can also suppress the warning, when the translation missing according to the
 
 About details of options, see the .
 
-**See Also**
+See about:
 - [Pluralization](../../guide/essentials/pluralization)
 
 #### Parameters
@@ -1884,7 +1815,7 @@ Locale message translation for missing default message
 
 **Details**
 
-Overloaded `t`. About details, see the [call signature](composition#key-key-resourcekeys-number-string) details.
+Overloaded `t`.
 
 In this overloaded `t`, if no translation was found, return a default message.
 
@@ -1912,7 +1843,7 @@ Locale message translation for missing default message
 
 **Details**
 
-Overloaded `t`. About details, see the [call signature](composition#key-key-resourcekeys-number-string) details.
+Overloaded `t`.
 
 In this overloaded `t`, if no translation was found, return a default message.
 
@@ -1943,13 +1874,13 @@ Locale message translation for list interpolations
 
 **Details**
 
-Overloaded `t`. About details, see the [call signature](composition#key-key-resourcekeys-number-string) details.
+Overloaded `t`.
 
 In this overloaded `t`, the locale messages should contain a `{0}`, `{1}`, … for each placeholder in the list.
 
 You can also suppress the warning, when the translation missing according to the options.
 
-**See Also**
+See about:
 - [List interpolation](../../guide/essentials/syntax#list-interpolation)
 
 #### Parameters
@@ -1974,11 +1905,11 @@ Locale message translation for list interpolations and plurals
 
 **Details**
 
-Overloaded `t`. About details, see the [call signature](composition#key-key-resourcekeys-number-string) details.
+Overloaded `t`.
 
 In this overloaded `t`, the locale messages should contain a `{0}`, `{1}`, … for each placeholder in the list, and return a pluralized translation message.
 
-**See Also**
+See about:
 - [Pluralization](../../guide/essentials/pluralization)
 - [List interpolation](../../guide/essentials/syntax#list-interpolation)
 
@@ -2005,12 +1936,12 @@ Locale message translation for list interpolations and missing default message
 
 **Details**
 
-Overloaded `t`. About details, see the [call signature](composition#key-key-resourcekeys-number-string) details.
+Overloaded `t`.
+
+See about:
+- [List interpolation](../../guide/essentials/syntax#list-interpolation)
 
 In this overloaded `t`, the locale messages should contain a `{0}`, `{1}`, … for each placeholder in the list, and if no translation was found, return a default message.
-
-**See Also**
-- [List interpolation](../../guide/essentials/syntax#list-interpolation)
 
 #### Parameters
 
@@ -2035,7 +1966,7 @@ Locale message translation for list interpolations
 
 **Details**
 
-Overloaded `t`. About details, see the [call signature](composition#key-key-resourcekeys-number-string) details.
+Overloaded `t`.
 
 In this overloaded `t`, the locale messages should contain a `{0}`, `{1}`, … for each placeholder in the list.
 
@@ -2043,7 +1974,7 @@ You can also suppress the warning, when the translation missing according to the
 
 About details of options, see the .
 
-**See Also**
+How to usage for details:
 - [List interpolation](../../guide/essentials/syntax#list-interpolation)
 
 #### Parameters
@@ -2162,8 +2093,7 @@ export type UseI18nOptions<Schema extends {
 
 `UseI18nOptions` is inherited [ComposerAdditionalOptions](composition#composeradditionaloptions) and [ComposerOptions](composition#composeroptions), so you can specify these options.
 
-**See Also**
-- [useI18n](composition#usei18n)
+See about: -
 
 ## VueMessageType
 
