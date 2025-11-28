@@ -1,4 +1,4 @@
-import { clearCompileCache, createCoreContext, translate } from '@intlify/core-base'
+import { clearCompileCache, createCoreContext, translate } from '@intlify/core-base' // eslint-disable-line import/namespace -- FIXME:
 import { bench, run } from 'mitata' // eslint-disable-line import/namespace -- FIXME:
 import { dirname, resolve } from 'node:path'
 import { createI18n } from 'vue-i18n'
