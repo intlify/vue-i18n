@@ -6,7 +6,7 @@ import {
   createCoreContext,
   registerMessageCompiler,
   translate
-} from '@intlify/core-base' // eslint-disable-line import/namespace -- FIXME:
+} from '@intlify/core-base'  
 import { baseCompile } from '@intlify/message-compiler'
 import { bench, run } from 'mitata' // eslint-disable-line import/namespace -- FIXME:
 import { dirname, resolve } from 'node:path'

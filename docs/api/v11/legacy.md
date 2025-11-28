@@ -897,6 +897,8 @@ This is useful when translation output is used in `v-html` and the translation r
 
 This usage pattern mostly occurs when passing precomputed text strings into UI components.
 
+The escape process involves replacing the following symbols with their respective HTML character entities: `<`, `>`, `"`, `'`.
+
 Setting `escapeParameterHtml` as true should not break existing functionality but provides a safeguard against a subtle type of XSS attack vectors.
 
 **Default Value**

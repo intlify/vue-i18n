@@ -24,6 +24,7 @@ import type {
   CustomBlocks,
   DefineDateTimeFormat,
   DefineLocaleMessage,
+  DefineNumberFormat,
   ExportedGlobalComposer,
   RemovedIndexResources,
   VueMessageType
@@ -645,7 +646,7 @@ export interface ComponentCustomProperties {
   $n<
     Key extends string = string,
     DefinedNumberFormat extends
-      RemovedIndexResources<DefineDateTimeFormat> = RemovedIndexResources<DefineDateTimeFormat>,
+      RemovedIndexResources<DefineNumberFormat> = RemovedIndexResources<DefineNumberFormat>,
     Keys = IsEmptyObject<DefinedNumberFormat> extends false
       ? PickupFormatPathKeys<{
           [K in keyof DefinedNumberFormat]: DefinedNumberFormat[K]

@@ -77,7 +77,7 @@ The following three functions are exported:
 <!-- eslint-disable markdown/no-missing-label-refs -->
 
 > [!TIP]
-> This code example also shows how to handle it outside of the component using the [`global` property of i18n instance](../../api/general/interfaces/I18n.md#global).
+> This code example also shows how to handle it outside the component using the [`global` property of i18n instance](../../api/general/interfaces/I18n.md#global).
 > About i18n instance, see the [API Reference](../../api/general/interfaces/I18n.md)
 
 <!-- eslint-enable markdown/no-missing-label-refs -->

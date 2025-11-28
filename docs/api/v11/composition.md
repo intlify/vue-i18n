@@ -311,7 +311,7 @@ If you are specified `true`, a warning will be output at console.
 
 See about:
 - [HTML Message](../../guide/essentials/syntax#html-message)
-- - [Change `warnHtmlInMessage` option default value](../../guide/migration/breaking#change-warnhtmlinmessage-option-default-value)
+- [Change `warnHtmlInMessage` option default value](../../guide/migration/breaking#change-warnhtmlinmessage-option-default-value)
 
 ### getDateTimeFormat(locale)
 
@@ -378,8 +378,6 @@ get locale message from Composer instance .
 ### getMissingHandler()
 
 Get missing handler
-
-See about: -
 
 **Signature:**
 ```typescript

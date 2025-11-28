@@ -181,7 +181,7 @@ export interface ExportedGlobalComposer
 
 **Details**
 
-This interface is the  that is provided interface that is injected into each component with `app.config.globalProperties`.
+This interface is the [global composer](general#global) that is provided interface that is injected into each component with `app.config.globalProperties`.
 
 ### availableLocales
 
@@ -363,8 +363,6 @@ If you want to install manually in the `import` syntax, you can set it to `false
 
 I18n Scope
 
-See about: -  -
-
 **Signature:**
 ```typescript
 export type I18nScope = 'local' | 'parent' | 'global';
@@ -512,7 +510,7 @@ A fallback locale function implemented with a fallback chain algorithm. It's use
 
 ## fallbackWithSimple
 
-Fallback with simple implemenation
+Fallback with simple implementation
 
 **Signature:**
 ```typescript
