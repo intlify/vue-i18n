@@ -428,8 +428,6 @@ get number format from Composer instance .
 
 Get post translation handler
 
-See about: -
-
 **Signature:**
 ```typescript
 getPostTranslationHandler(): PostTranslationHandler<VueMessageType> | null;
@@ -582,8 +580,6 @@ Set locale message to Composer instance .
 
 Set missing handler
 
-See about: -
-
 **Signature:**
 ```typescript
 setMissingHandler(handler: MissingHandler | null): void;
@@ -626,8 +622,6 @@ Set number format to Composer instance .
 ### setPostTranslationHandler(handler)
 
 Set post translation handler
-
-See about: -
 
 **Signature:**
 ```typescript
@@ -757,8 +751,6 @@ export interface ComposerAdditionalOptions
 **Details**
 
 `ComposerAdditionalOptions` is extend for [ComposerOptions](composition#composeroptions), so you can specify these options.
-
-See about: -
 
 ### useScope
 
@@ -1041,7 +1033,7 @@ escapeParameter?: boolean;
 
 If `escapeParameter` is configured as true then interpolation parameters are escaped before the message is translated.
 
-This is useful when translation output is used in `v-html` and the translation resource contains html markup (e.g. around a user provided value).
+This is useful when translation output is used in `v-html` and the translation resource contains html markup (e.g. around a user-provided value).
 
 This usage pattern mostly occurs when passing precomputed text strings into UI components.
 
@@ -1449,7 +1441,7 @@ If not, then it’s translated with global scope locale messages.
 
  [!TIP]  The use-case for `rt` is for programmatic locale messages translation with using `tm`, `v-for`, javascript `for` statement.
 
- [!WARNING]  `rt` differs from `t` in that it processes the locale message directly, not the key of the locale message. There is no internal fallback with `rt`. You need to understand and use the structure of the locale messge returned by `tm`.
+ [!WARNING]  `rt` differs from `t` in that it processes the locale message directly, not the key of the locale message. There is no internal fallback with `rt`. You need to understand and use the structure of the locale message returned by `tm`.
 
 See about:
 - [Scope and Locale Changing](../../guide/essentials/scope)
@@ -1481,7 +1473,7 @@ In this overloaded `rt`, return a pluralized translation message.
 
  [!TIP]  The use-case for `rt` is for programmatic locale messages translation with using `tm`, `v-for`, javascript `for` statement.
 
- [!WARNING]  `rt` differs from `t` in that it processes the locale message directly, not the key of the locale message. There is no internal fallback with `rt`. You need to understand and use the structure of the locale messge returned by `tm`.
+ [!WARNING]  `rt` differs from `t` in that it processes the locale message directly, not the key of the locale message. There is no internal fallback with `rt`. You need to understand and use the structure of the locale message returned by `tm`.
 
 See about:
 - [Pluralization](../../guide/essentials/pluralization)
@@ -1515,7 +1507,7 @@ In this overloaded `rt`, return a pluralized translation message.
 
  [!TIP]  The use-case for `rt` is for programmatic locale messages translation with using `tm`, `v-for`, javascript `for` statement.
 
- [!WARNING]  `rt` differs from `t` in that it processes the locale message directly, not the key of the locale message. There is no internal fallback with `rt`. You need to understand and use the structure of the locale messge returned by `tm`.
+ [!WARNING]  `rt` differs from `t` in that it processes the locale message directly, not the key of the locale message. There is no internal fallback with `rt`. You need to understand and use the structure of the locale message returned by `tm`.
 
 See about:
 - [List interpolation](../../guide/essentials/syntax#list-interpolation)
@@ -1549,7 +1541,7 @@ In this overloaded `rt`, for each placeholder x, the locale messages should cont
 
  [!TIP]  The use-case for `rt` is for programmatic locale messages translation with using `tm`, `v-for`, javascript `for` statement.
 
- [!WARNING]  `rt` differs from `t` in that it processes the locale message directly, not the key of the locale message. There is no internal fallback with `rt`. You need to understand and use the structure of the locale messge returned by `tm`.
+ [!WARNING]  `rt` differs from `t` in that it processes the locale message directly, not the key of the locale message. There is no internal fallback with `rt`. You need to understand and use the structure of the locale message returned by `tm`.
 
 See about:
 - [Named interpolation](../../guide/essentials/syntax#named-interpolation)
@@ -2090,8 +2082,6 @@ export type UseI18nOptions<Schema extends {
 **Details**
 
 `UseI18nOptions` is inherited [ComposerAdditionalOptions](composition#composeradditionaloptions) and [ComposerOptions](composition#composeroptions), so you can specify these options.
-
-See about: -
 
 ## VueMessageType
 

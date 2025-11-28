@@ -194,7 +194,7 @@ readonly availableLocales: Locale[];
 
 **Details**
 
-This property is proxy-like property for `Composer#availableLocales`. About details, see the
+This property is a proxy-like property for `Composer#availableLocales`. About details, see the
 
 ### fallbackLocale
 
@@ -207,7 +207,7 @@ fallbackLocale: FallbackLocale;
 
 **Details**
 
-This property is proxy-like property for `Composer#fallbackLocale`. About details, see the
+This property is a proxy-like property for `Composer#fallbackLocale`. About details, see the
 
 ### locale
 
@@ -220,7 +220,7 @@ locale: Locale;
 
 **Details**
 
-This property is proxy-like property for `Composer#locale`. About details, see the
+This property is a proxy-like property for `Composer#locale`. About details, see the
 
 ## I18n
 
@@ -287,7 +287,7 @@ export interface I18nAdditionalOptions
 
 **Details**
 
-Specific options for
+`I18nAdditionalOptions` are specific Vue I18n configuration options for plugin installation and behavior control.
 
 ### globalInjection
 
