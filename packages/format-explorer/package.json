@@ -12,7 +12,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "monaco-editor": "^0.53.0",
+    "monaco-editor": "^0.55.0",
     "source-map-js": "^1.0.2",
     "vue": "^3.3.4"
   },
