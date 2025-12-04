@@ -1972,7 +1972,7 @@ export function createComposer(options: any = {}): any {
         ? options.datetimeFormats
         : { [_locale.value]: {} }
     )
-    : /* #__PURE__*/ ref<DateTimeFormatsType>({})
+    : /* #__PURE__*/ _ref<DateTimeFormatsType>({})
 
   // prettier-ignore
   const _numberFormats = !__LITE__
