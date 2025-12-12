@@ -167,7 +167,7 @@
   "pnpm": {
     "overrides": {
       "vite": "^7.1.12",
-      "vitepress>vite": "npm:rolldown-vite@7.2.7",
+      "vitepress>vite": "npm:rolldown-vite@7.2.11",
       "vue": "3.6.0-alpha.4"
     },
     "onlyBuiltDependencies": [
