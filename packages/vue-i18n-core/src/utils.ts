@@ -223,6 +223,7 @@ export function getCurrentInstance():
   | GenericComponentInstance
   | ComponentInternalInstance
   | null {
+  // NOTE(kazupon): avoid bundler warning
   const key = 'currentInstance'
   if (key in Vue) {
     return (Vue as any)[key] as GenericComponentInstance | null
