@@ -140,7 +140,7 @@
     "oxc-parser": "^0.98.0",
     "oxc-transform": "^0.98.0",
     "picocolors": "^1.0.0",
-    "pkg-pr-new": "^0.0.60",
+    "pkg-pr-new": "^0.0.62",
     "playwright-core": "^1.45.3",
     "prettier": "^3.6.2",
     "rolldown": "1.0.0-beta.52",
