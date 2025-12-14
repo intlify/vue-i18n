@@ -223,10 +223,9 @@ export function getCurrentInstance():
   | GenericComponentInstance
   | ComponentInternalInstance
   | null {
-  if ('currentInstance' in Vue) {
-    // NOTE(kazupon): avoid bundler static analysis
-    const name = 'current' + 'Instance'
-    return (Vue as any)[name] as GenericComponentInstance | null
+  const key = 'currentInstance'
+  if (key in Vue) {
+    return (Vue as any)[key] as GenericComponentInstance | null
   } else {
     return Vue.getCurrentInstance()
   }
