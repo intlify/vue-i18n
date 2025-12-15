@@ -95,7 +95,7 @@
     "@intlify/core-base": "workspace:*",
     "@intlify/message-compiler": "workspace:*",
     "@intlify/vue-i18n-core": "workspace:*",
-    "@kazupon/eslint-config": "^0.38.0",
+    "@kazupon/eslint-config": "^0.42.0",
     "@kazupon/prettier-config": "^0.1.1",
     "@microsoft/api-extractor": "7.15.2",
     "@rollup/plugin-commonjs": "^29.0.0",
