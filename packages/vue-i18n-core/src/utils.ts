@@ -215,6 +215,11 @@ export function createTextNode(key: string): any {
 }
 
 export function getCurrentInstance(): GenericComponentInstance | ComponentInternalInstance | null {
-  // @ts-ignore -- NOTE(kazupon): for Vue 3.6
-  return Vue.currentInstance || Vue.getCurrentInstance()
+  // NOTE(kazupon): avoid bundler warning
+  const key = 'currentInstance'
+  if (key in Vue) {
+    return (Vue as any)[key] as GenericComponentInstance | null
+  } else {
+    return Vue.getCurrentInstance()
+  }
 }
