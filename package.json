@@ -143,7 +143,7 @@
     "pkg-pr-new": "^0.0.62",
     "playwright-core": "^1.45.3",
     "prettier": "^3.6.2",
-    "rolldown": "1.0.0-beta.54",
+    "rolldown": "1.0.0-beta.55",
     "rollup": "^4.21.2",
     "rollup-plugin-dts": "^6.1.1",
     "rollup-plugin-node-builtins": "^2.1.2",
