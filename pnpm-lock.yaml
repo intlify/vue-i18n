@@ -721,8 +721,8 @@ importers:
         specifier: workspace:*
         version: link:../vue-i18n-core
       '@vue/devtools-api':
-        specifier: ^6.5.0
-        version: 6.6.4
+        specifier: ^8.0.0
+        version: 8.0.5
       vue:
         specifier: 3.6.0-alpha.7
         version: 3.6.0-alpha.7(typescript@5.9.3)
@@ -799,8 +799,8 @@ importers:
         specifier: workspace:*
         version: link:../vue-i18n-core
       '@vue/devtools-api':
-        specifier: ^6.5.0
-        version: 6.6.4
+        specifier: ^8.0.0
+        version: 8.0.5
       vue:
         specifier: 3.6.0-alpha.7
         version: 3.6.0-alpha.7(typescript@5.9.3)
@@ -818,8 +818,8 @@ importers:
         specifier: workspace:*
         version: link:../shared
       '@vue/devtools-api':
-        specifier: ^6.5.0
-        version: 6.6.4
+        specifier: ^8.0.0
+        version: 8.0.5
       vue:
         specifier: 3.6.0-alpha.7
         version: 3.6.0-alpha.7(typescript@5.9.3)
