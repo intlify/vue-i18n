@@ -5,6 +5,9 @@
 > [!NOTE]
 > This is the repository for Vue I18n 9 for Vue 3
 
+> [!IMPORTANT]
+> When running `npm install`, v11 may appear as deprecated. **This was a mistake when deprecating v9 and v10. v11 will continue to be maintained**.
+
 <!-- eslint-enable markdown/no-missing-label-refs -->
 
 Internationalization plugin for Vue.js
