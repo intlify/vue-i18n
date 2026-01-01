@@ -1,6 +1,6 @@
 import json from '@rollup/plugin-json'
 import replace from '@rollup/plugin-replace'
-import terser from '@rollup/plugin-terser'  
+import terser from '@rollup/plugin-terser'
 import { promises as fs } from 'node:fs'
 import { createRequire } from 'node:module'
 import path from 'node:path'
