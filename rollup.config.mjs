@@ -1,6 +1,6 @@
 import json from '@rollup/plugin-json'
 import replace from '@rollup/plugin-replace'
-import terser from '@rollup/plugin-terser'
+import { minify as minifySwc } from '@swc/core'
 import { promises as fs } from 'node:fs'
 import { createRequire } from 'node:module'
 import path from 'node:path'
@@ -357,17 +357,30 @@ function createReplacePlugin(
 }
 
 function createMinifiedConfig(format, output) {
-  const newOutput = {
+  return createConfig(format, {
     file: output.file.replace(/\.js$/, '.prod.js'),
     format: output.format
-  }
-  return createConfig(format, newOutput, [
-    terser({
-      module: format.startsWith('esm'),
-      compress: {
-        ecma: 2015
-      },
-      safari10: true
-    })
+  }, [
+    {
+      name: 'swc-minify',
+      async renderChunk(contents, _, { format, sourcemap, sourcemapExcludeSources }) {
+        const { code, map } = await minifySwc(contents, {
+          module: format === 'es',
+          format: {
+            comments: false
+          },
+          compress: {
+            ecma: 2015,
+            pure_getters: true
+          },
+          safari10: true,
+          mangle: true,
+          sourceMap: !!sourcemap,
+          inlineSourcesContent: !sourcemapExcludeSources,
+        })
+
+        return { code, map: map || null }
+      }
+    }
   ])
 }
