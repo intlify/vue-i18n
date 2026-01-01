@@ -210,11 +210,7 @@ const onChangeOptions = async (options: CompileOptions) => {
         @change-model="onChangeModel"
         @ready="onReadyInput"
       />
-      <Editor
-        class="output"
-        :code="genCodes"
-        @ready="onReadyOutput"
-      />
+      <Editor class="output" :code="genCodes" @ready="onReadyOutput" />
     </div>
   </div>
 </template>

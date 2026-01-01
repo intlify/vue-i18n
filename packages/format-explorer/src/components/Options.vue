@@ -48,7 +48,7 @@ watch(compilerOptions, val => {
             name="mode"
             :checked="compilerOptions.mode === 'normal'"
             @change="compilerOptions.mode = 'normal'"
-          >
+          />
           <label for="mode-normal">normal</label>
           <input
             id="mode-arrow"
@@ -56,7 +56,7 @@ watch(compilerOptions, val => {
             name="mode"
             :checked="compilerOptions.mode === 'arrow'"
             @change="compilerOptions.mode = 'arrow'"
-          >
+          />
           <label for="mode-arrow">arrow</label>
         </li>
         <li>
@@ -66,7 +66,7 @@ watch(compilerOptions, val => {
             name="location"
             :checked="compilerOptions.location"
             @change="compilerOptions.location = ($event.target as HTMLInputElement).checked"
-          >
+          />
           <label for="location">location</label>
         </li>
         <li>
@@ -76,7 +76,7 @@ watch(compilerOptions, val => {
             name="indent"
             :checked="compilerOptions.needIndent"
             @change="compilerOptions.needIndent = ($event.target as HTMLInputElement).checked"
-          >
+          />
           <label for="indent">needIndent</label>
         </li>
         <li>
@@ -86,7 +86,7 @@ watch(compilerOptions, val => {
             name="sourcemap"
             :checked="compilerOptions.sourceMap"
             @change="compilerOptions.sourceMap = ($event.target as HTMLInputElement).checked"
-          >
+          />
           <label for="sourcemap">sourceMap</label>
         </li>
         <li>
@@ -96,7 +96,7 @@ watch(compilerOptions, val => {
             name="jit"
             :checked="compilerOptions.jit"
             @change="compilerOptions.jit = ($event.target as HTMLInputElement).checked"
-          >
+          />
           <label for="jit">jit</label>
         </li>
         <li>
@@ -106,7 +106,7 @@ watch(compilerOptions, val => {
             name="optimize"
             :checked="compilerOptions.optimize"
             @change="compilerOptions.optimize = ($event.target as HTMLInputElement).checked"
-          >
+          />
           <label for="optimize">optimize</label>
         </li>
       </ul>

@@ -184,9 +184,9 @@
       "prettier --write"
     ],
     "*.{js,vue}": [
-      "prettier --write",
+      "eslint --fix",
       "oxlint --config .oxlintrc.json --type-aware --fix",
-      "eslint --fix"
+      "prettier --write"
     ],
     "*.ts?(x)": [
       "prettier --parser=typescript --write",
