@@ -573,7 +573,7 @@ Vue I18n v9.x:
 
 ```vue
 <template>
-  <p>{{ $tc('banana', 2,  { name: 'dio' }) }}</p>
+  <p>{{ $tc('banana', 2, { name: 'dio' }) }}</p>
 </template>
 ```
 

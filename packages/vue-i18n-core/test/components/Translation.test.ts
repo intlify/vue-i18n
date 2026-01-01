@@ -45,8 +45,8 @@ beforeAll(() => {
   registerLocaleFallbacker(fallbackWithLocaleChain)
 })
 
-let org: any // eslint-disable-line @typescript-eslint/no-explicit-any
-let spy: any // eslint-disable-line @typescript-eslint/no-explicit-any
+let org: any
+let spy: any
 beforeEach(() => {
   org = console.warn
   spy = vi.fn()
@@ -230,7 +230,7 @@ test('component', async () => {
 test('message resolver', async () => {
   const mockMessageResolver = vi.fn()
   mockMessageResolver.mockImplementation((obj: unknown, path: Path): PathValue => {
-    const msg = (obj as any)[path] // eslint-disable-line @typescript-eslint/no-explicit-any
+    const msg = (obj as any)[path]
     return msg != null ? msg : null
   })
   const en = {

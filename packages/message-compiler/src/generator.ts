@@ -1,4 +1,3 @@
-// eslint-disable-next-line @typescript-eslint/triple-slash-reference
 /// <reference types="source-map-js" />
 import { isString, join } from '@intlify/shared'
 import { SourceMapGenerator } from 'source-map-js'
@@ -302,7 +301,7 @@ export const generate = (ast: ResourceNode, options: CodeGenOptions = {}): CodeG
   return {
     ast,
     code,
-    map: map ? (map as any).toJSON() : undefined // eslint-disable-line @typescript-eslint/no-explicit-any
+    map: map ? (map as any).toJSON() : undefined
   }
 }
 

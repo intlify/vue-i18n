@@ -14,7 +14,7 @@ type VNodeNormalizedChildren =
 export interface VNode {
   __v_isVNode: true
   children: VNodeNormalizedChildren
-  [field: string]: any // eslint-disable-line @typescript-eslint/no-explicit-any
+  [field: string]: any
 }
 
 export function createTextNode(key: string): VNode {

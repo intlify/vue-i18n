@@ -65,9 +65,7 @@ async function compile(message: string, options: CompileOptions = {}): Promise<s
     // const evalCode = new Function(`return ${code}`)()
     const evalCode = code
     lastSuccessCode = evalCode.toString() + `\n\n// Check the console for the AST`
-    lastSuccessfulMap =
-      // eslint-disable-next-line @typescript-eslint/await-thenable
-      options.sourceMap && map ? await new SourceMapConsumer(map) : null
+    lastSuccessfulMap = options.sourceMap && map ? await new SourceMapConsumer(map) : null
     lastSuccessfulMap?.computeColumnSpans()
   } catch (e: unknown) {
     lastSuccessCode = `/* ERROR: ${(e as Error).message} (see console for more info) */`
@@ -212,7 +210,11 @@ const onChangeOptions = async (options: CompileOptions) => {
         @change-model="onChangeModel"
         @ready="onReadyInput"
       />
-      <Editor class="output" :code="genCodes" @ready="onReadyOutput" />
+      <Editor
+        class="output"
+        :code="genCodes"
+        @ready="onReadyOutput"
+      />
     </div>
   </div>
 </template>

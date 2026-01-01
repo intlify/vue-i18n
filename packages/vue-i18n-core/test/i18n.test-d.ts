@@ -73,6 +73,7 @@ const strictOptions = {
 }
 
 test('loose composer with useI18n', () => {
+  // eslint-disable-next-line vue-composable/composable-placement
   const looseI18n = useI18n(looseOptions)
 
   expectTypeOf(looseI18n.locale.value).toEqualTypeOf<'en' | 'ja' | 'en-US' | 'ja-JP'>()
@@ -199,6 +200,7 @@ test('loose composer with useI18n', () => {
 })
 
 test('strict composer with useI18n', () => {
+  // eslint-disable-next-line vue-composable/composable-placement
   const strictI18n = useI18n<[ResourceSchema], 'en' | 'ja'>(strictOptions)
 
   expectTypeOf(strictI18n.locale.value).toEqualTypeOf<'en' | 'ja'>()
@@ -260,6 +262,7 @@ test('strict composer with useI18n', () => {
 })
 
 test('global scope with type annotation at useI18n', () => {
+  // eslint-disable-next-line vue-composable/composable-placement
   const globalComposer = useI18n<[ResourceSchema], 'en' | 'ja'>({
     inheritLocale: true,
     useScope: 'global'
@@ -270,6 +273,7 @@ test('global scope with type annotation at useI18n', () => {
 })
 
 test('local scope without type annotation at useI18n', () => {
+  // eslint-disable-next-line vue-composable/composable-placement
   const localComposer = useI18n({
     useScope: 'local'
   })

@@ -1,0 +1,66 @@
+{
+  "$schema": "./node_modules/oxlint/configuration_schema.json",
+  "plugins": ["typescript", "import", "promise", "unicorn", "node"],
+  "extends": ["./node_modules/@kazupon/eslint-plugin/oxlint/recommended.json"],
+  "overrides": [
+    {
+      "files": ["**/*.{test,spec}.{ts,tsx}"],
+      "plugins": ["vitest"]
+    },
+    {
+      "files": ["**/*.{js,mjs,cjs,ts,mts,cts,jsx,tsx}"],
+      "rules": {
+        // "@typescript-eslint/no-unsafe-member-access": "off",
+        // "@typescript-eslint/no-unsafe-assignment": "off",
+        // "@typescript-eslint/no-unsafe-call": "off",
+        // "@typescript-eslint/no-unsafe-argument": "off",
+        // "@typescript-eslint/no-unsafe-return": "off",
+        // "@typescript-eslint/no-unsafe-enum-comparison": "off",
+        // "@typescript-eslint/no-unnecessary-type-assertion": "off",
+        // "@typescript-eslint/unbound-method": "off",
+        // "@typescript-eslint/no-implied-eval": "off",
+        // "@typescript-eslint/no-redundant-type-constituents": "off",
+        // "@typescript-eslint/restrict-template-expressions": "off",
+        // "@typescript-eslint/no-base-to-string": "off",
+        // "@typescript-eslint/no-empty-object-type": "off",
+        // "@typescript-eslint/no-unused-expressions": "off",
+        // "@typescript-eslint/only-throw-error": "off",
+
+        // disalbe for now, will enable later
+        "@kazupon/enforce-header-comment": "off",
+        // disalbe for now, will enable later
+        "@kazupon/prefer-scope-on-tag-comment": "off",
+        // disalbe for now, will enable later
+        "@kazupon/no-tag-comments": [
+          "off",
+          {
+            "tags": ["TODO", "FIXME", "BUG"]
+          }
+        ]
+      }
+    }
+  ],
+  "ignorePatterns": [
+    "**/dist",
+    "**/fixtures",
+    "**/.vitepress",
+    "**/tsconfig*.json",
+    "**/coverage",
+    "**/examples",
+    "**/api-extractor.json",
+    "temp/**",
+    ".vscode/**/*.json",
+    "CHANGELOG.md",
+    ".github/FUNDING.yml",
+    "packages/*/vite.config.ts",
+    "packages/*/index.js",
+    "packages/vue-i18n/src/vue.d.ts",
+    "packages/vue-i18n-core/petite.js",
+    "docs/api/**/*.md",
+    "docsgen.config.js",
+    "shim.d.ts",
+    ".oxlintrc.json",
+    "scripts/api/*.js",
+    ".claude"
+  ]
+}

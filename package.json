@@ -62,10 +62,12 @@
     "fix": "pnpm run --color \"/^fix:/\"",
     "fix:eslint": "eslint . --fix --cache",
     "fix:knip": "knip --fix",
+    "fix:oxlint": "oxlint --type-aware --fix",
     "fix:prettier": "prettier --write . --experimental-cli",
     "lint": "pnpm run --color \"/^lint:/\"",
     "lint:eslint": "eslint . --cache",
     "lint:knip": "knip",
+    "lint:oxlint": "oxlint --type-aware",
     "lint:prettier": "prettier --check . --experimental-cli",
     "prebuild": "test \"$CI\" = true && npx pnpm install -r --store=node_modules/.pnpm-store || echo skipping pnpm install",
     "preinstall": "node ./scripts/preinstall.js",
@@ -89,13 +91,13 @@
     "typescript": "^5.0.4"
   },
   "devDependencies": {
-    "@eslint/compat": "^1.4.1",
     "@eslint/markdown": "^7.5.1",
     "@html-eslint/eslint-plugin": "^0.49.0",
     "@intlify/core-base": "workspace:*",
     "@intlify/message-compiler": "workspace:*",
     "@intlify/vue-i18n-core": "workspace:*",
-    "@kazupon/eslint-config": "^0.42.0",
+    "@kazupon/eslint-config": "^0.44.0",
+    "@kazupon/eslint-plugin": "^0.7.1",
     "@kazupon/prettier-config": "^0.2.0",
     "@microsoft/api-extractor": "7.15.2",
     "@rollup/plugin-commonjs": "^29.0.0",
@@ -113,16 +115,11 @@
     "bumpp": "^10.3.2",
     "cross-env": "^10.1.0",
     "eslint": "^9.39.2",
-    "eslint-config-prettier": "^10.1.8",
-    "eslint-import-resolver-typescript": "^4.4.4",
-    "eslint-plugin-import": "^2.32.0",
     "eslint-plugin-jsonc": "^2.21.0",
     "eslint-plugin-markdown-preferences": "^0.40.2",
     "eslint-plugin-module-interop": "^0.3.1",
-    "eslint-plugin-promise": "^7.2.1",
+    "eslint-plugin-oxlint": "^1.36.0",
     "eslint-plugin-regexp": "^2.10.0",
-    "eslint-plugin-unicorn": "^62.0.0",
-    "eslint-plugin-unused-imports": "^4.3.0",
     "eslint-plugin-vue": "^10.6.2",
     "eslint-plugin-vue-composable": "^1.0.0",
     "eslint-plugin-yml": "^1.19.1",
@@ -139,6 +136,8 @@
     "oxc-minify": "^0.104.0",
     "oxc-parser": "^0.104.0",
     "oxc-transform": "^0.104.0",
+    "oxlint": "^1.36.0",
+    "oxlint-tsgolint": "^0.10.0",
     "picocolors": "^1.1.1",
     "pkg-pr-new": "^0.0.62",
     "playwright-core": "^1.57.0",
@@ -186,10 +185,12 @@
     ],
     "*.{js,vue}": [
       "prettier --write",
+      "oxlint --config .oxlintrc.json --type-aware --fix",
       "eslint --fix"
     ],
     "*.ts?(x)": [
       "prettier --parser=typescript --write",
+      "oxlint --config .oxlintrc.json --type-aware --fix",
       "eslint --fix"
     ]
   }

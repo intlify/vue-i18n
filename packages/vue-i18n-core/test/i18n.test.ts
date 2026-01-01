@@ -33,7 +33,7 @@ import type { IntlifyDevToolsEmitterHooks } from '@intlify/devtools-types'
 import type { App, ComponentOptions } from 'vue'
 import type { Composer } from '../src/composer'
 import type { I18n } from '../src/i18n'
-/* eslint-disable @typescript-eslint/no-explicit-any */
+
 // allow any in error
 const container = document.createElement('div')
 document.body.appendChild(container)
@@ -65,8 +65,8 @@ test('createI18n with flat json messages', () => {
 })
 
 describe('useI18n', () => {
-  let org: any // eslint-disable-line @typescript-eslint/no-explicit-any
-  let spy: any // eslint-disable-line @typescript-eslint/no-explicit-any
+  let org: any
+  let spy: any
   beforeEach(() => {
     org = console.warn
     spy = vi.fn()
@@ -259,7 +259,7 @@ describe('useI18n', () => {
             locale: '',
             resource: { ja: { hello: 'こんにちは、世界！' } }
           }
-        ] as any // eslint-disable-line @typescript-eslint/no-explicit-any
+        ] as any
         composer = useI18n()
         return { t: (composer as Composer).t }
       },
@@ -275,6 +275,7 @@ describe('useI18n', () => {
   test(errorMessages[I18nErrorCodes.MUST_BE_CALL_SETUP_TOP], async () => {
     let error = ''
     try {
+      // eslint-disable-next-line vue-composable/composable-placement
       useI18n({})
     } catch (e: any) {
       error = e.message
@@ -363,7 +364,7 @@ describe('useI18n', () => {
     const App = defineComponent({
       setup() {
         let message: string = ''
-        let t: any // eslint-disable-line @typescript-eslint/no-explicit-any
+        let t: any
         try {
           const i18n = useI18n({
             messages: {
@@ -393,14 +394,14 @@ describe('useI18n', () => {
           <p>{{ error }}</p>
       `
     })
-    await mount(App, i18n as any) // eslint-disable-line @typescript-eslint/no-explicit-any
+    await mount(App, i18n as any)
     expect(error).toBe(errorMessages[I18nErrorCodes.DUPLICATE_USE_I18N_CALLING])
   })
 })
 
 test('slot reactivity', async () => {
-  let org: any // eslint-disable-line @typescript-eslint/no-explicit-any
-  let spy: any // eslint-disable-line @typescript-eslint/no-explicit-any
+  let org: any
+  let spy: any
   beforeEach(() => {
     org = console.warn
     spy = vi.fn()
@@ -495,7 +496,7 @@ test('slot reactivity', async () => {
       <Child />
     `
   })
-  const { html } = await mount(App, i18n as any) // eslint-disable-line @typescript-eslint/no-explicit-any
+  const { html } = await mount(App, i18n as any)
   expect(html()).toMatchSnapshot('ja')
   i18n.global.locale.value = 'en'
   await nextTick()
@@ -674,7 +675,7 @@ test('merge i18n custom blocks to global scope', async () => {
 
 describe('custom pluralization', () => {
   const mockWarn = vi.spyOn(shared, 'warnOnce')
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
+
   mockWarn.mockImplementation(() => {})
 
   test('pluralization', async () => {
@@ -815,7 +816,6 @@ test('Composer & VueI18n extend hooking', async () => {
   const composerDisposeSpy = vi.fn()
   let counter = 0
   const composerExtendSpy = vi.fn().mockImplementation((composer: Composer) => {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     counter += 1
     ;(composer as any).foo = ref(`foo${counter}`)
     return composerDisposeSpy
@@ -863,11 +863,11 @@ test('Composer & VueI18n extend hooking', async () => {
     pluginOptions: {
       __composerExtend: composerExtendSpy,
       __vueI18nExtend: vueI18nExtendSpy
-    } as any // eslint-disable-line @typescript-eslint/no-explicit-any
+    } as any
   })
 
   // Check that global is not extended
-  expect((i18n.global as any).foo).toBeUndefined() // eslint-disable-line @typescript-eslint/no-explicit-any
+  expect((i18n.global as any).foo).toBeUndefined()
 
   expect(html()).toBe('<p></p><p class="child">foo1</p><p class="grand-child">foo2</p>')
   expect(composerExtendSpy).toHaveBeenCalledTimes(2)
@@ -880,7 +880,7 @@ test('Composer & VueI18n extend hooking', async () => {
 
 test('dollar prefixed API (component injections)', async () => {
   const mockWarn = vi.spyOn(shared, 'warn')
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
+
   mockWarn.mockImplementation(() => {})
 
   const messages = {

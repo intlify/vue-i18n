@@ -1,5 +1,3 @@
-/* eslint-disable no-irregular-whitespace */
-
 import { format } from '@intlify/shared'
 import { SourceMapConsumer } from 'source-map-js'
 import { CompileErrorCodes, errorMessages } from '../src/errors'
@@ -18,7 +16,7 @@ interface Pos {
 }
 
 // @ts-ignore -- NOTE(kazupon): keep unused function, because it will be used in future
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
+
 function getPositionInCode(code: string, token: string, expectName: string | boolean = false): Pos {
   const generatedOffset = code.indexOf(token)
   // console.log('getPositionInCode', code, token, generatedOffset)
@@ -515,5 +513,3 @@ test('unhandle error', () => {
     format(errorMessages[CompileErrorCodes.UNHANDLED_CODEGEN_NODE_TYPE], type)
   )
 })
-
-/* eslint-enable no-irregular-whitespace */

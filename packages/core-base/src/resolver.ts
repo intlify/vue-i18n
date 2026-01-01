@@ -173,13 +173,13 @@ export function parse(path: Path): string[] | undefined {
   let mode = States.BEFORE_PATH
   let subPathDepth = 0
   let c: string | undefined
-  let key: any // eslint-disable-line
+  let key: any
   let newChar: string
   let type: string
   let transition: PathState
-  let action: Function // eslint-disable-line @typescript-eslint/no-unsafe-function-type -- NOTE(kazupon): for generic function type
+  let action: Function
   let typeMap: PathStateMachine
-  const actions = [] as Function[] // eslint-disable-line @typescript-eslint/no-unsafe-function-type -- NOTE(kazupon): for generic function type
+  const actions = [] as Function[]
 
   actions[Actions.APPEND] = (): void => {
     if (key === undefined) {
@@ -273,7 +273,7 @@ export type PathValue =
   | string
   | number
   | boolean
-  | Function // eslint-disable-line @typescript-eslint/no-unsafe-function-type -- NOTE(kazupon): for generic function type
+  | Function
   | null
   | { [key: string]: PathValue }
   | PathValue[]

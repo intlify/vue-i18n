@@ -49,7 +49,7 @@ export async function buildTypings(targets: string[]): Promise<void> {
       })
     }
 
-    const filepath = /\.d\.ts$/.test(file) ? file : file.replace(/\.ts$/, '.d.ts')
+    const filepath = file.endsWith('.d.ts') ? file : file.replace(/\.ts$/, '.d.ts')
     await write(path.join('temp', filepath), dts.code)
     count++
   }
@@ -79,7 +79,6 @@ export async function buildTypings(targets: string[]): Promise<void> {
         throw new Error('output must be an object')
       }
       const output = config.output
-      // eslint-disable-next-line promise/no-nesting -- FIXME:
       return bundle.write(output).then(() => {
         console.log(pc.gray('built: ') + pc.blue(dtsPath))
         return dtsPath

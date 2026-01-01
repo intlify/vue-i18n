@@ -19,7 +19,6 @@ export async function getData(
   page: Page,
   selector: string,
   options?: Parameters<Page['locator']>[1]
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
 ): Promise<any> {
   return JSON.parse(await page.locator(selector, options).innerText())
 }
@@ -52,7 +51,6 @@ export function getDom(html: string): Document {
   return new JSDOM(html).window.document
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function getDataFromDom(dom: Document, selector: string): any {
   return JSON.parse(dom.querySelector(selector)!.textContent!.replace('&quot;', '"'))
 }

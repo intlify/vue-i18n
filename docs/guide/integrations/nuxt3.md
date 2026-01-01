@@ -122,8 +122,8 @@ We will edit `app.vue` of the setup Nuxt 3 application as follows:
 ```vue
 <template>
   <div>
-   <NuxtWelcome /> // [!code --]
-   <h1>{{ $t('hello', { name: 'vue-i18n' }) }}</h1> // [!code ++]
+    <NuxtWelcome /> // [!code --]
+    <h1>{{ $t('hello', { name: 'vue-i18n' }) }}</h1> // [!code ++]
   </div>
 </template>
 ```
@@ -169,12 +169,23 @@ We will add language switching feature to `app.vue` as follows:
 <template>
   <div>
     <h1>{{ $t('hello', { name: 'vue-i18n' }) }}</h1>
-    <form> // [!code ++]
+    <form>
+      // [!code ++]
       <label for="locale-select">{{ $t('language') }}: </label> // [!code ++]
-      <select id="locale-select" v-model="$i18n.locale"> // [!code ++]
-        <option value="en">en</option> // [!code ++]
-        <option value="fr">fr</option> // [!code ++]
-        <option value="ja">ja</option> // [!code ++]
+      <select
+        id="locale-select"
+        v-model="$i18n.locale"
+      >
+        // [!code ++]
+        <option value="en">
+          en
+        </option> // [!code ++]
+        <option value="fr">
+          fr
+        </option> // [!code ++]
+        <option value="ja">
+          ja
+        </option> // [!code ++]
       </select> // [!code ++]
     </form> // [!code ++]
   </div>

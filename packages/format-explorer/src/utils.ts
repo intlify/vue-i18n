@@ -1,7 +1,6 @@
 import { customRef } from 'vue'
 import type { Ref } from 'vue'
 
-/* eslint-disable */
 export function debounce<T extends (...args: any[]) => any>(fn: T, delay: number = 300): T {
   let prevTimer: number | null = null
   return ((...args: any[]) => {
@@ -14,7 +13,6 @@ export function debounce<T extends (...args: any[]) => any>(fn: T, delay: number
     }, delay)
   }) as any
 }
-/* eslint-enable */
 
 export function useDebouncedRef<T>(value: T, delay = 200): Ref<T> {
   let timeout: ReturnType<typeof setTimeout>

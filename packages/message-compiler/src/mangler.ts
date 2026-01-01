@@ -17,8 +17,6 @@ import type {
 
 const ERROR_DOMAIN = 'minifier'
 
-/* eslint-disable @typescript-eslint/no-explicit-any */
-
 export function mangle(node: Node): void {
   node.t = node.type
 
@@ -100,5 +98,3 @@ export function mangle(node: Node): void {
 
   delete (node as any).type
 }
-
-/* eslint-enable @typescript-eslint/no-explicit-any */

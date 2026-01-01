@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-
 import {
   assign,
   create,
@@ -440,11 +438,8 @@ export function createCoreContext<
   Schema = LocaleMessage,
   Locales = 'en-US',
   Message = string,
-  Options extends CoreOptions<
-    Message,
-    SchemaParams<Schema, Message>,
-    LocaleParams<Locales>
-  > = CoreOptions<Message, SchemaParams<Schema, Message>, LocaleParams<Locales>>,
+  Options extends CoreOptions<Message, SchemaParams<Schema, Message>, LocaleParams<Locales>> =
+    CoreOptions<Message, SchemaParams<Schema, Message>, LocaleParams<Locales>>,
   Messages extends Record<string, any> = NonNullable<Options['messages']> extends Record<
     string,
     any
@@ -685,5 +680,3 @@ export function isImplicitFallback(targetLocale: Locale, locales: Locale[]): boo
 
   return false
 }
-
-/* eslint-enable @typescript-eslint/no-explicit-any */

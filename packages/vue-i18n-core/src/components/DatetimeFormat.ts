@@ -52,7 +52,6 @@ export const DatetimeFormatImpl: ComponentOptions<DatetimeFormatProps> =
         DateTimeOptions,
         Intl.DateTimeFormatPart
       >(props as DatetimeFormatProps, context, DATETIME_FORMAT_OPTIONS_KEYS, (...args: unknown[]) =>
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         (i18n as any)[DatetimePartsSymbol](...args)
       )
     }

@@ -4,7 +4,7 @@ import { CompileErrorCodes, errorMessages } from '../../src/errors'
 
 import type { PluralNode } from '../../src/nodes'
 
-let spy: any // eslint-disable-line @typescript-eslint/no-explicit-any
+let spy: any
 beforeEach(() => {
   spy = vi.fn()
 })
@@ -100,9 +100,7 @@ describe('included new line', () => {
 })
 
 describe('complex usage', () => {
-  // eslint-disable-next-line no-irregular-whitespace
   test(`@.lower:{'no apples'} | {1} apple | {count}　apples`, () => {
-    // eslint-disable-next-line no-irregular-whitespace
     const text = `@.lower:{'no apples'} | {1} apple | {count}　apples`
     const parser = createParser({ onError: spy })
     const ast = parser.parse(text)
@@ -292,4 +290,4 @@ describe('one empty message', () => {
   })
 })
 
-test.todo(`@.lower: {'no apples'} | {1 apple | @:{count　apples`) // eslint-disable-line no-irregular-whitespace
+test.todo(`@.lower: {'no apples'} | {1 apple | @:{count　apples`)

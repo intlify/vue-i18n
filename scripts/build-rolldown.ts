@@ -120,7 +120,6 @@ async function main() {
           Promise.all(
             configs.map(c =>
               rolldown(c).then(bundle => {
-                // eslint-disable-next-line promise/no-nesting
                 return bundle.write(c.output as OutputOptions).then(() => {
                   return path.join(
                     'packages',
@@ -132,7 +131,6 @@ async function main() {
                 })
               })
             )
-            // eslint-disable-next-line promise/always-return -- FIXME:
           ).then(files => {
             files.forEach(f => {
               count++

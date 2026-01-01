@@ -32,7 +32,6 @@ if (__DEV__) {
 
 const RE_ARGS = /\{([0-9a-z]+)\}/gi
 
-/* eslint-disable */
 export function format(message: string, ...args: any): string {
   if (args.length === 1 && isObject(args[0])) {
     args = args[0]
@@ -102,8 +101,6 @@ export function hasOwn(obj: object | Array<any>, key: string): boolean {
   return hasOwnProperty.call(obj, key)
 }
 
-/* eslint-enable */
-
 /**
  * Useful Utilities By Evan you
  * Modified by kazuya kawaguchi
@@ -112,16 +109,15 @@ export function hasOwn(obj: object | Array<any>, key: string): boolean {
  * https://github.com/vuejs/vue-next/blob/master/packages/shared/src/codeframe.ts
  */
 export const isArray: typeof Array.isArray = Array.isArray
-// eslint-disable-next-line @typescript-eslint/no-unsafe-function-type -- NOTE(kazupon): for generic function type
+
 export const isFunction = (val: unknown): val is Function => typeof val === 'function'
 export const isString = (val: unknown): val is string => typeof val === 'string'
 export const isBoolean = (val: unknown): val is boolean => typeof val === 'boolean'
 export const isSymbol = (val: unknown): val is symbol => typeof val === 'symbol'
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
+
 export const isObject = (val: unknown): val is Record<any, any> =>
   val !== null && typeof val === 'object'
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const isPromise = <T = any>(val: unknown): val is Promise<T> => {
   return isObject(val) && isFunction(val.then) && isFunction(val.catch)
 }

@@ -13,7 +13,7 @@ const cases = [
   { code: '@.lower:{0}', name: 'linked modifier list' },
   { code: 'no apples | one apple  |  too much apples  ', name: 'plural' },
   {
-    code: `@.lower:{'no apples'} | {1} apple | {count}　apples`, // eslint-disable-line no-irregular-whitespace
+    code: `@.lower:{'no apples'} | {1} apple | {count}　apples`,
     name: 'plural complex'
   },
   { code: `@.: a`, name: 'linked error' },

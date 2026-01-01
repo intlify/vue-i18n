@@ -51,7 +51,6 @@ export const NumberFormatImpl: ComponentOptions<NumberFormatProps> = /* #__PURE_
         NumberOptions,
         Intl.NumberFormatPart
       >(props as NumberFormatProps, context, NUMBER_FORMAT_OPTIONS_KEYS, (...args: unknown[]) =>
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         (i18n as any)[NumberPartsSymbol](...args)
       )
     }

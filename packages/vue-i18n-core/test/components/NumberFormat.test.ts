@@ -52,8 +52,8 @@ beforeAll(() => {
   registerLocaleFallbacker(fallbackWithLocaleChain)
 })
 
-let org: any // eslint-disable-line @typescript-eslint/no-explicit-any
-let spy: any // eslint-disable-line @typescript-eslint/no-explicit-any
+let org: any
+let spy: any
 beforeEach(() => {
   org = console.warn
   spy = vi.fn()
@@ -108,7 +108,7 @@ test('slots', async () => {
   const wrapper = await mount(App, i18n)
 
   expect(wrapper.html()).toEqual(
-    `<span style=\"color: green;\">€</span><span style=\"font-weight: bold;\">1</span><span style=\"font-weight: bold;\">,</span><span style=\"font-weight: bold;\">234</span>.<span style=\"font-size: small;\">00</span>`
+    `<span style="color: green;">€</span><span style="font-weight: bold;">1</span><span style="font-weight: bold;">,</span><span style="font-weight: bold;">234</span>.<span style="font-size: small;">00</span>`
   )
 })
 

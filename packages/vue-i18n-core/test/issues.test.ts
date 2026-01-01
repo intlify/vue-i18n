@@ -33,8 +33,8 @@ import type { IntlDateTimeFormats, IntlNumberFormats } from '../src/index'
 const container = document.createElement('div')
 document.body.appendChild(container)
 
-let org: any // eslint-disable-line @typescript-eslint/no-explicit-any
-let spy: any // eslint-disable-line @typescript-eslint/no-explicit-any
+let org: any
+let spy: any
 beforeEach(() => {
   registerMessageCompiler(compile)
   registerMessageResolver(resolveValue)
@@ -249,7 +249,7 @@ test('issue #819: v-for', async () => {
 describe('issue #853', () => {
   test('compostion', async () => {
     const mockWarn = vi.spyOn(shared, 'warn')
-    // eslint-disable-next-line @typescript-eslint/no-empty-function
+
     mockWarn.mockImplementation(() => {})
 
     const i18n = createI18n({
@@ -294,7 +294,7 @@ describe('issue #853', () => {
 
 test('issue #854', async () => {
   const mockWarn = vi.spyOn(shared, 'warn')
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
+
   mockWarn.mockImplementation(() => {})
 
   const i18n = createI18n({
@@ -370,7 +370,7 @@ test('issue #964', async () => {
   const { t } = i18n.global
 
   // set no compiler
-  registerMessageCompiler(null as any) // eslint-disable-line @typescript-eslint/no-explicit-any
+  registerMessageCompiler(null as any)
 
   const defaultMsg = t('foo')
   expect(defaultMsg).toEqual('foo')
@@ -962,7 +962,7 @@ test('issue #1717', async () => {
 describe('issue #1768', () => {
   test('Implicit fallback using locales', async () => {
     const mockWarn = vi.spyOn(shared, 'warn')
-    // eslint-disable-next-line @typescript-eslint/no-empty-function
+
     mockWarn.mockImplementation(() => {})
 
     const i18n = createI18n({
@@ -988,7 +988,7 @@ describe('issue #1768', () => {
 
   test('Explicit fallback with decision maps', async () => {
     const mockWarn = vi.spyOn(shared, 'warn')
-    // eslint-disable-next-line @typescript-eslint/no-empty-function
+
     mockWarn.mockImplementation(() => {})
 
     const i18n = createI18n({
@@ -1068,6 +1068,12 @@ test('#1912', async () => {
 
   let loc: ReturnType<typeof useI18n>['locale']
   const App = defineComponent({
+    setup() {
+      const { t, locale } = useI18n()
+      // @ts-ignore
+      loc = locale
+      return { t, locale }
+    },
     template: `
   <form>
     <select v-model="locale">
@@ -1076,13 +1082,7 @@ test('#1912', async () => {
     </select>
   </form>
   <p>{{ t('no_results', ['apples']) }}</p>
-`,
-    setup() {
-      const { t, locale } = useI18n()
-      // @ts-ignore
-      loc = locale
-      return { t, locale }
-    }
+`
   })
   const wrapper = await mount(App, i18n)
   await nextTick()

@@ -40,7 +40,7 @@ export const TranslationImpl: ComponentOptions<TranslationProps> = /* #__PURE__*
       },
       plural: {
         type: [Number, String],
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
         validator: (val: any): boolean => isNumber(val) || !isNaN(val)
       }
     },
@@ -66,7 +66,7 @@ export const TranslationImpl: ComponentOptions<TranslationProps> = /* #__PURE__*
         options.plural = isString(props.plural) ? +props.plural : props.plural
       }
       const arg = getInterpolateArg(context, keys)
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
       const children = (i18n as any)[TranslateVNodeSymbol](props.keypath, arg, options)
       const assignedAttrs = assign(create(), attrs)
       const tag = isString(props.tag) || isObject(props.tag) ? props.tag : getFragmentableTag()

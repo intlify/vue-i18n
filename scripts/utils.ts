@@ -30,7 +30,7 @@ function resolveTargets(targets: string[]) {
 
 export const targets = async (): Promise<string[]> => {
   const packages = await fs.readdir('packages')
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
   const pkgCaches = new Map<string, any>()
   const files = await Promise.all(
     packages.map(async f => {
@@ -107,12 +107,11 @@ export async function checkSizeDistFiles(target: string): Promise<string[]> {
   const dirs = await fs.readdir(`${target}/dist`)
   // prettier-ignore
   return dirs.filter(file => /^(message-compiler|core|vue-i18n|petite-vue-i18n)/.test(file)) // eslint-disable-line regexp/no-unused-capturing-group
-    .filter(file => !/^core-base/.test(file))
-    .filter(file => !/^vue-i18n-core/.test(file))
-    .filter(file => /prod\.js$/.test(file))
+    .filter(file => !file.startsWith('core-base'))
+    .filter(file => !file.startsWith('vue-i18n-core'))
+    .filter(file => file.endsWith('prod.js'))
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export async function readJson(path: string): Promise<any> {
   const data = await fs.readFile(path, 'utf8')
   return JSON.parse(data)

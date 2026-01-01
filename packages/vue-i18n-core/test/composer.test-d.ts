@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-
 import { createComposer } from '../src/composer'
 
 import type {
@@ -377,5 +375,3 @@ test('strict composer with direct options', () => {
   expectTypeOf(nullComposer.fallbackLocale.value).toEqualTypeOf<FallbackLocales<string>>()
   nullComposer.fallbackLocale.value = 'fr'
 })
-
-/* eslint-enable @typescript-eslint/no-explicit-any */

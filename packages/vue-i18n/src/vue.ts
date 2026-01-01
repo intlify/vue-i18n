@@ -78,8 +78,8 @@ export interface ComponentCustomProperties {
    */
   $t<
     Key extends string,
-    DefinedLocaleMessage extends
-      RemovedIndexResources<DefineLocaleMessage> = RemovedIndexResources<DefineLocaleMessage>,
+    DefinedLocaleMessage extends RemovedIndexResources<DefineLocaleMessage> =
+      RemovedIndexResources<DefineLocaleMessage>,
     Keys = IsEmptyObject<DefinedLocaleMessage> extends false
       ? JsonPaths<{
           [K in keyof DefinedLocaleMessage]: DefinedLocaleMessage[K]
@@ -102,8 +102,8 @@ export interface ComponentCustomProperties {
    */
   $t<
     Key extends string,
-    DefinedLocaleMessage extends
-      RemovedIndexResources<DefineLocaleMessage> = RemovedIndexResources<DefineLocaleMessage>,
+    DefinedLocaleMessage extends RemovedIndexResources<DefineLocaleMessage> =
+      RemovedIndexResources<DefineLocaleMessage>,
     Keys = IsEmptyObject<DefinedLocaleMessage> extends false
       ? JsonPaths<{
           [K in keyof DefinedLocaleMessage]: DefinedLocaleMessage[K]
@@ -128,8 +128,8 @@ export interface ComponentCustomProperties {
    */
   $t<
     Key extends string,
-    DefinedLocaleMessage extends
-      RemovedIndexResources<DefineLocaleMessage> = RemovedIndexResources<DefineLocaleMessage>,
+    DefinedLocaleMessage extends RemovedIndexResources<DefineLocaleMessage> =
+      RemovedIndexResources<DefineLocaleMessage>,
     Keys = IsEmptyObject<DefinedLocaleMessage> extends false
       ? JsonPaths<{
           [K in keyof DefinedLocaleMessage]: DefinedLocaleMessage[K]
@@ -154,8 +154,8 @@ export interface ComponentCustomProperties {
    */
   $t<
     Key extends string,
-    DefinedLocaleMessage extends
-      RemovedIndexResources<DefineLocaleMessage> = RemovedIndexResources<DefineLocaleMessage>,
+    DefinedLocaleMessage extends RemovedIndexResources<DefineLocaleMessage> =
+      RemovedIndexResources<DefineLocaleMessage>,
     Keys = IsEmptyObject<DefinedLocaleMessage> extends false
       ? JsonPaths<{
           [K in keyof DefinedLocaleMessage]: DefinedLocaleMessage[K]
@@ -180,8 +180,8 @@ export interface ComponentCustomProperties {
    */
   $t<
     Key extends string,
-    DefinedLocaleMessage extends
-      RemovedIndexResources<DefineLocaleMessage> = RemovedIndexResources<DefineLocaleMessage>,
+    DefinedLocaleMessage extends RemovedIndexResources<DefineLocaleMessage> =
+      RemovedIndexResources<DefineLocaleMessage>,
     Keys = IsEmptyObject<DefinedLocaleMessage> extends false
       ? JsonPaths<{
           [K in keyof DefinedLocaleMessage]: DefinedLocaleMessage[K]
@@ -206,8 +206,8 @@ export interface ComponentCustomProperties {
    */
   $t<
     Key extends string,
-    DefinedLocaleMessage extends
-      RemovedIndexResources<DefineLocaleMessage> = RemovedIndexResources<DefineLocaleMessage>,
+    DefinedLocaleMessage extends RemovedIndexResources<DefineLocaleMessage> =
+      RemovedIndexResources<DefineLocaleMessage>,
     Keys = IsEmptyObject<DefinedLocaleMessage> extends false
       ? JsonPaths<{
           [K in keyof DefinedLocaleMessage]: DefinedLocaleMessage[K]
@@ -232,8 +232,8 @@ export interface ComponentCustomProperties {
    */
   $t<
     Key extends string,
-    DefinedLocaleMessage extends
-      RemovedIndexResources<DefineLocaleMessage> = RemovedIndexResources<DefineLocaleMessage>,
+    DefinedLocaleMessage extends RemovedIndexResources<DefineLocaleMessage> =
+      RemovedIndexResources<DefineLocaleMessage>,
     Keys = IsEmptyObject<DefinedLocaleMessage> extends false
       ? JsonPaths<{
           [K in keyof DefinedLocaleMessage]: DefinedLocaleMessage[K]
@@ -259,8 +259,8 @@ export interface ComponentCustomProperties {
    */
   $t<
     Key extends string,
-    DefinedLocaleMessage extends
-      RemovedIndexResources<DefineLocaleMessage> = RemovedIndexResources<DefineLocaleMessage>,
+    DefinedLocaleMessage extends RemovedIndexResources<DefineLocaleMessage> =
+      RemovedIndexResources<DefineLocaleMessage>,
     Keys = IsEmptyObject<DefinedLocaleMessage> extends false
       ? JsonPaths<{
           [K in keyof DefinedLocaleMessage]: DefinedLocaleMessage[K]
@@ -286,8 +286,8 @@ export interface ComponentCustomProperties {
    */
   $t<
     Key extends string,
-    DefinedLocaleMessage extends
-      RemovedIndexResources<DefineLocaleMessage> = RemovedIndexResources<DefineLocaleMessage>,
+    DefinedLocaleMessage extends RemovedIndexResources<DefineLocaleMessage> =
+      RemovedIndexResources<DefineLocaleMessage>,
     Keys = IsEmptyObject<DefinedLocaleMessage> extends false
       ? JsonPaths<{
           [K in keyof DefinedLocaleMessage]: DefinedLocaleMessage[K]
@@ -312,8 +312,8 @@ export interface ComponentCustomProperties {
    */
   $t<
     Key extends string,
-    DefinedLocaleMessage extends
-      RemovedIndexResources<DefineLocaleMessage> = RemovedIndexResources<DefineLocaleMessage>,
+    DefinedLocaleMessage extends RemovedIndexResources<DefineLocaleMessage> =
+      RemovedIndexResources<DefineLocaleMessage>,
     Keys = IsEmptyObject<DefinedLocaleMessage> extends false
       ? JsonPaths<{
           [K in keyof DefinedLocaleMessage]: DefinedLocaleMessage[K]
@@ -338,8 +338,8 @@ export interface ComponentCustomProperties {
    */
   $t<
     Key extends string,
-    DefinedLocaleMessage extends
-      RemovedIndexResources<DefineLocaleMessage> = RemovedIndexResources<DefineLocaleMessage>,
+    DefinedLocaleMessage extends RemovedIndexResources<DefineLocaleMessage> =
+      RemovedIndexResources<DefineLocaleMessage>,
     Keys = IsEmptyObject<DefinedLocaleMessage> extends false
       ? JsonPaths<{
           [K in keyof DefinedLocaleMessage]: DefinedLocaleMessage[K]
@@ -365,8 +365,8 @@ export interface ComponentCustomProperties {
    */
   $t<
     Key extends string,
-    DefinedLocaleMessage extends
-      RemovedIndexResources<DefineLocaleMessage> = RemovedIndexResources<DefineLocaleMessage>,
+    DefinedLocaleMessage extends RemovedIndexResources<DefineLocaleMessage> =
+      RemovedIndexResources<DefineLocaleMessage>,
     Keys = IsEmptyObject<DefinedLocaleMessage> extends false
       ? JsonPaths<{
           [K in keyof DefinedLocaleMessage]: DefinedLocaleMessage[K]
@@ -392,8 +392,8 @@ export interface ComponentCustomProperties {
    */
   $t<
     Key extends string,
-    DefinedLocaleMessage extends
-      RemovedIndexResources<DefineLocaleMessage> = RemovedIndexResources<DefineLocaleMessage>,
+    DefinedLocaleMessage extends RemovedIndexResources<DefineLocaleMessage> =
+      RemovedIndexResources<DefineLocaleMessage>,
     Keys = IsEmptyObject<DefinedLocaleMessage> extends false
       ? JsonPaths<{
           [K in keyof DefinedLocaleMessage]: DefinedLocaleMessage[K]
@@ -483,8 +483,8 @@ export interface ComponentCustomProperties {
    */
   $te<
     Key extends string,
-    DefinedLocaleMessage extends
-      RemovedIndexResources<DefineLocaleMessage> = RemovedIndexResources<DefineLocaleMessage>,
+    DefinedLocaleMessage extends RemovedIndexResources<DefineLocaleMessage> =
+      RemovedIndexResources<DefineLocaleMessage>,
     Keys = IsEmptyObject<DefinedLocaleMessage> extends false
       ? JsonPaths<{
           [K in keyof DefinedLocaleMessage]: DefinedLocaleMessage[K]
@@ -523,8 +523,8 @@ export interface ComponentCustomProperties {
   $d<
     Value extends number | Date | string = number,
     Key extends string = string,
-    DefinedDateTimeFormat extends
-      RemovedIndexResources<DefineDateTimeFormat> = RemovedIndexResources<DefineDateTimeFormat>,
+    DefinedDateTimeFormat extends RemovedIndexResources<DefineDateTimeFormat> =
+      RemovedIndexResources<DefineDateTimeFormat>,
     Keys = IsEmptyObject<DefinedDateTimeFormat> extends false
       ? PickupFormatPathKeys<{
           [K in keyof DefinedDateTimeFormat]: DefinedDateTimeFormat[K]
@@ -549,8 +549,8 @@ export interface ComponentCustomProperties {
   $d<
     Value extends number | Date | string = number,
     Key extends string = string,
-    DefinedDateTimeFormat extends
-      RemovedIndexResources<DefineDateTimeFormat> = RemovedIndexResources<DefineDateTimeFormat>,
+    DefinedDateTimeFormat extends RemovedIndexResources<DefineDateTimeFormat> =
+      RemovedIndexResources<DefineDateTimeFormat>,
     Keys = IsEmptyObject<DefinedDateTimeFormat> extends false
       ? PickupFormatPathKeys<{
           [K in keyof DefinedDateTimeFormat]: DefinedDateTimeFormat[K]
@@ -576,8 +576,8 @@ export interface ComponentCustomProperties {
   $d<
     Value extends number | Date | string = number,
     Key extends string = string,
-    DefinedDateTimeFormat extends
-      RemovedIndexResources<DefineDateTimeFormat> = RemovedIndexResources<DefineDateTimeFormat>,
+    DefinedDateTimeFormat extends RemovedIndexResources<DefineDateTimeFormat> =
+      RemovedIndexResources<DefineDateTimeFormat>,
     Keys = IsEmptyObject<DefinedDateTimeFormat> extends false
       ? PickupFormatPathKeys<{
           [K in keyof DefinedDateTimeFormat]: DefinedDateTimeFormat[K]
@@ -604,8 +604,8 @@ export interface ComponentCustomProperties {
   $d<
     Value extends number | Date = number,
     Key extends string = string,
-    DefinedDateTimeFormat extends
-      RemovedIndexResources<DefineDateTimeFormat> = RemovedIndexResources<DefineDateTimeFormat>,
+    DefinedDateTimeFormat extends RemovedIndexResources<DefineDateTimeFormat> =
+      RemovedIndexResources<DefineDateTimeFormat>,
     Keys = IsEmptyObject<DefinedDateTimeFormat> extends false
       ? PickupFormatPathKeys<{
           [K in keyof DefinedDateTimeFormat]: DefinedDateTimeFormat[K]
@@ -645,8 +645,8 @@ export interface ComponentCustomProperties {
    */
   $n<
     Key extends string = string,
-    DefinedNumberFormat extends
-      RemovedIndexResources<DefineNumberFormat> = RemovedIndexResources<DefineNumberFormat>,
+    DefinedNumberFormat extends RemovedIndexResources<DefineNumberFormat> =
+      RemovedIndexResources<DefineNumberFormat>,
     Keys = IsEmptyObject<DefinedNumberFormat> extends false
       ? PickupFormatPathKeys<{
           [K in keyof DefinedNumberFormat]: DefinedNumberFormat[K]
@@ -670,8 +670,8 @@ export interface ComponentCustomProperties {
    */
   $n<
     Key extends string = string,
-    DefinedNumberFormat extends
-      RemovedIndexResources<DefineDateTimeFormat> = RemovedIndexResources<DefineDateTimeFormat>,
+    DefinedNumberFormat extends RemovedIndexResources<DefineDateTimeFormat> =
+      RemovedIndexResources<DefineDateTimeFormat>,
     Keys = IsEmptyObject<DefinedNumberFormat> extends false
       ? PickupFormatPathKeys<{
           [K in keyof DefinedNumberFormat]: DefinedNumberFormat[K]
@@ -697,8 +697,8 @@ export interface ComponentCustomProperties {
    */
   $n<
     Key extends string = string,
-    DefinedNumberFormat extends
-      RemovedIndexResources<DefineDateTimeFormat> = RemovedIndexResources<DefineDateTimeFormat>,
+    DefinedNumberFormat extends RemovedIndexResources<DefineDateTimeFormat> =
+      RemovedIndexResources<DefineDateTimeFormat>,
     Keys = IsEmptyObject<DefinedNumberFormat> extends false
       ? PickupFormatPathKeys<{
           [K in keyof DefinedNumberFormat]: DefinedNumberFormat[K]
@@ -724,8 +724,8 @@ export interface ComponentCustomProperties {
    */
   $n<
     Key extends string = string,
-    DefinedNumberFormat extends
-      RemovedIndexResources<DefineDateTimeFormat> = RemovedIndexResources<DefineDateTimeFormat>,
+    DefinedNumberFormat extends RemovedIndexResources<DefineDateTimeFormat> =
+      RemovedIndexResources<DefineDateTimeFormat>,
     Keys = IsEmptyObject<DefinedNumberFormat> extends false
       ? PickupFormatPathKeys<{
           [K in keyof DefinedNumberFormat]: DefinedNumberFormat[K]
@@ -755,8 +755,8 @@ export interface ComponentCustomProperties {
    */
   $tm<
     Key extends string,
-    DefinedLocaleMessage extends
-      RemovedIndexResources<DefineLocaleMessage> = RemovedIndexResources<DefineLocaleMessage>,
+    DefinedLocaleMessage extends RemovedIndexResources<DefineLocaleMessage> =
+      RemovedIndexResources<DefineLocaleMessage>,
     Keys = IsEmptyObject<DefinedLocaleMessage> extends false
       ? JsonPaths<{
           [K in keyof DefinedLocaleMessage]: DefinedLocaleMessage[K]

@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-empty-function, no-irregular-whitespace */
-
 import { baseCompile as compile } from '../src/compiler'
 import { traverse } from './helper'
 
@@ -85,7 +83,6 @@ describe('compiler options', () => {
     const { ast } = compile(`hello world`, { location: false, optimize: false })
     expect(ast).toMatchSnapshot('ast')
     traverse(ast, node => {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       expect((node as any).static).toBeUndefined()
     })
   })

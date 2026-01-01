@@ -505,7 +505,7 @@ export function createTokenizer(source: string, options: TokenizeOptions = {}): 
   function readLiteral(scnr: Scanner): string {
     skipSpaces(scnr)
 
-    eat(scnr, `\'`)
+    eat(scnr, `'`)
 
     let ch: string | undefined | null = ''
     let literal = ''
@@ -524,12 +524,12 @@ export function createTokenizer(source: string, options: TokenizeOptions = {}): 
       if (current === NEW_LINE) {
         scnr.next()
 
-        eat(scnr, `\'`)
+        eat(scnr, `'`)
       }
       return literal
     }
 
-    eat(scnr, `\'`)
+    eat(scnr, `'`)
 
     return literal
   }
@@ -538,7 +538,7 @@ export function createTokenizer(source: string, options: TokenizeOptions = {}): 
     const ch = scnr.currentChar()
     switch (ch) {
       case '\\':
-      case `\'`:
+      case `'`:
         scnr.next()
         return `\\${ch}`
       case 'u':

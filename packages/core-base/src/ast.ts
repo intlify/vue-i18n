@@ -95,9 +95,8 @@ export function resolveProps<T = string, Default = undefined>(
 ): T | Default {
   for (let i = 0; i < props.length; i++) {
     const prop = props[i]
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
     if (hasOwn(node, prop) && (node as any)[prop] != null) {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       return (node as any)[prop] as T
     }
   }

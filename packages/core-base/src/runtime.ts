@@ -47,7 +47,7 @@ export type Locale = IsNever<GeneratedLocale> extends true ? string : GeneratedL
 
 /** @VueI18nGeneral */
 // prettier-ignore
-export interface LocaleDetector<Args extends any[] = any[]> { // eslint-disable-line @typescript-eslint/no-explicit-any
+export interface LocaleDetector<Args extends any[] = any[]> {  
   (...args: Args): Locale | Promise<Locale>
   resolvedOnce?: boolean
 }
@@ -333,7 +333,6 @@ export function createMessageContext<T = string, N = {}>(
   const _list = options.list || []
   const list = (index: number): unknown => _list[index]
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const _named = options.named || (create() as any)
 
   isNumber(options.pluralIndex) && normalizeNamed(pluralIndex, _named)

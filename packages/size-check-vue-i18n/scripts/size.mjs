@@ -1,5 +1,5 @@
 import { brotliCompressSync, gzipSync } from 'node:zlib'
-import { build } from 'vite' // eslint-disable-line import/namespace -- NOTE(kazupon): ignore for size check project
+import { build } from 'vite'
 
 const generated = await build({
   logLevel: 'silent',

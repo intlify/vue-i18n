@@ -114,5 +114,3 @@ test('enum', () => {
 test('enum value', () => {
   expectTypeOf<MessageType<NumberEnum.One>>().toEqualTypeOf<NumberEnum.One>()
 })
-
-/* eslint-enable @typescript-eslint/no-explicit-any */

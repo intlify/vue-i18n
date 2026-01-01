@@ -76,8 +76,7 @@ import type {
  * @VueI18nGeneral
  */
 export interface NumberOptions<Key = string, Locales = Locale>
-  extends Intl.NumberFormatOptions,
-    LocaleOptions<Locales> {
+  extends Intl.NumberFormatOptions, LocaleOptions<Locales> {
   /**
    * @remarks
    * The target format key
@@ -187,11 +186,7 @@ export function number<Context extends CoreContext<Message, {}, {}, {}>, Message
   const fallbackWarn = isBoolean(options.fallbackWarn) ? options.fallbackWarn : context.fallbackWarn
   const part = !!options.part
   const locale = getLocale(context, options)
-  const locales = localeFallbacker(
-    context as any, // eslint-disable-line @typescript-eslint/no-explicit-any
-    fallbackLocale as FallbackLocale,
-    locale
-  )
+  const locales = localeFallbacker(context as any, fallbackLocale as FallbackLocale, locale)
 
   if (!isString(key) || key === '') {
     return new Intl.NumberFormat(locale, overrides).format(value)
@@ -234,7 +229,7 @@ export function number<Context extends CoreContext<Message, {}, {}, {}>, Message
 
     format = numberFormat[key]
     if (isPlainObject(format)) break
-    handleMissing(context as any, key, targetLocale, missingWarn, type) // eslint-disable-line @typescript-eslint/no-explicit-any
+    handleMissing(context as any, key, targetLocale, missingWarn, type)
     from = to
   }
 
@@ -298,10 +293,8 @@ export function parseNumberArgs(
   } else if (isPlainObject(arg2)) {
     Object.keys(arg2).forEach(key => {
       if (NUMBER_FORMAT_OPTIONS_KEYS.includes(key)) {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         ;(overrides as any)[key] = (arg2 as any)[key]
       } else {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         ;(options as any)[key] = (arg2 as any)[key]
       }
     })

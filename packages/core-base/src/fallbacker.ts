@@ -191,11 +191,7 @@ function appendItemToChain(chain: Locale[], target: Locale, blocks: FallbackLoca
       follow = target[target.length - 1] !== '!'
       const locale = target.replace(/!/g, '')
       chain.push(locale)
-      if (
-        (isArray(blocks) || isPlainObject(blocks)) &&
-        (blocks as any)[locale] // eslint-disable-line @typescript-eslint/no-explicit-any
-      ) {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      if ((isArray(blocks) || isPlainObject(blocks)) && (blocks as any)[locale]) {
         follow = (blocks as any)[locale]
       }
     }

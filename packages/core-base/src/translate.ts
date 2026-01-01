@@ -198,8 +198,8 @@ export interface TranslateOptions<Locales = Locale> extends LocaleOptions<Locale
 export function translate<
   Context extends CoreContext<Message>,
   Key extends string = string,
-  DefinedLocaleMessage extends
-    RemovedIndexResources<DefineCoreLocaleMessage> = RemovedIndexResources<DefineCoreLocaleMessage>,
+  DefinedLocaleMessage extends RemovedIndexResources<DefineCoreLocaleMessage> =
+    RemovedIndexResources<DefineCoreLocaleMessage>,
   CoreMessages = IsEmptyObject<DefinedLocaleMessage> extends false
     ? PickupPaths<{
         [K in keyof DefinedLocaleMessage]: DefinedLocaleMessage[K]
@@ -225,8 +225,8 @@ export function translate<
 export function translate<
   Context extends CoreContext<Message, {}, {}, {}>,
   Key extends string = string,
-  DefinedLocaleMessage extends
-    RemovedIndexResources<DefineCoreLocaleMessage> = RemovedIndexResources<DefineCoreLocaleMessage>,
+  DefinedLocaleMessage extends RemovedIndexResources<DefineCoreLocaleMessage> =
+    RemovedIndexResources<DefineCoreLocaleMessage>,
   CoreMessages = IsEmptyObject<DefinedLocaleMessage> extends false
     ? PickupPaths<{
         [K in keyof DefinedLocaleMessage]: DefinedLocaleMessage[K]
@@ -251,8 +251,8 @@ export function translate<
 export function translate<
   Context extends CoreContext<Message, {}, {}, {}>,
   Key extends string = string,
-  DefinedLocaleMessage extends
-    RemovedIndexResources<DefineCoreLocaleMessage> = RemovedIndexResources<DefineCoreLocaleMessage>,
+  DefinedLocaleMessage extends RemovedIndexResources<DefineCoreLocaleMessage> =
+    RemovedIndexResources<DefineCoreLocaleMessage>,
   CoreMessages = IsEmptyObject<DefinedLocaleMessage> extends false
     ? PickupPaths<{
         [K in keyof DefinedLocaleMessage]: DefinedLocaleMessage[K]
@@ -278,8 +278,8 @@ export function translate<
 export function translate<
   Context extends CoreContext<Message, {}, {}, {}>,
   Key extends string = string,
-  DefinedLocaleMessage extends
-    RemovedIndexResources<DefineCoreLocaleMessage> = RemovedIndexResources<DefineCoreLocaleMessage>,
+  DefinedLocaleMessage extends RemovedIndexResources<DefineCoreLocaleMessage> =
+    RemovedIndexResources<DefineCoreLocaleMessage>,
   CoreMessages = IsEmptyObject<DefinedLocaleMessage> extends false
     ? PickupPaths<{
         [K in keyof DefinedLocaleMessage]: DefinedLocaleMessage[K]
@@ -306,8 +306,8 @@ export function translate<
 export function translate<
   Context extends CoreContext<Message, {}, {}, {}>,
   Key extends string = string,
-  DefinedLocaleMessage extends
-    RemovedIndexResources<DefineCoreLocaleMessage> = RemovedIndexResources<DefineCoreLocaleMessage>,
+  DefinedLocaleMessage extends RemovedIndexResources<DefineCoreLocaleMessage> =
+    RemovedIndexResources<DefineCoreLocaleMessage>,
   CoreMessages = IsEmptyObject<DefinedLocaleMessage> extends false
     ? PickupPaths<{
         [K in keyof DefinedLocaleMessage]: DefinedLocaleMessage[K]
@@ -333,8 +333,8 @@ export function translate<
 export function translate<
   Context extends CoreContext<Message, {}, {}, {}>,
   Key extends string = string,
-  DefinedLocaleMessage extends
-    RemovedIndexResources<DefineCoreLocaleMessage> = RemovedIndexResources<DefineCoreLocaleMessage>,
+  DefinedLocaleMessage extends RemovedIndexResources<DefineCoreLocaleMessage> =
+    RemovedIndexResources<DefineCoreLocaleMessage>,
   CoreMessages = IsEmptyObject<DefinedLocaleMessage> extends false
     ? PickupPaths<{
         [K in keyof DefinedLocaleMessage]: DefinedLocaleMessage[K]
@@ -361,8 +361,8 @@ export function translate<
 export function translate<
   Context extends CoreContext<Message, {}, {}, {}>,
   Key extends string = string,
-  DefinedLocaleMessage extends
-    RemovedIndexResources<DefineCoreLocaleMessage> = RemovedIndexResources<DefineCoreLocaleMessage>,
+  DefinedLocaleMessage extends RemovedIndexResources<DefineCoreLocaleMessage> =
+    RemovedIndexResources<DefineCoreLocaleMessage>,
   CoreMessages = IsEmptyObject<DefinedLocaleMessage> extends false
     ? PickupPaths<{
         [K in keyof DefinedLocaleMessage]: DefinedLocaleMessage[K]
@@ -388,8 +388,8 @@ export function translate<
 export function translate<
   Context extends CoreContext<Message, {}, {}, {}>,
   Key extends string = string,
-  DefinedLocaleMessage extends
-    RemovedIndexResources<DefineCoreLocaleMessage> = RemovedIndexResources<DefineCoreLocaleMessage>,
+  DefinedLocaleMessage extends RemovedIndexResources<DefineCoreLocaleMessage> =
+    RemovedIndexResources<DefineCoreLocaleMessage>,
   CoreMessages = IsEmptyObject<DefinedLocaleMessage> extends false
     ? PickupPaths<{
         [K in keyof DefinedLocaleMessage]: DefinedLocaleMessage[K]
@@ -416,8 +416,8 @@ export function translate<
 export function translate<
   Context extends CoreContext<Message, {}, {}, {}>,
   Key extends string = string,
-  DefinedLocaleMessage extends
-    RemovedIndexResources<DefineCoreLocaleMessage> = RemovedIndexResources<DefineCoreLocaleMessage>,
+  DefinedLocaleMessage extends RemovedIndexResources<DefineCoreLocaleMessage> =
+    RemovedIndexResources<DefineCoreLocaleMessage>,
   CoreMessages = IsEmptyObject<DefinedLocaleMessage> extends false
     ? PickupPaths<{
         [K in keyof DefinedLocaleMessage]: DefinedLocaleMessage[K]
@@ -444,8 +444,8 @@ export function translate<
 export function translate<
   Context extends CoreContext<Message, {}, {}, {}>,
   Key extends string = string,
-  DefinedLocaleMessage extends
-    RemovedIndexResources<DefineCoreLocaleMessage> = RemovedIndexResources<DefineCoreLocaleMessage>,
+  DefinedLocaleMessage extends RemovedIndexResources<DefineCoreLocaleMessage> =
+    RemovedIndexResources<DefineCoreLocaleMessage>,
   CoreMessages = IsEmptyObject<DefinedLocaleMessage> extends false
     ? PickupPaths<{
         [K in keyof DefinedLocaleMessage]: DefinedLocaleMessage[K]
@@ -472,8 +472,8 @@ export function translate<
 export function translate<
   Context extends CoreContext<Message, {}, {}, {}>,
   Key extends string = string,
-  DefinedLocaleMessage extends
-    RemovedIndexResources<DefineCoreLocaleMessage> = RemovedIndexResources<DefineCoreLocaleMessage>,
+  DefinedLocaleMessage extends RemovedIndexResources<DefineCoreLocaleMessage> =
+    RemovedIndexResources<DefineCoreLocaleMessage>,
   CoreMessages = IsEmptyObject<DefinedLocaleMessage> extends false
     ? PickupPaths<{
         [K in keyof DefinedLocaleMessage]: DefinedLocaleMessage[K]
@@ -499,8 +499,8 @@ export function translate<
 export function translate<
   Context extends CoreContext<Message, {}, {}, {}>,
   Key extends string = string,
-  DefinedLocaleMessage extends
-    RemovedIndexResources<DefineCoreLocaleMessage> = RemovedIndexResources<DefineCoreLocaleMessage>,
+  DefinedLocaleMessage extends RemovedIndexResources<DefineCoreLocaleMessage> =
+    RemovedIndexResources<DefineCoreLocaleMessage>,
   CoreMessages = IsEmptyObject<DefinedLocaleMessage> extends false
     ? PickupPaths<{
         [K in keyof DefinedLocaleMessage]: DefinedLocaleMessage[K]
@@ -527,8 +527,8 @@ export function translate<
 export function translate<
   Context extends CoreContext<Message, {}, {}, {}>,
   Key extends string = string,
-  DefinedLocaleMessage extends
-    RemovedIndexResources<DefineCoreLocaleMessage> = RemovedIndexResources<DefineCoreLocaleMessage>,
+  DefinedLocaleMessage extends RemovedIndexResources<DefineCoreLocaleMessage> =
+    RemovedIndexResources<DefineCoreLocaleMessage>,
   CoreMessages = IsEmptyObject<DefinedLocaleMessage> extends false
     ? PickupPaths<{
         [K in keyof DefinedLocaleMessage]: DefinedLocaleMessage[K]
@@ -555,8 +555,8 @@ export function translate<
 export function translate<
   Context extends CoreContext<Message, {}, {}, {}>,
   Key extends string = string,
-  DefinedLocaleMessage extends
-    RemovedIndexResources<DefineCoreLocaleMessage> = RemovedIndexResources<DefineCoreLocaleMessage>,
+  DefinedLocaleMessage extends RemovedIndexResources<DefineCoreLocaleMessage> =
+    RemovedIndexResources<DefineCoreLocaleMessage>,
   CoreMessages = IsEmptyObject<DefinedLocaleMessage> extends false
     ? PickupPaths<{
         [K in keyof DefinedLocaleMessage]: DefinedLocaleMessage[K]
@@ -623,7 +623,7 @@ export function translate<Context extends CoreContext<Message, {}, {}, {}>, Mess
   escapeParameter && escapeParams(options)
 
   // resolve message format
-  // eslint-disable-next-line prefer-const
+
   let [formatScope, targetLocale, message]: [
     PathValue | MessageFunction<Message> | ResourceNode,
     Locale | undefined,
@@ -761,7 +761,7 @@ function resolveMessageFormat<Messages, Message>(
   missingWarn: boolean | RegExp
 ): [PathValue, Locale | undefined, LocaleMessageValue<Message>] {
   const { messages, onWarn, messageResolver: resolveValue, localeFallbacker } = context
-  const locales = localeFallbacker(context as any, fallbackLocale, locale) // eslint-disable-line @typescript-eslint/no-explicit-any
+  const locales = localeFallbacker(context as any, fallbackLocale, locale)
 
   let message: LocaleMessageValue<Message> = create()
   let targetLocale: Locale | undefined
@@ -816,7 +816,7 @@ function resolveMessageFormat<Messages, Message>(
 
     if ((format = resolveValue(message, key)) === null) {
       // if null, resolve with object key path
-      format = (message as any)[key] // eslint-disable-line @typescript-eslint/no-explicit-any
+      format = (message as any)[key]
     }
 
     // for vue-devtools timeline event
@@ -843,13 +843,7 @@ function resolveMessageFormat<Messages, Message>(
     }
 
     if (!isImplicitFallback(targetLocale, locales)) {
-      const missingRet = handleMissing(
-        context as any, // eslint-disable-line @typescript-eslint/no-explicit-any
-        key,
-        targetLocale,
-        missingWarn,
-        type
-      )
+      const missingRet = handleMissing(context as any, key, targetLocale, missingWarn, type)
       if (missingRet !== key) {
         format = missingRet as PathValue
       }

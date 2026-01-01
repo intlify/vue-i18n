@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-empty-function, @typescript-eslint/no-explicit-any */
-
 import { baseCompile } from '@intlify/message-compiler'
 import { ast } from './fixtures/ast'
 

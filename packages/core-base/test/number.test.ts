@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-empty-function, @typescript-eslint/no-explicit-any */
-
 // utils
 import * as shared from '@intlify/shared'
 vi.mock('@intlify/shared', async () => {
@@ -305,5 +303,3 @@ describe('error', () => {
     }).toThrowError(errorMessages[CoreErrorCodes.INVALID_ARGUMENT])
   })
 })
-
-/* eslint-enable @typescript-eslint/no-empty-function, @typescript-eslint/no-explicit-any */

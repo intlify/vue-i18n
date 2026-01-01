@@ -3,7 +3,7 @@ import { NodeTypes } from '../../src/nodes'
 
 import type { MessageNode, TextNode } from '../../src/nodes'
 
-let spy: any // eslint-disable-line @typescript-eslint/no-explicit-any
+let spy: any
 beforeEach(() => {
   spy = vi.fn()
 })
@@ -108,7 +108,7 @@ describe('special characters', () => {
     { desc: `include semi-colon ';'`, case: 'morning; afternoon;' },
     { desc: `include plus '+'`, case: `1 + 1` },
     { desc: `include equal '='`, case: 'name = foo' },
-    { desc: `include single quote '\''`, case: `I'm kazupon !` },
+    { desc: `include single quote '''`, case: `I'm kazupon !` },
     { desc: `include double quote '"'`, case: `"awesome" !` },
     { desc: `include exclamation '!'`, case: `WoW!` },
     { desc: `include hash '#'`, case: '# curry !' },

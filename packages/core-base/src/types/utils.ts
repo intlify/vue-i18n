@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+ 
 
 import type { LocaleMessage } from '../context';
 import type { DateTimeFormat, NumberFormat } from './intl';
@@ -183,7 +183,7 @@ export type ExtractToStringKey<T> = Extract<keyof T, 'toString'>
 export type StringConvertable<T, Extracted = ExtractToStringKey<T>> = IsNever<Extracted> extends true
   ? T extends boolean
   ? T
-  : T extends Function // eslint-disable-line @typescript-eslint/no-unsafe-function-type -- NOTE(kazupon): for generic function type
+  : T extends Function  
   ? T
   : IsObject<T> extends true
   ? T
@@ -191,4 +191,4 @@ export type StringConvertable<T, Extracted = ExtractToStringKey<T>> = IsNever<Ex
   : T
 
 export type IsPart<O> = O extends { part: infer P } ? P : false
-/* eslint-enable @typescript-eslint/no-explicit-any */
+ 

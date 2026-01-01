@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { AST_NODE_PROPS_KEYS, isMessageAST } from '@intlify/core-base'
 import {
   create,
@@ -31,7 +30,6 @@ type GetLocaleMessagesOptions<Messages = {}> = {
 }
 
 declare module 'vue' {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars, unused-imports/no-unused-vars -- NOTE(kazupon): ignore unused vars
   interface VNode<HostNode = RendererNode, HostElement = RendererElement> {
     toString: () => string // mark for vue-i18n message runtime
   }

@@ -55,7 +55,7 @@ const config: KnipConfig = {
       ignoreDependencies: ['petite-vue-i18n', '@vue/compiler-sfc']
     }
   },
-  ignoreDependencies: ['lint-staged', 'mitata'],
+  ignoreDependencies: ['lint-staged', 'mitata', '@kazupon/eslint-plugin'],
   ignoreBinaries: ['tail']
 }
 

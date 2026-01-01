@@ -35,8 +35,8 @@ function fromEscapeSequence(match: string, codePoint4: string, codePoint6: strin
     case `\\\\`:
       return `\\`
 
-    case `\\\'`:
-      return `\'`
+    case `\\'`:
+      return `'`
     default: {
       const codePoint = parseInt(codePoint4 || codePoint6, 16)
       if (codePoint <= 0xd7ff || codePoint >= 0xe000) {

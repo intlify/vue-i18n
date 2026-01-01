@@ -294,10 +294,8 @@ export function createI18n<
 export function createI18n<
   Schema extends object = DefaultLocaleMessageSchema,
   Locales extends string | object = 'en-US',
-  Options extends I18nOptions<
-    SchemaParams<Schema, VueMessageType>,
-    LocaleParams<Locales>
-  > = I18nOptions<SchemaParams<Schema, VueMessageType>, LocaleParams<Locales>>,
+  Options extends I18nOptions<SchemaParams<Schema, VueMessageType>, LocaleParams<Locales>> =
+    I18nOptions<SchemaParams<Schema, VueMessageType>, LocaleParams<Locales>>,
   Messages extends Record<string, unknown> = NonNullable<Options['messages']> extends Record<
     string,
     unknown
@@ -317,7 +315,6 @@ export function createI18n<
   OptionLocale = Options['locale'] extends string ? Options['locale'] : Locale
 >(options: Options): I18n<Messages, DateTimeFormats, NumberFormats, OptionLocale>
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function createI18n(options: any = {}): any {
   type _I18n = I18n & I18nInternal
 
@@ -389,7 +386,7 @@ export function createI18n(options: any = {}): any {
           throw createI18nError(I18nErrorCodes.CANNOT_SETUP_VUE_DEVTOOLS_PLUGIN)
         }
         const emitter: VueDevToolsEmitter = createEmitter<VueDevToolsEmitterEvents>()
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
         const _composer = __global as any
         _composer[EnableEmitter] && _composer[EnableEmitter](emitter)
         emitter.on('*', addTimelineEvent)
@@ -479,10 +476,8 @@ export function useI18n<Options extends UseI18nOptions = UseI18nOptions>(
 export function useI18n<
   Schema = DefaultLocaleMessageSchema,
   Locales = 'en-US',
-  Options extends UseI18nOptions<
-    SchemaParams<Schema, VueMessageType>,
-    LocaleParams<Locales>
-  > = UseI18nOptions<SchemaParams<Schema, VueMessageType>, LocaleParams<Locales>>
+  Options extends UseI18nOptions<SchemaParams<Schema, VueMessageType>, LocaleParams<Locales>> =
+    UseI18nOptions<SchemaParams<Schema, VueMessageType>, LocaleParams<Locales>>
 >(
   options?: Options
 ): Composer<
@@ -522,7 +517,6 @@ export function useI18n<
   }
 
   if (scope === 'parent') {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     let composer = getComposer(i18n, instance, (options as any).__useComponent)
     if (composer == null) {
       if (__DEV__) {
@@ -548,7 +542,6 @@ export function useI18n<
 
     composer = createComposer(composerOptions) as Composer
     if (i18nInternal.__composerExtend) {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       ;(composer as any)[DisposeSymbol] = i18nInternal.__composerExtend(composer)
     }
     setupLifeCycle(i18nInternal, instance, composer)
@@ -585,7 +578,6 @@ function getI18nInstance(instance: ComponentInternalInstance | GenericComponentI
   return i18n
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function getScope(options: UseI18nOptions, componentOptions: any): I18nScope {
   // prettier-ignore
   return isEmptyObject(options)
@@ -634,7 +626,7 @@ function getParentComponentInstance(
     return null
   }
   // if `useComponent: true` will be specified, we get lexical scope owner instance for use-case slots
-  return !useComponent ? target.parent : (target.vnode as any).ctx || target.parent // eslint-disable-line @typescript-eslint/no-explicit-any
+  return !useComponent ? target.parent : (target.vnode as any).ctx || target.parent
 }
 
 function setupLifeCycle(
@@ -650,7 +642,7 @@ function setupLifeCycle(
     if ((__DEV__ || __FEATURE_PROD_VUE_DEVTOOLS__) && !__NODE_JS__) {
       target.__VUE_I18N__ = composer
       emitter = createEmitter<VueDevToolsEmitterEvents>()
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
       const _composer = composer as any
       _composer[EnableEmitter] && _composer[EnableEmitter](emitter)
       emitter.on('*', addTimelineEvent)
@@ -659,7 +651,6 @@ function setupLifeCycle(
 
   // eslint-disable-next-line vue-composable/lifecycle-placement -- NOTE(kazupon): not Vue component
   onUnmounted(() => {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const _composer = composer as any
 
     // remove composer instance from DOM for intlify-devtools
@@ -726,7 +717,7 @@ function injectGlobalFields(app: App, composer: Composer): Disposer {
           get() {
             return desc.value.value
           },
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
           set(val: any) {
             desc.value.value = val
           }
@@ -749,10 +740,8 @@ function injectGlobalFields(app: App, composer: Composer): Disposer {
   })
 
   const dispose = () => {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     delete (app as any).config.globalProperties.$i18n
     globalExportMethods.forEach(method => {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       delete (app as any).config.globalProperties[`$${method}`]
     })
   }

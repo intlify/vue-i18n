@@ -140,9 +140,7 @@ test('include modulo', () => {
 })
 
 test('complex', () => {
-  const tokenizer = createTokenizer(
-    `@.lower:{'no apples'} | {1} apple | {count}　apples` // eslint-disable-line no-irregular-whitespace
-  )
+  const tokenizer = createTokenizer(`@.lower:{'no apples'} | {1} apple | {count}　apples`)
   expect(tokenizer.nextToken()).toEqual({
     type: TokenTypes.LinkedAlias,
     value: '@',

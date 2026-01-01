@@ -5,11 +5,11 @@ import { onMounted, onUnmounted, ref, watchEffect } from 'vue'
 // @ts-ignore -- NOTE(kazupon): ignore
 import EditorWorker from 'monaco-editor/esm/vs/editor/editor.worker?worker'
 // @ts-ignore -- NOTE(kazupon): ignore
-import JsonWorker from 'monaco-editor/esm/vs/language/json/json.worker?worker' // eslint-disable-line import/default -- NOTE(kazupon): ignore
+import JsonWorker from 'monaco-editor/esm/vs/language/json/json.worker?worker'
 // @ts-ignore -- NOTE(kazupon): ignore
-import CssWorker from 'monaco-editor/esm/vs/language/css/css.worker?worker' // eslint-disable-line import/default -- NOTE(kazupon): ignore
+import CssWorker from 'monaco-editor/esm/vs/language/css/css.worker?worker'
 // @ts-ignore -- NOTE(kazupon): ignore
-import HtmlWorker from 'monaco-editor/esm/vs/language/html/html.worker?worker' // eslint-disable-line import/default -- NOTE(kazupon): ignore
+import HtmlWorker from 'monaco-editor/esm/vs/language/html/html.worker?worker'
 // @ts-ignore -- NOTE(kazupon): ignore
 import type { CompileError } from '@intlify/message-compiler'
 // @ts-ignore -- NOTE(kazupon): ignore

@@ -8,11 +8,11 @@ import type { TokenizeOptions } from '../src/options'
 const CASES = [
   `hello world`,
   `hi {name} !`,
-  `{first} {middle}　{last}`, // eslint-disable-line no-irregular-whitespace
+  `{first} {middle}　{last}`,
   `hi {  name } !`,
   `{first}\n{middle}\r\n{last}`,
   `hi {0} !`,
-  `{0} {1}　{2}`, // eslint-disable-line no-irregular-whitespace
+  `{0} {1}　{2}`,
   `hi {  -1 } !`,
   `{0}\n{1}\r\n{2}`,
   `hi {'kazupon'} !`,
@@ -23,7 +23,7 @@ const CASES = [
   `hi @:{name} @:{0}!`,
   `no apples | one apple  |  too much apples `,
   `no apples |\n one apple  |\n  too much apples  `,
-  `@.lower:{'no apples'} | {1} apple | {count}　apples`, // eslint-disable-line no-irregular-whitespace
+  `@.lower:{'no apples'} | {1} apple | {count}　apples`,
   `hello\nworld`,
   `こんにちは、世界`,
   `😺`,
@@ -85,7 +85,7 @@ const CASES = [
   `hi @\n. upper\n:  {'name'}\n !`,
   ` | | |`,
   ` foo | | bar`,
-  `@.lower: {'no apples'} | {1 apple | @:{count　apples` // eslint-disable-line no-irregular-whitespace
+  `@.lower: {'no apples'} | {1 apple | @:{count　apples`
 ]
 
 test('token analysis', () => {

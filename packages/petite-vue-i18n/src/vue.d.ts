@@ -64,8 +64,8 @@ declare module 'vue' {
      */
     $t<
       Key extends string,
-      DefinedLocaleMessage extends
-        RemovedIndexResources<DefineLocaleMessage> = RemovedIndexResources<DefineLocaleMessage>,
+      DefinedLocaleMessage extends RemovedIndexResources<DefineLocaleMessage> =
+        RemovedIndexResources<DefineLocaleMessage>,
       Keys = IsEmptyObject<DefinedLocaleMessage> extends false
         ? JsonPaths<{
             [K in keyof DefinedLocaleMessage]: DefinedLocaleMessage[K]
@@ -88,8 +88,8 @@ declare module 'vue' {
      */
     $t<
       Key extends string,
-      DefinedLocaleMessage extends
-        RemovedIndexResources<DefineLocaleMessage> = RemovedIndexResources<DefineLocaleMessage>,
+      DefinedLocaleMessage extends RemovedIndexResources<DefineLocaleMessage> =
+        RemovedIndexResources<DefineLocaleMessage>,
       Keys = IsEmptyObject<DefinedLocaleMessage> extends false
         ? JsonPaths<{
             [K in keyof DefinedLocaleMessage]: DefinedLocaleMessage[K]
@@ -114,8 +114,8 @@ declare module 'vue' {
      */
     $t<
       Key extends string,
-      DefinedLocaleMessage extends
-        RemovedIndexResources<DefineLocaleMessage> = RemovedIndexResources<DefineLocaleMessage>,
+      DefinedLocaleMessage extends RemovedIndexResources<DefineLocaleMessage> =
+        RemovedIndexResources<DefineLocaleMessage>,
       Keys = IsEmptyObject<DefinedLocaleMessage> extends false
         ? JsonPaths<{
             [K in keyof DefinedLocaleMessage]: DefinedLocaleMessage[K]
@@ -140,8 +140,8 @@ declare module 'vue' {
      */
     $t<
       Key extends string,
-      DefinedLocaleMessage extends
-        RemovedIndexResources<DefineLocaleMessage> = RemovedIndexResources<DefineLocaleMessage>,
+      DefinedLocaleMessage extends RemovedIndexResources<DefineLocaleMessage> =
+        RemovedIndexResources<DefineLocaleMessage>,
       Keys = IsEmptyObject<DefinedLocaleMessage> extends false
         ? JsonPaths<{
             [K in keyof DefinedLocaleMessage]: DefinedLocaleMessage[K]
@@ -166,8 +166,8 @@ declare module 'vue' {
      */
     $t<
       Key extends string,
-      DefinedLocaleMessage extends
-        RemovedIndexResources<DefineLocaleMessage> = RemovedIndexResources<DefineLocaleMessage>,
+      DefinedLocaleMessage extends RemovedIndexResources<DefineLocaleMessage> =
+        RemovedIndexResources<DefineLocaleMessage>,
       Keys = IsEmptyObject<DefinedLocaleMessage> extends false
         ? JsonPaths<{
             [K in keyof DefinedLocaleMessage]: DefinedLocaleMessage[K]
@@ -192,8 +192,8 @@ declare module 'vue' {
      */
     $t<
       Key extends string,
-      DefinedLocaleMessage extends
-        RemovedIndexResources<DefineLocaleMessage> = RemovedIndexResources<DefineLocaleMessage>,
+      DefinedLocaleMessage extends RemovedIndexResources<DefineLocaleMessage> =
+        RemovedIndexResources<DefineLocaleMessage>,
       Keys = IsEmptyObject<DefinedLocaleMessage> extends false
         ? JsonPaths<{
             [K in keyof DefinedLocaleMessage]: DefinedLocaleMessage[K]
@@ -218,8 +218,8 @@ declare module 'vue' {
      */
     $t<
       Key extends string,
-      DefinedLocaleMessage extends
-        RemovedIndexResources<DefineLocaleMessage> = RemovedIndexResources<DefineLocaleMessage>,
+      DefinedLocaleMessage extends RemovedIndexResources<DefineLocaleMessage> =
+        RemovedIndexResources<DefineLocaleMessage>,
       Keys = IsEmptyObject<DefinedLocaleMessage> extends false
         ? JsonPaths<{
             [K in keyof DefinedLocaleMessage]: DefinedLocaleMessage[K]
@@ -245,8 +245,8 @@ declare module 'vue' {
      */
     $t<
       Key extends string,
-      DefinedLocaleMessage extends
-        RemovedIndexResources<DefineLocaleMessage> = RemovedIndexResources<DefineLocaleMessage>,
+      DefinedLocaleMessage extends RemovedIndexResources<DefineLocaleMessage> =
+        RemovedIndexResources<DefineLocaleMessage>,
       Keys = IsEmptyObject<DefinedLocaleMessage> extends false
         ? JsonPaths<{
             [K in keyof DefinedLocaleMessage]: DefinedLocaleMessage[K]
@@ -272,8 +272,8 @@ declare module 'vue' {
      */
     $t<
       Key extends string,
-      DefinedLocaleMessage extends
-        RemovedIndexResources<DefineLocaleMessage> = RemovedIndexResources<DefineLocaleMessage>,
+      DefinedLocaleMessage extends RemovedIndexResources<DefineLocaleMessage> =
+        RemovedIndexResources<DefineLocaleMessage>,
       Keys = IsEmptyObject<DefinedLocaleMessage> extends false
         ? JsonPaths<{
             [K in keyof DefinedLocaleMessage]: DefinedLocaleMessage[K]
@@ -298,8 +298,8 @@ declare module 'vue' {
      */
     $t<
       Key extends string,
-      DefinedLocaleMessage extends
-        RemovedIndexResources<DefineLocaleMessage> = RemovedIndexResources<DefineLocaleMessage>,
+      DefinedLocaleMessage extends RemovedIndexResources<DefineLocaleMessage> =
+        RemovedIndexResources<DefineLocaleMessage>,
       Keys = IsEmptyObject<DefinedLocaleMessage> extends false
         ? JsonPaths<{
             [K in keyof DefinedLocaleMessage]: DefinedLocaleMessage[K]
@@ -324,8 +324,8 @@ declare module 'vue' {
      */
     $t<
       Key extends string,
-      DefinedLocaleMessage extends
-        RemovedIndexResources<DefineLocaleMessage> = RemovedIndexResources<DefineLocaleMessage>,
+      DefinedLocaleMessage extends RemovedIndexResources<DefineLocaleMessage> =
+        RemovedIndexResources<DefineLocaleMessage>,
       Keys = IsEmptyObject<DefinedLocaleMessage> extends false
         ? JsonPaths<{
             [K in keyof DefinedLocaleMessage]: DefinedLocaleMessage[K]
@@ -351,8 +351,8 @@ declare module 'vue' {
      */
     $t<
       Key extends string,
-      DefinedLocaleMessage extends
-        RemovedIndexResources<DefineLocaleMessage> = RemovedIndexResources<DefineLocaleMessage>,
+      DefinedLocaleMessage extends RemovedIndexResources<DefineLocaleMessage> =
+        RemovedIndexResources<DefineLocaleMessage>,
       Keys = IsEmptyObject<DefinedLocaleMessage> extends false
         ? JsonPaths<{
             [K in keyof DefinedLocaleMessage]: DefinedLocaleMessage[K]
@@ -378,8 +378,8 @@ declare module 'vue' {
      */
     $t<
       Key extends string,
-      DefinedLocaleMessage extends
-        RemovedIndexResources<DefineLocaleMessage> = RemovedIndexResources<DefineLocaleMessage>,
+      DefinedLocaleMessage extends RemovedIndexResources<DefineLocaleMessage> =
+        RemovedIndexResources<DefineLocaleMessage>,
       Keys = IsEmptyObject<DefinedLocaleMessage> extends false
         ? JsonPaths<{
             [K in keyof DefinedLocaleMessage]: DefinedLocaleMessage[K]

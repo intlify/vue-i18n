@@ -1,7 +1,6 @@
 /**
  * @vitest-environment jsdom
  */
-/* eslint-disable @typescript-eslint/no-empty-function, @typescript-eslint/no-explicit-any */
 
 // utils
 import * as shared from '@intlify/shared'
@@ -2097,5 +2096,3 @@ describe('root', () => {
     expect(n(0.99, { key: 'percent' })).toEqual('99%')
   })
 })
-
-/* eslint-enable @typescript-eslint/no-empty-function, @typescript-eslint/no-explicit-any */

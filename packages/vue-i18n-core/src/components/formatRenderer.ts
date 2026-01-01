@@ -62,20 +62,18 @@ export function renderFormatter<
     if (isString(props.format)) {
       options.key = props.format
     } else if (isObject(props.format)) {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       if (isString((props.format as any).key)) {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         options.key = (props.format as any).key
       }
       // Filter out number format options only
       overrides = Object.keys(props.format).reduce((options, prop) => {
         return slotKeys.includes(prop)
-          ? assign(create(), options, { [prop]: (props.format as any)[prop] }) // eslint-disable-line @typescript-eslint/no-explicit-any
+          ? assign(create(), options, { [prop]: (props.format as any)[prop] })
           : options
       }, create())
     }
 
-    const parts = partFormatter(...[props.value, options, overrides])
+    const parts = partFormatter(props.value, options, overrides)
     let children = [options.key] as VNodeArrayChildren
     if (isArray(parts)) {
       children = parts.map((part, index) => {

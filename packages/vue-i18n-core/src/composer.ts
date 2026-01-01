@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import {
   DEFAULT_LOCALE,
   MISSING_RESOLVE_VALUE,
@@ -293,10 +292,8 @@ export interface ComposerOptions<
     MessagesLocales,
     VueMessageType
   >,
-  _DateTimeFormats extends DateTimeFormatsType<
-    DateTimeSchema,
-    DateTimeFormatsLocales
-  > = DateTimeFormatsType<DateTimeSchema, DateTimeFormatsLocales>,
+  _DateTimeFormats extends DateTimeFormatsType<DateTimeSchema, DateTimeFormatsLocales> =
+    DateTimeFormatsType<DateTimeSchema, DateTimeFormatsLocales>,
   _NumberFormats extends NumberFormatsType<NumberSchema, NumberFormatsLocales> = NumberFormatsType<
     NumberSchema,
     NumberFormatsLocales
@@ -646,8 +643,8 @@ export interface ComposerInternalOptions<
 export interface ComposerTranslation<
   Messages extends Record<string, any> = {},
   Locales = 'en-US',
-  DefinedLocaleMessage extends
-    RemovedIndexResources<DefineLocaleMessage> = RemovedIndexResources<DefineLocaleMessage>,
+  DefinedLocaleMessage extends RemovedIndexResources<DefineLocaleMessage> =
+    RemovedIndexResources<DefineLocaleMessage>,
   C = IsEmptyObject<DefinedLocaleMessage> extends false
     ? JsonPaths<{
         [K in keyof DefinedLocaleMessage]: DefinedLocaleMessage[K]
@@ -1069,8 +1066,8 @@ export interface ComposerResolveLocaleMessageTranslation<Locales = 'en-US'> {
 export interface ComposerDateTimeFormatting<
   DateTimeFormats extends Record<string, any> = {},
   Locales = 'en-US',
-  DefinedDateTimeFormat extends
-    RemovedIndexResources<DefineDateTimeFormat> = RemovedIndexResources<DefineDateTimeFormat>,
+  DefinedDateTimeFormat extends RemovedIndexResources<DefineDateTimeFormat> =
+    RemovedIndexResources<DefineDateTimeFormat>,
   C = IsEmptyObject<DefinedDateTimeFormat> extends false
     ? PickupFormatPathKeys<{
         [K in keyof DefinedDateTimeFormat]: DefinedDateTimeFormat[K]
@@ -1166,8 +1163,8 @@ export interface ComposerDateTimeFormatting<
 export interface ComposerNumberFormatting<
   NumberFormats extends Record<string, any> = {},
   Locales = 'en-US',
-  DefinedNumberFormat extends
-    RemovedIndexResources<DefineNumberFormat> = RemovedIndexResources<DefineNumberFormat>,
+  DefinedNumberFormat extends RemovedIndexResources<DefineNumberFormat> =
+    RemovedIndexResources<DefineNumberFormat>,
   C = IsEmptyObject<DefinedNumberFormat> extends false
     ? PickupFormatPathKeys<{
         [K in keyof DefinedNumberFormat]: DefinedNumberFormat[K]
@@ -1898,10 +1895,8 @@ export function createComposer<
 export function createComposer<
   Schema extends object = DefaultLocaleMessageSchema,
   Locales extends string | object = 'en-US',
-  Options extends ComposerOptions<
-    SchemaParams<Schema, VueMessageType>,
-    LocaleParams<Locales>
-  > = ComposerOptions<SchemaParams<Schema, VueMessageType>, LocaleParams<Locales>>,
+  Options extends ComposerOptions<SchemaParams<Schema, VueMessageType>, LocaleParams<Locales>> =
+    ComposerOptions<SchemaParams<Schema, VueMessageType>, LocaleParams<Locales>>,
   Messages extends Record<string, any> = NonNullable<Options['messages']> extends Record<
     string,
     any
@@ -2038,7 +2033,7 @@ export function createComposer(options: any = {}): any {
   let _pluralRules = options.pluralRules || (__root && __root.pluralRules)
 
   // runtime context
-  // eslint-disable-next-line prefer-const
+
   let _context: CoreContext
 
   const getCoreContext = (): CoreContext => {
@@ -2252,7 +2247,7 @@ export function createComposer(options: any = {}): any {
     if (arg3 && !isObject(arg3)) {
       throw createI18nError(I18nErrorCodes.INVALID_ARGUMENT)
     }
-    return t(...[arg1, arg2, assign({ resolvedMessage: true }, arg3 || {})])
+    return t(arg1, arg2, assign({ resolvedMessage: true }, arg3 || {}))
   }
 
   // d
@@ -2599,5 +2594,3 @@ export function createComposer(options: any = {}): any {
 
   return composer
 }
-
-/* eslint-enable @typescript-eslint/no-explicit-any */

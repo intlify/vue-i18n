@@ -51,7 +51,7 @@ export async function enableDevTools(app: App, i18n: _I18n): Promise<boolean> {
           homepage: 'https://vue-i18n.intlify.dev',
           logo: 'https://vue-i18n.intlify.dev/vue-i18n-devtools-logo.png',
           componentStateTypes: [VUE_I18N_COMPONENT_TYPES],
-          app: app as any // eslint-disable-line @typescript-eslint/no-explicit-any
+          app: app as any
         },
         api => {
           devtoolsApi = api
@@ -116,22 +116,17 @@ export async function enableDevTools(app: App, i18n: _I18n): Promise<boolean> {
       )
     } catch (e) {
       console.error(e)
-      // eslint-disable-next-line @typescript-eslint/prefer-promise-reject-errors
+
       reject(false)
     }
   })
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function getI18nScopeLable(instance: any): string {
   return instance.type.name || instance.type.displayName || instance.type.__file || 'Anonymous'
 }
 
-function updateComponentTreeTags(
-  instance: any, // eslint-disable-line @typescript-eslint/no-explicit-any
-  treeNode: ComponentTreeNode,
-  i18n: _I18n
-): void {
+function updateComponentTreeTags(instance: any, treeNode: ComponentTreeNode, i18n: _I18n): void {
   // prettier-ignore
   const global = i18n.global
   if (instance && instance.__VUE_I18N__) {
@@ -195,7 +190,6 @@ function inspectComposer(instanceData: InspectedComponentData, composer: Compose
   }
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function getLocaleMessageValue(messages: any): Record<string, unknown> {
   const value: Record<string, unknown> = {}
   Object.keys(messages).forEach((key: string) => {
@@ -228,7 +222,6 @@ function escapeChar(a: string): string {
   return ESC[a] || a
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function getMessageFunctionDetails(func: any): Record<string, unknown> {
   const argString = func.source ? `("${escape(func.source)}")` : `(?)`
   return {
@@ -292,15 +285,11 @@ function getComposer(nodeId: string, i18n: _I18n): Composer | null {
   }
 }
 
-function inspectScope(
-  payload: HookPayloads[Hooks.GET_INSPECTOR_STATE],
-  i18n: _I18n
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-): any {
+function inspectScope(payload: HookPayloads[Hooks.GET_INSPECTOR_STATE], i18n: _I18n): any {
   const composer = getComposer(payload.nodeId, i18n)
   if (composer) {
     // TODO:
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
     payload.state = makeScopeInspectState(composer as any)
   }
   return null
