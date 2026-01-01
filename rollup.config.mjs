@@ -23,11 +23,11 @@ const resolve = p => path.resolve(packageDir, p)
 const pkg = require(resolve(`package.json`))
 const packageOptions = pkg.buildOptions || {}
 
-const banner = `/*!
-  * ${name} v${pkg.version}
-  * (c) 2016-present ${pkg.author.name} and contributors
-  * Released under the ${pkg.license} License.
-  */`
+const banner = `/**
+* ${name} v${pkg.version}
+* (c) 2016-present ${pkg.author.name} and contributors
+* @license ${pkg.license}
+**/`
 
 // ensure TS checks only once for each build
 let hasTSChecked = false
@@ -363,7 +363,7 @@ function createMinifiedConfig(format, output) {
   }, [
     {
       name: 'swc-minify',
-      async renderChunk(contents, _, { format, sourcemap, sourcemapExcludeSources }) {
+      async renderChunk(contents, _, { format }) {
         const { code, map } = await minifySwc(contents, {
           module: format === 'es',
           format: {
@@ -375,11 +375,9 @@ function createMinifiedConfig(format, output) {
           },
           safari10: true,
           mangle: true,
-          sourceMap: !!sourcemap,
-          inlineSourcesContent: !sourcemapExcludeSources,
         })
 
-        return { code, map: map || null }
+        return { code: banner + code, map: map || null }
       }
     }
   ])
