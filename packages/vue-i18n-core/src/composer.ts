@@ -106,6 +106,8 @@ import type {
   TranslateOptions,
   TranslationsPaths
 } from '@intlify/core-base'
+// NOTE(kazupon): workaround for rolldown-plugin-dts issue, which cannot resolve `Locale` correctly at `Composer`
+import type { Locale as _Locale } from '@intlify/core-base'
 import type { VueDevToolsEmitter } from '@intlify/devtools-types'
 import type {
   ComponentInternalInstance,
@@ -1283,16 +1285,16 @@ export interface Composer<
   Messages extends Record<string, any> = {},
   DateTimeFormats extends Record<string, any> = {},
   NumberFormats extends Record<string, any> = {},
-  OptionLocale = Locale,
+  OptionLocale = _Locale,
   ResourceLocales =
     | PickupLocales<NonNullable<Messages>>
     | PickupLocales<NonNullable<DateTimeFormats>>
     | PickupLocales<NonNullable<NumberFormats>>,
-  Locales = Locale extends GeneratedLocale
+  Locales = _Locale extends GeneratedLocale
     ? GeneratedLocale
-    : OptionLocale extends Locale
+    : OptionLocale extends _Locale
       ? IsNever<ResourceLocales> extends true
-        ? Locale
+        ? _Locale
         : ResourceLocales
       : OptionLocale | ResourceLocales
 > extends ComposerCustom {

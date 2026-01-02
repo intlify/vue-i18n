@@ -1,11 +1,10 @@
-import { minify as minifySwc } from '@swc/core'
+import { minify as minifyOxc } from 'oxc-minify'
 import { promises as fs } from 'node:fs'
 import { createRequire } from 'node:module'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import pc from 'picocolors'
 import { entries } from './aliases'
-// @ts-expect-error -- experimental
 import { replacePlugin } from 'rolldown/plugins'
 
 import type { OutputOptions, Plugin, RolldownOptions } from 'rolldown'
@@ -46,11 +45,11 @@ export function createConfigsForPackage({
   }
   const name = path.basename(packageDir)
 
-  const banner = `/*!
+  const banner = `/**
 * ${pkg.name} v${pkg.version}
 * (c) 2016-present ${pkg.author.name} and contributors
-* Released under the ${pkg.license} License.
-*/`
+* @license ${pkg.license}
+**/`
 
   function resolveStubs(name: string, ns = '') {
     return {
@@ -259,7 +258,7 @@ export function createConfigsForPackage({
       }
 
       if (Object.keys(replacements).length) {
-        return [replacePlugin(replacements)]
+        return [replacePlugin(replacements, { preventAssignment: true })]
       } else {
         return []
       }
@@ -312,34 +311,36 @@ export function createConfigsForPackage({
       ],
       output,
       treeshake: {
-        // https://github.com/rolldown/rolldown/issues/1917
         moduleSideEffects: false
       }
     }
   }
 
   function createMinifiedConfig(format: string, output: OutputOptions): RolldownOptions {
-    const newOutput = {
+    const newOutput: OutputOptions = {
       file: String(output.file).replace(/\.js$/, '.prod.js'),
       format: output.format
+      // minify: {
+      //   compress: {
+      //     target: 'es2015'
+      //   },
+      //   mangle: true
+      // }
     }
     return createConfig(format, newOutput, [
       {
-        name: 'swc-minify',
-        async renderChunk(contents, _, { format }) {
-          const { code } = await minifySwc(contents, {
-            module: format === 'es',
-            format: {
-              comments: false
-            },
+        name: 'oxc-minify',
+        async renderChunk(contents, _, { file }) {
+          // @ts-expect-error
+          const { code } = await minifyOxc(file, contents, {
             compress: {
-              ecma: 2016,
-              pure_getters: true
+              // TODO: enable 2016+ compression
+              target: 'es2015'
             },
-            safari10: true,
+            // TODO: we might not need to safari10 target
+            // safari10: true,
             mangle: true
           })
-          // swc removes banner
           return { code: banner + code, map: null }
         }
       }

@@ -1,6 +1,6 @@
 import json from '@rollup/plugin-json'
 import replace from '@rollup/plugin-replace'
-import { minify as minifySwc } from '@swc/core'
+import { minify as minifyOxc } from 'oxc-minify'
 import { promises as fs } from 'node:fs'
 import { createRequire } from 'node:module'
 import path from 'node:path'
@@ -23,11 +23,11 @@ const resolve = p => path.resolve(packageDir, p)
 const pkg = require(resolve(`package.json`))
 const packageOptions = pkg.buildOptions || {}
 
-const banner = `/*!
-  * ${name} v${pkg.version}
-  * (c) 2016-present ${pkg.author.name} and contributors
-  * Released under the ${pkg.license} License.
-  */`
+const banner = `/**
+* ${name} v${pkg.version}
+* (c) 2016-present ${pkg.author.name} and contributors
+* @license ${pkg.license}
+**/`
 
 // ensure TS checks only once for each build
 let hasTSChecked = false
@@ -357,30 +357,26 @@ function createReplacePlugin(
 }
 
 function createMinifiedConfig(format, output) {
-  return createConfig(format, {
-    file: output.file.replace(/\.js$/, '.prod.js'),
-    format: output.format
-  }, [
+  return createConfig(
+    format,
     {
-      name: 'swc-minify',
-      async renderChunk(contents, _, { format, sourcemap, sourcemapExcludeSources }) {
-        const { code, map } = await minifySwc(contents, {
-          module: format === 'es',
-          format: {
-            comments: false
-          },
-          compress: {
-            ecma: 2015,
-            pure_getters: true
-          },
-          safari10: true,
-          mangle: true,
-          sourceMap: !!sourcemap,
-          inlineSourcesContent: !sourcemapExcludeSources,
-        })
+      file: output.file.replace(/\.js$/, '.prod.js'),
+      format: output.format
+    },
+    [
+      {
+        name: 'oxc-minify',
+        async renderChunk(contents, _, { file }) {
+          const { code, map } = await minifyOxc(file, contents, {
+            compress: {
+              target: 'es2015'
+            },
+            mangle: true
+          })
 
-        return { code, map: map || null }
+          return { code: banner + code, map: map || null }
+        }
       }
-    }
-  ])
+    ]
+  )
 }

@@ -3,7 +3,6 @@ types
 docs
 coverage
 tsconfig.json
-api-extractor.json
 README.md
 temp
 e2e/hotfix/CVE-2024-52809.html

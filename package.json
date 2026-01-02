@@ -36,7 +36,6 @@
     "build:size-vue-i18n": "pnpm --filter @intlify/size-check-vue-i18n build",
     "build:sourcemap": "pnpm build --sourcemap",
     "build:type": "./scripts/build.sh",
-    "build:typed": "pnpm build core-base vue-i18n-core --withTypes",
     "check-install": "tsx ./scripts/playwright.ts",
     "clean": "pnpm run --color \"/^clean:/\"",
     "clean:coverage": "rm -rf ./coverage",
@@ -49,15 +48,9 @@
     "dev:size-core": "pnpm --filter @intlify/size-check-core dev",
     "dev:size-petite-vue-i18n": "pnpm --filter @intlify/size-check-petite-vue-i18n dev",
     "dev:size-vue-i18n": "pnpm --filter @intlify/size-check-vue-i18n dev",
-    "docs:apigen": "pnpm docs:apigen:core:v11 && pnpm docs:apigen:vue:v11",
-    "docs:apigen:core": "api-docs-gen ./temp/core-base.api.json -o ./docs/api -c ./docsgen.config.js -g noprefix -t ./tsdoc.json && mv ./docs/api/general.md ./docs/api/temp.md",
-    "docs:apigen:core:v11": "api-docs-gen ./temp/core-base.api.json -o ./docs/api/v11 -c ./docsgen.config.js -g noprefix -t ./tsdoc.json && mv ./docs/api/v11/general.md ./docs/api/v11/temp.md",
-    "docs:apigen:vue": "api-docs-gen ./temp/vue-i18n-core.api.json -o ./docs/api -c ./docsgen.config.js -g noprefix -t ./tsdoc.json && tail -n +3 ./docs/api/temp.md >> ./docs/api/general.md && rm -rf ./docs/api/temp.md",
-    "docs:apigen:vue:v11": "api-docs-gen ./temp/vue-i18n-core.api.json -o ./docs/api/v11 -c ./docsgen.config.js -g noprefix -t ./tsdoc.json && tail -n +3 ./docs/api/v11/temp.md >> ./docs/api/v11/general.md && rm -rf ./docs/api/v11/temp.md",
     "docs:build": "pnpm typedoc && vitepress build docs",
     "docs:dev": "vitepress dev docs",
     "docs:serve": "vitepress serve docs",
-    "docs:setup": "pnpm build:typed && pnpm docs:apigen",
     "example:ssr": "cd examples/ssr/vite && pnpm dev",
     "fix": "pnpm run --color \"/^fix:/\"",
     "fix:eslint": "eslint . --fix --cache",
@@ -87,7 +80,6 @@
     "typedoc": "typedoc --tsconfig ./tsconfig.typedoc.json --excludeInternal"
   },
   "peerDependencies": {
-    "@microsoft/api-extractor": "7.15.2",
     "typescript": "^5.0.4"
   },
   "devDependencies": {
@@ -99,18 +91,15 @@
     "@kazupon/eslint-config": "^0.44.0",
     "@kazupon/eslint-plugin": "^0.7.1",
     "@kazupon/prettier-config": "^0.2.0",
-    "@microsoft/api-extractor": "7.15.2",
     "@rollup/plugin-commonjs": "^29.0.0",
     "@rollup/plugin-json": "^6.1.0",
     "@rollup/plugin-node-resolve": "^16.0.3",
     "@rollup/plugin-replace": "^6.0.3",
-    "@swc/core": "^1.15.8",
     "@types/eslint": "^9.6.1",
     "@types/jsdom": "^27.0.0",
     "@types/node": "^22.19.3",
     "@types/serve-handler": "^6.1.4",
     "@vitest/coverage-v8": "^4.0.16",
-    "api-docs-gen": "^0.4.0",
     "bumpp": "^10.3.2",
     "cross-env": "^10.1.0",
     "eslint": "^9.39.2",
@@ -142,8 +131,8 @@
     "playwright-core": "^1.57.0",
     "prettier": "^3.7.4",
     "rolldown": "1.0.0-beta.55",
+    "rolldown-plugin-dts": "0.20.0",
     "rollup": "^4.54.0",
-    "rollup-plugin-dts": "^6.3.0",
     "rollup-plugin-node-builtins": "^2.1.2",
     "rollup-plugin-node-globals": "^1.4.0",
     "rollup-plugin-typescript2": "^0.36.0",
@@ -165,12 +154,10 @@
   "pnpm": {
     "overrides": {
       "vite": "^7.3.0",
-      "vitepress>vite": "npm:rolldown-vite@7.2.7",
       "vue": "3.6.0-alpha.7"
     },
     "onlyBuiltDependencies": [
       "@parcel/watcher",
-      "@swc/core",
       "esbuild",
       "event-loop-stats",
       "fsevents",

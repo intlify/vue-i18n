@@ -118,9 +118,7 @@ Use the `--sourcemap` or `-s` flag to build with source maps. Note this will mak
 
 The `--types` or `-t` flag will generate type declarations during the build and in addition:
 
-- Roll the declarations into a single `.d.ts` file for each package;
-- Generate an API report in `<projectRoot>/temp/<packageName>.api.md`. This report contains potential warnings emitted by [api-extractor](https://api-extractor.com/).
-- Generate an API model json in `<projectRoot>/temp/<packageName>.api.json`. This file can be used to generate a Markdown version of the exported APIs.
+- Roll the declarations into a single `.d.ts` file for each package with `rolldown-plugin-dts`
 
 ### `pnpm dev`
 

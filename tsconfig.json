@@ -39,7 +39,7 @@
     "noFallthroughCasesInSwitch": true,       /* Report errors for fallthrough cases in switch statement. */
 
     /* Module Resolution Options */
-    "moduleResolution": "node",               /* Specify module resolution strategy: 'node' (Node.js) or 'classic' (TypeScript pre-1.6). */
+    "moduleResolution": "bundler",               /* Specify module resolution strategy: 'node' (Node.js) or 'classic' (TypeScript pre-1.6). */
     "paths": {
       "@intlify/*": ["./packages/*/src"],
       "@intlify/vue-i18n-core/petite": ["./packages/vue-i18n-core/src/petite"],
@@ -68,9 +68,9 @@
     "forceConsistentCasingInFileNames": true, /* Disallow inconsistently-cased references to the same file. */
     "skipDefaultLibCheck": true,              /* Skip type checking .d.ts files that are included with TypeScript. */
     "skipLibCheck": true,                      /* Skip type checking all .d.ts files. */
-    // "isolatedDeclarations": true, // NOTE(kazupon): disable for api-extractor not supporting yet ...
-    // "verbatimModuleSyntax": true, // NOTE(kazupon): disable for api-extractor not supporting yet ...
-    // "allowImportingTsExtensions": true, // NOTE(kazupon): disable for api-extractor not supporting yet ...
+    // "isolatedDeclarations": true, // TODO(kazupon): disable for api-extractor not supporting yet ...
+    // "verbatimModuleSyntax": true, // TODO(kazupon): disable for api-extractor not supporting yet ...
+    // "allowImportingTsExtensions": true, // TODO(kazupon): disable for api-extractor not supporting yet ...
   },
   "include": [
     "packages/global.d.ts",
