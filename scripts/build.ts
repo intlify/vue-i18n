@@ -14,7 +14,7 @@
 // ```
 //
 
-import { Extractor, ExtractorConfig } from '@microsoft/api-extractor'
+// import { Extractor, ExtractorConfig } from '@microsoft/api-extractor'
 import { spawnSync } from 'node:child_process'
 import { existsSync, promises as fs } from 'node:fs'
 import os from 'node:os'
