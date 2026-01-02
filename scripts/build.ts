@@ -22,6 +22,7 @@ import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { parseArgs } from 'node:util'
 import { brotliCompressSync, gzipSync } from 'node:zlib'
+import { buildTypings } from './build-types'
 import pc from 'picocolors'
 import { x } from 'tinyexec'
 import {
@@ -109,7 +110,7 @@ async function main() {
     }
 
     if (buildTypes) {
-      await buildTypingsAll(resolvedTargets)
+      await buildTypings(resolvedTargets)
     }
   }
 
@@ -119,11 +120,11 @@ async function main() {
     console.log(`\nbuilt in ${(performance.now() - start).toFixed(2)}ms.`)
   }
 
-  async function buildTypingsAll(targets: string[]) {
-    const start = performance.now()
-    await runParallel(os.cpus().length, targets, buildTypings)
-    console.log(`\nbundle dts in ${(performance.now() - start).toFixed(2)}ms.`)
-  }
+  // async function buildTypingsAll(targets: string[]) {
+  //   const start = performance.now()
+  //   await runParallel(os.cpus().length, targets, buildTypings)
+  //   console.log(`\nbundle dts in ${(performance.now() - start).toFixed(2)}ms.`)
+  // }
 
   async function runParallel(
     maxConcurrency: number,
@@ -186,8 +187,13 @@ async function main() {
         nodeOptions: { stdio: 'inherit' }
       }
     )
+
+    if (existsSync(`${pkgDir}/dist/packages`)) {
+      await fs.rm(`${pkgDir}/dist/packages`, { recursive: true })
+    }
   }
 
+  /*
   async function buildTypings(target: string) {
     const pkgDir = path.resolve(__dirname, `../packages/${target}`)
     const pkg = await readJson(`${pkgDir}/package.json`)
@@ -268,6 +274,7 @@ async function main() {
       await fs.rm(`${pkgDir}/dist/packages`, { recursive: true })
     }
   }
+    */
 
   async function checkAllSizes(targets: string[]) {
     if (devOnly) {
