@@ -161,7 +161,9 @@ export function mount<
       }
     }
 
-    installI18n && app.use(i18n, pluginOptions)
+    if (installI18n) {
+      app.use(i18n, pluginOptions)
+    }
 
     const rootEl = document.createElement('div')
     document.body.appendChild(rootEl)
@@ -200,6 +202,7 @@ function compileSlot(template: string) {
     prefixIdentifiers: true
   })
 
+  // oxlint-disable-next-line @typescript-eslint/no-implied-eval -- ignore for testing
   const render = new Function('Vue', codegen.code)(runtimeDom)
 
   const ToRender = defineComponent({

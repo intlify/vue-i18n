@@ -168,7 +168,7 @@ async function main() {
           `COMMIT:${commit}`,
           `NODE_ENV:${env}`,
           `TARGET:${target}`,
-          formats ? `FORMATS:${formats}` : ``,
+          formats ? `FORMATS:${formats.join(',')}` : ``,
           buildTypes ? `TYPES:true` : ``,
           prodOnly ? `PROD_ONLY:true` : ``,
           sourceMap ? `SOURCE_MAP:true` : ``

@@ -1,3 +1,4 @@
+// oxlint-disable-next-line @typescript-eslint/triple-slash-reference -- see https://github.com/intlify/vue-i18n/pull/1766
 /// <reference types="source-map-js" />
 import { isString, join } from '@intlify/shared'
 import { SourceMapGenerator } from 'source-map-js'

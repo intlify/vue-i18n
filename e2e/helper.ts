@@ -37,7 +37,7 @@ export async function assetLocaleHead(page: Page, headSelector: string): Promise
           }
           const v = tag.getAttribute(key)
           if (v !== value) {
-            throw new Error(`${key} ${v} !== ${value}`)
+            throw new Error(`${key} ${v} !== ${String(value)}`)
           }
         }
       }
@@ -67,7 +67,7 @@ export function assertLocaleHeadWithDom(dom: Document, headSelector: string): vo
 
       const v = tag!.getAttribute(key)
       if (v !== value) {
-        throw new Error(`${key} ${v} !== ${value}`)
+        throw new Error(`${key} ${v} !== ${String(value)}`)
       }
     }
   }

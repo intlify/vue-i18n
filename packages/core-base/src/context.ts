@@ -359,7 +359,7 @@ function getDefaultLinkedModifiers<Message = string>(): LinkedModifiers<Message>
   }
 }
 
-let _compiler: unknown | null
+let _compiler: unknown
 
 export function registerMessageCompiler<Message>(
   compiler: MessageCompiler<Message, string | ResourceNode>
@@ -367,7 +367,7 @@ export function registerMessageCompiler<Message>(
   _compiler = compiler
 }
 
-let _resolver: unknown | null
+let _resolver: unknown
 
 /**
  * Register the message resolver
@@ -380,7 +380,7 @@ export function registerMessageResolver(resolver: MessageResolver): void {
   _resolver = resolver
 }
 
-let _fallbacker: unknown | null
+let _fallbacker: unknown
 
 /**
  * Register the locale fallbacker

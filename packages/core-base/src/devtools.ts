@@ -21,13 +21,12 @@ export function initI18nDevTools(
 ): void {
   // TODO: queue if devtools is undefined
 
-  devtools &&
-    devtools.emit('i18n:init', {
-      timestamp: Date.now(),
-      i18n,
-      version,
-      meta
-    })
+  devtools?.emit('i18n:init', {
+    timestamp: Date.now(),
+    i18n,
+    version,
+    meta
+  })
 }
 
 export const translateDevTools: ReturnType<typeof createDevToolsHook> =

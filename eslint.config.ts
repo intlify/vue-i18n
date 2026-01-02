@@ -48,7 +48,12 @@ const config: ReturnType<typeof defineConfig> = defineConfig(
   oxlint({
     presets: ['typescript'],
     configFile: './.oxlintrc.json'
-  })
+  }),
+  {
+    rules: {
+      'vue/one-component-per-file': 'off'
+    }
+  }
 )
 
 export default config

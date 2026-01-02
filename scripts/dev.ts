@@ -52,7 +52,7 @@ async function main() {
       [
         `COMMIT:${commit}`,
         `TARGET:${resolveTarget}`,
-        `FORMATS:${formats || 'global'}`,
+        `FORMATS:${formats?.join(',') || 'global'}`,
         sourceMap ? `SOURCE_MAP:true` : ``
       ]
         .filter(Boolean)

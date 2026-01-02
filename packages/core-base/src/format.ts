@@ -1,5 +1,5 @@
 import { NodeTypes } from '@intlify/message-compiler'
-import { hasOwn, isNumber } from '@intlify/shared'
+import { hasOwn, isNumber, isArray } from '@intlify/shared'
 import {
   createUnhandleNodeError,
   resolveBody,
@@ -44,7 +44,12 @@ export function formatParts<Message = string>(
     return ctx.plural(
       cases.reduce(
         (messages, c) =>
-          [...messages, formatMessageParts(ctx, c)] as MessageFunctionReturn<Message>,
+          [
+            ...((isArray(messages) ? messages : [messages]) as Array<
+              MessageFunctionReturn<Message>
+            >),
+            formatMessageParts(ctx, c)
+          ] as MessageFunctionReturn<Message>,
         [] as MessageFunctionReturn<Message>
       ) as Message[]
     ) as MessageFunctionReturn<Message>

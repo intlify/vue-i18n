@@ -74,6 +74,7 @@ export type VueDevToolsTimelineEventPayloads = {
     key: Path
     type: CoreMissingType
     from?: Locale
+    // oxlint-disable-next-line @typescript-eslint/no-redundant-type-constituents -- describe string literal
     to: Locale | 'global'
     groupId?: string
   }

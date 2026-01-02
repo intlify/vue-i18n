@@ -17,6 +17,7 @@ export async function setup(): Promise<() => Promise<void>> {
 
   const listener = await listen(
     (req, res) => {
+      // oxlint-disable-next-line @typescript-eslint/no-floating-promises -- ignore for scripting
       handler(req, res, { public: __dirname })
     },
     { port, hostname: host }

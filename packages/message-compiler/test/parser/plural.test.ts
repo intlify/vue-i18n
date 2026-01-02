@@ -169,6 +169,7 @@ describe('empty message', () => {
     expect(spy).toHaveBeenCalled()
     expect(
       spy.mock.calls.map(([err]: Array<Error>) => ({
+        // oxlint-disable-next-line @typescript-eslint/no-misused-spread --- ignore for testing
         ...err,
         message: err.message
       })) // @ts-ignore
@@ -227,6 +228,7 @@ describe('one empty message', () => {
     expect(spy).toHaveBeenCalled()
     expect(
       spy.mock.calls.map(([err]: Array<Error>) => ({
+        // oxlint-disable-next-line @typescript-eslint/no-misused-spread --- ignore for testing
         ...err,
         message: err.message
       }))

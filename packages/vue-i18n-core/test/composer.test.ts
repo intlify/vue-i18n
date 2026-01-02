@@ -820,11 +820,15 @@ describe('rt', () => {
       messages: {
         en: {
           text: () => 'hi dio!',
+          // oxlint-disable-next-line @typescript-eslint/restrict-template-expressions --- ignore for testing
           list: (ctx: MessageContext<VueMessageType>) => `hi ${ctx.list(0)}!`,
+          // oxlint-disable-next-line @typescript-eslint/restrict-template-expressions --- ignore for testing
           named: (ctx: MessageContext<VueMessageType>) => `hi ${ctx.named('name')}!`,
           name: 'dio',
+          // oxlint-disable-next-line @typescript-eslint/no-base-to-string, @typescript-eslint/restrict-template-expressions --- ignore for testing
           linked: (ctx: MessageContext<VueMessageType>) => `hi ${ctx.linked('name', 'upper')} !`,
           pural: (ctx: MessageContext<VueMessageType>) =>
+            // oxlint-disable-next-line @typescript-eslint/restrict-template-expressions --- ignore for testing
             ctx.plural(['no apples', 'one apple', `${ctx.named('count')} apples`]) as string
         }
       }

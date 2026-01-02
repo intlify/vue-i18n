@@ -134,7 +134,7 @@ export const toDisplayString = (val: unknown): string => {
     ? ''
     : isArray(val) || (isPlainObject(val) && val.toString === objectToString)
       ? JSON.stringify(val, null, 2)
-      : String(val)
+      : String(val) // oxlint-disable-line @typescript-eslint/no-base-to-string -- use String()
 }
 
 export function join(items: string[], separator = ''): string {

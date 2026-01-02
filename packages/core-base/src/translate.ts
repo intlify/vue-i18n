@@ -672,7 +672,15 @@ export function translate<Context extends CoreContext<Message, {}, {}, {}>, Mess
       `The message format compilation is not supported in this build. ` +
         `Because message compiler isn't included. ` +
         `You need to pre-compilation all message format. ` +
-        `So translate function return '${key}'.`
+        `So translate function return '${
+          isString(key)
+            ? key
+            : isObject(key)
+              ? JSON.stringify(key as ResourceNode)
+              : isFunction(key)
+                ? (key as Function).name || 'function'
+                : ''
+        }'.`
     )
     return key as MessageFunctionReturn<Message>
   }
@@ -811,7 +819,7 @@ function resolveMessageFormat<Messages, Message>(
       start = window.performance.now()
       startTag = 'intlify-message-resolve-start'
       endTag = 'intlify-message-resolve-end'
-      mark && mark(startTag)
+      mark?.(startTag)
     }
 
     if ((format = resolveValue(message, key)) === null) {
@@ -886,7 +894,7 @@ function compileMessageFormat<Messages, Message>(
     start = window.performance.now()
     startTag = 'intlify-message-compilation-start'
     endTag = 'intlify-message-compilation-end'
-    mark && mark(startTag)
+    mark?.(startTag)
   }
 
   const msg = messageCompiler(
@@ -939,7 +947,7 @@ function evaluateMessage<Messages, Message>(
     start = window.performance.now()
     startTag = 'intlify-message-evaluation-start'
     endTag = 'intlify-message-evaluation-end'
-    mark && mark(startTag)
+    mark?.(startTag)
   }
 
   const messaged = msg(msgCtx)
@@ -1017,7 +1025,7 @@ function getCompileContext<Messages, Message>(
     key,
     warnHtmlMessage,
     onError: (err: CompileError): void => {
-      onError && onError(err)
+      onError?.(err)
       if (__DEV__) {
         const _source = getSourceForCodeFrame(source)
         const message = `Message compilation error: ${err.message}`

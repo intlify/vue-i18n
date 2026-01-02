@@ -730,6 +730,7 @@ test('resolvedMessage', () => {
   ).toEqual('hello!')
   expect(translate(ctx, 'list {0}', [1], { resolvedMessage: true })).toEqual('list 1')
   expect(
+    // oxlint-disable-next-line @typescript-eslint/restrict-template-expressions --- ignore for testing
     translate(ctx, (ctx: MessageContext) => `list ${ctx.list(0)}`, [1], {
       resolvedMessage: true
     })
@@ -740,6 +741,7 @@ test('resolvedMessage', () => {
   expect(
     translate(
       ctx,
+      // oxlint-disable-next-line @typescript-eslint/restrict-template-expressions --- ignore for testing
       (ctx: MessageContext) => `named ${ctx.named('name')}`,
       { name: 'dio' },
       { resolvedMessage: true }

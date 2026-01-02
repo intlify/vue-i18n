@@ -374,7 +374,7 @@ export function createI18n(options: any = {}): any {
       // release global scope
       const unmountApp = app.unmount
       app.unmount = () => {
-        globalReleaseHandler && globalReleaseHandler()
+        globalReleaseHandler?.()
         i18n.dispose()
         unmountApp()
       }
@@ -388,7 +388,7 @@ export function createI18n(options: any = {}): any {
         const emitter: VueDevToolsEmitter = createEmitter<VueDevToolsEmitterEvents>()
 
         const _composer = __global as any
-        _composer[EnableEmitter] && _composer[EnableEmitter](emitter)
+        _composer[EnableEmitter]?.(emitter)
         emitter.on('*', addTimelineEvent)
       }
     },
@@ -644,7 +644,7 @@ function setupLifeCycle(
       emitter = createEmitter<VueDevToolsEmitterEvents>()
 
       const _composer = composer as any
-      _composer[EnableEmitter] && _composer[EnableEmitter](emitter)
+      _composer[EnableEmitter]?.(emitter)
       emitter.on('*', addTimelineEvent)
     }
   }, target)
@@ -655,8 +655,8 @@ function setupLifeCycle(
 
     // remove composer instance from DOM for intlify-devtools
     if ((__DEV__ || __FEATURE_PROD_VUE_DEVTOOLS__) && !__NODE_JS__ && target.__VUE_I18N__) {
-      emitter && emitter.off('*', addTimelineEvent)
-      _composer[DisableEmitter] && _composer[DisableEmitter]()
+      emitter?.off('*', addTimelineEvent)
+      _composer[DisableEmitter]?.()
       delete target.__VUE_I18N__
     }
     i18n.__deleteInstance(target)
