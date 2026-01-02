@@ -12,7 +12,6 @@ const config: KnipConfig = {
         '@vitest/coverage-v8',
         '@types/eslint',
         'oxc-parser',
-        'tslib',
         'vitepress-plugin-llms'
       ]
     },
