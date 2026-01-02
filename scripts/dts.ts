@@ -3,7 +3,7 @@ import { existsSync, promises as fs } from 'node:fs'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { createRequire } from 'node:module'
-import { dts as rolldownDts } from 'rolldown-plugin-dts'
+import { dts } from 'rolldown-plugin-dts'
 
 import type { RolldownOptions, Plugin } from 'rolldown'
 
@@ -42,7 +42,7 @@ export async function createDtsConfig(targets: string[]): Promise<Record<string,
         },
         external: resolveExternal(pkg),
         plugins: [
-          rolldownDts(),
+          dts(),
           ...(pkg === 'vue-i18n' || pkg === 'petite-vue-i18n' ? [appendTypes(pkg)] : []),
           ...(pkg === 'vue-i18n-core' ? [copyDts()] : [])
         ],
