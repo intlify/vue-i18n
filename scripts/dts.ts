@@ -2,13 +2,27 @@ import MagicString from 'magic-string'
 import { existsSync, promises as fs } from 'node:fs'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
-import dts from 'rollup-plugin-dts'
+import { createRequire } from 'node:module'
+import { dts as rolldownDts } from 'rolldown-plugin-dts'
 
-import type { Plugin, RollupOptions } from 'rollup'
+import type { RolldownOptions, Plugin } from 'rolldown'
 
+const require = createRequire(import.meta.url)
 const __dirname = fileURLToPath(new URL('.', import.meta.url))
+const packagesDir = path.resolve(__dirname, '../packages')
 
-export async function createDtsConfig(targets: string[]): Promise<Record<string, RollupOptions>> {
+function resolveExternal(packageName: string) {
+  const pkg = require(`${packagesDir}/${packageName}/package.json`)
+  return [
+    ...Object.keys(pkg.dependencies || {}),
+    ...Object.keys(pkg.devDependencies || {}),
+    ...Object.keys(pkg.peerDependencies || {}),
+    // NOTE(kazupon): crrently, rolldown-plugin-dts cannot handle subpath imports correctly (e.g. 'pkg/subpath')
+    ...(packageName === 'petite-vue-i18n' ? ['@intlify/vue-i18n-core/petite'] : [])
+  ]
+}
+
+export async function createDtsConfig(targets: string[]): Promise<Record<string, RolldownOptions>> {
   if (!existsSync(path.resolve(__dirname, '../temp/packages'))) {
     console.warn('no temp dts files found. run `pnpm build:rolldown` first')
     process.exit(1)
@@ -26,8 +40,9 @@ export async function createDtsConfig(targets: string[]): Promise<Record<string,
           file: path.resolve(__dirname, `../packages/${pkg}/dist/${pkg}.d.ts`),
           format: 'es'
         },
+        external: resolveExternal(pkg),
         plugins: [
-          dts(),
+          rolldownDts(),
           ...(pkg === 'vue-i18n' || pkg === 'petite-vue-i18n' ? [appendTypes(pkg)] : []),
           ...(pkg === 'vue-i18n-core' ? [copyDts()] : [])
         ],
@@ -35,12 +50,15 @@ export async function createDtsConfig(targets: string[]): Promise<Record<string,
           if (warning.code === 'UNRESOLVED_IMPORT' && !warning.exporter?.startsWith('.')) {
             return
           }
+          if (warning.code === 'PLUGIN_TIMINGS') {
+            return
+          }
           warn(warning)
         }
       }
       return acc
     },
-    {} as Record<string, RollupOptions>
+    Object.create(null) as Record<string, RolldownOptions>
   )
 }
 
@@ -51,7 +69,10 @@ function appendTypes(pkg: string): Plugin {
       const template = path.resolve(__dirname, `../packages/${pkg}/src/vue.d.ts`)
       const s = new MagicString(code)
       const ts = await fs.readFile(template, 'utf-8')
-      s.prepend(ts + `\n`)
+      const marker =
+        '// --- THE CONTENT BELOW THIS LINE WILL BE APPENDED TO DTS FILE IN DIST DIRECTORY --- //'
+      const data = ts.slice(ts.indexOf(marker) + marker.length)
+      s.append(`\n` + data + `\n` + `export { }`)
       return s.toString()
     }
   }

@@ -4,7 +4,7 @@ import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { isolatedDeclaration } from 'oxc-transform'
 import pc from 'picocolors'
-import { rollup } from 'rollup'
+import { rolldown } from 'rolldown'
 import { createDtsConfig } from './dts'
 
 const __dirname = fileURLToPath(new URL('.', import.meta.url))
@@ -64,14 +64,14 @@ export async function buildTypings(targets: string[]): Promise<void> {
 
   console.log('bundling dts ...')
 
-  // bundle with rollup-plugin-dts
-  const rollupConfigs = await createDtsConfig(targets)
+  // bundle with rolldown-plugin-dts
+  const rolldownConfigs = await createDtsConfig(targets)
 
   start = performance.now()
 
   const all: Promise<string>[] = []
-  for (const [dtsPath, config] of Object.entries(rollupConfigs)) {
-    const s = rollup(config).then(bundle => {
+  for (const [dtsPath, config] of Object.entries(rolldownConfigs)) {
+    const s = rolldown(config).then(bundle => {
       if (config.output == null) {
         throw new Error('output is required')
       }
