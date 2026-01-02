@@ -3,7 +3,6 @@
   "labels": ["Type: Dependency"],
   "automerge": true,
   "ignoreDeps": [
-    "@microsoft/api-extractor",
     "@intlify/shared",
     "@intlify/core-base",
     "@intlify/core",
