@@ -68,7 +68,7 @@
     "forceConsistentCasingInFileNames": true, /* Disallow inconsistently-cased references to the same file. */
     "skipDefaultLibCheck": true,              /* Skip type checking .d.ts files that are included with TypeScript. */
     "skipLibCheck": true,                      /* Skip type checking all .d.ts files. */
-    "isolatedDeclarations": true,
+    // "isolatedDeclarations": true, // TODO: Enable when rolldown will be released as stable
     "verbatimModuleSyntax": true,
     // "allowImportingTsExtensions": true, // TODO: Enable when all files will be migrated to .ts
   },
