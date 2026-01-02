@@ -5,7 +5,8 @@ coverage
 node_modules
 .DS_Store
 .idea
-.vscode
+.vscode/*
+!.vscode/extensions.json
 debug.log
 .eslintcache
 

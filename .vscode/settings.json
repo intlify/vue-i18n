@@ -1,17 +1,27 @@
 {
+  "oxc.requireConfig": true,
+  "oxc.trace.server": "messages",
+  "oxc.typeAware": true,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
   "files.associations": {
     "*.json": "jsonc",
-    ".fixpackrc": "json"
   },
-  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.codeActionsOnSave": {
+    "source.organizeImports": "always",
+    "source.fixAll.oxc": "always",
+    "source.fixAll.eslint": "explicit"
+  },
+  "eslint.validate": [
+    "javascript",
+    "typescript",
+    "json",
+    "jsonc",
+    "json5",
+    "yaml",
+    "toml"
+  ],
   "editor.formatOnSave": true,
   "editor.formatOnPaste": true,
   "editor.formatOnType": true,
-  "editor.codeActionsOnSave": {
-    "source.fixAll.eslint": "explicit",
-    "source.organizeImports": "always"
-  },
-  "eslint.useFlatConfig": true,
   "typescript.tsdk": "node_modules/typescript/lib",
-  "volar.tsPlugin": true
 }
