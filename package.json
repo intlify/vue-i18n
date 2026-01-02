@@ -76,7 +76,7 @@
     "test:cover": "pnpm test:unit --coverage",
     "test:e2e": "cross-env TZ=UTC vitest run -c ./vitest.e2e.config.ts",
     "test:unit": "cross-env TZ=UTC vitest run -c ./vitest.unit.config.ts --typecheck",
-    "typecheck": "tsc --noEmit --diagnostics",
+    "typecheck": "tsgo --noEmit --diagnostics",
     "typedoc": "typedoc --tsconfig ./tsconfig.typedoc.json --excludeInternal"
   },
   "devDependencies": {
@@ -96,6 +96,7 @@
     "@types/jsdom": "^27.0.0",
     "@types/node": "^25.0.3",
     "@types/serve-handler": "^6.1.4",
+    "@typescript/native-preview": "7.0.0-dev.20251230.1",
     "@vitest/coverage-v8": "^4.0.16",
     "bumpp": "^10.3.2",
     "cross-env": "^10.1.0",

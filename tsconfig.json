@@ -81,6 +81,5 @@
     "e2e",
     "shim.d.ts",
     "*.config.ts"
-  ],
-  "exclude": ["node_modules"]
+  ]
 }
