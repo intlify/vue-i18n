@@ -1,6 +1,6 @@
 import json from '@rollup/plugin-json'
 import replace from '@rollup/plugin-replace'
-import { default as minifyTerser }  from '@rollup/plugin-terser'
+import { default as minifyTerser } from '@rollup/plugin-terser'
 import { minify as minifyOxc } from 'oxc-minify'
 import { promises as fs } from 'node:fs'
 import { createRequire } from 'node:module'
@@ -368,26 +368,26 @@ function createMinifiedConfig(format, output) {
     },
     [
       isTerserMinify
-      ? minifyTerser({
-        module: format.startsWith('esm'),
-        compress: {
-          ecma: 2015
-        },
-        safari10: true
-      })
-      : {
-        name: 'oxc-minify',
-        async renderChunk(contents, _, { file }) {
-          const { code, map } = await minifyOxc(file, contents, {
+        ? minifyTerser({
+            module: format.startsWith('esm'),
             compress: {
-              target: 'es2015'
+              ecma: 2015
             },
-            mangle: true
+            safari10: true
           })
+        : {
+            name: 'oxc-minify',
+            async renderChunk(contents, _, { file }) {
+              const { code, map } = await minifyOxc(file, contents, {
+                compress: {
+                  target: 'es2015'
+                },
+                mangle: true
+              })
 
-          return { code: banner + code, map: map || null }
-        }
-      }
+              return { code: banner + code, map: map || null }
+            }
+          }
     ]
   )
 }
