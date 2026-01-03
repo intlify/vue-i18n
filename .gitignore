@@ -16,6 +16,7 @@ docs/api/general
 docs/api/vue
 docs/api/index.md
 !docs/api/typedoc-sidebar.json
+.notes
 
 *.log
 *.swp
