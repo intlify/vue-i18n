@@ -1,5 +1,6 @@
 import json from '@rollup/plugin-json'
 import replace from '@rollup/plugin-replace'
+import { default as minifyTerser }  from '@rollup/plugin-terser'
 import { minify as minifyOxc } from 'oxc-minify'
 import { promises as fs } from 'node:fs'
 import { createRequire } from 'node:module'
@@ -11,6 +12,8 @@ import ts from 'rollup-plugin-typescript2'
 if (!process.env.TARGET) {
   throw new Error('TARGET package must be specified via --environment flag.')
 }
+
+const isTerserMinify = process.env.VUE_I18N_MINIFY === 'terser'
 
 const require = createRequire(import.meta.url)
 const __dirname = fileURLToPath(new URL('.', import.meta.url))
@@ -364,7 +367,15 @@ function createMinifiedConfig(format, output) {
       format: output.format
     },
     [
-      {
+      isTerserMinify
+      ? minifyTerser({
+        module: format.startsWith('esm'),
+        compress: {
+          ecma: 2015
+        },
+        safari10: true
+      })
+      : {
         name: 'oxc-minify',
         async renderChunk(contents, _, { file }) {
           const { code, map } = await minifyOxc(file, contents, {
