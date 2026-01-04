@@ -4,6 +4,18 @@ packages:
   - '!examples/frameworks/nuxt3'
 minimumReleaseAge: 1440
 minimumReleaseAgeExclude:
+  - vue
+  - '@vue/compiler-dom'
+  - '@vue/shared'
+  - '@vue/runtime-vapor'
+  - '@vue/server-renderer'
+  - '@vue/compiler-sfc'
+  - '@vue/runtime-dom'
+  - '@vue/reactivity'
+  - '@vue/compiler-vapor'
+  - '@vue/compiler-ssr'
+  - '@vue/runtime-core'
+  - '@vue/compiler-core'
   - '@kazupon/eslint-config'
   - vitest
   - '@vitest/mocker'

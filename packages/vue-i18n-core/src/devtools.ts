@@ -16,7 +16,7 @@ import type {
   Hooks,
   InspectedComponentData
 } from '@vue/devtools-api'
-import type { App, ComponentInternalInstance, GenericComponentInstance } from 'vue'
+import type { App } from 'vue'
 import type { Composer } from './composer'
 import type { I18n, I18nInternal } from './i18n'
 
@@ -61,8 +61,11 @@ export async function enableDevTools(app: App, i18n: _I18n): Promise<boolean> {
           })
 
           api.on.inspectComponent(({ componentInstance, instanceData }) => {
-            if (componentInstance.__VUE_I18N__ && instanceData) {
-              inspectComposer(instanceData, componentInstance.__VUE_I18N__ as Composer)
+            if (componentInstance && componentInstance.uid != null && instanceData) {
+              const entry = i18n.__instances.get(componentInstance.uid)
+              if (entry) {
+                inspectComposer(instanceData, entry.composer)
+              }
             }
           })
 
@@ -79,7 +82,7 @@ export async function enableDevTools(app: App, i18n: _I18n): Promise<boolean> {
             }
           })
 
-          const roots = new Map<App, ComponentInternalInstance | GenericComponentInstance>()
+          const roots = new Map<App, any>()
           api.on.getInspectorState(async payload => {
             if (payload.app === app && payload.inspectorId === 'vue-i18n-resource-inspector') {
               api.unhighlightElement()
@@ -93,7 +96,8 @@ export async function enableDevTools(app: App, i18n: _I18n): Promise<boolean> {
                 }
                 api.highlightElement(roots.get(payload.app))
               } else {
-                const instance = getComponentInstance(payload.nodeId, i18n)
+                const uid = parseInt(payload.nodeId, 10)
+                const instance = await findComponentByUid(api, payload.app, uid)
                 instance && api.highlightElement(instance)
               }
             }
@@ -122,23 +126,17 @@ export async function enableDevTools(app: App, i18n: _I18n): Promise<boolean> {
   })
 }
 
-function getI18nScopeLable(instance: any): string {
-  return instance.type.name || instance.type.displayName || instance.type.__file || 'Anonymous'
-}
-
 function updateComponentTreeTags(instance: any, treeNode: ComponentTreeNode, i18n: _I18n): void {
-  // prettier-ignore
-  const global = i18n.global
-  if (instance && instance.__VUE_I18N__) {
-    // add custom tags local scope only
-    if (instance.__VUE_I18N__ !== global) {
-      const tag = {
-        label: `i18n (${getI18nScopeLable(instance)} Scope)`,
-        textColor: 0x000000,
-        backgroundColor: 0xffcd19
-      }
-      treeNode.tags.push(tag)
+  if (!instance || instance.uid == null) return
+
+  const entry = i18n.__instances.get(instance.uid)
+  if (entry && entry.composer !== i18n.global) {
+    const tag = {
+      label: `i18n (${entry.label} Scope)`,
+      textColor: 0x000000,
+      backgroundColor: 0xffcd19
     }
+    treeNode.tags.push(tag)
   }
 }
 
@@ -237,52 +235,50 @@ function registerScope(payload: HookPayloads[Hooks.GET_INSPECTOR_TREE], i18n: _I
     id: 'global',
     label: 'Global Scope'
   })
-  // prettier-ignore
   const global = i18n.global
-  for (const [keyInstance, instance] of i18n.__instances) {
-    // prettier-ignore
-    const composer = instance
-    if (global === composer) {
+  for (const [uid, entry] of i18n.__instances) {
+    if (global === entry.composer) {
       continue
     }
     payload.rootNodes.push({
-      id: composer.id.toString(),
-      label: `${getI18nScopeLable(keyInstance)} Scope`
+      id: uid.toString(),
+      label: `${entry.label} Scope`
     })
   }
 }
 
-function getComponentInstance(
-  nodeId: string,
-  i18n: _I18n
-): ComponentInternalInstance | GenericComponentInstance | null {
-  let instance: ComponentInternalInstance | GenericComponentInstance | null = null
+async function findComponentByUid(
+  api: DevtoolsPluginApi<{}>,
+  app: App,
+  targetUid: number
+): Promise<any> {
+  const instances = await api.getComponentInstances(app)
+  return searchByUid(instances, targetUid)
+}
 
-  if (nodeId !== 'global') {
-    for (const [component, composer] of i18n.__instances.entries()) {
-      if (composer.id.toString() === nodeId) {
-        instance = component
-        break
+function searchByUid(instances: any[], targetUid: number): any {
+  for (const instance of instances) {
+    if (instance.uid === targetUid) {
+      return instance
+    }
+    // Search in children if available
+    if (instance.subTree?.children) {
+      const found = searchByUid(instance.subTree.children, targetUid)
+      if (found) {
+        return found
       }
     }
   }
-
-  return instance
+  return null
 }
 
 function getComposer(nodeId: string, i18n: _I18n): Composer | null {
   if (nodeId === 'global') {
     return i18n.global
-  } else {
-    const instance = Array.from(i18n.__instances.values()).find(
-      item => item.id.toString() === nodeId
-    )
-    if (instance) {
-      return instance
-    } else {
-      return null
-    }
   }
+  const uid = parseInt(nodeId, 10)
+  const entry = i18n.__instances.get(uid)
+  return entry?.composer || null
 }
 
 function inspectScope(payload: HookPayloads[Hooks.GET_INSPECTOR_STATE], i18n: _I18n): any {

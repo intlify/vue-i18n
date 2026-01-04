@@ -63,8 +63,8 @@ test('component: i18n-t', async () => {
         locale: 'ja',
         inheritLocale: false,
         messages: {
-          ja: { hello: 'こんにちは！' },
-          en: { hello: 'hello!' }
+          ja: { hello: 'やあ！' },
+          en: { hello: 'hi!' }
         }
       })
       return () => h(resolveComponent('i18n-t'), { tag: 'p', keypath: 'hello' })
@@ -74,5 +74,5 @@ test('component: i18n-t', async () => {
   const app = createSSRApp(App)
   app.use(i18n)
 
-  expect(await renderToString(app)).toMatch(`<p>こんにちは！</p>`)
+  expect(await renderToString(app)).toMatch(`<p>やあ！</p>`)
 })
