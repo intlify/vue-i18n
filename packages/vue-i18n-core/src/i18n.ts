@@ -2,33 +2,38 @@ import {
   assign,
   createEmitter,
   isBoolean,
+  isNumber,
   isEmptyObject,
   isPlainObject,
   makeSymbol,
   warn
 } from '@intlify/shared'
-import { effectScope, inject, isRef, onMounted, onUnmounted } from 'vue'
+import {
+  effectScope,
+  getCurrentScope,
+  inject,
+  isRef,
+  onScopeDispose,
+  // @ts-ignore -- vue 3.6-beta has not still exported `useInstanceOption`
+  useInstanceOption,
+  provide
+} from 'vue'
 import { createComposer } from './composer'
 import { addTimelineEvent, enableDevTools } from './devtools'
 import { I18nErrorCodes, createI18nError } from './errors'
 import { apply as applyPlugin } from './plugin/next'
-import { DisableEmitter, DisposeSymbol, EnableEmitter } from './symbols'
-import { adjustI18nResources, getComponentOptions, getCurrentInstance } from './utils'
+import { DisposeSymbol, EnableEmitter } from './symbols'
+import { adjustI18nResources } from './utils'
 import { I18nWarnCodes, getWarnMessage } from './warnings'
 
 import type { FallbackLocale, Locale, LocaleParams, SchemaParams } from '@intlify/core-base'
 import type { VueDevToolsEmitter, VueDevToolsEmitterEvents } from '@intlify/devtools-types'
-import type {
-  App,
-  ComponentInternalInstance,
-  EffectScope,
-  GenericComponentInstance,
-  InjectionKey
-} from 'vue'
+import type { App, EffectScope, InjectionKey } from 'vue'
 import type {
   Composer,
   ComposerInternalOptions,
   ComposerOptions,
+  CustomBlocks,
   DefaultDateTimeFormatSchema,
   DefaultLocaleMessageSchema,
   DefaultNumberFormatSchema,
@@ -132,6 +137,21 @@ type ExtendHooks = {
 }
 
 /**
+ * Composer entry for DevTools
+ *
+ * @internal
+ */
+export interface ComposerEntry<
+  Messages extends Record<string, unknown> = {},
+  DateTimeFormats extends Record<string, unknown> = {},
+  NumberFormats extends Record<string, unknown> = {},
+  OptionLocale = Locale
+> {
+  composer: Composer<Messages, DateTimeFormats, NumberFormats, OptionLocale>
+  label: string
+}
+
+/**
  * I18n interface for internal usage
  *
  * @internal
@@ -142,18 +162,15 @@ export interface I18nInternal<
   NumberFormats extends Record<string, unknown> = {},
   OptionLocale = Locale
 > {
-  __instances: Map<
-    ComponentInternalInstance | GenericComponentInstance,
-    Composer<Messages, DateTimeFormats, NumberFormats, OptionLocale>
-  >
-  __getInstance<Instance extends Composer<Messages, DateTimeFormats, NumberFormats, OptionLocale>>(
-    component: ComponentInternalInstance | GenericComponentInstance
-  ): Instance | null
-  __setInstance<Instance extends Composer<Messages, DateTimeFormats, NumberFormats, OptionLocale>>(
-    component: ComponentInternalInstance | GenericComponentInstance,
-    instance: Instance
+  __instances: Map<number, ComposerEntry<Messages, DateTimeFormats, NumberFormats, OptionLocale>>
+  __getInstance(
+    uid: number
+  ): ComposerEntry<Messages, DateTimeFormats, NumberFormats, OptionLocale> | null
+  __setInstance(
+    uid: number,
+    entry: ComposerEntry<Messages, DateTimeFormats, NumberFormats, OptionLocale>
   ): void
-  __deleteInstance(component: ComponentInternalInstance | GenericComponentInstance): void
+  __deleteInstance(uid: number): void
   __composerExtend?: ComposerExtender
 }
 
@@ -225,6 +242,13 @@ export interface ComposerAdditionalOptions {
  */
 export const I18nInjectionKey: InjectionKey<I18n> | string =
   /* #__PURE__*/ makeSymbol('global-vue-i18n')
+
+/**
+ * Injection key for Composer scope propagation
+ *
+ * @internal
+ */
+const I18nComposerKey: InjectionKey<Composer> = /* #__PURE__*/ Symbol('vue-i18n-composer')
 
 export function createI18n<
   Options extends I18nOptions = I18nOptions,
@@ -322,23 +346,20 @@ export function createI18n(options: any = {}): any {
   const __globalInjection = isBoolean(options.globalInjection)
     ? options.globalInjection
     : true
-  const __instances = new Map<ComponentInternalInstance | GenericComponentInstance, Composer>()
+  const __instances = new Map<number, ComposerEntry>()
   const [globalScope, __global] = createGlobal(options)
   const symbol: InjectionKey<I18n> | string = /* #__PURE__*/ makeSymbol(__DEV__ ? 'vue-i18n' : '')
 
-  function __getInstance(
-    component: ComponentInternalInstance | GenericComponentInstance
-  ): Composer | null {
-    return __instances.get(component) || null
+  function __getInstance(uid: number): ComposerEntry | null {
+    return __instances.get(uid) || null
   }
-  function __setInstance(
-    component: ComponentInternalInstance | GenericComponentInstance,
-    instance: Composer
-  ): void {
-    __instances.set(component, instance)
+
+  function __setInstance(uid: number, entry: ComposerEntry): void {
+    __instances.set(uid, entry)
   }
-  function __deleteInstance(component: ComponentInternalInstance | GenericComponentInstance): void {
-    __instances.delete(component)
+
+  function __deleteInstance(uid: number): void {
+    __instances.delete(uid)
   }
 
   const i18n = {
@@ -351,6 +372,8 @@ export function createI18n(options: any = {}): any {
       // setup global provider
       app.__VUE_I18N_SYMBOL__ = symbol
       app.provide(app.__VUE_I18N_SYMBOL__, i18n as unknown as I18n)
+      // Also provide with I18nInjectionKey for useI18n inject
+      app.provide(I18nInjectionKey, i18n as unknown as I18n)
 
       // set composer extend hook options from plugin options
       if (isPlainObject(options[0])) {
@@ -494,64 +517,111 @@ export function useI18n<
   NumberFormats extends Record<string, unknown> = NonNullable<Options['numberFormats']>,
   OptionLocale = NonNullable<Options['locale']>
 >(options: Options = {} as Options) {
-  const instance = getCurrentInstance()
-  if (instance == null) {
+  // Get instance info via useInstanceOption (Vue 3.6+)
+  const { hasInstance, value: type } = useInstanceOption('type', true)
+  if (!hasInstance) {
     throw createI18nError(I18nErrorCodes.MUST_BE_CALL_SETUP_TOP)
   }
-  if (
-    !instance.isCE &&
-    instance.appContext.app != null &&
-    !instance.appContext.app.__VUE_I18N_SYMBOL__
-  ) {
-    throw createI18nError(I18nErrorCodes.NOT_INSTALLED)
+  if (!type) {
+    throw createI18nError(I18nErrorCodes.UNEXPECTED_ERROR)
   }
 
-  const i18n = getI18nInstance(instance)
-  const gl = getGlobalComposer(i18n)
-  const componentOptions = getComponentOptions(instance)
-  const scope = getScope(options, componentOptions)
+  // Check if it's a Custom Element
+  const { value: isCE } = useInstanceOption('ce', true)
 
+  // Get I18n instance via inject
+  const i18n = inject(I18nInjectionKey)
+  if (!i18n) {
+    throw createI18nError(
+      isCE ? I18nErrorCodes.NOT_INSTALLED_WITH_PROVIDE : I18nErrorCodes.NOT_INSTALLED
+    )
+  }
+
+  const gl = i18n.global
+  const scope = getScope(options, type)
+
+  // Global scope
   if (scope === 'global') {
-    adjustI18nResources(gl, options, componentOptions)
+    adjustI18nResources(gl, options, type)
     return gl as unknown as Composer<Messages, DateTimeFormats, NumberFormats, OptionLocale>
   }
 
+  // Parent scope via `inject`
   if (scope === 'parent') {
-    let composer = getComposer(i18n, instance, (options as any).__useComponent)
-    if (composer == null) {
+    const parentComposer = inject(I18nComposerKey, null)
+    if (parentComposer == null) {
       if (__DEV__) {
         warn(getWarnMessage(I18nWarnCodes.NOT_FOUND_PARENT_SCOPE))
       }
-      composer = gl as unknown as Composer
+      return gl as unknown as Composer<Messages, DateTimeFormats, NumberFormats, OptionLocale>
     }
-    return composer as unknown as Composer<Messages, DateTimeFormats, NumberFormats, OptionLocale>
+    return parentComposer as unknown as Composer<
+      Messages,
+      DateTimeFormats,
+      NumberFormats,
+      OptionLocale
+    >
   }
 
+  // Local scope
   const i18nInternal = i18n as unknown as I18nInternal
-  let composer = i18nInternal.__getInstance(instance)
-  if (composer == null) {
-    const composerOptions = assign({}, options) as ComposerOptions & ComposerInternalOptions
 
-    if ('__i18n' in componentOptions) {
-      composerOptions.__i18n = componentOptions.__i18n
-    }
-
-    if (gl) {
-      composerOptions.__root = gl
-    }
-
-    composer = createComposer(composerOptions) as Composer
-    if (i18nInternal.__composerExtend) {
-      ;(composer as any)[DisposeSymbol] = i18nInternal.__composerExtend(composer)
-    }
-    setupLifeCycle(i18nInternal, instance, composer)
-
-    i18nInternal.__setInstance(instance, composer)
-  } else {
-    if (__DEV__ && scope === 'local') {
+  // Duplicate call detection via uid
+  const { value: uid } = useInstanceOption('uid', true)
+  if (!isNumber(uid)) {
+    throw createI18nError(I18nErrorCodes.UNEXPECTED_ERROR)
+  }
+  const existingEntry = i18nInternal.__getInstance(uid)
+  if (existingEntry != null) {
+    if (__DEV__) {
       throw createI18nError(I18nErrorCodes.DUPLICATE_USE_I18N_CALLING)
     }
+    return existingEntry.composer as unknown as Composer<
+      Messages,
+      DateTimeFormats,
+      NumberFormats,
+      OptionLocale
+    >
   }
+
+  // Create Composer
+  const composerOptions = assign({}, options) as ComposerOptions & ComposerInternalOptions
+
+  // SFC i18n custom blocks
+  if ('__i18n' in type) {
+    composerOptions.__i18n = type.__i18n as CustomBlocks
+  }
+
+  // Set parent Composer as fallback root
+  const parentComposer = inject(I18nComposerKey, null)
+  composerOptions.__root = parentComposer || gl
+
+  const composer = createComposer(composerOptions) as Composer
+
+  // ComposerExtend
+  if (i18nInternal.__composerExtend) {
+    ;(composer as any)[DisposeSymbol] = i18nInternal.__composerExtend(composer)
+  }
+
+  // Register instance
+  const label = type.name || type.__name || type.__file || 'Anonymous'
+  i18nInternal.__setInstance(uid, { composer, label })
+
+  // Lifecycle management via onScopeDispose
+  const currentScope = getCurrentScope()
+  if (currentScope) {
+    onScopeDispose(() => {
+      i18nInternal.__deleteInstance(uid)
+      const dispose = (composer as any)[DisposeSymbol]
+      if (dispose) {
+        dispose()
+        delete (composer as any)[DisposeSymbol]
+      }
+    })
+  }
+
+  // Provide to child components
+  provide(I18nComposerKey, composer)
 
   return composer as unknown as Composer<Messages, DateTimeFormats, NumberFormats, OptionLocale>
 }
@@ -565,19 +635,6 @@ function createGlobal(options: I18nOptions): [EffectScope, Composer] {
   return [scope, obj]
 }
 
-function getI18nInstance(instance: ComponentInternalInstance | GenericComponentInstance): I18n {
-  const i18n = inject(
-    !instance.isCE ? instance.appContext.app.__VUE_I18N_SYMBOL__! : I18nInjectionKey
-  )
-  /* istanbul ignore if */
-  if (!i18n) {
-    throw createI18nError(
-      !instance.isCE ? I18nErrorCodes.UNEXPECTED_ERROR : I18nErrorCodes.NOT_INSTALLED_WITH_PROVIDE
-    )
-  }
-  return i18n
-}
-
 function getScope(options: UseI18nOptions, componentOptions: any): I18nScope {
   // prettier-ignore
   return isEmptyObject(options)
@@ -587,87 +644,6 @@ function getScope(options: UseI18nOptions, componentOptions: any): I18nScope {
     : !options.useScope
       ? 'local'
       : options.useScope
-}
-
-function getGlobalComposer(i18n: I18n): Composer {
-  // prettier-ignore
-  return i18n.global
-}
-
-function getComposer(
-  i18n: I18n,
-  target: ComponentInternalInstance | GenericComponentInstance,
-  useComponent = false
-): Composer | null {
-  let composer: Composer | null = null
-  const root = target.root
-  let current: ComponentInternalInstance | GenericComponentInstance | null =
-    getParentComponentInstance(target, useComponent)
-  while (current != null) {
-    const i18nInternal = i18n as unknown as I18nInternal
-    composer = i18nInternal.__getInstance(current)
-
-    if (composer != null) {
-      break
-    }
-    if (root === current) {
-      break
-    }
-    current = current.parent
-  }
-  return composer
-}
-
-function getParentComponentInstance(
-  target: ComponentInternalInstance | GenericComponentInstance | null,
-  useComponent = false
-) {
-  if (target == null) {
-    return null
-  }
-  // if `useComponent: true` will be specified, we get lexical scope owner instance for use-case slots
-  return !useComponent ? target.parent : (target.vnode as any).ctx || target.parent
-}
-
-function setupLifeCycle(
-  i18n: I18nInternal,
-  target: ComponentInternalInstance | GenericComponentInstance,
-  composer: Composer
-): void {
-  let emitter: VueDevToolsEmitter | null = null
-
-  // eslint-disable-next-line vue-composable/lifecycle-placement -- NOTE(kazupon): not Vue component
-  onMounted(() => {
-    // inject composer instance to DOM for intlify-devtools
-    if ((__DEV__ || __FEATURE_PROD_VUE_DEVTOOLS__) && !__NODE_JS__) {
-      target.__VUE_I18N__ = composer
-      emitter = createEmitter<VueDevToolsEmitterEvents>()
-
-      const _composer = composer as any
-      _composer[EnableEmitter]?.(emitter)
-      emitter.on('*', addTimelineEvent)
-    }
-  }, target)
-
-  // eslint-disable-next-line vue-composable/lifecycle-placement -- NOTE(kazupon): not Vue component
-  onUnmounted(() => {
-    const _composer = composer as any
-
-    // remove composer instance from DOM for intlify-devtools
-    if ((__DEV__ || __FEATURE_PROD_VUE_DEVTOOLS__) && !__NODE_JS__ && target.__VUE_I18N__) {
-      emitter?.off('*', addTimelineEvent)
-      _composer[DisableEmitter]?.()
-      delete target.__VUE_I18N__
-    }
-    i18n.__deleteInstance(target)
-
-    // dispose extended resources
-    const dispose = _composer[DisposeSymbol]
-    if (dispose) {
-      dispose()
-      delete _composer[DisposeSymbol]
-    }
-  }, target)
 }
 
 /**

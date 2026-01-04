@@ -36,4 +36,19 @@ declare module 'vue' {
      */
     __VUE_I18N__?: Composer
   }
+
+  /**
+   * `useInstanceOption` API does not still public API,
+   * so we will define it as declaration module at vue-i18n
+   */
+
+  var internalOptions = ['ce', 'type', 'uid'] as const
+
+  export declare function useInstanceOption<K extends (typeof internalOptions)[number]>(
+    key: K,
+    silent = false
+  ): {
+    hasInstance: boolean
+    value: GenericComponentInstance[K] | undefined
+  }
 }
