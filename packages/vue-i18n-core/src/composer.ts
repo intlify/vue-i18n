@@ -37,6 +37,8 @@ import {
   warn
 } from '@intlify/shared'
 import { computed, ref, shallowRef, watch } from 'vue'
+// @ts-ignore -- `useInstanceOption` is not yet exported in Vue's type definitions
+import { useInstanceOption } from 'vue'
 import { I18nErrorCodes, createI18nError } from './errors'
 import { VERSION } from './misc'
 import {
@@ -48,13 +50,7 @@ import {
   SetPluralRulesSymbol,
   TranslateVNodeSymbol
 } from './symbols'
-import {
-  createTextNode,
-  getComponentOptions,
-  getCurrentInstance,
-  getLocaleMessages,
-  handleFlatJson
-} from './utils'
+import { createTextNode, getLocaleMessages, handleFlatJson } from './utils'
 import { I18nWarnCodes, getWarnMessage } from './warnings'
 
 import type {
@@ -109,14 +105,7 @@ import type {
 // NOTE(kazupon): workaround for rolldown-plugin-dts issue, which cannot resolve `Locale` correctly at `Composer`
 import type { Locale as _Locale } from '@intlify/core-base'
 import type { VueDevToolsEmitter } from '@intlify/devtools-types'
-import type {
-  ComponentInternalInstance,
-  ComputedRef,
-  GenericComponentInstance,
-  VNode,
-  VNodeArrayChildren,
-  WritableComputedRef
-} from 'vue'
+import type { ComputedRef, VNode, VNodeArrayChildren, WritableComputedRef } from 'vue'
 
 export { DEFAULT_LOCALE } from '@intlify/core-base'
 
@@ -230,7 +219,7 @@ export type DefaultNumberFormatSchema<
 export type MissingHandler = (
   locale: Locale,
   key: Path,
-  instance?: ComponentInternalInstance | GenericComponentInstance,
+  uid?: number,
   type?: string
 ) => string | void
 
@@ -1864,18 +1853,20 @@ let composerID = 0
 
 function defineCoreMissingHandler(missing: MissingHandler): CoreMissingHandler {
   return ((_ctx: CoreContext, locale: Locale, key: Path, type: string): string | void => {
-    return missing(locale, key, getCurrentInstance() || undefined, type)
+    // eslint-disable-next-line vue-composable/composable-placement -- not composable
+    const { value: uid } = useInstanceOption('uid', true)
+    return missing(locale, key, uid, type)
   }) as CoreMissingHandler
 }
 
 // for Intlify DevTools
 /* #__NO_SIDE_EFFECTS__ */
 const getMetaInfo = (): MetaInfo | null => {
-  const instance = getCurrentInstance()
-  let meta: any = null
-  return instance && (meta = getComponentOptions(instance)[DEVTOOLS_META])
-    ? { [DEVTOOLS_META]: meta }
-    : null
+  // eslint-disable-next-line vue-composable/composable-placement -- not composable
+  const { value: type } = useInstanceOption('type', true)
+  // @ts-expect-error
+  const meta = type?.[DEVTOOLS_META]
+  return meta ? { [DEVTOOLS_META]: meta } : null
 }
 
 export function createComposer<
