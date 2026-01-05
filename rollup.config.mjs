@@ -330,7 +330,6 @@ function createReplacePlugin(
         : isBundlerESMBuild
           ? `__VUE_PROD_DEVTOOLS__`
           : `false`,
-    __FEATURE_PROD_INTLIFY_DEVTOOLS__: isBundlerESMBuild ? `__INTLIFY_PROD_DEVTOOLS__` : `false`,
     __FEATURE_DROP_MESSAGE_COMPILER__: isBundlerESMBuild
       ? `__INTLIFY_DROP_MESSAGE_COMPILER__`
       : `false`,
