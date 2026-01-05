@@ -1864,7 +1864,7 @@ function defineCoreMissingHandler(missing: MissingHandler): CoreMissingHandler {
 const getMetaInfo = (): MetaInfo | null => {
   // eslint-disable-next-line vue-composable/composable-placement -- not composable
   const { value: type } = useInstanceOption('type', true)
-  // @ts-expect-error
+  // @ts-ignore
   const meta = type?.[DEVTOOLS_META]
   return meta ? { [DEVTOOLS_META]: meta } : null
 }
