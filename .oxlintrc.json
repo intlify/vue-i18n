@@ -45,6 +45,7 @@
     "shim.d.ts",
     ".oxlintrc.json",
     "scripts/api/*.js",
-    ".claude"
+    ".claude",
+    ".notes"
   ]
 }
