@@ -19,17 +19,14 @@ import {
   registerLocaleFallbacker,
   registerMessageCompiler,
   registerMessageResolver,
-  resolveValue,
-  setDevToolsHook
+  resolveValue
 } from '@intlify/core-base'
-import { createEmitter } from '@intlify/shared'
 import { defineComponent, defineCustomElement, h, nextTick, ref } from 'vue'
 import { errorMessages, I18nErrorCodes } from '../src/errors'
 import { createI18n, useI18n } from '../src/i18n'
 import { getCurrentInstance } from '../src/utils'
 import { pluralRules as _pluralRules, mount, randStr } from './helper'
 
-import type { IntlifyDevToolsEmitterHooks } from '@intlify/devtools-types'
 import type { App, ComponentOptions } from 'vue'
 import type { Composer } from '../src/composer'
 import type { I18n } from '../src/i18n'
@@ -46,10 +43,6 @@ beforeAll(() => {
 
 beforeEach(() => {
   container.innerHTML = ''
-})
-
-afterEach(() => {
-  setDevToolsHook(null)
 })
 
 test('createI18n with flat json messages', () => {
@@ -754,29 +747,6 @@ describe('custom pluralization', () => {
     expect(find('p:nth-child(4)')!.innerHTML).toEqual('12 машин')
     expect(find('p:nth-child(5)')!.innerHTML).toEqual('21 машина')
   })
-})
-
-test('Intlify devtools hooking', () => {
-  const emitter = createEmitter<IntlifyDevToolsEmitterHooks>()
-  setDevToolsHook(emitter)
-
-  const fnI18nInit = vi.fn()
-  const fnTranslate = vi.fn()
-  emitter.on('i18n:init', fnI18nInit)
-  emitter.on('function:translate', fnTranslate)
-
-  const i18n = createI18n({
-    locale: 'en',
-    messages: {
-      en: {
-        hello: 'Hello {name}!'
-      }
-    }
-  })
-  i18n.global.t('hello', { name: 'DIO' })
-
-  expect(fnI18nInit).toHaveBeenCalled()
-  expect(fnTranslate).toHaveBeenCalled()
 })
 
 describe('release global scope', () => {

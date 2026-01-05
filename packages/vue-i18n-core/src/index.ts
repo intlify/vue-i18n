@@ -1,5 +1,3 @@
-import { setDevToolsHook } from '@intlify/core-base'
-import { getGlobalThis } from '@intlify/shared'
 import { initDev, initFeatureFlags } from './misc'
 
 export type {
@@ -94,13 +92,6 @@ export type {
 
 if (__ESM_BUNDLER__ && !__TEST__) {
   initFeatureFlags()
-}
-
-// NOTE: experimental !!
-if (__DEV__ || __FEATURE_PROD_INTLIFY_DEVTOOLS__) {
-  const target = getGlobalThis()
-  target.__INTLIFY__ = true
-  setDevToolsHook(target.__INTLIFY_DEVTOOLS_GLOBAL_HOOK__)
 }
 
 if (__DEV__) {

@@ -16,7 +16,6 @@ import {
   parseDateTimeArgs,
   parseNumberArgs,
   parseTranslateArgs,
-  setAdditionalMeta,
   setFallbackContext,
   translate,
   updateFallbackLocale
@@ -81,7 +80,6 @@ import type {
   MessageProcessor,
   MessageResolver,
   MessageType,
-  MetaInfo,
   NamedValue,
   NumberFormat,
   NumberFormats as NumberFormatsType,
@@ -108,9 +106,6 @@ import type { VueDevToolsEmitter } from '@intlify/devtools-types'
 import type { ComputedRef, VNode, VNodeArrayChildren, WritableComputedRef } from 'vue'
 
 export { DEFAULT_LOCALE } from '@intlify/core-base'
-
-// extend VNode interface
-export const DEVTOOLS_META = '__INTLIFY_META__'
 
 /** @VueI18nComposition */
 export type VueMessageType = string | ResourceNode | VNode
@@ -1859,16 +1854,6 @@ function defineCoreMissingHandler(missing: MissingHandler): CoreMissingHandler {
   }) as CoreMissingHandler
 }
 
-// for Intlify DevTools
-/* #__NO_SIDE_EFFECTS__ */
-const getMetaInfo = (): MetaInfo | null => {
-  // eslint-disable-next-line vue-composable/composable-placement -- not composable
-  const { value: type } = useInstanceOption('type', true)
-  // @ts-ignore
-  const meta = type?.[DEVTOOLS_META]
-  return meta ? { [DEVTOOLS_META]: meta } : null
-}
-
 export function createComposer<
   Options extends ComposerOptions = ComposerOptions,
   Messages extends Record<string, any> = Options['messages'] extends Record<string, any>
@@ -2161,20 +2146,13 @@ export function createComposer(options: any = {}): any {
     successCondition: (val: unknown) => boolean
   ): U => {
     trackReactivityValues() // track reactive dependency
-    // NOTE: experimental !!
     let ret: unknown
     try {
-      if (__DEV__ || __FEATURE_PROD_INTLIFY_DEVTOOLS__) {
-        setAdditionalMeta(getMetaInfo())
-      }
       if (!_isGlobal) {
         _context.fallbackContext = __root ? (getFallbackContext() as any) : undefined
       }
       ret = fn(_context)
     } finally {
-      if (__DEV__ || __FEATURE_PROD_INTLIFY_DEVTOOLS__) {
-        setAdditionalMeta(null)
-      }
       if (!_isGlobal) {
         _context.fallbackContext = undefined
       }

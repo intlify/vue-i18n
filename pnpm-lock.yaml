@@ -692,9 +692,6 @@ importers:
       '@intlify/core-base':
         specifier: workspace:*
         version: link:../core-base
-      '@intlify/shared':
-        specifier: workspace:*
-        version: link:../shared
       '@intlify/vue-i18n-core':
         specifier: workspace:*
         version: link:../vue-i18n-core
@@ -770,9 +767,6 @@ importers:
       '@intlify/core-base':
         specifier: workspace:*
         version: link:../core-base
-      '@intlify/shared':
-        specifier: workspace:*
-        version: link:../shared
       '@intlify/vue-i18n-core':
         specifier: workspace:*
         version: link:../vue-i18n-core

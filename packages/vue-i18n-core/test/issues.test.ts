@@ -18,8 +18,7 @@ import {
   registerLocaleFallbacker,
   registerMessageCompiler,
   registerMessageResolver,
-  resolveValue,
-  setDevToolsHook
+  resolveValue
 } from '@intlify/core-base'
 import { defineComponent, nextTick, ref } from 'vue'
 import { createI18n, useI18n } from '../src/i18n'
@@ -48,7 +47,6 @@ beforeEach(() => {
 })
 
 afterEach(() => {
-  setDevToolsHook(null)
   console.warn = org
   vi.clearAllMocks()
 })
