@@ -22,7 +22,7 @@ import { createComposer } from './composer'
 import { addTimelineEvent, enableDevTools } from './devtools'
 import { I18nErrorCodes, createI18nError } from './errors'
 import { apply as applyPlugin } from './plugin/next'
-import { DisposeSymbol, EnableEmitter } from './symbols'
+import { DisableEmitter, DisposeSymbol, EnableEmitter } from './symbols'
 import { adjustI18nResources } from './utils'
 import { I18nWarnCodes, getWarnMessage } from './warnings'
 
@@ -607,10 +607,26 @@ export function useI18n<
   const label = type.name || type.__name || type.__file || 'Anonymous'
   i18nInternal.__setInstance(uid, { composer, label })
 
+  // DevTools emitter setup
+  let emitter: VueDevToolsEmitter | null = null
+  if ((__DEV__ || __FEATURE_PROD_VUE_DEVTOOLS__) && !__NODE_JS__) {
+    emitter = createEmitter<VueDevToolsEmitterEvents>()
+    const _composer = composer as any
+    _composer[EnableEmitter]?.(emitter)
+    emitter.on('*', addTimelineEvent)
+  }
+
   // Lifecycle management via onScopeDispose
   const currentScope = getCurrentScope()
   if (currentScope) {
     onScopeDispose(() => {
+      // DevTools cleanup
+      if ((__DEV__ || __FEATURE_PROD_VUE_DEVTOOLS__) && !__NODE_JS__) {
+        emitter?.off('*', addTimelineEvent)
+        const _composer = composer as any
+        _composer[DisableEmitter]?.()
+      }
+
       i18nInternal.__deleteInstance(uid)
       const dispose = (composer as any)[DisposeSymbol]
       if (dispose) {
