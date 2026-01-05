@@ -8,41 +8,6 @@ import type {
 } from '@intlify/core-base'
 import type { Emittable } from '@intlify/shared'
 
-export interface IntlifyRecord {
-  id: number
-  i18n: unknown // TODO:
-  version: string
-  types: Record<string, string | symbol> // TODO
-}
-
-export type IntlifyDevToolsHooks = 'i18n:init' | 'function:translate'
-
-export type AdditionalPayloads = {
-  meta?: Record<string, unknown>
-}
-
-export type IntlifyDevToolsHookPayloads = {
-  'i18n:init': {
-    timestamp: number
-    i18n: unknown // TODO:
-    version: string
-  } & AdditionalPayloads
-  'function:translate': {
-    timestamp: number
-    message: string | number
-    key: string
-    locale: string
-    format?: string
-  } & AdditionalPayloads
-}
-
-export type IntlifyDevToolsEmitterHooks = {
-  'i18n:init': IntlifyDevToolsHookPayloads['i18n:init']
-  'function:translate': IntlifyDevToolsHookPayloads['function:translate']
-}
-
-export type IntlifyDevToolsEmitter = Emittable<IntlifyDevToolsEmitterHooks>
-
 export type VueDevToolsIDs =
   | 'vue-devtools-plugin-vue-i18n'
   | 'vue-i18n-resource-inspector'

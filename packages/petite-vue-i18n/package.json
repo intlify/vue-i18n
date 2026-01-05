@@ -56,7 +56,6 @@
   "types": "dist/petite-vue-i18n.d.ts",
   "dependencies": {
     "@intlify/core-base": "workspace:*",
-    "@intlify/shared": "workspace:*",
     "@intlify/vue-i18n-core": "workspace:*",
     "@vue/devtools-api": "^6.5.0"
   },

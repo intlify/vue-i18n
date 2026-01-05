@@ -12,7 +12,6 @@ import {
   warn,
   warnOnce
 } from '@intlify/shared'
-import { initI18nDevTools } from './devtools'
 import { fallbackWithSimple } from './fallbacker'
 import { resolveWithKeyValue } from './resolver'
 import { CoreWarnCodes, getWarnMessage } from './warnings'
@@ -238,7 +237,6 @@ export interface CoreInternalOptions {
   __datetimeFormatters?: Map<string, Intl.DateTimeFormat>
   __numberFormatters?: Map<string, Intl.NumberFormat>
   __v_emitter?: VueDevToolsEmitter
-  __meta?: MetaInfo
 }
 
 export interface CoreCommonContext<Message = string, Locales = 'en-US'> {
@@ -313,7 +311,6 @@ export interface CoreInternalContext {
   __numberFormatters: Map<string, Intl.NumberFormat>
   __localeChainCache?: Map<Locale, Locale[]>
   __v_emitter?: VueDevToolsEmitter
-  __meta: MetaInfo // for Intlify DevTools
 }
 
 /**
@@ -392,17 +389,6 @@ let _fallbacker: unknown
 export function registerLocaleFallbacker(fallbacker: LocaleFallbacker): void {
   _fallbacker = fallbacker
 }
-
-// Additional Meta for Intlify DevTools
-let _additionalMeta: MetaInfo | null = null
-
-/* #__NO_SIDE_EFFECTS__ */
-export const setAdditionalMeta = (meta: MetaInfo | null): void => {
-  _additionalMeta = meta
-}
-
-/* #__NO_SIDE_EFFECTS__ */
-export const getAdditionalMeta = (): MetaInfo | null => _additionalMeta
 
 let _fallbackContext: CoreContext | null = null
 
@@ -522,7 +508,6 @@ export function createCoreContext<Message = string>(options: any = {}): any {
       ? internalOptions.__numberFormatters
       : new Map<string, Intl.NumberFormat>()
     : /* #__PURE__*/ new Map<string, Intl.NumberFormat>()
-  const __meta = isObject(internalOptions.__meta) ? internalOptions.__meta : {}
 
   _cid++
 
@@ -547,8 +532,7 @@ export function createCoreContext<Message = string>(options: any = {}): any {
     messageResolver,
     localeFallbacker,
     fallbackContext,
-    onWarn,
-    __meta
+    onWarn
   }
 
   if (!__LITE__) {
@@ -562,11 +546,6 @@ export function createCoreContext<Message = string>(options: any = {}): any {
   if (__DEV__) {
     ;(context as unknown as CoreInternalContext).__v_emitter =
       internalOptions.__v_emitter != null ? internalOptions.__v_emitter : undefined
-  }
-
-  // NOTE: experimental !!
-  if (__DEV__ || __FEATURE_PROD_INTLIFY_DEVTOOLS__) {
-    initI18nDevTools(context, version, __meta)
   }
 
   return context

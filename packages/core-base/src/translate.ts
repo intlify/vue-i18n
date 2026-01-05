@@ -19,20 +19,17 @@ import {
 } from '@intlify/shared'
 import { isMessageAST } from './ast'
 import {
-  getAdditionalMeta,
   handleMissing,
   isAlmostSameLocale,
   isImplicitFallback,
   isTranslateFallbackWarn,
   NOT_RESOLVED
 } from './context'
-import { translateDevTools } from './devtools'
 import { CoreErrorCodes, createCoreError } from './errors'
 import { getLocale } from './fallbacker'
 import { createMessageContext } from './runtime'
 import { CoreWarnCodes, getWarnMessage } from './warnings'
 
-import type { AdditionalPayloads } from '@intlify/devtools-types'
 import type { CompileError, ResourceNode } from '@intlify/message-compiler'
 import type {
   CoreContext,
@@ -715,35 +712,6 @@ export function translate<Context extends CoreContext<Message, {}, {}, {}>, Mess
 
   // if use post translation option, proceed it with handler
   const ret = postTranslation ? postTranslation(messaged, key as string) : messaged
-
-  // NOTE: experimental !!
-  if (__DEV__ || __FEATURE_PROD_INTLIFY_DEVTOOLS__) {
-    // prettier-ignore
-    const payloads = {
-      timestamp: Date.now(),
-      key: isString(key)
-        ? key
-        : isMessageFunction(format)
-          ? (format as MessageFunctionInternal).key!
-          : '',
-      locale: targetLocale || (isMessageFunction(format)
-        ? (format as MessageFunctionInternal).locale!
-        : ''),
-      format:
-        isString(format)
-          ? format
-          : isMessageFunction(format)
-            ? (format as MessageFunctionInternal).source!
-            : '',
-      message: ret as string
-    }
-    ;(payloads as AdditionalPayloads).meta = assign(
-      {},
-      (context as unknown as CoreInternalContext).__meta,
-      getAdditionalMeta() || {}
-    )
-    translateDevTools(payloads)
-  }
 
   return ret
 }
