@@ -696,8 +696,8 @@ importers:
         specifier: workspace:*
         version: link:../vue-i18n-core
       '@vue/devtools-api':
-        specifier: ^6.5.0
-        version: 6.6.4
+        specifier: ^8.0.0
+        version: 8.0.5
       vue:
         specifier: 3.6.0-beta.2
         version: 3.6.0-beta.2(typescript@5.9.3)
@@ -771,8 +771,8 @@ importers:
         specifier: workspace:*
         version: link:../vue-i18n-core
       '@vue/devtools-api':
-        specifier: ^6.5.0
-        version: 6.6.4
+        specifier: ^8.0.0
+        version: 8.0.5
       vue:
         specifier: 3.6.0-beta.2
         version: 3.6.0-beta.2(typescript@5.9.3)
@@ -790,8 +790,8 @@ importers:
         specifier: workspace:*
         version: link:../shared
       '@vue/devtools-api':
-        specifier: ^6.5.0
-        version: 6.6.4
+        specifier: ^8.0.0
+        version: 8.0.5
       vue:
         specifier: 3.6.0-beta.2
         version: 3.6.0-beta.2(typescript@5.9.3)
@@ -9049,8 +9049,8 @@ packages:
   vue-component-type-helpers@2.2.12:
     resolution: {integrity: sha512-YbGqHZ5/eW4SnkPNR44mKVc6ZKQoRs/Rux1sxC6rdwXb4qpbOSYfDr9DsTHolOTGmIKgM9j141mZbBeg05R1pw==}
 
-  vue-component-type-helpers@3.2.1:
-    resolution: {integrity: sha512-gKV7XOkQl4urSuLHNY1tnVQf7wVgtb/mKbRyxSLWGZUY9RK7aDPhBenTjm+i8ZFe0zC2PZeHMPtOZXZfyaFOzQ==}
+  vue-component-type-helpers@3.2.2:
+    resolution: {integrity: sha512-x8C2nx5XlUNM0WirgfTkHjJGO/ABBxlANZDtHw2HclHtQnn+RFPTnbjMJn8jHZW4TlUam0asHcA14lf1C6Jb+A==}
 
   vue-docgen-api@4.79.2:
     resolution: {integrity: sha512-n9ENAcs+40awPZMsas7STqjkZiVlIjxIKgiJr5rSohDP0/JCrD9VtlzNojafsA1MChm/hz2h3PDtUedx3lbgfA==}
@@ -11415,7 +11415,7 @@ snapshots:
       ts-dedent: 2.2.0
       type-fest: 2.19.0
       vue: 3.6.0-beta.2(typescript@5.8.3)
-      vue-component-type-helpers: 3.2.1
+      vue-component-type-helpers: 3.2.2
 
   '@stylistic/eslint-plugin@4.4.1(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)':
     dependencies:
@@ -18840,7 +18840,7 @@ snapshots:
 
   vue-component-type-helpers@2.2.12: {}
 
-  vue-component-type-helpers@3.2.1: {}
+  vue-component-type-helpers@3.2.2: {}
 
   vue-docgen-api@4.79.2(vue@3.6.0-beta.2(typescript@5.8.3)):
     dependencies:
