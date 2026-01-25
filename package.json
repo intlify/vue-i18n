@@ -97,7 +97,7 @@
     "@types/jsdom": "^27.0.0",
     "@types/node": "^25.0.3",
     "@types/serve-handler": "^6.1.4",
-    "@typescript/native-preview": "7.0.0-dev.20251230.1",
+    "@typescript/native-preview": "7.0.0-dev.20260124.1",
     "@vitest/coverage-v8": "^4.0.16",
     "bumpp": "^10.3.2",
     "cross-env": "^10.1.0",
