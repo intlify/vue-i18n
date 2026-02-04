@@ -4,6 +4,7 @@ temp
 coverage
 node_modules
 .DS_Store
+.pnpm-store
 .idea
 .vscode/*
 !.vscode/extensions.json
@@ -15,6 +16,12 @@ debug.log
 docs/api/general
 docs/api/vue
 docs/api/index.md
+docs/zh/api/general
+docs/zh/api/vue
+docs/zh/api/index.md
+docs/jp/api/general
+docs/jp/api/vue
+docs/jp/api/index.md
 !docs/api/typedoc-sidebar.json
 .notes
 

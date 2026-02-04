@@ -14,7 +14,7 @@
     "type": "git",
     "url": "git+https://github.com/intlify/vue-i18n.git"
   },
-  "packageManager": "pnpm@10.27.0",
+  "packageManager": "pnpm@10.28.2",
   "engines": {
     "node": ">= 20"
   },
@@ -49,7 +49,7 @@
     "dev:size-petite-vue-i18n": "pnpm --filter @intlify/size-check-petite-vue-i18n dev",
     "dev:size-vue-i18n": "pnpm --filter @intlify/size-check-vue-i18n dev",
     "docs:build": "pnpm typedoc && vitepress build docs",
-    "docs:dev": "vitepress dev docs",
+    "docs:dev": "vitepress dev docs --host",
     "docs:serve": "vitepress serve docs",
     "example:ssr": "cd examples/ssr/vite && pnpm dev",
     "fix": "pnpm run --color \"/^fix:/\"",
@@ -77,7 +77,8 @@
     "test:e2e": "cross-env TZ=UTC vitest run -c ./vitest.e2e.config.ts",
     "test:unit": "cross-env TZ=UTC vitest run -c ./vitest.unit.config.ts --typecheck",
     "typecheck": "tsgo --noEmit --diagnostics",
-    "typedoc": "typedoc --tsconfig ./tsconfig.typedoc.json --excludeInternal"
+    "typedoc": "typedoc --tsconfig ./tsconfig.typedoc.json --excludeInternal",
+    "typedoc:locales": "tsx ./scripts/generate-typedoc-locales.ts"
   },
   "devDependencies": {
     "@eslint/markdown": "^7.5.1",
@@ -142,7 +143,7 @@
     "typedoc-vitepress-theme": "^1.1.2",
     "typescript": "5.9.3",
     "typescript-eslint": "^8.51.0",
-    "vitepress": "^2.0.0-alpha.15",
+    "vitepress": "^2.0.0-alpha.16",
     "vitepress-plugin-llms": "^1.10.0",
     "vitest": "^4.0.16",
     "vue": "3.5.27",

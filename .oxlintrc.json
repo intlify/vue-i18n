@@ -42,6 +42,8 @@
     "packages/vue-i18n/src/vue.d.ts",
     "packages/vue-i18n-core/petite.js",
     "docs/api/**/*.md",
+    "docs/zh/api/**/*.md",
+    "docs/jp/api/**/*.md",
     "shim.d.ts",
     ".oxlintrc.json",
     "scripts/api/*.js",
