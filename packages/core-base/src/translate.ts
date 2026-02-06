@@ -593,7 +593,7 @@ export function translate<Context extends CoreContext<Message, {}, {}, {}>, Mess
 
   // resolve message format
   const resolvedMessage = !!options.resolvedMessage
-   
+
   let [format, targetLocale, message]: [
     PathValue | MessageFunction<Message> | ResourceNode,
     Locale | undefined,
