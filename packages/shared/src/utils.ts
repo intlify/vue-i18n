@@ -62,8 +62,13 @@ export const isDate = (val: unknown): val is Date => toTypeString(val) === '[obj
 
 export const isRegExp = (val: unknown): val is RegExp => toTypeString(val) === '[object RegExp]'
 
+/** @deprecated use {@link isPlainObject} and {@link isKeylessObject} together instead */
 export const isEmptyObject = (val: unknown): val is boolean =>
   isPlainObject(val) && Object.keys(val).length === 0
+// @ts-expect-error asserted type is technically not assignable to parameter type
+export const isKeylessObject = <T extends Record<string, any>>(
+  val: T extends readonly any[] ? never : T
+): val is Record<string, never> => Object.keys(val).length === 0
 
 export const assign: typeof Object.assign = Object.assign
 

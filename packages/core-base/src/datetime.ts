@@ -3,7 +3,7 @@ import {
   create,
   isBoolean,
   isDate,
-  isEmptyObject,
+  isKeylessObject,
   isNumber,
   isPlainObject,
   isString
@@ -241,7 +241,7 @@ export function datetime<Context extends CoreContext<Message, {}, {}, {}>, Messa
   }
 
   let id = `${targetLocale}__${key}`
-  if (!isEmptyObject(overrides)) {
+  if (isPlainObject(overrides) && !isKeylessObject(overrides)) {
     id = `${id}__${JSON.stringify(overrides)}`
   }
 
