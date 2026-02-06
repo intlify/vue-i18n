@@ -313,7 +313,7 @@ export function createMessageContext<T = string, N = {}>(
     isString(locale) && isFunction(options.pluralRules?.[locale])
       ? options.pluralRules![locale]
       : pluralDefault
-  const orgPluralRule = pluralRule === pluralDefault ? pluralDefault : undefined
+  const orgPluralRule = pluralRule === pluralDefault ? undefined : pluralDefault
 
   const plural = (messages: T[]): T =>
     messages[pluralRule(pluralIndex, messages.length, orgPluralRule)]
