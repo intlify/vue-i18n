@@ -7,8 +7,8 @@ import {
   inBrowser,
   isArray,
   isBoolean,
-  isEmptyObject,
   isFunction,
+  isKeylessObject,
   isNumber,
   isObject,
   isPlainObject,
@@ -582,46 +582,19 @@ export function translate<Context extends CoreContext<Message, {}, {}, {}>, Mess
   context: Context,
   ...args: unknown[]
 ): MessageFunctionReturn<Message> | number {
-  const {
-    fallbackFormat,
-    postTranslation,
-    unresolving,
-    messageCompiler,
-    fallbackLocale,
-    messages
-  } = context
   const [key, options] = parseTranslateArgs<Message>(...args)
-
-  const missingWarn = isBoolean(options.missingWarn) ? options.missingWarn : context.missingWarn
-
-  const fallbackWarn = isBoolean(options.fallbackWarn) ? options.fallbackWarn : context.fallbackWarn
-
-  const escapeParameter = isBoolean(options.escapeParameter)
-    ? options.escapeParameter
-    : context.escapeParameter
-
-  const resolvedMessage = !!options.resolvedMessage
-
-  // prettier-ignore
-  const defaultMsgOrKey =
-    isString(options.default) || isBoolean(options.default) // default by function option
-      ? !isBoolean(options.default)
-        ? options.default
-        : (!messageCompiler ? () => key : key)
-      : fallbackFormat // default by `fallbackFormat` option
-        ? (!messageCompiler ? () => key : key)
-        : null
-  const enableDefaultMsg =
-    fallbackFormat ||
-    (defaultMsgOrKey != null && (isString(defaultMsgOrKey) || isFunction(defaultMsgOrKey)))
   const locale = getLocale(context, options)
 
   // escape params
+  const escapeParameter = isBoolean(options.escapeParameter)
+    ? options.escapeParameter
+    : context.escapeParameter
   escapeParameter && escapeParams(options)
 
   // resolve message format
+  const resolvedMessage = !!options.resolvedMessage
 
-  let [formatScope, targetLocale, message]: [
+  let [format, targetLocale, message]: [
     PathValue | MessageFunction<Message> | ResourceNode,
     Locale | undefined,
     LocaleMessageValue<Message>
@@ -630,17 +603,11 @@ export function translate<Context extends CoreContext<Message, {}, {}, {}>, Mess
         context,
         key as string,
         locale,
-        fallbackLocale as FallbackLocale,
-        fallbackWarn,
-        missingWarn
+        context.fallbackLocale as FallbackLocale,
+        isBoolean(options.fallbackWarn) ? options.fallbackWarn : context.fallbackWarn,
+        isBoolean(options.missingWarn) ? options.missingWarn : context.missingWarn
       )
-    : [key, locale, (messages as unknown as LocaleMessages<Message>)[locale] || create()]
-  // NOTE:
-  //  Fix to work around `ssrTransfrom` bug in Vite.
-  //  https://github.com/vitejs/vite/issues/4306
-  //  To get around this, use temporary variables.
-  //  https://github.com/nuxt/framework/issues/1461#issuecomment-954606243
-  let format = formatScope
+    : [key, locale, (context.messages as unknown as LocaleMessages<Message>)[locale] || create()]
 
   // if you use default message, set it as message format!
   let cacheBaseKey = key
@@ -648,6 +615,18 @@ export function translate<Context extends CoreContext<Message, {}, {}, {}>, Mess
     !resolvedMessage &&
     !(isString(format) || isMessageAST(format) || isMessageFunction<Message>(format))
   ) {
+    // prettier-ignore
+    const defaultMsgOrKey =
+      isString(options.default)
+        ? options.default // default by string option
+        : isBoolean(options.default) || context.fallbackFormat 
+          ? (!context.messageCompiler ? () => key : key) // default by `fallbackFormat` option
+          : null
+
+    const enableDefaultMsg =
+      context.fallbackFormat ||
+      (defaultMsgOrKey != null && (isString(defaultMsgOrKey) || isFunction(defaultMsgOrKey)))
+
     if (enableDefaultMsg) {
       format = defaultMsgOrKey
       cacheBaseKey = format as Path | MessageFunction<Message>
@@ -660,7 +639,7 @@ export function translate<Context extends CoreContext<Message, {}, {}, {}>, Mess
     (!(isString(format) || isMessageAST(format) || isMessageFunction<Message>(format)) ||
       !isString(targetLocale))
   ) {
-    return unresolving ? NOT_RESOLVED : (key as MessageFunctionReturn<Message>)
+    return context.unresolving ? NOT_RESOLVED : (key as MessageFunctionReturn<Message>)
   }
 
   // TODO: refactor
@@ -708,10 +687,17 @@ export function translate<Context extends CoreContext<Message, {}, {}, {}>, Mess
   // evaluate message with context
   const ctxOptions = getMessageContextOptions(context, targetLocale!, message, options)
   const msgContext = createMessageContext<Message>(ctxOptions)
-  const messaged = evaluateMessage(context, msg as MessageFunction<Message>, msgContext)
 
+  const messaged =
+    __DEV__ && inBrowser
+      ? measureEvaluateMessage(context, msg as MessageFunction<Message>, msgContext)
+      : (msg as MessageFunction<Message>)(msgContext)
+
+  // prettier-ignore
   // if use post translation option, proceed it with handler
-  const ret = postTranslation ? postTranslation(messaged, key as string) : messaged
+  const ret = context.postTranslation
+    ? context.postTranslation(messaged, key as string)
+    : messaged
 
   return ret
 }
@@ -742,12 +728,12 @@ function resolveMessageFormat<Messages, Message>(
   let message: LocaleMessageValue<Message> = create()
   let targetLocale: Locale | undefined
   let format: PathValue = null
+  // for vue-devtools timeline event
   let from: Locale = locale
-  let to: Locale | null = null
   const type = 'translate'
 
   for (let i = 0; i < locales.length; i++) {
-    targetLocale = to = locales[i]
+    targetLocale = locales[i]
 
     if (
       __DEV__ &&
@@ -771,7 +757,7 @@ function resolveMessageFormat<Messages, Message>(
           type,
           key,
           from,
-          to,
+          to: targetLocale,
           groupId: `${type}:${key}`
         })
       }
@@ -824,7 +810,9 @@ function resolveMessageFormat<Messages, Message>(
         format = missingRet as PathValue
       }
     }
-    from = to
+    if (__DEV__) {
+      from = targetLocale
+    }
   }
 
   return [format, targetLocale, message]
@@ -838,8 +826,6 @@ function compileMessageFormat<Messages, Message>(
   cacheBaseKey: string,
   onError: () => void
 ): MessageFunctionInternal {
-  const { messageCompiler, warnHtmlMessage } = context
-
   if (isMessageFunction<Message>(format)) {
     const msg = format as MessageFunctionInternal
     msg.locale = msg.locale || targetLocale
@@ -847,7 +833,7 @@ function compileMessageFormat<Messages, Message>(
     return msg
   }
 
-  if (messageCompiler == null) {
+  if (context.messageCompiler == null) {
     const msg = (() => format) as MessageFunctionInternal
     msg.locale = targetLocale
     msg.key = key
@@ -858,21 +844,21 @@ function compileMessageFormat<Messages, Message>(
   let start: number | null = null
   let startTag: string | undefined
   let endTag: string | undefined
-  if (__DEV__ && inBrowser) {
+  if (__DEV__ && inBrowser && mark) {
     start = window.performance.now()
     startTag = 'intlify-message-compilation-start'
     endTag = 'intlify-message-compilation-end'
     mark?.(startTag)
   }
 
-  const msg = messageCompiler(
+  const msg = context.messageCompiler(
     format as string | ResourceNode,
     getCompileContext(
       context,
       targetLocale,
       cacheBaseKey,
       format as string | ResourceNode,
-      warnHtmlMessage,
+      context.warnHtmlMessage,
       onError
     )
   ) as MessageFunctionInternal
@@ -902,43 +888,36 @@ function compileMessageFormat<Messages, Message>(
   return msg
 }
 
-function evaluateMessage<Messages, Message>(
+// for vue-devtools timeline event
+let measureEvaluateMessage: <Messages, Message>(
   context: CoreContext<Message, Messages>,
   msg: MessageFunction<Message>,
   msgCtx: MessageContext<Message>
-): MessageFunctionReturn<Message> {
-  // for vue-devtools timeline event
-  let start: number | null = null
-  let startTag: string | undefined
-  let endTag: string | undefined
-  if (__DEV__ && inBrowser) {
-    start = window.performance.now()
-    startTag = 'intlify-message-evaluation-start'
-    endTag = 'intlify-message-evaluation-end'
-    mark?.(startTag)
-  }
+) => MessageFunctionReturn<Message>
+if (__DEV__ && inBrowser) {
+  const startTag = 'intlify-message-evaluation-start'
+  const endTag = 'intlify-message-evaluation-end'
+  measureEvaluateMessage = (context, msg, msgCtx) => {
+    const start = window.performance.now()
+    mark(startTag)
 
-  const messaged = msg(msgCtx)
+    // evaluate message
+    const messaged = msg(msgCtx)
 
-  // for vue-devtools timeline event
-  if (__DEV__ && inBrowser) {
     const end = window.performance.now()
     const emitter = (context as unknown as CoreInternalContext).__v_emitter
-    if (emitter && start) {
-      emitter.emit('message-evaluation', {
-        type: 'message-evaluation',
-        value: messaged,
-        time: end - start,
-        groupId: `${'translate'}:${(msg as MessageFunctionInternal).key}`
-      })
-    }
-    if (startTag && endTag && mark && measure) {
-      mark(endTag)
-      measure('intlify message evaluation', startTag, endTag)
-    }
-  }
+    emitter?.emit('message-evaluation', {
+      type: 'message-evaluation',
+      value: messaged,
+      time: end - start,
+      groupId: `${'translate'}:${(msg as MessageFunctionInternal).key}`
+    })
 
-  return messaged
+    mark(endTag)
+    measure('intlify message evaluation', startTag, endTag)
+
+    return messaged
+  }
 }
 
 /** @internal */
@@ -946,7 +925,6 @@ export function parseTranslateArgs<Message = string>(
   ...args: unknown[]
 ): [Path | MessageFunction<Message> | ResourceNode, TranslateOptions] {
   const [arg1, arg2, arg3] = args
-  const options = create() as TranslateOptions
 
   if (!isString(arg1) && !isNumber(arg1) && !isMessageFunction(arg1) && !isMessageAST(arg1)) {
     throw createCoreError(CoreErrorCodes.INVALID_ARGUMENT)
@@ -959,11 +937,12 @@ export function parseTranslateArgs<Message = string>(
       ? (arg1 as MessageFunction<Message>)
       : arg1
 
+  const options = create() as TranslateOptions
   if (isNumber(arg2)) {
     options.plural = arg2
   } else if (isString(arg2)) {
     options.default = arg2
-  } else if (isPlainObject(arg2) && !isEmptyObject(arg2)) {
+  } else if (isPlainObject(arg2) && !isKeylessObject(arg2)) {
     options.named = arg2 as NamedValue
   } else if (isArray(arg2)) {
     options.list = arg2
@@ -1023,10 +1002,8 @@ function getCompileContext<Messages, Message>(
 function getSourceForCodeFrame(source: string | ResourceNode): string | undefined {
   if (isString(source)) {
     return source
-  } else {
-    if (source.loc && source.loc.source) {
-      return source.loc.source
-    }
+  } else if (source.loc?.source) {
+    return source.loc.source
   }
 }
 
@@ -1084,25 +1061,14 @@ function getMessageContextOptions<Messages, Message = string>(
     }
   }
 
-  const ctxOptions: MessageContextOptions<Message> = {
+  return {
     locale,
     modifiers,
     pluralRules,
-    messages: resolveMessage
+    messages: resolveMessage,
+    processor: context.processor ?? undefined,
+    list: options.list ?? undefined,
+    named: options.named ?? undefined,
+    pluralIndex: isNumber(options.plural) ? options.plural : undefined
   }
-
-  if (context.processor) {
-    ctxOptions.processor = context.processor
-  }
-  if (options.list) {
-    ctxOptions.list = options.list
-  }
-  if (options.named) {
-    ctxOptions.named = options.named
-  }
-  if (isNumber(options.plural)) {
-    ctxOptions.pluralIndex = options.plural
-  }
-
-  return ctxOptions
 }

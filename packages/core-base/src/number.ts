@@ -2,7 +2,7 @@ import {
   assign,
   create,
   isBoolean,
-  isEmptyObject,
+  isKeylessObject,
   isNumber,
   isPlainObject,
   isString
@@ -239,7 +239,7 @@ export function number<Context extends CoreContext<Message, {}, {}, {}>, Message
   }
 
   let id = `${targetLocale}__${key}`
-  if (!isEmptyObject(overrides)) {
+  if (isPlainObject(overrides) && !isKeylessObject(overrides)) {
     id = `${id}__${JSON.stringify(overrides)}`
   }
 

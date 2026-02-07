@@ -24,9 +24,8 @@ import type {
 import type { MessageContext, MessageFunction, MessageFunctionReturn, MessageType } from './runtime'
 
 export function format<Message = string>(ast: ResourceNode): MessageFunction<Message> {
-  const msg = (ctx: MessageContext<Message>): MessageFunctionReturn<Message> =>
+  return (ctx: MessageContext<Message>): MessageFunctionReturn<Message> =>
     formatParts<Message>(ctx, ast)
-  return msg
 }
 
 export function formatParts<Message = string>(

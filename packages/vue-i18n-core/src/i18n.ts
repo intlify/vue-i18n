@@ -2,8 +2,8 @@ import {
   assign,
   createEmitter,
   isBoolean,
+  isKeylessObject,
   isNumber,
-  isEmptyObject,
   isPlainObject,
   makeSymbol,
   warn
@@ -652,14 +652,13 @@ function createGlobal(options: I18nOptions): [EffectScope, Composer] {
 }
 
 function getScope(options: UseI18nOptions, componentOptions: any): I18nScope {
+  if (isPlainObject(options) && !isKeylessObject(options)) {
+    return options.useScope || 'local'
+  }
   // prettier-ignore
-  return isEmptyObject(options)
-    ? ('__i18n' in componentOptions)
-      ? 'local'
-      : 'global'
-    : !options.useScope
-      ? 'local'
-      : options.useScope
+  return '__i18n' in componentOptions
+    ? 'local'
+    : 'global'
 }
 
 /**
