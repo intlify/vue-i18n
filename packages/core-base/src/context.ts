@@ -585,12 +585,12 @@ export function setLocaleMessage<Context extends CoreContext, Locales = keyof Co
 
 /** @internal */
 export function isTranslateFallbackWarn(fallback: boolean | RegExp, key: Path): boolean {
-  return fallback instanceof RegExp ? fallback.test(key) : fallback
+  return isRegExp(fallback) ? fallback.test(key) : fallback
 }
 
 /** @internal */
 export function isTranslateMissingWarn(missing: boolean | RegExp, key: Path): boolean {
-  return missing instanceof RegExp ? missing.test(key) : missing
+  return isRegExp(missing) ? missing.test(key) : missing
 }
 
 /** @internal */
