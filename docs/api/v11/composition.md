@@ -681,7 +681,7 @@ If you change the `locale`, the locale messages returned will also correspond to
 
 If there are no locale messages for the given `key` in the composer instance messages, they will be returned with [fallbacking](../../guide/essentials/fallback).
 
- [!WARNING]  You need to use `rt` for the locale message returned by `tm`. See the `rt` details.
+ [!WARNING]  You need to use `rt` for the locale message returned by `tm`. See the [`rt`](composition#rt) details.
 
 #### Parameters
 
