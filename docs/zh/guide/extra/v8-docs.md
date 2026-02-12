@@ -1,0 +1,21 @@
+# v8.x 文档
+
+- [简介](https://kazupon.github.io/vue-i18n/zh/introduction.html)
+- [快速上手](https://kazupon.github.io/vue-i18n/zh/started.html)
+- [安装](https://kazupon.github.io/vue-i18n/zh/installation.html)
+- 指南
+  - [格式化](https://kazupon.github.io/vue-i18n/zh/guide/formatting.html)
+  - [复数](https://kazupon.github.io/vue-i18n/zh/guide/pluralization.html)
+  - [日期时间本地化](https://kazupon.github.io/vue-i18n/zh/guide/datetime.html)
+  - [数字本地化](https://kazupon.github.io/vue-i18n/zh/guide/number.html)
+  - [语言环境消息语法](https://kazupon.github.io/vue-i18n/zh/guide/messages.html)
+  - [回退本地化](https://kazupon.github.io/vue-i18n/zh/guide/fallback.html)
+  - [基于组件的本地化](https://kazupon.github.io/vue-i18n/zh/guide/component.html)
+  - [自定义指令本地化](https://kazupon.github.io/vue-i18n/zh/guide/directive.html)
+  - [组件插值](https://kazupon.github.io/vue-i18n/zh/guide/interpolation.html)
+  - [单文件组件](https://kazupon.github.io/vue-i18n/zh/guide/sfc.html)
+  - [热重载](https://kazupon.github.io/vue-i18n/zh/guide/hot-reload.html)
+  - [语言环境更改](https://kazupon.github.io/vue-i18n/zh/guide/locale.html)
+  - [延迟加载翻译](https://kazupon.github.io/vue-i18n/zh/guide/lazy-loading.html)
+  - [工具](https://kazupon.github.io/vue-i18n/zh/guide/tooling.html)
+- [API 参考](https://kazupon.github.io/vue-i18n/zh/api/)

@@ -1,16 +1,24 @@
-import { defineConfig } from 'vitepress'
-import llmstxt from 'vitepress-plugin-llms'
-import typedocSidebarApi from '../api/typedoc-sidebar.json' with { type: 'json' }
+import { defineConfig } from 'vitepress';
+import llmstxt from 'vitepress-plugin-llms';
+import typedocSidebarApi from '../api/typedoc-sidebar.json' with { type: 'json' };
+import jp from './locales/jp.js';
+import zh from './locales/zh.js';
 
-import type { HeadConfig } from 'vitepress'
+import type { HeadConfig } from 'vitepress';
 
 const head: HeadConfig[] = [['link', { rel: 'icon', href: '/vue-i18n-logo.png' }]]
 
 export default defineConfig({
-  title: 'Vue I18n',
-  description: 'Internationalization plugin for Vue.js',
-
-  lang: 'en-US',
+  locales: {
+    root: {
+      label: 'English',
+      lang: 'en',
+      title: 'Vue I18n',
+      description: 'Internationalization plugin for Vue.js'
+    },
+    zh,
+    jp
+  },
   lastUpdated: true,
   head,
 
@@ -50,12 +58,12 @@ export default defineConfig({
 
     nav: nav(),
 
-    sidebar: [
-      ...sidebarGuide(),
-      ...sidebarApi(),
-      ...sidebarEcosystem(),
-      ...sidebarApiV11('v11/'),
-    ]
+    sidebar: {
+      '/guide/': sidebarGuide(),
+      '/ecosystem/': sidebarEcosystem(),
+      '/api/v11/': sidebarApiV11("v11/"),
+      '/api/': sidebarApi()
+    }
   }
 })
 
@@ -63,21 +71,22 @@ function nav() {
   return [
     {
       text: 'Guide',
-      link: '/guide/installation'
+      link: '/guide/installation',
     },
     {
       text: 'API',
-      link: '/api/general',
-      // NOTE: if we need to support multiple versions, we can be enble the following navigation items
-      // items: [{ text: 'latest', link: '/api/general' }, { text: 'v9 ~ v11', link: '/api/v11/general' }]
+      link: '/api/v11/general/',
     },
     {
       text: 'Ecosystem',
-      link: '/ecosystem/official'
+      link: '/ecosystem/official',
     },
     {
       text: 'Version',
-      items: [{ text: 'Maintenance Status', link: '/guide/maintenance' }, { text: 'v8.x', link: 'https://kazupon.github.io/vue-i18n/' }]
+      items: [
+        { text: 'Maintenance Status', link: '/guide/maintenance' },
+        { text: 'v8.x', link: 'https://kazupon.github.io/vue-i18n/' }
+      ]
     },
     {
       text: 'Changelog',

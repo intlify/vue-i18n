@@ -1,27 +1,25 @@
 {
-  "oxc.requireConfig": true,
-  "oxc.trace.server": "messages",
-  "oxc.typeAware": true,
   "editor.defaultFormatter": "esbenp.prettier-vscode",
   "files.associations": {
-    "*.json": "jsonc",
+    "*.json": "jsonc"
   },
   "editor.codeActionsOnSave": {
     "source.organizeImports": "always",
     "source.fixAll.oxc": "always",
     "source.fixAll.eslint": "explicit"
   },
-  "eslint.validate": [
-    "javascript",
-    "typescript",
-    "json",
-    "jsonc",
-    "json5",
-    "yaml",
-    "toml"
-  ],
+  "eslint.validate": ["javascript", "typescript", "json", "jsonc", "json5", "yaml", "toml"],
   "editor.formatOnSave": true,
   "editor.formatOnPaste": true,
   "editor.formatOnType": true,
   "typescript.tsdk": "node_modules/typescript/lib",
+  "i18n-ally.localesPaths": [
+    "examples/frameworks/nuxt3/locales",
+    "examples/storybook/src/locales",
+    "examples/lazy-loading/webpack/src/locales",
+    "examples/lazy-loading/vite/src/locales",
+    "examples/ssr/vite/src/locales",
+    "examples/type-safe/global-type-definition/src/locales",
+    "examples/type-safe/type-annotation/src/locales"
+  ]
 }

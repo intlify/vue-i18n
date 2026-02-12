@@ -1,0 +1,21 @@
+# v8.x ドキュメント
+
+- [イントロダクション](https://kazupon.github.io/vue-i18n/introduction.html)
+- [はじめに](https://kazupon.github.io/vue-i18n/started.html)
+- [インストール](https://kazupon.github.io/vue-i18n/installation.html)
+- ガイド
+  - [フォーマット](https://kazupon.github.io/vue-i18n/guide/formatting.html)
+  - [複数化](https://kazupon.github.io/vue-i18n/guide/pluralization.html)
+  - [日時ローカリゼーション](https://kazupon.github.io/vue-i18n/guide/datetime.html)
+  - [数値ローカリゼーション](https://kazupon.github.io/vue-i18n/guide/number.html)
+  - [ロケールメッセージ構文](https://kazupon.github.io/vue-i18n/guide/messages.html)
+  - [フォールバックローカリゼーション](https://kazupon.github.io/vue-i18n/guide/fallback.html)
+  - [コンポーネントベースのローカリゼーション](https://kazupon.github.io/vue-i18n/guide/component.html)
+  - [カスタムディレクティブローカリゼーション](https://kazupon.github.io/vue-i18n/guide/directive.html)
+  - [コンポーネント補間](https://kazupon.github.io/vue-i18n/guide/interpolation.html)
+  - [単一ファイルコンポーネント](https://kazupon.github.io/vue-i18n/guide/sfc.html)
+  - [ホットリロード](https://kazupon.github.io/vue-i18n/guide/hot-reload.html)
+  - [ロケールの変更](https://kazupon.github.io/vue-i18n/guide/locale.html)
+  - [翻訳の遅延読み込み](https://kazupon.github.io/vue-i18n/guide/lazy-loading.html)
+  - [ツール](https://kazupon.github.io/vue-i18n/guide/tooling.html)
+- [API リファレンス](https://kazupon.github.io/vue-i18n/api/)
