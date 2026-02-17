@@ -324,7 +324,55 @@ The following characters used in the message format syntax are processed by the 
 - `$`
 - `|`
 
-If you want to use these characters, you will need to use the [Literal interpolation](#literal-interpolation).
+If you want to use these characters, you can use the [Literal interpolation](#literal-interpolation) or **escape sequences**.
+
+### Escape Sequences
+
+:::tip NOTE
+Escape sequences are supported from v12 onwards.
+:::
+
+You can escape special characters with a backslash (`\`) prefix, similar to escape sequences in C:
+
+| Escape | Result | Description |
+|--------|--------|-------------|
+| `\{` | `{` | Literal open brace |
+| `\}` | `}` | Literal close brace |
+| `\@` | `@` | Literal at sign |
+| `\|` | `\|` | Literal pipe |
+| `\\` | `\` | Literal backslash |
+
+For example, the following locale messages resource:
+
+```js
+const messages = {
+  en: {
+    address: '{account}\\@{domain}',
+    braces: 'hello \\{world\\}',
+    choices: 'option A \\| option B'
+  }
+}
+```
+
+The following is an example of the use of `$t` in a template:
+
+```html
+<p>{{ $t('address', { account: 'foo', domain: 'domain.com' }) }}</p>
+<p>{{ $t('braces') }}</p>
+<p>{{ $t('choices') }}</p>
+```
+
+As result the below:
+
+```html
+<p>foo@domain.com</p>
+<p>hello {world}</p>
+<p>option A | option B</p>
+```
+
+:::tip NOTE
+A backslash followed by a character that is not a special character is treated as a literal backslash. For example, `\n` in a message remains as `\n` (backslash + n), not a newline.
+:::
 
 ## Rails i18n format
 

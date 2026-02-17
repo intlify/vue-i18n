@@ -418,7 +418,24 @@ export function createTokenizer(source: string, options: TokenizeOptions = {}): 
 
     while (true) {
       const ch = scnr.currentChar()
-      if (
+      if (ch === '\\') {
+        const nextCh = scnr.peek()
+        if (
+          nextCh === TokenChars.BraceLeft ||
+          nextCh === TokenChars.BraceRight ||
+          nextCh === TokenChars.LinkedAlias ||
+          nextCh === TokenChars.Pipe ||
+          nextCh === '\\'
+        ) {
+          buf += ch + nextCh
+          scnr.next()
+          scnr.next()
+        } else {
+          scnr.resetPeek()
+          buf += ch
+          scnr.next()
+        }
+      } else if (
         ch === TokenChars.BraceLeft ||
         ch === TokenChars.BraceRight ||
         ch === TokenChars.LinkedAlias ||

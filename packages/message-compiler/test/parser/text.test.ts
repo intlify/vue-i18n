@@ -159,3 +159,108 @@ describe('special characters', () => {
     expect(message.items).toHaveLength(0)
   })
 })
+
+describe('escape sequences', () => {
+  test('escaped @: foo\\@bar.com -> foo@bar.com', () => {
+    const parser = createParser({ onError: spy })
+    const ast = parser.parse('foo\\@bar.com')
+
+    expect(ast).toMatchSnapshot()
+    expect(spy).not.toHaveBeenCalled()
+    expect(ast.type).toEqual(NodeTypes.Resource)
+    expect(ast.body.type).toEqual(NodeTypes.Message)
+    const message = ast.body as MessageNode
+    expect(message.items).toHaveLength(1)
+    const item = message.items[0] as TextNode
+    expect(item).toMatchObject({
+      type: NodeTypes.Text,
+      value: 'foo@bar.com'
+    })
+  })
+
+  test('escaped {: hello\\{world\\} -> hello{world}', () => {
+    const parser = createParser({ onError: spy })
+    const ast = parser.parse('hello\\{world\\}')
+
+    expect(ast).toMatchSnapshot()
+    expect(spy).not.toHaveBeenCalled()
+    expect(ast.type).toEqual(NodeTypes.Resource)
+    expect(ast.body.type).toEqual(NodeTypes.Message)
+    const message = ast.body as MessageNode
+    expect(message.items).toHaveLength(1)
+    const item = message.items[0] as TextNode
+    expect(item).toMatchObject({
+      type: NodeTypes.Text,
+      value: 'hello{world}'
+    })
+  })
+
+  test('escaped |: option A \\| option B -> option A | option B', () => {
+    const parser = createParser({ onError: spy })
+    const ast = parser.parse('option A \\| option B')
+
+    expect(ast).toMatchSnapshot()
+    expect(spy).not.toHaveBeenCalled()
+    expect(ast.type).toEqual(NodeTypes.Resource)
+    expect(ast.body.type).toEqual(NodeTypes.Message)
+    const message = ast.body as MessageNode
+    expect(message.items).toHaveLength(1)
+    const item = message.items[0] as TextNode
+    expect(item).toMatchObject({
+      type: NodeTypes.Text,
+      value: 'option A | option B'
+    })
+  })
+
+  test('escaped backslash: path\\\\to\\\\file -> path\\to\\file', () => {
+    const parser = createParser({ onError: spy })
+    const ast = parser.parse('path\\\\to\\\\file')
+
+    expect(ast).toMatchSnapshot()
+    expect(spy).not.toHaveBeenCalled()
+    expect(ast.type).toEqual(NodeTypes.Resource)
+    expect(ast.body.type).toEqual(NodeTypes.Message)
+    const message = ast.body as MessageNode
+    expect(message.items).toHaveLength(1)
+    const item = message.items[0] as TextNode
+    expect(item).toMatchObject({
+      type: NodeTypes.Text,
+      value: 'path\\to\\file'
+    })
+  })
+
+  test('backslash followed by non-special char stays as-is', () => {
+    const parser = createParser({ onError: spy })
+    const ast = parser.parse('hello\\nworld')
+
+    expect(spy).not.toHaveBeenCalled()
+    const message = ast.body as MessageNode
+    expect(message.items).toHaveLength(1)
+    const item = message.items[0] as TextNode
+    expect(item).toMatchObject({
+      type: NodeTypes.Text,
+      value: 'hello\\nworld'
+    })
+  })
+
+  test('escape with placeholder: \\@{name} -> @value', () => {
+    const parser = createParser({ onError: spy })
+    const ast = parser.parse('\\@{name}')
+
+    expect(ast).toMatchSnapshot()
+    expect(spy).not.toHaveBeenCalled()
+    expect(ast.type).toEqual(NodeTypes.Resource)
+    expect(ast.body.type).toEqual(NodeTypes.Message)
+    const message = ast.body as MessageNode
+    expect(message.items).toHaveLength(2)
+    const textItem = message.items[0] as TextNode
+    expect(textItem).toMatchObject({
+      type: NodeTypes.Text,
+      value: '@'
+    })
+    expect(message.items[1]).toMatchObject({
+      type: NodeTypes.Named,
+      key: 'name'
+    })
+  })
+})
