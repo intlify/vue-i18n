@@ -1,5 +1,5 @@
 (*
- * Intlify message syntax v0.5.0
+ * Intlify message syntax v0.6.0
  * (vue-i18n compatible)
  *)
 
@@ -12,12 +12,13 @@ Message ::= (Text? (Placeholder | Linked)? Text?)+;
 
 (* primitives *)
 Text ::= TextChar+;
-Placeholder ::= Named | List | StringLiteral;
+Placeholder ::= Named | List | Literal;
 Named ::= "{" Space? (NamedIdentifier) Space? "}";
 List ::= "{" Space? (NumberLiteral) Space? "}";
+Literal ::= "{" Space? StringLiteral Space? "}";
 Linked ::= "@" (LinkedModifier)? LinkedDelimiter LinkedRefer;
 LinkedRefer ::= LinkedKey | Placeholder;
-LinkedKey ::= Text;
+LinkedKey ::= LinkedKeyChar+;
 LinkedModifier ::= LinkedDot Identifier;
 LinkedDelimiter ::= ":";
 LinkedDot ::= ".";
@@ -25,14 +26,16 @@ LinkedDot ::= ".";
 (* characters *)
 AnyChar ::= [#x0-#xD7FF] | [#xE000-#xFFFD] | [#x10000-#x10FFFF];  (* Unicode character *)
 SpecialChar ::= "{" | "}" | "|" | "@";
-TextChar ::= AnyChar - SpecialChar - LineEnd;
+TextChar ::= AnyChar - SpecialChar;
+LinkedKeyChar ::= AnyChar - LinkedKeySpecialChar;
+LinkedKeySpecialChar ::= "{" | "@" | "|" | "(" | ")" | Space;
 
 (* literals *)
 StringLiteral ::= "'" QuotedChar* "'";
 NumberLiteral ::= "-"? Digits;
-SpecialQuotedChar ::= "\'" | "\\";
-SpecialEscape ::= "\\" SpecialQuotedChar;
-UnicodeEscape ::= ("\\u" /[0-9a-fA-F]{4}/) | ("\\U" /[0-9a-fA-F]{6}/);
+SpecialQuotedChar ::= #x0027 | #x005C;  (* single quote or backslash *)
+SpecialEscape ::= #x005C SpecialQuotedChar;  (* \' or \\ *)
+UnicodeEscape ::= (#x005C "u" /[0-9a-fA-F]{4}/) | (#x005C "U" /[0-9a-fA-F]{6}/);
 QuotedChar ::= (AnyChar - SpecialQuotedChar - LineEnd) | SpecialEscape | UnicodeEscape;
 
 (* number *)
@@ -44,6 +47,6 @@ NamedIdentifier ::= [a-zA-Z_] [a-zA-Z0-9_\-$]*;
 
 (* whitespaces *)
 SpaceInline ::= #x0020; (* "\u0020" *)
-Tab ::= #x0009; (* \n0009 *)
-LineEnd ::= #x000D#x000A | #x000A; (* "\u000D\u000A" | "\u000A" *)
+Tab ::= #x0009; (* "\u0009" *)
+LineEnd ::= #x000D#x000A | #x000A | #x2028 | #x2029; (* CRLF | LF | LS | PS *)
 Space ::= (Tab | SpaceInline | LineEnd)+;
