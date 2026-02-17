@@ -47,7 +47,7 @@ const i18n = createI18n({
 > 请注意，在 VueI18n v9 中，选项名称是 **`datetimeFormats`**，而不是 `dateTimeFormats`。要了解更多详细信息，请访问 [迁移指南](../../guide/migration/breaking#rename-to-datetimeformats-from-datetimeformats)。
 
 > [!TIP]
-> `$d` 有多个重载。你可以在 [API 参考](../../api/vue/interfaces/ComponentCustomProperties.md#d) 中找到更多信息。
+> `$d` 有多个重载。你可以在 [API 参考](../../../api/vue/interfaces/ComponentCustomProperties.md#d) 中找到更多信息。
 
 > [!NOTE]
 > 支持本地化的一些方法包括：
@@ -155,7 +155,7 @@ DatetimeFormat 组件有一些属性。
 <!-- eslint-disable markdown/no-missing-label-refs -->
 
 > [!NOTE]
-> 支持的作用域插槽的完整列表以及其他 `i18n-d` 属性可以在 [API 参考](../../api/general/type-aliases/DatetimeFormat.md) 中找到。
+> 支持的作用域插槽的完整列表以及其他 `i18n-d` 属性可以在 [API 参考](../../../api/general/type-aliases/DatetimeFormat.md) 中找到。
 
 <!-- eslint-enable markdown/no-missing-label-refs -->
 

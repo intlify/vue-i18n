@@ -44,7 +44,7 @@ const messages = {
 > 翻訳関数のロケールメッセージリソースキーは、JavaScript オブジェクトのように `.` (ドット) を使用して特定のリソース名前空間を指定できます。
 
 > [!TIP]
-> `$t` にはいくつかのオーバーロードがあります。これらのオーバーロードについては、[API リファレンス](../../api/vue/interfaces/ComponentCustomProperties.md#t) を参照してください。
+> `$t` にはいくつかのオーバーロードがあります。これらのオーバーロードについては、[API リファレンス](../../../api/vue/interfaces/ComponentCustomProperties.md#t) を参照してください。
 
 <!-- eslint-enable markdown/no-missing-label-refs -->
 

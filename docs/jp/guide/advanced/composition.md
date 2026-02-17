@@ -62,7 +62,7 @@ const { t } = useI18n() // [!code ++]
 
 `<script setup>` の先頭で `useI18n` を呼び出す必要があります。
 
-`useI18n` は Composer インスタンスを返します。Composer インスタンスは、VueI18n インスタンスと同様に、`t` 関数などの翻訳 API や、`locale`、`fallbackLocale` などのプロパティを提供します。Composer インスタンスの詳細については、[API リファレンス](../../api/general/interfaces/Composer.md) を参照してください。
+`useI18n` は Composer インスタンスを返します。Composer インスタンスは、VueI18n インスタンスと同様に、`t` 関数などの翻訳 API や、`locale`、`fallbackLocale` などのプロパティを提供します。Composer インスタンスの詳細については、[API リファレンス](../../../api/general/interfaces/Composer.md) を参照してください。
 
 上記の例では、`useI18n` にオプションがないため、グローバルスコープで動作する Composer インスタンスを返します。したがって、グローバルスコープで動作する Composer インスタンスを返すため、ここで展開された `t` 関数によって参照されるローカライズされたメッセージは、`createI18n` で指定されたものになります。
 
@@ -135,7 +135,7 @@ const msg = computed(() => t('msg'))
 
 ```
 
-`t` の詳細については、[API リファレンス](../../api/general/interfaces/Composer.md#t) を参照してください。
+`t` の詳細については、[API リファレンス](../../../api/general/interfaces/Composer.md#t) を参照してください。
 
 ## 複数化
 
@@ -218,7 +218,7 @@ const now = ref(new Date())
 
 ```
 
-`d` の詳細については、[API リファレンス](../../api/general/interfaces/Composer.md#d) を参照してください。
+`d` の詳細については、[API リファレンス](../../../api/general/interfaces/Composer.md#d) を参照してください。
 
 ## 数値フォーマット
 
@@ -256,7 +256,7 @@ const money = ref(1000)
 </template>
 ```
 
-`n` の詳細については、[API リファレンス](../../api/general/interfaces/Composer.md#n) を参照してください。
+`n` の詳細については、[API リファレンス](../../../api/general/interfaces/Composer.md#n) を参照してください。
 
 ## グローバルスコープ
 

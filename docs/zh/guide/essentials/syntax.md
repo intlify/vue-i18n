@@ -44,7 +44,7 @@ const messages = {
 > 翻译函数的语言环境消息资源键，可以使用 `.` (点) 指定特定的资源命名空间，就像 JavaScript 访问对象一样。
 
 > [!TIP]
-> `$t` 有一些重载。关于这些重载，请参阅 [API 参考](../../api/vue/interfaces/ComponentCustomProperties.md#t)
+> `$t` 有一些重载。关于这些重载，请参阅 [API 参考](../../../api/vue/interfaces/ComponentCustomProperties.md#t)
 
 <!-- eslint-enable markdown/no-missing-label-refs -->
 

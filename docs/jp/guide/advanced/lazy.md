@@ -77,8 +77,8 @@ export async function loadLocaleMessages(i18n, locale) {
 <!-- eslint-disable markdown/no-missing-label-refs -->
 
 > [!TIP]
-> このコード例は、[i18n インスタンスの `global` プロパティ](../../api/general/interfaces/I18n.md#global) を使用してコンポーネントの外部で処理する方法も示しています。
-> i18n インスタンスについては、[API リファレンス](../../api/general/interfaces/I18n.md) を参照してください
+> このコード例は、[i18n インスタンスの `global` プロパティ](../../../api/general/interfaces/I18n.md#global) を使用してコンポーネントの外部で処理する方法も示しています。
+> i18n インスタンスについては、[API リファレンス](../../../api/general/interfaces/I18n.md) を参照してください
 
 <!-- eslint-enable markdown/no-missing-label-refs -->
 

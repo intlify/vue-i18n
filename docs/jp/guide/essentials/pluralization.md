@@ -30,7 +30,7 @@ Vue I18n は複数化をサポートするいくつかの方法を提供して�
 <!-- eslint-disable markdown/no-missing-label-refs -->
 
 > [!TIP]
-> `$t` にはいくつかのオーバーロードがあります。これらのオーバーロードについては、[API リファレンス](../../api/vue/interfaces/ComponentCustomProperties.md#t) を参照してください。
+> `$t` にはいくつかのオーバーロードがあります。これらのオーバーロードについては、[API リファレンス](../../../api/vue/interfaces/ComponentCustomProperties.md#t) を参照してください。
 
 > [!NOTE]
 > 複数化をサポートするいくつかの方法は次のとおりです：
