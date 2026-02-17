@@ -1,5 +1,5 @@
 (*
- * Intlify message syntax v0.6.0
+ * Intlify message syntax v0.7.0
  * (vue-i18n compatible)
  *)
 
@@ -26,7 +26,8 @@ LinkedDot ::= ".";
 (* characters *)
 AnyChar ::= [#x0-#xD7FF] | [#xE000-#xFFFD] | [#x10000-#x10FFFF];  (* Unicode character *)
 SpecialChar ::= "{" | "}" | "|" | "@";
-TextChar ::= AnyChar - SpecialChar;
+TextEscape ::= #x005C (SpecialChar | #x005C);  (* \{, \}, \|, \@, \\ *)
+TextChar ::= TextEscape | (AnyChar - SpecialChar);
 LinkedKeyChar ::= AnyChar - LinkedKeySpecialChar;
 LinkedKeySpecialChar ::= "{" | "@" | "|" | "(" | ")" | Space;
 

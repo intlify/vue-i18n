@@ -30,7 +30,7 @@ Vue I18n 提供了一些支持复数形式的方法。这里我们将使用 `$t`
 <!-- eslint-disable markdown/no-missing-label-refs -->
 
 > [!TIP]
-> `$t` 有一些重载。关于这些重载，请参阅 [API 参考](../../api/vue/interfaces/ComponentCustomProperties.md#t)
+> `$t` 有一些重载。关于这些重载，请参阅 [API 参考](../../../api/vue/interfaces/ComponentCustomProperties.md#t)
 
 > [!NOTE]
 > 支持复数形式的一些方法包括：

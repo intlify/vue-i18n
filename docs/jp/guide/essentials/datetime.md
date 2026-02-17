@@ -47,7 +47,7 @@ Vue I18n で日時値をローカライズするには、`$d` を使用します
 > VueI18n v9 では、オプション名は `dateTimeFormats` ではなく **`datetimeFormats`** であることに注意してください。詳細については、[マイグレーションガイド](../../guide/migration/breaking#rename-to-datetimeformats-from-datetimeformats) を参照してください。
 
 > [!TIP]
-> `$d` には複数のオーバーロードがあります。詳細については [API リファレンス](../../api/vue/interfaces/ComponentCustomProperties.md#d) を参照してください。
+> `$d` には複数のオーバーロードがあります。詳細については [API リファレンス](../../../api/vue/interfaces/ComponentCustomProperties.md#d) を参照してください。
 
 > [!NOTE]
 > ローカライズをサポートするいくつかの方法は次のとおりです：
@@ -155,7 +155,7 @@ DatetimeFormat コンポーネントにはいくつかの props があります�
 <!-- eslint-disable markdown/no-missing-label-refs -->
 
 > [!NOTE]
-> サポートされているスコープ付きスロットの完全なリストおよびその他の `i18n-d` プロパティは、[API リファレンス](../../api/general/type-aliases/DatetimeFormat.md) にあります。
+> サポートされているスコープ付きスロットの完全なリストおよびその他の `i18n-d` プロパティは、[API リファレンス](../../../api/general/type-aliases/DatetimeFormat.md) にあります。
 
 <!-- eslint-enable markdown/no-missing-label-refs -->
 

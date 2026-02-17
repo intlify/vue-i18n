@@ -62,7 +62,7 @@ const { t } = useI18n() // [!code ++]
 
 你必须在 `<script setup>` 的顶部调用 `useI18n`。
 
-`useI18n` 返回一个 Composer 实例。Composer 实例提供翻译 API（如 `t` 函数）以及 `locale` 和 `fallbackLocale` 等属性，就像 VueI18n 实例一样。有关 Composer 实例的更多信息，请参阅 [API 参考](../../api/general/interfaces/Composer.md)。
+`useI18n` 返回一个 Composer 实例。Composer 实例提供翻译 API（如 `t` 函数）以及 `locale` 和 `fallbackLocale` 等属性，就像 VueI18n 实例一样。有关 Composer 实例的更多信息，请参阅 [API 参考](../../../api/general/interfaces/Composer.md)。
 
 在上面的例子中，`useI18n` 没有选项，所以它返回一个与全局作用域一起工作的 Composer 实例。因此，它返回一个与全局作用域一起工作的 Composer 实例，这意味着这里传播的 `t` 函数引用的本地化消息是在 `createI18n` 中指定的消息。
 
@@ -135,7 +135,7 @@ const msg = computed(() => t('msg'))
 
 ```
 
-有关 `t` 的更多详细信息，请参阅 [API 参考](../../api/general/interfaces/Composer.md#t)
+有关 `t` 的更多详细信息，请参阅 [API 参考](../../../api/general/interfaces/Composer.md#t)
 
 ## 复数形式
 
@@ -218,7 +218,7 @@ const now = ref(new Date())
 
 ```
 
-有关 `d` 的更多详细信息，请参阅 [API 参考](../../api/general/interfaces/Composer.md#d)
+有关 `d` 的更多详细信息，请参阅 [API 参考](../../../api/general/interfaces/Composer.md#d)
 
 ## 数字格式化
 
@@ -256,7 +256,7 @@ const money = ref(1000)
 </template>
 ```
 
-有关 `n` 的更多详细信息，请参阅 [API 参考](../../api/general/interfaces/Composer.md#n)
+有关 `n` 的更多详细信息，请参阅 [API 参考](../../../api/general/interfaces/Composer.md#n)
 
 ## 全局作用域
 

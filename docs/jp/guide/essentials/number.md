@@ -48,7 +48,7 @@ Vue I18n で数値をローカライズするには、`$n` を使用します。
 <!-- eslint-disable markdown/no-missing-label-refs -->
 
 > [!TIP]
-> `$n` にはいくつかのオーバーロードがあります。これらのオーバーロードについては、[API リファレンス](../../api/vue/interfaces/ComponentCustomProperties.md#n) を参照してください。
+> `$n` にはいくつかのオーバーロードがあります。これらのオーバーロードについては、[API リファレンス](../../../api/vue/interfaces/ComponentCustomProperties.md#n) を参照してください。
 
 <!-- eslint-enable markdown/no-missing-label-refs -->
 
@@ -165,7 +165,7 @@ NumberFormat コンポーネントにはいくつかの props があります。
 <!-- eslint-disable markdown/no-missing-label-refs -->
 
 > [!NOTE]
-> サポートされているスコープ付きスロットの完全なリストおよびその他の `i18n-n` プロパティは、[API リファレンス](../../api/general/type-aliases/NumberFormat.md) にあります。
+> サポートされているスコープ付きスロットの完全なリストおよびその他の `i18n-n` プロパティは、[API リファレンス](../../../api/general/type-aliases/NumberFormat.md) にあります。
 
 <!-- eslint-enable markdown/no-missing-label-refs -->
 

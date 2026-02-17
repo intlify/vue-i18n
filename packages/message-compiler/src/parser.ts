@@ -30,6 +30,13 @@ export const ERROR_DOMAIN = 'parser'
 // Backslash backslash, backslash quote, uHHHH, UHHHHHH.
 const KNOWN_ESCAPES = /\\\\|\\'|\\u([0-9a-fA-F]{4})|\\U([0-9a-fA-F]{6})/g
 
+// Text context escape sequences: \\, \@, \{, \}, \|
+const TEXT_ESCAPES = /\\([\\@{}|])/g
+
+function fromTextEscapeSequence(_match: string, char: string): string {
+  return char
+}
+
 function fromEscapeSequence(match: string, codePoint4: string, codePoint6: string): string {
   switch (match) {
     case `\\\\`:
@@ -101,7 +108,7 @@ export function createParser(options: ParserOptions = {}): Parser {
   function parseText(tokenizer: Tokenizer, value: string): TextNode {
     const context = tokenizer.context()
     const node = startNode(NodeTypes.Text, context.offset, context.startLoc) as TextNode
-    node.value = value
+    node.value = value.replace(TEXT_ESCAPES, fromTextEscapeSequence)
     endNode(node, tokenizer.currentOffset(), tokenizer.currentPosition())
     return node
   }

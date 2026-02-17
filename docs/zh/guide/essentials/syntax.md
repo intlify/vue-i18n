@@ -44,7 +44,7 @@ const messages = {
 > 翻译函数的语言环境消息资源键，可以使用 `.` (点) 指定特定的资源命名空间，就像 JavaScript 访问对象一样。
 
 > [!TIP]
-> `$t` 有一些重载。关于这些重载，请参阅 [API 参考](../../api/vue/interfaces/ComponentCustomProperties.md#t)
+> `$t` 有一些重载。关于这些重载，请参阅 [API 参考](../../../api/vue/interfaces/ComponentCustomProperties.md#t)
 
 <!-- eslint-enable markdown/no-missing-label-refs -->
 
@@ -324,7 +324,55 @@ const messages = {
 - `$`
 - `|`
 
-如果你想使用这些字符，你需要使用 [字面量插值](#字面量插值)。
+如果你想使用这些字符，你可以使用 [字面量插值](#字面量插值) 或 **转义序列**。
+
+### 转义序列
+
+:::tip 注意
+转义序列从 v12 开始支持。
+:::
+
+你可以使用反斜杠 (`\`) 前缀来转义特殊字符，类似于 C 语言的转义序列：
+
+| 转义 | 结果 | 描述 |
+|------|------|------|
+| `\{` | `{` | 字面量左大括号 |
+| `\}` | `}` | 字面量右大括号 |
+| `\@` | `@` | 字面量 @ 符号 |
+| `\|` | `\|` | 字面量管道符 |
+| `\\` | `\` | 字面量反斜杠 |
+
+例如，以下语言环境消息资源：
+
+```js
+const messages = {
+  en: {
+    address: '{account}\\@{domain}',
+    braces: 'hello \\{world\\}',
+    choices: 'option A \\| option B'
+  }
+}
+```
+
+以下是在模板中使用 `$t` 的示例：
+
+```html
+<p>{{ $t('address', { account: 'foo', domain: 'domain.com' }) }}</p>
+<p>{{ $t('braces') }}</p>
+<p>{{ $t('choices') }}</p>
+```
+
+结果如下：
+
+```html
+<p>foo@domain.com</p>
+<p>hello {world}</p>
+<p>option A | option B</p>
+```
+
+:::tip 注意
+如果反斜杠后面跟的不是特殊字符，则反斜杠将被视为字面量反斜杠。例如，消息中的 `\n` 将保持为 `\n`（反斜杠 + n），而不是换行符。
+:::
 
 ## Rails i18n 格式
 
