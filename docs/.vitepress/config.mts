@@ -59,6 +59,7 @@ export default defineConfig({
     nav: nav(),
 
     sidebar: {
+      '/guide/v11/': sidebarGuideV11(),
       '/guide/': sidebarGuide(),
       '/ecosystem/': sidebarEcosystem(),
       '/api/v11/': sidebarApiV11("v11/"),
@@ -85,6 +86,7 @@ function nav() {
       text: 'Version',
       items: [
         { text: 'Maintenance Status', link: '/guide/maintenance' },
+        { text: 'v11 Guide', link: '/guide/v11/essentials/started' },
         { text: 'v8.x', link: 'https://kazupon.github.io/vue-i18n/' }
       ]
     },
@@ -255,6 +257,51 @@ function sidebarGuide() {
           text: 'Migration from Vue 2',
           link: '/guide/migration/vue2'
         }
+      ]
+    }
+  ]
+}
+
+function sidebarGuideV11() {
+  return [
+    {
+      text: 'Guide v11',
+      items: [
+        {
+          text: 'Back to Latest Guide',
+          link: '/guide/installation'
+        }
+      ]
+    },
+    {
+      text: 'Essentials',
+      collapsible: true,
+      items: [
+        { text: 'Getting Started', link: '/guide/v11/essentials/started' },
+        { text: 'Message Format Syntax', link: '/guide/v11/essentials/syntax' },
+        { text: 'Pluralization', link: '/guide/v11/essentials/pluralization' },
+        { text: 'Datetime Formatting', link: '/guide/v11/essentials/datetime' },
+        { text: 'Number Formatting', link: '/guide/v11/essentials/number' },
+        { text: 'Scope and Locale Changing', link: '/guide/v11/essentials/scope' },
+        { text: 'Fallbacking', link: '/guide/v11/essentials/fallback' },
+        { text: 'Local Scope Based Localization', link: '/guide/v11/essentials/local' }
+      ]
+    },
+    {
+      text: 'Advanced',
+      collapsible: true,
+      items: [
+        { text: 'Component Interpolation', link: '/guide/v11/advanced/component' },
+        { text: 'Single File Components', link: '/guide/v11/advanced/sfc' },
+        { text: 'Lazy Loading', link: '/guide/v11/advanced/lazy' },
+        { text: 'Message Functions', link: '/guide/v11/advanced/function' },
+        { text: 'Composition API', link: '/guide/v11/advanced/composition' },
+        { text: 'TypeScript Support', link: '/guide/v11/advanced/typescript' },
+        { text: 'Web components', link: '/guide/v11/advanced/wc' },
+        { text: 'Optimization', link: '/guide/v11/advanced/optimization' },
+        { text: 'Custom Message Format', link: '/guide/v11/advanced/format' },
+        { text: 'Petite Vue I18n', link: '/guide/v11/advanced/lite' },
+        { text: 'Custom Directive', link: '/guide/v11/advanced/directive' }
       ]
     }
   ]
