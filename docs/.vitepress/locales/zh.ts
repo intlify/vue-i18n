@@ -9,6 +9,7 @@ export default {
   themeConfig: {
     nav: nav(),
     sidebar:  {
+      '/zh/guide/v11/': sidebarGuideV11(),
       '/zh/guide/': sidebarGuide(),
       '/zh/ecosystem/': sidebarEcosystem(),
       '/zh/api/v11/': sidebarApiV11(),
@@ -35,6 +36,7 @@ function nav() {
       text: '版本',
       items: [
         { text: '维护状态', link: '/zh/guide/maintenance' },
+        { text: 'v11 指南', link: '/zh/guide/v11/essentials/started' },
         { text: 'v8.x', link: 'https://kazupon.github.io/vue-i18n/' }
       ]
     },
@@ -236,6 +238,51 @@ function sidebarEcosystem() {
           text: '第三方工具',
           link: '/zh/ecosystem/tools'
         }
+      ]
+    }
+  ];
+}
+
+function sidebarGuideV11() {
+  return [
+    {
+      text: '指南 v11',
+      items: [
+        {
+          text: '返回最新指南',
+          link: '/zh/guide/installation'
+        }
+      ]
+    },
+    {
+      text: '基础',
+      collapsible: true,
+      items: [
+        { text: '快速开始', link: '/zh/guide/v11/essentials/started' },
+        { text: '消息格式语法', link: '/zh/guide/v11/essentials/syntax' },
+        { text: '复数形式', link: '/zh/guide/v11/essentials/pluralization' },
+        { text: '日期时间格式化', link: '/zh/guide/v11/essentials/datetime' },
+        { text: '数字格式化', link: '/zh/guide/v11/essentials/number' },
+        { text: '作用域和区域设置更改', link: '/zh/guide/v11/essentials/scope' },
+        { text: '回退机制', link: '/zh/guide/v11/essentials/fallback' },
+        { text: '基于本地作用域的本地化', link: '/zh/guide/v11/essentials/local' }
+      ]
+    },
+    {
+      text: '高级',
+      collapsible: true,
+      items: [
+        { text: '组件插值', link: '/zh/guide/v11/advanced/component' },
+        { text: '单文件组件', link: '/zh/guide/v11/advanced/sfc' },
+        { text: '懒加载', link: '/zh/guide/v11/advanced/lazy' },
+        { text: '消息函数', link: '/zh/guide/v11/advanced/function' },
+        { text: '组合式 API', link: '/zh/guide/v11/advanced/composition' },
+        { text: 'TypeScript 支持', link: '/zh/guide/v11/advanced/typescript' },
+        { text: 'Web 组件', link: '/zh/guide/v11/advanced/wc' },
+        { text: '优化', link: '/zh/guide/v11/advanced/optimization' },
+        { text: '自定义消息格式', link: '/zh/guide/v11/advanced/format' },
+        { text: 'Petite Vue I18n', link: '/zh/guide/v11/advanced/lite' },
+        { text: '自定义指令', link: '/zh/guide/v11/advanced/directive' }
       ]
     }
   ];

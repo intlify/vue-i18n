@@ -9,6 +9,7 @@ export default {
   themeConfig: {
     nav: nav(),
     sidebar: {
+      '/jp/guide/v11/': sidebarGuideV11(),
       '/jp/guide/': sidebarGuide(),
       '/jp/ecosystem/': sidebarEcosystem(),
       '/jp/api/v11/': sidebarApiV11(),
@@ -35,6 +36,7 @@ function nav() {
       text: 'バージョン',
       items: [
         { text: 'メンテナンスステータス', link: '/jp/guide/maintenance' },
+        { text: 'v11 ガイド', link: '/jp/guide/v11/essentials/started' },
         { text: 'v8.x', link: 'https://kazupon.github.io/vue-i18n/' }
       ]
     },
@@ -236,6 +238,51 @@ function sidebarEcosystem() {
           text: 'サードパーティツール',
           link: '/jp/ecosystem/tools'
         }
+      ]
+    }
+  ];
+}
+
+function sidebarGuideV11() {
+  return [
+    {
+      text: 'ガイド v11',
+      items: [
+        {
+          text: '最新ガイドに戻る',
+          link: '/jp/guide/installation'
+        }
+      ]
+    },
+    {
+      text: '基本',
+      collapsible: true,
+      items: [
+        { text: 'クイックスタート', link: '/jp/guide/v11/essentials/started' },
+        { text: 'メッセージフォーマット構文', link: '/jp/guide/v11/essentials/syntax' },
+        { text: '複数化', link: '/jp/guide/v11/essentials/pluralization' },
+        { text: '日付時刻のフォーマット', link: '/jp/guide/v11/essentials/datetime' },
+        { text: '数値のフォーマット', link: '/jp/guide/v11/essentials/number' },
+        { text: 'スコープとロケールの変更', link: '/jp/guide/v11/essentials/scope' },
+        { text: 'フォールバック', link: '/jp/guide/v11/essentials/fallback' },
+        { text: 'ローカルスコープベースのローカリゼーション', link: '/jp/guide/v11/essentials/local' }
+      ]
+    },
+    {
+      text: '高度な機能',
+      collapsible: true,
+      items: [
+        { text: 'コンポーネント補間', link: '/jp/guide/v11/advanced/component' },
+        { text: 'シングルファイルコンポーネント', link: '/jp/guide/v11/advanced/sfc' },
+        { text: '遅延ロード', link: '/jp/guide/v11/advanced/lazy' },
+        { text: 'メッセージ関数', link: '/jp/guide/v11/advanced/function' },
+        { text: 'Composition API', link: '/jp/guide/v11/advanced/composition' },
+        { text: 'TypeScript サポート', link: '/jp/guide/v11/advanced/typescript' },
+        { text: 'Web コンポーネント', link: '/jp/guide/v11/advanced/wc' },
+        { text: '最適化', link: '/jp/guide/v11/advanced/optimization' },
+        { text: 'カスタムメッセージフォーマット', link: '/jp/guide/v11/advanced/format' },
+        { text: 'Petite Vue I18n', link: '/jp/guide/v11/advanced/lite' },
+        { text: 'カスタムディレクティブ', link: '/jp/guide/v11/advanced/directive' }
       ]
     }
   ];
