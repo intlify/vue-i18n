@@ -1,159 +1,68 @@
-# Custom Directive
+# Custom Directive (Removed)
 
-:::danger NOTE
-The `v-t` directive will be deprecated in version 11 and removed in version 12. This section is intended for users still working with version 10.
+:::danger REMOVED
+The `v-t` custom directive was deprecated in v11 and has been **removed in v12**.
 :::
 
-In addition to using `$t`, you can also use the `v-t` custom directive for translations.
+If you are using Vue I18n v11 or earlier, see the [v11 Custom Directive guide](../v11/advanced/directive).
 
-## String Syntax
+## Migration
 
-You can pass the key path of locale messages using string syntax.
+Replace all `v-t` directive usage with `t()` from `useI18n()`, or `$t` (available via `globalInjection: true`).
 
-### JavaScript:
-
-```js
-import { createApp } from 'vue'
-import { createI18n } from 'vue-i18n'
-
-const i18n = createI18n({
-  locale: 'en',
-  messages: {
-    en: { hello: 'hi there!' },
-    ja: { hello: 'こんにちは！' }
-  }
-})
-
-const app = createApp({
-  data: () => ({ path: 'hello' })
-})
-app.use(i18n)
-app.mount('#app')
-```
-
-### Template:
-
-<!-- eslint-skip -->
+### String syntax
 
 ```html
-<div id="string-syntax">
-  <!-- Using a string literal -->
-  <p v-t="'hello'"></p>
-  <!-- Binding a key path via data -->
-  <p v-t="path"></p>
-</div>
+<!-- Before (v11 and earlier) -->
+<p v-t="'hello'"></p>
+
+<!-- After (v12) -->
+<p>{{ t('hello') }}</p>
 ```
 
-### Output:
+### Object syntax (named arguments)
 
 ```html
-<div id="string-syntax">
-  <p>hi there!</p>
-  <p>hi there!</p>
-</div>
+<!-- Before (v11 and earlier) -->
+<p v-t="{ path: 'hello', args: { name: userName } }"></p>
+
+<!-- After (v12) -->
+<p>{{ t('hello', { name: userName }) }}</p>
 ```
 
-## Object Syntax
-
-Alternatively, you can use object syntax.
-
-### JavaScript:
-
-<!-- eslint-skip -->
-
-```js
-import { createApp } from 'vue'
-import { createI18n } from 'vue-i18n'
-
-const i18n = createI18n({
-  locale: 'ja',
-  messages: {
-    en: {
-      message: {
-        hi: 'Hi, {name}!'
-        bye: 'Goodbye!',
-        apple: 'no apples | one apple | {count} apples'
-      }
-    },
-    ja: {
-      message: {
-        hi: 'こんにちは、{name}！',
-        bye: 'さようなら！',
-        apple: 'リンゴはありません | 一つのりんご | {count} りんご'
-      }
-    }
-  }
-})
-
-const app = createApp({
-  data() {
-    return {
-      byePath: 'message.bye',
-      appleCount: 7,
-    }
-  }
-})
-app.use(i18n)
-app.mount('#object-syntax')
-```
-
-### Template:
-
-<!-- eslint-skip -->
+### Object syntax (pluralization)
 
 ```html
-<div id="object-syntax">
-  <!-- Using an object with arguments -->
-  <p v-t="{ path: 'message.hi', args: { name: 'kazupon' } }"></p>
-  <!-- Binding a key path via data -->
-  <p v-t="{ path: byePath, locale: 'en' }"></p>
-  <!-- Pluralization -->
-  <p v-t="{ path: 'message.apple', plural: appleCount }"></p>
-</div>
+<!-- Before (v11 and earlier) -->
+<p v-t="{ path: 'car', plural: count }"></p>
+
+<!-- After (v12) -->
+<p>{{ t('car', count) }}</p>
 ```
 
-### Output:
+### Object syntax (locale override)
 
 ```html
-<div id="object-syntax">
-  <p>こんにちは、kazupon！</p>
-  <p>Goodbye!</p>
-  <p>7 りんご</p>
-</div>
+<!-- Before (v11 and earlier) -->
+<p v-t="{ path: 'hello', locale: 'ja' }"></p>
+
+<!-- After (v12) -->
+<p>{{ t('hello', {}, { locale: 'ja' }) }}</p>
 ```
 
-## Scope
+### Full component example
 
-As explained in [the scope section](../essentials/scope.md), `vue-i18n` supports both global and local scopes.
+```vue
+<script setup>
+import { useI18n } from 'vue-i18n'
 
-The behavior of `v-t` depends on the scope in which it is used:
+const { t } = useI18n()
+</script>
 
-- **Local scope**: Applied when using the i18n option in Legacy API style or setting `useScope: 'local'` in `useI18n`.
-- **Global scope**: Used in all other cases.
+<template>
+  <p>{{ t('hello') }}</p>
+  <p>{{ t('message.hi', { name: 'kazupon' }) }}</p>
+</template>
+```
 
-## `$t` vs `v-t`
-
-### `$t`
-
-`$t` is a function of the `VueI18n` instance with the following advantages and disadvantages:
-
-#### Pros:
-- Allows for **flexible usage** within templates, including mustache syntax `{}`.
-- Supports computed properties and methods within Vue components.
-
-#### Cons:
-- `$t` is executed **on every re-render**, which can add translation overhead.
-
-### `v-t`
-
-`v-t` is a custom directive with its own set of pros and cons:
-
-#### Pros:
-- Offers **better performance** than `$t`, as translations can be preprocessed by the Vue compiler module provided by [vue-i18n-extensions](https://github.com/intlify/vue-i18n-extensions).
-- Enables **performance optimizations** by reducing runtime translation overhead.
-
-#### Cons:
-- Less flexible than `$t`; it’s **more complex** to use.
-- Inserts translated content directly into the element’s `textContent`, which means it cannot be used inside inline HTML structures or combined with other dynamic template expressions.
-- When using server-side rendering (SSR), you must configure a [custom transform](https://github.com/intlify/vue-i18n-extensions#server-side-rendering-for-v-t-custom-directive) by setting the `directiveTransforms` option in the `compile` function of `@vue/compiler-ssr`.
-
+For more details on the migration, see the [v12 Breaking Changes](../migration/breaking12#drop-custom-directive-v-t).

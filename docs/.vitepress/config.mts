@@ -198,10 +198,6 @@ function sidebarGuide() {
         {
           text: 'Petite Vue I18n',
           link: '/guide/advanced/lite'
-        },
-        {
-          text: 'Custom Directive',
-          link: '/guide/advanced/directive'
         }
       ]
     },
@@ -210,8 +206,8 @@ function sidebarGuide() {
       collapsible: false,
       items: [
         {
-          text: 'Nuxt 3',
-          link: '/guide/integrations/nuxt3'
+          text: 'Nuxt',
+          link: '/guide/integrations/nuxt'
         }
       ]
     },
@@ -300,8 +296,7 @@ function sidebarGuideV11() {
         { text: 'Web components', link: '/guide/v11/advanced/wc' },
         { text: 'Optimization', link: '/guide/v11/advanced/optimization' },
         { text: 'Custom Message Format', link: '/guide/v11/advanced/format' },
-        { text: 'Petite Vue I18n', link: '/guide/v11/advanced/lite' },
-        { text: 'Custom Directive', link: '/guide/v11/advanced/directive' }
+        { text: 'Petite Vue I18n', link: '/guide/v11/advanced/lite' }
       ]
     }
   ]

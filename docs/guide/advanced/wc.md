@@ -31,7 +31,6 @@ import { createI18n, I18nInjectionKey } from 'vue-i18n'
  * create an i18n instance to host for other web components
  */
 const i18n = createI18n<false>({
-  legacy: false, // must set to `false`
   locale: 'en',
   messages: {
     en: {

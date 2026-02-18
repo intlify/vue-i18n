@@ -1,10 +1,10 @@
-# Nuxt 3 集成
+# Nuxt 集成
 
-我们建议使用 [Nuxt I18n (@nuxtjs/i18n)](https://i18n.nuxtjs.org/) 来将 Vue I18n 与 Nuxt 3 一起使用，它具有高级功能，如本地化路由、SEO 标签等。
+我们建议使用 [Nuxt I18n (@nuxtjs/i18n)](https://i18n.nuxtjs.org/) 来将 Vue I18n 与 Nuxt 一起使用，它具有高级功能，如本地化路由、SEO 标签等。
 
-## 创建你自己的 Nuxt 3 集成
+## 创建你自己的 Nuxt 集成
 
-以下是一个关于如何通过 Nuxt 插件添加 Vue I18n 来设置具有你自己集成的 Nuxt 3 应用程序的教程。
+以下是一个关于如何通过 Nuxt 插件添加 Vue I18n 来设置具有你自己集成的 Nuxt 应用程序的教程。
 
 :::warning 注意
 本集成教程不支持高级 i18n 功能（如路由和 SEO 标签），仅用于演示目的，请考虑使用 Nuxt I18n 模块，并在 [i18n.nuxtjs.org](https://i18n.nuxtjs.org/) 查看其文档以获取更多详细信息。
@@ -12,9 +12,9 @@
 
 ## 要求
 
-本教程的 Node.js 要求与 Nuxt 3 相同环境。
+本教程的 Node.js 要求与 Nuxt 相同环境。
 
-请检查 [这里](https://nuxt.com/docs/getting-started/installation#prerequisites) 以获取 Nuxt 3 的 Node.js 版本。
+请检查 [这里](https://nuxt.com/docs/getting-started/installation#prerequisites) 以获取 Nuxt 的 Node.js 版本。
 
 ## 示例代码
 
@@ -22,13 +22,13 @@
 
 你还可以在这个 [nuxt3-app-vue-i18n](https://github.com/lyqht/nuxt3-app-vue-i18n) 项目中看到按照本教程制作的已部署应用程序，其中包含一个自定义 GitHub 操作，用于从 DeepL 提供翻译。
 
-## 在 Nuxt 3 应用程序上设置 vue-i18n
+## 在 Nuxt 应用程序上设置 vue-i18n
 
-我们现在将设置在 Nuxt 3 中使用 Vue I18n 的初始环境。
+我们现在将设置在 Nuxt 中使用 Vue I18n 的初始环境。
 
-### 创建 Nuxt 3 应用程序
+### 创建 Nuxt 应用程序
 
-运行以下命令以创建 Nuxt 3 应用程序：
+运行以下命令以创建 Nuxt 应用程序：
 
 ::: code-group
 
@@ -43,7 +43,7 @@ pnpm dlx nuxi init nuxt3-app-vue-i18n
 :::
 
 
-运行上述命令后，创建的 Nuxt 3 初始项目将具有以下目录结构：
+运行上述命令后，创建的 Nuxt 初始项目将具有以下目录结构：
 
 ```txt
 cd nuxt3-app-vue-i18n
@@ -97,7 +97,6 @@ import { createI18n } from 'vue-i18n'
 
 export default defineNuxtPlugin(({ vueApp }) => {
   const i18n = createI18n({
-    legacy: false,
     globalInjection: true,
     locale: 'en',
     messages: {
@@ -111,13 +110,13 @@ export default defineNuxtPlugin(({ vueApp }) => {
 })
 ```
 
-本地化 Nuxt 3 应用程序的语言环境资源配置在 [下一节](#本地化你的-nuxt-3-应用程序) 中描述
+本地化 Nuxt 应用程序的语言环境资源配置在 [下一节](#本地化你的-nuxt-应用程序) 中描述
 
-### 运行 Nuxt 3 应用程序
+### 运行 Nuxt 应用程序
 
-让我们看看 Vue I18n 是否与 Nuxt 3 一起工作。
+让我们看看 Vue I18n 是否与 Nuxt 一起工作。
 
-我们将如下编辑设置的 Nuxt 3 应用程序的 `app.vue`：
+我们将如下编辑设置的 Nuxt 应用程序的 `app.vue`：
 
 ```vue
 <template>
@@ -128,7 +127,7 @@ export default defineNuxtPlugin(({ vueApp }) => {
 </template>
 ```
 
-我们已经编辑并保存，运行以下命令在本地运行 Nuxt 3 应用程序：
+我们已经编辑并保存，运行以下命令在本地运行 Nuxt 应用程序：
 
 ::: code-group
 
@@ -151,11 +150,11 @@ pnpm dev
 
 ![Nuxt3 setup](/nuxt3-setup.png)
 
-## 本地化你的 Nuxt 3 应用程序
+## 本地化你的 Nuxt 应用程序
 
-到目前为止，我们已经能够将 Vue I18n 集成到我们的 Nuxt 3 应用程序中。让我们实现语言切换并从外部导入语言环境资源。
+到目前为止，我们已经能够将 Vue I18n 集成到我们的 Nuxt 应用程序中。让我们实现语言切换并从外部导入语言环境资源。
 
-通过实现语言切换，我们有效地对 Nuxt 3 应用程序进行了 i18n。 🌎 🌍 🌏
+通过实现语言切换，我们有效地对 Nuxt 应用程序进行了 i18n。 🌎 🌍 🌏
 
 此外，当我们将语言环境资源与源代码分离（外部化）时，我们可以在本地化服务的帮助下使用单独的工作流程来本地化应用程序。
 
@@ -260,7 +259,6 @@ import ja from '../locales/ja.json' // [!code ++]
 
 export default defineNuxtPlugin(({ vueApp }) => {
   const i18n = createI18n({
-    legacy: false,
     globalInjection: true,
     locale: 'en',
     messages: {
@@ -283,13 +281,13 @@ export default defineNuxtPlugin(({ vueApp }) => {
 
 ![Setup i18n on Nuxt3](/nuxt3-setup-i18n.gif)
 
-Nuxt 3 应用程序现在已准备好进行基本的国际化！ 🎉
+Nuxt 应用程序现在已准备好进行基本的国际化！ 🎉
 
 ## 使用 `@intlify/unplugin-vue-i18n` 进行优化
 
-到目前为止，你已经能够使用 Vue I18n 在 Nuxt 3 应用程序上支持语言切换。此外，通过外部化语言环境资源，你已将它们与源代码分离，从而更容易管理语言环境资源并与本地化服务集成。
+到目前为止，你已经能够使用 Vue I18n 在 Nuxt 应用程序上支持语言切换。此外，通过外部化语言环境资源，你已将它们与源代码分离，从而更容易管理语言环境资源并与本地化服务集成。
 
-但是，如 [优化](../advanced/optimization) 中所述，到目前为止准备的 Nuxt 3 应用程序在其包大小方面是次优的。
+但是，如 [优化](../advanced/optimization) 中所述，到目前为止准备的 Nuxt 应用程序在其包大小方面是次优的。
 
 自 Vue I18n v9 以来，消息编译器允许预编译语言环境资源以提高性能，但尚未针对该性能进行优化。
 
@@ -342,15 +340,15 @@ export default defineNuxtConfig({
 })
 ```
 
-Nuxt 3 的默认打包器是 vite。所以我们将在这里使用 `vite` 选项进行优化。
+Nuxt 的默认打包器是 vite。所以我们将在这里使用 `vite` 选项进行优化。
 
-在 `vite.plugins` 中，配置了 `@intlify/unplugin-vue-i18n` 的插件。作为此插件的一个选项，`include` 选项指定放置在 `locales` 目录中的 json 格式的语言环境资源。这允许 `@intlify/unplugin-vue-i18n` 在打包时在内部使用 Vue I18n 消息编译器预编译语言环境资源。这提高了 Vue I18n 的翻译性能，从而提高了 Nuxt 3 应用程序的渲染性能。
+在 `vite.plugins` 中，配置了 `@intlify/unplugin-vue-i18n` 的插件。作为此插件的一个选项，`include` 选项指定放置在 `locales` 目录中的 json 格式的语言环境资源。这允许 `@intlify/unplugin-vue-i18n` 在打包时在内部使用 Vue I18n 消息编译器预编译语言环境资源。这提高了 Vue I18n 的翻译性能，从而提高了 Nuxt 应用程序的渲染性能。
 
 ### 优化打包内部
 
 完成设置后，运行 `npm run dev` 来查看！
 
-访问 `http://localhost:3000` 后，Nuxt 3 应用程序的行为保持不变，但 Nuxt 3 应用程序的带宽发生了变化。
+访问 `http://localhost:3000` 后，Nuxt 应用程序的行为保持不变，但 Nuxt 应用程序的带宽发生了变化。
 
 以下是在 devtools 的网络选项卡中测量的有和没有 `@intlify/unplugin-vue-i18n` 的包大小比较：
 
@@ -372,4 +370,4 @@ Nuxt 3 的默认打包器是 vite。所以我们将在这里使用 `vite` 选项
 
 Vue I18n 只是调用这些函数，因为它们已经被编译了。
 
-在本指南中，Nuxt 3 应用程序很小，因此我们无法充分体验优化的性能，但随着应用程序变大，它肯定会从中受益。
+在本指南中，Nuxt 应用程序很小，因此我们无法充分体验优化的性能，但随着应用程序变大，它肯定会从中受益。

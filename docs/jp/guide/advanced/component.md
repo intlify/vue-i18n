@@ -39,20 +39,29 @@ Translation コンポーネント (`i18n-t`) を使用して回避できます�
 
 テンプレート：
 
-```html
-<div id="app">
-  <!-- ... -->
-  <i18n-t keypath="term" tag="label" for="tos">
-    <a :href="url" target="_blank">{{ $t('tos') }}</a>
-  </i18n-t>
-  <!-- ... -->
-</div>
+```vue
+<script setup>
+import { ref } from 'vue'
+import { useI18n } from 'vue-i18n'
+
+const { t } = useI18n()
+const url = ref('/term')
+</script>
+
+<template>
+  <div id="app">
+    <!-- ... -->
+    <i18n-t keypath="term" tag="label" for="tos">
+      <a :href="url" target="_blank">{{ t('tos') }}</a>
+    </i18n-t>
+    <!-- ... -->
+  </div>
+</template>
 ```
 
 JavaScript:
 
 ```js
-import { createApp } from 'vue'
 import { createI18n } from 'vue-i18n'
 
 const i18n = createI18n({
@@ -68,13 +77,6 @@ const i18n = createI18n({
     }
   }
 })
-
-const app = createApp({
-  data: () => ({ url: '/term' })
-})
-
-app.use(i18n)
-app.mount('#app')
 ```
 
 以下の出力：
@@ -94,7 +96,7 @@ app.mount('#app')
 Translation コンポーネントの子は、`keypath` プロパティのロケールメッセージで補間されます。上記の例では、
 
 :::v-pre
-`<a :href="url" target="_blank">{{ $t('tos') }}</a>`
+`<a :href="url" target="_blank">{{ t('tos') }}</a>`
 :::
 
 `term` ロケールメッセージで補間されます。
@@ -111,25 +113,37 @@ Translation コンポーネントの子は、`keypath` プロパティのロケ�
 
 テンプレート：
 
-```html
-<div id="app">
-  <!-- ... -->
-  <i18n-t keypath="info" tag="p">
-    <template v-slot:limit>
-      <span>{{ changeLimit }}</span>
-    </template>
-    <template v-slot:action>
-      <a :href="changeUrl">{{ $t('change') }}</a>
-    </template>
-  </i18n-t>
-  <!-- ... -->
-</div>
+```vue
+<script setup>
+import { ref } from 'vue'
+import { useI18n } from 'vue-i18n'
+
+const { t } = useI18n()
+const changeUrl = ref('/change')
+const refundUrl = ref('/refund')
+const changeLimit = ref(15)
+const refundLimit = ref(30)
+</script>
+
+<template>
+  <div id="app">
+    <!-- ... -->
+    <i18n-t keypath="info" tag="p">
+      <template v-slot:limit>
+        <span>{{ changeLimit }}</span>
+      </template>
+      <template v-slot:action>
+        <a :href="changeUrl">{{ t('change') }}</a>
+      </template>
+    </i18n-t>
+    <!-- ... -->
+  </div>
+</template>
 ```
 
 JavaScript:
 
 ```js
-import { createApp } from 'vue'
 import { createI18n } from 'vue-i18n'
 
 const i18n = createI18n({
@@ -142,18 +156,6 @@ const i18n = createI18n({
     }
   }
 })
-
-const app = createApp({
-  data: () => ({
-    changeUrl: '/change',
-    refundUrl: '/refund',
-    changeLimit: 15,
-    refundLimit: 30
-  })
-})
-
-app.use(i18n)
-app.mount('#app')
 ```
 
 出力：
@@ -178,7 +180,7 @@ app.mount('#app')
       <span>{{ changeLimit }}</span>
     </template>
     <template #action>
-      <a :href="changeUrl">{{ $t('change') }}</a>
+      <a :href="changeUrl">{{ t('change') }}</a>
     </template>
   </i18n-t>
   <!-- ... -->
@@ -214,7 +216,6 @@ const { createApp, ref } = Vue
 const { createI18n } = VueI18n
 
 const i18n = createI18n({
-  legacy: false,
   locale: 'en',
   messages: {
     en: {

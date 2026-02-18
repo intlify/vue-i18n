@@ -43,7 +43,7 @@ const i18n = createI18n({
 })
 ```
 
-Vue I18n で数値をローカライズするには、`$n` を使用します。
+Vue I18n で数値をローカライズするには、`$n`（グローバルインジェクション経由）または `useI18n()` の `n` を使用します。
 
 <!-- eslint-disable markdown/no-missing-label-refs -->
 

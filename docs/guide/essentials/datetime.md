@@ -51,9 +51,9 @@ To localize DateTime value with Vue I18n, use the `$d`.
 > [!NOTE]
 > Some ways to support localize are:
 >
-> - `$d` (for Legacy API mode & Composition API mode)
+> - `$d` (via global injection)
 > - built-in DatetimeFormat component (`i18n-d`)
-> - exported `d` from `useI18n` (for Composition API mode)
+> - exported `d` from `useI18n`
 
 <!-- eslint-enable markdown/no-missing-label-refs -->
 

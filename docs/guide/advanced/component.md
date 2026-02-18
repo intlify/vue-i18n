@@ -39,20 +39,29 @@ You can avoid it using the Translation component (`i18n-t`). For example the bel
 
 Template:
 
-```html
-<div id="app">
-  <!-- ... -->
-  <i18n-t keypath="term" tag="label" for="tos">
-    <a :href="url" target="_blank">{{ $t('tos') }}</a>
-  </i18n-t>
-  <!-- ... -->
-</div>
+```vue
+<script setup>
+import { ref } from 'vue'
+import { useI18n } from 'vue-i18n'
+
+const { t } = useI18n()
+const url = ref('/term')
+</script>
+
+<template>
+  <div id="app">
+    <!-- ... -->
+    <i18n-t keypath="term" tag="label" for="tos">
+      <a :href="url" target="_blank">{{ t('tos') }}</a>
+    </i18n-t>
+    <!-- ... -->
+  </div>
+</template>
 ```
 
 JavaScript:
 
 ```js
-import { createApp } from 'vue'
 import { createI18n } from 'vue-i18n'
 
 const i18n = createI18n({
@@ -68,13 +77,6 @@ const i18n = createI18n({
     }
   }
 })
-
-const app = createApp({
-  data: () => ({ url: '/term' })
-})
-
-app.use(i18n)
-app.mount('#app')
 ```
 
 The following output:
@@ -94,7 +96,7 @@ About the above example, see the [example](https://github.com/intlify/vue-i18n/b
 The children of translation component are interpolated with locale message of `keypath` prop. In the above example,
 
 :::v-pre
-`<a :href="url" target="_blank">{{ $t('tos') }}</a>`
+`<a :href="url" target="_blank">{{ t('tos') }}</a>`
 :::
 
 Is interpolated with `term` locale message.
@@ -111,25 +113,37 @@ It’s more convenient to use the named slots syntax. For example the below:
 
 Template:
 
-```html
-<div id="app">
-  <!-- ... -->
-  <i18n-t keypath="info" tag="p">
-    <template v-slot:limit>
-      <span>{{ changeLimit }}</span>
-    </template>
-    <template v-slot:action>
-      <a :href="changeUrl">{{ $t('change') }}</a>
-    </template>
-  </i18n-t>
-  <!-- ... -->
-</div>
+```vue
+<script setup>
+import { ref } from 'vue'
+import { useI18n } from 'vue-i18n'
+
+const { t } = useI18n()
+const changeUrl = ref('/change')
+const refundUrl = ref('/refund')
+const changeLimit = ref(15)
+const refundLimit = ref(30)
+</script>
+
+<template>
+  <div id="app">
+    <!-- ... -->
+    <i18n-t keypath="info" tag="p">
+      <template v-slot:limit>
+        <span>{{ changeLimit }}</span>
+      </template>
+      <template v-slot:action>
+        <a :href="changeUrl">{{ t('change') }}</a>
+      </template>
+    </i18n-t>
+    <!-- ... -->
+  </div>
+</template>
 ```
 
 JavaScript:
 
 ```js
-import { createApp } from 'vue'
 import { createI18n } from 'vue-i18n'
 
 const i18n = createI18n({
@@ -142,18 +156,6 @@ const i18n = createI18n({
     }
   }
 })
-
-const app = createApp({
-  data: () => ({
-    changeUrl: '/change',
-    refundUrl: '/refund',
-    changeLimit: 15,
-    refundLimit: 30
-  })
-})
-
-app.use(i18n)
-app.mount('#app')
 ```
 
 Outputs:
@@ -178,7 +180,7 @@ You can also use the following slots shorthand in templates:
       <span>{{ changeLimit }}</span>
     </template>
     <template #action>
-      <a :href="changeUrl">{{ $t('change') }}</a>
+      <a :href="changeUrl">{{ t('change') }}</a>
     </template>
   </i18n-t>
   <!-- ... -->
@@ -214,7 +216,6 @@ const { createApp, ref } = Vue
 const { createI18n } = VueI18n
 
 const i18n = createI18n({
-  legacy: false,
   locale: 'en',
   messages: {
     en: {

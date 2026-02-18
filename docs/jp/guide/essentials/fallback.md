@@ -62,9 +62,9 @@ const i18n = createI18n({
 これらの警告メッセージは、デフォルトでは開発モード (`process.env`<wbr/>`.NODE_ENV !== 'production'`) でのみ警告され、本番環境では警告されません。
 :::
 
-最初の警告（`Not found key...`）を抑制するには、`createI18n` を初期化するときに、レガシー API モードでは `silentTranslationWarn: true` を設定し、Composition API モードでは `missingWarn: false` を設定します。
+最初の警告（`Not found key...`）を抑制するには、`createI18n` を初期化するときに `missingWarn: false` を設定します。
 
-2 つ目の警告（`Fall back to...`）を抑制するには、`createI18n` を初期化するときに、レガシー API モードでは `silentFallbackWarn: true` を設定し、Composition API モードでは `fallbackWarn: false` を設定します。
+2 つ目の警告（`Fall back to...`）を抑制するには、`createI18n` を初期化するときに `fallbackWarn: false` を設定します。
 
 ## ロケールの配列を使用した明示的なフォールバック
 

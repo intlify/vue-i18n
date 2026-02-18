@@ -2,6 +2,10 @@
 
 Vue I18n can use message format syntax to localize the messages to be displayed in the UI. Vue I18n messages are interpolations and messages with various feature syntax.
 
+:::tip NOTE
+The examples in this section use `$t` in templates, which is available via global injection (enabled by default). You can also use `t()` from `useI18n()` in your `<script setup>` for the same functionality.
+:::
+
 ## Interpolations
 
 Vue I18n supports interpolation using placeholders `{}` like "Mustache".
@@ -374,44 +378,6 @@ As result the below:
 A backslash followed by a character that is not a special character is treated as a literal backslash. For example, `\n` in a message remains as `\n` (backslash + n), not a newline.
 :::
 
-## Rails i18n format
-
-Vue I18n supports the message format that is compatible with [Ruby on Rails i18n](https://guides.rubyonrails.org/i18n.html).
-
-You can interpolate message format syntax with `%` prefixing:
-
-:::danger IMPORTANT
-In v10 and later, Rails i18n format will be deprecated. We recommend using Named interpolation.
-:::
-
-As an example, the following locale messages resource:
-
-```js
-const messages = {
-  en: {
-    message: {
-      hello: '%{msg} world'
-    }
-  }
-}
-```
-
-It is defined `en` locale with `{ message: { hello: '%{msg} world' } }`.
-
-As with [Named interpolation](#named-interpolation), you can specify variables defined in JavaScript. In the locale message above, it is possible to localize it by giving a JavaScript defined `msg` as a parameter to the translation function.
-
-The following is an example of the use of `$t` in a template:
-
-```html
-<p>{{ $t('message.hello', { msg: 'hello' }) }}</p>
-```
-
-As result, the below:
-
-```html
-<p>hello world</p>
-```
-
 ## HTML Message
 
 You can localize it with messages that contain HTML.
@@ -425,7 +391,7 @@ We recommended using the [Component interpolation](../advanced/component).
 :::warning NOTICE
 If the message contains HTML, Vue I18n outputs a warning to console when development mode (`process.env`<wbr/>`.NODE_ENV !== 'production'`), Vue I18n outputs  warning to console.
 
-You can control warning output with the `warnHtmlInMessage` or `warnHtmlMessage` options in `createI18n` or `useI18n`.
+You can control warning output with the `warnHtmlMessage` option in `createI18n` or `useI18n`.
 :::
 
 As an example, the following locale messages resource:

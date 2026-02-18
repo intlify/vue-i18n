@@ -36,7 +36,7 @@ const messages = {
 
 The message function accept the **Message context** as the first argument, which has several props and functions. We’ll explain how to use it in the following sections, so let’s go on.
 
-The use of the message function is very easy! You just specify the key of the message function with `$t` or `t`:
+The use of the message function is very easy! You just specify the key of the message function with `t` (from `useI18n()`) or `$t` (via global injection):
 
 <!-- eslint-skip -->
 

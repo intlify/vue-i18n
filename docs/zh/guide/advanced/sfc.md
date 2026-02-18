@@ -7,19 +7,19 @@
 以下是 [单文件组件示例](https://github.com/kazupon/vue-i18n/tree/dev/examples/sfc)：
 
 ```vue
-<script>
-export default {
-  name: 'App'
-}
+<script setup>
+import { useI18n } from 'vue-i18n'
+
+const { locale, t } = useI18n()
 </script>
 
 <template>
   <label for="locale">locale</label>
-  <select v-model="$i18n.locale">
+  <select v-model="locale">
     <option>en</option>
     <option>ja</option>
   </select>
-  <p>message: {{ $t('hello') }}</p>
+  <p>message: {{ t('hello') }}</p>
 </template>
 
 <i18n>
@@ -38,12 +38,10 @@ export default {
 
 i18n 自定义块定义的语言环境消息在单文件组件中用作本地作用域。
 
-如果在模板中使用了 `$t('hello')`，则会引用 `i18n` 自定义块定义的 `hello` 键。
+如果在模板中使用了 `t('hello')`，则会引用 `i18n` 自定义块定义的 `hello` 键。
 
-:::tip 注意
-组合式 API 需要 `useI18n` 返回 `setup` 上下文，以便参考 i18n 自定义块中定义的语言环境消息进行本地化。
-
-关于如何使用 `useI18n`，请参阅 [组合式 API](./composition)
+:::tip NOTE
+上面的示例使用 `useI18n` 访问 i18n 自定义块中定义的语言环境消息。有关更多详细信息，请参阅 [组合式 API](./composition)。
 :::
 
 要使用 i18n 自定义块，你需要为打包器使用以下插件。
@@ -57,7 +55,7 @@ i18n 自定义块定义的语言环境消息在单文件组件中用作本地作
 
 [`unplugin-vue-i18n`](https://github.com/intlify/bundle-tools/tree/main/packages/unplugin-vue-i18n) 适用于 vite 和 webpack。
 
-:::tip 要求
+:::tip REQUIREMENTS
 - vite：**v3 或更高版本**
 - @vitejs/plugin-vue：**v3.2.0 或更高版本**。
 :::

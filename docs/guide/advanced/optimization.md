@@ -126,7 +126,7 @@ No need to do anything. [Quasar CLI](https://quasar.dev) takes care of the optim
 The `esm-bundler` builds now exposes global feature flags that can be overwritten at compile time:
 
 - `__VUE_I18N_FULL_INSTALL__` (enable/disable, in addition to vue-i18n APIs, components and directives all fully support installation: `true`)
-- `__VUE_I18N_LEGACY_API__` (enable/disable vue-i18n legacy style APIs support, default: `true`)
+- `__VUE_I18N_LEGACY_API__` (enable/disable vue-i18n legacy style APIs support. Legacy API has been removed in v12, default: `false`)
 
 The build will work without configuring these flags, however it is **strongly recommended** to properly configure them in order to get proper tree shaking in the final bundle.
 

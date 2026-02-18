@@ -17,12 +17,18 @@ Vue + Vue I18n でグローバルアプリケーションを作成するのは�
 ### App.vue
 
 ```vue
+<script setup>
+import { useI18n } from 'vue-i18n'
+
+const { t } = useI18n()
+</script>
+
 <template>
-  <h1>{{ $t('message.hello') }}</h1>
+  <h1>{{ t('message.hello') }}</h1>
 </template>
 ```
 
-テンプレートでは、Vue I18n によって注入された `$t` 翻訳 API を使用してローカライズを行います。これにより、Vue I18n はテンプレートを書き換えることなくロケールを変更でき、グローバルアプリケーションもサポートできます。
+テンプレートでは、`useI18n()` から取得した `t` 関数を使用してローカライズを行います。これにより、Vue I18n はテンプレートを書き換えることなくロケールを変更でき、グローバルアプリケーションもサポートできます。
 
 出力は以下のようになります：
 
@@ -60,9 +66,9 @@ const i18n = createI18n({
 
 `locale` は、ローカライズされる Vue アプリケーションの言語です。
 
-`fallbackLocale` は、`$t` 翻訳 API で指定されたキーリソースが `locale` の言語で見つからない場合にフォールバックする言語です。
+`fallbackLocale` は、翻訳 API（`useI18n()` の `t` など）で指定されたキーリソースが `locale` の言語で見つからない場合にフォールバックする言語です。
 
-`messages` は、`$t` 翻訳 API で翻訳するためのロケールメッセージです。ロケールメッセージの構造は、各ロケールを最上位プロパティとする階層的なオブジェクト構造です。
+`messages` は、翻訳 API で翻訳するためのロケールメッセージです。ロケールメッセージの構造は、各ロケールを最上位プロパティとする階層的なオブジェクト構造です。
 
 ### i18n プラグインの登録
 
@@ -97,17 +103,12 @@ const { createI18n, useI18n } = VueI18n
 
 ### コンポーネント API スタイル
 
-Vue I18n は、Composition API と Options API の両方で使用できます。関連する場合、このガイドの例では両方のスタイルで記述されたコンポーネントを示します。Composition API の例では、明示的な `setup` 関数ではなく、通常 `<script setup>` を使用します。
+Vue I18n v12 は Composition API のみを使用します。このガイドの例では、明示的な `setup` 関数ではなく、通常 `<script setup>` を使用します。
 
-2 つのスタイルについて復習が必要な場合は、[Vue - API スタイル](https://vuejs.org/guide/introduction.html#api-styles) を参照してください。
+Composition API について復習が必要な場合は、[Vue - API スタイル](https://vuejs.org/guide/introduction.html#api-styles) を参照してください。
 
-Vue I18n は、Vue の Composition API と Options API の両方で動作します。Vue I18n には、Vue と同様に Composition API と Options API 用の Legacy API の 2 つの API スタイルがあります。
+テンプレートでは、`useI18n()` から返される `t()` を使用するか、デフォルトでグローバルに注入される `$t`（`globalInjection: true` を介して）を使用できます。
 
-:::danger 重要
-Vue I18n v9 以降では、Vue I18n v8.x で提供されていた API は **Legacy API** モードと呼ばれます。
-Legacy API は Vue I18n v11 で非推奨となり、Vue I18n v12 で廃止されます。Composition API モードの使用を推奨します。
+:::tip NOTE
+Vue I18n v11 以前の Legacy API モードを使用している場合は、[v11 ガイド](../v11/essentials/started) を参照してください。
 :::
-
-以下のセクションでは、Legacy API を使用して説明します。
-
-Composition API スタイルで使用したい場合やすでに Vue I18n を理解している場合は、[こちら](../advanced/composition) に進んでください。

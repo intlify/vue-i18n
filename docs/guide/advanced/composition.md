@@ -1,22 +1,17 @@
 # Composition API
 
-The introduction of `setup` and Vue’s [Composition API](https://v3.vuejs.org/guide/composition-api-introduction.html) opens up new possibilities. But to be able to get the full potential out of Vue I18n, we will need to use a few new functions to replace access to `this`.
-
-We have been describing the features of Vue I18n using the Legacy API, which is compatible with vue-i18n v8.x. Now let’s take a look at Vue I18n `useI18n` for Composition API.
+Vue I18n provides the `useI18n` composable for the Composition API. This section covers how to use `useI18n` to access translation functions and manage i18n resources in your components.
 
 ## Basic Usage
 
-Let’s look at the basic usage of Vue I18n Composition API! Here we will learn the basic usage by modifying the code in [Getting Started](../../guide/essentials/started) to learn the basic usage.
+Let's look at the basic usage of `useI18n`! Here we will learn the basic usage by modifying the code in [Getting Started](../essentials/started).
 
-To compose with `useI18n` in `setup` of Vue 3, there is one thing you need to do, you need set the `legacy` option of the `createI18n` function to `false`.
+First, create an i18n instance with `createI18n`:
 
-The following is an example of adding the `legacy` option to `createI18n`:
-
-```js{4}
+```js
 // ...
 
 const i18n = VueI18n.createI18n({
-  legacy: false, // you must set `false`, to use Composition API // [!code ++]
   locale: 'ja',
   fallbackLocale: 'en',
   messages: {
@@ -36,37 +31,7 @@ const i18n = VueI18n.createI18n({
 // ...
 ```
 
-You can set `legacy: false` to allow Vue I18n to switch the API mode, from Legacy API mode to Composition API mode.
-
-:::tip NOTE
-The following properties of i18n instance created by `createI18n` change its behavior:
-
-- `mode` property: `"legacy"` to `"composition"`
-- `global` property: VueI18n instance to Composer instance
-:::
-
 You are now ready to use `useI18n` in the `App.vue` component. The code looks like this:
-
-<!-- eslint-skip -->
-
-```vue
-<script setup> // [!code ++]
-import { useI18n } from 'vue-i18n' // [!code ++]
-const { t } = useI18n() // [!code ++]
-</script> // [!code ++]
-
-<template>
-  <h1>{{ $t("message.hello") }}</h1>
-</template>
-```
-
-You must call `useI18n` at top of the `<script setup>`.
-
-The `useI18n` returns a Composer instance. The Composer instance provides a translation API such as the `t` function, as well as properties such as `locale` and `fallbackLocale`, just like the VueI18n instance. For more information on the Composer instance, see the [API Reference](../../api/general/interfaces/Composer.md).
-
-In the above example, there are no options for `useI18n`, so it returns a Composer instance that works with the global scope. As such, it returns a Composer instance that works with the global scope, which means that the localized message referenced by the spread `t` function here is the one specified in `createI18n`.
-
-you can use `t` in the components template:
 
 ```vue
 <script setup>
@@ -75,14 +40,19 @@ const { t } = useI18n()
 </script>
 
 <template>
-  <h1>{{ $t("message.hello") }}</h1> // [!code --]
-  <h1>{{ t("message.hello") }}</h1> // [!code ++]
+  <h1>{{ t("message.hello") }}</h1>
 </template>
 ```
 
+You must call `useI18n` at top of the `<script setup>`.
+
+The `useI18n` returns a Composer instance. The Composer instance provides a translation API such as the `t` function, as well as properties such as `locale` and `fallbackLocale`. For more information on the Composer instance, see the [API Reference](../../api/general/interfaces/Composer.md).
+
+In the above example, there are no options for `useI18n`, so it returns a Composer instance that works with the global scope. This means that the localized message referenced by the `t` function is the one specified in `createI18n`.
+
 The output follows:
 
-```vue
+```html
 <div id="app">
   <h1>こんにちは、世界</h1>
 </div>
@@ -90,9 +60,7 @@ The output follows:
 
 ## Message Translation
 
-In the Legacy API mode, the messages were translated using either `$t` or the VueI18n instance of `t`.
-
-In the Composition API mode, the Message Format Syntax remains the same as in the Legacy API mode. You can use the Composer instance `t` to translate a message as follows:
+You can use the Composer instance `t` to translate a message as follows:
 
 ```vue
 <script setup>
@@ -139,7 +107,7 @@ For more details of `t`, see the [API Reference](../../api/general/interfaces/Co
 
 ## Pluralization
 
-In the Composition API mode, the plural form of the message is left in syntax as in the Legacy API mode, but is translated using the `t` of the Composer instance:
+The plural form of the message uses the same syntax, and is translated using `t`:
 
 ```vue
 <script setup>
@@ -174,14 +142,12 @@ const { t } = useI18n({
 ```
 
 :::tip NOTE
-In the Composition API mode, plural translations have been integrated into `t`.
+Plural translations are integrated into `t`.
 :::
 
 ## Datetime Formatting
 
-In the Legacy API mode, Datetime value was formatted using `$d` or the VueI18n instance of `d`.
-
-In the Composition API mode, it uses the `d` of the Composer instance to format:
+Use the `d` function from the Composer instance to format datetime values:
 
 ```vue
 <script setup>
@@ -222,9 +188,7 @@ For more details of `d`, see the [API Reference](../../api/general/interfaces/Co
 
 ## Number Formatting
 
-In the Legacy API mode, Number value is formatted using `$n` or the `n` of the VueI18n instance.
-
-In the Composition API mode, it is formatted using the `n` of the Composer instance:
+Use the `n` function from the Composer instance to format number values:
 
 ```vue
 <script setup>
@@ -260,15 +224,13 @@ For more details of `n`, see the [API Reference](../../api/general/interfaces/Co
 
 ## Global scope
 
-A global scope in the Composition API mode is created when an i18n instance is created with `createI18n`, similar to the Legacy API mode.
-
-While the Legacy API mode `global` property of the i18n instance is the VueI18n instance, the Composition API mode allows you to reference the Composer instance.
+A global scope is created when an i18n instance is created with `createI18n`. The `global` property of the i18n instance references the global Composer instance.
 
 There are two ways to refer the global scope Composer instance at the component.
 
 ### Explicit with `useI18n`
 
-As we have explained, in `useI18n` is a way.
+You can explicitly access the global scope by passing `useScope: 'global'` to `useI18n`:
 
 <!-- eslint-skip -->
 
@@ -285,7 +247,7 @@ The above code sets the `useI18n` option to `useScope: 'global'`, which allows `
 Then you can compose using the functions and properties exposed from the Composer instance.
 
 :::tip NOTE
-If you set `useI18n` to `messages`, `datetimeFormats`, and `numberFormats` together `useScope: 'global’`, **they will be merged into global scope**. That is, they will be managed by `messages`, `datetimeFormasts`, and `numberFormats` of the global scope Composer instance.
+If you set `useI18n` to `messages`, `datetimeFormats`, and `numberFormats` together `useScope: 'global'`, **they will be merged into global scope**. That is, they will be managed by `messages`, `datetimeFormasts`, and `numberFormats` of the global scope Composer instance.
 
 And also, if [`global` is specified in i18n custom blocks](../advanced/sfc#define-locale-messages-for-global-scope) (e.g. `<i18n global>{ … }</i18n>`), the locale messages defined in the blocks are merged with the global scope.
 :::
@@ -294,15 +256,9 @@ And also, if [`global` is specified in i18n custom blocks](../advanced/sfc#defin
 
 Another way to refer a global scope Composer instance is through properties and functions implicitly injected into the component.
 
-You need to specify **`globalInjection: true`** together with `legacy: false` as an option for `createI18n`, because disabled by default.
+By default (`globalInjection: true`), Vue I18n injects the following properties and functions into the components:
 
-:::tip NOTE
-vue-i18n v9.2-beta.34 or later, `globalInjection` is `true` by default.
-:::
-
-This allows Vue I18n to inject the following properties and functions into the components:
-
-- `$i18n`: An object wrapped with the following global scope Composer instance properties
+- `$i18n`: An object with the following global scope properties
   - `locale`
   - `fallbackLocale`
   - `availableLocales`
@@ -315,11 +271,10 @@ This allows Vue I18n to inject the following properties and functions into the c
 The Vue 3 runtime globally injects components with what is set in `app.config.globalProperties`. Thus, the ones listed above are injected by the Vue 3 runtime and can therefore be used implicitly in template.
 
 :::warning NOTICE
-- The `setup` does not allow to see these properties and functions injected into the component
-- In Legacy API mode, some Vue I18n APIs prefixed with `$` were injected, but the properties and functions prefixing components with `$` and injected in Composition API mode are different from the Legacy API mode.
+The `setup` does not allow to see these properties and functions injected into the component.
 :::
 
-You’ve noticed that the ones listed above are prefixed with `$`. The reason for prefixing them with `$` is that they are:
+You've noticed that the ones listed above are prefixed with `$`. The reason for prefixing them with `$` is that they are:
 
 - The `setup` does not conflict with the properties and functions returned by render context
 - Global scope accessible identifier for Vue I18n Composition API mode
@@ -334,12 +289,10 @@ If you use it once and stop using it, you must change all the properties or func
 
 ## Local scope
 
-In Legacy API mode, VueI18n instance is created by specifying the `i18n` component option for each component. This enables resources such as local messages managed by VueI18n instance to be local scopes that could be referenced only by the target component.
-
-To enable local scope in the Composition API mode, you need to set an option to `useI18n`, which will create a new instance of Composer based on the given locale, locale messages, etc. When the option is given, `useI18n` creates and returns a new Composer instance based on the locale, locale messages, and other resources specified by the option.
+To enable local scope, you need to set an option to `useI18n`, which will create a new instance of Composer based on the given locale, locale messages, etc. When the option is given, `useI18n` creates and returns a new Composer instance based on the locale, locale messages, and other resources specified by the option.
 
 :::tip NOTE
-You can explicit specify `useScope: ‘local’` option.
+You can explicitly specify `useScope: 'local'` option.
 :::
 
 The following example codes:
@@ -419,9 +372,7 @@ In this example, the definition of resources is separated from i18n custom block
 
 ### Shared locale messages for components
 
-In Legacy API mode, shared locale messages are used in components with the `sharedMessages` option.
-
-In composition API mode, use `mergeLocaleMessage` exported by `useI18n`.
+Use `mergeLocaleMessage` exported by `useI18n` to share locale messages across components.
 
 Common locale messages example:
 
@@ -507,7 +458,7 @@ If you are using the [implicit way](composition#implicit-with-injected-propertie
 
 ### Local Scope
 
-The local scope locales, that is, the  Composer instance `locale` property returned by `useI18n`, are inherited from the global scope, as is the Legacy API. Therefore, when you change the locale at global scope, the inherited local scope locale is also changed. If you want to switch the locale for the whole application, you can use the `locale` returned by `useI18n({ useScope: 'global' })` or, if you use [implicit way](composition#implicit-with-injected-properties-and-functions), you can use `$i18n.locale`.
+The local scope locales, that is, the Composer instance `locale` property returned by `useI18n`, are inherited from the global scope. Therefore, when you change the locale at global scope, the inherited local scope locale is also changed. If you want to switch the locale for the whole application, you can use the `locale` returned by `useI18n({ useScope: 'global' })` or, if you use [implicit way](composition#implicit-with-injected-properties-and-functions), you can use `$i18n.locale`.
 
 :::tip NOTE
 If you do not want to inherit the locale from the global scope, the `inheritLocale` option of `useI18n` must be `false`.
@@ -517,47 +468,6 @@ If you do not want to inherit the locale from the global scope, the `inheritLoca
 Changes to the `locale` at the local scope have **no effect on the global scope locale, but only within the local scope**.
 :::
 
-## Mapping between VueI18n instance and Composer instance
+## Mapping from VueI18n to Composer
 
-The API offered by the Composer instance in the Composition API is very similar interface to the API provided by the VueI18n instance.
-
-:::tip MEMO
-Internally, the VueI18n instance of the Legacy API mode works by wrapping the Composer instance.
-For this reason, the performance overhead is less in the Composition API mode than in the Legacy API mode.
-:::
-
-Below is the mapping table:
-
-| VueI18n instance  | Composer instance       |
-| ----------------- | ----------------------- |
-| `id` | `id` |
-| `locale` | `locale` |
-| `fallbackLocale` | `fallbackLocale` |
-| `availableLocales` | `availableLocales` |
-| `messages` | `messages` |
-| `datetimeFormats` | `datetimeFormats` |
-| `numberFormats` | `numberFormats` |
-| `modifiers` | `modifiers` |
-| `missing` | `getMissingHandler` / `setMissingHandler` |
-| `postTranslation` | `getPostTranslationHandler` / `setPostTranslationHandler`|
-| `silentTranslationWarn` | `missingWarn` |
-| `silentFallbackWarn` | `fallbackWarn` |
-| `formatFallbackMessages` | `fallbackFormat` |
-| `sync` | `inheritLocale` |
-| `warnHtmlInMessage` | `warnHtmlMessage` |
-| `escapeParameterHtml` | `escapeParameter` |
-| `t` | `t` |
-| `tc` | `t` |
-| `te` | `te` |
-| `tm` | `tm` |
-| `getLocaleMessage` | `getLocaleMessage` |
-| `setLocaleMessage` | `setLocaleMessage`|
-| `mergeLocaleMessage` | `mergeLocaleMessage` |
-| `d` | `d` |
-| `getDateTimeFormat` | `getDateTimeFormat` |
-| `setDateTimeFormat` | `setDateTimeFormat` |
-| `mergeDateTimeFormat` | `mergeDateTimeFormat` |
-| `n` | `n` |
-| `getNumberFormat` | `getNumberFormat` |
-| `setNumberFormat` | `setNumberFormat` |
-| `mergeNumberFormat` | `mergeNumberFormat` |
+If you are migrating from v11 or earlier, see the [v12 Breaking Changes](../migration/breaking12#drop-legacy-api-mode) for a detailed mapping between the VueI18n instance (Legacy API) and the Composer instance (Composition API).

@@ -52,9 +52,9 @@ const i18n = createI18n({
 > [!NOTE]
 > 支持本地化的一些方法包括：
 >
-> - `$d` (用于传统 API 模式和组合式 API 模式)
+> - `$d` (通过全局注入)
 > - 内置 DatetimeFormat 组件 (`i18n-d`)
-> - 从 `useI18n` 导出的 `d` (用于组合式 API 模式)
+> - 从 `useI18n` 导出的 `d`
 
 <!-- eslint-enable markdown/no-missing-label-refs -->
 

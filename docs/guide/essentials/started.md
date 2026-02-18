@@ -17,12 +17,18 @@ Let's start by looking at the root component, `App.vue`.
 ### App.vue
 
 ```vue
+<script setup>
+import { useI18n } from 'vue-i18n'
+
+const { t } = useI18n()
+</script>
+
 <template>
-  <h1>{{ $t('message.hello') }}</h1>
+  <h1>{{ t('message.hello') }}</h1>
 </template>
 ```
 
-In the template, we use the `$t` translation API injected with Vue I18n, to localize. This allows Vue I18n to change the locale without rewriting the template, also to be able to support the globally application.
+In the template, we use the `t` function from `useI18n()` to localize. This allows Vue I18n to change the locale without rewriting the template, and to support the globally application.
 
 You will have the following output:
 
@@ -60,9 +66,9 @@ The important options are the `locale`, `fallbackLocale`, and `messages` options
 
 `locale` is the language of the Vue application to be localized.
 
-`fallbackLocale` is the language to fall back to if the key resource specified in the `$t` translation API is not found in the language of `locale`.
+`fallbackLocale` is the language to fall back to if the key resource specified in the translation API (such as `t` from `useI18n()`) is not found in the language of `locale`.
 
-`messages` is the locale messages to translate with the `$t` translation API. The structure of the locale message is the hierarchical object structure with each locale as the top property
+`messages` is the locale messages to translate with the translation API. The structure of the locale message is the hierarchical object structure with each locale as the top property
 
 ### Registering the i18n plugin
 
@@ -97,17 +103,12 @@ const { createI18n, useI18n } = VueI18n
 
 ### Component API style
 
-Vue I18n can be used with both the Composition API and the Options API. Where relevant, the examples in this guide will show components written in both styles. Composition API examples will typically use `<script setup>`, rather than an explicit `setup` function.
+Vue I18n v12 uses the Composition API exclusively. Examples in this guide will typically use `<script setup>`, rather than an explicit `setup` function.
 
-If you need a refresher about the two styles, see [Vue - API Styles](https://vuejs.org/guide/introduction.html#api-styles).
+If you need a refresher about Vue's Composition API, see [Vue - API Styles](https://vuejs.org/guide/introduction.html#api-styles).
 
-Vue I18n works with both Vue composition API and Options API. Vue I18n has two APIs style like Vue, Composition API and Legacy API for options API using.
+In templates, you can use `t()` returned from `useI18n()`, or use `$t` which is globally injected by default (via `globalInjection: true`).
 
-:::danger IMPORTANT
-In Vue I18n v9 and later, the API offered by Vue I18n v8.x is called **Legacy API** mode.
-Legacy API is deprecated Vue I18n v11, and drop Vue I18n v12. We recommend use Composition API mode.
+:::tip NOTE
+If you are using Vue I18n v11 or earlier with Legacy API mode, see the [v11 Guide](../v11/essentials/started).
 :::
-
-The following sections will be explained using the Legacy API.
-
-If you would like to use it in Composition API style and already understand Vue I18n, you can step to [here](../advanced/composition).

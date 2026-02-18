@@ -1,10 +1,10 @@
-# Nuxt 3 integration
+# Nuxt integration
 
-We recommend using [Nuxt I18n (@nuxtjs/i18n)](https://i18n.nuxtjs.org/) to use Vue I18n with Nuxt 3 with advanced features such as localized routing, SEO tags and more.
+We recommend using [Nuxt I18n (@nuxtjs/i18n)](https://i18n.nuxtjs.org/) to use Vue I18n with Nuxt with advanced features such as localized routing, SEO tags and more.
 
-## Creating your own Nuxt 3 integration
+## Creating your own Nuxt integration
 
-The following is a tutorial on setting up a Nuxt 3 application with your own integration by adding Vue I18n through a Nuxt plugin.
+The following is a tutorial on setting up a Nuxt application with your own integration by adding Vue I18n through a Nuxt plugin.
 
 :::warning NOTICE
 This integration tutorial doesn't support advanced i18n features (such routing and SEO tags) and is intended for demonstration purposes, consider using the Nuxt I18n module check out its docs at [i18n.nuxtjs.org](https://i18n.nuxtjs.org/) for more details.
@@ -12,9 +12,9 @@ This integration tutorial doesn't support advanced i18n features (such routing a
 
 ## Requirements
 
-Node.js requirement for this tutorial is the same environment as Nuxt 3.
+Node.js requirement for this tutorial is the same environment as Nuxt.
 
-Please check [here](https://nuxt.com/docs/getting-started/installation#prerequisites) for Node.js version of Nuxt 3.
+Please check [here](https://nuxt.com/docs/getting-started/installation#prerequisites) for Node.js version of Nuxt.
 
 ## Example codes
 
@@ -22,13 +22,13 @@ You can get the code for the tutorial below on [examples/frameworks/nuxt3](https
 
 You can also see a deployed app made following this tutorial with a custom GitHub action to provide translations from DeepL in this [nuxt3-app-vue-i18n](https://github.com/lyqht/nuxt3-app-vue-i18n) project.
 
-## Setup vue-i18n on Nuxt 3 Application
+## Setup vue-i18n on Nuxt Application
 
-We will now set up the initial environment for using Vue I18n with Nuxt 3.
+We will now set up the initial environment for using Vue I18n with Nuxt.
 
-### Create Nuxt 3 application
+### Create Nuxt application
 
-Run the following command to create a Nuxt 3 application:
+Run the following command to create a Nuxt application:
 
 ::: code-group
 
@@ -43,7 +43,7 @@ pnpm dlx nuxi init nuxt3-app-vue-i18n
 :::
 
 
-Once we have run the above command, the created Nuxt 3 initial project will have the following directory structure:
+Once we have run the above command, the created Nuxt initial project will have the following directory structure:
 
 ```txt
 cd nuxt3-app-vue-i18n
@@ -97,7 +97,6 @@ import { createI18n } from 'vue-i18n'
 
 export default defineNuxtPlugin(({ vueApp }) => {
   const i18n = createI18n({
-    legacy: false,
     globalInjection: true,
     locale: 'en',
     messages: {
@@ -111,13 +110,13 @@ export default defineNuxtPlugin(({ vueApp }) => {
 })
 ```
 
-Configuration of locale resources to localize a Nuxt 3 application is described in the [next section](#localize-your-nuxt-3-application)
+Configuration of locale resources to localize a Nuxt application is described in the [next section](#localize-your-nuxt-3-application)
 
-### Run the Nuxt 3 application
+### Run the Nuxt application
 
-Let's see if Vue I18n works with Nuxt 3.
+Let's see if Vue I18n works with Nuxt.
 
-We will edit `app.vue` of the setup Nuxt 3 application as follows:
+We will edit `app.vue` of the setup Nuxt application as follows:
 
 ```vue
 <template>
@@ -128,7 +127,7 @@ We will edit `app.vue` of the setup Nuxt 3 application as follows:
 </template>
 ```
 
-We have edited and saved, run the following command to run the Nuxt 3 application in local:
+We have edited and saved, run the following command to run the Nuxt application in local:
 
 ::: code-group
 
@@ -151,15 +150,15 @@ Once the application is served on `http://localhost:3000`, we'll see the followi
 
 ![Nuxt3 setup](/nuxt3-setup.png)
 
-## Localize your Nuxt 3 application
+## Localize your Nuxt application
 
-So far, we have been able to integrate Vue I18n into our Nuxt 3 application. Let's implement language switching and import locale resources from outside.
+So far, we have been able to integrate Vue I18n into our Nuxt application. Let's implement language switching and import locale resources from outside.
 
-By implementing language switching we are effectively, i18n our Nuxt 3 application. 🌎 🌍 🌏
+By implementing language switching we are effectively, i18n our Nuxt application. 🌎 🌍 🌏
 
 Also, when we separate the locale resources from the source code (externalizing them), we can use a separate workflow with the help of the Localization service in order to localize the app.
 
-In the following sections, we will enable support for English, French, and Japanese on out Nuxt 3 app.
+In the following sections, we will enable support for English, French, and Japanese on out Nuxt app.
 
 ### Add language switching
 
@@ -260,7 +259,6 @@ import ja from '../locales/ja.json' // [!code ++]
 
 export default defineNuxtPlugin(({ vueApp }) => {
   const i18n = createI18n({
-    legacy: false,
     globalInjection: true,
     locale: 'en',
     messages: {
@@ -283,13 +281,13 @@ Let's run `npm run dev` (or `yarn dev` or `pnpm dev`) and head to `http://localh
 
 ![Setup i18n on Nuxt3](/nuxt3-setup-i18n.gif)
 
-The Nuxt 3 application is now ready for basic internationalization! 🎉
+The Nuxt application is now ready for basic internationalization! 🎉
 
 ## Optimize with `@intlify/unplugin-vue-i18n`
 
-So far, you have been able to use Vue I18n to support language switching on the Nuxt 3 application. Also, by externalizing the locale resources, you have separated them from the source code, making it easier to manage locale resources and integrate with the localization service.
+So far, you have been able to use Vue I18n to support language switching on the Nuxt application. Also, by externalizing the locale resources, you have separated them from the source code, making it easier to manage locale resources and integrate with the localization service.
 
-However, as described in [Optimization](../advanced/optimization), the Nuxt 3 application prepared so far is sub-optimal in its bundle size.
+However, as described in [Optimization](../advanced/optimization), the Nuxt application prepared so far is sub-optimal in its bundle size.
 
 Since Vue I18n v9, the message compiler allows pre-compiling of locale resources for improved performance, but has not yet been optimized for that performance.
 
@@ -342,15 +340,15 @@ export default defineNuxtConfig({
 })
 ```
 
-The bundler for Nuxt 3 is vite by default. So we will use the `vite` option here for optimization.
+The bundler for Nuxt is vite by default. So we will use the `vite` option here for optimization.
 
-In `vite.plugins`, the plugin for `@intlify/unplugin-vue-i18n` is configured. As an option for this plugin, the `include` option specifies locale resources in json format placed in the `locales` directory. This allows `@intlify/unplugin-vue-i18n` to pre-compile locale resources at bundle time using Vue I18n message compiler internally. This improves the translation performance of Vue I18n and consequently the rendering performance of Nuxt 3 applications.
+In `vite.plugins`, the plugin for `@intlify/unplugin-vue-i18n` is configured. As an option for this plugin, the `include` option specifies locale resources in json format placed in the `locales` directory. This allows `@intlify/unplugin-vue-i18n` to pre-compile locale resources at bundle time using Vue I18n message compiler internally. This improves the translation performance of Vue I18n and consequently the rendering performance of Nuxt applications.
 
 ### Inside of bundling with optimization
 
 Once finished with the setup, run `npm run dev` to check it out!
 
-After accessing `http://localhost:3000`, the behavior of the Nuxt 3 application remains the same, but there is a change in the bandwidth of the Nuxt 3 application.
+After accessing `http://localhost:3000`, the behavior of the Nuxt application remains the same, but there is a change in the bandwidth of the Nuxt application.
 
 The following is a comparison of bundle sizes measured in the network tab of devtools with and without `@intlify/unplugin-vue-i18n`:
 
@@ -372,4 +370,4 @@ Without the `@intlify/unplugin-vue-i18n` plugin to `vite.plugins`, locale resour
 
 Vue I18n just call the functions since they have already been compiled.
 
-In this guide, the Nuxt 3 application is small, so we can not enough experience the performance of the optimization but as the application gets larger, it will definitely benefit from it.
+In this guide, the Nuxt application is small, so we can not enough experience the performance of the optimization but as the application gets larger, it will definitely benefit from it.
