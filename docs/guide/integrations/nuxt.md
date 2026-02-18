@@ -110,7 +110,7 @@ export default defineNuxtPlugin(({ vueApp }) => {
 })
 ```
 
-Configuration of locale resources to localize a Nuxt application is described in the [next section](#localize-your-nuxt-3-application)
+Configuration of locale resources to localize a Nuxt application is described in the [next section](#localize-your-nuxt-application)
 
 ### Run the Nuxt application
 
