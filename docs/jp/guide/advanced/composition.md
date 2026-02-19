@@ -247,7 +247,7 @@ const { t } = useI18n({ useScope: 'global' })
 その後、Composer インスタンスから公開された関数とプロパティを使用して構成できます。
 
 :::tip NOTE
-`useI18n` に `messages`、`datetimeFormats`、および `numberFormats` を `useScope: 'global'` と一緒に設定すると、**それらはグローバルスコープにマージされます**。つまり、それらはグローバルスコープ Composer インスタンスの `messages`、`datetimeFormasts`、および `numberFormats` によって管理されます。
+`useI18n` に `messages`、`datetimeFormats`、および `numberFormats` を `useScope: 'global'` と一緒に設定すると、**それらはグローバルスコープにマージされます**。つまり、それらはグローバルスコープ Composer インスタンスの `messages`、`datetimeFormats`、および `numberFormats` によって管理されます。
 
 また、[i18n カスタムブロックで `global` が指定されている場合](../advanced/sfc#define-locale-messages-for-global-scope)（例：`<i18n global>{ … }</i18n>`）、ブロックで定義されたロケールメッセージはグローバルスコープとマージされます。
 :::

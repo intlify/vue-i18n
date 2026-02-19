@@ -60,7 +60,7 @@ const { t } = useI18n({
 </script>
 
 <template>
-  <div id="component">
+  <div class="component">
     <h1>Component1</h1>
     <p>Component1 locale messages: {{ t("message.hello") }}</p>
     <p>Fallback global locale messages: {{ t("message.greeting") }}</p>
@@ -100,9 +100,9 @@ Outputs the following:
 </div>
 ```
 
-As in the example above, if the component doesn't have the locale message, it falls back to global scope. As explained [here](scope#local-scope-2), due to the `locale` of local scope inherits from global scope, so the component uses the language set in global scope (in the above example: `locale: 'ja'`)
+As in the example above, if the component doesn't have the locale message, it falls back to global scope. As explained in the [Local Scope](scope#local-scope-1) section, due to the `locale` of local scope inherits from global scope, so the component uses the language set in global scope (in the above example: `locale: 'ja'`)
 
-And also, as explained [here](fallback#explicit-fallback-with-one-locale), note that, by default, falling back to global scope generates two warnings in the console:
+And also, as explained in the [Explicit fallback with one locale](fallback#explicit-fallback-with-one-locale) section, note that, by default, falling back to global scope generates two warnings in the console:
 
 ```txt
 [intlify] Not found 'message.greeting' key in 'ja' locale messages.

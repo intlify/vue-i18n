@@ -60,7 +60,7 @@ const { t } = useI18n({
 </script>
 
 <template>
-  <div id="component">
+  <div class="component">
     <h1>Component1</h1>
     <p>Component1 locale messages: {{ t("message.hello") }}</p>
     <p>Fallback global locale messages: {{ t("message.greeting") }}</p>
@@ -100,9 +100,9 @@ const { t } = useI18n()
 </div>
 ```
 
-如上例所示，如果组件没有区域设置消息，它会回退到全局作用域。正如 [这里](scope#local-scope-2) 所解释的，由于本地作用域的 `locale` 继承自全局作用域，因此组件使用全局作用域中设置的语言（在上例中为 `locale: 'ja'`）。
+如上例所示，如果组件没有区域设置消息，它会回退到全局作用域。正如 [本地作用域](scope#本地作用域-1) 部分所解释的，由于本地作用域的 `locale` 继承自全局作用域，因此组件使用全局作用域中设置的语言（在上例中为 `locale: 'ja'`）。
 
-另外，正如 [这里](fallback#explicit-fallback-with-one-locale) 所解释的，请注意，默认情况下，回退到全局作用域会在控制台中生成两个警告：
+另外，正如 [使用一个语言环境进行显式回退](fallback#explicit-fallback-with-one-locale) 部分所解释的，请注意，默认情况下，回退到全局作用域会在控制台中生成两个警告：
 
 ```txt
 [intlify] Not found 'message.greeting' key in 'ja' locale messages.

@@ -14,7 +14,7 @@
 
 本教程的 Node.js 要求与 Nuxt 相同环境。
 
-请检查 [这里](https://nuxt.com/docs/getting-started/installation#prerequisites) 以获取 Nuxt 的 Node.js 版本。
+请查看 [Nuxt 安装前提条件](https://nuxt.com/docs/getting-started/installation#prerequisites) 以了解 Node.js 版本要求。
 
 ## 示例代码
 

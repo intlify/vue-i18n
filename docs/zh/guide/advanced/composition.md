@@ -247,7 +247,7 @@ const { t } = useI18n({ useScope: 'global' })
 然后你可以使用从 Composer 实例公开的函数和属性进行组合。
 
 :::tip NOTE
-如果你将 `useI18n` 设置为 `messages`、`datetimeFormats` 和 `numberFormats` 以及 `useScope: 'global'`，**它们将被合并到全局作用域中**。也就是说，它们将由全局作用域 Composer 实例的 `messages`、`datetimeFormasts` 和 `numberFormats` 管理。
+如果你将 `useI18n` 设置为 `messages`、`datetimeFormats` 和 `numberFormats` 以及 `useScope: 'global'`，**它们将被合并到全局作用域中**。也就是说，它们将由全局作用域 Composer 实例的 `messages`、`datetimeFormats` 和 `numberFormats` 管理。
 
 此外，如果 [在 i18n 自定义块中指定了 `global`](../advanced/sfc#define-locale-messages-for-global-scope)（例如 `<i18n global>{ … }</i18n>`），则块中定义的语言环境消息将与全局作用域合并。
 :::

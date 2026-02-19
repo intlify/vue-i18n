@@ -65,4 +65,4 @@ const { t } = useI18n()
 </template>
 ```
 
-有关迁移的更多详情，请参阅 [v12 破坏性变更](../migration/breaking12#drop-custom-directive-v-t)。
+有关迁移的更多详情，请参阅 [v12 破坏性变更](../migration/breaking12#放弃自定义指令-v-t)。

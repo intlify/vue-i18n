@@ -44,7 +44,7 @@ const { t } = useI18n()
 </template>
 ```
 
-You must call `useI18n` at top of the `<script setup>`.
+You must call `useI18n` at the top of the `<script setup>`.
 
 The `useI18n` returns a Composer instance. The Composer instance provides a translation API such as the `t` function, as well as properties such as `locale` and `fallbackLocale`. For more information on the Composer instance, see the [API Reference](../../api/general/interfaces/Composer.md).
 
@@ -247,7 +247,7 @@ The above code sets the `useI18n` option to `useScope: 'global'`, which allows `
 Then you can compose using the functions and properties exposed from the Composer instance.
 
 :::tip NOTE
-If you set `useI18n` to `messages`, `datetimeFormats`, and `numberFormats` together `useScope: 'global'`, **they will be merged into global scope**. That is, they will be managed by `messages`, `datetimeFormasts`, and `numberFormats` of the global scope Composer instance.
+If you set `useI18n` to `messages`, `datetimeFormats`, and `numberFormats` together `useScope: 'global'`, **they will be merged into global scope**. That is, they will be managed by `messages`, `datetimeFormats`, and `numberFormats` of the global scope Composer instance.
 
 And also, if [`global` is specified in i18n custom blocks](../advanced/sfc#define-locale-messages-for-global-scope) (e.g. `<i18n global>{ … }</i18n>`), the locale messages defined in the blocks are merged with the global scope.
 :::

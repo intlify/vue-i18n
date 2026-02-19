@@ -14,7 +14,7 @@ This integration tutorial doesn't support advanced i18n features (such routing a
 
 Node.js requirement for this tutorial is the same environment as Nuxt.
 
-Please check [here](https://nuxt.com/docs/getting-started/installation#prerequisites) for Node.js version of Nuxt.
+Please check the [Nuxt installation prerequisites](https://nuxt.com/docs/getting-started/installation#prerequisites) for the Node.js version requirement.
 
 ## Example codes
 
@@ -158,7 +158,7 @@ By implementing language switching we are effectively, i18n our Nuxt application
 
 Also, when we separate the locale resources from the source code (externalizing them), we can use a separate workflow with the help of the Localization service in order to localize the app.
 
-In the following sections, we will enable support for English, French, and Japanese on out Nuxt app.
+In the following sections, we will enable support for English, French, and Japanese on our Nuxt app.
 
 ### Add language switching
 

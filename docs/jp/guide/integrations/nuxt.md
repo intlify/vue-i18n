@@ -14,7 +14,7 @@ Nuxt で Vue I18n を使用する場合は、ローカライズされたルー�
 
 このチュートリアルの Node.js 要件は、Nuxt と同じ環境です。
 
-Nuxt の Node.js バージョンについては、[こちら](https://nuxt.com/docs/getting-started/installation#prerequisites) を確認してください。
+Node.js バージョンの要件については、[Nuxt インストールの前提条件](https://nuxt.com/docs/getting-started/installation#prerequisites) を確認してください。
 
 ## サンプルコード
 

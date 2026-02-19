@@ -65,4 +65,4 @@ const { t } = useI18n()
 </template>
 ```
 
-移行の詳細については、[v12 破壊的変更](../migration/breaking12#drop-custom-directive-v-t) を参照してください。
+移行の詳細については、[v12 破壊的変更](../migration/breaking12#カスタムディレクティブ-v-t-の廃止) を参照してください。

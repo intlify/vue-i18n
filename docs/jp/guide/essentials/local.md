@@ -60,7 +60,7 @@ const { t } = useI18n({
 </script>
 
 <template>
-  <div id="component">
+  <div class="component">
     <h1>Component1</h1>
     <p>Component1 locale messages: {{ t("message.hello") }}</p>
     <p>Fallback global locale messages: {{ t("message.greeting") }}</p>
@@ -100,9 +100,9 @@ const { t } = useI18n()
 </div>
 ```
 
-上記の例のように、コンポーネントにロケールメッセージがない場合は、グローバルスコープにフォールバックします。[ここ](scope#local-scope-2) で説明したように、ローカルスコープの `locale` はグローバルスコープから継承するため、コンポーネントはグローバルスコープで設定された言語を使用します（上記の例では `locale: 'ja'`）。
+上記の例のように、コンポーネントにロケールメッセージがない場合は、グローバルスコープにフォールバックします。[ローカルスコープ](scope#ローカルスコープ-1) セクションで説明したように、ローカルスコープの `locale` はグローバルスコープから継承するため、コンポーネントはグローバルスコープで設定された言語を使用します（上記の例では `locale: 'ja'`）。
 
-また、[ここ](fallback#explicit-fallback-with-one-locale) で説明したように、デフォルトでは、グローバルスコープへのフォールバックによってコンソールに 2 つの警告が生成されることに注意してください：
+また、[1つのロケールによる明示的なフォールバック](fallback#explicit-fallback-with-one-locale) セクションで説明したように、デフォルトでは、グローバルスコープへのフォールバックによってコンソールに 2 つの警告が生成されることに注意してください：
 
 ```txt
 [intlify] Not found 'message.greeting' key in 'ja' locale messages.
