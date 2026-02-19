@@ -118,7 +118,7 @@ const messages = {
 
 然而，这种复数形式并不适用于所有语言（例如，斯拉夫语言有不同的复数规则）。
 
-要实现这些规则，你可以将可选的 `pluralizationRules` 对象传递给 `VueI18n` 构造函数选项。
+要实现这些规则，你可以将可选的 `pluralRules` 对象传递给 `createI18n` 选项。
 
 使用斯拉夫语言（俄语、乌克兰语等）规则的非常简化的示例：
 
@@ -141,19 +141,12 @@ function customRule(choice, choicesLength, orgRule) {
 }
 ```
 
-要使用上面定义的自定义规则，在 `createI18n` 内部设置：
-
-1.  `pluralizationRules` (用于选项式 API)
-    *或*
-2.  `pluralRules` (用于组合式 API)
-
-像下面的 locale 一样：
+要使用上面定义的自定义规则，在 `createI18n` 内部设置 `pluralRules`，如下所示：
 
 ```js
 const i18n = createI18n({
   locale: 'ru',
-  // 为组合式 API 使用 pluralRules
-  pluralizationRules: {
+  pluralRules: {
     ru: customRule
   },
   messages: {

@@ -39,20 +39,29 @@ const messages = {
 
 模板：
 
-```html
-<div id="app">
-  <!-- ... -->
-  <i18n-t keypath="term" tag="label" for="tos">
-    <a :href="url" target="_blank">{{ $t('tos') }}</a>
-  </i18n-t>
-  <!-- ... -->
-</div>
+```vue
+<script setup>
+import { ref } from 'vue'
+import { useI18n } from 'vue-i18n'
+
+const { t } = useI18n()
+const url = ref('/term')
+</script>
+
+<template>
+  <div id="app">
+    <!-- ... -->
+    <i18n-t keypath="term" tag="label" for="tos">
+      <a :href="url" target="_blank">{{ t('tos') }}</a>
+    </i18n-t>
+    <!-- ... -->
+  </div>
+</template>
 ```
 
 JavaScript:
 
 ```js
-import { createApp } from 'vue'
 import { createI18n } from 'vue-i18n'
 
 const i18n = createI18n({
@@ -68,13 +77,6 @@ const i18n = createI18n({
     }
   }
 })
-
-const app = createApp({
-  data: () => ({ url: '/term' })
-})
-
-app.use(i18n)
-app.mount('#app')
 ```
 
 以下输出：
@@ -94,7 +96,7 @@ app.mount('#app')
 Translation 组件的子级使用 `keypath` 属性的语言环境消息进行插值。在上面的例子中，
 
 :::v-pre
-`<a :href="url" target="_blank">{{ $t('tos') }}</a>`
+`<a :href="url" target="_blank">{{ t('tos') }}</a>`
 :::
 
 使用 `term` 语言环境消息进行插值。
@@ -111,25 +113,37 @@ Translation 组件的子级使用 `keypath` 属性的语言环境消息进行插
 
 模板：
 
-```html
-<div id="app">
-  <!-- ... -->
-  <i18n-t keypath="info" tag="p">
-    <template v-slot:limit>
-      <span>{{ changeLimit }}</span>
-    </template>
-    <template v-slot:action>
-      <a :href="changeUrl">{{ $t('change') }}</a>
-    </template>
-  </i18n-t>
-  <!-- ... -->
-</div>
+```vue
+<script setup>
+import { ref } from 'vue'
+import { useI18n } from 'vue-i18n'
+
+const { t } = useI18n()
+const changeUrl = ref('/change')
+const refundUrl = ref('/refund')
+const changeLimit = ref(15)
+const refundLimit = ref(30)
+</script>
+
+<template>
+  <div id="app">
+    <!-- ... -->
+    <i18n-t keypath="info" tag="p">
+      <template v-slot:limit>
+        <span>{{ changeLimit }}</span>
+      </template>
+      <template v-slot:action>
+        <a :href="changeUrl">{{ t('change') }}</a>
+      </template>
+    </i18n-t>
+    <!-- ... -->
+  </div>
+</template>
 ```
 
 JavaScript:
 
 ```js
-import { createApp } from 'vue'
 import { createI18n } from 'vue-i18n'
 
 const i18n = createI18n({
@@ -142,18 +156,6 @@ const i18n = createI18n({
     }
   }
 })
-
-const app = createApp({
-  data: () => ({
-    changeUrl: '/change',
-    refundUrl: '/refund',
-    changeLimit: 15,
-    refundLimit: 30
-  })
-})
-
-app.use(i18n)
-app.mount('#app')
 ```
 
 输出：
@@ -178,14 +180,14 @@ app.mount('#app')
       <span>{{ changeLimit }}</span>
     </template>
     <template #action>
-      <a :href="changeUrl">{{ $t('change') }}</a>
+      <a :href="changeUrl">{{ t('change') }}</a>
     </template>
   </i18n-t>
   <!-- ... -->
 </div>
 ```
 
-:::warning 限制
+:::warning LIMITATION
 :warning: 在 Translation 组件中，不支持插槽 props。
 :::
 
@@ -214,7 +216,6 @@ const { createApp, ref } = Vue
 const { createI18n } = VueI18n
 
 const i18n = createI18n({
-  legacy: false,
   locale: 'en',
   messages: {
     en: {
@@ -270,10 +271,10 @@ Translation 组件的 [作用域](../essentials/scope.md) 解析默认为 `paren
 </i18n-t>
 ```
 
-:::tip 注意
+:::tip NOTE
 此警告不会在生产版本中输出到浏览器控制台。
 :::
 
-:::warning 注意
+:::warning NOTE
 这在 petite-vue-i18n 中不可用
 :::

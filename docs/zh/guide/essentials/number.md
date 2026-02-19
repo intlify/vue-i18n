@@ -43,7 +43,7 @@ const i18n = createI18n({
 })
 ```
 
-要使用 Vue I18n 本地化数字值，请使用 `$n`。
+要使用 Vue I18n 本地化数字值，请使用 `$n`（通过全局注入）或 `useI18n()` 的 `n`。
 
 <!-- eslint-disable markdown/no-missing-label-refs -->
 

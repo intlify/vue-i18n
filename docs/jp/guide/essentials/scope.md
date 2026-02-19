@@ -1,8 +1,8 @@
 # スコープとロケールの変更
 
-## スコープ (Scope)
+## スコープ
 
-Vue I18n は、ロケールの切り替え、ロケールメッセージと呼ばれる各言語のメッセージ、日時や数値の命名フォーマットなど、i18n 機能を提供するためにリソースを管理します。これらは `VueI18n` インスタンスで管理されます。
+Vue I18n は、ロケールの切り替え、ロケールメッセージと呼ばれる各言語のメッセージ、日時や数値の命名フォーマットなど、i18n 機能を提供するためにリソースを管理します。これらは Composer インスタンスで管理されます。
 
 Vue アプリケーションは、ツリー構造上のいくつかのコンポーネントから構築されます。Vue I18n の i18n 機能を使用して各コンポーネントをローカライズするには、スコープの概念を理解する必要があります。
 
@@ -17,29 +17,29 @@ Vue I18n には以下の 2 つのスコープがあります：
 
 Vue のグローバルスコープを使用すると、アプリケーション内のすべてのコンポーネントにわたって国際化 (i18n) リソースにアクセスして管理できます。これは、i18n 管理を一元化する場合に特に役立ちます。
 
-`createI18n` を使用して i18n インスタンスを作成すると、グローバルスコープが自動的に作成されます。このグローバルスコープは `VueI18n` インスタンスに紐付けられており、i18n インスタンスの `global` プロパティを介してアクセスできます。本質的に、グローバルスコープとは、i18n インスタンスの `global` プロパティを介してアクセス可能な `VueI18n` インスタンスを指します。
+`createI18n` を使用して i18n インスタンスを作成すると、グローバルスコープが自動的に作成されます。このグローバルスコープは Composer インスタンスに紐付けられており、i18n インスタンスの `global` プロパティを介してアクセスできます。
 
-コンポーネントで `i18n` オプションが指定されていない場合、そのコンポーネントではグローバルスコープが自動的に有効になります。この場合、コンポーネント内で `this.$i18n` を介してアクセスされる `VueI18n` インスタンスは、i18n インスタンスの `global` プロパティを介して利用可能なグローバルインスタンスと同じです。
+`useI18n()` でローカルメッセージが指定されていない場合、グローバルスコープが使用されます。ローカルメッセージが提供されていない場合、`useI18n()` が返す Composer インスタンスはグローバル Composer を参照します。
 
 ### ローカルスコープ
 
 Vue のローカルスコープを使用すると、単一ファイルコンポーネントでの `<style scoped>` の動作と同様に、コンポーネントごとに i18n リソースを管理できます。コンポーネントがローカルスコープを持つ場合、そのコンポーネントの i18n リソースのみがアクティブになります。これは、各コンポーネントに固有のロケールメッセージを管理したい場合に特に便利です。
 
-ローカルスコープは、コンポーネント内で `i18n` オプションを指定することで有効になります。これにより、コンポーネントの初期化時に新しい `VueI18n` インスタンスが作成されます。その結果、そのコンポーネントで `this.$i18n` を介してアクセスされる `VueI18n` インスタンスは、i18n インスタンスの `global` プロパティを介して利用可能なグローバル `VueI18n` インスタンスとは異なります。
+ローカルスコープは、`useI18n()` でメッセージを指定するか、SFC で `<i18n>` カスタムブロックを使用することで有効になります。これにより、コンポーネントの初期化時に新しい Composer インスタンスが作成されます。その結果、そのコンポーネントで `useI18n()` が返す Composer インスタンスは、グローバル Composer インスタンスとは異なります。
 
-## ロケールの変更 (Locale Changing)
+## ロケールの変更
 
 ここまでスコープの概念について説明してきました。スコープを理解すれば、ロケールの変更方法を理解するのは簡単です。
 
 ### グローバルスコープ
 
-アプリケーション全体のロケールを変更したい場合、グローバルスコープを使用すると、各コンポーネントで `$i18n.locale` を使用できます。
+アプリケーション全体のロケールを変更したい場合、`useI18n()` を使用してグローバルロケールにアクセスできます。
 
 以下はその例です：
 
 ```js
 const i18n = createI18n({
-  locale: 'ja', // 現在のロケールを設定
+  locale: 'ja', // set current locale
   messages: {
     en: {
       hello: 'hello!'
@@ -48,36 +48,43 @@ const i18n = createI18n({
       hello: 'こんにちは！'
     }
   },
-  // vue-i18n のその他のオプション ...
+  // vue-i18n something options here ...
   // ...
 })
 
-// Vue アプリインスタンスを作成し、Vue I18n をインストールしてマウント！
-createApp({
-  // Vue のその他のオプション ...
-  // ...
-}).use(i18n).mount('#app')
+// create Vue app instance, install Vue I18n, and mount!
+createApp(App).use(i18n).mount('#app')
 ```
 
 コンポーネント：
 
 ```vue
+<script setup>
+import { useI18n } from 'vue-i18n'
+
+const { locale, availableLocales } = useI18n()
+</script>
+
 <template>
   <div class="locale-changer">
-    <select v-model="$i18n.locale">
+    <select v-model="locale">
       <option
-        v-for="locale in $i18n.availableLocales"
-        :key="`locale-${locale}`"
-        :value="locale"
+        v-for="loc in availableLocales"
+        :key="`locale-${loc}`"
+        :value="loc"
       >
-        {{ locale }}
+        {{ loc }}
       </option>
     </select>
   </div>
 </template>
 ```
 
-上記の例では、`VueI18n` インスタンスの `availableLocales` プロパティを使用して、利用可能なロケールを select 要素のオプションとしてリストしています。`$i18n.locale` は `v-model` でバインドされているため、select 要素のオプションを選択することで切り替えることができ、その値が `$i18n.locale` に設定されます。
+:::tip NOTE
+テンプレートでは、グローバルインジェクションを介して `$i18n.locale` も利用可能です。`locale`、`fallbackLocale`、`availableLocales` にアクセスできます。`$i18n` プロパティの詳細については、[v12 破壊的変更](../migration/breaking12#drop-legacy-api-mode) を参照してください。
+:::
+
+上記の例では、`useI18n()` の `availableLocales` を使用して、利用可能なロケールを select 要素のオプションとしてリストしています。`locale` は書き込み可能な computed ref であるため、オプションを選択することで切り替えることができます。
 
 ご覧のとおり、グローバルスコープは、アプリケーションのすべてのコンポーネントの UI に表示されるメッセージを一度に切り替えることができるため、非常に便利です。
 
@@ -88,34 +95,26 @@ createApp({
 アプリケーション全体のロケールを切り替えたい場合は、`createI18n` で作成された i18n インスタンスの `global` プロパティを介して変更する必要があります。
 
 :::tip NOTE
-グローバルスコープから `locale` を継承したくない場合は、`i18n` コンポーネントオプションの `sync` を `false` に設定する必要があります。
+グローバルスコープから `locale` を継承したくない場合は、`useI18n()` のオプションで `inheritLocale: false` を設定する必要があります。
 :::
 
 例：
 
 ```js
 const i18n = createI18n({
-  locale: 'ja', // 現在のロケールを設定
-  // vue-i18n のその他のオプション ...
+  locale: 'ja', // set current locale
+  // vue-i18n something options here ...
   // ...
 })
 
-// Vue アプリインスタンスを作成し、Vue I18n をインストールしてマウント！
-createApp({
-  // Vue のその他のオプション ...
-  // ...
-}).use(i18n).mount('#app')
+// create Vue app instance, install Vue I18n, and mount!
+createApp(App).use(i18n).mount('#app')
 
-
-// `global` プロパティを介してロケールを変更
-
-// vue-i18n を legacy: false で使用している場合、i18n.global.locale は ref なので、.value を介して設定する必要があります：
+// change locale via `global` property
+// i18n.global.locale is a ref, so set it via .value:
 i18n.global.locale.value = 'en'
-
-// それ以外の場合 - legacy: true を使用している場合は、次のように設定します：
-i18n.global.locale = 'en'
 ```
 
 :::warning NOTICE
-ローカルスコープの `locale` を変更しても、グローバルスコープの `locale` には影響しません。つまり、ローカルスコープコンポーネントで `$i18n.locale` のロケールを変更しても、アプリケーション全体のロケールは変更されず、そのコンポーネントのみが変更されます。`$i18n.locale` の代わりに `$root.$i18n.locale` を使用してください。
+ローカルスコープの `locale` を変更しても、グローバルスコープの `locale` には影響しません。つまり、ローカルスコープコンポーネントでロケールを変更しても、アプリケーション全体のロケールは変更されません。グローバルロケールを変更するには、`useI18n({ useScope: 'global' })` を使用するか、`i18n.global.locale.value` にアクセスしてください。
 :::

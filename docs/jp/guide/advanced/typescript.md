@@ -165,7 +165,6 @@ const { t, n } = useI18n<{
 
 詳細については、以下の API ドキュメントページを確認してください。
 
-- [Legacy API](https://vue-i18n.intlify.dev/api/legacy)
 - [Composition API](https://vue-i18n.intlify.dev/api/composition)
 
 ## リソースキー補完サポート
@@ -236,7 +235,7 @@ const { t, n } = useI18n<{ message: MessageSchema, number: NumberSchema }>({
 その結果、`t` や `n` などの VueI18n が提供する API でリソースキーの補間を使用できます。
 
 :::warning NOTICE
-レガシーモード、および Composition API の `globalInjection: true` によってコンポーネントに注入される `$t` や `$d` などの API のリソースキーの補間には、型パラメータを明示的に指定する必要があります。
+`globalInjection: true` によってコンポーネントに注入される `$t` や `$d` などの API のリソースキーの補間には、型パラメータを明示的に指定する必要があります。
 
 詳細については、API ドキュメントを参照してください。
 https://vue-i18n.intlify.dev/api/injection.html
@@ -316,7 +315,6 @@ import enUS from './locales/en-US.json'
 import jaJP from './locales/ja-JP.json'
 
 const options: I18nOptions = {
-  legacy: false,
   locale: 'ja-JP',
   fallbackLocale: 'en-US',
   messages: {

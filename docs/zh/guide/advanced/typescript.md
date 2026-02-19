@@ -165,7 +165,6 @@ const { t, n } = useI18n<{
 
 有关更多详细信息，请查看以下 API 文档页面。
 
-- [传统 API](https://vue-i18n.intlify.dev/api/legacy)
 - [组合式 API](https://vue-i18n.intlify.dev/api/composition)
 
 ## 资源键补全支持
@@ -236,7 +235,7 @@ const { t, n } = useI18n<{ message: MessageSchema, number: NumberSchema }>({
 因此，你可以在 VueI18n 提供的 API（如 `t` 和 `n`）中使用资源键的插值。
 
 :::warning 注意
-传统模式，以及通过组合式 API 的 `globalInjection: true` 注入到组件中的 API（如 `$t` 和 `$d`）的资源键插值，需要显式指定类型参数。
+通过 `globalInjection: true` 注入到组件中的 API（如 `$t` 和 `$d`）的资源键插值，需要显式指定类型参数。
 
 有关更多详细信息，请参阅 API 文档。
 https://vue-i18n.intlify.dev/api/injection.html
@@ -316,7 +315,6 @@ import enUS from './locales/en-US.json'
 import jaJP from './locales/ja-JP.json'
 
 const options: I18nOptions = {
-  legacy: false,
   locale: 'ja-JP',
   fallbackLocale: 'en-US',
   messages: {

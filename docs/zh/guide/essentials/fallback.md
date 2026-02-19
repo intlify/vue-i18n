@@ -62,9 +62,9 @@ const i18n = createI18n({
 默认情况下，这些警告消息仅在开发模式 (`process.env`<wbr/>`.NODE_ENV !== 'production'`) 下发出警告，不适用于生产环境。
 :::
 
-要在初始化 `createI18n` 时禁止第一个警告（`Not found key...`），请在传统 API 模式下设置 `silentTranslationWarn: true`，或在组合式 API 模式下设置 `missingWarn: false`。
+要在初始化 `createI18n` 时禁止第一个警告（`Not found key...`），请设置 `missingWarn: false`。
 
-要在初始化 `createI18n` 时禁止第二个警告（`Fall back to...`），请在传统 API 模式下设置 `silentFallbackWarn: true`，或在组合式 API 模式下设置 `fallbackWarn: false`。
+要在初始化 `createI18n` 时禁止第二个警告（`Fall back to...`），请设置 `fallbackWarn: false`。
 
 ## 使用区域设置数组的显式回退
 

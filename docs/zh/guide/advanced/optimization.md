@@ -125,7 +125,7 @@ module.exports = {
 `esm-bundler` 构建现在公开了可以在编译时覆盖的全局功能标志：
 
 - `__VUE_I18N_FULL_INSTALL__`（启用/禁用，除了 vue-i18n API 之外，组件和指令全部完全支持安装：`true`）
-- `__VUE_I18N_LEGACY_API__`（启用/禁用 vue-i18n 传统风格 API 支持，默认：`true`）
+- `__VUE_I18N_LEGACY_API__`（启用/禁用 vue-i18n 传统风格 API 支持。传统 API 已在 v12 中移除，默认：`false`）
 
 构建将在不配置这些标志的情况下工作，但是 **强烈建议** 正确配置它们，以便在最终包中获得适当的 tree shaking。
 

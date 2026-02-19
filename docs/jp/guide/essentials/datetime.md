@@ -52,9 +52,9 @@ Vue I18n で日時値をローカライズするには、`$d` を使用します
 > [!NOTE]
 > ローカライズをサポートするいくつかの方法は次のとおりです：
 >
-> - `$d` (Legacy API モードおよび Composition API モード用)
+> - `$d` (グローバルインジェクション経由)
 > - 組み込み DatetimeFormat コンポーネント (`i18n-d`)
-> - `useI18n` からエクスポートされた `d` (Composition API モード用)
+> - `useI18n` からエクスポートされた `d`
 
 <!-- eslint-enable markdown/no-missing-label-refs -->
 

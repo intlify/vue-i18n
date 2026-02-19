@@ -31,7 +31,6 @@ import { createI18n, I18nInjectionKey } from 'vue-i18n'
  * 创建一个 i18n 实例以供其他 Web Components 托管
  */
 const i18n = createI18n<false>({
-  legacy: false, // 必须设置为 `false`
   locale: 'en',
   messages: {
     en: {

@@ -118,7 +118,7 @@ const messages = {
 
 ただし、このような複数化はすべての言語に適用されるわけではありません（たとえば、スラブ語派の言語には異なる複数化ルールがあります）。
 
-これらのルールを実装するには、オプションの `pluralizationRules` オブジェクトを `VueI18n` コンストラクタオプションに渡すことができます。
+これらのルールを実装するには、オプションの `pluralRules` オブジェクトを `createI18n` オプションに渡すことができます。
 
 スラブ語派の言語（ロシア語、ウクライナ語など）のルールを使用した非常に単純化された例：
 
@@ -141,19 +141,12 @@ function customRule(choice, choicesLength, orgRule) {
 }
 ```
 
-上記で定義したカスタムルールを使用するには、`createI18n` の内部で以下のいずれかを設定します：
-
-1. `pluralizationRules` (Options API 用)
-*または*
-2. `pluralRules` (Composition API 用)
-
-以下のロケールのように：
+上記で定義したカスタムルールを使用するには、`createI18n` の内部で以下のように `pluralRules` を設定します：
 
 ```js
 const i18n = createI18n({
   locale: 'ru',
-  // Composition API 用に pluralRules を使用
-  pluralizationRules: {
+  pluralRules: {
     ru: customRule
   },
   messages: {

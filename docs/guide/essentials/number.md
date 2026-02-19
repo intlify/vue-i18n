@@ -43,7 +43,7 @@ const i18n = createI18n({
 })
 ```
 
-To localize Number value with Vue I18n, use the `$n`.
+To localize Number value with Vue I18n, use the `$n` (via global injection) or `n` from `useI18n()`.
 
 <!-- eslint-disable markdown/no-missing-label-refs -->
 

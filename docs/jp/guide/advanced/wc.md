@@ -31,7 +31,6 @@ import { createI18n, I18nInjectionKey } from 'vue-i18n'
  * 他の Web Components をホストするための i18n インスタンスを作成
  */
 const i18n = createI18n<false>({
-  legacy: false, // `false` に設定する必要があります
   locale: 'en',
   messages: {
     en: {

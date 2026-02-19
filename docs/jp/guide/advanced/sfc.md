@@ -1,25 +1,25 @@
-# 単一ファイルコンポーネント
+# シングルファイルコンポーネント
 
 ## 基本的な使用法
 
-単一ファイルコンポーネントを使用して Vue コンポーネントまたは Vue アプリケーションを構築している場合、i18n カスタムブロックを使用してロケールメッセージを管理できます。
+シングルファイルコンポーネントを使用して Vue コンポーネントまたは Vue アプリケーションを構築している場合、i18n カスタムブロックを使用してロケールメッセージを管理できます。
 
-以下は [単一ファイルコンポーネントの例](https://github.com/kazupon/vue-i18n/tree/dev/examples/sfc) です：
+以下は [シングルファイルコンポーネントの例](https://github.com/kazupon/vue-i18n/tree/dev/examples/sfc) です：
 
 ```vue
-<script>
-export default {
-  name: 'App'
-}
+<script setup>
+import { useI18n } from 'vue-i18n'
+
+const { locale, t } = useI18n()
 </script>
 
 <template>
   <label for="locale">locale</label>
-  <select v-model="$i18n.locale">
+  <select v-model="locale">
     <option>en</option>
     <option>ja</option>
   </select>
-  <p>message: {{ $t('hello') }}</p>
+  <p>message: {{ t('hello') }}</p>
 </template>
 
 <i18n>
@@ -36,14 +36,12 @@ export default {
 
 i18n カスタムブロックでは、ロケールメッセージリソースの形式はデフォルトで **json** 形式です。
 
-i18n カスタムブロックで定義されたロケールメッセージは、単一ファイルコンポーネントのローカルスコープとして使用されます。
+i18n カスタムブロックで定義されたロケールメッセージは、シングルファイルコンポーネントのローカルスコープとして使用されます。
 
-テンプレートで `$t('hello')` が使用されている場合、`i18n` カスタムブロックで定義された `hello` キーが参照されます。
+テンプレートで `t('hello')` が使用されている場合、`i18n` カスタムブロックで定義された `hello` キーが参照されます。
 
 :::tip NOTE
-Composition API では、i18n カスタムブロックで定義されたロケールメッセージを参照してローカライズするために、`useI18n` が `setup` コンテキストを返す必要があります。
-
-`useI18n` の使用方法については、[Composition API](./composition) を参照してください。
+上記の例では、i18n カスタムブロックで定義されたロケールメッセージにアクセスするために `useI18n` を使用しています。詳細については、[Composition API](./composition) を参照してください。
 :::
 
 i18n カスタムブロックを使用するには、バンドラに以下のプラグインを使用する必要があります。
@@ -128,7 +126,7 @@ module.exports = {
 
 ## Quasar CLI
 
-[Quasar CLI](https://quasar.dev) プロジェクトの単一ファイルコンポーネント内で `<i18n>` タグのサポートを追加したい場合は、既存の設定を変更する必要があります。
+[Quasar CLI](https://quasar.dev) プロジェクトのシングルファイルコンポーネント内で `<i18n>` タグのサポートを追加したい場合は、既存の設定を変更する必要があります。
 
 そのために、プロジェクトのルートにある `quasar.conf.js` を編集する必要があります：
 

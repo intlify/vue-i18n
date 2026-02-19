@@ -160,8 +160,8 @@ function sidebarGuide() {
       collapsible: false,
       items: [
         {
-          text: 'Nuxt 3',
-          link: '/zh/guide/integrations/nuxt3'
+          text: 'Nuxt',
+          link: '/zh/guide/integrations/nuxt'
         }
       ]
     },

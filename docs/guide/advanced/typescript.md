@@ -165,7 +165,6 @@ Other APIs support a type parameter that allows you to specify the schema of a r
 
 For more details, check out these following API documentation pages.
 
-- [Legacy API](https://vue-i18n.intlify.dev/api/legacy)
 - [Composition API](https://vue-i18n.intlify.dev/api/composition)
 
 ## Resource Keys completion supporting
@@ -236,7 +235,7 @@ const { t, n } = useI18n<{ message: MessageSchema, number: NumberSchema }>({
 As a result, you can use the interpolation of resource keys in the APIs provided by VueI18n, such as `t` and `n`.
 
 :::warning NOTICE
-Legacy Mode, and interpolation of Resource Keys of APIs such as `$t` and `$d`, which are injected into Component by `globalInjection: true` of Composition API, require explicitly specifying type parameters.
+Interpolation of Resource Keys of APIs such as `$t` and `$d`, which are injected into Component by `globalInjection: true`, require explicitly specifying type parameters.
 
 For more details, see the API documentation.
 https://vue-i18n.intlify.dev/api/injection.html
@@ -316,7 +315,6 @@ import enUS from './locales/en-US.json'
 import jaJP from './locales/ja-JP.json'
 
 const options: I18nOptions = {
-  legacy: false,
   locale: 'ja-JP',
   fallbackLocale: 'en-US',
   messages: {

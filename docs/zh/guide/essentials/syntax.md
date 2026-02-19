@@ -2,6 +2,10 @@
 
 Vue I18n 可以使用消息格式语法来本地化 UI 中显示的消息。Vue I18n 消息包括插值和具有各种特性语法的消息。
 
+:::tip NOTE
+本节中的示例在模板中使用 `$t`，它通过全局注入（默认启用）可用。您也可以在 `<script setup>` 中使用 `useI18n()` 的 `t()` 实现相同功能。
+:::
+
 ## 插值
 
 Vue I18n 支持使用占位符 `{}` 进行插值，类似于 "Mustache"。
@@ -425,7 +429,7 @@ const messages = {
 :::warning 注意
 如果消息包含 HTML，Vue I18n 在开发模式下 (`process.env`<wbr/>`.NODE_ENV !== 'production'`) 会向控制台输出警告。
 
-你可以使用 `createI18n` 或 `useI18n` 中的 `warnHtmlInMessage` 或 `warnHtmlMessage` 选项来控制警告输出。
+你可以使用 `createI18n` 或 `useI18n` 中的 `warnHtmlMessage` 选项来控制警告输出。
 :::
 
 例如，以下语言环境消息资源：
