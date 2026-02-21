@@ -58,7 +58,7 @@ export async function loadLocaleMessages(i18n, locale) {
   )
 
   // set locale and locale message
-  i18n.global.setLocaleMessage(locale, messages.default)
+  i18n.setLocaleMessage(locale, messages.default)
 
   return nextTick()
 }
@@ -101,7 +101,7 @@ Here the code for the vue-router beforeEach hook part of `router.js`:
     }
 
     // load locale messages
-    if (!i18n.global.availableLocales.includes(paramsLocale)) {
+    if (!i18n.availableLocales.includes(paramsLocale)) {
       await loadLocaleMessages(i18n, paramsLocale)
     }
 
