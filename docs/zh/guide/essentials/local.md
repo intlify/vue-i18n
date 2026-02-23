@@ -157,7 +157,9 @@ const { t } = useI18n({
       <p>This is good service</p>
     </div>
     <div class="footer">
-      <button type="button">{{ t('buttons.save') }}</button>
+      <button type="button">
+        {{ t('buttons.save') }}
+      </button>
     </div>
   </div>
 </template>

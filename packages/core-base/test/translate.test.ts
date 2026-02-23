@@ -610,6 +610,86 @@ describe('context pluralRule option', () => {
   })
 })
 
+describe('Intl.PluralRules based default plural', () => {
+  test('English 2 cases - same behavior as before', () => {
+    const ctx = context({
+      locale: 'en',
+      messages: {
+        en: {
+          car: 'car | cars'
+        }
+      }
+    })
+    expect(translate(ctx, 'car', 1)).toEqual('car')
+    expect(translate(ctx, 'car', 2)).toEqual('cars')
+    expect(translate(ctx, 'car', 0)).toEqual('cars')
+  })
+
+  test('English 3 cases - falls back to pluralDefault', () => {
+    const ctx = context({
+      locale: 'en',
+      messages: {
+        en: {
+          apple: 'no apples | one apple | {count} apples'
+        }
+      }
+    })
+    expect(translate(ctx, 'apple', 0)).toEqual('no apples')
+    expect(translate(ctx, 'apple', 1)).toEqual('one apple')
+    expect(translate(ctx, 'apple', 10)).toEqual('10 apples')
+  })
+
+  test('Russian 4 cases - auto plural via Intl.PluralRules without custom pluralRules', () => {
+    const ctx = context({
+      locale: 'ru',
+      messages: {
+        ru: {
+          // CLDR order for Russian: one | few | many | other
+          car: '{n} машина | {n} машины | {n} машин | {n} машин'
+        }
+      }
+    })
+    expect(translate(ctx, 'car', 1)).toEqual('1 машина')
+    expect(translate(ctx, 'car', 2)).toEqual('2 машины')
+    expect(translate(ctx, 'car', 5)).toEqual('5 машин')
+    expect(translate(ctx, 'car', 21)).toEqual('21 машина')
+    expect(translate(ctx, 'car', 11)).toEqual('11 машин')
+    expect(translate(ctx, 'car', 22)).toEqual('22 машины')
+  })
+
+  test('custom pluralRules takes priority over Intl.PluralRules', () => {
+    const customRule = (choice: number, _choicesLength: number) => {
+      return choice === 42 ? 0 : 1
+    }
+    const ctx = context({
+      locale: 'en',
+      pluralRules: { en: customRule },
+      messages: {
+        en: {
+          msg: 'special | normal'
+        }
+      }
+    })
+    expect(translate(ctx, 'msg', 42)).toEqual('special')
+    expect(translate(ctx, 'msg', 1)).toEqual('normal')
+  })
+
+  test('Arabic plural categories', () => {
+    const ctx = context({
+      locale: 'ar',
+      messages: {
+        ar: {
+          // CLDR order for Arabic: zero | one | two | few | many | other
+          file: 'لا ملفات | ملف واحد | ملفان | {n} ملفات | {n} ملفًا | {n} ملف'
+        }
+      }
+    })
+    expect(translate(ctx, 'file', 0)).toEqual('لا ملفات')
+    expect(translate(ctx, 'file', 1)).toEqual('ملف واحد')
+    expect(translate(ctx, 'file', 2)).toEqual('ملفان')
+  })
+})
+
 describe('context postTranslation option', () => {
   test('basic', () => {
     let key = ''
