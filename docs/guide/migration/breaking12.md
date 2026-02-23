@@ -507,6 +507,40 @@ Replace all `v-t` directive usage with `$t()` (global scope) or `t()` from `useI
 
 You can use the `@intlify/vue-i18n/no-deprecated-v-t` rule to detect all `v-t` usage in your codebase.
 
+## Default pluralization now uses `Intl.PluralRules`
+
+**Reason**: The previous default pluralization rule was a simple English-only implementation that did not correctly handle languages with complex plural categories (e.g., Russian, Arabic, Polish). Vue I18n v12 now uses `Intl.PluralRules` to automatically select the correct plural form based on the current locale.
+
+### What changed
+
+- When no custom `pluralRules` is set for a locale, Vue I18n automatically uses `Intl.PluralRules` to determine the correct plural category (zero, one, two, few, many, other)
+- Message cases must be ordered according to the CLDR plural category order: `zero | one | two | few | many | other` (only include categories that exist for the locale)
+- If the number of message cases exceeds the locale's plural category count, Vue I18n falls back to the previous default rule
+- If `Intl.PluralRules` is not available in the runtime environment, Vue I18n falls back to the previous default rule
+
+### Migration
+
+If you were relying on the previous default rule for non-English locales **without** custom `pluralRules`, you need to reorder your message cases to match the CLDR plural category order for the locale.
+
+**Before (v11) — Russian with custom `pluralRules`:**
+
+No change needed. Custom `pluralRules` take priority and continue to work as before.
+
+**After (v12) — Russian (automatic, no custom `pluralRules` needed):**
+
+```js
+const i18n = createI18n({
+  locale: 'ru',
+  // No pluralRules needed — Intl.PluralRules handles it automatically
+  messages: {
+    ru: {
+      // Order: one | few | many | other (CLDR order for Russian)
+      car: '{n} машина | {n} машины | {n} машин | {n} машин'
+    }
+  }
+})
+```
+
 ## Change `MissingHandler` signature
 
 **Reason**: Vue 3.6+ deprecates `getCurrentInstance()` API. The `MissingHandler` type previously received a `ComponentInternalInstance` as the third parameter, but this is no longer available.

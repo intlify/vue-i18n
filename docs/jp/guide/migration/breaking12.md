@@ -507,6 +507,40 @@ v11 Legacy API では、`i18n.global` は `VueI18n` インスタンスを返し�
 
 `@intlify/vue-i18n/no-deprecated-v-t` ルールを使用して、コードベース内のすべての `v-t` の使用箇所を検出できます。
 
+## デフォルトの複数形が `Intl.PluralRules` を使用するようになりました
+
+**理由**: 以前のデフォルト複数形ルールは英語専用の単純な実装で、複雑な複数形カテゴリを持つ言語（ロシア語、アラビア語、ポーランド語など）を正しく処理できませんでした。Vue I18n v12 では、現在のロケールに基づいて正しい複数形を自動的に選択するために `Intl.PluralRules` を使用します。
+
+### 変更点
+
+- ロケールにカスタム `pluralRules` が設定されていない場合、Vue I18n は自動的に `Intl.PluralRules` を使用して正しい複数形カテゴリ（zero, one, two, few, many, other）を決定します
+- メッセージのケースは CLDR 複数形カテゴリの順序に従って並べる必要があります: `zero | one | two | few | many | other`（ロケールに存在するカテゴリのみ含む）
+- メッセージのケース数がロケールの複数形カテゴリ数を超える場合、Vue I18n は以前のデフォルトルールにフォールバックします
+- ランタイム環境で `Intl.PluralRules` が利用できない場合、Vue I18n は以前のデフォルトルールにフォールバックします
+
+### 移行
+
+カスタム `pluralRules` **なし**で英語以外のロケールの以前のデフォルトルールに依存していた場合、メッセージのケースをロケールの CLDR 複数形カテゴリの順序に合わせて並べ替える必要があります。
+
+**以前 (v11) — カスタム `pluralRules` 付きのロシア語:**
+
+変更不要。カスタム `pluralRules` が優先され、以前と同様に動作します。
+
+**以後 (v12) — ロシア語（自動、カスタム `pluralRules` 不要）:**
+
+```js
+const i18n = createI18n({
+  locale: 'ru',
+  // pluralRules 不要 — Intl.PluralRules が自動的に処理します
+  messages: {
+    ru: {
+      // 順序: one | few | many | other（ロシア語の CLDR 順序）
+      car: '{n} машина | {n} машины | {n} машин | {n} машин'
+    }
+  }
+})
+```
+
 ## `MissingHandler` シグネチャの変更
 
 **理由**: Vue 3.6+ では `getCurrentInstance()` API が非推奨になります。`MissingHandler` 型は以前、3 番目のパラメータとして `ComponentInternalInstance` を受け取っていましたが、これは使用できなくなりました。

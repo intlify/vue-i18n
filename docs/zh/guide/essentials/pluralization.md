@@ -114,11 +114,44 @@ const messages = {
 <p>too many bananas</p>
 ```
 
-## 自定义复数形式
+## 使用 `Intl.PluralRules` 自动复数化
 
-然而，这种复数形式并不适用于所有语言（例如，斯拉夫语言有不同的复数规则）。
+Vue I18n 根据当前语言环境自动使用 [`Intl.PluralRules`](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Intl/PluralRules) 来选择正确的复数形式。这意味着对于大多数语言，您不需要编写自定义复数化规则——只需按照 CLDR 复数类别顺序提供正确数量的消息形式：`zero | one | two | few | many | other`。
 
-要实现这些规则，你可以将可选的 `pluralRules` 对象传递给 `createI18n` 选项。
+例如，俄语有4个复数类别（`one`、`few`、`many`、`other`）：
+
+```js
+const i18n = createI18n({
+  locale: 'ru',
+  messages: {
+    ru: {
+      car: '{n} машина | {n} машины | {n} машин | {n} машин',
+      //    one          few          many         other
+    }
+  }
+})
+```
+
+Vue I18n 将自动选择正确的形式：
+
+| 值 | `Intl.PluralRules` 类别 | 选择的形式 |
+|---|---|---|
+| 1 | `one` | `{n} машина` |
+| 2 | `few` | `{n} машины` |
+| 5 | `many` | `{n} машин` |
+| 21 | `one` | `{n} машина` |
+
+:::tip NOTE
+当消息的形式数量超过语言环境的复数类别数量时，Vue I18n 将回退到默认规则（适用于英语）。
+:::
+
+:::tip NOTE
+如果运行时环境中没有 `Intl.PluralRules`，Vue I18n 将回退到默认的基于英语的规则。
+:::
+
+## 自定义复数化
+
+虽然通过 `Intl.PluralRules` 进行的自动复数化适用于大多数语言，但对于特殊情况，您可能需要自定义逻辑。您可以将可选的 `pluralRules` 对象传递给 `createI18n` 选项，以覆盖特定语言环境的自动行为。
 
 使用斯拉夫语言（俄语、乌克兰语等）规则的非常简化的示例：
 

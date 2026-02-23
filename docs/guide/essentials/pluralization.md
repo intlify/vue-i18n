@@ -114,11 +114,44 @@ As result the below:
 <p>too many bananas</p>
 ```
 
+## Automatic Pluralization with `Intl.PluralRules`
+
+Vue I18n automatically uses [`Intl.PluralRules`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/PluralRules) to select the correct plural form based on the current locale. This means that for most languages, you don't need to write custom pluralization rules — just provide the correct number of message cases in CLDR plural category order: `zero | one | two | few | many | other`.
+
+For example, Russian has 4 plural categories (`one`, `few`, `many`, `other`):
+
+```js
+const i18n = createI18n({
+  locale: 'ru',
+  messages: {
+    ru: {
+      car: '{n} машина | {n} машины | {n} машин | {n} машин',
+      //    one          few          many         other
+    }
+  }
+})
+```
+
+Vue I18n will automatically select the correct form:
+
+| Value | `Intl.PluralRules` category | Selected case |
+|---|---|---|
+| 1 | `one` | `{n} машина` |
+| 2 | `few` | `{n} машины` |
+| 5 | `many` | `{n} машин` |
+| 21 | `one` | `{n} машина` |
+
+:::tip NOTE
+When the number of message cases exceeds the number of plural categories for the locale, Vue I18n falls back to the default rule (suitable for English).
+:::
+
+:::tip NOTE
+If `Intl.PluralRules` is not available in the runtime environment, Vue I18n falls back to the default English-based rule.
+:::
+
 ## Custom Pluralization
 
-Such pluralization, however, does not apply to all languages (Slavic languages, for example, have different pluralization rules).
-
-To implement these rules you can pass an optional `pluralRules` object into `createI18n` options.
+While automatic pluralization via `Intl.PluralRules` works for most languages, you may need custom logic for special cases. You can pass an optional `pluralRules` object into `createI18n` options to override the automatic behavior for specific locales.
 
 Very simplified example using rules for Slavic languages (Russian, Ukrainian, etc.):
 

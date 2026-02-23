@@ -507,6 +507,40 @@ i18n.global.setMissingHandler((locale, key) => { /* ... */ })
 
 您可以使用 `@intlify/vue-i18n/no-deprecated-v-t` 规则来检测代码库中所有的 `v-t` 用法。
 
+## 默认复数形式现在使用 `Intl.PluralRules`
+
+**原因**: 以前的默认复数形式规则是一个简单的仅适用于英语的实现，无法正确处理具有复杂复数类别的语言（例如俄语、阿拉伯语、波兰语）。Vue I18n v12 现在使用 `Intl.PluralRules` 根据当前语言环境自动选择正确的复数形式。
+
+### 变更内容
+
+- 当语言环境没有设置自定义 `pluralRules` 时，Vue I18n 自动使用 `Intl.PluralRules` 来确定正确的复数类别（zero、one、two、few、many、other）
+- 消息的各种形式必须按照 CLDR 复数类别顺序排列：`zero | one | two | few | many | other`（仅包含该语言环境中存在的类别）
+- 如果消息的形式数量超过语言环境的复数类别数量，Vue I18n 将回退到之前的默认规则
+- 如果运行时环境中没有 `Intl.PluralRules`，Vue I18n 将回退到之前的默认规则
+
+### 迁移
+
+如果您在**没有**自定义 `pluralRules` 的情况下依赖非英语语言环境的之前默认规则，您需要重新排列消息的形式以匹配该语言环境的 CLDR 复数类别顺序。
+
+**之前 (v11) — 带自定义 `pluralRules` 的俄语：**
+
+无需更改。自定义 `pluralRules` 优先，并继续像以前一样工作。
+
+**之后 (v12) — 俄语（自动，无需自定义 `pluralRules`）：**
+
+```js
+const i18n = createI18n({
+  locale: 'ru',
+  // 不需要 pluralRules — Intl.PluralRules 自动处理
+  messages: {
+    ru: {
+      // 顺序：one | few | many | other（俄语的 CLDR 顺序）
+      car: '{n} машина | {n} машины | {n} машин | {n} машин'
+    }
+  }
+})
+```
+
 ## 更改 `MissingHandler` 签名
 
 **原因**: Vue 3.6+ 弃用了 `getCurrentInstance()` API。`MissingHandler` 类型以前接收 `ComponentInternalInstance` 作为第三个参数，但这不再可用。

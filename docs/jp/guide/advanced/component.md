@@ -51,8 +51,15 @@ const url = ref('/term')
 <template>
   <div id="app">
     <!-- ... -->
-    <i18n-t keypath="term" tag="label" for="tos">
-      <a :href="url" target="_blank">{{ t('tos') }}</a>
+    <i18n-t
+      keypath="term"
+      tag="label"
+      for="tos"
+    >
+      <a
+        :href="url"
+        target="_blank"
+      >{{ t('tos') }}</a>
     </i18n-t>
     <!-- ... -->
   </div>
@@ -128,11 +135,14 @@ const refundLimit = ref(30)
 <template>
   <div id="app">
     <!-- ... -->
-    <i18n-t keypath="info" tag="p">
-      <template v-slot:limit>
+    <i18n-t
+      keypath="info"
+      tag="p"
+    >
+      <template #limit>
         <span>{{ changeLimit }}</span>
       </template>
-      <template v-slot:action>
+      <template #action>
         <a :href="changeUrl">{{ t('change') }}</a>
       </template>
     </i18n-t>

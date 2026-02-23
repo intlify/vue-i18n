@@ -290,6 +290,32 @@ function pluralDefault(choice: number, choicesLength: number): number {
   return Math.min(choice, 2)
 }
 
+// CLDR plural category order
+const PLURAL_CATEGORY_ORDER: Intl.LDMLPluralRule[] = ['zero', 'one', 'two', 'few', 'many', 'other']
+
+// Cache Intl.PluralRules instances per locale
+const intlPluralRulesCache = new Map<
+  string,
+  {
+    rules: Intl.PluralRules
+    categories: Intl.LDMLPluralRule[]
+  }
+>()
+
+function getIntlPluralRules(locale: string) {
+  let cached = intlPluralRulesCache.get(locale)
+  if (!cached) {
+    const rules = new Intl.PluralRules(locale)
+    const categories = rules
+      .resolvedOptions()
+      .pluralCategories.slice()
+      .sort((a, b) => PLURAL_CATEGORY_ORDER.indexOf(a) - PLURAL_CATEGORY_ORDER.indexOf(b))
+    cached = { rules, categories }
+    intlPluralRulesCache.set(locale, cached)
+  }
+  return cached
+}
+
 function getPluralIndex<T, N>(options: MessageContextOptions<T, N>): number {
   // prettier-ignore
   const index = isNumber(options.pluralIndex)
@@ -309,14 +335,42 @@ export function createMessageContext<T = string, N = {}>(
   const locale = options.locale
 
   const pluralIndex = getPluralIndex(options)
-  const pluralRule =
-    isString(locale) && isFunction(options.pluralRules?.[locale])
-      ? options.pluralRules![locale]
-      : pluralDefault
-  const orgPluralRule = pluralRule === pluralDefault ? undefined : pluralDefault
+
+  // Resolve plural rule with priority: custom > Intl.PluralRules > pluralDefault
+  let resolvedPluralRule: (
+    choice: number,
+    choicesLength: number,
+    orgRule?: PluralizationRule
+  ) => number
+
+  if (isString(locale) && isFunction(options.pluralRules?.[locale])) {
+    // 1. User-defined custom rule takes highest priority
+    resolvedPluralRule = options.pluralRules![locale]
+  } else if (
+    isString(locale) &&
+    typeof Intl !== 'undefined' &&
+    typeof Intl.PluralRules !== 'undefined'
+  ) {
+    // 2. Intl.PluralRules-based automatic rule
+    resolvedPluralRule = (choice: number, choicesLength: number): number => {
+      const { rules, categories } = getIntlPluralRules(locale!)
+      // Fall back to pluralDefault when choices exceed locale's category count
+      if (choicesLength > categories.length) {
+        return pluralDefault(choice, choicesLength)
+      }
+      const category = rules.select(Math.abs(choice))
+      const index = categories.indexOf(category)
+      return Math.min(index === -1 ? choicesLength - 1 : index, choicesLength - 1)
+    }
+  } else {
+    // 3. Fallback: English-based default rule
+    resolvedPluralRule = pluralDefault
+  }
+
+  const orgPluralRule = resolvedPluralRule === pluralDefault ? undefined : pluralDefault
 
   const plural = (messages: T[]): T =>
-    messages[pluralRule(pluralIndex, messages.length, orgPluralRule)]
+    messages[resolvedPluralRule(pluralIndex, messages.length, orgPluralRule)]
 
   const _list = options.list || []
   const list = (index: number): unknown => _list[index]

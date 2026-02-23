@@ -24,6 +24,10 @@ docs/jp/api/vue
 docs/jp/api/index.md
 !docs/api/typedoc-sidebar.json
 .notes
+.data
+.playwright-cli
+.report
+.claude
 
 *.log
 *.swp

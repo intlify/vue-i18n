@@ -114,11 +114,44 @@ const messages = {
 <p>too many bananas</p>
 ```
 
+## `Intl.PluralRules` による自動複数化
+
+Vue I18n は現在のロケールに基づいて正しい複数形を自動的に選択するために [`Intl.PluralRules`](https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Intl/PluralRules) を使用します。これにより、ほとんどの言語ではカスタムの複数化ルールを書く必要がありません。CLDR 複数形カテゴリの順序でメッセージのケースを正しい数だけ提供するだけです: `zero | one | two | few | many | other`。
+
+例えば、ロシア語には4つの複数形カテゴリがあります（`one`, `few`, `many`, `other`）:
+
+```js
+const i18n = createI18n({
+  locale: 'ru',
+  messages: {
+    ru: {
+      car: '{n} машина | {n} машины | {n} машин | {n} машин',
+      //    one          few          many         other
+    }
+  }
+})
+```
+
+Vue I18n は自動的に正しい形式を選択します:
+
+| 値 | `Intl.PluralRules` カテゴリ | 選択されるケース |
+|---|---|---|
+| 1 | `one` | `{n} машина` |
+| 2 | `few` | `{n} машины` |
+| 5 | `many` | `{n} машин` |
+| 21 | `one` | `{n} машина` |
+
+:::tip NOTE
+メッセージのケース数がロケールの複数形カテゴリ数を超える場合、Vue I18n はデフォルトルール（英語に適したもの）にフォールバックします。
+:::
+
+:::tip NOTE
+ランタイム環境で `Intl.PluralRules` が利用できない場合、Vue I18n はデフォルトの英語ベースルールにフォールバックします。
+:::
+
 ## カスタム複数化
 
-ただし、このような複数化はすべての言語に適用されるわけではありません（たとえば、スラブ語派の言語には異なる複数化ルールがあります）。
-
-これらのルールを実装するには、オプションの `pluralRules` オブジェクトを `createI18n` オプションに渡すことができます。
+`Intl.PluralRules` による自動複数化はほとんどの言語で機能しますが、特殊なケースにはカスタムロジックが必要な場合があります。特定のロケールの自動動作をオーバーライドするために、`createI18n` オプションにオプションの `pluralRules` オブジェクトを渡すことができます。
 
 スラブ語派の言語（ロシア語、ウクライナ語など）のルールを使用した非常に単純化された例：
 
