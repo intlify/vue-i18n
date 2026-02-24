@@ -1,22 +1,18 @@
 {
   "name": "vue-i18n-root",
-  "private": true,
   "version": "12.0.0-alpha.3",
+  "private": true,
+  "bugs": {
+    "url": "https://github.com/inlitify/vue-i18n/issues"
+  },
+  "license": "MIT",
   "author": {
     "name": "kazuya kawaguchi",
     "email": "kawakazu80@gmail.com"
   },
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/inlitify/vue-i18n/issues"
-  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/intlify/vue-i18n.git"
-  },
-  "packageManager": "pnpm@10.30.1",
-  "engines": {
-    "node": ">= 20"
   },
   "scripts": {
     "bench": "node ./benchmark/index.mjs",
@@ -55,13 +51,13 @@
     "fix": "pnpm run --color \"/^fix:/\"",
     "fix:eslint": "eslint . --fix --cache",
     "fix:knip": "knip --fix",
+    "fix:oxfmt": "oxfmt . --config ./node_modules/@kazupon/prettier-config/index.json --no-error-on-unmatched-pattern",
     "fix:oxlint": "oxlint --type-aware --fix",
-    "fix:prettier": "prettier --write . --experimental-cli",
     "lint": "pnpm run --color \"/^lint:/\"",
     "lint:eslint": "eslint . --cache",
     "lint:knip": "knip",
+    "lint:oxfmt": "oxfmt . --check --config ./node_modules/@kazupon/prettier-config/index.json",
     "lint:oxlint": "oxlint --type-aware",
-    "lint:prettier": "prettier --check . --experimental-cli",
     "prebuild": "test \"$CI\" = true && npx pnpm install -r --store=node_modules/.pnpm-store || echo skipping pnpm install",
     "preinstall": "node ./scripts/preinstall.js",
     "prepare": "git config --local core.hooksPath .githooks",
@@ -124,11 +120,11 @@
     "oxc-minify": "^0.110.0",
     "oxc-parser": "^0.110.0",
     "oxc-transform": "^0.110.0",
+    "oxfmt": "^0.34.0",
     "oxlint": "^1.49.0",
     "oxlint-tsgolint": "^0.11.5",
     "picocolors": "^1.1.1",
     "playwright-core": "^1.58.2",
-    "prettier": "^3.8.1",
     "rolldown": "1.0.0-rc.1",
     "rolldown-plugin-dts": "0.21.2",
     "rollup": "^4.59.0",
@@ -149,6 +145,25 @@
     "vue": "3.5.27",
     "vue-i18n": "workspace:*"
   },
+  "lint-staged": {
+    "*.{json,md,yml}": [
+      "oxfmt --config ./node_modules/@kazupon/prettier-config/index.json --no-error-on-unmatched-pattern"
+    ],
+    "*.{js,vue}": [
+      "eslint --fix",
+      "oxlint --config .oxlintrc.json --type-aware --fix",
+      "oxfmt --config ./node_modules/@kazupon/prettier-config/index.json --no-error-on-unmatched-pattern"
+    ],
+    "*.ts?(x)": [
+      "oxfmt --config ./node_modules/@kazupon/prettier-config/index.json --no-error-on-unmatched-pattern",
+      "oxlint --config .oxlintrc.json --type-aware --fix",
+      "eslint --fix"
+    ]
+  },
+  "engines": {
+    "node": ">= 20"
+  },
+  "packageManager": "pnpm@10.30.1",
   "pnpm": {
     "overrides": {
       "vite": "^7.3.1",
@@ -160,22 +175,6 @@
       "event-loop-stats",
       "fsevents",
       "unrs-resolver"
-    ]
-  },
-  "prettier": "@kazupon/prettier-config",
-  "lint-staged": {
-    "*.{json,md,yml}": [
-      "prettier --write"
-    ],
-    "*.{js,vue}": [
-      "eslint --fix",
-      "oxlint --config .oxlintrc.json --type-aware --fix",
-      "prettier --write"
-    ],
-    "*.ts?(x)": [
-      "prettier --parser=typescript --write",
-      "oxlint --config .oxlintrc.json --type-aware --fix",
-      "eslint --fix"
     ]
   }
 }

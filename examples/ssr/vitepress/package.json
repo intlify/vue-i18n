@@ -1,7 +1,12 @@
 {
   "name": "vitepress-ssr",
-  "module": "index.ts",
   "type": "module",
+  "module": "index.ts",
+  "scripts": {
+    "docs:dev": "vitepress dev",
+    "docs:build": "vitepress build",
+    "docs:preview": "vitepress preview"
+  },
   "dependencies": {
     "vitepress": "^1.6.4",
     "vue-i18n": "workspace:*"
@@ -9,10 +14,5 @@
   "devDependencies": {
     "@intlify/unplugin-vue-i18n": "^11.0.1",
     "typescript": "^5.0.0"
-  },
-  "scripts": {
-    "docs:dev": "vitepress dev",
-    "docs:build": "vitepress build",
-    "docs:preview": "vitepress preview"
   }
 }

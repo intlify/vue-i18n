@@ -1,7 +1,7 @@
 {
   "name": "message-format",
-  "private": true,
   "version": "0.0.0",
+  "private": true,
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -9,9 +9,9 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "intl-messageformat": "^10.5.0",
     "vue": "^3.3.4",
-    "vue-i18n": "workspace:*",
-    "intl-messageformat": "^10.5.0"
+    "vue-i18n": "workspace:*"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^6.0.1",

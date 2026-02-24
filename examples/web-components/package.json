@@ -13,11 +13,11 @@
     "vue-i18n": "11.1.12"
   },
   "devDependencies": {
+    "@intlify/unplugin-vue-i18n": "^11.0.1",
     "@vitejs/plugin-vue": "^6.0.1",
     "@vue/tsconfig": "^0.8.1",
     "typescript": "^5.0.2",
     "vite": "^7.1.7",
-    "vue-tsc": "^3.0.7",
-    "@intlify/unplugin-vue-i18n": "^11.0.1"
+    "vue-tsc": "^3.0.7"
   }
 }
