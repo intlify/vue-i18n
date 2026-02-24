@@ -7,7 +7,6 @@ Internationalization plugin for Vue.js
 ### From CDN or without a Bundler
 
 - **`vue-i18n(.runtime).global(.prod).js`**:
-
   - For direct use via `<script src="...">` in the browser. Exposes the `VueI18n` global
   - Note that global builds are not [UMD](https://github.com/umdjs/umd) builds. They are built as [IIFEs](https://developer.mozilla.org/en-US/docs/Glossary/IIFE) and is only meant for direct use via `<script src="...">`
   - In-browser locale messages compilation:
@@ -46,7 +45,6 @@ Internationalization plugin for Vue.js
     - **`vue-i18n.runtime.node.js`**: is runtime only
     - **`vue-i18n.node.js`**: includes the runtime compiler
 
-
 ## For Bundler feature flags
 
 ### Build Feature Flags
@@ -55,7 +53,7 @@ The `esm-bundler` builds now exposes global feature flags that can be overwritte
 
 - `__VUE_I18N_FULL_INSTALL__` (enable/disable, in addition to vue-i18n APIs, components and directives all fully support installation: `true`)
 - `__VUE_I18N_LEGACY_API__` (enable/disable vue-i18n legacy style APIs support, default: `true`)
-- `__INTLIFY_DROP_MESSAGE_COMPILER__`  (enable/disable whether to tree-shake message compiler when we will be bundling)
+- `__INTLIFY_DROP_MESSAGE_COMPILER__` (enable/disable whether to tree-shake message compiler when we will be bundling)
 
 The build will work without configuring these flags, however it is **strongly recommended** to properly configure them in order to get proper tree shaking in the final bundle. To configure these flags:
 

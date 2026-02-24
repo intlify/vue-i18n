@@ -35,7 +35,7 @@ Small size subset of Vue I18n
 
 ## 🔨 The use case of `petite-vue-i18n`
 
-`vue-i18n` includes various i18n features such as translation, datetimes format and number formats. Some projects may only use translation and not datetime formats.  At the moment, even in that case, the code for that feature is included.
+`vue-i18n` includes various i18n features such as translation, datetimes format and number formats. Some projects may only use translation and not datetime formats. At the moment, even in that case, the code for that feature is included.
 
 If your project only uses `t` or `$t` API for translation, so we recommended you would use `petite-vue-i18n` better than `vue-i18n`. And your project needs the features of `vue-i18n`, you can smoothly migrate from `petite-vue-i18n` to `vue-i18n`. This means that it’s progressive enhancement.
 
@@ -44,6 +44,7 @@ If your project only uses `t` or `$t` API for translation, so we recommended you
 Basically, it’s the same as installing `vue-i18n`. The only difference is that the part of URL or part of path are changed from `vue-i18n` to `petite-vue-i18n`.
 
 ### CDN
+
 You need to insert the following scripts to end of `<head>`:
 
 ```html
@@ -55,35 +56,38 @@ The following is the application code with the script tag:
 
 ```html
 <script>
-const { createApp } = Vue
-const { createI18n } = PetiteVueI18n
+  const { createApp } = Vue
+  const { createI18n } = PetiteVueI18n
 
-const i18n = createI18n({
-  // something vue-i18n options here ...
-})
+  const i18n = createI18n({
+    // something vue-i18n options here ...
+  })
 
-const app = createApp({
-  // something vue options here ...
-})
+  const app = createApp({
+    // something vue options here ...
+  })
 
-app.use(i18n)
-app.mount('#app')
+  app.use(i18n)
+  app.mount('#app')
 </script>
 ```
 
 ### Package managers
 
 NPM:
+
 ```sh
 npm install petite-vue-i18n --save
 ```
 
 PNPM:
+
 ```sh
 pnpm add petite-vue-i18n
 ```
 
 Yarn:
+
 ```sh
 yarn add petite-vue-i18n
 ```
@@ -109,6 +113,7 @@ app.mount('#app')
 ### Hello world
 
 Template:
+
 ```html
 <div id="app">
   <h1>{{ t('hello world') }}</h1>
@@ -116,6 +121,7 @@ Template:
 ```
 
 Scripts:
+
 ```js
 const { createApp } = Vue
 const { createI18n, useI18n } = PetiteVueI18n
@@ -204,6 +210,7 @@ With the above settings, locale message resolving and locale fallbacking will be
 You can switch from vue-i18n to petite-vue-i18n in your application using npm alias without changing the import ID.
 
 Package.json:
+
 ```diff
  {
    // ...

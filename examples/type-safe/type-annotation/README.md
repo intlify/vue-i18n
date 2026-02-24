@@ -1,4 +1,4 @@
-# type-annotation 
+# type-annotation
 
 This is one of the type-safe i18n resources examples.
 

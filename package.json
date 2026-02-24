@@ -1,18 +1,22 @@
 {
   "name": "vue-i18n-root",
-  "version": "12.0.0-alpha.3",
   "private": true,
-  "bugs": {
-    "url": "https://github.com/inlitify/vue-i18n/issues"
-  },
-  "license": "MIT",
+  "version": "12.0.0-alpha.3",
   "author": {
     "name": "kazuya kawaguchi",
     "email": "kawakazu80@gmail.com"
   },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/inlitify/vue-i18n/issues"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/intlify/vue-i18n.git"
+  },
+  "packageManager": "pnpm@10.30.1",
+  "engines": {
+    "node": ">= 20"
   },
   "scripts": {
     "bench": "node ./benchmark/index.mjs",
@@ -145,6 +149,19 @@
     "vue": "3.5.27",
     "vue-i18n": "workspace:*"
   },
+  "pnpm": {
+    "overrides": {
+      "vite": "^7.3.1",
+      "vue": "3.6.0-beta.4"
+    },
+    "onlyBuiltDependencies": [
+      "@parcel/watcher",
+      "esbuild",
+      "event-loop-stats",
+      "fsevents",
+      "unrs-resolver"
+    ]
+  },
   "lint-staged": {
     "*.{json,md,yml}": [
       "oxfmt --config ./node_modules/@kazupon/prettier-config/index.json --no-error-on-unmatched-pattern"
@@ -158,23 +175,6 @@
       "oxfmt --config ./node_modules/@kazupon/prettier-config/index.json --no-error-on-unmatched-pattern",
       "oxlint --config .oxlintrc.json --type-aware --fix",
       "eslint --fix"
-    ]
-  },
-  "engines": {
-    "node": ">= 20"
-  },
-  "packageManager": "pnpm@10.30.1",
-  "pnpm": {
-    "overrides": {
-      "vite": "^7.3.1",
-      "vue": "3.6.0-beta.4"
-    },
-    "onlyBuiltDependencies": [
-      "@parcel/watcher",
-      "esbuild",
-      "event-loop-stats",
-      "fsevents",
-      "unrs-resolver"
     ]
   }
 }

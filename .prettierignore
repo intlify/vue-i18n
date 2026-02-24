@@ -3,10 +3,11 @@ types
 docs
 coverage
 tsconfig.json
-README.md
 temp
 e2e/hotfix/CVE-2024-52809.html
 packages/format-explorer/index.html
 packages/size-check-core/index.html
 packages/size-check-petite-vue-i18n/index.html
 packages/size-check-vue-i18n/index.html
+package.json
+packages/**/package.json
