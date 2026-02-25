@@ -390,6 +390,174 @@ describe('useI18n', () => {
     await mount(App, i18n as any)
     expect(error).toBe(errorMessages[I18nErrorCodes.DUPLICATE_USE_I18N_CALLING])
   })
+
+  describe('isolated scope', () => {
+    test('basic', async () => {
+      const i18n = createI18n({
+        locale: 'en',
+        messages: {
+          en: {
+            hello: 'hello!'
+          }
+        }
+      })
+
+      let composer: unknown
+      const App = defineComponent({
+        setup() {
+          composer = useI18n({
+            useScope: 'isolated',
+            messages: {
+              en: {
+                greeting: 'hi there!'
+              }
+            }
+          })
+          return {}
+        },
+        template: `<p>foo</p>`
+      })
+      await mount(App, i18n)
+
+      expect(i18n.global).not.toEqual(composer)
+      expect((composer as Composer).t('greeting')).toEqual('hi there!')
+    })
+
+    test('multiple isolated scopes per component', async () => {
+      const i18n = createI18n({
+        locale: 'en',
+        messages: {
+          en: {
+            hello: 'hello!'
+          }
+        }
+      })
+
+      let composer1: unknown
+      let composer2: unknown
+      const App = defineComponent({
+        setup() {
+          composer1 = useI18n({
+            useScope: 'isolated',
+            messages: {
+              en: { msg: 'from first' }
+            }
+          })
+          composer2 = useI18n({
+            useScope: 'isolated',
+            messages: {
+              en: { msg: 'from second' }
+            }
+          })
+          return {}
+        },
+        template: `<p>foo</p>`
+      })
+      await mount(App, i18n)
+
+      expect((composer1 as Composer).t('msg')).toEqual('from first')
+      expect((composer2 as Composer).t('msg')).toEqual('from second')
+      expect(composer1).not.toEqual(composer2)
+    })
+
+    test('coexists with local scope', async () => {
+      const i18n = createI18n({
+        locale: 'en',
+        messages: {
+          en: {
+            hello: 'hello!'
+          }
+        }
+      })
+
+      const useMyComposable = () => {
+        const { t } = useI18n({
+          useScope: 'isolated',
+          messages: {
+            en: {
+              status: 'composable status'
+            }
+          }
+        })
+        return { status: t('status') }
+      }
+
+      let localComposer: unknown
+      let composableResult: { status: string }
+      const App = defineComponent({
+        setup() {
+          localComposer = useI18n({
+            messages: {
+              en: { hi: 'hi from component!' }
+            }
+          })
+          composableResult = useMyComposable()
+          return {}
+        },
+        template: `<p>foo</p>`
+      })
+      await mount(App, i18n)
+
+      expect((localComposer as Composer).t('hi')).toEqual('hi from component!')
+      expect(composableResult!.status).toEqual('composable status')
+    })
+
+    test('inherits locale from global', async () => {
+      const i18n = createI18n({
+        locale: 'ja',
+        messages: {
+          en: { hello: 'hello!' },
+          ja: { hello: 'こんにちは！' }
+        }
+      })
+
+      let composer: unknown
+      const App = defineComponent({
+        setup() {
+          composer = useI18n({
+            useScope: 'isolated',
+            messages: {
+              en: { greeting: 'hi!' },
+              ja: { greeting: 'やあ！' }
+            }
+          })
+          return {}
+        },
+        template: `<p>foo</p>`
+      })
+      await mount(App, i18n)
+
+      expect((composer as Composer).locale.value).toEqual('ja')
+      expect((composer as Composer).t('greeting')).toEqual('やあ！')
+    })
+
+    test('falls back to root for missing keys', async () => {
+      const i18n = createI18n({
+        locale: 'en',
+        messages: {
+          en: { globalKey: 'from global' }
+        }
+      })
+
+      let composer: unknown
+      const App = defineComponent({
+        setup() {
+          composer = useI18n({
+            useScope: 'isolated',
+            messages: {
+              en: { localKey: 'from isolated' }
+            }
+          })
+          return {}
+        },
+        template: `<p>foo</p>`
+      })
+      await mount(App, i18n)
+
+      expect((composer as Composer).t('localKey')).toEqual('from isolated')
+      expect((composer as Composer).t('globalKey')).toEqual('from global')
+    })
+  })
 })
 
 test('slot reactivity', async () => {

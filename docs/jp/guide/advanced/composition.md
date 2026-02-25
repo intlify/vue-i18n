@@ -468,6 +468,72 @@ locale.value = 'en' // change!
 ローカルスコープでの `locale` の変更は、**グローバルスコープのロケールには影響せず、ローカルスコープ内でのみ有効です**。
 :::
 
+## 分離スコープ
+
+分離スコープは、**コンポーネントに紐づかない**独立した Composer インスタンスを作成します。これは、コンポーネントのローカルスコープと競合することなく、コンポーザブル内で独自の翻訳メッセージを持つ `useI18n` を使用したい場合に便利です。
+
+### なぜ分離スコープが必要か？
+
+コンポーネントとコンポーザブルの両方がローカルスコープで `useI18n` を呼び出すと、1つのコンポーネントにつき1つのローカルスコープしか許可されていないため、2回目の呼び出しが最初の呼び出しと競合します。分離スコープは、以下の特性を持つ Composer を作成することでこの問題を解決します：
+
+- コンポーネントの uid に**登録されない**（重複検出の対象外）
+- `provide` を通じて子コンポーネントに**伝播しない**
+- SFC i18n カスタムブロックを**マージしない**
+- 親/グローバルスコープからロケールを**継承する**（デフォルト）
+- 翻訳キーが見つからない場合、親/グローバルスコープに**フォールバックする**
+
+### コンポーザブルでの使用方法
+
+<!-- eslint-skip -->
+
+```ts
+// useProjectStatus.ts
+import { computed } from 'vue'
+import { useI18n } from 'vue-i18n'
+
+export function useProjectStatus(project) {
+  const { t } = useI18n({
+    useScope: 'isolated',
+    messages: {
+      en: { active: 'Active', inactive: 'Inactive' },
+      ja: { active: '稼働中', inactive: '停止中' }
+    }
+  })
+
+  return computed(() => project.isActive ? t('active') : t('inactive'))
+}
+```
+
+<!-- eslint-skip -->
+
+```vue
+<!-- MyComponent.vue -->
+<script setup>
+import { useI18n } from 'vue-i18n'
+import { useProjectStatus } from './useProjectStatus'
+
+// コンポーネントのローカルスコープ
+const { t } = useI18n({
+  messages: {
+    en: { title: 'Project Dashboard' },
+    ja: { title: 'プロジェクトダッシュボード' }
+  }
+})
+
+// 分離スコープを使用するコンポーザブル — 競合なし！
+const status = useProjectStatus(project)
+</script>
+
+<template>
+  <h1>{{ t('title') }}</h1>
+  <p>{{ status }}</p>
+</template>
+```
+
+:::tip NOTE
+分離スコープはデフォルトでグローバルスコープからロケールを継承します。グローバルロケールが変更されると、分離スコープのロケールも自動的に更新されます。この動作を無効にするには、`inheritLocale: false` を設定してください。
+:::
+
 ## VueI18n から Composer へのマッピング
 
 v11 以前から移行する場合は、VueI18n インスタンス（Legacy API）と Composer インスタンス（Composition API）の詳細なマッピングについて、[v12 破壊的変更](../migration/breaking12#drop-legacy-api-mode) を参照してください。
