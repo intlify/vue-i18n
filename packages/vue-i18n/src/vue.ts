@@ -602,7 +602,7 @@ export interface ComponentCustomProperties {
    * @returns formatted value
    */
   $d<
-    Value extends number | Date = number,
+    Value extends number | Date | string = number,
     Key extends string = string,
     DefinedDateTimeFormat extends RemovedIndexResources<DefineDateTimeFormat> =
       RemovedIndexResources<DefineDateTimeFormat>,
