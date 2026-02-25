@@ -347,6 +347,9 @@ export function resolveValue(obj: unknown, path: Path): PathValue {
     if (AST_NODE_PROPS_KEYS.includes(key) && isMessageAST(last)) {
       return null
     }
+    if (!isObject(last)) {
+      return null
+    }
     const val = last[key]
     if (val === undefined) {
       return null
