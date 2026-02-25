@@ -468,6 +468,72 @@ locale.value = 'en' // change!
 本地作用域中对 `locale` 的更改 **对全局作用域区域设置没有影响，仅在本地作用域内有效**。
 :::
 
+## 隔离作用域
+
+隔离作用域创建一个**不与组件绑定**的独立 Composer 实例。当你想在组合式函数中使用带有自己翻译消息的 `useI18n`，而不与组件的本地作用域冲突时，这非常有用。
+
+### 为什么需要隔离作用域？
+
+当组件和组合式函数都使用本地作用域调用 `useI18n` 时，第二次调用会与第一次冲突，因为每个组件只允许一个本地作用域。隔离作用域通过创建以下特性的 Composer 来解决这个问题：
+
+- **不注册**到组件的 uid（不进行重复检测）
+- **不通过** `provide` 传播到子组件
+- **不合并** SFC i18n 自定义块
+- 默认从父级/全局作用域**继承区域设置**
+- 当翻译键缺失时，**回退**到父级/全局作用域
+
+### 在组合式函数中使用
+
+<!-- eslint-skip -->
+
+```ts
+// useProjectStatus.ts
+import { computed } from 'vue'
+import { useI18n } from 'vue-i18n'
+
+export function useProjectStatus(project) {
+  const { t } = useI18n({
+    useScope: 'isolated',
+    messages: {
+      en: { active: 'Active', inactive: 'Inactive' },
+      ja: { active: '稼働中', inactive: '停止中' }
+    }
+  })
+
+  return computed(() => project.isActive ? t('active') : t('inactive'))
+}
+```
+
+<!-- eslint-skip -->
+
+```vue
+<!-- MyComponent.vue -->
+<script setup>
+import { useI18n } from 'vue-i18n'
+import { useProjectStatus } from './useProjectStatus'
+
+// 组件的本地作用域
+const { t } = useI18n({
+  messages: {
+    en: { title: 'Project Dashboard' },
+    ja: { title: 'プロジェクトダッシュボード' }
+  }
+})
+
+// 使用隔离作用域的组合式函数 - 没有冲突！
+const status = useProjectStatus(project)
+</script>
+
+<template>
+  <h1>{{ t('title') }}</h1>
+  <p>{{ status }}</p>
+</template>
+```
+
+:::tip NOTE
+隔离作用域默认从全局作用域继承区域设置。当全局区域设置更改时，隔离作用域的区域设置会自动更新。你可以通过设置 `inheritLocale: false` 来禁用此行为。
+:::
+
 ## VueI18n 到 Composer 的映射
 
 如果你正在从 v11 或更早版本迁移，请参阅 [v12 破坏性变更](../migration/breaking12#drop-legacy-api-mode) 以获取 VueI18n 实例（传统 API）和 Composer 实例（组合式 API）之间的详细映射。

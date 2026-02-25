@@ -183,7 +183,7 @@ export interface I18nInternal<
  *
  * @VueI18nGeneral
  */
-export type I18nScope = 'local' | 'parent' | 'global'
+export type I18nScope = 'local' | 'parent' | 'global' | 'isolated'
 
 /**
  * I18n Options for `useI18n`
@@ -561,6 +561,52 @@ export function useI18n<
       NumberFormats,
       OptionLocale
     >
+  }
+
+  // Isolated scope - independent composer not tied to component uid
+  if (scope === 'isolated') {
+    const i18nInternal = i18n as unknown as I18nInternal
+
+    const composerOptions = assign({}, options) as ComposerOptions & ComposerInternalOptions
+
+    // Set parent Composer as fallback root
+    const parentComposer = inject(I18nComposerKey, null)
+    composerOptions.__root = parentComposer || gl
+
+    const composer = createComposer(composerOptions) as Composer
+
+    // ComposerExtend
+    if (i18nInternal.__composerExtend) {
+      ;(composer as any)[DisposeSymbol] = i18nInternal.__composerExtend(composer)
+    }
+
+    // DevTools emitter setup
+    let emitter: VueDevToolsEmitter | null = null
+    if ((__DEV__ || __FEATURE_PROD_VUE_DEVTOOLS__) && !__NODE_JS__) {
+      emitter = createEmitter<VueDevToolsEmitterEvents>()
+      const _composer = composer as any
+      _composer[EnableEmitter]?.(emitter)
+      emitter.on('*', addTimelineEvent)
+    }
+
+    // Lifecycle management via onScopeDispose
+    const currentScope = getCurrentScope()
+    if (currentScope) {
+      onScopeDispose(() => {
+        if ((__DEV__ || __FEATURE_PROD_VUE_DEVTOOLS__) && !__NODE_JS__) {
+          emitter?.off('*', addTimelineEvent)
+          const _composer = composer as any
+          _composer[DisableEmitter]?.()
+        }
+        const dispose = (composer as any)[DisposeSymbol]
+        if (dispose) {
+          dispose()
+          delete (composer as any)[DisposeSymbol]
+        }
+      })
+    }
+
+    return composer as unknown as Composer<Messages, DateTimeFormats, NumberFormats, OptionLocale>
   }
 
   // Local scope

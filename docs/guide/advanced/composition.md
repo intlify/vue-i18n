@@ -468,6 +468,72 @@ If you do not want to inherit the locale from the global scope, the `inheritLoca
 Changes to the `locale` at the local scope have **no effect on the global scope locale, but only within the local scope**.
 :::
 
+## Isolated scope
+
+The isolated scope creates an independent Composer instance that is **not tied to the component**. This is useful when you want to use `useI18n` inside a composable with its own translation messages, without conflicting with the component's local scope.
+
+### Why isolated scope?
+
+When a component and a composable both call `useI18n` with local scope, the second call conflicts with the first because only one local scope per component is allowed. The isolated scope solves this by creating a Composer that:
+
+- Is **not registered** with the component's uid (no duplicate detection)
+- Does **not propagate** to child components via `provide`
+- Does **not merge** SFC i18n custom blocks
+- **Inherits locale** from the parent/global scope (by default)
+- **Falls back** to the parent/global scope for missing translation keys
+
+### Usage in composables
+
+<!-- eslint-skip -->
+
+```ts
+// useProjectStatus.ts
+import { computed } from 'vue'
+import { useI18n } from 'vue-i18n'
+
+export function useProjectStatus(project) {
+  const { t } = useI18n({
+    useScope: 'isolated',
+    messages: {
+      en: { active: 'Active', inactive: 'Inactive' },
+      ja: { active: '稼働中', inactive: '停止中' }
+    }
+  })
+
+  return computed(() => project.isActive ? t('active') : t('inactive'))
+}
+```
+
+<!-- eslint-skip -->
+
+```vue
+<!-- MyComponent.vue -->
+<script setup>
+import { useI18n } from 'vue-i18n'
+import { useProjectStatus } from './useProjectStatus'
+
+// Local scope for the component
+const { t } = useI18n({
+  messages: {
+    en: { title: 'Project Dashboard' },
+    ja: { title: 'プロジェクトダッシュボード' }
+  }
+})
+
+// Composable with isolated scope — no conflict!
+const status = useProjectStatus(project)
+</script>
+
+<template>
+  <h1>{{ t('title') }}</h1>
+  <p>{{ status }}</p>
+</template>
+```
+
+:::tip NOTE
+The isolated scope inherits locale from the global scope by default. When the global locale changes, the isolated scope's locale is automatically updated. You can disable this behavior by setting `inheritLocale: false`.
+:::
+
 ## Mapping from VueI18n to Composer
 
 If you are migrating from v11 or earlier, see the [v12 Breaking Changes](../migration/breaking12#drop-legacy-api-mode) for a detailed mapping between the VueI18n instance (Legacy API) and the Composer instance (Composition API).
