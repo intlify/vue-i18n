@@ -335,7 +335,7 @@ export function resolveValue(obj: unknown, path: Path): PathValue {
 
   // resolve path value
   const len = hit.length
-   
+
   let last: any = obj
   let i = 0
   while (i < len) {
