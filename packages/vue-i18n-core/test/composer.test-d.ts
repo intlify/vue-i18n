@@ -343,6 +343,13 @@ test('strict composer with direct options', () => {
     })
   ).toEqualTypeOf<Intl.DateTimeFormatPart[]>()
 
+  // ComposerDateTimeFormatting with ISO 8601 string
+  expectTypeOf(strictDirectComposer.d('2022-08-08T08:56:45.846Z')).toEqualTypeOf<string>()
+  expectTypeOf(strictDirectComposer.d('2022-08-08T08:56:45.846Z', 'short')).toEqualTypeOf<string>()
+  expectTypeOf(
+    strictDirectComposer.d('2022-08-08T08:56:45.846Z', { key: 'short', locale: 'zh' })
+  ).toEqualTypeOf<string>()
+
   // ComposerNumberFormatting
   expectTypeOf(strictDirectComposer.n(1)).toEqualTypeOf<string>()
   expectTypeOf(strictDirectComposer.n(1, 'currency', 'zh')).toEqualTypeOf<string>()
