@@ -1,4 +1,4 @@
-import { isFunction, isObject } from '@intlify/shared'
+import { hasOwn, isFunction, isObject } from '@intlify/shared'
 import { AST_NODE_PROPS_KEYS, isMessageAST } from './ast'
 
 /** @VueI18nGeneral */
@@ -335,7 +335,8 @@ export function resolveValue(obj: unknown, path: Path): PathValue {
 
   // resolve path value
   const len = hit.length
-  let last = obj
+
+  let last: any = obj
   let i = 0
   while (i < len) {
     const key = hit[i]
@@ -348,6 +349,9 @@ export function resolveValue(obj: unknown, path: Path): PathValue {
       return null
     }
     if (!isObject(last)) {
+      return null
+    }
+    if (!hasOwn(last as object, key)) {
       return null
     }
     const val = last[key]
