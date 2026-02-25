@@ -125,6 +125,12 @@ describe('resolveValue', () => {
     expect(resolveValue({ a: fn }, 'a')).toEqual(fn)
     // json path
     expect(resolveValue({ 'a.b': 1 }, 'a.b')).toEqual(null)
+    // String.prototype collision (issue #1711)
+    expect(resolveValue({ test: 'hello' }, 'test.link')).toEqual(null)
+    expect(resolveValue({ test: 'hello' }, 'test.match')).toEqual(null)
+    expect(resolveValue({ test: 'hello' }, 'test.replace')).toEqual(null)
+    expect(resolveValue({ test: 'hello' }, 'test.toString')).toEqual(null)
+    expect(resolveValue({ 'test.link': 'world' }, 'test.link')).toEqual(null)
   })
 
   test('ast', () => {
