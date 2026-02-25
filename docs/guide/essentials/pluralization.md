@@ -49,7 +49,7 @@ The following is an example of using the translation API.
 
 <p>{{ $t('apple', 0) }}</p>
 <p>{{ $t('apple', 1) }}</p>
-<p>{{ $t('apple', 10, { count: 10 }) }}</p>
+<p>{{ $t('apple', { count: 10 }) }}</p>
 ```
 
 In the above example of using the `$t`, the first argument is the locale messages key and the second argument is a number. The `$t` returns the choice message as a result.
