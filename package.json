@@ -82,7 +82,7 @@
   },
   "devDependencies": {
     "@eslint/markdown": "^7.5.1",
-    "@html-eslint/eslint-plugin": "^0.49.0",
+    "@html-eslint/eslint-plugin": "^0.57.0",
     "@intlify/core-base": "workspace:*",
     "@intlify/message-compiler": "workspace:*",
     "@intlify/vue-i18n-core": "workspace:*",
