@@ -133,6 +133,39 @@ describe('resolveValue', () => {
     expect(resolveValue({ 'test.link': 'world' }, 'test.link')).toEqual(null)
   })
 
+  test('Object.prototype built-in key paths (issue #1838)', () => {
+    const builtins = [
+      'constructor',
+      'hasOwnProperty',
+      'isPrototypeOf',
+      'propertyIsEnumerable',
+      'toLocaleString',
+      'toString',
+      'valueOf',
+      '__proto__'
+    ]
+
+    // top-level: builtin name as key with value defined -> should resolve
+    for (const k of builtins) {
+      expect(resolveValue({ [k]: 'hi' }, k)).toEqual('hi')
+    }
+
+    // top-level: builtin name as key, NOT defined -> should return null
+    for (const k of builtins) {
+      expect(resolveValue({}, k)).toEqual(null)
+    }
+
+    // nested: a.<builtin>.c with value defined -> should resolve
+    for (const k of builtins) {
+      expect(resolveValue({ a: { [k]: { c: 'hi' } } }, `a.${k}.c`)).toEqual('hi')
+    }
+
+    // nested: a.<builtin>.c without value -> should return null
+    for (const k of builtins) {
+      expect(resolveValue({ a: {} }, `a.${k}.c`)).toEqual(null)
+    }
+  })
+
   test('ast', () => {
     expect(resolveValue(ast, 'language')).toEqual(ast.language)
     expect(resolveValue(ast, 'product')).toEqual(ast.product)
