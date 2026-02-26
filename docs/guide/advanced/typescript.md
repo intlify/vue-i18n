@@ -142,6 +142,30 @@ const { t, n } = useI18n<{
 
 the above codes, by specifying the defined schema as the first type parameter of `useI18n`, you can use TypeScript to check for undefined resources for locale messages and number formats. Also, by specifying the locale to be defined in the second type parameter, TypeScript can check for undefined locales.
 
+#### Deep type inference for `tm` and `rt`
+
+When using `tm` (translation message) or `rt` (runtime translation) with deep nested resources, you can ensure type safety by explicitly defining the schema in the type parameter of `useI18n`.
+
+<!-- eslint-skip -->
+
+```vue
+<script setup lang="ts">
+import { useI18n } from 'vue-i18n'
+
+const { tm, rt } = useI18n<{
+  message: {
+    test: {
+      bar: string
+    }
+  }
+}>()
+
+const msg = tm('test')
+// 'msg' is inferred as { bar: string }
+console.log(rt(msg.bar))
+</script>
+```
+
 :::warning Limitation
 - Type safety is not supported for i18n custom blocks in SFC. We'll plan to support it in the future.
 - Currently support for `JSON` format only.
@@ -237,8 +261,7 @@ As a result, you can use the interpolation of resource keys in the APIs provided
 :::warning NOTICE
 Interpolation of Resource Keys of APIs such as `$t` and `$d`, which are injected into Component by `globalInjection: true`, require explicitly specifying type parameters.
 
-For more details, see the API documentation.
-https://vue-i18n.intlify.dev/api/injection.html
+For more details, see the [API documentation](https://vue-i18n.intlify.dev/api/injection.html).
 :::
 
 ## Global resource schema type definition
