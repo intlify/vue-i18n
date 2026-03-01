@@ -2322,7 +2322,11 @@ export function createComposer(options: any = {}): any {
         }
         const targetLocale = isString(locale) ? locale : _locale.value
         const message = getLocaleMessage(targetLocale)
-        const resolved = _context.messageResolver(message, key)
+        let resolved = _context.messageResolver(message, key)
+        // if null, resolve with object key path (for flat keys containing dots)
+        if (resolved === null) {
+          resolved = (message as any)[key]
+        }
         return isMessageAST(resolved) || isMessageFunction(resolved) || isString(resolved)
       },
       () => [key],
