@@ -88,6 +88,18 @@ describe('features', () => {
     expect(translate(ctx, 'hi')).toEqual('hi KAZUPON !')
   })
 
+  test('linked with modifier and missing key', () => {
+    const ctx = context({
+      locale: 'en',
+      messages: {
+        en: {
+          greeting: 'hello @.upper:nonExistent !'
+        }
+      }
+    })
+    expect(translate(ctx, 'greeting')).toEqual('hello NONEXISTENT !')
+  })
+
   test('plural', () => {
     const ctx = context({
       locale: 'en',
