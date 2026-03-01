@@ -239,7 +239,7 @@ importers:
         version: 8.4.0(eslint@9.9.1(jiti@1.21.0))(typescript@5.5.4)
       vitepress:
         specifier: 1.5.0
-        version: 1.5.0(@algolia/client-search@4.23.2)(@types/node@22.5.3)(@vue/composition-api@1.7.2(vue@3.6.0-alpha.4(typescript@5.5.4)))(jiti@1.21.0)(postcss@8.5.3)(search-insights@2.13.0)(terser@5.27.0)(tsx@4.11.2)(typescript@5.5.4)(yaml@2.3.4)
+        version: 1.5.0(@algolia/client-search@4.23.2)(@types/node@22.5.3)(@vue/composition-api@1.7.2(vue@3.6.0-alpha.4(typescript@5.5.4)))(jiti@1.21.0)(postcss@8.5.6)(search-insights@2.13.0)(terser@5.27.0)(tsx@4.11.2)(typescript@5.5.4)(yaml@2.3.4)
       vitepress-plugin-llms:
         specifier: ^1.1.0
         version: 1.1.0
@@ -513,16 +513,15 @@ importers:
 
   packages/core-base:
     dependencies:
+      '@intlify/devtools-types':
+        specifier: workspace:*
+        version: link:../devtools-types
       '@intlify/message-compiler':
         specifier: workspace:*
         version: link:../message-compiler
       '@intlify/shared':
         specifier: workspace:*
         version: link:../shared
-    devDependencies:
-      '@intlify/devtools-types':
-        specifier: workspace:*
-        version: link:../devtools-types
 
   packages/devtools-types:
     dependencies:
@@ -572,6 +571,9 @@ importers:
       '@intlify/core-base':
         specifier: workspace:*
         version: link:../core-base
+      '@intlify/devtools-types':
+        specifier: workspace:*
+        version: link:../devtools-types
       '@intlify/shared':
         specifier: workspace:*
         version: link:../shared
@@ -581,10 +583,6 @@ importers:
       vue:
         specifier: 3.6.0-alpha.4
         version: 3.6.0-alpha.4(typescript@5.5.4)
-    devDependencies:
-      '@intlify/devtools-types':
-        specifier: workspace:*
-        version: link:../devtools-types
 
   packages/shared: {}
 
@@ -647,6 +645,9 @@ importers:
       '@intlify/core-base':
         specifier: workspace:*
         version: link:../core-base
+      '@intlify/devtools-types':
+        specifier: workspace:*
+        version: link:../devtools-types
       '@intlify/shared':
         specifier: workspace:*
         version: link:../shared
@@ -656,16 +657,15 @@ importers:
       vue:
         specifier: 3.6.0-alpha.4
         version: 3.6.0-alpha.4(typescript@5.5.4)
-    devDependencies:
-      '@intlify/devtools-types':
-        specifier: workspace:*
-        version: link:../devtools-types
 
   packages/vue-i18n-core:
     dependencies:
       '@intlify/core-base':
         specifier: workspace:*
         version: link:../core-base
+      '@intlify/devtools-types':
+        specifier: workspace:*
+        version: link:../devtools-types
       '@intlify/shared':
         specifier: workspace:*
         version: link:../shared
@@ -675,10 +675,6 @@ importers:
       vue:
         specifier: 3.6.0-alpha.4
         version: 3.6.0-alpha.4(typescript@5.5.4)
-    devDependencies:
-      '@intlify/devtools-types':
-        specifier: workspace:*
-        version: link:../devtools-types
 
 packages:
 
@@ -1387,8 +1383,8 @@ packages:
     resolution: {integrity: sha512-ukFn0I01HsSgr3VYhYcvkTCLS7rGa0gw4A4AMpcy/A9xx/zRJy7PS2BElMXLwUazVFMAr5zuiTk3MQeoeGXaJg==}
     engines: {node: '>= 16'}
 
-  '@intlify/shared@11.1.12':
-    resolution: {integrity: sha512-Om86EjuQtA69hdNj3GQec9ZC0L0vPSAnXzB3gP/gyJ7+mA7t06d9aOAiqMZ+xEOsumGP4eEBlfl8zF2LOTzf2A==}
+  '@intlify/shared@11.2.8':
+    resolution: {integrity: sha512-l6e4NZyUgv8VyXXH4DbuucFOBmxLF56C/mqh2tvApbzl2Hrhi1aTDcuv5TKdxzfHYmpO3UB0Cz04fgDT9vszfw==}
     engines: {node: '>= 16'}
 
   '@intlify/shared@9.10.2':
@@ -8612,7 +8608,7 @@ snapshots:
   '@intlify/shared@10.0.4':
     optional: true
 
-  '@intlify/shared@11.1.12': {}
+  '@intlify/shared@11.2.8': {}
 
   '@intlify/shared@9.10.2': {}
 
@@ -10274,7 +10270,7 @@ snapshots:
 
   api-docs-gen@0.4.0(@types/node@22.5.3):
     dependencies:
-      '@intlify/shared': 11.1.12
+      '@intlify/shared': 11.2.8
       '@microsoft/api-extractor-model': 7.28.9(@types/node@22.5.3)
       '@microsoft/tsdoc': 0.13.2
       '@microsoft/tsdoc-config': 0.15.2
@@ -15977,7 +15973,7 @@ snapshots:
       - '@75lb/nature'
       - supports-color
 
-  vitepress@1.5.0(@algolia/client-search@4.23.2)(@types/node@22.5.3)(@vue/composition-api@1.7.2(vue@3.6.0-alpha.4(typescript@5.5.4)))(jiti@1.21.0)(postcss@8.5.3)(search-insights@2.13.0)(terser@5.27.0)(tsx@4.11.2)(typescript@5.5.4)(yaml@2.3.4):
+  vitepress@1.5.0(@algolia/client-search@4.23.2)(@types/node@22.5.3)(@vue/composition-api@1.7.2(vue@3.6.0-alpha.4(typescript@5.5.4)))(jiti@1.21.0)(postcss@8.5.6)(search-insights@2.13.0)(terser@5.27.0)(tsx@4.11.2)(typescript@5.5.4)(yaml@2.3.4):
     dependencies:
       '@docsearch/css': 3.6.2
       '@docsearch/js': 3.6.2(@algolia/client-search@4.23.2)(search-insights@2.13.0)
@@ -15998,7 +15994,7 @@ snapshots:
       vite: 6.0.0(@types/node@22.5.3)(jiti@1.21.0)(terser@5.27.0)(tsx@4.11.2)(yaml@2.3.4)
       vue: 3.6.0-alpha.4(typescript@5.5.4)
     optionalDependencies:
-      postcss: 8.5.3
+      postcss: 8.5.6
     transitivePeerDependencies:
       - '@algolia/client-search'
       - '@types/node'
