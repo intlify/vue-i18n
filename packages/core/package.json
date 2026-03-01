@@ -41,15 +41,15 @@
   "exports": {
     ".": {
       "types": "./dist/core.d.ts",
-      "import": "./dist/core.js",
-      "browser": "./dist/core.esm-browser.js",
       "node": {
         "import": {
           "production": "./dist/core.prod.node.js",
           "development": "./dist/core.node.js",
           "default": "./dist/core.node.js"
         }
-      }
+      },
+      "import": "./dist/core.js",
+      "browser": "./dist/core.esm-browser.js"
     },
     "./dist/*": "./dist/*",
     "./package.json": "./package.json"

@@ -38,14 +38,14 @@
   "exports": {
     ".": {
       "types": "./dist/shared.d.ts",
-      "import": "./dist/shared.js",
-      "browser": "./dist/shared.esm-browser.js",
       "node": {
         "import": {
           "development": "./dist/shared.js",
           "default": "./dist/shared.js"
         }
-      }
+      },
+      "import": "./dist/shared.js",
+      "browser": "./dist/shared.esm-browser.js"
     },
     "./dist/*": "./dist/*",
     "./package.json": "./package.json"

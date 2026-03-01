@@ -38,14 +38,14 @@
   "exports": {
     ".": {
       "types": "./dist/devtools-types.d.ts",
-      "import": "./dist/devtools-types.js",
       "node": {
         "import": {
           "production": "./dist/devtools-types.prod.js",
           "development": "./dist/devtools-types.js",
           "default": "./dist/devtools-types.js"
         }
-      }
+      },
+      "import": "./dist/devtools-types.js"
     },
     "./dist/*": "./dist/*",
     "./package.json": "./package.json"

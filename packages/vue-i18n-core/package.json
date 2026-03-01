@@ -42,25 +42,25 @@
   "exports": {
     ".": {
       "types": "./dist/vue-i18n-core.d.ts",
-      "import": "./dist/vue-i18n-core.js",
-      "browser": "./dist/vue-i18n-core.esm-browser.js",
       "node": {
         "import": {
           "development": "./dist/vue-i18n-core.js",
           "default": "./dist/vue-i18n-core.js"
         }
-      }
+      },
+      "import": "./dist/vue-i18n-core.js",
+      "browser": "./dist/vue-i18n-core.esm-browser.js"
     },
     "./petite": {
       "types": "./dist/petite-vue-i18n-core.d.ts",
-      "import": "./dist/petite-vue-i18n-core.js",
-      "browser": "./dist/petite-vue-i18n-core.esm-browser.js",
       "node": {
         "import": {
           "development": "./dist/petite-vue-i18n-core.js",
           "default": "./dist/petite-vue-i18n-core.js"
         }
-      }
+      },
+      "import": "./dist/petite-vue-i18n-core.js",
+      "browser": "./dist/petite-vue-i18n-core.esm-browser.js"
     },
     "./dist/*": "./dist/*",
     "./package.json": "./package.json"
