@@ -40,15 +40,15 @@
   "exports": {
     ".": {
       "types": "./dist/vue-i18n.d.ts",
-      "import": "./dist/vue-i18n.js",
-      "browser": "./dist/vue-i18n.esm-browser.js",
       "node": {
         "import": {
           "production": "./dist/vue-i18n.node.js",
           "development": "./dist/vue-i18n.node.js",
           "default": "./dist/vue-i18n.node.js"
         }
-      }
+      },
+      "import": "./dist/vue-i18n.js",
+      "browser": "./dist/vue-i18n.esm-browser.js"
     },
     "./dist/*": "./dist/*",
     "./package.json": "./package.json"
