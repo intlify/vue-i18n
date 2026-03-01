@@ -1524,6 +1524,29 @@ test('te', async () => {
   expect(te('')).toEqual(false)
 })
 
+test('te with flat key containing dots', () => {
+  const { te, t } = createComposer({
+    locale: 'en',
+    messages: {
+      en: {
+        'key.exampleNestedKey': 'Translation',
+        'key2.exampleNestedKey.evenMoreNesting': 'Translation2'
+      }
+    }
+  })
+
+  // t() resolves flat keys correctly
+  expect(t('key.exampleNestedKey')).toEqual('Translation')
+  expect(t('key2.exampleNestedKey.evenMoreNesting')).toEqual('Translation2')
+
+  // te() should also return true for flat keys
+  expect(te('key.exampleNestedKey')).toEqual(true)
+  expect(te('key2.exampleNestedKey.evenMoreNesting')).toEqual(true)
+
+  // non-existent key should still return false
+  expect(te('key.nonExistent')).toEqual(false)
+})
+
 describe('getLocaleMessage / setLocaleMessage / mergeLocaleMessage', () => {
   test('basic', () => {
     const { getLocaleMessage, setLocaleMessage, mergeLocaleMessage } = createComposer({
