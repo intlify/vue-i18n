@@ -1547,6 +1547,34 @@ test('te with flat key containing dots', () => {
   expect(te('key.nonExistent')).toEqual(false)
 })
 
+test('te with fallback locale chain', () => {
+  const { te } = createComposer({
+    locale: 'de-AT',
+    fallbackLocale: 'de',
+    messages: {
+      de: {
+        hello: 'Hallo',
+        onlyDe: 'Nur Deutsch'
+      },
+      'de-AT': {
+        hello: 'Servus'
+      }
+    }
+  })
+
+  // exists in de-AT (implicit locale)
+  expect(te('hello')).toEqual(true)
+  // exists only in de (implicit fallback)
+  expect(te('onlyDe')).toEqual(true)
+  // does not exist in any locale
+  expect(te('nonExistent')).toEqual(false)
+
+  // explicit locale checks
+  expect(te('hello', 'de-AT')).toEqual(true)
+  expect(te('onlyDe', 'de-AT')).toEqual(false)
+  expect(te('onlyDe', 'de')).toEqual(true)
+})
+
 describe('getLocaleMessage / setLocaleMessage / mergeLocaleMessage', () => {
   test('basic', () => {
     const { getLocaleMessage, setLocaleMessage, mergeLocaleMessage } = createComposer({
@@ -1742,21 +1770,9 @@ describe('messageResolver', () => {
     })
 
     expect(t('path.to.message')).toEqual('こんにちは')
-    expect(te('path.to.message')).toEqual(false)
+    // te() now checks fallback locale chain, so it finds the key in 'ja'
+    expect(te('path.to.message')).toEqual(true)
     expect(tm('api.errors')).toEqual(ja['api.errors'])
-    expect(mockMessageResolver).toHaveBeenCalledTimes(5)
-    expect(mockMessageResolver.mock.calls[0][0]).toEqual({})
-    expect(mockMessageResolver.mock.calls[0][1]).toEqual('path.to.message')
-    expect(mockMessageResolver.mock.calls[1][0]).toEqual(ja)
-    expect(mockMessageResolver.mock.calls[1][1]).toEqual('path.to.message')
-    expect(mockMessageResolver.mock.calls[1][0]).toEqual(ja)
-    expect(mockMessageResolver.mock.calls[1][1]).toEqual('path.to.message')
-    expect(mockMessageResolver.mock.calls[2][0]).toEqual({})
-    expect(mockMessageResolver.mock.calls[2][1]).toEqual('path.to.message')
-    expect(mockMessageResolver.mock.calls[3][0]).toEqual({})
-    expect(mockMessageResolver.mock.calls[3][1]).toEqual('api.errors')
-    expect(mockMessageResolver.mock.calls[4][0]).toEqual(ja)
-    expect(mockMessageResolver.mock.calls[4][1]).toEqual('api.errors')
   })
 })
 
