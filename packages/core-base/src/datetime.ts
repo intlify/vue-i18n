@@ -183,6 +183,13 @@ export function datetime<Context extends CoreContext<Message, {}, {}, {}>, Messa
     return MISSING_RESOLVE_VALUE
   }
 
+  if (!isString(args[0]) && !isDate(args[0]) && !isNumber(args[0])) {
+    if (__DEV__) {
+      onWarn(getWarnMessage(CoreWarnCodes.INVALID_DATE_ARGUMENT, { value: String(args[0]) }))
+    }
+    return MISSING_RESOLVE_VALUE
+  }
+
   const [key, value, options, overrides] = parseDateTimeArgs(...args)
   const missingWarn = isBoolean(options.missingWarn) ? options.missingWarn : context.missingWarn
   const fallbackWarn = isBoolean(options.fallbackWarn) ? options.fallbackWarn : context.fallbackWarn

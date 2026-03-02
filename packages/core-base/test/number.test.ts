@@ -25,7 +25,6 @@ import {
   registerLocaleFallbacker,
   registerMessageCompiler
 } from '../src/context'
-import { CoreErrorCodes, errorMessages } from '../src/errors'
 import { fallbackWithLocaleChain } from '../src/fallbacker'
 import { number } from '../src/number'
 
@@ -289,7 +288,7 @@ test('not available Intl API', () => {
 })
 
 describe('error', () => {
-  test(errorMessages[CoreErrorCodes.INVALID_ARGUMENT], () => {
+  test('invalid argument returns empty string with warning', () => {
     const mockWarn = vi.spyOn(shared, 'warn')
     mockWarn.mockImplementation(() => {})
     const mockAvailabilities = Availabilities
@@ -298,8 +297,10 @@ describe('error', () => {
       locale: 'en-US',
       numberFormats
     })
-    expect(() => {
-      number(ctx, '111' as any)
-    }).toThrowError(errorMessages[CoreErrorCodes.INVALID_ARGUMENT])
+    // Should not throw, returns empty string instead
+    expect(number(ctx, '111' as any)).toBe('')
+    expect(number(ctx, undefined as any)).toBe('')
+    expect(number(ctx, null as any)).toBe('')
+    expect(mockWarn).toHaveBeenCalled()
   })
 })
