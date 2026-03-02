@@ -318,15 +318,16 @@ function getIntlPluralRules(locale: string) {
 
 function getPluralIndex<T, N>(options: MessageContextOptions<T, N>): number {
   // prettier-ignore
-  const index = isNumber(options.pluralIndex)
-    ? options.pluralIndex
-    : -1
+  // When pluralIndex is explicitly provided, it takes priority over named.count/named.n
+  if (isNumber(options.pluralIndex)) {
+    return options.pluralIndex
+  }
 
   return isNumber(options.named?.count)
     ? options.named.count
     : isNumber(options.named?.n)
       ? options.named.n
-      : index
+      : -1
 }
 
 export function createMessageContext<T = string, N = {}>(

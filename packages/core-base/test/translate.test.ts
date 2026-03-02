@@ -112,6 +112,19 @@ describe('features', () => {
     expect(translate(ctx, 'apple', 10)).toEqual('10 apples')
     expect(translate(ctx, 'apple', { count: 20 }, 10)).toEqual('20 apples')
   })
+
+  test('plural with named n parameter should not override plural index', () => {
+    const ctx = context({
+      locale: 'en',
+      messages: {
+        en: { test: 'one | {n}' }
+      }
+    })
+    // plural=1 (first form), named.n=2 → should select "one"
+    expect(translate(ctx, 'test', { n: 2 }, 1)).toEqual('one')
+    // plural=2 (second form), named.n=1 → should select "{n}" and display 1
+    expect(translate(ctx, 'test', { n: 1 }, 2)).toEqual('1')
+  })
 })
 
 describe('locale option', () => {
