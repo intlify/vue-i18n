@@ -2321,7 +2321,11 @@ export function createComposer(options: any = {}): any {
           return false
         }
         const targetLocale = isString(locale) ? locale : _locale.value
-        const locales = fallbackWithLocaleChain(_context, _fallbackLocale.value, targetLocale)
+        // When locale is explicitly specified, check only that locale (no fallback chain)
+        // When locale is not specified, check the fallback locale chain
+        const locales = isString(locale)
+          ? [targetLocale]
+          : fallbackWithLocaleChain(_context, _fallbackLocale.value, targetLocale)
         for (let i = 0; i < locales.length; i++) {
           const message = getLocaleMessage(locales[i])
           let resolved = _context.messageResolver(message, key)

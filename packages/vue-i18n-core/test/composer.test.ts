@@ -1562,12 +1562,17 @@ test('te with fallback locale chain', () => {
     }
   })
 
-  // exists in de-AT
+  // exists in de-AT (implicit locale)
   expect(te('hello')).toEqual(true)
-  // exists only in de (fallback)
+  // exists only in de (implicit fallback)
   expect(te('onlyDe')).toEqual(true)
   // does not exist in any locale
   expect(te('nonExistent')).toEqual(false)
+
+  // explicit locale checks
+  expect(te('hello', 'de-AT')).toEqual(true)
+  expect(te('onlyDe', 'de-AT')).toEqual(false)
+  expect(te('onlyDe', 'de')).toEqual(true)
 })
 
 describe('getLocaleMessage / setLocaleMessage / mergeLocaleMessage', () => {
