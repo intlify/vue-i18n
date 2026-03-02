@@ -148,19 +148,61 @@ app.use(i18n)
 app.mount('#app')
 ```
 
+### Message resolution in `petite-vue-i18n`
+
+`petite-vue-i18n` uses a simple flat key-value resolver by default to keep the bundle size small. This means:
+
+**Flat keys work:**
+
+```js
+const i18n = createI18n({
+  locale: 'en',
+  messages: {
+    en: {
+      'hello': 'Hello!',
+      'baseForm.test': 'Test Form'  // flat key with dot
+    }
+  }
+})
+
+t('hello')          // → "Hello!"
+t('baseForm.test')  // → "Test Form"
+```
+
+**Nested (hierarchical) structures do NOT work by default:**
+
+```js
+const i18n = createI18n({
+  locale: 'en',
+  messages: {
+    en: {
+      baseForm: {
+        test: 'Test Form'  // nested structure
+      }
+    }
+  }
+})
+
+t('baseForm.test')  // → "" (not resolved!)
+```
+
+:::warning
+The `flatJson` option should NOT be used with `petite-vue-i18n`. `flatJson` transforms flat keys into nested structures at setup time, but since `petite-vue-i18n` cannot resolve nested structures by default, the transformed messages will not be found.
+:::
+
+If you need to use hierarchical locale messages with `petite-vue-i18n`, you need to register the message resolver from `@intlify/core-base` as described in the next section.
+
 ### Use the same message resolver and locale fallbacker as `vue-i18n`
 
-In `petite-vue-i18n`, the message resolver and locale fallbacker use simple implementations to optimize code size, as described in the [differences section](https://github.com/intlify/vue-i18n/tree/master/packages/petite-vue-i18n#question-what-is-the-difference-from-vue-i18n-), as the belows:
+In `petite-vue-i18n`, the message resolver and locale fallbacker use simple implementations to optimize code size:
 
 - message resolver
-  - Resolves key-value style locale messages
-  - About implementation, see the [here](https://github.com/intlify/vue-i18n/blob/2d4d2a342f8bae134665a0b7cd945fb8b638839a/packages/core-base/src/resolver.ts#L305-L307)
+  - Resolves key-value style locale messages only (flat `message[key]` lookup)
 - locale fallbacker
   - Fallback according to the array order specified in `fallbackLocale`
   - If a simple string locale is specified, fallback to that locale
-  - About implementation, see the [here](https://github.com/intlify/vue-i18n/blob/2d4d2a342f8bae134665a0b7cd945fb8b638839a/packages/core-base/src/fallbacker.ts#L40-L58)
 
-If you want to use the same message resolver and locale fallbacker as `vue-i18n`, you can change them using the API.
+If you want to use hierarchical locale messages or the same locale fallback behavior as `vue-i18n`, you can change them using the API.
 
 Note that at this time, only bundlers like vite and webpack are supported.
 
