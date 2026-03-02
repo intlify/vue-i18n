@@ -117,8 +117,7 @@ export function vTDirective(i18n: I18n): TranslationDirective<HTMLElement> {
 
   const register = (el: HTMLElement, binding: DirectiveBinding): void => {
     const [textContent, composer] = _process(binding)
-    if (inBrowser && i18n.global === composer) {
-      // global scope only
+    if (inBrowser) {
       el.__i18nWatcher = watch(composer.locale, () => {
         binding.instance && binding.instance.$forceUpdate()
       })
