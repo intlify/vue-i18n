@@ -379,8 +379,8 @@ export function createMessageContext<T = string, N = {}>(
   const _named = options.named || (create() as any)
   // normalize named
   if (isNumber(options.pluralIndex)) {
-    _named.count ||= options.pluralIndex
-    _named.n ||= options.pluralIndex
+    _named.count ??= options.pluralIndex
+    _named.n ??= options.pluralIndex
   }
   const named = (key: string): unknown => _named[key]
 
