@@ -148,19 +148,61 @@ app.use(i18n)
 app.mount('#app')
 ```
 
+### `petite-vue-i18n` 中的消息解析
+
+`petite-vue-i18n` 默认使用简单的扁平键值解析器，以保持较小的包大小。
+
+**扁平键可以正常工作：**
+
+```js
+const i18n = createI18n({
+  locale: 'en',
+  messages: {
+    en: {
+      'hello': 'Hello!',
+      'baseForm.test': '测试表单'  // 包含点的扁平键
+    }
+  }
+})
+
+t('hello')          // → "Hello!"
+t('baseForm.test')  // → "测试表单"
+```
+
+**嵌套（层级）结构默认不工作：**
+
+```js
+const i18n = createI18n({
+  locale: 'en',
+  messages: {
+    en: {
+      baseForm: {
+        test: '测试表单'  // 嵌套结构
+      }
+    }
+  }
+})
+
+t('baseForm.test')  // → ""（无法解析！）
+```
+
+:::warning
+`flatJson` 选项不应与 `petite-vue-i18n` 一起使用。`flatJson` 会在初始化时将扁平键转换为嵌套结构，但由于 `petite-vue-i18n` 默认无法解析嵌套结构，转换后的消息将无法找到。
+:::
+
+如果你需要在 `petite-vue-i18n` 中使用层级语言环境消息，请按照下一节的说明注册 `@intlify/core-base` 的消息解析器。
+
 ### 使用与 `vue-i18n` 相同的消息解析器和语言环境回退器
 
-在 `petite-vue-i18n` 中，消息解析器和语言环境回退器使用简单的实现来优化代码大小，如 [差异部分](https://github.com/intlify/vue-i18n/tree/master/packages/petite-vue-i18n#question-what-is-the-difference-from-vue-i18n-) 中所述，如下所示：
+在 `petite-vue-i18n` 中，消息解析器和语言环境回退器使用简单的实现来优化代码大小：
 
 - 消息解析器
-  - 解析键值风格的语言环境消息
-  - 关于实现，请参阅 [这里](https://github.com/intlify/vue-i18n/blob/2d4d2a342f8bae134665a0b7cd945fb8b638839a/packages/core-base/src/resolver.ts#L305-L307)
+  - 仅解析键值风格的语言环境消息（扁平 `message[key]` 查找）
 - 语言环境回退器
   - 根据 `fallbackLocale` 中指定的数组顺序回退
   - 如果指定了简单的字符串语言环境，则回退到该语言环境
-  - 关于实现，请参阅 [这里](https://github.com/intlify/vue-i18n/blob/2d4d2a342f8bae134665a0b7cd945fb8b638839a/packages/core-base/src/fallbacker.ts#L40-L58)
 
-如果你想使用与 `vue-i18n` 相同的消息解析器和语言环境回退器，你可以使用 API 更改它们。
+如果你想使用层级语言环境消息或与 `vue-i18n` 相同的语言环境回退行为，你可以使用 API 更改它们。
 
 请注意，目前仅支持 vite 和 webpack 等打包器。
 

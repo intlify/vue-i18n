@@ -148,19 +148,61 @@ app.use(i18n)
 app.mount('#app')
 ```
 
+### `petite-vue-i18n` のメッセージ解決
+
+`petite-vue-i18n` はバンドルサイズを小さく保つために、デフォルトではシンプルなフラットキーバリューリゾルバを使用しています。
+
+**フラットキーは動作します：**
+
+```js
+const i18n = createI18n({
+  locale: 'en',
+  messages: {
+    en: {
+      'hello': 'Hello!',
+      'baseForm.test': 'テストフォーム'  // ドットを含むフラットキー
+    }
+  }
+})
+
+t('hello')          // → "Hello!"
+t('baseForm.test')  // → "テストフォーム"
+```
+
+**ネスト（階層）構造はデフォルトでは動作しません：**
+
+```js
+const i18n = createI18n({
+  locale: 'en',
+  messages: {
+    en: {
+      baseForm: {
+        test: 'テストフォーム'  // ネスト構造
+      }
+    }
+  }
+})
+
+t('baseForm.test')  // → "" （解決できない！）
+```
+
+:::warning
+`flatJson` オプションは `petite-vue-i18n` では使用しないでください。`flatJson` はセットアップ時にフラットキーをネスト構造に変換しますが、`petite-vue-i18n` はデフォルトではネスト構造を解決できないため、変換後のメッセージが見つからなくなります。
+:::
+
+階層的なロケールメッセージを `petite-vue-i18n` で使用する必要がある場合は、次のセクションで説明する `@intlify/core-base` のメッセージリゾルバを登録してください。
+
 ### `vue-i18n` と同じメッセージリゾルバとロケールフォールバッカーを使用する
 
-`petite-vue-i18n` では、[違いのセクション](https://github.com/intlify/vue-i18n/tree/master/packages/petite-vue-i18n#question-what-is-the-difference-from-vue-i18n-) で説明されているように、メッセージリゾルバとロケールフォールバッカーは、コードサイズを最適化するために単純な実装を使用しています：
+`petite-vue-i18n` では、コードサイズを最適化するために、メッセージリゾルバとロケールフォールバッカーは単純な実装を使用しています：
 
 - メッセージリゾルバ
-  - キーバリュースタイルのロケールメッセージを解決します
-  - 実装については、[こちら](https://github.com/intlify/vue-i18n/blob/2d4d2a342f8bae134665a0b7cd945fb8b638839a/packages/core-base/src/resolver.ts#L305-L307) を参照してください
+  - キーバリュースタイルのロケールメッセージのみを解決します（フラットな `message[key]` ルックアップ）
 - ロケールフォールバッカー
   - `fallbackLocale` で指定された配列順序に従ってフォールバックします
   - 単純な文字列ロケールが指定された場合、そのロケールにフォールバックします
-  - 実装については、[こちら](https://github.com/intlify/vue-i18n/blob/2d4d2a342f8bae134665a0b7cd945fb8b638839a/packages/core-base/src/fallbacker.ts#L40-L58) を参照してください
 
-`vue-i18n` と同じメッセージリゾルバとロケールフォールバッカーを使用したい場合は、API を使用して変更できます。
+階層的なロケールメッセージを使用したい場合、または `vue-i18n` と同じロケールフォールバック動作を使用したい場合は、API を使用して変更できます。
 
 現時点では、vite や webpack などのバンドラのみがサポートされていることに注意してください。
 
