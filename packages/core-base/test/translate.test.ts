@@ -112,6 +112,35 @@ describe('features', () => {
     expect(translate(ctx, 'apple', 10)).toEqual('10 apples')
     expect(translate(ctx, 'apple', { count: 20 }, 10)).toEqual('20 apples')
   })
+
+  test('plural with named n parameter should not override plural index', () => {
+    const ctx = context({
+      locale: 'en',
+      messages: {
+        en: { test: 'one | {n}' }
+      }
+    })
+    // plural=1 (first form), named.n=2 → should select "one"
+    expect(translate(ctx, 'test', { n: 2 }, 1)).toEqual('one')
+    // plural=2 (second form), named.n=1 → should select "{n}" and display 1
+    expect(translate(ctx, 'test', { n: 1 }, 2)).toEqual('1')
+  })
+
+  test('plural with named n=0 should preserve zero value', () => {
+    const ctx = context({
+      locale: 'en',
+      messages: {
+        en: {
+          testN: 'none | {n} item | {n} items',
+          testCount: 'none | {count} item | {count} items'
+        }
+      }
+    })
+    // named.n=0 with plural=3 → should select third form and display n=0
+    expect(translate(ctx, 'testN', { n: 0 }, 3)).toEqual('0 items')
+    // named.count=0 with plural=3 → should select third form and display count=0
+    expect(translate(ctx, 'testCount', { count: 0 }, 3)).toEqual('0 items')
+  })
 })
 
 describe('locale option', () => {
