@@ -342,9 +342,11 @@ describe('error', () => {
       datetime(ctx, '2020-01-01TSomeDefinitelyInvalidString')
     }).toThrowError(errorMessages[CoreErrorCodes.INVALID_ISO_DATE_ARGUMENT])
 
-    expect(() => {
-      datetime(ctx, { someObject: true } as any)
-    }).toThrowError(errorMessages[CoreErrorCodes.INVALID_ARGUMENT])
+    // Non-date/number/string arguments return empty string with warning instead of throwing
+    expect(datetime(ctx, { someObject: true } as any)).toBe('')
+    expect(datetime(ctx, undefined as any)).toBe('')
+    expect(datetime(ctx, null as any)).toBe('')
+    expect(mockWarn).toHaveBeenCalled()
 
     expect(() => {
       datetime(ctx, new Date('invalid'))
