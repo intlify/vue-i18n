@@ -2321,13 +2321,19 @@ export function createComposer(options: any = {}): any {
           return false
         }
         const targetLocale = isString(locale) ? locale : _locale.value
-        const message = getLocaleMessage(targetLocale)
-        let resolved = _context.messageResolver(message, key)
-        // if null, resolve with object key path (for flat keys containing dots)
-        if (resolved === null) {
-          resolved = (message as any)[key]
+        const locales = fallbackWithLocaleChain(_context, _fallbackLocale.value, targetLocale)
+        for (let i = 0; i < locales.length; i++) {
+          const message = getLocaleMessage(locales[i])
+          let resolved = _context.messageResolver(message, key)
+          // if null, resolve with object key path (for flat keys containing dots)
+          if (resolved === null) {
+            resolved = (message as any)[key]
+          }
+          if (isMessageAST(resolved) || isMessageFunction(resolved) || isString(resolved)) {
+            return true
+          }
         }
-        return isMessageAST(resolved) || isMessageFunction(resolved) || isString(resolved)
+        return false
       },
       () => [key],
       'translate exists',
