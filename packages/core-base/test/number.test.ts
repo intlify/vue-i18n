@@ -303,4 +303,17 @@ describe('error', () => {
     expect(number(ctx, null as any)).toBe('')
     expect(mockWarn).toHaveBeenCalled()
   })
+
+  test('locale with ! suffix should not break number formatting', () => {
+    const mockWarn = vi.spyOn(shared, 'warn')
+    mockWarn.mockImplementation(() => {})
+    const mockAvailabilities = Availabilities
+    mockAvailabilities.numberFormat = true
+    const ctx = context({
+      locale: 'en-US!',
+      numberFormats
+    })
+    // Should not throw RangeError for locale with ! suffix
+    expect(() => number(ctx, 1000)).not.toThrow()
+  })
 })

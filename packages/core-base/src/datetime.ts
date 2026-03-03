@@ -198,7 +198,7 @@ export function datetime<Context extends CoreContext<Message, {}, {}, {}>, Messa
   const locales = localeFallbacker(context as any, fallbackLocale as FallbackLocale, locale)
 
   if (!isString(key) || key === '') {
-    return new Intl.DateTimeFormat(locale, overrides).format(value)
+    return new Intl.DateTimeFormat(locale.replace(/!/g, ''), overrides).format(value)
   }
 
   // resolve format

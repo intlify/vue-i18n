@@ -352,4 +352,17 @@ describe('error', () => {
       datetime(ctx, new Date('invalid'))
     }).toThrowError(errorMessages[CoreErrorCodes.INVALID_DATE_ARGUMENT])
   })
+
+  test('locale with ! suffix should not break datetime formatting', () => {
+    const mockWarn = vi.spyOn(shared, 'warn')
+    mockWarn.mockImplementation(() => {})
+    const mockAvailabilities = Availabilities
+    mockAvailabilities.dateTimeFormat = true
+    const ctx = context({
+      locale: 'en-US!',
+      datetimeFormats
+    })
+    // Should not throw RangeError for locale with ! suffix
+    expect(() => datetime(ctx, new Date())).not.toThrow()
+  })
 })

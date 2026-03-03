@@ -196,7 +196,7 @@ export function number<Context extends CoreContext<Message, {}, {}, {}>, Message
   const locales = localeFallbacker(context as any, fallbackLocale as FallbackLocale, locale)
 
   if (!isString(key) || key === '') {
-    return new Intl.NumberFormat(locale, overrides).format(value)
+    return new Intl.NumberFormat(locale.replace(/!/g, ''), overrides).format(value)
   }
 
   // resolve format
