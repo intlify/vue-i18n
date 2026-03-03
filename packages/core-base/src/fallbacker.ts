@@ -35,7 +35,7 @@ let _resolveLocale: string
 /** @internal */
 export function resolveLocale(locale: Locale | LocaleDetector): string {
   if (isString(locale)) {
-    return locale.replace(/!/g, '')
+    return locale
   } else {
     if (isFunction(locale)) {
       if (locale.resolvedOnce && _resolveLocale != null) {
