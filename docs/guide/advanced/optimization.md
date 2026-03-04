@@ -109,9 +109,41 @@ module.exports = {
 }
 ```
 
+#### Important options
+
+##### `include`
+
+The `include` option specifies the file paths of your locale message resources that should be pre-compiled at build time. **You must configure this option to cover all your locale message files**, otherwise messages that are not pre-compiled will not work correctly in the production build (e.g., interpolation placeholders like `{name}` won't be replaced).
+
+```js
+VueI18nPlugin({
+  include: resolve(dirname(fileURLToPath(import.meta.url)), './src/locales/**'),
+})
+```
+
+##### `runtimeOnly`
+
+By default, `@intlify/unplugin-vue-i18n` uses the runtime-only build for production, which excludes the message compiler for smaller bundle size. This means all locale messages must be pre-compiled at build time.
+
+If you load locale messages dynamically at runtime (e.g., from an API or database), you need to set `runtimeOnly: false` to include the runtime message compiler:
+
+```js
+VueI18nPlugin({
+  runtimeOnly: false,  // Include runtime message compiler
+  include: resolve(dirname(fileURLToPath(import.meta.url)), './src/locales/**'),
+})
+```
+
+:::warning Troubleshooting
+If your translations work in development but **interpolation placeholders are not replaced in production** (e.g., `{name}` appears literally instead of the value), it's likely one of these issues:
+
+1. The `include` option doesn't cover all your locale message files — messages not matched by `include` won't be pre-compiled
+2. You're loading messages dynamically at runtime — set `runtimeOnly: false` to include the message compiler
+:::
+
 #### More configuration
 
-About options and features, see the detail [page](https://github.com/intlify/bundle-tools/tree/main/packages/unplugin-vue-i18n#intlifyunplugin-vue-i18n)
+For the full list of options (`runtimeOnly`, `include`, `exclude`, `ssr`, `module`, etc.), see the [@intlify/unplugin-vue-i18n documentation](https://github.com/intlify/bundle-tools/tree/main/packages/unplugin-vue-i18n#intlifyunplugin-vue-i18n).
 
 
 ### Quasar CLI

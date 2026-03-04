@@ -108,9 +108,41 @@ module.exports = {
 }
 ```
 
+#### 重要なオプション
+
+##### `include`
+
+`include` オプションは、ビルド時に事前コンパイルするロケールメッセージリソースのファイルパスを指定します。**すべてのロケールメッセージファイルをカバーするようにこのオプションを設定する必要があります**。事前コンパイルされていないメッセージは、プロダクションビルドで正しく動作しません（例: `{name}` のような補間プレースホルダーが置換されません）。
+
+```js
+VueI18nPlugin({
+  include: resolve(dirname(fileURLToPath(import.meta.url)), './src/locales/**'),
+})
+```
+
+##### `runtimeOnly`
+
+デフォルトでは、`@intlify/unplugin-vue-i18n` はプロダクション用にランタイムのみのビルドを使用し、バンドルサイズを小さくするためにメッセージコンパイラを除外します。これは、すべてのロケールメッセージがビルド時に事前コンパイルされる必要があることを意味します。
+
+ロケールメッセージを実行時に動的にロードする場合（例: API やデータベースから）、ランタイムメッセージコンパイラを含めるために `runtimeOnly: false` を設定する必要があります：
+
+```js
+VueI18nPlugin({
+  runtimeOnly: false,  // ランタイムメッセージコンパイラを含める
+  include: resolve(dirname(fileURLToPath(import.meta.url)), './src/locales/**'),
+})
+```
+
+:::warning トラブルシューティング
+開発環境では翻訳が動作するのに、**プロダクションで補間プレースホルダーが置換されない**場合（例: 値の代わりに `{name}` がそのまま表示される）、以下のいずれかが原因の可能性があります：
+
+1. `include` オプションがすべてのロケールメッセージファイルをカバーしていない — `include` にマッチしないメッセージは事前コンパイルされません
+2. 実行時にメッセージを動的にロードしている — メッセージコンパイラを含めるために `runtimeOnly: false` を設定してください
+:::
+
 #### その他の設定
 
-オプションと機能については、詳細 [ページ](https://github.com/intlify/bundle-tools/tree/main/packages/unplugin-vue-i18n#intlifyunplugin-vue-i18n) を参照してください
+すべてのオプション（`runtimeOnly`、`include`、`exclude`、`ssr`、`module` など）の詳細については、[@intlify/unplugin-vue-i18n ドキュメント](https://github.com/intlify/bundle-tools/tree/main/packages/unplugin-vue-i18n#intlifyunplugin-vue-i18n) を参照してください。
 
 
 ### Quasar CLI
