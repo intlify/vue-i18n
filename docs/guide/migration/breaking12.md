@@ -594,3 +594,51 @@ Replace `instance` parameter with `uid`:
    }
  })
 ```
+
+## `$t` / `t()` type signature change for better key completion
+
+**Reason**: The generic type parameter `Key extends string` in `$t` and `t()` function overloads prevented IDE autocompletion from showing `DefineLocaleMessage` resource keys. The `Key` type was too broad (`string`), causing IDEs to not prioritize the specific resource key literals.
+
+### What changed
+
+The `Key extends string` generic parameter has been removed from all `$t` and `t()` overloads. The `key` parameter type changed from `Key | ResourceKeys | number` to `ResourceKeys | (string & {}) | number`.
+
+### Before (v11)
+
+```ts
+$t<
+  Key extends string,
+  DefinedLocaleMessage extends ...,
+  Keys = ...,
+  ResourceKeys extends Keys = ...
+>(
+  key: Key | ResourceKeys | number
+): string
+```
+
+### After (v12)
+
+```ts
+$t<
+  DefinedLocaleMessage extends ...,
+  Keys = ...,
+  ResourceKeys extends Keys = ...
+>(
+  key: ResourceKeys | (string & {}) | number
+): string
+```
+
+### Impact
+
+- **IDE autocompletion**: Resource keys defined via `DefineLocaleMessage` are now shown as suggestions
+- **Any string is still accepted**: `string & {}` is compatible with `string`, so existing code continues to work
+- **Generic type parameter removed**: If you were explicitly specifying the `Key` generic (e.g., `$t<'myKey'>(...)`), this will need to be removed
+
+### Migration
+
+Most code requires no changes. If you explicitly passed the `Key` generic type parameter, remove it:
+
+```diff
+- $t<'myKey'>('myKey')
++ $t('myKey')
+```

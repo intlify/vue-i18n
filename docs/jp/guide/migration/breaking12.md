@@ -594,3 +594,51 @@ const i18n = createI18n({
    }
  })
 ```
+
+## `$t` / `t()` のキー補完改善に伴う型シグネチャの変更
+
+**理由**: `$t` および `t()` 関数のオーバーロードにおけるジェネリック型パラメータ `Key extends string` が、IDE の自動補完で `DefineLocaleMessage` のリソースキーを表示することを妨げていました。`Key` 型が広すぎる（`string`）ため、IDE が具体的なリソースキーリテラルを優先表示できませんでした。
+
+### 変更内容
+
+`Key extends string` ジェネリックパラメータがすべての `$t` および `t()` オーバーロードから削除されました。`key` パラメータの型が `Key | ResourceKeys | number` から `ResourceKeys | (string & {}) | number` に変更されました。
+
+### 変更前 (v11)
+
+```ts
+$t<
+  Key extends string,
+  DefinedLocaleMessage extends ...,
+  Keys = ...,
+  ResourceKeys extends Keys = ...
+>(
+  key: Key | ResourceKeys | number
+): string
+```
+
+### 変更後 (v12)
+
+```ts
+$t<
+  DefinedLocaleMessage extends ...,
+  Keys = ...,
+  ResourceKeys extends Keys = ...
+>(
+  key: ResourceKeys | (string & {}) | number
+): string
+```
+
+### 影響
+
+- **IDE 自動補完**: `DefineLocaleMessage` で定義されたリソースキーが候補として表示されるようになりました
+- **任意の文字列は引き続き受け付け**: `string & {}` は `string` と互換性があるため、既存のコードはそのまま動作します
+- **ジェネリック型パラメータの削除**: `Key` ジェネリックを明示的に指定していた場合（例: `$t<'myKey'>(...)`）、削除が必要です
+
+### 移行方法
+
+ほとんどのコードは変更不要です。`Key` ジェネリック型パラメータを明示的に渡していた場合は削除してください：
+
+```diff
+- $t<'myKey'>('myKey')
++ $t('myKey')
+```
