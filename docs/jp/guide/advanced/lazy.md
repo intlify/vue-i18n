@@ -88,6 +88,10 @@ export async function loadLocaleMessages(i18n, locale) {
 
 `loadLocaleMessages` 関数の使用は簡単です。一般的な使用例は、vue-router の beforeEach フック内です。
 
+:::tip NOTE
+`i18n.global.availableLocales` は `messages` に現在登録されているロケールを返す**読み取り専用の算出プロパティ**です。`setLocaleMessage` や `loadLocaleMessages` でメッセージを追加すると自動的に更新されます。`createI18n` のオプションで直接設定することはできません。アプリケーションがサポートするロケールの完全なリストを定義するには、`SUPPORT_LOCALES` のような別の定数を使用してください。
+:::
+
 `router.js` の vue-router beforeEach フック部分のコードは次のとおりです：
 
 ```js

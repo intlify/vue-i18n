@@ -88,6 +88,10 @@ You can learn more about the import function in the [webpack documentation](http
 
 Using the `loadLocaleMessages` function is straightforward. A common use case is inside a vue-router beforeEach hook.
 
+:::tip NOTE
+`i18n.global.availableLocales` is a **read-only computed property** that returns the locales currently registered in `messages`. It is automatically updated when you add messages via `setLocaleMessage` or `loadLocaleMessages`. You cannot set it directly via `createI18n` options — use a separate constant like `SUPPORT_LOCALES` to define the full list of locales your application supports.
+:::
+
 Here the code for the vue-router beforeEach hook part of `router.js`:
 
 ```js
