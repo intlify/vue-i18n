@@ -21,7 +21,7 @@ import {
   registerMessageResolver,
   resolveValue
 } from '@intlify/core-base'
-import { defineComponent, defineCustomElement, h, nextTick, ref } from 'vue'
+import { createApp, defineComponent, defineCustomElement, h, nextTick, ref } from 'vue'
 import { errorMessages, I18nErrorCodes } from '../src/errors'
 import { createI18n, useI18n } from '../src/i18n'
 import { getCurrentInstance } from '../src/utils'
@@ -558,6 +558,55 @@ describe('useI18n', () => {
       expect((composer as Composer).t('globalKey')).toEqual('from global')
     })
   })
+})
+
+test('reuse i18n instance after dispose', async () => {
+  const i18n = createI18n({
+    locale: 'en',
+    messages: {
+      en: { hello: 'Hello' },
+      de: { hello: 'Hallo' }
+    }
+  })
+
+  // First app: mount, verify, unmount (unmount triggers dispose via install wrapper)
+  const App1 = defineComponent({
+    setup() {
+      const { t } = useI18n()
+      return { t }
+    },
+    template: '<p>{{ t("hello") }}</p>'
+  })
+  const app1 = createApp(App1)
+  app1.use(i18n)
+  const el1 = document.createElement('div')
+  document.body.appendChild(el1)
+  app1.mount(el1)
+  expect(i18n.global.t('hello')).toEqual('Hello')
+  // unmount triggers dispose (globalScope.stop())
+  app1.unmount()
+  el1.remove()
+
+  // Second app: mount same i18n, should still work
+  const App2 = defineComponent({
+    setup() {
+      const { t } = useI18n()
+      return { t }
+    },
+    template: '<p>{{ t("hello") }}</p>'
+  })
+  const app2 = createApp(App2)
+  app2.use(i18n)
+  const el2 = document.createElement('div')
+  document.body.appendChild(el2)
+  app2.mount(el2)
+
+  expect(i18n.global.t('hello')).toEqual('Hello')
+  i18n.global.locale.value = 'de'
+  expect(i18n.global.t('hello')).toEqual('Hallo')
+
+  app2.unmount()
+  el2.remove()
 })
 
 test('slot reactivity', async () => {

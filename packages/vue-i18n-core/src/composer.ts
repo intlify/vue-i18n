@@ -663,7 +663,7 @@ export interface ComposerTranslation<
    * @returns Translated message
    *
    */
-  <Key extends string>(key: Key | ResourceKeys | number): string
+  (key: ResourceKeys | (string & {}) | number): string
   /**
    * Locale message translation for plurals
    *
@@ -682,7 +682,7 @@ export interface ComposerTranslation<
    *
    * @returns Translated message
    */
-  <Key extends string>(key: Key | ResourceKeys | number, plural: number): string
+  (key: ResourceKeys | (string & {}) | number, plural: number): string
   /**
    * Locale message translation for plurals
    *
@@ -704,8 +704,8 @@ export interface ComposerTranslation<
    *
    * @returns Translated message
    */
-  <Key extends string>(
-    key: Key | ResourceKeys | number,
+  (
+    key: ResourceKeys | (string & {}) | number,
     plural: number,
     options: TranslateOptions<Locales>
   ): string
@@ -724,7 +724,7 @@ export interface ComposerTranslation<
    *
    * @returns Translated message
    */
-  <Key extends string>(key: Key | ResourceKeys | number, defaultMsg: string): string
+  (key: ResourceKeys | (string & {}) | number, defaultMsg: string): string
   /**
    * Locale message translation for missing default message
    *
@@ -743,8 +743,8 @@ export interface ComposerTranslation<
    *
    * @returns Translated message
    */
-  <Key extends string>(
-    key: Key | ResourceKeys | number,
+  (
+    key: ResourceKeys | (string & {}) | number,
     defaultMsg: string,
     options: TranslateOptions<Locales>
   ): string
@@ -766,7 +766,7 @@ export interface ComposerTranslation<
    *
    * @returns Translated message
    */
-  <Key extends string>(key: Key | ResourceKeys | number, list: unknown[]): string
+  (key: ResourceKeys | (string & {}) | number, list: unknown[]): string
   /**
    * Locale message translation for list interpolations and plurals
    *
@@ -785,7 +785,7 @@ export interface ComposerTranslation<
    *
    * @returns Translated message
    */
-  <Key extends string>(key: Key | ResourceKeys | number, list: unknown[], plural: number): string
+  (key: ResourceKeys | (string & {}) | number, list: unknown[], plural: number): string
   /**
    * Locale message translation for list interpolations and missing default message
    *
@@ -803,11 +803,7 @@ export interface ComposerTranslation<
    *
    * @returns Translated message
    */
-  <Key extends string>(
-    key: Key | ResourceKeys | number,
-    list: unknown[],
-    defaultMsg: string
-  ): string
+  (key: ResourceKeys | (string & {}) | number, list: unknown[], defaultMsg: string): string
   /**
    * Locale message translation for list interpolations
    *
@@ -829,8 +825,8 @@ export interface ComposerTranslation<
    *
    * @returns Translated message
    */
-  <Key extends string>(
-    key: Key | ResourceKeys | number,
+  (
+    key: ResourceKeys | (string & {}) | number,
     list: unknown[],
     options: TranslateOptions<Locales>
   ): string
@@ -852,7 +848,7 @@ export interface ComposerTranslation<
    *
    * @returns Translated message
    */
-  <Key extends string>(key: Key | ResourceKeys | number, named: NamedValue): string
+  (key: ResourceKeys | (string & {}) | number, named: NamedValue): string
   /**
    * Locale message translation for named interpolations and plurals
    *
@@ -871,7 +867,7 @@ export interface ComposerTranslation<
    *
    * @returns Translated message
    */
-  <Key extends string>(key: Key | ResourceKeys | number, named: NamedValue, plural: number): string
+  (key: ResourceKeys | (string & {}) | number, named: NamedValue, plural: number): string
   /**
    * Locale message translation for named interpolations and plurals
    *
@@ -889,11 +885,7 @@ export interface ComposerTranslation<
    *
    * @returns Translated message
    */
-  <Key extends string>(
-    key: Key | ResourceKeys | number,
-    named: NamedValue,
-    defaultMsg: string
-  ): string
+  (key: ResourceKeys | (string & {}) | number, named: NamedValue, defaultMsg: string): string
   /**
    * Locale message translation for named interpolations
    *
@@ -915,8 +907,8 @@ export interface ComposerTranslation<
    *
    * @returns Translated message
    */
-  <Key extends string>(
-    key: Key | ResourceKeys | number,
+  (
+    key: ResourceKeys | (string & {}) | number,
     named: NamedValue,
     options: TranslateOptions<Locales>
   ): string

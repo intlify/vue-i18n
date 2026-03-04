@@ -77,7 +77,6 @@ export interface ComponentCustomProperties {
    * @returns translation message
    */
   $t<
-    Key extends string,
     DefinedLocaleMessage extends RemovedIndexResources<DefineLocaleMessage> =
       RemovedIndexResources<DefineLocaleMessage>,
     Keys = IsEmptyObject<DefinedLocaleMessage> extends false
@@ -87,7 +86,7 @@ export interface ComponentCustomProperties {
       : never,
     ResourceKeys extends Keys = IsNever<Keys> extends false ? Keys : never
   >(
-    key: Key | ResourceKeys | number
+    key: ResourceKeys | (string & {}) | number
   ): string
   /**
    * Locale message translation
@@ -101,7 +100,6 @@ export interface ComponentCustomProperties {
    * @returns translation message
    */
   $t<
-    Key extends string,
     DefinedLocaleMessage extends RemovedIndexResources<DefineLocaleMessage> =
       RemovedIndexResources<DefineLocaleMessage>,
     Keys = IsEmptyObject<DefinedLocaleMessage> extends false
@@ -111,7 +109,7 @@ export interface ComponentCustomProperties {
       : never,
     ResourceKeys extends Keys = IsNever<Keys> extends false ? Keys : never
   >(
-    key: Key | ResourceKeys | number,
+    key: ResourceKeys | (string & {}) | number,
     plural: number
   ): string
   /**
@@ -127,7 +125,6 @@ export interface ComponentCustomProperties {
    * @returns translation message
    */
   $t<
-    Key extends string,
     DefinedLocaleMessage extends RemovedIndexResources<DefineLocaleMessage> =
       RemovedIndexResources<DefineLocaleMessage>,
     Keys = IsEmptyObject<DefinedLocaleMessage> extends false
@@ -137,7 +134,7 @@ export interface ComponentCustomProperties {
       : never,
     ResourceKeys extends Keys = IsNever<Keys> extends false ? Keys : never
   >(
-    key: Key | ResourceKeys | number,
+    key: ResourceKeys | (string & {}) | number,
     plural: number,
     options: TranslateOptions
   ): string
@@ -153,7 +150,6 @@ export interface ComponentCustomProperties {
    * @returns translation message
    */
   $t<
-    Key extends string,
     DefinedLocaleMessage extends RemovedIndexResources<DefineLocaleMessage> =
       RemovedIndexResources<DefineLocaleMessage>,
     Keys = IsEmptyObject<DefinedLocaleMessage> extends false
@@ -163,7 +159,7 @@ export interface ComponentCustomProperties {
       : never,
     ResourceKeys extends Keys = IsNever<Keys> extends false ? Keys : never
   >(
-    key: Key | ResourceKeys | number,
+    key: ResourceKeys | (string & {}) | number,
     defaultMsg: string
   ): string
   /**
@@ -179,7 +175,6 @@ export interface ComponentCustomProperties {
    * @returns translation message
    */
   $t<
-    Key extends string,
     DefinedLocaleMessage extends RemovedIndexResources<DefineLocaleMessage> =
       RemovedIndexResources<DefineLocaleMessage>,
     Keys = IsEmptyObject<DefinedLocaleMessage> extends false
@@ -189,7 +184,7 @@ export interface ComponentCustomProperties {
       : never,
     ResourceKeys extends Keys = IsNever<Keys> extends false ? Keys : never
   >(
-    key: Key | ResourceKeys | number,
+    key: ResourceKeys | (string & {}) | number,
     defaultMsg: string,
     options: TranslateOptions
   ): string
@@ -205,7 +200,6 @@ export interface ComponentCustomProperties {
    * @returns translation message
    */
   $t<
-    Key extends string,
     DefinedLocaleMessage extends RemovedIndexResources<DefineLocaleMessage> =
       RemovedIndexResources<DefineLocaleMessage>,
     Keys = IsEmptyObject<DefinedLocaleMessage> extends false
@@ -215,7 +209,7 @@ export interface ComponentCustomProperties {
       : never,
     ResourceKeys extends Keys = IsNever<Keys> extends false ? Keys : never
   >(
-    key: Key | ResourceKeys | number,
+    key: ResourceKeys | (string & {}) | number,
     list: unknown[]
   ): string
   /**
@@ -231,7 +225,6 @@ export interface ComponentCustomProperties {
    * @returns translation message
    */
   $t<
-    Key extends string,
     DefinedLocaleMessage extends RemovedIndexResources<DefineLocaleMessage> =
       RemovedIndexResources<DefineLocaleMessage>,
     Keys = IsEmptyObject<DefinedLocaleMessage> extends false
@@ -241,7 +234,7 @@ export interface ComponentCustomProperties {
       : never,
     ResourceKeys extends Keys = IsNever<Keys> extends false ? Keys : never
   >(
-    key: Key | ResourceKeys | number,
+    key: ResourceKeys | (string & {}) | number,
     list: unknown[],
     plural: number
   ): string
@@ -258,7 +251,6 @@ export interface ComponentCustomProperties {
    * @returns translation message
    */
   $t<
-    Key extends string,
     DefinedLocaleMessage extends RemovedIndexResources<DefineLocaleMessage> =
       RemovedIndexResources<DefineLocaleMessage>,
     Keys = IsEmptyObject<DefinedLocaleMessage> extends false
@@ -268,7 +260,7 @@ export interface ComponentCustomProperties {
       : never,
     ResourceKeys extends Keys = IsNever<Keys> extends false ? Keys : never
   >(
-    key: Key | ResourceKeys | number,
+    key: ResourceKeys | (string & {}) | number,
     list: unknown[],
     defaultMsg: string
   ): string
@@ -285,7 +277,6 @@ export interface ComponentCustomProperties {
    * @returns translation message
    */
   $t<
-    Key extends string,
     DefinedLocaleMessage extends RemovedIndexResources<DefineLocaleMessage> =
       RemovedIndexResources<DefineLocaleMessage>,
     Keys = IsEmptyObject<DefinedLocaleMessage> extends false
@@ -295,7 +286,7 @@ export interface ComponentCustomProperties {
       : never,
     ResourceKeys extends Keys = IsNever<Keys> extends false ? Keys : never
   >(
-    key: Key | ResourceKeys | number,
+    key: ResourceKeys | (string & {}) | number,
     list: unknown[],
     options: TranslateOptions
   ): string
@@ -311,7 +302,6 @@ export interface ComponentCustomProperties {
    * @returns translation message
    */
   $t<
-    Key extends string,
     DefinedLocaleMessage extends RemovedIndexResources<DefineLocaleMessage> =
       RemovedIndexResources<DefineLocaleMessage>,
     Keys = IsEmptyObject<DefinedLocaleMessage> extends false
@@ -321,7 +311,7 @@ export interface ComponentCustomProperties {
       : never,
     ResourceKeys extends Keys = IsNever<Keys> extends false ? Keys : never
   >(
-    key: Key | ResourceKeys | number,
+    key: ResourceKeys | (string & {}) | number,
     named: NamedValue
   ): string
   /**
@@ -337,7 +327,6 @@ export interface ComponentCustomProperties {
    * @returns translation message
    */
   $t<
-    Key extends string,
     DefinedLocaleMessage extends RemovedIndexResources<DefineLocaleMessage> =
       RemovedIndexResources<DefineLocaleMessage>,
     Keys = IsEmptyObject<DefinedLocaleMessage> extends false
@@ -347,7 +336,7 @@ export interface ComponentCustomProperties {
       : never,
     ResourceKeys extends Keys = IsNever<Keys> extends false ? Keys : never
   >(
-    key: Key | ResourceKeys | number,
+    key: ResourceKeys | (string & {}) | number,
     named: NamedValue,
     plural: number
   ): string
@@ -364,7 +353,6 @@ export interface ComponentCustomProperties {
    * @returns translation message
    */
   $t<
-    Key extends string,
     DefinedLocaleMessage extends RemovedIndexResources<DefineLocaleMessage> =
       RemovedIndexResources<DefineLocaleMessage>,
     Keys = IsEmptyObject<DefinedLocaleMessage> extends false
@@ -374,7 +362,7 @@ export interface ComponentCustomProperties {
       : never,
     ResourceKeys extends Keys = IsNever<Keys> extends false ? Keys : never
   >(
-    key: Key | ResourceKeys | number,
+    key: ResourceKeys | (string & {}) | number,
     named: NamedValue,
     defaultMsg: string
   ): string
@@ -391,7 +379,6 @@ export interface ComponentCustomProperties {
    * @returns translation message
    */
   $t<
-    Key extends string,
     DefinedLocaleMessage extends RemovedIndexResources<DefineLocaleMessage> =
       RemovedIndexResources<DefineLocaleMessage>,
     Keys = IsEmptyObject<DefinedLocaleMessage> extends false
@@ -401,7 +388,7 @@ export interface ComponentCustomProperties {
       : never,
     ResourceKeys extends Keys = IsNever<Keys> extends false ? Keys : never
   >(
-    key: Key | ResourceKeys | number,
+    key: ResourceKeys | (string & {}) | number,
     named: NamedValue,
     options: TranslateOptions
   ): string
