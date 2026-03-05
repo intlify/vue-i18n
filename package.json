@@ -110,7 +110,7 @@
     "eslint-plugin-regexp": "^2.10.0",
     "eslint-plugin-vue": "^10.8.0",
     "eslint-plugin-vue-composable": "^1.0.0",
-    "eslint-plugin-yml": "^1.19.1",
+    "eslint-plugin-yml": "^3.0.0",
     "fast-glob": "^3.3.3",
     "get-port-please": "^3.2.0",
     "gh-changelogen": "^0.2.8",
