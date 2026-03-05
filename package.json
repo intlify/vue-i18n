@@ -29,7 +29,6 @@
     "bench:simple-jit-aot": "node --expose-gc ./benchmark/simple-jit-aot.mjs",
     "build": "tsx ./scripts/build.ts",
     "build:explorer": "pnpm --filter @intlify/message-format-explorer build",
-    "build:rolldown": "tsx ./scripts/build-rolldown.ts",
     "build:size": "pnpm build && pnpm run --color \"/^build:size-/\"",
     "build:size-core": "pnpm --filter @intlify/size-check-core build",
     "build:size-petite-vue-i18n": "pnpm --filter @intlify/size-check-petite-vue-i18n build",
