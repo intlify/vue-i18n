@@ -24,7 +24,7 @@ function resolveExternal(packageName: string) {
 
 export async function createDtsConfig(targets: string[]): Promise<Record<string, RolldownOptions>> {
   if (!existsSync(path.resolve(__dirname, '../temp/packages'))) {
-    console.warn('no temp dts files found. run `pnpm build:rolldown` first')
+    console.warn('no temp dts files found. run `pnpm build` first')
     process.exit(1)
   }
 
