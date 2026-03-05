@@ -79,7 +79,7 @@ jobs:
           npx tsx ./scripts/postprocess.ts
 
       - name: Cache dist
-        uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4.3.0
+        uses: actions/cache@cdf6c1fa76f9f475f3d7449005a359c84ca0f306 # v5.0.3
         with:
           path: packages/*/dist
           key: build-vue-i18n-os-${{ matrix.os }}-${{ github.sha }}
@@ -118,7 +118,7 @@ jobs:
           pnpm build:rolldown --withTypes
 
       - name: Cache dist
-        uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4.3.0
+        uses: actions/cache@cdf6c1fa76f9f475f3d7449005a359c84ca0f306 # v5.0.3
         with:
           path: packages/*/dist
           key: build-rolldown-vue-i18n-os-${{ matrix.os }}-${{ github.sha }}
@@ -189,7 +189,7 @@ jobs:
         run: pnpm playwright-core install chromium
 
       - name: Restore dist cache
-        uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4.3.0
+        uses: actions/cache@cdf6c1fa76f9f475f3d7449005a359c84ca0f306 # v5.0.3
         with:
           path: packages/*/dist
           key: build-vue-i18n-os-${{ matrix.os }}-${{ github.sha }}
@@ -234,7 +234,7 @@ jobs:
         run: pnpm playwright-core install chromium
 
       - name: Restore dist cache
-        uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4.3.0
+        uses: actions/cache@cdf6c1fa76f9f475f3d7449005a359c84ca0f306 # v5.0.3
         with:
           path: packages/*/dist
           key: build-rolldown-vue-i18n-os-${{ matrix.os }}-${{ github.sha }}
