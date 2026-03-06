@@ -203,6 +203,17 @@ export function number<
     return MISSING_RESOLVE_VALUE
   }
 
+  if (!isNumber(args[0])) {
+    if (__DEV__) {
+      onWarn(
+        getWarnMessage(CoreWarnCodes.INVALID_NUMBER_ARGUMENT, {
+          value: String(args[0])
+        })
+      )
+    }
+    return MISSING_RESOLVE_VALUE
+  }
+
   const [key, value, options, overrides] = parseNumberArgs(...args)
   const missingWarn = isBoolean(options.missingWarn)
     ? options.missingWarn

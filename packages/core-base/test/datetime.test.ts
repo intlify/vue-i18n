@@ -349,9 +349,8 @@ describe('error', () => {
       datetime(ctx, '2020-01-01TSomeDefinitelyInvalidString')
     }).toThrowError(errorMessages[CoreErrorCodes.INVALID_ISO_DATE_ARGUMENT])
 
-    expect(() => {
-      datetime(ctx, { someObject: true } as any)
-    }).toThrowError(errorMessages[CoreErrorCodes.INVALID_ARGUMENT])
+    expect(datetime(ctx, { someObject: true } as any)).toEqual('')
+    expect(datetime(ctx, undefined as any)).toEqual('')
 
     expect(() => {
       datetime(ctx, new Date('invalid'))
