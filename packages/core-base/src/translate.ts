@@ -1115,7 +1115,6 @@ function getCompileContext<Messages, Message>(
       onError && onError(err)
       if (__DEV__) {
         const _source = getSourceForCodeFrame(source)
-        const message = `Message compilation error: ${err.message}`
         const codeFrame =
           err.location &&
           _source &&
@@ -1134,10 +1133,10 @@ function getCompileContext<Messages, Message>(
             groupId: `${'translate'}:${key}`
           })
         }
-        console.error(codeFrame ? `${message}\n${codeFrame}` : message)
-      } else {
-        throw err
+        const message = `Message compilation error: ${err.message}`
+        throw new SyntaxError(codeFrame ? `${message}\n${codeFrame}` : message)
       }
+      throw err
     },
     onCacheKey: (source: string): string =>
       generateFormatCacheKey(locale, key, source)
