@@ -108,9 +108,41 @@ module.exports = {
 }
 ```
 
+#### 重要选项
+
+##### `include`
+
+`include` 选项指定在构建时应预编译的区域设置消息资源的文件路径。**您必须配置此选项以覆盖所有区域设置消息文件**，否则未预编译的消息在生产构建中将无法正常工作（例如，`{name}` 等插值占位符不会被替换）。
+
+```js
+VueI18nPlugin({
+  include: resolve(dirname(fileURLToPath(import.meta.url)), './src/locales/**'),
+})
+```
+
+##### `runtimeOnly`
+
+默认情况下，`@intlify/unplugin-vue-i18n` 在生产环境中使用仅运行时构建，不包含消息编译器以减小包大小。这意味着所有区域设置消息必须在构建时预编译。
+
+如果您在运行时动态加载区域设置消息（例如，从 API 或数据库），则需要设置 `runtimeOnly: false` 以包含运行时消息编译器：
+
+```js
+VueI18nPlugin({
+  runtimeOnly: false,  // 包含运行时消息编译器
+  include: resolve(dirname(fileURLToPath(import.meta.url)), './src/locales/**'),
+})
+```
+
+:::warning 故障排除
+如果您的翻译在开发环境中有效，但**插值占位符在生产环境中未被替换**（例如，显示 `{name}` 而不是值），可能是以下原因之一：
+
+1. `include` 选项未覆盖所有区域设置消息文件 — 不匹配 `include` 的消息不会被预编译
+2. 您在运行时动态加载消息 — 设置 `runtimeOnly: false` 以包含消息编译器
+:::
+
 #### 更多配置
 
-关于选项和功能，请参阅详细 [页面](https://github.com/intlify/bundle-tools/tree/main/packages/unplugin-vue-i18n#intlifyunplugin-vue-i18n)
+有关所有选项（`runtimeOnly`、`include`、`exclude`、`ssr`、`module` 等）的详细信息，请参阅 [@intlify/unplugin-vue-i18n 文档](https://github.com/intlify/bundle-tools/tree/main/packages/unplugin-vue-i18n#intlifyunplugin-vue-i18n)。
 
 
 ### Quasar CLI

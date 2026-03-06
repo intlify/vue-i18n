@@ -594,3 +594,51 @@ const i18n = createI18n({
    }
  })
 ```
+
+## `$t` / `t()` 类型签名变更以改善键补全
+
+**原因**: `$t` 和 `t()` 函数重载中的泛型类型参数 `Key extends string` 阻止了 IDE 自动补全显示 `DefineLocaleMessage` 的资源键。`Key` 类型过于宽泛（`string`），导致 IDE 无法优先显示具体的资源键字面量。
+
+### 变更内容
+
+`Key extends string` 泛型参数已从所有 `$t` 和 `t()` 重载中移除。`key` 参数的类型从 `Key | ResourceKeys | number` 更改为 `ResourceKeys | (string & {}) | number`。
+
+### 之前 (v11)
+
+```ts
+$t<
+  Key extends string,
+  DefinedLocaleMessage extends ...,
+  Keys = ...,
+  ResourceKeys extends Keys = ...
+>(
+  key: Key | ResourceKeys | number
+): string
+```
+
+### 之后 (v12)
+
+```ts
+$t<
+  DefinedLocaleMessage extends ...,
+  Keys = ...,
+  ResourceKeys extends Keys = ...
+>(
+  key: ResourceKeys | (string & {}) | number
+): string
+```
+
+### 影响
+
+- **IDE 自动补全**: 通过 `DefineLocaleMessage` 定义的资源键现在会显示为建议
+- **任意字符串仍然被接受**: `string & {}` 与 `string` 兼容，因此现有代码继续工作
+- **泛型类型参数已移除**: 如果您显式指定了 `Key` 泛型（例如 `$t<'myKey'>(...)`），需要移除
+
+### 迁移
+
+大多数代码无需更改。如果您显式传递了 `Key` 泛型类型参数，请移除它：
+
+```diff
+- $t<'myKey'>('myKey')
++ $t('myKey')
+```

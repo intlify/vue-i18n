@@ -63,7 +63,6 @@ declare module 'vue' {
      * @returns translation message
      */
     $t<
-      Key extends string,
       DefinedLocaleMessage extends RemovedIndexResources<DefineLocaleMessage> =
         RemovedIndexResources<DefineLocaleMessage>,
       Keys = IsEmptyObject<DefinedLocaleMessage> extends false
@@ -73,7 +72,7 @@ declare module 'vue' {
         : never,
       ResourceKeys extends Keys = IsNever<Keys> extends false ? Keys : never
     >(
-      key: Key | ResourceKeys | number
+      key: ResourceKeys | (string & {}) | number
     ): string
     /**
      * Locale message translation
@@ -87,7 +86,6 @@ declare module 'vue' {
      * @returns translation message
      */
     $t<
-      Key extends string,
       DefinedLocaleMessage extends RemovedIndexResources<DefineLocaleMessage> =
         RemovedIndexResources<DefineLocaleMessage>,
       Keys = IsEmptyObject<DefinedLocaleMessage> extends false
@@ -97,7 +95,7 @@ declare module 'vue' {
         : never,
       ResourceKeys extends Keys = IsNever<Keys> extends false ? Keys : never
     >(
-      key: Key | ResourceKeys | number,
+      key: ResourceKeys | (string & {}) | number,
       plural: number
     ): string
     /**
@@ -113,7 +111,6 @@ declare module 'vue' {
      * @returns translation message
      */
     $t<
-      Key extends string,
       DefinedLocaleMessage extends RemovedIndexResources<DefineLocaleMessage> =
         RemovedIndexResources<DefineLocaleMessage>,
       Keys = IsEmptyObject<DefinedLocaleMessage> extends false
@@ -123,7 +120,7 @@ declare module 'vue' {
         : never,
       ResourceKeys extends Keys = IsNever<Keys> extends false ? Keys : never
     >(
-      key: Key | ResourceKeys | number,
+      key: ResourceKeys | (string & {}) | number,
       plural: number,
       options: TranslateOptions
     ): string
@@ -139,7 +136,6 @@ declare module 'vue' {
      * @returns translation message
      */
     $t<
-      Key extends string,
       DefinedLocaleMessage extends RemovedIndexResources<DefineLocaleMessage> =
         RemovedIndexResources<DefineLocaleMessage>,
       Keys = IsEmptyObject<DefinedLocaleMessage> extends false
@@ -149,7 +145,7 @@ declare module 'vue' {
         : never,
       ResourceKeys extends Keys = IsNever<Keys> extends false ? Keys : never
     >(
-      key: Key | ResourceKeys | number,
+      key: ResourceKeys | (string & {}) | number,
       defaultMsg: string
     ): string
     /**
@@ -165,7 +161,6 @@ declare module 'vue' {
      * @returns translation message
      */
     $t<
-      Key extends string,
       DefinedLocaleMessage extends RemovedIndexResources<DefineLocaleMessage> =
         RemovedIndexResources<DefineLocaleMessage>,
       Keys = IsEmptyObject<DefinedLocaleMessage> extends false
@@ -175,7 +170,7 @@ declare module 'vue' {
         : never,
       ResourceKeys extends Keys = IsNever<Keys> extends false ? Keys : never
     >(
-      key: Key | ResourceKeys | number,
+      key: ResourceKeys | (string & {}) | number,
       defaultMsg: string,
       options: TranslateOptions
     ): string
@@ -191,7 +186,6 @@ declare module 'vue' {
      * @returns translation message
      */
     $t<
-      Key extends string,
       DefinedLocaleMessage extends RemovedIndexResources<DefineLocaleMessage> =
         RemovedIndexResources<DefineLocaleMessage>,
       Keys = IsEmptyObject<DefinedLocaleMessage> extends false
@@ -201,7 +195,7 @@ declare module 'vue' {
         : never,
       ResourceKeys extends Keys = IsNever<Keys> extends false ? Keys : never
     >(
-      key: Key | ResourceKeys | number,
+      key: ResourceKeys | (string & {}) | number,
       list: unknown[]
     ): string
     /**
@@ -217,7 +211,6 @@ declare module 'vue' {
      * @returns translation message
      */
     $t<
-      Key extends string,
       DefinedLocaleMessage extends RemovedIndexResources<DefineLocaleMessage> =
         RemovedIndexResources<DefineLocaleMessage>,
       Keys = IsEmptyObject<DefinedLocaleMessage> extends false
@@ -227,7 +220,7 @@ declare module 'vue' {
         : never,
       ResourceKeys extends Keys = IsNever<Keys> extends false ? Keys : never
     >(
-      key: Key | ResourceKeys | number,
+      key: ResourceKeys | (string & {}) | number,
       list: unknown[],
       plural: number
     ): string
@@ -244,7 +237,6 @@ declare module 'vue' {
      * @returns translation message
      */
     $t<
-      Key extends string,
       DefinedLocaleMessage extends RemovedIndexResources<DefineLocaleMessage> =
         RemovedIndexResources<DefineLocaleMessage>,
       Keys = IsEmptyObject<DefinedLocaleMessage> extends false
@@ -254,7 +246,7 @@ declare module 'vue' {
         : never,
       ResourceKeys extends Keys = IsNever<Keys> extends false ? Keys : never
     >(
-      key: Key | ResourceKeys | number,
+      key: ResourceKeys | (string & {}) | number,
       list: unknown[],
       defaultMsg: string
     ): string
@@ -271,7 +263,6 @@ declare module 'vue' {
      * @returns translation message
      */
     $t<
-      Key extends string,
       DefinedLocaleMessage extends RemovedIndexResources<DefineLocaleMessage> =
         RemovedIndexResources<DefineLocaleMessage>,
       Keys = IsEmptyObject<DefinedLocaleMessage> extends false
@@ -281,7 +272,7 @@ declare module 'vue' {
         : never,
       ResourceKeys extends Keys = IsNever<Keys> extends false ? Keys : never
     >(
-      key: Key | ResourceKeys | number,
+      key: ResourceKeys | (string & {}) | number,
       list: unknown[],
       options: TranslateOptions
     ): string
@@ -297,7 +288,6 @@ declare module 'vue' {
      * @returns translation message
      */
     $t<
-      Key extends string,
       DefinedLocaleMessage extends RemovedIndexResources<DefineLocaleMessage> =
         RemovedIndexResources<DefineLocaleMessage>,
       Keys = IsEmptyObject<DefinedLocaleMessage> extends false
@@ -307,7 +297,7 @@ declare module 'vue' {
         : never,
       ResourceKeys extends Keys = IsNever<Keys> extends false ? Keys : never
     >(
-      key: Key | ResourceKeys | number,
+      key: ResourceKeys | (string & {}) | number,
       named: NamedValue
     ): string
     /**
@@ -323,7 +313,6 @@ declare module 'vue' {
      * @returns translation message
      */
     $t<
-      Key extends string,
       DefinedLocaleMessage extends RemovedIndexResources<DefineLocaleMessage> =
         RemovedIndexResources<DefineLocaleMessage>,
       Keys = IsEmptyObject<DefinedLocaleMessage> extends false
@@ -333,7 +322,7 @@ declare module 'vue' {
         : never,
       ResourceKeys extends Keys = IsNever<Keys> extends false ? Keys : never
     >(
-      key: Key | ResourceKeys | number,
+      key: ResourceKeys | (string & {}) | number,
       named: NamedValue,
       plural: number
     ): string
@@ -350,7 +339,6 @@ declare module 'vue' {
      * @returns translation message
      */
     $t<
-      Key extends string,
       DefinedLocaleMessage extends RemovedIndexResources<DefineLocaleMessage> =
         RemovedIndexResources<DefineLocaleMessage>,
       Keys = IsEmptyObject<DefinedLocaleMessage> extends false
@@ -360,7 +348,7 @@ declare module 'vue' {
         : never,
       ResourceKeys extends Keys = IsNever<Keys> extends false ? Keys : never
     >(
-      key: Key | ResourceKeys | number,
+      key: ResourceKeys | (string & {}) | number,
       named: NamedValue,
       defaultMsg: string
     ): string
@@ -377,7 +365,6 @@ declare module 'vue' {
      * @returns translation message
      */
     $t<
-      Key extends string,
       DefinedLocaleMessage extends RemovedIndexResources<DefineLocaleMessage> =
         RemovedIndexResources<DefineLocaleMessage>,
       Keys = IsEmptyObject<DefinedLocaleMessage> extends false
@@ -387,7 +374,7 @@ declare module 'vue' {
         : never,
       ResourceKeys extends Keys = IsNever<Keys> extends false ? Keys : never
     >(
-      key: Key | ResourceKeys | number,
+      key: ResourceKeys | (string & {}) | number,
       named: NamedValue,
       options: TranslateOptions
     ): string
