@@ -6,7 +6,6 @@ import {
   isFunction,
   isNumber,
   isObject,
-  isPlainObject,
   isString,
   join,
   toDisplayString
@@ -301,15 +300,17 @@ const DEFAULT_INTERPOLATE = toDisplayString
 
 function pluralDefault(choice: number, choicesLength: number): number {
   choice = Math.abs(choice)
+
+  // singular (0) | plural (1)
   if (choicesLength === 2) {
     // prettier-ignore
-    return choice
-      ? choice > 1
-        ? 1
-        : 0
+    return choice === 1
+      ? 0
       : 1
   }
-  return choice ? Math.min(choice, 2) : 0
+
+  // zero (0) | singular (1) | plural (2)
+  return Math.min(choice, 2)
 }
 
 function getPluralIndex<T, N>(options: MessageContextOptions<T, N>): number {
@@ -317,53 +318,38 @@ function getPluralIndex<T, N>(options: MessageContextOptions<T, N>): number {
   const index = isNumber(options.pluralIndex)
     ? options.pluralIndex
     : -1
-  // prettier-ignore
-  return options.named && (isNumber(options.named.count) || isNumber(options.named.n))
-    ? isNumber(options.named.count)
-      ? options.named.count
-      : isNumber(options.named.n)
-        ? options.named.n
-        : index
-    : index
-}
 
-function normalizeNamed(pluralIndex: number, props: PluralizationProps): void {
-  if (!props.count) {
-    props.count = pluralIndex
-  }
-  if (!props.n) {
-    props.n = pluralIndex
-  }
+  return isNumber(options.named?.count)
+    ? options.named.count
+    : isNumber(options.named?.n)
+      ? options.named.n
+      : index
 }
 
 export function createMessageContext<T = string, N = {}>(
   options: MessageContextOptions<T, N> = {}
 ): MessageContext<T> {
   const locale = options.locale
+
   const pluralIndex = getPluralIndex(options)
   const pluralRule =
-    isObject(options.pluralRules) &&
-    isString(locale) &&
-    isFunction(options.pluralRules[locale])
-      ? options.pluralRules[locale]
+    isString(locale) && isFunction(options.pluralRules?.[locale])
+      ? options.pluralRules![locale]
       : pluralDefault
-  const orgPluralRule =
-    isObject(options.pluralRules) &&
-    isString(locale) &&
-    isFunction(options.pluralRules[locale])
-      ? pluralDefault
-      : undefined
-  const plural = (messages: T[]): T => {
-    return messages[pluralRule(pluralIndex, messages.length, orgPluralRule)]
-  }
+  const orgPluralRule = pluralRule === pluralDefault ? undefined : pluralDefault
+
+  const plural = (messages: T[]): T =>
+    messages[pluralRule(pluralIndex, messages.length, orgPluralRule)]
 
   const _list = options.list || []
   const list = (index: number): unknown => _list[index]
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const _named = options.named || (create() as any)
-
-  isNumber(options.pluralIndex) && normalizeNamed(pluralIndex, _named)
+  const _named = options.named || (create() as any) // eslint-disable-line @typescript-eslint/no-explicit-any
+  // normalize named
+  if (isNumber(options.pluralIndex)) {
+    _named.count ||= options.pluralIndex
+    _named.n ||= options.pluralIndex
+  }
   const named = (key: string): unknown => _named[key]
 
   function message(key: Path, useLinked?: boolean): MessageFunction<T> {
@@ -385,21 +371,17 @@ export function createMessageContext<T = string, N = {}>(
       ? options.modifiers[name]
       : (DEFAULT_MODIFIER as unknown as LinkedModify<T>)
 
-  const normalize =
-    isPlainObject(options.processor) && isFunction(options.processor.normalize)
-      ? options.processor.normalize
-      : (DEFAULT_NORMALIZE as unknown as MessageNormalize<T>)
+  const normalize = isFunction(options.processor?.normalize)
+    ? options.processor.normalize
+    : (DEFAULT_NORMALIZE as unknown as MessageNormalize<T>)
 
-  const interpolate =
-    isPlainObject(options.processor) &&
-    isFunction(options.processor.interpolate)
-      ? options.processor.interpolate
-      : (DEFAULT_INTERPOLATE as unknown as MessageInterpolate<T>)
+  const interpolate = isFunction(options.processor?.interpolate)
+    ? options.processor.interpolate
+    : (DEFAULT_INTERPOLATE as unknown as MessageInterpolate<T>)
 
-  const type =
-    isPlainObject(options.processor) && isString(options.processor.type)
-      ? options.processor.type
-      : DEFAULT_MESSAGE_DATA_TYPE
+  const type = isString(options.processor?.type)
+    ? options.processor.type
+    : DEFAULT_MESSAGE_DATA_TYPE
 
   const linked = (key: Path, ...args: unknown[]): MessageType<T> => {
     const [arg1, arg2] = args
