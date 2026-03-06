@@ -16,14 +16,14 @@
 
 import { spawnSync } from 'node:child_process'
 import { existsSync, promises as fs } from 'node:fs'
-import os from 'node:os'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { parseArgs } from 'node:util'
 import { brotliCompressSync, gzipSync } from 'node:zlib'
-import { buildTypings } from './build-types'
 import pc from 'picocolors'
-import { x } from 'tinyexec'
+import { rolldown } from 'rolldown'
+import { buildTypings } from './build-types'
+import { createConfigsForPackage } from './rolldown'
 import {
   targets as allTargets,
   checkSizeDistFiles,
@@ -31,6 +31,8 @@ import {
   fuzzyMatchTarget,
   readJson
 } from './utils'
+
+import type { OutputOptions } from 'rolldown'
 
 const __dirname = fileURLToPath(new URL('.', import.meta.url))
 const commit = spawnSync('git', ['rev-parse', '--short=7', 'HEAD']).stdout.toString().trim()
@@ -93,12 +95,6 @@ async function main() {
       await fs.mkdir(sizeDir, { recursive: true })
     }
 
-    const rtsCachePath = path.resolve(__dirname, './node_modules/.rts2_cache')
-    if (isRelease && existsSync(rtsCachePath)) {
-      // remove build cache for release builds to avoid outdated enum values
-      await fs.rm(rtsCachePath, { recursive: true })
-    }
-
     const resolvedTargets = targets.length
       ? await fuzzyMatchTarget(targets, buildAllMatching)
       : await allTargets()
@@ -115,34 +111,40 @@ async function main() {
 
   async function buildAll(targets: string[]) {
     const start = performance.now()
-    await runParallel(os.cpus().length, targets, build)
-    console.log(`\nbuilt in ${(performance.now() - start).toFixed(2)}ms.`)
-  }
-
-  async function runParallel(
-    maxConcurrency: number,
-    source: string[],
-    iteratorFn: (item: string, source: string[]) => Promise<void>
-  ) {
-    const ret: Promise<void>[] = []
-    const executing: Promise<void>[] = []
-    for (const item of source) {
-      const p = Promise.resolve().then(() => iteratorFn(item, source))
-      ret.push(p)
-
-      if (maxConcurrency <= source.length) {
-        // @ts-expect-error -- NOTE(kazupon): ignore
-        const e = p.then(() => executing.splice(executing.indexOf(e), 1))
-        executing.push(e)
-        if (executing.length >= maxConcurrency) {
-          await Promise.race(executing)
-        }
+    let count = 0
+    for (const target of targets) {
+      const all = []
+      const configs = await createConfigsForTarget(target)
+      if (configs) {
+        all.push(
+          Promise.all(
+            configs.map(c =>
+              rolldown(c).then(bundle => {
+                return bundle.write(c.output as OutputOptions).then(() => {
+                  return path.join(
+                    'packages',
+                    target,
+                    'dist',
+                    // @ts-expect-error -- FIXME: need to fix OutputOptions type
+                    path.basename(c.output.file)
+                  )
+                })
+              })
+            )
+          ).then(files => {
+            files.forEach(f => {
+              count++
+              console.log(pc.gray('built: ') + pc.green(f))
+            })
+          })
+        )
       }
+      await Promise.all(all)
     }
-    return Promise.all(ret)
+    console.log(`\n${count} files built in ${(performance.now() - start).toFixed(2)}ms.`)
   }
 
-  async function build(target: string) {
+  async function createConfigsForTarget(target: string) {
     const pkgDir = path.resolve(__dirname, `../packages/${target}`)
     const pkg = await readJson(`${pkgDir}/package.json`)
 
@@ -156,34 +158,13 @@ async function main() {
       await fs.rm(`${pkgDir}/dist`, { recursive: true })
     }
 
-    const env =
-      (pkg.buildOptions && pkg.buildOptions.env) || (devOnly ? 'development' : 'production')
-
-    await x(
-      'rollup',
-      [
-        '-c',
-        '--environment',
-        [
-          `COMMIT:${commit}`,
-          `NODE_ENV:${env}`,
-          `TARGET:${target}`,
-          formats ? `FORMATS:${formats.join(',')}` : ``,
-          buildTypes ? `TYPES:true` : ``,
-          prodOnly ? `PROD_ONLY:true` : ``,
-          sourceMap ? `SOURCE_MAP:true` : ``
-        ]
-          .filter(Boolean)
-          .join(',')
-      ],
-      {
-        nodeOptions: { stdio: 'inherit' }
-      }
-    )
-
-    if (existsSync(`${pkgDir}/dist/packages`)) {
-      await fs.rm(`${pkgDir}/dist/packages`, { recursive: true })
-    }
+    return createConfigsForPackage({
+      target,
+      commit,
+      formats,
+      prodOnly,
+      sourceMap
+    })
   }
 
   async function checkAllSizes(targets: string[]) {

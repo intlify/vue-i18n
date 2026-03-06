@@ -57,7 +57,7 @@ $ pnpm i # install the dependencies of the project
 A high level overview of tools used:
 
 - [TypeScript](https://www.typescriptlang.org/) as the development language
-- [Rollup](https://rollupjs.org) for bundling
+- [rolldown](https://rolldown.rs) for bundling
 - [Vitest](https://vitest.dev/) for unit testing
 - [Playwright](https://playwright.dev/) for e2e testing
 - [ESLint](https://eslint.org/) for code linting
@@ -127,8 +127,7 @@ The `dev` script bundles a target package (default: `vue-i18n`) in a specified f
 ```bash
 $ pnpm dev
 
-> rollup v1.19.4
-> bundles packages/vue-i18n/src/index.ts → packages/vue-i18n/dist/vue-i18n.global.js...
+built: vue-i18n
 ```
 
 - The `dev` script also supports fuzzy match for the target package, but will only match the first package matched.
