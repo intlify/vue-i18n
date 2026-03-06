@@ -2,19 +2,20 @@ import { CORE_WARN_CODES_EXTEND_POINT } from '@intlify/core-base'
 import { format } from '@intlify/shared'
 
 export const I18nWarnCodes = {
-  FALLBACK_TO_ROOT: CORE_WARN_CODES_EXTEND_POINT, // 8
-  NOT_FOUND_PARENT_SCOPE: 9,
-  IGNORE_OBJ_FLATTEN: 10,
+  FALLBACK_TO_ROOT: CORE_WARN_CODES_EXTEND_POINT, // 10
+  NOT_FOUND_PARENT_SCOPE: (CORE_WARN_CODES_EXTEND_POINT + 1) as number,
+  IGNORE_OBJ_FLATTEN: (CORE_WARN_CODES_EXTEND_POINT + 2) as number,
   /**
    * @deprecated will be removed at vue-i18n v12
    */
-  DEPRECATE_LEGACY_MODE: 11,
+  DEPRECATE_LEGACY_MODE: (CORE_WARN_CODES_EXTEND_POINT + 3) as number,
   /**
    * @deprecated will be removed at vue-i18n v12
    */
-  DEPRECATE_TRANSLATE_CUSTOME_DIRECTIVE: 12,
+  DEPRECATE_TRANSLATE_CUSTOME_DIRECTIVE: (CORE_WARN_CODES_EXTEND_POINT +
+    4) as number,
   // duplicate `useI18n` calling
-  DUPLICATE_USE_I18N_CALLING: 13
+  DUPLICATE_USE_I18N_CALLING: (CORE_WARN_CODES_EXTEND_POINT + 5) as number
 } as const
 
 type I18nWarnCodes = (typeof I18nWarnCodes)[keyof typeof I18nWarnCodes]

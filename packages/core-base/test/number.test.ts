@@ -300,7 +300,7 @@ test('not available Intl API', () => {
 })
 
 describe('error', () => {
-  test(errorMessages[CoreErrorCodes.INVALID_ARGUMENT], () => {
+  test('invalid argument should warn and return empty string', () => {
     const mockWarn = vi.spyOn(shared, 'warn')
     mockWarn.mockImplementation(() => {})
     const mockAvailabilities = Availabilities
@@ -309,9 +309,8 @@ describe('error', () => {
       locale: 'en-US',
       numberFormats
     })
-    expect(() => {
-      number(ctx, '111' as any)
-    }).toThrowError(errorMessages[CoreErrorCodes.INVALID_ARGUMENT])
+    expect(number(ctx, '111' as any)).toEqual('')
+    expect(number(ctx, undefined as any)).toEqual('')
   })
 })
 
