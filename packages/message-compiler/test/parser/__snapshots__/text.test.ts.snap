@@ -58,6 +58,314 @@ exports[`emoji > 😺 1`] = `
 }
 `;
 
+exports[`escape sequences > escape with placeholder: \\@{name} -> @value 1`] = `
+{
+  "body": {
+    "end": 8,
+    "items": [
+      {
+        "end": 2,
+        "loc": {
+          "end": {
+            "column": 3,
+            "line": 1,
+            "offset": 2,
+          },
+          "start": {
+            "column": 1,
+            "line": 1,
+            "offset": 0,
+          },
+        },
+        "start": 0,
+        "type": 3,
+        "value": "@",
+      },
+      {
+        "end": 8,
+        "key": "name",
+        "loc": {
+          "end": {
+            "column": 9,
+            "line": 1,
+            "offset": 8,
+          },
+          "start": {
+            "column": 3,
+            "line": 1,
+            "offset": 2,
+          },
+        },
+        "start": 2,
+        "type": 4,
+      },
+    ],
+    "loc": {
+      "end": {
+        "column": 9,
+        "line": 1,
+        "offset": 8,
+      },
+      "start": {
+        "column": 1,
+        "line": 1,
+        "offset": 0,
+      },
+    },
+    "start": 0,
+    "type": 2,
+  },
+  "end": 8,
+  "loc": {
+    "end": {
+      "column": 9,
+      "line": 1,
+      "offset": 8,
+    },
+    "source": "\\@{name}",
+    "start": {
+      "column": 1,
+      "line": 1,
+      "offset": 0,
+    },
+  },
+  "start": 0,
+  "type": 0,
+}
+`;
+
+exports[`escape sequences > escaped @: foo\\@bar.com -> foo@bar.com 1`] = `
+{
+  "body": {
+    "end": 12,
+    "items": [
+      {
+        "end": 12,
+        "loc": {
+          "end": {
+            "column": 13,
+            "line": 1,
+            "offset": 12,
+          },
+          "start": {
+            "column": 1,
+            "line": 1,
+            "offset": 0,
+          },
+        },
+        "start": 0,
+        "type": 3,
+        "value": "foo@bar.com",
+      },
+    ],
+    "loc": {
+      "end": {
+        "column": 13,
+        "line": 1,
+        "offset": 12,
+      },
+      "start": {
+        "column": 1,
+        "line": 1,
+        "offset": 0,
+      },
+    },
+    "start": 0,
+    "type": 2,
+  },
+  "end": 12,
+  "loc": {
+    "end": {
+      "column": 13,
+      "line": 1,
+      "offset": 12,
+    },
+    "source": "foo\\@bar.com",
+    "start": {
+      "column": 1,
+      "line": 1,
+      "offset": 0,
+    },
+  },
+  "start": 0,
+  "type": 0,
+}
+`;
+
+exports[`escape sequences > escaped {: hello\\{world\\} -> hello{world} 1`] = `
+{
+  "body": {
+    "end": 14,
+    "items": [
+      {
+        "end": 14,
+        "loc": {
+          "end": {
+            "column": 15,
+            "line": 1,
+            "offset": 14,
+          },
+          "start": {
+            "column": 1,
+            "line": 1,
+            "offset": 0,
+          },
+        },
+        "start": 0,
+        "type": 3,
+        "value": "hello{world}",
+      },
+    ],
+    "loc": {
+      "end": {
+        "column": 15,
+        "line": 1,
+        "offset": 14,
+      },
+      "start": {
+        "column": 1,
+        "line": 1,
+        "offset": 0,
+      },
+    },
+    "start": 0,
+    "type": 2,
+  },
+  "end": 14,
+  "loc": {
+    "end": {
+      "column": 15,
+      "line": 1,
+      "offset": 14,
+    },
+    "source": "hello\\{world\\}",
+    "start": {
+      "column": 1,
+      "line": 1,
+      "offset": 0,
+    },
+  },
+  "start": 0,
+  "type": 0,
+}
+`;
+
+exports[`escape sequences > escaped |: option A \\| option B -> option A | option B 1`] = `
+{
+  "body": {
+    "end": 20,
+    "items": [
+      {
+        "end": 20,
+        "loc": {
+          "end": {
+            "column": 21,
+            "line": 1,
+            "offset": 20,
+          },
+          "start": {
+            "column": 1,
+            "line": 1,
+            "offset": 0,
+          },
+        },
+        "start": 0,
+        "type": 3,
+        "value": "option A | option B",
+      },
+    ],
+    "loc": {
+      "end": {
+        "column": 21,
+        "line": 1,
+        "offset": 20,
+      },
+      "start": {
+        "column": 1,
+        "line": 1,
+        "offset": 0,
+      },
+    },
+    "start": 0,
+    "type": 2,
+  },
+  "end": 20,
+  "loc": {
+    "end": {
+      "column": 21,
+      "line": 1,
+      "offset": 20,
+    },
+    "source": "option A \\| option B",
+    "start": {
+      "column": 1,
+      "line": 1,
+      "offset": 0,
+    },
+  },
+  "start": 0,
+  "type": 0,
+}
+`;
+
+exports[`escape sequences > escaped backslash: path\\\\to\\\\file -> path\\to\\file 1`] = `
+{
+  "body": {
+    "end": 14,
+    "items": [
+      {
+        "end": 14,
+        "loc": {
+          "end": {
+            "column": 15,
+            "line": 1,
+            "offset": 14,
+          },
+          "start": {
+            "column": 1,
+            "line": 1,
+            "offset": 0,
+          },
+        },
+        "start": 0,
+        "type": 3,
+        "value": "path\\to\\file",
+      },
+    ],
+    "loc": {
+      "end": {
+        "column": 15,
+        "line": 1,
+        "offset": 14,
+      },
+      "start": {
+        "column": 1,
+        "line": 1,
+        "offset": 0,
+      },
+    },
+    "start": 0,
+    "type": 2,
+  },
+  "end": 14,
+  "loc": {
+    "end": {
+      "column": 15,
+      "line": 1,
+      "offset": 14,
+    },
+    "source": "path\\\\to\\\\file",
+    "start": {
+      "column": 1,
+      "line": 1,
+      "offset": 0,
+    },
+  },
+  "start": 0,
+  "type": 0,
+}
+`;
+
 exports[`multi bytes > こんにちは、世界 1`] = `
 {
   "body": {
