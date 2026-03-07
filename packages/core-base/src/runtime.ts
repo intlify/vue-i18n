@@ -403,11 +403,14 @@ export function createMessageContext<T = string, N = {}>(
       }
     }
     const ret = message(key, true)(ctx)
+    // If the linked message is not resolved (empty string), fall back to the key itself
+    const resolved =
+      ret === '' || ret === undefined ? (key as unknown as MessageType<T>) : ret
     const msg =
       // The message in vnode resolved with linked are returned as an array by processor.nomalize
-      type === 'vnode' && isArray(ret) && modifier
-        ? ret[0]
-        : (ret as MessageType<T>)
+      type === 'vnode' && isArray(resolved) && modifier
+        ? resolved[0]
+        : (resolved as MessageType<T>)
     return modifier ? _modifier(modifier)(msg as T, type) : msg
   }
 
