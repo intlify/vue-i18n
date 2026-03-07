@@ -1,4 +1,4 @@
-import { isFunction, isObject } from '@intlify/shared'
+import { hasOwn, isFunction, isObject } from '@intlify/shared'
 import { AST_NODE_PROPS_KEYS, isMessageAST } from './ast'
 
 /** @VueI18nGeneral */
@@ -342,7 +342,9 @@ export function resolveValue(obj: unknown, path: Path): PathValue {
 
   // resolve path value
   const len = hit.length
-  let last = obj
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any -- for generic object
+  let last: any = obj
   let i = 0
   while (i < len) {
     const key = hit[i]
@@ -352,6 +354,12 @@ export function resolveValue(obj: unknown, path: Path): PathValue {
      * because the AST node is not a key-value structure.
      */
     if (AST_NODE_PROPS_KEYS.includes(key) && isMessageAST(last)) {
+      return null
+    }
+    if (!isObject(last)) {
+      return null
+    }
+    if (!hasOwn(last as object, key)) {
       return null
     }
     const val = last[key]
