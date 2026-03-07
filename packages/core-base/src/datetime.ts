@@ -235,7 +235,9 @@ export function datetime<
   )
 
   if (!isString(key) || key === '') {
-    return new Intl.DateTimeFormat(locale, overrides).format(value)
+    return new Intl.DateTimeFormat(locale.replace(/!/g, ''), overrides).format(
+      value
+    )
   }
 
   // resolve format
