@@ -32,7 +32,7 @@
     "node": ">= 16"
   },
   "type": "module",
-  "sideEffects": false,
+  "sideEffects": true,
   "files": [
     "dist"
   ],
