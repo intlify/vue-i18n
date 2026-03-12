@@ -1,5 +1,5 @@
 //
-// Run Rollup in watch mode for development.
+// Run rolldown in watch mode for development.
 //
 // To specific the package to watch, simply pass its name and the desired build
 // formats to watch (defaults to "global"):
@@ -18,7 +18,8 @@
 
 import { spawnSync } from 'node:child_process'
 import { parseArgs } from 'node:util'
-import { x } from 'tinyexec'
+import { watch } from 'rolldown'
+import { createConfigsForPackage } from './rolldown'
 import { fuzzyMatchTarget } from './utils'
 
 const commit = spawnSync('git', ['rev-parse', '--short=7', 'HEAD']).stdout.toString().trim()
@@ -44,24 +45,24 @@ const formats = rawFormats?.split(',')
 async function main() {
   const resolveTarget = targets.length ? (await fuzzyMatchTarget(targets))[0] : 'vue-i18n'
 
-  await x(
-    'rollup',
-    [
-      '-wc',
-      '--environment',
-      [
-        `COMMIT:${commit}`,
-        `TARGET:${resolveTarget}`,
-        `FORMATS:${formats?.join(',') || 'global'}`,
-        sourceMap ? `SOURCE_MAP:true` : ``
-      ]
-        .filter(Boolean)
-        .join(',')
-    ],
-    {
-      nodeOptions: { stdio: 'inherit' }
+  const configs = createConfigsForPackage({
+    target: resolveTarget,
+    commit,
+    formats: formats || ['global'],
+    sourceMap,
+    devOnly: true
+  })
+
+  const watcher = watch(configs)
+  watcher.on('event', async event => {
+    if (event.code === 'BUNDLE_END') {
+      console.log(`built: ${resolveTarget}`)
+      await event.result?.close()
     }
-  )
+    if (event.code === 'ERROR') {
+      console.error(event.error)
+    }
+  })
 }
 
 main().catch(err => {

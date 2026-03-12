@@ -605,6 +605,7 @@ const i18n = createI18n({
 
 ### 変更前 (v11)
 
+<!-- eslint-skip -->
 ```ts
 $t<
   Key extends string,
@@ -618,6 +619,7 @@ $t<
 
 ### 変更後 (v12)
 
+<!-- eslint-skip -->
 ```ts
 $t<
   DefinedLocaleMessage extends ...,

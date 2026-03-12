@@ -605,6 +605,7 @@ The `Key extends string` generic parameter has been removed from all `$t` and `t
 
 ### Before (v11)
 
+<!-- eslint-skip -->
 ```ts
 $t<
   Key extends string,
@@ -618,6 +619,7 @@ $t<
 
 ### After (v12)
 
+<!-- eslint-skip -->
 ```ts
 $t<
   DefinedLocaleMessage extends ...,
