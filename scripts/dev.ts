@@ -54,10 +54,10 @@ async function main() {
   })
 
   const watcher = watch(configs)
-  watcher.on('event', event => {
+  watcher.on('event', async event => {
     if (event.code === 'BUNDLE_END') {
       console.log(`built: ${resolveTarget}`)
-      void event.result?.close()
+      await event.result?.close()
     }
     if (event.code === 'ERROR') {
       console.error(event.error)
