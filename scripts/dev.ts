@@ -57,7 +57,7 @@ async function main() {
   watcher.on('event', event => {
     if (event.code === 'BUNDLE_END') {
       console.log(`built: ${resolveTarget}`)
-      event.result?.close()
+      void event.result?.close()
     }
     if (event.code === 'ERROR') {
       console.error(event.error)
