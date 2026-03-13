@@ -223,27 +223,26 @@ pnpm add @intlify/core-base@next
 ```
 :::
 
-Then, at the entry point of the application, configure the message resolver and locale fallbacker using the API as the below:
+Then, at the entry point of the application, configure the message resolver and locale fallbacker using the `createI18n` options as the below:
 
 <!-- eslint-skip -->
 
 ```js
 import { createApp } from 'vue'
-import {
-  createI18n,
-  registerMessageResolver, // register the message resolver API
-  registerLocaleFallbacker, // register the locale fallbacker API
-} from 'petite-vue-i18n'
+import { createI18n } from 'petite-vue-i18n'
 import {
   resolveValue, // message resolver of vue-i18n which is used by default
   fallbackWithLocaleChain // locale fallbacker of vue-i18n which is used by default
 } from '@intlify/core-base'
 
-// register message resolver of vue-i18n
-registerMessageResolver(resolveValue)
-
-// register locale fallbacker of vue-i18n
-registerLocaleFallbacker(fallbackWithLocaleChain)
+const i18n = createI18n({
+  locale: 'en',
+  messageResolver: resolveValue,
+  localeFallbacker: fallbackWithLocaleChain,
+  messages: {
+    // ...
+  }
+})
 
 // some thing code ...
 // ...

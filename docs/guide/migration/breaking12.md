@@ -642,3 +642,80 @@ Most code requires no changes. If you explicitly passed the `Key` generic type p
 - $t<'myKey'>('myKey')
 + $t('myKey')
 ```
+
+## Deprecate `registerMessageCompiler`, `registerMessageResolver`, `registerLocaleFallbacker`
+
+**Reason**: These global registration functions set module-scope variables, which causes several problems:
+
+1. **`sideEffects: false` incompatibility** — Bundlers may tree-shake the module-scope calls, silently breaking the library at runtime
+2. **Per-app customization not possible** — Global variables are shared across all Vue app instances, making it impossible to use different implementations per app
+3. **Implicit dependency** — The registration happens at import time, making the dependency between packages implicit and hard to trace
+
+### What changed
+
+`registerMessageCompiler`, `registerMessageResolver`, and `registerLocaleFallbacker` are deprecated. Use the `messageCompiler`, `messageResolver`, and `localeFallbacker` options of `createI18n` (or `createCoreContext` for `@intlify/core-base` users) instead.
+
+The deprecated functions still work for backward compatibility but will emit a warning in development mode. They will be removed in v13.
+
+### Before (v11)
+
+```ts
+import { createI18n } from 'vue-i18n'
+import { registerMessageResolver, resolveValue } from '@intlify/core-base'
+
+registerMessageResolver(resolveValue)
+
+const i18n = createI18n({
+  locale: 'en',
+  messages: { en: { hello: 'Hello!' } }
+})
+```
+
+### After (v12)
+
+```ts
+import { createI18n } from 'vue-i18n'
+import { resolveValue } from '@intlify/core-base'
+
+const i18n = createI18n({
+  locale: 'en',
+  messageResolver: resolveValue,
+  messages: { en: { hello: 'Hello!' } }
+})
+```
+
+### For `@intlify/core-base` users
+
+```diff
+- import { createCoreContext, registerMessageCompiler, compile } from '@intlify/core-base'
+- registerMessageCompiler(compile)
+- const ctx = createCoreContext({ locale: 'en', messages: { ... } })
++ import { createCoreContext, compile, resolveValue, fallbackWithLocaleChain } from '@intlify/core-base'
++ const ctx = createCoreContext({
++   locale: 'en',
++   messages: { ... },
++   messageCompiler: compile,
++   messageResolver: resolveValue,
++   localeFallbacker: fallbackWithLocaleChain,
++ })
+```
+
+### Multiple Vue apps with different configurations
+
+With the new option-based approach, each `createI18n` instance can have its own configuration:
+
+```ts
+// App A: custom resolver
+const i18nA = createI18n({
+  messageResolver: myCustomResolver,
+  // ...
+})
+appA.use(i18nA)
+
+// App B: default resolver
+const i18nB = createI18n({
+  // uses default resolveValue automatically
+  // ...
+})
+appB.use(i18nB)
+```

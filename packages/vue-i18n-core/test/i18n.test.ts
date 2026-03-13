@@ -13,14 +13,6 @@ vi.mock('@intlify/shared', async () => {
   }
 })
 
-import {
-  compile,
-  fallbackWithLocaleChain,
-  registerLocaleFallbacker,
-  registerMessageCompiler,
-  registerMessageResolver,
-  resolveValue
-} from '@intlify/core-base'
 import { createApp, defineComponent, defineCustomElement, h, nextTick, ref } from 'vue'
 import { errorMessages, I18nErrorCodes } from '../src/errors'
 import { createI18n, useI18n } from '../src/i18n'
@@ -34,12 +26,6 @@ import type { I18n } from '../src/i18n'
 // allow any in error
 const container = document.createElement('div')
 document.body.appendChild(container)
-
-beforeAll(() => {
-  registerMessageCompiler(compile)
-  registerMessageResolver(resolveValue)
-  registerLocaleFallbacker(fallbackWithLocaleChain)
-})
 
 beforeEach(() => {
   container.innerHTML = ''

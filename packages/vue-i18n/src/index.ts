@@ -6,28 +6,11 @@
  * @module general
  */
 
-import {
-  compile,
-  fallbackWithLocaleChain,
-  registerLocaleFallbacker,
-  registerMessageCompiler,
-  registerMessageResolver,
-  resolveValue
-} from '@intlify/core-base'
 import { initDev, initFeatureFlags } from '@intlify/vue-i18n-core'
 
 if (__ESM_BUNDLER__ && !__TEST__) {
   initFeatureFlags()
 }
-
-// register message compiler at vue-i18n
-registerMessageCompiler(compile)
-
-// register message resolver at vue-i18n
-registerMessageResolver(resolveValue)
-
-// register fallback locale at vue-i18n
-registerLocaleFallbacker(fallbackWithLocaleChain)
 
 export type {
   CompileError,

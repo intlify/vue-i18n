@@ -4,6 +4,7 @@ import {
   NOT_RESOLVED,
   clearDateTimeFormat,
   clearNumberFormat,
+  compile,
   createCoreContext,
   datetime,
   fallbackWithLocaleChain,
@@ -16,6 +17,7 @@ import {
   parseDateTimeArgs,
   parseNumberArgs,
   parseTranslateArgs,
+  resolveValue,
   setFallbackContext,
   translate,
   updateFallbackLocale
@@ -63,6 +65,7 @@ import type {
   FallbackLocale,
   FallbackLocales,
   GeneratedLocale,
+  LocaleFallbacker,
   IsEmptyObject,
   IsNever,
   IsPart,
@@ -602,6 +605,15 @@ export interface ComposerOptions<
    * @default `undefined`
    */
   messageCompiler?: MessageCompiler
+  /**
+   * @remarks
+   * A locale fallbacker for custom locale fallback strategy.
+   *
+   * If not specified, the vue-i18n default locale fallbacker will be used.
+   *
+   * @default `undefined`
+   */
+  localeFallbacker?: LocaleFallbacker
 }
 
 /**
@@ -2026,10 +2038,17 @@ export function createComposer(options: any = {}): any {
       escapeParameter: _escapeParameter,
       messageResolver: options.messageResolver,
       messageCompiler: options.messageCompiler,
+      localeFallbacker: options.localeFallbacker,
       __meta: { framework: 'vue' }
     }
 
+    // set default message compiler
+    ;(ctxOptions as any).messageCompiler = options.messageCompiler || compile
+
     if (!__LITE__) {
+      // set default message resolver and locale fallbacker for full vue-i18n
+      ;(ctxOptions as any).messageResolver = options.messageResolver || resolveValue
+      ;(ctxOptions as any).localeFallbacker = options.localeFallbacker || fallbackWithLocaleChain
       ;(ctxOptions as any).datetimeFormats = _datetimeFormats.value
       ;(ctxOptions as any).numberFormats = _numberFormats.value
       ;(ctxOptions as any).__datetimeFormatters = isPlainObject(_context)

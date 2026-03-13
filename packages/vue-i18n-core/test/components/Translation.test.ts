@@ -2,14 +2,6 @@
  * @vitest-environment jsdom
  */
 
-import {
-  compile,
-  fallbackWithLocaleChain,
-  registerLocaleFallbacker,
-  registerMessageCompiler,
-  registerMessageResolver,
-  resolveValue
-} from '@intlify/core-base'
 import { defineComponent, h, nextTick, ref } from 'vue'
 import { createI18n, useI18n } from '../../src/index'
 import { mount } from '../helper'
@@ -38,12 +30,6 @@ const messages = {
     }
   }
 }
-
-beforeAll(() => {
-  registerMessageCompiler(compile)
-  registerMessageResolver(resolveValue)
-  registerLocaleFallbacker(fallbackWithLocaleChain)
-})
 
 let org: any
 let spy: any
