@@ -223,27 +223,26 @@ pnpm add @intlify/core-base@next
 ```
 :::
 
-然后，在应用程序的入口点，使用 API 配置消息解析器和语言环境回退器，如下所示：
+然后，在应用程序的入口点，使用 `createI18n` 选项配置消息解析器和语言环境回退器，如下所示：
 
 <!-- eslint-skip -->
 
 ```js
 import { createApp } from 'vue'
-import {
-  createI18n,
-  registerMessageResolver, // 注册消息解析器 API
-  registerLocaleFallbacker, // 注册语言环境回退器 API
-} from 'petite-vue-i18n'
+import { createI18n } from 'petite-vue-i18n'
 import {
   resolveValue, // 默认使用的 vue-i18n 消息解析器
   fallbackWithLocaleChain // 默认使用的 vue-i18n 语言环境回退器
 } from '@intlify/core-base'
 
-// 注册 vue-i18n 的消息解析器
-registerMessageResolver(resolveValue)
-
-// 注册 vue-i18n 的语言环境回退器
-registerLocaleFallbacker(fallbackWithLocaleChain)
+const i18n = createI18n({
+  locale: 'en',
+  messageResolver: resolveValue,
+  localeFallbacker: fallbackWithLocaleChain,
+  messages: {
+    // ...
+  }
+})
 
 // 一些代码 ...
 // ...

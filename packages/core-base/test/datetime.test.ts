@@ -19,17 +19,20 @@ vi.mock('../src/intl', async () => {
 })
 
 import { compile } from '../src/compilation'
-import {
-  createCoreContext as context,
-  NOT_RESOLVED,
-  registerLocaleFallbacker,
-  registerMessageCompiler
-} from '../src/context'
+import { createCoreContext, NOT_RESOLVED } from '../src/context'
 import { datetime } from '../src/datetime'
 import { CoreErrorCodes, errorMessages } from '../src/errors'
 import { fallbackWithLocaleChain } from '../src/fallbacker'
 
 import type { DateTimeFormats } from '../src/types'
+
+function context(options: any = {}) {
+  return createCoreContext({
+    messageCompiler: compile,
+    localeFallbacker: fallbackWithLocaleChain,
+    ...options
+  })
+}
 
 type MyDateTimeSchema = {
   short: {} // loose schema
@@ -83,11 +86,6 @@ const dts = [
   '2012-12-20T03:00:00',
   '2012-12-20 T03:00:00'
 ]
-
-beforeEach(() => {
-  registerMessageCompiler(compile)
-  registerLocaleFallbacker(fallbackWithLocaleChain)
-})
 
 afterEach(() => {
   vi.clearAllMocks()

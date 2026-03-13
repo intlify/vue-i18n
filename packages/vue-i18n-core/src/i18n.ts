@@ -26,7 +26,16 @@ import { DisableEmitter, DisposeSymbol, EnableEmitter } from './symbols'
 import { adjustI18nResources } from './utils'
 import { I18nWarnCodes, getWarnMessage } from './warnings'
 
-import type { FallbackLocale, Locale, LocaleParams, SchemaParams } from '@intlify/core-base'
+import type {
+  FallbackLocale,
+  Locale,
+  LocaleFallbacker,
+  LocaleParams,
+  MessageCompiler,
+  MessageResolver,
+  ResourceNode,
+  SchemaParams
+} from '@intlify/core-base'
 import type { VueDevToolsEmitter, VueDevToolsEmitterEvents } from '@intlify/devtools-types'
 import type { App, EffectScope, InjectionKey } from 'vue'
 import type {
@@ -172,6 +181,9 @@ export interface I18nInternal<
   ): void
   __deleteInstance(uid: number): void
   __composerExtend?: ComposerExtender
+  __messageCompiler?: MessageCompiler<string, string | ResourceNode>
+  __messageResolver?: MessageResolver
+  __localeFallbacker?: LocaleFallbacker
 }
 
 /**
@@ -429,7 +441,13 @@ export function createI18n(options: any = {}): any {
     // @internal
     __setInstance,
     // @internal
-    __deleteInstance
+    __deleteInstance,
+    // @internal
+    __messageCompiler: options.messageCompiler,
+    // @internal
+    __messageResolver: options.messageResolver,
+    // @internal
+    __localeFallbacker: options.localeFallbacker
   }
   return i18n
 }
@@ -569,6 +587,17 @@ export function useI18n<
 
     const composerOptions = assign({}, options) as ComposerOptions & ComposerInternalOptions
 
+    // Inherit messageCompiler, messageResolver, localeFallbacker from createI18n
+    if (i18nInternal.__messageCompiler) {
+      composerOptions.messageCompiler = i18nInternal.__messageCompiler
+    }
+    if (i18nInternal.__messageResolver) {
+      composerOptions.messageResolver = i18nInternal.__messageResolver
+    }
+    if (i18nInternal.__localeFallbacker) {
+      composerOptions.localeFallbacker = i18nInternal.__localeFallbacker
+    }
+
     // Set parent Composer as fallback root
     const parentComposer = inject(I18nComposerKey, null)
     composerOptions.__root = parentComposer || gl
@@ -632,6 +661,17 @@ export function useI18n<
 
   // Create Composer
   const composerOptions = assign({}, options) as ComposerOptions & ComposerInternalOptions
+
+  // Inherit messageCompiler, messageResolver, localeFallbacker from createI18n
+  if (i18nInternal.__messageCompiler) {
+    composerOptions.messageCompiler = i18nInternal.__messageCompiler
+  }
+  if (i18nInternal.__messageResolver) {
+    composerOptions.messageResolver = i18nInternal.__messageResolver
+  }
+  if (i18nInternal.__localeFallbacker) {
+    composerOptions.localeFallbacker = i18nInternal.__localeFallbacker
+  }
 
   // SFC i18n custom blocks
   if ('__i18n' in type) {

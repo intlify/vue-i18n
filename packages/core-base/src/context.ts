@@ -358,9 +358,23 @@ function getDefaultLinkedModifiers<Message = string>(): LinkedModifiers<Message>
 
 let _compiler: unknown
 
+/**
+ * Register the message compiler
+ *
+ * @param compiler - A {@link MessageCompiler} function
+ *
+ * @deprecated Use `messageCompiler` option of `createI18n` or `createCoreContext` instead. This function will be removed in v13.
+ *
+ * @VueI18nGeneral
+ */
 export function registerMessageCompiler<Message>(
   compiler: MessageCompiler<Message, string | ResourceNode>
 ): void {
+  if (__DEV__) {
+    warnOnce(
+      `registerMessageCompiler is deprecated. Use 'messageCompiler' option of 'createI18n' or 'createCoreContext' instead.`
+    )
+  }
   _compiler = compiler
 }
 
@@ -371,9 +385,16 @@ let _resolver: unknown
  *
  * @param resolver - A {@link MessageResolver} function
  *
+ * @deprecated Use `messageResolver` option of `createI18n` or `createCoreContext` instead. This function will be removed in v13.
+ *
  * @VueI18nGeneral
  */
 export function registerMessageResolver(resolver: MessageResolver): void {
+  if (__DEV__) {
+    warnOnce(
+      `registerMessageResolver is deprecated. Use 'messageResolver' option of 'createI18n' or 'createCoreContext' instead.`
+    )
+  }
   _resolver = resolver
 }
 
@@ -384,9 +405,16 @@ let _fallbacker: unknown
  *
  * @param fallbacker - A {@link LocaleFallbacker} function
  *
+ * @deprecated Use `localeFallbacker` option of `createI18n` or `createCoreContext` instead. This function will be removed in v13.
+ *
  * @VueI18nGeneral
  */
 export function registerLocaleFallbacker(fallbacker: LocaleFallbacker): void {
+  if (__DEV__) {
+    warnOnce(
+      `registerLocaleFallbacker is deprecated. Use 'localeFallbacker' option of 'createI18n' or 'createCoreContext' instead.`
+    )
+  }
   _fallbacker = fallbacker
 }
 
@@ -484,7 +512,9 @@ export function createCoreContext<Message = string>(options: any = {}): any {
   const processor = isPlainObject(options.processor) ? options.processor : null
   const warnHtmlMessage = isBoolean(options.warnHtmlMessage) ? options.warnHtmlMessage : true
   const escapeParameter = !!options.escapeParameter
-  const messageCompiler = isFunction(options.messageCompiler) ? options.messageCompiler : _compiler
+  const messageCompiler = isFunction(options.messageCompiler)
+    ? options.messageCompiler
+    : _compiler || null
   if (__DEV__ && !__GLOBAL__ && !__TEST__ && isFunction(options.messageCompiler)) {
     warnOnce(getWarnMessage(CoreWarnCodes.EXPERIMENTAL_CUSTOM_MESSAGE_COMPILER))
   }

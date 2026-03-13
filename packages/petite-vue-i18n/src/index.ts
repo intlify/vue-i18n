@@ -1,12 +1,8 @@
-import { compile, registerMessageCompiler } from '@intlify/core-base'
 import { initDev, initFeatureFlags } from '@intlify/vue-i18n-core/petite'
 
 if (__ESM_BUNDLER__ && !__TEST__) {
   initFeatureFlags()
 }
-
-// register message compiler at petite-vue-i18n
-registerMessageCompiler(compile)
 
 export type {
   CompileError,

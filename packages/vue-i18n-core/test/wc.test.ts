@@ -2,14 +2,6 @@
  * @vitest-environment jsdom
  */
 
-import {
-  compile,
-  fallbackWithLocaleChain,
-  registerLocaleFallbacker,
-  registerMessageCompiler,
-  registerMessageResolver,
-  resolveValue
-} from '@intlify/core-base'
 import { defineCustomElement, h, nextTick, provide } from 'vue'
 import { createI18n, I18nInjectionKey, useI18n } from '../src/index'
 import { getCurrentInstance } from '../src/utils'
@@ -19,12 +11,6 @@ import type { ComponentOptions, VueElement } from 'vue'
 
 const container = document.createElement('div')
 document.body.appendChild(container)
-
-beforeAll(() => {
-  registerMessageCompiler(compile)
-  registerMessageResolver(resolveValue)
-  registerLocaleFallbacker(fallbackWithLocaleChain)
-})
 
 beforeEach(() => {
   container.innerHTML = ''

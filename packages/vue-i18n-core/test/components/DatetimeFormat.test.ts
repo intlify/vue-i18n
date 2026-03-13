@@ -2,14 +2,6 @@
  * @vitest-environment jsdom
  */
 
-import {
-  compile,
-  fallbackWithLocaleChain,
-  registerLocaleFallbacker,
-  registerMessageCompiler,
-  registerMessageResolver,
-  resolveValue
-} from '@intlify/core-base'
 import { defineComponent, h } from 'vue'
 import { createI18n } from '../../src/index'
 import { mount } from '../helper'
@@ -43,12 +35,6 @@ const datetimeFormats: IntlDateTimeFormats = {
     }
   }
 }
-
-beforeAll(() => {
-  registerMessageCompiler(compile)
-  registerMessageResolver(resolveValue)
-  registerLocaleFallbacker(fallbackWithLocaleChain)
-})
 
 let org: any
 let spy: any

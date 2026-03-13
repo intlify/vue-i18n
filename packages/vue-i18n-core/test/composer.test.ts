@@ -13,14 +13,6 @@ vi.mock('@intlify/shared', async () => {
   }
 })
 
-import {
-  compile,
-  fallbackWithLocaleChain,
-  registerLocaleFallbacker,
-  registerMessageCompiler,
-  registerMessageResolver,
-  resolveValue
-} from '@intlify/core-base'
 import { createVNode, nextTick, Text, watch, watchEffect } from 'vue'
 import { createComposer } from '../src/composer'
 import { DatetimePartsSymbol, NumberPartsSymbol, TranslateVNodeSymbol } from '../src/symbols'
@@ -28,12 +20,6 @@ import { getWarnMessage, I18nWarnCodes } from '../src/warnings'
 
 import type { Locale, MessageContext, MessageFunction, Path, PathValue } from '@intlify/core-base'
 import type { ComposerOptions, MissingHandler, VueMessageType } from '../src/composer'
-
-beforeEach(() => {
-  registerMessageCompiler(compile)
-  registerMessageResolver(resolveValue)
-  registerLocaleFallbacker(fallbackWithLocaleChain)
-})
 
 afterEach(() => {
   vi.clearAllMocks()

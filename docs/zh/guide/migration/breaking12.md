@@ -644,3 +644,80 @@ $t<
 - $t<'myKey'>('myKey')
 + $t('myKey')
 ```
+
+## 弃用 `registerMessageCompiler`、`registerMessageResolver`、`registerLocaleFallbacker`
+
+**原因**: 这些全局注册函数设置模块作用域的变量，导致以下问题：
+
+1. **与 `sideEffects: false` 不兼容** — 打包器可能会通过 tree-shake 删除模块作用域的调用，导致运行时静默失败
+2. **无法按应用自定义** — 全局变量在所有 Vue 应用实例间共享，无法为每个应用使用不同的实现
+3. **隐式依赖** — 注册在导入时发生，使包之间的依赖关系隐式且难以追踪
+
+### 变更内容
+
+`registerMessageCompiler`、`registerMessageResolver` 和 `registerLocaleFallbacker` 已被弃用。请改用 `createI18n`（`@intlify/core-base` 用户使用 `createCoreContext`）的 `messageCompiler`、`messageResolver` 和 `localeFallbacker` 选项。
+
+已弃用的函数仍可正常工作以保持向后兼容，但会在开发模式下发出警告。它们将在 v13 中移除。
+
+### 变更前 (v11)
+
+```ts
+import { createI18n } from 'vue-i18n'
+import { registerMessageResolver, resolveValue } from '@intlify/core-base'
+
+registerMessageResolver(resolveValue)
+
+const i18n = createI18n({
+  locale: 'en',
+  messages: { en: { hello: 'Hello!' } }
+})
+```
+
+### 变更后 (v12)
+
+```ts
+import { createI18n } from 'vue-i18n'
+import { resolveValue } from '@intlify/core-base'
+
+const i18n = createI18n({
+  locale: 'en',
+  messageResolver: resolveValue,
+  messages: { en: { hello: 'Hello!' } }
+})
+```
+
+### `@intlify/core-base` 用户
+
+```diff
+- import { createCoreContext, registerMessageCompiler, compile } from '@intlify/core-base'
+- registerMessageCompiler(compile)
+- const ctx = createCoreContext({ locale: 'en', messages: { ... } })
++ import { createCoreContext, compile, resolveValue, fallbackWithLocaleChain } from '@intlify/core-base'
++ const ctx = createCoreContext({
++   locale: 'en',
++   messages: { ... },
++   messageCompiler: compile,
++   messageResolver: resolveValue,
++   localeFallbacker: fallbackWithLocaleChain,
++ })
+```
+
+### 多个 Vue 应用使用不同配置
+
+通过基于选项的方式，每个 `createI18n` 实例可以有自己的配置：
+
+```ts
+// App A: 自定义解析器
+const i18nA = createI18n({
+  messageResolver: myCustomResolver,
+  // ...
+})
+appA.use(i18nA)
+
+// App B: 默认解析器
+const i18nB = createI18n({
+  // 自动使用默认的 resolveValue
+  // ...
+})
+appB.use(i18nB)
+```

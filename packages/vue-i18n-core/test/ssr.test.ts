@@ -1,11 +1,3 @@
-import {
-  compile,
-  fallbackWithLocaleChain,
-  registerLocaleFallbacker,
-  registerMessageCompiler,
-  registerMessageResolver,
-  resolveValue
-} from '@intlify/core-base'
 import { renderToString } from '@vue/server-renderer'
 import { createSSRApp, defineComponent, h, resolveComponent } from 'vue'
 import { createI18n, useI18n } from '../src/index'
@@ -18,12 +10,6 @@ vi.mock('@intlify/shared', async () => {
     ...actual,
     warnOnce: vi.fn()
   }
-})
-
-beforeAll(() => {
-  registerMessageCompiler(compile)
-  registerMessageResolver(resolveValue)
-  registerLocaleFallbacker(fallbackWithLocaleChain)
 })
 
 test('ssr', async () => {

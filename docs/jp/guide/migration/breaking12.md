@@ -644,3 +644,80 @@ $t<
 - $t<'myKey'>('myKey')
 + $t('myKey')
 ```
+
+## `registerMessageCompiler`、`registerMessageResolver`、`registerLocaleFallbacker` の非推奨化
+
+**理由**: これらのグローバル登録関数はモジュールスコープの変数を設定するため、いくつかの問題があります：
+
+1. **`sideEffects: false` との非互換** — バンドラーがモジュールスコープの呼び出しを tree-shake で削除し、ランタイムで静かに壊れる可能性がある
+2. **アプリごとのカスタマイズが不可能** — グローバル変数が全ての Vue アプリインスタンスで共有されるため、アプリごとに異なる実装を使い分けられない
+3. **暗黙的な依存関係** — import 時に登録が行われるため、パッケージ間の依存関係が暗黙的でトレースしにくい
+
+### 変更内容
+
+`registerMessageCompiler`、`registerMessageResolver`、`registerLocaleFallbacker` は非推奨になりました。代わりに `createI18n`（または `@intlify/core-base` ユーザーは `createCoreContext`）の `messageCompiler`、`messageResolver`、`localeFallbacker` オプションを使用してください。
+
+非推奨の関数は後方互換のためにそのまま動作しますが、開発モードで警告を出力します。v13 で削除される予定です。
+
+### 変更前 (v11)
+
+```ts
+import { createI18n } from 'vue-i18n'
+import { registerMessageResolver, resolveValue } from '@intlify/core-base'
+
+registerMessageResolver(resolveValue)
+
+const i18n = createI18n({
+  locale: 'en',
+  messages: { en: { hello: 'Hello!' } }
+})
+```
+
+### 変更後 (v12)
+
+```ts
+import { createI18n } from 'vue-i18n'
+import { resolveValue } from '@intlify/core-base'
+
+const i18n = createI18n({
+  locale: 'en',
+  messageResolver: resolveValue,
+  messages: { en: { hello: 'Hello!' } }
+})
+```
+
+### `@intlify/core-base` ユーザー向け
+
+```diff
+- import { createCoreContext, registerMessageCompiler, compile } from '@intlify/core-base'
+- registerMessageCompiler(compile)
+- const ctx = createCoreContext({ locale: 'en', messages: { ... } })
++ import { createCoreContext, compile, resolveValue, fallbackWithLocaleChain } from '@intlify/core-base'
++ const ctx = createCoreContext({
++   locale: 'en',
++   messages: { ... },
++   messageCompiler: compile,
++   messageResolver: resolveValue,
++   localeFallbacker: fallbackWithLocaleChain,
++ })
+```
+
+### 複数 Vue アプリでの異なる設定
+
+オプションベースのアプローチにより、各 `createI18n` インスタンスで独自の設定が可能になりました：
+
+```ts
+// App A: カスタムリゾルバ
+const i18nA = createI18n({
+  messageResolver: myCustomResolver,
+  // ...
+})
+appA.use(i18nA)
+
+// App B: デフォルトリゾルバ
+const i18nB = createI18n({
+  // デフォルトの resolveValue が自動的に使用される
+  // ...
+})
+appB.use(i18nB)
+```

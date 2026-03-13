@@ -19,16 +19,19 @@ vi.mock('../src/intl', async () => {
 })
 
 import { compile } from '../src/compilation'
-import {
-  createCoreContext as context,
-  NOT_RESOLVED,
-  registerLocaleFallbacker,
-  registerMessageCompiler
-} from '../src/context'
+import { createCoreContext, NOT_RESOLVED } from '../src/context'
 import { fallbackWithLocaleChain } from '../src/fallbacker'
 import { number } from '../src/number'
 
 import type { NumberFormats } from '../src/types/index'
+
+function context(options: any = {}) {
+  return createCoreContext({
+    messageCompiler: compile,
+    localeFallbacker: fallbackWithLocaleChain,
+    ...options
+  })
+}
 
 type MyNumberSchema = {
   currency: {} // loose schema
@@ -66,11 +69,6 @@ const numberFormats: NumberFormats<MyNumberSchema, 'en-US' | 'ja-JP'> = {
     }
   }
 }
-
-beforeEach(() => {
-  registerMessageCompiler(compile)
-  registerLocaleFallbacker(fallbackWithLocaleChain)
-})
 
 afterEach(() => {
   vi.clearAllMocks()

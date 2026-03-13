@@ -223,27 +223,26 @@ pnpm add @intlify/core-base@next
 ```
 :::
 
-次に、アプリケーションのエントリポイントで、以下のように API を使用してメッセージリゾルバとロケールフォールバッカーを設定します：
+次に、アプリケーションのエントリポイントで、以下のように `createI18n` のオプションを使用してメッセージリゾルバとロケールフォールバッカーを設定します：
 
 <!-- eslint-skip -->
 
 ```js
 import { createApp } from 'vue'
-import {
-  createI18n,
-  registerMessageResolver, // メッセージリゾルバ API を登録
-  registerLocaleFallbacker, // ロケールフォールバッカー API を登録
-} from 'petite-vue-i18n'
+import { createI18n } from 'petite-vue-i18n'
 import {
   resolveValue, // デフォルトで使用される vue-i18n のメッセージリゾルバ
   fallbackWithLocaleChain // デフォルトで使用される vue-i18n のロケールフォールバッカー
 } from '@intlify/core-base'
 
-// vue-i18n のメッセージリゾルバを登録
-registerMessageResolver(resolveValue)
-
-// vue-i18n のロケールフォールバッカーを登録
-registerLocaleFallbacker(fallbackWithLocaleChain)
+const i18n = createI18n({
+  locale: 'en',
+  messageResolver: resolveValue,
+  localeFallbacker: fallbackWithLocaleChain,
+  messages: {
+    // ...
+  }
+})
 
 // 何らかのコード ...
 // ...

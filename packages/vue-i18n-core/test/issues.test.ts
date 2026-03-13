@@ -12,14 +12,7 @@ vi.mock('@intlify/shared', async () => {
   }
 })
 
-import {
-  compile,
-  fallbackWithLocaleChain,
-  registerLocaleFallbacker,
-  registerMessageCompiler,
-  registerMessageResolver,
-  resolveValue
-} from '@intlify/core-base'
+import { registerMessageCompiler } from '@intlify/core-base'
 import { defineComponent, nextTick, ref } from 'vue'
 import { createI18n, useI18n } from '../src/i18n'
 import { getCurrentInstance } from '../src/utils'
@@ -35,10 +28,6 @@ document.body.appendChild(container)
 let org: any
 let spy: any
 beforeEach(() => {
-  registerMessageCompiler(compile)
-  registerMessageResolver(resolveValue)
-  registerLocaleFallbacker(fallbackWithLocaleChain)
-
   container.innerHTML = ''
 
   org = console.warn
