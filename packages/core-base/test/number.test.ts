@@ -25,7 +25,6 @@ import { number } from '../src/number'
 
 import type { NumberFormats } from '../src/types/index'
 
- 
 function context(options: any = {}) {
   return createCoreContext({
     messageCompiler: compile,

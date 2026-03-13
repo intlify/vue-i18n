@@ -26,7 +26,6 @@ import { fallbackWithLocaleChain } from '../src/fallbacker'
 
 import type { DateTimeFormats } from '../src/types'
 
- 
 function context(options: any = {}) {
   return createCoreContext({
     messageCompiler: compile,

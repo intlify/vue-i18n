@@ -28,7 +28,6 @@ import type {
 import type { PickupKeys } from '../src/types/utils'
 import type { VNode } from './helper'
 
- 
 function context<Message = string>(options: any = {}): any {
   return createCoreContext<Message>({
     messageCompiler: compile,
