@@ -1085,6 +1085,8 @@ export interface ComposerDateTimeFormatting<
    * See about:
    * - [Datetime formatting](../../../guide/essentials/datetime)
    *
+   * @throws Error if `value` is not a valid date value.
+   *
    * @param value - A value, timestamp number or `Date` instance or ISO 8601 string
    *
    * @returns Formatted value
@@ -1181,6 +1183,8 @@ export interface ComposerNumberFormatting<
    *
    * See about:
    * - [Number formatting](../../../guide/essentials/number)
+   *
+   * @throws Error if `value` is not a number.
    *
    * @param value - A number value
    *
