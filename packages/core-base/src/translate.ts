@@ -1027,7 +1027,7 @@ function getMessageContextOptions<Messages, Message = string>(
 
     // fallback
     if (val == null && (fallbackContext || useLinked)) {
-      const [, , message] = resolveMessageFormat(
+      const [format, , message] = resolveMessageFormat(
         fallbackContext || context, // NOTE: if has fallbackContext, fallback to root, else if use linked, fallback to local context
         key,
         locale,
@@ -1035,7 +1035,7 @@ function getMessageContextOptions<Messages, Message = string>(
         fallbackWarn,
         missingWarn
       )
-      val = resolveValue(message, key)
+      val = format ?? resolveValue(message, key)
     }
 
     if (isString(val) || isMessageAST(val)) {
