@@ -1187,3 +1187,60 @@ describe('#2156', () => {
     expect(i18n.global.t('product.test.type')).toEqual('Product test type')
   })
 })
+
+describe('issue #2455', () => {
+  test('without flatJson', async () => {
+    const i18n = createI18n({
+      locale: 'en',
+      messages: {
+        en: {
+          linkedBase: 'Base',
+          'linkedBase.deep': 'Deep',
+          'linkedBase.deep.deeper': 'Deeper',
+          testBase: 'Test: @:linkedBase',
+          testDeep: 'Test: @:linkedBase.deep',
+          testDeeper: 'Test: @:linkedBase.deep.deeper'
+        }
+      }
+    })
+
+    const App = defineComponent({
+      setup() {
+        const { t } = useI18n()
+        return { t }
+      },
+      template: `<div>{{ t('testBase') }} | {{ t('testDeep') }} | {{ t('testDeeper') }}</div>`
+    })
+    const wrapper = await mount(App, i18n)
+
+    expect(wrapper.html()).toEqual('<div>Test: Base | Test: Deep | Test: Deeper</div>')
+  })
+
+  test('with flatJson', async () => {
+    const i18n = createI18n({
+      locale: 'en',
+      flatJson: true,
+      messages: {
+        en: {
+          linkedBase: 'Base',
+          'linkedBase.deep': 'Deep',
+          'linkedBase.deep.deeper': 'Deeper',
+          testBase: 'Test: @:linkedBase',
+          testDeep: 'Test: @:linkedBase.deep',
+          testDeeper: 'Test: @:linkedBase.deep.deeper'
+        }
+      }
+    })
+
+    const App = defineComponent({
+      setup() {
+        const { t } = useI18n()
+        return { t }
+      },
+      template: `<div>{{ t('testBase') }} | {{ t('testDeep') }} | {{ t('testDeeper') }}</div>`
+    })
+    const wrapper = await mount(App, i18n)
+
+    expect(wrapper.html()).toEqual('<div>Test: Base | Test: Deep | Test: Deeper</div>')
+  })
+})
