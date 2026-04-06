@@ -719,7 +719,7 @@ declare module 'vue' {
     $n<
       Key extends string = string,
       DefinedNumberFormat extends
-        RemovedIndexResources<DefineDateTimeFormat> = RemovedIndexResources<DefineDateTimeFormat>,
+        RemovedIndexResources<DefineNumberFormat> = RemovedIndexResources<DefineNumberFormat>,
       Keys = IsEmptyObject<DefinedNumberFormat> extends false
         ? PickupFormatPathKeys<{
             [K in keyof DefinedNumberFormat]: DefinedNumberFormat[K]
@@ -745,7 +745,7 @@ declare module 'vue' {
     $n<
       Key extends string = string,
       DefinedNumberFormat extends
-        RemovedIndexResources<DefineDateTimeFormat> = RemovedIndexResources<DefineDateTimeFormat>,
+        RemovedIndexResources<DefineNumberFormat> = RemovedIndexResources<DefineNumberFormat>,
       Keys = IsEmptyObject<DefinedNumberFormat> extends false
         ? PickupFormatPathKeys<{
             [K in keyof DefinedNumberFormat]: DefinedNumberFormat[K]
@@ -833,7 +833,7 @@ declare module 'vue' {
     $n<
       Key extends string = string,
       DefinedNumberFormat extends
-        RemovedIndexResources<DefineDateTimeFormat> = RemovedIndexResources<DefineDateTimeFormat>,
+        RemovedIndexResources<DefineNumberFormat> = RemovedIndexResources<DefineNumberFormat>,
       Keys = IsEmptyObject<DefinedNumberFormat> extends false
         ? PickupFormatPathKeys<{
             [K in keyof DefinedNumberFormat]: DefinedNumberFormat[K]
@@ -859,7 +859,7 @@ declare module 'vue' {
     $n<
       Key extends string = string,
       DefinedNumberFormat extends
-        RemovedIndexResources<DefineDateTimeFormat> = RemovedIndexResources<DefineDateTimeFormat>,
+        RemovedIndexResources<DefineNumberFormat> = RemovedIndexResources<DefineNumberFormat>,
       Keys = IsEmptyObject<DefinedNumberFormat> extends false
         ? PickupFormatPathKeys<{
             [K in keyof DefinedNumberFormat]: DefinedNumberFormat[K]
@@ -885,7 +885,7 @@ declare module 'vue' {
     $n<
       Key extends string,
       DefinedNumberFormat extends
-        RemovedIndexResources<DefineDateTimeFormat> = RemovedIndexResources<DefineDateTimeFormat>,
+        RemovedIndexResources<DefineNumberFormat> = RemovedIndexResources<DefineNumberFormat>,
       Keys = IsEmptyObject<DefinedNumberFormat> extends false
         ? PickupFormatPathKeys<{
             [K in keyof DefinedNumberFormat]: DefinedNumberFormat[K]
