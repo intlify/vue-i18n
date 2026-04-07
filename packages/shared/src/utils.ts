@@ -8,24 +8,26 @@ export const inBrowser: boolean = typeof window !== 'undefined'
 export let mark: (tag: string) => void | undefined
 export let measure: (name: string, startTag: string, endTag: string) => void | undefined
 
-if (__DEV__) {
-  const perf = inBrowser && window.performance
+export function initPerformanceMeasurement(): void {
+  if (__DEV__) {
+    const perf = inBrowser && window.performance
 
-  if (
-    perf &&
-    perf.mark &&
-    perf.measure &&
-    perf.clearMarks &&
-    // @ts-ignore browser compat
-    perf.clearMeasures
-  ) {
-    mark = (tag: string): void => {
-      perf.mark(tag)
-    }
-    measure = (name: string, startTag: string, endTag: string): void => {
-      perf.measure(name, startTag, endTag)
-      perf.clearMarks(startTag)
-      perf.clearMarks(endTag)
+    if (
+      perf &&
+      perf.mark &&
+      perf.measure &&
+      perf.clearMarks &&
+      // @ts-ignore browser compat
+      perf.clearMeasures
+    ) {
+      mark = (tag: string): void => {
+        perf.mark(tag)
+      }
+      measure = (name: string, startTag: string, endTag: string): void => {
+        perf.measure(name, startTag, endTag)
+        perf.clearMarks(startTag)
+        perf.clearMarks(endTag)
+      }
     }
   }
 }
