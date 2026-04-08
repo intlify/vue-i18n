@@ -870,9 +870,12 @@ function resolveMessageFormat<Messages, Message>(
       )
     }
 
+    const emitter = __DEV__
+      ? (context as unknown as CoreInternalContext).__v_emitter
+      : undefined
+
     // for vue-devtools timeline event
     if (__DEV__ && locale !== targetLocale) {
-      const emitter = (context as unknown as CoreInternalContext).__v_emitter
       if (emitter) {
         emitter.emit('fallback', {
           type,
@@ -891,7 +894,7 @@ function resolveMessageFormat<Messages, Message>(
     let start: number | null = null
     let startTag: string | undefined
     let endTag: string | undefined
-    if (__DEV__ && inBrowser) {
+    if (__DEV__ && inBrowser && emitter) {
       start = window.performance.now()
       startTag = 'intlify-message-resolve-start'
       endTag = 'intlify-message-resolve-end'
@@ -904,9 +907,8 @@ function resolveMessageFormat<Messages, Message>(
     }
 
     // for vue-devtools timeline event
-    if (__DEV__ && inBrowser) {
+    if (__DEV__ && inBrowser && emitter) {
       const end = window.performance.now()
-      const emitter = (context as unknown as CoreInternalContext).__v_emitter
       if (emitter && start && format) {
         emitter.emit('message-resolve', {
           type: 'message-resolve',
@@ -969,10 +971,13 @@ function compileMessageFormat<Messages, Message>(
   }
 
   // for vue-devtools timeline event
+  const emitter = __DEV__
+    ? (context as unknown as CoreInternalContext).__v_emitter
+    : undefined
   let start: number | null = null
   let startTag: string | undefined
   let endTag: string | undefined
-  if (__DEV__ && inBrowser) {
+  if (__DEV__ && inBrowser && emitter) {
     start = window.performance.now()
     startTag = 'intlify-message-compilation-start'
     endTag = 'intlify-message-compilation-end'
@@ -992,9 +997,8 @@ function compileMessageFormat<Messages, Message>(
   ) as MessageFunctionInternal
 
   // for vue-devtools timeline event
-  if (__DEV__ && inBrowser) {
+  if (__DEV__ && inBrowser && emitter) {
     const end = window.performance.now()
-    const emitter = (context as unknown as CoreInternalContext).__v_emitter
     if (emitter && start) {
       emitter.emit('message-compilation', {
         type: 'message-compilation',
@@ -1022,10 +1026,13 @@ function evaluateMessage<Messages, Message>(
   msgCtx: MessageContext<Message>
 ): MessageFunctionReturn<Message> {
   // for vue-devtools timeline event
+  const emitter = __DEV__
+    ? (context as unknown as CoreInternalContext).__v_emitter
+    : undefined
   let start: number | null = null
   let startTag: string | undefined
   let endTag: string | undefined
-  if (__DEV__ && inBrowser) {
+  if (__DEV__ && inBrowser && emitter) {
     start = window.performance.now()
     startTag = 'intlify-message-evaluation-start'
     endTag = 'intlify-message-evaluation-end'
@@ -1035,9 +1042,8 @@ function evaluateMessage<Messages, Message>(
   const messaged = msg(msgCtx)
 
   // for vue-devtools timeline event
-  if (__DEV__ && inBrowser) {
+  if (__DEV__ && inBrowser && emitter) {
     const end = window.performance.now()
-    const emitter = (context as unknown as CoreInternalContext).__v_emitter
     if (emitter && start) {
       emitter.emit('message-evaluation', {
         type: 'message-evaluation',
