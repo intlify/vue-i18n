@@ -10,15 +10,11 @@ import type { CompileOptions } from './options'
 
 export type CompilerResult = CodeGenResult
 
-export function baseCompile(
-  source: string,
-  options: CompileOptions = {}
-): CompilerResult {
+export function baseCompile(source: string, options: CompileOptions = {}): CompilerResult {
   const assignedOptions = assign({}, options)
   const jit = !!assignedOptions.jit
   const enableMangle = !!assignedOptions.mangle
-  const enableOptimize =
-    assignedOptions.optimize == null ? true : assignedOptions.optimize
+  const enableOptimize = assignedOptions.optimize == null ? true : assignedOptions.optimize
 
   // parse source codes
   const parser = createParser(assignedOptions)

@@ -17,16 +17,14 @@ import type { FormattableProps } from './formatRenderer'
  *
  * @VueI18nComponent
  */
-export type NumberFormatProps = FormattableProps<
-  number,
-  Intl.NumberFormatOptions
->
+export type NumberFormatProps = FormattableProps<number, Intl.NumberFormatOptions>
 
 // TODO:
-export const NumberFormatImpl: ComponentOptions<NumberFormatProps> =
-  /*#__PURE__*/ defineComponent({
+/** @alias */
+export const NumberFormatImpl: ComponentOptions<NumberFormatProps> = /* #__PURE__*/ defineComponent(
+  {
     name: 'i18n-n', // eslint-disable-line vue/component-definition-name-casing
-    props: /*#__PURE__*/ assign(
+    props: /* #__PURE__*/ assign(
       {
         value: {
           type: Number,
@@ -52,16 +50,12 @@ export const NumberFormatImpl: ComponentOptions<NumberFormatProps> =
         Intl.NumberFormatOptions,
         NumberOptions,
         Intl.NumberFormatPart
-      >(
-        props as NumberFormatProps,
-        context,
-        NUMBER_FORMAT_OPTIONS_KEYS,
-        (...args: unknown[]) =>
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          (i18n as any)[NumberPartsSymbol](...args)
+      >(props as NumberFormatProps, context, NUMBER_FORMAT_OPTIONS_KEYS, (...args: unknown[]) =>
+        (i18n as any)[NumberPartsSymbol](...args)
       )
     }
-  })
+  }
+)
 
 /**
  * export the public type for h/tsx inference
@@ -72,16 +66,16 @@ export const NumberFormatImpl: ComponentOptions<NumberFormatProps> =
  * Number Format Component
  *
  * @remarks
- * See the following items for property about details
+ * See the following items for property about details:
  *
- * @VueI18nSee [FormattableProps](component#formattableprops)
- * @VueI18nSee [BaseFormatProps](component#baseformatprops)
- * @VueI18nSee [Custom Formatting](../../guide/essentials/number#custom-formatting)
+ * - {@linkcode FormattableProps}
+ * - {@linkcode BaseFormatProps}
+ * - [Custom Formatting](../../../guide/essentials/number#custom-formatting)
  *
- * @VueI18nDanger
- * Not supported IE, due to no support `Intl.NumberFormat#formatToParts` in [IE](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/NumberFormat/formatToParts)
- *
- * If you want to use it, you need to use [polyfill](https://github.com/formatjs/formatjs/tree/main/packages/intl-numberformat)
+ * > [!CAUTION]
+ * > Not supported IE, due to no support `Intl.NumberFormat#formatToParts` in [IE](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/NumberFormat/formatToParts)
+ * >
+ * > If you want to use it, you need to use [polyfill](https://github.com/formatjs/formatjs/tree/main/packages/intl-numberformat)
  *
  * @VueI18nComponent
  */
@@ -91,4 +85,5 @@ export const NumberFormat = NumberFormatImpl as unknown as {
   }
 }
 
+/** @alias */
 export const I18nN: typeof NumberFormat = NumberFormat

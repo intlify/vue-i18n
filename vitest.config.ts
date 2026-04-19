@@ -1,5 +1,5 @@
 import { defineConfig } from 'vitest/config'
-import { version } from './package.json'
+import pkg from './package.json' with { type: 'json' }
 import { entries } from './scripts/aliases'
 
 import type { ViteUserConfig } from 'vitest/config'
@@ -8,7 +8,7 @@ export default defineConfig({
   define: {
     __DEV__: true,
     __TEST__: true,
-    __VERSION__: JSON.stringify(version),
+    __VERSION__: JSON.stringify(pkg.version),
     __BROWSER__: false,
     __GLOBAL__: false,
     __RUNTIME__: false,

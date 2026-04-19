@@ -1,10 +1,10 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import {
   DEFAULT_LOCALE,
   MISSING_RESOLVE_VALUE,
-  NOT_REOSLVED,
+  NOT_RESOLVED,
   clearDateTimeFormat,
   clearNumberFormat,
+  compile,
   createCoreContext,
   datetime,
   fallbackWithLocaleChain,
@@ -17,7 +17,7 @@ import {
   parseDateTimeArgs,
   parseNumberArgs,
   parseTranslateArgs,
-  setAdditionalMeta,
+  resolveValue,
   setFallbackContext,
   translate,
   updateFallbackLocale
@@ -37,7 +37,9 @@ import {
   isString,
   warn
 } from '@intlify/shared'
-import { computed, getCurrentInstance, ref, shallowRef, watch } from 'vue'
+import { computed, ref, shallowRef, watch } from 'vue'
+// @ts-ignore -- `useInstanceOption` is not yet exported in Vue's type definitions
+import { useInstanceOption } from 'vue'
 import { I18nErrorCodes, createI18nError } from './errors'
 import { VERSION } from './misc'
 import {
@@ -49,12 +51,7 @@ import {
   SetPluralRulesSymbol,
   TranslateVNodeSymbol
 } from './symbols'
-import {
-  createTextNode,
-  getComponentOptions,
-  getLocaleMessages,
-  handleFlatJson
-} from './utils'
+import { createTextNode, getLocaleMessages, handleFlatJson } from './utils'
 import { I18nWarnCodes, getWarnMessage } from './warnings'
 
 import type {
@@ -68,8 +65,10 @@ import type {
   FallbackLocale,
   FallbackLocales,
   GeneratedLocale,
+  LocaleFallbacker,
   IsEmptyObject,
   IsNever,
+  IsPart,
   JsonPaths,
   LinkedModifiers,
   Locale,
@@ -84,7 +83,6 @@ import type {
   MessageProcessor,
   MessageResolver,
   MessageType,
-  MetaInfo,
   NamedValue,
   NumberFormat,
   NumberFormats as NumberFormatsType,
@@ -105,19 +103,12 @@ import type {
   TranslateOptions,
   TranslationsPaths
 } from '@intlify/core-base'
+// NOTE(kazupon): workaround for rolldown-plugin-dts issue, which cannot resolve `Locale` correctly at `Composer`
+import type { Locale as _Locale } from '@intlify/core-base'
 import type { VueDevToolsEmitter } from '@intlify/devtools-types'
-import type {
-  ComponentInternalInstance,
-  ComputedRef,
-  VNode,
-  VNodeArrayChildren,
-  WritableComputedRef
-} from 'vue'
+import type { ComputedRef, VNode, VNodeArrayChildren, WritableComputedRef } from 'vue'
 
 export { DEFAULT_LOCALE } from '@intlify/core-base'
-
-// extend VNode interface
-export const DEVTOOLS_META = '__INTLIFY_META__'
 
 /** @VueI18nComposition */
 export type VueMessageType = string | ResourceNode | VNode
@@ -226,7 +217,7 @@ export type DefaultNumberFormatSchema<
 export type MissingHandler = (
   locale: Locale,
   key: Path,
-  instance?: ComponentInternalInstance,
+  uid?: number,
   type?: string
 ) => string | void
 
@@ -242,7 +233,6 @@ export interface CustomBlock<Message = VueMessageType> {
 
 export type CustomBlocks<Message = VueMessageType> = Array<CustomBlock<Message>>
 
-// prettier-ignore
 /**
  * Composer Options
  *
@@ -262,49 +252,41 @@ export interface ComposerOptions<
     number: DefaultNumberFormatSchema
   },
   Locales extends
-  | {
-    messages: unknown
-    datetimeFormats: unknown
-    numberFormats: unknown
-  }
-  | string = Locale,
+    | {
+        messages: unknown
+        datetimeFormats: unknown
+        numberFormats: unknown
+      }
+    | string = Locale,
   MessagesLocales = Locales extends { messages: infer M }
-  ? M
-  : Locales extends string
-  ? Locales
-  : Locale,
+    ? M
+    : Locales extends string
+      ? Locales
+      : Locale,
   DateTimeFormatsLocales = Locales extends { datetimeFormats: infer D }
-  ? D
-  : Locales extends string
-  ? Locales
-  : Locale,
+    ? D
+    : Locales extends string
+      ? Locales
+      : Locale,
   NumberFormatsLocales = Locales extends { numberFormats: infer N }
-  ? N
-  : Locales extends string
-  ? Locales
-  : Locale,
-  MessageSchema = Schema extends { message: infer M }
-  ? M
-  : DefaultLocaleMessageSchema,
-  DateTimeSchema = Schema extends { datetime: infer D }
-  ? D
-  : DefaultDateTimeFormatSchema,
-  NumberSchema = Schema extends { number: infer N }
-  ? N
-  : DefaultNumberFormatSchema,
-  _Messages extends LocaleMessages<
+    ? N
+    : Locales extends string
+      ? Locales
+      : Locale,
+  MessageSchema = Schema extends { message: infer M } ? M : DefaultLocaleMessageSchema,
+  DateTimeSchema = Schema extends { datetime: infer D } ? D : DefaultDateTimeFormatSchema,
+  NumberSchema = Schema extends { number: infer N } ? N : DefaultNumberFormatSchema,
+  _Messages extends LocaleMessages<MessageSchema, MessagesLocales, VueMessageType> = LocaleMessages<
     MessageSchema,
     MessagesLocales,
     VueMessageType
-  > = LocaleMessages<MessageSchema, MessagesLocales, VueMessageType>,
-  _DateTimeFormats extends DateTimeFormatsType<
-    DateTimeSchema,
-    DateTimeFormatsLocales
-  > = DateTimeFormatsType<DateTimeSchema, DateTimeFormatsLocales>,
-  _NumberFormats extends NumberFormatsType<
+  >,
+  _DateTimeFormats extends DateTimeFormatsType<DateTimeSchema, DateTimeFormatsLocales> =
+    DateTimeFormatsType<DateTimeSchema, DateTimeFormatsLocales>,
+  _NumberFormats extends NumberFormatsType<NumberSchema, NumberFormatsLocales> = NumberFormatsType<
     NumberSchema,
     NumberFormatsLocales
-  > = NumberFormatsType<NumberSchema, NumberFormatsLocales>
+  >
 > {
   /**
    * @remarks
@@ -312,9 +294,10 @@ export interface ComposerOptions<
    *
    * If the locale contains a territory and a dialect, this locale contains an implicit fallback.
    *
-   * @VueI18nSee [Scope and Locale Changing](../../guide/essentials/scope)
+   * See about:
+   * - [Scope and Locale Changing](../../../guide/essentials/scope)
    *
-   * @defaultValue `'en-US'`
+   * @default `'en-US'`
    */
   locale?: Locale
   /**
@@ -323,9 +306,10 @@ export interface ComposerOptions<
    *
    * For more complex fallback definitions see fallback.
    *
-   * @VueI18nSee [Fallbacking](../../guide/essentials/fallback)
+   * See about:
+   * - [Fallbacking](../../../guide/essentials/fallback)
    *
-   * @defaultValue The default `'en-US'` for the `locale` if it's not specified, or it's `locale` value
+   * @default The default `'en-US'` for the `locale` if it's not specified, or it's `locale` value
    */
   fallbackLocale?: FallbackLocale
   /**
@@ -334,59 +318,65 @@ export interface ComposerOptions<
    *
    * If `false`, regardless of the root level locale, localize for each component locale.
    *
-   * @VueI18nSee [Local Scope](../../guide/essentials/scope#local-scope-2)
+   * See about:
+   * - [Local Scope](../../../guide/essentials/scope#local-scope-2)
    *
-   * @defaultValue `true`
+   * @default `true`
    */
   inheritLocale?: boolean
   /**
    * @remarks
    * The locale messages of localization.
    *
-   * @VueI18nSee [Getting Started](../../guide/essentials/started)
+   * See about:
+   * - [Getting Started](../../../guide/essentials/started)
    *
-   * @defaultValue `{}`
+   * @default `{}`
    */
   messages?: { [K in keyof _Messages]: MessageSchema }
   /**
    * @remarks
    * Allow use flat json messages or not
    *
-   * @defaultValue `false`
+   * @default `false`
    */
   flatJson?: boolean
   /**
    * @remarks
    * The datetime formats of localization.
    *
-   * @VueI18nSee [Datetime Formatting](../../guide/essentials/datetime)
+   * See about:
+   * - [Datetime Formatting](../../../guide/essentials/datetime)
    *
-   * @defaultValue `{}`
+   * @default `{}`
    */
   datetimeFormats?: { [K in keyof _DateTimeFormats]: DateTimeSchema }
   /**
    * @remarks
    * The number formats of localization.
    *
-   * @VueI18nSee [Number Formatting](../../guide/essentials/number)
+   * See about:
+   * - [Number Formatting](../../../guide/essentials/number)
    *
-   * @defaultValue `{}`
+   * @default `{}`
    */
   numberFormats?: { [K in keyof _NumberFormats]: NumberSchema }
   /**
    * @remarks
    * Custom Modifiers for linked messages.
    *
-   * @VueI18nSee [Custom Modifiers](../../guide/essentials/syntax#custom-modifiers)
+   * See about:
+   * - [Custom Modifiers](../../../guide/essentials/syntax#custom-modifiers)
    */
   modifiers?: LinkedModifiers<VueMessageType>
   /**
    * @remarks
    * A set of rules for word pluralization
    *
-   * @VueI18nSee [Custom Pluralization](../../guide/essentials/pluralization#custom-pluralization)
+   * See about:
+   * - [Custom Pluralization](../../../guide/essentials/pluralization#custom-pluralization)
    *
-   * @defaultValue `{}`
+   * @default `{}`
    */
   pluralRules?: PluralizationRules
   /**
@@ -397,7 +387,7 @@ export interface ComposerOptions<
    *
    * If missing handler is assigned, and occurred localization missing, it's not warned.
    *
-   * @defaultValue `null`
+   * @default `null`
    */
   missing?: MissingHandler
   /**
@@ -408,9 +398,10 @@ export interface ComposerOptions<
    *
    * If you use regular expression, you can suppress localization fail warnings that it match with translation key (e.g. `t`).
    *
-   * @VueI18nSee [Fallbacking](../../guide/essentials/fallback)
+   * See about:
+   * - [Fallbacking](../../../guide/essentials/fallback)
    *
-   * @defaultValue `true`
+   * @default `true`
    */
   missingWarn?: boolean | RegExp
   /**
@@ -421,9 +412,10 @@ export interface ComposerOptions<
    *
    * If you use regular expression, you can suppress fallback warnings that it match with translation key (e.g. `t`).
    *
-   * @VueI18nSee [Fallbacking](../../guide/essentials/fallback)
+   * See about:
+   * - [Fallbacking](../../../guide/essentials/fallback)
    *
-   * @defaultValue `true`
+   * @default `true`
    */
   fallbackWarn?: boolean | RegExp
   /**
@@ -432,9 +424,10 @@ export interface ComposerOptions<
    *
    * If `false`, it's not fallback to root.
    *
-   * @VueI18nSee [Fallbacking](../../guide/essentials/fallback)
+   * See about:
+   * - [Fallbacking](../../../guide/essentials/fallback)
    *
-   * @defaultValue `true`
+   * @default `true`
    */
   fallbackRoot?: boolean
   /**
@@ -443,9 +436,10 @@ export interface ComposerOptions<
    *
    * If `true`, skip writing templates for your "base" language; the keys are your templates.
    *
-   * @VueI18nSee [Fallbacking](../../guide/essentials/fallback)
+   * See about:
+   * - [Fallbacking](../../../guide/essentials/fallback)
    *
-   * @defaultValue `false`
+   * @default `false`
    */
   fallbackFormat?: boolean
   /**
@@ -456,7 +450,7 @@ export interface ComposerOptions<
    *
    * This handler is useful if you want to filter on translated text such as space trimming.
    *
-   * @defaultValue `null`
+   * @default `null`
    */
   postTranslation?: PostTranslationHandler<VueMessageType>
   /**
@@ -465,17 +459,18 @@ export interface ComposerOptions<
    *
    * See the warnHtmlMessage property.
    *
-   * @VueI18nSee [HTML Message](../../guide/essentials/syntax#html-message)
-   * @VueI18nSee [Change `warnHtmlInMessage` option default value](../../guide/migration/breaking#change-warnhtmlinmessage-option-default-value)
+   * See about:
+   * - [HTML Message](../../../guide/essentials/syntax#html-message)
+   * - [Change `warnHtmlInMessage` option default value](../../../guide/migration/breaking#change-warnhtmlinmessage-option-default-value)
    *
-   * @defaultValue `'off'`
+   * @default `true`
    */
   warnHtmlMessage?: boolean
   /**
    * @remarks
    * If `escapeParameter` is configured as true then interpolation parameters are escaped before the message is translated.
    *
-   * This is useful when translation output is used in `v-html` and the translation resource contains html markup (e.g. <b> around a user provided value).
+   * This is useful when translation output is used in `v-html` and the translation resource contains html markup (e.g. around a user provided value).
    *
    * This usage pattern mostly occurs when passing precomputed text strings into UI components.
    *
@@ -483,34 +478,32 @@ export interface ComposerOptions<
    *
    * Setting `escapeParameter` as true should not break existing functionality but provides a safeguard against a subtle type of XSS attack vectors.
    *
-   * @VueI18nSee [HTML Message](../../guide/essentials/syntax#html-message)
+   * See about:
+   * - [HTML Message](../../../guide/essentials/syntax#html-message)
    *
-   * @defaultValue `false`
+   * @default `false`
    */
   escapeParameter?: boolean
   /**
    * @remarks
-   * A message resolver to resolve [`messages`](composition#messages).
+   * A message resolver to resolve {@link Composer#messages | messages}.
    *
    * If not specified, the vue-i18n internal message resolver will be used by default.
    *
    * You need to implement a message resolver yourself that supports the following requirements:
    *
-   * - Resolve the message using the locale message of [`locale`](composition#locale) passed as the first argument of the message resolver, and the path passed as the second argument.
+   * - Resolve the message using the locale message of {@link Composer#locale | locale} passed as the first argument of the message resolver, and the path passed as the second argument.
    *
    * - If the message could not be resolved, you need to return `null`.
    *
-   * - If you will be returned `null`, the message resolver will also be called on fallback if [`fallbackLocale`](composition#fallbacklocale-2) is enabled, so the message will need to be resolved as well.
+   * - If you will be returned `null`, the message resolver will also be called on fallback if {@link Composer#fallbackLocale | fallbackLocale} is enabled, so the message will need to be resolved as well.
    *
    * The message resolver is called indirectly by the following APIs:
    *
-   * - [`t`](composition#t-key)
-   *
-   * - [`te`](composition#te-key-locale)
-   *
-   * - [`tm`](composition#tm-key)
-   *
-   * - [Translation component](component#translation)
+   * - {@link Composer#t | t}
+   * - {@link Composer#te | te}
+   * - {@link Composer#tm | tm}
+   * - {@link Translation | Translation component}
    *
    * @example
    * Here is an example of how to set it up using your `createI18n`:
@@ -538,15 +531,16 @@ export interface ComposerOptions<
    * // ...
    * ```
    *
-   * @VueI18nTip
-   * :new: v9.2+
+   * > [!TIP]
+   * > :new: v9.2+
    *
-   * @VueI18nWarning
-   * If you use the message resolver, the [`flatJson`](composition#flatjson) setting will be ignored. That is, you need to resolve the flat JSON by yourself.
+   * > [!WARNING]
+   * > If you use the message resolver, the {@link Composer#flatJson} setting will be ignored. That is, you need to resolve the flat JSON by yourself.
    *
-   * @VueI18nSee [Fallbacking](../../guide/essentials/fallback)
+   * See about:
+   * - [Fallbacking](../../../guide/essentials/fallback)
    *
-   * @defaultValue `undefined`
+   * @default `undefined`
    */
   messageResolver?: MessageResolver
   /**
@@ -599,17 +593,27 @@ export interface ComposerOptions<
    * // ...
    * ```
    *
-   * @VueI18nTip
+   * > [!TIP]
    * :new: v9.3+
    *
-   * @VueI18nWarning
-   * The Custom Message Format is an experimental feature. It may receive breaking changes or be removed in the future.
+   * > [!WARNING]
+   * > The Custom Message Format is an experimental feature. It may receive breaking changes or be removed in the future.
    *
-   * @VueI18nSee [Custom Message Format](../../guide/advanced/format)
+   * See about:
+   * - [Custom Message Format](../../../guide/advanced/format)
    *
-   * @defaultValue `undefined`
+   * @default `undefined`
    */
   messageCompiler?: MessageCompiler
+  /**
+   * @remarks
+   * A locale fallbacker for custom locale fallback strategy.
+   *
+   * If not specified, the vue-i18n default locale fallbacker will be used.
+   *
+   * @default `undefined`
+   */
+  localeFallbacker?: LocaleFallbacker
 }
 
 /**
@@ -637,16 +641,14 @@ export interface ComposerInternalOptions<
 export interface ComposerTranslation<
   Messages extends Record<string, any> = {},
   Locales = 'en-US',
-  DefinedLocaleMessage extends
-    RemovedIndexResources<DefineLocaleMessage> = RemovedIndexResources<DefineLocaleMessage>,
+  DefinedLocaleMessage extends RemovedIndexResources<DefineLocaleMessage> =
+    RemovedIndexResources<DefineLocaleMessage>,
   C = IsEmptyObject<DefinedLocaleMessage> extends false
     ? JsonPaths<{
         [K in keyof DefinedLocaleMessage]: DefinedLocaleMessage[K]
       }>
     : never,
-  M = IsEmptyObject<Messages> extends false
-    ? TranslationsPaths<Messages>
-    : never,
+  M = IsEmptyObject<Messages> extends false ? TranslationsPaths<Messages> : never,
   ResourceKeys extends C | M = IsNever<C> extends false
     ? IsNever<M> extends false
       ? C | M
@@ -661,40 +663,43 @@ export interface ComposerTranslation<
    * @remarks
    * If this is used in a reactive context, it will re-evaluate once the locale changes.
    *
-   * If [UseI18nScope](general#usei18nscope) `'local'` or Some [UseI18nOptions](composition#usei18noptions) are specified at `useI18n`, it’s translated in preferentially local scope locale messages than global scope locale messages.
+   * If {@link I18nScope} `'local'` or Some  {@link UseI18nOptions} are specified at `useI18n`, it’s translated in preferentially local scope locale messages than global scope locale messages.
    *
    * If not, then it’s translated with global scope locale messages.
+   *
+   * See about:
+   * - [Scope and Locale Changing](../../../guide/essentials/scope)
    *
    * @param key - A target locale message key
    *
    * @returns Translated message
    *
-   * @VueI18nSee [Scope and Locale Changing](../../guide/essentials/scope)
    */
-  <Key extends string>(key: Key | ResourceKeys | number): string
+  (key: ResourceKeys | (string & {}) | number): string
   /**
    * Locale message translation for plurals
    *
    * @remarks
-   * Overloaded `t`. About details, see the [call signature](composition#key-key-resourcekeys-number-string) details.
+   * Overloaded `t`.
    *
    * In this overloaded `t`, return a pluralized translation message.
    *
    * You can also suppress the warning, when the translation missing according to the options.
    *
+   * See about:
+   * - [Pluralization](../../../guide/essentials/pluralization)
+   *
    * @param key - A target locale message key
    * @param plural - Which plural string to get. 1 returns the first one.
    *
    * @returns Translated message
-   *
-   * @VueI18nSee [Pluralization](../../guide/essentials/pluralization)
    */
-  <Key extends string>(key: Key | ResourceKeys | number, plural: number): string
+  (key: ResourceKeys | (string & {}) | number, plural: number): string
   /**
    * Locale message translation for plurals
    *
    * @remarks
-   * Overloaded `t`. About details, see the [call signature](composition#key-key-resourcekeys-number-string) details.
+   * Overloaded `t`.
    *
    * In this overloaded `t`, return a pluralized translation message.
    *
@@ -702,16 +707,17 @@ export interface ComposerTranslation<
    *
    * About details of options, see the {@link TranslateOptions}.
    *
+   * See about:
+   * - [Pluralization](../../../guide/essentials/pluralization)
+   *
    * @param key - A target locale message key
    * @param plural - Which plural string to get. 1 returns the first one.
    * @param options - Additional {@link TranslateOptions | options} for translation
    *
    * @returns Translated message
-   *
-   * @VueI18nSee [Pluralization](../../guide/essentials/pluralization)
    */
-  <Key extends string>(
-    key: Key | ResourceKeys | number,
+  (
+    key: ResourceKeys | (string & {}) | number,
     plural: number,
     options: TranslateOptions<Locales>
   ): string
@@ -719,7 +725,7 @@ export interface ComposerTranslation<
    * Locale message translation for missing default message
    *
    * @remarks
-   * Overloaded `t`. About details, see the [call signature](composition#key-key-resourcekeys-number-string) details.
+   * Overloaded `t`.
    *
    * In this overloaded `t`, if no translation was found, return a default message.
    *
@@ -730,15 +736,12 @@ export interface ComposerTranslation<
    *
    * @returns Translated message
    */
-  <Key extends string>(
-    key: Key | ResourceKeys | number,
-    defaultMsg: string
-  ): string
+  (key: ResourceKeys | (string & {}) | number, defaultMsg: string): string
   /**
    * Locale message translation for missing default message
    *
    * @remarks
-   * Overloaded `t`. About details, see the [call signature](composition#key-key-resourcekeys-number-string) details.
+   * Overloaded `t`.
    *
    * In this overloaded `t`, if no translation was found, return a default message.
    *
@@ -752,8 +755,8 @@ export interface ComposerTranslation<
    *
    * @returns Translated message
    */
-  <Key extends string>(
-    key: Key | ResourceKeys | number,
+  (
+    key: ResourceKeys | (string & {}) | number,
     defaultMsg: string,
     options: TranslateOptions<Locales>
   ): string
@@ -761,50 +764,48 @@ export interface ComposerTranslation<
    * Locale message translation for list interpolations
    *
    * @remarks
-   * Overloaded `t`. About details, see the [call signature](composition#key-key-resourcekeys-number-string) details.
+   * Overloaded `t`.
    *
    * In this overloaded `t`, the locale messages should contain a `{0}`, `{1}`, … for each placeholder in the list.
    *
    * You can also suppress the warning, when the translation missing according to the options.
    *
+   * See about:
+   * - [List interpolation](../../../guide/essentials/syntax#list-interpolation)
+   *
    * @param key - A target locale message key
    * @param list - A values of list interpolation
    *
    * @returns Translated message
-   *
-   * @VueI18nSee [List interpolation](../../guide/essentials/syntax#list-interpolation)
    */
-  <Key extends string>(
-    key: Key | ResourceKeys | number,
-    list: unknown[]
-  ): string
+  (key: ResourceKeys | (string & {}) | number, list: unknown[]): string
   /**
    * Locale message translation for list interpolations and plurals
    *
    * @remarks
-   * Overloaded `t`. About details, see the [call signature](composition#key-key-resourcekeys-number-string) details.
+   * Overloaded `t`.
    *
    * In this overloaded `t`, the locale messages should contain a `{0}`, `{1}`, … for each placeholder in the list, and return a pluralized translation message.
+   *
+   * See about:
+   * - [Pluralization](../../../guide/essentials/pluralization)
+   * - [List interpolation](../../../guide/essentials/syntax#list-interpolation)
    *
    * @param key - A target locale message key
    * @param list - A values of list interpolation
    * @param plural - Which plural string to get. 1 returns the first one.
    *
    * @returns Translated message
-   *
-   * @VueI18nSee [Pluralization](../../guide/essentials/pluralization)
-   * @VueI18nSee [List interpolation](../../guide/essentials/syntax#list-interpolation)
    */
-  <Key extends string>(
-    key: Key | ResourceKeys | number,
-    list: unknown[],
-    plural: number
-  ): string
+  (key: ResourceKeys | (string & {}) | number, list: unknown[], plural: number): string
   /**
    * Locale message translation for list interpolations and missing default message
    *
    * @remarks
-   * Overloaded `t`. About details, see the [call signature](composition#key-key-resourcekeys-number-string) details.
+   * Overloaded `t`.
+   *
+   * See about:
+   * - [List interpolation](../../../guide/essentials/syntax#list-interpolation)
    *
    * In this overloaded `t`, the locale messages should contain a `{0}`, `{1}`, … for each placeholder in the list, and if no translation was found, return a default message.
    *
@@ -813,19 +814,13 @@ export interface ComposerTranslation<
    * @param defaultMsg - A default message to return if no translation was found
    *
    * @returns Translated message
-   *
-   * @VueI18nSee [List interpolation](../../guide/essentials/syntax#list-interpolation)
    */
-  <Key extends string>(
-    key: Key | ResourceKeys | number,
-    list: unknown[],
-    defaultMsg: string
-  ): string
+  (key: ResourceKeys | (string & {}) | number, list: unknown[], defaultMsg: string): string
   /**
    * Locale message translation for list interpolations
    *
    * @remarks
-   * Overloaded `t`. About details, see the [call signature](composition#key-key-resourcekeys-number-string) details.
+   * Overloaded `t`.
    *
    * In this overloaded `t`, the locale messages should contain a `{0}`, `{1}`, … for each placeholder in the list.
    *
@@ -833,16 +828,17 @@ export interface ComposerTranslation<
    *
    * About details of options, see the {@link TranslateOptions}.
    *
+   * How to usage for details:
+   * - [List interpolation](../../../guide/essentials/syntax#list-interpolation)
+   *
    * @param key - A target locale message key
    * @param list - A values of list interpolation
    * @param options - Additional {@link TranslateOptions | options} for translation
    *
    * @returns Translated message
-   *
-   * @VueI18nSee [List interpolation](../../guide/essentials/syntax#list-interpolation)
    */
-  <Key extends string>(
-    key: Key | ResourceKeys | number,
+  (
+    key: ResourceKeys | (string & {}) | number,
     list: unknown[],
     options: TranslateOptions<Locales>
   ): string
@@ -850,71 +846,63 @@ export interface ComposerTranslation<
    * Locale message translation for named interpolations
    *
    * @remarks
-   * Overloaded `t`. About details, see the [call signature](composition#key-key-resourcekeys-number-string) details.
+   * Overloaded `t`.
    *
    * In this overloaded `t`, for each placeholder x, the locale messages should contain a `{x}` token.
    *
    * You can also suppress the warning, when the translation missing according to the options.
    *
+   * See about:
+   * - [Named interpolation](../../../guide/essentials/syntax#named-interpolation)
+   *
    * @param key - A target locale message key
    * @param named - A values of named interpolation
    *
    * @returns Translated message
-   *
-   * @VueI18nSee [Named interpolation](../../guide/essentials/syntax#named-interpolation)
    */
-  <Key extends string>(
-    key: Key | ResourceKeys | number,
-    named: NamedValue
-  ): string
+  (key: ResourceKeys | (string & {}) | number, named: NamedValue): string
   /**
    * Locale message translation for named interpolations and plurals
    *
    * @remarks
-   * Overloaded `t`. About details, see the [call signature](composition#key-key-resourcekeys-number-string) details.
+   * Overloaded `t`.
    *
    * In this overloaded `t`, for each placeholder x, the locale messages should contain a `{x}` token, and return a pluralized translation message.
+   *
+   * See about:
+   * - [Pluralization](../../../guide/essentials/pluralization)
+   * - [Named interpolation](../../../guide/essentials/syntax#named-interpolation)
    *
    * @param key - A target locale message key
    * @param named - A values of named interpolation
    * @param plural - Which plural string to get. 1 returns the first one.
    *
    * @returns Translated message
-   *
-   * @VueI18nSee [Pluralization](../../guide/essentials/pluralization)
-   * @VueI18nSee [Named interpolation](../../guide/essentials/syntax#named-interpolation)
    */
-  <Key extends string>(
-    key: Key | ResourceKeys | number,
-    named: NamedValue,
-    plural: number
-  ): string
+  (key: ResourceKeys | (string & {}) | number, named: NamedValue, plural: number): string
   /**
    * Locale message translation for named interpolations and plurals
    *
    * @remarks
-   * Overloaded `t`. About details, see the [call signature](composition#key-key-resourcekeys-number-string) details.
+   * Overloaded `t`.
    *
    * In this overloaded `t`, for each placeholder x, the locale messages should contain a `{x}` token, and if no translation was found, return a default message.
+   *
+   * See about:
+   * - [Named interpolation](../../../guide/essentials/syntax#named-interpolation)
    *
    * @param key - A target locale message key
    * @param named - A values of named interpolation
    * @param defaultMsg - A default message to return if no translation was found
    *
    * @returns Translated message
-   *
-   * @VueI18nSee [Named interpolation](../../guide/essentials/syntax#named-interpolation)
    */
-  <Key extends string>(
-    key: Key | ResourceKeys | number,
-    named: NamedValue,
-    defaultMsg: string
-  ): string
+  (key: ResourceKeys | (string & {}) | number, named: NamedValue, defaultMsg: string): string
   /**
    * Locale message translation for named interpolations
    *
    * @remarks
-   * Overloaded `t`. About details, see the [call signature](composition#key-key-resourcekeys-number-string) details.
+   * Overloaded `t`.
    *
    * In this overloaded `t`, for each placeholder x, the locale messages should contain a `{x}` token.
    *
@@ -922,16 +910,17 @@ export interface ComposerTranslation<
    *
    * About details of options, see the {@link TranslateOptions}.
    *
+   * How to usage for details:
+   * - [Named interpolation](../../../guide/essentials/syntax#named-interpolation)
+   *
    * @param key - A target locale message key
    * @param named - A values of named interpolation
    * @param options - Additional {@link TranslateOptions | options} for translation
    *
    * @returns Translated message
-   *
-   * @VueI18nSee [Named interpolation](../../guide/essentials/syntax#named-interpolation)
    */
-  <Key extends string>(
-    key: Key | ResourceKeys | number,
+  (
+    key: ResourceKeys | (string & {}) | number,
     named: NamedValue,
     options: TranslateOptions<Locales>
   ): string
@@ -952,44 +941,46 @@ export interface ComposerResolveLocaleMessageTranslation<Locales = 'en-US'> {
    * @remarks
    * If this is used in a reactive context, it will re-evaluate once the locale changes.
    *
-   * If [UseI18nScope](general#usei18nscope) `'local'` or Some [UseI18nOptions](composition#usei18noptions) are specified at `useI18n`, it’s translated in preferentially local scope locale messages than global scope locale messages.
+   * If {@link UseI18nScope} `'local'` or Some {@link UseI18nOptions} are specified at `useI18n`, it’s translated in preferentially local scope locale messages than global scope locale messages.
    *
    * If not, then it’s translated with global scope locale messages.
    *
-   * @VueI18nTip
-   * The use-case for `rt` is for programmatic locale messages translation with using `tm`, `v-for`, javascript `for` statement.
+   * > [!TIP]
+   * > The use-case for `rt` is for programmatic locale messages translation with using `tm`, `v-for`, javascript `for` statement.
    *
-   * @VueI18nWarning
-   * `rt` differs from `t` in that it processes the locale message directly, not the key of the locale message. There is no internal fallback with `rt`. You need to understand and use the structure of the locale messge returned by `tm`.
+   * > [!WARNING]
+   * > `rt` differs from `t` in that it processes the locale message directly, not the key of the locale message. There is no internal fallback with `rt`. You need to understand and use the structure of the locale messge returned by `tm`.
+   *
+   * See about:
+   * - [Scope and Locale Changing](../../../guide/essentials/scope)
    *
    * @param message - A target locale message to be resolved. You will need to specify the locale message returned by `tm`.
    *
    * @returns Translated message
-   *
-   * @VueI18nSee [Scope and Locale Changing](../../guide/essentials/scope)
    */
   (message: MessageFunction<VueMessageType> | VueMessageType): string
   /**
    * Resolve locale message translation for plurals
    *
    * @remarks
-   * Overloaded `rt`. About details, see the [call signature](composition#message-messagefunction-message-message-string) details.
+   * Overloaded `rt`.
    *
    * In this overloaded `rt`, return a pluralized translation message.
    *
-   * @VueI18nTip
-   * The use-case for `rt` is for programmatic locale messages translation with using `tm`, `v-for`, javascript `for` statement.
+   * > [!TIP]
+   * > The use-case for `rt` is for programmatic locale messages translation with using `tm`, `v-for`, javascript `for` statement.
    *
-   * @VueI18nWarning
-   * `rt` differs from `t` in that it processes the locale message directly, not the key of the locale message. There is no internal fallback with `rt`. You need to understand and use the structure of the locale messge returned by `tm`.
+   * > [!WARNING]
+   * > `rt` differs from `t` in that it processes the locale message directly, not the key of the locale message. There is no internal fallback with `rt`. You need to understand and use the structure of the locale messge returned by `tm`.
+   *
+   * See about:
+   * - [Pluralization](../../../guide/essentials/pluralization)
    *
    * @param message - A target locale message to be resolved. You will need to specify the locale message returned by `tm`.
    * @param plural - Which plural string to get. 1 returns the first one.
    * @param options - Additional {@link TranslateOptions | options} for translation
    *
    * @returns Translated message
-   *
-   * @VueI18nSee [Pluralization](../../guide/essentials/pluralization)
    */
   (
     message: MessageFunction<VueMessageType> | VueMessageType,
@@ -1000,23 +991,24 @@ export interface ComposerResolveLocaleMessageTranslation<Locales = 'en-US'> {
    * Resolve locale message translation for list interpolations
    *
    * @remarks
-   * Overloaded `rt`. About details, see the [call signature](composition#message-messagefunction-message-message-string) details.
+   * Overloaded `rt`.
    *
    * In this overloaded `rt`, return a pluralized translation message.
    *
-   * @VueI18nTip
-   * The use-case for `rt` is for programmatic locale messages translation with using `tm`, `v-for`, javascript `for` statement.
+   * > [!TIP]
+   * > The use-case for `rt` is for programmatic locale messages translation with using `tm`, `v-for`, javascript `for` statement.
    *
-   * @VueI18nWarning
-   * `rt` differs from `t` in that it processes the locale message directly, not the key of the locale message. There is no internal fallback with `rt`. You need to understand and use the structure of the locale messge returned by `tm`.
+   * > [!WARNING]
+   * > `rt` differs from `t` in that it processes the locale message directly, not the key of the locale message. There is no internal fallback with `rt`. You need to understand and use the structure of the locale messge returned by `tm`.
+   *
+   * See about:
+   * - [List interpolation](../../../guide/essentials/syntax#list-interpolation)
    *
    * @param message - A target locale message to be resolved. You will need to specify the locale message returned by `tm`.
    * @param list - A values of list interpolation.
    * @param options - Additional {@link TranslateOptions | options} for translation
    *
    * @returns Translated message
-   *
-   * @VueI18nSee [List interpolation](../../guide/essentials/syntax#list-interpolation)
    */
   (
     message: MessageFunction<VueMessageType> | VueMessageType,
@@ -1027,23 +1019,24 @@ export interface ComposerResolveLocaleMessageTranslation<Locales = 'en-US'> {
    * Resolve locale message translation for named interpolations
    *
    * @remarks
-   * Overloaded `rt`. About details, see the [call signature](composition#message-messagefunction-message-message-string) details.
+   * Overloaded `rt`.
    *
    * In this overloaded `rt`, for each placeholder x, the locale messages should contain a `{x}` token.
    *
-   * @VueI18nTip
-   * The use-case for `rt` is for programmatic locale messages translation with using `tm`, `v-for`, javascript `for` statement.
+   * > [!TIP]
+   * > The use-case for `rt` is for programmatic locale messages translation with using `tm`, `v-for`, javascript `for` statement.
    *
-   * @VueI18nWarning
-   * `rt` differs from `t` in that it processes the locale message directly, not the key of the locale message. There is no internal fallback with `rt`. You need to understand and use the structure of the locale messge returned by `tm`.
+   * > [!WARNING]
+   * > `rt` differs from `t` in that it processes the locale message directly, not the key of the locale message. There is no internal fallback with `rt`. You need to understand and use the structure of the locale messge returned by `tm`.
+   *
+   * See about:
+   * - [Named interpolation](../../../guide/essentials/syntax#named-interpolation)
    *
    * @param message - A target locale message to be resolved. You will need to specify the locale message returned by `tm`.
    * @param named - A values of named interpolation.
    * @param options - Additional {@link TranslateOptions | options} for translation
    *
    * @returns Translated message
-   *
-   * @VueI18nSee [Named interpolation](../../guide/essentials/syntax#named-interpolation)
    */
   (
     message: MessageFunction<VueMessageType> | VueMessageType,
@@ -1063,16 +1056,14 @@ export interface ComposerResolveLocaleMessageTranslation<Locales = 'en-US'> {
 export interface ComposerDateTimeFormatting<
   DateTimeFormats extends Record<string, any> = {},
   Locales = 'en-US',
-  DefinedDateTimeFormat extends
-    RemovedIndexResources<DefineDateTimeFormat> = RemovedIndexResources<DefineDateTimeFormat>,
+  DefinedDateTimeFormat extends RemovedIndexResources<DefineDateTimeFormat> =
+    RemovedIndexResources<DefineDateTimeFormat>,
   C = IsEmptyObject<DefinedDateTimeFormat> extends false
     ? PickupFormatPathKeys<{
         [K in keyof DefinedDateTimeFormat]: DefinedDateTimeFormat[K]
       }>
     : never,
-  M = IsEmptyObject<DateTimeFormats> extends false
-    ? PickupFormatKeys<DateTimeFormats>
-    : never,
+  M = IsEmptyObject<DateTimeFormats> extends false ? PickupFormatKeys<DateTimeFormats> : never,
   ResourceKeys extends C | M = IsNever<C> extends false
     ? IsNever<M> extends false
       ? C | M
@@ -1087,22 +1078,25 @@ export interface ComposerDateTimeFormatting<
    * @remarks
    * If this is used in a reactive context, it will re-evaluate once the locale changes.
    *
-   * If [UseI18nScope](general#usei18nscope) `'local'` or Some [UseI18nOptions](composition#usei18noptions) are specified at `useI18n`, it’s translated in preferentially local scope datetime formats than global scope datetime formats.
+   * If {@link UseI18nScope} `'local'` or Some {@link UseI18nOptions} are specified at `useI18n`, it’s translated in preferentially local scope datetime formats than global scope datetime formats.
    *
    * If not, then it’s formatted with global scope datetime formats.
+   *
+   * See about:
+   * - [Datetime formatting](../../../guide/essentials/datetime)
+   *
+   * @throws Error if `value` is not a valid date value.
    *
    * @param value - A value, timestamp number or `Date` instance or ISO 8601 string
    *
    * @returns Formatted value
-   *
-   * @VueI18nSee [Datetime formatting](../../guide/essentials/datetime)
    */
   (value: number | Date | string): string
   /**
    * Datetime formatting
    *
    * @remarks
-   * Overloaded `d`. About details, see the [call signature](composition#value-number-date-string-string) details.
+   * Overloaded `d`.
    *
    * In this overloaded `d`, format in datetime format for a key registered in datetime formats.
    *
@@ -1114,21 +1108,19 @@ export interface ComposerDateTimeFormatting<
   <
     Value extends number | Date | string = number,
     Key extends string = string,
-    Return extends string | Intl.DateTimeFormatPart[] =
-      | string
-      | Intl.DateTimeFormatPart[]
-  >(
-    value: Value,
-    keyOrOptions:
+    OptionsType extends Key | ResourceKeys | DateTimeOptions<Key | ResourceKeys, Locales> =
       | Key
       | ResourceKeys
       | DateTimeOptions<Key | ResourceKeys, Locales>
-  ): Return
+  >(
+    value: Value,
+    keyOrOptions: OptionsType
+  ): IsPart<OptionsType> extends true ? Intl.DateTimeFormatPart[] : string
   /**
    * Datetime formatting
    *
    * @remarks
-   * Overloaded `d`. About details, see the [call signature](composition#value-number-date-string-string) details.
+   * Overloaded `d`.
    *
    * In this overloaded `d`, format in datetime format for a key registered in datetime formats at target locale
    *
@@ -1141,17 +1133,15 @@ export interface ComposerDateTimeFormatting<
   <
     Value extends number | Date | string = number,
     Key extends string = string,
-    Return extends string | Intl.DateTimeFormatPart[] =
-      | string
-      | Intl.DateTimeFormatPart[]
-  >(
-    value: Value,
-    keyOrOptions:
+    OptionsType extends Key | ResourceKeys | DateTimeOptions<Key | ResourceKeys, Locales> =
       | Key
       | ResourceKeys
-      | DateTimeOptions<Key | ResourceKeys, Locales>,
+      | DateTimeOptions<Key | ResourceKeys, Locales>
+  >(
+    value: Value,
+    keyOrOptions: OptionsType,
     locale: Locales
-  ): Return
+  ): IsPart<OptionsType> extends true ? Intl.DateTimeFormatPart[] : string
 }
 
 /**
@@ -1165,16 +1155,14 @@ export interface ComposerDateTimeFormatting<
 export interface ComposerNumberFormatting<
   NumberFormats extends Record<string, any> = {},
   Locales = 'en-US',
-  DefinedNumberFormat extends
-    RemovedIndexResources<DefineNumberFormat> = RemovedIndexResources<DefineNumberFormat>,
+  DefinedNumberFormat extends RemovedIndexResources<DefineNumberFormat> =
+    RemovedIndexResources<DefineNumberFormat>,
   C = IsEmptyObject<DefinedNumberFormat> extends false
     ? PickupFormatPathKeys<{
         [K in keyof DefinedNumberFormat]: DefinedNumberFormat[K]
       }>
     : never,
-  M = IsEmptyObject<NumberFormats> extends false
-    ? PickupFormatKeys<NumberFormats>
-    : never,
+  M = IsEmptyObject<NumberFormats> extends false ? PickupFormatKeys<NumberFormats> : never,
   ResourceKeys extends C | M = IsNever<C> extends false
     ? IsNever<M> extends false
       ? C | M
@@ -1189,22 +1177,25 @@ export interface ComposerNumberFormatting<
    * @remarks
    * If this is used in a reactive context, it will re-evaluate once the locale changes.
    *
-   * If [UseI18nScope](general#usei18nscope) `'local'` or Some [UseI18nOptions](composition#usei18noptions) are specified at `useI18n`, it’s translated in preferentially local scope datetime formats than global scope datetime formats.
+   * If {@link UseI18nScope} `'local'` or Some {@link UseI18nOptions} are specified at `useI18n`, it’s translated in preferentially local scope datetime formats than global scope datetime formats.
    *
    * If not, then it’s formatted with global scope number formats.
+   *
+   * See about:
+   * - [Number formatting](../../../guide/essentials/number)
+   *
+   * @throws Error if `value` is not a number.
    *
    * @param value - A number value
    *
    * @returns Formatted value
-   *
-   * @VueI18nSee [Number formatting](../../guide/essentials/number)
    */
   (value: number): string
   /**
    * Number Formatting
    *
    * @remarks
-   * Overloaded `n`. About details, see the [call signature](composition#value-number-string) details.
+   * Overloaded `n`.
    *
    * In this overloaded `n`, format in number format for a key registered in number formats.
    *
@@ -1215,21 +1206,19 @@ export interface ComposerNumberFormatting<
    */
   <
     Key extends string = string,
-    Return extends string | Intl.NumberFormatPart[] =
-      | string
-      | Intl.NumberFormatPart[]
-  >(
-    value: number,
-    keyOrOptions:
+    OptionsType extends Key | ResourceKeys | NumberOptions<Key | ResourceKeys, Locales> =
       | Key
       | ResourceKeys
       | NumberOptions<Key | ResourceKeys, Locales>
-  ): Return
+  >(
+    value: number,
+    keyOrOptions: OptionsType
+  ): IsPart<OptionsType> extends true ? Intl.NumberFormatPart[] : string
   /**
    * Number Formatting
    *
    * @remarks
-   * Overloaded `n`. About details, see the [call signature](composition#value-number-string) details.
+   * Overloaded `n`.
    *
    * In this overloaded `n`, format in number format for a key registered in number formats at target locale.
    *
@@ -1241,17 +1230,15 @@ export interface ComposerNumberFormatting<
    */
   <
     Key extends string = string,
-    Return extends string | Intl.NumberFormatPart[] =
-      | string
-      | Intl.NumberFormatPart[]
-  >(
-    value: number,
-    keyOrOptions:
+    OptionsType extends Key | ResourceKeys | NumberOptions<Key | ResourceKeys, Locales> =
       | Key
       | ResourceKeys
-      | NumberOptions<Key | ResourceKeys, Locales>,
+      | NumberOptions<Key | ResourceKeys, Locales>
+  >(
+    value: number,
+    keyOrOptions: OptionsType,
     locale: Locales
-  ): Return
+  ): IsPart<OptionsType> extends true ? Intl.NumberFormatPart[] : string
 }
 
 /**
@@ -1290,16 +1277,16 @@ export interface Composer<
   Messages extends Record<string, any> = {},
   DateTimeFormats extends Record<string, any> = {},
   NumberFormats extends Record<string, any> = {},
-  OptionLocale = Locale,
+  OptionLocale = _Locale,
   ResourceLocales =
     | PickupLocales<NonNullable<Messages>>
     | PickupLocales<NonNullable<DateTimeFormats>>
     | PickupLocales<NonNullable<NumberFormats>>,
-  Locales = Locale extends GeneratedLocale
+  Locales = _Locale extends GeneratedLocale
     ? GeneratedLocale
-    : OptionLocale extends Locale
+    : OptionLocale extends _Locale
       ? IsNever<ResourceLocales> extends true
-        ? Locale
+        ? _Locale
         : ResourceLocales
       : OptionLocale | ResourceLocales
 > extends ComposerCustom {
@@ -1314,21 +1301,24 @@ export interface Composer<
    *
    * If the locale contains a territory and a dialect, this locale contains an implicit fallback.
    *
-   * @VueI18nSee [Scope and Locale Changing](../../guide/essentials/scope)
+   * See about:
+   * - [Scope and Locale Changing](../../../guide/essentials/scope)
    */
   locale: WritableComputedRef<Locales>
   /**
    * @remarks
    * The current fallback locales this Composer instance is using.
    *
-   * @VueI18nSee [Fallbacking](../../guide/essentials/fallback)
+   * See about:
+   * - [Fallbacking](../../../guide/essentials/fallback)
    */
   fallbackLocale: WritableComputedRef<FallbackLocales<Locales>>
   /**
    * @remarks
    * Whether inherit the root level locale to the component localization locale.
    *
-   * @VueI18nSee [Local Scope](../../guide/essentials/scope#local-scope-2)
+   * See about:
+   * - [Local Scope](../../../guide/essentials/scope#local-scope-2)
    */
   inheritLocale: boolean
   /**
@@ -1340,14 +1330,16 @@ export interface Composer<
    * @remarks
    * The locale messages of localization.
    *
-   * @VueI18nSee [Getting Started](../../guide/essentials/started)
+   * See about:
+   * - [Getting Started](../../../guide/essentials/started)
    */
   readonly messages: ComputedRef<{ [K in keyof Messages]: Messages[K] }>
   /**
    * @remarks
    * The datetime formats of localization.
    *
-   * @VueI18nSee [Datetime Formatting](../../guide/essentials/datetime)
+   * See about:
+   * - [Datetime Formatting](../../../guide/essentials/datetime)
    */
   readonly datetimeFormats: ComputedRef<{
     [K in keyof DateTimeFormats]: DateTimeFormats[K]
@@ -1356,7 +1348,8 @@ export interface Composer<
    * @remarks
    * The number formats of localization.
    *
-   * @VueI18nSee [Number Formatting](../../guide/essentials/number)
+   * See about:
+   * - [Number Formatting](../../../guide/essentials/number)
    */
   readonly numberFormats: ComputedRef<{
     [K in keyof NumberFormats]: NumberFormats[K]
@@ -1365,14 +1358,16 @@ export interface Composer<
    * @remarks
    * Custom Modifiers for linked messages.
    *
-   * @VueI18nSee [Custom Modifiers](../../guide/essentials/syntax#custom-modifiers)
+   * See about:
+   * - [Custom Modifiers](../../../guide/essentials/syntax#custom-modifiers)
    */
   readonly modifiers: LinkedModifiers<VueMessageType>
   /**
    * @remarks
    * A set of rules for word pluralization
    *
-   * @VueI18nSee [Custom Pluralization](../../guide/essentials/pluralization#custom-pluralization)
+   * See about:
+   * - [Custom Pluralization](../../../guide/essentials/pluralization#custom-pluralization)
    */
   readonly pluralRules: PluralizationRules
   /**
@@ -1384,28 +1379,32 @@ export interface Composer<
    * @remarks
    * Whether suppress warnings outputted when localization fails.
    *
-   * @VueI18nSee [Fallbacking](../../guide/essentials/fallback)
+   * See about:
+   * - [Fallbacking](../../../guide/essentials/fallback)
    */
   missingWarn: boolean | RegExp
   /**
    * @remarks
    * Whether suppress fall back warnings when localization fails.
    *
-   * @VueI18nSee [Fallbacking](../../guide/essentials/fallback)
+   * See about:
+   * - [Fallbacking](../../../guide/essentials/fallback)
    */
   fallbackWarn: boolean | RegExp
   /**
    * @remarks
    * Whether to fall back to root level (global scope) localization when localization fails.
    *
-   * @VueI18nSee [Fallbacking](../../guide/essentials/fallback)
+   * See about:
+   * - [Fallbacking](../../../guide/essentials/fallback)
    */
   fallbackRoot: boolean
   /**
    * @remarks
    * Whether suppress warnings when falling back to either `fallbackLocale` or root.
    *
-   * @VueI18nSee [Fallbacking](../../guide/essentials/fallback)
+   * See about:
+   * - [Fallbacking](../../../guide/essentials/fallback)
    */
   fallbackFormat: boolean
   /**
@@ -1416,15 +1415,17 @@ export interface Composer<
    *
    * If you are specified `true`, a warning will be output at console.
    *
-   * @VueI18nSee [HTML Message](../../guide/essentials/syntax#html-message)
-   * @VueI18nSee [Change `warnHtmlInMessage` option default value](../../guide/migration/breaking#change-warnhtmlinmessage-option-default-value)
+   * See about:
+   * - [HTML Message](../../../guide/essentials/syntax#html-message)
+   * - [Change `warnHtmlInMessage` option default value](../../../guide/migration/breaking#change-warnhtmlinmessage-option-default-value)
    */
   warnHtmlMessage: boolean
   /**
    * @remarks
    * Whether interpolation parameters are escaped before the message is translated.
    *
-   * @VueI18nSee [HTML Message](../../guide/essentials/syntax#html-message)
+   * See about:
+   * - [HTML Message](../../../guide/essentials/syntax#html-message)
    */
   escapeParameter: boolean
   /**
@@ -1477,7 +1478,7 @@ export interface Composer<
    * Translation locale message exist
    *
    * @remarks
-   * whether do exist locale message on Composer instance [messages](composition#messages).
+   * whether do exist locale message on Composer instance {@link Composer#messages}.
    *
    * If you specified `locale`, check the locale messages of `locale`.
    *
@@ -1486,10 +1487,7 @@ export interface Composer<
    *
    * @returns If found locale message, `true`, else `false`, Note that `false` is returned even if the value present in the key is not translatable, yet if `translateExistCompatible` is set to `true`, it will return `true` if the key is available, even if the value is not translatable.
    */
-  te<
-    Str extends string,
-    Key extends PickupKeys<Messages> = PickupKeys<Messages>
-  >(
+  te<Str extends string, Key extends PickupKeys<Messages> = PickupKeys<Messages>>(
     key: Str | Key,
     locale?: Locales
   ): boolean
@@ -1497,16 +1495,16 @@ export interface Composer<
    * Locale messages getter
    *
    * @remarks
-   * If [UseI18nScope](general#usei18nscope) `'local'` or Some [UseI18nOptions](composition#usei18noptions) are specified at `useI18n`, it’s translated in preferentially local scope locale messages than global scope locale messages.
+   * If {@link I18nScope} `'local'` or Some  {@link UseI18nOptions} are specified at `useI18n`, it’s translated in preferentially local scope locale messages than global scope locale messages.
    *
    * Based on the current `locale`, locale messages will be returned from Composer instance messages.
    *
    * If you change the `locale`, the locale messages returned will also correspond to the locale.
    *
-   * If there are no locale messages for the given `key` in the composer instance messages, they will be returned with [fallbacking](../../guide/essentials/fallback).
+   * If there are no locale messages for the given `key` in the composer instance messages, they will be returned with [fallbacking](../../../guide/essentials/fallback).
    *
-   * @VueI18nWarning
-   * You need to use `rt` for the locale message returned by `tm`. see the [rt](composition#rt-message) details.
+   * > [!WARNING]
+   * > You need to use `rt` for the locale message returned by `tm`. See the `rt` details.
    *
    * @example
    * template block:
@@ -1551,14 +1549,12 @@ export interface Composer<
    *
    * @param key - A target locale message key
    *
-   * @return Locale messages
+   * @returns Locale messages
    */
   tm<
     Key extends string,
     ResourceKeys extends PickupKeys<Messages> = PickupKeys<Messages>,
-    Locale extends PickupLocales<NonNullable<Messages>> = PickupLocales<
-      NonNullable<Messages>
-    >,
+    Locale extends PickupLocales<NonNullable<Messages>> = PickupLocales<NonNullable<Messages>>,
     Target = IsEmptyObject<Messages> extends false
       ? NonNullable<Messages>[Locale]
       : RemoveIndexSignature<{
@@ -1574,7 +1570,7 @@ export interface Composer<
    * Get locale message
    *
    * @remarks
-   * get locale message from Composer instance [messages](composition#messages).
+   * get locale message from Composer instance {@link Composer#messages}.
    *
    * @param locale - A target locale
    *
@@ -1585,9 +1581,7 @@ export interface Composer<
   getLocaleMessage<
     MessageSchema extends LocaleMessage<VueMessageType> = never,
     LocaleSchema extends string = string,
-    Locale extends PickupLocales<NonNullable<Messages>> = PickupLocales<
-      NonNullable<Messages>
-    >,
+    Locale extends PickupLocales<NonNullable<Messages>> = PickupLocales<NonNullable<Messages>>,
     Return = IsNever<MessageSchema> extends true
       ? IsEmptyObject<Messages> extends true
         ? RemoveIndexSignature<{
@@ -1602,7 +1596,7 @@ export interface Composer<
    * Set locale message
    *
    * @remarks
-   * Set locale message to Composer instance [messages](composition#messages).
+   * Set locale message to Composer instance  {@link Composer#messages}.
    *
    * @param locale - A target locale
    * @param message - A message
@@ -1612,9 +1606,7 @@ export interface Composer<
   setLocaleMessage<
     MessageSchema extends LocaleMessage<VueMessageType> = never,
     LocaleSchema extends string = string,
-    Locale extends PickupLocales<NonNullable<Messages>> = PickupLocales<
-      NonNullable<Messages>
-    >,
+    Locale extends PickupLocales<NonNullable<Messages>> = PickupLocales<NonNullable<Messages>>,
     MessageType = IsNever<MessageSchema> extends true
       ? IsEmptyObject<Messages> extends true
         ? RemoveIndexSignature<{
@@ -1631,7 +1623,7 @@ export interface Composer<
    * Merge locale message
    *
    * @remarks
-   * Merge locale message to Composer instance [messages](composition#messages).
+   * Merge locale message to Composer instance {@link Composer#messages}.
    *
    * @param locale - A target locale
    * @param message - A message
@@ -1641,12 +1633,8 @@ export interface Composer<
   mergeLocaleMessage<
     MessageSchema extends LocaleMessage<VueMessageType> = never,
     LocaleSchema extends string = string,
-    Locale extends PickupLocales<NonNullable<Messages>> = PickupLocales<
-      NonNullable<Messages>
-    >,
-    Message = IsNever<MessageSchema> extends true
-      ? Record<string, any>
-      : MessageSchema
+    Locale extends PickupLocales<NonNullable<Messages>> = PickupLocales<NonNullable<Messages>>,
+    Message = IsNever<MessageSchema> extends true ? Record<string, any> : MessageSchema
   >(
     locale: LocaleSchema | Locale,
     message: Message
@@ -1655,7 +1643,7 @@ export interface Composer<
    * Get datetime format
    *
    * @remarks
-   * get datetime format from Composer instance [datetimeFormats](composition#datetimeformats).
+   * get datetime format from Composer instance {@link Composer#datetimeFormats}.
    *
    * @param locale - A target locale
    *
@@ -1683,7 +1671,7 @@ export interface Composer<
    * Set datetime format
    *
    * @remarks
-   * Set datetime format to Composer instance [datetimeFormats](composition#datetimeformats).
+   * Set datetime format to Composer instance {@link Composer#datetimeFormats}.
    *
    * @param locale - A target locale
    * @param format - A target datetime format
@@ -1712,7 +1700,7 @@ export interface Composer<
    * Merge datetime format
    *
    * @remarks
-   * Merge datetime format to Composer instance [datetimeFormats](composition#datetimeformats).
+   * Merge datetime format to Composer instance {@link Composer#datetimeFormats}.
    *
    * @param locale - A target locale
    * @param format - A target datetime format
@@ -1725,9 +1713,7 @@ export interface Composer<
     Locale extends PickupLocales<NonNullable<DateTimeFormats>> = PickupLocales<
       NonNullable<DateTimeFormats>
     >,
-    Formats = IsNever<DateTimeSchema> extends true
-      ? Record<string, any>
-      : DateTimeSchema
+    Formats = IsNever<DateTimeSchema> extends true ? Record<string, any> : DateTimeSchema
   >(
     locale: LocaleSchema | Locale,
     format: Formats
@@ -1736,7 +1722,7 @@ export interface Composer<
    * Get number format
    *
    * @remarks
-   * get number format from Composer instance [numberFormats](composition#numberFormats).
+   * get number format from Composer instance {@link Composer#numberFormats}.
    *
    * @param locale - A target locale
    *
@@ -1764,7 +1750,7 @@ export interface Composer<
    * Set number format
    *
    * @remarks
-   * Set number format to Composer instance [numberFormats](composition#numberFormats).
+   * Set number format to Composer instance {@link Composer#numberFormats}.
    *
    * @param locale - A target locale
    * @param format - A target number format
@@ -1793,7 +1779,7 @@ export interface Composer<
    * Merge number format
    *
    * @remarks
-   * Merge number format to Composer instance [numberFormats](composition#numberFormats).
+   * Merge number format to Composer instance {@link Composer#numberFormats}.
    *
    * @param locale - A target locale
    * @param format - A target number format
@@ -1806,9 +1792,7 @@ export interface Composer<
     Locale extends PickupLocales<NonNullable<NumberFormats>> = PickupLocales<
       NonNullable<NumberFormats>
     >,
-    Formats = IsNever<NumberSchema> extends true
-      ? Record<string, any>
-      : NumberSchema
+    Formats = IsNever<NumberSchema> extends true ? Record<string, any> : NumberSchema
   >(
     locale: LocaleSchema | Locale,
     format: Formats
@@ -1816,35 +1800,37 @@ export interface Composer<
   /**
    * Get post translation handler
    *
-   * @returns {@link PostTranslationHandler}
+   * See about:
+   * - {@link Composer#missing}
    *
-   * @VueI18nSee [missing](composition#posttranslation)
+   * @returns {@link PostTranslationHandler}
    */
   getPostTranslationHandler(): PostTranslationHandler<VueMessageType> | null
   /**
    * Set post translation handler
    *
-   * @param handler - A {@link PostTranslationHandler}
+   * See about:
+   * - {@link Composer#missing}
    *
-   * @VueI18nSee [missing](composition#posttranslation)
+   * @param handler - A {@link PostTranslationHandler}
    */
-  setPostTranslationHandler(
-    handler: PostTranslationHandler<VueMessageType> | null
-  ): void
+  setPostTranslationHandler(handler: PostTranslationHandler<VueMessageType> | null): void
   /**
    * Get missing handler
    *
-   * @returns {@link MissingHandler}
+   * See about:
+   * - {@link Composer#missing}
    *
-   * @VueI18nSee [missing](composition#missing)
+   * @returns {@link MissingHandler}
    */
   getMissingHandler(): MissingHandler | null
   /**
    * Set missing handler
    *
-   * @param handler - A {@link MissingHandler}
+   * See about:
+   * - {@link Composer#missing}
    *
-   * @VueI18nSee [missing](composition#missing)
+   * @param handler - A {@link MissingHandler}
    */
   setMissingHandler(handler: MissingHandler | null): void
 }
@@ -1869,44 +1855,25 @@ const NOOP_RETURN_FALSE = () => false
 let composerID = 0
 
 function defineCoreMissingHandler(missing: MissingHandler): CoreMissingHandler {
-  return ((
-    ctx: CoreContext,
-    locale: Locale,
-    key: Path,
-    type: string
-  ): string | void => {
-    return missing(locale, key, getCurrentInstance() || undefined, type)
+  return ((_ctx: CoreContext, locale: Locale, key: Path, type: string): string | void => {
+    // eslint-disable-next-line vue-composable/composable-placement -- not composable
+    const { value: uid } = useInstanceOption('uid', true)
+    return missing(locale, key, uid, type)
   }) as CoreMissingHandler
-}
-
-// for Intlify DevTools
-/* #__NO_SIDE_EFFECTS__ */
-const getMetaInfo = (): MetaInfo | null => {
-  const instance = getCurrentInstance()
-  let meta: any = null
-  return instance && (meta = getComponentOptions(instance)[DEVTOOLS_META])
-    ? { [DEVTOOLS_META]: meta }
-    : null
 }
 
 export function createComposer<
   Options extends ComposerOptions = ComposerOptions,
-  Messages extends Record<string, any> = Options['messages'] extends Record<
+  Messages extends Record<string, any> = Options['messages'] extends Record<string, any>
+    ? Options['messages']
+    : {},
+  DateTimeFormats extends Record<string, any> = Options['datetimeFormats'] extends Record<
     string,
     any
   >
-    ? Options['messages']
-    : {},
-  DateTimeFormats extends Record<
-    string,
-    any
-  > = Options['datetimeFormats'] extends Record<string, any>
     ? Options['datetimeFormats']
     : {},
-  NumberFormats extends Record<
-    string,
-    any
-  > = Options['numberFormats'] extends Record<string, any>
+  NumberFormats extends Record<string, any> = Options['numberFormats'] extends Record<string, any>
     ? Options['numberFormats']
     : {}
 >(options: Options): Composer<Messages, DateTimeFormats, NumberFormats>
@@ -1914,16 +1881,12 @@ export function createComposer<
 export function createComposer<
   Schema extends object = DefaultLocaleMessageSchema,
   Locales extends string | object = 'en-US',
-  Options extends ComposerOptions<
-    SchemaParams<Schema, VueMessageType>,
-    LocaleParams<Locales>
-  > = ComposerOptions<
-    SchemaParams<Schema, VueMessageType>,
-    LocaleParams<Locales>
-  >,
-  Messages extends Record<string, any> = NonNullable<
-    Options['messages']
-  > extends Record<string, any>
+  Options extends ComposerOptions<SchemaParams<Schema, VueMessageType>, LocaleParams<Locales>> =
+    ComposerOptions<SchemaParams<Schema, VueMessageType>, LocaleParams<Locales>>,
+  Messages extends Record<string, any> = NonNullable<Options['messages']> extends Record<
+    string,
+    any
+  >
     ? NonNullable<Options['messages']>
     : {},
   DateTimeFormats extends Record<string, any> = NonNullable<
@@ -1931,9 +1894,10 @@ export function createComposer<
   > extends Record<string, any>
     ? NonNullable<Options['datetimeFormats']>
     : {},
-  NumberFormats extends Record<string, any> = NonNullable<
-    Options['numberFormats']
-  > extends Record<string, any>
+  NumberFormats extends Record<string, any> = NonNullable<Options['numberFormats']> extends Record<
+    string,
+    any
+  >
     ? NonNullable<Options['numberFormats']>
     : {}
 >(options: Options): Composer<Messages, DateTimeFormats, NumberFormats>
@@ -1955,9 +1919,7 @@ export function createComposer(options: any = {}): any {
   const flatJson = options.flatJson
   const _ref = inBrowser ? ref : shallowRef
 
-  let _inheritLocale = isBoolean(options.inheritLocale)
-    ? options.inheritLocale
-    : true
+  let _inheritLocale = isBoolean(options.inheritLocale) ? options.inheritLocale : true
 
   const _locale = _ref<Locale>(
     // prettier-ignore
@@ -1981,10 +1943,7 @@ export function createComposer(options: any = {}): any {
   )
 
   const _messages = _ref(
-    getLocaleMessages<LocaleMessages<LocaleMessage<Message>>>(
-      _locale.value as Locale,
-      options
-    )
+    getLocaleMessages<LocaleMessages<LocaleMessage<Message>>>(_locale.value as Locale, options)
   )
 
   // prettier-ignore
@@ -1994,7 +1953,7 @@ export function createComposer(options: any = {}): any {
         ? options.datetimeFormats
         : { [_locale.value]: {} }
     )
-    : /* #__PURE__*/ ref<DateTimeFormatsType>({})
+    : /* #__PURE__*/ _ref<DateTimeFormatsType>({})
 
   // prettier-ignore
   const _numberFormats = !__LITE__
@@ -2037,9 +1996,7 @@ export function createComposer(options: any = {}): any {
     : null
 
   // postTranslation handler
-  let _postTranslation = isFunction(options.postTranslation)
-    ? options.postTranslation
-    : null
+  let _postTranslation = isFunction(options.postTranslation) ? options.postTranslation : null
 
   // prettier-ignore
   let _warnHtmlMessage = __root
@@ -2062,7 +2019,7 @@ export function createComposer(options: any = {}): any {
   let _pluralRules = options.pluralRules || (__root && __root.pluralRules)
 
   // runtime context
-  // eslint-disable-next-line prefer-const
+
   let _context: CoreContext
 
   const getCoreContext = (): CoreContext => {
@@ -2085,10 +2042,17 @@ export function createComposer(options: any = {}): any {
       escapeParameter: _escapeParameter,
       messageResolver: options.messageResolver,
       messageCompiler: options.messageCompiler,
+      localeFallbacker: options.localeFallbacker,
       __meta: { framework: 'vue' }
     }
 
+    // set default message compiler
+    ;(ctxOptions as any).messageCompiler = options.messageCompiler || compile
+
     if (!__LITE__) {
+      // set default message resolver and locale fallbacker for full vue-i18n
+      ;(ctxOptions as any).messageResolver = options.messageResolver || resolveValue
+      ;(ctxOptions as any).localeFallbacker = options.localeFallbacker || fallbackWithLocaleChain
       ;(ctxOptions as any).datetimeFormats = _datetimeFormats.value
       ;(ctxOptions as any).numberFormats = _numberFormats.value
       ;(ctxOptions as any).__datetimeFormatters = isPlainObject(_context)
@@ -2151,19 +2115,13 @@ export function createComposer(options: any = {}): any {
   )
 
   // availableLocales
-  const availableLocales = computed<Locale[]>(() =>
-    Object.keys(_messages.value).sort()
-  )
+  const availableLocales = computed<Locale[]>(() => Object.keys(_messages.value).sort())
 
   // datetimeFormats
-  const datetimeFormats = /* #__PURE__*/ computed<DateTimeFormatsType>(
-    () => _datetimeFormats.value
-  )
+  const datetimeFormats = /* #__PURE__*/ computed<DateTimeFormatsType>(() => _datetimeFormats.value)
 
   // numberFormats
-  const numberFormats = /* #__PURE__*/ computed<NumberFormatsType>(
-    () => _numberFormats.value
-  )
+  const numberFormats = /* #__PURE__*/ computed<NumberFormatsType>(() => _numberFormats.value)
 
   // getPostTranslationHandler
   function getPostTranslationHandler(): PostTranslationHandler<Message> | null {
@@ -2171,9 +2129,7 @@ export function createComposer(options: any = {}): any {
   }
 
   // setPostTranslationHandler
-  function setPostTranslationHandler(
-    handler: PostTranslationHandler | null
-  ): void {
+  function setPostTranslationHandler(handler: PostTranslationHandler | null): void {
     _postTranslation = handler
     _context.postTranslation = handler
   }
@@ -2192,10 +2148,7 @@ export function createComposer(options: any = {}): any {
     _context.missing = _runtimeMissing
   }
 
-  function isResolvedTranslateMessage(
-    type: ComposerWarnType,
-    arg: any
-  ): boolean {
+  function isResolvedTranslateMessage(type: ComposerWarnType, arg: any): boolean {
     return type !== 'translate' || !arg.resolvedMessage
   }
 
@@ -2208,22 +2161,13 @@ export function createComposer(options: any = {}): any {
     successCondition: (val: unknown) => boolean
   ): U => {
     trackReactivityValues() // track reactive dependency
-    // NOTE: experimental !!
     let ret: unknown
     try {
-      if (__DEV__ || __FEATURE_PROD_INTLIFY_DEVTOOLS__) {
-        setAdditionalMeta(getMetaInfo())
-      }
       if (!_isGlobal) {
-        _context.fallbackContext = __root
-          ? (getFallbackContext() as any)
-          : undefined
+        _context.fallbackContext = __root ? (getFallbackContext() as any) : undefined
       }
       ret = fn(_context)
     } finally {
-      if (__DEV__ || __FEATURE_PROD_INTLIFY_DEVTOOLS__) {
-        setAdditionalMeta(null)
-      }
       if (!_isGlobal) {
         _context.fallbackContext = undefined
       }
@@ -2231,20 +2175,14 @@ export function createComposer(options: any = {}): any {
     if (
       (warnType !== 'translate exists' && // for not `te` (e.g `t`)
         isNumber(ret) &&
-        ret === NOT_REOSLVED) ||
+        ret === NOT_RESOLVED) ||
       (warnType === 'translate exists' && !ret) // for `te`
     ) {
       const [key, arg2] = argumentParser()
-      if (
-        __DEV__ &&
-        __root &&
-        isString(key) &&
-        isResolvedTranslateMessage(warnType, arg2)
-      ) {
+      if (__DEV__ && __root && isString(key) && isResolvedTranslateMessage(warnType, arg2)) {
         if (
           _fallbackRoot &&
-          (isTranslateFallbackWarn(_fallbackWarn, key) ||
-            isTranslateMissingWarn(_missingWarn, key))
+          (isTranslateFallbackWarn(_fallbackWarn, key) || isTranslateMissingWarn(_missingWarn, key))
         ) {
           warn(
             getWarnMessage(I18nWarnCodes.FALLBACK_TO_ROOT, {
@@ -2255,8 +2193,7 @@ export function createComposer(options: any = {}): any {
         }
         // for vue-devtools timeline event
         if (__DEV__) {
-          const { __v_emitter: emitter } =
-            _context as unknown as CoreInternalContext
+          const { __v_emitter: emitter } = _context as unknown as CoreInternalContext
           if (emitter && _fallbackRoot) {
             emitter.emit('fallback', {
               type: warnType,
@@ -2296,16 +2233,14 @@ export function createComposer(options: any = {}): any {
     if (arg3 && !isObject(arg3)) {
       throw createI18nError(I18nErrorCodes.INVALID_ARGUMENT)
     }
-    return t(...[arg1, arg2, assign({ resolvedMessage: true }, arg3 || {})])
+    return t(arg1, arg2, assign({ resolvedMessage: true }, arg3 || {}))
   }
 
   // d
   function d(...args: unknown[]): string | Intl.DateTimeFormatPart[] {
     return wrapWithDeps<{}, string | Intl.DateTimeFormatPart[]>(
       context =>
-        Reflect.apply(datetime, null, [context, ...args]) as
-          | string
-          | Intl.DateTimeFormatPart[],
+        Reflect.apply(datetime, null, [context, ...args]) as string | Intl.DateTimeFormatPart[],
       () => parseDateTimeArgs(...args),
       'datetime format',
       root => Reflect.apply(root.d, root, [...args]),
@@ -2327,13 +2262,9 @@ export function createComposer(options: any = {}): any {
   }
 
   // for custom processor
-  function normalize(
-    values: MessageType<string | VNode>[]
-  ): MessageType<VNode>[] {
+  function normalize(values: MessageType<string | VNode>[]): MessageType<VNode>[] {
     return values.map(val =>
-      isString(val) || isNumber(val) || isBoolean(val)
-        ? createTextNode(String(val))
-        : val
+      isString(val) || isNumber(val) || isBoolean(val) ? createTextNode(String(val)) : val
     )
   }
   const interpolate = (val: unknown): MessageType<VNode> => val as VNode
@@ -2348,10 +2279,7 @@ export function createComposer(options: any = {}): any {
     return wrapWithDeps<VNode, VNodeArrayChildren>(
       context => {
         let ret: unknown
-        const _context = context as CoreContext<
-          VNode,
-          LocaleMessages<LocaleMessage<Message>>
-        >
+        const _context = context as CoreContext<VNode, LocaleMessages<LocaleMessage<Message>>>
         try {
           _context.processor = processor
           ret = Reflect.apply(translate, null, [_context, ...args])
@@ -2383,9 +2311,7 @@ export function createComposer(options: any = {}): any {
   }
 
   // datetimeParts, using for `i18n-d` component
-  function datetimeParts(
-    ...args: unknown[]
-  ): string | Intl.DateTimeFormatPart[] {
+  function datetimeParts(...args: unknown[]): string | Intl.DateTimeFormatPart[] {
     return wrapWithDeps<{}, string | Intl.DateTimeFormatPart[]>(
       context => Reflect.apply(datetime, null, [context, ...args]),
       () => parseDateTimeArgs(...args),
@@ -2410,13 +2336,23 @@ export function createComposer(options: any = {}): any {
           return false
         }
         const targetLocale = isString(locale) ? locale : _locale.value
-        const message = getLocaleMessage(targetLocale)
-        const resolved = _context.messageResolver(message, key)
-        return (
-          isMessageAST(resolved) ||
-          isMessageFunction(resolved) ||
-          isString(resolved)
-        )
+        // When locale is explicitly specified, check only that locale (no fallback chain)
+        // When locale is not specified, check the fallback locale chain
+        const locales = isString(locale)
+          ? [targetLocale]
+          : fallbackWithLocaleChain(_context, _fallbackLocale.value, targetLocale)
+        for (let i = 0; i < locales.length; i++) {
+          const message = getLocaleMessage(locales[i])
+          let resolved = _context.messageResolver(message, key)
+          // if null, resolve with object key path (for flat keys containing dots)
+          if (resolved === null) {
+            resolved = (message as any)[key]
+          }
+          if (isMessageAST(resolved) || isMessageFunction(resolved) || isString(resolved)) {
+            return true
+          }
+        }
+        return false
       },
       () => [key],
       'translate exists',
@@ -2430,11 +2366,7 @@ export function createComposer(options: any = {}): any {
 
   function resolveMessages(key: Path): LocaleMessageValue<Message> | null {
     let messages: LocaleMessageValue<Message> | null = null
-    const locales = fallbackWithLocaleChain(
-      _context,
-      _fallbackLocale.value,
-      _locale.value
-    )
+    const locales = fallbackWithLocaleChain(_context, _fallbackLocale.value, _locale.value)
     for (let i = 0; i < locales.length; i++) {
       const targetLocaleMessages = _messages.value[locales[i]] || {}
       const messageValue = _context.messageResolver(targetLocaleMessages, key)
@@ -2478,10 +2410,7 @@ export function createComposer(options: any = {}): any {
   }
 
   // mergeLocaleMessage
-  function mergeLocaleMessage(
-    locale: Locale,
-    message: LocaleMessageDictionary<Message>
-  ): void {
+  function mergeLocaleMessage(locale: Locale, message: LocaleMessageDictionary<Message>): void {
     _messages.value[locale] = _messages.value[locale] || {}
     const _message = { [locale]: message }
     if (flatJson) {
@@ -2510,10 +2439,7 @@ export function createComposer(options: any = {}): any {
 
   // mergeDateTimeFormat
   function mergeDateTimeFormat(locale: Locale, format: DateTimeFormat): void {
-    _datetimeFormats.value[locale] = assign(
-      _datetimeFormats.value[locale] || {},
-      format
-    )
+    _datetimeFormats.value[locale] = assign(_datetimeFormats.value[locale] || {}, format)
     _context.datetimeFormats = _datetimeFormats.value
     clearDateTimeFormat(_context, locale, format)
   }
@@ -2532,10 +2458,7 @@ export function createComposer(options: any = {}): any {
 
   // mergeNumberFormat
   function mergeNumberFormat(locale: Locale, format: NumberFormat): void {
-    _numberFormats.value[locale] = assign(
-      _numberFormats.value[locale] || {},
-      format
-    )
+    _numberFormats.value[locale] = assign(_numberFormats.value[locale] || {}, format)
     _context.numberFormats = _numberFormats.value
     clearNumberFormat(_context, locale, format)
   }
@@ -2671,5 +2594,3 @@ export function createComposer(options: any = {}): any {
 
   return composer
 }
-
-/* eslint-enable @typescript-eslint/no-explicit-any */

@@ -14,19 +14,17 @@ test('number type check', () => {
     }
   })
 
-  expectTypeOf(number(ctx, 10100)).toEqualTypeOf<
+  expectTypeOf(number(ctx, 10100)).toEqualTypeOf<string | number | Intl.NumberFormatPart[]>()
+  expectTypeOf(number(ctx, 10100, { locale: 'en-US', key: 'currency' })).toEqualTypeOf<
     string | number | Intl.NumberFormatPart[]
   >()
-  expectTypeOf(
-    number(ctx, 10100, { locale: 'en-US', key: 'currency' })
-  ).toEqualTypeOf<string | number | Intl.NumberFormatPart[]>()
   expectTypeOf(number(ctx, 10100, { key: 'currency' }, 'en-US')).toEqualTypeOf<
     string | number | Intl.NumberFormatPart[]
   >()
   expectTypeOf(
     number(ctx, 10100, { locale: 'en-US', key: 'currency' }, { unit: '' })
   ).toEqualTypeOf<string | number | Intl.NumberFormatPart[]>()
-  expectTypeOf(
-    number(ctx, 10100, { key: 'currency' }, 'en-US', { unit: '' })
-  ).toEqualTypeOf<string | number | Intl.NumberFormatPart[]>()
+  expectTypeOf(number(ctx, 10100, { key: 'currency' }, 'en-US', { unit: '' })).toEqualTypeOf<
+    string | number | Intl.NumberFormatPart[]
+  >()
 })

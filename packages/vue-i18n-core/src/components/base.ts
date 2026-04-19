@@ -2,7 +2,7 @@ import type { Locale } from '@intlify/core-base'
 import type { Composer } from '../composer'
 import type { I18nScope } from '../i18n'
 
-export type ComponentI18nScope = Exclude<I18nScope, 'local'>
+export type ComponentI18nScope = Exclude<I18nScope, 'local' | 'isolated'>
 
 /**
  * BaseFormat Props for Components that is offered Vue I18n
@@ -47,7 +47,6 @@ export interface BaseFormatProps {
   i18n?: Composer
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const BaseFormatPropsValidators: Record<string, any> = {
   tag: {
     type: [String, Object]
@@ -58,10 +57,9 @@ export const BaseFormatPropsValidators: Record<string, any> = {
   scope: {
     type: String,
     // NOTE: avoid https://github.com/microsoft/rushstack/issues/1050
-    validator: (
-      val: Exclude<I18nScope, 'local'> /* ComponentI18nScope */
-    ): boolean => val === 'parent' || val === 'global',
-    default: 'parent' as Exclude<I18nScope, 'local'> /* ComponentI18nScope */
+    validator: (val: Exclude<I18nScope, 'local' | 'isolated'> /* ComponentI18nScope */): boolean =>
+      val === 'parent' || val === 'global',
+    default: 'parent' as Exclude<I18nScope, 'local' | 'isolated'> /* ComponentI18nScope */
   },
   i18n: {
     type: Object

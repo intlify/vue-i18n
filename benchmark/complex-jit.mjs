@@ -13,9 +13,7 @@ import { createI18n } from 'vue-i18n'
 import { displayMemoryUsage, parseArgs, readJson } from './utils.mjs'
 
 const args = parseArgs()
-const resources = await readJson(
-  resolve(dirname('.'), './benchmark/complex.json')
-)
+const resources = await readJson(resolve(dirname('.'), './benchmark/complex.json'))
 const len = Object.keys(resources).length
 console.log(`complex pattern on ${len} resources (JIT):`)
 

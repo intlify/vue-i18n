@@ -1,8 +1,8 @@
 import { createApp } from 'vue'
 import { createI18n } from 'vue-i18n'
 import App from './App.vue'
-import { load } from './locales'
 import { locales } from './constants'
+import { load } from './locales'
 
 import type { ResourceSchema } from '../db/message'
 import type { Locales } from './constants'

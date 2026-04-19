@@ -1,0 +1,53 @@
+{
+  "$schema": "./node_modules/oxlint/configuration_schema.json",
+  "plugins": ["typescript", "import", "promise", "unicorn", "node"],
+  "extends": ["./node_modules/@kazupon/eslint-plugin/oxlint/recommended.json"],
+  "overrides": [
+    {
+      "files": ["**/*.{test,spec}.{ts,tsx}"],
+      "plugins": ["vitest"]
+    },
+    {
+      "files": ["**/*.{js,mjs,cjs,ts,mts,cts,jsx,tsx}"],
+      "rules": {
+        "no-unused-expressions": "off",
+        "@typescript-eslint/unbound-method": "off",
+        // disalbe for now, will enable later
+        "@kazupon/enforce-header-comment": "off",
+        // disalbe for now, will enable later
+        "@kazupon/prefer-scope-on-tag-comment": "off",
+        // disalbe for now, will enable later
+        "@kazupon/no-tag-comments": [
+          "off",
+          {
+            "tags": ["TODO", "FIXME", "BUG"]
+          }
+        ]
+      }
+    }
+  ],
+  "ignorePatterns": [
+    "**/dist",
+    "**/fixtures",
+    "**/.vitepress",
+    "**/tsconfig*.json",
+    "**/coverage",
+    "**/examples",
+    "temp/**",
+    ".vscode/**/*.json",
+    "CHANGELOG.md",
+    ".github/FUNDING.yml",
+    "packages/*/vite.config.ts",
+    "packages/*/index.js",
+    "packages/vue-i18n/src/vue.d.ts",
+    "packages/vue-i18n-core/petite.js",
+    "docs/api/**/*.md",
+    "docs/zh/api/**/*.md",
+    "docs/jp/api/**/*.md",
+    "shim.d.ts",
+    ".oxlintrc.json",
+    "scripts/api/*.js",
+    ".claude",
+    ".notes"
+  ]
+}

@@ -1,5 +1,5 @@
 import { NodeTypes } from '@intlify/message-compiler'
-import { hasOwn, isNumber } from '@intlify/shared'
+import { hasOwn, isNumber, isArray } from '@intlify/shared'
 import {
   createUnhandleNodeError,
   resolveBody,
@@ -21,19 +21,11 @@ import type {
   PluralNode,
   ResourceNode
 } from '@intlify/message-compiler'
-import type {
-  MessageContext,
-  MessageFunction,
-  MessageFunctionReturn,
-  MessageType
-} from './runtime'
+import type { MessageContext, MessageFunction, MessageFunctionReturn, MessageType } from './runtime'
 
-export function format<Message = string>(
-  ast: ResourceNode
-): MessageFunction<Message> {
-  const msg = (ctx: MessageContext<Message>): MessageFunctionReturn<Message> =>
+export function format<Message = string>(ast: ResourceNode): MessageFunction<Message> {
+  return (ctx: MessageContext<Message>): MessageFunctionReturn<Message> =>
     formatParts<Message>(ctx, ast)
-  return msg
 }
 
 export function formatParts<Message = string>(
@@ -52,7 +44,9 @@ export function formatParts<Message = string>(
       cases.reduce(
         (messages, c) =>
           [
-            ...messages,
+            ...((isArray(messages) ? messages : [messages]) as Array<
+              MessageFunctionReturn<Message>
+            >),
             formatMessageParts(ctx, c)
           ] as MessageFunctionReturn<Message>,
         [] as MessageFunctionReturn<Message>

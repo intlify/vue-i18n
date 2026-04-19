@@ -6,7 +6,7 @@ Lazy loading or asynchronously loading the localization files is really easy whe
 
 Let´s assume we have a project directory similar to the one below:
 
-```
+```txt
 ├── dist
 ├── index.html
 ├── package.json
@@ -40,11 +40,7 @@ export function setupI18n(options = { locale: 'en' }) {
 }
 
 export function setI18nLanguage(i18n, locale) {
-  if (i18n.mode === 'legacy') {
-    i18n.global.locale = locale
-  } else {
-    i18n.global.locale.value = locale
-  }
+  i18n.global.locale.value = locale
   /**
    * NOTE:
    * If you need to specify the language setting for headers, such as the `fetch` API, set it here.
@@ -74,10 +70,13 @@ The following three functions are exported:
 - `setI18nLanguage`
 - `loadLocaleMessages`
 
-:::tip NOTE
-This code example also shows how to handle it outside of the component using the [`global` property of i18n instance](../../api/general#global).
-About i18n instance, see the [API Reference](../../api/general)
-:::
+<!-- eslint-disable markdown/no-missing-label-refs -->
+
+> [!TIP]
+> This code example also shows how to handle it outside the component using the [`global` property of i18n instance](../../api/general/interfaces/I18n.md#global).
+> About i18n instance, see the [API Reference](../../api/general/interfaces/I18n.md)
+
+<!-- eslint-enable markdown/no-missing-label-refs -->
 
 The `setupI18n` function takes the same options as `createI18n`, creates an instance of i18n with those options, executes the `setI18nLanguage` function, and returns the i18n instance.
 
@@ -88,6 +87,10 @@ The `loadLocaleMessages` function is what we will actually use to change the lan
 You can learn more about the import function in the [webpack documentation](https://webpack.js.org/guides/code-splitting/#dynamic-imports).
 
 Using the `loadLocaleMessages` function is straightforward. A common use case is inside a vue-router beforeEach hook.
+
+:::tip NOTE
+`i18n.global.availableLocales` is a **read-only computed property** that returns the locales currently registered in `messages`. It is automatically updated when you add messages via `setLocaleMessage` or `loadLocaleMessages`. You cannot set it directly via `createI18n` options — use a separate constant like `SUPPORT_LOCALES` to define the full list of locales your application supports.
+:::
 
 Here the code for the vue-router beforeEach hook part of `router.js`:
 

@@ -1,6 +1,6 @@
 import { createI18n as _createI18n } from 'vue-i18n'
-import en from './locales/en.json'
-import ja from './locales/ja.json'
+import en from './locales/en.json' with { type: 'json' }
+import ja from './locales/ja.json' with { type: 'json' }
 
 // const messageImports = import.meta.glob('./locales/*.json')
 // console.log(messageImports)

@@ -1,7 +1,21 @@
 {
   "name": "petite-vue-i18n",
-  "version": "12.0.0-alpha.2",
   "description": "Vue I18n lite version",
+  "version": "12.0.0-alpha.3",
+  "author": {
+    "name": "kazuya kawaguchi",
+    "email": "kawakazu80@gmail.com"
+  },
+  "license": "MIT",
+  "funding": "https://github.com/sponsors/kazupon",
+  "bugs": {
+    "url": "https://github.com/intlify/vue-i18n/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/intlify/vue-i18n.git",
+    "directory": "packages/petite-vue-i18n"
+  },
   "keywords": [
     "i18n",
     "internationalization",
@@ -11,42 +25,45 @@
     "vue",
     "vue.js"
   ],
-  "license": "MIT",
-  "author": {
-    "name": "kazuya kawaguchi",
-    "email": "kawakazu80@gmail.com"
-  },
   "homepage": "https://github.com/intlify/vue-i18n/tree/master/packages/petite-vue-i18n#readme",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/intlify/vue-i18n.git",
-    "directory": "packages/petite-vue-i18n"
+  "engines": {
+    "node": ">= 16"
   },
-  "bugs": {
-    "url": "https://github.com/intlify/vue-i18n/issues"
-  },
+  "type": "module",
+  "sideEffects": false,
   "files": [
     "dist"
   ],
-  "type": "module",
   "module": "dist/petite-vue-i18n.js",
   "unpkg": "dist/petite-vue-i18n.global.js",
   "jsdelivr": "dist/petite-vue-i18n.global.js",
+  "exports": {
+    ".": {
+      "types": "./dist/petite-vue-i18n.d.ts",
+      "node": {
+        "import": {
+          "production": "./dist/petite-vue-i18n.node.js",
+          "development": "./dist/petite-vue-i18n.node.js",
+          "default": "./dist/petite-vue-i18n.node.js"
+        }
+      },
+      "import": "./dist/petite-vue-i18n.js",
+      "browser": "./dist/petite-vue-i18n.esm-browser.js"
+    },
+    "./dist/*": "./dist/*",
+    "./package.json": "./package.json"
+  },
   "types": "dist/petite-vue-i18n.d.ts",
   "dependencies": {
     "@intlify/core-base": "workspace:*",
-    "@intlify/shared": "workspace:*",
     "@intlify/vue-i18n-core": "workspace:*",
     "@vue/devtools-api": "^6.5.0"
-  },
-  "devDependencies": {
-    "@intlify/devtools-types": "workspace:*"
   },
   "peerDependencies": {
     "vue": "^3.0.0"
   },
-  "engines": {
-    "node": ">= 16"
+  "devDependencies": {
+    "@intlify/devtools-types": "workspace:*"
   },
   "buildOptions": {
     "name": "PetiteVueI18n",
@@ -60,23 +77,5 @@
       "global",
       "global-runtime"
     ]
-  },
-  "exports": {
-    ".": {
-      "types": "./dist/petite-vue-i18n.d.ts",
-      "import": "./dist/petite-vue-i18n.js",
-      "browser": "./dist/petite-vue-i18n.esm-browser.js",
-      "node": {
-        "import": {
-          "production": "./dist/petite-vue-i18n.node.js",
-          "development": "./dist/petite-vue-i18n.node.js",
-          "default": "./dist/petite-vue-i18n.node.js"
-        }
-      }
-    },
-    "./dist/*": "./dist/*",
-    "./package.json": "./package.json"
-  },
-  "funding": "https://github.com/sponsors/kazupon",
-  "sideEffects": false
+  }
 }

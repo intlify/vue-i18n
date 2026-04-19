@@ -1,7 +1,7 @@
 declare module '*.vue' {
   import { DefineComponent } from 'vue'
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
   const component: DefineComponent<{}, {}, any>
-  // @ts-ignore
+  // @ts-ignore -- NOTE(kazupon): for Vue SFC types
   export default component
 }

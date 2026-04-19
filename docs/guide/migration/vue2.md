@@ -160,6 +160,8 @@ app.mount('#app')
 
 **For Vue 2.7**:
 
+<!-- eslint-skip -->
+
 ```js
 import Vue from 'vue'
 import { createI18n, useI18n } from 'vue-i18n-bridge'
@@ -190,6 +192,8 @@ app.$mount('#app')
 ```
 
 **For Vue 2.6**:
+
+<!-- eslint-skip -->
 
 ```js
 import Vue from 'vue'
@@ -223,6 +227,8 @@ app.$mount('#app')
 ```
 
 **For TypeScript:**
+
+<!-- eslint-skip -->
 
 ```ts
 import Vue from 'vue'

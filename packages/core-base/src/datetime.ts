@@ -3,7 +3,7 @@ import {
   create,
   isBoolean,
   isDate,
-  isEmptyObject,
+  isKeylessObject,
   isNumber,
   isPlainObject,
   isString
@@ -12,7 +12,7 @@ import {
   handleMissing,
   isTranslateFallbackWarn,
   MISSING_RESOLVE_VALUE,
-  NOT_REOSLVED
+  NOT_RESOLVED
 } from './context'
 import { CoreErrorCodes, createCoreError } from './errors'
 import { getLocale } from './fallbacker'
@@ -78,8 +78,7 @@ import type {
  * @VueI18nGeneral
  */
 export interface DateTimeOptions<Key = string, Locales = Locale>
-  extends Intl.DateTimeFormatOptions,
-    LocaleOptions<Locales> {
+  extends Intl.DateTimeFormatOptions, LocaleOptions<Locales> {
   /**
    * @remarks
    * The target format key
@@ -106,10 +105,7 @@ export interface DateTimeOptions<Key = string, Locales = Locale>
  * `datetime` function overloads
  */
 
-export function datetime<
-  Context extends CoreContext<Message, {}, {}, {}>,
-  Message = string
->(
+export function datetime<Context extends CoreContext<Message, {}, {}, {}>, Message = string>(
   context: Context,
   value: number | string | Date
 ): string | number | Intl.DateTimeFormatPart[]
@@ -118,34 +114,28 @@ export function datetime<
   Context extends CoreContext<Message, {}, {}, {}>,
   Value extends number | string | Date = number,
   Key extends string = string,
-  ResourceKeys extends PickupFormatKeys<
+  ResourceKeys extends PickupFormatKeys<Context['datetimeFormats']> = PickupFormatKeys<
     Context['datetimeFormats']
-  > = PickupFormatKeys<Context['datetimeFormats']>,
+  >,
   Message = string
 >(
   context: Context,
   value: Value,
-  keyOrOptions:
-    | Key
-    | ResourceKeys
-    | DateTimeOptions<Key | ResourceKeys, Context['locale']>
+  keyOrOptions: Key | ResourceKeys | DateTimeOptions<Key | ResourceKeys, Context['locale']>
 ): string | number | Intl.DateTimeFormatPart[]
 
 export function datetime<
   Context extends CoreContext<Message, {}, {}, {}>,
   Value extends number | string | Date = number,
   Key extends string = string,
-  ResourceKeys extends PickupFormatKeys<
+  ResourceKeys extends PickupFormatKeys<Context['datetimeFormats']> = PickupFormatKeys<
     Context['datetimeFormats']
-  > = PickupFormatKeys<Context['datetimeFormats']>,
+  >,
   Message = string
 >(
   context: Context,
   value: Value,
-  keyOrOptions:
-    | Key
-    | ResourceKeys
-    | DateTimeOptions<Key | ResourceKeys, Context['locale']>,
+  keyOrOptions: Key | ResourceKeys | DateTimeOptions<Key | ResourceKeys, Context['locale']>,
   locale: Context['locale']
 ): string | number | Intl.DateTimeFormatPart[]
 
@@ -153,17 +143,14 @@ export function datetime<
   Context extends CoreContext<Message, {}, {}, {}>,
   Value extends number | string | Date = number,
   Key extends string = string,
-  ResourceKeys extends PickupFormatKeys<
+  ResourceKeys extends PickupFormatKeys<Context['datetimeFormats']> = PickupFormatKeys<
     Context['datetimeFormats']
-  > = PickupFormatKeys<Context['datetimeFormats']>,
+  >,
   Message = string
 >(
   context: Context,
   value: Value,
-  keyOrOptions:
-    | Key
-    | ResourceKeys
-    | DateTimeOptions<Key | ResourceKeys, Context['locale']>,
+  keyOrOptions: Key | ResourceKeys | DateTimeOptions<Key | ResourceKeys, Context['locale']>,
   override: Intl.DateTimeFormatOptions
 ): string | number | Intl.DateTimeFormatPart[]
 
@@ -171,36 +158,24 @@ export function datetime<
   Context extends CoreContext<Message, {}, {}, {}>,
   Value extends number | string | Date = number,
   Key extends string = string,
-  ResourceKeys extends PickupFormatKeys<
+  ResourceKeys extends PickupFormatKeys<Context['datetimeFormats']> = PickupFormatKeys<
     Context['datetimeFormats']
-  > = PickupFormatKeys<Context['datetimeFormats']>,
+  >,
   Message = string
 >(
   context: Context,
   value: Value,
-  keyOrOptions:
-    | Key
-    | ResourceKeys
-    | DateTimeOptions<Key | ResourceKeys, Context['locale']>,
+  keyOrOptions: Key | ResourceKeys | DateTimeOptions<Key | ResourceKeys, Context['locale']>,
   locale: Context['locale'],
   override: Intl.DateTimeFormatOptions
 ): string | number | Intl.DateTimeFormatPart[]
 
 // implementation of `datetime` function
-export function datetime<
-  Context extends CoreContext<Message, {}, {}, {}>,
-  Message = string
->(
+export function datetime<Context extends CoreContext<Message, {}, {}, {}>, Message = string>(
   context: Context,
   ...args: unknown[]
 ): string | number | Intl.DateTimeFormatPart[] {
-  const {
-    datetimeFormats,
-    unresolving,
-    fallbackLocale,
-    onWarn,
-    localeFallbacker
-  } = context
+  const { datetimeFormats, unresolving, fallbackLocale, onWarn, localeFallbacker } = context
   const { __datetimeFormatters } = context as unknown as CoreInternalContext
 
   if (__DEV__ && !Availabilities.dateTimeFormat) {
@@ -208,23 +183,22 @@ export function datetime<
     return MISSING_RESOLVE_VALUE
   }
 
+  if (!isString(args[0]) && !isDate(args[0]) && !isNumber(args[0])) {
+    if (__DEV__) {
+      onWarn(getWarnMessage(CoreWarnCodes.INVALID_DATE_ARGUMENT, { value: String(args[0]) }))
+    }
+    return MISSING_RESOLVE_VALUE
+  }
+
   const [key, value, options, overrides] = parseDateTimeArgs(...args)
-  const missingWarn = isBoolean(options.missingWarn)
-    ? options.missingWarn
-    : context.missingWarn
-  const fallbackWarn = isBoolean(options.fallbackWarn)
-    ? options.fallbackWarn
-    : context.fallbackWarn
+  const missingWarn = isBoolean(options.missingWarn) ? options.missingWarn : context.missingWarn
+  const fallbackWarn = isBoolean(options.fallbackWarn) ? options.fallbackWarn : context.fallbackWarn
   const part = !!options.part
   const locale = getLocale(context, options)
-  const locales = localeFallbacker(
-    context as any, // eslint-disable-line @typescript-eslint/no-explicit-any
-    fallbackLocale as FallbackLocale,
-    locale
-  )
+  const locales = localeFallbacker(context as any, fallbackLocale as FallbackLocale, locale)
 
   if (!isString(key) || key === '') {
-    return new Intl.DateTimeFormat(locale, overrides).format(value)
+    return new Intl.DateTimeFormat(locale.replace(/!/g, ''), overrides).format(value)
   }
 
   // resolve format
@@ -237,11 +211,7 @@ export function datetime<
 
   for (let i = 0; i < locales.length; i++) {
     targetLocale = to = locales[i]
-    if (
-      __DEV__ &&
-      locale !== targetLocale &&
-      isTranslateFallbackWarn(fallbackWarn, key)
-    ) {
+    if (__DEV__ && locale !== targetLocale && isTranslateFallbackWarn(fallbackWarn, key)) {
       onWarn(
         getWarnMessage(CoreWarnCodes.FALLBACK_TO_DATE_FORMAT, {
           key,
@@ -264,31 +234,27 @@ export function datetime<
       }
     }
 
-    datetimeFormat =
-      (datetimeFormats as unknown as DateTimeFormatsType)[targetLocale] || {}
+    datetimeFormat = (datetimeFormats as unknown as DateTimeFormatsType)[targetLocale] || {}
     format = datetimeFormat[key]
 
     if (isPlainObject(format)) break
-    handleMissing(context as any, key, targetLocale, missingWarn, type) // eslint-disable-line @typescript-eslint/no-explicit-any
+    handleMissing(context as any, key, targetLocale, missingWarn, type)
     from = to
   }
 
   // checking format and target locale
   if (!isPlainObject(format) || !isString(targetLocale)) {
-    return unresolving ? NOT_REOSLVED : key
+    return unresolving ? NOT_RESOLVED : key
   }
 
   let id = `${targetLocale}__${key}`
-  if (!isEmptyObject(overrides)) {
+  if (isPlainObject(overrides) && !isKeylessObject(overrides)) {
     id = `${id}__${JSON.stringify(overrides)}`
   }
 
   let formatter = __datetimeFormatters.get(id)
   if (!formatter) {
-    formatter = new Intl.DateTimeFormat(
-      targetLocale,
-      assign({}, format, overrides)
-    )
+    formatter = new Intl.DateTimeFormat(targetLocale, assign({}, format, overrides))
     __datetimeFormatters.set(id, formatter)
   }
   return !part ? formatter.format(value) : formatter.formatToParts(value)
@@ -330,7 +296,7 @@ export function parseDateTimeArgs(
   if (isString(arg1)) {
     // Only allow ISO strings - other date formats are often supported,
     // but may cause different results in different browsers.
-    const matches = arg1.match(/(\d{4}-\d{2}-\d{2})(T|\s)?(.*)/)
+    const matches = arg1.match(/(\d{4}-\d{2}-\d{2})(T|\s)?(.*)/) // eslint-disable-line regexp/no-unused-capturing-group -- FIXME:
     if (!matches) {
       throw createCoreError(CoreErrorCodes.INVALID_ISO_DATE_ARGUMENT)
     }
@@ -365,10 +331,8 @@ export function parseDateTimeArgs(
   } else if (isPlainObject(arg2)) {
     Object.keys(arg2).forEach(key => {
       if (DATETIME_FORMAT_OPTIONS_KEYS.includes(key)) {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         ;(overrides as any)[key] = (arg2 as any)[key]
       } else {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         ;(options as any)[key] = (arg2 as any)[key]
       }
     })

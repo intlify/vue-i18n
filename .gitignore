@@ -1,16 +1,33 @@
 dist
-docs/api/v11/*.md
-!docs/api/v11/injection.md
 packages/vue-i18n/index.html
 temp
 coverage
 node_modules
 .DS_Store
+.pnpm-store
 .idea
-.vscode
+.vscode/*
+!.vscode/extensions.json
 debug.log
 .eslintcache
+
+# VitePress related
 **/.vitepress/cache
+docs/api/general
+docs/api/vue
+docs/api/index.md
+docs/zh/api/general
+docs/zh/api/vue
+docs/zh/api/index.md
+docs/jp/api/general
+docs/jp/api/vue
+docs/jp/api/index.md
+!docs/api/typedoc-sidebar.json
+.notes
+.data
+.playwright-cli
+.report
+.claude
 
 *.log
 *.swp

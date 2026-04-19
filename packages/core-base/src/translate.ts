@@ -7,8 +7,8 @@ import {
   inBrowser,
   isArray,
   isBoolean,
-  isEmptyObject,
   isFunction,
+  isKeylessObject,
   isNumber,
   isObject,
   isPlainObject,
@@ -19,20 +19,17 @@ import {
 } from '@intlify/shared'
 import { isMessageAST } from './ast'
 import {
-  getAdditionalMeta,
   handleMissing,
   isAlmostSameLocale,
   isImplicitFallback,
   isTranslateFallbackWarn,
-  NOT_REOSLVED
+  NOT_RESOLVED
 } from './context'
-import { translateDevTools } from './devtools'
 import { CoreErrorCodes, createCoreError } from './errors'
 import { getLocale } from './fallbacker'
 import { createMessageContext } from './runtime'
 import { CoreWarnCodes, getWarnMessage } from './warnings'
 
-import type { AdditionalPayloads } from '@intlify/devtools-types'
 import type { CompileError, ResourceNode } from '@intlify/message-compiler'
 import type {
   CoreContext,
@@ -64,8 +61,7 @@ import type {
 
 const NOOP_MESSAGE_FUNCTION = () => ''
 
-export const isMessageFunction = <T>(val: unknown): val is MessageFunction<T> =>
-  isFunction(val)
+export const isMessageFunction = <T>(val: unknown): val is MessageFunction<T> => isFunction(val)
 
 /**
  *  # translate
@@ -119,8 +115,7 @@ export const isMessageFunction = <T>(val: unknown): val is MessageFunction<T> =>
  *
  * @VueI18nGeneral
  */
-export interface TranslateOptions<Locales = Locale>
-  extends LocaleOptions<Locales> {
+export interface TranslateOptions<Locales = Locale> extends LocaleOptions<Locales> {
   /**
    * @remarks
    * List interpolation
@@ -168,30 +163,30 @@ export interface TranslateOptions<Locales = Locale>
  *  this type should be used (refactored) at `translate` type definition
  *  (Unfortunately, using this type will result in key completion failure due to type mismatch...)
  */
-/*
-type ResolveTranslateResourceKeys<
-  Context extends CoreContext<string, {}, {}, {}>,
-  DefinedLocaleMessage extends
-    RemovedIndexResources<DefineCoreLocaleMessage> = RemovedIndexResources<DefineCoreLocaleMessage>,
-  CoreMessages = IsEmptyObject<DefinedLocaleMessage> extends false
-    ? PickupPaths<{
-        [K in keyof DefinedLocaleMessage]: DefinedLocaleMessage[K]
-      }>
-    : never,
-  ContextMessages = IsEmptyObject<Context['messages']> extends false
-    ? PickupKeys<Context['messages']>
-    : never,
-  Result extends
-    | CoreMessages
-    | ContextMessages = IsNever<CoreMessages> extends false
-    ? IsNever<ContextMessages> extends false
-      ? CoreMessages | ContextMessages
-      : CoreMessages
-    : IsNever<ContextMessages> extends false
-    ? ContextMessages
-    : never
-> = Result
-*/
+//
+// type ResolveTranslateResourceKeys<
+// Context extends CoreContext<string, {}, {}, {}>,
+// DefinedLocaleMessage extends
+//     RemovedIndexResources<DefineCoreLocaleMessage> = RemovedIndexResources<DefineCoreLocaleMessage>,
+// CoreMessages = IsEmptyObject<DefinedLocaleMessage> extends false
+//     ? PickupPaths<{
+//         [K in keyof DefinedLocaleMessage]: DefinedLocaleMessage[K]
+//       }>
+//     : never,
+// ContextMessages = IsEmptyObject<Context['messages']> extends false
+//     ? PickupKeys<Context['messages']>
+//     : never,
+// Result extends
+//     | CoreMessages
+//     | ContextMessages = IsNever<CoreMessages> extends false
+//     ? IsNever<ContextMessages> extends false
+//       ? CoreMessages | ContextMessages
+//       : CoreMessages
+//     : IsNever<ContextMessages> extends false
+//     ? ContextMessages
+//     : never
+// > = Result
+//
 
 /**
  * `translate` function overloads
@@ -200,8 +195,8 @@ type ResolveTranslateResourceKeys<
 export function translate<
   Context extends CoreContext<Message>,
   Key extends string = string,
-  DefinedLocaleMessage extends
-    RemovedIndexResources<DefineCoreLocaleMessage> = RemovedIndexResources<DefineCoreLocaleMessage>,
+  DefinedLocaleMessage extends RemovedIndexResources<DefineCoreLocaleMessage> =
+    RemovedIndexResources<DefineCoreLocaleMessage>,
   CoreMessages = IsEmptyObject<DefinedLocaleMessage> extends false
     ? PickupPaths<{
         [K in keyof DefinedLocaleMessage]: DefinedLocaleMessage[K]
@@ -210,9 +205,7 @@ export function translate<
   ContextMessages = IsEmptyObject<Context['messages']> extends false
     ? PickupKeys<Context['messages']>
     : never,
-  ResourceKeys extends
-    | CoreMessages
-    | ContextMessages = IsNever<CoreMessages> extends false
+  ResourceKeys extends CoreMessages | ContextMessages = IsNever<CoreMessages> extends false
     ? IsNever<ContextMessages> extends false
       ? CoreMessages | ContextMessages
       : CoreMessages
@@ -229,8 +222,8 @@ export function translate<
 export function translate<
   Context extends CoreContext<Message, {}, {}, {}>,
   Key extends string = string,
-  DefinedLocaleMessage extends
-    RemovedIndexResources<DefineCoreLocaleMessage> = RemovedIndexResources<DefineCoreLocaleMessage>,
+  DefinedLocaleMessage extends RemovedIndexResources<DefineCoreLocaleMessage> =
+    RemovedIndexResources<DefineCoreLocaleMessage>,
   CoreMessages = IsEmptyObject<DefinedLocaleMessage> extends false
     ? PickupPaths<{
         [K in keyof DefinedLocaleMessage]: DefinedLocaleMessage[K]
@@ -239,9 +232,7 @@ export function translate<
   ContextMessages = IsEmptyObject<Context['messages']> extends false
     ? PickupKeys<Context['messages']>
     : never,
-  ResourceKeys extends
-    | CoreMessages
-    | ContextMessages = IsNever<CoreMessages> extends false
+  ResourceKeys extends CoreMessages | ContextMessages = IsNever<CoreMessages> extends false
     ? IsNever<ContextMessages> extends false
       ? CoreMessages | ContextMessages
       : CoreMessages
@@ -257,8 +248,8 @@ export function translate<
 export function translate<
   Context extends CoreContext<Message, {}, {}, {}>,
   Key extends string = string,
-  DefinedLocaleMessage extends
-    RemovedIndexResources<DefineCoreLocaleMessage> = RemovedIndexResources<DefineCoreLocaleMessage>,
+  DefinedLocaleMessage extends RemovedIndexResources<DefineCoreLocaleMessage> =
+    RemovedIndexResources<DefineCoreLocaleMessage>,
   CoreMessages = IsEmptyObject<DefinedLocaleMessage> extends false
     ? PickupPaths<{
         [K in keyof DefinedLocaleMessage]: DefinedLocaleMessage[K]
@@ -267,9 +258,7 @@ export function translate<
   ContextMessages = IsEmptyObject<Context['messages']> extends false
     ? PickupKeys<Context['messages']>
     : never,
-  ResourceKeys extends
-    | CoreMessages
-    | ContextMessages = IsNever<CoreMessages> extends false
+  ResourceKeys extends CoreMessages | ContextMessages = IsNever<CoreMessages> extends false
     ? IsNever<ContextMessages> extends false
       ? CoreMessages | ContextMessages
       : CoreMessages
@@ -286,8 +275,8 @@ export function translate<
 export function translate<
   Context extends CoreContext<Message, {}, {}, {}>,
   Key extends string = string,
-  DefinedLocaleMessage extends
-    RemovedIndexResources<DefineCoreLocaleMessage> = RemovedIndexResources<DefineCoreLocaleMessage>,
+  DefinedLocaleMessage extends RemovedIndexResources<DefineCoreLocaleMessage> =
+    RemovedIndexResources<DefineCoreLocaleMessage>,
   CoreMessages = IsEmptyObject<DefinedLocaleMessage> extends false
     ? PickupPaths<{
         [K in keyof DefinedLocaleMessage]: DefinedLocaleMessage[K]
@@ -296,9 +285,7 @@ export function translate<
   ContextMessages = IsEmptyObject<Context['messages']> extends false
     ? PickupKeys<Context['messages']>
     : never,
-  ResourceKeys extends
-    | CoreMessages
-    | ContextMessages = IsNever<CoreMessages> extends false
+  ResourceKeys extends CoreMessages | ContextMessages = IsNever<CoreMessages> extends false
     ? IsNever<ContextMessages> extends false
       ? CoreMessages | ContextMessages
       : CoreMessages
@@ -316,8 +303,8 @@ export function translate<
 export function translate<
   Context extends CoreContext<Message, {}, {}, {}>,
   Key extends string = string,
-  DefinedLocaleMessage extends
-    RemovedIndexResources<DefineCoreLocaleMessage> = RemovedIndexResources<DefineCoreLocaleMessage>,
+  DefinedLocaleMessage extends RemovedIndexResources<DefineCoreLocaleMessage> =
+    RemovedIndexResources<DefineCoreLocaleMessage>,
   CoreMessages = IsEmptyObject<DefinedLocaleMessage> extends false
     ? PickupPaths<{
         [K in keyof DefinedLocaleMessage]: DefinedLocaleMessage[K]
@@ -326,9 +313,7 @@ export function translate<
   ContextMessages = IsEmptyObject<Context['messages']> extends false
     ? PickupKeys<Context['messages']>
     : never,
-  ResourceKeys extends
-    | CoreMessages
-    | ContextMessages = IsNever<CoreMessages> extends false
+  ResourceKeys extends CoreMessages | ContextMessages = IsNever<CoreMessages> extends false
     ? IsNever<ContextMessages> extends false
       ? CoreMessages | ContextMessages
       : CoreMessages
@@ -345,8 +330,8 @@ export function translate<
 export function translate<
   Context extends CoreContext<Message, {}, {}, {}>,
   Key extends string = string,
-  DefinedLocaleMessage extends
-    RemovedIndexResources<DefineCoreLocaleMessage> = RemovedIndexResources<DefineCoreLocaleMessage>,
+  DefinedLocaleMessage extends RemovedIndexResources<DefineCoreLocaleMessage> =
+    RemovedIndexResources<DefineCoreLocaleMessage>,
   CoreMessages = IsEmptyObject<DefinedLocaleMessage> extends false
     ? PickupPaths<{
         [K in keyof DefinedLocaleMessage]: DefinedLocaleMessage[K]
@@ -355,9 +340,7 @@ export function translate<
   ContextMessages = IsEmptyObject<Context['messages']> extends false
     ? PickupKeys<Context['messages']>
     : never,
-  ResourceKeys extends
-    | CoreMessages
-    | ContextMessages = IsNever<CoreMessages> extends false
+  ResourceKeys extends CoreMessages | ContextMessages = IsNever<CoreMessages> extends false
     ? IsNever<ContextMessages> extends false
       ? CoreMessages | ContextMessages
       : CoreMessages
@@ -375,8 +358,8 @@ export function translate<
 export function translate<
   Context extends CoreContext<Message, {}, {}, {}>,
   Key extends string = string,
-  DefinedLocaleMessage extends
-    RemovedIndexResources<DefineCoreLocaleMessage> = RemovedIndexResources<DefineCoreLocaleMessage>,
+  DefinedLocaleMessage extends RemovedIndexResources<DefineCoreLocaleMessage> =
+    RemovedIndexResources<DefineCoreLocaleMessage>,
   CoreMessages = IsEmptyObject<DefinedLocaleMessage> extends false
     ? PickupPaths<{
         [K in keyof DefinedLocaleMessage]: DefinedLocaleMessage[K]
@@ -385,9 +368,7 @@ export function translate<
   ContextMessages = IsEmptyObject<Context['messages']> extends false
     ? PickupKeys<Context['messages']>
     : never,
-  ResourceKeys extends
-    | CoreMessages
-    | ContextMessages = IsNever<CoreMessages> extends false
+  ResourceKeys extends CoreMessages | ContextMessages = IsNever<CoreMessages> extends false
     ? IsNever<ContextMessages> extends false
       ? CoreMessages | ContextMessages
       : CoreMessages
@@ -404,8 +385,8 @@ export function translate<
 export function translate<
   Context extends CoreContext<Message, {}, {}, {}>,
   Key extends string = string,
-  DefinedLocaleMessage extends
-    RemovedIndexResources<DefineCoreLocaleMessage> = RemovedIndexResources<DefineCoreLocaleMessage>,
+  DefinedLocaleMessage extends RemovedIndexResources<DefineCoreLocaleMessage> =
+    RemovedIndexResources<DefineCoreLocaleMessage>,
   CoreMessages = IsEmptyObject<DefinedLocaleMessage> extends false
     ? PickupPaths<{
         [K in keyof DefinedLocaleMessage]: DefinedLocaleMessage[K]
@@ -414,9 +395,7 @@ export function translate<
   ContextMessages = IsEmptyObject<Context['messages']> extends false
     ? PickupKeys<Context['messages']>
     : never,
-  ResourceKeys extends
-    | CoreMessages
-    | ContextMessages = IsNever<CoreMessages> extends false
+  ResourceKeys extends CoreMessages | ContextMessages = IsNever<CoreMessages> extends false
     ? IsNever<ContextMessages> extends false
       ? CoreMessages | ContextMessages
       : CoreMessages
@@ -434,8 +413,8 @@ export function translate<
 export function translate<
   Context extends CoreContext<Message, {}, {}, {}>,
   Key extends string = string,
-  DefinedLocaleMessage extends
-    RemovedIndexResources<DefineCoreLocaleMessage> = RemovedIndexResources<DefineCoreLocaleMessage>,
+  DefinedLocaleMessage extends RemovedIndexResources<DefineCoreLocaleMessage> =
+    RemovedIndexResources<DefineCoreLocaleMessage>,
   CoreMessages = IsEmptyObject<DefinedLocaleMessage> extends false
     ? PickupPaths<{
         [K in keyof DefinedLocaleMessage]: DefinedLocaleMessage[K]
@@ -444,9 +423,7 @@ export function translate<
   ContextMessages = IsEmptyObject<Context['messages']> extends false
     ? PickupKeys<Context['messages']>
     : never,
-  ResourceKeys extends
-    | CoreMessages
-    | ContextMessages = IsNever<CoreMessages> extends false
+  ResourceKeys extends CoreMessages | ContextMessages = IsNever<CoreMessages> extends false
     ? IsNever<ContextMessages> extends false
       ? CoreMessages | ContextMessages
       : CoreMessages
@@ -464,8 +441,8 @@ export function translate<
 export function translate<
   Context extends CoreContext<Message, {}, {}, {}>,
   Key extends string = string,
-  DefinedLocaleMessage extends
-    RemovedIndexResources<DefineCoreLocaleMessage> = RemovedIndexResources<DefineCoreLocaleMessage>,
+  DefinedLocaleMessage extends RemovedIndexResources<DefineCoreLocaleMessage> =
+    RemovedIndexResources<DefineCoreLocaleMessage>,
   CoreMessages = IsEmptyObject<DefinedLocaleMessage> extends false
     ? PickupPaths<{
         [K in keyof DefinedLocaleMessage]: DefinedLocaleMessage[K]
@@ -474,9 +451,7 @@ export function translate<
   ContextMessages = IsEmptyObject<Context['messages']> extends false
     ? PickupKeys<Context['messages']>
     : never,
-  ResourceKeys extends
-    | CoreMessages
-    | ContextMessages = IsNever<CoreMessages> extends false
+  ResourceKeys extends CoreMessages | ContextMessages = IsNever<CoreMessages> extends false
     ? IsNever<ContextMessages> extends false
       ? CoreMessages | ContextMessages
       : CoreMessages
@@ -494,8 +469,8 @@ export function translate<
 export function translate<
   Context extends CoreContext<Message, {}, {}, {}>,
   Key extends string = string,
-  DefinedLocaleMessage extends
-    RemovedIndexResources<DefineCoreLocaleMessage> = RemovedIndexResources<DefineCoreLocaleMessage>,
+  DefinedLocaleMessage extends RemovedIndexResources<DefineCoreLocaleMessage> =
+    RemovedIndexResources<DefineCoreLocaleMessage>,
   CoreMessages = IsEmptyObject<DefinedLocaleMessage> extends false
     ? PickupPaths<{
         [K in keyof DefinedLocaleMessage]: DefinedLocaleMessage[K]
@@ -504,9 +479,7 @@ export function translate<
   ContextMessages = IsEmptyObject<Context['messages']> extends false
     ? PickupKeys<Context['messages']>
     : never,
-  ResourceKeys extends
-    | CoreMessages
-    | ContextMessages = IsNever<CoreMessages> extends false
+  ResourceKeys extends CoreMessages | ContextMessages = IsNever<CoreMessages> extends false
     ? IsNever<ContextMessages> extends false
       ? CoreMessages | ContextMessages
       : CoreMessages
@@ -523,8 +496,8 @@ export function translate<
 export function translate<
   Context extends CoreContext<Message, {}, {}, {}>,
   Key extends string = string,
-  DefinedLocaleMessage extends
-    RemovedIndexResources<DefineCoreLocaleMessage> = RemovedIndexResources<DefineCoreLocaleMessage>,
+  DefinedLocaleMessage extends RemovedIndexResources<DefineCoreLocaleMessage> =
+    RemovedIndexResources<DefineCoreLocaleMessage>,
   CoreMessages = IsEmptyObject<DefinedLocaleMessage> extends false
     ? PickupPaths<{
         [K in keyof DefinedLocaleMessage]: DefinedLocaleMessage[K]
@@ -533,9 +506,7 @@ export function translate<
   ContextMessages = IsEmptyObject<Context['messages']> extends false
     ? PickupKeys<Context['messages']>
     : never,
-  ResourceKeys extends
-    | CoreMessages
-    | ContextMessages = IsNever<CoreMessages> extends false
+  ResourceKeys extends CoreMessages | ContextMessages = IsNever<CoreMessages> extends false
     ? IsNever<ContextMessages> extends false
       ? CoreMessages | ContextMessages
       : CoreMessages
@@ -553,8 +524,8 @@ export function translate<
 export function translate<
   Context extends CoreContext<Message, {}, {}, {}>,
   Key extends string = string,
-  DefinedLocaleMessage extends
-    RemovedIndexResources<DefineCoreLocaleMessage> = RemovedIndexResources<DefineCoreLocaleMessage>,
+  DefinedLocaleMessage extends RemovedIndexResources<DefineCoreLocaleMessage> =
+    RemovedIndexResources<DefineCoreLocaleMessage>,
   CoreMessages = IsEmptyObject<DefinedLocaleMessage> extends false
     ? PickupPaths<{
         [K in keyof DefinedLocaleMessage]: DefinedLocaleMessage[K]
@@ -563,9 +534,7 @@ export function translate<
   ContextMessages = IsEmptyObject<Context['messages']> extends false
     ? PickupKeys<Context['messages']>
     : never,
-  ResourceKeys extends
-    | CoreMessages
-    | ContextMessages = IsNever<CoreMessages> extends false
+  ResourceKeys extends CoreMessages | ContextMessages = IsNever<CoreMessages> extends false
     ? IsNever<ContextMessages> extends false
       ? CoreMessages | ContextMessages
       : CoreMessages
@@ -583,8 +552,8 @@ export function translate<
 export function translate<
   Context extends CoreContext<Message, {}, {}, {}>,
   Key extends string = string,
-  DefinedLocaleMessage extends
-    RemovedIndexResources<DefineCoreLocaleMessage> = RemovedIndexResources<DefineCoreLocaleMessage>,
+  DefinedLocaleMessage extends RemovedIndexResources<DefineCoreLocaleMessage> =
+    RemovedIndexResources<DefineCoreLocaleMessage>,
   CoreMessages = IsEmptyObject<DefinedLocaleMessage> extends false
     ? PickupPaths<{
         [K in keyof DefinedLocaleMessage]: DefinedLocaleMessage[K]
@@ -593,9 +562,7 @@ export function translate<
   ContextMessages = IsEmptyObject<Context['messages']> extends false
     ? PickupKeys<Context['messages']>
     : never,
-  ResourceKeys extends
-    | CoreMessages
-    | ContextMessages = IsNever<CoreMessages> extends false
+  ResourceKeys extends CoreMessages | ContextMessages = IsNever<CoreMessages> extends false
     ? IsNever<ContextMessages> extends false
       ? CoreMessages | ContextMessages
       : CoreMessages
@@ -611,58 +578,23 @@ export function translate<
 ): MessageFunctionReturn<Message> | number
 
 // implementation of `translate` function
-export function translate<
-  Context extends CoreContext<Message, {}, {}, {}>,
-  Message = string
->(
+export function translate<Context extends CoreContext<Message, {}, {}, {}>, Message = string>(
   context: Context,
   ...args: unknown[]
 ): MessageFunctionReturn<Message> | number {
-  const {
-    fallbackFormat,
-    postTranslation,
-    unresolving,
-    messageCompiler,
-    fallbackLocale,
-    messages
-  } = context
   const [key, options] = parseTranslateArgs<Message>(...args)
-
-  const missingWarn = isBoolean(options.missingWarn)
-    ? options.missingWarn
-    : context.missingWarn
-
-  const fallbackWarn = isBoolean(options.fallbackWarn)
-    ? options.fallbackWarn
-    : context.fallbackWarn
-
-  const escapeParameter = isBoolean(options.escapeParameter)
-    ? options.escapeParameter
-    : context.escapeParameter
-
-  const resolvedMessage = !!options.resolvedMessage
-
-  // prettier-ignore
-  const defaultMsgOrKey =
-    isString(options.default) || isBoolean(options.default) // default by function option
-      ? !isBoolean(options.default)
-        ? options.default
-        : (!messageCompiler ? () => key : key)
-      : fallbackFormat // default by `fallbackFormat` option
-        ? (!messageCompiler ? () => key : key)
-        : null
-  const enableDefaultMsg =
-    fallbackFormat ||
-    (defaultMsgOrKey != null &&
-      (isString(defaultMsgOrKey) || isFunction(defaultMsgOrKey)))
   const locale = getLocale(context, options)
 
   // escape params
+  const escapeParameter = isBoolean(options.escapeParameter)
+    ? options.escapeParameter
+    : context.escapeParameter
   escapeParameter && escapeParams(options)
 
   // resolve message format
-  // eslint-disable-next-line prefer-const
-  let [formatScope, targetLocale, message]: [
+  const resolvedMessage = !!options.resolvedMessage
+
+  let [format, targetLocale, message]: [
     PathValue | MessageFunction<Message> | ResourceNode,
     Locale | undefined,
     LocaleMessageValue<Message>
@@ -671,32 +603,30 @@ export function translate<
         context,
         key as string,
         locale,
-        fallbackLocale as FallbackLocale,
-        fallbackWarn,
-        missingWarn
+        context.fallbackLocale as FallbackLocale,
+        isBoolean(options.fallbackWarn) ? options.fallbackWarn : context.fallbackWarn,
+        isBoolean(options.missingWarn) ? options.missingWarn : context.missingWarn
       )
-    : [
-        key,
-        locale,
-        (messages as unknown as LocaleMessages<Message>)[locale] || create()
-      ]
-  // NOTE:
-  //  Fix to work around `ssrTransfrom` bug in Vite.
-  //  https://github.com/vitejs/vite/issues/4306
-  //  To get around this, use temporary variables.
-  //  https://github.com/nuxt/framework/issues/1461#issuecomment-954606243
-  let format = formatScope
+    : [key, locale, (context.messages as unknown as LocaleMessages<Message>)[locale] || create()]
 
   // if you use default message, set it as message format!
   let cacheBaseKey = key
   if (
     !resolvedMessage &&
-    !(
-      isString(format) ||
-      isMessageAST(format) ||
-      isMessageFunction<Message>(format)
-    )
+    !(isString(format) || isMessageAST(format) || isMessageFunction<Message>(format))
   ) {
+    // prettier-ignore
+    const defaultMsgOrKey =
+      isString(options.default)
+        ? options.default // default by string option
+        : isBoolean(options.default) || context.fallbackFormat 
+          ? (!context.messageCompiler ? () => key : key) // default by `fallbackFormat` option
+          : null
+
+    const enableDefaultMsg =
+      context.fallbackFormat ||
+      (defaultMsgOrKey != null && (isString(defaultMsgOrKey) || isFunction(defaultMsgOrKey)))
+
     if (enableDefaultMsg) {
       format = defaultMsgOrKey
       cacheBaseKey = format as Path | MessageFunction<Message>
@@ -706,14 +636,10 @@ export function translate<
   // checking message format and target locale
   if (
     !resolvedMessage &&
-    (!(
-      isString(format) ||
-      isMessageAST(format) ||
-      isMessageFunction<Message>(format)
-    ) ||
+    (!(isString(format) || isMessageAST(format) || isMessageFunction<Message>(format)) ||
       !isString(targetLocale))
   ) {
-    return unresolving ? NOT_REOSLVED : (key as MessageFunctionReturn<Message>)
+    return context.unresolving ? NOT_RESOLVED : (key as MessageFunctionReturn<Message>)
   }
 
   // TODO: refactor
@@ -722,7 +648,15 @@ export function translate<
       `The message format compilation is not supported in this build. ` +
         `Because message compiler isn't included. ` +
         `You need to pre-compilation all message format. ` +
-        `So translate function return '${key}'.`
+        `So translate function return '${
+          isString(key)
+            ? key
+            : isObject(key)
+              ? JSON.stringify(key as ResourceNode)
+              : isFunction(key)
+                ? (key as Function).name || 'function'
+                : ''
+        }'.`
     )
     return key as MessageFunctionReturn<Message>
   }
@@ -751,61 +685,26 @@ export function translate<
   }
 
   // evaluate message with context
-  const ctxOptions = getMessageContextOptions(
-    context,
-    targetLocale!,
-    message,
-    options
-  )
+  const ctxOptions = getMessageContextOptions(context, targetLocale!, message, options)
   const msgContext = createMessageContext<Message>(ctxOptions)
-  const messaged = evaluateMessage(
-    context,
-    msg as MessageFunction<Message>,
-    msgContext
-  )
 
+  const messaged =
+    __DEV__ && inBrowser
+      ? measureEvaluateMessage(context, msg as MessageFunction<Message>, msgContext)
+      : (msg as MessageFunction<Message>)(msgContext)
+
+  // prettier-ignore
   // if use post translation option, proceed it with handler
-  const ret = postTranslation
-    ? postTranslation(messaged, key as string)
+  const ret = context.postTranslation
+    ? context.postTranslation(messaged, key as string)
     : messaged
-
-  // NOTE: experimental !!
-  if (__DEV__ || __FEATURE_PROD_INTLIFY_DEVTOOLS__) {
-    // prettier-ignore
-    const payloads = {
-      timestamp: Date.now(),
-      key: isString(key)
-        ? key
-        : isMessageFunction(format)
-          ? (format as MessageFunctionInternal).key!
-          : '',
-      locale: targetLocale || (isMessageFunction(format)
-        ? (format as MessageFunctionInternal).locale!
-        : ''),
-      format:
-        isString(format)
-          ? format
-          : isMessageFunction(format)
-            ? (format as MessageFunctionInternal).source!
-            : '',
-      message: ret as string
-    }
-    ;(payloads as AdditionalPayloads).meta = assign(
-      {},
-      (context as unknown as CoreInternalContext).__meta,
-      getAdditionalMeta() || {}
-    )
-    translateDevTools(payloads)
-  }
 
   return ret
 }
 
 function escapeParams(options: TranslateOptions) {
   if (isArray(options.list)) {
-    options.list = options.list.map(item =>
-      isString(item) ? escapeHtml(item) : item
-    )
+    options.list = options.list.map(item => (isString(item) ? escapeHtml(item) : item))
   } else if (isObject(options.named)) {
     Object.keys(options.named).forEach(key => {
       if (isString(options.named![key])) {
@@ -823,23 +722,18 @@ function resolveMessageFormat<Messages, Message>(
   fallbackWarn: boolean | RegExp,
   missingWarn: boolean | RegExp
 ): [PathValue, Locale | undefined, LocaleMessageValue<Message>] {
-  const {
-    messages,
-    onWarn,
-    messageResolver: resolveValue,
-    localeFallbacker
-  } = context
-  const locales = localeFallbacker(context as any, fallbackLocale, locale) // eslint-disable-line @typescript-eslint/no-explicit-any
+  const { messages, onWarn, messageResolver: resolveValue, localeFallbacker } = context
+  const locales = localeFallbacker(context as any, fallbackLocale, locale)
 
   let message: LocaleMessageValue<Message> = create()
   let targetLocale: Locale | undefined
   let format: PathValue = null
+  // for vue-devtools timeline event
   let from: Locale = locale
-  let to: Locale | null = null
   const type = 'translate'
 
   for (let i = 0; i < locales.length; i++) {
-    targetLocale = to = locales[i]
+    targetLocale = locales[i]
 
     if (
       __DEV__ &&
@@ -863,14 +757,13 @@ function resolveMessageFormat<Messages, Message>(
           type,
           key,
           from,
-          to,
+          to: targetLocale,
           groupId: `${type}:${key}`
         })
       }
     }
 
-    message =
-      (messages as unknown as LocaleMessages<Message>)[targetLocale] || create()
+    message = (messages as unknown as LocaleMessages<Message>)[targetLocale] || create()
 
     // for vue-devtools timeline event
     let start: number | null = null
@@ -880,12 +773,12 @@ function resolveMessageFormat<Messages, Message>(
       start = window.performance.now()
       startTag = 'intlify-message-resolve-start'
       endTag = 'intlify-message-resolve-end'
-      mark && mark(startTag)
+      mark?.(startTag)
     }
 
     if ((format = resolveValue(message, key)) === null) {
       // if null, resolve with object key path
-      format = (message as any)[key] // eslint-disable-line @typescript-eslint/no-explicit-any
+      format = (message as any)[key]
     }
 
     // for vue-devtools timeline event
@@ -912,18 +805,14 @@ function resolveMessageFormat<Messages, Message>(
     }
 
     if (!isImplicitFallback(targetLocale, locales)) {
-      const missingRet = handleMissing(
-        context as any, // eslint-disable-line @typescript-eslint/no-explicit-any
-        key,
-        targetLocale,
-        missingWarn,
-        type
-      )
+      const missingRet = handleMissing(context as any, key, targetLocale, missingWarn, type)
       if (missingRet !== key) {
         format = missingRet as PathValue
       }
     }
-    from = to
+    if (__DEV__) {
+      from = targetLocale
+    }
   }
 
   return [format, targetLocale, message]
@@ -937,8 +826,6 @@ function compileMessageFormat<Messages, Message>(
   cacheBaseKey: string,
   onError: () => void
 ): MessageFunctionInternal {
-  const { messageCompiler, warnHtmlMessage } = context
-
   if (isMessageFunction<Message>(format)) {
     const msg = format as MessageFunctionInternal
     msg.locale = msg.locale || targetLocale
@@ -946,7 +833,7 @@ function compileMessageFormat<Messages, Message>(
     return msg
   }
 
-  if (messageCompiler == null) {
+  if (context.messageCompiler == null) {
     const msg = (() => format) as MessageFunctionInternal
     msg.locale = targetLocale
     msg.key = key
@@ -957,21 +844,21 @@ function compileMessageFormat<Messages, Message>(
   let start: number | null = null
   let startTag: string | undefined
   let endTag: string | undefined
-  if (__DEV__ && inBrowser) {
+  if (__DEV__ && inBrowser && mark) {
     start = window.performance.now()
     startTag = 'intlify-message-compilation-start'
     endTag = 'intlify-message-compilation-end'
-    mark && mark(startTag)
+    mark?.(startTag)
   }
 
-  const msg = messageCompiler(
+  const msg = context.messageCompiler(
     format as string | ResourceNode,
     getCompileContext(
       context,
       targetLocale,
       cacheBaseKey,
       format as string | ResourceNode,
-      warnHtmlMessage,
+      context.warnHtmlMessage,
       onError
     )
   ) as MessageFunctionInternal
@@ -1001,43 +888,36 @@ function compileMessageFormat<Messages, Message>(
   return msg
 }
 
-function evaluateMessage<Messages, Message>(
+// for vue-devtools timeline event
+let measureEvaluateMessage: <Messages, Message>(
   context: CoreContext<Message, Messages>,
   msg: MessageFunction<Message>,
   msgCtx: MessageContext<Message>
-): MessageFunctionReturn<Message> {
-  // for vue-devtools timeline event
-  let start: number | null = null
-  let startTag: string | undefined
-  let endTag: string | undefined
-  if (__DEV__ && inBrowser) {
-    start = window.performance.now()
-    startTag = 'intlify-message-evaluation-start'
-    endTag = 'intlify-message-evaluation-end'
-    mark && mark(startTag)
-  }
+) => MessageFunctionReturn<Message>
+if (__DEV__ && inBrowser) {
+  const startTag = 'intlify-message-evaluation-start'
+  const endTag = 'intlify-message-evaluation-end'
+  measureEvaluateMessage = (context, msg, msgCtx) => {
+    const start = window.performance.now()
+    mark(startTag)
 
-  const messaged = msg(msgCtx)
+    // evaluate message
+    const messaged = msg(msgCtx)
 
-  // for vue-devtools timeline event
-  if (__DEV__ && inBrowser) {
     const end = window.performance.now()
     const emitter = (context as unknown as CoreInternalContext).__v_emitter
-    if (emitter && start) {
-      emitter.emit('message-evaluation', {
-        type: 'message-evaluation',
-        value: messaged,
-        time: end - start,
-        groupId: `${'translate'}:${(msg as MessageFunctionInternal).key}`
-      })
-    }
-    if (startTag && endTag && mark && measure) {
-      mark(endTag)
-      measure('intlify message evaluation', startTag, endTag)
-    }
-  }
+    emitter?.emit('message-evaluation', {
+      type: 'message-evaluation',
+      value: messaged,
+      time: end - start,
+      groupId: `${'translate'}:${(msg as MessageFunctionInternal).key}`
+    })
 
-  return messaged
+    mark(endTag)
+    measure('intlify message evaluation', startTag, endTag)
+
+    return messaged
+  }
 }
 
 /** @internal */
@@ -1045,14 +925,8 @@ export function parseTranslateArgs<Message = string>(
   ...args: unknown[]
 ): [Path | MessageFunction<Message> | ResourceNode, TranslateOptions] {
   const [arg1, arg2, arg3] = args
-  const options = create() as TranslateOptions
 
-  if (
-    !isString(arg1) &&
-    !isNumber(arg1) &&
-    !isMessageFunction(arg1) &&
-    !isMessageAST(arg1)
-  ) {
+  if (!isString(arg1) && !isNumber(arg1) && !isMessageFunction(arg1) && !isMessageAST(arg1)) {
     throw createCoreError(CoreErrorCodes.INVALID_ARGUMENT)
   }
 
@@ -1063,11 +937,12 @@ export function parseTranslateArgs<Message = string>(
       ? (arg1 as MessageFunction<Message>)
       : arg1
 
+  const options = create() as TranslateOptions
   if (isNumber(arg2)) {
     options.plural = arg2
   } else if (isString(arg2)) {
     options.default = arg2
-  } else if (isPlainObject(arg2) && !isEmptyObject(arg2)) {
+  } else if (isPlainObject(arg2) && !isKeylessObject(arg2)) {
     options.named = arg2 as NamedValue
   } else if (isArray(arg2)) {
     options.list = arg2
@@ -1097,18 +972,13 @@ function getCompileContext<Messages, Message>(
     key,
     warnHtmlMessage,
     onError: (err: CompileError): void => {
-      onError && onError(err)
+      onError?.(err)
       if (__DEV__) {
         const _source = getSourceForCodeFrame(source)
-        const message = `Message compilation error: ${err.message}`
         const codeFrame =
           err.location &&
           _source &&
-          generateCodeFrame(
-            _source,
-            err.location.start.offset,
-            err.location.end.offset
-          )
+          generateCodeFrame(_source, err.location.start.offset, err.location.end.offset)
         const emitter = (context as unknown as CoreInternalContext).__v_emitter
         if (emitter && _source) {
           emitter.emit('compile-error', {
@@ -1119,25 +989,20 @@ function getCompileContext<Messages, Message>(
             groupId: `${'translate'}:${key}`
           })
         }
-        console.error(codeFrame ? `${message}\n${codeFrame}` : message)
-      } else {
-        throw err
+        const message = `Message compilation error: ${err.message}`
+        throw new SyntaxError(codeFrame ? `${message}\n${codeFrame}` : message)
       }
+      throw err
     },
-    onCacheKey: (source: string): string =>
-      generateFormatCacheKey(locale, key, source)
+    onCacheKey: (source: string): string => generateFormatCacheKey(locale, key, source)
   }
 }
 
-function getSourceForCodeFrame(
-  source: string | ResourceNode
-): string | undefined {
+function getSourceForCodeFrame(source: string | ResourceNode): string | undefined {
   if (isString(source)) {
     return source
-  } else {
-    if (source.loc && source.loc.source) {
-      return source.loc.source
-    }
+  } else if (source.loc?.source) {
+    return source.loc.source
   }
 }
 
@@ -1157,15 +1022,12 @@ function getMessageContextOptions<Messages, Message = string>(
     fallbackContext
   } = context
 
-  const resolveMessage = (
-    key: string,
-    useLinked: boolean
-  ): MessageFunction<Message> => {
+  const resolveMessage = (key: string, useLinked: boolean): MessageFunction<Message> => {
     let val = resolveValue(message, key)
 
     // fallback
     if (val == null && (fallbackContext || useLinked)) {
-      const [, , message] = resolveMessageFormat(
+      const [format, , message] = resolveMessageFormat(
         fallbackContext || context, // NOTE: if has fallbackContext, fallback to root, else if use linked, fallback to local context
         key,
         locale,
@@ -1173,7 +1035,7 @@ function getMessageContextOptions<Messages, Message = string>(
         fallbackWarn,
         missingWarn
       )
-      val = resolveValue(message, key)
+      val = format ?? resolveValue(message, key)
     }
 
     if (isString(val) || isMessageAST(val)) {
@@ -1189,9 +1051,7 @@ function getMessageContextOptions<Messages, Message = string>(
         key,
         onError
       ) as unknown as MessageFunction<Message>
-      return !occurred
-        ? msg
-        : (NOOP_MESSAGE_FUNCTION as MessageFunction<Message>)
+      return !occurred ? msg : (NOOP_MESSAGE_FUNCTION as MessageFunction<Message>)
     } else if (isMessageFunction<Message>(val)) {
       return val
     } else {
@@ -1200,25 +1060,14 @@ function getMessageContextOptions<Messages, Message = string>(
     }
   }
 
-  const ctxOptions: MessageContextOptions<Message> = {
+  return {
     locale,
     modifiers,
     pluralRules,
-    messages: resolveMessage
+    messages: resolveMessage,
+    processor: context.processor ?? undefined,
+    list: options.list ?? undefined,
+    named: options.named ?? undefined,
+    pluralIndex: isNumber(options.plural) ? options.plural : undefined
   }
-
-  if (context.processor) {
-    ctxOptions.processor = context.processor
-  }
-  if (options.list) {
-    ctxOptions.list = options.list
-  }
-  if (options.named) {
-    ctxOptions.named = options.named
-  }
-  if (isNumber(options.plural)) {
-    ctxOptions.pluralIndex = options.plural
-  }
-
-  return ctxOptions
 }

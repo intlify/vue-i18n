@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-
 import {
   assign,
   create,
@@ -14,7 +12,6 @@ import {
   warn,
   warnOnce
 } from '@intlify/shared'
-import { initI18nDevTools } from './devtools'
 import { fallbackWithSimple } from './fallbacker'
 import { resolveWithKeyValue } from './resolver'
 import { CoreWarnCodes, getWarnMessage } from './warnings'
@@ -56,9 +53,7 @@ export interface MetaInfo {
 }
 
 /** @VueI18nGeneral */
-export type LocaleMessageValue<Message = string> =
-  | LocaleMessageDictionary<any, Message>
-  | string
+export type LocaleMessageValue<Message = string> = LocaleMessageDictionary<any, Message> | string
 
 // prettier-ignore
 /** @VueI18nGeneral */
@@ -80,17 +75,13 @@ export type LocaleMessageDictionary<T, Message = string> = {
 }
 
 /** @VueI18nGeneral */
-export type LocaleMessage<Message = string> = Record<
-  string,
-  LocaleMessageValue<Message>
->
+export type LocaleMessage<Message = string> = Record<string, LocaleMessageValue<Message>>
 
 /** @VueI18nGeneral */
-export type LocaleMessages<
-  Schema,
-  Locales = Locale,
-  Message = string // eslint-disable-line @typescript-eslint/no-unused-vars
-> = LocaleRecord<UnionToTuple<Locales>, Schema>
+export type LocaleMessages<Schema, Locales = Locale, _Message = string> = LocaleRecord<
+  UnionToTuple<Locales>,
+  Schema
+>
 
 /**
  * The type definition of Locale Message for `@intlify/core-base` package
@@ -142,10 +133,7 @@ export type PostTranslationHandler<Message = string> = (
  *
  * @VueI18nGeneral
  */
-export type MessageCompilerContext = Pick<
-  CompileOptions,
-  'onError' | 'onCacheKey'
-> & {
+export type MessageCompilerContext = Pick<CompileOptions, 'onError' | 'onCacheKey'> & {
   /**
    * Whether to allow the use locale messages of HTML formatting.
    */
@@ -170,10 +158,7 @@ export type MessageCompilerContext = Pick<
  *
  * @VueI18nGeneral
  */
-export type MessageCompiler<
-  Message = string,
-  MessageSource = string | ResourceNode
-> = (
+export type MessageCompiler<Message = string, MessageSource = string | ResourceNode> = (
   message: MessageSource,
   context: MessageCompilerContext
 ) => MessageFunction<Message>
@@ -252,7 +237,6 @@ export interface CoreInternalOptions {
   __datetimeFormatters?: Map<string, Intl.DateTimeFormat>
   __numberFormatters?: Map<string, Intl.NumberFormat>
   __v_emitter?: VueDevToolsEmitter
-  __meta?: MetaInfo
 }
 
 export interface CoreCommonContext<Message = string, Locales = 'en-US'> {
@@ -327,7 +311,6 @@ export interface CoreInternalContext {
   __numberFormatters: Map<string, Intl.NumberFormat>
   __localeChainCache?: Map<Locale, Locale[]>
   __v_emitter?: VueDevToolsEmitter
-  __meta: MetaInfo // for Intlify DevTools
 }
 
 /**
@@ -336,34 +319,31 @@ export interface CoreInternalContext {
  */
 export const VERSION: string = __VERSION__
 
-export const NOT_REOSLVED = -1
+export const NOT_RESOLVED = -1
 
 export const DEFAULT_LOCALE = 'en-US'
 
 export const MISSING_RESOLVE_VALUE = ''
 
-const capitalize = (str: string) =>
-  `${str.charAt(0).toLocaleUpperCase()}${str.substr(1)}`
+const capitalize = (str: string) => `${str.charAt(0).toLocaleUpperCase()}${str.substr(1)}`
 
-function getDefaultLinkedModifiers<
-  Message = string
->(): LinkedModifiers<Message> {
+function getDefaultLinkedModifiers<Message = string>(): LinkedModifiers<Message> {
   return {
     upper: (val: Message, type: string): MessageType<Message> => {
       // prettier-ignore
       return type === 'text' && isString(val)
-        ? val.toUpperCase()
+        ? val.toUpperCase() as MessageType<Message>
         : type === 'vnode' && isObject(val) && '__v_isVNode' in val
           ? (val as any).children.toUpperCase()
-          : val
+          : val as MessageType<Message>
     },
     lower: (val: Message, type: string): MessageType<Message> => {
       // prettier-ignore
       return type === 'text' && isString(val)
-        ? val.toLowerCase()
+        ? val.toLowerCase() as MessageType<Message>
         : type === 'vnode' && isObject(val) && '__v_isVNode' in val
           ? (val as any).children.toLowerCase()
-          : val
+          : val as MessageType<Message>
     },
     capitalize: (val: Message, type: string): MessageType<Message> => {
       // prettier-ignore
@@ -376,50 +356,67 @@ function getDefaultLinkedModifiers<
   }
 }
 
-let _compiler: unknown | null
+let _compiler: unknown
 
+/**
+ * Register the message compiler
+ *
+ * @param compiler - A {@link MessageCompiler} function
+ *
+ * @deprecated Use `messageCompiler` option of `createI18n` or `createCoreContext` instead. This function will be removed in v13.
+ *
+ * @VueI18nGeneral
+ */
 export function registerMessageCompiler<Message>(
   compiler: MessageCompiler<Message, string | ResourceNode>
 ): void {
+  if (__DEV__) {
+    warnOnce(
+      `registerMessageCompiler is deprecated. Use 'messageCompiler' option of 'createI18n' or 'createCoreContext' instead.`
+    )
+  }
   _compiler = compiler
 }
 
-let _resolver: unknown | null
+let _resolver: unknown
 
 /**
  * Register the message resolver
  *
  * @param resolver - A {@link MessageResolver} function
  *
+ * @deprecated Use `messageResolver` option of `createI18n` or `createCoreContext` instead. This function will be removed in v13.
+ *
  * @VueI18nGeneral
  */
 export function registerMessageResolver(resolver: MessageResolver): void {
+  if (__DEV__) {
+    warnOnce(
+      `registerMessageResolver is deprecated. Use 'messageResolver' option of 'createI18n' or 'createCoreContext' instead.`
+    )
+  }
   _resolver = resolver
 }
 
-let _fallbacker: unknown | null
+let _fallbacker: unknown
 
 /**
  * Register the locale fallbacker
  *
  * @param fallbacker - A {@link LocaleFallbacker} function
  *
+ * @deprecated Use `localeFallbacker` option of `createI18n` or `createCoreContext` instead. This function will be removed in v13.
+ *
  * @VueI18nGeneral
  */
 export function registerLocaleFallbacker(fallbacker: LocaleFallbacker): void {
+  if (__DEV__) {
+    warnOnce(
+      `registerLocaleFallbacker is deprecated. Use 'localeFallbacker' option of 'createI18n' or 'createCoreContext' instead.`
+    )
+  }
   _fallbacker = fallbacker
 }
-
-// Additional Meta for Intlify DevTools
-let _additionalMeta: MetaInfo | null = null
-
-/* #__NO_SIDE_EFFECTS__ */
-export const setAdditionalMeta = (meta: MetaInfo | null): void => {
-  _additionalMeta = meta
-}
-
-/* #__NO_SIDE_EFFECTS__ */
-export const getAdditionalMeta = (): MetaInfo | null => _additionalMeta
 
 let _fallbackContext: CoreContext | null = null
 
@@ -436,45 +433,31 @@ let _cid = 0
 export function createCoreContext<
   Message = string,
   Options extends CoreOptions<Message> = CoreOptions<Message>,
-  Messages extends Record<string, any> = Options['messages'] extends Record<
+  Messages extends Record<string, any> = Options['messages'] extends Record<string, any>
+    ? Options['messages']
+    : {},
+  DateTimeFormats extends Record<string, any> = Options['datetimeFormats'] extends Record<
     string,
     any
   >
-    ? Options['messages']
-    : {},
-  DateTimeFormats extends Record<
-    string,
-    any
-  > = Options['datetimeFormats'] extends Record<string, any>
     ? Options['datetimeFormats']
     : {},
-  NumberFormats extends Record<
-    string,
-    any
-  > = Options['numberFormats'] extends Record<string, any>
+  NumberFormats extends Record<string, any> = Options['numberFormats'] extends Record<string, any>
     ? Options['numberFormats']
     : {},
   LocaleType = Locale | LocaleDetector
->(
-  options: Options
-): CoreContext<Message, Messages, DateTimeFormats, NumberFormats, LocaleType>
+>(options: Options): CoreContext<Message, Messages, DateTimeFormats, NumberFormats, LocaleType>
 
 export function createCoreContext<
   Schema = LocaleMessage,
   Locales = 'en-US',
   Message = string,
-  Options extends CoreOptions<
-    Message,
-    SchemaParams<Schema, Message>,
-    LocaleParams<Locales>
-  > = CoreOptions<
-    Message,
-    SchemaParams<Schema, Message>,
-    LocaleParams<Locales>
-  >,
-  Messages extends Record<string, any> = NonNullable<
-    Options['messages']
-  > extends Record<string, any>
+  Options extends CoreOptions<Message, SchemaParams<Schema, Message>, LocaleParams<Locales>> =
+    CoreOptions<Message, SchemaParams<Schema, Message>, LocaleParams<Locales>>,
+  Messages extends Record<string, any> = NonNullable<Options['messages']> extends Record<
+    string,
+    any
+  >
     ? NonNullable<Options['messages']>
     : {},
   DateTimeFormats extends Record<string, any> = NonNullable<
@@ -482,24 +465,21 @@ export function createCoreContext<
   > extends Record<string, any>
     ? NonNullable<Options['datetimeFormats']>
     : {},
-  NumberFormats extends Record<string, any> = NonNullable<
-    Options['numberFormats']
-  > extends Record<string, any>
+  NumberFormats extends Record<string, any> = NonNullable<Options['numberFormats']> extends Record<
+    string,
+    any
+  >
     ? NonNullable<Options['numberFormats']>
     : {},
   LocaleType = Locale | LocaleDetector
->(
-  options: Options
-): CoreContext<Message, Messages, DateTimeFormats, NumberFormats, LocaleType>
+>(options: Options): CoreContext<Message, Messages, DateTimeFormats, NumberFormats, LocaleType>
 
 export function createCoreContext<Message = string>(options: any = {}): any {
   // setup options
   const onWarn = isFunction(options.onWarn) ? options.onWarn : warn
   const version = isString(options.version) ? options.version : VERSION
   const locale =
-    isString(options.locale) || isFunction(options.locale)
-      ? options.locale
-      : DEFAULT_LOCALE
+    isString(options.locale) || isFunction(options.locale) ? options.locale : DEFAULT_LOCALE
   const _locale = isFunction(locale) ? DEFAULT_LOCALE : locale
   const fallbackLocale =
     isArray(options.fallbackLocale) ||
@@ -508,9 +488,7 @@ export function createCoreContext<Message = string>(options: any = {}): any {
     options.fallbackLocale === false
       ? options.fallbackLocale
       : _locale
-  const messages = isPlainObject(options.messages)
-    ? options.messages
-    : createResources(_locale)
+  const messages = isPlainObject(options.messages) ? options.messages : createResources(_locale)
   const datetimeFormats = !__LITE__
     ? isPlainObject(options.datetimeFormats)
       ? options.datetimeFormats
@@ -521,40 +499,23 @@ export function createCoreContext<Message = string>(options: any = {}): any {
       ? options.numberFormats
       : createResources(_locale)
     : createResources(_locale)
-  const modifiers = assign(
-    create(),
-    options.modifiers,
-    getDefaultLinkedModifiers<Message>()
-  )
+  const modifiers = assign(create(), options.modifiers, getDefaultLinkedModifiers<Message>())
   const pluralRules = options.pluralRules || create()
   const missing = isFunction(options.missing) ? options.missing : null
   const missingWarn =
-    isBoolean(options.missingWarn) || isRegExp(options.missingWarn)
-      ? options.missingWarn
-      : true
+    isBoolean(options.missingWarn) || isRegExp(options.missingWarn) ? options.missingWarn : true
   const fallbackWarn =
-    isBoolean(options.fallbackWarn) || isRegExp(options.fallbackWarn)
-      ? options.fallbackWarn
-      : true
+    isBoolean(options.fallbackWarn) || isRegExp(options.fallbackWarn) ? options.fallbackWarn : true
   const fallbackFormat = !!options.fallbackFormat
   const unresolving = !!options.unresolving
-  const postTranslation = isFunction(options.postTranslation)
-    ? options.postTranslation
-    : null
+  const postTranslation = isFunction(options.postTranslation) ? options.postTranslation : null
   const processor = isPlainObject(options.processor) ? options.processor : null
-  const warnHtmlMessage = isBoolean(options.warnHtmlMessage)
-    ? options.warnHtmlMessage
-    : true
+  const warnHtmlMessage = isBoolean(options.warnHtmlMessage) ? options.warnHtmlMessage : true
   const escapeParameter = !!options.escapeParameter
   const messageCompiler = isFunction(options.messageCompiler)
     ? options.messageCompiler
-    : _compiler
-  if (
-    __DEV__ &&
-    !__GLOBAL__ &&
-    !__TEST__ &&
-    isFunction(options.messageCompiler)
-  ) {
+    : _compiler || null
+  if (__DEV__ && !__GLOBAL__ && !__TEST__ && isFunction(options.messageCompiler)) {
     warnOnce(getWarnMessage(CoreWarnCodes.EXPERIMENTAL_CUSTOM_MESSAGE_COMPILER))
   }
   const messageResolver = isFunction(options.messageResolver)
@@ -563,9 +524,7 @@ export function createCoreContext<Message = string>(options: any = {}): any {
   const localeFallbacker = isFunction(options.localeFallbacker)
     ? options.localeFallbacker
     : _fallbacker || fallbackWithSimple
-  const fallbackContext = isObject(options.fallbackContext)
-    ? options.fallbackContext
-    : undefined
+  const fallbackContext = isObject(options.fallbackContext) ? options.fallbackContext : undefined
 
   // setup internal options
   const internalOptions = options as CoreInternalOptions
@@ -579,7 +538,6 @@ export function createCoreContext<Message = string>(options: any = {}): any {
       ? internalOptions.__numberFormatters
       : new Map<string, Intl.NumberFormat>()
     : /* #__PURE__*/ new Map<string, Intl.NumberFormat>()
-  const __meta = isObject(internalOptions.__meta) ? internalOptions.__meta : {}
 
   _cid++
 
@@ -604,8 +562,7 @@ export function createCoreContext<Message = string>(options: any = {}): any {
     messageResolver,
     localeFallbacker,
     fallbackContext,
-    onWarn,
-    __meta
+    onWarn
   }
 
   if (!__LITE__) {
@@ -618,14 +575,7 @@ export function createCoreContext<Message = string>(options: any = {}): any {
   // for vue-devtools timeline event
   if (__DEV__) {
     ;(context as unknown as CoreInternalContext).__v_emitter =
-      internalOptions.__v_emitter != null
-        ? internalOptions.__v_emitter
-        : undefined
-  }
-
-  // NOTE: experimental !!
-  if (__DEV__ || __FEATURE_PROD_INTLIFY_DEVTOOLS__) {
-    initI18nDevTools(context, version, __meta)
+      internalOptions.__v_emitter != null ? internalOptions.__v_emitter : undefined
   }
 
   return context
@@ -655,10 +605,7 @@ export function getLocaleMessage<
 /**
  * @version 12.0.0
  */
-export function setLocaleMessage<
-  Context extends CoreContext,
-  Locales = keyof Context['messages']
->(
+export function setLocaleMessage<Context extends CoreContext, Locales = keyof Context['messages']>(
   ctx: Context,
   locale: Locales,
   messages: Context['messages'][keyof Context['messages']]
@@ -667,19 +614,13 @@ export function setLocaleMessage<
 }
 
 /** @internal */
-export function isTranslateFallbackWarn(
-  fallback: boolean | RegExp,
-  key: Path
-): boolean {
-  return fallback instanceof RegExp ? fallback.test(key) : fallback
+export function isTranslateFallbackWarn(fallback: boolean | RegExp, key: Path): boolean {
+  return isRegExp(fallback) ? fallback.test(key) : fallback
 }
 
 /** @internal */
-export function isTranslateMissingWarn(
-  missing: boolean | RegExp,
-  key: Path
-): boolean {
-  return missing instanceof RegExp ? missing.test(key) : missing
+export function isTranslateMissingWarn(missing: boolean | RegExp, key: Path): boolean {
+  return isRegExp(missing) ? missing.test(key) : missing
 }
 
 /** @internal */
@@ -728,19 +669,13 @@ export function updateFallbackLocale<Message = string>(
 }
 
 /** @internal */
-export function isAlmostSameLocale(
-  locale: Locale,
-  compareLocale: Locale
-): boolean {
+export function isAlmostSameLocale(locale: Locale, compareLocale: Locale): boolean {
   if (locale === compareLocale) return false
   return locale.split('-')[0] === compareLocale.split('-')[0]
 }
 
 /** @internal */
-export function isImplicitFallback(
-  targetLocale: Locale,
-  locales: Locale[]
-): boolean {
+export function isImplicitFallback(targetLocale: Locale, locales: Locale[]): boolean {
   const index = locales.indexOf(targetLocale)
   if (index === -1) {
     return false
@@ -754,5 +689,3 @@ export function isImplicitFallback(
 
   return false
 }
-
-/* eslint-enable @typescript-eslint/no-explicit-any */

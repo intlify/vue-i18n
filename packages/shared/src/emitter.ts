@@ -21,21 +21,14 @@ import type {
  *
  * @returns An event emitter
  */
-export function createEmitter<
-  Events extends Record<EventType, unknown>
->(): Emittable<Events> {
-  type GenericEventHandler =
-    | EventHandler<Events[keyof Events]>
-    | WildcardEventHandler<Events>
+export function createEmitter<Events extends Record<EventType, unknown>>(): Emittable<Events> {
+  type GenericEventHandler = EventHandler<Events[keyof Events]> | WildcardEventHandler<Events>
   const events = new Map() as EventHandlerMap<Events>
 
   const emitter = {
     events,
 
-    on<Key extends keyof Events>(
-      event: Key | '*',
-      handler: GenericEventHandler
-    ): void {
+    on<Key extends keyof Events>(event: Key | '*', handler: GenericEventHandler): void {
       const handlers: Array<GenericEventHandler> | undefined = events.get(event)
       const added = handlers && handlers.push(handler)
       if (!added) {
@@ -43,20 +36,14 @@ export function createEmitter<
       }
     },
 
-    off<Key extends keyof Events>(
-      event: Key | '*',
-      handler: GenericEventHandler
-    ): void {
+    off<Key extends keyof Events>(event: Key | '*', handler: GenericEventHandler): void {
       const handlers: Array<GenericEventHandler> | undefined = events.get(event)
       if (handlers) {
         handlers.splice(handlers.indexOf(handler) >>> 0, 1)
       }
     },
 
-    emit<Key extends keyof Events>(
-      event: Key,
-      payload?: Events[keyof Events]
-    ): void {
+    emit<Key extends keyof Events>(event: Key, payload?: Events[keyof Events]): void {
       ;((events.get(event) || []) as EventHandlerList<Events[keyof Events]>)
         .slice()
         .map(handler => handler(payload))

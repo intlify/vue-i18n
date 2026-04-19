@@ -16,10 +16,8 @@ export interface Scanner {
 export const CHAR_SP = ' '
 export const CHAR_CR = '\r'
 export const CHAR_LF = '\n'
-export const CHAR_LS: ReturnType<typeof String.fromCharCode> =
-  String.fromCharCode(0x2028)
-export const CHAR_PS: ReturnType<typeof String.fromCharCode> =
-  String.fromCharCode(0x2029)
+export const CHAR_LS: ReturnType<typeof String.fromCharCode> = String.fromCharCode(0x2028)
+export const CHAR_PS: ReturnType<typeof String.fromCharCode> = String.fromCharCode(0x2029)
 
 export function createScanner(str: string): Scanner {
   const _buf = str
@@ -28,8 +26,7 @@ export function createScanner(str: string): Scanner {
   let _column = 1
   let _peekOffset = 0
 
-  const isCRLF = (index: number): boolean =>
-    _buf[index] === CHAR_CR && _buf[index + 1] === CHAR_LF
+  const isCRLF = (index: number): boolean => _buf[index] === CHAR_CR && _buf[index + 1] === CHAR_LF
   const isLF = (index: number): boolean => _buf[index] === CHAR_LF
   const isPS = (index: number): boolean => _buf[index] === CHAR_PS
   const isLS = (index: number): boolean => _buf[index] === CHAR_LS

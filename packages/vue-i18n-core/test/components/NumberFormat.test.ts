@@ -2,14 +2,6 @@
  * @vitest-environment jsdom
  */
 
-import {
-  compile,
-  fallbackWithLocaleChain,
-  registerLocaleFallbacker,
-  registerMessageCompiler,
-  registerMessageResolver,
-  resolveValue
-} from '@intlify/core-base'
 import { defineComponent, h } from 'vue'
 import { createI18n } from '../../src/index'
 import { mount } from '../helper'
@@ -46,14 +38,8 @@ const numberFormats: IntlNumberFormats = {
   }
 }
 
-beforeAll(() => {
-  registerMessageCompiler(compile)
-  registerMessageResolver(resolveValue)
-  registerLocaleFallbacker(fallbackWithLocaleChain)
-})
-
-let org: any // eslint-disable-line @typescript-eslint/no-explicit-any
-let spy: any // eslint-disable-line @typescript-eslint/no-explicit-any
+let org: any
+let spy: any
 beforeEach(() => {
   org = console.warn
   spy = vi.fn()
@@ -108,7 +94,7 @@ test('slots', async () => {
   const wrapper = await mount(App, i18n)
 
   expect(wrapper.html()).toEqual(
-    `<span style=\"color: green;\">€</span><span style=\"font-weight: bold;\">1</span><span style=\"font-weight: bold;\">,</span><span style=\"font-weight: bold;\">234</span>.<span style=\"font-size: small;\">00</span>`
+    `<span style="color: green;">€</span><span style="font-weight: bold;">1</span><span style="font-weight: bold;">,</span><span style="font-weight: bold;">234</span>.<span style="font-size: small;">00</span>`
   )
 })
 
@@ -119,7 +105,7 @@ test('component', async () => {
   })
 
   const MyComponent = defineComponent({
-    setup(props, context: SetupContext) {
+    setup(_props, context: SetupContext) {
       return (): VNodeChild => h('span', context.slots.default!())
     }
   })
@@ -134,7 +120,5 @@ test('component', async () => {
   })
   const wrapper = await mount(App, i18n)
 
-  expect(wrapper.html()).toEqual(
-    `<span>100</span><span>$100.00</span><span>￥100</span>`
-  )
+  expect(wrapper.html()).toEqual(`<span>100</span><span>$100.00</span><span>￥100</span>`)
 })

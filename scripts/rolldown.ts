@@ -1,13 +1,11 @@
-import polyfillNode from '@rolldown/plugin-node-polyfills'
-import { minify as minifySwc } from '@swc/core'
+import { minify as minifyOxc } from 'oxc-minify'
 import { promises as fs } from 'node:fs'
 import { createRequire } from 'node:module'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import pc from 'picocolors'
 import { entries } from './aliases'
-// @ts-expect-error -- experimental
-import { replacePlugin } from 'rolldown/experimental'
+import { replacePlugin } from 'rolldown/plugins'
 
 import type { OutputOptions, Plugin, RolldownOptions } from 'rolldown'
 
@@ -35,7 +33,7 @@ export function createConfigsForPackage({
   sourceMap?: boolean
   localDev?: boolean
   inlineDeps?: boolean
-}) {
+}): RolldownOptions[] {
   const packageDir = path.resolve(packagesDir, target)
   const resolve = (p: string) => path.resolve(packageDir, p)
   const pkg = require(resolve(`package.json`))
@@ -47,11 +45,11 @@ export function createConfigsForPackage({
   }
   const name = path.basename(packageDir)
 
-  const banner = `/*!
+  const banner = `/**
 * ${pkg.name} v${pkg.version}
 * (c) 2016-present ${pkg.author.name} and contributors
-* Released under the ${pkg.license} License.
-*/`
+* @license ${pkg.license}
+**/`
 
   function resolveStubs(name: string, ns = '') {
     return {
@@ -60,10 +58,7 @@ export function createConfigsForPackage({
     }
   }
 
-  function resolveOutputConfigs(
-    name: string,
-    ns = ''
-  ): Record<string, OutputOptions> {
+  function resolveOutputConfigs(name: string, ns = ''): Record<string, OutputOptions> {
     return {
       mjs: {
         file: resolve(`dist/${ns}${name}.js`),
@@ -114,19 +109,14 @@ export function createConfigsForPackage({
 
   let packageConfigs = prodOnly
     ? []
-    : resolvedFormats.map((format: string) =>
-        createConfig(format, outputConfigs[format])
-      )
+    : resolvedFormats.map((format: string) => createConfig(format, outputConfigs[format]))
 
-  const petiteOutputConfigs =
-    name === 'vue-i18n-core' ? resolveOutputConfigs(name, 'petite-') : {}
+  const petiteOutputConfigs = name === 'vue-i18n-core' ? resolveOutputConfigs(name, 'petite-') : {}
 
   if (name === 'vue-i18n-core') {
     packageConfigs = [
       ...packageConfigs,
-      ...resolvedFormats.map(format =>
-        createConfig(format, petiteOutputConfigs[format])
-      )
+      ...resolvedFormats.map(format => createConfig(format, petiteOutputConfigs[format]))
     ]
   }
 
@@ -135,12 +125,11 @@ export function createConfigsForPackage({
       if (packageOptions.prod === false) {
         return
       }
+      // eslint-disable-next-line regexp/no-unused-capturing-group
       if (/^(global|browser)(-runtime)?/.test(format)) {
         packageConfigs.push(createMinifiedConfig(format, outputConfigs[format]))
         if (name === 'vue-i18n-core') {
-          packageConfigs.push(
-            createMinifiedConfig(format, petiteOutputConfigs[format])
-          )
+          packageConfigs.push(createMinifiedConfig(format, petiteOutputConfigs[format]))
         }
       }
     })
@@ -158,11 +147,9 @@ export function createConfigsForPackage({
     const rawFile = output.file
 
     const isProductionBuild =
-      process.env.__DEV__ === 'false' ||
-      /\.prod\.[cm]?js$/.test(String(output.file) || '')
+      process.env.__DEV__ === 'false' || /\.prod\.[cm]?js$/.test(String(output.file) || '')
     const isBundlerESMBuild = /mjs/.test(format)
-    const isBrowserESMBuild =
-      /browser/.test(format) && !packageOptions.enableNonBrowserBranches
+    const isBrowserESMBuild = /browser/.test(format) && !packageOptions.enableNonBrowserBranches
     const isNodeBuild = String(output.file).includes('.node.')
     const isGlobalBuild = /global/.test(format)
     const isRuntimeOnlyBuild = /runtime/.test(format)
@@ -172,11 +159,7 @@ export function createConfigsForPackage({
     output.sourcemap = sourceMap
     output.banner = banner
     output.externalLiveBindings = false
-    if (
-      name === 'vue-i18n' ||
-      name === 'vue-i18n-core' ||
-      name === 'petite-vue-i18n'
-    ) {
+    if (name === 'vue-i18n' || name === 'vue-i18n-core' || name === 'petite-vue-i18n') {
       output.globals = {
         vue: 'Vue',
         '@vue/devtools-api': 'VueDevtoolsApi'
@@ -215,18 +198,13 @@ export function createConfigsForPackage({
         // for lite version
         __LITE__: String(isLite),
         // feature flags
-        __FEATURE_FULL_INSTALL__: isBundlerESMBuild
-          ? `__VUE_I18N_FULL_INSTALL__`
-          : `true`,
+        __FEATURE_FULL_INSTALL__: isBundlerESMBuild ? `__VUE_I18N_FULL_INSTALL__` : `true`,
         __FEATURE_PROD_VUE_DEVTOOLS__:
           ['vue-i18n', 'petite-vue-i18n'].includes(name) && isNodeBuild
             ? 'false' // tree-shake devtools
             : isBundlerESMBuild
               ? `__VUE_PROD_DEVTOOLS__`
               : `false`,
-        __FEATURE_PROD_INTLIFY_DEVTOOLS__: isBundlerESMBuild
-          ? `__INTLIFY_PROD_DEVTOOLS__`
-          : `false`,
         __FEATURE_DROP_MESSAGE_COMPILER__: isBundlerESMBuild
           ? `__INTLIFY_DROP_MESSAGE_COMPILER__`
           : `false`
@@ -238,7 +216,7 @@ export function createConfigsForPackage({
       }
 
       // allow inline overrides like
-      //__LITE__=true pnpm build core-base
+      // __LITE__=true pnpm build core-base
       Object.keys(defines).forEach(key => {
         if (key in process.env) {
           const value = process.env[key]
@@ -277,7 +255,7 @@ export function createConfigsForPackage({
       }
 
       if (Object.keys(replacements).length) {
-        return [replacePlugin(replacements)]
+        return [replacePlugin(replacements, { preventAssignment: true })]
       } else {
         return []
       }
@@ -290,17 +268,7 @@ export function createConfigsForPackage({
           //   ? []
           //   : ['vue'] // packageOptions.enableNonBrowserBranches
           // Node / esm-bundler builds. Externalize everything.
-          [
-            ...Object.keys(pkg.dependencies || {}),
-            ...Object.keys(pkg.peerDependencies || {})
-          ]
-    }
-
-    function resolveNodePlugins() {
-      const nodePlugins = packageOptions.enableNonBrowserBranches
-        ? [...[polyfillNode()]]
-        : []
-      return nodePlugins
+          [...Object.keys(pkg.dependencies || {}), ...Object.keys(pkg.peerDependencies || {})]
     }
 
     return {
@@ -308,14 +276,15 @@ export function createConfigsForPackage({
       // Global and Browser ESM builds inlines everything so that they can be
       // used alone.
       external: resolveExternal(),
-      define: resolveDefine(),
       platform: 'browser',
       resolve: {
         alias: entries
       },
+      transform: {
+        define: resolveDefine()
+      },
       plugins: [
         ...resolveReplace(),
-        ...resolveNodePlugins(),
         ...plugins,
         {
           name: 'write-stub',
@@ -323,52 +292,52 @@ export function createConfigsForPackage({
             if (rawFile == null) {
               return
             }
-            const stub = stubs[rawFile]
+            const filename = path.basename(rawFile)
+            const stub = stubs[`dist/${filename}`]
             if (!stub) {
               return
             }
 
-            const filename = path.basename(rawFile)
             const contents = `export * from './${filename}'`
 
-            await fs.writeFile(stub, contents)
-            // console.log(`created stub ${pc.bold(path.join('packages', target, 'dist', path.basename(stub)))}`)
+            const fullpath = path.join('packages', target, 'dist', path.basename(stub))
+            await fs.writeFile(fullpath, contents)
+            console.log(`created stub ${pc.bold(fullpath)}`)
           }
         }
       ],
       output,
       treeshake: {
-        // https://github.com/rolldown/rolldown/issues/1917
         moduleSideEffects: false
       }
     }
   }
 
-  function createMinifiedConfig(
-    format: string,
-    output: OutputOptions
-  ): RolldownOptions {
-    const newOutput = {
+  function createMinifiedConfig(format: string, output: OutputOptions): RolldownOptions {
+    const newOutput: OutputOptions = {
       file: String(output.file).replace(/\.js$/, '.prod.js'),
       format: output.format
+      // minify: {
+      //   compress: {
+      //     target: 'es2015'
+      //   },
+      //   mangle: true
+      // }
     }
     return createConfig(format, newOutput, [
       {
-        name: 'swc-minify',
-        async renderChunk(contents, _, { format }) {
-          const { code } = await minifySwc(contents, {
-            module: format === 'es',
-            format: {
-              comments: false
-            },
+        name: 'oxc-minify',
+        async renderChunk(contents, _, { file }) {
+          // @ts-expect-error
+          const { code } = await minifyOxc(file, contents, {
             compress: {
-              ecma: 2016,
-              pure_getters: true
+              // TODO: enable 2016+ compression
+              target: 'es2015'
             },
-            safari10: true,
+            // TODO: we might not need to safari10 target
+            // safari10: true,
             mangle: true
           })
-          // swc removes banner
           return { code: banner + code, map: null }
         }
       }

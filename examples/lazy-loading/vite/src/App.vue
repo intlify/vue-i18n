@@ -13,11 +13,7 @@
       <form class="language">
         <label for="locale-select">{{ t('labels.language') }}</label>
         <select id="locale-select" v-model="currentLocale">
-          <option
-            v-for="optionLocale in supportLocales"
-            :key="optionLocale"
-            :value="optionLocale"
-          >
+          <option v-for="optionLocale in supportLocales" :key="optionLocale" :value="optionLocale">
             {{ optionLocale }}
           </option>
         </select>

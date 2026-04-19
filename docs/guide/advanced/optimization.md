@@ -65,6 +65,8 @@ pnpm add -D @intlify/unplugin-vue-i18n
 
 #### Configure plugin for vite
 
+<!-- eslint-skip -->
+
 ```js
 // vite.config.ts
 import { defineConfig } from 'vite'
@@ -87,6 +89,8 @@ export default defineConfig({
 
 #### Configure plugin for webpack
 
+<!-- eslint-skip -->
+
 ```js
 // webpack.config.js
 const path = require('path')
@@ -105,9 +109,41 @@ module.exports = {
 }
 ```
 
+#### Important options
+
+##### `include`
+
+The `include` option specifies the file paths of your locale message resources that should be pre-compiled at build time. **You must configure this option to cover all your locale message files**, otherwise messages that are not pre-compiled will not work correctly in the production build (e.g., interpolation placeholders like `{name}` won't be replaced).
+
+```js
+VueI18nPlugin({
+  include: resolve(dirname(fileURLToPath(import.meta.url)), './src/locales/**'),
+})
+```
+
+##### `runtimeOnly`
+
+By default, `@intlify/unplugin-vue-i18n` uses the runtime-only build for production, which excludes the message compiler for smaller bundle size. This means all locale messages must be pre-compiled at build time.
+
+If you load locale messages dynamically at runtime (e.g., from an API or database), you need to set `runtimeOnly: false` to include the runtime message compiler:
+
+```js
+VueI18nPlugin({
+  runtimeOnly: false,  // Include runtime message compiler
+  include: resolve(dirname(fileURLToPath(import.meta.url)), './src/locales/**'),
+})
+```
+
+:::warning Troubleshooting
+If your translations work in development but **interpolation placeholders are not replaced in production** (e.g., `{name}` appears literally instead of the value), it's likely one of these issues:
+
+1. The `include` option doesn't cover all your locale message files — messages not matched by `include` won't be pre-compiled
+2. You're loading messages dynamically at runtime — set `runtimeOnly: false` to include the message compiler
+:::
+
 #### More configuration
 
-About options and features, see the detail [page](https://github.com/intlify/bundle-tools/tree/main/packages/unplugin-vue-i18n#intlifyunplugin-vue-i18n)
+For the full list of options (`runtimeOnly`, `include`, `exclude`, `ssr`, `module`, etc.), see the [@intlify/unplugin-vue-i18n documentation](https://github.com/intlify/bundle-tools/tree/main/packages/unplugin-vue-i18n#intlifyunplugin-vue-i18n).
 
 
 ### Quasar CLI
@@ -122,7 +158,7 @@ No need to do anything. [Quasar CLI](https://quasar.dev) takes care of the optim
 The `esm-bundler` builds now exposes global feature flags that can be overwritten at compile time:
 
 - `__VUE_I18N_FULL_INSTALL__` (enable/disable, in addition to vue-i18n APIs, components and directives all fully support installation: `true`)
-- `__VUE_I18N_LEGACY_API__` (enable/disable vue-i18n legacy style APIs support, default: `true`)
+- `__VUE_I18N_LEGACY_API__` (enable/disable vue-i18n legacy style APIs support. Legacy API has been removed in v12, default: `false`)
 
 The build will work without configuring these flags, however it is **strongly recommended** to properly configure them in order to get proper tree shaking in the final bundle.
 
@@ -178,3 +214,25 @@ The replacement value **must be boolean literals** and cannot be strings, otherw
 You can use pre-translation(server-side rendering) with vue-i18n-extensions package.
 
 About how to usage, see [here](https://github.com/intlify/vue-i18n-extensions).
+
+## SSR (Server-Side Rendering)
+
+### Configure plugin for SSR
+
+For SSR applications, you need to configure the `ssr` option in [@intlify/unplugin-vue-i18n](https://github.com/intlify/bundle-tools/tree/main/packages/unplugin-vue-i18n#ssr):
+
+<!-- eslint-skip -->
+
+```ts
+// vite.config.ts
+import { defineConfig } from 'vite'
+import VueI18nPlugin from '@intlify/unplugin-vue-i18n/vite'
+
+export default defineConfig({
+  plugins: [
+    VueI18nPlugin({
+      ssr: true, // Enable SSR support
+    }),
+  ],
+})
+```

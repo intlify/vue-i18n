@@ -7,19 +7,19 @@ If you are building Vue component or Vue application using single file component
 The following in [single file components example](https://github.com/kazupon/vue-i18n/tree/dev/examples/sfc):
 
 ```vue
-<script>
-export default {
-  name: 'App'
-}
+<script setup>
+import { useI18n } from 'vue-i18n'
+
+const { locale, t } = useI18n()
 </script>
 
 <template>
   <label for="locale">locale</label>
-  <select v-model="$i18n.locale">
+  <select v-model="locale">
     <option>en</option>
     <option>ja</option>
   </select>
-  <p>message: {{ $t('hello') }}</p>
+  <p>message: {{ t('hello') }}</p>
 </template>
 
 <i18n>
@@ -38,12 +38,10 @@ In i18n custom blocks, the format of the locale messages resource is **json** fo
 
 The locale messages defined by i18n custom blocks, are used as the  local scope in single file components.
 
-If `$t('hello')` is used in the template, the `hello` key defined by `i18n` custom blocks is referred to.
+If `t('hello')` is used in the template, the `hello` key defined by `i18n` custom blocks is referred to.
 
 :::tip NOTE
-The Composition API requires `useI18n` to return the `setup` context in order to localize with reference to locale messages defined in the i18n custom blocks.
-
-About how to usage of `useI18n` , see the [Composition API](./composition)
+The example above uses `useI18n` to access locale messages defined in the i18n custom blocks. For more details, see the [Composition API](./composition).
 :::
 
 To use i18n custom blocks, you need to use the following plugins for bundler.
@@ -82,6 +80,8 @@ pnpm add -D @intlify/unplugin-vue-i18n
 
 #### Configure plugin for Vite
 
+<!-- eslint-skip -->
+
 ```js
 // vite.config.ts
 import { defineConfig } from 'vite'
@@ -103,6 +103,8 @@ export default defineConfig({
 ```
 
 #### Configure plugin for Webpack
+
+<!-- eslint-skip -->
 
 ```js
 // webpack.config.js
@@ -129,8 +131,8 @@ If we want to add support to the `<i18n>` tag inside a single file component in 
 In order to do that we need to edit `quasar.conf.js` at the root of our project:
 
 ```js
-build: {
-  chainWebpack: chain => {
+{
+  chain => {
     chain.module
       .rule('i18n-resource')
         .test(/\.(json5?|ya?ml)$/)

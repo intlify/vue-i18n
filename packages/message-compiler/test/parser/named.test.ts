@@ -3,7 +3,7 @@ import { NodeTypes } from '../../src/nodes'
 
 import type { MessageNode } from '../../src/nodes'
 
-let spy: any // eslint-disable-line @typescript-eslint/no-explicit-any
+let spy: any
 beforeEach(() => {
   spy = vi.fn()
 })
@@ -39,7 +39,6 @@ describe('basic', () => {
 })
 
 describe('multiple', () => {
-  /* eslint-disable no-irregular-whitespace */
   test(`{first} {middle}　{last}`, () => {
     const text = `{first} {middle}　{last}`
     const parser = createParser({ onError: spy })
@@ -75,7 +74,6 @@ describe('multiple', () => {
       }
     ])
   })
-  /* eslint-enable no-irregular-whitespace */
 })
 
 describe('whitespaces in placeholder', () => {

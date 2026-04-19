@@ -1,29 +1,28 @@
-/*
-Run Rollup in watch mode for development.
+//
+// Run rolldown in watch mode for development.
+//
+// To specific the package to watch, simply pass its name and the desired build
+// formats to watch (defaults to "global"):
+//
+// ```
+// # name supports fuzzy match. will watch all packages with name containing "core-base"
+// pnpm dev core-base
+//
+// # specify the format to output
+// pnpm dev core --formats mjs
+//
+// # Can also drop all __DEV__ blocks with:
+// __DEV__=false pnpm run dev
+// ```
+//
 
-To specific the package to watch, simply pass its name and the desired build
-formats to watch (defaults to "global"):
-
-```
-# name supports fuzzy match. will watch all packages with name containing "core-base"
-pnpm dev core-base
-
-# specify the format to output
-pnpm dev core --formats mjs
-
-# Can also drop all __DEV__ blocks with:
-__DEV__=false pnpm run dev
-```
-*/
-
-import { execa } from 'execa'
 import { spawnSync } from 'node:child_process'
 import { parseArgs } from 'node:util'
+import { watch } from 'rolldown'
+import { createConfigsForPackage } from './rolldown'
 import { fuzzyMatchTarget } from './utils'
 
-const commit = spawnSync('git', ['rev-parse', '--short=7', 'HEAD'])
-  .stdout.toString()
-  .trim()
+const commit = spawnSync('git', ['rev-parse', '--short=7', 'HEAD']).stdout.toString().trim()
 
 const { values, positionals: targets } = parseArgs({
   allowPositionals: true,
@@ -44,29 +43,26 @@ const { formats: rawFormats, sourceMap } = values
 const formats = rawFormats?.split(',')
 
 async function main() {
-  const resolveTarget = targets.length
-    ? (await fuzzyMatchTarget(targets))[0]
-    : 'vue-i18n'
+  const resolveTarget = targets.length ? (await fuzzyMatchTarget(targets))[0] : 'vue-i18n'
 
-  // eslint-disable-next-line @typescript-eslint/no-floating-promises
-  execa(
-    'rollup',
-    [
-      '-wc',
-      '--environment',
-      [
-        `COMMIT:${commit}`,
-        `TARGET:${resolveTarget}`,
-        `FORMATS:${formats || 'global'}`,
-        sourceMap ? `SOURCE_MAP:true` : ``
-      ]
-        .filter(Boolean)
-        .join(',')
-    ],
-    {
-      stdio: 'inherit'
+  const configs = createConfigsForPackage({
+    target: resolveTarget,
+    commit,
+    formats: formats || ['global'],
+    sourceMap,
+    devOnly: true
+  })
+
+  const watcher = watch(configs)
+  watcher.on('event', async event => {
+    if (event.code === 'BUNDLE_END') {
+      console.log(`built: ${resolveTarget}`)
+      await event.result?.close()
     }
-  )
+    if (event.code === 'ERROR') {
+      console.error(event.error)
+    }
+  })
 }
 
 main().catch(err => {

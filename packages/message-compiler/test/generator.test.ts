@@ -1,12 +1,10 @@
-/* eslint-disable no-irregular-whitespace */
-
 import { format } from '@intlify/shared'
-import { createParser } from '../src/parser'
-import { transform } from '../src/transformer'
-import { generate } from '../src/generator'
-import { CHAR_CR, CHAR_LF, CHAR_LS, CHAR_PS } from '../src/scanner'
-import { CompileErrorCodes, errorMessages } from '../src/errors'
 import { SourceMapConsumer } from 'source-map-js'
+import { CompileErrorCodes, errorMessages } from '../src/errors'
+import { generate } from '../src/generator'
+import { createParser } from '../src/parser'
+import { CHAR_CR, CHAR_LF, CHAR_LS, CHAR_PS } from '../src/scanner'
+import { transform } from '../src/transformer'
 
 import type { RawSourceMap } from 'source-map-js'
 import type { ResourceNode } from '../src/nodes'
@@ -17,12 +15,9 @@ interface Pos {
   name?: string
 }
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-function getPositionInCode(
-  code: string,
-  token: string,
-  expectName: string | boolean = false
-): Pos {
+// @ts-ignore -- NOTE(kazupon): keep unused function, because it will be used in future
+// oxlint-disable-next-line @typescript-eslint/no-unused-vars -- ignore
+function getPositionInCode(code: string, token: string, expectName: string | boolean = false): Pos {
   const generatedOffset = code.indexOf(token)
   // console.log('getPositionInCode', code, token, generatedOffset)
   const pos: Pos = {
@@ -66,6 +61,7 @@ describe('text', () => {
 
     expect(map!.sources).toEqual([`message.intl`])
     expect(map!.sourcesContent).toEqual([msg])
+    // oxlint-disable-next-line @typescript-eslint/await-thenable -- ignore
     const consumer = await new SourceMapConsumer(map as RawSourceMap)
     consumer.eachMapping(mapping => {
       expect(mapping).toMatchSnapshot(`${mapping.name} mapping`)
@@ -89,6 +85,7 @@ describe('text', () => {
 
     expect(map!.sources).toEqual([`foo.bar`])
     expect(map!.sourcesContent).toEqual([msg])
+    // oxlint-disable-next-line @typescript-eslint/await-thenable -- ignore
     const consumer = await new SourceMapConsumer(map as RawSourceMap)
     consumer.eachMapping(mapping => {
       expect(mapping).toMatchSnapshot(`${mapping.name} mapping`)
@@ -110,6 +107,7 @@ describe('list', () => {
     expect(code).toMatch(`])`)
 
     expect(map!.sourcesContent).toEqual([msg])
+    // oxlint-disable-next-line @typescript-eslint/await-thenable -- ignore
     const consumer = await new SourceMapConsumer(map as RawSourceMap)
     consumer.eachMapping(mapping => {
       expect(mapping).toMatchSnapshot(`${mapping.name} mapping`)
@@ -125,12 +123,11 @@ describe('list', () => {
 
     expect(code).toMatchSnapshot(msg)
     expect(code).toMatch(`return _normalize([`)
-    expect(code).toMatch(
-      `_interpolate(_list(0)), " ", _interpolate(_list(1)), " !"`
-    )
+    expect(code).toMatch(`_interpolate(_list(0)), " ", _interpolate(_list(1)), " !"`)
     expect(code).toMatch(`])`)
 
     expect(map!.sourcesContent).toEqual([msg])
+    // oxlint-disable-next-line @typescript-eslint/await-thenable -- ignore
     const consumer = await new SourceMapConsumer(map as RawSourceMap)
     consumer.eachMapping(mapping => {
       expect(mapping).toMatchSnapshot(`${mapping.name} mapping`)
@@ -152,6 +149,7 @@ describe('named', () => {
     expect(code).toMatch(`])`)
 
     expect(map!.sourcesContent).toEqual([msg])
+    // oxlint-disable-next-line @typescript-eslint/await-thenable -- ignore
     const consumer = await new SourceMapConsumer(map as RawSourceMap)
     consumer.eachMapping(mapping => {
       expect(mapping).toMatchSnapshot(`${mapping.name} mapping`)
@@ -173,6 +171,7 @@ describe('named', () => {
     expect(code).toMatch(`])`)
 
     expect(map!.sourcesContent).toEqual([msg])
+    // oxlint-disable-next-line @typescript-eslint/await-thenable -- ignore
     const consumer = await new SourceMapConsumer(map as RawSourceMap)
     consumer.eachMapping(mapping => {
       expect(mapping).toMatchSnapshot(`${mapping.name} mapping`)
@@ -190,6 +189,7 @@ describe('literal', () => {
 
     expect(code).toMatchSnapshot(msg)
     expect(map!.sourcesContent).toEqual([msg])
+    // oxlint-disable-next-line @typescript-eslint/await-thenable -- ignore
     const consumer = await new SourceMapConsumer(map as RawSourceMap)
     consumer.eachMapping(mapping => {
       expect(mapping).toMatchSnapshot(`${mapping.name} mapping`)
@@ -205,6 +205,7 @@ describe('literal', () => {
 
     expect(code).toMatchSnapshot(msg)
     expect(map!.sourcesContent).toEqual([msg])
+    // oxlint-disable-next-line @typescript-eslint/await-thenable -- ignore
     const consumer = await new SourceMapConsumer(map as RawSourceMap)
     consumer.eachMapping(mapping => {
       expect(mapping).toMatchSnapshot(`${mapping.name} mapping`)
@@ -220,6 +221,7 @@ describe('literal', () => {
 
     expect(code).toMatchSnapshot(msg)
     expect(map!.sourcesContent).toEqual([msg])
+    // oxlint-disable-next-line @typescript-eslint/await-thenable -- ignore
     const consumer = await new SourceMapConsumer(map as RawSourceMap)
     consumer.eachMapping(mapping => {
       expect(mapping).toMatchSnapshot(`${mapping.name} mapping`)
@@ -235,6 +237,7 @@ describe('literal', () => {
 
     expect(code).toMatchSnapshot(msg)
     expect(map!.sourcesContent).toEqual([msg])
+    // oxlint-disable-next-line @typescript-eslint/await-thenable -- ignore
     const consumer = await new SourceMapConsumer(map as RawSourceMap)
     consumer.eachMapping(mapping => {
       expect(mapping).toMatchSnapshot(`${mapping.name} mapping`)
@@ -250,6 +253,7 @@ describe('literal', () => {
 
     expect(code).toMatchSnapshot(msg)
     expect(map!.sourcesContent).toEqual([msg])
+    // oxlint-disable-next-line @typescript-eslint/await-thenable -- ignore
     const consumer = await new SourceMapConsumer(map as RawSourceMap)
     consumer.eachMapping(mapping => {
       expect(mapping).toMatchSnapshot(`${mapping.name} mapping`)
@@ -265,6 +269,7 @@ describe('literal', () => {
 
     expect(code).toMatchSnapshot(msg)
     expect(map!.sourcesContent).toEqual([msg])
+    // oxlint-disable-next-line @typescript-eslint/await-thenable -- ignore
     const consumer = await new SourceMapConsumer(map as RawSourceMap)
     consumer.eachMapping(mapping => {
       expect(mapping).toMatchSnapshot(`${mapping.name} mapping`)
@@ -280,6 +285,7 @@ describe('literal', () => {
 
     expect(code).toMatchSnapshot(msg)
     expect(map!.sourcesContent).toEqual([msg])
+    // oxlint-disable-next-line @typescript-eslint/await-thenable -- ignore
     const consumer = await new SourceMapConsumer(map as RawSourceMap)
     consumer.eachMapping(mapping => {
       expect(mapping).toMatchSnapshot(`${mapping.name} mapping`)
@@ -295,6 +301,7 @@ describe('literal', () => {
 
     expect(code).toMatchSnapshot(msg)
     expect(map!.sourcesContent).toEqual([msg])
+    // oxlint-disable-next-line @typescript-eslint/await-thenable -- ignore
     const consumer = await new SourceMapConsumer(map as RawSourceMap)
     consumer.eachMapping(mapping => {
       expect(mapping).toMatchSnapshot(`${mapping.name} mapping`)
@@ -310,6 +317,7 @@ describe('literal', () => {
 
     expect(code).toMatchSnapshot(msg)
     expect(map!.sourcesContent).toEqual([msg])
+    // oxlint-disable-next-line @typescript-eslint/await-thenable -- ignore
     const consumer = await new SourceMapConsumer(map as RawSourceMap)
     consumer.eachMapping(mapping => {
       expect(mapping).toMatchSnapshot(`${mapping.name} mapping`)
@@ -325,6 +333,7 @@ describe('literal', () => {
 
     expect(code).toMatchSnapshot(msg)
     expect(map!.sourcesContent).toEqual([msg])
+    // oxlint-disable-next-line @typescript-eslint/await-thenable -- ignore
     const consumer = await new SourceMapConsumer(map as RawSourceMap)
     consumer.eachMapping(mapping => {
       expect(mapping).toMatchSnapshot(`${mapping.name} mapping`)
@@ -340,6 +349,7 @@ describe('literal', () => {
 
     expect(code).toMatchSnapshot(msg)
     expect(map!.sourcesContent).toEqual([msg])
+    // oxlint-disable-next-line @typescript-eslint/await-thenable -- ignore
     const consumer = await new SourceMapConsumer(map as RawSourceMap)
     consumer.eachMapping(mapping => {
       expect(mapping).toMatchSnapshot(`${mapping.name} mapping`)
@@ -361,6 +371,7 @@ describe('linked', () => {
     expect(code).toMatch(`])`)
 
     expect(map!.sourcesContent).toEqual([msg])
+    // oxlint-disable-next-line @typescript-eslint/await-thenable -- ignore
     const consumer = await new SourceMapConsumer(map as RawSourceMap)
     consumer.eachMapping(mapping => {
       expect(mapping).toMatchSnapshot(`${mapping.name} mapping`)
@@ -376,12 +387,11 @@ describe('linked', () => {
 
     expect(code).toMatchSnapshot(msg)
     expect(code).toMatch(`return _normalize([`)
-    expect(code).toMatch(
-      `"hi ", _linked(_interpolate(_list(0)), undefined, _type), " !"`
-    )
+    expect(code).toMatch(`"hi ", _linked(_interpolate(_list(0)), undefined, _type), " !"`)
     expect(code).toMatch(`])`)
 
     expect(map!.sourcesContent).toEqual([msg])
+    // oxlint-disable-next-line @typescript-eslint/await-thenable -- ignore
     const consumer = await new SourceMapConsumer(map as RawSourceMap)
     consumer.eachMapping(mapping => {
       expect(mapping).toMatchSnapshot(`${mapping.name} mapping`)
@@ -397,12 +407,11 @@ describe('linked', () => {
 
     expect(code).toMatchSnapshot(msg)
     expect(code).toMatch(`return _normalize([`)
-    expect(code).toMatch(
-      `"hi ", _linked(_interpolate(_named("name")), undefined, _type), " !"`
-    )
+    expect(code).toMatch(`"hi ", _linked(_interpolate(_named("name")), undefined, _type), " !"`)
     expect(code).toMatch(`])`)
 
     expect(map!.sourcesContent).toEqual([msg])
+    // oxlint-disable-next-line @typescript-eslint/await-thenable -- ignore
     const consumer = await new SourceMapConsumer(map as RawSourceMap)
     consumer.eachMapping(mapping => {
       expect(mapping).toMatchSnapshot(`${mapping.name} mapping`)
@@ -422,6 +431,7 @@ describe('linked', () => {
     expect(code).toMatch(`])`)
 
     expect(map!.sourcesContent).toEqual([msg])
+    // oxlint-disable-next-line @typescript-eslint/await-thenable -- ignore
     const consumer = await new SourceMapConsumer(map as RawSourceMap)
     consumer.eachMapping(mapping => {
       expect(mapping).toMatchSnapshot(`${mapping.name} mapping`)
@@ -449,6 +459,7 @@ describe('plural', () => {
     expect(code).toMatch(`])`)
 
     expect(map!.sourcesContent).toEqual([msg])
+    // oxlint-disable-next-line @typescript-eslint/await-thenable -- ignore
     const consumer = await new SourceMapConsumer(map as RawSourceMap)
     consumer.eachMapping(mapping => {
       expect(mapping).toMatchSnapshot(`${mapping.name} mapping`)
@@ -474,6 +485,7 @@ describe('plural', () => {
     expect(code).toMatch(`])`)
 
     expect(map!.sourcesContent).toEqual([msg])
+    // oxlint-disable-next-line @typescript-eslint/await-thenable -- ignore
     const consumer = await new SourceMapConsumer(map as RawSourceMap)
     consumer.eachMapping(mapping => {
       expect(mapping).toMatchSnapshot(`${mapping.name} mapping`)
@@ -493,6 +505,7 @@ describe('arrow mode', () => {
     expect(code).toMatch(`(ctx) => {`)
 
     expect(map!.sourcesContent).toEqual([msg])
+    // oxlint-disable-next-line @typescript-eslint/await-thenable -- ignore
     const consumer = await new SourceMapConsumer(map as RawSourceMap)
     consumer.eachMapping(mapping => {
       expect(mapping).toMatchSnapshot(`${mapping.name} mapping`)
@@ -508,6 +521,7 @@ test('disable source map with location: false', async () => {
   const { map } = generate(ast, { sourceMap: true, location: false })
 
   expect(map!.sourcesContent).toBeUndefined()
+  // oxlint-disable-next-line @typescript-eslint/await-thenable -- ignore
   const consumer = await new SourceMapConsumer(map as RawSourceMap)
   consumer.eachMapping(mapping => {
     expect(mapping).toMatchSnapshot(`${mapping.name} mapping`)
@@ -520,11 +534,7 @@ test('unhandle error', () => {
   const ast = {
     type
   } as unknown as ResourceNode
-  expect(() =>
-    generate(ast, { sourceMap: true, location: false })
-  ).toThrowError(
+  expect(() => generate(ast, { sourceMap: true, location: false })).toThrowError(
     format(errorMessages[CompileErrorCodes.UNHANDLED_CODEGEN_NODE_TYPE], type)
   )
 })
-
-/* eslint-enable no-irregular-whitespace */

@@ -1,25 +1,25 @@
 {
   "name": "@intlify/message-format-explorer",
   "description": "Intlify message format explorer",
-  "version": "12.0.0-alpha.2",
   "private": true,
+  "version": "12.0.0-alpha.3",
   "scripts": {
-    "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview",
     "clean": "yarn clean:dist && yarn clean:deps",
+    "clean:deps": "rm -rf ./node_modules",
     "clean:dist": "rm -rf ./dist",
-    "clean:deps": "rm -rf ./node_modules"
+    "dev": "vite",
+    "preview": "vite preview"
   },
   "dependencies": {
-    "vue": "^3.3.4",
+    "monaco-editor": "^0.55.0",
     "source-map-js": "^1.0.2",
-    "monaco-editor": "^0.52.0"
+    "vue": "^3.3.4"
   },
   "devDependencies": {
-    "@vitejs/plugin-vue": "^5.0.0",
+    "@vitejs/plugin-vue": "^6.0.0",
     "@vue/compiler-sfc": "^3.3.4",
-    "vite": "^6.0.0",
-    "vue-tsc": "^2.0.0"
+    "vite": "^7.1.12",
+    "vue-tsc": "^3.0.0"
   }
 }

@@ -76,9 +76,7 @@ test('loose context', () => {
     | 'ja-JP'
     | ('en' | 'ja' | 'en-US' | 'ja-JP')[]
     | {
-        [x in string]: PickupFallbackLocales<
-          ['en' | 'ja' | 'en-US' | 'ja-JP']
-        >[]
+        [x in string]: PickupFallbackLocales<['en' | 'ja' | 'en-US' | 'ja-JP']>[]
       }
     | false
   >()
@@ -105,9 +103,7 @@ test('loose context', () => {
 })
 
 test('strict context', () => {
-  const strictCtx = createCoreContext<[ResourceSchema], 'en' | 'ja'>(
-    strictOptions
-  )
+  const strictCtx = createCoreContext<[ResourceSchema], 'en' | 'ja'>(strictOptions)
 
   expectTypeOf(strictCtx.locale).toEqualTypeOf<'en' | 'ja'>()
   expectTypeOf(strictCtx.fallbackLocale).toEqualTypeOf<
@@ -130,9 +126,7 @@ test('strict context', () => {
     ja: NumberFormat
   }>()
 
-  expectTypeOf(getLocaleMessage(strictCtx, 'en')).toEqualTypeOf<
-    ResourceSchema | undefined
-  >()
+  expectTypeOf(getLocaleMessage(strictCtx, 'en')).toEqualTypeOf<ResourceSchema | undefined>()
 })
 
 test('strict context with direct options', () => {
@@ -176,9 +170,7 @@ test('strict context with direct options', () => {
     }
   })
 
-  expectTypeOf(strictDirectCtx.locale).toEqualTypeOf<
-    'en' | 'zh' | 'ca' | 'ja-JP'
-  >()
+  expectTypeOf(strictDirectCtx.locale).toEqualTypeOf<'en' | 'zh' | 'ca' | 'ja-JP'>()
   expectTypeOf(strictDirectCtx.fallbackLocale).toEqualTypeOf<
     | 'en'
     | 'zh'
@@ -202,19 +194,14 @@ test('strict context with direct options', () => {
     }
   }>()
 
-  expectTypeOf(getLocaleMessage(strictDirectCtx, 'en')).toEqualTypeOf<
-    ResourceSchema | undefined
-  >()
+  expectTypeOf(getLocaleMessage(strictDirectCtx, 'en')).toEqualTypeOf<ResourceSchema | undefined>()
 
   const nullCtx1 = createCoreContext({})
   expectTypeOf(nullCtx1.locale).toEqualTypeOf<Locale | LocaleDetector>()
   nullCtx1.locale = 'ja'
   nullCtx1.locale = () => 'ja'
   expectTypeOf(nullCtx1.fallbackLocale).toEqualTypeOf<
-    | string
-    | string[]
-    | { [x in string]: PickupFallbackLocales<[string]>[] }
-    | false
+    string | string[] | { [x in string]: PickupFallbackLocales<[string]>[] } | false
   >()
   nullCtx1.fallbackLocale = 'en'
 

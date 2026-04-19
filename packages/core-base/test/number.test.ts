@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-empty-function, @typescript-eslint/no-explicit-any */
-
 // utils
 import * as shared from '@intlify/shared'
 vi.mock('@intlify/shared', async () => {
@@ -21,17 +19,19 @@ vi.mock('../src/intl', async () => {
 })
 
 import { compile } from '../src/compilation'
-import {
-  createCoreContext as context,
-  NOT_REOSLVED,
-  registerLocaleFallbacker,
-  registerMessageCompiler
-} from '../src/context'
-import { CoreErrorCodes, errorMessages } from '../src/errors'
+import { createCoreContext, NOT_RESOLVED } from '../src/context'
 import { fallbackWithLocaleChain } from '../src/fallbacker'
 import { number } from '../src/number'
 
 import type { NumberFormats } from '../src/types/index'
+
+function context(options: any = {}) {
+  return createCoreContext({
+    messageCompiler: compile,
+    localeFallbacker: fallbackWithLocaleChain,
+    ...options
+  })
+}
 
 type MyNumberSchema = {
   currency: {} // loose schema
@@ -70,9 +70,8 @@ const numberFormats: NumberFormats<MyNumberSchema, 'en-US' | 'ja-JP'> = {
   }
 }
 
-beforeEach(() => {
-  registerMessageCompiler(compile)
-  registerLocaleFallbacker(fallbackWithLocaleChain)
+afterEach(() => {
+  vi.clearAllMocks()
 })
 
 test('value argument only', () => {
@@ -124,9 +123,7 @@ test('with object argument', () => {
     numberFormats
   })
 
-  expect(number(ctx, 10100, { key: 'currency', locale: 'ja-JP' })).toEqual(
-    '￥10,100'
-  )
+  expect(number(ctx, 10100, { key: 'currency', locale: 'ja-JP' })).toEqual('￥10,100')
 })
 
 test('override format options with number function options', () => {
@@ -139,23 +136,14 @@ test('override format options with number function options', () => {
     numberFormats
   })
 
-  expect(number(ctx, 10100, 'currency', { currency: 'EUR' })).toEqual(
+  expect(number(ctx, 10100, 'currency', { currency: 'EUR' })).toEqual('€10,100.00')
+  expect(number(ctx, 10100, 'currency', 'ja-JP', { currency: 'EUR' })).toEqual('€10,100.00')
+  expect(number(ctx, 10100, { key: 'currency', locale: 'ja-JP' }, { currency: 'EUR' })).toEqual(
     '€10,100.00'
   )
-  expect(number(ctx, 10100, 'currency', 'ja-JP', { currency: 'EUR' })).toEqual(
+  expect(number(ctx, 10100, { key: 'currency', locale: 'ja-JP', currency: 'EUR' })).toEqual(
     '€10,100.00'
   )
-  expect(
-    number(
-      ctx,
-      10100,
-      { key: 'currency', locale: 'ja-JP' },
-      { currency: 'EUR' }
-    )
-  ).toEqual('€10,100.00')
-  expect(
-    number(ctx, 10100, { key: 'currency', locale: 'ja-JP', currency: 'EUR' })
-  ).toEqual('€10,100.00')
   expect(
     number(ctx, 123456.789, {
       style: 'currency',
@@ -219,9 +207,7 @@ test(`number function fallbackWarn 'false' option`, () => {
     numberFormats
   })
 
-  expect(number(ctx, 0.99, { key: 'percent', fallbackWarn: false })).toEqual(
-    '99%'
-  )
+  expect(number(ctx, 0.99, { key: 'percent', fallbackWarn: false })).toEqual('99%')
   expect(mockWarn).not.toHaveBeenCalled()
 })
 
@@ -240,7 +226,7 @@ describe('context unresolving option', () => {
       numberFormats
     })
 
-    expect(number(ctx, 0.99, 'percent')).toEqual(NOT_REOSLVED)
+    expect(number(ctx, 0.99, 'percent')).toEqual(NOT_RESOLVED)
     expect(mockWarn).not.toHaveBeenCalled()
   })
 
@@ -259,7 +245,7 @@ describe('context unresolving option', () => {
       numberFormats
     })
 
-    expect(number(ctx, 123456789, 'custom')).toEqual(NOT_REOSLVED)
+    expect(number(ctx, 123456789, 'custom')).toEqual(NOT_RESOLVED)
     expect(mockWarn).not.toHaveBeenCalled()
   })
 })
@@ -273,9 +259,7 @@ test('part', () => {
     numberFormats
   })
 
-  expect(
-    number(ctx, 10100, { key: 'currency', locale: 'ja-JP', part: true })
-  ).toEqual([
+  expect(number(ctx, 10100, { key: 'currency', locale: 'ja-JP', part: true })).toEqual([
     { type: 'currency', value: '￥' },
     { type: 'integer', value: '10' },
     { type: 'group', value: ',' },
@@ -302,7 +286,7 @@ test('not available Intl API', () => {
 })
 
 describe('error', () => {
-  test(errorMessages[CoreErrorCodes.INVALID_ARGUMENT], () => {
+  test('invalid argument returns empty string with warning', () => {
     const mockWarn = vi.spyOn(shared, 'warn')
     mockWarn.mockImplementation(() => {})
     const mockAvailabilities = Availabilities
@@ -311,10 +295,23 @@ describe('error', () => {
       locale: 'en-US',
       numberFormats
     })
-    expect(() => {
-      number(ctx, '111' as any)
-    }).toThrowError(errorMessages[CoreErrorCodes.INVALID_ARGUMENT])
+    // Should not throw, returns empty string instead
+    expect(number(ctx, '111' as any)).toBe('')
+    expect(number(ctx, undefined as any)).toBe('')
+    expect(number(ctx, null as any)).toBe('')
+    expect(mockWarn).toHaveBeenCalled()
+  })
+
+  test('locale with ! suffix should not break number formatting', () => {
+    const mockWarn = vi.spyOn(shared, 'warn')
+    mockWarn.mockImplementation(() => {})
+    const mockAvailabilities = Availabilities
+    mockAvailabilities.numberFormat = true
+    const ctx = context({
+      locale: 'en-US!',
+      numberFormats
+    })
+    // Should not throw RangeError for locale with ! suffix
+    expect(() => number(ctx, 1000)).not.toThrow()
   })
 })
-
-/* eslint-enable @typescript-eslint/no-empty-function, @typescript-eslint/no-explicit-any */

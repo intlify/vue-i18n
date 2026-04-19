@@ -2,7 +2,7 @@
  * global type definitions
  */
 
-import { DefineLocaleMessage } from 'vue-i18n'
+import 'vue-i18n'
 import en from './locales/en.json'
 
 type MessageSchema = typeof en

@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-empty-function, @typescript-eslint/no-explicit-any */
-
 import { baseCompile } from '@intlify/message-compiler'
 import { ast } from './fixtures/ast'
 
@@ -14,13 +12,7 @@ vi.mock('@intlify/shared', async () => {
 })
 
 import { compile } from '../src/compilation'
-import {
-  createCoreContext as context,
-  NOT_REOSLVED,
-  registerLocaleFallbacker,
-  registerMessageCompiler,
-  registerMessageResolver
-} from '../src/context'
+import { createCoreContext, NOT_RESOLVED } from '../src/context'
 import { CoreErrorCodes, errorMessages } from '../src/errors'
 import { fallbackWithLocaleChain } from '../src/fallbacker'
 import { resolveValue } from '../src/resolver'
@@ -36,10 +28,17 @@ import type {
 import type { PickupKeys } from '../src/types/utils'
 import type { VNode } from './helper'
 
-beforeEach(() => {
-  registerMessageCompiler(compile)
-  registerMessageResolver(resolveValue)
-  registerLocaleFallbacker(fallbackWithLocaleChain)
+function context<Message = string>(options: any = {}): any {
+  return createCoreContext<Message>({
+    messageCompiler: compile,
+    messageResolver: resolveValue,
+    localeFallbacker: fallbackWithLocaleChain,
+    ...options
+  })
+}
+
+afterEach(() => {
+  vi.clearAllMocks()
 })
 
 describe('features', () => {
@@ -86,6 +85,18 @@ describe('features', () => {
     expect(translate(ctx, 'hi')).toEqual('hi KAZUPON !')
   })
 
+  test('linked with modifier and missing key', () => {
+    const ctx = context({
+      locale: 'en',
+      messages: {
+        en: {
+          greeting: 'hello @.upper:nonExistent !'
+        }
+      }
+    })
+    expect(translate(ctx, 'greeting')).toEqual('hello NONEXISTENT !')
+  })
+
   test('plural', () => {
     const ctx = context({
       locale: 'en',
@@ -98,6 +109,35 @@ describe('features', () => {
     expect(translate(ctx, 'apple', 10)).toEqual('10 apples')
     expect(translate(ctx, 'apple', { count: 20 }, 10)).toEqual('20 apples')
   })
+
+  test('plural with named n parameter should not override plural index', () => {
+    const ctx = context({
+      locale: 'en',
+      messages: {
+        en: { test: 'one | {n}' }
+      }
+    })
+    // plural=1 (first form), named.n=2 → should select "one"
+    expect(translate(ctx, 'test', { n: 2 }, 1)).toEqual('one')
+    // plural=2 (second form), named.n=1 → should select "{n}" and display 1
+    expect(translate(ctx, 'test', { n: 1 }, 2)).toEqual('1')
+  })
+
+  test('plural with named n=0 should preserve zero value', () => {
+    const ctx = context({
+      locale: 'en',
+      messages: {
+        en: {
+          testN: 'none | {n} item | {n} items',
+          testCount: 'none | {count} item | {count} items'
+        }
+      }
+    })
+    // named.n=0 with plural=3 → should select third form and display n=0
+    expect(translate(ctx, 'testN', { n: 0 }, 3)).toEqual('0 items')
+    // named.count=0 with plural=3 → should select third form and display count=0
+    expect(translate(ctx, 'testCount', { count: 0 }, 3)).toEqual('0 items')
+  })
 })
 
 describe('locale option', () => {
@@ -109,9 +149,7 @@ describe('locale option', () => {
         ja: { hi: 'こんにちは　かずぽん！' }
       }
     })
-    expect(translate(ctx, 'hi', {}, { locale: 'ja' })).toEqual(
-      'こんにちは　かずぽん！'
-    )
+    expect(translate(ctx, 'hi', {}, { locale: 'ja' })).toEqual('こんにちは　かずぽん！')
   })
 })
 
@@ -123,9 +161,7 @@ describe('default option', () => {
         en: {}
       }
     })
-    expect(translate(ctx, 'hello', 'hello, default message!')).toEqual(
-      'hello, default message!'
-    )
+    expect(translate(ctx, 'hello', 'hello, default message!')).toEqual('hello, default message!')
     expect(translate(ctx, 'hello', '')).toEqual('')
   })
 
@@ -136,9 +172,9 @@ describe('default option', () => {
         en: {}
       }
     })
-    expect(
-      translate(ctx, 'hi {name}!', { name: 'kazupon' }, { default: true })
-    ).toEqual('hi kazupon!')
+    expect(translate(ctx, 'hi {name}!', { name: 'kazupon' }, { default: true })).toEqual(
+      'hi kazupon!'
+    )
   })
 })
 
@@ -156,9 +192,7 @@ describe('context fallbackLocale option', () => {
     })
 
     expect(translate(ctx, 'hello')).toEqual('hello')
-    expect(mockWarn.mock.calls[0][0]).toEqual(
-      `Not found 'hello' key in 'en' locale messages.`
-    )
+    expect(mockWarn.mock.calls[0][0]).toEqual(`Not found 'hello' key in 'en' locale messages.`)
   })
 
   test('string', () => {
@@ -177,9 +211,7 @@ describe('context fallbackLocale option', () => {
     })
 
     expect(translate(ctx, 'hello')).toEqual('こんにちは！')
-    expect(mockWarn.mock.calls[0][0]).toEqual(
-      `Not found 'hello' key in 'en' locale messages.`
-    )
+    expect(mockWarn.mock.calls[0][0]).toEqual(`Not found 'hello' key in 'en' locale messages.`)
   })
 
   test('array', () => {
@@ -198,9 +230,7 @@ describe('context fallbackLocale option', () => {
     })
 
     expect(translate(ctx, 'hello')).toEqual('こんにちは！')
-    expect(mockWarn.mock.calls[0][0]).toEqual(
-      `Not found 'hello' key in 'en' locale messages.`
-    )
+    expect(mockWarn.mock.calls[0][0]).toEqual(`Not found 'hello' key in 'en' locale messages.`)
   })
 })
 
@@ -217,9 +247,7 @@ describe('context missing option', () => {
     })
 
     expect(translate(ctx, 'hello')).toEqual('hello')
-    expect(mockWarn.mock.calls[0][0]).toEqual(
-      `Not found 'hello' key in 'en' locale messages.`
-    )
+    expect(mockWarn.mock.calls[0][0]).toEqual(`Not found 'hello' key in 'en' locale messages.`)
   })
 
   test('specified missing handler', () => {
@@ -228,7 +256,7 @@ describe('context missing option', () => {
 
     const ctx = context({
       locale: 'en',
-      missing: (c, locale, key) => {
+      missing: (c: any, locale: any, key: any) => {
         expect(c).toEqual(ctx)
         expect(locale).toEqual('en')
         expect(key).toEqual('hello')
@@ -277,9 +305,7 @@ describe('context missingWarn option', () => {
     expect(translate(ctx, 'hi kazupon!')).toEqual('hi kazupon!')
     expect(translate(ctx, 'hello')).toEqual('hello')
     expect(mockWarn).toHaveBeenCalledTimes(1)
-    expect(mockWarn.mock.calls[0][0]).not.toEqual(
-      `Not found 'hello' key in 'en' locale messages.`
-    )
+    expect(mockWarn.mock.calls[0][0]).not.toEqual(`Not found 'hello' key in 'en' locale messages.`)
   })
 
   test('missingWarn option', () => {
@@ -439,9 +465,7 @@ describe('context fallbackFormat option', () => {
       }
     })
 
-    expect(translate(ctx, 'hi, {name}!', { name: 'kazupon' })).toEqual(
-      'hi, kazupon!'
-    )
+    expect(translate(ctx, 'hi, {name}!', { name: 'kazupon' })).toEqual('hi, kazupon!')
     expect(mockWarn).toHaveBeenCalledTimes(5)
     expect(mockWarn.mock.calls[0][0]).toEqual(
       `Not found 'hi, {name}!' key in 'en' locale messages.`
@@ -475,9 +499,9 @@ describe('context fallbackFormat option', () => {
       }
     })
 
-    expect(
-      translate(ctx, 'hi, {name}!', { name: 'kazupon' }, 'hello, {name}!')
-    ).toEqual('hello, kazupon!')
+    expect(translate(ctx, 'hi, {name}!', { name: 'kazupon' }, 'hello, {name}!')).toEqual(
+      'hello, kazupon!'
+    )
     expect(mockWarn).toHaveBeenCalledTimes(5)
     expect(mockWarn.mock.calls[0][0]).toEqual(
       `Not found 'hi, {name}!' key in 'en' locale messages.`
@@ -508,9 +532,9 @@ describe('context fallbackFormat option', () => {
       }
     })
 
-    expect(
-      translate(ctx, 'hi, {name}!', { name: 'kazupon' }, 'hello, {name}!')
-    ).toEqual('hello, kazupon!')
+    expect(translate(ctx, 'hi, {name}!', { name: 'kazupon' }, 'hello, {name}!')).toEqual(
+      'hello, kazupon!'
+    )
     expect(mockWarn).toHaveBeenCalledTimes(1)
     expect(mockWarn.mock.calls[0][0]).toEqual(
       `Not found 'hi, {name}!' key in 'en' locale messages.`
@@ -530,9 +554,7 @@ describe('context fallbackFormat option', () => {
     })
     ctx.messageCompiler = null
 
-    expect(translate(ctx, 'hi, {name}!', { name: 'kazupon' })).toEqual(
-      'hi, {name}!'
-    )
+    expect(translate(ctx, 'hi, {name}!', { name: 'kazupon' })).toEqual('hi, {name}!')
     expect(mockWarn).toHaveBeenCalledTimes(1)
     expect(mockWarn.mock.calls[0][0]).toEqual(
       `Not found 'hi, {name}!' key in 'en' locale messages.`
@@ -553,7 +575,7 @@ describe('context unresolving option', () => {
         ja: {}
       }
     })
-    expect(translate(ctx, 'hello.world')).toEqual(NOT_REOSLVED)
+    expect(translate(ctx, 'hello.world')).toEqual(NOT_RESOLVED)
   })
 
   test('fallbackWarn is false', () => {
@@ -568,7 +590,7 @@ describe('context unresolving option', () => {
         ja: {}
       }
     })
-    expect(translate(ctx, 'hello.world')).toEqual(NOT_REOSLVED)
+    expect(translate(ctx, 'hello.world')).toEqual(NOT_RESOLVED)
   })
 
   test('fallbackFormat is true', () => {
@@ -585,9 +607,7 @@ describe('context unresolving option', () => {
         ja: {}
       }
     })
-    expect(translate(ctx, 'hi, {name}!', { name: 'kazupon' })).toEqual(
-      'hi, kazupon!'
-    )
+    expect(translate(ctx, 'hi, {name}!', { name: 'kazupon' })).toEqual('hi, kazupon!')
   })
 })
 
@@ -628,13 +648,90 @@ describe('context pluralRule option', () => {
   })
 })
 
+describe('Intl.PluralRules based default plural', () => {
+  test('English 2 cases - same behavior as before', () => {
+    const ctx = context({
+      locale: 'en',
+      messages: {
+        en: {
+          car: 'car | cars'
+        }
+      }
+    })
+    expect(translate(ctx, 'car', 1)).toEqual('car')
+    expect(translate(ctx, 'car', 2)).toEqual('cars')
+    expect(translate(ctx, 'car', 0)).toEqual('cars')
+  })
+
+  test('English 3 cases - falls back to pluralDefault', () => {
+    const ctx = context({
+      locale: 'en',
+      messages: {
+        en: {
+          apple: 'no apples | one apple | {count} apples'
+        }
+      }
+    })
+    expect(translate(ctx, 'apple', 0)).toEqual('no apples')
+    expect(translate(ctx, 'apple', 1)).toEqual('one apple')
+    expect(translate(ctx, 'apple', 10)).toEqual('10 apples')
+  })
+
+  test('Russian 4 cases - auto plural via Intl.PluralRules without custom pluralRules', () => {
+    const ctx = context({
+      locale: 'ru',
+      messages: {
+        ru: {
+          // CLDR order for Russian: one | few | many | other
+          car: '{n} машина | {n} машины | {n} машин | {n} машин'
+        }
+      }
+    })
+    expect(translate(ctx, 'car', 1)).toEqual('1 машина')
+    expect(translate(ctx, 'car', 2)).toEqual('2 машины')
+    expect(translate(ctx, 'car', 5)).toEqual('5 машин')
+    expect(translate(ctx, 'car', 21)).toEqual('21 машина')
+    expect(translate(ctx, 'car', 11)).toEqual('11 машин')
+    expect(translate(ctx, 'car', 22)).toEqual('22 машины')
+  })
+
+  test('custom pluralRules takes priority over Intl.PluralRules', () => {
+    const customRule = (choice: number, _choicesLength: number) => {
+      return choice === 42 ? 0 : 1
+    }
+    const ctx = context({
+      locale: 'en',
+      pluralRules: { en: customRule },
+      messages: {
+        en: {
+          msg: 'special | normal'
+        }
+      }
+    })
+    expect(translate(ctx, 'msg', 42)).toEqual('special')
+    expect(translate(ctx, 'msg', 1)).toEqual('normal')
+  })
+
+  test('Arabic plural categories', () => {
+    const ctx = context({
+      locale: 'ar',
+      messages: {
+        ar: {
+          // CLDR order for Arabic: zero | one | two | few | many | other
+          file: 'لا ملفات | ملف واحد | ملفان | {n} ملفات | {n} ملفًا | {n} ملف'
+        }
+      }
+    })
+    expect(translate(ctx, 'file', 0)).toEqual('لا ملفات')
+    expect(translate(ctx, 'file', 1)).toEqual('ملف واحد')
+    expect(translate(ctx, 'file', 2)).toEqual('ملفان')
+  })
+})
+
 describe('context postTranslation option', () => {
   test('basic', () => {
     let key = ''
-    const postTranslation = (
-      str: MessageFunctionReturn<string>,
-      _key: string
-    ) => {
+    const postTranslation = (str: MessageFunctionReturn<string>, _key: string) => {
       key = _key
       return str.trim()
     }
@@ -701,9 +798,9 @@ describe('escapeParameter', () => {
       }
     })
 
-    expect(
-      translate(ctx, 'hello', ['<b>kazupon</b>'], { escapeParameter: true })
-    ).toEqual('hello, &lt;b&gt;kazupon&lt;/b&gt;!')
+    expect(translate(ctx, 'hello', ['<b>kazupon</b>'], { escapeParameter: true })).toEqual(
+      'hello, &lt;b&gt;kazupon&lt;/b&gt;!'
+    )
   })
 
   test('no escape', () => {
@@ -718,9 +815,7 @@ describe('escapeParameter', () => {
       }
     })
 
-    expect(translate(ctx, 'hello', { name: '<b>kazupon</b>' })).toEqual(
-      'hello, <b>kazupon</b>!'
-    )
+    expect(translate(ctx, 'hello', { name: '<b>kazupon</b>' })).toEqual('hello, <b>kazupon</b>!')
   })
 })
 
@@ -751,20 +846,20 @@ test('resolvedMessage', () => {
       resolvedMessage: true
     })
   ).toEqual('hello!')
-  expect(translate(ctx, 'list {0}', [1], { resolvedMessage: true })).toEqual(
-    'list 1'
-  )
+  expect(translate(ctx, 'list {0}', [1], { resolvedMessage: true })).toEqual('list 1')
   expect(
+    // oxlint-disable-next-line @typescript-eslint/restrict-template-expressions --- ignore for testing
     translate(ctx, (ctx: MessageContext) => `list ${ctx.list(0)}`, [1], {
       resolvedMessage: true
     })
   ).toEqual('list 1')
-  expect(
-    translate(ctx, 'named {name}', { name: 'dio' }, { resolvedMessage: true })
-  ).toEqual('named dio')
+  expect(translate(ctx, 'named {name}', { name: 'dio' }, { resolvedMessage: true })).toEqual(
+    'named dio'
+  )
   expect(
     translate(
       ctx,
+      // oxlint-disable-next-line @typescript-eslint/restrict-template-expressions --- ignore for testing
       (ctx: MessageContext) => `named ${ctx.named('name')}`,
       { name: 'dio' },
       { resolvedMessage: true }
@@ -851,17 +946,15 @@ describe('fallback context', () => {
     })
 
     expect(translate(ctx, 'no_results', ['apples'])).toEqual('No apples found')
-    expect(
-      translate(ctx, 'no_results', ['apples'], { locale: 'en-variant' })
-    ).toEqual('No apples found')
+    expect(translate(ctx, 'no_results', ['apples'], { locale: 'en-variant' })).toEqual(
+      'No apples found'
+    )
   })
 })
 
 describe('processor', () => {
   // VNode processor
-  function normalize(
-    values: MessageType<string | VNode>[]
-  ): MessageType<VNode>[] {
+  function normalize(values: MessageType<string | VNode>[]): MessageType<VNode>[] {
     return values.map(val =>
       shared.isString(val) || shared.isNumber(val) || shared.isBoolean(val)
         ? createTextNode(String(val))
@@ -884,11 +977,8 @@ describe('processor', () => {
     })
     ctx.processor = processor
     expect(
-      // @ts-expect-error -- FIXME
-      translate<typeof ctx, string, PickupKeys<typeof ctx.messages>, VNode>(
-        ctx,
-        'hi'
-      )
+      // @ts-ignore -- deep type instantiation with any context
+      translate<typeof ctx, string, PickupKeys<typeof ctx.messages>, VNode>(ctx, 'hi')
     ).toEqual([{ __v_isVNode: true, children: 'hi kazupon !' }])
   })
 
@@ -901,12 +991,7 @@ describe('processor', () => {
     })
     ctx.processor = processor
     expect(
-      // @ts-expect-error -- FIXME
-      translate<typeof ctx, string, PickupKeys<typeof ctx.messages>, VNode>(
-        ctx,
-        'hi',
-        ['kazupon']
-      )
+      translate<typeof ctx, string, PickupKeys<typeof ctx.messages>, VNode>(ctx, 'hi', ['kazupon'])
     ).toEqual([
       { __v_isVNode: true, children: 'hi ' },
       { __v_isVNode: true, children: 'kazupon' },
@@ -923,12 +1008,9 @@ describe('processor', () => {
     })
     ctx.processor = processor
     expect(
-      // @ts-expect-error -- FIXME
-      translate<typeof ctx, string, PickupKeys<typeof ctx.messages>, VNode>(
-        ctx,
-        'hi',
-        { name: 'kazupon' }
-      )
+      translate<typeof ctx, string, PickupKeys<typeof ctx.messages>, VNode>(ctx, 'hi', {
+        name: 'kazupon'
+      })
     ).toEqual([
       { __v_isVNode: true, children: 'hi ' },
       { __v_isVNode: true, children: 'kazupon' },
@@ -948,11 +1030,7 @@ describe('processor', () => {
     })
     ctx.processor = processor
     expect(
-      // @ts-expect-error -- FIXME
-      translate<typeof ctx, string, PickupKeys<typeof ctx.messages>, VNode>(
-        ctx,
-        'hi'
-      )
+      translate<typeof ctx, string, PickupKeys<typeof ctx.messages>, VNode>(ctx, 'hi')
     ).toEqual([
       { __v_isVNode: true, children: 'hi ' },
       { __v_isVNode: true, children: 'KAZUPON' },
@@ -969,35 +1047,19 @@ describe('processor', () => {
     })
     ctx.processor = processor
     expect(
-      // @ts-expect-error -- FIXME
-      translate<typeof ctx, string, PickupKeys<typeof ctx.messages>, VNode>(
-        ctx,
-        'apple',
-        0
-      )
+      translate<typeof ctx, string, PickupKeys<typeof ctx.messages>, VNode>(ctx, 'apple', 0)
     ).toEqual([{ __v_isVNode: true, children: 'no apples' }])
     expect(
-      // @ts-expect-error -- FIXME
-      translate<typeof ctx, string, PickupKeys<typeof ctx.messages>, VNode>(
-        ctx,
-        'apple',
-        1
-      )
+      translate<typeof ctx, string, PickupKeys<typeof ctx.messages>, VNode>(ctx, 'apple', 1)
     ).toEqual([{ __v_isVNode: true, children: 'one apple' }])
     expect(
-      // @ts-expect-error -- FIXME
-      translate<typeof ctx, string, PickupKeys<typeof ctx.messages>, VNode>(
-        ctx,
-        'apple',
-        10
-      )
+      translate<typeof ctx, string, PickupKeys<typeof ctx.messages>, VNode>(ctx, 'apple', 10)
     ).toEqual([
       { __v_isVNode: true, children: '10' },
       { __v_isVNode: true, children: ' apples from ' },
       undefined
     ])
     expect(
-      // @ts-expect-error -- FIXME
       translate<typeof ctx, string, PickupKeys<typeof ctx.messages>, VNode>(
         ctx,
         'apple',

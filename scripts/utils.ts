@@ -28,9 +28,9 @@ function resolveTargets(targets: string[]) {
   })
 }
 
-export const targets = async () => {
+export const targets = async (): Promise<string[]> => {
   const packages = await fs.readdir('packages')
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
   const pkgCaches = new Map<string, any>()
   const files = await Promise.all(
     packages.map(async f => {
@@ -56,7 +56,7 @@ export const targets = async () => {
 export const fuzzyMatchTarget = async (
   partialTargets: string[],
   includeAllMatching?: boolean
-) => {
+): Promise<string[]> => {
   const matched: string[] = []
   const _targets = await targets()
   partialTargets.forEach(partialTarget => {
@@ -85,7 +85,7 @@ export const fuzzyMatchTarget = async (
   }
 }
 
-export async function sizeTargets() {
+export async function sizeTargets(): Promise<string[]> {
   const packages = await fs.readdir('packages')
   const files = await Promise.all(
     packages.map(async f => {
@@ -93,30 +93,26 @@ export async function sizeTargets() {
       if (!stat.isDirectory()) {
         return ''
       }
-      const pkg = await readJson(
-        resolve(dirname(''), `./packages/${f}/package.json`)
-      )
+      const pkg = await readJson(resolve(dirname(''), `./packages/${f}/package.json`))
       if (!pkg.private) {
         return ''
       }
       return f
     })
   )
-  return resolveTargets(
-    files.filter((_, f) => files[f]).filter(f => /size-check/.test(f))
-  )
+  return resolveTargets(files.filter((_, f) => files[f]).filter(f => /size-check/.test(f)))
 }
 
-export async function checkSizeDistFiles(target: string) {
+export async function checkSizeDistFiles(target: string): Promise<string[]> {
   const dirs = await fs.readdir(`${target}/dist`)
   // prettier-ignore
-  return dirs.filter(file => /^(message-compiler|core|vue-i18n|petite-vue-i18n)/.test(file))
-    .filter(file => !/^core-base/.test(file))
-    .filter(file => !/^vue-i18n-core/.test(file))
-    .filter(file => /prod\.js$/.test(file))
+  return dirs.filter(file => /^(message-compiler|core|vue-i18n|petite-vue-i18n)/.test(file)) // eslint-disable-line regexp/no-unused-capturing-group
+    .filter(file => !file.startsWith('core-base'))
+    .filter(file => !file.startsWith('vue-i18n-core'))
+    .filter(file => file.endsWith('prod.js'))
 }
 
-export async function readJson(path: string) {
+export async function readJson(path: string): Promise<any> {
   const data = await fs.readFile(path, 'utf8')
   return JSON.parse(data)
 }

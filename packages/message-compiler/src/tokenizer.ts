@@ -45,7 +45,7 @@ export interface Token {
   loc?: SourceLocation
 }
 
-export interface TokenizeContext {
+interface TokenizeContext {
   currentType: TokenTypes
   offset: number
   startLoc: Position
@@ -66,10 +66,7 @@ export interface Tokenizer {
   nextToken(): Token
 }
 
-export function createTokenizer(
-  source: string,
-  options: TokenizeOptions = {}
-): Tokenizer {
+export function createTokenizer(source: string, options: TokenizeOptions = {}): Tokenizer {
   const location = options.location !== false
 
   const _scnr = createScanner(source)
@@ -118,11 +115,7 @@ export function createTokenizer(
     }
   }
 
-  function getToken(
-    context: TokenizeContext,
-    type: TokenTypes,
-    value?: string
-  ): Token {
+  function getToken(context: TokenizeContext, type: TokenTypes, value?: string): Token {
     context.endLoc = currentPosition()
     context.currentType = type
 
@@ -137,8 +130,7 @@ export function createTokenizer(
     return token
   }
 
-  const getEndToken = (context: TokenizeContext): Token =>
-    getToken(context, TokenTypes.EOF)
+  const getEndToken = (context: TokenizeContext): Token => getToken(context, TokenTypes.EOF)
 
   function eat(scnr: Scanner, ch: string): string {
     if (scnr.currentChar() === ch) {
@@ -185,10 +177,7 @@ export function createTokenizer(
     return cc >= 48 && cc <= 57 // 0-9
   }
 
-  function isNamedIdentifierStart(
-    scnr: Scanner,
-    context: TokenizeContext
-  ): boolean {
+  function isNamedIdentifierStart(scnr: Scanner, context: TokenizeContext): boolean {
     const { currentType } = context
 
     if (currentType !== TokenTypes.BraceLeft) {
@@ -203,10 +192,7 @@ export function createTokenizer(
     return ret
   }
 
-  function isListIdentifierStart(
-    scnr: Scanner,
-    context: TokenizeContext
-  ): boolean {
+  function isListIdentifierStart(scnr: Scanner, context: TokenizeContext): boolean {
     const { currentType } = context
 
     if (currentType !== TokenTypes.BraceLeft) {
@@ -251,10 +237,7 @@ export function createTokenizer(
     return ret
   }
 
-  function isLinkedModifierStart(
-    scnr: Scanner,
-    context: TokenizeContext
-  ): boolean {
+  function isLinkedModifierStart(scnr: Scanner, context: TokenizeContext): boolean {
     const { currentType } = context
 
     if (currentType !== TokenTypes.LinkedDot) {
@@ -268,18 +251,10 @@ export function createTokenizer(
     return ret
   }
 
-  function isLinkedDelimiterStart(
-    scnr: Scanner,
-    context: TokenizeContext
-  ): boolean {
+  function isLinkedDelimiterStart(scnr: Scanner, context: TokenizeContext): boolean {
     const { currentType } = context
 
-    if (
-      !(
-        currentType === TokenTypes.LinkedAlias ||
-        currentType === TokenTypes.LinkedModifier
-      )
-    ) {
+    if (!(currentType === TokenTypes.LinkedAlias || currentType === TokenTypes.LinkedModifier)) {
       return false
     }
 
@@ -290,10 +265,7 @@ export function createTokenizer(
     return ret
   }
 
-  function isLinkedReferStart(
-    scnr: Scanner,
-    context: TokenizeContext
-  ): boolean {
+  function isLinkedReferStart(scnr: Scanner, context: TokenizeContext): boolean {
     const { currentType } = context
 
     if (currentType !== TokenTypes.LinkedDelimiter) {
@@ -363,10 +335,7 @@ export function createTokenizer(
     return ret
   }
 
-  function takeChar(
-    scnr: Scanner,
-    fn: (ch: string) => boolean
-  ): string | undefined | null {
+  function takeChar(scnr: Scanner, fn: (ch: string) => boolean): string | undefined | null {
     const ch = scnr.currentChar()
 
     if (ch === EOF) {
@@ -449,7 +418,24 @@ export function createTokenizer(
 
     while (true) {
       const ch = scnr.currentChar()
-      if (
+      if (ch === '\\') {
+        const nextCh = scnr.peek()
+        if (
+          nextCh === TokenChars.BraceLeft ||
+          nextCh === TokenChars.BraceRight ||
+          nextCh === TokenChars.LinkedAlias ||
+          nextCh === TokenChars.Pipe ||
+          nextCh === '\\'
+        ) {
+          buf += ch + nextCh
+          scnr.next()
+          scnr.next()
+        } else {
+          scnr.resetPeek()
+          buf += ch
+          scnr.next()
+        }
+      } else if (
         ch === TokenChars.BraceLeft ||
         ch === TokenChars.BraceRight ||
         ch === TokenChars.LinkedAlias ||
@@ -484,12 +470,28 @@ export function createTokenizer(
       name += ch
     }
 
-    if (scnr.currentChar() === EOF) {
+    // Check if takeNamedIdentifierChar stoped because of invalid characters
+    const currentChar = scnr.currentChar()
+    if (
+      currentChar &&
+      currentChar !== '}' &&
+      currentChar !== EOF &&
+      currentChar !== SPACE &&
+      currentChar !== NEW_LINE &&
+      currentChar !== '\u3000'
+    ) {
+      const invalidPart = readInvalidIdentifier(scnr)
       emitError(
-        CompileErrorCodes.UNTERMINATED_CLOSING_BRACE,
+        CompileErrorCodes.INVALID_TOKEN_IN_PLACEHOLDER,
         currentPosition(),
-        0
+        0,
+        name + invalidPart
       )
+      return name + invalidPart
+    }
+
+    if (scnr.currentChar() === EOF) {
+      emitError(CompileErrorCodes.UNTERMINATED_CLOSING_BRACE, currentPosition(), 0)
     }
 
     return name
@@ -507,11 +509,7 @@ export function createTokenizer(
     }
 
     if (scnr.currentChar() === EOF) {
-      emitError(
-        CompileErrorCodes.UNTERMINATED_CLOSING_BRACE,
-        currentPosition(),
-        0
-      )
+      emitError(CompileErrorCodes.UNTERMINATED_CLOSING_BRACE, currentPosition(), 0)
     }
 
     return value
@@ -524,8 +522,7 @@ export function createTokenizer(
   function readLiteral(scnr: Scanner): string {
     skipSpaces(scnr)
 
-    // eslint-disable-next-line no-useless-escape
-    eat(scnr, `\'`)
+    eat(scnr, `'`)
 
     let ch: string | undefined | null = ''
     let literal = ''
@@ -539,22 +536,17 @@ export function createTokenizer(
 
     const current = scnr.currentChar()
     if (current === NEW_LINE || current === EOF) {
-      emitError(
-        CompileErrorCodes.UNTERMINATED_SINGLE_QUOTE_IN_PLACEHOLDER,
-        currentPosition(),
-        0
-      )
+      emitError(CompileErrorCodes.UNTERMINATED_SINGLE_QUOTE_IN_PLACEHOLDER, currentPosition(), 0)
       // TODO: Is it correct really?
       if (current === NEW_LINE) {
         scnr.next()
-        // eslint-disable-next-line no-useless-escape
-        eat(scnr, `\'`)
+
+        eat(scnr, `'`)
       }
       return literal
     }
 
-    // eslint-disable-next-line no-useless-escape
-    eat(scnr, `\'`)
+    eat(scnr, `'`)
 
     return literal
   }
@@ -563,7 +555,7 @@ export function createTokenizer(
     const ch = scnr.currentChar()
     switch (ch) {
       case '\\':
-      case `\'`: // eslint-disable-line no-useless-escape
+      case `'`:
         scnr.next()
         return `\\${ch}`
       case 'u':
@@ -571,21 +563,12 @@ export function createTokenizer(
       case 'U':
         return readUnicodeEscapeSequence(scnr, ch, 6)
       default:
-        emitError(
-          CompileErrorCodes.UNKNOWN_ESCAPE_SEQUENCE,
-          currentPosition(),
-          0,
-          ch
-        )
+        emitError(CompileErrorCodes.UNKNOWN_ESCAPE_SEQUENCE, currentPosition(), 0, ch)
         return ''
     }
   }
 
-  function readUnicodeEscapeSequence(
-    scnr: Scanner,
-    unicode: string,
-    digits: number
-  ): string {
+  function readUnicodeEscapeSequence(scnr: Scanner, unicode: string, digits: number): string {
     eat(scnr, unicode)
 
     let sequence = ''
@@ -608,10 +591,7 @@ export function createTokenizer(
 
   function isInvalidIdentifier(ch: string): boolean {
     return (
-      ch !== TokenChars.BraceLeft &&
-      ch !== TokenChars.BraceRight &&
-      ch !== SPACE &&
-      ch !== NEW_LINE
+      ch !== TokenChars.BraceLeft && ch !== TokenChars.BraceRight && ch !== SPACE && ch !== NEW_LINE
     )
   }
 
@@ -673,21 +653,14 @@ export function createTokenizer(
   }
 
   // TODO: We need refactoring of token parsing ...
-  function readTokenInPlaceholder(
-    scnr: Scanner,
-    context: TokenizeContext
-  ): Token | null {
+  function readTokenInPlaceholder(scnr: Scanner, context: TokenizeContext): Token | null {
     let token = null
 
     const ch = scnr.currentChar()
     switch (ch) {
       case TokenChars.BraceLeft:
         if (context.braceNest >= 1) {
-          emitError(
-            CompileErrorCodes.NOT_ALLOW_NEST_PLACEHOLDER,
-            currentPosition(),
-            0
-          )
+          emitError(CompileErrorCodes.NOT_ALLOW_NEST_PLACEHOLDER, currentPosition(), 0)
         }
 
         scnr.next()
@@ -699,10 +672,7 @@ export function createTokenizer(
         return token
 
       case TokenChars.BraceRight:
-        if (
-          context.braceNest > 0 &&
-          context.currentType === TokenTypes.BraceLeft
-        ) {
+        if (context.braceNest > 0 && context.currentType === TokenTypes.BraceLeft) {
           emitError(CompileErrorCodes.EMPTY_PLACEHOLDER, currentPosition(), 0)
         }
 
@@ -718,11 +688,7 @@ export function createTokenizer(
 
       case TokenChars.LinkedAlias:
         if (context.braceNest > 0) {
-          emitError(
-            CompileErrorCodes.UNTERMINATED_CLOSING_BRACE,
-            currentPosition(),
-            0
-          )
+          emitError(CompileErrorCodes.UNTERMINATED_CLOSING_BRACE, currentPosition(), 0)
         }
 
         token = readTokenInLinked(scnr, context) || getEndToken(context)
@@ -737,11 +703,7 @@ export function createTokenizer(
 
         if (isPluralStart(scnr)) {
           if (context.braceNest > 0) {
-            emitError(
-              CompileErrorCodes.UNTERMINATED_CLOSING_BRACE,
-              currentPosition(),
-              0
-            )
+            emitError(CompileErrorCodes.UNTERMINATED_CLOSING_BRACE, currentPosition(), 0)
           }
 
           token = getToken(context, TokenTypes.Pipe, readPlural(scnr))
@@ -758,11 +720,7 @@ export function createTokenizer(
             context.currentType === TokenTypes.List ||
             context.currentType === TokenTypes.Literal)
         ) {
-          emitError(
-            CompileErrorCodes.UNTERMINATED_CLOSING_BRACE,
-            currentPosition(),
-            0
-          )
+          emitError(CompileErrorCodes.UNTERMINATED_CLOSING_BRACE, currentPosition(), 0)
 
           context.braceNest = 0
           return readToken(scnr, context)
@@ -791,11 +749,7 @@ export function createTokenizer(
 
         if (!validNamedIdentifier && !validListIdentifier && !validLiteral) {
           // TODO: we should be re-designed invalid cases, when we will extend message syntax near the future ...
-          token = getToken(
-            context,
-            TokenTypes.InvalidPlace,
-            readInvalidIdentifier(scnr)
-          )
+          token = getToken(context, TokenTypes.InvalidPlace, readInvalidIdentifier(scnr))
           emitError(
             CompileErrorCodes.INVALID_TOKEN_IN_PLACEHOLDER,
             currentPosition(),
@@ -815,10 +769,7 @@ export function createTokenizer(
   }
 
   // TODO: We need refactoring of token parsing ...
-  function readTokenInLinked(
-    scnr: Scanner,
-    context: TokenizeContext
-  ): Token | null {
+  function readTokenInLinked(scnr: Scanner, context: TokenizeContext): Token | null {
     const { currentType } = context
     let token = null
 
@@ -836,11 +787,7 @@ export function createTokenizer(
     switch (ch) {
       case TokenChars.LinkedAlias:
         scnr.next()
-        token = getToken(
-          context,
-          TokenTypes.LinkedAlias,
-          TokenChars.LinkedAlias
-        )
+        token = getToken(context, TokenTypes.LinkedAlias, TokenChars.LinkedAlias)
 
         context.inLinked = true
         return token
@@ -855,11 +802,7 @@ export function createTokenizer(
         skipSpaces(scnr)
 
         scnr.next()
-        return getToken(
-          context,
-          TokenTypes.LinkedDelimiter,
-          TokenChars.LinkedDelimiter
-        )
+        return getToken(context, TokenTypes.LinkedDelimiter, TokenChars.LinkedDelimiter)
 
       default:
         if (isPluralStart(scnr)) {
@@ -870,21 +813,14 @@ export function createTokenizer(
           return token
         }
 
-        if (
-          isLinkedDotStart(scnr, context) ||
-          isLinkedDelimiterStart(scnr, context)
-        ) {
+        if (isLinkedDotStart(scnr, context) || isLinkedDelimiterStart(scnr, context)) {
           skipSpaces(scnr)
           return readTokenInLinked(scnr, context)
         }
 
         if (isLinkedModifierStart(scnr, context)) {
           skipSpaces(scnr)
-          return getToken(
-            context,
-            TokenTypes.LinkedModifier,
-            readLinkedModifier(scnr)
-          )
+          return getToken(context, TokenTypes.LinkedModifier, readLinkedModifier(scnr))
         }
 
         if (isLinkedReferStart(scnr, context)) {
@@ -893,20 +829,12 @@ export function createTokenizer(
             // scan the placeholder
             return readTokenInPlaceholder(scnr, context) || token
           } else {
-            return getToken(
-              context,
-              TokenTypes.LinkedKey,
-              readLinkedRefer(scnr)
-            )
+            return getToken(context, TokenTypes.LinkedKey, readLinkedRefer(scnr))
           }
         }
 
         if (currentType === TokenTypes.LinkedAlias) {
-          emitError(
-            CompileErrorCodes.INVALID_LINKED_FORMAT,
-            currentPosition(),
-            0
-          )
+          emitError(CompileErrorCodes.INVALID_LINKED_FORMAT, currentPosition(), 0)
         }
 
         context.braceNest = 0
@@ -933,11 +861,7 @@ export function createTokenizer(
         return readTokenInPlaceholder(scnr, context) || getEndToken(context)
 
       case TokenChars.BraceRight:
-        emitError(
-          CompileErrorCodes.UNBALANCED_CLOSING_BRACE,
-          currentPosition(),
-          0
-        )
+        emitError(CompileErrorCodes.UNBALANCED_CLOSING_BRACE, currentPosition(), 0)
 
         scnr.next()
         return getToken(context, TokenTypes.BraceRight, TokenChars.BraceRight)

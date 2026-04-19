@@ -7,7 +7,7 @@ import { exposeContextToEnv, setTestContext } from './test-utils'
 
 const __dirname = fileURLToPath(new URL('..', import.meta.url))
 
-export async function setup() {
+export async function setup(): Promise<() => Promise<void>> {
   const host = '127.0.0.1'
   const port = await getRandomPort(host)
   const url = `http://${host}:${port}`
@@ -17,7 +17,7 @@ export async function setup() {
 
   const listener = await listen(
     (req, res) => {
-      // eslint-disable-next-line @typescript-eslint/no-floating-promises
+      // oxlint-disable-next-line @typescript-eslint/no-floating-promises -- ignore for scripting
       handler(req, res, { public: __dirname })
     },
     { port, hostname: host }

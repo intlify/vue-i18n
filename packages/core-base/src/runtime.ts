@@ -6,7 +6,6 @@ import {
   isFunction,
   isNumber,
   isObject,
-  isPlainObject,
   isString,
   join,
   toDisplayString
@@ -40,42 +39,27 @@ export interface GeneratedTypeConfig {}
  * Generated locale which resolves to `never` if left unset
  */
 export type GeneratedLocale =
-  GeneratedTypeConfig extends Record<'locale', infer CustomLocale>
-    ? CustomLocale
-    : never
+  GeneratedTypeConfig extends Record<'locale', infer CustomLocale> ? CustomLocale : never
 
 /** @VueI18nGeneral */
-export type Locale =
-  IsNever<GeneratedLocale> extends true ? string : GeneratedLocale
+export type Locale = IsNever<GeneratedLocale> extends true ? string : GeneratedLocale
 
 /** @VueI18nGeneral */
 // prettier-ignore
-export interface LocaleDetector<Args extends any[] = any[]> { // eslint-disable-line @typescript-eslint/no-explicit-any
+export interface LocaleDetector<Args extends any[] = any[]> {  
   (...args: Args): Locale | Promise<Locale>
   resolvedOnce?: boolean
 }
 
 /** @VueI18nGeneral */
-export type FallbackLocale =
-  | Locale
-  | Locale[]
-  | { [locale in string]: Locale[] }
-  | false
+export type FallbackLocale = Locale | Locale[] | { [locale in string]: Locale[] } | false
 
-export type CoreMissingType =
-  | 'translate'
-  | 'datetime format'
-  | 'number format'
-  | 'translate exists'
+export type CoreMissingType = 'translate' | 'datetime format' | 'number format' | 'translate exists'
 
-export type MessageType<T = string> = T extends string
-  ? string
-  : StringConvertable<T>
+export type MessageType<T = string> = T extends string ? string : StringConvertable<T>
 
 /** @VueI18nGeneral */
-export type MessageFunctionReturn<T = string> = T extends string
-  ? MessageType<T>
-  : MessageType<T>[]
+export type MessageFunctionReturn<T = string> = T extends string ? MessageType<T> : MessageType<T>[]
 
 export type MessageFunctionCallable = <T = string>(
   ctx: MessageContext<T>
@@ -93,13 +77,11 @@ export type MessageFunctionInternal<T = string> = {
  *
  * @param ctx - A {@link MessageContext}
  *
- * @return A resolved format message, that is string type basically.
+ * @returns A resolved format message, that is string type basically.
  *
  * @VueI18nGeneral
  */
-export type MessageFunction<T = string> =
-  | MessageFunctionCallable
-  | MessageFunctionInternal<T>
+export type MessageFunction<T = string> = MessageFunctionCallable | MessageFunctionInternal<T>
 
 export type MessageFunctions<T = string> = Record<string, MessageFunction<T>>
 export type MessageResolveFunction<T = string> = (
@@ -107,9 +89,7 @@ export type MessageResolveFunction<T = string> = (
   useLinked: boolean
 ) => MessageFunction<T>
 
-export type MessageNormalize<T = string> = (
-  values: MessageType<T>[]
-) => MessageFunctionReturn<T>
+export type MessageNormalize<T = string> = (values: MessageType<T>[]) => MessageFunctionReturn<T>
 export type MessageInterpolate<T = string> = (val: unknown) => MessageType<T>
 export interface MessageProcessor<T = string> {
   type?: string
@@ -129,10 +109,7 @@ export type PluralizationProps = {
   count?: number
 }
 
-export type LinkedModify<T = string> = (
-  value: T,
-  type: string
-) => MessageType<T>
+export type LinkedModify<T = string> = (value: T, type: string) => MessageType<T>
 /** @VueI18nGeneral */
 export type LinkedModifiers<T = string> = { [key: string]: LinkedModify<T> }
 
@@ -254,11 +231,11 @@ export interface MessageContext<T = string> {
    * Overloaded `linked`
    *
    * @param key - A message key
-   * @param optoins - An {@link LinkedOptions | linked options}
+   * @param options - An {@link LinkedOptions | linked options}
    *
    * @returns A resolve message.
    */
-  linked(key: Path, optoins?: LinkedOptions): MessageType<T>
+  linked(key: Path, options?: LinkedOptions): MessageType<T>
   /** @internal */
   message(key: Path): MessageFunction<T>
   /**
@@ -293,77 +270,118 @@ export interface MessageContext<T = string> {
 }
 
 const DEFAULT_MODIFIER = (str: string): string => str
-const DEFAULT_MESSAGE = (ctx: MessageContext<string>): string => '' // eslint-disable-line
+const DEFAULT_MESSAGE = (_ctx: MessageContext<string>): string => ''
 export const DEFAULT_MESSAGE_DATA_TYPE = 'text'
-const DEFAULT_NORMALIZE = (values: string[]): string =>
-  values.length === 0 ? '' : join(values)
+const DEFAULT_NORMALIZE = (values: string[]): string => (values.length === 0 ? '' : join(values))
 const DEFAULT_INTERPOLATE = toDisplayString
 
 function pluralDefault(choice: number, choicesLength: number): number {
   choice = Math.abs(choice)
+
+  // singular (0) | plural (1)
   if (choicesLength === 2) {
     // prettier-ignore
-    return choice
-      ? choice > 1
-        ? 1
-        : 0
+    return choice === 1
+      ? 0
       : 1
   }
-  return choice ? Math.min(choice, 2) : 0
+
+  // zero (0) | singular (1) | plural (2)
+  return Math.min(choice, 2)
+}
+
+// CLDR plural category order
+const PLURAL_CATEGORY_ORDER: Intl.LDMLPluralRule[] = ['zero', 'one', 'two', 'few', 'many', 'other']
+
+// Cache Intl.PluralRules instances per locale
+const intlPluralRulesCache = new Map<
+  string,
+  {
+    rules: Intl.PluralRules
+    categories: Intl.LDMLPluralRule[]
+  }
+>()
+
+function getIntlPluralRules(locale: string) {
+  let cached = intlPluralRulesCache.get(locale)
+  if (!cached) {
+    const rules = new Intl.PluralRules(locale)
+    const categories = rules
+      .resolvedOptions()
+      .pluralCategories.slice()
+      .sort((a, b) => PLURAL_CATEGORY_ORDER.indexOf(a) - PLURAL_CATEGORY_ORDER.indexOf(b))
+    cached = { rules, categories }
+    intlPluralRulesCache.set(locale, cached)
+  }
+  return cached
 }
 
 function getPluralIndex<T, N>(options: MessageContextOptions<T, N>): number {
   // prettier-ignore
-  const index = isNumber(options.pluralIndex)
-    ? options.pluralIndex
-    : -1
-  // prettier-ignore
-  return options.named && (isNumber(options.named.count) || isNumber(options.named.n))
-    ? isNumber(options.named.count)
-      ? options.named.count
-      : isNumber(options.named.n)
-        ? options.named.n
-        : index
-    : index
-}
+  // When pluralIndex is explicitly provided, it takes priority over named.count/named.n
+  if (isNumber(options.pluralIndex)) {
+    return options.pluralIndex
+  }
 
-function normalizeNamed(pluralIndex: number, props: PluralizationProps): void {
-  if (!props.count) {
-    props.count = pluralIndex
-  }
-  if (!props.n) {
-    props.n = pluralIndex
-  }
+  return isNumber(options.named?.count)
+    ? options.named.count
+    : isNumber(options.named?.n)
+      ? options.named.n
+      : -1
 }
 
 export function createMessageContext<T = string, N = {}>(
   options: MessageContextOptions<T, N> = {}
 ): MessageContext<T> {
   const locale = options.locale
+
   const pluralIndex = getPluralIndex(options)
-  const pluralRule =
-    isObject(options.pluralRules) &&
+
+  // Resolve plural rule with priority: custom > Intl.PluralRules > pluralDefault
+  let resolvedPluralRule: (
+    choice: number,
+    choicesLength: number,
+    orgRule?: PluralizationRule
+  ) => number
+
+  if (isString(locale) && isFunction(options.pluralRules?.[locale])) {
+    // 1. User-defined custom rule takes highest priority
+    resolvedPluralRule = options.pluralRules![locale]
+  } else if (
     isString(locale) &&
-    isFunction(options.pluralRules[locale])
-      ? options.pluralRules[locale]
-      : pluralDefault
-  const orgPluralRule =
-    isObject(options.pluralRules) &&
-    isString(locale) &&
-    isFunction(options.pluralRules[locale])
-      ? pluralDefault
-      : undefined
-  const plural = (messages: T[]): T => {
-    return messages[pluralRule(pluralIndex, messages.length, orgPluralRule)]
+    typeof Intl !== 'undefined' &&
+    typeof Intl.PluralRules !== 'undefined'
+  ) {
+    // 2. Intl.PluralRules-based automatic rule
+    resolvedPluralRule = (choice: number, choicesLength: number): number => {
+      const { rules, categories } = getIntlPluralRules(locale!)
+      // Fall back to pluralDefault when choices exceed locale's category count
+      if (choicesLength > categories.length) {
+        return pluralDefault(choice, choicesLength)
+      }
+      const category = rules.select(Math.abs(choice))
+      const index = categories.indexOf(category)
+      return Math.min(index === -1 ? choicesLength - 1 : index, choicesLength - 1)
+    }
+  } else {
+    // 3. Fallback: English-based default rule
+    resolvedPluralRule = pluralDefault
   }
+
+  const orgPluralRule = resolvedPluralRule === pluralDefault ? undefined : pluralDefault
+
+  const plural = (messages: T[]): T =>
+    messages[resolvedPluralRule(pluralIndex, messages.length, orgPluralRule)]
 
   const _list = options.list || []
   const list = (index: number): unknown => _list[index]
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const _named = options.named || (create() as any)
-
-  isNumber(options.pluralIndex) && normalizeNamed(pluralIndex, _named)
+  // normalize named
+  if (isNumber(options.pluralIndex)) {
+    _named.count ??= options.pluralIndex
+    _named.n ??= options.pluralIndex
+  }
   const named = (key: string): unknown => _named[key]
 
   function message(key: Path, useLinked?: boolean): MessageFunction<T> {
@@ -381,25 +399,19 @@ export function createMessageContext<T = string, N = {}>(
   }
 
   const _modifier = (name: string): LinkedModify<T> =>
-    options.modifiers
-      ? options.modifiers[name]
-      : (DEFAULT_MODIFIER as unknown as LinkedModify<T>)
+    options.modifiers ? options.modifiers[name] : (DEFAULT_MODIFIER as unknown as LinkedModify<T>)
 
-  const normalize =
-    isPlainObject(options.processor) && isFunction(options.processor.normalize)
-      ? options.processor.normalize
-      : (DEFAULT_NORMALIZE as unknown as MessageNormalize<T>)
+  const normalize = isFunction(options.processor?.normalize)
+    ? options.processor.normalize
+    : (DEFAULT_NORMALIZE as unknown as MessageNormalize<T>)
 
-  const interpolate =
-    isPlainObject(options.processor) &&
-    isFunction(options.processor.interpolate)
-      ? options.processor.interpolate
-      : (DEFAULT_INTERPOLATE as unknown as MessageInterpolate<T>)
+  const interpolate = isFunction(options.processor?.interpolate)
+    ? options.processor.interpolate
+    : (DEFAULT_INTERPOLATE as unknown as MessageInterpolate<T>)
 
-  const type =
-    isPlainObject(options.processor) && isString(options.processor.type)
-      ? options.processor.type
-      : DEFAULT_MESSAGE_DATA_TYPE
+  const type = isString(options.processor?.type)
+    ? options.processor.type
+    : DEFAULT_MESSAGE_DATA_TYPE
 
   const linked = (key: Path, ...args: unknown[]): MessageType<T> => {
     const [arg1, arg2] = args
@@ -421,11 +433,11 @@ export function createMessageContext<T = string, N = {}>(
       }
     }
     const ret = message(key, true)(ctx)
+    // If the linked message is not resolved (empty string), fall back to the key itself
+    const resolved = ret === '' || ret === undefined ? (key as unknown as MessageType<T>) : ret
     const msg =
       // The message in vnode resolved with linked are returned as an array by processor.nomalize
-      type === 'vnode' && isArray(ret) && modifier
-        ? ret[0]
-        : (ret as MessageType<T>)
+      type === 'vnode' && isArray(resolved) && modifier ? resolved[0] : (resolved as MessageType<T>)
     return modifier ? _modifier(modifier)(msg as T, type) : msg
   }
 

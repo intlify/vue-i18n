@@ -179,9 +179,7 @@ describe('ExtractToStringKey', () => {
   })
 
   test('record', () => {
-    expectTypeOf<
-      ExtractToStringKey<Record<string, string>>
-    >().toEqualTypeOf<never>()
+    expectTypeOf<ExtractToStringKey<Record<string, string>>>().toEqualTypeOf<never>()
   })
 
   test('tuple', () => {
@@ -197,9 +195,7 @@ describe('ExtractToStringKey', () => {
   })
 
   test('literal bigint', () => {
-    expectTypeOf<
-      ExtractToStringKey<9007199254740992n>
-    >().toEqualTypeOf<'toString'>()
+    expectTypeOf<ExtractToStringKey<9007199254740992n>>().toEqualTypeOf<'toString'>()
   })
 
   test('literal string', () => {
@@ -219,9 +215,7 @@ describe('ExtractToStringKey', () => {
   })
 
   test('literal object, which has toString', () => {
-    expectTypeOf<
-      ExtractToStringKey<{ toString: () => string }>
-    >().toEqualTypeOf<'toString'>()
+    expectTypeOf<ExtractToStringKey<{ toString: () => string }>>().toEqualTypeOf<'toString'>()
   })
 
   describe('union', () => {
@@ -236,9 +230,9 @@ describe('ExtractToStringKey', () => {
 
 describe('StringConvertable', () => {
   test('object has toString', () => {
-    expectTypeOf<
-      StringConvertable<{ toString: () => string }>
-    >().toEqualTypeOf<{ toString: () => string }>()
+    expectTypeOf<StringConvertable<{ toString: () => string }>>().toEqualTypeOf<{
+      toString: () => string
+    }>()
   })
 
   test('object does not have toString', () => {
@@ -306,9 +300,7 @@ describe('StringConvertable', () => {
   })
 
   test('literal bigint', () => {
-    expectTypeOf<
-      StringConvertable<9007199254740992n>
-    >().toEqualTypeOf<9007199254740992n>()
+    expectTypeOf<StringConvertable<9007199254740992n>>().toEqualTypeOf<9007199254740992n>()
   })
 
   test('literal string', () => {

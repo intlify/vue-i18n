@@ -8,7 +8,7 @@ The intlify core module for i18n
 
 - **`core(.runtime).global(.prod).js`**:
   - For direct use via `<script src="...">` in the browser. Exposes the `IntlifyCore` global
-  - Note that global builds are not [UMD](https://github.com/umdjs/umd) builds.  They are built as [IIFEs](https://developer.mozilla.org/en-US/docs/Glossary/IIFE) and is only meant for direct use via `<script src="...">`
+  - Note that global builds are not [UMD](https://github.com/umdjs/umd) builds. They are built as [IIFEs](https://developer.mozilla.org/en-US/docs/Glossary/IIFE) and is only meant for direct use via `<script src="...">`
   - In-browser locale messages compilation:
     - **`core.global.js`** is the "full" build that includes both the compiler and the runtime so it supports compiling locale messages on the fly
     - **`core.runtime.global.js`** contains only the runtime and requires locale messages to be pre-compiled during a build step

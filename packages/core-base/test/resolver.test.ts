@@ -101,17 +101,13 @@ describe('resolveValue', () => {
     expect(resolveValue({ a: { b: 1 } }, 'a')).toEqual({ b: 1 })
     expect(resolveValue({ a: { 'b c d': 1 } }, 'a.b c d')).toEqual(1)
     // number key in object
-    expect(
-      resolveValue({ errors: { '1': 'error number 1' } }, 'errors[1]')
-    ).toEqual('error number 1')
-    // array index path
-    expect(resolveValue({ errors: ['error number 0'] }, 'errors[0]')).toEqual(
-      'error number 0'
+    expect(resolveValue({ errors: { '1': 'error number 1' } }, 'errors[1]')).toEqual(
+      'error number 1'
     )
+    // array index path
+    expect(resolveValue({ errors: ['error number 0'] }, 'errors[0]')).toEqual('error number 0')
     // array path
-    expect(resolveValue({ errors: ['error number 0'] }, 'errors')).toEqual([
-      'error number 0'
-    ])
+    expect(resolveValue({ errors: ['error number 0'] }, 'errors')).toEqual(['error number 0'])
     // not found
     expect(resolveValue({}, 'a.b')).toEqual(null)
     // object primitive
@@ -129,6 +125,45 @@ describe('resolveValue', () => {
     expect(resolveValue({ a: fn }, 'a')).toEqual(fn)
     // json path
     expect(resolveValue({ 'a.b': 1 }, 'a.b')).toEqual(null)
+    // String.prototype collision (issue #1711)
+    expect(resolveValue({ test: 'hello' }, 'test.link')).toEqual(null)
+    expect(resolveValue({ test: 'hello' }, 'test.match')).toEqual(null)
+    expect(resolveValue({ test: 'hello' }, 'test.replace')).toEqual(null)
+    expect(resolveValue({ test: 'hello' }, 'test.toString')).toEqual(null)
+    expect(resolveValue({ 'test.link': 'world' }, 'test.link')).toEqual(null)
+  })
+
+  test('Object.prototype built-in key paths (issue #1838)', () => {
+    const builtins = [
+      'constructor',
+      'hasOwnProperty',
+      'isPrototypeOf',
+      'propertyIsEnumerable',
+      'toLocaleString',
+      'toString',
+      'valueOf',
+      '__proto__'
+    ]
+
+    // top-level: builtin name as key with value defined -> should resolve
+    for (const k of builtins) {
+      expect(resolveValue({ [k]: 'hi' }, k)).toEqual('hi')
+    }
+
+    // top-level: builtin name as key, NOT defined -> should return null
+    for (const k of builtins) {
+      expect(resolveValue({}, k)).toEqual(null)
+    }
+
+    // nested: a.<builtin>.c with value defined -> should resolve
+    for (const k of builtins) {
+      expect(resolveValue({ a: { [k]: { c: 'hi' } } }, `a.${k}.c`)).toEqual('hi')
+    }
+
+    // nested: a.<builtin>.c without value -> should return null
+    for (const k of builtins) {
+      expect(resolveValue({ a: {} }, `a.${k}.c`)).toEqual(null)
+    }
   })
 
   test('ast', () => {

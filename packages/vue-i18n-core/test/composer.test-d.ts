@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-
 import { createComposer } from '../src/composer'
 
 import type {
@@ -75,9 +73,7 @@ const strictOptions = {
 test('loose composer', () => {
   const looseComposer = createComposer(looseOptions)
 
-  expectTypeOf(looseComposer.locale.value).toEqualTypeOf<
-    'en' | 'ja' | 'en-US' | 'ja-JP'
-  >()
+  expectTypeOf(looseComposer.locale.value).toEqualTypeOf<'en' | 'ja' | 'en-US' | 'ja-JP'>()
   expectTypeOf(looseComposer.fallbackLocale.value).toEqualTypeOf<
     | 'en'
     | 'ja'
@@ -85,9 +81,7 @@ test('loose composer', () => {
     | 'ja-JP'
     | ('en' | 'ja' | 'en-US' | 'ja-JP')[]
     | {
-        [x in string]: PickupFallbackLocales<
-          ['en' | 'ja' | 'en-US' | 'ja-JP']
-        >[]
+        [x in string]: PickupFallbackLocales<['en' | 'ja' | 'en-US' | 'ja-JP']>[]
       }
     | false
   >()
@@ -102,25 +96,13 @@ test('loose composer', () => {
     'ja-JP': { currency: {} }
   }>()
   expectTypeOf(looseComposer.t('nest.bar')).toEqualTypeOf<string>()
-  expectTypeOf(
-    looseComposer.t('nest', 1, { locale: 'en' })
-  ).toEqualTypeOf<string>()
-  expectTypeOf(
-    looseComposer.t('foo', 'default msg', { locale: 'en' })
-  ).toEqualTypeOf<string>()
-  expectTypeOf(
-    looseComposer.t('errors', [1], { plural: 1 })
-  ).toEqualTypeOf<string>()
+  expectTypeOf(looseComposer.t('nest', 1, { locale: 'en' })).toEqualTypeOf<string>()
+  expectTypeOf(looseComposer.t('foo', 'default msg', { locale: 'en' })).toEqualTypeOf<string>()
+  expectTypeOf(looseComposer.t('errors', [1], { plural: 1 })).toEqualTypeOf<string>()
   expectTypeOf(looseComposer.t('errors', [1], 1)).toEqualTypeOf<string>()
-  expectTypeOf(
-    looseComposer.t('errors', [1], 'default msg')
-  ).toEqualTypeOf<string>()
-  expectTypeOf(
-    looseComposer.t(1, { foo: 1 }, { locale: 'en' })
-  ).toEqualTypeOf<string>()
-  expectTypeOf(
-    looseComposer.t('nest', { foo: 1 }, 'msg')
-  ).toEqualTypeOf<string>()
+  expectTypeOf(looseComposer.t('errors', [1], 'default msg')).toEqualTypeOf<string>()
+  expectTypeOf(looseComposer.t(1, { foo: 1 }, { locale: 'en' })).toEqualTypeOf<string>()
+  expectTypeOf(looseComposer.t('nest', { foo: 1 }, 'msg')).toEqualTypeOf<string>()
   expectTypeOf(looseComposer.te('errors', 'en')).toEqualTypeOf<boolean>()
   expectTypeOf(looseComposer.tm('nest')).toEqualTypeOf<{ bar: string }>()
   expectTypeOf(looseComposer.tm('errors')).toEqualTypeOf<
@@ -137,9 +119,9 @@ test('loose composer', () => {
   expectTypeOf(looseComposer.getLocaleMessage('en')).toEqualTypeOf<
     typeof looseComposer.messages.value.en
   >()
-  expectTypeOf(
-    looseComposer.getLocaleMessage<{ japan: string }>('japan')
-  ).toEqualTypeOf<{ japan: string }>()
+  expectTypeOf(looseComposer.getLocaleMessage<{ japan: string }>('japan')).toEqualTypeOf<{
+    japan: string
+  }>()
   expectTypeOf(looseComposer.localeCode).toEqualTypeOf<string[]>()
 
   looseComposer.setLocaleMessage('en', {
@@ -162,9 +144,9 @@ test('loose composer', () => {
   expectTypeOf(looseComposer.getDateTimeFormat('en-US')).toEqualTypeOf<{
     short: {}
   }>()
-  expectTypeOf(
-    looseComposer.getLocaleMessage<{ long: { hour: string } }>('en-US')
-  ).toEqualTypeOf<{ long: { hour: string } }>()
+  expectTypeOf(looseComposer.getLocaleMessage<{ long: { hour: string } }>('en-US')).toEqualTypeOf<{
+    long: { hour: string }
+  }>()
 
   looseComposer.setDateTimeFormat('ja-JP', {
     short: {
@@ -184,9 +166,9 @@ test('loose composer', () => {
   expectTypeOf(looseComposer.getNumberFormat('ja-JP')).toEqualTypeOf<{
     currency: {}
   }>()
-  expectTypeOf(
-    looseComposer.getNumberFormat<{ weight: { unit: string } }>('en-US')
-  ).toEqualTypeOf<{ weight: { unit: string } }>()
+  expectTypeOf(looseComposer.getNumberFormat<{ weight: { unit: string } }>('en-US')).toEqualTypeOf<{
+    weight: { unit: string }
+  }>()
 
   looseComposer.setNumberFormat('en-US', {
     currency: {
@@ -207,9 +189,7 @@ test('loose composer', () => {
 })
 
 test('strict composer', () => {
-  const strictComposer = createComposer<[ResourceSchema], 'en' | 'ja'>(
-    strictOptions
-  )
+  const strictComposer = createComposer<[ResourceSchema], 'en' | 'ja'>(strictOptions)
 
   expectTypeOf(strictComposer.locale.value).toEqualTypeOf<'en' | 'ja'>()
   expectTypeOf(strictComposer.fallbackLocale.value).toEqualTypeOf<
@@ -232,25 +212,13 @@ test('strict composer', () => {
     ja: NumberFormat
   }>()
   expectTypeOf(strictComposer.t('nest.bar')).toEqualTypeOf<string>()
-  expectTypeOf(
-    strictComposer.t('nest', 1, { locale: 'en' })
-  ).toEqualTypeOf<string>()
-  expectTypeOf(
-    strictComposer.t('foo', 'default msg', { locale: 'en' })
-  ).toEqualTypeOf<string>()
-  expectTypeOf(
-    strictComposer.t('errors', [1], { plural: 1 })
-  ).toEqualTypeOf<string>()
+  expectTypeOf(strictComposer.t('nest', 1, { locale: 'en' })).toEqualTypeOf<string>()
+  expectTypeOf(strictComposer.t('foo', 'default msg', { locale: 'en' })).toEqualTypeOf<string>()
+  expectTypeOf(strictComposer.t('errors', [1], { plural: 1 })).toEqualTypeOf<string>()
   expectTypeOf(strictComposer.t('errors', [1], 1)).toEqualTypeOf<string>()
-  expectTypeOf(
-    strictComposer.t('errors', [1], 'default msg')
-  ).toEqualTypeOf<string>()
-  expectTypeOf(
-    strictComposer.t(1, { foo: 1 }, { locale: 'en' })
-  ).toEqualTypeOf<string>()
-  expectTypeOf(
-    strictComposer.t('nest', { foo: 1 }, 'msg')
-  ).toEqualTypeOf<string>()
+  expectTypeOf(strictComposer.t('errors', [1], 'default msg')).toEqualTypeOf<string>()
+  expectTypeOf(strictComposer.t(1, { foo: 1 }, { locale: 'en' })).toEqualTypeOf<string>()
+  expectTypeOf(strictComposer.t('nest', { foo: 1 }, 'msg')).toEqualTypeOf<string>()
   expectTypeOf(strictComposer.te('errors', 'en')).toEqualTypeOf<boolean>()
   expectTypeOf(strictComposer.tm('nest')).toEqualTypeOf<{ bar: string }>()
   expectTypeOf(strictComposer.tm('errors')).toEqualTypeOf<string[]>()
@@ -258,9 +226,9 @@ test('strict composer', () => {
   expectTypeOf(strictComposer.getLocaleMessage('en')).toEqualTypeOf<
     typeof strictComposer.messages.value.en
   >()
-  expectTypeOf(
-    strictComposer.getLocaleMessage<{ japan: string }>('japan')
-  ).toEqualTypeOf<{ japan: string }>()
+  expectTypeOf(strictComposer.getLocaleMessage<{ japan: string }>('japan')).toEqualTypeOf<{
+    japan: string
+  }>()
 
   strictComposer.setLocaleMessage('en', {
     foo: 'foo',
@@ -320,9 +288,7 @@ test('strict composer with direct options', () => {
     }
   })
 
-  expectTypeOf(strictDirectComposer.locale.value).toEqualTypeOf<
-    'en' | 'zh' | 'ca' | 'ja-JP'
-  >()
+  expectTypeOf(strictDirectComposer.locale.value).toEqualTypeOf<'en' | 'zh' | 'ca' | 'ja-JP'>()
   expectTypeOf(strictDirectComposer.fallbackLocale.value).toEqualTypeOf<
     | 'en'
     | 'zh'
@@ -342,64 +308,77 @@ test('strict composer with direct options', () => {
   expectTypeOf(strictDirectComposer.numberFormats.value).toEqualTypeOf<{
     ca: { currency: { style: 'currency'; currencyDisplay: 'symbol' } }
   }>()
+
+  // ComposerDateTimeFormatting
   expectTypeOf(strictDirectComposer.d(new Date())).toEqualTypeOf<string>()
   expectTypeOf(
-    strictDirectComposer.d<Date, string, string>(new Date(), 'short', 'ja-JP')
+    strictDirectComposer.d<Date, string>(new Date(), 'short', 'ja-JP')
   ).toEqualTypeOf<string>()
   expectTypeOf(
     strictDirectComposer.d(new Date(), { key: 'short', locale: 'zh' })
-  ).toEqualTypeOf<string | Intl.DateTimeFormatPart[]>()
-  expectTypeOf(
-    strictDirectComposer.d<Date, string, Intl.DateTimeFormatPart[]>(
-      new Date(),
-      {
-        key: 'short',
-        locale: 'zh',
-        part: true
-      }
-    )
-  ).toEqualTypeOf<Intl.DateTimeFormatPart[]>()
-  expectTypeOf(
-    strictDirectComposer.d<Date, string, string>(new Date(), 'custom' as any)
   ).toEqualTypeOf<string>()
-  expectTypeOf(strictDirectComposer.n(1)).toEqualTypeOf<string>()
-  expectTypeOf(strictDirectComposer.n(1, 'currency', 'zh')).toEqualTypeOf<
-    string | Intl.NumberFormatPart[]
-  >()
   expectTypeOf(
-    strictDirectComposer.n<string, string>(1, 'currency', 'zh')
+    strictDirectComposer.d<Date, string>(new Date(), 'custom' as any)
+  ).toEqualTypeOf<string>()
+  // part & return type
+  expectTypeOf(
+    strictDirectComposer.d(new Date(), {
+      key: 'short',
+      locale: 'zh'
+      //part: undefined
+    })
+  ).toEqualTypeOf<string>()
+  expectTypeOf(
+    strictDirectComposer.d(new Date(), {
+      key: 'short',
+      locale: 'zh',
+      part: false
+    })
+  ).toEqualTypeOf<string>()
+  expectTypeOf(
+    strictDirectComposer.d(new Date(), {
+      key: 'short',
+      locale: 'zh',
+      part: true
+    })
+  ).toEqualTypeOf<Intl.DateTimeFormatPart[]>()
+
+  // ComposerDateTimeFormatting with ISO 8601 string
+  expectTypeOf(strictDirectComposer.d('2022-08-08T08:56:45.846Z')).toEqualTypeOf<string>()
+  expectTypeOf(strictDirectComposer.d('2022-08-08T08:56:45.846Z', 'short')).toEqualTypeOf<string>()
+  expectTypeOf(
+    strictDirectComposer.d('2022-08-08T08:56:45.846Z', { key: 'short', locale: 'zh' })
+  ).toEqualTypeOf<string>()
+
+  // ComposerNumberFormatting
+  expectTypeOf(strictDirectComposer.n(1)).toEqualTypeOf<string>()
+  expectTypeOf(strictDirectComposer.n(1, 'currency', 'zh')).toEqualTypeOf<string>()
+  expectTypeOf(strictDirectComposer.n<string>(1, 'currency', 'zh')).toEqualTypeOf<string>()
+  expectTypeOf(strictDirectComposer.n(1, 'currency')).toEqualTypeOf<string>()
+  expectTypeOf(strictDirectComposer.n<string>(1, 'currency')).toEqualTypeOf<string>()
+  // part & return type
+  expectTypeOf(
+    strictDirectComposer.n(1, {
+      key: 'currency',
+      locale: 'en'
+      //part: undefined
+    })
+  ).toEqualTypeOf<string>()
+  expectTypeOf(
+    strictDirectComposer.n(1, { key: 'currency', locale: 'en', part: false })
   ).toEqualTypeOf<string>()
   expectTypeOf(
     strictDirectComposer.n(1, { key: 'currency', locale: 'en', part: true })
-  ).toEqualTypeOf<string | Intl.NumberFormatPart[]>()
-  expectTypeOf(
-    strictDirectComposer.n<string, Intl.NumberFormatPart[]>(1, {
-      key: 'currency',
-      locale: 'en',
-      part: true
-    })
   ).toEqualTypeOf<Intl.NumberFormatPart[]>()
-  expectTypeOf(strictDirectComposer.n(1, 'currency')).toEqualTypeOf<
-    string | Intl.NumberFormatPart[]
-  >()
-  expectTypeOf(
-    strictDirectComposer.n<string, string>(1, 'currency')
-  ).toEqualTypeOf<string>()
 
   // const noOptionsComposer = createComposer({ missingWarn: true })
   const noOptionsComposer = createComposer({ locale: 'en' })
   expectTypeOf(noOptionsComposer.locale.value).toEqualTypeOf<string>()
-  expectTypeOf(noOptionsComposer.fallbackLocale.value).toEqualTypeOf<
-    FallbackLocales<string>
-  >()
+  expectTypeOf(noOptionsComposer.fallbackLocale.value).toEqualTypeOf<FallbackLocales<string>>()
 
   const nullComposer = createComposer({})
   expectTypeOf(nullComposer.locale.value).toEqualTypeOf<string>()
   nullComposer.locale.value = 'en'
-  expectTypeOf(nullComposer.fallbackLocale.value).toEqualTypeOf<
-    FallbackLocales<string>
-  >()
+  expectTypeOf(nullComposer.fallbackLocale.value).toEqualTypeOf<FallbackLocales<string>>()
   nullComposer.fallbackLocale.value = 'fr'
 })
-
-/* eslint-enable @typescript-eslint/no-explicit-any */

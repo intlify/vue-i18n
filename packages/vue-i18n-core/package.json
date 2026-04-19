@@ -1,7 +1,20 @@
 {
   "name": "@intlify/vue-i18n-core",
-  "version": "12.0.0-alpha.2",
   "description": "@intlify/vue-i18n-core",
+  "version": "12.0.0-alpha.3",
+  "author": {
+    "name": "kazuya kawaguchi",
+    "email": "kawakazu80@gmail.com"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/intlify/vue-i18n/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/intlify/vue-i18n.git",
+    "directory": "packages/vue-i18n-core"
+  },
   "keywords": [
     "core",
     "fundamental",
@@ -11,41 +24,58 @@
     "vue",
     "vue.js"
   ],
-  "license": "MIT",
-  "author": {
-    "name": "kazuya kawaguchi",
-    "email": "kawakazu80@gmail.com"
-  },
   "homepage": "https://github.com/intlify/vue-i18n/tree/master/packages/vue-i18n-core#readme",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/intlify/vue-i18n.git",
-    "directory": "packages/vue-i18n-core"
+  "publishConfig": {
+    "access": "public"
   },
-  "bugs": {
-    "url": "https://github.com/intlify/vue-i18n/issues"
+  "engines": {
+    "node": ">= 16"
   },
+  "type": "module",
+  "sideEffects": false,
   "files": [
     "dist"
   ],
-  "type": "module",
   "module": "dist/vue-i18n-core.mjs",
   "unpkg": "dist/vue-i18n-core.global.js",
   "jsdelivr": "dist/vue-i18n-core.global.js",
+  "exports": {
+    ".": {
+      "types": "./dist/vue-i18n-core.d.ts",
+      "node": {
+        "import": {
+          "development": "./dist/vue-i18n-core.js",
+          "default": "./dist/vue-i18n-core.js"
+        }
+      },
+      "import": "./dist/vue-i18n-core.js",
+      "browser": "./dist/vue-i18n-core.esm-browser.js"
+    },
+    "./petite": {
+      "types": "./dist/petite-vue-i18n-core.d.ts",
+      "node": {
+        "import": {
+          "development": "./dist/petite-vue-i18n-core.js",
+          "default": "./dist/petite-vue-i18n-core.js"
+        }
+      },
+      "import": "./dist/petite-vue-i18n-core.js",
+      "browser": "./dist/petite-vue-i18n-core.esm-browser.js"
+    },
+    "./dist/*": "./dist/*",
+    "./package.json": "./package.json"
+  },
   "types": "dist/vue-i18n-core.d.ts",
   "dependencies": {
     "@intlify/core-base": "workspace:*",
     "@intlify/shared": "workspace:*",
     "@vue/devtools-api": "^6.5.0"
   },
-  "devDependencies": {
-    "@intlify/devtools-types": "workspace:*"
-  },
   "peerDependencies": {
     "vue": "^3.0.0"
   },
-  "engines": {
-    "node": ">= 16"
+  "devDependencies": {
+    "@intlify/devtools-types": "workspace:*"
   },
   "buildOptions": {
     "name": "IntlifyVueI18nCore",
@@ -54,35 +84,5 @@
       "browser",
       "global"
     ]
-  },
-  "exports": {
-    ".": {
-      "types": "./dist/vue-i18n-core.d.ts",
-      "import": "./dist/vue-i18n-core.js",
-      "browser": "./dist/vue-i18n-core.esm-browser.js",
-      "node": {
-        "import": {
-          "development": "./dist/vue-i18n-core.js",
-          "default": "./dist/vue-i18n-core.js"
-        }
-      }
-    },
-    "./petite": {
-      "types": "./dist/petite-vue-i18n-core.d.ts",
-      "import": "./dist/petite-vue-i18n-core.js",
-      "browser": "./dist/petite-vue-i18n-core.esm-browser.js",
-      "node": {
-        "import": {
-          "development": "./petite-dist/vue-i18n-core.js",
-          "default": "./dist/petite-vue-i18n-core.js"
-        }
-      }
-    },
-    "./dist/*": "./dist/*",
-    "./package.json": "./package.json"
-  },
-  "publishConfig": {
-    "access": "public"
-  },
-  "sideEffects": false
+  }
 }

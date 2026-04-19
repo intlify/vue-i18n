@@ -2,14 +2,6 @@
  * @vitest-environment jsdom
  */
 
-import {
-  compile,
-  fallbackWithLocaleChain,
-  registerLocaleFallbacker,
-  registerMessageCompiler,
-  registerMessageResolver,
-  resolveValue
-} from '@intlify/core-base'
 import { defineComponent, h, nextTick, ref } from 'vue'
 import { createI18n, useI18n } from '../../src/index'
 import { mount } from '../helper'
@@ -39,14 +31,8 @@ const messages = {
   }
 }
 
-beforeAll(() => {
-  registerMessageCompiler(compile)
-  registerMessageResolver(resolveValue)
-  registerLocaleFallbacker(fallbackWithLocaleChain)
-})
-
-let org: any // eslint-disable-line @typescript-eslint/no-explicit-any
-let spy: any // eslint-disable-line @typescript-eslint/no-explicit-any
+let org: any
+let spy: any
 beforeEach(() => {
   org = console.warn
   spy = vi.fn()
@@ -73,9 +59,7 @@ test('slot contents', async () => {
   })
   const wrapper = await mount(App, i18n)
 
-  expect(wrapper.html()).toEqual(
-    `<p class="name">hello, <span>kazupon</span>!</p>`
-  )
+  expect(wrapper.html()).toEqual(`<p class="name">hello, <span>kazupon</span>!</p>`)
 })
 
 test('DOM contents', async () => {
@@ -209,7 +193,7 @@ test('component', async () => {
   })
 
   const MyComponent = defineComponent({
-    setup(props, context: SetupContext) {
+    setup(_props, context: SetupContext) {
       return (): VNodeChild => h('p', context.slots.default!())
     }
   })
@@ -226,19 +210,15 @@ test('component', async () => {
   })
   const wrapper = await mount(App, i18n)
 
-  expect(wrapper.html()).toEqual(
-    `<p class="name">hello, <span>kazupon</span>!</p>`
-  )
+  expect(wrapper.html()).toEqual(`<p class="name">hello, <span>kazupon</span>!</p>`)
 })
 
 test('message resolver', async () => {
   const mockMessageResolver = vi.fn()
-  mockMessageResolver.mockImplementation(
-    (obj: unknown, path: Path): PathValue => {
-      const msg = (obj as any)[path] // eslint-disable-line @typescript-eslint/no-explicit-any
-      return msg != null ? msg : null
-    }
-  )
+  mockMessageResolver.mockImplementation((obj: unknown, path: Path): PathValue => {
+    const msg = (obj as any)[path]
+    return msg != null ? msg : null
+  })
   const en = {
     'message.named': 'hello, {name}!'
   }
@@ -249,7 +229,7 @@ test('message resolver', async () => {
   })
 
   const MyComponent = defineComponent({
-    setup(props, context: SetupContext) {
+    setup(_props, context: SetupContext) {
       return (): VNodeChild => h('p', context.slots.default!())
     }
   })
@@ -266,9 +246,7 @@ test('message resolver', async () => {
   })
   const wrapper = await mount(App, i18n)
 
-  expect(wrapper.html()).toEqual(
-    `<p class="name">hello, <span>kazupon</span>!</p>`
-  )
+  expect(wrapper.html()).toEqual(`<p class="name">hello, <span>kazupon</span>!</p>`)
   expect(mockMessageResolver).toHaveBeenCalledTimes(1)
   expect(mockMessageResolver.mock.calls[0][0]).toEqual(en)
   expect(mockMessageResolver.mock.calls[0][1]).toEqual('message.named')
@@ -298,13 +276,9 @@ test('v-if / v-else', async () => {
   })
   const wrapper = await mount(App, i18n)
 
-  expect(wrapper.html()).toEqual(
-    `<p class="name">hello, <span>kazupon</span>!</p>`
-  )
+  expect(wrapper.html()).toEqual(`<p class="name">hello, <span>kazupon</span>!</p>`)
 
   toggle!.value = false
   await nextTick()
-  expect(wrapper.html()).toEqual(
-    `<p class="name">hello, <span>kazu_pon</span>!</p>`
-  )
+  expect(wrapper.html()).toEqual(`<p class="name">hello, <span>kazu_pon</span>!</p>`)
 })

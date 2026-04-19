@@ -13,49 +13,22 @@ vi.mock('@intlify/shared', async () => {
   }
 })
 
-import {
-  compile,
-  fallbackWithLocaleChain,
-  registerLocaleFallbacker,
-  registerMessageCompiler,
-  registerMessageResolver,
-  resolveValue,
-  setDevToolsHook
-} from '@intlify/core-base'
-import { createEmitter } from '@intlify/shared'
-import {
-  defineComponent,
-  defineCustomElement,
-  getCurrentInstance,
-  h,
-  nextTick,
-  ref
-} from 'vue'
+import { createApp, defineComponent, defineCustomElement, h, nextTick, ref } from 'vue'
 import { errorMessages, I18nErrorCodes } from '../src/errors'
 import { createI18n, useI18n } from '../src/i18n'
+import { getCurrentInstance } from '../src/utils'
 import { pluralRules as _pluralRules, mount, randStr } from './helper'
 
-import type { IntlifyDevToolsEmitterHooks } from '@intlify/devtools-types'
 import type { App, ComponentOptions } from 'vue'
 import type { Composer } from '../src/composer'
 import type { I18n } from '../src/i18n'
-/* eslint-disable @typescript-eslint/no-explicit-any */
+
 // allow any in error
 const container = document.createElement('div')
 document.body.appendChild(container)
 
-beforeAll(() => {
-  registerMessageCompiler(compile)
-  registerMessageResolver(resolveValue)
-  registerLocaleFallbacker(fallbackWithLocaleChain)
-})
-
 beforeEach(() => {
   container.innerHTML = ''
-})
-
-afterEach(() => {
-  setDevToolsHook(null)
 })
 
 test('createI18n with flat json messages', () => {
@@ -71,8 +44,8 @@ test('createI18n with flat json messages', () => {
 })
 
 describe('useI18n', () => {
-  let org: any // eslint-disable-line @typescript-eslint/no-explicit-any
-  let spy: any // eslint-disable-line @typescript-eslint/no-explicit-any
+  let org: any
+  let spy: any
   beforeEach(() => {
     org = console.warn
     spy = vi.fn()
@@ -265,7 +238,7 @@ describe('useI18n', () => {
             locale: '',
             resource: { ja: { hello: 'こんにちは、世界！' } }
           }
-        ] as any // eslint-disable-line @typescript-eslint/no-explicit-any
+        ] as any
         composer = useI18n()
         return { t: (composer as Composer).t }
       },
@@ -281,6 +254,7 @@ describe('useI18n', () => {
   test(errorMessages[I18nErrorCodes.MUST_BE_CALL_SETUP_TOP], async () => {
     let error = ''
     try {
+      // eslint-disable-next-line vue-composable/composable-placement
       useI18n({})
     } catch (e: any) {
       error = e.message
@@ -340,15 +314,290 @@ describe('useI18n', () => {
     container.innerHTML = `<${randProviderTag}></${randProviderTag}>`
     await nextTick()
 
-    expect(error).toEqual(
-      errorMessages[I18nErrorCodes.NOT_INSTALLED_WITH_PROVIDE]
-    )
+    expect(error).toEqual(errorMessages[I18nErrorCodes.NOT_INSTALLED_WITH_PROVIDE])
+  })
+
+  test(errorMessages[I18nErrorCodes.DUPLICATE_USE_I18N_CALLING], async () => {
+    const i18n = createI18n({
+      legacy: false,
+      locale: 'en',
+      fallbackLocale: ['en'],
+      messages: {
+        en: { hello: 'hello!' }
+      }
+    })
+
+    const useMyComposable = () => {
+      const count = ref(0)
+      const { t } = useI18n({
+        messages: {
+          en: {
+            there: 'hi there! {count}'
+          }
+        }
+      })
+      return { message: t('there', { count: count.value }) }
+    }
+
+    let error = ''
+    const App = defineComponent({
+      setup() {
+        let message: string = ''
+        let t: any
+        try {
+          const i18n = useI18n({
+            messages: {
+              en: {
+                hi: 'hi!'
+              }
+            }
+          })
+          t = i18n.t
+          const ret = useMyComposable()
+          message = ret.message
+        } catch (e: any) {
+          error = e.message
+        }
+        return { t, message, error }
+      },
+      template: `
+        <h1>Root</h1>
+          <form>
+            <select v-model="locale">
+              <option value="en">en</option>
+              <option value="ja">ja</option>
+            </select>
+          </form>
+          <p>{{ t('hi') }}</p>
+          <p>{{ message }}</p>
+          <p>{{ error }}</p>
+      `
+    })
+    await mount(App, i18n as any)
+    expect(error).toBe(errorMessages[I18nErrorCodes.DUPLICATE_USE_I18N_CALLING])
+  })
+
+  describe('isolated scope', () => {
+    test('basic', async () => {
+      const i18n = createI18n({
+        locale: 'en',
+        messages: {
+          en: {
+            hello: 'hello!'
+          }
+        }
+      })
+
+      let composer: unknown
+      const App = defineComponent({
+        setup() {
+          composer = useI18n({
+            useScope: 'isolated',
+            messages: {
+              en: {
+                greeting: 'hi there!'
+              }
+            }
+          })
+          return {}
+        },
+        template: `<p>foo</p>`
+      })
+      await mount(App, i18n)
+
+      expect(i18n.global).not.toEqual(composer)
+      expect((composer as Composer).t('greeting')).toEqual('hi there!')
+    })
+
+    test('multiple isolated scopes per component', async () => {
+      const i18n = createI18n({
+        locale: 'en',
+        messages: {
+          en: {
+            hello: 'hello!'
+          }
+        }
+      })
+
+      let composer1: unknown
+      let composer2: unknown
+      const App = defineComponent({
+        setup() {
+          composer1 = useI18n({
+            useScope: 'isolated',
+            messages: {
+              en: { msg: 'from first' }
+            }
+          })
+          composer2 = useI18n({
+            useScope: 'isolated',
+            messages: {
+              en: { msg: 'from second' }
+            }
+          })
+          return {}
+        },
+        template: `<p>foo</p>`
+      })
+      await mount(App, i18n)
+
+      expect((composer1 as Composer).t('msg')).toEqual('from first')
+      expect((composer2 as Composer).t('msg')).toEqual('from second')
+      expect(composer1).not.toEqual(composer2)
+    })
+
+    test('coexists with local scope', async () => {
+      const i18n = createI18n({
+        locale: 'en',
+        messages: {
+          en: {
+            hello: 'hello!'
+          }
+        }
+      })
+
+      const useMyComposable = () => {
+        const { t } = useI18n({
+          useScope: 'isolated',
+          messages: {
+            en: {
+              status: 'composable status'
+            }
+          }
+        })
+        return { status: t('status') }
+      }
+
+      let localComposer: unknown
+      let composableResult: { status: string }
+      const App = defineComponent({
+        setup() {
+          localComposer = useI18n({
+            messages: {
+              en: { hi: 'hi from component!' }
+            }
+          })
+          composableResult = useMyComposable()
+          return {}
+        },
+        template: `<p>foo</p>`
+      })
+      await mount(App, i18n)
+
+      expect((localComposer as Composer).t('hi')).toEqual('hi from component!')
+      expect(composableResult!.status).toEqual('composable status')
+    })
+
+    test('inherits locale from global', async () => {
+      const i18n = createI18n({
+        locale: 'ja',
+        messages: {
+          en: { hello: 'hello!' },
+          ja: { hello: 'こんにちは！' }
+        }
+      })
+
+      let composer: unknown
+      const App = defineComponent({
+        setup() {
+          composer = useI18n({
+            useScope: 'isolated',
+            messages: {
+              en: { greeting: 'hi!' },
+              ja: { greeting: 'やあ！' }
+            }
+          })
+          return {}
+        },
+        template: `<p>foo</p>`
+      })
+      await mount(App, i18n)
+
+      expect((composer as Composer).locale.value).toEqual('ja')
+      expect((composer as Composer).t('greeting')).toEqual('やあ！')
+    })
+
+    test('falls back to root for missing keys', async () => {
+      const i18n = createI18n({
+        locale: 'en',
+        messages: {
+          en: { globalKey: 'from global' }
+        }
+      })
+
+      let composer: unknown
+      const App = defineComponent({
+        setup() {
+          composer = useI18n({
+            useScope: 'isolated',
+            messages: {
+              en: { localKey: 'from isolated' }
+            }
+          })
+          return {}
+        },
+        template: `<p>foo</p>`
+      })
+      await mount(App, i18n)
+
+      expect((composer as Composer).t('localKey')).toEqual('from isolated')
+      expect((composer as Composer).t('globalKey')).toEqual('from global')
+    })
   })
 })
 
+test('reuse i18n instance after dispose', async () => {
+  const i18n = createI18n({
+    locale: 'en',
+    messages: {
+      en: { hello: 'Hello' },
+      de: { hello: 'Hallo' }
+    }
+  })
+
+  // First app: mount, verify, unmount (unmount triggers dispose via install wrapper)
+  const App1 = defineComponent({
+    setup() {
+      const { t } = useI18n()
+      return { t }
+    },
+    template: '<p>{{ t("hello") }}</p>'
+  })
+  const app1 = createApp(App1)
+  app1.use(i18n)
+  const el1 = document.createElement('div')
+  document.body.appendChild(el1)
+  app1.mount(el1)
+  expect(i18n.global.t('hello')).toEqual('Hello')
+  // unmount triggers dispose (globalScope.stop())
+  app1.unmount()
+  el1.remove()
+
+  // Second app: mount same i18n, should still work
+  const App2 = defineComponent({
+    setup() {
+      const { t } = useI18n()
+      return { t }
+    },
+    template: '<p>{{ t("hello") }}</p>'
+  })
+  const app2 = createApp(App2)
+  app2.use(i18n)
+  const el2 = document.createElement('div')
+  document.body.appendChild(el2)
+  app2.mount(el2)
+
+  expect(i18n.global.t('hello')).toEqual('Hello')
+  i18n.global.locale.value = 'de'
+  expect(i18n.global.t('hello')).toEqual('Hallo')
+
+  app2.unmount()
+  el2.remove()
+})
+
 test('slot reactivity', async () => {
-  let org: any // eslint-disable-line @typescript-eslint/no-explicit-any
-  let spy: any // eslint-disable-line @typescript-eslint/no-explicit-any
+  let org: any
+  let spy: any
   beforeEach(() => {
     org = console.warn
     spy = vi.fn()
@@ -443,7 +692,7 @@ test('slot reactivity', async () => {
       <Child />
     `
   })
-  const { html } = await mount(App, i18n as any) // eslint-disable-line @typescript-eslint/no-explicit-any
+  const { html } = await mount(App, i18n as any)
   expect(html()).toMatchSnapshot('ja')
   i18n.global.locale.value = 'en'
   await nextTick()
@@ -622,7 +871,7 @@ test('merge i18n custom blocks to global scope', async () => {
 
 describe('custom pluralization', () => {
   const mockWarn = vi.spyOn(shared, 'warnOnce')
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
+
   mockWarn.mockImplementation(() => {})
 
   test('pluralization', async () => {
@@ -703,29 +952,6 @@ describe('custom pluralization', () => {
   })
 })
 
-test('Intlify devtools hooking', () => {
-  const emitter = createEmitter<IntlifyDevToolsEmitterHooks>()
-  setDevToolsHook(emitter)
-
-  const fnI18nInit = vi.fn()
-  const fnTranslate = vi.fn()
-  emitter.on('i18n:init', fnI18nInit)
-  emitter.on('function:translate', fnTranslate)
-
-  const i18n = createI18n({
-    locale: 'en',
-    messages: {
-      en: {
-        hello: 'Hello {name}!'
-      }
-    }
-  })
-  i18n.global.t('hello', { name: 'DIO' })
-
-  expect(fnI18nInit).toHaveBeenCalled()
-  expect(fnTranslate).toHaveBeenCalled()
-})
-
 describe('release global scope', () => {
   test('call dispose', () => {
     let i18n: I18n | undefined
@@ -763,7 +989,6 @@ test('Composer & VueI18n extend hooking', async () => {
   const composerDisposeSpy = vi.fn()
   let counter = 0
   const composerExtendSpy = vi.fn().mockImplementation((composer: Composer) => {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     counter += 1
     ;(composer as any).foo = ref(`foo${counter}`)
     return composerDisposeSpy
@@ -811,15 +1036,13 @@ test('Composer & VueI18n extend hooking', async () => {
     pluginOptions: {
       __composerExtend: composerExtendSpy,
       __vueI18nExtend: vueI18nExtendSpy
-    } as any // eslint-disable-line @typescript-eslint/no-explicit-any
+    } as any
   })
 
   // Check that global is not extended
-  expect((i18n.global as any).foo).toBeUndefined() // eslint-disable-line @typescript-eslint/no-explicit-any
+  expect((i18n.global as any).foo).toBeUndefined()
 
-  expect(html()).toBe(
-    '<p></p><p class="child">foo1</p><p class="grand-child">foo2</p>'
-  )
+  expect(html()).toBe('<p></p><p class="child">foo1</p><p class="grand-child">foo2</p>')
   expect(composerExtendSpy).toHaveBeenCalledTimes(2)
   expect(vueI18nExtendSpy).not.toHaveBeenCalled()
 
@@ -830,7 +1053,7 @@ test('Composer & VueI18n extend hooking', async () => {
 
 test('dollar prefixed API (component injections)', async () => {
   const mockWarn = vi.spyOn(shared, 'warn')
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
+
   mockWarn.mockImplementation(() => {})
 
   const messages = {
@@ -909,25 +1132,17 @@ test('`t`', async () => {
   expect(i18n.global.t('plural', 0)).toEqual('no apples')
   expect(i18n.global.t('plural', 1)).toEqual('one apple')
   expect(i18n.global.t('default', 'default message')).toEqual('default message')
-  expect(
-    i18n.global.t('default', 'default {msg}', { named: { msg: 'msg' } })
-  ).toEqual('default msg')
+  expect(i18n.global.t('default', 'default {msg}', { named: { msg: 'msg' } })).toEqual(
+    'default msg'
+  )
   expect(i18n.global.t('plural', ['many'], 4)).toEqual('4 apples')
-  expect(i18n.global.t('default', ['list msg'], 'default {0}')).toEqual(
-    'default list msg'
-  )
-  expect(i18n.global.t('list', ['世界'], { locale: 'ja' })).toEqual(
-    'こんにちは、世界！'
-  )
+  expect(i18n.global.t('default', ['list msg'], 'default {0}')).toEqual('default list msg')
+  expect(i18n.global.t('list', ['世界'], { locale: 'ja' })).toEqual('こんにちは、世界！')
   expect(i18n.global.t('plural', { count: 'many' }, 4)).toEqual('many apples')
-  expect(
-    i18n.global.t('default', { msg: 'named msg' }, 'default {msg}')
-  ).toEqual('default named msg')
-  expect(i18n.global.t('named', { name: '世界' }, { locale: 'ja' })).toEqual(
-    'こんにちは、世界！'
+  expect(i18n.global.t('default', { msg: 'named msg' }, 'default {msg}')).toEqual(
+    'default named msg'
   )
+  expect(i18n.global.t('named', { name: '世界' }, { locale: 'ja' })).toEqual('こんにちは、世界！')
   expect(i18n.global.t('hello', {}, { locale: 'en' })).toEqual('hello world!')
-  expect(i18n.global.t('hello', [], { locale: 'ja' })).toEqual(
-    'こんにちは、世界！'
-  )
+  expect(i18n.global.t('hello', [], { locale: 'ja' })).toEqual('こんにちは、世界！')
 })

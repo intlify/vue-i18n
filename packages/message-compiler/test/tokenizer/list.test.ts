@@ -1,10 +1,5 @@
 import { CompileErrorCodes, errorMessages } from '../../src/errors'
-import {
-  createTokenizer,
-  TokenTypes,
-  ERROR_DOMAIN,
-  parse
-} from '../../src/tokenizer'
+import { createTokenizer, TokenTypes, ERROR_DOMAIN, parse } from '../../src/tokenizer'
 
 import type { TokenizeOptions } from '../../src/options'
 import type { CompileError } from '../../src/errors'

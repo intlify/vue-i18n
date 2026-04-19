@@ -6,12 +6,7 @@ import { BaseFormatPropsValidators } from './base'
 import { getFragmentableTag, getInterpolateArg } from './utils'
 
 import type { TranslateOptions } from '@intlify/core-base'
-import type {
-  ComponentOptions,
-  SetupContext,
-  VNodeChild,
-  VNodeProps
-} from 'vue'
+import type { ComponentOptions, SetupContext, VNodeChild, VNodeProps } from 'vue'
 import type { Composer, ComposerInternal } from '../composer'
 import type { BaseFormatProps } from './base'
 
@@ -33,59 +28,52 @@ export interface TranslationProps extends BaseFormatProps {
   plural?: number | string
 }
 
-export const TranslationImpl: ComponentOptions<TranslationProps> =
-  /*#__PURE__*/ defineComponent({
-    name: 'i18n-t', // eslint-disable-line vue/component-definition-name-casing
-    props: /*#__PURE__*/ assign(
-      {},
-      {
-        keypath: {
-          type: String,
-          required: true
-        },
-        plural: {
-          type: [Number, String],
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          validator: (val: any): boolean => isNumber(val) || !isNaN(val)
-        }
+/** @alias */
+export const TranslationImpl: ComponentOptions<TranslationProps> = /* #__PURE__*/ defineComponent({
+  name: 'i18n-t', // eslint-disable-line vue/component-definition-name-casing
+  props: /* #__PURE__*/ assign(
+    {},
+    {
+      keypath: {
+        type: String,
+        required: true
       },
-      BaseFormatPropsValidators
-    ),
-    setup(props: TranslationProps, context: SetupContext) {
-      const { slots, attrs } = context
-      // NOTE: avoid https://github.com/microsoft/rushstack/issues/1050
-      const i18n =
-        props.i18n ||
-        (useI18n({
-          useScope: props.scope as 'global' | 'parent',
-          __useComponent: true
-        }) as unknown as Composer & ComposerInternal)
+      plural: {
+        type: [Number, String],
 
-      return (): VNodeChild => {
-        const keys = Object.keys(slots).filter(key => key[0] !== '_')
-        const options = create() as TranslateOptions
-        if (props.locale) {
-          options.locale = props.locale
-        }
-        if (props.plural !== undefined) {
-          options.plural = isString(props.plural) ? +props.plural : props.plural
-        }
-        const arg = getInterpolateArg(context, keys)
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        const children = (i18n as any)[TranslateVNodeSymbol](
-          props.keypath,
-          arg,
-          options
-        )
-        const assignedAttrs = assign(create(), attrs)
-        const tag =
-          isString(props.tag) || isObject(props.tag)
-            ? props.tag
-            : getFragmentableTag()
-        return h(tag, assignedAttrs, children)
+        validator: (val: any): boolean => isNumber(val) || !isNaN(val)
       }
+    },
+    BaseFormatPropsValidators
+  ),
+  setup(props: TranslationProps, context: SetupContext) {
+    const { slots, attrs } = context
+    // NOTE: avoid https://github.com/microsoft/rushstack/issues/1050
+    const i18n =
+      props.i18n ||
+      (useI18n({
+        useScope: props.scope as 'global' | 'parent',
+        __useComponent: true
+      }) as unknown as Composer & ComposerInternal)
+
+    return (): VNodeChild => {
+      const keys = Object.keys(slots).filter(key => key[0] !== '_')
+      const options = create() as TranslateOptions
+      if (props.locale) {
+        options.locale = props.locale
+      }
+      if (props.plural !== undefined) {
+        options.plural = isString(props.plural) ? +props.plural : props.plural
+      }
+      const arg = getInterpolateArg(context, keys)
+
+      const children = (i18n as any)[TranslateVNodeSymbol](props.keypath, arg, options)
+      const assignedAttrs = assign(create(), attrs)
+      const tag = isString(props.tag) || isObject(props.tag) ? props.tag : getFragmentableTag()
+      return h(tag, assignedAttrs, children)
     }
-  })
+  }
+})
 
 /**
  * export the public type for h/tsx inference
@@ -96,11 +84,11 @@ export const TranslationImpl: ComponentOptions<TranslationProps> =
  * Translation Component
  *
  * @remarks
- * See the following items for property about details
+ * See the following items for property about details:
  *
- * @VueI18nSee [TranslationProps](component#translationprops)
- * @VueI18nSee [BaseFormatProps](component#baseformatprops)
- * @VueI18nSee [Component Interpolation](../../guide/advanced/component)
+ * - {@linkcode TranslationProps}
+ * - {@linkcode BaseFormatProps}
+ * - [Component Interpolation](../../../guide/advanced/component)
  *
  * @example
  * ```html
@@ -147,4 +135,5 @@ export const Translation = TranslationImpl as unknown as {
   }
 }
 
+/** @alias */
 export const I18nT: typeof Translation = Translation

@@ -1,7 +1,21 @@
 {
   "name": "@intlify/core",
-  "version": "12.0.0-alpha.2",
   "description": "@intlify/core",
+  "version": "12.0.0-alpha.3",
+  "author": {
+    "name": "kazuya kawaguchi",
+    "email": "kawakazu80@gmail.com"
+  },
+  "license": "MIT",
+  "funding": "https://github.com/sponsors/kazupon",
+  "bugs": {
+    "url": "https://github.com/intlify/vue-i18n/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/intlify/vue-i18n.git",
+    "directory": "packages/core"
+  },
   "keywords": [
     "core",
     "fundamental",
@@ -9,34 +23,41 @@
     "internationalization",
     "intlify"
   ],
-  "license": "MIT",
-  "author": {
-    "name": "kazuya kawaguchi",
-    "email": "kawakazu80@gmail.com"
-  },
   "homepage": "https://github.com/intlify/vue-i18n/tree/master/packages/core#readme",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/intlify/vue-i18n.git",
-    "directory": "packages/core"
+  "publishConfig": {
+    "access": "public"
   },
-  "bugs": {
-    "url": "https://github.com/intlify/vue-i18n/issues"
+  "engines": {
+    "node": ">= 16"
   },
+  "type": "module",
+  "sideEffects": false,
   "files": [
     "dist"
   ],
-  "type": "module",
   "module": "dist/core.js",
   "unpkg": "dist/core.global.js",
   "jsdelivr": "dist/core.global.js",
+  "exports": {
+    ".": {
+      "types": "./dist/core.d.ts",
+      "node": {
+        "import": {
+          "production": "./dist/core.prod.node.js",
+          "development": "./dist/core.node.js",
+          "default": "./dist/core.node.js"
+        }
+      },
+      "import": "./dist/core.js",
+      "browser": "./dist/core.esm-browser.js"
+    },
+    "./dist/*": "./dist/*",
+    "./package.json": "./package.json"
+  },
   "types": "dist/core.d.ts",
   "dependencies": {
     "@intlify/core-base": "workspace:*",
     "@intlify/shared": "workspace:*"
-  },
-  "engines": {
-    "node": ">= 16"
   },
   "buildOptions": {
     "name": "IntlifyCore",
@@ -50,26 +71,5 @@
       "global",
       "global-runtime"
     ]
-  },
-  "exports": {
-    ".": {
-      "types": "./dist/core.d.ts",
-      "import": "./dist/core.js",
-      "browser": "./dist/core.esm-browser.js",
-      "node": {
-        "import": {
-          "production": "./dist/core.prod.node.js",
-          "development": "./dist/core.node.js",
-          "default": "./dist/core.node.js"
-        }
-      }
-    },
-    "./dist/*": "./dist/*",
-    "./package.json": "./package.json"
-  },
-  "funding": "https://github.com/sponsors/kazupon",
-  "publishConfig": {
-    "access": "public"
-  },
-  "sideEffects": false
+  }
 }

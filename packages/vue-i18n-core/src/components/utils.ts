@@ -5,14 +5,13 @@ import type { NamedValue } from '@intlify/core-base'
 import type { VNode } from 'vue'
 
 export function getInterpolateArg(
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   { slots }: any, // SetupContext,
   keys: string[]
 ): NamedValue | unknown[] {
   if (keys.length === 1 && keys[0] === 'default') {
     // default slot with list
     const ret: VNode[] = slots.default ? slots.default() : []
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
     return ret.reduce((slot: (VNode | typeof Fragment)[], current: any) => {
       return [
         ...slot,
@@ -32,7 +31,6 @@ export function getInterpolateArg(
   }
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function getFragmentableTag(): any {
   return Fragment
 }

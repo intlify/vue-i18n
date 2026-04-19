@@ -1,0 +1,226 @@
+# 複数化 (Pluralization)
+
+メッセージをローカライズするには、一部の言語の複数化をサポートする必要がある場合があります。
+
+Vue i18n は複数化をサポートしており、複数化機能を備えた翻訳 API を使用できます。
+
+## 基本的な使用法
+
+パイプ `|` 区切り文字を持つロケールメッセージを定義し、パイプ区切り文字で複数形を定義する必要があります。
+
+ロケールメッセージは以下のようになります：
+
+```js
+const messages = {
+  en: {
+    car: 'car | cars',
+    apple: 'no apples | one apple | {count} apples'
+  }
+}
+```
+
+ここでは、`car` と `apple` を持つ `en` ロケールオブジェクトがあります。
+
+`car` には `car | cars` という複数形メッセージがあり、`apple` には `no apples | one apple | {count} apples` という複数形メッセージがあります。
+
+これらの複数形メッセージは、翻訳 API で指定した数値に応じて、翻訳 API 内の各言語の選択ルールのロジックによって選択されます。
+
+Vue I18n は複数化をサポートするいくつかの方法を提供しています。ここでは `$t` を使用します。
+
+<!-- eslint-disable markdown/no-missing-label-refs -->
+
+> [!TIP]
+> `$t` にはいくつかのオーバーロードがあります。これらのオーバーロードについては、[API リファレンス](../../../api/vue/interfaces/ComponentCustomProperties.md#t) を参照してください。
+
+> [!NOTE]
+> 複数化をサポートするいくつかの方法は次のとおりです：
+>
+> - 注入されたグローバル `$t`
+> - 組み込み翻訳コンポーネント (`i18n-t`)
+> - `useI18n` からエクスポートされた `t` (Composition API モード用)
+
+<!-- eslint-enable markdown/no-missing-label-refs -->
+
+以下は、翻訳 API の使用例です。
+
+```html
+<p>{{ $t('car', 1) }}</p>
+<p>{{ $t('car', 2) }}</p>
+
+<p>{{ $t('apple', 0) }}</p>
+<p>{{ $t('apple', 1) }}</p>
+<p>{{ $t('apple', { count: 10 }) }}</p>
+```
+
+上記の `$t` の使用例では、最初の引数はロケールメッセージキーで、2 番目の引数は数値です。`$t` は結果として選択されたメッセージを返します。
+
+結果は以下のようになります：
+
+```html
+<p>car</p>
+<p>cars</p>
+
+<p>no apples</p>
+<p>one apple</p>
+<p>10 apples</p>
+```
+
+## 定義済みの暗黙的な引数
+
+複数化のために数値を明示的に与える必要はありません。
+
+それが何を意味するのかを理解するために例を見てみましょう！
+
+ロケールメッセージは以下のようになります：
+
+```js
+const messages = {
+  en: {
+    apple: 'no apples | one apple | {count} apples',
+    banana: 'no bananas | {n} banana | {n} bananas'
+  }
+}
+```
+
+ここでは、`apple` と `banana` を持つ `en` ロケールオブジェクトがあります。
+
+`apple` には `no apples | one apple | {count} apples` という複数形メッセージがあり、`banana` には `no bananas | {n} banana | {n} bananas` という複数形メッセージがあります。
+
+数値は、定義済みの名前付き引数 `{count}` および/または `{n}` を介してロケールメッセージ内でアクセスできます。必要に応じて、これらの定義済みの名前付き引数を上書きできます。
+
+以下は、`$t` の使用例です：
+
+```html
+<p>{{ $t('apple', 10, { named: { count: 10 } }) }}</p>
+<p>{{ $t('apple', 10) }}</p>
+
+<p>{{ $t('banana', 1, { named: { n: 1 } }) }}</p>
+<p>{{ $t('banana', 1) }}</p>
+<p>{{ $t('banana', 100, { named: { n: 'too many' } }) }}</p>
+```
+
+上記のいくつかの例では、最初の引数はロケールメッセージキーで、2 番目の引数は数値またはオブジェクトです。
+
+オブジェクトが指定された場合、それは名前付き補間と同等です。複数形メッセージ内の暗黙的な `n` または `count` を、引数を与えることで補間できます。
+
+結果は以下のようになります：
+
+```html
+<p>10 apples</p>
+<p>10 apples</p>
+
+<p>1 banana</p>
+<p>1 banana</p>
+<p>too many bananas</p>
+```
+
+## `Intl.PluralRules` による自動複数化
+
+Vue I18n は現在のロケールに基づいて正しい複数形を自動的に選択するために [`Intl.PluralRules`](https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Intl/PluralRules) を使用します。これにより、ほとんどの言語ではカスタムの複数化ルールを書く必要がありません。CLDR 複数形カテゴリの順序でメッセージのケースを正しい数だけ提供するだけです: `zero | one | two | few | many | other`。
+
+例えば、ロシア語には4つの複数形カテゴリがあります（`one`, `few`, `many`, `other`）:
+
+```js
+const i18n = createI18n({
+  locale: 'ru',
+  messages: {
+    ru: {
+      car: '{n} машина | {n} машины | {n} машин | {n} машин',
+      //    one          few          many         other
+    }
+  }
+})
+```
+
+Vue I18n は自動的に正しい形式を選択します:
+
+| 値 | `Intl.PluralRules` カテゴリ | 選択されるケース |
+|---|---|---|
+| 1 | `one` | `{n} машина` |
+| 2 | `few` | `{n} машины` |
+| 5 | `many` | `{n} машин` |
+| 21 | `one` | `{n} машина` |
+
+:::tip NOTE
+メッセージのケース数がロケールの複数形カテゴリ数を超える場合、Vue I18n はデフォルトルール（英語に適したもの）にフォールバックします。
+:::
+
+:::tip NOTE
+ランタイム環境で `Intl.PluralRules` が利用できない場合、Vue I18n はデフォルトの英語ベースルールにフォールバックします。
+:::
+
+## カスタム複数化
+
+`Intl.PluralRules` による自動複数化はほとんどの言語で機能しますが、特殊なケースにはカスタムロジックが必要な場合があります。特定のロケールの自動動作をオーバーライドするために、`createI18n` オプションにオプションの `pluralRules` オブジェクトを渡すことができます。
+
+スラブ語派の言語（ロシア語、ウクライナ語など）のルールを使用した非常に単純化された例：
+
+```js
+function customRule(choice, choicesLength, orgRule) {
+  if (choice === 0) {
+    return 0
+  }
+
+  const teen = choice > 10 && choice < 20
+  const endsWithOne = choice % 10 === 1
+  if (!teen && endsWithOne) {
+    return 1
+  }
+  if (!teen && choice % 10 >= 2 && choice % 10 <= 4) {
+    return 2
+  }
+
+  return choicesLength < 4 ? 2 : 3
+}
+```
+
+上記で定義したカスタムルールを使用するには、`createI18n` の内部で以下のように `pluralRules` を設定します：
+
+```js
+const i18n = createI18n({
+  locale: 'ru',
+  pluralRules: {
+    ru: customRule
+  },
+  messages: {
+    ru: {
+      car: '0 машин | {n} машина | {n} машины | {n} машин',
+      banana: 'нет бананов | {n} банан | {n} банана | {n} бананов'
+    }
+  }
+})
+```
+
+以下のテンプレートを使用：
+
+```html
+<h2>Car:</h2>
+<p>{{ $t('car', 1) }}</p>
+<p>{{ $t('car', 2) }}</p>
+<p>{{ $t('car', 4) }}</p>
+<p>{{ $t('car', 12) }}</p>
+<p>{{ $t('car', 21) }}</p>
+
+<h2>Banana:</h2>
+<p>{{ $t('banana', 0) }}</p>
+<p>{{ $t('banana', 4) }}</p>
+<p>{{ $t('banana', 11) }}</p>
+<p>{{ $t('banana', 31) }}</p>
+```
+
+結果は以下のようになります：
+
+```html
+<h2>Car:</h2>
+<p>1 машина</p>
+<p>2 машины</p>
+<p>4 машины</p>
+<p>12 машин</p>
+<p>21 машина</p>
+
+<h2>Banana:</h2>
+<p>нет бананов</p>
+<p>4 банана</p>
+<p>11 бананов</p>
+<p>31 банан</p>
+```

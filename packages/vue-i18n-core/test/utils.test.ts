@@ -13,7 +13,7 @@ vi.mock('@intlify/shared', async () => {
 describe('handleFlatJson', () => {
   test('basic', () => {
     const mockWarn = vi.spyOn(shared, 'warn')
-    // eslint-disable-next-line @typescript-eslint/no-empty-function
+
     mockWarn.mockImplementation(() => {})
 
     const obj = {
@@ -68,11 +68,9 @@ describe('handleFlatJson', () => {
   // security advisories
   // ref: https://github.com/intlify/vue-i18n/security/advisories/GHSA-p2ph-7g93-hw3m
   test('prototype pollution', () => {
-    expect(() =>
-      handleFlatJson({ '__proto__.pollutedKey': 'pollutedValue' })
-    ).toThrow()
+    expect(() => handleFlatJson({ '__proto__.pollutedKey': 'pollutedValue' })).toThrow()
     // @ts-ignore -- test
-    // eslint-disable-next-line no-proto
+
     expect({}.__proto__.pollutedKey).toBeUndefined()
     // @ts-ignore -- test
     expect(Object.prototype.pollutedKey).toBeUndefined()

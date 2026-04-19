@@ -12,17 +12,10 @@ vi.mock('@intlify/shared', async () => {
   }
 })
 
-import {
-  compile,
-  fallbackWithLocaleChain,
-  registerLocaleFallbacker,
-  registerMessageCompiler,
-  registerMessageResolver,
-  resolveValue,
-  setDevToolsHook
-} from '@intlify/core-base'
-import { defineComponent, getCurrentInstance, nextTick, ref } from 'vue'
+import { registerMessageCompiler } from '@intlify/core-base'
+import { defineComponent, nextTick, ref } from 'vue'
 import { createI18n, useI18n } from '../src/i18n'
+import { getCurrentInstance } from '../src/utils'
 import { ast } from './fixtures/ast'
 import { mount } from './helper'
 
@@ -32,13 +25,9 @@ import type { IntlDateTimeFormats, IntlNumberFormats } from '../src/index'
 const container = document.createElement('div')
 document.body.appendChild(container)
 
-let org: any // eslint-disable-line @typescript-eslint/no-explicit-any
-let spy: any // eslint-disable-line @typescript-eslint/no-explicit-any
+let org: any
+let spy: any
 beforeEach(() => {
-  registerMessageCompiler(compile)
-  registerMessageResolver(resolveValue)
-  registerLocaleFallbacker(fallbackWithLocaleChain)
-
   container.innerHTML = ''
 
   org = console.warn
@@ -47,8 +36,8 @@ beforeEach(() => {
 })
 
 afterEach(() => {
-  setDevToolsHook(null)
   console.warn = org
+  vi.clearAllMocks()
 })
 
 const messages = {
@@ -247,7 +236,7 @@ test('issue #819: v-for', async () => {
 describe('issue #853', () => {
   test('compostion', async () => {
     const mockWarn = vi.spyOn(shared, 'warn')
-    // eslint-disable-next-line @typescript-eslint/no-empty-function
+
     mockWarn.mockImplementation(() => {})
 
     const i18n = createI18n({
@@ -292,7 +281,7 @@ describe('issue #853', () => {
 
 test('issue #854', async () => {
   const mockWarn = vi.spyOn(shared, 'warn')
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
+
   mockWarn.mockImplementation(() => {})
 
   const i18n = createI18n({
@@ -321,12 +310,8 @@ test('issue #854', async () => {
   await mount(App, i18n)
 
   expect(mockWarn).toHaveBeenCalledTimes(2)
-  expect(mockWarn.mock.calls[0][0]).toEqual(
-    `Not found 'hello' key in 'en' locale messages.`
-  )
-  expect(mockWarn.mock.calls[1][0]).toEqual(
-    `Fall back to translate 'hello' with root locale.`
-  )
+  expect(mockWarn.mock.calls[0][0]).toEqual(`Not found 'hello' key in 'en' locale messages.`)
+  expect(mockWarn.mock.calls[1][0]).toEqual(`Fall back to translate 'hello' with root locale.`)
 })
 
 test('issue #933', async () => {
@@ -372,7 +357,7 @@ test('issue #964', async () => {
   const { t } = i18n.global
 
   // set no compiler
-  registerMessageCompiler(null as any) // eslint-disable-line @typescript-eslint/no-explicit-any
+  registerMessageCompiler(null as any)
 
   const defaultMsg = t('foo')
   expect(defaultMsg).toEqual('foo')
@@ -759,9 +744,7 @@ test('issue #1559', async () => {
   })
   const wrapper = await mount(App, i18n)
 
-  expect(wrapper.html()).toEqual(
-    '<h1>TRANSLATION FOR sub entry1</h1><!--v-if-->'
-  )
+  expect(wrapper.html()).toEqual('<h1>TRANSLATION FOR sub entry1</h1><!--v-if-->')
 })
 
 test('issue #1595', async () => {
@@ -902,9 +885,7 @@ test('issue #1610', async () => {
   i18n.global.setLocaleMessage('en', en)
   await nextTick()
 
-  expect(wrapper.html()).include(
-    `<h1>Hello, Vue I18n</h1> true (...but this should be true)`
-  )
+  expect(wrapper.html()).include(`<h1>Hello, Vue I18n</h1> true (...but this should be true)`)
 })
 
 test('issue #1615', async () => {
@@ -946,9 +927,7 @@ test('issue #1615', async () => {
   i18n.global.setLocaleMessage('en', en)
   await nextTick()
 
-  expect(wrapper.find('#te')?.textContent).toEqual(
-    `false (...but this should be false)`
-  )
+  expect(wrapper.find('#te')?.textContent).toEqual(`false (...but this should be false)`)
 })
 
 test('issue #1717', async () => {
@@ -970,7 +949,7 @@ test('issue #1717', async () => {
 describe('issue #1768', () => {
   test('Implicit fallback using locales', async () => {
     const mockWarn = vi.spyOn(shared, 'warn')
-    // eslint-disable-next-line @typescript-eslint/no-empty-function
+
     mockWarn.mockImplementation(() => {})
 
     const i18n = createI18n({
@@ -996,7 +975,7 @@ describe('issue #1768', () => {
 
   test('Explicit fallback with decision maps', async () => {
     const mockWarn = vi.spyOn(shared, 'warn')
-    // eslint-disable-next-line @typescript-eslint/no-empty-function
+
     mockWarn.mockImplementation(() => {})
 
     const i18n = createI18n({
@@ -1034,8 +1013,7 @@ test('#1796', async () => {
     messages: {
       en: {
         hello: 'hello world',
-        'message-with-placeholder-using-hyphens':
-          'My message with {placeholder-hyphens}.'
+        'message-with-placeholder-using-hyphens': 'My message with {placeholder-hyphens}.'
       }
     }
   })
@@ -1077,6 +1055,12 @@ test('#1912', async () => {
 
   let loc: ReturnType<typeof useI18n>['locale']
   const App = defineComponent({
+    setup() {
+      const { t, locale } = useI18n()
+      // @ts-ignore
+      loc = locale
+      return { t, locale }
+    },
     template: `
   <form>
     <select v-model="locale">
@@ -1085,13 +1069,7 @@ test('#1912', async () => {
     </select>
   </form>
   <p>{{ t('no_results', ['apples']) }}</p>
-`,
-    setup() {
-      const { t, locale } = useI18n()
-      // @ts-ignore
-      loc = locale
-      return { t, locale }
-    }
+`
   })
   const wrapper = await mount(App, i18n)
   await nextTick()
@@ -1207,5 +1185,62 @@ describe('#2156', () => {
     expect(i18n.global.t('product')).toEqual('Product')
     expect(i18n.global.t('product.type')).toEqual('Product type')
     expect(i18n.global.t('product.test.type')).toEqual('Product test type')
+  })
+})
+
+describe('issue #2455', () => {
+  test('without flatJson', async () => {
+    const i18n = createI18n({
+      locale: 'en',
+      messages: {
+        en: {
+          linkedBase: 'Base',
+          'linkedBase.deep': 'Deep',
+          'linkedBase.deep.deeper': 'Deeper',
+          testBase: 'Test: @:linkedBase',
+          testDeep: 'Test: @:linkedBase.deep',
+          testDeeper: 'Test: @:linkedBase.deep.deeper'
+        }
+      }
+    })
+
+    const App = defineComponent({
+      setup() {
+        const { t } = useI18n()
+        return { t }
+      },
+      template: `<div>{{ t('testBase') }} | {{ t('testDeep') }} | {{ t('testDeeper') }}</div>`
+    })
+    const wrapper = await mount(App, i18n)
+
+    expect(wrapper.html()).toEqual('<div>Test: Base | Test: Deep | Test: Deeper</div>')
+  })
+
+  test('with flatJson', async () => {
+    const i18n = createI18n({
+      locale: 'en',
+      flatJson: true,
+      messages: {
+        en: {
+          linkedBase: 'Base',
+          'linkedBase.deep': 'Deep',
+          'linkedBase.deep.deeper': 'Deeper',
+          testBase: 'Test: @:linkedBase',
+          testDeep: 'Test: @:linkedBase.deep',
+          testDeeper: 'Test: @:linkedBase.deep.deeper'
+        }
+      }
+    })
+
+    const App = defineComponent({
+      setup() {
+        const { t } = useI18n()
+        return { t }
+      },
+      template: `<div>{{ t('testBase') }} | {{ t('testDeep') }} | {{ t('testDeeper') }}</div>`
+    })
+    const wrapper = await mount(App, i18n)
+
+    expect(wrapper.html()).toEqual('<div>Test: Base | Test: Deep | Test: Deeper</div>')
   })
 })

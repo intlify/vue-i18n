@@ -1,35 +1,37 @@
 {
   "name": "test-ssr-vue",
-  "private": true,
   "version": "0.0.0",
+  "private": true,
+  "type": "module",
   "scripts": {
-    "dev": "node server",
+    "dev": "node server.js",
     "build": "npm run build:client && npm run build:server",
     "build:noExternal": "npm run build:client && npm run build:server:noExternal",
     "build:client": "vite build --ssrManifest --outDir dist/client",
     "build:server": "vite build --ssr src/entry-server.js --outDir dist/server",
     "build:server:noExternal": "vite build --config vite.config.noexternal.js --ssr src/entry-server.js --outDir dist/server",
     "build:static": "vite build --ssrManifest --outDir dist/static",
-    "generate": "npm run build:static && npm run build:server && node prerender",
-    "serve": "cross-env NODE_ENV=production node server",
-    "debug": "node --inspect-brk server"
+    "generate": "npm run build:static && npm run build:server && node prerender.js",
+    "prerender": "node prerender.js",
+    "serve": "cross-env NODE_ENV=production node server.js",
+    "debug": "node --inspect-brk server.js"
   },
   "dependencies": {
     "example-external-component": "file:example-external-component",
     "vue": "^3.3.4",
-    "vue-router": "^4.1.2",
-    "vue-i18n": "^9.2.0-beta.40"
+    "vue-i18n": "workspace:*",
+    "vue-router": "^4.1.2"
   },
   "devDependencies": {
-    "vite": "^4.5.5",
-    "@vitejs/plugin-vue": "^4.2.3",
-    "@vitejs/plugin-vue-jsx": "^2.0.0",
-    "dep-import-type": "link:./dep-import-type",
-    "@intlify/vite-plugin-vue-i18n": "^5.0.1",
+    "@intlify/unplugin-vue-i18n": "^11.0.1",
+    "@vitejs/plugin-vue": "^6.0.1",
+    "@vitejs/plugin-vue-jsx": "^5.1.1",
     "compression": "^1.7.4",
     "cross-env": "^7.0.3",
+    "dep-import-type": "link:./dep-import-type",
     "express": "^4.20.0",
     "express-status-monitor": "^1.3.3",
-    "serve-static": "^1.14.1"
+    "serve-static": "^1.14.1",
+    "vite": "^7.1.7"
   }
 }

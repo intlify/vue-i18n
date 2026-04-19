@@ -51,7 +51,7 @@ Output:
 
 By default, falling back to `fallbackLocale` generates two console warnings:
 
-```
+```txt
 [intlify] Not found 'hello' key in 'ja' locale messages.
 [intlify] Fall back to translate 'hello' key with 'en' locale.
 ```
@@ -62,13 +62,15 @@ The first warning message is printed the key, due to  given to the translation f
 These warning messages are only warned in development mode (`process.env`<wbr/>`.NODE_ENV !== 'production'`) by default, not for production.
 :::
 
-To suppress the first warning(`Not found key...`), set `silentTranslationWarn: true` in Legacy API mode or set `missingWarn: false` in Composition API mode when initializing the `createI18n`.
+To suppress the first warning(`Not found key...`), set `missingWarn: false` when initializing the `createI18n`.
 
-To suppress the second warning(`Fall back to...`), set `silentFallbackWarn: true` in Legacy API mode or set `fallbackWarn: false` in Composition API mode when initializing the `createI18n`.
+To suppress the second warning(`Fall back to...`), set `fallbackWarn: false` when initializing the `createI18n`.
 
 ## Explicit fallback with an array of locales
 
 It is possible to set more than one fallback locale by using an array of locales. For example
+
+<!-- eslint-skip -->
 
 ```javascript
 fallbackLocale: [ 'fr', 'en' ],
@@ -79,6 +81,8 @@ fallbackLocale: [ 'fr', 'en' ],
 If more complex decision maps for fallback locales are required, it is possible to define decision maps with according fallback locales.
 
 Using the following decision map:
+
+<!-- eslint-skip -->
 
 ```javascript
 fallbackLocale: {
@@ -106,7 +110,7 @@ Will result in the following fallback chains:
 
 ## Fallback interpolation
 
-Set `formatFallbackMessages: true` to do template interpolation on translation keys when your language lacks a translation for a key.
+Set `fallbackFormat: true` to do template interpolation on translation keys when your language lacks a translation for a key.
 
 Since the keys to the translations are strings, you can use a user-readable message (for a particular language) as a key.
 E.g.
@@ -121,7 +125,7 @@ const messages = {
 
 This is useful because you don’t have to specify a translation for the string "Hello, world!" into English.
 
-In fact, you can even include template parameters in a key. Together with `formatFallbackMessages: true`, this lets you skip writing templates for your "base" language; the keys *are* your templates.
+In fact, you can even include template parameters in a key. Together with `fallbackFormat: true`, this lets you skip writing templates for your "base" language; the keys *are* your templates.
 
 ```javascript
 const messages = {
@@ -133,7 +137,7 @@ const messages = {
 const i18n = createI18n({
   locale: 'ru',
   fallbackLocale: 'en',
-  formatFallbackMessages: true,
+  fallbackFormat: true,
   messages
 })
 ```

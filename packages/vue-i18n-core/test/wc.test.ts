@@ -2,34 +2,15 @@
  * @vitest-environment jsdom
  */
 
-import {
-  h,
-  provide,
-  nextTick,
-  defineCustomElement,
-  getCurrentInstance
-} from 'vue'
-import {
-  compile,
-  registerMessageCompiler,
-  resolveValue,
-  registerMessageResolver,
-  fallbackWithLocaleChain,
-  registerLocaleFallbacker
-} from '@intlify/core-base'
-import { createI18n, useI18n, I18nInjectionKey } from '../src/index'
+import { defineCustomElement, h, nextTick, provide } from 'vue'
+import { createI18n, I18nInjectionKey, useI18n } from '../src/index'
+import { getCurrentInstance } from '../src/utils'
 import { randStr } from './helper'
 
-import type { VueElement, ComponentOptions } from 'vue'
+import type { ComponentOptions, VueElement } from 'vue'
 
 const container = document.createElement('div')
 document.body.appendChild(container)
-
-beforeAll(() => {
-  registerMessageCompiler(compile)
-  registerMessageResolver(resolveValue)
-  registerLocaleFallbacker(fallbackWithLocaleChain)
-})
 
 beforeEach(() => {
   container.innerHTML = ''
@@ -70,15 +51,11 @@ test('basic', async () => {
   await nextTick()
   const provider = container.childNodes[0] as VueElement
   const consumer = provider.shadowRoot!.childNodes[0] as VueElement
-  expect(consumer.shadowRoot!.innerHTML).toBe(
-    `<div>hello web components!</div>`
-  )
+  expect(consumer.shadowRoot!.innerHTML).toBe(`<div>hello web components!</div>`)
 
   i18n.global.locale.value = 'ja'
   await nextTick()
-  expect(consumer.shadowRoot!.innerHTML).toBe(
-    `<div>こんにちは Web コンポーネント！</div>`
-  )
+  expect(consumer.shadowRoot!.innerHTML).toBe(`<div>こんにちは Web コンポーネント！</div>`)
 })
 
 test('custom blocks', async () => {

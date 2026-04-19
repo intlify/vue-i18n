@@ -2,6 +2,8 @@ import type {
   DateTimeOptions,
   IsEmptyObject,
   IsNever,
+  IsPart,
+  JsonPaths,
   Locale,
   LocaleMessageValue,
   MessageFunction,
@@ -15,6 +17,7 @@ import type {
   DatetimeFormat,
   DefineDateTimeFormat,
   DefineLocaleMessage,
+  DefineNumberFormat,
   ExportedGlobalComposer,
   NumberFormat,
   RemovedIndexResources,
@@ -24,23 +27,20 @@ import type {
 
 // --- THE CONTENT BELOW THIS LINE WILL BE APPENDED TO DTS FILE IN DIST DIRECTORY --- //
 
-import type { JsonPaths } from '@intlify/core-base'
-
 declare module 'vue' {
   /**
    * Component Custom Options for Vue I18n
+   * @internal
    *
    * @VueI18nInjection
    */
   export interface ComponentCustomOptions {
     /**
      * For custom blocks options
-     * @internal
      */
     __i18n?: CustomBlocks
     /**
      * For devtools
-     * @internal
      */
     __INTLIFY_META__?: string
   }
@@ -75,9 +75,8 @@ declare module 'vue' {
      * @returns translation message
      */
     $t<
-      Key extends string,
-      DefinedLocaleMessage extends
-        RemovedIndexResources<DefineLocaleMessage> = RemovedIndexResources<DefineLocaleMessage>,
+      DefinedLocaleMessage extends RemovedIndexResources<DefineLocaleMessage> =
+        RemovedIndexResources<DefineLocaleMessage>,
       Keys = IsEmptyObject<DefinedLocaleMessage> extends false
         ? JsonPaths<{
             [K in keyof DefinedLocaleMessage]: DefinedLocaleMessage[K]
@@ -85,7 +84,7 @@ declare module 'vue' {
         : never,
       ResourceKeys extends Keys = IsNever<Keys> extends false ? Keys : never
     >(
-      key: Key | ResourceKeys | number
+      key: ResourceKeys | (string & {}) | number
     ): string
     /**
      * Locale message translation
@@ -99,9 +98,8 @@ declare module 'vue' {
      * @returns translation message
      */
     $t<
-      Key extends string,
-      DefinedLocaleMessage extends
-        RemovedIndexResources<DefineLocaleMessage> = RemovedIndexResources<DefineLocaleMessage>,
+      DefinedLocaleMessage extends RemovedIndexResources<DefineLocaleMessage> =
+        RemovedIndexResources<DefineLocaleMessage>,
       Keys = IsEmptyObject<DefinedLocaleMessage> extends false
         ? JsonPaths<{
             [K in keyof DefinedLocaleMessage]: DefinedLocaleMessage[K]
@@ -109,7 +107,7 @@ declare module 'vue' {
         : never,
       ResourceKeys extends Keys = IsNever<Keys> extends false ? Keys : never
     >(
-      key: Key | ResourceKeys | number,
+      key: ResourceKeys | (string & {}) | number,
       plural: number
     ): string
     /**
@@ -125,9 +123,8 @@ declare module 'vue' {
      * @returns translation message
      */
     $t<
-      Key extends string,
-      DefinedLocaleMessage extends
-        RemovedIndexResources<DefineLocaleMessage> = RemovedIndexResources<DefineLocaleMessage>,
+      DefinedLocaleMessage extends RemovedIndexResources<DefineLocaleMessage> =
+        RemovedIndexResources<DefineLocaleMessage>,
       Keys = IsEmptyObject<DefinedLocaleMessage> extends false
         ? JsonPaths<{
             [K in keyof DefinedLocaleMessage]: DefinedLocaleMessage[K]
@@ -135,7 +132,7 @@ declare module 'vue' {
         : never,
       ResourceKeys extends Keys = IsNever<Keys> extends false ? Keys : never
     >(
-      key: Key | ResourceKeys | number,
+      key: ResourceKeys | (string & {}) | number,
       plural: number,
       options: TranslateOptions
     ): string
@@ -151,9 +148,8 @@ declare module 'vue' {
      * @returns translation message
      */
     $t<
-      Key extends string,
-      DefinedLocaleMessage extends
-        RemovedIndexResources<DefineLocaleMessage> = RemovedIndexResources<DefineLocaleMessage>,
+      DefinedLocaleMessage extends RemovedIndexResources<DefineLocaleMessage> =
+        RemovedIndexResources<DefineLocaleMessage>,
       Keys = IsEmptyObject<DefinedLocaleMessage> extends false
         ? JsonPaths<{
             [K in keyof DefinedLocaleMessage]: DefinedLocaleMessage[K]
@@ -161,7 +157,7 @@ declare module 'vue' {
         : never,
       ResourceKeys extends Keys = IsNever<Keys> extends false ? Keys : never
     >(
-      key: Key | ResourceKeys | number,
+      key: ResourceKeys | (string & {}) | number,
       defaultMsg: string
     ): string
     /**
@@ -177,9 +173,8 @@ declare module 'vue' {
      * @returns translation message
      */
     $t<
-      Key extends string,
-      DefinedLocaleMessage extends
-        RemovedIndexResources<DefineLocaleMessage> = RemovedIndexResources<DefineLocaleMessage>,
+      DefinedLocaleMessage extends RemovedIndexResources<DefineLocaleMessage> =
+        RemovedIndexResources<DefineLocaleMessage>,
       Keys = IsEmptyObject<DefinedLocaleMessage> extends false
         ? JsonPaths<{
             [K in keyof DefinedLocaleMessage]: DefinedLocaleMessage[K]
@@ -187,7 +182,7 @@ declare module 'vue' {
         : never,
       ResourceKeys extends Keys = IsNever<Keys> extends false ? Keys : never
     >(
-      key: Key | ResourceKeys | number,
+      key: ResourceKeys | (string & {}) | number,
       defaultMsg: string,
       options: TranslateOptions
     ): string
@@ -203,9 +198,8 @@ declare module 'vue' {
      * @returns translation message
      */
     $t<
-      Key extends string,
-      DefinedLocaleMessage extends
-        RemovedIndexResources<DefineLocaleMessage> = RemovedIndexResources<DefineLocaleMessage>,
+      DefinedLocaleMessage extends RemovedIndexResources<DefineLocaleMessage> =
+        RemovedIndexResources<DefineLocaleMessage>,
       Keys = IsEmptyObject<DefinedLocaleMessage> extends false
         ? JsonPaths<{
             [K in keyof DefinedLocaleMessage]: DefinedLocaleMessage[K]
@@ -213,7 +207,7 @@ declare module 'vue' {
         : never,
       ResourceKeys extends Keys = IsNever<Keys> extends false ? Keys : never
     >(
-      key: Key | ResourceKeys | number,
+      key: ResourceKeys | (string & {}) | number,
       list: unknown[]
     ): string
     /**
@@ -229,9 +223,8 @@ declare module 'vue' {
      * @returns translation message
      */
     $t<
-      Key extends string,
-      DefinedLocaleMessage extends
-        RemovedIndexResources<DefineLocaleMessage> = RemovedIndexResources<DefineLocaleMessage>,
+      DefinedLocaleMessage extends RemovedIndexResources<DefineLocaleMessage> =
+        RemovedIndexResources<DefineLocaleMessage>,
       Keys = IsEmptyObject<DefinedLocaleMessage> extends false
         ? JsonPaths<{
             [K in keyof DefinedLocaleMessage]: DefinedLocaleMessage[K]
@@ -239,7 +232,7 @@ declare module 'vue' {
         : never,
       ResourceKeys extends Keys = IsNever<Keys> extends false ? Keys : never
     >(
-      key: Key | ResourceKeys | number,
+      key: ResourceKeys | (string & {}) | number,
       list: unknown[],
       plural: number
     ): string
@@ -256,9 +249,8 @@ declare module 'vue' {
      * @returns translation message
      */
     $t<
-      Key extends string,
-      DefinedLocaleMessage extends
-        RemovedIndexResources<DefineLocaleMessage> = RemovedIndexResources<DefineLocaleMessage>,
+      DefinedLocaleMessage extends RemovedIndexResources<DefineLocaleMessage> =
+        RemovedIndexResources<DefineLocaleMessage>,
       Keys = IsEmptyObject<DefinedLocaleMessage> extends false
         ? JsonPaths<{
             [K in keyof DefinedLocaleMessage]: DefinedLocaleMessage[K]
@@ -266,7 +258,7 @@ declare module 'vue' {
         : never,
       ResourceKeys extends Keys = IsNever<Keys> extends false ? Keys : never
     >(
-      key: Key | ResourceKeys | number,
+      key: ResourceKeys | (string & {}) | number,
       list: unknown[],
       defaultMsg: string
     ): string
@@ -283,9 +275,8 @@ declare module 'vue' {
      * @returns translation message
      */
     $t<
-      Key extends string,
-      DefinedLocaleMessage extends
-        RemovedIndexResources<DefineLocaleMessage> = RemovedIndexResources<DefineLocaleMessage>,
+      DefinedLocaleMessage extends RemovedIndexResources<DefineLocaleMessage> =
+        RemovedIndexResources<DefineLocaleMessage>,
       Keys = IsEmptyObject<DefinedLocaleMessage> extends false
         ? JsonPaths<{
             [K in keyof DefinedLocaleMessage]: DefinedLocaleMessage[K]
@@ -293,7 +284,7 @@ declare module 'vue' {
         : never,
       ResourceKeys extends Keys = IsNever<Keys> extends false ? Keys : never
     >(
-      key: Key | ResourceKeys | number,
+      key: ResourceKeys | (string & {}) | number,
       list: unknown[],
       options: TranslateOptions
     ): string
@@ -309,9 +300,8 @@ declare module 'vue' {
      * @returns translation message
      */
     $t<
-      Key extends string,
-      DefinedLocaleMessage extends
-        RemovedIndexResources<DefineLocaleMessage> = RemovedIndexResources<DefineLocaleMessage>,
+      DefinedLocaleMessage extends RemovedIndexResources<DefineLocaleMessage> =
+        RemovedIndexResources<DefineLocaleMessage>,
       Keys = IsEmptyObject<DefinedLocaleMessage> extends false
         ? JsonPaths<{
             [K in keyof DefinedLocaleMessage]: DefinedLocaleMessage[K]
@@ -319,7 +309,7 @@ declare module 'vue' {
         : never,
       ResourceKeys extends Keys = IsNever<Keys> extends false ? Keys : never
     >(
-      key: Key | ResourceKeys | number,
+      key: ResourceKeys | (string & {}) | number,
       named: NamedValue
     ): string
     /**
@@ -335,9 +325,8 @@ declare module 'vue' {
      * @returns translation message
      */
     $t<
-      Key extends string,
-      DefinedLocaleMessage extends
-        RemovedIndexResources<DefineLocaleMessage> = RemovedIndexResources<DefineLocaleMessage>,
+      DefinedLocaleMessage extends RemovedIndexResources<DefineLocaleMessage> =
+        RemovedIndexResources<DefineLocaleMessage>,
       Keys = IsEmptyObject<DefinedLocaleMessage> extends false
         ? JsonPaths<{
             [K in keyof DefinedLocaleMessage]: DefinedLocaleMessage[K]
@@ -345,7 +334,7 @@ declare module 'vue' {
         : never,
       ResourceKeys extends Keys = IsNever<Keys> extends false ? Keys : never
     >(
-      key: Key | ResourceKeys | number,
+      key: ResourceKeys | (string & {}) | number,
       named: NamedValue,
       plural: number
     ): string
@@ -362,9 +351,8 @@ declare module 'vue' {
      * @returns translation message
      */
     $t<
-      Key extends string,
-      DefinedLocaleMessage extends
-        RemovedIndexResources<DefineLocaleMessage> = RemovedIndexResources<DefineLocaleMessage>,
+      DefinedLocaleMessage extends RemovedIndexResources<DefineLocaleMessage> =
+        RemovedIndexResources<DefineLocaleMessage>,
       Keys = IsEmptyObject<DefinedLocaleMessage> extends false
         ? JsonPaths<{
             [K in keyof DefinedLocaleMessage]: DefinedLocaleMessage[K]
@@ -372,7 +360,7 @@ declare module 'vue' {
         : never,
       ResourceKeys extends Keys = IsNever<Keys> extends false ? Keys : never
     >(
-      key: Key | ResourceKeys | number,
+      key: ResourceKeys | (string & {}) | number,
       named: NamedValue,
       defaultMsg: string
     ): string
@@ -389,9 +377,8 @@ declare module 'vue' {
      * @returns translation message
      */
     $t<
-      Key extends string,
-      DefinedLocaleMessage extends
-        RemovedIndexResources<DefineLocaleMessage> = RemovedIndexResources<DefineLocaleMessage>,
+      DefinedLocaleMessage extends RemovedIndexResources<DefineLocaleMessage> =
+        RemovedIndexResources<DefineLocaleMessage>,
       Keys = IsEmptyObject<DefinedLocaleMessage> extends false
         ? JsonPaths<{
             [K in keyof DefinedLocaleMessage]: DefinedLocaleMessage[K]
@@ -399,7 +386,7 @@ declare module 'vue' {
         : never,
       ResourceKeys extends Keys = IsNever<Keys> extends false ? Keys : never
     >(
-      key: Key | ResourceKeys | number,
+      key: ResourceKeys | (string & {}) | number,
       named: NamedValue,
       options: TranslateOptions
     ): string
@@ -481,8 +468,8 @@ declare module 'vue' {
      */
     $te<
       Key extends string,
-      DefinedLocaleMessage extends
-        RemovedIndexResources<DefineLocaleMessage> = RemovedIndexResources<DefineLocaleMessage>,
+      DefinedLocaleMessage extends RemovedIndexResources<DefineLocaleMessage> =
+        RemovedIndexResources<DefineLocaleMessage>,
       Keys = IsEmptyObject<DefinedLocaleMessage> extends false
         ? JsonPaths<{
             [K in keyof DefinedLocaleMessage]: DefinedLocaleMessage[K]
@@ -521,8 +508,8 @@ declare module 'vue' {
     $d<
       Value extends number | Date | string = number,
       Key extends string = string,
-      DefinedDateTimeFormat extends
-        RemovedIndexResources<DefineDateTimeFormat> = RemovedIndexResources<DefineDateTimeFormat>,
+      DefinedDateTimeFormat extends RemovedIndexResources<DefineDateTimeFormat> =
+        RemovedIndexResources<DefineDateTimeFormat>,
       Keys = IsEmptyObject<DefinedDateTimeFormat> extends false
         ? PickupFormatPathKeys<{
             [K in keyof DefinedDateTimeFormat]: DefinedDateTimeFormat[K]
@@ -547,8 +534,8 @@ declare module 'vue' {
     $d<
       Value extends number | Date | string = number,
       Key extends string = string,
-      DefinedDateTimeFormat extends
-        RemovedIndexResources<DefineDateTimeFormat> = RemovedIndexResources<DefineDateTimeFormat>,
+      DefinedDateTimeFormat extends RemovedIndexResources<DefineDateTimeFormat> =
+        RemovedIndexResources<DefineDateTimeFormat>,
       Keys = IsEmptyObject<DefinedDateTimeFormat> extends false
         ? PickupFormatPathKeys<{
             [K in keyof DefinedDateTimeFormat]: DefinedDateTimeFormat[K]
@@ -574,8 +561,8 @@ declare module 'vue' {
     $d<
       Value extends number | Date | string = number,
       Key extends string = string,
-      DefinedDateTimeFormat extends
-        RemovedIndexResources<DefineDateTimeFormat> = RemovedIndexResources<DefineDateTimeFormat>,
+      DefinedDateTimeFormat extends RemovedIndexResources<DefineDateTimeFormat> =
+        RemovedIndexResources<DefineDateTimeFormat>,
       Keys = IsEmptyObject<DefinedDateTimeFormat> extends false
         ? PickupFormatPathKeys<{
             [K in keyof DefinedDateTimeFormat]: DefinedDateTimeFormat[K]
@@ -600,24 +587,22 @@ declare module 'vue' {
      * @returns formatted value
      */
     $d<
-      Value extends number | Date = number,
+      Value extends number | Date | string = number,
       Key extends string = string,
-      Return extends string | Intl.DateTimeFormatPart[] =
-        | string
-        | Intl.DateTimeFormatPart[],
-      DefinedDateTimeFormat extends
-        RemovedIndexResources<DefineDateTimeFormat> = RemovedIndexResources<DefineDateTimeFormat>,
+      DefinedDateTimeFormat extends RemovedIndexResources<DefineDateTimeFormat> =
+        RemovedIndexResources<DefineDateTimeFormat>,
       Keys = IsEmptyObject<DefinedDateTimeFormat> extends false
         ? PickupFormatPathKeys<{
             [K in keyof DefinedDateTimeFormat]: DefinedDateTimeFormat[K]
           }>
         : never,
-      ResourceKeys extends Keys = IsNever<Keys> extends false ? Keys : never
+      ResourceKeys extends Keys = IsNever<Keys> extends false ? Keys : never,
+      OptionsType = DateTimeOptions<Key | ResourceKeys>
     >(
       value: Value,
-      options: DateTimeOptions<Key | ResourceKeys>,
+      options: OptionsType,
       locale: Locale
-    ): Return
+    ): IsPart<OptionsType> extends true ? Intl.DateTimeFormatPart[] : string
     /**
      * Number formatting
      *
@@ -645,8 +630,8 @@ declare module 'vue' {
      */
     $n<
       Key extends string = string,
-      DefinedNumberFormat extends
-        RemovedIndexResources<DefineDateTimeFormat> = RemovedIndexResources<DefineDateTimeFormat>,
+      DefinedNumberFormat extends RemovedIndexResources<DefineNumberFormat> =
+        RemovedIndexResources<DefineNumberFormat>,
       Keys = IsEmptyObject<DefinedNumberFormat> extends false
         ? PickupFormatPathKeys<{
             [K in keyof DefinedNumberFormat]: DefinedNumberFormat[K]
@@ -670,21 +655,19 @@ declare module 'vue' {
      */
     $n<
       Key extends string = string,
-      Return extends string | Intl.NumberFormatPart[] =
-        | string
-        | Intl.NumberFormatPart[],
-      DefinedNumberFormat extends
-        RemovedIndexResources<DefineDateTimeFormat> = RemovedIndexResources<DefineDateTimeFormat>,
+      DefinedNumberFormat extends RemovedIndexResources<DefineNumberFormat> =
+        RemovedIndexResources<DefineNumberFormat>,
       Keys = IsEmptyObject<DefinedNumberFormat> extends false
         ? PickupFormatPathKeys<{
             [K in keyof DefinedNumberFormat]: DefinedNumberFormat[K]
           }>
         : never,
-      ResourceKeys extends Keys = IsNever<Keys> extends false ? Keys : never
+      ResourceKeys extends Keys = IsNever<Keys> extends false ? Keys : never,
+      OptionsType = NumberOptions<Key | ResourceKeys>
     >(
       value: number,
-      options: NumberOptions<Key | ResourceKeys>
-    ): Return
+      options: OptionsType
+    ): IsPart<OptionsType> extends true ? Intl.NumberFormatPart[] : string
     /**
      * Number formatting
      *
@@ -699,8 +682,8 @@ declare module 'vue' {
      */
     $n<
       Key extends string = string,
-      DefinedNumberFormat extends
-        RemovedIndexResources<DefineDateTimeFormat> = RemovedIndexResources<DefineDateTimeFormat>,
+      DefinedNumberFormat extends RemovedIndexResources<DefineNumberFormat> =
+        RemovedIndexResources<DefineNumberFormat>,
       Keys = IsEmptyObject<DefinedNumberFormat> extends false
         ? PickupFormatPathKeys<{
             [K in keyof DefinedNumberFormat]: DefinedNumberFormat[K]
@@ -726,22 +709,20 @@ declare module 'vue' {
      */
     $n<
       Key extends string = string,
-      Return extends string | Intl.NumberFormatPart[] =
-        | string
-        | Intl.NumberFormatPart[],
-      DefinedNumberFormat extends
-        RemovedIndexResources<DefineDateTimeFormat> = RemovedIndexResources<DefineDateTimeFormat>,
+      DefinedNumberFormat extends RemovedIndexResources<DefineNumberFormat> =
+        RemovedIndexResources<DefineNumberFormat>,
       Keys = IsEmptyObject<DefinedNumberFormat> extends false
         ? PickupFormatPathKeys<{
             [K in keyof DefinedNumberFormat]: DefinedNumberFormat[K]
           }>
         : never,
-      ResourceKeys extends Keys = IsNever<Keys> extends false ? Keys : never
+      ResourceKeys extends Keys = IsNever<Keys> extends false ? Keys : never,
+      OptionsType = NumberOptions<Key | ResourceKeys>
     >(
       value: number,
-      options: NumberOptions<Key | ResourceKeys>,
+      options: OptionsType,
       locale: Locale
-    ): Return
+    ): IsPart<OptionsType> extends true ? Intl.NumberFormatPart[] : string
 
     /**
      * Locale messages getter
@@ -759,8 +740,8 @@ declare module 'vue' {
      */
     $tm<
       Key extends string,
-      DefinedLocaleMessage extends
-        RemovedIndexResources<DefineLocaleMessage> = RemovedIndexResources<DefineLocaleMessage>,
+      DefinedLocaleMessage extends RemovedIndexResources<DefineLocaleMessage> =
+        RemovedIndexResources<DefineLocaleMessage>,
       Keys = IsEmptyObject<DefinedLocaleMessage> extends false
         ? JsonPaths<{
             [K in keyof DefinedLocaleMessage]: DefinedLocaleMessage[K]

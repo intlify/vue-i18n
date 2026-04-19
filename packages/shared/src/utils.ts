@@ -6,11 +6,7 @@
 export const inBrowser: boolean = typeof window !== 'undefined'
 
 export let mark: (tag: string) => void | undefined
-export let measure: (
-  name: string,
-  startTag: string,
-  endTag: string
-) => void | undefined
+export let measure: (name: string, startTag: string, endTag: string) => void | undefined
 
 if (__DEV__) {
   const perf = inBrowser && window.performance
@@ -34,9 +30,8 @@ if (__DEV__) {
   }
 }
 
-const RE_ARGS = /\{([0-9a-zA-Z]+)\}/g
+const RE_ARGS = /\{([0-9a-z]+)\}/gi
 
-/* eslint-disable */
 export function format(message: string, ...args: any): string {
   if (args.length === 1 && isObject(args[0])) {
     args = args[0]
@@ -44,22 +39,16 @@ export function format(message: string, ...args: any): string {
   if (!args || !args.hasOwnProperty) {
     args = {}
   }
-  return message.replace(
-    RE_ARGS,
-    (match: string, identifier: string): string => {
-      return args.hasOwnProperty(identifier) ? args[identifier] : ''
-    }
-  )
+  return message.replace(RE_ARGS, (_match: string, identifier: string): string => {
+    return args.hasOwnProperty(identifier) ? args[identifier] : ''
+  })
 }
 
 export const makeSymbol = (name: string, shareable = false): symbol =>
   !shareable ? Symbol(name) : Symbol.for(name)
 
-export const generateFormatCacheKey = (
-  locale: string,
-  key: string,
-  source: string
-): string => friendlyJSONstringify({ l: locale, k: key, s: source })
+export const generateFormatCacheKey = (locale: string, key: string, source: string): string =>
+  friendlyJSONstringify({ l: locale, k: key, s: source })
 
 export const friendlyJSONstringify = (json: unknown): string =>
   JSON.stringify(json)
@@ -67,17 +56,20 @@ export const friendlyJSONstringify = (json: unknown): string =>
     .replace(/\u2029/g, '\\u2029')
     .replace(/\u0027/g, '\\u0027')
 
-export const isNumber = (val: unknown): val is number =>
-  typeof val === 'number' && isFinite(val)
+export const isNumber = (val: unknown): val is number => typeof val === 'number' && isFinite(val)
 
-export const isDate = (val: unknown): val is Date =>
-  toTypeString(val) === '[object Date]'
+export const isDate = (val: unknown): val is Date => toTypeString(val) === '[object Date]'
 
-export const isRegExp = (val: unknown): val is RegExp =>
-  toTypeString(val) === '[object RegExp]'
+export const isRegExp = (val: unknown): val is RegExp => toTypeString(val) === '[object RegExp]'
 
+/** @deprecated use {@link isPlainObject} and {@link isKeylessObject} together instead */
 export const isEmptyObject = (val: unknown): val is boolean =>
   isPlainObject(val) && Object.keys(val).length === 0
+
+export const isKeylessObject = <T extends Record<string, any>>(
+  val: T extends readonly any[] ? never : T
+  // @ts-expect-error asserted type is technically not assignable to parameter type
+): val is Record<string, never> => Object.keys(val).length === 0
 
 export const assign: typeof Object.assign = Object.assign
 
@@ -115,8 +107,6 @@ export function hasOwn(obj: object | Array<any>, key: string): boolean {
   return hasOwnProperty.call(obj, key)
 }
 
-/* eslint-enable */
-
 /**
  * Useful Utilities By Evan you
  * Modified by kazuya kawaguchi
@@ -125,25 +115,21 @@ export function hasOwn(obj: object | Array<any>, key: string): boolean {
  * https://github.com/vuejs/vue-next/blob/master/packages/shared/src/codeframe.ts
  */
 export const isArray: typeof Array.isArray = Array.isArray
-export const isFunction = (val: unknown): val is Function =>
-  typeof val === 'function'
+
+export const isFunction = (val: unknown): val is Function => typeof val === 'function'
 export const isString = (val: unknown): val is string => typeof val === 'string'
-export const isBoolean = (val: unknown): val is boolean =>
-  typeof val === 'boolean'
+export const isBoolean = (val: unknown): val is boolean => typeof val === 'boolean'
 export const isSymbol = (val: unknown): val is symbol => typeof val === 'symbol'
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
+
 export const isObject = (val: unknown): val is Record<any, any> =>
   val !== null && typeof val === 'object'
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const isPromise = <T = any>(val: unknown): val is Promise<T> => {
   return isObject(val) && isFunction(val.then) && isFunction(val.catch)
 }
 
-export const objectToString: typeof Object.prototype.toString =
-  Object.prototype.toString
-export const toTypeString = (value: unknown): string =>
-  objectToString.call(value)
+export const objectToString: typeof Object.prototype.toString = Object.prototype.toString
+export const toTypeString = (value: unknown): string => objectToString.call(value)
 
 export const isPlainObject = (val: unknown): val is object =>
   toTypeString(val) === '[object Object]'
@@ -154,14 +140,11 @@ export const toDisplayString = (val: unknown): string => {
     ? ''
     : isArray(val) || (isPlainObject(val) && val.toString === objectToString)
       ? JSON.stringify(val, null, 2)
-      : String(val)
+      : String(val) // oxlint-disable-line @typescript-eslint/no-base-to-string -- use String()
 }
 
 export function join(items: string[], separator = ''): string {
-  return items.reduce(
-    (str, item, index) => (index === 0 ? str + item : str + separator + item),
-    ''
-  )
+  return items.reduce((str, item, index) => (index === 0 ? str + item : str + separator + item), '')
 }
 
 const RANGE = 2
@@ -185,10 +168,7 @@ export function generateCodeFrame(
         if (j === i) {
           // push underline
           const pad = start - (count - lineLength) + 1
-          const length = Math.max(
-            1,
-            end > count ? lineLength - pad : end - start
-          )
+          const length = Math.max(1, end > count ? lineLength - pad : end - start)
           res.push(`   |  ` + ' '.repeat(pad) + '^'.repeat(length))
         } else if (j > i) {
           if (end > count) {

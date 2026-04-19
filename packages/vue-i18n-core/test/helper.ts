@@ -1,15 +1,7 @@
 import { assign, isBoolean, isPlainObject } from '@intlify/shared'
 import { compile } from '@vue/compiler-dom'
 import * as runtimeDom from 'vue'
-import {
-  createApp,
-  defineComponent,
-  h,
-  nextTick,
-  onErrorCaptured,
-  reactive,
-  shallowRef
-} from 'vue'
+import { createApp, defineComponent, h, nextTick, onErrorCaptured, reactive, shallowRef } from 'vue'
 
 import type {
   App,
@@ -22,8 +14,8 @@ import type { I18n } from '../src/i18n'
 import type { I18nPluginOptions } from '../src/plugin/types'
 
 export interface MountOptions {
-  propsData: Record<string, any> // eslint-disable-line @typescript-eslint/no-explicit-any
-  provide: Record<string | symbol, any> // eslint-disable-line @typescript-eslint/no-explicit-any
+  propsData: Record<string, any>
+  provide: Record<string | symbol, any>
   components: Record<string, Component>
   slots: Record<string, string>
   installI18n: boolean
@@ -91,9 +83,7 @@ export function mount<
   options: Partial<MountOptions> = {}
 ): Promise<Wrapper> {
   const TargetComponent = targetComponent
-  const installI18n = isBoolean(options.installI18n)
-    ? options.installI18n
-    : true
+  const installI18n = isBoolean(options.installI18n) ? options.installI18n : true
 
   const pluginOptions: I18nPluginOptions = isPlainObject(options.pluginOptions)
     ? options.pluginOptions
@@ -114,13 +104,11 @@ export function mount<
       )
     )
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     function setProps(partialProps: Record<string, any>) {
       assign(propsData, partialProps)
       return nextTick()
     }
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const slots: Record<string, (propsData: any) => VNode> = {}
 
     const Wrapper = defineComponent({
@@ -133,7 +121,6 @@ export function mount<
         })
         return () => {
           return h(
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             TargetComponent as any,
             {
               ref: componentInstanceRef,
@@ -158,7 +145,6 @@ export function mount<
       const keys = getKeys(options.provide)
 
       for (const key of keys) {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         app.provide(key, options.provide[key as any])
       }
     }
@@ -175,7 +161,9 @@ export function mount<
       }
     }
 
-    installI18n && app.use(i18n, pluginOptions)
+    if (installI18n) {
+      app.use(i18n, pluginOptions)
+    }
 
     const rootEl = document.createElement('div')
     document.body.appendChild(rootEl)
@@ -201,7 +189,6 @@ export function mount<
   })
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function getKeys(object: Record<string | symbol, any>): Array<symbol | string> {
   return (Object.getOwnPropertyNames(object) as Array<string | symbol>).concat(
     Object.getOwnPropertySymbols(object)
@@ -215,20 +202,20 @@ function compileSlot(template: string) {
     prefixIdentifiers: true
   })
 
+  // oxlint-disable-next-line @typescript-eslint/no-implied-eval -- ignore for testing
   const render = new Function('Vue', codegen.code)(runtimeDom)
 
   const ToRender = defineComponent({
     inheritAttrs: false,
-    setup(props, { attrs }) {
+    setup(_props, { attrs }) {
       return { ...attrs }
     },
     render
   })
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   return (propsData: any) => h(ToRender, { ...propsData })
 }
 
-export function randStr(digit = 8) {
+export function randStr(digit = 8): string {
   return Math.random().toString(32).substring(digit)
 }

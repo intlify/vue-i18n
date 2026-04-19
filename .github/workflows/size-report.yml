@@ -2,10 +2,10 @@ name: Size report
 
 on:
   workflow_run:
-    workflows: ['Size data']
+    workflows: ['Size data'] # eslint-disable-line yml/plain-scalar
     types:
       - completed
-  workflow_dispatch:
+  workflow_dispatch: # eslint-disable-line yml/no-empty-mapping-value
 
 permissions:
   contents: read
@@ -20,13 +20,16 @@ jobs:
       github.event.workflow_run.event == 'pull_request' &&
       github.event.workflow_run.conclusion == 'success'
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd # v5.0.1
+        with:
+          fetch-depth: 0
 
       - name: Install pnpm
-        uses: pnpm/action-setup@v4.1.0
+        uses: pnpm/action-setup@41ff72655975bd51cab0327fa583b6e92b6d3061 # v4.2.0
 
       - name: Install Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5.0.0
         with:
           node-version: 23
           cache: pnpm
@@ -35,7 +38,7 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: Download Size Data
-        uses: dawidd6/action-download-artifact@v8
+        uses: dawidd6/action-download-artifact@0bd50d53a6d7fb5cb921e607957e9cc12b4ce392 # v12
         with:
           name: size-data
           run_id: ${{ github.event.workflow_run.id }}
@@ -43,18 +46,18 @@ jobs:
 
       - name: Read PR Number
         id: pr-number
-        uses: juliangruber/read-file-action@v1
+        uses: juliangruber/read-file-action@b549046febe0fe86f8cb4f93c24e284433f9ab58 # v1.1.7
         with:
           path: temp/size/number.txt
 
       - name: Read base branch
         id: pr-base
-        uses: juliangruber/read-file-action@v1
+        uses: juliangruber/read-file-action@b549046febe0fe86f8cb4f93c24e284433f9ab58 # v1.1.7
         with:
           path: temp/size/base.txt
 
       - name: Download Previous Size Data
-        uses: dawidd6/action-download-artifact@v8
+        uses: dawidd6/action-download-artifact@0bd50d53a6d7fb5cb921e607957e9cc12b4ce392 # v12
         with:
           branch: ${{ steps.pr-base.outputs.content }}
           workflow: size-data.yml
@@ -68,16 +71,16 @@ jobs:
 
       - name: Read Size Report
         id: size-report
-        uses: juliangruber/read-file-action@v1
+        uses: juliangruber/read-file-action@b549046febe0fe86f8cb4f93c24e284433f9ab58 # v1.1.7
         with:
           path: ./size-report.md
 
       - name: Create Comment
-        uses: actions-cool/maintain-one-comment@v3
+        uses: actions-cool/maintain-one-comment@4b2dbf086015f892dcb5e8c1106f5fccd6c1476b # v3.2.0
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           number: ${{ steps.pr-number.outputs.content }}
           body: |
             ${{ steps.size-report.outputs.content }}
             <!-- INTLIFY_VUE_I18N_SIZE -->
-          body-include: '<!-- INTLIFY_VUE_I18N_SIZE -->'
+          body-include: '<!-- INTLIFY_VUE_I18N_SIZE -->' # eslint-disable-line yml/plain-scalar

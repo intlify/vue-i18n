@@ -1,6 +1,6 @@
 import { defineComponent } from 'vue'
 import { useI18n } from 'vue-i18n'
-import './foo.css'
+import './foo.css' with { type: 'css' }
 
 // named exports w/ variable declaration: ok
 export const Foo = defineComponent({

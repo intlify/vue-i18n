@@ -2,6 +2,10 @@
 
 Vue I18n can use message format syntax to localize the messages to be displayed in the UI. Vue I18n messages are interpolations and messages with various feature syntax.
 
+:::tip NOTE
+The examples in this section use `$t` in templates, which is available via global injection (enabled by default). You can also use `t()` from `useI18n()` in your `<script setup>` for the same functionality.
+:::
+
 ## Interpolations
 
 Vue I18n supports interpolation using placeholders `{}` like "Mustache".
@@ -26,6 +30,10 @@ The locale messages is the resource specified by the `messages` option of `creat
 
 Named interpolation allows you to specify variables defined in JavaScript. In the locale message above, you can localize it by giving the JavaScript defined `msg` as a parameter to the translation function.
 
+The variable name inside `{}` must starts with a letter (a-z, A-Z) or an underscore (`_`), followed by any combination of letters, digits, underscores (`_`), hyphens (`-`), or dollar signs (`$`).
+
+Examples: `{msg}`, `{_userName}`, `{user-id}`, `{total$}`
+
 The following is an example of the use of `$t` in a template:
 
 ```html
@@ -34,13 +42,15 @@ The following is an example of the use of `$t` in a template:
 
 The first argument is `message.hello` as the locale messages key, and the second argument is an object with `msg` property as a parameter to `$t`.
 
-:::tip NOTE
-The locale message resource key for the translation function can be specified for a specific resource namespace with using `.` (dot), just like a JavaScript object.
-::::
+<!-- eslint-disable markdown/no-missing-label-refs -->
 
-:::tip NOTE
-`$t` has some overloads. About these overloads, see the [API Reference](../../api/injection#t-key)
-:::
+> [!TIP]
+> The locale message resource key for the translation function can be specified for a specific resource namespace with using `.` (dot), just like a JavaScript object.
+
+> [!TIP]
+> `$t` has some overloads. About these overloads, see the [API Reference](../../api/vue/interfaces/ComponentCustomProperties.md#t)
+
+<!-- eslint-enable markdown/no-missing-label-refs -->
 
 As result the below:
 
@@ -237,9 +247,76 @@ It’s `en` locale that has hierarchical structure in the object.
 The `message.snake` has `snake case`. The `message.custom_modifier` has `custom modifiers example: @.snakeCase:{'message.snake'}`, and it’s linked to the locale messages key, which is interpolated with literal.
 
 :::tip NOTE
-You can use the interpolations (Named, List, and Literal) for the key of Linked messages.
+You can use the interpolations (Named, List, and Literal) for the key of Linked messages shown below.
 :::
 
+
+This example shows the use of modifiers (`@.lower`, `@.upper`, `@.capitalize`) combined with named, list, and literal interpolations.
+
+
+```js
+const messages = {
+  en: {
+    message: {
+      greeting: "Hello, @.lower:{'message.name'}! You have {count} new messages.",
+      name:"{name}"
+    },
+
+    welcome: "Welcome, @.upper:{'name'}! Today is @.capitalize:{'day'}.",
+    name: '{0}',
+    day: '{1}',
+
+    literalMessage: "This is an email: foo{'@'}@.lower:domain",
+    domain: 'SHOUTING'
+  }
+}
+```
+### Named interpolation with modifier
+
+In `message.greeting`, we use a named interpolation for `{count}` and link to `message.name`, applying the .lower modifier.
+
+The key `message.name` contains `{name}`, which will be interpolated with the passed `name` param.
+
+The `message.greeting` is linked to the locale message key `message.name`.
+
+```html
+<p>{{ $t('message.greeting', { name: 'Alice', count: 5 }) }}</p>
+```
+As result, the below
+
+```html
+<p>Hello, alice! You have 5 new messages.</p>
+```
+
+### List interpolation with modifier
+
+In this case, the values for `{0}` and `{1}` are passed as an array. The keys `name` and `day` are resolved using list interpolation and transformed with modifiers.
+
+```html
+<p>{{ $t('welcome', ['bob', 'MONDAY']) }}</p>
+```
+
+As result, the below
+
+```html
+<p>Welcome, BOB! Today is Monday.</p>
+```
+
+### Literal interpolation with modifier
+
+In this example, we use a literal string inside the message and apply the `.lower` modifier.
+
+```html
+<p>{{ $t('literalMessage') }}</p>
+```
+
+Here, the modifier is applied to the content inside `domain`, and the `@` is preserved as literal output.
+
+As result, the below
+
+```html
+<p>This is an email: foo@shouting</p>
+```
 
 ## Special Characters
 
@@ -251,45 +328,55 @@ The following characters used in the message format syntax are processed by the 
 - `$`
 - `|`
 
-If you want to use these characters, you will need to use the [Literal interpolation](#literal-interpolation).
+If you want to use these characters, you can use the [Literal interpolation](#literal-interpolation) or **escape sequences**.
 
-## Rails i18n format
+### Escape Sequences
 
-Vue I18n supports the message format that is compatible with [Ruby on Rails i18n](https://guides.rubyonrails.org/i18n.html).
-
-You can interpolate message format syntax with `%` prefixing:
-
-:::danger IMPORTANT
-In v10 and later, Rails i18n format will be deprecated. We recommend using Named interpolation.
+:::tip NOTE
+Escape sequences are supported from v12 onwards.
 :::
 
-As an example, the following locale messages resource:
+You can escape special characters with a backslash (`\`) prefix, similar to escape sequences in C:
+
+| Escape | Result | Description |
+|--------|--------|-------------|
+| `\{` | `{` | Literal open brace |
+| `\}` | `}` | Literal close brace |
+| `\@` | `@` | Literal at sign |
+| `\|` | `\|` | Literal pipe |
+| `\\` | `\` | Literal backslash |
+
+For example, the following locale messages resource:
 
 ```js
 const messages = {
   en: {
-    message: {
-      hello: '%{msg} world'
-    }
+    address: '{account}\\@{domain}',
+    braces: 'hello \\{world\\}',
+    choices: 'option A \\| option B'
   }
 }
 ```
 
-It is defined `en` locale with `{ message: { hello: '%{msg} world' } }`.
-
-As with [Named interpolation](#named-interpolation), you can specify variables defined in JavaScript. In the locale message above, it is possible to localize it by giving a JavaScript defined `msg` as a parameter to the translation function.
-
 The following is an example of the use of `$t` in a template:
 
 ```html
-<p>{{ $t('message.hello', { msg: 'hello' }) }}</p>
+<p>{{ $t('address', { account: 'foo', domain: 'domain.com' }) }}</p>
+<p>{{ $t('braces') }}</p>
+<p>{{ $t('choices') }}</p>
 ```
 
-As result, the below:
+As result the below:
 
 ```html
-<p>hello world</p>
+<p>foo@domain.com</p>
+<p>hello {world}</p>
+<p>option A | option B</p>
 ```
+
+:::tip NOTE
+A backslash followed by a character that is not a special character is treated as a literal backslash. For example, `\n` in a message remains as `\n` (backslash + n), not a newline.
+:::
 
 ## HTML Message
 
@@ -304,7 +391,7 @@ We recommended using the [Component interpolation](../advanced/component).
 :::warning NOTICE
 If the message contains HTML, Vue I18n outputs a warning to console when development mode (`process.env`<wbr/>`.NODE_ENV !== 'production'`), Vue I18n outputs  warning to console.
 
-You can control warning output with the `warnHtmlInMessage` or `warnHtmlMessage` options in `createI18n` or `useI18n`.
+You can control warning output with the `warnHtmlMessage` option in `createI18n` or `useI18n`.
 :::
 
 As an example, the following locale messages resource:

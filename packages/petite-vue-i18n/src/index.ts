@@ -1,17 +1,8 @@
-import {
-  compile,
-  registerMessageCompiler,
-  setDevToolsHook
-} from '@intlify/core-base'
-import { getGlobalThis } from '@intlify/shared'
 import { initDev, initFeatureFlags } from '@intlify/vue-i18n-core/petite'
 
 if (__ESM_BUNDLER__ && !__TEST__) {
   initFeatureFlags()
 }
-
-// register message compiler at petite-vue-i18n
-registerMessageCompiler(compile)
 
 export type {
   CompileError,
@@ -81,17 +72,11 @@ export type {
 export type {
   IsEmptyObject,
   IsNever,
+  JsonPaths,
   PickupFormatPathKeys,
   PickupKeys,
   PickupPaths
 } from '@intlify/core-base'
-
-// NOTE: experimental !!
-if (__DEV__ || __FEATURE_PROD_INTLIFY_DEVTOOLS__) {
-  const target = getGlobalThis()
-  target.__INTLIFY__ = true
-  setDevToolsHook(target.__INTLIFY_DEVTOOLS_GLOBAL_HOOK__)
-}
 
 if (__DEV__) {
   initDev()

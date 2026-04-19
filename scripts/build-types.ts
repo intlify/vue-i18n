@@ -4,17 +4,12 @@ import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { isolatedDeclaration } from 'oxc-transform'
 import pc from 'picocolors'
-import { rollup } from 'rollup'
+import { rolldown } from 'rolldown'
 import { createDtsConfig } from './dts'
 
 const __dirname = fileURLToPath(new URL('.', import.meta.url))
 
-const IGNORES = [
-  /format-explorer/,
-  /size-check-core/,
-  /size-check-vue-i18n/,
-  /size-check-vue-i18n/
-]
+const IGNORES = [/format-explorer/, /size-check-core/, /size-check-vue-i18n/, /size-check-vue-i18n/]
 
 function isIgnore(file: string) {
   let ignored = false
@@ -27,7 +22,7 @@ function isIgnore(file: string) {
   return ignored
 }
 
-export async function buildTypings(targets: string[]) {
+export async function buildTypings(targets: string[]): Promise<void> {
   if (existsSync(path.resolve(__dirname, '../temp/packages'))) {
     await fs.rm(path.resolve(__dirname, '../temp/packages'), {
       recursive: true
@@ -44,23 +39,17 @@ export async function buildTypings(targets: string[]) {
     }
 
     const ts = await fs.readFile(file, 'utf-8')
-    const dts = isolatedDeclaration(file, ts, {
+    const dts = await isolatedDeclaration(file, ts, {
       sourcemap: false,
       stripInternal: true
     })
     if (dts.errors.length) {
       dts.errors.forEach(err => {
-        // temporary workaround for https://github.com/oxc-project/oxc/issues/5668
-        if (!err.message.includes('set value(_: S)')) {
-          console.error(err)
-        }
         errs += err.message + '\n'
       })
     }
 
-    const filepath = /\.d\.ts$/.test(file)
-      ? file
-      : file.replace(/\.ts$/, '.d.ts')
+    const filepath = file.endsWith('.d.ts') ? file : file.replace(/\.ts$/, '.d.ts')
     await write(path.join('temp', filepath), dts.code)
     count++
   }
@@ -75,14 +64,14 @@ export async function buildTypings(targets: string[]) {
 
   console.log('bundling dts ...')
 
-  // bundle with rollup-plugin-dts
-  const rollupConfigs = await createDtsConfig(targets)
+  // bundle with rolldown-plugin-dts
+  const rolldownConfigs = await createDtsConfig(targets)
 
   start = performance.now()
 
   const all: Promise<string>[] = []
-  for (const [dtsPath, config] of Object.entries(rollupConfigs)) {
-    const s = rollup(config).then(bundle => {
+  for (const [dtsPath, config] of Object.entries(rolldownConfigs)) {
+    const s = rolldown(config).then(bundle => {
       if (config.output == null) {
         throw new Error('output is required')
       }
@@ -99,9 +88,7 @@ export async function buildTypings(targets: string[]) {
   }
   await Promise.all(all)
 
-  console.log(
-    `${all.length} bundled dts generated in ${(performance.now() - start).toFixed(2)}ms.`
-  )
+  console.log(`${all.length} bundled dts generated in ${(performance.now() - start).toFixed(2)}ms.`)
 }
 
 async function write(file: string, content: string) {

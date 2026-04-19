@@ -2,47 +2,47 @@ import {
   assign,
   createEmitter,
   isBoolean,
-  isEmptyObject,
+  isKeylessObject,
+  isNumber,
   isPlainObject,
   makeSymbol,
   warn
 } from '@intlify/shared'
 import {
   effectScope,
-  getCurrentInstance,
+  getCurrentScope,
   inject,
   isRef,
-  onMounted,
-  onUnmounted
+  onScopeDispose,
+  // @ts-ignore -- vue 3.6-beta has not still exported `useInstanceOption`
+  useInstanceOption,
+  provide
 } from 'vue'
 import { createComposer } from './composer'
 import { addTimelineEvent, enableDevTools } from './devtools'
 import { I18nErrorCodes, createI18nError } from './errors'
 import { apply as applyPlugin } from './plugin/next'
 import { DisableEmitter, DisposeSymbol, EnableEmitter } from './symbols'
-import { adjustI18nResources, getComponentOptions } from './utils'
+import { adjustI18nResources } from './utils'
 import { I18nWarnCodes, getWarnMessage } from './warnings'
 
 import type {
   FallbackLocale,
   Locale,
+  LocaleFallbacker,
   LocaleParams,
+  MessageCompiler,
+  MessageResolver,
+  ResourceNode,
   SchemaParams
 } from '@intlify/core-base'
-import type {
-  VueDevToolsEmitter,
-  VueDevToolsEmitterEvents
-} from '@intlify/devtools-types'
-import type {
-  App,
-  ComponentInternalInstance,
-  EffectScope,
-  InjectionKey
-} from 'vue'
+import type { VueDevToolsEmitter, VueDevToolsEmitterEvents } from '@intlify/devtools-types'
+import type { App, EffectScope, InjectionKey } from 'vue'
 import type {
   Composer,
   ComposerInternalOptions,
   ComposerOptions,
+  CustomBlocks,
   DefaultDateTimeFormatSchema,
   DefaultLocaleMessageSchema,
   DefaultNumberFormatSchema,
@@ -90,10 +90,11 @@ export interface I18nAdditionalOptions {
    * @remarks
    * If set to `true`, then properties and methods prefixed with `$` are injected into Vue Component.
    *
-   * @VueI18nSee [Implicit with injected properties and functions](../../guide/advanced/composition#implicit-with-injected-properties-and-functions)
-   * @VueI18nSee [ComponentCustomProperties](injection#componentcustomproperties)
+   * See about:
+   * - [Implicit with injected properties and functions](../../../guide/advanced/composition#implicit-with-injected-properties-and-functions)
+   * - {@link ComponentCustomProperties
    *
-   * @defaultValue `true`
+   * @default `true`
    */
   globalInjection?: boolean
 }
@@ -145,6 +146,21 @@ type ExtendHooks = {
 }
 
 /**
+ * Composer entry for DevTools
+ *
+ * @internal
+ */
+export interface ComposerEntry<
+  Messages extends Record<string, unknown> = {},
+  DateTimeFormats extends Record<string, unknown> = {},
+  NumberFormats extends Record<string, unknown> = {},
+  OptionLocale = Locale
+> {
+  composer: Composer<Messages, DateTimeFormats, NumberFormats, OptionLocale>
+  label: string
+}
+
+/**
  * I18n interface for internal usage
  *
  * @internal
@@ -155,44 +171,31 @@ export interface I18nInternal<
   NumberFormats extends Record<string, unknown> = {},
   OptionLocale = Locale
 > {
-  __instances: Map<
-    ComponentInternalInstance,
-    Composer<Messages, DateTimeFormats, NumberFormats, OptionLocale>
-  >
-  __getInstance<
-    Instance extends Composer<
-      Messages,
-      DateTimeFormats,
-      NumberFormats,
-      OptionLocale
-    >
-  >(
-    component: ComponentInternalInstance
-  ): Instance | null
-  __setInstance<
-    Instance extends Composer<
-      Messages,
-      DateTimeFormats,
-      NumberFormats,
-      OptionLocale
-    >
-  >(
-    component: ComponentInternalInstance,
-    instance: Instance
+  __instances: Map<number, ComposerEntry<Messages, DateTimeFormats, NumberFormats, OptionLocale>>
+  __getInstance(
+    uid: number
+  ): ComposerEntry<Messages, DateTimeFormats, NumberFormats, OptionLocale> | null
+  __setInstance(
+    uid: number,
+    entry: ComposerEntry<Messages, DateTimeFormats, NumberFormats, OptionLocale>
   ): void
-  __deleteInstance(component: ComponentInternalInstance): void
+  __deleteInstance(uid: number): void
   __composerExtend?: ComposerExtender
+  __messageCompiler?: MessageCompiler<string, string | ResourceNode>
+  __messageResolver?: MessageResolver
+  __localeFallbacker?: LocaleFallbacker
 }
 
 /**
  * I18n Scope
  *
- * @VueI18nSee [ComposerAdditionalOptions#useScope](composition#usescope)
- * @VueI18nSee [useI18n](composition#usei18n)
+ * See about:
+ * - {@link ComposerAdditionalOptions#useScope}
+ * - {@link useI18n}
  *
  * @VueI18nGeneral
  */
-export type I18nScope = 'local' | 'parent' | 'global'
+export type I18nScope = 'local' | 'parent' | 'global' | 'isolated'
 
 /**
  * I18n Options for `useI18n`
@@ -200,7 +203,8 @@ export type I18nScope = 'local' | 'parent' | 'global'
  * @remarks
  * `UseI18nOptions` is inherited {@link ComposerAdditionalOptions} and {@link ComposerOptions}, so you can specify these options.
  *
- * @VueI18nSee [useI18n](composition#usei18n)
+ * See about:
+ * - {@link useI18n}
  *
  * @VueI18nComposition
  */
@@ -221,10 +225,7 @@ export type UseI18nOptions<
         numberFormats: unknown
       }
     | string = Locale,
-  Options extends ComposerOptions<Schema, Locales> = ComposerOptions<
-    Schema,
-    Locales
-  >
+  Options extends ComposerOptions<Schema, Locales> = ComposerOptions<Schema, Locales>
 > = ComposerAdditionalOptions & Options
 
 /**
@@ -233,7 +234,8 @@ export type UseI18nOptions<
  * @remarks
  * `ComposerAdditionalOptions` is extend for {@link ComposerOptions}, so you can specify these options.
  *
- * @VueI18nSee [useI18n](composition#usei18n)
+ * See about:
+ * - {@link useI18n}
  *
  * @VueI18nComposition
  */
@@ -253,30 +255,32 @@ export interface ComposerAdditionalOptions {
 export const I18nInjectionKey: InjectionKey<I18n> | string =
   /* #__PURE__*/ makeSymbol('global-vue-i18n')
 
+/**
+ * Injection key for Composer scope propagation
+ *
+ * @internal
+ */
+const I18nComposerKey: InjectionKey<Composer> = /* #__PURE__*/ Symbol('vue-i18n-composer')
+
 export function createI18n<
   Options extends I18nOptions = I18nOptions,
-  Messages extends Record<string, unknown> = Options['messages'] extends Record<
+  Messages extends Record<string, unknown> = Options['messages'] extends Record<string, unknown>
+    ? Options['messages']
+    : {},
+  DateTimeFormats extends Record<string, unknown> = Options['datetimeFormats'] extends Record<
     string,
     unknown
   >
-    ? Options['messages']
-    : {},
-  DateTimeFormats extends Record<
-    string,
-    unknown
-  > = Options['datetimeFormats'] extends Record<string, unknown>
     ? Options['datetimeFormats']
     : {},
-  NumberFormats extends Record<
+  NumberFormats extends Record<string, unknown> = Options['numberFormats'] extends Record<
     string,
     unknown
-  > = Options['numberFormats'] extends Record<string, unknown>
+  >
     ? Options['numberFormats']
     : {},
   OptionLocale = Options['locale'] extends string ? Options['locale'] : Locale
->(
-  options: Options
-): I18n<Messages, DateTimeFormats, NumberFormats, OptionLocale>
+>(options: Options): I18n<Messages, DateTimeFormats, NumberFormats, OptionLocale>
 
 /**
  * Vue I18n factory
@@ -288,8 +292,9 @@ export function createI18n<
  *
  * @returns {@link I18n} instance
  *
- * @VueI18nSee [Getting Started](../../guide/essentials/started)
- * @VueI18nSee [Composition API](../../guide/advanced/composition)
+ * See about:
+ * - [Getting Started](../../../guide/essentials/started)
+ * - [Composition API](../../../guide/advanced/composition)
  *
  * @example
  * ```js
@@ -325,13 +330,12 @@ export function createI18n<
 export function createI18n<
   Schema extends object = DefaultLocaleMessageSchema,
   Locales extends string | object = 'en-US',
-  Options extends I18nOptions<
-    SchemaParams<Schema, VueMessageType>,
-    LocaleParams<Locales>
-  > = I18nOptions<SchemaParams<Schema, VueMessageType>, LocaleParams<Locales>>,
-  Messages extends Record<string, unknown> = NonNullable<
-    Options['messages']
-  > extends Record<string, unknown>
+  Options extends I18nOptions<SchemaParams<Schema, VueMessageType>, LocaleParams<Locales>> =
+    I18nOptions<SchemaParams<Schema, VueMessageType>, LocaleParams<Locales>>,
+  Messages extends Record<string, unknown> = NonNullable<Options['messages']> extends Record<
+    string,
+    unknown
+  >
     ? NonNullable<Options['messages']>
     : {},
   DateTimeFormats extends Record<string, unknown> = NonNullable<
@@ -345,11 +349,8 @@ export function createI18n<
     ? NonNullable<Options['numberFormats']>
     : {},
   OptionLocale = Options['locale'] extends string ? Options['locale'] : Locale
->(
-  options: Options
-): I18n<Messages, DateTimeFormats, NumberFormats, OptionLocale>
+>(options: Options): I18n<Messages, DateTimeFormats, NumberFormats, OptionLocale>
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function createI18n(options: any = {}): any {
   type _I18n = I18n & I18nInternal
 
@@ -357,25 +358,20 @@ export function createI18n(options: any = {}): any {
   const __globalInjection = isBoolean(options.globalInjection)
     ? options.globalInjection
     : true
-  const __instances = new Map<ComponentInternalInstance, Composer>()
+  const __instances = new Map<number, ComposerEntry>()
   const [globalScope, __global] = createGlobal(options)
-  const symbol: InjectionKey<I18n> | string = /* #__PURE__*/ makeSymbol(
-    __DEV__ ? 'vue-i18n' : ''
-  )
+  const symbol: InjectionKey<I18n> | string = /* #__PURE__*/ makeSymbol(__DEV__ ? 'vue-i18n' : '')
 
-  function __getInstance(
-    component: ComponentInternalInstance
-  ): Composer | null {
-    return __instances.get(component) || null
+  function __getInstance(uid: number): ComposerEntry | null {
+    return __instances.get(uid) || null
   }
-  function __setInstance(
-    component: ComponentInternalInstance,
-    instance: Composer
-  ): void {
-    __instances.set(component, instance)
+
+  function __setInstance(uid: number, entry: ComposerEntry): void {
+    __instances.set(uid, entry)
   }
-  function __deleteInstance(component: ComponentInternalInstance): void {
-    __instances.delete(component)
+
+  function __deleteInstance(uid: number): void {
+    __instances.delete(uid)
   }
 
   const i18n = {
@@ -388,19 +384,19 @@ export function createI18n(options: any = {}): any {
       // setup global provider
       app.__VUE_I18N_SYMBOL__ = symbol
       app.provide(app.__VUE_I18N_SYMBOL__, i18n as unknown as I18n)
+      // Also provide with I18nInjectionKey for useI18n inject
+      app.provide(I18nInjectionKey, i18n as unknown as I18n)
 
       // set composer extend hook options from plugin options
       if (isPlainObject(options[0])) {
         const opts = options[0] as ExtendHooks
         // Plugin options cannot be passed directly to the function that creates Composer
         // so we keep it temporary
-        ;(i18n as unknown as I18nInternal).__composerExtend =
-          opts.__composerExtend
+        ;(i18n as unknown as I18nInternal).__composerExtend = opts.__composerExtend
       }
 
       // global method and properties injection for Composition API
-      let globalReleaseHandler: ReturnType<typeof injectGlobalFields> | null =
-        null
+      let globalReleaseHandler: ReturnType<typeof injectGlobalFields> | null = null
       if (__globalInjection) {
         globalReleaseHandler = injectGlobalFields(app, i18n.global as Composer)
       }
@@ -413,7 +409,7 @@ export function createI18n(options: any = {}): any {
       // release global scope
       const unmountApp = app.unmount
       app.unmount = () => {
-        globalReleaseHandler && globalReleaseHandler()
+        globalReleaseHandler?.()
         i18n.dispose()
         unmountApp()
       }
@@ -424,11 +420,10 @@ export function createI18n(options: any = {}): any {
         if (!ret) {
           throw createI18nError(I18nErrorCodes.CANNOT_SETUP_VUE_DEVTOOLS_PLUGIN)
         }
-        const emitter: VueDevToolsEmitter =
-          createEmitter<VueDevToolsEmitterEvents>()
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const emitter: VueDevToolsEmitter = createEmitter<VueDevToolsEmitterEvents>()
+
         const _composer = __global as any
-        _composer[EnableEmitter] && _composer[EnableEmitter](emitter)
+        _composer[EnableEmitter]?.(emitter)
         emitter.on('*', addTimelineEvent)
       }
     },
@@ -446,7 +441,13 @@ export function createI18n(options: any = {}): any {
     // @internal
     __setInstance,
     // @internal
-    __deleteInstance
+    __deleteInstance,
+    // @internal
+    __messageCompiler: options.messageCompiler,
+    // @internal
+    __messageResolver: options.messageResolver,
+    // @internal
+    __localeFallbacker: options.localeFallbacker
   }
   return i18n
 }
@@ -516,13 +517,8 @@ export function useI18n<Options extends UseI18nOptions = UseI18nOptions>(
 export function useI18n<
   Schema = DefaultLocaleMessageSchema,
   Locales = 'en-US',
-  Options extends UseI18nOptions<
-    SchemaParams<Schema, VueMessageType>,
-    LocaleParams<Locales>
-  > = UseI18nOptions<
-    SchemaParams<Schema, VueMessageType>,
-    LocaleParams<Locales>
-  >
+  Options extends UseI18nOptions<SchemaParams<Schema, VueMessageType>, LocaleParams<Locales>> =
+    UseI18nOptions<SchemaParams<Schema, VueMessageType>, LocaleParams<Locales>>
 >(
   options?: Options
 ): Composer<
@@ -535,51 +531,49 @@ export function useI18n<
 export function useI18n<
   Options extends UseI18nOptions = UseI18nOptions,
   Messages extends Record<string, unknown> = NonNullable<Options['messages']>,
-  DateTimeFormats extends Record<string, unknown> = NonNullable<
-    Options['datetimeFormats']
-  >,
-  NumberFormats extends Record<string, unknown> = NonNullable<
-    Options['numberFormats']
-  >,
+  DateTimeFormats extends Record<string, unknown> = NonNullable<Options['datetimeFormats']>,
+  NumberFormats extends Record<string, unknown> = NonNullable<Options['numberFormats']>,
   OptionLocale = NonNullable<Options['locale']>
 >(options: Options = {} as Options) {
-  const instance = getCurrentInstance()
-  if (instance == null) {
+  // Get instance info via useInstanceOption (Vue 3.6+)
+  const { hasInstance, value: type } = useInstanceOption('type', true)
+  if (!hasInstance) {
     throw createI18nError(I18nErrorCodes.MUST_BE_CALL_SETUP_TOP)
   }
-  if (
-    !instance.isCE &&
-    instance.appContext.app != null &&
-    !instance.appContext.app.__VUE_I18N_SYMBOL__
-  ) {
-    throw createI18nError(I18nErrorCodes.NOT_INSTALLED)
+  if (!type) {
+    throw createI18nError(I18nErrorCodes.UNEXPECTED_ERROR)
   }
 
-  const i18n = getI18nInstance(instance)
-  const gl = getGlobalComposer(i18n)
-  const componentOptions = getComponentOptions(instance)
-  const scope = getScope(options, componentOptions)
+  // Check if it's a Custom Element
+  const { value: isCE } = useInstanceOption('ce', true)
 
+  // Get I18n instance via inject
+  const i18n = inject(I18nInjectionKey)
+  if (!i18n) {
+    throw createI18nError(
+      isCE ? I18nErrorCodes.NOT_INSTALLED_WITH_PROVIDE : I18nErrorCodes.NOT_INSTALLED
+    )
+  }
+
+  const gl = i18n.global
+  const scope = getScope(options, type)
+
+  // Global scope
   if (scope === 'global') {
-    adjustI18nResources(gl, options, componentOptions)
-    return gl as unknown as Composer<
-      Messages,
-      DateTimeFormats,
-      NumberFormats,
-      OptionLocale
-    >
+    adjustI18nResources(gl, options, type)
+    return gl as unknown as Composer<Messages, DateTimeFormats, NumberFormats, OptionLocale>
   }
 
+  // Parent scope via `inject`
   if (scope === 'parent') {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    let composer = getComposer(i18n, instance, (options as any).__useComponent)
-    if (composer == null) {
+    const parentComposer = inject(I18nComposerKey, null)
+    if (parentComposer == null) {
       if (__DEV__) {
         warn(getWarnMessage(I18nWarnCodes.NOT_FOUND_PARENT_SCOPE))
       }
-      composer = gl as unknown as Composer
+      return gl as unknown as Composer<Messages, DateTimeFormats, NumberFormats, OptionLocale>
     }
-    return composer as unknown as Composer<
+    return parentComposer as unknown as Composer<
       Messages,
       DateTimeFormats,
       NumberFormats,
@@ -587,37 +581,151 @@ export function useI18n<
     >
   }
 
-  const i18nInternal = i18n as unknown as I18nInternal
-  let composer = i18nInternal.__getInstance(instance)
-  if (composer == null) {
-    const composerOptions = assign({}, options) as ComposerOptions &
-      ComposerInternalOptions
+  // Isolated scope - independent composer not tied to component uid
+  if (scope === 'isolated') {
+    const i18nInternal = i18n as unknown as I18nInternal
 
-    if ('__i18n' in componentOptions) {
-      composerOptions.__i18n = componentOptions.__i18n
+    const composerOptions = assign({}, options) as ComposerOptions & ComposerInternalOptions
+
+    // Inherit messageCompiler, messageResolver, localeFallbacker from createI18n
+    if (i18nInternal.__messageCompiler) {
+      composerOptions.messageCompiler = i18nInternal.__messageCompiler
+    }
+    if (i18nInternal.__messageResolver) {
+      composerOptions.messageResolver = i18nInternal.__messageResolver
+    }
+    if (i18nInternal.__localeFallbacker) {
+      composerOptions.localeFallbacker = i18nInternal.__localeFallbacker
     }
 
-    if (gl) {
-      composerOptions.__root = gl
-    }
+    // Set parent Composer as fallback root
+    const parentComposer = inject(I18nComposerKey, null)
+    composerOptions.__root = parentComposer || gl
 
-    composer = createComposer(composerOptions) as Composer
+    const composer = createComposer(composerOptions) as Composer
+
+    // ComposerExtend
     if (i18nInternal.__composerExtend) {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      ;(composer as any)[DisposeSymbol] =
-        i18nInternal.__composerExtend(composer)
+      ;(composer as any)[DisposeSymbol] = i18nInternal.__composerExtend(composer)
     }
-    setupLifeCycle(i18nInternal, instance, composer)
 
-    i18nInternal.__setInstance(instance, composer)
+    // DevTools emitter setup
+    let emitter: VueDevToolsEmitter | null = null
+    if ((__DEV__ || __FEATURE_PROD_VUE_DEVTOOLS__) && !__NODE_JS__) {
+      emitter = createEmitter<VueDevToolsEmitterEvents>()
+      const _composer = composer as any
+      _composer[EnableEmitter]?.(emitter)
+      emitter.on('*', addTimelineEvent)
+    }
+
+    // Lifecycle management via onScopeDispose
+    const currentScope = getCurrentScope()
+    if (currentScope) {
+      onScopeDispose(() => {
+        if ((__DEV__ || __FEATURE_PROD_VUE_DEVTOOLS__) && !__NODE_JS__) {
+          emitter?.off('*', addTimelineEvent)
+          const _composer = composer as any
+          _composer[DisableEmitter]?.()
+        }
+        const dispose = (composer as any)[DisposeSymbol]
+        if (dispose) {
+          dispose()
+          delete (composer as any)[DisposeSymbol]
+        }
+      })
+    }
+
+    return composer as unknown as Composer<Messages, DateTimeFormats, NumberFormats, OptionLocale>
   }
 
-  return composer as unknown as Composer<
-    Messages,
-    DateTimeFormats,
-    NumberFormats,
-    OptionLocale
-  >
+  // Local scope
+  const i18nInternal = i18n as unknown as I18nInternal
+
+  // Duplicate call detection via uid
+  const { value: uid } = useInstanceOption('uid', true)
+  if (!isNumber(uid)) {
+    throw createI18nError(I18nErrorCodes.UNEXPECTED_ERROR)
+  }
+  const existingEntry = i18nInternal.__getInstance(uid)
+  if (existingEntry != null) {
+    if (__DEV__) {
+      throw createI18nError(I18nErrorCodes.DUPLICATE_USE_I18N_CALLING)
+    }
+    return existingEntry.composer as unknown as Composer<
+      Messages,
+      DateTimeFormats,
+      NumberFormats,
+      OptionLocale
+    >
+  }
+
+  // Create Composer
+  const composerOptions = assign({}, options) as ComposerOptions & ComposerInternalOptions
+
+  // Inherit messageCompiler, messageResolver, localeFallbacker from createI18n
+  if (i18nInternal.__messageCompiler) {
+    composerOptions.messageCompiler = i18nInternal.__messageCompiler
+  }
+  if (i18nInternal.__messageResolver) {
+    composerOptions.messageResolver = i18nInternal.__messageResolver
+  }
+  if (i18nInternal.__localeFallbacker) {
+    composerOptions.localeFallbacker = i18nInternal.__localeFallbacker
+  }
+
+  // SFC i18n custom blocks
+  if ('__i18n' in type) {
+    composerOptions.__i18n = type.__i18n as CustomBlocks
+  }
+
+  // Set parent Composer as fallback root
+  const parentComposer = inject(I18nComposerKey, null)
+  composerOptions.__root = parentComposer || gl
+
+  const composer = createComposer(composerOptions) as Composer
+
+  // ComposerExtend
+  if (i18nInternal.__composerExtend) {
+    ;(composer as any)[DisposeSymbol] = i18nInternal.__composerExtend(composer)
+  }
+
+  // Register instance
+  const label = type.name || type.__name || type.__file || 'Anonymous'
+  i18nInternal.__setInstance(uid, { composer, label })
+
+  // DevTools emitter setup
+  let emitter: VueDevToolsEmitter | null = null
+  if ((__DEV__ || __FEATURE_PROD_VUE_DEVTOOLS__) && !__NODE_JS__) {
+    emitter = createEmitter<VueDevToolsEmitterEvents>()
+    const _composer = composer as any
+    _composer[EnableEmitter]?.(emitter)
+    emitter.on('*', addTimelineEvent)
+  }
+
+  // Lifecycle management via onScopeDispose
+  const currentScope = getCurrentScope()
+  if (currentScope) {
+    onScopeDispose(() => {
+      // DevTools cleanup
+      if ((__DEV__ || __FEATURE_PROD_VUE_DEVTOOLS__) && !__NODE_JS__) {
+        emitter?.off('*', addTimelineEvent)
+        const _composer = composer as any
+        _composer[DisableEmitter]?.()
+      }
+
+      i18nInternal.__deleteInstance(uid)
+      const dispose = (composer as any)[DisposeSymbol]
+      if (dispose) {
+        dispose()
+        delete (composer as any)[DisposeSymbol]
+      }
+    })
+  }
+
+  // Provide to child components
+  provide(I18nComposerKey, composer)
+
+  return composer as unknown as Composer<Messages, DateTimeFormats, NumberFormats, OptionLocale>
 }
 
 function createGlobal(options: I18nOptions): [EffectScope, Composer] {
@@ -629,133 +737,21 @@ function createGlobal(options: I18nOptions): [EffectScope, Composer] {
   return [scope, obj]
 }
 
-function getI18nInstance(instance: ComponentInternalInstance): I18n {
-  const i18n = inject(
-    !instance.isCE
-      ? instance.appContext.app.__VUE_I18N_SYMBOL__!
-      : I18nInjectionKey
-  )
-  /* istanbul ignore if */
-  if (!i18n) {
-    throw createI18nError(
-      !instance.isCE
-        ? I18nErrorCodes.UNEXPECTED_ERROR
-        : I18nErrorCodes.NOT_INSTALLED_WITH_PROVIDE
-    )
-  }
-  return i18n
-}
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function getScope(options: UseI18nOptions, componentOptions: any): I18nScope {
-  // prettier-ignore
-  return isEmptyObject(options)
-    ? ('__i18n' in componentOptions)
-      ? 'local'
-      : 'global'
-    : !options.useScope
-      ? 'local'
-      : options.useScope
-}
-
-function getGlobalComposer(i18n: I18n): Composer {
-  // prettier-ignore
-  return i18n.global
-}
-
-function getComposer(
-  i18n: I18n,
-  target: ComponentInternalInstance,
-  useComponent = false
-): Composer | null {
-  let composer: Composer | null = null
-  const root = target.root
-  let current: ComponentInternalInstance | null = getParentComponentInstance(
-    target,
-    useComponent
-  )
-  while (current != null) {
-    const i18nInternal = i18n as unknown as I18nInternal
-    composer = i18nInternal.__getInstance(current)
-
-    if (composer != null) {
-      break
-    }
-    if (root === current) {
-      break
-    }
-    current = current.parent
+  if (isPlainObject(options) && !isKeylessObject(options)) {
+    return options.useScope || 'local'
   }
-  return composer
-}
-
-function getParentComponentInstance(
-  target: ComponentInternalInstance | null,
-  useComponent = false
-) {
-  if (target == null) {
-    return null
-  }
-  // if `useComponent: true` will be specified, we get lexical scope owner instance for use-case slots
-  return !useComponent
-    ? target.parent
-    : (target.vnode as any).ctx || target.parent // eslint-disable-line @typescript-eslint/no-explicit-any
-}
-
-function setupLifeCycle(
-  i18n: I18nInternal,
-  target: ComponentInternalInstance,
-  composer: Composer
-): void {
-  let emitter: VueDevToolsEmitter | null = null
-
-  onMounted(() => {
-    // inject composer instance to DOM for intlify-devtools
-    if (
-      (__DEV__ || __FEATURE_PROD_VUE_DEVTOOLS__) &&
-      !__NODE_JS__ &&
-      target.vnode.el
-    ) {
-      target.vnode.el.__VUE_I18N__ = composer
-      emitter = createEmitter<VueDevToolsEmitterEvents>()
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const _composer = composer as any
-      _composer[EnableEmitter] && _composer[EnableEmitter](emitter)
-      emitter.on('*', addTimelineEvent)
-    }
-  }, target)
-
-  onUnmounted(() => {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const _composer = composer as any
-
-    // remove composer instance from DOM for intlify-devtools
-    if (
-      (__DEV__ || __FEATURE_PROD_VUE_DEVTOOLS__) &&
-      !__NODE_JS__ &&
-      target.vnode.el &&
-      target.vnode.el.__VUE_I18N__
-    ) {
-      emitter && emitter.off('*', addTimelineEvent)
-      _composer[DisableEmitter] && _composer[DisableEmitter]()
-      delete target.vnode.el.__VUE_I18N__
-    }
-    i18n.__deleteInstance(target)
-
-    // dispose extended resources
-    const dispose = _composer[DisposeSymbol]
-    if (dispose) {
-      dispose()
-      delete _composer[DisposeSymbol]
-    }
-  }, target)
+  // prettier-ignore
+  return '__i18n' in componentOptions
+    ? 'local'
+    : 'global'
 }
 
 /**
  * Exported global composer instance
  *
  * @remarks
- * This interface is the [global composer](general#global) that is provided interface that is injected into each component with `app.config.globalProperties`.
+ * This interface is the {@link I18n#global | global composer} that is provided interface that is injected into each component with `app.config.globalProperties`.
  *
  * @VueI18nGeneral
  */
@@ -764,33 +760,27 @@ export interface ExportedGlobalComposer {
    * Locale
    *
    * @remarks
-   * This property is proxy-like property for `Composer#locale`. About details, see the [Composer#locale](composition#locale)
+   * This property is proxy-like property for `Composer#locale`. About details, see the {@link Composer#locale}
    */
   locale: Locale
   /**
    * Fallback locale
    *
    * @remarks
-   * This property is proxy-like property for `Composer#fallbackLocale`. About details, see the [Composer#fallbackLocale](composition#fallbacklocale)
+   * This property is proxy-like property for `Composer#fallbackLocale`. About details, see the {@link Composer#fallbackLocale}
    */
   fallbackLocale: FallbackLocale
   /**
    * Available locales
    *
    * @remarks
-   * This property is proxy-like property for `Composer#availableLocales`. About details, see the [Composer#availableLocales](composition#availablelocales)
+   * This property is proxy-like property for `Composer#availableLocales`. About details, see the {@link Composer#availableLocales}
    */
   readonly availableLocales: Locale[]
 }
 
-const globalExportProps = [
-  'locale',
-  'fallbackLocale',
-  'availableLocales'
-] as const
-const globalExportMethods = !__LITE__
-  ? ['t', 'rt', 'd', 'n', 'tm', 'te']
-  : ['t']
+const globalExportProps = ['locale', 'fallbackLocale', 'availableLocales'] as const
+const globalExportMethods = !__LITE__ ? ['t', 'rt', 'd', 'n', 'tm', 'te'] : ['t']
 
 function injectGlobalFields(app: App, composer: Composer): Disposer {
   const i18n = Object.create(null)
@@ -804,7 +794,7 @@ function injectGlobalFields(app: App, composer: Composer): Disposer {
           get() {
             return desc.value.value
           },
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
           set(val: any) {
             desc.value.value = val
           }
@@ -827,10 +817,8 @@ function injectGlobalFields(app: App, composer: Composer): Disposer {
   })
 
   const dispose = () => {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     delete (app as any).config.globalProperties.$i18n
     globalExportMethods.forEach(method => {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       delete (app as any).config.globalProperties[`$${method}`]
     })
   }

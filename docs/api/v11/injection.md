@@ -508,9 +508,9 @@ $rt(message: MessageFunction<VueMessageType> | VueMessageType): string;
 
 If this is used in a reactive context, it will re-evaluate once the locale changes.
 
-In [Composition API mode](general#mode), the `$rt` is injected by `app.config.globalProperties`. The input / output is the same as for Composer, and it works on **global scope**. About that details, see [Composer#rt](composition#rt-message).
+In [Composition API mode](general#mode), the `$rt` is injected by `app.config.globalProperties`. The input / output is the same as for Composer, and it works on **global scope**. About that details, see [Composer#rt](composition#rt).
 
-In [Legacy API mode](general#mode), the input / output is the same as for VueI18n instance. About details, see [VueI18n#rt](legacy#rt-message).
+In [Legacy API mode](general#mode), the input / output is the same as for VueI18n instance. About details, see [VueI18n#rt](legacy#rt).
 
 **See Also**
 - [Scope and Locale Changing](../../guide/essentials/scope)
@@ -536,7 +536,7 @@ $rt(message: MessageFunction<VueMessageType> | VueMessageType, plural: number, o
 
 **Details**
 
-Overloaded `$rt`. About details, see the [$rt](injection#rt-message) remarks.
+Overloaded `$rt`. About details, see the [$rt](injection#rt) remarks.
 
 #### Parameters
 | Parameter | Type | Description |
@@ -560,7 +560,7 @@ $rt(message: MessageFunction<VueMessageType> | VueMessageType, list: unknown[], 
 
 **Details**
 
-Overloaded `$rt`. About details, see the [$rt](injection#rt-message) remarks.
+Overloaded `$rt`. About details, see the [$rt](injection#rt) remarks.
 
 #### Parameters
 | Parameter | Type | Description |
@@ -584,7 +584,7 @@ $rt(message: MessageFunction<VueMessageType> | VueMessageType, named: NamedValue
 
 **Details**
 
-Overloaded `$rt`. About details, see the [$rt](injection#rt-message) remarks.
+Overloaded `$rt`. About details, see the [$rt](injection#rt) remarks.
 
 #### Parameters
 | Parameter | Type | Description |

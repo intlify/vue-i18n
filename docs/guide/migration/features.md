@@ -22,6 +22,8 @@ You can specify the number of messages to be pluralized.
 
 The below example:
 
+<!-- eslint-skip -->
+
 ```vue
 <script setup>
 import { useI18n } from 'vue-i18n'

@@ -22,12 +22,10 @@ It is of course fine to use non-English language, when you open a PR to translat
 - Work in the `src` folder and **DO NOT** checkin `dist` in the commits.
 
 - If adding new feature:
-
   - Add accompanying test case.
   - Provide convincing reason to add this feature. Ideally you should open a suggestion issue first and have it greenlighted before working on it.
 
 - If fixing a bug:
-
   - Provide detailed description of the bug in the PR. Live demo preferred.
   - Add appropriate test coverage if applicable.
 
@@ -59,7 +57,7 @@ $ pnpm i # install the dependencies of the project
 A high level overview of tools used:
 
 - [TypeScript](https://www.typescriptlang.org/) as the development language
-- [Rollup](https://rollupjs.org) for bundling
+- [rolldown](https://rolldown.rs) for bundling
 - [Vitest](https://vitest.dev/) for unit testing
 - [Playwright](https://playwright.dev/) for e2e testing
 - [ESLint](https://eslint.org/) for code linting
@@ -86,18 +84,15 @@ pnpm build -- --all
 By default, each package will be built in multiple distribution formats as specified in the `buildOptions.formats` field in its `package.json`. These can be overwritten via the `-f` flag. The following formats are supported:
 
 - **`global`**
-
   - For direct use via `<script>` in the browser.
   - Note: global builds are not [UMD](https://github.com/umdjs/umd) builds. Instead they are built as [IIFEs](https://developer.mozilla.org/en-US/docs/Glossary/IIFE).
 
 - **`esm-bundler`**
-
   - Leaves prod/dev branches with `process.env.NODE_ENV` guards (to be replaced by bundler)
   - Does not ship a minified build (to be done together with the rest of the code after bundling)
   - For use with bundlers like `webpack`, `rollup` and `parcel`.
 
 - **`esm-browser`**
-
   - For usage via native ES modules imports (in browser via `<script type="module">`, or via Node.js native ES modules support in the future)
   - Inlines all dependencies - i.e. it's a single ES module with no imports from other files
     - This means you **must** import everything from this file and this file only to ensure you are getting the same instance of code.
@@ -123,9 +118,7 @@ Use the `--sourcemap` or `-s` flag to build with source maps. Note this will mak
 
 The `--types` or `-t` flag will generate type declarations during the build and in addition:
 
-- Roll the declarations into a single `.d.ts` file for each package;
-- Generate an API report in `<projectRoot>/temp/<packageName>.api.md`. This report contains potential warnings emitted by [api-extractor](https://api-extractor.com/).
-- Generate an API model json in `<projectRoot>/temp/<packageName>.api.json`. This file can be used to generate a Markdown version of the exported APIs.
+- Roll the declarations into a single `.d.ts` file for each package with `rolldown-plugin-dts`
 
 ### `pnpm dev`
 
@@ -134,8 +127,7 @@ The `dev` script bundles a target package (default: `vue-i18n`) in a specified f
 ```bash
 $ pnpm dev
 
-> rollup v1.19.4
-> bundles packages/vue-i18n/src/index.ts → packages/vue-i18n/dist/vue-i18n.global.js...
+built: vue-i18n
 ```
 
 - The `dev` script also supports fuzzy match for the target package, but will only match the first package matched.
@@ -207,6 +199,8 @@ There are some caveats to these packages:
 ### Importing Packages
 
 The packages can import each other directly using their package names. Note that when importing a package, the name listed in its `package.json` should be used. Most of the time the `@intlify/` prefix is needed:
+
+<!-- eslint-skip -->
 
 ```js
 import { baseCompile } from '@intlify/compiler'

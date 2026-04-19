@@ -10,11 +10,11 @@ const i18n: I18n = createI18n({
   fallbackLocale: 'en',
   messages: {
     en,
-    fr,
-  },
+    fr
+  }
 })
 
-setup((app) => {
+setup(app => {
   app.use(i18n)
 })
 
@@ -27,11 +27,11 @@ export const globalTypes = {
       icon: 'globe',
       items: [
         { value: 'en', title: 'English' },
-        { value: 'fr', title: 'French' },
+        { value: 'fr', title: 'French' }
       ],
-      showName: true,
-    },
-  },
+      showName: true
+    }
+  }
 }
 
 // Decorator for updating locale
@@ -45,9 +45,9 @@ export const decorators = [
 
     return {
       components: { story },
-      template: '<story />',
+      template: '<story />'
     }
-  },
+  }
 ]
 
 const preview: Preview = {
@@ -55,10 +55,10 @@ const preview: Preview = {
     controls: {
       matchers: {
         color: /(background|color)$/i,
-        date: /Date$/i,
-      },
-    },
-  },
+        date: /Date$/i
+      }
+    }
+  }
 }
 
 export default preview

@@ -57,6 +57,8 @@ console.log(i18n.allowComposition) // output is true
 ### `useI18n` in Vue Component
 #### `setup` option
 
+<!-- eslint-skip -->
+
 ```vue
 <script>
 import { defineComponent } from 'vue'

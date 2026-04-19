@@ -3,7 +3,7 @@ import { NodeTypes } from '../../src/nodes'
 
 import type { PluralNode, MessageNode } from '../../src/nodes'
 
-let spy: any // eslint-disable-line @typescript-eslint/no-explicit-any
+let spy: any
 beforeEach(() => {
   spy = vi.fn()
 })

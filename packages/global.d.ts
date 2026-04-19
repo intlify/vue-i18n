@@ -14,6 +14,5 @@ declare let __COMMIT__: string
 
 // Feature flags
 declare let __FEATURE_PROD_VUE_DEVTOOLS__: boolean
-declare let __FEATURE_PROD_INTLIFY_DEVTOOLS__: boolean
 declare let __FEATURE_FULL_INSTALL__: boolean
 declare let __FEATURE_DROP_MESSAGE_COMPILER__: boolean

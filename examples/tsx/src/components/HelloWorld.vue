@@ -18,9 +18,13 @@ export default defineComponent({
     return () => (
       <>
         <h1>{msg}</h1>
-        <p>v-t: <span v-t="hello"></span></p>
+        <p>
+          v-t: <span v-t="hello"></span>
+        </p>
         <i18n-t keypath="term" tag="label" for="tos">
-          <a href="https://vue-i18n.intlify.dev" target="_blank">{ t('tos') }</a>
+          <a href="https://vue-i18n.intlify.dev" target="_blank">
+            {t('tos')}
+          </a>
         </i18n-t>
       </>
     )

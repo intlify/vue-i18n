@@ -8,9 +8,7 @@ import { getText, url } from '../helper'
     test('initial rendering', async () => {
       expect(await getText(page, '#app p.parent')).toMatch('こんにちは、世界！')
       expect(await getText(page, '#app p.child')).toMatch('やあ！')
-      expect(await getText(page, '#app label[for=checkbox]')).toMatch(
-        'root から locale を継承する'
-      )
+      expect(await getText(page, '#app label[for=checkbox]')).toMatch('root から locale を継承する')
     })
 
     test('change locale', async () => {
@@ -18,17 +16,13 @@ import { getText, url } from '../helper'
       await page.selectOption('#app select', 'en')
       expect(await getText(page, '#app p.parent')).toMatch('hello world!')
       expect(await getText(page, '#app p.child')).toMatch('Hi there!')
-      expect(await getText(page, '#app label[for=checkbox]')).toMatch(
-        'Inherit locale from root'
-      )
+      expect(await getText(page, '#app label[for=checkbox]')).toMatch('Inherit locale from root')
 
       // Child
       await page.selectOption('#app div.child select', 'ja')
       expect(await getText(page, '#app p.parent')).toMatch('hello world!')
       expect(await getText(page, '#app p.child')).toMatch('やあ！')
-      expect(await getText(page, '#app label[for=checkbox]')).toMatch(
-        'root から locale を継承する'
-      )
+      expect(await getText(page, '#app label[for=checkbox]')).toMatch('root から locale を継承する')
 
       // checkbox off
       await page.click('#checkbox')
@@ -36,9 +30,7 @@ import { getText, url } from '../helper'
       await page.selectOption('#app select', 'en')
       expect(await getText(page, '#app p.parent')).toMatch('hello world!')
       expect(await getText(page, '#app p.child')).toMatch('やあ！')
-      expect(await getText(page, '#app label[for=checkbox]')).toMatch(
-        'root から locale を継承する'
-      )
+      expect(await getText(page, '#app label[for=checkbox]')).toMatch('root から locale を継承する')
 
       // checkbox on
       await page.click('#checkbox')
@@ -46,9 +38,7 @@ import { getText, url } from '../helper'
       await page.selectOption('#app select', 'en')
       expect(await getText(page, '#app p.parent')).toMatch('hello world!')
       expect(await getText(page, '#app p.child')).toMatch('Hi there!')
-      expect(await getText(page, '#app label[for=checkbox]')).toMatch(
-        'Inherit locale from root'
-      )
+      expect(await getText(page, '#app label[for=checkbox]')).toMatch('Inherit locale from root')
     })
   })
 })

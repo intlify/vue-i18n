@@ -3,7 +3,7 @@ import { NodeTypes } from '../../src/nodes'
 
 import type { MessageNode } from '../../src/nodes'
 
-let spy: any // eslint-disable-line @typescript-eslint/no-explicit-any
+let spy: any
 beforeEach(() => {
   spy = vi.fn()
 })
@@ -202,5 +202,5 @@ describe('edge cases', () => {
   test.todo(`hi @:\n{name} !`)
   test.todo(`hi @: {'name'} !`)
   test.todo(`hi @. {name} !`)
-  test.todo(`hi @\. upper\n: {'name'}\n !`)
+  test.todo(`hi @. upper\n: {'name'}\n !`)
 })

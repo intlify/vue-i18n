@@ -2,14 +2,6 @@
  * @vitest-environment jsdom
  */
 
-import {
-  compile,
-  fallbackWithLocaleChain,
-  registerLocaleFallbacker,
-  registerMessageCompiler,
-  registerMessageResolver,
-  resolveValue
-} from '@intlify/core-base'
 import { defineComponent, h } from 'vue'
 import { createI18n } from '../../src/index'
 import { mount } from '../helper'
@@ -44,14 +36,8 @@ const datetimeFormats: IntlDateTimeFormats = {
   }
 }
 
-beforeAll(() => {
-  registerMessageCompiler(compile)
-  registerMessageResolver(resolveValue)
-  registerLocaleFallbacker(fallbackWithLocaleChain)
-})
-
-let org: any // eslint-disable-line @typescript-eslint/no-explicit-any
-let spy: any // eslint-disable-line @typescript-eslint/no-explicit-any
+let org: any
+let spy: any
 beforeEach(() => {
   org = console.warn
   spy = vi.fn()
@@ -81,14 +67,12 @@ test('basic usage', async () => {
   })
   const wrapper = await mount(App, i18n)
 
+  expect(wrapper.html()).toMatch(/([1-9]|1[0-2])\/([1-9]|[12]\d|3[01])\/([12]\d{3})/)
   expect(wrapper.html()).toMatch(
-    /([1-9]|1[0-2])\/([1-9]|[12]\d|3[01])\/([12]\d{3})/
+    /(0[1-9]|1[0-2])\/(0[1-9]|[12]\d|3[01])\/([12]\d{3}), (0\d|1[0-2]):([0-5]\d):([0-5]\d)/
   )
   expect(wrapper.html()).toMatch(
-    /(0[1-9]|1[0-2])\/(0[1-9]|[12]\d|3[01])\/([12]\d{3}), (0[0-9]|1[0-2]):([0-5][0-9]):([0-5][0-9])/
-  )
-  expect(wrapper.html()).toMatch(
-    /令和([1-9]|1[0-2])年([1-9]|1[0-2])月([1-9]|[1-3][0-9])日(月|火|水|木|金|土|日)曜日 (午前|午後)([0-9]|1[0-2]):([0-5][0-9]):([0-5][0-9]) (協定世界時|グリニッジ標準時)/
+    /令和([1-9]|1[0-2])年([1-9]|1[0-2])月([1-9]|[1-3]\d)日([月火水木金土日])曜日 (午前|午後)(\d|1[0-2]):([0-5]\d):([0-5]\d) (協定世界時|グリニッジ標準時)/
   )
 })
 
@@ -115,7 +99,7 @@ test('slots', async () => {
 
   expect(wrapper.html()).toMatch(`<span style="color: green;">R</span>`)
   expect(wrapper.html()).toMatch(
-    /([1-9]|1[0-2])年([1-9]|1[0-2])月([1-9]|[1-3][0-9])日(月|火|水|木|金|土|日)曜日 (午前|午後)([0-9]|1[0-2]):([0-5][0-9]):([0-5][0-9]) (協定世界時|グリニッジ標準時)/
+    /([1-9]|1[0-2])年([1-9]|1[0-2])月([1-9]|[1-3]\d)日([月火水木金土日])曜日 (午前|午後)(\d|1[0-2]):([0-5]\d):([0-5]\d) (協定世界時|グリニッジ標準時)/
   )
 })
 
@@ -126,7 +110,7 @@ test('component', async () => {
   })
 
   const MyComponent = defineComponent({
-    setup(props, context: SetupContext) {
+    setup(_props, context: SetupContext) {
       return (): VNodeChild => h('span', context.slots.default!())
     }
   })

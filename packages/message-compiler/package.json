@@ -1,7 +1,21 @@
 {
   "name": "@intlify/message-compiler",
-  "version": "12.0.0-alpha.2",
   "description": "@intlify/message-compiler",
+  "version": "12.0.0-alpha.3",
+  "author": {
+    "name": "kazuya kawaguchi",
+    "email": "kawakazu80@gmail.com"
+  },
+  "license": "MIT",
+  "funding": "https://github.com/sponsors/kazupon",
+  "bugs": {
+    "url": "https://github.com/intlify/vue-i18n/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/intlify/vue-i18n.git",
+    "directory": "packages/message-compiler"
+  },
   "keywords": [
     "compiler",
     "i18n",
@@ -9,34 +23,41 @@
     "intlify",
     "message-format"
   ],
-  "license": "MIT",
-  "author": {
-    "name": "kazuya kawaguchi",
-    "email": "kawakazu80@gmail.com"
-  },
   "homepage": "https://github.com/intlify/vue-i18n/tree/master/packages/message-compiler#readme",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/intlify/vue-i18n.git",
-    "directory": "packages/message-compiler"
+  "publishConfig": {
+    "access": "public"
   },
-  "bugs": {
-    "url": "https://github.com/intlify/vue-i18n/issues"
+  "engines": {
+    "node": ">= 16"
   },
+  "type": "module",
+  "sideEffects": false,
   "files": [
     "dist"
   ],
-  "type": "module",
   "module": "dist/message-compiler.js",
   "unpkg": "dist/message-compiler.global.js",
   "jsdelivr": "dist/message-compiler.global.js",
+  "exports": {
+    ".": {
+      "types": "./dist/message-compiler.d.ts",
+      "node": {
+        "import": {
+          "production": "./dist/message-compiler.node.js",
+          "development": "./dist/message-compiler.node.js",
+          "default": "./dist/message-compiler.node.js"
+        }
+      },
+      "import": "./dist/message-compiler.js",
+      "browser": "./dist/message-compiler.esm-browser.js"
+    },
+    "./dist/*": "./dist/*",
+    "./package.json": "./package.json"
+  },
   "types": "dist/message-compiler.d.ts",
   "dependencies": {
     "@intlify/shared": "workspace:*",
     "source-map-js": "^1.0.2"
-  },
-  "engines": {
-    "node": ">= 16"
   },
   "buildOptions": {
     "name": "IntlifyMessageCompiler",
@@ -47,26 +68,5 @@
       "global"
     ],
     "enableFullBundleForEsmBrowser": true
-  },
-  "exports": {
-    ".": {
-      "types": "./dist/message-compiler.d.ts",
-      "import": "./dist/message-compiler.js",
-      "browser": "./dist/message-compiler.esm-browser.js",
-      "node": {
-        "import": {
-          "production": "./dist/message-compiler.node.js",
-          "development": "./dist/message-compiler.node.js",
-          "default": "./dist/message-compiler.node.js"
-        }
-      }
-    },
-    "./dist/*": "./dist/*",
-    "./package.json": "./package.json"
-  },
-  "funding": "https://github.com/sponsors/kazupon",
-  "publishConfig": {
-    "access": "public"
-  },
-  "sideEffects": false
+  }
 }

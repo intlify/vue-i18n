@@ -67,12 +67,8 @@ function getDiff(curr: number, prev: number) {
 }
 
 async function renderUsages(output: string) {
-  const curr = (await importJSON(
-    path.resolve(currDir, '_usages.json')
-  )) as UsageReport
-  const prev = (await importJSON(
-    path.resolve(prevDir, '_usages.json')
-  )) as UsageReport
+  const curr = (await importJSON(path.resolve(currDir, '_usages.json'))) as UsageReport
+  const prev = (await importJSON(path.resolve(prevDir, '_usages.json'))) as UsageReport
 
   output += '\n### Usages\n\n'
 

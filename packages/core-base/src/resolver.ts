@@ -1,4 +1,4 @@
-import { isFunction, isObject } from '@intlify/shared'
+import { hasOwn, isFunction, isObject } from '@intlify/shared'
 import { AST_NODE_PROPS_KEYS, isMessageAST } from './ast'
 
 /** @VueI18nGeneral */
@@ -78,10 +78,7 @@ pathStateMachine[States.IN_IDENT] = {
 pathStateMachine[States.IN_SUB_PATH] = {
   [PathCharTypes.SINGLE_QUOTE]: [States.IN_SINGLE_QUOTE, Actions.APPEND],
   [PathCharTypes.DOUBLE_QUOTE]: [States.IN_DOUBLE_QUOTE, Actions.APPEND],
-  [PathCharTypes.LEFT_BRACKET]: [
-    States.IN_SUB_PATH,
-    Actions.INC_SUB_PATH_DEPTH
-  ],
+  [PathCharTypes.LEFT_BRACKET]: [States.IN_SUB_PATH, Actions.INC_SUB_PATH_DEPTH],
   [PathCharTypes.RIGHT_BRACKET]: [States.IN_PATH, Actions.PUSH_SUB_PATH],
   [PathCharTypes.END_OF_FAIL]: States.ERROR,
   [PathCharTypes.ELSE]: [States.IN_SUB_PATH, Actions.APPEND]
@@ -164,9 +161,7 @@ function formatSubPath(path: string): boolean | string {
     return false
   }
 
-  return isLiteral(trimmed)
-    ? stripQuotes(trimmed)
-    : PathCharTypes.ASTARISK + trimmed
+  return isLiteral(trimmed) ? stripQuotes(trimmed) : PathCharTypes.ASTARISK + trimmed
 }
 
 /**
@@ -178,7 +173,7 @@ export function parse(path: Path): string[] | undefined {
   let mode = States.BEFORE_PATH
   let subPathDepth = 0
   let c: string | undefined
-  let key: any // eslint-disable-line
+  let key: any
   let newChar: string
   let type: string
   let transition: PathState
@@ -228,10 +223,8 @@ export function parse(path: Path): string[] | undefined {
   function maybeUnescapeQuote() {
     const nextChar = path[index + 1]
     if (
-      (mode === States.IN_SINGLE_QUOTE &&
-        nextChar === PathCharTypes.SINGLE_QUOTE) ||
-      (mode === States.IN_DOUBLE_QUOTE &&
-        nextChar === PathCharTypes.DOUBLE_QUOTE)
+      (mode === States.IN_SINGLE_QUOTE && nextChar === PathCharTypes.SINGLE_QUOTE) ||
+      (mode === States.IN_DOUBLE_QUOTE && nextChar === PathCharTypes.DOUBLE_QUOTE)
     ) {
       index++
       newChar = '\\' + nextChar
@@ -342,7 +335,8 @@ export function resolveValue(obj: unknown, path: Path): PathValue {
 
   // resolve path value
   const len = hit.length
-  let last = obj
+
+  let last: any = obj
   let i = 0
   while (i < len) {
     const key = hit[i]
@@ -352,6 +346,12 @@ export function resolveValue(obj: unknown, path: Path): PathValue {
      * because the AST node is not a key-value structure.
      */
     if (AST_NODE_PROPS_KEYS.includes(key) && isMessageAST(last)) {
+      return null
+    }
+    if (!isObject(last)) {
+      return null
+    }
+    if (!hasOwn(last as object, key)) {
       return null
     }
     const val = last[key]

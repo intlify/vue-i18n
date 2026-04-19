@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-empty-function */
-
 // directive
 vitest.mock('../src/directive')
 
@@ -23,5 +21,3 @@ describe('globalInstall option', () => {
     expect(spy).not.toHaveBeenCalled()
   })
 })
-
-/* eslint-enable @typescript-eslint/no-empty-function */

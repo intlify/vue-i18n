@@ -11,7 +11,7 @@ const { t } = useI18n({
   <p>{{ t('world') }}</p>
 </template>
 
-<i18n>
+<i18n lang="json">
 {
   "en": {
     "world": "The world!"

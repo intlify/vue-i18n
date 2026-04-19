@@ -1,14 +1,24 @@
-import type { HeadConfig } from 'vitepress'
-import { defineConfig } from 'vitepress'
-import llmstxt from 'vitepress-plugin-llms'
+import { defineConfig } from 'vitepress';
+import llmstxt from 'vitepress-plugin-llms';
+import typedocSidebarApi from '../api/typedoc-sidebar.json' with { type: 'json' };
+import jp from './locales/jp.js';
+import zh from './locales/zh.js';
+
+import type { HeadConfig } from 'vitepress';
 
 const head: HeadConfig[] = [['link', { rel: 'icon', href: '/vue-i18n-logo.png' }]]
 
 export default defineConfig({
-  title: 'Vue I18n',
-  description: 'Internationalization plugin for Vue.js',
-
-  lang: 'en-US',
+  locales: {
+    root: {
+      label: 'English',
+      lang: 'en',
+      title: 'Vue I18n',
+      description: 'Internationalization plugin for Vue.js'
+    },
+    zh,
+    jp
+  },
   lastUpdated: true,
   head,
 
@@ -49,11 +59,11 @@ export default defineConfig({
     nav: nav(),
 
     sidebar: {
+      '/guide/v11/': sidebarGuideV11(),
       '/guide/': sidebarGuide(),
-      '/api/': sidebarApi(),
-      // NOTE: if we need to support multiple versions, we can be enble the following sidebar items
-      // '/api/v11/': sidebarApi('v11/'),
-      '/ecosystem/': sidebarEcosystem()
+      '/ecosystem/': sidebarEcosystem(),
+      '/api/v11/': sidebarApiV11("v11/"),
+      '/api/': sidebarApi()
     }
   }
 })
@@ -62,21 +72,23 @@ function nav() {
   return [
     {
       text: 'Guide',
-      link: '/guide/installation'
+      link: '/guide/installation',
     },
     {
       text: 'API',
-      link: '/api/general',
-      // NOTE: if we need to support multiple versions, we can be enble the following navigation items
-      // items: [{ text: 'latest', link: '/api/general' }, { text: 'v9 ~ v11', link: '/api/v11/general' }]
+      link: '/api/v11/general/',
     },
     {
       text: 'Ecosystem',
-      link: '/ecosystem/official'
+      link: '/ecosystem/official',
     },
     {
       text: 'Version',
-      items: [{ text: 'Maintenance Status', link: '/guide/maintenance' }, { text: 'v8.x', link: 'https://kazupon.github.io/vue-i18n/' }]
+      items: [
+        { text: 'Maintenance Status', link: '/guide/maintenance' },
+        { text: 'v11 Guide', link: '/guide/v11/essentials/started' },
+        { text: 'v8.x', link: 'https://kazupon.github.io/vue-i18n/' }
+      ]
     },
     {
       text: 'Changelog',
@@ -186,10 +198,6 @@ function sidebarGuide() {
         {
           text: 'Petite Vue I18n',
           link: '/guide/advanced/lite'
-        },
-        {
-          text: 'Custom Directive',
-          link: '/guide/advanced/directive'
         }
       ]
     },
@@ -198,8 +206,8 @@ function sidebarGuide() {
       collapsible: false,
       items: [
         {
-          text: 'Nuxt 3',
-          link: '/guide/integrations/nuxt3'
+          text: 'Nuxt',
+          link: '/guide/integrations/nuxt'
         }
       ]
     },
@@ -250,10 +258,54 @@ function sidebarGuide() {
   ]
 }
 
-function sidebarApi(ns = '') {
+function sidebarGuideV11() {
   return [
     {
-      text: 'API Reference',
+      text: 'Guide v11',
+      items: [
+        {
+          text: 'Back to Latest Guide',
+          link: '/guide/installation'
+        }
+      ]
+    },
+    {
+      text: 'Essentials',
+      collapsible: true,
+      items: [
+        { text: 'Getting Started', link: '/guide/v11/essentials/started' },
+        { text: 'Message Format Syntax', link: '/guide/v11/essentials/syntax' },
+        { text: 'Pluralization', link: '/guide/v11/essentials/pluralization' },
+        { text: 'Datetime Formatting', link: '/guide/v11/essentials/datetime' },
+        { text: 'Number Formatting', link: '/guide/v11/essentials/number' },
+        { text: 'Scope and Locale Changing', link: '/guide/v11/essentials/scope' },
+        { text: 'Fallbacking', link: '/guide/v11/essentials/fallback' },
+        { text: 'Local Scope Based Localization', link: '/guide/v11/essentials/local' }
+      ]
+    },
+    {
+      text: 'Advanced',
+      collapsible: true,
+      items: [
+        { text: 'Component Interpolation', link: '/guide/v11/advanced/component' },
+        { text: 'Single File Components', link: '/guide/v11/advanced/sfc' },
+        { text: 'Lazy Loading', link: '/guide/v11/advanced/lazy' },
+        { text: 'Message Functions', link: '/guide/v11/advanced/function' },
+        { text: 'Composition API', link: '/guide/v11/advanced/composition' },
+        { text: 'TypeScript Support', link: '/guide/v11/advanced/typescript' },
+        { text: 'Web components', link: '/guide/v11/advanced/wc' },
+        { text: 'Optimization', link: '/guide/v11/advanced/optimization' },
+        { text: 'Custom Message Format', link: '/guide/v11/advanced/format' },
+        { text: 'Petite Vue I18n', link: '/guide/v11/advanced/lite' }
+      ]
+    }
+  ]
+}
+
+function sidebarApiV11(ns = '') {
+  return [
+    {
+      text: 'API Reference v11',
       items: [
         {
           text: 'General',
@@ -283,6 +335,15 @@ function sidebarApi(ns = '') {
     }
   ]
 }
+
+function sidebarApi() {
+  return [{
+    text: 'API Reference',
+    collapsed: false,
+    items: typedocSidebarApi
+  }]
+}
+
 function sidebarEcosystem() {
   return [
     {

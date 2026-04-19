@@ -1,14 +1,11 @@
-const path = require('path')
-const vuePlugin = require('@vitejs/plugin-vue')
-const vueJsx = require('@vitejs/plugin-vue-jsx')
-const vueI18n = require('@intlify/vite-plugin-vue-i18n').default // TODO
+import vueI18n from '@intlify/unplugin-vue-i18n/vite'
+import vue from '@vitejs/plugin-vue'
+import vueJsx from '@vitejs/plugin-vue-jsx'
+import path from 'node:path'
 
-/**
- * @type {import('vite').UserConfig}
- */
-module.exports = {
+export default {
   plugins: [
-    vuePlugin(),
+    vue(),
     vueJsx(),
     {
       name: 'virtual',

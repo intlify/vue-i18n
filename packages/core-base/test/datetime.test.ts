@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-empty-function, @typescript-eslint/no-explicit-any */
-
 // utils
 import * as shared from '@intlify/shared'
 vi.mock('@intlify/shared', async () => {
@@ -20,17 +18,21 @@ vi.mock('../src/intl', async () => {
   }
 })
 
-import { createCoreContext as context, NOT_REOSLVED } from '../src/context'
+import { compile } from '../src/compilation'
+import { createCoreContext, NOT_RESOLVED } from '../src/context'
 import { datetime } from '../src/datetime'
 import { CoreErrorCodes, errorMessages } from '../src/errors'
-import {
-  registerMessageCompiler,
-  registerLocaleFallbacker
-} from '../src/context'
-import { compile } from '../src/compilation'
 import { fallbackWithLocaleChain } from '../src/fallbacker'
 
 import type { DateTimeFormats } from '../src/types'
+
+function context(options: any = {}) {
+  return createCoreContext({
+    messageCompiler: compile,
+    localeFallbacker: fallbackWithLocaleChain,
+    ...options
+  })
+}
 
 type MyDateTimeSchema = {
   short: {} // loose schema
@@ -85,9 +87,8 @@ const dts = [
   '2012-12-20 T03:00:00'
 ]
 
-beforeEach(() => {
-  registerMessageCompiler(compile)
-  registerLocaleFallbacker(fallbackWithLocaleChain)
+afterEach(() => {
+  vi.clearAllMocks()
 })
 
 test('datetime value', () => {
@@ -158,9 +159,7 @@ test('with object argument', () => {
     datetimeFormats
   })
 
-  expect(datetime(ctx, dt, { key: 'short', locale: 'ja-JP' })).toEqual(
-    '2012/12/20 12:00'
-  )
+  expect(datetime(ctx, dt, { key: 'short', locale: 'ja-JP' })).toEqual('2012/12/20 12:00')
 })
 
 test('override format options with number function options', () => {
@@ -173,18 +172,14 @@ test('override format options with number function options', () => {
     datetimeFormats
   })
 
-  expect(datetime(ctx, dt, 'short', { year: '2-digit' })).toEqual(
-    '12/19/12, 10:00 PM'
-  )
-  expect(datetime(ctx, dt, 'short', 'ja-JP', { year: '2-digit' })).toEqual(
+  expect(datetime(ctx, dt, 'short', { year: '2-digit' })).toEqual('12/19/12, 10:00 PM')
+  expect(datetime(ctx, dt, 'short', 'ja-JP', { year: '2-digit' })).toEqual('12/12/20 12:00')
+  expect(datetime(ctx, dt, { key: 'short', locale: 'ja-JP' }, { year: '2-digit' })).toEqual(
     '12/12/20 12:00'
   )
-  expect(
-    datetime(ctx, dt, { key: 'short', locale: 'ja-JP' }, { year: '2-digit' })
-  ).toEqual('12/12/20 12:00')
-  expect(
-    datetime(ctx, dt, { key: 'short', locale: 'ja-JP', year: '2-digit' })
-  ).toEqual('12/12/20 12:00')
+  expect(datetime(ctx, dt, { key: 'short', locale: 'ja-JP', year: '2-digit' })).toEqual(
+    '12/12/20 12:00'
+  )
 })
 
 test('fallback', () => {
@@ -244,9 +239,7 @@ test(`datetime function fallbackWarn 'false' option`, () => {
     datetimeFormats
   })
 
-  expect(datetime(ctx, dt, { key: 'long', fallbackWarn: false })).toEqual(
-    '2012/12/20 12:00:00'
-  )
+  expect(datetime(ctx, dt, { key: 'long', fallbackWarn: false })).toEqual('2012/12/20 12:00:00')
   expect(mockWarn).not.toHaveBeenCalled()
 })
 
@@ -265,7 +258,7 @@ describe('context unresolving option', () => {
       datetimeFormats
     })
 
-    expect(datetime(ctx, dt, 'long')).toEqual(NOT_REOSLVED)
+    expect(datetime(ctx, dt, 'long')).toEqual(NOT_RESOLVED)
     expect(mockWarn).not.toHaveBeenCalled()
   })
 
@@ -284,7 +277,7 @@ describe('context unresolving option', () => {
       datetimeFormats
     })
 
-    expect(datetime(ctx, dt, 'custom')).toEqual(NOT_REOSLVED)
+    expect(datetime(ctx, dt, 'custom')).toEqual(NOT_RESOLVED)
     expect(mockWarn).not.toHaveBeenCalled()
   })
 })
@@ -298,9 +291,7 @@ test('part', () => {
     datetimeFormats
   })
 
-  expect(
-    datetime(ctx, dt, { key: 'short', locale: 'ja-JP', part: true })
-  ).toEqual([
+  expect(datetime(ctx, dt, { key: 'short', locale: 'ja-JP', part: true })).toEqual([
     { type: 'year', value: '2012' },
     { type: 'literal', value: '/' },
     { type: 'month', value: '12' },
@@ -349,14 +340,27 @@ describe('error', () => {
       datetime(ctx, '2020-01-01TSomeDefinitelyInvalidString')
     }).toThrowError(errorMessages[CoreErrorCodes.INVALID_ISO_DATE_ARGUMENT])
 
-    expect(() => {
-      datetime(ctx, { someObject: true } as any)
-    }).toThrowError(errorMessages[CoreErrorCodes.INVALID_ARGUMENT])
+    // Non-date/number/string arguments return empty string with warning instead of throwing
+    expect(datetime(ctx, { someObject: true } as any)).toBe('')
+    expect(datetime(ctx, undefined as any)).toBe('')
+    expect(datetime(ctx, null as any)).toBe('')
+    expect(mockWarn).toHaveBeenCalled()
 
     expect(() => {
       datetime(ctx, new Date('invalid'))
     }).toThrowError(errorMessages[CoreErrorCodes.INVALID_DATE_ARGUMENT])
   })
-})
 
-/* eslint-enable @typescript-eslint/no-empty-function, @typescript-eslint/no-explicit-any */
+  test('locale with ! suffix should not break datetime formatting', () => {
+    const mockWarn = vi.spyOn(shared, 'warn')
+    mockWarn.mockImplementation(() => {})
+    const mockAvailabilities = Availabilities
+    mockAvailabilities.dateTimeFormat = true
+    const ctx = context({
+      locale: 'en-US!',
+      datetimeFormats
+    })
+    // Should not throw RangeError for locale with ! suffix
+    expect(() => datetime(ctx, new Date())).not.toThrow()
+  })
+})
