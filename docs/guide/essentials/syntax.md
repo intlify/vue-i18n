@@ -378,6 +378,24 @@ As result the below:
 A backslash followed by a character that is not a special character is treated as a literal backslash. For example, `\n` in a message remains as `\n` (backslash + n), not a newline.
 :::
 
+## Usage in `<script setup>`
+
+In `<script setup>` (Composition API), destructure `t` from `useI18n()` instead of using `$t`:
+
+```vue
+<script setup>
+import { useI18n } from 'vue-i18n'
+
+const { t } = useI18n()
+</script>
+
+<template>
+  <p>{{ t('message.hello', { msg: 'hello' }) }}</p>
+</template>
+```
+
+For more advanced usage (local scope messages, isolated scope for composables), see the [Composition API guide](../advanced/composition.md).
+
 ## HTML Message
 
 You can localize it with messages that contain HTML.

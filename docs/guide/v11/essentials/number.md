@@ -84,6 +84,25 @@ As result the below:
 <p>12,145,000,000</p>
 ```
 
+## Usage in `<script setup>`
+
+In `<script setup>` (Composition API), destructure `n` from `useI18n()` instead of using `$n`:
+
+```vue
+<script setup>
+import { useI18n } from 'vue-i18n'
+
+const { n } = useI18n()
+</script>
+
+<template>
+  <p>{{ n(10000, 'currency') }}</p>
+  <p>{{ n(10000, 'currency', 'ja-JP') }}</p>
+</template>
+```
+
+For more advanced usage, see the [Composition API guide](/guide/advanced/composition.md).
+
 ## Custom Formatting
 
 `$n` returns resulting string with fully formatted number, which can only be used as a whole. In situations when you need to style some part of the formatted number (like fraction digits), `$n` is not enough. In such cases NumberFormat component (`i18n-n`) will be of help.
