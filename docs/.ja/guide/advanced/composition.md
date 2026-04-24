@@ -487,6 +487,80 @@ If you do not want to inherit the locale from the global scope, the `inheritLoca
 Changes to the `locale` at the local scope have **no effect on the global scope locale, but only within the local scope**.
 :::
 
+## Isolated scope
+
+:::tip NOTE
+Isolated スコープは v11.4 以降でサポートされます。**Composition API モードのみ** で利用可能です（`legacy: false`）。
+:::
+
+Isolated スコープは、コンポーネントに **紐付かない** 独立した Composer インスタンスを作成します。これは、コンポーネントの local スコープと衝突せずに、独自の翻訳メッセージを持つ composable 内で `useI18n` を使いたい場合に便利です。
+
+### Isolated スコープが必要な理由
+
+コンポーネントと composable の両方が local スコープで `useI18n` を呼ぶと、1 コンポーネントに対して 1 つの local スコープしか許されないため、2 回目の呼び出しが衝突します。Isolated スコープは以下のような Composer を作成することでこの問題を解決します：
+
+- コンポーネントに **登録されない** （重複検知の対象外）
+- 子コンポーネントに **伝播しない**
+- SFC i18n カスタムブロックを **マージしない**
+- 親/グローバルスコープからロケールを **継承する**（デフォルト）
+- 翻訳キーが見つからない場合は親/グローバルスコープに **フォールバックする**
+
+### composable での使用例
+
+<!-- eslint-skip -->
+
+```ts
+// useProjectStatus.ts
+import { computed } from 'vue'
+import { useI18n } from 'vue-i18n'
+
+export function useProjectStatus(project) {
+  const { t } = useI18n({
+    useScope: 'isolated',
+    messages: {
+      en: { active: 'Active', inactive: 'Inactive' },
+      ja: { active: '稼働中', inactive: '停止中' }
+    }
+  })
+
+  return computed(() => project.isActive ? t('active') : t('inactive'))
+}
+```
+
+<!-- eslint-skip -->
+
+```vue
+<!-- MyComponent.vue -->
+<script setup>
+import { useI18n } from 'vue-i18n'
+import { useProjectStatus } from './useProjectStatus'
+
+// コンポーネントの local スコープ
+const { t } = useI18n({
+  messages: {
+    en: { title: 'Project Dashboard' },
+    ja: { title: 'プロジェクトダッシュボード' }
+  }
+})
+
+// isolated スコープを使った composable — 衝突しない！
+const status = useProjectStatus(project)
+</script>
+
+<template>
+  <h1>{{ t('title') }}</h1>
+  <p>{{ status }}</p>
+</template>
+```
+
+:::tip NOTE
+Isolated スコープはデフォルトでグローバルスコープからロケールを継承します。グローバルロケールが変更されると、isolated スコープのロケールも自動的に更新されます。この動作を無効にするには `inheritLocale: false` を設定してください。
+:::
+
+:::warning NOTICE
+Isolated スコープは Composition API モード（`legacy: false`）が必要です。Legacy API モードで `useI18n({ useScope: 'isolated' })` を呼ぶとエラーがスローされます。
+:::
+
 ## Mapping between VueI18n instance and Composer instance
 
 The API offered by the Composer instance in the Composition API is very similar interface to the API provided by the VueI18n instance.
