@@ -11,9 +11,11 @@ import {
 import {
   InjectionKey,
   effectScope,
+  getCurrentScope,
   inject,
   isRef,
   onMounted,
+  onScopeDispose,
   onUnmounted
 } from 'vue'
 import { createComposer } from './composer'
@@ -303,7 +305,7 @@ export interface I18nInternal<
  *
  * @VueI18nGeneral
  */
-export type I18nScope = 'local' | 'parent' | 'global'
+export type I18nScope = 'local' | 'parent' | 'global' | 'isolated'
 
 /**
  * I18n Options for `useI18n`
@@ -774,6 +776,69 @@ export function useI18n<
       }
       composer = gl as unknown as Composer
     }
+    return composer as unknown as Composer<
+      Messages,
+      DateTimeFormats,
+      NumberFormats,
+      OptionLocale
+    >
+  }
+
+  // Isolated scope - independent composer not tied to component
+  if (scope === 'isolated') {
+    // Composition API mode only
+    if (i18n.mode !== 'composition') {
+      throw createI18nError(I18nErrorCodes.NOT_AVAILABLE_COMPOSITION_IN_LEGACY)
+    }
+
+    const i18nInternalIso = i18n as unknown as I18nInternal
+    const composerOptions = assign({}, options) as ComposerOptions &
+      ComposerInternalOptions
+
+    // Find parent composer via parent chain (or fall back to global)
+    const parentComposer = getComposer(i18n, instance)
+    composerOptions.__root = parentComposer || gl
+
+    const composer = createComposer(composerOptions) as Composer
+
+    // ComposerExtend hook
+    if (i18nInternalIso.__composerExtend) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      ;(composer as any)[DisposeSymbol] =
+        i18nInternalIso.__composerExtend(composer)
+    }
+
+    // Setup devtools emitter (no target.__VUE_I18N__ attachment -
+    // multiple isolated composers per component are allowed)
+    let emitter: VueDevToolsEmitter | null = null
+    if ((__DEV__ || __FEATURE_PROD_VUE_DEVTOOLS__) && !__NODE_JS__) {
+      emitter = createEmitter<VueDevToolsEmitterEvents>()
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const _composer = composer as any
+      _composer[EnableEmitter] && _composer[EnableEmitter](emitter)
+      emitter.on('*', addTimelineEvent)
+    }
+
+    // Lifecycle cleanup via onScopeDispose
+    const currentScope = getCurrentScope()
+    if (currentScope) {
+      onScopeDispose(() => {
+        if ((__DEV__ || __FEATURE_PROD_VUE_DEVTOOLS__) && !__NODE_JS__) {
+          emitter && emitter.off('*', addTimelineEvent)
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          const _composer = composer as any
+          _composer[DisableEmitter] && _composer[DisableEmitter]()
+        }
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const dispose = (composer as any)[DisposeSymbol]
+        if (dispose) {
+          dispose()
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          delete (composer as any)[DisposeSymbol]
+        }
+      })
+    }
+
     return composer as unknown as Composer<
       Messages,
       DateTimeFormats,
