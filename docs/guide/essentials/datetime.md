@@ -73,6 +73,25 @@ As result the below:
 <p>2017年4月19日(水) 午前2:19</p>
 ```
 
+## Usage in `<script setup>`
+
+In `<script setup>` (Composition API), destructure `d` from `useI18n()` instead of using `$d`:
+
+```vue
+<script setup>
+import { useI18n } from 'vue-i18n'
+
+const { d } = useI18n()
+</script>
+
+<template>
+  <p>{{ d(new Date(), 'short') }}</p>
+  <p>{{ d(new Date(), 'long', 'ja-JP') }}</p>
+</template>
+```
+
+For more advanced usage, see the [Composition API guide](../advanced/composition.md).
+
 ## Custom Formatting
 
 `$d` returns resulting string with fully formatted datetime, which can only be used as a whole. In situations when you need to style some part of the formatted datetime (like fraction digits), `$d` is not enough. In such cases DatetimeFormat component (`i18n-d`) will be of help.

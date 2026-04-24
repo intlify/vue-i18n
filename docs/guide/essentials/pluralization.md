@@ -65,6 +65,28 @@ As result the below:
 <p>10 apples</p>
 ```
 
+## Usage in `<script setup>`
+
+In `<script setup>` (Composition API), destructure `t` from `useI18n()` — the same function handles pluralization:
+
+```vue
+<script setup>
+import { useI18n } from 'vue-i18n'
+
+const { t } = useI18n()
+</script>
+
+<template>
+  <p>{{ t('car', 1) }}</p>
+  <p>{{ t('car', 2) }}</p>
+  <p>{{ t('apple', 0) }}</p>
+  <p>{{ t('apple', 1) }}</p>
+  <p>{{ t('apple', { count: 10 }) }}</p>
+</template>
+```
+
+For more advanced usage, see the [Composition API guide](../advanced/composition.md).
+
 ## Predefined implicit arguments
 
 You don’t need to explicitly give the number for pluralization.

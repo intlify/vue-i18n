@@ -6,6 +6,10 @@ This is the documentation for **Vue I18n v11**. If you are using v12 or later, s
 
 Vue I18n can use message format syntax to localize the messages to be displayed in the UI. Vue I18n messages are interpolations and messages with various feature syntax.
 
+:::tip NOTE
+The examples in this section use `$t` in templates, which is available via global injection (enabled by default). You can also use `t()` from `useI18n()` in your `<script setup>` for the same functionality.
+:::
+
 ## Interpolations
 
 Vue I18n supports interpolation using placeholders `{}` like "Mustache".
@@ -415,6 +419,24 @@ As result, the below:
 ```html
 <p>hello world</p>
 ```
+
+## Usage in `<script setup>`
+
+In `<script setup>` (Composition API), destructure `t` from `useI18n()` instead of using `$t`:
+
+```vue
+<script setup>
+import { useI18n } from 'vue-i18n'
+
+const { t } = useI18n()
+</script>
+
+<template>
+  <p>{{ t('message.hello', { msg: 'hello' }) }}</p>
+</template>
+```
+
+For more advanced usage (local scope messages, isolated scope for composables), see the [Composition API guide](/guide/advanced/composition.md).
 
 ## HTML Message
 
