@@ -71,15 +71,11 @@ test('join', () => {
 
 describe('escapeHtml', () => {
   test('escape `<` and `>`', () => {
-    expect(escapeHtml('<div>test</div>')).toBe(
-      '&lt;div&gt;test&lt;&#x2F;div&gt;'
-    )
+    expect(escapeHtml('<div>test</div>')).toBe('&lt;div&gt;test&lt;&#x2F;div&gt;')
   })
 
   test('escape quotes', () => {
-    expect(escapeHtml(`"double" and 'single'`)).toBe(
-      '&quot;double&quot; and &apos;single&apos;'
-    )
+    expect(escapeHtml(`"double" and 'single'`)).toBe('&quot;double&quot; and &apos;single&apos;')
   })
 
   test('escape `&` correctly', () => {
@@ -94,9 +90,7 @@ describe('escapeHtml', () => {
 
   test('escape `=` for preventing attribute injection', () => {
     expect(escapeHtml('onerror=alert(1)')).toBe('onerror&#x3D;alert(1)')
-    expect(escapeHtml('src=x onerror=alert(1)')).toBe(
-      'src&#x3D;x onerror&#x3D;alert(1)'
-    )
+    expect(escapeHtml('src=x onerror=alert(1)')).toBe('src&#x3D;x onerror&#x3D;alert(1)')
   })
 
   test('prevent img `onerror` attack', () => {
@@ -146,9 +140,7 @@ describe('sanitizeTranslatedHtml', () => {
   test('escape dangerous characters in attribute values', () => {
     const html = '<div title="<script>alert(1)</script>">Test</div>'
     const result = sanitizeTranslatedHtml(html)
-    expect(result).toBe(
-      '<div title="&lt;script&gt;alert(1)&lt;/script&gt;">Test</div>'
-    )
+    expect(result).toBe('<div title="&lt;script&gt;alert(1)&lt;/script&gt;">Test</div>')
   })
 
   test('handle class attribute with normal values', () => {
@@ -160,17 +152,13 @@ describe('sanitizeTranslatedHtml', () => {
   test('escape dangerous characters in class attribute', () => {
     const html = '<div class="normal&quot; onclick=&quot;alert(1)">Test</div>'
     const result = sanitizeTranslatedHtml(html)
-    expect(result).toBe(
-      '<div class="normal&quot; &#111;nclick=&quot;alert(1)">Test</div>'
-    )
+    expect(result).toBe('<div class="normal&quot; &#111;nclick=&quot;alert(1)">Test</div>')
   })
 
   test('handle class attribute with script tags', () => {
     const html = '<div class="<script>alert(1)</script>">Test</div>'
     const result = sanitizeTranslatedHtml(html)
-    expect(result).toBe(
-      '<div class="&lt;script&gt;alert(1)&lt;/script&gt;">Test</div>'
-    )
+    expect(result).toBe('<div class="&lt;script&gt;alert(1)&lt;/script&gt;">Test</div>')
   })
 
   test('handle multiple attributes including class', () => {
@@ -199,56 +187,41 @@ describe('sanitizeTranslatedHtml', () => {
   test('handle id attribute with dangerous characters', () => {
     const html = '<div id="test&quot; onclick=&quot;alert(1)">Test</div>'
     const result = sanitizeTranslatedHtml(html)
-    expect(result).toBe(
-      '<div id="test&quot; &#111;nclick=&quot;alert(1)">Test</div>'
-    )
+    expect(result).toBe('<div id="test&quot; &#111;nclick=&quot;alert(1)">Test</div>')
   })
 
   test('handle id attribute with script injection', () => {
     const html = '<div id="<script>alert(1)</script>">Test</div>'
     const result = sanitizeTranslatedHtml(html)
-    expect(result).toBe(
-      '<div id="&lt;script&gt;alert(1)&lt;/script&gt;">Test</div>'
-    )
+    expect(result).toBe('<div id="&lt;script&gt;alert(1)&lt;/script&gt;">Test</div>')
   })
 
   test('handle style attribute with dangerous characters', () => {
-    const html =
-      '<div style="color: red&quot; onclick=&quot;alert(1)">Test</div>'
+    const html = '<div style="color: red&quot; onclick=&quot;alert(1)">Test</div>'
     const result = sanitizeTranslatedHtml(html)
-    expect(result).toBe(
-      '<div style="color: red&quot; &#111;nclick=&quot;alert(1)">Test</div>'
-    )
+    expect(result).toBe('<div style="color: red&quot; &#111;nclick=&quot;alert(1)">Test</div>')
   })
 
   test('handle style attribute with javascript URL', () => {
     const html = '<div style="background: url(javascript:alert(1))">Test</div>'
     const result = sanitizeTranslatedHtml(html)
-    expect(result).toBe(
-      '<div style="background: url(javascript&#58;alert(1))">Test</div>'
-    )
+    expect(result).toBe('<div style="background: url(javascript&#58;alert(1))">Test</div>')
   })
 
   test('handle style attribute with javascript URL with spaces', () => {
-    const html =
-      '<div style="background: url( javascript:alert(1) )">Test</div>'
+    const html = '<div style="background: url( javascript:alert(1) )">Test</div>'
     const result = sanitizeTranslatedHtml(html)
-    expect(result).toBe(
-      '<div style="background: url( javascript&#58;alert(1) )">Test</div>'
-    )
+    expect(result).toBe('<div style="background: url( javascript&#58;alert(1) )">Test</div>')
   })
 
   test('handle style attribute with uppercase JavaScript URL', () => {
     const html = '<div style="background: url(JAVASCRIPT:alert(1))">Test</div>'
     const result = sanitizeTranslatedHtml(html)
-    expect(result).toBe(
-      '<div style="background: url(javascript&#58;alert(1))">Test</div>'
-    )
+    expect(result).toBe('<div style="background: url(javascript&#58;alert(1))">Test</div>')
   })
 
   test('handle multiple dangerous attributes including id and style', () => {
-    const html =
-      '<div id="test&gt;" style="color: red" class="btn" onclick="alert(1)">Test</div>'
+    const html = '<div id="test&gt;" style="color: red" class="btn" onclick="alert(1)">Test</div>'
     const result = sanitizeTranslatedHtml(html)
     expect(result).toContain('id="test&gt;"')
     expect(result).toContain('style="color: red"')
@@ -259,27 +232,20 @@ describe('sanitizeTranslatedHtml', () => {
   test('handle formaction attribute with javascript URL', () => {
     const html = '<button formaction="javascript:alert(1)">Submit</button>'
     const result = sanitizeTranslatedHtml(html)
-    expect(result).toBe(
-      '<button formaction="javascript&#58;alert(1)">Submit</button>'
-    )
+    expect(result).toBe('<button formaction="javascript&#58;alert(1)">Submit</button>')
   })
 
   test('handle data attributes with javascript URL', () => {
-    const html =
-      '<div data-href="javascript:alert(1)" data-value="safe">Test</div>'
+    const html = '<div data-href="javascript:alert(1)" data-value="safe">Test</div>'
     const result = sanitizeTranslatedHtml(html)
     // data-* attributes are not sanitized as they don't execute directly
-    expect(result).toBe(
-      '<div data-href="javascript:alert(1)" data-value="safe">Test</div>'
-    )
+    expect(result).toBe('<div data-href="javascript:alert(1)" data-value="safe">Test</div>')
   })
 
   test('handle srcdoc attribute', () => {
     const html = '<iframe srcdoc="<script>alert(1)</script>">Test</iframe>'
     const result = sanitizeTranslatedHtml(html)
-    expect(result).toBe(
-      '<iframe srcdoc="&lt;script&gt;alert(1)&lt;/script&gt;">Test</iframe>'
-    )
+    expect(result).toBe('<iframe srcdoc="&lt;script&gt;alert(1)&lt;/script&gt;">Test</iframe>')
   })
 
   test('handle attribute values without quotes', () => {
@@ -291,18 +257,14 @@ describe('sanitizeTranslatedHtml', () => {
   test('handle mixed quote styles', () => {
     const html = `<div title='test" onclick="alert(1)'>Test</div>`
     const result = sanitizeTranslatedHtml(html)
-    expect(result).toBe(
-      `<div title='test&quot; &#111;nclick=&quot;alert(1)'>Test</div>`
-    )
+    expect(result).toBe(`<div title='test&quot; &#111;nclick=&quot;alert(1)'>Test</div>`)
   })
 
   test('handle HTML entities in attribute values', () => {
     const html = '<div title="&lt;script&gt;alert(1)&lt;/script&gt;">Test</div>'
     const result = sanitizeTranslatedHtml(html)
     // Already escaped entities should remain as is
-    expect(result).toBe(
-      '<div title="&lt;script&gt;alert(1)&lt;/script&gt;">Test</div>'
-    )
+    expect(result).toBe('<div title="&lt;script&gt;alert(1)&lt;/script&gt;">Test</div>')
   })
 
   test('handle nested quotes in attributes', () => {
@@ -315,8 +277,7 @@ describe('sanitizeTranslatedHtml', () => {
 
   // Accessibility (a11y) attributes tests
   test('handle aria-label with dangerous characters', () => {
-    const html =
-      '<button aria-label="Click to <script>alert(1)</script>">Button</button>'
+    const html = '<button aria-label="Click to <script>alert(1)</script>">Button</button>'
     const result = sanitizeTranslatedHtml(html)
     expect(result).toBe(
       '<button aria-label="Click to &lt;script&gt;alert(1)&lt;/script&gt;">Button</button>'
@@ -326,31 +287,23 @@ describe('sanitizeTranslatedHtml', () => {
   test('handle aria-describedby with quotes', () => {
     const html = `<input aria-describedby="desc&quot; onclick=&quot;alert(1)" />`
     const result = sanitizeTranslatedHtml(html)
-    expect(result).toBe(
-      '<input aria-describedby="desc&quot; &#111;nclick=&quot;alert(1)" />'
-    )
+    expect(result).toBe('<input aria-describedby="desc&quot; &#111;nclick=&quot;alert(1)" />')
   })
 
   test('handle role attribute with dangerous characters', () => {
     const html = '<div role="button&quot; onclick=&quot;alert(1)">Click</div>'
     const result = sanitizeTranslatedHtml(html)
-    expect(result).toBe(
-      '<div role="button&quot; &#111;nclick=&quot;alert(1)">Click</div>'
-    )
+    expect(result).toBe('<div role="button&quot; &#111;nclick=&quot;alert(1)">Click</div>')
   })
 
   test('handle tabindex attribute', () => {
-    const html =
-      '<div tabindex="0&quot; onclick=&quot;alert(1)">Focusable</div>'
+    const html = '<div tabindex="0&quot; onclick=&quot;alert(1)">Focusable</div>'
     const result = sanitizeTranslatedHtml(html)
-    expect(result).toBe(
-      '<div tabindex="0&quot; &#111;nclick=&quot;alert(1)">Focusable</div>'
-    )
+    expect(result).toBe('<div tabindex="0&quot; &#111;nclick=&quot;alert(1)">Focusable</div>')
   })
 
   test('handle alt attribute with dangerous content', () => {
-    const html =
-      '<img src="test.jpg" alt="Image of <script>alert(1)</script>" />'
+    const html = '<img src="test.jpg" alt="Image of <script>alert(1)</script>" />'
     const result = sanitizeTranslatedHtml(html)
     expect(result).toBe(
       '<img src="test.jpg" alt="Image of &lt;script&gt;alert(1)&lt;/script&gt;" />'
@@ -360,35 +313,27 @@ describe('sanitizeTranslatedHtml', () => {
   test('handle title attribute with dangerous content', () => {
     const html = '<abbr title="<img src=x onerror=alert(1)>">XSS</abbr>'
     const result = sanitizeTranslatedHtml(html)
-    expect(result).toBe(
-      '<abbr title="&lt;img src=x &#111;nerror=alert(1)&gt;">XSS</abbr>'
-    )
+    expect(result).toBe('<abbr title="&lt;img src=x &#111;nerror=alert(1)&gt;">XSS</abbr>')
   })
 
   test('handle multiple a11y attributes with dangerous content', () => {
     const html =
       '<button aria-label="<script>alert(1)</script>" role="button&quot; onclick=&quot;alert(1)" tabindex="0">Click</button>'
     const result = sanitizeTranslatedHtml(html)
-    expect(result).toContain(
-      'aria-label="&lt;script&gt;alert(1)&lt;/script&gt;"'
-    )
+    expect(result).toContain('aria-label="&lt;script&gt;alert(1)&lt;/script&gt;"')
     expect(result).toContain('role="button&quot;')
     expect(result).toContain('&#111;nclick=')
     expect(result).toContain('tabindex="0"')
   })
 
   test('handle aria-hidden attribute', () => {
-    const html =
-      '<div aria-hidden="true&quot; onclick=&quot;alert(1)">Hidden</div>'
+    const html = '<div aria-hidden="true&quot; onclick=&quot;alert(1)">Hidden</div>'
     const result = sanitizeTranslatedHtml(html)
-    expect(result).toBe(
-      '<div aria-hidden="true&quot; &#111;nclick=&quot;alert(1)">Hidden</div>'
-    )
+    expect(result).toBe('<div aria-hidden="true&quot; &#111;nclick=&quot;alert(1)">Hidden</div>')
   })
 
   test('handle aria-live attribute', () => {
-    const html =
-      '<div aria-live="polite" aria-label="Status: <b>Active</b>">Status</div>'
+    const html = '<div aria-live="polite" aria-label="Status: <b>Active</b>">Status</div>'
     const result = sanitizeTranslatedHtml(html)
     expect(result).toBe(
       '<div aria-live="polite" aria-label="Status: &lt;b&gt;Active&lt;/b&gt;">Status</div>'

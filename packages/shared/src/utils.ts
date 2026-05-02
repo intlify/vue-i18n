@@ -109,7 +109,7 @@ export function escapeHtml(rawText: string): string {
 
 function escapeAttributeValue(value: string): string {
   return value
-    .replace(/&(?![a-zA-Z0-9#]{2,6};)/g, '&amp;') // escape unescaped `&`
+    .replace(/&(?![a-z0-9#]{2,6};)/gi, '&amp;') // escape unescaped `&`
     .replace(/"/g, '&quot;')
     .replace(/'/g, '&apos;')
     .replace(/</g, '&lt;')
@@ -121,15 +121,13 @@ export function sanitizeTranslatedHtml(html: string): string {
   // Process attributes with double quotes
   html = html.replace(
     /(\w+)\s*=\s*"([^"]*)"/g,
-    (_, attrName, attrValue) =>
-      `${attrName}="${escapeAttributeValue(attrValue)}"`
+    (_, attrName, attrValue) => `${attrName}="${escapeAttributeValue(attrValue)}"`
   )
 
   // Process attributes with single quotes
   html = html.replace(
     /(\w+)\s*=\s*'([^']*)'/g,
-    (_, attrName, attrValue) =>
-      `${attrName}='${escapeAttributeValue(attrValue)}'`
+    (_, attrName, attrValue) => `${attrName}='${escapeAttributeValue(attrValue)}'`
   )
 
   // Detect and neutralize event handler attributes
@@ -142,13 +140,13 @@ export function sanitizeTranslatedHtml(html: string): string {
       )
     }
     // Neutralize event handler attributes by escaping 'on'
-    html = html.replace(/(\s+)(on)(\w+\s*=)/gi, '$1&#111;n$3')
+    html = html.replace(/(\s+)on(\w+\s*=)/gi, '$1&#111;n$2')
   }
 
   // Disable javascript: URLs in various contexts
   const javascriptUrlPattern = [
     // In href, src, action, formaction attributes
-    /(\s+(?:href|src|action|formaction)\s*=\s*["']?)\s*javascript:/gi,
+    /(\s+(?:href|src|action|formaction)\s*=\s*(?:["']\s*)?)javascript:/gi,
     // In style attributes within url()
     /(style\s*=\s*["'][^"']*url\s*\(\s*)javascript:/gi
   ]

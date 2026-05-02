@@ -876,9 +876,7 @@ describe('escapeParameter', () => {
       url: '" onclick="alert(1)"'
     })
 
-    expect(result2).toEqual(
-      'Click <a href="&quot; onclick&#x3D;&quot;alert(1)&quot;">here</a>'
-    )
+    expect(result2).toEqual('Click <a href="&quot; onclick&#x3D;&quot;alert(1)&quot;">here</a>')
 
     // `onclick` attribute should be escaped
     expect(result2).not.toContain('onclick=')
