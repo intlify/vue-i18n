@@ -73,7 +73,7 @@ export const TranslationImpl: ComponentOptions<TranslationProps> = /* #__PURE__*
           options.plural = isString(props.plural) ? +props.plural : props.plural
         }
         const arg = getInterpolateArg(context, keys)
-         
+
         return (i18n as any)[TranslateVNodeSymbol](props.keypath, arg, options)
       }
       const assignedAttrs = assign(create(), attrs)
