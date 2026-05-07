@@ -58,27 +58,27 @@ export const TranslationImpl = /*#__PURE__*/ defineComponent({
       }) as unknown as Composer & ComposerInternal)
 
     return (): VNodeChild => {
-      const keys = Object.keys(slots).filter(key => key[0] !== '_')
-      const options = create() as TranslateOptions
-      if (props.locale) {
-        options.locale = props.locale
+      const renderChildren = (): VNodeChild => {
+        const keys = Object.keys(slots).filter(key => key[0] !== '_')
+        const options = create() as TranslateOptions
+        if (props.locale) {
+          options.locale = props.locale
+        }
+        if (props.plural !== undefined) {
+          options.plural = isString(props.plural) ? +props.plural : props.plural
+        }
+        const arg = getInterpolateArg(context, keys)
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        return (i18n as any)[TranslateVNodeSymbol](props.keypath, arg, options)
       }
-      if (props.plural !== undefined) {
-        options.plural = isString(props.plural) ? +props.plural : props.plural
-      }
-      const arg = getInterpolateArg(context, keys)
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const children = (i18n as any)[TranslateVNodeSymbol](
-        props.keypath,
-        arg,
-        options
-      )
       const assignedAttrs = assign(create(), attrs)
       const tag =
         isString(props.tag) || isObject(props.tag)
           ? props.tag
           : getFragmentableTag()
-      return h(tag, assignedAttrs, children)
+      return isObject(tag)
+        ? h(tag, assignedAttrs, { default: renderChildren })
+        : h(tag, assignedAttrs, renderChildren())
     }
   }
 })

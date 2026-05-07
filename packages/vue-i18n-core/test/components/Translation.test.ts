@@ -242,6 +242,9 @@ test('component', async () => {
   expect(wrapper.html()).toEqual(
     `<p class="name">hello, <span>kazupon</span>!</p>`
   )
+  expect(spy).not.toHaveBeenCalledWith(
+    expect.stringContaining('Non-function value encountered for default slot')
+  )
 })
 
 test('message resolver', async () => {
