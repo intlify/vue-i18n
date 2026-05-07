@@ -6,7 +6,13 @@ import { BaseFormatPropsValidators } from './base'
 import { getFragmentableTag, getInterpolateArg } from './utils'
 
 import type { TranslateOptions } from '@intlify/core-base'
-import type { ComponentOptions, SetupContext, VNodeChild, VNodeProps } from 'vue'
+import type {
+  ComponentOptions,
+  SetupContext,
+  VNodeArrayChildren,
+  VNodeChild,
+  VNodeProps
+} from 'vue'
 import type { Composer, ComposerInternal } from '../composer'
 import type { BaseFormatProps } from './base'
 
@@ -57,20 +63,24 @@ export const TranslationImpl: ComponentOptions<TranslationProps> = /* #__PURE__*
       }) as unknown as Composer & ComposerInternal)
 
     return (): VNodeChild => {
-      const keys = Object.keys(slots).filter(key => key[0] !== '_')
-      const options = create() as TranslateOptions
-      if (props.locale) {
-        options.locale = props.locale
-      }
-      if (props.plural !== undefined) {
-        options.plural = isString(props.plural) ? +props.plural : props.plural
-      }
-      const arg = getInterpolateArg(context, keys)
+      const renderChildren = (): VNodeArrayChildren => {
+        const keys = Object.keys(slots).filter(key => key[0] !== '_')
+        const options = create() as TranslateOptions
+        if (props.locale) {
+          options.locale = props.locale
+        }
+        if (props.plural !== undefined) {
+          options.plural = isString(props.plural) ? +props.plural : props.plural
+        }
+        const arg = getInterpolateArg(context, keys)
 
-      const children = (i18n as any)[TranslateVNodeSymbol](props.keypath, arg, options)
+        return (i18n as any)[TranslateVNodeSymbol](props.keypath, arg, options)
+      }
       const assignedAttrs = assign(create(), attrs)
       const tag = isString(props.tag) || isObject(props.tag) ? props.tag : getFragmentableTag()
-      return h(tag, assignedAttrs, children)
+      return isObject(tag)
+        ? h(tag, assignedAttrs, { default: renderChildren })
+        : h(tag, assignedAttrs, renderChildren())
     }
   }
 })
