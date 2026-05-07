@@ -60,44 +60,47 @@ export function renderFormatter<
   const { slots, attrs } = context
 
   return (): VNodeChild => {
-    const options = { part: true } as Arg
-    let overrides = create() as FormatOverrideOptions
+    const renderChildren = (): VNodeArrayChildren => {
+      const options = { part: true } as Arg
+      let overrides = create() as FormatOverrideOptions
 
-    if (props.locale) {
-      options.locale = props.locale
-    }
-
-    if (isString(props.format)) {
-      options.key = props.format
-    } else if (isObject(props.format)) {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      if (isString((props.format as any).key)) {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        options.key = (props.format as any).key
+      if (props.locale) {
+        options.locale = props.locale
       }
-      // Filter out number format options only
-      overrides = Object.keys(props.format).reduce((options, prop) => {
-        return slotKeys.includes(prop)
-          ? assign(create(), options, { [prop]: (props.format as any)[prop] }) // eslint-disable-line @typescript-eslint/no-explicit-any
-          : options
-      }, create())
-    }
 
-    const parts = partFormatter(...[props.value, options, overrides])
-    let children = [options.key] as VNodeArrayChildren
-    if (isArray(parts)) {
-      children = parts.map((part, index) => {
-        const slot = slots[part.type]
-        const node = slot
-          ? slot({ [part.type]: part.value, index, parts })
-          : [part.value]
-        if (isVNode(node)) {
-          node[0].key = `${part.type}-${index}`
+      if (isString(props.format)) {
+        options.key = props.format
+      } else if (isObject(props.format)) {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        if (isString((props.format as any).key)) {
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          options.key = (props.format as any).key
         }
-        return node
-      })
-    } else if (isString(parts)) {
-      children = [parts]
+        // Filter out number format options only
+        overrides = Object.keys(props.format).reduce((options, prop) => {
+          return slotKeys.includes(prop)
+            ? assign(create(), options, { [prop]: (props.format as any)[prop] }) // eslint-disable-line @typescript-eslint/no-explicit-any
+            : options
+        }, create())
+      }
+
+      const parts = partFormatter(...[props.value, options, overrides])
+      let children = [options.key] as VNodeArrayChildren
+      if (isArray(parts)) {
+        children = parts.map((part, index) => {
+          const slot = slots[part.type]
+          const node = slot
+            ? slot({ [part.type]: part.value, index, parts })
+            : [part.value]
+          if (isVNode(node)) {
+            node[0].key = `${part.type}-${index}`
+          }
+          return node
+        })
+      } else if (isString(parts)) {
+        children = [parts]
+      }
+      return children
     }
 
     const assignedAttrs = assign(create(), attrs)
@@ -105,6 +108,8 @@ export function renderFormatter<
       isString(props.tag) || isObject(props.tag)
         ? props.tag
         : getFragmentableTag()
-    return h(tag, assignedAttrs, children)
+    return isObject(tag)
+      ? h(tag, assignedAttrs, { default: renderChildren })
+      : h(tag, assignedAttrs, renderChildren())
   }
 }
