@@ -80,7 +80,7 @@ export function renderFormatter<
         children = parts.map((part, index) => {
           const slot = slots[part.type]
           const node = slot ? slot({ [part.type]: part.value, index, parts }) : [part.value]
-          if (isVNode(node)) {
+          if (isVNode(node) && node.length > 0 && node[0]) {
             node[0].key = `${part.type}-${index}`
           }
           return node
