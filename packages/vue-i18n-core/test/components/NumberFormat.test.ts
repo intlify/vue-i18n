@@ -136,4 +136,7 @@ test('component', async () => {
   expect(wrapper.html()).toEqual(
     `<span>100</span><span>$100.00</span><span>￥100</span>`
   )
+  expect(spy).not.toHaveBeenCalledWith(
+    expect.stringContaining('Non-function value encountered for default slot')
+  )
 })
