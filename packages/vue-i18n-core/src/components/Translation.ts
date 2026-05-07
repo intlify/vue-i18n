@@ -6,7 +6,7 @@ import { baseFormatProps } from './base'
 import { getFragmentableTag, getInterpolateArg } from './utils'
 
 import type { TranslateOptions } from '@intlify/core-base'
-import type { VNodeChild, VNodeProps } from 'vue'
+import type { VNodeArrayChildren, VNodeChild, VNodeProps } from 'vue'
 import type { Composer, ComposerInternal } from '../composer'
 import type { BaseFormatProps } from './base'
 
@@ -58,7 +58,7 @@ export const TranslationImpl = /*#__PURE__*/ defineComponent({
       }) as unknown as Composer & ComposerInternal)
 
     return (): VNodeChild => {
-      const renderChildren = (): VNodeChild => {
+      const renderChildren = (): VNodeArrayChildren => {
         const keys = Object.keys(slots).filter(key => key[0] !== '_')
         const options = create() as TranslateOptions
         if (props.locale) {
