@@ -79,7 +79,7 @@ jobs:
           npx tsx ./scripts/postprocess.ts
 
       - name: Cache dist
-        uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4.3.0
+        uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
         with:
           path: packages/*/dist
           key: build-vue-i18n-os-${{ matrix.os }}-${{ github.sha }}
@@ -150,7 +150,7 @@ jobs:
         run: pnpm playwright-core install chromium
 
       - name: Restore dist cache
-        uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4.3.0
+        uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
         with:
           path: packages/*/dist
           key: build-vue-i18n-os-${{ matrix.os }}-${{ github.sha }}
