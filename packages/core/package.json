@@ -37,7 +37,7 @@
     "@intlify/shared": "workspace:*"
   },
   "engines": {
-    "node": ">= 16"
+    "node": ">= 22"
   },
   "buildOptions": {
     "name": "IntlifyCore",

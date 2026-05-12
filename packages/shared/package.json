@@ -30,7 +30,7 @@
   "module": "dist/shared.mjs",
   "types": "dist/shared.d.ts",
   "engines": {
-    "node": ">= 16"
+    "node": ">= 22"
   },
   "buildOptions": {
     "name": "IntlifyShared",
