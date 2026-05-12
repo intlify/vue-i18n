@@ -182,11 +182,16 @@
       "secretlint"
     ]
   },
-  "packageManager": "pnpm@9.0.4",
+  "packageManager": "pnpm@10.33.2",
   "pnpm": {
     "overrides": {
       "vue": "3.6.0-alpha.4",
       "vite": "^6.0.0"
-    }
+    },
+    "onlyBuiltDependencies": [
+      "esbuild",
+      "fsevents",
+      "vue-demi"
+    ]
   }
 }
