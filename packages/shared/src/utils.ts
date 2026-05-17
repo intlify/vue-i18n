@@ -116,18 +116,91 @@ function escapeAttributeValue(value: string): string {
     .replace(/>/g, '&gt;')
 }
 
+const javascriptSchemePattern = /^\s*javascript\s*(?::|&#0*58;?|&#x0*3a;?|&colon;?)/i
+const urlAttributePattern = /^(?:href|src|action|formaction)$/i
+
+function hasJavascriptScheme(value: string): boolean {
+  return javascriptSchemePattern.test(value)
+}
+
+function sanitizeStyleValue(value: string): string {
+  const urlPattern = /url\s*\(/gi
+  let sanitized = ''
+  let cursor = 0
+  let match: RegExpExecArray | null
+
+  while ((match = urlPattern.exec(value)) !== null) {
+    const urlStart = match.index
+    const openParenIndex = urlPattern.lastIndex - 1
+    let index = openParenIndex + 1
+    let depth = 1
+    let quote: '"' | "'" | null = null
+
+    for (; index < value.length; index++) {
+      const char = value[index]
+
+      if (quote) {
+        if (char === quote) {
+          quote = null
+        }
+        continue
+      }
+
+      if (char === '"' || char === "'") {
+        quote = char
+      } else if (char === '(') {
+        depth++
+      } else if (char === ')') {
+        depth--
+        if (depth === 0) {
+          break
+        }
+      }
+    }
+
+    if (depth !== 0) {
+      break
+    }
+
+    const rawUrlValue = value.slice(openParenIndex + 1, index).trim()
+    const unquotedUrlValue =
+      (rawUrlValue.startsWith('"') && rawUrlValue.endsWith('"')) ||
+      (rawUrlValue.startsWith("'") && rawUrlValue.endsWith("'"))
+        ? rawUrlValue.slice(1, -1).trim()
+        : rawUrlValue
+
+    sanitized += value.slice(cursor, urlStart)
+    sanitized += hasJavascriptScheme(unquotedUrlValue)
+      ? 'url(about:blank)'
+      : value.slice(urlStart, index + 1)
+    cursor = index + 1
+  }
+
+  return sanitized + value.slice(cursor)
+}
+
+function sanitizeAttributeValue(attrName: string, value: string): string {
+  if (urlAttributePattern.test(attrName) && hasJavascriptScheme(value)) {
+    return 'about:blank'
+  }
+
+  const sanitizedValue = attrName.toLowerCase() === 'style' ? sanitizeStyleValue(value) : value
+
+  return escapeAttributeValue(sanitizedValue)
+}
+
 export function sanitizeTranslatedHtml(html: string): string {
   // Escape dangerous characters in attribute values
   // Process attributes with double quotes
   html = html.replace(
-    /(\w+)\s*=\s*"([^"]*)"/g,
-    (_, attrName, attrValue) => `${attrName}="${escapeAttributeValue(attrValue)}"`
+    /([\w:-]+)\s*=\s*"([^"]*)"/g,
+    (_, attrName, attrValue) => `${attrName}="${sanitizeAttributeValue(attrName, attrValue)}"`
   )
 
   // Process attributes with single quotes
   html = html.replace(
-    /(\w+)\s*=\s*'([^']*)'/g,
-    (_, attrName, attrValue) => `${attrName}='${escapeAttributeValue(attrValue)}'`
+    /([\w:-]+)\s*=\s*'([^']*)'/g,
+    (_, attrName, attrValue) => `${attrName}='${sanitizeAttributeValue(attrName, attrValue)}'`
   )
 
   // Detect and neutralize event handler attributes
@@ -143,17 +216,11 @@ export function sanitizeTranslatedHtml(html: string): string {
     html = html.replace(/(\s+)on(\w+\s*=)/gi, '$1&#111;n$2')
   }
 
-  // Disable javascript: URLs in various contexts
-  const javascriptUrlPattern = [
-    // In href, src, action, formaction attributes
-    /(\s+(?:href|src|action|formaction)\s*=\s*(?:["']\s*)?)javascript:/gi,
-    // In style attributes within url()
-    /(style\s*=\s*["'][^"']*url\s*\(\s*)javascript:/gi
-  ]
-
-  javascriptUrlPattern.forEach(pattern => {
-    html = html.replace(pattern, '$1javascript&#58;')
-  })
+  // Disable javascript: URLs in unquoted attributes
+  html = html.replace(
+    /(\s+(?:href|src|action|formaction)\s*=\s*)([^\s"'=<>`]+)/gi,
+    (match, prefix, attrValue) => (hasJavascriptScheme(attrValue) ? `${prefix}about:blank` : match)
+  )
 
   return html
 }

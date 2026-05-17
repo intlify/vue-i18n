@@ -492,7 +492,7 @@ t('message.welcome', { name: userInput })
 
 // With escape parameter (SAFE):
 t('message.welcome', { name: userInput }, { escapeParameter: true })
-// Result: Welcome <strong>&lt;img src=x &#111;nerror=alert(1)&gt;</strong>!
+// Result: Welcome <strong>&lt;img src&#x3D;x onerror&#x3D;alert(1)&gt;</strong>!
 ```
 
 :::warning IMPORTANT

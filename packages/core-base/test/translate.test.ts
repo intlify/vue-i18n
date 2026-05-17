@@ -868,8 +868,8 @@ describe('escapeParameter', () => {
       url: 'javascript:alert(1)'
     })
 
-    // with the fix, javascript: URL scheme is neutralized
-    expect(result).toEqual('Click <a href="javascript&#58;alert(1)">here</a>')
+    // with the fix, javascript: URLs are replaced with a non-executable value
+    expect(result).toEqual('Click <a href="about:blank">here</a>')
 
     // another attack vector with quotes
     const result2 = translate(ctx, 'message', {
