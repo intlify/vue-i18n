@@ -1,5 +1,6 @@
 {
   "extends": ["config:recommended", ":preserveSemverRanges"],
+  "baseBranches": ["master", "v11"],
   "labels": ["Type: Dependency"],
   "automerge": true,
   "ignoreDeps": [
