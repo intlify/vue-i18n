@@ -27,7 +27,7 @@ on:
         required: false
         default: ''
       target_branch:
-        description: 'Override target branch for changelog commit. Empty = auto-detect.'
+        description: Override target branch for changelog commit. Empty = auto-detect.
         type: string
         required: false
         default: ''
@@ -186,5 +186,5 @@ jobs:
         uses: stefanzweifel/git-auto-commit-action@04702edda442b2e678b25b537cec683a1493fcb9 # v7.1.0
         with:
           branch: ${{ steps.branch.outputs.name }}
-          file_pattern: 'CHANGELOG.md'
+          file_pattern: CHANGELOG.md
           commit_message: 'chore: sync changelog'
