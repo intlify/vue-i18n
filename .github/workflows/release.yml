@@ -6,64 +6,185 @@ on:
       - '**'
     tags:
       - 'v*'
+  workflow_dispatch:
+    inputs:
+      job:
+        description: Which job to run
+        type: choice
+        required: true
+        default: all
+        options:
+          - all
+          - npm-publish
+          - release-notes
+      tag:
+        description: Existing tag to release (e.g. v12.0.0-alpha.4). Required.
+        type: string
+        required: true
+      dist_tag:
+        description: 'Override npm dist-tag (e.g. latest, next, v11-latest). Empty = auto-detect.'
+        type: string
+        required: false
+        default: ''
+      target_branch:
+        description: Override target branch for changelog commit. Empty = auto-detect.
+        type: string
+        required: false
+        default: ''
+
 env:
+  TAG: ${{ github.event_name == 'workflow_dispatch' && inputs.tag || github.ref_name }}
   NODE_OPTIONS: --max-old-space-size=6144
-permissions:
-  id-token: write
-  contents: write
+  # 現行 latest dist-tag を担うメジャー。v12 安定版リリース時に 12 に更新する。
+  # Repository Variables (vars.LATEST_MAJOR) で上書き可能。
+  LATEST_MAJOR: ${{ vars.LATEST_MAJOR || '11' }}
+  # master ブランチで開発中のメジャー。v13 開発開始時に 13 に更新する。
+  # Repository Variables (vars.MAIN_BRANCH_MAJOR) で上書き可能。
+  MAIN_BRANCH_MAJOR: ${{ vars.MAIN_BRANCH_MAJOR || '12' }}
+
+permissions: {}
 
 jobs:
-  release:
+  npm-publish:
+    if: >-
+      github.event_name == 'push' ||
+      (github.event_name == 'workflow_dispatch' &&
+        (inputs.job == 'all' || inputs.job == 'npm-publish'))
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write # OIDC trusted publisher 認証 + provenance
     steps:
       - name: Checkout
-        # zizmor: ignore[artipacked] needs persisted credentials so that
-        # stefanzweifel/git-auto-commit-action can push the changelog commit.
-        uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
+        uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd # v5.0.1
         with:
-          ref: ${{ github.head_ref }}
+          ref: ${{ env.TAG }}
+          persist-credentials: false
 
       - name: Install pnpm
-        uses: pnpm/action-setup@a7487c7e89a18df4991f7f222e4898a00d66ddda # v4.1.0
+        uses: pnpm/action-setup@41ff72655975bd51cab0327fa583b6e92b6d3061 # v4.2.0
 
       - name: Setup Node
         uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5.0.0
         with:
           node-version: 24
-          cache: pnpm
+          registry-url: https://registry.npmjs.org
 
       - name: Install dependencies
-        run: pnpm install --no-frozen-lockfile
+        run: pnpm install --frozen-lockfile
 
-      - name: Extract version tag
-        if: startsWith( github.ref, 'refs/tags/v' )
-        uses: jungwinter/split@7f51d99e7cc1f147f6f99be75acf5e641930af88 # v2.1.0
-        id: split
+      - name: Build (types)
+        run: pnpm build:type
+
+      - name: Determine dist-tag
+        id: dist
+        env:
+          INPUT_DIST_TAG: ${{ inputs.dist_tag }}
+        run: |
+          if [[ -n "$INPUT_DIST_TAG" ]]; then
+            echo "tag=$INPUT_DIST_TAG" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          MAJOR=$(echo "$TAG" | sed -nE 's/^v([0-9]+)\..*/\1/p')
+          if [[ "$TAG" =~ -[a-z] ]]; then
+            if [[ "$MAJOR" == "$LATEST_MAJOR" || "$MAJOR" == "$MAIN_BRANCH_MAJOR" ]]; then
+              echo "tag=next" >> "$GITHUB_OUTPUT"
+            else
+              echo "tag=v${MAJOR}-next" >> "$GITHUB_OUTPUT"
+            fi
+          else
+            if [[ "$MAJOR" == "$LATEST_MAJOR" ]]; then
+              echo "tag=latest" >> "$GITHUB_OUTPUT"
+            else
+              echo "tag=v${MAJOR}-latest" >> "$GITHUB_OUTPUT"
+            fi
+          fi
+
+      - name: Publish packages to npm
+        # OIDC trusted publisher で認証（id-token: write 必須、secret 不要）。
+        # provenance は OIDC 経由で自動付与される。
+        run: |
+          for PKG in packages/*; do
+            [[ -d "$PKG" ]] || continue
+            case "$PKG" in
+              packages/size-*|packages/format-explorer) continue ;;
+            esac
+            echo "Publishing $PKG with tag $DIST_TAG"
+            (cd "$PKG" && pnpm publish --access public --no-git-checks --provenance --tag "$DIST_TAG")
+          done
+        env:
+          DIST_TAG: ${{ steps.dist.outputs.tag }}
+
+  release-notes:
+    needs: [npm-publish]
+    if: >-
+      always() && (
+        (github.event_name == 'push' &&
+          needs.npm-publish.result == 'success') ||
+        (github.event_name == 'workflow_dispatch' && inputs.job == 'release-notes') ||
+        (github.event_name == 'workflow_dispatch' && inputs.job == 'all' &&
+          needs.npm-publish.result == 'success')
+      )
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write # Release 作成 + CHANGELOG push
+    steps:
+      - name: Determine target branch
+        id: branch
+        env:
+          INPUT_TARGET_BRANCH: ${{ inputs.target_branch }}
+        run: |
+          if [[ -n "$INPUT_TARGET_BRANCH" ]]; then
+            echo "name=$INPUT_TARGET_BRANCH" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          MAJOR=$(echo "$TAG" | sed -nE 's/^v([0-9]+)\..*/\1/p')
+          if [[ "$MAJOR" == "$MAIN_BRANCH_MAJOR" ]]; then
+            echo "name=master" >> "$GITHUB_OUTPUT"
+          else
+            echo "name=v${MAJOR}" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Checkout target branch
+        # zizmor: ignore[artipacked] needs persisted credentials so that
+        # stefanzweifel/git-auto-commit-action can push the changelog commit.
+        uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd # v5.0.1
         with:
-          msg: ${{ github.ref }}
-          separator: '/'
+          ref: ${{ steps.branch.outputs.name }}
+          fetch-depth: 0
 
-      - name: Create Github Release
-        run: gh release create "$TAG" --generate-notes
+      - name: Determine release flags
+        id: rel
+        run: |
+          MAJOR=$(echo "$TAG" | sed -nE 's/^v([0-9]+)\..*/\1/p')
+          if [[ "$TAG" =~ -[a-z] ]]; then
+            echo "flags=--prerelease" >> "$GITHUB_OUTPUT"
+          elif [[ "$MAJOR" == "$LATEST_MAJOR" ]]; then
+            echo "flags=--latest" >> "$GITHUB_OUTPUT"
+          else
+            echo "flags=--latest=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Create GitHub Release (skip if exists)
+        run: |
+          if gh release view "$TAG" >/dev/null 2>&1; then
+            echo "Release $TAG already exists, skipping creation"
+          else
+            # shellcheck disable=SC2086
+            gh release create "$TAG" --generate-notes $RELEASE_FLAGS
+          fi
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          TAG: ${{ steps.split.outputs._2 }}
+          RELEASE_FLAGS: ${{ steps.rel.outputs.flags }}
 
       - name: Generate changelog
         run: npx gh-changelogen --repo=intlify/vue-i18n --tag="$TAG"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          TAG: ${{ steps.split.outputs._2 }}
 
       - name: Commit changelog
-        uses: stefanzweifel/git-auto-commit-action@8756aa072ef5b4a080af5dc8fef36c5d586e521d # v5.0.0
+        uses: stefanzweifel/git-auto-commit-action@04702edda442b2e678b25b537cec683a1493fcb9 # v7.1.0
         with:
-          branch: v11
-          file_pattern: '*.md'
+          branch: ${{ steps.branch.outputs.name }}
+          file_pattern: CHANGELOG.md
           commit_message: 'chore: sync changelog'
-
-      - name: Publish package
-        run: |
-          ./scripts/release.sh
-        env:
-          NPM_AUTH_TOKEN: ${{secrets.NPM_AUTH_TOKEN}}
