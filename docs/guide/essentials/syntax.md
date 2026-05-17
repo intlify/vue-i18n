@@ -439,3 +439,62 @@ As result, the below:
 <!--<br> exists but is rendered as html and not a string-->
 world</p>
 ```
+
+### Using the escapeParameter option
+
+To help mitigate XSS risks when using HTML messages, Vue I18n provides the `escapeParameter` option. When enabled, this option escapes interpolation parameters and sanitizes the final translated HTML.
+
+Enable it globally via `createI18n`:
+
+```js
+const i18n = createI18n({
+  locale: 'en',
+  escapeParameter: true,
+  messages: {
+    en: {
+      message: {
+        welcome: 'Welcome <strong>{name}</strong>!'
+      }
+    }
+  }
+})
+```
+
+Or enable it per translation:
+
+```vue
+<script setup>
+import { useI18n } from 'vue-i18n'
+
+const { t } = useI18n()
+
+const greeting = t('message.welcome', { name: userInput }, { escapeParameter: true })
+</script>
+```
+
+#### How it works
+
+When the `escapeParameter` option is enabled:
+- HTML special characters (`<`, `>`, `"`, `'`, `&`, `/`, `=`) in interpolation parameters are escaped
+- The final translated HTML is sanitized to prevent XSS attacks:
+  - Dangerous characters in HTML attribute values are escaped
+  - Event handler attributes (`onclick`, `onerror`, etc.) are neutralized
+  - JavaScript URLs in `href`, `src`, `action`, `formaction`, and `style` attributes are disabled
+
+#### Example
+
+```js
+const userInput = '<img src=x onerror=alert(1)>'
+
+// Without escape parameter (DANGEROUS):
+t('message.welcome', { name: userInput })
+// Result: Welcome <strong><img src=x onerror=alert(1)></strong>!
+
+// With escape parameter (SAFE):
+t('message.welcome', { name: userInput }, { escapeParameter: true })
+// Result: Welcome <strong>&lt;img src&#x3D;x onerror&#x3D;alert(1)&gt;</strong>!
+```
+
+:::warning IMPORTANT
+Even with the `escapeParameter` option enabled, you should still be cautious about using HTML in translations. Always validate and sanitize user input before using it in translations, and prefer [Component interpolation](../advanced/component) when possible.
+:::
