@@ -15,6 +15,7 @@ import {
   isString,
   mark,
   measure,
+  sanitizeTranslatedHtml,
   warn
 } from '@intlify/shared'
 import { isMessageAST } from './ast'
@@ -148,7 +149,16 @@ export interface TranslateOptions<Locales = Locale> extends LocaleOptions<Locale
   fallbackWarn?: boolean
   /**
    * @remarks
-   * Whether do escape parameter for list or named interpolation values
+   * Whether to escape parameters for list or named interpolation values.
+   * When enabled, this option:
+   * - Escapes HTML special characters (`<`, `>`, `"`, `'`, `&`, `/`, `=`) in interpolation parameters
+   * - Sanitizes the final translated HTML to prevent XSS attacks by:
+   *   - Escaping dangerous characters in HTML attribute values
+   *   - Neutralizing event handler attributes (onclick, onerror, etc.)
+   *   - Disabling javascript: URLs in href, src, action, formaction, and style attributes
+   *
+   * @defaultValue false
+   * @see [HTML Message - Using the escapeParameter option](https://vue-i18n.intlify.dev/guide/essentials/syntax.html#using-the-escapeparameter-option)
    */
   escapeParameter?: boolean
   /**
@@ -695,9 +705,14 @@ export function translate<Context extends CoreContext<Message, {}, {}, {}>, Mess
 
   // prettier-ignore
   // if use post translation option, proceed it with handler
-  const ret = context.postTranslation
+  let ret = context.postTranslation
     ? context.postTranslation(messaged, key as string)
     : messaged
+
+  // apply HTML sanitization for security
+  if (escapeParameter && isString(ret)) {
+    ret = sanitizeTranslatedHtml(ret) as MessageFunctionReturn<Message>
+  }
 
   return ret
 }
