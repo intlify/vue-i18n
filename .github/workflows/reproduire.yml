@@ -4,6 +4,7 @@ on:
     types: [labeled]
 
 permissions:
+  contents: read
   issues: write
 
 jobs:
@@ -14,6 +15,7 @@ jobs:
         uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
         with:
           fetch-depth: 0
+          persist-credentials: false
       - uses: Hebilicious/reproduire@4b686ae9cbb72dad60f001d278b6e3b2ce40a9ac # v0.0.9-mp
         with:
           label: 'Status: Need More Info' # Optional, will default to this value.
