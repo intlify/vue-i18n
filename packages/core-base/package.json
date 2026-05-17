@@ -28,7 +28,7 @@
     "access": "public"
   },
   "engines": {
-    "node": ">= 16"
+    "node": ">= 22"
   },
   "type": "module",
   "sideEffects": false,

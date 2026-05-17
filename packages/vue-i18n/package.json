@@ -26,7 +26,7 @@
   ],
   "homepage": "https://github.com/intlify/vue-i18n/tree/master/packages/vue-i18n#readme",
   "engines": {
-    "node": ">= 16"
+    "node": ">= 22"
   },
   "type": "module",
   "sideEffects": false,
