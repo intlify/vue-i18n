@@ -17,6 +17,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
+        # zizmor: ignore[artipacked] needs persisted credentials so that
+        # stefanzweifel/git-auto-commit-action can push the changelog commit.
         uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd # v5.0.1
         with:
           ref: ${{ github.head_ref }}
@@ -41,14 +43,16 @@ jobs:
           separator: '/' # eslint-disable-line yml/plain-scalar
 
       - name: Create Github Release
-        run: gh release create ${{ steps.split.outputs._2 }} --generate-notes
+        run: gh release create "$TAG" --generate-notes
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TAG: ${{ steps.split.outputs._2 }}
 
       - name: Generate changelog
-        run: npx gh-changelogen --repo=intlify/vue-i18n --tag=${{ steps.split.outputs._2 }}
+        run: npx gh-changelogen --repo=intlify/vue-i18n --tag="$TAG"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TAG: ${{ steps.split.outputs._2 }}
 
       - name: Commit changelog
         uses: stefanzweifel/git-auto-commit-action@04702edda442b2e678b25b537cec683a1493fcb9 # v7.1.0
