@@ -444,8 +444,9 @@ world</p>
 
 To help mitigate XSS risks when using HTML messages, Vue I18n provides the `escapeParameter` option. When enabled, this option escapes interpolation parameters and sanitizes the final translated HTML.
 
+Enable it globally via `createI18n`:
+
 ```js
-// enable `escapeParameter` globally
 const i18n = createI18n({
   locale: 'en',
   escapeParameter: true,
@@ -457,10 +458,18 @@ const i18n = createI18n({
     }
   }
 })
+```
 
-// or enable it per translation
+Or enable it per translation:
+
+```vue
+<script setup>
+import { useI18n } from 'vue-i18n'
+
 const { t } = useI18n()
-t('message.welcome', { name: userInput }, { escapeParameter: true })
+
+const greeting = t('message.welcome', { name: userInput }, { escapeParameter: true })
+</script>
 ```
 
 #### How it works
