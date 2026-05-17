@@ -1,7 +1,7 @@
 {
   "name": "@intlify/devtools-types",
   "description": "@intlify/devtools-types",
-  "version": "12.0.0-alpha.3",
+  "version": "12.0.0-alpha.4",
   "author": {
     "name": "kazuya kawaguchi",
     "email": "kawakazu80@gmail.com"
