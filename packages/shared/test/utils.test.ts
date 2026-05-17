@@ -1,4 +1,5 @@
 import { vi } from 'vitest'
+import { JSDOM } from 'jsdom'
 
 // Mock the warn function before importing anything else
 vi.mock('../src/warn', () => ({
@@ -140,7 +141,23 @@ describe('sanitizeTranslatedHtml', () => {
   test('neutralize javascript URLs', () => {
     const html = '<a href="javascript:alert(1)">Click</a>'
     const result = sanitizeTranslatedHtml(html)
-    expect(result).toBe('<a href="javascript&#58;alert(1)">Click</a>')
+    expect(result).toBe('<a href="about:blank">Click</a>')
+  })
+
+  test('neutralize entity-encoded javascript URLs', () => {
+    const html = '<a href="javascript&#58;alert(1)">Click</a>'
+    const result = sanitizeTranslatedHtml(html)
+    expect(result).toBe('<a href="about:blank">Click</a>')
+  })
+
+  test('keep javascript URLs inert after DOM parsing', () => {
+    const html = '<a href="javascript:alert(1)">Click</a>'
+    const result = sanitizeTranslatedHtml(html)
+    const dom = new JSDOM(result)
+
+    expect(dom.window.document.querySelector('a')?.getAttribute('href')).toBe(
+      'about:blank'
+    )
   })
 
   test('escape dangerous characters in attribute values', () => {
@@ -224,26 +241,27 @@ describe('sanitizeTranslatedHtml', () => {
   test('handle style attribute with javascript URL', () => {
     const html = '<div style="background: url(javascript:alert(1))">Test</div>'
     const result = sanitizeTranslatedHtml(html)
-    expect(result).toBe(
-      '<div style="background: url(javascript&#58;alert(1))">Test</div>'
-    )
+    expect(result).toBe('<div style="background: url(about:blank)">Test</div>')
   })
 
   test('handle style attribute with javascript URL with spaces', () => {
     const html =
       '<div style="background: url( javascript:alert(1) )">Test</div>'
     const result = sanitizeTranslatedHtml(html)
-    expect(result).toBe(
-      '<div style="background: url( javascript&#58;alert(1) )">Test</div>'
-    )
+    expect(result).toBe('<div style="background: url(about:blank)">Test</div>')
   })
 
   test('handle style attribute with uppercase JavaScript URL', () => {
     const html = '<div style="background: url(JAVASCRIPT:alert(1))">Test</div>'
     const result = sanitizeTranslatedHtml(html)
-    expect(result).toBe(
+    expect(result).toBe('<div style="background: url(about:blank)">Test</div>')
+  })
+
+  test('handle style attribute with entity-encoded javascript URL', () => {
+    const html =
       '<div style="background: url(javascript&#58;alert(1))">Test</div>'
-    )
+    const result = sanitizeTranslatedHtml(html)
+    expect(result).toBe('<div style="background: url(about:blank)">Test</div>')
   })
 
   test('handle multiple dangerous attributes including id and style', () => {
@@ -259,9 +277,7 @@ describe('sanitizeTranslatedHtml', () => {
   test('handle formaction attribute with javascript URL', () => {
     const html = '<button formaction="javascript:alert(1)">Submit</button>'
     const result = sanitizeTranslatedHtml(html)
-    expect(result).toBe(
-      '<button formaction="javascript&#58;alert(1)">Submit</button>'
-    )
+    expect(result).toBe('<button formaction="about:blank">Submit</button>')
   })
 
   test('handle data attributes with javascript URL', () => {
