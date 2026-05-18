@@ -77,7 +77,7 @@ jobs:
           path: ./size-report.md
 
       - name: Create Comment
-        uses: actions-cool/maintain-one-comment@4b2dbf086015f892dcb5e8c1106f5fccd6c1476b # v3.2.0
+        uses: actions-cool/maintain-one-comment@7f6120bb10c870b9fde146961a18e5bf0b3d4401 # v3.3.0
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           number: ${{ steps.pr-number.outputs.content }}
