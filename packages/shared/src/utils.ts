@@ -28,6 +28,7 @@ if (__DEV__) {
       perf.measure(name, startTag, endTag)
       perf.clearMarks(startTag)
       perf.clearMarks(endTag)
+      perf.clearMeasures(name)
     }
   }
 }
