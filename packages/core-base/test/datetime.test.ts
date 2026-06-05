@@ -313,6 +313,20 @@ test('part', () => {
   ])
 })
 
+test('part without key', () => {
+  const mockAvailabilities = Availabilities
+  mockAvailabilities.dateTimeFormat = true
+
+  const ctx = context({
+    locale: 'en-US',
+    datetimeFormats
+  })
+
+  expect(
+    datetime(ctx, dt, { year: 'numeric', timeZone: 'UTC', part: true })
+  ).toEqual([{ type: 'year', value: '2012' }])
+})
+
 test('not available Intl API', () => {
   const mockWarn = vi.spyOn(shared, 'warn')
   mockWarn.mockImplementation(() => {})
