@@ -267,6 +267,22 @@ test('part', () => {
   ])
 })
 
+test('part without key', () => {
+  const mockAvailabilities = Availabilities
+  mockAvailabilities.numberFormat = true
+
+  const ctx = context({
+    locale: 'en-US',
+    numberFormats
+  })
+
+  expect(number(ctx, 1000, { useGrouping: true, part: true })).toEqual([
+    { type: 'integer', value: '1' },
+    { type: 'group', value: ',' },
+    { type: 'integer', value: '000' }
+  ])
+})
+
 test('not available Intl API', () => {
   const mockWarn = vi.spyOn(shared, 'warn')
   mockWarn.mockImplementation(() => {})
