@@ -6,6 +6,8 @@
 
 With v12, Legacy API mode has been completely removed. The `legacy` option in `createI18n` is no longer available, and all applications must use Composition API mode.
 
+This only removes Vue I18n's Legacy API mode. It does **not** mean that every Vue component must be rewritten as `<script setup>` or Composition API-only component code. Vue Options API components can still use Vue I18n v12 by adding Vue's `setup()` option, calling `useI18n()` there, and returning the Composer APIs that the rest of the component needs.
+
 ### What's removed
 
 - `legacy: true` option in `createI18n`
@@ -102,12 +104,14 @@ export default {
 </script>
 ```
 
+The `setup()` option is the bridge between a Vue Options API component and Vue I18n's Composition API. Call `useI18n()` at the top level of `setup()` and return the Composer properties or functions you want to use in the template, `computed`, `methods`, watchers, or lifecycle hooks.
+
 ### Migration
 
 1. Remove `legacy: true` option from `createI18n`
 2. Change locale access from `i18n.global.locale` to `i18n.global.locale.value`
-3. Replace `this.$i18n` usage with `useI18n()` in setup function
-4. Replace `this.$t()` with `t()` from `useI18n()`
+3. Replace `this.$i18n` usage that depended on the `VueI18n` instance with `useI18n()` in the `setup()` function
+4. For component-local translations or Composer APIs in Options API code, return `t()`, `d()`, `n()`, `locale`, etc. from `setup()`
 
 For detailed migration guide, see:
 - [Migration from Legacy API mode to Composition API mode](https://vue-i18n.intlify.dev/guide/migration/vue3.html)
@@ -115,9 +119,9 @@ For detailed migration guide, see:
 
 ### Detailed migration guide
 
-#### Template `$t` / `$d` / `$n` usage
+#### Global `$t` / `$d` / `$n` usage
 
-In v12, `$t()`, `$d()`, `$n()`, `$rt()`, `$tm()`, `$te()` remain available in templates when `globalInjection: true` (the default). These reference the **global scope** Composer. For component-local scope, use `t()` from `useI18n()`.
+In v12, `$t()`, `$d()`, `$n()`, `$rt()`, `$tm()`, `$te()` remain available when `globalInjection: true` (the default). These are injected into Vue components from `app.config.globalProperties` and reference the **global scope** Composer. For component-local scope, use `t()` from `useI18n()`.
 
 ```html
 <!-- v12: $t is still available in templates (global scope) -->
@@ -126,7 +130,13 @@ In v12, `$t()`, `$d()`, `$n()`, `$rt()`, `$tm()`, `$te()` remain available in te
 </template>
 ```
 
-However, `this.$t()` in JavaScript code (`methods`, `computed`, `watch`, lifecycle hooks) is no longer available. You must use `useI18n()` in `setup()` instead.
+You can still use globally injected `$t()` / `$d()` / `$n()` from templates and Options API instance code such as `methods` or `computed`. However, global injection only gives access to the global scope. If the component needs local messages, local datetime or number formats, or Composer methods that are not exposed through global injection, call `useI18n()` in `setup()` instead.
+
+:::warning NOTICE
+`useI18n()` must be called at the top level of `setup()`. Do not call it directly from `methods`, `computed`, watchers, or lifecycle hooks.
+:::
+
+When you need to migrate Options API code away from the legacy `VueI18n` instance, expose the Composer API from `setup()` and use the returned bindings from the rest of the component:
 
 **Before (v11):**
 
@@ -186,32 +196,57 @@ onMounted(() => {
 
 ```js
 import { useI18n } from 'vue-i18n'
-import { watch, onMounted, computed } from 'vue'
 
 export default {
+  props: {
+    user: {
+      type: String,
+      required: true
+    },
+    lang: {
+      type: String,
+      default: 'en'
+    }
+  },
+
   setup() {
     const { t, d, n, locale } = useI18n()
 
-    function greet() {
-      return t('hello')
+    return {
+      t,
+      d,
+      n,
+      i18nLocale: locale
     }
+  },
 
-    const message = computed(() => t('welcome', { name: user.value }))
+  computed: {
+    message() {
+      return this.t('welcome', { name: this.user })
+    }
+  },
 
-    watch(lang, (val) => {
-      locale.value = val
-    })
+  watch: {
+    lang(val) {
+      this.i18nLocale = val
+    }
+  },
 
-    onMounted(() => {
-      console.log(t('ready'))
-      console.log(d(new Date(), 'long'))
-      console.log(n(1000, 'currency'))
-    })
+  methods: {
+    greet() {
+      return this.t('hello')
+    }
+  },
 
-    return { t, d, n, locale, greet, message }
+  mounted() {
+    console.log(this.t('ready'))
+    console.log(this.d(new Date(), 'long'))
+    console.log(this.n(1000, 'currency'))
   }
 }
 ```
+
+Properties returned from `setup()` are exposed to the template and to the Options API component instance. Returned refs, such as `locale`, are automatically unwrapped on `this`, so the example above assigns to `this.i18nLocale` instead of `this.i18nLocale.value`.
 
 #### `$i18n` property changes
 
@@ -316,6 +351,28 @@ const { t } = useI18n({
 <template>
   <h1>{{ t('title') }}</h1>
 </template>
+```
+
+If you keep the component written in Options API style, use the same `setup()` bridge:
+
+```js
+import { useI18n } from 'vue-i18n'
+
+export default {
+  setup() {
+    const { t } = useI18n({
+      useScope: 'local',
+      messages: {
+        en: { title: 'My Component' },
+        ja: { title: 'マイコンポーネント' }
+      }
+    })
+
+    return { t }
+  },
+
+  template: '<h1>{{ t("title") }}</h1>'
+}
 ```
 
 **After (v12) - Using SFC `<i18n>` custom block:**
