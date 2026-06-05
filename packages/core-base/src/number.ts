@@ -230,9 +230,8 @@ export function number<
   )
 
   if (!isString(key) || key === '') {
-    return new Intl.NumberFormat(locale.replace(/!/g, ''), overrides).format(
-      value
-    )
+    const formatter = new Intl.NumberFormat(locale.replace(/!/g, ''), overrides)
+    return !part ? formatter.format(value) : formatter.formatToParts(value)
   }
 
   // resolve format
