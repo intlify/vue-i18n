@@ -143,7 +143,7 @@ export function defineMixin(
         throw createI18nError(I18nErrorCodes.UNEXPECTED_ERROR)
       }
 
-      const _vueI18n = this.$i18n as unknown as VueI18nInternal
+      const _vueI18n = this.$i18n as unknown as VueI18nInternal | undefined
 
       /* istanbul ignore if */
       if (
@@ -155,10 +155,15 @@ export function defineMixin(
           this.__v_emitter.off('*', addTimelineEvent)
           delete this.__v_emitter
         }
-        if (this.$i18n) {
+        if (_vueI18n) {
           _vueI18n.__disableEmitter && _vueI18n.__disableEmitter()
           delete instance.__VUE_I18N__
         }
+      }
+
+      // setup-only components skip beforeCreate but still run unmounted
+      if (!_vueI18n) {
+        return
       }
 
       delete this.$t
@@ -168,7 +173,7 @@ export function defineMixin(
       delete this.$n
       delete this.$tm
 
-      if (_vueI18n.__disposer) {
+      if (_vueI18n?.__disposer) {
         _vueI18n.__disposer()
         delete _vueI18n.__disposer
         delete _vueI18n.__extender

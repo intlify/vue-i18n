@@ -1643,6 +1643,73 @@ describe('Composer & VueI18n extend hooking', () => {
   })
 })
 
+describe('legacy mixin unmounted (#2524)', () => {
+  test('should not throw when setup-only component unmounts without $i18n', async () => {
+    const errorHandler = vi.fn()
+    const i18n = createI18n({
+      locale: 'en',
+      messages: { en: { hello: 'hello' } }
+    })
+
+    const SetupOnly = defineComponent({
+      name: 'SetupOnly',
+      setup: () => () => null
+    })
+
+    const Parent = defineComponent({
+      components: { SetupOnly },
+      props: {
+        show: { type: Boolean, default: true }
+      },
+      template: '<SetupOnly v-if="show" />'
+    })
+
+    const { app, setProps } = await mount(Parent, i18n)
+    app.config.errorHandler = errorHandler
+
+    await setProps({ show: false })
+
+    expect(errorHandler).not.toHaveBeenCalled()
+    app.unmount()
+  })
+
+  test('should still dispose local i18n with __disposer on unmount', async () => {
+    const vueI18nDisposeSpy = vi.fn()
+    const vueI18nExtendSpy = vi.fn().mockReturnValue(vueI18nDisposeSpy)
+    const i18n = createI18n({
+      locale: 'en',
+      messages: { en: {} }
+    })
+
+    const Child = defineComponent({
+      i18n: {
+        locale: 'en',
+        messages: { en: { key: 'value' } }
+      },
+      template: '<p>{{ $t("key") }}</p>'
+    })
+
+    const Parent = defineComponent({
+      components: { Child },
+      props: {
+        show: { type: Boolean, default: true }
+      },
+      template: '<Child v-if="show" />'
+    })
+
+    const { app, setProps } = await mount(Parent, i18n, {
+      pluginOptions: {
+        __vueI18nExtend: vueI18nExtendSpy
+      } as any // eslint-disable-line @typescript-eslint/no-explicit-any
+    })
+
+    await setProps({ show: false })
+
+    expect(vueI18nDisposeSpy).toHaveBeenCalled()
+    app.unmount()
+  })
+})
+
 describe('dollar prefixed API (component injections)', () => {
   const mockWarn = vi.spyOn(shared, 'warn')
   // eslint-disable-next-line @typescript-eslint/no-empty-function
