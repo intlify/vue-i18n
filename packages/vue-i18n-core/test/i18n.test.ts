@@ -1658,15 +1658,16 @@ describe('legacy mixin unmounted (#2524)', () => {
 
     const Parent = defineComponent({
       components: { SetupOnly },
-      data: () => ({ show: true }),
+      props: {
+        show: { type: Boolean, default: true }
+      },
       template: '<SetupOnly v-if="show" />'
     })
 
-    const { app, vm } = await mount(Parent, i18n)
+    const { app, setProps } = await mount(Parent, i18n)
     app.config.errorHandler = errorHandler
 
-    vm.show = false
-    await nextTick()
+    await setProps({ show: false })
 
     expect(errorHandler).not.toHaveBeenCalled()
     app.unmount()
@@ -1690,18 +1691,19 @@ describe('legacy mixin unmounted (#2524)', () => {
 
     const Parent = defineComponent({
       components: { Child },
-      data: () => ({ show: true }),
+      props: {
+        show: { type: Boolean, default: true }
+      },
       template: '<Child v-if="show" />'
     })
 
-    const { app, vm } = await mount(Parent, i18n, {
+    const { app, setProps } = await mount(Parent, i18n, {
       pluginOptions: {
         __vueI18nExtend: vueI18nExtendSpy
       } as any // eslint-disable-line @typescript-eslint/no-explicit-any
     })
 
-    vm.show = false
-    await nextTick()
+    await setProps({ show: false })
 
     expect(vueI18nDisposeSpy).toHaveBeenCalled()
     app.unmount()
