@@ -21,6 +21,10 @@ yarn add vue-i18n@11
 pnpm add vue-i18n@11
 ```
 
+```sh [deno]
+deno add vue-i18n@11
+```
+
 :::
 
 When using with a module system, you must explicitly install the `vue-i18n`
