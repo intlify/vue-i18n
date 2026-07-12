@@ -26,3 +26,5 @@ minimumReleaseAgeExclude:
   - '@vitest/expect'
   - '@vitest/utils'
   - '@vitest/coverage-v8'
+  # Renovate security update: vite@7.3.2
+  - vite@7.3.2
