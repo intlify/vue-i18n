@@ -115,7 +115,7 @@
     "magic-string": "^0.30.21",
     "markdown-table": "^3.0.4",
     "mitata": "^1.0.34",
-    "oxc-minify": "^0.110.0",
+    "oxc-minify": "^0.139.0",
     "oxc-parser": "^0.110.0",
     "oxc-transform": "^0.110.0",
     "oxfmt": "^0.34.0",
