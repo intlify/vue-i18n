@@ -104,6 +104,7 @@ test('loose composer', () => {
   expectTypeOf(looseComposer.t(1, { foo: 1 }, { locale: 'en' })).toEqualTypeOf<string>()
   expectTypeOf(looseComposer.t('nest', { foo: 1 }, 'msg')).toEqualTypeOf<string>()
   expectTypeOf(looseComposer.te('errors', 'en')).toEqualTypeOf<boolean>()
+  expectTypeOf<ThisParameterType<typeof looseComposer.te>>().toEqualTypeOf<void>()
   expectTypeOf(looseComposer.tm('nest')).toEqualTypeOf<{ bar: string }>()
   expectTypeOf(looseComposer.tm('errors')).toEqualTypeOf<
     | string

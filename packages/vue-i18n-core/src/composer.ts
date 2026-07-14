@@ -1492,6 +1492,7 @@ export interface Composer<
    * @returns If found locale message, `true`, else `false`, Note that `false` is returned even if the value present in the key is not translatable, yet if `translateExistCompatible` is set to `true`, it will return `true` if the key is available, even if the value is not translatable.
    */
   te<Str extends string, Key extends PickupKeys<Messages> = PickupKeys<Messages>>(
+    this: void,
     key: Str | Key,
     locale?: Locales
   ): boolean
