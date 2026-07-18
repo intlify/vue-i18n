@@ -29,7 +29,7 @@ importers:
         version: link:packages/vue-i18n-core
       '@kazupon/eslint-config':
         specifier: ^0.45.0
-        version: 0.45.0(c252931c061376ab440edef51a77e610)
+        version: 0.45.0(cb2535ea8d868718aa4caa5c740e840c)
       '@kazupon/eslint-plugin':
         specifier: ^0.7.1
         version: 0.7.1(eslint@9.39.3(jiti@2.6.1))
@@ -67,8 +67,8 @@ importers:
         specifier: ^2.21.1
         version: 2.21.1(eslint@9.39.3(jiti@2.6.1))
       eslint-plugin-markdown-preferences:
-        specifier: ^0.41.0
-        version: 0.41.1(@eslint/markdown@7.5.1)(eslint@9.39.3(jiti@2.6.1))
+        specifier: ^0.42.0
+        version: 0.42.0(@eslint/markdown@7.5.1)(eslint@9.39.3(jiti@2.6.1))
       eslint-plugin-module-interop:
         specifier: ^0.3.1
         version: 0.3.1(eslint@9.39.3(jiti@2.6.1))
@@ -5885,8 +5885,8 @@ packages:
     peerDependencies:
       eslint: '>=6.0.0'
 
-  eslint-plugin-markdown-preferences@0.41.1:
-    resolution: {integrity: sha512-Xi4rlT7oBZ8PMGDl7J9khgO2vF9X0F/6ag05/25Vyq7r3llaK95x9D6DpzXidxC2Gagl/e8bp2Hw47r4I3wWSA==}
+  eslint-plugin-markdown-preferences@0.42.0:
+    resolution: {integrity: sha512-LVoGwsRDeLFooaj9OndJrof5OslnQQnZKStP+GX0DMnAt6Nt2tgJzP+URRNXqS54lYnIa0m6pBo7CO1n/utTsw==}
     engines: {node: ^20.19.0 || ^22.12.0 || >=24.0.0}
     peerDependencies:
       '@eslint/markdown': ^7.4.0 || ^8.0.0
@@ -11309,7 +11309,7 @@ snapshots:
       '@jsonjoy.com/codegen': 1.0.0(tslib@2.8.1)
       tslib: 2.8.1
 
-  '@kazupon/eslint-config@0.45.0(c252931c061376ab440edef51a77e610)':
+  '@kazupon/eslint-config@0.45.0(cb2535ea8d868718aa4caa5c740e840c)':
     dependencies:
       '@eslint-community/eslint-plugin-eslint-comments': 4.6.0(eslint@9.39.3(jiti@2.6.1))
       '@eslint/js': 9.39.2
@@ -11327,7 +11327,7 @@ snapshots:
       eslint-import-resolver-typescript: 4.4.4(eslint-plugin-import@2.32.0)(eslint@9.39.3(jiti@2.6.1))
       eslint-plugin-import: 2.32.0(@typescript-eslint/parser@8.56.0(eslint@9.39.3(jiti@2.6.1))(typescript@5.9.3))(eslint-import-resolver-typescript@4.4.4)(eslint@9.39.3(jiti@2.6.1))
       eslint-plugin-jsonc: 2.21.1(eslint@9.39.3(jiti@2.6.1))
-      eslint-plugin-markdown-preferences: 0.41.1(@eslint/markdown@7.5.1)(eslint@9.39.3(jiti@2.6.1))
+      eslint-plugin-markdown-preferences: 0.42.0(@eslint/markdown@7.5.1)(eslint@9.39.3(jiti@2.6.1))
       eslint-plugin-module-interop: 0.3.1(eslint@9.39.3(jiti@2.6.1))
       eslint-plugin-oxlint: 1.49.0
       eslint-plugin-promise: 7.2.1(eslint@9.39.3(jiti@2.6.1))
@@ -14998,7 +14998,7 @@ snapshots:
     transitivePeerDependencies:
       - '@eslint/json'
 
-  eslint-plugin-markdown-preferences@0.41.1(@eslint/markdown@7.5.1)(eslint@9.39.3(jiti@2.6.1)):
+  eslint-plugin-markdown-preferences@0.42.0(@eslint/markdown@7.5.1)(eslint@9.39.3(jiti@2.6.1)):
     dependencies:
       '@eslint/markdown': 7.5.1
       diff-sequences: 29.6.3
@@ -15013,6 +15013,7 @@ snapshots:
       micromark-extension-math: 3.1.0
       micromark-factory-space: 2.0.1
       micromark-util-character: 2.1.1
+      micromark-util-normalize-identifier: 2.0.1
       micromark-util-symbol: 2.0.1
       string-width: 8.1.0
     transitivePeerDependencies:
