@@ -123,7 +123,7 @@
     "oxlint-tsgolint": "^0.25.0",
     "picocolors": "^1.1.1",
     "playwright-core": "^1.58.2",
-    "rolldown": "1.0.1",
+    "rolldown": "1.2.0",
     "rolldown-plugin-dts": "0.21.2",
     "serve-handler": "^6.1.6",
     "tsx": "^4.21.0",
