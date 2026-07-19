@@ -120,7 +120,7 @@
     "oxc-transform": "^0.140.0",
     "oxfmt": "^0.34.0",
     "oxlint": "^1.49.0",
-    "oxlint-tsgolint": "^0.11.5",
+    "oxlint-tsgolint": "^0.25.0",
     "picocolors": "^1.1.1",
     "playwright-core": "^1.58.2",
     "rolldown": "1.0.1",
