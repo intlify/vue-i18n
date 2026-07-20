@@ -701,18 +701,18 @@ test('slot reactivity', async () => {
 
 test('multi instance', async () => {
   const i18n1 = createI18n({
-    locale: 'ja',
+    locale: 'en',
     messages: {
       en: {
-        hello: 'hello!'
+        root: 'A'
       }
     }
   })
   const i18n2 = createI18n({
     locale: 'en',
     messages: {
-      ja: {
-        hello: 'こんにちは！'
+      en: {
+        root: 'B'
       }
     }
   })
@@ -723,19 +723,21 @@ test('multi instance', async () => {
         locale: 'en',
         messages: {
           en: {
-            hello: 'hello!'
+            linked: '@:root'
           }
         }
       })
       return { ...i18n }
     },
-    template: `<p>foo</p>`
+    template: `<p>{{ t('linked') }}</p>`
   })
-  const { app: app1 } = await mount(App, i18n1)
-  const { app: app2 } = await mount(App, i18n2)
+  const { app: app1, html: html1 } = await mount(App, i18n1)
+  const { app: app2, html: html2 } = await mount(App, i18n2)
 
   expect(app1.__VUE_I18N_SYMBOL__).not.toEqual(app2.__VUE_I18N_SYMBOL__)
   expect(i18n1.global).not.toEqual(i18n2.global)
+  expect(html1()).toEqual('<p>A</p>')
+  expect(html2()).toEqual('<p>B</p>')
 })
 
 test('merge useI18n resources to global scope', async () => {
