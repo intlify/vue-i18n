@@ -40,6 +40,7 @@ import type { VueDevToolsEmitter, VueDevToolsEmitterEvents } from '@intlify/devt
 import type { App, EffectScope, InjectionKey } from 'vue'
 import type {
   Composer,
+  ComposerInternalInstance,
   ComposerInternalOptions,
   ComposerOptions,
   CustomBlocks,
@@ -156,7 +157,7 @@ export interface ComposerEntry<
   NumberFormats extends Record<string, unknown> = {},
   OptionLocale = Locale
 > {
-  composer: Composer<Messages, DateTimeFormats, NumberFormats, OptionLocale>
+  composer: ComposerInternalInstance<Messages, DateTimeFormats, NumberFormats, OptionLocale>
   label: string
 }
 
@@ -260,7 +261,8 @@ export const I18nInjectionKey: InjectionKey<I18n> | string =
  *
  * @internal
  */
-const I18nComposerKey: InjectionKey<Composer> = /* #__PURE__*/ Symbol('vue-i18n-composer')
+const I18nComposerKey: InjectionKey<ComposerInternalInstance> =
+  /* #__PURE__*/ Symbol('vue-i18n-composer')
 
 export function createI18n<
   Options extends I18nOptions = I18nOptions,
@@ -422,8 +424,7 @@ export function createI18n(options: any = {}): any {
         }
         const emitter: VueDevToolsEmitter = createEmitter<VueDevToolsEmitterEvents>()
 
-        const _composer = __global as any
-        _composer[EnableEmitter]?.(emitter)
+        __global[EnableEmitter]?.(emitter)
         emitter.on('*', addTimelineEvent)
       }
     },
@@ -555,7 +556,7 @@ export function useI18n<
     )
   }
 
-  const gl = i18n.global
+  const gl = i18n.global as ComposerInternalInstance
   const scope = getScope(options, type)
 
   // Global scope
@@ -602,19 +603,18 @@ export function useI18n<
     const parentComposer = inject(I18nComposerKey, null)
     composerOptions.__root = parentComposer || gl
 
-    const composer = createComposer(composerOptions) as Composer
+    const composer = createComposer(composerOptions) as ComposerInternalInstance
 
     // ComposerExtend
     if (i18nInternal.__composerExtend) {
-      ;(composer as any)[DisposeSymbol] = i18nInternal.__composerExtend(composer)
+      composer[DisposeSymbol] = i18nInternal.__composerExtend(composer)
     }
 
     // DevTools emitter setup
     let emitter: VueDevToolsEmitter | null = null
     if ((__DEV__ || __FEATURE_PROD_VUE_DEVTOOLS__) && !__NODE_JS__) {
       emitter = createEmitter<VueDevToolsEmitterEvents>()
-      const _composer = composer as any
-      _composer[EnableEmitter]?.(emitter)
+      composer[EnableEmitter]?.(emitter)
       emitter.on('*', addTimelineEvent)
     }
 
@@ -624,13 +624,12 @@ export function useI18n<
       onScopeDispose(() => {
         if ((__DEV__ || __FEATURE_PROD_VUE_DEVTOOLS__) && !__NODE_JS__) {
           emitter?.off('*', addTimelineEvent)
-          const _composer = composer as any
-          _composer[DisableEmitter]?.()
+          composer[DisableEmitter]?.()
         }
-        const dispose = (composer as any)[DisposeSymbol]
+        const dispose = composer[DisposeSymbol]
         if (dispose) {
           dispose()
-          delete (composer as any)[DisposeSymbol]
+          delete composer[DisposeSymbol]
         }
       })
     }
@@ -682,11 +681,11 @@ export function useI18n<
   const parentComposer = inject(I18nComposerKey, null)
   composerOptions.__root = parentComposer || gl
 
-  const composer = createComposer(composerOptions) as Composer
+  const composer = createComposer(composerOptions) as ComposerInternalInstance
 
   // ComposerExtend
   if (i18nInternal.__composerExtend) {
-    ;(composer as any)[DisposeSymbol] = i18nInternal.__composerExtend(composer)
+    composer[DisposeSymbol] = i18nInternal.__composerExtend(composer)
   }
 
   // Register instance
@@ -697,8 +696,7 @@ export function useI18n<
   let emitter: VueDevToolsEmitter | null = null
   if ((__DEV__ || __FEATURE_PROD_VUE_DEVTOOLS__) && !__NODE_JS__) {
     emitter = createEmitter<VueDevToolsEmitterEvents>()
-    const _composer = composer as any
-    _composer[EnableEmitter]?.(emitter)
+    composer[EnableEmitter]?.(emitter)
     emitter.on('*', addTimelineEvent)
   }
 
@@ -709,15 +707,14 @@ export function useI18n<
       // DevTools cleanup
       if ((__DEV__ || __FEATURE_PROD_VUE_DEVTOOLS__) && !__NODE_JS__) {
         emitter?.off('*', addTimelineEvent)
-        const _composer = composer as any
-        _composer[DisableEmitter]?.()
+        composer[DisableEmitter]?.()
       }
 
       i18nInternal.__deleteInstance(uid)
-      const dispose = (composer as any)[DisposeSymbol]
+      const dispose = composer[DisposeSymbol]
       if (dispose) {
         dispose()
-        delete (composer as any)[DisposeSymbol]
+        delete composer[DisposeSymbol]
       }
     })
   }
@@ -728,9 +725,9 @@ export function useI18n<
   return composer as unknown as Composer<Messages, DateTimeFormats, NumberFormats, OptionLocale>
 }
 
-function createGlobal(options: I18nOptions): [EffectScope, Composer] {
+function createGlobal(options: I18nOptions): [EffectScope, ComposerInternalInstance] {
   const scope = effectScope()
-  const obj = scope.run(() => createComposer(options))
+  const obj = scope.run(() => createComposer(options) as ComposerInternalInstance)
   if (obj == null) {
     throw createI18nError(I18nErrorCodes.UNEXPECTED_ERROR)
   }

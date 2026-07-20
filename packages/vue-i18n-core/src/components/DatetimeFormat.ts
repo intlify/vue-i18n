@@ -8,7 +8,7 @@ import { renderFormatter } from './formatRenderer'
 
 import type { DateTimeOptions } from '@intlify/core-base'
 import type { ComponentOptions, SetupContext, VNodeProps } from 'vue'
-import type { Composer, ComposerInternal } from '../composer'
+import type { ComposerInternalInstance } from '../composer'
 import type { BaseFormatProps } from './base'
 import type { FormattableProps } from './formatRenderer'
 
@@ -38,11 +38,10 @@ export const DatetimeFormatImpl: ComponentOptions<DatetimeFormatProps> =
     ),
 
     setup(props: DatetimeFormatProps, context: SetupContext) {
-      const i18n =
-        props.i18n ||
-        (useI18n({
+      const i18n = (props.i18n ||
+        useI18n({
           useScope: props.scope as 'global' | 'parent'
-        }) as unknown as Composer & ComposerInternal)
+        })) as ComposerInternalInstance
 
       return renderFormatter<
         FormattableProps<number | Date, Intl.DateTimeFormatOptions>,
@@ -51,7 +50,7 @@ export const DatetimeFormatImpl: ComponentOptions<DatetimeFormatProps> =
         DateTimeOptions,
         Intl.DateTimeFormatPart
       >(props as DatetimeFormatProps, context, DATETIME_FORMAT_OPTIONS_KEYS, (...args: unknown[]) =>
-        (i18n as any)[DatetimePartsSymbol](...args)
+        i18n[DatetimePartsSymbol](...args)
       )
     }
   })

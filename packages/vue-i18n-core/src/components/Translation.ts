@@ -13,7 +13,7 @@ import type {
   VNodeChild,
   VNodeProps
 } from 'vue'
-import type { Composer, ComposerInternal } from '../composer'
+import type { ComposerInternalInstance } from '../composer'
 import type { BaseFormatProps } from './base'
 
 /**
@@ -55,11 +55,10 @@ export const TranslationImpl: ComponentOptions<TranslationProps> = /* #__PURE__*
   setup(props: TranslationProps, context: SetupContext) {
     const { slots, attrs } = context
     // NOTE: avoid https://github.com/microsoft/rushstack/issues/1050
-    const i18n =
-      props.i18n ||
-      (useI18n({
+    const i18n = (props.i18n ||
+      useI18n({
         useScope: props.scope as 'global' | 'parent'
-      }) as unknown as Composer & ComposerInternal)
+      })) as ComposerInternalInstance
 
     return (): VNodeChild => {
       const renderChildren = (): VNodeArrayChildren => {
@@ -73,7 +72,7 @@ export const TranslationImpl: ComponentOptions<TranslationProps> = /* #__PURE__*
         }
         const arg = getInterpolateArg(context, keys)
 
-        return (i18n as any)[TranslateVNodeSymbol](props.keypath, arg, options)
+        return i18n[TranslateVNodeSymbol](props.keypath, arg, options)
       }
       const assignedAttrs = assign(create(), attrs)
       const tag = isString(props.tag) || isObject(props.tag) ? props.tag : getFragmentableTag()
