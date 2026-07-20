@@ -69,10 +69,11 @@
     "preview:size-petite-vue-i18n": "pnpm --filter @intlify/size-check-petite-vue-i18n preview",
     "preview:size-vue-i18n": "pnpm --filter @intlify/size-check-vue-i18n preview",
     "release": "bumpp package.json packages/**/package.json --commit \"release: v\" --push --tag",
-    "test": "pnpm lint && pnpm test:cover && pnpm check-install && pnpm test:e2e",
+    "test": "pnpm lint && pnpm test:cover && pnpm test:vapor && pnpm check-install && pnpm test:e2e",
     "test:cover": "pnpm test:unit --coverage",
     "test:e2e": "cross-env TZ=UTC vitest run -c ./vitest.e2e.config.ts",
-    "test:unit": "cross-env TZ=UTC vitest run -c ./vitest.unit.config.ts --typecheck"
+    "test:unit": "cross-env TZ=UTC vitest run -c ./vitest.unit.config.ts --typecheck",
+    "test:vapor": "cross-env TZ=UTC vitest run -c ./vitest.vapor.config.ts --typecheck"
   },
   "devDependencies": {
     "@eslint/js": "^9.9.1",
@@ -159,7 +160,7 @@
   "packageManager": "pnpm@10.33.2",
   "pnpm": {
     "overrides": {
-      "vue": "3.6.0-alpha.4",
+      "vue": "3.6.0-rc.1",
       "vite": "^6.0.0"
     },
     "onlyBuiltDependencies": [

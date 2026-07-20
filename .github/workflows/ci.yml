@@ -115,6 +115,7 @@ jobs:
       - name: Run unit tests
         run: |
           pnpm test:cover
+          pnpm test:vapor
 
   test-e2e:
     name: E2E test

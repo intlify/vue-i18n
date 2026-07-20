@@ -7,6 +7,6 @@ export default {
     ...config.test,
     environmentMatchGlobs: [['packages/vue-i18n-core/**', 'jsdom']],
     globalSetup: ['./scripts/vitest.unit.globalSetup.ts'],
-    exclude: [...configDefaults.exclude, '**/e2e/**']
+    exclude: [...configDefaults.exclude, '**/e2e/**', '**/vapor.test.ts']
   }
 } as UserConfig
