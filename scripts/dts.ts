@@ -4,12 +4,15 @@ import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { createRequire } from 'node:module'
 import { dts } from 'rolldown-plugin-dts'
+import { generateVueInjectionModuleAugmentation } from './vue-injection-types'
 
 import type { RolldownOptions, Plugin } from 'rolldown'
 
 const require = createRequire(import.meta.url)
 const __dirname = fileURLToPath(new URL('.', import.meta.url))
 const packagesDir = path.resolve(__dirname, '../packages')
+const appendTypesMarker =
+  '// --- THE CONTENT BELOW THIS LINE WILL BE APPENDED TO DTS FILE IN DIST DIRECTORY --- //'
 
 function resolveExternal(packageName: string) {
   const pkg = require(`${packagesDir}/${packageName}/package.json`)
@@ -69,13 +72,27 @@ function appendTypes(pkg: string): Plugin {
       const template = path.resolve(__dirname, `../packages/${pkg}/src/vue.d.ts`)
       const s = new MagicString(code)
       const ts = await fs.readFile(template, 'utf-8')
-      const marker =
-        '// --- THE CONTENT BELOW THIS LINE WILL BE APPENDED TO DTS FILE IN DIST DIRECTORY --- //'
-      const data = ts.slice(ts.indexOf(marker) + marker.length)
-      s.append(`\n` + data + `\n` + `export { }`)
+      const data = extractAppendedTypes(ts, template)
+
+      if (pkg === 'vue-i18n') {
+        const source = path.resolve(__dirname, '../packages/vue-i18n/src/vue.ts')
+        const vueTypes = await fs.readFile(source, 'utf-8')
+        s.append(`\n\n\n${generateVueInjectionModuleAugmentation(vueTypes)}${data}\nexport { }`)
+      } else {
+        s.append(`\n` + data + `\n` + `export { }`)
+      }
+
       return s.toString()
     }
   }
+}
+
+function extractAppendedTypes(source: string, filename: string): string {
+  const markerIndex = source.indexOf(appendTypesMarker)
+  if (markerIndex === -1) {
+    throw new Error(`Append types marker not found in ${filename}`)
+  }
+  return source.slice(markerIndex + appendTypesMarker.length)
 }
 
 function copyDts(): Plugin {

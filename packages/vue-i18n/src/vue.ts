@@ -30,11 +30,13 @@ import type {
   VueMessageType
 } from '@intlify/vue-i18n-core'
 
+// --- VUE I18N INJECTION TYPES START --- //
+
 /**
  * Component Custom Options for Vue I18n
+ * @internal
  *
  * @VueI18nInjection
- * @internal
  */
 export interface ComponentCustomOptions {
   /**
@@ -657,8 +659,8 @@ export interface ComponentCustomProperties {
    */
   $n<
     Key extends string = string,
-    DefinedNumberFormat extends RemovedIndexResources<DefineDateTimeFormat> =
-      RemovedIndexResources<DefineDateTimeFormat>,
+    DefinedNumberFormat extends RemovedIndexResources<DefineNumberFormat> =
+      RemovedIndexResources<DefineNumberFormat>,
     Keys = IsEmptyObject<DefinedNumberFormat> extends false
       ? PickupFormatPathKeys<{
           [K in keyof DefinedNumberFormat]: DefinedNumberFormat[K]
@@ -684,8 +686,8 @@ export interface ComponentCustomProperties {
    */
   $n<
     Key extends string = string,
-    DefinedNumberFormat extends RemovedIndexResources<DefineDateTimeFormat> =
-      RemovedIndexResources<DefineDateTimeFormat>,
+    DefinedNumberFormat extends RemovedIndexResources<DefineNumberFormat> =
+      RemovedIndexResources<DefineNumberFormat>,
     Keys = IsEmptyObject<DefinedNumberFormat> extends false
       ? PickupFormatPathKeys<{
           [K in keyof DefinedNumberFormat]: DefinedNumberFormat[K]
@@ -711,8 +713,8 @@ export interface ComponentCustomProperties {
    */
   $n<
     Key extends string = string,
-    DefinedNumberFormat extends RemovedIndexResources<DefineDateTimeFormat> =
-      RemovedIndexResources<DefineDateTimeFormat>,
+    DefinedNumberFormat extends RemovedIndexResources<DefineNumberFormat> =
+      RemovedIndexResources<DefineNumberFormat>,
     Keys = IsEmptyObject<DefinedNumberFormat> extends false
       ? PickupFormatPathKeys<{
           [K in keyof DefinedNumberFormat]: DefinedNumberFormat[K]
@@ -754,3 +756,5 @@ export interface ComponentCustomProperties {
     key: Key | ResourceKeys
   ): LocaleMessageValue<VueMessageType> | {}
 }
+
+// --- VUE I18N INJECTION TYPES END --- //
