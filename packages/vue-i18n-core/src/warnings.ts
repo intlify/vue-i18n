@@ -9,7 +9,7 @@ export const I18nWarnCodes = {
 
 type I18nWarnCodes = (typeof I18nWarnCodes)[keyof typeof I18nWarnCodes]
 
-export const warnMessages: { [code: number]: string } = {
+const warnMessages: { [code: number]: string } = {
   [I18nWarnCodes.FALLBACK_TO_ROOT]: `Fall back to {type} '{key}' with root locale.`,
   [I18nWarnCodes.NOT_FOUND_PARENT_SCOPE]: `Not found parent scope. use the global scope.`,
   [I18nWarnCodes.IGNORE_OBJ_FLATTEN]: `Ignore object flatten: '{key}' key has an string value`

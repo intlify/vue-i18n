@@ -9,17 +9,11 @@ import {
   isString,
   warn
 } from '@intlify/shared'
-import * as Vue from 'vue'
 import { Text, createVNode } from 'vue'
 import { I18nWarnCodes, getWarnMessage } from './warnings'
 
 import type { Locale, MessageResolver } from '@intlify/core-base'
-import type {
-  ComponentInternalInstance,
-  GenericComponentInstance,
-  RendererElement,
-  RendererNode
-} from 'vue'
+import type { RendererElement, RendererNode } from 'vue'
 import type { Composer, ComposerOptions, CustomBlocks, VueMessageType } from './composer'
 
 type GetLocaleMessagesOptions<Messages = {}> = {
@@ -159,12 +153,6 @@ export function getLocaleMessages<Messages = {}>(
   return ret as { [K in keyof Messages]: Messages[K] }
 }
 
-export function getComponentOptions(
-  instance: ComponentInternalInstance | GenericComponentInstance
-): any {
-  return instance.type
-}
-
 export function adjustI18nResources(
   gl: Composer,
   options: ComposerOptions,
@@ -211,14 +199,4 @@ export function adjustI18nResources(
 
 export function createTextNode(key: string): any {
   return createVNode(Text, null, key, 0)
-}
-
-export function getCurrentInstance(): GenericComponentInstance | ComponentInternalInstance | null {
-  // NOTE(kazupon): avoid bundler warning
-  const key = 'currentInstance'
-  if (key in Vue) {
-    return (Vue as any)[key] as GenericComponentInstance | null
-  } else {
-    return Vue.getCurrentInstance()
-  }
 }

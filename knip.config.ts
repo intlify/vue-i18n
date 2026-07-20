@@ -26,11 +26,11 @@ const config: KnipConfig = {
       ignore: ['src/helpers.ts', 'src/generator.ts']
     },
     'packages/format-explorer': {
-      ignore: ['src/utils.ts'],
       ignoreDependencies: ['@vue/compiler-sfc', 'vue-tsc']
     },
     'packages/vue-i18n-core': {
-      ignore: ['src/**/*.ts', 'test/helper.ts'],
+      entry: ['src/index.ts', 'src/petite.ts'],
+      project: ['src/**/*.ts'],
       ignoreDependencies: ['@vue/server-renderer']
     },
     'packages/petite-vue-i18n': {

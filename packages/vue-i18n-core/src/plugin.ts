@@ -1,10 +1,3 @@
-import { isBoolean, isPlainObject } from '@intlify/shared'
-import { DatetimeFormat } from './components/DatetimeFormat'
-import { NumberFormat } from './components/NumberFormat'
-import { Translation } from './components/Translation'
-
-import type { App } from 'vue'
-
 /**
  * Vue I18n plugin options
  *
@@ -25,16 +18,4 @@ export interface I18nPluginOptions {
    * @default `true`
    */
   globalInstall?: boolean
-}
-
-export function apply(app: App, ...options: unknown[]): void {
-  const pluginOptions = isPlainObject(options[0]) ? (options[0] as I18nPluginOptions) : {}
-  const globalInstall = isBoolean(pluginOptions.globalInstall) ? pluginOptions.globalInstall : true
-
-  if (!__LITE__ && globalInstall) {
-    // install components
-    app.component(Translation.name, Translation)
-    app.component(NumberFormat.name, NumberFormat)
-    app.component(DatetimeFormat.name, DatetimeFormat)
-  }
 }

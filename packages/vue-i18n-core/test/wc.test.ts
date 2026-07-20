@@ -2,9 +2,8 @@
  * @vitest-environment jsdom
  */
 
-import { defineCustomElement, h, nextTick, provide } from 'vue'
+import { defineCustomElement, getCurrentInstance, h, nextTick, provide } from 'vue'
 import { createI18n, I18nInjectionKey, useI18n } from '../src/index'
-import { getCurrentInstance } from '../src/utils'
 import { randStr } from './helper'
 
 import type { ComponentOptions, VueElement } from 'vue'

@@ -2,7 +2,7 @@ import { CORE_ERROR_CODES_EXTEND_POINT, createCompileError } from '@intlify/core
 
 import type { BaseError } from '@intlify/shared'
 
-export interface I18nError extends BaseError {}
+interface I18nError extends BaseError {}
 
 export const I18nErrorCodes = {
   // composer module errors

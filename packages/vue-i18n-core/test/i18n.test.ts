@@ -13,10 +13,17 @@ vi.mock('@intlify/shared', async () => {
   }
 })
 
-import { createApp, defineComponent, defineCustomElement, h, nextTick, ref } from 'vue'
+import {
+  createApp,
+  defineComponent,
+  defineCustomElement,
+  getCurrentInstance,
+  h,
+  nextTick,
+  ref
+} from 'vue'
 import { errorMessages, I18nErrorCodes } from '../src/errors'
 import { createI18n, useI18n } from '../src/i18n'
-import { getCurrentInstance } from '../src/utils'
 import { pluralRules as _pluralRules, mount, randStr } from './helper'
 
 import type { App, ComponentOptions } from 'vue'

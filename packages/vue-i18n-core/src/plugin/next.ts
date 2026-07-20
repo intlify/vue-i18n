@@ -4,7 +4,7 @@ import { NumberFormat } from '../components/NumberFormat'
 import { Translation } from '../components/Translation'
 
 import type { App } from 'vue'
-import type { I18nPluginOptions } from './types'
+import type { I18nPluginOptions } from '../plugin'
 
 export function apply(app: App, ...options: unknown[]): void {
   const pluginOptions = isPlainObject(options[0]) ? (options[0] as I18nPluginOptions) : {}

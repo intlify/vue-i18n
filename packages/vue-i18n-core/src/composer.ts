@@ -45,9 +45,7 @@ import {
   DatetimePartsSymbol,
   DisableEmitter,
   EnableEmitter,
-  InejctWithOptionSymbol,
   NumberPartsSymbol,
-  SetPluralRulesSymbol,
   TranslateVNodeSymbol
 } from './symbols'
 import { createTextNode, getLocaleMessages, handleFlatJson } from './utils'
@@ -78,7 +76,6 @@ import type {
   LocaleParams,
   MessageCompiler,
   MessageFunction,
-  MessageFunctions,
   MessageProcessor,
   MessageResolver,
   MessageType,
@@ -106,8 +103,6 @@ import type {
 import type { Locale as _Locale } from '@intlify/core-base'
 import type { VueDevToolsEmitter } from '@intlify/devtools-types'
 import type { ComputedRef, VNode, VNodeArrayChildren, WritableComputedRef } from 'vue'
-
-export { DEFAULT_LOCALE } from '@intlify/core-base'
 
 /** @VueI18nComposition */
 export type VueMessageType = string | ResourceNode | VNode
@@ -219,11 +214,6 @@ export type MissingHandler = (
   uid?: number,
   type?: string
 ) => string | void
-
-export type PreCompileHandler<Message = VueMessageType> = () => {
-  messages: LocaleMessages<Message>
-  functions: MessageFunctions<Message>
-}
 
 export interface CustomBlock<Message = VueMessageType> {
   locale: Locale
@@ -630,7 +620,6 @@ export interface ComposerInternalOptions<
   __i18n?: CustomBlocks<VueMessageType>
   __i18nGlobal?: CustomBlocks<VueMessageType>
   __root?: Composer<Messages, DateTimeFormats, NumberFormats>
-  __injectWithOption?: boolean
 }
 
 /**
@@ -1849,7 +1838,6 @@ export interface ComposerInternal {
   __datetimeParts(...args: unknown[]): string | Intl.DateTimeFormatPart[]
   __enableEmitter?: (emitter: VueDevToolsEmitter) => void
   __disableEmitter?: () => void
-  __setPluralRules(rules: PluralizationRules): void
 }
 
 type ComposerWarnType = CoreMissingType
@@ -1915,7 +1903,7 @@ export function createComposer<
 
 export function createComposer(options: any = {}): any {
   type Message = VueMessageType
-  const { __root, __injectWithOption } = options as ComposerInternalOptions<
+  const { __root } = options as ComposerInternalOptions<
     LocaleMessages<LocaleMessage<Message>>,
     DateTimeFormatsType,
     NumberFormatsType
@@ -2326,11 +2314,6 @@ export function createComposer(options: any = {}): any {
     )
   }
 
-  function setPluralRules(rules: PluralizationRules): void {
-    _pluralRules = rules
-    _context.pluralRules = _pluralRules
-  }
-
   // te
   function te(key: Path, locale?: Locale): boolean {
     return wrapWithDeps<{}, boolean>(
@@ -2563,8 +2546,7 @@ export function createComposer(options: any = {}): any {
     getPostTranslationHandler,
     setPostTranslationHandler,
     getMissingHandler,
-    setMissingHandler,
-    [SetPluralRulesSymbol]: setPluralRules
+    setMissingHandler
   }
 
   if (!__LITE__) {
@@ -2581,7 +2563,6 @@ export function createComposer(options: any = {}): any {
     ;(composer as any).getNumberFormat = getNumberFormat
     ;(composer as any).setNumberFormat = setNumberFormat
     ;(composer as any).mergeNumberFormat = mergeNumberFormat
-    ;(composer as any)[InejctWithOptionSymbol] = __injectWithOption
     ;(composer as any)[TranslateVNodeSymbol] = translateVNode
     ;(composer as any)[DatetimePartsSymbol] = datetimeParts
     ;(composer as any)[NumberPartsSymbol] = numberParts

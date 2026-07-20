@@ -11,7 +11,7 @@ import type {
   VNode
 } from 'vue'
 import type { I18n } from '../src/i18n'
-import type { I18nPluginOptions } from '../src/plugin/types'
+import type { I18nPluginOptions } from '../src/plugin'
 
 export interface MountOptions {
   propsData: Record<string, any>
