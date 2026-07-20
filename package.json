@@ -161,7 +161,7 @@
   "pnpm": {
     "overrides": {
       "vue": "3.6.0-rc.1",
-      "vite": "^6.0.0"
+      "vite": "^7.3.2"
     },
     "onlyBuiltDependencies": [
       "esbuild",
