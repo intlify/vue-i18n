@@ -8,7 +8,6 @@ import {
   createCoreContext,
   datetime,
   fallbackWithLocaleChain,
-  getFallbackContext,
   isMessageAST,
   isMessageFunction,
   isTranslateFallbackWarn,
@@ -18,7 +17,6 @@ import {
   parseNumberArgs,
   parseTranslateArgs,
   resolveValue,
-  setFallbackContext,
   translate,
   updateFallbackLocale
 } from '@intlify/core-base'
@@ -43,6 +41,7 @@ import { useInstanceOption } from 'vue'
 import { I18nErrorCodes, createI18nError } from './errors'
 import { VERSION } from './misc'
 import {
+  CoreContextSymbol,
   DatetimePartsSymbol,
   DisableEmitter,
   EnableEmitter,
@@ -1844,6 +1843,7 @@ export interface Composer<
  * @internal
  */
 export interface ComposerInternal {
+  [CoreContextSymbol]: CoreContext
   __translateVNode(...args: unknown[]): VNodeArrayChildren
   __numberParts(...args: unknown[]): string | Intl.NumberFormatPart[]
   __datetimeParts(...args: unknown[]): string | Intl.DateTimeFormatPart[]
@@ -2028,8 +2028,6 @@ export function createComposer(options: any = {}): any {
   let _context: CoreContext
 
   const getCoreContext = (): CoreContext => {
-    _isGlobal && setFallbackContext(null)
-
     const ctxOptions = {
       version: VERSION,
       locale: _locale.value,
@@ -2074,8 +2072,6 @@ export function createComposer(options: any = {}): any {
     }
 
     const ctx = createCoreContext(ctxOptions as any)
-    _isGlobal && setFallbackContext(ctx)
-
     return ctx
   }
 
@@ -2169,7 +2165,9 @@ export function createComposer(options: any = {}): any {
     let ret: unknown
     try {
       if (!_isGlobal) {
-        _context.fallbackContext = __root ? (getFallbackContext() as any) : undefined
+        _context.fallbackContext = __root
+          ? (__root as unknown as ComposerInternal)[CoreContextSymbol]
+          : undefined
       }
       ret = fn(_context)
     } finally {
@@ -2491,6 +2489,7 @@ export function createComposer(options: any = {}): any {
 
   // define basic composition API!
   const composer = {
+    [CoreContextSymbol]: _context,
     id: composerID,
     locale,
     fallbackLocale,

@@ -418,14 +418,6 @@ export function registerLocaleFallbacker(fallbacker: LocaleFallbacker): void {
   _fallbacker = fallbacker
 }
 
-let _fallbackContext: CoreContext | null = null
-
-export const setFallbackContext = (context: CoreContext | null): void => {
-  _fallbackContext = context
-}
-
-export const getFallbackContext = (): CoreContext | null => _fallbackContext
-
 // ID for CoreContext
 let _cid = 0
 

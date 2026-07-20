@@ -2072,6 +2072,37 @@ describe('root', () => {
     expect(t('hello')).toEqual('hello!')
   })
 
+  test('linked messages use the matching root context', () => {
+    const rootA = createComposer({
+      locale: 'en',
+      messages: {
+        en: {
+          root: 'A'
+        }
+      }
+    })
+    const localA = createComposer({
+      locale: 'en',
+      messages: {
+        en: {
+          linked: '@:root'
+        }
+      },
+      __root: rootA
+    })
+
+    createComposer({
+      locale: 'en',
+      messages: {
+        en: {
+          root: 'B'
+        }
+      }
+    })
+
+    expect(localA.t('linked')).toEqual('A')
+  })
+
   test('d', () => {
     const __root = createComposer({
       locale: 'en-US',
