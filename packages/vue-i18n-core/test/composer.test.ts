@@ -19,7 +19,12 @@ import { DatetimePartsSymbol, NumberPartsSymbol, TranslateVNodeSymbol } from '..
 import { getWarnMessage, I18nWarnCodes } from '../src/warnings'
 
 import type { Locale, MessageContext, MessageFunction, Path, PathValue } from '@intlify/core-base'
-import type { ComposerOptions, MissingHandler, VueMessageType } from '../src/composer'
+import type {
+  ComposerInternalInstance,
+  ComposerOptions,
+  MissingHandler,
+  VueMessageType
+} from '../src/composer'
 
 afterEach(() => {
   vi.clearAllMocks()
@@ -1922,7 +1927,7 @@ describe('__translateVNode', () => {
       }
     })
     expect(
-      (composer as any)[TranslateVNodeSymbol]('hello', {
+      (composer as unknown as ComposerInternalInstance)[TranslateVNodeSymbol]('hello', {
         name: createVNode(Text, null, 'kazupon', 0)
       })
     ).toMatchObject([{ children: 'hello, ' }, { children: 'kazupon' }, { children: '!' }])
@@ -1936,7 +1941,7 @@ describe('__translateVNode', () => {
       }
     })
     expect(
-      (composer as any)[TranslateVNodeSymbol]('hello', {
+      (composer as unknown as ComposerInternalInstance)[TranslateVNodeSymbol]('hello', {
         name: createVNode(Text, null, 'kazupon', 0)
       })
     ).toMatchSnapshot()
@@ -1957,7 +1962,7 @@ describe('__numberParts', () => {
       }
     })
     expect(
-      (composer as any)[NumberPartsSymbol](0.99, {
+      (composer as unknown as ComposerInternalInstance)[NumberPartsSymbol](0.99, {
         key: 'percent',
         part: true
       })
@@ -1972,7 +1977,7 @@ describe('__numberParts', () => {
       }
     })
     expect(
-      (composer as any)[NumberPartsSymbol](0.99, {
+      (composer as unknown as ComposerInternalInstance)[NumberPartsSymbol](0.99, {
         key: 'percent',
         part: true
       })
@@ -2000,7 +2005,7 @@ describe('__datetimeParts', () => {
     })
     const dt = new Date(Date.UTC(2012, 11, 20, 3, 0, 0))
     expect(
-      (composer as any)[DatetimePartsSymbol](dt, {
+      (composer as unknown as ComposerInternalInstance)[DatetimePartsSymbol](dt, {
         key: 'short',
         part: true
       })
@@ -2028,7 +2033,7 @@ describe('__datetimeParts', () => {
     })
     const dt = new Date(Date.UTC(2012, 11, 20, 3, 0, 0))
     expect(
-      (composer as any)[DatetimePartsSymbol](dt, {
+      (composer as unknown as ComposerInternalInstance)[DatetimePartsSymbol](dt, {
         key: 'short',
         part: true
       })

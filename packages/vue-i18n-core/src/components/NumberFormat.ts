@@ -8,7 +8,7 @@ import { renderFormatter } from './formatRenderer'
 
 import type { NumberOptions } from '@intlify/core-base'
 import type { ComponentOptions, SetupContext, VNodeProps } from 'vue'
-import type { Composer, ComposerInternal } from '../composer'
+import type { ComposerInternalInstance } from '../composer'
 import type { BaseFormatProps } from './base'
 import type { FormattableProps } from './formatRenderer'
 
@@ -37,11 +37,10 @@ export const NumberFormatImpl: ComponentOptions<NumberFormatProps> = /* #__PURE_
       BaseFormatPropsValidators
     ),
     setup(props: NumberFormatProps, context: SetupContext) {
-      const i18n =
-        props.i18n ||
-        (useI18n({
+      const i18n = (props.i18n ||
+        useI18n({
           useScope: props.scope as 'global' | 'parent'
-        }) as unknown as Composer & ComposerInternal)
+        })) as ComposerInternalInstance
 
       return renderFormatter<
         FormattableProps<number, Intl.NumberFormatOptions>,
@@ -50,7 +49,7 @@ export const NumberFormatImpl: ComponentOptions<NumberFormatProps> = /* #__PURE_
         NumberOptions,
         Intl.NumberFormatPart
       >(props as NumberFormatProps, context, NUMBER_FORMAT_OPTIONS_KEYS, (...args: unknown[]) =>
-        (i18n as any)[NumberPartsSymbol](...args)
+        i18n[NumberPartsSymbol](...args)
       )
     }
   }

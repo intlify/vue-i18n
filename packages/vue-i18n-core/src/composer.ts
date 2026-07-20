@@ -44,6 +44,7 @@ import {
   CoreContextSymbol,
   DatetimePartsSymbol,
   DisableEmitter,
+  DisposeSymbol,
   EnableEmitter,
   NumberPartsSymbol,
   TranslateVNodeSymbol
@@ -54,8 +55,10 @@ import { I18nWarnCodes, getWarnMessage } from './warnings'
 import type {
   CoreContext,
   CoreInternalContext,
+  CoreInternalOptions,
   CoreMissingHandler,
   CoreMissingType,
+  CoreOptions,
   DateTimeFormat,
   DateTimeFormats as DateTimeFormatsType,
   DateTimeOptions,
@@ -84,6 +87,7 @@ import type {
   NumberFormats as NumberFormatsType,
   NumberOptions,
   Path,
+  PathValue,
   PickupFormatKeys,
   PickupFormatPathKeys,
   PickupKeys,
@@ -619,7 +623,7 @@ export interface ComposerInternalOptions<
 > {
   __i18n?: CustomBlocks<VueMessageType>
   __i18nGlobal?: CustomBlocks<VueMessageType>
-  __root?: Composer<Messages, DateTimeFormats, NumberFormats>
+  __root?: ComposerInternalInstance<Messages, DateTimeFormats, NumberFormats>
 }
 
 /**
@@ -1832,13 +1836,24 @@ export interface Composer<
  * @internal
  */
 export interface ComposerInternal {
-  [CoreContextSymbol]: CoreContext
-  __translateVNode(...args: unknown[]): VNodeArrayChildren
-  __numberParts(...args: unknown[]): string | Intl.NumberFormatPart[]
-  __datetimeParts(...args: unknown[]): string | Intl.DateTimeFormatPart[]
-  __enableEmitter?: (emitter: VueDevToolsEmitter) => void
-  __disableEmitter?: () => void
+  [CoreContextSymbol]: CoreContext<VueMessageType>
+  [TranslateVNodeSymbol](...args: unknown[]): VNodeArrayChildren
+  [NumberPartsSymbol](...args: unknown[]): string | Intl.NumberFormatPart[]
+  [DatetimePartsSymbol](...args: unknown[]): string | Intl.DateTimeFormatPart[]
+  [EnableEmitter]?(emitter: VueDevToolsEmitter): void
+  [DisableEmitter]?(): void
+  [DisposeSymbol]?: () => void
 }
+
+/**
+ * @internal
+ */
+export type ComposerInternalInstance<
+  Messages extends Record<string, any> = {},
+  DateTimeFormats extends Record<string, any> = {},
+  NumberFormats extends Record<string, any> = {},
+  OptionLocale = _Locale
+> = Composer<Messages, DateTimeFormats, NumberFormats, OptionLocale> & ComposerInternal
 
 type ComposerWarnType = CoreMissingType
 
@@ -1847,12 +1862,17 @@ const NOOP_RETURN_FALSE = () => false
 
 let composerID = 0
 
-function defineCoreMissingHandler(missing: MissingHandler): CoreMissingHandler {
-  return ((_ctx: CoreContext, locale: Locale, key: Path, type: string): string | void => {
+function defineCoreMissingHandler(missing: MissingHandler): CoreMissingHandler<VueMessageType> {
+  return ((
+    _ctx: CoreContext<VueMessageType>,
+    locale: Locale,
+    key: Path,
+    type: string
+  ): string | void => {
     // eslint-disable-next-line vue-composable/composable-placement -- not composable
     const { value: uid } = useInstanceOption('uid', true)
     return missing(locale, key, uid, type)
-  }) as CoreMissingHandler
+  }) as CoreMissingHandler<VueMessageType>
 }
 
 export function createComposer<
@@ -1901,7 +1921,7 @@ export function createComposer<
  * @internal
  */
 
-export function createComposer(options: any = {}): any {
+export function createComposer(options: any = {}): ComposerInternalInstance {
   type Message = VueMessageType
   const { __root } = options as ComposerInternalOptions<
     LocaleMessages<LocaleMessage<Message>>,
@@ -2013,9 +2033,9 @@ export function createComposer(options: any = {}): any {
 
   // runtime context
 
-  let _context: CoreContext
+  let _context: CoreContext<Message>
 
-  const getCoreContext = (): CoreContext => {
+  const getCoreContext = (): CoreContext<Message> => {
     const ctxOptions = {
       version: VERSION,
       locale: _locale.value,
@@ -2035,31 +2055,31 @@ export function createComposer(options: any = {}): any {
       messageCompiler: options.messageCompiler,
       localeFallbacker: options.localeFallbacker,
       __meta: { framework: 'vue' }
-    }
+    } as CoreOptions<Message> & CoreInternalOptions
 
     // set default message compiler
-    ;(ctxOptions as any).messageCompiler = options.messageCompiler || compile
+    ctxOptions.messageCompiler = options.messageCompiler || compile
 
     if (!__LITE__) {
       // set default message resolver and locale fallbacker for full vue-i18n
-      ;(ctxOptions as any).messageResolver = options.messageResolver || resolveValue
-      ;(ctxOptions as any).localeFallbacker = options.localeFallbacker || fallbackWithLocaleChain
-      ;(ctxOptions as any).datetimeFormats = _datetimeFormats.value
-      ;(ctxOptions as any).numberFormats = _numberFormats.value
-      ;(ctxOptions as any).__datetimeFormatters = isPlainObject(_context)
+      ctxOptions.messageResolver = options.messageResolver || resolveValue
+      ctxOptions.localeFallbacker = options.localeFallbacker || fallbackWithLocaleChain
+      ctxOptions.datetimeFormats = _datetimeFormats.value
+      ctxOptions.numberFormats = _numberFormats.value
+      ctxOptions.__datetimeFormatters = isPlainObject(_context)
         ? (_context as unknown as CoreInternalContext).__datetimeFormatters
         : undefined
-      ;(ctxOptions as any).__numberFormatters = isPlainObject(_context)
+      ctxOptions.__numberFormatters = isPlainObject(_context)
         ? (_context as unknown as CoreInternalContext).__numberFormatters
         : undefined
     }
     if (__DEV__) {
-      ;(ctxOptions as any).__v_emitter = isPlainObject(_context)
+      ctxOptions.__v_emitter = isPlainObject(_context)
         ? (_context as unknown as CoreInternalContext).__v_emitter
         : undefined
     }
 
-    const ctx = createCoreContext(ctxOptions as any)
+    const ctx = createCoreContext<Message>(ctxOptions) as unknown as CoreContext<Message>
     return ctx
   }
 
@@ -2100,7 +2120,7 @@ export function createComposer(options: any = {}): any {
 
   // messages
   const messages = computed<LocaleMessages<LocaleMessage<Message>, Message>>(
-    () => _messages.value as any
+    () => _messages.value as unknown as LocaleMessages<LocaleMessage<Message>, Message>
   )
 
   // availableLocales
@@ -2118,7 +2138,7 @@ export function createComposer(options: any = {}): any {
   }
 
   // setPostTranslationHandler
-  function setPostTranslationHandler(handler: PostTranslationHandler | null): void {
+  function setPostTranslationHandler(handler: PostTranslationHandler<Message> | null): void {
     _postTranslation = handler
     _context.postTranslation = handler
   }
@@ -2153,9 +2173,7 @@ export function createComposer(options: any = {}): any {
     let ret: unknown
     try {
       if (!_isGlobal) {
-        _context.fallbackContext = __root
-          ? (__root as unknown as ComposerInternal)[CoreContextSymbol]
-          : undefined
+        _context.fallbackContext = __root ? __root[CoreContextSymbol] : undefined
       }
       ret = fn(_context)
     } finally {
@@ -2282,7 +2300,7 @@ export function createComposer(options: any = {}): any {
       () => parseTranslateArgs(...args),
       'translate',
 
-      root => (root as any)[TranslateVNodeSymbol](...args),
+      root => root[TranslateVNodeSymbol](...args),
       key => [createTextNode(key as string)],
       val => isArray(val)
     )
@@ -2295,7 +2313,7 @@ export function createComposer(options: any = {}): any {
       () => parseNumberArgs(...args),
       'number format',
 
-      root => (root as any)[NumberPartsSymbol](...args),
+      root => root[NumberPartsSymbol](...args),
       NOOP_RETURN_ARRAY,
       val => isString(val) || isArray(val)
     )
@@ -2308,7 +2326,7 @@ export function createComposer(options: any = {}): any {
       () => parseDateTimeArgs(...args),
       'datetime format',
 
-      root => (root as any)[DatetimePartsSymbol](...args),
+      root => root[DatetimePartsSymbol](...args),
       NOOP_RETURN_ARRAY,
       val => isString(val) || isArray(val)
     )
@@ -2332,7 +2350,7 @@ export function createComposer(options: any = {}): any {
           let resolved = _context.messageResolver(message, key)
           // if null, resolve with object key path (for flat keys containing dots)
           if (resolved === null) {
-            resolved = (message as any)[key]
+            resolved = (message as Record<string, PathValue>)[key]
           }
           if (isMessageAST(resolved) || isMessageFunction(resolved) || isString(resolved)) {
             return true
@@ -2547,32 +2565,41 @@ export function createComposer(options: any = {}): any {
     setPostTranslationHandler,
     getMissingHandler,
     setMissingHandler
-  }
+  } as ComposerInternalInstance
 
   if (!__LITE__) {
-    ;(composer as any).datetimeFormats = datetimeFormats
-    ;(composer as any).numberFormats = numberFormats
-    ;(composer as any).rt = rt
-    ;(composer as any).te = te
-    ;(composer as any).tm = tm
-    ;(composer as any).d = d
-    ;(composer as any).n = n
-    ;(composer as any).getDateTimeFormat = getDateTimeFormat
-    ;(composer as any).setDateTimeFormat = setDateTimeFormat
-    ;(composer as any).mergeDateTimeFormat = mergeDateTimeFormat
-    ;(composer as any).getNumberFormat = getNumberFormat
-    ;(composer as any).setNumberFormat = setNumberFormat
-    ;(composer as any).mergeNumberFormat = mergeNumberFormat
-    ;(composer as any)[TranslateVNodeSymbol] = translateVNode
-    ;(composer as any)[DatetimePartsSymbol] = datetimeParts
-    ;(composer as any)[NumberPartsSymbol] = numberParts
+    ;(
+      composer as ComposerInternalInstance & {
+        datetimeFormats: typeof datetimeFormats
+      }
+    ).datetimeFormats = datetimeFormats
+    ;(
+      composer as ComposerInternalInstance & {
+        numberFormats: typeof numberFormats
+      }
+    ).numberFormats = numberFormats
+    composer.rt = rt
+    composer.te = te
+    composer.tm = tm as ComposerInternalInstance['tm']
+    composer.d = d as ComposerInternalInstance['d']
+    composer.n = n as ComposerInternalInstance['n']
+    composer.getDateTimeFormat = getDateTimeFormat as ComposerInternalInstance['getDateTimeFormat']
+    composer.setDateTimeFormat = setDateTimeFormat as ComposerInternalInstance['setDateTimeFormat']
+    composer.mergeDateTimeFormat =
+      mergeDateTimeFormat as ComposerInternalInstance['mergeDateTimeFormat']
+    composer.getNumberFormat = getNumberFormat as ComposerInternalInstance['getNumberFormat']
+    composer.setNumberFormat = setNumberFormat as ComposerInternalInstance['setNumberFormat']
+    composer.mergeNumberFormat = mergeNumberFormat as ComposerInternalInstance['mergeNumberFormat']
+    composer[TranslateVNodeSymbol] = translateVNode
+    composer[DatetimePartsSymbol] = datetimeParts
+    composer[NumberPartsSymbol] = numberParts
   }
   // for vue-devtools timeline event
   if (__DEV__) {
-    ;(composer as any)[EnableEmitter] = (emitter: VueDevToolsEmitter): void => {
+    composer[EnableEmitter] = (emitter: VueDevToolsEmitter): void => {
       ;(_context as unknown as CoreInternalContext).__v_emitter = emitter
     }
-    ;(composer as any)[DisableEmitter] = (): void => {
+    composer[DisableEmitter] = (): void => {
       ;(_context as unknown as CoreInternalContext).__v_emitter = undefined
     }
   }
