@@ -1,33 +1,21 @@
-import {
-  assign,
-  create,
-  isBoolean,
-  isDate,
-  isKeylessObject,
-  isNumber,
-  isPlainObject,
-  isString
-} from '@intlify/shared'
-import {
-  handleMissing,
-  isTranslateFallbackWarn,
-  MISSING_RESOLVE_VALUE,
-  NOT_RESOLVED
-} from './context'
+import { assign, create, isBoolean, isDate, isNumber, isString } from '@intlify/shared'
+import { MISSING_RESOLVE_VALUE, NOT_RESOLVED } from './context'
 import { CoreErrorCodes, createCoreError } from './errors'
 import { getLocale } from './fallbacker'
+import {
+  clearFormatCache,
+  getFormatterCacheKey,
+  parseFormatArgs,
+  resolveFormatLocale
+} from './formatter'
 import { Availabilities } from './intl'
 import { CoreWarnCodes, getWarnMessage } from './warnings'
 
 import type { CoreContext, CoreInternalContext } from './context'
 import type { LocaleOptions } from './fallbacker'
-import type { FallbackLocale, Locale } from './runtime'
-import type {
-  DateTimeFormat,
-  DateTimeFormatOptions,
-  DateTimeFormats as DateTimeFormatsType,
-  PickupFormatKeys
-} from './types/index'
+import type { Locale } from './runtime'
+import type { DateTimeFormat, DateTimeFormatOptions, PickupFormatKeys } from './types/index'
+import type { FormatResources } from './formatter'
 
 /**
  *  # datetime
@@ -175,7 +163,7 @@ export function datetime<Context extends CoreContext<Message, {}, {}, {}>, Messa
   context: Context,
   ...args: unknown[]
 ): string | number | Intl.DateTimeFormatPart[] {
-  const { datetimeFormats, unresolving, fallbackLocale, onWarn, localeFallbacker } = context
+  const { datetimeFormats, unresolving, onWarn } = context
   const { __datetimeFormatters } = context as unknown as CoreInternalContext
 
   if (__DEV__ && !Availabilities.dateTimeFormat) {
@@ -195,64 +183,29 @@ export function datetime<Context extends CoreContext<Message, {}, {}, {}>, Messa
   const fallbackWarn = isBoolean(options.fallbackWarn) ? options.fallbackWarn : context.fallbackWarn
   const part = !!options.part
   const locale = getLocale(context, options)
-  const locales = localeFallbacker(context as any, fallbackLocale as FallbackLocale, locale)
 
   if (!isString(key) || key === '') {
     const formatter = new Intl.DateTimeFormat(locale.replace(/!/g, ''), overrides)
     return !part ? formatter.format(value) : formatter.formatToParts(value)
   }
 
-  // resolve format
-  let datetimeFormat: DateTimeFormat = {}
-  let targetLocale: Locale | undefined
-  let format: DateTimeFormatOptions | null = null
-  let from: Locale = locale
-  let to: Locale | null = null
-  const type = 'datetime format'
-
-  for (let i = 0; i < locales.length; i++) {
-    targetLocale = to = locales[i]
-    if (__DEV__ && locale !== targetLocale && isTranslateFallbackWarn(fallbackWarn, key)) {
-      onWarn(
-        getWarnMessage(CoreWarnCodes.FALLBACK_TO_DATE_FORMAT, {
-          key,
-          target: targetLocale
-        })
-      )
-    }
-
-    // for vue-devtools timeline event
-    if (__DEV__ && locale !== targetLocale) {
-      const emitter = (context as unknown as CoreInternalContext).__v_emitter
-      if (emitter) {
-        emitter.emit('fallback', {
-          type,
-          key,
-          from,
-          to,
-          groupId: `${type}:${key}`
-        })
-      }
-    }
-
-    datetimeFormat = (datetimeFormats as unknown as DateTimeFormatsType)[targetLocale] || {}
-    format = datetimeFormat[key]
-
-    if (isPlainObject(format)) break
-    handleMissing(context as any, key, targetLocale, missingWarn, type)
-    from = to
-  }
-
-  // checking format and target locale
-  if (!isPlainObject(format) || !isString(targetLocale)) {
+  const targetLocale = resolveFormatLocale(
+    context,
+    key,
+    locale,
+    datetimeFormats as unknown as FormatResources<DateTimeFormatOptions>,
+    missingWarn,
+    fallbackWarn,
+    'datetime format'
+  )
+  if (!isString(targetLocale)) {
     return unresolving ? NOT_RESOLVED : key
   }
+  const format = (datetimeFormats as unknown as FormatResources<DateTimeFormatOptions>)[
+    targetLocale
+  ][key]
 
-  let id = `${targetLocale}__${key}`
-  if (isPlainObject(overrides) && !isKeylessObject(overrides)) {
-    id = `${id}__${JSON.stringify(overrides)}`
-  }
-
+  const id = getFormatterCacheKey(targetLocale, key, overrides)
   let formatter = __datetimeFormatters.get(id)
   if (!formatter) {
     formatter = new Intl.DateTimeFormat(targetLocale, assign({}, format, overrides))
@@ -289,9 +242,9 @@ export const DATETIME_FORMAT_OPTIONS_KEYS: string[] = [
 export function parseDateTimeArgs(
   ...args: unknown[]
 ): [string, number | Date, DateTimeOptions, Intl.DateTimeFormatOptions] {
-  const [arg1, arg2, arg3, arg4] = args
+  const [arg1] = args
   const options = create() as DateTimeOptions
-  let overrides = create() as Intl.DateTimeFormatOptions
+  const initialOverrides = create() as Intl.DateTimeFormatOptions
 
   let value: number | Date
   if (isString(arg1)) {
@@ -327,27 +280,12 @@ export function parseDateTimeArgs(
     throw createCoreError(CoreErrorCodes.INVALID_ARGUMENT)
   }
 
-  if (isString(arg2)) {
-    options.key = arg2
-  } else if (isPlainObject(arg2)) {
-    Object.keys(arg2).forEach(key => {
-      if (DATETIME_FORMAT_OPTIONS_KEYS.includes(key)) {
-        ;(overrides as any)[key] = (arg2 as any)[key]
-      } else {
-        ;(options as any)[key] = (arg2 as any)[key]
-      }
-    })
-  }
-
-  if (isString(arg3)) {
-    options.locale = arg3
-  } else if (isPlainObject(arg3)) {
-    overrides = arg3
-  }
-
-  if (isPlainObject(arg4)) {
-    overrides = arg4
-  }
+  const overrides = parseFormatArgs<DateTimeOptions, Intl.DateTimeFormatOptions>(
+    args,
+    options,
+    initialOverrides,
+    DATETIME_FORMAT_OPTIONS_KEYS
+  )
 
   return [options.key || '', value, options, overrides]
 }
@@ -359,11 +297,5 @@ export function clearDateTimeFormat<DateTimeFormats = {}, Message = string>(
   format: DateTimeFormat
 ): void {
   const context = ctx as unknown as CoreInternalContext
-  for (const key in format) {
-    const id = `${locale}__${key}`
-    if (!context.__datetimeFormatters.has(id)) {
-      continue
-    }
-    context.__datetimeFormatters.delete(id)
-  }
+  clearFormatCache(context.__datetimeFormatters, locale, format)
 }
