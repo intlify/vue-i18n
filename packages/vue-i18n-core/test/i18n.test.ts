@@ -24,11 +24,19 @@ import {
 } from 'vue'
 import { errorMessages, I18nErrorCodes } from '../src/errors'
 import { createI18n, useI18n } from '../src/i18n'
+import { DisposeSymbol } from '../src/symbols'
 import { pluralRules as _pluralRules, mount, randStr } from './helper'
 
+import type {
+  LocaleFallbacker,
+  MessageFunction,
+  Path,
+  PathValue,
+  ResourceNode
+} from '@intlify/core-base'
 import type { App, ComponentOptions } from 'vue'
-import type { Composer } from '../src/composer'
-import type { I18n } from '../src/i18n'
+import type { Composer, ComposerInternalInstance } from '../src/composer'
+import type { I18n, I18nInternal } from '../src/i18n'
 
 // allow any in error
 const container = document.createElement('div')
@@ -495,6 +503,32 @@ describe('useI18n', () => {
       expect(composableResult!.status).toEqual('composable status')
     })
 
+    test('does not provide itself to child components', async () => {
+      const i18n = createI18n({})
+
+      let isolatedComposer: Composer
+      let childComposer: Composer
+      const Child = defineComponent({
+        setup() {
+          childComposer = useI18n({ useScope: 'parent' })
+          return {}
+        },
+        template: `<p>child</p>`
+      })
+      const App = defineComponent({
+        components: { Child },
+        setup() {
+          isolatedComposer = useI18n({ useScope: 'isolated' })
+          return {}
+        },
+        template: `<Child />`
+      })
+      await mount(App, i18n)
+
+      expect(childComposer!).toBe(i18n.global)
+      expect(childComposer!).not.toBe(isolatedComposer!)
+    })
+
     test('inherits locale from global', async () => {
       const i18n = createI18n({
         locale: 'ja',
@@ -523,8 +557,10 @@ describe('useI18n', () => {
       expect((composer as Composer).locale.value).toEqual('ja')
       expect((composer as Composer).t('greeting')).toEqual('やあ！')
     })
+  })
 
-    test('falls back to root for missing keys', async () => {
+  describe.each(['local', 'isolated'] as const)('%s scoped Composer contract', scope => {
+    test('falls back to the root Composer', async () => {
       const i18n = createI18n({
         locale: 'en',
         messages: {
@@ -536,9 +572,9 @@ describe('useI18n', () => {
       const App = defineComponent({
         setup() {
           composer = useI18n({
-            useScope: 'isolated',
+            useScope: scope,
             messages: {
-              en: { localKey: 'from isolated' }
+              en: { localKey: `from ${scope}` }
             }
           })
           return {}
@@ -547,8 +583,94 @@ describe('useI18n', () => {
       })
       await mount(App, i18n)
 
-      expect((composer as Composer).t('localKey')).toEqual('from isolated')
-      expect((composer as Composer).t('globalKey')).toEqual('from global')
+      expect((composer as Composer).t('localKey')).toBe(`from ${scope}`)
+      expect((composer as Composer).t('globalKey')).toBe('from global')
+    })
+
+    test('inherits runtime dependencies', async () => {
+      const messageCompiler = vi.fn((message: string | ResourceNode): MessageFunction => {
+        const source = typeof message === 'string' ? message : 'resource'
+        return () => `compiled: ${source}`
+      })
+      const messageResolver = vi.fn(
+        (messages: unknown, path: Path): PathValue => (messages as Record<string, PathValue>)[path]
+      )
+      const localeFallbacker = vi.fn(
+        (_context: unknown, _fallbackLocale: unknown, start: string) => [start]
+      )
+      const i18n = createI18n({
+        locale: 'en',
+        messageCompiler,
+        messageResolver,
+        localeFallbacker: localeFallbacker as LocaleFallbacker
+      })
+
+      let translated = ''
+      const App = defineComponent({
+        setup() {
+          const composer = useI18n({
+            useScope: scope,
+            messages: {
+              en: { message: 'hello' }
+            }
+          })
+          translated = composer.t('message')
+          return {}
+        },
+        template: `<p>foo</p>`
+      })
+      await mount(App, i18n)
+
+      expect(translated).toBe('compiled: hello')
+      expect(messageCompiler).toHaveBeenCalled()
+      expect(messageResolver).toHaveBeenCalled()
+      expect(localeFallbacker).toHaveBeenCalled()
+    })
+
+    test('extends and disposes with its scope', async () => {
+      const composerDispose = vi.fn()
+      const composerExtend = vi.fn(() => composerDispose)
+      const i18n = createI18n({})
+      const i18nInternal = i18n as unknown as I18nInternal
+
+      let composer: ComposerInternalInstance
+      let uid = -1
+      const App = defineComponent({
+        name: 'ScopedComposer',
+        setup() {
+          const instance = getCurrentInstance()
+          if (instance == null) {
+            throw new Error()
+          }
+          uid = instance.uid
+          composer = useI18n({ useScope: scope }) as ComposerInternalInstance
+          return {}
+        },
+        template: `<p>foo</p>`
+      })
+      const { app } = await mount(App, i18n, {
+        pluginOptions: {
+          __composerExtend: composerExtend
+        } as any
+      })
+
+      expect(composerExtend).toHaveBeenCalledOnce()
+      expect(composerExtend).toHaveBeenCalledWith(composer!)
+      expect(composer![DisposeSymbol]).toBe(composerDispose)
+      if (scope === 'local') {
+        expect(i18nInternal.__getInstance(uid)).toEqual({
+          composer: composer!,
+          label: 'ScopedComposer'
+        })
+      } else {
+        expect(i18nInternal.__getInstance(uid)).toBeNull()
+      }
+
+      app.unmount()
+
+      expect(i18nInternal.__getInstance(uid)).toBeNull()
+      expect(composerDispose).toHaveBeenCalledOnce()
+      expect(composer![DisposeSymbol]).toBeUndefined()
     })
   })
 })

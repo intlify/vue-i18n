@@ -453,6 +453,54 @@ export function createI18n(options: any = {}): any {
   return i18n
 }
 
+type ScopedComposerOptions = ComposerOptions & ComposerInternalOptions
+
+function createScopedComposerOptions(
+  options: UseI18nOptions,
+  i18n: I18nInternal
+): ScopedComposerOptions {
+  const composerOptions = assign({}, options) as ScopedComposerOptions
+
+  if (i18n.__messageCompiler) {
+    composerOptions.messageCompiler = i18n.__messageCompiler
+  }
+  if (i18n.__messageResolver) {
+    composerOptions.messageResolver = i18n.__messageResolver
+  }
+  if (i18n.__localeFallbacker) {
+    composerOptions.localeFallbacker = i18n.__localeFallbacker
+  }
+
+  return composerOptions
+}
+
+function extendComposer(composer: ComposerInternalInstance, i18n: I18nInternal): void {
+  if (i18n.__composerExtend) {
+    composer[DisposeSymbol] = i18n.__composerExtend(composer)
+  }
+}
+
+function attachComposerDevtools(composer: ComposerInternalInstance): Disposer | undefined {
+  if ((__DEV__ || __FEATURE_PROD_VUE_DEVTOOLS__) && !__NODE_JS__) {
+    const emitter = createEmitter<VueDevToolsEmitterEvents>()
+    composer[EnableEmitter]?.(emitter)
+    emitter.on('*', addTimelineEvent)
+
+    return () => {
+      emitter.off('*', addTimelineEvent)
+      composer[DisableEmitter]?.()
+    }
+  }
+}
+
+function disposeComposer(composer: ComposerInternalInstance): void {
+  const dispose = composer[DisposeSymbol]
+  if (dispose) {
+    dispose()
+    delete composer[DisposeSymbol]
+  }
+}
+
 export function useI18n<Options extends UseI18nOptions = UseI18nOptions>(
   options?: Options
 ): Composer<
@@ -582,98 +630,34 @@ export function useI18n<
     >
   }
 
-  // Isolated scope - independent composer not tied to component uid
-  if (scope === 'isolated') {
-    const i18nInternal = i18n as unknown as I18nInternal
-
-    const composerOptions = assign({}, options) as ComposerOptions & ComposerInternalOptions
-
-    // Inherit messageCompiler, messageResolver, localeFallbacker from createI18n
-    if (i18nInternal.__messageCompiler) {
-      composerOptions.messageCompiler = i18nInternal.__messageCompiler
-    }
-    if (i18nInternal.__messageResolver) {
-      composerOptions.messageResolver = i18nInternal.__messageResolver
-    }
-    if (i18nInternal.__localeFallbacker) {
-      composerOptions.localeFallbacker = i18nInternal.__localeFallbacker
-    }
-
-    // Set parent Composer as fallback root
-    const parentComposer = inject(I18nComposerKey, null)
-    composerOptions.__root = parentComposer || gl
-
-    const composer = createComposer(composerOptions) as ComposerInternalInstance
-
-    // ComposerExtend
-    if (i18nInternal.__composerExtend) {
-      composer[DisposeSymbol] = i18nInternal.__composerExtend(composer)
-    }
-
-    // DevTools emitter setup
-    let emitter: VueDevToolsEmitter | null = null
-    if ((__DEV__ || __FEATURE_PROD_VUE_DEVTOOLS__) && !__NODE_JS__) {
-      emitter = createEmitter<VueDevToolsEmitterEvents>()
-      composer[EnableEmitter]?.(emitter)
-      emitter.on('*', addTimelineEvent)
-    }
-
-    // Lifecycle management via onScopeDispose
-    const currentScope = getCurrentScope()
-    if (currentScope) {
-      onScopeDispose(() => {
-        if ((__DEV__ || __FEATURE_PROD_VUE_DEVTOOLS__) && !__NODE_JS__) {
-          emitter?.off('*', addTimelineEvent)
-          composer[DisableEmitter]?.()
-        }
-        const dispose = composer[DisposeSymbol]
-        if (dispose) {
-          dispose()
-          delete composer[DisposeSymbol]
-        }
-      })
-    }
-
-    return composer as unknown as Composer<Messages, DateTimeFormats, NumberFormats, OptionLocale>
-  }
-
-  // Local scope
   const i18nInternal = i18n as unknown as I18nInternal
+  let localUid: number | undefined
 
-  // Duplicate call detection via uid
-  const { value: uid } = useInstanceOption('uid', true)
-  if (!isNumber(uid)) {
-    throw createI18nError(I18nErrorCodes.UNEXPECTED_ERROR)
-  }
-  const existingEntry = i18nInternal.__getInstance(uid)
-  if (existingEntry != null) {
-    if (__DEV__) {
-      throw createI18nError(I18nErrorCodes.DUPLICATE_USE_I18N_CALLING)
+  if (scope !== 'isolated') {
+    // Duplicate call detection via uid
+    const { value: uid } = useInstanceOption('uid', true)
+    if (!isNumber(uid)) {
+      throw createI18nError(I18nErrorCodes.UNEXPECTED_ERROR)
     }
-    return existingEntry.composer as unknown as Composer<
-      Messages,
-      DateTimeFormats,
-      NumberFormats,
-      OptionLocale
-    >
+    const existingEntry = i18nInternal.__getInstance(uid)
+    if (existingEntry != null) {
+      if (__DEV__) {
+        throw createI18nError(I18nErrorCodes.DUPLICATE_USE_I18N_CALLING)
+      }
+      return existingEntry.composer as unknown as Composer<
+        Messages,
+        DateTimeFormats,
+        NumberFormats,
+        OptionLocale
+      >
+    }
+    localUid = uid
   }
 
-  // Create Composer
-  const composerOptions = assign({}, options) as ComposerOptions & ComposerInternalOptions
-
-  // Inherit messageCompiler, messageResolver, localeFallbacker from createI18n
-  if (i18nInternal.__messageCompiler) {
-    composerOptions.messageCompiler = i18nInternal.__messageCompiler
-  }
-  if (i18nInternal.__messageResolver) {
-    composerOptions.messageResolver = i18nInternal.__messageResolver
-  }
-  if (i18nInternal.__localeFallbacker) {
-    composerOptions.localeFallbacker = i18nInternal.__localeFallbacker
-  }
+  const composerOptions = createScopedComposerOptions(options, i18nInternal)
 
   // SFC i18n custom blocks
-  if ('__i18n' in type) {
+  if (localUid !== undefined && '__i18n' in type) {
     composerOptions.__i18n = type.__i18n as CustomBlocks
   }
 
@@ -682,45 +666,32 @@ export function useI18n<
   composerOptions.__root = parentComposer || gl
 
   const composer = createComposer(composerOptions) as ComposerInternalInstance
+  extendComposer(composer, i18nInternal)
 
-  // ComposerExtend
-  if (i18nInternal.__composerExtend) {
-    composer[DisposeSymbol] = i18nInternal.__composerExtend(composer)
+  if (localUid !== undefined) {
+    // Register instance
+    const label = type.name || type.__name || type.__file || 'Anonymous'
+    i18nInternal.__setInstance(localUid, { composer, label })
   }
 
-  // Register instance
-  const label = type.name || type.__name || type.__file || 'Anonymous'
-  i18nInternal.__setInstance(uid, { composer, label })
-
-  // DevTools emitter setup
-  let emitter: VueDevToolsEmitter | null = null
-  if ((__DEV__ || __FEATURE_PROD_VUE_DEVTOOLS__) && !__NODE_JS__) {
-    emitter = createEmitter<VueDevToolsEmitterEvents>()
-    composer[EnableEmitter]?.(emitter)
-    emitter.on('*', addTimelineEvent)
-  }
+  const disposeDevtools = attachComposerDevtools(composer)
 
   // Lifecycle management via onScopeDispose
   const currentScope = getCurrentScope()
   if (currentScope) {
     onScopeDispose(() => {
-      // DevTools cleanup
-      if ((__DEV__ || __FEATURE_PROD_VUE_DEVTOOLS__) && !__NODE_JS__) {
-        emitter?.off('*', addTimelineEvent)
-        composer[DisableEmitter]?.()
+      disposeDevtools?.()
+      if (localUid !== undefined) {
+        i18nInternal.__deleteInstance(localUid)
       }
-
-      i18nInternal.__deleteInstance(uid)
-      const dispose = composer[DisposeSymbol]
-      if (dispose) {
-        dispose()
-        delete composer[DisposeSymbol]
-      }
+      disposeComposer(composer)
     })
   }
 
   // Provide to child components
-  provide(I18nComposerKey, composer)
+  if (localUid !== undefined) {
+    provide(I18nComposerKey, composer)
+  }
 
   return composer as unknown as Composer<Messages, DateTimeFormats, NumberFormats, OptionLocale>
 }
