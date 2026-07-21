@@ -20,11 +20,40 @@ function escapeAttributeValue(value: string): string {
     .replace(/>/g, '&gt;')
 }
 
-const javascriptSchemePattern = /^\s*javascript\s*(?::|&#0*58;?|&#x0*3a;?|&colon;?)/i
+const javascriptSchemePattern = /^javascript:/i
 const urlAttributePattern = /^(?:href|src|action|formaction)$/i
+const numericCharacterReferencePattern = /&#(?:x([0-9a-f]+)|(\d+));?/gi
+const namedWhitespaceCharacterReferencePattern = /&(?:Tab|NewLine);/g
+const colonCharacterReferencePattern = /&colon;?/gi
+// oxlint-disable-next-line eslint/no-control-regex -- URL scheme normalization requires the full control range
+const controlOrWhitespacePattern = /[\u0000-\u0020\u007f-\u009f]/g
+const eventHandlerPattern = /(?:^|[\s"'<>/])on\w+\s*=\s*["']?[^"'>]+["']?/i
+const eventHandlerAttributePattern = /(^|[\s"'<>/])on(\w+\s*=)/gi
+const unquotedUrlAttributePattern =
+  /(^|[\s"'<>/])((?:href|src|action|formaction)\s*=\s*)([^\s"'=<>`]+)/gi
+
+function decodeNumericCharacterReference(
+  match: string,
+  hex: string | undefined,
+  decimal: string | undefined
+): string {
+  const digits = hex || decimal
+  if (!digits) {
+    return match
+  }
+
+  const codePoint = Number.parseInt(digits, hex ? 16 : 10)
+  return codePoint <= 0x7f ? String.fromCharCode(codePoint) : match
+}
 
 function hasJavascriptScheme(value: string): boolean {
-  return javascriptSchemePattern.test(value)
+  const normalized = value
+    .replace(numericCharacterReferencePattern, decodeNumericCharacterReference)
+    .replace(namedWhitespaceCharacterReferencePattern, '')
+    .replace(colonCharacterReferencePattern, ':')
+    .replace(controlOrWhitespacePattern, '')
+
+  return javascriptSchemePattern.test(normalized)
 }
 
 function sanitizeStyleValue(value: string): string {
@@ -108,7 +137,6 @@ export function sanitizeTranslatedHtml(html: string): string {
   )
 
   // Detect and neutralize event handler attributes
-  const eventHandlerPattern = /\s*on\w+\s*=\s*["']?[^"'>]+["']?/i
   if (eventHandlerPattern.test(html)) {
     if (__DEV__) {
       warn(
@@ -117,13 +145,12 @@ export function sanitizeTranslatedHtml(html: string): string {
       )
     }
     // Neutralize event handler attributes by escaping 'on'
-    html = html.replace(/(\s+)on(\w+\s*=)/gi, '$1&#111;n$2')
+    html = html.replace(eventHandlerAttributePattern, '$1&#111;n$2')
   }
 
   // Disable javascript: URLs in unquoted attributes
-  html = html.replace(
-    /(\s+(?:href|src|action|formaction)\s*=\s*)([^\s"'=<>`]+)/gi,
-    (match, prefix, attrValue) => (hasJavascriptScheme(attrValue) ? `${prefix}about:blank` : match)
+  html = html.replace(unquotedUrlAttributePattern, (match, boundary, prefix, attrValue) =>
+    hasJavascriptScheme(attrValue) ? `${boundary}${prefix}about:blank` : match
   )
 
   return html

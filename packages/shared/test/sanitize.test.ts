@@ -82,6 +82,18 @@ describe('sanitizeTranslatedHtml', () => {
     expect(result).toBe('<a href="about:blank">Click</a>')
   })
 
+  test('neutralize entity-encoded javascript scheme characters', () => {
+    const html = '<a href="&#x6A;avascript:alert(1)">Click</a>'
+    const result = sanitizeTranslatedHtml(html)
+    expect(result).toBe('<a href="about:blank">Click</a>')
+  })
+
+  test('neutralize control characters in javascript schemes', () => {
+    const html = '<a href="java&#x09;script:alert(1)">Click</a>'
+    const result = sanitizeTranslatedHtml(html)
+    expect(result).toBe('<a href="about:blank">Click</a>')
+  })
+
   test('keep javascript URLs inert after DOM parsing', () => {
     const html = '<a href="javascript:alert(1)">Click</a>'
     const result = sanitizeTranslatedHtml(html)
@@ -211,6 +223,18 @@ describe('sanitizeTranslatedHtml', () => {
     const html = '<img src=x onerror=alert(1)>'
     const result = sanitizeTranslatedHtml(html)
     expect(result).toBe('<img src=x &#111;nerror=alert(1)>')
+  })
+
+  test('neutralize event handlers without whitespace separators', () => {
+    const html = '<img src="x"onerror="alert(1)">'
+    const result = sanitizeTranslatedHtml(html)
+    expect(result).toBe('<img src="x"&#111;nerror="alert(1)">')
+  })
+
+  test('neutralize unquoted javascript URLs after slash boundaries', () => {
+    const html = '<a/href=javascript:alert(1)>Click</a>'
+    const result = sanitizeTranslatedHtml(html)
+    expect(result).toBe('<a/href=about:blank>Click</a>')
   })
 
   test('handle mixed quote styles', () => {
