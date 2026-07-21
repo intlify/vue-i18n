@@ -109,7 +109,8 @@ describe.each(formatContracts)('$name formatting pipeline', contract => {
     })
 
     contract.format(context, 'target')
-    expect(contract.cache(context).size).toBe(1)
+    contract.format(context, 'target', contract.overrides)
+    expect(contract.cache(context).size).toBe(2)
 
     contract.clear(context, formats['en-US'])
     expect(contract.cache(context).size).toBe(0)

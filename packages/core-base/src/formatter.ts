@@ -77,11 +77,12 @@ export function clearFormatCache<Formatter>(
   format: Record<string, unknown>
 ): void {
   for (const key in format) {
-    const id = `${locale}__${key}`
-    if (!formatters.has(id)) {
-      continue
+    const prefix = `${locale}__${key}`
+    for (const id of formatters.keys()) {
+      if (id === prefix || id.startsWith(`${prefix}__`)) {
+        formatters.delete(id)
+      }
     }
-    formatters.delete(id)
   }
 }
 
