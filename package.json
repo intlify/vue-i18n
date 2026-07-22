@@ -118,7 +118,7 @@
     "oxc-minify": "^0.140.0",
     "oxc-parser": "^0.140.0",
     "oxc-transform": "^0.140.0",
-    "oxfmt": "^0.34.0",
+    "oxfmt": "^0.60.0",
     "oxlint": "^1.49.0",
     "oxlint-tsgolint": "^0.25.0",
     "picocolors": "^1.1.1",
