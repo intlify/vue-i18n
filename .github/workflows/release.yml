@@ -56,7 +56,7 @@ jobs:
       id-token: write # OIDC trusted publisher 認証 + provenance
     steps:
       - name: Checkout
-        uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd # v5.0.1
+        uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5.1.0
         with:
           ref: ${{ env.TAG }}
           persist-credentials: false
@@ -148,7 +148,7 @@ jobs:
       - name: Checkout target branch
         # zizmor: ignore[artipacked] needs persisted credentials so that
         # stefanzweifel/git-auto-commit-action can push the changelog commit.
-        uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd # v5.0.1
+        uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5.1.0
         with:
           ref: ${{ steps.branch.outputs.name }}
           fetch-depth: 0
