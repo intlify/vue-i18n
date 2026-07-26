@@ -1,4 +1,5 @@
 export * from './utils'
+export * from './sanitize'
 export * from './warn'
 export * from './error'
 export * from './emittable'
