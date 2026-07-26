@@ -1588,6 +1588,28 @@ describe('getLocaleMessage / setLocaleMessage / mergeLocaleMessage', () => {
       }
     })
   })
+
+  test('does not retain array references when merging messages', () => {
+    const { getLocaleMessage, mergeLocaleMessage } = createComposer({
+      messages: {
+        en: {}
+      }
+    })
+    const source = {
+      list: [{ value: 'stored' }]
+    }
+
+    mergeLocaleMessage('en', source)
+    const messages = getLocaleMessage<typeof source>('en')
+
+    expect(messages.list).not.toBe(source.list)
+    expect(messages.list[0]).not.toBe(source.list[0])
+
+    source.list[0].value = 'changed'
+    source.list.push({ value: 'added' })
+
+    expect(messages.list).toEqual([{ value: 'stored' }])
+  })
 })
 
 describe('getDateTimeFormat / setDateTimeFormat / mergeDateTimeFormat', () => {

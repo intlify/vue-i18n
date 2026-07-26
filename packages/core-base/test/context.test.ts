@@ -181,6 +181,25 @@ describe('getLocaleMessage', () => {
     expect(messages).toEqual({ hello: 'hello' })
   })
 
+  test('returns an isolated copy of array messages', () => {
+    const ctx = context({
+      messages: {
+        en: {
+          list: [{ value: 'stored' }]
+        }
+      }
+    })
+    const messages = getLocaleMessage(ctx, 'en')!
+
+    expect(messages.list).not.toBe(ctx.messages.en.list)
+    expect(messages.list[0]).not.toBe(ctx.messages.en.list[0])
+
+    messages.list[0].value = 'changed'
+    messages.list.push({ value: 'added' })
+
+    expect(ctx.messages.en.list).toEqual([{ value: 'stored' }])
+  })
+
   test('not exist locale', () => {
     const ctx = context({
       locale: 'en',
