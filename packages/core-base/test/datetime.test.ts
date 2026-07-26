@@ -354,6 +354,12 @@ describe('error', () => {
       datetime(ctx, 'x2020-01-01')
     }).toThrowError(errorMessages[CoreErrorCodes.INVALID_ISO_DATE_ARGUMENT])
 
+    for (const value of ['2020-01-01\n', '2020-01-01 ', '2020-01-01\t', '2020-01-01T']) {
+      expect(() => {
+        datetime(ctx, value)
+      }).toThrowError(errorMessages[CoreErrorCodes.INVALID_ISO_DATE_ARGUMENT])
+    }
+
     expect(() => {
       datetime(ctx, '2020-01-01TSomeDefinitelyInvalidString')
     }).toThrowError(errorMessages[CoreErrorCodes.INVALID_ISO_DATE_ARGUMENT])
