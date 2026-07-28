@@ -88,14 +88,14 @@ describe.each(formatContracts)('$name formatting pipeline', contract => {
 
     contract.format(context, 'target')
     const cache = contract.cache(context)
-    const cached = cache.get('en-US__target')
+    const cached = cache.get('en-US::en-US::target')
 
     contract.format(context, 'target')
-    expect(cache.get('en-US__target')).toBe(cached)
+    expect(cache.get('en-US::en-US::target')).toBe(cached)
 
     contract.format(context, 'target', contract.overrides)
     expect(cache.size).toBe(2)
-    expect(cache.has(`en-US__target__${JSON.stringify(contract.overrides)}`)).toBe(true)
+    expect(cache.has(`en-US::en-US::target__${JSON.stringify(contract.overrides)}`)).toBe(true)
   })
 
   test('clear cached formatters for replaced resources', () => {
