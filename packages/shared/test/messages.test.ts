@@ -77,6 +77,61 @@ test('deepCopy replaces arrays without retaining source references', () => {
   })
 })
 
+test('deepCopy keeps destination keys the source does not mention', () => {
+  const destination = { keep: 'mine', overwritten: 'old' }
+
+  deepCopy({ overwritten: 'new', added: 1 }, destination)
+
+  expect(destination).toEqual({ keep: 'mine', overwritten: 'new', added: 1 })
+})
+
+test('deepCopy merges into an existing destination object rather than replacing it', () => {
+  const existing = { fromDes: 2 }
+  const destination: Record<string, unknown> = { nested: existing }
+
+  deepCopy({ nested: { fromSrc: 1 } }, destination)
+
+  expect(destination.nested).toBe(existing)
+  expect(destination).toEqual({ nested: { fromDes: 2, fromSrc: 1 } })
+})
+
+test('deepCopy builds a fresh container when the destination cannot hold the source', () => {
+  const source = { fromNull: { a: 1 }, fromPrimitive: { b: 2 }, fromArray: { c: 3 } }
+  const destination: Record<string, unknown> = {
+    fromNull: null,
+    fromPrimitive: 7,
+    fromArray: [1, 2]
+  }
+
+  deepCopy(source, destination)
+
+  expect(destination).toEqual(source)
+  // a source object is never installed by reference, whatever the destination held
+  expect(destination.fromNull).not.toBe(source.fromNull)
+  expect(destination.fromPrimitive).not.toBe(source.fromPrimitive)
+  expect(destination.fromArray).not.toBe(source.fromArray)
+})
+
+test('deepCopy walks deep chains iteratively', () => {
+  const source: Record<string, unknown> = {}
+  let node = source
+  for (let i = 0; i < 10000; i++) {
+    const child: Record<string, unknown> = {}
+    node.depth = i
+    node.child = child
+    node = child
+  }
+
+  const destination: Record<string, unknown> = {}
+  expect(() => deepCopy(source, destination)).not.toThrow()
+
+  let cursor = destination
+  for (let i = 0; i < 10000; i++) {
+    expect(cursor.depth).toBe(i)
+    cursor = cursor.child as Record<string, unknown>
+  }
+})
+
 describe('CVE-2024-52810', () => {
   test('__proto__', () => {
     const source = '{ "__proto__": { "pollutedKey": 123 } }'
