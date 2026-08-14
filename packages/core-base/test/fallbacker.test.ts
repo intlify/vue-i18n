@@ -247,6 +247,29 @@ describe('fallbackWithLocaleChain', () => {
       ])
     })
   })
+
+  describe('cache invalidation', () => {
+    test('recomputes the chain when the fallback locale changes (#2562)', () => {
+      // First call caches the chain computed with fallback 'en'.
+      expect(fallbackWithLocaleChain(ctx, 'en', 'ja')).toEqual(['ja', 'en'])
+
+      // Same start locale, different fallback: the cached entry for 'ja'
+      // must not be reused because it was computed with fallback 'en'.
+      expect(fallbackWithLocaleChain(ctx, 'ja', 'ja')).toEqual(['ja'])
+
+      // Same fallback, different start locale still hits the fresh entry.
+      expect(fallbackWithLocaleChain(ctx, 'ja', 'en')).toEqual(['en', 'ja'])
+    })
+
+    test('keeps cache hit when the same fallback is used again (#2562)', () => {
+      const fallback = ['en', 'ja']
+      const chain = fallbackWithLocaleChain(ctx, fallback, 'fr')
+      expect(chain).toEqual(['fr', 'en', 'ja'])
+      // Same start locale and fallback reference: the cached chain must be
+      // reused (and be referentially identical).
+      expect(fallbackWithLocaleChain(ctx, fallback, 'fr')).toBe(chain)
+    })
+  })
 })
 
 describe('resolveLocale', () => {
