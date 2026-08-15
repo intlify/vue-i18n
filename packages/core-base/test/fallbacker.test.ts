@@ -46,6 +46,16 @@ describe('fallbackWithSimple', () => {
       expect(fallbackWithSimple(ctx, { en: [], ja: [] }, 'ca')).toEqual(['ca', 'en', 'ja'])
     })
   })
+
+  describe('object locales with default key', () => {
+    test('omits the default key from the chain', () => {
+      expect(fallbackWithSimple(ctx, { en: [], ja: [], default: ['en'] }, 'ca')).toEqual([
+        'ca',
+        'en',
+        'ja'
+      ])
+    })
+  })
 })
 
 describe('fallbackWithLocaleChain', () => {
