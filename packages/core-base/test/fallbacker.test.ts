@@ -247,6 +247,41 @@ describe('fallbackWithLocaleChain', () => {
       ])
     })
   })
+
+  describe('cache invalidation', () => {
+    test('recomputes the chain when the fallback locale changes (#2562)', () => {
+      expect(fallbackWithLocaleChain(ctx, 'en', 'ja')).toEqual(['ja', 'en'])
+      expect(fallbackWithLocaleChain(ctx, 'ja', 'ja')).toEqual(['ja'])
+    })
+
+    test('recomputes the chain for different fallback objects with the same start locale (#2562)', () => {
+      expect(fallbackWithLocaleChain(ctx, { sl: ['en'], default: ['en'] }, 'sl')).toEqual([
+        'sl',
+        'en'
+      ])
+
+      expect(fallbackWithLocaleChain(ctx, { sl: ['de', 'hr'], default: ['de'] }, 'sl')).toEqual([
+        'sl',
+        'de',
+        'hr'
+      ])
+    })
+
+    test('recomputes the chain when the fallback is mutated in place', () => {
+      const fallback: Record<string, string[]> = { sl: ['en'], default: ['en'] }
+      expect(fallbackWithLocaleChain(ctx, fallback, 'sl')).toEqual(['sl', 'en'])
+
+      fallback.sl = ['de']
+      expect(fallbackWithLocaleChain(ctx, fallback, 'sl')).toEqual(['sl', 'de', 'en'])
+    })
+
+    test('keeps cache hit when the same fallback is used again (#2562)', () => {
+      const fallback = ['en', 'ja']
+      const chain = fallbackWithLocaleChain(ctx, fallback, 'fr')
+      expect(chain).toEqual(['fr', 'en', 'ja'])
+      expect(fallbackWithLocaleChain(ctx, fallback, 'fr')).toBe(chain)
+    })
+  })
 })
 
 describe('resolveLocale', () => {

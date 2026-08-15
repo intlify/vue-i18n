@@ -309,7 +309,7 @@ export type CoreContext<
 export interface CoreInternalContext {
   __datetimeFormatters: Map<string, Intl.DateTimeFormat>
   __numberFormatters: Map<string, Intl.NumberFormat>
-  __localeChainCache?: Map<Locale, Locale[]>
+  __localeChainCache?: Map<Locale, Map<string, Locale[]>>
   __v_emitter?: VueDevToolsEmitter
 }
 
