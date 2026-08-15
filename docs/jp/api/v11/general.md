@@ -521,7 +521,7 @@ export declare function fallbackWithSimple<Message = string>(_ctx: CoreContext<M
 
 単純なフォールバックアルゴリズムで実装されたフォールバックロケール関数。
 
-基本的には、`fallbackLocale` props で指定された値を返し、intlify 内部でフォールバック処理されます。
+基本的には、チェーンは `start` と指定されたフォールバックで構成されます。文字列または配列の `fallbackLocale` の場合、props で指定された値が使用され、マップの `fallbackLocale` の場合、マップの**キー**が使用され、`default` キーはロケール名ではないためスキップされます。
 
 ### パラメータ
 
