@@ -1,4 +1,5 @@
 import {
+  friendlyJSONstringify,
   isArray,
   isBoolean,
   isFunction,
@@ -130,9 +131,16 @@ export function fallbackWithLocaleChain<Message = string>(
     context.__localeChainCache = new Map()
   }
 
-  const cached = context.__localeChainCache.get(startLocale)
-  if (cached && cached.fallback === fallback) {
-    return cached.chain
+  const fallbackKey = friendlyJSONstringify(fallback)
+  let chains = context.__localeChainCache.get(startLocale)
+  if (!chains) {
+    chains = new Map()
+    context.__localeChainCache.set(startLocale, chains)
+  }
+
+  const cached = chains.get(fallbackKey)
+  if (cached) {
+    return cached
   }
 
   const chain: Locale[] = []
@@ -158,7 +166,7 @@ export function fallbackWithLocaleChain<Message = string>(
   if (isArray(block)) {
     appendBlockToChain(chain, block, false)
   }
-  context.__localeChainCache.set(startLocale, { fallback, chain })
+  chains.set(fallbackKey, chain)
 
   return chain
 }
