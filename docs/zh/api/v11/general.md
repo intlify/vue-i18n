@@ -521,7 +521,7 @@ export declare function fallbackWithSimple<Message = string>(_ctx: CoreContext<M
 
 使用简单回退算法实现的回退语言环境函数。
 
-基本上，它返回 `fallbackLocale` props 中指定的值，并在 intlify 内部进行回退处理。
+基本上，回退链由 `start` 加上指定的回退组成：对于字符串或数组形式的 `fallbackLocale`，使用 props 中指定的值；对于映射形式的 `fallbackLocale`，使用映射的**键**，并跳过 `default` 键（因为它不是语言环境名称）。
 
 ### 参数
 
