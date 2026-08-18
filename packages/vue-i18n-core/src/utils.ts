@@ -223,13 +223,12 @@ export function getCurrentInstance():
   | GenericComponentInstance
   | ComponentInternalInstance
   | null {
-  // NOTE(kazupon): avoid bundler warning
-  const key = 'currentInstance'
-  if (key in Vue) {
-    return (Vue as any)[key] as GenericComponentInstance | null
-  } else {
-    return Vue.getCurrentInstance()
-  }
+  // NOTE: static access (not `in`) so bundlers can tree-shake `@vue/runtime-vapor` when unused;
+  // this triggers a harmless "not exported" warning on Vue < 3.6, which doesn't have this export
+  const instance = (Vue as any).currentInstance
+  return instance !== undefined
+    ? (instance as GenericComponentInstance | null)
+    : Vue.getCurrentInstance()
 }
 
 /* eslint-enable @typescript-eslint/no-explicit-any */
