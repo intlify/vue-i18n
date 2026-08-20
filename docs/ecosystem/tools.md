@@ -1,5 +1,17 @@
 # Third-party tooling
 
+## eloqnt/cli
+
+[eloqnt/cli](https://cli.eloqnt.dev/docs) is a linter and AI translator for translation files.
+
+With [`@eloqnt/format-vue-i18n-json`](https://cli.eloqnt.dev/docs/formats/vue-i18n-json), it can read the vue-i18n message format and reports errors in translation files:
+
+- keys that no longer exist in the source locale
+- interpolations and markup that don't match the source message
+- missing translations, structural differences and more
+
+Missing translations can optionally be filled in with [`eloqnt translate`](https://cli.eloqnt.dev/docs/cli/translate).
+
 ## Sherlock – i18n inspector (VS Code extension)
 
 Sherlock is a VS Code extension that helps you to extract, edit & inspect your i18n keys in your codebase. It is available in the [VS Code Marketplace](https://marketplace.visualstudio.com/items?itemName=inlang.vs-code-extension).
