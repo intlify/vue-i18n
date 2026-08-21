@@ -3,6 +3,7 @@ import { AST_NODE_PROPS_KEYS, isMessageAST } from '@intlify/core-base'
 import {
   create,
   deepCopy,
+  getGlobalThis,
   hasOwn,
   isArray,
   isObject,
@@ -11,7 +12,11 @@ import {
   warn
 } from '@intlify/shared'
 import * as Vue from 'vue'
-import { Text, createVNode } from 'vue'
+import {
+  Text,
+  createVNode,
+  getCurrentInstance as getVueCurrentInstance
+} from 'vue'
 import { I18nWarnCodes, getWarnMessage } from './warnings'
 
 import type { Locale, MessageResolver } from '@intlify/core-base'
@@ -33,6 +38,27 @@ type GetLocaleMessagesOptions<Messages = {}> = {
   __i18n?: CustomBlocks<VueMessageType>
   messageResolver?: MessageResolver
   flatJson?: boolean
+}
+
+type VueInstance = GenericComponentInstance | ComponentInternalInstance
+type VueInstanceSetter = (instance: VueInstance | null) => void
+
+let mirroredCurrentInstance: VueInstance | null = null
+
+if (__ESM_BUNDLER__) {
+  const setters = (
+    getGlobalThis() as {
+      __VUE_INSTANCE_SETTERS__?: VueInstanceSetter[]
+    }
+  ).__VUE_INSTANCE_SETTERS__
+
+  // Vue 3.6's public getter excludes Vapor instances. Mirror Vue's private
+  // cross-runtime setter registry for v11 compatibility in bundler builds.
+  if (isArray(setters)) {
+    setters.push(instance => {
+      mirroredCurrentInstance = instance
+    })
+  }
 }
 
 declare module 'vue' {
@@ -219,16 +245,16 @@ export function createTextNode(key: string): any {
   return createVNode(Text, null, key, 0)
 }
 
-export function getCurrentInstance():
-  | GenericComponentInstance
-  | ComponentInternalInstance
-  | null {
-  // NOTE(kazupon): avoid bundler warning
-  const key = 'currentInstance'
-  if (key in Vue) {
-    return (Vue as any)[key] as GenericComponentInstance | null
+export function getCurrentInstance(): VueInstance | null {
+  if (__ESM_BUNDLER__) {
+    return mirroredCurrentInstance ?? getVueCurrentInstance()
   } else {
-    return Vue.getCurrentInstance()
+    // NOTE(kazupon): avoid missing-export warnings with Vue <= 3.5
+    const key = 'currentInstance'
+    if (key in Vue) {
+      return (Vue as any)[key] as VueInstance | null
+    }
+    return getVueCurrentInstance()
   }
 }
 

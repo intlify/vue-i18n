@@ -1,6 +1,11 @@
 // utils
 import * as shared from '@intlify/shared'
-import { handleFlatJson } from '../src/utils'
+import {
+  createApp,
+  defineComponent,
+  getCurrentInstance as getVueCurrentInstance
+} from 'vue'
+import { getCurrentInstance, handleFlatJson } from '../src/utils'
 import { I18nWarnCodes, getWarnMessage } from '../src/warnings'
 vi.mock('@intlify/shared', async () => {
   const actual = await vi.importActual<object>('@intlify/shared')
@@ -8,6 +13,32 @@ vi.mock('@intlify/shared', async () => {
     ...actual,
     warn: vi.fn()
   }
+})
+
+describe('getCurrentInstance', () => {
+  test('tracks the current VDOM component instance', () => {
+    const container = document.createElement('div')
+    let i18nInstance: ReturnType<typeof getCurrentInstance> = null
+    let vueInstance: ReturnType<typeof getVueCurrentInstance> = null
+    const app = createApp(
+      defineComponent({
+        setup() {
+          i18nInstance = getCurrentInstance()
+          vueInstance = getVueCurrentInstance()
+          return () => null
+        }
+      })
+    )
+
+    app.mount(container)
+
+    expect(i18nInstance).not.toBeNull()
+    expect(i18nInstance).toBe(vueInstance)
+    expect(getCurrentInstance()).toBeNull()
+
+    app.unmount()
+    expect(getCurrentInstance()).toBeNull()
+  })
 })
 
 describe('handleFlatJson', () => {
