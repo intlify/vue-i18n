@@ -301,6 +301,42 @@ test('not available Intl API', () => {
   )
 })
 
+test('uses requested locale for Intl when format falls back to language code', () => {
+  const mockWarn = vi.spyOn(shared, 'warn')
+  mockWarn.mockImplementation(() => {})
+  const mockAvailabilities = Availabilities
+  mockAvailabilities.numberFormat = true
+
+  const decimal = {
+    style: 'decimal',
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2
+  }
+
+  const ctx = context({
+    locale: 'de-CH',
+    fallbackWarn: false,
+    missingWarn: false,
+    numberFormats: {
+      de: { decimal }
+    }
+  })
+
+  expect(number(ctx, 1234.5, 'decimal')).toEqual("1'234.50")
+  expect(number(ctx, 1234.5, 'decimal', 'de-CH')).toEqual("1'234.50")
+  expect(number(ctx, 1234.5, { key: 'decimal', locale: 'de-CH' })).toEqual("1'234.50")
+
+  const deCtx = context({
+    locale: 'de',
+    fallbackWarn: false,
+    missingWarn: false,
+    numberFormats: {
+      de: { decimal }
+    }
+  })
+  expect(number(deCtx, 1234.5, 'decimal')).toEqual('1.234,50')
+})
+
 describe('error', () => {
   test('invalid argument returns empty string with warning', () => {
     const mockWarn = vi.spyOn(shared, 'warn')
