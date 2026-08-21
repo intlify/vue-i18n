@@ -74,7 +74,7 @@ export type LocaleFallbacker = <Message = string>(
  * @remarks
  * A fallback locale function implemented with a simple fallback algorithm.
  *
- * Basically, it returns the value as specified in the `fallbackLocale` props, and is processed with the fallback inside intlify.
+ * Basically, the chain consists of `start` plus the specified fallback: for a string or array `fallbackLocale`, the value as specified in the props is used; for a map `fallbackLocale`, the map's **keys** are used and the `default` key is skipped since it is not a locale name.
  *
  * @param ctx - A {@link CoreContext | context}
  * @param fallback - A {@link FallbackLocale | fallback locale}
@@ -96,7 +96,7 @@ export function fallbackWithSimple<Message = string>(
       ...(isArray(fallback)
         ? fallback
         : isObject(fallback)
-          ? Object.keys(fallback)
+          ? Object.keys(fallback).filter(locale => locale !== 'default')
           : isString(fallback)
             ? [fallback]
             : [start])
