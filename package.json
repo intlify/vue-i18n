@@ -31,6 +31,7 @@
     "build:sourcemap": "pnpm build --sourcemap",
     "build:type": "./scripts/build.sh",
     "build:typed": "pnpm build core-base vue-i18n-core --types",
+    "check:vapor-tree-shaking": "pnpm build:size-vue-i18n && tsx ./scripts/check-vapor-tree-shaking.ts",
     "check-install": "tsx ./scripts/playwright.ts",
     "clean": "pnpm run --color \"/^clean:/\"",
     "clean:coverage": "rimraf ./coverage",
