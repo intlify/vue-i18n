@@ -1,4 +1,5 @@
 import {
+  friendlyJSONstringify,
   isString,
   isArray,
   isBoolean,
@@ -132,33 +133,42 @@ export function fallbackWithLocaleChain<Message = string>(
     context.__localeChainCache = new Map()
   }
 
-  let chain = context.__localeChainCache.get(startLocale)
-  if (!chain) {
-    chain = []
-
-    // first block defined by start
-    let block: unknown = [start]
-
-    // while any intervening block found
-    while (isArray(block)) {
-      block = appendBlockToChain(chain, block, fallback)
-    }
-
-    // prettier-ignore
-    // last block defined by default
-    const defaults = isArray(fallback) || !isPlainObject(fallback)
-      ? fallback
-      : fallback['default']
-        ? fallback['default']
-        : null
-
-    // convert defaults to array
-    block = isString(defaults) ? [defaults] : defaults
-    if (isArray(block)) {
-      appendBlockToChain(chain, block, false)
-    }
-    context.__localeChainCache.set(startLocale, chain)
+  const fallbackKey = friendlyJSONstringify(fallback)
+  let chains = context.__localeChainCache.get(startLocale)
+  if (!chains) {
+    chains = new Map()
+    context.__localeChainCache.set(startLocale, chains)
   }
+
+  const cached = chains.get(fallbackKey)
+  if (cached) {
+    return cached
+  }
+
+  const chain: Locale[] = []
+
+  // first block defined by start
+  let block: unknown = [start]
+
+  // while any intervening block found
+  while (isArray(block)) {
+    block = appendBlockToChain(chain, block, fallback)
+  }
+
+  // prettier-ignore
+  // last block defined by default
+  const defaults = isArray(fallback) || !isPlainObject(fallback)
+    ? fallback
+    : fallback['default']
+      ? fallback['default']
+      : null
+
+  // convert defaults to array
+  block = isString(defaults) ? [defaults] : defaults
+  if (isArray(block)) {
+    appendBlockToChain(chain, block, false)
+  }
+  chains.set(fallbackKey, chain)
 
   return chain
 }
