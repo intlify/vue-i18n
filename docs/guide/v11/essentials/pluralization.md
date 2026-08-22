@@ -173,7 +173,7 @@ To use the custom rules defined above, inside of `createI18n` set either:
 *or*
 2. `pluralRules` (for Composition API)
 
-like the the following locale:
+like the following locale:
 
 ```js
 const i18n = createI18n({
