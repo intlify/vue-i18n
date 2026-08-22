@@ -170,6 +170,22 @@ $ pnpm test -- fileName
 $ pnpm test -- fileName -t 'test name'
 ```
 
+### `pnpm release`
+
+Cuts a release locally. It bumps package versions, generates `CHANGELOG.md` from GitHub's release notes API, then commits, tags, and pushes. GitHub Actions publishes npm packages from the tag and creates the GitHub Release.
+
+Before running it:
+
+- Start from a **clean working tree**. `all: true` includes every tracked change in the release commit.
+- **Push `HEAD` to the remote first.** Generated notes target the current commit SHA; GitHub cannot generate notes for an unpushed commit.
+- Set `GH_TOKEN` or `GITHUB_TOKEN` with **Contents: write** (`gh auth token` is enough).
+- Do not let the future tag exist locally or remotely yet.
+
+```bash
+$ git pull
+$ pnpm release
+```
+
 ## Project Structure
 
 This repository employs a [monorepo](https://en.wikipedia.org/wiki/Monorepo) setup which hosts a number of associated packages under the `packages` directory:
