@@ -17,20 +17,21 @@ export function deepCopy(src: any, des: any): void {
       if (key === '__proto__') {
         return
       }
-      // if src[key] is an object/array, set des[key]
-      // to empty object/array to prevent setting by reference
-      if (isObject(src[key]) && !isObject(des[key])) {
-        des[key] = Array.isArray(src[key]) ? [] : create()
-      }
 
-      if (isNotObjectOrIsArray(des[key]) || isNotObjectOrIsArray(src[key])) {
-        // replace with src[key] when:
-        // src[key] or des[key] is not an object, or
-        // src[key] or des[key] is an array
-        des[key] = src[key]
+      const value = src[key]
+      if (isArray(value)) {
+        // replace arrays instead of merging them, without retaining source references
+        const copied: unknown[] = []
+        copied.length = value.length
+        des[key] = copied
+        stack.push({ src: value, des: copied })
+      } else if (isObject(value)) {
+        if (!isObject(des[key]) || isArray(des[key])) {
+          des[key] = create()
+        }
+        stack.push({ src: value, des: des[key] })
       } else {
-        // src[key] and des[key] are both objects, merge them
-        stack.push({ src: src[key], des: des[key] })
+        des[key] = value
       }
     })
   }
