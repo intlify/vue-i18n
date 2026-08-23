@@ -94,8 +94,8 @@ importers:
         specifier: ^3.2.0
         version: 3.2.0
       gh-changelogen:
-        specifier: ^0.2.8
-        version: 0.2.8
+        specifier: ^2.0.2
+        version: 2.0.2
       jsdom:
         specifier: ^27.4.0
         version: 27.4.0
@@ -2028,10 +2028,6 @@ packages:
     peerDependenciesMeta:
       '@exodus/crypto':
         optional: true
-
-  '@fastify/busboy@2.1.1':
-    resolution: {integrity: sha512-vBZP4NlzfOlerQTnba4aqZoMhE/a9HY7HRqoOPaETQcSQuWEIyZMHGfVu6w9wGtGK5fED5qRs2DteVCjOH60sA==}
-    engines: {node: '>=14'}
 
   '@formatjs/ecma402-abstract@2.3.6':
     resolution: {integrity: sha512-HJnTFeRM2kVFVr5gr5kH1XP6K0JcJtE7Lzvtr3FS/so5f1kpsqqqxy5JF+FRaO6H2qmcMfAUIox7AJteieRtVw==}
@@ -5615,9 +5611,6 @@ packages:
   des.js@1.1.0:
     resolution: {integrity: sha512-r17GxjhUCjSRy8aiJpr8/UadFIzMzJGexI3Nmz4ADi9LYSFx4gTBp80+NaX/YsXWWLhpZ7v/v/ubEc/bCNfKwg==}
 
-  destr@1.2.2:
-    resolution: {integrity: sha512-lrbCJwD9saUQrqUfXvl6qoM+QN3W7tLV5pAOs+OqOmopCCz/JkE05MHedJR1xfk4IAnZuJXPVuN5+7jNA2ZCiA==}
-
   destr@2.0.5:
     resolution: {integrity: sha512-ugFTXCtDZunbzasqBxrK93Ik/DRYsO6S/fedkWEMKqt04xZ4csmnmwGDBAb07QWNaGMAmnTIemsYZCksjATwsA==}
 
@@ -6120,7 +6113,6 @@ packages:
   eslint@9.39.5:
     resolution: {integrity: sha512-DgZS62aPLXKlnxILS/AYCoRvHaZeXceIzlXPkkGGzJWSow1aEk0lbTlxUSlyjC8jcaKxAdOnTDz+o1JFSBsyjw==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
-    deprecated: This version is no longer supported. Please see https://eslint.org/version-support for other options.
     hasBin: true
     peerDependencies:
       jiti: '*'
@@ -6481,9 +6473,9 @@ packages:
     resolution: {integrity: sha512-Ln0UQDlxH1BapMu3GPtf7CuYNwRZf2gwCuPqbyG6pB8WfmFpzqcy4xtAaAMUhnNqjMKTiCPZG2oMT3YSx8U2NA==}
     engines: {node: '>=0.10.0'}
 
-  gh-changelogen@0.2.8:
-    resolution: {integrity: sha512-E9mRhhmpol2WkCqqljVhg+aUST0RE5WEDbh+oeF4MGIA1T+UvgYxv7sFQemnvY5EWj3pg2xz8cVzJX6gNvgHSw==}
-    engines: {node: '>= 14.18'}
+  gh-changelogen@2.0.2:
+    resolution: {integrity: sha512-4Qsyts73PSxeUNigYHa46TDAT/GDt5sW2B+C36wf0gUNGx8rjKuR21K9axE6nm1ZcRqSKfdpshsq4a9TMBNdpA==}
+    engines: {node: '>= 22'}
     hasBin: true
 
   github-slugger@2.0.0:
@@ -6551,6 +6543,10 @@ packages:
   gray-matter@4.0.3:
     resolution: {integrity: sha512-5v6yZd4JK3eMI3FqqCouswVqwugaA9r4dNZB1wwcmrD02QkV5H0y7XBQW8QwQqEaZY1pM9aqORSORhJRdNK44Q==}
     engines: {node: '>=6.0'}
+
+  gunshi@0.37.1:
+    resolution: {integrity: sha512-C3t35z65PQpAHay/gzEu4J/7SNWXn2NhfC4RfZQPxyOqkPfDTizthxCPoSU48OazoVherCuCpFDKI1qcY425Gw==}
+    engines: {node: '>= 22'}
 
   h3@1.15.4:
     resolution: {integrity: sha512-z5cFQWDffyOe4vQ9xIqNfCZdV4p//vy6fBnr8Q1AWnVZ0teurKMG66rLj++TKwKPUP3u7iMUvrvKaEUiQw2QWQ==}
@@ -7788,9 +7784,6 @@ packages:
     resolution: {integrity: sha512-kXs9Go0cah0qHVV2v389IXQLdLCeE1xfFtjOAF+iobu0OIoG1pje8At2vMHyaPMiPMnG/LWP50twML21eMcAag==}
     engines: {node: '>= 0.4'}
 
-  node-fetch-native@0.1.8:
-    resolution: {integrity: sha512-ZNaury9r0NxaT2oL65GvdGDy+5PlSaHTovT6JV5tOW07k1TQmgC0olZETa4C9KZg0+6zBr99ctTYa3Utqj9P/Q==}
-
   node-fetch-native@1.6.7:
     resolution: {integrity: sha512-g9yhqoedzIUm0nTnTqAQvueMPVOuIY16bqgAJJC8XOOubYFNwz6IER9qs0Gq2Xd0+CecCKFjtdDTMA4u4xG06Q==}
 
@@ -7899,10 +7892,6 @@ packages:
 
   ofetch@1.4.1:
     resolution: {integrity: sha512-QZj2DfGplQAr2oj9KzceK9Hwz6Whxazmn85yYeVuS3u9XTMOGMRx0kO95MQ+vLsj/S/NwBDMMLU5hpxvI6Tklw==}
-
-  ohmyfetch@0.4.21:
-    resolution: {integrity: sha512-VG7f/JRvqvBOYvL0tHyEIEG7XHWm7OqIfAs6/HqwWwDfjiJ1g0huIpe5sFEmyb+7hpFa1EGNH2aERWR72tlClw==}
-    deprecated: Package renamed to https://github.com/unjs/ofetch
 
   on-finished@2.4.1:
     resolution: {integrity: sha512-oVlzkg3ENAhCk2zdv7IJwd/QUD4z2RxRwpkcGY8psCVcCYZNq4wYnVWALHM+brtuJjePWiYF/ClmuDr8Ch5+kg==}
@@ -9323,9 +9312,6 @@ packages:
   uc.micro@2.1.0:
     resolution: {integrity: sha512-ARDJmphmdvUk6Glw7y9DQ2bFkKBHwQHLi2lsaH6PPmz/Ka9sFOBsBluozhDltWmnv9u/cF6Rt87znRTPV+yp/A==}
 
-  ufo@0.8.6:
-    resolution: {integrity: sha512-fk6CmUgwKCfX79EzcDQQpSCMxrHstvbLswFChHS0Vump+kFkw7nJBfTZoC1j0bOGoY9I7R3n2DGek5ajbcYnOw==}
-
   ufo@1.6.1:
     resolution: {integrity: sha512-9a4/uxlTWJ4+a5i0ooc1rU7C7YOw3wT+UGqdeNNHWnOF9qcMBgLRS+4IYUqbczewFx4mLEig6gawh7X6mFlEkA==}
 
@@ -9352,10 +9338,6 @@ packages:
 
   undici-types@7.18.2:
     resolution: {integrity: sha512-AsuCzffGHJybSaRrmr5eHr81mwJU3kjw6M+uprWvCXiNeN9SOGwQ3Jn8jb8m3Z6izVgknn1R0FTCEAP2QrLY/w==}
-
-  undici@5.29.0:
-    resolution: {integrity: sha512-raqeBD6NQK4SkWhQzeYKd1KmIG6dllBOTt55Rmkt4HtI9mwdWtJljnrXjAFUBLTSN67HWrOIZ3EPF4kjUw80Bg==}
-    engines: {node: '>=14.0'}
 
   unicorn-magic@0.3.0:
     resolution: {integrity: sha512-+QBBXBCvifc56fsbuxZQ6Sic3wqqc3WWaqxs58gvJrcOuN83HGTCwz3oS5phzU9LthRNE9VrJCFCLUgHeeFnfA==}
@@ -9700,8 +9682,8 @@ packages:
   vue-component-type-helpers@2.2.12:
     resolution: {integrity: sha512-YbGqHZ5/eW4SnkPNR44mKVc6ZKQoRs/Rux1sxC6rdwXb4qpbOSYfDr9DsTHolOTGmIKgM9j141mZbBeg05R1pw==}
 
-  vue-component-type-helpers@3.3.10:
-    resolution: {integrity: sha512-t7IQivQ3oD4D01b7s7a9AWzHAcr3DGBIa/1jZREsFQJcFgSL92gqUkqNiHTYgzTt7QDuJa0I9wCeDwEtZICoBQ==}
+  vue-component-type-helpers@3.3.11:
+    resolution: {integrity: sha512-LwcxzeliO9fkQcpJG0PoX8X5kmAhKmH9wkpDLxNabwzkQ9Zeib2YVHwFV4pcWmMLfXVfjr/dSV+DaJ3cIPgSNA==}
 
   vue-docgen-api@4.79.2:
     resolution: {integrity: sha512-n9ENAcs+40awPZMsas7STqjkZiVlIjxIKgiJr5rSohDP0/JCrD9VtlzNojafsA1MChm/hz2h3PDtUedx3lbgfA==}
@@ -10042,16 +10024,8 @@ packages:
   yuku-parser@0.8.7:
     resolution: {integrity: sha512-vRD9nwt4L3aYpxNqeSC4WqLv58xrXef0Ong1Mc45CTXTIpvLafx7JO05sczmQZwdLEZvywrLOGdNC5+Rp5N1BQ==}
 
-  zod@3.25.76:
-    resolution: {integrity: sha512-gzUt/qt81nXsFGKIFcC3YnfEAx5NkunCfnDlvuBSSFS02bcXu4Lmea0AFIUwbLWxWPx3d9p8S5QoaujKcNQxcQ==}
-
   zod@4.1.12:
     resolution: {integrity: sha512-JInaHOamG8pt5+Ey8kGmdcAcg3OL9reK8ltczgHTAwNhMys/6ThXHityHxVV2p3fkw/c+MAvBHFVYHFZDmjMCQ==}
-
-  zodiarg@0.2.1:
-    resolution: {integrity: sha512-Vbd8aW709iKX0XbMvjYkyjQYDBvWKedaUWNelcNeO1OxVYJ8jqUpj6lRBoO0PtN3b1DM6Ykz+hf9Y8e9pczmLQ==}
-    peerDependencies:
-      zod: 3.*
 
   zwitch@2.0.4:
     resolution: {integrity: sha512-bXE4cR/kVZhKZX/RjPEflHaKVhUVl85noU3v6b8apfQEc1x4A+zBxjZ4lN8LqGd6WZ3dl98pY4o717VFmoPp+A==}
@@ -11058,8 +11032,6 @@ snapshots:
       levn: 0.4.1
 
   '@exodus/bytes@1.7.0': {}
-
-  '@fastify/busboy@2.1.1': {}
 
   '@formatjs/ecma402-abstract@2.3.6':
     dependencies:
@@ -12278,7 +12250,7 @@ snapshots:
       jsdoc-type-pratt-parser: 4.8.0
       process: 0.11.10
       recast: 0.23.11
-      semver: 7.7.3
+      semver: 7.8.5
       util: 0.12.5
       ws: 8.18.3
     optionalDependencies:
@@ -12366,7 +12338,7 @@ snapshots:
       ts-dedent: 2.2.0
       type-fest: 2.19.0
       vue: 3.6.0-rc.5(typescript@5.8.3)
-      vue-component-type-helpers: 3.3.10
+      vue-component-type-helpers: 3.3.11
 
   '@stylistic/eslint-plugin@5.9.0(eslint@9.39.3(jiti@2.6.1))':
     dependencies:
@@ -12720,7 +12692,7 @@ snapshots:
       fast-glob: 3.3.3
       is-glob: 4.0.3
       minimatch: 9.0.5
-      semver: 7.7.3
+      semver: 7.8.5
       ts-api-utils: 2.1.0(typescript@5.8.3)
       typescript: 5.8.3
     transitivePeerDependencies:
@@ -12736,7 +12708,7 @@ snapshots:
       fast-glob: 3.3.3
       is-glob: 4.0.3
       minimatch: 9.0.5
-      semver: 7.7.3
+      semver: 7.8.5
       ts-api-utils: 2.1.0(typescript@5.9.3)
       typescript: 5.9.3
     transitivePeerDependencies:
@@ -12750,7 +12722,7 @@ snapshots:
       '@typescript-eslint/visitor-keys': 8.56.0
       debug: 4.4.3
       minimatch: 9.0.5
-      semver: 7.7.3
+      semver: 7.8.5
       tinyglobby: 0.2.17
       ts-api-utils: 2.4.0(typescript@5.9.3)
       typescript: 5.9.3
@@ -14537,8 +14509,6 @@ snapshots:
       inherits: 2.0.4
       minimalistic-assert: 1.0.1
 
-  destr@1.2.2: {}
-
   destr@2.0.5: {}
 
   destroy@1.2.0: {}
@@ -14984,7 +14954,7 @@ snapshots:
   eslint-compat-utils@0.6.5(eslint@9.39.3(jiti@2.6.1)):
     dependencies:
       eslint: 9.39.3(jiti@2.6.1)
-      semver: 7.7.3
+      semver: 7.8.5
 
   eslint-config-prettier@10.1.8(eslint@9.38.0(jiti@2.6.1)):
     dependencies:
@@ -15832,12 +15802,10 @@ snapshots:
 
   get-value@2.0.6: {}
 
-  gh-changelogen@0.2.8:
+  gh-changelogen@2.0.2:
     dependencies:
-      ohmyfetch: 0.4.21
-      semver: 7.7.3
-      zod: 3.25.76
-      zodiarg: 0.2.1(zod@3.25.76)
+      gunshi: 0.37.1
+      semver: 7.8.5
 
   github-slugger@2.0.0: {}
 
@@ -15914,6 +15882,8 @@ snapshots:
       kind-of: 6.0.3
       section-matter: 1.0.0
       strip-bom-string: 1.0.0
+
+  gunshi@0.37.1: {}
 
   h3@1.15.4:
     dependencies:
@@ -16800,7 +16770,7 @@ snapshots:
 
   make-dir@4.0.0:
     dependencies:
-      semver: 7.7.3
+      semver: 7.8.5
 
   map-cache@0.2.2: {}
 
@@ -17419,8 +17389,6 @@ snapshots:
       semver: 6.3.1
     optional: true
 
-  node-fetch-native@0.1.8: {}
-
   node-fetch-native@1.6.7: {}
 
   node-forge@1.3.1: {}
@@ -17569,13 +17537,6 @@ snapshots:
       destr: 2.0.5
       node-fetch-native: 1.6.7
       ufo: 1.6.1
-
-  ohmyfetch@0.4.21:
-    dependencies:
-      destr: 1.2.2
-      node-fetch-native: 0.1.8
-      ufo: 0.8.6
-      undici: 5.29.0
 
   on-finished@2.4.1:
     dependencies:
@@ -18566,8 +18527,7 @@ snapshots:
 
   semver@7.7.3: {}
 
-  semver@7.8.5:
-    optional: true
+  semver@7.8.5: {}
 
   send@0.19.0:
     dependencies:
@@ -19350,8 +19310,6 @@ snapshots:
 
   uc.micro@2.1.0: {}
 
-  ufo@0.8.6: {}
-
   ufo@1.6.1: {}
 
   uglify-js@3.19.3:
@@ -19383,10 +19341,6 @@ snapshots:
   undici-types@6.21.0: {}
 
   undici-types@7.18.2: {}
-
-  undici@5.29.0:
-    dependencies:
-      '@fastify/busboy': 2.1.1
 
   unicorn-magic@0.3.0: {}
 
@@ -19861,7 +19815,7 @@ snapshots:
 
   vue-component-type-helpers@2.2.12: {}
 
-  vue-component-type-helpers@3.3.10: {}
+  vue-component-type-helpers@3.3.11: {}
 
   vue-docgen-api@4.79.2(vue@3.6.0-rc.5(typescript@5.8.3)):
     dependencies:
@@ -19887,7 +19841,7 @@ snapshots:
       eslint-visitor-keys: 4.2.1
       espree: 10.4.0
       esquery: 1.6.0
-      semver: 7.7.3
+      semver: 7.8.5
     transitivePeerDependencies:
       - supports-color
 
@@ -19899,7 +19853,7 @@ snapshots:
       eslint-visitor-keys: 4.2.1
       espree: 10.4.0
       esquery: 1.6.0
-      semver: 7.7.3
+      semver: 7.8.5
     transitivePeerDependencies:
       - supports-color
 
@@ -19912,7 +19866,7 @@ snapshots:
       espree: 9.6.1
       esquery: 1.6.0
       lodash: 4.17.21
-      semver: 7.7.3
+      semver: 7.8.5
     transitivePeerDependencies:
       - supports-color
 
@@ -20360,12 +20314,6 @@ snapshots:
       '@yuku-parser/binding-win32-arm64': 0.8.7
       '@yuku-parser/binding-win32-x64': 0.8.7
 
-  zod@3.25.76: {}
-
   zod@4.1.12: {}
-
-  zodiarg@0.2.1(zod@3.25.76):
-    dependencies:
-      zod: 3.25.76
 
   zwitch@2.0.4: {}

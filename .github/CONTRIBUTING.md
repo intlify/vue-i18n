@@ -157,6 +157,29 @@ $ pnpm test -- fileName
 $ pnpm test -- fileName -t 'test name'
 ```
 
+### `pnpm release`
+
+Bump package versions, write `CHANGELOG.md` from GitHub-generated notes, then
+commit, tag, and push. GitHub Actions publishes npm from the tag and creates
+the GitHub Release.
+
+Run on a clean release branch whose `HEAD` is already on `origin`. Changelog
+generation calls GitHub's
+[Generate release notes](https://docs.github.com/en/rest/releases/releases#generate-release-notes-content-for-a-release)
+API, so pass a token with Contents: write. Prefer an environment variable over
+`--token` — see [gh-changelogen usage](https://github.com/kazupon/gh-changelogen#-usage)
+and [authentication](https://github.com/kazupon/gh-changelogen#-authentication):
+
+```sh
+$ git pull
+$ GH_TOKEN="$(gh auth token)" pnpm release
+```
+
+Do not leave unrelated tracked changes: bumpp commits every tracked dirty file
+(`all: true`). `CHANGELOG.md` must already be tracked. The future tag must not
+exist locally or remotely yet. If changelog generation fails, bumpp stops
+before commit, tag, and push.
+
 ## Project Structure
 
 This repository employs a [monorepo](https://en.wikipedia.org/wiki/Monorepo) setup which hosts a number of associated packages under the `packages` directory:
