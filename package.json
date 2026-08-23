@@ -68,7 +68,7 @@
     "preview:size-core": "pnpm --filter @intlify/size-check-core preview",
     "preview:size-petite-vue-i18n": "pnpm --filter @intlify/size-check-petite-vue-i18n preview",
     "preview:size-vue-i18n": "pnpm --filter @intlify/size-check-vue-i18n preview",
-    "release": "bumpp",
+    "release": "test -z \"$(git status --porcelain)\" || (echo 'Working tree is dirty. Commit or stash changes before pnpm release.' >&2 && exit 1) && bumpp",
     "size": "tsx ./scripts/build.ts --size && tsx ./scripts/size.ts",
     "size:report": "tsx ./scripts/report-size.ts",
     "test": "pnpm test:cover && pnpm check-install && pnpm test:e2e",

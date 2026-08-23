@@ -175,10 +175,11 @@ $ git pull
 $ GH_TOKEN="$(gh auth token)" pnpm release
 ```
 
-Do not leave unrelated tracked changes: bumpp commits every tracked dirty file
-(`all: true`). `CHANGELOG.md` must already be tracked. The future tag must not
-exist locally or remotely yet. If changelog generation fails, bumpp stops
-before commit, tag, and push.
+`pnpm release` fails if `git status --porcelain` is not empty, so commit or
+stash unrelated changes first. `CHANGELOG.md` must already be tracked. After
+the preflight, bumpp commits version bumps plus the generated changelog
+(`all: true`). The future tag must not exist locally or remotely yet. If
+changelog generation fails, bumpp stops before commit, tag, and push.
 
 ## Project Structure
 
