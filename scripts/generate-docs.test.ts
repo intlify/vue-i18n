@@ -89,10 +89,10 @@ describe('generateApiDocs', () => {
       expect((await readFile(filePath!, 'utf8')).trim().length).toBeGreaterThan(0)
     }
 
-    await access(path.join(rootDir, 'docs/api/v11/general.md'))
+    const v11Path = path.join(rootDir, 'docs/api/v11/general.md')
+    const before = await readFile(v11Path, 'utf8')
     runDocsScript('./scripts/generate-docs.ts')
-    const second = await readFile(path.join(rootDir, 'docs/api/v11/general.md'), 'utf8')
-    expect(second.length).toBeGreaterThan(0)
+    expect(await readFile(v11Path, 'utf8')).toBe(before)
 
     runDocsScript('./scripts/generate-api-locales.ts')
     const jpSidebar = await readFile(path.join(rootDir, 'docs/jp/api/api-sidebar.json'), 'utf8')
