@@ -15,7 +15,7 @@ const config: ReturnType<typeof defineConfig> = defineConfig(
   typescript({
     extraFileExtensions: ['vue'],
     parserOptions: {
-      project: true,
+      project: ['./tsconfig.json', './tsconfig.api-docs.json'],
       tsconfigRootDir: import.meta.dirname
     },
     baseOnly: true

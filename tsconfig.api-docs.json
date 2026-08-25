@@ -1,0 +1,9 @@
+{
+  "extends": "./tsconfig.json",
+  "include": [
+    "scripts/generate-docs.ts",
+    "scripts/api-docs.config.ts",
+    "scripts/generate-docs-lib.ts"
+  ],
+  "exclude": ["node_modules"]
+}

@@ -81,5 +81,11 @@
     "e2e",
     "shim.d.ts",
     "*.config.ts"
+  ],
+  "exclude": [
+    "node_modules",
+    // vitepress-api-references pulls VitePress/Vue types that break vue-i18n-core JSX tests
+    "scripts/generate-docs.ts",
+    "scripts/api-docs.config.ts"
   ]
 }
