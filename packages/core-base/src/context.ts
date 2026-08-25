@@ -10,6 +10,7 @@ import {
   isPlainObject,
   isRegExp,
   isString,
+  toDevtoolsGroupId,
   warn,
   warnOnce
 } from '@intlify/shared'
@@ -665,7 +666,7 @@ export function handleMissing<Message = string>(
         locale,
         key,
         type,
-        groupId: `${type}:${key}`
+        groupId: toDevtoolsGroupId(type, key)
       })
     }
   }

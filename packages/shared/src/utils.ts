@@ -70,6 +70,10 @@ export const friendlyJSONstringify = (json: unknown): string =>
 export const isNumber = (val: unknown): val is number =>
   typeof val === 'number' && isFinite(val)
 
+export function toDevtoolsGroupId(type: string, key: unknown): string {
+  return isString(key) || isNumber(key) ? `${type}:${key}` : type
+}
+
 export const isDate = (val: unknown): val is Date =>
   toTypeString(val) === '[object Date]'
 
