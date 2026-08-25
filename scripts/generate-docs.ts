@@ -8,32 +8,29 @@
 import { execFileSync } from 'node:child_process'
 import { mkdir, rm, writeFile } from 'node:fs/promises'
 import path from 'node:path'
-import { pathToFileURL } from 'node:url'
+import { fileURLToPath } from 'node:url'
 
-import { generateOxContentApiDocs, toVitePressSidebarItems } from 'vitepress-api-references'
+import {
+  generateOxContentApiDocs,
+  toVitePressSidebarItems,
+  type ApiDocsNavItem
+} from 'vitepress-api-references'
 
-import config from '../api-docs.config.mjs'
+import config from '../api-docs.config'
 
 const GENERATED_DIRS = ['general', 'vue']
 const GENERATED_FILES = ['index.md', 'api-sidebar.json']
 
-/**
- * @param {string} message
- */
-export function isAllowedDiagnostic(message) {
+export function isAllowedDiagnostic(message: string): boolean {
   return message.includes('was excluded from docs because it is marked @internal')
 }
 
-/**
- * @param {Record<string, string>} files
- */
-export function normalizeGeneratedFiles(files) {
+export function normalizeGeneratedFiles(files: Record<string, string>): Record<string, string> {
   const sourceModuleFiles = new Set(
     Object.keys(files).filter(filePath => filePath.includes('/modules/'))
   )
   const linkReplacements = createModuleLinkReplacements(files)
-  /** @type {Record<string, string>} */
-  const normalized = {}
+  const normalized: Record<string, string> = {}
 
   for (const [filePath, content] of Object.entries(files)) {
     if (sourceModuleFiles.has(filePath) || filePath.split(/[/\\]/)[0] === 'v11') {
@@ -49,10 +46,7 @@ export function normalizeGeneratedFiles(files) {
   return normalized
 }
 
-/**
- * @param {Record<string, string>} files
- */
-export function collectGeneratedSymbolNames(files) {
+export function collectGeneratedSymbolNames(files: Record<string, string>): string[] {
   return Object.keys(files)
     .filter(
       filePath =>
@@ -65,7 +59,12 @@ export function collectGeneratedSymbolNames(files) {
     .sort()
 }
 
-export async function generateApiDocs() {
+export async function generateApiDocs(): Promise<{
+  files: Record<string, string>
+  nav: ApiDocsNavItem[]
+  diagnostics: string[]
+  outDir: string
+}> {
   const result = await generateOxContentApiDocs({
     ...config,
     write: false
@@ -81,24 +80,20 @@ export async function generateApiDocs() {
     console.warn(diagnostic)
   }
   if (unexpected.length > 0) {
-    const error = new Error(
-      `API docs generation reported ${unexpected.length} unexpected diagnostic(s)`
+    throw new Error(
+      `API docs generation reported ${unexpected.length} unexpected diagnostic(s):\n${unexpected.join('\n')}`
     )
-    // @ts-expect-error diagnostics is for callers
-    error.diagnostics = unexpected
-    throw error
   }
 
   console.log(`Generated ${Object.keys(files).length} files`)
   return { files, nav: result.nav, diagnostics: result.diagnostics, outDir }
 }
 
-/**
- * @param {string} outDir
- * @param {Record<string, string>} files
- * @param {import('vitepress-api-references').ApiDocsNavItem[]} nav
- */
-async function replaceGeneratedOutput(outDir, files, nav) {
+async function replaceGeneratedOutput(
+  outDir: string,
+  files: Record<string, string>,
+  nav: ApiDocsNavItem[]
+): Promise<void> {
   for (const name of GENERATED_DIRS) {
     await rm(path.join(outDir, name), { recursive: true, force: true })
   }
@@ -119,11 +114,8 @@ async function replaceGeneratedOutput(outDir, files, nav) {
   )
 }
 
-/**
- * @param {Record<string, string>} files
- */
-function createModuleLinkReplacements(files) {
-  const replacements = new Map()
+function createModuleLinkReplacements(files: Record<string, string>): Map<string, string> {
+  const replacements = new Map<string, string>()
 
   for (const filePath of Object.keys(files)) {
     const match = filePath.match(
@@ -139,11 +131,7 @@ function createModuleLinkReplacements(files) {
   return replacements
 }
 
-/**
- * @param {string} content
- * @param {Map<string, string>} replacements
- */
-function replaceModuleLinks(content, replacements) {
+function replaceModuleLinks(content: string, replacements: Map<string, string>): string {
   let next = content
   for (const [from, to] of replacements) {
     next = next.replaceAll(from, to)
@@ -151,10 +139,7 @@ function replaceModuleLinks(content, replacements) {
   return next
 }
 
-/**
- * @param {string} content
- */
-export function removeModulesSection(content) {
+export function removeModulesSection(content: string): string {
   const sectionStart = content.indexOf('\n## Modules\n')
   if (sectionStart === -1) {
     return content
@@ -168,10 +153,7 @@ export function removeModulesSection(content) {
   return `${content.slice(0, sectionStart).trimEnd()}\n${content.slice(nextSectionStart)}`
 }
 
-/**
- * @param {string} outDir
- */
-function formatGeneratedFiles(outDir) {
+function formatGeneratedFiles(outDir: string): void {
   const binaryName = process.platform === 'win32' ? 'oxfmt.cmd' : 'oxfmt'
   const oxfmt = path.join(process.cwd(), 'node_modules', '.bin', binaryName)
 
@@ -190,9 +172,11 @@ function formatGeneratedFiles(outDir) {
 }
 
 const isCli =
-  process.argv[1] !== undefined &&
-  pathToFileURL(path.resolve(process.argv[1])).href === import.meta.url
+  process.argv[1] !== undefined && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)
 
 if (isCli) {
-  await generateApiDocs()
+  generateApiDocs().catch((error: unknown) => {
+    console.error(error)
+    process.exit(1)
+  })
 }

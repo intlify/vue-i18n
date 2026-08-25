@@ -1,7 +1,6 @@
-// @ts-check
+import type { OxContentApiDocsOptions } from 'vitepress-api-references'
 
-/** @type {import('vitepress-api-references').OxContentApiDocsOptions} */
-export default {
+const config: OxContentApiDocsOptions = {
   entryPoints: [
     { path: 'packages/vue-i18n/src/index.ts', name: 'general' },
     { path: 'packages/vue-i18n/src/vue.ts', name: 'vue' }
@@ -32,3 +31,5 @@ export default {
   clean: false,
   write: false
 }
+
+export default config

@@ -7,7 +7,7 @@ import {
   isAllowedDiagnostic,
   normalizeGeneratedFiles,
   removeModulesSection
-} from './generate-docs.mjs'
+} from './generate-docs'
 import { syncApiDocsLocales } from './generate-api-locales'
 import baseline from './api-docs-symbol-baseline.json' with { type: 'json' }
 
