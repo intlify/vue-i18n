@@ -1,4 +1,4 @@
-import { isKeylessObject, isPlainObject, isString } from '@intlify/shared'
+import { isKeylessObject, isPlainObject, isString, toDevtoolsGroupId } from '@intlify/shared'
 import { handleMissing, isTranslateFallbackWarn } from './context'
 import { CoreWarnCodes, getWarnMessage } from './warnings'
 
@@ -46,7 +46,7 @@ export function resolveFormatLocale<Format, Message = string>(
           key,
           from,
           to: targetLocale,
-          groupId: `${type}:${key}`
+          groupId: toDevtoolsGroupId(type, key)
         })
       }
     }

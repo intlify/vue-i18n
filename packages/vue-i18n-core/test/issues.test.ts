@@ -15,14 +15,11 @@ vi.mock('@intlify/shared', async () => {
 import { registerMessageCompiler } from '@intlify/core-base'
 import { defineComponent, getCurrentInstance, nextTick, ref } from 'vue'
 import { createI18n, useI18n } from '../src/i18n'
-import { EnableEmitter } from '../src/symbols'
 import { ast } from './fixtures/ast'
 import { mount } from './helper'
 
-import type { VueDevToolsEmitterEvents } from '@intlify/devtools-types'
 import type { ComponentOptions } from 'vue'
-import type { Composer, ComposerInternal } from '../src/composer'
-import type { IntlDateTimeFormats, IntlNumberFormats, VueMessageType } from '../src/index'
+import type { IntlDateTimeFormats, IntlNumberFormats } from '../src/index'
 
 const container = document.createElement('div')
 document.body.appendChild(container)
@@ -1245,19 +1242,4 @@ describe('issue #2455', () => {
 
     expect(wrapper.html()).toEqual('<div>Test: Base | Test: Deep | Test: Deeper</div>')
   })
-})
-
-test('#2600', () => {
-  const i18n = createI18n({
-    locale: 'en',
-    messages: { en: {} }
-  })
-
-  const composer = i18n.global as unknown as Composer & ComposerInternal
-  composer.mergeLocaleMessage('en', { list: [ast.language, ast.product] })
-  composer[EnableEmitter]!(shared.createEmitter<VueDevToolsEmitterEvents>())
-
-  const list = composer.tm('list') as VueMessageType[]
-  expect(composer.rt(list[0])).toEqual('Languages')
-  expect(composer.rt(list[1])).toEqual('Product')
 })

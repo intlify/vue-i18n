@@ -33,6 +33,7 @@ import {
   isPlainObject,
   isRegExp,
   isString,
+  toDevtoolsGroupId,
   warn
 } from '@intlify/shared'
 import { computed, ref, shallowRef, watch } from 'vue'
@@ -2208,7 +2209,7 @@ export function createComposer(options: any = {}): ComposerInternalInstance {
               type: warnType,
               key,
               to: 'global',
-              groupId: `${warnType}:${key}`
+              groupId: toDevtoolsGroupId(warnType, key)
             })
           }
         }
