@@ -1496,7 +1496,7 @@ describe('tm', () => {
       fruits: [textAst('Apple'), textAst('Banana')]
     })
 
-    const fruits = composer.tm('fruits') as { type: number }[]
+    const fruits = composer.tm('fruits') as VueMessageType[]
     expect(Object.getPrototypeOf(fruits[0])).toBe(null)
     ;(composer as any)[EnableEmitter](shared.createEmitter())
 
