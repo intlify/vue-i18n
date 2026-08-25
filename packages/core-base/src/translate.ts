@@ -16,6 +16,7 @@ import {
   mark,
   measure,
   sanitizeTranslatedHtml,
+  toDevtoolsGroupId,
   warn
 } from '@intlify/shared'
 import { isMessageAST } from './ast'
@@ -773,7 +774,7 @@ function resolveMessageFormat<Messages, Message>(
           key,
           from,
           to: targetLocale,
-          groupId: `${type}:${key}`
+          groupId: toDevtoolsGroupId(type, key)
         })
       }
     }
@@ -806,7 +807,7 @@ function resolveMessageFormat<Messages, Message>(
           key,
           message: format,
           time: end - start,
-          groupId: `${type}:${key}`
+          groupId: toDevtoolsGroupId(type, key)
         })
       }
       if (startTag && endTag && mark && measure) {
@@ -887,7 +888,7 @@ function compileMessageFormat<Messages, Message>(
         type: 'message-compilation',
         message: format as string | ResourceNode | MessageFunction,
         time: end - start,
-        groupId: `${'translate'}:${key}`
+        groupId: toDevtoolsGroupId('translate', key)
       })
     }
     if (startTag && endTag && mark && measure) {
@@ -925,7 +926,7 @@ if (__DEV__ && inBrowser) {
       type: 'message-evaluation',
       value: messaged,
       time: end - start,
-      groupId: `${'translate'}:${(msg as MessageFunctionInternal).key}`
+      groupId: toDevtoolsGroupId('translate', (msg as MessageFunctionInternal).key)
     })
 
     mark(endTag)
@@ -1001,7 +1002,7 @@ function getCompileContext<Messages, Message>(
             error: err.message,
             start: err.location && err.location.start.offset,
             end: err.location && err.location.end.offset,
-            groupId: `${'translate'}:${key}`
+            groupId: toDevtoolsGroupId('translate', key)
           })
         }
         const message = `Message compilation error: ${err.message}`
