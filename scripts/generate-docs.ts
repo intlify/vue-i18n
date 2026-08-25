@@ -78,12 +78,10 @@ async function replaceGeneratedOutput(
 }
 
 function formatGeneratedFiles(outDir: string): void {
-  const binaryName = process.platform === 'win32' ? 'oxfmt.cmd' : 'oxfmt'
-  const oxfmt = path.join(process.cwd(), 'node_modules', '.bin', binaryName)
-
   execFileSync(
-    oxfmt,
+    process.execPath,
     [
+      path.join(process.cwd(), 'node_modules', 'oxfmt', 'bin', 'oxfmt'),
       path.join(outDir, 'general'),
       path.join(outDir, 'vue'),
       path.join(outDir, 'index.md'),
