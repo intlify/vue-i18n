@@ -10,6 +10,7 @@ import {
 import baseline from './api-docs-symbol-baseline.json' with { type: 'json' }
 
 const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..')
+const tsxCli = path.join(rootDir, 'node_modules', 'tsx', 'dist', 'cli.mjs')
 const requiredPages = [
   'createI18n',
   'useI18n',
@@ -34,6 +35,10 @@ async function walkMarkdown(dir: string, acc: string[] = []): Promise<string[]> 
     }
   }
   return acc
+}
+
+function runDocsScript(script: string): void {
+  execFileSync(process.execPath, [tsxCli, script], { cwd: rootDir, stdio: 'inherit' })
 }
 
 describe('generateApiDocs', () => {
@@ -71,7 +76,7 @@ describe('generateApiDocs', () => {
   })
 
   test('writes the TypeDoc public symbol set without touching v11 pages', async () => {
-    execFileSync('pnpm', ['docs:api'], { cwd: rootDir, stdio: 'inherit' })
+    runDocsScript('./scripts/generate-docs.ts')
     const firstPages = await walkMarkdown(path.join(rootDir, 'docs/api'))
     const names = [...new Set(firstPages.map(filePath => path.basename(filePath, '.md')))].sort()
 
@@ -85,11 +90,11 @@ describe('generateApiDocs', () => {
     }
 
     await access(path.join(rootDir, 'docs/api/v11/general.md'))
-    execFileSync('pnpm', ['docs:api'], { cwd: rootDir, stdio: 'inherit' })
+    runDocsScript('./scripts/generate-docs.ts')
     const second = await readFile(path.join(rootDir, 'docs/api/v11/general.md'), 'utf8')
     expect(second.length).toBeGreaterThan(0)
 
-    execFileSync('pnpm', ['docs:api:locales'], { cwd: rootDir, stdio: 'inherit' })
+    runDocsScript('./scripts/generate-api-locales.ts')
     const jpSidebar = await readFile(path.join(rootDir, 'docs/jp/api/api-sidebar.json'), 'utf8')
     const zhSidebar = await readFile(path.join(rootDir, 'docs/zh/api/api-sidebar.json'), 'utf8')
     expect(jpSidebar).toContain('/jp/api/')
