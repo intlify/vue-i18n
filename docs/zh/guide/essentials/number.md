@@ -165,7 +165,7 @@ NumberFormat 组件有一些属性。
 <!-- eslint-disable markdown/no-missing-label-refs -->
 
 > [!NOTE]
-> 支持的作用域插槽的完整列表以及其他 `i18n-n` 属性可以在 [API 参考](../../../api/general/type-aliases/NumberFormat.md) 中找到。
+> 支持的作用域插槽的完整列表以及其他 `i18n-n` 属性可以在 [API 参考](../../../api/general/variables/NumberFormat.md) 中找到。
 
 <!-- eslint-enable markdown/no-missing-label-refs -->
 

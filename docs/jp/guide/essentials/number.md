@@ -165,7 +165,7 @@ NumberFormat コンポーネントにはいくつかの props があります。
 <!-- eslint-disable markdown/no-missing-label-refs -->
 
 > [!NOTE]
-> サポートされているスコープ付きスロットの完全なリストおよびその他の `i18n-n` プロパティは、[API リファレンス](../../../api/general/type-aliases/NumberFormat.md) にあります。
+> サポートされているスコープ付きスロットの完全なリストおよびその他の `i18n-n` プロパティは、[API リファレンス](../../../api/general/variables/NumberFormat.md) にあります。
 
 <!-- eslint-enable markdown/no-missing-label-refs -->
 
