@@ -76,7 +76,8 @@ function nav() {
     },
     {
       text: 'API',
-      link: '/api/v11/general/',
+      link: '/api/',
+      activeMatch: '^/api/(?!v11)',
     },
     {
       text: 'Ecosystem',
@@ -87,6 +88,7 @@ function nav() {
       items: [
         { text: 'Maintenance Status', link: '/guide/maintenance' },
         { text: 'v11 Guide', link: '/guide/v11/essentials/started' },
+        { text: 'v11 API', link: '/api/v11/general/' },
         { text: 'v8.x', link: 'https://kazupon.github.io/vue-i18n/' }
       ]
     },
