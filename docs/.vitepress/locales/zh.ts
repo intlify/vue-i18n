@@ -26,7 +26,8 @@ function nav() {
     },
     {
       text: 'API',
-      link: '/zh/api/v11/general'
+      link: '/zh/api/',
+      activeMatch: '^/zh/api/(?!v11)'
     },
     {
       text: '生态系统',
@@ -37,6 +38,7 @@ function nav() {
       items: [
         { text: '维护状态', link: '/zh/guide/maintenance' },
         { text: 'v11 指南', link: '/zh/guide/v11/essentials/started' },
+        { text: 'v11 API', link: '/zh/api/v11/general' },
         { text: 'v8.x', link: 'https://kazupon.github.io/vue-i18n/' }
       ]
     },

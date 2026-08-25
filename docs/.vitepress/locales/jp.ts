@@ -26,7 +26,8 @@ function nav() {
     },
     {
       text: 'API',
-      link: '/jp/api/v11/general'
+      link: '/jp/api/',
+      activeMatch: '^/jp/api/(?!v11)'
     },
     {
       text: 'エコシステム',
@@ -37,6 +38,7 @@ function nav() {
       items: [
         { text: 'メンテナンスステータス', link: '/jp/guide/maintenance' },
         { text: 'v11 ガイド', link: '/jp/guide/v11/essentials/started' },
+        { text: 'v11 API', link: '/jp/api/v11/general' },
         { text: 'v8.x', link: 'https://kazupon.github.io/vue-i18n/' }
       ]
     },
