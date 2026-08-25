@@ -1508,7 +1508,7 @@ describe('tm', () => {
 
     const fruits = composer.tm('fruits') as VueMessageType[]
     expect(Object.getPrototypeOf(fruits[0])).toBe(null)
-    ;(composer as ComposerInternalInstance)[EnableEmitter]!(shared.createEmitter())
+    ;(composer as unknown as ComposerInternalInstance)[EnableEmitter]!(shared.createEmitter())
 
     expect(fruits.map(fruit => composer.rt(fruit))).toEqual(['Apple', 'Banana'])
   })
