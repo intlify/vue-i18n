@@ -8,7 +8,7 @@ import {
   normalizeGeneratedFiles,
   removeModulesSection
 } from './generate-docs.mjs'
-import { syncApiDocsLocales } from './generate-api-locales.ts'
+import { syncApiDocsLocales } from './generate-api-locales'
 import baseline from './api-docs-symbol-baseline.json' with { type: 'json' }
 
 const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..')
@@ -61,7 +61,7 @@ describe('generateApiDocs', () => {
 
     expect(names).toEqual([...baseline].sort())
     expect(names).not.toContain('ComponentCustomOptions')
-    expect(diagnostics.filter(message => !isAllowedDiagnostic(message))).toEqual([])
+    expect(diagnostics.filter((message: string) => !isAllowedDiagnostic(message))).toEqual([])
 
     for (const name of requiredPages) {
       const filePath = Object.keys(files).find(entry => entry.endsWith(`/${name}.md`))
