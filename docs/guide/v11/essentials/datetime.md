@@ -177,7 +177,7 @@ It is possible to specify multiple scoped slots at the same time:
 <!-- eslint-disable markdown/no-missing-label-refs -->
 
 > [!NOTE]
-> Full list of the supported scoped slots as well as other `i18n-d`, properties can be found on [API Reference](/api/general/type-aliases/DatetimeFormat.md)
+> Full list of the supported scoped slots as well as other `i18n-d`, properties can be found on [API Reference](/api/general/variables/DatetimeFormat.md)
 
 <!-- eslint-enable markdown/no-missing-label-refs -->
 

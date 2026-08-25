@@ -1,4 +1,4 @@
-import typedocSidebarApi from '../../jp/api/typedoc-sidebar.json' with { type: 'json' };
+import apiSidebar from '../../jp/api/api-sidebar.json' with { type: 'json' };
 
 export default {
   label: '日本語',
@@ -216,7 +216,7 @@ function sidebarApi() {
   return [{
     text: 'API リファレンス',
     collapsed: false,
-    items: typedocSidebarApi
+    items: apiSidebar
   }];
 }
 

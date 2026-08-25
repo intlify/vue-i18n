@@ -28,3 +28,13 @@ minimumReleaseAgeExclude:
   - '@vitest/coverage-v8'
   # Renovate security update: vite@7.3.2
   - vite@7.3.2
+  # vitepress-api-references@0.3.0 and its ox-content 3 alpha are newer than minimumReleaseAge
+  - vitepress-api-references
+  - '@ox-content/napi'
+  - '@ox-content/binding-darwin-arm64'
+  - '@ox-content/binding-darwin-x64'
+  - '@ox-content/binding-linux-x64-gnu'
+  - '@ox-content/binding-linux-x64-musl'
+  - '@ox-content/binding-linux-arm64-gnu'
+  - '@ox-content/binding-linux-arm64-musl'
+  - '@ox-content/binding-win32-x64-msvc'

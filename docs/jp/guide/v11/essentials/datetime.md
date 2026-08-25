@@ -159,7 +159,7 @@ DatetimeFormat コンポーネントにはいくつかの props があります�
 <!-- eslint-disable markdown/no-missing-label-refs -->
 
 > [!NOTE]
-> サポートされているスコープ付きスロットの完全なリストおよびその他の `i18n-d` プロパティは、[API リファレンス](/api/general/type-aliases/DatetimeFormat.md) にあります。
+> サポートされているスコープ付きスロットの完全なリストおよびその他の `i18n-d` プロパティは、[API リファレンス](/jp/api/general/variables/DatetimeFormat.md) にあります。
 
 <!-- eslint-enable markdown/no-missing-label-refs -->
 

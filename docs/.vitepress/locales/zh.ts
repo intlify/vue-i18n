@@ -1,4 +1,4 @@
-import typedocSidebarApi from '../../zh/api/typedoc-sidebar.json' with { type: 'json' };
+import apiSidebar from '../../zh/api/api-sidebar.json' with { type: 'json' };
 
 export default {
   label: '中文',
@@ -216,7 +216,7 @@ function sidebarApi() {
   return [{
     text: 'API 参考',
     collapsed: false,
-    items: typedocSidebarApi
+    items: apiSidebar
   }];
 }
 

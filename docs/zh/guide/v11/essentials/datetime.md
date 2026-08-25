@@ -159,7 +159,7 @@ DatetimeFormat 组件有一些属性。
 <!-- eslint-disable markdown/no-missing-label-refs -->
 
 > [!NOTE]
-> 支持的作用域插槽的完整列表以及其他 `i18n-d` 属性可以在 [API 参考](/api/general/type-aliases/DatetimeFormat.md) 中找到。
+> 支持的作用域插槽的完整列表以及其他 `i18n-d` 属性可以在 [API 参考](/zh/api/general/variables/DatetimeFormat.md) 中找到。
 
 <!-- eslint-enable markdown/no-missing-label-refs -->
 

@@ -1,6 +1,6 @@
 import { defineConfig } from 'vitepress';
 import llmstxt from 'vitepress-plugin-llms';
-import typedocSidebarApi from '../api/typedoc-sidebar.json' with { type: 'json' };
+import apiSidebar from '../api/api-sidebar.json' with { type: 'json' };
 import jp from './locales/jp.js';
 import zh from './locales/zh.js';
 
@@ -340,7 +340,7 @@ function sidebarApi() {
   return [{
     text: 'API Reference',
     collapsed: false,
-    items: typedocSidebarApi
+    items: apiSidebar
   }]
 }
 

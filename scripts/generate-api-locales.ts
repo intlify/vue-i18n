@@ -6,28 +6,30 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const rootDir = path.resolve(__dirname, '..')
 const docsApiDir = path.resolve(rootDir, 'docs/api')
 const locales = ['zh', 'jp']
+const generatedNames = ['general', 'vue', 'index.md', 'api-sidebar.json']
 
-async function main() {
-  // Check if docs/api exists
+export async function syncApiDocsLocales() {
   try {
     await fs.access(docsApiDir)
   } catch {
-    console.error(`Error: ${docsApiDir} does not exist. Please run 'pnpm typedoc' first.`)
+    console.error(`Error: ${docsApiDir} does not exist. Please run 'pnpm docs:api' first.`)
     process.exit(1)
   }
 
   for (const locale of locales) {
     const targetDir = path.resolve(rootDir, `docs/${locale}/api`)
-    console.log(`Syncing TypeDoc to ${targetDir}...`)
+    console.log(`Syncing API docs to ${targetDir}...`)
 
-    // Ensure target dir exists
     await fs.mkdir(targetDir, { recursive: true })
 
-    // Copy files recursively
-    // We only copy generated typedoc content, excluding v11 (which is manual)
+    for (const name of generatedNames) {
+      await fs.rm(path.join(targetDir, name), { recursive: true, force: true })
+    }
+    await fs.rm(path.join(targetDir, 'typedoc-sidebar.json'), { force: true })
+
     const entries = await fs.readdir(docsApiDir, { withFileTypes: true })
     for (const entry of entries) {
-      if (entry.name === 'v11') continue // Skip v11 as it is manually managed/translated
+      if (entry.name === 'v11') continue
 
       const srcPath = path.join(docsApiDir, entry.name)
       const destPath = path.join(targetDir, entry.name)
@@ -41,11 +43,9 @@ async function main() {
       }
     }
 
-    // Update sidebar json
-    const sidebarPath = path.resolve(targetDir, 'typedoc-sidebar.json')
+    const sidebarPath = path.resolve(targetDir, 'api-sidebar.json')
     if (await fs.stat(sidebarPath).catch(() => false)) {
       const content = await fs.readFile(sidebarPath, 'utf-8')
-      // Replace /api/ with /<locale>/api/
       const newContent = content.replace(/\/api\//g, `/${locale}/api/`)
       await fs.writeFile(sidebarPath, newContent)
       console.log(`Updated sidebar links for ${locale}`)
@@ -55,4 +55,12 @@ async function main() {
   console.log('Done.')
 }
 
-main().catch(console.error)
+const isCli =
+  process.argv[1] !== undefined && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)
+
+if (isCli) {
+  syncApiDocsLocales().catch(error => {
+    console.error(error)
+    process.exit(1)
+  })
+}
