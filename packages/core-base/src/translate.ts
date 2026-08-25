@@ -62,6 +62,8 @@ import type {
 
 const NOOP_MESSAGE_FUNCTION = () => ''
 
+const toGroupIdKey = (key: unknown): string => (isObject(key) ? JSON.stringify(key) : String(key))
+
 export const isMessageFunction = <T>(val: unknown): val is MessageFunction<T> => isFunction(val)
 
 /**
@@ -887,7 +889,7 @@ function compileMessageFormat<Messages, Message>(
         type: 'message-compilation',
         message: format as string | ResourceNode | MessageFunction,
         time: end - start,
-        groupId: `${'translate'}:${key}`
+        groupId: `${'translate'}:${toGroupIdKey(key)}`
       })
     }
     if (startTag && endTag && mark && measure) {
@@ -925,7 +927,7 @@ if (__DEV__ && inBrowser) {
       type: 'message-evaluation',
       value: messaged,
       time: end - start,
-      groupId: `${'translate'}:${(msg as MessageFunctionInternal).key}`
+      groupId: `${'translate'}:${toGroupIdKey((msg as MessageFunctionInternal).key)}`
     })
 
     mark(endTag)
@@ -1001,7 +1003,7 @@ function getCompileContext<Messages, Message>(
             error: err.message,
             start: err.location && err.location.start.offset,
             end: err.location && err.location.end.offset,
-            groupId: `${'translate'}:${key}`
+            groupId: `${'translate'}:${toGroupIdKey(key)}`
           })
         }
         const message = `Message compilation error: ${err.message}`
