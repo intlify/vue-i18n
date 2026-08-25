@@ -36,6 +36,7 @@ import {
 } from '../src/composer'
 import {
   DatetimePartsSymbol,
+  EnableEmitter,
   NumberPartsSymbol,
   TranslateVNodeSymbol
 } from '../src/symbols'
@@ -1473,6 +1474,33 @@ describe('tm', () => {
     for (const [index, err] of errors.entries()) {
       expect(rt(err)).toEqual(`error${index + 1}`)
     }
+  })
+
+  // https://github.com/intlify/vue-i18n/issues/2600
+  test('rt of merged AST array messages with devtools emitter', () => {
+    const textAst = (value: string) => ({
+      type: 0,
+      body: {
+        type: 2,
+        items: [{ type: 3, value }]
+      }
+    })
+
+    const composer = createComposer({
+      locale: 'en',
+      messages: {
+        en: {}
+      }
+    })
+    composer.mergeLocaleMessage('en', {
+      fruits: [textAst('Apple'), textAst('Banana')]
+    })
+
+    const fruits = composer.tm('fruits') as VueMessageType[]
+    expect(Object.getPrototypeOf(fruits[0])).toBe(null)
+    ;(composer as any)[EnableEmitter](shared.createEmitter())
+
+    expect(fruits.map(fruit => composer.rt(fruit))).toEqual(['Apple', 'Banana'])
   })
 })
 

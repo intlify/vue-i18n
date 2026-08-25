@@ -1,4 +1,10 @@
-import { format, generateCodeFrame, join, makeSymbol } from '../src/index'
+import {
+  format,
+  generateCodeFrame,
+  join,
+  makeSymbol,
+  toDevtoolsGroupId
+} from '../src/index'
 
 test('format', () => {
   expect(format(`foo: {0}`, 'x')).toEqual('foo: x')
@@ -16,6 +22,14 @@ test('generateCodeFrame', () => {
 test('makeSymbol', () => {
   expect(makeSymbol('foo')).not.toEqual(makeSymbol('foo'))
   expect(makeSymbol('bar', true)).toEqual(makeSymbol('bar', true))
+})
+
+test('toDevtoolsGroupId', () => {
+  expect(toDevtoolsGroupId('translate', 'hello')).toEqual('translate:hello')
+  expect(toDevtoolsGroupId('translate', 1)).toEqual('translate:1')
+  expect(toDevtoolsGroupId('translate', Object.create(null))).toEqual(
+    'translate'
+  )
 })
 
 test('join', () => {
