@@ -26,8 +26,8 @@ minimumReleaseAgeExclude:
   - '@vitest/expect'
   - '@vitest/utils'
   - '@vitest/coverage-v8'
-  # Renovate security update: vite@7.3.2
-  - vite@7.3.2
+  # Renovate security update: vite@7.3.2 || 7.3.5
+  - vite@7.3.2 || 7.3.5
   # vitepress-api-references@0.3.0 and its ox-content 3 alpha are newer than minimumReleaseAge
   - vitepress-api-references
   - '@ox-content/napi'
