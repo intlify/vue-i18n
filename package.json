@@ -109,7 +109,7 @@
     "get-port-please": "^3.2.0",
     "gh-changelogen": "^2.0.2",
     "jsdom": "^27.4.0",
-    "knip": "^5.85.0",
+    "knip": "^6.0.0",
     "lint-staged": "^17.0.0",
     "listhen": "^1.9.0",
     "magic-string": "^0.30.21",
