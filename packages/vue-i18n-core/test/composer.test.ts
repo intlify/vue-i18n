@@ -1026,7 +1026,7 @@ describe('d', () => {
       }
     })
     const dt = new Date(Date.UTC(2012, 11, 20, 3, 0, 0))
-    expect(d(dt, { key: 'long', fallbackWarn: false })).toEqual('2012/12/20 12:00:00')
+    expect(d(dt, { key: 'long', fallbackWarn: false })).toEqual('12/20/2012, 12:00:00 PM')
     expect(d(dt, { key: 'short', locale: 'ja-JP', year: '2-digit' })).toEqual('12/12/20 12:00')
   })
 
