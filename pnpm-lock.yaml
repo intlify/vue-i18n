@@ -145,8 +145,8 @@ importers:
         specifier: 1.2.7
         version: 1.2.7
       rolldown-plugin-dts:
-        specifier: 0.28.4
-        version: 0.28.4(@typescript/native-preview@7.0.0-dev.20260707.2)(@volar/typescript@2.4.23)(oxc-resolver@11.24.2)(rolldown@1.2.7)(typescript@5.9.3)
+        specifier: 0.28.5
+        version: 0.28.5(@typescript/native-preview@7.0.0-dev.20260707.2)(@volar/typescript@2.4.23)(oxc-resolver@11.24.2)(rolldown@1.2.7)(typescript@5.9.3)
       serve-handler:
         specifier: ^6.1.6
         version: 6.1.6
@@ -6268,6 +6268,7 @@ packages:
   eslint@9.39.5:
     resolution: {integrity: sha512-DgZS62aPLXKlnxILS/AYCoRvHaZeXceIzlXPkkGGzJWSow1aEk0lbTlxUSlyjC8jcaKxAdOnTDz+o1JFSBsyjw==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
+    deprecated: This version is no longer supported. Please see https://eslint.org/version-support for other options.
     hasBin: true
     peerDependencies:
       jiti: '*'
@@ -8677,8 +8678,8 @@ packages:
     resolution: {integrity: sha512-5Di9UC0+8h1L6ZD2d7awM7E/T4uA1fJRlx6zk/NvdCCVEoAnFqvHmCuNeIKoCeIixBX/q8uM+6ycDvF8woqosA==}
     engines: {node: '>= 0.8'}
 
-  rolldown-plugin-dts@0.28.4:
-    resolution: {integrity: sha512-yNg16bsWNk1MQ0Pkf3bAPFoZRqSWtxhiTHxKKHCoTZIwwyWerA5pX1MOogb1mjjwusVN2/kd4pK08iQ8M8hFIw==}
+  rolldown-plugin-dts@0.28.5:
+    resolution: {integrity: sha512-yYd3C9CeJwqjOc9X23m0Tyxcqic491uLZlfg51szT287S8zCCqLR2uoySoElgqy2CLn7PdXcEo1dlkBs4n1WHg==}
     engines: {node: ^22.18.0 || ^24.11.0 || >=26.0.0}
     peerDependencies:
       '@typescript/native-preview': '*'
@@ -18511,7 +18512,7 @@ snapshots:
       hash-base: 3.1.2
       inherits: 2.0.4
 
-  rolldown-plugin-dts@0.28.4(@typescript/native-preview@7.0.0-dev.20260707.2)(@volar/typescript@2.4.23)(oxc-resolver@11.24.2)(rolldown@1.2.7)(typescript@5.9.3):
+  rolldown-plugin-dts@0.28.5(@typescript/native-preview@7.0.0-dev.20260707.2)(@volar/typescript@2.4.23)(oxc-resolver@11.24.2)(rolldown@1.2.7)(typescript@5.9.3):
     dependencies:
       dts-resolver: 3.0.0(oxc-resolver@11.24.2)
       get-tsconfig: 5.0.0-beta.6
