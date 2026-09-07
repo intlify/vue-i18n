@@ -1,4 +1,4 @@
-import { createCoreContext as context } from '../src/context'
+import { createCoreContext as context, updateFallbackLocale } from '../src/context'
 import { CoreErrorCodes, errorMessages } from '../src/errors'
 import { fallbackWithLocaleChain, fallbackWithSimple, resolveLocale } from '../src/fallbacker'
 
@@ -277,12 +277,27 @@ describe('fallbackWithLocaleChain', () => {
       ])
     })
 
-    test('recomputes the chain when the fallback is mutated in place', () => {
+    test('recomputes the chain when the fallback is mutated in place (via updateFallbackLocale)', () => {
       const fallback: Record<string, string[]> = { sl: ['en'], default: ['en'] }
       expect(fallbackWithLocaleChain(ctx, fallback, 'sl')).toEqual(['sl', 'en'])
 
       fallback.sl = ['de']
+      // Mutation of a fallback object is detected through the explicit
+      // invalidation hook, since the cache is now keyed by fallback identity
+      // rather than a serialized key (#2619 / #2620).
+      updateFallbackLocale(ctx, 'sl', fallback)
       expect(fallbackWithLocaleChain(ctx, fallback, 'sl')).toEqual(['sl', 'de', 'en'])
+    })
+
+    test('keys the cache by fallback identity so distinct object fallbacks do not collide (#2619)', () => {
+      const a = ['en', 'ja']
+      const b = ['en', 'ja'] // structurally equal, different reference
+      const chainA = fallbackWithLocaleChain(ctx, a, 'fr')
+      const chainB = fallbackWithLocaleChain(ctx, b, 'fr')
+      expect(chainA).toEqual(chainB)
+      // each reference keeps its own cache slot
+      expect(fallbackWithLocaleChain(ctx, a, 'fr')).toBe(chainA)
+      expect(fallbackWithLocaleChain(ctx, b, 'fr')).toBe(chainB)
     })
 
     test('keeps cache hit when the same fallback is used again (#2562)', () => {

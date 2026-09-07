@@ -14,6 +14,7 @@ import {
   warnOnce
 } from '@intlify/shared'
 import { fallbackWithSimple } from './fallbacker'
+import type { LocaleChainCache } from './fallbacker'
 import { resolveWithKeyValue } from './resolver'
 import { CoreWarnCodes, getWarnMessage } from './warnings'
 
@@ -310,7 +311,7 @@ export type CoreContext<
 export interface CoreInternalContext {
   __datetimeFormatters: Map<string, Intl.DateTimeFormat>
   __numberFormatters: Map<string, Intl.NumberFormat>
-  __localeChainCache?: Map<Locale, Map<string, Locale[]>>
+  __localeChainCache?: LocaleChainCache
   __v_emitter?: VueDevToolsEmitter
 }
 
@@ -657,7 +658,10 @@ export function updateFallbackLocale<Message = string>(
   fallback: FallbackLocale
 ): void {
   const context = ctx as unknown as CoreInternalContext
-  context.__localeChainCache = new Map()
+  // Drop the whole cache: it is recreated lazily on the next fallback lookup.
+  // This also handles in-place mutations of the fallback value, which a WeakMap
+  // (used for object/array fallbacks) cannot invalidate on its own.
+  context.__localeChainCache = undefined
   ctx.localeFallbacker<Message>(ctx, fallback, locale)
 }
 

@@ -1,5 +1,4 @@
 import {
-  friendlyJSONstringify,
   isArray,
   isBoolean,
   isFunction,
@@ -119,6 +118,48 @@ export function fallbackWithSimple<Message = string>(
  *
  * @VueI18nGeneral
  */
+/**
+ * Cache of locale chains keyed by the fallback locale *identity* rather than a
+ * `JSON.stringify`-derived string (see #2619 / #2620).
+ *
+ * - Object/array fallbacks are stored in a `WeakMap` keyed by the fallback
+ *   value itself. Entries are released together with the fallback object, so
+ *   repeatedly creating new fallback arrays no longer grows the cache without
+ *   bound (#2620).
+ * - Primitive fallbacks (`string | false`) are stored in a plain `Map` keyed by
+ *   the value itself, which avoids rebuilding a string key on every `t()` call
+ *   (#2619).
+ */
+class LocaleChainCache {
+  private _weak = new WeakMap<object, Map<Locale, Locale[]>>()
+  private _primitive = new Map<string | false, Map<Locale, Locale[]>>()
+
+  get(fallback: FallbackLocale, startLocale: Locale): Locale[] | undefined {
+    if (isObject(fallback)) {
+      return this._weak.get(fallback as object)?.get(startLocale)
+    }
+    return this._primitive.get(fallback as string | false)?.get(startLocale)
+  }
+
+  set(fallback: FallbackLocale, startLocale: Locale, chain: Locale[]): void {
+    if (isObject(fallback)) {
+      let inner = this._weak.get(fallback as object)
+      if (!inner) {
+        inner = new Map<Locale, Locale[]>()
+        this._weak.set(fallback as object, inner)
+      }
+      inner.set(startLocale, chain)
+    } else {
+      let inner = this._primitive.get(fallback as string | false)
+      if (!inner) {
+        inner = new Map<Locale, Locale[]>()
+        this._primitive.set(fallback as string | false, inner)
+      }
+      inner.set(startLocale, chain)
+    }
+  }
+}
+
 export function fallbackWithLocaleChain<Message = string>(
   ctx: CoreContext<Message>,
   fallback: FallbackLocale,
@@ -128,17 +169,10 @@ export function fallbackWithLocaleChain<Message = string>(
   const context = ctx as unknown as CoreInternalContext
 
   if (!context.__localeChainCache) {
-    context.__localeChainCache = new Map()
+    context.__localeChainCache = new LocaleChainCache()
   }
 
-  const fallbackKey = friendlyJSONstringify(fallback)
-  let chains = context.__localeChainCache.get(startLocale)
-  if (!chains) {
-    chains = new Map()
-    context.__localeChainCache.set(startLocale, chains)
-  }
-
-  const cached = chains.get(fallbackKey)
+  const cached = context.__localeChainCache.get(fallback, startLocale)
   if (cached) {
     return cached
   }
@@ -166,7 +200,7 @@ export function fallbackWithLocaleChain<Message = string>(
   if (isArray(block)) {
     appendBlockToChain(chain, block, false)
   }
-  chains.set(fallbackKey, chain)
+  context.__localeChainCache.set(fallback, startLocale, chain)
 
   return chain
 }
