@@ -129,7 +129,7 @@
     "tsx": "^4.21.0",
     "typescript": "5.9.3",
     "typescript-eslint": "^8.56.0",
-    "vitepress": "2.0.0-alpha.17",
+    "vitepress": "2.0.0-alpha.20",
     "vitepress-api-references": "^0.3.0",
     "vitepress-plugin-llms": "^1.11.0",
     "vitest": "^4.0.18",
