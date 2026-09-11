@@ -19,7 +19,8 @@ import {
   DatetimePartsSymbol,
   EnableEmitter,
   NumberPartsSymbol,
-  TranslateVNodeSymbol
+  TranslateVNodeSymbol,
+  CoreContextSymbol
 } from '../src/symbols'
 import { getWarnMessage, I18nWarnCodes } from '../src/warnings'
 
@@ -153,6 +154,26 @@ describe('inheritLocale', () => {
 
     expect(composer.locale.value).toEqual('en')
     expect(composer.fallbackLocale.value).toEqual(['ja', 'fr'])
+  })
+
+  test('writes inherited locale/fallbackLocale back to the core context (#2621)', () => {
+    const root = createComposer({
+      locale: 'en',
+      fallbackLocale: ['ja', 'fr']
+    })
+    const composer = createComposer({
+      locale: 'ja',
+      fallbackLocale: ['zh', 'de'],
+      inheritLocale: false,
+      __root: root
+    })
+    const ctx = (composer as unknown as Record<symbol, any>)[CoreContextSymbol]
+    expect(ctx.locale).toEqual('ja')
+    expect(ctx.fallbackLocale).toEqual(['zh', 'de'])
+
+    composer.inheritLocale = true
+    expect(ctx.locale).toEqual('en')
+    expect(ctx.fallbackLocale).toEqual(['ja', 'fr'])
   })
 })
 

@@ -2502,7 +2502,9 @@ export function createComposer(options: any = {}): ComposerInternalInstance {
       _inheritLocale = val
       if (val && __root) {
         _locale.value = __root.locale.value as Locale
+        _context.locale = _locale.value
         _fallbackLocale.value = __root.fallbackLocale.value
+        _context.fallbackLocale = _fallbackLocale.value
         updateFallbackLocale(_context, _locale.value, _fallbackLocale.value)
       }
     },
