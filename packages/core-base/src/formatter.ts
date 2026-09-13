@@ -63,8 +63,13 @@ export function resolveFormatLocale<Format, Message = string>(
   return null
 }
 
-export function getFormatterCacheKey(locale: Locale, key: string, overrides: unknown): string {
-  let id = `${locale}__${key}`
+export function getFormatterCacheKey(
+  intlLocale: Locale,
+  formatLocale: Locale,
+  key: string,
+  overrides: unknown
+): string {
+  let id = `${intlLocale}::${formatLocale}::${key}`
   if (isPlainObject(overrides) && !isKeylessObject(overrides)) {
     id = `${id}__${JSON.stringify(overrides)}`
   }
@@ -77,9 +82,14 @@ export function clearFormatCache<Formatter>(
   format: Record<string, unknown>
 ): void {
   for (const key in format) {
-    const prefix = `${locale}__${key}`
+    const segment = `::${locale}::${key}`
     for (const id of formatters.keys()) {
-      if (id === prefix || id.startsWith(`${prefix}__`)) {
+      const index = id.indexOf(segment)
+      if (index === -1) {
+        continue
+      }
+      const after = id.slice(index + segment.length)
+      if (after === '' || after.startsWith('__')) {
         formatters.delete(id)
       }
     }
