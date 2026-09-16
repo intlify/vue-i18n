@@ -23,7 +23,7 @@ Before v9.3, the locale messages will be compiled to Message functions, after v9
 Before v9.3, all locale messages are compiled with `@intlify/unplugin-vue-i18n`, so the message compiler is not bundled, **bundle size can be reduced**.
 
 After v9.3, since the message compiler is also bundled, the bundle size cannot be reduced. **This is a trade-off**.
-About the reason, See [JIT compilation for details](#jit-compilation).
+For the reason, see [JIT compilation](#jit-compilation).
 :::
 
 :::danger NOTE
@@ -31,7 +31,7 @@ If [CSP](https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP) is enabled in be
 :::
 
 :::warning NOTICE
-From v9.3, the CSP issue can be worked around by JIT compilation of the vue-i18n message compiler. See [JIT compilation for details](#jit-compilation).
+From v9.3, the CSP issue can be worked around by JIT compilation of the vue-i18n message compiler. See [JIT compilation](#jit-compilation) for details.
 :::
 
 ## How to configure
@@ -182,7 +182,7 @@ The replacement value **must be boolean literals** and cannot be strings, otherw
 
 You can use pre-translation(server-side rendering) with vue-i18n-extensions package.
 
-About how to usage, see [here](https://github.com/intlify/vue-i18n-extensions).
+For usage, see the [vue-i18n-extensions](https://github.com/intlify/vue-i18n-extensions) documentation.
 
 ## SSR (Server-Side Rendering)
 

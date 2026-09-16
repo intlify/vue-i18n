@@ -372,7 +372,7 @@ Composition API is supported from Vue 3, and you can use the official [`@vue/com
 
 Vue I18n Composition API is also available in Vue 2 using the `vue-i18n-composable` plugin.
 
-About how to usage, See the [here](https://github.com/intlify/vue-i18n-composable)
+For usage, see the [vue-i18n-composable](https://github.com/intlify/vue-i18n-composable) documentation.
 
 :::warning NOTICE
 `vue-i18n-composable` allows the main API of Vue I18n v8.x to work with the Composition API. All of Composition API provided in Vue I18n v9 are not available.

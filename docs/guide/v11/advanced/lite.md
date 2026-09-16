@@ -158,11 +158,11 @@ In `petite-vue-i18n`, the message resolver and locale fallbacker use simple impl
 
 - message resolver
   - Resolves key-value style locale messages
-  - About implementation, see the [here](https://github.com/intlify/vue-i18n/blob/2d4d2a342f8bae134665a0b7cd945fb8b638839a/packages/core-base/src/resolver.ts#L305-L307)
+  - For the implementation, see [resolver.ts](https://github.com/intlify/vue-i18n/blob/2d4d2a342f8bae134665a0b7cd945fb8b638839a/packages/core-base/src/resolver.ts#L305-L307)
 - locale fallbacker
   - Fallback according to the array order specified in `fallbackLocale`
   - If a simple string locale is specified, fallback to that locale
-  - About implementation, see the [here](https://github.com/intlify/vue-i18n/blob/2d4d2a342f8bae134665a0b7cd945fb8b638839a/packages/core-base/src/fallbacker.ts#L40-L58)
+  - For the implementation, see [fallbacker.ts](https://github.com/intlify/vue-i18n/blob/2d4d2a342f8bae134665a0b7cd945fb8b638839a/packages/core-base/src/fallbacker.ts#L40-L58)
 
 If you want to use the same message resolver and locale fallbacker as `vue-i18n`, you can change them using the API.
 
