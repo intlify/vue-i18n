@@ -16,6 +16,7 @@ vi.mock('@intlify/shared', async () => {
 import { createVNode, nextTick, Text, watch, watchEffect } from 'vue'
 import { createComposer } from '../src/composer'
 import {
+  CoreContextSymbol,
   DatetimePartsSymbol,
   EnableEmitter,
   NumberPartsSymbol,
@@ -90,6 +91,44 @@ describe('fallbackLocale', () => {
   test('initialize at composer creating', () => {
     const { fallbackLocale } = createComposer({ fallbackLocale: ['ja'] })
     expect(fallbackLocale.value).toEqual(['ja'])
+  })
+
+  test('keeps the same fallbackLocale reference in the core context', () => {
+    const composer = createComposer({ locale: 'en', fallbackLocale: ['ja'] })
+    const ctx = (composer as unknown as ComposerInternalInstance)[CoreContextSymbol]
+    expect(ctx.fallbackLocale).toBe(composer.fallbackLocale.value)
+
+    const raw = ['fr']
+    composer.fallbackLocale.value = raw
+    // the core context must hold the same proxy as the composer, not the raw value,
+    // so that `t()` and `te()` look the locale chain up under one identity
+    expect(ctx.fallbackLocale).toBe(composer.fallbackLocale.value)
+    expect(ctx.fallbackLocale).not.toBe(raw)
+  })
+
+  test('invalidates the root locale chain when the local fallbackLocale is reassigned', () => {
+    const root = createComposer({
+      locale: 'sl',
+      fallbackLocale: false,
+      messages: { sl: {}, en: { msg: 'from en' }, de: { msg: 'from de' } },
+      missingWarn: false,
+      fallbackWarn: false
+    })
+    const local = createComposer({
+      locale: 'sl',
+      fallbackLocale: ['en'],
+      inheritLocale: false,
+      __root: root,
+      messages: { sl: { linked: '@:msg' } }
+    })
+
+    expect(local.t('linked')).toBe('from en')
+    const fallback = local.fallbackLocale.value as string[]
+    fallback[0] = 'de'
+    // reassign the same array so that the setter runs
+    local.fallbackLocale.value = fallback
+
+    expect(local.t('linked')).toBe('from de')
   })
 })
 

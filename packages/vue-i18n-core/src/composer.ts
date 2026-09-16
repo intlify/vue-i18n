@@ -2109,13 +2109,30 @@ export function createComposer(options: any = {}): ComposerInternalInstance {
     }
   })
 
+  // NOTE: `_context.fallbackContext` points at the root context only while a
+  // translation runs (see `wrapWithDeps`). Point it there while invalidating too,
+  // so that the chain the root cached for this composer's fallbackLocale is dropped.
+  function updateFallbackLocaleWithRoot(fallback: FallbackLocale) {
+    if (!_isGlobal) {
+      _context.fallbackContext = __root ? __root[CoreContextSymbol] : undefined
+    }
+    try {
+      updateFallbackLocale(_context, _locale.value, fallback)
+    } finally {
+      if (!_isGlobal) {
+        _context.fallbackContext = undefined
+      }
+    }
+  }
+
   // fallbackLocale
   const fallbackLocale = computed({
     get: () => _fallbackLocale.value,
     set: val => {
-      _context.fallbackLocale = val
       _fallbackLocale.value = val
-      updateFallbackLocale(_context, _locale.value, val)
+      // keep the same reference as `_fallbackLocale` so that `t()` and `te()` share one cache entry
+      _context.fallbackLocale = _fallbackLocale.value
+      updateFallbackLocaleWithRoot(_fallbackLocale.value)
     }
   })
 
@@ -2483,7 +2500,7 @@ export function createComposer(options: any = {}): ComposerInternalInstance {
     watch(__root.fallbackLocale, (val: FallbackLocale) => {
       if (_inheritLocale) {
         _fallbackLocale.value = val
-        _context.fallbackLocale = val
+        _context.fallbackLocale = _fallbackLocale.value
         updateFallbackLocale(_context, _locale.value, _fallbackLocale.value)
       }
     })
