@@ -123,8 +123,8 @@ describe('fallbackLocale', () => {
     })
 
     expect(local.t('linked')).toBe('from en')
-    const fallback = local.fallbackLocale.value as string[]
-    fallback[0] = 'de'
+    const fallback = local.fallbackLocale.value
+    ;(fallback as string[])[0] = 'de'
     // reassign the same array so that the setter runs
     local.fallbackLocale.value = fallback
 
