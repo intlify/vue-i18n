@@ -231,6 +231,54 @@ describe('inheritLocale', () => {
     expect(composer.locale.value).toEqual('en')
     expect(composer.fallbackLocale.value).toEqual(['ja', 'fr'])
   })
+
+  test('t() follows the root locale after inheritLocale = true', () => {
+    const messages = { en: { msg: 'from en' }, ja: { msg: 'from ja' } }
+    const root = createComposer({ locale: 'en', messages })
+    const child = createComposer({ locale: 'ja', inheritLocale: false, messages, __root: root })
+    expect(child.t('msg')).toBe('from ja')
+
+    child.inheritLocale = true
+
+    expect(child.locale.value).toBe('en')
+    expect(child.t('msg')).toBe('from en')
+  })
+
+  test('t() follows the root fallbackLocale after inheritLocale = true', () => {
+    const messages = { en: {}, fr: { msg: 'from fr' }, de: { msg: 'from de' } }
+    const root = createComposer({
+      locale: 'en',
+      fallbackLocale: 'fr',
+      messages,
+      missingWarn: false,
+      fallbackWarn: false
+    })
+    const child = createComposer({
+      locale: 'en',
+      fallbackLocale: 'de',
+      inheritLocale: false,
+      messages,
+      missingWarn: false,
+      fallbackWarn: false,
+      __root: root
+    })
+    expect(child.t('msg')).toBe('from de')
+
+    child.inheritLocale = true
+
+    expect(child.fallbackLocale.value).toBe('fr')
+    expect(child.t('msg')).toBe('from fr')
+  })
+
+  test('n() follows the root locale after inheritLocale = true', () => {
+    const root = createComposer({ locale: 'de' })
+    const child = createComposer({ locale: 'en', inheritLocale: false, __root: root })
+    expect(child.n(1234.5)).toBe('1,234.5')
+
+    child.inheritLocale = true
+
+    expect(child.n(1234.5)).toBe('1.234,5')
+  })
 })
 
 describe('availableLocales', () => {
