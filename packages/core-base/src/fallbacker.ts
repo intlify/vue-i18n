@@ -1,5 +1,4 @@
 import {
-  friendlyJSONstringify,
   isArray,
   isBoolean,
   isFunction,
@@ -109,6 +108,9 @@ export function fallbackWithSimple<Message = string>(
  * @remarks
  * A fallback locale function implemented with a fallback chain algorithm. It's used in VueI18n as default.
  *
+ * Chains are cached per fallback identity. If you mutate an object or array fallback in place,
+ * pass a new object or array instead so that the chain is recomputed.
+ *
  * @param ctx - A {@link CoreContext | context}
  * @param fallback - A {@link FallbackLocale | fallback locale}
  * @param start - A starting {@link Locale | locale}
@@ -127,18 +129,31 @@ export function fallbackWithLocaleChain<Message = string>(
   const startLocale = isString(start) ? start : DEFAULT_LOCALE
   const context = ctx as unknown as CoreInternalContext
 
-  if (!context.__localeChainCache) {
-    context.__localeChainCache = new Map()
+  // NOTE: chains are cached per fallback value, not per serialized content.
+  // object / array fallbacks are keyed by identity in a WeakMap so that their
+  // entries are released together with the fallback itself.
+  let chains: Map<Locale, Locale[]> | undefined
+  if (isObject(fallback)) {
+    if (!context.__localeChainObjectCache) {
+      context.__localeChainObjectCache = new WeakMap()
+    }
+    chains = context.__localeChainObjectCache.get(fallback)
+    if (!chains) {
+      chains = new Map()
+      context.__localeChainObjectCache.set(fallback, chains)
+    }
+  } else {
+    if (!context.__localeChainCache) {
+      context.__localeChainCache = new Map()
+    }
+    chains = context.__localeChainCache.get(fallback)
+    if (!chains) {
+      chains = new Map()
+      context.__localeChainCache.set(fallback, chains)
+    }
   }
 
-  const fallbackKey = friendlyJSONstringify(fallback)
-  let chains = context.__localeChainCache.get(startLocale)
-  if (!chains) {
-    chains = new Map()
-    context.__localeChainCache.set(startLocale, chains)
-  }
-
-  const cached = chains.get(fallbackKey)
+  const cached = chains.get(startLocale)
   if (cached) {
     return cached
   }
@@ -166,7 +181,7 @@ export function fallbackWithLocaleChain<Message = string>(
   if (isArray(block)) {
     appendBlockToChain(chain, block, false)
   }
-  chains.set(fallbackKey, chain)
+  chains.set(startLocale, chain)
 
   return chain
 }

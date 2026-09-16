@@ -310,7 +310,10 @@ export type CoreContext<
 export interface CoreInternalContext {
   __datetimeFormatters: Map<string, Intl.DateTimeFormat>
   __numberFormatters: Map<string, Intl.NumberFormat>
-  __localeChainCache?: Map<Locale, Map<string, Locale[]>>
+  /** locale chains for a primitive `fallbackLocale`; bounded by the locale count */
+  __localeChainCache?: Map<Locale | false | undefined, Map<Locale, Locale[]>>
+  /** locale chains for an object / array `fallbackLocale`; released with the fallback */
+  __localeChainObjectCache?: WeakMap<object, Map<Locale, Locale[]>>
   __v_emitter?: VueDevToolsEmitter
 }
 
@@ -651,13 +654,27 @@ export function handleMissing<Message = string>(
 }
 
 /** @internal */
+function invalidateLocaleChainCache(ctx: CoreContext<any>, fallback: FallbackLocale): void {
+  const context = ctx as unknown as CoreInternalContext
+  if (isObject(fallback)) {
+    context.__localeChainObjectCache?.delete(fallback)
+  } else {
+    context.__localeChainCache?.delete(fallback)
+  }
+}
+
 export function updateFallbackLocale<Message = string>(
   ctx: CoreContext<Message>,
   locale: Locale,
   fallback: FallbackLocale
 ): void {
-  const context = ctx as unknown as CoreInternalContext
-  context.__localeChainCache = new Map()
+  invalidateLocaleChainCache(ctx, fallback)
+  // NOTE: getMessageContextOptions() queries the root context with *this*
+  // (local) fallback, so the root holds an entry under the same identity key.
+  // Clearing only the local context leaves a stale chain behind.
+  if (ctx.fallbackContext) {
+    invalidateLocaleChainCache(ctx.fallbackContext, fallback)
+  }
   ctx.localeFallbacker<Message>(ctx, fallback, locale)
 }
 
