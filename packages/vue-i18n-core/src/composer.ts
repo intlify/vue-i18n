@@ -2488,6 +2488,14 @@ export function createComposer(options: any = {}): ComposerInternalInstance {
   // for debug
   composerID++
 
+  // invalidate the locale chain cache when `fallbackLocale` is mutated in place.
+  // `flush: 'sync'` so that a `t()` called right after the mutation sees the new chain.
+  // NOTE: only effective in the browser, where `_fallbackLocale` is deeply reactive.
+  watch(_fallbackLocale, () => updateFallbackLocaleWithRoot(_fallbackLocale.value), {
+    deep: true,
+    flush: 'sync'
+  })
+
   // watch root locale & fallbackLocale
   if (__root && inBrowser) {
     watch(__root.locale, (val: Locale) => {
