@@ -1,4 +1,9 @@
-import { createCoreContext as context, CoreContext } from '../src/context'
+import {
+  createCoreContext as context,
+  CoreContext,
+  CoreInternalContext,
+  updateFallbackLocale
+} from '../src/context'
 import {
   fallbackWithLocaleChain,
   fallbackWithSimple,
@@ -317,7 +322,7 @@ describe('fallbackWithLocaleChain', () => {
       ).toEqual(['sl', 'de', 'hr'])
     })
 
-    test('recomputes the chain when the fallback is mutated in place', () => {
+    test('recomputes the chain when the fallback is mutated in place and invalidated', () => {
       const fallback: Record<string, string[]> = {
         sl: ['en'],
         default: ['en']
@@ -325,6 +330,8 @@ describe('fallbackWithLocaleChain', () => {
       expect(fallbackWithLocaleChain(ctx, fallback, 'sl')).toEqual(['sl', 'en'])
 
       fallback.sl = ['de']
+      updateFallbackLocale(ctx, 'sl', fallback)
+
       expect(fallbackWithLocaleChain(ctx, fallback, 'sl')).toEqual([
         'sl',
         'de',
@@ -337,6 +344,45 @@ describe('fallbackWithLocaleChain', () => {
       const chain = fallbackWithLocaleChain(ctx, fallback, 'fr')
       expect(chain).toEqual(['fr', 'en', 'ja'])
       expect(fallbackWithLocaleChain(ctx, fallback, 'fr')).toBe(chain)
+    })
+
+    test('does not accumulate entries for distinct object fallbacks (#2620)', () => {
+      for (let i = 0; i < 1000; i++) {
+        fallbackWithLocaleChain(ctx, { ja: ['en'], default: [`fb-${i}`] }, 'ja')
+      }
+      const internal = ctx as unknown as CoreInternalContext
+      expect(internal.__localeChainCache?.size ?? 0).toBe(0)
+    })
+
+    test('keeps chains for two fallbacks used in alternation', () => {
+      const rootFallback = ['en']
+      const localFallback = ['ja']
+      const a = fallbackWithLocaleChain(ctx, rootFallback, 'fr')
+      const b = fallbackWithLocaleChain(ctx, localFallback, 'fr')
+
+      expect(fallbackWithLocaleChain(ctx, rootFallback, 'fr')).toBe(a)
+      expect(fallbackWithLocaleChain(ctx, localFallback, 'fr')).toBe(b)
+      expect(a).not.toBe(b)
+    })
+
+    test('updateFallbackLocale() also invalidates the root context', () => {
+      const root: CoreContext<string> = context({})
+      const local: CoreContext<string> = context({})
+      local.fallbackContext = root
+      const fallback: Record<string, string[]> = { sl: ['en'], default: ['en'] }
+      expect(fallbackWithLocaleChain(root, fallback, 'sl')).toEqual([
+        'sl',
+        'en'
+      ])
+
+      fallback.sl = ['de']
+      updateFallbackLocale(local, 'sl', fallback)
+
+      expect(fallbackWithLocaleChain(root, fallback, 'sl')).toEqual([
+        'sl',
+        'de',
+        'en'
+      ])
     })
   })
 })

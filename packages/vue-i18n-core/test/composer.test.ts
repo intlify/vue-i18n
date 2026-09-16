@@ -104,6 +104,69 @@ describe('fallbackLocale', () => {
     const { fallbackLocale } = createComposer({ fallbackLocale: ['ja'] })
     expect(fallbackLocale.value).toEqual(['ja'])
   })
+
+  test('invalidates the root locale chain when the local fallbackLocale is reassigned', () => {
+    const root = createComposer({
+      locale: 'sl',
+      fallbackLocale: false,
+      messages: { sl: {}, en: { msg: 'from en' }, de: { msg: 'from de' } },
+      missingWarn: false,
+      fallbackWarn: false
+    })
+    const local = createComposer({
+      locale: 'sl',
+      fallbackLocale: ['en'],
+      inheritLocale: false,
+      __root: root,
+      messages: { sl: { linked: '@:msg' } }
+    })
+
+    expect(local.t('linked')).toBe('from en')
+    const fallback = local.fallbackLocale.value
+    ;(fallback as string[])[0] = 'de'
+    // reassign the same array so that the setter runs
+    local.fallbackLocale.value = fallback
+
+    expect(local.t('linked')).toBe('from de')
+  })
+
+  test('invalidates the locale chain when fallbackLocale is mutated in place', () => {
+    const composer = createComposer({
+      locale: 'sl',
+      fallbackLocale: { sl: ['en'], default: ['en'] },
+      messages: { sl: {}, en: { msg: 'from en' }, de: { msg: 'from de' } },
+      missingWarn: false,
+      fallbackWarn: false
+    })
+    expect(composer.t('msg')).toBe('from en')
+
+    // no reassignment: the deep watcher has to notice the mutation
+    ;(composer.fallbackLocale.value as Record<string, string[]>).sl = ['de']
+
+    expect(composer.t('msg')).toBe('from de')
+  })
+
+  test('invalidates the root locale chain when the local fallbackLocale is mutated in place', () => {
+    const root = createComposer({
+      locale: 'sl',
+      fallbackLocale: false,
+      messages: { sl: {}, en: { msg: 'from en' }, de: { msg: 'from de' } },
+      missingWarn: false,
+      fallbackWarn: false
+    })
+    const local = createComposer({
+      locale: 'sl',
+      fallbackLocale: ['en'],
+      inheritLocale: false,
+      __root: root,
+      messages: { sl: { linked: '@:msg' } }
+    })
+
+    expect(local.t('linked')).toBe('from en')
+    ;(local.fallbackLocale.value as string[])[0] = 'de'
+
+    expect(local.t('linked')).toBe('from de')
+  })
 })
 
 describe('inheritLocale', () => {

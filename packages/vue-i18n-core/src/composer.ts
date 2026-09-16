@@ -2150,13 +2150,33 @@ export function createComposer(options: any = {}): any {
     }
   })
 
+  // NOTE: `_context.fallbackContext` points at the root context only while a
+  // translation runs (see `wrapWithDeps`). Point it there while invalidating too,
+  // so that the chain the root cached for this composer's fallbackLocale is dropped.
+  function updateFallbackLocaleWithRoot(fallback: FallbackLocale) {
+    if (!_isGlobal) {
+      _context.fallbackContext = __root
+        ? (getFallbackContext() as any)
+        : undefined
+    }
+    try {
+      updateFallbackLocale(_context, _locale.value, fallback)
+    } finally {
+      if (!_isGlobal) {
+        _context.fallbackContext = undefined
+      }
+    }
+  }
+
   // fallbackLocale
   const fallbackLocale = computed({
     get: () => _fallbackLocale.value,
     set: val => {
-      _context.fallbackLocale = val
       _fallbackLocale.value = val
-      updateFallbackLocale(_context, _locale.value, val)
+      // keep the same reference as `_fallbackLocale` so that `t()` and `te()`
+      // share one cache entry
+      _context.fallbackLocale = _fallbackLocale.value
+      updateFallbackLocaleWithRoot(_fallbackLocale.value)
     }
   })
 
@@ -2574,6 +2594,15 @@ export function createComposer(options: any = {}): any {
   // for debug
   composerID++
 
+  // invalidate the locale chain cache when `fallbackLocale` is mutated in place.
+  // `flush: 'sync'` so that a `t()` called right after the mutation sees the new chain.
+  // NOTE: only effective in the browser, where `_fallbackLocale` is deeply reactive.
+  watch(
+    _fallbackLocale,
+    () => updateFallbackLocaleWithRoot(_fallbackLocale.value),
+    { deep: true, flush: 'sync' }
+  )
+
   // watch root locale & fallbackLocale
   if (__root && inBrowser) {
     watch(__root.locale, (val: Locale) => {
@@ -2586,7 +2615,7 @@ export function createComposer(options: any = {}): any {
     watch(__root.fallbackLocale, (val: FallbackLocale) => {
       if (_inheritLocale) {
         _fallbackLocale.value = val
-        _context.fallbackLocale = val
+        _context.fallbackLocale = _fallbackLocale.value
         updateFallbackLocale(_context, _locale.value, _fallbackLocale.value)
       }
     })
