@@ -47,7 +47,7 @@ If `$t('hello')` is used in the template, the `hello` key defined by `i18n` cust
 :::tip NOTE
 The Composition API requires `useI18n` to return the `setup` context in order to localize with reference to locale messages defined in the i18n custom blocks.
 
-About how to usage of `useI18n` , see the [Composition API](./composition)
+For more details on `useI18n`, see the [Composition API](./composition).
 :::
 
 To use i18n custom blocks, you need to use the following plugins for bundler.
