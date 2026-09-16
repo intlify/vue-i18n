@@ -1,6 +1,5 @@
 # Optimization
 
-
 ## Performance
 
 As described in "[Different Distribution files](../extra/dist##from-cdn-or-without-a-bundler)" section, Vue I18n offer the following two built ES modules for Bundler.
@@ -162,7 +161,7 @@ The `esm-bundler` builds now exposes global feature flags that can be overwritte
 
 The build will work without configuring these flags, however it is **strongly recommended** to properly configure them in order to get proper tree shaking in the final bundle.
 
-About how to configure for bundler, see the [here](#configure-feature-flags-for-bundler).
+For details on how to configure these flags for your bundler, see [Configure feature flags for bundler](#configure-feature-flags-for-bundler) below.
 
 ### JIT compilation
 
@@ -193,8 +192,6 @@ This feature is opted out as default, because compatibility with previous versio
 :::warning NOTICE
 From v10, JIT compilation is enabled by default, so it is no longer necessary to set the `__INTLIFY_JIT_COMPILATION__` flag in the bundler.
 :::
-
-About how to configure for bundler, see the [here](#configure-feature-flags-for-bundler).
 
 
 ### Configure feature flags for bundler
