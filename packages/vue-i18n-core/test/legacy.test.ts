@@ -21,7 +21,7 @@ import {
   resolveValue
 } from '@intlify/core-base'
 import { nextTick, watchEffect } from 'vue'
-import { VueMessageType } from '../src/composer'
+import { createComposer, VueMessageType } from '../src/composer'
 import { createVueI18n } from '../src/legacy'
 import { pluralRules as _pluralRules } from './helper'
 
@@ -42,6 +42,23 @@ test('fallbackLocale', () => {
   expect(i18n.fallbackLocale).toEqual('en-US')
   i18n.fallbackLocale = 'ja'
   expect(i18n.fallbackLocale).toEqual('ja')
+})
+
+test('sync = true makes t() follow the root locale', () => {
+  const messages = { en: { msg: 'from en' }, ja: { msg: 'from ja' } }
+  const root = createComposer({ locale: 'en', messages })
+  const i18n = createVueI18n({
+    locale: 'ja',
+    sync: false,
+    messages,
+    __root: root
+  })
+  expect(i18n.t('msg')).toBe('from ja')
+
+  i18n.sync = true
+
+  expect(i18n.locale).toBe('en')
+  expect(i18n.t('msg')).toBe('from en')
 })
 
 test('availableLocales', () => {
