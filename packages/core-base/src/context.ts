@@ -653,7 +653,6 @@ export function handleMissing<Message = string>(
   }
 }
 
-/** @internal */
 function invalidateLocaleChainCache(ctx: CoreContext<any>, fallback: FallbackLocale): void {
   const context = ctx as unknown as CoreInternalContext
   if (isObject(fallback)) {
@@ -663,6 +662,7 @@ function invalidateLocaleChainCache(ctx: CoreContext<any>, fallback: FallbackLoc
   }
 }
 
+/** @internal */
 export function updateFallbackLocale<Message = string>(
   ctx: CoreContext<Message>,
   locale: Locale,
