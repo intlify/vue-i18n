@@ -1,5 +1,10 @@
-import type { LocaleMessage } from '../src/context'
-import type { DateTimeFormat, NumberFormat } from '../src/types/intl'
+import type { LocaleMessage, LocaleMessages } from '../src/context'
+import type {
+  DateTimeFormat,
+  DateTimeFormats,
+  NumberFormat,
+  NumberFormats
+} from '../src/types/intl'
 import type {
   ExtractToStringKey,
   IsEmptyObject,
@@ -313,5 +318,21 @@ describe('StringConvertable', () => {
 
   test('literal function', () => {
     expectTypeOf<StringConvertable<() => {}>>().toEqualTypeOf<() => {}>()
+  })
+})
+
+describe('large locale union', () => {
+  type Locales = `${'a' | 'b' | 'c' | 'd' | 'e'}${1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10}`
+
+  test('LocaleMessages', () => {
+    expectTypeOf<keyof LocaleMessages<{ foo: string }, Locales>>().toEqualTypeOf<Locales>()
+  })
+
+  test('DateTimeFormats', () => {
+    expectTypeOf<keyof DateTimeFormats<DateTimeFormat, Locales>>().toEqualTypeOf<Locales>()
+  })
+
+  test('NumberFormats', () => {
+    expectTypeOf<keyof NumberFormats<NumberFormat, Locales>>().toEqualTypeOf<Locales>()
   })
 })

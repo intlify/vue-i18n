@@ -117,7 +117,7 @@ export type FallbackLocales<Locales = 'en-US'> =
   | Locales
   | Array<Locales>
   | {
-    [locale in string]: Array<PickupFallbackLocales<UnionToTuple<Locales>>>
+    [locale in string]: Array<PickupFallbackLocales<[Locales]>>
   }
   | false
 
