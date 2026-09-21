@@ -321,18 +321,23 @@ describe('StringConvertable', () => {
   })
 })
 
-describe('large locale union', () => {
-  type Locales = `${'a' | 'b' | 'c' | 'd' | 'e'}${1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10}`
-
-  test('LocaleMessages', () => {
+describe('LocaleMessages', () => {
+  test('large locale union', () => {
+    type Locales = `${'a' | 'b' | 'c' | 'd' | 'e'}${1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10}`
     expectTypeOf<keyof LocaleMessages<{ foo: string }, Locales>>().toEqualTypeOf<Locales>()
   })
+})
 
-  test('DateTimeFormats', () => {
+describe('DateTimeFormats', () => {
+  test('large locale union', () => {
+    type Locales = `${'f' | 'g' | 'h' | 'i' | 'j'}${1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10}`
     expectTypeOf<keyof DateTimeFormats<DateTimeFormat, Locales>>().toEqualTypeOf<Locales>()
   })
+})
 
-  test('NumberFormats', () => {
+describe('NumberFormats', () => {
+  test('large locale union', () => {
+    type Locales = `${'k' | 'l' | 'm' | 'n' | 'o'}${1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10}`
     expectTypeOf<keyof NumberFormats<NumberFormat, Locales>>().toEqualTypeOf<Locales>()
   })
 })
