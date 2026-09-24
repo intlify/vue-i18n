@@ -7,6 +7,7 @@ import type {
 } from '../src/types/intl'
 import type {
   ExtractToStringKey,
+  FallbackLocales,
   IsEmptyObject,
   LocaleParams,
   RemovedIndexResources,
@@ -339,5 +340,14 @@ describe('NumberFormats', () => {
   test('large locale union', () => {
     type Locales = `${'k' | 'l' | 'm' | 'n' | 'o'}${1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10}`
     expectTypeOf<keyof NumberFormats<NumberFormat, Locales>>().toEqualTypeOf<Locales>()
+  })
+})
+
+describe('FallbackLocales', () => {
+  test('large locale union', () => {
+    type Locales = `${'p' | 'q' | 'r' | 's' | 't'}${1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10}`
+    expectTypeOf<FallbackLocales<Locales>>().toEqualTypeOf<
+      Locales | Locales[] | { [x in string]: (Locales | `${Locales}!`)[] } | false
+    >()
   })
 })
