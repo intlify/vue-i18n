@@ -1,7 +1,13 @@
-import type { LocaleMessage } from '../src/context'
-import type { DateTimeFormat, NumberFormat } from '../src/types/intl'
+import type { LocaleMessage, LocaleMessages } from '../src/context'
+import type {
+  DateTimeFormat,
+  DateTimeFormats,
+  NumberFormat,
+  NumberFormats
+} from '../src/types/intl'
 import type {
   ExtractToStringKey,
+  FallbackLocales,
   IsEmptyObject,
   LocaleParams,
   RemovedIndexResources,
@@ -313,5 +319,35 @@ describe('StringConvertable', () => {
 
   test('literal function', () => {
     expectTypeOf<StringConvertable<() => {}>>().toEqualTypeOf<() => {}>()
+  })
+})
+
+describe('LocaleMessages', () => {
+  test('large locale union', () => {
+    type Locales = `${'a' | 'b' | 'c' | 'd' | 'e'}${1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10}`
+    expectTypeOf<keyof LocaleMessages<{ foo: string }, Locales>>().toEqualTypeOf<Locales>()
+  })
+})
+
+describe('DateTimeFormats', () => {
+  test('large locale union', () => {
+    type Locales = `${'f' | 'g' | 'h' | 'i' | 'j'}${1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10}`
+    expectTypeOf<keyof DateTimeFormats<DateTimeFormat, Locales>>().toEqualTypeOf<Locales>()
+  })
+})
+
+describe('NumberFormats', () => {
+  test('large locale union', () => {
+    type Locales = `${'k' | 'l' | 'm' | 'n' | 'o'}${1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10}`
+    expectTypeOf<keyof NumberFormats<NumberFormat, Locales>>().toEqualTypeOf<Locales>()
+  })
+})
+
+describe('FallbackLocales', () => {
+  test('large locale union', () => {
+    type Locales = `${'p' | 'q' | 'r' | 's' | 't'}${1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10}`
+    expectTypeOf<FallbackLocales<Locales>>().toEqualTypeOf<
+      Locales | Locales[] | { [x in string]: (Locales | `${Locales}!`)[] } | false
+    >()
   })
 })

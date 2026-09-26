@@ -45,8 +45,7 @@ import type {
   NumberFormats as NumberFormatsType,
   PickupLocales,
   RemoveIndexSignature,
-  SchemaParams,
-  UnionToTuple
+  SchemaParams
 } from './types'
 
 export interface MetaInfo {
@@ -80,7 +79,7 @@ export type LocaleMessage<Message = string> = Record<string, LocaleMessageValue<
 
 /** @VueI18nGeneral */
 export type LocaleMessages<Schema, Locales = Locale, _Message = string> = LocaleRecord<
-  UnionToTuple<Locales>,
+  [Locales],
   Schema
 >
 
