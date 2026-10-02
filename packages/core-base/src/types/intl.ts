@@ -1,4 +1,4 @@
-import type { LocaleRecord, UnionToTuple } from './utils'
+import type { LocaleRecord } from './utils'
 import type { Locale } from '../runtime'
 
 /**
@@ -28,7 +28,7 @@ export type DateTimeFormatOptions =
   | Intl.DateTimeFormatOptions
   | SpecificDateTimeFormatOptions
 export type DateTimeFormat = { [key: string]: DateTimeFormatOptions }
-export type DateTimeFormats<Schema = DateTimeFormat, Locales = Locale> = LocaleRecord<UnionToTuple<Locales>, Schema>
+export type DateTimeFormats<Schema = DateTimeFormat, Locales = Locale> = LocaleRecord<[Locales], Schema>
 
 /**
  *  number
@@ -57,7 +57,7 @@ export type NumberFormatOptions =
   | SpecificNumberFormatOptions
   | CurrencyNumberFormatOptions
 export type NumberFormat = { [key: string]: NumberFormatOptions }
-export type NumberFormats<Schema = NumberFormat, Locales = Locale> = LocaleRecord<UnionToTuple<Locales>, Schema>
+export type NumberFormats<Schema = NumberFormat, Locales = Locale> = LocaleRecord<[Locales], Schema>
 
 export type FormattedNumberPartType =
   | 'currency'

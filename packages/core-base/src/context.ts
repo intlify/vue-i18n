@@ -47,8 +47,7 @@ import type {
   NumberFormats as NumberFormatsType,
   PickupLocales,
   RemoveIndexSignature,
-  SchemaParams,
-  UnionToTuple
+  SchemaParams
 } from './types'
 
 export interface MetaInfo {
@@ -90,7 +89,7 @@ export type LocaleMessages<
   Schema,
   Locales = Locale,
   Message = string // eslint-disable-line @typescript-eslint/no-unused-vars
-> = LocaleRecord<UnionToTuple<Locales>, Schema>
+> = LocaleRecord<[Locales], Schema>
 
 /**
  * The type definition of Locale Message for `@intlify/core-base` package
