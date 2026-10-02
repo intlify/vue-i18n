@@ -96,7 +96,7 @@
     "@vitest/coverage-v8": "^4.0.18",
     "bumpp": "^12.0.0",
     "cross-env": "^10.1.0",
-    "eslint": "^9.39.3",
+    "eslint": "^10.0.0",
     "eslint-plugin-jsonc": "^2.21.1",
     "eslint-plugin-markdown-preferences": "^0.42.0",
     "eslint-plugin-module-interop": "^0.4.0",
