@@ -189,7 +189,7 @@ export function datetime<Context extends CoreContext<Message, {}, {}, {}>, Messa
     return !part ? formatter.format(value) : formatter.formatToParts(value)
   }
 
-  const targetLocale = resolveFormatLocale(
+  const formatLocale = resolveFormatLocale(
     context,
     key,
     locale,
@@ -198,17 +198,18 @@ export function datetime<Context extends CoreContext<Message, {}, {}, {}>, Messa
     fallbackWarn,
     'datetime format'
   )
-  if (!isString(targetLocale)) {
+  if (!isString(formatLocale)) {
     return unresolving ? NOT_RESOLVED : key
   }
   const format = (datetimeFormats as unknown as FormatResources<DateTimeFormatOptions>)[
-    targetLocale
+    formatLocale
   ][key]
 
-  const id = getFormatterCacheKey(targetLocale, key, overrides)
+  const intlLocale = locale.replace(/!/g, '')
+  const id = getFormatterCacheKey(intlLocale, formatLocale, key, overrides)
   let formatter = __datetimeFormatters.get(id)
   if (!formatter) {
-    formatter = new Intl.DateTimeFormat(targetLocale, assign({}, format, overrides))
+    formatter = new Intl.DateTimeFormat(intlLocale, assign({}, format, overrides))
     __datetimeFormatters.set(id, formatter)
   }
   return !part ? formatter.format(value) : formatter.formatToParts(value)
