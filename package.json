@@ -130,7 +130,7 @@
     "typescript": "5.9.3",
     "typescript-eslint": "^8.56.0",
     "vitepress": "2.0.0-alpha.17",
-    "vitepress-api-references": "^0.3.0",
+    "vitepress-api-references": "^0.4.0",
     "vitepress-plugin-llms": "^1.11.0",
     "vitest": "^4.0.18",
     "vue": "3.5.43",
