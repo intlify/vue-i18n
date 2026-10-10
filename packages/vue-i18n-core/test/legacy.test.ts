@@ -20,10 +20,12 @@ import {
   registerMessageResolver,
   resolveValue
 } from '@intlify/core-base'
-import { nextTick, watchEffect } from 'vue'
+import { nextTick, toRaw, watchEffect } from 'vue'
 import { createComposer, VueMessageType } from '../src/composer'
 import { createVueI18n } from '../src/legacy'
 import { pluralRules as _pluralRules } from './helper'
+
+import type { VueI18n } from '../src/legacy'
 
 beforeEach(() => {
   registerMessageCompiler(compile)
@@ -592,7 +594,7 @@ describe('locales named after Object.prototype properties', () => {
 
   test('sharedMessages ignores them', () => {
     const messages = { en: { hello: 'hello' } }
-    createVueI18n({
+    const i18n = createVueI18n({
       locale: 'en',
       messages,
       // e.g. resources parsed from untrusted JSON, where `__proto__` is an own key
@@ -607,7 +609,9 @@ describe('locales named after Object.prototype properties', () => {
       )
     }
     expect(Object.getPrototypeOf(messages)).toBe(Object.prototype)
-    expect(Object.keys(messages)).toEqual(['en', 'ja'])
+    expect(Object.keys(messages)).toEqual(['en'])
+    expect(Object.getPrototypeOf(i18n.messages)).toBe(Object.prototype)
+    expect(Object.keys(i18n.messages)).toEqual(['en', 'ja'])
   })
 
   test.each([
@@ -649,6 +653,89 @@ describe('locales named after Object.prototype properties', () => {
         expect(Object.keys(container)).toEqual(['en'])
       }
     }
+  })
+})
+
+describe('objects passed in as resources', () => {
+  // the options are untyped, so that any locale and message can be set
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const create = (options: any): VueI18n => createVueI18n(options)
+  const createResources = () => ({
+    messages: { en: { hello: 'hello', nested: { foo: 'foo' } } },
+    sharedMessages: {
+      en: { shared: 'shared', sharedNested: { bar: 'bar' } },
+      ja: { hello: 'こんにちは' }
+    },
+    datetimeFormats: { en: { short: { year: 'numeric' } } },
+    numberFormats: { en: { decimal: { style: 'decimal' } } }
+  })
+
+  test('messages and sharedMessages are not written into', () => {
+    const resources = createResources()
+    const snapshot = structuredClone(resources)
+    const i18n = create({ locale: 'en', ...resources })
+    i18n.setLocaleMessage('fr', { hello: 'bonjour' })
+    i18n.mergeLocaleMessage('en', { bye: 'bye', sharedNested: { baz: 'baz' } })
+    i18n.mergeLocaleMessage('ja', { bye: 'さようなら' })
+    i18n.setDateTimeFormat('ja', { short: { year: '2-digit' } })
+    i18n.mergeDateTimeFormat('en', { long: { month: 'long' } })
+    i18n.setNumberFormat('ja', { decimal: { style: 'percent' } })
+    i18n.mergeNumberFormat('en', { percent: { style: 'percent' } })
+
+    expect(resources).toEqual(snapshot)
+    expect(i18n.messages).toEqual({
+      en: {
+        hello: 'hello',
+        nested: { foo: 'foo' },
+        shared: 'shared',
+        sharedNested: { bar: 'bar', baz: 'baz' },
+        bye: 'bye'
+      },
+      ja: { hello: 'こんにちは', bye: 'さようなら' },
+      fr: { hello: 'bonjour' }
+    })
+  })
+
+  test('VueI18n instances that share them do not see the writes of each other', () => {
+    const resources = createResources()
+    const a = create({ locale: 'en', ...resources })
+    const b = create({ locale: 'en', ...resources })
+    a.setLocaleMessage('fr', { hello: 'bonjour' })
+    a.mergeLocaleMessage('en', { bye: 'bye' })
+    a.mergeLocaleMessage('ja', { bye: 'さようなら' })
+    a.mergeDateTimeFormat('en', { long: { month: 'long' } })
+    a.mergeNumberFormat('en', { percent: { style: 'percent' } })
+
+    expect(b.availableLocales).toEqual(['en', 'ja'])
+    expect(b.te('bye', 'en')).toEqual(false)
+    expect(b.te('bye', 'ja')).toEqual(false)
+    expect(b.getDateTimeFormat('en')).toEqual({ short: { year: 'numeric' } })
+    expect(b.getNumberFormat('en')).toEqual({ decimal: { style: 'decimal' } })
+    expect(a.availableLocales).toEqual(['en', 'fr', 'ja'])
+    expect(a.te('bye', 'en')).toEqual(true)
+    expect(a.te('bye', 'ja')).toEqual(true)
+  })
+
+  test('the getters return the state of the VueI18n instance', () => {
+    const resources = createResources()
+    const i18n = create({ locale: 'en', ...resources })
+    expect(toRaw(i18n.messages)).not.toBe(resources.messages)
+    expect(toRaw(i18n.datetimeFormats)).not.toBe(resources.datetimeFormats)
+    expect(toRaw(i18n.numberFormats)).not.toBe(resources.numberFormats)
+    expect(i18n.messages).toEqual({
+      en: {
+        hello: 'hello',
+        nested: { foo: 'foo' },
+        shared: 'shared',
+        sharedNested: { bar: 'bar' }
+      },
+      ja: { hello: 'こんにちは' }
+    })
+
+    i18n.mergeLocaleMessage('en', { hello: 'hi' })
+    expect(i18n.t('hello')).toEqual('hi')
+    expect(i18n.getLocaleMessage('en')).toMatchObject({ hello: 'hi' })
+    expect(resources.messages.en.hello).toEqual('hello')
   })
 })
 

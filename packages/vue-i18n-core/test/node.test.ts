@@ -2,7 +2,17 @@
  * @vitest-environment node
  */
 
+import {
+  compile,
+  fallbackWithLocaleChain,
+  registerLocaleFallbacker,
+  registerMessageCompiler,
+  registerMessageResolver,
+  resolveValue
+} from '@intlify/core-base'
 import { createComposer } from '../src/composer'
+
+import type { ComposerOptions } from '../src/composer'
 
 // without `window`, the composer keeps the messages and formats in a `shallowRef`, as during SSR
 test('runs without window', () => {
@@ -64,5 +74,36 @@ describe('locales named after Object.prototype properties', () => {
         expect(Object.keys(container)).toEqual(['en'])
       }
     }
+  })
+})
+
+describe('objects passed in as resources', () => {
+  // `ComposerOptions` keeps the composer untyped, so that any locale can be set
+  const create = (options: ComposerOptions) => createComposer(options)
+
+  beforeAll(() => {
+    registerMessageCompiler(compile)
+    registerMessageResolver(resolveValue)
+    registerLocaleFallbacker(fallbackWithLocaleChain)
+  })
+
+  test('composers that share them do not see the writes of each other', () => {
+    const messages = { en: { hello: 'hello' } }
+    const a = create({ locale: 'en', messages })
+    const b = create({
+      locale: 'en',
+      missingWarn: false,
+      fallbackWarn: false,
+      messages
+    })
+    a.setLocaleMessage('ja', { hello: 'konnichiwa' })
+    a.mergeLocaleMessage('en', { bye: 'bye' })
+
+    expect(messages).toEqual({ en: { hello: 'hello' } })
+    b.locale.value = 'ja'
+    expect(b.t('hello')).toEqual('hello')
+    expect(b.te('bye', 'en')).toEqual(false)
+    a.locale.value = 'ja'
+    expect(a.t('hello')).toEqual('konnichiwa')
   })
 })

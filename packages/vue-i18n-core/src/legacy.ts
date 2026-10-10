@@ -12,7 +12,7 @@ import {
 } from '@intlify/shared'
 import { createComposer, DefineLocaleMessage } from './composer'
 import { DisableEmitter, EnableEmitter } from './symbols'
-import { isUnsafeLocale } from './utils'
+import { copyResources, isUnsafeLocale } from './utils'
 
 import type {
   DateTimeFormat,
@@ -1355,11 +1355,18 @@ function convertComposerOptions<
         if (isUnsafeLocale(locale)) {
           return messages
         }
-        const message = getOwn(messages, locale) || (messages[locale] = {})
-        assign(message, sharedMessages[locale])
+        // merge into a new object, so that neither `messages` nor
+        // `sharedMessages` of the application is written into
+        messages[locale] = assign(
+          {},
+          getOwn(messages, locale),
+          sharedMessages[locale]
+        )
         return messages
       },
-      (messages || {}) as LocaleMessages<LocaleMessage<VueMessageType>>
+      copyResources(messages || {}) as LocaleMessages<
+        LocaleMessage<VueMessageType>
+      >
     )
   }
   const { __i18n, __root, __injectWithOption } = options

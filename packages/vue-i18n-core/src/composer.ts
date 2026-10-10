@@ -38,7 +38,7 @@ import {
   toDevtoolsGroupId,
   warn
 } from '@intlify/shared'
-import { computed, ref, shallowRef, watch } from 'vue'
+import { computed, ref, shallowRef, toRaw, watch } from 'vue'
 import { I18nErrorCodes, createI18nError } from './errors'
 import { VERSION } from './misc'
 import {
@@ -51,6 +51,8 @@ import {
   TranslateVNodeSymbol
 } from './symbols'
 import {
+  copyMerge,
+  copyResources,
   createTextNode,
   getComponentOptions,
   getCurrentInstance,
@@ -1995,10 +1997,15 @@ export function createComposer(options: any = {}): any {
         : _locale.value
   )
 
+  // locales whose messages the composer has copied, so that
+  // `mergeLocaleMessage()` can write into them
+  const _copiedLocales = new Set<Locale>()
+
   const _messages = _ref(
     getLocaleMessages<LocaleMessages<LocaleMessage<Message>>>(
       _locale.value as Locale,
-      options
+      options,
+      _copiedLocales
     )
   )
 
@@ -2006,7 +2013,7 @@ export function createComposer(options: any = {}): any {
   const _datetimeFormats = !__LITE__
     ? _ref<DateTimeFormatsType>(
       isPlainObject(options.datetimeFormats)
-        ? options.datetimeFormats
+        ? copyResources(options.datetimeFormats)
         : { [_locale.value]: {} }
     )
     : /* #__PURE__*/ _ref<DateTimeFormatsType>({})
@@ -2015,7 +2022,7 @@ export function createComposer(options: any = {}): any {
   const _numberFormats = !__LITE__
     ? _ref<NumberFormatsType>(
       isPlainObject(options.numberFormats)
-        ? options.numberFormats
+        ? copyResources(options.numberFormats)
         : { [_locale.value]: {} }
     )
     : /* #__PURE__*/ _ref<NumberFormatsType>({})
@@ -2499,8 +2506,15 @@ export function createComposer(options: any = {}): any {
     if (isUnsafeLocale(locale)) {
       return
     }
-    if (flatJson) {
-      handleFlatJson(message)
+    if (flatJson && isPlainObject(message)) {
+      // `handleFlatJson()` rewrites the object in place, so transform a copy of
+      // the caller's object
+      message = handleFlatJson(copyMerge(message)) as LocaleMessage<Message>
+      _copiedLocales.add(locale)
+    } else {
+      // keep the caller's object, and copy it before `mergeLocaleMessage()`
+      // writes into it
+      _copiedLocales.delete(locale)
     }
     _messages.value[locale] = message
     _context.messages = _messages.value as typeof _context.messages
@@ -2514,11 +2528,22 @@ export function createComposer(options: any = {}): any {
     if (isUnsafeLocale(locale)) {
       return
     }
-    _messages.value[locale] = getOwn(_messages.value, locale) || {}
     if (flatJson) {
-      handleFlatJson(message)
+      // `handleFlatJson()` rewrites the object in place, so transform a copy of
+      // the caller's object
+      message = handleFlatJson(
+        copyMerge(message)
+      ) as LocaleMessageDictionary<Message>
     }
-    deepCopy(message, _messages.value[locale])
+    const target = getOwn(_messages.value, locale)
+    if (target != null && _copiedLocales.has(locale)) {
+      deepCopy(message, target)
+    } else {
+      // copy the locale before the first write, so that the object from the
+      // application is kept as is
+      _messages.value[locale] = copyMerge(toRaw(target), message)
+      _copiedLocales.add(locale)
+    }
     _context.messages = _messages.value as typeof _context.messages
   }
 
@@ -2542,8 +2567,11 @@ export function createComposer(options: any = {}): any {
     if (isUnsafeLocale(locale)) {
       return
     }
+    // merge into a new object, so that the object from the application is kept
+    // as is
     _datetimeFormats.value[locale] = assign(
-      getOwn(_datetimeFormats.value, locale) || {},
+      {},
+      toRaw(getOwn(_datetimeFormats.value, locale)),
       format
     )
     _context.datetimeFormats = _datetimeFormats.value
@@ -2570,8 +2598,11 @@ export function createComposer(options: any = {}): any {
     if (isUnsafeLocale(locale)) {
       return
     }
+    // merge into a new object, so that the object from the application is kept
+    // as is
     _numberFormats.value[locale] = assign(
-      getOwn(_numberFormats.value, locale) || {},
+      {},
+      toRaw(getOwn(_numberFormats.value, locale)),
       format
     )
     _context.numberFormats = _numberFormats.value

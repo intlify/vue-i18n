@@ -199,3 +199,60 @@ describe('locales named after Object.prototype properties', () => {
     expect(gl.getLocaleMessage('ja')).toEqual({ hello: 'こんにちは' })
   })
 })
+
+describe('objects passed in as resources', () => {
+  test('getLocaleMessages does not write into the messages passed in', () => {
+    const messages = { en: { hello: 'hello', nested: { foo: 'foo' } } }
+    const ret = getLocaleMessages('en', {
+      messages,
+      __i18n: [
+        { locale: 'en', resource: { bye: 'bye', nested: { bar: 'bar' } } },
+        {
+          locale: '',
+          resource: { en: { more: 'more' }, ja: { hello: 'こんにちは' } }
+        }
+      ] as any // eslint-disable-line @typescript-eslint/no-explicit-any
+    })
+
+    expect(messages).toEqual({ en: { hello: 'hello', nested: { foo: 'foo' } } })
+    expect(ret).toEqual({
+      en: {
+        hello: 'hello',
+        nested: { foo: 'foo', bar: 'bar' },
+        bye: 'bye',
+        more: 'more'
+      },
+      ja: { hello: 'こんにちは' }
+    })
+  })
+
+  test('getLocaleMessages copies the locales before flatJson rewrites them', () => {
+    const messages = { en: { 'a.b': 'flat' } }
+    const ret = getLocaleMessages('en', { messages, flatJson: true })
+
+    expect(messages).toEqual({ en: { 'a.b': 'flat' } })
+    expect(ret).toEqual({ en: { a: { b: 'flat' } } })
+  })
+
+  test('adjustI18nResources does not write into the messages of the component or of the global composer', () => {
+    const globalMessages = { en: { hello: 'hello' } }
+    const componentMessages = { en: { component: 'component' } }
+    const gl = createComposer({
+      locale: 'en',
+      messages: globalMessages
+    }) as unknown as Composer
+    adjustI18nResources(
+      gl,
+      { messages: componentMessages },
+      { __i18nGlobal: [{ locale: 'en', resource: { block: 'block' } }] }
+    )
+
+    expect(globalMessages).toEqual({ en: { hello: 'hello' } })
+    expect(componentMessages).toEqual({ en: { component: 'component' } })
+    expect(gl.getLocaleMessage('en')).toEqual({
+      hello: 'hello',
+      component: 'component',
+      block: 'block'
+    })
+  })
+})

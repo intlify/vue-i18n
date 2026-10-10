@@ -261,3 +261,35 @@ describe.skip('errors', () => {
     )
   })
 })
+
+describe('objects passed in as resources', () => {
+  test('the i18n option of a component is not written into', async () => {
+    const messages = { en: { bye: 'good bye!' } }
+    const sharedMessages = { en: { shared: 'shared!' } }
+    const App = defineComponent({
+      template: `<p>{{ $t('bye') }} {{ $t('shared') }} {{ $t('block') }}</p>`,
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      i18n: { messages, sharedMessages: sharedMessages as any },
+      __i18n: [
+        {
+          locale: 'en',
+          resource: { block: 'block!' } as any // eslint-disable-line @typescript-eslint/no-explicit-any
+        }
+      ]
+    })
+    const createGlobal = () =>
+      createI18n({ legacy: true, locale: 'en', messages: { en: {} } })
+
+    // the component options are shared by every instance of the component
+    const first = await mount(App, createGlobal())
+    expect(first.html()).toEqual('<p>good bye! shared! block!</p>')
+    ;(first.vm.$i18n as VueI18n).mergeLocaleMessage('en', { bye: 'changed!' })
+    await nextTick()
+    expect(first.html()).toEqual('<p>changed! shared! block!</p>')
+
+    const second = await mount(App, createGlobal())
+    expect(second.html()).toEqual('<p>good bye! shared! block!</p>')
+    expect(messages).toEqual({ en: { bye: 'good bye!' } })
+    expect(sharedMessages).toEqual({ en: { shared: 'shared!' } })
+  })
+})
