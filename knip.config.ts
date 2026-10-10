@@ -9,21 +9,20 @@ const config: KnipConfig = {
       ignoreDependencies: [
         '@intlify/core-base',
         '@intlify/vue-i18n-core',
-        '@vitest/coverage-v8',
         '@types/eslint',
         'oxc-parser',
         'vitepress-plugin-llms'
       ]
     },
     'packages/core-base': {
-      ignore: ['src/intl.ts', 'src/warnings.ts']
+      ignore: ['src/warnings.ts']
     },
     'packages/core': {
       ignore: ['src/runtime.ts'],
       ignoreDependencies: ['@intlify/shared']
     },
     'packages/message-compiler': {
-      ignore: ['src/helpers.ts', 'src/generator.ts']
+      ignore: ['src/generator.ts']
     },
     'packages/format-explorer': {
       ignoreDependencies: ['@vue/compiler-sfc', 'vue-tsc']
@@ -53,12 +52,7 @@ const config: KnipConfig = {
       ignoreDependencies: ['petite-vue-i18n', '@vue/compiler-sfc']
     }
   },
-  ignoreDependencies: [
-    'lint-staged',
-    'mitata',
-    '@kazupon/eslint-plugin',
-    '@kazupon/prettier-config'
-  ]
+  ignoreDependencies: ['lint-staged', 'mitata', '@kazupon/eslint-plugin']
 }
 
 export default config
