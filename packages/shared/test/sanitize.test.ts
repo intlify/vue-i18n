@@ -240,12 +240,50 @@ describe('sanitizeTranslatedHtml', () => {
     )
   })
 
-  test('handle srcdoc attribute', () => {
-    const html = '<iframe srcdoc="<script>alert(1)</script>">Test</iframe>'
+  test('neutralize srcdoc attribute', () => {
+    // the value of `srcdoc` is entity-decoded and parsed as a nested document,
+    // so escaping the value is not enough: the attribute itself is neutralized
+    const html = '<iframe srcdoc="<b>x</b>">Test</iframe>'
     const result = sanitizeTranslatedHtml(html)
     expect(result).toBe(
-      '<iframe srcdoc="&lt;script&gt;alert(1)&lt;/script&gt;">Test</iframe>'
+      '<iframe &#115;rcdoc="&lt;b&gt;x&lt;/b&gt;">Test</iframe>'
     )
+    expect(
+      JSDOM.fragment(result).querySelector('iframe')?.hasAttribute('srcdoc')
+    ).toBe(false)
+  })
+
+  test.each([
+    ['uppercase', '<iframe SRCDOC="<b>x</b>"></iframe>'],
+    ['mixed case', '<iframe SrcDoc="<b>x</b>"></iframe>'],
+    ['spaces around `=`', '<iframe srcdoc = "<b>x</b>"></iframe>'],
+    ['single quotes', "<iframe srcdoc='<b>x</b>'></iframe>"],
+    ['unquoted value', '<iframe srcdoc=&lt;b&gt;x&lt;/b&gt;></iframe>'],
+    [
+      'no whitespace after a quoted attribute',
+      '<iframe title="t"srcdoc="<b>x</b>"></iframe>'
+    ],
+    ['slash boundary', '<iframe/srcdoc="<b>x</b>"></iframe>'],
+    ['newline boundary', '<iframe\nsrcdoc="<b>x</b>"></iframe>']
+  ])('neutralize srcdoc attribute: %s', (_, html) => {
+    const result = sanitizeTranslatedHtml(html)
+    expect(
+      JSDOM.fragment(result).querySelector('iframe')?.hasAttribute('srcdoc')
+    ).toBe(false)
+  })
+
+  test('keep srcdoc in text and attribute values as is', () => {
+    const result = sanitizeTranslatedHtml(
+      '<span title="srcdoc=x">use srcdoc=x</span>'
+    )
+    const span = JSDOM.fragment(result).querySelector('span')
+    expect(span?.getAttribute('title')).toBe('srcdoc=x')
+    expect(span?.textContent).toBe('use srcdoc=x')
+  })
+
+  test('keep attributes whose name only contains srcdoc', () => {
+    const html = '<div data-srcdoc="x">Test</div>'
+    expect(sanitizeTranslatedHtml(html)).toBe(html)
   })
 
   test('handle attribute values without quotes', () => {
