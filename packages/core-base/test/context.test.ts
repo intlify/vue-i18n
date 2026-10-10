@@ -1,4 +1,15 @@
+// utils
+import * as shared from '@intlify/shared'
+vi.mock('@intlify/shared', async () => {
+  const actual = await vi.importActual<object>('@intlify/shared')
+  return {
+    ...actual,
+    warn: vi.fn()
+  }
+})
+
 import { createCoreContext as context, getLocaleMessage, setLocaleMessage } from '../src/context'
+import { CoreWarnCodes, getWarnMessage } from '../src/warnings'
 
 describe('locale', () => {
   test('default', () => {
@@ -225,7 +236,12 @@ test('setMessages', () => {
 })
 
 describe('locales named after Object.prototype properties', () => {
+  beforeEach(() => {
+    vi.clearAllMocks()
+  })
+
   test.each(['__proto__', 'constructor', 'toString'])('setLocaleMessage ignores %s', locale => {
+    const mockWarn = vi.spyOn(shared, 'warn')
     const messages = { en: { hello: 'hello' } }
     const ctx = context({ locale: 'en', messages })
 
@@ -233,6 +249,31 @@ describe('locales named after Object.prototype properties', () => {
 
     expect(Object.getPrototypeOf(messages)).toBe(Object.prototype)
     expect(Object.keys(messages)).toEqual(['en'])
+    expect(mockWarn).toHaveBeenCalledTimes(1)
+    expect(mockWarn).toHaveBeenCalledWith(
+      getWarnMessage(CoreWarnCodes.IGNORE_UNSAFE_LOCALE, { locale })
+    )
+  })
+
+  test('setLocaleMessage warns through the onWarn option', () => {
+    const onWarn = vi.fn()
+    const ctx = context({ locale: 'en', messages: { en: {} }, onWarn })
+
+    setLocaleMessage(ctx, '__proto__' as 'en', {} as any)
+
+    expect(onWarn).toHaveBeenCalledTimes(1)
+    expect(onWarn).toHaveBeenCalledWith(
+      getWarnMessage(CoreWarnCodes.IGNORE_UNSAFE_LOCALE, { locale: '__proto__' })
+    )
+  })
+
+  test('setLocaleMessage does not warn for other locales', () => {
+    const mockWarn = vi.spyOn(shared, 'warn')
+    const ctx = context({ locale: 'en', messages: { en: {} } })
+
+    setLocaleMessage(ctx, 'ja', { hello: 'こんにちは！' })
+
+    expect(mockWarn).not.toHaveBeenCalled()
   })
 
   test.each(['__proto__', 'constructor', 'toString'])('getLocaleMessage ignores %s', locale => {

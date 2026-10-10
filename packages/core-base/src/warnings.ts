@@ -9,10 +9,11 @@ export const CoreWarnCodes = {
   FALLBACK_TO_DATE_FORMAT: 6,
   EXPERIMENTAL_CUSTOM_MESSAGE_COMPILER: 7,
   INVALID_NUMBER_ARGUMENT: 8,
-  INVALID_DATE_ARGUMENT: 9
+  INVALID_DATE_ARGUMENT: 9,
+  IGNORE_UNSAFE_LOCALE: 10
 } as const
 
-export const CORE_WARN_CODES_EXTEND_POINT: number = 10
+export const CORE_WARN_CODES_EXTEND_POINT: number = 11
 
 export type CoreWarnCodes = (typeof CoreWarnCodes)[keyof typeof CoreWarnCodes]
 
@@ -26,7 +27,8 @@ export const warnMessages: { [code: number]: string } = {
   [CoreWarnCodes.FALLBACK_TO_DATE_FORMAT]: `Fall back to datetime format '{key}' key with '{target}' locale.`,
   [CoreWarnCodes.EXPERIMENTAL_CUSTOM_MESSAGE_COMPILER]: `This project is using Custom Message Compiler, which is an experimental feature. It may receive breaking changes or be removed in the future.`,
   [CoreWarnCodes.INVALID_NUMBER_ARGUMENT]: `Invalid argument for number formatting: expected a number but received '{value}'.`,
-  [CoreWarnCodes.INVALID_DATE_ARGUMENT]: `Invalid argument for datetime formatting: expected a Date, number, or ISO string but received '{value}'.`
+  [CoreWarnCodes.INVALID_DATE_ARGUMENT]: `Invalid argument for datetime formatting: expected a Date, number, or ISO string but received '{value}'.`,
+  [CoreWarnCodes.IGNORE_UNSAFE_LOCALE]: `Ignore '{locale}' locale: it is a property name of Object.prototype`
 }
 
 export function getWarnMessage(code: CoreWarnCodes, ...args: unknown[]): string {

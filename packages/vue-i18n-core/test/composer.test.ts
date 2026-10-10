@@ -23,6 +23,7 @@ import {
   TranslateVNodeSymbol
 } from '../src/symbols'
 import { getWarnMessage, I18nWarnCodes } from '../src/warnings'
+import { CoreWarnCodes, getWarnMessage as getCoreWarnMessage } from '@intlify/core-base'
 
 import type { Locale, MessageContext, MessageFunction, Path, PathValue } from '@intlify/core-base'
 import type {
@@ -1941,7 +1942,7 @@ describe('locales named after Object.prototype properties', () => {
       expect(Object.getPrototypeOf(options[option])).toBe(Object.prototype)
       expect(Object.keys(options[option])).toEqual(['en'])
       expect(mockWarn).toHaveBeenCalledWith(
-        getWarnMessage(I18nWarnCodes.IGNORE_UNSAFE_LOCALE, { locale })
+        getCoreWarnMessage(CoreWarnCodes.IGNORE_UNSAFE_LOCALE, { locale })
       )
     })
   })

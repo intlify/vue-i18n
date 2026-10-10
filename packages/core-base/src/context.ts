@@ -609,6 +609,7 @@ export function setLocaleMessage<Context extends CoreContext, Locales = keyof Co
 ): void {
   // a property name of `Object.prototype` such as `__proto__` would replace or shadow a built-in
   if (isObjectPrototypeKey(locale as string)) {
+    __DEV__ && ctx.onWarn(getWarnMessage(CoreWarnCodes.IGNORE_UNSAFE_LOCALE, { locale }))
     return
   }
   ;(ctx.messages as any)[locale] = messages
