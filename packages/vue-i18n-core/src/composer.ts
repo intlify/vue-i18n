@@ -93,7 +93,6 @@ import type {
   NumberFormats as NumberFormatsType,
   NumberOptions,
   Path,
-  PathValue,
   PickupFormatKeys,
   PickupFormatPathKeys,
   PickupKeys,
@@ -2358,9 +2357,9 @@ export function createComposer(options: any = {}): ComposerInternalInstance {
         for (let i = 0; i < locales.length; i++) {
           const message = getLocaleMessage(locales[i])
           let resolved = _context.messageResolver(message, key)
-          // if null, resolve with object key path (for flat keys containing dots)
+          // if null, resolve with object key path (for flat keys containing dots), from own properties only
           if (resolved === null) {
-            resolved = (message as Record<string, PathValue>)[key]
+            resolved = getOwn(message, key)
           }
           if (isMessageFormat(resolved)) {
             return true

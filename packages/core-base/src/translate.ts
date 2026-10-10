@@ -4,6 +4,7 @@ import {
   escapeHtml,
   generateCodeFrame,
   generateFormatCacheKey,
+  getOwn,
   inBrowser,
   isArray,
   isBoolean,
@@ -37,7 +38,6 @@ import type {
   CoreContext,
   CoreInternalContext,
   DefineCoreLocaleMessage,
-  LocaleMessages,
   LocaleMessageValue,
   MessageCompilerContext
 } from './context'
@@ -624,7 +624,7 @@ export function translate<Context extends CoreContext<Message, {}, {}, {}>, Mess
         isBoolean(options.fallbackWarn) ? options.fallbackWarn : context.fallbackWarn,
         isBoolean(options.missingWarn) ? options.missingWarn : context.missingWarn
       )
-    : [key, locale, (context.messages as unknown as LocaleMessages<Message>)[locale] || create()]
+    : [key, locale, getOwn(context.messages, locale) || create()]
 
   // if you use default message, set it as message format!
   let cacheBaseKey = key
@@ -775,7 +775,8 @@ function resolveMessageFormat<Messages, Message>(
       }
     }
 
-    message = (messages as unknown as LocaleMessages<Message>)[targetLocale] || create()
+    // read only own properties, so that a locale such as `constructor` does not read a built-in object
+    message = getOwn(messages, targetLocale) || create()
 
     // for vue-devtools timeline event
     let start: number | null = null
@@ -789,8 +790,8 @@ function resolveMessageFormat<Messages, Message>(
     }
 
     if ((format = resolveValue(message, key)) === null) {
-      // if null, resolve with object key path
-      format = (message as any)[key]
+      // if null, resolve with object key path, from own properties only
+      format = getOwn(message as object, key)
     }
 
     // for vue-devtools timeline event

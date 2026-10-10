@@ -2100,6 +2100,52 @@ describe('objects passed in as resources', () => {
   })
 })
 
+describe('lookups with locales and keys named after Object.prototype properties', () => {
+  const messages = { en: { hello: 'Hello', name: 'Name', keys: 'Keys' } }
+
+  test('t, te and rt do not read built-in objects', () => {
+    const composer = createComposer({
+      locale: 'en',
+      fallbackLocale: 'en',
+      missingWarn: false,
+      fallbackWarn: false,
+      messages
+    })
+    for (const key of ['toString', 'constructor', 'valueOf', 'hasOwnProperty']) {
+      expect(composer.t(key)).toEqual(key)
+      expect(composer.te(key)).toBe(false)
+    }
+
+    const fallingBack = createComposer({
+      locale: 'constructor',
+      fallbackLocale: 'en',
+      missingWarn: false,
+      fallbackWarn: false,
+      messages
+    })
+    expect(fallingBack.t('name')).toEqual('Name')
+    expect(fallingBack.t('keys')).toEqual('Keys')
+    expect(fallingBack.rt('x @:name')).toEqual('x Name')
+  })
+
+  test('d and n do not use a built-in object as a format', () => {
+    const date = new Date(Date.UTC(2026, 9, 10))
+    const composer = createComposer({
+      // on reactive containers, `hasOwnProperty` reads a function of Vue that has a `prototype`
+      locale: 'hasOwnProperty',
+      fallbackLocale: 'en',
+      missingWarn: false,
+      fallbackWarn: false,
+      datetimeFormats: { en: { short: { year: 'numeric', timeZone: 'UTC' } } },
+      numberFormats: { en: { percent: { style: 'percent' } } }
+    })
+    expect(composer.d(date, 'prototype')).toEqual('')
+    expect(composer.n(0.5, 'prototype')).toEqual('')
+    expect(composer.d(date, 'short')).toEqual('2026')
+    expect(composer.n(0.5, 'percent')).toEqual('50%')
+  })
+})
+
 describe('messageResolver', () => {
   test('basic', () => {
     const mockMessageResolver = vi.fn()

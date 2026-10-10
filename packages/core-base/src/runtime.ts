@@ -2,6 +2,7 @@ import { HelperNameMap } from '@intlify/message-compiler'
 import {
   assign,
   create,
+  getOwn,
   isArray,
   isFunction,
   isNumber,
@@ -344,7 +345,7 @@ export function createMessageContext<T = string, N = {}>(
     orgRule?: PluralizationRule
   ) => number
 
-  if (isString(locale) && isFunction(options.pluralRules?.[locale])) {
+  if (isString(locale) && options.pluralRules && isFunction(getOwn(options.pluralRules, locale))) {
     // 1. User-defined custom rule takes highest priority
     resolvedPluralRule = options.pluralRules![locale]
   } else if (
