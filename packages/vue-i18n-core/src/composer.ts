@@ -10,8 +10,7 @@ import {
   datetime,
   fallbackWithLocaleChain,
   getFallbackContext,
-  isMessageAST,
-  isMessageFunction,
+  isMessageFormat,
   isTranslateFallbackWarn,
   isTranslateMissingWarn,
   number,
@@ -2459,11 +2458,7 @@ export function createComposer(options: any = {}): any {
           if (resolved === null) {
             resolved = (message as any)[key]
           }
-          if (
-            isMessageAST(resolved) ||
-            isMessageFunction(resolved) ||
-            isString(resolved)
-          ) {
+          if (isMessageFormat(resolved)) {
             return true
           }
         }
