@@ -1,4 +1,9 @@
-import { AST_NODE_PROPS_KEYS, isMessageAST } from '@intlify/core-base'
+import {
+  AST_NODE_PROPS_KEYS,
+  CoreWarnCodes,
+  getWarnMessage as getCoreWarnMessage,
+  isMessageAST
+} from '@intlify/core-base'
 import {
   create,
   deepCopy,
@@ -39,7 +44,7 @@ declare module 'vue' {
  */
 export function isUnsafeLocale(locale: Locale): boolean {
   if (isObjectPrototypeKey(locale)) {
-    __DEV__ && warn(getWarnMessage(I18nWarnCodes.IGNORE_UNSAFE_LOCALE, { locale }))
+    __DEV__ && warn(getCoreWarnMessage(CoreWarnCodes.IGNORE_UNSAFE_LOCALE, { locale }))
     return true
   }
   return false
