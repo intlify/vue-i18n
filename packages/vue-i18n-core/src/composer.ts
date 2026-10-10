@@ -25,7 +25,6 @@ import {
 import {
   assign,
   deepCopy,
-  hasOwn,
   inBrowser,
   isArray,
   isBoolean,
@@ -2496,13 +2495,7 @@ export function createComposer(options: any = {}): any {
   // setLocaleMessage
   function setLocaleMessage(locale: Locale, message: LocaleMessage<Message>) {
     if (flatJson) {
-      const _message = { [locale]: message }
-      for (const key in _message) {
-        if (hasOwn(_message, key)) {
-          handleFlatJson(_message[key])
-        }
-      }
-      message = _message[locale]
+      handleFlatJson(message)
     }
     _messages.value[locale] = message
     _context.messages = _messages.value as typeof _context.messages
@@ -2514,15 +2507,9 @@ export function createComposer(options: any = {}): any {
     message: LocaleMessageDictionary<Message>
   ): void {
     _messages.value[locale] = _messages.value[locale] || {}
-    const _message = { [locale]: message }
     if (flatJson) {
-      for (const key in _message) {
-        if (hasOwn(_message, key)) {
-          handleFlatJson(_message[key])
-        }
-      }
+      handleFlatJson(message)
     }
-    message = _message[locale]
     deepCopy(message, _messages.value[locale])
     _context.messages = _messages.value as typeof _context.messages
   }
