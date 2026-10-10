@@ -8,8 +8,7 @@ import {
   createCoreContext,
   datetime,
   fallbackWithLocaleChain,
-  isMessageAST,
-  isMessageFunction,
+  isMessageFormat,
   isTranslateFallbackWarn,
   isTranslateMissingWarn,
   number,
@@ -2348,7 +2347,7 @@ export function createComposer(options: any = {}): ComposerInternalInstance {
           if (resolved === null) {
             resolved = (message as Record<string, PathValue>)[key]
           }
-          if (isMessageAST(resolved) || isMessageFunction(resolved) || isString(resolved)) {
+          if (isMessageFormat(resolved)) {
             return true
           }
         }
