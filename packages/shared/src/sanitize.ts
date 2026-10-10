@@ -29,6 +29,10 @@ const colonCharacterReferencePattern = /&colon;?/gi
 const controlOrWhitespacePattern = /[\u0000-\u0020\u007f-\u009f]/g
 const eventHandlerPattern = /(?:^|[\s"'<>/])on\w+\s*=\s*["']?[^"'>]+["']?/i
 const eventHandlerAttributePattern = /(^|[\s"'<>/])on(\w+\s*=)/gi
+// `srcdoc` holds a whole HTML document: its value is entity-decoded and then parsed again,
+// so neither escaping the value nor neutralizing `on*` inside it makes it inert
+const srcdocPattern = /(?:^|[\s"'<>/])srcdoc\s*=/i
+const srcdocAttributePattern = /(^|[\s"'<>/])s(rcdoc\s*=)/gi
 const unquotedUrlAttributePattern =
   /(^|[\s"'<>/])((?:href|src|action|formaction)\s*=\s*)([^\s"'=<>`]+)/gi
 
@@ -146,6 +150,18 @@ export function sanitizeTranslatedHtml(html: string): string {
     }
     // Neutralize event handler attributes by escaping 'on'
     html = html.replace(eventHandlerAttributePattern, '$1&#111;n$2')
+  }
+
+  // Detect and neutralize `srcdoc` attributes
+  if (srcdocPattern.test(html)) {
+    if (__DEV__) {
+      warn(
+        'Potentially dangerous srcdoc attribute detected in translation. ' +
+          'Consider removing srcdoc from your translation messages.'
+      )
+    }
+    // Neutralize `srcdoc` by escaping 's': character references are not decoded in attribute names
+    html = html.replace(srcdocAttributePattern, '$1&#115;$2')
   }
 
   // Disable javascript: URLs in unquoted attributes
