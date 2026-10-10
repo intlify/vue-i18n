@@ -38,3 +38,5 @@ minimumReleaseAgeExclude:
   - '@ox-content/binding-linux-arm64-gnu'
   - '@ox-content/binding-linux-arm64-musl'
   - '@ox-content/binding-win32-x64-msvc'
+  # Renovate security update: source-map-js@1.2.2
+  - source-map-js@1.2.2
