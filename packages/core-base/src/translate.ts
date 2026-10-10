@@ -69,6 +69,12 @@ const NOOP_MESSAGE_FUNCTION = () => ''
 export const isMessageFunction = <T>(val: unknown): val is MessageFunction<T> =>
   isFunction(val)
 
+/** @internal */
+export const isMessageFormat = <T>(
+  val: unknown
+): val is string | ResourceNode | MessageFunction<T> =>
+  isString(val) || isMessageAST(val) || isMessageFunction(val)
+
 /**
  *  # translate
  *
@@ -700,14 +706,7 @@ export function translate<
 
   // if you use default message, set it as message format!
   let cacheBaseKey = key
-  if (
-    !resolvedMessage &&
-    !(
-      isString(format) ||
-      isMessageAST(format) ||
-      isMessageFunction<Message>(format)
-    )
-  ) {
+  if (!resolvedMessage && !isMessageFormat<Message>(format)) {
     if (enableDefaultMsg) {
       format = defaultMsgOrKey
       cacheBaseKey = format as Path | MessageFunction<Message>
@@ -717,12 +716,7 @@ export function translate<
   // checking message format and target locale
   if (
     !resolvedMessage &&
-    (!(
-      isString(format) ||
-      isMessageAST(format) ||
-      isMessageFunction<Message>(format)
-    ) ||
-      !isString(targetLocale))
+    (!isMessageFormat<Message>(format) || !isString(targetLocale))
   ) {
     return unresolving ? NOT_REOSLVED : (key as MessageFunctionReturn<Message>)
   }
@@ -925,7 +919,7 @@ function resolveMessageFormat<Messages, Message>(
       }
     }
 
-    if (isString(format) || isMessageAST(format) || isMessageFunction(format)) {
+    if (isMessageFormat(format)) {
       break
     }
 
