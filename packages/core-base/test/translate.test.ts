@@ -788,6 +788,28 @@ describe('escapeParameter', () => {
     // `onclick` attribute should be escaped
     expect(result2).not.toContain('onclick=')
   })
+
+  test('neutralize srcdoc in messages and in parameters', () => {
+    const ctx = context({
+      locale: 'en',
+      warnHtmlMessage: false,
+      escapeParameter: true,
+      messages: {
+        en: {
+          inMessage: '<iframe srcdoc="<b>x</b>"></iframe>',
+          inParameter: '<iframe srcdoc="{content}"></iframe>'
+        }
+      }
+    })
+
+    expect(translate(ctx, 'inMessage')).toEqual(
+      '<iframe &#115;rcdoc="&lt;b&gt;x&lt;/b&gt;"></iframe>'
+    )
+    // escaping the parameter alone is undone when the `srcdoc` value is decoded
+    expect(translate(ctx, 'inParameter', { content: '<b>x</b>' })).toEqual(
+      '<iframe &#115;rcdoc="&lt;b&gt;x&lt;&#x2F;b&gt;"></iframe>'
+    )
+  })
 })
 
 describe('error', () => {
