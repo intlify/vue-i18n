@@ -331,3 +331,21 @@ describe('error', () => {
 })
 
 /* eslint-enable @typescript-eslint/no-empty-function, @typescript-eslint/no-explicit-any */
+
+test('locale named after an Object.prototype property', () => {
+  const mockAvailabilities = Availabilities
+  mockAvailabilities.numberFormat = true
+
+  const ctx = context({
+    locale: 'constructor',
+    fallbackLocale: 'en-US',
+    missingWarn: false,
+    fallbackWarn: false,
+    numberFormats
+  })
+  // `Object.prototype` is a plain object, but not a format of the `constructor` locale
+  expect(number(ctx, 0.5, 'prototype')).toEqual('prototype')
+  expect(number(ctx, 0.5, 'currency')).toEqual(
+    number(context({ locale: 'en-US', numberFormats }), 0.5, 'currency')
+  )
+})

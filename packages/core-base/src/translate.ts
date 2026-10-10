@@ -4,6 +4,7 @@ import {
   escapeHtml,
   generateCodeFrame,
   generateFormatCacheKey,
+  getOwn,
   inBrowser,
   isArray,
   isBoolean,
@@ -40,7 +41,6 @@ import type { CompileError, ResourceNode } from '@intlify/message-compiler'
 import type {
   CoreInternalContext,
   DefineCoreLocaleMessage,
-  LocaleMessages,
   LocaleMessageValue,
   MessageCompilerContext
 } from './context'
@@ -692,11 +692,7 @@ export function translate<
         fallbackWarn,
         missingWarn
       )
-    : [
-        key,
-        locale,
-        (messages as unknown as LocaleMessages<Message>)[locale] || create()
-      ]
+    : [key, locale, getOwn(messages, locale) || create()]
   // NOTE:
   //  Fix to work around `ssrTransfrom` bug in Vite.
   //  https://github.com/vitejs/vite/issues/4306
@@ -887,8 +883,9 @@ function resolveMessageFormat<Messages, Message>(
       }
     }
 
-    message =
-      (messages as unknown as LocaleMessages<Message>)[targetLocale] || create()
+    // read only own properties, so that a locale such as `constructor` does not
+    // read a built-in object
+    message = getOwn(messages, targetLocale) || create()
 
     // for vue-devtools timeline event
     let start: number | null = null
@@ -902,8 +899,8 @@ function resolveMessageFormat<Messages, Message>(
     }
 
     if ((format = resolveValue(message, key)) === null) {
-      // if null, resolve with object key path
-      format = (message as any)[key] // eslint-disable-line @typescript-eslint/no-explicit-any
+      // if null, resolve with object key path, from own properties only
+      format = getOwn(message as object, key)
     }
 
     // for vue-devtools timeline event

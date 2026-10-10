@@ -652,4 +652,18 @@ describe('locales named after Object.prototype properties', () => {
   })
 })
 
+describe('lookups with locales and keys named after Object.prototype properties', () => {
+  test('t and te do not read built-in objects', () => {
+    const i18n = createVueI18n({
+      locale: 'constructor',
+      fallbackLocale: 'en',
+      messages: { en: { name: 'Name', keys: 'Keys' } }
+    })
+    expect(i18n.t('name')).toEqual('Name')
+    expect(i18n.t('keys')).toEqual('Keys')
+    expect(i18n.t('toString')).toEqual('toString')
+    expect(i18n.te('toString', 'en')).toBe(false)
+  })
+})
+
 /* eslint-enable @typescript-eslint/no-empty-function */
