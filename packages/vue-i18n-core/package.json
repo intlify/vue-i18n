@@ -1,7 +1,7 @@
 {
   "name": "@intlify/vue-i18n-core",
   "description": "@intlify/vue-i18n-core",
-  "version": "12.0.0-alpha.4",
+  "version": "12.0.0-alpha.5",
   "author": {
     "name": "kazuya kawaguchi",
     "email": "kawakazu80@gmail.com"
