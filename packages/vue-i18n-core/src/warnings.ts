@@ -15,7 +15,8 @@ export const I18nWarnCodes = {
   DEPRECATE_TRANSLATE_CUSTOME_DIRECTIVE: (CORE_WARN_CODES_EXTEND_POINT +
     4) as number,
   // duplicate `useI18n` calling
-  DUPLICATE_USE_I18N_CALLING: (CORE_WARN_CODES_EXTEND_POINT + 5) as number
+  DUPLICATE_USE_I18N_CALLING: (CORE_WARN_CODES_EXTEND_POINT + 5) as number,
+  IGNORE_UNSAFE_LOCALE: (CORE_WARN_CODES_EXTEND_POINT + 6) as number
 } as const
 
 type I18nWarnCodes = (typeof I18nWarnCodes)[keyof typeof I18nWarnCodes]
@@ -33,7 +34,8 @@ export const warnMessages: { [code: number]: string } = {
    */
   [I18nWarnCodes.DEPRECATE_TRANSLATE_CUSTOME_DIRECTIVE]: `'v-t' has been deprecated in v11. Use translate APIs ('t' or '$t') instead.`,
   [I18nWarnCodes.DUPLICATE_USE_I18N_CALLING]:
-    "Duplicate `useI18n` calling by local scope. Please don't call it on local scope, due to it does not work properly in component."
+    "Duplicate `useI18n` calling by local scope. Please don't call it on local scope, due to it does not work properly in component.",
+  [I18nWarnCodes.IGNORE_UNSAFE_LOCALE]: `Ignore '{locale}' locale: it is a property name of Object.prototype`
 }
 
 export function getWarnMessage(

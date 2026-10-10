@@ -114,6 +114,29 @@ export function hasOwn(obj: object | Array<any>, key: string): boolean {
 /* eslint-enable */
 
 /**
+ * Get `obj[key]` only when `key` is an own property of `obj`, so that a key
+ * such as `constructor` does not read a property inherited from
+ * `Object.prototype`.
+ * The property is read before the check, so that a reactive `obj` tracks
+ * `key` even when it is missing.
+ */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export function getOwn(obj: object, key: string): any {
+  const value = (obj as Record<string, unknown>)[key]
+  return hasOwn(obj, key) ? value : undefined
+}
+
+/**
+ * Whether `key` is a property name of `Object.prototype`, such as `__proto__`,
+ * `constructor` or `toString`.
+ * On a plain object, such a key reads a built-in, and assigning to `__proto__`
+ * replaces the prototype.
+ */
+export function isObjectPrototypeKey(key: string): boolean {
+  return hasOwn(Object.prototype, key)
+}
+
+/**
  * Useful Utilities By Evan you
  * Modified by kazuya kawaguchi
  * MIT License

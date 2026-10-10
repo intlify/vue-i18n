@@ -1,10 +1,42 @@
 import {
   format,
   generateCodeFrame,
+  getOwn,
+  isObjectPrototypeKey,
   join,
   makeSymbol,
   toDevtoolsGroupId
 } from '../src/index'
+
+test('getOwn', () => {
+  const obj = { en: { hello: 'hello' } }
+  expect(getOwn(obj, 'en')).toBe(obj.en)
+  expect(getOwn(obj, 'ja')).toBeUndefined()
+  for (const key of ['__proto__', 'constructor', 'toString']) {
+    expect(getOwn(obj, key)).toBeUndefined()
+  }
+  // `__proto__` can be an own key, e.g. from `JSON.parse`
+  expect(
+    getOwn(JSON.parse('{"__proto__": {"hello": "hello"}}'), '__proto__')
+  ).toEqual({
+    hello: 'hello'
+  })
+})
+
+test('isObjectPrototypeKey', () => {
+  for (const key of [
+    '__proto__',
+    'constructor',
+    'toString',
+    'valueOf',
+    'hasOwnProperty'
+  ]) {
+    expect(isObjectPrototypeKey(key)).toBe(true)
+  }
+  for (const key of ['en', 'ja-JP', 'prototype', '']) {
+    expect(isObjectPrototypeKey(key)).toBe(false)
+  }
+})
 
 test('format', () => {
   expect(format(`foo: {0}`, 'x')).toEqual('foo: x')

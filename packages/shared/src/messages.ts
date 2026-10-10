@@ -3,8 +3,14 @@ import { create, isArray, isObject } from './utils'
 const isNotObjectOrIsArray = (val: unknown) => !isObject(val) || isArray(val)
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function deepCopy(src: any, des: any): void {
-  // src and des should both be objects, and none of them can be a array
-  if (isNotObjectOrIsArray(src) || isNotObjectOrIsArray(des)) {
+  // src and des should both be objects, and none of them can be a array.
+  // des can't be `Object.prototype` either: copying into it would pollute
+  // every object
+  if (
+    isNotObjectOrIsArray(src) ||
+    isNotObjectOrIsArray(des) ||
+    des === Object.prototype
+  ) {
     throw new Error('Invalid value')
   }
 
