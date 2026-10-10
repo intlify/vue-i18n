@@ -56,7 +56,6 @@ import { I18nWarnCodes, getWarnMessage } from './warnings'
 import type {
   CoreContext,
   CoreInternalContext,
-  CoreInternalOptions,
   CoreMissingHandler,
   CoreMissingType,
   CoreOptions,
@@ -2053,31 +2052,17 @@ export function createComposer(options: any = {}): ComposerInternalInstance {
       warnHtmlMessage: _warnHtmlMessage,
       escapeParameter: _escapeParameter,
       messageResolver: options.messageResolver,
-      messageCompiler: options.messageCompiler,
+      messageCompiler: options.messageCompiler || compile,
       localeFallbacker: options.localeFallbacker,
       __meta: { framework: 'vue' }
-    } as CoreOptions<Message> & CoreInternalOptions
-
-    // set default message compiler
-    ctxOptions.messageCompiler = options.messageCompiler || compile
+    } as CoreOptions<Message>
 
     if (!__LITE__) {
       // set default message resolver and locale fallbacker for full vue-i18n
-      ctxOptions.messageResolver = options.messageResolver || resolveValue
-      ctxOptions.localeFallbacker = options.localeFallbacker || fallbackWithLocaleChain
+      ctxOptions.messageResolver ||= resolveValue
+      ctxOptions.localeFallbacker ||= fallbackWithLocaleChain
       ctxOptions.datetimeFormats = _datetimeFormats.value
       ctxOptions.numberFormats = _numberFormats.value
-      ctxOptions.__datetimeFormatters = isPlainObject(_context)
-        ? (_context as unknown as CoreInternalContext).__datetimeFormatters
-        : undefined
-      ctxOptions.__numberFormatters = isPlainObject(_context)
-        ? (_context as unknown as CoreInternalContext).__numberFormatters
-        : undefined
-    }
-    if (__DEV__) {
-      ctxOptions.__v_emitter = isPlainObject(_context)
-        ? (_context as unknown as CoreInternalContext).__v_emitter
-        : undefined
     }
 
     const ctx = createCoreContext<Message>(ctxOptions) as unknown as CoreContext<Message>
