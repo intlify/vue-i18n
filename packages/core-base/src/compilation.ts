@@ -24,11 +24,14 @@ function checkHtmlMessage(source: string, warnHtmlMessage?: boolean): void {
   }
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type CompileCache = MessageFunctions<any>
+
 const defaultOnCacheKey = (message: string): string => message
-let compileCache: unknown = create()
+let compileCache = create() as CompileCache
 
 export function clearCompileCache(): void {
-  compileCache = create()
+  compileCache = create() as CompileCache
 }
 
 function baseCompile(
@@ -73,7 +76,7 @@ export function compile<
     // check caches
     const onCacheKey = context.onCacheKey || defaultOnCacheKey
     const cacheKey = onCacheKey(message)
-    const cached = (compileCache as MessageFunctions<Message>)[cacheKey]
+    const cached = compileCache[cacheKey]
     if (cached) {
       return cached
     }
@@ -89,9 +92,7 @@ export function compile<
     const msg = formatMessage<Message>(ast)
 
     // if occurred compile error, don't cache
-    return !detectError
-      ? ((compileCache as MessageFunctions<Message>)[cacheKey] = msg)
-      : msg
+    return !detectError ? (compileCache[cacheKey] = msg) : msg
   } else {
     if (__DEV__ && !isMessageAST(message)) {
       warn(
@@ -103,13 +104,14 @@ export function compile<
     // AST case (passed from bundler)
     const cacheKey = (message as unknown as ResourceNode).cacheKey
     if (cacheKey) {
-      const cached = (compileCache as MessageFunctions<Message>)[cacheKey]
+      const cached = compileCache[cacheKey]
       if (cached) {
         return cached
       }
       // compose message function from message (AST)
-      return ((compileCache as MessageFunctions<Message>)[cacheKey] =
-        formatMessage<Message>(message as unknown as ResourceNode))
+      return (compileCache[cacheKey] = formatMessage<Message>(
+        message as unknown as ResourceNode
+      ))
     } else {
       return formatMessage<Message>(message as unknown as ResourceNode)
     }
