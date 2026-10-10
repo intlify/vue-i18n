@@ -706,6 +706,48 @@ describe('escapeParameter', () => {
     ).toEqual('hello, &lt;b&gt;kazupon&lt;&#x2F;b&gt;!')
   })
 
+  test('escape both list and named values', () => {
+    const ctx = context({
+      locale: 'en',
+      warnHtmlMessage: false,
+      escapeParameter: true,
+      messages: {
+        en: {
+          hello: '{0}, {name}!'
+        }
+      }
+    })
+
+    expect(
+      translate(ctx, 'hello', ['<b>hello</b>'], {
+        named: { name: '<b>kazupon</b>' }
+      })
+    ).toEqual('&lt;b&gt;hello&lt;&#x2F;b&gt;, &lt;b&gt;kazupon&lt;&#x2F;b&gt;!')
+  })
+
+  test('keep the named values of the caller as they are', () => {
+    const ctx = context({
+      locale: 'en',
+      warnHtmlMessage: false,
+      escapeParameter: true,
+      messages: {
+        en: {
+          hello: 'hello, {name}!'
+        }
+      }
+    })
+    const named = { name: '<b>kazupon</b>' }
+
+    expect(translate(ctx, 'hello', named)).toEqual(
+      'hello, &lt;b&gt;kazupon&lt;&#x2F;b&gt;!'
+    )
+    // the same object is not escaped twice on the next call
+    expect(translate(ctx, 'hello', named)).toEqual(
+      'hello, &lt;b&gt;kazupon&lt;&#x2F;b&gt;!'
+    )
+    expect(named).toEqual({ name: '<b>kazupon</b>' })
+  })
+
   test('no escape', () => {
     const ctx = context({
       locale: 'en',
