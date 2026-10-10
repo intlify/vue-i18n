@@ -188,7 +188,7 @@ export function number<Context extends CoreContext<Message, {}, {}, {}>, Message
     return !part ? formatter.format(value) : formatter.formatToParts(value)
   }
 
-  const targetLocale = resolveFormatLocale(
+  const formatLocale = resolveFormatLocale(
     context,
     key,
     locale,
@@ -197,17 +197,18 @@ export function number<Context extends CoreContext<Message, {}, {}, {}>, Message
     fallbackWarn,
     'number format'
   )
-  if (!isString(targetLocale)) {
+  if (!isString(formatLocale)) {
     return unresolving ? NOT_RESOLVED : key
   }
-  const format = (numberFormats as unknown as FormatResources<NumberFormatOptions>)[targetLocale][
+  const format = (numberFormats as unknown as FormatResources<NumberFormatOptions>)[formatLocale][
     key
   ]
 
-  const id = getFormatterCacheKey(targetLocale, key, overrides)
+  const intlLocale = locale.replace(/!/g, '')
+  const id = getFormatterCacheKey(intlLocale, formatLocale, key, overrides)
   let formatter = __numberFormatters.get(id)
   if (!formatter) {
-    formatter = new Intl.NumberFormat(targetLocale, assign({}, format, overrides))
+    formatter = new Intl.NumberFormat(intlLocale, assign({}, format, overrides))
     __numberFormatters.set(id, formatter)
   }
   return !part ? formatter.format(value) : formatter.formatToParts(value)
