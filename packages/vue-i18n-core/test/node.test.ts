@@ -2,6 +2,14 @@
  * @vitest-environment node
  */
 
+import {
+  compile,
+  fallbackWithLocaleChain,
+  registerLocaleFallbacker,
+  registerMessageCompiler,
+  registerMessageResolver,
+  resolveValue
+} from '@intlify/core-base'
 import { createComposer } from '../src/composer'
 
 // without `window`, the composer keeps the messages and formats in a `shallowRef`, as during SSR
@@ -64,5 +72,26 @@ describe('locales named after Object.prototype properties', () => {
         expect(Object.keys(container)).toEqual(['en'])
       }
     }
+  })
+})
+
+describe('lookups with locales and keys named after Object.prototype properties', () => {
+  beforeEach(() => {
+    registerMessageCompiler(compile)
+    registerMessageResolver(resolveValue)
+    registerLocaleFallbacker(fallbackWithLocaleChain)
+  })
+
+  test('t and te do not read built-in objects', () => {
+    const composer = createComposer({
+      locale: 'constructor',
+      fallbackLocale: 'en',
+      missingWarn: false,
+      fallbackWarn: false,
+      messages: { en: { name: 'Name', keys: 'Keys' } }
+    })
+    expect(composer.t('name')).toEqual('Name')
+    expect(composer.t('keys')).toEqual('Keys')
+    expect(composer.te('toString')).toBe(false)
   })
 })

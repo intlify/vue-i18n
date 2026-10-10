@@ -2,6 +2,7 @@ import { HelperNameMap } from '@intlify/message-compiler'
 import {
   assign,
   create,
+  getOwn,
   isArray,
   isFunction,
   isNumber,
@@ -333,7 +334,9 @@ export function createMessageContext<T = string, N = {}>(
 
   const pluralIndex = getPluralIndex(options)
   const pluralRule =
-    isString(locale) && isFunction(options.pluralRules?.[locale])
+    isString(locale) &&
+    options.pluralRules &&
+    isFunction(getOwn(options.pluralRules, locale))
       ? options.pluralRules![locale]
       : pluralDefault
   const orgPluralRule = pluralRule === pluralDefault ? undefined : pluralDefault
