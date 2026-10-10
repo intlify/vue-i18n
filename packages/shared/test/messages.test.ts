@@ -172,3 +172,9 @@ describe('CVE-2024-52810', () => {
     expect(JSON.parse(JSON.stringify({}.__proto__))).toEqual({})
   })
 })
+
+test('deepCopy does not copy into Object.prototype', () => {
+  expect(() => deepCopy({ polluted: 'yes' }, Object.prototype)).toThrow('Invalid value')
+  // @ts-ignore -- initialize polluted property
+  expect({}.polluted).toBeUndefined()
+})

@@ -2,10 +2,12 @@ import {
   assign,
   create,
   deepCopy,
+  getOwn,
   isArray,
   isBoolean,
   isFunction,
   isObject,
+  isObjectPrototypeKey,
   isPlainObject,
   isRegExp,
   isString,
@@ -587,7 +589,7 @@ export function getLocaleMessage<
   Locales = keyof Context['messages'],
   Return = Context['messages'][keyof Context['messages']]
 >(ctx: Context, locale: Locales): Return | undefined {
-  const src = (ctx.messages as any)[locale]
+  const src = getOwn(ctx.messages, locale as string)
   if (src == null) {
     return undefined
   }
@@ -605,6 +607,10 @@ export function setLocaleMessage<Context extends CoreContext, Locales = keyof Co
   locale: Locales,
   messages: Context['messages'][keyof Context['messages']]
 ): void {
+  // a property name of `Object.prototype` such as `__proto__` would replace or shadow a built-in
+  if (isObjectPrototypeKey(locale as string)) {
+    return
+  }
   ;(ctx.messages as any)[locale] = messages
 }
 

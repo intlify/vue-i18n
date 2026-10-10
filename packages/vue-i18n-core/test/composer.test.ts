@@ -1900,6 +1900,94 @@ describe('getNumberFormat / setNumberFormat / mergeNumberFormat', () => {
   })
 })
 
+describe('locales named after Object.prototype properties', () => {
+  const locales = ['__proto__', 'constructor', 'toString']
+
+  afterEach(() => {
+    for (const target of [Object.prototype, Object, Object.prototype.toString]) {
+      delete (target as Record<string, unknown>).polluted
+    }
+  })
+
+  describe.each([
+    ['setLocaleMessage', 'messages', 'message'],
+    ['mergeLocaleMessage', 'messages', 'message'],
+    ['setDateTimeFormat', 'datetimeFormats', { year: 'numeric' }],
+    ['mergeDateTimeFormat', 'datetimeFormats', { year: 'numeric' }],
+    ['setNumberFormat', 'numberFormats', { style: 'decimal' }],
+    ['mergeNumberFormat', 'numberFormats', { style: 'decimal' }]
+  ] as const)('%s', (method, option, value) => {
+    test.each(locales)('ignores %s', locale => {
+      const mockWarn = vi.spyOn(shared, 'warn')
+      mockWarn.mockImplementation(() => {})
+
+      const options = {
+        locale: 'en',
+        messages: { en: { hello: 'hello' } },
+        datetimeFormats: { en: { short: { year: 'numeric' } } },
+        numberFormats: { en: { decimal: { style: 'decimal' } } }
+      } as const
+      const composer = createComposer(options) as unknown as Record<
+        string,
+        (locale: string, value: unknown) => void
+      >
+      composer[method](locale, { polluted: value })
+
+      // nothing is written into built-in objects
+      for (const target of [Object.prototype, Object, Object.prototype.toString]) {
+        expect(Object.prototype.hasOwnProperty.call(target, 'polluted')).toBe(false)
+      }
+      // the object the application passed in keeps its prototype and gets no entry
+      expect(Object.getPrototypeOf(options[option])).toBe(Object.prototype)
+      expect(Object.keys(options[option])).toEqual(['en'])
+      expect(mockWarn).toHaveBeenCalledWith(
+        getWarnMessage(I18nWarnCodes.IGNORE_UNSAFE_LOCALE, { locale })
+      )
+    })
+  })
+
+  test.each(locales)('getters return an empty object for %s', locale => {
+    const { getLocaleMessage, getDateTimeFormat, getNumberFormat } = createComposer({
+      locale: 'en',
+      messages: { en: { hello: 'hello' } }
+    })
+    for (const got of [
+      getLocaleMessage(locale),
+      getDateTimeFormat(locale),
+      getNumberFormat(locale)
+    ]) {
+      expect(Object.getPrototypeOf(got)).toBe(Object.prototype)
+      expect(Object.keys(got)).toEqual([])
+    }
+  })
+
+  test('tm does not resolve built-ins', () => {
+    const { tm } = createComposer({
+      locale: '__proto__',
+      fallbackLocale: [],
+      messages: { en: { hello: 'hello' } }
+    })
+    expect(tm('toString')).toEqual({})
+  })
+
+  test('does not inject messages into another instance that shares the messages', () => {
+    const messages = { en: { hello: 'hello' } }
+    const options = {
+      locale: 'ja',
+      fallbackLocale: 'en',
+      missingWarn: false,
+      fallbackWarn: false,
+      messages
+    }
+    const a = createComposer(options)
+    a.setLocaleMessage('__proto__', { ja: { hello: 'injected' } } as any)
+    const b = createComposer(options)
+
+    expect(a.t('hello')).toEqual('hello')
+    expect(b.t('hello')).toEqual('hello')
+  })
+})
+
 describe('messageResolver', () => {
   test('basic', () => {
     const mockMessageResolver = vi.fn()

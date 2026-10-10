@@ -22,6 +22,7 @@ import {
 import {
   assign,
   deepCopy,
+  getOwn,
   inBrowser,
   isArray,
   isBoolean,
@@ -48,7 +49,7 @@ import {
   NumberPartsSymbol,
   TranslateVNodeSymbol
 } from './symbols'
-import { createTextNode, getLocaleMessages, handleFlatJson } from './utils'
+import { createTextNode, getLocaleMessages, handleFlatJson, isUnsafeLocale } from './utils'
 import { I18nWarnCodes, getWarnMessage } from './warnings'
 
 import type {
@@ -2367,7 +2368,7 @@ export function createComposer(options: any = {}): ComposerInternalInstance {
     let messages: LocaleMessageValue<Message> | null = null
     const locales = fallbackWithLocaleChain(_context, _fallbackLocale.value, _locale.value)
     for (let i = 0; i < locales.length; i++) {
-      const targetLocaleMessages = _messages.value[locales[i]] || {}
+      const targetLocaleMessages = getOwn(_messages.value, locales[i]) || {}
       const messageValue = _context.messageResolver(targetLocaleMessages, key)
       if (messageValue != null) {
         messages = messageValue as LocaleMessageValue<Message>
@@ -2390,11 +2391,14 @@ export function createComposer(options: any = {}): ComposerInternalInstance {
 
   // getLocaleMessage
   function getLocaleMessage(locale: Locale): LocaleMessage<Message> {
-    return (_messages.value[locale] || {}) as LocaleMessage<Message>
+    return (getOwn(_messages.value, locale) || {}) as LocaleMessage<Message>
   }
 
   // setLocaleMessage
   function setLocaleMessage(locale: Locale, message: LocaleMessage<Message>) {
+    if (isUnsafeLocale(locale)) {
+      return
+    }
     if (flatJson) {
       handleFlatJson(message)
     }
@@ -2404,7 +2408,10 @@ export function createComposer(options: any = {}): ComposerInternalInstance {
 
   // mergeLocaleMessage
   function mergeLocaleMessage(locale: Locale, message: LocaleMessageDictionary<Message>): void {
-    _messages.value[locale] = _messages.value[locale] || {}
+    if (isUnsafeLocale(locale)) {
+      return
+    }
+    _messages.value[locale] = getOwn(_messages.value, locale) || {}
     if (flatJson) {
       handleFlatJson(message)
     }
@@ -2414,11 +2421,14 @@ export function createComposer(options: any = {}): ComposerInternalInstance {
 
   // getDateTimeFormat
   function getDateTimeFormat(locale: Locale): DateTimeFormat {
-    return _datetimeFormats.value[locale] || {}
+    return getOwn(_datetimeFormats.value, locale) || {}
   }
 
   // setDateTimeFormat
   function setDateTimeFormat(locale: Locale, format: DateTimeFormat): void {
+    if (isUnsafeLocale(locale)) {
+      return
+    }
     _datetimeFormats.value[locale] = format
     _context.datetimeFormats = _datetimeFormats.value
     clearDateTimeFormat(_context, locale, format)
@@ -2426,18 +2436,24 @@ export function createComposer(options: any = {}): ComposerInternalInstance {
 
   // mergeDateTimeFormat
   function mergeDateTimeFormat(locale: Locale, format: DateTimeFormat): void {
-    _datetimeFormats.value[locale] = assign(_datetimeFormats.value[locale] || {}, format)
+    if (isUnsafeLocale(locale)) {
+      return
+    }
+    _datetimeFormats.value[locale] = assign(getOwn(_datetimeFormats.value, locale) || {}, format)
     _context.datetimeFormats = _datetimeFormats.value
     clearDateTimeFormat(_context, locale, format)
   }
 
   // getNumberFormat
   function getNumberFormat(locale: Locale): NumberFormat {
-    return _numberFormats.value[locale] || {}
+    return getOwn(_numberFormats.value, locale) || {}
   }
 
   // setNumberFormat
   function setNumberFormat(locale: Locale, format: NumberFormat): void {
+    if (isUnsafeLocale(locale)) {
+      return
+    }
     _numberFormats.value[locale] = format
     _context.numberFormats = _numberFormats.value
     clearNumberFormat(_context, locale, format)
@@ -2445,7 +2461,10 @@ export function createComposer(options: any = {}): ComposerInternalInstance {
 
   // mergeNumberFormat
   function mergeNumberFormat(locale: Locale, format: NumberFormat): void {
-    _numberFormats.value[locale] = assign(_numberFormats.value[locale] || {}, format)
+    if (isUnsafeLocale(locale)) {
+      return
+    }
+    _numberFormats.value[locale] = assign(getOwn(_numberFormats.value, locale) || {}, format)
     _context.numberFormats = _numberFormats.value
     clearNumberFormat(_context, locale, format)
   }

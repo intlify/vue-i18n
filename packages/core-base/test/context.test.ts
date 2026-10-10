@@ -223,3 +223,20 @@ test('setMessages', () => {
   setLocaleMessage(ctx, 'ja', { hello: 'こんにちは！' })
   expect(getLocaleMessage(ctx, 'ja')).toMatchObject({ hello: 'こんにちは！' })
 })
+
+describe('locales named after Object.prototype properties', () => {
+  test.each(['__proto__', 'constructor', 'toString'])('setLocaleMessage ignores %s', locale => {
+    const messages = { en: { hello: 'hello' } }
+    const ctx = context({ locale: 'en', messages })
+
+    setLocaleMessage(ctx, locale as 'en', { ja: { hello: 'injected' } } as any)
+
+    expect(Object.getPrototypeOf(messages)).toBe(Object.prototype)
+    expect(Object.keys(messages)).toEqual(['en'])
+  })
+
+  test.each(['__proto__', 'constructor', 'toString'])('getLocaleMessage ignores %s', locale => {
+    const ctx = context({ locale: 'en', messages: { en: { hello: 'hello' } } })
+    expect(getLocaleMessage(ctx, locale as 'en')).toBeUndefined()
+  })
+})

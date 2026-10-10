@@ -1,7 +1,10 @@
 // utils
 import * as shared from '@intlify/shared'
-import { handleFlatJson } from '../src/utils'
+import { createComposer } from '../src/composer'
+import { adjustI18nResources, getLocaleMessages, handleFlatJson } from '../src/utils'
 import { I18nWarnCodes, getWarnMessage } from '../src/warnings'
+
+import type { Composer } from '../src/composer'
 vi.mock('@intlify/shared', async () => {
   const actual = await vi.importActual<object>('@intlify/shared')
   return {
@@ -79,5 +82,61 @@ describe('handleFlatJson', () => {
   test('ast has json path', async () => {
     const { ast } = await import('./fixtures/ast')
     expect(handleFlatJson(ast)).toStrictEqual(ast)
+  })
+})
+
+describe('locales named after Object.prototype properties', () => {
+  beforeEach(() => {
+    vi.clearAllMocks()
+  })
+
+  afterEach(() => {
+    for (const target of [Object.prototype, Object, Object.prototype.toString]) {
+      delete (target as Record<string, unknown>).polluted
+    }
+  })
+
+  test('getLocaleMessages ignores them in custom blocks', () => {
+    const mockWarn = vi.spyOn(shared, 'warn')
+    mockWarn.mockImplementation(() => {})
+
+    const messages = { en: { hello: 'hello' } }
+    const ret = getLocaleMessages('en', {
+      messages,
+      __i18n: [
+        { locale: '__proto__', resource: { polluted: 'yes' } },
+        { locale: 'constructor', resource: { polluted: 'yes' } },
+        { locale: 'ja', resource: { hello: 'こんにちは' } }
+      ]
+    })
+
+    for (const target of [Object.prototype, Object]) {
+      expect(Object.prototype.hasOwnProperty.call(target, 'polluted')).toBe(false)
+    }
+    expect(Object.getPrototypeOf(ret)).toBe(Object.prototype)
+    expect(Object.keys(ret)).toEqual(['en', 'ja'])
+    expect(mockWarn).toHaveBeenCalledTimes(2)
+  })
+
+  test('adjustI18nResources ignores them in the global messages and formats', () => {
+    const mockWarn = vi.spyOn(shared, 'warn')
+    mockWarn.mockImplementation(() => {})
+
+    const gl = createComposer({ locale: 'en', messages: { en: {} } }) as unknown as Composer
+    // e.g. resources parsed from untrusted JSON, where `__proto__` is an own key
+    adjustI18nResources(
+      gl,
+      {
+        messages: JSON.parse('{"__proto__": {"polluted": "yes"}, "ja": {"hello": "こんにちは"}}'),
+        datetimeFormats: JSON.parse('{"constructor": {"polluted": {"year": "numeric"}}}'),
+        numberFormats: JSON.parse('{"toString": {"polluted": {"style": "decimal"}}}')
+      },
+      {}
+    )
+
+    for (const target of [Object.prototype, Object, Object.prototype.toString]) {
+      expect(Object.prototype.hasOwnProperty.call(target, 'polluted')).toBe(false)
+    }
+    expect(gl.getLocaleMessage('ja')).toEqual({ hello: 'こんにちは' })
   })
 })
