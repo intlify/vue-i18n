@@ -13,7 +13,7 @@ vi.mock('@intlify/shared', async () => {
   }
 })
 
-import { createVNode, nextTick, Text, watch, watchEffect } from 'vue'
+import { computed, createVNode, nextTick, Text, toRaw, watch, watchEffect } from 'vue'
 import { createComposer } from '../src/composer'
 import {
   CoreContextSymbol,
@@ -1985,6 +1985,118 @@ describe('locales named after Object.prototype properties', () => {
 
     expect(a.t('hello')).toEqual('hello')
     expect(b.t('hello')).toEqual('hello')
+  })
+})
+
+describe('objects passed in as resources', () => {
+  // `ComposerOptions` keeps the composer untyped, so that any locale and message can be set
+  const create = (options: ComposerOptions) => createComposer(options)
+  const createResources = () =>
+    ({
+      messages: { en: { hello: 'hello', nested: { foo: 'foo' } } },
+      datetimeFormats: { en: { short: { year: 'numeric' } } },
+      numberFormats: { en: { decimal: { style: 'decimal' } } }
+    }) as const
+
+  test('set* and merge* do not write into them', () => {
+    const resources = createResources()
+    const snapshot = structuredClone(resources)
+    const composer = create({ locale: 'en', ...resources })
+    composer.setLocaleMessage('ja', { hello: 'konnichiwa' })
+    composer.mergeLocaleMessage('en', { bye: 'bye', nested: { bar: 'bar' } })
+    composer.setDateTimeFormat('ja', { short: { year: '2-digit' } })
+    composer.mergeDateTimeFormat('en', { long: { month: 'long' } })
+    composer.setNumberFormat('ja', { decimal: { style: 'percent' } })
+    composer.mergeNumberFormat('en', { percent: { style: 'percent' } })
+
+    expect(resources).toEqual(snapshot)
+    expect(composer.messages.value).toEqual({
+      en: { hello: 'hello', nested: { foo: 'foo', bar: 'bar' }, bye: 'bye' },
+      ja: { hello: 'konnichiwa' }
+    })
+    expect(composer.datetimeFormats.value).toEqual({
+      en: { short: { year: 'numeric' }, long: { month: 'long' } },
+      ja: { short: { year: '2-digit' } }
+    })
+    expect(composer.numberFormats.value).toEqual({
+      en: { decimal: { style: 'decimal' }, percent: { style: 'percent' } },
+      ja: { decimal: { style: 'percent' } }
+    })
+  })
+
+  test('composers that share them do not see the writes of each other', () => {
+    const resources = createResources()
+    const a = create({ locale: 'en', ...resources })
+    const b = create({
+      locale: 'en',
+      missingWarn: false,
+      fallbackWarn: false,
+      ...resources
+    })
+    a.setLocaleMessage('ja', { hello: 'konnichiwa' })
+    a.mergeLocaleMessage('en', { bye: 'bye' })
+    a.mergeDateTimeFormat('en', { long: { month: 'long' } })
+    a.mergeNumberFormat('en', { percent: { style: 'percent' } })
+
+    b.locale.value = 'ja'
+    expect(b.t('hello')).toEqual('hello')
+    expect(b.availableLocales.value).toEqual(['en'])
+    expect(b.te('bye', 'en')).toEqual(false)
+    expect(b.getDateTimeFormat('en')).toEqual({ short: { year: 'numeric' } })
+    expect(b.getNumberFormat('en')).toEqual({ decimal: { style: 'decimal' } })
+    a.locale.value = 'ja'
+    expect(a.t('hello')).toEqual('konnichiwa')
+  })
+
+  test('mergeLocaleMessage does not write into the object passed to setLocaleMessage', () => {
+    const composer = create({ locale: 'en', messages: { en: {} } })
+    const ja = { hello: 'konnichiwa' }
+    composer.setLocaleMessage('ja', ja)
+    composer.mergeLocaleMessage('ja', { bye: 'sayonara' })
+    composer.mergeLocaleMessage('ja', { again: 'mata' })
+
+    expect(ja).toEqual({ hello: 'konnichiwa' })
+    expect(composer.getLocaleMessage('ja')).toEqual({
+      hello: 'konnichiwa',
+      bye: 'sayonara',
+      again: 'mata'
+    })
+  })
+
+  test('flatJson does not rewrite them', () => {
+    const messages = { en: { 'a.b': 'flat' } }
+    const set = { 'x.y': 'set' }
+    const merged = { 'p.q': 'merged' }
+    const composer = create({ locale: 'en', flatJson: true, messages })
+    composer.setLocaleMessage('ja', set)
+    composer.mergeLocaleMessage('en', merged)
+
+    expect(messages).toEqual({ en: { 'a.b': 'flat' } })
+    expect(set).toEqual({ 'x.y': 'set' })
+    expect(merged).toEqual({ 'p.q': 'merged' })
+    expect(composer.t('a.b')).toEqual('flat')
+    expect(composer.t('p.q')).toEqual('merged')
+    expect(composer.getLocaleMessage('ja')).toEqual({ x: { y: 'set' } })
+  })
+
+  test('the getters return the objects of the composer, which t() follows', () => {
+    const resources = createResources()
+    const composer = create({ locale: 'en', missingWarn: false, ...resources })
+    expect(toRaw(composer.messages.value)).not.toBe(resources.messages)
+    expect(toRaw(composer.datetimeFormats.value)).not.toBe(resources.datetimeFormats)
+    expect(toRaw(composer.numberFormats.value)).not.toBe(resources.numberFormats)
+    expect(composer.messages.value).toEqual(resources.messages)
+
+    // the composer runs on the browser path here, with reactive objects
+    const hello = computed(() => composer.t('hello'))
+    expect(hello.value).toEqual('hello')
+    composer.mergeLocaleMessage('en', { hello: 'hi' }) // the first merge copies the locale
+    expect(hello.value).toEqual('hi')
+    composer.mergeLocaleMessage('en', { hello: 'hey' }) // later merges write into the copy
+    expect(hello.value).toEqual('hey')
+    composer.setLocaleMessage('en', { hello: 'yo' })
+    expect(hello.value).toEqual('yo')
+    expect(resources.messages.en.hello).toEqual('hello')
   })
 })
 

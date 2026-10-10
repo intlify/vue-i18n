@@ -778,3 +778,40 @@ const i18nB = createI18n({
 })
 appB.use(i18nB)
 ```
+
+## `messages`, `datetimeFormats` and `numberFormats` are no longer written into
+
+**Reason**: Vue I18n used the `messages`, `datetimeFormats` and `numberFormats` objects passed to `createI18n()` and `useI18n()` as its own state, and wrote into them. If several i18n instances got the same object, for example a module-level object passed to `createI18n()` on every server-side request, a change made through one instance appeared in all the others, including later requests from other users.
+
+### What changed
+
+- Vue I18n copies these objects and keeps its own state in the copies.
+- `setLocaleMessage()`, `mergeLocaleMessage()`, `setDateTimeFormat()`, `mergeDateTimeFormat()`, `setNumberFormat()` and `mergeNumberFormat()` no longer write into your objects, and neither do SFC `<i18n>` blocks or the `flatJson` option.
+- Writing into your objects after `createI18n()` is not supported: a new locale is not seen, and a change inside an existing locale may or may not be seen.
+
+### Before (v11)
+
+```js
+const messages = { en: { hello: 'hello' } }
+const i18n = createI18n({ locale: 'en', messages })
+
+i18n.global.setLocaleMessage('ja', { hello: 'konnichiwa' })
+console.log(messages.ja) // { hello: 'konnichiwa' }
+```
+
+### After (v12)
+
+```js
+const messages = { en: { hello: 'hello' } }
+const i18n = createI18n({ locale: 'en', messages })
+
+i18n.global.setLocaleMessage('ja', { hello: 'konnichiwa' })
+console.log(messages.ja) // undefined
+console.log(i18n.global.getLocaleMessage('ja')) // { hello: 'konnichiwa' }
+```
+
+### Migration
+
+- If you add or change messages by writing into the object that you passed in, call `setLocaleMessage()` or `mergeLocaleMessage()` instead.
+- If you read your object to get the current messages, read `i18n.global.messages.value` or call `getLocaleMessage()` instead.
+- During server-side rendering, if you relied on an instance writing lazily loaded messages into a shared object so that later requests could skip loading them, keep the loaded messages in your own cache and pass them to each instance, for example with `setLocaleMessage()`.

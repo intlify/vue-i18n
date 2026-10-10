@@ -233,3 +233,7 @@ export default defineConfig({
   ],
 })
 ```
+
+### Locale messages for each request
+
+Create the `messages` object for each request, or do not write into it after you pass it to `createI18n()`, because an object created at the module level is shared by every request in the same server process.
