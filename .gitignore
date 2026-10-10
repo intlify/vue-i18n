@@ -24,6 +24,8 @@ docs/jp/api/vue
 docs/jp/api/index.md
 !docs/api/api-sidebar.json
 .notes
+.issues
+.plans
 .data
 .playwright-cli
 .report
