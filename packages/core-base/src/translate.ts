@@ -812,16 +812,21 @@ export function translate<
 }
 
 function escapeParams(options: TranslateOptions) {
+  // a call can pass both list and named values, so escape each of them
   if (isArray(options.list)) {
     options.list = options.list.map(item =>
       isString(item) ? escapeHtml(item) : item
     )
-  } else if (isObject(options.named)) {
-    Object.keys(options.named).forEach(key => {
-      if (isString(options.named![key])) {
-        options.named![key] = escapeHtml(options.named![key] as string)
-      }
-    })
+  }
+  if (isObject(options.named)) {
+    // escape into a new object, so that the values of the caller are not rewritten
+    const source = options.named
+    const named = create() as NamedValue
+    for (const key of Object.keys(source)) {
+      const value = source[key]
+      named[key] = isString(value) ? escapeHtml(value) : value
+    }
+    options.named = named
   }
 }
 
