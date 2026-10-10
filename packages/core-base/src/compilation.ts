@@ -27,10 +27,10 @@ function checkHtmlMessage(source: string, warnHtmlMessage?: boolean): void {
 }
 
 const defaultOnCacheKey = (message: string): string => message
-let compileCache: unknown = create()
+let compileCache = create() as MessageFunctions<any>
 
 export function clearCompileCache(): void {
-  compileCache = create()
+  compileCache = create() as MessageFunctions<any>
 }
 
 function baseCompile(
@@ -76,7 +76,7 @@ export function compile<Message = string, MessageSource = string | ResourceNode>
     // check caches
     const onCacheKey = context.onCacheKey || defaultOnCacheKey
     const cacheKey = onCacheKey(message)
-    const cached = (compileCache as MessageFunctions<Message>)[cacheKey]
+    const cached = compileCache[cacheKey]
     if (cached) {
       return cached
     }
@@ -93,7 +93,7 @@ export function compile<Message = string, MessageSource = string | ResourceNode>
     const msg = formatMessage<Message>(ast)
 
     // if occurred compile error, don't cache
-    return !detectError ? ((compileCache as MessageFunctions<Message>)[cacheKey] = msg) : msg
+    return !detectError ? (compileCache[cacheKey] = msg) : msg
   } else {
     if (__DEV__ && !isMessageAST(message)) {
       warn(
@@ -105,14 +105,12 @@ export function compile<Message = string, MessageSource = string | ResourceNode>
     // AST case (passed from bundler)
     const cacheKey = (message as unknown as ResourceNode).cacheKey
     if (cacheKey) {
-      const cached = (compileCache as MessageFunctions<Message>)[cacheKey]
+      const cached = compileCache[cacheKey]
       if (cached) {
         return cached
       }
       // compose message function from message (AST)
-      return ((compileCache as MessageFunctions<Message>)[cacheKey] = formatMessage<Message>(
-        message as unknown as ResourceNode
-      ))
+      return (compileCache[cacheKey] = formatMessage<Message>(message as unknown as ResourceNode))
     } else {
       return formatMessage<Message>(message as unknown as ResourceNode)
     }
