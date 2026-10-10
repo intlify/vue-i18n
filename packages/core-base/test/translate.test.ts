@@ -1237,3 +1237,75 @@ test('locale detector', () => {
   expect(translate(ctx, 'hi')).toEqual('hi kazupon !')
   expect(locale).toHaveBeenCalledTimes(2)
 })
+
+describe('locales and keys named after Object.prototype properties', () => {
+  const messages = {
+    en: { hello: 'Hello', name: 'Name', keys: 'Keys', linked: 'x @:toString' }
+  }
+  const builtinNames = ['__proto__', 'constructor', 'toString', 'valueOf', 'hasOwnProperty']
+
+  test.each(builtinNames)('falls back from the %s locale', locale => {
+    const ctx = context({
+      locale,
+      fallbackLocale: 'en',
+      missingWarn: false,
+      fallbackWarn: false,
+      messages
+    })
+    expect(translate(ctx, 'hello')).toEqual('Hello')
+    expect(translate(ctx, 'name')).toEqual('Name')
+    expect(translate(ctx, 'keys')).toEqual('Keys')
+    for (const key of ['toString', 'valueOf', 'defineProperty', 'prototype']) {
+      expect(translate(ctx, key)).toEqual(key)
+    }
+  })
+
+  test.each(builtinNames)('falls back from the %s locale given per call', locale => {
+    const ctx = context({
+      locale: 'en',
+      fallbackLocale: 'en',
+      missingWarn: false,
+      fallbackWarn: false,
+      messages
+    })
+    expect(translate(ctx, 'name', {}, { locale })).toEqual('Name')
+    expect(translate(ctx, 'keys', {}, { locale })).toEqual('Keys')
+    expect(translate(ctx, 'toString', {}, { locale })).toEqual('toString')
+  })
+
+  test.each(['__proto__', 'constructor'])(
+    'does not resolve through the %s fallback locale',
+    fallbackLocale => {
+      const ctx = context({
+        locale: 'ja',
+        fallbackLocale,
+        missingWarn: false,
+        fallbackWarn: false,
+        messages: { ja: {}, ...messages }
+      })
+      expect(translate(ctx, 'name')).toEqual('name')
+      expect(translate(ctx, 'keys')).toEqual('keys')
+      expect(translate(ctx, 'toString')).toEqual('toString')
+    }
+  )
+
+  test('treats keys named after Object.prototype properties as missing', () => {
+    const ctx = context({ locale: 'en', missingWarn: false, messages })
+    for (const key of [
+      'toString',
+      'constructor',
+      'valueOf',
+      'hasOwnProperty',
+      '__proto__',
+      '__defineGetter__'
+    ]) {
+      expect(translate(ctx, key)).toEqual(key)
+    }
+    expect(translate(ctx, 'linked')).toEqual('x toString')
+  })
+
+  test('does not use a built-in function as the plural rule', () => {
+    const ctx = context({ locale: 'toString', pluralRules: { ru: () => 0 }, messages: {} })
+    expect(translate(ctx, 'a | b | c', 2, { resolvedMessage: true })).toEqual('c')
+  })
+})

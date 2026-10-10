@@ -388,3 +388,21 @@ describe('error', () => {
     expect(() => datetime(ctx, new Date())).not.toThrow()
   })
 })
+
+test('locale named after an Object.prototype property', () => {
+  const mockAvailabilities = Availabilities
+  mockAvailabilities.dateTimeFormat = true
+
+  const ctx = context({
+    locale: 'constructor',
+    fallbackLocale: 'en-US',
+    missingWarn: false,
+    fallbackWarn: false,
+    datetimeFormats
+  })
+  // `Object.prototype` is a plain object, but not a format of the `constructor` locale
+  expect(datetime(ctx, dt, 'prototype')).toEqual('prototype')
+  expect(datetime(ctx, dt, 'short')).toEqual(
+    datetime(context({ locale: 'en-US', datetimeFormats }), dt, 'short')
+  )
+})

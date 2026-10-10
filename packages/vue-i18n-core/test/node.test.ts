@@ -74,3 +74,18 @@ describe('objects passed in as resources', () => {
     expect(a.t('hello')).toEqual('konnichiwa')
   })
 })
+
+describe('lookups with locales and keys named after Object.prototype properties', () => {
+  test('t and te do not read built-in objects', () => {
+    const composer = createComposer({
+      locale: 'constructor',
+      fallbackLocale: 'en',
+      missingWarn: false,
+      fallbackWarn: false,
+      messages: { en: { name: 'Name', keys: 'Keys' } }
+    })
+    expect(composer.t('name')).toEqual('Name')
+    expect(composer.t('keys')).toEqual('Keys')
+    expect(composer.te('toString')).toBe(false)
+  })
+})

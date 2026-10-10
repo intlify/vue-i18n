@@ -1,4 +1,10 @@
-import { isKeylessObject, isPlainObject, isString, toDevtoolsGroupId } from '@intlify/shared'
+import {
+  getOwn,
+  isKeylessObject,
+  isPlainObject,
+  isString,
+  toDevtoolsGroupId
+} from '@intlify/shared'
 import { handleMissing, isTranslateFallbackWarn } from './context'
 import { CoreWarnCodes, getWarnMessage } from './warnings'
 
@@ -51,7 +57,8 @@ export function resolveFormatLocale<Format, Message = string>(
       }
     }
 
-    const format = (formats[targetLocale] || {})[key]
+    // read only own properties, so that a locale such as `constructor` does not read a built-in object
+    const format = getOwn(getOwn(formats, targetLocale) || {}, key)
     if (isPlainObject(format) && isString(targetLocale)) {
       return targetLocale
     }
