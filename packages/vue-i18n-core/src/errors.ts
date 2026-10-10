@@ -6,19 +6,19 @@ interface I18nError extends BaseError {}
 
 export const I18nErrorCodes = {
   // composer module errors
-  UNEXPECTED_RETURN_TYPE: CORE_ERROR_CODES_EXTEND_POINT as number, // 24
-  INVALID_ARGUMENT: 25,
+  UNEXPECTED_RETURN_TYPE: CORE_ERROR_CODES_EXTEND_POINT as number, // 23
+  INVALID_ARGUMENT: 24,
   // i18n module errors
-  MUST_BE_CALL_SETUP_TOP: 26,
-  NOT_INSTALLED: 27,
+  MUST_BE_CALL_SETUP_TOP: 25,
+  NOT_INSTALLED: 26,
   // vue-devtools errors
-  CANNOT_SETUP_VUE_DEVTOOLS_PLUGIN: 30,
+  CANNOT_SETUP_VUE_DEVTOOLS_PLUGIN: 27,
   // i18n module errors
-  NOT_INSTALLED_WITH_PROVIDE: 31,
+  NOT_INSTALLED_WITH_PROVIDE: 28,
   // unexpected error
-  UNEXPECTED_ERROR: 32,
+  UNEXPECTED_ERROR: 29,
   // duplicate `useI18n` calling
-  DUPLICATE_USE_I18N_CALLING: 33
+  DUPLICATE_USE_I18N_CALLING: 30
 } as const
 
 type I18nErrorCodes = (typeof I18nErrorCodes)[keyof typeof I18nErrorCodes]
