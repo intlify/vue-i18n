@@ -2150,22 +2150,26 @@ export function createComposer(options: any = {}): any {
     }
   })
 
-  // NOTE: `_context.fallbackContext` points at the root context only while a
-  // translation runs (see `wrapWithDeps`). Point it there while invalidating too,
-  // so that the chain the root cached for this composer's fallbackLocale is dropped.
-  function updateFallbackLocaleWithRoot(fallback: FallbackLocale) {
+  function withRootFallbackContext<R>(fn: () => R): R {
     if (!_isGlobal) {
-      _context.fallbackContext = __root
-        ? (getFallbackContext() as any)
-        : undefined
+      _context.fallbackContext = getFallbackContext() as any
     }
     try {
-      updateFallbackLocale(_context, _locale.value, fallback)
+      return fn()
     } finally {
       if (!_isGlobal) {
         _context.fallbackContext = undefined
       }
     }
+  }
+
+  // NOTE: `_context.fallbackContext` points at the root context only while a
+  // translation runs (see `wrapWithDeps`). Point it there while invalidating too,
+  // so that the chain the root cached for this composer's fallbackLocale is dropped.
+  function updateFallbackLocaleWithRoot(fallback: FallbackLocale) {
+    withRootFallbackContext(() =>
+      updateFallbackLocale(_context, _locale.value, fallback)
+    )
   }
 
   // fallbackLocale
@@ -2244,18 +2248,10 @@ export function createComposer(options: any = {}): any {
       if (__DEV__ || __FEATURE_PROD_INTLIFY_DEVTOOLS__) {
         setAdditionalMeta(getMetaInfo())
       }
-      if (!_isGlobal) {
-        _context.fallbackContext = __root
-          ? (getFallbackContext() as any)
-          : undefined
-      }
-      ret = fn(_context)
+      ret = withRootFallbackContext(() => fn(_context))
     } finally {
       if (__DEV__ || __FEATURE_PROD_INTLIFY_DEVTOOLS__) {
         setAdditionalMeta(null)
-      }
-      if (!_isGlobal) {
-        _context.fallbackContext = undefined
       }
     }
     if (
