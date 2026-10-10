@@ -6,22 +6,19 @@ interface I18nError extends BaseError {}
 
 export const I18nErrorCodes = {
   // composer module errors
-  UNEXPECTED_RETURN_TYPE: CORE_ERROR_CODES_EXTEND_POINT as number, // 24
-  // legacy module errors
-  INVALID_ARGUMENT: 25,
+  UNEXPECTED_RETURN_TYPE: CORE_ERROR_CODES_EXTEND_POINT as number, // 23
+  INVALID_ARGUMENT: 24,
   // i18n module errors
-  MUST_BE_CALL_SETUP_TOP: 26,
-  NOT_INSTALLED: 27,
-  // directive module errors
-  REQUIRED_VALUE: 28,
-  INVALID_VALUE: 29,
+  MUST_BE_CALL_SETUP_TOP: 25,
+  NOT_INSTALLED: 26,
   // vue-devtools errors
-  CANNOT_SETUP_VUE_DEVTOOLS_PLUGIN: 30,
-  NOT_INSTALLED_WITH_PROVIDE: 31,
+  CANNOT_SETUP_VUE_DEVTOOLS_PLUGIN: 27,
+  // i18n module errors
+  NOT_INSTALLED_WITH_PROVIDE: 28,
   // unexpected error
-  UNEXPECTED_ERROR: 32,
+  UNEXPECTED_ERROR: 29,
   // duplicate `useI18n` calling
-  DUPLICATE_USE_I18N_CALLING: 33
+  DUPLICATE_USE_I18N_CALLING: 30
 } as const
 
 type I18nErrorCodes = (typeof I18nErrorCodes)[keyof typeof I18nErrorCodes]
@@ -36,8 +33,6 @@ export const errorMessages: { [code: number]: string } = {
   [I18nErrorCodes.MUST_BE_CALL_SETUP_TOP]: 'Must be called at the top of a `setup` function',
   [I18nErrorCodes.NOT_INSTALLED]: 'Need to install with `app.use` function',
   [I18nErrorCodes.UNEXPECTED_ERROR]: 'Unexpected error',
-  [I18nErrorCodes.REQUIRED_VALUE]: `Required in value: {0}`,
-  [I18nErrorCodes.INVALID_VALUE]: `Invalid value`,
   [I18nErrorCodes.CANNOT_SETUP_VUE_DEVTOOLS_PLUGIN]: `Cannot setup vue-devtools plugin`,
   [I18nErrorCodes.NOT_INSTALLED_WITH_PROVIDE]: 'Need to install with `provide` function',
   [I18nErrorCodes.DUPLICATE_USE_I18N_CALLING]:

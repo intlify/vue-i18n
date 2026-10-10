@@ -8,13 +8,12 @@ export const CoreErrorCodes = {
   INVALID_ARGUMENT: COMPILE_ERROR_CODES_EXTEND_POINT as number, // 17
   INVALID_DATE_ARGUMENT: 18,
   INVALID_ISO_DATE_ARGUMENT: 19,
-  NOT_SUPPORT_NON_STRING_MESSAGE: 20,
-  NOT_SUPPORT_LOCALE_PROMISE_VALUE: 21,
-  NOT_SUPPORT_LOCALE_ASYNC_FUNCTION: 22,
-  NOT_SUPPORT_LOCALE_TYPE: 23
+  NOT_SUPPORT_LOCALE_PROMISE_VALUE: 20,
+  NOT_SUPPORT_LOCALE_ASYNC_FUNCTION: 21,
+  NOT_SUPPORT_LOCALE_TYPE: 22
 } as const
 
-export const CORE_ERROR_CODES_EXTEND_POINT = 24
+export const CORE_ERROR_CODES_EXTEND_POINT = 23
 
 export type CoreErrorCodes = (typeof CoreErrorCodes)[keyof typeof CoreErrorCodes]
 
@@ -29,7 +28,6 @@ export const errorMessages: { [code: number]: string } = {
     'The date provided is an invalid Date object.' + 'Make sure your Date represents a valid date.',
   [CoreErrorCodes.INVALID_ISO_DATE_ARGUMENT]:
     'The argument provided is not a valid ISO date string',
-  [CoreErrorCodes.NOT_SUPPORT_NON_STRING_MESSAGE]: 'Not support non-string message',
   [CoreErrorCodes.NOT_SUPPORT_LOCALE_PROMISE_VALUE]: 'cannot support promise value',
   [CoreErrorCodes.NOT_SUPPORT_LOCALE_ASYNC_FUNCTION]: 'cannot support async function',
   [CoreErrorCodes.NOT_SUPPORT_LOCALE_TYPE]: 'cannot support locale type'
