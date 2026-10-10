@@ -2109,20 +2109,24 @@ export function createComposer(options: any = {}): ComposerInternalInstance {
     }
   })
 
-  // NOTE: `_context.fallbackContext` points at the root context only while a
-  // translation runs (see `wrapWithDeps`). Point it there while invalidating too,
-  // so that the chain the root cached for this composer's fallbackLocale is dropped.
-  function updateFallbackLocaleWithRoot(fallback: FallbackLocale) {
+  function withRootFallbackContext<R>(fn: () => R): R {
     if (!_isGlobal) {
-      _context.fallbackContext = __root ? __root[CoreContextSymbol] : undefined
+      _context.fallbackContext = __root[CoreContextSymbol]
     }
     try {
-      updateFallbackLocale(_context, _locale.value, fallback)
+      return fn()
     } finally {
       if (!_isGlobal) {
         _context.fallbackContext = undefined
       }
     }
+  }
+
+  // NOTE: `_context.fallbackContext` points at the root context only while a
+  // translation runs (see `wrapWithDeps`). Point it there while invalidating too,
+  // so that the chain the root cached for this composer's fallbackLocale is dropped.
+  function updateFallbackLocaleWithRoot(fallback: FallbackLocale) {
+    withRootFallbackContext(() => updateFallbackLocale(_context, _locale.value, fallback))
   }
 
   // fallbackLocale
@@ -2188,17 +2192,7 @@ export function createComposer(options: any = {}): ComposerInternalInstance {
     successCondition: (val: unknown) => boolean
   ): U => {
     trackReactivityValues() // track reactive dependency
-    let ret: unknown
-    try {
-      if (!_isGlobal) {
-        _context.fallbackContext = __root ? __root[CoreContextSymbol] : undefined
-      }
-      ret = fn(_context)
-    } finally {
-      if (!_isGlobal) {
-        _context.fallbackContext = undefined
-      }
-    }
+    const ret = withRootFallbackContext(() => fn(_context))
     if (
       (warnType !== 'translate exists' && // for not `te` (e.g `t`)
         isNumber(ret) &&
