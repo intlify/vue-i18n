@@ -2076,7 +2076,6 @@ export function createComposer(options: any = {}): any {
   let _pluralRules = options.pluralRules || (__root && __root.pluralRules)
 
   // runtime context
-  // eslint-disable-next-line prefer-const
   let _context: CoreContext
 
   const getCoreContext = (): CoreContext => {
@@ -2105,17 +2104,6 @@ export function createComposer(options: any = {}): any {
     if (!__LITE__) {
       ;(ctxOptions as any).datetimeFormats = _datetimeFormats.value
       ;(ctxOptions as any).numberFormats = _numberFormats.value
-      ;(ctxOptions as any).__datetimeFormatters = isPlainObject(_context)
-        ? (_context as unknown as CoreInternalContext).__datetimeFormatters
-        : undefined
-      ;(ctxOptions as any).__numberFormatters = isPlainObject(_context)
-        ? (_context as unknown as CoreInternalContext).__numberFormatters
-        : undefined
-    }
-    if (__DEV__) {
-      ;(ctxOptions as any).__v_emitter = isPlainObject(_context)
-        ? (_context as unknown as CoreInternalContext).__v_emitter
-        : undefined
     }
 
     const ctx = createCoreContext(ctxOptions as any)
@@ -2124,6 +2112,7 @@ export function createComposer(options: any = {}): any {
     return ctx
   }
 
+  // eslint-disable-next-line prefer-const
   _context = getCoreContext()
   updateFallbackLocale(_context, _locale.value, _fallbackLocale.value)
 
