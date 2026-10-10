@@ -403,7 +403,7 @@ export function createI18n(options: any = {}): any {
         globalReleaseHandler = injectGlobalFields(app, i18n.global as Composer)
       }
 
-      // install built-in components and directive
+      // install built-in components
       if (!__LITE__ && __FEATURE_FULL_INSTALL__) {
         applyPlugin(app, ...options)
       }
