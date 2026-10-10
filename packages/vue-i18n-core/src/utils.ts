@@ -4,9 +4,11 @@ import {
   create,
   deepCopy,
   getGlobalThis,
+  getOwn,
   hasOwn,
   isArray,
   isObject,
+  isObjectPrototypeKey,
   isPlainObject,
   isString,
   warn
@@ -66,6 +68,20 @@ declare module 'vue' {
   interface VNode<HostNode = RendererNode, HostElement = RendererElement> {
     toString: () => string // mark for vue-i18n message runtime
   }
+}
+
+/**
+ * Whether `locale` can't be a key of the locale messages and formats.
+ * A property name of `Object.prototype`, such as `__proto__` or `constructor`,
+ * would read or replace a built-in object, so it is ignored with a warning.
+ */
+export function isUnsafeLocale(locale: Locale): boolean {
+  if (isObjectPrototypeKey(locale)) {
+    __DEV__ &&
+      warn(getWarnMessage(I18nWarnCodes.IGNORE_UNSAFE_LOCALE, { locale }))
+    return true
+  }
+  return false
 }
 
 /**
@@ -168,7 +184,10 @@ export function getLocaleMessages<Messages = {}>(
       if ('locale' in custom && 'resource' in custom) {
         const { locale, resource } = custom
         if (locale) {
-          ret[locale] = ret[locale] || create()
+          if (isUnsafeLocale(locale)) {
+            return
+          }
+          ret[locale] = getOwn(ret, locale) || create()
           deepCopy(resource, ret[locale])
         } else {
           deepCopy(resource, ret)

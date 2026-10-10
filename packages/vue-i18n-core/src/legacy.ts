@@ -2,6 +2,7 @@
 import { DEFAULT_LOCALE } from '@intlify/core-base'
 import {
   assign,
+  getOwn,
   isArray,
   isBoolean,
   isFunction,
@@ -11,6 +12,7 @@ import {
 } from '@intlify/shared'
 import { createComposer, DefineLocaleMessage } from './composer'
 import { DisableEmitter, EnableEmitter } from './symbols'
+import { isUnsafeLocale } from './utils'
 
 import type {
   DateTimeFormat,
@@ -1350,7 +1352,10 @@ function convertComposerOptions<
     const locales: Locale[] = Object.keys(sharedMessages)
     messages = locales.reduce(
       (messages, locale) => {
-        const message = messages[locale] || (messages[locale] = {})
+        if (isUnsafeLocale(locale)) {
+          return messages
+        }
+        const message = getOwn(messages, locale) || (messages[locale] = {})
         assign(message, sharedMessages[locale])
         return messages
       },

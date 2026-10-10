@@ -579,4 +579,77 @@ test('messageResolver', () => {
   expect(mockMessageResolver.mock.calls[0][1]).toEqual('path.to.message')
 })
 
+describe('locales named after Object.prototype properties', () => {
+  afterEach(() => {
+    for (const target of [
+      Object.prototype,
+      Object,
+      Object.prototype.toString
+    ]) {
+      delete (target as Record<string, unknown>).polluted
+    }
+  })
+
+  test('sharedMessages ignores them', () => {
+    const messages = { en: { hello: 'hello' } }
+    createVueI18n({
+      locale: 'en',
+      messages,
+      // e.g. resources parsed from untrusted JSON, where `__proto__` is an own key
+      sharedMessages: JSON.parse(
+        '{"__proto__": {"polluted": "yes"}, "constructor": {"polluted": "yes"}, "ja": {"hello": "こんにちは"}}'
+      )
+    })
+
+    for (const target of [Object.prototype, Object]) {
+      expect(Object.prototype.hasOwnProperty.call(target, 'polluted')).toBe(
+        false
+      )
+    }
+    expect(Object.getPrototypeOf(messages)).toBe(Object.prototype)
+    expect(Object.keys(messages)).toEqual(['en', 'ja'])
+  })
+
+  test.each([
+    'setLocaleMessage',
+    'mergeLocaleMessage',
+    'setDateTimeFormat',
+    'mergeDateTimeFormat',
+    'setNumberFormat',
+    'mergeNumberFormat'
+  ])('%s ignores them', method => {
+    for (const locale of ['__proto__', 'constructor', 'toString']) {
+      const options = {
+        locale: 'en',
+        messages: { en: {} },
+        datetimeFormats: { en: {} },
+        numberFormats: { en: {} }
+      }
+      const i18n = createVueI18n(options) as unknown as Record<
+        string,
+        (locale: string, value: unknown) => void
+      >
+      i18n[method](locale, { polluted: {} })
+
+      for (const target of [
+        Object.prototype,
+        Object,
+        Object.prototype.toString
+      ]) {
+        expect(Object.prototype.hasOwnProperty.call(target, 'polluted')).toBe(
+          false
+        )
+      }
+      for (const container of [
+        options.messages,
+        options.datetimeFormats,
+        options.numberFormats
+      ]) {
+        expect(Object.getPrototypeOf(container)).toBe(Object.prototype)
+        expect(Object.keys(container)).toEqual(['en'])
+      }
+    }
+  })
+})
+
 /* eslint-enable @typescript-eslint/no-empty-function */
