@@ -65,6 +65,12 @@ const NOOP_MESSAGE_FUNCTION = () => ''
 
 export const isMessageFunction = <T>(val: unknown): val is MessageFunction<T> => isFunction(val)
 
+/** @internal */
+export const isMessageFormat = <T>(
+  val: unknown
+): val is string | ResourceNode | MessageFunction<T> =>
+  isString(val) || isMessageAST(val) || isMessageFunction(val)
+
 /**
  *  # translate
  *
@@ -622,10 +628,7 @@ export function translate<Context extends CoreContext<Message, {}, {}, {}>, Mess
 
   // if you use default message, set it as message format!
   let cacheBaseKey = key
-  if (
-    !resolvedMessage &&
-    !(isString(format) || isMessageAST(format) || isMessageFunction<Message>(format))
-  ) {
+  if (!resolvedMessage && !isMessageFormat<Message>(format)) {
     // prettier-ignore
     const defaultMsgOrKey =
       isString(options.default)
@@ -645,11 +648,7 @@ export function translate<Context extends CoreContext<Message, {}, {}, {}>, Mess
   }
 
   // checking message format and target locale
-  if (
-    !resolvedMessage &&
-    (!(isString(format) || isMessageAST(format) || isMessageFunction<Message>(format)) ||
-      !isString(targetLocale))
-  ) {
+  if (!resolvedMessage && (!isMessageFormat<Message>(format) || !isString(targetLocale))) {
     return context.unresolving ? NOT_RESOLVED : (key as MessageFunctionReturn<Message>)
   }
 
@@ -659,15 +658,7 @@ export function translate<Context extends CoreContext<Message, {}, {}, {}>, Mess
       `The message format compilation is not supported in this build. ` +
         `Because message compiler isn't included. ` +
         `You need to pre-compilation all message format. ` +
-        `So translate function return '${
-          isString(key)
-            ? key
-            : isObject(key)
-              ? JSON.stringify(key as ResourceNode)
-              : isFunction(key)
-                ? (key as Function).name || 'function'
-                : ''
-        }'.`
+        `So translate function return '${stringifyKey(key)}'.`
     )
     return key as MessageFunctionReturn<Message>
   }
@@ -816,7 +807,7 @@ function resolveMessageFormat<Messages, Message>(
       }
     }
 
-    if (isString(format) || isMessageAST(format) || isMessageFunction(format)) {
+    if (isMessageFormat(format)) {
       break
     }
 
@@ -832,6 +823,16 @@ function resolveMessageFormat<Messages, Message>(
   }
 
   return [format, targetLocale, message]
+}
+
+function stringifyKey(key: unknown): string {
+  return isString(key)
+    ? key
+    : isObject(key)
+      ? JSON.stringify(key)
+      : isFunction(key)
+        ? key.name || 'function'
+        : ''
 }
 
 function compileMessageFormat<Messages, Message>(
