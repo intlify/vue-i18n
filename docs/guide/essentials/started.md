@@ -60,6 +60,10 @@ The important options are the `locale`, `fallbackLocale`, and `messages` options
 
 `locale` is the language of the Vue application to be localized.
 
+:::tip NOTE
+Specify a locale as a [BCP 47 language tag](https://developer.mozilla.org/en-US/docs/Glossary/BCP_47_language_tag), such as `en`, `en-US` or `pt-BR`. Vue I18n passes the locale to the `Intl` APIs of JavaScript, and the [implicit fallback](./fallback#implicit-fallback-using-locales) splits it at `-`. With a locale that is not a language tag, such as `pt_BR`, the implicit fallback does not work, and [datetime formatting](./datetime) and [number formatting](./number) throw a `RangeError`.
+:::
+
 `fallbackLocale` is the language to fall back to if the key resource specified in the `$t` translation API is not found in the language of `locale`.
 
 `messages` is the locale messages to translate with the `$t` translation API. The structure of the locale message is the hierarchical object structure with each locale as the top property
