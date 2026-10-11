@@ -276,7 +276,9 @@ export function createConfigsForPackage({
       // Global and Browser ESM builds inlines everything so that they can be
       // used alone.
       external: resolveExternal(),
-      platform: 'browser',
+      // `neutral` keeps `process.env.NODE_ENV` in the bundler and Node.js builds,
+      // which Rolldown replaces at build time for the `browser` platform
+      platform: isBundlerESMBuild ? 'neutral' : 'browser',
       resolve: {
         alias: entries
       },
