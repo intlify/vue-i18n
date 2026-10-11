@@ -1940,7 +1940,13 @@ export function createComposer(options: any = {}): ComposerInternalInstance {
   const flatJson = options.flatJson
 
   // warn only for the message compiler that users pass, not for the built-in `compile`
-  if (__DEV__ && !__GLOBAL__ && !__TEST__ && isFunction(options.messageCompiler)) {
+  if (
+    __DEV__ &&
+    !__GLOBAL__ &&
+    !__TEST__ &&
+    isFunction(options.messageCompiler) &&
+    options.messageCompiler !== compile
+  ) {
     warnOnce(getCoreWarnMessage(CoreWarnCodes.EXPERIMENTAL_CUSTOM_MESSAGE_COMPILER))
   }
 
