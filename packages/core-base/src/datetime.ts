@@ -4,6 +4,7 @@ import { CoreErrorCodes, createCoreError } from './errors'
 import { getLocale } from './fallbacker'
 import {
   clearFormatCache,
+  createFormatter,
   getFormatterCacheKey,
   parseFormatArgs,
   resolveFormatLocale
@@ -185,7 +186,13 @@ export function datetime<Context extends CoreContext<Message, {}, {}, {}>, Messa
   const locale = getLocale(context, options)
 
   if (!isString(key) || key === '') {
-    const formatter = new Intl.DateTimeFormat(locale.replace(/!/g, ''), overrides)
+    const formatter = createFormatter(
+      context,
+      Intl.DateTimeFormat,
+      locale.replace(/!/g, ''),
+      overrides,
+      'datetime'
+    )
     return !part ? formatter.format(value) : formatter.formatToParts(value)
   }
 
@@ -208,7 +215,13 @@ export function datetime<Context extends CoreContext<Message, {}, {}, {}>, Messa
   const id = getFormatterCacheKey(targetLocale, key, overrides)
   let formatter = __datetimeFormatters.get(id)
   if (!formatter) {
-    formatter = new Intl.DateTimeFormat(targetLocale, assign({}, format, overrides))
+    formatter = createFormatter(
+      context,
+      Intl.DateTimeFormat,
+      targetLocale,
+      assign({}, format, overrides),
+      'datetime'
+    )
     __datetimeFormatters.set(id, formatter)
   }
   return !part ? formatter.format(value) : formatter.formatToParts(value)

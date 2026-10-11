@@ -790,6 +790,40 @@ describe('Intl.PluralRules based default plural', () => {
       vi.unstubAllGlobals()
     }
   })
+
+  test('keeps the cache of Intl.PluralRules within its size', () => {
+    // count the Intl.PluralRules instances that are created
+    const IntlPluralRules = Intl.PluralRules
+    let created = 0
+    vi.stubGlobal(
+      'Intl',
+      Object.assign(Object.create(Intl), {
+        PluralRules: class extends IntlPluralRules {
+          constructor(locales?: string | string[], options?: Intl.PluralRulesOptions) {
+            super(locales, options)
+            created++
+          }
+        }
+      })
+    )
+    try {
+      const ctx = context({ locale: 'en', messages: {} })
+      const plural = (locale: string) =>
+        translate(ctx, 'a | b', 1, { resolvedMessage: true, locale })
+      for (let i = 0; i <= 1000; i++) {
+        plural(`en-x-size${i}`)
+      }
+      expect(created).toEqual(1001)
+      // the newest locale is in the cache
+      plural('en-x-size1000')
+      expect(created).toEqual(1001)
+      // the oldest locale has been deleted from the cache
+      plural('en-x-size0')
+      expect(created).toEqual(1002)
+    } finally {
+      vi.unstubAllGlobals()
+    }
+  })
 })
 
 describe('context postTranslation option', () => {

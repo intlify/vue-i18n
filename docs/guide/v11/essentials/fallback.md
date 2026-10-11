@@ -15,6 +15,8 @@ For example `de-DE-bavarian` would fallback
 1. `de-DE`
 1. `de`
 
+Vue I18n splits the locale at `-`, so specify it as a BCP 47 language tag. For example, `pt_BR` does not fall back to `pt`.
+
 To suppress the automatic fallback, add the postfix exclamation mark `!`, for example `de-DE!`
 
 ## Explicit fallback with one locale

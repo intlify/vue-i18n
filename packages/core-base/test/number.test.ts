@@ -19,7 +19,7 @@ vi.mock('../src/intl', async () => {
 })
 
 import { compile } from '../src/compilation'
-import { createCoreContext, NOT_RESOLVED } from '../src/context'
+import { createCoreContext, NOT_RESOLVED, updateFallbackLocale } from '../src/context'
 import { fallbackWithLocaleChain } from '../src/fallbacker'
 import { number } from '../src/number'
 
@@ -348,4 +348,66 @@ test('locale named after an Object.prototype property', () => {
   expect(number(ctx, 0.5, 'currency')).toEqual(
     number(context({ locale: 'en-US', numberFormats }), 0.5, 'currency')
   )
+})
+
+describe('locale that is not a language tag', () => {
+  test('falls back to the first language tag in the locale chain', () => {
+    const mockWarn = vi.spyOn(shared, 'warn')
+    mockWarn.mockImplementation(() => {})
+    const mockAvailabilities = Availabilities
+    mockAvailabilities.numberFormat = true
+
+    const ctx = context({
+      locale: 'ja_JP',
+      fallbackLocale: 'en-US',
+      numberFormats: { ja_JP: numberFormats['ja-JP'] }
+    })
+    // `Intl.NumberFormat` throws a RangeError for `ja_JP`
+    expect(number(ctx, 1234.5)).toEqual(new Intl.NumberFormat('en-US').format(1234.5))
+    expect(number(ctx, 1234, 'currency')).toEqual(
+      new Intl.NumberFormat('en-US', numberFormats['ja-JP'].currency).format(1234)
+    )
+    expect(mockWarn).toHaveBeenCalledWith(
+      `Fall back to 'en-US' locale for number formatting with 'ja_JP' locale: it is not a BCP 47 language tag`
+    )
+  })
+
+  test('falls back to the default locale without a language tag in the locale chain', () => {
+    const mockWarn = vi.spyOn(shared, 'warn')
+    mockWarn.mockImplementation(() => {})
+    const mockAvailabilities = Availabilities
+    mockAvailabilities.numberFormat = true
+
+    const ctx = context({ locale: 'ja_JP' })
+    expect(number(ctx, 1234.5)).toEqual(new Intl.NumberFormat('en-US').format(1234.5))
+  })
+
+  test('uses the new locale chain after updateFallbackLocale()', () => {
+    const mockWarn = vi.spyOn(shared, 'warn')
+    mockWarn.mockImplementation(() => {})
+    const mockAvailabilities = Availabilities
+    mockAvailabilities.numberFormat = true
+
+    const ctx = context({
+      locale: 'ja_JP',
+      fallbackLocale: 'en-US',
+      numberFormats: { ja_JP: numberFormats['ja-JP'] }
+    })
+    expect(number(ctx, 1234, 'currency')).toEqual(
+      new Intl.NumberFormat('en-US', numberFormats['ja-JP'].currency).format(1234)
+    )
+    ctx.fallbackLocale = 'de-DE'
+    updateFallbackLocale(ctx, 'ja_JP', 'de-DE')
+    expect(number(ctx, 1234, 'currency')).toEqual(
+      new Intl.NumberFormat('de-DE', numberFormats['ja-JP'].currency).format(1234)
+    )
+  })
+
+  test('throws an error of the options', () => {
+    const mockAvailabilities = Availabilities
+    mockAvailabilities.numberFormat = true
+
+    const ctx = context({ locale: 'en-US' })
+    expect(() => number(ctx, 1, { style: 'currency' })).toThrow(TypeError)
+  })
 })

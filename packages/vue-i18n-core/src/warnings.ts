@@ -2,7 +2,7 @@ import { CORE_WARN_CODES_EXTEND_POINT } from '@intlify/core-base'
 import { format } from '@intlify/shared'
 
 export const I18nWarnCodes = {
-  FALLBACK_TO_ROOT: CORE_WARN_CODES_EXTEND_POINT as number, // 12
+  FALLBACK_TO_ROOT: CORE_WARN_CODES_EXTEND_POINT as number, // 13
   NOT_FOUND_PARENT_SCOPE: (CORE_WARN_CODES_EXTEND_POINT + 1) as number,
   IGNORE_OBJ_FLATTEN: (CORE_WARN_CODES_EXTEND_POINT + 2) as number
 } as const

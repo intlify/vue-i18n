@@ -64,6 +64,10 @@ const i18n = createI18n({
 
 `locale` は、ローカライズされる Vue アプリケーションの言語です。
 
+:::tip NOTE
+ロケールは、`en`、`en-US`、`pt-BR` のような [BCP 47 の言語タグ](https://developer.mozilla.org/ja/docs/Glossary/BCP_47_language_tag)で指定してください。Vue I18n はロケールを JavaScript の `Intl` API に渡し、[暗黙的なフォールバック](./fallback)ではロケールを `-` で区切ります。`pt_BR` のような言語タグではないロケールでは、暗黙的なフォールバックが動作せず、[日時のフォーマット](./datetime)と[数値のフォーマット](./number)は `RangeError` を投げます。
+:::
+
 `fallbackLocale` は、`$t` 翻訳 API で指定されたキーリソースが `locale` の言語で見つからない場合にフォールバックする言語です。
 
 `messages` は、`$t` 翻訳 API で翻訳するためのロケールメッセージです。ロケールメッセージの構造は、各ロケールを最上位プロパティとする階層的なオブジェクト構造です。

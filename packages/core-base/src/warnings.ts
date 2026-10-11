@@ -11,10 +11,11 @@ export const CoreWarnCodes = {
   INVALID_NUMBER_ARGUMENT: 8,
   INVALID_DATE_ARGUMENT: 9,
   IGNORE_UNSAFE_LOCALE: 10,
-  FALLBACK_TO_DEFAULT_PLURAL_RULE: 11
+  FALLBACK_TO_DEFAULT_PLURAL_RULE: 11,
+  FALLBACK_FROM_INVALID_LOCALE: 12
 } as const
 
-export const CORE_WARN_CODES_EXTEND_POINT: number = 12
+export const CORE_WARN_CODES_EXTEND_POINT: number = 13
 
 export type CoreWarnCodes = (typeof CoreWarnCodes)[keyof typeof CoreWarnCodes]
 
@@ -30,7 +31,8 @@ export const warnMessages: { [code: number]: string } = {
   [CoreWarnCodes.INVALID_NUMBER_ARGUMENT]: `Invalid argument for number formatting: expected a number but received '{value}'.`,
   [CoreWarnCodes.INVALID_DATE_ARGUMENT]: `Invalid argument for datetime formatting: expected a Date, number, or ISO string but received '{value}'.`,
   [CoreWarnCodes.IGNORE_UNSAFE_LOCALE]: `Ignore '{locale}' locale: it is a property name of Object.prototype`,
-  [CoreWarnCodes.FALLBACK_TO_DEFAULT_PLURAL_RULE]: `Fall back to the default plural rule for '{locale}' locale: Intl.PluralRules does not support it`
+  [CoreWarnCodes.FALLBACK_TO_DEFAULT_PLURAL_RULE]: `Fall back to the default plural rule for '{locale}' locale: Intl.PluralRules does not support it`,
+  [CoreWarnCodes.FALLBACK_FROM_INVALID_LOCALE]: `Fall back to '{target}' locale for {type} formatting with '{locale}' locale: it is not a BCP 47 language tag`
 }
 
 export function getWarnMessage(code: CoreWarnCodes, ...args: unknown[]): string {

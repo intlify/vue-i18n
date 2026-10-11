@@ -305,6 +305,9 @@ const intlPluralRulesCache = new Map<
   } | null
 >()
 
+// The locale can come from outside (e.g. the current locale of `rt()`), so keep the cache within this size
+const INTL_PLURAL_RULES_CACHE_SIZE = 1000
+
 function createIntlPluralRules(locale: string) {
   try {
     // Intl.PluralRules uses the rules of the runtime's default locale for a locale that it does not support (e.g. `xx`)
@@ -329,6 +332,10 @@ function getIntlPluralRules(locale: string) {
     cached = createIntlPluralRules(locale)
     if (__DEV__ && cached === null) {
       warn(getWarnMessage(CoreWarnCodes.FALLBACK_TO_DEFAULT_PLURAL_RULE, { locale }))
+    }
+    if (intlPluralRulesCache.size >= INTL_PLURAL_RULES_CACHE_SIZE) {
+      // delete the oldest entry (a Map keeps the insertion order)
+      intlPluralRulesCache.delete(intlPluralRulesCache.keys().next().value!)
     }
     intlPluralRulesCache.set(locale, cached)
   }
