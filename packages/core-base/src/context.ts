@@ -512,9 +512,6 @@ export function createCoreContext<Message = string>(options: any = {}): any {
   const messageCompiler = isFunction(options.messageCompiler)
     ? options.messageCompiler
     : _compiler || null
-  if (__DEV__ && !__GLOBAL__ && !__TEST__ && isFunction(options.messageCompiler)) {
-    warnOnce(getWarnMessage(CoreWarnCodes.EXPERIMENTAL_CUSTOM_MESSAGE_COMPILER))
-  }
   const messageResolver = isFunction(options.messageResolver)
     ? options.messageResolver
     : _resolver || resolveWithKeyValue
