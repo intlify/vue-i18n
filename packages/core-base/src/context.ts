@@ -679,9 +679,11 @@ export function updateFallbackLocale<Message = string>(
     invalidateLocaleChainCache(ctx.fallbackContext, fallback)
   }
   // a formatter for a locale that is not a language tag uses a locale of the locale chain (see `createFormatter()`)
-  const { __datetimeFormatters, __numberFormatters } = ctx as unknown as CoreInternalContext
-  __datetimeFormatters.clear()
-  __numberFormatters.clear()
+  if (!__LITE__) {
+    const { __datetimeFormatters, __numberFormatters } = ctx as unknown as CoreInternalContext
+    __datetimeFormatters.clear()
+    __numberFormatters.clear()
+  }
   ctx.localeFallbacker<Message>(ctx, fallback, locale)
 }
 
