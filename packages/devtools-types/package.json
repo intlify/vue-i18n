@@ -40,7 +40,6 @@
       "types": "./dist/devtools-types.d.ts",
       "node": {
         "import": {
-          "production": "./dist/devtools-types.prod.js",
           "development": "./dist/devtools-types.js",
           "default": "./dist/devtools-types.js"
         }

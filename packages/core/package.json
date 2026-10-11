@@ -43,7 +43,7 @@
       "types": "./dist/core.d.ts",
       "node": {
         "import": {
-          "production": "./dist/core.prod.node.js",
+          "production": "./dist/core.node.js",
           "development": "./dist/core.node.js",
           "default": "./dist/core.node.js"
         }
