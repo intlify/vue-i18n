@@ -19,7 +19,7 @@ vi.mock('../src/intl', async () => {
 })
 
 import { compile } from '../src/compilation'
-import { createCoreContext, NOT_RESOLVED } from '../src/context'
+import { createCoreContext, NOT_RESOLVED, updateFallbackLocale } from '../src/context'
 import { fallbackWithLocaleChain } from '../src/fallbacker'
 import { number } from '../src/number'
 
@@ -380,6 +380,27 @@ describe('locale that is not a language tag', () => {
 
     const ctx = context({ locale: 'ja_JP' })
     expect(number(ctx, 1234.5)).toEqual(new Intl.NumberFormat('en-US').format(1234.5))
+  })
+
+  test('uses the new locale chain after updateFallbackLocale()', () => {
+    const mockWarn = vi.spyOn(shared, 'warn')
+    mockWarn.mockImplementation(() => {})
+    const mockAvailabilities = Availabilities
+    mockAvailabilities.numberFormat = true
+
+    const ctx = context({
+      locale: 'ja_JP',
+      fallbackLocale: 'en-US',
+      numberFormats: { ja_JP: numberFormats['ja-JP'] }
+    })
+    expect(number(ctx, 1234, 'currency')).toEqual(
+      new Intl.NumberFormat('en-US', numberFormats['ja-JP'].currency).format(1234)
+    )
+    ctx.fallbackLocale = 'de-DE'
+    updateFallbackLocale(ctx, 'ja_JP', 'de-DE')
+    expect(number(ctx, 1234, 'currency')).toEqual(
+      new Intl.NumberFormat('de-DE', numberFormats['ja-JP'].currency).format(1234)
+    )
   })
 
   test('throws an error of the options', () => {
