@@ -1,5 +1,17 @@
 # Breaking Changes in v12
 
+## Require Vue 3.6 or later
+
+**Reason**: Vue I18n v12 gets the information of the current component instance with `useInstanceOption()`, which Vue 3.6 added, instead of `getCurrentInstance()` (see [Change `MissingHandler` signature](#change-missinghandler-signature)). Vue 3.5 and earlier do not have `useInstanceOption()`, so Vue I18n v12 cannot be loaded with them:
+
+```text
+SyntaxError: The requested module 'vue' does not provide an export named 'useInstanceOption'
+```
+
+### Migration
+
+Update Vue to 3.6 or later. The `peerDependencies` of `vue-i18n`, `petite-vue-i18n` and `@intlify/vue-i18n-core` require `vue` `^3.6.0-beta.2`.
+
 ## Drop Legacy API mode
 
 **Reason**: Legacy API mode was deprecated in v11 as announced in the [v11 breaking changes](./breaking11.md#deprecate-legacy-api-mode). It was the API mode compatible with Vue I18n v8 for Vue 2, provided to smooth the migration from v8 to v9.
