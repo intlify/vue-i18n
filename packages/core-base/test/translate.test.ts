@@ -726,6 +726,70 @@ describe('Intl.PluralRules based default plural', () => {
     expect(translate(ctx, 'file', 1)).toEqual('ملف واحد')
     expect(translate(ctx, 'file', 2)).toEqual('ملفان')
   })
+
+  test('falls back to pluralDefault for a locale that is not a language tag', () => {
+    const mockWarn = vi.spyOn(shared, 'warn')
+    mockWarn.mockImplementation(() => {})
+    const ctx = context({
+      locale: 'pt_BR',
+      messages: {
+        pt_BR: {
+          apple: 'no apples | one apple | {count} apples',
+          car: 'car | cars'
+        }
+      }
+    })
+    expect(translate(ctx, 'apple', 0)).toEqual('no apples')
+    expect(translate(ctx, 'apple', 1)).toEqual('one apple')
+    expect(translate(ctx, 'apple', 2)).toEqual('2 apples')
+    expect(translate(ctx, 'car', 1)).toEqual('car')
+    expect(translate(ctx, 'car', 2)).toEqual('cars')
+    expect(translate(ctx, 'a | b | c', 2, { resolvedMessage: true })).toEqual('c')
+    expect(mockWarn).toHaveBeenCalledTimes(1)
+    expect(mockWarn.mock.calls[0][0]).toEqual(
+      `Fall back to the default plural rule for 'pt_BR' locale: Intl.PluralRules does not support it`
+    )
+  })
+
+  test('falls back to pluralDefault for a locale that Intl.PluralRules does not support', () => {
+    // emulate a runtime whose default locale is `ru`: Intl.PluralRules uses the rules of the default
+    // locale for a locale that it does not support
+    const IntlPluralRules = Intl.PluralRules
+    vi.stubGlobal(
+      'Intl',
+      Object.assign(Object.create(Intl), {
+        PluralRules: class extends IntlPluralRules {
+          constructor(locales?: string | string[], options?: Intl.PluralRulesOptions) {
+            super(
+              IntlPluralRules.supportedLocalesOf(locales ?? []).length > 0 ? locales : 'ru',
+              options
+            )
+          }
+        }
+      })
+    )
+    try {
+      const mockWarn = vi.spyOn(shared, 'warn')
+      mockWarn.mockImplementation(() => {})
+      const ctx = context({
+        locale: 'xx',
+        messages: {
+          xx: {
+            apple: 'no apples | one apple | {count} apples'
+          }
+        }
+      })
+      expect(translate(ctx, 'apple', 0)).toEqual('no apples')
+      expect(translate(ctx, 'apple', 1)).toEqual('one apple')
+      expect(translate(ctx, 'apple', 2)).toEqual('2 apples')
+      expect(mockWarn).toHaveBeenCalledTimes(1)
+      expect(mockWarn.mock.calls[0][0]).toEqual(
+        `Fall back to the default plural rule for 'xx' locale: Intl.PluralRules does not support it`
+      )
+    } finally {
+      vi.unstubAllGlobals()
+    }
+  })
 })
 
 describe('context postTranslation option', () => {

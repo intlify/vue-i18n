@@ -9,8 +9,10 @@ import {
   isObject,
   isString,
   join,
-  toDisplayString
+  toDisplayString,
+  warn
 } from '@intlify/shared'
+import { CoreWarnCodes, getWarnMessage } from './warnings'
 
 import type { Path } from './resolver'
 import type { IsNever, StringConvertable } from './types'
@@ -294,24 +296,40 @@ function pluralDefault(choice: number, choicesLength: number): number {
 // CLDR plural category order
 const PLURAL_CATEGORY_ORDER: Intl.LDMLPluralRule[] = ['zero', 'one', 'two', 'few', 'many', 'other']
 
-// Cache Intl.PluralRules instances per locale
+// Cache Intl.PluralRules instances per locale (`null` for a locale that Intl.PluralRules does not support)
 const intlPluralRulesCache = new Map<
   string,
   {
     rules: Intl.PluralRules
     categories: Intl.LDMLPluralRule[]
-  }
+  } | null
 >()
 
-function getIntlPluralRules(locale: string) {
-  let cached = intlPluralRulesCache.get(locale)
-  if (!cached) {
+function createIntlPluralRules(locale: string) {
+  try {
+    // Intl.PluralRules uses the rules of the runtime's default locale for a locale that it does not support (e.g. `xx`)
+    if (Intl.PluralRules.supportedLocalesOf(locale).length === 0) {
+      return null
+    }
     const rules = new Intl.PluralRules(locale)
     const categories = rules
       .resolvedOptions()
       .pluralCategories.slice()
       .sort((a, b) => PLURAL_CATEGORY_ORDER.indexOf(a) - PLURAL_CATEGORY_ORDER.indexOf(b))
-    cached = { rules, categories }
+    return { rules, categories }
+  } catch {
+    // Intl.PluralRules throws a RangeError for a locale that is not a language tag (e.g. `pt_BR`)
+    return null
+  }
+}
+
+function getIntlPluralRules(locale: string) {
+  let cached = intlPluralRulesCache.get(locale)
+  if (cached === undefined) {
+    cached = createIntlPluralRules(locale)
+    if (__DEV__ && cached === null) {
+      warn(getWarnMessage(CoreWarnCodes.FALLBACK_TO_DEFAULT_PLURAL_RULE, { locale }))
+    }
     intlPluralRulesCache.set(locale, cached)
   }
   return cached
@@ -355,11 +373,13 @@ export function createMessageContext<T = string, N = {}>(
   ) {
     // 2. Intl.PluralRules-based automatic rule
     resolvedPluralRule = (choice: number, choicesLength: number): number => {
-      const { rules, categories } = getIntlPluralRules(locale!)
-      // Fall back to pluralDefault when choices exceed locale's category count
-      if (choicesLength > categories.length) {
+      const intlPluralRules = getIntlPluralRules(locale!)
+      // Fall back to pluralDefault when Intl.PluralRules does not support the locale,
+      // or choices exceed locale's category count
+      if (intlPluralRules === null || choicesLength > intlPluralRules.categories.length) {
         return pluralDefault(choice, choicesLength)
       }
+      const { rules, categories } = intlPluralRules
       const category = rules.select(Math.abs(choice))
       const index = categories.indexOf(category)
       return Math.min(index === -1 ? choicesLength - 1 : index, choicesLength - 1)

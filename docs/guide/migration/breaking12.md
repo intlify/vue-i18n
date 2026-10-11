@@ -585,7 +585,7 @@ You can use the `@intlify/vue-i18n/no-deprecated-v-t` rule to detect all `v-t` u
 - When no custom `pluralRules` is set for a locale, Vue I18n automatically uses `Intl.PluralRules` to determine the correct plural category (zero, one, two, few, many, other)
 - Message cases must be ordered according to the CLDR plural category order: `zero | one | two | few | many | other` (only include categories that exist for the locale)
 - If the number of message cases exceeds the locale's plural category count, Vue I18n falls back to the previous default rule
-- If `Intl.PluralRules` is not available in the runtime environment, Vue I18n falls back to the previous default rule
+- If `Intl.PluralRules` is not available in the runtime environment, or does not support the locale (e.g. `pt_BR`, which is not a BCP 47 language tag), Vue I18n falls back to the previous default rule
 
 ### Migration
 

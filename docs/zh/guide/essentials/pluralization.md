@@ -146,7 +146,7 @@ Vue I18n 将自动选择正确的形式：
 :::
 
 :::tip NOTE
-如果运行时环境中没有 `Intl.PluralRules`，Vue I18n 将回退到默认的基于英语的规则。
+如果运行时环境中没有 `Intl.PluralRules`，或者 `Intl.PluralRules` 不支持该语言环境（例如不是 BCP 47 语言标签的 `pt_BR`），Vue I18n 将回退到默认的基于英语的规则。要使用该语言的复数规则，请使用 `pt-BR` 这样的语言标签。
 :::
 
 ## 自定义复数化

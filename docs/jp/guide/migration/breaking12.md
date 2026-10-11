@@ -516,7 +516,7 @@ v11 Legacy API では、`i18n.global` は `VueI18n` インスタンスを返し�
 - ロケールにカスタム `pluralRules` が設定されていない場合、Vue I18n は自動的に `Intl.PluralRules` を使用して正しい複数形カテゴリ（zero, one, two, few, many, other）を決定します
 - メッセージのケースは CLDR 複数形カテゴリの順序に従って並べる必要があります: `zero | one | two | few | many | other`（ロケールに存在するカテゴリのみ含む）
 - メッセージのケース数がロケールの複数形カテゴリ数を超える場合、Vue I18n は以前のデフォルトルールにフォールバックします
-- ランタイム環境で `Intl.PluralRules` が利用できない場合、Vue I18n は以前のデフォルトルールにフォールバックします
+- ランタイム環境で `Intl.PluralRules` が利用できない場合や、`Intl.PluralRules` がロケールをサポートしていない場合（BCP 47 の言語タグではない `pt_BR` など）、Vue I18n は以前のデフォルトルールにフォールバックします
 
 ### 移行
 
