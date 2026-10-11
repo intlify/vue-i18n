@@ -406,3 +406,44 @@ test('locale named after an Object.prototype property', () => {
     datetime(context({ locale: 'en-US', datetimeFormats }), dt, 'short')
   )
 })
+
+describe('locale that is not a language tag', () => {
+  test('falls back to the first language tag in the locale chain', () => {
+    const mockWarn = vi.spyOn(shared, 'warn')
+    mockWarn.mockImplementation(() => {})
+    const mockAvailabilities = Availabilities
+    mockAvailabilities.dateTimeFormat = true
+
+    const ctx = context({
+      locale: 'ja_JP',
+      fallbackLocale: 'en-US',
+      datetimeFormats: { ja_JP: datetimeFormats['ja-JP'] }
+    })
+    // `Intl.DateTimeFormat` throws a RangeError for `ja_JP`
+    expect(datetime(ctx, dt)).toEqual(new Intl.DateTimeFormat('en-US').format(dt))
+    expect(datetime(ctx, dt, 'long')).toEqual(
+      new Intl.DateTimeFormat('en-US', datetimeFormats['ja-JP'].long).format(dt)
+    )
+    expect(mockWarn).toHaveBeenCalledWith(
+      `Fall back to 'en-US' locale for datetime formatting with 'ja_JP' locale: it is not a BCP 47 language tag`
+    )
+  })
+
+  test('falls back to the default locale without a language tag in the locale chain', () => {
+    const mockWarn = vi.spyOn(shared, 'warn')
+    mockWarn.mockImplementation(() => {})
+    const mockAvailabilities = Availabilities
+    mockAvailabilities.dateTimeFormat = true
+
+    const ctx = context({ locale: 'ja_JP' })
+    expect(datetime(ctx, dt)).toEqual(new Intl.DateTimeFormat('en-US').format(dt))
+  })
+
+  test('throws an error of the options', () => {
+    const mockAvailabilities = Availabilities
+    mockAvailabilities.dateTimeFormat = true
+
+    const ctx = context({ locale: 'en-US' })
+    expect(() => datetime(ctx, dt, { timeZone: 'Invalid/Zone' })).toThrow(RangeError)
+  })
+})

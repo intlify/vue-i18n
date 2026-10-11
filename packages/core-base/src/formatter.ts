@@ -5,7 +5,7 @@ import {
   isString,
   toDevtoolsGroupId
 } from '@intlify/shared'
-import { handleMissing, isTranslateFallbackWarn } from './context'
+import { DEFAULT_LOCALE, handleMissing, isTranslateFallbackWarn } from './context'
 import { CoreWarnCodes, getWarnMessage } from './warnings'
 
 import type { CoreContext, CoreInternalContext } from './context'
@@ -68,6 +68,48 @@ export function resolveFormatLocale<Format, Message = string>(
   }
 
   return null
+}
+
+function isLanguageTag(locale: Locale): boolean {
+  try {
+    Intl.getCanonicalLocales(locale)
+    return true
+  } catch {
+    return false
+  }
+}
+
+/**
+ * Create an `Intl.DateTimeFormat` or `Intl.NumberFormat` formatter
+ *
+ * @remarks
+ * `Intl` throws a RangeError for a locale that is not a BCP 47 language tag (e.g. `pt_BR`),
+ * so fall back to the first language tag in the locale chain, or the default locale
+ */
+export function createFormatter<Formatter, Options>(
+  context: CoreContext<any>,
+  IntlFormatter: new (locale: Locale, options?: Options) => Formatter,
+  locale: Locale,
+  options: Options,
+  type: 'datetime' | 'number'
+): Formatter {
+  try {
+    return new IntlFormatter(locale, options)
+  } catch (error) {
+    // an error of the options, such as an invalid time zone
+    if (isLanguageTag(locale)) {
+      throw error
+    }
+    const { fallbackLocale, localeFallbacker, onWarn } = context
+    const target =
+      localeFallbacker(context as any, fallbackLocale as FallbackLocale, locale).find(
+        isLanguageTag
+      ) || DEFAULT_LOCALE
+    if (__DEV__) {
+      onWarn(getWarnMessage(CoreWarnCodes.FALLBACK_FROM_INVALID_LOCALE, { locale, target, type }))
+    }
+    return new IntlFormatter(target, options)
+  }
 }
 
 export function getFormatterCacheKey(locale: Locale, key: string, overrides: unknown): string {

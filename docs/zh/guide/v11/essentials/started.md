@@ -64,6 +64,10 @@ const i18n = createI18n({
 
 `locale` 是需要本地化的 Vue 应用的语言。
 
+:::tip NOTE
+请使用 [BCP 47 语言标签](https://developer.mozilla.org/en-US/docs/Glossary/BCP_47_language_tag)指定语言环境，例如 `en`、`en-US` 或 `pt-BR`。Vue I18n 会将语言环境传递给 JavaScript 的 `Intl` API，并且[隐式回退](./fallback)会按 `-` 拆分语言环境。对于 `pt_BR` 这样不是语言标签的语言环境，隐式回退不会生效，并且[日期时间格式化](./datetime)和[数字格式化](./number)会抛出 `RangeError`。
+:::
+
 `fallbackLocale` 是当 `$t` 翻译 API 中指定的键资源在 `locale` 语言中找不到时要回退的语言。
 
 `messages` 是要使用 `$t` 翻译 API 进行翻译的语言环境消息。语言环境消息的结构是一个层级对象结构，每个语言环境都位于顶层属性。
