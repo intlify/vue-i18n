@@ -15,6 +15,7 @@ import {
   warn,
   warnOnce
 } from '@intlify/shared'
+import { compile } from './compilation'
 import { fallbackWithSimple } from './fallbacker'
 import { resolveWithKeyValue } from './resolver'
 import { CoreWarnCodes, getWarnMessage } from './warnings'
@@ -512,7 +513,14 @@ export function createCoreContext<Message = string>(options: any = {}): any {
   const messageCompiler = isFunction(options.messageCompiler)
     ? options.messageCompiler
     : _compiler || null
-  if (__DEV__ && !__GLOBAL__ && !__TEST__ && isFunction(options.messageCompiler)) {
+  // the built-in `compile` is not a custom message compiler
+  if (
+    __DEV__ &&
+    !__GLOBAL__ &&
+    !__TEST__ &&
+    isFunction(options.messageCompiler) &&
+    options.messageCompiler !== compile
+  ) {
     warnOnce(getWarnMessage(CoreWarnCodes.EXPERIMENTAL_CUSTOM_MESSAGE_COMPILER))
   }
   const messageResolver = isFunction(options.messageResolver)

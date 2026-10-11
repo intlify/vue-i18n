@@ -995,6 +995,27 @@ const ErrorCodes = {
 
 type ErrorCodes = (typeof ErrorCodes)[keyof typeof ErrorCodes]
 
+describe('message compiler', () => {
+  test('warn without a message compiler', () => {
+    const mockWarn = vi.spyOn(shared, 'warn')
+    mockWarn.mockImplementation(() => {})
+
+    const ctx = createCoreContext({
+      locale: 'en',
+      messages: {
+        en: { hello: 'hello {name}' }
+      }
+    })
+
+    expect(translate(ctx, 'hello', { name: 'core' })).toEqual('hello')
+    expect(mockWarn.mock.calls[0][0]).toEqual(
+      `Cannot compile the message of 'hello' key, because no message compiler is set. ` +
+        `Use 'messageCompiler' option of 'createCoreContext', or pre-compile the message. ` +
+        `So translate function returns 'hello'.`
+    )
+  })
+})
+
 describe('edge cases', () => {
   test('multi bytes key', () => {
     const ctx = context({

@@ -655,10 +655,9 @@ export function translate<Context extends CoreContext<Message, {}, {}, {}>, Mess
   // TODO: refactor
   if (__DEV__ && isString(format) && context.messageCompiler == null) {
     warn(
-      `The message format compilation is not supported in this build. ` +
-        `Because message compiler isn't included. ` +
-        `You need to pre-compilation all message format. ` +
-        `So translate function return '${stringifyKey(key)}'.`
+      `Cannot compile the message of '${stringifyKey(key)}' key, because no message compiler is set. ` +
+        `Use 'messageCompiler' option of 'createCoreContext', or pre-compile the message. ` +
+        `So translate function returns '${stringifyKey(key)}'.`
     )
     return key as MessageFunctionReturn<Message>
   }
