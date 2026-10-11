@@ -3,7 +3,7 @@
 
 ## Compatibility Note
 
-- Vue.js `3.0.0`+
+- Vue.js `3.6.0`+
 
 ## Package managers
 
