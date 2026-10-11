@@ -43,7 +43,6 @@
       "types": "./dist/core-base.d.ts",
       "node": {
         "import": {
-          "production": "./dist/core-base.prod.js",
           "development": "./dist/core-base.js",
           "default": "./dist/core-base.js"
         }
