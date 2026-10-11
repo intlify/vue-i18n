@@ -195,7 +195,7 @@ test('fallback', () => {
     datetimeFormats
   })
 
-  expect(datetime(ctx, dt, 'long')).toEqual('2012/12/20 12:00:00')
+  expect(datetime(ctx, dt, 'long')).toEqual('12/20/2012, 12:00:00 PM')
   expect(mockWarn).toHaveBeenCalledTimes(2)
   expect(mockWarn.mock.calls[0][0]).toEqual(
     `Fall back to datetime format 'long' key with 'en' locale.`
@@ -219,9 +219,9 @@ test(`context fallbackWarn 'false' option`, () => {
     datetimeFormats
   })
 
-  expect(datetime(ctx, dt, 'long')).toEqual('2012/12/20 12:00:00')
+  expect(datetime(ctx, dt, 'long')).toEqual('12/20/2012, 12:00:00 PM')
   dts.forEach(dt => {
-    expect(datetime(ctx, dt, 'long')).toEqual('2012/12/20 12:00:00')
+    expect(datetime(ctx, dt, 'long')).toEqual('12/20/2012, 12:00:00 PM')
   })
   expect(mockWarn).not.toHaveBeenCalled()
 })
@@ -239,7 +239,7 @@ test(`datetime function fallbackWarn 'false' option`, () => {
     datetimeFormats
   })
 
-  expect(datetime(ctx, dt, { key: 'long', fallbackWarn: false })).toEqual('2012/12/20 12:00:00')
+  expect(datetime(ctx, dt, { key: 'long', fallbackWarn: false })).toEqual('12/20/2012, 12:00:00 PM')
   expect(mockWarn).not.toHaveBeenCalled()
 })
 
@@ -334,6 +334,54 @@ test('not available Intl API', () => {
   expect(mockWarn.mock.calls[0][0]).toEqual(
     `Cannot format a date value due to not supported Intl.DateTimeFormat.`
   )
+})
+
+test('uses requested locale for Intl when format falls back to language code', () => {
+  const mockWarn = vi.spyOn(shared, 'warn')
+  mockWarn.mockImplementation(() => {})
+  const mockAvailabilities = Availabilities
+  mockAvailabilities.dateTimeFormat = true
+
+  const sample = new Date('2026-01-31T00:00:00Z')
+  const short = {
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+    timeZone: 'UTC'
+  }
+
+  const ctx = context({
+    locale: 'en-GB',
+    fallbackWarn: false,
+    missingWarn: false,
+    datetimeFormats: {
+      en: { short }
+    }
+  })
+
+  expect(datetime(ctx, sample, 'short')).toEqual('31/01/2026')
+  expect(datetime(ctx, sample, 'short', 'en-GB')).toEqual('31/01/2026')
+  expect(datetime(ctx, sample, { key: 'short', locale: 'en-GB' })).toEqual('31/01/2026')
+
+  const enCtx = context({
+    locale: 'en',
+    fallbackWarn: false,
+    missingWarn: false,
+    datetimeFormats: {
+      en: { short }
+    }
+  })
+  expect(datetime(enCtx, sample, 'short')).toEqual('01/31/2026')
+
+  const usCtx = context({
+    locale: 'en-US',
+    fallbackWarn: false,
+    missingWarn: false,
+    datetimeFormats: {
+      en: { short }
+    }
+  })
+  expect(datetime(usCtx, sample, 'short')).toEqual('01/31/2026')
 })
 
 describe('error', () => {
