@@ -191,3 +191,19 @@ describe('objects passed in as resources', () => {
     })
   })
 })
+
+describe('custom blocks', () => {
+  test('getLocaleMessages ignores the custom blocks that are not objects', () => {
+    const ret = getLocaleMessages('en', {
+      messages: { en: { hello: 'hello' } },
+      __i18n: [
+        '{"en":{"bye":"bye"}}',
+        null,
+        1,
+        { locale: 'ja', resource: { hello: 'こんにちは' } }
+      ] as any
+    })
+
+    expect(ret).toEqual({ en: { hello: 'hello' }, ja: { hello: 'こんにちは' } })
+  })
+})
