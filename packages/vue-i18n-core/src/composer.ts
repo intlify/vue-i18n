@@ -1,4 +1,5 @@
 import {
+  CoreWarnCodes,
   DEFAULT_LOCALE,
   MISSING_RESOLVE_VALUE,
   NOT_RESOLVED,
@@ -8,6 +9,7 @@ import {
   createCoreContext,
   datetime,
   fallbackWithLocaleChain,
+  getWarnMessage as getCoreWarnMessage,
   isMessageFormat,
   isTranslateFallbackWarn,
   isTranslateMissingWarn,
@@ -33,7 +35,8 @@ import {
   isRegExp,
   isString,
   toDevtoolsGroupId,
-  warn
+  warn,
+  warnOnce
 } from '@intlify/shared'
 import { computed, ref, shallowRef, toRaw, watch } from 'vue'
 // @ts-ignore -- `useInstanceOption` is not yet exported in Vue's type definitions
@@ -1935,6 +1938,12 @@ export function createComposer(options: any = {}): ComposerInternalInstance {
   >
   const _isGlobal = __root === undefined
   const flatJson = options.flatJson
+
+  // warn only for the message compiler that users pass, not for the built-in `compile`
+  if (__DEV__ && !__GLOBAL__ && !__TEST__ && isFunction(options.messageCompiler)) {
+    warnOnce(getCoreWarnMessage(CoreWarnCodes.EXPERIMENTAL_CUSTOM_MESSAGE_COMPILER))
+  }
+
   const _ref = inBrowser ? ref : shallowRef
 
   let _inheritLocale = isBoolean(options.inheritLocale) ? options.inheritLocale : true
