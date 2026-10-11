@@ -168,7 +168,7 @@ When the number of message cases exceeds the number of plural categories for the
 :::
 
 :::tip NOTE
-If `Intl.PluralRules` is not available in the runtime environment, Vue I18n falls back to the default English-based rule.
+If `Intl.PluralRules` is not available in the runtime environment, or does not support the locale (e.g. `pt_BR`, which is not a BCP 47 language tag), Vue I18n falls back to the default English-based rule. To use the plural rules of the language, use a language tag such as `pt-BR`.
 :::
 
 ## Custom Pluralization

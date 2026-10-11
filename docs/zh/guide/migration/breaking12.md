@@ -516,7 +516,7 @@ i18n.global.setMissingHandler((locale, key) => { /* ... */ })
 - 当语言环境没有设置自定义 `pluralRules` 时，Vue I18n 自动使用 `Intl.PluralRules` 来确定正确的复数类别（zero、one、two、few、many、other）
 - 消息的各种形式必须按照 CLDR 复数类别顺序排列：`zero | one | two | few | many | other`（仅包含该语言环境中存在的类别）
 - 如果消息的形式数量超过语言环境的复数类别数量，Vue I18n 将回退到之前的默认规则
-- 如果运行时环境中没有 `Intl.PluralRules`，Vue I18n 将回退到之前的默认规则
+- 如果运行时环境中没有 `Intl.PluralRules`，或者 `Intl.PluralRules` 不支持该语言环境（例如不是 BCP 47 语言标签的 `pt_BR`），Vue I18n 将回退到之前的默认规则
 
 ### 迁移
 
