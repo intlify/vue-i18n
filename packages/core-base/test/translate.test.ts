@@ -1105,11 +1105,16 @@ describe('message compiler', () => {
       }
     })
 
-    expect(translate(ctx, 'hello', { name: 'core' })).toEqual('hello')
+    // the message is returned as is, as in production
+    expect(translate(ctx, 'hello', { name: 'core' })).toEqual('hello {name}')
     expect(mockWarn.mock.calls[0][0]).toEqual(
       `Cannot compile the message of 'hello' key, because no message compiler is set. ` +
         `Use 'messageCompiler' option of 'createCoreContext', or pre-compile the message. ` +
-        `So translate function returns 'hello'.`
+        `So translate function returns the message as is.`
+    )
+    // the default message too
+    expect(translate(ctx, 'missing', {}, { default: 'hi {name}', missingWarn: false })).toEqual(
+      'hi {name}'
     )
   })
 })
