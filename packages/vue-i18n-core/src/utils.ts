@@ -13,7 +13,6 @@ import {
   isObject,
   isObjectPrototypeKey,
   isPlainObject,
-  isString,
   warn
 } from '@intlify/shared'
 import { Text, createVNode } from 'vue'
@@ -212,17 +211,16 @@ export function getLocaleMessages<Messages = {}>(
   }
 
   // merge locale messages of i18n custom block
+  // bundler plugins generate `{ locale, resource }` objects, and other values are ignored
   if (isArray(__i18n)) {
     __i18n.forEach(custom => {
-      if ('locale' in custom && 'resource' in custom) {
+      if (isObject(custom) && 'locale' in custom && 'resource' in custom) {
         const { locale, resource } = custom
         if (locale) {
           mergeLocale(locale, resource)
         } else {
           mergeLocales(resource)
         }
-      } else {
-        isString(custom) && mergeLocales(JSON.parse(custom))
       }
     })
   }
