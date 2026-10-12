@@ -7,10 +7,12 @@ import {
   isFunction,
   isNumber,
   isObject,
+  isObjectPrototypeKey,
   isString,
   join,
   toDisplayString,
-  warn
+  warn,
+  warnOnce
 } from '@intlify/shared'
 import { CoreWarnCodes, getWarnMessage } from './warnings'
 
@@ -410,7 +412,10 @@ export function createMessageContext<T = string, N = {}>(
     _named.count ??= options.pluralIndex
     _named.n ??= options.pluralIndex
   }
-  const named = (key: string): unknown => _named[key]
+  // read only own properties for the names of Object.prototype properties, such as `toString`,
+  // so that the getters of class instances still work as named values
+  const named = (key: string): unknown =>
+    isObjectPrototypeKey(key) ? getOwn(_named, key) : _named[key]
 
   function message(key: Path, useLinked?: boolean): MessageFunction<T> {
     // prettier-ignore
@@ -426,8 +431,10 @@ export function createMessageContext<T = string, N = {}>(
       : msg
   }
 
-  const _modifier = (name: string): LinkedModify<T> =>
-    options.modifiers ? options.modifiers[name] : (DEFAULT_MODIFIER as unknown as LinkedModify<T>)
+  const _modifier = (name: string): LinkedModify<T> | undefined =>
+    options.modifiers
+      ? getOwn(options.modifiers, name)
+      : (DEFAULT_MODIFIER as unknown as LinkedModify<T>)
 
   const normalize = isFunction(options.processor?.normalize)
     ? options.processor.normalize
@@ -466,7 +473,22 @@ export function createMessageContext<T = string, N = {}>(
     const msg =
       // The message in vnode resolved with linked are returned as an array by processor.nomalize
       type === 'vnode' && isArray(resolved) && modifier ? resolved[0] : (resolved as MessageType<T>)
-    return modifier ? _modifier(modifier)(msg as T, type) : msg
+    if (!modifier) {
+      return msg
+    }
+    const modify = _modifier(modifier)
+    if (isFunction(modify)) {
+      return modify(msg as T, type)
+    }
+    // an unknown modifier, such as a typo, does not stop the translation
+    if (__DEV__) {
+      warnOnce(
+        `Not found '${modifier}' modifier for the linked message of '${key}' key. ` +
+          `Use a built-in modifier, or set a custom modifier with 'modifiers' option. ` +
+          `So the linked message is used as is.`
+      )
+    }
+    return msg
   }
 
   const ctx = {
