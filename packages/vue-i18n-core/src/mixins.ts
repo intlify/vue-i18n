@@ -1,4 +1,4 @@
-import { createEmitter } from '@intlify/shared'
+import { assign, createEmitter } from '@intlify/shared'
 import { addTimelineEvent } from './devtools'
 import { createI18nError, I18nErrorCodes } from './errors'
 import { createVueI18n } from './legacy'
@@ -52,7 +52,9 @@ export function defineMixin(
 
       const options = this.$options
       if (options.i18n) {
-        const optionsI18n = options.i18n as VueI18nOptions &
+        // copy the option, since it belongs to the component definition,
+        // which every instance and, on the server, every app shares
+        const optionsI18n = assign({}, options.i18n) as VueI18nOptions &
           VueI18nInternalOptions &
           ComposerInternalOptions
 
