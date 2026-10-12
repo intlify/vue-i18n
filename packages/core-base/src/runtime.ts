@@ -350,16 +350,19 @@ export function createMessageContext<T = string, N = {}>(
   const list = (index: number): unknown => _list[index]
 
   const _named = options.named || (create() as any) // eslint-disable-line @typescript-eslint/no-explicit-any
-  // normalize named
-  if (isNumber(options.pluralIndex)) {
-    _named.count ||= options.pluralIndex
-    _named.n ||= options.pluralIndex
+  // `count` and `n` are the implicit named values of a plural call. supply the
+  // plural index for them, without writing into the named values that the
+  // caller passed
+  const hasPluralIndex = isNumber(options.pluralIndex)
+  const named = (key: string): unknown => {
+    // read only own properties for the names of Object.prototype properties,
+    // such as `toString`, so that the getters of class instances still work as
+    // named values
+    const value = isObjectPrototypeKey(key) ? getOwn(_named, key) : _named[key]
+    return hasPluralIndex && !value && (key === 'count' || key === 'n')
+      ? options.pluralIndex
+      : value
   }
-  // read only own properties for the names of Object.prototype properties,
-  // such as `toString`, so that the getters of class instances still work as
-  // named values
-  const named = (key: string): unknown =>
-    isObjectPrototypeKey(key) ? getOwn(_named, key) : _named[key]
 
   function message(key: Path, useLinked?: boolean): MessageFunction<T> {
     // prettier-ignore
@@ -447,7 +450,14 @@ export function createMessageContext<T = string, N = {}>(
     [HelperNameMap.TYPE]: type,
     [HelperNameMap.INTERPOLATE]: interpolate,
     [HelperNameMap.NORMALIZE]: normalize,
-    [HelperNameMap.VALUES]: assign(create(), _list, _named)
+    // custom message compilers read the values, so give them the same `count`
+    // and `n` as `named()`
+    [HelperNameMap.VALUES]: assign(
+      create(),
+      _list,
+      _named,
+      hasPluralIndex ? { count: named('count'), n: named('n') } : {}
+    )
   }
 
   return ctx
