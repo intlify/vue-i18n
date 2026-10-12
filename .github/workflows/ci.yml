@@ -80,6 +80,10 @@ jobs:
           pnpm build --all -t
           npx tsx ./scripts/postprocess.ts
 
+      - name: Check built packages
+        if: runner.os == 'Linux'
+        run: pnpm check:dist
+
       - name: Cache dist
         uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4.3.0
         with:
