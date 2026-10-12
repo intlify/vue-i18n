@@ -2363,6 +2363,14 @@ export function createComposer(options: any = {}): ComposerInternalInstance {
     )
   }
 
+  // resolve the value of `key` in the locale messages of `locale`, in the same way as `t()`
+  function resolveLocaleMessageValue(locale: Locale, key: Path): unknown {
+    const message = getLocaleMessage(locale)
+    const value = _context.messageResolver(message, key)
+    // if null, resolve with object key path (for flat keys containing dots), from own properties only
+    return value === null ? getOwn(message, key) : value
+  }
+
   // te
   function te(key: Path, locale?: Locale): boolean {
     return wrapWithDeps<{}, boolean>(
@@ -2372,18 +2380,12 @@ export function createComposer(options: any = {}): ComposerInternalInstance {
         }
         const targetLocale = isString(locale) ? locale : _locale.value
         // When locale is explicitly specified, check only that locale (no fallback chain)
-        // When locale is not specified, check the fallback locale chain
+        // When locale is not specified, check the locale chain, as `t()` does
         const locales = isString(locale)
           ? [targetLocale]
-          : fallbackWithLocaleChain(_context, _fallbackLocale.value, targetLocale)
+          : _context.localeFallbacker(_context, _fallbackLocale.value, targetLocale)
         for (let i = 0; i < locales.length; i++) {
-          const message = getLocaleMessage(locales[i])
-          let resolved = _context.messageResolver(message, key)
-          // if null, resolve with object key path (for flat keys containing dots), from own properties only
-          if (resolved === null) {
-            resolved = getOwn(message, key)
-          }
-          if (isMessageFormat(resolved)) {
+          if (isMessageFormat(resolveLocaleMessageValue(locales[i], key))) {
             return true
           }
         }
@@ -2401,10 +2403,10 @@ export function createComposer(options: any = {}): ComposerInternalInstance {
 
   function resolveMessages(key: Path): LocaleMessageValue<Message> | null {
     let messages: LocaleMessageValue<Message> | null = null
-    const locales = fallbackWithLocaleChain(_context, _fallbackLocale.value, _locale.value)
+    // the same locale chain as `t()`
+    const locales = _context.localeFallbacker(_context, _fallbackLocale.value, _locale.value)
     for (let i = 0; i < locales.length; i++) {
-      const targetLocaleMessages = getOwn(_messages.value, locales[i]) || {}
-      const messageValue = _context.messageResolver(targetLocaleMessages, key)
+      const messageValue = resolveLocaleMessageValue(locales[i], key)
       if (messageValue != null) {
         messages = messageValue as LocaleMessageValue<Message>
         break
