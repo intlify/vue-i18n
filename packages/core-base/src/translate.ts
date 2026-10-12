@@ -717,15 +717,14 @@ export function translate<
     return unresolving ? NOT_REOSLVED : (key as MessageFunctionReturn<Message>)
   }
 
-  // TODO: refactor
+  // without a message compiler, `compileMessageFormat()` returns the message as is
   if (__DEV__ && isString(format) && context.messageCompiler == null) {
     warn(
       `The message format compilation is not supported in this build. ` +
         `Because message compiler isn't included. ` +
         `You need to pre-compilation all message format. ` +
-        `So translate function return '${key}'.`
+        `So translate function returns the message as is.`
     )
-    return key as MessageFunctionReturn<Message>
   }
 
   // setup compile error detecting

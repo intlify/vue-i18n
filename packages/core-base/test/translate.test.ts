@@ -908,6 +908,30 @@ const ErrorCodes = {
 
 type ErrorCodes = (typeof ErrorCodes)[keyof typeof ErrorCodes]
 
+describe('message compiler', () => {
+  test('returns the message as is without a message compiler', () => {
+    const mockWarn = vi.spyOn(shared, 'warn')
+    mockWarn.mockImplementation(() => {})
+
+    const ctx = context({
+      locale: 'en',
+      messages: {
+        en: { hello: 'hello {name}' }
+      }
+    })
+    ctx.messageCompiler = null
+
+    // the message is returned as is, as in production
+    expect(translate(ctx, 'hello', { name: 'core' })).toEqual('hello {name}')
+    expect(mockWarn.mock.calls[0][0]).toEqual(
+      `The message format compilation is not supported in this build. ` +
+        `Because message compiler isn't included. ` +
+        `You need to pre-compilation all message format. ` +
+        `So translate function returns the message as is.`
+    )
+  })
+})
+
 describe('edge cases', () => {
   test('multi bytes key', () => {
     const ctx = context({
