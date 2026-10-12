@@ -1091,7 +1091,9 @@ export interface VueI18n<
    * @remarks
    * whether do exist locale message on VueI18n instance [messages](legacy#messages).
    *
-   * If you specified `locale`, check the locale messages of `locale`.
+   * If you specified `locale`, check the locale messages of `locale`, but not those of its fallback locales.
+   *
+   * If you did not specify `locale`, check the locale messages of the current `locale` and then those of its fallback locales, as `t` does (see [fallbacking](../guide/essentials/fallback)).
    *
    * @param key - A target locale message key
    * @param locale - A target locale

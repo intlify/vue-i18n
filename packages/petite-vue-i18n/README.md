@@ -22,6 +22,7 @@ Small size subset of Vue I18n
   - `n`, `$n`
   - `d`, `$d`
   - `rt`, `$rt`
+  - `te`, `$te`
   - `tm`, `$tm`
   - `getDateTimeFormat`, `setDateTimeFormat`, `mergeDateTimeFormat`
   - `getNumberFormat`, `setNumberFormat`, `mergeNumberFormat`
