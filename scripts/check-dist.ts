@@ -63,21 +63,43 @@ async function checkEntries(target: string): Promise<{ count: number; errors: st
   const files = packedFiles(pkgDir)
 
   const entries = collectEntries(pkg.exports, ['exports'], [])
-    // `./dist/*` is a pattern, not a file
-    .filter(({ target }) => !target.includes('*'))
+  // Node.js resolves only the targets of `exports` that start with `./`
+  const errors = entries
+    .filter(({ target }) => !target.startsWith('./'))
+    .map(
+      ({ keys, target }) =>
+        `${pkg.name}: ${keys.join(' > ')} points to ${target}, which does not start with ./`
+    )
   for (const field of ENTRY_FIELDS) {
     if (typeof pkg[field] === 'string') {
       entries.push({ keys: [field], target: pkg[field] })
     }
   }
 
-  const errors = entries
-    .filter(({ target }) => !files.has(path.posix.normalize(target)))
-    .map(
-      ({ keys, target }) =>
-        `${pkg.name}: ${keys.join(' > ')} points to ${target}, which is not in the package`
-    )
+  for (const { keys, target } of entries) {
+    // a pattern such as `./dist/*` needs to match some files
+    const pattern = target.includes('*') ? toPattern(target) : null
+    const found = pattern
+      ? [...files].some(file => pattern.test(file))
+      : files.has(path.posix.normalize(target))
+    if (!found) {
+      errors.push(
+        `${pkg.name}: ${keys.join(' > ')} points to ${target}, ` +
+          (pattern ? 'which matches no files in the package' : 'which is not in the package')
+      )
+    }
+  }
   return { count: entries.length, errors }
+}
+
+// `*` matches one or more characters, including `/`
+function toPattern(target: string): RegExp {
+  const source = path.posix
+    .normalize(target)
+    .split('*')
+    .map(part => part.replace(/[.+?^${}()|[\]\\]/g, '\\$&'))
+    .join('.+')
+  return new RegExp(`^${source}$`)
 }
 
 async function usesDev(srcDir: string): Promise<boolean> {
