@@ -49,6 +49,7 @@ import {
   DisableEmitter,
   DisposeSymbol,
   EnableEmitter,
+  GlobalContextSymbol,
   NumberPartsSymbol,
   TranslateVNodeSymbol
 } from './symbols'
@@ -1845,6 +1846,7 @@ export interface Composer<
  */
 export interface ComposerInternal {
   [CoreContextSymbol]: CoreContext<VueMessageType>
+  [GlobalContextSymbol]: CoreContext<VueMessageType>
   [TranslateVNodeSymbol](...args: unknown[]): VNodeArrayChildren
   [NumberPartsSymbol](...args: unknown[]): string | Intl.NumberFormatPart[]
   [DatetimePartsSymbol](...args: unknown[]): string | Intl.DateTimeFormatPart[]
@@ -2099,6 +2101,11 @@ export function createComposer(options: any = {}): ComposerInternalInstance {
   _context = getCoreContext()
   updateFallbackLocale(_context, _locale.value, _fallbackLocale.value)
 
+  // the context of the global composer of this i18n instance, where the composers under it
+  // resolve linked messages that they do not have. take it over from `__root`, since `__root`
+  // can be the composer of a parent component (local and isolated scopes)
+  const _globalContext = _isGlobal ? _context : __root[GlobalContextSymbol]
+
   // track reactivity
   function trackReactivityValues() {
     return !__LITE__
@@ -2123,7 +2130,7 @@ export function createComposer(options: any = {}): ComposerInternalInstance {
 
   function withRootFallbackContext<R>(fn: () => R): R {
     if (!_isGlobal) {
-      _context.fallbackContext = __root[CoreContextSymbol]
+      _context.fallbackContext = _globalContext
     }
     try {
       return fn()
@@ -2547,6 +2554,7 @@ export function createComposer(options: any = {}): ComposerInternalInstance {
   // define basic composition API!
   const composer = {
     [CoreContextSymbol]: _context,
+    [GlobalContextSymbol]: _globalContext,
     id: composerID,
     locale,
     fallbackLocale,

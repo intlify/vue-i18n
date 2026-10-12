@@ -587,6 +587,51 @@ describe('useI18n', () => {
       expect((composer as Composer).t('globalKey')).toBe('from global')
     })
 
+    test('resolves linked messages from the global Composer under a local parent', async () => {
+      const i18n = createI18n({
+        locale: 'en',
+        messages: {
+          en: { globalKey: 'from global' }
+        }
+      })
+      // another instance, created after the one that the app uses
+      createI18n({
+        locale: 'en',
+        messages: {
+          en: { globalKey: 'from another instance' }
+        }
+      })
+
+      let composer: unknown
+      const Child = defineComponent({
+        setup() {
+          composer = useI18n({
+            useScope: scope,
+            messages: {
+              en: { linked: '@:globalKey' }
+            }
+          })
+          return {}
+        },
+        template: `<p>foo</p>`
+      })
+      const App = defineComponent({
+        components: { Child },
+        setup() {
+          useI18n({
+            messages: {
+              en: { parentKey: 'from parent' }
+            }
+          })
+          return {}
+        },
+        template: `<Child />`
+      })
+      await mount(App, i18n)
+
+      expect((composer as Composer).t('linked')).toBe('from global')
+    })
+
     test('inherits runtime dependencies', async () => {
       const messageCompiler = vi.fn((message: string | ResourceNode): MessageFunction => {
         const source = typeof message === 'string' ? message : 'resource'

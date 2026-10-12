@@ -2534,6 +2534,47 @@ describe('root', () => {
     expect(localA.t('linked')).toEqual('A')
   })
 
+  test('linked messages under a local root use the global root context', () => {
+    const rootA = createComposer({
+      locale: 'en',
+      messages: {
+        en: {
+          root: 'A'
+        }
+      }
+    })
+    const parentA = createComposer({
+      locale: 'en',
+      messages: {
+        en: {
+          parent: 'parent of A'
+        }
+      },
+      __root: rootA
+    })
+    // like a local or isolated scope under a component with local scope
+    const childA = createComposer({
+      locale: 'en',
+      messages: {
+        en: {
+          linked: '@:root'
+        }
+      },
+      __root: parentA
+    })
+
+    createComposer({
+      locale: 'en',
+      messages: {
+        en: {
+          root: 'B'
+        }
+      }
+    })
+
+    expect(childA.t('linked')).toEqual('A')
+  })
+
   test('d', () => {
     const __root = createComposer({
       locale: 'en-US',
