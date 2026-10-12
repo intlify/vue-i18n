@@ -9,7 +9,8 @@ vi.mock('@intlify/shared', async () => {
   const actual = await vi.importActual<object>('@intlify/shared')
   return {
     ...actual,
-    warn: vi.fn()
+    warn: vi.fn(),
+    warnOnce: vi.fn()
   }
 })
 
@@ -84,6 +85,34 @@ describe('features', () => {
       }
     })
     expect(translate(ctx, 'hi')).toEqual('hi KAZUPON !')
+  })
+
+  test('linked with a modifier that is not found', () => {
+    const mockWarnOnce = vi.spyOn(shared, 'warnOnce')
+    mockWarnOnce.mockImplementation(() => {})
+
+    const ctx = context({
+      locale: 'en',
+      modifiers: { snakeCase: (str: string) => str.split(' ').join('_') },
+      messages: {
+        en: {
+          name: 'hello world',
+          typo: 'hi @.Upper:name !',
+          builtin: 'hi @.toString:name !',
+          custom: 'hi @.snakeCase:name !'
+        }
+      }
+    })
+    // the modifier is ignored, instead of throwing a TypeError
+    expect(translate(ctx, 'typo')).toEqual('hi hello world !')
+    expect(translate(ctx, 'builtin')).toEqual('hi hello world !')
+    expect(translate(ctx, 'custom')).toEqual('hi hello_world !')
+    expect(mockWarnOnce).toHaveBeenCalledTimes(2)
+    expect(mockWarnOnce.mock.calls[0][0]).toEqual(
+      `Not found 'Upper' modifier for the linked message of 'name' key. ` +
+        `Use a built-in modifier, or set a custom modifier with 'modifiers' option. ` +
+        `So the linked message is used as is.`
+    )
   })
 
   test('plural', () => {
@@ -1114,6 +1143,30 @@ describe('processor', () => {
     ])
   })
 
+  test('linked with a modifier that is not found', () => {
+    const ctx = context<VNode>({
+      locale: 'en',
+      messages: {
+        en: {
+          name: 'kazupon',
+          hi: 'hi @.unknown:name !'
+        }
+      }
+    })
+    ctx.processor = processor
+    expect(
+      // @ts-expect-error -- FIXME
+      translate<typeof ctx, string, PickupKeys<typeof ctx.messages>, VNode>(
+        ctx,
+        'hi'
+      )
+    ).toEqual([
+      { __v_isVNode: true, children: 'hi ' },
+      { __v_isVNode: true, children: 'kazupon' },
+      { __v_isVNode: true, children: ' !' }
+    ])
+  })
+
   test('plural', () => {
     const ctx = context<VNode>({
       locale: 'en',
@@ -1314,6 +1367,40 @@ describe('locales and keys named after Object.prototype properties', () => {
     }) as any
     expect(translate(ctx, 'a | b | c', 2, { resolvedMessage: true })).toEqual(
       'c'
+    )
+  })
+
+  test('does not read Object.prototype properties as named values', () => {
+    const ctx = context({
+      locale: 'en',
+      messages: {
+        en: {
+          builtins: '[{toString}][{valueOf}][{constructor}][{__proto__}]',
+          hi: 'hi {name} !'
+        }
+      }
+    })
+    expect(translate(ctx, 'builtins', { name: 'kazupon' })).toEqual('[][][][]')
+    // own properties named after Object.prototype properties are named values
+    expect(
+      translate(ctx, 'builtins', {
+        toString: 'a',
+        valueOf: 'b',
+        constructor: 'c'
+      })
+    ).toEqual('[a][b][c][]')
+    expect(
+      translate(ctx, 'builtins', JSON.parse('{"__proto__": "d"}'))
+    ).toEqual('[][][][d]')
+    // the getters of class instances are named values
+    class Person {
+      first = 'kazuya'
+      get name(): string {
+        return `${this.first} kawaguchi`
+      }
+    }
+    expect(translate(ctx, 'hi', new Person() as any)).toEqual(
+      'hi kazuya kawaguchi !'
     )
   })
 })
