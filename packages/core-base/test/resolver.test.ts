@@ -1,4 +1,4 @@
-import { parse, resolveValue } from '../src/resolver'
+import { parse, resolveValue, resolveWithKeyValue } from '../src/resolver'
 import { ast } from './fixtures/ast'
 
 test('parse', () => {
@@ -136,5 +136,41 @@ describe('resolveValue', () => {
     expect(resolveValue(ast, 'product')).toEqual(ast.product)
     expect(resolveValue(ast, 'product.type')).toEqual(null)
     expect(resolveValue(ast, 'product.test.type')).toEqual(null)
+  })
+})
+
+describe('resolveWithKeyValue', () => {
+  test('basic', () => {
+    expect(resolveWithKeyValue({ hello: 'hello' }, 'hello')).toEqual('hello')
+    // a flat key that contains dots
+    expect(resolveWithKeyValue({ 'a.b': 'flat' }, 'a.b')).toEqual('flat')
+    // not found
+    expect(resolveWithKeyValue({ hello: 'hello' }, 'hi')).toBeUndefined()
+    // not an object
+    expect(resolveWithKeyValue('hello', 'hello')).toEqual(null)
+    expect(resolveWithKeyValue(null, 'hello')).toEqual(null)
+  })
+
+  test('Object.prototype built-in keys', () => {
+    const builtins = [
+      'constructor',
+      'hasOwnProperty',
+      'isPrototypeOf',
+      'propertyIsEnumerable',
+      'toLocaleString',
+      'toString',
+      'valueOf',
+      '__proto__'
+    ]
+
+    // builtin name as key with value defined -> should resolve
+    for (const k of builtins) {
+      expect(resolveWithKeyValue({ [k]: 'hi' }, k)).toEqual('hi')
+    }
+
+    // builtin name as key, NOT defined -> should not resolve the built-in
+    for (const k of builtins) {
+      expect(resolveWithKeyValue({}, k)).toBeUndefined()
+    }
   })
 })
