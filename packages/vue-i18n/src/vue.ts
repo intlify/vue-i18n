@@ -463,7 +463,7 @@ export interface ComponentCustomProperties {
    * Translation message exist
    *
    * @remarks
-   * About that details, see {@link VueI18n#te | `VueI18n#te` } or {@link Composer#te | `Composer#te`}.
+   * About that details, see {@link Composer#te | `Composer#te`}.
    *
    * @param key - A target locale message key
    * @param locale - A locale, optional, override locale that global scope or local scope

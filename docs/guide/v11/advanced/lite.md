@@ -24,6 +24,7 @@ This is the documentation for **Vue I18n v11**. If you are using v12 or later, s
   - `n`, `$n`
   - `d`, `$d`
   - `rt`, `$rt`
+  - `te`, `$te`
   - `tm`, `$tm`
   - `getDateTimeFormat`, `setDateTimeFormat`, `mergeDateTimeFormat`
   - `getNumberFormat`, `setNumberFormat`, `mergeNumberFormat`

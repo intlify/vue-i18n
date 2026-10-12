@@ -24,6 +24,7 @@
   - `n`, `$n`
   - `d`, `$d`
   - `rt`, `$rt`
+  - `te`, `$te`
   - `tm`, `$tm`
   - `getDateTimeFormat`, `setDateTimeFormat`, `mergeDateTimeFormat`
   - `getNumberFormat`, `setNumberFormat`, `mergeNumberFormat`
