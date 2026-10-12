@@ -1,4 +1,5 @@
 export const CoreContextSymbol: unique symbol = /* #__PURE__*/ Symbol('__coreContext')
+export const GlobalContextSymbol: unique symbol = /* #__PURE__*/ Symbol('__globalContext')
 export const TranslateVNodeSymbol: unique symbol = /* #__PURE__*/ Symbol('__translateVNode')
 export const DatetimePartsSymbol: unique symbol = /* #__PURE__*/ Symbol('__datetimeParts')
 export const NumberPartsSymbol: unique symbol = /* #__PURE__*/ Symbol('__numberParts')

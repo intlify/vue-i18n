@@ -4,6 +4,7 @@ import {
   DisableEmitter,
   DisposeSymbol,
   EnableEmitter,
+  GlobalContextSymbol,
   NumberPartsSymbol,
   TranslateVNodeSymbol
 } from '../src/symbols'
@@ -23,6 +24,7 @@ type LegacyComposerInternalKeys =
 
 test('uses unique symbols for the internal protocol', () => {
   expectTypeOf<IsUniqueSymbol<typeof CoreContextSymbol>>().toEqualTypeOf<true>()
+  expectTypeOf<IsUniqueSymbol<typeof GlobalContextSymbol>>().toEqualTypeOf<true>()
   expectTypeOf<IsUniqueSymbol<typeof TranslateVNodeSymbol>>().toEqualTypeOf<true>()
   expectTypeOf<IsUniqueSymbol<typeof NumberPartsSymbol>>().toEqualTypeOf<true>()
   expectTypeOf<IsUniqueSymbol<typeof DatetimePartsSymbol>>().toEqualTypeOf<true>()
@@ -34,6 +36,9 @@ test('uses unique symbols for the internal protocol', () => {
 test('describes Composer internals with computed symbol keys', () => {
   expectTypeOf<Extract<keyof ComposerInternal, LegacyComposerInternalKeys>>().toEqualTypeOf<never>()
   expectTypeOf<ComposerInternal[typeof CoreContextSymbol]>().toEqualTypeOf<
+    CoreContext<VueMessageType>
+  >()
+  expectTypeOf<ComposerInternal[typeof GlobalContextSymbol]>().toEqualTypeOf<
     CoreContext<VueMessageType>
   >()
   expectTypeOf<ComposerInternal[typeof TranslateVNodeSymbol]>().toEqualTypeOf<
