@@ -1562,6 +1562,59 @@ describe('tm', () => {
     expect(messages1).toEqual({ bar: { buz: 'hello' } })
   })
 
+  test('flat key containing dots', () => {
+    const { t, tm } = createComposer({
+      locale: 'ja',
+      fallbackLocale: 'en',
+      messages: {
+        en: {
+          'key.list': ['one', 'two'],
+          'key.fallback': 'fallback'
+        },
+        ja: {
+          'key.exampleNestedKey': '翻訳'
+        }
+      },
+      missingWarn: false,
+      fallbackWarn: false
+    })
+
+    // t() resolves flat keys
+    expect(t('key.exampleNestedKey')).toEqual('翻訳')
+    expect(t('key.fallback')).toEqual('fallback')
+
+    // tm() should also resolve flat keys, in the locale chain
+    expect(tm('key.exampleNestedKey')).toEqual('翻訳')
+    expect(tm('key.list')).toEqual(['one', 'two'])
+    expect(tm('key.fallback')).toEqual('fallback')
+    expect(tm('key.nonExistent')).toEqual({})
+  })
+
+  test('registered locale fallbacker', () => {
+    // always fall back to `ja`
+    registerLocaleFallbacker((_ctx, _fallback, start) => [start, 'ja'])
+    const { t, tm } = createComposer({
+      locale: 'en',
+      fallbackLocale: false,
+      messages: {
+        en: {},
+        ja: {
+          hello: 'こんにちは',
+          list: ['一', '二']
+        }
+      },
+      missingWarn: false,
+      fallbackWarn: false
+    })
+
+    // t() falls back with the registered locale fallbacker
+    expect(t('hello')).toEqual('こんにちは')
+
+    // tm() should fall back with it too
+    expect(tm('hello')).toEqual('こんにちは')
+    expect(tm('list')).toEqual(['一', '二'])
+  })
+
   test('resolved with rt', () => {
     const { rt, tm } = createComposer({
       locale: 'en',
@@ -1655,6 +1708,34 @@ test('te', async () => {
   expect(te(null as any)).toEqual(false)
   expect(te(undefined as any)).toEqual(false)
   expect(te('')).toEqual(false)
+})
+
+test('te with registered locale fallbacker', () => {
+  // always fall back to `ja`
+  registerLocaleFallbacker((_ctx, _fallback, start) => [start, 'ja'])
+  const { t, te } = createComposer({
+    locale: 'en',
+    fallbackLocale: false,
+    messages: {
+      en: {},
+      ja: {
+        hello: 'こんにちは'
+      }
+    },
+    missingWarn: false,
+    fallbackWarn: false
+  })
+
+  // t() falls back with the registered locale fallbacker
+  expect(t('hello')).toEqual('こんにちは')
+
+  // te() should check the same locale chain
+  expect(te('hello')).toEqual(true)
+  expect(te('nonExistent')).toEqual(false)
+
+  // explicit locale checks only that locale
+  expect(te('hello', 'en')).toEqual(false)
+  expect(te('hello', 'ja' as any)).toEqual(true)
 })
 
 describe('getLocaleMessage / setLocaleMessage / mergeLocaleMessage', () => {
