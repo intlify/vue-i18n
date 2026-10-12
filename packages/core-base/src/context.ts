@@ -678,7 +678,18 @@ export function handleMissing<Message = string>(
     return isString(ret) ? ret : key
   } else {
     if (__DEV__ && isTranslateMissingWarn(missingWarn, key)) {
-      onWarn(getWarnMessage(CoreWarnCodes.NOT_FOUND_KEY, { key, locale }))
+      onWarn(
+        getWarnMessage(CoreWarnCodes.NOT_FOUND_KEY, {
+          key,
+          locale,
+          resource:
+            type === 'datetime format'
+              ? 'datetime formats'
+              : type === 'number format'
+                ? 'number formats'
+                : 'messages'
+        })
+      )
     }
     return key
   }

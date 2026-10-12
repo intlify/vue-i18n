@@ -186,6 +186,28 @@ test('fallback', () => {
   )
 })
 
+test('missing warning', () => {
+  const mockWarn = vi.spyOn(shared, 'warn')
+  mockWarn.mockImplementation(() => {})
+  const mockAvailabilities = Availabilities
+  mockAvailabilities.numberFormat = true
+
+  const ctx = context({
+    locale: 'en-US',
+    fallbackLocale: ['ja-JP'],
+    fallbackWarn: false,
+    numberFormats
+  })
+
+  number(ctx, 1, 'unknown')
+  expect(mockWarn.mock.calls.map(([message]) => message)).toEqual([
+    `Not found 'unknown' key in 'en-US' locale number formats.`,
+    `Not found 'unknown' key in 'en' locale number formats.`,
+    `Not found 'unknown' key in 'ja-JP' locale number formats.`,
+    `Not found 'unknown' key in 'ja' locale number formats.`
+  ])
+})
+
 test(`context fallbackWarn 'false' option`, () => {
   const mockWarn = vi.spyOn(shared, 'warn')
   mockWarn.mockImplementation(() => {})
