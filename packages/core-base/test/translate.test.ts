@@ -15,7 +15,7 @@ import { compile } from '../src/compilation'
 import { createCoreContext, NOT_RESOLVED } from '../src/context'
 import { CoreErrorCodes, errorMessages } from '../src/errors'
 import { fallbackWithLocaleChain } from '../src/fallbacker'
-import { resolveValue } from '../src/resolver'
+import { resolveValue, resolveWithKeyValue } from '../src/resolver'
 import { translate } from '../src/translate'
 import { createTextNode } from './helper'
 
@@ -1425,6 +1425,28 @@ describe('locales and keys named after Object.prototype properties', () => {
     ]) {
       expect(translate(ctx, key)).toEqual(key)
     }
+    expect(translate(ctx, 'linked')).toEqual('x toString')
+  })
+
+  test('treats keys named after Object.prototype properties as missing with the key-value message resolver', () => {
+    const ctx = context({
+      locale: 'en',
+      missingWarn: false,
+      messageResolver: resolveWithKeyValue,
+      messages: { en: { ...messages.en, valueOf: 'Value of' } }
+    })
+    for (const key of [
+      'toString',
+      'constructor',
+      'hasOwnProperty',
+      '__proto__',
+      '__defineGetter__'
+    ]) {
+      expect(translate(ctx, key)).toEqual(key)
+    }
+    // an own property named after a built-in is a message
+    expect(translate(ctx, 'valueOf')).toEqual('Value of')
+    expect(translate(ctx, 'hello')).toEqual('Hello')
     expect(translate(ctx, 'linked')).toEqual('x toString')
   })
 
