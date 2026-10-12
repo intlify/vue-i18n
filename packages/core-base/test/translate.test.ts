@@ -127,6 +127,33 @@ describe('features', () => {
     expect(translate(ctx, 'apple', 10)).toEqual('10 apples')
     expect(translate(ctx, 'apple', { count: 20 }, 10)).toEqual('20 apples')
   })
+
+  test('plural does not write count and n into the named values', () => {
+    const ctx = context({
+      locale: 'en',
+      messages: {
+        en: {
+          apple: 'no apples | one apple | {count} apples for {name}',
+          values: (ctx: MessageContext) => JSON.stringify(ctx.values)
+        }
+      }
+    })
+    const named = { name: 'vue' }
+    expect(translate(ctx, 'apple', named, 2)).toEqual('2 apples for vue')
+    expect(named).toEqual({ name: 'vue' })
+    // the same named values with other counts
+    expect(translate(ctx, 'apple', named, 7)).toEqual('7 apples for vue')
+    expect(translate(ctx, 'apple', named, 1)).toEqual('one apple')
+    // frozen named values
+    expect(translate(ctx, 'apple', Object.freeze({ name: 'vue' }), 3)).toEqual(
+      '3 apples for vue'
+    )
+    // custom message compilers still get count and n from the values
+    expect(translate(ctx, 'values', named, 2)).toEqual(
+      '{"name":"vue","count":2,"n":2}'
+    )
+    expect(named).toEqual({ name: 'vue' })
+  })
 })
 
 describe('locale option', () => {
