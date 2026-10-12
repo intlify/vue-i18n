@@ -1,4 +1,4 @@
-import { hasOwn, isFunction, isObject } from '@intlify/shared'
+import { getOwn, hasOwn, isFunction, isObject } from '@intlify/shared'
 import { AST_NODE_PROPS_KEYS, isMessageAST } from './ast'
 
 /** @VueI18nGeneral */
@@ -297,7 +297,8 @@ const cache = new Map<Path, string[]>()
  * @VueI18nGeneral
  */
 export function resolveWithKeyValue(obj: unknown, path: Path): PathValue {
-  return isObject(obj) ? obj[path] : null
+  // read only own properties, so that a key such as `toString` does not resolve a built-in function
+  return isObject(obj) ? getOwn(obj, path) : null
 }
 
 /**
