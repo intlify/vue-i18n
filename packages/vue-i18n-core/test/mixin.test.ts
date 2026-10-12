@@ -89,6 +89,40 @@ describe('beforeCreate', () => {
 
     expect(html()).toEqual('<p>good bye!</p>')
   })
+
+  test('does not write into the i18n option of the component', async () => {
+    const i18n = createI18n({
+      legacy: true,
+      locale: 'en',
+      messages: {
+        en: {
+          hello: 'hello!'
+        }
+      }
+    })
+
+    const options = {
+      messages: {
+        en: {
+          bye: 'good bye!'
+        }
+      }
+    }
+    const App = defineComponent({
+      template: `<p>{{ $t('bye') }} {{ $t('block') }} {{ $t('hello') }}</p>`,
+      i18n: options,
+      __i18n: [
+        {
+          locale: 'en',
+          resource: { block: 'block!' } as any // eslint-disable-line @typescript-eslint/no-explicit-any
+        }
+      ]
+    })
+    const { html } = await mount(App, i18n)
+
+    expect(html()).toEqual('<p>good bye! block! hello!</p>')
+    expect(Object.keys(options)).toEqual(['messages'])
+  })
 })
 
 test('$t', async () => {
