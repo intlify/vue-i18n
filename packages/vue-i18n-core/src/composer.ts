@@ -1485,12 +1485,14 @@ export interface Composer<
    * @remarks
    * whether do exist locale message on Composer instance {@link Composer#messages}.
    *
-   * If you specified `locale`, check the locale messages of `locale`.
+   * If you specified `locale`, check the locale messages of `locale`, but not those of its fallback locales.
+   *
+   * If you did not specify `locale`, check the locale messages of the current `locale` and then those of its fallback locales, as `t` does (see [fallbacking](../../../guide/essentials/fallback)).
    *
    * @param key - A target locale message key
    * @param locale - A locale, it will be used over than global scope or local scope
    *
-   * @returns If found locale message, `true`, else `false`, Note that `false` is returned even if the value present in the key is not translatable, yet if `translateExistCompatible` is set to `true`, it will return `true` if the key is available, even if the value is not translatable.
+   * @returns If found locale message, `true`, else `false`, Note that `false` is returned even if the value present in the key is not translatable.
    */
   te<Str extends string, Key extends PickupKeys<Messages> = PickupKeys<Messages>>(
     this: void,
