@@ -95,10 +95,14 @@ export function compile<Message = string, MessageSource = string | ResourceNode>
     // if occurred compile error, don't cache
     return !detectError ? (compileCache[cacheKey] = msg) : msg
   } else {
-    if (__DEV__ && !isMessageAST(message)) {
-      warn(
-        `the message that is resolve with key '${context.key}' is not supported for jit compilation`
-      )
+    // the message compiler is not included in this build (e.g. the runtime-only builds), so return a string message as is
+    if (!isMessageAST(message)) {
+      if (__DEV__) {
+        warn(
+          `Cannot compile the message of '${context.key}' key, because the message compiler is not included in this build. ` +
+            `Pre-compile the message. So translate function returns the message as is.`
+        )
+      }
       return (() => message) as MessageFunction<Message>
     }
 

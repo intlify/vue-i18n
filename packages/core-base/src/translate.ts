@@ -652,14 +652,13 @@ export function translate<Context extends CoreContext<Message, {}, {}, {}>, Mess
     return context.unresolving ? NOT_RESOLVED : (key as MessageFunctionReturn<Message>)
   }
 
-  // TODO: refactor
+  // without a message compiler, `compileMessageFormat()` returns the message as is
   if (__DEV__ && isString(format) && context.messageCompiler == null) {
     warn(
       `Cannot compile the message of '${stringifyKey(key)}' key, because no message compiler is set. ` +
         `Use 'messageCompiler' option of 'createCoreContext', or pre-compile the message. ` +
-        `So translate function returns '${stringifyKey(key)}'.`
+        `So translate function returns the message as is.`
     )
-    return key as MessageFunctionReturn<Message>
   }
 
   // setup compile error detecting
