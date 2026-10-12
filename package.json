@@ -36,6 +36,7 @@
     "build:sourcemap": "pnpm build --sourcemap",
     "build:type": "./scripts/build.sh",
     "check-install": "tsx ./scripts/playwright.ts",
+    "check:dist": "tsx ./scripts/check-dist.ts",
     "clean": "pnpm run --color \"/^clean:/\"",
     "clean:coverage": "rm -rf ./coverage",
     "clean:dist": "rm -rf ./dist ./packages/**/dist ./docs/.vitepress/dist",
