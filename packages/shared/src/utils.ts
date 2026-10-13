@@ -73,8 +73,8 @@ export const isEmptyObject = (val: unknown): val is boolean =>
 
 export const isKeylessObject = <T extends Record<string, any>>(
   val: T extends readonly any[] ? never : T
-  // @ts-expect-error asserted type is technically not assignable to parameter type
-): val is Record<string, never> => Object.keys(val).length === 0
+): val is (T extends readonly any[] ? never : T) & Record<string, never> =>
+  Object.keys(val).length === 0
 
 export const assign: typeof Object.assign = Object.assign
 
