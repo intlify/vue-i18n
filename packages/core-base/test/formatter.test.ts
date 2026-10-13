@@ -51,12 +51,13 @@ describe.each(formatContracts)('$name formatting pipeline', contract => {
       fallbackWarn: false,
       missingWarn: false,
       missing,
-      __v_emitter: emitter,
       [contract.resource]: {
         'en-US': {},
         'ja-JP': { target: contract.formatOptions }
       }
     })
+    // the composer of vue-i18n sets the emitter in the same way, when the devtools are enabled
+    ;(context as unknown as CoreInternalContext).__v_emitter = emitter
 
     contract.format(context, 'target')
 
