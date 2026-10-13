@@ -55,11 +55,9 @@
   },
   "types": "dist/core-base.d.ts",
   "dependencies": {
+    "@intlify/devtools-types": "workspace:*",
     "@intlify/message-compiler": "workspace:*",
     "@intlify/shared": "workspace:*"
-  },
-  "devDependencies": {
-    "@intlify/devtools-types": "workspace:*"
   },
   "buildOptions": {
     "name": "IntlifyCoreBase",
