@@ -3,13 +3,17 @@
 //
 // - `exports`, `main`, `module`, `types`, `unpkg` and `jsdelivr` point to files in the package
 // - the bundler and Node.js builds keep `process.env.NODE_ENV` for `__DEV__`, for bundlers to replace
+// - the type declarations import only the packages in `dependencies` and `peerDependencies`
+// - the type declarations have no type errors with `skipLibCheck: false`
 //
 
 import { spawnSync } from 'node:child_process'
 import { existsSync, promises as fs } from 'node:fs'
+import { isBuiltin } from 'node:module'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import pc from 'picocolors'
+import ts from 'typescript'
 import { targets as allTargets } from './utils'
 
 type Entry = {
@@ -18,13 +22,23 @@ type Entry = {
 }
 
 const __dirname = fileURLToPath(new URL('.', import.meta.url))
-const packagesDir = path.resolve(__dirname, '../packages')
+const rootDir = path.resolve(__dirname, '..')
+const packagesDir = path.resolve(rootDir, 'packages')
 
 const ENTRY_FIELDS = ['main', 'module', 'types', 'unpkg', 'jsdelivr']
 
 // the browser and global builds replace `__DEV__` with `true` or `false`,
 // and the stubs re-export the bundler builds
 const RE_NOT_BUNDLER_BUILD = /\.(?:esm-browser|global)(?:\.prod)?\.js$|\.esm-bundler\.js$/
+
+// the type declarations, including the ones for ES modules and CommonJS
+const RE_DECLARATION = /\.d\.[cm]?ts$/
+
+// the module resolutions that the projects of users type-check the declarations with
+const DECLARATION_RESOLUTIONS: [name: string, options: ts.CompilerOptions][] = [
+  ['bundler', { module: ts.ModuleKind.ESNext, moduleResolution: ts.ModuleResolutionKind.Bundler }],
+  ['node16', { module: ts.ModuleKind.Node16, moduleResolution: ts.ModuleResolutionKind.Node16 }]
+]
 
 // the Node.js builds of these packages replace `__DEV__` with `false`
 // (see `resolveReplace()` in `scripts/rolldown.ts`)
@@ -43,7 +57,13 @@ function collectEntries(value: unknown, keys: string[], entries: Entry[]): Entry
   return entries
 }
 
+const packedFilesCache = new Map<string, Set<string>>()
+
 function packedFiles(pkgDir: string): Set<string> {
+  const cached = packedFilesCache.get(pkgDir)
+  if (cached) {
+    return cached
+  }
   // in a shell, since `pnpm` is `pnpm.cmd` on Windows
   const { status, stdout, stderr } = spawnSync('pnpm pack --dry-run --json', {
     cwd: pkgDir,
@@ -54,7 +74,9 @@ function packedFiles(pkgDir: string): Set<string> {
     throw new Error(`\`pnpm pack\` failed in ${pkgDir}\n${stderr}`)
   }
   const { files } = JSON.parse(stdout) as { files: { path: string }[] }
-  return new Set(files.map(file => file.path))
+  const packed = new Set(files.map(file => file.path))
+  packedFilesCache.set(pkgDir, packed)
+  return packed
 }
 
 async function checkEntries(target: string): Promise<{ count: number; errors: string[] }> {
@@ -142,6 +164,92 @@ async function checkDevBranches(target: string): Promise<{ count: number; errors
   return { count: files.length, errors }
 }
 
+// `@scope/name/subpath` and `name/subpath` to the name of the package
+function toPackageName(specifier: string): string {
+  return specifier
+    .split('/')
+    .slice(0, specifier.startsWith('@') ? 2 : 1)
+    .join('/')
+}
+
+// `name` and `@scope/name` to `@types/name` and `@types/scope__name`, which can provide their types
+function toTypesPackageName(name: string): string {
+  return `@types/${name.startsWith('@') ? name.slice(1).replace('/', '__') : name}`
+}
+
+async function checkDeclarationImports(
+  target: string
+): Promise<{ count: number; errors: string[] }> {
+  const pkgDir = path.resolve(packagesDir, target)
+  const pkg = JSON.parse(await fs.readFile(path.resolve(pkgDir, 'package.json'), 'utf8'))
+  // the packages that are installed together with this package
+  const installed = new Set([
+    pkg.name,
+    ...Object.keys(pkg.dependencies ?? {}),
+    ...Object.keys(pkg.peerDependencies ?? {})
+  ])
+  const declarations = [...packedFiles(pkgDir)].filter(file => RE_DECLARATION.test(file))
+
+  const errors: string[] = []
+  for (const file of declarations) {
+    const source = await fs.readFile(path.resolve(pkgDir, file), 'utf8')
+    const { importedFiles, typeReferenceDirectives } = ts.preProcessFile(source, true, true)
+    for (const { fileName: specifier } of [...importedFiles, ...typeReferenceDirectives]) {
+      // relative imports, the `imports` of the package itself and Node.js built-ins
+      if (specifier.startsWith('.') || specifier.startsWith('#') || isBuiltin(specifier)) {
+        continue
+      }
+      const name = toPackageName(specifier)
+      if (!installed.has(name) && !installed.has(toTypesPackageName(name))) {
+        errors.push(
+          `${pkg.name}: ${file} imports ${specifier}, which is not in dependencies or peerDependencies`
+        )
+      }
+    }
+  }
+  return { count: declarations.length, errors }
+}
+
+const diagnosticHost: ts.FormatDiagnosticsHost = {
+  getCanonicalFileName: fileName => fileName,
+  getCurrentDirectory: () => rootDir,
+  getNewLine: () => '\n'
+}
+
+function checkDeclarationTypes(target: string): string[] {
+  const pkgDir = path.resolve(packagesDir, target)
+  const declarations = [...packedFiles(pkgDir)]
+    .filter(file => RE_DECLARATION.test(file))
+    .map(file => path.resolve(pkgDir, file))
+
+  const errors: string[] = []
+  for (const [name, resolution] of DECLARATION_RESOLUTIONS) {
+    // each package alone, as an application installs vue-i18n or petite-vue-i18n
+    const program = ts.createProgram(declarations, {
+      noEmit: true,
+      strict: true,
+      skipLibCheck: false,
+      target: ts.ScriptTarget.ES2022,
+      types: [],
+      ...resolution
+    })
+    // check only the declarations of these packages, not the ones of other packages such as vue
+    const diagnostics = [...program.getOptionsDiagnostics(), ...program.getGlobalDiagnostics()]
+    for (const sourceFile of program.getSourceFiles()) {
+      if (path.resolve(sourceFile.fileName).startsWith(packagesDir)) {
+        diagnostics.push(
+          ...program.getSyntacticDiagnostics(sourceFile),
+          ...program.getSemanticDiagnostics(sourceFile)
+        )
+      }
+    }
+    for (const diagnostic of diagnostics) {
+      errors.push(`${name}: ${ts.formatDiagnostic(diagnostic, diagnosticHost).trimEnd()}`)
+    }
+  }
+  return errors
+}
+
 async function main() {
   const targets = await allTargets()
   const unbuilt = targets.filter(target => !existsSync(path.resolve(packagesDir, target, 'dist')))
@@ -153,17 +261,26 @@ async function main() {
   const errors: string[] = []
   let entryCount = 0
   let buildCount = 0
+  let declarationCount = 0
 
   for (const target of targets) {
     const entries = await checkEntries(target)
     const builds = await checkDevBranches(target)
+    const declarations = await checkDeclarationImports(target)
     entryCount += entries.count
     buildCount += builds.count
-    errors.push(...entries.errors, ...builds.errors)
+    declarationCount += declarations.count
+    errors.push(
+      ...entries.errors,
+      ...builds.errors,
+      ...declarations.errors,
+      ...checkDeclarationTypes(target)
+    )
   }
 
   if (errors.length) {
-    for (const error of errors) {
+    // an error in a shared declaration, such as the one of @intlify/shared, shows up for each package
+    for (const error of new Set(errors)) {
       console.error(pc.red(error))
     }
     process.exit(1)
@@ -171,7 +288,9 @@ async function main() {
 
   console.log(
     `${pc.green('✔')} ${targets.length} packages: ${entryCount} entry points are in the packages, ` +
-      `and ${buildCount} bundler and Node.js builds keep \`process.env.NODE_ENV\``
+      `${buildCount} bundler and Node.js builds keep \`process.env.NODE_ENV\`, ` +
+      `and ${declarationCount} type declarations import only their dependencies ` +
+      `and have no type errors with \`skipLibCheck: false\``
   )
 }
 
