@@ -235,12 +235,6 @@ export interface CoreOptions<
   onWarn?: (msg: string, err?: Error) => void
 }
 
-export interface CoreInternalOptions {
-  __datetimeFormatters?: Map<string, Intl.DateTimeFormat>
-  __numberFormatters?: Map<string, Intl.NumberFormat>
-  __v_emitter?: VueDevToolsEmitter
-}
-
 export interface CoreCommonContext<Message = string, Locales = 'en-US'> {
   cid: number
   version: string
@@ -520,19 +514,6 @@ export function createCoreContext<Message = string>(options: any = {}): any {
     : _fallbacker || fallbackWithSimple
   const fallbackContext = isObject(options.fallbackContext) ? options.fallbackContext : undefined
 
-  // setup internal options
-  const internalOptions = options as CoreInternalOptions
-  const __datetimeFormatters = !__LITE__
-    ? isObject(internalOptions.__datetimeFormatters)
-      ? internalOptions.__datetimeFormatters
-      : new Map<string, Intl.DateTimeFormat>()
-    : /* #__PURE__*/ new Map<string, Intl.DateTimeFormat>()
-  const __numberFormatters = !__LITE__
-    ? isObject(internalOptions.__numberFormatters)
-      ? internalOptions.__numberFormatters
-      : new Map<string, Intl.NumberFormat>()
-    : /* #__PURE__*/ new Map<string, Intl.NumberFormat>()
-
   _cid++
 
   const context = {
@@ -562,14 +543,8 @@ export function createCoreContext<Message = string>(options: any = {}): any {
   if (!__LITE__) {
     ;(context as any).datetimeFormats = datetimeFormats
     ;(context as any).numberFormats = numberFormats
-    ;(context as any).__datetimeFormatters = __datetimeFormatters
-    ;(context as any).__numberFormatters = __numberFormatters
-  }
-
-  // for vue-devtools timeline event
-  if (__DEV__) {
-    ;(context as unknown as CoreInternalContext).__v_emitter =
-      internalOptions.__v_emitter != null ? internalOptions.__v_emitter : undefined
+    ;(context as any).__datetimeFormatters = new Map<string, Intl.DateTimeFormat>()
+    ;(context as any).__numberFormatters = new Map<string, Intl.NumberFormat>()
   }
 
   return context
