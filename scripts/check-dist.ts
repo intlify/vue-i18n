@@ -9,6 +9,7 @@
 
 import { spawnSync } from 'node:child_process'
 import { existsSync, promises as fs } from 'node:fs'
+import { isBuiltin } from 'node:module'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import pc from 'picocolors'
@@ -29,6 +30,9 @@ const ENTRY_FIELDS = ['main', 'module', 'types', 'unpkg', 'jsdelivr']
 // the browser and global builds replace `__DEV__` with `true` or `false`,
 // and the stubs re-export the bundler builds
 const RE_NOT_BUNDLER_BUILD = /\.(?:esm-browser|global)(?:\.prod)?\.js$|\.esm-bundler\.js$/
+
+// the type declarations, including the ones for ES modules and CommonJS
+const RE_DECLARATION = /\.d\.[cm]?ts$/
 
 // the module resolutions that the projects of users type-check the declarations with
 const DECLARATION_RESOLUTIONS: [name: string, options: ts.CompilerOptions][] = [
@@ -168,6 +172,11 @@ function toPackageName(specifier: string): string {
     .join('/')
 }
 
+// `name` and `@scope/name` to `@types/name` and `@types/scope__name`, which can provide their types
+function toTypesPackageName(name: string): string {
+  return `@types/${name.startsWith('@') ? name.slice(1).replace('/', '__') : name}`
+}
+
 async function checkDeclarationImports(
   target: string
 ): Promise<{ count: number; errors: string[] }> {
@@ -179,17 +188,19 @@ async function checkDeclarationImports(
     ...Object.keys(pkg.dependencies ?? {}),
     ...Object.keys(pkg.peerDependencies ?? {})
   ])
-  const declarations = [...packedFiles(pkgDir)].filter(file => file.endsWith('.d.ts'))
+  const declarations = [...packedFiles(pkgDir)].filter(file => RE_DECLARATION.test(file))
 
   const errors: string[] = []
   for (const file of declarations) {
     const source = await fs.readFile(path.resolve(pkgDir, file), 'utf8')
     const { importedFiles, typeReferenceDirectives } = ts.preProcessFile(source, true, true)
     for (const { fileName: specifier } of [...importedFiles, ...typeReferenceDirectives]) {
-      if (specifier.startsWith('.') || specifier.startsWith('node:')) {
+      // relative imports, the `imports` of the package itself and Node.js built-ins
+      if (specifier.startsWith('.') || specifier.startsWith('#') || isBuiltin(specifier)) {
         continue
       }
-      if (!installed.has(toPackageName(specifier))) {
+      const name = toPackageName(specifier)
+      if (!installed.has(name) && !installed.has(toTypesPackageName(name))) {
         errors.push(
           `${pkg.name}: ${file} imports ${specifier}, which is not in dependencies or peerDependencies`
         )
@@ -208,7 +219,7 @@ const diagnosticHost: ts.FormatDiagnosticsHost = {
 function checkDeclarationTypes(target: string): string[] {
   const pkgDir = path.resolve(packagesDir, target)
   const declarations = [...packedFiles(pkgDir)]
-    .filter(file => file.endsWith('.d.ts'))
+    .filter(file => RE_DECLARATION.test(file))
     .map(file => path.resolve(pkgDir, file))
 
   const errors: string[] = []
