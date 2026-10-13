@@ -597,16 +597,15 @@ importers:
 
   packages/core-base:
     dependencies:
+      '@intlify/devtools-types':
+        specifier: workspace:*
+        version: link:../devtools-types
       '@intlify/message-compiler':
         specifier: workspace:*
         version: link:../message-compiler
       '@intlify/shared':
         specifier: workspace:*
         version: link:../shared
-    devDependencies:
-      '@intlify/devtools-types':
-        specifier: workspace:*
-        version: link:../devtools-types
 
   packages/devtools-types:
     dependencies:
@@ -656,6 +655,9 @@ importers:
       '@intlify/core-base':
         specifier: workspace:*
         version: link:../core-base
+      '@intlify/devtools-types':
+        specifier: workspace:*
+        version: link:../devtools-types
       '@intlify/vue-i18n-core':
         specifier: workspace:*
         version: link:../vue-i18n-core
@@ -665,10 +667,6 @@ importers:
       vue:
         specifier: 3.6.0-rc.10
         version: 3.6.0-rc.10(typescript@5.9.3)
-    devDependencies:
-      '@intlify/devtools-types':
-        specifier: workspace:*
-        version: link:../devtools-types
 
   packages/shared: {}
 
@@ -731,6 +729,9 @@ importers:
       '@intlify/core-base':
         specifier: workspace:*
         version: link:../core-base
+      '@intlify/devtools-types':
+        specifier: workspace:*
+        version: link:../devtools-types
       '@intlify/vue-i18n-core':
         specifier: workspace:*
         version: link:../vue-i18n-core
@@ -740,16 +741,15 @@ importers:
       vue:
         specifier: 3.6.0-rc.10
         version: 3.6.0-rc.10(typescript@5.9.3)
-    devDependencies:
-      '@intlify/devtools-types':
-        specifier: workspace:*
-        version: link:../devtools-types
 
   packages/vue-i18n-core:
     dependencies:
       '@intlify/core-base':
         specifier: workspace:*
         version: link:../core-base
+      '@intlify/devtools-types':
+        specifier: workspace:*
+        version: link:../devtools-types
       '@intlify/shared':
         specifier: workspace:*
         version: link:../shared
@@ -759,10 +759,6 @@ importers:
       vue:
         specifier: 3.6.0-rc.10
         version: 3.6.0-rc.10(typescript@5.9.3)
-    devDependencies:
-      '@intlify/devtools-types':
-        specifier: workspace:*
-        version: link:../devtools-types
 
 packages:
 

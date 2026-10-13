@@ -56,14 +56,12 @@
   "types": "dist/vue-i18n.d.ts",
   "dependencies": {
     "@intlify/core-base": "workspace:*",
+    "@intlify/devtools-types": "workspace:*",
     "@intlify/vue-i18n-core": "workspace:*",
     "@vue/devtools-api": "^6.5.0"
   },
   "peerDependencies": {
     "vue": "^3.6.0-beta.2"
-  },
-  "devDependencies": {
-    "@intlify/devtools-types": "workspace:*"
   },
   "buildOptions": {
     "name": "VueI18n",
