@@ -136,24 +136,20 @@ export function handleFlatJson(obj: unknown): unknown {
         }
         currentObj = currentObj[subKeys[i]]
       }
+      // NOTE: if the last object is a message AST and subKeys[lastIndex] has message AST prop key,
+      // ignore to copy and key deletion, so that the message AST is not broken
+      const isASTPropKey =
+        isMessageAST(currentObj) &&
+        AST_NODE_PROPS_KEYS.includes(subKeys[lastIndex])
+
       // update last object value, delete old property
-      if (!hasStringValue) {
-        if (!isMessageAST(currentObj)) {
-          currentObj[subKeys[lastIndex]] = obj[key]
-          delete obj[key]
-        } else {
-          /**
-           * NOTE:
-           * if the last object is a message AST and subKeys[lastIndex] has message AST prop key, ignore to copy and key deletion
-           */
-          if (!AST_NODE_PROPS_KEYS.includes(subKeys[lastIndex])) {
-            delete obj[key]
-          }
-        }
+      if (!hasStringValue && !isASTPropKey) {
+        currentObj[subKeys[lastIndex]] = obj[key]
+        delete obj[key]
       }
 
       // recursive process value if value is also a object
-      if (!isMessageAST(currentObj)) {
+      if (!isASTPropKey) {
         const target = currentObj[subKeys[lastIndex]]
         if (isObject(target)) {
           handleFlatJson(target)

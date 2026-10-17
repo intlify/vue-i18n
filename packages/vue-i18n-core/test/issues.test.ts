@@ -29,6 +29,7 @@ import {
   resolveDirective,
   withDirectives
 } from 'vue'
+import { baseCompile } from '@intlify/message-compiler'
 import { createI18n, useI18n } from '../src/i18n'
 import { getCurrentInstance } from '../src/utils'
 import { ast } from './fixtures/ast'
@@ -1512,6 +1513,70 @@ describe('#2156', () => {
     expect(i18n.global.t('product')).toEqual('Product')
     expect(i18n.global.t('product.type')).toEqual('Product type')
     expect(i18n.global.t('product.test.type')).toEqual('Product test type')
+  })
+})
+
+describe('intlify/bundle-tools#498', () => {
+  const toAST = (message: string) =>
+    baseCompile(message, { jit: true, location: false }).ast
+  const toMinifiedAST = (message: string) =>
+    baseCompile(message, { jit: true, location: false, minify: true }).ast
+
+  describe.each([
+    ['message ASTs', toAST],
+    ['minified message ASTs', toMinifiedAST]
+  ])('flatJson with %s', (_, toMessage) => {
+    test('resolves the flat keys under another message', () => {
+      const i18n = createI18n({
+        locale: 'en',
+        flatJson: true,
+        messages: {
+          en: {
+            'navBar.orders': toMessage('Orders'),
+            'navBar.orders.buy': toMessage('Buy'),
+            'navBar.orders.buy.now': toMessage('Buy now')
+          }
+        }
+      })
+      expect(i18n.global.t('navBar.orders')).toEqual('Orders')
+      expect(i18n.global.t('navBar.orders.buy')).toEqual('Buy')
+      expect(i18n.global.t('navBar.orders.buy.now')).toEqual('Buy now')
+      expect(Object.keys(i18n.global.getLocaleMessage('en'))).toEqual([
+        'navBar'
+      ])
+    })
+
+    test('resolves the flat keys under another message in a nested object', () => {
+      const i18n = createI18n({
+        locale: 'en',
+        flatJson: true,
+        messages: {
+          en: {
+            navBar: {
+              orders: toMessage('Orders'),
+              'orders.buy': toMessage('Buy')
+            }
+          }
+        }
+      })
+      expect(i18n.global.t('navBar.orders')).toEqual('Orders')
+      expect(i18n.global.t('navBar.orders.buy')).toEqual('Buy')
+    })
+
+    test('flattens an object under another message', () => {
+      const i18n = createI18n({
+        locale: 'en',
+        flatJson: true,
+        messages: {
+          en: {
+            'navBar.orders': toMessage('Orders'),
+            'navBar.orders.menu': { 'buy.now': toMessage('Buy now') }
+          }
+        }
+      })
+      expect(i18n.global.t('navBar.orders')).toEqual('Orders')
+      expect(i18n.global.t('navBar.orders.menu.buy.now')).toEqual('Buy now')
+    })
   })
 })
 
