@@ -1246,6 +1246,25 @@ describe('intlify/bundle-tools#498', () => {
       expect(i18n.global.t('navBar.orders')).toEqual('Orders')
       expect(i18n.global.t('navBar.orders.menu.buy.now')).toEqual('Buy now')
     })
+
+    test('keeps the flat keys that end with cacheKey', () => {
+      const i18n = createI18n({
+        locale: 'en',
+        flatJson: true,
+        messages: {
+          en: {
+            first: toMessage('First'),
+            'first.cacheKey': toMessage('First cache key'),
+            second: toMessage('Second'),
+            'second.cacheKey': toMessage('Second cache key')
+          }
+        }
+      })
+      expect(i18n.global.t('first')).toEqual('First')
+      expect(i18n.global.t('second')).toEqual('Second')
+      expect(i18n.global.t('first.cacheKey')).toEqual('First cache key')
+      expect(i18n.global.t('second.cacheKey')).toEqual('Second cache key')
+    })
   })
 })
 
