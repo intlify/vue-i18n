@@ -38,6 +38,16 @@ describe('fallbackLocale', () => {
     const ctx = context({ fallbackLocale: ['ja'] })
     expect(ctx.fallbackLocale).toEqual(['ja'])
   })
+
+  test('specify: object', () => {
+    const ctx = context({ fallbackLocale: { 'de-CH': ['fr'], default: ['en'] } })
+    expect(ctx.fallbackLocale).toEqual({ 'de-CH': ['fr'], default: ['en'] })
+  })
+
+  test('specify: false', () => {
+    const ctx = context({ locale: 'en', fallbackLocale: false })
+    expect(ctx.fallbackLocale).toEqual(false)
+  })
 })
 
 describe('messages', () => {
