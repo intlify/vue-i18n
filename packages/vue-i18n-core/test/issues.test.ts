@@ -1596,6 +1596,44 @@ describe('intlify/bundle-tools#498', () => {
       expect(i18n.global.t('first.cacheKey')).toEqual('First cache key')
       expect(i18n.global.t('second.cacheKey')).toEqual('Second cache key')
     })
+
+    test('keeps the flat keys that go through a prop key of another message', () => {
+      const i18n = createI18n({
+        locale: 'en',
+        flatJson: true,
+        messages: {
+          en: {
+            search: toMessage('Search'),
+            'search.type.placeholder': toMessage('Type to search'),
+            product: toMessage('Product'),
+            'product.t.name': toMessage('Product name'),
+            'field.value': toMessage('Value'),
+            'field.value.value.hint': toMessage('Value hint')
+          }
+        }
+      })
+      expect(i18n.global.t('search')).toEqual('Search')
+      expect(i18n.global.t('search.type.placeholder')).toEqual('Type to search')
+      expect(i18n.global.t('product')).toEqual('Product')
+      expect(i18n.global.t('product.t.name')).toEqual('Product name')
+      expect(i18n.global.t('field.value')).toEqual('Value')
+      expect(i18n.global.t('field.value.value.hint')).toEqual('Value hint')
+    })
+
+    test('keeps the flat keys that go through cacheKey of another message', () => {
+      const i18n = createI18n({
+        locale: 'en',
+        flatJson: true,
+        messages: {
+          en: {
+            first: toMessage('First'),
+            'first.cacheKey.x': toMessage('First x')
+          }
+        }
+      })
+      expect(i18n.global.t('first')).toEqual('First')
+      expect(i18n.global.t('first.cacheKey.x')).toEqual('First x')
+    })
   })
 })
 
