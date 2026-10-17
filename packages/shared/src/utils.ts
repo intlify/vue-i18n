@@ -5,8 +5,8 @@
 
 export const inBrowser: boolean = typeof window !== 'undefined'
 
-export let mark: (tag: string) => void | undefined
-export let measure: (name: string, startTag: string, endTag: string) => void | undefined
+export let mark: ((tag: string) => void) | undefined
+export let measure: ((name: string, startTag: string, endTag: string) => void) | undefined
 
 if (__DEV__) {
   const perf = inBrowser && window.performance
