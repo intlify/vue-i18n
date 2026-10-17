@@ -1,14 +1,7 @@
-import { assign, create, isBoolean, isDate, isNumber, isString } from '@intlify/shared'
-import { MISSING_RESOLVE_VALUE, NOT_RESOLVED } from './context'
+import { create, isDate, isNumber, isString } from '@intlify/shared'
+import { MISSING_RESOLVE_VALUE } from './context'
 import { CoreErrorCodes, createCoreError } from './errors'
-import { getLocale } from './fallbacker'
-import {
-  clearFormatCache,
-  createFormatter,
-  getFormatterCacheKey,
-  parseFormatArgs,
-  resolveFormatLocale
-} from './formatter'
+import { clearFormatCache, formatValue, parseFormatArgs } from './formatter'
 import { Availabilities } from './intl'
 import { CoreWarnCodes, getWarnMessage } from './warnings'
 
@@ -164,7 +157,7 @@ export function datetime<Context extends CoreContext<Message, {}, {}, {}>, Messa
   context: Context,
   ...args: unknown[]
 ): string | number | Intl.DateTimeFormatPart[] {
-  const { datetimeFormats, unresolving, onWarn } = context
+  const { datetimeFormats, onWarn } = context
   const { __datetimeFormatters } = context as unknown as CoreInternalContext
 
   if (__DEV__ && !Availabilities.dateTimeFormat) {
@@ -179,52 +172,14 @@ export function datetime<Context extends CoreContext<Message, {}, {}, {}>, Messa
     return MISSING_RESOLVE_VALUE
   }
 
-  const [key, value, options, overrides] = parseDateTimeArgs(...args)
-  const missingWarn = isBoolean(options.missingWarn) ? options.missingWarn : context.missingWarn
-  const fallbackWarn = isBoolean(options.fallbackWarn) ? options.fallbackWarn : context.fallbackWarn
-  const part = !!options.part
-  const locale = getLocale(context, options)
-
-  if (!isString(key) || key === '') {
-    const formatter = createFormatter(
-      context,
-      Intl.DateTimeFormat,
-      locale.replace(/!/g, ''),
-      overrides,
-      'datetime'
-    )
-    return !part ? formatter.format(value) : formatter.formatToParts(value)
-  }
-
-  const targetLocale = resolveFormatLocale(
+  return formatValue(
     context,
-    key,
-    locale,
+    parseDateTimeArgs(...args),
+    Intl.DateTimeFormat,
+    __datetimeFormatters,
     datetimeFormats as unknown as FormatResources<DateTimeFormatOptions>,
-    missingWarn,
-    fallbackWarn,
     'datetime format'
   )
-  if (!isString(targetLocale)) {
-    return unresolving ? NOT_RESOLVED : key
-  }
-  const format = (datetimeFormats as unknown as FormatResources<DateTimeFormatOptions>)[
-    targetLocale
-  ][key]
-
-  const id = getFormatterCacheKey(targetLocale, key, overrides)
-  let formatter = __datetimeFormatters.get(id)
-  if (!formatter) {
-    formatter = createFormatter(
-      context,
-      Intl.DateTimeFormat,
-      targetLocale,
-      assign({}, format, overrides),
-      'datetime'
-    )
-    __datetimeFormatters.set(id, formatter)
-  }
-  return !part ? formatter.format(value) : formatter.formatToParts(value)
 }
 
 /** @internal */
