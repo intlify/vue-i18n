@@ -288,8 +288,12 @@ function createReplacePlugin(
   const replacements = {
     __COMMIT__: `"${process.env.COMMIT}"`,
     __VERSION__: `'${masterVersion}'`,
+    // the ESM builds for Node.js (`*.node.mjs`) keep the development code for NODE_ENV,
+    // as the bundler builds do. Devtools are not in any build for Node.js
     __DEV__:
-      ['vue-i18n', 'petite-vue-i18n'].includes(name) && isNodeBuild
+      ['vue-i18n', 'petite-vue-i18n'].includes(name) &&
+      isNodeBuild &&
+      !isBundlerESMBuild
         ? 'false' // tree-shake devtools
         : isBundlerESMBuild
           ? // preserve to be handled by bundlers
