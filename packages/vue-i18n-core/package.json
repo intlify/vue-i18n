@@ -44,8 +44,9 @@
       "types": "./dist/vue-i18n-core.d.ts",
       "node": {
         "import": {
-          "development": "./dist/vue-i18n-core.js",
-          "default": "./dist/vue-i18n-core.js"
+          "production": "./dist/vue-i18n-core.node.js",
+          "development": "./dist/vue-i18n-core.node.js",
+          "default": "./dist/vue-i18n-core.node.js"
         }
       },
       "import": "./dist/vue-i18n-core.js",
@@ -55,8 +56,9 @@
       "types": "./dist/petite-vue-i18n-core.d.ts",
       "node": {
         "import": {
-          "development": "./dist/petite-vue-i18n-core.js",
-          "default": "./dist/petite-vue-i18n-core.js"
+          "production": "./dist/petite-vue-i18n-core.node.js",
+          "development": "./dist/petite-vue-i18n-core.node.js",
+          "default": "./dist/petite-vue-i18n-core.node.js"
         }
       },
       "import": "./dist/petite-vue-i18n-core.js",
@@ -79,6 +81,7 @@
     "name": "IntlifyVueI18nCore",
     "formats": [
       "mjs",
+      "mjs-node",
       "browser",
       "global"
     ]

@@ -199,12 +199,12 @@ export function createConfigsForPackage({
         __LITE__: String(isLite),
         // feature flags
         __FEATURE_FULL_INSTALL__: isBundlerESMBuild ? `__VUE_I18N_FULL_INSTALL__` : `true`,
-        __FEATURE_PROD_VUE_DEVTOOLS__:
-          ['vue-i18n', 'petite-vue-i18n'].includes(name) && isNodeBuild
-            ? 'false' // tree-shake devtools
-            : isBundlerESMBuild
-              ? `__VUE_PROD_DEVTOOLS__`
-              : `false`,
+        // Node.js has no Vue devtools, and does not define `__VUE_PROD_DEVTOOLS__`
+        __FEATURE_PROD_VUE_DEVTOOLS__: isNodeBuild
+          ? 'false' // tree-shake devtools
+          : isBundlerESMBuild
+            ? `__VUE_PROD_DEVTOOLS__`
+            : `false`,
         __FEATURE_DROP_MESSAGE_COMPILER__: isBundlerESMBuild
           ? `__INTLIFY_DROP_MESSAGE_COMPILER__`
           : `false`

@@ -5,6 +5,8 @@
 // - the bundler and Node.js builds keep `process.env.NODE_ENV` for `__DEV__`, for bundlers to replace
 // - the type declarations import only the packages in `dependencies` and `peerDependencies`
 // - the type declarations have no type errors with `skipLibCheck: false`
+// - the Node.js builds of vue-i18n and petite-vue-i18n render on Node.js without bundlers,
+//   in development and production
 //
 
 import { spawnSync } from 'node:child_process'
@@ -250,6 +252,67 @@ function checkDeclarationTypes(target: string): string[] {
   return errors
 }
 
+// the Node.js builds that Node.js loads on the server without bundlers, and their messages
+// (the runtime-only builds have no message compiler)
+const NODE_RENDERS: [target: string, specifier: string, message: string][] = [
+  ['vue-i18n', 'vue-i18n', `'hello'`],
+  ['vue-i18n', 'vue-i18n/dist/vue-i18n.runtime.node.js', `() => 'hello'`],
+  ['petite-vue-i18n', 'petite-vue-i18n', `'hello'`],
+  ['petite-vue-i18n', 'petite-vue-i18n/dist/petite-vue-i18n.runtime.node.js', `() => 'hello'`]
+]
+
+// renders a component that calls `useI18n()`, and prints the HTML,
+// or the error of `install()`, which is async and which `app.use()` does not wait for
+function renderModule(specifier: string, message: string): string {
+  return `
+import { createSSRApp, h } from 'vue'
+import { renderToString } from 'vue/server-renderer'
+import { createI18n, useI18n } from '${specifier}'
+
+const errors = []
+process.on('unhandledRejection', error => errors.push(String(error)))
+const i18n = createI18n({ locale: 'en', messages: { en: { hello: ${message} } } })
+const app = createSSRApp({
+  setup() {
+    const { t } = useI18n()
+    return () => h('p', t('hello'))
+  }
+})
+app.use(i18n)
+const html = await renderToString(app)
+await new Promise(resolve => setTimeout(resolve))
+console.log(errors.length ? errors.join('\\n') : html)
+`
+}
+
+function checkNodeRenders(): { count: number; errors: string[] } {
+  const errors: string[] = []
+  let count = 0
+  for (const [target, specifier, message] of NODE_RENDERS) {
+    for (const env of ['development', 'production']) {
+      count++
+      // the package imports itself by its name, and `vue` from its `node_modules`
+      const { status, stdout, stderr } = spawnSync(
+        process.execPath,
+        ['--input-type=module', '--eval', renderModule(specifier, message)],
+        {
+          cwd: path.resolve(packagesDir, target),
+          env: { ...process.env, NODE_ENV: env },
+          encoding: 'utf8'
+        }
+      )
+      const output = stdout.trim()
+      if (status !== 0 || output !== '<p>hello</p>') {
+        errors.push(
+          `${specifier}: renders ${JSON.stringify(output)} on Node.js with NODE_ENV=${env}, ` +
+            `not "<p>hello</p>"${stderr.trim() ? `\n${stderr.trim()}` : ''}`
+        )
+      }
+    }
+  }
+  return { count, errors }
+}
+
 async function main() {
   const targets = await allTargets()
   const unbuilt = targets.filter(target => !existsSync(path.resolve(packagesDir, target, 'dist')))
@@ -277,6 +340,8 @@ async function main() {
       ...checkDeclarationTypes(target)
     )
   }
+  const renders = checkNodeRenders()
+  errors.push(...renders.errors)
 
   if (errors.length) {
     // an error in a shared declaration, such as the one of @intlify/shared, shows up for each package
@@ -289,8 +354,9 @@ async function main() {
   console.log(
     `${pc.green('✔')} ${targets.length} packages: ${entryCount} entry points are in the packages, ` +
       `${buildCount} bundler and Node.js builds keep \`process.env.NODE_ENV\`, ` +
-      `and ${declarationCount} type declarations import only their dependencies ` +
-      `and have no type errors with \`skipLibCheck: false\``
+      `${declarationCount} type declarations import only their dependencies ` +
+      `and have no type errors with \`skipLibCheck: false\`, ` +
+      `and ${renders.count} renders with the Node.js builds succeed on Node.js`
   )
 }
 
