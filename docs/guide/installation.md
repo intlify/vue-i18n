@@ -66,8 +66,8 @@ You can also use a specific version/tag via URLs like <https://unpkg.com/vue-i18
 ### ES Modules import
 
 ```html
-<script type="module" src="https://unpkg.com/vue@3/dist/vue.esm-browser.js">
-<script type="module" src="https://unpkg.com/vue-i18n@11/dist/vue-i18n.esm-browser.js">
+<script type="module" src="https://unpkg.com/vue@3/dist/vue.esm-browser.js"></script>
+<script type="module" src="https://unpkg.com/vue-i18n@11/dist/vue-i18n.esm-browser.js"></script>
 ```
 
 You can also use a specific version/tag via URLs like <https://unpkg.com/vue-i18n@11.0.0/dist/vue-i18n.esm-browser.js>
