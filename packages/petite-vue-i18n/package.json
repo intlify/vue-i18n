@@ -63,8 +63,6 @@
   "exports": {
     ".": {
       "types": "./dist/petite-vue-i18n.d.ts",
-      "import": "./dist/petite-vue-i18n.mjs",
-      "browser": "./dist/petite-vue-i18n.esm-browser.js",
       "node": {
         "import": {
           "production": "./dist/petite-vue-i18n.node.mjs",
@@ -76,7 +74,9 @@
           "development": "./dist/petite-vue-i18n.cjs",
           "default": "./index.js"
         }
-      }
+      },
+      "import": "./dist/petite-vue-i18n.mjs",
+      "browser": "./dist/petite-vue-i18n.esm-browser.js"
     },
     "./dist/*": "./dist/*",
     "./package.json": "./package.json"
