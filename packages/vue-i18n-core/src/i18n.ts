@@ -577,13 +577,7 @@ export function useI18n<
   NonNullable<Options['locale']>
 >
 
-export function useI18n<
-  Options extends UseI18nOptions = UseI18nOptions,
-  Messages extends Record<string, unknown> = NonNullable<Options['messages']>,
-  DateTimeFormats extends Record<string, unknown> = NonNullable<Options['datetimeFormats']>,
-  NumberFormats extends Record<string, unknown> = NonNullable<Options['numberFormats']>,
-  OptionLocale = NonNullable<Options['locale']>
->(options: Options = {} as Options) {
+export function useI18n(options: UseI18nOptions = {}): ComposerInternalInstance {
   // Get instance info via useInstanceOption (Vue 3.6+)
   const { hasInstance, value: type } = useInstanceOption('type', true)
   if (!hasInstance) {
@@ -610,7 +604,7 @@ export function useI18n<
   // Global scope
   if (scope === 'global') {
     adjustI18nResources(gl, options, type)
-    return gl as unknown as Composer<Messages, DateTimeFormats, NumberFormats, OptionLocale>
+    return gl
   }
 
   // Parent scope via `inject`
@@ -620,14 +614,9 @@ export function useI18n<
       if (__DEV__) {
         warn(getWarnMessage(I18nWarnCodes.NOT_FOUND_PARENT_SCOPE))
       }
-      return gl as unknown as Composer<Messages, DateTimeFormats, NumberFormats, OptionLocale>
+      return gl
     }
-    return parentComposer as unknown as Composer<
-      Messages,
-      DateTimeFormats,
-      NumberFormats,
-      OptionLocale
-    >
+    return parentComposer
   }
 
   const i18nInternal = i18n as unknown as I18nInternal
@@ -644,12 +633,7 @@ export function useI18n<
       if (__DEV__) {
         throw createI18nError(I18nErrorCodes.DUPLICATE_USE_I18N_CALLING)
       }
-      return existingEntry.composer as unknown as Composer<
-        Messages,
-        DateTimeFormats,
-        NumberFormats,
-        OptionLocale
-      >
+      return existingEntry.composer
     }
     localUid = uid
   }
@@ -693,7 +677,7 @@ export function useI18n<
     provide(I18nComposerKey, composer)
   }
 
-  return composer as unknown as Composer<Messages, DateTimeFormats, NumberFormats, OptionLocale>
+  return composer
 }
 
 function createGlobal(options: I18nOptions): [EffectScope, ComposerInternalInstance] {
