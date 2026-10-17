@@ -25,7 +25,7 @@ export function mangle(node: Node): void {
       const resource = node as ResourceNode
       mangle(resource.body)
       resource.b = resource.body
-      delete (resource as any).body
+      delete (resource as Partial<ResourceNode>).body
       break
     }
     case NodeTypes.Plural: {
@@ -35,7 +35,7 @@ export function mangle(node: Node): void {
         mangle(cases[i])
       }
       plural.c = cases
-      delete (plural as any).cases
+      delete (plural as Partial<PluralNode>).cases
       break
     }
     case NodeTypes.Message: {
@@ -45,10 +45,10 @@ export function mangle(node: Node): void {
         mangle(items[i])
       }
       message.i = items
-      delete (message as any).items
+      delete (message as Partial<MessageNode>).items
       if (message.static) {
         message.s = message.static
-        delete (message as any).static
+        delete message.static
       }
       break
     }
@@ -59,7 +59,7 @@ export function mangle(node: Node): void {
       const valueNode = node as TextNode | LiteralNode | LinkedKeyNode | LinkedModifierNode
       if (valueNode.value) {
         valueNode.v = valueNode.value
-        delete (valueNode as any).value
+        delete valueNode.value
       }
       break
     }
@@ -67,24 +67,24 @@ export function mangle(node: Node): void {
       const linked = node as LinkedNode
       mangle(linked.key)
       linked.k = linked.key
-      delete (linked as any).key
+      delete (linked as Partial<LinkedNode>).key
       if (linked.modifier) {
         mangle(linked.modifier)
         linked.m = linked.modifier
-        delete (linked as any).modifier
+        delete linked.modifier
       }
       break
     }
     case NodeTypes.List: {
       const list = node as ListNode
       list.i = list.index
-      delete (list as any).index
+      delete (list as Partial<ListNode>).index
       break
     }
     case NodeTypes.Named: {
       const named = node as NamedNode
       named.k = named.key
-      delete (named as any).key
+      delete (named as Partial<NamedNode>).key
       break
     }
     default:
@@ -96,5 +96,5 @@ export function mangle(node: Node): void {
       }
   }
 
-  delete (node as any).type
+  delete (node as Partial<Node>).type
 }
