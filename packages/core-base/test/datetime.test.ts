@@ -265,6 +265,23 @@ test(`datetime function fallbackWarn 'false' option`, () => {
   expect(mockWarn).not.toHaveBeenCalled()
 })
 
+test(`datetime function missingWarn 'false' option`, () => {
+  const mockWarn = vi.spyOn(shared, 'warn')
+  mockWarn.mockImplementation(() => {})
+  const mockAvailabilities = Availabilities
+  mockAvailabilities.dateTimeFormat = true
+
+  const ctx = context({
+    locale: 'en-US',
+    fallbackLocale: ['ja-JP'],
+    fallbackWarn: false,
+    datetimeFormats
+  })
+
+  expect(datetime(ctx, dt, { key: 'unknown', missingWarn: false })).toEqual('unknown')
+  expect(mockWarn).not.toHaveBeenCalled()
+})
+
 describe('context unresolving option', () => {
   test('not specify fallbackLocales', () => {
     const mockWarn = vi.spyOn(shared, 'warn')
@@ -408,6 +425,8 @@ describe('error', () => {
     })
     // Should not throw RangeError for locale with ! suffix
     expect(() => datetime(ctx, new Date())).not.toThrow()
+    // and should not fall back to another locale with a warning
+    expect(mockWarn).not.toHaveBeenCalled()
   })
 })
 

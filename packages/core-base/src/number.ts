@@ -1,14 +1,7 @@
-import { assign, create, isBoolean, isNumber, isString } from '@intlify/shared'
-import { MISSING_RESOLVE_VALUE, NOT_RESOLVED } from './context'
+import { create, isNumber } from '@intlify/shared'
+import { MISSING_RESOLVE_VALUE } from './context'
 import { CoreErrorCodes, createCoreError } from './errors'
-import { getLocale } from './fallbacker'
-import {
-  clearFormatCache,
-  createFormatter,
-  getFormatterCacheKey,
-  parseFormatArgs,
-  resolveFormatLocale
-} from './formatter'
+import { clearFormatCache, formatValue, parseFormatArgs } from './formatter'
 import { Availabilities } from './intl'
 import { CoreWarnCodes, getWarnMessage } from './warnings'
 
@@ -163,7 +156,7 @@ export function number<Context extends CoreContext<Message, {}, {}, {}>, Message
   context: Context,
   ...args: unknown[]
 ): string | number | Intl.NumberFormatPart[] {
-  const { numberFormats, unresolving, onWarn } = context
+  const { numberFormats, onWarn } = context
   const { __numberFormatters } = context as unknown as CoreInternalContext
 
   if (__DEV__ && !Availabilities.numberFormat) {
@@ -178,52 +171,14 @@ export function number<Context extends CoreContext<Message, {}, {}, {}>, Message
     return MISSING_RESOLVE_VALUE
   }
 
-  const [key, value, options, overrides] = parseNumberArgs(...args)
-  const missingWarn = isBoolean(options.missingWarn) ? options.missingWarn : context.missingWarn
-  const fallbackWarn = isBoolean(options.fallbackWarn) ? options.fallbackWarn : context.fallbackWarn
-  const part = !!options.part
-  const locale = getLocale(context, options)
-
-  if (!isString(key) || key === '') {
-    const formatter = createFormatter(
-      context,
-      Intl.NumberFormat,
-      locale.replace(/!/g, ''),
-      overrides,
-      'number'
-    )
-    return !part ? formatter.format(value) : formatter.formatToParts(value)
-  }
-
-  const targetLocale = resolveFormatLocale(
+  return formatValue(
     context,
-    key,
-    locale,
+    parseNumberArgs(...args),
+    Intl.NumberFormat,
+    __numberFormatters,
     numberFormats as unknown as FormatResources<NumberFormatOptions>,
-    missingWarn,
-    fallbackWarn,
     'number format'
   )
-  if (!isString(targetLocale)) {
-    return unresolving ? NOT_RESOLVED : key
-  }
-  const format = (numberFormats as unknown as FormatResources<NumberFormatOptions>)[targetLocale][
-    key
-  ]
-
-  const id = getFormatterCacheKey(targetLocale, key, overrides)
-  let formatter = __numberFormatters.get(id)
-  if (!formatter) {
-    formatter = createFormatter(
-      context,
-      Intl.NumberFormat,
-      targetLocale,
-      assign({}, format, overrides),
-      'number'
-    )
-    __numberFormatters.set(id, formatter)
-  }
-  return !part ? formatter.format(value) : formatter.formatToParts(value)
 }
 
 /** @internal */
