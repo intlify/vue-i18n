@@ -472,13 +472,7 @@ export function createCoreContext<Message = string>(options: any = {}): any {
   const locale =
     isString(options.locale) || isFunction(options.locale) ? options.locale : DEFAULT_LOCALE
   const _locale = isFunction(locale) ? DEFAULT_LOCALE : locale
-  const fallbackLocale =
-    isArray(options.fallbackLocale) ||
-    isPlainObject(options.fallbackLocale) ||
-    isString(options.fallbackLocale) ||
-    options.fallbackLocale === false
-      ? options.fallbackLocale
-      : _locale
+  const fallbackLocale = isFallbackLocale(options.fallbackLocale) ? options.fallbackLocale : _locale
   const messages = isPlainObject(options.messages) ? options.messages : createResources(_locale)
   const datetimeFormats = !__LITE__
     ? isPlainObject(options.datetimeFormats)
@@ -493,10 +487,8 @@ export function createCoreContext<Message = string>(options: any = {}): any {
   const modifiers = assign(create(), options.modifiers, getDefaultLinkedModifiers<Message>())
   const pluralRules = options.pluralRules || create()
   const missing = isFunction(options.missing) ? options.missing : null
-  const missingWarn =
-    isBoolean(options.missingWarn) || isRegExp(options.missingWarn) ? options.missingWarn : true
-  const fallbackWarn =
-    isBoolean(options.fallbackWarn) || isRegExp(options.fallbackWarn) ? options.fallbackWarn : true
+  const missingWarn = isWarnOption(options.missingWarn) ? options.missingWarn : true
+  const fallbackWarn = isWarnOption(options.fallbackWarn) ? options.fallbackWarn : true
   const fallbackFormat = !!options.fallbackFormat
   const unresolving = !!options.unresolving
   const postTranslation = isFunction(options.postTranslation) ? options.postTranslation : null
@@ -585,6 +577,16 @@ export function setLocaleMessage<Context extends CoreContext, Locales = keyof Co
     return
   }
   ;(ctx.messages as any)[locale] = messages
+}
+
+/** @internal */
+export function isFallbackLocale(val: unknown): val is FallbackLocale {
+  return isString(val) || isArray(val) || isPlainObject(val) || val === false
+}
+
+/** @internal */
+export function isWarnOption(val: unknown): val is boolean | RegExp {
+  return isBoolean(val) || isRegExp(val)
 }
 
 /** @internal */

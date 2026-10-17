@@ -10,9 +10,11 @@ import {
   datetime,
   fallbackWithLocaleChain,
   getWarnMessage as getCoreWarnMessage,
+  isFallbackLocale,
   isMessageFormat,
   isTranslateFallbackWarn,
   isTranslateMissingWarn,
+  isWarnOption,
   number,
   parseDateTimeArgs,
   parseNumberArgs,
@@ -32,7 +34,6 @@ import {
   isNumber,
   isObject,
   isPlainObject,
-  isRegExp,
   isString,
   toDevtoolsGroupId,
   warn,
@@ -45,12 +46,10 @@ import { I18nErrorCodes, createI18nError } from './errors'
 import { VERSION } from './misc'
 import {
   CoreContextSymbol,
-  DatetimePartsSymbol,
   DisableEmitter,
   DisposeSymbol,
   EnableEmitter,
   GlobalContextSymbol,
-  NumberPartsSymbol,
   TranslateVNodeSymbol
 } from './symbols'
 import {
@@ -1850,8 +1849,6 @@ export interface ComposerInternal {
   [CoreContextSymbol]: CoreContext<VueMessageType>
   [GlobalContextSymbol]: CoreContext<VueMessageType>
   [TranslateVNodeSymbol](...args: unknown[]): VNodeArrayChildren
-  [NumberPartsSymbol](...args: unknown[]): string | Intl.NumberFormatPart[]
-  [DatetimePartsSymbol](...args: unknown[]): string | Intl.DateTimeFormatPart[]
   [EnableEmitter]?(emitter: VueDevToolsEmitter): void
   [DisableEmitter]?(): void
   [DisposeSymbol]?: () => void
@@ -1869,7 +1866,6 @@ export type ComposerInternalInstance<
 
 type ComposerWarnType = CoreMissingType
 
-const NOOP_RETURN_ARRAY = () => []
 const NOOP_RETURN_FALSE = () => false
 
 let composerID = 0
@@ -1971,10 +1967,7 @@ export function createComposer(options: any = {}): ComposerInternalInstance {
     // prettier-ignore
     __root && _inheritLocale
       ? __root.fallbackLocale.value
-      : isString(options.fallbackLocale) ||
-        isArray(options.fallbackLocale) ||
-        isPlainObject(options.fallbackLocale) ||
-        options.fallbackLocale === false
+      : isFallbackLocale(options.fallbackLocale)
         ? options.fallbackLocale
         : _locale.value
   )
@@ -2012,14 +2005,14 @@ export function createComposer(options: any = {}): ComposerInternalInstance {
   // prettier-ignore
   let _missingWarn = __root
     ? __root.missingWarn
-    : isBoolean(options.missingWarn) || isRegExp(options.missingWarn)
+    : isWarnOption(options.missingWarn)
       ? options.missingWarn
       : true
 
   // prettier-ignore
   let _fallbackWarn = __root
     ? __root.fallbackWarn
-    : isBoolean(options.fallbackWarn) || isRegExp(options.fallbackWarn)
+    : isWarnOption(options.fallbackWarn)
       ? options.fallbackWarn
       : true
 
@@ -2281,8 +2274,7 @@ export function createComposer(options: any = {}): ComposerInternalInstance {
   // d
   function d(...args: unknown[]): string | Intl.DateTimeFormatPart[] {
     return wrapWithDeps<{}, string | Intl.DateTimeFormatPart[]>(
-      context =>
-        Reflect.apply(datetime, null, [context, ...args]) as string | Intl.DateTimeFormatPart[],
+      context => Reflect.apply(datetime, null, [context, ...args]),
       () => parseDateTimeArgs(...args),
       'datetime format',
       root => Reflect.apply(root.d, root, [...args]),
@@ -2336,32 +2328,6 @@ export function createComposer(options: any = {}): ComposerInternalInstance {
       root => root[TranslateVNodeSymbol](...args),
       key => [createTextNode(key as string)],
       val => isArray(val)
-    )
-  }
-
-  // numberParts, using for `i18n-n` component
-  function numberParts(...args: unknown[]): string | Intl.NumberFormatPart[] {
-    return wrapWithDeps<{}, string | Intl.NumberFormatPart[]>(
-      context => Reflect.apply(number, null, [context, ...args]),
-      () => parseNumberArgs(...args),
-      'number format',
-
-      root => root[NumberPartsSymbol](...args),
-      NOOP_RETURN_ARRAY,
-      val => isString(val) || isArray(val)
-    )
-  }
-
-  // datetimeParts, using for `i18n-d` component
-  function datetimeParts(...args: unknown[]): string | Intl.DateTimeFormatPart[] {
-    return wrapWithDeps<{}, string | Intl.DateTimeFormatPart[]>(
-      context => Reflect.apply(datetime, null, [context, ...args]),
-      () => parseDateTimeArgs(...args),
-      'datetime format',
-
-      root => root[DatetimePartsSymbol](...args),
-      NOOP_RETURN_ARRAY,
-      val => isString(val) || isArray(val)
     )
   }
 
@@ -2658,8 +2624,6 @@ export function createComposer(options: any = {}): ComposerInternalInstance {
     composer.setNumberFormat = setNumberFormat as ComposerInternalInstance['setNumberFormat']
     composer.mergeNumberFormat = mergeNumberFormat as ComposerInternalInstance['mergeNumberFormat']
     composer[TranslateVNodeSymbol] = translateVNode
-    composer[DatetimePartsSymbol] = datetimeParts
-    composer[NumberPartsSymbol] = numberParts
   }
   // for vue-devtools timeline event
   if (__DEV__) {

@@ -33,6 +33,7 @@ import { getLocale } from './fallbacker'
 import { createMessageContext } from './runtime'
 import { CoreWarnCodes, getWarnMessage } from './warnings'
 
+import type { VueDevToolsEmitter } from '@intlify/devtools-types'
 import type { CompileError, ResourceNode } from '@intlify/message-compiler'
 import type {
   CoreContext,
@@ -46,7 +47,6 @@ import type { Path, PathValue } from './resolver'
 import type {
   FallbackLocale,
   Locale,
-  MessageContext,
   MessageContextOptions,
   MessageFunction,
   MessageFunctionInternal,
@@ -688,10 +688,20 @@ export function translate<Context extends CoreContext<Message, {}, {}, {}>, Mess
   const ctxOptions = getMessageContextOptions(context, targetLocale!, message, options)
   const msgContext = createMessageContext<Message>(ctxOptions)
 
-  const messaged =
-    __DEV__ && inBrowser
-      ? measureEvaluateMessage(context, msg as MessageFunction<Message>, msgContext)
-      : (msg as MessageFunction<Message>)(msgContext)
+  // for vue-devtools timeline event
+  const timeline = __DEV__ ? startTimelineMeasure(context, 'evaluation') : null
+
+  const messaged = (msg as MessageFunction<Message>)(msgContext)
+
+  // for vue-devtools timeline event
+  if (__DEV__ && timeline) {
+    timeline.emitter.emit('message-evaluation', {
+      type: 'message-evaluation',
+      value: messaged,
+      time: endTimelineMeasure(timeline),
+      groupId: toDevtoolsGroupId('translate', (msg as MessageFunctionInternal).key)
+    })
+  }
 
   // prettier-ignore
   // if use post translation option, proceed it with handler
@@ -777,15 +787,7 @@ function resolveMessageFormat<Messages, Message>(
     message = getOwn(messages, targetLocale) || create()
 
     // for vue-devtools timeline event
-    let start: number | null = null
-    let startTag: string | undefined
-    let endTag: string | undefined
-    if (__DEV__ && inBrowser) {
-      start = window.performance.now()
-      startTag = 'intlify-message-resolve-start'
-      endTag = 'intlify-message-resolve-end'
-      mark?.(startTag)
-    }
+    const timeline = __DEV__ ? startTimelineMeasure(context, 'resolve') : null
 
     if ((format = resolveValue(message, key)) === null) {
       // if null, resolve with object key path, from own properties only
@@ -793,21 +795,16 @@ function resolveMessageFormat<Messages, Message>(
     }
 
     // for vue-devtools timeline event
-    if (__DEV__ && inBrowser) {
-      const end = window.performance.now()
-      const emitter = (context as unknown as CoreInternalContext).__v_emitter
-      if (emitter && start && format) {
-        emitter.emit('message-resolve', {
+    if (__DEV__ && timeline) {
+      const time = endTimelineMeasure(timeline)
+      if (format) {
+        timeline.emitter.emit('message-resolve', {
           type: 'message-resolve',
           key,
           message: format,
-          time: end - start,
+          time,
           groupId: toDevtoolsGroupId(type, key)
         })
-      }
-      if (startTag && endTag && mark && measure) {
-        mark(endTag)
-        measure('intlify message resolve', startTag, endTag)
       }
     }
 
@@ -862,15 +859,7 @@ function compileMessageFormat<Messages, Message>(
   }
 
   // for vue-devtools timeline event
-  let start: number | null = null
-  let startTag: string | undefined
-  let endTag: string | undefined
-  if (__DEV__ && inBrowser && mark) {
-    start = window.performance.now()
-    startTag = 'intlify-message-compilation-start'
-    endTag = 'intlify-message-compilation-end'
-    mark?.(startTag)
-  }
+  const timeline = __DEV__ ? startTimelineMeasure(context, 'compilation') : null
 
   const msg = context.messageCompiler(
     format as string | ResourceNode,
@@ -885,21 +874,13 @@ function compileMessageFormat<Messages, Message>(
   ) as MessageFunctionInternal
 
   // for vue-devtools timeline event
-  if (__DEV__ && inBrowser) {
-    const end = window.performance.now()
-    const emitter = (context as unknown as CoreInternalContext).__v_emitter
-    if (emitter && start) {
-      emitter.emit('message-compilation', {
-        type: 'message-compilation',
-        message: format as string | ResourceNode | MessageFunction,
-        time: end - start,
-        groupId: toDevtoolsGroupId('translate', key)
-      })
-    }
-    if (startTag && endTag && mark && measure) {
-      mark(endTag)
-      measure('intlify message compilation', startTag, endTag)
-    }
+  if (__DEV__ && timeline) {
+    timeline.emitter.emit('message-compilation', {
+      type: 'message-compilation',
+      message: format as string | ResourceNode | MessageFunction,
+      time: endTimelineMeasure(timeline),
+      groupId: toDevtoolsGroupId('translate', key)
+    })
   }
 
   msg.locale = targetLocale
@@ -910,35 +891,37 @@ function compileMessageFormat<Messages, Message>(
 }
 
 // for vue-devtools timeline event
-let measureEvaluateMessage: <Messages, Message>(
+type TimelineMeasure = {
+  emitter: VueDevToolsEmitter
+  name: 'resolve' | 'compilation' | 'evaluation'
+  start: number
+}
+
+// start to measure a step of `translate()`, only when the devtools emitter is set in a browser
+function startTimelineMeasure<Messages, Message>(
   context: CoreContext<Message, Messages>,
-  msg: MessageFunction<Message>,
-  msgCtx: MessageContext<Message>
-) => MessageFunctionReturn<Message>
-if (__DEV__ && inBrowser) {
-  const startTag = 'intlify-message-evaluation-start'
-  const endTag = 'intlify-message-evaluation-end'
-  measureEvaluateMessage = (context, msg, msgCtx) => {
-    const start = window.performance.now()
-    mark(startTag)
-
-    // evaluate message
-    const messaged = msg(msgCtx)
-
-    const end = window.performance.now()
-    const emitter = (context as unknown as CoreInternalContext).__v_emitter
-    emitter?.emit('message-evaluation', {
-      type: 'message-evaluation',
-      value: messaged,
-      time: end - start,
-      groupId: toDevtoolsGroupId('translate', (msg as MessageFunctionInternal).key)
-    })
-
-    mark(endTag)
-    measure('intlify message evaluation', startTag, endTag)
-
-    return messaged
+  name: TimelineMeasure['name']
+): TimelineMeasure | null {
+  const emitter = (context as unknown as CoreInternalContext).__v_emitter
+  if (!inBrowser || !emitter) {
+    return null
   }
+  const start = window.performance.now()
+  // `mark` and `measure` are undefined without the User Timing API, such as in jsdom
+  mark?.(`intlify-message-${name}-start`)
+  return { emitter, name, start }
+}
+
+// end to measure, and return the time of the step in milliseconds
+function endTimelineMeasure({ name, start }: TimelineMeasure): number {
+  const time = window.performance.now() - start
+  if (mark && measure) {
+    const startTag = `intlify-message-${name}-start`
+    const endTag = `intlify-message-${name}-end`
+    mark(endTag)
+    measure(`intlify message ${name}`, startTag, endTag)
+  }
+  return time
 }
 
 /** @internal */

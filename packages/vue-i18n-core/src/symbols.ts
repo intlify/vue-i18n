@@ -1,8 +1,6 @@
 export const CoreContextSymbol: unique symbol = /* #__PURE__*/ Symbol('__coreContext')
 export const GlobalContextSymbol: unique symbol = /* #__PURE__*/ Symbol('__globalContext')
 export const TranslateVNodeSymbol: unique symbol = /* #__PURE__*/ Symbol('__translateVNode')
-export const DatetimePartsSymbol: unique symbol = /* #__PURE__*/ Symbol('__datetimeParts')
-export const NumberPartsSymbol: unique symbol = /* #__PURE__*/ Symbol('__numberParts')
 export const EnableEmitter: unique symbol = /* #__PURE__*/ Symbol('__enableEmitter')
 export const DisableEmitter: unique symbol = /* #__PURE__*/ Symbol('__disableEmitter')
 export const DisposeSymbol: unique symbol = /* #__PURE__*/ Symbol('__dispose')

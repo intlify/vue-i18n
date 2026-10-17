@@ -1,11 +1,9 @@
 import {
   CoreContextSymbol,
-  DatetimePartsSymbol,
   DisableEmitter,
   DisposeSymbol,
   EnableEmitter,
   GlobalContextSymbol,
-  NumberPartsSymbol,
   TranslateVNodeSymbol
 } from '../src/symbols'
 
@@ -26,8 +24,6 @@ test('uses unique symbols for the internal protocol', () => {
   expectTypeOf<IsUniqueSymbol<typeof CoreContextSymbol>>().toEqualTypeOf<true>()
   expectTypeOf<IsUniqueSymbol<typeof GlobalContextSymbol>>().toEqualTypeOf<true>()
   expectTypeOf<IsUniqueSymbol<typeof TranslateVNodeSymbol>>().toEqualTypeOf<true>()
-  expectTypeOf<IsUniqueSymbol<typeof NumberPartsSymbol>>().toEqualTypeOf<true>()
-  expectTypeOf<IsUniqueSymbol<typeof DatetimePartsSymbol>>().toEqualTypeOf<true>()
   expectTypeOf<IsUniqueSymbol<typeof EnableEmitter>>().toEqualTypeOf<true>()
   expectTypeOf<IsUniqueSymbol<typeof DisableEmitter>>().toEqualTypeOf<true>()
   expectTypeOf<IsUniqueSymbol<typeof DisposeSymbol>>().toEqualTypeOf<true>()
@@ -43,12 +39,6 @@ test('describes Composer internals with computed symbol keys', () => {
   >()
   expectTypeOf<ComposerInternal[typeof TranslateVNodeSymbol]>().toEqualTypeOf<
     (...args: unknown[]) => VNodeArrayChildren
-  >()
-  expectTypeOf<ComposerInternal[typeof NumberPartsSymbol]>().toEqualTypeOf<
-    (...args: unknown[]) => string | Intl.NumberFormatPart[]
-  >()
-  expectTypeOf<ComposerInternal[typeof DatetimePartsSymbol]>().toEqualTypeOf<
-    (...args: unknown[]) => string | Intl.DateTimeFormatPart[]
   >()
   expectTypeOf<ComposerInternal[typeof EnableEmitter]>().toEqualTypeOf<
     ((emitter: VueDevToolsEmitter) => void) | undefined

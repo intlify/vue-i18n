@@ -2,7 +2,6 @@ import { NUMBER_FORMAT_OPTIONS_KEYS } from '@intlify/core-base'
 import { assign } from '@intlify/shared'
 import { defineComponent } from 'vue'
 import { useI18n } from '../i18n'
-import { NumberPartsSymbol } from '../symbols'
 import { BaseFormatPropsValidators } from './base'
 import { renderFormatter } from './formatRenderer'
 
@@ -49,7 +48,7 @@ export const NumberFormatImpl: ComponentOptions<NumberFormatProps> = /* #__PURE_
         NumberOptions,
         Intl.NumberFormatPart
       >(props as NumberFormatProps, context, NUMBER_FORMAT_OPTIONS_KEYS, (...args: unknown[]) =>
-        i18n[NumberPartsSymbol](...args)
+        Reflect.apply(i18n.n, i18n, args)
       )
     }
   }
