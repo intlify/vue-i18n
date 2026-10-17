@@ -2,7 +2,6 @@ import { DATETIME_FORMAT_OPTIONS_KEYS } from '@intlify/core-base'
 import { assign } from '@intlify/shared'
 import { defineComponent } from 'vue'
 import { useI18n } from '../i18n'
-import { DatetimePartsSymbol } from '../symbols'
 import { BaseFormatPropsValidators } from './base'
 import { renderFormatter } from './formatRenderer'
 
@@ -50,7 +49,7 @@ export const DatetimeFormatImpl: ComponentOptions<DatetimeFormatProps> =
         DateTimeOptions,
         Intl.DateTimeFormatPart
       >(props as DatetimeFormatProps, context, DATETIME_FORMAT_OPTIONS_KEYS, (...args: unknown[]) =>
-        i18n[DatetimePartsSymbol](...args)
+        Reflect.apply(i18n.d, i18n, args)
       )
     }
   })

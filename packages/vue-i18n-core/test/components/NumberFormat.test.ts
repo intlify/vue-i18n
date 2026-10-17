@@ -3,7 +3,7 @@
  */
 
 import { defineComponent, h } from 'vue'
-import { createI18n } from '../../src/index'
+import { createI18n, useI18n } from '../../src/index'
 import { mount } from '../helper'
 
 import type { SetupContext, VNodeChild } from 'vue'
@@ -124,4 +124,34 @@ test('component', async () => {
   expect(spy).not.toHaveBeenCalledWith(
     expect.stringContaining('Non-function value encountered for default slot')
   )
+})
+
+test('fall back to the global formats from a local scope', async () => {
+  const i18n = createI18n({
+    locale: 'en-US',
+    numberFormats
+  })
+
+  const App = defineComponent({
+    setup() {
+      useI18n({
+        numberFormats: {
+          'en-US': {
+            percent: {
+              style: 'percent',
+              useGrouping: false
+            }
+          }
+        }
+      })
+      return {}
+    },
+    template: `
+<i18n-n tag="p" :value="100" format="currency"></i18n-n>
+<i18n-n tag="p" :value="0.99" format="percent"></i18n-n>
+`
+  })
+  const wrapper = await mount(App, i18n)
+
+  expect(wrapper.html()).toEqual(`<p>$100.00</p><p>99%</p>`)
 })
