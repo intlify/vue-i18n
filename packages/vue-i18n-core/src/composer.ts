@@ -10,9 +10,11 @@ import {
   datetime,
   fallbackWithLocaleChain,
   getWarnMessage as getCoreWarnMessage,
+  isFallbackLocale,
   isMessageFormat,
   isTranslateFallbackWarn,
   isTranslateMissingWarn,
+  isWarnOption,
   number,
   parseDateTimeArgs,
   parseNumberArgs,
@@ -32,7 +34,6 @@ import {
   isNumber,
   isObject,
   isPlainObject,
-  isRegExp,
   isString,
   toDevtoolsGroupId,
   warn,
@@ -1971,10 +1972,7 @@ export function createComposer(options: any = {}): ComposerInternalInstance {
     // prettier-ignore
     __root && _inheritLocale
       ? __root.fallbackLocale.value
-      : isString(options.fallbackLocale) ||
-        isArray(options.fallbackLocale) ||
-        isPlainObject(options.fallbackLocale) ||
-        options.fallbackLocale === false
+      : isFallbackLocale(options.fallbackLocale)
         ? options.fallbackLocale
         : _locale.value
   )
@@ -2012,14 +2010,14 @@ export function createComposer(options: any = {}): ComposerInternalInstance {
   // prettier-ignore
   let _missingWarn = __root
     ? __root.missingWarn
-    : isBoolean(options.missingWarn) || isRegExp(options.missingWarn)
+    : isWarnOption(options.missingWarn)
       ? options.missingWarn
       : true
 
   // prettier-ignore
   let _fallbackWarn = __root
     ? __root.fallbackWarn
-    : isBoolean(options.fallbackWarn) || isRegExp(options.fallbackWarn)
+    : isWarnOption(options.fallbackWarn)
       ? options.fallbackWarn
       : true
 

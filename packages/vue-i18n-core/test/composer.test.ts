@@ -94,6 +94,18 @@ describe('fallbackLocale', () => {
     expect(fallbackLocale.value).toEqual(['ja'])
   })
 
+  test('initialize at composer creating: object', () => {
+    const { fallbackLocale } = createComposer({
+      fallbackLocale: { 'de-CH': ['fr'], default: ['en'] }
+    })
+    expect(fallbackLocale.value).toEqual({ 'de-CH': ['fr'], default: ['en'] })
+  })
+
+  test('initialize at composer creating: false', () => {
+    const { fallbackLocale } = createComposer({ locale: 'en', fallbackLocale: false })
+    expect(fallbackLocale.value).toEqual(false)
+  })
+
   test('keeps the same fallbackLocale reference in the core context', () => {
     const composer = createComposer({ locale: 'en', fallbackLocale: ['ja'] })
     const ctx = (composer as unknown as ComposerInternalInstance)[CoreContextSymbol]
