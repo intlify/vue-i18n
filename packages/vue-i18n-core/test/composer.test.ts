@@ -15,13 +15,7 @@ vi.mock('@intlify/shared', async () => {
 
 import { computed, createVNode, nextTick, Text, toRaw, watch, watchEffect } from 'vue'
 import { createComposer } from '../src/composer'
-import {
-  CoreContextSymbol,
-  DatetimePartsSymbol,
-  EnableEmitter,
-  NumberPartsSymbol,
-  TranslateVNodeSymbol
-} from '../src/symbols'
+import { CoreContextSymbol, EnableEmitter, TranslateVNodeSymbol } from '../src/symbols'
 import { getWarnMessage, I18nWarnCodes } from '../src/warnings'
 import { CoreWarnCodes, getWarnMessage as getCoreWarnMessage } from '@intlify/core-base'
 
@@ -2467,99 +2461,6 @@ describe('__translateVNode', () => {
   })
 })
 
-describe('__numberParts', () => {
-  test('basic', () => {
-    const composer = createComposer({
-      locale: 'en-US',
-      numberFormats: {
-        'en-US': {
-          percent: {
-            style: 'percent',
-            useGrouping: false
-          }
-        }
-      }
-    })
-    expect(
-      (composer as unknown as ComposerInternalInstance)[NumberPartsSymbol](0.99, {
-        key: 'percent',
-        part: true
-      })
-    ).toMatchObject([{ value: '99' }, { value: '%' }])
-  })
-
-  test('missing', () => {
-    const composer = createComposer({
-      locale: 'en-US',
-      numberFormats: {
-        'en-US': {}
-      }
-    })
-    expect(
-      (composer as unknown as ComposerInternalInstance)[NumberPartsSymbol](0.99, {
-        key: 'percent',
-        part: true
-      })
-    ).toEqual([])
-  })
-})
-
-describe('__datetimeParts', () => {
-  test('basic', () => {
-    const composer = createComposer({
-      locale: 'en-US',
-      datetimeFormats: {
-        'en-US': {
-          short: {
-            year: 'numeric',
-            month: '2-digit',
-            day: '2-digit',
-            hour: '2-digit',
-            minute: '2-digit',
-            dayPeriod: 'short',
-            timeZone: 'America/New_York'
-          }
-        }
-      }
-    })
-    const dt = new Date(Date.UTC(2012, 11, 20, 3, 0, 0))
-    expect(
-      (composer as unknown as ComposerInternalInstance)[DatetimePartsSymbol](dt, {
-        key: 'short',
-        part: true
-      })
-    ).toMatchObject([
-      { value: '12', type: 'month' },
-      { value: '/', type: 'literal' },
-      { value: '19', type: 'day' },
-      { value: '/', type: 'literal' },
-      { value: '2012', type: 'year' },
-      { value: ', ', type: 'literal' },
-      { value: '10', type: 'hour' },
-      { value: ':', type: 'literal' },
-      { value: '00', type: 'minute' },
-      { value: ' ', type: 'literal' },
-      { value: 'at night', type: 'dayPeriod' }
-    ])
-  })
-
-  test('missing', () => {
-    const composer = createComposer({
-      locale: 'en-US',
-      datetimeFormats: {
-        'en-US': {}
-      }
-    })
-    const dt = new Date(Date.UTC(2012, 11, 20, 3, 0, 0))
-    expect(
-      (composer as unknown as ComposerInternalInstance)[DatetimePartsSymbol](dt, {
-        key: 'short',
-        part: true
-      })
-    ).toEqual([])
-  })
-})
-
 describe('root', () => {
   test('global', () => {
     const __root = createComposer({
@@ -2719,5 +2620,67 @@ describe('root', () => {
     })
 
     expect(n(0.99, { key: 'percent' })).toEqual('99%')
+  })
+
+  test('d and n with part', () => {
+    const __root = createComposer({
+      locale: 'en-US',
+      numberFormats: {
+        'en-US': {
+          percent: {
+            style: 'percent',
+            useGrouping: false
+          }
+        }
+      },
+      datetimeFormats: {
+        'en-US': {
+          short: {
+            year: 'numeric',
+            month: '2-digit',
+            day: '2-digit',
+            timeZone: 'America/New_York'
+          }
+        }
+      }
+    })
+
+    const composer = createComposer({
+      locale: 'en-US',
+      numberFormats: {
+        'en-US': {}
+      },
+      datetimeFormats: {
+        'en-US': {}
+      },
+      __root
+    })
+
+    const dt = new Date(Date.UTC(2012, 11, 20, 3, 0, 0))
+    expect(composer.n(0.99, { key: 'percent', part: true })).toMatchObject([
+      { value: '99' },
+      { value: '%' }
+    ])
+    expect(composer.d(dt, { key: 'short', part: true })).toMatchObject([
+      { value: '12', type: 'month' },
+      { value: '/', type: 'literal' },
+      { value: '19', type: 'day' },
+      { value: '/', type: 'literal' },
+      { value: '2012', type: 'year' }
+    ])
+  })
+
+  test('formats that the root does not have either', () => {
+    const __root = createComposer({ locale: 'en-US' })
+    const composer = createComposer({
+      locale: 'en-US',
+      __root
+    })
+
+    const dt = new Date(Date.UTC(2012, 11, 20, 3, 0, 0))
+    expect(composer.d(dt, { key: 'short' })).toEqual('')
+    expect(composer.n(0.99, { key: 'percent' })).toEqual('')
+    expect(composer.d(dt, { key: 'short', part: true })).toEqual('')
+    expect(composer.n(0.99, { key: 'percent', part: true })).toEqual('')
   })
 })

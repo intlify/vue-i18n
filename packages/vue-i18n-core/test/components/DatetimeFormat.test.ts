@@ -3,7 +3,7 @@
  */
 
 import { defineComponent, h } from 'vue'
-import { createI18n } from '../../src/index'
+import { createI18n, useI18n } from '../../src/index'
 import { mount } from '../helper'
 
 import type { SetupContext, VNodeChild } from 'vue'
@@ -134,4 +134,43 @@ test('component', async () => {
   expect(spy).not.toHaveBeenCalledWith(
     expect.stringContaining('Non-function value encountered for default slot')
   )
+})
+
+test('fall back to the global formats from a local scope', async () => {
+  const i18n = createI18n({
+    locale: 'en-US',
+    datetimeFormats: {
+      'en-US': {
+        short: {
+          year: 'numeric',
+          month: '2-digit',
+          day: '2-digit',
+          timeZone: 'UTC'
+        }
+      }
+    }
+  })
+
+  const App = defineComponent({
+    setup() {
+      useI18n({
+        datetimeFormats: {
+          'en-US': {
+            month: {
+              month: 'long',
+              timeZone: 'UTC'
+            }
+          }
+        }
+      })
+      return { dt: new Date(Date.UTC(2012, 11, 20, 3, 0, 0)) }
+    },
+    template: `
+<i18n-d tag="p" :value="dt" format="short"></i18n-d>
+<i18n-d tag="p" :value="dt" format="month"></i18n-d>
+`
+  })
+  const wrapper = await mount(App, i18n)
+
+  expect(wrapper.html()).toEqual(`<p>12/20/2012</p><p>December</p>`)
 })
