@@ -5,8 +5,8 @@
 // - the bundler and Node.js builds keep `process.env.NODE_ENV` for `__DEV__`, for bundlers to replace
 // - the type declarations import only the packages in `dependencies` and `peerDependencies`
 // - the type declarations have no type errors with `skipLibCheck: false`
-// - the Node.js builds of vue-i18n and petite-vue-i18n render on Node.js without bundlers,
-//   in development and production
+// - the Node.js builds and the bundler builds of vue-i18n and petite-vue-i18n render on Node.js
+//   without bundlers, in development and production
 //
 
 import { spawnSync } from 'node:child_process'
@@ -252,13 +252,24 @@ function checkDeclarationTypes(target: string): string[] {
   return errors
 }
 
-// the Node.js builds that Node.js loads on the server without bundlers, and their messages
+// the builds that Node.js loads on the server without bundlers, and their messages
 // (the runtime-only builds have no message compiler)
 const NODE_RENDERS: [target: string, specifier: string, message: string][] = [
   ['vue-i18n', 'vue-i18n', `'hello'`],
   ['vue-i18n', 'vue-i18n/dist/vue-i18n.runtime.node.js', `() => 'hello'`],
   ['petite-vue-i18n', 'petite-vue-i18n', `'hello'`],
-  ['petite-vue-i18n', 'petite-vue-i18n/dist/petite-vue-i18n.runtime.node.js', `() => 'hello'`]
+  ['petite-vue-i18n', 'petite-vue-i18n/dist/petite-vue-i18n.runtime.node.js', `() => 'hello'`],
+  // the bundler builds, which Node.js loads when a bundler alias to them, such as the one of
+  // `@intlify/unplugin-vue-i18n`, is left external in an SSR build. Node.js loads the CommonJS
+  // build of Vue, which does not set the feature flags of Vue, such as `__VUE_PROD_DEVTOOLS__`
+  ['vue-i18n', 'vue-i18n/dist/vue-i18n.esm-bundler.js', `'hello'`],
+  ['vue-i18n', 'vue-i18n/dist/vue-i18n.runtime.esm-bundler.js', `() => 'hello'`],
+  ['petite-vue-i18n', 'petite-vue-i18n/dist/petite-vue-i18n.esm-bundler.js', `'hello'`],
+  [
+    'petite-vue-i18n',
+    'petite-vue-i18n/dist/petite-vue-i18n.runtime.esm-bundler.js',
+    `() => 'hello'`
+  ]
 ]
 
 // renders a component that calls `useI18n()`, and prints the HTML,
@@ -356,7 +367,7 @@ async function main() {
       `${buildCount} bundler and Node.js builds keep \`process.env.NODE_ENV\`, ` +
       `${declarationCount} type declarations import only their dependencies ` +
       `and have no type errors with \`skipLibCheck: false\`, ` +
-      `and ${renders.count} renders with the Node.js builds succeed on Node.js`
+      `and ${renders.count} renders with the Node.js and bundler builds succeed on Node.js`
   )
 }
 
