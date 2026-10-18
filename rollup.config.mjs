@@ -326,7 +326,9 @@ function createReplacePlugin(
       ['vue-i18n', 'petite-vue-i18n'].includes(name) && isNodeBuild
         ? 'false' // tree-shake devtools
         : isBundlerESMBuild
-          ? `__VUE_PROD_DEVTOOLS__`
+          ? // bundlers define the flag (or Vue's bundler build sets it at runtime), but Node.js
+            // loading a bundler build directly has neither, so read it only when it is defined
+            `(typeof __VUE_PROD_DEVTOOLS__ !== 'undefined' && __VUE_PROD_DEVTOOLS__)`
           : `false`,
     __FEATURE_PROD_INTLIFY_DEVTOOLS__: isBundlerESMBuild
       ? `__INTLIFY_PROD_DEVTOOLS__`
