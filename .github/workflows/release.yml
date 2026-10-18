@@ -105,15 +105,9 @@ jobs:
       - name: Publish packages to npm
         # OIDC trusted publisher で認証（id-token: write 必須、secret 不要）。
         # provenance は OIDC 経由で自動付与される。
-        run: |
-          for PKG in packages/*; do
-            [[ -d "$PKG" ]] || continue
-            case "$PKG" in
-              packages/size-*|packages/format-explorer) continue ;;
-            esac
-            echo "Publishing $PKG with tag $DIST_TAG"
-            (cd "$PKG" && pnpm publish --access public --no-git-checks --provenance --tag "$DIST_TAG")
-          done
+        # 依存の順に公開し、レジストリに見えるのを待ってから、それに依存するパッケージを公開する。
+        # レジストリにある版は飛ばすので、失敗したときは流し直せる（scripts/publish.sh）。
+        run: bash scripts/publish.sh
         env:
           DIST_TAG: ${{ steps.dist.outputs.tag }}
 
