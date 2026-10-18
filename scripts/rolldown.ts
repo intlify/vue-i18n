@@ -203,7 +203,9 @@ export function createConfigsForPackage({
         __FEATURE_PROD_VUE_DEVTOOLS__: isNodeBuild
           ? 'false' // tree-shake devtools
           : isBundlerESMBuild
-            ? `__VUE_PROD_DEVTOOLS__`
+            ? // bundlers define the flag (or Vue's bundler build sets it at runtime), but Node.js
+              // loading a bundler build directly has neither, so read it only when it is defined
+              `(typeof __VUE_PROD_DEVTOOLS__ !== 'undefined' && __VUE_PROD_DEVTOOLS__)`
             : `false`,
         __FEATURE_DROP_MESSAGE_COMPILER__: isBundlerESMBuild
           ? `__INTLIFY_DROP_MESSAGE_COMPILER__`
