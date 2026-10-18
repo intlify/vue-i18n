@@ -105,15 +105,10 @@ jobs:
       - name: Publish packages to npm
         # Authenticated via OIDC trusted publisher (requires id-token: write, no secret needed).
         # Provenance is automatically attached through OIDC.
-        run: |
-          for PKG in packages/*; do
-            [[ -d "$PKG" ]] || continue
-            case "$PKG" in
-              packages/size-*|packages/format-explorer) continue ;;
-            esac
-            echo "Publishing $PKG with tag $DIST_TAG"
-            (cd "$PKG" && pnpm publish --access public --no-git-checks --provenance --tag "$DIST_TAG")
-          done
+        # Publish the packages in the order of their dependencies, waiting until each is visible on the
+        # registry before publishing the packages that depend on it. Versions already on the registry are
+        # skipped, so a failed run can be run again (scripts/publish.sh).
+        run: bash scripts/publish.sh
         env:
           DIST_TAG: ${{ steps.dist.outputs.tag }}
 
