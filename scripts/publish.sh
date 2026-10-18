@@ -37,7 +37,7 @@ field() { # <dir> <field>
 }
 
 visible() { # <name> <version>: the version document is not cached by the CDN of the registry
-  curl -fsS -o /dev/null "$REGISTRY/${1/\//%2f}/$2"
+  curl -fsS --max-time 30 --retry 3 --retry-delay 2 -o /dev/null "$REGISTRY/${1/\//%2f}/$2"
 }
 
 wait_visible() { # <name> <version>
