@@ -125,7 +125,7 @@
     "picocolors": "^1.1.1",
     "playwright-core": "^1.58.2",
     "rolldown": "1.2.12",
-    "rolldown-plugin-dts": "0.28.6",
+    "rolldown-plugin-dts": "0.28.8",
     "serve-handler": "^6.1.6",
     "tsx": "^4.21.0",
     "typescript": "5.9.3",
