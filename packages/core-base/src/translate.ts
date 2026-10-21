@@ -146,12 +146,12 @@ export interface TranslateOptions<Locales = Locale> extends LocaleOptions<Locale
   default?: string | boolean
   /**
    * @remarks
-   * Whether suppress warnings outputted when localization fails
+   * Whether to output a warning when the locale messages of a locale do not have the key
    */
   missingWarn?: boolean
   /**
    * @remarks
-   * Whether do template interpolation on translation keys when your language lacks a translation for a key
+   * Whether to output a warning when falling back to `fallbackLocale`
    */
   fallbackWarn?: boolean
   /**

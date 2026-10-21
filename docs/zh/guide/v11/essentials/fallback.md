@@ -72,6 +72,34 @@ const i18n = createI18n({
 
 要在初始化 `createI18n` 时禁止第二个警告（`Fall back to...`），请在传统 API 模式下设置 `silentFallbackWarn: true`，或在组合式 API 模式下设置 `fallbackWarn: false`。
 
+请注意，`missingWarn: false` 会在所有区域设置中禁止第一个警告，包括任何区域设置中都没有的键的警告。而 `fallbackWarn: false` 只禁止第二个警告，因此即使 `en` 区域设置消息中有该键，第一个警告仍会保留。
+
+如果为 `missingWarn` 或 `fallbackWarn` 设置正则表达式，则只会为与其匹配的键输出警告。
+
+### 仅当所有区域设置中都没有该键时发出警告
+
+要仅在所有区域设置中都没有该键时发出警告，请关闭这两种警告，并使用 `missing` 处理程序。Vue I18n 会按照回退的顺序，为每个没有该键的区域设置调用它，因此只有当所有区域设置中都没有该键时，才会以最后一个回退的区域设置调用它：
+
+```js
+const i18n = createI18n({
+  locale: 'ja',
+  fallbackLocale: 'en',
+  missingWarn: false,
+  fallbackWarn: false,
+  missing: (locale, key) => {
+    // `en` 是最后一个回退的区域设置
+    if (locale === 'en') {
+      console.warn(`Not found '${key}' key in the locale messages of any locale.`)
+    }
+  },
+  messages
+})
+```
+
+在传统 API 模式下，请设置 `silentTranslationWarn: true` 和 `silentFallbackWarn: true`，而不是 `missingWarn: false` 和 `fallbackWarn: false`。
+
+组件的本地作用域会从全局作用域继承 `missingWarn` 和 `fallbackWarn`，但不会继承 `missing`。因此，在上面的设置下，只存在于全局作用域中的键也会在没有警告的情况下被翻译。
+
 ## 使用区域设置数组的显式回退
 
 可以通过使用区域设置数组来设置多个回退区域设置。例如：
