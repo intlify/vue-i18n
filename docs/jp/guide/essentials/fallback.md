@@ -68,6 +68,32 @@ const i18n = createI18n({
 
 2 つ目の警告（`Fall back to...`）を抑制するには、`createI18n` を初期化するときに `fallbackWarn: false` を設定します。
 
+なお、`missingWarn: false` は、すべてのロケールで最初の警告を抑制します。どのロケールにもないキーの警告も抑制されます。また、`fallbackWarn: false` は 2 つ目の警告だけを抑制するので、`en` ロケールメッセージにキーがあっても、最初の警告は残ります。
+
+`missingWarn` や `fallbackWarn` に正規表現を設定すると、それにマッチするキーについてだけ警告が出力されます。
+
+### どのロケールにもキーがないときだけ警告する
+
+どのロケールにもキーがないときだけ警告するには、両方の警告をオフにして、`missing` ハンドラーを使います。Vue I18n は、キーがないロケールごとに、フォールバックの順でこのハンドラーを呼び出します。そのため、最後のフォールバック先のロケールで呼び出されるのは、どのロケールにもキーがないときだけです：
+
+```js
+const i18n = createI18n({
+  locale: 'ja',
+  fallbackLocale: 'en',
+  missingWarn: false,
+  fallbackWarn: false,
+  missing: (locale, key) => {
+    // `en` は最後のフォールバック先のロケール
+    if (locale === 'en') {
+      console.warn(`Not found '${key}' key in the locale messages of any locale.`)
+    }
+  },
+  messages
+})
+```
+
+コンポーネントのローカルスコープは、`missingWarn` と `fallbackWarn` をグローバルスコープから引き継ぎますが、`missing` は引き継ぎません。そのため、上の設定では、グローバルスコープにだけあるキーも、警告なしで翻訳されます。
+
 ## ロケールの配列を使用した明示的なフォールバック
 
 ロケールの配列を使用して、複数のフォールバックロケールを設定することが可能です。例えば：

@@ -68,6 +68,32 @@ To suppress the first warning(`Not found key...`), set `missingWarn: false` when
 
 To suppress the second warning(`Fall back to...`), set `fallbackWarn: false` when initializing the `createI18n`.
 
+Note that `missingWarn: false` suppresses the first warning for every locale, including the warning for a key that no locale has. And `fallbackWarn: false` suppresses only the second warning, so the first warning remains even when the `en` locale messages have the key.
+
+If you set a regular expression to `missingWarn` or `fallbackWarn`, the warnings are output only for the keys that match it.
+
+### Warning only when no locale has the key
+
+To warn only when no locale has the key, turn off both warnings and use the `missing` handler. Vue I18n calls it for each locale that does not have the key, in the order of the fallback, so it is called with the last locale to fall back to only when no locale has the key:
+
+```js
+const i18n = createI18n({
+  locale: 'ja',
+  fallbackLocale: 'en',
+  missingWarn: false,
+  fallbackWarn: false,
+  missing: (locale, key) => {
+    // `en` is the last locale to fall back to
+    if (locale === 'en') {
+      console.warn(`Not found '${key}' key in the locale messages of any locale.`)
+    }
+  },
+  messages
+})
+```
+
+The local scope of a component takes `missingWarn` and `fallbackWarn` from the global scope, but not `missing`. So with the settings above, a key that only the global scope has is translated without warnings, too.
+
 ## Explicit fallback with an array of locales
 
 It is possible to set more than one fallback locale by using an array of locales. For example
