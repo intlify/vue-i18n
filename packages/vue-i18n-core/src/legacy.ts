@@ -1300,6 +1300,27 @@ export interface VueI18nInternal<
   __disposer?: Disposer
 }
 
+// `silentTranslationWarn` and `silentFallbackWarn` suppress the warnings for the keys that match a regular expression,
+// while `missingWarn` and `fallbackWarn` of Composer output the warnings only for the keys that match it, so convert
+// a regular expression into one that matches the keys that it does not match (and back again)
+const invertedWarnRegExps = new WeakMap<RegExp, RegExp>()
+
+function invertWarn(warn: boolean | RegExp): boolean | RegExp {
+  if (!isRegExp(warn)) {
+    return !warn
+  }
+  let inverted = invertedWarnRegExps.get(warn)
+  if (!inverted) {
+    inverted = new RegExp(
+      `^(?![\\s\\S]*(?:${warn.source}))`,
+      warn.flags.replace(/[gy]/g, '')
+    )
+    invertedWarnRegExps.set(warn, inverted)
+    invertedWarnRegExps.set(inverted, warn)
+  }
+  return inverted
+}
+
 /**
  * Convert to I18n Composer Options from VueI18n Options
  *
@@ -1326,12 +1347,12 @@ function convertComposerOptions<
   const missingWarn =
     isBoolean(options.silentTranslationWarn) ||
     isRegExp(options.silentTranslationWarn)
-      ? !options.silentTranslationWarn
+      ? invertWarn(options.silentTranslationWarn)
       : true
   const fallbackWarn =
     isBoolean(options.silentFallbackWarn) ||
     isRegExp(options.silentFallbackWarn)
-      ? !options.silentFallbackWarn
+      ? invertWarn(options.silentFallbackWarn)
       : true
   const fallbackRoot = isBoolean(options.fallbackRoot)
     ? options.fallbackRoot
@@ -1509,22 +1530,18 @@ export function createVueI18n(options: any = {}): any {
 
     // silentTranslationWarn
     get silentTranslationWarn(): boolean | RegExp {
-      return isBoolean(composer.missingWarn)
-        ? !composer.missingWarn
-        : composer.missingWarn
+      return invertWarn(composer.missingWarn)
     },
     set silentTranslationWarn(val: boolean | RegExp) {
-      composer.missingWarn = isBoolean(val) ? !val : val
+      composer.missingWarn = invertWarn(val)
     },
 
     // silentFallbackWarn
     get silentFallbackWarn(): boolean | RegExp {
-      return isBoolean(composer.fallbackWarn)
-        ? !composer.fallbackWarn
-        : composer.fallbackWarn
+      return invertWarn(composer.fallbackWarn)
     },
     set silentFallbackWarn(val: boolean | RegExp) {
-      composer.fallbackWarn = isBoolean(val) ? !val : val
+      composer.fallbackWarn = invertWarn(val)
     },
 
     // modifiers

@@ -112,6 +112,55 @@ test('silentFallbackWarn', () => {
   expect(i18nWithOption.silentFallbackWarn).toEqual(true)
 })
 
+describe('silentTranslationWarn and silentFallbackWarn with regular expression', () => {
+  const options = {
+    locale: 'ja',
+    fallbackLocale: 'en',
+    messages: { en: { app: { hello: 'hello' } }, ja: {} }
+  }
+  const warnings = [
+    `Not found 'hello' key in 'ja' locale messages.`,
+    `Fall back to translate 'hello' key with 'en' locale.`,
+    `Not found 'hello' key in 'en' locale messages.`
+  ]
+
+  // the warnings for a key that matches, and for a key that does not
+  function getWarnings(
+    t: (key: string) => unknown,
+    mockWarn: ReturnType<typeof vi.spyOn>
+  ) {
+    mockWarn.mockClear()
+    t('app.hello')
+    const matched = mockWarn.mock.calls.map(([message]) => message)
+    mockWarn.mockClear()
+    t('hello')
+    return [matched, mockWarn.mock.calls.map(([message]) => message)]
+  }
+
+  test('option', () => {
+    const mockWarn = vi.spyOn(shared, 'warn')
+    mockWarn.mockImplementation(() => {})
+    const i18n = createVueI18n({
+      ...options,
+      silentTranslationWarn: /^app\./,
+      silentFallbackWarn: /^app\./
+    })
+    expect(getWarnings(key => i18n.t(key), mockWarn)).toEqual([[], warnings])
+  })
+
+  test('property', () => {
+    const mockWarn = vi.spyOn(shared, 'warn')
+    mockWarn.mockImplementation(() => {})
+    const i18n = createVueI18n(options)
+    const silent = /^app\./
+    i18n.silentTranslationWarn = silent
+    i18n.silentFallbackWarn = silent
+    expect(i18n.silentTranslationWarn).toBe(silent)
+    expect(i18n.silentFallbackWarn).toBe(silent)
+    expect(getWarnings(key => i18n.t(key), mockWarn)).toEqual([[], warnings])
+  })
+})
+
 test('formatFallbackMessages', () => {
   // default
   const i18n = createVueI18n()
