@@ -20,7 +20,7 @@ import {
 } from 'vue'
 import { createComposer } from './composer'
 import { addTimelineEvent, enableDevTools } from './devtools'
-import { I18nErrorCodes, createI18nError } from './errors'
+import { I18nErrorCodes, createI18nError, errorMessages } from './errors'
 import { createVueI18n } from './legacy'
 import { defineMixin } from './mixins'
 import { apply as applyPlugin } from './plugin/next'
@@ -559,7 +559,7 @@ export function createI18n(options: any = {}): any {
         : 'composition'
     },
     // install plugin
-    async install(app: App, ...options: unknown[]): Promise<void> {
+    install(app: App, ...options: unknown[]): void {
       if ((__DEV__ || __FEATURE_PROD_VUE_DEVTOOLS__) && !__NODE_JS__) {
         app.__VUE_I18N__ = i18n as unknown as _I18n
       }
@@ -612,21 +612,35 @@ export function createI18n(options: any = {}): any {
 
       // setup vue-devtools plugin
       if ((__DEV__ || __FEATURE_PROD_VUE_DEVTOOLS__) && !__NODE_JS__) {
-        const ret = await enableDevTools(app, i18n as _I18n)
-        if (!ret) {
-          throw createI18nError(I18nErrorCodes.CANNOT_SETUP_VUE_DEVTOOLS_PLUGIN)
-        }
-        const emitter: VueDevToolsEmitter =
-          createEmitter<VueDevToolsEmitterEvents>()
-        if (__legacyMode) {
-          const _vueI18n = __global as unknown as VueI18nInternal
-          _vueI18n.__enableEmitter && _vueI18n.__enableEmitter(emitter)
-        } else {
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          const _composer = __global as any
-          _composer[EnableEmitter] && _composer[EnableEmitter](emitter)
-        }
-        emitter.on('*', addTimelineEvent)
+        // do not wait for the devtools: a Vue plugin installs synchronously, and the devtools call
+        // the setup only when they are open, so the setup may never finish
+        enableDevTools(app, i18n as _I18n)
+          .then(ret => {
+            if (!ret) {
+              throw createI18nError(
+                I18nErrorCodes.CANNOT_SETUP_VUE_DEVTOOLS_PLUGIN
+              )
+            }
+            const emitter: VueDevToolsEmitter =
+              createEmitter<VueDevToolsEmitterEvents>()
+            if (__legacyMode) {
+              const _vueI18n = __global as unknown as VueI18nInternal
+              _vueI18n.__enableEmitter && _vueI18n.__enableEmitter(emitter)
+            } else {
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
+              const _composer = __global as any
+              _composer[EnableEmitter] && _composer[EnableEmitter](emitter)
+            }
+            emitter.on('*', addTimelineEvent)
+          })
+          .catch(() => {
+            // a failure of the devtools must not break the app
+            if (__DEV__) {
+              warn(
+                errorMessages[I18nErrorCodes.CANNOT_SETUP_VUE_DEVTOOLS_PLUGIN]
+              )
+            }
+          })
       }
     },
     // global accessor
