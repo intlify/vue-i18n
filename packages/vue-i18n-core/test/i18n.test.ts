@@ -25,6 +25,7 @@ import {
 import { createEmitter } from '@intlify/shared'
 import {
   ComponentOptions,
+  createApp,
   defineComponent,
   defineCustomElement,
   h,
@@ -1505,6 +1506,23 @@ describe('release global scope', () => {
       app!.unmount()
     }
     expect(error).not.toEqual(errorMessages[I18nErrorCodes.UNEXPECTED_ERROR])
+  })
+})
+
+describe('install', () => {
+  test('return synchronously', () => {
+    const i18n = createI18n({ legacy: false, locale: 'en' })
+    expect(i18n.install(createApp({}))).toBeUndefined()
+  })
+
+  test('throw an error from app.use', () => {
+    const i18n = createI18n({ legacy: false, locale: 'en' })
+    const app = createApp({})
+    // another plugin has defined `$t`, so vue-i18n cannot define it
+    Object.defineProperty(app.config.globalProperties, '$t', {
+      value: () => ''
+    })
+    expect(() => app.use(i18n)).toThrow(TypeError)
   })
 })
 
