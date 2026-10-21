@@ -243,9 +243,11 @@ export interface VueI18nOptions<
   silentTranslationWarn?: Options['missingWarn']
   /**
    * @remarks
-   * Whether do template interpolation on translation keys when your language lacks a translation for a key.
+   * Whether suppress warnings when falling back to either `fallbackLocale` or root.
    *
-   * If `true`, skip writing templates for your "base" language; the keys are your templates.
+   * If `true`, suppress fall back warnings.
+   *
+   * If you use regular expression, you can suppress fall back warnings that it match with translation key (e.g. `t`).
    *
    * @VueI18nSee [Fallbacking](../guide/essentials/fallback)
    *
@@ -254,7 +256,9 @@ export interface VueI18nOptions<
   silentFallbackWarn?: Options['fallbackWarn']
   /**
    * @remarks
-   * Whether suppress warnings when falling back to either `fallbackLocale` or root.
+   * Whether do template interpolation on translation keys when your language lacks a translation for a key.
+   *
+   * If `true`, skip writing templates for your "base" language; the keys are your templates.
    *
    * @VueI18nSee [Fallbacking](../guide/essentials/fallback)
    *
@@ -1021,12 +1025,14 @@ export interface VueI18n<
   silentTranslationWarn: Composition['missingWarn']
   /**
    * @remarks
-   * Whether suppress fallback warnings when localization fails.
+   * Whether suppress warnings when falling back to either `fallbackLocale` or root.
+   *
+   * @VueI18nSee [Fallbacking](../guide/essentials/fallback)
    */
   silentFallbackWarn: Composition['fallbackWarn']
   /**
    * @remarks
-   * Whether suppress warnings when falling back to either `fallbackLocale` or root.
+   * Whether do template interpolation on translation keys when your language lacks a translation for a key.
    *
    * @VueI18nSee [Fallbacking](../guide/essentials/fallback)
    */
