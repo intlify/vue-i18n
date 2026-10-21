@@ -20,7 +20,7 @@ import {
 } from 'vue'
 import { createComposer } from './composer'
 import { addTimelineEvent, enableDevTools } from './devtools'
-import { I18nErrorCodes, createI18nError } from './errors'
+import { I18nErrorCodes, createI18nError, errorMessages } from './errors'
 import { apply as applyPlugin } from './plugin/next'
 import { DisableEmitter, DisposeSymbol, EnableEmitter } from './symbols'
 import { adjustI18nResources } from './utils'
@@ -378,7 +378,7 @@ export function createI18n(options: any = {}): any {
 
   const i18n = {
     // install plugin
-    async install(app: App, ...options: unknown[]): Promise<void> {
+    install(app: App, ...options: unknown[]): void {
       if ((__DEV__ || __FEATURE_PROD_VUE_DEVTOOLS__) && !__NODE_JS__) {
         app.__VUE_I18N__ = i18n as unknown as _I18n
       }
@@ -418,14 +418,24 @@ export function createI18n(options: any = {}): any {
 
       // setup vue-devtools plugin
       if ((__DEV__ || __FEATURE_PROD_VUE_DEVTOOLS__) && !__NODE_JS__) {
-        const ret = await enableDevTools(app, i18n as _I18n)
-        if (!ret) {
-          throw createI18nError(I18nErrorCodes.CANNOT_SETUP_VUE_DEVTOOLS_PLUGIN)
-        }
-        const emitter: VueDevToolsEmitter = createEmitter<VueDevToolsEmitterEvents>()
+        // do not wait for the devtools: a Vue plugin installs synchronously, and the devtools call
+        // the setup only when they are open, so the setup may never finish
+        enableDevTools(app, i18n as _I18n)
+          .then(ret => {
+            if (!ret) {
+              throw createI18nError(I18nErrorCodes.CANNOT_SETUP_VUE_DEVTOOLS_PLUGIN)
+            }
+            const emitter: VueDevToolsEmitter = createEmitter<VueDevToolsEmitterEvents>()
 
-        __global[EnableEmitter]?.(emitter)
-        emitter.on('*', addTimelineEvent)
+            __global[EnableEmitter]?.(emitter)
+            emitter.on('*', addTimelineEvent)
+          })
+          .catch(() => {
+            // a failure of the devtools must not break the app
+            if (__DEV__) {
+              warn(errorMessages[I18nErrorCodes.CANNOT_SETUP_VUE_DEVTOOLS_PLUGIN])
+            }
+          })
       }
     },
     // global accessor

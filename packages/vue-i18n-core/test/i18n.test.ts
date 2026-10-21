@@ -1161,6 +1161,21 @@ describe('release global scope', () => {
   })
 })
 
+describe('install', () => {
+  test('return synchronously', () => {
+    const i18n = createI18n({ locale: 'en' })
+    expect(i18n.install(createApp({}))).toBeUndefined()
+  })
+
+  test('throw an error from app.use', () => {
+    const i18n = createI18n({ locale: 'en' })
+    const app = createApp({})
+    // another plugin has defined `$t`, so vue-i18n cannot define it
+    Object.defineProperty(app.config.globalProperties, '$t', { value: () => '' })
+    expect(() => app.use(i18n)).toThrow(TypeError)
+  })
+})
+
 test('Composer & VueI18n extend hooking', async () => {
   const composerDisposeSpy = vi.fn()
   let counter = 0
