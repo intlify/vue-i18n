@@ -406,11 +406,11 @@ export interface ComposerOptions<
   missing?: MissingHandler
   /**
    * @remarks
-   * Whether suppress warnings outputted when localization fails.
+   * Whether to output a warning when the locale messages of a locale do not have the key.
    *
-   * If `false`, suppress localization fail warnings.
+   * If `false`, no warnings are output, including the warning for a key that no locale has.
    *
-   * If you use regular expression, you can suppress localization fail warnings that it match with translation key (e.g. `t`).
+   * If you use regular expression, the warnings are output only for the translation keys that match it (e.g. `t`).
    *
    * @VueI18nSee [Fallbacking](../guide/essentials/fallback)
    *
@@ -419,11 +419,11 @@ export interface ComposerOptions<
   missingWarn?: boolean | RegExp
   /**
    * @remarks
-   * Whether suppress warnings when falling back to either `fallbackLocale` or root.
+   * Whether to output a warning when falling back to either `fallbackLocale` or root.
    *
-   * If `false`, suppress fall back warnings.
+   * If `false`, no warnings are output when falling back to `fallbackLocale`. The warning when falling back to root is not output only if `missingWarn` is also `false`.
    *
-   * If you use regular expression, you can suppress fallback warnings that it match with translation key (e.g. `t`).
+   * If you use regular expression, the warnings are output only for the translation keys that match it (e.g. `t`).
    *
    * @VueI18nSee [Fallbacking](../guide/essentials/fallback)
    *
@@ -1396,14 +1396,14 @@ export interface Composer<
   readonly isGlobal: boolean
   /**
    * @remarks
-   * Whether suppress warnings outputted when localization fails.
+   * Whether to output a warning when the locale messages of a locale do not have the key.
    *
    * @VueI18nSee [Fallbacking](../guide/essentials/fallback)
    */
   missingWarn: boolean | RegExp
   /**
    * @remarks
-   * Whether suppress fall back warnings when localization fails.
+   * Whether to output a warning when falling back to either `fallbackLocale` or root.
    *
    * @VueI18nSee [Fallbacking](../guide/essentials/fallback)
    */
@@ -1417,7 +1417,7 @@ export interface Composer<
   fallbackRoot: boolean
   /**
    * @remarks
-   * Whether suppress warnings when falling back to either `fallbackLocale` or root.
+   * Whether do template interpolation on translation keys when your language lacks a translation for a key.
    *
    * @VueI18nSee [Fallbacking](../guide/essentials/fallback)
    */

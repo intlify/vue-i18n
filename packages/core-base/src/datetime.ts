@@ -86,12 +86,12 @@ export interface DateTimeOptions<Key = string, Locales = Locale>
   key?: Key
   /**
    * @remarks
-   * Whether suppress warnings outputted when localization fails
+   * Whether to output a warning when the datetime formats of a locale do not have the key
    */
   missingWarn?: boolean
   /**
    * @remarks
-   * Whether do resolve on format keys when your language lacks a formatting for a key
+   * Whether to output a warning when falling back to `fallbackLocale`
    */
   fallbackWarn?: boolean
   /**
