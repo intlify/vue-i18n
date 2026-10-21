@@ -409,9 +409,11 @@ export interface ComposerOptions<
    * @remarks
    * Whether to output a warning when falling back to either `fallbackLocale` or root.
    *
-   * If `false`, no warnings are output when falling back to `fallbackLocale`. The warning when falling back to root is not output only if `missingWarn` is also `false`.
+   * If `false`, no warnings are output when falling back to `fallbackLocale`.
    *
    * If you use regular expression, the warnings are output only for the translation keys that match it (e.g. `t`).
+   *
+   * The warning when falling back to root is output if `fallbackWarn` or `missingWarn` outputs a warning for the key.
    *
    * See about:
    * - [Fallbacking](../../../guide/essentials/fallback)
