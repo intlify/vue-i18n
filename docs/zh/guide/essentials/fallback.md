@@ -72,6 +72,8 @@ const i18n = createI18n({
 
 如果为 `missingWarn` 或 `fallbackWarn` 设置正则表达式，则只会为与其匹配的键输出警告。
 
+组件回退到全局作用域时的警告（`Fall back to translate '…' with root locale.`）会在 `missingWarn` 或 `fallbackWarn` 中任意一个为该键输出警告时输出。
+
 ### 仅当所有区域设置中都没有该键时发出警告
 
 要仅在所有区域设置中都没有该键时发出警告，请关闭这两种警告，并使用 `missing` 处理程序。Vue I18n 会按照回退的顺序，为每个没有该键的区域设置调用它，因此只有当所有区域设置中都没有该键时，才会以最后一个回退的区域设置调用它：
