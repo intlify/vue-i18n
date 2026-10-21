@@ -72,6 +72,8 @@ Note that `missingWarn: false` suppresses the first warning for every locale, in
 
 If you set a regular expression to `missingWarn` or `fallbackWarn`, the warnings are output only for the keys that match it.
 
+The warning when a component falls back to the global scope (`Fall back to translate '…' with root locale.`) is output if either `missingWarn` or `fallbackWarn` outputs a warning for the key.
+
 ### Warning only when no locale has the key
 
 To warn only when no locale has the key, turn off both warnings and use the `missing` handler. Vue I18n calls it for each locale that does not have the key, in the order of the fallback, so it is called with the last locale to fall back to only when no locale has the key:
