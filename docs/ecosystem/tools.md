@@ -12,6 +12,19 @@ With [`@eloqnt/format-vue-i18n-json`](https://cli.eloqnt.dev/docs/formats/vue-i1
 
 Missing translations can optionally be filled in with [`eloqnt translate`](https://cli.eloqnt.dev/docs/cli/translate).
 
+## Locale Guard
+
+[Locale Guard](https://github.com/Mohamed-Almarag/locale-guard) checks translation files on every pull request, as a GitHub Action, and before each commit, as a CLI on npm ([`locale-guard-cli`](https://www.npmjs.com/package/locale-guard-cli)).
+
+It reads vue-i18n messages with `@intlify/message-compiler` and reports:
+
+- keys missing from a locale, with a block of the missing keys ready to paste
+- named, list and linked placeholders (`{name}`, `{0}`, `@:common.save`) that don't match the source message
+- messages that don't compile, and links to keys that don't exist
+- empty values and text that was never translated
+
+It compares a pull request with its base branch, so only the issues it adds fail the check. It works with Nuxt (`@nuxtjs/i18n`) and with JSON or YAML files.
+
 ## Sherlock – i18n inspector (VS Code extension)
 
 Sherlock is a VS Code extension that helps you to extract, edit & inspect your i18n keys in your codebase. It is available in the [VS Code Marketplace](https://marketplace.visualstudio.com/items?itemName=inlang.vs-code-extension).
