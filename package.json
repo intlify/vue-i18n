@@ -140,7 +140,7 @@
   "pnpm": {
     "overrides": {
       "vite": "^7.3.1",
-      "vue": "3.6.0-rc.12"
+      "vue": "3.6.0-rc.13"
     },
     "onlyBuiltDependencies": [
       "@parcel/watcher",
