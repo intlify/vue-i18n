@@ -119,16 +119,7 @@ test('loose composer with useI18n', () => {
   expectTypeOf(looseI18n.t('nest', { foo: 1 }, 'msg')).toEqualTypeOf<string>()
   expectTypeOf(looseI18n.te('errors', 'en')).toEqualTypeOf<boolean>()
   expectTypeOf(looseI18n.tm('nest')).toEqualTypeOf<{ bar: string }>()
-  expectTypeOf(looseI18n.tm('errors')).toEqualTypeOf<
-    | string
-    | {
-        bar: string
-      }
-    | {
-        bar: string
-      }
-    | Record<string, any>
-  >()
+  expectTypeOf(looseI18n.tm('errors')).toEqualTypeOf<Record<string, any>>()
   expectTypeOf(looseI18n.rt('foo')).toEqualTypeOf<string>()
   expectTypeOf(looseI18n.getLocaleMessage('en')).toEqualTypeOf<typeof looseI18n.messages.value.en>()
   expectTypeOf(looseI18n.getLocaleMessage<{ japan: string }>('japan')).toEqualTypeOf<{
@@ -362,16 +353,7 @@ test('loose i18n', () => {
   expectTypeOf(looseI18n.t('nest', { foo: 1 })).toEqualTypeOf<string>()
   expectTypeOf(looseI18n.te('errors', 'en')).toEqualTypeOf<boolean>()
   expectTypeOf(looseI18n.tm('nest')).toEqualTypeOf<{ bar: string }>()
-  expectTypeOf(looseI18n.tm('errors')).toEqualTypeOf<
-    | string
-    | {
-        bar: string
-      }
-    | {
-        bar: string
-      }
-    | Record<string, any>
-  >()
+  expectTypeOf(looseI18n.tm('errors')).toEqualTypeOf<Record<string, any>>()
   expectTypeOf(looseI18n.rt('foo')).toEqualTypeOf<string>()
   expectTypeOf(looseI18n.getLocaleMessage('en')).toEqualTypeOf<typeof looseI18n.messages.value.en>()
   expectTypeOf(looseI18n.getLocaleMessage<{ japan: string }>('japan')).toEqualTypeOf<{

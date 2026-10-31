@@ -106,16 +106,7 @@ test('loose composer', () => {
   expectTypeOf(looseComposer.te('errors', 'en')).toEqualTypeOf<boolean>()
   expectTypeOf<ThisParameterType<typeof looseComposer.te>>().toEqualTypeOf<void>()
   expectTypeOf(looseComposer.tm('nest')).toEqualTypeOf<{ bar: string }>()
-  expectTypeOf(looseComposer.tm('errors')).toEqualTypeOf<
-    | string
-    | {
-        bar: string
-      }
-    | {
-        bar: string
-      }
-    | Record<string, any>
-  >()
+  expectTypeOf(looseComposer.tm('errors')).toEqualTypeOf<Record<string, any>>()
   expectTypeOf(looseComposer.rt('foo')).toEqualTypeOf<string>()
   expectTypeOf(looseComposer.getLocaleMessage('en')).toEqualTypeOf<
     typeof looseComposer.messages.value.en
@@ -382,4 +373,19 @@ test('strict composer with direct options', () => {
   nullComposer.locale.value = 'en'
   expectTypeOf(nullComposer.fallbackLocale.value).toEqualTypeOf<FallbackLocales<string>>()
   nullComposer.fallbackLocale.value = 'fr'
+})
+
+// https://github.com/intlify/vue-i18n/issues/1686
+test('tm does not collapse to the union of all message values', () => {
+  const composer = createComposer({
+    locale: 'en',
+    messages: {
+      en: { title: 'title', items: [{ label: 'a' }] }
+    }
+  })
+  for (const item of composer.tm('items')) {
+    expectTypeOf(composer.rt(item.label)).toEqualTypeOf<string>()
+  }
+  // a key outside the schema must not resolve to the union of every message value
+  expectTypeOf(composer.tm('unknown')).toEqualTypeOf<Record<string, any>>()
 })
