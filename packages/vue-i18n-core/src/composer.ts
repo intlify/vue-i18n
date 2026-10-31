@@ -1569,9 +1569,17 @@ export interface Composer<
       : RemoveIndexSignature<{
           [K in keyof DefineLocaleMessage]: DefineLocaleMessage[K]
         }>,
-    Return = ResourceKeys extends ResourcePath<Target>
-      ? ResourceValue<Target, ResourceKeys>
-      : Record<string, any>
+    // resolve the return type from the passed `key`, not from `ResourceKeys`:
+    // when `key` is not a schema path, `ResourceKeys` falls back to the union of all
+    // paths and would distribute into the union of every message value (#1686).
+    // a widened `string` key keeps resolving from `ResourceKeys` as before
+    Return = string extends Key
+      ? ResourceKeys extends ResourcePath<Target>
+        ? ResourceValue<Target, ResourceKeys>
+        : Record<string, any>
+      : Key extends ResourcePath<Target>
+        ? ResourceValue<Target, Key>
+        : Record<string, any>
   >(
     key: Key | ResourceKeys
   ): Return
