@@ -389,3 +389,16 @@ test('tm does not collapse to the union of all message values', () => {
   // a key outside the schema must not resolve to the union of every message value
   expectTypeOf(composer.tm('unknown')).toEqualTypeOf<Record<string, any>>()
 })
+
+test('tm with a widened string key keeps resolving from the schema', () => {
+  const composer = createComposer({
+    locale: 'en',
+    messages: {
+      en: { items: [{ label: 'a' }] }
+    }
+  })
+  function labels(key: string) {
+    return composer.tm(key).map(item => composer.rt(item.label))
+  }
+  expectTypeOf(labels('items')).toEqualTypeOf<string[]>()
+})
