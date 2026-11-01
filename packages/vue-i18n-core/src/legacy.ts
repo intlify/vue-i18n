@@ -285,7 +285,9 @@ export interface VueI18nOptions<
    * - Sanitizes the final translated HTML to prevent XSS attacks by:
    *   - Escaping dangerous characters in HTML attribute values
    *   - Neutralizing event handler attributes (onclick, onerror, etc.)
-   *   - Disabling javascript: URLs in href, src, action, formaction, and style attributes
+   *   - Neutralizing the `srcdoc` attribute of `<iframe>`
+   *   - Neutralizing `<base>` elements, and SVG `<animate>` and `<set>` elements
+   *   - Disabling javascript: URLs in href (and xlink:href of SVG), src, action, formaction, and style attributes
    *
    * This is useful when translation output is used in `v-html` and the translation resource contains html markup (e.g. <b> around a user provided value).
    *

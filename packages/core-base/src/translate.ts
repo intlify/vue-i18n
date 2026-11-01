@@ -167,7 +167,9 @@ export interface TranslateOptions<Locales = Locale>
    * - Sanitizes the final translated HTML to prevent XSS attacks by:
    *   - Escaping dangerous characters in HTML attribute values
    *   - Neutralizing event handler attributes (onclick, onerror, etc.)
-   *   - Disabling javascript: URLs in href, src, action, formaction, and style attributes
+   *   - Neutralizing the `srcdoc` attribute of `<iframe>`
+   *   - Neutralizing `<base>` elements, and SVG `<animate>` and `<set>` elements
+   *   - Disabling javascript: URLs in href (and xlink:href of SVG), src, action, formaction, and style attributes
    *
    * @defaultValue false
    * @see [HTML Message - Using the escapeParameter option](https://vue-i18n.intlify.dev/guide/essentials/syntax.html#using-the-escapeparameter-option)

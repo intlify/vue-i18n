@@ -908,6 +908,51 @@ describe('escapeParameter', () => {
       '<iframe &#115;rcdoc="&lt;b&gt;x&lt;&#x2F;b&gt;"></iframe>'
     )
   })
+
+  test('neutralize javascript URLs in xlink:href in messages and in parameters', () => {
+    const ctx = context({
+      locale: 'en',
+      warnHtmlMessage: false,
+      escapeParameter: true,
+      messages: {
+        en: {
+          inMessage:
+            '<svg><a xlink:href="javascript:alert(1)"><text>x</text></a></svg>',
+          inParameter: '<svg><a xlink:href="{url}"><text>x</text></a></svg>'
+        }
+      }
+    })
+
+    expect(translate(ctx, 'inMessage')).toEqual(
+      '<svg><a xlink:href="about:blank"><text>x</text></a></svg>'
+    )
+    // escaping the parameter does not change the scheme
+    expect(
+      translate(ctx, 'inParameter', { url: 'javascript:alert(1)' })
+    ).toEqual('<svg><a xlink:href="about:blank"><text>x</text></a></svg>')
+  })
+
+  test('neutralize base and SVG animation elements in messages', () => {
+    const ctx = context({
+      locale: 'en',
+      warnHtmlMessage: false,
+      escapeParameter: true,
+      messages: {
+        en: {
+          base: '<base href="https://example.com/">',
+          animation:
+            '<svg><a><set attributeName="href" to="javascript:alert(1)"/></a></svg>'
+        }
+      }
+    })
+
+    expect(translate(ctx, 'base')).toEqual(
+      '&lt;base href="https://example.com/">'
+    )
+    expect(translate(ctx, 'animation')).toEqual(
+      '<svg><a>&lt;set attributeName="href" to="javascript:alert(1)"/></a></svg>'
+    )
+  })
 })
 
 describe('error', () => {
