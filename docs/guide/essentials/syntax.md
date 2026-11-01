@@ -514,7 +514,9 @@ When the escape parameter option is enabled:
   - Dangerous characters in HTML attribute values are escaped
   - Event handler attributes (`onclick`, `onerror`, etc.) are neutralized
   - The `srcdoc` attribute of `<iframe>` is neutralized, because its value is parsed as a nested HTML document
-  - JavaScript URLs in href, src, action, formaction, and style attributes are disabled
+  - `<base>` elements are neutralized, because they change how the page resolves relative URLs
+  - SVG `<animate>` and `<set>` elements are neutralized, because they can change the target of an SVG link
+  - JavaScript URLs in href (and xlink:href of SVG), src, action, formaction, and style attributes are disabled
 
 #### Example
 

@@ -8,6 +8,8 @@ vi.mock('../src/warn', () => ({
 
 import { escapeHtml, sanitizeTranslatedHtml } from '../src/sanitize'
 
+const XLINK_NAMESPACE = 'http://www.w3.org/1999/xlink'
+
 describe('escapeHtml', () => {
   test('escape `<` and `>`', () => {
     expect(escapeHtml('<div>test</div>')).toBe(
@@ -283,6 +285,132 @@ describe('sanitizeTranslatedHtml', () => {
 
   test('keep attributes whose name only contains srcdoc', () => {
     const html = '<div data-srcdoc="x">Test</div>'
+    expect(sanitizeTranslatedHtml(html)).toBe(html)
+  })
+
+  test('neutralize javascript URLs in xlink:href', () => {
+    // `xlink:href` is the older spelling of `href`, and an SVG `<a>` follows it when clicked
+    const html =
+      '<svg><a xlink:href="javascript:alert(1)"><text>x</text></a></svg>'
+    const result = sanitizeTranslatedHtml(html)
+    expect(result).toBe(
+      '<svg><a xlink:href="about:blank"><text>x</text></a></svg>'
+    )
+    expect(
+      JSDOM.fragment(result)
+        .querySelector('a')
+        ?.getAttributeNS(XLINK_NAMESPACE, 'href')
+    ).toBe('about:blank')
+  })
+
+  test.each([
+    [
+      'uppercase',
+      '<svg><a XLINK:HREF="javascript:alert(1)"><text>x</text></a></svg>'
+    ],
+    [
+      'spaces around `=`',
+      '<svg><a xlink:href = "javascript:alert(1)"><text>x</text></a></svg>'
+    ],
+    [
+      'single quotes',
+      "<svg><a xlink:href='javascript:alert(1)'><text>x</text></a></svg>"
+    ],
+    [
+      'entity-encoded scheme',
+      '<svg><a xlink:href="&#x6A;avascript:alert(1)"><text>x</text></a></svg>'
+    ],
+    [
+      'unquoted value',
+      '<svg><a xlink:href=javascript:alert(1)><text>x</text></a></svg>'
+    ],
+    [
+      'no whitespace after a quoted attribute',
+      '<svg><a id="a"xlink:href=javascript:alert(1)><text>x</text></a></svg>'
+    ],
+    [
+      'slash boundary',
+      '<svg><a/xlink:href=javascript:alert(1)><text>x</text></a></svg>'
+    ],
+    [
+      'newline boundary',
+      '<svg><a\nxlink:href=javascript:alert(1)><text>x</text></a></svg>'
+    ]
+  ])('neutralize javascript URLs in xlink:href: %s', (_, html) => {
+    const result = sanitizeTranslatedHtml(html)
+    const a = JSDOM.fragment(result).querySelector('a')
+    expect(a?.getAttributeNS(XLINK_NAMESPACE, 'href')).toBe('about:blank')
+  })
+
+  test('keep other URLs in xlink:href as is', () => {
+    const html =
+      '<svg><a xlink:href="https://example.com/"><text>x</text></a><use xlink:href="#icon"/></svg>'
+    expect(sanitizeTranslatedHtml(html)).toBe(html)
+  })
+
+  test('neutralize base elements', () => {
+    // `<base>` changes how the page resolves every relative URL after it
+    const html = '<base href="https://example.com/">Test'
+    const result = sanitizeTranslatedHtml(html)
+    expect(result).toBe('&lt;base href="https://example.com/">Test')
+    expect(JSDOM.fragment(result).querySelector('base')).toBeNull()
+  })
+
+  test.each([
+    ['uppercase', '<BASE href="https://example.com/">'],
+    ['slash', '<base/href="https://example.com/">'],
+    ['newline', '<base\nhref="https://example.com/">'],
+    ['unquoted value', '<base href=https://example.com/>'],
+    ['no attributes', '<base>']
+  ])('neutralize base elements: %s', (_, html) => {
+    expect(
+      JSDOM.fragment(sanitizeTranslatedHtml(html)).querySelector('base')
+    ).toBeNull()
+  })
+
+  test('neutralize SVG animation elements', () => {
+    // `<animate>` and `<set>` can set `href` of an SVG `<a>` through `values` or `to`,
+    // which are not URL attributes
+    const html =
+      '<svg><a><set attributeName="href" to="javascript:alert(1)"/><text>x</text></a></svg>'
+    const result = sanitizeTranslatedHtml(html)
+    expect(result).toBe(
+      '<svg><a>&lt;set attributeName="href" to="javascript:alert(1)"/><text>x</text></a></svg>'
+    )
+    expect(JSDOM.fragment(result).querySelector('set')).toBeNull()
+  })
+
+  test.each([
+    [
+      'animate with values',
+      '<svg><a><animate attributeName="href" values="javascript:alert(1)"/></a></svg>'
+    ],
+    [
+      'animate with to',
+      '<svg><a><animate attributeName="href" to="javascript:alert(1)"/></a></svg>'
+    ],
+    [
+      'uppercase',
+      '<svg><a><SET attributeName="href" to="javascript:alert(1)"/></a></svg>'
+    ],
+    [
+      'slash',
+      '<svg><a><set/attributeName="href" to="javascript:alert(1)"/></a></svg>'
+    ],
+    [
+      'newline',
+      '<svg><a><animate\nattributeName="href" values="javascript:alert(1)"/></a></svg>'
+    ]
+  ])('neutralize SVG animation elements: %s', (_, html) => {
+    expect(
+      JSDOM.fragment(sanitizeTranslatedHtml(html)).querySelector('animate, set')
+    ).toBeNull()
+  })
+
+  test('keep elements whose name only starts with base, animate or set', () => {
+    const html =
+      '<base-icon></base-icon><settings-panel></settings-panel>' +
+      '<svg><animateTransform attributeName="transform" type="rotate" values="0;90"/></svg>'
     expect(sanitizeTranslatedHtml(html)).toBe(html)
   })
 

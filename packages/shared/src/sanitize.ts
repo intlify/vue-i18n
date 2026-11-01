@@ -21,7 +21,8 @@ function escapeAttributeValue(value: string): string {
 }
 
 const javascriptSchemePattern = /^javascript:/i
-const urlAttributePattern = /^(?:href|src|action|formaction)$/i
+// `xlink:href` is the older spelling of `href` on SVG elements, and an SVG `<a>` follows either of them
+const urlAttributePattern = /^(?:href|xlink:href|src|action|formaction)$/i
 const numericCharacterReferencePattern = /&#(?:x([0-9a-f]+)|(\d+));?/gi
 const namedWhitespaceCharacterReferencePattern = /&(?:Tab|NewLine);/g
 const colonCharacterReferencePattern = /&colon;?/gi
@@ -33,8 +34,12 @@ const eventHandlerAttributePattern = /(^|[\s"'<>/])on(\w+\s*=)/gi
 // so neither escaping the value nor neutralizing `on*` inside it makes it inert
 const srcdocPattern = /(?:^|[\s"'<>/])srcdoc\s*=/i
 const srcdocAttributePattern = /(^|[\s"'<>/])s(rcdoc\s*=)/gi
+// `<base>` changes how the page resolves every relative URL after it, and SVG `<animate>` and `<set>`
+// can set `href` of an SVG `<a>` through `values` or `to`, which the URL check does not look at
+const dangerousElementPattern = /<(?:base|animate|set)(?=[\s/>]|$)/i
+const dangerousElementStartTagPattern = /<(base|animate|set)(?=[\s/>]|$)/gi
 const unquotedUrlAttributePattern =
-  /(^|[\s"'<>/])((?:href|src|action|formaction)\s*=\s*)([^\s"'=<>`]+)/gi
+  /(^|[\s"'<>/])((?:href|xlink:href|src|action|formaction)\s*=\s*)([^\s"'=<>`]+)/gi
 
 function decodeNumericCharacterReference(
   match: string,
@@ -165,6 +170,18 @@ export function sanitizeTranslatedHtml(html: string): string {
     }
     // Neutralize `srcdoc` by escaping 's': character references are not decoded in attribute names
     html = html.replace(srcdocAttributePattern, '$1&#115;$2')
+  }
+
+  // Detect and neutralize `<base>`, `<animate>` and `<set>` elements
+  if (dangerousElementPattern.test(html)) {
+    if (__DEV__) {
+      warn(
+        'Potentially dangerous element (<base>, <animate> or <set>) detected in translation. ' +
+          'Consider removing it from your translation messages.'
+      )
+    }
+    // Neutralize these elements by escaping '<': the start tag becomes text
+    html = html.replace(dangerousElementStartTagPattern, '&lt;$1')
   }
 
   // Disable javascript: URLs in unquoted attributes
