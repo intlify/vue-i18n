@@ -62,3 +62,26 @@ test('component: i18n-t', async () => {
 
   expect(await renderToString(app)).toMatch(`<p>やあ！</p>`)
 })
+
+test('escapeParameter: neutralize script elements in v-html', async () => {
+  const i18n = createI18n({
+    locale: 'en',
+    escapeParameter: true,
+    warnHtmlMessage: false,
+    messages: {
+      en: { hello: '<script>alert(1)</script>hello' }
+    }
+  })
+
+  const App = defineComponent({
+    setup() {
+      const { t } = useI18n()
+      return () => h('p', { innerHTML: t('hello') })
+    }
+  })
+  const app = createSSRApp(App)
+  app.use(i18n)
+
+  // the browser runs a `<script>` in the HTML rendered on the server
+  expect(await renderToString(app)).toBe('<p>&lt;script>alert(1)</script>hello</p>')
+})
