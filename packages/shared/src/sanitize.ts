@@ -35,9 +35,12 @@ const eventHandlerAttributePattern = /(^|[\s"'<>/])on(\w+\s*=)/gi
 const srcdocPattern = /(?:^|[\s"'<>/])srcdoc\s*=/i
 const srcdocAttributePattern = /(^|[\s"'<>/])s(rcdoc\s*=)/gi
 // `<base>` changes how the page resolves every relative URL after it, and SVG `<animate>` and `<set>`
-// can set `href` of an SVG `<a>` through `values` or `to`, which the URL check does not look at
-const dangerousElementPattern = /<(?:base|animate|set)(?=[\s/>]|$)/i
-const dangerousElementStartTagPattern = /<(base|animate|set)(?=[\s/>]|$)/gi
+// can set `href` of an SVG `<a>` through `values` or `to`, which the URL check does not look at.
+// `<script>` does not run when inserted with `innerHTML`, but it runs when the HTML is rendered
+// on the server (SSR) and the browser parses it as part of the page
+const dangerousElementPattern = /<(?:base|animate|set|script)(?=[\s/>]|$)/i
+const dangerousElementStartTagPattern =
+  /<(base|animate|set|script)(?=[\s/>]|$)/gi
 const unquotedUrlAttributePattern =
   /(^|[\s"'<>/])((?:href|xlink:href|src|action|formaction)\s*=\s*)([^\s"'=<>`]+)/gi
 
@@ -172,12 +175,12 @@ export function sanitizeTranslatedHtml(html: string): string {
     html = html.replace(srcdocAttributePattern, '$1&#115;$2')
   }
 
-  // Detect and neutralize `<base>`, `<animate>` and `<set>` elements
+  // Detect and neutralize `<base>`, `<animate>`, `<set>` and `<script>` elements
   if (dangerousElementPattern.test(html)) {
     if (__DEV__) {
       warn(
-        'Potentially dangerous element (<base>, <animate> or <set>) detected in translation. ' +
-          'Consider removing it from your translation messages.'
+        'Potentially dangerous element (<base>, <animate>, <set> or <script>) ' +
+          'detected in translation. Consider removing it from your translation messages.'
       )
     }
     // Neutralize these elements by escaping '<': the start tag becomes text

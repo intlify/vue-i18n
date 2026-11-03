@@ -168,7 +168,7 @@ export interface TranslateOptions<Locales = Locale>
    *   - Escaping dangerous characters in HTML attribute values
    *   - Neutralizing event handler attributes (onclick, onerror, etc.)
    *   - Neutralizing the `srcdoc` attribute of `<iframe>`
-   *   - Neutralizing `<base>` elements, and SVG `<animate>` and `<set>` elements
+   *   - Neutralizing `<base>` and `<script>` elements, and SVG `<animate>` and `<set>` elements
    *   - Disabling javascript: URLs in href (and xlink:href of SVG), src, action, formaction, and style attributes
    *
    * @defaultValue false
