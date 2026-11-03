@@ -81,6 +81,50 @@ test('legacy mode', async () => {
   expect(await renderToString(app)).toMatch(`<p>こんにちは！</p>`)
 })
 
+test('composition mode: escapeParameter neutralizes script elements', async () => {
+  const i18n = createI18n({
+    legacy: false,
+    locale: 'en',
+    escapeParameter: true,
+    warnHtmlMessage: false,
+    messages: {
+      en: { hello: '<script>alert(1)</script>hello' }
+    }
+  })
+
+  const App = defineComponent({
+    setup() {
+      const { t } = useI18n()
+      return () => h('p', { innerHTML: t('hello') })
+    }
+  })
+  const app = createSSRApp(App)
+  app.use(i18n)
+
+  // the browser runs a `<script>` in the HTML rendered on the server
+  expect(await renderToString(app)).toBe(
+    '<p>&lt;script>alert(1)</script>hello</p>'
+  )
+})
+
+test('legacy mode: escapeParameterHtml neutralizes script elements', async () => {
+  const i18n = createI18n({
+    locale: 'en',
+    escapeParameterHtml: true,
+    messages: {
+      en: { hello: '<script>alert(1)</script>hello' }
+    }
+  })
+
+  const App = () => h('p', { innerHTML: i18n.global.t('hello') })
+  const app = createSSRApp(App)
+  app.use(i18n)
+
+  expect(await renderToString(app)).toBe(
+    '<p>&lt;script>alert(1)</script>hello</p>'
+  )
+})
+
 test('component: i18n-t', async () => {
   const i18n = createI18n({
     legacy: false,

@@ -407,9 +407,30 @@ describe('sanitizeTranslatedHtml', () => {
     ).toBeNull()
   })
 
-  test('keep elements whose name only starts with base, animate or set', () => {
+  test('neutralize script elements', () => {
+    // `<script>` does not run with `innerHTML`, but runs when the HTML is rendered on the server (SSR)
+    const html = '<script>alert(1)</script>Test'
+    const result = sanitizeTranslatedHtml(html)
+    expect(result).toBe('&lt;script>alert(1)</script>Test')
+    expect(JSDOM.fragment(result).querySelector('script')).toBeNull()
+  })
+
+  test.each([
+    ['uppercase', '<SCRIPT>alert(1)</SCRIPT>'],
+    ['slash', '<script/src="https://example.com/x.js"></script>'],
+    ['newline', '<script\nsrc="https://example.com/x.js"></script>'],
+    ['data URL', '<script src="data:text/javascript,alert(1)"></script>'],
+    ['SVG', '<svg><script>alert(1)</script></svg>'],
+    ['no closing tag', '<script>']
+  ])('neutralize script elements: %s', (_, html) => {
+    expect(
+      JSDOM.fragment(sanitizeTranslatedHtml(html)).querySelector('script')
+    ).toBeNull()
+  })
+
+  test('keep elements whose name only starts with base, animate, set or script', () => {
     const html =
-      '<base-icon></base-icon><settings-panel></settings-panel>' +
+      '<base-icon></base-icon><settings-panel></settings-panel><script-editor></script-editor>' +
       '<svg><animateTransform attributeName="transform" type="rotate" values="0;90"/></svg>'
     expect(sanitizeTranslatedHtml(html)).toBe(html)
   })

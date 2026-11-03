@@ -515,6 +515,7 @@ When the escape parameter option is enabled:
   - Event handler attributes (`onclick`, `onerror`, etc.) are neutralized
   - The `srcdoc` attribute of `<iframe>` is neutralized, because its value is parsed as a nested HTML document
   - `<base>` elements are neutralized, because they change how the page resolves relative URLs
+  - `<script>` elements are neutralized, because they run when the HTML is rendered on the server (SSR)
   - SVG `<animate>` and `<set>` elements are neutralized, because they can change the target of an SVG link
   - JavaScript URLs in href (and xlink:href of SVG), src, action, formaction, and style attributes are disabled
 
@@ -533,5 +534,7 @@ $t('message.welcome', { name: userInput }, { escapeParameter: true })
 ```
 
 :::warning IMPORTANT
+`escapeParameter` protects HTML messages that you trust from the values passed to them. It does not make messages from untrusted sources safe to render with `v-html`.
+
 Even with the escape parameter option enabled, you should still be cautious about using HTML in translations. Always validate and sanitize user input before using it in translations, and prefer [Component interpolation](../advanced/component) when possible.
 :::

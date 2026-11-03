@@ -486,7 +486,7 @@ export interface ComposerOptions<
    *   - Escaping dangerous characters in HTML attribute values
    *   - Neutralizing event handler attributes (onclick, onerror, etc.)
    *   - Neutralizing the `srcdoc` attribute of `<iframe>`
-   *   - Neutralizing `<base>` elements, and SVG `<animate>` and `<set>` elements
+   *   - Neutralizing `<base>` and `<script>` elements, and SVG `<animate>` and `<set>` elements
    *   - Disabling javascript: URLs in href (and xlink:href of SVG), src, action, formaction, and style attributes
    *
    * This is useful when translation output is used in `v-html` and the translation resource contains html markup (e.g. <b> around a user provided value).
