@@ -17,5 +17,17 @@
   ],
   "major": {
     "automerge": false
-  }
+  },
+  "packageRules": [
+    {
+      "description": [
+        "Update playwright-core on each release, because the browsers and the platforms it supports come with it.",
+        "Its PRs skip the PR limits."
+      ],
+      "matchPackageNames": ["playwright-core"],
+      "rangeStrategy": "bump",
+      "prConcurrentLimit": 0,
+      "prHourlyLimit": 0
+    }
+  ]
 }
