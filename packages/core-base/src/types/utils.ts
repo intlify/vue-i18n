@@ -87,11 +87,25 @@ export type PickupLocales<
   K = keyof T
 > = K extends string ? K : never
 
+/**
+ * Resolve the value at resource path `P`, distributing over each member of `T`
+ * (one per locale) so that a path defined in only some locales still resolves.
+ * Yields `never` when no member contains the path.
+ *
+ * @internal
+ */
 type _ResourcePathValue<T, P extends PropertyKey> = T extends any
   ? P extends ResourcePath<T>
   ? ResourceValue<T, P>
   : never
   : never
+/**
+ * The value found at resource path `P` in `T`, or `Record<string, any>` when the
+ * path cannot be resolved in any member of `T`.
+ *
+ * @typeParam T - Locale messages (or a union of them)
+ * @typeParam P - A resource path such as `'a.b.c'`
+ */
 export type ResourcePathValue<T, P extends PropertyKey> = _ResourcePathValue<T, P> extends never
   ? Record<string, any>
   : _ResourcePathValue<T, P>
