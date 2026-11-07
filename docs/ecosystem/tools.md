@@ -40,6 +40,17 @@ The i18n Ally give awesome developer experience for your i18n development.
 
 Read more about i18n Ally in [README](https://github.com/antfu/i18n-ally/blob/master/README.md).
 
+## I18n Support Plus (intellij platform)
+
+[I18n Support Plus](https://plugins.jetbrains.com/plugin/30971-i18n-support-plus) is a plugin for WebStorm, IntelliJ IDEA Ultimate and PhpStorm 2025.2 and later. It continues i18nPlugin below, which no longer installs after 2023.1, and reads its project settings as they are. [GitHub Repository](https://github.com/IBRAHIMDANS/i18nSupportPlus)
+
+In `.vue`, `.js` and `.ts` files, it reads `$t`, `$tc`, `$te`, `t()` from `useI18n()`, `<i18n-t keypath>`, `v-t`, linked messages (`@:key`) and a component's `<i18n>` block, and:
+
+- shows the value next to the key, completes the keys that exist and navigates to their line in each locale
+- reports keys missing from a locale, unused keys, and plurals with fewer branches than the language needs
+- renames a key in every locale and every call site, and turns a hard-coded text into a key
+- sets itself up from the `i18n` options of `nuxt.config.ts` or the `createI18n` call
+
 ## i18nPlugin (intellij platform)
 
 [i18nPlugin](https://github.com/nyavro/i18nPlugin) Intellij idea i18next support plugin ( [JetBrains plugin page ](https://plugins.jetbrains.com/plugin/12981-i18n-support)).
