@@ -127,7 +127,6 @@ test('loose composer with useI18n', () => {
     | {
         bar: string
       }
-    | Record<string, any>
   >()
   expectTypeOf(looseI18n.rt('foo')).toEqualTypeOf<string>()
   expectTypeOf(looseI18n.getLocaleMessage('en')).toEqualTypeOf<typeof looseI18n.messages.value.en>()
@@ -370,7 +369,6 @@ test('loose i18n', () => {
     | {
         bar: string
       }
-    | Record<string, any>
   >()
   expectTypeOf(looseI18n.rt('foo')).toEqualTypeOf<string>()
   expectTypeOf(looseI18n.getLocaleMessage('en')).toEqualTypeOf<typeof looseI18n.messages.value.en>()

@@ -1574,6 +1574,30 @@ export interface Composer<
     key: Key | ResourceKeys
   ): ResourcePathValue<Target, ResourceKeys>
   /**
+   * Get locale message list, with an explicit return type
+   *
+   * @remarks
+   * Same as {@link Composer#tm}, but allows overriding the inferred return type by
+   * explicitly specifying all type arguments, for backward compatibility.
+   *
+   * @param key - A target locale message key
+   *
+   * @returns Locale messages
+   */
+  tm<
+    Key extends string,
+    ResourceKeys extends PickupKeys<Messages> = PickupKeys<Messages>,
+    Locale extends PickupLocales<NonNullable<Messages>> = PickupLocales<NonNullable<Messages>>,
+    Target = IsEmptyObject<Messages> extends false
+      ? NonNullable<Messages>[Locale]
+      : RemoveIndexSignature<{
+          [K in keyof DefineLocaleMessage]: DefineLocaleMessage[K]
+        }>,
+    Return = ResourcePathValue<Target, ResourceKeys>
+  >(
+    key: Key | ResourceKeys
+  ): Return
+  /**
    * Get locale message
    *
    * @remarks
