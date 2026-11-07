@@ -105,8 +105,7 @@ import type {
   RemoveIndexSignature,
   RemovedIndexResources,
   ResourceNode,
-  ResourcePath,
-  ResourceValue,
+  ResourcePathValue,
   SchemaParams,
   TranslateOptions,
   TranslationsPaths
@@ -1570,10 +1569,31 @@ export interface Composer<
       ? NonNullable<Messages>[Locale]
       : RemoveIndexSignature<{
           [K in keyof DefineLocaleMessage]: DefineLocaleMessage[K]
+        }>
+  >(
+    key: Key | ResourceKeys
+  ): ResourcePathValue<Target, ResourceKeys>
+  /**
+   * Get locale message list, with an explicit return type
+   *
+   * @remarks
+   * Same as {@link Composer#tm}, but allows overriding the inferred return type by
+   * explicitly specifying all type arguments, for backward compatibility.
+   *
+   * @param key - A target locale message key
+   *
+   * @returns Locale messages
+   */
+  tm<
+    Key extends string,
+    ResourceKeys extends PickupKeys<Messages> = PickupKeys<Messages>,
+    Locale extends PickupLocales<NonNullable<Messages>> = PickupLocales<NonNullable<Messages>>,
+    Target = IsEmptyObject<Messages> extends false
+      ? NonNullable<Messages>[Locale]
+      : RemoveIndexSignature<{
+          [K in keyof DefineLocaleMessage]: DefineLocaleMessage[K]
         }>,
-    Return = ResourceKeys extends ResourcePath<Target>
-      ? ResourceValue<Target, ResourceKeys>
-      : Record<string, any>
+    Return = ResourcePathValue<Target, ResourceKeys>
   >(
     key: Key | ResourceKeys
   ): Return
@@ -2617,7 +2637,7 @@ export function createComposer(options: any = {}): ComposerInternalInstance {
     ).numberFormats = numberFormats
     composer.rt = rt
     composer.te = te
-    composer.tm = tm as ComposerInternalInstance['tm']
+    composer.tm = tm as unknown as ComposerInternalInstance['tm']
     composer.d = d as ComposerInternalInstance['d']
     composer.n = n as ComposerInternalInstance['n']
     composer.getDateTimeFormat = getDateTimeFormat as ComposerInternalInstance['getDateTimeFormat']

@@ -659,7 +659,7 @@ export function useI18n(options: UseI18nOptions = {}): ComposerInternalInstance 
   const parentComposer = inject(I18nComposerKey, null)
   composerOptions.__root = parentComposer || gl
 
-  const composer = createComposer(composerOptions) as ComposerInternalInstance
+  const composer = createComposer(composerOptions) as unknown as ComposerInternalInstance
   extendComposer(composer, i18nInternal)
 
   if (localUid !== undefined) {
@@ -692,7 +692,7 @@ export function useI18n(options: UseI18nOptions = {}): ComposerInternalInstance 
 
 function createGlobal(options: I18nOptions): [EffectScope, ComposerInternalInstance] {
   const scope = effectScope()
-  const obj = scope.run(() => createComposer(options) as ComposerInternalInstance)
+  const obj = scope.run(() => createComposer(options) as unknown as ComposerInternalInstance)
   if (obj == null) {
     throw createI18nError(I18nErrorCodes.UNEXPECTED_ERROR)
   }
