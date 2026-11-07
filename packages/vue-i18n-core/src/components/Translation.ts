@@ -58,7 +58,7 @@ export const TranslationImpl: ComponentOptions<TranslationProps> = /* #__PURE__*
     const i18n = (props.i18n ||
       useI18n({
         useScope: props.scope as 'global' | 'parent'
-      })) as ComposerInternalInstance
+      })) as unknown as ComposerInternalInstance
 
     return (): VNodeChild => {
       const renderChildren = (): VNodeArrayChildren => {

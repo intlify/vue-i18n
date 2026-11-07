@@ -105,8 +105,7 @@ import type {
   RemoveIndexSignature,
   RemovedIndexResources,
   ResourceNode,
-  ResourcePath,
-  ResourceValue,
+  ResourcePathValue,
   SchemaParams,
   TranslateOptions,
   TranslationsPaths
@@ -1570,13 +1569,10 @@ export interface Composer<
       ? NonNullable<Messages>[Locale]
       : RemoveIndexSignature<{
           [K in keyof DefineLocaleMessage]: DefineLocaleMessage[K]
-        }>,
-    Return = ResourceKeys extends ResourcePath<Target>
-      ? ResourceValue<Target, ResourceKeys>
-      : Record<string, any>
+        }>
   >(
     key: Key | ResourceKeys
-  ): Return
+  ): ResourcePathValue<Target, ResourceKeys>
   /**
    * Get locale message
    *
@@ -2617,7 +2613,7 @@ export function createComposer(options: any = {}): ComposerInternalInstance {
     ).numberFormats = numberFormats
     composer.rt = rt
     composer.te = te
-    composer.tm = tm as ComposerInternalInstance['tm']
+    composer.tm = tm as unknown as ComposerInternalInstance['tm']
     composer.d = d as ComposerInternalInstance['d']
     composer.n = n as ComposerInternalInstance['n']
     composer.getDateTimeFormat = getDateTimeFormat as ComposerInternalInstance['getDateTimeFormat']

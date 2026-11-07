@@ -40,7 +40,7 @@ export const DatetimeFormatImpl: ComponentOptions<DatetimeFormatProps> =
       const i18n = (props.i18n ||
         useI18n({
           useScope: props.scope as 'global' | 'parent'
-        })) as ComposerInternalInstance
+        })) as unknown as ComposerInternalInstance
 
       return renderFormatter<
         FormattableProps<number | Date, Intl.DateTimeFormatOptions>,

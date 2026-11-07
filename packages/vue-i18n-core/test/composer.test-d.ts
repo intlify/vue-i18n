@@ -1,3 +1,4 @@
+import { renderList } from 'vue'
 import { createComposer } from '../src/composer'
 
 import type {
@@ -382,4 +383,26 @@ test('strict composer with direct options', () => {
   nullComposer.locale.value = 'en'
   expectTypeOf(nullComposer.fallbackLocale.value).toEqualTypeOf<FallbackLocales<string>>()
   nullComposer.fallbackLocale.value = 'fr'
+})
+
+test('tm #1686', () => {
+  const composer = createComposer({
+    messages: {
+      en: {
+        contents: [
+          {
+            title: 'Title1',
+            paragraphs: ['p1', 'p2']
+          }
+        ]
+      }
+    }
+  })
+
+  // calling `tm` directly as the argument of an overloaded function
+  // (as happens with `v-for` in templates, which compiles to `renderList`)
+  // should resolve to the array overload, not the `string` one
+  renderList(composer.tm('contents'), content =>
+    expectTypeOf(content).toEqualTypeOf<{ title: string; paragraphs: string[] }>()
+  )
 })

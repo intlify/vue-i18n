@@ -87,6 +87,10 @@ export type PickupLocales<
   K = keyof T
 > = K extends string ? K : never
 
+export type ResourcePathValue<T, P extends PropertyKey> = P extends ResourcePath<T>
+  ? ResourceValue<T, P>
+  : Record<string, any>
+
 export type PickupKeys<
   T extends Record<string, any>,
   K = keyof T
