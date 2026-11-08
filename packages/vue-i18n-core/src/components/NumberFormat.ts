@@ -39,7 +39,7 @@ export const NumberFormatImpl: ComponentOptions<NumberFormatProps> = /* #__PURE_
       const i18n = (props.i18n ||
         useI18n({
           useScope: props.scope as 'global' | 'parent'
-        })) as unknown as ComposerInternalInstance
+        })) as ComposerInternalInstance
 
       return renderFormatter<
         FormattableProps<number, Intl.NumberFormatOptions>,
