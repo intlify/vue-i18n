@@ -422,3 +422,20 @@ test('tm with a fallback locale', () => {
     expectTypeOf(content).toEqualTypeOf<{ title: string; paragraphs: string[] }>()
   )
 })
+
+test('tm with an indexed message schema', () => {
+  type IndexedSchema = Record<string, unknown> & {
+    contents: { title: string; paragraphs: string[] }[]
+  }
+  const composer = createComposer<[IndexedSchema], 'en'>({
+    messages: {
+      en: {
+        contents: [{ title: 'Title1', paragraphs: ['p1', 'p2'] }]
+      }
+    }
+  })
+
+  renderList(composer.tm('contents'), content =>
+    expectTypeOf(content).toEqualTypeOf<{ title: string; paragraphs: string[] }>()
+  )
+})

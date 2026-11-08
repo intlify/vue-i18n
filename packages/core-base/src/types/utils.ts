@@ -94,7 +94,9 @@ export type PickupLocales<
  */
 type _ResourcePathValue<T, P extends PropertyKey> = T extends any
   ? string extends keyof T
-  ? never
+  ? P extends ResourcePath<RemoveIndexSignature<T>>
+  ? ResourceValue<RemoveIndexSignature<T>, P>
+  : never
   : P extends ResourcePath<T>
   ? ResourceValue<T, P>
   : never
