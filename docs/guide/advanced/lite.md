@@ -20,6 +20,7 @@
   - `n`, `$n`
   - `d`, `$d`
   - `rt`, `$rt`
+  - `rte`, `$rte`
   - `te`, `$te`
   - `tm`, `$tm`
   - `getDateTimeFormat`, `setDateTimeFormat`, `mergeDateTimeFormat`
