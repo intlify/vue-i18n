@@ -125,6 +125,51 @@ test('legacy mode: escapeParameterHtml neutralizes script elements', async () =>
   )
 })
 
+test('composition mode: escapeParameter turns unclosed tags into text', async () => {
+  const i18n = createI18n({
+    legacy: false,
+    locale: 'en',
+    escapeParameter: true,
+    warnHtmlMessage: false,
+    messages: {
+      en: { tag: 'hello <a title="x', element: 'hello <textarea>x' }
+    }
+  })
+
+  const App = defineComponent({
+    setup() {
+      const { t } = useI18n()
+      return () => [
+        h('p', { innerHTML: t('tag') }),
+        h('p', { innerHTML: t('element') })
+      ]
+    }
+  })
+  const app = createSSRApp(App)
+  app.use(i18n)
+
+  // on the server, the rest of the page follows the translation, and would be read as a part of the tag
+  expect(await renderToString(app)).toBe(
+    '<!--[--><p>hello &lt;a title="x</p><p>hello &lt;textarea>x</p><!--]-->'
+  )
+})
+
+test('legacy mode: escapeParameterHtml turns unclosed tags into text', async () => {
+  const i18n = createI18n({
+    locale: 'en',
+    escapeParameterHtml: true,
+    messages: {
+      en: { tag: 'hello <a title="x' }
+    }
+  })
+
+  const App = () => h('p', { innerHTML: i18n.global.t('tag') })
+  const app = createSSRApp(App)
+  app.use(i18n)
+
+  expect(await renderToString(app)).toBe('<p>hello &lt;a title="x</p>')
+})
+
 test('component: i18n-t', async () => {
   const i18n = createI18n({
     legacy: false,
