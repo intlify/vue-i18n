@@ -895,12 +895,20 @@ describe('sanitizeTranslatedHtml: compare with the HTML parser', () => {
     return failures
   }
 
-  test('leave nothing active, and keep the rest of the page', () => {
-    const random = createRandom(1)
-    expect(findFailures(() => pick(random, PIECES, 16))).toEqual([])
-  })
+  // Reading 2,000 inputs with jsdom takes several seconds on CI,
+  // where the tests run with coverage
+  const timeout = 60_000
 
-  test('check every attribute of a start tag', () => {
+  test(
+    'leave nothing active, and keep the rest of the page',
+    { timeout },
+    () => {
+      const random = createRandom(1)
+      expect(findFailures(() => pick(random, PIECES, 16))).toEqual([])
+    }
+  )
+
+  test('check every attribute of a start tag', { timeout }, () => {
     const random = createRandom(2)
     expect(
       findFailures(
