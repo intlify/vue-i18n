@@ -475,11 +475,14 @@ export interface ComposerOptions<
    * When enabled, this option:
    * - Escapes HTML special characters (`<`, `>`, `"`, `'`, `&`, `/`, `=`) in interpolation parameters
    * - Sanitizes the final translated HTML to prevent XSS attacks by:
+   *   - Reading tags and attributes in the same way as the HTML parser of browsers, so that every attribute is checked
    *   - Escaping dangerous characters in HTML attribute values
    *   - Neutralizing event handler attributes (onclick, onerror, etc.)
    *   - Neutralizing the `srcdoc` attribute of `<iframe>`
-   *   - Neutralizing `<base>` and `<script>` elements, and SVG `<animate>` and `<set>` elements
+   *   - Neutralizing `<base>`, `<script>` and `<plaintext>` elements, and SVG `<animate>` and `<set>` elements
    *   - Disabling javascript: URLs in href (and xlink:href of SVG), src, action, formaction, and style attributes
+   *   - Escaping `<` in the content of `<textarea>`, `<title>`, `<style>`, `<iframe>` and similar elements
+   *   - Turning a tag, a comment, or an element like `<textarea>` that is not closed at the end into text
    *
    * This is useful when translation output is used in `v-html` and the translation resource contains html markup (e.g. around a user provided value).
    *

@@ -85,3 +85,28 @@ test('escapeParameter: neutralize script elements in v-html', async () => {
   // the browser runs a `<script>` in the HTML rendered on the server
   expect(await renderToString(app)).toBe('<p>&lt;script>alert(1)</script>hello</p>')
 })
+
+test('escapeParameter: turn unclosed tags in v-html into text', async () => {
+  const i18n = createI18n({
+    locale: 'en',
+    escapeParameter: true,
+    warnHtmlMessage: false,
+    messages: {
+      en: { tag: 'hello <a title="x', element: 'hello <textarea>x' }
+    }
+  })
+
+  const App = defineComponent({
+    setup() {
+      const { t } = useI18n()
+      return () => [h('p', { innerHTML: t('tag') }), h('p', { innerHTML: t('element') })]
+    }
+  })
+  const app = createSSRApp(App)
+  app.use(i18n)
+
+  // on the server, the rest of the page follows the translation, and would be read as a part of the tag
+  expect(await renderToString(app)).toBe(
+    '<!--[--><p>hello &lt;a title="x</p><p>hello &lt;textarea>x</p><!--]-->'
+  )
+})

@@ -28,20 +28,27 @@ const namedWhitespaceCharacterReferencePattern = /&(?:Tab|NewLine);/g
 const colonCharacterReferencePattern = /&colon;?/gi
 // oxlint-disable-next-line eslint/no-control-regex -- URL scheme normalization requires the full control range
 const controlOrWhitespacePattern = /[\u0000-\u0020\u007f-\u009f]/g
-const eventHandlerPattern = /(?:^|[\s"'<>/])on\w+\s*=\s*["']?[^"'>]+["']?/i
-const eventHandlerAttributePattern = /(^|[\s"'<>/])on(\w+\s*=)/gi
+const eventHandlerPattern = /^on\w/i
 // `srcdoc` holds a whole HTML document: its value is entity-decoded and then parsed again,
 // so neither escaping the value nor neutralizing `on*` inside it makes it inert
-const srcdocPattern = /(?:^|[\s"'<>/])srcdoc\s*=/i
-const srcdocAttributePattern = /(^|[\s"'<>/])s(rcdoc\s*=)/gi
+const srcdocPattern = /^srcdoc$/i
 // `<base>` changes how the page resolves every relative URL after it, and SVG `<animate>` and `<set>`
 // can set `href` of an SVG `<a>` through `values` or `to`, which the URL check does not look at.
 // `<script>` does not run when inserted with `innerHTML`, but it runs when the HTML is rendered
-// on the server (SSR) and the browser parses it as part of the page
-const dangerousElementPattern = /<(?:base|animate|set|script)(?=[\s/>]|$)/i
-const dangerousElementStartTagPattern = /<(base|animate|set|script)(?=[\s/>]|$)/gi
-const unquotedUrlAttributePattern =
-  /(^|[\s"'<>/])((?:href|xlink:href|src|action|formaction)\s*=\s*)([^\s"'=<>`]+)/gi
+// on the server (SSR) and the browser parses it as part of the page.
+// `<plaintext>` turns the rest of the page into text
+const dangerousElementPattern = /^(?:base|animate|set|script|plaintext)$/i
+// The content of these elements is text up to their end tag when they are HTML elements, and markup when
+// they are SVG or MathML elements. Their content is turned into text, so that it reads the same in both
+const textContentElementPattern = /^(?:iframe|noembed|noframes|noscript|style|textarea|title|xmp)$/i
+// The rules of the HTML tokenizer for tags, comments, and the end of a tag that is not closed (`$`):
+// - `<` or `</`, and the tag name
+const tagStartPattern = /<(\/?)([a-z][^\t\n\f\r />]*)/iy
+// - whitespace and `/`, and then `>` or an attribute: its name, and its value in quotes or without quotes
+const tagStepPattern =
+  /([\t\n\f\r /]*)(?:(>)|([^\t\n\f\r />][^\t\n\f\r />=]*)(?:[\t\n\f\r ]*=[\t\n\f\r ]*(?:(["'])([\s\S]*?)(\4|$)|([^\t\n\f\r >]*)))?)/y
+// - a comment, which ends with `-->` or `--!>`, or with `>` or `->` right after `<!--`
+const commentPattern = /<!--(?:>|->|[\s\S]*?--!?>)/y
 
 function decodeNumericCharacterReference(
   match: string,
@@ -133,60 +140,198 @@ function sanitizeAttributeValue(attrName: string, value: string): string {
   return escapeAttributeValue(sanitizedValue)
 }
 
+// What has been neutralized, for the warnings in development
+interface Neutralized {
+  eventHandler?: boolean
+  srcdoc?: boolean
+  element?: boolean
+  unclosed?: boolean
+}
+
+function escapeLessThan(text: string): string {
+  return text.replace(/</g, '&lt;')
+}
+
+function serializeAttribute(
+  attrName: string,
+  value: string | undefined,
+  quote: string | undefined,
+  neutralized: Neutralized
+): string {
+  // Character references are not decoded in attribute names, so escaping a character renames the attribute
+  let name = attrName
+  if (eventHandlerPattern.test(attrName)) {
+    neutralized.eventHandler = true
+    name = `&#111;n${attrName.slice(2)}`
+  } else if (srcdocPattern.test(attrName)) {
+    neutralized.srcdoc = true
+    name = `&#115;${attrName.slice(1)}`
+  }
+
+  if (value === undefined) {
+    return name
+  }
+  // An unquoted value stays unquoted: it has no whitespace or `>`, and escaping does not add them
+  const valueQuote = quote || ''
+  return `${name}=${valueQuote}${sanitizeAttributeValue(attrName, value)}${valueQuote}`
+}
+
+/**
+ * Read a tag with the rules of the HTML tokenizer.
+ * A start tag is written again with its attributes sanitized, and an end tag is kept as it is
+ *
+ * @param html - The HTML
+ * @param start - The index of `<`
+ * @param neutralized - What has been neutralized
+ * @returns The tag, the tag name, and the index after the tag (-1 when the tag is not closed),
+ * or `undefined` when `<` does not start a tag
+ */
+function readTag(
+  html: string,
+  start: number,
+  neutralized: Neutralized
+): [tag: string, tagName: string, end: number] | undefined {
+  tagStartPattern.lastIndex = start
+  const tagStart = tagStartPattern.exec(html)
+  if (!tagStart) {
+    return
+  }
+
+  const [, slash, tagName] = tagStart
+  let tag = tagStart[0]
+  let step: RegExpExecArray | null
+  tagStepPattern.lastIndex = tagStartPattern.lastIndex
+  while ((step = tagStepPattern.exec(html))) {
+    const [raw, separator, close, attrName, quote, quotedValue, closingQuote, unquotedValue] = step
+    if (close) {
+      const end = tagStepPattern.lastIndex
+      // browsers ignore the attributes of end tags
+      return [slash ? html.slice(start, end) : tag + raw, tagName, end]
+    }
+    if (quote && !closingQuote) {
+      break
+    }
+    if (!slash) {
+      const value = quote ? quotedValue : unquotedValue
+      tag += separator + serializeAttribute(attrName, value, quote, neutralized)
+    }
+  }
+
+  return [tag, tagName, -1]
+}
+
+/**
+ * Find the end tag of an element whose content is text, as the HTML tokenizer does:
+ * the first `</` followed by the tag name, and by whitespace, `/` or `>`
+ *
+ * @returns The index of the end tag, or -1 when it is not found or not closed in the string
+ */
+function findTextContentEnd(html: string, from: number, tagName: string): number {
+  for (let index = html.indexOf('</', from); index !== -1; index = html.indexOf('</', index + 2)) {
+    const endTag = readTag(html, index, {})
+    if (endTag && endTag[1].toLowerCase() === tagName.toLowerCase()) {
+      return endTag[2] === -1 ? -1 : index
+    }
+  }
+  return -1
+}
+
+/**
+ * Sanitize the translated HTML
+ *
+ * @remarks
+ * Tags are read with the rules of the HTML tokenizer, so that the sanitizer and browsers agree on
+ * where each tag and each attribute starts and ends, and every attribute of every start tag is checked.
+ * What is still open at the end of the string (a tag, a comment, or an element whose content is text,
+ * like `<textarea>`) becomes text: on the server (SSR), the rest of the page follows the translation,
+ * and it would be read as a part of what is open
+ *
+ * @param html - The translated HTML
+ * @returns The sanitized HTML
+ */
 export function sanitizeTranslatedHtml(html: string): string {
-  // Escape dangerous characters in attribute values
-  // Process attributes with double quotes
-  html = html.replace(
-    /([\w:-]+)\s*=\s*"([^"]*)"/g,
-    (_, attrName, attrValue) => `${attrName}="${sanitizeAttributeValue(attrName, attrValue)}"`
-  )
+  const neutralized: Neutralized = {}
+  let result = ''
+  let index = 0
+  let lessThan: number
 
-  // Process attributes with single quotes
-  html = html.replace(
-    /([\w:-]+)\s*=\s*'([^']*)'/g,
-    (_, attrName, attrValue) => `${attrName}='${sanitizeAttributeValue(attrName, attrValue)}'`
-  )
+  while ((lessThan = html.indexOf('<', index)) !== -1) {
+    result += html.slice(index, lessThan)
+    index = lessThan + 1
 
-  // Detect and neutralize event handler attributes
-  if (eventHandlerPattern.test(html)) {
-    if (__DEV__) {
+    const read = readTag(html, lessThan, neutralized)
+    if (read) {
+      const [tag, tagName, end] = read
+      if (end === -1) {
+        neutralized.unclosed = true
+        result += escapeLessThan(html.slice(lessThan))
+        index = html.length
+        break
+      }
+      index = end
+
+      if (tag[1] === '/') {
+        result += tag
+      } else if (dangerousElementPattern.test(tagName)) {
+        // the start tag becomes text
+        neutralized.element = true
+        result += escapeLessThan(tag)
+      } else if (textContentElementPattern.test(tagName)) {
+        const contentEnd = findTextContentEnd(html, end, tagName)
+        if (contentEnd === -1) {
+          // the start tag becomes text, and the content is read as HTML, as browsers do then
+          neutralized.unclosed = true
+          result += escapeLessThan(tag)
+        } else {
+          result += tag + escapeLessThan(html.slice(end, contentEnd))
+          index = contentEnd
+        }
+      } else {
+        result += tag
+      }
+      continue
+    }
+
+    commentPattern.lastIndex = lessThan
+    if (commentPattern.test(html)) {
+      result += html.slice(lessThan, commentPattern.lastIndex)
+      index = commentPattern.lastIndex
+      continue
+    }
+    if (html.startsWith('<!--', lessThan)) {
+      neutralized.unclosed = true
+    }
+    // `<!DOCTYPE`, `<![CDATA[`, `<?`, `</` without a tag name, `<` at the end and any other `<` become text
+    result += '&lt;'
+  }
+  result += html.slice(index)
+
+  if (__DEV__) {
+    if (neutralized.eventHandler) {
       warn(
         'Potentially dangerous event handlers detected in translation. ' +
           'Consider removing onclick, onerror, etc. from your translation messages.'
       )
     }
-    // Neutralize event handler attributes by escaping 'on'
-    html = html.replace(eventHandlerAttributePattern, '$1&#111;n$2')
-  }
-
-  // Detect and neutralize `srcdoc` attributes
-  if (srcdocPattern.test(html)) {
-    if (__DEV__) {
+    if (neutralized.srcdoc) {
       warn(
         'Potentially dangerous srcdoc attribute detected in translation. ' +
           'Consider removing srcdoc from your translation messages.'
       )
     }
-    // Neutralize `srcdoc` by escaping 's': character references are not decoded in attribute names
-    html = html.replace(srcdocAttributePattern, '$1&#115;$2')
-  }
-
-  // Detect and neutralize `<base>`, `<animate>`, `<set>` and `<script>` elements
-  if (dangerousElementPattern.test(html)) {
-    if (__DEV__) {
+    if (neutralized.element) {
       warn(
-        'Potentially dangerous element (<base>, <animate>, <set> or <script>) ' +
+        'Potentially dangerous element (<base>, <animate>, <set>, <script> or <plaintext>) ' +
           'detected in translation. Consider removing it from your translation messages.'
       )
     }
-    // Neutralize these elements by escaping '<': the start tag becomes text
-    html = html.replace(dangerousElementStartTagPattern, '&lt;$1')
+    if (neutralized.unclosed) {
+      warn(
+        'Unclosed tag, comment or element (such as <textarea>) detected in translation. ' +
+          'Consider closing it in your translation messages.'
+      )
+    }
   }
 
-  // Disable javascript: URLs in unquoted attributes
-  html = html.replace(unquotedUrlAttributePattern, (match, boundary, prefix, attrValue) =>
-    hasJavascriptScheme(attrValue) ? `${boundary}${prefix}about:blank` : match
-  )
-
-  return html
+  return result
 }
