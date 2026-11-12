@@ -10,6 +10,13 @@ import { escapeHtml, sanitizeTranslatedHtml } from '../src/sanitize'
 
 const XLINK_NAMESPACE = 'http://www.w3.org/1999/xlink'
 
+// The attribute names of every element, as a browser reads the HTML
+function attributeNamesOf(html: string): string[] {
+  return [...JSDOM.fragment(html).querySelectorAll('*')].flatMap(element =>
+    element.getAttributeNames()
+  )
+}
+
 describe('escapeHtml', () => {
   test('escape `<` and `>`', () => {
     expect(escapeHtml('<div>test</div>')).toBe(
@@ -127,11 +134,11 @@ describe('sanitizeTranslatedHtml', () => {
   })
 
   test('escape dangerous characters in class attribute', () => {
+    // `onclick=` in the value stays a part of the value
     const html = '<div class="normal&quot; onclick=&quot;alert(1)">Test</div>'
     const result = sanitizeTranslatedHtml(html)
-    expect(result).toBe(
-      '<div class="normal&quot; &#111;nclick=&quot;alert(1)">Test</div>'
-    )
+    expect(result).toBe(html)
+    expect(attributeNamesOf(result)).toEqual(['class'])
   })
 
   test('handle class attribute with script tags', () => {
@@ -149,8 +156,8 @@ describe('sanitizeTranslatedHtml', () => {
     // Check that dangerous characters in attribute values are escaped
     expect(result).toContain('class="btn&quot;')
     expect(result).toContain('data-value="&lt;&gt;"')
-    // Check that onclick is neutralized
-    expect(result).toContain('&#111;nclick=')
+    // Check that onclick stays a part of the value
+    expect(attributeNamesOf(result)).toEqual(['id', 'class', 'data-value'])
   })
 
   test('handle class attribute with single quotes', () => {
@@ -168,9 +175,8 @@ describe('sanitizeTranslatedHtml', () => {
   test('handle id attribute with dangerous characters', () => {
     const html = '<div id="test&quot; onclick=&quot;alert(1)">Test</div>'
     const result = sanitizeTranslatedHtml(html)
-    expect(result).toBe(
-      '<div id="test&quot; &#111;nclick=&quot;alert(1)">Test</div>'
-    )
+    expect(result).toBe(html)
+    expect(attributeNamesOf(result)).toEqual(['id'])
   })
 
   test('handle id attribute with script injection', () => {
@@ -185,9 +191,8 @@ describe('sanitizeTranslatedHtml', () => {
     const html =
       '<div style="color: red&quot; onclick=&quot;alert(1)">Test</div>'
     const result = sanitizeTranslatedHtml(html)
-    expect(result).toBe(
-      '<div style="color: red&quot; &#111;nclick=&quot;alert(1)">Test</div>'
-    )
+    expect(result).toBe(html)
+    expect(attributeNamesOf(result)).toEqual(['style'])
   })
 
   test('handle style attribute with javascript URL', () => {
@@ -457,8 +462,9 @@ describe('sanitizeTranslatedHtml', () => {
     const html = `<div title='test" onclick="alert(1)'>Test</div>`
     const result = sanitizeTranslatedHtml(html)
     expect(result).toBe(
-      `<div title='test&quot; &#111;nclick=&quot;alert(1)'>Test</div>`
+      `<div title='test&quot; onclick=&quot;alert(1)'>Test</div>`
     )
+    expect(attributeNamesOf(result)).toEqual(['title'])
   })
 
   test('handle HTML entities in attribute values', () => {
@@ -474,8 +480,9 @@ describe('sanitizeTranslatedHtml', () => {
     const html = `<div title='"hello" onclick="alert(1)"'>Test</div>`
     const result = sanitizeTranslatedHtml(html)
     expect(result).toBe(
-      `<div title='&quot;hello&quot; &#111;nclick=&quot;alert(1)&quot;'>Test</div>`
+      `<div title='&quot;hello&quot; onclick=&quot;alert(1)&quot;'>Test</div>`
     )
+    expect(attributeNamesOf(result)).toEqual(['title'])
   })
 
   // Accessibility (a11y) attributes tests
@@ -491,26 +498,23 @@ describe('sanitizeTranslatedHtml', () => {
   test('handle aria-describedby with quotes', () => {
     const html = `<input aria-describedby="desc&quot; onclick=&quot;alert(1)" />`
     const result = sanitizeTranslatedHtml(html)
-    expect(result).toBe(
-      '<input aria-describedby="desc&quot; &#111;nclick=&quot;alert(1)" />'
-    )
+    expect(result).toBe(html)
+    expect(attributeNamesOf(result)).toEqual(['aria-describedby'])
   })
 
   test('handle role attribute with dangerous characters', () => {
     const html = '<div role="button&quot; onclick=&quot;alert(1)">Click</div>'
     const result = sanitizeTranslatedHtml(html)
-    expect(result).toBe(
-      '<div role="button&quot; &#111;nclick=&quot;alert(1)">Click</div>'
-    )
+    expect(result).toBe(html)
+    expect(attributeNamesOf(result)).toEqual(['role'])
   })
 
   test('handle tabindex attribute', () => {
     const html =
       '<div tabindex="0&quot; onclick=&quot;alert(1)">Focusable</div>'
     const result = sanitizeTranslatedHtml(html)
-    expect(result).toBe(
-      '<div tabindex="0&quot; &#111;nclick=&quot;alert(1)">Focusable</div>'
-    )
+    expect(result).toBe(html)
+    expect(attributeNamesOf(result)).toEqual(['tabindex'])
   })
 
   test('handle alt attribute with dangerous content', () => {
@@ -526,8 +530,9 @@ describe('sanitizeTranslatedHtml', () => {
     const html = '<abbr title="<img src=x onerror=alert(1)>">XSS</abbr>'
     const result = sanitizeTranslatedHtml(html)
     expect(result).toBe(
-      '<abbr title="&lt;img src=x &#111;nerror=alert(1)&gt;">XSS</abbr>'
+      '<abbr title="&lt;img src=x onerror=alert(1)&gt;">XSS</abbr>'
     )
+    expect(attributeNamesOf(result)).toEqual(['title'])
   })
 
   test('handle multiple a11y attributes with dangerous content', () => {
@@ -538,7 +543,7 @@ describe('sanitizeTranslatedHtml', () => {
       'aria-label="&lt;script&gt;alert(1)&lt;/script&gt;"'
     )
     expect(result).toContain('role="button&quot;')
-    expect(result).toContain('&#111;nclick=')
+    expect(attributeNamesOf(result)).toEqual(['aria-label', 'role', 'tabindex'])
     expect(result).toContain('tabindex="0"')
   })
 
@@ -546,9 +551,8 @@ describe('sanitizeTranslatedHtml', () => {
     const html =
       '<div aria-hidden="true&quot; onclick=&quot;alert(1)">Hidden</div>'
     const result = sanitizeTranslatedHtml(html)
-    expect(result).toBe(
-      '<div aria-hidden="true&quot; &#111;nclick=&quot;alert(1)">Hidden</div>'
-    )
+    expect(result).toBe(html)
+    expect(attributeNamesOf(result)).toEqual(['aria-hidden'])
   })
 
   test('handle aria-live attribute', () => {
@@ -558,5 +562,382 @@ describe('sanitizeTranslatedHtml', () => {
     expect(result).toBe(
       '<div aria-live="polite" aria-label="Status: &lt;b&gt;Active&lt;/b&gt;">Status</div>'
     )
+  })
+})
+
+// The rest of the page that follows the translation when it is rendered on the server (SSR).
+// It has quotes and `>`, which close what the translation leaves open
+const PAGE_AFTER = `</div><p id="after" title="'a' > b">after</p>`
+const pageParser = new new JSDOM().window.DOMParser()
+
+function parseInPage(html: string): Document {
+  return pageParser.parseFromString(
+    `<!doctype html><body><div>${html}${PAGE_AFTER}</body>`,
+    'text/html'
+  )
+}
+
+function isPageAfterIntact(document: Document): boolean {
+  const after = document.getElementById('after')
+  return (
+    after?.localName === 'p' &&
+    after.attributes.length === 2 &&
+    after.getAttribute('title') === "'a' > b" &&
+    after.textContent === 'after'
+  )
+}
+
+describe('sanitizeTranslatedHtml: unclosed tags', () => {
+  test('turn a tag that is not closed at the end into text', () => {
+    const result = sanitizeTranslatedHtml('<a title="x')
+    expect(result).toBe('&lt;a title="x')
+    expect(isPageAfterIntact(parseInPage(result))).toBe(true)
+  })
+
+  test('turn the tags in the rest of an unclosed tag into text as well', () => {
+    expect(sanitizeTranslatedHtml('<a title="x<b>y')).toBe(
+      '&lt;a title="x&lt;b>y'
+    )
+  })
+
+  test.each([
+    ['tag name', '<a'],
+    ['before attribute name', '<a '],
+    ['attribute name', '<a title'],
+    ['after attribute name', '<a title '],
+    ['before attribute value', '<a title='],
+    ['double-quoted attribute value', '<a title="x'],
+    ['single-quoted attribute value', "<a title='x"],
+    ['unquoted attribute value', '<a title=x'],
+    ['after attribute value', '<a title="x"'],
+    ['self-closing start tag', '<a/'],
+    ['end tag', '</a'],
+    ['attribute of end tag', '</a title="x'],
+    ['less-than sign', 'x<'],
+    ['less-than sign and slash', 'x</']
+  ])('turn a tag that is not closed at the end into text: %s', (_, html) => {
+    const result = sanitizeTranslatedHtml(html)
+    expect(result).not.toContain('<')
+    expect(isPageAfterIntact(parseInPage(result))).toBe(true)
+  })
+
+  test('turn a comment that is not closed into text', () => {
+    const result = sanitizeTranslatedHtml('<!-- x')
+    expect(result).toBe('&lt;!-- x')
+    expect(isPageAfterIntact(parseInPage(result))).toBe(true)
+  })
+
+  test('keep closed comments', () => {
+    const html = '<b>x</b><!-- note --><!----><!-->x<!--->x<!--a--!>'
+    expect(sanitizeTranslatedHtml(html)).toBe(html)
+  })
+
+  test.each([
+    ['textarea', '<textarea>x'],
+    ['title', '<title>x'],
+    ['style', '<style>x'],
+    ['xmp', '<xmp>x'],
+    ['iframe', '<iframe>x'],
+    ['noembed', '<noembed>x'],
+    ['noframes', '<noframes>x'],
+    ['noscript', '<noscript>x'],
+    ['end tag that is not closed', '<textarea>x</textarea'],
+    [
+      'attribute of end tag that is not closed',
+      '<textarea>x</textarea title="y'
+    ],
+    ['end tag of another element', '<textarea>x</textareax>']
+  ])(
+    'turn an element whose content is text into text when it is not closed: %s',
+    (_, html) => {
+      const result = sanitizeTranslatedHtml(html)
+      expect(result.startsWith('&lt;')).toBe(true)
+      expect(isPageAfterIntact(parseInPage(result))).toBe(true)
+    }
+  )
+
+  test('turn the content of an element whose content is text into text', () => {
+    const result = sanitizeTranslatedHtml('<textarea><b>x</b></textarea>')
+    expect(result).toBe('<textarea>&lt;b>x&lt;/b></textarea>')
+    expect(JSDOM.fragment(result).querySelector('textarea')?.value).toBe(
+      '<b>x</b>'
+    )
+  })
+
+  test('turn the content of an SVG element with the same name into text as well', () => {
+    // the content of `<style>` is markup in SVG, but text in HTML
+    const result = sanitizeTranslatedHtml('<svg><style><a>x</a></style></svg>')
+    expect(result).toBe('<svg><style>&lt;a>x&lt;/a></style></svg>')
+    expect(JSDOM.fragment(result).querySelector('a')).toBeNull()
+  })
+
+  test('neutralize plaintext elements', () => {
+    // `<plaintext>` turns the rest of the page into text
+    const result = sanitizeTranslatedHtml('<plaintext>x')
+    expect(result).toBe('&lt;plaintext>x')
+    expect(isPageAfterIntact(parseInPage(result))).toBe(true)
+  })
+})
+
+describe('sanitizeTranslatedHtml: read tags as the HTML tokenizer does', () => {
+  test('read an unquoted value with quotes and `=` as one value', () => {
+    // quotes and `=` belong to an unquoted value
+    const result = sanitizeTranslatedHtml(`<a title=a"b='c class="d">x</a>`)
+    expect(result).toBe('<a title=a&quot;b=&apos;c class="d">x</a>')
+    const a = JSDOM.fragment(result).querySelector('a')
+    expect(a?.getAttribute('title')).toBe(`a"b='c`)
+    expect(a?.getAttribute('class')).toBe('d')
+  })
+
+  test('escape unquoted values, and keep them unquoted', () => {
+    const result = sanitizeTranslatedHtml('<a href=/x?a=1&b=2 class=y>x</a>')
+    expect(result).toBe('<a href=/x?a=1&amp;b=2 class=y>x</a>')
+    expect(
+      JSDOM.fragment(result).querySelector('a')?.getAttribute('href')
+    ).toBe('/x?a=1&b=2')
+  })
+
+  test('turn `<` that does not start a tag or a comment into text', () => {
+    expect(sanitizeTranslatedHtml('1 < 2')).toBe('1 &lt; 2')
+    expect(sanitizeTranslatedHtml('<!DOCTYPE html>x')).toBe(
+      '&lt;!DOCTYPE html>x'
+    )
+    expect(sanitizeTranslatedHtml('<?x?>')).toBe('&lt;?x?>')
+    expect(sanitizeTranslatedHtml('<svg><![CDATA[x]]></svg>')).toBe(
+      '<svg>&lt;![CDATA[x]]></svg>'
+    )
+    expect(sanitizeTranslatedHtml('</>')).toBe('&lt;/>')
+  })
+
+  test('read `<` in an attribute name as a part of the name', () => {
+    // `<` there does not start another tag
+    const html = '<a b<c>x</a>'
+    expect(sanitizeTranslatedHtml(html)).toBe(html)
+    expect(attributeNamesOf(html)).toEqual(['b<c'])
+  })
+
+  test('read the attributes of end tags to find their end', () => {
+    // browsers ignore the attributes of end tags, but `>` in a quoted value does not end the tag
+    const html = '<b>x</b title=">">y'
+    const result = sanitizeTranslatedHtml(html)
+    expect(result).toBe(html)
+    expect(JSDOM.fragment(result).textContent).toBe('xy')
+  })
+})
+
+describe('sanitizeTranslatedHtml: compare with the HTML parser', () => {
+  // Pieces that change where the HTML tokenizer starts and ends tags, attributes and comments
+  const PIECES = [
+    '<a',
+    '<a>',
+    '</a>',
+    '<b>',
+    '<iframe',
+    '<form',
+    '<svg>',
+    '<svg><a',
+    '</svg>',
+    '<math>',
+    '<textarea>',
+    '</textarea>',
+    '<title>',
+    '</title>',
+    '<style>',
+    '</style>',
+    '<xmp>',
+    '<noscript>',
+    '<script>',
+    '<plaintext>',
+    '<base',
+    '<set',
+    '<',
+    '</',
+    '<!--',
+    '-->',
+    '--!>',
+    '<!',
+    '<?',
+    '<![CDATA[',
+    ']]>',
+    ' ',
+    '\n',
+    '\t',
+    '\r',
+    '/',
+    '>',
+    '=',
+    '"',
+    "'",
+    '`',
+    'x',
+    ' href=',
+    ' src=',
+    ' action=',
+    ' formaction=',
+    ' xlink:href=',
+    ' onclick=',
+    ' ONCLICK=',
+    ' srcdoc=',
+    ' style=',
+    ' title=',
+    'javascript:0',
+    'JavaScript:0',
+    'java&#x09;script:0',
+    '&#x6A;avascript:0',
+    'javascript&colon;0',
+    '&quot;',
+    '&lt;',
+    '&amp;'
+  ]
+  // Pieces for the attributes of a start tag
+  const TAG_STARTS = ['<a', '<iframe', '<form', '<svg><a']
+  const ATTRIBUTE_PIECES = [
+    ' ',
+    '\n',
+    '/',
+    '=',
+    '"',
+    "'",
+    '`',
+    'x',
+    ' title=',
+    ' href=',
+    ' src=',
+    ' action=',
+    ' xlink:href=',
+    ' onclick=',
+    ' srcdoc=',
+    'javascript:0',
+    '&quot;',
+    '<',
+    '>'
+  ]
+  const URL_ATTRIBUTE_NAMES = new Set(['href', 'src', 'action', 'formaction'])
+  const DANGEROUS_ELEMENT_NAMES = new Set([
+    'base',
+    'animate',
+    'set',
+    'script',
+    'plaintext'
+  ])
+
+  // mulberry32, so that the same inputs are made on every run
+  function createRandom(seed: number): () => number {
+    return () => {
+      seed = (seed + 0x6d2b79f5) | 0
+      let t = Math.imul(seed ^ (seed >>> 15), 1 | seed)
+      t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t
+      return ((t ^ (t >>> 14)) >>> 0) / 4294967296
+    }
+  }
+
+  // as the URL parser reads the scheme: leading and trailing C0 controls and spaces,
+  // and tabs and newlines anywhere, are removed
+  // eslint-disable-next-line no-control-regex -- the URL parser removes C0 controls
+  const C0_CONTROLS_AND_SPACES_AROUND = /^[\u0000-\u0020]+|[\u0000-\u0020]+$/g
+  function isJavascriptUrl(url: string): boolean {
+    return /^javascript:/i.test(
+      url.replace(C0_CONTROLS_AND_SPACES_AROUND, '').replace(/[\t\n\r]/g, '')
+    )
+  }
+
+  function findActiveContent(
+    root: Document | DocumentFragment
+  ): string | undefined {
+    for (const element of root.querySelectorAll('*')) {
+      if (DANGEROUS_ELEMENT_NAMES.has(element.localName.toLowerCase())) {
+        return `<${element.localName}>`
+      }
+      for (const { name, localName, value } of element.attributes) {
+        if (/^on[a-z]/i.test(name) || localName === 'srcdoc') {
+          return `${name} of <${element.localName}>`
+        }
+        if (URL_ATTRIBUTE_NAMES.has(localName) && isJavascriptUrl(value)) {
+          return `javascript: URL in ${name} of <${element.localName}>`
+        }
+      }
+    }
+  }
+
+  function check(html: string): string | undefined {
+    const result = sanitizeTranslatedHtml(html)
+    const page = parseInPage(result)
+    return (
+      findActiveContent(JSDOM.fragment(result)) ||
+      findActiveContent(page) ||
+      (!isPageAfterIntact(page) && 'the rest of the page is changed') ||
+      (sanitizeTranslatedHtml(result) !== result &&
+        'the result changes when sanitized again') ||
+      undefined
+    )
+  }
+
+  function pick(
+    random: () => number,
+    pieces: string[],
+    maxLength: number
+  ): string {
+    return Array.from(
+      { length: 1 + Math.floor(random() * maxLength) },
+      () => pieces[Math.floor(random() * pieces.length)]
+    ).join('')
+  }
+
+  function findFailures(makeHtml: () => string): string[] {
+    const failures: string[] = []
+    for (let count = 0; count < 2000; count++) {
+      const html = makeHtml()
+      const problem = check(html)
+      if (problem) {
+        failures.push(`${problem}: ${JSON.stringify(html)}`)
+      }
+    }
+    return failures
+  }
+
+  // Reading 2,000 inputs with jsdom takes several seconds on CI,
+  // where the tests run with coverage
+  const timeout = 60_000
+
+  test(
+    'leave nothing active, and keep the rest of the page',
+    { timeout },
+    () => {
+      const random = createRandom(1)
+      expect(findFailures(() => pick(random, PIECES, 16))).toEqual([])
+    }
+  )
+
+  test('check every attribute of a start tag', { timeout }, () => {
+    const random = createRandom(2)
+    expect(
+      findFailures(
+        () =>
+          `${pick(random, TAG_STARTS, 1)}${pick(random, ATTRIBUTE_PIECES, 12)}>x`
+      )
+    ).toEqual([])
+  })
+
+  // Inputs that the sanitizer used to read differently from browsers, as they are
+  // - an attribute value that is not closed at the end of a translation
+  const UNCLOSED_VALUE_INPUTS: string[] = [
+    '<iframe src="javascript:alert(document.domain)//'
+  ]
+  // - an unquoted attribute value with quotes, followed by more attributes
+  const UNQUOTED_VALUE_INPUTS: string[] = [
+    '<iframe x=y"z="q src="javascript:alert(document.domain)"></iframe>',
+    '<a x=y"z="q href="javascript:alert(document.domain)">click</a>'
+  ]
+
+  test.each([
+    ['an attribute value that is not closed', UNCLOSED_VALUE_INPUTS],
+    ['an unquoted attribute value with quotes', UNQUOTED_VALUE_INPUTS]
+  ])('leave nothing active, and keep the rest of the page: %s', (_, inputs) => {
+    expect(inputs.length).toBeGreaterThan(0)
+    const failures = inputs.flatMap(html => {
+      const problem = check(html)
+      return problem ? [`${problem}: ${JSON.stringify(html)}`] : []
+    })
+    expect(failures).toEqual([])
   })
 })

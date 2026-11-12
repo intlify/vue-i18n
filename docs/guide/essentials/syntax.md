@@ -511,13 +511,17 @@ t('message.welcome', { name: userInput }, { escapeParameter: true })
 When the escape parameter option is enabled:
 - HTML special characters (`<`, `>`, `"`, `'`, `&`, `/`, `=`) in interpolation parameters are escaped
 - The final translated HTML is sanitized to prevent XSS attacks:
+  - Tags and attributes are read in the same way as the HTML parser of browsers, so that every attribute is checked
   - Dangerous characters in HTML attribute values are escaped
   - Event handler attributes (`onclick`, `onerror`, etc.) are neutralized
   - The `srcdoc` attribute of `<iframe>` is neutralized, because its value is parsed as a nested HTML document
   - `<base>` elements are neutralized, because they change how the page resolves relative URLs
   - `<script>` elements are neutralized, because they run when the HTML is rendered on the server (SSR)
+  - `<plaintext>` elements are neutralized, because they turn the rest of the page into text
   - SVG `<animate>` and `<set>` elements are neutralized, because they can change the target of an SVG link
   - JavaScript URLs in href (and xlink:href of SVG), src, action, formaction, and style attributes are disabled
+  - `<` in the content of `<textarea>`, `<title>`, `<style>`, `<iframe>` and similar elements is escaped, so that the content is read as text in HTML and in SVG
+  - A tag, a comment, or an element like `<textarea>` that is not closed at the end of the message is turned into text, because it would take in the rest of the page when the HTML is rendered on the server (SSR)
 
 #### Example
 
