@@ -10,10 +10,11 @@ type UsageReport = Record<string, BundleReport>
 const currDir = path.resolve('temp/size')
 const prevDir = path.resolve('temp/size-prev')
 const sizeHeaders = ['Size', 'Gzip', 'Brotli']
+const sizeFilePattern = /^[\w.-]+\.json$/
 
 async function rednerFiles(output: string) {
   const filterFiles = (files: string[]) =>
-    files.filter(file => file[0] !== '_' && !file.endsWith('.txt'))
+    files.filter(file => file[0] !== '_' && sizeFilePattern.test(file))
 
   const curr = filterFiles(await fs.readdir(currDir))
   const prev = existsSync(prevDir) ? filterFiles(await fs.readdir(prevDir)) : []
@@ -24,8 +25,8 @@ async function rednerFiles(output: string) {
     const currPath = path.resolve(currDir, file)
     const prevPath = path.resolve(prevDir, file)
 
-    const curr = await importJSON(currPath)
-    const prev = await importJSON(prevPath)
+    const curr = await readJSON(currPath)
+    const prev = await readJSON(prevPath)
     const fileName = curr?.file || prev?.file || ''
 
     if (!curr) {
@@ -47,11 +48,12 @@ async function rednerFiles(output: string) {
   return output
 }
 
-async function importJSON(filePath: string) {
+// Read the size data as JSON. Never `import()` it: that would run a module as code.
+async function readJSON(filePath: string) {
   if (!existsSync(filePath)) {
     return undefined
   }
-  return (await import(filePath, { assert: { type: 'json' } })).default
+  return JSON.parse(await fs.readFile(filePath, 'utf8'))
 }
 
 function getDiff(curr: number, prev: number) {
@@ -67,8 +69,8 @@ function getDiff(curr: number, prev: number) {
 }
 
 async function renderUsages(output: string) {
-  const curr = (await importJSON(path.resolve(currDir, '_usages.json'))) as UsageReport
-  const prev = (await importJSON(path.resolve(prevDir, '_usages.json'))) as UsageReport
+  const curr = (await readJSON(path.resolve(currDir, '_usages.json'))) as UsageReport
+  const prev = (await readJSON(path.resolve(prevDir, '_usages.json'))) as UsageReport
 
   output += '\n### Usages\n\n'
 

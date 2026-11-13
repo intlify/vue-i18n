@@ -1,5 +1,9 @@
 name: Size data
 
+# The size report of a pull request is made in the pull request workflow itself.
+# Do not hand the outputs of a pull request (e.g. artifacts) to a workflow with more permissions,
+# such as `workflow_run` or `pull_request_target`: a pull request from a fork controls them.
+
 on:
   push:
     branches:
@@ -8,13 +12,17 @@ on:
     branches:
       - master
 
-permissions:
-  contents: read
+permissions: {}
 
 jobs:
-  upload:
+  size:
     if: github.repository == 'intlify/vue-i18n'
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      actions: read # to download the size data of master
+    outputs:
+      report: ${{ steps.report.outputs.report }}
 
     steps:
       - name: Checkout
@@ -38,14 +46,61 @@ jobs:
       - name: Check size
         run: pnpm size
 
-      - name: Save PR number & base branch
-        if: ${{github.event_name == 'pull_request'}}
-        run: |
-          echo ${{ github.event.number }} > ./temp/size/number.txt
-          echo ${{ github.base_ref }} > ./temp/size/base.txt
-
       - name: Upload Size Data
+        if: github.event_name == 'push'
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: size-data
           path: temp/size
+
+      - name: Download Size Data of master
+        if: github.event_name == 'pull_request'
+        uses: dawidd6/action-download-artifact@eab87c9830c39eff17e5a6eadb20bfb4bc880477 # v27
+        with:
+          workflow: size-data.yml
+          branch: master
+          event: push
+          name: size-data
+          path: temp/size-prev
+          if_no_artifact_found: warn
+
+      - name: Report size
+        id: report
+        if: github.event_name == 'pull_request'
+        run: |
+          pnpm exec tsx scripts/report-size.ts > size-report.md
+          cat size-report.md >> "$GITHUB_STEP_SUMMARY"
+          delimiter="EOF_$(openssl rand -hex 16)"
+          {
+            echo "report<<$delimiter"
+            cat size-report.md
+            echo '<!-- INTLIFY_VUE_I18N_SIZE -->'
+            echo "$delimiter"
+          } >> "$GITHUB_OUTPUT"
+
+  comment:
+    needs: size
+    # A pull request from a fork gets a read-only token, so only pull requests
+    # from this repository get a comment. The others have the report in the job summary.
+    # This job runs no code of the pull request.
+    if: github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+
+    steps:
+      - name: Find Comment
+        id: find-comment
+        uses: peter-evans/find-comment@b30e6a3c0ed37e7c023ccd3f1db5c6c0b0c23aad # v4.0.0
+        with:
+          issue-number: ${{ github.event.pull_request.number }}
+          comment-author: github-actions[bot]
+          body-includes: '<!-- INTLIFY_VUE_I18N_SIZE -->' # eslint-disable-line yml/plain-scalar
+
+      - name: Create or update comment
+        uses: peter-evans/create-or-update-comment@e8674b075228eee787fea43ef493e45ece1004c9 # v5.0.0
+        with:
+          comment-id: ${{ steps.find-comment.outputs.comment-id }}
+          issue-number: ${{ github.event.pull_request.number }}
+          body: ${{ needs.size.outputs.report }}
+          edit-mode: replace
