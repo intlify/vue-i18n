@@ -17,7 +17,6 @@ jobs:
     name: Run zizmor
     runs-on: ubuntu-latest
     permissions:
-      security-events: write
       contents: read
       actions: read
     steps:
@@ -30,3 +29,7 @@ jobs:
         uses: zizmorcore/zizmor-action@cc914d7f3750a2d13d75c7f184a1060aa0e9d482 # v0.6.4
         with:
           inputs: .github/workflows/
+          # With Advanced Security (SARIF), zizmor never fails the job, so findings go unnoticed.
+          # Fail the job on findings instead, and show them as annotations on the pull request.
+          advanced-security: false
+          annotations: true
