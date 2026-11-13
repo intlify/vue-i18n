@@ -71,6 +71,8 @@ jobs:
         with:
           node-version: 24
           registry-url: https://registry.npmjs.org
+          # This job publishes to npm, so install from a clean state, not from a cache that other runs can write.
+          package-manager-cache: false
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
