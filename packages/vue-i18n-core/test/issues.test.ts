@@ -1697,3 +1697,24 @@ describe('issue #2455', () => {
     )
   })
 })
+
+test('#2777', () => {
+  const i18n = createI18n({
+    locale: 'en',
+    messages: {
+      en: {
+        home: 'Home',
+        nextLine: 'Go to @:home\nor stay here',
+        crlf: 'Go to @:home\r\nor stay here',
+        tab: '@:home\tpage',
+        upper: '@.upper:home\nx',
+        indent: 'Go to @:home\n  stay here'
+      }
+    }
+  })
+  expect(i18n.global.t('nextLine')).toEqual('Go to Home\nor stay here')
+  expect(i18n.global.t('crlf')).toEqual('Go to Home\nor stay here')
+  expect(i18n.global.t('tab')).toEqual('Home\tpage')
+  expect(i18n.global.t('upper')).toEqual('HOME\nx')
+  expect(i18n.global.t('indent')).toEqual('Go to Home\n  stay here')
+})

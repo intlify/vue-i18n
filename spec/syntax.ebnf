@@ -17,7 +17,7 @@ Named ::= "{" Space? (NamedIdentifier) Space? "}";
 List ::= "{" Space? (NumberLiteral) Space? "}";
 Linked ::= "@" (LinkedModifier)? LinkedDelimiter LinkedRefer;
 LinkedRefer ::= LinkedKey | Placeholder;
-LinkedKey ::= Text;
+LinkedKey ::= LinkedKeyChar+;
 LinkedModifier ::= LinkedDot Identifier;
 LinkedDelimiter ::= ":";
 LinkedDot ::= ".";
@@ -26,6 +26,8 @@ LinkedDot ::= ".";
 AnyChar ::= [#x0-#xD7FF] | [#xE000-#xFFFD] | [#x10000-#x10FFFF];  (* Unicode character *)
 SpecialChar ::= "{" | "}" | "|" | "@";
 TextChar ::= AnyChar - SpecialChar - LineEnd;
+LinkedKeyChar ::= AnyChar - LinkedKeySpecialChar;
+LinkedKeySpecialChar ::= "{" | "@" | "|" | "(" | ")" | Space;
 
 (* literals *)
 StringLiteral ::= "'" QuotedChar* "'";
@@ -45,5 +47,5 @@ NamedIdentifier ::= [a-zA-Z_] [a-zA-Z0-9_\-$]*;
 (* whitespaces *)
 SpaceInline ::= #x0020; (* "\u0020" *)
 Tab ::= #x0009; (* \n0009 *)
-LineEnd ::= #x000D#x000A | #x000A; (* "\u000D\u000A" | "\u000A" *)
+LineEnd ::= #x000D#x000A | #x000A | #x2028 | #x2029; (* CRLF | LF | LS | PS *)
 Space ::= (Tab | SpaceInline | LineEnd)+;
