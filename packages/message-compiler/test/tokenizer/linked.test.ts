@@ -951,3 +951,54 @@ test('issue #1547', () => {
     }
   })
 })
+
+test('issue #2777', () => {
+  const tokenizer = createTokenizer('hi @:name\n !')
+  expect(tokenizer.nextToken()).toEqual({
+    type: TokenTypes.Text,
+    value: 'hi ',
+    loc: {
+      start: { line: 1, column: 1, offset: 0 },
+      end: { line: 1, column: 4, offset: 3 }
+    }
+  })
+  expect(tokenizer.nextToken()).toEqual({
+    type: TokenTypes.LinkedAlias,
+    value: '@',
+    loc: {
+      start: { line: 1, column: 4, offset: 3 },
+      end: { line: 1, column: 5, offset: 4 }
+    }
+  })
+  expect(tokenizer.nextToken()).toEqual({
+    type: TokenTypes.LinkedDelimiter,
+    value: ':',
+    loc: {
+      start: { line: 1, column: 5, offset: 4 },
+      end: { line: 1, column: 6, offset: 5 }
+    }
+  })
+  expect(tokenizer.nextToken()).toEqual({
+    type: TokenTypes.LinkedKey,
+    value: 'name',
+    loc: {
+      start: { line: 1, column: 6, offset: 5 },
+      end: { line: 1, column: 10, offset: 9 }
+    }
+  })
+  expect(tokenizer.nextToken()).toEqual({
+    type: TokenTypes.Text,
+    value: '\n !',
+    loc: {
+      start: { line: 1, column: 10, offset: 9 },
+      end: { line: 2, column: 3, offset: 12 }
+    }
+  })
+  expect(tokenizer.nextToken()).toEqual({
+    type: TokenTypes.EOF,
+    loc: {
+      start: { line: 2, column: 3, offset: 12 },
+      end: { line: 2, column: 3, offset: 12 }
+    }
+  })
+})
