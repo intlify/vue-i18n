@@ -98,6 +98,25 @@ describe('features', () => {
     expect(translate(ctx, 'greeting')).toEqual('hello NONEXISTENT !')
   })
 
+  test('linked key ends at new line and tab', () => {
+    const ctx = context({
+      locale: 'en',
+      messages: {
+        en: {
+          home: 'Home',
+          lf: 'Go to @:home\nor stay',
+          crlf: 'Go to @:home\r\nor stay',
+          tab: '@:home\tpage',
+          upper: '@.upper:home\nx'
+        }
+      }
+    })
+    expect(translate(ctx, 'lf')).toEqual('Go to Home\nor stay')
+    expect(translate(ctx, 'crlf')).toEqual('Go to Home\nor stay')
+    expect(translate(ctx, 'tab')).toEqual('Home\tpage')
+    expect(translate(ctx, 'upper')).toEqual('HOME\nx')
+  })
+
   test('linked with a modifier that is not found', () => {
     const mockWarnOnce = vi.spyOn(shared, 'warnOnce')
     mockWarnOnce.mockImplementation(() => {})

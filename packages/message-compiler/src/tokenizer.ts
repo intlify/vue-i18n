@@ -629,9 +629,9 @@ export function createTokenizer(source: string, options: TokenizeOptions = {}): 
         !ch
       ) {
         return buf
-      } else if (ch === SPACE) {
+      } else if (ch === SPACE || ch === NEW_LINE || ch === '\t') {
         return buf
-      } else if (ch === NEW_LINE || ch === DOT) {
+      } else if (ch === DOT) {
         buf += ch
         scnr.next()
         return fn(buf)
