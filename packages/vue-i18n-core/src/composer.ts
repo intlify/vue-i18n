@@ -1506,6 +1506,28 @@ export interface Composer<
     locale?: Locales
   ): boolean
   /**
+   * Resolved locale message translation exist
+   *
+   * @remarks
+   * Checks whether a locale message resolved by {@link Composer#tm | `tm`} can be translated with {@link Composer#rt | `rt`}.
+   *
+   * `te` checks the presence of a locale message by its key, but a locale message that is an element of a list or an object returned by `tm` has no key. For such a locale message, use `rte` before `rt`.
+   *
+   * @example
+   * ```html
+   * <template>
+   *   <div v-for="item in tm('items')">
+   *     <p v-if="rte(item.description)">{{ rt(item.description) }}</p>
+   *   </div>
+   * </template>
+   * ```
+   *
+   * @param message - A target locale message to be checked. You will need to specify the locale message returned by `tm`.
+   *
+   * @returns If `message` is a translatable locale message (a string, a message AST or a message function), `true`, else `false`. Note that `false` is returned for the other values (e.g. `undefined`, a boolean, a number, an object and an array), because they are not locale messages, and `rt` throws an error for some of them.
+   */
+  rte(this: void, message: unknown): boolean
+  /**
    * Locale messages getter
    *
    * @remarks
@@ -2376,6 +2398,11 @@ export function createComposer(options: any = {}): ComposerInternalInstance {
     )
   }
 
+  // rte
+  function rte(message: unknown): boolean {
+    return isMessageFormat(message)
+  }
+
   function resolveMessages(key: Path): LocaleMessageValue<Message> | null {
     let messages: LocaleMessageValue<Message> | null = null
     // the same locale chain as `t()`
@@ -2620,6 +2647,7 @@ export function createComposer(options: any = {}): ComposerInternalInstance {
     ).numberFormats = numberFormats
     composer.rt = rt
     composer.te = te
+    composer.rte = rte
     composer.tm = tm as ComposerInternalInstance['tm']
     composer.d = d as ComposerInternalInstance['d']
     composer.n = n as ComposerInternalInstance['n']

@@ -264,6 +264,7 @@ By default (`globalInjection: true`), Vue I18n injects the following properties 
   - `availableLocales`
 - `$t`: `t` function of Composer that is global scope
 - `$rt`: `rt` function of Composer that is global scope
+- `$rte`: `rte` function of Composer that is global scope
 - `$d`: `d` function of Composer that is global scope
 - `$n`: `n` function of Composer that is global scope
 - `$tm`: `tm` function of Composer that is global scope
