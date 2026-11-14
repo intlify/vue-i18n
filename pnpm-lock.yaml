@@ -136,8 +136,8 @@ importers:
         specifier: ^0.0.37
         version: 0.0.37
       playwright-core:
-        specifier: ^1.65.0
-        version: 1.65.0
+        specifier: ^1.65.1
+        version: 1.65.1
       prettier:
         specifier: ^3.3.3
         version: 3.3.3
@@ -1285,8 +1285,8 @@ packages:
     resolution: {integrity: sha512-t/RVemtM3bTE/wa7zqR+zkumy4dda5skVhxAh+3oYbOyJRw1y3B0FWiuB2Awa1HgoYC0DuPYrsAsQoeLy2eQPQ==}
     engines: {node: '>= 16'}
 
-  '@intlify/message-compiler@12.0.0-alpha.10':
-    resolution: {integrity: sha512-xBEgx662GU3tQ1HljfcGZA+HkqXaeZjPnaPUTAOhsiPnWy1VTRaZGuFzbnPMXRCOxsGviLBc/dNy4kL4v2kXxQ==}
+  '@intlify/message-compiler@12.0.0-alpha.11':
+    resolution: {integrity: sha512-Hbk8DJZxGBUg+I7BbV7RcOeBqOOVQ1xs6vz2fguICLpidY/bkjlIjSCriWQ6Am03x2+z4Nukr6NRP2TA++2D7Q==}
     engines: {node: '>= 22'}
 
   '@intlify/message-compiler@9.10.2':
@@ -1297,12 +1297,12 @@ packages:
     resolution: {integrity: sha512-IHzgEu61/YIpQV5Pc3aRWScDcnFKWvQA9kigcINcCBXN8mbW+vk9SK+lDxA6STzKQsVJxUPg9ACC52pKKo3SVQ==}
     engines: {node: '>= 16'}
 
-  '@intlify/shared@11.4.19':
-    resolution: {integrity: sha512-JCor7CqIfZJHyAM+OzUUNRvc+D6v5RJBXHu/FRNiwFOopqftBsvRtTM5tOiptPIT3S6Ryt9DOupdM+tNGwoUcw==}
+  '@intlify/shared@11.4.20':
+    resolution: {integrity: sha512-qg2pOSUU5Xr2fHZCmluah8h/g/4MG5RfzIZBVR8Id0/c2EKsCPtWvamSiVtwc+4VvYnEGQxZast7uQMTb6jP9A==}
     engines: {node: '>= 22'}
 
-  '@intlify/shared@12.0.0-alpha.10':
-    resolution: {integrity: sha512-X3EJ2Mq0WG1Eq2kiAMRjgikh/CEDinEhAPKg2DiXqOsHoAn87I1eZL3dLAKJOceLpPc/VOyJZk2Qxj4PyP8XCw==}
+  '@intlify/shared@12.0.0-alpha.11':
+    resolution: {integrity: sha512-hOwvi2x0BbABV0MgmPHp+E5hL6y0Q+w4JzpNKAKXSjNuDYwzZgz/C9pfJ+kD98hSAiVjBCcCVHZ0MFnIdUUXtg==}
     engines: {node: '>= 22'}
 
   '@intlify/shared@9.10.2':
@@ -5643,8 +5643,8 @@ packages:
   pkg-types@1.3.1:
     resolution: {integrity: sha512-/Jm5M4RvtBFVkKWRu2BLUTNP8/M2a+UwuAX+ae4770q1qVGtfjG+WTCupoZixokjmHiry8uI+dlY8KXYV5HVVQ==}
 
-  playwright-core@1.65.0:
-    resolution: {integrity: sha512-vNSKgH6YqtN7cdT/L334zo0a+YwkrpicyrHJlWWPIm/Q+Nn2SWInil01oT0mbu96U4GgoRtCYQD9CzJQgju+lA==}
+  playwright-core@1.65.1:
+    resolution: {integrity: sha512-hqPpz7blSMPxWVdoeE1yiBSzXsKiVOd2k+kjCvmUywD2GPO2Dd9HfcWnq9NN0GHbNZDFgZ9JfBFr+X5/BLo0qw==}
     engines: {node: '>=20'}
     hasBin: true
 
@@ -7898,8 +7898,8 @@ snapshots:
 
   '@intlify/bundle-utils@12.0.0-alpha.4(@emnapi/core@1.10.0)(@emnapi/runtime@1.10.0)(vue-i18n@packages+vue-i18n)':
     dependencies:
-      '@intlify/message-compiler': 12.0.0-alpha.10
-      '@intlify/shared': 12.0.0-alpha.10
+      '@intlify/message-compiler': 12.0.0-alpha.11
+      '@intlify/shared': 12.0.0-alpha.11
       escodegen: 2.1.0
       jsonc-eslint-parser: 2.4.2
       oxc-parser: 0.131.0
@@ -7938,9 +7938,9 @@ snapshots:
       '@intlify/core-base': 9.10.2
       '@intlify/shared': 9.10.2
 
-  '@intlify/message-compiler@12.0.0-alpha.10':
+  '@intlify/message-compiler@12.0.0-alpha.11':
     dependencies:
-      '@intlify/shared': 12.0.0-alpha.10
+      '@intlify/shared': 12.0.0-alpha.11
       source-map-js: 1.2.2
 
   '@intlify/message-compiler@9.10.2':
@@ -7953,9 +7953,9 @@ snapshots:
       '@intlify/shared': 9.14.5
       source-map-js: 1.2.2
 
-  '@intlify/shared@11.4.19': {}
+  '@intlify/shared@11.4.20': {}
 
-  '@intlify/shared@12.0.0-alpha.10': {}
+  '@intlify/shared@12.0.0-alpha.11': {}
 
   '@intlify/shared@9.10.2': {}
 
@@ -9462,7 +9462,7 @@ snapshots:
 
   api-docs-gen@0.4.0(@types/node@22.5.3):
     dependencies:
-      '@intlify/shared': 11.4.19
+      '@intlify/shared': 11.4.20
       '@microsoft/api-extractor-model': 7.28.9(@types/node@22.5.3)
       '@microsoft/tsdoc': 0.13.2
       '@microsoft/tsdoc-config': 0.15.2
@@ -12793,7 +12793,7 @@ snapshots:
       mlly: 1.8.2
       pathe: 2.0.3
 
-  playwright-core@1.65.0: {}
+  playwright-core@1.65.1: {}
 
   portfinder@1.0.32(supports-color@6.1.0):
     dependencies:
