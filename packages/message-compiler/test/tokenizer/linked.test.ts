@@ -951,3 +951,137 @@ test('issue #1547', () => {
     }
   })
 })
+
+describe('a line break or a tab ends a linked key, as a space does (#2777)', () => {
+  const tokens = (source: string) => parse(source, { location: false })
+
+  test('line break', () => {
+    const tokenizer = createTokenizer('hi @:name\n!')
+    expect(tokenizer.nextToken()).toEqual({
+      type: TokenTypes.Text,
+      value: 'hi ',
+      loc: {
+        start: { line: 1, column: 1, offset: 0 },
+        end: { line: 1, column: 4, offset: 3 }
+      }
+    })
+    expect(tokenizer.nextToken()).toEqual({
+      type: TokenTypes.LinkedAlias,
+      value: '@',
+      loc: {
+        start: { line: 1, column: 4, offset: 3 },
+        end: { line: 1, column: 5, offset: 4 }
+      }
+    })
+    expect(tokenizer.nextToken()).toEqual({
+      type: TokenTypes.LinkedDelimiter,
+      value: ':',
+      loc: {
+        start: { line: 1, column: 5, offset: 4 },
+        end: { line: 1, column: 6, offset: 5 }
+      }
+    })
+    expect(tokenizer.nextToken()).toEqual({
+      type: TokenTypes.LinkedKey,
+      value: 'name',
+      loc: {
+        start: { line: 1, column: 6, offset: 5 },
+        end: { line: 1, column: 10, offset: 9 }
+      }
+    })
+    expect(tokenizer.nextToken()).toEqual({
+      type: TokenTypes.Text,
+      value: '\n!',
+      loc: {
+        start: { line: 1, column: 10, offset: 9 },
+        end: { line: 2, column: 2, offset: 11 }
+      }
+    })
+    expect(tokenizer.nextToken()).toEqual({
+      type: TokenTypes.EOF,
+      loc: {
+        start: { line: 2, column: 2, offset: 11 },
+        end: { line: 2, column: 2, offset: 11 }
+      }
+    })
+  })
+
+  test('CRLF', () => {
+    // the scanner reads CRLF as LF
+    expect(tokens('hi @:name\r\n!')).toEqual([
+      { type: TokenTypes.Text, value: 'hi ' },
+      { type: TokenTypes.LinkedAlias, value: '@' },
+      { type: TokenTypes.LinkedDelimiter, value: ':' },
+      { type: TokenTypes.LinkedKey, value: 'name' },
+      { type: TokenTypes.Text, value: '\n!' },
+      { type: TokenTypes.EOF }
+    ])
+  })
+
+  test('tab', () => {
+    expect(tokens('hi @:name\t!')).toEqual([
+      { type: TokenTypes.Text, value: 'hi ' },
+      { type: TokenTypes.LinkedAlias, value: '@' },
+      { type: TokenTypes.LinkedDelimiter, value: ':' },
+      { type: TokenTypes.LinkedKey, value: 'name' },
+      { type: TokenTypes.Text, value: '\t!' },
+      { type: TokenTypes.EOF }
+    ])
+  })
+
+  test('with modifier', () => {
+    expect(tokens('@.upper:name\nx')).toEqual([
+      { type: TokenTypes.LinkedAlias, value: '@' },
+      { type: TokenTypes.LinkedDot, value: '.' },
+      { type: TokenTypes.LinkedModifier, value: 'upper' },
+      { type: TokenTypes.LinkedDelimiter, value: ':' },
+      { type: TokenTypes.LinkedKey, value: 'name' },
+      { type: TokenTypes.Text, value: '\nx' },
+      { type: TokenTypes.EOF }
+    ])
+  })
+
+  test('line break at the end', () => {
+    expect(tokens('hi @:name\n')).toEqual([
+      { type: TokenTypes.Text, value: 'hi ' },
+      { type: TokenTypes.LinkedAlias, value: '@' },
+      { type: TokenTypes.LinkedDelimiter, value: ':' },
+      { type: TokenTypes.LinkedKey, value: 'name' },
+      { type: TokenTypes.Text, value: '\n' },
+      { type: TokenTypes.EOF }
+    ])
+  })
+
+  test('line break and indent', () => {
+    expect(tokens('hi @:name\n  !')).toEqual([
+      { type: TokenTypes.Text, value: 'hi ' },
+      { type: TokenTypes.LinkedAlias, value: '@' },
+      { type: TokenTypes.LinkedDelimiter, value: ':' },
+      { type: TokenTypes.LinkedKey, value: 'name' },
+      { type: TokenTypes.Text, value: '\n  !' },
+      { type: TokenTypes.EOF }
+    ])
+  })
+
+  test('tab right after delimiter', () => {
+    // skipped, so that the key does not end before it starts
+    expect(tokens('hi @:\tname')).toEqual([
+      { type: TokenTypes.Text, value: 'hi ' },
+      { type: TokenTypes.LinkedAlias, value: '@' },
+      { type: TokenTypes.LinkedDelimiter, value: ':' },
+      { type: TokenTypes.LinkedKey, value: 'name' },
+      { type: TokenTypes.EOF }
+    ])
+  })
+})
+
+test('long linked key', () => {
+  // the key is read in a loop, not with a recursive call per character
+  const key = 'a'.repeat(100000)
+  expect(parse(`@:${key}`, { location: false })).toEqual([
+    { type: TokenTypes.LinkedAlias, value: '@' },
+    { type: TokenTypes.LinkedDelimiter, value: ':' },
+    { type: TokenTypes.LinkedKey, value: key },
+    { type: TokenTypes.EOF }
+  ])
+})
