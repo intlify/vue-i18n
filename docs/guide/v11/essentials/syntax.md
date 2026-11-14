@@ -170,6 +170,10 @@ As result the below:
 <p>DIO: the world !!!!</p>
 ```
 
+:::tip NOTE
+A linked key ends at a space, a tab, a line break, or one of `{`, `@`, `|`, `(` and `)`. Other characters, such as `.` and `!`, are read as part of the key. To put such a character right after a linked message, write the key with [Literal interpolation](#literal-interpolation): `@:{'message.the_world'}!!!!` results in `the world!!!!`.
+:::
+
 ### Built-in Modifiers
 
 If the language distinguish cases of character, you may need control the case of the linked locale messages.
@@ -297,7 +301,7 @@ As result, the below
 In this case, the values for `{0}` and `{1}` are passed as an array. The keys `name` and `day` are resolved using list interpolation and transformed with modifiers.
 
 ```html
-<p>{{ $t('welcome', ['bob', 'MONDAY']) }}</p>
+<p>{{ $t('welcome', ['bob', 'monday']) }}</p>
 ```
 
 As result, the below
