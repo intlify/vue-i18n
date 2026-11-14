@@ -87,7 +87,7 @@
     "@intlify/message-compiler": "workspace:*",
     "@intlify/vue-i18n-core": "workspace:*",
     "@kazupon/eslint-config": "^0.45.0",
-    "@kazupon/eslint-plugin": "^0.7.1",
+    "@kazupon/eslint-plugin": "^0.8.0",
     "@kazupon/prettier-config": "^0.2.0",
     "@types/eslint": "^9.6.1",
     "@types/jsdom": "^27.0.0",
