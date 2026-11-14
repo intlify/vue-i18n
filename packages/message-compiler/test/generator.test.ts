@@ -427,6 +427,16 @@ describe('linked', () => {
       expect(mapping).toMatchSnapshot(`${mapping.name} mapping`)
     })
   })
+
+  test('key that ends at a line break (#2777)', () => {
+    const parser = createParser()
+    const msg = 'hi @:name\n!'
+    const ast = parser.parse(msg)
+    transform(ast)
+    const { code } = generate(ast)
+
+    expect(code).toMatch(`"hi ", _linked("name", undefined, _type), "\\n!"`)
+  })
 })
 
 describe('plural', () => {

@@ -35,7 +35,7 @@ const enum TokenChars {
 }
 
 const EOF = undefined
-const DOT = '.'
+const TAB = '\t'
 const LITERAL_DELIMITER = "'"
 export const ERROR_DOMAIN = 'tokenizer'
 
@@ -674,32 +674,35 @@ export function createTokenizer(
     return name
   }
 
+  // LinkedKeyChar ::= AnyChar - LinkedKeySpecialChar (spec/syntax.ebnf)
+  function isLinkedKeyChar(ch: string): boolean {
+    return !(
+      ch === TokenChars.BraceLeft ||
+      ch === TokenChars.LinkedAlias ||
+      ch === TokenChars.Pipe ||
+      ch === TokenChars.ParenLeft ||
+      ch === TokenChars.ParenRight ||
+      ch === SPACE ||
+      ch === TAB ||
+      ch === NEW_LINE
+    )
+  }
+
   function readLinkedRefer(scnr: Scanner): string {
-    const fn = (buf: string): string => {
-      const ch = scnr.currentChar()
-      if (
-        ch === TokenChars.BraceLeft ||
-        ch === TokenChars.LinkedAlias ||
-        ch === TokenChars.Pipe ||
-        ch === TokenChars.ParenLeft ||
-        ch === TokenChars.ParenRight ||
-        !ch
-      ) {
-        return buf
-      } else if (ch === SPACE) {
-        return buf
-      } else if (ch === NEW_LINE || ch === DOT) {
-        buf += ch
-        scnr.next()
-        return fn(buf)
-      } else {
-        buf += ch
-        scnr.next()
-        return fn(buf)
-      }
+    // A tab right after `:` has been read into the key, and the key path resolver ignores it.
+    // Skip it, so that the key does not end before it starts.
+    while (scnr.currentChar() === TAB) {
+      scnr.next()
     }
 
-    return fn('')
+    let buf = ''
+    let ch: string | undefined
+    while ((ch = scnr.currentChar()) && isLinkedKeyChar(ch)) {
+      buf += ch
+      scnr.next()
+    }
+
+    return buf
   }
 
   function readPlural(scnr: Scanner): string {
