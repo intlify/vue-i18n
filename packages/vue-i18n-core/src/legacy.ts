@@ -282,6 +282,7 @@ export interface VueI18nOptions<
    * Whether to escape parameters for list or named interpolation values.
    * When enabled, this option:
    * - Escapes HTML special characters (`<`, `>`, `"`, `'`, `&`, `/`, `=`) in interpolation parameters
+   * - Escapes the text of interpolation parameters that are not strings, such as arrays and objects
    * - Sanitizes the final translated HTML to prevent XSS attacks by:
    *   - Reading tags and attributes in the same way as the HTML parser of browsers, so that every attribute is checked
    *   - Escaping dangerous characters in HTML attribute values

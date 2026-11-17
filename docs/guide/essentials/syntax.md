@@ -514,6 +514,7 @@ t('message.welcome', { name: userInput }, { escapeParameter: true })
 
 When the escape parameter option is enabled:
 - HTML special characters (`<`, `>`, `"`, `'`, `&`, `/`, `=`) in interpolation parameters are escaped
+- Interpolation parameters that are not strings, such as arrays and objects, are escaped after they are turned into text
 - The final translated HTML is sanitized to prevent XSS attacks:
   - Tags and attributes are read in the same way as the HTML parser of browsers, so that every attribute is checked
   - Dangerous characters in HTML attribute values are escaped
@@ -543,6 +544,8 @@ $t('message.welcome', { name: userInput }, { escapeParameter: true })
 
 :::warning IMPORTANT
 `escapeParameter` protects HTML messages that you trust from the values passed to them. It does not make messages from untrusted sources safe to render with `v-html`.
+
+A [message function](../advanced/function) receives the parameters as they are passed. Strings are already escaped, but other values, such as arrays, are not. Escape them when you put them into the result.
 
 Even with the escape parameter option enabled, you should still be cautious about using HTML in translations. Always validate and sanitize user input before using it in translations, and prefer [Component interpolation](../advanced/component) when possible.
 :::
