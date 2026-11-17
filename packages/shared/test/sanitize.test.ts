@@ -7,8 +7,10 @@ vi.mock('../src/warn', () => ({
 }))
 
 import { escapeHtml, sanitizeTranslatedHtml } from '../src/sanitize'
+import { warn } from '../src/warn'
 
 const XLINK_NAMESPACE = 'http://www.w3.org/1999/xlink'
+const HTML_NAMESPACE = 'http://www.w3.org/1999/xhtml'
 
 // The attribute names of every element, as a browser reads the HTML
 function attributeNamesOf(html: string): string[] {
@@ -348,7 +350,7 @@ describe('sanitizeTranslatedHtml', () => {
     // `<script>` does not run with `innerHTML`, but runs when the HTML is rendered on the server (SSR)
     const html = '<script>alert(1)</script>Test'
     const result = sanitizeTranslatedHtml(html)
-    expect(result).toBe('&lt;script>alert(1)</script>Test')
+    expect(result).toBe('&lt;script>alert(1)Test')
     expect(JSDOM.fragment(result).querySelector('script')).toBeNull()
   })
 
@@ -624,6 +626,100 @@ describe('sanitizeTranslatedHtml: read tags as the HTML tokenizer does', () => {
   })
 })
 
+// The DOM that browsers make from a translation rendered with `v-html` (`innerHTML`)
+const renderBox = new JSDOM().window.document.createElement('div')
+
+function render(html: string): string {
+  renderBox.innerHTML = html
+  return renderBox.innerHTML
+}
+
+describe('sanitizeTranslatedHtml: elements left open', () => {
+  test.each([
+    ['line break', 'Hello<br>World'],
+    ['formatting elements', '<strong>Hello</strong>, <em>World</em>'],
+    ['link', '<a href="/docs">Docs</a>'],
+    ['list', '<ul><li>a</li><li>b</li></ul>'],
+    ['table', '<table><tbody><tr><td>a</td><td>b</td></tr></tbody></table>'],
+    ['select', '<select><option>a</option><option>b</option></select>'],
+    ['template', '<template><div>a</div></template>'],
+    ['SVG icon', '<svg viewBox="0 0 10 10"><path d="M0 0L10 10"/></svg> icon'],
+    ['MathML', '<math><mi>x</mi><mo>=</mo><mn>1</mn></math>'],
+    ['SVG foreignObject', '<svg><foreignObject><div>x</div></foreignObject></svg>'],
+    ['form', '<form action="/search"><input name="q"><button>Search</button></form>'],
+    ['void elements', '<img src="/a.png" alt="a"><hr><input type="checkbox">'],
+    ['comment', '<b>x</b><!-- note -->']
+  ])('keep well-formed HTML as it is: %s', (_, html) => {
+    expect(sanitizeTranslatedHtml(html)).toBe(html)
+  })
+
+  test.each([
+    ['formatting element', '<b>bold', '<b>bold</b>'],
+    ['paragraphs', '<p>a<p>b', '<p>a</p><p>b</p>'],
+    ['paragraph before a list', '<p>Intro<ul><li>a</li></ul>', '<p>Intro</p><ul><li>a</li></ul>'],
+    ['list items', '<ul><li>a<li>b</ul>after', '<ul><li>a<li>b</li></li></ul>after'],
+    [
+      'table cells',
+      '<table><tr><td>a<td>b</table>after',
+      '<table><tr><td>a<td>b</td></td></tr></table>after'
+    ],
+    ['element in an element', '<div><span>x</div>y', '<div><span>x</span></div>y'],
+    [
+      'SVG',
+      '<svg viewBox="0 0 1 1"><path d="M0 0"/>',
+      '<svg viewBox="0 0 1 1"><path d="M0 0"/></svg>'
+    ],
+    ['tag that leaves SVG', '<svg><g><p>x', '<svg><g></g></svg><p>x</p>']
+  ])('close the elements that are left open: %s', (_, html, expected) => {
+    const result = sanitizeTranslatedHtml(html)
+    expect(result).toBe(expected)
+    // browsers close them in the same way when the translation is rendered on the client
+    expect(render(result)).toBe(render(html))
+    expect(sanitizeTranslatedHtml(result)).toBe(result)
+  })
+
+  test('close the elements in an element before its end tag', () => {
+    // browsers would make `<b>` again for `y`, which the translation does not ask for
+    expect(sanitizeTranslatedHtml('<p><b>x</p>y')).toBe('<p><b>x</b></p>y')
+  })
+
+  test('remove end tags that close no element of the translation', () => {
+    // they would close the element that the translation is rendered in, or an element after it
+    expect(sanitizeTranslatedHtml('a</div>b</span>c')).toBe('abc')
+  })
+
+  test('keep `</br>` and `</p>`, which browsers read as `<br>` and `<p></p>`', () => {
+    expect(sanitizeTranslatedHtml('Hello</br>World')).toBe('Hello</br>World')
+    expect(sanitizeTranslatedHtml('Hello</p>World')).toBe('Hello</p>World')
+  })
+
+  test('turn a form that the translation does not close into text', () => {
+    // in a form of the page, browsers ignore `<form>`, and `</form>` would close the form of the page
+    expect(sanitizeTranslatedHtml('<form action="/x"><input name="q">')).toBe(
+      '&lt;form action="/x"><input name="q">'
+    )
+  })
+
+  test.each([
+    ['foreignObject', '<foreignObject>x'],
+    ['desc', '<desc>x'],
+    ['mi', '<mi>x'],
+    ['annotation-xml', '<annotation-xml encoding="text/html">x']
+  ])('turn SVG and MathML integration points outside SVG and MathML into text: %s', (_, html) => {
+    expect(sanitizeTranslatedHtml(html)).toBe(`&lt;${html.slice(1)}`)
+  })
+
+  test('warn in development when elements are not closed', () => {
+    vi.mocked(warn).mockClear()
+    sanitizeTranslatedHtml('<b>bold')
+    expect(warn).toHaveBeenCalledWith(expect.stringContaining('Unclosed or misnested elements'))
+
+    vi.mocked(warn).mockClear()
+    sanitizeTranslatedHtml('<b>bold</b><br>')
+    expect(warn).not.toHaveBeenCalled()
+  })
+})
+
 describe('sanitizeTranslatedHtml: compare with the HTML parser', () => {
   // Pieces that change where the HTML tokenizer starts and ends tags, attributes and comments
   const PIECES = [
@@ -795,6 +891,232 @@ describe('sanitizeTranslatedHtml: compare with the HTML parser', () => {
       findFailures(() => `${pick(random, TAG_STARTS, 1)}${pick(random, ATTRIBUTE_PIECES, 12)}>x`)
     ).toEqual([])
   })
+
+  // Pieces that change how the tree builder opens and closes elements, including SVG and MathML
+  const ELEMENT_PIECES = [
+    '<svg>',
+    '</svg>',
+    '<svg/>',
+    '<math>',
+    '</math>',
+    '<mi>',
+    '</mi>',
+    '<mtext>',
+    '<mglyph>',
+    '<annotation-xml>',
+    '<annotation-xml encoding="text/html">',
+    '</annotation-xml>',
+    '<desc>',
+    '</desc>',
+    '<foreignObject>',
+    '</foreignObject>',
+    '<title>t</title>',
+    '<g>',
+    '</g>',
+    '<circle/>',
+    '<circle>',
+    '</circle>',
+    '<font color="red">',
+    '<font>',
+    '</font>',
+    '<object>',
+    '</object>',
+    '<applet>',
+    '<marquee>',
+    '</marquee>',
+    '<table>',
+    '</table>',
+    '<tr>',
+    '<td>',
+    '</td>',
+    '<caption>',
+    '<template>',
+    '</template>',
+    '<select>',
+    '</select>',
+    '<option>',
+    '</option>',
+    '<form>',
+    '</form>',
+    '<a href="/y">',
+    '</a>',
+    '<b>',
+    '</b>',
+    '<i>',
+    '</i>',
+    '<nobr>',
+    '<p>',
+    '</p>',
+    '<br>',
+    '</br>',
+    '<div>',
+    '</div>',
+    '<span>',
+    '</span>',
+    '<ul>',
+    '<li>',
+    '</li>',
+    '</ul>',
+    '<h1>',
+    '</h1>',
+    '<button>',
+    '</button>',
+    '<img src="x">',
+    '<input>',
+    '<body>',
+    '</body>',
+    '</html>',
+    '<head>',
+    '<style>s</style>',
+    '<textarea>t</textarea>',
+    'x',
+    ' ',
+    '&amp;'
+  ]
+  // Elements that a translation is rendered in: [name, start tags, end tags]
+  const CONTAINERS: [string, string, string][] = [
+    ['div', '<div>', '</div>'],
+    ['span', '<span>', '</span>'],
+    ['p', '<p>', '</p>'],
+    ['a', '<a href="/c">', '</a>'],
+    ['button', '<button>', '</button>'],
+    ['li', '<ul><li>', '</li></ul>'],
+    ['td', '<table><tbody><tr><td>', '</td></tr></tbody></table>'],
+    ['div in a form', '<form id="outer-form"><div>', '</div><input id="outer-input"></form>'],
+    ['span in an SVG foreignObject', '<svg><foreignObject id="fo"><span>', '</span>'],
+    ['button in an SVG foreignObject', '<svg><foreignObject id="fo"><button>', '</button>']
+  ]
+  // A start tag of a translation can close these containers (`<button>` closes `<button>`, and
+  // `<li>` closes `<li>`), and the end tags of the translation then close elements outside them.
+  // Browsers do the same with the closed translation, so only the script after them is checked
+  const CONTAINERS_CLOSED_BY_START_TAGS = new Set([
+    'button',
+    'li',
+    'button in an SVG foreignObject'
+  ])
+  // The rest of the page: an inline script, and elements with a link, a form and text
+  const REST_OF_PAGE =
+    '<script id="after-script">window.state = "&quot;"</script>' +
+    '<nav id="after"><a id="after-link" href="/x">link</a>' +
+    '<form id="after-form"><input id="after-input"></form><span id="after-text">text</span></nav>'
+
+  function checkInContainer(
+    result: string,
+    [name, start, end]: [string, string, string]
+  ): string | undefined {
+    const close = start.includes('<foreignObject') ? '</foreignObject></svg>' : ''
+    const page = pageParser.parseFromString(
+      `<!doctype html><body><main id="main">${start}${result}${end}${REST_OF_PAGE}${close}</main></body>`,
+      'text/html'
+    )
+    const script = page.getElementById('after-script')
+    if (script?.namespaceURI !== HTML_NAMESPACE) {
+      // an SVG script is parsed as markup, and character references in it are decoded before it runs
+      return `the script after the translation is not an HTML script in ${name}`
+    }
+    if (CONTAINERS_CLOSED_BY_START_TAGS.has(name)) {
+      return
+    }
+    const parent = page.getElementById('fo') || page.getElementById('main')
+    const after = page.getElementById('after')
+    const text = page.getElementById('after-text')
+    if (
+      script.parentNode !== parent ||
+      after?.parentNode !== parent ||
+      page.getElementById('after-link')?.parentNode !== after ||
+      text?.parentNode !== after ||
+      text.childNodes.length !== 1 ||
+      text.firstChild?.nodeType !== page.TEXT_NODE
+    ) {
+      return `the rest of the page is changed in ${name}`
+    }
+    // a `<form>` left open makes browsers ignore the `<form>` after it, and its inputs go to the open one
+    const form = page.getElementById('after-form')
+    const input = page.getElementById('after-input') as HTMLInputElement | null
+    if (!form || input?.form !== form) {
+      return `the form after the translation is taken over in ${name}`
+    }
+    const outerInput = page.getElementById('outer-input') as HTMLInputElement | null
+    // a `<form>` that the translation closes by itself still closes the form of the page,
+    // because browsers ignore the `<form>` in the form of the page
+    if (
+      outerInput &&
+      outerInput.form !== page.getElementById('outer-form') &&
+      !/<form[\t\n\f\r />]/i.test(result)
+    ) {
+      return `the form around the translation is closed in ${name}`
+    }
+  }
+
+  test(
+    'keep the rest of the page out of the elements that a translation leaves open',
+    { timeout },
+    () => {
+      const random = createRandom(3)
+      const failures: string[] = []
+      for (let count = 0; count < 300; count++) {
+        const html = pick(random, ELEMENT_PIECES, 10)
+        const result = sanitizeTranslatedHtml(html)
+        for (const container of CONTAINERS) {
+          const problem = checkInContainer(result, container)
+          if (problem) {
+            failures.push(`${problem}: ${JSON.stringify(html)}`)
+          }
+        }
+        if (sanitizeTranslatedHtml(result) !== result) {
+          failures.push(`the result changes when sanitized again: ${JSON.stringify(html)}`)
+        }
+      }
+      expect(failures).toEqual([])
+    }
+  )
+
+  // Translations that leave elements open, or that close elements outside them: the reported shapes, and
+  // the shapes found while fixing them. On the server (SSR), the rest of the page followed them in the
+  // same HTML, and was read as a part of what they left open: `<template>` and `<select>` took it in,
+  // `<form>` took in its inputs, and with `<svg>` kept open, the inline script after the translation
+  // became an SVG script, whose character references are decoded before it runs
+  const IN_DIV: [string, string, string] = ['div', '<div>', '</div>']
+  const IN_SPAN: [string, string, string] = ['span', '<span>', '</span>']
+  const IN_FOOTER: [string, string, string] = [
+    'small in a footer',
+    '<footer><small>',
+    '</small></footer>'
+  ]
+  const OPEN_ELEMENT_INPUTS: [string, string, string, string][] = [
+    ['<template><div>hidden</div>', ...IN_DIV],
+    ['<select><option>x</option>', ...IN_DIV],
+    ['<form action="/x">', ...IN_DIV],
+    ['<object><svg>', ...IN_DIV],
+    ['<table><svg>', ...IN_DIV],
+    ['<math><mi><svg>', ...IN_DIV],
+    ['<object><svg><desc><div></object></div></desc>', ...IN_DIV],
+    ['© Example<object><svg>', ...IN_FOOTER],
+    ['<div><svg>', ...IN_SPAN],
+    ['<li><svg>', ...IN_SPAN],
+    ['<form><b><img src="x"><svg>', ...IN_SPAN],
+    ['<select><div><svg>', ...IN_SPAN],
+    ['</a><svg>', 'a', '<a href="/c">', '</a>'],
+    [
+      '</span></foreignObject>',
+      'span in an SVG foreignObject',
+      '<svg><foreignObject id="fo"><span>',
+      '</span>'
+    ],
+    [
+      '<foreignObject><button>',
+      'button in an SVG foreignObject',
+      '<svg><foreignObject id="fo"><button>',
+      '</button>'
+    ]
+  ]
+
+  test.each(OPEN_ELEMENT_INPUTS)(
+    'keep the rest of the page out of what a translation leaves open: %s in %s',
+    (html, name, start, end) => {
+      expect(checkInContainer(sanitizeTranslatedHtml(html), [name, start, end])).toBeUndefined()
+    }
+  )
 
   // Inputs that the sanitizer used to read differently from browsers, as they are
   // - an attribute value that is not closed at the end of a translation

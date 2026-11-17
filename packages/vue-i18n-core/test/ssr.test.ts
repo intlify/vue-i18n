@@ -83,7 +83,7 @@ test('escapeParameter: neutralize script elements in v-html', async () => {
   app.use(i18n)
 
   // the browser runs a `<script>` in the HTML rendered on the server
-  expect(await renderToString(app)).toBe('<p>&lt;script>alert(1)</script>hello</p>')
+  expect(await renderToString(app)).toBe('<p>&lt;script>alert(1)hello</p>')
 })
 
 test('escapeParameter: turn unclosed tags in v-html into text', async () => {
