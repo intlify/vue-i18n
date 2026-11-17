@@ -18,6 +18,7 @@ import {
   measure,
   sanitizeTranslatedHtml,
   toDevtoolsGroupId,
+  toDisplayString,
   warn
 } from '@intlify/shared'
 import { isMessageAST } from './ast'
@@ -51,6 +52,8 @@ import type {
   MessageFunction,
   MessageFunctionInternal,
   MessageFunctionReturn,
+  MessageInterpolate,
+  MessageProcessor,
   NamedValue
 } from './runtime'
 import type {
@@ -159,6 +162,7 @@ export interface TranslateOptions<Locales = Locale> extends LocaleOptions<Locale
    * Whether to escape parameters for list or named interpolation values.
    * When enabled, this option:
    * - Escapes HTML special characters (`<`, `>`, `"`, `'`, `&`, `/`, `=`) in interpolation parameters
+   * - Escapes the text of interpolation parameters that are not strings, such as arrays and objects
    * - Sanitizes the final translated HTML to prevent XSS attacks by:
    *   - Reading tags and attributes in the same way as the HTML parser of browsers, so that every attribute is checked
    *   - Escaping dangerous characters in HTML attribute values
@@ -690,7 +694,13 @@ export function translate<Context extends CoreContext<Message, {}, {}, {}>, Mess
   }
 
   // evaluate message with context
-  const ctxOptions = getMessageContextOptions(context, targetLocale!, message, options)
+  const ctxOptions = getMessageContextOptions(
+    context,
+    targetLocale!,
+    message,
+    options,
+    escapeParameter
+  )
   const msgContext = createMessageContext<Message>(ctxOptions)
 
   // for vue-devtools timeline event
@@ -722,6 +732,8 @@ export function translate<Context extends CoreContext<Message, {}, {}, {}>, Mess
   return ret
 }
 
+// values that are not strings, such as arrays and objects, are kept here,
+// and their text is escaped when they are interpolated (see `resolveProcessor()`)
 function escapeParams(options: TranslateOptions) {
   // a call can pass both list and named values, so escape each of them
   if (isArray(options.list)) {
@@ -737,6 +749,25 @@ function escapeParams(options: TranslateOptions) {
     }
     options.named = named
   }
+}
+
+// strings have been escaped by `escapeParams()`. other values are turned into text here,
+// with `JSON.stringify()` for arrays and plain objects and `String()` for the rest, so escape that text
+function interpolateEscaped(value: unknown): string {
+  return isString(value) ? value : escapeHtml(toDisplayString(value))
+}
+
+function resolveProcessor<Message>(
+  processor: MessageProcessor<Message> | null,
+  escapeParameter: boolean
+): MessageProcessor<Message> | undefined {
+  // keep a processor that interpolates values by itself, such as the one of `<i18n-t>`, which renders VNodes
+  if (!escapeParameter || isFunction(processor?.interpolate)) {
+    return processor ?? undefined
+  }
+  return assign({}, processor, {
+    interpolate: interpolateEscaped as unknown as MessageInterpolate<Message>
+  })
 }
 
 function resolveMessageFormat<Messages, Message>(
@@ -1019,7 +1050,8 @@ function getMessageContextOptions<Messages, Message = string>(
   context: CoreContext<Message, Messages>,
   locale: Locale,
   message: LocaleMessageValue<Message>,
-  options: TranslateOptions
+  options: TranslateOptions,
+  escapeParameter: boolean
 ): MessageContextOptions<Message> {
   const {
     modifiers,
@@ -1074,7 +1106,7 @@ function getMessageContextOptions<Messages, Message = string>(
     modifiers,
     pluralRules,
     messages: resolveMessage,
-    processor: context.processor ?? undefined,
+    processor: resolveProcessor(context.processor, escapeParameter),
     list: options.list ?? undefined,
     named: options.named ?? undefined,
     pluralIndex: isNumber(options.plural) ? options.plural : undefined

@@ -62,6 +62,28 @@ test('slot contents', async () => {
   expect(wrapper.html()).toEqual(`<p class="name">hello, <span>kazupon</span>!</p>`)
 })
 
+test('slot contents with escapeParameter', async () => {
+  const i18n = createI18n({
+    locale: 'en',
+    escapeParameter: true,
+    messages
+  })
+
+  const App = defineComponent({
+    template: `
+<i18n-t tag="p" class="name" keypath="message.named">
+  <template #name>
+    <span>kazupon</span>
+  </template>
+</i18n-t>
+`
+  })
+  const wrapper = await mount(App, i18n)
+
+  // the slots are VNodes, so they are rendered as they are, not as escaped text
+  expect(wrapper.html()).toEqual(`<p class="name">hello, <span>kazupon</span>!</p>`)
+})
+
 test('DOM contents', async () => {
   const i18n = createI18n({
     locale: 'en',
