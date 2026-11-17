@@ -102,9 +102,7 @@ test('composition mode: escapeParameter neutralizes script elements', async () =
   app.use(i18n)
 
   // the browser runs a `<script>` in the HTML rendered on the server
-  expect(await renderToString(app)).toBe(
-    '<p>&lt;script>alert(1)</script>hello</p>'
-  )
+  expect(await renderToString(app)).toBe('<p>&lt;script>alert(1)hello</p>')
 })
 
 test('legacy mode: escapeParameterHtml neutralizes script elements', async () => {
@@ -120,9 +118,7 @@ test('legacy mode: escapeParameterHtml neutralizes script elements', async () =>
   const app = createSSRApp(App)
   app.use(i18n)
 
-  expect(await renderToString(app)).toBe(
-    '<p>&lt;script>alert(1)</script>hello</p>'
-  )
+  expect(await renderToString(app)).toBe('<p>&lt;script>alert(1)hello</p>')
 })
 
 test('composition mode: escapeParameter turns unclosed tags into text', async () => {
