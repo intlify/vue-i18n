@@ -953,6 +953,62 @@ describe('escapeParameter', () => {
       '<svg><a>&lt;set attributeName="href" to="javascript:alert(1)"/></a></svg>'
     )
   })
+
+  test('escape the text of parameters that are not strings', () => {
+    class Name {
+      toString() {
+        return '<b>kazupon</b>'
+      }
+    }
+    const ctx = context({
+      locale: 'en',
+      warnHtmlMessage: false,
+      escapeParameter: true,
+      messages: {
+        en: {
+          named: 'hello, {name}!',
+          list: 'hello, {0}!'
+        }
+      }
+    })
+
+    // arrays and plain objects are turned into JSON, and other objects into the text of `toString()`
+    expect(translate(ctx, 'named', { name: ['<b>kazupon</b>'] })).toEqual(
+      'hello, [\n  &quot;&lt;b&gt;kazupon&lt;&#x2F;b&gt;&quot;\n]!'
+    )
+    expect(
+      translate(ctx, 'named', { name: { name: '<b>kazupon</b>' } })
+    ).toEqual(
+      'hello, {\n  &quot;name&quot;: &quot;&lt;b&gt;kazupon&lt;&#x2F;b&gt;&quot;\n}!'
+    )
+    expect(translate(ctx, 'named', { name: new Name() })).toEqual(
+      'hello, &lt;b&gt;kazupon&lt;&#x2F;b&gt;!'
+    )
+    expect(translate(ctx, 'list', [['<b>kazupon</b>']])).toEqual(
+      'hello, [\n  &quot;&lt;b&gt;kazupon&lt;&#x2F;b&gt;&quot;\n]!'
+    )
+    // a number has no characters to escape
+    expect(translate(ctx, 'named', { name: 1 })).toEqual('hello, 1!')
+  })
+
+  test('pass parameters that are not strings to message functions as they are', () => {
+    const ctx = context({
+      locale: 'en',
+      warnHtmlMessage: false,
+      escapeParameter: true,
+      messages: {
+        en: {
+          // a message function can read the value itself, such as the length of an array
+          items: (ctx: MessageContext) =>
+            `${(ctx.named('items') as string[]).length} items`
+        }
+      }
+    })
+
+    expect(
+      translate(ctx, 'items', { items: ['<b>a</b>', '<b>b</b>'] })
+    ).toEqual('2 items')
+  })
 })
 
 describe('error', () => {
@@ -1287,6 +1343,30 @@ describe('processor', () => {
       { __v_isVNode: true, children: '20' },
       { __v_isVNode: true, children: ' apples from ' },
       { __v_isVNode: true, children: 'kazupon' }
+    ])
+  })
+
+  test('keep the values for the processor with escapeParameter', () => {
+    const ctx = context<VNode>({
+      locale: 'en',
+      escapeParameter: true,
+      messages: {
+        en: { hi: 'hi {name} !' }
+      }
+    })
+    ctx.processor = processor
+    // the processor interpolates VNodes by itself, as the one of `<i18n-t>` does, so they are not turned into text
+    expect(
+      // @ts-expect-error -- FIXME
+      translate<typeof ctx, string, PickupKeys<typeof ctx.messages>, VNode>(
+        ctx,
+        'hi',
+        { name: createTextNode('kazupon') }
+      )
+    ).toEqual([
+      { __v_isVNode: true, children: 'hi ' },
+      { __v_isVNode: true, children: 'kazupon' },
+      { __v_isVNode: true, children: ' !' }
     ])
   })
 })
