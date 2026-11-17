@@ -526,6 +526,7 @@ When the escape parameter option is enabled:
   - SVG `<animate>` and `<set>` elements are neutralized, because they can change the target of an SVG link
   - JavaScript URLs in href (and xlink:href of SVG), src, action, formaction, and style attributes are disabled
   - `<` in the content of `<textarea>`, `<title>`, `<style>`, `<iframe>` and similar elements is escaped, so that the content is read as text in HTML and in SVG
+  - Elements are followed as browsers open and close them, including SVG and MathML: an end tag that closes no element of the message is removed, and the elements that are still open at the end of the message are closed (a `<form>` is turned into text), because they would change how the rest of the page is read when the HTML is rendered on the server (SSR). For the same reason, `<foreignObject>`, `<desc>`, `<mi>` and similar SVG and MathML elements outside SVG and MathML are turned into text
   - A tag, a comment, or an element like `<textarea>` that is not closed at the end of the message is turned into text, because it would take in the rest of the page when the HTML is rendered on the server (SSR)
 
 #### Example
