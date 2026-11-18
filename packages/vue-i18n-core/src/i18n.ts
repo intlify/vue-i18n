@@ -884,6 +884,13 @@ export function useI18n<
     setupLifeCycle(i18nInternal, instance, composer)
 
     i18nInternal.__setInstance(instance, composer)
+    // Vue omits the component's effect scope from its published types.
+    const { scope: instanceScope } = instance as typeof instance & {
+      scope: EffectScope
+    }
+    instanceScope.run(() => {
+      onScopeDispose(() => i18nInternal.__deleteInstance(instance))
+    })
   } else {
     if (__DEV__ && scope === 'local') {
       warn(getWarnMessage(I18nWarnCodes.DUPLICATE_USE_I18N_CALLING))

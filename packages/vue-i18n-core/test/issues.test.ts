@@ -22,7 +22,9 @@ import {
   setDevToolsHook
 } from '@intlify/core-base'
 import {
+  Suspense,
   defineComponent,
+  effectScope,
   h,
   nextTick,
   ref,
@@ -36,6 +38,7 @@ import { ast } from './fixtures/ast'
 import { mount } from './helper'
 
 import type { ComponentOptions } from 'vue'
+import type { I18nInternal } from '../src/i18n'
 import type { IntlDateTimeFormats, IntlNumberFormats } from '../src/index'
 
 const container = document.createElement('div')
@@ -1717,4 +1720,86 @@ test('#2777', () => {
   expect(i18n.global.t('tab')).toEqual('Home\tpage')
   expect(i18n.global.t('upper')).toEqual('HOME\nx')
   expect(i18n.global.t('indent')).toEqual('Go to Home\n  stay here')
+})
+
+describe('#2795', () => {
+  test('removes the local composer when Suspense discards a pending branch', async () => {
+    const i18n = createI18n({ legacy: false, locale: 'en' })
+    const { __instances } = i18n as typeof i18n & I18nInternal
+    const initialSize = __instances.size
+    const showChild = ref(true)
+    const { promise, resolve } = Promise.withResolvers<void>()
+
+    const Child = defineComponent({
+      __i18n: [{ locale: 'en', resource: { hello: 'Local hello' } }],
+      async setup() {
+        const { t } = useI18n({ useScope: 'local' })
+        await promise
+        return () => h('p', t('hello'))
+      }
+    })
+
+    const App = defineComponent({
+      setup() {
+        return () =>
+          h(Suspense, null, {
+            default: () => (showChild.value ? h(Child) : h('p', 'Replacement')),
+            fallback: () => h('p', 'Pending')
+          })
+      }
+    })
+
+    const wrapper = await mount(App, i18n)
+    expect(wrapper.html()).toBe('<p>Pending</p>')
+    expect(__instances.size).toBe(initialSize + 1)
+
+    showChild.value = false
+    await nextTick()
+    resolve()
+    await promise
+    await nextTick()
+
+    expect(wrapper.html()).toBe('<p>Replacement</p>')
+    expect(__instances.size).toBe(initialSize)
+  })
+
+  test('keeps the local composer after a nested scope stops until normal unmount', async () => {
+    const i18n = createI18n({ legacy: false, locale: 'en' })
+    const { __instances } = i18n as typeof i18n & I18nInternal
+    const initialSize = __instances.size
+    const showChild = ref(true)
+
+    const Translation = defineComponent({
+      setup() {
+        const { t } = useI18n({ useScope: 'parent' })
+        return () => h('p', t('hello'))
+      }
+    })
+    const Child = defineComponent({
+      setup() {
+        const scope = effectScope()
+        scope.run(() => {
+          useI18n({
+            useScope: 'local',
+            messages: { en: { hello: 'Local hello' } }
+          })
+        })
+        scope.stop()
+        return () => h(Translation)
+      }
+    })
+    const App = defineComponent({
+      setup() {
+        return () => (showChild.value ? h(Child) : null)
+      }
+    })
+
+    const wrapper = await mount(App, i18n)
+    expect(wrapper.html()).toBe('<p>Local hello</p>')
+    expect(__instances.size).toBe(initialSize + 1)
+
+    showChild.value = false
+    await nextTick()
+    expect(__instances.size).toBe(initialSize)
+  })
 })
