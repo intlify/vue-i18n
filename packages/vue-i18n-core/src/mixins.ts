@@ -6,7 +6,8 @@ import { SetPluralRulesSymbol } from './symbols'
 import {
   adjustI18nResources,
   getCurrentInstance,
-  getLocaleMessages
+  getLocaleMessages,
+  onInstanceScopeDispose
 } from './utils'
 
 import type { Locale, LocaleMessageValue } from '@intlify/core'
@@ -116,6 +117,19 @@ export function defineMixin(
         this.$i18n.tm(key)
 
       i18n.__setInstance(instance, this.$i18n as VueI18n)
+
+      // Clean up also when the effect scope of the component stops.
+      // `<Suspense>` stops the scope of a component in a discarded pending
+      // branch, but drops its `unmounted` hooks (#2795).
+      const vueI18n = this.$i18n as unknown as VueI18nInternal
+      onInstanceScopeDispose(instance, () => {
+        if (vueI18n.__disposer) {
+          vueI18n.__disposer()
+          delete vueI18n.__disposer
+          delete vueI18n.__extender
+        }
+        i18n.__deleteInstance(instance)
+      })
     },
 
     mounted(): void {

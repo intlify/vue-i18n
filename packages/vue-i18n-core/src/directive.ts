@@ -7,6 +7,7 @@ import {
 } from '@intlify/shared'
 import { watch } from 'vue'
 import { createI18nError, I18nErrorCodes } from './errors'
+import { getInstanceScope } from './utils'
 import { getWarnMessage, I18nWarnCodes } from './warnings'
 
 import type { Locale, NamedValue, TranslateOptions } from '@intlify/core-base'
@@ -118,9 +119,17 @@ export function vTDirective(i18n: I18n): TranslationDirective<HTMLElement> {
   const register = (el: HTMLElement, binding: DirectiveBinding): void => {
     const [textContent, composer] = _process(binding)
     if (inBrowser) {
-      el.__i18nWatcher = watch(composer.locale, () => {
-        binding.instance && binding.instance.$forceUpdate()
-      })
+      // Create the watcher in the effect scope of the component, so that it
+      // also stops when `<Suspense>` discards a pending branch and drops the
+      // `unmounted` hook of this directive (#2795).
+      const scope = getInstanceScope(binding.instance!.$)
+      if (scope.active) {
+        el.__i18nWatcher = scope.run(() =>
+          watch(composer.locale, () => {
+            binding.instance && binding.instance.$forceUpdate()
+          })
+        )
+      }
     }
     el.__composer = composer
     el.textContent = textContent
