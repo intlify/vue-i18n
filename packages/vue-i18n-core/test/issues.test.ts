@@ -29,6 +29,7 @@ import {
   nextTick,
   ref,
   resolveDirective,
+  withAsyncContext,
   withDirectives
 } from 'vue'
 import { baseCompile } from '@intlify/message-compiler'
@@ -37,7 +38,7 @@ import { getCurrentInstance } from '../src/utils'
 import { ast } from './fixtures/ast'
 import { mount } from './helper'
 
-import type { ComponentOptions } from 'vue'
+import type { Component, ComponentOptions } from 'vue'
 import type { I18nInternal } from '../src/i18n'
 import type { IntlDateTimeFormats, IntlNumberFormats } from '../src/index'
 
@@ -1723,11 +1724,36 @@ test('#2777', () => {
 })
 
 describe('#2795', () => {
+  // Render a pending branch in <Suspense>, which the test replaces before the
+  // branch resolves
+  function withSuspense(branch: Component) {
+    const showBranch = ref(true)
+    const App = defineComponent({
+      setup() {
+        return () =>
+          h(Suspense, null, {
+            default: () =>
+              showBranch.value ? h(branch) : h('p', 'Replacement'),
+            fallback: () => h('p', 'Pending')
+          })
+      }
+    })
+    return { App, showBranch }
+  }
+
+  // Let the async setup() of the discarded branch run to the end
+  async function flushDiscarded(promise: Promise<void>, resolve: () => void) {
+    resolve()
+    await promise
+    await new Promise(r => setTimeout(r))
+  }
+
   test('removes the local composer when Suspense discards a pending branch', async () => {
     const i18n = createI18n({ legacy: false, locale: 'en' })
     const { __instances } = i18n as typeof i18n & I18nInternal
     const initialSize = __instances.size
     const showChild = ref(true)
+    const dispose = vi.fn()
     const { promise, resolve } = Promise.withResolvers<void>()
 
     const Child = defineComponent({
@@ -1749,7 +1775,9 @@ describe('#2795', () => {
       }
     })
 
-    const wrapper = await mount(App, i18n)
+    const wrapper = await mount(App, i18n, {
+      pluginOptions: { __composerExtend: () => dispose } as any // eslint-disable-line @typescript-eslint/no-explicit-any
+    })
     expect(wrapper.html()).toBe('<p>Pending</p>')
     expect(__instances.size).toBe(initialSize + 1)
 
@@ -1761,6 +1789,7 @@ describe('#2795', () => {
 
     expect(wrapper.html()).toBe('<p>Replacement</p>')
     expect(__instances.size).toBe(initialSize)
+    expect(dispose).toHaveBeenCalledTimes(1)
   })
 
   test('keeps the local composer after a nested scope stops until normal unmount', async () => {
@@ -1801,5 +1830,150 @@ describe('#2795', () => {
     showChild.value = false
     await nextTick()
     expect(__instances.size).toBe(initialSize)
+  })
+
+  test('removes the local composer of a sync component in the discarded branch', async () => {
+    const i18n = createI18n({ legacy: false, locale: 'en' })
+    const { __instances } = i18n as typeof i18n & I18nInternal
+    const initialSize = __instances.size
+    const { promise, resolve } = Promise.withResolvers<void>()
+    const AsyncChild = defineComponent({
+      async setup() {
+        await promise
+        return () => h('span', 'async')
+      }
+    })
+    const Parent = defineComponent({
+      __i18n: [{ locale: 'en', resource: { hello: 'Local hello' } }],
+      setup() {
+        const { t } = useI18n({ useScope: 'local' })
+        return () => h('div', [t('hello'), h(AsyncChild)])
+      }
+    })
+    const { App, showBranch } = withSuspense(Parent)
+
+    const wrapper = await mount(App, i18n)
+    expect(wrapper.html()).toBe('<p>Pending</p>')
+    expect(__instances.size).toBe(initialSize + 1)
+
+    showBranch.value = false
+    await nextTick()
+    await flushDiscarded(promise, resolve)
+
+    expect(wrapper.html()).toBe('<p>Replacement</p>')
+    expect(__instances.size).toBe(initialSize)
+  })
+
+  test('does not keep a local composer created after the branch is discarded', async () => {
+    const i18n = createI18n({ legacy: false, locale: 'en' })
+    const { __instances } = i18n as typeof i18n & I18nInternal
+    const initialSize = __instances.size
+    const dispose = vi.fn()
+    const { promise, resolve } = Promise.withResolvers<void>()
+    const Child = defineComponent({
+      __i18n: [{ locale: 'en', resource: { hello: 'Local hello' } }],
+      async setup() {
+        // what `<script setup>` compiles a top-level `await` to
+        let __temp: unknown, __restore: () => void
+        ;[__temp, __restore] = withAsyncContext(() => promise)
+        await __temp
+        __restore()
+        const { t } = useI18n({ useScope: 'local' })
+        return () => h('p', t('hello'))
+      }
+    })
+    const { App, showBranch } = withSuspense(Child)
+
+    const wrapper = await mount(App, i18n, {
+      pluginOptions: { __composerExtend: () => dispose } as any // eslint-disable-line @typescript-eslint/no-explicit-any
+    })
+    expect(wrapper.html()).toBe('<p>Pending</p>')
+
+    showBranch.value = false
+    await nextTick()
+    await flushDiscarded(promise, resolve)
+
+    expect(wrapper.html()).toBe('<p>Replacement</p>')
+    expect(__instances.size).toBe(initialSize)
+    expect(dispose).toHaveBeenCalledTimes(1)
+  })
+
+  test('legacy mode: removes the VueI18n instance of a component in the discarded branch', async () => {
+    const i18n = createI18n({ legacy: true, locale: 'en' })
+    const { __instances } = i18n as typeof i18n & I18nInternal
+    const { promise, resolve } = Promise.withResolvers<void>()
+    const AsyncChild = defineComponent({
+      async setup() {
+        await promise
+        return () => h('span', 'async')
+      }
+    })
+    const Parent = defineComponent({
+      components: { AsyncChild },
+      i18n: { messages: { en: { hello: 'Local hello' } } },
+      template: '<div>{{ $t("hello") }}<AsyncChild /></div>'
+    })
+    const { App, showBranch } = withSuspense(Parent)
+    const hasParent = () =>
+      [...__instances.keys()].some(instance => instance.type === Parent)
+
+    const wrapper = await mount(App, i18n)
+    expect(wrapper.html()).toBe('<p>Pending</p>')
+    expect(hasParent()).toBe(true)
+
+    showBranch.value = false
+    await nextTick()
+    await flushDiscarded(promise, resolve)
+
+    expect(wrapper.html()).toBe('<p>Replacement</p>')
+    expect(hasParent()).toBe(false)
+  })
+
+  test('stops the watcher of v-t in the discarded branch', async () => {
+    const i18n = createI18n({
+      legacy: false,
+      locale: 'en',
+      messages: { en: { hello: 'hello' }, ja: { hello: 'こんにちは' } }
+    })
+    const forceUpdate = vi.fn()
+    const { promise, resolve } = Promise.withResolvers<void>()
+    const AsyncChild = defineComponent({
+      async setup() {
+        await promise
+        return () => h('span', 'async')
+      }
+    })
+    const Parent = defineComponent({
+      setup(_, { expose }) {
+        // v-t calls `$forceUpdate()` of the public instance when the locale changes
+        expose({ $forceUpdate: forceUpdate })
+        return () => {
+          const t = resolveDirective('t')!
+          return h('div', [
+            withDirectives(h('p'), [[t, 'hello']]),
+            h(AsyncChild)
+          ])
+        }
+      }
+    })
+    const { App, showBranch } = withSuspense(Parent)
+
+    const wrapper = await mount(App, i18n)
+    expect(wrapper.html()).toBe('<p>Pending</p>')
+
+    // v-t calls `$forceUpdate()` while the branch is pending
+    i18n.global.locale.value = 'ja'
+    await nextTick()
+    expect(forceUpdate).toHaveBeenCalledTimes(1)
+
+    showBranch.value = false
+    await nextTick()
+    await flushDiscarded(promise, resolve)
+    expect(wrapper.html()).toBe('<p>Replacement</p>')
+
+    // and no longer calls it once the branch is discarded
+    i18n.global.locale.value = 'en'
+    await nextTick()
+    expect(forceUpdate).toHaveBeenCalledTimes(1)
   })
 })

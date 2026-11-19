@@ -15,8 +15,7 @@ import {
   inject,
   isRef,
   onMounted,
-  onScopeDispose,
-  onUnmounted
+  onScopeDispose
 } from 'vue'
 import { createComposer } from './composer'
 import { addTimelineEvent, enableDevTools } from './devtools'
@@ -33,7 +32,8 @@ import {
 import {
   adjustI18nResources,
   getComponentOptions,
-  getCurrentInstance
+  getCurrentInstance,
+  onInstanceScopeDispose
 } from './utils'
 import { I18nWarnCodes, getWarnMessage } from './warnings'
 
@@ -881,16 +881,9 @@ export function useI18n<
       ;(composer as any)[DisposeSymbol] =
         i18nInternal.__composerExtend(composer)
     }
-    setupLifeCycle(i18nInternal, instance, composer)
 
     i18nInternal.__setInstance(instance, composer)
-    // Vue omits the component's effect scope from its published types.
-    const { scope: instanceScope } = instance as typeof instance & {
-      scope: EffectScope
-    }
-    instanceScope.run(() => {
-      onScopeDispose(() => i18nInternal.__deleteInstance(instance))
-    })
+    setupLifeCycle(i18nInternal, instance, composer)
   } else {
     if (__DEV__ && scope === 'local') {
       warn(getWarnMessage(I18nWarnCodes.DUPLICATE_USE_I18N_CALLING))
@@ -1030,7 +1023,10 @@ function setupLifeCycle(
     }
   }, target)
 
-  onUnmounted(() => {
+  // Clean up when the effect scope of the component stops, instead of in
+  // `onUnmounted`. `<Suspense>` stops the scope of a component in a discarded
+  // pending branch, but drops its `onUnmounted` hooks (#2795).
+  onInstanceScopeDispose(target, () => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const _composer = composer as any
 
@@ -1048,7 +1044,7 @@ function setupLifeCycle(
       dispose()
       delete _composer[DisposeSymbol]
     }
-  }, target)
+  })
 }
 
 /**

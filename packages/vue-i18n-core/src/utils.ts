@@ -17,13 +17,15 @@ import * as Vue from 'vue'
 import {
   Text,
   createVNode,
-  getCurrentInstance as getVueCurrentInstance
+  getCurrentInstance as getVueCurrentInstance,
+  onScopeDispose
 } from 'vue'
 import { I18nWarnCodes, getWarnMessage } from './warnings'
 
 import type { Locale, MessageResolver } from '@intlify/core-base'
 import type {
   ComponentInternalInstance,
+  EffectScope,
   GenericComponentInstance,
   RendererElement,
   RendererNode
@@ -273,6 +275,38 @@ export function getCurrentInstance(): VueInstance | null {
       return (Vue as any)[key] as VueInstance | null
     }
     return getVueCurrentInstance()
+  }
+}
+
+/**
+ * Get the effect scope of a component instance.
+ *
+ * Every component instance has one, but it is not in the published types of Vue.
+ */
+export function getInstanceScope(instance: VueInstance): EffectScope {
+  return (instance as VueInstance & { scope: EffectScope }).scope
+}
+
+/**
+ * Run `fn` when the effect scope of a component instance stops.
+ *
+ * Vue stops this scope when it unmounts the component, and also when
+ * `<Suspense>` discards a pending branch. In the second case, Vue drops the
+ * post-render jobs of the branch, so `onUnmounted` hooks never run.
+ *
+ * If the scope has already stopped, `fn` runs right away. This happens when
+ * `<Suspense>` discards a component while its async `setup()` is waiting,
+ * and the `setup()` continues after the `await`.
+ */
+export function onInstanceScopeDispose(
+  instance: VueInstance,
+  fn: () => void
+): void {
+  const scope = getInstanceScope(instance)
+  if (scope.active) {
+    scope.run(() => onScopeDispose(fn))
+  } else {
+    fn()
   }
 }
 
