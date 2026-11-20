@@ -1,6 +1,7 @@
 import {
   assign,
   createEmitter,
+  inBrowser,
   isBoolean,
   isEmptyObject,
   isPlainObject,
@@ -611,7 +612,11 @@ export function createI18n(options: any = {}): any {
       }
 
       // setup vue-devtools plugin
-      if ((__DEV__ || __FEATURE_PROD_VUE_DEVTOOLS__) && !__NODE_JS__) {
+      if (
+        (__DEV__ || __FEATURE_PROD_VUE_DEVTOOLS__) &&
+        !__NODE_JS__ &&
+        inBrowser
+      ) {
         // do not wait for the devtools: a Vue plugin installs synchronously, and the devtools call
         // the setup only when they are open, so the setup may never finish
         enableDevTools(app, i18n as _I18n)
