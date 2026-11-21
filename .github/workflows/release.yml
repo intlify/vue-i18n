@@ -69,7 +69,7 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
         with:
-          node-version: 24
+          node-version: 26
           registry-url: https://registry.npmjs.org
           # This job publishes to npm, so install from a clean state, not from a cache that other runs can write.
           package-manager-cache: false
