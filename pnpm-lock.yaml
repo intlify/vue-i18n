@@ -163,8 +163,8 @@ importers:
         specifier: 2.0.0-alpha.17
         version: 2.0.0-alpha.17(@types/node@25.3.0)(change-case@5.4.4)(jiti@2.7.0)(lightningcss@1.30.2)(oxc-minify@0.159.0)(postcss@8.5.32)(terser@5.44.0)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.9.0)
       vitepress-api-references:
-        specifier: ^0.4.0
-        version: 0.4.0(vite@7.3.7(@types/node@25.3.0)(jiti@2.7.0)(lightningcss@1.30.2)(terser@5.44.0)(tsx@4.21.0)(yaml@2.9.0))(vitepress@2.0.0-alpha.17(@types/node@25.3.0)(change-case@5.4.4)(jiti@2.7.0)(lightningcss@1.30.2)(oxc-minify@0.159.0)(postcss@8.5.32)(terser@5.44.0)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.9.0))
+        specifier: ^0.5.0
+        version: 0.5.0(vite@7.3.7(@types/node@25.3.0)(jiti@2.7.0)(lightningcss@1.30.2)(terser@5.44.0)(tsx@4.21.0)(yaml@2.9.0))(vitepress@2.0.0-alpha.17(@types/node@25.3.0)(change-case@5.4.4)(jiti@2.7.0)(lightningcss@1.30.2)(oxc-minify@0.159.0)(postcss@8.5.32)(terser@5.44.0)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.9.0))
       vitepress-plugin-llms:
         specifier: ^1.11.0
         version: 1.11.0
@@ -2233,47 +2233,47 @@ packages:
     resolution: {integrity: sha512-XRO0zi2NIUKq2lUk3T1ecFSld1fMWRKE6naRFGkgkdeosx7IslyUKNv5Dcb5PJTja9tHJoFu0v/7yEpAkrkrTg==}
     engines: {node: ^20.19.0 || ^22.13.0 || >=24}
 
-  '@ox-content/binding-darwin-arm64@3.2.13':
-    resolution: {integrity: sha512-0lVkMuceExP2sm/XNloekSKjMYTLuFYxLfwg0lbURU8kbkYyFvn6QOTacz5zWZNipMngVjj6P4NnyoVW2QcCYg==}
+  '@ox-content/binding-darwin-arm64@3.8.3':
+    resolution: {integrity: sha512-cAfI+uucq8QBVwNULWyDzAjoI8kspIbF+dHgOSN2Y21ufld/D5tlcrCy/KZHKotVPMIZRKNWqXuVtwG0kLYaQA==}
     cpu: [arm64]
     os: [darwin]
 
-  '@ox-content/binding-darwin-x64@3.2.13':
-    resolution: {integrity: sha512-YChsHO5N13n7++m0Y4gjhaPOTYuldcMEEI0smYMflgozPwa2mHm1lpaAHIyyzIlag40S2Nx0dtPDzoJ11BspZw==}
+  '@ox-content/binding-darwin-x64@3.8.3':
+    resolution: {integrity: sha512-DqIGD0DTjHV1AfNiFkGe2joxaDpigsbm4UUWO/S89NHHjgHE/0BmowxZRZql1IF6TcHjYWAVWT3aM/GJOTaNow==}
     cpu: [x64]
     os: [darwin]
 
-  '@ox-content/binding-linux-arm64-gnu@3.2.13':
-    resolution: {integrity: sha512-B2VB5oVKSYtvB39OBer7k+H776HF6+FJEO/r7uxRCM5UpWdswlzVG8NCJEHtF6Zgctg2p+xmumUvyOyWas/Qsw==}
+  '@ox-content/binding-linux-arm64-gnu@3.8.3':
+    resolution: {integrity: sha512-hPamZBmHBq5r9YIZzZx9XNFsLb7E6jA49yxdJ8sSMX30O97+032FzRZACWI3nIUjEOk17J6N38ZaSy4HhYqfWA==}
     cpu: [arm64]
     os: [linux]
     libc: [glibc]
 
-  '@ox-content/binding-linux-arm64-musl@3.2.13':
-    resolution: {integrity: sha512-2TjR+4FYNx97MoFUkzIvUejY3T4U/FinHdW8RVkeCmHXPix51Gh1219lycakZFTp+iNXs2PhR/p3FYYHLDNgtQ==}
+  '@ox-content/binding-linux-arm64-musl@3.8.3':
+    resolution: {integrity: sha512-tGaZh0T0J5u2bkBHUMjGkwZawN5pqnsnkM/VOAJy+f51kwtjTkDog24S3hJ4ibx8/VBrrGEqKgFUL4DNEtGRVg==}
     cpu: [arm64]
     os: [linux]
     libc: [musl]
 
-  '@ox-content/binding-linux-x64-gnu@3.2.13':
-    resolution: {integrity: sha512-OxBVesfjRF/b2xHMsE3dIR67YD/2RFGrVupTsQ6U7Aj0sufiiIF+xT/4oj795fJqMqG6vE0RGXf4hhm29LBh1w==}
+  '@ox-content/binding-linux-x64-gnu@3.8.3':
+    resolution: {integrity: sha512-0tlx46aJsyV90NOSh+uMA+Z5sW/spiQW/IcMJY/VfvFfucAoBbXbZ0hZ0rb2C6vavSzik1H+2ywJKlEnALe7uw==}
     cpu: [x64]
     os: [linux]
     libc: [glibc]
 
-  '@ox-content/binding-linux-x64-musl@3.2.13':
-    resolution: {integrity: sha512-D46XCgyL5MzxjmQ8EeUVOskOKvU4noFa8ayXp0+PlrtN7J/UPFlogCdwYYTxwOoHYoBjpwZDx2t1NrIhrL/Yfg==}
+  '@ox-content/binding-linux-x64-musl@3.8.3':
+    resolution: {integrity: sha512-hzgr40HH8jRD5NQRnhtUx7MNCmqta9f+xi1CQaRCWqpr5uSZkn4KkU80/ckV7q2QOuhjC5z0f4XKDr3Mh/8eEQ==}
     cpu: [x64]
     os: [linux]
     libc: [musl]
 
-  '@ox-content/binding-win32-x64-msvc@3.2.13':
-    resolution: {integrity: sha512-dBlaXaODeavKErGQU9E6NEwEq+jRiFpFaZ6q8J9uZEPyQT93uLEySzDgL7BZU3Jo0VqjpatmqCUPBDJti+bY7g==}
+  '@ox-content/binding-win32-x64-msvc@3.8.3':
+    resolution: {integrity: sha512-H/WLLpV/nE99RMU01W+rPRylbjc+UUn6LaIlcFc5t6zhyneLK8muWAOacnl3sfPjhb0X8Nhy5gcOxpV82/DFYQ==}
     cpu: [x64]
     os: [win32]
 
-  '@ox-content/napi@3.2.13':
-    resolution: {integrity: sha512-F5PvzfzNnOUhDKFjEqPOrYWjcFFN4YlQY7qrrisw56uBYw/3RCRgNly08TcuyZ2/FfzAe5Pv3ZucMxivs5fbBw==}
+  '@ox-content/napi@3.8.3':
+    resolution: {integrity: sha512-cJmk2DM3AuuIx5bZSdJXzMgNCnvUOQFy2F+Xhlp8Yc7zQ7aUXhtyIwMhzpzca8alGtrt2BpW2RGCYbUzYpxAoQ==}
 
   '@oxc-minify/binding-android-arm-eabi@0.159.0':
     resolution: {integrity: sha512-Wy0hS7hIYsPeD42XU1V7iez+0UhtGvFFvg5OVkyeZmbwNcw8ktCfNpJ+6wPo3MxhJfV+n/9bd9WL9lZjQPDhjw==}
@@ -5357,9 +5357,6 @@ packages:
     resolution: {integrity: sha512-/Tb/JcjK111nNScGob5MNtsntNM1aCNUDipB/TkwZFhyDrrE47SOx/18wF2bbjgc3ZzCSKW1T5nt5EbFoAz/Vg==}
     engines: {node: '>=4'}
     hasBin: true
-
-  csstype@3.2.3:
-    resolution: {integrity: sha512-z1HGKcYy2xA8AGQfwrn0PAy+PB7X/GSj3UVJW9qKyn43xWa+gl5nXmU4qqLMRzWVLFC8KusUX8T/0kCiOYpAIQ==}
 
   csstype@3.2.4:
     resolution: {integrity: sha512-PoKaoPzQapnEoqUSnHx1u6W6ku8CVEgKsnpmmzU3m1nwkidpPBQ8V/Zq2+bWNrsOKoKLwTGdbx6xF7BXP1zLVQ==}
@@ -9419,8 +9416,8 @@ packages:
       yaml:
         optional: true
 
-  vitepress-api-references@0.4.0:
-    resolution: {integrity: sha512-h8cwjJreLmuZUbTr9cjac+5/OQWgdUw3xXl8wPyxXoJ14czdITkWVdDpMPVeFMg1Bxu12bx5exnVSiwpdVdLtQ==}
+  vitepress-api-references@0.5.0:
+    resolution: {integrity: sha512-LrTG8A0RfJsnu9Mzz7V5YRKVx7FhkWoPo7e8S5gCRFTjz79VjhkxK2jXPeBfTkRetbWtPTcb7KS7m9VltpiCcg==}
     engines: {node: '>= 22'}
     peerDependencies:
       vite: ^7.3.1
@@ -11222,36 +11219,36 @@ snapshots:
 
   '@ota-meshi/ast-token-store@0.3.0': {}
 
-  '@ox-content/binding-darwin-arm64@3.2.13':
+  '@ox-content/binding-darwin-arm64@3.8.3':
     optional: true
 
-  '@ox-content/binding-darwin-x64@3.2.13':
+  '@ox-content/binding-darwin-x64@3.8.3':
     optional: true
 
-  '@ox-content/binding-linux-arm64-gnu@3.2.13':
+  '@ox-content/binding-linux-arm64-gnu@3.8.3':
     optional: true
 
-  '@ox-content/binding-linux-arm64-musl@3.2.13':
+  '@ox-content/binding-linux-arm64-musl@3.8.3':
     optional: true
 
-  '@ox-content/binding-linux-x64-gnu@3.2.13':
+  '@ox-content/binding-linux-x64-gnu@3.8.3':
     optional: true
 
-  '@ox-content/binding-linux-x64-musl@3.2.13':
+  '@ox-content/binding-linux-x64-musl@3.8.3':
     optional: true
 
-  '@ox-content/binding-win32-x64-msvc@3.2.13':
+  '@ox-content/binding-win32-x64-msvc@3.8.3':
     optional: true
 
-  '@ox-content/napi@3.2.13':
+  '@ox-content/napi@3.8.3':
     optionalDependencies:
-      '@ox-content/binding-darwin-arm64': 3.2.13
-      '@ox-content/binding-darwin-x64': 3.2.13
-      '@ox-content/binding-linux-arm64-gnu': 3.2.13
-      '@ox-content/binding-linux-arm64-musl': 3.2.13
-      '@ox-content/binding-linux-x64-gnu': 3.2.13
-      '@ox-content/binding-linux-x64-musl': 3.2.13
-      '@ox-content/binding-win32-x64-msvc': 3.2.13
+      '@ox-content/binding-darwin-arm64': 3.8.3
+      '@ox-content/binding-darwin-x64': 3.8.3
+      '@ox-content/binding-linux-arm64-gnu': 3.8.3
+      '@ox-content/binding-linux-arm64-musl': 3.8.3
+      '@ox-content/binding-linux-x64-gnu': 3.8.3
+      '@ox-content/binding-linux-x64-musl': 3.8.3
+      '@ox-content/binding-win32-x64-msvc': 3.8.3
 
   '@oxc-minify/binding-android-arm-eabi@0.159.0':
     optional: true
@@ -12349,7 +12346,7 @@ snapshots:
 
   '@types/react@19.2.2':
     dependencies:
-      csstype: 3.2.3
+      csstype: 3.2.4
 
   '@types/retry@0.12.2': {}
 
@@ -14168,8 +14165,6 @@ snapshots:
   css.escape@1.5.1: {}
 
   cssesc@3.0.0: {}
-
-  csstype@3.2.3: {}
 
   csstype@3.2.4: {}
 
@@ -19333,9 +19328,9 @@ snapshots:
       tsx: 4.21.0
       yaml: 2.9.0
 
-  vitepress-api-references@0.4.0(vite@7.3.7(@types/node@25.3.0)(jiti@2.7.0)(lightningcss@1.30.2)(terser@5.44.0)(tsx@4.21.0)(yaml@2.9.0))(vitepress@2.0.0-alpha.17(@types/node@25.3.0)(change-case@5.4.4)(jiti@2.7.0)(lightningcss@1.30.2)(oxc-minify@0.159.0)(postcss@8.5.32)(terser@5.44.0)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.9.0)):
+  vitepress-api-references@0.5.0(vite@7.3.7(@types/node@25.3.0)(jiti@2.7.0)(lightningcss@1.30.2)(terser@5.44.0)(tsx@4.21.0)(yaml@2.9.0))(vitepress@2.0.0-alpha.17(@types/node@25.3.0)(change-case@5.4.4)(jiti@2.7.0)(lightningcss@1.30.2)(oxc-minify@0.159.0)(postcss@8.5.32)(terser@5.44.0)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.9.0)):
     dependencies:
-      '@ox-content/napi': 3.2.13
+      '@ox-content/napi': 3.8.3
       vite: 7.3.7(@types/node@25.3.0)(jiti@2.7.0)(lightningcss@1.30.2)(terser@5.44.0)(tsx@4.21.0)(yaml@2.9.0)
       vitepress: 2.0.0-alpha.17(@types/node@25.3.0)(change-case@5.4.4)(jiti@2.7.0)(lightningcss@1.30.2)(oxc-minify@0.159.0)(postcss@8.5.32)(terser@5.44.0)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.9.0)
 
