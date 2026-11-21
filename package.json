@@ -134,13 +134,13 @@
     "vitepress-api-references": "^0.4.0",
     "vitepress-plugin-llms": "^1.11.0",
     "vitest": "^4.0.18",
-    "vue": "3.5.45",
+    "vue": "3.5.46",
     "vue-i18n": "workspace:*"
   },
   "pnpm": {
     "overrides": {
       "vite": "^7.3.1",
-      "vue": "3.6.0-rc.15"
+      "vue": "3.6.0-rc.16"
     },
     "onlyBuiltDependencies": [
       "@parcel/watcher",
