@@ -742,7 +742,7 @@ export interface ExportedGlobalComposer {
 }
 
 const globalExportProps = ['locale', 'fallbackLocale', 'availableLocales'] as const
-const globalExportMethods = !__LITE__ ? ['t', 'rt', 'd', 'n', 'tm', 'te'] : ['t']
+const globalExportMethods = !__LITE__ ? ['t', 'rt', 'rte', 'd', 'n', 'tm', 'te'] : ['t']
 
 function injectGlobalFields(app: App, composer: Composer): Disposer {
   const i18n = Object.create(null)

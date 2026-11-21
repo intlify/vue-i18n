@@ -485,6 +485,18 @@ export interface ComponentCustomProperties {
     locale?: Locale
   ): boolean
   /**
+   * Resolved locale message translation exist
+   *
+   * @remarks
+   * In {@link I18nMode | Composition API mode}, the `$rte` is injected by `app.config.globalProperties`.
+   * About that details, see {@link Composer#rte | `Composer#rte`}.
+   *
+   * @param message - A target locale message to be checked. You will need to specify the locale message returned by `$tm`.
+   *
+   * @returns If `message` is a translatable locale message, `true`, else `false`
+   */
+  $rte(message: unknown): boolean
+  /**
    * Datetime formatting
    *
    * @remarks

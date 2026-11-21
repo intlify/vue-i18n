@@ -1699,6 +1699,62 @@ describe('tm', () => {
   })
 })
 
+describe('rte', () => {
+  test('translatable message formats', () => {
+    const { rte } = createComposer({ locale: 'en' })
+    const ast = {
+      type: 0,
+      body: {
+        type: 2,
+        items: [{ type: 3, value: 'Apple' }]
+      }
+    }
+
+    expect(rte('hello')).toBe(true)
+    expect(rte('')).toBe(true)
+    expect(rte(() => 'hello')).toBe(true)
+    expect(rte(ast)).toBe(true)
+  })
+
+  test('not translatable values', () => {
+    const { rte } = createComposer({ locale: 'en' })
+
+    expect(rte(undefined)).toBe(false)
+    expect(rte(null)).toBe(false)
+    expect(rte(true)).toBe(false)
+    expect(rte(1)).toBe(false)
+    expect(rte({})).toBe(false)
+    expect(rte({ name: 'foo' })).toBe(false)
+    expect(rte(['foo'])).toBe(false)
+  })
+
+  test('check the locale messages resolved with tm before rt', () => {
+    const { rt, rte, tm } = createComposer({
+      locale: 'en',
+      messages: {
+        en: {
+          items: [
+            { name: 'foo', description: 'Foo item', hasHTML: true },
+            { name: 'bar', hasHTML: false },
+            { name: 'baz', description: (ctx: MessageContext) => ctx.normalize(['Baz item']) }
+          ]
+        }
+      }
+    })
+
+    const items = tm('items') as Record<string, any>[]
+    // `rt` throws for the value that isn't a locale message
+    expect(() => rt(items[1].description)).toThrowError()
+    expect(() => rt(items[0].hasHTML)).toThrowError()
+
+    const descriptions = items
+      .filter(item => rte(item.description))
+      .map(item => rt(item.description))
+    expect(descriptions).toEqual(['Foo item', 'Baz item'])
+    expect(items.map(item => rte(item.hasHTML))).toEqual([false, false, false])
+  })
+})
+
 test('te', async () => {
   const __root = createComposer({
     locale: 'en',

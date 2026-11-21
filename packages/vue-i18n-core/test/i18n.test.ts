@@ -1296,6 +1296,32 @@ test('dollar prefixed API (component injections)', async () => {
   )
 })
 
+test('`$rte` (component injection)', async () => {
+  const i18n = createI18n({
+    locale: 'en',
+    messages: {
+      en: {
+        items: [
+          { name: 'foo', description: 'Foo item' },
+          { name: 'bar' },
+          { name: 'baz', description: 'Baz item' }
+        ]
+      }
+    }
+  })
+  const App = defineComponent({
+    template: `<div>
+<template v-for="item in $tm('items')">
+<p v-if="$rte(item.description)">{{ $rt(item.name) }}: {{ $rt(item.description) }}</p>
+<p v-else>{{ $rt(item.name) }}</p>
+</template>
+</div>`
+  })
+  const wrapper = await mount(App, i18n)
+
+  expect(wrapper.html()).toEqual('<div><p>foo: Foo item</p><p>bar</p><p>baz: Baz item</p></div>')
+})
+
 test('`t`', async () => {
   const messages = {
     en: {
