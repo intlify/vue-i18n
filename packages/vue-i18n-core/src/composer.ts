@@ -648,6 +648,46 @@ export interface ComposerInternalOptions<
 /**
  * Locale message translation functions
  *
+ * The first argument is the key of a locale message. The type of the second argument decides how it is used, and a third argument can follow it.
+ *
+ * ```ts
+ * t(key)
+ * t(key, named)      // object: values for named interpolation, such as {name}
+ * t(key, list)       // array: values for list interpolation, such as {0}
+ * t(key, plural)     // number: used to choose the plural form
+ * t(key, defaultMsg) // string: returned if no translation is found
+ *
+ * // with a third argument
+ * t(key, named, plural | defaultMsg | options)
+ * t(key, list, plural | defaultMsg | options)
+ * t(key, plural, options)
+ * t(key, defaultMsg, options)
+ * ```
+ *
+ * `options` is {@link TranslateOptions}.
+ *
+ * ```ts
+ * const { t } = useI18n({
+ *   locale: 'en',
+ *   messages: {
+ *     en: {
+ *       hello: 'Hello, {name}!',
+ *       welcome: 'Welcome, {0}!',
+ *       apple: 'no apples | one apple | {count} apples'
+ *     },
+ *     fr: { hello: 'Bonjour, {name} !' }
+ *   }
+ * })
+ *
+ * t('hello', { name: 'Vue' })                   // 'Hello, Vue!'
+ * t('welcome', ['Vue'])                         // 'Welcome, Vue!'
+ * t('apple', 1)                                 // 'one apple'
+ * t('apple', 5)                                 // '5 apples'
+ * t('apple', { count: 'many' }, 5)              // 'many apples'
+ * t('missing', 'Not found')                     // 'Not found'
+ * t('hello', { name: 'Vue' }, { locale: 'fr' }) // 'Bonjour, Vue !'
+ * ```
+ *
  * @remarks
  * This is the interface for {@link Composer}
  *
@@ -702,7 +742,7 @@ export interface ComposerTranslation<
    * You can also suppress the warning, when the translation missing according to the options.
    *
    * @param key - A target locale message key
-   * @param plural - Which plural string to get. 1 returns the first one.
+   * @param plural - The number used to choose the plural form, not the position of the form.
    *
    * @returns Translated message
    *
@@ -722,7 +762,7 @@ export interface ComposerTranslation<
    * About details of options, see the {@link TranslateOptions}.
    *
    * @param key - A target locale message key
-   * @param plural - Which plural string to get. 1 returns the first one.
+   * @param plural - The number used to choose the plural form, not the position of the form.
    * @param options - Additional {@link TranslateOptions | options} for translation
    *
    * @returns Translated message
@@ -807,7 +847,7 @@ export interface ComposerTranslation<
    *
    * @param key - A target locale message key
    * @param list - A values of list interpolation
-   * @param plural - Which plural string to get. 1 returns the first one.
+   * @param plural - The number used to choose the plural form, not the position of the form.
    *
    * @returns Translated message
    *
@@ -896,7 +936,7 @@ export interface ComposerTranslation<
    *
    * @param key - A target locale message key
    * @param named - A values of named interpolation
-   * @param plural - Which plural string to get. 1 returns the first one.
+   * @param plural - The number used to choose the plural form, not the position of the form.
    *
    * @returns Translated message
    *
@@ -909,7 +949,7 @@ export interface ComposerTranslation<
     plural: number
   ): string
   /**
-   * Locale message translation for named interpolations and plurals
+   * Locale message translation for named interpolations and missing default message
    *
    * @remarks
    * Overloaded `t`. About details, see the [call signature](composition#key-key-resourcekeys-number-string) details.
@@ -1003,7 +1043,7 @@ export interface ComposerResolveLocaleMessageTranslation<Locales = 'en-US'> {
    * `rt` differs from `t` in that it processes the locale message directly, not the key of the locale message. There is no internal fallback with `rt`. You need to understand and use the structure of the locale messge returned by `tm`.
    *
    * @param message - A target locale message to be resolved. You will need to specify the locale message returned by `tm`.
-   * @param plural - Which plural string to get. 1 returns the first one.
+   * @param plural - The number used to choose the plural form, not the position of the form.
    * @param options - Additional {@link TranslateOptions | options} for translation
    *
    * @returns Translated message
@@ -1454,7 +1494,7 @@ export interface Composer<
    * Locale message translation
    *
    * @remarks
-   * About details functions, See the {@link ComposerTranslation}
+   * For the call forms, the arguments and examples, see {@link ComposerTranslation}
    */
   t: ComposerTranslation<
     Messages,
@@ -1576,7 +1616,7 @@ export interface Composer<
    *
    * @param key - A target locale message key
    *
-   * @return Locale messages
+   * @returns Locale messages
    */
   tm<
     Key extends string,

@@ -542,7 +542,7 @@ Overloaded `$rt`. About details, see the [$rt](injection#rt-message) remarks.
 | Parameter | Type | Description |
 | --- | --- | --- |
 | message | MessageFunction&lt;VueMessageType&gt; \| VueMessageType | A target locale message to be resolved. You will need to specify the locale message returned by `$tm`. |
-| plural | number | Which plural string to get. `1` returns the first one. |
+| plural | number | The number used to choose the plural form, not the position of the form. |
 | options | TranslateOptions | Additional [TranslateOptions](general#translateoptions) |
 
 #### Returns
