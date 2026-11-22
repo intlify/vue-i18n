@@ -4,6 +4,7 @@ import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import {
   isAllowedDiagnostic,
+  labelOverloadHeadings,
   normalizeGeneratedFiles,
   removeModulesSection
 } from './generate-docs-lib'
@@ -72,6 +73,60 @@ describe('generateApiDocs', () => {
   test('removeModulesSection keeps later headings', () => {
     expect(removeModulesSection('# n\n\n## Modules\n\nx\n\n## Types\n\ny\n')).toBe(
       '# n\n\n## Types\n\ny\n'
+    )
+  })
+
+  test('labelOverloadHeadings names the overloads in the headings', () => {
+    const labeled = labelOverloadHeadings(
+      {
+        'general/interfaces/Composer.md': '# Composer\n',
+        'general/interfaces/ComposerTranslation.md':
+          '# ComposerTranslation\n\n## Call Signature\n\nfirst\n\n## Call Signature\n\nsecond\n',
+        'general/interfaces/LocaleDetector.md': '# LocaleDetector\n\n## Call Signature\n\nonly\n',
+        'vue/interfaces/ComponentCustomProperties.md':
+          '# Properties\n\n### $t()\n\nfirst\n\n### $t()\n\nsecond\n\n### $te()\n\nonly\n'
+      },
+      [
+        {
+          entries: [
+            {
+              name: 'Composer',
+              members: [{ name: 't', kind: 'property', type: 'ComposerTranslation<Messages>' }]
+            },
+            {
+              name: 'ComposerTranslation',
+              members: [
+                { name: '', kind: 'callSignature', params: [{ name: 'key' }] },
+                {
+                  name: '',
+                  kind: 'callSignature',
+                  params: [{ name: 'key' }, { name: 'options', optional: true }]
+                }
+              ]
+            },
+            {
+              name: 'LocaleDetector',
+              members: [{ name: '', kind: 'callSignature', params: [{ name: 'args' }] }]
+            },
+            {
+              name: 'ComponentCustomProperties',
+              members: [
+                { name: '$t', kind: 'method', params: [{ name: 'key' }] },
+                { name: '$t', kind: 'method', params: [{ name: 'key' }, { name: 'plural' }] },
+                { name: '$te', kind: 'method', params: [{ name: 'key' }] }
+              ]
+            }
+          ]
+        }
+      ]
+    )
+
+    expect(labeled['general/interfaces/ComposerTranslation.md']).toBe(
+      '# ComposerTranslation\n\n## t(key)\n\nfirst\n\n## t(key, options?)\n\nsecond\n'
+    )
+    expect(labeled['general/interfaces/LocaleDetector.md']).toContain('## Call Signature')
+    expect(labeled['vue/interfaces/ComponentCustomProperties.md']).toBe(
+      '# Properties\n\n### $t(key)\n\nfirst\n\n### $t(key, plural)\n\nsecond\n\n### $te()\n\nonly\n'
     )
   })
 
