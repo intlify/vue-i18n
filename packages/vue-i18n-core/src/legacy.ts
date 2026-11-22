@@ -355,15 +355,15 @@ export interface VueI18nOptions<
    *
    * - If the message could not be resolved, you need to return `null`.
    *
-   * - If you will be returned `null`, the message resolver will also be called on fallback if [`fallbackLocale`](legacy#fallbacklocale-2) is enabled, so the message will need to be resolved as well.
+   * - If you will be returned `null`, the message resolver will also be called on fallback if [`fallbackLocale`](legacy#fallbacklocale-1) is enabled, so the message will need to be resolved as well.
    *
    * The message resolver is called indirectly by the following APIs:
    *
-   * - [`t`](legacy#t-key)
+   * - [`t`](legacy#t)
    *
    * - [`te`](legacy#te-key-locale)
    *
-   * - [`tm`](legacy#tm-key)
+   * - [`tm`](legacy#tm)
    *
    * - [Translation component](component#translation)
    *
@@ -1176,7 +1176,7 @@ export interface VueI18n<
    * If there are no locale messages for the given `key` in the composer instance messages, they will be returned with [fallbacking](../guide/essentials/fallback).
    *
    * @VueI18nWarning
-   * You need to use `rt` for the locale message returned by `tm`. see the [rt](legacy#rt-message) details.
+   * You need to use `rt` for the locale message returned by `tm`. see the [rt](legacy#rt) details.
    *
    * @example
    * template:
@@ -1308,7 +1308,7 @@ export interface VueI18n<
    * Get number format
    *
    * @remarks
-   * get number format from VueI18n instance [numberFormats](legacy#numberFormats).
+   * get number format from VueI18n instance [numberFormats](legacy#numberformats).
    *
    * @param locale - A target locale
    *
@@ -1319,7 +1319,7 @@ export interface VueI18n<
    * Set number format
    *
    * @remarks
-   * Set number format to VueI18n instance [numberFormats](legacy#numberFormats).
+   * Set number format to VueI18n instance [numberFormats](legacy#numberformats).
    *
    * @param locale - A target locale
    * @param format - A target number format
@@ -1329,7 +1329,7 @@ export interface VueI18n<
    * Merge number format
    *
    * @remarks
-   * Merge number format to VueI18n instance [numberFormats](legacy#numberFormats).
+   * Merge number format to VueI18n instance [numberFormats](legacy#numberformats).
    *
    * @param locale - A target locale
    * @param format - A target number format

@@ -71,9 +71,9 @@ $t(key: Key): TranslateResult;
 
 If this is used in a reactive context, it will re-evaluate once the locale changes.
 
-In [Composition API mode](general#mode), the `$t` is injected by `app.config.globalProperties`. The input / output is the same as for Composer, and it works on **global scope**. About that details, see [Composer#t](composition#t-key).
+In [Composition API mode](general#mode), the `$t` is injected by `app.config.globalProperties`. The input / output is the same as for Composer, and it works on **global scope**. About that details, see [Composer#t](composition#t).
 
-In [Legacy API mode](general#mode), the input / output is the same as for VueI18n instance. About details, see [VueI18n#t](legacy#t-key).
+In [Legacy API mode](general#mode), the input / output is the same as for VueI18n instance. About details, see [VueI18n#t](legacy#t).
 
 **See Also**
 - [Scope and Locale Changing](../guide/essentials/scope)
@@ -83,89 +83,6 @@ In [Legacy API mode](general#mode), the input / output is the same as for VueI18
 | Parameter | Type | Description |
 | --- | --- | --- |
 | key | Key | A target locale message key |
-
-#### Returns
-
-Translation message
-
-### $t(key, locale)
-
-:::danger NOTICE
-**This API signature is available in Legacy API mode only and is supported until v9**.
-:::
-
-Locale message translation
-
-**Signature:**
-```typescript
-$t(key: Key, locale: Locale): TranslateResult;
-```
-
-**Details**
-
-Overloaded `$t`. About details, see the [$t](injection#t-key) remarks.
-
-#### Parameters
-| Parameter | Type | Description |
-| --- | --- | --- |
-| key | Key | A target locale message key |
-| locale | Locale | A locale, override locale that global scope or local scope |
-
-#### Returns
-
-Translation message
-
-### $t(key, locale, list)
-
-:::danger NOTICE
-**This API signature is available in Legacy API mode only and is supported until v9**.
-:::
-
-Locale message translation
-
-**Signature:**
-```typescript
-$t(key: Key, locale: Locale, list: unknown[]): TranslateResult;
-```
-
-**Details**
-
-Overloaded `$t`. About details, see the [$t](injection#t-key) remarks.
-
-#### Parameters
-| Parameter | Type | Description |
-| --- | --- | --- |
-| key | Key | A target locale message key |
-| locale | Locale | A locale, override locale that global scope or local scope |
-| list | unknown[] | A values of list interpolation |
-
-#### Returns
-
-Translation message
-
-### $t(key, locale, named)
-
-:::danger NOTICE
-**This API signature is available in Legacy API mode only and is supported until v9**.
-:::
-
-Locale message translation
-
-**Signature:**
-```typescript
-$t(key: Key, locale: Locale, named: object): TranslateResult;
-```
-
-**Details**
-
-Overloaded `$t`. About details, see the [$t](injection#t-key) remarks.
-
-#### Parameters
-| Parameter | Type | Description |
-| --- | --- | --- |
-| key | Key | A target locale message key |
-| locale | Locale | A locale, override locale that global scope or local scope |
-| named | object | A values of named interpolation |
 
 #### Returns
 
@@ -508,9 +425,9 @@ $rt(message: MessageFunction<VueMessageType> | VueMessageType): string;
 
 If this is used in a reactive context, it will re-evaluate once the locale changes.
 
-In [Composition API mode](general#mode), the `$rt` is injected by `app.config.globalProperties`. The input / output is the same as for Composer, and it works on **global scope**. About that details, see [Composer#rt](composition#rt-message).
+In [Composition API mode](general#mode), the `$rt` is injected by `app.config.globalProperties`. The input / output is the same as for Composer, and it works on **global scope**. About that details, see [Composer#rt](composition#rt).
 
-In [Legacy API mode](general#mode), the input / output is the same as for VueI18n instance. About details, see [VueI18n#rt](legacy#rt-message).
+In [Legacy API mode](general#mode), the input / output is the same as for VueI18n instance. About details, see [VueI18n#rt](legacy#rt).
 
 **See Also**
 - [Scope and Locale Changing](../guide/essentials/scope)
@@ -667,9 +584,9 @@ $d(value: number | Date): DateTimeFormatResult | string;
 
 If this is used in a reactive context, it will re-evaluate once the locale changes.
 
-In [Composition API mode](general#i18nmode), the input / output is the same as for VueI18n instance. About details, see [VueI18n#d](legacy#d-value).
+In [Composition API mode](general#i18nmode), the input / output is the same as for VueI18n instance. About details, see [VueI18n#d](legacy#d).
 
-In [Composition API mode](general#i18nmode), the `$d` is injected by `app.config.globalProperties`. The input / output is the same as for Composer instance, and it works on **global scope**. About that details, see [Composer#d](composition#d-value).
+In [Composition API mode](general#i18nmode), the `$d` is injected by `app.config.globalProperties`. The input / output is the same as for Composer instance, and it works on **global scope**. About that details, see [Composer#d](composition#d).
 
 **See Also**
 - [Datetime Formatting](../guide/essentials/datetime)
@@ -791,9 +708,9 @@ $n(value: number): NumberFormatResult | string;
 
 If this is used in a reactive context, it will re-evaluate once the locale changes.
 
-In [Legacy API mode](general#i18nmode), the input / output is the same as for VueI18n instance. About details, see [VueI18n#n](legacy#n-value).
+In [Legacy API mode](general#i18nmode), the input / output is the same as for VueI18n instance. About details, see [VueI18n#n](legacy#n).
 
-In [Composition API mode](general#i18nmode), the `$n` is injected by `app.config.globalProperties`. The input / output is the same as for Composer instance, and it works on **global scope**. About that details, see [Composer#n](composition#n-value).
+In [Composition API mode](general#i18nmode), the `$n` is injected by `app.config.globalProperties`. The input / output is the same as for Composer instance, and it works on **global scope**. About that details, see [Composer#n](composition#n).
 
 **See Also**
 - [Number Formatting](../guide/essentials/number)

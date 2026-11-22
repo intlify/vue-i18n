@@ -517,11 +517,11 @@ export interface ComposerOptions<
    *
    * - If the message could not be resolved, you need to return `null`.
    *
-   * - If you will be returned `null`, the message resolver will also be called on fallback if [`fallbackLocale`](composition#fallbacklocale-2) is enabled, so the message will need to be resolved as well.
+   * - If you will be returned `null`, the message resolver will also be called on fallback if [`fallbackLocale`](composition#fallbacklocale-1) is enabled, so the message will need to be resolved as well.
    *
    * The message resolver is called indirectly by the following APIs:
    *
-   * - [`t`](composition#t-key)
+   * - [`t`](composition#t)
    *
    * - [`te`](composition#te-key-locale)
    *
@@ -720,7 +720,7 @@ export interface ComposerTranslation<
    * @remarks
    * If this is used in a reactive context, it will re-evaluate once the locale changes.
    *
-   * If [UseI18nScope](general#usei18nscope) `'local'` or Some [UseI18nOptions](composition#usei18noptions) are specified at `useI18n`, it’s translated in preferentially local scope locale messages than global scope locale messages.
+   * If [I18nScope](general#i18nscope) `'local'` or Some [UseI18nOptions](composition#usei18noptions) are specified at `useI18n`, it’s translated in preferentially local scope locale messages than global scope locale messages.
    *
    * If not, then it’s translated with global scope locale messages.
    *
@@ -1011,7 +1011,7 @@ export interface ComposerResolveLocaleMessageTranslation<Locales = 'en-US'> {
    * @remarks
    * If this is used in a reactive context, it will re-evaluate once the locale changes.
    *
-   * If [UseI18nScope](general#usei18nscope) `'local'` or Some [UseI18nOptions](composition#usei18noptions) are specified at `useI18n`, it’s translated in preferentially local scope locale messages than global scope locale messages.
+   * If [I18nScope](general#i18nscope) `'local'` or Some [UseI18nOptions](composition#usei18noptions) are specified at `useI18n`, it’s translated in preferentially local scope locale messages than global scope locale messages.
    *
    * If not, then it’s translated with global scope locale messages.
    *
@@ -1032,7 +1032,7 @@ export interface ComposerResolveLocaleMessageTranslation<Locales = 'en-US'> {
    * Resolve locale message translation for plurals
    *
    * @remarks
-   * Overloaded `rt`. About details, see the [call signature](composition#message-messagefunction-message-message-string) details.
+   * Overloaded `rt`. About details, see the [call signature](composition#message-messagefunction-lt-vuemessagetype-gt-vuemessagetype-string) details.
    *
    * In this overloaded `rt`, return a pluralized translation message.
    *
@@ -1059,7 +1059,7 @@ export interface ComposerResolveLocaleMessageTranslation<Locales = 'en-US'> {
    * Resolve locale message translation for list interpolations
    *
    * @remarks
-   * Overloaded `rt`. About details, see the [call signature](composition#message-messagefunction-message-message-string) details.
+   * Overloaded `rt`. About details, see the [call signature](composition#message-messagefunction-lt-vuemessagetype-gt-vuemessagetype-string) details.
    *
    * In this overloaded `rt`, return a pluralized translation message.
    *
@@ -1086,7 +1086,7 @@ export interface ComposerResolveLocaleMessageTranslation<Locales = 'en-US'> {
    * Resolve locale message translation for named interpolations
    *
    * @remarks
-   * Overloaded `rt`. About details, see the [call signature](composition#message-messagefunction-message-message-string) details.
+   * Overloaded `rt`. About details, see the [call signature](composition#message-messagefunction-lt-vuemessagetype-gt-vuemessagetype-string) details.
    *
    * In this overloaded `rt`, for each placeholder x, the locale messages should contain a `{x}` token.
    *
@@ -1146,7 +1146,7 @@ export interface ComposerDateTimeFormatting<
    * @remarks
    * If this is used in a reactive context, it will re-evaluate once the locale changes.
    *
-   * If [UseI18nScope](general#usei18nscope) `'local'` or Some [UseI18nOptions](composition#usei18noptions) are specified at `useI18n`, it’s translated in preferentially local scope datetime formats than global scope datetime formats.
+   * If [I18nScope](general#i18nscope) `'local'` or Some [UseI18nOptions](composition#usei18noptions) are specified at `useI18n`, it’s translated in preferentially local scope datetime formats than global scope datetime formats.
    *
    * If not, then it’s formatted with global scope datetime formats.
    *
@@ -1250,7 +1250,7 @@ export interface ComposerNumberFormatting<
    * @remarks
    * If this is used in a reactive context, it will re-evaluate once the locale changes.
    *
-   * If [UseI18nScope](general#usei18nscope) `'local'` or Some [UseI18nOptions](composition#usei18noptions) are specified at `useI18n`, it’s translated in preferentially local scope datetime formats than global scope datetime formats.
+   * If [I18nScope](general#i18nscope) `'local'` or Some [UseI18nOptions](composition#usei18noptions) are specified at `useI18n`, it’s translated in preferentially local scope datetime formats than global scope datetime formats.
    *
    * If not, then it’s formatted with global scope number formats.
    *
@@ -1562,7 +1562,7 @@ export interface Composer<
    * Locale messages getter
    *
    * @remarks
-   * If [UseI18nScope](general#usei18nscope) `'local'` or Some [UseI18nOptions](composition#usei18noptions) are specified at `useI18n`, it’s translated in preferentially local scope locale messages than global scope locale messages.
+   * If [I18nScope](general#i18nscope) `'local'` or Some [UseI18nOptions](composition#usei18noptions) are specified at `useI18n`, it’s translated in preferentially local scope locale messages than global scope locale messages.
    *
    * Based on the current `locale`, locale messages will be returned from Composer instance messages.
    *
@@ -1571,7 +1571,7 @@ export interface Composer<
    * If there are no locale messages for the given `key` in the composer instance messages, they will be returned with [fallbacking](../guide/essentials/fallback).
    *
    * @VueI18nWarning
-   * You need to use `rt` for the locale message returned by `tm`. see the [rt](composition#rt-message) details.
+   * You need to use `rt` for the locale message returned by `tm`. see the [rt](composition#rt) details.
    *
    * @example
    * template block:
@@ -1801,7 +1801,7 @@ export interface Composer<
    * Get number format
    *
    * @remarks
-   * get number format from Composer instance [numberFormats](composition#numberFormats).
+   * get number format from Composer instance [numberFormats](composition#numberformats).
    *
    * @param locale - A target locale
    *
@@ -1829,7 +1829,7 @@ export interface Composer<
    * Set number format
    *
    * @remarks
-   * Set number format to Composer instance [numberFormats](composition#numberFormats).
+   * Set number format to Composer instance [numberFormats](composition#numberformats).
    *
    * @param locale - A target locale
    * @param format - A target number format
@@ -1858,7 +1858,7 @@ export interface Composer<
    * Merge number format
    *
    * @remarks
-   * Merge number format to Composer instance [numberFormats](composition#numberFormats).
+   * Merge number format to Composer instance [numberFormats](composition#numberformats).
    *
    * @param locale - A target locale
    * @param format - A target number format

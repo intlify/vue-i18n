@@ -256,7 +256,7 @@ export interface MessageContext<T = string> {
    * Overloaded `linked`
    *
    * @param key - A message key
-   * @param optoins - An {@link LinkedOptions | linked options}
+   * @param optoins - Linked options
    *
    * @returns A resolve message.
    */
