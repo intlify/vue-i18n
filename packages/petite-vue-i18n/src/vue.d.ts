@@ -119,7 +119,7 @@ declare module 'vue' {
      * Overloaded `$t`. About details, see the {@link $t} remarks.
      *
      * @param key - A target locale message key
-     * @param plural - Which plural string to get. 1 returns the first one.
+     * @param plural - The number used to choose the plural form, not the position of the form.
      * @param options - An options, see the {@link TranslateOptions}
      *
      * @returns translation message

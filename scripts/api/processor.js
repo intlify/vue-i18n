@@ -1,3 +1,4 @@
+const path = require('node:path')
 const {
   getDocSectionContent,
   escapeTextForTable,
@@ -14,8 +15,35 @@ function escapeTitle(text) {
     .replace(/>/g, '&gt;')
 }
 
+// api-docs-gen prints nothing for a `{@link}` it cannot resolve:
+// declarations of core-base (another api.json) and overloaded functions (ambiguous)
+function resolveLinksAcrossPackages(model) {
+  const resolve = model.resolveDeclarationReference.bind(model)
+  const core = new model.constructor().loadPackage(
+    path.resolve(__dirname, '../../temp/core-base.api.json')
+  )
+  model.resolveDeclarationReference = (reference, contextItem) => {
+    const result = resolve(reference, contextItem)
+    if (result.resolvedApiItem) {
+      return result
+    }
+    const members = reference.memberReferences
+    const name = members[members.length - 1].memberIdentifier.identifier
+    const items = [
+      ...contextItem
+        .getAssociatedPackage()
+        .entryPoints[0].findMembersByName(name),
+      ...core.entryPoints[0].findMembersByName(name)
+    ]
+    // an overloaded function: the overload with the comment says which page it is on
+    const item = items.find(i => i.tsdocComment) || items[0]
+    return item ? { resolvedApiItem: item } : result
+  }
+}
+
 function process(model, pkg, style, resolver, customTags) {
   // console.log('custom process', model, pkg, style, customTags)
+  resolveLinksAcrossPackages(model)
 
   function parse() {
     const items = pkg.members[0] ? pkg.members[0].members : []
@@ -166,7 +194,17 @@ function buildEnum(model, builder) {
 
 function buildInterface(model, builder) {
   model.summary && buildSummary(model, builder)
-  model.signature && buildSignature(model, builder)
+  if (model.signature && model.functions && model.functions.length > 1) {
+    // the call forms come first, and the long type is folded
+    builder.pushline(`::: details Signature`)
+    builder.pushline('```typescript')
+    builder.pushline(model.signature)
+    builder.pushline('```')
+    builder.pushline(`:::`)
+    builder.newline()
+  } else {
+    model.signature && buildSignature(model, builder)
+  }
   model.typeParameters && buildTypeParameters(model, builder)
   model.deprecated && buildDeprecated(model, builder)
   model.remarks && buildDetails(model, builder)
@@ -865,7 +903,10 @@ function parseInterface(style, model, pkg, resolver, item, customTags) {
     customTags
   )
 
-  const functions = item.members.filter(m => m.kind === 'CallSignature')
+  // the model sorts by the string `|CallSignature|<n>`: 10 comes before 2
+  const functions = item.members
+    .filter(m => m.kind === 'CallSignature')
+    .sort((a, b) => a.overloadIndex - b.overloadIndex)
   if (functions.length > 0) {
     genModel.functions = []
     for (const func of functions) {
