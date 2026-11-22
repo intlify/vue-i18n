@@ -17,7 +17,11 @@ import {
 } from 'vitepress-api-references'
 
 import config from './api-docs.config'
-import { isAllowedDiagnostic, normalizeGeneratedFiles } from './generate-docs-lib'
+import {
+  isAllowedDiagnostic,
+  labelOverloadHeadings,
+  normalizeGeneratedFiles
+} from './generate-docs-lib'
 
 const GENERATED_DIRS = ['general', 'vue']
 const GENERATED_FILES = ['index.md', 'api-sidebar.json']
@@ -32,7 +36,7 @@ export async function generateApiDocs(): Promise<{
     ...config,
     write: false
   })
-  const files = normalizeGeneratedFiles(result.files)
+  const files = labelOverloadHeadings(normalizeGeneratedFiles(result.files), result.docs)
   const outDir = result.resolvedOptions.outDir
 
   await replaceGeneratedOutput(outDir, files, result.nav)
