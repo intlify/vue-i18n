@@ -76,7 +76,7 @@ export type LocaleFallbacker = <Message = string>(
  *
  * Basically, the chain consists of `start` plus the specified fallback: for a string or array `fallbackLocale`, the value as specified in the props is used; for a map `fallbackLocale`, the map's **keys** are used and the `default` key is skipped since it is not a locale name.
  *
- * @param ctx - A {@link CoreContext | context}
+ * @param ctx - A context
  * @param fallback - A {@link FallbackLocale | fallback locale}
  * @param start - A starting {@link Locale | locale}
  *
@@ -113,7 +113,7 @@ export function fallbackWithSimple<Message = string>(
  * Chains are cached per fallback identity. If you mutate an object or array fallback in place,
  * pass a new object or array instead so that the chain is recomputed.
  *
- * @param ctx - A {@link CoreContext | context}
+ * @param ctx - A context
  * @param fallback - A {@link FallbackLocale | fallback locale}
  * @param start - A starting {@link Locale | locale}
  *
