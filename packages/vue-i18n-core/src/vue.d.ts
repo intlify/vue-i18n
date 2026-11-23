@@ -42,11 +42,9 @@ declare module 'vue' {
    * so we will define it as declaration module at vue-i18n
    */
 
-  var internalOptions = ['ce', 'type', 'uid'] as const
-
-  export declare function useInstanceOption<K extends (typeof internalOptions)[number]>(
+  export declare function useInstanceOption<K extends 'ce' | 'type' | 'uid'>(
     key: K,
-    silent = false
+    silent?: boolean
   ): {
     hasInstance: boolean
     value: GenericComponentInstance[K] | undefined
