@@ -320,7 +320,7 @@ export interface ComposerOptions<
    * If `false`, regardless of the root level locale, localize for each component locale.
    *
    * See about:
-   * - [Local Scope](../../../guide/essentials/scope#local-scope-2)
+   * - [Local Scope](../../../guide/essentials/scope#local-scope-1)
    *
    * @default `true`
    */
@@ -1371,7 +1371,7 @@ export interface Composer<
    * Whether inherit the root level locale to the component localization locale.
    *
    * See about:
-   * - [Local Scope](../../../guide/essentials/scope#local-scope-2)
+   * - [Local Scope](../../../guide/essentials/scope#local-scope-1)
    */
   inheritLocale: boolean
   /**

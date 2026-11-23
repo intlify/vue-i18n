@@ -62,7 +62,7 @@ export interface ComponentCustomProperties {
    * You can get the {@link ExportedGlobalComposer | exported composer instance} which are exported from global {@link Composer | composer instance} created with {@link createI18n}
    * You can get the exported composer instance in {@link I18nMode | Composition API mode}
    * The locales, locale messages, and other resources managed by the instance referenced by this property are valid as global scope.
-   * If the `i18n` component custom option is not specified, it's the same as the VueI18n instance that can be referenced by the i18n instance {@link I18n.global | global} property.
+   * If the `i18n` component custom option is not specified, it's the same as the VueI18n instance that can be referenced by the i18n instance {@link I18n | global} property.
    */
   $i18n: ExportedGlobalComposer
   /**
