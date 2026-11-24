@@ -16,7 +16,6 @@
   "i18n-ally.localesPaths": [
     "examples/frameworks/nuxt3/locales",
     "examples/storybook/src/locales",
-    "examples/lazy-loading/webpack/src/locales",
     "examples/lazy-loading/vite/src/locales",
     "examples/ssr/vite/src/locales",
     "examples/type-safe/global-type-definition/src/locales",
