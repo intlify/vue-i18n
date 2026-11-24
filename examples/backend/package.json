@@ -13,7 +13,7 @@
   },
   "dependencies": {
     "vue": "^3.3.4",
-    "vue-i18n": "11.1.12"
+    "vue-i18n": "workspace:*"
   },
   "devDependencies": {
     "@intlify/bundle-utils": "^11.0.1",
