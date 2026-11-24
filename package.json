@@ -146,7 +146,6 @@
     "onlyBuiltDependencies": [
       "@parcel/watcher",
       "esbuild",
-      "event-loop-stats",
       "fsevents",
       "unrs-resolver"
     ]
