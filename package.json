@@ -157,12 +157,12 @@
     ],
     "*.{js,vue}": [
       "eslint --fix",
-      "oxlint --config .oxlintrc.json --type-aware --fix",
+      "oxlint --config .oxlintrc.json --type-aware --fix --no-error-on-unmatched-pattern",
       "oxfmt --config ./node_modules/@kazupon/prettier-config/index.json --no-error-on-unmatched-pattern"
     ],
     "*.ts?(x)": [
       "oxfmt --config ./node_modules/@kazupon/prettier-config/index.json --no-error-on-unmatched-pattern",
-      "oxlint --config .oxlintrc.json --type-aware --fix",
+      "oxlint --config .oxlintrc.json --type-aware --fix --no-error-on-unmatched-pattern",
       "eslint --fix"
     ]
   }
