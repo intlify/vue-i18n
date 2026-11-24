@@ -1,5 +1,4 @@
 import express from 'express'
-import monitor from 'express-status-monitor'
 import fs from 'node:fs'
 import path from 'node:path'
 
@@ -38,7 +37,6 @@ async function createServer(root = process.cwd(), isProd = process.env.NODE_ENV 
     })
     // use vite's connect instance as middleware
     app.use(vite.middlewares)
-    app.use(monitor())
   } else {
     app.use((await import('compression')).default)
     app.use(
