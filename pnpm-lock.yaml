@@ -503,7 +503,7 @@ importers:
         specifier: workspace:*
         version: link:../shared
       source-map-js:
-        specifier: ^1.0.2
+        specifier: ^1.2.2
         version: 1.2.2
 
   packages/petite-vue-i18n:
