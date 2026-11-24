@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "vue": "^3.3.4",
-    "vue-i18n": "11.1.12",
+    "vue-i18n": "workspace:*",
     "vue-router": "4"
   },
   "devDependencies": {

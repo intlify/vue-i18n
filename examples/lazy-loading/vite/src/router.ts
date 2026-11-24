@@ -44,7 +44,7 @@ export function setupRouter(i18n: I18n): Router {
     }
 
     // load locale messages
-    if (!i18n.global.availableLocales.includes(paramsLocale)) {
+    if (!i18n.global.availableLocales.value.includes(paramsLocale)) {
       await loadLocaleMessages(i18n, paramsLocale)
     }
 
