@@ -352,7 +352,6 @@ export function resolveValue(obj: unknown, path: Path): PathValue {
     if (!isObject(last)) {
       return null
     }
-    // `getOwn` reads before checking, so that a reactive `last` tracks `key` even when it is missing
     const val = getOwn(last as object, key)
     if (val === undefined) {
       return null
