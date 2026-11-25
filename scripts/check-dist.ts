@@ -292,6 +292,10 @@ const app = createSSRApp({
 app.use(i18n)
 const html = await renderToString(app)
 await new Promise(resolve => setTimeout(resolve))
+// nothing reads the devtools plugins queued on the server, and each one keeps its app
+for (const { pluginDescriptor } of globalThis.__VUE_DEVTOOLS_PLUGINS__ || []) {
+  errors.push(\`registers the devtools plugin \${pluginDescriptor.id} on the server\`)
+}
 console.log(errors.length ? errors.join('\\n') : html)
 `
 }
