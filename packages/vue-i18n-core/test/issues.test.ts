@@ -13,7 +13,7 @@ vi.mock('@intlify/shared', async () => {
 })
 
 import { registerMessageCompiler } from '@intlify/core-base'
-import { defineComponent, getCurrentInstance, nextTick, ref } from 'vue'
+import { computed, defineComponent, getCurrentInstance, nextTick, ref } from 'vue'
 import { baseCompile } from '@intlify/message-compiler'
 import { createI18n, useI18n } from '../src/i18n'
 import { ast } from './fixtures/ast'
@@ -1382,4 +1382,26 @@ test('#2777', () => {
   expect(i18n.global.t('tab')).toEqual('Home\tpage')
   expect(i18n.global.t('upper')).toEqual('HOME\nx')
   expect(i18n.global.t('indent')).toEqual('Go to Home\n  stay here')
+})
+
+test('#2823', () => {
+  const i18n = createI18n({
+    legacy: false,
+    locale: 'en',
+    missingWarn: false,
+    messages: { en: { app: { title: 'App' } } }
+  })
+  const { t, te, mergeLocaleMessage } = i18n.global
+  // the first merge replaces the locale with a copy, later merges write into that copy
+  mergeLocaleMessage('en', { app: { home: 'Home' } })
+
+  // resolved while `app.status` does not exist yet
+  const label = computed(() => t('app.status.ready'))
+  const exists = computed(() => te('app.status.ready'))
+  expect(label.value).toEqual('app.status.ready')
+  expect(exists.value).toEqual(false)
+
+  mergeLocaleMessage('en', { app: { status: { ready: 'Ready' } } })
+  expect(label.value).toEqual('Ready')
+  expect(exists.value).toEqual(true)
 })
