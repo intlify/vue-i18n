@@ -1,4 +1,4 @@
-import { getOwn, hasOwn, isFunction, isObject } from '@intlify/shared'
+import { getOwn, isFunction, isObject } from '@intlify/shared'
 import { AST_NODE_PROPS_KEYS, isMessageAST } from './ast'
 
 /** @VueI18nGeneral */
@@ -361,10 +361,7 @@ export function resolveValue(obj: unknown, path: Path): PathValue {
     if (!isObject(last)) {
       return null
     }
-    if (!hasOwn(last as object, key)) {
-      return null
-    }
-    const val = last[key]
+    const val = getOwn(last as object, key)
     if (val === undefined) {
       return null
     }
