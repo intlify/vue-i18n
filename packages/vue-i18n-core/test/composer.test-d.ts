@@ -117,6 +117,7 @@ test('loose composer', () => {
     | Record<string, any>
   >()
   expectTypeOf(looseComposer.rt('foo')).toEqualTypeOf<string>()
+  expectTypeOf(looseComposer.rte('foo')).toEqualTypeOf<boolean>()
   expectTypeOf(looseComposer.getLocaleMessage('en')).toEqualTypeOf<
     typeof looseComposer.messages.value.en
   >()
@@ -224,6 +225,7 @@ test('strict composer', () => {
   expectTypeOf(strictComposer.tm('nest')).toEqualTypeOf<{ bar: string }>()
   expectTypeOf(strictComposer.tm('errors')).toEqualTypeOf<string[]>()
   expectTypeOf(strictComposer.rt('foo')).toEqualTypeOf<string>()
+  expectTypeOf(strictComposer.rte('foo')).toEqualTypeOf<boolean>()
   expectTypeOf(strictComposer.getLocaleMessage('en')).toEqualTypeOf<
     typeof strictComposer.messages.value.en
   >()
