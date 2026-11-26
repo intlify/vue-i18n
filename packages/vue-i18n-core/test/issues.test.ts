@@ -23,6 +23,7 @@ import {
 } from '@intlify/core-base'
 import {
   Suspense,
+  computed,
   defineComponent,
   effectScope,
   h,
@@ -1976,4 +1977,24 @@ describe('#2795', () => {
     await nextTick()
     expect(forceUpdate).toHaveBeenCalledTimes(1)
   })
+})
+
+test('#2823', () => {
+  const i18n = createI18n({
+    legacy: false,
+    locale: 'en',
+    missingWarn: false,
+    messages: { en: { app: { title: 'App' } } }
+  })
+  const { t, te, mergeLocaleMessage } = i18n.global
+
+  // resolved while `app.status` does not exist yet
+  const label = computed(() => t('app.status.ready'))
+  const exists = computed(() => te('app.status.ready'))
+  expect(label.value).toEqual('app.status.ready')
+  expect(exists.value).toEqual(false)
+
+  mergeLocaleMessage('en', { app: { status: { ready: 'Ready' } } })
+  expect(label.value).toEqual('Ready')
+  expect(exists.value).toEqual(true)
 })
